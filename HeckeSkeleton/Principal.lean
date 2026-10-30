@@ -168,9 +168,9 @@ def CompletedMarkedEnergy : Prop :=
 
 -- OBLIGATION LOW-REFLECTED-ENERGY | revised Lemma 4.8 and (6.22), pp.23–25,40.
 -- Coarse frontier: powerful-row ledger, hybrid energy and Gaussian annuli.
-theorem completedMarkedEnergy
+theorem completedMarkedEnergy (L : LocalHighKMellinInput K c)
     (hreflection : MarkedCoefficientReflectionInput K S (probeData K c).arithmetic
-      (finiteMellinData K c) (thetaPeriod K S P ψ)) : CompletedMarkedEnergy K c := by
+      (finiteMellinData K c L) (thetaPeriod K S P ψ)) : CompletedMarkedEnergy K c := by
   sorry
 
 -- LOW-CAUCHY-COMPENSATION | revised Proposition 6.2, pp.40–41.
@@ -184,7 +184,9 @@ theorem low_of_gram_and_completedEnergy
       normalizedProbe K S μ P ψ g T =O[atTop] (fun Z : ℝ => Z ^ (3 / 16 + ε)) :=
   LowCauchy.low_of_gram_and_completedEnergy K c hgram henergy hnorm
 
-theorem principalSource : (probeMeasures K c).principalInput P ψ g T := by
+theorem principalSource (L : LocalHighKMellinInput K c)
+    (H : LocalExteriorDigitInput K c) :
+    (probeMeasures K c).principalInput P ψ g T := by
   change TPrincipalInput K S μ P ψ g T
   exact {
     arithmetic_calibration := arithmeticCalibration K c
@@ -201,7 +203,7 @@ theorem principalSource : (probeMeasures K c).principalInput P ψ g T := by
     principal_window_error := principal_principal_window_error K c
     low := low_of_gram_and_completedEnergy K c
       (Gram.gramBound_of_calibrated K S P (allowedGenerators K c) (arithmeticCalibration K c))
-      (completedMarkedEnergy K c (markedReflection K c))
+      (completedMarkedEnergy K c L (markedReflection K c L H))
       (principal_normalizer_smallPower K c)
   }
 
