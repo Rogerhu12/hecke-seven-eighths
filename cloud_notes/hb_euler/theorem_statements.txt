@@ -1,0 +1,621 @@
+HB-EULER — VERIFIED THEOREM STATEMENTS
+Generated from the final source files; proof bodies omitted without changing statements.
+
+Verification toolchain:
+Lean 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release
+mathlib commit 0493595ecd5da8ef14742febab99728f98e948e8
+
+Scope:
+- Each module below was compiled successfully with its final source hash recorded in its .build.log.
+- The recorded #print axioms outputs use only propext, Classical.choice, and Quot.sound.
+- The theorem declarations here are text extracts, not additional assumptions or a Lean source module.
+- The original Fourier/Gauss calibration and a full TRowEulerInput are not claimed.
+- The project adapter is listed separately as not compiled against the complete project.
+- No compiler belonging to this work directory was running when this file was generated.
+
+==============================================================================
+HeckeSkeleton.HighEulerRegionAudit
+Source in package: code/HeckeSkeleton/HighEulerRegionAudit.lean
+Namespace: HBEulerRegionAudit
+SHA256: abf4c0884e7aed716e453add5373b6229099572c92e4220dfbbab61636f0a3ea
+Final build log: verification/logs/HeckeSkeleton/HighEulerRegionAudit.build.log
+Declared theorems (including private helpers): 18
+
+Imports and open declarations:
+import Mathlib.Analysis.Complex.Basic
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Ring
+import HeckeGeneral.Analysis.RowEulerRational
+open HeckeGeneral.ThetaSkeleton.Physical
+
+[1] HBEulerRegionAudit.localCorrection_sub_one
+theorem localCorrection_sub_one (q v V W D E : ℂ)
+    (hV : 1 - V ≠ 0) (hW : 1 - W ≠ 0)
+    (hD : 1 - D ≠ 0) (hE : 1 - E ≠ 0) :
+    localCorrection q v V W D E - 1 =
+      errorNumerator q v V W D E / ((1 - D) * (1 - E))
+[proof body omitted]
+
+[2] HBEulerRegionAudit.localCorrection_zeroDE
+theorem localCorrection_zeroDE (q v V W : ℂ)
+    (hV : 1 - V ≠ 0) (hW : 1 - W ≠ 0) :
+    localCorrection q v V W 0 0 = 1 - V * W
+[proof body omitted]
+
+[3] HBEulerRegionAudit.localCorrection_zeroWE
+theorem localCorrection_zeroWE (q v V D : ℂ)
+    (hV : 1 - V ≠ 0) (hD : 1 - D ≠ 0) :
+    localCorrection q v V 0 D 0 = 1 + D * V / (1 - D)
+[proof body omitted]
+
+[4] HBEulerRegionAudit.literal_eq_project_rational
+theorem literal_eq_project_rational (q v V W D E : ℂ)
+    (hV : 1 - V ≠ 0) (hW : 1 - W ≠ 0)
+    (hD : 1 - D ≠ 0) (hE : 1 - E ≠ 0) :
+    localCorrection q v V W D E = rowEulerRationalValue q v V W D E
+[proof body omitted]
+
+[5] HBEulerRegionAudit.project_rational_sub_one
+theorem project_rational_sub_one (q v V W D E : ℂ)
+    (hD : 1 - D ≠ 0) (hE : 1 - E ≠ 0) :
+    rowEulerRationalValue q v V W D E - 1 =
+      errorNumerator q v V W D E / ((1 - D) * (1 - E))
+[proof body omitted]
+
+[6] HBEulerRegionAudit.project_rational_zeroDE
+theorem project_rational_zeroDE (q v V W : ℂ) :
+    rowEulerRationalValue q v V W 0 0 = 1 - V * W
+[proof body omitted]
+
+[7] HBEulerRegionAudit.project_rational_zeroWE
+theorem project_rational_zeroWE (q v V D : ℂ) (hD : 1 - D ≠ 0) :
+    rowEulerRationalValue q v V 0 D 0 = 1 + D * V / (1 - D)
+[proof body omitted]
+
+[8] HBEulerRegionAudit.project_rational_sub_dvModel
+theorem project_rational_sub_dvModel (q v V W D E : ℂ)
+    (hD : 1 - D ≠ 0) (hE : 1 - E ≠ 0) :
+    rowEulerRationalValue q v V W D E - (1 + D * V / (1 - D)) =
+      (-V * W + E * (1 - v + v * W - W ^ 2 + W ^ 2 * V - D + D * V) +
+        D * W * (1 - q * V + (q - 1) * W * V)) /
+          ((1 - D) * (1 - E))
+[proof body omitted]
+
+[9] HBEulerRegionAudit.positive_w_slice
+theorem positive_w_slice (ω : ℝ) :
+    taskRealRegion 10 ω (1 / 10) ↔ 0 < ω
+[proof body omitted]
+
+[10] HBEulerRegionAudit.positive_complex_w_slice
+theorem positive_complex_w_slice (w : ℂ) :
+    taskComplexRegion 10 w (1 / 10) ↔ 0 < w.re
+[proof body omitted]
+
+[11] HBEulerRegionAudit.vw_region_counterexample
+theorem vw_region_counterexample :
+    taskRealRegion 10 (1 / 10) (1 / 10) ∧
+      (1 / 10 : ℝ) + 6 * (1 / 10) = 7 / 10 ∧
+      (1 / 10 : ℝ) + 6 * (1 / 10) < 1
+[proof body omitted]
+
+[12] HBEulerRegionAudit.dv_region_counterexample
+theorem dv_region_counterexample :
+    taskRealRegion (9 / 10) 2 (1 / 100) ∧
+      (9 / 10 : ℝ) + 6 * (1 / 100) = 24 / 25 ∧
+      (9 / 10 : ℝ) + 6 * (1 / 100) < 1
+[proof body omitted]
+
+[13] HBEulerRegionAudit.dv_large_w_region_counterexample
+theorem dv_large_w_region_counterexample :
+    taskRealRegion (9 / 10) 4 (1 / 100) ∧
+      (9 / 10 : ℝ) + 6 * (1 / 100) = 24 / 25 ∧
+      (9 / 10 : ℝ) + 6 * (1 / 100) < 1
+[proof body omitted]
+
+[14] HBEulerRegionAudit.dv_large_w_slice
+theorem dv_large_w_slice (ω : ℝ) :
+    taskRealRegion (9 / 10) ω (1 / 100) ↔ 26 / 25 < ω
+[proof body omitted]
+
+[15] HBEulerRegionAudit.dynamic_line_membership
+theorem dynamic_line_membership (a e : ℝ) :
+    taskRealRegion (a + 16 * e) (1 - a - 6 * e) (17 / 50) ↔
+      0 < e ∧ 1 / 2 - 16 * e < a ∧ a < 1 - 6 * e
+[proof body omitted]
+
+[16] HBEulerRegionAudit.dynamic_line_mixed_exponents
+theorem dynamic_line_mixed_exponents (a e : ℝ)
+    (h : taskRealRegion (a + 16 * e) (1 - a - 6 * e) (17 / 50)) :
+    1 < (1 - a - 6 * e) + 6 * (17 / 50 : ℝ) ∧
+      1 < (a + 16 * e) + 6 * (17 / 50 : ℝ)
+[proof body omitted]
+
+[17] HBEulerRegionAudit.safe_dynamic_line_iff
+theorem safe_dynamic_line_iff (a e : ℝ) :
+    safeRealRegion (a + 16 * e) (1 - a - 6 * e) (17 / 50) ↔
+      0 < e ∧ 1 / 2 - 16 * e < a ∧ a < 1 - 6 * e
+[proof body omitted]
+
+[18] HBEulerRegionAudit.safe_dynamic_line_of_bin_range
+theorem safe_dynamic_line_of_bin_range (a e : ℝ)
+    (he : 0 < e) (ha : 1 / 2 ≤ a) (ha' : a < 1 - 6 * e) :
+    safeRealRegion (a + 16 * e) (1 - a - 6 * e) (17 / 50)
+[proof body omitted]
+
+==============================================================================
+HeckeSkeleton.HighEulerFiniteData
+Source in package: code/HeckeSkeleton/HighEulerFiniteData.lean
+Namespace: HBEulerFiniteData
+SHA256: 195033af82c87438b41abf5e1dd84bb432c4c7e441b11ef98f27d21186744c49
+Final build log: verification/logs/HeckeSkeleton/HighEulerFiniteData.build.log
+Declared theorems (including private helpers): 10
+
+Imports and open declarations:
+import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+import Mathlib.Tactic.Ring
+open scoped Classical BigOperators
+
+[1] HBEulerFiniteData.termsValue_nil
+@[simp] theorem termsValue_nil (weight : Exponent → ℂ) :
+    termsValue [] weight = 0
+[proof body omitted]
+
+[2] HBEulerFiniteData.termsValue_cons
+@[simp] theorem termsValue_cons (t : Exponent × ℂ) (ts : Terms)
+    (weight : Exponent → ℂ) :
+    termsValue (t :: ts) weight = t.2 * weight t.1 + termsValue ts weight
+[proof body omitted]
+
+[3] HBEulerFiniteData.termsValue_append
+@[simp] theorem termsValue_append (xs ys : Terms) (weight : Exponent → ℂ) :
+    termsValue (xs ++ ys) weight = termsValue xs weight + termsValue ys weight
+[proof body omitted]
+
+[4] HBEulerFiniteData.ofTerms_coefficient_cons
+theorem ofTerms_coefficient_cons (t : Exponent × ℂ) (ts : Terms) (e : Exponent) :
+    (ofTerms (t :: ts)).coefficient e =
+      (if t.1 = e then t.2 else 0) + (ofTerms ts).coefficient e
+[proof body omitted]
+
+[5] HBEulerFiniteData.sum_coefficients_supported
+private theorem sum_coefficients_supported (F : Finset Exponent)
+    (weight : Exponent → ℂ) :
+    ∀ ts : Terms, (∀ t ∈ ts, t.1 ∈ F) →
+      (∑ e ∈ F, (ofTerms ts).coefficient e * weight e) = termsValue ts weight
+[proof body omitted]
+
+[6] HBEulerFiniteData.weightedValue_ofTerms
+theorem weightedValue_ofTerms (ts : Terms) (weight : Exponent → ℂ) :
+    weightedValue (ofTerms ts) weight = termsValue ts weight
+[proof body omitted]
+
+[7] HBEulerFiniteData.polynomialValue_ofTerms
+theorem polynomialValue_ofTerms (ts : Terms) (q : ℝ) (s w z : ℂ) :
+    polynomialValue (ofTerms ts) q s w z =
+      (ts.map fun t => t.2 * (q : ℂ) ^
+        (-((t.1.1 : ℂ) * s + (t.1.2.1 : ℂ) * w + (t.1.2.2 : ℂ) * z))).sum
+[proof body omitted]
+
+[8] HBEulerFiniteData.ramified_marked_numerator_weighted
+theorem ramified_marked_numerator_weighted
+    (q eta A C omega rho G1 G2 G3 G4 : ℂ) (j : Fin 5)
+    (weight : Exponent → ℂ) :
+    weightedValue (ramifiedFiniteFactor q eta A C omega rho G1 G2 G3 G4 j true).numerator
+        weight =
+      weightedValue (ramifiedFiniteFactor q eta A C omega rho G1 G2 G3 G4 j false).numerator
+        weight -
+      weightedValue (ramifiedFiniteFactor q eta A C omega rho G1 G2 G3 G4 j false).denominator
+        weight
+[proof body omitted]
+
+[9] HBEulerFiniteData.ramified_marked_numerator_value
+theorem ramified_marked_numerator_value
+    (q eta A C omega rho G1 G2 G3 G4 : ℂ) (j : Fin 5)
+    (norm : ℝ) (s w z : ℂ) :
+    polynomialValue (ramifiedFiniteFactor q eta A C omega rho G1 G2 G3 G4 j true).numerator
+        norm s w z =
+      polynomialValue (ramifiedFiniteFactor q eta A C omega rho G1 G2 G3 G4 j false).numerator
+        norm s w z -
+      polynomialValue (ramifiedFiniteFactor q eta A C omega rho G1 G2 G3 G4 j false).denominator
+        norm s w z
+[proof body omitted]
+
+[10] HBEulerFiniteData.ramified_marked_value
+theorem ramified_marked_value
+    (q eta A C omega rho G1 G2 G3 G4 : ℂ) (j : Fin 5)
+    (norm : ℝ) (s w z : ℂ)
+    (hden : polynomialValue
+      (ramifiedFiniteFactor q eta A C omega rho G1 G2 G3 G4 j false).denominator
+      norm s w z ≠ 0) :
+    rationalValue (ramifiedFiniteFactor q eta A C omega rho G1 G2 G3 G4 j true)
+        norm s w z =
+      rationalValue (ramifiedFiniteFactor q eta A C omega rho G1 G2 G3 G4 j false)
+        norm s w z - 1
+[proof body omitted]
+
+==============================================================================
+HeckeSkeleton.HighEulerScalarBounds
+Source in package: code/HeckeSkeleton/HighEulerScalarBounds.lean
+Namespace: HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds
+SHA256: 4cc6a9a9a9d7e5a9fb8c17a5b70e94715af922fe323b331411cdd59e0bc420d1
+Final build log: verification/logs/HeckeSkeleton/HighEulerScalarBounds.build.log
+Declared theorems (including private helpers): 20
+
+Imports and open declarations:
+import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.FinCases
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Ring
+
+[1] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.ramifiedCorrection_norm_sub_one_le
+theorem ramifiedCorrection_norm_sub_one_le (B D R V : ℂ) (t : ℝ)
+    (ht : 0 ≤ t) (hR : ‖R‖ ≤ 1 / 2) (hV : ‖V‖ ≤ 1 / 4)
+    (hB : ‖B‖ ≤ 2 * t) (hD : ‖D‖ ≤ 2 * t) :
+    ‖ramifiedCorrection B D R V - 1‖ ≤ 9 * t
+[proof body omitted]
+
+[2] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.one_sub_R_ne_zero
+theorem one_sub_R_ne_zero (R : ℂ) (hR : ‖R‖ ≤ 1 / 2) : 1 - R ≠ 0
+[proof body omitted]
+
+[3] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.V_exponent_margin
+theorem V_exponent_margin : (2 : ℝ) ≤ 51 / 25
+[proof body omitted]
+
+[4] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.R_exponent_ledger
+theorem R_exponent_ledger (b e : ℝ) (hb : 1 / 2 ≤ b) (he : 0 ≤ e) :
+    (49 / 25 : ℝ) - 6 * b - 96 * e ≤ -26 / 25 - 96 * e ∧
+      (-26 / 25 : ℝ) - 96 * e ≤ -10 * e ∧
+      (49 / 25 : ℝ) - 6 * b - 96 * e ≤ -1
+[proof body omitted]
+
+[5] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.D_exponent_ledger
+theorem D_exponent_ledger (b e : ℝ) (hb : 1 / 2 ≤ b) (he : 0 ≤ e) :
+    -10 * e ≤ -10 * e ∧
+      3 / 2 - 3 * b - 48 * e ≤ -10 * e ∧
+      1 - 2 * b - 42 * e ≤ -10 * e ∧
+      2 - 4 * b - 64 * e ≤ -10 * e ∧
+      3 / 2 - 3 * b - 58 * e ≤ -10 * e ∧
+      3 - 6 * b - 96 * e ≤ -10 * e
+[proof body omitted]
+
+[6] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.phaseMonomial_eq_factored
+theorem phaseMonomial_eq_factored (q : ℝ) (hq : 0 < q)
+    (c : ℂ) (r : ℝ) (s w : ℂ) (m n : ℕ) :
+    phaseMonomial q c r s w m n =
+      c * (q : ℂ) ^ (r : ℂ) * ((q : ℂ) ^ (-s)) ^ m *
+        ((q : ℂ) ^ (-w)) ^ n
+[proof body omitted]
+
+[7] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.phaseMonomial_norm_le
+theorem phaseMonomial_norm_le (q : ℝ) (hq : 0 < q)
+    (c : ℂ) (hc : ‖c‖ ≤ 1) (r : ℝ) (s w : ℂ) (m n : ℕ) :
+    ‖phaseMonomial q c r s w m n‖ ≤
+      q ^ (r - (m : ℝ) * s.re - (n : ℝ) * w.re)
+[proof body omitted]
+
+[8] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.phaseMonomial_norm_le_of_exponent_le
+theorem phaseMonomial_norm_le_of_exponent_le (q : ℝ) (hq : 1 ≤ q)
+    (c : ℂ) (hc : ‖c‖ ≤ 1) (r : ℝ) (s w : ℂ) (m n : ℕ)
+    (t : ℝ) (ht : r - (m : ℝ) * s.re - (n : ℝ) * w.re ≤ t) :
+    ‖phaseMonomial q c r s w m n‖ ≤ q ^ t
+[proof body omitted]
+
+[9] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.PhaseData.alpha_sq_bound
+theorem PhaseData.alpha_sq_bound (P : PhaseData) : ‖P.alpha ^ 2‖ ≤ 1
+[proof body omitted]
+
+[10] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.specialTerm_norm_le
+theorem specialTerm_norm_le (P : PhaseData) (q b e : ℝ)
+    (hq : 1 ≤ q) (hb : 1 / 2 ≤ b) (he : 0 ≤ e)
+    (s w : ℂ) (hs : s.re = b + 16 * e) (hw : w.re = 1 - b - 6 * e)
+    (j : Fin 5) : ‖specialTerm P q s w j‖ ≤ 2 * q ^ (-10 * e)
+[proof body omitted]
+
+[11] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordR_eq_original
+theorem coordR_eq_original (P : PhaseData) (q : ℝ) (hq : 0 < q) (s z : ℂ) :
+    coordR P q s z =
+      P.alpha ^ 2 * (q : ℂ) ^ 4 * ((q : ℂ) ^ (-s)) ^ 6 * coordV q z
+[proof body omitted]
+
+[12] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordB_eq_original
+theorem coordB_eq_original (P : PhaseData) (q : ℝ) (hq : 0 < q) (s w z : ℂ) :
+    coordB P q s w z =
+      coordR P q s z * (1 - (q : ℂ)⁻¹) -
+        P.eta * ((q : ℂ) - 1) * (q : ℂ) ^ (-s) * (q : ℂ) ^ (-w)
+[proof body omitted]
+
+[13] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.norm_one_sub_inv_le_one
+theorem norm_one_sub_inv_le_one (q : ℝ) (hq : 1 ≤ q) :
+    ‖(1 : ℂ) - (q : ℂ)⁻¹‖ ≤ 1
+[proof body omitted]
+
+[14] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordV_norm_le_quarter
+theorem coordV_norm_le_quarter (q : ℝ) (hq : 2 ≤ q) (z : ℂ)
+    (hz : z.re = 17 / 50) : ‖coordV q z‖ ≤ 1 / 4
+[proof body omitted]
+
+[15] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordR_norm_le_decay
+theorem coordR_norm_le_decay (P : PhaseData) (q b e : ℝ)
+    (hq : 1 ≤ q) (hb : 1 / 2 ≤ b) (he : 0 ≤ e)
+    (s z : ℂ) (hs : s.re = b + 16 * e) (hz : z.re = 17 / 50) :
+    ‖coordR P q s z‖ ≤ q ^ (-10 * e)
+[proof body omitted]
+
+[16] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordR_norm_le_half
+theorem coordR_norm_le_half (P : PhaseData) (q b e : ℝ)
+    (hq : 2 ≤ q) (hb : 1 / 2 ≤ b) (he : 0 ≤ e)
+    (s z : ℂ) (hs : s.re = b + 16 * e) (hz : z.re = 17 / 50) :
+    ‖coordR P q s z‖ ≤ 1 / 2
+[proof body omitted]
+
+[17] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordB_norm_le
+theorem coordB_norm_le (P : PhaseData) (q b e : ℝ)
+    (hq : 1 ≤ q) (hb : 1 / 2 ≤ b) (he : 0 ≤ e)
+    (s w z : ℂ) (hs : s.re = b + 16 * e) (hw : w.re = 1 - b - 6 * e)
+    (hz : z.re = 17 / 50) : ‖coordB P q s w z‖ ≤ 2 * q ^ (-10 * e)
+[proof body omitted]
+
+[18] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.ramified_dynamic_bound
+theorem ramified_dynamic_bound (P : PhaseData) (q b e : ℝ)
+    (hq : 2 ≤ q) (hb : 1 / 2 ≤ b) (he : 0 ≤ e)
+    (s w z : ℂ) (hs : s.re = b + 16 * e) (hw : w.re = 1 - b - 6 * e)
+    (hz : z.re = 17 / 50) (j : Fin 5) :
+    ‖ramifiedCorrection (coordB P q s w z) (specialTerm P q s w j)
+      (coordR P q s z) (coordV q z) - 1‖ ≤ 9 * q ^ (-10 * e)
+[proof body omitted]
+
+[19] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.ramifiedTableValue_eq_correction
+theorem ramifiedTableValue_eq_correction (P : PhaseData) (q : ℝ) (hq : 0 < q)
+    (s w z : ℂ) (j : Fin 5) (hR : 1 - coordR P q s z ≠ 0) :
+    ramifiedTableValue P q s w z j =
+      ramifiedCorrection (coordB P q s w z) (specialTerm P q s w j)
+        (coordR P q s z) (coordV q z)
+[proof body omitted]
+
+[20] HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.ramified_table_dynamic_bound
+theorem ramified_table_dynamic_bound (P : PhaseData) (q b e : ℝ)
+    (hq : 2 ≤ q) (hb : 1 / 2 ≤ b) (he : 0 ≤ e)
+    (s w z : ℂ) (hs : s.re = b + 16 * e) (hw : w.re = 1 - b - 6 * e)
+    (hz : z.re = 17 / 50) (j : Fin 5) :
+    ‖ramifiedTableValue P q s w z j - 1‖ ≤ 9 * q ^ (-10 * e)
+[proof body omitted]
+
+==============================================================================
+HeckeSkeleton.HighEulerCheckedTable
+Source in package: code/HeckeSkeleton/HighEulerCheckedTable.lean
+Namespace: HBEulerCheckedTable
+SHA256: fa1e59e9801ec40f7601c3f1d960c45ce014d46dca28e33c8d5a14858c1d79c8
+Final build log: verification/logs/HeckeSkeleton/HighEulerCheckedTable.build.log
+Declared theorems (including private helpers): 20
+
+Imports and open declarations:
+import HeckeSkeleton.HighEulerFiniteData
+import HeckeSkeleton.HighEulerScalarBounds
+open HBEulerFiniteData
+open HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds
+open scoped Classical BigOperators
+
+[1] HBEulerCheckedTable.powerWeight_zero
+@[simp] theorem powerWeight_zero (q : ℝ) (s w z : ℂ) :
+    powerWeight q s w z (0, 0, 0) = 1
+[proof body omitted]
+
+[2] HBEulerCheckedTable.polynomialValue_ofTerms_weight
+theorem polynomialValue_ofTerms_weight (ts : Terms) (q : ℝ) (s w z : ℂ) :
+    polynomialValue (ofTerms ts) q s w z = termsValue ts (powerWeight q s w z)
+[proof body omitted]
+
+[3] HBEulerCheckedTable.powerWeight_shift6
+theorem powerWeight_shift6 (q : ℝ) (hq : 0 < q) (s w z : ℂ) (e : Exponent) :
+    powerWeight q s w z (0 + e.1, 0 + e.2.1, 6 + e.2.2) =
+      coordV q z * powerWeight q s w z e
+[proof body omitted]
+
+[4] HBEulerCheckedTable.termsValue_shift6
+theorem termsValue_shift6 (q : ℝ) (hq : 0 < q) (s w z : ℂ) (ts : Terms) :
+    termsValue (shiftScale (0, 0, 6) (-1) ts) (powerWeight q s w z) =
+      -coordV q z * termsValue ts (powerWeight q s w z)
+[proof body omitted]
+
+[5] HBEulerCheckedTable.phaseMonomial_from_weight
+theorem phaseMonomial_from_weight (q : ℝ) (hq : 0 < q)
+    (c : ℂ) (r : ℝ) (s w z : ℂ) (m n : ℕ) :
+    phaseMonomial q c r s w m n =
+      (c * (q : ℂ) ^ (r : ℂ)) *
+        powerWeight q s w z ((m : ℤ), (n : ℤ), 0)
+[proof body omitted]
+
+[6] HBEulerCheckedTable.normalizedSpecialTerms_value
+theorem normalizedSpecialTerms_value (P : PhaseData) (q : ℝ) (hq : 0 < q)
+    (s w z : ℂ) (j : Fin 5) :
+    termsValue (normalizedSpecialTerms P q j) (powerWeight q s w z) =
+      specialTerm P q s w j
+[proof body omitted]
+
+[7] HBEulerCheckedTable.powerWeight_110
+theorem powerWeight_110 (q : ℝ) (hq : 0 < q) (s w z : ℂ) :
+    powerWeight q s w z (1, 1, 0) = (q : ℂ) ^ (-s) * (q : ℂ) ^ (-w)
+[proof body omitted]
+
+[8] HBEulerCheckedTable.powerWeight_606
+theorem powerWeight_606 (q : ℝ) (hq : 0 < q) (s w z : ℂ) :
+    powerWeight q s w z (6, 0, 6) = ((q : ℂ) ^ (-s)) ^ 6 * coordV q z
+[proof body omitted]
+
+[9] HBEulerCheckedTable.R_weight
+theorem R_weight (P : PhaseData) (q : ℝ) (hq : 0 < q) (s w z : ℂ) :
+    P.alpha ^ 2 * (q : ℂ) ^ 4 * powerWeight q s w z (6, 0, 6) =
+      coordR P q s z
+[proof body omitted]
+
+[10] HBEulerCheckedTable.R_div_weight
+theorem R_div_weight (P : PhaseData) (q : ℝ) (hq : 0 < q) (s w z : ℂ) :
+    P.alpha ^ 2 * (q : ℂ) ^ 3 * powerWeight q s w z (6, 0, 6) =
+      coordR P q s z / (q : ℂ)
+[proof body omitted]
+
+[11] HBEulerCheckedTable.normalized_denominator_value
+theorem normalized_denominator_value (P : PhaseData) (q : ℝ) (hq : 0 < q)
+    (s w z : ℂ) (j : Fin 5) (marked : Bool) :
+    polynomialValue (normalizedFiniteFactor P q j marked).denominator q s w z =
+      1 - coordR P q s z
+[proof body omitted]
+
+[12] HBEulerCheckedTable.normalized_numerator_value
+theorem normalized_numerator_value (P : PhaseData) (q : ℝ) (hq : 0 < q)
+    (s w z : ℂ) (j : Fin 5) :
+    polynomialValue (normalizedFiniteFactor P q j false).numerator q s w z =
+      1 - coordR P q s z / (q : ℂ) -
+        P.eta * ((q : ℂ) - 1) * (q : ℂ) ^ (-s) * (q : ℂ) ^ (-w) +
+        (1 - coordV q z) * specialTerm P q s w j
+[proof body omitted]
+
+[13] HBEulerCheckedTable.normalizedFiniteFactor_value
+theorem normalizedFiniteFactor_value (P : PhaseData) (q : ℝ) (hq : 0 < q)
+    (s w z : ℂ) (j : Fin 5) :
+    rationalValue (normalizedFiniteFactor P q j false) q s w z =
+      ramifiedTableValue P q s w z j
+[proof body omitted]
+
+[14] HBEulerCheckedTable.normalized_marked_numerator_weighted
+theorem normalized_marked_numerator_weighted (P : PhaseData) (q : ℝ)
+    (j : Fin 5) (weight : Exponent → ℂ) :
+    weightedValue (normalizedFiniteFactor P q j true).numerator weight =
+      weightedValue (normalizedFiniteFactor P q j false).numerator weight -
+        weightedValue (normalizedFiniteFactor P q j false).denominator weight
+[proof body omitted]
+
+[15] HBEulerCheckedTable.normalized_marked_value
+theorem normalized_marked_value (P : PhaseData) (q : ℝ) (hq : 0 < q)
+    (s w z : ℂ) (j : Fin 5) (hR : 1 - coordR P q s z ≠ 0) :
+    rationalValue (normalizedFiniteFactor P q j true) q s w z =
+      ramifiedTableValue P q s w z j - 1
+[proof body omitted]
+
+[16] HBEulerCheckedTable.normalizedFiniteFactor_dynamic_bound
+theorem normalizedFiniteFactor_dynamic_bound (P : PhaseData) (q b e : ℝ)
+    (hq : 2 ≤ q) (hb : 1 / 2 ≤ b) (he : 0 ≤ e)
+    (s w z : ℂ) (hs : s.re = b + 16 * e) (hw : w.re = 1 - b - 6 * e)
+    (hz : z.re = 17 / 50) (j : Fin 5) :
+    ‖rationalValue (normalizedFiniteFactor P q j false) q s w z - 1‖ ≤
+      9 * q ^ (-10 * e)
+[proof body omitted]
+
+[17] HBEulerCheckedTable.normalizedMarkedFiniteFactor_dynamic_bound
+theorem normalizedMarkedFiniteFactor_dynamic_bound (P : PhaseData) (q b e : ℝ)
+    (hq : 2 ≤ q) (hb : 1 / 2 ≤ b) (he : 0 ≤ e)
+    (s w z : ℂ) (hs : s.re = b + 16 * e) (hw : w.re = 1 - b - 6 * e)
+    (hz : z.re = 17 / 50) (j : Fin 5) :
+    ‖rationalValue (normalizedFiniteFactor P q j true) q s w z‖ ≤
+      9 * q ^ (-10 * e)
+[proof body omitted]
+
+[18] HBEulerCheckedTable.twistCoefficient_norms
+theorem twistCoefficient_norms (q b e : ℝ) (hq : 2 ≤ q)
+    (hb : 1 / 2 ≤ b) (he : 0 ≤ e) (s d : ℂ)
+    (hs : s.re = b + 16 * e) (hd : ‖d‖ ≤ 1) :
+    ‖d * (q : ℂ) ^ (-s)‖ ≤ q ^ (-10 * e) ∧
+      ‖d * (q : ℂ) ^ (-s)‖ ≤ 3 / 4
+[proof body omitted]
+
+[19] HBEulerCheckedTable.divided_correction_norm_bound
+theorem divided_correction_norm_bound (H D : ℂ) (t : ℝ)
+    (ht : 0 ≤ t) (hH : ‖H - 1‖ ≤ 9 * t)
+    (hD : ‖D‖ ≤ t) (hsmall : ‖D‖ ≤ 3 / 4) :
+    ‖H / (1 - D) - 1‖ ≤ 40 * t
+[proof body omitted]
+
+[20] HBEulerCheckedTable.normalizedFiniteFactor_twisted_dynamic_bound
+theorem normalizedFiniteFactor_twisted_dynamic_bound (P : PhaseData) (q b e : ℝ)
+    (hq : 2 ≤ q) (hb : 1 / 2 ≤ b) (he : 0 ≤ e)
+    (s w z d : ℂ) (hs : s.re = b + 16 * e) (hw : w.re = 1 - b - 6 * e)
+    (hz : z.re = 17 / 50) (hd : ‖d‖ ≤ 1) (j : Fin 5) :
+    ‖rationalValue (normalizedFiniteFactor P q j false) q s w z /
+      (1 - d * (q : ℂ) ^ (-s)) - 1‖ ≤ 40 * q ^ (-10 * e)
+[proof body omitted]
+
+==============================================================================
+HeckeSkeleton.HighEuler
+Source in package: code/HeckeSkeleton/HighEuler.lean
+Namespace: (entry point; no new namespace)
+SHA256: e98722b4fa03f04d66a493bbe0cbf418014f1489d6a20cf124acd8a5ba467f97
+Final build log: verification/logs/HeckeSkeleton/HighEuler.build.log
+Declared theorems (including private helpers): 0
+
+Imports and open declarations:
+import HeckeSkeleton.HighEulerRegionAudit
+import HeckeSkeleton.HighEulerScalarBounds
+import HeckeSkeleton.HighEulerFiniteData
+import HeckeSkeleton.HighEulerCheckedTable
+
+This entry point introduces no new theorem declarations.
+
+==============================================================================
+UNCHANGED PROJECT DEPENDENCY — NOT COUNTED AS A NEW MODULE
+Source in package: code/HeckeGeneral/Analysis/RowEulerRational.lean
+SHA256: b7e5d246368a603aaf3cb675cc3da86b7be4c09eee8f50ab0a78ccec2d9598ad
+Final build log: verification/logs/HeckeGeneral/Analysis/RowEulerRational.build.log
+This file is byte-for-byte identical to the supplied RowEulerRational.lean.
+Its original definitions are imported by the new region audit.
+
+==============================================================================
+PROJECT ADAPTER — NOT COMPILED AGAINST THE COMPLETE PROJECT
+Source in package: integration/HeckeSkeleton/HighEulerTables.lean
+SHA256: f1075dea092ab9cca03ece37578c58ed45587c5192e36811360abe837c420deb
+Status: explicit implementation for the actual project types; no successful full-project adapter build is claimed.
+These declarations are excluded from the verified-module theorem total.
+They must be checked after the complete HeckeGeneral dependency tree is available.
+
+[UNVERIFIED ADAPTER 1] polynomialValue_toPolynomial
+@[simp] theorem polynomialValue_toPolynomial (A : HBEulerFiniteData.RawPolynomial)
+    (q : ℝ) (s w z : ℂ) :
+    finiteEulerPolynomialValue (toPolynomial A) q s w z =
+      HBEulerFiniteData.polynomialValue A q s w z
+[proof body omitted; project compilation pending]
+
+[UNVERIFIED ADAPTER 2] rationalValue_toRational
+@[simp] theorem rationalValue_toRational (A : HBEulerFiniteData.RawRational)
+    (q : ℝ) (s w z : ℂ) :
+    finiteEulerRationalValue (toRational A) q s w z =
+      HBEulerFiniteData.rationalValue A q s w z
+[proof body omitted; project compilation pending]
+
+[UNVERIFIED ADAPTER 3] normalizedFiniteFactor_value
+theorem normalizedFiniteFactor_value (P : PhaseData) (q : ℝ) (hq : 0 < q)
+    (s w z : ℂ) (j : Fin 5) :
+    finiteEulerRationalValue (normalizedFiniteFactor P q j false) q s w z =
+      ramifiedTableValue P q s w z j
+[proof body omitted; project compilation pending]
+
+[UNVERIFIED ADAPTER 4] normalizedFiniteFactor_dynamic_bound
+theorem normalizedFiniteFactor_dynamic_bound (P : PhaseData) (q b e : ℝ)
+    (hq : 2 ≤ q) (hb : 1 / 2 ≤ b) (he : 0 ≤ e)
+    (s w z : ℂ) (hs : s.re = b + 16 * e) (hw : w.re = 1 - b - 6 * e)
+    (hz : z.re = 17 / 50) (j : Fin 5) :
+    ‖finiteEulerRationalValue (normalizedFiniteFactor P q j false) q s w z - 1‖ ≤
+      9 * q ^ (-10 * e)
+[proof body omitted; project compilation pending]
+
+[UNVERIFIED ADAPTER 5] normalizedMarkedFiniteFactor_dynamic_bound
+theorem normalizedMarkedFiniteFactor_dynamic_bound (P : PhaseData) (q b e : ℝ)
+    (hq : 2 ≤ q) (hb : 1 / 2 ≤ b) (he : 0 ≤ e)
+    (s w z : ℂ) (hs : s.re = b + 16 * e) (hw : w.re = 1 - b - 6 * e)
+    (hz : z.re = 17 / 50) (j : Fin 5) :
+    ‖finiteEulerRationalValue (normalizedFiniteFactor P q j true) q s w z‖ ≤
+      9 * q ^ (-10 * e)
+[proof body omitted; project compilation pending]
+
+==============================================================================
+VERIFIED NEW-MODULE DECLARATION COUNTS
+HeckeSkeleton.HighEulerRegionAudit: 18
+HeckeSkeleton.HighEulerFiniteData: 10
+HeckeSkeleton.HighEulerScalarBounds: 20
+HeckeSkeleton.HighEulerCheckedTable: 20
+HeckeSkeleton.HighEuler: 0
+Total: 68 theorem declarations, including private helpers.
+The entry module contributes zero additional theorem declarations.
