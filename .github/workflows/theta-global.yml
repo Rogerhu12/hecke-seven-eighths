@@ -18,9 +18,9 @@ permissions:
 
 concurrency:
   group: theta-global-${{ github.event.pull_request.number || github.ref }}
-  # Replace the obsolete disk-limited run for this recovery. Subsequent
-  # evidence updates restore queued execution to preserve its build cache.
-  cancel-in-progress: true
+  # Let an active dependency build finish and save its cache before checking
+  # the latest correction; cancelling it would discard that useful work.
+  cancel-in-progress: false
 
 env:
   LEAN_NUM_THREADS: "2"

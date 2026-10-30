@@ -62,3 +62,11 @@ for actual nonzero-coefficient support, supported-index uniqueness, and
 the equality between the symmetric and literal arithmetic coefficients.
 Its exact source and foundation hashes are recorded in
 `verification/theta_global/index_support_manifest.json`.
+
+The actual frequency representative's local class and norm formulas also
+passed their own increment. A further 54-module increment passed with the
+native implicit-parameter options and strict axiom gates for the actual
+kernel tail, regularized reflected-series limit, deconvolver moments, test
+limit, and scalar-to-actual term identity. Its manifest preserves the exact
+historical foundation artifact used by that run. The 45-module bundle has
+also passed on GitHub with both native implicit-parameter options.

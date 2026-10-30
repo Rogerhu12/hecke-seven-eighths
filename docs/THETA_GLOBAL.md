@@ -195,6 +195,20 @@ check. Source SHA-256:
 The unfiltered log is `verification/theta_global/GlobalDiagonalNorm.native.log`;
 its printed axioms are only `propext`, `Classical.choice`, and `Quot.sound`.
 
+The same 45-module source bundle additionally passed on GitHub with both
+native implicit-parameter options explicitly disabled. The successful
+[job 124330035893](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41133369503/job/124330035893)
+checked PR head `4a8ea50c821443e2d999d97a2563af89c701832d` through merge
+checkout `16fbade39e535e157d24c0cce9a5d59f3fbc2ea6`.
+Its log records `Exit: 0 sources unchanged: True`, 56 printed axiom reports
+containing only the three standard axioms, and successful repository and
+runtime version-pin checks. The command, source-builder identity, and
+unfiltered job log are in
+`verification/theta_global/Standalone.strict.CI.manifest.json` and
+`verification/theta_global/Standalone.strict.CI.log`.
+This strengthens the compiler-option check while retaining the same
+combined-body scope; it does not certify the final native entry.
+
 ### Successful actual reflected-project source-body check
 
 The 188-module actual reflected-project bundle completed on
@@ -268,6 +282,40 @@ results are recorded in
 in `verification/theta_global/ActualFrequencyVerification.build.log`.
 This checks the actual representative's local class and two norm formulas;
 the complete frequency reindexing still belongs to the larger native gate.
+
+### Successful actual kernel and regularizer increment with native options
+
+A 54-module increment completed on 2026-10-30 at 21:52:53 UTC with exit
+code 0. It contains 36 project source bodies and 18 real pinned Mathlib
+source bodies, and explicitly passes both native implicit-parameter
+options. Its strict gates validate:
+
+- `RegularizedTestProject.pointwise_tendsto`;
+- `RegularizedKernelProject.uniform_quadratic_tail`;
+- `ReflectedLimitProject.regularized_reflected_sum_tendsto`;
+- `GammaDeconvolverProject.actualDeconvolver_all_power_moments`;
+- `ScalarKernelProject.regularizedTerm_eq_scalar`.
+
+All five report only `propext`, `Classical.choice`, and `Quot.sound`.
+The checked generated source SHA-256 is
+`dae728ac736758ba69f148c31ffe787d3f0d3ffbfeb89f097b28d5d2e074530b`.
+The exact command, original and transformed source hashes, and result are
+in `verification/theta_global/regularizer_project_initial_strict_manifest.json`;
+the raw compiler output is
+`verification/theta_global/RegularizerProjectVerification.initial_strict.build.log`.
+
+The compiler diagnostics led to local elaboration corrections in
+`RegularizedKernelProject`, `ReflectedLimitProject`, and
+`RegularizedTestProject`, plus the direct `Complex.LogDeriv` import needed
+by the existing `Zeta23.GammaFacts.StirlingVert` source. No theorem statement
+or hypothesis was changed; the original `ThetaKernel` proof body was
+preserved. The strict gate rejected all failed attempts.
+
+This increment imported the exact previously checked 188-module foundation
+artifact, whose original run did not explicitly pass the two global options.
+The manifest records that historical artifact and option boundary. The
+subsequent strict replay of the foundation is a separate result; it is not
+retroactively substituted into this run's provenance.
 
 ### Remaining validation boundary
 
