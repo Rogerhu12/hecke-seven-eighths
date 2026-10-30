@@ -37,17 +37,17 @@ CORE = ['RawIdealHybrid', 'HybridScaling', 'MellinHybrid',
     'IdealRows', 'IdealRankin', 'IdealSupportPowers', 'PowerfulRowAssembly',
     'PhysicalBlockPolynomial', 'PhysicalDyadicBudget', 'GaussianEnergyAssembly',
     'DyadicReindex', 'SlotTuples', 'InactiveCore', 'PhysicalGaussianEnergy']
-ACTUAL = ['ActualSymbols', 'WindowTuples', 'InactiveWindows',
+ACTUAL = ['ActualSymbols', 'WindowTuples', 'ActualRows', 'ActualReflection',
     'ActualRawHybrid', 'ActualFrozenCharges',
     'ActualReflectionReindex', 'ActualCommonMellinTail', 'ActualBlockEnergy',
     'ActualBlockReindex', 'ActualSourceReindex', 'ActualDyadicReflection',
-    'ActualRows', 'ActualRowFibres', 'ActualFrozenStateCount',
+    'ActualRowFibres', 'ActualFrozenStateCount',
     'TargetDictionary', 'TargetGaussian',
     'TargetSieveDictionary', 'ActualAnnularBlockEnergy',
     'ActualFrozenAggregation', 'ActualFrozenReconstruction',
     'ActualMarkedTupleEnergy', 'ActualTupleReconstruction',
     'ActualResidualDyadicEnergy', 'ActualCompleteIdealEnergy',
-    'ActualCompletedMarkedEnergy']
+    'ActualCompletedMarkedEnergy', 'InactiveWindows']
 
 
 def imports(source):

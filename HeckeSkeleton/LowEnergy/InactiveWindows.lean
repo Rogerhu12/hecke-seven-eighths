@@ -78,14 +78,14 @@ theorem exists_window_inverse_mass_bound (g : PrimeWindowGeometry) :
 Only injectivity of the map back to the original slots is needed, avoiding
 any arbitrary multiplicity or a choice of subtype representatives. -/
 theorem exists_slot_inverse_mass_bound (g : PrimeWindowGeometry) :
-    ∃ M : ℝ, 1 ≤ M ∧ ∀ {ι : Type} [Fintype ι]
+    ∃ M : ℝ, 1 ≤ M ∧ ∀ {ι : Type} [Fintype ι] [DecidableEq ι]
       (slot : ι → Fin g.slots), Function.Injective slot →
       ∀ (T : Finset (HeckeCharacter K)) (Z : ℝ), 1 ≤ Z →
       (∑ p ∈ Fintype.piFinset (fun i => primeWindow K S g T Z (slot i)),
         ‖∏ i, primeInverseWeight K S g Z (slot i) (p i)‖) ≤ M := by
   obtain ⟨C, hC, hslot⟩ := exists_window_inverse_mass_bound K S g
   refine ⟨C ^ g.slots, one_le_pow₀ hC, ?_⟩
-  intro ι _ slot hinj T Z hZ
+  intro ι _ _ slot hinj T Z hZ
   calc
     _ ≤ C ^ Fintype.card ι := tuple_l1_mass_le_pow
       (fun i => primeWindow K S g T Z (slot i))
@@ -97,7 +97,7 @@ theorem exists_slot_inverse_mass_bound (g : PrimeWindowGeometry) :
 /-- Finite inactive assembly with a retained contraction such as the
 target Hecke phase.  Constants precede all subtypes, scales and rows. -/
 theorem exists_slot_inactive_energy_constant (g : PrimeWindowGeometry) :
-    ∃ C : ℝ, 0 < C ∧ ∀ {ι : Type} [Fintype ι]
+    ∃ C : ℝ, 0 < C ∧ ∀ {ι : Type} [Fintype ι] [DecidableEq ι]
       (slot : ι → Fin g.slots), Function.Injective slot →
       ∀ (T : Finset (HeckeCharacter K)) (Z : ℝ), 1 ≤ Z →
       ∀ (rows : Finset (Ideal (𝓞 K)))
@@ -114,7 +114,7 @@ theorem exists_slot_inactive_energy_constant (g : PrimeWindowGeometry) :
         ≤ C * E := by
   obtain ⟨M, hM, hm⟩ := exists_slot_inverse_mass_bound K S g
   refine ⟨M ^ 2, pow_pos (zero_lt_one.trans_le hM) _, ?_⟩
-  intro ι _ slot hinj T Z hZ rows phase v E hE hphase hblock
+  intro ι _ _ slot hinj T Z hZ rows phase v E hE hphase hblock
   apply finite_weighted_energy_le_of_mass _ rows _ v hE ?_ hblock
   calc
     _ ≤ ∑ p ∈ Fintype.piFinset (fun i => primeWindow K S g T Z (slot i)),
@@ -342,7 +342,7 @@ theorem active_prime_subsets_eq_slot_subsets (g : PrimeWindowGeometry)
 /-- This version applies directly to the surviving-slot subtype obtained
 after fixing the selected coordinates.  Its active predicate is arbitrary,
 so it also handles every active reflection subset before ideal aggregation. -/
-theorem marked_weighted_pi_split {ι : Type*} [Fintype ι]
+theorem marked_weighted_pi_split {ι : Type*} [Fintype ι] [DecidableEq ι]
     (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K)) (Z : ℝ)
     (slot : ι → Fin g.slots) (active : ι → Prop) [DecidablePred active]
     (f : (ι → ExteriorPrime K S) → ℂ) :

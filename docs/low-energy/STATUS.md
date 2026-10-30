@@ -12,8 +12,8 @@
 本 PR 保持草稿状态，不能据此宣布 LOW-REFLECTED-ENERGY 已经形式化完成。**
 
 当前清单包含 94 个新增 Lean 模块，
-其中 57 个有与当前源文件 SHA-256 匹配的成功编译记录，
-另 37 个没有。记录按模块区分；成功验证一个一般核心不被当作
+其中 53 个有与当前源文件 SHA-256 匹配的成功编译记录，
+另 41 个没有。记录按模块区分；成功验证一个一般核心不被当作
 已经验证实际适配层。运行中的任务、资源中断和未返回的编译均不算通过。
 
 ## 目标、假设与调用方
@@ -95,7 +95,19 @@
 包括修复后的 `PhysicalBlockPolynomial`、`PhysicalGaussianEnergy` 和
 `LowFrozenCube.LocalCoefficients`。该次 actual 阶段已通过 193 个既有依赖，
 随后在原 `LinearCountingBound` 的缺失官方 Mathlib import 处失败，
-尚未到达第一个新增实际符号模块。该 import 已补入本次源码，仍需重跑验收。
+该 import 已补齐，并已在本地固定环境通过 Lean。
+
+第四轮 run `41129786149` 再次通过 core 阶段的 66 个模块；
+actual 阶段通过 226 个模块（193 个精确缓存、33 个新编译），随后明确报告
+`ActualSymbols` 与 `WindowTuples` 的编译错误。
+这些错误包括缺少直接 import、符号 wrapper 的定义折回，以及泛型有限集接口
+硬编码经典判等导致与真实 `Fin` 实例不匹配。修复已提交到当前源码，尚需重验。
+为修复实例问题而修改的 `TupleCore`、`SlotTuples`、`InactiveCore` 及依赖模块
+已撤销旧源码的通过状态，不把旧结果算作新源码的验证。
+
+第四轮还有一个模块因后续诊断的 120 秒总预算到期而终止；这是时间预算中断，
+不是该模块的证明错误。完整 actual/Principal 传递闭包为 6232 个真实模块；
+该轮 6003 个模块被明确标为跳过，最终目标公理门未运行。
 
 安装仓库固定 Lake 依赖及对应 Mathlib cache 后运行：
 

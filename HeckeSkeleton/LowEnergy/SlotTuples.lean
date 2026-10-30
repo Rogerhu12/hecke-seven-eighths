@@ -18,7 +18,7 @@ namespace HeckeSkeleton.LowEnergy.SlotTuples
 
 open scoped Classical BigOperators
 
-variable {ι α : Type*} [Fintype ι]
+variable {ι α : Type*} [Fintype ι] [DecidableEq ι]
 
 theorem card_partition (J A : Finset ι) (hA : A ⊆ Finset.univ \ J) :
     J.card + A.card + ((Finset.univ \ J) \ A).card = Fintype.card ι := by

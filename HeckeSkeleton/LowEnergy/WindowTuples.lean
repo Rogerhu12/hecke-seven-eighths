@@ -97,13 +97,14 @@ theorem window_card_le {g : PrimeWindowGeometry} {T : Finset (HeckeCharacter K)}
   have hps1 : 1 ≤ primeScale g Z := Real.one_le_rpow hZ (by positivity)
   have hcard : (primeWindow K S g T Z i).card ≤
       (dyadicIdealSupport K (primeScale g Z)).card := by
-    apply Finset.card_le_card_of_injOn (fun p : ExteriorPrime K S => primeNonzeroIdeal K p.val)
+    apply Finset.card_le_card_of_injOn (fun p : ExteriorPrime K S =>
+      (⟨p.val.asIdeal, mem_nonZeroDivisors_iff_ne_zero.mpr p.val.ne_bot⟩ : NonzeroIdeal K))
     · intro p hp
       rw [Finset.mem_coe] at hp ⊢
       rw [mem_dyadicIdealSupport_iff K (by linarith)]
       exact (window_norm_bounds hZ0 hp).2.le
     · intro p _ p' _ h
-      exact Subtype.ext (primeNonzeroIdeal_injective K h)
+      exact Subtype.ext (HeightOneSpectrum.asIdeal_injective (congrArg Subtype.val h))
   have h2 : dyadicIdealSupport K (primeScale g Z) =
       dyadicIdealSupport K (2 * primeScale g Z / 2) := by
     congr 1
@@ -184,7 +185,9 @@ theorem activeIdeal_norm_product {g : PrimeWindowGeometry}
     exteriorNorm K S (activeIdeal K S I p) =
         idealNorm K (squarefreeIdeal K ((Finset.univ.image p).image Subtype.val)) := rfl
     _ = ∏ q ∈ (Finset.univ.image p).image Subtype.val,
-        (Ideal.absNorm q.asIdeal : ℝ) := idealNorm_squarefreeIdeal_eq_prod K _
+        (Ideal.absNorm q.asIdeal : ℝ) := by
+          simp [idealNorm, squarefreeIdeal,
+            HeckeGeneral.Arithmetic.IdealMobiusMask.primeProduct, map_prod, Nat.cast_prod]
     _ = ∏ q ∈ Finset.univ.image (Subtype.val ∘ p),
         (Ideal.absNorm q.asIdeal : ℝ) := by rw [Finset.image_image]
     _ = ∏ i : I, ((p i).val.asIdeal.absNorm : ℝ) :=
@@ -217,7 +220,7 @@ theorem activeIdeal_injOn (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter 
     Set.InjOn (activeIdeal K S I) (activeTuples K S g T Z I) := by
   intro p hp q hq heq
   have hset := primeSetIdeal_injective K S heq
-  apply image_univ_injOn_piFinset
+  apply image_univ_injOn_piFinset (ι := I) (α := ExteriorPrime K S)
     (fun i : I => primeWindow K S g T Z i) ?_ hp hq hset
   intro i j hij
   apply primeWindow_disjoint K S g T Z i j
@@ -361,7 +364,7 @@ theorem activeIdeals_dyadic_count (g : PrimeWindowGeometry)
     (one_le_pow₀ (one_le_primeScale g hZ)) I.card
   intro P hP
   have h := activeIdeals_support K S g T (zero_lt_one.trans_le hZ) I hP
-  exact ⟨h.2.1, by simpa only [mul_pow] using h.2.2⟩
+  exact ⟨h.2.1, by simpa only [mul_pow, exteriorNorm] using h.2.2⟩
 
 def activeIdealDyad (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K))
     (Z : ℝ) (I : Finset (Fin g.slots)) (j : ℕ) : Finset (ExteriorIdeal K S) :=
@@ -381,8 +384,8 @@ theorem activeIdealDyad_support (g : PrimeWindowGeometry)
   have hb := DyadicReindex.index_bounds_real
     (fun Q : ExteriorIdeal K S => Q.val.val.absNorm) hp
   exact ⟨(activeIdeals_support K S g T hZ I hm).1,
-    by simpa only [hj] using hb.1,
-    by simpa only [hj, pow_succ, mul_comm] using hb.2⟩
+    by simpa only [exteriorNorm, hj] using hb.1,
+    by simpa only [exteriorNorm, hj, pow_succ, mul_comm] using hb.2⟩
 
 theorem active_ideal_sum_eq_dyads (g : PrimeWindowGeometry)
     (T : Finset (HeckeCharacter K)) {Z : ℝ} (hZ : 1 ≤ Z)
@@ -396,7 +399,7 @@ theorem active_ideal_sum_eq_dyads (g : PrimeWindowGeometry)
     (one_le_pow₀ (one_le_primeScale g hZ)) I.card
   intro P hP
   have h := activeIdeals_support K S g T (zero_lt_one.trans_le hZ) I hP
-  exact ⟨h.2.1, by simpa only [mul_pow] using h.2.2⟩
+  exact ⟨h.2.1, by simpa only [mul_pow, exteriorNorm] using h.2.2⟩
 
 def idealCoefficient (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K))
     (Z : ℝ) (I : Finset (Fin g.slots))
@@ -418,8 +421,9 @@ theorem active_tuple_sum_eq_ideal_sum (g : PrimeWindowGeometry)
     (a : (I → ExteriorPrime K S) → ℂ) (kernel : ExteriorIdeal K S → ℂ) :
     (∑ p ∈ activeTuples K S g T Z I, a p * kernel (activeIdeal K S I p)) =
       ∑ P ∈ activeIdeals K S g T Z I,
-        idealCoefficient K S g T Z I a P * kernel P :=
-  sum_pushCoeff _ _ (activeIdeal_injOn K S g T Z I) a kernel
+        idealCoefficient K S g T Z I a P * kernel P := by
+  simpa only [activeIdeals, idealCoefficient] using
+    sum_pushCoeff _ _ (activeIdeal_injOn K S g T Z I) a kernel
 
 /-- The exact selected-slot restriction in the target is a free sum over
 the surviving slots. No cardinality factor or norm inequality is used. -/

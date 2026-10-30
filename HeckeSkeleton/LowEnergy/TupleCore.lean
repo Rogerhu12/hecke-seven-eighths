@@ -17,7 +17,7 @@ noncomputable section
 namespace HeckeSkeleton.LowEnergy.TupleCore
 open scoped BigOperators Classical
 
-variable {ι α : Type*} [Fintype ι]
+variable {ι α : Type*} [Fintype ι] [DecidableEq ι]
 
 def join (P : ι → Prop) [DecidablePred P]
     (a : {i // P i} → α) (b : {i // ¬P i} → α) : ι → α :=
@@ -89,7 +89,7 @@ theorem sum_piFinset_fixed (W : ι → Finset α) (P : ι → Prop)
     simpa only [join_of_true P a b i i.property] using h i i.property
 
 /-- Disjoint windows identify each coordinate from the unordered prime set. -/
-theorem image_univ_injOn_piFinset (W : ι → Finset α)
+theorem image_univ_injOn_piFinset [DecidableEq α] (W : ι → Finset α)
     (hdisjoint : ∀ i j : ι, i ≠ j → Disjoint (W i) (W j)) :
     Set.InjOn (fun t : ι → α => Finset.univ.image t) (Fintype.piFinset W) := by
   classical
@@ -131,7 +131,7 @@ theorem pushCoeff_norm_le {β γ : Type*} (s : Finset β) (encode : β → γ)
   · exact ha _ (Classical.choose_spec h).1
   · simpa using hC
 
-theorem sum_pushCoeff {β γ : Type*} (s : Finset β) (encode : β → γ)
+theorem sum_pushCoeff {β γ : Type*} [DecidableEq γ] (s : Finset β) (encode : β → γ)
     (hinj : Set.InjOn encode s) (a : β → ℂ) (kernel : γ → ℂ) :
     (∑ b ∈ s, a b * kernel (encode b)) =
       ∑ g ∈ s.image encode, pushCoeff s encode a g * kernel g := by

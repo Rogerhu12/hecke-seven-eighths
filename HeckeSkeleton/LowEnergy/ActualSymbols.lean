@@ -1,5 +1,6 @@
 import HeckeGeneral.Analysis.MarkedThetaReflection
 import HeckeGeneral.Characters.SIntegerSexticPowerMask
+import HeckePort.CenteredMoment.Generator
 import HeckePort.Moments.Descent.Hybrid
 
 /-!
@@ -55,6 +56,7 @@ theorem actualSymbol_mul_right (hD : AllowedGeneratorInput K S D)
     ((S.unitEquivUnitsInteger K u).val ^ 6 * (D.generator J * D.generator L)) = _
   rw [sIntegerSexticIdealEvaluation_mul_sixth_power_unit,
     sIntegerSexticIdealEvaluation_mul]
+  rfl
 
 /-- Sixth powers retain exactly the actual ordinary-ideal coprimality mask. -/
 theorem actualSymbol_sixth (I J : ExteriorIdeal K S) :

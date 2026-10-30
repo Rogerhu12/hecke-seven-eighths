@@ -5,7 +5,7 @@ Lean build records. It does not certify the target theorem or an end-to-end repo
 
 Base: `dtests-handoff` at `503ad9895e5f8affef55b22fea082e251bf33aa7`.
 
-57 new modules have matching successful build records; 37 do not.
+53 new modules have matching successful build records; 41 do not.
 
 | Module | Current source SHA-256 | Status |
 |---|---|---|
@@ -51,15 +51,15 @@ Base: `dtests-handoff` at `503ad9895e5f8affef55b22fea082e251bf33aa7`.
 | `HeckeSkeleton.LowEnergy.PhysicalDyadicBudget` | `89552bd5eed7a7491c4f18dfa1019c247b1726d9f309ea76c4ef35ecbb93fa6d` | CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.LogGeometry` | `8d27cd3ef66f28e93190a711195513f18fbb75e40a3098d42885e19ef93fa1bc` | CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.FiniteHybridIntegral` | `ada046f6c2773e29d4a32cd3b1aae23f5eac5eea07c1b42aceb1e1c9e9ae552c` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.TupleCore` | `23d20d7b7e19b85e0107fa3307557f58fe2390c7478e94b95c8bccd8c0ebe1c7` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.InactiveCore` | `6172f1e4d17db571b004b3569a1b40c18190f97ebead6d5a0fe6a4ce7b73dec7` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.DyadicReindex` | `219709977718b91fd49038da3d6112a185c89f428818c7d0a3bad179c4f8760d` | CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowEnergy.TupleCore` | `97bda35566a1ee9e0ea32ab48a1d30144f21b53611f3da6ce2b795c28692c843` | NOT_CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowEnergy.InactiveCore` | `c34b54792916fb39205e6770487cf10f4f4ad25f8f907394cdf3efaacb9cbfb4` | NOT_CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowEnergy.DyadicReindex` | `219709977718b91fd49038da3d6112a185c89f428818c7d0a3bad179c4f8760d` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.LocalWeylTableCore` | `feca761900a6068ab4fb2fd482906d5691f084458c1efac0e4c211ecb2c51aed` | CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.FrozenChargeCore` | `7341f3fbf0ac735466382af63aea40b3379408b205950813a62b4364098349be` | CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.SupportPowers` | `e985c4857fc79f114080f3b0cad770729247f6af598b2b66811eb93391387566` | CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.IdealSupportPowers` | `57e3cef5f6de2c9aa68892bc62361c228d1b16fdbbca9b1668182842d0f43ed7` | CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualRows` | `9dcbe3be1e28fbf867593caff18906c8222460588b3d9fb9a5cec40d7b845cbe` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualSymbols` | `9b8b7cda01014d4fef438930b59da9536797310c9637a48413331306a5b2451a` | NOT_CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowEnergy.ActualSymbols` | `3f7d3efb89081271bfcdc5f18d552d1505e7e06d90a89b5228dd95097f7af21f` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualReflection` | `d1a1c81fe30559de4de3350aba57a0716bf972da9a76d5a5de50b41a42d36eb6` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualSymbolProducts` | `8bdb80e4d76c8452730b6afe3dbb15873ba62ba0d6b286efb8248cf39e60fe71` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowFrozenCube.Exponents` | `85c9a0b5694c870bb37eaa309acbf33deaba03cc34fe600a60a58f7cfb8e55f3` | CHECKED_EXACT_SOURCE |
@@ -80,9 +80,9 @@ Base: `dtests-handoff` at `503ad9895e5f8affef55b22fea082e251bf33aa7`.
 | `HeckeSkeleton.LowEnergy.ActualGeneratorClasses` | `a137ece1cbe57e1f11e31d242e05c526e6e989a51309a94057e330fb3ce97251` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualSeparatedBlock` | `2eed8ceb2cb5f8e139ce08603f41137843b1bf236774871bd8acc8afdbd6d096` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualBlockEnergy` | `b85e09a25c886496b7f966781ab5c4c4cad6e1765a39d350e4611c68f5785479` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.SlotTuples` | `707ab1ebc3c25fe490b8c245ad89c142c5855e25178d9c7def33a247b20a0a3b` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.WindowTuples` | `3579cf81235dc7420f7680c656b7f89f14904635b3dcec062f34f5c51b57409f` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.InactiveWindows` | `343de328b4d39baaea5b3fc50d9f2cebeab7b44b6cb87b9f4ffa8eca2ecc9210` | NOT_CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowEnergy.SlotTuples` | `6bf40582c293fce717b909cbd8783c9a6d70b685771b0b75afffffea4416c1b9` | NOT_CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowEnergy.WindowTuples` | `b6e8da6ba2654d6f9756254bc5cd8918a56574f2c58034b275cd59dc44792d53` | NOT_CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowEnergy.InactiveWindows` | `30c1d70d7567f6dc8960bfa56e5767add742c5c0bb1a6e388ab9f8560221b014` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.TargetDictionary` | `89c7e7faef5340f13530d8c4d8a3c0e603254008d58e409b6b79a2d8536727ed` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.GaussianTheta` | `9b4b613f3db37039dd4fa21714455c44494d56174596b8a249500f6a4855efea` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.TargetGaussian` | `95391295545a8035dc44c73eb7e0bfd3100d106ce76daa31fba6f705e251dc04` | NOT_CHECKED_EXACT_SOURCE |
@@ -115,6 +115,7 @@ Earlier raw records retain the previous failure. No remote record is represented
 
 ## Legacy build records excluded pending dependency recheck
 
+- `HeckeSkeleton.LowEnergy.DyadicReindex`: The imported InactiveCore and its TupleCore dependency now expose their actual DecidableEq instances; the prior source-only record must be rechecked against these changed interfaces.
 
 ## Missing source dependencies
 

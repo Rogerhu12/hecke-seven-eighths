@@ -18,7 +18,7 @@ namespace HeckeSkeleton.LowEnergy.InactiveCore
 open HeckeSkeleton.LowEnergy.TupleCore
 open scoped BigOperators Classical
 
-variable {ι α : Type*} [Fintype ι]
+variable {ι α : Type*} [Fintype ι] [DecidableEq ι]
 
 theorem prod_join (P : ι → Prop) [DecidablePred P]
     (a : {i // P i} → α) (b : {i // ¬P i} → α) (w : ι → α → ℂ) :
