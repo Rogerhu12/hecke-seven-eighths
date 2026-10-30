@@ -82,6 +82,8 @@ theorem sexticResidue_unitRepresentative (u : R.A.U) (I : R.A.Exterior) :
   obtain ⟨w, hw⟩ := hr
   change w ^ 6 = v⁻¹ * u at hw
   have hu : u = v * w ^ 6 := by rw [hw, mul_inv_cancel_left]
+  change R.A.sexticResidue I (R.A.unitEquiv v : R.A.R) =
+    R.A.sexticResidue I (R.A.unitEquiv u : R.A.R)
   symm
   rw [hu, map_mul, map_pow, Units.val_mul, Units.val_pow_eq_pow_val,
     R.A.sexticResidue_sixth_unit_translate]
@@ -104,8 +106,9 @@ theorem idealCoefficient_product (θ : HeckeCharacter F) (I : R.A.Exterior) :
   have hI : I.val = (idealOfPrimeExponents (primeExponents I₀)).val :=
     (congrArg Subtype.val (idealOfPrimeExponents_primeExponents I₀)).symm
   change (idealCoefficientHom (primeCoefficient F θ)).toMonoidHom I.val = _
-  rw [hI, map_idealOfPrimeExponents,
-    Finsupp.prod_of_support_subset _ hsupp _ (fun _ _ => pow_zero _)]
+  conv_lhs =>
+    rw [hI, map_idealOfPrimeExponents,
+      Finsupp.prod_of_support_subset _ hsupp _ (fun _ _ => pow_zero _)]
   apply Finset.prod_congr rfl
   intro p _
   change idealCoefficient (primeCoefficient F θ) p.asIdeal ^ primeExponents I₀ p = _

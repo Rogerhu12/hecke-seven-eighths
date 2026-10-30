@@ -1,0 +1,111 @@
+name: THETA_GLOBAL verification
+
+on:
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - "**/*.lean"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - "scripts/build_theta_global_bundle.py"
+      - "scripts/check_theta_global_pins.py"
+      - ".github/workflows/theta-global.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: theta-global-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  LEAN_NUM_THREADS: "2"
+
+jobs:
+  standalone:
+    name: Standalone 45-module proof check
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Check repository version pins
+        run: python3 scripts/check_theta_global_pins.py
+      # Official inputs are pinned with the action implementation:
+      # https://github.com/leanprover/lean-action/blob/fe408643ea7367d8c0404a8be3975bb145f5fb64/action.yml
+      - name: Install the pinned Lean toolchain and Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
+        timeout-minutes: 20
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "true"
+      - name: Check installed version pins
+        run: python3 scripts/check_theta_global_pins.py --runtime
+      - name: Compile the exact standalone source bodies and audit reported axioms
+        timeout-minutes: 55
+        run: python3 scripts/build_theta_global_bundle.py --check
+      - name: Upload standalone diagnostics and source manifest
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: theta-global-standalone-${{ github.run_id }}
+          path: |
+            verification/theta_global/Standalone.lean
+            verification/theta_global/Standalone.log
+            verification/theta_global/manifest.json
+            verification/theta_global/pins.json
+          if-no-files-found: warn
+          retention-days: 14
+
+  actual-entry:
+    name: Actual Theta entry and strict five-target axiom gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Check repository version pins
+        run: python3 scripts/check_theta_global_pins.py
+      - name: Install the pinned Lean toolchain and Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
+        timeout-minutes: 20
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "true"
+      - name: Check installed version pins
+        run: python3 scripts/check_theta_global_pins.py --runtime
+      # + selects one module, and :olean requests its importable Lean artifact.
+      # This builds its real dependency closure, without the library's all-module glob.
+      # https://github.com/leanprover/lean4/blob/v4.35.0-rc3/src/lake/README.md#specifying-targets
+      - name: Build only the actual Theta entry and its dependencies
+        timeout-minutes: 55
+        shell: bash
+        run: |
+          set -o pipefail
+          lake --fail-fast build +HeckeSkeleton.Theta:olean 2>&1 | tee verification/theta_global/entry-build.log
+      - name: Audit the actual five declarations for inherited admissions
+        timeout-minutes: 4
+        shell: bash
+        run: |
+          set -o pipefail
+          lake env lean -j2 verification/theta_global/EntryAudit.lean 2>&1 | tee verification/theta_global/entry-audit.log
+      - name: Upload actual-entry diagnostics
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: theta-global-actual-entry-${{ github.run_id }}
+          path: |
+            verification/theta_global/EntryAudit.lean
+            verification/theta_global/entry-build.log
+            verification/theta_global/entry-audit.log
+            verification/theta_global/pins.json
+          if-no-files-found: warn
+          retention-days: 14

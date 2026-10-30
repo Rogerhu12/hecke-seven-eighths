@@ -4,7 +4,7 @@ public import ThetaGlobal.GlobalProjectReflectedDictionary
 public import ThetaGlobal.GlobalProjectDirectReindex
 public import ThetaGlobal.GlobalSupportReindex
 public import ThetaGlobal.ActualAnnularTransfer
-public import HeckeAxiom.ProbeUnits
+public import ThetaGlobal.GlobalDiagonalNorm
 
 @[expose] public section
 
@@ -40,19 +40,17 @@ local notation "Sf" => (R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))
 local notation "P" => ThetaBranch.ExteriorPrime R.A
 local notation "k" => QuotientGroup.mk' R.A.sixthPowers
 
-theorem toG_diagonal (a : Fˣ) :
-    HeckeAxiom.ProbeUnits.toG R.A (sLocalFieldUnitDiagonal F Sf a) = R.A.diagonal a := by
-  apply Prod.ext
-  · funext w
-    apply Units.ext
-    change (InfiniteAdeleRing.ringEquiv_mixedSpace F).symm (mixedEmbedding F (a : F)) w = _
-    rw [← (sArchModel_comparison F).2.2 (a : F), RingEquiv.symm_apply_apply]
-    rfl
-  · rfl
-
+/-- Both actual norms have identical finite factors.  At every infinite
+place the completion norm is its absolute value and the multiplicity is
+two.  This direct comparison does not import the unrelated principal
+Euler continuation through `ProbeUnits`. -/
 theorem norm_diagonal (a : Fˣ) :
     R.A.norm (R.A.diagonal a) = sLocalProductNorm F Sf (sLocalFieldUnitDiagonal F Sf a) := by
-  rw [← toG_diagonal R a, HeckeAxiom.ProbeUnits.norm_toG]
+  unfold SArithmeticData.norm sLocalProductNorm
+  congr 1
+  change (∏ w : InfinitePlace F, ‖algebraMap F w.Completion (a : F)‖ ^ 2) =
+    mixedEmbedding.norm (mixedEmbedding F (a : F))
+  exact GlobalDiagonalNorm.archimedean_product F R.A.complex_place a.val
 
 theorem class_representative (Adata : ThetaArithmeticData F Sf)
     (d : MarkedDatum F Sf) (i : ReflectionIndex F Sf d) :

@@ -234,5 +234,11 @@
       "source": "ThetaGlobal/ReflectedAudit.lean",
       "sha256": "55235b5dd6253e6cc33d75b65fd77469ec5515d8685412e3e564e2817e7ae895"
     }
-  ]
+  ],
+  "exit_code": 0,
+  "source_unchanged": true,
+  "reported_sorryAx": false,
+  "build_log": "verification/theta_global/Standalone.build.log",
+  "execution_command": "python work/compile.py repo/verification/theta_global/Standalone.lean",
+  "reproduce": "python scripts/build_theta_global_bundle.py --check"
 }

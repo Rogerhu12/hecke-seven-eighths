@@ -88,11 +88,13 @@ if args.check:
     (outdir/'Standalone.log').write_text(result.stdout)
     unchanged = all(hashlib.sha256((root/m['source']).read_bytes()).hexdigest() ==
         m['sha256'] for m in manifest)
+    unchanged = unchanged and hashlib.sha256(source_path.read_bytes()).hexdigest() == report['bundle_sha256']
+    reported_sorry = 'sorryAx' in result.stdout
     report.update({'command': command, 'exit_code': result.returncode,
         'source_unchanged': unchanged,
-        'reported_sorryAx': 'sorryAx' in result.stdout})
+        'reported_sorryAx': reported_sorry})
     print(result.stdout)
     print('Exit:',result.returncode,'sources unchanged:',unchanged)
 (outdir/'manifest.json').write_text(json.dumps(report,indent=2)+'\n')
 if args.check:
-    raise SystemExit(result.returncode if unchanged else 2)
+    raise SystemExit(2 if not unchanged else 3 if reported_sorry else result.returncode)

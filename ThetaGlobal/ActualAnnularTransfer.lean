@@ -18,6 +18,8 @@ The seed is never a field of the local data or an asserted theorem here.
 -/
 
 set_option autoImplicit false
+set_option backward.isDefEq.respectTransparency false
+set_option maxHeartbeats 6000000
 noncomputable section
 
 namespace ThetaGlobal.ActualAnnularTransfer
@@ -196,7 +198,7 @@ theorem regularized_identity (w : InfinitePlace K) (hseed : LiteralSeed R θ C L
       rw [completedTerm_eq_coefficient,
         TestMellinLimit.scalar_regularizedTest_eq (mellin V.toFun) ε
           (PrimalLimitProject.completed_argument_pos K S hX cn)]
-      rfl
+      simp only [RegularizedTestProject.regularizedTest, Complex.ofReal_zero, zero_add]
     _ = _ := hc
     _ = _ := by
       apply tsum_congr
@@ -216,7 +218,8 @@ theorem marked_reflection_of_literal_seed
   have hεpos (n : ℕ) : 0 < ε n := by dsimp [ε]; positivity
   have hε₁ (n : ℕ) : ε n ≤ 1 := by
     dsimp [ε]
-    exact (div_le_one (by positivity)).mpr (by positivity)
+    exact (div_le_one (by positivity)).mpr (by
+      linarith [Nat.cast_nonneg (R := ℝ) n])
   have hε : Tendsto ε atTop (𝓝 0) := tendsto_one_div_add_atTop_nhds_zero_nat
   exact (ActualRegularizerRemoval.marked_reflection_of_regularized_identities
     K S D d M θ hM V ε hεpos hε₁ hε hX

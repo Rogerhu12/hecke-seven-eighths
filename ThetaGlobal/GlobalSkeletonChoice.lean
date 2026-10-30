@@ -64,8 +64,7 @@ theorem thetaRecipe_period_generator
     (thetaRecipe K c) θ hS,
     ThetaGlobal.GlobalGeneratorPeriod.sexticResidue_unitRepresentative]
   rw [periodValue, (axiomChoice K c).idealSymbol_eq I]
-  simp only [Equiv.apply_symm_apply]
-  rfl
+  simp only [Equiv.apply_symm_apply] <;> rfl
 
 theorem thetaRecipe_period_representative
     (θ : HeckeGeneral.Characters.HeckeCharacter K)

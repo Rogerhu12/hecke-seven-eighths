@@ -12,7 +12,9 @@ reflection by uniqueness of limits. The regularized identities themselves
 must come from the ACTUAL fixed-profile theta source and the proved scalar
 deconvolution/Fubini machinery. They are not asserted here.
 
-This is not a substitute for the still missing global automorphic seed.
+`ActualAnnularTransfer` constructs these identities from the literal seed;
+`GlobalProjectLiteralSeed` supplies that seed from the actual source. This
+module keeps the limit argument separate from those arithmetic steps.
 -/
 
 @[expose] public section
@@ -34,8 +36,8 @@ variable [Finite (SixthLocalClasses K S)]
 variable (D : ThetaArithmeticData K S) (d : MarkedDatum K S)
 variable (F : FiniteMellinData K S) (θ : HeckeCharacter K)
 
-/-- Exact regularized marked equality, defined only to display the remaining
-global statement required from fixed-profile automorphy and scalar Fubini.
+/-- Exact regularized marked equality, supplied by fixed-profile automorphy
+and scalar Fubini in `ActualAnnularTransfer.regularized_identity`.
 It is a proposition about positive regularization parameters, not a theorem. -/
 def RegularizedMarkedIdentity (V : SmoothAnnularTest) (ε X : ℝ) : Prop :=
   completedThetaSum K S D θ (rowElement K S D d) d.puncture d.marks
@@ -48,8 +50,8 @@ def RegularizedMarkedIdentity (V : SmoothAnnularTest) (ε X : ℝ) : Prop :=
 positive-regularizer identities are supplied. Both series convergence and both
 passages to the limit are proved, using the literal actual arithmetic indices.
 
-This theorem is an extensional final step; its regularized-identity premise is
-an explicitly unresolved global prerequisite until connected to the source. -/
+This theorem is an extensional final step. Its regularized-identity premise
+is discharged by `ActualAnnularTransfer`, using the separately derived seed. -/
 theorem marked_reflection_of_regularized_identities
     (hF : FiniteMellinAdmissible K S F) (V : SmoothAnnularTest)
     (ε : ℕ → ℝ) (hεpos : ∀ n, 0 < ε n) (hε₁ : ∀ n, ε n ≤ 1)
