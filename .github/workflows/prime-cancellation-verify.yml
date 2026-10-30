@@ -17,7 +17,7 @@ permissions:
 
 concurrency:
   group: prime-cancellation-staged-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   prepare:
@@ -40,7 +40,7 @@ jobs:
           path: |
             .lake/build
             vendor/class-field-theory/.lake/build
-          key: prime-foundation-complete-v1-${{ runner.os }}-${{ steps.plan.outputs.fingerprint }}
+          key: prime-foundation-complete-300-v1-${{ runner.os }}-${{ steps.plan.outputs.fingerprint }}
           lookup-only: true
 
   foundation_40:
@@ -51,12 +51,20 @@ jobs:
       lower: 0
       upper: 40
 
-  foundation_180:
+  foundation_100:
     needs: [prepare, foundation_40]
     if: needs.prepare.outputs.foundation_cached != 'true'
     uses: ./.github/workflows/prime-cancellation-foundation.yml
     with:
       lower: 40
+      upper: 100
+
+  foundation_180:
+    needs: [prepare, foundation_100]
+    if: needs.prepare.outputs.foundation_cached != 'true'
+    uses: ./.github/workflows/prime-cancellation-foundation.yml
+    with:
+      lower: 100
       upper: 180
 
   foundation_260:
@@ -67,9 +75,17 @@ jobs:
       lower: 180
       upper: 260
 
-  proofs:
+  foundation_300:
     needs: [prepare, foundation_260]
-    if: ${{ always() && !cancelled() && needs.prepare.result == 'success' && (needs.prepare.outputs.foundation_cached == 'true' || needs.foundation_260.result == 'success') }}
+    if: needs.prepare.outputs.foundation_cached != 'true'
+    uses: ./.github/workflows/prime-cancellation-foundation.yml
+    with:
+      lower: 260
+      upper: 300
+
+  proofs:
+    needs: [prepare, foundation_300]
+    if: ${{ always() && !cancelled() && needs.prepare.result == 'success' && (needs.prepare.outputs.foundation_cached == 'true' || needs.foundation_300.result == 'success') }}
     runs-on: ubuntu-latest
     timeout-minutes: 360
     env:
@@ -100,7 +116,7 @@ jobs:
           path: |
             .lake/build
             vendor/class-field-theory/.lake/build
-          key: prime-foundation-complete-v1-${{ runner.os }}-${{ needs.prepare.outputs.fingerprint }}
+          key: prime-foundation-complete-300-v1-${{ runner.os }}-${{ needs.prepare.outputs.fingerprint }}
           fail-on-cache-miss: true
       - name: Download the newly verified dependency groups
         if: needs.prepare.outputs.foundation_cached != 'true'
@@ -118,7 +134,7 @@ jobs:
           path: |
             .lake/build
             vendor/class-field-theory/.lake/build
-          key: prime-foundation-complete-v1-${{ runner.os }}-${{ needs.prepare.outputs.fingerprint }}
+          key: prime-foundation-complete-300-v1-${{ runner.os }}-${{ needs.prepare.outputs.fingerprint }}
       - name: Compile the actual Hecke and moment wiring
         run: |
           set -euo pipefail

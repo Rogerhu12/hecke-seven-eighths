@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments
 import HeckeSkeleton.PrimeCancellationPolynomials
+import HeckeGeneral.Analysis.ActualMomentPolynomialBridges
 import PrimeCancellationAux
 import PrimeCancellationPaired
 import PrimeCancellationMaskCount
@@ -32,6 +33,27 @@ open scoped Classical BigOperators
 
 variable {K : Type} [Field K] [NumberField K]
 variable {ω ψ : HeckeCharacter K}
+
+/-! ## The existing default exceptional-character choice -/
+
+/-- The actual complete-ideal constructor has theta `{1}` and every slot
+coefficient equal to one, so the inverse-membership condition is literal. -/
+theorem decomposedMomentDataWithSlots_inverse_mem
+    (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
+    (P : ProbeData K S) (R : RowCharacterInput K S P)
+    (ω' η : HeckeCharacter K) (ξ : SixthUnitClasses K S)
+    (W : IdealTest K) (g : SlotGeometry K) (j : Fin g.slotCount) :
+    ((decomposedMomentDataWithSlots K S P R ω' η ξ W g).slotCoefficient j)⁻¹ ∈
+      (decomposedMomentDataWithSlots K S P R ω' η ξ W g).theta := by
+  change (1 : HeckeCharacter K)⁻¹ ∈ ({1} : Finset (HeckeCharacter K))
+  simp
+
+/-- The original selected-slot operation preserves inverse membership. -/
+theorem inverse_mem_restrictSlots (d : MomentData K ω ψ)
+    (I : Finset (Fin d.geometry.slotCount))
+    (hinverse : ∀ j, (d.slotCoefficient j)⁻¹ ∈ d.theta) (j : Fin I.card) :
+    ((d.restrictSlots I).slotCoefficient j)⁻¹ ∈ (d.restrictSlots I).theta :=
+  hinverse (selectedSlotIndex I j)
 
 /-! ## The actual mask at a prime ideal -/
 

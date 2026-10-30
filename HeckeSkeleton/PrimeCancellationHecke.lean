@@ -134,9 +134,11 @@ theorem absolute_primePowerSeries (a : HeightOneSpectrum (𝓞 K) → ℂ)
     Summable (fun np : ℕ × HeightOneSpectrum (𝓞 K) =>
       ‖primePowerCoefficient (primeNorm K) a np‖ *
         (primePowerNorm (primeNorm K) np) ^ (-(2 : ℝ))) := by
-  have h := (absolutelySummable_primePowerLogTerm K a ha 1
-    (s := 2) (by norm_num)).comp_injective
-      (Equiv.prodComm ℕ (HeightOneSpectrum (𝓞 K))).injective
+  have h : Summable (fun np : ℕ × HeightOneSpectrum (𝓞 K) =>
+      ‖primePowerLogTerm K a 1 2 (np.2, np.1)‖) := by
+    simpa only [Function.comp_def, Equiv.prodComm_apply, Prod.swap] using
+      (Equiv.prodComm ℕ (HeightOneSpectrum (𝓞 K))).summable_iff.mpr
+        (absolutelySummable_primePowerLogTerm K a ha 1 (s := 2) (by norm_num))
   have heq (np : ℕ × HeightOneSpectrum (𝓞 K)) :
       ‖primePowerCoefficient (primeNorm K) a np‖ *
           (primePowerNorm (primeNorm K) np) ^ (-(2 : ℝ)) =
@@ -147,7 +149,7 @@ theorem absolute_primePowerSeries (a : HeightOneSpectrum (𝓞 K) → ℂ)
         (primeNorm_ge_two K np.2)) _
     rw [Complex.norm_cpow_eq_rpow_re_of_pos hp]
     norm_num
-  simpa only [heq, Equiv.prodComm_apply] using h
+  exact h.congr (fun np => (heq np).symm)
 
 theorem deleted_euler (χ : HeckeCharacter K)
     (S : Finset (HeightOneSpectrum (𝓞 K))) {s : ℂ} (hs : 1 < s.re) :
@@ -156,14 +158,13 @@ theorem deleted_euler (χ : HeckeCharacter K)
         (primePowerNorm (primeNorm K) np : ℂ) ^ (-s)) =
       -deriv (heckeDeletedContinuation K χ S) s / heckeDeletedContinuation K χ S s := by
   simp_rw [primePowerTerm_eq]
-  have hswap := (Equiv.prodComm ℕ (HeightOneSpectrum (𝓞 K))).tsum_eq
-    (fun pn => primePowerLogTerm K (deletedCoefficient K χ S) 1 s pn)
-  change (∑' np : ℕ × HeightOneSpectrum (𝓞 K),
-    primePowerLogTerm K (deletedCoefficient K χ S) 1 s (np.2, np.1)) = _
-  rw [hswap]
-  have h := deleted_logDerivative_eq_primePowerSeries K χ S hs
-  rw [neg_div, h, neg_neg]
-  rfl
+  have hswap : (∑' np : ℕ × HeightOneSpectrum (𝓞 K),
+      primePowerLogTerm K (deletedCoefficient K χ S) 1 s (np.2, np.1)) =
+      primePowerLogSeries K (deletedCoefficient K χ S) 1 s := by
+    simpa only [primePowerLogSeries, Equiv.prodComm_apply, Prod.swap] using
+      (Equiv.prodComm ℕ (HeightOneSpectrum (𝓞 K))).tsum_eq
+        (fun pn => primePowerLogTerm K (deletedCoefficient K χ S) 1 s pn)
+  rw [hswap, neg_div, deleted_logDerivative_eq_primePowerSeries K χ S hs, neg_neg]
 
 /-- The central Euler logarithm has a common bound for all characters and
 all finite deletions: deleting coefficients does not enlarge the majorant. -/
@@ -215,9 +216,10 @@ theorem continuation_ne_zero_of_packet_boundary
 theorem deleted_entire (χ : HeckeCharacter K)
     (S : Finset (HeightOneSpectrum (𝓞 K)))
     (hχ : ∀ t : ℝ, χ ≠ heckeNormTwist K t) :
-    Differentiable ℂ (heckeDeletedContinuation K χ S) :=
-  (fun s => (heckeEulerDeletionPolynomial_analyticAt K χ S s).differentiableAt).mul
-    (differentiable_heckeContinuation_of_nonNorm K χ hχ)
+    Differentiable ℂ (heckeDeletedContinuation K χ S) := by
+  have hP : Differentiable ℂ (heckeEulerDeletionPolynomial K χ S) :=
+    fun s => (heckeEulerDeletionPolynomial_analyticAt K χ S s).differentiableAt
+  exact hP.mul (differentiable_heckeContinuation_of_nonNorm K χ hχ)
 
 theorem deleted_ne_zero_of_packet_boundary
     (ω χ : HeckeCharacter K) (S : Finset (HeightOneSpectrum (𝓞 K)))

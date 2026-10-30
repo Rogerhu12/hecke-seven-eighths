@@ -50,7 +50,15 @@ theorem paired_primes_below_one_of_models
 `rowCharacter u ∉ theta` 与 `slotCoefficient j ∈ theta` 本身不能推出
 `rowCharacter u * slotCoefficient j ≠ 1`。恰当的条件是槽系数的**逆元**属于
 `theta`。新引理 `slot_character_ne_one_of_exclusion` 证明这一点。
-因此构造实际模型时，应使用对取逆封闭的有限例外角色族，或加入所需的有限组逆元。
+
+已有的完整理想构造给出具体实例：`decomposedZeroSlotMomentData` 取
+`theta = {1}`，`decomposedMomentDataWithSlots` 保留它并令每个 `slotCoefficient = 1`。
+新引理 `decomposedMomentDataWithSlots_inverse_mem` 直接证明这个实际构造满足取逆条件，
+`inverse_mem_restrictSlots` 证明原有选槽操作保留该条件。
+`decomposedWitnessMomentData` 仅替换两个 plain tests，也保留同一例外集和槽系数。
+项目当前的 `rayFilter` 是空集，故默认构造沿用这组系数。对包含额外有限 ray twist
+的其他模型，可以选择取逆封闭的有限例外族，并验证其原有行资格；这里不替代完整
+`SourceMomentModels` 的构造与校准。
 
 若存在槽，槽长严格为正，`totalLength > 0`，配对行定义中的例外角色排除条件
 确实生效。零总长度时不存在槽，空乘积等于 `1`，无需非主性假设。
