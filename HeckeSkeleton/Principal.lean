@@ -1,6 +1,9 @@
 import HeckeSkeleton.Theta
 import HeckeSkeleton.Gram
 import HeckeSkeleton.ActualProbeIntegralComplete
+import HeckeSkeleton.ActualPrincipalWindowError
+import HeckeSkeleton.PrimeNormalizer
+import HeckeSkeleton.LowCauchy
 
 set_option autoImplicit false
 set_option quotPrecheck false
@@ -92,26 +95,42 @@ theorem principal_ray_finiteOrder : ∀ χ ∈ T, FiniteOrder χ := by
   simp [rayFilter] at hχ
 
 -- OBLIGATION PR-FOURIER-ZERO | revised §6.1–6.4, pp.35–40.
-theorem principal_fourier_zero : additiveFourierAtZero K S μ (probeData K c).additive = 0 := by
-  sorry
+-- Axiom's tensor has zero integral; the skeleton's transform is a multiple of Axiom's.
+theorem principal_fourier_zero : additiveFourierAtZero K S μ (probeData K c).additive = 0 :=
+  (Classical.choose_spec (HeckeAxiom.ProbeTestChoice.exists_probeTest (axiomChoice K c).A
+    (axiomChoice K c).hS)).1
+
+/-- The probe test's additive Mellin value at `1/6` is a positive real. -/
+theorem principal_mellin_positive :
+    (additiveMellin K S μ (probeData K c).additive (1 / 6)).im = 0 ∧
+      0 < (additiveMellin K S μ (probeData K c).additive (1 / 6)).re :=
+  (Classical.choose_spec (HeckeAxiom.ProbeTestChoice.exists_probeTest (axiomChoice K c).A
+    (axiomChoice K c).hS)).2
 
 -- OBLIGATION PR-NORMALIZATION-REAL | revised §6.1–6.4, pp.35–40.
-theorem principal_normalization_real : (physicalResidueNormalizer K S μ P).im = 0 := by
-  sorry
+-- The residue, the Mellin values at 1/6 and at 1 are positive reals.
+theorem principal_normalization_real : (physicalResidueNormalizer K S μ P).im = 0 :=
+  (HeckeAxiom.ProbeNormalization.physicalResidueNormalizer_pos S μ P
+    DedekindZetaZeroFree.probeRealBumpWeight rfl (principal_mellin_positive K c).1
+    (principal_mellin_positive K c).2).1
 
 -- OBLIGATION PR-NORMALIZATION-POSITIVE | revised §6.1–6.4, pp.35–40.
-theorem principal_normalization_positive : 0 < (physicalResidueNormalizer K S μ P).re := by
-  sorry
+theorem principal_normalization_positive : 0 < (physicalResidueNormalizer K S μ P).re :=
+  (HeckeAxiom.ProbeNormalization.physicalResidueNormalizer_pos S μ P
+    DedekindZetaZeroFree.probeRealBumpWeight rfl (principal_mellin_positive K c).1
+    (principal_mellin_positive K c).2).2
 
--- OBLIGATION PR-NORMALIZER-POSITIVE | revised §6.1–6.4, pp.35–40.
+-- PR-NORMALIZER-POSITIVE | revised §6.1–6.4, pp.35–40.
+-- Reduced to the window prime ideal theorem (PR-WINDOW-PIT) in HeckeSkeleton.PrimeNormalizer.
 theorem principal_normalizer_positive : ∃ Z₀ : ℝ, 1 ≤ Z₀ ∧ ∀ Z : ℝ, Z₀ ≤ Z →
-    0 < (primeNormalizer K S g T Z).re := by
-  sorry
+    0 < (primeNormalizer K S g T Z).re :=
+  PrimeNormalizer.normalizer_positive K S g
 
--- OBLIGATION PR-NORMALIZER-SMALLPOWER | revised §6.1–6.4, pp.35–40.
+-- PR-NORMALIZER-SMALLPOWER | revised §6.1–6.4, pp.35–40.
+-- Reduced to the window prime ideal theorem (PR-WINDOW-PIT) in HeckeSkeleton.PrimeNormalizer.
 theorem principal_normalizer_smallPower : ∀ ε : ℝ, 0 < ε →
-    (fun Z => (primeNormalizer K S g T Z)⁻¹) =O[atTop] (fun Z : ℝ => Z ^ ε) := by
-  sorry
+    (fun Z => (primeNormalizer K S g T Z)⁻¹) =O[atTop] (fun Z : ℝ => Z ^ ε) :=
+  PrimeNormalizer.normalizer_smallPower K S g
 
 -- OBLIGATION PR-PRINCIPAL-WINDOW-ERROR | revised §6.1–6.4, pp.35–40.
 theorem principal_principal_window_error : ∃ C Z₀ : ℝ, 0 < C ∧ 1 ≤ Z₀ ∧
@@ -119,8 +138,9 @@ theorem principal_principal_window_error : ∃ C Z₀ : ℝ, 0 < C ∧ 1 ≤ Z�
       ‖compensatedPrincipalCorrection K S P ψ g T Z s -
         principalCorrection K S P ψ s * (Z : ℂ) ^ (1 / 36 : ℂ) * primeNormalizer K S g T Z‖ ≤
       C * Z ^ (-principalSlotSaving g) *
-        ‖principalCorrection K S P ψ s * (Z : ℂ) ^ (1 / 36 : ℂ) * primeNormalizer K S g T Z‖ := by
-  sorry
+        ‖principalCorrection K S P ψ s * (Z : ℂ) ^ (1 / 36 : ℂ) * primeNormalizer K S g T Z‖ :=
+  ActualPrincipalWindowDraft.actual_principal_window_error K S P ψ g T
+    (principal_target_unramified K c)
 
 /-- Surviving marked slots are summed BEFORE taking the actual row norm.
 Selected slots remain fixed, as in revised (6.22). -/
@@ -153,16 +173,16 @@ theorem completedMarkedEnergy
       (finiteMellinData K c) (thetaPeriod K S P ψ)) : CompletedMarkedEnergy K c := by
   sorry
 
--- OBLIGATION LOW-CAUCHY-COMPENSATION | revised Proposition 6.2, pp.40–41.
--- Same row box; rapid Fourier separation; subset weights; reciprocal normalizer.
+-- LOW-CAUCHY-COMPENSATION | revised Proposition 6.2, pp.40–41.
+-- Proved in HeckeSkeleton.LowCauchy (marked spectral Cauchy bound and assembly).
 theorem low_of_gram_and_completedEnergy
     (hgram : Gram.GramBound K S P)
     (henergy : CompletedMarkedEnergy K c)
     (hnorm : ∀ ε : ℝ, 0 < ε →
       (fun Z => (primeNormalizer K S g T Z)⁻¹) =O[atTop] (fun Z : ℝ => Z ^ ε)) :
     ∀ ε : ℝ, 0 < ε →
-      normalizedProbe K S μ P ψ g T =O[atTop] (fun Z : ℝ => Z ^ (3 / 16 + ε)) := by
-  sorry
+      normalizedProbe K S μ P ψ g T =O[atTop] (fun Z : ℝ => Z ^ (3 / 16 + ε)) :=
+  LowCauchy.low_of_gram_and_completedEnergy K c hgram henergy hnorm
 
 theorem principalSource : (probeMeasures K c).principalInput P ψ g T := by
   change TPrincipalInput K S μ P ψ g T
