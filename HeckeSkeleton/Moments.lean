@@ -1,6 +1,8 @@
 import HeckeSkeleton.Theta
 import HeckeGeneral.Analysis.TInputParameterUniformMoments
 import HeckeSkeleton.HighArithmeticInputs
+import HeckeAxiom.QuadraticSieve
+import CubicSieve.Complete
 
 /-! Exploratory actual I/P pipeline, revised §§4–5 and §7.
 This file intentionally contains named admissions. None is native verified.
@@ -264,14 +266,19 @@ def CubicSieveBound : Prop :=
           C * (X * Y) ^ ε * (X + Y + (X * Y) ^ (2 / 3 : ℝ)) *
             ∑ J ∈ B, ‖z J‖ ^ 2
 
--- OBLIGATION MI-M-QUADRATIC-SIEVE | §4.3,(4.12),pp20–21.
-theorem moment_quadratic_sieve : QuadraticSieveBound K c := by
-  sorry
+-- MI-M-QUADRATIC-SIEVE | §4.3,(4.12),pp20–21.
+-- Axiom's Goldmakher–Louvel sieve for the actual Kummer quadratic family of the
+-- same arithmetic context (HeckeAxiom.QuadraticSieve).
+theorem moment_quadratic_sieve : QuadraticSieveBound K c :=
+  HeckeAxiom.quadratic_sieve_bound (axiomChoice K c)
 
--- OBLIGATION MI-M-CUBIC-SIEVE | Lemma4.5,(4.13),p21.
+-- MI-M-CUBIC-SIEVE | Lemma4.5,(4.13),p21. Proved by Codex in CubicSieve/ (BGL n = 3).
 -- Includes exact BGL/ray-class comparison, not an unspecified cubic family.
 theorem moment_cubic_sieve : CubicSieveBound K c := by
-  sorry
+  change CubicSieve.ExteriorSieve.TargetBound K (places K c)
+    (probeData K c).arithmetic
+  exact CubicSieve.Complete.targetBound (axiomChoice K c).A
+    (probeData K c).arithmetic (allowedGenerators K c)
 
 variable {K c}
 def markedModelEnergy (M : SourceMomentModels K c) {Z T}

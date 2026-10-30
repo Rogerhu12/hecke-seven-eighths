@@ -1,8 +1,11 @@
 import HeckeGeneral.Analysis.TIPClosure
 import HeckeAxiom.SignalAdapter
 import HeckeAxiom.MeasureAdapter
+import HeckeAxiom.ProbeTestChoice
+import HeckeAxiom.ProbeNormalization
 import HeckeGeneral.Analysis.HeckeConjugateZeros
 import HeckeGeneral.Analysis.HeckeNormTwistZeros
+import HeckePort.Schedule.MomentMesh
 
 /-! Exploratory, intentionally incomplete proof skeleton. This library is
 separate from HeckeGeneral and its verified declaration count. Every admitted
@@ -35,11 +38,11 @@ structure FamilyContext where
   lamA_pos : 0 < lamA
   lamA_small : lamA ≤ 1 / 1000
 
--- OBLIGATION D-MESH | revised §4.2, §4.9, §8 (pp.17–18,33–34,49–51).
--- One positive mesh for the bounded real box, BEFORE geometry or target.
--- Existing: TInputParameterUniformMoments; its old PRegion ends at 5/6.
-def momentMesh (c : FamilyContext K) : {m : ℝ // 0 < m} := by
-  sorry
+-- D-MESH | revised §4.2, §4.9, §8 (pp.17–18,33–34,49–51).
+-- One positive mesh for the bounded real box, BEFORE geometry or target: the
+-- openai width-schedule mesh `fineMesh 2 0 1 1 lamA` (HeckePort.Schedule).
+def momentMesh (c : FamilyContext K) : {m : ℝ // 0 < m} :=
+  ⟨HeckePort.Schedule.momentMeshValue c.lamA, HeckePort.Schedule.momentMeshValue_pos c.lamA_pos⟩
 
 /-- The type enforces the outer order: family/loss, mesh, geometry,
 remaining loss, target. No analytic estimate is a field. -/
@@ -206,9 +209,13 @@ theorem representative_angular (c : TargetContext K)
 -- OBLIGATION D-TESTS | revised §6.1–6.2 (pp.35–37).
 -- The Fourier-zero additive test and positive denominator; normalization
 -- properties are separately stated in Principal, not assumed here.
+-- The additive test is Axiom's fixed weight for the same choice, scaled so that its
+-- additive Mellin value at 1/6 is a positive real; the denominator is Axiom's bump.
 def probeTests (c : TargetContext K) :
-    AdditiveProbeTest K (places K c) × DenominatorTest := by
-  sorry
+    AdditiveProbeTest K (places K c) × DenominatorTest :=
+  (Classical.choose (HeckeAxiom.ProbeTestChoice.exists_probeTest (axiomChoice K c).A
+      (axiomChoice K c).hS),
+    HeckeAxiom.denominatorTest DedekindZetaZeroFree.probeRealBumpWeight)
 
 def probeData (c : TargetContext K) : ProbeData K (places K c) where
   arithmetic := arithmeticData K c

@@ -1,0 +1,1078 @@
+{
+  "recorded_utc": "2026-10-30T13:47:35.078042+00:00",
+  "scope": "CubicSieve/*.lean only; comments and blank lines included",
+  "lean_version": "4.35.0-rc3",
+  "files": 78,
+  "physical_lines": 11790,
+  "olean_modules": 77,
+  "check_only_files": 1,
+  "all_current_receipts_successful": true,
+  "uncovered_files": [],
+  "forbidden_code_token_hits": [],
+  "strict_endpoint_audit": [
+    "CUBIC_COMPLETE_AXIOMS|CubicSieve.PoissonEstimate.actual_annular_bound|propext,Classical.choice,Quot.sound",
+    "CUBIC_COMPLETE_AXIOMS|CubicSieve.GcdPoissonAssembly.annular_smoothEnergy_bound|propext,Classical.choice,Quot.sound",
+    "CUBIC_COMPLETE_AXIOMS|CubicSieve.Complete.full_smooth_bound|propext,Classical.choice,Quot.sound",
+    "CUBIC_COMPLETE_AXIOMS|CubicSieve.Complete.fullEstimate|propext,Classical.choice,Quot.sound",
+    "CUBIC_COMPLETE_AXIOMS|CubicSieve.Complete.targetBound|propext,Classical.choice,Quot.sound",
+    "CUBIC_COMPLETE_AXIOMS|CubicSieve.CompleteBridge.moment_cubic_sieve|propext,Classical.choice,Quot.sound"
+  ],
+  "context_bridge_audit": [
+    "CUBIC_CONTEXT_BRIDGE_AXIOMS|CubicSieve.CompleteBridge.moment_cubic_sieve|propext,Classical.choice,Quot.sound"
+  ],
+  "external_source_freshness_rebuilt": false,
+  "audit_roots": [
+    "CubicSieve.Audit",
+    "CubicSieve.CompleteAudit",
+    "CubicSieve.InitialAudit",
+    "CubicSieve.ArithmeticOperatorAudit",
+    "CubicSieve.AnalyticAudit",
+    "CubicSieve.PoissonAudit",
+    "CubicSieve.TailAudit"
+  ],
+  "modules": [
+    {
+      "module": "CubicSieve.Algebra",
+      "path": "CubicSieve/Algebra.lean",
+      "physical_lines": 108,
+      "source_sha256": "ae58bcf36845d4858dbb8d07ffaed8ef503233a8087de9d59775a161adf6ae62",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.Algebra.json",
+      "compile_seconds": 38.3,
+      "local_imports": []
+    },
+    {
+      "module": "CubicSieve.AnalyticAudit",
+      "path": "CubicSieve/AnalyticAudit.lean",
+      "physical_lines": 35,
+      "source_sha256": "bc0c92d721189ceab3164cec2931130b216f83c7cf1156174416b21622b73241",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticAudit.json",
+      "compile_seconds": 122.4,
+      "local_imports": [
+        "CubicSieve.AnalyticDualNorm",
+        "CubicSieve.AnalyticGcdGram"
+      ]
+    },
+    {
+      "module": "CubicSieve.AnalyticDecay",
+      "path": "CubicSieve/AnalyticDecay.lean",
+      "physical_lines": 448,
+      "source_sha256": "0e16822e47657ae441d11c7db43522e718967045f0979276147e388c638fee7f",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticDecay.json",
+      "compile_seconds": 38.6,
+      "local_imports": []
+    },
+    {
+      "module": "CubicSieve.AnalyticDivisors",
+      "path": "CubicSieve/AnalyticDivisors.lean",
+      "physical_lines": 161,
+      "source_sha256": "b0dfa52335c507f10ec525972ea5f9edca65903f13794de3e21dbbecb1b4796c",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticDivisors.json",
+      "compile_seconds": 158.8,
+      "local_imports": [
+        "CubicSieve.AnalyticGcdDefs",
+        "CubicSieve.ExteriorSieve"
+      ]
+    },
+    {
+      "module": "CubicSieve.AnalyticDualNorm",
+      "path": "CubicSieve/AnalyticDualNorm.lean",
+      "physical_lines": 116,
+      "source_sha256": "18ea1c608e5ce837230f4d4686be693e09064ae14eeb9ac3d8bd0804c8f5c259",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticDualNorm.json",
+      "compile_seconds": 72.6,
+      "local_imports": [
+        "CubicSieve.AnalyticGrowth",
+        "CubicSieve.AnalyticDecay"
+      ]
+    },
+    {
+      "module": "CubicSieve.AnalyticDyadic",
+      "path": "CubicSieve/AnalyticDyadic.lean",
+      "physical_lines": 139,
+      "source_sha256": "ec8c023cfff9621d4bd17d1f2bc6a7865dc53f4f4f09b576823a2a2421633ed4",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticDyadic.json",
+      "compile_seconds": 132.0,
+      "local_imports": [
+        "CubicSieve.AnalyticFactorization",
+        "CubicSieve.ExteriorKernel"
+      ]
+    },
+    {
+      "module": "CubicSieve.AnalyticExtraction",
+      "path": "CubicSieve/AnalyticExtraction.lean",
+      "physical_lines": 246,
+      "source_sha256": "9377f467131dd56772d3999c94ac2ec6d66493ac1778e12d3a5182c553c0eefd",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticExtraction.json",
+      "compile_seconds": 114.4,
+      "local_imports": [
+        "CubicSieve.AnalyticRowDecomposition",
+        "CubicSieve.ExteriorSieve"
+      ]
+    },
+    {
+      "module": "CubicSieve.AnalyticFactorization",
+      "path": "CubicSieve/AnalyticFactorization.lean",
+      "physical_lines": 218,
+      "source_sha256": "8dd86e5977c5ab9ba4b58260beaa45fa01d064a69fdb1f35520be3ef4e44fb0c",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticFactorization.json",
+      "compile_seconds": 187.8,
+      "local_imports": []
+    },
+    {
+      "module": "CubicSieve.AnalyticGcdBound",
+      "path": "CubicSieve/AnalyticGcdBound.lean",
+      "physical_lines": 132,
+      "source_sha256": "516cd3e48e77d4f2966af883030d284c84bec64891be3ffb12fd47ed75d50da4",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticGcdBound.json",
+      "compile_seconds": 118.6,
+      "local_imports": [
+        "CubicSieve.AnalyticGcdGram",
+        "CubicSieve.AnalyticDecay"
+      ]
+    },
+    {
+      "module": "CubicSieve.AnalyticGcdDefs",
+      "path": "CubicSieve/AnalyticGcdDefs.lean",
+      "physical_lines": 167,
+      "source_sha256": "187de5120b60f98576b1c4f6c55eb022585fe84a07b34aa0a4d34ffcb12aa0d2",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticGcdDefs.json",
+      "compile_seconds": 117.7,
+      "local_imports": [
+        "CubicSieve.AnalyticRowDecomposition",
+        "CubicSieve.AnalyticDyadic"
+      ]
+    },
+    {
+      "module": "CubicSieve.AnalyticGcdGram",
+      "path": "CubicSieve/AnalyticGcdGram.lean",
+      "physical_lines": 336,
+      "source_sha256": "ec94c03b1e4a0265ef717cfc6f89d753e2ab21717d3a749df699451b3ecacb9a",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticGcdGram.json",
+      "compile_seconds": 169.5,
+      "local_imports": [
+        "CubicSieve.AnalyticMoebius"
+      ]
+    },
+    {
+      "module": "CubicSieve.AnalyticGcdSeries",
+      "path": "CubicSieve/AnalyticGcdSeries.lean",
+      "physical_lines": 425,
+      "source_sha256": "bd105593e8eaa39e6237d8f9298e6b59a39f7a863352cc49ff0237982ff29d97",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticGcdSeries.json",
+      "compile_seconds": 175.2,
+      "local_imports": [
+        "CubicSieve.AnalyticGcdGram",
+        "CubicSieve.AnalyticSmoothingGaussian"
+      ]
+    },
+    {
+      "module": "CubicSieve.AnalyticGrowth",
+      "path": "CubicSieve/AnalyticGrowth.lean",
+      "physical_lines": 232,
+      "source_sha256": "b826aaa53edfc4ee81ee0736c0c88f9e8b15bf060e3f4f456f5b1eb4e3da1708",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticGrowth.json",
+      "compile_seconds": 66.8,
+      "local_imports": [
+        "CubicSieve.AnalyticExtraction",
+        "CubicSieve.AnalyticDyadic",
+        "CubicSieve.AnalyticOptimization"
+      ]
+    },
+    {
+      "module": "CubicSieve.AnalyticMoebius",
+      "path": "CubicSieve/AnalyticMoebius.lean",
+      "physical_lines": 117,
+      "source_sha256": "443717d34cc0947e4077dabba5ef4550573f3d588680ac0cbd835a60240215d3",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticMoebius.json",
+      "compile_seconds": 189.8,
+      "local_imports": [
+        "CubicSieve.AnalyticDivisors"
+      ]
+    },
+    {
+      "module": "CubicSieve.AnalyticOptimization",
+      "path": "CubicSieve/AnalyticOptimization.lean",
+      "physical_lines": 139,
+      "source_sha256": "aeabe57221369883cff4ceb7d8d5a0b4b9fd0742caa3a717d017cf81bbaa73c6",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticOptimization.json",
+      "compile_seconds": 58.6,
+      "local_imports": [
+        "CubicSieve.Bootstrap"
+      ]
+    },
+    {
+      "module": "CubicSieve.AnalyticRowDecomposition",
+      "path": "CubicSieve/AnalyticRowDecomposition.lean",
+      "physical_lines": 118,
+      "source_sha256": "56c168fdb48e88b9ff23ec6547e81e7127a37ead2942e2de5f4839995f727428",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticRowDecomposition.json",
+      "compile_seconds": 129.2,
+      "local_imports": [
+        "CubicSieve.AnalyticFactorization",
+        "CubicSieve.ExteriorKernel",
+        "CubicSieve.Algebra"
+      ]
+    },
+    {
+      "module": "CubicSieve.AnalyticSmoothingGaussian",
+      "path": "CubicSieve/AnalyticSmoothingGaussian.lean",
+      "physical_lines": 158,
+      "source_sha256": "0a3bc18daff5794c749c0ccd1fd8391a6281fd1a508ab5f2293dc3469041999f",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticSmoothingGaussian.json",
+      "compile_seconds": 150.9,
+      "local_imports": [
+        "CubicSieve.AnalyticSmoothingKernel",
+        "CubicSieve.ProfileLower"
+      ]
+    },
+    {
+      "module": "CubicSieve.AnalyticSmoothingKernel",
+      "path": "CubicSieve/AnalyticSmoothingKernel.lean",
+      "physical_lines": 161,
+      "source_sha256": "6607cf140de7eefd4bb7b9c6911d37ca60626fc6b684039746a894dceb272be2",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.AnalyticSmoothingKernel.json",
+      "compile_seconds": 118.6,
+      "local_imports": [
+        "CubicSieve.OrbitKernel",
+        "CubicSieve.ExteriorSieve"
+      ]
+    },
+    {
+      "module": "CubicSieve.ArithmeticOperatorAudit",
+      "path": "CubicSieve/ArithmeticOperatorAudit.lean",
+      "physical_lines": 28,
+      "source_sha256": "9605707a3fd0c489031e05b6dcebe9bea6380a81ec9095cf8f1bc7a8966f4c52",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.ArithmeticOperatorAudit.json",
+      "compile_seconds": 238.6,
+      "local_imports": [
+        "CubicSieve.GaussPoissonFinite",
+        "CubicSieve.OrbitDualNorm",
+        "CubicSieve.CoprimeGramDual"
+      ]
+    },
+    {
+      "module": "CubicSieve.Audit",
+      "path": "CubicSieve/Audit.lean",
+      "physical_lines": 63,
+      "source_sha256": "911ff9611b6263514951dff3739d4cc8e1e21e81fa4a4d9bab89bd5114b2d7a0",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": null,
+      "receipt": ".build/logs/check-Audit.json",
+      "compile_seconds": 74.7,
+      "local_imports": [
+        "CubicSieve.Algebra",
+        "CubicSieve.CubicConductors",
+        "CubicSieve.SkeletonBridge"
+      ]
+    },
+    {
+      "module": "CubicSieve.Bootstrap",
+      "path": "CubicSieve/Bootstrap.lean",
+      "physical_lines": 123,
+      "source_sha256": "5d2fe30745b5f67ba2435fe246d20cc2426ef99f7afbd218bf8995d907106367",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.Bootstrap.json",
+      "compile_seconds": 37.8,
+      "local_imports": [
+        "CubicSieve.Iteration"
+      ]
+    },
+    {
+      "module": "CubicSieve.Complete",
+      "path": "CubicSieve/Complete.lean",
+      "physical_lines": 161,
+      "source_sha256": "b00b2cc805aea072100f85be63337b5b21549388a298ae4201f930bea4563bb4",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.Complete.json",
+      "compile_seconds": 161.8,
+      "local_imports": [
+        "CubicSieve.GcdPoissonAssembly",
+        "CubicSieve.GaussianColumnBlocks",
+        "CubicSieve.Initial",
+        "CubicSieve.Endpoint"
+      ]
+    },
+    {
+      "module": "CubicSieve.CompleteAudit",
+      "path": "CubicSieve/CompleteAudit.lean",
+      "physical_lines": 32,
+      "source_sha256": "d40f5cc26746d7798207540a08f6e3153f975288b8416296c2816764840280da",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.CompleteAudit.json",
+      "compile_seconds": 83.3,
+      "local_imports": [
+        "CubicSieve.CompleteBridge"
+      ]
+    },
+    {
+      "module": "CubicSieve.CompleteBridge",
+      "path": "CubicSieve/CompleteBridge.lean",
+      "physical_lines": 17,
+      "source_sha256": "ddcd74688ad2d8cb5cb1fdcee41c4f3dbe959b1a84d8b77bfc477e6578d4232c",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.CompleteBridge.json",
+      "compile_seconds": 42.2,
+      "local_imports": [
+        "CubicSieve.Complete",
+        "CubicSieve.SkeletonBridge"
+      ]
+    },
+    {
+      "module": "CubicSieve.CoprimeBilinear",
+      "path": "CubicSieve/CoprimeBilinear.lean",
+      "physical_lines": 55,
+      "source_sha256": "b764f76823a49c4627c28b7b21ce4fab53d1fee05106c36038487d3d1f21162d",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.CoprimeBilinear.json",
+      "compile_seconds": 268.9,
+      "local_imports": [
+        "CubicSieve.CoprimeGramGeneral"
+      ]
+    },
+    {
+      "module": "CubicSieve.CoprimeGram",
+      "path": "CubicSieve/CoprimeGram.lean",
+      "physical_lines": 180,
+      "source_sha256": "b8774b2ce39120083db541c895c46b964c56e01f9563b6b57e07cffe2988ed6c",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.CoprimeGram.json",
+      "compile_seconds": 128.2,
+      "local_imports": [
+        "CubicSieve.CoprimeGramGeneral"
+      ]
+    },
+    {
+      "module": "CubicSieve.CoprimeGramDual",
+      "path": "CubicSieve/CoprimeGramDual.lean",
+      "physical_lines": 64,
+      "source_sha256": "04a026fc17662670db6285cfce1f2d635ebe3771b7cbf8cf782acba80ab2599f",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.CoprimeGramDual.json",
+      "compile_seconds": 253.9,
+      "local_imports": [
+        "CubicSieve.CoprimeGram",
+        "CubicSieve.AnalyticDualNorm"
+      ]
+    },
+    {
+      "module": "CubicSieve.CoprimeGramGeneral",
+      "path": "CubicSieve/CoprimeGramGeneral.lean",
+      "physical_lines": 207,
+      "source_sha256": "68c6535151305b5206635a90c06c4b3b55adf7f78984c80b7acf1f06f8127b28",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.CoprimeGramGeneral.json",
+      "compile_seconds": 66.3,
+      "local_imports": [
+        "CubicSieve.ExteriorSieve"
+      ]
+    },
+    {
+      "module": "CubicSieve.CubicCharacters",
+      "path": "CubicSieve/CubicCharacters.lean",
+      "physical_lines": 293,
+      "source_sha256": "efeffcc6770afd7b534ed2b95a63d5fb9c5a6ac1bd45250ee9135764e0d3f905",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.CubicCharacters.json",
+      "compile_seconds": 125.8,
+      "local_imports": [
+        "CubicSieve.ExteriorKernel"
+      ]
+    },
+    {
+      "module": "CubicSieve.CubicConductors",
+      "path": "CubicSieve/CubicConductors.lean",
+      "physical_lines": 198,
+      "source_sha256": "fe5a1dd67b84e04da582a03f85ac79bac550b7ec770a02e01c00d062d2621154",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.CubicConductors.json",
+      "compile_seconds": 119.2,
+      "local_imports": [
+        "CubicSieve.CubicCharacters"
+      ]
+    },
+    {
+      "module": "CubicSieve.Endpoint",
+      "path": "CubicSieve/Endpoint.lean",
+      "physical_lines": 35,
+      "source_sha256": "1a0ceb218fb637183043322a593e332cfaff6ce2dc62c7d0d5a41cd2bdeafb9c",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.Endpoint.json",
+      "compile_seconds": 116.8,
+      "local_imports": [
+        "CubicSieve.ExteriorSieve",
+        "CubicSieve.Improvement"
+      ]
+    },
+    {
+      "module": "CubicSieve.ExteriorKernel",
+      "path": "CubicSieve/ExteriorKernel.lean",
+      "physical_lines": 252,
+      "source_sha256": "0a775b318e7b3ddf86f545e81373c2b1e7a89cec7342a66e6969f959125aa291",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.ExteriorKernel.json",
+      "compile_seconds": 87.1,
+      "local_imports": []
+    },
+    {
+      "module": "CubicSieve.ExteriorSieve",
+      "path": "CubicSieve/ExteriorSieve.lean",
+      "physical_lines": 248,
+      "source_sha256": "e00e7c0c5426f2c588d0ba77f038069a9f70c59bec5c163946a9a116c1d7fe4c",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.ExteriorSieve.json",
+      "compile_seconds": 102.8,
+      "local_imports": [
+        "CubicSieve.ExteriorKernel",
+        "CubicSieve.FiniteDuality",
+        "CubicSieve.Bootstrap"
+      ]
+    },
+    {
+      "module": "CubicSieve.FiniteDuality",
+      "path": "CubicSieve/FiniteDuality.lean",
+      "physical_lines": 223,
+      "source_sha256": "c10f82d29d34af25bb300e2f6ea5275a97f2431a7098a9428d1dd985748bd07d",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.FiniteDuality.json",
+      "compile_seconds": 127.3,
+      "local_imports": []
+    },
+    {
+      "module": "CubicSieve.Gauss",
+      "path": "CubicSieve/Gauss.lean",
+      "physical_lines": 185,
+      "source_sha256": "664ca9f10677d312d33febca2ff6b8081eab99d6399be48785f8e999594e5eaf",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.Gauss.json",
+      "compile_seconds": 66.5,
+      "local_imports": []
+    },
+    {
+      "module": "CubicSieve.GaussCharacters",
+      "path": "CubicSieve/GaussCharacters.lean",
+      "physical_lines": 108,
+      "source_sha256": "7ddb7b52e6e6d26867ef1898256c10f8c9738aebae409f097796cf7f00589185",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.GaussCharacters.json",
+      "compile_seconds": 60.7,
+      "local_imports": [
+        "CubicSieve.GaussSquarefree"
+      ]
+    },
+    {
+      "module": "CubicSieve.GaussianColumnBlocks",
+      "path": "CubicSieve/GaussianColumnBlocks.lean",
+      "physical_lines": 153,
+      "source_sha256": "6394eb99897e64fd7954f443344154a9b648c9459f2a54c67695bbe245b1ecd9",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.GaussianColumnBlocks.json",
+      "compile_seconds": 156.3,
+      "local_imports": [
+        "CubicSieve.AnalyticDyadic",
+        "CubicSieve.AnalyticSmoothingGaussian"
+      ]
+    },
+    {
+      "module": "CubicSieve.GaussPair",
+      "path": "CubicSieve/GaussPair.lean",
+      "physical_lines": 180,
+      "source_sha256": "937b7ed965ffc4efc54e8ae8fd242218f2990bf57b3d31a3e25fc818d0862a8b",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.GaussPair.json",
+      "compile_seconds": 292.7,
+      "local_imports": [
+        "CubicSieve.GaussPairCRT",
+        "CubicSieve.GaussPoissonFinite"
+      ]
+    },
+    {
+      "module": "CubicSieve.GaussPairCRT",
+      "path": "CubicSieve/GaussPairCRT.lean",
+      "physical_lines": 302,
+      "source_sha256": "bb8ab8b36a6fae830222045777a3421acb890e7b4ddab8d00a100dc0c310c336",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.GaussPairCRT.json",
+      "compile_seconds": 30.2,
+      "local_imports": [
+        "CubicSieve.Gauss"
+      ]
+    },
+    {
+      "module": "CubicSieve.GaussPairFourier",
+      "path": "CubicSieve/GaussPairFourier.lean",
+      "physical_lines": 155,
+      "source_sha256": "e515edfeee898edaf7f4795c4237612f68cb6ee32be8425b71504ca25f964a0a",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.GaussPairFourier.json",
+      "compile_seconds": 196.6,
+      "local_imports": [
+        "CubicSieve.GaussPair",
+        "CubicSieve.GaussPairFourierCRT"
+      ]
+    },
+    {
+      "module": "CubicSieve.GaussPairFourierCRT",
+      "path": "CubicSieve/GaussPairFourierCRT.lean",
+      "physical_lines": 70,
+      "source_sha256": "9c584510db3727898d263516d8b2087fafc0ef0d4aca4b286eb1fcd0a862e7e1",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.GaussPairFourierCRT.json",
+      "compile_seconds": 77.4,
+      "local_imports": [
+        "CubicSieve.GaussPairCRT"
+      ]
+    },
+    {
+      "module": "CubicSieve.GaussPairLiteral",
+      "path": "CubicSieve/GaussPairLiteral.lean",
+      "physical_lines": 103,
+      "source_sha256": "d4ac770dd40109b5c6e5a6480aab9dcdc9f678c1250b8591c3c0d52fb0cfc7e9",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.GaussPairLiteral.json",
+      "compile_seconds": 128.8,
+      "local_imports": [
+        "CubicSieve.GaussPairFourier"
+      ]
+    },
+    {
+      "module": "CubicSieve.GaussPairOrbitalPoisson",
+      "path": "CubicSieve/GaussPairOrbitalPoisson.lean",
+      "physical_lines": 153,
+      "source_sha256": "18902d8b149fb9c4771d379633ee7c8932fb4151f17cfdced0f8f2f750982261",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.GaussPairOrbitalPoisson.json",
+      "compile_seconds": 115.3,
+      "local_imports": [
+        "CubicSieve.GaussPairLiteral"
+      ]
+    },
+    {
+      "module": "CubicSieve.GaussPoissonFinite",
+      "path": "CubicSieve/GaussPoissonFinite.lean",
+      "physical_lines": 125,
+      "source_sha256": "c903ed024103ed45cc720f417cbffdaa33cd0328d898b88512ecec7d8cb69680",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.GaussPoissonFinite.json",
+      "compile_seconds": 153.5,
+      "local_imports": [
+        "CubicSieve.GaussCharacters"
+      ]
+    },
+    {
+      "module": "CubicSieve.GaussSquarefree",
+      "path": "CubicSieve/GaussSquarefree.lean",
+      "physical_lines": 215,
+      "source_sha256": "2efcc29a9413701160c39360d5a6bf2b12d4d1981c62d58eb8ffcc706d7a8f3d",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.GaussSquarefree.json",
+      "compile_seconds": 105.2,
+      "local_imports": [
+        "CubicSieve.Gauss",
+        "CubicSieve.ExteriorKernel"
+      ]
+    },
+    {
+      "module": "CubicSieve.GcdPoissonAssembly",
+      "path": "CubicSieve/GcdPoissonAssembly.lean",
+      "physical_lines": 167,
+      "source_sha256": "2e7a929c43c46e04194880d8f1394b27adeb999cf1ff11274bfacf3c04d95a45",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.GcdPoissonAssembly.json",
+      "compile_seconds": 175.1,
+      "local_imports": [
+        "CubicSieve.PoissonEstimate",
+        "CubicSieve.AnalyticGcdSeries",
+        "CubicSieve.AnalyticGcdBound"
+      ]
+    },
+    {
+      "module": "CubicSieve.Improvement",
+      "path": "CubicSieve/Improvement.lean",
+      "physical_lines": 140,
+      "source_sha256": "9ac6940bbe54ec754fcbb2d32b240bdbb5148cacac20e741f0982ab6223db938",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.Improvement.json",
+      "compile_seconds": 41.9,
+      "local_imports": [
+        "CubicSieve.Bootstrap"
+      ]
+    },
+    {
+      "module": "CubicSieve.Initial",
+      "path": "CubicSieve/Initial.lean",
+      "physical_lines": 45,
+      "source_sha256": "453f221bd1a59dca07f3325c1d4c6474e25820fdc4085bec02d22cb30c36bc3f",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.Initial.json",
+      "compile_seconds": 117.0,
+      "local_imports": [
+        "CubicSieve.InitialGeneric",
+        "CubicSieve.PrimitiveCharactersCoefficients"
+      ]
+    },
+    {
+      "module": "CubicSieve.InitialArithmetic",
+      "path": "CubicSieve/InitialArithmetic.lean",
+      "physical_lines": 96,
+      "source_sha256": "26873415bfa1fb79f73331ccd8d2367df2107dd803a2a8966bf27aed7b9ccab0",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.InitialArithmetic.json",
+      "compile_seconds": 225.2,
+      "local_imports": [
+        "CubicSieve.ExteriorSieve"
+      ]
+    },
+    {
+      "module": "CubicSieve.InitialAudit",
+      "path": "CubicSieve/InitialAudit.lean",
+      "physical_lines": 25,
+      "source_sha256": "988d9809f27823db7bbbeeabb0ae57d1913db5b8be8a754ee763deee523b388a",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.InitialAudit.json",
+      "compile_seconds": 90.3,
+      "local_imports": [
+        "CubicSieve.Initial"
+      ]
+    },
+    {
+      "module": "CubicSieve.InitialGeneric",
+      "path": "CubicSieve/InitialGeneric.lean",
+      "physical_lines": 154,
+      "source_sha256": "a61b7a2b0908f0d719bc9e62f2e60bf37484120592086baf9a10a12d4aac5e4f",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.InitialGeneric.json",
+      "compile_seconds": 189.2,
+      "local_imports": [
+        "CubicSieve.InitialArithmetic",
+        "CubicSieve.LocalTypesCanonical"
+      ]
+    },
+    {
+      "module": "CubicSieve.Iteration",
+      "path": "CubicSieve/Iteration.lean",
+      "physical_lines": 88,
+      "source_sha256": "a69cc1530d9a91824eb1cc54df7fa85ee7db8a58ea9b65943e3c8cde9c2b9835",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.Iteration.json",
+      "compile_seconds": 30.5,
+      "local_imports": []
+    },
+    {
+      "module": "CubicSieve.LocalTypes",
+      "path": "CubicSieve/LocalTypes.lean",
+      "physical_lines": 100,
+      "source_sha256": "1cedfc929e57b0783ccae6348aa15d08721f44aeddf77ec8d938aa8ccf5773ea",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.LocalTypes.json",
+      "compile_seconds": 158.6,
+      "local_imports": []
+    },
+    {
+      "module": "CubicSieve.LocalTypesCanonical",
+      "path": "CubicSieve/LocalTypesCanonical.lean",
+      "physical_lines": 27,
+      "source_sha256": "06c6b4dd9a54d1d73c0b5d3696e4a40419cf1db034f196acc7a1e78a1129ae7a",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.LocalTypesCanonical.json",
+      "compile_seconds": 158.5,
+      "local_imports": [
+        "CubicSieve.LocalTypes"
+      ]
+    },
+    {
+      "module": "CubicSieve.OrbitDualNorm",
+      "path": "CubicSieve/OrbitDualNorm.lean",
+      "physical_lines": 81,
+      "source_sha256": "a0e794c8961ca046a2c3b800eb095bbb7f289cd3f86bf5efc04d2e415598559b",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.OrbitDualNorm.json",
+      "compile_seconds": 169.8,
+      "local_imports": [
+        "CubicSieve.OrbitKernel",
+        "CubicSieve.AnalyticDualNorm"
+      ]
+    },
+    {
+      "module": "CubicSieve.OrbitDyadic",
+      "path": "CubicSieve/OrbitDyadic.lean",
+      "physical_lines": 70,
+      "source_sha256": "ff5c248b4d05d0ad960649a5c59a3c05cdd14ac9b1d768a3ea18cd75a984f88d",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.OrbitDyadic.json",
+      "compile_seconds": 132.8,
+      "local_imports": [
+        "CubicSieve.OrbitRows",
+        "CubicSieve.AnalyticDyadic"
+      ]
+    },
+    {
+      "module": "CubicSieve.OrbitKernel",
+      "path": "CubicSieve/OrbitKernel.lean",
+      "physical_lines": 58,
+      "source_sha256": "fedd492bf6d350c432e594dfa1042a54903c1fc1d851e8bbb8c9b4af5f55f62d",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.OrbitKernel.json",
+      "compile_seconds": 187.8,
+      "local_imports": [
+        "CubicSieve.OrbitRows"
+      ]
+    },
+    {
+      "module": "CubicSieve.OrbitRows",
+      "path": "CubicSieve/OrbitRows.lean",
+      "physical_lines": 169,
+      "source_sha256": "cd4c6823e24e0d374ef81f678328322a97461c507de92ba9872b6e31161658c0",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.OrbitRows.json",
+      "compile_seconds": 218.5,
+      "local_imports": [
+        "CubicSieve.ExteriorKernel"
+      ]
+    },
+    {
+      "module": "CubicSieve.PoissonAudit",
+      "path": "CubicSieve/PoissonAudit.lean",
+      "physical_lines": 25,
+      "source_sha256": "55d7d8d335a0941f9b46ae0c7b13216c8a70327590db6193f8a2a01e6118c835",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.PoissonAudit.json",
+      "compile_seconds": 109.5,
+      "local_imports": [
+        "CubicSieve.GaussPairOrbitalPoisson",
+        "CubicSieve.ProfileGaussian"
+      ]
+    },
+    {
+      "module": "CubicSieve.PoissonBlocks",
+      "path": "CubicSieve/PoissonBlocks.lean",
+      "physical_lines": 138,
+      "source_sha256": "c3d9d243debf96d71f718deaa98864cd8f4c39393202a4ef56f6240de290c5b4",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.PoissonBlocks.json",
+      "compile_seconds": 150.1,
+      "local_imports": [
+        "CubicSieve.ProfileTransfer",
+        "CubicSieve.OrbitDualNorm",
+        "CubicSieve.CoprimeGram"
+      ]
+    },
+    {
+      "module": "CubicSieve.PoissonCoefficients",
+      "path": "CubicSieve/PoissonCoefficients.lean",
+      "physical_lines": 55,
+      "source_sha256": "5493268708599420757aee1652314c6dd7665223c4bbc263f8e7c82285a7dd1e",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.PoissonCoefficients.json",
+      "compile_seconds": 134.1,
+      "local_imports": [
+        "CubicSieve.GaussPair"
+      ]
+    },
+    {
+      "module": "CubicSieve.PoissonEstimate",
+      "path": "CubicSieve/PoissonEstimate.lean",
+      "physical_lines": 230,
+      "source_sha256": "fb481630cc40d6b130aba97f09d55a6419c4696d4cb7c367e8a63097e773620e",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.PoissonEstimate.json",
+      "compile_seconds": 195.3,
+      "local_imports": [
+        "CubicSieve.PoissonSmoothed",
+        "CubicSieve.PoissonTail"
+      ]
+    },
+    {
+      "module": "CubicSieve.PoissonOrigin",
+      "path": "CubicSieve/PoissonOrigin.lean",
+      "physical_lines": 134,
+      "source_sha256": "155273ec8cf762ee84dd24bf697cf52571879b4910924cc605d6c28a14c5f68e",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.PoissonOrigin.json",
+      "compile_seconds": 130.0,
+      "local_imports": [
+        "CubicSieve.GaussPairLiteral"
+      ]
+    },
+    {
+      "module": "CubicSieve.PoissonSmoothed",
+      "path": "CubicSieve/PoissonSmoothed.lean",
+      "physical_lines": 390,
+      "source_sha256": "7130d27941342f6be40ec8e246d70750f24d22c3ca7f6131227ab460e88f9849",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.PoissonSmoothed.json",
+      "compile_seconds": 152.0,
+      "local_imports": [
+        "CubicSieve.GaussPairOrbitalPoisson",
+        "CubicSieve.PoissonOrigin",
+        "CubicSieve.PoissonCoefficients",
+        "CubicSieve.ProfileSpectrum",
+        "CubicSieve.AnalyticSmoothingKernel"
+      ]
+    },
+    {
+      "module": "CubicSieve.PoissonTail",
+      "path": "CubicSieve/PoissonTail.lean",
+      "physical_lines": 102,
+      "source_sha256": "eb7e62dc5f1f668914190e2ab12905240c463c8fff35ada2764246d05c52d685",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.PoissonTail.json",
+      "compile_seconds": 145.8,
+      "local_imports": [
+        "CubicSieve.PoissonBlocks",
+        "CubicSieve.OrbitDyadic"
+      ]
+    },
+    {
+      "module": "CubicSieve.PrimitiveCharacters",
+      "path": "CubicSieve/PrimitiveCharacters.lean",
+      "physical_lines": 203,
+      "source_sha256": "c35b4907010cf6a820e6a4f22ab4611abd136751151be9ae26bd6febdbfd1ecd",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.PrimitiveCharacters.json",
+      "compile_seconds": 161.6,
+      "local_imports": [
+        "CubicSieve.CubicConductors"
+      ]
+    },
+    {
+      "module": "CubicSieve.PrimitiveCharactersCoefficients",
+      "path": "CubicSieve/PrimitiveCharactersCoefficients.lean",
+      "physical_lines": 143,
+      "source_sha256": "d0b3dd1d3aabd4ab7ba0e151044b669e774256fcb675c1758b5d1b5365da35b3",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.PrimitiveCharactersCoefficients.json",
+      "compile_seconds": 178.3,
+      "local_imports": [
+        "CubicSieve.PrimitiveCharacters"
+      ]
+    },
+    {
+      "module": "CubicSieve.Profile",
+      "path": "CubicSieve/Profile.lean",
+      "physical_lines": 89,
+      "source_sha256": "69d8b6868e655cc5ecc733e0c8a1b1a9b310ef7e023dccb75b2f38c046f2e8ee",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.Profile.json",
+      "compile_seconds": 166.3,
+      "local_imports": [
+        "CubicSieve.ProfileBridge",
+        "CubicSieve.ProfileLower"
+      ]
+    },
+    {
+      "module": "CubicSieve.ProfileBridge",
+      "path": "CubicSieve/ProfileBridge.lean",
+      "physical_lines": 84,
+      "source_sha256": "d72d52af4c91ac59e40f59443b668388c4c5747d904d4733e91ae65528d367d2",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.ProfileBridge.json",
+      "compile_seconds": 93.4,
+      "local_imports": [
+        "CubicSieve.ProfileDecay"
+      ]
+    },
+    {
+      "module": "CubicSieve.ProfileDecay",
+      "path": "CubicSieve/ProfileDecay.lean",
+      "physical_lines": 87,
+      "source_sha256": "4e061807234e8bfc38060cc54e3f5e86a68af3a7f3528fbc5880ef5301f89b5e",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.ProfileDecay.json",
+      "compile_seconds": 109.2,
+      "local_imports": []
+    },
+    {
+      "module": "CubicSieve.ProfileGaussian",
+      "path": "CubicSieve/ProfileGaussian.lean",
+      "physical_lines": 260,
+      "source_sha256": "b3fbbe6d8897f18ce427e854ccf26b229ce4abf20da6eca35889b6bd828c54a6",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.ProfileGaussian.json",
+      "compile_seconds": 188.1,
+      "local_imports": [
+        "CubicSieve.Profile"
+      ]
+    },
+    {
+      "module": "CubicSieve.ProfileLower",
+      "path": "CubicSieve/ProfileLower.lean",
+      "physical_lines": 166,
+      "source_sha256": "6c9e23ebdcd2ab901da7f244efa13a136af199d4dc04b5d00b0271358aea811a",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.ProfileLower.json",
+      "compile_seconds": 187.0,
+      "local_imports": [
+        "CubicSieve.ProfileTest"
+      ]
+    },
+    {
+      "module": "CubicSieve.ProfileSeparation",
+      "path": "CubicSieve/ProfileSeparation.lean",
+      "physical_lines": 129,
+      "source_sha256": "e420b6bdb1558e8966e21a4e1e8b2f6470e5e808479cb731045c2c39200ced28",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.ProfileSeparation.json",
+      "compile_seconds": 144.9,
+      "local_imports": [
+        "CubicSieve.ProfileSpectrum"
+      ]
+    },
+    {
+      "module": "CubicSieve.ProfileSpectrum",
+      "path": "CubicSieve/ProfileSpectrum.lean",
+      "physical_lines": 275,
+      "source_sha256": "694936cb8981c838232a49bd7d0b3e4acdee069372aa1c3f088243fddf292f98",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.ProfileSpectrum.json",
+      "compile_seconds": 167.6,
+      "local_imports": [
+        "CubicSieve.Profile",
+        "CubicSieve.ProfileGaussian"
+      ]
+    },
+    {
+      "module": "CubicSieve.ProfileTest",
+      "path": "CubicSieve/ProfileTest.lean",
+      "physical_lines": 146,
+      "source_sha256": "6f8669073cf8a1d661780b630efbe89ff5460e68059d2a48963b838f80361fb7",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.ProfileTest.json",
+      "compile_seconds": 70.5,
+      "local_imports": []
+    },
+    {
+      "module": "CubicSieve.ProfileTransfer",
+      "path": "CubicSieve/ProfileTransfer.lean",
+      "physical_lines": 471,
+      "source_sha256": "2a68c688460ec51fb877b6fbdf8144a2182d6a2f9db1fba10a04abe2d8f9abde",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.ProfileTransfer.json",
+      "compile_seconds": 141.6,
+      "local_imports": [
+        "CubicSieve.ProfileSeparation",
+        "CubicSieve.CoprimeBilinear"
+      ]
+    },
+    {
+      "module": "CubicSieve.SkeletonBridge",
+      "path": "CubicSieve/SkeletonBridge.lean",
+      "physical_lines": 38,
+      "source_sha256": "286d7ce6aff666f4fe1bdad652bbd901f9e53576ecb6fdc2221b1503b3b569df",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.SkeletonBridge.json",
+      "compile_seconds": 39.3,
+      "local_imports": [
+        "CubicSieve.Endpoint"
+      ]
+    },
+    {
+      "module": "CubicSieve.TailAudit",
+      "path": "CubicSieve/TailAudit.lean",
+      "physical_lines": 21,
+      "source_sha256": "2aed0af38b95508f094203ef29b7a8a1eeb3542d9347727e5783a7a1be52c21e",
+      "successful_current_source_receipt": true,
+      "direct_import_fingerprint_current": true,
+      "receipt": ".build/logs/CubicSieve.TailAudit.json",
+      "compile_seconds": 146.1,
+      "local_imports": [
+        "CubicSieve.PoissonTail",
+        "CubicSieve.AnalyticSmoothingKernel"
+      ]
+    }
+  ]
+}
