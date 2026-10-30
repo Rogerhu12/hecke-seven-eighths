@@ -105,6 +105,7 @@ theorem reflectedProfile_eq (θ : HeckeCharacter K)
 theorem reflectedProfile_eq_directProfile_inv (θ : HeckeCharacter K)
     (v : {v : InfinitePlace K // v.IsComplex}) (c : ℝ) :
     reflectedProfile K θ v c = directProfile K θ⁻¹ v c := by
+  funext t
   simp [reflectedProfile, directProfile, archReflectedProfile,
     archDirectProfile, archExponent, heckeComplexWeight_inv,
     heckeComplexParameter_inv, archWeight_neg]

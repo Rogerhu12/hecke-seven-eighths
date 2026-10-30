@@ -66,9 +66,10 @@ theorem projectPrimePhase_mk (p : ExteriorPrime K S) (a : 𝓞 K) :
       sLocalPrincipalPhase K S
         ((algebraMap (𝓞 K) (S.integer K) a : K) /
           (D.generator (exteriorPrimeIdeal K S p) : K)) := by
-  unfold projectPrimePhase
-  rw [transportCharacter_apply, sIntegerResidueEquiv_mk,
-    thetaPrincipalAddCharacter_mk]
+  change thetaPrincipalAddCharacter K S D (exteriorPrimeIdeal K S p)
+    (Ideal.Quotient.mk _ (algebraMap (𝓞 K) (S.integer K) a)) = _
+  exact thetaPrincipalAddCharacter_mk K S D (exteriorPrimeIdeal K S p)
+    (algebraMap (𝓞 K) (S.integer K) a)
 
 private theorem primeDivisor_eq (p : ExteriorPrime K S)
     (q : idealPrimeDivisors K p.val.asIdeal) : q.val = p.val := by
@@ -87,6 +88,12 @@ theorem thetaPrimeQuotientFunction_eq (p : ExteriorPrime K S)
       (sIntegerResidueEquiv K S p.val.asIdeal
         (sIntegerSexticResidue_coprime K S p.val p.property) x) =
       thetaPrimeCharacter K S D p x := by
+  have hpS : ∀ q : HeightOneSpectrum (𝓞 K), q.asIdeal ∣ p.val.asIdeal → q ∉ S := by
+    simpa only [exteriorPrimeIdeal] using (exteriorPrimeIdeal K S p).property
+  change sIntegerSexticIdealQuotientFunction K S D.root6 D.primitive6 D.embedding
+      p.val.asIdeal p.val.ne_bot hpS (fun q hq => D.away_six q (hpS q hq))
+      (sIntegerResidueEquiv K S p.val.asIdeal
+        (sIntegerSexticResidue_coprime K S p.val p.property) x) = _
   let p₀ : idealPrimeDivisors K p.val.asIdeal := ⟨p.val, dvd_rfl⟩
   letI : Unique (idealPrimeDivisors K p.val.asIdeal) :=
     { default := p₀
@@ -109,21 +116,40 @@ theorem thetaGamma_two_eq_gammaTwo (p : ExteriorPrime K S) :
     thetaGamma K S D (exteriorPrimeIdeal K S p) 2 =
       HeckeSkeleton.ThetaLocal.ResidueField.gammaTwo
         (thetaPrimeCharacter K S D p) (projectPrimePhase K S D p) := by
-  letI : Finite (ThetaQuotient K S (exteriorPrimeIdeal K S p)) :=
+  let Q := ThetaQuotient K S (exteriorPrimeIdeal K S p)
+  letI : Finite Q :=
     finite_sIntegerSexticIdealQuotient K S (exteriorPrimeIdeal K S p).val.val
       (nonZeroDivisors.coe_ne_zero (exteriorPrimeIdeal K S p).val)
       (exteriorPrimeIdeal K S p).property
-  letI : Fintype (ThetaQuotient K S (exteriorPrimeIdeal K S p)) := Fintype.ofFinite _
-  unfold thetaGamma HeckeSkeleton.ThetaLocal.ResidueField.gammaTwo gaussSum
+  letI : Fintype Q := Fintype.ofFinite _
+  let e : (𝓞 K ⧸ p.val.asIdeal) ≃+* Q :=
+    sIntegerResidueEquiv K S p.val.asIdeal
+      (sIntegerSexticResidue_coprime K S p.val p.property)
+  let f : Q → ℂ :=
+    sIntegerSexticIdealQuotientFunction K S D.root6 D.primitive6 D.embedding
+      (exteriorPrimeIdeal K S p).val.val
+      (nonZeroDivisors.coe_ne_zero (exteriorPrimeIdeal K S p).val)
+      (exteriorPrimeIdeal K S p).property
+      (fun q hq => D.away_six q ((exteriorPrimeIdeal K S p).property q hq))
+  let ψQ : AddChar Q ℂ :=
+    thetaPrincipalAddCharacter K S D (exteriorPrimeIdeal K S p)
+  have hsum : (∑ x : Q, f x ^ 2 * ψQ x) =
+      gaussSum (thetaPrimeCharacter K S D p ^ 2) (projectPrimePhase K S D p) := by
+    calc
+      _ = ∑ x : 𝓞 K ⧸ p.val.asIdeal, f (e x) ^ 2 * ψQ (e x) :=
+        (e.toEquiv.sum_comp (fun x => f x ^ 2 * ψQ x)).symm
+      _ = _ := by
+        unfold gaussSum
+        apply Finset.sum_congr rfl
+        intro x _
+        rw [show f (e x) = thetaPrimeCharacter K S D p x from
+          thetaPrimeQuotientFunction_eq K S D p x]
+        rw [MulChar.pow_apply' _ (by decide : (2 : ℕ) ≠ 0)]
+        rfl
+  change (Real.sqrt (p.val.asIdeal.absNorm : ℝ) : ℂ)⁻¹ *
+    (∑ x : Q, f x ^ 2 * ψQ x) = _
+  rw [hsum]
+  unfold HeckeSkeleton.ThetaLocal.ResidueField.gammaTwo
   rw [residue_card_eq_absNorm K S p]
-  congr 1
-  let e := sIntegerResidueEquiv K S p.val.asIdeal
-    (sIntegerSexticResidue_coprime K S p.val p.property)
-  symm
-  apply Fintype.sum_equiv e.toEquiv
-  intro x
-  rw [thetaPrimeQuotientFunction_eq K S D p x]
-  rw [MulChar.pow_apply' _ (by decide : (2 : ℕ) ≠ 0)]
-  rfl
 
 end HeckeGeneral.ThetaSkeleton.Global
