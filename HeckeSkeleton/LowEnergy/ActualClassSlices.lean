@@ -40,7 +40,7 @@ theorem frequencyClass_eq_block (d : MarkedDatum K S) (i : ReflectionIndex K S d
         (generatorLocalClass K S D (activeMarkedIdeal K S d i))
         (generatorLocalClass K S D i.c) (generatorLocalClass K S D i.n) := by
   unfold frequencyClass blockFrequency frozenFrequencyClass
-  ac_rfl
+  simp only [mul_assoc, mul_left_comm, mul_comm]
 
 /-- Every function of the actual local-frequency class has an exact
 componentwise expansion.  The masks are respectively row-only, mark-only
@@ -74,7 +74,8 @@ theorem kernel_frequency_expansion [Fintype (SixthLocalClasses K S)]
         rowMask q (generatorLocalClass K S D d.moving) *
         markMask q (generatorLocalClass K S D (activeMarkedIdeal K S d i)) *
         columnMask q (generatorLocalClass K S D i.c) (generatorLocalClass K S D i.n) :=
-  frequency_function_expansion K S D d i _
+  frequency_function_expansion K S D d i
+    (fun σ => mellinReflectionKernel K S F θ (QuotientGroup.mk d.rowUnit) σ V 0 y)
 
 #print axioms frequencyClass_eq_block
 #print axioms frequency_function_expansion

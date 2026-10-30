@@ -34,6 +34,7 @@ variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 /-- Positivity belongs to the actual ideal dictionary, before reflection
 states or cube columns are introduced. -/
 theorem exteriorNorm_pos (A : ExteriorIdeal K S) : 0 < exteriorNorm K S A := by
+  change (0 : ℝ) < (A.val.val.absNorm : ℝ)
   exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors A.val
 
 @[simp] theorem emptyPrimeIdeal_val :

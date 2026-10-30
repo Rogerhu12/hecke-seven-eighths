@@ -1,0 +1,6 @@
+'HeckeSkeleton.LowEnergy.ActualRawHybrid.actual_hybrid_energy_from_two_sieves' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.ActualRawHybrid.actual_frozen_hybrid_energy_from_two_sieves' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

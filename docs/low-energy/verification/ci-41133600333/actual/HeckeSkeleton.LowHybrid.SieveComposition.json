@@ -1,0 +1,31 @@
+{
+  "module": "HeckeSkeleton.LowHybrid.SieveComposition",
+  "source": "HeckeSkeleton/LowHybrid/SieveComposition.lean",
+  "cache_schema": 2,
+  "source_sha256": "b59601851cb677b730d0927d1b423140a98c601167cd580813662c778b11bbb9",
+  "exit_code": 0,
+  "seconds": 1.843,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeSkeleton.LowHybrid.CommonTactics": {
+      ".olean": "5c59cf67a8d549c35e0ebbb3bc0c4f10b962c6c63a890796846960d583017d20"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "2422334080d3cce0eb4949b634a422742aa8f4d30ae820c97795532eb6d39c7f"
+  },
+  "audit_ok": true,
+  "diagnostic_timeout": false,
+  "log_sha256": "421835a38f24476e69b972aeec62d476df669d5d9692ac094654ccd28c3854c6",
+  "local_dependency_hashes": {
+    "HeckeSkeleton.LowHybrid.CommonTactics": "5c59cf67a8d549c35e0ebbb3bc0c4f10b962c6c63a890796846960d583017d20"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

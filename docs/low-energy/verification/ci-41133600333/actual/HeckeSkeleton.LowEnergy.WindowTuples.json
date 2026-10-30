@@ -1,0 +1,47 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.WindowTuples",
+  "source": "HeckeSkeleton/LowEnergy/WindowTuples.lean",
+  "cache_schema": 2,
+  "source_sha256": "c8ce8280dc4e6164ed75ab79447e5fa1101473a1c94a478c8b0f824a2951d36f",
+  "exit_code": 0,
+  "seconds": 6.904,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeSkeleton.LowEnergy.TupleCore": {
+      ".olean": "b27bda53409240419beaee789c924a1ec49ed996d577647f3fe09a55475082e5"
+    },
+    "HeckeSkeleton.LowEnergy.DyadicReindex": {
+      ".olean": "463021d684d931c9806e155c84b72512c1e07801b0c6e48bb5d244138cc48bdd"
+    },
+    "HeckeSkeleton.LowEnergy.SlotTuples": {
+      ".olean": "6bd749d7152458e055f0175a8d80e7f8767ed8d38a1f71d73c6599167d4a5e1c"
+    },
+    "HeckeGeneral.Analysis.PhysicalProbeData": {
+      ".olean": "ab4eebd2e09b10e2842c22e97d3af6586284a0139752c20f19cd2e201a4ab955"
+    },
+    "HeckeGeneral.Analysis.IdealSquarefreeSupport": {
+      ".olean": "97f135c023cbefd39998bbd55934ccf3d4b67a2dcbde7eee3c35005ed75bd45c"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "890a20ebde3ab0bcf83a203b0188804cad8f99f43383d72d56463aa57a7927a8"
+  },
+  "audit_ok": true,
+  "diagnostic_timeout": false,
+  "log_sha256": "c601c3d8b9447f826fbb225633b174e166ce82790a90855f5eee0109d0ce1269",
+  "local_dependency_hashes": {
+    "HeckeSkeleton.LowEnergy.TupleCore": "b27bda53409240419beaee789c924a1ec49ed996d577647f3fe09a55475082e5",
+    "HeckeSkeleton.LowEnergy.DyadicReindex": "463021d684d931c9806e155c84b72512c1e07801b0c6e48bb5d244138cc48bdd",
+    "HeckeSkeleton.LowEnergy.SlotTuples": "6bd749d7152458e055f0175a8d80e7f8767ed8d38a1f71d73c6599167d4a5e1c",
+    "HeckeGeneral.Analysis.PhysicalProbeData": "ab4eebd2e09b10e2842c22e97d3af6586284a0139752c20f19cd2e201a4ab955",
+    "HeckeGeneral.Analysis.IdealSquarefreeSupport": "97f135c023cbefd39998bbd55934ccf3d4b67a2dcbde7eee3c35005ed75bd45c"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

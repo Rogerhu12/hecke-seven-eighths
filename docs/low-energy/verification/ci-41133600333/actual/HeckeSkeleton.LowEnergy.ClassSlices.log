@@ -1,0 +1,3 @@
+'HeckeSkeleton.LowEnergy.ClassSlices.class_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.ClassSlices.originalRow_eq_sliced' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.ClassSlices.originalRow_energy_le' depends on axioms: [propext, Classical.choice, Quot.sound]

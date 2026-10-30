@@ -1,0 +1,16 @@
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/ActualSieveDictionary.lean:58:8: warning: automatically included section variable(s) unused in theorem `HeckeSkeleton.LowEnergy.ActualSieveDictionary.mem_liftIdeals`:
+  [NumberField K]
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [NumberField K] [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+'HeckeSkeleton.LowEnergy.ActualSieveDictionary.sum_liftIdeals' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.ActualSieveDictionary.ordinaryQuadratic_of_exterior' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.ActualSieveDictionary.ordinaryCubic_of_exterior' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

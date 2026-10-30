@@ -1,0 +1,25 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.TupleCore",
+  "source": "HeckeSkeleton/LowEnergy/TupleCore.lean",
+  "cache_schema": 2,
+  "source_sha256": "97bda35566a1ee9e0ea32ab48a1d30144f21b53611f3da6ce2b795c28692c843",
+  "exit_code": 0,
+  "seconds": 1.594,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {},
+  "output_artifact_hashes": {
+    ".olean": "b27bda53409240419beaee789c924a1ec49ed996d577647f3fe09a55475082e5"
+  },
+  "audit_ok": true,
+  "diagnostic_timeout": false,
+  "log_sha256": "045ce1307aa4e4a40d3cf297d72eb03b7f6bdb65d0da9745d641815dbe4740d5",
+  "local_dependency_hashes": {},
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

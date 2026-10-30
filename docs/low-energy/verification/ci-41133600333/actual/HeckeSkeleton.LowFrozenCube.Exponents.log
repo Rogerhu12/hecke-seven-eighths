@@ -1,0 +1,9 @@
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowFrozenCube/Exponents.lean:59:2: warning: `simp` already closes the goal
+
+Hint: Use `simp` instead of `simpa`:
+  [apply] simp [h]
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+'HeckeSkeleton.LowFrozenCube.frozenExponent_decomposition' depends on axioms: [propext, Quot.sound]
+'HeckeSkeleton.LowFrozenCube.frozenExponent_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowFrozenCube.canonicalPair_admissible' depends on axioms: [propext, Quot.sound]

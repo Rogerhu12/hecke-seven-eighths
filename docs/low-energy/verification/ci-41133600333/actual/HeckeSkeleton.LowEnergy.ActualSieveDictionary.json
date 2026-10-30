@@ -1,0 +1,31 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.ActualSieveDictionary",
+  "source": "HeckeSkeleton/LowEnergy/ActualSieveDictionary.lean",
+  "cache_schema": 2,
+  "source_sha256": "f58fd9887be68209382570e91ebe3c8c4856bcf3bf8b74b514cbd1a24b5218c8",
+  "exit_code": 0,
+  "seconds": 3.908,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeSkeleton.LowEnergy.ActualSymbols": {
+      ".olean": "b8a0bc6fc4feb26dcdf06f1a24400162244b9712da807ad67bd1929faff771c8"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "53a71cd2dfaf7973efe96f8457c2b62defb0959c513d9df33b53221cc06834dc"
+  },
+  "audit_ok": true,
+  "diagnostic_timeout": false,
+  "log_sha256": "3deacba68eeea25e789dca4eb4eb794d379d70125a94fba26f453c76739a5b1e",
+  "local_dependency_hashes": {
+    "HeckeSkeleton.LowEnergy.ActualSymbols": "b8a0bc6fc4feb26dcdf06f1a24400162244b9712da807ad67bd1929faff771c8"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

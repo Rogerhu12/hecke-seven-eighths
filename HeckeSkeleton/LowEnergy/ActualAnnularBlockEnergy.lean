@@ -38,6 +38,7 @@ variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 variable (D : ThetaArithmeticData K S)
 
 theorem exteriorNorm_one_le (I : ExteriorIdeal K S) : 1 ≤ exteriorNorm K S I := by
+  change (1 : ℝ) ≤ (I.val.val.absNorm : ℝ)
   have h : 1 ≤ I.val.val.absNorm := Ideal.absNorm_pos_of_nonZeroDivisors I.val
   exact_mod_cast h
 

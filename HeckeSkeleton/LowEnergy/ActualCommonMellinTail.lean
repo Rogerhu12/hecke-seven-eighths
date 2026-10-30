@@ -88,7 +88,11 @@ theorem continuous_amplitude (hF : FiniteMellinAdmissible K S F)
   have hσ : -(1 / 3 : ℝ) < line Y := by linarith [(line_bounds Y).1]
   have h := (continuous_fz_line hF θ u κ V 0 (by norm_num : (0 : ℝ) < 1) hσ).const_mul
     ((2 * (Real.pi : ℂ))⁻¹)
-  simpa only [← amplitude_eq_fz, vertical] using h
+  have heq : amplitude F θ u κ V Y =
+      (fun t : ℝ => (2 * (Real.pi : ℂ))⁻¹ * fz F θ u κ V 0 1 (vertical Y t)) :=
+    funext (fun t => amplitude_eq_fz (F := F) θ u κ V Y t)
+  rw [heq]
+  simpa only [vertical] using h
 
 /-- Pointwise decay with a fixed seminorm.  The scale `Y` is absent from the
 constant and from the majorant. -/
@@ -116,7 +120,7 @@ theorem amplitude_uniform_decay
       Iint V j (line Y) ≤ testSeminorm V.toFun (order K p) 2 := by
     unfold line
     split_ifs
-    · exact Iint_left_le V j (order K p) hj 2
+    · simpa only [neg_div] using Iint_left_le V j (order K p) hj 2
     · exact Iint_right_le V j (order K p) hj 2
   have hIsum : Iint V 0 (line Y) + Iint V (order K p) (line Y) ≤
       2 * testSeminorm V.toFun (order K p) 2 := by
@@ -142,7 +146,7 @@ theorem amplitude_uniform_decay
     have h' : ‖fz F θ u κ V 0 1 (vertical Y t)‖ ≤
         CM * (2 ^ (order K p) * (Iint V 0 (line Y) + Iint V (order K p) (line Y))) *
           (1 + |t|) ^ (4 * ncx K * line Y + (0 : ℝ) - (order K p : ℕ)) := by
-      simpa only [Real.one_rpow, mul_one, vertical] using h
+      simpa only [Real.one_rpow, mul_one, vertical, Nat.cast_zero] using h
     refine h'.trans ?_
     exact mul_le_mul
       (mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hIsum (by positivity)) hCM)

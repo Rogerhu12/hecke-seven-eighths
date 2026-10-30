@@ -308,24 +308,35 @@ theorem target_marked_slot_split (ψ : HeckeCharacter K)
       inactiveTwistedWeight K S ψ g Z ((Finset.univ \ J) \ A) b *
         ∑ a ∈ activeTuples K S g T Z A,
           activeWeight K S ψ g Z A a * f (SlotTuples.fill J A p a b) := by
-  rw [SlotTuples.sum_pi_fixed_active_split _ J A hA p
-    (fun i _ => Fintype.mem_piFinset.mp hp i)]
-  apply Finset.sum_congr rfl
-  intro b hb
-  rw [Finset.mul_sum]
-  apply Finset.sum_congr rfl
-  intro a ha
-  have ht := SlotTuples.fill_mem_piFinset
+  have hsplit := SlotTuples.sum_pi_fixed_active_split
     (fun i => primeWindow K S g T Z i) J A hA p
-    (fun i _ => Fintype.mem_piFinset.mp hp i) a b ha hb
-  have hw := target_weights_prefactor_split K S ψ g T Z
-    (SlotTuples.fill J A p a b) ht (Finset.univ \ J) A hA
-  have ha' : (fun i : A => SlotTuples.fill J A p a b i) = a :=
-    funext (SlotTuples.fill_active J A hA p a b)
-  have hb' : (fun i : ↥((Finset.univ \ J) \ A) => SlotTuples.fill J A p a b i) = b :=
-    funext (SlotTuples.fill_inactive J A p a b)
-  rw [hw, ha', hb']
-  ring
+    (fun i _ => Fintype.mem_piFinset.mp hp i)
+    (fun t => (∏ i ∈ Finset.univ \ J, windowWeight K S g Z i (t i)) *
+      conj (heckeIdealCoefficient K ψ (subsetPrimeIdeal K S t (Finset.univ \ J)).val) *
+      (∏ q ∈ (Finset.univ \ J).image t \ A.image t,
+        (q.val.asIdeal.absNorm : ℂ)⁻¹) * f t)
+  refine Eq.trans ?_ (hsplit.trans ?_)
+  · apply Finset.sum_congr rfl
+    intro t ht
+    by_cases hfix : ∀ i ∈ J, t i = p i
+    · simp only [if_pos hfix]
+    · simp only [if_neg hfix]
+  · apply Finset.sum_congr rfl
+    intro b hb
+    rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl
+    intro a ha
+    have ht := SlotTuples.fill_mem_piFinset
+      (fun i => primeWindow K S g T Z i) J A hA p
+      (fun i _ => Fintype.mem_piFinset.mp hp i) a b ha hb
+    have hw := target_weights_prefactor_split K S ψ g T Z
+      (SlotTuples.fill J A p a b) ht (Finset.univ \ J) A hA
+    have ha' : (fun i : A => SlotTuples.fill J A p a b i) = a :=
+      funext (SlotTuples.fill_active J A hA p a b)
+    have hb' : (fun i : ↥((Finset.univ \ J) \ A) => SlotTuples.fill J A p a b i) = b :=
+      funext (SlotTuples.fill_inactive J A p a b)
+    rw [hw, ha', hb']
+    ring
 
 /-- Active reflection prime subsets can be reindexed by their actual
 slot subsets. Disjoint physical windows make this reindexing injective. -/

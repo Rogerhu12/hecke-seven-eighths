@@ -1,0 +1,9 @@
+'HeckeSkeleton.LowEnergy.MellinEnergy.finite_rows_integral_minkowski' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.MellinEnergy.finite_rows_common_profile_scalar' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.MellinEnergy.finite_sum_profile_integral' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

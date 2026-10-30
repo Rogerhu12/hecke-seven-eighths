@@ -1,0 +1,9 @@
+'HeckeSkeleton.LowEnergy.KeepOriginalRow.masked_columns_reindex' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.KeepOriginalRow.reconstructed_column_factorization' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.KeepOriginalRow.reconstructedRow_eq_normalForm' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

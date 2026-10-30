@@ -1,0 +1,31 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.OriginalRowNormalForm",
+  "source": "HeckeSkeleton/LowEnergy/OriginalRowNormalForm.lean",
+  "cache_schema": 2,
+  "source_sha256": "707f797038f6b9c115711c3701b4229d5faf8edf6c8984be19310051b32e49a5",
+  "exit_code": 0,
+  "seconds": 2.715,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeSkeleton.LowEnergy.KeepOriginalRow": {
+      ".olean": "3afb983d63503e5e0f13fe87f5b941b354d6e4e3ab01e564fb4789611601197e"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "8da690bf3484d6df2d54657ad8bdce4153e44e028fa751365978c543feea67cd"
+  },
+  "audit_ok": true,
+  "diagnostic_timeout": false,
+  "log_sha256": "15110e7dc16fcf91f1947a28dda9ca4a0bc72c28d6b67600de57ee26ff40ac5b",
+  "local_dependency_hashes": {
+    "HeckeSkeleton.LowEnergy.KeepOriginalRow": "3afb983d63503e5e0f13fe87f5b941b354d6e4e3ab01e564fb4789611601197e"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

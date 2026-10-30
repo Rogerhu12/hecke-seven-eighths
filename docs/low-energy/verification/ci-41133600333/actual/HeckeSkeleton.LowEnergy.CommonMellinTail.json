@@ -1,0 +1,31 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.CommonMellinTail",
+  "source": "HeckeSkeleton/LowEnergy/CommonMellinTail.lean",
+  "cache_schema": 2,
+  "source_sha256": "7d47587515bcd1822f67fba469870029bc4d3dbbb257ee740db3d0fb3fb84b91",
+  "exit_code": 0,
+  "seconds": 2.665,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeSkeleton.LowEnergy.CommonMellin": {
+      ".olean": "cbfc86a501ff3ad073f0e8764beed98197b1d1d39ccd5884a9650c03d2455e47"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "8de59ae7f90959af043589e1ae9dbfa1c67ced46f2cc4cd18275e173fa70c252"
+  },
+  "audit_ok": true,
+  "diagnostic_timeout": false,
+  "log_sha256": "8bfe7e36e5e7f9c3069d2f1546b9371b00ef6fa5bc340200b3b2e450b21860ad",
+  "local_dependency_hashes": {
+    "HeckeSkeleton.LowEnergy.CommonMellin": "cbfc86a501ff3ad073f0e8764beed98197b1d1d39ccd5884a9650c03d2455e47"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

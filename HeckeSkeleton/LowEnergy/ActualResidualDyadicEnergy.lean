@@ -48,8 +48,8 @@ theorem residualIndex_bounds (I : ExteriorIdeal K S) :
     (2 : ℝ) ^ residualIndex K S I ≤ exteriorNorm K S (exteriorResidualPart K S I) ∧
       exteriorNorm K S (exteriorResidualPart K S I) <
         2 * (2 : ℝ) ^ residualIndex K S I := by
-  have hn : 0 < (exteriorResidualPart K S I).val.val.absNorm := by
-    exact_mod_cast exteriorNorm_pos K S (exteriorResidualPart K S I)
+  have hn : 0 < (exteriorResidualPart K S I).val.val.absNorm :=
+    Ideal.absNorm_pos_of_nonZeroDivisors (exteriorResidualPart K S I).val
   simpa only [residualIndex, exteriorNorm, pow_succ, mul_comm] using
     DyadicReindex.index_bounds_real
       (fun k : ExteriorIdeal K S => k.val.val.absNorm) hn

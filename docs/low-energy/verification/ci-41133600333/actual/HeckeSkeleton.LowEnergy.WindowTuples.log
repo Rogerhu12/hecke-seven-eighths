@@ -1,0 +1,73 @@
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/WindowTuples.lean:56:0: warning: automatically included section variable(s) unused in theorem `HeckeSkeleton.LowEnergy.WindowTuples.window_weight_ne_zero`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/WindowTuples.lean:120:0: warning: automatically included section variable(s) unused in theorem `HeckeSkeleton.LowEnergy.WindowTuples.primeSetIdeal_injective`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/WindowTuples.lean:146:8: warning: automatically included section variable(s) unused in theorem `HeckeSkeleton.LowEnergy.WindowTuples.activeIdeal_restrict`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/WindowTuples.lean:173:0: warning: automatically included section variable(s) unused in theorem `HeckeSkeleton.LowEnergy.WindowTuples.activeIdeal_squarefree`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/WindowTuples.lean:179:0: warning: automatically included section variable(s) unused in theorem `HeckeSkeleton.LowEnergy.WindowTuples.activeIdeal_norm_product`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/WindowTuples.lean:409:0: warning: automatically included section variable(s) unused in theorem `HeckeSkeleton.LowEnergy.WindowTuples.idealCoefficient_norm_le`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/WindowTuples.lean:443:15: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/WindowTuples.lean:444:15: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/WindowTuples.lean:430:0: warning: automatically included section variable(s) unused in theorem `HeckeSkeleton.LowEnergy.WindowTuples.selected_tuple_sum`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/WindowTuples.lean:455:0: warning: automatically included section variable(s) unused in theorem `HeckeSkeleton.LowEnergy.WindowTuples.exists_activeWeight_bound`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+'HeckeSkeleton.LowEnergy.WindowTuples.exists_profile_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.WindowTuples.window_weight_ne_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.WindowTuples.window_norm_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.WindowTuples.window_tuple_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.WindowTuples.window_card_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.WindowTuples.activeIdeal_injOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.WindowTuples.activeIdeals_support' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.WindowTuples.active_tuple_sum_eq_ideal_sum' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.WindowTuples.selected_tuple_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.WindowTuples.exists_activeIdealWeight_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.WindowTuples.active_weighted_sum_eq_ideal_sum' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
