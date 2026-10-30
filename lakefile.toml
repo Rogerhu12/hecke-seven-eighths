@@ -1,5 +1,8 @@
 name = "dedekind_zeta"
 defaultTargets = ["DedekindZetaZeroFree", "DedekindZetaChallenge", "DedekindZetaSolution"]
+# Local build setting (not part of the build hash): fewer elaboration threads
+# per Lean process keeps peak memory manageable when Lake runs many in parallel.
+weakLeanArgs = ["-j2"]
 
 [leanOptions]
 autoImplicit = false
@@ -30,3 +33,47 @@ srcDir = "Challenge"
 [[lean_lib]]
 name = "DedekindZetaSolution"
 srcDir = "Solution"
+
+# ---------------------------------------------------------------------------
+# Hecke L 7/8 project, migrated from `formal/` onto the AxiomMath base.
+# The two vendored power-residue modules are no longer copied: the same module
+# paths are provided by the FiniteAbelianGlobalReciprocityv2 package above.
+
+[[lean_lib]]
+name = "HeckeGeneral"
+
+# Bridge from the AxiomMath ray class character theorems to `HeckeGeneral`.
+[[lean_lib]]
+name = "HeckeAxiom"
+
+# The top-down 7/8 skeleton from `skeleton/HeckeSkeleton`, unchanged.
+[[lean_lib]]
+name = "HeckeSkeleton"
+globs = ["HeckeSkeleton.+"]
+
+# The audited arithmetic input modules imported by the default skeleton,
+# from `skeleton/*Inputs/src`. Their three `ClassFieldTheory.*` reciprocity
+# modules are provided by the vendored class-field-theory package instead.
+[[lean_lib]]
+name = "SkeletonInputs"
+srcDir = "SkeletonInputs"
+roots = ["ActualCanonicalRowConsumers", "ActualHighRowLRatio", "ArithmeticFrequencyRowCharacterFibers", "ArithmeticFrequencyRowConductor", "ArithmeticFrequencyRowConductorNorm", "ArithmeticFrequencyRowFaithfulness", "ArithmeticFrequencyRowRamification", "ArithmeticRowCharacterInput", "ArithmeticSexticKummerCharacter", "ArithmeticSexticKummerFaithfulness", "ArithmeticSexticKummerLocalComponent", "ArithmeticSexticKummerPrimeCoefficient", "ArithmeticSexticKummerRamification", "ArithmeticSexticKummerResidue", "ArithmeticSexticKummerUnramified", "RowCharacterCanonicalUniqueness", "RowCharacterGlobalUniqueness", "RowCharacterIdeleDecomposition", "RowCharacterInputUniqueness", "RowCharacterNormTwistExclusion", "SUnitPowerSaturation", "SexticUniformLocalConductor", "actualConductorTransfer"]
+
+[[lean_lib]]
+name = "OAI"
+srcDir = "vendor/openai"
+roots = ["OAI.NumberTheory.DirichletL.Endpoint"]
+
+[[lean_lib]]
+name = "FLTReuse"
+srcDir = "vendor/flt"
+
+[[lean_lib]]
+name = "Zeta23"
+srcDir = "vendor/zeta23"
+roots = ["Zeta23.Defs", "Zeta23.GammaFacts", "Zeta23.GammaFacts.Series", "Zeta23.Analytic.Stirling", "Zeta23.GammaFacts.Mu", "Zeta23.GammaFacts.StirlingVert"]
+
+[[lean_lib]]
+name = "TauCetiReuse"
+srcDir = "vendor/tauceti"
+roots = ["TauCetiReuse.GroupTheory.Finiteness", "TauCetiReuse.Algebra.Algebra.Subalgebra.Lattice", "TauCetiReuse.RingTheory.DedekindDomain.ValuationOfNeZero", "TauCetiReuse.RingTheory.DedekindDomain.SInteger.Unit"]

@@ -1,0 +1,4 @@
+Tau Ceti contributors, Apache-2.0. Selected S-unit finite-generation dependencies.
+Source: https://github.com/TauCetiProject/TauCeti/tree/b940fb6c25af27408a6a52481e681bf70515db70
+Original headers and attribution to Michael Stoll and mathlib4#40791 are retained.
+The valuation helper file is intentionally restricted to its first two lemmas.

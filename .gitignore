@@ -1,2 +1,6 @@
 /.lake/
 .DS_Store
+**/.lake/
+__pycache__/
+*.pyc
+tools/skel435/
