@@ -1,0 +1,67 @@
+name: Prime cancellation wiring
+
+on:
+  push:
+    branches: [wire/prime-cancellation-20261031]
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - 'HeckeSkeleton/PrimeCancellation*.lean'
+      - 'cloud_tasks/WIRE_PRIME_CANCELLATION_REPORT.md'
+      - '.github/workflows/prime-cancellation-verify.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prime-cancellation-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  proofs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      LEAN_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: leanprover/lean-action@bd5cb0b830eda614ce3fc186d8429b9409b16c47
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore project compilation cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: prime-cancellation-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            prime-cancellation-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+      - name: Compile the actual Hecke and moment wiring
+        run: |
+          mkdir -p prime-verification
+          lean --version | tee prime-verification/environment.log
+          lake build +HeckeSkeleton.PrimeCancellationWiring:olean 2>&1 | tee prime-verification/build.log
+      - name: Audit exported theorem dependencies
+        run: |
+          lake env lean HeckeSkeleton/PrimeCancellationAudit.lean 2>&1 | tee prime-verification/axioms.log
+      - name: Save checked project artifacts for the next revision
+        if: always()
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: prime-cancellation-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+      - name: Preserve verification logs
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: prime-cancellation-verification
+          path: prime-verification/
+          if-no-files-found: ignore
