@@ -53,7 +53,6 @@ theorem negativeOrdinaryInteraction_eq (f : Data K S) (a I : ExteriorIdeal K S) 
   rw [ordinarySymbol_eq]
   congr 1
   simp only [ExteriorArithmetic.valuation_coords, localPhaseDigit, localWeylExponent]
-  ring
 
 theorem positiveOrdinaryInteraction_eq (f : Data K S) (a I : ExteriorIdeal K S) :
     positiveOrdinaryInteraction f.ordinary (f.toFrozen K S D hD).ordinarySymbol

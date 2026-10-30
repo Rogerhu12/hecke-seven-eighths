@@ -21,6 +21,7 @@ open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters
 open HeckeGeneral.Arithmetic.ResidueTraceCharacters
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
+open AlgebraicNumberTheory.PowerResidueSymbols
 open HeckeSkeleton.LowHybrid
 open scoped Classical BigOperators nonZeroDivisors
 
@@ -52,11 +53,17 @@ theorem primeCharacter_order (p : ExteriorPrime K S) :
   sexticResidueCharacter_order K D.root6 D.primitive6 D.embedding p.val
     (D.away_six p.val p.property)
 
+/-- Keep the literal prime ideal in the dependent exterior proof so that
+rewriting the residue equivalence does not unfold the exterior subtype. -/
+private theorem primeExterior (p : ExteriorPrime K S) :
+    ∀ q : HeightOneSpectrum (𝓞 K), q.asIdeal ∣ p.val.asIdeal → q ∉ S := by
+  simpa only [exteriorPrimeIdeal] using (exteriorPrimeIdeal K S p).property
+
 private def primeQuotientFunction (p : ExteriorPrime K S) :
     ThetaQuotient K S (exteriorPrimeIdeal K S p) → ℂ :=
   sIntegerSexticIdealQuotientFunction K S D.root6 D.primitive6 D.embedding
-    p.val.asIdeal p.val.ne_bot (exteriorPrimeIdeal K S p).property
-    (fun q hq => D.away_six q ((exteriorPrimeIdeal K S p).property q hq))
+    p.val.asIdeal p.val.ne_bot (primeExterior K S p)
+    (fun q hq => D.away_six q (primeExterior K S p q hq))
 
 private theorem primeQuotientFunction_equiv (p : ExteriorPrime K S)
     (x : 𝓞 K ⧸ p.val.asIdeal) :
@@ -80,7 +87,7 @@ theorem thetaGamma_eq_gammaTwo (p : ExteriorPrime K S) :
   let F := 𝓞 K ⧸ p.val.asIdeal
   let Q := ThetaQuotient K S (exteriorPrimeIdeal K S p)
   letI : Finite Q := finite_sIntegerSexticIdealQuotient K S p.val.asIdeal
-    p.val.ne_bot (exteriorPrimeIdeal K S p).property
+    p.val.ne_bot (primeExterior K S p)
   letI : Fintype Q := Fintype.ofFinite _
   let e : F ≃+* Q := thetaPrimeResidueEquiv K S p
   let χ : MulChar F ℂ := thetaPrimeCharacter K S D p
@@ -211,6 +218,10 @@ theorem rawTable_eq (hD : AllowedGeneratorInput K S D) (f : Data K S)
   unfold FrozenReduction.Data.rawTable LocalTable.localProduct
   apply Finset.prod_congr rfl
   intro p _
+  change LocalTable.ordinaryScalar
+    (ExteriorArithmetic.normHom K S ((f.toFrozen K S D hD).prime p) : ℂ)
+    (first K S D p) (prefactor K S D p) (atZero K S D p) (f.digit p).val
+    (primeExponents a.val p.val) = _
   rw [Data.toFrozen_prime]
   change LocalTable.ordinaryScalar ((p.val.asIdeal.absNorm : ℝ) : ℂ)
     (first K S D p) (prefactor K S D p) (atZero K S D p) (f.digit p).val
