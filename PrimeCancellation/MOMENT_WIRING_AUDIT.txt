@@ -1,0 +1,132 @@
+# 素数槽实际模型接线审计
+
+审计材料：2026-10-31 补传包 `supplied_20261031/`；目标环境按其 `TASK.md` 末尾为 Lean 4.35.0-rc3、Mathlib 0493595。原始文件保持只读。
+
+新增适配层：`project_adapters/HeckeSkeleton/PrimeCancellationMoment.lean`。该文件没有占位证明，但导入完整项目的 `HeckeSkeleton.Moments`，本云端源包不含其完整 import 闭包，故不能把它计为已经编译验证的自包含模块。
+
+## 一、最重要的源码发现
+
+### 1. 实际掩码仍然依赖行
+
+补传 `TASK.md` 声称 `originalMomentMask` 只删 S 和 2、3 上方的素位。所附 `project/HeckeSkeleton/Moments.lean` 第 128–132 行的真实定义却是
+
+    (∀ p, p.asIdeal ∣ I → p ∉ S ∧ 6 ∉ p.asIdeal) ∧ IsCoprime I u.val.
+
+因此，对素理想 p，精确条件是
+
+    originalMomentMask u p.asIdeal = true
+      ↔ p∉S ∧ 6∉p.asIdeal ∧ p.asIdeal ∤ u.val.
+
+代码中的 `originalMomentMask_prime`、`deleted_prime_cases` 直接实现这一还原。若 D_fixed 是 S 中各素理想与 (6) 的乘积，则被删除的素理想均整除
+
+    D(u)=D_fixed · u,
+
+其范数为 ND_fixed·Nu。`deleted_prime_dvd_fixed_mul_row` 与 `bad_support_norm_mul` 实现这一支持和范数接口。
+
+所以此前的稀疏掩码引理仍然够用，而且所有实际 pairedRows 都有 Nu≤momentBase。它给出
+
+    删除误差 ≤ ‖W‖∞·[log ND_fixed+log(momentBase)]
+                       /log(max{2,P}).
+
+归一化后再乘 P^(−1/2)，最终只产生固定次对数损失。
+
+如果能够独立证明“凡不与 u 互素的素位，其实际槽系数已经为零”，可以把掩码降为固定掩码；`coefficient_mul_originalMask_eq_fixedMask` 给出准确的代数接口。但是源定义没有这个消零性质。其注释还明确说 `including redundant sixth powers`：完整行中多余的六次幂素因子可能不属于 primitive character 的导子，所以不能自动把行掩码视作系数自身的零值。
+
+### 2. hprofiles 没有控制素数窗口
+
+`WholeMomentProfileControl`（`Moments.lean` 第 206–216 行）只量化
+
+    W ∈ [d.inverseTest, d.plainTest₁, d.plainTest₂].
+
+它完全没有量化 `d.geometry.slots j` 的 prime-window profile。故它不能提供素数消去所需的光滑性、固定紧环带支撑、有限阶 Euler 半范数界。
+
+另外，它只在任意参数 ξ、σ、τ 满足指定高度条件时给出界。`SourceMomentModels` 的 `heights`、`realShifts`、`imagShifts` 字段没有附带满足这些高度条件的证明。若以后把 hprofiles 扩充到 prime windows，还需为实际 `pairedModel` 选择的参数补上这些条件。
+
+### 3. 特征校准只覆盖物理 witness 行，目标求和覆盖全部模型行
+
+`SourcePolynomialCalibration.character` 只对 `(momentWitness i).rows` 的行成立。
+
+`SourceRowEligibility.paired_rows` 只证明这些物理行映入 `pairedRows`。它不证明这个映射满射，也不校准剩余模型行。
+
+而目标 `PairedPrimeProductBound` 对**全部** `pairedRows` 求和。因此，现有 hcal/hrows 本身不提供全部被求和行的特征导子增长界。一般定理应量化全部被求和行；MI-M-MODELS 接线时必须给出这一全行条件，或建立真正的模型行覆盖/校准。
+
+## 二、已有接口真正提供了什么
+
+| 要求 | 源码现状 | 新适配层处理 |
+|---|---|---|
+| 行字符有限阶 | `MomentData.rowCharacter_finite` 已提供 | `source_paired_slot_finite_factors` 提取 |
+| 槽系数字符有限阶 | `SourceRowEligibility.paired_finite_slots` 已提供 | 同上 |
+| 乘积字符有限阶 | 数学上由有限阶乘法封闭得到；专有 `FiniteOrder` 定义不在包内 | `source_paired_slot_finite_of_mul_closed` 显式接受这一纯代数 API 定理 |
+| 允许行的非主性 | 正长度分支只有 rowCharacter∉theta | 另需每个 slotCoefficient 的逆元属于 theta；`paired_slot_character_ne_one` 随后完整推出 |
+| 总长度等于 selectedLength | `hrows.geometry` 已提供 | 已接入非主性、零槽分支、最终指数 |
+| 总长度非负 | 每槽 length_pos 与有限求和推出 | `totalLength_nonneg` |
+| 存在实际槽时总长度正 | 每槽 length_pos 推出 | `totalLength_pos_of_slot` |
+| selectedLength=0 时无素数槽贡献 | hrows.geometry 与上项推出 | `source_paired_zero_slot_product`，乘积恰为 1 |
+| 全部 pairedRows 的 Nu≤momentBase | rows_spec、pairedParameters.m=1,q=0 已足够 | `source_paired_row_norm_le` |
+| 行数 O(momentBase) | 需一般数域理想计数定理；具体定义和 API 不在包内 | `source_paired_card_le_of_ideal_count` 给出精确调用接口 |
+| 模型槽数统一有界 | hrows.geometry 只控制总长度；没有槽数条件 | `source_paired_slotCount_le_of_selected_equiv`：实际槽与 selected 的等价足够给出 ≤c.geometry.slots |
+| 原掩码识别 | `hcal.mask` 对所有模型行、理想成立 | `source_paired_deleted_prime_dvd` 已接到 D_fixed·u |
+| 素数 profile 光滑、支撑及半范数 | bare PrimeWindow 和 hprofiles 都没有提供 | 仍需 MI-M-MODELS 的显式结构事实 |
+| 所有槽字符的导子增长 | 未提供；物理 witness 校准不覆盖全部模型行 | 仍需显式条件 |
+| 所有槽字符的零点边界 | `FiniteOrderBoundary` 是明确的 meromorphic-order 条件；当前 family 的覆盖接口未随包提供 | 应由分析模块显式接受，不在此重新定义为素数估计 |
+
+## 三、新文件中的定理组
+
+### A. 行、长度、非主性
+
+* `mem_rows_of_mem_pairedRows`、`norm_le_of_mem_pairedRows`：从过滤后集合还原原行集合与范数限制。
+* `not_mem_theta_of_mem_pairedRows`：正长度分支的精确排除条件。
+* `totalLength_nonneg`、`totalLength_pos_of_slot`：有限正长度和的基本性质。
+* `slotProduct_eq_one_of_totalLength_zero`：总长度为零时乘积恒等于一。
+* `slot_character_ne_one_of_exclusion`、`paired_slot_character_ne_one`：由逆元在 theta 中排除主特征。
+* `slotCount_le_of_embedding`：把实际索引嵌入一个固定有限集合即可得到槽数统一上界。
+
+### B. 掩码
+
+* `prime_eq_of_asIdeal_dvd`：Dedekind 域的两个非零素理想若互有一方整除另一方，则相等。
+* `prime_divisor_condition_iff`：把对素理想全部素因子的量化化为其自身条件。
+* `prime_isCoprime_iff_not_dvd`：素理想互素性等价于不整除。
+* `originalMomentMask_prime`、`deleted_prime_cases`：实际掩码的精确三条件。
+* `deleted_prime_dvd_fixed_mul_row`、`bad_support_norm_mul`：删除集受固定理想乘行理想支持，且范数乘法成立。
+* `coefficient_mul_originalMask_eq_fixedMask`：只有在显式消零条件下才能进一步删除行掩码。
+
+### C. 源模型接线
+
+* `source_paired_row_norm_le`：所有 pairedRows 的范数都不超过 base。
+* `source_paired_slot_finite_factors`、`source_paired_slot_finite_of_mul_closed`：有限阶性接口。
+* `source_paired_slot_character_ne_one`：使用实际 hrows.geometry 接上非主性。
+* `source_paired_slotCount_le_of_selected_equiv`：槽与 selected 的等价给出固定槽数上界。
+* `source_paired_zero_slot_product`：实际模型零槽分支。
+* `source_paired_deleted_prime_dvd`：hcal.mask 给出完整稀疏删除支持。
+* `source_paired_card_le_of_ideal_count`：理想计数定理接线。
+
+### D. 真正分析估计完成后的有限代数转移
+
+* `slotProduct_norm_sq_le_of_slot_bounds`：每槽平方估计相乘，总损失只通过 loss 的总和进入。
+* `source_paired_energy_le_of_slot_bounds`：在单个 sector 上，把行数界与每槽估计合并为指数
+
+      1 + κ·selectedLength + eps.
+
+  这里的 `hslot` 明确就是待由分析部分证明的估计。此定理没有把它冒充零点自由假设，也没有宣称已完成 `paired_primes_below_one`。
+
+## 四、需核对的 API 与验证状态
+
+### 已在目标 Mathlib 0493595 源码核对的关键名字
+
+* `IsDedekindDomain.HeightOneSpectrum.asIdeal_injective`、`.isMaximal`、`.isPrime`：`Mathlib/RingTheory/DedekindDomain/Ideal/Lemmas.lean`。
+* `Ideal.IsMaximal.eq_of_le`：`Mathlib/RingTheory/Ideal/Maximal.lean`。
+* `Ideal.absNorm` 的乘法性通过 `map_mul`，并非臆造 `absNorm_mul` 引理：`Mathlib/RingTheory/Ideal/Norm/AbsNorm.lean`。
+
+### 仍需本地核对
+
+1. **项目 `FiniteOrder` 的定义和乘法封闭引理名：需核对。** 包内只有该谓词的使用和 `FiniteOrderBoundary`，没有定义。代码没有猜一个引理名，而是用显式的 `hmul` API 参数隔离这一缺失；应在本地以实际乘法封闭定理实例化。
+2. **理想计数定理和 `idealCountConstant` 的精确 API：需核对。** 这个名字只在 TASK 的叙述中出现；包内没有它的定义或使用。适配层以一个具体的有限理想集合计数接口表达需要的事实。
+3. **`HeckeSkeleton.Moments` 的完整 import 闭包：需核对。** 包内缺少 `HeckeSkeleton.Theta`、`HeckeGeneral.Analysis.HeckeSeries`、`EndpointClosure`、`TInputParameterUniformMoments` 等。故本模块仍需在完整项目中实际编译。不能将其宣称为已通过内核或已取得标准三公理证书。
+4. `HeckeCharacter` 的群结构、`rows_spec` 中 `idealNorm` 的定义均来自缺失导入。源码已经实际使用乘法与逆元；适配层的纯群代数证明应在本地验证 elaboration。
+5. `PrimeCancellationAux` 是已交付的自包含辅助模块，需要位于项目 Lean 搜索路径中。适配层按它的真实定理签名调用，没有改写其语义。
+
+## 五、最需要本地复核的步骤
+
+代码层面最需复核的是依赖专有 Hecke 类型的 elaboration，以及原有 `Moments.lean` 的大型导入闭包。数学层面最需要补充的不是有限代数，而是**全部模型行的导子增长与原始素数窗口的一致解析控制**。这两件事不包含在现有三项 hcal/hrows/hprofiles 契约中。
+
+因此正确的最终接线任务是：由 MI-M-MODELS 的实际构造证明上述结构性条件，并在真正的零点自由→素数消去模块完成之后，使用本文件的有限转移定理。不能仅凭现在这三个契约就声称余下只剩一个机械实例化步骤。

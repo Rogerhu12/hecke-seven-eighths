@@ -1,10 +1,5 @@
 import Mathlib.Analysis.Complex.Basic
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.GCongr
+import HeckeSkeleton.LowHybrid.CommonTactics
 
 /-!
 # Finite quadratic--cubic sieve composition

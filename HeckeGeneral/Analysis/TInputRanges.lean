@@ -61,7 +61,8 @@ claim that the local correction has no continuation outside this region. -/
 def rowEulerRegion : Set (ℂ × ℂ × ℂ) :=
   {v | 1 / 2 < v.1.re ∧ 0 < v.2.1.re ∧ 0 < v.2.2.re ∧
     1 < v.1.re + v.2.1.re ∧ 5 / 6 < v.1.re + v.2.2.re ∧
-      2 < v.1.re + v.2.1.re + 6 * v.2.2.re}
+      2 < v.1.re + v.2.1.re + 6 * v.2.2.re ∧
+      1 < v.2.1.re + 6 * v.2.2.re ∧ 1 < v.1.re + 6 * v.2.2.re}
 
 /-- Local-Euler analytic calibration, distinct from holomorphy of any
 reciprocal target L-function. No zero-free conclusion is in these fields. -/

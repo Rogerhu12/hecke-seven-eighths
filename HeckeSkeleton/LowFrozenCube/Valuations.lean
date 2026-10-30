@@ -1,5 +1,5 @@
 import Mathlib.Analysis.Complex.Basic
-import Mathlib.Tactic
+import HeckeSkeleton.LowHybrid.CommonTactics
 
 /-!
 # Frozen valuations and the full cube
