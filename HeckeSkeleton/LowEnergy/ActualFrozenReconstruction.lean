@@ -15,6 +15,7 @@ noncomputable section
 namespace HeckeSkeleton.LowEnergy.ActualFrozenReconstruction
 
 open NumberField IsDedekindDomain
+open HeckePort.CenteredMomentGenerator
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.LowEnergy.ActualReflection

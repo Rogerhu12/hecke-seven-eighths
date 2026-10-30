@@ -1,0 +1,24 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.Rankin",
+  "source": "HeckeSkeleton/LowEnergy/Rankin.lean",
+  "cache_schema": 2,
+  "source_sha256": "cf609b3271aa6a31af843413fa89128dd637faab760c223cc2d1199e4e05983a",
+  "exit_code": 0,
+  "seconds": 2.28,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {},
+  "output_artifact_hashes": {
+    ".olean": "5ca4497a5244822c1ec7ded92b03dcf0f45cd7c315a39afad9ba1c28edfb8cdf"
+  },
+  "audit_ok": true,
+  "log_sha256": "3d3352acc4fd1ac23cddb125306e1b1e72e9bf2f8e882acd722f567a61444bc7",
+  "local_dependency_hashes": {},
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

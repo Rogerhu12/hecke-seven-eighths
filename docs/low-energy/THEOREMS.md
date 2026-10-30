@@ -13,8 +13,9 @@ S := places K c; P := probeData K c; ψ := targetCharacter K c.
 
 ```lean
 theorem completedMarkedEnergy
+    {F : FiniteMellinData K S}
     (hreflection : MarkedCoefficientReflectionInput K S (probeData K c).arithmetic
-      (finiteMellinData K c) (thetaPeriod K S P ψ))
+      F (thetaPeriod K S P ψ))
     (hquadratic : QuadraticSieveBound K c)
     (hcubic : CubicSieveBound K c) : CompletedMarkedEnergy K c
 ```

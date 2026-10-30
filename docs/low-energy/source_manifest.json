@@ -6,6 +6,15 @@
   "verification_invalidations": {
     "HeckeSkeleton.LowFrozenCube.LocalCoefficients": "The Valuations dependency was refactored to import the shared Exponents declarations; a legacy source-only build record does not verify this dependency graph."
   },
+  "remote_runs": [
+    {
+      "run_id": 41124279712,
+      "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+      "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+      "phase": "core",
+      "phase_result": "failed_on_previous_LocalCoefficients_source"
+    }
+  ],
   "files": [
     {
       "module": "HeckeSkeleton.LowEnergy.AnnularEnergy",
@@ -54,6 +63,48 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "5d1592104712b988144dd32b0783c3daa735c0f74545654345362f50fbd24748",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.265,
+          "audit_ok": true,
+          "log_sha256": "80058fec5ad5ab115f32ee1cfd173b4565d212d33201358a2d765c79b8669b80",
+          "output_artifact_hashes": {
+            ".olean": "926b1a00dd5d524b20e466ae662b9b3f480c6169bc8ff34636bed633ac39274b"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.AnnularEnergy.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.AnnularEnergy.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.AnnularEnergy.finite_rows_minkowski",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.AnnularEnergy.rows_minkowski",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.AnnularEnergy.row_energy_tail",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -104,6 +155,52 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "3246452a28eba477a0534613895cb331e8dfecb6e25f3570c85f726b042b30dc",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.486,
+          "audit_ok": true,
+          "log_sha256": "6d4786e050842e77bf6795cafa50ad9d9bfe807cc039b7852332d12ee98d0302",
+          "output_artifact_hashes": {
+            ".olean": "2357fa2a87e6dd1bc63426179488331025b3809b031df6c97d8d62ca1a5607c8"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.AnnularEnergy": {
+              ".olean": "926b1a00dd5d524b20e466ae662b9b3f480c6169bc8ff34636bed633ac39274b"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.MellinEnergy.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.MellinEnergy.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.MellinEnergy.finite_rows_integral_minkowski",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.MellinEnergy.finite_rows_common_profile_scalar",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.MellinEnergy.finite_sum_profile_integral",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -175,6 +272,48 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "011da9dcf746e4ab6a9a9ff029f23c94ea46adec50aae916e45d1f9d082d05e1",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 15.53,
+          "audit_ok": true,
+          "log_sha256": "1e4d8a82afcd8c7402828488985d56bb6d6542f1b752e09c729cdd7dfac485e4",
+          "output_artifact_hashes": {
+            ".olean": "3afb983d63503e5e0f13fe87f5b941b354d6e4e3ab01e564fb4789611601197e"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.KeepOriginalRow.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.KeepOriginalRow.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.keep_row_extracted_term",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.double_mask_mobius",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.double_column_reindex",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -244,6 +383,52 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "707f797038f6b9c115711c3701b4229d5faf8edf6c8984be19310051b32e49a5",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 4.016,
+          "audit_ok": true,
+          "log_sha256": "15110e7dc16fcf91f1947a28dda9ca4a0bc72c28d6b67600de57ee26ff40ac5b",
+          "output_artifact_hashes": {
+            ".olean": "8da690bf3484d6df2d54657ad8bdce4153e44e028fa751365978c543feea67cd"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.KeepOriginalRow": {
+              ".olean": "3afb983d63503e5e0f13fe87f5b941b354d6e4e3ab01e564fb4789611601197e"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.OriginalRowNormalForm.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.OriginalRowNormalForm.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.masked_columns_reindex",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.reconstructed_column_factorization",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.reconstructedRow_eq_normalForm",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -339,6 +524,56 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "45c6abcb4dd50f7bc21c1595cea816e7adec9fb6de30150563f3b45e2633daa1",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.253,
+          "audit_ok": true,
+          "log_sha256": "983a4c18837560d461f9749b100a0a79ad9c00c637ad350fe9d75ec46ade98ae",
+          "output_artifact_hashes": {
+            ".olean": "e64abde494aa92ce8262352fd3a266ff2cd249eee4b28f1e335068b1107488b3"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.SmallPowers.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.SmallPowers.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.reciprocal_sum_le_rpow_tsum",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.reciprocal_sum_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.harmonic_product_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.bounded_harmonic_product_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.squared_harmonic_product_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -369,6 +604,39 @@
           "seconds": 13.236,
           "axiom_checks": [],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "dcd161483c67bfc4e61dd8dd2a2bc9f1cb3f4e74cb9c7c99116a27c7ccea76fc",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 3.317,
+          "audit_ok": true,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "output_artifact_hashes": {
+            ".olean": "07c6c4de3947f5db5ce464268fe1e1562c618858a76aa7d861feb1800208fdbf"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.SmallPowers": {
+              ".olean": "e64abde494aa92ce8262352fd3a266ff2cd249eee4b28f1e335068b1107488b3"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.IdealMajorant.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.IdealMajorant.log",
+          "axiom_checks": [],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -488,6 +756,68 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "de311d9dfa1cf265a511380ab659698997673f10b43ae3038fa677aea5866c4f",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.909,
+          "audit_ok": true,
+          "log_sha256": "c9dea1b8a19f4848ce549c8fa815652f39bbe24644bc6f622fe7de85483a8f54",
+          "output_artifact_hashes": {
+            ".olean": "daa22cb27755d9d34ee6a5ed9150b4582923f0dd3c542f13dddc7f08064219b0"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.IdealMajorant": {
+              ".olean": "07c6c4de3947f5db5ce464268fe1e1562c618858a76aa7d861feb1800208fdbf"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.IdealMass.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.IdealMass.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.ideal_summable_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_harmonic_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_harmonic_small_power_pullback",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_harmonic_products_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_squared_harmonic_products_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.normalized_ideal_column_mass_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.factorized_ideal_column_mass_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -557,6 +887,55 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "d0d075ae5841cd64b2ddc8b4c428f0d8c87f666e9385517a8f75ff341eb654c3",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 3.552,
+          "audit_ok": true,
+          "log_sha256": "233fb02e2d00cf4d986b193c5394f45bf5a80eb058c18b0518c5b0ce3da799f0",
+          "output_artifact_hashes": {
+            ".olean": "972362af06933a27fa03440a6a2aff548f507af2e881066c78c4969ba4ab9b7b"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.OriginalRowNormalForm": {
+              ".olean": "8da690bf3484d6df2d54657ad8bdce4153e44e028fa751365978c543feea67cd"
+            },
+            "HeckeSkeleton.LowEnergy.IdealMass": {
+              ".olean": "daa22cb27755d9d34ee6a5ed9150b4582923f0dd3c542f13dddc7f08064219b0"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.OriginalRowSupport.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.OriginalRowSupport.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.blockColumn_sq_le_reciprocal",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.ReconstructedSupport.block_products",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.ReconstructedSupport.block_budget",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -628,6 +1007,52 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "8b71a2ee70b724c141d3257656c5107a771ce0de9e634b8c146cc7735b549185",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 3.197,
+          "audit_ok": true,
+          "log_sha256": "b59ccd98a3e93f1f202bbd794ad604ffbcc4dab0fe16a337b6d20ebd9a310985",
+          "output_artifact_hashes": {
+            ".olean": "ccd4b8f3da0022cac0be65c96e7505b44c1feff640680640bc57ee7bfdb172b6"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.IdealMass": {
+              ".olean": "daa22cb27755d9d34ee6a5ed9150b4582923f0dd3c542f13dddc7f08064219b0"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.SquarefreeFibers.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.SquarefreeFibers.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.two_pow_idealPrimeSupport_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.squarefree_divisor_finset_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_product_fibers_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -635,9 +1060,71 @@
       "path": "HeckeSkeleton/LowHybrid/SieveComposition.lean",
       "source_sha256": "b59601851cb677b730d0927d1b423140a98c601167cd580813662c778b11bbb9",
       "bytes": 11893,
-      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "status": "CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "b59601851cb677b730d0927d1b423140a98c601167cd580813662c778b11bbb9",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.372,
+          "audit_ok": true,
+          "log_sha256": "421835a38f24476e69b972aeec62d476df669d5d9692ac094654ccd28c3854c6",
+          "output_artifact_hashes": {
+            ".olean": "2422334080d3cce0eb4949b634a422742aa8f4d30ae820c97795532eb6d39c7f"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowHybrid.CommonTactics": {
+              ".olean": "5c59cf67a8d549c35e0ebbb3bc0c4f10b962c6c63a890796846960d583017d20"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowHybrid.SieveComposition.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowHybrid.SieveComposition.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.bounded_coefficient_sum_sq",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.positive_fiber_sum_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.column_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.positive_triple_enlarge",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.fixed_block_energy_of_two_sieves",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.fixed_block_scalar_ledger",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
+      ]
     },
     {
       "module": "HeckeSkeleton.LowHybrid.Assembly",
@@ -791,6 +1278,80 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "bfbc0a1cb47dbde64240f318bcc9cfacdc12d43336b42ace31b6717a18cdb456",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.284,
+          "audit_ok": true,
+          "log_sha256": "658cd537c9278e4befe7d42428356492d336d01d5447a4374c5751eabd8d5915",
+          "output_artifact_hashes": {
+            ".olean": "92aec5b0a70e66e2fce651654fa69f89966b372331e2ba91d5d6211a918db7c4"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowHybrid.SieveComposition": {
+              ".olean": "2422334080d3cce0eb4949b634a422742aa8f4d30ae820c97795532eb6d39c7f"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowHybrid.Assembly.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowHybrid.Assembly.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.row_local_cauchy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_local_positive_transpose",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_local_weighted_cauchy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_local_weighted_cauchy_of_block_bounds",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.two_row_local_cauchy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_positive_fiber_sum_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_column_mass_mono",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.factorized_column_mass_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_row_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.assembled_blocks_energy_of_two_sieves",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -884,6 +1445,60 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "30e1f4a7ced3a7a12109d5f9b634267975a64105953638e0fd21903c9cb8091f",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.335,
+          "audit_ok": true,
+          "log_sha256": "b58bcd367b82f6ce0ba81f675b1077cf6a726e2178678f2cf791d8ef2c9d3472",
+          "output_artifact_hashes": {
+            ".olean": "9fd4c2b6fc54e5015daea082a7ba13521fd24419344b8c49e37500d5019e90a5"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowHybrid.SieveComposition": {
+              ".olean": "2422334080d3cce0eb4949b634a422742aa8f4d30ae820c97795532eb6d39c7f"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowHybrid.Weighted.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowHybrid.Weighted.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.weighted_sum_sq",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_mixture_energy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.reciprocal_grid_sum",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_cubic_total",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_energy_of_two_sieves",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -1003,6 +1618,71 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "4fee86656221c1abf7dfac6b151edff0d2fc0e342b58b4ecbaa8dc4d3d67b4d7",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.233,
+          "audit_ok": true,
+          "log_sha256": "ef07723b136d3d1d8001d4b38ed1dea3cb5bf924d650f40a44cc65b7ce2b5ff5",
+          "output_artifact_hashes": {
+            ".olean": "0a32831dedfc081242ece771b70b686308691805fbe5ba44e8746b734a4d91a8"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowHybrid.Assembly": {
+              ".olean": "92aec5b0a70e66e2fce651654fa69f89966b372331e2ba91d5d6211a918db7c4"
+            },
+            "HeckeSkeleton.LowHybrid.Weighted": {
+              ".olean": "9fd4c2b6fc54e5015daea082a7ba13521fd24419344b8c49e37500d5019e90a5"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowHybrid.Global.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowHybrid.Global.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.tHarmonic_nonneg",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.cHarmonic_nonneg",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.hHarmonic_nonneg",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.energy_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.energy_le_uniform_harmonics",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.inverse_sqrt_norm_sq",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.hybrid_energy_of_weighted_blocks",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -1048,6 +1728,44 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "2798478ee031d9112d5ed8fa6ce2d1f2be193b9b431158231b2f727b5744d36b",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 1.939,
+          "audit_ok": true,
+          "log_sha256": "5af3d0416dba46f151e82d1eabd8319f854175bd9925cb08c094926708ecfab2",
+          "output_artifact_hashes": {
+            ".olean": "080c85804def3c4e74af310e4c05a58893518e18a9be16303d604f3c2b64806d"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowHybrid.SieveComposition": {
+              ".olean": "2422334080d3cce0eb4949b634a422742aa8f4d30ae820c97795532eb6d39c7f"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowHybrid.SieveBounds.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowHybrid.SieveBounds.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.hybrid_fixed_block_from_sieve_bounds",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -1119,6 +1837,52 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "cf53f11bfabb6ae2d84784a8cf0e38b24708994bed3c77db017de5495538cad5",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.033,
+          "audit_ok": true,
+          "log_sha256": "abb2b34a826cf46c1ea4dab86b55e030417330c85ac0ced16446f3b850f05fb6",
+          "output_artifact_hashes": {
+            ".olean": "e98386ffbbc89187ded04f440953c20839db85613c9f7fce051763162bf6913b"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowHybrid.SieveBounds": {
+              ".olean": "080c85804def3c4e74af310e4c05a58893518e18a9be16303d604f3c2b64806d"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowHybrid.Transpose.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowHybrid.Transpose.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.finite_complex_sum_mul_sq_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.finite_operator_bound_transpose",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.quadratic_sieve_input_transpose",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -1188,6 +1952,58 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "508aaef817c8aba5b7f9ad33fb9e32b93e326c9b6a5b0dd18d5a6f1b5c94709f",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.292,
+          "audit_ok": true,
+          "log_sha256": "3e8f0e37005cc221d5aedc851f2306d5a34c045274158cc407dc09796daac1a0",
+          "output_artifact_hashes": {
+            ".olean": "db4666c7cec9293a4786d63a5d87e22fca1fe1a0d436fe0815441a7f296acf00"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowHybrid.SieveBounds": {
+              ".olean": "080c85804def3c4e74af310e4c05a58893518e18a9be16303d604f3c2b64806d"
+            },
+            "HeckeSkeleton.LowHybrid.Weighted": {
+              ".olean": "9fd4c2b6fc54e5015daea082a7ba13521fd24419344b8c49e37500d5019e90a5"
+            },
+            "HeckeSkeleton.LowHybrid.Transpose": {
+              ".olean": "e98386ffbbc89187ded04f440953c20839db85613c9f7fce051763162bf6913b"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowHybrid.WeightedSieveBounds.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowHybrid.WeightedSieveBounds.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.zero_extended_column_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.zero_extended_row_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_energy_from_sieve_inputs",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -1259,6 +2075,61 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "ee207c9801cc72577d68b2686f24c2ab2ee057f0231b15fa9e3e3d5fd9001389",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 3.007,
+          "audit_ok": true,
+          "log_sha256": "2764d726d54519900e246a4c1d65382a6f55d09843ad67b6ed85f8a694d38435",
+          "output_artifact_hashes": {
+            ".olean": "573a917929cc5c51d1c62e30219e653c9d467926bd416ae806e74802f9e9dc07"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.OriginalRowSupport": {
+              ".olean": "972362af06933a27fa03440a6a2aff548f507af2e881066c78c4969ba4ab9b7b"
+            },
+            "HeckeSkeleton.LowEnergy.SquarefreeFibers": {
+              ".olean": "ccd4b8f3da0022cac0be65c96e7505b44c1feff640680640bc57ee7bfdb172b6"
+            },
+            "HeckeSkeleton.LowHybrid.Global": {
+              ".olean": "0a32831dedfc081242ece771b70b686308691805fbe5ba44e8746b734a4d91a8"
+            },
+            "HeckeSkeleton.LowHybrid.WeightedSieveBounds": {
+              ".olean": "db4666c7cec9293a4786d63a5d87e22fca1fe1a0d436fe0815441a7f296acf00"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.ConcreteIdealBlock.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.ConcreteIdealBlock.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.concreteBlock_row_eq",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.concreteBlock_admissible",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.concrete_product_fibers_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -1305,6 +2176,44 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "afc3f55d580a4d0f24d5120b800c4071f7729f3bdeb94f5c503fb85324681266",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 6.019,
+          "audit_ok": true,
+          "log_sha256": "68dcd6d6f5861d729a9aadd18f41d6630585ff8d12cd7621bc513d39687eb4aa",
+          "output_artifact_hashes": {
+            ".olean": "1111f2251ea684c54349659aae30eccb3d04f1e34eb7de8f959481822640ea4f"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.ConcreteIdealBlock": {
+              ".olean": "573a917929cc5c51d1c62e30219e653c9d467926bd416ae806e74802f9e9dc07"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.UniformIdealHybrid.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.UniformIdealHybrid.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.finite_reconstructed_hybrid_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -1350,6 +2259,47 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "c88c5268423399b65030a5dd7aee714709bb8a0b64cdd655ffecb35c582ce33d",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.924,
+          "audit_ok": true,
+          "log_sha256": "9b0fd564586c0e4134b34b1d5bff9f9590acfb74cbe73067ce18b42c0605763a",
+          "output_artifact_hashes": {
+            ".olean": "4f045512e864a2b9eaebcd72280e67ab7cc53c3aa4dc8486dd34a25881d97cd2"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.SquarefreeFibers": {
+              ".olean": "ccd4b8f3da0022cac0be65c96e7505b44c1feff640680640bc57ee7bfdb172b6"
+            },
+            "HeckeSkeleton.LowEnergy.KeepOriginalRow": {
+              ".olean": "3afb983d63503e5e0f13fe87f5b941b354d6e4e3ab01e564fb4789611601197e"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.IdealDivisorMasks.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.IdealDivisorMasks.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealDivisorMasks.coprime_mask_expansion",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -1421,6 +2371,52 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "bdfeb5349871965e8093a8ed6ec4c7e6bb699c7740d392b34591844e0e6b2206",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 4.014,
+          "audit_ok": true,
+          "log_sha256": "f8192262740e1d69ae913325674cf68bcd9662e742c6f795d8f3e25cd04ca9a7",
+          "output_artifact_hashes": {
+            ".olean": "93a5108a30a8bc0c18ead735c753e4aab3767b257946e6ec2a0c8e491e385234"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.IdealDivisorMasks": {
+              ".olean": "4f045512e864a2b9eaebcd72280e67ab7cc53c3aa4dc8486dd34a25881d97cd2"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.IdealCanonicalColumns.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.IdealCanonicalColumns.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealCanonicalColumns.HybridColumnData.reconstruct_injective",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealCanonicalColumns.hybrid_finite_column_reindex",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealCanonicalColumns.supportedHybridRow_reconstruct",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -1491,6 +2487,55 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "5b6a2cf8503baaadf803f24ffa340d6757eb48db92ec500fe514f71ba170d8e0",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 3.665,
+          "audit_ok": true,
+          "log_sha256": "fd99c065049a5cf0c4a36e929f8061bdf1e1ee52538446e1cc559aeefa7bdb09",
+          "output_artifact_hashes": {
+            ".olean": "ae8ffcc45974182a12836c48b97e6ddd08184ba089e75ad942c03514eb98cee0"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.UniformIdealHybrid": {
+              ".olean": "1111f2251ea684c54349659aae30eccb3d04f1e34eb7de8f959481822640ea4f"
+            },
+            "HeckeSkeleton.LowEnergy.IdealCanonicalColumns": {
+              ".olean": "93a5108a30a8bc0c18ead735c753e4aab3767b257946e6ec2a0c8e491e385234"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.RawIdealHybrid.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.RawIdealHybrid.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.RawIdealHybrid.rectangular_reindex",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.RawIdealHybrid.canonicalReconstruction_row",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.RawIdealHybrid.raw_ideal_hybrid_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -1549,6 +2594,48 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "b44f5bbb0ea15675d53b24debe7cef9a477957ed4e9234391437beab616cb96b",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 3.093,
+          "audit_ok": true,
+          "log_sha256": "28732cd482935bbe1ec8bfee1b472bf4118ce09c9f86627ebf6bb6c4b585d629",
+          "output_artifact_hashes": {
+            ".olean": "e60542931eeeeedc85ebd5c2850b82a784faa283367d620cfb28ea1399d57960"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.RawIdealHybrid": {
+              ".olean": "ae8ffcc45974182a12836c48b97e6ddd08184ba089e75ad942c03514eb98cee0"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.HybridScaling.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.HybridScaling.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.HybridScaling.raw_hybrid_energy_with_amplitudes",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.HybridScaling.raw_hybrid_energy_frozen_cube",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -1590,6 +2677,51 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "964f08a630601c28580ee304f6fb0d182858cce70239830cf4ce5929ee74ea46",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.728,
+          "audit_ok": true,
+          "log_sha256": "0d303c9e565acf16ff9f4a387ff93920fc0dce1b63b8fce53d5231c561f81b1c",
+          "output_artifact_hashes": {
+            ".olean": "eae0181397deda1b08fc90ed7d6eae4a3e31e6ca87f4014c82c21259da5494a2"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.MellinEnergy": {
+              ".olean": "2357fa2a87e6dd1bc63426179488331025b3809b031df6c97d8d62ca1a5607c8"
+            },
+            "HeckeSkeleton.LowEnergy.HybridScaling": {
+              ".olean": "e60542931eeeeedc85ebd5c2850b82a784faa283367d620cfb28ea1399d57960"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.MellinHybrid.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.MellinHybrid.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.MellinHybrid.continuous_mode_row",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.MellinHybrid.integrated_hybrid_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -1745,6 +2877,76 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "6e2a5c32f5913e62a31d287a54dfcc345e11df9cf78aa8fb30a1e569b73e5ab4",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 4.24,
+          "audit_ok": true,
+          "log_sha256": "c6429c904ed5b2ff778d41adf9a3165632a9cdc00077dd96a4593a5ec8926b08",
+          "output_artifact_hashes": {
+            ".olean": "93a34df1d4f9f46900e23278072dcc5a10d9fdd332f29bc490b4caf2dfa9947e"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.Exponent.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.Exponent.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.saving_dichotomy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.gain_and_kernel_quarter",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.paperExponent_threshold_error",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_dual_length_with_errors",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_exponent_with_errors",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_ramified_exponent_with_errors",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.unmarked_exponent_retained",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.unmarked_exponent_conductor",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_error_allocation",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.power_bound_of_exponent_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -1810,6 +3012,60 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "690fafe1df46d84c203a29388941e54de411cde053ef6a8fcfdf8c18039fb9ee",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 3.606,
+          "audit_ok": true,
+          "log_sha256": "0ce635597c87dd78ccc786e684ec4c3e3025346718dcd6d6237ccc106b13d940",
+          "output_artifact_hashes": {
+            ".olean": "74faee8dac7ef45c3d16e6d177a16fdad95f360c482325b0372b28280ae5fc4d"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.Exponent": {
+              ".olean": "93a34df1d4f9f46900e23278072dcc5a10d9fdd332f29bc490b4caf2dfa9947e"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.ExponentTail.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.ExponentTail.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_full_exponent",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_full_ramified_exponent",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.hybrid_small_power_width",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_full_ramified_exponent_with_sieve_loss",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_full_exponent_with_sieve_loss",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -1953,6 +3209,72 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "2b88696cd22a8b361094766c78ea1a1b9cc2d2ab192c81a45597c963bf8895af",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 5.018,
+          "audit_ok": true,
+          "log_sha256": "0e30a9eb3e930c7368baf73f3ed2ca07849844c4d0a7e9656b00bb6240fb6568",
+          "output_artifact_hashes": {
+            ".olean": "cbfc86a501ff3ad073f0e8764beed98197b1d1d39ccd5884a9650c03d2455e47"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.CommonMellin.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.CommonMellin.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.amplitude_separation",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.physical_argument_cancel_mark",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.physicalArgument_normalized",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.amplitude_physical_separation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.integral_physical_separation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.integral_separation",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.norm_columnFactor_le_two",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.weighted_density_integrable_and_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.smallScalar_sq_exponent",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -2023,6 +3345,52 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "7d47587515bcd1822f67fba469870029bc4d3dbbb257ee740db3d0fb3fb84b91",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 3.255,
+          "audit_ok": true,
+          "log_sha256": "8bfe7e36e5e7f9c3069d2f1546b9371b00ef6fa5bc340200b3b2e450b21860ad",
+          "output_artifact_hashes": {
+            ".olean": "8de59ae7f90959af043589e1ae9dbfa1c67ced46f2cc4cd18275e173fa70c252"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.CommonMellin": {
+              ".olean": "cbfc86a501ff3ad073f0e8764beed98197b1d1d39ccd5884a9650c03d2455e47"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.CommonMellinTail.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.CommonMellinTail.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellinTail.integral_physical_separation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellinTail.scalar_sq_exponent",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellinTail.weighted_density_integrable_and_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -2080,6 +3448,59 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "531de8ea0d05afd26e99191d2337777be07d757597955445eb36c5f4aef8c739",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.714,
+          "audit_ok": true,
+          "log_sha256": "6382892ad24bb63127a32fddc571ffc7f438b48f101ad2e84249e0c1669ff0c6",
+          "output_artifact_hashes": {
+            ".olean": "59c164ab5a9c97718d1d7cc855c4d01af7650228e25bbe3909e0ff006b498868"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.ExponentTail": {
+              ".olean": "74faee8dac7ef45c3d16e6d177a16fdad95f360c482325b0372b28280ae5fc4d"
+            },
+            "HeckeSkeleton.LowEnergy.CommonMellinTail": {
+              ".olean": "8de59ae7f90959af043589e1ae9dbfa1c67ced46f2cc4cd18275e173fa70c252"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.BlockPolynomial.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.BlockPolynomial.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.BlockPolynomial.weighted_polynomial_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.BlockPolynomial.weighted_polynomial_with_sieve_loss",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.BlockPolynomial.low_weighted_polynomial",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.BlockPolynomial.remove_powerful_weight",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -2199,6 +3620,64 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "4af86f5e7cb309b18faa901fd5999080bcb47d13e98c3559d930836493e6da2f",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 3.917,
+          "audit_ok": true,
+          "log_sha256": "99b1b681c4278ce34f073ec2aa9d5e416680380532a566686ffb77f2948a1e70",
+          "output_artifact_hashes": {
+            ".olean": "be8a147038663989cae4ea393b36c0dd770d4fdb93fdf26d8bce348bdf54848e"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.DyadicTail.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.DyadicTail.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.summable_weight_and_tsum_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.finite_weight_sum_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.real_width_penalty_le_weight",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.ceiling_cutoff_affine",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.log_square_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.log_error_power_identity",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.affine_cutoff_square_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -2268,6 +3747,48 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "17846e1fc90894d2e17e53194a370990928bc45a40df4b9e984168eb2a9f36c0",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.279,
+          "audit_ok": true,
+          "log_sha256": "8a5382274027a360f6c849020ae5aacd05a4c0b03d2257cebbf29a9106280700",
+          "output_artifact_hashes": {
+            ".olean": "a278b51e6615bb411c1759fadce0e05900135532d5e5640ba353595ee45d082f"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.EulerLog.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.EulerLog.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.EulerLog.eulerOrder_log",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.EulerLog.iteratedDeriv_ofReal",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.EulerLog.testIntegral_log",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -2351,6 +3872,56 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "19199329a679c99ad32a731a8e47c296545df5f0593ee5d68118d6aabaec6730",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 6.806,
+          "audit_ok": true,
+          "log_sha256": "46f9c87fcec9d0a15a3be264a09319bd8751a632df3af1cd3327c8e60a06ef1f",
+          "output_artifact_hashes": {
+            ".olean": "58ee47d76ab666f325c04d6b46130952737df1c8cb5e6d0dca9efb2d2f55a6c5"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeGeneral.Analysis.SmoothIntegerPartition": {
+              ".olean": "b65bf21002ac61da689bca03610049e728a0c0b3c0e6935c17e0b79ff9cfa08b"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.GaussianReconstruction.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.GaussianReconstruction.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.annulus_smooth",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.annulus_partition",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.split_series_absolute",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.split_series_tsum",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -2421,6 +3992,55 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "87f07e913c0edf9f7304a9b12ca6c5ae7237fad78eca7d6bb2f31a8e2dbb8581",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.639,
+          "audit_ok": true,
+          "log_sha256": "5d77ebdacf0ef169e18351295a0b4326cd2b6709b50ab4e960fc6674d6e11be1",
+          "output_artifact_hashes": {
+            ".olean": "2c720c53d4d48f3ade792133f57cbdbd49993bbf819ec0da2bcbc4415077dbf9"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.EulerLog": {
+              ".olean": "a278b51e6615bb411c1759fadce0e05900135532d5e5640ba353595ee45d082f"
+            },
+            "HeckeSkeleton.LowEnergy.GaussianReconstruction": {
+              ".olean": "58ee47d76ab666f325c04d6b46130952737df1c8cb5e6d0dca9efb2d2f55a6c5"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.GaussianSeminorm.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.GaussianSeminorm.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.GaussianSeminorm.integralSeminorm_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.GaussianSeminorm.summable_exp_mul_seminorm",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.GaussianSeminorm.logarithmic_tail_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -2467,6 +4087,47 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "2004a772930e5cafe9c536ad58864793365f11d4663cfe43314394d2a06026eb",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.256,
+          "audit_ok": true,
+          "log_sha256": "2b074e4b0238eeeae6b91c036025b3ceae17d816e37f71045bd16bd2205c27b5",
+          "output_artifact_hashes": {
+            ".olean": "72cabdd264d370537ff3be2c2562ea27cc8969263ef65322a89a5e8652e10973"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.DyadicTail": {
+              ".olean": "be8a147038663989cae4ea393b36c0dd770d4fdb93fdf26d8bce348bdf54848e"
+            },
+            "HeckeSkeleton.LowEnergy.GaussianSeminorm": {
+              ".olean": "2c720c53d4d48f3ade792133f57cbdbd49993bbf819ec0da2bcbc4415077dbf9"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.GaussianDyadicBudget.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.GaussianDyadicBudget.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.GaussianDyadicBudget.all_annuli_all_dyads",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -2500,6 +4161,47 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "3450d85543b3125e297d517fe4829c57cf2299cfc94c17d3f2478d22d56d5c91",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.012,
+          "audit_ok": true,
+          "log_sha256": "02f70cfadaa50ee59a0bdf17957d53c813b51b55ace096c3d6dd9c518322c1da",
+          "output_artifact_hashes": {
+            ".olean": "a4411797348bb8dc0ad559b7ea12c59c67ef43976d1168559c444415f7a9d036"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.GaussianDyadicBudget": {
+              ".olean": "72cabdd264d370537ff3be2c2562ea27cc8969263ef65322a89a5e8652e10973"
+            },
+            "HeckeSkeleton.LowEnergy.AnnularEnergy": {
+              ".olean": "926b1a00dd5d524b20e466ae662b9b3f480c6169bc8ff34636bed633ac39274b"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.GaussianEnergyAssembly.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.GaussianEnergyAssembly.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.GaussianEnergyAssembly.all_annuli_all_dyads_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -2619,6 +4321,68 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "7ab30fac83247540d6ab663d1929375ccc1dca1c3bad4d80e74d556d31889a44",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 4.147,
+          "audit_ok": true,
+          "log_sha256": "f9e9963d3dae88ec12285986ab537050dcbbcd9297788c8a2e5ed8f62f8ec994",
+          "output_artifact_hashes": {
+            ".olean": "f6a07650428a4260b7a610053fa9a8555f7455db6b2487b5e8d48d08a4dddfb7"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeGeneral.Arithmetic.IdealFactorization": {
+              ".olean": "1f46fd343bf78c62d92daa4f7d06928844ce624bdf4a5348c54267ef96ce4671"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.IdealRows.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.IdealRows.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_residual_decomposition",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_residual_coprime",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_decomposition",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_decomposition_unique",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerfulPair_injective",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.radical_sq_dvd_powerful",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.norm_radical_sq_le_powerful",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -2700,6 +4464,52 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "cf609b3271aa6a31af843413fa89128dd637faab760c223cc2d1199e4e05983a",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.28,
+          "audit_ok": true,
+          "log_sha256": "3d3352acc4fd1ac23cddb125306e1b1e72e9bf2f8e882acd722f567a61444bc7",
+          "output_artifact_hashes": {
+            ".olean": "5ca4497a5244822c1ec7ded92b03dcf0f45cd7c315a39afad9ba1c28edfb8cdf"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.Rankin.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.Rankin.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.square_cube_rpow",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.summable_square_cube",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.cardinality_and_half_mass",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.powerful_count_and_half_mass_from_encoding",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -2783,6 +4593,74 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "81b3cc328aadb5242be6f4630678fb4ff8272aa76e70c8b92471f47195406134",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 3.135,
+          "audit_ok": true,
+          "log_sha256": "0e52955bb678b04616a8ee46cdf49eeb34610cac71d4b8072208ad4aabddebef",
+          "output_artifact_hashes": {
+            ".olean": "cae2e21554f292a278ee8afc93cb6302ad6f2fc8dd502841a700c3e9c6ef793d"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.IdealRows": {
+              ".olean": "f6a07650428a4260b7a610053fa9a8555f7455db6b2487b5e8d48d08a4dddfb7"
+            },
+            "HeckeSkeleton.LowEnergy.Rankin": {
+              ".olean": "5ca4497a5244822c1ec7ded92b03dcf0f45cd7c315a39afad9ba1c28edfb8cdf"
+            },
+            "HeckeSkeleton.LowEnergy.IdealMajorant": {
+              ".olean": "07c6c4de3947f5db5ce464268fe1e1562c618858a76aa7d861feb1800208fdbf"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.IdealRankin.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.IdealRankin.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.summable_powerful_ideal_norm_rpow",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_count_and_half_mass",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_count_and_half_mass_on_finset",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_weighted_half_mass",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.idealNorm_powerfulPart_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_part_half_mass",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_part_half_mass_at_scale",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -2824,6 +4702,44 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "33dc88a2b8e15c184eb1fe8612111161d8df1847d33286a96d01f27c95981ae1",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 1.679,
+          "audit_ok": true,
+          "log_sha256": "f488886472c58c1cc1cc49952a15e7451d6ad4157fa9dd666b8eb5b63dbe1e75",
+          "output_artifact_hashes": {
+            ".olean": "6724986d35d6478c4b9b8a5a3432a62827510d8e5d51fa935f5b63cdf486be2c"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.FiniteFiberEnergy.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.FiniteFiberEnergy.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.FiniteFiberEnergy.sum_eq_fibres",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FiniteFiberEnergy.sum_le_shell_majorants",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -2875,6 +4791,58 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "7ea7481216763975d13109dcac748c285d8f0eacb2e7cdebe3c2f37e47e7dc19",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 3.024,
+          "audit_ok": true,
+          "log_sha256": "c1430f2955f42de196e8eb6a2820f4c04cc5a85eaaed809fe382fb06a35fb6f3",
+          "output_artifact_hashes": {
+            ".olean": "aab8bddfa56ac95dbb4929018cfd83ce04cc3f24619ee1c74c57e70b669212e9"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.IdealRankin": {
+              ".olean": "cae2e21554f292a278ee8afc93cb6302ad6f2fc8dd502841a700c3e9c6ef793d"
+            },
+            "HeckeSkeleton.LowEnergy.FiniteFiberEnergy": {
+              ".olean": "6724986d35d6478c4b9b8a5a3432a62827510d8e5d51fa935f5b63cdf486be2c"
+            },
+            "HeckeSkeleton.LowEnergy.DyadicTail": {
+              ".olean": "be8a147038663989cae4ea393b36c0dd770d4fdb93fdf26d8bce348bdf54848e"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.PowerfulRowAssembly.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.PowerfulRowAssembly.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.PowerfulRowAssembly.powerful_fibre_aggregation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PowerfulRowAssembly.powerful_shell_aggregation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PowerfulRowAssembly.powerful_shell_aggregation_at_scale",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -2924,6 +4892,55 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "89552bd5eed7a7491c4f18dfa1019c247b1726d9f309ea76c4ef35ecbb93fa6d",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.323,
+          "audit_ok": true,
+          "log_sha256": "798d446552153ae52f53ce1fe80953b12979838c062c8f7c442bf183f0b6f0f3",
+          "output_artifact_hashes": {
+            ".olean": "122b45125b1d7729e083fd5f398fd0cbb322f9f8a32cbf8599e66ce49874635e"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.ExponentTail": {
+              ".olean": "74faee8dac7ef45c3d16e6d177a16fdad95f360c482325b0372b28280ae5fc4d"
+            },
+            "HeckeSkeleton.LowEnergy.GaussianDyadicBudget": {
+              ".olean": "72cabdd264d370537ff3be2c2562ea27cc8969263ef65322a89a5e8652e10973"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.PhysicalDyadicBudget.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.PhysicalDyadicBudget.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget.dual_threshold_upper",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget.cutoff_affine",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget.all_physical_annuli_and_dual_dyads",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -2975,6 +4992,48 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "8d27cd3ef66f28e93190a711195513f18fbb75e40a3098d42885e19ef93fa1bc",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.379,
+          "audit_ok": true,
+          "log_sha256": "c69fcabf459c143807f3db7d235f6c79596c9ce84c41aad303c8627c4d5dee6f",
+          "output_artifact_hashes": {
+            ".olean": "044cdf39236f93ef8d91b6ce6bd6015f99a6085c4c9be6d1812be6a36b3ca0aa"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.LogGeometry.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.LogGeometry.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.LogGeometry.selected_row_width",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LogGeometry.annular_tolerance",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LogGeometry.restore_selected_norm",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -3016,6 +5075,51 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "ada046f6c2773e29d4a32cd3b1aae23f5eac5eea07c1b42aceb1e1c9e9ae552c",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.781,
+          "audit_ok": true,
+          "log_sha256": "984bcf216d760aa8f7f3a9015449bba33a28381abc2c4b043843c987013df0ba",
+          "output_artifact_hashes": {
+            ".olean": "a28fa58fd5223d595ef84e3a10c349f87213fbe6260cfba3adf285d7d1c4fca8"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.MellinEnergy": {
+              ".olean": "2357fa2a87e6dd1bc63426179488331025b3809b031df6c97d8d62ca1a5607c8"
+            },
+            "HeckeSkeleton.LowEnergy.IdealCanonicalColumns": {
+              ".olean": "93a5108a30a8bc0c18ead735c753e4aab3767b257946e6ec2a0c8e491e385234"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.FiniteHybridIntegral.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.FiniteHybridIntegral.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.FiniteHybridIntegral.hybrid_integral_identity",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FiniteHybridIntegral.separated_kernel_sum_eq_hybrid_integral",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -3075,6 +5179,52 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "23d20d7b7e19b85e0107fa3307557f58fe2390c7478e94b95c8bccd8c0ebe1c7",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 1.799,
+          "audit_ok": true,
+          "log_sha256": "404aade1c52a87df391f874ab072673ae766e59cfa829181c75e679df9868f35",
+          "output_artifact_hashes": {
+            ".olean": "79dbd4e5c72cfce59290294634781eb12ea89ffd58593552b9697306a4e8f132"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.TupleCore.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.TupleCore.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.TupleCore.sum_piFinset_split",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.TupleCore.sum_piFinset_fixed",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.TupleCore.image_univ_injOn_piFinset",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.TupleCore.sum_pushCoeff",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -3132,6 +5282,56 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "6172f1e4d17db571b004b3569a1b40c18190f97ebead6d5a0fe6a4ce7b73dec7",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 1.781,
+          "audit_ok": true,
+          "log_sha256": "d877a4922c03643fe83c8cafdbeee90a2cc46f92fd7ca1c5b126d9b088b8d58f",
+          "output_artifact_hashes": {
+            ".olean": "4a8f4b236a5ef648b4851633af5b1679a99dc3c6a48eae382b0f3105fae760b1"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.TupleCore": {
+              ".olean": "79dbd4e5c72cfce59290294634781eb12ea89ffd58593552b9697306a4e8f132"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.InactiveCore.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.InactiveCore.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.InactiveCore.weighted_sum_piFinset_split",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.InactiveCore.tuple_l1_mass",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.InactiveCore.finite_weighted_energy_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.InactiveCore.finite_weighted_energy_le_of_mass",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -3215,6 +5415,68 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "219709977718b91fd49038da3d6112a185c89f428818c7d0a3bad179c4f8760d",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.248,
+          "audit_ok": true,
+          "log_sha256": "065c5b89baadc4d5d15ac7481b5255c59d78ea81df009e3c66dae4a1962f36c4",
+          "output_artifact_hashes": {
+            ".olean": "463021d684d931c9806e155c84b72512c1e07801b0c6e48bb5d244138cc48bdd"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.InactiveCore": {
+              ".olean": "4a8f4b236a5ef648b4851633af5b1679a99dc3c6a48eae382b0f3105fae760b1"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.DyadicReindex.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.DyadicReindex.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.index_eq_iff",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.tsum_eq_double_shell_sums",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.summable_double_shell_sums",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.shellCount_le_log",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.window_shell_image_card_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.finite_window_shell_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.finite_sum_eq_shell_sums",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -3273,6 +5535,52 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "feca761900a6068ab4fb2fd482906d5691f084458c1efac0e4c211ecb2c51aed",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 3.969,
+          "audit_ok": true,
+          "log_sha256": "b9340826c8accd58d2dded1bc038e204acc702cc5e15942165d2a6f257fa80d0",
+          "output_artifact_hashes": {
+            ".olean": "af62820e37605a54fa692f33d45a24155d7e62432f3bc0d4541cddeff9b5c909"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.LocalWeylTableCore.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.LocalWeylTableCore.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.LocalWeylTableCore.localScalar_zero_norm",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LocalWeylTableCore.localScalar_positive_eq_zero",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LocalWeylTableCore.localScalar_one_norm_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LocalWeylTableCore.localScalar_three_norm_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -3322,6 +5630,48 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "7341f3fbf0ac735466382af63aea40b3379408b205950813a62b4364098349be",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.072,
+          "audit_ok": true,
+          "log_sha256": "e1d8c53ea52d8674100c6c985200193b1d5d16c6c93e42cf93392ce226f84b01",
+          "output_artifact_hashes": {
+            ".olean": "3937dcfbc0f3b124a6ab3c6b6d81218f8bb718f68c23afb313b017adbcde9d10"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.FrozenChargeCore.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.FrozenChargeCore.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.FrozenChargeCore.minimum_norm_identity",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FrozenChargeCore.linear_norm_le_active",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FrozenChargeCore.frozen_majorant_square_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -3393,6 +5743,48 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "e985c4857fc79f114080f3b0cad770729247f6af598b2b66811eb93391387566",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.044,
+          "audit_ok": true,
+          "log_sha256": "261f14149a3bc9ab0658390d4bdb70e85497792e3ff3fa0698ac9d34cda5e4ed",
+          "output_artifact_hashes": {
+            ".olean": "b61944a428a16a98bb169e9bb37da5ac7271c7e608d11db3283b9f9bbb21368b"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.SupportPowers.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.SupportPowers.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.SupportPowers.finite_exception_product_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.SupportPowers.fixed_states_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.SupportPowers.finite_state_assignments_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -3459,6 +5851,63 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "57e3cef5f6de2c9aa68892bc62361c228d1b16fdbbca9b1668182842d0f43ed7",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.7,
+          "audit_ok": true,
+          "log_sha256": "c40321dff70c8dae2928c11962c1c0861bad317ad592169c88bf04a2258f1a50",
+          "output_artifact_hashes": {
+            ".olean": "0b9a8dec5df9be083a5fc6b3faf0a620d15807c5d9de78029ec3954091bc7ff2"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.SupportPowers": {
+              ".olean": "b61944a428a16a98bb169e9bb37da5ac7271c7e608d11db3283b9f9bbb21368b"
+            },
+            "HeckeGeneral.Arithmetic.IdealFactorization": {
+              ".olean": "1f46fd343bf78c62d92daa4f7d06928844ce624bdf4a5348c54267ef96ce4671"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.IdealSupportPowers.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.IdealSupportPowers.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.finite_primeNorm_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.support_product_le_norm",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.prime_support_states_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.actual_state_table_count",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.squared_four_state_count",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -3468,7 +5917,8 @@
       "bytes": 15056,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualSymbols",
@@ -3477,7 +5927,8 @@
       "bytes": 11331,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualReflection",
@@ -3486,7 +5937,8 @@
       "bytes": 10208,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualSymbolProducts",
@@ -3495,7 +5947,8 @@
       "bytes": 5173,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowFrozenCube.Exponents",
@@ -3544,6 +5997,48 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "85c9a0b5694c870bb37eaa309acbf33deaba03cc34fe600a60a58f7cfb8e55f3",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 1.242,
+          "audit_ok": true,
+          "log_sha256": "48d5d70855dc31b89d05954e4f280510f66cfb57438b70e635995e3cd3a52e83",
+          "output_artifact_hashes": {
+            ".olean": "103fd0c636c6022405f5320178b1c31b2bc41200434807bc342220a6abb07612"
+          },
+          "local_dependency_artifact_hashes": {},
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowFrozenCube.Exponents.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowFrozenCube.Exponents.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowFrozenCube.frozenExponent_decomposition",
+              "propext, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowFrozenCube.frozenExponent_unique",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowFrozenCube.canonicalPair_admissible",
+              "propext, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -3603,7 +6098,8 @@
           ],
           "mentions_sorryAx": false
         }
-      ]
+      ],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualFrozenCube",
@@ -3612,7 +6108,8 @@
       "bytes": 23531,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualLocalWeylTable",
@@ -3621,7 +6118,8 @@
       "bytes": 6745,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualFrozenMajorant",
@@ -3630,7 +6128,8 @@
       "bytes": 16392,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualFrozenIndependence",
@@ -3639,7 +6138,8 @@
       "bytes": 13418,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualReflectionReindex",
@@ -3648,7 +6148,8 @@
       "bytes": 23612,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualCommonMellinTail",
@@ -3657,7 +6158,8 @@
       "bytes": 9954,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualFrozenCharges",
@@ -3666,7 +6168,8 @@
       "bytes": 9342,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualFrozenStateCount",
@@ -3675,7 +6178,8 @@
       "bytes": 8288,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualSieveDictionary",
@@ -3684,7 +6188,8 @@
       "bytes": 9940,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualRawHybrid",
@@ -3693,7 +6198,8 @@
       "bytes": 6395,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualHybridEntry",
@@ -3702,7 +6208,8 @@
       "bytes": 6389,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ClassSlices",
@@ -3772,7 +6279,8 @@
           ],
           "mentions_sorryAx": false
         }
-      ]
+      ],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualClassSlices",
@@ -3781,7 +6289,8 @@
       "bytes": 3911,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualGeneratorClasses",
@@ -3790,16 +6299,18 @@
       "bytes": 7014,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualSeparatedBlock",
       "path": "HeckeSkeleton/LowEnergy/ActualSeparatedBlock.lean",
-      "source_sha256": "92acb61ec99531b17d93b9d538aca6d455a34175b70269ea0698e2a13fb72d23",
-      "bytes": 31259,
+      "source_sha256": "2eed8ceb2cb5f8e139ce08603f41137843b1bf236774871bd8acc8afdbd6d096",
+      "bytes": 31298,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualBlockEnergy",
@@ -3808,7 +6319,8 @@
       "bytes": 11184,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.SlotTuples",
@@ -3858,6 +6370,52 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "707ab1ebc3c25fe490b8c245ad89c142c5855e25178d9c7def33a247b20a0a3b",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.092,
+          "audit_ok": true,
+          "log_sha256": "d883ec8b54acea6dfb9c72b3fabc33e7583a0e198321fc86a5370e3575912a6a",
+          "output_artifact_hashes": {
+            ".olean": "9d5581742193db20519e5e1cf470aba55e8ec1809d21fd42e95565683c7e010e"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.TupleCore": {
+              ".olean": "79dbd4e5c72cfce59290294634781eb12ea89ffd58593552b9697306a4e8f132"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.SlotTuples.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.SlotTuples.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.SlotTuples.sum_pi_fixed_active_split",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.SlotTuples.image_surviving_fill",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.SlotTuples.active_inactive_images_disjoint",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -3867,7 +6425,8 @@
       "bytes": 20452,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.InactiveWindows",
@@ -3876,7 +6435,8 @@
       "bytes": 21566,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.TargetDictionary",
@@ -3885,7 +6445,8 @@
       "bytes": 3579,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GaussianTheta",
@@ -3894,7 +6455,8 @@
       "bytes": 6398,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.TargetGaussian",
@@ -3903,7 +6465,8 @@
       "bytes": 5992,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.TargetSieveDictionary",
@@ -3912,7 +6475,8 @@
       "bytes": 2061,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualBlockReindex",
@@ -3921,7 +6485,8 @@
       "bytes": 11162,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualSourceReindex",
@@ -3930,7 +6495,8 @@
       "bytes": 15060,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualRowFibres",
@@ -3939,7 +6505,8 @@
       "bytes": 4863,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualDyadicReflection",
@@ -3948,7 +6515,8 @@
       "bytes": 11160,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial",
@@ -3985,6 +6553,63 @@
             ]
           ],
           "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "bb5e86bb0bee0b24dc02e21993f90c896a32cbb096f4fbd0dfce68feebe3c409",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 5.585,
+          "audit_ok": true,
+          "log_sha256": "327948bbcea742fcb5a2b6a7866dc4249976549505b3de5829e7f24da1b2282d",
+          "output_artifact_hashes": {
+            ".olean": "3d81ca385c77e1493e02f4cb7af03dc74003bcdb17787a8c4931938db0ba94f0"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.BlockPolynomial": {
+              ".olean": "59c164ab5a9c97718d1d7cc855c4d01af7650228e25bbe3909e0ff006b498868"
+            },
+            "HeckeSkeleton.LowEnergy.LogGeometry": {
+              ".olean": "044cdf39236f93ef8d91b6ce6bd6015f99a6085c4c9be6d1812be6a36b3ca0aa"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial.doubled_sievePolynomial_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial.physicalScale_eq_rpow",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial.charged_weight_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial.physical_polynomial_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial.physical_low_polynomial",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
         }
       ]
     },
@@ -4036,6 +6661,55 @@
           ],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "66559059e3e32ec55dba8fd635ed3fc1d2f52fabdb39b1751dda0d2054a9a2c8",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 2.377,
+          "audit_ok": true,
+          "log_sha256": "c834b456e43488815d99e0f317328e78f2444131ab4074d749f45dd435f8eded",
+          "output_artifact_hashes": {
+            ".olean": "a070331bd4f7891bf6167ac4ca95e9f7f82b88e6bfe749b8912c5a36e3815f7d"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget": {
+              ".olean": "122b45125b1d7729e083fd5f398fd0cbb322f9f8a32cbf8599e66ce49874635e"
+            },
+            "HeckeSkeleton.LowEnergy.GaussianEnergyAssembly": {
+              ".olean": "a4411797348bb8dc0ad559b7ea12c59c67ef43976d1168559c444415f7a9d036"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy.log",
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy.annular_power_factorization",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy.annular_majorant_le_amplitude",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy.all_physical_blocks_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
@@ -4045,7 +6719,8 @@
       "bytes": 22964,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualFrozenAggregation",
@@ -4054,25 +6729,28 @@
       "bytes": 13278,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualFrozenReconstruction",
       "path": "HeckeSkeleton/LowEnergy/ActualFrozenReconstruction.lean",
-      "source_sha256": "e37b2989a696320ca34e3fd75d20f0236c0015c30b40258f2636a549ebcb00f0",
-      "bytes": 16157,
+      "source_sha256": "5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7",
+      "bytes": 16196,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy",
       "path": "HeckeSkeleton/LowEnergy/ActualMarkedTupleEnergy.lean",
-      "source_sha256": "5b157877166f2d03cd13b00c45c0e6f8f092c63abebe0685e9a42435903f9ea7",
-      "bytes": 19100,
+      "source_sha256": "763cd3d13594e3caead07b43da22c3d0b1e49130f57ee42f3a3e6d1bf0076cdb",
+      "bytes": 19262,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction",
@@ -4081,7 +6759,8 @@
       "bytes": 34651,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy",
@@ -4090,7 +6769,8 @@
       "bytes": 11173,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy",
@@ -4099,7 +6779,8 @@
       "bytes": 10347,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy",
@@ -4108,7 +6789,8 @@
       "bytes": 4937,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [],
+      "remote_evidence": []
     },
     {
       "module": "HeckeSkeleton.LowFrozenCube.Valuations",
@@ -4132,16 +6814,71 @@
           "axiom_checks": [],
           "mentions_sorryAx": false
         }
+      ],
+      "remote_evidence": [
+        {
+          "run_id": 41124279712,
+          "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712",
+          "head": "a0ca28e8835b47aa72eb0d9f3e394201124c2806",
+          "phase": "core",
+          "phase_result": "failed_on_previous_LocalCoefficients_source",
+          "source_sha256": "5249d242539316a45ea01cfe73af5ac6dd607b1ddf6b3b9033ca850ef980a1c7",
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "flags": [
+            "-j1",
+            "-DautoImplicit=false",
+            "-DrelaxedAutoImplicit=false"
+          ],
+          "seconds": 1.829,
+          "audit_ok": true,
+          "log_sha256": "9c8556dc9671ed0477ae7ad08a06ee1777e769f1002d8256174ebdee4580b265",
+          "output_artifact_hashes": {
+            ".olean": "eddf1583347fc081c01ecc5f5041f62e086f4f2fd41adcbd18c71785f7a168c3"
+          },
+          "local_dependency_artifact_hashes": {
+            "HeckeSkeleton.LowFrozenCube.Exponents": {
+              ".olean": "103fd0c636c6022405f5320178b1c31b2bc41200434807bc342220a6abb07612"
+            }
+          },
+          "record": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowFrozenCube.Valuations.json",
+          "log": "docs/low-energy/verification/ci-41124279712/core/HeckeSkeleton.LowFrozenCube.Valuations.log",
+          "axiom_checks": [],
+          "mentions_sorryAx": false,
+          "local_olean_available": false
+        }
       ]
     },
     {
       "module": "HeckeSkeleton.LowFrozenCube.LocalCoefficients",
       "path": "HeckeSkeleton/LowFrozenCube/LocalCoefficients.lean",
-      "source_sha256": "486278431935fef5d04d7deb969d19db779fb56eac7c459abf8fe3f52df8c497",
-      "bytes": 3389,
-      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "source_sha256": "480a326fa64d1ab714ab9e751e3c32a88a248c7938b1c398bbed187a8fba4a17",
+      "bytes": 3656,
+      "status": "CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 11.114,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowFrozenCube.localPhaseDigit_frozen",
+              "propext, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowFrozenCube.normalizedCubeCoefficient_norm_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowFrozenCube.normalizedCubeCoefficient_reassemble",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ],
+      "remote_evidence": []
     }
   ]
 }

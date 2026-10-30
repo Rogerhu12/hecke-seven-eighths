@@ -1,0 +1,34 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.IdealSupportPowers",
+  "source": "HeckeSkeleton/LowEnergy/IdealSupportPowers.lean",
+  "cache_schema": 2,
+  "source_sha256": "57e3cef5f6de2c9aa68892bc62361c228d1b16fdbbca9b1668182842d0f43ed7",
+  "exit_code": 0,
+  "seconds": 2.7,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeSkeleton.LowEnergy.SupportPowers": {
+      ".olean": "b61944a428a16a98bb169e9bb37da5ac7271c7e608d11db3283b9f9bbb21368b"
+    },
+    "HeckeGeneral.Arithmetic.IdealFactorization": {
+      ".olean": "1f46fd343bf78c62d92daa4f7d06928844ce624bdf4a5348c54267ef96ce4671"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "0b9a8dec5df9be083a5fc6b3faf0a620d15807c5d9de78029ec3954091bc7ff2"
+  },
+  "audit_ok": true,
+  "log_sha256": "c40321dff70c8dae2928c11962c1c0861bad317ad592169c88bf04a2258f1a50",
+  "local_dependency_hashes": {
+    "HeckeSkeleton.LowEnergy.SupportPowers": "b61944a428a16a98bb169e9bb37da5ac7271c7e608d11db3283b9f9bbb21368b",
+    "HeckeGeneral.Arithmetic.IdealFactorization": "1f46fd343bf78c62d92daa4f7d06928844ce624bdf4a5348c54267ef96ce4671"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

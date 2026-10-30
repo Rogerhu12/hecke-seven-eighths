@@ -1,0 +1,13 @@
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowHybrid/SieveComposition.lean:244:6: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowHybrid/SieveComposition.lean:244:6: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+'HeckeSkeleton.LowHybrid.bounded_coefficient_sum_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowHybrid.positive_fiber_sum_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowHybrid.column_fiber_sieve' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowHybrid.positive_triple_enlarge' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowHybrid.row_fiber_sieve' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowHybrid.fixed_block_energy_of_two_sieves' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowHybrid.fixed_block_scalar_ledger' depends on axioms: [propext, Classical.choice, Quot.sound]

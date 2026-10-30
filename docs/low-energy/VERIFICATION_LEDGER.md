@@ -5,7 +5,7 @@ Lean build records. It does not certify the target theorem or an end-to-end repo
 
 Base: `dtests-handoff` at `503ad9895e5f8affef55b22fea082e251bf33aa7`.
 
-55 new modules have matching successful build records; 39 do not.
+57 new modules have matching successful build records; 37 do not.
 
 | Module | Current source SHA-256 | Status |
 |---|---|---|
@@ -18,7 +18,7 @@ Base: `dtests-handoff` at `503ad9895e5f8affef55b22fea082e251bf33aa7`.
 | `HeckeSkeleton.LowEnergy.IdealMass` | `de311d9dfa1cf265a511380ab659698997673f10b43ae3038fa677aea5866c4f` | CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.OriginalRowSupport` | `d0d075ae5841cd64b2ddc8b4c428f0d8c87f666e9385517a8f75ff341eb654c3` | CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.SquarefreeFibers` | `8b71a2ee70b724c141d3257656c5107a771ce0de9e634b8c146cc7735b549185` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowHybrid.SieveComposition` | `b59601851cb677b730d0927d1b423140a98c601167cd580813662c778b11bbb9` | NOT_CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowHybrid.SieveComposition` | `b59601851cb677b730d0927d1b423140a98c601167cd580813662c778b11bbb9` | CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowHybrid.Assembly` | `bfbc0a1cb47dbde64240f318bcc9cfacdc12d43336b42ace31b6717a18cdb456` | CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowHybrid.Weighted` | `30e1f4a7ced3a7a12109d5f9b634267975a64105953638e0fd21903c9cb8091f` | CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowHybrid.Global` | `4fee86656221c1abf7dfac6b151edff0d2fc0e342b58b4ecbaa8dc4d3d67b4d7` | CHECKED_EXACT_SOURCE |
@@ -78,7 +78,7 @@ Base: `dtests-handoff` at `503ad9895e5f8affef55b22fea082e251bf33aa7`.
 | `HeckeSkeleton.LowEnergy.ClassSlices` | `e6d8d177a719024e0258d2a2373e0d1c930b84f588e0c44e5f9f6809a0e595c1` | CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualClassSlices` | `61e3dd08397a098f17479f3cb297ad2918fa91a3dd66ae0db96d99e7289b981a` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualGeneratorClasses` | `a137ece1cbe57e1f11e31d242e05c526e6e989a51309a94057e330fb3ce97251` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualSeparatedBlock` | `92acb61ec99531b17d93b9d538aca6d455a34175b70269ea0698e2a13fb72d23` | NOT_CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowEnergy.ActualSeparatedBlock` | `2eed8ceb2cb5f8e139ce08603f41137843b1bf236774871bd8acc8afdbd6d096` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualBlockEnergy` | `b85e09a25c886496b7f966781ab5c4c4cad6e1765a39d350e4611c68f5785479` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.SlotTuples` | `707ab1ebc3c25fe490b8c245ad89c142c5855e25178d9c7def33a247b20a0a3b` | CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.WindowTuples` | `2e18f50c79a81d29a0bfa2bdae46cb1cc0bcd80fc7ba651375b3ce94b534ce1f` | NOT_CHECKED_EXACT_SOURCE |
@@ -95,18 +95,26 @@ Base: `dtests-handoff` at `503ad9895e5f8affef55b22fea082e251bf33aa7`.
 | `HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy` | `66559059e3e32ec55dba8fd635ed3fc1d2f52fabdb39b1751dda0d2054a9a2c8` | CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy` | `463ff764aba418fcac907d524c77d4eeca03239fd7a8d4d3cff43002f4e0c30b` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualFrozenAggregation` | `47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualFrozenReconstruction` | `e37b2989a696320ca34e3fd75d20f0236c0015c30b40258f2636a549ebcb00f0` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy` | `5b157877166f2d03cd13b00c45c0e6f8f092c63abebe0685e9a42435903f9ea7` | NOT_CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowEnergy.ActualFrozenReconstruction` | `5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7` | NOT_CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy` | `763cd3d13594e3caead07b43da22c3d0b1e49130f57ee42f3a3e6d1bf0076cdb` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualTupleReconstruction` | `fddcae0c3187ba1097e93970803a7e3583b06abe14c023a5a0dd7c1df578d22f` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy` | `cddcbc2df69e48aeece79106975af88a3872972412cf37c44d5dd7dbeb265ab0` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy` | `aff5da5ca4eb82f4d6a43b284159354b3bb85220959cee5d46ad4967131de103` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy` | `6b17122916d248f46bf750637b7de135dbaacd7662e97ce43ab280ee59481b84` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowFrozenCube.Valuations` | `5249d242539316a45ea01cfe73af5ac6dd607b1ddf6b3b9033ca850ef980a1c7` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowFrozenCube.LocalCoefficients` | `486278431935fef5d04d7deb969d19db779fb56eac7c459abf8fe3f52df8c497` | NOT_CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowFrozenCube.LocalCoefficients` | `480a326fa64d1ab714ab9e751e3c32a88a248c7938b1c398bbed187a8fba4a17` | CHECKED_EXACT_SOURCE |
+
+## Remote records, distinct from local object files
+
+Run 41124279712 at a0ca28e8835b47aa72eb0d9f3e394201124c2806: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712.
+The core job failed on the previous LocalCoefficients source; this is not a successful-job claim.
+Accepted module records match current source, toolchain, package lock, log digest,
+and all recursively checked local dependency sources and output-artifact digests.
+Raw records retain the old failure. No remote record is represented as a local olean.
+
 
 ## Legacy build records excluded pending dependency recheck
 
-- `HeckeSkeleton.LowFrozenCube.LocalCoefficients`: The Valuations dependency was refactored to import the shared Exponents declarations; a legacy source-only build record does not verify this dependency graph.
 
 ## Missing source dependencies
 

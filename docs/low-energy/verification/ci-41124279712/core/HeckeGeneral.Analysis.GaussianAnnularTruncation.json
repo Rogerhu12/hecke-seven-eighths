@@ -1,0 +1,30 @@
+{
+  "module": "HeckeGeneral.Analysis.GaussianAnnularTruncation",
+  "source": "HeckeGeneral/Analysis/GaussianAnnularTruncation.lean",
+  "cache_schema": 2,
+  "source_sha256": "cb5993421b0de73d5aa4b04c16f18234ef2630780b67004a1abda1c335d7faac",
+  "exit_code": 0,
+  "seconds": 2.472,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": false,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeGeneral.Analysis.GaussianAnnularAssembly": {
+      ".olean": "00f13e043446117944e73c90a079ff4f045df0b053dc7133621a8a4e93454023"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "a1d40470856bbfbad46e445f26e955ffe18f1858ab318a55721199c1c45673d3"
+  },
+  "audit_ok": true,
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "local_dependency_hashes": {
+    "HeckeGeneral.Analysis.GaussianAnnularAssembly": "00f13e043446117944e73c90a079ff4f045df0b053dc7133621a8a4e93454023"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

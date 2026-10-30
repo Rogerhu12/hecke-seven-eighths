@@ -1,0 +1,17 @@
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/SupportPowers.lean:35:10: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/SupportPowers.lean:40:18: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+'HeckeSkeleton.LowEnergy.SupportPowers.finite_exception_product_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.SupportPowers.fixed_states_small_power' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.SupportPowers.finite_state_assignments_small_power' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

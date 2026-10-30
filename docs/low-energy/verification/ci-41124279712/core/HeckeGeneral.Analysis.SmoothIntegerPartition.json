@@ -1,0 +1,30 @@
+{
+  "module": "HeckeGeneral.Analysis.SmoothIntegerPartition",
+  "source": "HeckeGeneral/Analysis/SmoothIntegerPartition.lean",
+  "cache_schema": 2,
+  "source_sha256": "cfa8a8dcc908b17cfd7d9e2474107cbd6e4ae17cf4f7692e330b1a8b97f14bfa",
+  "exit_code": 0,
+  "seconds": 2.271,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": false,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeGeneral.Analysis.GaussianAnnularTruncation": {
+      ".olean": "a1d40470856bbfbad46e445f26e955ffe18f1858ab318a55721199c1c45673d3"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "b65bf21002ac61da689bca03610049e728a0c0b3c0e6935c17e0b79ff9cfa08b"
+  },
+  "audit_ok": true,
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "local_dependency_hashes": {
+    "HeckeGeneral.Analysis.GaussianAnnularTruncation": "a1d40470856bbfbad46e445f26e955ffe18f1858ab318a55721199c1c45673d3"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

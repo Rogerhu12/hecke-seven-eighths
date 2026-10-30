@@ -60,6 +60,17 @@ jobs:
             .lake/build/lib/lean
             .low-energy-verification
           key: ${{ steps.proof-cache.outputs.cache-primary-key }}
+      - name: Preserve compiled checkpoints
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: low-energy-compiled-${{ matrix.phase }}
+          path: |
+            .lake/build/lib/lean/
+            .low-energy-verification/
+          if-no-files-found: ignore
+          include-hidden-files: true
+          retention-days: 7
       - name: Preserve verification logs
         if: always()
         uses: actions/upload-artifact@v4

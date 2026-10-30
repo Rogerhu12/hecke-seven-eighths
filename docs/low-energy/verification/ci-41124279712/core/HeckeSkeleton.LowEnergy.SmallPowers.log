@@ -1,0 +1,15 @@
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/SmallPowers.lean:85:5: warning: Variable name `hC` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hC
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+'HeckeSkeleton.LowEnergy.reciprocal_sum_le_rpow_tsum' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.reciprocal_sum_small_power' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.harmonic_product_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.bounded_harmonic_product_small_power' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.squared_harmonic_product_small_power' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

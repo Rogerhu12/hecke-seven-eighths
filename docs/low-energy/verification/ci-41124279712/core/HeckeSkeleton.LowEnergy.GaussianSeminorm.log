@@ -1,0 +1,15 @@
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/GaussianSeminorm.lean:63:9: warning: Variable name `y` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _y
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+'HeckeSkeleton.LowEnergy.GaussianSeminorm.integralSeminorm_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.GaussianSeminorm.summable_exp_mul_seminorm' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.GaussianSeminorm.logarithmic_tail_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

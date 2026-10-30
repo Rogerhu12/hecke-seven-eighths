@@ -1,0 +1,24 @@
+{
+  "module": "HeckeSkeleton.LowFrozenCube.Exponents",
+  "source": "HeckeSkeleton/LowFrozenCube/Exponents.lean",
+  "cache_schema": 2,
+  "source_sha256": "85c9a0b5694c870bb37eaa309acbf33deaba03cc34fe600a60a58f7cfb8e55f3",
+  "exit_code": 0,
+  "seconds": 1.242,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {},
+  "output_artifact_hashes": {
+    ".olean": "103fd0c636c6022405f5320178b1c31b2bc41200434807bc342220a6abb07612"
+  },
+  "audit_ok": true,
+  "log_sha256": "48d5d70855dc31b89d05954e4f280510f66cfb57438b70e635995e3cd3a52e83",
+  "local_dependency_hashes": {},
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

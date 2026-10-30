@@ -285,7 +285,11 @@ theorem actual_marked_tuple_energy [Finite (SixthLocalClasses K S)]
   let d : ℝ := (J.card : ℝ) / (6 * g.slots)
   let E : ℝ := Ce * W ^ 2 * exteriorNorm K S frozen ^ (-(1 / 2 : ℝ) + rho) *
     Z ^ ((5 / 6 : ℝ) - 2 * d + 23 * delta + 2 * eps)
-  have hE : 0 ≤ E := by dsimp [E]; positivity
+  have hE : 0 ≤ E :=
+    mul_nonneg
+      (mul_nonneg (mul_nonneg hCe.le (sq_nonneg W))
+        (Real.rpow_nonneg (exteriorNorm_pos K S frozen).le _))
+      (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)
   have hL : 0 < L := by dsimp [L]; positivity
   have hW0 : 0 < W := zero_lt_one.trans_le hW
   have hd := selected_exponent_bounds g J
@@ -354,7 +358,7 @@ theorem actual_marked_tuple_energy [Finite (SixthLocalClasses K S)]
   have hcomb := hs.trans (mul_le_mul_of_nonneg_right
     (pow_le_pow_left₀ (Nat.cast_nonneg _) hcard 2)
     (mul_nonneg hCi.le (mul_nonneg (sq_nonneg L) hE)))
-  convert hcomb using 1 <;> dsimp [markedFrozenRow, E, d] <;> ring
+  convert hcomb using 1 <;> simp only [markedFrozenRow, E, d] <;> ring
 
 #print axioms ordinaryActiveWeight_bound
 #print axioms actual_marked_tuple_energy

@@ -1,0 +1,42 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.ConcreteIdealBlock",
+  "source": "HeckeSkeleton/LowEnergy/ConcreteIdealBlock.lean",
+  "cache_schema": 2,
+  "source_sha256": "ee207c9801cc72577d68b2686f24c2ab2ee057f0231b15fa9e3e3d5fd9001389",
+  "exit_code": 0,
+  "seconds": 3.007,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeSkeleton.LowEnergy.OriginalRowSupport": {
+      ".olean": "972362af06933a27fa03440a6a2aff548f507af2e881066c78c4969ba4ab9b7b"
+    },
+    "HeckeSkeleton.LowEnergy.SquarefreeFibers": {
+      ".olean": "ccd4b8f3da0022cac0be65c96e7505b44c1feff640680640bc57ee7bfdb172b6"
+    },
+    "HeckeSkeleton.LowHybrid.Global": {
+      ".olean": "0a32831dedfc081242ece771b70b686308691805fbe5ba44e8746b734a4d91a8"
+    },
+    "HeckeSkeleton.LowHybrid.WeightedSieveBounds": {
+      ".olean": "db4666c7cec9293a4786d63a5d87e22fca1fe1a0d436fe0815441a7f296acf00"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "573a917929cc5c51d1c62e30219e653c9d467926bd416ae806e74802f9e9dc07"
+  },
+  "audit_ok": true,
+  "log_sha256": "2764d726d54519900e246a4c1d65382a6f55d09843ad67b6ed85f8a694d38435",
+  "local_dependency_hashes": {
+    "HeckeSkeleton.LowEnergy.OriginalRowSupport": "972362af06933a27fa03440a6a2aff548f507af2e881066c78c4969ba4ab9b7b",
+    "HeckeSkeleton.LowEnergy.SquarefreeFibers": "ccd4b8f3da0022cac0be65c96e7505b44c1feff640680640bc57ee7bfdb172b6",
+    "HeckeSkeleton.LowHybrid.Global": "0a32831dedfc081242ece771b70b686308691805fbe5ba44e8746b734a4d91a8",
+    "HeckeSkeleton.LowHybrid.WeightedSieveBounds": "db4666c7cec9293a4786d63a5d87e22fca1fe1a0d436fe0815441a7f296acf00"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

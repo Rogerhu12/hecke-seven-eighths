@@ -1,0 +1,10 @@
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowFrozenCube/LocalCoefficients.lean:22:30: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowFrozenCube/LocalCoefficients.lean:22:42: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowFrozenCube/LocalCoefficients.lean:48:38: error: expected token
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowFrozenCube/LocalCoefficients.lean:63:53: error: expected token

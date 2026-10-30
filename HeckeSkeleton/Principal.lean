@@ -171,12 +171,13 @@ def CompletedMarkedEnergy : Prop :=
 -- Literal reflection, the original two sieves, charged powerful fibres,
 -- all Gaussian annuli, and every original sixth-unit sector.
 theorem completedMarkedEnergy
+    {F : FiniteMellinData K S}
     (hreflection : MarkedCoefficientReflectionInput K S (probeData K c).arithmetic
-      (finiteMellinData K c) (thetaPeriod K S P ψ))
+      F (thetaPeriod K S P ψ))
     (hquadratic : QuadraticSieveBound K c)
     (hcubic : CubicSieveBound K c) : CompletedMarkedEnergy K c := by
   exact LowEnergy.ActualCompletedMarkedEnergy.completedMarkedEnergy K c
-    (finiteMellinData K c) hreflection hquadratic hcubic
+    F hreflection hquadratic hcubic
 
 -- LOW-CAUCHY-COMPENSATION | revised Proposition 6.2, pp.40–41.
 -- Proved in HeckeSkeleton.LowCauchy (marked spectral Cauchy bound and assembly).
@@ -206,7 +207,7 @@ theorem principalSource : (probeMeasures K c).principalInput P ψ g T := by
     principal_window_error := principal_principal_window_error K c
     low := low_of_gram_and_completedEnergy K c
       (Gram.gramBound_of_calibrated K S P (allowedGenerators K c) (arithmeticCalibration K c))
-      (completedMarkedEnergy K c (markedReflection K c)
+      (completedMarkedEnergy K c (F := finiteMellinData K c) (markedReflection K c)
         (moment_quadratic_sieve K c) (moment_cubic_sieve K c))
       (principal_normalizer_smallPower K c)
   }

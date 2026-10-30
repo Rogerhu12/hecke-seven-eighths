@@ -1,0 +1,10 @@
+'HeckeSkeleton.LowEnergy.InactiveCore.weighted_sum_piFinset_split' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.InactiveCore.tuple_l1_mass' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.InactiveCore.finite_weighted_energy_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.InactiveCore.finite_weighted_energy_le_of_mass' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

@@ -12,8 +12,8 @@
 本 PR 保持草稿状态，不能据此宣布 LOW-REFLECTED-ENERGY 已经形式化完成。**
 
 当前清单包含 94 个新增 Lean 模块，
-其中 55 个有与当前源文件 SHA-256 匹配的成功编译记录，
-另 39 个没有。记录按模块区分；成功验证一个一般核心不被当作
+其中 57 个有与当前源文件 SHA-256 匹配的成功编译记录，
+另 37 个没有。记录按模块区分；成功验证一个一般核心不被当作
 已经验证实际适配层。运行中的任务、资源中断和未返回的编译均不算通过。
 
 ## 目标、假设与调用方
@@ -35,6 +35,13 @@
 `principalSource` 的调用已提供 `moment_quadratic_sieve` 和 `moment_cubic_sieve`。
 最终目标没有额外的 completed-energy、分离块能量、行主项界或等价分析结论假设。
 数值模块可以有明确的几何不等式前提；实际适配层负责从真实范数、窗口和截断证明这些前提。
+
+`Principal.completedMarkedEnergy` 的有限 Mellin 数据改为隐式参数
+`{F : FiniteMellinData K S}`，可由 `hreflection` 的类型自动推断。
+这是对原数据参数的泛化，能量结论及其窗口和轨道定义不变。
+这样条件能量定理不必实例化原 `Theta.lean` 中尚未实现的 `finiteMellinData` 定义。
+原 `principalSource` 仍显式取 `(F := finiteMellinData K c)`；这保留原流程，
+不把上游数据构造的缺口包装为本次已经完成的证明。
 
 主要公开定理的逐字签名与环境见 [THEOREMS.md](THEOREMS.md)。
 每个辅助定义及全部证明项保存在相应 `.lean` 文件中。
@@ -106,13 +113,23 @@ ZIP 未包含的真实依赖已从所指定 GitHub 仓库读取；未用替代�
 `SkeletonInputs`、`GramCoreInputs`、`GramAssemblyInputs` 等真实源码根。
 这些依赖不是待用户手工提供的占位内容。
 
-54 个 vendored 模块的 `import Mathlib` 被替换为仅含显式官方 Mathlib imports 的
-`FLTReuse.ExplicitMathlibImports`，另 2 个原仓库模块也收窄了 imports，
-以缩小本地验证所需缓存。其定义与证明未改变，全部 56 项的
+55 个 vendored 模块做了仅限 imports 的调整：其中
+54 个宽泛 `import Mathlib` 由仅含显式官方 Mathlib imports 的
+`FLTReuse.ExplicitMathlibImports` 收窄，1 个补入实际使用的官方 leaf import。
+另 2 个原仓库模块也调整了 imports，以缩小本地验证所需缓存。
+其定义与证明未改变，全部 57 项的
 原始和修改后哈希列在 `vendor_import_changes.json`。
 这一导入收窄也需要完整依赖编译验证；失败时应补齐真实 import，而不是加入新公理。
 
-除原目标需显式列出两个 sieve 输入外，本轮尚未确认目标数学陈述本身存在反例或错误。
+确认的上游缺口是 `HeckeSkeleton/Theta.lean` 中标记为 `TH-KP-DATA` 的
+`finiteMellinData` 仍为 admitted 定义。该文件的 `finite_valuation_cutoff`、
+`finite_valuation_decay`、`marked_reflected_absolute`、`marked_reflection`
+也保留原来的 admissions。本任务的条件能量定理取给定的反射输入，
+不调用这些未证的反射提供者；全局 `principalSource` 则仍依赖它们。
+最终公理门审计条件目标本身，不把全局 principal source 宣称为无 admissions。
+
+除原目标需显式列出两个 sieve 输入、并泛化尚未构造的 Mellin 数据参数外，
+本轮尚未确认目标数学陈述本身存在反例或错误。
 发现的工程问题主要是 ZIP 缺少真实 vendor/assembly 源码、导入头解析必须忽略注释，
 以及宽泛 Mathlib 导入的缓存体积。实际源码已据真实仓库接线。
 

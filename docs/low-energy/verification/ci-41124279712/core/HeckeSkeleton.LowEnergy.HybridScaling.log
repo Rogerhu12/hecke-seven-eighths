@@ -1,0 +1,12 @@
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/HybridScaling.lean:40:13: warning: Variable name `hR` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hR
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+'HeckeSkeleton.LowEnergy.HybridScaling.raw_hybrid_energy_with_amplitudes' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.HybridScaling.raw_hybrid_energy_frozen_cube' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

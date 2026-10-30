@@ -1,0 +1,6 @@
+'HeckeSkeleton.LowEnergy.FiniteHybridIntegral.hybrid_integral_identity' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.FiniteHybridIntegral.separated_kernel_sum_eq_hybrid_integral' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

@@ -278,5 +278,11 @@
     "path": "DedekindZetaZeroFree/Theta/Whittaker/NormalizedFiniteTensorProducts.lean",
     "original_sha256": "66b1e93e9e262b7fd9c091ed488ae230df83842f1a4b58d8b79ae66ad0893356",
     "modified_sha256": "b62f41abd352696b38a1d99ca57dc5357e378e9d63cad70d210d91e85ccfeb4f"
+  },
+  {
+    "path": "vendor/flt/FLTReuse/Ma6dd0c4d713fb96a.lean",
+    "original_sha256": "0af6d58a4e7815b86454642aa937a4f3f6cb3dc2acef038ff36573dcb4be1a8f",
+    "modified_sha256": "ae3774d4e6f8be5eb21258e88778bfc1f66a2dd82e6708d1921ad3b516287c60",
+    "kind": "add_missing_official_import"
   }
 ]
