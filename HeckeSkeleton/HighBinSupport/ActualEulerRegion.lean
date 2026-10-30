@@ -3,19 +3,21 @@ import HeckeSkeleton.HighBinSupport.ActualRegularEuler
 import HeckeSkeleton.HighBinSupport.EulerCorrectedRegion
 import HeckeSkeleton.HighBinSupport.EulerRegionAnalytic
 import HeckeSkeleton.HighBinSupport.ActualEulerProduct
+import HeckeSkeleton.HighBinSupport.JointAnalyticLimit
 
 /-!
-# The original corrected Euler region: actual product convergence
+# The original corrected Euler region: convergence and joint analyticity
 
 All five summability faces give a positive margin at every point of the
 repository's `rowEulerRegion`. Actual ideal counting then proves the
 `local_product` conclusion of `TRowEulerInput`, with arbitrary finite
 exceptional tables and marks. Finite zero factors are retained.
 
-This is a product-convergence theorem. It does not replace the separate
-three-variable `AnalyticOnNhd` or initial Fourier-calibration obligations.
+The locally uniform product of the actual finite factors gives joint
+three-variable `AnalyticOnNhd` on this region. Initial Fourier calibration
+is supplied separately by `ActualInitialCalibration`.
 
-AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-31.
+AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-30.
 -/
 
 set_option autoImplicit false
@@ -243,5 +245,19 @@ theorem rowCorrection_continuousOn_rowEulerRegion
   exact Filter.Eventually.of_forall fun F =>
     (F.analyticOnNhd_fun_prod (fun p _ =>
       localFactor_analyticOnNhd_rowEulerRegion K S P ψ Q u p)).continuousOn
+
+/-- Joint analyticity of the actual Euler correction, including its
+finite zero factors, on the exact original three-variable region. -/
+theorem rowCorrection_analyticOnNhd_rowEulerRegion
+    (P : ProbeData K S) (ψ : HeckeCharacter K)
+    (Q : Finset (ExteriorPrime K S)) (u : FrequencyRow K S) :
+    AnalyticOnNhd ℂ (fun v : ℂ × ℂ × ℂ => rowCorrection K S P ψ
+      (arithmeticHighEulerData K S P ψ) Q u v.1 v.2.1 v.2.2) rowEulerRegion := by
+  apply HighBinJointAnalytic.analyticOnNhd_of_tendstoLocallyUniformlyOn
+    (rowCorrection_hasProdLocallyUniformlyOn_rowEulerRegion K S P ψ Q u)
+    ?_ rowEulerRegion_isOpen
+  exact Filter.Eventually.of_forall fun F =>
+    F.analyticOnNhd_fun_prod (fun p _ =>
+      localFactor_analyticOnNhd_rowEulerRegion K S P ψ Q u p)
 
 end HeckeSkeleton.HighBinContinuation

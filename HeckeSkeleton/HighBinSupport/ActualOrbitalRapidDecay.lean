@@ -86,7 +86,14 @@ theorem exists_orbitalMellin_rapid_bound (φ : SchwartzMap V ℂ) (ψ : A → �
     (fun n => LogFourier.weightedProfile_iteratedDeriv_integrable P σ hc hd hi n 0) n
   refine ⟨D, hD, fun t => ?_⟩
   rw [orbitalMellin_eq_transform]
-  simpa only [LogFourier.weightedProfile, P, traceSchwartzEulerIterCLM_zero] using hb t
+  have hprofile : LogFourier.weightedProfile P σ 0 =
+      (fun v : ℝ => (Real.exp (σ * v) : ℂ) *
+        sUnitOrbitalProfile K S (sLocalTensorTestFunction K S φ ψ)
+          (sUnitExpRadius v)) := by
+    funext v
+    simp only [LogFourier.weightedProfile, P, traceSchwartzEulerIterCLM_zero]
+  rw [hprofile] at hb
+  exact hb t
 
 include Γ in
 /-- Continuity of the same actual profile on a vertical line follows from
@@ -109,8 +116,12 @@ theorem orbitalMellin_continuous_line (φ : SchwartzMap V ℂ) (ψ : A → ℂ)
   obtain ⟨s, C, hC, hmoment⟩ := exists_weightedLogOrbitalNorm_bound
     K S Γ ψ hψ hψsupport σ hσ hσ1
   have hfnorm : Integrable (fun v => ‖f v‖) := by
-    simpa only [f, norm_mul, Complex.norm_real, Real.norm_eq_abs,
-      abs_of_pos (Real.exp_pos _), weightedLogOrbitalNorm] using (hmoment φ).1
+    have hnorm : (fun v => ‖f v‖) = weightedLogOrbitalNorm K S φ ψ σ := by
+      funext v
+      simp only [f, weightedLogOrbitalNorm, norm_mul, Complex.norm_real,
+        Real.norm_eq_abs, abs_of_pos (Real.exp_pos _)]
+    rw [hnorm]
+    exact (hmoment φ).1
   have hf : Integrable f := (integrable_norm_iff hfc.aestronglyMeasurable).mp hfnorm
   have hfour : Continuous (𝓕 f) :=
     VectorFourier.fourierIntegral_continuous Real.continuous_fourierChar

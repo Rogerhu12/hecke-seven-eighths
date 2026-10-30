@@ -58,7 +58,8 @@ theorem phaseRowEuler_denominators_ne_zero_of_re {q : ℝ} (hq : 1 < q)
   · intro h
     have h' : cE * (q : ℂ) ^ (4 - 6 * s) * (q : ℂ) ^ (-6 * z) = 1 :=
       (sub_eq_zero.mp h).symm
-    simpa [h'] using hEs
+    rw [h', norm_one] at hEs
+    exact (lt_irrefl (1 : ℝ)) hEs
 
 /-- Local joint analyticity needs only the two genuine rational
 denominators; the cancelled geometric denominators play no role. -/

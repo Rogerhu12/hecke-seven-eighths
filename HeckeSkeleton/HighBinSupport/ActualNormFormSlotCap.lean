@@ -5,8 +5,10 @@ The detector cap for the complete actual correction slot.
 
 The summable regular error, valuation-one terms and repeated-row-prime
 terms are included in the slot itself. This is the upper cap needed to
-bin actual full-slot maxima; it does not replace the tuplewise radical
-allocation used in the subsequent sharp norm-form estimate.
+bin actual full-slot maxima. The resulting amplitude therefore measures
+the repeated-prime terms as well as the regular terms; the separate
+tuplewise radical-allocation identities remain available in
+ActualNormFormRepeatedTuples.
 -/
 
 set_option autoImplicit false

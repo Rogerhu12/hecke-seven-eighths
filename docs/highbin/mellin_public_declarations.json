@@ -383,5 +383,33 @@
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormUniformMellin.lean",
     "line": 218,
     "source_sha256": "b18838d8a14c4673a38e62f7eb989572d36c3e58b9ec1ec1512b896edd3aab5d"
+  },
+  {
+    "name": "HighBinBoundary.ActualOrbital.orbitalMellin",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualOrbitalRapidDecay.lean",
+    "line": 35,
+    "source_sha256": "cad1f26eab1a6ee8d316dce3d3d30a917765c4635f5652e937b3dcbc5e6eff94"
+  },
+  {
+    "name": "HighBinBoundary.ActualOrbital.orbitalMellin_eq_transform",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualOrbitalRapidDecay.lean",
+    "line": 41,
+    "source_sha256": "cad1f26eab1a6ee8d316dce3d3d30a917765c4635f5652e937b3dcbc5e6eff94"
+  },
+  {
+    "name": "HighBinBoundary.ActualOrbital.exists_orbitalMellin_rapid_bound",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualOrbitalRapidDecay.lean",
+    "line": 63,
+    "source_sha256": "cad1f26eab1a6ee8d316dce3d3d30a917765c4635f5652e937b3dcbc5e6eff94"
+  },
+  {
+    "name": "HighBinBoundary.ActualOrbital.orbitalMellin_continuous_line",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualOrbitalRapidDecay.lean",
+    "line": 102,
+    "source_sha256": "cad1f26eab1a6ee8d316dce3d3d30a917765c4635f5652e937b3dcbc5e6eff94"
   }
 ]

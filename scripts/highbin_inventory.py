@@ -107,7 +107,8 @@ def main():
         print(f'{group}: {len(modules)} modules, {len(items)} public source declarations')
     mellin = ['HeckeSkeleton.HighBinSupport.' + name for name in (
         'ActualNormFormHigherPrimePowers', 'ActualNormFormMellinInversion',
-        'ActualNormFormPrimeDetector', 'ActualNormFormUniformMellin')]
+        'ActualNormFormPrimeDetector', 'ActualNormFormUniformMellin',
+        'ActualOrbitalRapidDecay')]
     items = [item for module in mellin for item in declarations(module)]
     (DOC / 'mellin_modules.json').write_text(json.dumps(mellin, indent=2) + '\n')
     (DOC / 'mellin_public_declarations.json').write_text(

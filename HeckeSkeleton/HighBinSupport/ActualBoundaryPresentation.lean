@@ -208,33 +208,35 @@ theorem exists_wholeBinBoundary_heightSum_bound
       Finset.sum_le_sum (fun b _ => hpiece Z T hZ hT hδT b (hTH b) (hHU b))
     _ = _ := by simp only [Finset.mul_sum, Finset.sum_mul]
 
-/-- Explicit geometric polynomials close the actual whole-bin boundary.
-Their degrees precede both the power-height parameter and every tail
-order. These hypotheses are the currently missing choices/count facts of
-the named presentation, not the requested boundary conclusion. -/
-theorem highBoundaryControl_of_arithmetic_geometry
+/-- The actual power-height quantifiers: all polynomial degrees precede
+tau, while the geometric constants and lower threshold may depend on tau.
+The hypotheses are genuine block counts and height choices, and contain
+no contour estimate or boundary conclusion. -/
+theorem highBoundaryControl_of_arithmetic_power_geometry
     (c : TargetContext K) (P : ActualHighPresentation K c)
     (hEuler : P.euler = HeckeSkeleton.HighBinActualEuler.arithmeticHighEulerData K _
       (targetData K c).probe (targetCharacter K c))
     (hcompanions : 1 ∈ P.companions) (δ : ℝ) (hδ : 0 < δ)
-    (AB RB AU RU ceiling Cb Cu Zg : ℝ)
+    (AB RB AU RU ceiling : ℝ)
     (hAB : 0 ≤ AB) (hAU : 0 ≤ AU) (hceiling : 0 < ceiling)
-    (hCb : 0 < Cb) (hCu : 0 < Cu) (hZg : 1 ≤ Zg)
-    (hcount : ∀ Z T : ℝ, Zg ≤ Z → 1 ≤ T → T ≤ Z ^ ceiling →
-      (((targetData K c).expansion Z T).blockCount : ℝ) ≤
-        Cb * Z ^ RB * (1 + T) ^ AB)
-    (hheights : ∀ Z T : ℝ, Zg ≤ Z → 1 ≤ T → T ≤ Z ^ ceiling →
-      ∀ b : HighBlockIndex K c Z T,
-        δ * T ≤ P.contourHeight Z T b ∧
-        P.contourHeight Z T b + 3 / 2 ≤ P.upperHeight Z T b ∧
-        2 + P.upperHeight Z T b ≤ Cu * Z ^ RU * (1 + T) ^ AU) :
+    (hgeometry : ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
+      ∃ Cb Cu Zg : ℝ, 0 < Cb ∧ 0 < Cu ∧ 1 ≤ Zg ∧
+        ∀ Z : ℝ, Zg ≤ Z →
+          (((targetData K c).expansion Z (Z ^ τ)).blockCount : ℝ) ≤
+              Cb * Z ^ RB * (1 + Z ^ τ) ^ AB ∧
+          ∀ b : HighBlockIndex K c Z (Z ^ τ),
+            δ * (Z ^ τ) ≤ P.contourHeight Z (Z ^ τ) b ∧
+            P.contourHeight Z (Z ^ τ) b + 3 / 2 ≤ P.upperHeight Z (Z ^ τ) b ∧
+            2 + P.upperHeight Z (Z ^ τ) b ≤ Cu * Z ^ RU * (1 + Z ^ τ) ^ AU) :
     HighBoundaryControl K c P := by
   let k : ℕ := HighBinBoundary.ActualLRatioStrip.boundaryHeightDegree K
   obtain ⟨Zb, hZb, hb⟩ :=
     exists_wholeBinBoundary_heightSum_bound K c P hEuler hcompanions δ hδ
   refine ⟨AB + AU * (k : ℝ), 13 + RB + RU * (k : ℝ), ceiling,
     by positivity, hceiling, ?_⟩
-  intro τ hτ hτc N
+  intro τ hτ hτc
+  obtain ⟨Cb, Cu, Zg, hCb, hCu, hZg, hgeometryτ⟩ := hgeometry τ hτ hτc
+  intro N
   obtain ⟨C, hC, hmain⟩ := hb N
   let Zδ : ℝ := (1 / δ) ^ (1 / τ)
   refine ⟨C * Cb * Cu ^ k, max (max Zb Zg) Zδ, by positivity,
@@ -257,9 +259,8 @@ theorem highBoundaryControl_of_arithmetic_geometry
         _ ≤ T := Real.rpow_le_rpow (Real.rpow_nonneg (one_div_pos.mpr hδ).le _) hZZδ hτ.le
     have hm := mul_le_mul_of_nonneg_left hrecip hδ.le
     simpa only [one_div, mul_inv_cancel₀ hδ.ne'] using hm
-  have hTc : T ≤ Z ^ ceiling := Real.rpow_le_rpow_of_exponent_le hZ1 hτc
   have hT0 : 0 < 1 + T := by linarith
-  have hh := hheights Z T hZZg hT hTc
+  have hh := (hgeometryτ Z hZZg).2
   have hbound := hmain Z T hZZb hT hδT (fun b => (hh b).1) (fun b => (hh b).2.1)
   have hheightSum :
       (∑ b : HighBlockIndex K c Z T, (2 + P.upperHeight Z T b) ^ k) ≤
@@ -276,7 +277,7 @@ theorem highBoundaryControl_of_arithmetic_geometry
         exact pow_le_pow_left₀ hU0 (hh b).2.2 k
       _ = _ := by simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
   have hmass := hheightSum.trans (mul_le_mul_of_nonneg_right
-    (hcount Z T hZZg hT hTc) (by positivity))
+    (hgeometryτ Z hZZg).1 (by positivity))
   apply hbound.trans
   calc
     C * Z ^ 13 *
@@ -292,6 +293,35 @@ theorem highBoundaryControl_of_arithmetic_geometry
       simp only [Real.rpow_add hZ0, Real.rpow_add hT0,
         Real.rpow_mul hZ0.le, Real.rpow_mul hT0.le, Real.rpow_natCast, mul_pow]
       ring
+
+/-- Uniform geometric constants on a full height range are a sufficient
+special case of the original power-height quantifiers. -/
+theorem highBoundaryControl_of_arithmetic_geometry
+    (c : TargetContext K) (P : ActualHighPresentation K c)
+    (hEuler : P.euler = HeckeSkeleton.HighBinActualEuler.arithmeticHighEulerData K _
+      (targetData K c).probe (targetCharacter K c))
+    (hcompanions : 1 ∈ P.companions) (δ : ℝ) (hδ : 0 < δ)
+    (AB RB AU RU ceiling Cb Cu Zg : ℝ)
+    (hAB : 0 ≤ AB) (hAU : 0 ≤ AU) (hceiling : 0 < ceiling)
+    (hCb : 0 < Cb) (hCu : 0 < Cu) (hZg : 1 ≤ Zg)
+    (hcount : ∀ Z T : ℝ, Zg ≤ Z → 1 ≤ T → T ≤ Z ^ ceiling →
+      (((targetData K c).expansion Z T).blockCount : ℝ) ≤
+        Cb * Z ^ RB * (1 + T) ^ AB)
+    (hheights : ∀ Z T : ℝ, Zg ≤ Z → 1 ≤ T → T ≤ Z ^ ceiling →
+      ∀ b : HighBlockIndex K c Z T,
+        δ * T ≤ P.contourHeight Z T b ∧
+        P.contourHeight Z T b + 3 / 2 ≤ P.upperHeight Z T b ∧
+        2 + P.upperHeight Z T b ≤ Cu * Z ^ RU * (1 + T) ^ AU) :
+    HighBoundaryControl K c P := by
+  apply highBoundaryControl_of_arithmetic_power_geometry K c P hEuler hcompanions δ hδ
+    AB RB AU RU ceiling hAB hAU hceiling
+  intro τ hτ hτc
+  refine ⟨Cb, Cu, Zg, hCb, hCu, hZg, ?_⟩
+  intro Z hZ
+  have hZ1 : 1 ≤ Z := hZg.trans hZ
+  have hT : 1 ≤ Z ^ τ := Real.one_le_rpow hZ1 hτ.le
+  have hTc : Z ^ τ ≤ Z ^ ceiling := Real.rpow_le_rpow_of_exponent_le hZ1 hτc
+  exact ⟨hcount Z (Z ^ τ) hZ hT hTc, hheights Z (Z ^ τ) hZ hT hTc⟩
 
 /-- The standard buffered heights have the required gap and a fixed
 polynomial envelope. The same internal power height already used by the
@@ -357,11 +387,49 @@ theorem highBoundaryControl_of_buffered_schedule
   simp only [hH, hU, Real.rpow_one]
   exact buffered_height_geometry Z T κ δ i I (hZg.trans hZ) hT hκ hδ hδ1 hi
 
+/-- Buffered heights at the actual power heights. Block-count constants
+and the starting threshold are selected after tau, exactly as in the
+repository's expansion block-count obligation. The degrees and buffered
+height index are still fixed before tau and the external decay order. -/
+theorem highBoundaryControl_of_buffered_power_schedule
+    (c : TargetContext K) (P : ActualHighPresentation K c)
+    (hEuler : P.euler = HeckeSkeleton.HighBinActualEuler.arithmeticHighEulerData K _
+      (targetData K c).probe (targetCharacter K c))
+    (hcompanions : 1 ∈ P.companions)
+    (δ κ : ℝ) (I : ℕ) (hδ : 0 < δ) (hδ1 : δ ≤ 1) (hκ : 0 ≤ κ)
+    (AB RB ceiling : ℝ) (hAB : 0 ≤ AB) (hceiling : 0 < ceiling)
+    (hgeometry : ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
+      ∃ Cb Zg : ℝ, 0 < Cb ∧ 1 ≤ Zg ∧
+        ∀ Z : ℝ, Zg ≤ Z →
+          (((targetData K c).expansion Z (Z ^ τ)).blockCount : ℝ) ≤
+              Cb * Z ^ RB * (1 + Z ^ τ) ^ AB ∧
+          ∀ b : HighBlockIndex K c Z (Z ^ τ), ∃ i : ℕ, i ≤ I ∧
+            P.contourHeight Z (Z ^ τ) b =
+              δ * HighBinVerified.NormForm.internalHeight Z (Z ^ τ) κ ∧
+            P.upperHeight Z (Z ^ τ) b =
+              3 * ((i : ℝ) + 1) * HighBinVerified.NormForm.internalHeight Z (Z ^ τ) κ) :
+    HighBoundaryControl K c P := by
+  apply highBoundaryControl_of_arithmetic_power_geometry K c P hEuler hcompanions δ hδ
+    AB RB 1 κ ceiling hAB (by norm_num) hceiling
+  intro τ hτ hτc
+  obtain ⟨Cb, Zg, hCb, hZg, hgeometryτ⟩ := hgeometry τ hτ hτc
+  refine ⟨Cb, 3 * ((I : ℝ) + 1) + 2, Zg, hCb, by positivity, hZg, ?_⟩
+  intro Z hZ
+  refine ⟨(hgeometryτ Z hZ).1, ?_⟩
+  intro b
+  obtain ⟨i, hi, hH, hU⟩ := (hgeometryτ Z hZ).2 b
+  simp only [hH, hU, Real.rpow_one]
+  have hZ1 : 1 ≤ Z := hZg.trans hZ
+  exact buffered_height_geometry Z (Z ^ τ) κ δ i I hZ1
+    (Real.one_le_rpow hZ1 hτ.le) hκ hδ hδ1 hi
+
 #print axioms highFixedRowBin_member_data
 #print axioms exists_presentationBoundaryPiece_external_tail
 #print axioms exists_wholeBinBoundary_heightSum_bound
+#print axioms highBoundaryControl_of_arithmetic_power_geometry
 #print axioms highBoundaryControl_of_arithmetic_geometry
 #print axioms buffered_height_geometry
 #print axioms highBoundaryControl_of_buffered_schedule
+#print axioms highBoundaryControl_of_buffered_power_schedule
 
 end HeckeSkeleton.HighBinBoundaryPresentation

@@ -18,9 +18,9 @@ work session ends.
 
 | Original obligation | Implemented connection | Remaining work |
 |---|---|---|
-| HB-EULER-INITIAL | Actual prime-power quotient Fourier formula, finite Poisson/CRT, absolutely convergent four-ideal prime product and complete local-to-global calibration candidate | Native verification, full joint analyticity and named presentation identification |
+| HB-EULER-INITIAL | Actual prime-power quotient Fourier formula, finite Poisson/CRT, absolutely convergent four-ideal prime product, local-to-global calibration and complete original `TRowEulerInput` constructor candidates | Native verification of the arithmetic chain and named presentation identification |
 | HB-EULER-EXCEPTIONAL | Arithmetic `RowEulerData`, actual finite Laurent tables, uniform `9 q^(-10e)` estimate and a consumer of the original `HighExceptionalEulerControl` type | Native verification and the named `actualHighPresentation.euler` identification |
-| HB-NORMFORM | Actual repeated-prime conductor deficit, higher-prime-power errors, Mellin inversion, uniform shifted prime detector, radical conductor cap and exact full-correction slot product | Native verification, normalized slot estimates and actual labelled integral presentation |
+| HB-NORMFORM | Actual repeated-prime conductor deficit, Mellin prime detector, exact full-correction factors, normalized slots, compact-box amplitude labels and actual contour-integral norm-form candidates | Native verification, inherited prime-normalizer dependency and identification with the named labelled presentation |
 | HB-MOVE-BOUNDARY | Actual row-contour rectangle, fixed-row arbitrary-order external tail bound, original whole-bin consumer and concrete buffered-height schedule | Native verification and actual presentation provider/schedule/retained-block count |
 
 ## Repository changes
@@ -39,6 +39,9 @@ from `GlobalThetaData` to `AnnularTest`, and `PrimeWindowGeometry` plus
 The original modules import the new modules, preserving their public API.
 `ThetaKernel.TestMellin` can therefore check the same actual test objects
 without importing unrelated arithmetic constructions.
+`rowEulerRegion` also moves verbatim into its own module, reexported by
+`TInputRanges`; this permits its analytic estimates to be checked without
+the arithmetic dependency chain.
 
 `HighBin.lean` now imports the actual regular-prime adapter and proves the
 regular branch's error estimate and joint analyticity on an open tube around
@@ -64,7 +67,7 @@ The inventory command records source hashes and public declarations.
 The `core` verification command builds the listed core files as separate Lean modules,
 then asks Lean for every public declaration's exact type and transitive axiom
 set. Its allowed axioms are `propext`, `Classical.choice`, and `Quot.sound`.
-The `mellin` command separately checks four actual prime-power/Mellin modules
+The `mellin` command separately checks five actual prime-power/Mellin modules
 and requires the same standard axiom set. The `actual` command checks the
 complete arithmetic adapters and `HighBin.lean`, then records every additional
 transitive axiom explicitly in `actual-axioms.json`.
@@ -101,7 +104,11 @@ it does not verify subsequent edits or the arithmetic adapters.
 
 Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41116744429
 
-The complete arithmetic build in that run was still in progress at 20:20 UTC.
+The complete arithmetic build in that run reached its 65-minute job timeout.
+Its preserved log reported two orbital-Mellin elaboration errors; both are
+repaired in the current snapshot, pending a fresh native check. The large
+class-field-theory dependency build had not completed, so this is not an
+arithmetic-chain verification result.
 At the later commit `a7dba28f38f9bb1b64dcca5a6d9f143fb51dadd9`, 48 of
 49 individual core module builds succeeded. `PrimeBlockEuler` failed because
 its complex-number import was missing; that import is now repaired, but
@@ -133,7 +140,17 @@ The core build at that commit accepted every target except the new
 `LocalBlockSummation`. In particular, `PrimeBlockEuler` and
 `LocalSeriesFactorization` now pass as separate modules. The remaining
 local-block simplification and summation API errors have been repaired;
-the 420-declaration core audit still needs the next successful build.
+the 420-declaration core audit did not run.
+
+At commit `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0`, the four-module,
+55-declaration Mellin check passed again. `LocalBlockSummation` and the new
+full norm-form parameter budget in `HighNormFormScalar` also passed as
+individual native modules. The core check reported errors only in
+`JointAnalyticLimit` and `EulerRegionAnalytic`; their fixes and the complete
+joint-analytic limit proof are included in the next snapshot. The full
+433-declaration core audit did not run at that commit.
+
+Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41125249231
 
 A local **40-source combined Mellin unit with 577 public declaration
 audits** also passed (499.327 seconds), with only `propext`,
@@ -219,11 +236,20 @@ and the coarse boundary estimate uses exact positive-mass cancellation.
 normalizer lower bound and therefore inherits `PR-WINDOW-PIT`. Its output
 must not be described as an admission-free sharp normalized estimate.
 
-Normal convergence and joint continuity of the actual Euler correction,
-and holomorphy in the moving `s` variable, are separate proved candidates.
-They must not be reported as the full three-complex-variable
-`AnalyticOnNhd` field of `TRowEulerInput`; that field still needs a complete
-argument on the specified corrected region.
+`JointAnalyticLimit` now supplies a complete source proof of the local
+uniform-limit theorem for the three-complex-variable domain. Its proof
+uses three Cauchy integrals and analytic inversion in the Banach algebra of
+continuous functions on a product of circles. `ActualEulerRegion` applies
+it to the actual normal product. `ActualEulerInput` fills all three fields
+of the original `TRowEulerInput`, including joint `AnalyticOnNhd`, without
+an analyticity premise. These source candidates still require the exact
+native checks recorded above; the named presentation identification remains
+an independent missing construction.
+
+Detailed main-statement reports, including all ambient typeclasses and
+quantifier order, are in [NORMFORM.md](NORMFORM.md) and
+[BOUNDARY.md](BOUNDARY.md). Their unelaborated arithmetic candidates are
+explicitly distinguished from native verified modules.
 
 The six existing admissions in `HighBin.lean` are retained. No new support
 file introduces `sorry`, `admit`, `axiom`, or `native_decide`. A declaration

@@ -78,6 +78,11 @@ def main():
         (ROOT / f'docs/highbin/{args.group}_public_declarations.json').read_text())
     targets = modules if args.group != 'actual' else [
         'HeckeSkeleton.HighBinSupport', 'HeckeSkeleton.HighBin']
+    if args.group == 'actual':
+        # A failure in a small analytic/algebraic prerequisite should not
+        # wait behind the complete class-field-theory dependency build.
+        core = json.loads((ROOT / 'docs/highbin/core_modules.json').read_text())
+        run(['lake', '--fail-fast', 'build', *core], OUT / 'actual-core-build.log')
     # Return arithmetic dependency failures promptly so CI preserves the
     # compiler log and already completed dependency builds for the next fix.
     lake_options = ['--fail-fast'] if args.group == 'actual' else []

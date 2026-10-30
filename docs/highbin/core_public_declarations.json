@@ -2951,77 +2951,77 @@
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
     "line": 25,
-    "source_sha256": "dfa61808d6c607722692818df7fae5863e066a8ec413ff79081595224ca04275"
+    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.phaseRowEuler_analyticAt",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
-    "line": 65,
-    "source_sha256": "dfa61808d6c607722692818df7fae5863e066a8ec413ff79081595224ca04275"
+    "line": 66,
+    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.phaseRowEuler_analyticOnNhd_positiveRegion",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
-    "line": 99,
-    "source_sha256": "dfa61808d6c607722692818df7fae5863e066a8ec413ff79081595224ca04275"
+    "line": 100,
+    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.ramifiedTable_analyticAt",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
-    "line": 117,
-    "source_sha256": "dfa61808d6c607722692818df7fae5863e066a8ec413ff79081595224ca04275"
+    "line": 118,
+    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.coordR_norm_lt_one_of_re",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
-    "line": 150,
-    "source_sha256": "dfa61808d6c607722692818df7fae5863e066a8ec413ff79081595224ca04275"
+    "line": 151,
+    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.ramifiedTable_analyticOnNhd_positiveRegion",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
-    "line": 156,
-    "source_sha256": "dfa61808d6c607722692818df7fae5863e066a8ec413ff79081595224ca04275"
+    "line": 157,
+    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.unmarkedZeroPart_analyticAt",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
-    "line": 169,
-    "source_sha256": "dfa61808d6c607722692818df7fae5863e066a8ec413ff79081595224ca04275"
+    "line": 170,
+    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.explicitLocalEuler_analyticOnNhd_positiveRegion",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
-    "line": 190,
-    "source_sha256": "dfa61808d6c607722692818df7fae5863e066a8ec413ff79081595224ca04275"
+    "line": 191,
+    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.exists_region_margin",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
-    "line": 228,
-    "source_sha256": "dfa61808d6c607722692818df7fae5863e066a8ec413ff79081595224ca04275"
+    "line": 229,
+    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.phaseRowEuler_region_bound",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
-    "line": 251,
-    "source_sha256": "dfa61808d6c607722692818df7fae5863e066a8ec413ff79081595224ca04275"
+    "line": 252,
+    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.rowEulerRegion_isOpen",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
-    "line": 289,
-    "source_sha256": "dfa61808d6c607722692818df7fae5863e066a8ec413ff79081595224ca04275"
+    "line": 290,
+    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
   },
   {
     "name": "HeckeGeneral.ThetaSkeleton.Physical.rowEulerRegion",
@@ -3029,5 +3029,19 @@
     "source": "HeckeGeneral/Analysis/RowEulerRegion.lean",
     "line": 12,
     "source_sha256": "d9be0f1c2c1e8efa267238ef80921d78923e7415027367b51ed2e30c9f8aa0ec"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinJointAnalytic.analyticOnNhd_of_continuousOn_of_coordinate_differentiable",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/JointAnalyticLimit.lean",
+    "line": 299,
+    "source_sha256": "992742c85b088e8e9fc334d3fe10b895e8c68a21c6ba2082856acea6661acf1f"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinJointAnalytic.analyticOnNhd_of_tendstoLocallyUniformlyOn",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/JointAnalyticLimit.lean",
+    "line": 341,
+    "source_sha256": "992742c85b088e8e9fc334d3fe10b895e8c68a21c6ba2082856acea6661acf1f"
   }
 ]

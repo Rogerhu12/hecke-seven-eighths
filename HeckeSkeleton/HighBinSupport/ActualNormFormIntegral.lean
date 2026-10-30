@@ -160,6 +160,47 @@ theorem exists_actual_rowContour_normForm
       dsimp only [b]
       ring
 
+/-- All auxiliary small parameters are chosen from the original
+lambda-margin. Only the original e <= lambda/100 condition remains;
+the actual amplitude grid and the positive height ceiling are outputs. -/
+theorem exists_actual_rowContour_normForm_quarter_loss
+    (psi : HeckeCharacter K) (companions : Finset (HeckeCharacter K))
+    (hcomp : (1 : HeckeCharacter K) ∈ companions)
+    (P : ProbeData K S₀) (g : PrimeWindowGeometry)
+    (hcal : ThetaCalibrationInput K S₀ P.arithmetic P.Lambda P.G)
+    (hpsi : ∀ p : ExteriorPrime K S₀, UnramifiedAt K psi p.val)
+    {e lam : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000)
+    (hlam : 0 < lam) (heLam : e ≤ lam / 100) :
+    ∃ kappa theta : ℝ, ∃ N : ℕ, ∃ C Z0 : ℝ,
+      0 < kappa ∧ 0 < theta ∧ 0 < C ∧ 1 ≤ Z0 ∧
+      ∀ Z T : ℝ, Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+      ∀ d : ℝ, (1 / 16 : ℝ) ≤ d → d ≤ 1 →
+      ∀ u : FrequencyRow K S₀, Z ^ d ≤ frequencyRowNorm K S₀ u →
+        frequencyRowNorm K S₀ u ≤ 2 * Z ^ d →
+      ∀ a : ℝ, 51 / 100 ≤ a → a ≤ 1 →
+      rowZeroBelow K S₀ psi companions P (arithmeticHighEulerData K S₀ P psi) u
+        (2 * NormForm.internalHeight Z T kappa + 2) (a + 2 * e) →
+      ∃ A : ActualFullSlotAmplitude K S₀ P psi g u Z a e
+          (NormForm.internalHeight Z T kappa) theta N,
+        ‖rowContourBox K S₀ μ P psi (arithmeticHighEulerData K S₀ P psi) g ∅ u Z
+            (NormForm.internalHeight Z T kappa) (a + 16 * e) (1 - a - 6 * e) (17 / 50)‖ ≤
+          C * Z ^ (NormForm.rowExponent d a (ActualFullSlotAmplitude.mean K S₀ A) + lam / 4) := by
+  obtain ⟨eps, eta, kappa, theta, nu, N, heps, heta, hkappa, htheta, hnu, hN, hbudget, hloss⟩ :=
+    NormForm.exists_full_normForm_parameter_budget g.slots g.slots_pos
+      (((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ)) lam e
+        (Nat.cast_nonneg _) hlam he.le heLam
+  obtain ⟨C, Z0, hC, hZ0, hrow⟩ := exists_actual_rowContour_normForm K S μ
+    psi companions hcomp P g hcal hpsi he he1 heps heta hkappa htheta hnu hbudget N hN
+  refine ⟨kappa, theta, N, C, Z0, hkappa, htheta, hC, hZ0, ?_⟩
+  intro Z T hZ hT hTceiling d hd hd1 u hu hu1 a ha ha1 hbelow
+  obtain ⟨A, hi, hb⟩ := hrow Z T hZ hT hTceiling d hd hd1 u hu hu1 a ha ha1 hbelow
+  refine ⟨A, hb.trans ?_⟩
+  apply mul_le_mul_of_nonneg_left _ hC.le
+  apply Real.rpow_le_rpow_of_exponent_le (hZ0.trans hZ)
+  have h := hloss d (by linarith) hd1
+  linarith
+
 end HighBinVerified.NormFormIntegral
 
 #print axioms HighBinVerified.NormFormIntegral.exists_actual_rowContour_normForm
+#print axioms HighBinVerified.NormFormIntegral.exists_actual_rowContour_normForm_quarter_loss
