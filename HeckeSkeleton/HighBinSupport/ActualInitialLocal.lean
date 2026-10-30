@@ -330,16 +330,6 @@ theorem primeBlockBase_zero_of_two_le (P : ProbeData K S) (ψ : HeckeCharacter K
   have he' := (squarefree_primePower_iff K S p e).mp hsq
   omega
 
-/-- All four local exponents, before their convergent summation. -/
-def localBlockValue (q θ : ℂ) (G : ℕ → ℂ) (ρ X Y V : ℂ) (j : ℕ)
-    (n : FourExponent) : ℂ :=
-  if n.1.1 ≤ 1 then
-    if n.1.1 + 3 * n.1.2 = 0 then
-      Y ^ n.2.1 * V ^ n.2.2 *
-        (if n.2.1 = 0 then 1 else if j + 6 * n.2.2 = 0 then ρ ^ n.2.1 else 0)
-    else weightedTerm q θ G ρ X Y V j n.1.1 n.1.2 n.2.1 n.2.2
-  else 0
-
 /-- Uniform local identification of the original prime block, with the
 unit row and every zero branch included. -/
 theorem primeBlockBase_eq_localBlockValue (P : ProbeData K S)

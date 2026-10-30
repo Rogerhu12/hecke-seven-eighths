@@ -84,11 +84,13 @@ theorem finiteWeight_insertEquiv (g : ι → κ → ℂ)
   unfold finiteWeight
   rw [Finset.prod_insert hp]
   congr 1
-  · simp only [insertEquiv, Finsupp.add_apply, Finsupp.single_eq_same, hp0, add_zero]
+  · change g p ((Finsupp.single p x.1 + x.2.val) p) = g p x.1
+    simp only [Finsupp.add_apply, Finsupp.single_eq_same, hp0, add_zero]
   · apply Finset.prod_congr rfl
     intro q hq
     have hqp : q ≠ p := fun h => hp (h ▸ hq)
-    simp only [insertEquiv, Finsupp.add_apply, Finsupp.single_eq_of_ne hqp, zero_add]
+    change g q ((Finsupp.single p x.1 + x.2.val) q) = g q (x.2.val q)
+    simp only [Finsupp.add_apply, Finsupp.single_eq_of_ne hqp, zero_add]
 
 set_option maxHeartbeats 1200000 in
 /-- A finite prime set sums all local exponent blocks, with no truncation. -/

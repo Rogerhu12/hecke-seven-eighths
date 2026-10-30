@@ -1,4 +1,5 @@
 import HeckeSkeleton.HighBinSupport.ActualInitialMultiplicative
+import HeckeSkeleton.HighBinSupport.LocalBlockSummation
 import Mathlib.Algebra.BigOperators.Finsupp.Basic
 
 /-!
@@ -75,8 +76,7 @@ def exteriorPrimeExponentEquiv : ExteriorIdeal K S ≃ (ExteriorPrime K S →₀
   apply Subtype.ext
   apply Subtype.ext
   change (idealOfPrimeExponents (0 : ExteriorPrime K S →₀ ℕ).extendDomain).val = _
-  rw [h0, idealOfPrimeExponents_zero, primeSetIdeal_empty_val]
-  rfl
+  simp only [h0, idealOfPrimeExponents_zero, primeSetIdeal_empty_val]
 
 theorem exteriorIdealOfPrimeExponents_add (e f : ExteriorPrime K S →₀ ℕ) :
     exteriorIdealOfPrimeExponents K S (e + f) =
@@ -97,9 +97,6 @@ theorem exteriorIdealOfPrimeExponents_add (e f : ExteriorPrime K S →₀ ℕ) :
   apply Subtype.ext
   change (idealOfPrimeExponents (Finsupp.single p n).extendDomain).val = p.val.asIdeal ^ n
   rw [Finsupp.extendDomain_single, idealOfPrimeExponents_single]
-
-/-- The order is exactly the original pair-of-pairs: c, n, denominator, r. -/
-abbrev FourExponent := (ℕ × ℕ) × (ℕ × ℕ)
 
 def fourPrimeExponents (I : FourIdealIndex K S) : ExteriorPrime K S →₀ FourExponent :=
   Finsupp.zipWith Prod.mk rfl

@@ -23,6 +23,7 @@
   "HeckeSkeleton.HighBinSupport.SelectedCompensation",
   "HeckeSkeleton.HighBinSupport.UnramifiedFiniteTable",
   "HeckeSkeleton.HighBinSupport.ValuationSeries",
+  "HeckeSkeleton.HighBinSupport.LocalBlockSummation",
   "HeckeSkeleton.HighBinSupport.HighNormFormScalar",
   "HeckeSkeleton.HighBinSupport.HighNormFormSlots",
   "HeckeSkeleton.HighBinSupport.HighCorrectionAlgebra",

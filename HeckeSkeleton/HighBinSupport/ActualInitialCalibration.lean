@@ -164,4 +164,162 @@ theorem actual_finiteTable_eq_ramifiedTable (P : ProbeData K S) (ψ : HeckeChara
   simpa only [card_primeIdealResidueField, rowPhaseData, coordV,
     Complex.ofReal_natCast] using h
 
+/-- Local calibration after the original four exponents have been summed.
+The sole target condition is its genuine exterior unramifiedness, used
+to multiply the row and target prime coefficients also at row primes. -/
+theorem actualValuationSeries_eq_localEuler (P : ProbeData K S) (ψ : HeckeCharacter K)
+    (hcal : ThetaCalibrationInput K S P.arithmetic P.Lambda P.G)
+    (Q : Finset (ExteriorPrime K S)) (u : FrequencyRow K S)
+    (p : ExteriorPrime K S) (hψ : UnramifiedAt K ψ p.val)
+    (s w z : ℂ) (hs : 4 < s.re) (hw : 4 < w.re) (hz : 2 < z.re) :
+    let q : ℂ := p.val.asIdeal.absNorm
+    let θ := primeCoefficient K (thetaPeriod K S P ψ) p.val
+    let G := HighBin.ActualGaussPhases.gaussFamily (thetaPrimeCharacter K S P.arithmetic p)
+      (primeAddCharacter K S P.arithmetic p)
+    let ρ := thetaPrimeCharacter K S P.arithmetic p (rowPrimeUnit K S P u p)
+    let X := q ^ (-s)
+    let Y := q ^ (-w)
+    let V := q ^ (-6 * z)
+    let j := primeExponents u.ideal.val p.val
+    (if p ∈ Q then 0 else 1 / (1 - V) + (if j = 0 then (ρ * Y) / (1 - ρ * Y) else 0)) +
+      markedSeries q θ G ρ X Y V j =
+        rowLocalLRatio K S P ψ u s w z p * localFactor K S P ψ Q u p (s, w, z) := by
+  let q : ℂ := p.val.asIdeal.absNorm
+  let θ := primeCoefficient K (thetaPeriod K S P ψ) p.val
+  let G := HighBin.ActualGaussPhases.gaussFamily (thetaPrimeCharacter K S P.arithmetic p)
+    (primeAddCharacter K S P.arithmetic p)
+  let ρ := thetaPrimeCharacter K S P.arithmetic p (rowPrimeUnit K S P u p)
+  let X := q ^ (-s)
+  let Y := q ^ (-w)
+  let V := q ^ (-6 * z)
+  let j := primeExponents u.ideal.val p.val
+  change (if p ∈ Q then 0 else 1 / (1 - V) +
+    (if j = 0 then (ρ * Y) / (1 - ρ * Y) else 0)) + markedSeries q θ G ρ X Y V j = _
+  have hq : q ≠ 0 := by
+    exact_mod_cast (Nat.ne_of_gt (lt_trans Nat.zero_lt_one (one_lt_primeIdeal_absNorm K p.val)))
+  have hq1 : 1 < (p.val.asIdeal.absNorm : ℝ) := by
+    have h := exteriorPrime_norm_two_le K S p
+    linarith
+  have hρ : ρ ^ 6 = 1 := HighBin.ActualGaussPhases.unitPhase_six
+    (thetaPrimeCharacter K S P.arithmetic p) (thetaPrimeCharacter_order K S P.arithmetic p)
+    (rowPrimeUnit K S P u p)
+  have hV : ‖V‖ < 1 := actual_V_norm_lt_one K S p (by linarith)
+  have hR : ‖ratio q θ X V‖ < 1 := actual_ratio_norm_lt_one K S P ψ u p hs hz
+  rw [rowLocalLRatio_eq_rational K S P ψ u p hψ s w z,
+    localFactor_eq_explicit K S P ψ Q u (a := 1) (e := 1 / 20000)
+      (by norm_num) (by norm_num) p (s, w, z) (initialDomain_mem_sweptTube hs hw hz)]
+  by_cases hp : p ∈ exteriorSupport K S u.ideal
+  · have hj : j = (rowRamifiedIndex K S u p hp).val + 1 :=
+      row_exponent_eq_ramifiedIndex K S u p hp
+    have hj0 : j ≠ 0 := by rw [hj]; omega
+    have hW0 := rowW_eq_zero_of_mem_row K S P u p hp
+    have hD0 : rowD K S P ψ u p = 0 := by simp only [rowD, hW0, map_zero, mul_zero]
+    have hf := HighBin.LocalSeriesFactorization.ramified q θ G ρ X Y V
+      hq hρ hV hR (rowRamifiedIndex K S u p hp) (decide (p ∈ Q))
+    rw [actual_finiteTable_eq_ramifiedTable K S P ψ u p s w z hs hz] at hf
+    rw [← hj] at hf
+    calc
+      _ = (if p ∈ Q then 0 else 1 / (1 - V)) + markedSeries q θ G ρ X Y V j := by
+        simp only [if_neg hj0, add_zero]
+      _ = 1 / (1 - V) *
+          (ramifiedTableValue (rowPhaseData K S P ψ u p) (p.val.asIdeal.absNorm : ℝ)
+            s w z (rowRamifiedIndex K S u p hp) - if p ∈ Q then 1 else 0) := by
+        simpa only [decide_eq_true_eq] using hf
+      _ = _ := by
+        simp only [explicitLocalEuler, if_pos hp, rowIndex, dif_pos hp,
+          hW0, hD0, zero_mul, sub_zero, mul_one, Complex.ofReal_natCast] <;> rfl
+  · have hj : j = 0 := row_exponent_eq_zero_of_not_mem K S u p hp
+    have hρW : ρ = rowW K S P u p :=
+      rowPrimeUnit_character_of_not_mem_row K S P u p hp
+    have hη : eta q θ G * ρ⁻¹ = rowD K S P ψ u p :=
+      regular_D_phase_identification K S P ψ hcal u p hp
+    have hW : 1 - ρ * Y ≠ 0 := by
+      rw [hρW]
+      have h := eulerPolynomial_ne_zero hq1 (rowW_norm K S P u p)
+        (show 0 < w.re by linarith)
+      simpa only [eulerPolynomial, Complex.ofReal_natCast] using h
+    have hD : 1 - eta q θ G * ρ⁻¹ * X ≠ 0 := by
+      rw [hη]
+      have h := eulerPolynomial_ne_zero hq1 (rowD_norm K S P ψ u p)
+        (show 0 < s.re by linarith)
+      simpa only [eulerPolynomial, Complex.ofReal_natCast] using h
+    have hD' : eta q θ G * ρ⁻¹ * X = rowD K S P ψ u p * (p.val.asIdeal.absNorm : ℂ) ^ (-s) :=
+      congrArg (fun a => a * X) hη
+    have hW' : ρ * Y = rowW K S P u p * (p.val.asIdeal.absNorm : ℂ) ^ (-w) :=
+      congrArg (fun a => a * Y) hρW
+    have hG : G 1 * G 5 = q := primeGauss_one_mul_five K S P.arithmetic p
+    have hf := HighBin.LocalSeriesFactorization.regular q θ G ρ X Y V
+      hq hρ hV hR hW hD hG (decide (p ∈ Q))
+    calc
+      _ = (if p ∈ Q then 0 else 1 / (1 - V) + (ρ * Y) / (1 - ρ * Y)) +
+          markedSeries q θ G ρ X Y V 0 := by rw [hj]; simp only [if_true]
+      _ = (1 - eta q θ G * ρ⁻¹ * X) / ((1 - V) * (1 - ρ * Y)) *
+          (rowEulerRationalValue q q⁻¹ V (ρ * Y) (eta q θ G * ρ⁻¹ * X)
+            (ratio q θ X V) -
+              if p ∈ Q then (1 - (ρ * Y) * V) / (1 - eta q θ G * ρ⁻¹ * X) else 0) := by
+        simpa only [decide_eq_true_eq] using hf
+      _ = _ := by
+        rw [hD', hW']
+        simp only [explicitLocalEuler, if_neg hp, phaseRowEuler, unmarkedZeroPart,
+          Complex.ofReal_natCast, actual_E_eq_ratio K S P ψ p s z] <;> rfl
+
+theorem primeBlockTerm_tsum_eq_localEuler (P : ProbeData K S)
+    (hP : AllowedGeneratorInput K S P.arithmetic) (ψ : HeckeCharacter K)
+    (hcal : ThetaCalibrationInput K S P.arithmetic P.Lambda P.G)
+    (Q : Finset (ExteriorPrime K S)) (u : FrequencyRow K S)
+    (p : ExteriorPrime K S) (hψ : UnramifiedAt K ψ p.val)
+    (s w z : ℂ) (hs : 4 < s.re) (hw : 4 < w.re) (hz : 2 < z.re) :
+    (∑' n : FourExponent, primeBlockTerm K S P ψ Q u s w z p n) =
+      rowLocalLRatio K S P ψ u s w z p * localFactor K S P ψ Q u p (s, w, z) := by
+  rw [primeBlockTerm_tsum_eq_markedSeries K S P hP ψ Q u s w z hs hw hz p]
+  simpa only [completedUnitSeries] using
+    actualValuationSeries_eq_localEuler K S P ψ hcal Q u p hψ s w z hs hw hz
+
+/-- The original initial Fourier series equals the continuation built from
+the actual row characters and the actual finite Laurent tables. -/
+theorem initialRowEulerSeries_eq_rowEulerContinuation (P : ProbeData K S)
+    (hP : AllowedGeneratorInput K S P.arithmetic) (ψ : HeckeCharacter K)
+    (hcal : ThetaCalibrationInput K S P.arithmetic P.Lambda P.G)
+    (hψ : ∀ p : ExteriorPrime K S, UnramifiedAt K ψ p.val)
+    (Q : Finset (ExteriorPrime K S)) (u : FrequencyRow K S)
+    (s w z : ℂ) (hs : 4 < s.re) (hw : 4 < w.re) (hz : 2 < z.re) :
+    initialRowEulerSeries K S P ψ Q u s w z =
+      rowEulerContinuation K S P ψ (arithmeticHighEulerData K S P ψ) Q u s w z := by
+  have h := initialRowEulerSeries_hasProd_primeBlocks K S P hP ψ Q u s w z hs hw hz
+  have h' : HasProd (fun p : ExteriorPrime K S =>
+      rowLocalLRatio K S P ψ u s w z p * localFactor K S P ψ Q u p (s, w, z))
+      (initialRowEulerSeries K S P ψ Q u s w z) :=
+    h.congr_fun fun p =>
+      (primeBlockTerm_tsum_eq_localEuler K S P hP ψ hcal Q u p (hψ p) s w z hs hw hz).symm
+  exact h'.unique (rowEulerContinuation_hasProd_initial K S P ψ Q u hs hw hz)
+
+/-- The original calibration structure is filled with proved convergence
+and proved equality, with no Euler identity added as an input field. -/
+theorem arithmeticRowEulerCalibrationInput (P : ProbeData K S)
+    (hP : AllowedGeneratorInput K S P.arithmetic) (ψ : HeckeCharacter K)
+    (hcal : ThetaCalibrationInput K S P.arithmetic P.Lambda P.G)
+    (hψ : ∀ p : ExteriorPrime K S, UnramifiedAt K ψ p.val) :
+    RowEulerCalibrationInput K S P ψ (arithmeticHighEulerData K S P ψ) where
+  initial_absolute Q u s w z hs hw hz :=
+    (initial_absolute_norm K S P ψ Q u s w z hs hw hz).of_norm
+  initial_identity Q u s w z hs hw hz :=
+    initialRowEulerSeries_eq_rowEulerContinuation K S P hP ψ hcal hψ Q u s w z hs hw hz
+
+/-- The named target uses precisely the existing allowed generators,
+mixed calibration and exterior-unramified target provider. -/
+theorem targetRowEulerCalibrationInput (c : HeckeSkeleton.TargetContext K) :
+    RowEulerCalibrationInput K (HeckeSkeleton.places K c)
+      (HeckeSkeleton.probeData K c) (HeckeSkeleton.targetCharacter K c)
+      (arithmeticHighEulerData K (HeckeSkeleton.places K c)
+        (HeckeSkeleton.probeData K c) (HeckeSkeleton.targetCharacter K c)) :=
+  arithmeticRowEulerCalibrationInput K _ _ (HeckeSkeleton.allowedGenerators K c) _
+    (HeckeSkeleton.arithmeticCalibration K c)
+    (fun p => HeckeSkeleton.target_unramified_outside K c p.val p.property)
+
+#print axioms actualValuationSeries_eq_localEuler
+#print axioms primeBlockTerm_tsum_eq_localEuler
+#print axioms initialRowEulerSeries_eq_rowEulerContinuation
+#print axioms arithmeticRowEulerCalibrationInput
+#print axioms targetRowEulerCalibrationInput
+
 end HeckeSkeleton.HighBinActualInitial

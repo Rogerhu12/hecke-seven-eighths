@@ -142,10 +142,10 @@ theorem regular_D_phase_identification (P : ProbeData K S) (ψ : HeckeCharacter 
 /-- Instantiation at the named target data uses the existing arithmetic
 provider, rather than adding a calibration field to the new Euler data. -/
 theorem target_rowPhaseData_eta (c : HeckeSkeleton.TargetContext K)
-    (u : FrequencyRow K ((HeckeSkeleton.targetData K c).S : Set (HeightOneSpectrum (𝓞 K))))
-    (p : ExteriorPrime K ((HeckeSkeleton.targetData K c).S : Set (HeightOneSpectrum (𝓞 K)))) :
-    (rowPhaseData K ((HeckeSkeleton.targetData K c).S : Set (HeightOneSpectrum (𝓞 K)))
-      (HeckeSkeleton.targetData K c).probe (HeckeSkeleton.targetCharacter K c) u p).eta =
+    (u : FrequencyRow K (HeckeSkeleton.places K c))
+    (p : ExteriorPrime K (HeckeSkeleton.places K c)) :
+    (rowPhaseData K (HeckeSkeleton.places K c)
+      (HeckeSkeleton.probeData K c) (HeckeSkeleton.targetCharacter K c) u p).eta =
         primeCoefficient K (HeckeSkeleton.targetCharacter K c) p.val :=
   rowPhaseData_eta K _ _ _ (HeckeSkeleton.arithmeticCalibration K c) u p
 

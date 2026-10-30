@@ -18,7 +18,7 @@ work session ends.
 
 | Original obligation | Implemented connection | Remaining work |
 |---|---|---|
-| HB-EULER-INITIAL | Actual prime-power quotient Fourier formula, generator sixth-unit invariance, all local finite-Poisson branches, CRT phase cancellation, initial absolute-convergence candidate | Native verification, local-series calibration and final global identity |
+| HB-EULER-INITIAL | Actual prime-power quotient Fourier formula, finite Poisson/CRT, absolutely convergent four-ideal prime product and complete local-to-global calibration candidate | Native verification, full joint analyticity and named presentation identification |
 | HB-EULER-EXCEPTIONAL | Arithmetic `RowEulerData`, actual finite Laurent tables, uniform `9 q^(-10e)` estimate and a consumer of the original `HighExceptionalEulerControl` type | Native verification and the named `actualHighPresentation.euler` identification |
 | HB-NORMFORM | Actual repeated-prime conductor deficit, higher-prime-power errors, Mellin inversion, uniform shifted prime detector, radical conductor cap and exact full-correction slot product | Native verification, normalized slot estimates and actual labelled integral presentation |
 | HB-MOVE-BOUNDARY | Actual row-contour rectangle, fixed-row arbitrary-order external tail bound, original whole-bin consumer and concrete buffered-height schedule | Native verification and actual presentation provider/schedule/retained-block count |
@@ -113,6 +113,12 @@ in that later run.
 
 Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41120458916
 
+At commit `49e56fbbfeaf00f127f3588ae3bb56c78cef554c`, the new core check
+reported a missing real-volume instance import in `AnnularTest` and five
+unclosed proof goals in `PrimeBlockEuler`/`LocalSeriesFactorization`. The
+missing import and those goals are repaired in the current source snapshot;
+a new native run is still required.
+
 A local 40-source joint Mellin unit completed with six errors in the new
 Mellin inversion, uniform profile and prime detector modules. Those errors
 have been repaired and the revised unit is being checked. Earlier
@@ -141,6 +147,13 @@ the CI artifact `*-public-types-and-axioms.log`.
 * `highExceptionalEulerControl_of_arithmetic` consumes an actual presentation
   and the data equality `P.euler = arithmeticHighEulerData ...`. This
   equality remains to be established for the named admitted constructor.
+* `arithmeticRowEulerCalibrationInput` now builds the original
+  `RowEulerCalibrationInput` from `AllowedGeneratorInput`, the original
+  mixed `ThetaCalibrationInput`, and exterior unramifiedness of the target.
+  Initial absolute summability and the series/continuation identity are
+  conclusions. The named target specialization uses `places`/`probeData`
+  directly to avoid unrelated admitted expansion fields in its type.
+  This complete source-level connection still awaits native verification.
 * Actual local finite-Poisson/CRT lemmas retain the denominator generators,
   arbitrary sixth-unit sectors and whole-index masks. Their structural
   arithmetic input is the repository's `AllowedGeneratorInput`; the target
@@ -183,9 +196,11 @@ identifications automatically.
 
 The existing `PrimeNormalizer.window_prime_lower` contains the admitted
 `PR-WINDOW-PIT` obligation. A later call to `PrimeNormalizer.subpower` would
-inherit that dependency. The prime-window cap written here does not use it,
+inherit that dependency. The unnormalized prime-window cap does not use it,
 and the coarse boundary estimate uses exact positive-mass cancellation.
-A sharp normalized norm-form estimate still has to handle this issue.
+`ActualNormFormNormalization` deliberately isolates the call to the existing
+normalizer lower bound and therefore inherits `PR-WINDOW-PIT`. Its output
+must not be described as an admission-free sharp normalized estimate.
 
 Normal convergence and joint continuity of the actual Euler correction,
 and holomorphy in the moving `s` variable, are separate proved candidates.

@@ -19,6 +19,17 @@ namespace HighBin.LocalSeriesFactorization
 open HighBin.FiniteLocalTable HighBin.ValuationSeries HighBin.UnramifiedFiniteTable
 open HeckeGeneral.ThetaSkeleton.Physical
 
+private theorem cancel_scale (A B C T : ℂ) (hA : A ≠ 0) (hB : B ≠ 0) (hC : C ≠ 0) :
+    C / (A * B) * (T * A * B / C) = T := by
+  field_simp [hA, hB, hC] <;> ring
+
+private theorem cancel_unit (V W D : ℂ)
+    (hV : 1 - V ≠ 0) (hW : 1 - W ≠ 0) (hD : 1 - D ≠ 0) :
+    (1 - D) / ((1 - V) * (1 - W)) * ((1 - W * V) / (1 - D)) =
+      1 / (1 - V) + W / (1 - W) := by
+  field_simp [hV, hW, hD]
+  ring
+
 theorem regular (q θ : ℂ) (G : ℕ → ℂ) (ρ X Y V : ℂ)
     (hq : q ≠ 0) (hρ : ρ ^ 6 = 1)
     (hV : ‖V‖ < 1) (hR : ‖ratio q θ X V‖ < 1)
@@ -48,19 +59,19 @@ theorem regular (q θ : ℂ) (G : ℕ → ℂ) (ρ X Y V : ℂ)
           (ratio q θ X V) =
       1 / (1 - V) + (ρ * Y) / (1 - ρ * Y) + markedSeries q θ G ρ X Y V 0 := by
     rw [hs, ← hc]
-    unfold regularSeriesValue
-    simp only [one_div]
-    field_simp [hV0, hW, hD, hR0]
-    ring
+    simpa only [regularSeriesValue, one_div] using
+      cancel_scale (1 - V) (1 - ρ * Y) (1 - eta q θ G * ρ⁻¹ * X)
+        (regularSeriesValue q (ratio q θ X V) V (ρ * Y) (eta q θ G * ρ⁻¹ * X))
+        hV0 hW hD
   have hu :
       (1 - eta q θ G * ρ⁻¹ * X) / ((1 - V) * (1 - ρ * Y)) *
         ((1 - (ρ * Y) * V) / (1 - eta q θ G * ρ⁻¹ * X)) =
-      1 / (1 - V) + (ρ * Y) / (1 - ρ * Y) := by
-    field_simp [hV0, hW, hD]
-    ring
+      1 / (1 - V) + (ρ * Y) / (1 - ρ * Y) :=
+    cancel_unit V (ρ * Y) (eta q θ G * ρ⁻¹ * X) hV0 hW hD
   cases marked
   · simpa only [Bool.false_eq_true, if_false, sub_zero] using hf.symm
-  · simp only [if_true, zero_add, mul_sub, hf, hu]
+  · simp only [if_true, zero_add]
+    rw [mul_sub, hf, hu]
     ring
 
 theorem ramified (q θ : ℂ) (G : ℕ → ℂ) (ρ X Y V : ℂ)

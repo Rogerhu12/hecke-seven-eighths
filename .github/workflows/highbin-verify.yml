@@ -29,7 +29,7 @@ jobs:
       group: ${{ matrix.scope == 'actual' && format('highbin-{0}', github.head_ref || github.ref_name) || format('highbin-{0}-{1}', github.head_ref || github.ref_name, matrix.scope) }}
       cancel-in-progress: false
     runs-on: ubuntu-latest
-    timeout-minutes: 65
+    timeout-minutes: 90
     strategy:
       fail-fast: false
       matrix:
@@ -55,7 +55,7 @@ jobs:
           use-github-cache: 'false'
       - name: Compile modules and audit public declarations
         id: verification
-        run: python scripts/highbin_verify.py ${{ matrix.scope }}
+        run: timeout --signal=TERM --kill-after=30s 60m python scripts/highbin_verify.py ${{ matrix.scope }}
       - name: Preserve verification logs
         if: always()
         uses: actions/upload-artifact@v4

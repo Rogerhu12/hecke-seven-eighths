@@ -1101,6 +1101,127 @@ theorem exists_actualRepeatedSlot_bound (g : PrimeWindowGeometry)
           (p.val.asIdeal.absNorm : ℝ) ^ (a - 1 / 2 + 6 * e) := Finset.sum_le_sum hterm
     _ = _ := (Finset.mul_sum ..).symm
 
+/-- One estimate for the actual complete slot. The three analytic
+contributions are the zero-free character main term, the summable and
+valuation-one errors, and the literal repeated-prime choices. All
+constants and cutoffs precede the scale, row, height and contour point.
+No lower bound for the prime normalizer is used here. -/
+theorem exists_actualFullCorrectionSlot_bound
+    (psi : HeckeCharacter K) (companions : Finset (HeckeCharacter K))
+    (hcomp : (1 : HeckeCharacter K) ∈ companions)
+    (P : ProbeData K S) (g : PrimeWindowGeometry)
+    (hcal : ThetaCalibrationInput K S P.arithmetic P.Lambda P.G)
+    (hpsi : ∀ p : ExteriorPrime K S, UnramifiedAt K psi p.val)
+    {e eps eta kappa : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000)
+    (heps : 0 < eps) (heta : 0 < eta) (hkappa : 0 < kappa) :
+    ∃ C Z0 : ℝ, 0 < C ∧ 1 ≤ Z0 ∧
+      ∀ Z T : ℝ, Z0 ≤ Z → ∀ d : ℝ, (1 / 16 : ℝ) ≤ d →
+      ∀ u : FrequencyRow K S, Z ^ d ≤ frequencyRowNorm K S u →
+      ∀ a U : ℝ, 51 / 100 ≤ a → a ≤ 1 →
+      ∀ s w z : ℂ, s.re = a + 16 * e → w.re = 1 - a - 6 * e → z.re = 17 / 50 →
+      NormForm.internalHeight Z T kappa + |z.im| + 2 ≤ U →
+      rowZeroBelow K S psi companions P (arithmeticHighEulerData K S P psi) u U (a + 2 * e) →
+      ∀ i : Fin g.slots,
+        ‖actualFullCorrectionSlot K S P psi g ∅ u Z s w z i‖ ≤ C *
+          ((u.ideal.val.val.radical.absNorm : ℝ) ^ eps *
+              (2 + U) ^ (((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) * eps) *
+              (primeScale g Z) ^ (a - 33 / 50 + 8 * e) +
+            frequencyRowNorm K S u ^ eta * (primeScale g Z) ^ (-(4 / 25 : ℝ) + eta) +
+            (primeScale g Z) ^ (-(4 / 25 : ℝ)) *
+              ∑ p ∈ repeatedPrimeWindow K S u g ∅ Z i,
+                (p.val.asIdeal.absNorm : ℝ) ^ (a - 1 / 2 + 6 * e)) := by
+  obtain ⟨CM, ZM, hCM, hZM, hmain⟩ := exists_actualCompensationMainSlot_cap
+    K S psi companions hcomp P g he (by linarith) heps hkappa
+  obtain ⟨CR, ZR, hCR, hZR, hregular⟩ := exists_actualRegularErrorSlot_bound K S g he he1 heta
+  obtain ⟨CV, ZV, hCV, hZV, hvaluation⟩ := exists_actualValuationOneSlot_bound K S g he he1 heta
+  obtain ⟨CQ, ZQ, hCQ, hZQ, hrepeated⟩ := exists_actualRepeatedSlot_bound K S g he he1
+  obtain ⟨ZX, hZX, hscale⟩ := NormFormPrimeCap.exists_primeScale_cutoff g
+  let C : ℝ := CM + CR + CV + CQ
+  have hC : 0 < C := by dsimp only [C]; linarith
+  refine ⟨C, max ZM (max ZR (max ZV (max ZQ ZX))), hC,
+    hZM.trans (le_max_left _ _), ?_⟩
+  intro Z T hZ d hd u hu a U ha ha1 s w z hs hw hz hU hbelow i
+  have hZZM : ZM ≤ Z := (le_max_left _ _).trans hZ
+  have hZZR : ZR ≤ Z := (le_max_left _ _).trans ((le_max_right _ _).trans hZ)
+  have hZZV : ZV ≤ Z := (le_max_left _ _).trans
+    ((le_max_right _ _).trans ((le_max_right _ _).trans hZ))
+  have hZZQ : ZQ ≤ Z := (le_max_left _ _).trans
+    ((le_max_right _ _).trans ((le_max_right _ _).trans ((le_max_right _ _).trans hZ)))
+  have hZZX : ZX ≤ Z := (le_max_right _ _).trans
+    ((le_max_right _ _).trans ((le_max_right _ _).trans ((le_max_right _ _).trans hZ)))
+  have hZ1 : 1 ≤ Z := hZM.trans hZZM
+  have hX1 : 1 ≤ primeScale g Z := (by norm_num : (1 : ℝ) ≤ 2).trans (hscale Z hZZX)
+  have hX0 : 0 < primeScale g Z := zero_lt_one.trans_le hX1
+  have hNu1 : 1 ≤ frequencyRowNorm K S u := one_le_idealNorm K u.ideal.val
+  have hNu0 : 0 < frequencyRowNorm K S u := zero_lt_one.trans_le hNu1
+  have hNueta : 1 ≤ frequencyRowNorm K S u ^ eta := Real.one_le_rpow hNu1 heta.le
+  have hheight0 : 0 ≤ NormForm.internalHeight Z T kappa :=
+    (Real.rpow_nonneg (zero_le_one.trans hZ1) kappa).trans (le_max_right _ _)
+  have hU0 : 0 ≤ 2 + U := by linarith [abs_nonneg z.im]
+  let A : ℝ := (u.ideal.val.val.radical.absNorm : ℝ) ^ eps *
+    (2 + U) ^ (((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) * eps) *
+    (primeScale g Z) ^ (a - 33 / 50 + 8 * e)
+  let B : ℝ := frequencyRowNorm K S u ^ eta *
+    (primeScale g Z) ^ (-(4 / 25 : ℝ) + eta)
+  let D : ℝ := (primeScale g Z) ^ (-(4 / 25 : ℝ)) *
+    ∑ p ∈ repeatedPrimeWindow K S u g ∅ Z i,
+      (p.val.asIdeal.absNorm : ℝ) ^ (a - 1 / 2 + 6 * e)
+  have hA0 : 0 ≤ A := mul_nonneg (mul_nonneg
+    (Real.rpow_nonneg (Nat.cast_nonneg _) _) (Real.rpow_nonneg hU0 _))
+      (Real.rpow_nonneg hX0.le _)
+  have hB0 : 0 ≤ B := mul_nonneg (Real.rpow_nonneg hNu0.le _) (Real.rpow_nonneg hX0.le _)
+  have hD0 : 0 ≤ D := mul_nonneg (Real.rpow_nonneg hX0.le _)
+    (Finset.sum_nonneg (fun p _ => Real.rpow_nonneg (Nat.cast_nonneg _) _))
+  have hM : ‖actualCompensationMainSlot K S P g ∅ u Z z i‖ ≤ CM * A := by
+    simpa only [A, mul_assoc] using
+      hmain Z T hZZM d hd u hu a U z (by linarith) ha1 hz hU hbelow i
+  have hR : ‖actualRegularErrorSlot K S P psi g ∅ u Z s w z i‖ ≤ CR * B := by
+    apply (hregular Z hZZR P psi hpsi ∅ u a ha ha1 s w z hs hw hz i).trans
+    dsimp only [B]
+    exact mul_le_mul_of_nonneg_left
+      (le_mul_of_one_le_left (Real.rpow_nonneg hX0.le _) hNueta) hCR.le
+  have hV : ‖actualValuationOneSlot K S P psi g ∅ u Z s w z i‖ ≤ CV * B := by
+    apply (hvaluation Z hZZV P psi hcal ∅ u a ha ha1 s w z hs hw hz i).trans
+    have hp := Real.rpow_le_rpow_of_exponent_le hX1
+      (le_add_of_nonneg_right heta.le : -(4 / 25 : ℝ) ≤ -(4 / 25 : ℝ) + eta)
+    simpa only [B, mul_assoc] using
+      mul_le_mul_of_nonneg_left hp (mul_nonneg hCV.le (Real.rpow_nonneg hNu0.le _))
+  have hQ : ‖actualRepeatedSlot K S P psi g ∅ u Z s w z i‖ ≤ CQ * D := by
+    simpa only [D, mul_assoc] using hrepeated Z hZZQ P psi hcal ∅ u a ha ha1 s w z hs hw hz i
+  have hsum : ‖actualFullCorrectionSlot K S P psi g ∅ u Z s w z i‖ ≤
+      CM * A + (CR + CV) * B + CQ * D := by
+    rw [actualFullCorrectionSlot_decomposition]
+    calc
+      _ ≤ ‖-actualCompensationMainSlot K S P g ∅ u Z z i +
+          actualRegularErrorSlot K S P psi g ∅ u Z s w z i +
+          actualValuationOneSlot K S P psi g ∅ u Z s w z i‖ +
+            ‖actualRepeatedSlot K S P psi g ∅ u Z s w z i‖ := norm_add_le _ _
+      _ ≤ (‖-actualCompensationMainSlot K S P g ∅ u Z z i +
+          actualRegularErrorSlot K S P psi g ∅ u Z s w z i‖ +
+          ‖actualValuationOneSlot K S P psi g ∅ u Z s w z i‖) +
+            ‖actualRepeatedSlot K S P psi g ∅ u Z s w z i‖ :=
+        add_le_add_right (norm_add_le _ _) _
+      _ ≤ (‖actualCompensationMainSlot K S P g ∅ u Z z i‖ +
+          ‖actualRegularErrorSlot K S P psi g ∅ u Z s w z i‖ +
+          ‖actualValuationOneSlot K S P psi g ∅ u Z s w z i‖) +
+            ‖actualRepeatedSlot K S P psi g ∅ u Z s w z i‖ := by
+        simpa only [norm_neg] using add_le_add_right (add_le_add_right
+          (norm_add_le (-actualCompensationMainSlot K S P g ∅ u Z z i)
+            (actualRegularErrorSlot K S P psi g ∅ u Z s w z i)) _) _
+      _ ≤ (CM * A + CR * B + CV * B) + CQ * D :=
+        add_le_add (add_le_add (add_le_add hM hR) hV) hQ
+      _ = _ := by ring
+  change _ ≤ C * (A + B + D)
+  apply hsum.trans
+  have hCM' : CM ≤ C := by dsimp only [C]; linarith
+  have hCRV : CR + CV ≤ C := by dsimp only [C]; linarith
+  have hCQ' : CQ ≤ C := by dsimp only [C]; linarith
+  calc
+    _ ≤ C * A + C * B + C * D := add_le_add
+      (add_le_add (mul_le_mul_of_nonneg_right hCM' hA0)
+        (mul_le_mul_of_nonneg_right hCRV hB0)) (mul_le_mul_of_nonneg_right hCQ' hD0)
+    _ = _ := by ring
+
 theorem subsetPrimeIdeal_norm_eq_prod (g : PrimeWindowGeometry)
     (p : Fin g.slots → ExteriorPrime K S) (hp : Function.Injective p)
     (J : Finset (Fin g.slots)) :
@@ -1238,5 +1359,11 @@ end HighBinVerified.NormFormFullCorrection
 #print axioms HighBinVerified.NormFormFullCorrection.actualLocalCompensation_ramified_bound
 #print axioms HighBinVerified.NormFormFullCorrection.actualLocalCompensation_valuation_one_bound
 #print axioms HighBinVerified.NormFormFullCorrection.exists_actual_local_compensation_bounds
+#print axioms HighBinVerified.NormFormFullCorrection.actualFullCorrectionSlot_decomposition
+#print axioms HighBinVerified.NormFormFullCorrection.exists_actualCompensationMainSlot_cap
+#print axioms HighBinVerified.NormFormFullCorrection.exists_actualRegularErrorSlot_bound
+#print axioms HighBinVerified.NormFormFullCorrection.exists_actualValuationOneSlot_bound
+#print axioms HighBinVerified.NormFormFullCorrection.exists_actualRepeatedSlot_bound
+#print axioms HighBinVerified.NormFormFullCorrection.exists_actualFullCorrectionSlot_bound
 #print axioms HighBinVerified.NormFormFullCorrection.actual_compensation_tuple_factorization
 #print axioms HighBinVerified.NormFormFullCorrection.exists_actualFullCorrection_product_cutoff
