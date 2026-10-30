@@ -2,11 +2,14 @@ import HeckeGeneral.Analysis.TIPClosure
 import Mathlib.NumberTheory.Cyclotomic.PrimitiveRoots
 import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
 import HeckeSkeleton.ActualHeckeNormPullback
+import HeckeSkeleton.Descent.ArtinFactors
+import HeckeSkeleton.Descent.PoleMatching
+import HeckeGeneral.Analysis.HeckeEulerDeletion
 
 set_option autoImplicit false
 noncomputable section
 namespace HeckeSkeleton.Descent
-open NumberField Filter
+open NumberField Filter IsDedekindDomain
 open HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton.TIP
 open scoped Classical BigOperators Topology
@@ -33,13 +36,13 @@ def normPullback : HeckeCharacter F →* HeckeCharacter (Extension F) :=
 
 -- OBLIGATION DE-ARTIN-CHARACTERS | revised Lemma 2.1, p.2.
 -- Actual finite characters of Gal(F(zeta12)/F), viewed through CFT.
--- Existing candidate: ActualHeckeArtinFactorization, not mainline-verified.
-def artinCharacters : Finset (HeckeCharacter F) := by
-  sorry
+-- The full finite dual of the actual norm quotient, via global reciprocity.
+def artinCharacters : Finset (HeckeCharacter F) :=
+  Artin.artinCharacters F (Extension F)
 
 -- OBLIGATION DE-TRIVIAL-FACTOR | revised Lemma 2.1, p.2.
 theorem one_mem_artinCharacters : (1 : HeckeCharacter F) ∈ artinCharacters F := by
-  sorry
+  exact Artin.one_mem_artinCharacters F (Extension F)
 
 def factors (χ : HeckeCharacter F) : Finset (HeckeCharacter F) :=
   (artinCharacters F).image (fun δ => χ * δ)
@@ -48,32 +51,39 @@ theorem target_mem_factors (χ : HeckeCharacter F) : χ ∈ factors F χ := by
   exact Finset.mem_image.mpr ⟨1, one_mem_artinCharacters F, mul_one χ⟩
 
 -- OBLIGATION DE-EULER-FACTORIZATION | revised (2.1), p.2.
--- Includes ramified Euler factors, or must be proved by matching deletions.
--- The finite product uses actual continuous unitary characters.
-theorem artinEulerProduct (χ : HeckeCharacter F) :
-    ∀ s : ℂ, 1 < s.re →
-      heckeContinuation (Extension F) (normPullback F χ) s =
-        ∏ ψ ∈ factors F χ, heckeContinuation F ψ s := by
+-- The Euler product away from finite sets of places: the same set T of places
+-- of F on every factor, a set T' of places of the extension upstairs. The deleted
+-- finite Euler polynomials are nonvanishing on Re s > 0, so this suffices for the
+-- descent; no exact local factor at a ramified place is asserted.
+theorem deletedEulerFactorization (χ : HeckeCharacter F) :
+    ∃ (T : Finset (HeightOneSpectrum (𝓞 F)))
+      (T' : Finset (HeightOneSpectrum (𝓞 (Extension F)))),
+      ∀ s : ℂ, 1 < s.re →
+        heckeDeletedContinuation (Extension F) (normPullback F χ) T' s =
+          ∏ ψ ∈ factors F χ, heckeDeletedContinuation F ψ T s := by
   sorry
 
 -- OBLIGATION DE-CONTINUATION | revised Lemma 2.1, p.2.
--- Meromorphic identity transfer and finite Euler deletion; no zero-free input.
+-- Meromorphic identity transfer; no zero-free input.
 theorem continuedFactorization (χ : HeckeCharacter F)
+    (T : Finset (HeightOneSpectrum (𝓞 F)))
+    (T' : Finset (HeightOneSpectrum (𝓞 (Extension F))))
     (hEuler : ∀ s : ℂ, 1 < s.re →
-      heckeContinuation (Extension F) (normPullback F χ) s =
-        ∏ ψ ∈ factors F χ, heckeContinuation F ψ s) :
+      heckeDeletedContinuation (Extension F) (normPullback F χ) T' s =
+        ∏ ψ ∈ factors F χ, heckeDeletedContinuation F ψ T s) :
     ∀ s ∈ rightHalfPlane (7 / 8),
-      heckeContinuation (Extension F) (normPullback F χ) =ᶠ[𝓝[≠] s]
-        (fun w => ∏ ψ ∈ factors F χ, heckeContinuation F ψ w) := by
+      heckeDeletedContinuation (Extension F) (normPullback F χ) T' =ᶠ[𝓝[≠] s]
+        (fun w => ∏ ψ ∈ factors F χ, heckeDeletedContinuation F ψ T w) := by
   intro s _
   -- Both sides are meromorphic on all of ℂ and agree on Re > 1, so their
   -- difference has infinite order at 2, hence at every point of ℂ.
-  have hd : MeromorphicOn (heckeContinuation (Extension F) (normPullback F χ) -
-      fun w => ∏ ψ ∈ factors F χ, heckeContinuation F ψ w) Set.univ :=
-    (meromorphicOn_heckeContinuation (Extension F) (normPullback F χ)).sub
-      (MeromorphicOn.fun_prod fun ψ _ => meromorphicOn_heckeContinuation F ψ)
-  have hnear : ∀ᶠ w in 𝓝 (2 : ℂ), (heckeContinuation (Extension F) (normPullback F χ) -
-      fun w => ∏ ψ ∈ factors F χ, heckeContinuation F ψ w) w = 0 := by
+  have hd : MeromorphicOn (heckeDeletedContinuation (Extension F) (normPullback F χ) T' -
+      fun w => ∏ ψ ∈ factors F χ, heckeDeletedContinuation F ψ T w) Set.univ :=
+    (meromorphicOn_heckeDeletedContinuation (Extension F) (normPullback F χ) T').sub
+      (MeromorphicOn.fun_prod fun ψ _ => meromorphicOn_heckeDeletedContinuation F ψ T)
+  have hnear : ∀ᶠ w in 𝓝 (2 : ℂ),
+      (heckeDeletedContinuation (Extension F) (normPullback F χ) T' -
+        fun w => ∏ ψ ∈ factors F χ, heckeDeletedContinuation F ψ T w) w = 0 := by
     have hopen : IsOpen {w : ℂ | 1 < w.re} := isOpen_lt continuous_const Complex.continuous_re
     filter_upwards [hopen.mem_nhds (by norm_num : (2 : ℂ) ∈ {w : ℂ | 1 < w.re})] with w hw
     simp [hEuler w hw]
@@ -85,8 +95,8 @@ theorem continuedFactorization (χ : HeckeCharacter F)
 
 -- OBLIGATION DE-POLE-MATCHING | revised Lemma 2.1, p.2.
 -- A zero cannot be hidden by cancellation against an unmatched norm pole.
--- Existing HeckeNormPole proves individual poles; actual factor matching
--- is present in the Artin candidate but is not yet imported/checked here.
+-- Pure norm twists have the same parameter after actual norm pullback;
+-- the full Artin family lies in one pullback fiber.
 theorem poleMatching (χ : HeckeCharacter F) :
     ∀ s ∈ rightHalfPlane (7 / 8),
       (∀ ψ ∈ factors F χ, AnalyticAt ℂ (heckeContinuation F ψ) s) ∨
@@ -94,19 +104,53 @@ theorem poleMatching (χ : HeckeCharacter F) :
         meromorphicOrderAt (heckeContinuation F p) s = (-1 : ℤ) ∧
         meromorphicOrderAt (heckeContinuation (Extension F) (normPullback F χ)) s = (-1 : ℤ) ∧
         ∀ ψ ∈ factors F χ, ψ ≠ p → AnalyticAt ℂ (heckeContinuation F ψ) s := by
-  sorry
+  intro s _
+  refine PoleMatching.pole_matching_of_common_normPullback F (Extension F)
+    (factors F χ) (normPullback F χ) ?_ s
+  intro ψ hψ
+  apply Artin.artinFactors_common_normPullback F (Extension F) χ
+  rw [Artin.artinFactors_eq_image]
+  exact hψ
 
-def factorizationData (χ : HeckeCharacter F) :
-    HeckeFactorizationDescentData (Extension F) F χ (normPullback F χ) where
-  factors := factors F χ
-  target_mem := target_mem_factors F χ
-  factorization := continuedFactorization F χ (artinEulerProduct F χ)
-  pole_matching := poleMatching F χ
+/-- Deletion keeps analyticity and, on Re s > 0, the orders; so the pole
+matching of the full continuations holds for the deleted ones. -/
+theorem deletedPoleMatching (χ : HeckeCharacter F)
+    (T : Finset (HeightOneSpectrum (𝓞 F)))
+    (T' : Finset (HeightOneSpectrum (𝓞 (Extension F)))) :
+    ∀ s ∈ rightHalfPlane (7 / 8),
+      (∀ ψ ∈ factors F χ, AnalyticAt ℂ (heckeDeletedContinuation F ψ T) s) ∨
+      ∃ p ∈ factors F χ,
+        meromorphicOrderAt (heckeDeletedContinuation F p T) s = (-1 : ℤ) ∧
+        meromorphicOrderAt
+          (heckeDeletedContinuation (Extension F) (normPullback F χ) T') s = (-1 : ℤ) ∧
+        ∀ ψ ∈ factors F χ, ψ ≠ p → AnalyticAt ℂ (heckeDeletedContinuation F ψ T) s := by
+  intro s hs
+  have hs0 : 0 < s.re := lt_trans (by norm_num) (show (7 / 8 : ℝ) < s.re from hs)
+  have han (ψ : HeckeCharacter F) (h : AnalyticAt ℂ (heckeContinuation F ψ) s) :
+      AnalyticAt ℂ (heckeDeletedContinuation F ψ T) s :=
+    (heckeEulerDeletionPolynomial_analyticAt F ψ T s).mul h
+  rcases poleMatching F χ s hs with h | ⟨p, hp, h1, h2, h3⟩
+  · exact Or.inl fun ψ hψ => han ψ (h ψ hψ)
+  · refine Or.inr ⟨p, hp, ?_, ?_, fun ψ hψ hne => han ψ (h3 ψ hψ hne)⟩
+    · rw [meromorphicOrderAt_heckeDeletedContinuation F p T hs0]
+      exact h1
+    · rw [meromorphicOrderAt_heckeDeletedContinuation (Extension F) (normPullback F χ) T' hs0]
+      exact h2
 
 theorem descend (hTIP : ∀ ω : HeckeCharacter (Extension F), TIPInput (Extension F) ω) :
     HeckeSevenEighths F := by
   intro χ
-  apply hecke_sevenEighths_of_factorization (Extension F) F (factorizationData F χ)
-  exact heckeSevenEighths_of_TIP hTIP (normPullback F χ)
+  obtain ⟨T, T', hEuler⟩ := deletedEulerFactorization F χ
+  have hup : MeromorphicZeroFreeOn
+      (heckeDeletedContinuation (Extension F) (normPullback F χ) T') (rightHalfPlane (7 / 8)) :=
+    (heckeDeletedContinuation_zeroFreeOn_iff (Extension F) (normPullback F χ) T'
+      (by norm_num)).mpr (heckeSevenEighths_of_TIP hTIP (normPullback F χ))
+  have hdown := meromorphicZeroFreeOn_of_factorization (factors F χ)
+    (fun ψ => heckeDeletedContinuation F ψ T)
+    (heckeDeletedContinuation (Extension F) (normPullback F χ) T') (rightHalfPlane (7 / 8))
+    (fun ψ _ z _ => meromorphicOn_heckeDeletedContinuation F ψ T z (Set.mem_univ _))
+    hup (continuedFactorization F χ T T' hEuler) (deletedPoleMatching F χ T T')
+    (target_mem_factors F χ)
+  exact (heckeDeletedContinuation_zeroFreeOn_iff F χ T (by norm_num)).mp hdown
 
 end HeckeSkeleton.Descent
