@@ -140,9 +140,13 @@ The older complete arithmetic build at `29d6f4d` reached its 65-minute job
 timeout while compiling the class-field-theory dependencies. Its preserved
 log reported two orbital-Mellin elaboration errors. Both are repaired in
 the current snapshot. The arithmetic adapters and their all-public axiom
-audit remain unverified. A later arithmetic job is running. Subsequent
-jobs check the small core prerequisites first and preserve completed
-dependency builds after a proof failure or the build subprocess timeout.
+audit remain unverified. The later `a2ea9121` arithmetic job also reported
+only those same two orbital errors and stopped; the fixed orbital module has
+since passed its separate native audit above. Its whole-`.lake` cache save
+also ran out of disk space. The current workflow prioritizes the latest
+arithmetic/Mellin commit, checks the small core prerequisites first, and
+preserves the smaller completed project-build caches after a proof failure
+or the build subprocess timeout.
 
 Local checks provide additional, separately identified evidence:
 
