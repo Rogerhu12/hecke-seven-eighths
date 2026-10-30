@@ -1,8 +1,4 @@
-import Mathlib.Algebra.Group.Int.TypeTags
-import Mathlib.NumberTheory.RamificationInertia.Basic
-import Mathlib.RingTheory.DedekindDomain.AdicValuation
-import Mathlib.RingTheory.Localization.Integral
-import Mathlib.Tactic.Ring
+import Mathlib
 import FLTReuse.Mca976093a3e9d9d7
 
 set_option backward.isDefEq.respectTransparency false

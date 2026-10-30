@@ -1,10 +1,4 @@
-import Mathlib.RingTheory.TensorProduct.Maps
-import Mathlib.RingTheory.TensorProduct.Finite
-import Mathlib.RingTheory.TensorProduct.Free
-import Mathlib.LinearAlgebra.TensorProduct.Free
-import Mathlib.LinearAlgebra.TensorProduct.Basis
-import Mathlib.Topology.Algebra.Module.ModuleTopology
-import Mathlib.RingTheory.TensorProduct.Basic
+import Mathlib
 
 section
 

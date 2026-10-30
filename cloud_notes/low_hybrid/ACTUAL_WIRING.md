@@ -149,10 +149,8 @@ lake build HeckeSkeleton.LowHybridExteriorAudit
 任一额外公理都会令该模块编译失败。逐入口也保留了 `#print axioms`。
 最终实际执行结果另记在 `EXTERIOR_VERIFICATION.md`。
 
-为控制实际依赖体积，部分 `vendor/flt/FLTReuse` 文件的 `import Mathlib`
-收窄为实际需要的导入，`AllIdealTransfer` 的总入口改为四个实际使用的提供者；
-另为一个已有 FLT 文件补上 `Circle.exp_eq_one` 的精确导入。
-`EXTERIOR_IMPORTS.json` 记录每个导入头及正文校验值；这些文件的已有定义和
-证明正文逐字保留。
+为控制实际依赖体积，`AllIdealTransfer` 的总入口改为四个实际使用的提供者。
+`EXTERIOR_IMPORTS.json` 记录该导入头及正文校验值；已有定义和证明正文逐字保留。
+所有 FLT 文件保持原样，沿用其完整 Mathlib 导入。
 
 本接线由 OpenAI GPT-6 Astra Pro 辅助实现（AI-assisted）。
