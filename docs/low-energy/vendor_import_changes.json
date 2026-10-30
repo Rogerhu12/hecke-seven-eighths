@@ -284,5 +284,12 @@
     "original_sha256": "0af6d58a4e7815b86454642aa937a4f3f6cb3dc2acef038ff36573dcb4be1a8f",
     "modified_sha256": "ae3774d4e6f8be5eb21258e88778bfc1f66a2dd82e6708d1921ad3b516287c60",
     "kind": "add_missing_official_import"
+  },
+  {
+    "path": "DedekindZetaZeroFree/Arithmetic/Ideals/LinearCountingBound.lean",
+    "original_git_blob_sha": "31a49cfdc1014db8e425c053a2e60078773b90e8",
+    "original_sha256": "fa587de9b480299671c00244b818dde44abb533a36309ff0d570fd5766a25edf",
+    "modified_sha256": "a2eba4494ec814bf94beb6019c5064c70fd78a16831bcaccfbc356f083a7e97d",
+    "reason": "Explicit official ideal-counting asymptotics import after actual CI identified the missing original declaration."
   }
 ]

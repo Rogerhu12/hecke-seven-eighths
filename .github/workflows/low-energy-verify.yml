@@ -9,12 +9,14 @@ on:
       - 'HeckeSkeleton/LowFrozenCube/**'
       - 'HeckeSkeleton/Principal.lean'
       - 'scripts/low_energy_verify.py'
+      - 'scripts/low_energy_restore_ci.py'
       - 'scripts/lean_imports.py'
       - 'docs/low-energy/**'
       - '.github/workflows/low-energy-verify.yml'
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: low-energy-${{ github.head_ref || github.ref_name }}
@@ -50,6 +52,12 @@ jobs:
           key: low-energy-v2-${{ runner.os }}-${{ matrix.phase }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
           restore-keys: |
             low-energy-v2-${{ runner.os }}-${{ matrix.phase }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+      - name: Restore previous workflow checkpoint after a cache miss
+        if: steps.proof-cache.outputs.cache-matched-key == ''
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/low_energy_restore_ci.py ${{ matrix.phase }}
       - name: Compile real sources and preserve axiom output
         run: python3 scripts/low_energy_verify.py ${{ matrix.phase }}
       - name: Save verified module checkpoints

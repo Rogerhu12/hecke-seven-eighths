@@ -6,11 +6,14 @@ Run from the repository root after `lake exe cache get`:
     python3 scripts/low_energy_verify.py actual
 No synthetic modules, replacement declarations, or admitted dependencies are
 created. The source roots are the roots declared by this repository's Lake files.
+After an actual-phase failure, independent modules receive a bounded diagnostic
+window. Failed dependencies and timeouts remain failures, never proof evidence.
 """
 from pathlib import Path
 import argparse
 import hashlib
 import json
+import math
 import os
 import re
 import subprocess
@@ -34,11 +37,12 @@ CORE = ['RawIdealHybrid', 'HybridScaling', 'MellinHybrid',
     'IdealRows', 'IdealRankin', 'IdealSupportPowers', 'PowerfulRowAssembly',
     'PhysicalBlockPolynomial', 'PhysicalDyadicBudget', 'GaussianEnergyAssembly',
     'DyadicReindex', 'SlotTuples', 'InactiveCore', 'PhysicalGaussianEnergy']
-ACTUAL = ['ActualSymbols', 'ActualRawHybrid', 'ActualFrozenCharges',
+ACTUAL = ['ActualSymbols', 'WindowTuples', 'InactiveWindows',
+    'ActualRawHybrid', 'ActualFrozenCharges',
     'ActualReflectionReindex', 'ActualCommonMellinTail', 'ActualBlockEnergy',
     'ActualBlockReindex', 'ActualSourceReindex', 'ActualDyadicReflection',
     'ActualRows', 'ActualRowFibres', 'ActualFrozenStateCount',
-    'WindowTuples', 'InactiveWindows', 'TargetDictionary', 'TargetGaussian',
+    'TargetDictionary', 'TargetGaussian',
     'TargetSieveDictionary', 'ActualAnnularBlockEnergy',
     'ActualFrozenAggregation', 'ActualFrozenReconstruction',
     'ActualMarkedTupleEnergy', 'ActualTupleReconstruction',
@@ -72,10 +76,22 @@ def artifact_hashes(module):
     return result
 
 
+def discard_artifacts(module):
+    """A failed or skipped module must never leave a usable stale output."""
+    base = OUT / Path(*module.split('.'))
+    for suffix in ARTIFACT_SUFFIXES:
+        base.with_name(base.name + suffix).unlink(missing_ok=True)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('phase', choices=['core', 'actual'])
+    ap.add_argument('--diagnostic-seconds', type=float, default=120.0,
+        help='Actual phase only: continue independent modules this long after the first failure.')
     args = ap.parse_args()
+    if not math.isfinite(args.diagnostic_seconds) or args.diagnostic_seconds < 0:
+        ap.error('--diagnostic-seconds must be a finite nonnegative number')
+    diagnostic_seconds = args.diagnostic_seconds if args.phase == 'actual' else 0.0
     if (ROOT / 'lean-toolchain').read_text().strip() != 'leanprover/lean4:v4.35.0-rc3':
         raise SystemExit('Unexpected Lean toolchain; refusing an incomparable audit.')
     OUT.mkdir(parents=True, exist_ok=True)
@@ -132,7 +148,57 @@ def main():
     manifest = json.loads((ROOT / 'docs/low-energy/source_manifest.json').read_text())
     new_sources = {entry['path'] for entry in manifest['files']}
     records = []
+    blocked = set()
+    failures = []
+    skipped = []
+    diagnostic_deadline = None
+    failure_code = 0
+
+    def save_diagnostics():
+        (LOG / (args.phase + '_diagnostics.json')).write_text(json.dumps({
+            'phase': args.phase, 'diagnostic_seconds': diagnostic_seconds,
+            'first_failure': failures[0] if failures else None,
+            'failed_modules': failures, 'skipped_modules': skipped,
+            'budget_exhausted': diagnostic_deadline is not None and
+                time.monotonic() >= diagnostic_deadline,
+            'final_axiom_gate': 'not_run_due_to_failed_or_skipped_modules'
+                if failures or skipped else 'not_reached',
+        }, indent=2) + '\n')
+
+    def record_skip(module, source, reason, dependencies):
+        discard_artifacts(module)
+        blocked.add(module)
+        entry = {'module': module, 'reason': reason,
+            'blocked_dependencies': dependencies}
+        skipped.append(entry)
+        output = 'SKIPPED ' + module + ': ' + reason
+        if dependencies:
+            output += ': ' + ', '.join(dependencies)
+        output += '\n'
+        record = {'module': module, 'source': str(source.relative_to(ROOT)),
+            'cache_schema': CACHE_SCHEMA,
+            'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
+            'lean': version, 'flags': flags, 'mathlib': MATHLIB_REV,
+            'new_source': str(source.relative_to(ROOT)) in new_sources,
+            'package_lock_sha256': package_lock,
+            'status': 'skipped', 'skip_reason': reason,
+            'blocked_dependencies': dependencies,
+            'exit_code': None, 'audit_ok': False,
+            'output_artifact_hashes': {},
+            'log_sha256': hashlib.sha256(output.encode()).hexdigest()}
+        (LOG / (module + '.json')).write_text(json.dumps(record, indent=2) + '\n')
+        (LOG / (module + '.log')).write_text(output)
+        records.append(record)
+
     for module, source, source_root in order:
+        dependencies = imports(source)
+        blocked_dependencies = [dependency for dependency in dependencies if dependency in blocked]
+        if blocked_dependencies:
+            record_skip(module, source, 'failed_or_skipped_dependency', blocked_dependencies)
+            continue
+        if diagnostic_deadline is not None and time.monotonic() >= diagnostic_deadline:
+            record_skip(module, source, 'diagnostic_budget_exhausted', [])
+            continue
         target = OUT / Path(*module.split('.')).with_suffix('.olean')
         target.parent.mkdir(parents=True, exist_ok=True)
         relative_source = str(source.relative_to(ROOT))
@@ -145,7 +211,7 @@ def main():
                     ', '.join(forbidden))
         source_digest = hashlib.sha256(source.read_bytes()).hexdigest()
         dependency_artifacts = {dependency: artifact_hashes(dependency)
-            for dependency in imports(source) if resolve(dependency) is not None}
+            for dependency in dependencies if resolve(dependency) is not None}
         stamp = LOG / (module + '.json')
         log_path = LOG / (module + '.log')
         previous = None
@@ -172,10 +238,27 @@ def main():
         if module == 'HeckeSkeleton.Principal':
             print('INTEGRATION GATE HeckeSkeleton.Principal', flush=True)
         print('BUILD ' + module, flush=True)
+        discard_artifacts(module)
         started = time.monotonic()
-        proc = subprocess.run(['lean', *flags, '-R', str(source_root),
-            '-o', str(target), str(source)], cwd=ROOT, env=env,
-            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        command = ['lean', *flags, '-R', str(source_root),
+            '-o', str(target), str(source)]
+        timed_out = False
+        try:
+            proc = subprocess.run(command, cwd=ROOT, env=env,
+                stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+                timeout=None if diagnostic_deadline is None else
+                    max(0.001, diagnostic_deadline - started))
+        except subprocess.TimeoutExpired as error:
+            timed_out = True
+            output = error.stdout or ''
+            if isinstance(output, bytes):
+                output = output.decode(errors='replace')
+            proc = subprocess.CompletedProcess(command, 124, stdout=output +
+                '\nDIAGNOSTIC BUDGET EXPIRED: compilation was stopped; no proof result.\n')
+        audit_ok = proc.returncode == 0 and not (is_new_source and
+            ('sorryAx' in proc.stdout or "declaration uses 'sorry'" in proc.stdout))
+        if not audit_ok:
+            discard_artifacts(module)
         record = {'module': module, 'source': relative_source,
             'cache_schema': CACHE_SCHEMA, 'source_sha256': source_digest,
             'exit_code': proc.returncode, 'seconds': round(time.monotonic()-started, 3),
@@ -183,13 +266,12 @@ def main():
             'new_source': is_new_source,
             'package_lock_sha256': package_lock,
             'local_dependency_artifact_hashes': dependency_artifacts,
-            'output_artifact_hashes': artifact_hashes(module) if proc.returncode == 0 else {},
-            'audit_ok': proc.returncode == 0 and not (is_new_source and
-                ('sorryAx' in proc.stdout or "declaration uses 'sorry'" in proc.stdout)),
+            'output_artifact_hashes': artifact_hashes(module) if audit_ok else {},
+            'audit_ok': audit_ok, 'diagnostic_timeout': timed_out,
             'log_sha256': hashlib.sha256(proc.stdout.encode()).hexdigest(),
             'local_dependency_hashes': {
                 dependency: hashlib.sha256(artifact.read_bytes()).hexdigest()
-                for dependency in imports(source)
+                for dependency in dependencies
                 if (artifact := OUT / Path(*dependency.split('.')).with_suffix('.olean')).is_file()
             },
             'mathlib': MATHLIB_REV}
@@ -198,11 +280,26 @@ def main():
         records.append(record)
         (LOG / (args.phase + '.json')).write_text(json.dumps(records, indent=2) + '\n')
         print(proc.stdout, flush=True)
-        if proc.returncode:
-            return proc.returncode
-        if is_new_source:
-            if 'sorryAx' in proc.stdout or "declaration uses 'sorry'" in proc.stdout:
-                raise RuntimeError('An admitted dependency appeared in a new proof audit: ' + module)
+        if not audit_ok:
+            blocked.add(module)
+            reason = ('diagnostic_timeout' if timed_out else
+                'compiler_error' if proc.returncode else 'admitted_dependency_in_audit')
+            failures.append({'module': module, 'exit_code': proc.returncode or 1,
+                'reason': reason})
+            if not failure_code:
+                failure_code = proc.returncode or 1
+                diagnostic_deadline = time.monotonic() + diagnostic_seconds
+            save_diagnostics()
+            if args.phase == 'core' or diagnostic_seconds == 0:
+                return failure_code
+            print('FAILED ' + module + '; continuing only independent modules within ' +
+                'the diagnostic budget.', flush=True)
+    (LOG / (args.phase + '.json')).write_text(json.dumps(records, indent=2) + '\n')
+    if failures or skipped:
+        save_diagnostics()
+        print(f'FAIL: {len(failures)} failed, {len(skipped)} skipped; ' +
+            'the final axiom gate was not run.', flush=True)
+        return failure_code or 1
     if args.phase == 'actual':
         audit = LOG / 'CompletedMarkedEnergyAudit.lean'
         audit.write_text('import HeckeSkeleton.Principal\n\n' +

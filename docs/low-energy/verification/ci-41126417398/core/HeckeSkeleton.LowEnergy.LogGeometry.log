@@ -1,0 +1,9 @@
+/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/HeckeSkeleton/LowEnergy/LogGeometry.lean:124:5: warning: Variable name `hD` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hD
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+'HeckeSkeleton.LowEnergy.LogGeometry.selected_row_width' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.LogGeometry.annular_tolerance' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.LogGeometry.restore_selected_norm' depends on axioms: [propext, Classical.choice, Quot.sound]

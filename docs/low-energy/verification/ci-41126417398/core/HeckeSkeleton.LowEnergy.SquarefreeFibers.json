@@ -1,0 +1,30 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.SquarefreeFibers",
+  "source": "HeckeSkeleton/LowEnergy/SquarefreeFibers.lean",
+  "cache_schema": 2,
+  "source_sha256": "8b71a2ee70b724c141d3257656c5107a771ce0de9e634b8c146cc7735b549185",
+  "exit_code": 0,
+  "seconds": 3.27,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeSkeleton.LowEnergy.IdealMass": {
+      ".olean": "daa22cb27755d9d34ee6a5ed9150b4582923f0dd3c542f13dddc7f08064219b0"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "ccd4b8f3da0022cac0be65c96e7505b44c1feff640680640bc57ee7bfdb172b6"
+  },
+  "audit_ok": true,
+  "log_sha256": "b59ccd98a3e93f1f202bbd794ad604ffbcc4dab0fe16a337b6d20ebd9a310985",
+  "local_dependency_hashes": {
+    "HeckeSkeleton.LowEnergy.IdealMass": "daa22cb27755d9d34ee6a5ed9150b4582923f0dd3c542f13dddc7f08064219b0"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

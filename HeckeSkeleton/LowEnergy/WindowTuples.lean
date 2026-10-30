@@ -1,8 +1,9 @@
 import HeckeSkeleton.LowEnergy.TupleCore
 import HeckeSkeleton.LowEnergy.DyadicReindex
 import HeckeSkeleton.LowEnergy.SlotTuples
-import HeckeSkeleton.LowCauchy.General
+import HeckeGeneral.Analysis.PhysicalProbeData
 import HeckeGeneral.Analysis.IdealSquarefreeSupport
+import Mathlib.Analysis.Normed.Group.Bounded
 
 /-!
 # Exact active-window aggregation into actual exterior ideals
@@ -30,6 +31,91 @@ open scoped BigOperators Classical ComplexConjugate
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 
+/-- The original smooth compactly supported profiles have a common bound.
+This elementary fact needs only the actual window data. -/
+theorem exists_profile_bound (g : PrimeWindowGeometry) :
+    ∃ W : ℝ, 0 < W ∧ ∀ (i : Fin g.slots) (y : ℝ), ‖(g.weight i).toFun y‖ ≤ W := by
+  have hb : ∀ i : Fin g.slots, ∃ B : ℝ, 0 < B ∧ ∀ y, ‖(g.weight i).toFun y‖ ≤ B := by
+    intro i
+    have hs : HasCompactSupport (g.weight i).toFun :=
+      HasCompactSupport.of_support_subset_isCompact isCompact_Icc (g.weight i).support
+    obtain ⟨B, hB⟩ := hs.exists_bound_of_continuous (g.weight i).smooth.continuous
+    exact ⟨max 1 B, lt_of_lt_of_le zero_lt_one (le_max_left _ _),
+      fun y => (hB y).trans (le_max_right _ _)⟩
+  choose B hB hbound using hb
+  have hsum : 0 ≤ ∑ i : Fin g.slots, B i := Finset.sum_nonneg (fun j _ => (hB j).le)
+  refine ⟨1 + ∑ i : Fin g.slots, B i, by linarith, fun i y => ?_⟩
+  have hi : B i ≤ ∑ j : Fin g.slots, B j :=
+    Finset.single_le_sum (fun j _ => (hB j).le) (Finset.mem_univ i)
+  linarith [hbound i y]
+
+section ElementaryWindows
+
+variable {K S}
+
+theorem window_weight_ne_zero {g : PrimeWindowGeometry}
+    {T : Finset (HeckeCharacter K)} {Z : ℝ} {i : Fin g.slots} {p : ExteriorPrime K S}
+    (hp : p ∈ primeWindow K S g T Z i) :
+    (g.weight i).toFun ((p.val.asIdeal.absNorm : ℝ) / primeScale g Z) ≠ 0 := by
+  simp only [primeWindow, Finset.mem_image, Finset.mem_attach, true_and] at hp
+  obtain ⟨⟨p', hp'⟩, rfl⟩ := hp
+  exact (Finset.mem_filter.mp hp').2.2.2
+
+theorem window_norm_bounds {g : PrimeWindowGeometry} {T : Finset (HeckeCharacter K)}
+    {Z : ℝ} (hZ : 0 < Z) {i : Fin g.slots} {p : ExteriorPrime K S}
+    (hp : p ∈ primeWindow K S g T Z i) :
+    primeScale g Z < (p.val.asIdeal.absNorm : ℝ) ∧
+      (p.val.asIdeal.absNorm : ℝ) < 2 * primeScale g Z := by
+  have hps : 0 < primeScale g Z := Real.rpow_pos_of_pos hZ _
+  have hw := window_weight_ne_zero hp
+  have hmem := g.support_annular i (Function.mem_support.mpr hw)
+  constructor
+  · have h := hmem.1
+    rwa [one_lt_div hps] at h
+  · have h := hmem.2
+    rwa [div_lt_iff₀ hps] at h
+
+theorem window_tuple_injective {g : PrimeWindowGeometry}
+    {T : Finset (HeckeCharacter K)} {Z : ℝ} {r : Fin g.slots → ExteriorPrime K S}
+    (hr : r ∈ Fintype.piFinset (fun i => primeWindow K S g T Z i)) :
+    Function.Injective r := by
+  intro i j hij
+  by_contra hne
+  have hi := window_weight_ne_zero (Fintype.mem_piFinset.mp hr i)
+  have hj := window_weight_ne_zero (Fintype.mem_piFinset.mp hr j)
+  rw [hij] at hi
+  exact Set.disjoint_left.mp (g.disjoint i j hne) (Function.mem_support.mpr hi)
+    (Function.mem_support.mpr hj)
+
+/-- The genuine window is injected into the genuine ideal norm ball.
+The counting premise is supplied by the existing linear ideal-count theorem. -/
+theorem window_card_le {g : PrimeWindowGeometry} {T : Finset (HeckeCharacter K)}
+    {Z : ℝ} (hZ : 1 ≤ Z) (i : Fin g.slots) {Clin : ℝ}
+    (hcount : ∀ U : ℝ, 1 ≤ U → ((dyadicIdealSupport K (U / 2)).card : ℝ) ≤ Clin * U) :
+    ((primeWindow K S g T Z i).card : ℝ) ≤ Clin * (2 * primeScale g Z) := by
+  have hZ0 : 0 < Z := by linarith
+  have hps1 : 1 ≤ primeScale g Z := Real.one_le_rpow hZ (by positivity)
+  have hcard : (primeWindow K S g T Z i).card ≤
+      (dyadicIdealSupport K (primeScale g Z)).card := by
+    apply Finset.card_le_card_of_injOn (fun p : ExteriorPrime K S => primeNonzeroIdeal K p.val)
+    · intro p hp
+      rw [Finset.mem_coe] at hp ⊢
+      rw [mem_dyadicIdealSupport_iff K (by linarith)]
+      exact (window_norm_bounds hZ0 hp).2.le
+    · intro p _ p' _ h
+      exact Subtype.ext (primeNonzeroIdeal_injective K h)
+  have h2 : dyadicIdealSupport K (primeScale g Z) =
+      dyadicIdealSupport K (2 * primeScale g Z / 2) := by
+    congr 1
+    ring
+  calc
+    ((primeWindow K S g T Z i).card : ℝ) ≤
+        ((dyadicIdealSupport K (primeScale g Z)).card : ℝ) := by exact_mod_cast hcard
+    _ = ((dyadicIdealSupport K (2 * primeScale g Z / 2)).card : ℝ) := by rw [← h2]
+    _ ≤ Clin * (2 * primeScale g Z) := hcount _ (by linarith)
+
+end ElementaryWindows
+
 theorem primeSetIdeal_injective : Function.Injective (primeSetIdeal K S) := by
   intro A B h
   have h' := congrArg (fun I : ExteriorIdeal K S => I.val) h
@@ -43,8 +129,8 @@ theorem primeWindow_disjoint (g : PrimeWindowGeometry) (T : Finset (HeckeCharact
     Disjoint (primeWindow K S g T Z i) (primeWindow K S g T Z j) := by
   apply Finset.disjoint_left.mpr
   intro p hi hj
-  have hi' := HeckeSkeleton.LowCauchy.lc_weight_ne_zero_of_mem_window hi
-  have hj' := HeckeSkeleton.LowCauchy.lc_weight_ne_zero_of_mem_window hj
+  have hi' := window_weight_ne_zero hi
+  have hj' := window_weight_ne_zero hj
   exact Set.disjoint_left.mp (g.disjoint i j hij)
     (Function.mem_support.mpr hi') (Function.mem_support.mpr hj')
 
@@ -113,7 +199,7 @@ theorem activeIdeal_norm_bounds (g : PrimeWindowGeometry)
     primeScale g Z ^ I.card ≤ exteriorNorm K S (activeIdeal K S I p) ∧
       exteriorNorm K S (activeIdeal K S I p) ≤ (2 * primeScale g Z) ^ I.card := by
   rw [activeIdeal_norm_product K S I p (activeTuple_injective K S g T Z I hp)]
-  have hb (i : I) := HeckeSkeleton.LowCauchy.lc_norm_mem_window hZ
+  have hb (i : I) := window_norm_bounds hZ
     (Fintype.mem_piFinset.mp hp i)
   have hps : 0 < primeScale g Z := Real.rpow_pos_of_pos hZ _
   constructor
@@ -209,7 +295,10 @@ theorem selected_norm_bounds (g : PrimeWindowGeometry)
       exteriorNorm K S (subsetPrimeIdeal K S p J) ∧
     exteriorNorm K S (subsetPrimeIdeal K S p J) ≤
       (2 : ℝ) ^ g.slots * Z ^ ((J.card : ℝ) / (6 * g.slots)) := by
-  have h := HeckeSkeleton.LowCauchy.lc_subsetNorm_bounds hZ hp J
+  have hpJ : (fun i : J => p i) ∈ activeTuples K S g T Z J :=
+    Fintype.mem_piFinset.mpr (fun i => Fintype.mem_piFinset.mp hp i)
+  have h := activeIdeal_norm_bounds K S g T hZ J hpJ
+  rw [activeIdeal_restrict] at h
   rw [primeScale_pow_eq_rpow g hZ J.card] at h
   refine ⟨h.1, h.2.trans ?_⟩
   rw [mul_pow, primeScale_pow_eq_rpow g hZ J.card]
@@ -358,7 +447,7 @@ theorem exists_activeWeight_bound (g : PrimeWindowGeometry) :
     ∃ A : ℝ, 1 ≤ A ∧ ∀ (ψ : HeckeCharacter K) (Z : ℝ)
       (I : Finset (Fin g.slots)) (p : I → ExteriorPrime K S),
       ‖activeWeight K S ψ g Z I p‖ ≤ A := by
-  obtain ⟨W, hW, hw⟩ := HeckeSkeleton.LowCauchy.lc_exists_weight_bound g
+  obtain ⟨W, hW, hw⟩ := exists_profile_bound g
   let B : ℝ := max 1 W
   have hB : 1 ≤ B := le_max_left _ _
   refine ⟨B ^ g.slots, one_le_pow₀ hB, ?_⟩
@@ -403,6 +492,11 @@ theorem active_weighted_sum_eq_ideal_sum (ψ : HeckeCharacter K)
       idealCoefficient K S g T Z I (activeWeight K S ψ g Z I) P * kernel P :=
   active_tuple_sum_eq_ideal_sum K S g T Z I _ kernel
 
+#print axioms exists_profile_bound
+#print axioms window_weight_ne_zero
+#print axioms window_norm_bounds
+#print axioms window_tuple_injective
+#print axioms window_card_le
 #print axioms activeIdeal_injOn
 #print axioms activeIdeals_support
 #print axioms active_tuple_sum_eq_ideal_sum

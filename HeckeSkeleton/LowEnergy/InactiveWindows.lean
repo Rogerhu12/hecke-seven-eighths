@@ -1,7 +1,7 @@
 import HeckeSkeleton.LowEnergy.InactiveCore
 import HeckeSkeleton.LowEnergy.SlotTuples
 import HeckeSkeleton.LowEnergy.WindowTuples
-import HeckeSkeleton.LowCauchy.General
+import HeckeGeneral.Analysis.FrequencyRowCounting
 
 /-!
 # Actual inactive marked windows have uniformly bounded total mass
@@ -22,7 +22,6 @@ open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical
-open HeckeSkeleton.LowCauchy
 open HeckeSkeleton.LowEnergy.TupleCore HeckeSkeleton.LowEnergy.InactiveCore
 open HeckeSkeleton.LowEnergy.WindowTuples
 open scoped NumberField BigOperators Classical ComplexConjugate
@@ -48,14 +47,14 @@ theorem exists_window_inverse_mass_bound (g : PrimeWindowGeometry) :
       ∀ i : Fin g.slots,
         (∑ p ∈ primeWindow K S g T Z i, ‖primeInverseWeight K S g Z i p‖) ≤ C := by
   obtain ⟨Clin, hClin, hcount⟩ := dyadicIdealSupport_linear_count K
-  obtain ⟨W, hW, hweight⟩ := lc_exists_weight_bound g
+  obtain ⟨W, hW, hweight⟩ := exists_profile_bound g
   refine ⟨max 1 (2 * Clin * W), le_max_left _ _, ?_⟩
   intro T Z hZ i
   have hZ0 : 0 < Z := zero_lt_one.trans_le hZ
   have hx : 0 < primeScale g Z := Real.rpow_pos_of_pos hZ0 _
   have hterm (p : ExteriorPrime K S) (hp : p ∈ primeWindow K S g T Z i) :
       ‖primeInverseWeight K S g Z i p‖ ≤ W / primeScale g Z := by
-    have hnorm := (lc_norm_mem_window hZ0 hp).1
+    have hnorm := (window_norm_bounds hZ0 hp).1
     have hnpos : 0 < (p.val.asIdeal.absNorm : ℝ) := hx.trans hnorm
     rw [primeInverseWeight_norm]
     calc
@@ -70,7 +69,7 @@ theorem exists_window_inverse_mass_bound (g : PrimeWindowGeometry) :
     _ = ((primeWindow K S g T Z i).card : ℝ) * (W / primeScale g Z) := by
       simp only [Finset.sum_const, nsmul_eq_mul]
     _ ≤ (Clin * (2 * primeScale g Z)) * (W / primeScale g Z) :=
-      mul_le_mul_of_nonneg_right (lc_card_primeWindow_le hZ i hcount)
+      mul_le_mul_of_nonneg_right (window_card_le hZ i hcount)
         (div_nonneg hW.le hx.le)
     _ = 2 * Clin * W := by field_simp [hx.ne']; ring
     _ ≤ max 1 (2 * Clin * W) := le_max_right _ _
@@ -224,7 +223,7 @@ theorem subset_coefficient_split (ψ : HeckeCharacter K)
     heckeIdealCoefficient K ψ (subsetPrimeIdeal K S p M).val =
       heckeIdealCoefficient K ψ (subsetPrimeIdeal K S p A).val *
         heckeIdealCoefficient K ψ (subsetPrimeIdeal K S p (M \ A)).val := by
-  have hinj := lc_injective_of_mem_piFinset hp
+  have hinj := window_tuple_injective hp
   have hd : Disjoint (A.image p) ((M \ A).image p) := by
     apply Finset.disjoint_left.mpr
     intro q hqA hqI
@@ -245,7 +244,7 @@ theorem inactive_prime_prefactor_eq_slots (g : PrimeWindowGeometry)
     (M A : Finset (Fin g.slots)) :
     (∏ q ∈ M.image p \ A.image p, (q.val.asIdeal.absNorm : ℂ)⁻¹) =
       ∏ i ∈ M \ A, ((p i).val.asIdeal.absNorm : ℂ)⁻¹ := by
-  have hinj := lc_injective_of_mem_piFinset hp
+  have hinj := window_tuple_injective hp
   rw [← Finset.image_sdiff M A hinj]
   exact Finset.prod_image (fun i _ j _ hij => hinj hij)
 
@@ -338,7 +337,7 @@ theorem active_prime_subsets_eq_slot_subsets (g : PrimeWindowGeometry)
     (∑ A ∈ (M.image p).powerset, f A) = ∑ I ∈ M.powerset, f (I.image p) := by
   rw [Finset.powerset_image]
   exact Finset.sum_image (fun I _ J _ h =>
-    Finset.image_injective (lc_injective_of_mem_piFinset hp) h)
+    Finset.image_injective (window_tuple_injective hp) h)
 
 /-- This version applies directly to the surviving-slot subtype obtained
 after fixing the selected coordinates.  Its active predicate is arbitrary,

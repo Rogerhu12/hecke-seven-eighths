@@ -37,12 +37,17 @@ theorem cubic_bound_iff :
 
 /-- The actual ordinary-ideal kernels inherit exactly the two supplied sieves. -/
 theorem ordinary_sieves_of_target
+    {F : FiniteMellinData K S}
     (hreflection : MarkedCoefficientReflectionInput K S P.arithmetic
-      (HeckeSkeleton.finiteMellinData K c) (thetaPeriod K S P ψ))
+      F (thetaPeriod K S P ψ))
     (hquadratic : HeckeSkeleton.QuadraticSieveBound K c)
     (hcubic : HeckeSkeleton.CubicSieveBound K c) :
     OrdinaryQuadraticBound K S P.arithmetic ∧ OrdinaryCubicBound K S P.arithmetic :=
   ⟨ordinaryQuadratic_of_exterior K S P.arithmetic hreflection.allowed_generators hquadratic,
     ordinaryCubic_of_exterior K S P.arithmetic hcubic⟩
+
+#print axioms quadratic_bound_iff
+#print axioms cubic_bound_iff
+#print axioms ordinary_sieves_of_target
 
 end HeckeSkeleton.LowEnergy.TargetSieveDictionary

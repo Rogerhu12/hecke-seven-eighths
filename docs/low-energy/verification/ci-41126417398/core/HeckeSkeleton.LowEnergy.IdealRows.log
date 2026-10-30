@@ -1,0 +1,13 @@
+'HeckeSkeleton.LowEnergy.IdealRows.powerful_residual_decomposition' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.IdealRows.powerful_residual_coprime' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.IdealRows.powerful_decomposition' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.IdealRows.powerful_decomposition_unique' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.IdealRows.powerfulPair_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.IdealRows.radical_sq_dvd_powerful' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.IdealRows.norm_radical_sq_le_powerful' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

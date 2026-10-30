@@ -81,12 +81,12 @@ Base: `dtests-handoff` at `503ad9895e5f8affef55b22fea082e251bf33aa7`.
 | `HeckeSkeleton.LowEnergy.ActualSeparatedBlock` | `2eed8ceb2cb5f8e139ce08603f41137843b1bf236774871bd8acc8afdbd6d096` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualBlockEnergy` | `b85e09a25c886496b7f966781ab5c4c4cad6e1765a39d350e4611c68f5785479` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.SlotTuples` | `707ab1ebc3c25fe490b8c245ad89c142c5855e25178d9c7def33a247b20a0a3b` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.WindowTuples` | `2e18f50c79a81d29a0bfa2bdae46cb1cc0bcd80fc7ba651375b3ce94b534ce1f` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.InactiveWindows` | `761f16d7cfbd54dc91020b27334e082d9e403f3726595b929c5dfee9e73ca922` | NOT_CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowEnergy.WindowTuples` | `3579cf81235dc7420f7680c656b7f89f14904635b3dcec062f34f5c51b57409f` | NOT_CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowEnergy.InactiveWindows` | `343de328b4d39baaea5b3fc50d9f2cebeab7b44b6cb87b9f4ffa8eca2ecc9210` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.TargetDictionary` | `89c7e7faef5340f13530d8c4d8a3c0e603254008d58e409b6b79a2d8536727ed` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.GaussianTheta` | `9b4b613f3db37039dd4fa21714455c44494d56174596b8a249500f6a4855efea` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.TargetGaussian` | `95391295545a8035dc44c73eb7e0bfd3100d106ce76daa31fba6f705e251dc04` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.TargetSieveDictionary` | `68f2586999e053baf115390f4a44285ef5d3cfd100b3f935d1a360042d6ce5ad` | NOT_CHECKED_EXACT_SOURCE |
+| `HeckeSkeleton.LowEnergy.TargetSieveDictionary` | `76ba1619c063dba496ec891841cd1d61f92d93d1f39c605e6a26ed8f5c0a6929` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualBlockReindex` | `cdf784bdc265a7eb75ee21a3e87ecd917c1c9cc53723c3fa1efe658aaf0b6e5c` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualSourceReindex` | `c0acedfdf1431832d1042228dcb9a7e0c6046f6addf86d54b8ea7cca2e2d914b` | NOT_CHECKED_EXACT_SOURCE |
 | `HeckeSkeleton.LowEnergy.ActualRowFibres` | `1759c44a943601c80a103da42945620c346fb7608d47df0cb02491b56a8742bb` | NOT_CHECKED_EXACT_SOURCE |
@@ -106,11 +106,11 @@ Base: `dtests-handoff` at `503ad9895e5f8affef55b22fea082e251bf33aa7`.
 
 ## Remote records, distinct from local object files
 
-Run 41124279712 at a0ca28e8835b47aa72eb0d9f3e394201124c2806: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124279712.
-The core job failed on the previous LocalCoefficients source; this is not a successful-job claim.
+Run 41126417398 at 1359722d0d8c3f8f4a14b28ba86c31e1b879563c: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41126417398.
+This core job passed all 66 real modules. This does not establish the actual-adapter or Principal gates.
 Accepted module records match current source, toolchain, package lock, log digest,
 and all recursively checked local dependency sources and output-artifact digests.
-Raw records retain the old failure. No remote record is represented as a local olean.
+Earlier raw records retain the previous failure. No remote record is represented as a local olean.
 
 
 ## Legacy build records excluded pending dependency recheck
@@ -118,8 +118,6 @@ Raw records retain the old failure. No remote record is represented as a local o
 
 ## Missing source dependencies
 
-- `FiniteMixedCorrelationFourier` (`GramCoreInputs/FiniteMixedCorrelationFourier.lean`)
-- `FiniteAffineCorrelationBound` (`GramCoreInputs/FiniteAffineCorrelationBound.lean`)
 - `ClassFieldTheory.AlgebraicNumberTheory.Idele.SPlaces` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/SPlaces.lean`)
 - `DedekindZetaZeroFree.Arithmetic.Ideals.SIntegerLocalization.IdealCorrespondence` (`DedekindZetaZeroFree/Arithmetic/Ideals/SIntegerLocalization/IdealCorrespondence.lean`)
 - `DedekindZetaZeroFree.CharacterSums.Gauss.SexticFourierMasks` (`DedekindZetaZeroFree/CharacterSums/Gauss/SexticFourierMasks.lean`)
@@ -325,6 +323,8 @@ Raw records retain the old failure. No remote record is represented as a local o
 - `DedekindZetaZeroFree.Arithmetic.ResidueSymbols.Sextic.LocalCharacterCompatibility` (`DedekindZetaZeroFree/Arithmetic/ResidueSymbols/Sextic/LocalCharacterCompatibility.lean`)
 - `DedekindZetaZeroFree.CharacterSums.Gauss.TracePhaseChineseRemainder` (`DedekindZetaZeroFree/CharacterSums/Gauss/TracePhaseChineseRemainder.lean`)
 - `DedekindZetaZeroFree.CharacterSums.Gauss.LocalQuotientSums` (`DedekindZetaZeroFree/CharacterSums/Gauss/LocalQuotientSums.lean`)
+- `FiniteMixedCorrelationFourier` (`GramCoreInputs/FiniteMixedCorrelationFourier.lean`)
+- `FiniteAffineCorrelationBound` (`GramCoreInputs/FiniteAffineCorrelationBound.lean`)
 - `SIntegerSexticFiniteCorrelation` (`GramCoreInputs/SIntegerSexticFiniteCorrelation.lean`)
 - `ActualProbePairPointwisePoisson` (`GramCoreInputs/ActualProbePairPointwisePoisson.lean`)
 - `ActualAdditiveGramPoissonAssembly` (`GramCoreInputs/ActualAdditiveGramPoissonAssembly.lean`)

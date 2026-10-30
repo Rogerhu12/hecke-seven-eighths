@@ -1,0 +1,9 @@
+'HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy.annular_power_factorization' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy.annular_majorant_le_amplitude' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy.all_physical_blocks_energy' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

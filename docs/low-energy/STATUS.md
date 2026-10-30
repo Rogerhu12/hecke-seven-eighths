@@ -39,6 +39,7 @@
 `Principal.completedMarkedEnergy` 的有限 Mellin 数据改为隐式参数
 `{F : FiniteMellinData K S}`，可由 `hreflection` 的类型自动推断。
 这是对原数据参数的泛化，能量结论及其窗口和轨道定义不变。
+常数可依赖固定的 `F` 及其反射/核数据；未声称同一个常数对所有 `F` 统一。
 这样条件能量定理不必实例化原 `Theta.lean` 中尚未实现的 `finiteMellinData` 定义。
 原 `principalSource` 仍显式取 `(F := finiteMellinData K c)`；这保留原流程，
 不把上游数据构造的缺口包装为本次已经完成的证明。
@@ -90,6 +91,12 @@
 已核对的纯核心公开定理审计只出现 `propext`、`Classical.choice`、`Quot.sound`。
 这不是未编译实际端点的公理审计结果。
 
+远端 run `41126417398` 的 **core 阶段已成功**：66 个真实源模块全部通过，
+包括修复后的 `PhysicalBlockPolynomial`、`PhysicalGaussianEnergy` 和
+`LowFrozenCube.LocalCoefficients`。该次 actual 阶段已通过 193 个既有依赖，
+随后在原 `LinearCountingBound` 的缺失官方 Mathlib import 处失败，
+尚未到达第一个新增实际符号模块。该 import 已补入本次源码，仍需重跑验收。
+
 安装仓库固定 Lake 依赖及对应 Mathlib cache 后运行：
 
 ```sh
@@ -116,8 +123,8 @@ ZIP 未包含的真实依赖已从所指定 GitHub 仓库读取；未用替代�
 55 个 vendored 模块做了仅限 imports 的调整：其中
 54 个宽泛 `import Mathlib` 由仅含显式官方 Mathlib imports 的
 `FLTReuse.ExplicitMathlibImports` 收窄，1 个补入实际使用的官方 leaf import。
-另 2 个原仓库模块也调整了 imports，以缩小本地验证所需缓存。
-其定义与证明未改变，全部 57 项的
+另 3 个原仓库模块也调整了 imports，以缩小本地验证所需缓存。
+其定义与证明未改变，全部 58 项的
 原始和修改后哈希列在 `vendor_import_changes.json`。
 这一导入收窄也需要完整依赖编译验证；失败时应补齐真实 import，而不是加入新公理。
 

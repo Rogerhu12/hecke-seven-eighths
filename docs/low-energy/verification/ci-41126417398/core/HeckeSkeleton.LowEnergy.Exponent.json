@@ -1,0 +1,24 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.Exponent",
+  "source": "HeckeSkeleton/LowEnergy/Exponent.lean",
+  "cache_schema": 2,
+  "source_sha256": "6e2a5c32f5913e62a31d287a54dfcc345e11df9cf78aa8fb30a1e569b73e5ab4",
+  "exit_code": 0,
+  "seconds": 3.854,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {},
+  "output_artifact_hashes": {
+    ".olean": "93a34df1d4f9f46900e23278072dcc5a10d9fdd332f29bc490b4caf2dfa9947e"
+  },
+  "audit_ok": true,
+  "log_sha256": "c6429c904ed5b2ff778d41adf9a3165632a9cdc00077dd96a4593a5ec8926b08",
+  "local_dependency_hashes": {},
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

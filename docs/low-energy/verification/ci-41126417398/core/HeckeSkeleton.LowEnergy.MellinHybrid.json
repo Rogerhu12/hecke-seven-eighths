@@ -1,0 +1,34 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.MellinHybrid",
+  "source": "HeckeSkeleton/LowEnergy/MellinHybrid.lean",
+  "cache_schema": 2,
+  "source_sha256": "964f08a630601c28580ee304f6fb0d182858cce70239830cf4ce5929ee74ea46",
+  "exit_code": 0,
+  "seconds": 2.777,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeSkeleton.LowEnergy.MellinEnergy": {
+      ".olean": "2357fa2a87e6dd1bc63426179488331025b3809b031df6c97d8d62ca1a5607c8"
+    },
+    "HeckeSkeleton.LowEnergy.HybridScaling": {
+      ".olean": "e60542931eeeeedc85ebd5c2850b82a784faa283367d620cfb28ea1399d57960"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "eae0181397deda1b08fc90ed7d6eae4a3e31e6ca87f4014c82c21259da5494a2"
+  },
+  "audit_ok": true,
+  "log_sha256": "0d303c9e565acf16ff9f4a387ff93920fc0dce1b63b8fce53d5231c561f81b1c",
+  "local_dependency_hashes": {
+    "HeckeSkeleton.LowEnergy.MellinEnergy": "2357fa2a87e6dd1bc63426179488331025b3809b031df6c97d8d62ca1a5607c8",
+    "HeckeSkeleton.LowEnergy.HybridScaling": "e60542931eeeeedc85ebd5c2850b82a784faa283367d620cfb28ea1399d57960"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

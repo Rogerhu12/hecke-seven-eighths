@@ -1,0 +1,9 @@
+'HeckeSkeleton.LowHybrid.WeightedBlock.tHarmonic_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowHybrid.WeightedBlock.cHarmonic_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowHybrid.WeightedBlock.hHarmonic_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowHybrid.WeightedBlock.energy_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowHybrid.WeightedBlock.energy_le_uniform_harmonics' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowHybrid.inverse_sqrt_norm_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowHybrid.hybrid_energy_of_weighted_blocks' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -1,0 +1,30 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.IdealMass",
+  "source": "HeckeSkeleton/LowEnergy/IdealMass.lean",
+  "cache_schema": 2,
+  "source_sha256": "de311d9dfa1cf265a511380ab659698997673f10b43ae3038fa677aea5866c4f",
+  "exit_code": 0,
+  "seconds": 2.958,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeSkeleton.LowEnergy.IdealMajorant": {
+      ".olean": "07c6c4de3947f5db5ce464268fe1e1562c618858a76aa7d861feb1800208fdbf"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "daa22cb27755d9d34ee6a5ed9150b4582923f0dd3c542f13dddc7f08064219b0"
+  },
+  "audit_ok": true,
+  "log_sha256": "c9dea1b8a19f4848ce549c8fa815652f39bbe24644bc6f622fe7de85483a8f54",
+  "local_dependency_hashes": {
+    "HeckeSkeleton.LowEnergy.IdealMajorant": "07c6c4de3947f5db5ce464268fe1e1562c618858a76aa7d861feb1800208fdbf"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

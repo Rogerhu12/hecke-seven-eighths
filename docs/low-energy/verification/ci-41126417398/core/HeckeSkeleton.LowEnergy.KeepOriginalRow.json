@@ -1,0 +1,24 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.KeepOriginalRow",
+  "source": "HeckeSkeleton/LowEnergy/KeepOriginalRow.lean",
+  "cache_schema": 2,
+  "source_sha256": "011da9dcf746e4ab6a9a9ff029f23c94ea46adec50aae916e45d1f9d082d05e1",
+  "exit_code": 0,
+  "seconds": 16.897,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {},
+  "output_artifact_hashes": {
+    ".olean": "3afb983d63503e5e0f13fe87f5b941b354d6e4e3ab01e564fb4789611601197e"
+  },
+  "audit_ok": true,
+  "log_sha256": "1e4d8a82afcd8c7402828488985d56bb6d6542f1b752e09c729cdd7dfac485e4",
+  "local_dependency_hashes": {},
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

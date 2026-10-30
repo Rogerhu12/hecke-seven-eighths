@@ -1,0 +1,30 @@
+{
+  "module": "HeckeSkeleton.LowFrozenCube.LocalCoefficients",
+  "source": "HeckeSkeleton/LowFrozenCube/LocalCoefficients.lean",
+  "cache_schema": 2,
+  "source_sha256": "480a326fa64d1ab714ab9e751e3c32a88a248c7938b1c398bbed187a8fba4a17",
+  "exit_code": 0,
+  "seconds": 1.733,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeSkeleton.LowFrozenCube.Valuations": {
+      ".olean": "eddf1583347fc081c01ecc5f5041f62e086f4f2fd41adcbd18c71785f7a168c3"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "e26544d406d9d8c9212f314f2084c16dcde040860abfd80a5bb04159eb1f67f5"
+  },
+  "audit_ok": true,
+  "log_sha256": "470221c2e5c00dacd7549bbb4719f3d6bf8e4ee9bb947040fd8c89ba238b3666",
+  "local_dependency_hashes": {
+    "HeckeSkeleton.LowFrozenCube.Valuations": "eddf1583347fc081c01ecc5f5041f62e086f4f2fd41adcbd18c71785f7a168c3"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

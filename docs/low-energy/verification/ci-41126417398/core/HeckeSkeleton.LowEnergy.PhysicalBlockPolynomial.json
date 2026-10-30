@@ -1,0 +1,34 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial",
+  "source": "HeckeSkeleton/LowEnergy/PhysicalBlockPolynomial.lean",
+  "cache_schema": 2,
+  "source_sha256": "bb5e86bb0bee0b24dc02e21993f90c896a32cbb096f4fbd0dfce68feebe3c409",
+  "exit_code": 0,
+  "seconds": 5.244,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeSkeleton.LowEnergy.BlockPolynomial": {
+      ".olean": "59c164ab5a9c97718d1d7cc855c4d01af7650228e25bbe3909e0ff006b498868"
+    },
+    "HeckeSkeleton.LowEnergy.LogGeometry": {
+      ".olean": "044cdf39236f93ef8d91b6ce6bd6015f99a6085c4c9be6d1812be6a36b3ca0aa"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "3d81ca385c77e1493e02f4cb7af03dc74003bcdb17787a8c4931938db0ba94f0"
+  },
+  "audit_ok": true,
+  "log_sha256": "327948bbcea742fcb5a2b6a7866dc4249976549505b3de5829e7f24da1b2282d",
+  "local_dependency_hashes": {
+    "HeckeSkeleton.LowEnergy.BlockPolynomial": "59c164ab5a9c97718d1d7cc855c4d01af7650228e25bbe3909e0ff006b498868",
+    "HeckeSkeleton.LowEnergy.LogGeometry": "044cdf39236f93ef8d91b6ce6bd6015f99a6085c4c9be6d1812be6a36b3ca0aa"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}
