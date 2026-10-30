@@ -39,7 +39,10 @@ theorem spectral_integrable (hF : FiniteMellinAdmissible K S F)
     (V : SmoothAnnularTest) {σ : ℝ} (hσ : -(1 / 3 : ℝ) < σ) :
     Integrable (spectral F θ u κ V σ) := by
   have h := fz_integrable hF θ u κ V 0 (y := 1) (by norm_num) hσ
-  simpa only [fz, spectral, pow_zero, one_mul, Complex.ofReal_one,
+  change Integrable (fun t : ℝ =>
+    mellin V.toFun (-((σ : ℂ) + (t : ℂ) * Complex.I)) *
+      reflectionMultiplier K S F θ u κ ((σ : ℂ) + (t : ℂ) * Complex.I))
+  simpa only [fz, pow_zero, one_mul, Complex.ofReal_one,
     Complex.one_cpow, mul_one] using h
 
 def regularizedKernel (u : SixthUnitClasses K S) (κ : SixthLocalClasses K S)
@@ -49,12 +52,13 @@ def regularizedKernel (u : SixthUnitClasses K S) (κ : SixthLocalClasses K S)
 theorem regularizedKernel_eq_fz (u : SixthUnitClasses K S)
     (κ : SixthLocalClasses K S) (V : SmoothAnnularTest) (ε σ y : ℝ) :
     regularizedKernel F θ u κ V ε σ y =
-      (2 * (Real.pi : ℂ))⁻¹ * ∫ t,
+      (2 * (Real.pi : ℂ))⁻¹ * ∫ t : ℝ,
         fz F θ u κ V 0 y ((σ : ℂ) + (t : ℂ) * Complex.I) *
           GaussianRegularization.verticalGaussian ε σ t := by
   simp only [regularizedKernel, VerticalInverseBounds.regularizedInverseLine,
     VerticalInverseBounds.powerPhase, spectral, fz, pow_zero, one_mul]
 
+set_option maxHeartbeats 1000000 in
 theorem regularizedKernel_shift (hF : FiniteMellinAdmissible K S F)
     (u : SixthUnitClasses K S) (κ : SixthLocalClasses K S)
     (V : SmoothAnnularTest) {ε : ℝ} (hε₀ : 0 ≤ ε) (hε₁ : ε ≤ 1)
@@ -70,7 +74,8 @@ theorem regularizedKernel_shift (hF : FiniteMellinAdmissible K S F)
     (f := fz F θ u κ V 0 y) hab
     (e := (J : ℝ) - 0 - 4 * ncx K * max b 0)
     (by linarith) hC₀ hε₀ hε₁
-    (fun z hz₀ hz₁ => differentiableAt_fz hF θ u κ V 0 hy (by linarith)) hC
+    (fun z hz₀ hz₁ => differentiableAt_fz hF θ u κ V 0 hy (by linarith))
+    (by simpa only [Nat.cast_zero] using hC)
 
 /-- Uniformity includes all actual local sixth-power classes and all
 regularizers in `[0,1]`; the test is fixed before this constant is chosen. -/

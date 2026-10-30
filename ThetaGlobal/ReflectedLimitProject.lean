@@ -171,7 +171,9 @@ theorem regularized_reflected_sum_tendsto [Finite (SixthLocalClasses K S)]
       simpa only [Real.rpow_neg hy.le 2, Real.rpow_two, inverseSquare] using ht))
     (fun κ y hy => RegularizedKernelProject.regularizedKernel_tendsto F θ hF
       (QuotientGroup.mk d.rowUnit) κ V ε hε₀ hε₁ hε hy)
-  simpa only [term_eq_reflectedTerm] using h
+  constructor
+  · exact h.1.congr (fun i => term_eq_reflectedTerm K S D d θ F V.toFun X i)
+  · simpa only [term_eq_reflectedTerm] using h.2
 
 end ThetaGlobal.ReflectedLimitProject
 

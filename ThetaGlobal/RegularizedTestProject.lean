@@ -135,9 +135,11 @@ theorem pointwise_tendsto (ε : ℕ → ℝ)
   have h := VerticalInverseBounds.regularizedInverseLine_tendsto
     (fun t => mellin V.toFun ((0 : ℂ) + (t : ℂ) * Complex.I))
     (vertical_integrable V 0) ε hε₀ hε₁ hε 0 hy
-  rw [TestMellinLimit.inverseLine_mellin_eq V.toFun 0
+  have hinv := TestMellinLimit.inverseLine_mellin_eq V.toFun 0
     ((good_toFun V).integrableOn_mellin 0) (vertical_integrable V 0)
-      hy V.smooth.continuous.continuousAt] at h
-  exact h
+      hy V.smooth.continuous.continuousAt
+  simp only [Complex.ofReal_zero, zero_add] at h hinv
+  rw [hinv] at h
+  simpa only [regularizedTest, Complex.ofReal_zero, zero_add] using h
 
 end ThetaGlobal.RegularizedTestProject

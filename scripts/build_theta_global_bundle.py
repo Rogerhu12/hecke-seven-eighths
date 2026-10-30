@@ -82,7 +82,10 @@ report = {'lean': '4.35.0-rc3',
     'modules': manifest}
 print(f'Generated {len(names)} modules with {len(imports)} imports: {source_path}')
 if args.check:
-    command = ['lake', 'env', 'lean', '-j2', str(source_path.relative_to(root))]
+    # Direct `lake env lean` does not inherit the library's leanOptions.
+    # Match the two implicit-parameter options used by the native build.
+    command = ['lake', 'env', 'lean', '-j2', '-DautoImplicit=false',
+        '-DrelaxedAutoImplicit=false', str(source_path.relative_to(root))]
     result = subprocess.run(command, cwd=root, text=True, stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT)
     (outdir/'Standalone.log').write_text(result.stdout)

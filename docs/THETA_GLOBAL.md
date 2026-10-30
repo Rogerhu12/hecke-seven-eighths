@@ -142,6 +142,13 @@ A successful combined-body check means those source bodies elaborate
 together with consolidated imports and isolated file scopes. It does not
 mean their native project import closures have been built individually.
 
+The native Lake libraries disable both `autoImplicit` and
+`relaxedAutoImplicit`. The original direct-compiler checks below did not
+pass these two global options; each source file's own option settings were
+preserved. The reproduction scripts now pass the native options explicitly.
+Historical logs retain their actual commands, and any stricter replay is
+recorded separately rather than relabeling an earlier result.
+
 The reflected-project combined-body check contains 188 actual source
 bodies. The production vendor imports are preserved: an early attempt
 to narrow umbrella imports removed transitive names needed by downstream
@@ -247,6 +254,21 @@ directory so the increment can import the reproduced foundation without
 a custom `LEAN_PATH`. This is again transformed source-body QA, not a
 successful native build of the five final entry points.
 
+### Successful actual frequency-representative increment
+
+The actual `GlobalActualFrequency` source also passed a one-module
+increment over the same 188-module foundation, with exit code 0 and strict
+gates for `localClass_representative`, `norm_representative`, and
+`scaled_norm_representative`. No production change was needed.
+The generated source SHA-256 is
+`2db0f5ae399a28897f4266f2b52e4bebf94d6869187c9e935957b32e7b71d4b3`.
+The original and foundation source hashes and all three standard-axiom
+results are recorded in
+`verification/theta_global/actual_frequency_manifest.json`, with raw output
+in `verification/theta_global/ActualFrequencyVerification.build.log`.
+This checks the actual representative's local class and two norm formulas;
+the complete frequency reindexing still belongs to the larger native gate.
+
 ### Remaining validation boundary
 
 The project-facing construction and the final five entry points have not
@@ -274,6 +296,21 @@ Successive runs for the same PR are queued so that an active dependency
 build can finish and save its cache before the latest correction starts.
 Every result remains tied to its own commit; an earlier run does not
 certify a later source change.
+
+The completed native attempt
+[41127856107](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41127856107)
+failed with filesystem error 28 (`No space left on device`) while compiling
+upstream `FLTReuse` dependencies, before reaching the new `ThetaGlobal`
+or `HeckeSkeleton` entry modules. Its strict gate was skipped. The cache
+action reported a successful step but its log also recorded a disk-space
+failure, so that attempt did not preserve the new dependency artifacts.
+The [unfiltered diagnostic artifact](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41127856107/artifacts/13014345990)
+records this infrastructure failure; it is not a theorem-validation result.
+The actual-entry job now frees the unused preinstalled Android SDK and
+.NET SDK directories on its ephemeral Ubuntu runner before installing Lean.
+It leaves the repository, Python, Lean, and Mathlib paths intact and records
+disk availability before and after cleanup. The strict native gate is
+unchanged and still requires a successful subsequent run.
 
 The local checkout was based on `503ad9895e5f8affef55b22fea082e251bf33aa7`.
 The published tree preserves upstream work through parent

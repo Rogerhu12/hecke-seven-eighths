@@ -261,8 +261,11 @@ if args.check:
     artifact = REPO / '.lake/build/lib/lean' / dest.relative_to(REPO).with_suffix('.olean')
     artifact.parent.mkdir(parents=True, exist_ok=True)
     report['artifact_output'] = str(artifact.relative_to(REPO))
+    report['compiler_options'] = {'autoImplicit':False, 'relaxedAutoImplicit':False,
+        'source_options_preserved':True}
     report['artifact_path_policy'] = 'Canonical Lake project library directory; foundation imports need no custom LEAN_PATH.'
-    command = ['lake', 'env', 'lean', '-j2', '-R', str(REPO), '-o', str(artifact), str(dest)]
+    command = ['lake', 'env', 'lean', '-j2', '-DautoImplicit=false',
+        '-DrelaxedAutoImplicit=false', '-R', str(REPO), '-o', str(artifact), str(dest)]
     started = time.monotonic()
     result = subprocess.run(command, cwd=REPO, text=True, stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT)
