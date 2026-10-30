@@ -1,4 +1,6 @@
-import Mathlib
+import Mathlib.NumberTheory.NumberField.AdeleRing
+import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Basic
+import Mathlib.MeasureTheory.Function.LpSpace.Basic
 
 open NumberField MeasureTheory Matrix
 

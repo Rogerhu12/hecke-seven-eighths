@@ -1,0 +1,45 @@
+name: Exterior mixed-energy verification
+
+on:
+  push:
+    branches: [codex/wire-low-hybrid-20261031]
+  pull_request:
+    paths:
+      - 'HeckeSkeleton/LowHybrid/Exterior*.lean'
+      - 'HeckeSkeleton/LowFrozenCube/Exterior*.lean'
+      - 'HeckeSkeleton/LowHybridExterior*.lean'
+      - 'scripts/verify_low_hybrid_exterior.py'
+      - '.github/workflows/low-hybrid-exterior.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: low-hybrid-exterior-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  proofs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      LEAN_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@bd5cb0b830eda614ce3fc186d8429b9409b16c47
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Compile actual objects and audit every new declaration
+        run: python3 -u scripts/verify_low_hybrid_exterior.py
+      - name: Preserve complete verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: low-hybrid-exterior-verification
+          path: wire-low-hybrid-verification/
+          if-no-files-found: error

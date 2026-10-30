@@ -1,4 +1,6 @@
-import Mathlib
+import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Basic
+import Mathlib.MeasureTheory.Integral.Bochner.Basic
+import Mathlib.Tactic.FinCases
 
 open Matrix MeasureTheory
 
