@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: prime-cancellation-inputs-${{ github.head_ref || github.ref_name }}
+  group: prime-cancellation-inputs-v2-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
@@ -27,6 +27,7 @@ jobs:
           - HeckeSkeleton.PrimeCancellationBounds
           - HeckeSkeleton.PrimeCancellationCounting
           - HeckeSkeleton.PrimeCancellationHecke
+          - HeckeSkeleton.PrimeCancellationPolynomials
     env:
       LEAN_NUM_THREADS: '2'
     steps:

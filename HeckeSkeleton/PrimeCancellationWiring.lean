@@ -1,4 +1,5 @@
 import HeckeSkeleton.PrimeCancellationHecke
+import HeckeSkeleton.PrimeCancellationPolynomials
 import HeckeSkeleton.PrimeCancellationMoment
 import HeckeSkeleton.PrimeCancellationBounds
 import HeckeSkeleton.PrimeCancellationWindows
@@ -71,64 +72,6 @@ structure PrimeSlotModelControl (M : SourceMomentModels K c) where
       ∀ j, Real.log (heckeConductorScale K
         ((pairedModel M i s).rowCharacter u * (pairedModel M i s).slotCoefficient j)) ≤
           D * (1 + Real.log (momentBase i)) * (1 + T) ^ q
-
-/-- The coefficient and normalization in the abstract theorem are literally
-those of `primePolynomial`; no polynomial calibration is assumed here. -/
-theorem primePolynomial_bound_of_analytic_data
-    {ω ψ : HeckeCharacter K} (d : MomentData K ω ψ)
-    (u : NonzeroIdeal K) (j : Fin d.geometry.slotCount) (X : ℝ)
-    (W : SchwartzMap ℝ ℂ) (hW : (W : ℝ → ℂ) = (d.geometry.slots j).profile 0)
-    (β degreeBound : ℝ) (data : SlotData (HeightOneSpectrum (𝓞 K)) β degreeBound)
-    (hnorm : data.norm = fun p => (Ideal.absNorm p.asIdeal : ℝ))
-    (hcoeff : data.coefficient = primeCoefficient K (d.rowCharacter u * d.slotCoefficient j))
-    (seminorms : Finset (ℕ × ℕ)) (Cstar δ H B : ℝ)
-    (hbound : ∀ (W : SchwartzMap ℝ ℂ),
-      Function.support (W : ℝ → ℂ) ⊆ Set.Icc (1 : ℝ) 2 →
-      ∀ (β δ degreeBound H B : ℝ) (data : SlotData (HeightOneSpectrum (𝓞 K)) β degreeBound),
-      heightConstant data.analytic + 3 * (data.analytic.k : ℝ) ≤ H →
-      ∀ (P : ℝ) (pool : Finset (HeightOneSpectrum (𝓞 K)))
-        (keep : HeightOneSpectrum (𝓞 K) → Bool),
-      1 / 2 ≤ β → β ≤ 1 → 0 < δ → δ ≤ 1 / 4 → 1 ≤ P →
-      (∀ p, W (data.norm p / P) ≠ 0 → p ∈ pool) →
-      ((pool.filter (fun p => keep p = false)).card : ℝ) ≤ B →
-      ‖maskedPrimeSum data W P pool keep‖ ≤
-        (uniformConstant δ Cstar degreeBound H + B) * sourceSeminorm seminorms W *
-          P ^ (β + δ))
-    (hsupport : Function.support (W : ℝ → ℂ) ⊆ Set.Icc (1 : ℝ) 2)
-    (hH : heightConstant data.analytic + 3 * (data.analytic.k : ℝ) ≤ H)
-    (hβ : 1 / 2 ≤ β) (hβ' : β ≤ 1) (hδ : 0 < δ) (hδ' : δ ≤ 1 / 4)
-    (hX : 1 ≤ X)
-    (hdeleted : ((((d.geometry.slots j).support 0 (X ^ (d.geometry.slots j).length)).filter
-      (fun p => d.commonMask u p.asIdeal = false)).card : ℝ) ≤ B)
-    (A : ℝ) (hA : 0 ≤ A)
-    (hbudget : (uniformConstant δ Cstar degreeBound H + B) *
-      sourceSeminorm seminorms W ≤ A) :
-    ‖primePolynomial d j u X 0‖ ^ 2 ≤
-      A ^ 2 * X ^ ((2 * β - 1) * (d.geometry.slots j).length +
-        (2 * δ) * (d.geometry.slots j).length) := by
-  let P := X ^ (d.geometry.slots j).length
-  let pool := (d.geometry.slots j).support 0 P
-  have hP : 1 ≤ P := Real.one_le_rpow hX (d.geometry.slots j).length_pos.le
-  have hcover : ∀ p, W (data.norm p / P) ≠ 0 → p ∈ pool := by
-    intro p hp
-    apply ((d.geometry.slots j).support_spec 0 P p).mpr
-    simpa only [hnorm, hW] using hp
-  have hb := hbound W hsupport β δ degreeBound H B data hH P pool
-    (fun p => d.commonMask u p.asIdeal) hβ hβ' hδ hδ' hP hcover hdeleted
-  have hb' : ‖maskedPrimeSum data W P pool (fun p => d.commonMask u p.asIdeal)‖ ≤
-      A * P ^ (β + δ) := hb.trans (mul_le_mul_of_nonneg_right hbudget
-        (Real.rpow_nonneg (zero_le_one.trans hP) _))
-  have hn := PrimeCancellationAux.norm_normalized_sq_le_rpow P (β + δ) A
-    (zero_lt_one.trans_le hP) hA
-    (maskedPrimeSum data W P pool (fun p => d.commonMask u p.asIdeal)) hb'
-  rw [primePolynomial_eq_normalizedMaskedPrimeSum d j u X β degreeBound data
-    hnorm hcoeff W hW]
-  change ‖normalizedMaskedPrimeSum data W P pool (fun p => d.commonMask u p.asIdeal)‖ ^ 2 ≤ _
-  change ‖normalizedMaskedPrimeSum data W P pool (fun p => d.commonMask u p.asIdeal)‖ ^ 2 ≤
-    A ^ 2 * P ^ (2 * (β + δ) - 1) at hn
-  dsimp only [P] at hn
-  rw [← Real.rpow_mul (zero_le_one.trans hX)] at hn
-  convert hn using 1 <;> congr 1 <;> ring
 
 /-- A uniform bound at independent external scale and height.  The constants
 are chosen before both; the later `UniformMomentBound` quantifiers are weaker.

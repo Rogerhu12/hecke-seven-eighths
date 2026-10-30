@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments
+import HeckeSkeleton.PrimeCancellationPolynomials
 import PrimeCancellationAux
 import PrimeCancellationPaired
 import PrimeCancellationMaskCount
@@ -31,81 +32,6 @@ open scoped Classical BigOperators
 
 variable {K : Type} [Field K] [NumberField K]
 variable {ω ψ : HeckeCharacter K}
-
-/-! ## Row membership, length, and nonprincipality -/
-
-theorem mem_rows_of_mem_pairedRows (d : MomentData K ω ψ)
-    (a : RealParameters) (V : ℝ) (u : NonzeroIdeal K)
-    (hu : u ∈ pairedRows d a V) :
-    u ∈ d.rows (V ^ (a.m + a.q)) :=
-  (Finset.mem_filter.mp hu).1
-
-theorem norm_le_of_mem_pairedRows (d : MomentData K ω ψ)
-    (a : RealParameters) (V : ℝ) (u : NonzeroIdeal K)
-    (hu : u ∈ pairedRows d a V) :
-    idealNorm K u ≤ V ^ (a.m + a.q) :=
-  ((d.rows_spec (V ^ (a.m + a.q)) u).mp
-    (mem_rows_of_mem_pairedRows d a V u hu)).2
-
-theorem not_mem_theta_of_mem_pairedRows (d : MomentData K ω ψ)
-    (a : RealParameters) (V : ℝ) (u : NonzeroIdeal K)
-    (hz : a.z ≠ 0) (hu : u ∈ pairedRows d a V) :
-    d.rowCharacter u ∉ d.theta := by
-  have hexclusion := (Finset.mem_filter.mp hu).2
-  simpa only [if_neg hz] using hexclusion
-
-theorem totalLength_nonneg (g : SlotGeometry K) : 0 ≤ g.totalLength := by
-  unfold SlotGeometry.totalLength
-  exact Finset.sum_nonneg (fun j _ => (g.slots j).length_pos.le)
-
-theorem totalLength_pos_of_slot (g : SlotGeometry K) (j : Fin g.slotCount) :
-    0 < g.totalLength := by
-  unfold SlotGeometry.totalLength
-  exact (g.slots j).length_pos.trans_le
-    (Finset.single_le_sum (fun k _ => (g.slots k).length_pos.le) (Finset.mem_univ j))
-
-theorem slotProduct_eq_one_of_totalLength_zero (d : MomentData K ω ψ)
-    (hlen : d.geometry.totalLength = 0) (u : NonzeroIdeal K) (V t : ℝ) :
-    slotProduct d u V t = 1 := by
-  unfold slotProduct
-  apply Finset.prod_eq_one
-  intro j _
-  exfalso
-  have hpos := totalLength_pos_of_slot d.geometry j
-  rw [hlen] at hpos
-  exact (lt_irrefl (0 : ℝ)) hpos
-
-/-- Membership of the inverse slot coefficient in theta is the exact finite
-exceptional-set fact needed for the nonprincipal conclusion. -/
-theorem slot_character_ne_one_of_exclusion (d : MomentData K ω ψ)
-    (j : Fin d.geometry.slotCount) (u : NonzeroIdeal K)
-    (hrow : d.rowCharacter u ∉ d.theta)
-    (hinverse : (d.slotCoefficient j)⁻¹ ∈ d.theta) :
-    d.rowCharacter u * d.slotCoefficient j ≠ 1 := by
-  intro heq
-  have hchar := congrArg (fun χ : HeckeCharacter K => χ * (d.slotCoefficient j)⁻¹) heq
-  simp only [mul_assoc, mul_inv_cancel, mul_one, one_mul] at hchar
-  apply hrow
-  simpa only [hchar] using hinverse
-
-theorem paired_slot_character_ne_one (d : MomentData K ω ψ)
-    (a : RealParameters) (V : ℝ)
-    (hlen : d.geometry.totalLength = a.z)
-    (hinverse : ∀ j, (d.slotCoefficient j)⁻¹ ∈ d.theta)
-    (u : NonzeroIdeal K) (hu : u ∈ pairedRows d a V)
-    (j : Fin d.geometry.slotCount) :
-    d.rowCharacter u * d.slotCoefficient j ≠ 1 := by
-  have hzpos : 0 < a.z := by
-    rw [← hlen]
-    exact totalLength_pos_of_slot d.geometry j
-  exact slot_character_ne_one_of_exclusion d j u
-    (not_mem_theta_of_mem_pairedRows d a V u hzpos.ne' hu) (hinverse j)
-
-/-- A model slot-index embedding supplies the missing uniform cardinality
-bound.  Total length alone does not imply this bound. -/
-theorem slotCount_le_of_embedding (g : SlotGeometry K) (N : ℕ)
-    (e : Fin g.slotCount ↪ Fin N) : g.slotCount ≤ N := by
-  simpa only [Fintype.card_fin] using Fintype.card_le_of_injective e e.injective
 
 /-! ## The actual mask at a prime ideal -/
 
@@ -391,25 +317,6 @@ theorem source_paired_deleted_count_le_base
   exact hdel.trans ((div_le_div_iff_of_pos_right (Real.log_pos (by norm_num : (1 : ℝ) < 2))).mpr
     (add_le_add_left hlog _))
 
-/-- A polynomial arithmetic conductor estimate gives the logarithmic
-budget consumed by prime cancellation. All constants precede the row norm. -/
-theorem logQ_le_of_norm_polynomial (Q C₀ N X r : ℝ)
-    (hQ : 0 < Q) (hC₀ : 1 ≤ C₀) (hN : 0 < N) (hNX : N ≤ X)
-    (hX : 1 ≤ X) (hr : 0 ≤ r) (hpoly : Q ≤ C₀ * N ^ r) :
-    Real.log Q ≤ (1 + Real.log C₀ + r) * (1 + Real.log X) := by
-  have hC₀pos : 0 < C₀ := zero_lt_one.trans_le hC₀
-  have hlogC : 0 ≤ Real.log C₀ := Real.log_nonneg hC₀
-  have hlogX : 0 ≤ Real.log X := Real.log_nonneg hX
-  have hlogN : Real.log N ≤ Real.log X := Real.log_le_log hN hNX
-  have hb := Real.log_le_log hQ hpoly
-  rw [Real.log_mul hC₀pos.ne' (Real.rpow_pos_of_pos hN r).ne', Real.log_rpow hN] at hb
-  calc
-    Real.log Q ≤ Real.log C₀ + r * Real.log N := hb
-    _ ≤ Real.log C₀ + r * Real.log X :=
-      add_le_add_left (mul_le_mul_of_nonneg_left hlogN hr) _
-    _ ≤ (1 + Real.log C₀ + r) * (1 + Real.log X) := by
-      nlinarith [mul_nonneg hlogC hlogX]
-
 /-- A standard all-row polynomial conductor bound supplies the exact
 logarithmic conductor field used by the uniform model contract, with `q=0`.
 The positivity premise is provided by the actual Hecke adapter for every
@@ -445,39 +352,7 @@ theorem source_conductor_control_of_polynomial
         (hpositive Z T i s u hZ hT hX hu j) hC₀ (idealNorm_pos K u)
         (source_paired_row_norm_le M i s u hu) hX hr (hpoly Z T i s u hZ hT hX hu j)
 
-/-- Literal equality between the project's normalized finite prime
-polynomial and the analytic core's finite masked sum. -/
-theorem primePolynomial_eq_normalizedMaskedPrimeSum
-    (d : MomentData K ω ψ) (j : Fin d.geometry.slotCount)
-    (u : NonzeroIdeal K) (X β degreeBound : ℝ)
-    (data : PrimeCancellation.Paired.SlotData (HeightOneSpectrum (𝓞 K)) β degreeBound)
-    (hnorm : data.norm = fun p => (Ideal.absNorm p.asIdeal : ℝ))
-    (hcoeff : data.coefficient = primeCoefficient K (d.rowCharacter u * d.slotCoefficient j))
-    (W : ℝ → ℂ) (hW : W = (d.geometry.slots j).profile 0) :
-    primePolynomial d j u X 0 =
-      PrimeCancellation.Paired.normalizedMaskedPrimeSum data W
-        (X ^ (d.geometry.slots j).length)
-        ((d.geometry.slots j).support 0 (X ^ (d.geometry.slots j).length))
-        (fun p => d.commonMask u p.asIdeal) := by
-  simp only [primePolynomial, PrimeCancellation.Paired.normalizedMaskedPrimeSum,
-    PrimeCancellation.Paired.maskedPrimeSum, PrimeCancellationAux.maskedSum,
-    maskValue, hnorm, hcoeff, hW]
-
 /-! ## Numerical transfer after the analytic estimate is proved -/
-
-theorem slotProduct_norm_sq_le_of_slot_bounds (d : MomentData K ω ψ)
-    (u : NonzeroIdeal K) (V t κ eps : ℝ) (hV : 1 ≤ V)
-    (C loss : Fin d.geometry.slotCount → ℝ)
-    (hC : ∀ j, 0 ≤ C j) (hloss : (∑ j, loss j) ≤ eps)
-    (hslot : ∀ j, ‖primePolynomial d j u V t‖ ^ 2 ≤
-      C j * V ^ (κ * (d.geometry.slots j).length + loss j)) :
-    ‖slotProduct d u V t‖ ^ 2 ≤
-      (∏ j, C j) * V ^ (κ * d.geometry.totalLength + eps) := by
-  simpa only [slotProduct, SlotGeometry.totalLength] using
-    PrimeCancellationAux.norm_product_sq_le_rpow_of_total_loss Finset.univ
-      (fun j => primePolynomial d j u V t) C
-      (fun j => (d.geometry.slots j).length) loss V κ eps hV
-      (fun j _ => hC j) (fun j _ => hslot j) hloss
 
 theorem source_paired_energy_le_of_slot_bounds (M : SourceMomentModels K c)
     (hrows : SourceRowEligibility M) (i : SourceMomentIndex K c Z T)

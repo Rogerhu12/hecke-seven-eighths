@@ -11,10 +11,14 @@ separately distinguishes analytic input dependencies from model-interface
 dependencies; this file does not assert that the imported skeleton is complete.
 -/
 
+#print axioms HeckeSkeleton.PrimeCancellationHecke.exists_ideal_count_bound
+#print axioms HeckeSkeleton.PrimeCancellationHecke.actualPrimeArithmetic
 #print axioms HeckeSkeleton.PrimeCancellationHecke.deletedSlotData
 #print axioms HeckeSkeleton.PrimeCancellationHecke.emptySlotData
 #print axioms HeckeSkeleton.PrimeCancellationHecke.exists_uniform_finiteOrder_polynomial
 #print axioms HeckeSkeleton.PrimeCancellationWindows.actualPrimeWindowSchwartz_uniform_seminorm
+#print axioms HeckeSkeleton.PrimeCancellationBounds.absorb_slot_logarithms
+#print axioms HeckeSkeleton.PrimeCancellationMoment.logQ_le_of_norm_polynomial
 #print axioms HeckeSkeleton.PrimeCancellationMoment.source_paired_energy_le_of_slot_bounds
 #print axioms HeckeSkeleton.PrimeCancellationMoment.source_conductor_control_of_polynomial
 #print axioms HeckeSkeleton.PrimeCancellationWiring.primePolynomial_bound_of_analytic_data

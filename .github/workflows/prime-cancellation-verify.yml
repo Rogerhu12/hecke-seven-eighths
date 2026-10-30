@@ -9,16 +9,67 @@ on:
       - 'HeckeSkeleton/PrimeCancellation*.lean'
       - 'cloud_tasks/WIRE_PRIME_CANCELLATION_REPORT.md'
       - '.github/workflows/prime-cancellation-verify.yml'
+      - '.github/workflows/prime-cancellation-foundation.yml'
+      - 'scripts/prime_cancellation_foundation.py'
 
 permissions:
   contents: read
 
 concurrency:
-  group: prime-cancellation-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: true
+  group: prime-cancellation-staged-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: false
 
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      fingerprint: ${{ steps.plan.outputs.fingerprint }}
+      foundation_cached: ${{ steps.foundation_cache.outputs.cache-hit }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Fingerprint the actual baseline dependency sources
+        id: plan
+        run: |
+          set -euo pipefail
+          PRIME_FINGERPRINT=$(python scripts/prime_cancellation_foundation.py --fingerprint)
+          printf 'fingerprint=%s\n' "$PRIME_FINGERPRINT" >> "$GITHUB_OUTPUT"
+      - name: Check for the previously verified dependency prefix
+        id: foundation_cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: prime-foundation-complete-v1-${{ runner.os }}-${{ steps.plan.outputs.fingerprint }}
+          lookup-only: true
+
+  foundation_40:
+    needs: prepare
+    if: needs.prepare.outputs.foundation_cached != 'true'
+    uses: ./.github/workflows/prime-cancellation-foundation.yml
+    with:
+      lower: 0
+      upper: 40
+
+  foundation_180:
+    needs: [prepare, foundation_40]
+    if: needs.prepare.outputs.foundation_cached != 'true'
+    uses: ./.github/workflows/prime-cancellation-foundation.yml
+    with:
+      lower: 40
+      upper: 180
+
+  foundation_260:
+    needs: [prepare, foundation_180]
+    if: needs.prepare.outputs.foundation_cached != 'true'
+    uses: ./.github/workflows/prime-cancellation-foundation.yml
+    with:
+      lower: 180
+      upper: 260
+
   proofs:
+    needs: [prepare, foundation_260]
+    if: ${{ always() && !cancelled() && needs.prepare.result == 'success' && (needs.prepare.outputs.foundation_cached == 'true' || needs.foundation_260.result == 'success') }}
     runs-on: ubuntu-latest
     timeout-minutes: 360
     env:
@@ -42,11 +93,38 @@ jobs:
           key: prime-cancellation-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
           restore-keys: |
             prime-cancellation-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+      - name: Restore the complete dependency prefix
+        if: needs.prepare.outputs.foundation_cached == 'true'
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: prime-foundation-complete-v1-${{ runner.os }}-${{ needs.prepare.outputs.fingerprint }}
+          fail-on-cache-miss: true
+      - name: Download the newly verified dependency groups
+        if: needs.prepare.outputs.foundation_cached != 'true'
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        with:
+          pattern: prime-foundation-*
+          path: prime-foundation-downloads
+      - name: Merge complete native artifact groups
+        if: needs.prepare.outputs.foundation_cached != 'true'
+        run: python scripts/prime_cancellation_foundation.py --restore prime-foundation-downloads
+      - name: Preserve the complete dependency prefix
+        if: needs.prepare.outputs.foundation_cached != 'true'
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: prime-foundation-complete-v1-${{ runner.os }}-${{ needs.prepare.outputs.fingerprint }}
       - name: Compile the actual Hecke and moment wiring
         run: |
           set -euo pipefail
           mkdir -p prime-verification
           lean --version | tee prime-verification/environment.log
+          nproc >> prime-verification/environment.log
           lake --fail-fast build +HeckeSkeleton.PrimeCancellationWiring:olean 2>&1 | tee prime-verification/build.log
       - name: Audit exported theorem dependencies
         run: |
