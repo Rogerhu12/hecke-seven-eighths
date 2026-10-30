@@ -29,6 +29,7 @@
 | `HeckeAxiom` | 新写 | 到上游的桥接，以及骨架数据的 Axiom 构造 |
 | `HeckeSkeleton` | 旧仓库 `skeleton/HeckeSkeleton` | 待证骨架的 4.35 版，`Base`/`Theta`/`Principal` 与旧仓库不同（见下） |
 | `SkeletonInputs` | 旧仓库 `skeleton/*Inputs` 的源 | 骨架的外部输入，在同一次构建中从源码编译 |
+| `HeckePort` | 新写 | openai/math 模块到一般数域的移植；目前只有试点 `CenteredMoment`（见 [PORT_PILOT.md](PORT_PILOT.md)） |
 
 旧仓库 `formal/vendor/cft` 里的两个幂剩余模块没有复制：上游类域论包里有同路径的模块，
 同时存在会冲突，现在统一用上游的版本。
@@ -58,7 +59,7 @@ mathlib 新版的 `WithZeroMulInt.toNNReal_neg_apply` 结论变成 `e ^ WithZero
 最终定理以原有的 `heckeContinuation` 和 `MeromorphicZeroFreeOn` 表述，
 不是原目标 `GeneralHeckeSevenEighths`：指数是 31/32 而不是 7/8，且只覆盖有限阶特征及其范数扭曲。
 
-## 骨架 Base 数据的 Axiom 构造（进行中）
+## 骨架 Base 数据的 Axiom 构造
 
 按旧仓库 `.cache/a435-base-construction-route/ROUTE.md` 的路线，用 Axiom 的同一次算术选择给出骨架
 `Base.lean` 里尚未实现的数据，并证明由它决定的义务。下列模块都在 `HeckeAxiom.lean` 根和 Lake 目标里，
@@ -75,11 +76,17 @@ mathlib 新版的 `WithZeroMulInt.toNNReal_neg_apply` 结论变成 `e ^ WithZero
 | `TraceCharacterDictionary` | 每个有限位上骨架的 `psiLocal` 等于 Axiom 的 `localTraceCharacter`：远离 v 处整的元在 K_v 中稠密，两边的整体乘积公式在这些元上都给出 e(−Tr)；因而骨架的 `sLocalPrincipalPhase` 就是 Axiom 的 `fieldTraceCharacter` | Gauss 和字典的加法特征部分 |
 | `GaussDictionary` | 骨架的 `thetaGamma J j`（0<j<6）等于 Axiom 的 `idealGauss`，生成元为选定的允许生成元：同一个商环、同一个范数、六次特征与加法特征逐项相同 | 校准的前提 |
 | `GaussCalibration` | 素理想处用上下文的 `gammaTwo_cube`、`gammaOne_gammaTwo`，在局部单值化子的 idele 上取值，这一取值就是骨架的素系数；互素乘积用 `idealGauss_squarefree_crt`，互反律使两个 CRT 相位相等，校准只看到它的六次幂；按互素分解归纳到全部无平方因子理想 | AR-CUBE-CALIBRATION、AR-MIXED-CALIBRATION |
-| `DenominatorAdapter` | Axiom 的实环形权 `W1` 作为骨架的 `DenominatorTest` | D-TESTS 的分母部分（尚未接上） |
+| `DenominatorAdapter` | Axiom 的实环形权 `W1` 作为骨架的 `DenominatorTest` | D-TESTS 的分母部分 |
 | `MeasureAdapter` | Borel 结构与 Axiom 的自对偶局部 Haar 测度 `localNormalizedHaar`（局部整数的体积为 N(𝔇_v)^(−1/2)） | D-MEASURES |
+| `ProbeUnits` | 骨架的 S-局部乘法群与 Axiom 的 `A.G` 作为拓扑群同构；骨架的乘积范数是 Axiom 的范数（所有无穷位都是复位），范数一子群互相对应，骨架的径向截面是 Axiom 的 `radialSection`；因而 Axiom 在 T 处、范数一元 t 上的 sheet point 就是骨架的 t·截面(T) | D-TESTS 的单位群字典 |
+| `ProbeFourier` | Axiom 的无穷位相位就是骨架的标准混合特征；对由局部测度 μ_v 构成的 Axiom Poisson 加法测度，张量 g∘R·∏f_v 的 Axiom Fourier 变换 = 2^{r₂} × g 的骨架阿基米德变换 × 各 f_v 的骨架局部变换（`psiLocal`，同一 μ_v） | D-TESTS 的 Fourier 字典 |
+| `ProbeTestChoice` | 取 μ 为骨架自对偶局部测度的 Poisson 测度、ν 为骨架范数一 Haar 测度的 sheet 测度，套用 `probe_fixed_weight_construction` 与 `probe_sheet_mellin_estimates_of_disintegration`；由 Axiom 张量的环形坐标构造骨架的加法测试（阿基米德因子在迹模型中，乘以常数 a）。其加法 Fourier 与 Mellin 变换是 Axiom 的 a·κ 倍，κ = 2^{−r₂}∏μ_v(𝒪_v)⁻¹；取 a = conj M/‖M‖ 使 1/6 处的 Mellin 值为正实数 ‖M‖ | D-TESTS、PR-FOURIER-ZERO |
+| `ProbeNormalization` | 极点消去的 Dedekind ζ 在 1 处的值是残数（连续性加 Mathlib 的右极限）；平凡特征的删去 Euler 多项式在 1 处是 ∏(1 − N𝔭⁻¹)；分母测试在 1 处的 Mellin 值是 W1 的正积分；故 `physicalResidueNormalizer` 为正实数 | PR-NORMALIZATION-REAL、PR-NORMALIZATION-POSITIVE |
 
 `AR-ALLOWED-GENERATOR-NORM` 对任意 `ThetaArithmeticData` 都成立（`HeckeSkeleton.AllowedGeneratorNorm`）。
-Proposition 3.1 的 11 项 AR 义务在本项目里全部关闭。尚未接上：加法测试函数（D-TESTS，见下一步）。
+Proposition 3.1 的 11 项 AR 义务在本项目里全部关闭，D-TESTS 簇（D-TESTS、PR-FOURIER-ZERO、
+PR-NORMALIZATION-REAL、PR-NORMALIZATION-POSITIVE）也已关闭。Base 里剩下的 D-MESH、D-EXPANSION、D-SUPPORT
+依赖矩估计与高频展开，不由 Axiom 的算术选择决定。
 
 与旧仓库 `experiments/Axiom435Intake/`（提交 60a5a2a、e4ad402 的未验证候选）的对应：其 README 构造顺序的
 第 2–5 步（初始集、单一 recipe 选择、算术数据与信号、生成元律、六次符号与互反律、分母测试、目标或其共轭的
@@ -97,12 +104,15 @@ Proposition 3.1 的 11 项 AR 义务在本项目里全部关闭。尚未接上�
   分解 θ·ω^e·N^{it}，去掉 N^{it}），Axiom 选择以它的分歧集为初始集；`representative` 按修订稿 §3
   （Prop. 3.2 之前）的定向：若 conj(Λ)·conj(G)·θω^e 在某个复位的角权非零就取 θω^e，否则取其共轭
   （共轭与范数扭曲都不改变分歧集和零点实部集合）。`untwisted`、`representative` 及其定向引理与旧仓库
-  逐字相同。D-S、D-ARITHMETIC、D-SIGNALS、D-MEASURES 只在本项目不再是 sorry。
+  逐字相同。`probeTests` 取 `ProbeTestChoice.exists_probeTest` 选出的加法测试，分母取 Axiom 的
+  `probeRealBumpWeight`。D-S、D-ARITHMETIC、D-SIGNALS、D-MEASURES、D-TESTS 只在本项目不再是 sorry。
 - `Theta.lean`：AR-LAMBDA-UNRAMIFIED、AR-G-UNRAMIFIED、AR-G-FINITE-ORDER、AR-LAMBDA-ANGULAR、
   AR-LAMBDA-RADIAL-ZERO、AR-CUBE-CALIBRATION、AR-MIXED-CALIBRATION、AR-ALLOWED-MULTIPLICATIVE、
   AR-ALLOWED-RECIPROCITY 由同一次选择给出；TH-MARKED-EXTERIOR-UNRAMIFIED 由周期
   conj(Λ)·conj(G)·ψ 各因子在 S 外非分歧给出。
-- `Principal.lean`：PR-TARGET-UNRAMIFIED 由初始集给出；PR-PERIOD-UNRAMIFIED 由 Λ、G、ψ 的非分歧性给出。
+- `Principal.lean`：PR-TARGET-UNRAMIFIED 由初始集给出；PR-PERIOD-UNRAMIFIED 由 Λ、G、ψ 的非分歧性给出；
+  PR-FOURIER-ZERO 与新增的 `principal_mellin_positive` 是 `exists_probeTest` 的性质，PR-NORMALIZATION-REAL、
+  PR-NORMALIZATION-POSITIVE 由 `ProbeNormalization.physicalResidueNormalizer_pos` 给出。
 
 两边同时关闭、不依赖 Axiom 的四项：
 - D-RAY 取空滤子：修订稿 §6.1 原文为 “All primes outside S are allowed”，§4 的槽也写明 “there is no
@@ -113,38 +123,24 @@ Proposition 3.1 的 11 项 AR 义务在本项目里全部关闭。尚未接上�
 
 ### 当前计数
 
-2026-10-30 10:40 的 Lake 构建（`LEAN_NUM_THREADS=4 lake build HeckeAxiom HeckeSkeleton SkeletonInputs`，
-日志 `.lake/build-logs/skeleton435-20261030-1035-aligned-retry.log`）成功。`Audit` 报告 64 个直接 sorry，
+2026-10-30 13:42 的 Lake 构建（`LEAN_NUM_THREADS=4 lake build HeckeAxiom HeckeSkeleton SkeletonInputs`，
+日志 `.lake/build-logs/skeleton435-20261030-dtests.log`）成功，共 15137 个任务。`Audit` 报告 60 个直接 sorry，
 终点公理为 `propext, sorryAx, Classical.choice, Quot.sound`，115 项具名叶子的公理检查只有标准三公理。
-迁出后在新位置运行 `lake build --no-build` 同一组目标，报告全部 15133 个任务为最新，没有重编。
-旧仓库的 4.34.1 主骨架为 80；只在本项目关闭的 16 项是：D-S、D-ARITHMETIC、D-SIGNALS、D-MEASURES，
+D-TESTS 新模块的主要定理 `sheetPoint_normOneEquiv`、`fourier_eq`、`exists_probeTest`、
+`physicalResidueNormalizer_pos` 的 `#print axioms` 也只有这三条。上一次计数是 10:40 的 64 个
+（日志 `.lake/build-logs/skeleton435-20261030-1035-aligned-retry.log`）。
+旧仓库的 4.34.1 主骨架为 80；只在本项目关闭的 20 项是：D-S、D-ARITHMETIC、D-SIGNALS、D-MEASURES、D-TESTS，
 AR-LAMBDA-UNRAMIFIED、AR-G-UNRAMIFIED、AR-G-FINITE-ORDER、AR-LAMBDA-ANGULAR、AR-LAMBDA-RADIAL-ZERO、
 AR-CUBE-CALIBRATION、AR-MIXED-CALIBRATION、AR-ALLOWED-MULTIPLICATIVE、AR-ALLOWED-RECIPROCITY，
-PR-TARGET-UNRAMIFIED、PR-PERIOD-UNRAMIFIED，以及 TH-MARKED-EXTERIOR-UNRAMIFIED。
+PR-TARGET-UNRAMIFIED、PR-PERIOD-UNRAMIFIED、PR-FOURIER-ZERO、PR-NORMALIZATION-REAL、PR-NORMALIZATION-POSITIVE，
+以及 TH-MARKED-EXTERIOR-UNRAMIFIED。
 
-### 下一步：D-TESTS 簇（D-TESTS、PR-FOURIER-ZERO、PR-NORMALIZATION-REAL、PR-NORMALIZATION-POSITIVE）
+### 下一步
 
-> 2026-10-30 下午更新：具体做法和当前进度见 [HANDOFF.md](HANDOFF.md)。第 3 块字典（乘法测度）已由 Axiom 的
-> `probe_sheet_mellin_estimates_of_disintegration` 现成给出。下面是原先的思路。
-
-修订稿 §6.1：在一个复位上取两个径向 bump 之差，使加法积分为零而 |y|^{5/6} 配对非零，其余位取非负
-环形因子，再由局部 zeta 函数方程得 (6.2)。Axiom 的 `probe_fixed_weight_construction` 正是这一构造，
-而且对 `SLocalProduct` 上**任意**加法 Haar 测度 μ 和其单位群上**任意**乘法 Haar 测度 ν 成立：
-`fourier W0 0 = 0`、`fourierMellin W0 (1/6) ≠ 0`。因此可以把 μ、ν 取成骨架自己的测度的前推，
-剩余工作是三块字典：
-
-1. `IsAnnularTensor` 的分解 → 骨架的 `AdditiveProbeTest`：阿基米德因子经 `traceToMixed` 成为
-   `HasCompactSupport.toSchwartzMap`，有限因子原样；单位群上的紧支撑与正的范数下界来自
-   “支撑避开 0”。
-2. 张量的 Fourier 变换分解：骨架的 `additiveFourier`（`standardMixedAddCharacter`、`psiLocal`，
-   每个有限位除以 μ_p(𝒪_p)）与 Axiom 的 `ProbeWeight.fourier` 在乘积测度下只差正常数；
-   `psiLocal = localTraceCharacter` 已由 `TraceCharacterDictionary` 给出。
-3. 乘法测度：骨架 `additiveMellin` 的 “范数一群 Haar × du/u” 经范数截面前推为单位群上的 Haar 测度。
-
-再把阿基米德因子乘以 conj(M)/|M|（M 为 1/6 处的 Mellin 值）使其为正实数，PR-NORMALIZATION-* 还需要
-`deletedZetaResidue` 为正实数与 `mellin W1 1 > 0`（后者由 W1 ≥ 0 且非零直接得到）。前者可由 Mathlib 的
-`tendsto_sub_one_mul_dedekindZeta_nhdsGT` 与 `dedekindZeta_residue_pos` 得到：`dedekindPoleCleared` 在 1 处连续，
-其值即留数；删去的 Euler 多项式在 1 处是 ∏(1 − N𝔭⁻¹) > 0。
+建议的顺序和理由见 [HANDOFF.md](HANDOFF.md)。第一个移植试点已做（[PORT_PILOT.md](PORT_PILOT.md)），下一个试点选
+openai 矩递推中的账本模块；然后对照评估 theta 侧（Axiom 的一般域 theta 与 openai 的带标记反射）；
+三次大筛（MI-M-CUBIC-SIEVE）和阿贝尔下降（DE-*）可以并行。
+openai/math 中 Q 的形式化的复用审计见 [OPENAI_REUSE_AUDIT.md](OPENAI_REUSE_AUDIT.md)。
 
 ## 构建
 
@@ -158,6 +154,8 @@ Lake 5 没有并发参数，并发由 `LEAN_NUM_THREADS` 控制。这台机器�
 ```bash
 LEAN_NUM_THREADS=4 lake build HeckeAxiom HeckeSkeleton SkeletonInputs
 ```
+
+`HeckePort` 不被骨架导入，要单独构建：`LEAN_NUM_THREADS=4 lake build HeckePort`。
 
 `HeckeAxiom.FiniteOrderZeroFree` 依赖上游 `HeckeCorollary`，其导入闭包是上游 3,867 个模块中的
 3,850 个（约 75 万行），首次编译需要很长时间。

@@ -67,7 +67,7 @@ Q 指 OpenAI 的 quasi-Riemann 预印本（2026-09-30），论文指 [weil_seven
 建议的顺序：
 
 1. D-TESTS 簇，不受影响。
-2. 先做一个试点：从 `Moments` 里挑一个小而自洽的账本模块（例如子节点容量 `AllocatedChildCapacity` 或 `CommonMaskChildCapacity`），在 4.35 项目里推广到外部理想与允许生成元，记录每千行的耗时和改动类型。这能给出旧文档说缺少的工期样本，也能检验论文附录"只有三个输入依赖域"的主张。
+2. 先做一个试点：从 `Moments` 里挑一个小而自洽的账本模块（例如子节点容量 `AllocatedChildCapacity` 或 `CommonMaskChildCapacity`），在 4.35 项目里推广到外部理想与允许生成元，记录每千行的耗时和改动类型。这能给出旧文档说缺少的工期样本，也能检验论文附录"只有三个输入依赖域"的主张。（第一个试点已做，选的是中心矩底层而不是这两个模块，见 [PORT_PILOT.md](PORT_PILOT.md)。）
 3. theta 评估改为对照三方：Axiom 的一般域 theta（`Theta/`、`Metaplectic/`），openai 的带标记反射（`Reflection/`），论文的命题 3.2 与定理 3.5。
 4. 三次大筛：按 Axiom 推广 GL 的做法推广 openai 的 `CubicSieve/`，目标是论文引理 `lem:exterior-cubic-sieve`（BGL 定理 1.3，n = 3）。
 
