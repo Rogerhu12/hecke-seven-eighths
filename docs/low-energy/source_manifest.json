@@ -3,6 +3,9 @@
   "base_branch": "dtests-handoff",
   "branch": "codex/low-reflected-energy-ade19eee",
   "note": "Exact per-module source checks; not a claim of an end-to-end repository build or target proof.",
+  "verification_invalidations": {
+    "HeckeSkeleton.LowFrozenCube.LocalCoefficients": "The Valuations dependency was refactored to import the shared Exponents declarations; a legacy source-only build record does not verify this dependency graph."
+  },
   "files": [
     {
       "module": "HeckeSkeleton.LowEnergy.AnnularEnergy",
@@ -630,120 +633,11 @@
     {
       "module": "HeckeSkeleton.LowHybrid.SieveComposition",
       "path": "HeckeSkeleton/LowHybrid/SieveComposition.lean",
-      "source_sha256": "4b6dcbf5f16e751bb564b7402b92e23db732d076d2210e3eb642897331a28e7a",
-      "bytes": 12030,
-      "status": "CHECKED_EXACT_SOURCE",
+      "source_sha256": "b59601851cb677b730d0927d1b423140a98c601167cd580813662c778b11bbb9",
+      "bytes": 11893,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": [
-        {
-          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
-          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
-          "seconds": 23.189,
-          "axiom_checks": [
-            [
-              "HeckeSkeleton.LowHybrid.bounded_coefficient_sum_sq",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.positive_fiber_sum_le",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.column_fiber_sieve",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.positive_triple_enlarge",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.row_fiber_sieve",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.fixed_block_energy_of_two_sieves",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.fixed_block_scalar_ledger",
-              "propext, Classical.choice, Quot.sound"
-            ]
-          ],
-          "mentions_sorryAx": false
-        },
-        {
-          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
-          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
-          "seconds": 23.189,
-          "axiom_checks": [
-            [
-              "HeckeSkeleton.LowHybrid.bounded_coefficient_sum_sq",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.positive_fiber_sum_le",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.column_fiber_sieve",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.positive_triple_enlarge",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.row_fiber_sieve",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.fixed_block_energy_of_two_sieves",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.fixed_block_scalar_ledger",
-              "propext, Classical.choice, Quot.sound"
-            ]
-          ],
-          "mentions_sorryAx": false
-        },
-        {
-          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
-          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
-          "seconds": 23.189,
-          "axiom_checks": [
-            [
-              "HeckeSkeleton.LowHybrid.bounded_coefficient_sum_sq",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.positive_fiber_sum_le",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.column_fiber_sieve",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.positive_triple_enlarge",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.row_fiber_sieve",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.fixed_block_energy_of_two_sieves",
-              "propext, Classical.choice, Quot.sound"
-            ],
-            [
-              "HeckeSkeleton.LowHybrid.fixed_block_scalar_ledger",
-              "propext, Classical.choice, Quot.sound"
-            ]
-          ],
-          "mentions_sorryAx": false
-        }
-      ]
+      "builds": []
     },
     {
       "module": "HeckeSkeleton.LowHybrid.Assembly",
@@ -2166,7 +2060,7 @@
         {
           "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
           "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
-          "seconds": 4.751,
+          "seconds": 239.359,
           "axiom_checks": [
             [
               "HeckeSkeleton.LowEnergy.BlockPolynomial.weighted_polynomial_le",
@@ -3570,8 +3464,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualRows",
       "path": "HeckeSkeleton/LowEnergy/ActualRows.lean",
-      "source_sha256": "8c81e4363918f4143a5ed8312ac1013de27ff6fb1c109c3a1a4c4da0de308ddf",
-      "bytes": 14496,
+      "source_sha256": "9dcbe3be1e28fbf867593caff18906c8222460588b3d9fb9a5cec40d7b845cbe",
+      "bytes": 15056,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": []
@@ -3579,8 +3473,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualSymbols",
       "path": "HeckeSkeleton/LowEnergy/ActualSymbols.lean",
-      "source_sha256": "3d5c29f40e36bfe93ced042defe807d2737b9b953e789d2c4ffd25676a1a7ddf",
-      "bytes": 10961,
+      "source_sha256": "9b8b7cda01014d4fef438930b59da9536797310c9637a48413331306a5b2451a",
+      "bytes": 11331,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": []
@@ -3588,8 +3482,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualReflection",
       "path": "HeckeSkeleton/LowEnergy/ActualReflection.lean",
-      "source_sha256": "134121880088ff5078e5775469ce81ce6ce697a0bf9d4f99e9f942c32617770f",
-      "bytes": 9902,
+      "source_sha256": "d1a1c81fe30559de4de3350aba57a0716bf972da9a76d5a5de50b41a42d36eb6",
+      "bytes": 10208,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": []
@@ -3606,44 +3500,116 @@
     {
       "module": "HeckeSkeleton.LowFrozenCube.Exponents",
       "path": "HeckeSkeleton/LowFrozenCube/Exponents.lean",
-      "source_sha256": "4f05ae6858f97e8f59b61b863396da891d6da1a48a99e18776db8e82438a1600",
+      "source_sha256": "85c9a0b5694c870bb37eaa309acbf33deaba03cc34fe600a60a58f7cfb8e55f3",
       "bytes": 3089,
-      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "status": "CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 3.324,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowFrozenCube.frozenExponent_decomposition",
+              "propext, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowFrozenCube.frozenExponent_unique",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowFrozenCube.canonicalPair_admissible",
+              "propext, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 3.324,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowFrozenCube.frozenExponent_decomposition",
+              "propext, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowFrozenCube.frozenExponent_unique",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowFrozenCube.canonicalPair_admissible",
+              "propext, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
     },
     {
       "module": "HeckeSkeleton.LowEnergy.FrozenIdealRows",
       "path": "HeckeSkeleton/LowEnergy/FrozenIdealRows.lean",
-      "source_sha256": "7f3199e166ba078ec653be01504340a22f43a2494521cd66e1096dbb147ea5af",
-      "bytes": 9432,
-      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "source_sha256": "5366d207da63509df2a337d7618c06858e1130dea74d9c1e23ff5006729c9c79",
+      "bytes": 9460,
+      "status": "CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
-    },
-    {
-      "module": "HeckeSkeleton.LowFrozenCube.Valuations",
-      "path": "HeckeSkeleton/LowFrozenCube/Valuations.lean",
-      "source_sha256": "3e4959319f843544abe90ff3b314f61bb756e84aa58c3cf789267d537876a8eb",
-      "bytes": 14668,
-      "status": "NOT_CHECKED_EXACT_SOURCE",
-      "forbidden_tokens": [],
-      "builds": []
-    },
-    {
-      "module": "HeckeSkeleton.LowFrozenCube.LocalCoefficients",
-      "path": "HeckeSkeleton/LowFrozenCube/LocalCoefficients.lean",
-      "source_sha256": "486278431935fef5d04d7deb969d19db779fb56eac7c459abf8fe3f52df8c497",
-      "bytes": 3389,
-      "status": "NOT_CHECKED_EXACT_SOURCE",
-      "forbidden_tokens": [],
-      "builds": []
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 59.547,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.FrozenIdealRows.minimum_cube_decomposition",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FrozenIdealRows.minimum_cube_unique",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FrozenIdealRows.supported_away_unique",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FrozenIdealRows.fullCube_mul_injective_on",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 59.547,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.FrozenIdealRows.minimum_cube_decomposition",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FrozenIdealRows.minimum_cube_unique",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FrozenIdealRows.supported_away_unique",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FrozenIdealRows.fullCube_mul_injective_on",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualFrozenCube",
       "path": "HeckeSkeleton/LowEnergy/ActualFrozenCube.lean",
-      "source_sha256": "99b5b42842b435fd1df6af2d6e742fc7e3555d04635a59b88bd34022fb516936",
-      "bytes": 23508,
+      "source_sha256": "7e6e9967d4b50c14dbdde0cbe33e8ff8948c637b0c3b37da71ce3858fd7b37d3",
+      "bytes": 23531,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": []
@@ -3696,8 +3662,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualFrozenCharges",
       "path": "HeckeSkeleton/LowEnergy/ActualFrozenCharges.lean",
-      "source_sha256": "77692b1ef23fe468de5f14f0fec6810431014b995d8fd3fdd10f47ada62a504c",
-      "bytes": 9326,
+      "source_sha256": "bc60ee44c2669ab7257441afdbee05b2f29bddb0f8aa9be710783348921dd880",
+      "bytes": 9342,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": []
@@ -3829,8 +3795,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualSeparatedBlock",
       "path": "HeckeSkeleton/LowEnergy/ActualSeparatedBlock.lean",
-      "source_sha256": "c493bbe291beb559121e113c34e68406184d340a9fd3d55b84f5d21374234e3a",
-      "bytes": 29858,
+      "source_sha256": "92acb61ec99531b17d93b9d538aca6d455a34175b70269ea0698e2a13fb72d23",
+      "bytes": 31259,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": []
@@ -3838,8 +3804,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualBlockEnergy",
       "path": "HeckeSkeleton/LowEnergy/ActualBlockEnergy.lean",
-      "source_sha256": "791d026f37fdb0b8ec62558d797a5cefbb4d797673273144d438f3bc455e9d2e",
-      "bytes": 11178,
+      "source_sha256": "b85e09a25c886496b7f966781ab5c4c4cad6e1765a39d350e4611c68f5785479",
+      "bytes": 11184,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": []
@@ -3847,17 +3813,58 @@
     {
       "module": "HeckeSkeleton.LowEnergy.SlotTuples",
       "path": "HeckeSkeleton/LowEnergy/SlotTuples.lean",
-      "source_sha256": "f7942d671d3af9e02c938234c8e2d4a21328a6ac9f0ab7fa4da4dacae87d519d",
-      "bytes": 8425,
-      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "source_sha256": "707ab1ebc3c25fe490b8c245ad89c142c5855e25178d9c7def33a247b20a0a3b",
+      "bytes": 8574,
+      "status": "CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 40.862,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.SlotTuples.sum_pi_fixed_active_split",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.SlotTuples.image_surviving_fill",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.SlotTuples.active_inactive_images_disjoint",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 40.862,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.SlotTuples.sum_pi_fixed_active_split",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.SlotTuples.image_surviving_fill",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.SlotTuples.active_inactive_images_disjoint",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
     },
     {
       "module": "HeckeSkeleton.LowEnergy.WindowTuples",
       "path": "HeckeSkeleton/LowEnergy/WindowTuples.lean",
-      "source_sha256": "5df2dabbc38d8d92c4f576c5f4f8a167fc3a560f0a22239a9e09af5ee60262b8",
-      "bytes": 20433,
+      "source_sha256": "2e18f50c79a81d29a0bfa2bdae46cb1cc0bcd80fc7ba651375b3ce94b534ce1f",
+      "bytes": 20452,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": []
@@ -3865,8 +3872,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.InactiveWindows",
       "path": "HeckeSkeleton/LowEnergy/InactiveWindows.lean",
-      "source_sha256": "a119f76b5f30a1968e4596fbe467e965bc2e3432565d3382d4940e63af576ec8",
-      "bytes": 21557,
+      "source_sha256": "761f16d7cfbd54dc91020b27334e082d9e403f3726595b929c5dfee9e73ca922",
+      "bytes": 21566,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": []
@@ -3910,8 +3917,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualBlockReindex",
       "path": "HeckeSkeleton/LowEnergy/ActualBlockReindex.lean",
-      "source_sha256": "9291fea2716efbaa461a311e25c85a680af51f3153e97fac2d77c6a3df072a5c",
-      "bytes": 10540,
+      "source_sha256": "cdf784bdc265a7eb75ee21a3e87ecd917c1c9cc53723c3fa1efe658aaf0b6e5c",
+      "bytes": 11162,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": []
@@ -3919,8 +3926,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualSourceReindex",
       "path": "HeckeSkeleton/LowEnergy/ActualSourceReindex.lean",
-      "source_sha256": "f381e20b240fc89ee60bc091f2b0c842d981f08f3460795f6983f79db766b2cf",
-      "bytes": 12797,
+      "source_sha256": "c0acedfdf1431832d1042228dcb9a7e0c6046f6addf86d54b8ea7cca2e2d914b",
+      "bytes": 15060,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": []
@@ -3937,8 +3944,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualDyadicReflection",
       "path": "HeckeSkeleton/LowEnergy/ActualDyadicReflection.lean",
-      "source_sha256": "b431bb67ba3293ceed89b26ee861484af0f370f215c8f624e79c80dd9ef42d8b",
-      "bytes": 8605,
+      "source_sha256": "c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574",
+      "bytes": 11160,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": []
@@ -3946,26 +3953,192 @@
     {
       "module": "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial",
       "path": "HeckeSkeleton/LowEnergy/PhysicalBlockPolynomial.lean",
-      "source_sha256": "236c60b06301d98b97d92471b0036503052c89f3e691738391b91c74d7070465",
-      "bytes": 12527,
-      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "source_sha256": "bb5e86bb0bee0b24dc02e21993f90c896a32cbb096f4fbd0dfce68feebe3c409",
+      "bytes": 12544,
+      "status": "CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
-      "builds": []
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 99.907,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial.doubled_sievePolynomial_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial.physicalScale_eq_rpow",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial.charged_weight_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial.physical_polynomial_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial.physical_low_polynomial",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
     },
     {
       "module": "HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy",
       "path": "HeckeSkeleton/LowEnergy/PhysicalGaussianEnergy.lean",
-      "source_sha256": "14a544b8682fd4f7312051b7c8b55561079ba3fb116b26f1edf5ff791ce45953",
-      "bytes": 6227,
+      "source_sha256": "66559059e3e32ec55dba8fd635ed3fc1d2f52fabdb39b1751dda0d2054a9a2c8",
+      "bytes": 6234,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 36.111,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy.annular_power_factorization",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy.annular_majorant_le_amplitude",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy.all_physical_blocks_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 36.111,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy.annular_power_factorization",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy.annular_majorant_le_amplitude",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy.all_physical_blocks_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy",
+      "path": "HeckeSkeleton/LowEnergy/ActualAnnularBlockEnergy.lean",
+      "source_sha256": "463ff764aba418fcac907d524c77d4eeca03239fd7a8d4d3cff43002f4e0c30b",
+      "bytes": 22964,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": []
     },
     {
-      "module": "HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy",
-      "path": "HeckeSkeleton/LowEnergy/ActualAnnularBlockEnergy.lean",
-      "source_sha256": "7bbb5cc499cab2f922f77bac03165c3c3b2c84cfc07cf6694842038c671feb73",
-      "bytes": 22888,
+      "module": "HeckeSkeleton.LowEnergy.ActualFrozenAggregation",
+      "path": "HeckeSkeleton/LowEnergy/ActualFrozenAggregation.lean",
+      "source_sha256": "47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131",
+      "bytes": 13278,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualFrozenReconstruction",
+      "path": "HeckeSkeleton/LowEnergy/ActualFrozenReconstruction.lean",
+      "source_sha256": "e37b2989a696320ca34e3fd75d20f0236c0015c30b40258f2636a549ebcb00f0",
+      "bytes": 16157,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy",
+      "path": "HeckeSkeleton/LowEnergy/ActualMarkedTupleEnergy.lean",
+      "source_sha256": "5b157877166f2d03cd13b00c45c0e6f8f092c63abebe0685e9a42435903f9ea7",
+      "bytes": 19100,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction",
+      "path": "HeckeSkeleton/LowEnergy/ActualTupleReconstruction.lean",
+      "source_sha256": "fddcae0c3187ba1097e93970803a7e3583b06abe14c023a5a0dd7c1df578d22f",
+      "bytes": 34651,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy",
+      "path": "HeckeSkeleton/LowEnergy/ActualResidualDyadicEnergy.lean",
+      "source_sha256": "cddcbc2df69e48aeece79106975af88a3872972412cf37c44d5dd7dbeb265ab0",
+      "bytes": 11173,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy",
+      "path": "HeckeSkeleton/LowEnergy/ActualCompleteIdealEnergy.lean",
+      "source_sha256": "aff5da5ca4eb82f4d6a43b284159354b3bb85220959cee5d46ad4967131de103",
+      "bytes": 10347,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy",
+      "path": "HeckeSkeleton/LowEnergy/ActualCompletedMarkedEnergy.lean",
+      "source_sha256": "6b17122916d248f46bf750637b7de135dbaacd7662e97ce43ab280ee59481b84",
+      "bytes": 4937,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowFrozenCube.Valuations",
+      "path": "HeckeSkeleton/LowFrozenCube/Valuations.lean",
+      "source_sha256": "5249d242539316a45ea01cfe73af5ac6dd607b1ddf6b3b9033ca850ef980a1c7",
+      "bytes": 12266,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 14.424,
+          "axiom_checks": [],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 14.424,
+          "axiom_checks": [],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowFrozenCube.LocalCoefficients",
+      "path": "HeckeSkeleton/LowFrozenCube/LocalCoefficients.lean",
+      "source_sha256": "486278431935fef5d04d7deb969d19db779fb56eac7c459abf8fe3f52df8c497",
+      "bytes": 3389,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": []

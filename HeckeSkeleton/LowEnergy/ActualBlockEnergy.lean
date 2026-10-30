@@ -194,7 +194,7 @@ theorem actual_block_energy [Finite (SixthLocalClasses K S)]
       (mul_nonneg (mul_nonneg (by norm_num : (0 : ℝ) ≤ 65536) (sq_nonneg A))
         (div_nonneg (sq_nonneg (stateMajorant K S s)) (by positivity))))
       (mul_nonneg hCe.le hW))
-  convert hright using 1 <;> dsimp [Y] <;> ring
+  convert hright using 1 <;> (try dsimp [Y]) <;> ring
 
 #print axioms modeColumn_norm_le_dyad
 #print axioms actual_block_energy

@@ -2,7 +2,6 @@ import HeckeSkeleton.LowEnergy.ActualReflection
 import HeckeSkeleton.LowEnergy.ActualSymbols
 import HeckeSkeleton.LowEnergy.ActualSymbolProducts
 import HeckeSkeleton.LowEnergy.FrozenIdealRows
-import HeckeSkeleton.LowFrozenCube.LocalCoefficients
 import HeckeGeneral.Analysis.ThetaPrimeGaussNorm
 
 /-!
@@ -59,8 +58,14 @@ theorem localWeylScalar_add_cube (p : ExteriorPrime K S) (j : Fin 6)
 
 theorem localWeylExponent_frozen (j : Fin 6) (e : ℕ)
     (he : AdmissibleExponent e) :
-    localWeylExponent j e = localWeylExponent j (frozenMin e) :=
-  localPhaseDigit_frozen j.val e he
+    localWeylExponent j e = localWeylExponent j (frozenMin e) := by
+  by_cases he0 : e = 0
+  · simp [he0]
+  · have hm0 : frozenMin e ≠ 0 :=
+      fun h => he0 ((frozenMin_eq_zero_iff e).mp h)
+    have hdecomp := frozenExponent_decomposition e he
+    simp only [localWeylExponent, if_neg he0, if_neg hm0]
+    omega
 
 /-- Includes e=0 without incorrectly moving it to the positive progression. -/
 theorem localWeylScalar_frozen (p : ExteriorPrime K S) (j : Fin 6)
@@ -370,9 +375,6 @@ theorem reflectedRowFactor_minimum (hD : AllowedGeneratorInput K S D)
 theorem exteriorNorm_mul (A B : ExteriorIdeal K S) :
     exteriorNorm K S (exteriorMul K S A B) = exteriorNorm K S A * exteriorNorm K S B := by
   simp only [exteriorNorm, exteriorMul, Submonoid.coe_mul, map_mul, Nat.cast_mul]
-
-theorem exteriorNorm_pos (A : ExteriorIdeal K S) : 0 < exteriorNorm K S A := by
-  exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors A.val
 
 theorem numeratorNorm_minimum_cube :
     exteriorNorm K S i.numeratorFrozen =

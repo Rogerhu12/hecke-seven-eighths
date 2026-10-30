@@ -1,5 +1,6 @@
 import HeckeSkeleton.LowEnergy.ActualRows
 import HeckeSkeleton.LowEnergy.IdealRows
+import HeckeGeneral.Analysis.MarkedThetaReflection
 
 /-!
 # Applying the supplied reflection to every actual row
@@ -29,6 +30,11 @@ open scoped Classical BigOperators nonZeroDivisors
 
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
+
+/-- Positivity belongs to the actual ideal dictionary, before reflection
+states or cube columns are introduced. -/
+theorem exteriorNorm_pos (A : ExteriorIdeal K S) : 0 < exteriorNorm K S A := by
+  exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors A.val
 
 @[simp] theorem emptyPrimeIdeal_val :
     (primeSetIdeal K S ∅).val.val = (1 : Ideal (𝓞 K)) := by
@@ -65,7 +71,7 @@ theorem prime_dvd_primeSetIdeal_iff (Q : Finset (ExteriorPrime K S))
 
 @[simp] theorem exteriorSupport_emptyPrimeIdeal :
     exteriorSupport K S (primeSetIdeal K S ∅) = ∅ := by
-  apply Finset.eq_empty_iff_forall_not_mem.mpr
+  apply Finset.eq_empty_iff_forall_notMem.mpr
   intro p hp
   have hd := (mem_exteriorSupport_iff K S _ p).mp hp
   rw [emptyPrimeIdeal_val] at hd

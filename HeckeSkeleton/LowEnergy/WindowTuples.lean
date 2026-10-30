@@ -161,9 +161,9 @@ original `1/6` mark budget. -/
 theorem slot_exponent_partition (g : PrimeWindowGeometry)
     (J A : Finset (Fin g.slots)) (hA : A ⊆ Finset.univ \ J) :
     (J.card : ℝ) / (6 * g.slots) + (A.card : ℝ) / (6 * g.slots) +
-      ((Finset.univ \ J \ A).card : ℝ) / (6 * g.slots) = (1 / 6 : ℝ) := by
-  have hc : (J.card : ℝ) + A.card + (Finset.univ \ J \ A).card = g.slots := by
-    exact_mod_cast (show J.card + A.card + (Finset.univ \ J \ A).card = g.slots by
+      (((Finset.univ \ J) \ A).card : ℝ) / (6 * g.slots) = (1 / 6 : ℝ) := by
+  have hc : (J.card : ℝ) + A.card + ((Finset.univ \ J) \ A).card = g.slots := by
+    exact_mod_cast (show J.card + A.card + ((Finset.univ \ J) \ A).card = g.slots by
       simpa only [Fintype.card_fin] using SlotTuples.card_partition J A hA)
   have hn : (g.slots : ℝ) ≠ 0 := by exact_mod_cast g.slots_pos.ne'
   rw [← add_div, ← add_div, hc]
@@ -171,7 +171,7 @@ theorem slot_exponent_partition (g : PrimeWindowGeometry)
 
 theorem surviving_exponent_eq (g : PrimeWindowGeometry)
     (J A : Finset (Fin g.slots)) (hA : A ⊆ Finset.univ \ J) :
-    ((A.card : ℝ) + (Finset.univ \ J \ A).card) / (6 * g.slots) =
+    ((A.card : ℝ) + ((Finset.univ \ J) \ A).card) / (6 * g.slots) =
       (1 / 6 : ℝ) - (J.card : ℝ) / (6 * g.slots) := by
   have h := slot_exponent_partition g J A hA
   rw [add_div]
@@ -224,13 +224,13 @@ All norms are the original prime-product ideal norms. -/
 theorem inactive_times_mark_lower_le (g : PrimeWindowGeometry)
     (T : Finset (HeckeCharacter K)) {Z : ℝ} (hZ : 1 ≤ Z)
     (J A : Finset (Fin g.slots)) (hA : A ⊆ Finset.univ \ J)
-    (b : (Finset.univ \ J \ A) → ExteriorPrime K S)
-    (hb : b ∈ activeTuples K S g T Z (Finset.univ \ J \ A))
+    (b : ↥((Finset.univ \ J) \ A) → ExteriorPrime K S)
+    (hb : b ∈ activeTuples K S g T Z ((Finset.univ \ J) \ A))
     (P : ExteriorIdeal K S) (hP : P ∈ activeIdeals K S g T Z A)
     (Plo : ℝ) (hPlo : Plo ≤ exteriorNorm K S P) :
-    exteriorNorm K S (activeIdeal K S (Finset.univ \ J \ A) b) * Plo ≤
+    exteriorNorm K S (activeIdeal K S ((Finset.univ \ J) \ A) b) * Plo ≤
       (2 : ℝ) ^ g.slots * Z ^ ((1 / 6 : ℝ) - (J.card : ℝ) / (6 * g.slots)) := by
-  let I := Finset.univ \ J \ A
+  let I := (Finset.univ \ J) \ A
   have hZ0 := zero_lt_one.trans_le hZ
   have hbn := activeIdeal_norm_bounds K S g T hZ0 I hb
   have hpn := (activeIdeals_support K S g T hZ0 A hP).2

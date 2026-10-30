@@ -17,7 +17,7 @@ namespace HeckeSkeleton.LowEnergy.FrozenIdealRows
 
 open IsDedekindDomain HeckeGeneral.Arithmetic
 open HeckeSkeleton.LowFrozenCube HeckeSkeleton.LowEnergy.IdealRows
-open scoped Classical BigOperators nonZeroDivisors
+open scoped Classical BigOperators nonZeroDivisors NumberField
 
 variable {R : Type*} [CommRing R] [IsDedekindDomain R]
 
@@ -189,7 +189,8 @@ theorem norm_eq_prime_product (I : (Ideal (𝓞 K))⁰)
     (F : Finset (HeightOneSpectrum (𝓞 K)))
     (hF : (primeExponents I).support ⊆ F) :
     (I.val.absNorm : ℂ) = ∏ p ∈ F, (p.asIdeal.absNorm : ℂ) ^ primeExponents I p := by
-  let f : Ideal (𝓞 K) →* ℂ := (Nat.castRingHom ℂ).toMonoidHom.comp Ideal.absNorm
+  let f : Ideal (𝓞 K) →* ℂ :=
+    (Nat.castRingHom ℂ).toMonoidHom.comp Ideal.absNorm.toMonoidHom
   have h := map_idealOfPrimeExponents f (primeExponents I)
   rw [idealOfPrimeExponents_primeExponents] at h
   rw [Finsupp.prod_of_support_subset _ hF _ (fun _ _ => pow_zero _)] at h

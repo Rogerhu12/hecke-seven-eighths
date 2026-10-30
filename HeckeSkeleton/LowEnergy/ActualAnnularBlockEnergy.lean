@@ -21,6 +21,7 @@ open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckePort.CenteredMomentGenerator
+open HeckeSkeleton.LowEnergy.ActualReflection
 open HeckeSkeleton.LowEnergy.ActualSymbols HeckeSkeleton.LowEnergy.ActualSieveDictionary
 open HeckeSkeleton.LowEnergy.ActualReflectionReindex
 open HeckeSkeleton.LowEnergy.ActualSeparatedBlock
@@ -121,7 +122,7 @@ theorem actual_annular_physical_polynomial [Finite (SixthLocalClasses K S)]
       (sq_nonneg (GaussianSeminorm.seminorm shift (ActualCommonMellinTail.order K 0) 2)))
       (sq_nonneg ‖inactiveWeight K S f‖))
   apply hb0.trans
-  convert hmul using 1 <;> unfold sievePolynomial physicalThreshold <;> ring
+  convert hmul using 1 <;> simp only [sievePolynomial, physicalThreshold] <;> ring
 
 #print axioms normalizedScale_eq_physicalScale
 #print axioms actual_annular_physical_polynomial
@@ -198,7 +199,7 @@ theorem actual_annular_dyadic_block_energy [Finite (SixthLocalClasses K S)]
       (sq_nonneg (GaussianSeminorm.seminorm shift (ActualCommonMellinTail.order K 0) 2)))
       (sq_nonneg ‖inactiveWeight K S f‖))
   apply hb0.trans
-  convert hmul using 1 <;> unfold sievePolynomial physicalThreshold <;> ring
+  convert hmul using 1 <;> simp only [sievePolynomial, physicalThreshold] <;> ring
 
 #print axioms actual_annular_dyadic_block_energy
 
@@ -388,14 +389,15 @@ theorem actual_all_annuli_dual_energy [Finite (SixthLocalClasses K S)]
       (squarefreeShellIdeals_ratio K S i.2.1) (fullCubeShellIdeals_ratio K S i.2.2) a A hA ha
     rw [Finset.sum_image (fun a _ b _ h => Subtype.ext h)] at hb
     rw [scale_dyadic_combination] at hb
-    convert hb using 1 <;> dsimp [G, annularDualRow, eta, R, T, PhysicalGaussianEnergy.excess] <;> ring
+    convert hb using 1 <;>
+      (try dsimp [G, annularDualRow, eta, R, T, PhysicalGaussianEnergy.excess]) <;> ring
   obtain ⟨hpoint, hsum, he⟩ := hgauss Z hZ T hT Row G ((5 / 6 : ℝ) - 2 * d) R hR hlocal
   refine ⟨fun k hk => hpoint ⟨k, hk⟩, ?_⟩
   have heq : (∑' r : Row, ‖∑' i, G i r‖ ^ 2) =
       ∑ k ∈ rows, ‖∑' i, annularDualRow K S D f s F θ classes a Z ps i k‖ ^ 2 :=
     Finset.tsum_subtype rows _
   rw [heq] at he
-  convert he using 1 <;> dsimp [R] <;> ring
+  convert he using 1 <;> (try dsimp [R]) <;> ring
 
 #print axioms physicalThreshold_le
 #print axioms actual_all_annuli_dual_energy

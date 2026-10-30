@@ -1,4 +1,4 @@
-import HeckeGeneral.Analysis.ActualSIntegerAmplifierRows
+import HeckeGeneral.Analysis.MarkedThetaReflection
 import HeckeGeneral.Characters.SIntegerSexticPowerMask
 import HeckePort.Moments.Descent.Hybrid
 
@@ -22,13 +22,21 @@ namespace HeckeSkeleton.LowEnergy.ActualSymbols
 open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
-open HeckeGeneral.Analysis.ActualSIntegerMoments
 open HeckePort.CenteredMomentGenerator HeckePort.Moments
 open scoped Classical BigOperators nonZeroDivisors
 
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 variable (D : ThetaArithmeticData K S)
+
+/-- The supplied generator contracts to the literal exterior ideal, using
+its actual span and the proved saturation of ideals away from S. -/
+theorem generator_contraction (A : ExteriorIdeal K S) :
+    sIntegerModulusContraction K S (D.generator A) = A.val.val := by
+  unfold sIntegerModulusContraction
+  rw [D.generator_span]
+  exact under_map_coprime_sIntegerIdeal K S A.val.val
+    (sexticIdeal_coprime_S K S A.val.val A.property)
 
 /-- Evaluation in the numerator variable really is a monoid hom. -/
 def elementSymbolHom (I : ExteriorIdeal K S) : S.integer K →* ℂ where
@@ -59,7 +67,7 @@ theorem actualSymbol_sixth (I J : ExteriorIdeal K S) :
   change sIntegerSexticIdealEvaluation K S D.root6 D.primitive6 D.embedding _ _ _ _
     (D.generator J ^ 6) = _
   rw [sIntegerSexticIdealEvaluation_sixth_power_coprime_mask,
-    contraction_thetaGenerator K S D J]
+    generator_contraction K S D J]
 
 /-- Shared prime factors force the actual symbol to zero before any inverse is used. -/
 theorem actualSymbol_eq_zero_of_not_coprime (I J : ExteriorIdeal K S)
@@ -78,7 +86,7 @@ theorem actualSymbol_norm_eq_one (I J : ExteriorIdeal K S)
     (fun p hp => D.away_six p (I.property p hp))
   apply (sIntegerSextic_no_badPrime_iff_coprime_contraction K S I.val.val
     (nonZeroDivisors.coe_ne_zero I.val) I.property (D.generator J)).mpr
-  rw [contraction_thetaGenerator K S D J]
+  rw [generator_contraction K S D J]
   exact hIJ
 
 /-- The ordinary ideal kernel has both nonexterior extensions explicit. -/

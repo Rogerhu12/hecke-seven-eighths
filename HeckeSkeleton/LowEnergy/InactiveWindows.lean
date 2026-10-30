@@ -305,8 +305,8 @@ theorem target_marked_slot_split (ψ : HeckeCharacter K)
           conj (heckeIdealCoefficient K ψ (subsetPrimeIdeal K S t (Finset.univ \ J)).val) *
           (∏ q ∈ (Finset.univ \ J).image t \ A.image t,
             (q.val.asIdeal.absNorm : ℂ)⁻¹) * f t else 0) =
-    ∑ b ∈ activeTuples K S g T Z (Finset.univ \ J \ A),
-      inactiveTwistedWeight K S ψ g Z (Finset.univ \ J \ A) b *
+    ∑ b ∈ activeTuples K S g T Z ((Finset.univ \ J) \ A),
+      inactiveTwistedWeight K S ψ g Z ((Finset.univ \ J) \ A) b *
         ∑ a ∈ activeTuples K S g T Z A,
           activeWeight K S ψ g Z A a * f (SlotTuples.fill J A p a b) := by
   rw [SlotTuples.sum_pi_fixed_active_split _ J A hA p
@@ -323,7 +323,7 @@ theorem target_marked_slot_split (ψ : HeckeCharacter K)
     (SlotTuples.fill J A p a b) ht (Finset.univ \ J) A hA
   have ha' : (fun i : A => SlotTuples.fill J A p a b i) = a :=
     funext (SlotTuples.fill_active J A hA p a b)
-  have hb' : (fun i : (Finset.univ \ J \ A) => SlotTuples.fill J A p a b i) = b :=
+  have hb' : (fun i : ↥((Finset.univ \ J) \ A) => SlotTuples.fill J A p a b i) = b :=
     funext (SlotTuples.fill_inactive J A p a b)
   rw [hw, ha', hb']
   ring

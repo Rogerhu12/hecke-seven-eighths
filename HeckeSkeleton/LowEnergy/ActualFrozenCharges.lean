@@ -80,7 +80,8 @@ theorem minimum_norm_prime_product {frozen puncture : ExteriorIdeal K S}
     have he : ep ∈ s.active := s.minimum_support
       ((mem_exteriorSupport_iff K S s.minimum ep).mpr hd)
     exact Finset.mem_image.mpr ⟨ep, he, rfl⟩
-  let f : Ideal (𝓞 K) →* ℝ := (Nat.castRingHom ℝ).toMonoidHom.comp Ideal.absNorm
+  let f : Ideal (𝓞 K) →* ℝ :=
+    (Nat.castRingHom ℝ).toMonoidHom.comp Ideal.absNorm.toMonoidHom
   have h := map_idealOfPrimeExponents f (primeExponents s.minimum.val)
   rw [idealOfPrimeExponents_primeExponents] at h
   rw [Finsupp.prod_of_support_subset _ hF _ (fun _ _ => pow_zero _)] at h

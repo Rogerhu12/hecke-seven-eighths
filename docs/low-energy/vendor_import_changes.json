@@ -268,5 +268,15 @@
     "path": "vendor/flt/FLTReuse/M1d838ff8bf72f37a.lean",
     "original_sha256": "0bbce96980277d8390a902e8624fc06277b05826237f395a29d695d556175d1e",
     "modified_sha256": "70ac581bdc7f9070c9933f5d80f4785c8cfcf96576c6045632c8a56b5977dc71"
+  },
+  {
+    "path": "DedekindZetaZeroFree/Arithmetic/RayClasses/Character.lean",
+    "original_sha256": "0094c75c3b45837570aa4728f4547943f7bfa5cc2d64fcf9b75b0a88bd0dba79",
+    "modified_sha256": "ed333739b66568c8680261d7043e173f13002079b3e462880886810a663ed5b2"
+  },
+  {
+    "path": "DedekindZetaZeroFree/Theta/Whittaker/NormalizedFiniteTensorProducts.lean",
+    "original_sha256": "66b1e93e9e262b7fd9c091ed488ae230df83842f1a4b58d8b79ae66ad0893356",
+    "modified_sha256": "b62f41abd352696b38a1d99ca57dc5357e378e9d63cad70d210d91e85ccfeb4f"
   }
 ]

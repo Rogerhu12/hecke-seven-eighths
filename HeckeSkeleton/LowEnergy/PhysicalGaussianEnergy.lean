@@ -71,7 +71,7 @@ theorem annular_majorant_le_amplitude {Z : ℝ} (hZ : 1 < Z)
   have h := mul_le_mul_of_nonneg_right
     (mul_le_mul_of_nonneg_left hsq (sq_nonneg (GaussianSeminorm.seminorm i.1 J A0)))
     (by positivity : 0 ≤ Real.exp (21 * C) * Z ^ (M + 23 * delta))
-  convert h using 1 <;> unfold amplitude <;> ring
+  convert h using 1 <;> (try dsimp [amplitude]) <;> ring
 
 /-- Uniform infinite assembly of the proved physical low block bounds.
 Every original row is retained; the conclusion derives convergence as

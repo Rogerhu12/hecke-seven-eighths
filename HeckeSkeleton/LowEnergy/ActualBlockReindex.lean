@@ -91,6 +91,18 @@ def physicalAtom (F : FiniteMellinData K S) (θ : HeckeCharacter K)
         (exteriorNorm K S k) (exteriorNorm K S P)
         (exteriorNorm K S c) (exteriorNorm K S b))
 
+theorem physicalAtom_zero_of_markWeight (F : FiniteMellinData K S)
+    (θ : HeckeCharacter K) (a : Ideal (𝓞 K) → ℂ) (V : ℝ → ℂ) (Z : ℝ)
+    (k P c b : ExteriorIdeal K S) (hP : a P.val.val = 0) :
+    physicalAtom K S D f s F θ a V Z k P c b = 0 := by
+  simp [physicalAtom, hP, hybridAtom]
+
+theorem physicalAtom_zero_of_rowCoefficient (F : FiniteMellinData K S)
+    (θ : HeckeCharacter K) (a : Ideal (𝓞 K) → ℂ) (V : ℝ → ℂ) (Z : ℝ)
+    (k P c b : ExteriorIdeal K S) (hk : rowCoefficient K S D θ f s k = 0) :
+    physicalAtom K S D f s F θ a V Z k P c b = 0 := by
+  simp [physicalAtom, hk]
+
 theorem literalTerm_eq_physicalAtom (hD : AllowedGeneratorInput K S D)
     (F : FiniteMellinData K S) (θ : HeckeCharacter K)
     (markWeight : Ideal (𝓞 K) → ℂ) (V : ℝ → ℂ) (Z : ℝ)

@@ -65,7 +65,7 @@ theorem splitMark_admissible (d : MarkedDatum K S) (A : MarkChoice K S d) :
       (d.marks_coprime p (A.property hp)).2.2⟩
   inactive_disjoint := by
     rw [exteriorSupport_primeSetIdeal]
-    exact Finset.sdiff_disjoint
+    exact disjoint_sdiff_self_left
 
 theorem split_row_mark_coprime (d : MarkedDatum K S) (A : MarkChoice K S d) :
     IsCoprime d.moving.val.val (primeSetIdeal K S A.val).val.val := by
@@ -211,6 +211,56 @@ theorem reflectionSummand_eq_physicalAtom (D : ThetaArithmeticData K S)
 
 /-- The rectangular column coefficients inherit summability from the
 supplied reflection after both exact zero extensions. -/
+theorem extended_reflectionSummand_eq_physicalAtom (D : ThetaArithmeticData K S)
+    (hD : AllowedGeneratorInput K S D)
+    (F : FiniteMellinData K S) (θ : HeckeCharacter K)
+    (d : MarkedDatum K S) (s : FrozenState K S d.frozen d.puncture)
+    (A : MarkChoice K S d) (V : ℝ → ℂ) (Z : ℝ)
+    (cb : ExteriorIdeal K S × ExteriorIdeal K S) :
+    extendColumn K S s (extendMarkedColumn K S s A.val
+      (fun z => reflectedTerm K S D d
+        ((reflectionSigmaEquiv K S d).symm ⟨s, A, z⟩) F θ V
+          (Z * exteriorNorm K S (primeSetIdeal K S d.marks)))) cb.1 cb.2 =
+      physicalAtom K S D (splitFixed K S d A) s F θ (fun _ => 1) V Z
+        d.moving (primeSetIdeal K S A.val) cb.1 cb.2 := by
+  by_cases hcb : ColumnCondition K S s cb.1 cb.2
+  · rw [extendColumn, dif_pos hcb]
+    by_cases hPb : IsCoprime (primeSetIdeal K S A.val).val.val cb.2.val.val
+    · rw [extendMarkedColumn, dif_pos hPb]
+      exact reflectionSummand_eq_physicalAtom K S D hD F θ d s A
+        ⟨⟨cb, hcb⟩, hPb⟩ V Z
+    · simp [extendMarkedColumn, hPb, physicalAtom, ActualHybridEntry.hybridAtom]
+  · simp [extendColumn, hcb, physicalAtom, columnCoefficient,
+      ActualReflectionReindex.extendColumn, ActualHybridEntry.hybridAtom]
+
+/-- The supplied reflection is exactly the sum of the fixed-data atoms over
+every frozen state, every active subset and the full common column pair.
+The inactive set is the actual complement of that active subset. -/
+theorem completedThetaSum_eq_physical_atoms (D : ThetaArithmeticData K S)
+    (hD : AllowedGeneratorInput K S D)
+    (F : FiniteMellinData K S) (θ : HeckeCharacter K)
+    (hreflection : MarkedCoefficientReflectionInput K S D F θ)
+    (d : MarkedDatum K S) (V : SmoothAnnularTest) (Z : ℝ) (hZ : 0 < Z) :
+    completedThetaSum K S D θ (rowElement K S D d) d.puncture d.marks V.toFun
+        (Z * exteriorNorm K S (primeSetIdeal K S d.marks)) =
+      ∑' s : FrozenState K S d.frozen d.puncture,
+        ∑' A : MarkChoice K S d,
+          ∑' cb : ExteriorIdeal K S × ExteriorIdeal K S,
+            physicalAtom K S D (splitFixed K S d A) s F θ (fun _ => 1) V.toFun Z
+              d.moving (primeSetIdeal K S A.val) cb.1 cb.2 := by
+  rw [completedThetaSum_reindexed K S D F θ hreflection d V _
+    (mul_pos hZ (exteriorNorm_pos K S _))]
+  apply tsum_congr
+  intro s
+  apply tsum_congr
+  intro A
+  rw [tsum_extendColumn K S s]
+  apply tsum_congr
+  intro cb
+  exact extended_reflectionSummand_eq_physicalAtom K S D hD F θ d s A V.toFun Z cb
+
+ /-- Summability of the exact rectangular column expansion follows from the
+ supplied reflected absolute convergence. -/
 theorem physicalAtom_columns_summable (D : ThetaArithmeticData K S)
     (hD : AllowedGeneratorInput K S D)
     (F : FiniteMellinData K S) (θ : HeckeCharacter K)
@@ -227,16 +277,8 @@ theorem physicalAtom_columns_summable (D : ThetaArithmeticData K S)
     (mul_pos hZ (exteriorNorm_pos K S _))
   have he := summable_extendColumn K S s (extendMarkedColumn K S s A.val g)
     (summable_extendMarkedColumn K S s A.val g hg)
-  apply he.congr
-  intro cb
-  by_cases hcb : ColumnCondition K S s cb.1 cb.2
-  · rw [extendColumn, dif_pos hcb]
-    by_cases hPb : IsCoprime (primeSetIdeal K S A.val).val.val cb.2.val.val
-    · rw [extendMarkedColumn, dif_pos hPb]
-      exact reflectionSummand_eq_physicalAtom K S D hD F θ d s A
-        ⟨⟨cb, hcb⟩, hPb⟩ V.toFun Z
-    · simp [extendMarkedColumn, hPb, physicalAtom, ActualHybridEntry.hybridAtom]
-  · simp [extendColumn, hcb, physicalAtom, columnCoefficient, ActualHybridEntry.hybridAtom]
+  exact he.congr (fun cb =>
+    extended_reflectionSummand_eq_physicalAtom K S D hD F θ d s A V.toFun Z cb)
 
 theorem physicalAtom_columns_summable_fixed (D : ThetaArithmeticData K S)
     (hD : AllowedGeneratorInput K S D)
@@ -254,7 +296,7 @@ theorem physicalAtom_columns_summable_fixed (D : ThetaArithmeticData K S)
       apply fixedData_ext K S rfl rfl rfl
       change (f.inactive ∪ exteriorSupport K S P) \ exteriorSupport K S P = f.inactive
       rw [Finset.union_sdiff_distrib, Finset.sdiff_self, Finset.union_empty]
-      exact Finset.sdiff_eq_left.mpr hP.inactive_disjoint
+      exact hP.inactive_disjoint.sdiff_eq_left
     have h := physicalAtom_columns_summable K S D hD F θ hreflection d s A V Z hZ
     simpa only [hf, primeSetIdeal_support K S P hP.squarefree] using h
   · have hz : (fun cb : ExteriorIdeal K S × ExteriorIdeal K S =>
@@ -267,6 +309,7 @@ theorem physicalAtom_columns_summable_fixed (D : ThetaArithmeticData K S)
 #print axioms split_sourceDatum
 #print axioms reflectionSummand_eq_physicalAtom
 #print axioms original_column_summable
+#print axioms completedThetaSum_eq_physical_atoms
 #print axioms physicalAtom_columns_summable
 #print axioms physicalAtom_columns_summable_fixed
 

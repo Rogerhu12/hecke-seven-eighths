@@ -148,7 +148,7 @@ theorem source_inactive :
         (sourceIndex K S f s k P hk hP hkP cb hPb).activeMarks = f.inactive := by
   change (f.inactive ∪ exteriorSupport K S P) \ exteriorSupport K S P = f.inactive
   rw [Finset.union_sdiff_distrib, Finset.sdiff_self, Finset.union_empty]
-  exact Finset.sdiff_eq_left.mpr hP.inactive_disjoint
+  exact hP.inactive_disjoint.sdiff_eq_left
 
 theorem source_allmarks_norm :
     exteriorNorm K S (primeSetIdeal K S (sourceDatum K S f k P hk hP hkP).marks) =
@@ -508,6 +508,33 @@ def slicedPhysicalBlock (F : FiniteMellinData K S) (θ : HeckeCharacter K)
         (blockFrequency (frozenClass K S D f s) q.1.1 q.1.2 q.2.1 q.2.2) V 0
         (CommonMellin.physicalArgument (physicalBase K S f s Z)
           (safeNorm k) (safeNorm P) (safeNorm c) (safeNorm b))
+
+theorem slicedPhysicalBlock_zero_of_markWeight (F : FiniteMellinData K S)
+    (θ : HeckeCharacter K) (q : FourClasses (SixthLocalClasses K S))
+    (a : Ideal (𝓞 K) → ℂ) (V : ℝ → ℂ) (Z : ℝ)
+    (ps cs bs : Finset (Ideal (𝓞 K))) (k : Ideal (𝓞 K))
+    (ha : ∀ P ∈ ps, a P = 0) :
+    slicedPhysicalBlock K S D f s F θ q a V Z ps cs bs k = 0 := by
+  unfold slicedPhysicalBlock
+  have hz : (∑ P ∈ ps, ∑ c ∈ cs, ∑ b ∈ bs,
+      (a P * ordinaryMark K S D f s θ q P) * ordinaryColumn K S D f s θ q c b *
+      FiniteHybridIntegral.hybridKernel (cubicKernel K S D) (quadraticKernel K S D) k P c b *
+      mellinReflectionKernel K S F θ (QuotientGroup.mk f.rowUnit)
+        (blockFrequency (frozenClass K S D f s) q.1.1 q.1.2 q.2.1 q.2.2) V 0
+        (CommonMellin.physicalArgument (physicalBase K S f s Z)
+          (safeNorm k) (safeNorm P) (safeNorm c) (safeNorm b))) = 0 := by
+    apply Finset.sum_eq_zero
+    intro P hP
+    simp [ha P hP]
+  rw [hz, mul_zero]
+
+theorem slicedPhysicalBlock_zero_of_ordinaryRow (F : FiniteMellinData K S)
+    (θ : HeckeCharacter K) (q : FourClasses (SixthLocalClasses K S))
+    (a : Ideal (𝓞 K) → ℂ) (V : ℝ → ℂ) (Z : ℝ)
+    (ps cs bs : Finset (Ideal (𝓞 K))) (k : Ideal (𝓞 K))
+    (hk : ordinaryRow K S D f s θ q k = 0) :
+    slicedPhysicalBlock K S D f s F θ q a V Z ps cs bs k = 0 := by
+  simp [slicedPhysicalBlock, hk]
 
 /-- The finite block identity is before squaring and retains the common
 profile, the inactive scalar, all active marks, both columns and both masks. -/

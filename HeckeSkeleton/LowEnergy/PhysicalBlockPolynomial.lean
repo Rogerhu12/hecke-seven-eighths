@@ -228,7 +228,7 @@ theorem physical_low_polynomial
     (scale_nonneg hZ hn) (scale_nonneg hZ hs) (scale_nonneg hZ hb)
     (scale_nonneg hZ hN) (scale_nonneg hZ hB) heta hdelta hdelta'
     hwidth hcond hNA hslot hell hshift rfl
-  have hraw := physical_polynomial_le hZ hi0 ha0 hn0 hb0 hs0 hK0 hL0 hN0 hB0
+  have hraw := physical_polynomial_le (shift := shift) hZ hi0 ha0 hn0 hb0 hs0 hK0 hL0 hN0 hB0
     hdelta' hcharge
   rw [remove_powerful_weight (O := scale Z F) hZ0] at hraw
   have hhalf : Z ^ (-scale Z F / 2) = F ^ (-1 / 2 : ℝ) := by

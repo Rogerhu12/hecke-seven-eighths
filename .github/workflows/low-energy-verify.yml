@@ -9,6 +9,7 @@ on:
       - 'HeckeSkeleton/LowFrozenCube/**'
       - 'HeckeSkeleton/Principal.lean'
       - 'scripts/low_energy_verify.py'
+      - 'scripts/lean_imports.py'
       - 'docs/low-energy/**'
       - '.github/workflows/low-energy-verify.yml'
 
@@ -17,7 +18,7 @@ permissions:
 
 concurrency:
   group: low-energy-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   proofs:
@@ -39,8 +40,26 @@ jobs:
           lint: 'false'
           use-mathlib-cache: 'true'
           use-github-cache: 'false'
+      - name: Restore exact verified module cache
+        id: proof-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .lake/build/lib/lean
+            .low-energy-verification
+          key: low-energy-v2-${{ runner.os }}-${{ matrix.phase }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            low-energy-v2-${{ runner.os }}-${{ matrix.phase }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
       - name: Compile real sources and preserve axiom output
         run: python3 scripts/low_energy_verify.py ${{ matrix.phase }}
+      - name: Save verified module checkpoints
+        if: always() && steps.proof-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .lake/build/lib/lean
+            .low-energy-verification
+          key: ${{ steps.proof-cache.outputs.cache-primary-key }}
       - name: Preserve verification logs
         if: always()
         uses: actions/upload-artifact@v4
@@ -48,3 +67,4 @@ jobs:
           name: low-energy-verification-${{ matrix.phase }}
           path: .low-energy-verification/
           if-no-files-found: ignore
+          include-hidden-files: true

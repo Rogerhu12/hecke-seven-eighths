@@ -1,4 +1,5 @@
-import HeckeGeneral.Analysis.SIntegerSixthPowerDecomposition
+import HeckeGeneral.Analysis.ActualSIntegerAmplifierRows
+import HeckeGeneral.Analysis.PhysicalProbeData
 import HeckeGeneral.Characters.SIntegerSexticPowerMask
 
 /-!
@@ -32,6 +33,17 @@ variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 
 local notation "NZ" => NonzeroRingElements (S.integer K)
 local notation "Orb" => ActualSIntegerOrbit K S
+
+/-- The original orbit contraction is an exterior ideal.  This uses the
+actual contraction directly and does not pass through a sixth-free row or
+its amplifier decomposition. -/
+def orbitExteriorIdeal (q : Orb) : ExteriorIdeal K S :=
+  ⟨actualSIntegerOrbitIdeal K S q, by
+    refine Quotient.inductionOn q ?_
+    intro a p hp hpin
+    have hcop := sIntegerModulusContraction_coprime K S a.val a.property p hpin
+    have hle := Ideal.dvd_iff_le.mp hp
+    exact p.isPrime.ne_top ((sup_of_le_right hle).symm.trans hcop)⟩
 
 /-- Invariance under the original global S-units raised to the sixth power. -/
 def SixthInvariant (f : S.integer K → ℂ) : Prop :=
@@ -126,7 +138,7 @@ theorem idealSectorOrbit_surjective (D : ThetaArithmeticData K S) :
   intro q
   refine Quotient.inductionOn q ?_
   intro a
-  let I := actualOrbitExteriorIdeal K S (Quotient.mk _ a)
+  let I := orbitExteriorIdeal K S (Quotient.mk _ a)
   have hspan : Ideal.span ({D.generator I} : Set (S.integer K)) =
       Ideal.span ({a.val} : Set (S.integer K)) := by
     rw [D.generator_span]

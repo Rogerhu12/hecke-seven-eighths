@@ -90,6 +90,25 @@ theorem physicalAtom_weighted_summable (hD : AllowedGeneratorInput K S D)
   exact h.congr (fun cb => (physicalAtom_markWeight K S D f s F θ a V.toFun Z
     k P cb.1 cb.2).symm)
 
+/-- A mark-only zero extension needs admissibility only where its actual
+coefficient is nonzero.  This permits the physical window support to be
+kept unchanged while its frozen-prime guard stays in the mark coefficient. -/
+theorem physicalAtom_weighted_summable_of_support (hD : AllowedGeneratorInput K S D)
+    (F : FiniteMellinData K S) (θ : HeckeCharacter K)
+    (hreflection : MarkedCoefficientReflectionInput K S D F θ)
+    (k P : ExteriorIdeal K S) (hk : RowAdmissible K S f k)
+    (a : Ideal (𝓞 K) → ℂ)
+    (hP : a P.val.val ≠ 0 → MarkAdmissible K S f P)
+    (V : SmoothAnnularTest) (Z : ℝ) (hZ : 0 < Z) :
+    Summable (fun cb : ExteriorIdeal K S × ExteriorIdeal K S =>
+      physicalAtom K S D f s F θ a V.toFun Z k P cb.1 cb.2) := by
+  by_cases ha : a P.val.val = 0
+  · simpa only [physicalAtom_zero_of_markWeight K S D f s F θ a V.toFun Z
+      k P _ _ ha] using (summable_zero : Summable
+        (fun _ : ExteriorIdeal K S × ExteriorIdeal K S => (0 : ℂ)))
+  · exact physicalAtom_weighted_summable K S D f s hD F θ hreflection k P hk (hP ha)
+      a V Z hZ
+
 /-- A squarefree-shell filter is exact because the original coefficient
 already vanishes outside that support. -/
 theorem physicalBlock_filter_squarefree (F : FiniteMellinData K S)
@@ -171,9 +190,38 @@ theorem physicalBlock_dual_reconstruction (hD : AllowedGeneratorInput K S D)
   rw [← physicalBlock_filter_squarefree, physicalBlock_commute_columns]
   rfl
 
+theorem physicalBlock_dual_reconstruction_of_support (hD : AllowedGeneratorInput K S D)
+    (F : FiniteMellinData K S) (θ : HeckeCharacter K)
+    (hreflection : MarkedCoefficientReflectionInput K S D F θ)
+    (ps : Finset (ExteriorIdeal K S)) (k : ExteriorIdeal K S)
+    (hk : RowAdmissible K S f k) (a : Ideal (𝓞 K) → ℂ)
+    (hp : ∀ P ∈ ps, a P.val.val ≠ 0 → MarkAdmissible K S f P)
+    (V : SmoothAnnularTest) (Z : ℝ) (hZ : 0 < Z) :
+    (∑ P ∈ ps, ∑' cb : ExteriorIdeal K S × ExteriorIdeal K S,
+      physicalAtom K S D f s F θ a V.toFun Z k P cb.1 cb.2) =
+      ∑' j : ℕ, ∑' l : ℕ, physicalBlock K S D f s F θ a V.toFun Z
+        ps (squarefreeShell K S j) (idealShell K S l) k := by
+  let G : ExteriorIdeal K S × ExteriorIdeal K S → ℂ := fun cb =>
+    ∑ P ∈ ps, physicalAtom K S D f s F θ a V.toFun Z k P cb.1 cb.2
+  have hsingle := fun P hP => physicalAtom_weighted_summable_of_support K S D f s hD
+    F θ hreflection k P hk a (hp P hP) V Z hZ
+  have hG : Summable G := summable_sum hsingle
+  rw [← Summable.tsum_finsetSum hsingle]
+  have h := DyadicReindex.tsum_eq_double_product_shell_sums
+    (idealNatNorm K S) (idealNatNorm K S) (finite_idealNatNorm_le K S)
+    (finite_idealNatNorm_le K S) G hG
+  rw [h]
+  apply tsum_congr
+  intro j
+  apply tsum_congr
+  intro l
+  rw [← physicalBlock_filter_squarefree, physicalBlock_commute_columns]
+  rfl
+
 #print axioms idealShell_bounds
 #print axioms physicalAtom_weighted_summable
 #print axioms physicalBlock_dual_summable
 #print axioms physicalBlock_dual_reconstruction
+#print axioms physicalBlock_dual_reconstruction_of_support
 
 end HeckeSkeleton.LowEnergy.ActualDyadicReflection
