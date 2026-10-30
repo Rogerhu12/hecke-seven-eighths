@@ -273,7 +273,8 @@ theorem reflectedMarkFactor_eq (θ : HeckeCharacter K) :
   rw [markCoefficient, reflectionNegativeInteraction_eq K S D hD d i]
   change _ = reflectionMarkBase K S D d i θ (activeMarkedIdeal K S d i) *
     idealSymbol K S D (activeMarkedIdeal K S d i) (D.generator i.numeratorFrozen) ^ 2 * _
-  rw [idealSymbol_generator_eq_prime_product K S D hD _ _
+  rw [idealSymbol_generator_eq_prime_product K S D hD
+    (activeMarkedIdeal K S d i) i.numeratorFrozen
     (primeSetIdeal_squarefree K S i.activeMarks)]
   unfold reflectedMarkFactor reflectionMarkBase
   simp only [activeMarkedIdeal, exteriorSupport_primeSetIdeal]
