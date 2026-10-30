@@ -1,0 +1,51 @@
+name: HIGHBIN proof verification
+
+on:
+  push:
+    branches: [codex/highbin-euler-norm-boundary-20261030]
+  pull_request:
+    paths:
+      - 'HeckeSkeleton/HighBin.lean'
+      - 'HeckeSkeleton/HighBinSupport.lean'
+      - 'HeckeSkeleton/HighBinSupport/**'
+      - 'HeckeGeneral/Analysis/FiniteEulerRational.lean'
+      - 'HeckeGeneral/Analysis/PhysicalProbeRows.lean'
+      - 'HeckeGeneral/Analysis/TInputRanges.lean'
+      - 'scripts/highbin_verify.py'
+      - 'docs/highbin/**'
+      - '.github/workflows/highbin-verify.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: highbin-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  proofs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    env:
+      LEAN_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@bd5cb0b830eda614ce3fc186d8429b9409b16c47
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Compile individual core modules and audit public declarations
+        run: python scripts/highbin_verify.py core
+      - name: Compile actual arithmetic adapters and HighBin integration
+        run: python scripts/highbin_verify.py actual
+      - name: Preserve verification logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: highbin-verification
+          path: .highbin-verification/
+          if-no-files-found: ignore

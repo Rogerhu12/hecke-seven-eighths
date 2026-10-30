@@ -3,6 +3,7 @@ import HeckeSkeleton.Theta
 import HeckeSkeleton.HighArithmeticInputs
 import HeckeGeneral.Analysis.BufferedPhysicalRowBin
 import HeckeGeneral.Analysis.RowEulerNegativeStrip
+import HeckeSkeleton.HighBinSupport.ActualRegularEuler
 import HeckeGeneral.Characters.LocalConductor
 
 /-!
@@ -188,6 +189,51 @@ theorem highEulerFactor_regular_bound (c : TargetContext K)
     (localRowCorrection_negativeStrip_bound K _ (targetData K c).probe
       (targetCharacter K c) (P.euler.rows.character u) p
       hbin.1 habin P.e_pos.le he s w z hs hw hz)
+
+/-- The actual regular branch is controlled on an open neighbourhood of
+the entire fixed-bin s-move, including horizontal faces and the endpoint
+bin a=1. The constants are independent of every imaginary part. -/
+theorem highEulerFactor_regular_swept_bound (c : TargetContext K)
+    (P : ActualHighPresentation K c) (Z T : ℝ) (hZ : 1 ≤ Z) (hT : 1 ≤ T)
+    (b : HighBlockIndex K c Z T)
+    (Q : Finset (ExteriorPrime K ((targetData K c).S : Set (HeightOneSpectrum (𝓞 K)))))
+    (u : HighRow K c)
+    (p : ExteriorPrime K ((targetData K c).S : Set (HeightOneSpectrum (𝓞 K))))
+    (hp : p ∉ rowExceptionalPrimes K _ Q u) (v : ℂ × ℂ × ℂ)
+    (hv : v ∈ HighBinContinuation.sweptTube
+      (((targetData K c).expansion Z T).block b).bin P.e) :
+    ‖highEulerFactor K c P Q u p v.1 v.2.1 v.2.2 - 1‖ ≤
+      (11 / HighBinContinuation.sweptTubeEulerMargin) *
+        (p.val.asIdeal.absNorm : ℝ) ^ (-1 - 8 * P.e) := by
+  have hbin := P.bin_range Z T hZ hT b
+  have ha := hbin.2.trans c.family.B_upper
+  have he : P.e ≤ 1 / 10000 := by
+    have hmin : min c.family.lamA c.lamB ≤ c.family.lamA := min_le_left _ _
+    have hsmall := P.e_small
+    have hlam := c.family.lamA_small
+    linarith
+  simpa only [highEulerFactor, dif_neg hp] using
+    HighBinContinuation.localRowCorrection_sweptTube_bound K _
+      (targetData K c).probe (targetCharacter K c) (P.euler.rows.character u) p
+      hbin.1 ha P.e_pos.le he v hv
+
+/-- Local holomorphy for the genuine regular branch, on the same open
+domain as its summable error bound. -/
+theorem highEulerFactor_regular_analyticOnNhd (c : TargetContext K)
+    (P : ActualHighPresentation K c) (Z T : ℝ) (hZ : 1 ≤ Z) (hT : 1 ≤ T)
+    (b : HighBlockIndex K c Z T)
+    (Q : Finset (ExteriorPrime K ((targetData K c).S : Set (HeightOneSpectrum (𝓞 K)))))
+    (u : HighRow K c)
+    (p : ExteriorPrime K ((targetData K c).S : Set (HeightOneSpectrum (𝓞 K))))
+    (hp : p ∉ rowExceptionalPrimes K _ Q u) :
+    AnalyticOnNhd ℂ (fun v : ℂ × ℂ × ℂ => highEulerFactor K c P Q u p v.1 v.2.1 v.2.2)
+      (HighBinContinuation.sweptTube
+        (((targetData K c).expansion Z T).block b).bin P.e) := by
+  simpa only [highEulerFactor, dif_neg hp] using
+    HighBinContinuation.localRowCorrection_analyticOnNhd_sweptTube K _
+      (targetData K c).probe (targetCharacter K c) (P.euler.rows.character u) p
+      (P.bin_range Z T hZ hT b).1 P.e_pos.le
+
 
 /-- Actual open-domain calibration plus the dynamic-contour Euler error.
 The older positive-w region alone does not cover a=1, where w=-6e. -/

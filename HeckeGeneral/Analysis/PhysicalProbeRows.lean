@@ -1,4 +1,5 @@
 import HeckeGeneral.Analysis.PhysicalProbePrincipal
+import HeckeGeneral.Analysis.FiniteEulerRational
 
 /-!
 Actual Poisson frequency rows and the initial four-ideal Euler series.
@@ -94,25 +95,6 @@ def initialRowEulerTerm (P : ProbeData K S) (ψ : HeckeCharacter K)
 def initialRowEulerSeries (P : ProbeData K S) (ψ : HeckeCharacter K)
     (Q : Finset (ExteriorPrime K S)) (u : FrequencyRow K S) (s w z : ℂ) : ℂ :=
   ∑' I, initialRowEulerTerm K S P ψ Q u s w z I
-
-/-- Finite Laurent data for exceptional local factors, rather than an
-unrestricted function of three complex variables. Coefficients must be
-calibrated to initialRowEulerSeries before any contour use. -/
-structure FiniteEulerPolynomial where
-  powers : Finset (ℤ × ℤ × ℤ)
-  coefficient : ℤ × ℤ × ℤ → ℂ
-
-def finiteEulerPolynomialValue (A : FiniteEulerPolynomial) (q : ℝ) (s w z : ℂ) : ℂ :=
-  ∑ e ∈ A.powers, A.coefficient e * (q : ℂ) ^
-    (-((e.1 : ℂ) * s + (e.2.1 : ℂ) * w + (e.2.2 : ℂ) * z))
-
-structure FiniteEulerRational where
-  numerator : FiniteEulerPolynomial
-  denominator : FiniteEulerPolynomial
-
-def finiteEulerRationalValue (A : FiniteEulerRational) (q : ℝ) (s w z : ℂ) : ℂ :=
-  finiteEulerPolynomialValue A.numerator q s w z /
-    finiteEulerPolynomialValue A.denominator q s w z
 
 /-- Actual primitive inducing characters require a common deletion mask:
 sixth-power descendants keep zeros at primes of the original row. -/
