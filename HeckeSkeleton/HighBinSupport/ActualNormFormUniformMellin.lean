@@ -53,7 +53,10 @@ theorem contDiffOn_compactLogProfile (V : SmoothAnnularTest) :
   have hd0 : ((1 + q.1 * Real.log q.2 : ℝ) : ℂ) ≠ 0 :=
     Complex.ofReal_ne_zero.mpr hq.2
   have h := (hh.mul hv).mul (hd.inv hd0)
-  simpa only [compactLogProfile, div_eq_mul_inv] using h.contDiffWithinAt
+  change ContDiffWithinAt ℝ ∞
+    (fun r : ℝ × ℝ => (r.1 : ℂ) * V.toFun r.2 *
+      ((1 + r.1 * Real.log r.2 : ℝ) : ℂ)⁻¹) logProfileDomain q
+  exact h.contDiffWithinAt
 
 def jointLogEuler (V : SmoothAnnularTest) (j : ℕ) (q : ℝ × ℝ) : ℂ :=
   eulerDerivativeOrder j (compactLogProfile V q.1) q.2
@@ -63,8 +66,9 @@ theorem contDiffOn_jointLogEuler (V : SmoothAnnularTest) (j : ℕ) :
     ContDiffOn ℝ ∞ (jointLogEuler V j) logProfileDomain := by
   induction j with
   | zero =>
-      simpa only [jointLogEuler, eulerDerivativeOrder, Function.iterate_zero_apply]
-        using contDiffOn_compactLogProfile V
+      change ContDiffOn ℝ ∞ (fun q : ℝ × ℝ => compactLogProfile V q.1 q.2)
+        logProfileDomain
+      exact contDiffOn_compactLogProfile V
   | succ j ih =>
       have hy : ContDiffOn ℝ ∞ (fun q : ℝ × ℝ => (q.2 : ℂ)) logProfileDomain :=
         ((Complex.ofRealCLM.contDiff (𝕜 := ℝ)).comp contDiff_snd).contDiffOn
@@ -83,7 +87,9 @@ theorem contDiffOn_jointLogEuler (V : SmoothAnnularTest) (j : ℕ) :
         simpa only [Function.comp_def, jointLogEuler] using
           (hdiff.hasFDerivAt.comp_hasDerivAt q.2 hline).deriv
       change eulerDerivativeOrder (j + 1) (compactLogProfile V q.1) q.2 = _
-      rw [eulerDerivativeOrder_succ, hderiv]
+      rw [eulerDerivativeOrder_succ]
+      change (q.2 : ℂ) * deriv (eulerDerivativeOrder j (compactLogProfile V q.1)) q.2 = _
+      rw [hderiv]
 
 theorem divideLogProfile_eq_compactLogProfile (V : SmoothAnnularTest)
     (hann : Function.support V.toFun ⊆ Ioo (1 : ℝ) 2)
@@ -148,7 +154,8 @@ theorem exists_uniform_divideLog_Iint_bound (V : SmoothAnnularTest)
   refine ⟨B * W + 1, by have := mul_nonneg hB.le hW; linarith, ?_⟩
   intro P hP
   let Vp := divideLogTest V hann P (show 1 < P by linarith)
-  have hsub : Icc (1 : ℝ) 2 ⊆ Ioi (0 : ℝ) := fun y hy => by linarith [hy.1]
+  have hsub : Icc (1 : ℝ) 2 ⊆ Ioi (0 : ℝ) :=
+    fun y hy => zero_lt_one.trans_le hy.1
   have heq : Iint Vp j sigma =
       ∫ y in Icc (1 : ℝ) 2, ‖eul Vp j y‖ * y ^ (-sigma - 1) := by
     apply setIntegral_eq_of_subset_of_forall_sdiff_eq_zero measurableSet_Ioi hsub

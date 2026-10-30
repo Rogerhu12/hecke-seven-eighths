@@ -204,7 +204,8 @@ theorem integral_annular_primePower_detector (V : SmoothAnnularTest)
       simp only [HigherPrimePowers.heckeAnnularPrimePowerTerm,
         idealNorm_primePowerIdeal, nonzeroIdealCoefficient, primePowerIdeal_val,
         idealCoefficient_prime_pow, Complex.ofReal_zero, zero_mul, add_zero,
-        Complex.ofReal_div, Complex.ofReal_ofNat]
+        Complex.ofReal_div, Complex.ofReal_ofNat, Complex.ofReal_one,
+        Complex.ofReal_pow, Complex.ofReal_mul, Complex.ofReal_neg]
       ring
 
 /-- Initial annular prime detector with a fully proved higher-power

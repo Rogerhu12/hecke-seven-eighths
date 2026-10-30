@@ -1,4 +1,7 @@
-import Mathlib
+import Mathlib.Analysis.Calculus.ContDiff.Basic
+import Mathlib.Analysis.Complex.Basic
+import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.MeasureTheory.Integral.Bochner.Basic
 
 /-!
 # The canonical annular test data

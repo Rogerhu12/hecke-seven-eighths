@@ -77,8 +77,9 @@ theorem contDiff_divideLogProfile (V : SmoothAnnularTest)
         ((contDiffAt_const.mul contDiffAt_id).log (by linarith : P * y ≠ 0))
     have hlog0 : (Real.log (P * y) : ℂ) ≠ 0 :=
       Complex.ofReal_ne_zero.mpr (Real.log_pos hPy).ne'
-    simpa only [divideLogProfile, div_eq_mul_inv] using
-      V.smooth.contDiffAt.mul (hlog.inv hlog0)
+    change ContDiffAt ℝ ∞
+      (fun x : ℝ => V.toFun x * (Real.log (P * x) : ℂ)⁻¹) y
+    exact V.smooth.contDiffAt.mul (hlog.inv hlog0)
   · have hz : V.toFun =ᶠ[𝓝 y] (fun _ => 0) := notMem_tsupport_iff_eventuallyEq.mp hy
     have hz' : divideLogProfile V P =ᶠ[𝓝 y] (fun _ => 0) := by
       filter_upwards [hz] with x hx

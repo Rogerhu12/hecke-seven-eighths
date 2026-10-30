@@ -47,5 +47,6 @@
   "HeckeGeneral.Analysis.PrimeWindowGeometry",
   "HeckeSkeleton.ThetaKernel.TestMellin",
   "HeckeSkeleton.HighBinSupport.ActualDenominatorMellin",
-  "HeckeSkeleton.HighBinSupport.PrimeBlockEuler"
+  "HeckeSkeleton.HighBinSupport.PrimeBlockEuler",
+  "HeckeSkeleton.HighBinSupport.LocalSeriesFactorization"
 ]

@@ -191,10 +191,8 @@ def higherPowerIdeal (pn : HeightOneSpectrum (𝓞 K) × ℕ) : NonzeroIdeal K :
 theorem higherPowerIdeal_injective : Function.Injective (higherPowerIdeal K) := by
   intro x y h
   have hpair := primePowerIdeal_injective K h
-  have hfst : x.1 = y.1 :=
-    congrArg (fun q : HeightOneSpectrum (𝓞 K) × ℕ => q.1) hpair
-  have hsnd : x.2 + 1 = y.2 + 1 :=
-    congrArg (fun q : HeightOneSpectrum (𝓞 K) × ℕ => q.2) hpair
+  have hfst := congrArg (fun q : HeightOneSpectrum (𝓞 K) × ℕ => q.1) hpair
+  have hsnd := congrArg (fun q : HeightOneSpectrum (𝓞 K) × ℕ => q.2) hpair
   exact Prod.ext hfst (Nat.add_right_cancel hsnd)
 
 theorem idealNorm_higherPowerIdeal (pn : HeightOneSpectrum (𝓞 K) × ℕ) :
@@ -317,7 +315,7 @@ theorem hecke_annular_primePower_decomposition
   have htail (p : HeightOneSpectrum (𝓞 K)) (n : ℕ) :
       f (p, n + 1) = heckeHigherAnnularTerm K chi phi P t (p, n) := by
     simp only [f, heckeAnnularPrimePowerTerm, heckeHigherAnnularTerm,
-      heckeHigherPowerTerm, powerNorm, Nat.add_assoc, Nat.reduceAdd]
+      heckeHigherPowerTerm, powerNorm, Nat.add_assoc, Nat.reduceAdd, Complex.ofReal_pow]
   have hfirst (p : HeightOneSpectrum (𝓞 K)) :
       f (p, 0) = phi ((p.asIdeal.absNorm : ℝ) / P) * primeCoefficient K chi p *
         (p.asIdeal.absNorm : ℂ) ^ (-(1 / 2 : ℂ) + (t : ℂ) * Complex.I) := by
@@ -329,8 +327,8 @@ theorem hecke_annular_primePower_decomposition
         (f (p, 0) + ∑' n : ℕ, heckeHigherAnnularTerm K chi phi P t (p, n)) := by
       apply tsum_congr
       intro p
-      rw [(hf.prod_factor p).tsum_eq_zero_add]
-      simp only [htail]
+      exact ((hf.prod_factor p).tsum_eq_zero_add).trans
+        (congrArg (fun v : ℂ => f (p, 0) + v) (tsum_congr (htail p)))
     _ = (∑' p : HeightOneSpectrum (𝓞 K), f (p, 0)) +
         ∑' p : HeightOneSpectrum (𝓞 K), ∑' n : ℕ,
           heckeHigherAnnularTerm K chi phi P t (p, n) := hzero.tsum_add hhigh.prod

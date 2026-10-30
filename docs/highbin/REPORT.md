@@ -6,7 +6,7 @@ Merged current base: `5e4c85f172c101fd0c201219c13aa28f8b520d42` (`dtests-handoff
 PR: https://github.com/Rogerhu12/hecke-seven-eighths/pull/1.
 Toolchain: Lean `4.35.0-rc3`; Mathlib `0493595ecd5da8ef14742febab99728f98e948e8`.
 
-AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-31.
+AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-30.
 
 ## Current task status
 
@@ -18,7 +18,7 @@ work session ends.
 
 | Original obligation | Implemented connection | Remaining work |
 |---|---|---|
-| HB-EULER-INITIAL | Actual prime-power quotient Fourier formula, generator sixth-unit invariance, all local finite-Poisson branches, CRT phase cancellation, initial absolute-convergence candidate | Native verification and four-ideal Euler-product rearrangement |
+| HB-EULER-INITIAL | Actual prime-power quotient Fourier formula, generator sixth-unit invariance, all local finite-Poisson branches, CRT phase cancellation, initial absolute-convergence candidate | Native verification, local-series calibration and final global identity |
 | HB-EULER-EXCEPTIONAL | Arithmetic `RowEulerData`, actual finite Laurent tables, uniform `9 q^(-10e)` estimate and a consumer of the original `HighExceptionalEulerControl` type | Native verification and the named `actualHighPresentation.euler` identification |
 | HB-NORMFORM | Actual repeated-prime conductor deficit, higher-prime-power errors, Mellin inversion, uniform shifted prime detector, radical conductor cap and exact full-correction slot product | Native verification, normalized slot estimates and actual labelled integral presentation |
 | HB-MOVE-BOUNDARY | Actual row-contour rectangle, fixed-row arbitrary-order external tail bound, original whole-bin consumer and concrete buffered-height schedule | Native verification and actual presentation provider/schedule/retained-block count |
@@ -60,7 +60,8 @@ python scripts/highbin_verify.py mellin
 python scripts/highbin_verify.py actual
 ```
 
-The first command builds the listed core files as separate Lean modules,
+The inventory command records source hashes and public declarations.
+The `core` verification command builds the listed core files as separate Lean modules,
 then asks Lean for every public declaration's exact type and transitive axiom
 set. Its allowed axioms are `propext`, `Classical.choice`, and `Quot.sound`.
 The `mellin` command separately checks four actual prime-power/Mellin modules
@@ -100,16 +101,26 @@ it does not verify subsequent edits or the arithmetic adapters.
 
 Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41116744429
 
-The complete arithmetic build in that run was still in progress at this
-checkpoint. The later canonical-type split, indexed compensation lemma,
-CRT files and new arithmetic consumers require their own new native result.
-The revised workflow checks core, Mellin and complete arithmetic in separate
-jobs so their outcomes remain visible independently.
+The complete arithmetic build in that run was still in progress at 20:20 UTC.
+At the later commit `a7dba28f38f9bb1b64dcca5a6d9f143fb51dadd9`, 48 of
+49 individual core module builds succeeded. `PrimeBlockEuler` failed because
+its complex-number import was missing; that import is now repaired, but
+its proof bodies need a fresh native check. The later public-declaration
+audit did not run, so the earlier 358-declaration audit remains the latest
+complete native core audit. `AnnularTest`, `PrimeWindowGeometry`,
+`ThetaKernel.TestMellin` and `ActualDenominatorMellin` passed individual builds
+in that later run.
 
-A local 17-source joint unit for `ActualNormFormHigherPrimePowers` completed
-with three errors in that new module. All three were repaired and a second
-check is running. The failed run is not a successful verification result.
-Joint units hoist imports and are never counted as separate-module builds.
+Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41120458916
+
+A local 40-source joint Mellin unit completed with six errors in the new
+Mellin inversion, uniform profile and prime detector modules. Those errors
+have been repaired and the revised unit is being checked. Earlier
+higher-prime-power errors no longer appeared in that run. The failed
+aggregate is not a successful verification result. Joint units hoist imports
+and are never counted as separate-module builds. Precise imports have also
+replaced a broad Mathlib import so the same canonical test definitions can
+be checked with the pinned local dependency cache.
 
 The generated `*_public_declarations.json` inventories contain source paths,
 line locations and SHA-256 hashes. The verification script checks those

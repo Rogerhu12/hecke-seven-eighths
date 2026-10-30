@@ -87,7 +87,7 @@ theorem quotientSymbol_unit_sixth (D : ThetaArithmeticData K S)
     (AlgebraicNumberTheory.PowerResidueSymbols.idealPrimeDivisors_finite K I.val.val
       (nonZeroDivisors.coe_ne_zero I.val)).fintype
   unfold quotientSymbol sIntegerSexticIdealQuotientFunction
-  rw [Finset.prod_pow]
+  rw [← Finset.prod_pow]
   apply Finset.prod_eq_one
   intro p _
   let χ := sexticResidueCharacter K D.root6 D.primitive6 D.embedding p.val

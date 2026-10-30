@@ -1,5 +1,7 @@
 import HeckeSkeleton.HighBinSupport.ActualEulerProduct
 import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeDeficit
+import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeCap
+import HeckeSkeleton.HighBinSupport.ActualRowPrimeCharacter
 import HeckeSkeleton.HighBinSupport.HighCorrectionAlgebra
 import HeckeSkeleton.HighBinSupport.ActualGaussCalibration
 import HeckeSkeleton.HighBinSupport.SelectedCompensation
@@ -58,6 +60,67 @@ def actualFullCorrectionSlot (P : ProbeData K S) (psi : HeckeCharacter K)
     (u : FrequencyRow K S) (Z : ℝ) (s w z : ℂ) (i : Fin g.slots) : ℂ :=
   ∑ p ∈ primeWindow K S g T Z i,
     windowWeight K S g Z i p * actualLocalCompensation K S P psi u s w z p
+
+def actualCompensationMainSlot (P : ProbeData K S) (g : PrimeWindowGeometry)
+    (T : Finset (HeckeCharacter K)) (u : FrequencyRow K S) (Z : ℝ)
+    (z : ℂ) (i : Fin g.slots) : ℂ :=
+  ∑ p ∈ primeWindow K S g T Z i, windowWeight K S g Z i p *
+    conj (primeCoefficient K (arithmeticRowCharacter K S P u) p.val) *
+      (p.val.asIdeal.absNorm : ℂ) ^ (z - 1)
+
+def actualRegularErrorSlot (P : ProbeData K S) (psi : HeckeCharacter K)
+    (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K))
+    (u : FrequencyRow K S) (Z : ℝ) (s w z : ℂ) (i : Fin g.slots) : ℂ :=
+  ∑ p ∈ (primeWindow K S g T Z i).filter (fun p => p ∉ exteriorSupport K S u.ideal),
+    windowWeight K S g Z i p *
+      (actualLocalCompensation K S P psi u s w z p +
+        (p.val.asIdeal.absNorm : ℂ) ^ (z - 1) *
+          conj (primeCoefficient K (arithmeticRowCharacter K S P u) p.val))
+
+def actualValuationOneSlot (P : ProbeData K S) (psi : HeckeCharacter K)
+    (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K))
+    (u : FrequencyRow K S) (Z : ℝ) (s w z : ℂ) (i : Fin g.slots) : ℂ :=
+  ∑ p ∈ (primeWindow K S g T Z i).filter (fun p => primeExponents u.ideal.val p.val = 1),
+    windowWeight K S g Z i p * actualLocalCompensation K S P psi u s w z p
+
+def actualRepeatedSlot (P : ProbeData K S) (psi : HeckeCharacter K)
+    (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K))
+    (u : FrequencyRow K S) (Z : ℝ) (s w z : ℂ) (i : Fin g.slots) : ℂ :=
+  ∑ p ∈ repeatedPrimeWindow K S u g T Z i,
+    windowWeight K S g Z i p * actualLocalCompensation K S P psi u s w z p
+
+/-- The actual complete slot, with the genuine character main term and
+all three disjoint error classes retained. The prime coefficient is
+proved zero at every row prime by the repository's arithmetic row theorem. -/
+theorem actualFullCorrectionSlot_decomposition (P : ProbeData K S)
+    (psi : HeckeCharacter K) (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K))
+    (u : FrequencyRow K S) (Z : ℝ) (s w z : ℂ) (i : Fin g.slots) :
+    actualFullCorrectionSlot K S P psi g T u Z s w z i =
+      -actualCompensationMainSlot K S P g T u Z z i +
+        actualRegularErrorSlot K S P psi g T u Z s w z i +
+        actualValuationOneSlot K S P psi g T u Z s w z i +
+        actualRepeatedSlot K S P psi g T u Z s w z i := by
+  unfold actualFullCorrectionSlot actualCompensationMainSlot actualRegularErrorSlot
+    actualValuationOneSlot actualRepeatedSlot repeatedPrimeWindow
+  simp only [Finset.sum_filter, ← Finset.sum_neg_distrib, ← Finset.sum_add_distrib]
+  apply Finset.sum_congr rfl
+  intro p hp
+  have hrow : p ∈ exteriorSupport K S u.ideal ↔ primeExponents u.ideal.val p.val ≠ 0 := by
+    rw [mem_exteriorSupport_iff, ← mem_idealPrimeSupport_iff]
+    exact Finsupp.mem_support_iff
+  by_cases hmem : p ∈ exteriorSupport K S u.ideal
+  · have hn : primeExponents u.ideal.val p.val ≠ 0 := hrow.mp hmem
+    have hzero : primeCoefficient K (arithmeticRowCharacter K S P u) p.val = 0 :=
+      RowPrimeCharacter.row_primeCoefficient_eq_zero_of_dvd K S P
+        (arithmeticRowCharacterInput K S P) u p ((mem_exteriorSupport_iff K S u.ideal p).mp hmem)
+    by_cases hone : primeExponents u.ideal.val p.val = 1
+    · simp [hmem, hone, hzero]
+    · have htwo : 2 ≤ primeExponents u.ideal.val p.val := by omega
+      simp [hmem, hone, htwo, hzero]
+  · have hval : primeExponents u.ideal.val p.val = 0 := by
+      by_contra hn
+      exact hmem (hrow.mpr hn)
+    simp [hmem, hval] <;> ring
 
 /-- The literal regular error after the two leading terms have cancelled.
 The denominator consists only of the genuine Euler denominators and the
@@ -314,6 +377,306 @@ theorem actualLocalCompensation_valuation_one_bound (P : ProbeData K S)
       rw [mul_left_comm, ← Real.rpow_add hq0]
       norm_num
 
+def regularCompensationErrorConstant : ℝ :=
+  (32 + 16 * (11 / sweptTubeEulerMargin)) / sweptTubeEulerMargin
+
+theorem regularCompensationErrorConstant_pos : 0 < regularCompensationErrorConstant := by
+  unfold regularCompensationErrorConstant
+  exact div_pos (by have := sweptTubeEulerMargin_pos; positivity) sweptTubeEulerMargin_pos
+
+/-- The displayed error is genuinely smaller by a square root. All
+coordinate estimates are read from the actual dynamic contour, and the
+actual unmarked Euler error supplies the remaining term. -/
+theorem actualRegularCompensationError_norm_le (P : ProbeData K S)
+    (psi : HeckeCharacter K) (u : FrequencyRow K S)
+    {a e : ℝ} (ha : 51 / 100 ≤ a) (ha1 : a ≤ 1)
+    (he : 0 < e) (he1 : e ≤ 1 / 10000)
+    (s w z : ℂ) (hs : s.re = a + 16 * e)
+    (hw : w.re = 1 - a - 6 * e) (hz : z.re = 17 / 50)
+    (p : ExteriorPrime K S) (hp : p ∉ exteriorSupport K S u.ideal)
+    (hclose : ‖actualLocalUnmarked K S P psi u s w z p - 1‖ ≤ 1 / 2) :
+    ‖actualRegularCompensationError K S P psi u s w z p‖ ≤
+      regularCompensationErrorConstant * (p.val.asIdeal.absNorm : ℝ) ^ (-(1 / 2 : ℝ)) := by
+  let q : ℝ := (p.val.asIdeal.absNorm : ℝ)
+  let V := (q : ℂ) ^ (-6 * z)
+  let W := rowW K S P u p * (q : ℂ) ^ (-w)
+  let D := rowD K S P psi u p * (q : ℂ) ^ (-s)
+  let E := rowE K S P psi p * (q : ℂ) ^ (4 - 6 * s) * V
+  let H := actualLocalUnmarked K S P psi u s w z p
+  let M := conj (primeCoefficient K psi p.val) * (q : ℂ) ^ s
+  let c := conj (rowW K S P u p)
+  let A := (1 - (q : ℂ)⁻¹) + W * (1 - V)
+  let B := (1 - V) + ((q : ℂ) - 1) * W * V
+  let den := (1 - E) * (1 - D)
+  let C0 : ℝ := 11 / sweptTubeEulerMargin
+  let b : ℝ := q ^ (-(1 / 2 : ℝ) - 7 * e)
+  have hq : 2 ≤ q := exteriorPrime_norm_two_le K S p
+  have hq0 : 0 < q := by linarith
+  have hq1 : 1 ≤ q := by linarith
+  have hC0 : 0 ≤ C0 := div_nonneg (by norm_num) sweptTubeEulerMargin_pos.le
+  have hb : 0 ≤ b := Real.rpow_nonneg hq0.le _
+  have hv := swept_contour_mem_tube he le_rfl s w z hs hw hz
+  obtain ⟨hV, hW, hD, hE⟩ := phase_coordinate_bounds hq
+    (rowW K S P u p) (rowD K S P psi u p) (rowE K S P psi p) s w z
+    (rowW_norm K S P u p) (rowD_norm K S P psi u p) (rowE_norm K S P psi p)
+    hv.1.le hv.2.1.le hv.2.2.le
+  change ‖V‖ ≤ q ^ (-(51 / 25 : ℝ) + 6 * e) at hV
+  change ‖W‖ ≤ q ^ (a - 1 + 7 * e) at hW
+  change ‖D‖ ≤ q ^ (-a - 15 * e) at hD
+  change ‖E‖ ≤ q ^ (49 / 25 - 6 * a - 84 * e) at hE
+  have hc : ‖c‖ ≤ 1 := by
+    simpa only [c, Complex.norm_conj] using rowW_norm K S P u p
+  have hM : ‖M‖ ≤ q ^ (a + 16 * e) := by
+    dsimp only [M]
+    rw [norm_mul, Complex.norm_conj, Complex.norm_cpow_eq_rpow_re_of_pos hq0, hs]
+    exact (mul_le_mul_of_nonneg_right (norm_primeCoefficient_le_one K psi p.val)
+      (Real.rpow_nonneg hq0.le _)).trans_eq (one_mul _)
+  have mul_bound {X Y : ℂ} {x y : ℝ}
+      (hX : ‖X‖ ≤ q ^ x) (hY : ‖Y‖ ≤ q ^ y) : ‖X * Y‖ ≤ q ^ (x + y) := by
+    rw [norm_mul, Real.rpow_add hq0]
+    exact mul_le_mul hX hY (norm_nonneg _) (Real.rpow_nonneg hq0.le _)
+  have lower {X : ℂ} {x : ℝ} (hX : ‖X‖ ≤ q ^ x)
+      (hx : x ≤ -(1 / 2 : ℝ) - 7 * e) : ‖X‖ ≤ b :=
+    hX.trans (Real.rpow_le_rpow_of_exponent_le hq1 hx)
+  have hWsmall : ‖W‖ ≤ q ^ (7 * e) := hW.trans
+    (Real.rpow_le_rpow_of_exponent_le hq1 (by linarith))
+  have hWone : 1 ≤ q ^ (7 * e) := Real.one_le_rpow hq1 (by linarith)
+  have hVone : ‖V‖ ≤ 1 := hV.trans (by
+    simpa only [Real.rpow_zero] using Real.rpow_le_rpow_of_exponent_le hq1
+      (show -(51 / 25 : ℝ) + 6 * e ≤ 0 by linarith))
+  have hDone : ‖D‖ ≤ 1 := hD.trans (by
+    simpa only [Real.rpow_zero] using Real.rpow_le_rpow_of_exponent_le hq1
+      (show -a - 15 * e ≤ 0 by linarith))
+  have hEone : ‖E‖ ≤ 1 := hE.trans (by
+    simpa only [Real.rpow_zero] using Real.rpow_le_rpow_of_exponent_le hq1
+      (show 49 / 25 - 6 * a - 84 * e ≤ 0 by linarith))
+  have h1W : ‖1 - W‖ ≤ 2 * q ^ (7 * e) := by
+    have h := norm_sub_le (1 : ℂ) W
+    rw [norm_one] at h
+    linarith
+  have h1V : ‖1 - V‖ ≤ 2 := by
+    have h := norm_sub_le (1 : ℂ) V
+    rw [norm_one] at h
+    linarith
+  have hA : ‖A‖ ≤ 3 * q ^ (7 * e) := by
+    have hterm := (norm_mul W (1 - V)).trans_le
+      (mul_le_mul hWsmall h1V (norm_nonneg _) (Real.rpow_nonneg hq0.le _))
+    have h := norm_add_le ((1 : ℂ) - (q : ℂ)⁻¹) (W * (1 - V))
+    have hqi := norm_one_sub_inv_le_one q hq1
+    change ‖A‖ ≤ _ at h
+    linarith
+  have hdenUpper : ‖den‖ ≤ 4 := by
+    have h1E : ‖1 - E‖ ≤ 2 := by
+      have h := norm_sub_le (1 : ℂ) E
+      rw [norm_one] at h
+      linarith
+    have h1D : ‖1 - D‖ ≤ 2 := by
+      have h := norm_sub_le (1 : ℂ) D
+      rw [norm_one] at h
+      linarith
+    dsimp only [den]
+    rw [norm_mul]
+    exact (mul_le_mul h1E h1D (norm_nonneg _) (by norm_num)).trans_eq (by norm_num)
+  have hDd : ‖D‖ ≤ (2 : ℝ) ^ (-(1 / 2 : ℝ)) :=
+    (hD.trans (Real.rpow_le_rpow_of_exponent_le hq1 (by linarith))).trans
+      (Real.rpow_le_rpow_of_nonpos (by norm_num) hq (by norm_num))
+  have hEe : ‖E‖ ≤ (1 / 2 : ℝ) := by
+    apply (hE.trans (Real.rpow_le_rpow_of_exponent_le hq1
+      (show 49 / 25 - 6 * a - 84 * e ≤ -1 by linarith))).trans
+    simpa only [Real.rpow_neg_one, one_div] using
+      Real.rpow_le_rpow_of_nonpos (by norm_num : (0 : ℝ) < 2) hq
+        (by norm_num : (-1 : ℝ) ≤ 0)
+  have hdenLower : sweptTubeEulerMargin ≤ ‖den‖ := by
+    have hEgap : 1 - (1 / 2 : ℝ) ≤ ‖1 - E‖ := by
+      have h := norm_sub_norm_le (1 : ℂ) E
+      rw [norm_one] at h
+      linarith
+    have hDgap : 1 - (2 : ℝ) ^ (-(1 / 2 : ℝ)) ≤ ‖1 - D‖ := by
+      have h := norm_sub_norm_le (1 : ℂ) D
+      rw [norm_one] at h
+      linarith
+    have hgap : 0 ≤ 1 - (2 : ℝ) ^ (-(1 / 2 : ℝ)) := by
+      have := Real.rpow_lt_one_of_one_lt_of_neg
+        (by norm_num : (1 : ℝ) < 2) (by norm_num : (-(1 / 2 : ℝ)) < 0)
+      linarith
+    dsimp only [den, sweptTubeEulerMargin]
+    rw [norm_mul, mul_comm (1 - (2 : ℝ) ^ (-(1 / 2 : ℝ)))]
+    exact mul_le_mul hEgap hDgap hgap (norm_nonneg _)
+  have hHerr : ‖H - 1‖ ≤ C0 * q ^ (-1 - 8 * e) := by
+    dsimp only [H, actualLocalUnmarked]
+    rw [localFactor_eq_explicit K S P psi ∅ u ha he.le p (s, w, z) hv]
+    simp only [explicitLocalEuler, if_neg hp, Finset.notMem_empty, if_false, sub_zero]
+    exact phaseRowEuler_sweptTube_bound hq ha ha1 he.le he1
+      (rowW K S P u p) (rowD K S P psi u p) (rowE K S P psi p)
+      (rowW_norm K S P u p) (rowD_norm K S P psi u p) (rowE_norm K S P psi p)
+      (s, w, z) hv
+  have hdenErr : ‖den * (H - 1)‖ ≤ (4 * C0) * b := by
+    rw [norm_mul]
+    calc
+      _ ≤ 4 * (C0 * q ^ (-1 - 8 * e)) :=
+        mul_le_mul hdenUpper hHerr (norm_nonneg _) (by norm_num)
+      _ = (4 * C0) * q ^ (-1 - 8 * e) := by ring
+      _ ≤ _ := mul_le_mul_of_nonneg_left
+        (Real.rpow_le_rpow_of_exponent_le hq1 (by linarith)) (by positivity)
+  have hqm : ‖(q : ℂ) - 1‖ ≤ q ^ (1 : ℝ) := by
+    rw [← Complex.ofReal_one, ← Complex.ofReal_sub, Complex.norm_real,
+      Real.norm_of_nonneg (by linarith : 0 ≤ q - 1), Real.rpow_one]
+    linarith
+  have hEb : ‖E‖ ≤ b := lower hE (by linarith)
+  have hDb : ‖D‖ ≤ b := lower hD (by linarith)
+  have hEDb : ‖E * D‖ ≤ b := lower (mul_bound hE hD) (by linarith)
+  have hVb : ‖V‖ ≤ b := lower hV (by linarith)
+  have hWVb : ‖((q : ℂ) - 1) * W * V‖ ≤ b :=
+    lower (mul_bound (mul_bound hqm hW) hV) (by linarith)
+  have hrest : ‖den * H - B‖ ≤ (4 * C0 + 5) * b := by
+    have heq : den * H - B =
+        den * (H - 1) - E - D + E * D + V - ((q : ℂ) - 1) * W * V := by
+      dsimp only [den, B]
+      ring
+    rw [heq]
+    have h1 := norm_sub_le (den * (H - 1)) E
+    have h2 := norm_sub_le (den * (H - 1) - E) D
+    have h3 := norm_add_le (den * (H - 1) - E - D) (E * D)
+    have h4 := norm_add_le (den * (H - 1) - E - D + E * D) V
+    have h5 := norm_sub_le (den * (H - 1) - E - D + E * D + V) (((q : ℂ) - 1) * W * V)
+    nlinarith
+  have hMEA : ‖M * E * A‖ ≤ 3 * b := by
+    rw [norm_mul (M * E) A]
+    calc
+      _ ≤ q ^ ((a + 16 * e) + (49 / 25 - 6 * a - 84 * e)) *
+          (3 * q ^ (7 * e)) :=
+        mul_le_mul (mul_bound hM hE) hA (norm_nonneg _) (Real.rpow_nonneg hq0.le _)
+      _ = 3 * q ^ (((a + 16 * e) + (49 / 25 - 6 * a - 84 * e)) + 7 * e) := by
+        rw [mul_left_comm, ← Real.rpow_add hq0]
+      _ ≤ _ := mul_le_mul_of_nonneg_left
+        (Real.rpow_le_rpow_of_exponent_le hq1 (by linarith)) (by norm_num)
+  have hinner : ‖M * E * A + c * (den * H - B)‖ ≤ (8 + 4 * C0) * b := by
+    have hcRest : ‖c * (den * H - B)‖ ≤ (4 * C0 + 5) * b := by
+      rw [norm_mul]
+      exact (mul_le_mul hc hrest (norm_nonneg _) (by norm_num)).trans_eq (one_mul _)
+    have h := norm_add_le (M * E * A) (c * (den * H - B))
+    nlinarith
+  have hnum : ‖(1 - W) * (M * E * A + c * (den * H - B))‖ ≤
+      (16 + 8 * C0) * q ^ (-(1 / 2 : ℝ)) := by
+    rw [norm_mul]
+    calc
+      _ ≤ (2 * q ^ (7 * e)) * ((8 + 4 * C0) * b) :=
+        mul_le_mul h1W hinner (norm_nonneg _) (by positivity)
+      _ = (16 + 8 * C0) * (q ^ (7 * e) * q ^ (-(1 / 2 : ℝ) - 7 * e)) := by
+        dsimp only [b]
+        ring
+      _ = _ := by
+        rw [← Real.rpow_add hq0]
+        congr 2
+        ring
+  have hdenH : sweptTubeEulerMargin / 2 ≤ ‖den * H‖ := by
+    rw [norm_mul]
+    have hHlow := HighBin.SelectedCompensation.norm_lower_of_close_one H hclose
+    have h := mul_le_mul hdenLower hHlow (by norm_num : (0 : ℝ) ≤ 1 / 2)
+      (norm_nonneg den)
+    simpa only [div_eq_mul_inv, one_div] using h
+  change ‖((1 - W) * (M * E * A + c * (den * H - B))) / (den * H)‖ ≤ _
+  rw [norm_div]
+  calc
+    _ ≤ ((16 + 8 * C0) * q ^ (-(1 / 2 : ℝ))) / (sweptTubeEulerMargin / 2) :=
+      div_le_div₀ (by positivity) hnum (half_pos sweptTubeEulerMargin_pos) hdenH
+    _ = _ := by
+      dsimp only [regularCompensationErrorConstant, C0, q]
+      field_simp [sweptTubeEulerMargin_pos.ne'] <;> ring
+
+/-- The complete regular local factor equals its genuine prime-character
+main term with an error of order q^(-29/25) on the final contour. -/
+theorem actualLocalCompensation_regular_error_bound (P : ProbeData K S)
+    (psi : HeckeCharacter K) (u : FrequencyRow K S)
+    {a e : ℝ} (ha : 51 / 100 ≤ a) (ha1 : a ≤ 1)
+    (he : 0 < e) (he1 : e ≤ 1 / 10000)
+    (s w z : ℂ) (hs : s.re = a + 16 * e)
+    (hw : w.re = 1 - a - 6 * e) (hz : z.re = 17 / 50)
+    (p : ExteriorPrime K S) (hp : p ∉ exteriorSupport K S u.ideal)
+    (hpsi : UnramifiedAt K psi p.val)
+    (hclose : ‖actualLocalUnmarked K S P psi u s w z p - 1‖ ≤ 1 / 2) :
+    ‖actualLocalCompensation K S P psi u s w z p +
+      (p.val.asIdeal.absNorm : ℂ) ^ (z - 1) *
+        conj (primeCoefficient K (arithmeticRowCharacter K S P u) p.val)‖ ≤
+      regularCompensationErrorConstant * (p.val.asIdeal.absNorm : ℝ) ^ (-(29 / 25 : ℝ)) := by
+  have hq := exteriorPrime_norm_two_le K S p
+  have hq0 : (0 : ℝ) < p.val.asIdeal.absNorm := by linarith
+  have hH : actualLocalUnmarked K S P psi u s w z p ≠ 0 := by
+    intro hzero
+    simp only [hzero, zero_sub, norm_neg, norm_one] at hclose
+    norm_num at hclose
+  have hv := swept_contour_mem_tube he le_rfl s w z hs hw hz
+  rw [actualLocalCompensation_regular_main K S P psi u ha he.le s w z hv p hp hpsi hH]
+  have heq : (p.val.asIdeal.absNorm : ℂ) ^ (z - 1) *
+        (-conj (primeCoefficient K (arithmeticRowCharacter K S P u) p.val) +
+          actualRegularCompensationError K S P psi u s w z p) +
+      (p.val.asIdeal.absNorm : ℂ) ^ (z - 1) *
+        conj (primeCoefficient K (arithmeticRowCharacter K S P u) p.val) =
+      (p.val.asIdeal.absNorm : ℂ) ^ (z - 1) *
+        actualRegularCompensationError K S P psi u s w z p := by ring
+  rw [heq, norm_mul, ← Complex.ofReal_natCast,
+    Complex.norm_cpow_eq_rpow_re_of_pos hq0]
+  have hb := actualRegularCompensationError_norm_le K S P psi u ha ha1 he he1
+    s w z hs hw hz p hp hclose
+  have hre : (z - 1).re = -(33 / 50 : ℝ) := by
+    simp only [Complex.sub_re, Complex.one_re, hz]
+    ring
+  rw [hre]
+  calc
+    _ ≤ (p.val.asIdeal.absNorm : ℝ) ^ (-(33 / 50 : ℝ)) *
+        (regularCompensationErrorConstant * (p.val.asIdeal.absNorm : ℝ) ^ (-(1 / 2 : ℝ))) :=
+      mul_le_mul_of_nonneg_left hb (Real.rpow_nonneg hq0.le _)
+    _ = _ := by
+      rw [mul_left_comm, ← Real.rpow_add hq0]
+      norm_num
+
+def regularPrimeErrorMass (delta : ℝ) : ℝ :=
+  (∑' p : ExteriorPrime K S, (p.val.asIdeal.absNorm : ℝ) ^ (-(1 + delta))) + 1
+
+theorem regularPrimeErrorMass_pos (delta : ℝ) : 0 < regularPrimeErrorMass K S delta := by
+  apply add_pos_of_nonneg_of_pos
+  · exact tsum_nonneg (fun p => Real.rpow_nonneg (Nat.cast_nonneg _) _)
+  · exact zero_lt_one
+
+/-- The regular local error is summed using ideal-norm summability,
+not a prime-counting estimate. Its entire prime window costs an
+arbitrarily small power beyond P^(-4/25). -/
+theorem regular_prime_error_sum_le (F : Finset (ExteriorPrime K S))
+    {P delta : ℝ} (hP : 0 < P) (hdelta : 0 < delta) (hdelta1 : delta ≤ 4 / 25)
+    (hF : ∀ p ∈ F, P ≤ (p.val.asIdeal.absNorm : ℝ)) :
+    (∑ p ∈ F, (p.val.asIdeal.absNorm : ℝ) ^ (-(29 / 25 : ℝ))) ≤
+      regularPrimeErrorMass K S delta * P ^ (-(4 / 25 : ℝ) + delta) := by
+  have hp : Summable (fun p : HeightOneSpectrum (𝓞 K) =>
+      (p.asIdeal.absNorm : ℝ) ^ (-(1 + delta))) := by
+    simpa only [Function.comp_def, primeNonzeroIdeal] using
+      (summable_nonzeroIdeal_norm_rpow K (show 1 < 1 + delta by linarith)).comp_injective
+        (primeNonzeroIdeal_injective K)
+  have hs : Summable (fun p : ExteriorPrime K S =>
+      (p.val.asIdeal.absNorm : ℝ) ^ (-(1 + delta))) := hp.comp_injective Subtype.val_injective
+  have hterm : ∀ p ∈ F, (p.val.asIdeal.absNorm : ℝ) ^ (-(29 / 25 : ℝ)) ≤
+      P ^ (-(4 / 25 : ℝ) + delta) * (p.val.asIdeal.absNorm : ℝ) ^ (-(1 + delta)) := by
+    intro p hmem
+    have hq : (0 : ℝ) < p.val.asIdeal.absNorm := hP.trans_le (hF p hmem)
+    calc
+      _ = (p.val.asIdeal.absNorm : ℝ) ^ (-(4 / 25 : ℝ) + delta) *
+          (p.val.asIdeal.absNorm : ℝ) ^ (-(1 + delta)) := by
+        rw [← Real.rpow_add hq]
+        congr 1
+        ring
+      _ ≤ _ := mul_le_mul_of_nonneg_right
+        (Real.rpow_le_rpow_of_nonpos hP (hF p hmem) (by linarith))
+        (Real.rpow_nonneg hq.le _)
+  calc
+    _ ≤ ∑ p ∈ F, P ^ (-(4 / 25 : ℝ) + delta) *
+        (p.val.asIdeal.absNorm : ℝ) ^ (-(1 + delta)) := Finset.sum_le_sum hterm
+    _ = P ^ (-(4 / 25 : ℝ) + delta) *
+        ∑ p ∈ F, (p.val.asIdeal.absNorm : ℝ) ^ (-(1 + delta)) := (Finset.mul_sum ..).symm
+    _ ≤ P ^ (-(4 / 25 : ℝ) + delta) * regularPrimeErrorMass K S delta := by
+      apply mul_le_mul_of_nonneg_left _ (Real.rpow_nonneg hP.le _)
+      exact (hs.sum_le_tsum F (fun p _ => Real.rpow_nonneg (Nat.cast_nonneg _) _)).trans
+        (le_add_of_nonneg_right zero_le_one)
+    _ = _ := mul_comm _ _
+
 theorem actual_localFactor_splice (P : ProbeData K S) (psi : HeckeCharacter K)
     (Q : Finset (ExteriorPrime K S)) (u : FrequencyRow K S)
     {a e : ℝ} (ha : 51 / 100 ≤ a) (he : 0 ≤ e)
@@ -392,16 +755,17 @@ theorem actual_unmarked_norm_sub_one_le (P : ProbeData K S) (psi : HeckeCharacte
       (Real.rpow_le_rpow_of_exponent_le hq1 (by linarith : -1 - 8 * e ≤ -8 * e)) hc).trans
         (mul_le_mul_of_nonneg_right (by linarith) (Real.rpow_nonneg hq0 _)))
 
-/-- Every selected local denominator is nonzero after one fixed scale
-cutoff, including the repeated and valuation-one row primes. -/
-theorem exists_window_unmarked_nonzero (g : PrimeWindowGeometry)
+/-- One scale cutoff supplies both the actual local denominator margin
+and the explicit scalar cutoff in every ramified finite-table bound. -/
+theorem exists_window_local_cutoff (g : PrimeWindowGeometry)
     {e : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000) :
     ∃ Z0 : ℝ, 1 ≤ Z0 ∧ ∀ Z : ℝ, Z0 ≤ Z →
       ∀ (P : ProbeData K S) (psi : HeckeCharacter K) (T : Finset (HeckeCharacter K))
         (u : FrequencyRow K S) (a : ℝ), 51 / 100 ≤ a → a ≤ 1 →
       ∀ s w z : ℂ, (s, w, z) ∈ sweptTube a e →
       ∀ i : Fin g.slots, ∀ p ∈ primeWindow K S g T Z i,
-        actualLocalUnmarked K S P psi u s w z p ≠ 0 := by
+        ‖actualLocalUnmarked K S P psi u s w z p - 1‖ ≤ 1 / 2 ∧
+          9 * (p.val.asIdeal.absNorm : ℝ) ^ (-10 * e) ≤ 1 / 2 := by
   let B : ℝ := 9 + 11 / sweptTubeEulerMargin
   have ht : Tendsto (fun q : ℝ => B * q ^ (-8 * e)) atTop (𝓝 0) := by
     have h := (tendsto_rpow_neg_atTop (show 0 < 8 * e by linarith)).const_mul B
@@ -419,9 +783,323 @@ theorem exists_window_unmarked_nonzero (g : PrimeWindowGeometry)
     hX.trans (actual_primeWindow_norm_range K S g T Z i p hp).2.1.le
   have hb := (actual_unmarked_norm_sub_one_le K S P psi u ha ha1 he.le he1 s w z hv p).trans
     (hX0 _ hq)
+  refine ⟨hb, ?_⟩
+  have hq1 : (1 : ℝ) ≤ p.val.asIdeal.absNorm :=
+    (by norm_num : (1 : ℝ) ≤ 2).trans (exteriorPrime_norm_two_le K S p)
+  calc
+    _ ≤ 9 * (p.val.asIdeal.absNorm : ℝ) ^ (-8 * e) :=
+      mul_le_mul_of_nonneg_left
+        (Real.rpow_le_rpow_of_exponent_le hq1 (by linarith)) (by norm_num)
+    _ ≤ B * (p.val.asIdeal.absNorm : ℝ) ^ (-8 * e) :=
+      mul_le_mul_of_nonneg_right (by
+        dsimp only [B]
+        have := div_nonneg (by norm_num : (0 : ℝ) ≤ 11) sweptTubeEulerMargin_pos.le
+        linarith) (Real.rpow_nonneg (Nat.cast_nonneg _) _)
+    _ ≤ _ := hX0 _ hq
+
+/-- Every selected local denominator is nonzero after one fixed scale
+cutoff, including the repeated and valuation-one row primes. -/
+theorem exists_window_unmarked_nonzero (g : PrimeWindowGeometry)
+    {e : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000) :
+    ∃ Z0 : ℝ, 1 ≤ Z0 ∧ ∀ Z : ℝ, Z0 ≤ Z →
+      ∀ (P : ProbeData K S) (psi : HeckeCharacter K) (T : Finset (HeckeCharacter K))
+        (u : FrequencyRow K S) (a : ℝ), 51 / 100 ≤ a → a ≤ 1 →
+      ∀ s w z : ℂ, (s, w, z) ∈ sweptTube a e →
+      ∀ i : Fin g.slots, ∀ p ∈ primeWindow K S g T Z i,
+        actualLocalUnmarked K S P psi u s w z p ≠ 0 := by
+  obtain ⟨Z0, hZ0, hbound⟩ := exists_window_local_cutoff K S g he he1
+  refine ⟨Z0, hZ0, ?_⟩
+  intro Z hZ P psi T u a ha ha1 s w z hv i p hp
+  have hb := (hbound Z hZ P psi T u a ha ha1 s w z hv i p hp).1
   intro hz
   rw [hz, zero_sub, norm_neg, norm_one] at hb
   norm_num at hb
+
+/-- All three actual local cases, with one common cutoff fixed before
+the target, row, contour and selected prime. Target unramifiedness is the
+original outside-S arithmetic property; no local norm estimate is an
+input. -/
+theorem exists_actual_local_compensation_bounds (g : PrimeWindowGeometry)
+    {e : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000) :
+    ∃ Z0 : ℝ, 1 ≤ Z0 ∧ ∀ Z : ℝ, Z0 ≤ Z →
+      ∀ (P : ProbeData K S) (psi : HeckeCharacter K),
+      ThetaCalibrationInput K S P.arithmetic P.Lambda P.G →
+      (∀ p : ExteriorPrime K S, UnramifiedAt K psi p.val) →
+      ∀ (T : Finset (HeckeCharacter K)) (u : FrequencyRow K S)
+        (a : ℝ), 51 / 100 ≤ a → a ≤ 1 →
+      ∀ s w z : ℂ, s.re = a + 16 * e → w.re = 1 - a - 6 * e → z.re = 17 / 50 →
+      ∀ i : Fin g.slots, ∀ p ∈ primeWindow K S g T Z i,
+        (p ∉ exteriorSupport K S u.ideal →
+          ‖actualLocalCompensation K S P psi u s w z p +
+            (p.val.asIdeal.absNorm : ℂ) ^ (z - 1) *
+              conj (primeCoefficient K (arithmeticRowCharacter K S P u) p.val)‖ ≤
+            regularCompensationErrorConstant *
+              (p.val.asIdeal.absNorm : ℝ) ^ (-(29 / 25 : ℝ))) ∧
+        (primeExponents u.ideal.val p.val = 1 →
+          ‖actualLocalCompensation K S P psi u s w z p‖ ≤
+            13 * (p.val.asIdeal.absNorm : ℝ) ^ (-(4 / 25 : ℝ))) ∧
+        (2 ≤ primeExponents u.ideal.val p.val →
+          ‖actualLocalCompensation K S P psi u s w z p‖ ≤
+            19 * (p.val.asIdeal.absNorm : ℝ) ^ (a - 33 / 50 + 6 * e)) := by
+  obtain ⟨Z0, hZ0, hcut⟩ := exists_window_local_cutoff K S g he he1
+  refine ⟨Z0, hZ0, ?_⟩
+  intro Z hZ P psi hcal hpsi T u a ha ha1 s w z hs hw hz i p hp
+  have hv := swept_contour_mem_tube he le_rfl s w z hs hw hz
+  obtain ⟨hclose, hscalar⟩ := hcut Z hZ P psi T u a ha ha1 s w z hv i p hp
+  have hrow (hn : primeExponents u.ideal.val p.val ≠ 0) :
+      p ∈ exteriorSupport K S u.ideal := by
+    apply (mem_exteriorSupport_iff K S u.ideal p).mpr
+    apply (mem_idealPrimeSupport_iff K u.ideal.val p.val).mp
+    exact Finsupp.mem_support_iff.mpr hn
+  refine ⟨?_, ?_, ?_⟩
+  · intro hreg
+    exact actualLocalCompensation_regular_error_bound K S P psi u ha ha1 he he1
+      s w z hs hw hz p hreg (hpsi p) hclose
+  · intro hone
+    exact actualLocalCompensation_valuation_one_bound K S P psi hcal u ha ha1 he
+      (by linarith) s w z hs hw hz p (hrow (by omega)) hone hscalar
+  · intro hrepeat
+    exact actualLocalCompensation_ramified_bound K S P psi hcal u ha he
+      s w z hs hw hz p (hrow (by omega)) hscalar
+
+/-- The main slot of the actual full correction consumes the actual
+zero-free prime cap. Membership of the conjugate row is derived from
+the original companion 1 and the constructed Euler provider. -/
+theorem exists_actualCompensationMainSlot_cap
+    (psi : HeckeCharacter K) (companions : Finset (HeckeCharacter K))
+    (hcomp : (1 : HeckeCharacter K) ∈ companions)
+    (P : ProbeData K S) (g : PrimeWindowGeometry)
+    {e eps kappa : ℝ} (he : 0 < e) (he' : e < 1 / 1000)
+    (heps : 0 < eps) (hkappa : 0 < kappa) :
+    ∃ C Z0 : ℝ, 0 < C ∧ 1 ≤ Z0 ∧
+      ∀ Z T : ℝ, Z0 ≤ Z → ∀ d : ℝ, (1 / 16 : ℝ) ≤ d →
+      ∀ u : FrequencyRow K S, Z ^ d ≤ frequencyRowNorm K S u →
+      ∀ a U : ℝ, ∀ z : ℂ, 1 / 2 ≤ a → a ≤ 1 → z.re = 17 / 50 →
+      NormForm.internalHeight Z T kappa + |z.im| + 2 ≤ U →
+      rowZeroBelow K S psi companions P (arithmeticHighEulerData K S P psi) u U (a + 2 * e) →
+      ∀ i : Fin g.slots,
+        ‖actualCompensationMainSlot K S P g ∅ u Z z i‖ ≤
+          C * (u.ideal.val.val.radical.absNorm : ℝ) ^ eps *
+            (2 + U) ^ (((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) * eps) *
+            (primeScale g Z) ^ (a - 33 / 50 + 8 * e) := by
+  obtain ⟨C, Z0, hC, hZ0, hcap⟩ := NormFormPrimeCap.exists_actual_compensation_main_cap
+    K S psi companions P (arithmeticHighEulerData K S P psi) g he he' heps hkappa
+  refine ⟨C, Z0, hC, hZ0, ?_⟩
+  intro Z T hZ d hd u hu a U z ha ha1 hz hU hbelow i
+  have hmem : conjugate (arithmeticRowCharacter K S P u) ∈
+      physicalRowFamily K S psi companions P (arithmeticHighEulerData K S P psi) u := by
+    apply Finset.mem_biUnion.mpr
+    refine ⟨1, hcomp, ?_⟩
+    simp
+  have h := hcap Z T hZ d hd u hu a U z ha ha1 hz hU hbelow
+    (conjugate (arithmeticRowCharacter K S P u)) hmem i
+  simpa only [actualCompensationMainSlot, conjugate, primeCoefficient_inv] using h
+
+theorem exists_actualRegularErrorSlot_bound (g : PrimeWindowGeometry)
+    {e eta : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000) (heta : 0 < eta) :
+    ∃ C Z0 : ℝ, 0 < C ∧ 1 ≤ Z0 ∧ ∀ Z : ℝ, Z0 ≤ Z →
+      ∀ (P : ProbeData K S) (psi : HeckeCharacter K),
+      (∀ p : ExteriorPrime K S, UnramifiedAt K psi p.val) →
+      ∀ (T : Finset (HeckeCharacter K)) (u : FrequencyRow K S)
+        (a : ℝ), 51 / 100 ≤ a → a ≤ 1 →
+      ∀ s w z : ℂ, s.re = a + 16 * e → w.re = 1 - a - 6 * e → z.re = 17 / 50 →
+      ∀ i : Fin g.slots,
+        ‖actualRegularErrorSlot K S P psi g T u Z s w z i‖ ≤
+          C * (primeScale g Z) ^ (-(4 / 25 : ℝ) + eta) := by
+  obtain ⟨Z1, hZ1, hcut⟩ := exists_window_local_cutoff K S g he he1
+  obtain ⟨Z2, hZ2, hscale⟩ := NormFormPrimeCap.exists_primeScale_cutoff g
+  obtain ⟨M, hM, hprofile⟩ := exists_primeWindow_profile_norm_bound g
+  let delta : ℝ := min eta (2 / 25)
+  have hdelta : 0 < delta := lt_min heta (by norm_num)
+  have hdelta1 : delta ≤ 4 / 25 := (min_le_right eta (2 / 25)).trans (by norm_num)
+  let C : ℝ := M * regularCompensationErrorConstant * regularPrimeErrorMass K S delta
+  have hC : 0 < C := mul_pos (mul_pos hM regularCompensationErrorConstant_pos)
+    (regularPrimeErrorMass_pos K S delta)
+  refine ⟨C, max Z1 Z2, hC, hZ1.trans (le_max_left _ _), ?_⟩
+  intro Z hZ P psi hpsi T u a ha ha1 s w z hs hw hz i
+  have hZZ1 : Z1 ≤ Z := (le_max_left _ _).trans hZ
+  have hZZ2 : Z2 ≤ Z := (le_max_right _ _).trans hZ
+  have hP1 : 1 ≤ primeScale g Z := (by norm_num : (1 : ℝ) ≤ 2).trans (hscale Z hZZ2)
+  have hP0 : 0 < primeScale g Z := zero_lt_one.trans_le hP1
+  have hv := swept_contour_mem_tube he le_rfl s w z hs hw hz
+  let F := (primeWindow K S g T Z i).filter (fun p => p ∉ exteriorSupport K S u.ideal)
+  have hterm : ∀ p ∈ F,
+      ‖windowWeight K S g Z i p *
+        (actualLocalCompensation K S P psi u s w z p +
+          (p.val.asIdeal.absNorm : ℂ) ^ (z - 1) *
+            conj (primeCoefficient K (arithmeticRowCharacter K S P u) p.val))‖ ≤
+      (M * regularCompensationErrorConstant) *
+        (p.val.asIdeal.absNorm : ℝ) ^ (-(29 / 25 : ℝ)) := by
+    intro p hp
+    obtain ⟨hpw, hreg⟩ := Finset.mem_filter.mp hp
+    have hclose := (hcut Z hZZ1 P psi T u a ha ha1 s w z hv i p hpw).1
+    have hb := actualLocalCompensation_regular_error_bound K S P psi u ha ha1 he he1
+      s w z hs hw hz p hreg (hpsi p) hclose
+    have hwgt : ‖windowWeight K S g Z i p‖ ≤ M := hprofile i _
+    rw [norm_mul]
+    exact (mul_le_mul hwgt hb (norm_nonneg _) hM.le).trans_eq (by ring)
+  have hsum := regular_prime_error_sum_le K S F hP0 hdelta hdelta1 (fun p hp =>
+    (actual_primeWindow_norm_range K S g T Z i p (Finset.mem_filter.mp hp).1).2.1.le)
+  change ‖∑ p ∈ F, windowWeight K S g Z i p *
+      (actualLocalCompensation K S P psi u s w z p +
+        (p.val.asIdeal.absNorm : ℂ) ^ (z - 1) *
+          conj (primeCoefficient K (arithmeticRowCharacter K S P u) p.val))‖ ≤ _
+  calc
+    _ ≤ ∑ p ∈ F, ‖windowWeight K S g Z i p *
+        (actualLocalCompensation K S P psi u s w z p +
+          (p.val.asIdeal.absNorm : ℂ) ^ (z - 1) *
+            conj (primeCoefficient K (arithmeticRowCharacter K S P u) p.val))‖ := norm_sum_le _ _
+    _ ≤ ∑ p ∈ F, (M * regularCompensationErrorConstant) *
+        (p.val.asIdeal.absNorm : ℝ) ^ (-(29 / 25 : ℝ)) := Finset.sum_le_sum hterm
+    _ = (M * regularCompensationErrorConstant) *
+        ∑ p ∈ F, (p.val.asIdeal.absNorm : ℝ) ^ (-(29 / 25 : ℝ)) := (Finset.mul_sum ..).symm
+    _ ≤ (M * regularCompensationErrorConstant) *
+        (regularPrimeErrorMass K S delta * (primeScale g Z) ^ (-(4 / 25 : ℝ) + delta)) :=
+      mul_le_mul_of_nonneg_left hsum (mul_nonneg hM.le regularCompensationErrorConstant_pos.le)
+    _ = C * (primeScale g Z) ^ (-(4 / 25 : ℝ) + delta) := by dsimp only [C]; ring
+    _ ≤ _ := mul_le_mul_of_nonneg_left
+      (Real.rpow_le_rpow_of_exponent_le hP1 (add_le_add_left (min_le_left eta (2 / 25)) _)) hC.le
+
+theorem exists_actualValuationOneSlot_bound (g : PrimeWindowGeometry)
+    {e eta : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000) (heta : 0 < eta) :
+    ∃ C Z0 : ℝ, 0 < C ∧ 1 ≤ Z0 ∧ ∀ Z : ℝ, Z0 ≤ Z →
+      ∀ (P : ProbeData K S) (psi : HeckeCharacter K),
+      ThetaCalibrationInput K S P.arithmetic P.Lambda P.G →
+      ∀ (T : Finset (HeckeCharacter K)) (u : FrequencyRow K S)
+        (a : ℝ), 51 / 100 ≤ a → a ≤ 1 →
+      ∀ s w z : ℂ, s.re = a + 16 * e → w.re = 1 - a - 6 * e → z.re = 17 / 50 →
+      ∀ i : Fin g.slots,
+        ‖actualValuationOneSlot K S P psi g T u Z s w z i‖ ≤
+          C * frequencyRowNorm K S u ^ eta * (primeScale g Z) ^ (-(4 / 25 : ℝ)) := by
+  obtain ⟨Z1, hZ1, hcut⟩ := exists_window_local_cutoff K S g he he1
+  obtain ⟨Z2, hZ2, hscale⟩ := NormFormPrimeCap.exists_primeScale_cutoff g
+  obtain ⟨M, hM, hprofile⟩ := exists_primeWindow_profile_norm_bound g
+  refine ⟨M * 13 * repeatedTupleConstant 1 eta, max Z1 Z2,
+    mul_pos (mul_pos hM (by norm_num)) (repeatedTupleConstant_pos 1 heta),
+    hZ1.trans (le_max_left _ _), ?_⟩
+  intro Z hZ P psi hcal T u a ha ha1 s w z hs hw hz i
+  have hZZ1 : Z1 ≤ Z := (le_max_left _ _).trans hZ
+  have hZZ2 : Z2 ≤ Z := (le_max_right _ _).trans hZ
+  have hP0 : 0 < primeScale g Z :=
+    lt_of_lt_of_le (by norm_num : (0 : ℝ) < 2) (hscale Z hZZ2)
+  have hv := swept_contour_mem_tube he le_rfl s w z hs hw hz
+  let F := (primeWindow K S g T Z i).filter (fun p => primeExponents u.ideal.val p.val = 1)
+  have hsupport : F.image Subtype.val ⊆ (primeExponents u.ideal.val).support := by
+    intro p hp
+    obtain ⟨q, hq, rfl⟩ := Finset.mem_image.mp hp
+    exact Finsupp.mem_support_iff.mpr (by
+      rw [(Finset.mem_filter.mp hq).2]
+      norm_num)
+  have hcardNat : F.card ≤ (primeExponents u.ideal.val).support.card := by
+    calc
+      _ = (F.image Subtype.val).card := (Finset.card_image_of_injective F Subtype.val_injective).symm
+      _ ≤ _ := Finset.card_le_card hsupport
+  have hcard : (F.card : ℝ) ≤ repeatedTupleConstant 1 eta * frequencyRowNorm K S u ^ eta := by
+    have hc : (F.card : ℝ) ≤ ((primeExponents u.ideal.val).support.card : ℝ) := by
+      exact_mod_cast hcardNat
+    have ht := actual_support_tuple_count_subpower K u.ideal.val 1 heta
+    simp only [pow_one] at ht
+    exact hc.trans ((le_add_of_nonneg_right zero_le_one).trans ht)
+  have hterm : ∀ p ∈ F,
+      ‖windowWeight K S g Z i p * actualLocalCompensation K S P psi u s w z p‖ ≤
+        M * 13 * (primeScale g Z) ^ (-(4 / 25 : ℝ)) := by
+    intro p hp
+    obtain ⟨hpw, hone⟩ := Finset.mem_filter.mp hp
+    have hrow : p ∈ exteriorSupport K S u.ideal := by
+      apply (mem_exteriorSupport_iff K S u.ideal p).mpr
+      apply (mem_idealPrimeSupport_iff K u.ideal.val p.val).mp
+      exact Finsupp.mem_support_iff.mpr (by rw [hone]; norm_num)
+    have hscalar := (hcut Z hZZ1 P psi T u a ha ha1 s w z hv i p hpw).2
+    have hb := actualLocalCompensation_valuation_one_bound K S P psi hcal u ha ha1 he
+      (by linarith) s w z hs hw hz p hrow hone hscalar
+    have hpow : (p.val.asIdeal.absNorm : ℝ) ^ (-(4 / 25 : ℝ)) ≤
+        (primeScale g Z) ^ (-(4 / 25 : ℝ)) :=
+      Real.rpow_le_rpow_of_nonpos hP0
+        (actual_primeWindow_norm_range K S g T Z i p hpw).2.1.le (by norm_num)
+    rw [norm_mul]
+    calc
+      _ ≤ M * (13 * (p.val.asIdeal.absNorm : ℝ) ^ (-(4 / 25 : ℝ))) :=
+        mul_le_mul (hprofile i _) hb (norm_nonneg _) hM.le
+      _ ≤ M * (13 * (primeScale g Z) ^ (-(4 / 25 : ℝ))) :=
+        mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hpow (by norm_num)) hM.le
+      _ = _ := by ring
+  change ‖∑ p ∈ F, windowWeight K S g Z i p * actualLocalCompensation K S P psi u s w z p‖ ≤ _
+  calc
+    _ ≤ ∑ p ∈ F, ‖windowWeight K S g Z i p * actualLocalCompensation K S P psi u s w z p‖ :=
+      norm_sum_le _ _
+    _ ≤ ∑ _p ∈ F, M * 13 * (primeScale g Z) ^ (-(4 / 25 : ℝ)) := Finset.sum_le_sum hterm
+    _ = (F.card : ℝ) * (M * 13 * (primeScale g Z) ^ (-(4 / 25 : ℝ))) := by
+      rw [Finset.sum_const, nsmul_eq_mul]
+    _ ≤ (repeatedTupleConstant 1 eta * frequencyRowNorm K S u ^ eta) *
+        (M * 13 * (primeScale g Z) ^ (-(4 / 25 : ℝ))) :=
+      mul_le_mul_of_nonneg_right hcard (by positivity)
+    _ = _ := by ring
+
+/-- The repeated primes remain a literal finite sum. This is the form
+needed to allocate their distinct-prime product against the actual row
+radical before summing over choices. -/
+theorem exists_actualRepeatedSlot_bound (g : PrimeWindowGeometry)
+    {e : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000) :
+    ∃ C Z0 : ℝ, 0 < C ∧ 1 ≤ Z0 ∧ ∀ Z : ℝ, Z0 ≤ Z →
+      ∀ (P : ProbeData K S) (psi : HeckeCharacter K),
+      ThetaCalibrationInput K S P.arithmetic P.Lambda P.G →
+      ∀ (T : Finset (HeckeCharacter K)) (u : FrequencyRow K S)
+        (a : ℝ), 51 / 100 ≤ a → a ≤ 1 →
+      ∀ s w z : ℂ, s.re = a + 16 * e → w.re = 1 - a - 6 * e → z.re = 17 / 50 →
+      ∀ i : Fin g.slots,
+        ‖actualRepeatedSlot K S P psi g T u Z s w z i‖ ≤
+          C * (primeScale g Z) ^ (-(4 / 25 : ℝ)) *
+            ∑ p ∈ repeatedPrimeWindow K S u g T Z i,
+              (p.val.asIdeal.absNorm : ℝ) ^ (a - 1 / 2 + 6 * e) := by
+  obtain ⟨Z1, hZ1, hcut⟩ := exists_window_local_cutoff K S g he he1
+  obtain ⟨Z2, hZ2, hscale⟩ := NormFormPrimeCap.exists_primeScale_cutoff g
+  obtain ⟨M, hM, hprofile⟩ := exists_primeWindow_profile_norm_bound g
+  refine ⟨M * 19, max Z1 Z2, mul_pos hM (by norm_num),
+    hZ1.trans (le_max_left _ _), ?_⟩
+  intro Z hZ P psi hcal T u a ha ha1 s w z hs hw hz i
+  have hZZ1 : Z1 ≤ Z := (le_max_left _ _).trans hZ
+  have hZZ2 : Z2 ≤ Z := (le_max_right _ _).trans hZ
+  have hP0 : 0 < primeScale g Z :=
+    lt_of_lt_of_le (by norm_num : (0 : ℝ) < 2) (hscale Z hZZ2)
+  have hv := swept_contour_mem_tube he le_rfl s w z hs hw hz
+  have hterm : ∀ p ∈ repeatedPrimeWindow K S u g T Z i,
+      ‖windowWeight K S g Z i p * actualLocalCompensation K S P psi u s w z p‖ ≤
+        (M * 19 * (primeScale g Z) ^ (-(4 / 25 : ℝ))) *
+          (p.val.asIdeal.absNorm : ℝ) ^ (a - 1 / 2 + 6 * e) := by
+    intro p hp
+    obtain ⟨hpw, hrepeat⟩ := Finset.mem_filter.mp hp
+    have hrow : p ∈ exteriorSupport K S u.ideal := by
+      apply (mem_exteriorSupport_iff K S u.ideal p).mpr
+      apply (mem_idealPrimeSupport_iff K u.ideal.val p.val).mp
+      exact Finsupp.mem_support_iff.mpr (by omega)
+    have hq0 : (0 : ℝ) < p.val.asIdeal.absNorm :=
+      hP0.trans (actual_primeWindow_norm_range K S g T Z i p hpw).2.1
+    have hscalar := (hcut Z hZZ1 P psi T u a ha ha1 s w z hv i p hpw).2
+    have hb := actualLocalCompensation_ramified_bound K S P psi hcal u ha he
+      s w z hs hw hz p hrow hscalar
+    have hpow : (p.val.asIdeal.absNorm : ℝ) ^ (-(4 / 25 : ℝ)) ≤
+        (primeScale g Z) ^ (-(4 / 25 : ℝ)) :=
+      Real.rpow_le_rpow_of_nonpos hP0
+        (actual_primeWindow_norm_range K S g T Z i p hpw).2.1.le (by norm_num)
+    rw [norm_mul]
+    calc
+      _ ≤ M * (19 * (p.val.asIdeal.absNorm : ℝ) ^ (a - 33 / 50 + 6 * e)) :=
+        mul_le_mul (hprofile i _) hb (norm_nonneg _) hM.le
+      _ = (M * 19 * (p.val.asIdeal.absNorm : ℝ) ^ (-(4 / 25 : ℝ))) *
+          (p.val.asIdeal.absNorm : ℝ) ^ (a - 1 / 2 + 6 * e) := by
+        rw [mul_assoc (M * 19), ← Real.rpow_add hq0]
+        rw [show -(4 / 25 : ℝ) + (a - 1 / 2 + 6 * e) = a - 33 / 50 + 6 * e by ring]
+        ring
+      _ ≤ _ := mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_left hpow (by positivity)) (Real.rpow_nonneg hq0.le _)
+  unfold actualRepeatedSlot
+  calc
+    _ ≤ ∑ p ∈ repeatedPrimeWindow K S u g T Z i,
+        ‖windowWeight K S g Z i p * actualLocalCompensation K S P psi u s w z p‖ := norm_sum_le _ _
+    _ ≤ ∑ p ∈ repeatedPrimeWindow K S u g T Z i,
+        (M * 19 * (primeScale g Z) ^ (-(4 / 25 : ℝ))) *
+          (p.val.asIdeal.absNorm : ℝ) ^ (a - 1 / 2 + 6 * e) := Finset.sum_le_sum hterm
+    _ = _ := (Finset.mul_sum ..).symm
 
 theorem subsetPrimeIdeal_norm_eq_prod (g : PrimeWindowGeometry)
     (p : Fin g.slots → ExteriorPrime K S) (hp : Function.Injective p)
@@ -554,5 +1232,11 @@ theorem exists_actualFullCorrection_product_cutoff (g : PrimeWindowGeometry)
 end HighBinVerified.NormFormFullCorrection
 
 #print axioms HighBinVerified.NormFormFullCorrection.exists_window_unmarked_nonzero
+#print axioms HighBinVerified.NormFormFullCorrection.actualLocalCompensation_regular_main
+#print axioms HighBinVerified.NormFormFullCorrection.actualRegularCompensationError_norm_le
+#print axioms HighBinVerified.NormFormFullCorrection.actualLocalCompensation_regular_error_bound
+#print axioms HighBinVerified.NormFormFullCorrection.actualLocalCompensation_ramified_bound
+#print axioms HighBinVerified.NormFormFullCorrection.actualLocalCompensation_valuation_one_bound
+#print axioms HighBinVerified.NormFormFullCorrection.exists_actual_local_compensation_bounds
 #print axioms HighBinVerified.NormFormFullCorrection.actual_compensation_tuple_factorization
 #print axioms HighBinVerified.NormFormFullCorrection.exists_actualFullCorrection_product_cutoff
