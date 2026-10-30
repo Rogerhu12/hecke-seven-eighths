@@ -1,0 +1,36 @@
+FINAL VERIFIED DELIVERABLE
+
+Lean: Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)
+Mathlib: 0493595ecd5da8ef14742febab99728f98e948e8
+Verified at: 2026-10-30T18:46:03+00:00
+Modules: 82 / 82 PASS
+Public source theorem/lemma declarations: 570
+Private source theorem/lemma declarations: 3
+Audited theorem constants (including generated auxiliaries): 955
+Lean source lines: 12597
+Allowed axiom dependency set: propext, Classical.choice, Quot.sound
+Forbidden Lean code scan (sorry, sorryAx, axiom declaration, native_decide): PASS
+Original ZIP SHA-256: f07fe30bc9c15a495a596e88441c19fbfb4f20ccf53971b717397a6808fb98f5
+Original extracted reference files: 49 / 49 byte-identical to ZIP
+Existing project source files modified: NO
+Commits created: NO
+
+Verification method:
+Every module was compiled in a single-module Lean invocation with -j1.
+The final manifest consolidates successful serial incremental checks, rather
+than claiming one separate fresh rebuild invocation. Each delivered source
+hash matches its successful log. Each local imported object was no newer than
+the checked importing object. The final audit imports the complete entrypoints
+and checks all 955 theorem constants using Lean's collectAxioms, the same axiom
+collector used by #print axioms. Principal theorem #print axioms output is also
+included. No compiled objects or downloaded dependencies are redistributed.
+
+Reproduction:
+  python3 build_serial.py --lean /path/to/lean --mathlib /path/to/pinned/mathlib
+The included script performs a fresh single-module-at-a-time build against
+prepared dependencies and stops at the first error.
+
+Scope:
+Mathlib-only standalone proof is complete under the supplied cloud allowance.
+Actual ExteriorIdeal, allowed generators, and reflected-source dictionary
+specialization is documented in WIRING_NOTES.md, not asserted compiled.
