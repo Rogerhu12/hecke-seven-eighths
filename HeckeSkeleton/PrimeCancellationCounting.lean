@@ -1,5 +1,6 @@
 import PrimeCancellationPrimeSeries
-import HeckeGeneral.Analysis.IdealEulerProduct
+import Mathlib.NumberTheory.NumberField.DedekindZeta
+import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
 
 /-!
 # Actual prime-ideal counting for the cancellation adapter
@@ -15,7 +16,6 @@ noncomputable section
 namespace HeckeSkeleton.PrimeCancellationHecke
 
 open NumberField IsDedekindDomain Filter
-open HeckeGeneral.Arithmetic HeckeGeneral.Analysis
 open PrimeCancellationPrimeSeries
 open scoped Classical Topology BigOperators
 
@@ -34,7 +34,11 @@ instance primeIndex_countable : Countable (HeightOneSpectrum (𝓞 K)) := by
 def primeNorm (p : HeightOneSpectrum (𝓞 K)) : ℝ := (p.asIdeal.absNorm : ℝ)
 
 theorem primeNorm_ge_two (p : HeightOneSpectrum (𝓞 K)) : 2 ≤ primeNorm K p := by
-  have hn : 2 ≤ p.asIdeal.absNorm := one_lt_primeIdeal_absNorm K p
+  have hp : 0 < p.asIdeal.absNorm := Nat.pos_of_ne_zero
+    (fun h => p.ne_bot (Ideal.absNorm_eq_zero_iff.mp h))
+  have hne : p.asIdeal.absNorm ≠ 1 :=
+    fun h => p.isPrime.ne_top (Ideal.absNorm_eq_one_iff.mp h)
+  have hn : 2 ≤ p.asIdeal.absNorm := lt_of_le_of_ne (Nat.succ_le_iff.mpr hp) hne.symm
   change (2 : ℝ) ≤ (p.asIdeal.absNorm : ℝ)
   exact_mod_cast hn
 
