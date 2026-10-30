@@ -158,7 +158,7 @@ def reflectionColumnBase (θ : HeckeCharacter K) (a : ExteriorIdeal K S) : ℂ :
 formula keeps the original period values, unit sector and inactive primes. -/
 def reflectionPhase (θ : HeckeCharacter K) (_c a n : ExteriorIdeal K S) : ℂ :=
   (∏ p ∈ frozenPrimes K S d \ i.activeFrozen,
-    1 - (p.val.asIdeal.absNorm : ℂ)⁻¹) *
+    (1 - (p.val.asIdeal.absNorm : ℂ)⁻¹)) *
   (periodValue K S D d θ a)⁻¹ *
   (periodValue K S D d θ n) ^ (-3 : ℤ) *
   (periodValue K S D d θ (activeFrozenIdeal K S d i)) ^ 2 *
@@ -226,6 +226,28 @@ private theorem prime_product_factor_two {ι : Type*} (s : Finset ι)
   intro p _
   ring
 
+private theorem reflectionNegativeInteraction_eq (I : ExteriorIdeal K S) :
+    negativeOrdinaryInteraction i.activeFrozen
+      ((ofReflectionIndex K S d i).toFrozen K S D hD).ordinarySymbol
+      (fun p => (rowDigit K S d p).val)
+      (PrimeCoordinates.valuation (ExteriorArithmetic.coords K S) i.numeratorFrozen) I =
+      ∏ p ∈ i.activeFrozen, primeEvaluation K S D p (D.generator I) ^
+        (-(2 * localWeylExponent (rowDigit K S d p)
+          (primeExponents i.numeratorFrozen.val p.val) : ℤ)) :=
+  Data.negativeOrdinaryInteraction_eq K S D hD (ofReflectionIndex K S d i)
+    i.numeratorFrozen I
+
+private theorem reflectionPositiveInteraction_eq (I : ExteriorIdeal K S) :
+    positiveOrdinaryInteraction i.activeFrozen
+      ((ofReflectionIndex K S d i).toFrozen K S D hD).ordinarySymbol
+      (fun p => (rowDigit K S d p).val)
+      (PrimeCoordinates.valuation (ExteriorArithmetic.coords K S) i.numeratorFrozen) I =
+      ∏ p ∈ i.activeFrozen, primeEvaluation K S D p (D.generator I) ^
+        localWeylExponent (rowDigit K S d p)
+          (primeExponents i.numeratorFrozen.val p.val) :=
+  Data.positiveOrdinaryInteraction_eq K S D hD (ofReflectionIndex K S d i)
+    i.numeratorFrozen I
+
 theorem reflectedRowFactor_eq (θ : HeckeCharacter K) :
     reflectedRowFactor K S D d i θ =
       rowCoefficient ((ofReflectionIndex K S d i).toFrozen K S D hD).symbol
@@ -233,8 +255,7 @@ theorem reflectedRowFactor_eq (θ : HeckeCharacter K) :
         (fun p => (rowDigit K S d p).val)
         (PrimeCoordinates.valuation (ExteriorArithmetic.coords K S) i.numeratorFrozen)
         (reflectionRowBase K S D d i θ) i.numeratorFrozen d.moving := by
-  rw [rowCoefficient,
-    Data.negativeOrdinaryInteraction_eq K S D hD (ofReflectionIndex K S d i)]
+  rw [rowCoefficient, reflectionNegativeInteraction_eq K S D hD d i]
   change _ = reflectionRowBase K S D d i θ d.moving *
     idealSymbol K S D d.moving (D.generator i.numeratorFrozen) * _
   rw [idealSymbol_generator_eq_prime_product K S D hD _ _ d.moving_squarefree]
@@ -249,8 +270,7 @@ theorem reflectedMarkFactor_eq (θ : HeckeCharacter K) :
         (fun p => (rowDigit K S d p).val)
         (PrimeCoordinates.valuation (ExteriorArithmetic.coords K S) i.numeratorFrozen)
         (reflectionMarkBase K S D d i θ) i.numeratorFrozen (activeMarkedIdeal K S d i) := by
-  rw [markCoefficient,
-    Data.negativeOrdinaryInteraction_eq K S D hD (ofReflectionIndex K S d i)]
+  rw [markCoefficient, reflectionNegativeInteraction_eq K S D hD d i]
   change _ = reflectionMarkBase K S D d i θ (activeMarkedIdeal K S d i) *
     idealSymbol K S D (activeMarkedIdeal K S d i) (D.generator i.numeratorFrozen) ^ 2 * _
   rw [idealSymbol_generator_eq_prime_product K S D hD _ _
@@ -267,8 +287,7 @@ theorem reflectedColumnFactor_eq (θ : HeckeCharacter K) :
         (fun p => (rowDigit K S d p).val)
         (PrimeCoordinates.valuation (ExteriorArithmetic.coords K S) i.numeratorFrozen)
         (reflectionColumnBase K S D d i θ) i.numeratorFrozen i.c := by
-  rw [columnCoefficient,
-    Data.positiveOrdinaryInteraction_eq K S D hD (ofReflectionIndex K S d i)]
+  rw [columnCoefficient, reflectionPositiveInteraction_eq K S D hD d i]
   change _ = reflectionColumnBase K S D d i θ i.c *
     idealSymbol K S D i.c (D.generator i.numeratorFrozen) ^ 2 * _
   rw [idealSymbol_generator_eq_prime_product K S D hD _ _ i.c_squarefree]
@@ -322,12 +341,19 @@ theorem reflectedTerm_eq_rawSourceTerm (F : FiniteMellinData K S)
           exteriorNorm K S i.n ^ 3 /
           (exteriorNorm K S d.moving * exteriorNorm K S (activeFrozenIdeal K S d i) *
             exteriorNorm K S (activeMarkedIdeal K S d i)) ^ 2) := by
+  have hordinary : ((ofReflectionIndex K S d i).toFrozen K S D hD).ordinary =
+      i.activeFrozen := rfl
+  have hdigit : ((ofReflectionIndex K S d i).toFrozen K S D hD).digit =
+      (fun p => (rowDigit K S d p).val) := rfl
   rw [FrozenReduction.Data.rawSourceTerm,
     Data.mixedPhase_eq_actual_of_coprime K S D hD (ofReflectionIndex K S d i)
       d.moving (activeMarkedIdeal K S d i) i.c i.n
-      (activeMarked_coprime_moving K S d i) (activeMarked_coprime_cube K S d i),
-    ← reflectedRowFactor_eq K S D hD, ← reflectedMarkFactor_eq K S D hD,
-    ← reflectedColumnFactor_div_eq K S D hD, ← frozenOmega_eq_rawTable K S D hD]
+      (activeMarked_coprime_moving K S d i) (activeMarked_coprime_cube K S d i)]
+  simp only [hordinary, hdigit, Data.toFrozen_coords]
+  rw [← reflectedRowFactor_eq K S D hD d i θ,
+    ← reflectedMarkFactor_eq K S D hD d i θ,
+    ← reflectedColumnFactor_div_eq K S D hD d i θ,
+    ← frozenOmega_eq_rawTable K S D hD d i θ]
   unfold reflectedTerm
   simp only [ExteriorArithmetic.normHom_apply, div_eq_mul_inv]
   ring
