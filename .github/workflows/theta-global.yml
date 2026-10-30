@@ -82,6 +82,21 @@ jobs:
           use-github-cache: "true"
       - name: Check installed version pins
         run: python3 scripts/check_theta_global_pins.py --runtime
+      # lean-action saves its cache before these separately scoped build steps.
+      # Preserve the project's own successful dependency artifacts after a later
+      # module fails, so the next correction can resume the actual entry build.
+      - name: Restore actual-entry dependency artifacts
+        id: entry-cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+        timeout-minutes: 3
+        continue-on-error: true
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: theta-entry-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            theta-entry-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-
       # + selects one module, and :olean requests its importable Lean artifact.
       # This builds its real dependency closure, without the library's all-module glob.
       # https://github.com/leanprover/lean4/blob/v4.35.0-rc3/src/lake/README.md#specifying-targets
@@ -97,6 +112,16 @@ jobs:
         run: |
           set -o pipefail
           lake env lean -j2 verification/theta_global/EntryAudit.lean 2>&1 | tee verification/theta_global/entry-audit.log
+      - name: Save actual-entry dependency artifacts
+        if: ${{ !cancelled() && steps.entry-cache.outcome == 'success' && steps.entry-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        timeout-minutes: 3
+        continue-on-error: true
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: ${{ steps.entry-cache.outputs.cache-primary-key }}
       - name: Upload actual-entry diagnostics
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
