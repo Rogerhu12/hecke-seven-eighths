@@ -195,6 +195,27 @@
       ],
       "body_after_imports_sha256": "3baad3fef4af28117d067a98388460a2ae64744f1be900de37745eb12381385f",
       "body_after_imports_unchanged": true
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Ma6dd0c4d713fb96a.lean",
+      "before": [
+        "import FLTReuse.M387d45cde57b612d",
+        "import FLTReuse.M5960be08a50663ff",
+        "import FLTReuse.Mceaf851096604c8a",
+        "import FLTReuse.M255459499690ff8e",
+        "import FLTReuse.M1d838ff8bf72f37a"
+      ],
+      "after": [
+        "import Mathlib.Topology.Algebra.Module.FiniteDimension",
+        "import Mathlib.Algebra.Lie.OfAssociative",
+        "import FLTReuse.M387d45cde57b612d",
+        "import FLTReuse.M5960be08a50663ff",
+        "import FLTReuse.Mceaf851096604c8a",
+        "import FLTReuse.M255459499690ff8e",
+        "import FLTReuse.M1d838ff8bf72f37a"
+      ],
+      "body_after_imports_sha256": "055f09da790a64f472b7f9201943f8a7a344e91165a61c94c7c8dec26a9c4243",
+      "body_after_imports_unchanged": true
     }
   ],
   "upstream_base_commit": "5e4c85f172c101fd0c201219c13aa28f8b520d42",
