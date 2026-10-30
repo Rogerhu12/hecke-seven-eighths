@@ -79,5 +79,6 @@
     "-DrelaxedAutoImplicit=false"
   ],
   "generated_lean_source_changed": false,
-  "strict_replay_result_policy": "Each successful replay gets a separately named strict manifest and raw log, with exact command, all source hashes, strict axiom gates, and the newly checked foundation artifact hashes."
+  "strict_replay_result_policy": "Each successful replay gets a separately named strict manifest and raw log, with exact command, all source hashes, strict axiom gates, and the newly checked foundation artifact hashes.",
+  "additional_direct_cli_scope_note": "The same distinction applies to the historical per-file checks in native_manifest.json unless their raw command explicitly records the package -D flags: those records certify their direct per-file import compilation, not a Lake build with package options. The GammaReciprocalGrowth source is also included in the separately recorded strict 54-module extension."
 }

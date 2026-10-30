@@ -150,7 +150,7 @@ Historical logs retain their actual commands, and any stricter replay is
 recorded separately rather than relabeling an earlier result.
 
 The reflected-project combined-body check contains 188 actual source
-bodies. The production vendor imports are preserved: an early attempt
+bodies. The ten original FLT vendor umbrella imports are preserved: an early attempt
 to narrow umbrella imports removed transitive names needed by downstream
 files and was reverted after native CI exposed the regression. Curated
 imports are used only by the separately labelled transformed QA harness,
@@ -239,9 +239,19 @@ one command-helper meta annotation, one private-helper visibility change,
 and two Fourier-name qualifications. The ten vendor umbrella-import
 substitutions apply only to the generated QA header. The manifest records
 raw, normalized and transformed-body hashes separately. No theorem is
-omitted or replaced by a new assumption. Production vendor imports remain
-unchanged. These transformations make this result distinct from a native
+omitted or replaced by a new assumption. Those ten FLT production import
+interfaces remain unchanged; the later Zeta23 direct-import repair is
+recorded below. These transformations make this result distinct from a native
 per-module build; the five-entry native gate remains necessary.
+
+The same 188-module source bundle subsequently passed a separate replay
+with `-DautoImplicit=false` and `-DrelaxedAutoImplicit=false`, using four
+elaboration threads. It completed at 22:02:35 UTC on 2026-10-30 with exit
+code 0, all original source hashes unchanged, and both strict axiom gates
+containing only the three standard axioms. The bundle SHA remained
+`ca7bc30fa84a775939c7974b4f5361e8993522698bfa9fd118d4e73b5bf943a3`.
+Its independent record is `verification/theta_global/actual_reflected_strict_manifest.json`;
+the raw output is `verification/theta_global/ActualReflectedVerification.strict.build.log`.
 
 ### Successful supported-index and arithmetic-product increment
 
@@ -316,6 +326,11 @@ artifact, whose original run did not explicitly pass the two global options.
 The manifest records that historical artifact and option boundary. The
 subsequent strict replay of the foundation is a separate result; it is not
 retroactively substituted into this run's provenance.
+After that replay succeeded, all five foundation artifacts were compared
+and found byte-for-byte identical to the artifacts actually used by the
+54-module run. `verification/theta_global/foundation_strict_artifact_comparison.json`
+records the two timestamps, manifest hashes and five matching artifact
+hashes while preserving the historical order of the checks.
 
 ### Remaining validation boundary
 

@@ -70,3 +70,8 @@ kernel tail, regularized reflected-series limit, deconvolver moments, test
 limit, and scalar-to-actual term identity. Its manifest preserves the exact
 historical foundation artifact used by that run. The 45-module bundle has
 also passed on GitHub with both native implicit-parameter options.
+
+The 188-module foundation subsequently passed its own replay with both
+native implicit-parameter options. Its five compiled artifacts are
+byte-for-byte identical to the historical foundation used by the
+54-module check; the separate comparison record preserves that chronology.
