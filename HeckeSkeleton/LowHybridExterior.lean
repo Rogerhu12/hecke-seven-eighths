@@ -14,6 +14,10 @@ Consumer entry point for `cloud_tasks/WIRE_LOW_HYBRID.md`.
   from the project's original reflection index.
 * `LowFrozenCube.Exterior.localWeylScalar_eq_ordinary` identifies the actual
   finite Weyl table, and `primitiveLocalBounds` proves its scalar bounds.
+* `LowFrozenCube.Exterior.reflectedTerm_eq_rawSourceTerm` identifies the
+  original reflected coefficient, retaining its Mellin kernel and weights.
+* `LowFrozenCube.Exterior.reflectionSourceBlock_annularSupport` fills the
+  coefficient norm conditions from the original unramified character input.
 * The uniform frozen source and family theorems in
   `LowFrozenCube.Exterior` are ready for the reflected-energy consumer.
 

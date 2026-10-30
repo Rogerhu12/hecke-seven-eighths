@@ -32,10 +32,10 @@ def atZero (j : ℕ) : ℂ :=
   ResidueField.localWeylScalar χ ψ ⟨j % 6, Nat.mod_lt _ (by decide)⟩ 0
 
 theorem first_sq : ‖first χ ψ‖ ^ 2 = 1 / (Fintype.card F : ℝ) := by
-  rw [first, norm_mul, norm_inv, Complex.norm_real, Real.norm_eq_abs,
+  simp only [first, norm_mul, norm_inv, Complex.norm_real, Real.norm_eq_abs,
     abs_of_nonneg (Real.sqrt_nonneg _), ResidueField.gammaTwo_norm χ hχ ψ hψ,
-    mul_one, inv_pow, Real.sq_sqrt (by positivity)]
-  rfl
+    mul_one, inv_pow,
+    Real.sq_sqrt (show 0 ≤ (Fintype.card F : ℝ) by positivity), one_div]
 
 theorem prefactor_sq : ‖prefactor χ ψ‖ ^ 2 ≤ (Fintype.card F : ℝ) := by
   have hq : (0 : ℝ) < Fintype.card F := by exact_mod_cast Fintype.card_pos

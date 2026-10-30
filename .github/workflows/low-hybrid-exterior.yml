@@ -21,9 +21,10 @@ concurrency:
 jobs:
   proofs:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 360
     env:
       LEAN_NUM_THREADS: '1'
+      WIRE_BUILD_WORKERS: '2'
     steps:
       - uses: actions/checkout@v4
       - uses: leanprover/lean-action@bd5cb0b830eda614ce3fc186d8429b9409b16c47
@@ -34,8 +35,23 @@ jobs:
           lint: 'false'
           use-mathlib-cache: 'true'
           use-github-cache: 'false'
-      - name: Compile actual objects and audit every new declaration
+      - name: Restore validated project objects
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: .lake/build
+          key: low-hybrid-exterior-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            low-hybrid-exterior-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+      - name: Compile arithmetic, symbols and literal reflected coefficients
+        run: python3 -u scripts/verify_low_hybrid_exterior.py HeckeSkeleton.LowFrozenCube.ExteriorCoefficientBounds
+      - name: Compile both sieve providers and audit every new declaration
         run: python3 -u scripts/verify_low_hybrid_exterior.py
+      - name: Save successfully compiled objects
+        if: ${{ !cancelled() }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: .lake/build
+          key: low-hybrid-exterior-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
       - name: Preserve complete verification evidence
         if: always()
         uses: actions/upload-artifact@v4

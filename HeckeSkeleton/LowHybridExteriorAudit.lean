@@ -4,9 +4,11 @@ import Lean.Util.CollectAxioms
 /-!
 # Recursive axiom guard for the actual exterior-ideal wiring
 
-Check every theorem and definition introduced by the actual-object adapters,
-including private helper declarations after recovering their user names.
-An unexpected axiom makes compilation fail.
+Check every declaration introduced by the actual-object adapters, including
+private helpers after recovering their user names and the declarations generated
+for structures.  No declaration-kind filter is used: an unused axiom or opaque
+definition must not escape the audit.  Every adapter namespace must be present,
+and an unexpected axiom makes compilation fail.
 -/
 
 open Lean Elab Command in
@@ -19,11 +21,13 @@ run_cmd do
     `HeckeSkeleton.LowHybrid.Exterior,
     `HeckeSkeleton.LowFrozenCube.ExteriorLocalBounds,
     `HeckeSkeleton.LowFrozenCube.Exterior]
-  let names := (env.constants.toList.filterMap fun (name, info) =>
+  let names := (env.constants.toList.filterMap fun (name, _) =>
     let userName := privateToUserName name
-    if (info.isTheorem || info.isDefinition) &&
-      prefixes.any (fun prefix => prefix.isPrefixOf userName)
+    if prefixes.any (fun prefix => prefix.isPrefixOf userName)
     then some name else none).toArray.qsort Name.lt
+  for prefix in prefixes do
+    unless names.any (fun name => prefix.isPrefixOf (privateToUserName name)) do
+      throwError "Missing exterior adapter namespace in axiom audit: {prefix}"
   let permitted : Array Name := #[`propext, `Classical.choice, `Quot.sound]
   for name in names do
     let dependencies ← collectAxioms name
@@ -37,6 +41,12 @@ run_cmd do
 #print axioms HeckeSkeleton.LowHybrid.Exterior.hybrid_energy_with_beta_mass
 #print axioms HeckeSkeleton.LowHybrid.Exterior.hybrid_energy_bounded
 #print axioms HeckeSkeleton.LowHybrid.Exterior.completed_quadratic_energy_bounded
+#print axioms HeckeSkeleton.LowFrozenCube.Exterior.ofReflectionIndex
 #print axioms HeckeSkeleton.LowFrozenCube.Exterior.primitiveLocalBounds
+#print axioms HeckeSkeleton.LowFrozenCube.Exterior.reflectedTerm_eq_rawSourceTerm
+#print axioms HeckeSkeleton.LowFrozenCube.Exterior.reflectionSourceBlock_annularSupport
+#print axioms HeckeSkeleton.LowFrozenCube.Exterior.uniform_weighted_raw_hybrid_bound
 #print axioms HeckeSkeleton.LowFrozenCube.Exterior.uniform_actual_source_energy_ledger
 #print axioms HeckeSkeleton.LowFrozenCube.Exterior.uniform_family_source_energy_power_saving
+#print axioms HeckeSkeleton.LowFrozenCube.Exterior.uniform_actual_family_source_energy_subpower
+#print axioms HeckeSkeleton.LowFrozenCube.Exterior.uniform_actual_family_source_energy_power_saving

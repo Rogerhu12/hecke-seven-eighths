@@ -78,6 +78,8 @@ C(RNBL)^\varepsilon(R+NB)B
 | `LowFrozenCube/ExteriorLocalBounds.lean` | 从已证有限域 Gauss 和公式推出首系数、正赋值 prefactor 和零赋值表的三个平方范数界。 |
 | `LowFrozenCube/ExteriorLocalTable.lean` | 沿实际剩余域同构重索引 `thetaGamma`；识别 `localTau`、`localWeylScalar` 与冻结普通表，证明实际整个表乘积及全部 `PrimitiveLocalBounds`。 |
 | `LowFrozenCube/ExteriorPhases.lean` | 普通素位相位与原 `primeEvaluation`、`localWeylExponent` 的等式；混合相位严格改写为 `reflectedTerm` 中两个真实 `idealSymbol` 因子，保留两个互素掩码。 |
+| `LowFrozenCube/ExteriorReflection.lean` | 真实平方自由素乘积；原反射行、标记、列系数的分离；`frozenOmega` 的实际局部表分解；原 `reflectedTerm` 与真实 `rawSourceTerm` 的逐项严格等式，保留不活动标记因子、两项平方根权重和原 Mellin 核。 |
+| `LowFrozenCube/ExteriorCoefficientBounds.lean` | 从实际 Gauss 和、六次符号及外部未分歧 Hecke 特征证明原反射系数的范数界；`reflectionSourceBlock_annularSupport` 自动填入全部系数和相位条件，调用方只提供支撑、平方自由性和范数截断/annulus 数据。 |
 | `LowFrozenCube/ExteriorBounds.lean` | 实际对象的统一加权原行界、源能量账本、变化冻结支撑的全族小幂界及终端节省。带 `actual` 的入口内部代入真实局部标量并证明局部界。 |
 
 `uniform_actual_family_source_energy_subpower` 和
@@ -85,6 +87,16 @@ C(RNBL)^\varepsilon(R+NB)B
 最低指数、有限原行和系数选择。它们对每个冻结对代入真实局部表，因此不要求调用方
 重新提供三个局部 Gauss 界。长度、导子、annulus、支撑装配和共同核的标量预算在
 定理中明确列出，供 `Principal.completedMarkedEnergy` 的反射能量组装使用。
+
+`reflectionSourceBlock` 将原反射公式的实际系数填入有限源块，
+`reflectionSourceBlock_localBounds` 直接证明其局部条件。
+`reflectedTerm_eq_rawSourceTerm` 使用原 `MarkedDatum`、`ReflectionIndex`
+和真实 `AllowedGeneratorInput`；原有互素字段消去这一个合法反射指标的两个掩码。
+该等式没有另加反射能量估计或正常形假设。
+
+系数范数的额外字符条件恰为原反射输入中的 `exterior_unramified`。
+`HeckeCharacter` 的值已经位于单位圆，所以这里没有另设 unitary 假设，也没有
+将相位或基系数的范数界当作未证输入。
 
 ## 与后续反射能量任务的边界
 
@@ -110,7 +122,9 @@ lake build HeckeSkeleton.LowHybridExteriorAudit
 最终实际执行结果另记在 `EXTERIOR_VERIFICATION.md`。
 
 为控制实际依赖体积，部分 `vendor/flt/FLTReuse` 文件的 `import Mathlib`
-收窄为实际需要的导入。`EXTERIOR_IMPORTS.json` 记录每个导入头及正文校验值；
-这些文件的已有定义和证明正文逐字保留。
+收窄为实际需要的导入，`AllIdealTransfer` 的总入口改为四个实际使用的提供者；
+另为一个已有 FLT 文件补上 `Circle.exp_eq_one` 的精确导入。
+`EXTERIOR_IMPORTS.json` 记录每个导入头及正文校验值；这些文件的已有定义和
+证明正文逐字保留。
 
 本接线由 OpenAI GPT-6 Astra Pro 辅助实现（AI-assisted）。

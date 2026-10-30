@@ -1,5 +1,5 @@
 {
-  "purpose": "Narrow blanket Mathlib imports in the actual exterior-symbol dependency closure; existing declaration bodies are byte-for-byte unchanged.",
+  "purpose": "Narrow broad imports and add explicit providers required by the actual exterior-ideal dependency closure; all existing declaration bodies remain byte-for-byte unchanged.",
   "lean": "4.35.0-rc3",
   "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
   "files": [
@@ -148,6 +148,48 @@
       ],
       "body_after_imports_sha256": "b55b22aca161135cabf1995549b1a35e79d1e0e3327419ab203b9c1171d8ef4f",
       "body_after_imports_unchanged": true
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Ma22e2a591f23459f.lean",
+      "before": [
+        "import FLTReuse.M55164c2a16500130",
+        "import FLTReuse.Md2cadaa4525e04a6",
+        "import FLTReuse.Mb875502fbb65df3e",
+        "import Mathlib.NumberTheory.NumberField.Discriminant.Different",
+        "import Mathlib.Algebra.Module.ZLattice.Covolume",
+        "import FLTReuse.M65cb97bf9eaf069f",
+        "import FLTReuse.M3bf8e30844acd054",
+        "import FLTReuse.M1868db956c866c8d"
+      ],
+      "after": [
+        "import Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+        "import FLTReuse.M55164c2a16500130",
+        "import FLTReuse.Md2cadaa4525e04a6",
+        "import FLTReuse.Mb875502fbb65df3e",
+        "import Mathlib.NumberTheory.NumberField.Discriminant.Different",
+        "import Mathlib.Algebra.Module.ZLattice.Covolume",
+        "import FLTReuse.M65cb97bf9eaf069f",
+        "import FLTReuse.M3bf8e30844acd054",
+        "import FLTReuse.M1868db956c866c8d"
+      ],
+      "body_after_imports_sha256": "8d6960cb0b31451bbeb3ef8e796cbb3d01779a302ff2d7381afa2883d29c55cd",
+      "body_after_imports_unchanged": true
+    },
+    {
+      "path": "DedekindZetaZeroFree/LargeSieve/CharacterBounds/AllIdealTransfer.lean",
+      "before": [
+        "public import DedekindZetaZeroFree.ZeroDetection.Conductors.Poisson.DenominatorExistence"
+      ],
+      "after": [
+        "public import DedekindZetaZeroFree.LargeSieve.CharacterBounds.ExteriorDyadicConductorBounds",
+        "public import DedekindZetaZeroFree.Nonvanishing.Mellin.InitialFrequencyDecomposition",
+        "public import DedekindZetaZeroFree.Adeles.Quotients.SixthPowerCompactCover",
+        "public import DedekindZetaZeroFree.Arithmetic.RayClasses.Conductors.PrimitiveCharacterCofiniteRigidity"
+      ],
+      "body_after_imports_sha256": "3baad3fef4af28117d067a98388460a2ae64744f1be900de37745eb12381385f",
+      "body_after_imports_unchanged": true
     }
-  ]
+  ],
+  "upstream_base_commit": "5e4c85f172c101fd0c201219c13aa28f8b520d42",
+  "local_snapshot_commit": "f0438a4cdf607cb3a0ccbd9a4089cb4fa66fb6ed"
 }
