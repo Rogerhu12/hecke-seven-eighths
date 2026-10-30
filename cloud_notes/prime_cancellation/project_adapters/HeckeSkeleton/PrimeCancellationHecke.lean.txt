@@ -1,0 +1,400 @@
+/-
+Copyright (c) 2026. Released under the Apache 2.0 license.
+
+Actual Hecke specialization of the independently checked complex-analysis
+core. All project theorem names used below occur in the supplied source
+files or in proofs displayed in those files. No placeholder declaration is
+introduced here.
+
+STATUS: project adapter draft, not locally compiled. The supplied project
+files have transitive imports absent from the archive. In particular,
+HeckeSeries/HeckeDerivative, IdealEulerIdentity, FLTReuse, and the explicit
+functional-equation/Gamma modules are not a complete local dependency tree.
+The accompanying API report records the two definitional reductions that
+must be checked against those missing definitions.
+
+The unconditional uniform growth theorem supplied in the archive covers
+totally complex fields and a fixed infinity type. The general-field theorem
+below therefore keeps polynomial growth as an explicit analytic hypothesis.
+-/
+
+import PrimeCancellationDiskGeometry
+import PrimeCancellationFixedWindow
+import HeckeGeneral.Analysis.HeckeContinuation
+import HeckeGeneral.Analysis.IdealDerivativeEulerLog
+import HeckeGeneral.Analysis.MomentInputs
+import HeckeSkeleton.HeckeUniformStripGrowth
+import Mathlib.Analysis.Meromorphic.Order
+
+set_option autoImplicit false
+noncomputable section
+
+namespace HeckeSkeleton.PrimeCancellationHecke
+
+open NumberField IsDedekindDomain Filter
+open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Bridge
+open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
+open HeckeSkeleton.ExplicitHeckeFunctionalEquation
+open PrimeCancellationDiskGeometry
+open scoped Classical Topology BigOperators
+
+variable (K : Type) [Field K] [NumberField K]
+
+/-- The actual convergent Euler logarithm, using the supplied prime-ideal
+logarithm construction rather than an additional logarithm hypothesis. -/
+def primeCancellationEulerLog (χ : HeckeCharacter K) (s : ℂ) : ℂ :=
+  primeIdealLogSeries K (primeCoefficient K χ) s
+
+/-- A field-dependent uniform bound for the Euler logarithm at real part 2. -/
+def primeCancellationEulerLogSize : ℝ :=
+  (3 / 2 : ℝ) * ∑' p : HeightOneSpectrum (𝓞 K),
+    (Ideal.absNorm p.asIdeal : ℝ) ^ (-(2 : ℝ))
+
+theorem primeCancellationEulerLogSize_nonneg :
+    0 ≤ primeCancellationEulerLogSize K := by
+  unfold primeCancellationEulerLogSize
+  apply mul_nonneg (by norm_num)
+  exact tsum_nonneg (fun p => Real.rpow_nonneg (by positivity) _)
+
+/-- Absolute summability and the local Euler-log bound give a uniform
+center bound for every unitary character, without a conductor factor. -/
+theorem primeCancellationEulerLog_norm_le (χ : HeckeCharacter K)
+    {s : ℂ} (hs : 2 ≤ s.re) :
+    ‖primeCancellationEulerLog K χ s‖ ≤ primeCancellationEulerLogSize K := by
+  have hbase : Summable (fun p : HeightOneSpectrum (𝓞 K) =>
+      (Ideal.absNorm p.asIdeal : ℝ) ^ (-(2 : ℝ))) :=
+    summable_primeIdeal_norm_rpow K (by norm_num : (1 : ℝ) < 2)
+  have hmajor := hbase.mul_left (3 / 2 : ℝ)
+  have hterm (p : HeightOneSpectrum (𝓞 K)) :
+      ‖primeIdealLogTerm K (primeCoefficient K χ) s p‖ ≤
+        (3 / 2 : ℝ) * (Ideal.absNorm p.asIdeal : ℝ) ^ (-(2 : ℝ)) :=
+    norm_primeIdealLogTerm_le K (primeCoefficient K χ)
+      (norm_primeCoefficient_le_one K χ) (by norm_num : (1 : ℝ) < 2) hs p
+  have hsum : Summable (fun p : HeightOneSpectrum (𝓞 K) =>
+      ‖primeIdealLogTerm K (primeCoefficient K χ) s p‖) :=
+    Summable.of_nonneg_of_le (fun _ => norm_nonneg _) hterm hmajor
+  change ‖∑' p, primeIdealLogTerm K (primeCoefficient K χ) s p‖ ≤ _
+  calc
+    _ ≤ ∑' p, ‖primeIdealLogTerm K (primeCoefficient K χ) s p‖ :=
+      norm_tsum_le_tsum_norm hsum
+    _ ≤ ∑' p : HeightOneSpectrum (𝓞 K),
+        (3 / 2 : ℝ) * (Ideal.absNorm p.asIdeal : ℝ) ^ (-(2 : ℝ)) :=
+      hsum.tsum_le_tsum hterm hmajor
+    _ = primeCancellationEulerLogSize K := by
+      rw [tsum_mul_left]
+      rfl
+
+/-- The Euler logarithm exponentiates to the actual continuation on its
+convergence half-plane.
+
+Local API check: the `change` below uses the definition of `heckeLSeries`
+as the ideal Dirichlet series of `nonzeroIdealCoefficient (primeCoefficient χ)`.
+That definition is in an omitted transitive import, while the same
+identification is used by the supplied Euler-derivative proofs. -/
+theorem exp_primeCancellationEulerLog (χ : HeckeCharacter K)
+    {s : ℂ} (hs : 1 < s.re) :
+    Complex.exp (primeCancellationEulerLog K χ s) = heckeContinuation K χ s := by
+  rw [heckeContinuation_eq_series K χ hs]
+  change Complex.exp (primeIdealLogSeries K (primeCoefficient K χ) s) =
+    idealDirichletSeries K (nonzeroIdealCoefficient (primeCoefficient K χ)) s
+  exact (idealDirichletSeries_eq_primeIdealEulerValue K (primeCoefficient K χ)
+    (norm_primeCoefficient_le_one K χ) hs).symm
+
+/-- The continued logarithmic derivative is deliberately kept distinct
+from `heckeLogDerivative`, which is defined through the Euler series. -/
+def continuedLogDerivative (χ : HeckeCharacter K) (s : ℂ) : ℂ :=
+  deriv (heckeContinuation K χ) s / heckeContinuation K χ s
+
+/-- Equality on an open right half-plane identifies the derivatives too.
+This is the exact bridge required before inserting the continued quotient
+into a Mellin contour and then shifting that contour leftwards.
+
+Local API check: the last `change` unfolds the missing `heckeLogDerivative`
+definition. The supplied theorem `heckeLogDerivative_eq_primePowerSeries`
+itself reduces definitionally to the ideal-series derivative theorem. -/
+theorem continuedLogDerivative_eq_primePowerSeries (χ : HeckeCharacter K)
+    {s : ℂ} (hs : 1 < s.re) :
+    continuedLogDerivative K χ s =
+      -primePowerLogSeries K (primeCoefficient K χ) 1 s := by
+  have heq : heckeContinuation K χ =ᶠ[𝓝 s] heckeLSeries K χ := by
+    filter_upwards [(isOpen_lt continuous_const Complex.continuous_re).mem_nhds hs]
+      with w hw
+    exact heckeContinuation_eq_series K χ hw
+  unfold continuedLogDerivative
+  rw [heq.deriv_eq, heckeContinuation_eq_series K χ hs]
+  change heckeLogDerivative K χ s =
+    -primePowerLogSeries K (primeCoefficient K χ) 1 s
+  exact heckeLogDerivative_eq_primePowerSeries K χ hs
+
+/-- On the entire non-norm branch, a nonpositive meromorphic order at all
+points to the right of β implies literal nonvanishing there. No statement
+about values assigned to poles by total division is used. -/
+theorem continuation_ne_zero_of_order_boundary (χ : HeckeCharacter K)
+    (hχ : ∀ t : ℝ, χ ≠ heckeNormTwist K t) {β : ℝ}
+    (hboundary : ∀ s : ℂ, β < s.re →
+      meromorphicOrderAt (heckeContinuation K χ) s ≤ 0)
+    {s : ℂ} (hs : β < s.re) : heckeContinuation K χ s ≠ 0 := by
+  intro hzero
+  have hd := differentiable_heckeContinuation_of_nonNorm K χ hχ
+  have hlim : Tendsto (heckeContinuation K χ) (𝓝[≠] s) (𝓝 0) := by
+    simpa only [hzero] using
+      ((hd.continuous.continuousAt : ContinuousAt (heckeContinuation K χ) s).tendsto.mono_left
+        nhdsWithin_le_nhds)
+  have hpos : 0 < meromorphicOrderAt (heckeContinuation K χ) s :=
+    (tendsto_zero_iff_meromorphicOrderAt_pos ((hd.analyticAt s).meromorphicAt)).mp hlim
+  exact (not_lt_of_ge (hboundary s hs)) hpos
+
+theorem continuation_ne_zero_of_finiteOrderBoundary (χ : HeckeCharacter K)
+    (hfinite : FiniteOrder χ)
+    (hχ : ∀ t : ℝ, χ ≠ heckeNormTwist K t) {β : ℝ}
+    (hboundary : FiniteOrderBoundary (K := K) β)
+    {s : ℂ} (hs : β < s.re) : heckeContinuation K χ s ≠ 0 :=
+  continuation_ne_zero_of_order_boundary K χ hχ (hboundary χ hfinite) hs
+
+/-- The continued quotient is holomorphic throughout the zero-free half-plane. -/
+theorem continuedLogDerivative_differentiableOn (χ : HeckeCharacter K)
+    (hχ : ∀ t : ℝ, χ ≠ heckeNormTwist K t) {β : ℝ}
+    (hzero : ∀ s : ℂ, β < s.re → heckeContinuation K χ s ≠ 0) :
+    DifferentiableOn ℂ (continuedLogDerivative K χ) {s : ℂ | β < s.re} := by
+  have hd := differentiable_heckeContinuation_of_nonNorm K χ hχ
+  intro s hs
+  exact (((hd.analyticAt s).deriv.differentiableAt).div (hd s)
+    (hzero s hs)).differentiableWithinAt
+
+/-- Actual Hecke specialization of the checked zero-free-to-logarithmic-
+derivative theorem. The polynomial premise is explicit and the Euler-log
+premise is proved above, uniformly in χ. -/
+theorem continuedLogDerivative_bound_of_polynomial (χ : HeckeCharacter K)
+    (hχ : ∀ u : ℝ, χ ≠ heckeNormTwist K u)
+    {β δ σ t C Q p : ℝ} (k : ℕ)
+    (hβ : 1 / 2 ≤ β) (hβ' : β ≤ 1) (hδ : 0 < δ) (hδ' : δ ≤ 1 / 4)
+    (hσ : β + δ ≤ σ) (hσ' : σ ≤ 2)
+    (hC : 1 ≤ C) (hQ : 1 ≤ Q) (hp : 0 ≤ p)
+    (hzero : ∀ s : ℂ, β < s.re → heckeContinuation K χ s ≠ 0)
+    (hpoly : ∀ s : ℂ, 1 / 2 ≤ s.re →
+      ‖heckeContinuation K χ s‖ ≤ C * Q ^ p * (2 + |s.im|) ^ k) :
+    ‖continuedLogDerivative K χ (verticalPoint σ t)‖ ≤
+      48 * (1 + Real.log C + p * Real.log Q +
+        (k : ℝ) * Real.log (4 + |t|) + primeCancellationEulerLogSize K) / δ ^ 2 := by
+  have hexp : Complex.exp (primeCancellationEulerLog K χ (verticalPoint 2 t)) =
+      heckeContinuation K χ (verticalPoint 2 t) :=
+    exp_primeCancellationEulerLog K χ (by simp)
+  have hlog : ‖primeCancellationEulerLog K χ (verticalPoint 2 t)‖ ≤
+      primeCancellationEulerLogSize K :=
+    primeCancellationEulerLog_norm_le K χ (by simp)
+  simpa only [continuedLogDerivative] using
+    norm_logDeriv_le_of_halfPlane_polynomial k hβ hβ' hδ hδ' hσ hσ' hC hQ hp
+      (differentiable_heckeContinuation_of_nonNorm K χ hχ) hzero hexp hlog hpoly
+
+theorem continuedLogDerivative_bound_of_finiteOrderBoundary (χ : HeckeCharacter K)
+    (hfinite : FiniteOrder χ) (hχ : ∀ u : ℝ, χ ≠ heckeNormTwist K u)
+    {β δ σ t C Q p : ℝ} (k : ℕ)
+    (hβ : 1 / 2 ≤ β) (hβ' : β ≤ 1) (hδ : 0 < δ) (hδ' : δ ≤ 1 / 4)
+    (hσ : β + δ ≤ σ) (hσ' : σ ≤ 2)
+    (hC : 1 ≤ C) (hQ : 1 ≤ Q) (hp : 0 ≤ p)
+    (hboundary : FiniteOrderBoundary (K := K) β)
+    (hpoly : ∀ s : ℂ, 1 / 2 ≤ s.re →
+      ‖heckeContinuation K χ s‖ ≤ C * Q ^ p * (2 + |s.im|) ^ k) :
+    ‖continuedLogDerivative K χ (verticalPoint σ t)‖ ≤
+      48 * (1 + Real.log C + p * Real.log Q +
+        (k : ℝ) * Real.log (4 + |t|) + primeCancellationEulerLogSize K) / δ ^ 2 :=
+  continuedLogDerivative_bound_of_polynomial K χ hχ k hβ hβ' hδ hδ' hσ hσ'
+    hC hQ hp (fun s hs =>
+      continuation_ne_zero_of_finiteOrderBoundary K χ hfinite hχ hboundary hs) hpoly
+
+/-- Positivity from the existing explicit-conductor functional equation,
+followed by the supplied integrality lemma, removes a separate Q >= 1
+assumption in the actual-conductor specialization.
+
+The functional-equation theorem's declaration is in an omitted import;
+the exact same witness pattern is used in the supplied strip-growth file. -/
+theorem one_le_actualConductorScale (χ : HeckeCharacter K)
+    (hχ : ∀ t : ℝ, χ ≠ heckeNormTwist K t) :
+    1 ≤ heckeConductorScale K χ := by
+  obtain ⟨ε, Λ, Λd, hQ, _, _, _, _, _, _, _, _⟩ :=
+    exists_completed_functionalEquation_explicitScale_of_nonNorm K χ hχ
+  exact HeckeSkeleton.HeckeUniformStripGrowth.one_le_conductorScale_of_pos K χ hQ
+
+/-- The supplied fixed-type strip theorem only covers totally complex
+fields and `-d ≤ Re(s) ≤ 1+d`. Taking d=1/8 and adjoining the uniform
+Euler bound for Re(s) ≥ 9/8 covers the whole right half-plane needed by
+the disk argument. The constant is selected before the character. -/
+theorem exists_uniform_fixedType_rightHalfPlane_polynomial
+    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex)
+    (τ : InfinitePlace K → ℝ) (m : InfinitePlace K → ℤ) :
+    ∃ C : ℝ, 1 ≤ C ∧ ∀ χ : HeckeCharacter K,
+      (∀ t : ℝ, χ ≠ heckeNormTwist K t) →
+      (fun v => heckeRadialParameter K v χ) = τ → heckeArchWeight K χ = m →
+      ∀ s : ℂ, 1 / 2 ≤ s.re →
+        ‖heckeContinuation K χ s‖ ≤ C * heckeConductorScale K χ ^ (5 / 8 : ℝ) *
+          (2 + |s.im|) ^ (2 * Fintype.card (InfinitePlace K)) := by
+  obtain ⟨A, _hApos, hA⟩ :=
+    HeckeSkeleton.HeckeUniformStripGrowth.exists_uniform_fixedType_strip_bound
+      K hcomplex τ m (1 / 8) (by norm_num) (by norm_num)
+  obtain ⟨E, _hEpos, hE⟩ :=
+    HeckeSkeleton.HeckeUniformStripGrowth.exists_uniform_rightHalfPlane_bound
+      K (9 / 8) (by norm_num)
+  let C : ℝ := max 1 (max A E)
+  have hC : 1 ≤ C := le_max_left _ _
+  have hAC : A ≤ C := (le_max_left A E).trans (le_max_right 1 (max A E))
+  have hEC : E ≤ C := (le_max_right A E).trans (le_max_right 1 (max A E))
+  refine ⟨C, hC, ?_⟩
+  intro χ hχ hτ hm s hs
+  have hQ : 1 ≤ heckeConductorScale K χ := one_le_actualConductorScale K χ hχ
+  have hQnon : 0 ≤ heckeConductorScale K χ := zero_le_one.trans hQ
+  by_cases hright : s.re ≤ 9 / 8
+  · have hb := hA χ hχ hτ hm s ⟨by linarith, by linarith⟩
+    have hb' : ‖heckeContinuation K χ s‖ ≤
+        A * heckeConductorScale K χ ^ (5 / 8 : ℝ) *
+          (2 + |s.im|) ^ (2 * Fintype.card (InfinitePlace K)) := by
+      simpa only [show (1 / 2 : ℝ) + 1 / 8 = 5 / 8 by norm_num] using hb
+    exact hb'.trans (mul_le_mul_of_nonneg_right
+      (mul_le_mul_of_nonneg_right hAC (Real.rpow_nonneg hQnon _)) (by positivity))
+  · have hQpow : 1 ≤ heckeConductorScale K χ ^ (5 / 8 : ℝ) :=
+      Real.one_le_rpow hQ (by norm_num)
+    have hHpow : 1 ≤ (2 + |s.im|) ^ (2 * Fintype.card (InfinitePlace K)) :=
+      one_le_pow₀ (by linarith [abs_nonneg s.im])
+    have hCnon : 0 ≤ C := zero_le_one.trans hC
+    calc
+      ‖heckeContinuation K χ s‖ ≤ E := hE χ s (by linarith)
+      _ ≤ C := hEC
+      _ ≤ C * heckeConductorScale K χ ^ (5 / 8 : ℝ) :=
+        le_mul_of_one_le_right hCnon hQpow
+      _ ≤ C * heckeConductorScale K χ ^ (5 / 8 : ℝ) *
+          (2 + |s.im|) ^ (2 * Fintype.card (InfinitePlace K)) :=
+        le_mul_of_one_le_right
+          (mul_nonneg hCnon (Real.rpow_nonneg hQnon _)) hHpow
+
+/-- The totally-complex fixed-type specialization eliminates the polynomial
+growth premise using the supplied actual Hecke theorem. The remaining zero
+boundary, finite order, and non-norm condition are displayed explicitly.
+No claim for real-place fields is inferred. -/
+theorem exists_fixedType_continuedLogDerivative_bound
+    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex)
+    (τ : InfinitePlace K → ℝ) (m : InfinitePlace K → ℤ) :
+    ∃ C : ℝ, 1 ≤ C ∧ ∀ (χ : HeckeCharacter K),
+      FiniteOrder χ → (∀ u : ℝ, χ ≠ heckeNormTwist K u) →
+      (fun v => heckeRadialParameter K v χ) = τ → heckeArchWeight K χ = m →
+      ∀ β δ σ t : ℝ, 1 / 2 ≤ β → β ≤ 1 → 0 < δ → δ ≤ 1 / 4 →
+      β + δ ≤ σ → σ ≤ 2 → FiniteOrderBoundary (K := K) β →
+      ‖continuedLogDerivative K χ (verticalPoint σ t)‖ ≤
+        48 * (1 + Real.log C + (5 / 8 : ℝ) * Real.log (heckeConductorScale K χ) +
+          ((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) * Real.log (4 + |t|) +
+          primeCancellationEulerLogSize K) / δ ^ 2 := by
+  obtain ⟨C, hC, hpoly⟩ :=
+    exists_uniform_fixedType_rightHalfPlane_polynomial K hcomplex τ m
+  refine ⟨C, hC, ?_⟩
+  intro χ hfinite hχ hτ hm β δ σ t hβ hβ' hδ hδ' hσ hσ' hboundary
+  have hQ : 1 ≤ heckeConductorScale K χ := one_le_actualConductorScale K χ hχ
+  exact continuedLogDerivative_bound_of_finiteOrderBoundary K χ hfinite hχ
+    (2 * Fintype.card (InfinitePlace K)) hβ hβ' hδ hδ' hσ hσ'
+    hC hQ (by norm_num : (0 : ℝ) ≤ 5 / 8) hboundary
+    (hpoly χ hχ hτ hm)
+
+/-- Construct the verified analytic engine's data from the actual Hecke
+continuation. The center logarithm is built from the supplied Euler series. -/
+def zeroFreeDataOfPolynomial (χ : HeckeCharacter K)
+    (hχ : ∀ u : ℝ, χ ≠ heckeNormTwist K u)
+    {β C Q p : ℝ} (k : ℕ) (hC : 1 ≤ C) (hQ : 1 ≤ Q) (hp : 0 ≤ p)
+    (hzero : ∀ s : ℂ, β < s.re → heckeContinuation K χ s ≠ 0)
+    (hpoly : ∀ s : ℂ, 1 / 2 ≤ s.re →
+      ‖heckeContinuation K χ s‖ ≤ C * Q ^ p * (2 + |s.im|) ^ k) :
+    PrimeCancellation.Analytic.ZeroFreeData (heckeContinuation K χ) β where
+  C := C
+  Q := Q
+  p := p
+  k := k
+  A := primeCancellationEulerLogSize K
+  C_one := hC
+  Q_one := hQ
+  p_nonneg := hp
+  entire := differentiable_heckeContinuation_of_nonNorm K χ hχ
+  zeroFree := hzero
+  centerLog := fun t => primeCancellationEulerLog K χ ((2 : ℂ) + t * Complex.I)
+  centerLog_exp := fun t => exp_primeCancellationEulerLog K χ (by simp)
+  centerLog_bound := fun t => primeCancellationEulerLog_norm_le K χ (by simp)
+  polynomial := hpoly
+
+/-- The actual finite-order meromorphic boundary supplies the nonvanishing
+field of `ZeroFreeData`; it is not replaced by a reciprocal bound. -/
+def zeroFreeDataOfFiniteOrderBoundary (χ : HeckeCharacter K)
+    (hfinite : FiniteOrder χ) (hχ : ∀ u : ℝ, χ ≠ heckeNormTwist K u)
+    {β C Q p : ℝ} (k : ℕ) (hC : 1 ≤ C) (hQ : 1 ≤ Q) (hp : 0 ≤ p)
+    (hboundary : FiniteOrderBoundary (K := K) β)
+    (hpoly : ∀ s : ℂ, 1 / 2 ≤ s.re →
+      ‖heckeContinuation K χ s‖ ≤ C * Q ^ p * (2 + |s.im|) ^ k) :
+    PrimeCancellation.Analytic.ZeroFreeData (heckeContinuation K χ) β :=
+  zeroFreeDataOfPolynomial K χ hχ k hC hQ hp
+    (fun s hs => continuation_ne_zero_of_finiteOrderBoundary K χ hfinite hχ hboundary hs)
+    hpoly
+
+/-- In the totally-complex fixed-type range, the existing actual growth
+theorem constructs `ZeroFreeData` without a separate growth hypothesis.
+The common growth constant is chosen before the character and β. -/
+theorem exists_fixedType_zeroFreeData
+    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex)
+    (τ : InfinitePlace K → ℝ) (m : InfinitePlace K → ℤ) :
+    ∃ C : ℝ, 1 ≤ C ∧ ∀ χ : HeckeCharacter K,
+      FiniteOrder χ → (∀ u : ℝ, χ ≠ heckeNormTwist K u) →
+      (fun v => heckeRadialParameter K v χ) = τ → heckeArchWeight K χ = m →
+      ∀ β : ℝ, FiniteOrderBoundary (K := K) β →
+      ∃ d : PrimeCancellation.Analytic.ZeroFreeData (heckeContinuation K χ) β,
+        d.C = C ∧ d.Q = heckeConductorScale K χ ∧ d.p = 5 / 8 ∧
+          d.k = 2 * Fintype.card (InfinitePlace K) ∧ d.A = primeCancellationEulerLogSize K := by
+  obtain ⟨C, hC, hpoly⟩ :=
+    exists_uniform_fixedType_rightHalfPlane_polynomial K hcomplex τ m
+  refine ⟨C, hC, ?_⟩
+  intro χ hfinite hχ hτ hm β hboundary
+  let d := zeroFreeDataOfFiniteOrderBoundary K χ hfinite hχ
+    (2 * Fintype.card (InfinitePlace K)) hC (one_le_actualConductorScale K χ hχ)
+    (by norm_num : (0 : ℝ) ≤ 5 / 8) hboundary (hpoly χ hχ hτ hm)
+  exact ⟨d, rfl, rfl, rfl, rfl, rfl⟩
+
+/-- Actual-Hecke wrapper around the independently checked fixed-window
+Mellin theorem. The only arithmetic-series premise is its original Euler
+identity and absolute convergence at real part 2. All window estimates are
+derived from the smoothness and fixed support of W. -/
+theorem exists_hecke_fixed_logWindow_sum_bound (W : ℝ → ℂ)
+    (hW : ContDiff ℝ ∞ W) (hWs : Function.support W ⊆ Set.Icc (1 : ℝ) 2) :
+    ∃ P₀ D : ℝ, 2 ≤ P₀ ∧ 0 ≤ D ∧
+      ∀ (χ : HeckeCharacter K), FiniteOrder χ →
+      (∀ u : ℝ, χ ≠ heckeNormTwist K u) →
+      ∀ (β C Q p : ℝ) (k : ℕ), 1 ≤ C → 1 ≤ Q → 0 ≤ p →
+      FiniteOrderBoundary (K := K) β →
+      (∀ s : ℂ, 1 / 2 ≤ s.re →
+        ‖heckeContinuation K χ s‖ ≤ C * Q ^ p * (2 + |s.im|) ^ k) →
+      ∀ {ι : Type*} [Countable ι] (r : ι → ℝ) (hr : ∀ i, 0 < r i) (c : ι → ℂ),
+      Summable (fun i => ‖c i‖ * (r i) ^ (-(2 : ℝ))) →
+      (∀ s : ℂ, 1 < s.re →
+        (∑' i, c i * (r i : ℂ) ^ (-s)) =
+          -deriv (heckeContinuation K χ) s / heckeContinuation K χ s) →
+      ∀ δ P : ℝ, 1 / 2 ≤ β → β ≤ 1 → 0 < δ → δ ≤ 1 / 4 → P₀ ≤ P →
+        ‖∑' i, c i * PrimeCancellationLogWindow.logWindow P W (r i / P)‖ ≤
+          24 * (D * (1 + Real.log C + p * Real.log Q +
+            primeCancellationEulerLogSize K + 3 * (k : ℝ))) / δ ^ 2 * P ^ (β + δ) := by
+  obtain ⟨P₀, D, hP₀, hD, hbound⟩ :=
+    PrimeCancellation.Analytic.exists_uniform_fixed_logWindow_sum_bound W hW hWs
+  refine ⟨P₀, D, hP₀, hD, ?_⟩
+  intro χ hfinite hχ β C Q p k hC hQ hp hboundary hpoly
+    ι _ r hr c hc heuler δ P hβ hβ' hδ hδ' hP
+  let d := zeroFreeDataOfFiniteOrderBoundary K χ hfinite hχ k hC hQ hp hboundary hpoly
+  have h := hbound β (heckeContinuation K χ) d r hr c hc heuler
+    δ P hβ hβ' hδ hδ' hP
+  simpa only [d, zeroFreeDataOfFiniteOrderBoundary, zeroFreeDataOfPolynomial,
+    PrimeCancellation.Analytic.heightConstant] using h
+
+-- These commands are intentionally left for local compilation with the
+-- complete Hecke project. No successful project audit is claimed here.
+#print axioms primeCancellationEulerLog_norm_le
+#print axioms exp_primeCancellationEulerLog
+#print axioms continuedLogDerivative_eq_primePowerSeries
+#print axioms continuation_ne_zero_of_finiteOrderBoundary
+#print axioms continuedLogDerivative_differentiableOn
+#print axioms continuedLogDerivative_bound_of_finiteOrderBoundary
+#print axioms exists_fixedType_continuedLogDerivative_bound
+#print axioms zeroFreeDataOfPolynomial
+#print axioms zeroFreeDataOfFiniteOrderBoundary
+#print axioms exists_fixedType_zeroFreeData
+#print axioms exists_hecke_fixed_logWindow_sum_bound
+
+end HeckeSkeleton.PrimeCancellationHecke

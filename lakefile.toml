@@ -80,6 +80,13 @@ roots = ["ActiveBoxPrincipalUnitRatio", "DiscreteCompactPowerRange", "ActualAdic
 name = "CubicSieve"
 globs = ["CubicSieve.+"]
 
+# Cloud deliverable (ChatGPT, 2026-10-31): prime-slot cancellation core for
+# MI-P-PRIME-CANCELLATION-BELOW-ONE; Mathlib-only, see PrimeCancellation/README.txt.
+[[lean_lib]]
+name = "PrimeCancellation"
+srcDir = "PrimeCancellation"
+roots = ["PrimeCancellationInventory", "PrimeCancellationCompactFamily", "PrimeCancellationLogWindow", "PrimeCancellationLogProfile", "PrimeCancellationMellin", "PrimeCancellationContour", "PrimeCancellationLogDerivative", "PrimeCancellationDiskGeometry", "PrimeCancellationAux", "PrimeCancellationAnalytic", "PrimeCancellationWindowControl", "PrimeCancellationFixedWindow", "PrimeCancellationPrimePowers", "PrimeCancellationPrimeSeries", "PrimeCancellationIdealMask", "PrimeCancellationMaskCount", "PrimeCancellationUniformity", "PrimeCancellation", "PrimeCancellationEulerDerivatives", "PrimeCancellationMellinSeminorm", "PrimeCancellationPaired", "PrimeCancellationSchwartzControl", "PrimeCancellationUniformProfiles", "PrimeCancellationPairedProfiles"]
+
 # Ports of openai/math DirichletL modules from ℤ[ω] to general number fields.
 [[lean_lib]]
 name = "HeckePort"

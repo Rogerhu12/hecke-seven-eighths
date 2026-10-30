@@ -1,0 +1,130 @@
+# 根素数消去定理的一致性核查
+
+对象：`PrimeCancellation.lean`、`PrimeCancellationLogWindow.lean`、`PrimeCancellationPrimePowers.lean`、`PrimeCancellationPrimeSeries.lean`，以及后续扩展 `PrimeCancellationSchwartzControl.lean`、`PrimeCancellationUniformProfiles.lean`、`PrimeCancellationEulerDerivatives.lean`。本记录核查数学与接口；各模块是否已通过编译以各自最终 `.build.log` 为准。SchwartzControl 的 24 个定理、UniformProfiles 的 3 个定理和 EulerDerivatives 的 20 个定理均已由环境代理最终验收，全部无 warning。不能把初轮带错误的日志当成最终验收记录。
+
+## 1. Euler 系数、窗口与 1/k
+
+根模块采用
+
+    r(n,p) = ν(p)^(n+1),
+    c(n,p) = log(ν(p)) · a(p)^(n+1).
+
+它们代入固定-window 的加权和后，表达式与 `PrimeCancellationPrimeSeries.weightedSum` 按定义相同，不需要额外换元或未证明的等式。
+
+`PrimeCancellationLogWindow.prime_power_log_cancellation` 的恒等式为
+
+    log ν · a^k · [W(ν^k/P)/log(P·ν^k/P)]
+      = a^k W(ν^k/P)/k.
+
+条件 P>0、ν>1、k≥1 保证消去的 P、log ν 和 k 都非零。ν≥2 由 `PrimeArithmetic.norm_ge_two` 提供；指数 n+1 自动为正。
+
+所以 k=1 部分恰是无 log 权重的 `primeSum`；k≥2 部分恰是 `primePowerWindowTerm` 定义的 `tailSum`。这里不存在漏掉 log ν、误将权重写成 1/(k log ν)，或把高次幂当成普通素数的情况。
+
+## 2. 绝对可和性没有被当成尾项假设
+
+`PrimeCancellationPrimePowers` 的结论最初仅针对有限的素对象池和有限指数截断。`PrimeCancellationPrimeSeries` 新增的是绝对值和的矩形界：
+
+    Σ_(n<N) Σ_(p∈pool) |a(p)^(n+2) W(ν(p)^(n+2)/P)/(n+2)|
+      ≤ M d (1+√2)√P.
+
+每个有限集合 s⊂ℕ×α 均包含于
+
+    {0,…,max fst(s)} × image(snd,s).
+
+因为所求和的项非负，扩大到该矩形只会增加和。对所有有限 s 的统一上界，借 `summable_of_sum_le` 推出范数族可和，再由 `Summable.of_norm` 得到复值族可和。因此从有限和到无限尾项的步骤实质上已证明，并未添加“尾项可和”的假设。
+
+这一论证甚至不需要 α 可数；根模块保留 `[Countable α]` 是上游 Mellin/Fubini 接口的要求。
+
+k=1 的普通素数部分也由相同的有限计数法证明绝对可和。最终 `weightedSum_eq_primeSum_add_tailSum` 在已有绝对可和性的基础上使用 `sum_add_tsum_nat_add 1` 和积指标的 Fubini 等式，获得精确分解。
+
+## 3. X=2P 的平方根常数正确
+
+有限幂计数使用
+
+    #{p:ν(p)≤Y}≤dY,
+    X^(1/k)≤2^(1−k/2)√X      (k≥2, 2^k≤X).
+
+记 ratio=1/√2。把 k=n+2 后，上界为 ratio^n√X；再用 1/(n+2)≤1/2，得到
+
+    尾项≤M d [1/(2(1−ratio))]√X
+        =M d (1+1/√2)√X.
+
+窗口支撑于 [1,2]，所以取 X=2P。于是
+
+    (1+1/√2)√(2P)=(1+√2)√P.
+
+这正是根模块 `primeBoundConstant` 中的尾项常数。这里没有多余或缺失的 √2。
+
+## 4. 大尺度和小尺度覆盖完整
+
+大尺度 P≥P₀：上游加权估计给出 C_analytic P^(β+δ)。精确分解与三角不等式给出
+
+    |primeSum|≤C_analytic P^(β+δ)+M d(1+√2)√P.
+
+根模块假设 P≥1、β≥1/2、δ>0，故 √P≤P^(β+δ)。因此尾项可以加入主常数。
+
+小尺度 1≤P<P₀：只需 ν(p)≤2P 的对象。有限计数与 |a|≤1、|W|≤M 得到
+
+    |primeSum|≤2MdP≤2MdP₀.
+
+又因 P^(β+δ)≥1，根模块加入常数 2MdP₀ 后便覆盖该整个区间。此处没有在 P=1 使用 1/log P，也没有要求窗口的支撑与 1、2 之间存在额外统一距离。
+
+## 5. 全实轴光滑性处理正确
+
+`logWindow P W x=W(x)/log(Px)` 按实轴上的总函数定义。分母可能在 x=0 或 x=1/P 处为零，但 P≥2 时这些点位于 x<1，而 W 在这一开半轴上局部恒为零。因此 V 在这些点附近也恒为零。
+
+在 x≥1 上，Px≥2，故 log(Px)>0；实对数的光滑性与实逆元的光滑性足够推出 V 光滑。实际 Lean 证明采用实逆元乘标量作用到复值 W，避开复代数与实标量 NormedSpace 实例之间的 diamond。
+
+## 6. 根模块的 API 与结论范围
+
+下列调用顺序与已冻结的 `PrimeCancellationPrimeSeries` 签名一致：
+
+    norm_primeSum_le ν a W degreeBound M P hPpos hA hWin
+    norm_tailSum_le ν a W degreeBound M P hPpos hA hWin
+    weightedSum_eq_primeSum_add_tailSum ν a W degreeBound M P hPpos hA hWin
+
+根定理没有把素数消去估计或 Mellin 移线结论当成假设。它的分析输入是零点自由解析数据、Re(s)=2 的绝对收敛，以及真实 prime-power Euler 对数导数恒等式。后两项仍须对实际 Hecke L 函数接线，属于具体 L 函数的基础解析接口。
+
+`PrimeCancellation.lean` 本身仍是**固定光滑窗口**版本：P₀ 和 D 依赖固定 W。但新增的 `PrimeCancellation.UniformProfiles.exists_uniform_prime_seminorm_bound` 已将实现目标扩展为标准 Schwartz 空间中的统一有限半范数估计，其量词是
+
+    ∃ 有限 s⊂ℕ×ℕ, ∃ C>0, (0,0)∈s,
+      ∀ W∈Schwartz(ℝ,ℂ), support W⊆[1,2],
+      ∀ 算术及零点自由数据, ∀ δ,P,
+        |primeSum(W,P)|
+          ≤ analyticConstant(data,δ,C,d) · sourceSeminorm(s,W) · P^(β+δ).
+
+这里 `sourceSeminorm` 是标准 Schwartz 半范数族的有限上确界，s 与 C 均在 W 之前选定。`SchwartzControl.uniform_window_and_logWindow_source_bound` 使用同一 s 同时控制 supnorm 与全部对数除窗的三次 Mellin 衰减；在 s 中加入 (0,0) 保证普通窗口 supnorm 被覆盖。大尺度阈值固定为 exp(4)，与 W 无关；1≤P<exp(4) 仍由 2MdP 的初等估计处理。
+
+这两个扩展现已通过最终编译验收，因而 **“只完成固定 W，标准有限半范数统一性尚未实现”不再是正确的总体范围说明**。保留的真实项目接口是：将项目自定义 `testSeminorm` 与这里的标准 Schwartz 半范数相比较，并证明实际随 i、Z 变化的 prime windows 满足所需统一控制。提供的 `WholeMomentProfileControl` 没有覆盖这些 prime windows，这一缺口不会因通用分析定理加强而自动消失。
+
+## 7. Euler 尺度导数与局部有限性
+
+`PrimeCancellationEulerDerivatives` 使用实标量形式
+
+    E W(x) = x • W′(x),
+    T W(x) = −E W(x) − (1/2) • W(x),
+    normalizedPrimeSum(W,P) = P^(−1/2) • primeSum(W,P).
+
+实 rpow 归一化在 P≥0 与逆平方根归一化精确相同。在每个固定有限 pool 上，链式法则和乘积法则给出
+
+    P • deriv_P [P^(−1/2) • Σ_pool a_p W(ν_p/P)]
+      = P^(−1/2) • Σ_pool a_p (T W)(ν_p/P),   P>0.
+
+负号与 −1/2 项分别来自 ν/P 的导数和归一化因子的导数。没有额外的 log P 因子。
+
+普通 support(W′) 不一定包含于 support(W)：W 在单个零点可以有非零导数。实现采用正确的 support(TW)⊆tsupport(W)，继而利用 [1,2] 的闭性恢复 support(TW)⊆[1,2]。T 与其每个固定 q 次迭代保持 C∞。
+
+对实际 `tsum`，代码先从任意有限子集计数界推出 `{p:ν_p≤Y}` 有限：若无限，则可选取基数 n>dY 的有限子集，直接与计数界矛盾。固定 P>0 后选取
+
+    pool(P) = {p:ν_p≤4P}.
+
+当 Q∈(P/2,2P) 时，W(ν_p/Q) 非零必有 ν_p≤2Q<4P，所以所有该邻域中的 prime sums 共享这一有限 pool。`EventuallyEq.deriv_eq` 将有限式转移到实际 primeSum；没有假定一个适用于全部 P 的统一有限 pool，也没有把无限和可逐项求导当成输入。
+
+最后的 `iterate_eulerDerivative_normalizedPrimeSum` 利用正半轴邻域和导数局部性归纳，证明对所有 q∈ℕ、P>0，
+
+    (P∂P)^q [normalizedPrimeSum(W)](P)
+      = normalizedPrimeSum(T^q W,P).
+
+这给出了将同一素数消去指数用于固定阶尺度导数的准确窗口变换。模块没有声称已完成项目自定义 p_r(T^q W) 的具体阶数与常数估计；该表示转换仍应在实际 `testSeminorm` 接线时处理。
+
+审查结论：在上述明确范围内，没有发现根模块与去 log、素理想幂计数、无限级数提取或局部有限 Euler 导数之间的数学逻辑缺口。标准 Schwartz 有限半范数扩展与 Euler 导数均已有最终编译日志验收。EulerDerivatives 最终源码 SHA256 为 `93cb3ebeef13c1eb269f662e3c1b91009bdf6ed3d88b664753580c31d7195d0f`。完整项目接线的剩余结构性缺口见 `MOMENT_WIRING_AUDIT.txt`，其中较早版本对通用固定窗口范围的说明须与本次标准 Schwartz 扩展区分。

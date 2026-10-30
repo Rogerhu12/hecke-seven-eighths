@@ -1,0 +1,350 @@
+import HeckeSkeleton.Moments
+import PrimeCancellationAux
+
+/-!
+# Adapters for the actual prime-slot moment definitions
+
+This module is a project adapter.  It uses the supplied definitions of
+`MomentData`, `pairedRows`, and `originalMomentMask`; it is not a replacement
+for those definitions.  The supplied archive does not contain the complete
+import closure of `HeckeSkeleton.Moments`, so this module requires validation
+in the full project.
+
+The statements below do not identify prime cancellation with a zero-free
+hypothesis.  The last two transfer lemmas take their numerical slot bounds
+explicitly.  Such bounds must be proved by the analytic module.
+
+In the supplied source, `originalMomentMask` contains a row-dependent
+`IsCoprime I u.val` condition.  It is therefore supported on fixed bad primes
+AND the prime divisors of the row, not on fixed bad primes alone.
+-/
+
+set_option autoImplicit false
+noncomputable section
+
+namespace HeckeSkeleton.PrimeCancellationMoment
+
+open NumberField IsDedekindDomain
+open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.Analysis.ConditionalMoments
+open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
+open HeckeGeneral.ThetaSkeleton.Physical HeckeGeneral.ThetaSkeleton.TIP
+open scoped Classical BigOperators
+
+variable {K : Type} [Field K] [NumberField K]
+variable {ω ψ : HeckeCharacter K}
+
+/-! ## Row membership, length, and nonprincipality -/
+
+theorem mem_rows_of_mem_pairedRows (d : MomentData K ω ψ)
+    (a : RealParameters) (V : ℝ) (u : NonzeroIdeal K)
+    (hu : u ∈ pairedRows d a V) :
+    u ∈ d.rows (V ^ (a.m + a.q)) :=
+  (Finset.mem_filter.mp hu).1
+
+theorem norm_le_of_mem_pairedRows (d : MomentData K ω ψ)
+    (a : RealParameters) (V : ℝ) (u : NonzeroIdeal K)
+    (hu : u ∈ pairedRows d a V) :
+    idealNorm K u ≤ V ^ (a.m + a.q) :=
+  ((d.rows_spec (V ^ (a.m + a.q)) u).mp
+    (mem_rows_of_mem_pairedRows d a V u hu)).2
+
+theorem not_mem_theta_of_mem_pairedRows (d : MomentData K ω ψ)
+    (a : RealParameters) (V : ℝ) (u : NonzeroIdeal K)
+    (hz : a.z ≠ 0) (hu : u ∈ pairedRows d a V) :
+    d.rowCharacter u ∉ d.theta := by
+  have hexclusion := (Finset.mem_filter.mp hu).2
+  simpa only [if_neg hz] using hexclusion
+
+theorem totalLength_nonneg (g : SlotGeometry K) : 0 ≤ g.totalLength := by
+  unfold SlotGeometry.totalLength
+  exact Finset.sum_nonneg (fun j _ => (g.slots j).length_pos.le)
+
+theorem totalLength_pos_of_slot (g : SlotGeometry K) (j : Fin g.slotCount) :
+    0 < g.totalLength := by
+  unfold SlotGeometry.totalLength
+  exact (g.slots j).length_pos.trans_le
+    (Finset.single_le_sum (fun k _ => (g.slots k).length_pos.le) (Finset.mem_univ j))
+
+theorem slotProduct_eq_one_of_totalLength_zero (d : MomentData K ω ψ)
+    (hlen : d.geometry.totalLength = 0) (u : NonzeroIdeal K) (V t : ℝ) :
+    slotProduct d u V t = 1 := by
+  unfold slotProduct
+  apply Finset.prod_eq_one
+  intro j _
+  exfalso
+  have hpos := totalLength_pos_of_slot d.geometry j
+  rw [hlen] at hpos
+  exact (lt_irrefl (0 : ℝ)) hpos
+
+/-- Membership of the inverse slot coefficient in theta is the exact finite
+exceptional-set fact needed for the nonprincipal conclusion. -/
+theorem slot_character_ne_one_of_exclusion (d : MomentData K ω ψ)
+    (j : Fin d.geometry.slotCount) (u : NonzeroIdeal K)
+    (hrow : d.rowCharacter u ∉ d.theta)
+    (hinverse : (d.slotCoefficient j)⁻¹ ∈ d.theta) :
+    d.rowCharacter u * d.slotCoefficient j ≠ 1 := by
+  intro heq
+  have hchar := congrArg (fun χ : HeckeCharacter K => χ * (d.slotCoefficient j)⁻¹) heq
+  simp only [mul_assoc, mul_inv_cancel, mul_one, one_mul] at hchar
+  apply hrow
+  simpa only [hchar] using hinverse
+
+theorem paired_slot_character_ne_one (d : MomentData K ω ψ)
+    (a : RealParameters) (V : ℝ)
+    (hlen : d.geometry.totalLength = a.z)
+    (hinverse : ∀ j, (d.slotCoefficient j)⁻¹ ∈ d.theta)
+    (u : NonzeroIdeal K) (hu : u ∈ pairedRows d a V)
+    (j : Fin d.geometry.slotCount) :
+    d.rowCharacter u * d.slotCoefficient j ≠ 1 := by
+  have hzpos : 0 < a.z := by
+    rw [← hlen]
+    exact totalLength_pos_of_slot d.geometry j
+  exact slot_character_ne_one_of_exclusion d j u
+    (not_mem_theta_of_mem_pairedRows d a V u hzpos.ne' hu) (hinverse j)
+
+/-- A model slot-index embedding supplies the missing uniform cardinality
+bound.  Total length alone does not imply this bound. -/
+theorem slotCount_le_of_embedding (g : SlotGeometry K) (N : ℕ)
+    (e : Fin g.slotCount ↪ Fin N) : g.slotCount ≤ N := by
+  simpa only [Fintype.card_fin] using Fintype.card_le_of_injective e e.injective
+
+/-! ## The actual mask at a prime ideal -/
+
+variable {c : TargetContext K}
+
+theorem prime_eq_of_asIdeal_dvd {p q : HeightOneSpectrum (𝓞 K)}
+    (h : q.asIdeal ∣ p.asIdeal) : q = p := by
+  apply HeightOneSpectrum.asIdeal_injective
+  exact (p.isMaximal.eq_of_le q.isPrime.ne_top (Ideal.dvd_iff_le.mp h)).symm
+
+theorem prime_divisor_condition_iff (p : HeightOneSpectrum (𝓞 K)) :
+    (∀ q : HeightOneSpectrum (𝓞 K), q.asIdeal ∣ p.asIdeal →
+      q ∉ places K c ∧ (6 : 𝓞 K) ∉ q.asIdeal) ↔
+    p ∉ places K c ∧ (6 : 𝓞 K) ∉ p.asIdeal := by
+  constructor
+  · intro h
+    exact h p dvd_rfl
+  · intro h q hqp
+    have heq : q = p := prime_eq_of_asIdeal_dvd hqp
+    simpa only [heq] using h
+
+theorem prime_isCoprime_iff_not_dvd (p : HeightOneSpectrum (𝓞 K))
+    (I : Ideal (𝓞 K)) : IsCoprime p.asIdeal I ↔ ¬p.asIdeal ∣ I := by
+  rw [Ideal.isCoprime_iff_sup_eq]
+  constructor
+  · intro hcop hdvd
+    have hsup : p.asIdeal ⊔ I = p.asIdeal := sup_eq_left.mpr (Ideal.dvd_iff_le.mp hdvd)
+    exact p.isPrime.ne_top (hsup.symm.trans hcop)
+  · intro hnot
+    by_contra hsup
+    have heq : p.asIdeal = p.asIdeal ⊔ I :=
+      p.isMaximal.eq_of_le hsup le_sup_left
+    apply hnot
+    apply Ideal.dvd_iff_le.mpr
+    exact le_sup_right.trans heq.ge
+
+/-- This is the literal formula in the supplied `Moments.lean`.
+The final divisor condition is row-dependent. -/
+theorem originalMomentMask_prime (u : NonzeroIdeal K)
+    (p : HeightOneSpectrum (𝓞 K)) :
+    originalMomentMask (c := c) u p.asIdeal =
+      if p ∉ places K c ∧ (6 : 𝓞 K) ∉ p.asIdeal ∧ ¬p.asIdeal ∣ u.val
+      then true else false := by
+  simp only [originalMomentMask, prime_divisor_condition_iff,
+    prime_isCoprime_iff_not_dvd, and_assoc]
+
+theorem deleted_prime_cases (u : NonzeroIdeal K)
+    (p : HeightOneSpectrum (𝓞 K))
+    (hdeleted : originalMomentMask (c := c) u p.asIdeal = false) :
+    p ∈ places K c ∨ (6 : 𝓞 K) ∈ p.asIdeal ∨ p.asIdeal ∣ u.val := by
+  by_cases hS : p ∈ places K c
+  · exact Or.inl hS
+  by_cases hsix : (6 : 𝓞 K) ∈ p.asIdeal
+  · exact Or.inr (Or.inl hsix)
+  by_cases hu : p.asIdeal ∣ u.val
+  · exact Or.inr (Or.inr hu)
+  have hkept : originalMomentMask (c := c) u p.asIdeal = true := by
+    rw [originalMomentMask_prime]
+    simp only [hS, hsix, hu, not_false_eq_true, and_self, ite_true]
+  have hbad : (false : Bool) = true := hdeleted.symm.trans hkept
+  cases hbad
+
+/-- A fixed nonzero ideal supporting S and the primes above 2 and 3.
+The canonical choice is the product of the S-primes and the ideal (6).
+This record contains arithmetic data only, not an analytic estimate. -/
+structure FixedBadPrimeSupport (c : TargetContext K) where
+  ideal : NonzeroIdeal K
+  places_dvd : ∀ p : HeightOneSpectrum (𝓞 K), p ∈ places K c → p.asIdeal ∣ ideal.val
+  six_dvd : ∀ p : HeightOneSpectrum (𝓞 K), (6 : 𝓞 K) ∈ p.asIdeal → p.asIdeal ∣ ideal.val
+
+theorem deleted_prime_dvd_fixed_mul_row (D : FixedBadPrimeSupport c)
+    (u : NonzeroIdeal K) (p : HeightOneSpectrum (𝓞 K))
+    (hdeleted : originalMomentMask (c := c) u p.asIdeal = false) :
+    p.asIdeal ∣ D.ideal.val * u.val := by
+  rcases deleted_prime_cases u p hdeleted with hS | hsix | hu
+  · exact dvd_mul_of_dvd_left (D.places_dvd p hS) u.val
+  · exact dvd_mul_of_dvd_left (D.six_dvd p hsix) u.val
+  · exact dvd_mul_of_dvd_right hu D.ideal.val
+
+/-- The norm of the supporting ideal has only the fixed multiplier ND. -/
+theorem bad_support_norm_mul (D : FixedBadPrimeSupport c) (u : NonzeroIdeal K) :
+    (Ideal.absNorm (D.ideal.val * u.val) : ℝ) =
+      (Ideal.absNorm D.ideal.val : ℝ) * (Ideal.absNorm u.val : ℝ) := by
+  simp only [map_mul, Nat.cast_mul]
+
+/-- The fixed portion of the mask, without the row-coprimality condition. -/
+def fixedMomentMask (I : Ideal (𝓞 K)) : Bool :=
+  if ∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ I →
+    p ∉ places K c ∧ (6 : 𝓞 K) ∉ p.asIdeal then true else false
+
+/-- A fixed-mask reduction is valid only after proving the displayed
+coefficient-zero property.  No such property is assumed by the source data. -/
+theorem coefficient_mul_originalMask_eq_fixedMask
+    (u : NonzeroIdeal K) (I : Ideal (𝓞 K)) (a : ℂ)
+    (hzero : ¬IsCoprime I u.val → a = 0) :
+    a * (if originalMomentMask (c := c) u I then 1 else 0) =
+      a * (if fixedMomentMask (c := c) I then 1 else 0) := by
+  by_cases hcop : IsCoprime I u.val
+  · by_cases hgood : ∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ I →
+        p ∉ places K c ∧ (6 : 𝓞 K) ∉ p.asIdeal
+    · simp [originalMomentMask, fixedMomentMask, hcop, hgood]
+    · simp [originalMomentMask, fixedMomentMask, hcop, hgood]
+  · rw [hzero hcop]
+    simp
+
+/-! ## Wiring the actual model interfaces -/
+
+variable {Z T : ℝ}
+
+theorem source_paired_row_norm_le (M : SourceMomentModels K c)
+    (i : SourceMomentIndex K c Z T) (s : SixthUnitClasses K (places K c))
+    (u : NonzeroIdeal K)
+    (hu : u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i)) :
+    idealNorm K u ≤ momentBase i := by
+  simpa only [pairedParameters, add_zero, Real.rpow_one] using
+    norm_le_of_mem_pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i) u hu
+
+theorem source_paired_slot_finite_factors (M : SourceMomentModels K c)
+    (hrows : SourceRowEligibility M) (i : SourceMomentIndex K c Z T)
+    (s : SixthUnitClasses K (places K c)) (u : NonzeroIdeal K)
+    (j : Fin (pairedModel M i s).geometry.slotCount) :
+    FiniteOrder ((pairedModel M i s).rowCharacter u) ∧
+      FiniteOrder ((pairedModel M i s).slotCoefficient j) :=
+  ⟨(pairedModel M i s).rowCharacter_finite u, hrows.paired_finite_slots Z T i s j⟩
+
+/-- The multiplication-closure theorem for the project's `FiniteOrder`
+predicate is not included in the supplied archive.  It is exposed here
+as a purely algebraic API parameter, not as an analytic hypothesis. -/
+theorem source_paired_slot_finite_of_mul_closed
+    (hmul : ∀ χ θ : HeckeCharacter K,
+      FiniteOrder χ → FiniteOrder θ → FiniteOrder (χ * θ))
+    (M : SourceMomentModels K c) (hrows : SourceRowEligibility M)
+    (i : SourceMomentIndex K c Z T) (s : SixthUnitClasses K (places K c))
+    (u : NonzeroIdeal K) (j : Fin (pairedModel M i s).geometry.slotCount) :
+    FiniteOrder ((pairedModel M i s).rowCharacter u * (pairedModel M i s).slotCoefficient j) := by
+  rcases source_paired_slot_finite_factors M hrows i s u j with ⟨hu, hj⟩
+  exact hmul _ _ hu hj
+
+theorem source_paired_slot_character_ne_one (M : SourceMomentModels K c)
+    (hrows : SourceRowEligibility M) (i : SourceMomentIndex K c Z T)
+    (s : SixthUnitClasses K (places K c))
+    (hinverse : ∀ j, ((pairedModel M i s).slotCoefficient j)⁻¹ ∈ (pairedModel M i s).theta)
+    (u : NonzeroIdeal K)
+    (hu : u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i))
+    (j : Fin (pairedModel M i s).geometry.slotCount) :
+    (pairedModel M i s).rowCharacter u * (pairedModel M i s).slotCoefficient j ≠ 1 := by
+  apply paired_slot_character_ne_one (pairedModel M i s) (pairedParameters i)
+    (momentBase i) ((hrows.geometry Z T i s).2) hinverse u hu j
+
+theorem source_paired_slotCount_le_of_selected_equiv (M : SourceMomentModels K c)
+    (i : SourceMomentIndex K c Z T) (s : SixthUnitClasses K (places K c))
+    (e : Fin (pairedModel M i s).geometry.slotCount ≃ {j // j ∈ i.selected}) :
+    (pairedModel M i s).geometry.slotCount ≤ c.geometry.slots := by
+  apply slotCount_le_of_embedding (pairedModel M i s).geometry c.geometry.slots
+  exact ⟨fun j => (e j).val, Subtype.val_injective.comp e.injective⟩
+
+theorem source_paired_zero_slot_product (M : SourceMomentModels K c)
+    (hrows : SourceRowEligibility M) (i : SourceMomentIndex K c Z T)
+    (s : SixthUnitClasses K (places K c)) (hz : selectedLength i = 0)
+    (u : NonzeroIdeal K) (t : ℝ) :
+    slotProduct (pairedModel M i s) u (momentBase i) t = 1 := by
+  apply slotProduct_eq_one_of_totalLength_zero
+  exact ((hrows.geometry Z T i s).2).trans hz
+
+theorem source_paired_deleted_prime_dvd
+    (R : RowCharacterInput K (places K c) (probeData K c))
+    (M : SourceMomentModels K c) (hcal : SourcePolynomialCalibration R M)
+    (D : FixedBadPrimeSupport c) (i : SourceMomentIndex K c Z T)
+    (s : SixthUnitClasses K (places K c)) (u : NonzeroIdeal K)
+    (p : HeightOneSpectrum (𝓞 K))
+    (hdeleted : (pairedModel M i s).commonMask u p.asIdeal = false) :
+    p.asIdeal ∣ D.ideal.val * u.val := by
+  apply deleted_prime_dvd_fixed_mul_row D u p
+  rw [← (hcal.mask Z T i s u p.asIdeal).2]
+  exact hdeleted
+
+/-- The remaining row-count input is the number-field ideal counting
+theorem. Its name and API are absent from the supplied source archive. -/
+theorem source_paired_card_le_of_ideal_count (M : SourceMomentModels K c)
+    (i : SourceMomentIndex K c Z T) (s : SixthUnitClasses K (places K c))
+    (Crows : ℝ)
+    (hcount : ∀ rows : Finset (NonzeroIdeal K),
+      (∀ u ∈ rows, idealNorm K u ≤ momentBase i) →
+      (rows.card : ℝ) ≤ Crows * momentBase i) :
+    ((pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i)).card : ℝ)
+      ≤ Crows * momentBase i := by
+  apply hcount
+  intro u hu
+  exact source_paired_row_norm_le M i s u hu
+
+/-! ## Numerical transfer after the analytic estimate is proved -/
+
+theorem slotProduct_norm_sq_le_of_slot_bounds (d : MomentData K ω ψ)
+    (u : NonzeroIdeal K) (V t κ eps : ℝ) (hV : 1 ≤ V)
+    (C loss : Fin d.geometry.slotCount → ℝ)
+    (hC : ∀ j, 0 ≤ C j) (hloss : (∑ j, loss j) ≤ eps)
+    (hslot : ∀ j, ‖primePolynomial d j u V t‖ ^ 2 ≤
+      C j * V ^ (κ * (d.geometry.slots j).length + loss j)) :
+    ‖slotProduct d u V t‖ ^ 2 ≤
+      (∏ j, C j) * V ^ (κ * d.geometry.totalLength + eps) := by
+  simpa only [slotProduct, SlotGeometry.totalLength] using
+    PrimeCancellationAux.norm_product_sq_le_rpow_of_total_loss Finset.univ
+      (fun j => primePolynomial d j u V t) C
+      (fun j => (d.geometry.slots j).length) loss V κ eps hV
+      (fun j _ => hC j) (fun j _ => hslot j) hloss
+
+theorem source_paired_energy_le_of_slot_bounds (M : SourceMomentModels K c)
+    (hrows : SourceRowEligibility M) (i : SourceMomentIndex K c Z T)
+    (s : SixthUnitClasses K (places K c)) (κ eps Crows : ℝ)
+    (hbase : 1 ≤ momentBase i)
+    (C loss : Fin (pairedModel M i s).geometry.slotCount → ℝ)
+    (hC : ∀ j, 0 ≤ C j) (hloss : (∑ j, loss j) ≤ eps)
+    (hcard : ((pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i)).card : ℝ)
+      ≤ Crows * momentBase i)
+    (hslot : ∀ u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i),
+      ∀ j, ‖primePolynomial (pairedModel M i s) j u (momentBase i) 0‖ ^ 2 ≤
+        C j * (momentBase i) ^
+          (κ * ((pairedModel M i s).geometry.slots j).length + loss j)) :
+    (∑ u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i),
+      ‖slotProduct (pairedModel M i s) u (momentBase i) 0‖ ^ 2) ≤
+      (Crows * ∏ j, C j) * (momentBase i) ^ (1 + (κ * selectedLength i + eps)) := by
+  have hcard' :
+      ((pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i)).card : ℝ)
+        ≤ Crows * (momentBase i) ^ (1 : ℝ) := by
+    simpa only [Real.rpow_one] using hcard
+  have htransfer := PrimeCancellationAux.paired_sum_le_of_slot_bounds
+    (pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i)) Finset.univ
+    (fun u j => primePolynomial (pairedModel M i s) j u (momentBase i) 0)
+    C (fun j => ((pairedModel M i s).geometry.slots j).length) loss
+    (momentBase i) κ eps Crows 1 hbase (fun j _ => hC j) hcard' hloss
+    (fun u hu j _ => hslot u hu j)
+  change
+    (∑ u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i),
+      ‖slotProduct (pairedModel M i s) u (momentBase i) 0‖ ^ 2) ≤
+      (Crows * ∏ j, C j) * (momentBase i) ^
+        (1 + (κ * (pairedModel M i s).geometry.totalLength + eps)) at htransfer
+  rw [(hrows.geometry Z T i s).2] at htransfer
+  exact htransfer
+
+end HeckeSkeleton.PrimeCancellationMoment
