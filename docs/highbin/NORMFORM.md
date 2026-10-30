@@ -18,7 +18,7 @@ body is not, by itself, an elaborated theorem or an exact-type audit.
 | `ActualNormFormHigherPrimePowers`, `ActualNormFormMellinInversion`, `ActualNormFormPrimeDetector`, `ActualNormFormUniformMellin` | Native separate-module build and all 55 public declaration audits passed at `6e3d24ca4579aa615ef0a23769c1695cb8f4b55d`, and again at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0` | Their axiom sets contain only `propext`, `Classical.choice`, `Quot.sound`; `mellin-axioms.json` has an empty `beyond_standard_axioms` object. |
 | The same Mellin dependency chain, combined locally | 40 source files and 577 public declarations passed | This is additional combined-source evidence, distinct from separate-module verification. |
 | `HighNormFormScalar`, including `exists_full_normForm_parameter_budget` | The native core run at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0` compiled the file successfully | Its printed parameter-budget axiom set is the same three standard axioms. The complete newer core public audit was still blocked by errors in other modules when this record was written. |
-| Actual window detector, zero-free prime contour/cap, complete-slot correction, sharp factors, amplitude construction, kernel, integral and label grouping | Source implementation and static interface review only | The complete actual build had not reached these declarations. Their displayed source signatures and their transitive axiom sets have **not** been confirmed by Lean. |
+| Actual window detector, zero-free prime contour/cap, complete-slot correction, sharp factors, amplitude construction, kernel, integral, label grouping and target presentation consumer | Source implementation and static interface review only | The complete actual build had not reached these declarations. Their displayed source signatures and their transitive axiom sets have **not** been confirmed by Lean. |
 | Original `HighShiftedNormForm K c (actualHighPresentation K c)` | Not discharged | The original `HB-NORMFORM`, `HB-PRESENT` and `D-EXPANSION` admissions are not replaced by this chain. |
 
 The reproducible module lists and audit machinery are
@@ -72,6 +72,13 @@ Euler provider, a proposed prime-sum estimate, a conductor estimate, or a
 row-integral estimate is not an input to the main kernel/label theorems.
 The cap and norm-form statements use the empty ray filter `∅`. This is
 the original target choice: `Base.rayFilter` is defined to be `∅`.
+The new
+[ActualNormFormTarget.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormTarget.lean)
+records the target projection equality by `rfl` and instantiates the
+row-integral theorem with the actual target probe, character, geometry,
+Haar measures, calibration and outside-`S` unramifiedness. No additional
+finite-filter estimate or replacement arithmetic input is required for
+this specialization.
 
 ### Kernel and integral statements
 
@@ -590,9 +597,61 @@ theorems above construct a different, explicit family of actual
 amplitude fibers. An equality of total sums alone does not identify
 the norms of arbitrary individual pieces.
 
-To consume the labelled theorem in the original obligation, the named
-presentation must be constructed with all of the following genuine
-identifications:
+### An exact original-type conditional consumer
+
+[ActualNormFormTarget.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormTarget.lean)
+now supplies a candidate connection to the **literal original type**,
+`HighShiftedNormForm K c P`, for any original
+`P : ActualHighPresentation K c`. This consumer retains the original
+block and label types, original row sets and original mean fields.
+It does not replace the original norm-form proposition with a new one.
+
+The declaration
+`HeckeSkeleton.HighBinNormFormTarget.exists_target_highShiftedNormForm_connection`
+has the following exact order of dependence:
+
+1. Fix `K`, its original field and number-field instances, `c`, and `P`.
+   Supply the identity of `P.euler` with the actual arithmetic provider
+   and the structural fact `1 ∈ P.companions`.
+2. The theorem chooses `kappa > 0`, `theta > 0`, `N : ℕ`, `C > 0`, and
+   `Z0 ≥ 1`, using the actual target row-integral theorem. None depends
+   on `Z,T,b,label,u`.
+3. On `Z0 ≤ Z`, `1 ≤ T ≤ Z^kappa`, identify
+   `P.contourHeight Z T b = internalHeight Z T kappa` and require
+   `2*internalHeight Z T kappa+2 ≤ P.upperHeight Z T b` for each original
+   block. The latter transfers the original buffered zero detector to
+   the smaller height by its actual definition.
+4. The theorem constructs a dependent family `A` of actual full-slot
+   amplitude witnesses on **each original retained label row**. The
+   family is an output. Neither the record's analytic fields nor any
+   numerical row or integral estimate is a caller hypothesis.
+5. Two structural identities imply the original conclusion: the original
+   label's `.mean` equals the mean of this constructed `A` on every
+   retained row, and its original `P.shiftedPiece` equals the literal
+   original `rowContourBox` at `P.contourHeight`.
+
+The proof derives the required shell and bin ranges, lower and upper
+row norms, zero detector, `e ≤ 1/10000`, and `e ≤ c.lamB/100` from the
+existing presentation fields. In particular, the upper norm bound is
+derived from actual `frequencyRows` membership, rather than supplied as
+an added norm estimate. The exponent is proved equal to the original
+`highRowExponent`, using the repository's actual `moderateExponent`.
+The constructed witness of `HighShiftedNormForm` uses `A = 0` for its
+external `(1+T)^A` exponent; the height loss has already been absorbed
+in the internal `Z^(c.lamB/4)` budget.
+
+The original labels may overlap. The consumer bounds each label's
+finite row sum individually, so it requires no artificial partition and
+no row-count estimate. Its result does not establish the two structural
+identities for `actualHighPresentation`: those remain part of the genuine
+expansion construction. As with the rest of the deep actual chain, the
+target consumer has not yet been elaborated by Lean.
+
+### Identities still required of the named expansion
+
+To construct the named presentation itself and use the finite-label
+theorem as its source, all of the following genuine identifications
+remain relevant:
 
 | Required original field or fact | Concrete object needed from this chain |
 |---|---|
@@ -715,7 +774,7 @@ theorem exists_actual_fullSlot_amplitude_grid
 ### `HighBinVerified.NormFormKernel.exists_actual_kernel_normForm`
 
 Source: [ActualNormFormKernel.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormKernel.lean).  
-Source SHA-256: `8a030d12a7f3d9bd4bf020a72c8b7e11af8f61e1ba89ede802cf95ba1b7b4ccd`.
+Source SHA-256: `6e6e492bddfce70f870ce9111fa667528f9b28a97828bb48acc6d7d80b245176`.
 
 ```lean
 theorem exists_actual_kernel_normForm
@@ -883,4 +942,76 @@ theorem exists_full_normForm_parameter_budget (J : ℕ) (hJ : 0 < J)
       ∀ d : ℝ, 0 ≤ d → d ≤ 1 →
         (105 / 8 + 6 * d) * e + d * (2 * eps + eta) + (theta / 6 + nu) +
           kappa * (k + 2 * k * eps + 3) ≤ lam / 4
+```
+
+### `HeckeSkeleton.HighBinNormFormTarget.exists_target_rowContour_normForm_quarter_loss`
+
+Source: [ActualNormFormTarget.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormTarget.lean). SHA-256: `e7c104d03e4c7843c9df707e0a698c3423ef73cc88e9d0bc851d6ee94f05fa4f`.
+
+The declaration uses the target measure instances specified by `targetData.measures`; all other parameters and hypotheses are displayed below. This is an unelaborated source signature.
+
+```lean
+theorem exists_target_rowContour_normForm_quarter_loss
+    (c : TargetContext K) (companions : Finset (HeckeCharacter K))
+    (hcomp : (1 : HeckeCharacter K) ∈ companions)
+    {e : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000) (heLam : e ≤ c.lamB / 100) :
+    ∃ kappa theta : ℝ, ∃ N : ℕ, ∃ C Z0 : ℝ,
+      0 < kappa ∧ 0 < theta ∧ 0 < C ∧ 1 ≤ Z0 ∧
+      ∀ Z T : ℝ, Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+      ∀ d : ℝ, (1 / 16 : ℝ) ≤ d → d ≤ 1 →
+      ∀ u : HighRow K c, Z ^ d ≤ frequencyRowNorm K _ u →
+        frequencyRowNorm K _ u ≤ 2 * Z ^ d →
+      ∀ a : ℝ, 51 / 100 ≤ a → a ≤ 1 →
+      rowZeroBelow K _ (targetCharacter K c) companions (targetData K c).probe
+        (arithmeticHighEulerData K _ (targetData K c).probe (targetCharacter K c)) u
+        (2 * NormForm.internalHeight Z T kappa + 2) (a + 2 * e) →
+      ∃ A : ActualFullSlotAmplitude K _ (targetData K c).probe
+          (targetCharacter K c) c.geometry u Z a e
+          (NormForm.internalHeight Z T kappa) theta N,
+        ‖rowContourBox K _ (targetData K c).measures.haar (targetData K c).probe
+            (targetCharacter K c)
+            (arithmeticHighEulerData K _ (targetData K c).probe (targetCharacter K c))
+            c.geometry (targetData K c).rayFilter u Z
+            (NormForm.internalHeight Z T kappa) (a + 16 * e) (1 - a - 6 * e) (17 / 50)‖ ≤
+          C * Z ^ (NormForm.rowExponent d a (ActualFullSlotAmplitude.mean K _ A) + c.lamB / 4)
+```
+
+### `HeckeSkeleton.HighBinNormFormTarget.exists_target_highShiftedNormForm_connection`
+
+Source: [ActualNormFormTarget.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormTarget.lean). SHA-256: `e7c104d03e4c7843c9df707e0a698c3423ef73cc88e9d0bc851d6ee94f05fa4f`.
+
+The declaration uses the target measure instances specified by `targetData.measures`; all other parameters and hypotheses are displayed below. `PresentationFullSlotAmplitudes` is the dependent function type described in Section 9: for every admissible scale, height, original retained label and row, an `ActualFullSlotAmplitude` for the actual target probe at the original bin and the chosen height and grid. This is an unelaborated source signature.
+
+```lean
+theorem exists_target_highShiftedNormForm_connection
+    (c : TargetContext K) (P : ActualHighPresentation K c)
+    (hEuler : P.euler = arithmeticHighEulerData K _
+      (targetData K c).probe (targetCharacter K c))
+    (hcomp : (1 : HeckeCharacter K) ∈ P.companions) :
+    ∃ kappa theta : ℝ, ∃ N : ℕ, ∃ C Z0 : ℝ,
+      0 < kappa ∧ 0 < theta ∧ 0 < C ∧ 1 ≤ Z0 ∧
+      ((∀ Z T : ℝ, Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+        ∀ b : HighBlockIndex K c Z T,
+          P.contourHeight Z T b = NormForm.internalHeight Z T kappa) →
+      (∀ Z T : ℝ, Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+        ∀ b : HighBlockIndex K c Z T,
+          2 * NormForm.internalHeight Z T kappa + 2 ≤ P.upperHeight Z T b) →
+      ∃ A : PresentationFullSlotAmplitudes K c P kappa theta N Z0,
+        (∀ (Z T : ℝ) (hZ : Z0 ≤ Z) (hT : 1 ≤ T) (hTcap : T ≤ Z ^ kappa)
+          (b : HighBlockIndex K c Z T) (ℓ : HighLabel K c Z T b)
+          (hℓ : ℓ ∈ P.labels Z T b) (u : HighRow K c)
+          (hu : u ∈ ((((targetData K c).expansion Z T).block b).amplitudeSet ℓ).rows),
+          ((((targetData K c).expansion Z T).block b).amplitudeSet ℓ).mean =
+            ActualFullSlotAmplitude.mean K _ (A Z T hZ hT hTcap b ℓ hℓ u hu)) →
+        (∀ (Z T : ℝ) (_hZ : Z0 ≤ Z) (_hT : 1 ≤ T) (_hTcap : T ≤ Z ^ kappa)
+          (b : HighBlockIndex K c Z T) (ℓ : HighLabel K c Z T b)
+          (_hℓ : ℓ ∈ P.labels Z T b) (u : HighRow K c)
+          (_hu : u ∈ ((((targetData K c).expansion Z T).block b).amplitudeSet ℓ).rows),
+          P.shiftedPiece Z T b ℓ u =
+            rowContourBox K _ (targetData K c).measures.haar (targetData K c).probe
+              (targetCharacter K c) P.euler c.geometry (targetData K c).rayFilter u Z
+              (P.contourHeight Z T b)
+              ((((targetData K c).expansion Z T).block b).bin + 16 * P.e)
+              (1 - (((targetData K c).expansion Z T).block b).bin - 6 * P.e) (17 / 50)) →
+        HighShiftedNormForm K c P)
 ```

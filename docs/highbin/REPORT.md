@@ -20,7 +20,7 @@ work session ends.
 |---|---|---|
 | HB-EULER-INITIAL | Actual prime-power quotient Fourier formula, finite Poisson/CRT, absolutely convergent four-ideal prime product, local-to-global calibration and complete original `TRowEulerInput` constructor candidates | Native verification of the arithmetic chain and named presentation identification |
 | HB-EULER-EXCEPTIONAL | Arithmetic `RowEulerData`, actual finite Laurent tables, uniform `9 q^(-10e)` estimate and a consumer of the original `HighExceptionalEulerControl` type | Native verification and the named `actualHighPresentation.euler` identification |
-| HB-NORMFORM | Actual repeated-prime conductor deficit, Mellin prime detector, exact full-correction factors, normalized slots, compact-box amplitude labels and actual contour-integral norm-form candidates | Native verification, inherited prime-normalizer dependency and identification with the named labelled presentation |
+| HB-NORMFORM | Actual repeated-prime conductor deficit, Mellin prime detector, exact full-correction factors, normalized slots, compact-box amplitude labels, actual contour-integral norm-form candidates and a consumer of the original `HighShiftedNormForm` type | Native verification, inherited prime-normalizer dependency and identification with the named labelled presentation |
 | HB-MOVE-BOUNDARY | Actual row-contour rectangle, fixed-row arbitrary-order external tail bound, original whole-bin consumer and concrete buffered-height schedule | Native verification and actual presentation provider/schedule/retained-block count |
 
 ## Repository changes
@@ -190,6 +190,17 @@ the CI artifact `*-public-types-and-axioms.log`.
   and only divides by a regular local factor after proving its nonvanishing
   on sufficiently large prime windows. It assumes no global nonvanishing
   of the Euler product or a Gauss polynomial.
+* `exists_target_highShiftedNormForm_connection` specializes the actual
+  row theorem to the target's own Haar measures, calibration and character.
+  `targetData.rayFilter` is definitionally empty, so the actual target is
+  covered by the existing complete-slot formula. The theorem constructs
+  the per-row amplitude witnesses internally and concludes the original
+  `HighShiftedNormForm`, with external height exponent `A = 0`. Remaining
+  inputs identify the Euler data, include `1` among companions, choose
+  `H = max(T,Z^kappa)` and upper height at least `2H+2`, and identify the
+  original means and each literal shifted piece. No row or integral bound
+  is assumed. The per-piece identity is stronger than the existing sum
+  identities and is still a missing part of the named construction.
 * The arithmetic fixed-row boundary bound has the form
   `C_N Z^13 (2+U)^(6 r_infty) T_ext^(-N)`. The finite family is an actual
   frequency-row envelope; row counting and Euler bounds are conclusions,

@@ -60,7 +60,7 @@ theorem exists_actual_profile_bound (P : ProbeData K S₀) :
   have hGauss : ‖Complex.exp ((s + z - 1) ^ 2)‖ ≤ Real.exp 4 := hG.trans
     (mul_le_of_le_one_right (Real.exp_pos 4).le
       (Real.exp_le_one_iff.mpr (neg_nonpos.mpr (sq_nonneg _))))
-  have hzline : (17 / 50 : ℂ) + z.im * Complex.I = z := by
+  have hzline : ((17 / 50 : ℝ) : ℂ) + z.im * Complex.I = z := by
     simpa only [hz] using Complex.re_add_im z
   have hAdd : ‖additiveMellin K S₀ μ P.additive z‖ ≤ A := by
     simpa only [pow_zero, one_mul, hzline] using hadd z.im

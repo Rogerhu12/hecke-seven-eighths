@@ -2783,14 +2783,14 @@
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormKernel.lean",
     "line": 42,
-    "source_sha256": "8a030d12a7f3d9bd4bf020a72c8b7e11af8f61e1ba89ede802cf95ba1b7b4ccd"
+    "source_sha256": "6e6e492bddfce70f870ce9111fa667528f9b28a97828bb48acc6d7d80b245176"
   },
   {
     "name": "HighBinVerified.NormFormKernel.exists_actual_kernel_normForm",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormKernel.lean",
     "line": 81,
-    "source_sha256": "8a030d12a7f3d9bd4bf020a72c8b7e11af8f61e1ba89ede802cf95ba1b7b4ccd"
+    "source_sha256": "6e6e492bddfce70f870ce9111fa667528f9b28a97828bb48acc6d7d80b245176"
   },
   {
     "name": "HighBinVerified.NormFormLabels.actualFullSlotLabelMean",
@@ -3407,6 +3407,41 @@
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormSlotCap.lean",
     "line": 32,
     "source_sha256": "e53c4fa528baea1a9e7b5c5ff7c898e147eb96f7b7cc0624ae66a5efbe1d0640"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinNormFormTarget.targetData_rayFilter_eq_empty",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormTarget.lean",
+    "line": 64,
+    "source_sha256": "e7c104d03e4c7843c9df707e0a698c3423ef73cc88e9d0bc851d6ee94f05fa4f"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinNormFormTarget.exists_target_rowContour_normForm_quarter_loss",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormTarget.lean",
+    "line": 70,
+    "source_sha256": "e7c104d03e4c7843c9df707e0a698c3423ef73cc88e9d0bc851d6ee94f05fa4f"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinNormFormTarget.PresentationFullSlotAmplitudes",
+    "kind": "abbrev",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormTarget.lean",
+    "line": 103,
+    "source_sha256": "e7c104d03e4c7843c9df707e0a698c3423ef73cc88e9d0bc851d6ee94f05fa4f"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinNormFormTarget.actual_rowExponent_eq_highRowExponent",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormTarget.lean",
+    "line": 116,
+    "source_sha256": "e7c104d03e4c7843c9df707e0a698c3423ef73cc88e9d0bc851d6ee94f05fa4f"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinNormFormTarget.exists_target_highShiftedNormForm_connection",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormTarget.lean",
+    "line": 138,
+    "source_sha256": "e7c104d03e4c7843c9df707e0a698c3423ef73cc88e9d0bc851d6ee94f05fa4f"
   },
   {
     "name": "HighBinVerified.NormFormMellin.compactLogProfile",
