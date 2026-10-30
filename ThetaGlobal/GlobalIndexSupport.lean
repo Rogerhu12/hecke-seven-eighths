@@ -44,7 +44,7 @@ theorem exponent_primeSetIdeal (T : Finset (ExteriorPrime K S)) (p : ExteriorPri
   rw [primeExponents_squarefreeIdeal]
   have hm : p.val ∈ T.image Subtype.val ↔ p ∈ T := by
     simp only [Finset.mem_image, Subtype.val_injective.eq_iff, exists_eq_right]
-  rw [hm]
+  simp only [hm]
 
 theorem prime_dvd_primeSetIdeal (T : Finset (ExteriorPrime K S))
     (p : ExteriorPrime K S) (hp : p ∈ T) :

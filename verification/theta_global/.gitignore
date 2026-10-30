@@ -1,3 +1,5 @@
 *.olean*
 *.ilean*
 *.ir*
+ActualReflectedVerification.lean
+IndexSupportVerification.lean

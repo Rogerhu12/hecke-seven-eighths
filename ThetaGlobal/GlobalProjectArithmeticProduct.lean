@@ -40,7 +40,7 @@ theorem prod_exteriorSupport_val (I : ExteriorIdeal K S)
   · exact Finset.prod_attach _ _
   · intro p _ q _ h
     apply Subtype.ext
-    exact congrArg Subtype.val h
+    exact congrArg (fun r : ExteriorPrime K S => r.val) h
 
 theorem squarefree_exponent (I : ExteriorIdeal K S) (hI : Squarefree I.val.val)
     (p : ExteriorPrime K S) :
@@ -59,7 +59,8 @@ theorem squarefree_exponent (I : ExteriorIdeal K S) (hI : Squarefree I.val.val)
 theorem exteriorNorm_product (I : ExteriorIdeal K S) :
     exteriorNorm K S I =
       ∏ p ∈ exteriorSupport K S I, (p.val.asIdeal.absNorm : ℝ) ^ primeExponents I.val p.val := by
-  rw [prod_exteriorSupport_val]
+  rw [prod_exteriorSupport_val K S I
+    (fun p : HeightOneSpectrum (𝓞 K) => (p.asIdeal.absNorm : ℝ) ^ primeExponents I.val p)]
   have hI := congrArg (fun J : NonzeroIdeal K => (J.val.absNorm : ℝ))
     (idealOfPrimeExponents_primeExponents I.val)
   simpa only [exteriorNorm, idealOfPrimeExponents_val, Finsupp.prod, map_prod,
@@ -103,7 +104,8 @@ theorem idealSymbol_product (I : ExteriorIdeal K S) (a : S.integer K) :
       intro p
       rw [PrimeCalibrationDraft.idealPrimeMultiplicity_eq_primeExponents]
       rfl
-    _ = _ := Finset.prod_attach _ _
+    _ = _ := Finset.prod_coe_sort (exteriorSupport K S I)
+      (fun p => primeEvaluation K S D p a ^ primeExponents I.val p.val)
 
 theorem idealSymbol_squarefree_product (I : ExteriorIdeal K S)
     (hI : Squarefree I.val.val) (a : S.integer K) :

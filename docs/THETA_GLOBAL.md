@@ -15,7 +15,7 @@ The task targets five declarations in `HeckeSkeleton/Theta.lean`:
 | `finiteMellinData` | Constructed from the actual fixed projected source; an explicit local high K-type input supplies the archimedean vectors and Mellin pairs. | Project dependency build pending. |
 | `finite_valuation_cutoff` | Derived from the actual local rotated shell bounds. | Project dependency build pending. |
 | `finite_valuation_decay` | Derived from the actual local rotated shell bounds. | Project dependency build pending. |
-| `marked_reflected_absolute` | Replaced by the three-ideal arithmetic majorant proof. | Project dependency build pending. |
+| `marked_reflected_absolute` | Replaced by the three-ideal arithmetic majorant proof. | Actual project theorem passes the 188-module transformed source-body check and strict axiom gate; native entry build pending. |
 | `marked_reflection` | The actual frequency seed is converted to the literal marked seed using the direct/reflected coefficient dictionaries and support reindexing, then transferred to arbitrary annular tests. Connected to the original entry point with explicit local inputs. | Project dependency build pending. |
 
 No new `sorry`, `axiom`, or `native_decide` is introduced in `ThetaGlobal`.
@@ -142,7 +142,7 @@ A successful combined-body check means those source bodies elaborate
 together with consolidated imports and isolated file scopes. It does not
 mean their native project import closures have been built individually.
 
-The reflected-project combined-body check contains 184 actual source
+The reflected-project combined-body check contains 188 actual source
 bodies. The production vendor imports are preserved: an early attempt
 to narrow umbrella imports removed transitive names needed by downstream
 files and was reverted after native CI exposed the regression. Curated
@@ -188,6 +188,65 @@ check. Source SHA-256:
 The unfiltered log is `verification/theta_global/GlobalDiagonalNorm.native.log`;
 its printed axioms are only `propext`, `Classical.choice`, and `Quot.sound`.
 
+### Successful actual reflected-project source-body check
+
+The 188-module actual reflected-project bundle completed on
+2026-10-30 at 21:17:01 UTC with exit code 0. The compiler checked the
+actual definitions and proof bodies for both
+`ThetaGlobal.ReflectedAbsoluteProject.marked_reflected_absolute` and
+`ThetaGlobal.ReflectedArithmetic.norm_reflectedCoefficient_le`.
+The strict gate verified that both declarations exist and that each
+depends only on `propext`, `Classical.choice`, and `Quot.sound`.
+All 188 original source hashes and the generated bundle hash remained
+unchanged during compilation.
+
+- Bundle SHA-256:
+  `ca7bc30fa84a775939c7974b4f5361e8993522698bfa9fd118d4e73b5bf943a3`.
+- Source hashes, transformations, observed runtime and result:
+  `verification/theta_global/actual_reflected_manifest.json`.
+- Unfiltered compiler output:
+  `verification/theta_global/ActualReflectedVerification.build.log`.
+- Log SHA-256:
+  `4e6e11cf9704ee0671354bf093f8d5c228ab8e75b9be39448fadc53417155a0a`.
+- Reproduction command:
+  `python scripts/build_theta_global_project_bundle.py --output ThetaGlobal/ActualReflectedVerification.lean --check`.
+
+This is explicitly transformed combined source-body QA. The builder
+consolidates imports, isolates file scopes, restores scopes left open at
+EOF, normalizes line endings, and records the legacy visibility settings,
+one command-helper meta annotation, one private-helper visibility change,
+and two Fourier-name qualifications. The ten vendor umbrella-import
+substitutions apply only to the generated QA header. The manifest records
+raw, normalized and transformed-body hashes separately. No theorem is
+omitted or replaced by a new assumption. Production vendor imports remain
+unchanged. These transformations make this result distinct from a native
+per-module build; the five-entry native gate remains necessary.
+
+### Successful supported-index and arithmetic-product increment
+
+A nine-module increment over that exact 188-module foundation completed
+on 2026-10-30 at 21:21:55 UTC with exit code 0. It exposed four elaboration
+errors in finite-set and subtype product rewrites. The production proofs
+in `GlobalIndexSupport` and `GlobalProjectArithmeticProduct` were corrected
+against the actual APIs without changing their statements or assumptions.
+The corrected source passed strict axiom gates for:
+
+- `GlobalIndexSupport.supported`;
+- `GlobalIndexSupport.index_eq_of_branch_unit`;
+- `GlobalProjectArithmeticProduct.symmetricCoefficient_eq`.
+
+Each has only the three standard axioms. The nine source hashes, all
+foundation source hashes, and the generated bundle remained unchanged.
+The bundle SHA-256 is
+`7a0fc3da65508c3aa6ce7beb897234058dfaaeddedae6813ebc369cefee92e90`.
+The exact reproduction command and foundation hashes are in
+`verification/theta_global/index_support_manifest.json`; the raw output
+is `verification/theta_global/IndexSupportVerification.build.log`.
+The portable builder writes compiled artifacts into Lake's normal library
+directory so the increment can import the reproduced foundation without
+a custom `LEAN_PATH`. This is again transformed source-body QA, not a
+successful native build of the five final entry points.
+
 ### Remaining validation boundary
 
 The project-facing construction and the final five entry points have not
@@ -211,6 +270,10 @@ in its incremental GitHub cache. Official Mathlib cache downloads remain
 enabled. Whole-project setup-cache packaging is disabled because native
 CI recorded a disk-space failure while duplicating the large Mathlib
 artifacts into a second archive.
+Successive runs for the same PR are queued so that an active dependency
+build can finish and save its cache before the latest correction starts.
+Every result remains tied to its own commit; an earlier run does not
+certify a later source change.
 
 The local checkout was based on `503ad9895e5f8affef55b22fea082e251bf33aa7`.
 The published tree preserves upstream work through parent

@@ -48,3 +48,17 @@ pinned Lean and Mathlib versions, exit code 0, and no `sorryAx` in the
 printed axiom audits. The portable bundle builder and manifest identify
 the exact checked source hashes. This combined-body check is reported
 separately from native, per-module dependency validation.
+
+The separate 188-module transformed actual-project bundle also passed with
+exit code 0. It checks the actual reflected absolute-convergence theorem
+and coefficient bound, including strict gates allowing only `propext`,
+`Classical.choice`, and `Quot.sound`. Its manifest records every source
+hash and harness transformation; the raw log and portable builder are
+included. This result does not certify the native import closure of the
+final five entry points.
+
+A nine-module increment over that foundation passed the same strict gate
+for actual nonzero-coefficient support, supported-index uniqueness, and
+the equality between the symmetric and literal arithmetic coefficients.
+Its exact source and foundation hashes are recorded in
+`verification/theta_global/index_support_manifest.json`.
