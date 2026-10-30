@@ -6,6 +6,7 @@ import HeckeAxiom.LambdaInfinityType
 import HeckeAxiom.SexticSymbolDictionary
 import HeckeAxiom.GaussCalibration
 import HeckeSkeleton.ThetaKernel
+import HeckeSkeleton.SixthLocalFinite
 
 /-! Explicit arithmetic and KP/theta frontiers for the named actual construction.
 The statements are admitted only in this exploratory branch. -/
@@ -138,11 +139,11 @@ theorem kernel_line_independent : ∀ (V : SmoothAnnularTest) u κ σ σ' y,
       mellinReflectionKernel K S F θ u κ V.toFun σ' y :=
   HeckeSkeleton.ThetaKernel.kernel_line_independent K S F θ (finiteAdmissible K c)
 
--- OBLIGATION TH-SIXTH-LOCAL-FINITE | revised §3.2–3.4, pp.5–8.
--- The S-local sixth-power class group is finite (complex places are 6-divisible;
--- finite places by Hensel, including p | 6). Small (about 500 lines; Axiom V_finite).
-instance sixthLocalClasses_finite : Finite (SixthLocalClasses K S) := by
-  sorry
+-- TH-SIXTH-LOCAL-FINITE | revised §3.2–3.4, pp.5–8 (HeckeSkeleton.SixthLocalFinite).
+-- K is totally complex since it contains a primitive twelfth root of unity.
+instance sixthLocalClasses_finite : Finite (SixthLocalClasses K S) :=
+  haveI := DedekindZetaZeroFree.primitive12_totallyComplex K c.family.root12 c.family.primitive12
+  SixthLocalFinite.sixthLocalClasses_finite K S
 
 -- TH-KERNEL-DERIVATIVE-BOUND (proved from TH-SIXTH-LOCAL-FINITE in HeckeSkeleton.ThetaKernel) | revised §3.2–3.4, Lemma 3.3, pp.6–8.
 theorem kernel_derivative_bound : ∀ (A : ℝ) (h J : ℕ), 0 ≤ A →
