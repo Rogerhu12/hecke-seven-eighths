@@ -22,13 +22,12 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: highbin-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: false
-
 jobs:
   proofs:
     name: ${{ matrix.scope }}
+    concurrency:
+      group: ${{ matrix.scope == 'actual' && format('highbin-{0}', github.head_ref || github.ref_name) || format('highbin-{0}-{1}', github.head_ref || github.ref_name, matrix.scope) }}
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 65
     strategy:
