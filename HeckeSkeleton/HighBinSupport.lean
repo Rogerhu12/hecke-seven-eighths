@@ -102,3 +102,5 @@ import HeckeSkeleton.HighBinSupport.PrincipalPowerSupport
 import HeckeSkeleton.HighBinSupport.SelectedCompensation
 import HeckeSkeleton.HighBinSupport.UnramifiedFiniteTable
 import HeckeSkeleton.HighBinSupport.ValuationSeries
+import HeckeSkeleton.HighBinSupport.EulerRegionProduct
+import HeckeSkeleton.HighBinSupport.BoundaryHeightAbsorption

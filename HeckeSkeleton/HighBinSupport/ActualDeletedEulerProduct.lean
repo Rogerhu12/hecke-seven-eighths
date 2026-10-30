@@ -52,6 +52,7 @@ theorem heckeDeletedContinuation_hasProd (χ : HeckeCharacter K)
       (primeCoefficient K χ p) s else 1
   have hd : HasProd d (heckeEulerDeletionPolynomial K χ F s) := by
     have h := hasProd_prod_of_ne_finset_one (s := F) (f := d)
+      (L := SummationFilter.unconditional (HeightOneSpectrum (𝓞 K)))
       (fun p hp => if_neg hp)
     have heq : (∏ p ∈ F, d p) = heckeEulerDeletionPolynomial K χ F s := by
       apply Finset.prod_congr rfl

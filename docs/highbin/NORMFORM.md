@@ -16,8 +16,9 @@ body is not, by itself, an elaborated theorem or an exact-type audit.
 | Part | Recorded result | Scope of the result |
 |---|---|---|
 | `ActualNormFormHigherPrimePowers`, `ActualNormFormMellinInversion`, `ActualNormFormPrimeDetector`, `ActualNormFormUniformMellin` | Native separate-module build and all 55 public declaration audits passed at `6e3d24ca4579aa615ef0a23769c1695cb8f4b55d`, and again at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0` | Their axiom sets contain only `propext`, `Classical.choice`, `Quot.sound`; `mellin-axioms.json` has an empty `beyond_standard_axioms` object. |
+| `ActualOrbitalRapidDecay` and the four preceding Mellin modules | Native five-module / 59-public-declaration audit passed at `c71511a569ed8b98c243b66ead8d8ec8c83d59b9` | All axiom sets contain only the three standard axioms; [verified_mellin_axioms.json](verified_mellin_axioms.json) preserves the full mapping. |
 | The same Mellin dependency chain, combined locally | 40 source files and 577 public declarations passed | This is additional combined-source evidence, distinct from separate-module verification. |
-| `HighNormFormScalar`, including `exists_full_normForm_parameter_budget` | The native core run at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0` compiled the file successfully | Its printed parameter-budget axiom set is the same three standard axioms. The complete newer core public audit was still blocked by errors in other modules when this record was written. |
+| `HighNormFormScalar`, including `exists_full_normForm_parameter_budget` | The native core run at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0` compiled the file successfully; the subsequent run at `03410972118500ef9fdd9ce4045d964bed6cd167` passed all 55 modules and 438 public declaration audits | Its printed parameter-budget axiom set is the same three standard axioms. The current core run references are maintained in `REPORT.md`; this core success does not verify the deep actual norm-form chain. |
 | Actual window detector, zero-free prime contour/cap, complete-slot correction, sharp factors, amplitude construction, kernel, integral, label grouping and target presentation consumer | Source implementation and static interface review only | The complete actual build had not reached these declarations. Their displayed source signatures and their transitive axiom sets have **not** been confirmed by Lean. |
 | Original `HighShiftedNormForm K c (actualHighPresentation K c)` | Not discharged | The original `HB-NORMFORM`, `HB-PRESENT` and `D-EXPANSION` admissions are not replaced by this chain. |
 
@@ -32,6 +33,23 @@ and native run references are maintained in [REPORT.md](REPORT.md).
 The initial actual job's approximately 65-minute timeout occurred while
 building deep repository dependencies. It is neither a proof failure nor
 a successful verification of the unreached norm-form modules.
+
+### Pinned integral and target API review
+
+A second source-level review compared `ActualNormFormIntegral` and
+`ActualNormFormTarget` with the exact Mathlib revision in
+`lake-manifest.json`, `0493595ecd5da8ef14742febab99728f98e948e8`, and
+Lean `v4.35.0-rc3`. It found no further definite API correction in those
+two files. This is static evidence; it does not change their unelaborated
+status above.
+
+| Call or dependency | Exact source-level check |
+|---|---|
+| Fubini slices | [`Integral/Prod.lean`](https://github.com/leanprover-community/mathlib4/blob/0493595ecd5da8ef14742febab99728f98e948e8/Mathlib/MeasureTheory/Integral/Prod.lean) defines `prod_right_ae` as almost-everywhere integrability in the right variable for fixed left variable. This is the required `(tw,tz)` slice at fixed `ts`; `prod_left_ae` has the opposite direction. Both applications of `integral_prod f hf` use the corresponding product measure. |
+| Restricted product measure | [`Measure/Prod.lean`](https://github.com/leanprover-community/mathlib4/blob/0493595ecd5da8ef14742febab99728f98e948e8/Mathlib/MeasureTheory/Measure/Prod.lean) gives `prod_restrict`; `prod.measureSpace` defines product volume by `volume.prod volume`, and `volume_eq_prod` is `rfl`. Thus the nested restricted measures have the same actual product-space volume used by `ae_restrict_mem`. |
+| Finite mass and norm bound | The same product file supplies the finite-product-measure instance and `measureReal_prod_prod`. [`Bochner/Basic.lean`](https://github.com/leanprover-community/mathlib4/blob/0493595ecd5da8ef14742febab99728f98e948e8/Mathlib/MeasureTheory/Integral/Bochner/Basic.lean) requires `IsFiniteMeasure` and an almost-everywhere constant bound for `norm_integral_le_of_norm_le_const`; its result is `C * μ.real univ`, in the order used here. The actual integrability proof is separately retained for Fubini. |
+| Target measure instances | The local instances are the original `ProbeMeasures.normOneSpace`, `normOneBorel`, `localSpace`, `localBorel`, and `haar_isAddHaar` projections, with the same types as [HighBin.lean](../../HeckeSkeleton/HighBin.lean). Their definitions reduce to the same target data rather than introducing new Borel or Haar choices. |
+| Dependent amplitude choice | [`Tactic/Choose.lean`](https://github.com/leanprover-community/mathlib4/blob/0493595ecd5da8ef14742febab99728f98e948e8/Mathlib/Tactic/Choose.lean) retains propositional arguments for ordinary `choose`; removal of those arguments is a `choose!` feature. Hence the chosen family retains the displayed scale, height, label-membership and row-membership proof arguments, matching `PresentationFullSlotAmplitudes`. |
 
 ## 2. Actual data, typeclasses and notation
 
@@ -690,6 +708,95 @@ in the table. In particular, the hypotheses `FullHighEulerControl`,
 `HighPureNormPoleExclusion`, and `HighConductorDeficit` of the original
 `highShiftedNormForm` theorem do not identify arbitrary presentation
 means or pieces with the constructed full-slot labels.
+
+### Review of possible restricted-height label pieces
+
+A direct review of the existing types found **no representation of an
+original label as a measurable height region**. This is a structural
+absence, before any analytic estimate:
+
+- `AmplitudeSet` has exactly `rows`, `amplitude`, `slotValue`,
+  `subdivisionCount`, and `subdivision`. Its `slotValue` is a complex
+  number for a slot and a row; it has no contour-height argument.
+- `ModerateBlock.Label` is an arbitrary `Type`. Its associated
+  `amplitudeSet` supplies no region, indicator function, measurability,
+  or per-label contour formula.
+- `WitnessSubdivision` has row sets, lengths, and inverse/plain witness
+  values. The real parameter indexing subdivisions is the witness
+  parameter `t`; it does not define a region in the three imaginary
+  contour coordinates.
+- `ActualHighPresentation.shiftedPiece` is a complex-valued function of
+  the scale, external height, block, label, and row. Its only integral
+  connection is `shifted_identification`, which identifies the total
+  double sum with the full fixed-bin contour sum.
+
+The comment describing the labels as pointwise amplitude sets does not
+add any of these missing fields or identities. Also, the pure
+`HighNormFormPacket.fullSlotKernel_integral_decomposition` is a theorem
+about its supplied kernels and selectors; the repository does not
+identify that packet with the named target's `shiftedPiece`.
+
+For a construction that uses restricted-height pieces, the missing
+identification theorem must have the following concrete content. For
+each actual `K,c,P,Z,T,b`, it must construct
+
+```lean
+regions : HighLabel K c Z T b → HighRow K c → Set (ℝ × (ℝ × ℝ))
+```
+
+and, for every `ℓ ∈ P.labels Z T b` and every original retained row
+`u ∈ (block.amplitudeSet ℓ).rows`, prove both
+
+```lean
+MeasurableSet (regions ℓ u)
+regions ℓ u ⊆ HighBinBoundary.ActualIntegrability.heightBox
+  (P.contourHeight Z T b)
+```
+
+and the actual identity
+
+\[
+P.\operatorname{shiftedPiece}(Z,T,b,\ell,u)
+= (2\pi)^{-3}\int_{\operatorname{regions}(\ell,u)}
+     K_u(t_s,t_w,t_z)\,dt_s\,dt_w\,dt_z.
+\]
+
+Here the normalization is exactly the Lean complex value
+`(2 * (Real.pi : ℂ)) ^ (-(3 : ℤ))`. The function `K_u` must be the
+repository's literal `compensatedRowMellinKernel`, with the target's
+actual probe and Haar measures, `P.euler`, `c.geometry`, the original
+ray filter, and real contour coordinates
+`a+16*P.e`, `1-a-6*P.e`, `17/50`, where `a = block.bin`.
+The integral above uses the ordinary product Lebesgue measure on
+`ℝ × (ℝ × ℝ)` restricted to the constructed region. These displays
+specify a **missing theorem**, not a newly proved declaration.
+
+If the total decomposition is to be recovered from these regions, it
+also needs the almost-everywhere finite indicator identity: for each
+row of the original fixed bin and almost every height in the original
+box, the sum of the region indicators over labels retaining that row
+equals one. Merely allowing overlapping row sets does not provide
+this identity. Conversely, a total-sum identity cannot force a
+per-piece norm estimate: changing two pieces by opposite complex
+quantities preserves the total while their individual norms can grow.
+
+There is a second independent identification needed for the requested
+exponent. The original label's amplitude vector and mean must be tied
+to the **actual complete-slot values on that same region**. The current
+`ActualFullSlotAmplitude` construction chooses a grid vector valid over
+the whole box. That vector need not equal the pointwise label's vector
+on a smaller region. Integrating its whole-box estimate on an arbitrary
+subset therefore does not by itself produce the original label mean in
+`highRowExponent`.
+
+Consequently no additional generic restricted-integral consumer was
+added during this review. It would leave both missing identities
+untouched and would not consume an object presently constructed in
+the repository. The existing target consumer remains explicitly
+conditional on its stronger whole-row piece identity. A genuine
+restricted-piece extension should follow the construction of the
+regions and their complete-slot label identities, using the existing
+pointwise kernel factorization and the finite box-volume estimate.
 
 Accordingly this document records a proposed actual analytic chain and
 its exact remaining connection. It does not assert that the original

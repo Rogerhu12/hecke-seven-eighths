@@ -39,16 +39,6 @@ jobs:
       LEAN_NUM_THREADS: '2'
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
-        with:
-          path: |
-            .lake
-            vendor/class-field-theory/.lake
-          key: highbin-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.scope }}-${{ github.sha }}
-          restore-keys: |
-            highbin-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.scope }}-
-            highbin-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-actual-
-            highbin-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
       - uses: leanprover/lean-action@bd5cb0b830eda614ce3fc186d8429b9409b16c47
         with:
           auto-config: 'false'
@@ -57,6 +47,39 @@ jobs:
           lint: 'false'
           use-mathlib-cache: 'true'
           use-github-cache: 'false'
+      - name: Release downloaded Mathlib archives
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          configured = os.environ.get('MATHLIB_CACHE_DIR')
+          if configured is not None:
+              cache_dir = Path(configured)
+          else:
+              cache_home = os.environ.get('XDG_CACHE_HOME')
+              cache_dir = (Path(cache_home) if cache_home is not None else Path.home() / '.cache') / 'mathlib'
+          archives = list(cache_dir.glob('*.ltar'))
+          size = sum(p.stat().st_size for p in archives if p.is_file())
+          for archive in archives:
+              if archive.is_file():
+                  archive.unlink()
+          print(f'Released {size} bytes of downloaded archives; installed Lean objects retained.')
+          PY
+      # Restore after setup has checked out the dependency repositories.
+      # Mathlib provides its own binary cache; duplicating it exhausted the
+      # runner disk while compressing the previous whole-.lake archive.
+      - uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+            .lake/packages/TauCeti/.lake/build
+          key: highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.scope }}-${{ github.sha }}
+          restore-keys: |
+            highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.scope }}-
+            highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-actual-
+            highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-mellin-
+            highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-core-
       - name: Compile modules and audit public declarations
         id: verification
         run: timeout --signal=TERM --kill-after=30s 60m python scripts/highbin_verify.py ${{ matrix.scope }}
@@ -73,6 +96,7 @@ jobs:
         uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
         with:
           path: |
-            .lake
-            vendor/class-field-theory/.lake
-          key: highbin-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.scope }}-${{ github.sha }}
+            .lake/build
+            vendor/class-field-theory/.lake/build
+            .lake/packages/TauCeti/.lake/build
+          key: highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.scope }}-${{ github.sha }}

@@ -3,7 +3,7 @@ import HeckeSkeleton.HighBinSupport.ActualRegularEuler
 import HeckeSkeleton.HighBinSupport.EulerCorrectedRegion
 import HeckeSkeleton.HighBinSupport.EulerRegionAnalytic
 import HeckeSkeleton.HighBinSupport.ActualEulerProduct
-import HeckeSkeleton.HighBinSupport.JointAnalyticLimit
+import HeckeSkeleton.HighBinSupport.EulerRegionProduct
 
 /-!
 # The original corrected Euler region: convergence and joint analyticity
@@ -168,71 +168,34 @@ theorem rowCorrection_hasProdLocallyUniformlyOn_rowEulerRegion
       (fun v : ℂ × ℂ × ℂ => rowCorrection K S P ψ
         (arithmeticHighEulerData K S P ψ) Q u v.1 v.2.1 v.2.2)
       rowEulerRegion := by
-  let U (δ : ℝ) : Set (ℂ × ℂ × ℂ) :=
-    rowEulerRegion ∩ {v | 1 + δ < v.2.1.re + 6 * v.2.2.re ∧
-      5 + δ < 6 * v.1.re + 6 * v.2.2.re ∧
-      1 + δ < v.1.re + 6 * v.2.2.re ∧
-      1 + δ < v.1.re + v.2.1.re ∧
-      2 + δ < v.1.re + v.2.1.re + 6 * v.2.2.re}
-  have hUopen (δ : ℝ) : IsOpen (U δ) := by
-    have hs : Continuous (fun v : ℂ × ℂ × ℂ => v.1.re) :=
-      Complex.continuous_re.comp continuous_fst
-    have hw : Continuous (fun v : ℂ × ℂ × ℂ => v.2.1.re) :=
-      Complex.continuous_re.comp (continuous_fst.comp continuous_snd)
-    have hz : Continuous (fun v : ℂ × ℂ × ℂ => v.2.2.re) :=
-      Complex.continuous_re.comp (continuous_snd.comp continuous_snd)
-    exact rowEulerRegion_isOpen.inter
-      ((isOpen_lt continuous_const (hw.add (continuous_const.mul hz))).inter
-      ((isOpen_lt continuous_const ((continuous_const.mul hs).add (continuous_const.mul hz))).inter
-      ((isOpen_lt continuous_const (hs.add (continuous_const.mul hz))).inter
-      ((isOpen_lt continuous_const (hs.add hw)).inter
-        (isOpen_lt continuous_const ((hs.add hw).add (continuous_const.mul hz)))))))
-  have hprod (δ : ℝ) (hδ : 0 < δ) :
-      HasProdLocallyUniformlyOn (localFactor K S P ψ Q u)
-        (fun v => ∏' p : ExteriorPrime K S, localFactor K S P ψ Q u p v) (U δ) := by
-    have hprime : Summable (fun p : ExteriorPrime K S =>
-        (p.val.asIdeal.absNorm : ℝ) ^ (-1 - δ)) := by
-      have h := summable_exteriorPrime_norm_rpow K S (σ := 1 + δ) (by linarith)
-      convert h using 1
-      funext p
-      congr 1
-      ring
-    have hmajor := hprime.mul_left (11 / sweptTubeEulerMargin)
-    have hbound : ∀ᶠ p : ExteriorPrime K S in cofinite,
-        ∀ v ∈ U δ, ‖localFactor K S P ψ Q u p v - 1‖ ≤
-          (11 / sweptTubeEulerMargin) * (p.val.asIdeal.absNorm : ℝ) ^ (-1 - δ) := by
-      filter_upwards [(rowExceptionalPrimes K S Q u).finite_toSet.compl_mem_cofinite]
-        with p hp v hv
-      rcases hv with ⟨hv, h1, h2, h3, h4, h5⟩
-      have hb := phaseRowEuler_region_bound (exteriorPrime_norm_two_le K S p) hδ.le
-        (rowW K S P u p) (rowD K S P ψ u p) (rowE K S P ψ p)
-        v.1 v.2.1 v.2.2 (rowW_norm K S P u p)
-        (rowD_norm K S P ψ u p) (rowE_norm K S P ψ p)
-        hv.1.le hv.2.1.le hv.2.2.1.le h1.le h2.le h3.le h4.le h5.le
-      simpa only [localFactor, dif_neg hp, localRowCorrection_eq_phase, rowW, rowD, rowE]
-        using hb
-    have h := Summable.hasProdLocallyUniformlyOn_one_add (hUopen δ) hmajor
-      (f := fun p v => localFactor K S P ψ Q u p v - 1) hbound
-      (fun p => ((localFactor_analyticOnNhd_rowEulerRegion K S P ψ Q u p).continuousOn.mono
-        (fun _ hv => hv.1)).sub continuousOn_const)
-    have hone (x : ℂ) : 1 + (x - 1) = x := by ring
-    simpa only [hone] using h
-  have hcover : rowEulerRegion = ⋃ δ : {δ : ℝ // 0 < δ}, U δ.val := by
-    ext v
-    constructor
-    · intro hv
-      obtain ⟨δ, hδ, h1, h2, h3, h4, h5⟩ :=
-        exists_region_margin v.1 v.2.1 v.2.2 hv
-      apply Set.mem_iUnion.mpr
-      refine ⟨⟨δ / 2, by positivity⟩, hv, ?_, ?_, ?_, ?_, ?_⟩ <;> linarith
-    · intro hv
-      obtain ⟨δ, hv⟩ := Set.mem_iUnion.mp hv
-      exact hv.1
-  change HasProdLocallyUniformlyOn (localFactor K S P ψ Q u)
-    (fun v => ∏' p : ExteriorPrime K S, localFactor K S P ψ Q u p v) rowEulerRegion
-  rw [hcover]
-  exact tendstoLocallyUniformlyOn_iUnion (fun δ => hUopen δ.val)
-    (fun δ => hprod δ.val δ.property)
+  have h := explicitEuler_hasProdLocallyUniformlyOn_rowEulerRegion
+    (exteriorSupport K S u.ideal) Q
+    (fun p : ExteriorPrime K S => (p.val.asIdeal.absNorm : ℝ))
+    (rowW K S P u) (rowD K S P ψ u) (rowE K S P ψ)
+    (rowPhaseData K S P ψ u) (rowIndex K S u)
+    (exteriorPrime_norm_two_le K S) (rowW_norm K S P u)
+    (rowD_norm K S P ψ u) (rowE_norm K S P ψ)
+    (fun σ hσ => summable_exteriorPrime_norm_rpow K S (σ := σ) hσ)
+  have hfinite : ∀ F : Finset (ExteriorPrime K S), rowEulerRegion.EqOn
+      (fun v => ∏ p ∈ F, explicitLocalEuler (exteriorSupport K S u.ideal) Q
+        (fun p : ExteriorPrime K S => (p.val.asIdeal.absNorm : ℝ))
+        (rowW K S P u) (rowD K S P ψ u) (rowE K S P ψ)
+        (rowPhaseData K S P ψ u) (rowIndex K S u) p v)
+      (fun v => ∏ p ∈ F, localFactor K S P ψ Q u p v) := by
+    intro F v hv
+    apply Finset.prod_congr rfl
+    intro p _
+    exact (localFactor_eq_explicit_rowEulerRegion K S P ψ Q u p v hv).symm
+  apply TendstoLocallyUniformlyOn.congr_right
+    (TendstoLocallyUniformlyOn.congr h hfinite)
+  intro v hv
+  change (∏' p : ExteriorPrime K S, explicitLocalEuler (exteriorSupport K S u.ideal) Q
+    (fun p : ExteriorPrime K S => (p.val.asIdeal.absNorm : ℝ))
+    (rowW K S P u) (rowD K S P ψ u) (rowE K S P ψ)
+    (rowPhaseData K S P ψ u) (rowIndex K S u) p v) =
+      ∏' p : ExteriorPrime K S, localFactor K S P ψ Q u p v
+  exact tprod_congr (fun p =>
+    (localFactor_eq_explicit_rowEulerRegion K S P ψ Q u p v hv).symm)
 
 theorem rowCorrection_continuousOn_rowEulerRegion
     (P : ProbeData K S) (ψ : HeckeCharacter K)

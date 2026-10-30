@@ -3064,5 +3064,33 @@
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionUniqueness.lean",
     "line": 59,
     "source_sha256": "205da577d300c16be5bf560c90bc7786a466eff084189b0a10b2a5443c7deb36"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinContinuation.explicitEuler_hasProdLocallyUniformlyOn_rowEulerRegion",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/EulerRegionProduct.lean",
+    "line": 22,
+    "source_sha256": "65790197956fee62f0753b5f69df9c30e9bf54d50e261c2c9a5ded7d57323134"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinContinuation.explicitEuler_analyticOnNhd_rowEulerRegion",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/EulerRegionProduct.lean",
+    "line": 98,
+    "source_sha256": "65790197956fee62f0753b5f69df9c30e9bf54d50e261c2c9a5ded7d57323134"
+  },
+  {
+    "name": "HighBinBoundary.height_tail_absorb",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/BoundaryHeightAbsorption.lean",
+    "line": 22,
+    "source_sha256": "f56df8a38e877d93d3ffa993d9e8d6dd7418b530e60190d01f85f787717e6955"
+  },
+  {
+    "name": "HighBinBoundary.height_tail_absorption_external",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/BoundaryHeightAbsorption.lean",
+    "line": 42,
+    "source_sha256": "f56df8a38e877d93d3ffa993d9e8d6dd7418b530e60190d01f85f787717e6955"
   }
 ]

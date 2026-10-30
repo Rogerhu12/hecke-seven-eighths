@@ -83,10 +83,10 @@ def main():
         # wait behind the complete class-field-theory dependency build.
         core = json.loads((ROOT / 'docs/highbin/core_modules.json').read_text())
         run(['lake', '--fail-fast', 'build', *core], OUT / 'actual-core-build.log')
-    # Return arithmetic dependency failures promptly so CI preserves the
-    # compiler log and already completed dependency builds for the next fix.
-    lake_options = ['--fail-fast'] if args.group == 'actual' else []
-    run(['lake', *lake_options, 'build', *targets], OUT / f'{args.group}-build.log')
+    # Once the small prerequisites pass, retain independent arithmetic
+    # diagnostics in one build. The workflow's subprocess timeout still
+    # preserves its log and all completed dependency builds.
+    run(['lake', 'build', *targets], OUT / f'{args.group}-build.log')
     audit(args.group, modules, declarations)
 
 

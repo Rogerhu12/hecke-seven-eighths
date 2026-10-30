@@ -21,7 +21,9 @@ exit code 0 in 22.756 seconds. Each checked declaration used only `propext`,
 `Classical.choice`, and `Quot.sound`. The generated verification-source SHA-256
 is `f73d7cdf772b6f9058e9612a9fff62ba59ab54c44ee8509ef0c95e51dea72653`.
 This check contains the source module and all three public type/axiom checks;
-the separate repository CI check of this addition is pending.
+the separate repository CI check also passed at `03410972118500ef9fdd9ce4045d964bed6cd167`
+as part of the 55-module, 438-declaration core audit. Exact run and artifact
+references are recorded in [REPORT.md](REPORT.md).
 
 The actual module has not yet passed a complete native build or its transitive
 axiom audit. Its signatures below record source candidates until that check

@@ -53,5 +53,7 @@
   "HeckeSkeleton.HighBinSupport.EulerRegionAnalytic",
   "HeckeGeneral.Analysis.RowEulerRegion",
   "HeckeSkeleton.HighBinSupport.JointAnalyticLimit",
-  "HeckeSkeleton.HighBinSupport.EulerRegionUniqueness"
+  "HeckeSkeleton.HighBinSupport.EulerRegionUniqueness",
+  "HeckeSkeleton.HighBinSupport.EulerRegionProduct",
+  "HeckeSkeleton.HighBinSupport.BoundaryHeightAbsorption"
 ]

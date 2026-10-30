@@ -21,7 +21,7 @@ work session ends.
 | HB-EULER-INITIAL | Actual prime-power quotient Fourier formula, finite Poisson/CRT, absolutely convergent four-ideal prime product, local-to-global calibration and complete original `TRowEulerInput` constructor candidates | Native verification of the arithmetic chain and named presentation identification |
 | HB-EULER-EXCEPTIONAL | Arithmetic `RowEulerData`, actual finite Laurent tables, uniform `9 q^(-10e)` estimate and a consumer of the original `HighExceptionalEulerControl` type | Native verification and the named `actualHighPresentation.euler` identification |
 | HB-NORMFORM | Actual repeated-prime conductor deficit, Mellin prime detector, exact full-correction factors, normalized slots, compact-box amplitude labels, actual contour-integral norm-form candidates and a consumer of the original `HighShiftedNormForm` type | Native verification, inherited prime-normalizer dependency and identification with the named labelled presentation |
-| HB-MOVE-BOUNDARY | Actual row-contour rectangle, fixed-row arbitrary-order external tail bound, original whole-bin consumer and concrete buffered-height schedule | Native verification and actual presentation provider/schedule/retained-block count |
+| HB-MOVE-BOUNDARY | Actual row-contour rectangle, arbitrary-order external tails with the entire height cost absorbed, original whole-bin consumer and main-term/boundary identity | Native verification, actual Euler provider, companion membership, lower-height/buffer conditions and retained-block count |
 
 ## Repository changes
 
@@ -42,6 +42,9 @@ without importing unrelated arithmetic constructions.
 `rowEulerRegion` also moves verbatim into its own module, reexported by
 `TInputRanges`; this permits its analytic estimates to be checked without
 the arithmetic dependency chain.
+All 12 moved declarations were compared against the pinned current base;
+their declaration text is unchanged after ignoring comments and whitespace.
+The result is recorded in [definition_moves.json](definition_moves.json).
 
 `HighBin.lean` now imports the actual regular-prime adapter and proves the
 regular branch's error estimate and joint analyticity on an open tube around
@@ -82,9 +85,11 @@ An uncompiled source file is not counted as a verified theorem.
 ## Presentation properties still needed
 
 `ActualHighPresentation` currently supplies no proof that `1` belongs to its
-companions, that `T ≤ contourHeight`, that
-`contourHeight + 3/2 ≤ upperHeight`, or that all upper heights and the retained
-block count obey fixed polynomial bounds. The label-count hypothesis is a
+companions, a positive uniform lower bound `delta*T ≤ contourHeight`, that
+`contourHeight + 3/2 ≤ upperHeight`, or that the retained block count obeys a fixed polynomial bound. The strengthened
+boundary consumer needs no polynomial upper bound on either height: shortening
+the analytic detector to `H+3/2` and choosing decay order `N+6*r_infty` absorbs
+the complete height cost. The label-count hypothesis is a
 per-block bound and does not establish a bound on the number of blocks.
 
 The current definition of `shiftedPiece` and its sum identities also do not
@@ -97,32 +102,39 @@ correctly constructed presentation.
 ## Recorded native verification
 
 The latest completed core audit is commit
-`c71511a569ed8b98c243b66ead8d8ec8c83d59b9`: **54 separately compiled modules
-and 435 public declarations passed**. The downloaded `core-axioms.json`
+`03410972118500ef9fdd9ce4045d964bed6cd167`: **55 separately compiled modules
+and 438 public declarations passed**. The downloaded `core-axioms.json`
 contains an empty `beyond_standard_axioms` map. Every declaration uses only
 `propext`, `Classical.choice`, and `Quot.sound` (or a subset). This includes
 the complete three-variable `JointAnalyticLimit`, `EulerRegionAnalytic`,
-`LocalBlockSummation`, `PrimeBlockEuler`, `LocalSeriesFactorization` and the
-full parameter budget in `HighNormFormScalar`.
+`LocalBlockSummation`, `PrimeBlockEuler`, `LocalSeriesFactorization`,
+`EulerRegionUniqueness` and the full parameter budget in `HighNormFormScalar`.
 
-Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41127250262
-Job: `124308854221`; artifact: `13011960905`.
+Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41129408957
+Job: `124316190192`; artifact: `13013010612`.
 The full declaration-to-axiom mapping is preserved in
 [verified_core_axioms.json](verified_core_axioms.json). This is evidence for
 that exact commit; it does not establish subsequent edits or the full
 arithmetic chain.
 
-The actual Mellin audit passed **4 separate modules and 55 public
-declarations** at `6e3d24ca4579aa615ef0a23769c1695cb8f4b55d`, and passed
-again at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0`. Its downloaded
-`mellin-axioms.json` also has an empty `beyond_standard_axioms` map. These
-four files cover higher prime powers, divided-log Mellin inversion,
-uniform profiles and the actual logarithmic prime detector. The current
-five-module Mellin target additionally checks `ActualOrbitalRapidDecay`;
-its result is still pending.
+The actual Mellin audit passed **5 separate modules and 59 public
+declarations** at `c71511a569ed8b98c243b66ead8d8ec8c83d59b9`. These cover
+higher prime powers, divided-log Mellin inversion, uniform profiles, the
+actual logarithmic prime detector and `ActualOrbitalRapidDecay`. The complete
+axiom mapping has an empty `beyond_standard_axioms` map and is preserved in
+[verified_mellin_axioms.json](verified_mellin_axioms.json). The prior four-module,
+55-declaration audits also passed at `6e3d24ca` and `a2ea9121`.
 
-Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41123224412
-Artifact: `13010580062`.
+Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41127250262
+Job: `124308854297`; artifact: `13012239754`.
+
+That successful proof job could not save its previous whole-`.lake` cache:
+archive compression ran out of runner disk space. The current workflow
+therefore caches only the root, class-field-theory and TauCeti `build`
+directories, after dependency setup, and releases already-extracted Mathlib
+`.ltar` downloads. Mathlib's own cache supplies its binaries. This repairs
+the identified cache-storage failure without treating a cached build or a
+successful cache step as proof verification.
 
 The older complete arithmetic build at `29d6f4d` reached its 65-minute job
 timeout while compiling the class-field-theory dependencies. Its preserved
@@ -138,6 +150,9 @@ Local checks provide additional, separately identified evidence:
 |---|---|---|
 | Complete `JointAnalyticLimit` | Passed, 321.551 seconds; both public types and standard-axiom reports | Original single-module Mathlib imports; now also covered by native CI |
 | `EulerRegionAnalytic` and original region definition | Passed, 16.139 seconds; 12 public declarations | A combined dependency wrapper; now also covered by native CI |
+| `EulerRegionUniqueness` | Passed, 22.756 seconds; three public declarations | Exact current source in a combined dependency wrapper; now also covered by native CI |
+| `EulerRegionProduct` | Passed, 18.706 seconds; two public declarations and standard axioms only | Exact current body in a combined dependency wrapper; separate native build pending |
+| `BoundaryHeightAbsorption` | Passed, 34.736 seconds; both public axiom reports use only the standard three axioms | Exact native separate module with its original Mathlib imports |
 | Combined actual Mellin unit | Passed, 499.327 seconds; 40 source bodies and 577 public declarations, standard axioms only | Imports hoisted; not 40 separate native modules |
 
 The combined Mellin source SHA-256 is
@@ -205,15 +220,20 @@ the CI artifact `*-public-types-and-axioms.log`.
   `C_N Z^13 (2+U)^(6 r_infty) T_ext^(-N)`. The finite family is an actual
   frequency-row envelope; row counting and Euler bounds are conclusions,
   not supplied tail estimates.
-* `highBoundaryControl_of_buffered_schedule` consumes the original
-  presentation type, the arithmetic Euler-provider equality, `1` in the
-  companion set, positive `delta ≤ 1`, nonnegative `kappa`, a bounded
-  buffered-height index and a genuine retained-block count. It uses
-  `H=delta*max(T,Z^kappa)` and `U=3(i+1)*max(T,Z^kappa)`.
-  With block degrees `AB,RB`, its fixed degrees are
-  `A=AB+6 r_infty` and `R=13+RB+6 r_infty*kappa`, chosen before the tail
-  order. These are structural hypotheses missing from the named provider,
-  not a restatement of the desired boundary estimate.
+* `highBoundaryControl_of_arithmetic_lower_geometry` now consumes only the
+  original presentation, its arithmetic Euler-provider equality, `1` in the
+  companion set, `H >= delta*T`, `H+3/2 <= upperHeight`, and a retained-block
+  count bounded by `Cb*Z^RB*(1+T)^AB`. It first requests tail order `N+k`
+  with `k=6*r_infty` and tail parameter `H`; the verified scalar absorption
+  removes the complete height factor. The original `HighBoundaryControl`
+  follows with fixed degrees `A=AB`, `R=13+RB`, selected before `tau` and `N`.
+  No upper growth bound on either height is required. The buffered schedule
+  specialization therefore no longer requires a bounded detector index.
+* `presentationInitialSum_eq_blocks_add_boundary` follows directly from the
+  original presentation's two identification fields. It proves that the
+  complete initial fixed-bin sum equals the sum of actual block values plus
+  this same `wholeBinBoundary`. It does not supply the missing identification
+  of the expansion's other tail components or individual labelled pieces.
 
 ## Unresolved dependencies that must not be hidden
 

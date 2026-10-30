@@ -3,7 +3,8 @@
 The new boundary chain is connected to the repository's literal
 `compensatedRowMellinKernel`, `rowContourBox`, fixed frequency-row bins, and
 `wholeBinBoundary`. Its arithmetic endpoint gives an arbitrary external-height
-tail with fixed scale and height degrees. The original named
+tail whose polynomial height cost can be absorbed completely by increasing
+the internal decay order. The original named
 `HeckeSkeleton.highBoundaryControl` is **not closed by this checkpoint**: its
 specific presentation still needs an arithmetic-provider identity, companion
 membership, actual height choices, and a retained-block count.
@@ -13,17 +14,23 @@ membership, actual height choices, and a retained-block count.
 The pure modules `BoundaryRectangle`, `BoundaryBox`, `BoundaryTailAssembly`,
 `LogFourierDecay`, `PositiveNormalizer`, `BoundaryTupleScalar`,
 `BoundaryEulerCoarse`, and `HighNormFormHeight` have passed individual native
-Lean compilation in the core verification jobs. The corresponding completed
+Lean compilation in the completed core verification jobs. The corresponding completed
 core audits reported only `propext`, `Classical.choice`, and `Quot.sound`.
 These checks establish the generic analytic and scalar arguments; they do
-not establish the actual arithmetic instantiations below.
+not establish the actual arithmetic instantiations below. The new
+`BoundaryHeightAbsorption` separately passed its exact native single-module
+check in 34.736 seconds, with both public axiom reports using only those
+three standard axioms; its inclusion in the next core CI target is separate.
 
 The actual boundary chain has **not yet passed a complete native build or its
 transitive axiom audit**. The first full actual build reached
 `ActualOrbitalRapidDecay` and reported two function-equality elaboration errors.
 Those two source errors have been repaired by proving explicit pointwise
 function equalities and rewriting the original moment/Fourier evidence. The
-full build subsequently timed out while compiling other dependencies. A
+first full build subsequently timed out while compiling other dependencies.
+The repaired `ActualOrbitalRapidDecay` has now passed the native five-module,
+59-declaration Mellin audit at `c71511a`, with only the standard three axioms;
+see [verified_mellin_axioms.json](verified_mellin_axioms.json) and [REPORT.md](REPORT.md). A
 repaired source file, a static review, or a downstream `#print axioms` command
 in a file that has not built successfully is not a passing verification.
 
@@ -280,6 +287,134 @@ $$
 This intermediate conclusion displays the remaining geometric mass. It
 contains neither amplitude labels nor an assumed boundary estimate.
 
+### Shortening the detector without changing the fixed bin
+
+The stronger `exists_presentationBoundaryPiece_detector_tail` permits any
+analytic detector height `U` satisfying
+
+$$
+H_b+3/2\le U\le U_b^{\rm original}.
+$$
+
+Membership of the **original** fixed bin already gives `rowZeroBelow` at
+`U_b^{original}`. If `|Im(ρ)| ≤ U`, then
+`|Im(ρ)| ≤ U_b^{original}`, so the original detector conclusion applies at the
+smaller height. The row set remains the one defined using the original
+selected and upper heights; it is never replaced by the larger set that a
+shorter detector could define.
+
+Take `Ueff = H_b + 3/2`. The required zero-free rectangle and its full
+`3/2` vertical buffer are still covered: this is exactly the sufficient
+height condition in the actual fixed-row theorem, instantiated with equality.
+For `H_b ≥ 0`,
+
+$$
+(2+U_{\rm eff})^k=(H_b+7/2)^k
+ \le (7/2)^k(1+H_b)^k.
+$$
+
+The new `exists_presentationBoundaryPiece_contourHeight_tail` absorbs the
+constant `(7/2)^k`, and
+`exists_wholeBinBoundary_contourHeightSum_bound` gives
+
+$$
+\lVert\operatorname{wholeBinBoundary}(Z,T)\rVert
+ \le C_N Z^{13}
+ \left(\sum_b(1+H_b)^k\right)T^{-N}.
+$$
+
+This intermediate estimate can already be closed using a polynomial bound
+on the **contour** height alone. The upper detector may be arbitrarily larger,
+as long as it covers `H_b+3/2`; the selected detector requires no growth
+bound. The next argument removes the contour-height growth requirement too.
+These actual declarations are still pending native verification.
+
+### Absorbing the whole height cost with the decay order
+
+The stronger `exists_presentationBoundaryPiece_heightfree_tail` now uses the
+actual fixed-row theorem at order `N+k`, with its external height argument
+set to the actual contour height `H`. Its row set remains the original bin
+at the original presentation parameter `T`. The analytic detector is again
+`H+3/2`. Thus the displayed cost becomes
+
+$$
+ C_{N+k}Z^{13}(H+7/2)^kH^{-(N+k)}
+ \le C_{N+k}5^kZ^{13}H^{-N}
+ \le C_{N+k}5^k\delta^{-N}Z^{13}T^{-N}.
+$$
+
+Here `H ≥ δ*T ≥ 1`. The pure
+[BoundaryHeightAbsorption.lean](../../HeckeSkeleton/HighBinSupport/BoundaryHeightAbsorption.lean)
+contains exactly this scalar absorption. The arithmetic lower threshold
+`Z₀` was chosen before the fixed-row theorem's decay order, so replacing
+`N` by `N+k` preserves `∃ Z₀, ∀ N, ∃ C_N`.
+
+`exists_wholeBinBoundary_blockCount_bound` then gives
+
+$$
+ \|\mathrm{wholeBinBoundary}(Z,T)\|
+ \le C_N Z^{13}\,\mathrm{blockCount}(Z,T)\,T^{-N}.
+$$
+
+No upper-growth estimate on **any** of the three presentation heights is
+needed. The strongest original-interface consumer has the exact signature:
+
+```lean
+theorem highBoundaryControl_of_arithmetic_lower_geometry
+    (c : TargetContext K) (P : ActualHighPresentation K c)
+    (hEuler : P.euler = HeckeSkeleton.HighBinActualEuler.arithmeticHighEulerData K _
+      (targetData K c).probe (targetCharacter K c))
+    (hcompanions : 1 ∈ P.companions) (δ : ℝ) (hδ : 0 < δ)
+    (AB RB ceiling : ℝ) (hAB : 0 ≤ AB) (hceiling : 0 < ceiling)
+    (hgeometry : ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
+      ∃ Cb Zg : ℝ, 0 < Cb ∧ 1 ≤ Zg ∧ ∀ Z : ℝ, Zg ≤ Z →
+        (((targetData K c).expansion Z (Z ^ τ)).blockCount : ℝ) ≤
+            Cb * Z ^ RB * (1 + Z ^ τ) ^ AB ∧
+        ∀ b : HighBlockIndex K c Z (Z ^ τ),
+          δ * (Z ^ τ) ≤ P.contourHeight Z (Z ^ τ) b ∧
+          P.contourHeight Z (Z ^ τ) b + 3 / 2 ≤ P.upperHeight Z (Z ^ τ) b) :
+    HighBoundaryControl K c P
+```
+
+Its fixed witnesses are `A = AB` and `R = 13+RB`. The geometric constants
+`Cb,Zg` are selected after `τ`; `C_N` is selected after `N`. The final
+threshold is `max (max Zb Zg) ((1/δ)^(1/τ))`, and the final constant is
+`C_N*Cb`. Neither `κ` nor the detector index contributes to either degree.
+This new actual instantiation is pending native verification.
+
+### The main-block and boundary identity already follows from the fields
+
+`P.block_identification` identifies a block value with the sum of its original
+label contributions. `P.shifted_identification` identifies that same sum with
+the final fixed-bin contour. Their composition is the new theorem
+`presentationBlock_value_eq_finalRows`, with only `1 ≤ Z` and `1 ≤ T` in
+addition to the original presentation.
+
+`presentationInitialBlock` abbreviates the original fixed-bin sum on
+`Re(s) = B+20e`. The new algebraic assembly is:
+
+```lean
+theorem presentationInitialSum_eq_blocks_add_boundary
+    (c : TargetContext K) (P : ActualHighPresentation K c)
+    (Z T : ℝ) (hZ : 1 ≤ Z) (hT : 1 ≤ T) :
+    (∑ b : HighBlockIndex K c Z T, presentationInitialBlock K c P Z T b) =
+      (∑ b : HighBlockIndex K c Z T, (((targetData K c).expansion Z T).block b).value) +
+        wholeBinBoundary K c P Z T
+```
+
+Equivalently, `wholeBinBoundary_eq_initialSum_sub_blocks` identifies this
+same boundary with the initial retained-block sum minus the sum of actual
+block values. The sign is initial minus final. No provider identity, companion
+membership, height estimate, individual label-piece identity, label partition,
+or counting estimate is required for this algebraic step.
+
+This does **not** yet identify the original normalized probe minus signal with
+all initial retained blocks and the remaining principal/small/large pieces.
+Nor does it identify `HighExpansion.tail` with this boundary plus the other
+truncation tails: `ActualHighPresentation` has no field concerning those
+components. The original `Expansion.expansion_identity` and
+`Expansion.expansion_tail` therefore remain separate obligations.
+
 ## Power-height consumer with the original quantifier order
 
 The repository defines `HighBoundaryControl K c P` as
@@ -301,42 +436,45 @@ at `T = Z^τ`; they do not require a single constant over all real heights
 `1 ≤ T ≤ Z^ceiling`.
 
 ```lean
-theorem highBoundaryControl_of_arithmetic_power_geometry
+theorem highBoundaryControl_of_arithmetic_contour_power_geometry
     (c : TargetContext K) (P : ActualHighPresentation K c)
     (hEuler : P.euler = HeckeSkeleton.HighBinActualEuler.arithmeticHighEulerData K _
       (targetData K c).probe (targetCharacter K c))
     (hcompanions : 1 ∈ P.companions) (δ : ℝ) (hδ : 0 < δ)
-    (AB RB AU RU ceiling : ℝ)
-    (hAB : 0 ≤ AB) (hAU : 0 ≤ AU) (hceiling : 0 < ceiling)
+    (AB RB AH RH ceiling : ℝ)
+    (hAB : 0 ≤ AB) (hAH : 0 ≤ AH) (hceiling : 0 < ceiling)
     (hgeometry : ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
-      ∃ Cb Cu Zg : ℝ, 0 < Cb ∧ 0 < Cu ∧ 1 ≤ Zg ∧
+      ∃ Cb Ch Zg : ℝ, 0 < Cb ∧ 0 < Ch ∧ 1 ≤ Zg ∧
         ∀ Z : ℝ, Zg ≤ Z →
           (((targetData K c).expansion Z (Z ^ τ)).blockCount : ℝ) ≤
               Cb * Z ^ RB * (1 + Z ^ τ) ^ AB ∧
           ∀ b : HighBlockIndex K c Z (Z ^ τ),
             δ * (Z ^ τ) ≤ P.contourHeight Z (Z ^ τ) b ∧
             P.contourHeight Z (Z ^ τ) b + 3 / 2 ≤ P.upperHeight Z (Z ^ τ) b ∧
-            2 + P.upperHeight Z (Z ^ τ) b ≤ Cu * Z ^ RU * (1 + Z ^ τ) ^ AU) :
+            1 + P.contourHeight Z (Z ^ τ) b ≤ Ch * Z ^ RH * (1 + Z ^ τ) ^ AH) :
     HighBoundaryControl K c P
 ```
 
 Its fixed output degrees are
 
 $$
-A=A_B+A_U k,\qquad R=13+R_B+R_U k.
+A=A_B+A_H k,\qquad R=13+R_B+R_H k.
 $$
 
 The proof chooses `Zδ = (1/δ)^(1/τ)` so that `Z ≥ Zδ` implies
 `1 ≤ δ*Z^τ`. Its final threshold is the maximum of the arithmetic cutoff,
 the geometric threshold and `Zδ`. The final constant is
-`C_N * Cb * Cu^k`. Neither output degree depends on `τ` or `N`.
-`AB` and `AU` must be nonnegative; `RB` and `RU` are arbitrary real scale
+`C_N * Cb * Ch^k`. Here `C_N` already includes the fixed detector-shortening
+factor `(7/2)^k` and the permitted `δ^(-N)`. Neither output degree depends
+on `τ` or `N`. `AB` and `AH` must be nonnegative; `RB` and `RH` are arbitrary real scale
 exponents, exactly as in the signature.
 
-The older `highBoundaryControl_of_arithmetic_geometry` remains as a wrapper
-for stronger geometry uniform over the full height range. It derives the
-new power-height hypotheses and does not change the original definition of
-`HighBoundaryControl`.
+The earlier `highBoundaryControl_of_arithmetic_power_geometry` and
+`highBoundaryControl_of_arithmetic_geometry` remain available with their
+original signatures. They use the stronger sufficient requirement of a
+polynomial bound on the upper detector. The new contour-height consumer
+does not require that bound and preserves the original `HighBoundaryControl`
+definition.
 
 ### Concrete buffered heights
 
@@ -384,6 +522,62 @@ The theorem requires these formulas to be the **actual presentation's**
 contour and upper heights. It does not replace the named presentation by
 one with convenient unrelated heights.
 
+### Buffered heights without a bounded upper-detector index
+
+The new
+`highBoundaryControl_of_buffered_power_schedule_unbounded_detector` removes
+the uniform bound `i ≤ I` from the displayed buffered schedule. Its exact
+signature is:
+
+```lean
+theorem highBoundaryControl_of_buffered_power_schedule_unbounded_detector
+    (c : TargetContext K) (P : ActualHighPresentation K c)
+    (hEuler : P.euler = HeckeSkeleton.HighBinActualEuler.arithmeticHighEulerData K _
+      (targetData K c).probe (targetCharacter K c))
+    (hcompanions : 1 ∈ P.companions)
+    (δ κ : ℝ) (hδ : 0 < δ) (hδ1 : δ ≤ 1) (hκ : 0 ≤ κ)
+    (AB RB ceiling : ℝ) (hAB : 0 ≤ AB) (hceiling : 0 < ceiling)
+    (hgeometry : ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
+      ∃ Cb Zg : ℝ, 0 < Cb ∧ 1 ≤ Zg ∧
+        ∀ Z : ℝ, Zg ≤ Z →
+          (((targetData K c).expansion Z (Z ^ τ)).blockCount : ℝ) ≤
+              Cb * Z ^ RB * (1 + Z ^ τ) ^ AB ∧
+          ∀ b : HighBlockIndex K c Z (Z ^ τ), ∃ i : ℕ,
+            P.contourHeight Z (Z ^ τ) b =
+              δ * HighBinVerified.NormForm.internalHeight Z (Z ^ τ) κ ∧
+            P.upperHeight Z (Z ^ τ) b =
+              3 * ((i : ℝ) + 1) * HighBinVerified.NormForm.internalHeight Z (Z ^ τ) κ) :
+    HighBoundaryControl K c P
+```
+
+For every nonnegative natural `i`, the schedule still implies
+`H_b+3/2 ≤ U_b` when `0 < δ ≤ 1`. Also
+
+$$
+1+H_b=1+\delta\max(T,Z^\kappa)
+ \le (1+\delta)Z^\kappa(1+T).
+$$
+
+Its output degrees are now `A = AB` and `R = 13+RB`, independently
+of both `κ` and the detector indices, because this schedule uses the stronger
+arbitrary-order absorption consumer. The actual contour formula and the
+genuine block count are still required; the proof does not
+supply or modify those choices.
+
+### Block count and label count are distinct obligations
+
+The boundary sums once over each `b : Fin blockCount`, before label
+subdivision. `HighLabelUniformity` controls `(P.labels Z T b).card` for a
+fixed block, and places no bound on the number of blocks. Conversely, a
+block count does not control labels within a block. The new boundary
+consumers use the actual block count and do not insert a label-count factor.
+
+The shell/bin range fields bound the coordinates attached to a block, and
+`rows_in_bin` bounds the support of its retained label rows. None of those
+fields requires distinct block coordinates, limits repeated blocks, or gives
+a uniform bound on `blockCount` as `Z` varies. Finiteness at each `Z,T` alone
+cannot supply the polynomial bound with degrees fixed before `τ` and `N`.
+
 ## What remains for the named `highBoundaryControl`
 
 [HighBin.lean](../../HeckeSkeleton/HighBin.lean) still declares
@@ -394,9 +588,9 @@ obligations are not supplied by the new consumer:
 | --- | --- |
 | `P.euler = arithmeticHighEulerData ...` | `ActualHighPresentation.euler` is an arbitrary `RowEulerData` field; the structure does not identify it with the constructed finite-table provider. |
 | `1 ∈ P.companions` | The companion field is a finite set with no membership field. The actual upper-zero argument needs the trivial companion. |
-| Buffered contour and detector heights | The three height functions are arbitrary fields. No field gives the contour lower bound, the `3/2` upper-detector gap, or polynomial height growth. |
+| Contour height and detector coverage | The three height functions are arbitrary fields. No field gives `δ*T ≤ contourHeight` or the `3/2` upper-detector gap. The strongest consumer needs no polynomial upper-growth bound on any height, after absorbing its height cost with the decay order. |
 | Retained-block count | `TargetData.rows_in_norm_envelope` bounds which rows can occur; it does not bound how many blocks the expansion repeats or retains. `Expansion.expansion_blockCount` remains an upstream admitted obligation. |
-| Original block and label construction | `Base.highExpansion` is admitted. The real shell/bin selection, selected-height subdivisions, actual label contributions and their integral identifications must be constructed together. |
+| Original expansion construction and tail placement | `Base.highExpansion` is admitted. The presentation fields do imply the final block-contour identity and the initial-sum/main-block/boundary identity above. They do not identify the normalized probe, the other expansion components, or the original `HighExpansion.tail`. |
 
 The new continuation-uniqueness candidates in [UNIQUENESS.md](UNIQUENESS.md)
 remove the need for provider structure equality **on the original

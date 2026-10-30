@@ -12,22 +12,24 @@ AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-30.
 
 ## 1. Verification boundary
 
-At commit `c71511a`, the native CI core build and public audit passed all
-**54 modules and 435 public declarations**. The audit permits only
+At commit `034109`, the native CI core build and public audit passed all
+**55 modules and 438 public declarations**. The audit permits only
 `propext`, `Classical.choice`, and `Quot.sound`.
 The run is
-[41127250262](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41127250262),
-with core job `124308854221`. This covers the pure modules below, including
+[41129408957](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41129408957),
+with core job `124316190192` and artifact `13013010612`. The recorded
+`beyond_standard_axioms` result is empty. This covers the pure modules below, including
 the complete joint-analytic limit theorem and corrected-region analytic
-lemmas. It does not verify the actual arithmetic adapters.
+lemmas and `EulerRegionUniqueness`. It does not verify the actual arithmetic adapters.
 
 | Component | Recorded native evidence | What remains unverified |
 | --- | --- | --- |
 | Finite Fourier tables, generator-unit invariance, contractive Gauss phases, rational local factors and scalar Euler bounds | The corresponding pure core modules passed individual Lean builds. The completed earlier core audit used only `propext`, `Classical.choice`, and `Quot.sound`. | Actual number-field instantiations are separate modules. |
 | `PrimeBlockEuler` and `LocalSeriesFactorization` | Both passed individual native builds at `6e3d24ca4579aa615ef0a23769c1695cb8f4b55d`. | The actual four-ideal reindexing and calibration consumers have not been checked. |
 | `LocalBlockSummation` | Passed a local standalone check of all 17 public declarations and an individual native build at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0`. Its recorded axiom sets are the three standard axioms. | `ActualLocalBlockSummation` is an arithmetic instantiation and remains pending. |
-| `JointAnalyticLimit` | The complete local single-module check passed in 321.551 seconds with exit code 0 and unchanged source. Both public theorem types and transitive axiom sets were checked; only the three standard axioms occur. Its individual native build and public audit also passed in the 54-module, 435-declaration CI check at `c71511a`. | This verifies the general three-variable limit theorem, not the complete arithmetic chain. |
-| `EulerRegionAnalytic` and the original `rowEulerRegion` definition | The local 12-declaration check passed in 16.139 seconds; the complete native core build and public audit passed at `c71511a`. | The actual ideal-norm summability and number-field normal-product consumers remain pending. |
+| `JointAnalyticLimit` | The complete local single-module check passed in 321.551 seconds with exit code 0 and unchanged source. Both public theorem types and transitive axiom sets were checked; only the three standard axioms occur. Its individual native build and public audit also passed in the 55-module, 438-declaration CI check at `034109`. | This verifies the general three-variable limit theorem, not the complete arithmetic chain. |
+| `EulerRegionAnalytic` and the original `rowEulerRegion` definition | The local 12-declaration check passed in 16.139 seconds; the complete native core build and public audit passed at `034109`. | The actual ideal-norm summability and number-field normal-product consumers remain pending. |
+| `EulerRegionUniqueness` | All three public declarations passed the native core build and audit at `034109`: convexity, preconnectedness, and the joint analytic identity principle on the original region. | Its actual arithmetic consumers are separate modules; the theorem does not extend the region to nonpositive real part of `w`. |
 | Actual prime-power Gauss/Poisson formulas, CRT, exponent indexing, initial calibration, corrected-region normal product and original `TRowEulerInput` constructor | Complete source candidates with static interface review | Native build and transitive axiom audit of the actual chain |
 | Original `highInitialEulerControl` and `highExceptionalEulerControl` for `actualHighPresentation` | Existing obligations retained | Construction/identification of the named presentation, followed by the relevant native checks |
 
@@ -379,3 +381,50 @@ negative-`w` continuation or its finite-table regularity. The
 constructor/identification work and the complete native arithmetic
 verification must remain explicit before these original obligations are
 reported as discharged.
+
+## Corrected-region normal product: separate pure verification
+
+`EulerRegionProduct.lean` uses the actual `explicitLocalEuler` four-case
+family and the unchanged repository `rowEulerRegion`. Its complete hypotheses
+are elementary phase norm bounds, `2 ≤ q i`, and summability of `q i ^ (-σ)`
+for every `σ > 1`. It proves both normal convergence and full joint
+`AnalyticOnNhd`; neither is an input hypothesis. The finite sets `R` and `Q`
+retain ramified and marked zero factors literally. The declaration statements are:
+
+```lean
+theorem explicitEuler_hasProdLocallyUniformlyOn_rowEulerRegion
+    {ι : Type*} [DecidableEq ι]
+    (R Q : Finset ι) (q : ι → ℝ) (cW cD cE : ι → ℂ)
+    (P : ι → PhaseData) (j : ι → Fin 5)
+    (hq : ∀ i, 2 ≤ q i) (hW : ∀ i, ‖cW i‖ ≤ 1)
+    (hD : ∀ i, ‖cD i‖ ≤ 1) (hE : ∀ i, ‖cE i‖ ≤ 1)
+    (hsum : ∀ σ : ℝ, 1 < σ → Summable (fun i => (q i) ^ (-σ))) :
+    HasProdLocallyUniformlyOn (explicitLocalEuler R Q q cW cD cE P j)
+      (fun v => ∏' i, explicitLocalEuler R Q q cW cD cE P j i v)
+      rowEulerRegion
+
+theorem explicitEuler_analyticOnNhd_rowEulerRegion
+    {ι : Type*} [DecidableEq ι]
+    (R Q : Finset ι) (q : ι → ℝ) (cW cD cE : ι → ℂ)
+    (P : ι → PhaseData) (j : ι → Fin 5)
+    (hq : ∀ i, 2 ≤ q i) (hW : ∀ i, ‖cW i‖ ≤ 1)
+    (hD : ∀ i, ‖cD i‖ ≤ 1) (hE : ∀ i, ‖cE i‖ ≤ 1)
+    (hsum : ∀ σ : ℝ, 1 < σ → Summable (fun i => (q i) ^ (-σ))) :
+    AnalyticOnNhd ℂ
+      (fun v => ∏' i, explicitLocalEuler R Q q cW cD cE P j i v)
+      rowEulerRegion
+```
+
+The ambient namespace is `HeckeSkeleton.HighBinContinuation`; the only
+implicit type/instance parameters are `{ι : Type*} [DecidableEq ι]`.
+`ActualEulerRegion.rowCorrection_hasProdLocallyUniformlyOn_rowEulerRegion`
+now applies this theorem using the actual ideal-norm summability and then
+transports finite products and their limits through the proved local-factor
+identity on the original region. No identity outside that region is used.
+
+The exact new source body passed Lean 4.35.0-rc3 in a combined dependency
+wrapper in **18.706 seconds**, with both public types and axiom sets printed.
+Both use only `propext`, `Classical.choice`, and `Quot.sound`. The wrapper
+imports the previously compiled exact `EulerRegionAnalytic` and
+`JointAnalyticLimit` bodies; this check is distinct from a native separate
+module build, which is included in the next core CI target. Source SHA-256: `65790197956fee62f0753b5f69df9c30e9bf54d50e261c2c9a5ded7d57323134`.
