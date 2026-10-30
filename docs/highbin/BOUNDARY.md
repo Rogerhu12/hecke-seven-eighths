@@ -398,6 +398,13 @@ obligations are not supplied by the new consumer:
 | Retained-block count | `TargetData.rows_in_norm_envelope` bounds which rows can occur; it does not bound how many blocks the expansion repeats or retains. `Expansion.expansion_blockCount` remains an upstream admitted obligation. |
 | Original block and label construction | `Base.highExpansion` is admitted. The real shell/bin selection, selected-height subdivisions, actual label contributions and their integral identifications must be constructed together. |
 
+The new continuation-uniqueness candidates in [UNIQUENESS.md](UNIQUENESS.md)
+remove the need for provider structure equality **on the original
+`rowEulerRegion`**. They use the existing character calibration and the actual
+analytic identity principle. That region requires `0 < Re(w)`; the high-bin
+endpoint `a = 1` has `Re(w) = -6e < 0`. Thus this uniqueness result does not
+remove the provider obligation from the full boundary theorem above.
+
 The presentation's `shell_range`, `bin_range`, `rows_in_bin`,
 `block_identification`, and `shifted_identification` are retained. No empty
 block family, zeroed contour, artificial amplitude, or assumed final boundary

@@ -15,9 +15,9 @@ body is not, by itself, an elaborated theorem or an exact-type audit.
 
 | Part | Recorded result | Scope of the result |
 |---|---|---|
-| `ActualNormFormHigherPrimePowers`, `ActualNormFormMellinInversion`, `ActualNormFormPrimeDetector`, `ActualNormFormUniformMellin` | Native separate-module build and all 55 public declaration audits passed at `6e3d24ca4579aa615ef0a23769c1695cb8f4b55d` | Their axiom sets contain only `propext`, `Classical.choice`, `Quot.sound`; `mellin-axioms.json` has an empty `beyond_standard_axioms` object. |
+| `ActualNormFormHigherPrimePowers`, `ActualNormFormMellinInversion`, `ActualNormFormPrimeDetector`, `ActualNormFormUniformMellin` | Native separate-module build and all 55 public declaration audits passed at `6e3d24ca4579aa615ef0a23769c1695cb8f4b55d`, and again at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0` | Their axiom sets contain only `propext`, `Classical.choice`, `Quot.sound`; `mellin-axioms.json` has an empty `beyond_standard_axioms` object. |
 | The same Mellin dependency chain, combined locally | 40 source files and 577 public declarations passed | This is additional combined-source evidence, distinct from separate-module verification. |
-| `HighNormFormScalar`, including `exists_full_normForm_parameter_budget` | The newer native core run compiled the file successfully | Its printed parameter-budget axiom set is the same three standard axioms. The complete newer core public audit was still blocked by errors in other modules when this record was written. |
+| `HighNormFormScalar`, including `exists_full_normForm_parameter_budget` | The native core run at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0` compiled the file successfully | Its printed parameter-budget axiom set is the same three standard axioms. The complete newer core public audit was still blocked by errors in other modules when this record was written. |
 | Actual window detector, zero-free prime contour/cap, complete-slot correction, sharp factors, amplitude construction, kernel, integral and label grouping | Source implementation and static interface review only | The complete actual build had not reached these declarations. Their displayed source signatures and their transitive axiom sets have **not** been confirmed by Lean. |
 | Original `HighShiftedNormForm K c (actualHighPresentation K c)` | Not discharged | The original `HB-NORMFORM`, `HB-PRESENT` and `D-EXPANSION` admissions are not replaced by this chain. |
 
@@ -603,6 +603,7 @@ identifications:
 | `.upperHeight` | A height sufficient for the detector at `2*internalHeight Z T kappa+2` |
 | `.labels` | The fixed finite complete-slot grid, or a proved identified refinement |
 | `.amplitudeSet.rows` | The actual selector fibers of the retained fixed-bin row set |
+| `.amplitudeSet.amplitude` | The values `min (label_i*theta) (a-1/2)` of that same label |
 | `.amplitudeSet.mean` | `actualFullSlotLabelMean` of that same grid label |
 | `.shiftedPiece` | The literal `rowContourBox` used above, with all original tests and normalizers |
 | `.block_identification` | The original expansion block value equals the sum of these actual pieces |
@@ -612,6 +613,15 @@ The selected-zero height and the upper-zero height are distinct choices
 in the original presentation. Their required arithmetic/bin support
 identities must also be established; the norm-form estimate does not
 choose them by changing an existing definition.
+
+The wider expansion also contains `AmplitudeSet.slotValue` and genuine
+inverse/plain witness subdivisions, defined in
+[TIPSources.lean](../../HeckeGeneral/Analysis/TIPSources.lean). The actual
+normalized values `pScale^(4/25) * S_i(point_i)` provide the intended
+slot witnesses. Their transfer to the named expansion, and the
+`WitnessCover` required by `BlockSource` above the floor bin, remain
+separate construction obligations. This norm-form chain does not fill
+those fields with empty or dummy subdivisions.
 
 At the time of this record, `Base.highExpansion` is still an opaque
 definition with the original `D-EXPANSION` admission, and

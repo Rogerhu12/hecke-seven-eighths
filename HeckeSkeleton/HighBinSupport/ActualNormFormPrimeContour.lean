@@ -33,7 +33,7 @@ theorem integrable_decayWeight : Integrable decayWeight := by
   convert h using 1
   ext r
   rw [Real.norm_eq_abs, Real.rpow_neg (by positivity : 0 ≤ 1 + |r|), Real.rpow_two]
-  rfl
+  simp only [decayWeight, one_div]
 
 def decayMass : ℝ := (∫ r : ℝ, decayWeight r) + 1
 

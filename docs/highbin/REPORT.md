@@ -96,71 +96,55 @@ correctly constructed presentation.
 
 ## Recorded native verification
 
-At commit `29d6f4d30ee5d08de3597e3ff932944c1e1076ac`, the GitHub Actions
-core step passed **44 separately compiled modules and 358 public declaration
-checks**. Each printed axiom set was contained in
-`{propext, Classical.choice, Quot.sound}`. This verifies that snapshot;
-it does not verify subsequent edits or the arithmetic adapters.
+The latest completed core audit is commit
+`c71511a569ed8b98c243b66ead8d8ec8c83d59b9`: **54 separately compiled modules
+and 435 public declarations passed**. The downloaded `core-axioms.json`
+contains an empty `beyond_standard_axioms` map. Every declaration uses only
+`propext`, `Classical.choice`, and `Quot.sound` (or a subset). This includes
+the complete three-variable `JointAnalyticLimit`, `EulerRegionAnalytic`,
+`LocalBlockSummation`, `PrimeBlockEuler`, `LocalSeriesFactorization` and the
+full parameter budget in `HighNormFormScalar`.
 
-Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41116744429
+Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41127250262
+Job: `124308854221`; artifact: `13011960905`.
+The full declaration-to-axiom mapping is preserved in
+[verified_core_axioms.json](verified_core_axioms.json). This is evidence for
+that exact commit; it does not establish subsequent edits or the full
+arithmetic chain.
 
-The complete arithmetic build in that run reached its 65-minute job timeout.
-Its preserved log reported two orbital-Mellin elaboration errors; both are
-repaired in the current snapshot, pending a fresh native check. The large
-class-field-theory dependency build had not completed, so this is not an
-arithmetic-chain verification result.
-At the later commit `a7dba28f38f9bb1b64dcca5a6d9f143fb51dadd9`, 48 of
-49 individual core module builds succeeded. `PrimeBlockEuler` failed because
-its complex-number import was missing; that import is now repaired, but
-its proof bodies need a fresh native check. The later public-declaration
-audit did not run, so the earlier 358-declaration audit remains the latest
-complete native core audit. `AnnularTest`, `PrimeWindowGeometry`,
-`ThetaKernel.TestMellin` and `ActualDenominatorMellin` passed individual builds
-in that later run.
-
-Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41120458916
-
-At commit `49e56fbbfeaf00f127f3588ae3bb56c78cef554c`, the new core check
-reported a missing real-volume instance import in `AnnularTest` and five
-unclosed proof goals in `PrimeBlockEuler`/`LocalSeriesFactorization`. The
-missing import and those goals are repaired in the current source snapshot;
-a new native run is still required.
-
-At commit `6e3d24ca4579aa615ef0a23769c1695cb8f4b55d`, the four actual
-Mellin modules and all **55 public declaration audits passed natively**.
-The downloaded `mellin-axioms.json` has an empty `beyond_standard_axioms`
-map. This verifies the exact types and transitive axiom sets of those four
-modules, including higher prime powers, divided-log Mellin inversion,
-uniform profiles and the actual logarithmic prime detector.
+The actual Mellin audit passed **4 separate modules and 55 public
+declarations** at `6e3d24ca4579aa615ef0a23769c1695cb8f4b55d`, and passed
+again at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0`. Its downloaded
+`mellin-axioms.json` also has an empty `beyond_standard_axioms` map. These
+four files cover higher prime powers, divided-log Mellin inversion,
+uniform profiles and the actual logarithmic prime detector. The current
+five-module Mellin target additionally checks `ActualOrbitalRapidDecay`;
+its result is still pending.
 
 Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41123224412
-Artifact: `highbin-verification-mellin` (ID `13010580062`).
+Artifact: `13010580062`.
 
-The core build at that commit accepted every target except the new
-`LocalBlockSummation`. In particular, `PrimeBlockEuler` and
-`LocalSeriesFactorization` now pass as separate modules. The remaining
-local-block simplification and summation API errors have been repaired;
-the 420-declaration core audit did not run.
+The older complete arithmetic build at `29d6f4d` reached its 65-minute job
+timeout while compiling the class-field-theory dependencies. Its preserved
+log reported two orbital-Mellin elaboration errors. Both are repaired in
+the current snapshot. The arithmetic adapters and their all-public axiom
+audit remain unverified. A later arithmetic job is running. Subsequent
+jobs check the small core prerequisites first and preserve completed
+dependency builds after a proof failure or the build subprocess timeout.
 
-At commit `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0`, the four-module,
-55-declaration Mellin check passed again. `LocalBlockSummation` and the new
-full norm-form parameter budget in `HighNormFormScalar` also passed as
-individual native modules. The core check reported errors only in
-`JointAnalyticLimit` and `EulerRegionAnalytic`; their fixes and the complete
-joint-analytic limit proof are included in the next snapshot. The full
-433-declaration core audit did not run at that commit.
+Local checks provide additional, separately identified evidence:
 
-Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41125249231
+| Check | Result | Scope |
+|---|---|---|
+| Complete `JointAnalyticLimit` | Passed, 321.551 seconds; both public types and standard-axiom reports | Original single-module Mathlib imports; now also covered by native CI |
+| `EulerRegionAnalytic` and original region definition | Passed, 16.139 seconds; 12 public declarations | A combined dependency wrapper; now also covered by native CI |
+| Combined actual Mellin unit | Passed, 499.327 seconds; 40 source bodies and 577 public declarations, standard axioms only | Imports hoisted; not 40 separate native modules |
 
-A local **40-source combined Mellin unit with 577 public declaration
-audits** also passed (499.327 seconds), with only `propext`,
-`Classical.choice`, and `Quot.sound`. Its generated source SHA-256 is
+The combined Mellin source SHA-256 is
 `a69fdee42c5804b56bab177384824ae6791ce6cd783e07140db92bb9e3cb0c79`;
-the complete log SHA-256 is
+its complete log SHA-256 is
 `78c74b9e256f12d76aa9096f9b999d36baf7aa9e4436987d529e342a17e53ddb`.
-The source was unchanged during compilation. This is a combined check
-with hoisted imports, not 40 separate-module builds; the native result
-above supplies the separate-module check for the four new Mellin files.
+Source hashes were unchanged during the recorded local checks.
 
 The generated `*_public_declarations.json` inventories contain source paths,
 line locations and SHA-256 hashes. The verification script checks those
@@ -247,8 +231,8 @@ native checks recorded above; the named presentation identification remains
 an independent missing construction.
 
 Detailed main-statement reports, including all ambient typeclasses and
-quantifier order, are in [NORMFORM.md](NORMFORM.md) and
-[BOUNDARY.md](BOUNDARY.md). Their unelaborated arithmetic candidates are
+quantifier order, are in [EULER.md](EULER.md), [NORMFORM.md](NORMFORM.md),
+[BOUNDARY.md](BOUNDARY.md), and [UNIQUENESS.md](UNIQUENESS.md). Their unelaborated arithmetic candidates are
 explicitly distinguished from native verified modules.
 
 The six existing admissions in `HighBin.lean` are retained. No new support

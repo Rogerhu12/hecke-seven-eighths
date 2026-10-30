@@ -44,8 +44,11 @@ jobs:
           path: |
             .lake
             vendor/class-field-theory/.lake
-          key: highbin-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}-${{ matrix.scope }}
-          restore-keys: highbin-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+          key: highbin-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.scope }}-${{ github.sha }}
+          restore-keys: |
+            highbin-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.scope }}-
+            highbin-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-actual-
+            highbin-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
       - uses: leanprover/lean-action@bd5cb0b830eda614ce3fc186d8429b9409b16c47
         with:
           auto-config: 'false'
@@ -72,4 +75,4 @@ jobs:
           path: |
             .lake
             vendor/class-field-theory/.lake
-          key: highbin-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}-${{ matrix.scope }}
+          key: highbin-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.scope }}-${{ github.sha }}

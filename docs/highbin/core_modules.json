@@ -52,5 +52,6 @@
   "HeckeSkeleton.HighBinSupport.LocalSeriesFactorization",
   "HeckeSkeleton.HighBinSupport.EulerRegionAnalytic",
   "HeckeGeneral.Analysis.RowEulerRegion",
-  "HeckeSkeleton.HighBinSupport.JointAnalyticLimit"
+  "HeckeSkeleton.HighBinSupport.JointAnalyticLimit",
+  "HeckeSkeleton.HighBinSupport.EulerRegionUniqueness"
 ]

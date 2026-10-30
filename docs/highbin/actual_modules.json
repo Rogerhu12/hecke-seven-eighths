@@ -12,6 +12,7 @@
   "HeckeSkeleton.HighBinSupport.ActualEulerPresentation",
   "HeckeSkeleton.HighBinSupport.ActualEulerProduct",
   "HeckeSkeleton.HighBinSupport.ActualEulerRegion",
+  "HeckeSkeleton.HighBinSupport.ActualEulerUniqueness",
   "HeckeSkeleton.HighBinSupport.ActualExceptionalControl",
   "HeckeSkeleton.HighBinSupport.ActualFinitePoisson",
   "HeckeSkeleton.HighBinSupport.ActualGaussCalibration",

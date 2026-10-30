@@ -3043,5 +3043,26 @@
     "source": "HeckeSkeleton/HighBinSupport/JointAnalyticLimit.lean",
     "line": 341,
     "source_sha256": "992742c85b088e8e9fc334d3fe10b895e8c68a21c6ba2082856acea6661acf1f"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinContinuation.rowEulerRegion_convex",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/EulerRegionUniqueness.lean",
+    "line": 25,
+    "source_sha256": "205da577d300c16be5bf560c90bc7786a466eff084189b0a10b2a5443c7deb36"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinContinuation.rowEulerRegion_isPreconnected",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/EulerRegionUniqueness.lean",
+    "line": 52,
+    "source_sha256": "205da577d300c16be5bf560c90bc7786a466eff084189b0a10b2a5443c7deb36"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinContinuation.eqOn_rowEulerRegion_of_initial",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/EulerRegionUniqueness.lean",
+    "line": 59,
+    "source_sha256": "205da577d300c16be5bf560c90bc7786a466eff084189b0a10b2a5443c7deb36"
   }
 ]
