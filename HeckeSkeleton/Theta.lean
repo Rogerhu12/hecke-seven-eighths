@@ -5,6 +5,7 @@ import HeckeSkeleton.AllowedGeneratorNorm
 import HeckeAxiom.LambdaInfinityType
 import HeckeAxiom.SexticSymbolDictionary
 import HeckeAxiom.GaussCalibration
+import HeckeSkeleton.ThetaKernel
 
 /-! Explicit arithmetic and KP/theta frontiers for the named actual construction.
 The statements are admitted only in this exploratory branch. -/
@@ -125,26 +126,32 @@ theorem finiteAdmissible : FiniteMellinAdmissible K S F where
   valuation_decay := finite_valuation_decay K c
   absolute_mellin := finite_absolute_mellin K c
 
--- OBLIGATION TH-KERNEL-INTEGRABLE | revised §3.2–3.4, Lemma 3.3, pp.6–8.
+-- TH-KERNEL-INTEGRABLE (proved in HeckeSkeleton.ThetaKernel) | revised §3.2–3.4, Lemma 3.3, pp.6–8.
 theorem kernel_integrable : ∀ (V : SmoothAnnularTest) u κ σ y, -(1 / 3 : ℝ) < σ → 0 < y →
-    Integrable (kernelIntegrand K S F θ u κ V.toFun σ y) := by
-  sorry
+    Integrable (kernelIntegrand K S F θ u κ V.toFun σ y) :=
+  HeckeSkeleton.ThetaKernel.kernel_integrable K S F θ (finiteAdmissible K c)
 
--- OBLIGATION TH-KERNEL-LINE-INDEPENDENT | revised §3.2–3.4, Lemma 3.3, pp.6–8.
+-- TH-KERNEL-LINE-INDEPENDENT (proved in HeckeSkeleton.ThetaKernel) | revised §3.2–3.4, Lemma 3.3, pp.6–8.
 theorem kernel_line_independent : ∀ (V : SmoothAnnularTest) u κ σ σ' y,
     -(1 / 3 : ℝ) < σ → -(1 / 3 : ℝ) < σ' → 0 < y →
     mellinReflectionKernel K S F θ u κ V.toFun σ y =
-      mellinReflectionKernel K S F θ u κ V.toFun σ' y := by
+      mellinReflectionKernel K S F θ u κ V.toFun σ' y :=
+  HeckeSkeleton.ThetaKernel.kernel_line_independent K S F θ (finiteAdmissible K c)
+
+-- OBLIGATION TH-SIXTH-LOCAL-FINITE | revised §3.2–3.4, pp.5–8.
+-- The S-local sixth-power class group is finite (complex places are 6-divisible;
+-- finite places by Hensel, including p | 6). Small (about 500 lines; Axiom V_finite).
+instance sixthLocalClasses_finite : Finite (SixthLocalClasses K S) := by
   sorry
 
--- OBLIGATION TH-KERNEL-DERIVATIVE-BOUND | revised §3.2–3.4, Lemma 3.3, pp.6–8.
+-- TH-KERNEL-DERIVATIVE-BOUND (proved from TH-SIXTH-LOCAL-FINITE in HeckeSkeleton.ThetaKernel) | revised §3.2–3.4, Lemma 3.3, pp.6–8.
 theorem kernel_derivative_bound : ∀ (A : ℝ) (h J : ℕ), 0 ≤ A →
     4 * (Fintype.card {v : InfinitePlace K // v.IsComplex} : ℝ) * A + h + 1 < J →
     ∃ C : ℝ, 0 ≤ C ∧ ∀ (V : SmoothAnnularTest) u κ y, 0 < y →
       ‖eulerDerivativeOrder h
         (mellinReflectionKernel K S F θ u κ V.toFun 0) y‖ ≤
-      C * testSeminorm V.toFun J A * min (y ^ (1 / 4 : ℝ)) (y ^ (-A)) := by
-  sorry
+      C * testSeminorm V.toFun J A * min (y ^ (1 / 4 : ℝ)) (y ^ (-A)) :=
+  HeckeSkeleton.ThetaKernel.kernel_derivative_bound K S F θ (finiteAdmissible K c)
 
 theorem mellinKernel : MellinKernelInput K S F θ where
   finite_admissible := finiteAdmissible K c
