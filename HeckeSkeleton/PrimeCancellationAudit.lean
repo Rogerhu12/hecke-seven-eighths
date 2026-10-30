@@ -14,6 +14,7 @@ dependencies; this file does not assert that the imported skeleton is complete.
 #print axioms HeckeSkeleton.PrimeCancellationHecke.deletedSlotData
 #print axioms HeckeSkeleton.PrimeCancellationHecke.emptySlotData
 #print axioms HeckeSkeleton.PrimeCancellationHecke.exists_uniform_finiteOrder_polynomial
+#print axioms HeckeSkeleton.PrimeCancellationWindows.actualPrimeWindowSchwartz_uniform_seminorm
 #print axioms HeckeSkeleton.PrimeCancellationMoment.source_paired_energy_le_of_slot_bounds
 #print axioms HeckeSkeleton.PrimeCancellationMoment.source_conductor_control_of_polynomial
 #print axioms HeckeSkeleton.PrimeCancellationWiring.primePolynomial_bound_of_analytic_data

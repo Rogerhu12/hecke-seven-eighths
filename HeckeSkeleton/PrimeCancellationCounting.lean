@@ -70,7 +70,11 @@ theorem exists_ideal_count_bound : ∃ d : ℝ, 0 < d ∧ ∀ Y : ℝ, 1 ≤ Y �
     have hmono : N Y ≤ N V := Nat.cast_le.mpr (Nat.card_le_card_of_injective
       (fun I : {I : Ideal (𝓞 K) // (I.absNorm : ℝ) ≤ Y} =>
         (⟨I.val, I.property.trans hsmall⟩ : {I : Ideal (𝓞 K) // (I.absNorm : ℝ) ≤ V}))
-      (fun _ _ h => Subtype.ext (congrArg Subtype.val h)))
+      (by
+        intro I J h
+        apply Subtype.ext
+        exact congrArg
+          (fun P : {I : Ideal (𝓞 K) // (I.absNorm : ℝ) ≤ V} => P.val) h))
     exact hmono.trans ((le_mul_of_one_le_right hN hY).trans
       (mul_le_mul_of_nonneg_right (by linarith : N V ≤ N V + D) (by linarith)))
   · have hlarge := hY₀ Y ((le_max_right 1 Y₀).trans (le_of_not_ge hsmall))

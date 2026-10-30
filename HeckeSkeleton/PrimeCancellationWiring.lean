@@ -1,6 +1,7 @@
 import HeckeSkeleton.PrimeCancellationHecke
 import HeckeSkeleton.PrimeCancellationMoment
 import HeckeSkeleton.PrimeCancellationBounds
+import HeckeSkeleton.PrimeCancellationWindows
 
 /-!
 # Prime cancellation for the actual paired moment models

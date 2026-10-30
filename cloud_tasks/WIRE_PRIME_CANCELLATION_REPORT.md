@@ -38,7 +38,12 @@ theorem paired_primes_below_one_of_models
 `WholeMomentProfileControl` 没有提供实际 `primePolynomial` 所用窗口的控制，
 因而不能独自供给消去核心所需的半范数。新记录明确识别实际窗口，并对实际选定
 的高度参数给出半范数界。它不假定尚未证明的高度参数范围。
-在实际模型中，可由有限个固定窗口及其已有的参数化 Schwartz 控制构造这些字段。
+新增 `PrimeCancellationWindows.lean` 为已有的 `PrimeWindowGeometry` 给出正面构造：
+把每个实际 `g.weight j` 转成 Schwartz 函数，证明它与
+`analyticMomentPrimeWindow K g j` 的 `profile 0` 完全相等，支撑包含于 `[1,2]`，
+且整个固定有限窗口族在任何指定有限组半范数下都有共同常数界（高度指数可取 `0`）。
+这验证了原有预先选定的窗口满足所需的解析性质。把这些窗口识别到完整参数化模型
+的每个槽，以及参数依赖情况下的统一控制，仍属于具体模型的校准工作。
 
 ### 非主性与有限例外角色
 

@@ -53,6 +53,7 @@ jobs:
         env:
           PRIME_MODULE: ${{ matrix.target }}
         run: |
+          set -euo pipefail
           mkdir -p prime-verification
           lean --version | tee prime-verification/environment.log
           lake --fail-fast build "+${PRIME_MODULE}:olean" 2>&1 | tee prime-verification/build.log

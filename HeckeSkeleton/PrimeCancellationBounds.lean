@@ -77,8 +77,8 @@ theorem profile_budget (δ C d H B W X T q a S : ℝ)
     by unfold numericPrimeConstant; positivity
   have hcoef : numericPrimeConstant δ C d (H * f) + B * f ≤
       (numericPrimeConstant δ C d H + B) * f := by
-    simpa only [add_mul] using add_le_add_right
-      (numericPrimeConstant_mul_le δ C d H f hd hf) (B * f)
+    simpa only [add_mul] using add_le_add
+      (numericPrimeConstant_mul_le δ C d H f hd hf) (le_refl (B * f))
   calc
     _ ≤ ((numericPrimeConstant δ C d H + B) * f) * (W * (1 + T) ^ a) :=
       mul_le_mul hcoef hSb hS (mul_nonneg hconst (zero_le_one.trans hf))
@@ -88,8 +88,9 @@ theorem profile_budget (δ C d H B W X T q a S : ℝ)
       dsimp only [f]
       ring
     _ ≤ _ := by
-      gcongr
-      exact le_max_right _ _
+      apply mul_le_mul_of_nonneg_right ?_ (Real.rpow_nonneg (by linarith : 0 ≤ 1 + T) _)
+      exact mul_le_mul_of_nonneg_right (le_max_right _ _)
+        (by linarith [Real.log_nonneg hX])
 
 /-- A common per-slot constant is raised only to the fixed slot ceiling. -/
 theorem finite_slot_budget (n J : ℕ) (C X T a : ℝ)

@@ -15,7 +15,7 @@ permissions:
 
 concurrency:
   group: prime-cancellation-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   proofs:
@@ -44,11 +44,13 @@ jobs:
             prime-cancellation-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
       - name: Compile the actual Hecke and moment wiring
         run: |
+          set -euo pipefail
           mkdir -p prime-verification
           lean --version | tee prime-verification/environment.log
-          lake build +HeckeSkeleton.PrimeCancellationWiring:olean 2>&1 | tee prime-verification/build.log
+          lake --fail-fast build +HeckeSkeleton.PrimeCancellationWiring:olean 2>&1 | tee prime-verification/build.log
       - name: Audit exported theorem dependencies
         run: |
+          set -euo pipefail
           lake env lean HeckeSkeleton/PrimeCancellationAudit.lean 2>&1 | tee prime-verification/axioms.log
       - name: Save checked project artifacts for the next revision
         if: always()
