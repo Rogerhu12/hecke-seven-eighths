@@ -13,8 +13,8 @@ AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-30.
 This is a draft implementation. The four original obligations have not yet
 been discharged in `HighBin.lean`. Their existing admissions are retained,
 and the new support files contain no `sorry`, `axiom`, or `native_decide`.
-The report will be updated with the final verification results before this
-work session ends.
+Verification claims below are tied to their exact source commits and
+downloaded CI artifacts.
 
 | Original obligation | Implemented connection | Remaining work |
 |---|---|---|
@@ -90,7 +90,11 @@ companions, a positive uniform lower bound `delta*T ≤ contourHeight`, that
 boundary consumer needs no polynomial upper bound on either height: shortening
 the analytic detector to `H+3/2` and choosing decay order `N+6*r_infty` absorbs
 the complete height cost. The label-count hypothesis is a
-per-block bound and does not establish a bound on the number of blocks.
+per-block bound and does not establish a bound on the number of blocks. The
+exact matching repository theorem is `HeckeSkeleton.expansion_blockCount`
+(EX-BLOCK-COUNT), whose body remains admitted; its `expansionBudget` and
+`expansionCutoffs` providers are also admitted. The source wrapper therefore
+does not close this construction gap.
 
 The current definition of `shiftedPiece` and its sum identities also do not
 identify each labelled piece with its full-correction integral. Cancellation
@@ -102,16 +106,17 @@ correctly constructed presentation.
 ## Recorded native verification
 
 The latest completed core audit is commit
-`03410972118500ef9fdd9ce4045d964bed6cd167`: **55 separately compiled modules
-and 438 public declarations passed**. The downloaded `core-axioms.json`
+`61699e94a0a47e7770d10608732eff4b9f219c25`: **57 separately compiled modules
+and 442 public declarations passed**. The downloaded `core-axioms.json`
 contains an empty `beyond_standard_axioms` map. Every declaration uses only
 `propext`, `Classical.choice`, and `Quot.sound` (or a subset). This includes
 the complete three-variable `JointAnalyticLimit`, `EulerRegionAnalytic`,
 `LocalBlockSummation`, `PrimeBlockEuler`, `LocalSeriesFactorization`,
-`EulerRegionUniqueness` and the full parameter budget in `HighNormFormScalar`.
+`EulerRegionUniqueness`, `EulerRegionProduct`, `BoundaryHeightAbsorption` and
+the full parameter budget in `HighNormFormScalar`.
 
-Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41129408957
-Job: `124316190192`; artifact: `13013010612`.
+Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41133265844
+Job: `124329335921`; artifact: `13013913423`.
 The full declaration-to-axiom mapping is preserved in
 [verified_core_axioms.json](verified_core_axioms.json). This is evidence for
 that exact commit; it does not establish subsequent edits or the full
@@ -134,7 +139,9 @@ therefore caches only the root, class-field-theory and TauCeti `build`
 directories, after dependency setup, and releases already-extracted Mathlib
 `.ltar` downloads. Mathlib's own cache supplies its binaries. This repairs
 the identified cache-storage failure without treating a cached build or a
-successful cache step as proof verification.
+successful cache step as proof verification. The first v3 core job successfully
+released 452191602 bytes of downloaded archives and saved its project-build
+cache after its 57-module proof and axiom audit passed.
 
 The older complete arithmetic build at `29d6f4d` reached its 65-minute job
 timeout while compiling the class-field-theory dependencies. Its preserved
@@ -143,10 +150,19 @@ the current snapshot. The arithmetic adapters and their all-public axiom
 audit remain unverified. The later `a2ea9121` arithmetic job also reported
 only those same two orbital errors and stopped; the fixed orbital module has
 since passed its separate native audit above. Its whole-`.lake` cache save
-also ran out of disk space. The current workflow prioritizes the latest
-arithmetic/Mellin commit, checks the small core prerequisites first, and
+also ran out of disk space. The current workflow preserves running arithmetic/Mellin checks while
+new revisions queue, checks the small core prerequisites first, and
 preserves the smaller completed project-build caches after a proof failure
 or the build subprocess timeout.
+
+
+The arithmetic run at `61699e94` checks the source before four final tactic
+sequencing adjustments in `ActualEulerCRT`, `ActualPrimePowerSymbols`, and
+`ActualNormFormFullCorrection`: an independent `rfl` after `simp only` is
+replaced by `simp only ... <;> rfl`. These preserve every declaration
+statement and handle either a residual definitional-equality goal or a goal
+already closed by simplification. The actual audit for this revised source
+is queued separately; no successful complete arithmetic build is claimed.
 
 Local checks provide additional, separately identified evidence:
 
@@ -155,8 +171,8 @@ Local checks provide additional, separately identified evidence:
 | Complete `JointAnalyticLimit` | Passed, 321.551 seconds; both public types and standard-axiom reports | Original single-module Mathlib imports; now also covered by native CI |
 | `EulerRegionAnalytic` and original region definition | Passed, 16.139 seconds; 12 public declarations | A combined dependency wrapper; now also covered by native CI |
 | `EulerRegionUniqueness` | Passed, 22.756 seconds; three public declarations | Exact current source in a combined dependency wrapper; now also covered by native CI |
-| `EulerRegionProduct` | Passed, 18.706 seconds; two public declarations and standard axioms only | Exact current body in a combined dependency wrapper; separate native build pending |
-| `BoundaryHeightAbsorption` | Passed, 34.736 seconds; both public axiom reports use only the standard three axioms | Exact native separate module with its original Mathlib imports |
+| `EulerRegionProduct` | Passed, 18.706 seconds; two public declarations and standard axioms only | Exact current body in a combined dependency wrapper; now also covered by native separate-module CI |
+| `BoundaryHeightAbsorption` | Passed, 34.736 seconds; both public axiom reports use only the standard three axioms | Exact native separate module with its original Mathlib imports; now also covered by core CI |
 | Combined actual Mellin unit | Passed, 499.327 seconds; 40 source bodies and 577 public declarations, standard axioms only | Imports hoisted; not 40 separate native modules |
 
 The combined Mellin source SHA-256 is

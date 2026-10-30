@@ -220,13 +220,11 @@ theorem actualLocalCompensation_regular_main (P : ProbeData K S)
   have hvalue : H = rowEulerRationalValue (q : ℂ) (q : ℂ)⁻¹ V W D E := by
     dsimp only [H, actualLocalUnmarked]
     rw [localFactor_eq_explicit K S P psi ∅ u ha he p (s, w, z) hv]
-    simp only [explicitLocalEuler, if_neg hp, Finset.notMem_empty, if_false, sub_zero]
-    rfl
+    simp only [explicitLocalEuler, if_neg hp, Finset.notMem_empty, if_false, sub_zero] <;> rfl
   have hmarked : actualLocalMarked K S P psi u s w z p = H - (1 - W * V) / (1 - D) := by
     dsimp only [actualLocalMarked]
     rw [localFactor_eq_explicit K S P psi {p} u ha he p (s, w, z) hv, hvalue]
-    simp only [explicitLocalEuler, if_neg hp, Finset.mem_singleton, if_pos rfl]
-    rfl
+    simp only [explicitLocalEuler, if_neg hp, Finset.mem_singleton, if_pos rfl] <;> rfl
   have hA : slotMarkedScalar K S psi s z p = (q : ℂ) ^ (z - 1) * M := by
     unfold slotMarkedScalar
     rw [← hcast, show s + z - 1 = (z - 1) + s by ring, Complex.cpow_add _ _ hq0]

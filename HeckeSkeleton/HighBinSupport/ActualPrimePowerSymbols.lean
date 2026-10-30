@@ -95,8 +95,7 @@ def primePowerResidue (p : ExteriorPrime K S) (n : ℕ) (hn : 1 ≤ n) :
     primePowerResidue K S p n hn (Ideal.Quotient.mk _ a) =
       sIntegerSexticResidueMap K S p.val p.property a := by
   unfold primePowerResidue
-  simp only [RingHom.comp_apply, Ideal.quotientMap_mk, RingHom.id_apply]
-  rfl
+  simp only [RingHom.comp_apply, Ideal.quotientMap_mk, RingHom.id_apply] <;> rfl
 
 def symbolOnQuotient (D : ThetaArithmeticData K S) (I : ExteriorIdeal K S) :
     ThetaQuotient K S I → ℂ :=

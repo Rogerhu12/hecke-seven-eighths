@@ -225,8 +225,7 @@ def scaledCRT (D : ThetaArithmeticData K S) (I J : ExteriorIdeal K S)
   change quotientCRT K S I J hIJ ((quotientCRT K S I J hIJ).symm _) = _
   rw [RingEquiv.apply_symm_apply, quotientCRT_mk]
   simp only [Equiv.prodCongr_apply, Units.mulLeft_apply, IsUnit.unit_spec,
-    map_add, map_mul, hI, hJ, zero_mul, mul_zero, add_zero, zero_add]
-  rfl
+    map_add, map_mul, hI, hJ, zero_mul, mul_zero, add_zero, zero_add] <;> rfl
 
 /-- Symbol CRT is exact for arbitrary exterior ideals. -/
 theorem quotientSymbol_scaledCRT (D : ThetaArithmeticData K S)

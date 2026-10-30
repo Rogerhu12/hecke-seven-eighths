@@ -20,7 +20,8 @@ These checks establish the generic analytic and scalar arguments; they do
 not establish the actual arithmetic instantiations below. The new
 `BoundaryHeightAbsorption` separately passed its exact native single-module
 check in 34.736 seconds, with both public axiom reports using only those
-three standard axioms; its inclusion in the next core CI target is separate.
+three standard axioms; its separate-module build and public audit have now also passed in the
+57-module core CI at `61699e94`.
 
 The actual boundary chain has **not yet passed a complete native build or its
 transitive axiom audit**. The first full actual build reached
@@ -591,6 +592,22 @@ obligations are not supplied by the new consumer:
 | Contour height and detector coverage | The three height functions are arbitrary fields. No field gives `δ*T ≤ contourHeight` or the `3/2` upper-detector gap. The strongest consumer needs no polynomial upper-growth bound on any height, after absorbing its height cost with the decay order. |
 | Retained-block count | `TargetData.rows_in_norm_envelope` bounds which rows can occur; it does not bound how many blocks the expansion repeats or retains. `Expansion.expansion_blockCount` remains an upstream admitted obligation. |
 | Original expansion construction and tail placement | `Base.highExpansion` is admitted. The presentation fields do imply the final block-contour identity and the initial-sum/main-block/boundary identity above. They do not identify the normalized probe, the other expansion components, or the original `HighExpansion.tail`. |
+
+
+The direct count theorem is `HeckeSkeleton.expansion_blockCount` in
+`Expansion.lean` (EX-BLOCK-COUNT), and its target is definitionally the actual
+`targetData.expansion`. It still has an admitted proof, as do its
+`expansionBudget` (EX-HEIGHT-BUDGET) and `expansionCutoffs` (EX-CUTOFFS).
+`sourceT.expansion` wraps the same result; `sourceT.tail` uses
+`wholeBoundaryTail`, so using that complete source to prove this boundary
+would introduce a circular dependency.
+
+The nearby `TInputFixedBinTransfer.sourceBufferedRowBin` defines the concrete
+heights `3*i*T` and `3*(i+1)*T`, but its transfer input remains uninstantiated.
+Its shell is `(Z^d/2, Z^d]`, whereas the present target uses `(Z^d, 2*Z^d]`.
+No repository theorem identifies those choices with `actualHighPresentation`.
+The source count/schedule search therefore does not supply the missing named
+construction.
 
 The new continuation-uniqueness candidates in [UNIQUENESS.md](UNIQUENESS.md)
 remove the need for provider structure equality **on the original

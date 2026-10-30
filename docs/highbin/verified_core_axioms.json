@@ -2178,14 +2178,34 @@
       "Quot.sound",
       "propext"
     ],
+    "HeckeSkeleton.HighBinContinuation.explicitEuler_hasProdLocallyUniformlyOn_rowEulerRegion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.explicitEuler_analyticOnNhd_rowEulerRegion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.height_tail_absorb": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.height_tail_absorption_external": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
     "HeckeSkeleton.HighBinActualInitial.FourExponent": [],
     "HeckeSkeleton.HighBinFiniteTables.Exponent": []
   },
   "beyond_standard_axioms": {},
-  "commit": "03410972118500ef9fdd9ce4045d964bed6cd167",
-  "workflow_run_id": 41129408957,
-  "job_id": 124316190192,
-  "artifact_id": 13013010612,
+  "commit": "61699e94a0a47e7770d10608732eff4b9f219c25",
+  "workflow_run_id": 41133265844,
+  "job_id": 124329335921,
+  "artifact_id": 13013913423,
   "verification_kind": "native separate-module build and all public declaration type/axiom audit",
-  "modules": 55
+  "modules": 57
 }

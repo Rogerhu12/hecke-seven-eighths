@@ -12,12 +12,12 @@ AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-30.
 
 ## 1. Verification boundary
 
-At commit `034109`, the native CI core build and public audit passed all
-**55 modules and 438 public declarations**. The audit permits only
+At commit `61699e94`, the native CI core build and public audit passed all
+**57 modules and 442 public declarations**. The audit permits only
 `propext`, `Classical.choice`, and `Quot.sound`.
 The run is
-[41129408957](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41129408957),
-with core job `124316190192` and artifact `13013010612`. The recorded
+[41133265844](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41133265844),
+with core job `124329335921` and artifact `13013913423`. The recorded
 `beyond_standard_axioms` result is empty. This covers the pure modules below, including
 the complete joint-analytic limit theorem and corrected-region analytic
 lemmas and `EulerRegionUniqueness`. It does not verify the actual arithmetic adapters.
@@ -27,9 +27,9 @@ lemmas and `EulerRegionUniqueness`. It does not verify the actual arithmetic ada
 | Finite Fourier tables, generator-unit invariance, contractive Gauss phases, rational local factors and scalar Euler bounds | The corresponding pure core modules passed individual Lean builds. The completed earlier core audit used only `propext`, `Classical.choice`, and `Quot.sound`. | Actual number-field instantiations are separate modules. |
 | `PrimeBlockEuler` and `LocalSeriesFactorization` | Both passed individual native builds at `6e3d24ca4579aa615ef0a23769c1695cb8f4b55d`. | The actual four-ideal reindexing and calibration consumers have not been checked. |
 | `LocalBlockSummation` | Passed a local standalone check of all 17 public declarations and an individual native build at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0`. Its recorded axiom sets are the three standard axioms. | `ActualLocalBlockSummation` is an arithmetic instantiation and remains pending. |
-| `JointAnalyticLimit` | The complete local single-module check passed in 321.551 seconds with exit code 0 and unchanged source. Both public theorem types and transitive axiom sets were checked; only the three standard axioms occur. Its individual native build and public audit also passed in the 55-module, 438-declaration CI check at `034109`. | This verifies the general three-variable limit theorem, not the complete arithmetic chain. |
-| `EulerRegionAnalytic` and the original `rowEulerRegion` definition | The local 12-declaration check passed in 16.139 seconds; the complete native core build and public audit passed at `034109`. | The actual ideal-norm summability and number-field normal-product consumers remain pending. |
-| `EulerRegionUniqueness` | All three public declarations passed the native core build and audit at `034109`: convexity, preconnectedness, and the joint analytic identity principle on the original region. | Its actual arithmetic consumers are separate modules; the theorem does not extend the region to nonpositive real part of `w`. |
+| `JointAnalyticLimit` | The complete local single-module check passed in 321.551 seconds with exit code 0 and unchanged source. Both public theorem types and transitive axiom sets were checked; only the three standard axioms occur. Its individual native build and public audit also passed in the 57-module, 442-declaration CI check at `61699e94`. | This verifies the general three-variable limit theorem, not the complete arithmetic chain. |
+| `EulerRegionAnalytic` and the original `rowEulerRegion` definition | The local 12-declaration check passed in 16.139 seconds; the complete native core build and public audit passed at `61699e94`. | The actual ideal-norm summability and number-field normal-product consumers remain pending. |
+| `EulerRegionUniqueness` | All three public declarations passed the native core build and audit at `61699e94`: convexity, preconnectedness, and the joint analytic identity principle on the original region. | Its actual arithmetic consumers are separate modules; the theorem does not extend the region to nonpositive real part of `w`. |
 | Actual prime-power Gauss/Poisson formulas, CRT, exponent indexing, initial calibration, corrected-region normal product and original `TRowEulerInput` constructor | Complete source candidates with static interface review | Native build and transitive axiom audit of the actual chain |
 | Original `highInitialEulerControl` and `highExceptionalEulerControl` for `actualHighPresentation` | Existing obligations retained | Construction/identification of the named presentation, followed by the relevant native checks |
 
@@ -427,4 +427,5 @@ wrapper in **18.706 seconds**, with both public types and axiom sets printed.
 Both use only `propext`, `Classical.choice`, and `Quot.sound`. The wrapper
 imports the previously compiled exact `EulerRegionAnalytic` and
 `JointAnalyticLimit` bodies; this check is distinct from a native separate
-module build, which is included in the next core CI target. Source SHA-256: `65790197956fee62f0753b5f69df9c30e9bf54d50e261c2c9a5ded7d57323134`.
+module build. That separate native build and both public type/axiom audits
+have now also passed in the 57-module core CI at `61699e94`. Source SHA-256: `65790197956fee62f0753b5f69df9c30e9bf54d50e261c2c9a5ded7d57323134`.
