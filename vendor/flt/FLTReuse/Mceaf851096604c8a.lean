@@ -1,6 +1,4 @@
-import Mathlib.Topology.Algebra.Module.ModuleTopology
-import Mathlib.Topology.Algebra.Algebra.Equiv
-import Mathlib.Tactic.FunProp
+import Mathlib
 
 section IsTopologicalModuleDep
 

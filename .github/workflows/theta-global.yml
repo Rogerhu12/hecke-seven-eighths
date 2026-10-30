@@ -43,7 +43,7 @@ jobs:
           test: "false"
           lint: "false"
           use-mathlib-cache: "true"
-          use-github-cache: "true"
+          use-github-cache: "false"
       - name: Check installed version pins
         run: python3 scripts/check_theta_global_pins.py --runtime
       - name: Compile the exact standalone source bodies and audit reported axioms
@@ -79,11 +79,12 @@ jobs:
           test: "false"
           lint: "false"
           use-mathlib-cache: "true"
-          use-github-cache: "true"
+          use-github-cache: "false"
       - name: Check installed version pins
         run: python3 scripts/check_theta_global_pins.py --runtime
-      # lean-action saves its cache before these separately scoped build steps.
-      # Preserve the project's own successful dependency artifacts after a later
+      # Cache only project artifacts: packing all of .lake duplicates the
+      # downloaded Mathlib artifacts and can exhaust the runner's disk space.
+      # Preserve successful dependency artifacts after a later
       # module fails, so the next correction can resume the actual entry build.
       - name: Restore actual-entry dependency artifacts
         id: entry-cache

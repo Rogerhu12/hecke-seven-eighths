@@ -303,9 +303,10 @@ theorem norm_reflectedCoefficient_le :
     (exteriorNorm_ge_one K S (activeMarkedIdeal K S d i))
   have hn := norm_real_inv_le_one (exteriorNorm_ge_one K S i.n)
   have hc := norm_real_sqrt_inv_le_one (exteriorNorm_ge_one K S i.c)
-  have hrowSymbol := ((idealSymbol_zeroOrUnit K S D d.moving _).pow 3).norm_le
+  have hrowSymbol := ((idealSymbol_zeroOrUnit K S D d.moving
+    (D.generator i.c * D.generator i.n)).pow 3).norm_le
   have hmarkSymbol := ((idealSymbol_zeroOrUnit K S D
-    (activeMarkedIdeal K S d i) _).zpow (-2)).norm_le
+    (activeMarkedIdeal K S d i) (D.generator i.c)).zpow (-2)).norm_le
   have h := norm_mul_bound (norm_mul_bound
     (norm_mul_bound (norm_mul_bound (norm_mul_bound
       (norm_mul_bound (norm_mul_bound (norm_mul_bound

@@ -142,11 +142,13 @@ A successful combined-body check means those source bodies elaborate
 together with consolidated imports and isolated file scopes. It does not
 mean their native project import closures have been built individually.
 
-The initial native reflected-project closure contains 184 actual source
-bodies. Ten vendored `FLTReuse` files have only their broad `import Mathlib`
-replaced by the exact required Mathlib imports; their declaration bodies
-are unchanged. The finite/source closure is much larger. Its imports and
-source hashes are audited separately.
+The reflected-project combined-body check contains 184 actual source
+bodies. The production vendor imports are preserved: an early attempt
+to narrow umbrella imports removed transitive names needed by downstream
+files and was reverted after native CI exposed the regression. Curated
+imports are used only by the separately labelled transformed QA harness,
+with its exact import substitutions and source hashes recorded. The
+finite/source closure is much larger and is validated separately.
 
 The current environment has an 8 GiB shared memory limit. Missing private
 Mathlib companion artifacts and incomplete cache-root lookup caused early
@@ -203,6 +205,12 @@ the five actual entry points. Workflow configuration is not itself a
 successful result; the run must exit successfully and print all five
 `THETA_GLOBAL_AXIOMS` records. Both jobs check the repository and runtime
 version pins and retain the raw diagnostics as artifacts.
+
+The workflow retains only the project's own dependency build artifacts
+in its incremental GitHub cache. Official Mathlib cache downloads remain
+enabled. Whole-project setup-cache packaging is disabled because native
+CI recorded a disk-space failure while duplicating the large Mathlib
+artifacts into a second archive.
 
 The local checkout was based on `503ad9895e5f8affef55b22fea082e251bf33aa7`.
 The published tree preserves upstream work through parent

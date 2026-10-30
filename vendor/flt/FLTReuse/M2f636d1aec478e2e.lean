@@ -1,5 +1,4 @@
-import Mathlib.Algebra.Algebra.Prod
-import Mathlib.LinearAlgebra.Prod
+import Mathlib
 
 section
 
