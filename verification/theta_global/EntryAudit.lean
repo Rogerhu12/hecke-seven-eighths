@@ -22,6 +22,8 @@ run_cmd do
       `HeckeSkeleton.finite_valuation_decay,
       `HeckeSkeleton.marked_reflected_absolute,
       `HeckeSkeleton.marked_reflection] do
+    unless ((← getEnv).find? name).isSome do
+      throwError "THETA_GLOBAL entry {name} was not imported"
     let axioms ← Lean.collectAxioms name
     for axiomName in axioms do
       unless #[`propext, `Classical.choice, `Quot.sound].contains axiomName do

@@ -112,8 +112,7 @@ theorem idealCoefficient_product (θ : HeckeCharacter F) (I : R.A.Exterior) :
   apply Finset.prod_congr rfl
   intro p _
   change idealCoefficient (primeCoefficient F θ) p.asIdeal ^ primeExponents I₀ p = _
-  rw [idealCoefficient_prime]
-  rfl
+  rw [idealCoefficient_prime] <;> rfl
 
 /-- The inverse S-character is the genuine ideal coefficient, for every
 allowed generator and every character unramified outside the fixed S. -/
@@ -144,10 +143,11 @@ theorem inverse_sHeckeHom_generator (θ : HeckeCharacter F)
   let u : (T : Set (HeightOneSpectrum (𝓞 F))).unit F := ⟨a, ha⟩
   have hprincipal := sUnitFinite_mul_infinity_eq_one F (T : Set _) θ u
   rw [HeckeAxiom.sUnitFiniteCharacter_eq_prod F T θ hT u] at hprincipal
-  have hprincipalC := congrArg Circle.coeHom hprincipal
-  simp only [map_mul, map_prod, map_one] at hprincipalC
   let localValue (p : HeightOneSpectrum (𝓞 F)) : ℂ :=
     (localComponent F p θ (sUnitLocal F (T : Set _) p u) : ℂ)
+  have hprincipalC : (∏ p ∈ T, localValue p) *
+      (sUnitInfinityCharacter F (T : Set _) θ u : ℂ) = 1 := by
+    simpa only [map_mul, map_prod, map_one] using congrArg Circle.coeHom hprincipal
   have hlocal (p : HeightOneSpectrum (𝓞 F)) (hp : p ∈ ThetaBranch.support I.val) :
       localValue p = primeCoefficient F θ p ^ idealPrimeExponent p.asIdeal I.val := by
     have hpS := ThetaBranch.support_outside R.A I p hp
@@ -173,16 +173,14 @@ theorem inverse_sHeckeHom_generator (θ : HeckeCharacter F)
         (infiniteComponent F w θ ((R.A.diagonal a).1 w) : ℂ) := by
     change Circle.coeHom (∏ w : InfinitePlace F,
       infiniteComponent F w θ ((R.A.diagonal a).1 w)) = _
-    rw [map_prod]
-    rfl
+    rw [map_prod] <;> rfl
   have hprod : ((GlobalTargetPeriod.sHeckeHom R θ (R.A.diagonal a) : Circle) : ℂ) *
       heckeIdealCoefficient F θ (HeckeAxiom.exteriorEquiv R.A I).val = 1 := by
-    change ((∏ w : InfinitePlace F,
-      (infiniteComponent F w θ ((R.A.diagonal a).1 w) : ℂ)) *
+    change Circle.coeHom ((∏ w : InfinitePlace F,
+      infiniteComponent F w θ ((R.A.diagonal a).1 w)) *
       (∏ p : R.A.Sf,
-        (localComponent F p.val θ ((R.A.diagonal a).2 p) : ℂ))) * _ = 1
-    change (∏ p ∈ T, localValue p) *
-      (sUnitInfinityCharacter F (T : Set _) θ u : ℂ) = 1 at hprincipalC
+        localComponent F p.val θ ((R.A.diagonal a).2 p))) * _ = 1
+    simp only [map_mul, map_prod]
     rw [Finset.prod_union hdis, hIprod, hSprod, harch] at hprincipalC
     convert hprincipalC using 1 <;> ring
   exact inv_eq_of_mul_eq_one_right hprod
