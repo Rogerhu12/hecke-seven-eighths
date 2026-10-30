@@ -14,6 +14,7 @@ on:
       - 'HeckeSkeleton/ThetaKernel/TestMellin.lean'
       - 'HeckeGeneral/Analysis/PhysicalProbeRows.lean'
       - 'HeckeGeneral/Analysis/TInputRanges.lean'
+      - 'HeckeGeneral/Analysis/RowEulerRegion.lean'
       - 'scripts/highbin_verify.py'
       - 'scripts/highbin_inventory.py'
       - 'docs/highbin/**'

@@ -78,7 +78,10 @@ def main():
         (ROOT / f'docs/highbin/{args.group}_public_declarations.json').read_text())
     targets = modules if args.group != 'actual' else [
         'HeckeSkeleton.HighBinSupport', 'HeckeSkeleton.HighBin']
-    run(['lake', 'build', *targets], OUT / f'{args.group}-build.log')
+    # Return arithmetic dependency failures promptly so CI preserves the
+    # compiler log and already completed dependency builds for the next fix.
+    lake_options = ['--fail-fast'] if args.group == 'actual' else []
+    run(['lake', *lake_options, 'build', *targets], OUT / f'{args.group}-build.log')
     audit(args.group, modules, declarations)
 
 

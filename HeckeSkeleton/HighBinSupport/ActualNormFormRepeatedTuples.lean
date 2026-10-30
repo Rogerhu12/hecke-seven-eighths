@@ -102,6 +102,46 @@ theorem repeatedPrimeTuples_card_subpower
   have hnorm := actual_support_tuple_count_subpower K u.ideal.val J.card heps
   exact (by simpa only [Nat.cast_pow, Nat.cast_add, Nat.cast_one] using hcard).trans hnorm
 
+/-- A single repeated slot has the same prime-scale cap as the regular
+character term, up to an arbitrarily small row-norm factor. This bound is
+used only for the amplitude cap; the sharper tuple allocation below
+retains the individual repeated primes in the norm-form estimate. -/
+theorem repeatedPrimeWindow_power_sum_le
+    (u : FrequencyRow K S) (g : PrimeWindowGeometry)
+    (T : Finset (HeckeCharacter K)) (Z : ℝ) (i : Fin g.slots)
+    {lam eta : ℝ} (hlam : 0 ≤ lam) (hlam1 : lam ≤ 1) (heta : 0 < eta)
+    (hP : 0 < primeScale g Z) :
+    (∑ p ∈ repeatedPrimeWindow K S u g T Z i,
+        (p.val.asIdeal.absNorm : ℝ) ^ lam) ≤
+      (2 * repeatedTupleConstant 1 eta) * frequencyRowNorm K S u ^ eta *
+        (primeScale g Z) ^ lam := by
+  let F := repeatedPrimeWindow K S u g T Z i
+  have hcard : (F.card : ℝ) ≤ repeatedTupleConstant 1 eta * frequencyRowNorm K S u ^ eta := by
+    have hc : (F.card : ℝ) ≤ ((primeExponents u.ideal.val).support.card : ℝ) := by
+      exact_mod_cast repeatedPrimeWindow_card_le K S u g T Z i
+    have ht := actual_support_tuple_count_subpower K u.ideal.val 1 heta
+    simp only [pow_one] at ht
+    exact hc.trans ((le_add_of_nonneg_right zero_le_one).trans ht)
+  have htwo : (2 : ℝ) ^ lam ≤ 2 := by
+    simpa only [Real.rpow_one] using
+      Real.rpow_le_rpow_of_exponent_le (by norm_num : (1 : ℝ) ≤ 2) hlam1
+  have hp : ∀ p ∈ F, (p.val.asIdeal.absNorm : ℝ) ^ lam ≤ 2 * (primeScale g Z) ^ lam := by
+    intro p hp
+    have hnorm := actual_primeWindow_norm_range K S g T Z i p (Finset.mem_filter.mp hp).1
+    calc
+      _ ≤ (2 * primeScale g Z) ^ lam :=
+        Real.rpow_le_rpow (Nat.cast_nonneg _) hnorm.2.2.le hlam
+      _ = (2 : ℝ) ^ lam * (primeScale g Z) ^ lam := Real.mul_rpow (by norm_num) hP.le
+      _ ≤ _ := mul_le_mul_of_nonneg_right htwo (Real.rpow_nonneg hP.le _)
+  change (∑ p ∈ F, (p.val.asIdeal.absNorm : ℝ) ^ lam) ≤ _
+  calc
+    _ ≤ ∑ _p ∈ F, 2 * (primeScale g Z) ^ lam := Finset.sum_le_sum hp
+    _ = (F.card : ℝ) * (2 * (primeScale g Z) ^ lam) := by
+      rw [Finset.sum_const, nsmul_eq_mul]
+    _ ≤ (repeatedTupleConstant 1 eta * frequencyRowNorm K S u ^ eta) *
+        (2 * (primeScale g Z) ^ lam) := mul_le_mul_of_nonneg_right hcard (by positivity)
+    _ = _ := by ring
+
 theorem repeatedPrimeTuple_injective
     (u : FrequencyRow K S) (g : PrimeWindowGeometry)
     (T : Finset (HeckeCharacter K)) (Z : ℝ) (J : Finset (Fin g.slots))
@@ -216,6 +256,7 @@ end HighBinVerified.NormFormActual
 
 #print axioms HighBinVerified.NormFormActual.actual_primeSupport_card_growth
 #print axioms HighBinVerified.NormFormActual.repeatedPrimeTuples_card_subpower
+#print axioms HighBinVerified.NormFormActual.repeatedPrimeWindow_power_sum_le
 #print axioms HighBinVerified.NormFormActual.repeatedPrimeTuple_conductor_allocation
 #print axioms HighBinVerified.NormFormActual.repeatedPrimeTuple_sum_with_conductor_bound
 #print axioms HighBinVerified.NormFormActual.exists_actual_window_higherPower_bound

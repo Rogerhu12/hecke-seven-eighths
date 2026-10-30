@@ -82,7 +82,9 @@ theorem localPositiveBlock_eq_indicator (q θ : ℂ) (G : ℕ → ℂ)
         (localBlockValue q θ G ρ X Y V j) := by
   funext n
   by_cases he : n.1.1 ≤ 1 <;> by_cases ht : n.1.1 + 3 * n.1.2 = 0 <;>
-    simp [localPositiveBlock, localBlockValue, markedTerm, he, ht]
+    simp only [Set.indicator, Set.mem_setOf_eq, localPositiveBlock, localBlockValue,
+      markedTerm, ne_eq, he, ht, not_true_eq_false, not_false_eq_true,
+      ite_true, ite_false, ite_self]
 
 theorem localPositiveBlock_summable (q θ : ℂ) (G : ℕ → ℂ)
     (ρ X Y V : ℂ) (j : ℕ) (h : Summable (localBlockValue q θ G ρ X Y V j)) :
@@ -96,7 +98,7 @@ theorem localCompletedBlock_summable (q θ : ℂ) (G : ℕ → ℂ)
   have hp := localPositiveBlock_summable q θ G ρ X Y V j h
   convert h.sub hp using 1
   funext n
-  rw [Pi.sub_apply, localBlockValue_split]
+  rw [localBlockValue_split]
   ring
 
 theorem tsum_nat_eq_fin_two (f : ℕ → ℂ) (h : ∀ n, 2 ≤ n → f n = 0) :
@@ -104,7 +106,7 @@ theorem tsum_nat_eq_fin_two (f : ℕ → ℂ) (h : ∀ n, 2 ≤ n → f n = 0) :
   rw [tsum_eq_sum (s := Finset.range 2) (by
     intro n hn
     exact h n (by simpa only [Finset.mem_range, not_lt] using hn))]
-  simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, Fin.sum_univ_two]
+  simp [Finset.sum_range_succ, Fin.sum_univ_two]
 
 /-- Only the proved zero branches e >= 2 and k >= 2 are removed. -/
 theorem localPositiveBlock_tsum (q θ : ℂ) (G : ℕ → ℂ)
@@ -130,7 +132,7 @@ theorem localPositiveBlock_tsum (q θ : ℂ) (G : ℕ → ℂ)
       intro l
       rw [(h.prod_factor (e.val, l)).tsum_prod]
       have he : e.val ≤ 1 := by omega
-      simp only [localPositiveBlock, he, if_true, inner]
+      simp only [localPositiveBlock, he, if_true, HighBin.ValuationSeries.inner]
       apply tsum_nat_eq_fin_two
       intro k hk
       have hk₀ : k ≠ 0 := by omega
@@ -218,7 +220,7 @@ theorem localBlockValue_tsum (q θ : ℂ) (G : ℕ → ℂ) (ρ X Y V : ℂ)
         (localCompletedBlock ρ Y V j n + localPositiveBlock q θ G ρ X Y V j n) :=
       tsum_congr (localBlockValue_split q θ G ρ X Y V j)
     _ = (∑' n : FourExponent, localCompletedBlock ρ Y V j n) +
-        ∑' n : FourExponent, localPositiveBlock q θ G ρ X Y V j n := tsum_add hu hp
+        ∑' n : FourExponent, localPositiveBlock q θ G ρ X Y V j n := hu.tsum_add hp
     _ = _ := by rw [localCompletedBlock_tsum ρ Y V hV hY j hu,
       localPositiveBlock_tsum q θ G ρ X Y V j hp]
 
@@ -237,7 +239,8 @@ theorem localMarkedBlock_tsum (q θ : ℂ) (G : ℕ → ℂ) (ρ X Y V : ℂ)
         apply tsum_congr
         intro n
         by_cases he : n.1.1 ≤ 1 <;> by_cases ht : n.1.1 + 3 * n.1.2 = 0 <;>
-          simp [localPositiveBlock, localBlockValue, markedTerm, he, ht]
+          simp only [localPositiveBlock, localBlockValue, markedTerm, he, ht,
+            if_true, if_false]
       _ = _ := localPositiveBlock_tsum q θ G ρ X Y V j
         (localPositiveBlock_summable q θ G ρ X Y V j h)
   · simp only [hb, false_and, if_false]

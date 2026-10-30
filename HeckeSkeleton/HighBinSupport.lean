@@ -24,8 +24,12 @@ import HeckeSkeleton.HighBinSupport.ActualInitialMultiplicative
 import HeckeSkeleton.HighBinSupport.ActualKernelEnvelope
 import HeckeSkeleton.HighBinSupport.ActualLRatioStrip
 import HeckeSkeleton.HighBinSupport.ActualLocalBlockSummation
+import HeckeSkeleton.HighBinSupport.ActualNormFormAmplitudeGrid
+import HeckeSkeleton.HighBinSupport.ActualNormFormAmplitudes
 import HeckeSkeleton.HighBinSupport.ActualNormFormFullCorrection
 import HeckeSkeleton.HighBinSupport.ActualNormFormHigherPrimePowers
+import HeckeSkeleton.HighBinSupport.ActualNormFormIntegral
+import HeckeSkeleton.HighBinSupport.ActualNormFormKernel
 import HeckeSkeleton.HighBinSupport.ActualNormFormMellinInversion
 import HeckeSkeleton.HighBinSupport.ActualNormFormNormalization
 import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeCap
@@ -34,6 +38,7 @@ import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeDeficit
 import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeDetector
 import HeckeSkeleton.HighBinSupport.ActualNormFormRepeatedTuples
 import HeckeSkeleton.HighBinSupport.ActualNormFormSharpFactors
+import HeckeSkeleton.HighBinSupport.ActualNormFormSlotCap
 import HeckeSkeleton.HighBinSupport.ActualNormFormUniformMellin
 import HeckeSkeleton.HighBinSupport.ActualNormFormWindowDetector
 import HeckeSkeleton.HighBinSupport.ActualOrbitalRapidDecay
@@ -57,6 +62,7 @@ import HeckeSkeleton.HighBinSupport.EulerMarkedSubpower
 import HeckeSkeleton.HighBinSupport.EulerPhase
 import HeckeSkeleton.HighBinSupport.EulerProductBounds
 import HeckeSkeleton.HighBinSupport.EulerProducts
+import HeckeSkeleton.HighBinSupport.EulerRegionAnalytic
 import HeckeSkeleton.HighBinSupport.EulerSweptTube
 import HeckeSkeleton.HighBinSupport.EulerUniformSubpower
 import HeckeSkeleton.HighBinSupport.ExceptionalSweptTube
@@ -78,6 +84,7 @@ import HeckeSkeleton.HighBinSupport.HighNormFormPacket
 import HeckeSkeleton.HighBinSupport.HighNormFormScalar
 import HeckeSkeleton.HighBinSupport.HighNormFormSlots
 import HeckeSkeleton.HighBinSupport.HighNormFormTuple
+import HeckeSkeleton.HighBinSupport.JointAnalyticLimit
 import HeckeSkeleton.HighBinSupport.LocalBlockSummation
 import HeckeSkeleton.HighBinSupport.LocalSeriesFactorization
 import HeckeSkeleton.HighBinSupport.LogFourierDecay

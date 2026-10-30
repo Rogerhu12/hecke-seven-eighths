@@ -136,6 +136,76 @@ theorem loss_budget (d e eta rho lam : ℝ)
   have hdeta : d * eta ≤ (5 / 6) * eta := mul_le_mul_of_nonneg_right hd heta
   linarith
 
+/-- Simultaneously choose the actual amplitude-grid and full-integral
+loss budgets. The positive height ceiling is chosen before Z and T.
+Only the original e <= lambda/100 restriction is required; the remaining
+parameters and the finite grid size are conclusions. -/
+theorem exists_full_normForm_parameter_budget (J : ℕ) (hJ : 0 < J)
+    (k lam e : ℝ) (hk : 0 ≤ k) (hlam : 0 < lam) (he : 0 ≤ e)
+    (heLam : e ≤ lam / 100) :
+    ∃ eps eta kappa theta nu : ℝ, ∃ N : ℕ,
+      0 < eps ∧ 0 < eta ∧ 0 < kappa ∧ 0 < theta ∧ 0 < nu ∧
+      (1 / 2 : ℝ) ≤ (N : ℝ) * theta ∧
+      eps + eta + kappa * (k * eps) + ((1 / 6 : ℝ) / J) * (8 * e + eta) ≤
+        ((1 / 6 : ℝ) / J) * theta / 2 ∧
+      ∀ d : ℝ, 0 ≤ d → d ≤ 1 →
+        (105 / 8 + 6 * d) * e + d * (2 * eps + eta) + (theta / 6 + nu) +
+          kappa * (k + 2 * k * eps + 3) ≤ lam / 4 := by
+  let ell : ℝ := (1 / 6 : ℝ) / J
+  let L : ℝ := min lam 1
+  let eps : ℝ := ell * L / (10000 * (k + 1))
+  let kappa : ℝ := L / (10000 * (k + 4))
+  let theta : ℝ := lam / 5
+  let nu : ℝ := lam / 1000
+  have hJpos : (0 : ℝ) < J := by exact_mod_cast hJ
+  have hJone : (1 : ℝ) ≤ J := by exact_mod_cast hJ
+  have hell : 0 < ell := div_pos (by norm_num) hJpos
+  have hell1 : ell ≤ 1 := (div_le_one hJpos).mpr (by linarith)
+  have hL : 0 < L := lt_min hlam zero_lt_one
+  have hLlam : L ≤ lam := min_le_left _ _
+  have hL1 : L ≤ 1 := min_le_right _ _
+  have heps : 0 < eps := div_pos (mul_pos hell hL) (mul_pos (by norm_num) (by linarith))
+  have hkappa : 0 < kappa := div_pos hL (mul_pos (by norm_num) (by linarith))
+  have htheta : 0 < theta := div_pos hlam (by norm_num)
+  have hnu : 0 < nu := div_pos hlam (by norm_num)
+  have heps_id : eps * (k + 1) = ell * L / 10000 := by
+    dsimp only [eps]
+    field_simp [show k + 1 ≠ 0 by linarith] <;> ring
+  have hkappa_id : kappa * (k + 4) = L / 10000 := by
+    dsimp only [kappa]
+    field_simp [show k + 4 ≠ 0 by linarith] <;> ring
+  have heps_bound : eps ≤ ell * L / 10000 := by
+    nlinarith [mul_nonneg hk heps.le]
+  have hkeps_bound : k * eps ≤ ell * L / 10000 := by nlinarith
+  have hellL : ell * L ≤ L := mul_le_of_le_one_left hL.le hell1
+  have heps_lam : eps ≤ lam / 10000 := by linarith
+  have heps_one : eps ≤ 1 / 10000 := by linarith
+  have hkappa_one : kappa ≤ 1 := by
+    nlinarith [mul_nonneg hk hkappa.le]
+  have htriple : kappa * (k * eps) ≤ k * eps :=
+    mul_le_of_le_one_left (mul_nonneg hk heps.le) hkappa_one
+  have helleps : ell * eps ≤ eps := mul_le_of_le_one_left heps.le hell1
+  have heell : ell * e ≤ ell * (lam / 100) := mul_le_mul_of_nonneg_left heLam hell.le
+  have hLell : ell * L ≤ ell * lam := mul_le_mul_of_nonneg_left hLlam hell.le
+  have hgrid : eps + eps + kappa * (k * eps) + ell * (8 * e + eps) ≤ ell * theta / 2 := by
+    dsimp only [theta]
+    nlinarith only [heps_bound, hkeps_bound, htriple, helleps, heell, hLell,
+      mul_nonneg hell.le hlam.le]
+  obtain ⟨N, hN⟩ := exists_nat_gt ((1 / 2 : ℝ) / theta)
+  have hN' : (1 / 2 : ℝ) ≤ (N : ℝ) * theta := (div_le_iff₀ htheta).mp hN.le
+  refine ⟨eps, eps, kappa, theta, nu, N, heps, heps, hkappa, htheta, hnu, hN', hgrid, ?_⟩
+  intro d hd hd1
+  have hde : d * e ≤ e := mul_le_of_le_one_left he hd1
+  have hdeps : d * (2 * eps + eps) ≤ 2 * eps + eps :=
+    mul_le_of_le_one_left (by positivity) hd1
+  have hdegree : k + 2 * k * eps + 3 ≤ 2 * (k + 4) := by nlinarith
+  have hheight : kappa * (k + 2 * k * eps + 3) ≤ 2 * L / 10000 := by
+    calc
+      _ ≤ kappa * (2 * (k + 4)) := mul_le_mul_of_nonneg_left hdegree hkappa.le
+      _ = 2 * L / 10000 := by nlinarith [hkappa_id]
+  dsimp only [theta, nu]
+  nlinarith only [hde, hdeps, heLam, heps_lam, hheight, hLlam, hlam.le]
+
 end HighBinVerified.NormForm
 
 #print axioms HighBinVerified.NormForm.rowExponent_eq_moderate
@@ -143,3 +213,4 @@ end HighBinVerified.NormForm
 #print axioms HighBinVerified.NormForm.dyadic_shell_rpow
 #print axioms HighBinVerified.NormForm.dyadic_full_scale_bound
 #print axioms HighBinVerified.NormForm.loss_budget
+#print axioms HighBinVerified.NormForm.exists_full_normForm_parameter_budget

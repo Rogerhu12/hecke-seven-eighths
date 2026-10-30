@@ -49,5 +49,8 @@
   "HeckeSkeleton.ThetaKernel.TestMellin",
   "HeckeSkeleton.HighBinSupport.ActualDenominatorMellin",
   "HeckeSkeleton.HighBinSupport.PrimeBlockEuler",
-  "HeckeSkeleton.HighBinSupport.LocalSeriesFactorization"
+  "HeckeSkeleton.HighBinSupport.LocalSeriesFactorization",
+  "HeckeSkeleton.HighBinSupport.EulerRegionAnalytic",
+  "HeckeGeneral.Analysis.RowEulerRegion",
+  "HeckeSkeleton.HighBinSupport.JointAnalyticLimit"
 ]

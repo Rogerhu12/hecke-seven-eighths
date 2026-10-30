@@ -119,14 +119,31 @@ unclosed proof goals in `PrimeBlockEuler`/`LocalSeriesFactorization`. The
 missing import and those goals are repaired in the current source snapshot;
 a new native run is still required.
 
-A local 40-source joint Mellin unit completed with six errors in the new
-Mellin inversion, uniform profile and prime detector modules. Those errors
-have been repaired and the revised unit is being checked. Earlier
-higher-prime-power errors no longer appeared in that run. The failed
-aggregate is not a successful verification result. Joint units hoist imports
-and are never counted as separate-module builds. Precise imports have also
-replaced a broad Mathlib import so the same canonical test definitions can
-be checked with the pinned local dependency cache.
+At commit `6e3d24ca4579aa615ef0a23769c1695cb8f4b55d`, the four actual
+Mellin modules and all **55 public declaration audits passed natively**.
+The downloaded `mellin-axioms.json` has an empty `beyond_standard_axioms`
+map. This verifies the exact types and transitive axiom sets of those four
+modules, including higher prime powers, divided-log Mellin inversion,
+uniform profiles and the actual logarithmic prime detector.
+
+Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41123224412
+Artifact: `highbin-verification-mellin` (ID `13010580062`).
+
+The core build at that commit accepted every target except the new
+`LocalBlockSummation`. In particular, `PrimeBlockEuler` and
+`LocalSeriesFactorization` now pass as separate modules. The remaining
+local-block simplification and summation API errors have been repaired;
+the 420-declaration core audit still needs the next successful build.
+
+A local **40-source combined Mellin unit with 577 public declaration
+audits** also passed (499.327 seconds), with only `propext`,
+`Classical.choice`, and `Quot.sound`. Its generated source SHA-256 is
+`a69fdee42c5804b56bab177384824ae6791ce6cd783e07140db92bb9e3cb0c79`;
+the complete log SHA-256 is
+`78c74b9e256f12d76aa9096f9b999d36baf7aa9e4436987d529e342a17e53ddb`.
+The source was unchanged during compilation. This is a combined check
+with hoisted imports, not 40 separate-module builds; the native result
+above supplies the separate-module check for the four new Mellin files.
 
 The generated `*_public_declarations.json` inventories contain source paths,
 line locations and SHA-256 hashes. The verification script checks those
