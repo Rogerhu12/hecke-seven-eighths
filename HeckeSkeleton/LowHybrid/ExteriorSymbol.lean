@@ -88,7 +88,7 @@ theorem symbol_sixth_ideal (I J : ExteriorIdeal K S) :
     symbol K S D I J ^ 6 =
       if IsCoprime I.val.val J.val.val then 1 else 0 := by
   have h := CubicSieve.ExteriorKernel.positiveKernel_cube_coprime_mask K S D J I
-  change (symbol K S D I J ^ 2) ^ 3 =
+  change (symbol K S D I J ^ (2 : ℕ)) ^ (3 : ℕ) =
     (if IsCoprime J.val.val I.val.val then 1 else 0) at h
   rw [← pow_mul] at h
   by_cases hc : IsCoprime I.val.val J.val.val
@@ -155,7 +155,7 @@ theorem idealSymbol_exteriorPrime (p : ExteriorPrime K S) (a : S.integer K) :
     (fun q _ hne => False.elim (hne (hsingle q)))]
   change sIntegerSexticEvaluation K S p.val p.property D.root6 D.primitive6 D.embedding
     (D.away_six p.val p.property) a ^ idealPrimeMultiplicity K p.val p.val.asIdeal = _
-  rw [hmult, pow_one]
+  rw [hmult, pow_one, primeEvaluation]
 
 theorem symbol_prime_left (p : ExteriorPrime K S) (I : ExteriorIdeal K S) :
     symbol K S D (exteriorPrimeIdeal K S p) I =
