@@ -56,7 +56,10 @@ theorem primeEvaluation_generator_zpow_norm_le_one
     ExteriorSymbol.symbol K S D (exteriorPrimeIdeal K S p) I ^ 6 = 1 at hroot
   simp only [ExteriorSymbol.symbol_prime_left] at hroot
   rcases hroot with hz | hz
-  · by_cases he : e = 0 <;> simp [hz, he]
+  · by_cases he : e = 0
+    · simp [hz, he]
+    · rw [hz, zero_zpow e he, norm_zero]
+      exact zero_le_one
   · simp only [norm_zpow, Complex.norm_eq_one_of_pow_eq_one hz (by decide),
       one_zpow, le_refl]
 
@@ -107,7 +110,8 @@ prime-factor product, using that every local component lands in `Circle`. -/
 theorem heckeIdealCoefficient_norm_one (I : ExteriorIdeal K S) :
     ‖heckeIdealCoefficient K θ I.val‖ = 1 := by
   change ‖idealCoefficient (primeCoefficient K θ) I.val.val‖ = 1
-  rw [idealCoefficient, if_neg (nonZeroDivisors.coe_ne_zero I.val), Multiset.norm_prod_map]
+  have hI : I.val.val ≠ (⊥ : Ideal (𝓞 K)) := nonZeroDivisors.coe_ne_zero I.val
+  rw [idealCoefficient, ite_eq_right hI, Multiset.norm_prod_map]
   apply Multiset.prod_eq_one
   intro z hz
   obtain ⟨P, hP, rfl⟩ := Multiset.mem_map.mp hz
@@ -233,7 +237,7 @@ theorem reflectionPhase_norm_le_one (c a n : ExteriorIdeal K S) :
 include hθ in
 /-- The actual source block satisfies all coefficient fields automatically.
 Only the finite support, squarefreeness and annular cutoff facts remain. -/
-theorem reflectionSourceBlock_annularSupport
+def reflectionSourceBlock_annularSupport
     (pow sup : ExteriorIdeal K S) (rows marks columns : Finset (ExteriorIdeal K S))
     (inputs : Finset (ExteriorIdeal K S × ExteriorIdeal K S))
     (Z H v ell z rowBall : ℝ)
