@@ -244,4 +244,8 @@ theorem original_quadratic_square_mask (hD : AllowedGeneratorInput K S D)
   rw [he, quadraticKernel_mul_right K S D hD,
     quadraticKernel_square K S D hD k (c * t) hk ((isExterior_mul_iff K S).mpr ⟨hc, ht⟩)]
 
+#print axioms HeckeSkeleton.LowEnergy.ActualSymbols.cubicKernel_axioms
+#print axioms HeckeSkeleton.LowEnergy.ActualSymbols.quadraticKernel_axioms
+#print axioms HeckeSkeleton.LowEnergy.ActualSymbols.original_quadratic_square_mask
+
 end HeckeSkeleton.LowEnergy.ActualSymbols

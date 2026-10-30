@@ -1,0 +1,4 @@
+'HeckeSkeleton.LowEnergy.Gaussian.annulus_smooth' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.Gaussian.annulus_partition' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.Gaussian.split_series_absolute' depends on axioms: [propext, Classical.choice, Quot.sound]
+'HeckeSkeleton.LowEnergy.Gaussian.split_series_tsum' depends on axioms: [propext, Classical.choice, Quot.sound]

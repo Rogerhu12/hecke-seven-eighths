@@ -1,0 +1,31 @@
+{
+  "module": "HeckeSkeleton.LowEnergy.SlotTuples",
+  "source": "HeckeSkeleton/LowEnergy/SlotTuples.lean",
+  "cache_schema": 2,
+  "source_sha256": "6bf40582c293fce717b909cbd8783c9a6d70b685771b0b75afffffea4416c1b9",
+  "exit_code": 0,
+  "seconds": 1.711,
+  "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+  "flags": [
+    "-j1",
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "new_source": true,
+  "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+  "local_dependency_artifact_hashes": {
+    "HeckeSkeleton.LowEnergy.TupleCore": {
+      ".olean": "b27bda53409240419beaee789c924a1ec49ed996d577647f3fe09a55475082e5"
+    }
+  },
+  "output_artifact_hashes": {
+    ".olean": "6bd749d7152458e055f0175a8d80e7f8767ed8d38a1f71d73c6599167d4a5e1c"
+  },
+  "audit_ok": true,
+  "diagnostic_timeout": false,
+  "log_sha256": "d883ec8b54acea6dfb9c72b3fabc33e7583a0e198321fc86a5370e3575912a6a",
+  "local_dependency_hashes": {
+    "HeckeSkeleton.LowEnergy.TupleCore": "b27bda53409240419beaee789c924a1ec49ed996d577647f3fe09a55475082e5"
+  },
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+}

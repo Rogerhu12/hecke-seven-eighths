@@ -156,14 +156,16 @@ theorem ordinaryQuadratic_of_exterior (hD : AllowedGeneratorInput K S D)
         apply Finset.sum_congr rfl
         intro J _
         rw [quadraticKernel_on_exterior K S D hD]
-      _ = _ := sum_liftIdeals K S B hBe _
+      _ = _ := sum_liftIdeals K S B hBe
+        (fun J => z J * quadraticKernel K S D I.val.val J)
   have hleft : (∑ I ∈ A',
       ‖∑ J ∈ B', z J.val.val * idealSymbol K S D J (D.generator I) ^ 3‖ ^ 2) =
       ∑ I ∈ A, ‖∑ J ∈ B, z J * quadraticKernel K S D I J‖ ^ 2 := by
     simp_rw [hinner]
-    exact sum_liftIdeals K S A hAe _
+    exact sum_liftIdeals K S A hAe
+      (fun I => ‖∑ J ∈ B, z J * quadraticKernel K S D I J‖ ^ 2)
   have hright : (∑ J ∈ B', ‖z J.val.val‖ ^ 2) = ∑ J ∈ B, ‖z J‖ ^ 2 :=
-    sum_liftIdeals K S B hBe _
+    sum_liftIdeals K S B hBe (fun J => ‖z J‖ ^ 2)
   rw [hleft, hright] at h
   exact h
 
@@ -193,15 +195,21 @@ theorem ordinaryCubic_of_exterior (hcubic : ExteriorCubicBound K S D) :
         apply Finset.sum_congr rfl
         intro J _
         rw [cubicKernel_on_exterior]
-      _ = _ := sum_liftIdeals K S B hBe _
+      _ = _ := sum_liftIdeals K S B hBe
+        (fun J => z J * cubicKernel K S D J I.val.val)
   have hleft : (∑ I ∈ A',
       ‖∑ J ∈ B', z J.val.val * idealSymbol K S D J (D.generator I) ^ (-2 : ℤ)‖ ^ 2) =
       ∑ I ∈ A, ‖∑ J ∈ B, z J * cubicKernel K S D J I‖ ^ 2 := by
     simp_rw [hinner]
-    exact sum_liftIdeals K S A hAe _
+    exact sum_liftIdeals K S A hAe
+      (fun I => ‖∑ J ∈ B, z J * cubicKernel K S D J I‖ ^ 2)
   have hright : (∑ J ∈ B', ‖z J.val.val‖ ^ 2) = ∑ J ∈ B, ‖z J‖ ^ 2 :=
-    sum_liftIdeals K S B hBe _
+    sum_liftIdeals K S B hBe (fun J => ‖z J‖ ^ 2)
   rw [hleft, hright] at h
   exact h
+
+#print axioms sum_liftIdeals
+#print axioms ordinaryQuadratic_of_exterior
+#print axioms ordinaryCubic_of_exterior
 
 end HeckeSkeleton.LowEnergy.ActualSieveDictionary

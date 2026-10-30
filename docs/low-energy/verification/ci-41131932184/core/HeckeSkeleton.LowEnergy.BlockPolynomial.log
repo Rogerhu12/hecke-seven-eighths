@@ -1,0 +1,12 @@
+'HeckeSkeleton.LowEnergy.BlockPolynomial.weighted_polynomial_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.BlockPolynomial.weighted_polynomial_with_sieve_loss' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.BlockPolynomial.low_weighted_polynomial' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'HeckeSkeleton.LowEnergy.BlockPolynomial.remove_powerful_weight' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]

@@ -38,7 +38,10 @@ local notation "Orb" => ActualSIntegerOrbit K S
 actual contraction directly and does not pass through a sixth-free row or
 its amplifier decomposition. -/
 def orbitExteriorIdeal (q : Orb) : ExteriorIdeal K S :=
-  ⟨actualSIntegerOrbitIdeal K S q, by
+  ⟨⟨actualSIntegerOrbitContraction K S q, mem_nonZeroDivisors_of_ne_zero (by
+      refine Quotient.inductionOn q ?_
+      intro a
+      exact sIntegerModulusContraction_ne_bot K S a.val a.property)⟩, by
     refine Quotient.inductionOn q ?_
     intro a p hp hpin
     have hcop := sIntegerModulusContraction_coprime K S a.val a.property p hpin
@@ -87,8 +90,8 @@ theorem idealSectorOrbit_contraction (D : ThetaArithmeticData K S)
 
 theorem idealSectorOrbit_ideal (D : ThetaArithmeticData K S)
     (x : ExteriorIdeal K S × SixthUnitClasses K S) :
-    actualSIntegerOrbitIdeal K S (idealSectorOrbit K S D x) = x.1.val :=
-  Subtype.ext (idealSectorOrbit_contraction K S D x)
+    orbitExteriorIdeal K S (idealSectorOrbit K S D x) = x.1 :=
+  Subtype.ext (Subtype.ext (idealSectorOrbit_contraction K S D x))
 
 /-- No bounded representative is substituted for the actual orbit norm. -/
 theorem idealSectorOrbit_norm (D : ThetaArithmeticData K S)
@@ -102,8 +105,7 @@ theorem idealSectorOrbit_injective (D : ThetaArithmeticData K S) :
     Function.Injective (idealSectorOrbit K S D) := by
   intro x y hxy
   have hI : x.1 = y.1 := by
-    apply Subtype.ext
-    have h := congrArg (actualSIntegerOrbitIdeal K S) hxy
+    have h := congrArg (orbitExteriorIdeal K S) hxy
     simpa only [idealSectorOrbit_ideal] using h
   obtain ⟨γ, hγ⟩ := (sIntegerOrbitRelation_iff K S (sixthPowerSUnitSubgroup K S)
     (idealSectorElement K S D x) (idealSectorElement K S D y)).mp (Quotient.exact hxy)
@@ -238,7 +240,7 @@ theorem completedTerm_eq_zero_of_mark_overlap (D : ThetaArithmeticData K S)
     (hpm : p.val.asIdeal ∣ sIntegerModulusContraction K S m)
     (cn : ExteriorIdeal K S × ExteriorIdeal K S) :
     completedTerm K S D θ m r Q V X cn = 0 := by
-  unfold completedTerm
+  dsimp only [completedTerm]
   split_ifs with h
   · have hpA := h.2.2 p hpQ
     rw [idealSymbol_eq_zero_of_common_prime K S D _ m p hpA hpm]
@@ -252,9 +254,9 @@ theorem completedThetaSum_eq_zero_of_mark_overlap (D : ThetaArithmeticData K S)
     (p : ExteriorPrime K S) (hpQ : p ∈ Q)
     (hpm : p.val.asIdeal ∣ sIntegerModulusContraction K S m) :
     completedThetaSum K S D θ m r Q V X = 0 := by
-  apply tsum_eq_zero
-  intro cn
-  exact completedTerm_eq_zero_of_mark_overlap K S D θ m r Q V X p hpQ hpm cn
+  simpa only [completedThetaSum, tsum_zero] using
+    (tsum_congr (fun cn =>
+      completedTerm_eq_zero_of_mark_overlap K S D θ m r Q V X p hpQ hpm cn))
 
 /-- Literal completed marked row, generalized only by making the test explicit.
 At `V = logGaussianProfile` this is definitionally the row in LowCauchy. -/
@@ -280,9 +282,10 @@ theorem markedRowWithTest_sixthInvariant (P : ProbeData K S) (ψ : HeckeCharacte
   apply Finset.sum_congr rfl
   intro p' _
   split_ifs
-  · rw [completedThetaSum_sixthInvariant K S P.arithmetic (thetaPeriod K S P ψ)
+  · congr 1
+    exact completedThetaSum_sixthInvariant K S P.arithmetic (thetaPeriod K S P ψ)
       (primeSetIdeal K S ∅) ((Finset.univ \ J).image p') V
-      (Z * exteriorNorm K S (subsetPrimeIdeal K S p' (Finset.univ \ J))) u m]
+      (Z * exteriorNorm K S (subsetPrimeIdeal K S p' (Finset.univ \ J))) u m
   · rfl
 
 /-- Exact transport of the actual marked-row energy at any real cutoff. -/
@@ -298,5 +301,9 @@ theorem marked_energy_eq_ideal_sector_energy (P : ProbeData K S) (ψ : HeckeChar
             (idealSectorElement K S P.arithmetic x).val‖ ^ 2 else 0 :=
   orbital_energy_eq_ideal_sector_energy K S P.arithmetic _
     (markedRowWithTest_sixthInvariant K S P ψ g T Z p J V) R
+
+#print axioms HeckeSkeleton.LowEnergy.ActualRows.idealSectorsEquivOrbits
+#print axioms HeckeSkeleton.LowEnergy.ActualRows.orbital_energy_eq_ideal_sector_energy
+#print axioms HeckeSkeleton.LowEnergy.ActualRows.marked_energy_eq_ideal_sector_energy
 
 end HeckeSkeleton.LowEnergy.ActualRows

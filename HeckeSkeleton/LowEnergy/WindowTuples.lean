@@ -434,9 +434,14 @@ theorem selected_tuple_sum (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter
     (∑ p' ∈ Fintype.piFinset (fun i => primeWindow K S g T Z i),
       if ∀ i ∈ J, p' i = p i then f p' else 0) =
     ∑ q ∈ Fintype.piFinset (fun i : {i // i ∉ J} => primeWindow K S g T Z i),
-      f (join (fun i => i ∈ J) (fun i => p i) q) :=
-  sum_piFinset_fixed _ (fun i => i ∈ J) p
-    (fun i _ => Fintype.mem_piFinset.mp hp i) f
+      f (join (fun i => i ∈ J) (fun i => p i) q) := by
+  refine Eq.trans ?_ (sum_piFinset_fixed _ (fun i => i ∈ J) p
+    (fun i _ => Fintype.mem_piFinset.mp hp i) f)
+  apply Finset.sum_congr rfl
+  intro t ht
+  by_cases hfix : ∀ i ∈ J, t i = p i
+  · simp only [if_pos hfix]
+  · simp only [if_neg hfix]
 
 /-- The literal active coefficient from the target marked row.  Its ideal
 phase is retained when the active tuple is aggregated into a single ideal. -/

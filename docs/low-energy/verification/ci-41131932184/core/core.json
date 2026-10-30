@@ -1,0 +1,2032 @@
+[
+  {
+    "module": "HeckeSkeleton.LowEnergy.KeepOriginalRow",
+    "source": "HeckeSkeleton/LowEnergy/KeepOriginalRow.lean",
+    "cache_schema": 2,
+    "source_sha256": "011da9dcf746e4ab6a9a9ff029f23c94ea46adec50aae916e45d1f9d082d05e1",
+    "exit_code": 0,
+    "seconds": 16.897,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "3afb983d63503e5e0f13fe87f5b941b354d6e4e3ab01e564fb4789611601197e"
+    },
+    "audit_ok": true,
+    "log_sha256": "1e4d8a82afcd8c7402828488985d56bb6d6542f1b752e09c729cdd7dfac485e4",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.OriginalRowNormalForm",
+    "source": "HeckeSkeleton/LowEnergy/OriginalRowNormalForm.lean",
+    "cache_schema": 2,
+    "source_sha256": "707f797038f6b9c115711c3701b4229d5faf8edf6c8984be19310051b32e49a5",
+    "exit_code": 0,
+    "seconds": 3.414,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.KeepOriginalRow": {
+        ".olean": "3afb983d63503e5e0f13fe87f5b941b354d6e4e3ab01e564fb4789611601197e"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "8da690bf3484d6df2d54657ad8bdce4153e44e028fa751365978c543feea67cd"
+    },
+    "audit_ok": true,
+    "log_sha256": "15110e7dc16fcf91f1947a28dda9ca4a0bc72c28d6b67600de57ee26ff40ac5b",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.KeepOriginalRow": "3afb983d63503e5e0f13fe87f5b941b354d6e4e3ab01e564fb4789611601197e"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.SmallPowers",
+    "source": "HeckeSkeleton/LowEnergy/SmallPowers.lean",
+    "cache_schema": 2,
+    "source_sha256": "45c6abcb4dd50f7bc21c1595cea816e7adec9fb6de30150563f3b45e2633daa1",
+    "exit_code": 0,
+    "seconds": 2.323,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "e64abde494aa92ce8262352fd3a266ff2cd249eee4b28f1e335068b1107488b3"
+    },
+    "audit_ok": true,
+    "log_sha256": "983a4c18837560d461f9749b100a0a79ad9c00c637ad350fe9d75ec46ade98ae",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.IdealMajorant",
+    "source": "HeckeSkeleton/LowEnergy/IdealMajorant.lean",
+    "cache_schema": 2,
+    "source_sha256": "dcd161483c67bfc4e61dd8dd2a2bc9f1cb3f4e74cb9c7c99116a27c7ccea76fc",
+    "exit_code": 0,
+    "seconds": 3.189,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.SmallPowers": {
+        ".olean": "e64abde494aa92ce8262352fd3a266ff2cd249eee4b28f1e335068b1107488b3"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "07c6c4de3947f5db5ce464268fe1e1562c618858a76aa7d861feb1800208fdbf"
+    },
+    "audit_ok": true,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.SmallPowers": "e64abde494aa92ce8262352fd3a266ff2cd249eee4b28f1e335068b1107488b3"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.IdealMass",
+    "source": "HeckeSkeleton/LowEnergy/IdealMass.lean",
+    "cache_schema": 2,
+    "source_sha256": "de311d9dfa1cf265a511380ab659698997673f10b43ae3038fa677aea5866c4f",
+    "exit_code": 0,
+    "seconds": 2.958,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.IdealMajorant": {
+        ".olean": "07c6c4de3947f5db5ce464268fe1e1562c618858a76aa7d861feb1800208fdbf"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "daa22cb27755d9d34ee6a5ed9150b4582923f0dd3c542f13dddc7f08064219b0"
+    },
+    "audit_ok": true,
+    "log_sha256": "c9dea1b8a19f4848ce549c8fa815652f39bbe24644bc6f622fe7de85483a8f54",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.IdealMajorant": "07c6c4de3947f5db5ce464268fe1e1562c618858a76aa7d861feb1800208fdbf"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.OriginalRowSupport",
+    "source": "HeckeSkeleton/LowEnergy/OriginalRowSupport.lean",
+    "cache_schema": 2,
+    "source_sha256": "d0d075ae5841cd64b2ddc8b4c428f0d8c87f666e9385517a8f75ff341eb654c3",
+    "exit_code": 0,
+    "seconds": 3.501,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.OriginalRowNormalForm": {
+        ".olean": "8da690bf3484d6df2d54657ad8bdce4153e44e028fa751365978c543feea67cd"
+      },
+      "HeckeSkeleton.LowEnergy.IdealMass": {
+        ".olean": "daa22cb27755d9d34ee6a5ed9150b4582923f0dd3c542f13dddc7f08064219b0"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "972362af06933a27fa03440a6a2aff548f507af2e881066c78c4969ba4ab9b7b"
+    },
+    "audit_ok": true,
+    "log_sha256": "233fb02e2d00cf4d986b193c5394f45bf5a80eb058c18b0518c5b0ce3da799f0",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.OriginalRowNormalForm": "8da690bf3484d6df2d54657ad8bdce4153e44e028fa751365978c543feea67cd",
+      "HeckeSkeleton.LowEnergy.IdealMass": "daa22cb27755d9d34ee6a5ed9150b4582923f0dd3c542f13dddc7f08064219b0"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.SquarefreeFibers",
+    "source": "HeckeSkeleton/LowEnergy/SquarefreeFibers.lean",
+    "cache_schema": 2,
+    "source_sha256": "8b71a2ee70b724c141d3257656c5107a771ce0de9e634b8c146cc7735b549185",
+    "exit_code": 0,
+    "seconds": 3.27,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.IdealMass": {
+        ".olean": "daa22cb27755d9d34ee6a5ed9150b4582923f0dd3c542f13dddc7f08064219b0"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "ccd4b8f3da0022cac0be65c96e7505b44c1feff640680640bc57ee7bfdb172b6"
+    },
+    "audit_ok": true,
+    "log_sha256": "b59ccd98a3e93f1f202bbd794ad604ffbcc4dab0fe16a337b6d20ebd9a310985",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.IdealMass": "daa22cb27755d9d34ee6a5ed9150b4582923f0dd3c542f13dddc7f08064219b0"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowHybrid.CommonTactics",
+    "source": "HeckeSkeleton/LowHybrid/CommonTactics.lean",
+    "cache_schema": 2,
+    "source_sha256": "59bea2789e1639f7ac3cf9b2dd4ca0dc45ac81b83aa1f856fa1712dcf13a8989",
+    "exit_code": 0,
+    "seconds": 1.193,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": false,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "5c59cf67a8d549c35e0ebbb3bc0c4f10b962c6c63a890796846960d583017d20"
+    },
+    "audit_ok": true,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowHybrid.SieveComposition",
+    "source": "HeckeSkeleton/LowHybrid/SieveComposition.lean",
+    "cache_schema": 2,
+    "source_sha256": "b59601851cb677b730d0927d1b423140a98c601167cd580813662c778b11bbb9",
+    "exit_code": 0,
+    "seconds": 2.401,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowHybrid.CommonTactics": {
+        ".olean": "5c59cf67a8d549c35e0ebbb3bc0c4f10b962c6c63a890796846960d583017d20"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "2422334080d3cce0eb4949b634a422742aa8f4d30ae820c97795532eb6d39c7f"
+    },
+    "audit_ok": true,
+    "log_sha256": "421835a38f24476e69b972aeec62d476df669d5d9692ac094654ccd28c3854c6",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowHybrid.CommonTactics": "5c59cf67a8d549c35e0ebbb3bc0c4f10b962c6c63a890796846960d583017d20"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowHybrid.Assembly",
+    "source": "HeckeSkeleton/LowHybrid/Assembly.lean",
+    "cache_schema": 2,
+    "source_sha256": "bfbc0a1cb47dbde64240f318bcc9cfacdc12d43336b42ace31b6717a18cdb456",
+    "exit_code": 0,
+    "seconds": 2.323,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowHybrid.SieveComposition": {
+        ".olean": "2422334080d3cce0eb4949b634a422742aa8f4d30ae820c97795532eb6d39c7f"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "92aec5b0a70e66e2fce651654fa69f89966b372331e2ba91d5d6211a918db7c4"
+    },
+    "audit_ok": true,
+    "log_sha256": "658cd537c9278e4befe7d42428356492d336d01d5447a4374c5751eabd8d5915",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowHybrid.SieveComposition": "2422334080d3cce0eb4949b634a422742aa8f4d30ae820c97795532eb6d39c7f"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowHybrid.Weighted",
+    "source": "HeckeSkeleton/LowHybrid/Weighted.lean",
+    "cache_schema": 2,
+    "source_sha256": "30e1f4a7ced3a7a12109d5f9b634267975a64105953638e0fd21903c9cb8091f",
+    "exit_code": 0,
+    "seconds": 2.417,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowHybrid.SieveComposition": {
+        ".olean": "2422334080d3cce0eb4949b634a422742aa8f4d30ae820c97795532eb6d39c7f"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "9fd4c2b6fc54e5015daea082a7ba13521fd24419344b8c49e37500d5019e90a5"
+    },
+    "audit_ok": true,
+    "log_sha256": "b58bcd367b82f6ce0ba81f675b1077cf6a726e2178678f2cf791d8ef2c9d3472",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowHybrid.SieveComposition": "2422334080d3cce0eb4949b634a422742aa8f4d30ae820c97795532eb6d39c7f"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowHybrid.Global",
+    "source": "HeckeSkeleton/LowHybrid/Global.lean",
+    "cache_schema": 2,
+    "source_sha256": "4fee86656221c1abf7dfac6b151edff0d2fc0e342b58b4ecbaa8dc4d3d67b4d7",
+    "exit_code": 0,
+    "seconds": 2.275,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowHybrid.Assembly": {
+        ".olean": "92aec5b0a70e66e2fce651654fa69f89966b372331e2ba91d5d6211a918db7c4"
+      },
+      "HeckeSkeleton.LowHybrid.Weighted": {
+        ".olean": "9fd4c2b6fc54e5015daea082a7ba13521fd24419344b8c49e37500d5019e90a5"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "0a32831dedfc081242ece771b70b686308691805fbe5ba44e8746b734a4d91a8"
+    },
+    "audit_ok": true,
+    "log_sha256": "ef07723b136d3d1d8001d4b38ed1dea3cb5bf924d650f40a44cc65b7ce2b5ff5",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowHybrid.Assembly": "92aec5b0a70e66e2fce651654fa69f89966b372331e2ba91d5d6211a918db7c4",
+      "HeckeSkeleton.LowHybrid.Weighted": "9fd4c2b6fc54e5015daea082a7ba13521fd24419344b8c49e37500d5019e90a5"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowHybrid.SieveBounds",
+    "source": "HeckeSkeleton/LowHybrid/SieveBounds.lean",
+    "cache_schema": 2,
+    "source_sha256": "2798478ee031d9112d5ed8fa6ce2d1f2be193b9b431158231b2f727b5744d36b",
+    "exit_code": 0,
+    "seconds": 1.981,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowHybrid.SieveComposition": {
+        ".olean": "2422334080d3cce0eb4949b634a422742aa8f4d30ae820c97795532eb6d39c7f"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "080c85804def3c4e74af310e4c05a58893518e18a9be16303d604f3c2b64806d"
+    },
+    "audit_ok": true,
+    "log_sha256": "5af3d0416dba46f151e82d1eabd8319f854175bd9925cb08c094926708ecfab2",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowHybrid.SieveComposition": "2422334080d3cce0eb4949b634a422742aa8f4d30ae820c97795532eb6d39c7f"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowHybrid.Transpose",
+    "source": "HeckeSkeleton/LowHybrid/Transpose.lean",
+    "cache_schema": 2,
+    "source_sha256": "cf53f11bfabb6ae2d84784a8cf0e38b24708994bed3c77db017de5495538cad5",
+    "exit_code": 0,
+    "seconds": 2.038,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowHybrid.SieveBounds": {
+        ".olean": "080c85804def3c4e74af310e4c05a58893518e18a9be16303d604f3c2b64806d"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "e98386ffbbc89187ded04f440953c20839db85613c9f7fce051763162bf6913b"
+    },
+    "audit_ok": true,
+    "log_sha256": "abb2b34a826cf46c1ea4dab86b55e030417330c85ac0ced16446f3b850f05fb6",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowHybrid.SieveBounds": "080c85804def3c4e74af310e4c05a58893518e18a9be16303d604f3c2b64806d"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowHybrid.WeightedSieveBounds",
+    "source": "HeckeSkeleton/LowHybrid/WeightedSieveBounds.lean",
+    "cache_schema": 2,
+    "source_sha256": "508aaef817c8aba5b7f9ad33fb9e32b93e326c9b6a5b0dd18d5a6f1b5c94709f",
+    "exit_code": 0,
+    "seconds": 2.225,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowHybrid.SieveBounds": {
+        ".olean": "080c85804def3c4e74af310e4c05a58893518e18a9be16303d604f3c2b64806d"
+      },
+      "HeckeSkeleton.LowHybrid.Weighted": {
+        ".olean": "9fd4c2b6fc54e5015daea082a7ba13521fd24419344b8c49e37500d5019e90a5"
+      },
+      "HeckeSkeleton.LowHybrid.Transpose": {
+        ".olean": "e98386ffbbc89187ded04f440953c20839db85613c9f7fce051763162bf6913b"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "db4666c7cec9293a4786d63a5d87e22fca1fe1a0d436fe0815441a7f296acf00"
+    },
+    "audit_ok": true,
+    "log_sha256": "3e8f0e37005cc221d5aedc851f2306d5a34c045274158cc407dc09796daac1a0",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowHybrid.SieveBounds": "080c85804def3c4e74af310e4c05a58893518e18a9be16303d604f3c2b64806d",
+      "HeckeSkeleton.LowHybrid.Weighted": "9fd4c2b6fc54e5015daea082a7ba13521fd24419344b8c49e37500d5019e90a5",
+      "HeckeSkeleton.LowHybrid.Transpose": "e98386ffbbc89187ded04f440953c20839db85613c9f7fce051763162bf6913b"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.ConcreteIdealBlock",
+    "source": "HeckeSkeleton/LowEnergy/ConcreteIdealBlock.lean",
+    "cache_schema": 2,
+    "source_sha256": "ee207c9801cc72577d68b2686f24c2ab2ee057f0231b15fa9e3e3d5fd9001389",
+    "exit_code": 0,
+    "seconds": 2.9,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.OriginalRowSupport": {
+        ".olean": "972362af06933a27fa03440a6a2aff548f507af2e881066c78c4969ba4ab9b7b"
+      },
+      "HeckeSkeleton.LowEnergy.SquarefreeFibers": {
+        ".olean": "ccd4b8f3da0022cac0be65c96e7505b44c1feff640680640bc57ee7bfdb172b6"
+      },
+      "HeckeSkeleton.LowHybrid.Global": {
+        ".olean": "0a32831dedfc081242ece771b70b686308691805fbe5ba44e8746b734a4d91a8"
+      },
+      "HeckeSkeleton.LowHybrid.WeightedSieveBounds": {
+        ".olean": "db4666c7cec9293a4786d63a5d87e22fca1fe1a0d436fe0815441a7f296acf00"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "573a917929cc5c51d1c62e30219e653c9d467926bd416ae806e74802f9e9dc07"
+    },
+    "audit_ok": true,
+    "log_sha256": "2764d726d54519900e246a4c1d65382a6f55d09843ad67b6ed85f8a694d38435",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.OriginalRowSupport": "972362af06933a27fa03440a6a2aff548f507af2e881066c78c4969ba4ab9b7b",
+      "HeckeSkeleton.LowEnergy.SquarefreeFibers": "ccd4b8f3da0022cac0be65c96e7505b44c1feff640680640bc57ee7bfdb172b6",
+      "HeckeSkeleton.LowHybrid.Global": "0a32831dedfc081242ece771b70b686308691805fbe5ba44e8746b734a4d91a8",
+      "HeckeSkeleton.LowHybrid.WeightedSieveBounds": "db4666c7cec9293a4786d63a5d87e22fca1fe1a0d436fe0815441a7f296acf00"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.UniformIdealHybrid",
+    "source": "HeckeSkeleton/LowEnergy/UniformIdealHybrid.lean",
+    "cache_schema": 2,
+    "source_sha256": "afc3f55d580a4d0f24d5120b800c4071f7729f3bdeb94f5c503fb85324681266",
+    "exit_code": 0,
+    "seconds": 5.539,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.ConcreteIdealBlock": {
+        ".olean": "573a917929cc5c51d1c62e30219e653c9d467926bd416ae806e74802f9e9dc07"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "1111f2251ea684c54349659aae30eccb3d04f1e34eb7de8f959481822640ea4f"
+    },
+    "audit_ok": true,
+    "log_sha256": "68dcd6d6f5861d729a9aadd18f41d6630585ff8d12cd7621bc513d39687eb4aa",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.ConcreteIdealBlock": "573a917929cc5c51d1c62e30219e653c9d467926bd416ae806e74802f9e9dc07"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.IdealDivisorMasks",
+    "source": "HeckeSkeleton/LowEnergy/IdealDivisorMasks.lean",
+    "cache_schema": 2,
+    "source_sha256": "c88c5268423399b65030a5dd7aee714709bb8a0b64cdd655ffecb35c582ce33d",
+    "exit_code": 0,
+    "seconds": 2.761,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.SquarefreeFibers": {
+        ".olean": "ccd4b8f3da0022cac0be65c96e7505b44c1feff640680640bc57ee7bfdb172b6"
+      },
+      "HeckeSkeleton.LowEnergy.KeepOriginalRow": {
+        ".olean": "3afb983d63503e5e0f13fe87f5b941b354d6e4e3ab01e564fb4789611601197e"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "4f045512e864a2b9eaebcd72280e67ab7cc53c3aa4dc8486dd34a25881d97cd2"
+    },
+    "audit_ok": true,
+    "log_sha256": "9b0fd564586c0e4134b34b1d5bff9f9590acfb74cbe73067ce18b42c0605763a",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.SquarefreeFibers": "ccd4b8f3da0022cac0be65c96e7505b44c1feff640680640bc57ee7bfdb172b6",
+      "HeckeSkeleton.LowEnergy.KeepOriginalRow": "3afb983d63503e5e0f13fe87f5b941b354d6e4e3ab01e564fb4789611601197e"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.IdealCanonicalColumns",
+    "source": "HeckeSkeleton/LowEnergy/IdealCanonicalColumns.lean",
+    "cache_schema": 2,
+    "source_sha256": "bdfeb5349871965e8093a8ed6ec4c7e6bb699c7740d392b34591844e0e6b2206",
+    "exit_code": 0,
+    "seconds": 3.749,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.IdealDivisorMasks": {
+        ".olean": "4f045512e864a2b9eaebcd72280e67ab7cc53c3aa4dc8486dd34a25881d97cd2"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "93a5108a30a8bc0c18ead735c753e4aab3767b257946e6ec2a0c8e491e385234"
+    },
+    "audit_ok": true,
+    "log_sha256": "f8192262740e1d69ae913325674cf68bcd9662e742c6f795d8f3e25cd04ca9a7",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.IdealDivisorMasks": "4f045512e864a2b9eaebcd72280e67ab7cc53c3aa4dc8486dd34a25881d97cd2"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.RawIdealHybrid",
+    "source": "HeckeSkeleton/LowEnergy/RawIdealHybrid.lean",
+    "cache_schema": 2,
+    "source_sha256": "5b6a2cf8503baaadf803f24ffa340d6757eb48db92ec500fe514f71ba170d8e0",
+    "exit_code": 0,
+    "seconds": 3.47,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.UniformIdealHybrid": {
+        ".olean": "1111f2251ea684c54349659aae30eccb3d04f1e34eb7de8f959481822640ea4f"
+      },
+      "HeckeSkeleton.LowEnergy.IdealCanonicalColumns": {
+        ".olean": "93a5108a30a8bc0c18ead735c753e4aab3767b257946e6ec2a0c8e491e385234"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "ae8ffcc45974182a12836c48b97e6ddd08184ba089e75ad942c03514eb98cee0"
+    },
+    "audit_ok": true,
+    "log_sha256": "fd99c065049a5cf0c4a36e929f8061bdf1e1ee52538446e1cc559aeefa7bdb09",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.UniformIdealHybrid": "1111f2251ea684c54349659aae30eccb3d04f1e34eb7de8f959481822640ea4f",
+      "HeckeSkeleton.LowEnergy.IdealCanonicalColumns": "93a5108a30a8bc0c18ead735c753e4aab3767b257946e6ec2a0c8e491e385234"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.HybridScaling",
+    "source": "HeckeSkeleton/LowEnergy/HybridScaling.lean",
+    "cache_schema": 2,
+    "source_sha256": "b44f5bbb0ea15675d53b24debe7cef9a477957ed4e9234391437beab616cb96b",
+    "exit_code": 0,
+    "seconds": 3.012,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.RawIdealHybrid": {
+        ".olean": "ae8ffcc45974182a12836c48b97e6ddd08184ba089e75ad942c03514eb98cee0"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "e60542931eeeeedc85ebd5c2850b82a784faa283367d620cfb28ea1399d57960"
+    },
+    "audit_ok": true,
+    "log_sha256": "28732cd482935bbe1ec8bfee1b472bf4118ce09c9f86627ebf6bb6c4b585d629",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.RawIdealHybrid": "ae8ffcc45974182a12836c48b97e6ddd08184ba089e75ad942c03514eb98cee0"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.AnnularEnergy",
+    "source": "HeckeSkeleton/LowEnergy/AnnularEnergy.lean",
+    "cache_schema": 2,
+    "source_sha256": "5d1592104712b988144dd32b0783c3daa735c0f74545654345362f50fbd24748",
+    "exit_code": 0,
+    "seconds": 2.255,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "926b1a00dd5d524b20e466ae662b9b3f480c6169bc8ff34636bed633ac39274b"
+    },
+    "audit_ok": true,
+    "log_sha256": "80058fec5ad5ab115f32ee1cfd173b4565d212d33201358a2d765c79b8669b80",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.MellinEnergy",
+    "source": "HeckeSkeleton/LowEnergy/MellinEnergy.lean",
+    "cache_schema": 2,
+    "source_sha256": "3246452a28eba477a0534613895cb331e8dfecb6e25f3570c85f726b042b30dc",
+    "exit_code": 0,
+    "seconds": 2.455,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.AnnularEnergy": {
+        ".olean": "926b1a00dd5d524b20e466ae662b9b3f480c6169bc8ff34636bed633ac39274b"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "2357fa2a87e6dd1bc63426179488331025b3809b031df6c97d8d62ca1a5607c8"
+    },
+    "audit_ok": true,
+    "log_sha256": "6d4786e050842e77bf6795cafa50ad9d9bfe807cc039b7852332d12ee98d0302",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.AnnularEnergy": "926b1a00dd5d524b20e466ae662b9b3f480c6169bc8ff34636bed633ac39274b"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.MellinHybrid",
+    "source": "HeckeSkeleton/LowEnergy/MellinHybrid.lean",
+    "cache_schema": 2,
+    "source_sha256": "964f08a630601c28580ee304f6fb0d182858cce70239830cf4ce5929ee74ea46",
+    "exit_code": 0,
+    "seconds": 2.777,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.MellinEnergy": {
+        ".olean": "2357fa2a87e6dd1bc63426179488331025b3809b031df6c97d8d62ca1a5607c8"
+      },
+      "HeckeSkeleton.LowEnergy.HybridScaling": {
+        ".olean": "e60542931eeeeedc85ebd5c2850b82a784faa283367d620cfb28ea1399d57960"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "eae0181397deda1b08fc90ed7d6eae4a3e31e6ca87f4014c82c21259da5494a2"
+    },
+    "audit_ok": true,
+    "log_sha256": "0d303c9e565acf16ff9f4a387ff93920fc0dce1b63b8fce53d5231c561f81b1c",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.MellinEnergy": "2357fa2a87e6dd1bc63426179488331025b3809b031df6c97d8d62ca1a5607c8",
+      "HeckeSkeleton.LowEnergy.HybridScaling": "e60542931eeeeedc85ebd5c2850b82a784faa283367d620cfb28ea1399d57960"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.FiniteHybridIntegral",
+    "source": "HeckeSkeleton/LowEnergy/FiniteHybridIntegral.lean",
+    "cache_schema": 2,
+    "source_sha256": "ada046f6c2773e29d4a32cd3b1aae23f5eac5eea07c1b42aceb1e1c9e9ae552c",
+    "exit_code": 0,
+    "seconds": 2.752,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.MellinEnergy": {
+        ".olean": "2357fa2a87e6dd1bc63426179488331025b3809b031df6c97d8d62ca1a5607c8"
+      },
+      "HeckeSkeleton.LowEnergy.IdealCanonicalColumns": {
+        ".olean": "93a5108a30a8bc0c18ead735c753e4aab3767b257946e6ec2a0c8e491e385234"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "a28fa58fd5223d595ef84e3a10c349f87213fbe6260cfba3adf285d7d1c4fca8"
+    },
+    "audit_ok": true,
+    "log_sha256": "984bcf216d760aa8f7f3a9015449bba33a28381abc2c4b043843c987013df0ba",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.MellinEnergy": "2357fa2a87e6dd1bc63426179488331025b3809b031df6c97d8d62ca1a5607c8",
+      "HeckeSkeleton.LowEnergy.IdealCanonicalColumns": "93a5108a30a8bc0c18ead735c753e4aab3767b257946e6ec2a0c8e491e385234"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.LocalWeylTableCore",
+    "source": "HeckeSkeleton/LowEnergy/LocalWeylTableCore.lean",
+    "cache_schema": 2,
+    "source_sha256": "feca761900a6068ab4fb2fd482906d5691f084458c1efac0e4c211ecb2c51aed",
+    "exit_code": 0,
+    "seconds": 4.01,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "af62820e37605a54fa692f33d45a24155d7e62432f3bc0d4541cddeff9b5c909"
+    },
+    "audit_ok": true,
+    "log_sha256": "b9340826c8accd58d2dded1bc038e204acc702cc5e15942165d2a6f257fa80d0",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.FrozenChargeCore",
+    "source": "HeckeSkeleton/LowEnergy/FrozenChargeCore.lean",
+    "cache_schema": 2,
+    "source_sha256": "7341f3fbf0ac735466382af63aea40b3379408b205950813a62b4364098349be",
+    "exit_code": 0,
+    "seconds": 2.029,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "3937dcfbc0f3b124a6ab3c6b6d81218f8bb718f68c23afb313b017adbcde9d10"
+    },
+    "audit_ok": true,
+    "log_sha256": "e1d8c53ea52d8674100c6c985200193b1d5d16c6c93e42cf93392ce226f84b01",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeGeneral.Arithmetic.IdealFactorization",
+    "source": "HeckeGeneral/Arithmetic/IdealFactorization.lean",
+    "cache_schema": 2,
+    "source_sha256": "bb3b6f02228ea85e92fc0ff587995956d87ffd6d09cc97c4df4cf4c31d1f5ba5",
+    "exit_code": 0,
+    "seconds": 2.788,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": false,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "1f46fd343bf78c62d92daa4f7d06928844ce624bdf4a5348c54267ef96ce4671"
+    },
+    "audit_ok": true,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.IdealRows",
+    "source": "HeckeSkeleton/LowEnergy/IdealRows.lean",
+    "cache_schema": 2,
+    "source_sha256": "7ab30fac83247540d6ab663d1929375ccc1dca1c3bad4d80e74d556d31889a44",
+    "exit_code": 0,
+    "seconds": 3.927,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeGeneral.Arithmetic.IdealFactorization": {
+        ".olean": "1f46fd343bf78c62d92daa4f7d06928844ce624bdf4a5348c54267ef96ce4671"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "f6a07650428a4260b7a610053fa9a8555f7455db6b2487b5e8d48d08a4dddfb7"
+    },
+    "audit_ok": true,
+    "log_sha256": "f9e9963d3dae88ec12285986ab537050dcbbcd9297788c8a2e5ed8f62f8ec994",
+    "local_dependency_hashes": {
+      "HeckeGeneral.Arithmetic.IdealFactorization": "1f46fd343bf78c62d92daa4f7d06928844ce624bdf4a5348c54267ef96ce4671"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.Rankin",
+    "source": "HeckeSkeleton/LowEnergy/Rankin.lean",
+    "cache_schema": 2,
+    "source_sha256": "cf609b3271aa6a31af843413fa89128dd637faab760c223cc2d1199e4e05983a",
+    "exit_code": 0,
+    "seconds": 2.11,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "5ca4497a5244822c1ec7ded92b03dcf0f45cd7c315a39afad9ba1c28edfb8cdf"
+    },
+    "audit_ok": true,
+    "log_sha256": "3d3352acc4fd1ac23cddb125306e1b1e72e9bf2f8e882acd722f567a61444bc7",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.IdealRankin",
+    "source": "HeckeSkeleton/LowEnergy/IdealRankin.lean",
+    "cache_schema": 2,
+    "source_sha256": "81b3cc328aadb5242be6f4630678fb4ff8272aa76e70c8b92471f47195406134",
+    "exit_code": 0,
+    "seconds": 2.847,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.IdealRows": {
+        ".olean": "f6a07650428a4260b7a610053fa9a8555f7455db6b2487b5e8d48d08a4dddfb7"
+      },
+      "HeckeSkeleton.LowEnergy.Rankin": {
+        ".olean": "5ca4497a5244822c1ec7ded92b03dcf0f45cd7c315a39afad9ba1c28edfb8cdf"
+      },
+      "HeckeSkeleton.LowEnergy.IdealMajorant": {
+        ".olean": "07c6c4de3947f5db5ce464268fe1e1562c618858a76aa7d861feb1800208fdbf"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "cae2e21554f292a278ee8afc93cb6302ad6f2fc8dd502841a700c3e9c6ef793d"
+    },
+    "audit_ok": true,
+    "log_sha256": "0e52955bb678b04616a8ee46cdf49eeb34610cac71d4b8072208ad4aabddebef",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.IdealRows": "f6a07650428a4260b7a610053fa9a8555f7455db6b2487b5e8d48d08a4dddfb7",
+      "HeckeSkeleton.LowEnergy.Rankin": "5ca4497a5244822c1ec7ded92b03dcf0f45cd7c315a39afad9ba1c28edfb8cdf",
+      "HeckeSkeleton.LowEnergy.IdealMajorant": "07c6c4de3947f5db5ce464268fe1e1562c618858a76aa7d861feb1800208fdbf"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.SupportPowers",
+    "source": "HeckeSkeleton/LowEnergy/SupportPowers.lean",
+    "cache_schema": 2,
+    "source_sha256": "e985c4857fc79f114080f3b0cad770729247f6af598b2b66811eb93391387566",
+    "exit_code": 0,
+    "seconds": 1.925,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "b61944a428a16a98bb169e9bb37da5ac7271c7e608d11db3283b9f9bbb21368b"
+    },
+    "audit_ok": true,
+    "log_sha256": "261f14149a3bc9ab0658390d4bdb70e85497792e3ff3fa0698ac9d34cda5e4ed",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.IdealSupportPowers",
+    "source": "HeckeSkeleton/LowEnergy/IdealSupportPowers.lean",
+    "cache_schema": 2,
+    "source_sha256": "57e3cef5f6de2c9aa68892bc62361c228d1b16fdbbca9b1668182842d0f43ed7",
+    "exit_code": 0,
+    "seconds": 2.489,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.SupportPowers": {
+        ".olean": "b61944a428a16a98bb169e9bb37da5ac7271c7e608d11db3283b9f9bbb21368b"
+      },
+      "HeckeGeneral.Arithmetic.IdealFactorization": {
+        ".olean": "1f46fd343bf78c62d92daa4f7d06928844ce624bdf4a5348c54267ef96ce4671"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "0b9a8dec5df9be083a5fc6b3faf0a620d15807c5d9de78029ec3954091bc7ff2"
+    },
+    "audit_ok": true,
+    "log_sha256": "c40321dff70c8dae2928c11962c1c0861bad317ad592169c88bf04a2258f1a50",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.SupportPowers": "b61944a428a16a98bb169e9bb37da5ac7271c7e608d11db3283b9f9bbb21368b",
+      "HeckeGeneral.Arithmetic.IdealFactorization": "1f46fd343bf78c62d92daa4f7d06928844ce624bdf4a5348c54267ef96ce4671"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.FiniteFiberEnergy",
+    "source": "HeckeSkeleton/LowEnergy/FiniteFiberEnergy.lean",
+    "cache_schema": 2,
+    "source_sha256": "33dc88a2b8e15c184eb1fe8612111161d8df1847d33286a96d01f27c95981ae1",
+    "exit_code": 0,
+    "seconds": 1.548,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "6724986d35d6478c4b9b8a5a3432a62827510d8e5d51fa935f5b63cdf486be2c"
+    },
+    "audit_ok": true,
+    "log_sha256": "f488886472c58c1cc1cc49952a15e7451d6ad4157fa9dd666b8eb5b63dbe1e75",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.DyadicTail",
+    "source": "HeckeSkeleton/LowEnergy/DyadicTail.lean",
+    "cache_schema": 2,
+    "source_sha256": "4af86f5e7cb309b18faa901fd5999080bcb47d13e98c3559d930836493e6da2f",
+    "exit_code": 0,
+    "seconds": 3.547,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "be8a147038663989cae4ea393b36c0dd770d4fdb93fdf26d8bce348bdf54848e"
+    },
+    "audit_ok": true,
+    "log_sha256": "99b1b681c4278ce34f073ec2aa9d5e416680380532a566686ffb77f2948a1e70",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.PowerfulRowAssembly",
+    "source": "HeckeSkeleton/LowEnergy/PowerfulRowAssembly.lean",
+    "cache_schema": 2,
+    "source_sha256": "7ea7481216763975d13109dcac748c285d8f0eacb2e7cdebe3c2f37e47e7dc19",
+    "exit_code": 0,
+    "seconds": 2.809,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.IdealRankin": {
+        ".olean": "cae2e21554f292a278ee8afc93cb6302ad6f2fc8dd502841a700c3e9c6ef793d"
+      },
+      "HeckeSkeleton.LowEnergy.FiniteFiberEnergy": {
+        ".olean": "6724986d35d6478c4b9b8a5a3432a62827510d8e5d51fa935f5b63cdf486be2c"
+      },
+      "HeckeSkeleton.LowEnergy.DyadicTail": {
+        ".olean": "be8a147038663989cae4ea393b36c0dd770d4fdb93fdf26d8bce348bdf54848e"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "aab8bddfa56ac95dbb4929018cfd83ce04cc3f24619ee1c74c57e70b669212e9"
+    },
+    "audit_ok": true,
+    "log_sha256": "c1430f2955f42de196e8eb6a2820f4c04cc5a85eaaed809fe382fb06a35fb6f3",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.IdealRankin": "cae2e21554f292a278ee8afc93cb6302ad6f2fc8dd502841a700c3e9c6ef793d",
+      "HeckeSkeleton.LowEnergy.FiniteFiberEnergy": "6724986d35d6478c4b9b8a5a3432a62827510d8e5d51fa935f5b63cdf486be2c",
+      "HeckeSkeleton.LowEnergy.DyadicTail": "be8a147038663989cae4ea393b36c0dd770d4fdb93fdf26d8bce348bdf54848e"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.Exponent",
+    "source": "HeckeSkeleton/LowEnergy/Exponent.lean",
+    "cache_schema": 2,
+    "source_sha256": "6e2a5c32f5913e62a31d287a54dfcc345e11df9cf78aa8fb30a1e569b73e5ab4",
+    "exit_code": 0,
+    "seconds": 3.854,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "93a34df1d4f9f46900e23278072dcc5a10d9fdd332f29bc490b4caf2dfa9947e"
+    },
+    "audit_ok": true,
+    "log_sha256": "c6429c904ed5b2ff778d41adf9a3165632a9cdc00077dd96a4593a5ec8926b08",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.ExponentTail",
+    "source": "HeckeSkeleton/LowEnergy/ExponentTail.lean",
+    "cache_schema": 2,
+    "source_sha256": "690fafe1df46d84c203a29388941e54de411cde053ef6a8fcfdf8c18039fb9ee",
+    "exit_code": 0,
+    "seconds": 3.368,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.Exponent": {
+        ".olean": "93a34df1d4f9f46900e23278072dcc5a10d9fdd332f29bc490b4caf2dfa9947e"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "74faee8dac7ef45c3d16e6d177a16fdad95f360c482325b0372b28280ae5fc4d"
+    },
+    "audit_ok": true,
+    "log_sha256": "0ce635597c87dd78ccc786e684ec4c3e3025346718dcd6d6237ccc106b13d940",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.Exponent": "93a34df1d4f9f46900e23278072dcc5a10d9fdd332f29bc490b4caf2dfa9947e"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.CommonMellin",
+    "source": "HeckeSkeleton/LowEnergy/CommonMellin.lean",
+    "cache_schema": 2,
+    "source_sha256": "2b88696cd22a8b361094766c78ea1a1b9cc2d2ab192c81a45597c963bf8895af",
+    "exit_code": 0,
+    "seconds": 4.72,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "cbfc86a501ff3ad073f0e8764beed98197b1d1d39ccd5884a9650c03d2455e47"
+    },
+    "audit_ok": true,
+    "log_sha256": "0e30a9eb3e930c7368baf73f3ed2ca07849844c4d0a7e9656b00bb6240fb6568",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.CommonMellinTail",
+    "source": "HeckeSkeleton/LowEnergy/CommonMellinTail.lean",
+    "cache_schema": 2,
+    "source_sha256": "7d47587515bcd1822f67fba469870029bc4d3dbbb257ee740db3d0fb3fb84b91",
+    "exit_code": 0,
+    "seconds": 3.098,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.CommonMellin": {
+        ".olean": "cbfc86a501ff3ad073f0e8764beed98197b1d1d39ccd5884a9650c03d2455e47"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "8de59ae7f90959af043589e1ae9dbfa1c67ced46f2cc4cd18275e173fa70c252"
+    },
+    "audit_ok": true,
+    "log_sha256": "8bfe7e36e5e7f9c3069d2f1546b9371b00ef6fa5bc340200b3b2e450b21860ad",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.CommonMellin": "cbfc86a501ff3ad073f0e8764beed98197b1d1d39ccd5884a9650c03d2455e47"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.BlockPolynomial",
+    "source": "HeckeSkeleton/LowEnergy/BlockPolynomial.lean",
+    "cache_schema": 2,
+    "source_sha256": "531de8ea0d05afd26e99191d2337777be07d757597955445eb36c5f4aef8c739",
+    "exit_code": 0,
+    "seconds": 2.523,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.ExponentTail": {
+        ".olean": "74faee8dac7ef45c3d16e6d177a16fdad95f360c482325b0372b28280ae5fc4d"
+      },
+      "HeckeSkeleton.LowEnergy.CommonMellinTail": {
+        ".olean": "8de59ae7f90959af043589e1ae9dbfa1c67ced46f2cc4cd18275e173fa70c252"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "59c164ab5a9c97718d1d7cc855c4d01af7650228e25bbe3909e0ff006b498868"
+    },
+    "audit_ok": true,
+    "log_sha256": "6382892ad24bb63127a32fddc571ffc7f438b48f101ad2e84249e0c1669ff0c6",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.ExponentTail": "74faee8dac7ef45c3d16e6d177a16fdad95f360c482325b0372b28280ae5fc4d",
+      "HeckeSkeleton.LowEnergy.CommonMellinTail": "8de59ae7f90959af043589e1ae9dbfa1c67ced46f2cc4cd18275e173fa70c252"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.LogGeometry",
+    "source": "HeckeSkeleton/LowEnergy/LogGeometry.lean",
+    "cache_schema": 2,
+    "source_sha256": "8d27cd3ef66f28e93190a711195513f18fbb75e40a3098d42885e19ef93fa1bc",
+    "exit_code": 0,
+    "seconds": 2.07,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "044cdf39236f93ef8d91b6ce6bd6015f99a6085c4c9be6d1812be6a36b3ca0aa"
+    },
+    "audit_ok": true,
+    "log_sha256": "c69fcabf459c143807f3db7d235f6c79596c9ce84c41aad303c8627c4d5dee6f",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial",
+    "source": "HeckeSkeleton/LowEnergy/PhysicalBlockPolynomial.lean",
+    "cache_schema": 2,
+    "source_sha256": "bb5e86bb0bee0b24dc02e21993f90c896a32cbb096f4fbd0dfce68feebe3c409",
+    "exit_code": 0,
+    "seconds": 5.244,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.BlockPolynomial": {
+        ".olean": "59c164ab5a9c97718d1d7cc855c4d01af7650228e25bbe3909e0ff006b498868"
+      },
+      "HeckeSkeleton.LowEnergy.LogGeometry": {
+        ".olean": "044cdf39236f93ef8d91b6ce6bd6015f99a6085c4c9be6d1812be6a36b3ca0aa"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "3d81ca385c77e1493e02f4cb7af03dc74003bcdb17787a8c4931938db0ba94f0"
+    },
+    "audit_ok": true,
+    "log_sha256": "327948bbcea742fcb5a2b6a7866dc4249976549505b3de5829e7f24da1b2282d",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.BlockPolynomial": "59c164ab5a9c97718d1d7cc855c4d01af7650228e25bbe3909e0ff006b498868",
+      "HeckeSkeleton.LowEnergy.LogGeometry": "044cdf39236f93ef8d91b6ce6bd6015f99a6085c4c9be6d1812be6a36b3ca0aa"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.EulerLog",
+    "source": "HeckeSkeleton/LowEnergy/EulerLog.lean",
+    "cache_schema": 2,
+    "source_sha256": "17846e1fc90894d2e17e53194a370990928bc45a40df4b9e984168eb2a9f36c0",
+    "exit_code": 0,
+    "seconds": 2.087,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "a278b51e6615bb411c1759fadce0e05900135532d5e5640ba353595ee45d082f"
+    },
+    "audit_ok": true,
+    "log_sha256": "8a5382274027a360f6c849020ae5aacd05a4c0b03d2257cebbf29a9106280700",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeGeneral.Analysis.LogGaussianMellin",
+    "source": "HeckeGeneral/Analysis/LogGaussianMellin.lean",
+    "cache_schema": 2,
+    "source_sha256": "ae36c811187a9c524d078cf5fc21df5a4b35d723046ef5c61ef31540f764de0c",
+    "exit_code": 0,
+    "seconds": 2.753,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": false,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "906a8abf40bd20e9c2520e109b2893f02b3147f13ab04a11989d104432eef968"
+    },
+    "audit_ok": true,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeGeneral.Analysis.GaussianContour",
+    "source": "HeckeGeneral/Analysis/GaussianContour.lean",
+    "cache_schema": 2,
+    "source_sha256": "adb73348b62ee80af0b3601c451fa32e02f7fa44f368a15cedd66bc5a109c864",
+    "exit_code": 0,
+    "seconds": 2.338,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": false,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeGeneral.Analysis.LogGaussianMellin": {
+        ".olean": "906a8abf40bd20e9c2520e109b2893f02b3147f13ab04a11989d104432eef968"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "e9f22cff7065797307b59f4f612eaaffd1be9ea406977bc12aa4a5c3d4305b50"
+    },
+    "audit_ok": true,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local_dependency_hashes": {
+      "HeckeGeneral.Analysis.LogGaussianMellin": "906a8abf40bd20e9c2520e109b2893f02b3147f13ab04a11989d104432eef968"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeGeneral.Analysis.GaussianDerivatives",
+    "source": "HeckeGeneral/Analysis/GaussianDerivatives.lean",
+    "cache_schema": 2,
+    "source_sha256": "a9d91577103c11b566a9f4d8cd63fbe45d919a1cc2e1a140a0db9d774cf94c67",
+    "exit_code": 0,
+    "seconds": 2.534,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": false,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeGeneral.Analysis.GaussianContour": {
+        ".olean": "e9f22cff7065797307b59f4f612eaaffd1be9ea406977bc12aa4a5c3d4305b50"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "0bec137d1a7f6c3f5d90a81ee3323512d8e6966d4f5e2df098dd1fcd6b6ea886"
+    },
+    "audit_ok": true,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local_dependency_hashes": {
+      "HeckeGeneral.Analysis.GaussianContour": "e9f22cff7065797307b59f4f612eaaffd1be9ea406977bc12aa4a5c3d4305b50"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeGeneral.Analysis.GaussianAnnuli",
+    "source": "HeckeGeneral/Analysis/GaussianAnnuli.lean",
+    "cache_schema": 2,
+    "source_sha256": "355bf3da17daa281752ac8318ae7f238460679e4dee6e422b1ffd33e72db92fe",
+    "exit_code": 0,
+    "seconds": 2.88,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": false,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeGeneral.Analysis.GaussianDerivatives": {
+        ".olean": "0bec137d1a7f6c3f5d90a81ee3323512d8e6966d4f5e2df098dd1fcd6b6ea886"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "61313261b99c5fa9eb9ec60b7158c9c3321ab348751e03dca6b44c38cb4d648b"
+    },
+    "audit_ok": true,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local_dependency_hashes": {
+      "HeckeGeneral.Analysis.GaussianDerivatives": "0bec137d1a7f6c3f5d90a81ee3323512d8e6966d4f5e2df098dd1fcd6b6ea886"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeGeneral.Analysis.GaussianAnnularTail",
+    "source": "HeckeGeneral/Analysis/GaussianAnnularTail.lean",
+    "cache_schema": 2,
+    "source_sha256": "e2cedd5bef9e486560e3465e22ee235d2db0f1d6b5e6e91dbc934d631e9d1978",
+    "exit_code": 0,
+    "seconds": 2.053,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": false,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeGeneral.Analysis.GaussianAnnuli": {
+        ".olean": "61313261b99c5fa9eb9ec60b7158c9c3321ab348751e03dca6b44c38cb4d648b"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "2da0234054462564fe07a1a58802cf413b5416cbb68f0cc05c6ce4108cce0847"
+    },
+    "audit_ok": true,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local_dependency_hashes": {
+      "HeckeGeneral.Analysis.GaussianAnnuli": "61313261b99c5fa9eb9ec60b7158c9c3321ab348751e03dca6b44c38cb4d648b"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeGeneral.Analysis.GaussianCutoff",
+    "source": "HeckeGeneral/Analysis/GaussianCutoff.lean",
+    "cache_schema": 2,
+    "source_sha256": "e1e660a928f65165f30c8e968ff6eb074efa795311ba8f648746247105ed7e3b",
+    "exit_code": 0,
+    "seconds": 2.176,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": false,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeGeneral.Analysis.GaussianAnnularTail": {
+        ".olean": "2da0234054462564fe07a1a58802cf413b5416cbb68f0cc05c6ce4108cce0847"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "cdc5953bb4100141a947fe9fea1209c0be93e812ab979af05d21f0ffabcefe6c"
+    },
+    "audit_ok": true,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local_dependency_hashes": {
+      "HeckeGeneral.Analysis.GaussianAnnularTail": "2da0234054462564fe07a1a58802cf413b5416cbb68f0cc05c6ce4108cce0847"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeGeneral.Analysis.GaussianAnnularAssembly",
+    "source": "HeckeGeneral/Analysis/GaussianAnnularAssembly.lean",
+    "cache_schema": 2,
+    "source_sha256": "0586c11ce7e56dfaed57e969de8963742a84ad0fb8a929666261e89fbdfa8cf9",
+    "exit_code": 0,
+    "seconds": 2.519,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": false,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeGeneral.Analysis.GaussianCutoff": {
+        ".olean": "cdc5953bb4100141a947fe9fea1209c0be93e812ab979af05d21f0ffabcefe6c"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "00f13e043446117944e73c90a079ff4f045df0b053dc7133621a8a4e93454023"
+    },
+    "audit_ok": true,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local_dependency_hashes": {
+      "HeckeGeneral.Analysis.GaussianCutoff": "cdc5953bb4100141a947fe9fea1209c0be93e812ab979af05d21f0ffabcefe6c"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeGeneral.Analysis.GaussianAnnularTruncation",
+    "source": "HeckeGeneral/Analysis/GaussianAnnularTruncation.lean",
+    "cache_schema": 2,
+    "source_sha256": "cb5993421b0de73d5aa4b04c16f18234ef2630780b67004a1abda1c335d7faac",
+    "exit_code": 0,
+    "seconds": 2.494,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": false,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeGeneral.Analysis.GaussianAnnularAssembly": {
+        ".olean": "00f13e043446117944e73c90a079ff4f045df0b053dc7133621a8a4e93454023"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "a1d40470856bbfbad46e445f26e955ffe18f1858ab318a55721199c1c45673d3"
+    },
+    "audit_ok": true,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local_dependency_hashes": {
+      "HeckeGeneral.Analysis.GaussianAnnularAssembly": "00f13e043446117944e73c90a079ff4f045df0b053dc7133621a8a4e93454023"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeGeneral.Analysis.SmoothIntegerPartition",
+    "source": "HeckeGeneral/Analysis/SmoothIntegerPartition.lean",
+    "cache_schema": 2,
+    "source_sha256": "cfa8a8dcc908b17cfd7d9e2474107cbd6e4ae17cf4f7692e330b1a8b97f14bfa",
+    "exit_code": 0,
+    "seconds": 2.135,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": false,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeGeneral.Analysis.GaussianAnnularTruncation": {
+        ".olean": "a1d40470856bbfbad46e445f26e955ffe18f1858ab318a55721199c1c45673d3"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "b65bf21002ac61da689bca03610049e728a0c0b3c0e6935c17e0b79ff9cfa08b"
+    },
+    "audit_ok": true,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "local_dependency_hashes": {
+      "HeckeGeneral.Analysis.GaussianAnnularTruncation": "a1d40470856bbfbad46e445f26e955ffe18f1858ab318a55721199c1c45673d3"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.GaussianReconstruction",
+    "source": "HeckeSkeleton/LowEnergy/GaussianReconstruction.lean",
+    "cache_schema": 2,
+    "source_sha256": "19199329a679c99ad32a731a8e47c296545df5f0593ee5d68118d6aabaec6730",
+    "exit_code": 0,
+    "seconds": 6.732,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeGeneral.Analysis.SmoothIntegerPartition": {
+        ".olean": "b65bf21002ac61da689bca03610049e728a0c0b3c0e6935c17e0b79ff9cfa08b"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "58ee47d76ab666f325c04d6b46130952737df1c8cb5e6d0dca9efb2d2f55a6c5"
+    },
+    "audit_ok": true,
+    "log_sha256": "46f9c87fcec9d0a15a3be264a09319bd8751a632df3af1cd3327c8e60a06ef1f",
+    "local_dependency_hashes": {
+      "HeckeGeneral.Analysis.SmoothIntegerPartition": "b65bf21002ac61da689bca03610049e728a0c0b3c0e6935c17e0b79ff9cfa08b"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.GaussianSeminorm",
+    "source": "HeckeSkeleton/LowEnergy/GaussianSeminorm.lean",
+    "cache_schema": 2,
+    "source_sha256": "87f07e913c0edf9f7304a9b12ca6c5ae7237fad78eca7d6bb2f31a8e2dbb8581",
+    "exit_code": 0,
+    "seconds": 2.606,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.EulerLog": {
+        ".olean": "a278b51e6615bb411c1759fadce0e05900135532d5e5640ba353595ee45d082f"
+      },
+      "HeckeSkeleton.LowEnergy.GaussianReconstruction": {
+        ".olean": "58ee47d76ab666f325c04d6b46130952737df1c8cb5e6d0dca9efb2d2f55a6c5"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "2c720c53d4d48f3ade792133f57cbdbd49993bbf819ec0da2bcbc4415077dbf9"
+    },
+    "audit_ok": true,
+    "log_sha256": "5d77ebdacf0ef169e18351295a0b4326cd2b6709b50ab4e960fc6674d6e11be1",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.EulerLog": "a278b51e6615bb411c1759fadce0e05900135532d5e5640ba353595ee45d082f",
+      "HeckeSkeleton.LowEnergy.GaussianReconstruction": "58ee47d76ab666f325c04d6b46130952737df1c8cb5e6d0dca9efb2d2f55a6c5"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.GaussianDyadicBudget",
+    "source": "HeckeSkeleton/LowEnergy/GaussianDyadicBudget.lean",
+    "cache_schema": 2,
+    "source_sha256": "2004a772930e5cafe9c536ad58864793365f11d4663cfe43314394d2a06026eb",
+    "exit_code": 0,
+    "seconds": 2.225,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.DyadicTail": {
+        ".olean": "be8a147038663989cae4ea393b36c0dd770d4fdb93fdf26d8bce348bdf54848e"
+      },
+      "HeckeSkeleton.LowEnergy.GaussianSeminorm": {
+        ".olean": "2c720c53d4d48f3ade792133f57cbdbd49993bbf819ec0da2bcbc4415077dbf9"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "72cabdd264d370537ff3be2c2562ea27cc8969263ef65322a89a5e8652e10973"
+    },
+    "audit_ok": true,
+    "log_sha256": "2b074e4b0238eeeae6b91c036025b3ceae17d816e37f71045bd16bd2205c27b5",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.DyadicTail": "be8a147038663989cae4ea393b36c0dd770d4fdb93fdf26d8bce348bdf54848e",
+      "HeckeSkeleton.LowEnergy.GaussianSeminorm": "2c720c53d4d48f3ade792133f57cbdbd49993bbf819ec0da2bcbc4415077dbf9"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget",
+    "source": "HeckeSkeleton/LowEnergy/PhysicalDyadicBudget.lean",
+    "cache_schema": 2,
+    "source_sha256": "89552bd5eed7a7491c4f18dfa1019c247b1726d9f309ea76c4ef35ecbb93fa6d",
+    "exit_code": 0,
+    "seconds": 2.368,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.ExponentTail": {
+        ".olean": "74faee8dac7ef45c3d16e6d177a16fdad95f360c482325b0372b28280ae5fc4d"
+      },
+      "HeckeSkeleton.LowEnergy.GaussianDyadicBudget": {
+        ".olean": "72cabdd264d370537ff3be2c2562ea27cc8969263ef65322a89a5e8652e10973"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "122b45125b1d7729e083fd5f398fd0cbb322f9f8a32cbf8599e66ce49874635e"
+    },
+    "audit_ok": true,
+    "log_sha256": "798d446552153ae52f53ce1fe80953b12979838c062c8f7c442bf183f0b6f0f3",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.ExponentTail": "74faee8dac7ef45c3d16e6d177a16fdad95f360c482325b0372b28280ae5fc4d",
+      "HeckeSkeleton.LowEnergy.GaussianDyadicBudget": "72cabdd264d370537ff3be2c2562ea27cc8969263ef65322a89a5e8652e10973"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.GaussianEnergyAssembly",
+    "source": "HeckeSkeleton/LowEnergy/GaussianEnergyAssembly.lean",
+    "cache_schema": 2,
+    "source_sha256": "3450d85543b3125e297d517fe4829c57cf2299cfc94c17d3f2478d22d56d5c91",
+    "exit_code": 0,
+    "seconds": 1.951,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.GaussianDyadicBudget": {
+        ".olean": "72cabdd264d370537ff3be2c2562ea27cc8969263ef65322a89a5e8652e10973"
+      },
+      "HeckeSkeleton.LowEnergy.AnnularEnergy": {
+        ".olean": "926b1a00dd5d524b20e466ae662b9b3f480c6169bc8ff34636bed633ac39274b"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "a4411797348bb8dc0ad559b7ea12c59c67ef43976d1168559c444415f7a9d036"
+    },
+    "audit_ok": true,
+    "log_sha256": "02f70cfadaa50ee59a0bdf17957d53c813b51b55ace096c3d6dd9c518322c1da",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.GaussianDyadicBudget": "72cabdd264d370537ff3be2c2562ea27cc8969263ef65322a89a5e8652e10973",
+      "HeckeSkeleton.LowEnergy.AnnularEnergy": "926b1a00dd5d524b20e466ae662b9b3f480c6169bc8ff34636bed633ac39274b"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.TupleCore",
+    "source": "HeckeSkeleton/LowEnergy/TupleCore.lean",
+    "cache_schema": 2,
+    "source_sha256": "97bda35566a1ee9e0ea32ab48a1d30144f21b53611f3da6ce2b795c28692c843",
+    "exit_code": 0,
+    "seconds": 6.264,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "b27bda53409240419beaee789c924a1ec49ed996d577647f3fe09a55475082e5"
+    },
+    "audit_ok": true,
+    "diagnostic_timeout": false,
+    "log_sha256": "045ce1307aa4e4a40d3cf297d72eb03b7f6bdb65d0da9745d641815dbe4740d5",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.InactiveCore",
+    "source": "HeckeSkeleton/LowEnergy/InactiveCore.lean",
+    "cache_schema": 2,
+    "source_sha256": "c34b54792916fb39205e6770487cf10f4f4ad25f8f907394cdf3efaacb9cbfb4",
+    "exit_code": 0,
+    "seconds": 1.504,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.TupleCore": {
+        ".olean": "b27bda53409240419beaee789c924a1ec49ed996d577647f3fe09a55475082e5"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "579042586a0c83de309c9d276266942c968616597c5e2cc4dc43a800322c7603"
+    },
+    "audit_ok": true,
+    "diagnostic_timeout": false,
+    "log_sha256": "d877a4922c03643fe83c8cafdbeee90a2cc46f92fd7ca1c5b126d9b088b8d58f",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.TupleCore": "b27bda53409240419beaee789c924a1ec49ed996d577647f3fe09a55475082e5"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.DyadicReindex",
+    "source": "HeckeSkeleton/LowEnergy/DyadicReindex.lean",
+    "cache_schema": 2,
+    "source_sha256": "219709977718b91fd49038da3d6112a185c89f428818c7d0a3bad179c4f8760d",
+    "exit_code": 0,
+    "seconds": 2.079,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.InactiveCore": {
+        ".olean": "579042586a0c83de309c9d276266942c968616597c5e2cc4dc43a800322c7603"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "463021d684d931c9806e155c84b72512c1e07801b0c6e48bb5d244138cc48bdd"
+    },
+    "audit_ok": true,
+    "diagnostic_timeout": false,
+    "log_sha256": "065c5b89baadc4d5d15ac7481b5255c59d78ea81df009e3c66dae4a1962f36c4",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.InactiveCore": "579042586a0c83de309c9d276266942c968616597c5e2cc4dc43a800322c7603"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.SlotTuples",
+    "source": "HeckeSkeleton/LowEnergy/SlotTuples.lean",
+    "cache_schema": 2,
+    "source_sha256": "6bf40582c293fce717b909cbd8783c9a6d70b685771b0b75afffffea4416c1b9",
+    "exit_code": 0,
+    "seconds": 1.711,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.TupleCore": {
+        ".olean": "b27bda53409240419beaee789c924a1ec49ed996d577647f3fe09a55475082e5"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "6bd749d7152458e055f0175a8d80e7f8767ed8d38a1f71d73c6599167d4a5e1c"
+    },
+    "audit_ok": true,
+    "diagnostic_timeout": false,
+    "log_sha256": "d883ec8b54acea6dfb9c72b3fabc33e7583a0e198321fc86a5370e3575912a6a",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.TupleCore": "b27bda53409240419beaee789c924a1ec49ed996d577647f3fe09a55475082e5"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+  },
+  {
+    "module": "HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy",
+    "source": "HeckeSkeleton/LowEnergy/PhysicalGaussianEnergy.lean",
+    "cache_schema": 2,
+    "source_sha256": "66559059e3e32ec55dba8fd635ed3fc1d2f52fabdb39b1751dda0d2054a9a2c8",
+    "exit_code": 0,
+    "seconds": 2.291,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget": {
+        ".olean": "122b45125b1d7729e083fd5f398fd0cbb322f9f8a32cbf8599e66ce49874635e"
+      },
+      "HeckeSkeleton.LowEnergy.GaussianEnergyAssembly": {
+        ".olean": "a4411797348bb8dc0ad559b7ea12c59c67ef43976d1168559c444415f7a9d036"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "a070331bd4f7891bf6167ac4ca95e9f7f82b88e6bfe749b8912c5a36e3815f7d"
+    },
+    "audit_ok": true,
+    "log_sha256": "c834b456e43488815d99e0f317328e78f2444131ab4074d749f45dd435f8eded",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget": "122b45125b1d7729e083fd5f398fd0cbb322f9f8a32cbf8599e66ce49874635e",
+      "HeckeSkeleton.LowEnergy.GaussianEnergyAssembly": "a4411797348bb8dc0ad559b7ea12c59c67ef43976d1168559c444415f7a9d036"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowFrozenCube.Exponents",
+    "source": "HeckeSkeleton/LowFrozenCube/Exponents.lean",
+    "cache_schema": 2,
+    "source_sha256": "85c9a0b5694c870bb37eaa309acbf33deaba03cc34fe600a60a58f7cfb8e55f3",
+    "exit_code": 0,
+    "seconds": 1.139,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {},
+    "output_artifact_hashes": {
+      ".olean": "103fd0c636c6022405f5320178b1c31b2bc41200434807bc342220a6abb07612"
+    },
+    "audit_ok": true,
+    "log_sha256": "48d5d70855dc31b89d05954e4f280510f66cfb57438b70e635995e3cd3a52e83",
+    "local_dependency_hashes": {},
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowFrozenCube.Valuations",
+    "source": "HeckeSkeleton/LowFrozenCube/Valuations.lean",
+    "cache_schema": 2,
+    "source_sha256": "5249d242539316a45ea01cfe73af5ac6dd607b1ddf6b3b9033ca850ef980a1c7",
+    "exit_code": 0,
+    "seconds": 1.73,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowFrozenCube.Exponents": {
+        ".olean": "103fd0c636c6022405f5320178b1c31b2bc41200434807bc342220a6abb07612"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "eddf1583347fc081c01ecc5f5041f62e086f4f2fd41adcbd18c71785f7a168c3"
+    },
+    "audit_ok": true,
+    "log_sha256": "9c8556dc9671ed0477ae7ad08a06ee1777e769f1002d8256174ebdee4580b265",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowFrozenCube.Exponents": "103fd0c636c6022405f5320178b1c31b2bc41200434807bc342220a6abb07612"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  },
+  {
+    "module": "HeckeSkeleton.LowFrozenCube.LocalCoefficients",
+    "source": "HeckeSkeleton/LowFrozenCube/LocalCoefficients.lean",
+    "cache_schema": 2,
+    "source_sha256": "480a326fa64d1ab714ab9e751e3c32a88a248c7938b1c398bbed187a8fba4a17",
+    "exit_code": 0,
+    "seconds": 1.733,
+    "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "flags": [
+      "-j1",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "new_source": true,
+    "package_lock_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_dependency_artifact_hashes": {
+      "HeckeSkeleton.LowFrozenCube.Valuations": {
+        ".olean": "eddf1583347fc081c01ecc5f5041f62e086f4f2fd41adcbd18c71785f7a168c3"
+      }
+    },
+    "output_artifact_hashes": {
+      ".olean": "e26544d406d9d8c9212f314f2084c16dcde040860abfd80a5bb04159eb1f67f5"
+    },
+    "audit_ok": true,
+    "log_sha256": "470221c2e5c00dacd7549bbb4719f3d6bf8e4ee9bb947040fd8c89ba238b3666",
+    "local_dependency_hashes": {
+      "HeckeSkeleton.LowFrozenCube.Valuations": "eddf1583347fc081c01ecc5f5041f62e086f4f2fd41adcbd18c71785f7a168c3"
+    },
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "reused_exact_cache": true
+  }
+]
