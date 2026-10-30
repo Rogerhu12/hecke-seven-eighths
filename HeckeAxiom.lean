@@ -13,3 +13,7 @@ import HeckeAxiom.TraceCharacterDictionary
 import HeckeAxiom.GaussDictionary
 import HeckeAxiom.GaussCalibration
 import HeckeAxiom.MeasureAdapter
+import HeckeAxiom.ProbeUnits
+import HeckeAxiom.ProbeFourier
+import HeckeAxiom.ProbeTestChoice
+import HeckeAxiom.ProbeNormalization

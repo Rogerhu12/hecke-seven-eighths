@@ -33,10 +33,12 @@ def archUnits : (mixedEmbedding.mixedSpace K)ˣ ≃* ((w : InfinitePlace K) → 
   (Units.mapEquiv (InfiniteAdeleRing.ringEquiv_mixedSpace K).symm.toMulEquiv).trans
     MulEquiv.piUnits
 
+omit [NumberField K] in
 theorem val_archUnits (u : (mixedEmbedding.mixedSpace K)ˣ) (w : InfinitePlace K) :
     ((archUnits u w : w.Completionˣ) : w.Completion) = (R).symm (u : mixedEmbedding.mixedSpace K) w :=
   rfl
 
+omit [NumberField K] in
 theorem val_archUnits_symm (y : (w : InfinitePlace K) → w.Completionˣ) :
     ((archUnits.symm y : (mixedEmbedding.mixedSpace K)ˣ) : mixedEmbedding.mixedSpace K) =
       R (fun w => (y w : w.Completion)) :=
@@ -84,29 +86,24 @@ def toGHomeo : sLocalMultiplicativeGroup K S ≃ₜ* A.G where
   continuous_toFun := continuous_toG A
   continuous_invFun := continuous_toG_symm A
 
-theorem isEmpty_real : IsEmpty {w : InfinitePlace K // w.IsReal} :=
-  ⟨fun w => (InfinitePlace.not_isReal_iff_isComplex.mpr (A.complex_place w.1)) w.2⟩
-
+include A in
 /-- The archimedean factor of Axiom's norm is the mixed norm. -/
 theorem arch_norm (m : mixedEmbedding.mixedSpace K) :
     (∏ w : InfinitePlace K, ‖(R).symm m w‖ ^ (2 : ℕ)) = mixedEmbedding.norm m := by
-  haveI := isEmpty_real A
-  rw [mixedEmbedding.norm_apply, Fintype.prod_empty, one_mul]
-  let e : {w : InfinitePlace K // w.IsComplex} ≃ InfinitePlace K :=
-    Equiv.subtypeUnivEquiv fun w => A.complex_place w
-  rw [← e.prod_comp]
+  rw [mixedEmbedding.norm_apply]
   refine Finset.prod_congr rfl fun w _ => ?_
-  have h : m.2 w = InfinitePlace.Completion.extensionEmbedding w.1 ((R).symm m w.1) := by
+  have hw := A.complex_place w
+  rw [InfinitePlace.mult_isComplex ⟨w, hw⟩, mixedEmbedding.normAtPlace_apply_of_isComplex hw]
+  have h : m.2 ⟨w, hw⟩ = InfinitePlace.Completion.extensionEmbedding w ((R).symm m w) := by
     conv_lhs => rw [← RingEquiv.apply_symm_apply (InfiniteAdeleRing.ringEquiv_mixedSpace K) m]
     rfl
-  rw [h, (InfinitePlace.Completion.isometry_extensionEmbedding w.1).norm_map_of_map_zero
+  rw [h, (InfinitePlace.Completion.isometry_extensionEmbedding w).norm_map_of_map_zero
     (map_zero _)]
-  rfl
 
 theorem norm_toG (x : sLocalMultiplicativeGroup K S) :
     A.norm (toG A x) = sLocalProductNorm K S x := by
   unfold SArithmeticData.norm sLocalProductNorm
-  rw [← arch_norm A]
+  rw [← arch_norm A (x.1 : mixedEmbedding.mixedSpace K)]
   rfl
 
 theorem toG_mem_G1_iff (x : sLocalMultiplicativeGroup K S) :
@@ -117,7 +114,7 @@ theorem toG_mem_G1_iff (x : sLocalMultiplicativeGroup K S) :
 /-- The norm-one subgroups correspond. -/
 def normOneEquiv : sLocalNormOneGroup K S ≃ₜ* A.G1 where
   toFun t := ⟨toG A t, (toG_mem_G1_iff A t).mpr t.2⟩
-  invFun s := ⟨(toG A).symm s, (toG_mem_G1_iff A _).mp (by simpa using s.2)⟩
+  invFun s := ⟨(toG A).symm s, (toG_mem_G1_iff A _).mp (by simp)⟩
   left_inv t := by ext1; simp
   right_inv s := by ext1; simp
   map_mul' s t := by ext1; simp
@@ -128,11 +125,12 @@ def normOneEquiv : sLocalNormOneGroup K S ≃ₜ* A.G1 where
     (normOneEquiv A t : A.G) = toG A t :=
   rfl
 
+include A in
 theorem finrank_inv :
     ((Module.finrank ℚ K : ℝ)⁻¹) = 1 / (2 * (InfinitePlace.nrComplexPlaces K : ℝ)) := by
-  have hreal : InfinitePlace.nrRealPlaces K = 0 := by
-    haveI := isEmpty_real A
-    exact Fintype.card_eq_zero
+  have hreal : InfinitePlace.nrRealPlaces K = 0 :=
+    InfinitePlace.IsPrimitiveRoot.nrRealPlaces_eq_zero_of_two_lt (by decide : 2 < 12)
+      A.primitive_zeta12
   have h := InfinitePlace.card_add_two_mul_card_eq_rank K
   rw [hreal, zero_add] at h
   rw [← h]
@@ -148,7 +146,7 @@ theorem toG_section (T : ℝ) (hT : 0 < T) :
   change (R).symm (algebraMap ℝ (mixedEmbedding.mixedSpace K)
     (T ^ ((Module.finrank ℚ K : ℝ)⁻¹))) w =
       (InfinitePlace.Completion.ringEquivComplexOfIsComplex (A.complex_place w)).symm
-        (((T ^ (1 / (2 * (InfinitePlace.nrComplexPlaces K : ℝ))) : ℝ) : ℂ)
+        ((T ^ (1 / (2 * (InfinitePlace.nrComplexPlaces K : ℝ))) : ℝ) : ℂ)
   rw [finrank_inv A, RingEquiv.eq_symm_apply,
     InfinitePlace.Completion.ringEquivComplexOfIsComplex_apply]
   set a := algebraMap ℝ (mixedEmbedding.mixedSpace K)
@@ -175,8 +173,8 @@ theorem sheetPoint_normOneEquiv (T : ℝ) (hT : 0 < T) (t : sLocalNormOneGroup K
     ProbeSheet.sheetPoint A T (normOneEquiv A t) =
       toUnits A ((t : sLocalMultiplicativeGroup K S) * sLocalNormSection K S ⟨T, hT⟩) := by
   unfold ProbeSheet.sheetPoint ProbeSheet.ell toUnits
-  rw [dif_pos hT, ← toG_section A T hT, ← map_mul, ← map_mul]
-  rfl
+  simp only [hT, ↓reduceDIte]
+  rw [← toG_section A T hT, ← map_mul, val_normOneEquiv, ← map_mul]
 
 end ProbeUnits
 
