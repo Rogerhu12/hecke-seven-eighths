@@ -1,4 +1,4 @@
-import Mathlib
+import FLTReuse.ExplicitMathlibImports
 
 section IsTopologicalModuleDep
 

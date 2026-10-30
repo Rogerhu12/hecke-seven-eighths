@@ -1,4 +1,4 @@
-import Mathlib
+import FLTReuse.ExplicitMathlibImports
 import FLTReuse.Mca976093a3e9d9d7
 
 set_option backward.isDefEq.respectTransparency false

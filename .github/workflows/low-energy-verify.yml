@@ -1,0 +1,50 @@
+name: Low reflected energy verification
+
+on:
+  push:
+    branches: [codex/low-reflected-energy-ade19eee]
+  pull_request:
+    paths:
+      - 'HeckeSkeleton/LowEnergy/**'
+      - 'HeckeSkeleton/LowFrozenCube/**'
+      - 'HeckeSkeleton/Principal.lean'
+      - 'scripts/low_energy_verify.py'
+      - 'docs/low-energy/**'
+      - '.github/workflows/low-energy-verify.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: low-energy-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  proofs:
+    strategy:
+      fail-fast: false
+      matrix:
+        phase: [core, actual]
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      LEAN_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@bd5cb0b830eda614ce3fc186d8429b9409b16c47
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Compile real sources and preserve axiom output
+        run: python3 scripts/low_energy_verify.py ${{ matrix.phase }}
+      - name: Preserve verification logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: low-energy-verification-${{ matrix.phase }}
+          path: .low-energy-verification/
+          if-no-files-found: ignore

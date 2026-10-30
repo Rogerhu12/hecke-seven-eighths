@@ -1,4 +1,4 @@
-import Mathlib
+import FLTReuse.ExplicitMathlibImports
 import FLTReuse.M2f636d1aec478e2e
 
 section

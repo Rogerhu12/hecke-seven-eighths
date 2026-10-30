@@ -1,0 +1,3974 @@
+{
+  "base_commit": "503ad9895e5f8affef55b22fea082e251bf33aa7",
+  "base_branch": "dtests-handoff",
+  "branch": "codex/low-reflected-energy-ade19eee",
+  "note": "Exact per-module source checks; not a claim of an end-to-end repository build or target proof.",
+  "files": [
+    {
+      "module": "HeckeSkeleton.LowEnergy.AnnularEnergy",
+      "path": "HeckeSkeleton/LowEnergy/AnnularEnergy.lean",
+      "source_sha256": "5d1592104712b988144dd32b0783c3daa735c0f74545654345362f50fbd24748",
+      "bytes": 5821,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 3.404,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.AnnularEnergy.finite_rows_minkowski",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.AnnularEnergy.rows_minkowski",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.AnnularEnergy.row_energy_tail",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 3.404,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.AnnularEnergy.finite_rows_minkowski",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.AnnularEnergy.rows_minkowski",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.AnnularEnergy.row_energy_tail",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.MellinEnergy",
+      "path": "HeckeSkeleton/LowEnergy/MellinEnergy.lean",
+      "source_sha256": "3246452a28eba477a0534613895cb331e8dfecb6e25f3570c85f726b042b30dc",
+      "bytes": 5993,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 39.374,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.MellinEnergy.finite_rows_integral_minkowski",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.MellinEnergy.finite_rows_common_profile_scalar",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.MellinEnergy.finite_sum_profile_integral",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 39.374,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.MellinEnergy.finite_rows_integral_minkowski",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.MellinEnergy.finite_rows_common_profile_scalar",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.MellinEnergy.finite_sum_profile_integral",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.KeepOriginalRow",
+      "path": "HeckeSkeleton/LowEnergy/KeepOriginalRow.lean",
+      "source_sha256": "011da9dcf746e4ab6a9a9ff029f23c94ea46adec50aae916e45d1f9d082d05e1",
+      "bytes": 8045,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 68.332,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.keep_row_extracted_term",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.double_mask_mobius",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.double_column_reindex",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 68.332,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.keep_row_extracted_term",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.double_mask_mobius",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.double_column_reindex",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 68.332,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.keep_row_extracted_term",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.double_mask_mobius",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.double_column_reindex",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.OriginalRowNormalForm",
+      "path": "HeckeSkeleton/LowEnergy/OriginalRowNormalForm.lean",
+      "source_sha256": "707f797038f6b9c115711c3701b4229d5faf8edf6c8984be19310051b32e49a5",
+      "bytes": 10911,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 30.336,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.masked_columns_reindex",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.reconstructed_column_factorization",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.reconstructedRow_eq_normalForm",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 30.336,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.masked_columns_reindex",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.reconstructed_column_factorization",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.reconstructedRow_eq_normalForm",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 30.336,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.masked_columns_reindex",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.reconstructed_column_factorization",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.reconstructedRow_eq_normalForm",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.SmallPowers",
+      "path": "HeckeSkeleton/LowEnergy/SmallPowers.lean",
+      "source_sha256": "45c6abcb4dd50f7bc21c1595cea816e7adec9fb6de30150563f3b45e2633daa1",
+      "bytes": 8251,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 10.047,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.reciprocal_sum_le_rpow_tsum",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.reciprocal_sum_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.harmonic_product_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.bounded_harmonic_product_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.squared_harmonic_product_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 10.047,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.reciprocal_sum_le_rpow_tsum",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.reciprocal_sum_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.harmonic_product_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.bounded_harmonic_product_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.squared_harmonic_product_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 10.047,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.reciprocal_sum_le_rpow_tsum",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.reciprocal_sum_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.harmonic_product_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.bounded_harmonic_product_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.squared_harmonic_product_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.IdealMajorant",
+      "path": "HeckeSkeleton/LowEnergy/IdealMajorant.lean",
+      "source_sha256": "dcd161483c67bfc4e61dd8dd2a2bc9f1cb3f4e74cb9c7c99116a27c7ccea76fc",
+      "bytes": 4173,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 13.236,
+          "axiom_checks": [],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 13.236,
+          "axiom_checks": [],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 13.236,
+          "axiom_checks": [],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.IdealMass",
+      "path": "HeckeSkeleton/LowEnergy/IdealMass.lean",
+      "source_sha256": "de311d9dfa1cf265a511380ab659698997673f10b43ae3038fa677aea5866c4f",
+      "bytes": 9429,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 6.6,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.ideal_summable_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_harmonic_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_harmonic_small_power_pullback",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_harmonic_products_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_squared_harmonic_products_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.normalized_ideal_column_mass_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.factorized_ideal_column_mass_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 6.6,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.ideal_summable_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_harmonic_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_harmonic_small_power_pullback",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_harmonic_products_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_squared_harmonic_products_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.normalized_ideal_column_mass_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.factorized_ideal_column_mass_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 6.6,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.ideal_summable_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_harmonic_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_harmonic_small_power_pullback",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_harmonic_products_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_squared_harmonic_products_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.normalized_ideal_column_mass_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.factorized_ideal_column_mass_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.OriginalRowSupport",
+      "path": "HeckeSkeleton/LowEnergy/OriginalRowSupport.lean",
+      "source_sha256": "d0d075ae5841cd64b2ddc8b4c428f0d8c87f666e9385517a8f75ff341eb654c3",
+      "bytes": 8720,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 7.936,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.blockColumn_sq_le_reciprocal",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.ReconstructedSupport.block_products",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.ReconstructedSupport.block_budget",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 7.936,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.blockColumn_sq_le_reciprocal",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.ReconstructedSupport.block_products",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.ReconstructedSupport.block_budget",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 7.936,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.blockColumn_sq_le_reciprocal",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.ReconstructedSupport.block_products",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.ReconstructedSupport.block_budget",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.SquarefreeFibers",
+      "path": "HeckeSkeleton/LowEnergy/SquarefreeFibers.lean",
+      "source_sha256": "8b71a2ee70b724c141d3257656c5107a771ce0de9e634b8c146cc7735b549185",
+      "bytes": 10490,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 5.318,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.two_pow_idealPrimeSupport_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.squarefree_divisor_finset_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_product_fibers_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 5.318,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.two_pow_idealPrimeSupport_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.squarefree_divisor_finset_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_product_fibers_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 5.318,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.two_pow_idealPrimeSupport_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.squarefree_divisor_finset_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ideal_product_fibers_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowHybrid.SieveComposition",
+      "path": "HeckeSkeleton/LowHybrid/SieveComposition.lean",
+      "source_sha256": "4b6dcbf5f16e751bb564b7402b92e23db732d076d2210e3eb642897331a28e7a",
+      "bytes": 12030,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 23.189,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.bounded_coefficient_sum_sq",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.positive_fiber_sum_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.column_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.positive_triple_enlarge",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.fixed_block_energy_of_two_sieves",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.fixed_block_scalar_ledger",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 23.189,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.bounded_coefficient_sum_sq",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.positive_fiber_sum_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.column_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.positive_triple_enlarge",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.fixed_block_energy_of_two_sieves",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.fixed_block_scalar_ledger",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 23.189,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.bounded_coefficient_sum_sq",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.positive_fiber_sum_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.column_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.positive_triple_enlarge",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.fixed_block_energy_of_two_sieves",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.fixed_block_scalar_ledger",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowHybrid.Assembly",
+      "path": "HeckeSkeleton/LowHybrid/Assembly.lean",
+      "source_sha256": "bfbc0a1cb47dbde64240f318bcc9cfacdc12d43336b42ace31b6717a18cdb456",
+      "bytes": 17187,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 29.962,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.row_local_cauchy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_local_positive_transpose",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_local_weighted_cauchy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_local_weighted_cauchy_of_block_bounds",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.two_row_local_cauchy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_positive_fiber_sum_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_column_mass_mono",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.factorized_column_mass_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_row_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.assembled_blocks_energy_of_two_sieves",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 29.962,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.row_local_cauchy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_local_positive_transpose",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_local_weighted_cauchy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_local_weighted_cauchy_of_block_bounds",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.two_row_local_cauchy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_positive_fiber_sum_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_column_mass_mono",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.factorized_column_mass_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_row_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.assembled_blocks_energy_of_two_sieves",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 29.962,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.row_local_cauchy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_local_positive_transpose",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_local_weighted_cauchy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.row_local_weighted_cauchy_of_block_bounds",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.two_row_local_cauchy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_positive_fiber_sum_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_column_mass_mono",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.factorized_column_mass_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_row_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.assembled_blocks_energy_of_two_sieves",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowHybrid.Weighted",
+      "path": "HeckeSkeleton/LowHybrid/Weighted.lean",
+      "source_sha256": "30e1f4a7ced3a7a12109d5f9b634267975a64105953638e0fd21903c9cb8091f",
+      "bytes": 12165,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 12.47,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.weighted_sum_sq",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_mixture_energy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.reciprocal_grid_sum",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_cubic_total",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_energy_of_two_sieves",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 12.47,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.weighted_sum_sq",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_mixture_energy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.reciprocal_grid_sum",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_cubic_total",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_energy_of_two_sieves",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 12.47,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.weighted_sum_sq",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_mixture_energy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.reciprocal_grid_sum",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_cubic_total",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_energy_of_two_sieves",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowHybrid.Global",
+      "path": "HeckeSkeleton/LowHybrid/Global.lean",
+      "source_sha256": "4fee86656221c1abf7dfac6b151edff0d2fc0e342b58b4ecbaa8dc4d3d67b4d7",
+      "bytes": 10214,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 7.756,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.tHarmonic_nonneg",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.cHarmonic_nonneg",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.hHarmonic_nonneg",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.energy_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.energy_le_uniform_harmonics",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.inverse_sqrt_norm_sq",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.hybrid_energy_of_weighted_blocks",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 7.756,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.tHarmonic_nonneg",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.cHarmonic_nonneg",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.hHarmonic_nonneg",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.energy_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.energy_le_uniform_harmonics",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.inverse_sqrt_norm_sq",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.hybrid_energy_of_weighted_blocks",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 7.756,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.tHarmonic_nonneg",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.cHarmonic_nonneg",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.hHarmonic_nonneg",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.energy_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.WeightedBlock.energy_le_uniform_harmonics",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.inverse_sqrt_norm_sq",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.hybrid_energy_of_weighted_blocks",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowHybrid.SieveBounds",
+      "path": "HeckeSkeleton/LowHybrid/SieveBounds.lean",
+      "source_sha256": "2798478ee031d9112d5ed8fa6ce2d1f2be193b9b431158231b2f727b5744d36b",
+      "bytes": 6071,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 14.96,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.hybrid_fixed_block_from_sieve_bounds",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 14.96,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.hybrid_fixed_block_from_sieve_bounds",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 14.96,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.hybrid_fixed_block_from_sieve_bounds",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowHybrid.Transpose",
+      "path": "HeckeSkeleton/LowHybrid/Transpose.lean",
+      "source_sha256": "cf53f11bfabb6ae2d84784a8cf0e38b24708994bed3c77db017de5495538cad5",
+      "bytes": 5163,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 7.222,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.finite_complex_sum_mul_sq_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.finite_operator_bound_transpose",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.quadratic_sieve_input_transpose",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 7.222,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.finite_complex_sum_mul_sq_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.finite_operator_bound_transpose",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.quadratic_sieve_input_transpose",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 7.222,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.finite_complex_sum_mul_sq_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.finite_operator_bound_transpose",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.quadratic_sieve_input_transpose",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowHybrid.WeightedSieveBounds",
+      "path": "HeckeSkeleton/LowHybrid/WeightedSieveBounds.lean",
+      "source_sha256": "508aaef817c8aba5b7f9ad33fb9e32b93e326c9b6a5b0dd18d5a6f1b5c94709f",
+      "bytes": 11191,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 3.823,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.zero_extended_column_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.zero_extended_row_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_energy_from_sieve_inputs",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 3.823,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.zero_extended_column_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.zero_extended_row_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_energy_from_sieve_inputs",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 3.823,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowHybrid.zero_extended_column_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.zero_extended_row_fiber_sieve",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowHybrid.weighted_energy_from_sieve_inputs",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ConcreteIdealBlock",
+      "path": "HeckeSkeleton/LowEnergy/ConcreteIdealBlock.lean",
+      "source_sha256": "ee207c9801cc72577d68b2686f24c2ab2ee057f0231b15fa9e3e3d5fd9001389",
+      "bytes": 9065,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 52.459,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.concreteBlock_row_eq",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.concreteBlock_admissible",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.concrete_product_fibers_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 52.459,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.concreteBlock_row_eq",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.concreteBlock_admissible",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.concrete_product_fibers_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 52.459,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.concreteBlock_row_eq",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.concreteBlock_admissible",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.concrete_product_fibers_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.UniformIdealHybrid",
+      "path": "HeckeSkeleton/LowEnergy/UniformIdealHybrid.lean",
+      "source_sha256": "afc3f55d580a4d0f24d5120b800c4071f7729f3bdeb94f5c503fb85324681266",
+      "bytes": 20229,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 13.37,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.finite_reconstructed_hybrid_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 13.37,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.finite_reconstructed_hybrid_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 13.37,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.KeepOriginalRow.finite_reconstructed_hybrid_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.IdealDivisorMasks",
+      "path": "HeckeSkeleton/LowEnergy/IdealDivisorMasks.lean",
+      "source_sha256": "c88c5268423399b65030a5dd7aee714709bb8a0b64cdd655ffecb35c582ce33d",
+      "bytes": 5524,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 195.976,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealDivisorMasks.coprime_mask_expansion",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 195.976,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealDivisorMasks.coprime_mask_expansion",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 195.976,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealDivisorMasks.coprime_mask_expansion",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.IdealCanonicalColumns",
+      "path": "HeckeSkeleton/LowEnergy/IdealCanonicalColumns.lean",
+      "source_sha256": "bdfeb5349871965e8093a8ed6ec4c7e6bb699c7740d392b34591844e0e6b2206",
+      "bytes": 16110,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 200.027,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealCanonicalColumns.HybridColumnData.reconstruct_injective",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealCanonicalColumns.hybrid_finite_column_reindex",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealCanonicalColumns.supportedHybridRow_reconstruct",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 200.027,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealCanonicalColumns.HybridColumnData.reconstruct_injective",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealCanonicalColumns.hybrid_finite_column_reindex",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealCanonicalColumns.supportedHybridRow_reconstruct",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 200.027,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealCanonicalColumns.HybridColumnData.reconstruct_injective",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealCanonicalColumns.hybrid_finite_column_reindex",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealCanonicalColumns.supportedHybridRow_reconstruct",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.RawIdealHybrid",
+      "path": "HeckeSkeleton/LowEnergy/RawIdealHybrid.lean",
+      "source_sha256": "5b6a2cf8503baaadf803f24ffa340d6757eb48db92ec500fe514f71ba170d8e0",
+      "bytes": 17823,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 7.717,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.RawIdealHybrid.rectangular_reindex",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.RawIdealHybrid.canonicalReconstruction_row",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.RawIdealHybrid.raw_ideal_hybrid_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 7.717,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.RawIdealHybrid.rectangular_reindex",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.RawIdealHybrid.canonicalReconstruction_row",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.RawIdealHybrid.raw_ideal_hybrid_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 7.717,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.RawIdealHybrid.rectangular_reindex",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.RawIdealHybrid.canonicalReconstruction_row",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.RawIdealHybrid.raw_ideal_hybrid_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.HybridScaling",
+      "path": "HeckeSkeleton/LowEnergy/HybridScaling.lean",
+      "source_sha256": "b44f5bbb0ea15675d53b24debe7cef9a477957ed4e9234391437beab616cb96b",
+      "bytes": 11107,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 6.446,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.HybridScaling.raw_hybrid_energy_with_amplitudes",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.HybridScaling.raw_hybrid_energy_frozen_cube",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 6.446,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.HybridScaling.raw_hybrid_energy_with_amplitudes",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.HybridScaling.raw_hybrid_energy_frozen_cube",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 6.446,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.HybridScaling.raw_hybrid_energy_with_amplitudes",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.HybridScaling.raw_hybrid_energy_frozen_cube",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.MellinHybrid",
+      "path": "HeckeSkeleton/LowEnergy/MellinHybrid.lean",
+      "source_sha256": "964f08a630601c28580ee304f6fb0d182858cce70239830cf4ce5929ee74ea46",
+      "bytes": 5119,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 6.421,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.MellinHybrid.continuous_mode_row",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.MellinHybrid.integrated_hybrid_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 6.421,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.MellinHybrid.continuous_mode_row",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.MellinHybrid.integrated_hybrid_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.Exponent",
+      "path": "HeckeSkeleton/LowEnergy/Exponent.lean",
+      "source_sha256": "6e2a5c32f5913e62a31d287a54dfcc345e11df9cf78aa8fb30a1e569b73e5ab4",
+      "bytes": 10108,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 10.031,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.saving_dichotomy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.gain_and_kernel_quarter",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.paperExponent_threshold_error",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_dual_length_with_errors",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_exponent_with_errors",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_ramified_exponent_with_errors",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.unmarked_exponent_retained",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.unmarked_exponent_conductor",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_error_allocation",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.power_bound_of_exponent_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 10.031,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.saving_dichotomy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.gain_and_kernel_quarter",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.paperExponent_threshold_error",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_dual_length_with_errors",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_exponent_with_errors",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_ramified_exponent_with_errors",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.unmarked_exponent_retained",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.unmarked_exponent_conductor",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_error_allocation",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.power_bound_of_exponent_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 10.031,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.saving_dichotomy",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.gain_and_kernel_quarter",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.paperExponent_threshold_error",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_dual_length_with_errors",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_exponent_with_errors",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_ramified_exponent_with_errors",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.unmarked_exponent_retained",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.unmarked_exponent_conductor",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_error_allocation",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.power_bound_of_exponent_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ExponentTail",
+      "path": "HeckeSkeleton/LowEnergy/ExponentTail.lean",
+      "source_sha256": "690fafe1df46d84c203a29388941e54de411cde053ef6a8fcfdf8c18039fb9ee",
+      "bytes": 6441,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 20.392,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_full_exponent",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_full_ramified_exponent",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.hybrid_small_power_width",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_full_ramified_exponent_with_sieve_loss",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_full_exponent_with_sieve_loss",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 20.392,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_full_exponent",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_full_ramified_exponent",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.hybrid_small_power_width",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_full_ramified_exponent_with_sieve_loss",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Numerics.low_full_exponent_with_sieve_loss",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.CommonMellin",
+      "path": "HeckeSkeleton/LowEnergy/CommonMellin.lean",
+      "source_sha256": "2b88696cd22a8b361094766c78ea1a1b9cc2d2ab192c81a45597c963bf8895af",
+      "bytes": 14462,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 14.075,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.amplitude_separation",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.physical_argument_cancel_mark",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.physicalArgument_normalized",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.amplitude_physical_separation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.integral_physical_separation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.integral_separation",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.norm_columnFactor_le_two",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.weighted_density_integrable_and_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.smallScalar_sq_exponent",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 14.075,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.amplitude_separation",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.physical_argument_cancel_mark",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.physicalArgument_normalized",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.amplitude_physical_separation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.integral_physical_separation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.integral_separation",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.norm_columnFactor_le_two",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.weighted_density_integrable_and_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.smallScalar_sq_exponent",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 14.075,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.amplitude_separation",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.physical_argument_cancel_mark",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.physicalArgument_normalized",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.amplitude_physical_separation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.integral_physical_separation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.integral_separation",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.norm_columnFactor_le_two",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.weighted_density_integrable_and_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellin.smallScalar_sq_exponent",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.CommonMellinTail",
+      "path": "HeckeSkeleton/LowEnergy/CommonMellinTail.lean",
+      "source_sha256": "7d47587515bcd1822f67fba469870029bc4d3dbbb257ee740db3d0fb3fb84b91",
+      "bytes": 7357,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 11.866,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellinTail.integral_physical_separation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellinTail.scalar_sq_exponent",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellinTail.weighted_density_integrable_and_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 11.866,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellinTail.integral_physical_separation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellinTail.scalar_sq_exponent",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellinTail.weighted_density_integrable_and_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 11.866,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellinTail.integral_physical_separation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellinTail.scalar_sq_exponent",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.CommonMellinTail.weighted_density_integrable_and_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.BlockPolynomial",
+      "path": "HeckeSkeleton/LowEnergy/BlockPolynomial.lean",
+      "source_sha256": "531de8ea0d05afd26e99191d2337777be07d757597955445eb36c5f4aef8c739",
+      "bytes": 6572,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 4.751,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.BlockPolynomial.weighted_polynomial_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.BlockPolynomial.weighted_polynomial_with_sieve_loss",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.BlockPolynomial.low_weighted_polynomial",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.BlockPolynomial.remove_powerful_weight",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 4.751,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.BlockPolynomial.weighted_polynomial_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.BlockPolynomial.weighted_polynomial_with_sieve_loss",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.BlockPolynomial.low_weighted_polynomial",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.BlockPolynomial.remove_powerful_weight",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.DyadicTail",
+      "path": "HeckeSkeleton/LowEnergy/DyadicTail.lean",
+      "source_sha256": "4af86f5e7cb309b18faa901fd5999080bcb47d13e98c3559d930836493e6da2f",
+      "bytes": 10025,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 20.735,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.summable_weight_and_tsum_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.finite_weight_sum_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.real_width_penalty_le_weight",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.ceiling_cutoff_affine",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.log_square_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.log_error_power_identity",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.affine_cutoff_square_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 20.735,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.summable_weight_and_tsum_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.finite_weight_sum_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.real_width_penalty_le_weight",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.ceiling_cutoff_affine",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.log_square_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.log_error_power_identity",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.affine_cutoff_square_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 20.735,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.summable_weight_and_tsum_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.finite_weight_sum_le",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.real_width_penalty_le_weight",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.ceiling_cutoff_affine",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.log_square_small_power",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.log_error_power_identity",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicTail.affine_cutoff_square_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.EulerLog",
+      "path": "HeckeSkeleton/LowEnergy/EulerLog.lean",
+      "source_sha256": "17846e1fc90894d2e17e53194a370990928bc45a40df4b9e984168eb2a9f36c0",
+      "bytes": 4101,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 44.778,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.EulerLog.eulerOrder_log",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.EulerLog.iteratedDeriv_ofReal",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.EulerLog.testIntegral_log",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 44.778,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.EulerLog.eulerOrder_log",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.EulerLog.iteratedDeriv_ofReal",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.EulerLog.testIntegral_log",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 44.778,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.EulerLog.eulerOrder_log",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.EulerLog.iteratedDeriv_ofReal",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.EulerLog.testIntegral_log",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GaussianReconstruction",
+      "path": "HeckeSkeleton/LowEnergy/GaussianReconstruction.lean",
+      "source_sha256": "19199329a679c99ad32a731a8e47c296545df5f0593ee5d68118d6aabaec6730",
+      "bytes": 6837,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 19.268,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.annulus_smooth",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.annulus_partition",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.split_series_absolute",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.split_series_tsum",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 19.268,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.annulus_smooth",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.annulus_partition",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.split_series_absolute",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.split_series_tsum",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 19.268,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.annulus_smooth",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.annulus_partition",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.split_series_absolute",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Gaussian.split_series_tsum",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GaussianSeminorm",
+      "path": "HeckeSkeleton/LowEnergy/GaussianSeminorm.lean",
+      "source_sha256": "87f07e913c0edf9f7304a9b12ca6c5ae7237fad78eca7d6bb2f31a8e2dbb8581",
+      "bytes": 9974,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 65.071,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.GaussianSeminorm.integralSeminorm_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.GaussianSeminorm.summable_exp_mul_seminorm",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.GaussianSeminorm.logarithmic_tail_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 65.071,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.GaussianSeminorm.integralSeminorm_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.GaussianSeminorm.summable_exp_mul_seminorm",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.GaussianSeminorm.logarithmic_tail_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 65.071,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.GaussianSeminorm.integralSeminorm_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.GaussianSeminorm.summable_exp_mul_seminorm",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.GaussianSeminorm.logarithmic_tail_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GaussianDyadicBudget",
+      "path": "HeckeSkeleton/LowEnergy/GaussianDyadicBudget.lean",
+      "source_sha256": "2004a772930e5cafe9c536ad58864793365f11d4663cfe43314394d2a06026eb",
+      "bytes": 3866,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 146.116,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.GaussianDyadicBudget.all_annuli_all_dyads",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 146.116,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.GaussianDyadicBudget.all_annuli_all_dyads",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 146.116,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.GaussianDyadicBudget.all_annuli_all_dyads",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GaussianEnergyAssembly",
+      "path": "HeckeSkeleton/LowEnergy/GaussianEnergyAssembly.lean",
+      "source_sha256": "3450d85543b3125e297d517fe4829c57cf2299cfc94c17d3f2478d22d56d5c91",
+      "bytes": 2834,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 3.944,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.GaussianEnergyAssembly.all_annuli_all_dyads_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 3.944,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.GaussianEnergyAssembly.all_annuli_all_dyads_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.IdealRows",
+      "path": "HeckeSkeleton/LowEnergy/IdealRows.lean",
+      "source_sha256": "7ab30fac83247540d6ab663d1929375ccc1dca1c3bad4d80e74d556d31889a44",
+      "bytes": 13851,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 8.92,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_residual_decomposition",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_residual_coprime",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_decomposition",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_decomposition_unique",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerfulPair_injective",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.radical_sq_dvd_powerful",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.norm_radical_sq_le_powerful",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 8.92,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_residual_decomposition",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_residual_coprime",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_decomposition",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_decomposition_unique",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerfulPair_injective",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.radical_sq_dvd_powerful",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.norm_radical_sq_le_powerful",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 8.92,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_residual_decomposition",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_residual_coprime",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_decomposition",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerful_decomposition_unique",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.powerfulPair_injective",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.radical_sq_dvd_powerful",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRows.norm_radical_sq_le_powerful",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.Rankin",
+      "path": "HeckeSkeleton/LowEnergy/Rankin.lean",
+      "source_sha256": "cf609b3271aa6a31af843413fa89128dd637faab760c223cc2d1199e4e05983a",
+      "bytes": 6195,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 170.083,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.square_cube_rpow",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.summable_square_cube",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.cardinality_and_half_mass",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.powerful_count_and_half_mass_from_encoding",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 170.083,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.square_cube_rpow",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.summable_square_cube",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.cardinality_and_half_mass",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.powerful_count_and_half_mass_from_encoding",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 170.083,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.square_cube_rpow",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.summable_square_cube",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.cardinality_and_half_mass",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.Rankin.powerful_count_and_half_mass_from_encoding",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.IdealRankin",
+      "path": "HeckeSkeleton/LowEnergy/IdealRankin.lean",
+      "source_sha256": "81b3cc328aadb5242be6f4630678fb4ff8272aa76e70c8b92471f47195406134",
+      "bytes": 7854,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 5.799,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.summable_powerful_ideal_norm_rpow",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_count_and_half_mass",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_count_and_half_mass_on_finset",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_weighted_half_mass",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.idealNorm_powerfulPart_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_part_half_mass",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_part_half_mass_at_scale",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 5.799,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.summable_powerful_ideal_norm_rpow",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_count_and_half_mass",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_count_and_half_mass_on_finset",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_weighted_half_mass",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.idealNorm_powerfulPart_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_part_half_mass",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealRankin.powerful_part_half_mass_at_scale",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.FiniteFiberEnergy",
+      "path": "HeckeSkeleton/LowEnergy/FiniteFiberEnergy.lean",
+      "source_sha256": "33dc88a2b8e15c184eb1fe8612111161d8df1847d33286a96d01f27c95981ae1",
+      "bytes": 2968,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 4.128,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.FiniteFiberEnergy.sum_eq_fibres",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FiniteFiberEnergy.sum_le_shell_majorants",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 4.128,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.FiniteFiberEnergy.sum_eq_fibres",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FiniteFiberEnergy.sum_le_shell_majorants",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.PowerfulRowAssembly",
+      "path": "HeckeSkeleton/LowEnergy/PowerfulRowAssembly.lean",
+      "source_sha256": "7ea7481216763975d13109dcac748c285d8f0eacb2e7cdebe3c2f37e47e7dc19",
+      "bytes": 6791,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 9.407,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.PowerfulRowAssembly.powerful_fibre_aggregation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PowerfulRowAssembly.powerful_shell_aggregation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PowerfulRowAssembly.powerful_shell_aggregation_at_scale",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 9.407,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.PowerfulRowAssembly.powerful_fibre_aggregation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PowerfulRowAssembly.powerful_shell_aggregation",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PowerfulRowAssembly.powerful_shell_aggregation_at_scale",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget",
+      "path": "HeckeSkeleton/LowEnergy/PhysicalDyadicBudget.lean",
+      "source_sha256": "89552bd5eed7a7491c4f18dfa1019c247b1726d9f309ea76c4ef35ecbb93fa6d",
+      "bytes": 6541,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 4.549,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget.dual_threshold_upper",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget.cutoff_affine",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget.all_physical_annuli_and_dual_dyads",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 4.549,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget.dual_threshold_upper",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget.cutoff_affine",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget.all_physical_annuli_and_dual_dyads",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.LogGeometry",
+      "path": "HeckeSkeleton/LowEnergy/LogGeometry.lean",
+      "source_sha256": "8d27cd3ef66f28e93190a711195513f18fbb75e40a3098d42885e19ef93fa1bc",
+      "bytes": 5578,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 4.611,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.LogGeometry.selected_row_width",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LogGeometry.annular_tolerance",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LogGeometry.restore_selected_norm",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 4.611,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.LogGeometry.selected_row_width",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LogGeometry.annular_tolerance",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LogGeometry.restore_selected_norm",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.FiniteHybridIntegral",
+      "path": "HeckeSkeleton/LowEnergy/FiniteHybridIntegral.lean",
+      "source_sha256": "ada046f6c2773e29d4a32cd3b1aae23f5eac5eea07c1b42aceb1e1c9e9ae552c",
+      "bytes": 7517,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 41.691,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.FiniteHybridIntegral.hybrid_integral_identity",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FiniteHybridIntegral.separated_kernel_sum_eq_hybrid_integral",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 41.691,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.FiniteHybridIntegral.hybrid_integral_identity",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FiniteHybridIntegral.separated_kernel_sum_eq_hybrid_integral",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.TupleCore",
+      "path": "HeckeSkeleton/LowEnergy/TupleCore.lean",
+      "source_sha256": "23d20d7b7e19b85e0107fa3307557f58fe2390c7478e94b95c8bccd8c0ebe1c7",
+      "bytes": 5957,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 48.531,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.TupleCore.sum_piFinset_split",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.TupleCore.sum_piFinset_fixed",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.TupleCore.image_univ_injOn_piFinset",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.TupleCore.sum_pushCoeff",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 48.531,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.TupleCore.sum_piFinset_split",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.TupleCore.sum_piFinset_fixed",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.TupleCore.image_univ_injOn_piFinset",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.TupleCore.sum_pushCoeff",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.InactiveCore",
+      "path": "HeckeSkeleton/LowEnergy/InactiveCore.lean",
+      "source_sha256": "6172f1e4d17db571b004b3569a1b40c18190f97ebead6d5a0fe6a4ce7b73dec7",
+      "bytes": 6187,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 5.314,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.InactiveCore.weighted_sum_piFinset_split",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.InactiveCore.tuple_l1_mass",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.InactiveCore.finite_weighted_energy_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.InactiveCore.finite_weighted_energy_le_of_mass",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 5.314,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.InactiveCore.weighted_sum_piFinset_split",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.InactiveCore.tuple_l1_mass",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.InactiveCore.finite_weighted_energy_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.InactiveCore.finite_weighted_energy_le_of_mass",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.DyadicReindex",
+      "path": "HeckeSkeleton/LowEnergy/DyadicReindex.lean",
+      "source_sha256": "219709977718b91fd49038da3d6112a185c89f428818c7d0a3bad179c4f8760d",
+      "bytes": 17488,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 95.984,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.index_eq_iff",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.tsum_eq_double_shell_sums",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.summable_double_shell_sums",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.shellCount_le_log",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.window_shell_image_card_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.finite_window_shell_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.finite_sum_eq_shell_sums",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 95.984,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.index_eq_iff",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.tsum_eq_double_shell_sums",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.summable_double_shell_sums",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.shellCount_le_log",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.window_shell_image_card_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.finite_window_shell_energy",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.DyadicReindex.finite_sum_eq_shell_sums",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.LocalWeylTableCore",
+      "path": "HeckeSkeleton/LowEnergy/LocalWeylTableCore.lean",
+      "source_sha256": "feca761900a6068ab4fb2fd482906d5691f084458c1efac0e4c211ecb2c51aed",
+      "bytes": 11740,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 10.04,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.LocalWeylTableCore.localScalar_zero_norm",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LocalWeylTableCore.localScalar_positive_eq_zero",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LocalWeylTableCore.localScalar_one_norm_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LocalWeylTableCore.localScalar_three_norm_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 10.04,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.LocalWeylTableCore.localScalar_zero_norm",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LocalWeylTableCore.localScalar_positive_eq_zero",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LocalWeylTableCore.localScalar_one_norm_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.LocalWeylTableCore.localScalar_three_norm_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.FrozenChargeCore",
+      "path": "HeckeSkeleton/LowEnergy/FrozenChargeCore.lean",
+      "source_sha256": "7341f3fbf0ac735466382af63aea40b3379408b205950813a62b4364098349be",
+      "bytes": 3908,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 2.688,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.FrozenChargeCore.minimum_norm_identity",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FrozenChargeCore.linear_norm_le_active",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FrozenChargeCore.frozen_majorant_square_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 2.688,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.FrozenChargeCore.minimum_norm_identity",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FrozenChargeCore.linear_norm_le_active",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.FrozenChargeCore.frozen_majorant_square_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.SupportPowers",
+      "path": "HeckeSkeleton/LowEnergy/SupportPowers.lean",
+      "source_sha256": "e985c4857fc79f114080f3b0cad770729247f6af598b2b66811eb93391387566",
+      "bytes": 4553,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 3.582,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.SupportPowers.finite_exception_product_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.SupportPowers.fixed_states_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.SupportPowers.finite_state_assignments_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 3.582,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.SupportPowers.finite_exception_product_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.SupportPowers.fixed_states_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.SupportPowers.finite_state_assignments_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 3.582,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.SupportPowers.finite_exception_product_bound",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.SupportPowers.fixed_states_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.SupportPowers.finite_state_assignments_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.IdealSupportPowers",
+      "path": "HeckeSkeleton/LowEnergy/IdealSupportPowers.lean",
+      "source_sha256": "57e3cef5f6de2c9aa68892bc62361c228d1b16fdbbca9b1668182842d0f43ed7",
+      "bytes": 4843,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 4.035,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.finite_primeNorm_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.support_product_le_norm",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.prime_support_states_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.actual_state_table_count",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.squared_four_state_count",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 4.035,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.finite_primeNorm_le",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.support_product_le_norm",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.prime_support_states_small_power",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.actual_state_table_count",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.IdealSupportPowers.squared_four_state_count",
+              "propext,\n Classical.choice,\n Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualRows",
+      "path": "HeckeSkeleton/LowEnergy/ActualRows.lean",
+      "source_sha256": "8c81e4363918f4143a5ed8312ac1013de27ff6fb1c109c3a1a4c4da0de308ddf",
+      "bytes": 14496,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualSymbols",
+      "path": "HeckeSkeleton/LowEnergy/ActualSymbols.lean",
+      "source_sha256": "3d5c29f40e36bfe93ced042defe807d2737b9b953e789d2c4ffd25676a1a7ddf",
+      "bytes": 10961,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualReflection",
+      "path": "HeckeSkeleton/LowEnergy/ActualReflection.lean",
+      "source_sha256": "134121880088ff5078e5775469ce81ce6ce697a0bf9d4f99e9f942c32617770f",
+      "bytes": 9902,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualSymbolProducts",
+      "path": "HeckeSkeleton/LowEnergy/ActualSymbolProducts.lean",
+      "source_sha256": "8bdb80e4d76c8452730b6afe3dbb15873ba62ba0d6b286efb8248cf39e60fe71",
+      "bytes": 5173,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowFrozenCube.Exponents",
+      "path": "HeckeSkeleton/LowFrozenCube/Exponents.lean",
+      "source_sha256": "4f05ae6858f97e8f59b61b863396da891d6da1a48a99e18776db8e82438a1600",
+      "bytes": 3089,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.FrozenIdealRows",
+      "path": "HeckeSkeleton/LowEnergy/FrozenIdealRows.lean",
+      "source_sha256": "7f3199e166ba078ec653be01504340a22f43a2494521cd66e1096dbb147ea5af",
+      "bytes": 9432,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowFrozenCube.Valuations",
+      "path": "HeckeSkeleton/LowFrozenCube/Valuations.lean",
+      "source_sha256": "3e4959319f843544abe90ff3b314f61bb756e84aa58c3cf789267d537876a8eb",
+      "bytes": 14668,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowFrozenCube.LocalCoefficients",
+      "path": "HeckeSkeleton/LowFrozenCube/LocalCoefficients.lean",
+      "source_sha256": "486278431935fef5d04d7deb969d19db779fb56eac7c459abf8fe3f52df8c497",
+      "bytes": 3389,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualFrozenCube",
+      "path": "HeckeSkeleton/LowEnergy/ActualFrozenCube.lean",
+      "source_sha256": "99b5b42842b435fd1df6af2d6e742fc7e3555d04635a59b88bd34022fb516936",
+      "bytes": 23508,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualLocalWeylTable",
+      "path": "HeckeSkeleton/LowEnergy/ActualLocalWeylTable.lean",
+      "source_sha256": "f42c55bacc813dfcad740ddc5bc7e021dfd9ccc0151543e3b54b60cbcee2d2fe",
+      "bytes": 6745,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualFrozenMajorant",
+      "path": "HeckeSkeleton/LowEnergy/ActualFrozenMajorant.lean",
+      "source_sha256": "a65fd7aa11e18be762e28b1857191482b210556c531a459608ea902addf11e87",
+      "bytes": 16392,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualFrozenIndependence",
+      "path": "HeckeSkeleton/LowEnergy/ActualFrozenIndependence.lean",
+      "source_sha256": "e7e738d019eefe080e1f52680838774211744deb50f66f6ad93d6e74fa2e609b",
+      "bytes": 13418,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualReflectionReindex",
+      "path": "HeckeSkeleton/LowEnergy/ActualReflectionReindex.lean",
+      "source_sha256": "7b64a56adb5c77dd1860798a44e598f3d6b8641b993e29b74c0dbb586d0fa4ab",
+      "bytes": 23612,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualCommonMellinTail",
+      "path": "HeckeSkeleton/LowEnergy/ActualCommonMellinTail.lean",
+      "source_sha256": "41f352799e0be459705a9e965443ab1636778c6bc3715a7df8bda91da06d0fcf",
+      "bytes": 9954,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualFrozenCharges",
+      "path": "HeckeSkeleton/LowEnergy/ActualFrozenCharges.lean",
+      "source_sha256": "77692b1ef23fe468de5f14f0fec6810431014b995d8fd3fdd10f47ada62a504c",
+      "bytes": 9326,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualFrozenStateCount",
+      "path": "HeckeSkeleton/LowEnergy/ActualFrozenStateCount.lean",
+      "source_sha256": "c84b2294d874618fe1b0c68e629192d9032cc9bd10f01ed5938ee509b9e307ba",
+      "bytes": 8288,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualSieveDictionary",
+      "path": "HeckeSkeleton/LowEnergy/ActualSieveDictionary.lean",
+      "source_sha256": "e8e4639be7bf59c15fcc41d858c573945cf6910e2a5cb8841846f88d68e65e9f",
+      "bytes": 9940,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualRawHybrid",
+      "path": "HeckeSkeleton/LowEnergy/ActualRawHybrid.lean",
+      "source_sha256": "094374bb2150f3c85e7cc7e1a5c1684a7222403a3b425e80410326de0388c5d1",
+      "bytes": 6395,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualHybridEntry",
+      "path": "HeckeSkeleton/LowEnergy/ActualHybridEntry.lean",
+      "source_sha256": "c9fd521dd15c122cf9d527b3675dbe92cea9cd67490ecbabfd1a6e6d1e2fab01",
+      "bytes": 6389,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ClassSlices",
+      "path": "HeckeSkeleton/LowEnergy/ClassSlices.lean",
+      "source_sha256": "e6d8d177a719024e0258d2a2373e0d1c930b84f588e0c44e5f9f6809a0e595c1",
+      "bytes": 9226,
+      "status": "CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": [
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 110.614,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.ClassSlices.class_expansion",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ClassSlices.originalRow_eq_sliced",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ClassSlices.originalRow_energy_le",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 110.614,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.ClassSlices.class_expansion",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ClassSlices.originalRow_eq_sliced",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ClassSlices.originalRow_energy_le",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        },
+        {
+          "lean": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+          "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+          "seconds": 110.614,
+          "axiom_checks": [
+            [
+              "HeckeSkeleton.LowEnergy.ClassSlices.class_expansion",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ClassSlices.originalRow_eq_sliced",
+              "propext, Classical.choice, Quot.sound"
+            ],
+            [
+              "HeckeSkeleton.LowEnergy.ClassSlices.originalRow_energy_le",
+              "propext, Classical.choice, Quot.sound"
+            ]
+          ],
+          "mentions_sorryAx": false
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualClassSlices",
+      "path": "HeckeSkeleton/LowEnergy/ActualClassSlices.lean",
+      "source_sha256": "61e3dd08397a098f17479f3cb297ad2918fa91a3dd66ae0db96d99e7289b981a",
+      "bytes": 3911,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualGeneratorClasses",
+      "path": "HeckeSkeleton/LowEnergy/ActualGeneratorClasses.lean",
+      "source_sha256": "a137ece1cbe57e1f11e31d242e05c526e6e989a51309a94057e330fb3ce97251",
+      "bytes": 7014,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualSeparatedBlock",
+      "path": "HeckeSkeleton/LowEnergy/ActualSeparatedBlock.lean",
+      "source_sha256": "c493bbe291beb559121e113c34e68406184d340a9fd3d55b84f5d21374234e3a",
+      "bytes": 29858,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualBlockEnergy",
+      "path": "HeckeSkeleton/LowEnergy/ActualBlockEnergy.lean",
+      "source_sha256": "791d026f37fdb0b8ec62558d797a5cefbb4d797673273144d438f3bc455e9d2e",
+      "bytes": 11178,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.SlotTuples",
+      "path": "HeckeSkeleton/LowEnergy/SlotTuples.lean",
+      "source_sha256": "f7942d671d3af9e02c938234c8e2d4a21328a6ac9f0ab7fa4da4dacae87d519d",
+      "bytes": 8425,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.WindowTuples",
+      "path": "HeckeSkeleton/LowEnergy/WindowTuples.lean",
+      "source_sha256": "5df2dabbc38d8d92c4f576c5f4f8a167fc3a560f0a22239a9e09af5ee60262b8",
+      "bytes": 20433,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.InactiveWindows",
+      "path": "HeckeSkeleton/LowEnergy/InactiveWindows.lean",
+      "source_sha256": "a119f76b5f30a1968e4596fbe467e965bc2e3432565d3382d4940e63af576ec8",
+      "bytes": 21557,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.TargetDictionary",
+      "path": "HeckeSkeleton/LowEnergy/TargetDictionary.lean",
+      "source_sha256": "89c7e7faef5340f13530d8c4d8a3c0e603254008d58e409b6b79a2d8536727ed",
+      "bytes": 3579,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GaussianTheta",
+      "path": "HeckeSkeleton/LowEnergy/GaussianTheta.lean",
+      "source_sha256": "9b4b613f3db37039dd4fa21714455c44494d56174596b8a249500f6a4855efea",
+      "bytes": 6398,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.TargetGaussian",
+      "path": "HeckeSkeleton/LowEnergy/TargetGaussian.lean",
+      "source_sha256": "95391295545a8035dc44c73eb7e0bfd3100d106ce76daa31fba6f705e251dc04",
+      "bytes": 5992,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.TargetSieveDictionary",
+      "path": "HeckeSkeleton/LowEnergy/TargetSieveDictionary.lean",
+      "source_sha256": "68f2586999e053baf115390f4a44285ef5d3cfd100b3f935d1a360042d6ce5ad",
+      "bytes": 2061,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualBlockReindex",
+      "path": "HeckeSkeleton/LowEnergy/ActualBlockReindex.lean",
+      "source_sha256": "9291fea2716efbaa461a311e25c85a680af51f3153e97fac2d77c6a3df072a5c",
+      "bytes": 10540,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualSourceReindex",
+      "path": "HeckeSkeleton/LowEnergy/ActualSourceReindex.lean",
+      "source_sha256": "f381e20b240fc89ee60bc091f2b0c842d981f08f3460795f6983f79db766b2cf",
+      "bytes": 12797,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualRowFibres",
+      "path": "HeckeSkeleton/LowEnergy/ActualRowFibres.lean",
+      "source_sha256": "1759c44a943601c80a103da42945620c346fb7608d47df0cb02491b56a8742bb",
+      "bytes": 4863,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualDyadicReflection",
+      "path": "HeckeSkeleton/LowEnergy/ActualDyadicReflection.lean",
+      "source_sha256": "b431bb67ba3293ceed89b26ee861484af0f370f215c8f624e79c80dd9ef42d8b",
+      "bytes": 8605,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial",
+      "path": "HeckeSkeleton/LowEnergy/PhysicalBlockPolynomial.lean",
+      "source_sha256": "236c60b06301d98b97d92471b0036503052c89f3e691738391b91c74d7070465",
+      "bytes": 12527,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy",
+      "path": "HeckeSkeleton/LowEnergy/PhysicalGaussianEnergy.lean",
+      "source_sha256": "14a544b8682fd4f7312051b7c8b55561079ba3fb116b26f1edf5ff791ce45953",
+      "bytes": 6227,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy",
+      "path": "HeckeSkeleton/LowEnergy/ActualAnnularBlockEnergy.lean",
+      "source_sha256": "7bbb5cc499cab2f922f77bac03165c3c3b2c84cfc07cf6694842038c671feb73",
+      "bytes": 22888,
+      "status": "NOT_CHECKED_EXACT_SOURCE",
+      "forbidden_tokens": [],
+      "builds": []
+    }
+  ]
+}

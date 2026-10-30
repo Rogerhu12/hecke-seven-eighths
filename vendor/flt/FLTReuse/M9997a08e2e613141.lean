@@ -4,7 +4,7 @@ import FLTReuse.Me926dea7d5102659
 import FLTReuse.M971f920e85ac7cd4
 import FLTReuse.Md2cadaa4525e04a6
 import FLTReuse.Mb160b7190bc2968b
-import Mathlib
+import FLTReuse.ExplicitMathlibImports
 import FLTReuse.M1868db956c866c8d
 namespace P2MW.S_NumberField_AdeleRing_distribHaarChar_eq_prod_norm_pow_mult_mul_finprod_norm
 

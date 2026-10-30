@@ -7,7 +7,7 @@ import FLTReuse.Mfbd03b0511a8bca3
 import FLTReuse.M5808d10d83f2fccd
 import FLTReuse.Mb863247be1ef9c3e
 import FLTReuse.M583a0b5cb8bcd265
-import Mathlib
+import FLTReuse.ExplicitMathlibImports
 import FLTReuse.M1868db956c866c8d
 namespace P2MW.S_NumberField_TateGlobal_exists_differentiable_eq_sub_mul_eulerProduct_and_eq_mul_prod_Gamma_mul_of_eq_normPowChar
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
