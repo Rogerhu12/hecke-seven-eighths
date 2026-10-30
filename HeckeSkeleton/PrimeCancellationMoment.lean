@@ -337,7 +337,7 @@ theorem source_paired_deleted_count_le_base
   have hlog := Real.log_le_log (idealNorm_pos K u) (source_paired_row_norm_le M i s u hu)
   rw [hprod, Real.log_mul (idealNorm_pos K D.ideal).ne' (idealNorm_pos K u).ne'] at hdel
   exact hdel.trans ((div_le_div_iff_of_pos_right (Real.log_pos (by norm_num : (1 : ℝ) < 2))).mpr
-    (add_le_add_left hlog _))
+    (add_le_add (le_refl (Real.log (idealNorm K D.ideal))) hlog))
 
 /-- A standard all-row polynomial conductor bound supplies the exact
 logarithmic conductor field used by the uniform model contract, with `q=0`.

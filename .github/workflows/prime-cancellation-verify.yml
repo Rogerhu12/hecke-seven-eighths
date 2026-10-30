@@ -146,6 +146,19 @@ jobs:
         run: |
           set -euo pipefail
           lake env lean HeckeSkeleton/PrimeCancellationAudit.lean 2>&1 | tee prime-verification/axioms.log
+      - name: Stop cancelled compiler processes before caching
+        if: cancelled()
+        run: |
+          pkill -TERM -x lake || true
+          pkill -TERM -x lean || true
+          for PRIME_POLL in {1..10}; do
+            if ! pgrep -x lake > /dev/null && ! pgrep -x lean > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          pkill -KILL -x lake || true
+          pkill -KILL -x lean || true
       - name: Save checked project artifacts for the next revision
         if: always()
         uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25

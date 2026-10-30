@@ -145,7 +145,7 @@ theorem logQ_le_of_norm_polynomial (Q C₀ N X r : ℝ)
   calc
     Real.log Q ≤ Real.log C₀ + r * Real.log N := hb
     _ ≤ Real.log C₀ + r * Real.log X :=
-      add_le_add_left (mul_le_mul_of_nonneg_left hlogN hr) _
+      add_le_add (le_refl (Real.log C₀)) (mul_le_mul_of_nonneg_left hlogN hr)
     _ ≤ (1 + Real.log C₀ + r) * (1 + Real.log X) := by
       nlinarith [mul_nonneg hlogC hlogX]
 
