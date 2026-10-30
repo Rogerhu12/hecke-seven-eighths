@@ -43,6 +43,7 @@ theorem idealSymbol_unit_norm (I : ExteriorIdeal K S) (u : S.unit K) :
   letI : Field (𝓞 K ⧸ p.asIdeal) := Ideal.Quotient.field _
   exact (sUnitSexticResidueUnit K S p (I.property p hp) u).ne_zero
 
+include hD in
 /-- Inverse powers retain the zero branch.  No coprimality assumption is
 needed for the upper bound, including negative exponents. -/
 theorem primeEvaluation_generator_zpow_norm_le_one
@@ -59,6 +60,7 @@ theorem primeEvaluation_generator_zpow_norm_le_one
   · simp only [norm_zpow, Complex.norm_eq_one_of_pow_eq_one hz (by decide),
       one_zpow, le_refl]
 
+include hD in
 theorem primeEvaluation_generator_norm_le_one
     (p : ExteriorPrime K S) (I : ExteriorIdeal K S) :
     ‖primeEvaluation K S D p (D.generator I)‖ ≤ 1 := by
@@ -99,6 +101,7 @@ theorem row_prime_scalar_norm (p : ExteriorPrime K S) :
 variable (θ : HeckeCharacter K)
 variable (hθ : ∀ p : HeightOneSpectrum (𝓞 K), p ∉ S → UnramifiedAt K θ p)
 
+include hθ in
 /-- Unramified exterior Hecke coefficients have norm one by their actual
 prime-factor product, using that every local component lands in `Circle`. -/
 theorem heckeIdealCoefficient_norm_one (I : ExteriorIdeal K S) :
@@ -114,6 +117,7 @@ theorem heckeIdealCoefficient_norm_one (I : ExteriorIdeal K S) :
   rw [primeIdealValue, dif_pos hp, primeCoefficient_of_unramified K θ p (hθ p hpS)]
   simp
 
+include hθ in
 theorem periodValue_norm_one (d : MarkedDatum K S) (I : ExteriorIdeal K S) :
     ‖periodValue K S D d θ I‖ = 1 := by
   rw [periodValue, norm_mul, heckeIdealCoefficient_norm_one K S θ hθ,
@@ -149,6 +153,7 @@ theorem inactive_ordinary_norm_le_one (p : ExteriorPrime K S) :
 
 variable (d : MarkedDatum K S) (i : ReflectionIndex K S d)
 
+include hθ in
 /-- The actual row base is a unit phase for every row avoiding the frozen
 support.  The removed-prime numerator is coprime by construction. -/
 theorem reflectionRowBase_norm_one (a : ExteriorIdeal K S)
@@ -172,6 +177,7 @@ theorem reflectionRowBase_norm_one (a : ExteriorIdeal K S)
     primeEvaluation_generator_norm_one K S D p (activeFrozenIdeal K S d i) hactive,
     one_zpow, one_mul]
 
+include hD hθ in
 theorem reflectionMarkBase_norm_le_one (a : ExteriorIdeal K S) :
     ‖reflectionMarkBase K S D d i θ a‖ ≤ 1 := by
   unfold reflectionMarkBase
@@ -186,6 +192,7 @@ theorem reflectionMarkBase_norm_le_one (a : ExteriorIdeal K S) :
         (primeEvaluation_generator_zpow_norm_le_one K S D hD p (removePrime K S a p) (-2)))
       (primeEvaluation_generator_zpow_norm_le_one K S D hD p (activeFrozenIdeal K S d i) (-2))
 
+include hD hθ in
 theorem reflectionColumnBase_norm_le_one (a : ExteriorIdeal K S) :
     ‖reflectionColumnBase K S D d i θ a‖ ≤ 1 := by
   unfold reflectionColumnBase
@@ -200,6 +207,7 @@ theorem reflectionColumnBase_norm_le_one (a : ExteriorIdeal K S) :
         (primeEvaluation_generator_norm_le_one K S D hD p (removePrime K S a p)))
       (primeEvaluation_generator_zpow_norm_le_one K S D hD p (activeFrozenIdeal K S d i) (-2))
 
+include hD hθ in
 theorem reflectionPhase_norm_le_one (c a n : ExteriorIdeal K S) :
     ‖reflectionPhase K S D d i θ c a n‖ ≤ 1 := by
   unfold reflectionPhase
@@ -222,6 +230,7 @@ theorem reflectionPhase_norm_le_one (c a n : ExteriorIdeal K S) :
     · exact primeEvaluation_generator_zpow_norm_le_one K S D hD p
         (removePrime K S (activeFrozenIdeal K S d i) p) (-2)
 
+include hθ in
 /-- The actual source block satisfies all coefficient fields automatically.
 Only the finite support, squarefreeness and annular cutoff facts remain. -/
 theorem reflectionSourceBlock_annularSupport

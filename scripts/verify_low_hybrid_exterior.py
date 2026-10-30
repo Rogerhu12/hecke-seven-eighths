@@ -181,10 +181,8 @@ except (FileNotFoundError, json.JSONDecodeError):
 
 
 def artifact_hashes(output: Path) -> dict[str, str]:
-    artifacts = list(output.parent.glob(output.name + "*"))
-    ir = output.with_suffix(".ir")
-    if ir.is_file():
-        artifacts.append(ir)
+    # Include every emitted companion, especially .olean.private and .ir.sig.
+    artifacts = list(output.parent.glob(output.stem + ".*"))
     return {str(path.relative_to(OUT)): hashlib.sha256(path.read_bytes()).hexdigest()
             for path in artifacts if path.is_file()}
 

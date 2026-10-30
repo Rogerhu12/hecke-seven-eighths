@@ -105,6 +105,34 @@ C(RNBL)^\varepsilon(R+NB)B
 尺度预算组装到这些有限能量入口；这一调用方的整体分析属于
 `LOW-REFLECTED-ENERGY`。接线文件给出可直接使用的实际对象定理和明确的预算参数。
 
+### `Principal` 中的具体参数
+
+`Principal` 使用的就是同一个 `axiomChoice K c`：`places K c` 定义归约为该
+选择的 `places`，`(probeData K c).arithmetic` 定义归约为该选择的 `thetaData`。
+不需要再选择一份算术数据或增加生成元相等假设。在 `HeckeSkeleton` 命名空间、
+沿用原有 `K`、`c`、`ε` 和 `hε : 0 < ε` 时，统一常数的调用形状为：
+
+```lean
+obtain ⟨Cmix, hCmix, hmix⟩ :=
+  LowHybrid.Exterior.hybrid_energy (axiomChoice K c) ε hε
+
+obtain ⟨Cledger, hCledger, hledger⟩ :=
+  LowFrozenCube.Exterior.uniform_actual_source_energy_ledger
+    (axiomChoice K c) ε hε
+
+obtain ⟨Cfamily, hCfamily, hfamily⟩ :=
+  LowFrozenCube.Exterior.uniform_actual_family_source_energy_subpower
+    (axiomChoice K c) W ε hW hε
+```
+
+这里最后一个调用另有 `hW : 0 < W`。实际反射字符取原来的
+`thetaPeriod K (places K c) (probeData K c) (targetCharacter K c)`；
+`hreflection.exterior_unramified` 恰好提供 `reflectionSourceBlock_annularSupport`
+所需的未分歧条件。`hreflection.allowed_generators` 与
+`ExteriorSieve.allowedInput (axiomChoice K c)` 是同一个 `Prop` 的证明，
+不会造成算术数据差异。这些片段说明后续组装的参数对应关系；本任务的统一导入
+和审计不导入尚有其他义务的 `Principal` 骨架。
+
 ## 环境和验证入口
 
 固定环境为 Lean `4.35.0-rc3`（`470d5ce1400764999581fd26d5d72b00d990b0f4`）和

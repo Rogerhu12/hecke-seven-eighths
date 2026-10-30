@@ -31,12 +31,14 @@ def prefactor : ℂ :=
 def atZero (j : ℕ) : ℂ :=
   ResidueField.localWeylScalar χ ψ ⟨j % 6, Nat.mod_lt _ (by decide)⟩ 0
 
+include hχ hψ in
 theorem first_sq : ‖first χ ψ‖ ^ 2 = 1 / (Fintype.card F : ℝ) := by
   simp only [first, norm_mul, norm_inv, Complex.norm_real, Real.norm_eq_abs,
     abs_of_nonneg (Real.sqrt_nonneg _), ResidueField.gammaTwo_norm χ hχ ψ hψ,
     mul_one, inv_pow,
     Real.sq_sqrt (show 0 ≤ (Fintype.card F : ℝ) by positivity), one_div]
 
+include hχ hψ in
 theorem prefactor_sq : ‖prefactor χ ψ‖ ^ 2 ≤ (Fintype.card F : ℝ) := by
   have hq : (0 : ℝ) < Fintype.card F := by exact_mod_cast Fintype.card_pos
   have hq1 : (1 : ℝ) ≤ Fintype.card F := by exact_mod_cast Fintype.card_pos
@@ -49,10 +51,11 @@ theorem prefactor_sq : ‖prefactor χ ψ‖ ^ 2 ≤ (Fintype.card F : ℝ) := b
   apply (div_le_iff₀ hq).mpr
   nlinarith
 
+include hχ hψ in
 theorem zero_sq (j : Fin 6) :
     ‖ResidueField.localWeylScalar χ ψ j 0‖ ^ 2 =
       if j.val = 0 ∨ j.val = 4 then 1 / (Fintype.card F : ℝ) else 1 := by
-  have hχ6 : χ ^ 6 = 1 := by simpa [hχ] using pow_orderOf_eq_one χ
+  have hχ6 : χ ^ 6 = 1 := by simpa only [hχ] using pow_orderOf_eq_one χ
   have hq : (0 : ℝ) < Fintype.card F := by exact_mod_cast Fintype.card_pos
   have hψne : ψ ≠ 1 := by
     simpa only [AddChar.mulShift_one] using hψ (show (1 : F) ≠ 0 from one_ne_zero)
@@ -62,7 +65,7 @@ theorem zero_sq (j : Fin 6) :
     rw [ResidueField.localWeylScalar_zero_zero χ hχ6 ψ]
     simpa only [norm_mul, norm_neg, norm_inv, Complex.norm_real, Real.norm_eq_abs,
       abs_of_nonneg (Real.sqrt_nonneg _), ResidueField.gammaTwo_norm χ hχ ψ hψ,
-      mul_one, inv_pow, Real.sq_sqrt hq.le, Fin.val_zero, true_or, if_true, one_div]
+      mul_one, inv_pow, Real.sq_sqrt hq.le, Fin.val_zero, true_or, ite_true, one_div]
   · rw [ResidueField.localWeylScalar_zero_nonzero χ hχ6 ψ j hj0,
       norm_div, div_pow, ResidueField.localTau_norm χ hχ ψ hψ j hj0,
       Real.sq_sqrt hq.le]
@@ -74,6 +77,7 @@ theorem zero_sq (j : Fin 6) :
       rw [gauss_sum_norm _ hpow ψ hψ, Real.sq_sqrt hq.le]
       simp [hj0, hj4, ne_of_gt hq]
 
+include hχ hψ in
 theorem atZero_sq (j : Fin 6) :
     ‖atZero χ ψ j.val‖ ^ 2 =
       if j.val = 0 ∨ j.val = 4 then 1 / (Fintype.card F : ℝ) else 1 := by
@@ -87,6 +91,7 @@ theorem spherical_eq (e : ℕ) :
   unfold ResidueField.sphericalDigit LocalTable.sphericalScalar first
   split_ifs <;> simp_all only [mul_assoc]
 
+include hχ in
 /-- The frozen ordinary scalar is exactly the pre-existing finite Weyl
 sum, at every valuation and every valid sextic digit. -/
 theorem localWeyl_eq (j : Fin 6) (e : ℕ) :
@@ -97,12 +102,12 @@ theorem localWeyl_eq (j : Fin 6) (e : ℕ) :
   · subst e
     have hj : (⟨j.val % 6, Nat.mod_lt j.val (by decide)⟩ : Fin 6) = j :=
       Fin.ext (Nat.mod_eq_of_lt j.isLt)
-    simp only [LocalTable.ordinaryScalar, if_pos rfl, atZero, hj]
+    simp only [LocalTable.ordinaryScalar, atZero, hj, ite_true]
   · rw [ResidueField.localWeylScalar_positive χ hχ ψ j e he]
     by_cases hj : j.val = 4
     · have hj' : j = ⟨4, by decide⟩ := Fin.ext hj
       subst j
-      simp only [LocalTable.ordinaryScalar, if_neg he, if_pos rfl,
+      simp only [LocalTable.ordinaryScalar, if_neg he, ite_true,
         prefactor, spherical_eq χ ψ]
     · simp only [LocalTable.ordinaryScalar, if_neg he, if_neg hj]
 

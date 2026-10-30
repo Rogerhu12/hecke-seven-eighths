@@ -83,6 +83,7 @@ theorem squarefree_prime_factorization (I : ExteriorIdeal K S)
         omega
       rw [he, pow_one, ExteriorArithmetic.prime_coords]
 
+include hD in
 /-- No product law for selected generators is postulated: reciprocity,
 the allowed sixth-unit error, and actual factorization prove this identity. -/
 theorem idealSymbol_generator_eq_prime_product (I A : ExteriorIdeal K S)

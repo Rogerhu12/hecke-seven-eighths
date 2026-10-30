@@ -88,6 +88,7 @@
         "import FLTReuse.Mca976093a3e9d9d7"
       ],
       "after": [
+        "import Mathlib.Algebra.Group.Int.TypeTags",
         "import Mathlib.NumberTheory.RamificationInertia.Basic",
         "import Mathlib.RingTheory.DedekindDomain.AdicValuation",
         "import Mathlib.RingTheory.Localization.Integral",
@@ -103,6 +104,9 @@
         "import Mathlib"
       ],
       "after": [
+        "import Mathlib.LinearAlgebra.Dimension.Free",
+        "import Mathlib.LinearAlgebra.Basis.VectorSpace",
+        "import Mathlib.RingTheory.AlgebraTower",
         "import Mathlib.Topology.Algebra.Module.ModuleTopology",
         "import Mathlib.Topology.Algebra.Algebra.Equiv",
         "import Mathlib.Tactic.FunProp"
@@ -141,6 +145,9 @@
         "import Mathlib"
       ],
       "after": [
+        "import Mathlib.RingTheory.TensorProduct.Maps",
+        "import Mathlib.RingTheory.TensorProduct.Finite",
+        "import Mathlib.RingTheory.TensorProduct.Free",
         "import Mathlib.LinearAlgebra.TensorProduct.Free",
         "import Mathlib.LinearAlgebra.TensorProduct.Basis",
         "import Mathlib.Topology.Algebra.Module.ModuleTopology",

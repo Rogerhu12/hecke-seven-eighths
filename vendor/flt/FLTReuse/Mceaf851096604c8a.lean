@@ -1,3 +1,6 @@
+import Mathlib.LinearAlgebra.Dimension.Free
+import Mathlib.LinearAlgebra.Basis.VectorSpace
+import Mathlib.RingTheory.AlgebraTower
 import Mathlib.Topology.Algebra.Module.ModuleTopology
 import Mathlib.Topology.Algebra.Algebra.Equiv
 import Mathlib.Tactic.FunProp
