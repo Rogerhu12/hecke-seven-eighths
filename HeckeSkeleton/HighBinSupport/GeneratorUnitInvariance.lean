@@ -35,9 +35,9 @@ theorem fourier_unit_invariant (ψ : AddChar R ℂ) (f : R → ℂ) (u : Rˣ)
   congr 1
   ring
 
+omit [Fintype R] in
 /-- Sixth-order zero-extended characters are invariant under sixth powers
 of quotient units, including at nonunit arguments. -/
-omit [Fintype R] in
 theorem character_sixth_unit (χ : MulChar R ℂ) (hχ : χ ^ 6 = 1)
     (u : Rˣ) (x : R) : χ ((u : R) ^ 6 * x) = χ x := by
   have hu : χ u ^ 6 = 1 := by
@@ -92,8 +92,12 @@ theorem finiteConvolution_frequency_sixth_unit (πd : R →+* D) (πa : R →+* 
         χa (πa ((u : R) ^ 6 * m)) = _
     rw [map_mul πd, map_pow πd, map_mul πa, map_pow πa]
     have hn : -((πd u) ^ 6 * πd m) = (πd u) ^ 6 * (-πd m) := by ring
-    rw [hn, fourier_sixth_unit ψd χd hχd (Units.map πd.toMonoidHom u) (-πd m),
-      character_sixth_unit χa hχa (Units.map πa.toMonoidHom u) (πa m)]
+    have hd := fourier_sixth_unit ψd χd hχd (Units.map πd.toMonoidHom u) (-πd m)
+    change HighBin.FiniteResidueFourier.fourier ψd χd ((πd u) ^ 6 * (-πd m)) =
+      HighBin.FiniteResidueFourier.fourier ψd χd (-πd m) at hd
+    have ha := character_sixth_unit χa hχa (Units.map πa.toMonoidHom u) (πa m)
+    change χa ((πa u) ^ 6 * πa m) = χa (πa m) at ha
+    rw [hn, hd, ha]
   change (Fintype.card D : ℂ)⁻¹ * HighBin.FiniteResidueFourier.fourier ψ f ((u : R) ^ 6 * h) =
     (Fintype.card D : ℂ)⁻¹ * HighBin.FiniteResidueFourier.fourier ψ f h
   congr 1

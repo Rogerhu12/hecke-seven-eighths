@@ -193,9 +193,11 @@ theorem regular_value (q : ℝ) (hq : 0 < q) (cW cD cE : ℂ)
   unfold finiteEulerRationalValue regular
   rw [finiteValue_eq_evaluate _ q hq, finiteValue_eq_evaluate _ q hq]
   cases marked <;>
-    simp [regularNumerator, regularDenominator, hEvalE, W, D,
-      phaseRowEuler, unmarkedZeroPart, rowEulerRationalValue, coordV] <;>
-    field_simp [hD, hE] <;> ring
+    simp only [Bool.false_eq_true, if_false, if_true,
+      regularNumerator, regularDenominator, map_sub, map_add, map_mul, map_one, map_zero,
+      hEvalE, W, D, evaluate_constant, evaluate_X, evaluate_Y, evaluate_V,
+      phaseRowEuler, unmarkedZeroPart, rowEulerRationalValue, coordV, sub_zero]
+  rw [sub_div, mul_div_mul_left _ _ hE]
 
 #print axioms ramified_value
 #print axioms ramified_dynamic_bound

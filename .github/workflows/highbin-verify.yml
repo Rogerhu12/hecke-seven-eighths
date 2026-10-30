@@ -30,6 +30,13 @@ jobs:
       LEAN_NUM_THREADS: '2'
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: |
+            .lake
+            vendor/class-field-theory/.lake
+          key: highbin-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: highbin-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
       - uses: leanprover/lean-action@bd5cb0b830eda614ce3fc186d8429b9409b16c47
         with:
           auto-config: 'false'
@@ -39,8 +46,10 @@ jobs:
           use-mathlib-cache: 'true'
           use-github-cache: 'false'
       - name: Compile individual core modules and audit public declarations
+        id: core
         run: python scripts/highbin_verify.py core
       - name: Compile actual arithmetic adapters and HighBin integration
+        if: ${{ !cancelled() && steps.core.outcome != 'skipped' }}
         run: python scripts/highbin_verify.py actual
       - name: Preserve verification logs
         if: always()
@@ -49,3 +58,12 @@ jobs:
           name: highbin-verification
           path: .highbin-verification/
           if-no-files-found: ignore
+          include-hidden-files: true
+      - name: Preserve completed dependency builds
+        if: ${{ !cancelled() && steps.core.outcome != 'skipped' }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: |
+            .lake
+            vendor/class-field-theory/.lake
+          key: highbin-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}

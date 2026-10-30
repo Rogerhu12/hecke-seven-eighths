@@ -1,0 +1,105 @@
+import HeckeGeneral.Analysis.PhysicalProbeRows
+import HeckeSkeleton.HighEulerFiniteData
+import HeckeSkeleton.HighEulerCheckedTable
+
+/-!
+Thin adapter from the independently checkable finite data to the real project
+API supplied in PhysicalProbeRows.lean.  The two conversions copy only the
+actual fields and preserve evaluation by definitional equality.
+
+AI-assisted source: ChatGPT / GPT-6 Astra Pro, 2026-10-31.
+This adapter has not been compiled against the supplied partial project;
+several imports of PhysicalProbeRows are absent from that snapshot.
+It asserts no arithmetic calibration and defines no highEulerData.
+-/
+
+noncomputable section
+
+namespace HeckeGeneral.ThetaSkeleton.Physical.HighEulerTables
+
+open HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds
+
+/-- Copy the two actual polynomial fields without altering the support. -/
+def toPolynomial (A : HBEulerFiniteData.RawPolynomial) : FiniteEulerPolynomial where
+  powers := A.powers
+  coefficient := A.coefficient
+
+/-- Copy the numerator and denominator through the polynomial conversion. -/
+def toRational (A : HBEulerFiniteData.RawRational) : FiniteEulerRational where
+  numerator := toPolynomial A.numerator
+  denominator := toPolynomial A.denominator
+
+@[simp] theorem polynomialValue_toPolynomial (A : HBEulerFiniteData.RawPolynomial)
+    (q : ℝ) (s w z : ℂ) :
+    finiteEulerPolynomialValue (toPolynomial A) q s w z =
+      HBEulerFiniteData.polynomialValue A q s w z := rfl
+
+@[simp] theorem rationalValue_toRational (A : HBEulerFiniteData.RawRational)
+    (q : ℝ) (s w z : ℂ) :
+    finiteEulerRationalValue (toRational A) q s w z =
+      HBEulerFiniteData.rationalValue A q s w z := rfl
+
+/-- The five ramified tables, with j.val+1 as the actual valuation class. -/
+def ramifiedFiniteFactor (q eta A C omega rho G1 G2 G3 G4 : ℂ)
+    (j : Fin 5) (marked : Bool) : FiniteEulerRational :=
+  toRational (HBEulerFiniteData.ramifiedFiniteFactor q eta A C omega rho
+    G1 G2 G3 G4 j marked)
+
+/-- The marked table at an unramified row prime. -/
+def unramifiedMarkedFiniteFactor (q A rho d : ℂ) : FiniteEulerRational :=
+  toRational (HBEulerFiniteData.unramifiedMarkedFiniteFactor q A rho d)
+
+/-- A normalized five-row table whose raw evaluation and bound have been
+checked independently of the missing number-field imports. -/
+def normalizedFiniteFactor (P : PhaseData) (q : ℝ) (j : Fin 5)
+    (marked : Bool) : FiniteEulerRational :=
+  toRational (HBEulerCheckedTable.normalizedFiniteFactor P q j marked)
+
+/-- Field-copy transport of the checked closed-form evaluation. -/
+theorem normalizedFiniteFactor_value (P : PhaseData) (q : ℝ) (hq : 0 < q)
+    (s w z : ℂ) (j : Fin 5) :
+    finiteEulerRationalValue (normalizedFiniteFactor P q j false) q s w z =
+      ramifiedTableValue P q s w z j := by
+  rw [normalizedFiniteFactor, rationalValue_toRational]
+  exact HBEulerCheckedTable.normalizedFiniteFactor_value P q hq s w z j
+
+/-- The exact same dynamic hypotheses as the independently checked theorem. -/
+theorem normalizedFiniteFactor_dynamic_bound (P : PhaseData) (q b e : ℝ)
+    (hq : 2 ≤ q) (hb : 1 / 2 ≤ b) (he : 0 ≤ e)
+    (s w z : ℂ) (hs : s.re = b + 16 * e) (hw : w.re = 1 - b - 6 * e)
+    (hz : z.re = 17 / 50) (j : Fin 5) :
+    ‖finiteEulerRationalValue (normalizedFiniteFactor P q j false) q s w z - 1‖ ≤
+      9 * q ^ (-10 * e) := by
+  rw [normalizedFiniteFactor, rationalValue_toRational]
+  exact HBEulerCheckedTable.normalizedFiniteFactor_dynamic_bound
+    P q b e hq hb he s w z hs hw hz j
+
+/-- The marked local factor is the error term and satisfies the same bound. -/
+theorem normalizedMarkedFiniteFactor_dynamic_bound (P : PhaseData) (q b e : ℝ)
+    (hq : 2 ≤ q) (hb : 1 / 2 ≤ b) (he : 0 ≤ e)
+    (s w z : ℂ) (hs : s.re = b + 16 * e) (hw : w.re = 1 - b - 6 * e)
+    (hz : z.re = 17 / 50) (j : Fin 5) :
+    ‖finiteEulerRationalValue (normalizedFiniteFactor P q j true) q s w z‖ ≤
+      9 * q ^ (-10 * e) := by
+  rw [normalizedFiniteFactor, rationalValue_toRational]
+  exact HBEulerCheckedTable.normalizedMarkedFiniteFactor_dynamic_bound
+    P q b e hq hb he s w z hs hw hz j
+
+/-!
+Integration requires the actual prime-wise local Gauss parameters and proof
+that finitePoissonFactor has the corresponding valuation expansion.
+
+The row/mark cases are:
+* p in support(u), p not in Q: ramifiedFiniteFactor ... false;
+* p in support(u), p in Q: ramifiedFiniteFactor ... true;
+* p not in support(u), p in Q: unramifiedMarkedFiniteFactor ....
+
+At ramified primes the vanishing of both local Hecke coefficients must be
+proved before using the simplified five-row normalization.  The original
+wholeIndexMask forces divisibility of c*n^3 at p in Q.
+The general TRowEulerInput additionally needs the corrected Euler region.
+-/
+
+end HeckeGeneral.ThetaSkeleton.Physical.HighEulerTables
+
+end

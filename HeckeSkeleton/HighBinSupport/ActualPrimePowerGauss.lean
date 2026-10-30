@@ -26,6 +26,7 @@ open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical
+open HeckeGeneral.Arithmetic.ResidueTraceCharacters
 open HeckeSkeleton.HighBinActualGenerators HeckeSkeleton.HighBinActualAbsolute
 open HeckeSkeleton.HighBinActualEuler
 open HighBin.PrincipalPowerSupport HighBin.FiniteLocalTable
@@ -41,6 +42,18 @@ def pullbackMulChar (e : R ≃+* T) (χ : MulChar T ℂ) : MulChar R ℂ where
   map_mul' x y := by simp
   map_nonunit' x hx := χ.map_nonunit
     (fun h => hx ((MulEquiv.isUnit_map e).mp h))
+
+/-- Transport preserves every character power, including the zeroth
+power's unit mask on a quotient ring. -/
+theorem pullbackMulChar_pow (e : R ≃+* T) (χ : MulChar T ℂ) (n : ℕ) :
+    pullbackMulChar e (χ ^ n) = pullbackMulChar e χ ^ n := by
+  apply MulChar.ext
+  intro u
+  calc
+    _ = (χ ^ n) (Units.map e.toMonoidHom u) := rfl
+    _ = χ (Units.map e.toMonoidHom u) ^ n := MulChar.pow_apply_coe _ _ _
+    _ = pullbackMulChar e χ u ^ n := rfl
+    _ = _ := (MulChar.pow_apply_coe _ _ _).symm
 
 theorem pullbackMulChar_order (e : R ≃+* T) (χ : MulChar T ℂ) :
     orderOf (pullbackMulChar e χ) = orderOf χ := by
@@ -190,6 +203,44 @@ theorem principalPowerAddCharacter_compatible (D : ThetaArithmeticData K S)
     principalPower_character_compatible K S D (primeGenerator K S D p)
       (primeGenerator_ne_zero K S D p) n hn x
 
+/-- The two actual prime phases agree under the proved residue
+equivalence: both evaluate the same literal fraction x/generator(p). -/
+theorem principalPrime_addCharacter (D : ThetaArithmeticData K S)
+    (p : ExteriorPrime K S) (x : PowerQuotient (primeGenerator K S D p) 1) :
+    principalPowerAddCharacter K S D p 1 x =
+      primeAddCharacter K S D p (principalPrimeResidueEquiv K S D p x) := by
+  obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
+  unfold principalPowerAddCharacter primeAddCharacter
+  rw [transportCharacter_apply]
+  unfold principalPrimeResidueEquiv
+  rw [RingEquiv.trans_apply, RingEquiv.apply_symm_apply, Ideal.quotEquivOfEq_mk,
+    thetaPrincipalAddCharacter_mk, sIntegerActualModulusAddCharacter_mk]
+  simp only [primeGenerator, pow_one]
+
+/-- Prime-level Gauss coefficients in the principal-power computation
+are the very same finite-field sums used in the actual Euler tables.
+This includes exponent zero, with its correct unit-indicator convention. -/
+theorem principalPrime_gaussSum (D : ThetaArithmeticData K S)
+    (p : ExteriorPrime K S) (r : ℕ) :
+    gaussSum (principalPrimeCharacter K S D p ^ r) (principalPowerAddCharacter K S D p 1) =
+      HighBin.ActualGaussPhases.gaussFamily (thetaPrimeCharacter K S D p)
+        (primeAddCharacter K S D p) r := by
+  let e := principalPrimeResidueEquiv K S D p
+  unfold gaussSum HighBin.ActualGaussPhases.gaussFamily
+  rw [gaussSum]
+  calc
+    _ = ∑ x : 𝓞 K ⧸ p.val.asIdeal,
+        (principalPrimeCharacter K S D p ^ r) (e.symm x) *
+          principalPowerAddCharacter K S D p 1 (e.symm x) :=
+      (e.symm.toEquiv.sum_comp _).symm
+    _ = _ := by
+      apply Finset.sum_congr rfl
+      intro x _
+      rw [principalPrime_addCharacter, principalPrimeCharacter, ← pullbackMulChar_pow]
+      change (thetaPrimeCharacter K S D p ^ r) (e (e.symm x)) *
+        primeAddCharacter K S D p (e (e.symm x)) = _
+      rw [e.apply_symm_apply]
+
 /-- Literal prime-power Fourier evaluation for the actual arithmetic
 data. The only valuation input is that v is prime to the actual generator;
 the Gauss coefficients and all quotient structures are constructed above. -/
@@ -216,5 +267,28 @@ theorem actualPrimePowerFourier_eq_valuationGauss (D : ThetaArithmeticData K S)
     (principalPowerAddCharacter K S D p 1) hc
     (principalPowerAddCharacter_compatible K S D p n hn)
   simpa only [principalPower_card, pow_one, principalPrimeCharacter_mk] using h
+
+/-- The valuation formula with the exact Gauss family already used by
+`arithmeticHighEulerData`, after actual quotient reindexing. -/
+theorem actualPrimePowerFourier_eq_tableGauss (D : ThetaArithmeticData K S)
+    (p : ExteriorPrime K S) (n : ℕ) (hn : 1 ≤ n)
+    (v : S.integer K) (hv : ¬primeGenerator K S D p ∣ v) (J r : ℕ) :
+    HighBin.FiniteResidueFourier.fourier (principalPowerAddCharacter K S D p n)
+      (fun x => (principalPrimeCharacter K S D p ^ r)
+        (residueMap (primeGenerator K S D p) n hn x))
+      (Ideal.Quotient.mk (powerIdeal (primeGenerator K S D p) n)
+        (primeGenerator K S D p ^ J * v)) =
+      valuationGauss p.val.asIdeal.absNorm
+        (HighBin.ActualGaussPhases.gaussFamily (thetaPrimeCharacter K S D p)
+          (primeAddCharacter K S D p))
+        (thetaPrimeCharacter K S D p (sIntegerSexticResidueMap K S p.val p.property v))
+        n r J := by
+  rw [actualPrimePowerFourier_eq_valuationGauss K S D p n hn v hv J r]
+  congr 1
+  funext b
+  exact principalPrime_gaussSum K S D p b
+
+#print axioms principalPrime_gaussSum
+#print axioms actualPrimePowerFourier_eq_tableGauss
 
 end HeckeSkeleton.HighBinActualPrimeGauss

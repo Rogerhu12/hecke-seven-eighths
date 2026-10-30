@@ -35,6 +35,17 @@ variable (K : Type) [Field K] [NumberField K]
 def continuedLogDerivative (χ : HeckeCharacter K) (s : ℂ) : ℂ :=
   deriv (heckeContinuation K χ) s / heckeContinuation K χ s
 
+theorem continuedLogDerivative_eq_heckeLogDerivative (χ : HeckeCharacter K)
+    {s : ℂ} (hs : 1 < s.re) :
+    continuedLogDerivative K χ s = heckeLogDerivative K χ s := by
+  have heq : heckeContinuation K χ =ᶠ[𝓝 s] heckeLSeries K χ := by
+    filter_upwards [(isOpen_lt continuous_const Complex.continuous_re).mem_nhds hs]
+      with z hz
+    exact heckeContinuation_eq_series K χ hz
+  unfold continuedLogDerivative
+  rw [heq.deriv_eq, heckeContinuation_eq_series K χ hs]
+  rfl
+
 theorem continuedLogDerivative_eq_primePowerSeries (χ : HeckeCharacter K)
     {s : ℂ} (hs : 1 < s.re) :
     continuedLogDerivative K χ s = -primePowerLogSeries K (primeCoefficient K χ) 1 s := by

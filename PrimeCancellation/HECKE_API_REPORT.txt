@@ -1,0 +1,206 @@
+# 实际 Hecke 解析接口核查与适配稿
+
+依据：2026-10-31 补传包 `supplied_20261031`。目标 Lean `4.35.0-rc3`、mathlib `0493595ecd5da8ef14742febab99728f98e948e8`。本报告讨论实际 Hecke 延拓到通用解析引擎的适配；最终素数和与掩码组合另行处理。
+
+## 实际交付状态
+
+- 新建项目适配稿：`project_adapters/HeckeSkeleton/PrimeCancellationHecke.lean`，含 14 个定理和 5 个定义，没有占位证明或新公理。它使用实际 `heckeContinuation`、`primeCoefficient` 和 `FiniteOrderBoundary`。
+- **该项目适配稿尚未在完整项目中编译。** 补传包缺少多个传递导入。不能把代码完整或数学推导正确写成项目 Lean 检查已完成。文件末的公理检查命令等待本地完整依赖下运行。
+- 新建独立模块 `PrimeCancellationDiskGeometry.lean` 的八个定理已经在上述精确目标版本编译通过，无 warning/error，逐项公理仅为 `propext, Classical.choice, Quot.sound`。其源码 SHA-256 为 `63f4fe5bcaa2b10acef1e1b9103c111c19f2225860a7eaeb6a68b5c37dc951d5`。它只导入已经独立验证的 `PrimeCancellationLogDerivative`，将几何和多项式到对数的代数转换分离出来。
+
+## 已确认的真实项目 API
+
+### Hecke 延拓
+
+`HeckeGeneral.Analysis.HeckeContinuation.lean` 给出：
+
+| 名称 | 实际陈述与用途 |
+|---|---|
+| `heckeContinuation` | 从全局 Tate 理论构造的真实亚纯延拓。 |
+| `heckeContinuation_eq_series` | `1<s.re` 时等于 `heckeLSeries`；用于初始 Mellin 线上识别 Euler 级数。 |
+| `differentiable_heckeContinuation_of_nonNorm` | 前提是 `∀t, χ ≠ heckeNormTwist K t`，结论为全平面复可微。 |
+| `heckeContinuation_ne_zero` | `1<s.re` 时非零。 |
+| `meromorphicOn_heckeContinuation` | 全平面的亚纯性。 |
+
+“有限阶且非主”不是上述整性定理的直接参数。它需要先连接到“不是任何纯范数幂”。补传文件没有这一字符引理的声明，适配稿因此明确保留 `hχ : ∀t, χ ≠ heckeNormTwist K t`，没有用 `χ≠1` 偷换。
+
+### 实际 Euler 对数与素理想幂
+
+`HeckeGeneral.Analysis.IdealDerivativeEulerLog.lean` 中已经看到完整声明与证明：
+
+- `primeIdealLogTerm`、`primeIdealLogSeries`；
+- `summable_primeIdeal_norm_rpow`：`σ>1` 时素理想范数的 `-σ` 幂可和；
+- `norm_primeIdealLogTerm_le`：在 `σ>1, σ≤Re s` 上，局部对数项的范数不超过 `(3/2)(Np)^(-σ)`；
+- `hasDerivAt_primeIdealLogSeries`；
+- `hasDerivAt_idealDirichletSeries_euler`；
+- `idealDirichletSeries_logDerivative_eq_primePowerSeries`；
+- `heckeLogDerivative_eq_primePowerSeries`，只在 `Re s>1` 声称成立。
+
+适配稿由这些实际引理自行构造
+
+\[
+E_\chi(s)=\operatorname{primeIdealLogSeries}(\operatorname{primeCoefficient}\chi)(s),
+\qquad A_K=\frac32\sum_{\mathfrak p}(N\mathfrak p)^{-2},
+\]
+
+并证明 `Re s≥2 ⇒ ‖Eχ(s)‖≤A_K`。常数先于特征选择，不含导子。
+
+必须区分：已有 `heckeLogDerivative` 的素理想幂展开由收敛 Euler 级数导出；移入临界带时使用的是
+
+`continuedLogDerivative K χ s := deriv (heckeContinuation K χ) s / heckeContinuation K χ s`。
+
+本稿通过开半平面上的 `EventuallyEq` 和 `Filter.EventuallyEq.deriv_eq` 显式连接这两个对象，没有凭名称相近假定它们在临界带相等。
+
+`IdealDerivativePrimePowers.lean` 还给出 `primePowerIdeal_injective`、`idealNorm_primePowerIdeal`、`absolutelySummable_primePowerLogTerm`、`primePowerLogSeries_eq_prime_sum`。须注意 `primePowerIdeal (p,n)` 表示 **`p^(n+1)`**，不是 `p^n`，以避免无限次计入单位理想。
+
+### 真实零边界
+
+`HeckeGeneral.Analysis.ConditionalMoments.FiniteOrderBoundary B` 的定义是：
+
+`∀χ, FiniteOrder χ → ∀s, B<s.re → meromorphicOrderAt (heckeContinuation K χ) s ≤ 0`。
+
+它控制真实亚纯阶，而非直接断言点值非零。适配稿在非范数的整函数分支上使用“点值为零 ⇒ 穿孔趋零 ⇒ 亚纯阶为正”反证无零，因此不会把总除法在极点处赋的零值当作真正零点。
+
+## 增长定理究竟覆盖什么
+
+`HeckeSkeleton.HeckeStripPolynomial.norm_le_on_closed_strip_of_polynomial_boundary` 是一般复分析插值工具。输入为条带上的 `DiffContOnCl`、各函数允许不同的二次指数粗增长、两侧共同多项式边界界；最终统一常数不依赖那些个别粗增长常数。它本身没有数域实位限制，但也不是自动的 Hecke 增长结论。
+
+实际的 `HeckeSkeleton.HeckeUniformStripGrowth.exists_uniform_fixedType_strip_bound` **显式要求所有无限位都是复位**，还要求固定径向参数函数 `τ` 和权函数 `m`、非范数特征以及 `0<d<1/4`。其结论只覆盖 `-d≤Re s≤1+d`：
+
+\[
+|L(s,\chi)|\le C Q_\chi^{1/2+d}(2+|\Im s|)^{2\#\Sigma_\infty}.
+\]
+
+常数确实在 `χ` 之前选择，满足任务需要的一致性；但不能把此声明说成已经覆盖任意数域与任意无穷型。
+
+另一个已证定理 `exists_uniform_rightHalfPlane_bound` 对所有单位字符成立，给每个固定 `σ>1` 上的共同 Euler 半平面界。
+
+适配稿固定 `d=1/8`，将条带与 `Re s≥9/8` 的 Euler 界拼接，证明全虚、固定无穷型下：
+
+\[
+|L(s,\chi)|\le C Q_\chi^{5/8}(2+|\Im s|)^{2\#\Sigma_\infty},\qquad \Re s\ge1/2.
+\]
+
+固定 `d=1/8` 与目标缓冲 `δ` 无关，后面的 `δ^{-2}` 一致性得到保留。实际 `Q≥1` 从现有显式导子函数方程的 `Q>0` 和已附 `one_le_conductorScale_of_pos` 推出，不作为最终全虚定理的新增假设。
+
+### BufferedReciprocal 是否已经足够
+
+已附 `HeckeBufferedReciprocal.lean` 中，`continuation_ne_zero_of_upper` 已经把有限高度的 `ZeroUpperBound` 转成真实无零；而 `hecke_value_and_reciprocal_of_upper`、`hecke_subpower_of_upper_strip_growth` 控制的是 `|L|+|1/L|`。该文件没有直接给出 `L'/L ≪ log Q+log(3+|t|)`。把一个多项式的 `L'` 界乘一个次幂 `1/L` 界，也不能自动变成所需对数损失。
+
+该文件调用的 `ActualEulerLogarithm.exists_uniform_heckeEulerLog_bound` 等名称可见，但 `ActualEulerLogarithm.lean` 本身没有附上。本稿通过已附 Euler 对数工具重新构造中心界，避免依赖这一未附声明。
+
+## 每个新增项目定理
+
+以下均在 `HeckeSkeleton.PrimeCancellationHecke` 命名空间内；状态均为待完整项目编译的源码。
+
+| 名称 | 陈述 |
+|---|---|
+| `primeCancellationEulerLogSize_nonneg` | 场常数 `A_K` 非负。 |
+| `primeCancellationEulerLog_norm_le` | 全部单位字符在 `Re s≥2` 满足 `‖Eχ(s)‖≤A_K`。 |
+| `exp_primeCancellationEulerLog` | `Re s>1` 时 `exp(Eχ(s))=heckeContinuation χ s`。 |
+| `continuedLogDerivative_eq_primePowerSeries` | 延拓的导数比在 `Re s>1` 等于负素理想幂级数。 |
+| `continuation_ne_zero_of_order_boundary` | 非范数分支上，右半平面亚纯阶非正推出点值无零。 |
+| `continuation_ne_zero_of_finiteOrderBoundary` | 接入实际有限阶边界。 |
+| `continuedLogDerivative_differentiableOn` | 延拓的导数比在无零半平面全纯。 |
+| `continuedLogDerivative_bound_of_polynomial` | 从实际 Hecke 延拓的统一多项式增长得到下述精确对数导数界。 |
+| `continuedLogDerivative_bound_of_finiteOrderBoundary` | 从实际有限阶边界产生无零性后应用该界。 |
+| `one_le_actualConductorScale` | 由实际函数方程与导子整性得到 `Qχ≥1`。 |
+| `exists_uniform_fixedType_rightHalfPlane_polynomial` | 拼接全虚、固定无穷型条带与右半平面增长。 |
+| `exists_fixedType_continuedLogDerivative_bound` | 在上述范围内消去增长前提，输出实际特征的统一对数导数界。 |
+| `exists_fixedType_zeroFreeData` | 在全虚、固定无穷型范围，以同一个先于字符与 β 选择的增长常数构造通用解析引擎的数据，并显式保留实际导子、指数 `5/8`、高度幂与场常数。 |
+| `exists_hecke_fixed_logWindow_sum_bound` | 调用独立的固定窗口 Mellin 定理，给真实 Hecke 延拓对应的加权 Euler 系数和界；不再假设窗口的 Mellin 衰减。 |
+
+另新增 `zeroFreeDataOfPolynomial` 与 `zeroFreeDataOfFiniteOrderBoundary` 两个构造器。前者把真实 Hecke 延拓的整性、实际 Euler 对数、已推导的共同中心界与显式多项式增长装入 `PrimeCancellation.Analytic.ZeroFreeData`；后者由真实有限阶亚纯阶边界导出无零性后调用前者。它们没有把待证对数导数界列作结构字段。
+
+一般增长版本的精确输出为
+
+\[
+\left|\frac{L'}L(\sigma+it,\chi)\right|
+\le\frac{48}{\delta^2}\left(1+\log C+p\log Q+k\log(4+|t|)+A_K\right),
+\]
+
+其中 `β∈[1/2,1]`、`0<δ≤1/4`、`β+δ≤σ≤2`，输入为 `C,Q≥1,p≥0`、实际无零假设和 `|L(s,χ)|≤C Q^p(2+|Im s|)^k` 对 `Re s≥1/2` 成立。
+
+独立 `PrimeCancellationDiskGeometry` 的八个已验证定理为 `verticalPoint_re`、`verticalPoint_im`、`verticalPoint_sub_same_height`、`verticalPoint_mem_inner`、`outer_ball_re_lower`、`outer_ball_im_bound`、`polynomial_le_exp_log_bound`、`norm_logDeriv_le_of_halfPlane_polynomial`。
+
+## 未附声明与“需核对”清单
+
+以下项目名字和调用模式确实出现在包内证明中，但其**声明所在文件不在包内**；本稿没有捏造新名字：
+
+| 名称/定义 | 包内证据 | 本地复核内容 |
+|---|---|---|
+| `idealDirichletSeries_eq_primeIdealEulerValue` | `IdealDerivativeEulerLog` 的求导证明 | **需核对**：完整声明的隐式参数与 `primeIdealEulerValue` 展开。 |
+| `norm_primeCoefficient_le_one` | `IdealDerivativeEulerLog` 最后的实际 Hecke 特化 | **需核对**：完整导入及字符类型统一。 |
+| `heckeLSeries`、`heckeLogDerivative` | 延拓与 Euler 导数的可见证明 | **需核对**：本稿两处 `change` 是否是严格定义相等；若只提供等式，应在此处重写真实等式。 |
+| `heckeConductorScale`、`heckeRadialParameter`、`heckeArchWeight` | 实际条带增长的全部声明 | **需核对**：完整命名空间与导入可见性。 |
+| `exists_completed_functionalEquation_explicitScale_of_nonNorm` | 条带增长文件两处给出同一个 12 项取出模式 | **需核对**：完整导入及第 4 项 `Q>0` 的实际类型。本稿沿用可见模式。 |
+| `FiniteOrder`、`heckeNormTwist` | `MomentInputs`、`HeckeContinuation` | **需核对**：有限阶非主到非范数的实际字符引理；本稿没有猜它的名称。 |
+
+关键 mathlib 名称已在精确 `0493595` 源码核实，或已由独立模块真实编译：`Complex.exists_continuousOn_eqOn_exp_comp`、`Complex.borelCaratheodory`、`Complex.norm_deriv_le_of_forall_mem_sphere_norm_le`、`Filter.EventuallyEq.deriv_eq`、`AnalyticAt.deriv`、`tendsto_zero_iff_meromorphicOrderAt_pos`、`norm_tsum_le_tsum_norm`、`Summable.tsum_le_tsum`、`Summable.of_nonneg_of_le`、`Summable.mul_left`、`tsum_mul_left`、`Real.log_rpow`、`Real.log_mul`、`Real.log_pow`、`Real.one_le_rpow`、`abs_add_le`。对未编译的项目适配稿，最终 elaboration 仍须本地核对。
+
+### 缺失的直接传递导入
+
+- `HeckeContinuation`：`HeckeGeneral.Bridge.FLTDefinitions`、`HeckeGeneral.Analysis.HeckeEulerProduct`、`FLTReuse.M974319314547c0e9`、`FLTReuse.M2c5e67fdd3cfcc89`。
+- `IdealDerivativeEulerLog`：`HeckeGeneral.Analysis.IdealEulerIdentity`、`HeckeGeneral.Analysis.HeckeDerivative`。
+- `MomentInputs`：`HeckeGeneral.Analysis.HeckeSeries`、`HeckeGeneral.Analysis.EndpointClosure`、`HeckeGeneral.Characters.IdeleNormContinuity`。
+- `HeckeUniformStripGrowth`：`HeckeSkeleton.HeckeGammaQualitativeGrowth`、`HeckeSkeleton.HeckeFixedTypeGammaBound`、`HeckeSkeleton.ActualEulerLogarithm`。
+- 供比较的 `HeckeBufferedReciprocal` 还缺 `HeckeSkeleton.BufferedReciprocal`、`HeckeGeneral.Analysis.TInputRanges`；本稿不直接导入它。
+
+## 最需复核的步骤与剩余数学范围
+
+1. **两个定义展开是最不确定的 Lean 行。** `heckeLSeries` 与理想级数、`heckeLogDerivative` 与其导数比的定义文件未附，虽然可见证明给出很强证据，仍须本地 elaboration；代码已在原处标注。
+2. **有限阶非主到非范数。** 数学上正确，但缺少字符库注入性与纯范数幂接口。本稿保留明确前提。
+3. **共同无穷型。** 全虚域有限阶字符应有径向参数与复权均为零；实位有有限个符号型。实际 canonical 参数到这些值的连接证明没有附上。
+4. **实位增长。** 要完成任意数域、无额外增长前提的结论，应补 Gamma_R 反射乘子的共同多项式界，再用已证插值工具拼装。不能删除 `hcomplex` 即宣称完成。
+5. **实际 Euler 系数的最后一次实例化。** 已写出真实延拓到收敛素理想幂级数的桥，也已给出到独立固定窗口 Mellin 模块的调用；当前项目 wrapper 的索引、正尺度、原始 Euler 恒等式和实部 2 上的绝对收敛仍为显式参数。把它们改成实际 `(prime ideal, n+1)` 形式可使用已附 `absolutelySummable_primePowerLogTerm` 与 `primePower_dirichletTerm`，但其中 `dirichletTerm` 的定义文件缺失，须在完整项目中核对其复幂正规化。当前代码没有以终点素数和界或对数导数界充当假设。
+
+## 固定窗口适配的精确量词
+
+`exists_hecke_fixed_logWindow_sum_bound` 先固定一个 `C∞` 且支撑于 `[1,2]` 的 `W`，选择 `P₀≥2` 和 `D≥0`；这两个常数位于字符、导子、β、δ 与 P 之前。对真实有限阶非范数字符、实际边界与一般多项式增长，结论是
+
+\[
+\left|\sum_i c_i\,\frac{W(r_i/P)}{\log r_i}\right|
+\le \frac{24D}{\delta^2}
+\left(1+\log C+p\log Q+A_K+3k\right)P^{\beta+\delta},
+\qquad P\ge P_0.
+\]
+
+Lean 中的窗口保持为 `logWindow P W (r i / P)`；上式在 `P>0` 下用 `P*(r_i/P)=r_i` 书写。输入只含正尺度 `r_i`、`Σ ‖c_i‖r_i⁻²<∞` 和右半平面上原始 Euler 恒等式 `Σ c_i r_i⁻ˢ = -L′/L(s)`。光滑窗口的统一 Mellin 控制已由独立模块提供。项目适配稿本身依然没有完整项目编译记录。
+
+## 可继续复用的通用窗口原始代码
+
+补包 `openai_reference/Hecke/PrimeDyadicSource.lean` 调用了未附的 `PrimeLogProfile.uniform_mellin_decay`。已只读核对公开 OpenAI `fd4aeeb2` 源文件：
+
+- [PrimeLogProfile.lean](https://github.com/openai/math/blob/fd4aeeb2/lean/OAI/NumberTheory/DirichletL/PrimeLogProfile.lean)：`uniform_mellin_decay` 对固定光滑紧支撑 W、`A∈[0,1]`、σ 紧区间给 `(1+|t|)^j|Mellin(profile W A)|≤C`；`profile_eq_log_division` 在足够大 P 时把 `A=1/log P` 识别为 `W(x)/log(Px)`。
+- [CompactProfileFamily.lean](https://github.com/openai/math/blob/fd4aeeb2/lean/OAI/NumberTheory/DirichletL/CompactProfileFamily.lean)：`compact_family_deriv_L1_bound`、`compact_family_fourier_power_bound`、`compact_family_fourier_weighted_bound` 均无数域输入。
+
+已将上述纯通用论证提取为 `PrimeCancellationCompactFamily.lean` 与 `PrimeCancellationLogProfile.lean`，去除无关算术导入，以 mathlib 的独立光滑 bump 替换原筛权 cutoff。最终新增 `exists_uniform_logWindow_mellin_decay`，给固定 W、全部 `P≥exp(4)`、`σ∈[1/2,2]` 上的三次 Mellin 衰减；再由 `PrimeCancellationFixedWindow.lean` 直接调用解析移线模块。三份新模块已经在精确版本通过，共 22 个定理，无 warning/error，公理均在标准 `propext, Classical.choice, Quot.sound` 范围内。
+
+这些固定窗口声明本身给固定 W 的存在常数，没有单独保留 `1/log P` 因子。主消去指数可以不保留该因子。公开原始代码作为已注明 Apache 2.0 归属的实现来源。
+
+此外，`PrimeCancellationMellinSeminorm.lean` 的 7 个定理已经独立通过，给任意参数族的精确有限阶接口：令 `g(u)=exp(-σu)V(exp(-u))`，若 `∫|g|≤L₀` 且 `∫|g'''|≤L₃` 一致成立，则
+
+\[
+|\mathcal M V(\sigma+it)|\le
+\frac{8(1+2\pi)^3\bigl(L_0+L_3/(2\pi)^3\bigr)}{(1+|t|)^3}.
+\]
+
+该模块也将此界直接接入真实证明的解析移线结论。它要求的是窗口在对数坐标中的两个有限阶 L¹ 界，而不是 Mellin 衰减或待证的素数和界。
+
+`PrimeCancellationPaired.lean` 的 6 个定理也已通过。其 `SlotData` 只打包原始 Euler 恒等式、绝对收敛、素对象的初等计数与无零解析数据；由一般素数估计自行推导单槽界，再处理布尔删除、平方根归一化、有限乘积与行数。成员版本 `exists_uniform_paired_prime_bound_on_members` 仅在 `rows.attach × slots.attach` 上要求数据，故不会要求例外行或主行也整且无零。只用 `X^ell_i≥1` 和 `2δ Σell_i≤ε`，不设任何正槽长下界。
+
+更强的 `PrimeCancellationSchwartzControl.lean` 已在精确版本通过全部 24 个定理，无 warning/error，公理均只在标准三项范围内，源码 SHA-256 为 `5446022bf103dea35d1575e323c7eefdc3c46de29fcee27382824b5cc7d4c01a`。其最终 `uniform_window_and_logWindow_source_bound` 先选择一个固定有限集 `s⊂ℕ×ℕ`（含 `(0,0)`）与 `C>0`，再对**全部**支撑于 `[1,2]` 的 Schwartz 窗口 W 给出
+
+\[
+\|W\|_\infty\le S_s(W),\qquad
+|\mathcal M(W(x)/\log(Px))(\sigma+it)|
+\le\frac{C S_s(W)}{(1+|t|)^3},
+\]
+
+其中 `P≥exp(4)`、`σ∈[1/2,2]`，`S_s(W)` 是 mathlib 的标准有限 Schwartz 半范数上确界。有限集与常数位于 W、P、σ、t 之前，故与零边界、缓冲 δ、导子和模型无关。证明通过固定连续线性的对数坐标拉回、紧参数 `(A,σ)` 的光滑乘子、有限阶导数乘积界以及 Fourier 分部积分；连续线性映射的有限半范数控制由 mathlib `Seminorm.bound_of_continuous` 自行推出，未作为额外假设。
+
+因此，**标准 Schwartz 半范数对全部除对数窗口的一致控制已闭合**。新核心不再要求 caller 提供未经证明的窗口 Mellin 衰减。对原项目仍有两项明确的适配义务：识别项目 `testSeminorm` 与这里的标准 Schwartz 半范数，以及证明实际模型的 prime-slot profile 正是这些支撑和半范数受控的窗口（含需要的高度与参数导数界）。这两项属于真实模型接口，不应被“存在固定 W 常数”替代。所有 mathlib 外的实际 Hecke 接线稿仍保留其“项目依赖缺失、未编译”状态。
+
+### 独立审阅新增的标准半范数总界
+
+已阅读根模块 `PrimeCancellationUniformProfiles.lean` 与 `PrimeCancellationPairedProfiles.lean` 的完整数学陈述与证明结构；未发现量词或常数错误。其有限集 s 与 C 先于全部 W 及模型，包含 small-P 分支，掩码成本为 `B·S_s(W)`，平方根归一化精确减去一个 P 次幂，最终能量指数为 `e+(2β−1)Σell+ε`。成员版数据只在实际 rows/slots 的附属子类型上提供，不要求被排除的主行或例外行整且无零。此处为数学审阅记录；这两个根模块各自的 Lean 编译状态以对应最终日志为准。

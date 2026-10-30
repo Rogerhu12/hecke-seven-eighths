@@ -42,7 +42,11 @@ theorem compensationScalar_norm_bound (Z A B R : ℝ) (s w z : ℂ)
       _ = Z := Real.rpow_one _
   have hZB : ‖((Z * B : ℝ) : ℂ) ^ (s + z - 1)‖ ≤ Z ^ 2 * B ^ 2 := by
     rw [Complex.norm_cpow_eq_rpow_re_of_pos (mul_pos hZ0 hB0)]
-    have hbase : 1 ≤ Z * B := one_le_mul hZ hB
+    have hbase : 1 ≤ Z * B := by
+      calc
+        1 ≤ Z := hZ
+        _ = Z * 1 := (mul_one Z).symm
+        _ ≤ Z * B := mul_le_mul_of_nonneg_left hB hZ0.le
     calc
       _ ≤ (Z * B) ^ (2 : ℝ) := Real.rpow_le_rpow_of_exponent_le hbase (by simp [hz]; linarith)
       _ = Z ^ 2 * B ^ 2 := by rw [Real.rpow_two, mul_pow]

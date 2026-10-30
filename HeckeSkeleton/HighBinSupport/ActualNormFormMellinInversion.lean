@@ -30,7 +30,10 @@ theorem verticalIntegrable_mellin (V : SmoothAnnularTest) (sigma : ℝ) :
   have hmodel : Integrable (fun t : ℝ => D / (1 + |t|) ^ 2) := by
     have h := (integrable_one_add_norm (E := ℝ) (μ := volume) (r := 2)
       (by norm_num)).const_mul D
-    simpa only [Real.norm_eq_abs, Real.rpow_neg, Real.rpow_two, div_eq_mul_inv] using h
+    convert h using 1
+    ext t
+    rw [Real.norm_eq_abs, Real.rpow_neg (by positivity : 0 ≤ 1 + |t|), Real.rpow_two]
+    rfl
   have hc : Continuous (fun t : ℝ => mellin V.toFun ((sigma : ℂ) + t * I)) :=
     (differentiable_mellin V).continuous.comp (by fun_prop)
   apply hmodel.mono' hc.aestronglyMeasurable

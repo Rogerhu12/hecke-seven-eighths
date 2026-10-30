@@ -1,0 +1,55 @@
+Prime-slot cancellation: standalone Lean development and project adapters
+AI-assisted preparation: ChatGPT (GPT-6 Astra Pro), 2026-10-31 (UTC+8).
+
+Generic proof patterns were adapted from OpenAI's public math repository,
+commit fd4aeeb2, under the Apache License, Version 2.0:
+
+1. lean/OAI/NumberTheory/DirichletL/LogarithmicControl.lean
+   https://github.com/openai/math/blob/fd4aeeb2/lean/OAI/NumberTheory/DirichletL/LogarithmicControl.lean
+   Used for holomorphic-log normalization and Borel-Caratheodory proof patterns.
+
+2. lean/OAI/NumberTheory/DirichletL/Eisenstein/SourceMellinInversion.lean
+   https://github.com/openai/math/blob/fd4aeeb2/lean/OAI/NumberTheory/DirichletL/Eisenstein/SourceMellinInversion.lean
+   Used for the generic weighted Fubini and Mellin-inversion argument.
+
+3. lean/OAI/NumberTheory/DirichletL/Hecke/PrimeDyadicContour.lean
+   https://github.com/openai/math/blob/fd4aeeb2/lean/OAI/NumberTheory/DirichletL/Hecke/PrimeDyadicContour.lean
+   Used for the finite-rectangle calculation; the infinite limiting proof is independent.
+
+4. lean/OAI/NumberTheory/DirichletL/CompactProfileFamily.lean
+   https://github.com/openai/math/blob/fd4aeeb2/lean/OAI/NumberTheory/DirichletL/CompactProfileFamily.lean
+   Used for uniform derivative L1 and Fourier bounds on compact parameter families.
+
+5. lean/OAI/NumberTheory/DirichletL/PrimeLogProfile.lean
+   https://github.com/openai/math/blob/fd4aeeb2/lean/OAI/NumberTheory/DirichletL/PrimeLogProfile.lean
+   Used for smooth safe inversion and the logarithmically divided profile family.
+
+6. lean/OAI/NumberTheory/DirichletL/Mellin/InverseContour.lean
+   https://github.com/openai/math/blob/fd4aeeb2/lean/OAI/NumberTheory/DirichletL/Mellin/InverseContour.lean
+   Used for the generic cutoff logarithmic pullback and source-seminorm control.
+
+7. lean/OAI/NumberTheory/DirichletL/Mellin/UniformKernelBounds.lean
+   https://github.com/openai/math/blob/fd4aeeb2/lean/OAI/NumberTheory/DirichletL/Mellin/UniformKernelBounds.lean
+   Used for compact-parameter multiplier/Fourier estimates in Schwartz space.
+
+Changes include new namespaces, removal of special number-field imports,
+replacement of the original sieve cutoff by a Mathlib smooth bump, adaptation
+to the requested Mathlib revision, explicit constants, uniformity interfaces,
+and new prime-power, mask, and paired-moment assembly.
+
+The upstream Apache-2.0 license is included unchanged in LICENSE.
+All new standalone code is supplied under the same license. No new license
+is asserted over the user's original task or supplied project excerpts.
+Those files were inspected as task sources and are not relabeled as our work.
+
+The implementation depends on mathlib4, commit
+0493595ecd5da8ef14742febab99728f98e948e8, also under Apache-2.0.
+Mathlib is not redistributed in this package. Its source notices continue
+to apply; in particular BranchLogRoot.lean credits Yury Kudryashov (2026),
+BorelCaratheodory.lean credits Maksym Radziwill (2026), and the Mellin-inversion
+file credits Lawrence Wu (2024).
+
+Verified status applies only to modules listed in BUILD_STATUS.txt, at the
+exact hashes and versions recorded there. Project adapters are explicitly
+uncompiled and excluded. The original HeckeSkeleton.paired_primes_below_one
+is not claimed completed. See README.txt and the detailed API reports.

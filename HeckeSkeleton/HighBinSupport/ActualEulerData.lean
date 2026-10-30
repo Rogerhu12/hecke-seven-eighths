@@ -71,6 +71,22 @@ theorem removePrime_not_dvd (I : ExteriorIdeal K S) (p : ExteriorPrime K S) :
   simpa only [removePrime, primeExponents_idealOfPrimeExponents,
     Finsupp.erase_same, ne_eq, not_true_eq_false] using hne
 
+theorem removePrime_eq_self_of_not_mem (I : ExteriorIdeal K S) (p : ExteriorPrime K S)
+    (hp : p ∉ exteriorSupport K S I) : removePrime K S I p = I := by
+  have h0 : primeExponents I.val p.val = 0 := by
+    by_contra h
+    exact hp ((mem_exteriorSupport_iff K S I p).mpr
+      ((mem_idealPrimeSupport_iff K I.val p.val).mp (Finsupp.mem_support_iff.mpr h)))
+  have he : (primeExponents I.val).erase p.val = primeExponents I.val := by
+    ext q
+    by_cases hq : q = p.val
+    · subst q
+      simp only [Finsupp.erase_same, h0]
+    · exact Finsupp.erase_ne hq
+  apply Subtype.ext
+  change idealOfPrimeExponents ((primeExponents I.val).erase p.val) = I.val
+  rw [he, idealOfPrimeExponents_primeExponents]
+
 theorem residue_generator_removePrime_ne_zero (D : ThetaArithmeticData K S)
     (I : ExteriorIdeal K S) (p : ExteriorPrime K S) :
     sIntegerSexticResidueMap K S p.val p.property (D.generator (removePrime K S I p)) ≠ 0 := by
@@ -137,6 +153,34 @@ def rowPrimeUnit (P : ProbeData K S) (u : FrequencyRow K S) (p : ExteriorPrime K
           P.arithmetic.generator (removePrime K S u.ideal p)) := by
   simp only [rowPrimeUnit, Units.val_mul, sUnitSexticResidueUnit_val,
     Units.val_mk0, map_mul]
+
+/-- At a prime outside the actual row ideal, the local unit phase is
+the actual arithmetic row-character coefficient, by whole-ideal
+calibration at that prime. No independent phase identification is assumed. -/
+theorem rowPrimeUnit_character_of_not_mem_row (P : ProbeData K S)
+    (u : FrequencyRow K S) (p : ExteriorPrime K S)
+    (hp : p ∉ exteriorSupport K S u.ideal) :
+    thetaPrimeCharacter K S P.arithmetic p (rowPrimeUnit K S P u p) =
+      primeCoefficient K (arithmeticRowCharacter K S P u) p.val := by
+  have hnot : ¬p.val.asIdeal ∣ u.ideal.val.val :=
+    fun h => hp ((mem_exteriorSupport_iff K S u.ideal p).mpr h)
+  have hcop : IsCoprime p.val.asIdeal u.ideal.val.val := by
+    rw [Ideal.isCoprime_iff_sup_eq]
+    by_contra h
+    have heq := p.val.isMaximal.eq_of_le h le_sup_left
+    exact hnot (Ideal.dvd_iff_le.mpr (le_sup_right.trans_eq heq.symm))
+  have hcal := arithmeticRowCharacter_coefficient_calibration K S P u (exteriorPrimeIdeal K S p)
+  rw [if_pos hcop] at hcal
+  change idealCoefficient (primeCoefficient K (arithmeticRowCharacter K S P u))
+      p.val.asIdeal = idealSymbol K S P.arithmetic (exteriorPrimeIdeal K S p)
+        (frequencyRowElement K S P u) at hcal
+  rw [idealCoefficient_prime, idealSymbol_eq_idealCoefficient] at hcal
+  change primeCoefficient K (arithmeticRowCharacter K S P u) p.val =
+    idealCoefficient (primeValue K S P.arithmetic (frequencyRowElement K S P u))
+      p.val.asIdeal at hcal
+  rw [idealCoefficient_prime, primeValue, dif_pos p.property] at hcal
+  rw [rowPrimeUnit_val, removePrime_eq_self_of_not_mem K S u.ideal p hp]
+  exact hcal.symm
 
 /-- The literal prime-level additive character, transferred across the
 proved residue equivalence; this is not an arbitrary trace character. -/
@@ -293,6 +337,42 @@ theorem exceptional_unmarked_value (P : ProbeData K S) (ψ : HeckeCharacter K)
   simpa only [Bool.false_eq_true, if_false, sub_zero] using
     HighBinFiniteTables.ramified_value (rowPhaseData K S P ψ u p)
       (p.val.asIdeal.absNorm : ℝ) hq s w z (rowRamifiedIndex K S u p hmem) false hR
+
+/-- The constructed ramified factor is exactly the finite table with the
+actual prime-level Gauss sums. This equality includes ramified targets
+whose theta-period coefficient is zero. The exponent-zero unit mask in
+the raw table is retained. -/
+theorem exceptional_unmarked_eq_actualGaussTable
+    (P : ProbeData K S) (ψ : HeckeCharacter K)
+    (Q : Finset (ExteriorPrime K S)) (u : FrequencyRow K S) (p : ExteriorPrime K S)
+    (hp : p ∈ rowExceptionalPrimes K S Q u) (hpQ : p ∉ Q)
+    (s w z : ℂ)
+    (hV : 1 - coordV (p.val.asIdeal.absNorm : ℝ) z ≠ 0)
+    (hR : 1 - coordR (rowPhaseData K S P ψ u p) (p.val.asIdeal.absNorm : ℝ) s z ≠ 0) :
+    finiteEulerRationalValue
+        ((arithmeticHighEulerData K S P ψ).exceptionalFactor Q u ⟨p, hp⟩)
+        (p.val.asIdeal.absNorm : ℝ) s w z =
+      HighBin.FiniteLocalTable.finiteTableCorrection (p.val.asIdeal.absNorm : ℂ)
+        (primeCoefficient K (thetaPeriod K S P ψ) p.val)
+        (HighBin.ActualGaussPhases.gaussFamily (thetaPrimeCharacter K S P.arithmetic p)
+          (primeAddCharacter K S P.arithmetic p))
+        (thetaPrimeCharacter K S P.arithmetic p (rowPrimeUnit K S P u p))
+        ((p.val.asIdeal.absNorm : ℂ) ^ (-s)) ((p.val.asIdeal.absNorm : ℂ) ^ (-w))
+        (coordV (p.val.asIdeal.absNorm : ℝ) z)
+        (rowRamifiedIndex K S u p (exceptional_unmarked_mem_row K S Q u p hp hpQ)) := by
+  rw [exceptional_unmarked_value K S P ψ Q u p hp hpQ s w z hR]
+  have hV' : 1 - coordV (Fintype.card (𝓞 K ⧸ p.val.asIdeal)) z ≠ 0 := by
+    simpa only [card_primeIdealResidueField] using hV
+  have hR' : 1 - coordR (rowPhaseData K S P ψ u p)
+      (Fintype.card (𝓞 K ⧸ p.val.asIdeal)) s z ≠ 0 := by
+    simpa only [card_primeIdealResidueField] using hR
+  have h := HighBin.ActualGaussPhases.finiteTable_eq_contractiveGaussTable
+    (thetaPrimeCharacter K S P.arithmetic p) (thetaPrimeCharacter_order K S P.arithmetic p)
+    (primeAddCharacter K S P.arithmetic p) (primeAddCharacter_isPrimitive K S P.arithmetic p)
+    (primeCoefficient K (thetaPeriod K S P ψ) p.val)
+    (norm_primeCoefficient_le_one K _ p.val) (rowPrimeUnit K S P u p) s w z
+    (rowRamifiedIndex K S u p (exceptional_unmarked_mem_row K S Q u p hp hpQ)) hV' hR'
+  simpa only [card_primeIdealResidueField, rowPhaseData] using h.symm
 
 /-- Uniform exceptional-prime estimate for the constructed actual finite
 tables. Its constant is 9 and its cutoff is 2, independent of a, u, Q,

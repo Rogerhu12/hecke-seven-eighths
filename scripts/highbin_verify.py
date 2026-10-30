@@ -42,8 +42,8 @@ def main():
     run(['lake', 'build', *modules], OUT / 'core-build.log')
     declarations = json.loads((ROOT / 'docs/highbin/core_public_declarations.json').read_text())
     lines = ['import ' + m for m in modules]
-    lines += ['', 'set_option pp.universes true', 'set_option pp.width 120',
-              'set_option pp.maxDepth 1000', 'set_option pp.maxSteps 1000000']
+    lines += ['', 'set_option pp.universes true', 'set_option format.width 120',
+              'set_option pp.maxSteps 1000000']
     for declaration in declarations:
         lines += ['#check @' + declaration['name'], '#print axioms ' + declaration['name']]
     audit = OUT / 'PublicCoreAudit.lean'
@@ -53,6 +53,7 @@ def main():
     text = (OUT / 'core-public-types-and-axioms.log').read_text()
     allowed = {'propext', 'Classical.choice', 'Quot.sound'}
     for axioms in re.findall(r'depends on axioms:\s*\[([^\]]*)\]', text):
+        axioms = re.sub(r'\.\{[^}]*\}', '', axioms)
         actual = {a.strip() for a in axioms.split(',') if a.strip()}
         if not actual <= allowed:
             raise SystemExit('Unexpected transitive axioms: ' + repr(actual - allowed))

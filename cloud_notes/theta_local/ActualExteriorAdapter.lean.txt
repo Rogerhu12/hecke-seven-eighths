@@ -1,0 +1,176 @@
+import DedekindZetaZeroFree.Theta.Digits.Exterior.LocalDigitValues
+
+/-!
+# Candidate adapter to Axiom's actual local Whittaker action
+
+This file is kept outside the verified Mathlib-only core because its import
+requires the full Axiom project.  It uses the supplied theorem
+`nonzero_localDigit`, not a new assumption asserting the digit table.
+
+`L` is an arbitrary choice of residue lifts; `hL` only says that it is a
+section of the residue map.  The statements concern one exterior prime.
+The source representation is the existing `R,C` data required by Axiom's
+actual `localDigitValue` definition.
+
+The additional HeckeGeneral integration checks are: residue-character
+identification, additive-phase identification (including its sign),
+`absNorm = card`, and the precise normalized-Gauss equality for `thetaGamma`.
+-/
+
+noncomputable section
+set_option maxHeartbeats 12000000
+set_option synthInstance.maxHeartbeats 1000000
+set_option backward.isDefEq.respectTransparency true
+
+namespace DedekindZetaZeroFree.OrbitExpansion.ExteriorDigits
+
+open MomentSources NumberField IsDedekindDomain ThetaExpansion
+open scoped NumberField Classical BigOperators
+
+variable {F : Type} [Field F] [NumberField F]
+variable {S : SArithmeticData F} {η : RayClassCharacter F S.modulus}
+variable (R : PrincipalMellin.ActualRecipe S η)
+variable {N : TraceHaarTransport R} (C : JointUpperVanishingSources R N)
+
+def uniformActiveLocalDigit (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F) : ℂ :=
+  (Fintype.card (DHCubic.Residue F p.val) : ℂ)⁻¹ *
+    ∑ v ∈ Finset.univ.erase (0 : DHCubic.Residue F p.val),
+      localDigitValue R C p x (L v)
+
+def uniformInactiveLocalDigit (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F) : ℂ :=
+  (Fintype.card (DHCubic.Residue F p.val) : ℂ)⁻¹ * localDigitValue R C p x (L 0)
+
+def ordinaryActiveLocalDigit (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F) (j : Fin 6) : ℂ :=
+  ∑ v ∈ Finset.univ.erase (0 : DHCubic.Residue F p.val),
+    sexticFourierMask (ThetaBranch.residueCharacter R.A R.σ p) (Characters.psi R p) j v *
+      localDigitValue R C p x (L v)
+
+/-- The ordinary active finite sum is the actual Weyl average. -/
+theorem ordinaryActiveLocalDigit_eq_model (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F)
+    (hL : ∀ v, Ideal.Quotient.mk p.val.asIdeal (L v) = v) (j : Fin 6) :
+    ordinaryActiveLocalDigit R C p x L j =
+      sexticReflectedNonzeroDigits (ThetaBranch.residueCharacter R.A R.σ p)
+        (Characters.psi R p) j (ThetaBranch.order p.val x + 2)
+        (ThetaBranch.unitResidue p.val (ThetaBranch.localUnit R.A R.probe.allowed p x)) := by
+  unfold ordinaryActiveLocalDigit sexticReflectedNonzeroDigits
+  rw [Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro v hv
+  have hh := nonzero_localDigit R C p x (L v)
+    (by rw [hL]; exact Finset.ne_of_mem_erase hv)
+  rw [hL] at hh
+  rw [hh]
+  unfold ThetaBranch.symbol
+  ring
+
+/-- A uniform active mark is the negative of the ordinary exponent-zero active part. -/
+theorem uniformActiveLocalDigit_eq_neg_model (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F)
+    (hL : ∀ v, Ideal.Quotient.mk p.val.asIdeal (L v) = v) :
+    uniformActiveLocalDigit R C p x L =
+      -sexticReflectedNonzeroDigits (ThetaBranch.residueCharacter R.A R.σ p)
+        (Characters.psi R p) 0 (ThetaBranch.order p.val x + 2)
+        (ThetaBranch.unitResidue p.val (ThetaBranch.localUnit R.A R.probe.allowed p x)) := by
+  rw [← ordinaryActiveLocalDigit_eq_model R C p x L hL 0]
+  unfold uniformActiveLocalDigit ordinaryActiveLocalDigit
+  rw [Finset.mul_sum, ← Finset.sum_neg_distrib]
+  apply Finset.sum_congr rfl
+  intro v hv
+  simp [sexticFourierMask, Finset.ne_of_mem_erase hv]
+
+/-- The inactive term is exactly the original spherical value multiplied by `q⁻¹`. -/
+theorem uniformInactiveLocalDigit_eq (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F)
+    (hL : ∀ v, Ideal.Quotient.mk p.val.asIdeal (L v) = v) :
+    uniformInactiveLocalDigit R C p x L =
+      (Fintype.card (DHCubic.Residue F p.val) : ℂ)⁻¹ *
+        ThetaBranch.sphericalFactor R.A R.probe.allowed R.σ (Characters.psi R) p x := by
+  unfold uniformInactiveLocalDigit
+  rw [zero_localDigit R C p x (L 0) (hL 0)]
+
+/-- Uniform averaging splits into the inactive and active terms. -/
+theorem uniform_local_average_split (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F) :
+    (Fintype.card (DHCubic.Residue F p.val) : ℂ)⁻¹ *
+        (∑ v : DHCubic.Residue F p.val, localDigitValue R C p x (L v)) =
+      uniformInactiveLocalDigit R C p x L + uniformActiveLocalDigit R C p x L := by
+  rw [← Finset.sum_erase_add _ _ (Finset.mem_univ (0 : DHCubic.Residue F p.val))]
+  unfold uniformInactiveLocalDigit uniformActiveLocalDigit
+  ring
+
+/-- The actual active-mark table, still expressed as an unnormalized residue Gauss sum. -/
+theorem actual_mark_digit_table_raw (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F)
+    (hL : ∀ v, Ideal.Quotient.mk p.val.asIdeal (L v) = v) :
+    uniformActiveLocalDigit R C p x L =
+      if ThetaBranch.order p.val x + 2 = 0 then
+        (Fintype.card (DHCubic.Residue F p.val) : ℂ)⁻¹ *
+          gaussSum (ThetaBranch.residueCharacter R.A R.σ p ^ 2) (Characters.psi R p) *
+          ThetaBranch.symbol R.A R.σ p (ThetaBranch.localUnit R.A R.probe.allowed p x) ^ (2 : ℕ)
+      else 0 := by
+  let χ := ThetaBranch.residueCharacter R.A R.σ p
+  let ψ := Characters.psi R p
+  let t := ThetaBranch.unitResidue p.val (ThetaBranch.localUnit R.A R.probe.allowed p x)
+  have hχ : orderOf χ = 6 :=
+    DHCubic.orderOf_normalizedSextic_complex F R.A p.val p.property R.σ _
+      (DHCubic.existsUnique_normalizedSextic F R.A p.val p.property).exists.choose_spec
+  have hψ : ψ.IsPrimitive := Characters.primitive R p
+  have ht : t ≠ 0 := ThetaBranch.unitResidue_ne_zero p.val _
+    (ThetaBranch.localUnit_order R.A R.probe.allowed p x)
+  have hd := MulChar.orderOf_dvd_card_sub_one (DHCubic.Residue F p.val) χ
+  rw [hχ] at hd
+  obtain ⟨n, hn⟩ := hd
+  have hc := Fintype.one_lt_card (α := DHCubic.Residue F p.val)
+  have heq : Fintype.card (DHCubic.Residue F p.val) = 6 * n + 1 := by omega
+  have hQ : Nat.Coprime (Fintype.card (DHCubic.Residue F p.val)) 6 := by
+    rw [heq, Nat.coprime_comm]
+    simp
+  rw [uniformActiveLocalDigit_eq_neg_model R C p x L hL]
+  change -sexticReflectedNonzeroDigits χ ψ 0 (ThetaBranch.order p.val x + 2) t = _
+  by_cases he : ThetaBranch.order p.val x + 2 = 0
+  · rw [he, sexticReflectedNonzeroDigits_depth_zero χ ψ hχ hψ hQ 0 t ht]
+    have h6 : χ t ^ 6 = 1 := by
+      have h := congrArg (fun φ : MulChar (DHCubic.Residue F p.val) ℂ => φ t)
+        (pow_orderOf_eq_one χ)
+      simpa [hχ, MulChar.pow_apply' χ (by decide : (6 : ℕ) ≠ 0),
+        MulChar.one_apply (isUnit_iff_ne_zero.mpr ht)] using h
+    have h8 : χ t ^ 8 = χ t ^ 2 := by
+      calc
+        _ = χ t ^ 6 * χ t ^ 2 := by ring
+        _ = _ := by rw [h6, one_mul]
+    simp [he, sexticReflectedDepthZeroScalar, h8, ThetaBranch.symbol, χ, ψ, t]
+  · have hh : ThetaBranch.order p.val x + 2 < 0 ∨
+        (ThetaBranch.order p.val x + 2) % 3 = 2 ∨
+        (0 < ThetaBranch.order p.val x + 2 ∧ (0 : Fin 6).val ≠ 4) := by omega
+    rw [sexticReflectedNonzeroDigits_eq_zero χ ψ hχ hψ hQ 0 _ t ht hh, neg_zero]
+    simp [he]
+
+/-- The actual active mark in normalized `q⁻¹ᐟ² gamma₂` form. -/
+theorem actual_mark_digit_table (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F)
+    (hL : ∀ v, Ideal.Quotient.mk p.val.asIdeal (L v) = v) :
+    uniformActiveLocalDigit R C p x L =
+      if ThetaBranch.order p.val x + 2 = 0 then
+        (Real.sqrt (Fintype.card (DHCubic.Residue F p.val) : ℝ) : ℂ)⁻¹ *
+          ThetaBranch.gaussTwo R.A R.σ (Characters.psi R) p *
+          ThetaBranch.symbol R.A R.σ p (ThetaBranch.localUnit R.A R.probe.allowed p x) ^ (2 : ℕ)
+      else 0 := by
+  rw [actual_mark_digit_table_raw R C p x L hL]
+  by_cases he : ThetaBranch.order p.val x + 2 = 0
+  · simp only [if_pos he]
+    unfold ThetaBranch.gaussTwo
+    have hs : (Real.sqrt (Fintype.card (DHCubic.Residue F p.val) : ℝ) : ℂ) ^ 2 =
+        (Fintype.card (DHCubic.Residue F p.val) : ℂ) := by
+      exact_mod_cast Real.sq_sqrt
+        (show 0 ≤ (Fintype.card (DHCubic.Residue F p.val) : ℝ) by positivity)
+    rw [← hs, pow_two, mul_inv_rev]
+    ring
+  · simp [he]
+
+end DedekindZetaZeroFree.OrbitExpansion.ExteriorDigits
+
+end
