@@ -98,6 +98,64 @@ C(RNBL)^\varepsilon(R+NB)B
 `HeckeCharacter` 的值已经位于单位圆，所以这里没有另设 unitary 假设，也没有
 将相位或基系数的范数界当作未证输入。
 
+### 冻结出口的指数和显式预算
+
+记
+
+\[
+\kappa=-\frac{\max(T-v-3\ell,0)}2,\qquad
+s(v,z)=\min\{v,z,(v+z)/3\},
+\]
+\[
+E_{\rm ref}=\frac O2+\max(H,v+\ell)-S_{\rm exp}-B+z-s(v,z)-\ell+\kappa.
+\]
+
+对每个 `ε>0`，`uniform_actual_source_energy_ledger` 先选择统一的 `C>0`，
+随后对全部冻结数据、尺度及有限源块给出
+
+\[
+Z^{O/2} E_{\rm block} Z^\kappa
+\le C Z^{E_{\rm ref}+\varepsilon(H+v+\ell+z)}.
+\]
+
+这里 `Z≥1`，`H,v,ℓ,z≥0`；源块满足实际 `AnnularSupport`，并且
+`Z^(Sexp+B)≤N(chargeIdeal)`。局部表由 `withActualLocalTables` 代入真实值，
+三个局部 Gauss 界由 `primitiveLocalBounds` 证明。
+
+对固定 `W>0`、`ε>0`，`uniform_actual_family_source_energy_subpower` 给出
+整个原始行族的统一结论
+
+\[
+E_{\rm family} Z^\kappa\le C Z^{E_{\rm ref}+\varepsilon}.
+\]
+
+除逐块的 annulus 和 `chargeIdeal` 条件外，全族入口明确要求 `O≥0`、
+`(H+v+ℓ+z)+(O+Rrad)≤W`，每个原行的强幂因子范数不超过 `Z^O`，
+以及 `N(fromSupport base)≤Z^Rrad`。`FrozenFamilyAlignment` 要求每块的
+坐标、`base∪support(pow)`、原行集合及 `pow/sup` 数据吻合；其中没有目标能量
+等式或估计。强幂计数成本 `O/2` 已在 `Eref` 中，全族左侧不再重复乘这一因子。
+
+`AnnularSupport` 中保留的几何条件包括：原行位于给定有限范数球，剩余行范数不超过 `Z^H`，
+标记平方自由、避开完整冻结支撑且范数不超过 `Z^z`，列平方自由且避开
+`ordinary`、其范数位于 `[Z^v/2,Z^v]`，以及完整立方变量的范数位于
+`[Z^ℓ/2,Z^ℓ]`。输入第一分量支撑在 `ordinary` 内，第二分量避开 `ordinary`。
+对实际反射块，`reflectionSourceBlock_annularSupport` 从原始未分歧字符条件
+自动填入系数与相位范数界，调用方只需提供这些支撑和尺度条件。
+
+最后，`uniform_actual_family_source_energy_power_saving` 在同一全族条件上，
+加入声明中逐项列出的非负性、导子和终端裕度条件，得到
+
+\[
+E_{\rm family} Z^\kappa\le C Z^{F-c/4}.
+\]
+
+具体尺度关系为 `F=N+V`、`Nstar=N−3bh`、`V,bh≤δ`、`z≤z0`、`H≤M−O`，
+两个裕度是 `c≤F−M−Q−z0` 和 `c≤4F−3M−6z0`；导子比较为
+`T−Sexp−B≤2M−O+Q+V−Nstar+2z`，保留区间为 `v+3ℓ≤T+τ`，
+最后要求 `δ≤c/100`、`τ≤c/8`、`ε≤c/4`。
+这些入口中的 `Z^κ` 是明示的共同平方标量。把原 Mellin 核控制成这一标量，
+以及全局反射级数的汇总，属于下述后续调用方的工作。
+
 ## 与后续反射能量任务的边界
 
 本任务提供混合能量、冻结立方及其实际算术/局部相位字典。

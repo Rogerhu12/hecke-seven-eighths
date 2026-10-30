@@ -72,7 +72,7 @@ theorem dvd_iff (I J : ExteriorIdeal K S) : I ∣ J ↔ I.val.val ∣ J.val.val 
 @[simp] theorem completedIdeal_eq (c n : ExteriorIdeal K S) :
     completedIdeal K S c n = c * n ^ 3 := by
   change c * (n * (n * n)) = c * n ^ 3
-  simp only [pow_succ, pow_zero, mul_one, mul_assoc]
+  simp only [pow_succ, pow_zero, one_mul, mul_assoc]
 
 /-- Prime multiplicity is positive exactly when the prime divides the ideal. -/
 theorem primeExponents_pos_iff (I : (Ideal (𝓞 K))⁰) (p : HeightOneSpectrum (𝓞 K)) :
@@ -272,6 +272,6 @@ theorem linearNormCounting : LinearNormCounting (natNorm K S) (countConstant K) 
         obtain ⟨I, hI, rfl⟩ := Finset.mem_image.mp hJ
         exact_mod_cast hs I hI)
     have hcard : t.card = s.card := Finset.card_image_of_injective _ (underlying_injective K S)
-    simpa only [hcard] using hcount
+    simpa only [hcard, countConstant] using hcount
 
 end HeckeSkeleton.LowHybrid.ExteriorArithmetic
