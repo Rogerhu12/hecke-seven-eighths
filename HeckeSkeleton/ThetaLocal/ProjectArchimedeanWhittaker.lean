@@ -85,12 +85,14 @@ theorem directProfile_from_actual_whittaker (θ : HeckeCharacter K)
         omegaPlus y ^ (-heckeComplexWeight K v.val v.property θ) *
         ((radius y ^ 2 : ℝ) : ℂ) ^ (Complex.I * archRadial K θ v) =
       directProfile K θ v c (radius y ^ 2) := by
-  have h := direct_profile_from_whittaker c hc β hβ
+  have hexp : Complex.I * (archRadial K θ v : ℂ) =
+      -(heckeComplexParameter K v.val v.property θ : ℂ) * Complex.I := by
+    simp only [archRadial, Complex.ofReal_neg]
+    ring
+  rw [hexp]
+  exact direct_profile_from_whittaker c hc β hβ
     (heckeComplexWeight K v.val v.property θ)
     (heckeComplexParameter K v.val v.property θ) y
-  simpa only [directProfile, archRadial, Complex.ofReal_neg, mul_neg, neg_mul,
-    mul_comm, mul_left_comm, mul_assoc]
-    using h
 
 /-- The actual Weyl translate gives the reflected profile with the opposite radial sign. -/
 theorem reflectedProfile_from_actual_whittaker (θ : HeckeCharacter K)
