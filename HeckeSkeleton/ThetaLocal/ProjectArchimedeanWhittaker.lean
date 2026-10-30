@@ -44,6 +44,12 @@ theorem inverse_actual_complex_character (θ : HeckeCharacter K)
         ((radius y ^ 2 : ℝ) : ℂ) ^ (Complex.I * archRadial K θ v) := by
   have hr : 0 < radius y := norm_pos_iff.mpr (Units.ne_zero y)
   rw [heckeComplexComponent_formula, Circle.coe_mul, Circle.coe_zpow, mul_inv_rev]
+  change
+    (((Circle.exp (heckeComplexParameter K v.val v.property θ *
+      Real.log (radius y ^ 2)) : Circle) : ℂ)⁻¹) *
+        (((complexPhase y : Circle) : ℂ) ^ heckeComplexWeight K v.val v.property θ)⁻¹ =
+      omegaPlus y ^ (-heckeComplexWeight K v.val v.property θ) *
+        ((radius y ^ 2 : ℝ) : ℂ) ^ (Complex.I * archRadial K θ v)
   rw [inverse_actual_radial_character K θ v (radius y ^ 2) (sq_pos_of_pos hr)]
   rw [← zpow_neg]
   simp only [complexPhase_val, omegaPlus, radius]
@@ -82,7 +88,8 @@ theorem directProfile_from_actual_whittaker (θ : HeckeCharacter K)
   have h := direct_profile_from_whittaker c hc β hβ
     (heckeComplexWeight K v.val v.property θ)
     (heckeComplexParameter K v.val v.property θ) y
-  simpa only [directProfile, archRadial, Complex.ofReal_neg, mul_neg, neg_mul, mul_comm]
+  simpa only [directProfile, archRadial, Complex.ofReal_neg, mul_neg, neg_mul,
+    mul_comm, mul_left_comm, mul_assoc]
     using h
 
 /-- The actual Weyl translate gives the reflected profile with the opposite radial sign. -/

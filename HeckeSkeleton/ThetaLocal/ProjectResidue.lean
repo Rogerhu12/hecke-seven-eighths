@@ -95,13 +95,15 @@ theorem thetaPrimeQuotientFunction_eq (p : ExteriorPrime K S)
       (sIntegerResidueEquiv K S p.val.asIdeal
         (sIntegerSexticResidue_coprime K S p.val p.property) x) = _
   let p₀ : idealPrimeDivisors K p.val.asIdeal := ⟨p.val, dvd_rfl⟩
-  letI : Unique (idealPrimeDivisors K p.val.asIdeal) :=
-    { default := p₀
-      uniq := fun q => Subtype.ext (primeDivisor_eq K S p q) }
+  letI : Fintype (idealPrimeDivisors K p.val.asIdeal) :=
+    (idealPrimeDivisors_finite K p.val.asIdeal p.val.ne_bot).fintype
+  have hsingle (q : idealPrimeDivisors K p.val.asIdeal) : q = p₀ :=
+    Subtype.ext (primeDivisor_eq K S p q)
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
   rw [sIntegerResidueEquiv_mk, sIntegerSexticIdealQuotientFunction_mk]
   unfold sIntegerSexticIdealEvaluation
-  rw [Fintype.prod_unique]
+  rw [Finset.prod_eq_single_of_mem p₀ (Finset.mem_univ p₀)
+    (fun q _ hne => False.elim (hne (hsingle q)))]
   change sIntegerSexticEvaluation K S p.val p.property D.root6 D.primitive6
       D.embedding (D.away_six p.val p.property)
       (algebraMap (𝓞 K) (S.integer K) a) ^
