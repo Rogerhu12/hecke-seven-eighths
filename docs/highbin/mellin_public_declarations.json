@@ -1,0 +1,387 @@
+[
+  {
+    "name": "HighBinVerified.HigherPrimePowers.powerNorm",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 32,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.powerNorm_pos",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 35,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.summable_higher_primePowers",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 39,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.summable_higher_powerNorm",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 76,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.higherPowerConstant",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 83,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.higherPowerConstant_pos",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 86,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.higher_powerNorm_sum_le",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 93,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.higher_power_weighted_phase_sum_le",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 124,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.heckeHigherPowerTerm",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 153,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.hecke_higherPower_sum_le",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 163,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.higherPowerIdeal",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 188,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.higherPowerIdeal_injective",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 191,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.idealNorm_higherPowerIdeal",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 200,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.higherPowerCutoff",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 207,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.mem_higherPowerCutoff_iff",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 211,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.heckeHigherAnnularTerm",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 221,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.heckeHigherAnnularTerm_eq_zero_outside",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 225,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.summable_heckeHigherAnnularTerm",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 239,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.hecke_higherAnnular_tsum_le",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 249,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.heckeAnnularPrimePowerTerm",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 264,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.primePowerCutoff",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 271,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.mem_primePowerCutoff_iff",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 275,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.heckeAnnularPrimePowerTerm_eq_zero_outside",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 284,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.summable_heckeAnnularPrimePowerTerm",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 295,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.hecke_annular_primePower_decomposition",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 304,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.HigherPrimePowers.norm_annular_prime_sum_sub_primePower_sum_le",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormHigherPrimePowers.lean",
+    "line": 343,
+    "source_sha256": "926b92555db6fcba21616885aff4494f10838936edc17c3e805e9da04c1a667a"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.verticalIntegrable_mellin",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormMellinInversion.lean",
+    "line": 27,
+    "source_sha256": "81fdffff4dea4b50833b5be1de7044e65ad3831aac009329f88393c34b1c51f2"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.mellin_inversion_annular",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormMellinInversion.lean",
+    "line": 45,
+    "source_sha256": "81fdffff4dea4b50833b5be1de7044e65ad3831aac009329f88393c34b1c51f2"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.divideLogProfile",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormMellinInversion.lean",
+    "line": 52,
+    "source_sha256": "81fdffff4dea4b50833b5be1de7044e65ad3831aac009329f88393c34b1c51f2"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.divideLogProfile_support",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormMellinInversion.lean",
+    "line": 55,
+    "source_sha256": "81fdffff4dea4b50833b5be1de7044e65ad3831aac009329f88393c34b1c51f2"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.contDiff_divideLogProfile",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormMellinInversion.lean",
+    "line": 63,
+    "source_sha256": "81fdffff4dea4b50833b5be1de7044e65ad3831aac009329f88393c34b1c51f2"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.divideLogTest",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormMellinInversion.lean",
+    "line": 89,
+    "source_sha256": "81fdffff4dea4b50833b5be1de7044e65ad3831aac009329f88393c34b1c51f2"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.mellin_inversion_divideLog",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormMellinInversion.lean",
+    "line": 104,
+    "source_sha256": "81fdffff4dea4b50833b5be1de7044e65ad3831aac009329f88393c34b1c51f2"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.log_mul_mellinInv_primePower",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormMellinInversion.lean",
+    "line": 117,
+    "source_sha256": "81fdffff4dea4b50833b5be1de7044e65ad3831aac009329f88393c34b1c51f2"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.mellinInv_primePower_detector_term",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormMellinInversion.lean",
+    "line": 142,
+    "source_sha256": "81fdffff4dea4b50833b5be1de7044e65ad3831aac009329f88393c34b1c51f2"
+  },
+  {
+    "name": "HighBinVerified.NormFormPrimeDetector.annularMellinKernel",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormPrimeDetector.lean",
+    "line": 23,
+    "source_sha256": "1ad1f07857f28679b49b3d04e981508ab3422dbd625333a51a21be3a3c52bcf6"
+  },
+  {
+    "name": "HighBinVerified.NormFormPrimeDetector.integrable_annularMellinKernel",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormPrimeDetector.lean",
+    "line": 27,
+    "source_sha256": "1ad1f07857f28679b49b3d04e981508ab3422dbd625333a51a21be3a3c52bcf6"
+  },
+  {
+    "name": "HighBinVerified.NormFormPrimeDetector.annular_primePower_integrand",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormPrimeDetector.lean",
+    "line": 64,
+    "source_sha256": "1ad1f07857f28679b49b3d04e981508ab3422dbd625333a51a21be3a3c52bcf6"
+  },
+  {
+    "name": "HighBinVerified.NormFormPrimeDetector.integral_annularMellinKernel_primePower",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormPrimeDetector.lean",
+    "line": 97,
+    "source_sha256": "1ad1f07857f28679b49b3d04e981508ab3422dbd625333a51a21be3a3c52bcf6"
+  },
+  {
+    "name": "HighBinVerified.NormFormPrimeDetector.integrable_annular_logDerivative",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormPrimeDetector.lean",
+    "line": 124,
+    "source_sha256": "1ad1f07857f28679b49b3d04e981508ab3422dbd625333a51a21be3a3c52bcf6"
+  },
+  {
+    "name": "HighBinVerified.NormFormPrimeDetector.integral_annular_logDerivative",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormPrimeDetector.lean",
+    "line": 140,
+    "source_sha256": "1ad1f07857f28679b49b3d04e981508ab3422dbd625333a51a21be3a3c52bcf6"
+  },
+  {
+    "name": "HighBinVerified.NormFormPrimeDetector.integral_annular_primePower_detector",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormPrimeDetector.lean",
+    "line": 165,
+    "source_sha256": "1ad1f07857f28679b49b3d04e981508ab3422dbd625333a51a21be3a3c52bcf6"
+  },
+  {
+    "name": "HighBinVerified.NormFormPrimeDetector.norm_annular_prime_sum_add_logDerivative_integral_le",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormPrimeDetector.lean",
+    "line": 212,
+    "source_sha256": "1ad1f07857f28679b49b3d04e981508ab3422dbd625333a51a21be3a3c52bcf6"
+  },
+  {
+    "name": "HighBinVerified.NormFormPrimeDetector.norm_annular_phase_sum_add_logDerivative_integral_le",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormPrimeDetector.lean",
+    "line": 230,
+    "source_sha256": "1ad1f07857f28679b49b3d04e981508ab3422dbd625333a51a21be3a3c52bcf6"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.compactLogProfile",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormUniformMellin.lean",
+    "line": 25,
+    "source_sha256": "e69c20a09c3e61faac334b7522330742fafc6f15a4ccb7b5acc1f3b79005e08a"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.logProfileDomain",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormUniformMellin.lean",
+    "line": 28,
+    "source_sha256": "e69c20a09c3e61faac334b7522330742fafc6f15a4ccb7b5acc1f3b79005e08a"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.isOpen_logProfileDomain",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormUniformMellin.lean",
+    "line": 31,
+    "source_sha256": "e69c20a09c3e61faac334b7522330742fafc6f15a4ccb7b5acc1f3b79005e08a"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.contDiffOn_compactLogProfile",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormUniformMellin.lean",
+    "line": 41,
+    "source_sha256": "e69c20a09c3e61faac334b7522330742fafc6f15a4ccb7b5acc1f3b79005e08a"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.jointLogEuler",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormUniformMellin.lean",
+    "line": 58,
+    "source_sha256": "e69c20a09c3e61faac334b7522330742fafc6f15a4ccb7b5acc1f3b79005e08a"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.contDiffOn_jointLogEuler",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormUniformMellin.lean",
+    "line": 62,
+    "source_sha256": "e69c20a09c3e61faac334b7522330742fafc6f15a4ccb7b5acc1f3b79005e08a"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.divideLogProfile_eq_compactLogProfile",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormUniformMellin.lean",
+    "line": 88,
+    "source_sha256": "e69c20a09c3e61faac334b7522330742fafc6f15a4ccb7b5acc1f3b79005e08a"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.exists_uniform_divideLog_euler_bound",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormUniformMellin.lean",
+    "line": 114,
+    "source_sha256": "e69c20a09c3e61faac334b7522330742fafc6f15a4ccb7b5acc1f3b79005e08a"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.exists_uniform_divideLog_Iint_bound",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormUniformMellin.lean",
+    "line": 140,
+    "source_sha256": "e69c20a09c3e61faac334b7522330742fafc6f15a4ccb7b5acc1f3b79005e08a"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.exists_uniform_divideLog_mellin_bound",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormUniformMellin.lean",
+    "line": 174,
+    "source_sha256": "e69c20a09c3e61faac334b7522330742fafc6f15a4ccb7b5acc1f3b79005e08a"
+  },
+  {
+    "name": "HighBinVerified.NormFormMellin.exists_primeWindow_divideLog_mellin_bound",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/ActualNormFormUniformMellin.lean",
+    "line": 211,
+    "source_sha256": "e69c20a09c3e61faac334b7522330742fafc6f15a4ccb7b5acc1f3b79005e08a"
+  }
+]

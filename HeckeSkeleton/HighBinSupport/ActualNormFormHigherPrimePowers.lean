@@ -45,7 +45,7 @@ theorem summable_higher_primePowers {sigma : ℝ} (hsigma : 1 / 2 < sigma) :
   have hg : Summable (fun n : ℕ => r ^ n) := summable_geometric_of_lt_one hr0 hr1
   have hp : Summable (fun p : HeightOneSpectrum (𝓞 K) =>
       (p.asIdeal.absNorm : ℝ) ^ (-(2 * sigma))) := by
-    simpa only [primeNonzeroIdeal] using
+    simpa only [Function.comp_def, primeNonzeroIdeal] using
       (summable_nonzeroIdeal_norm_rpow K (show 1 < 2 * sigma by linarith)).comp_injective
         (primeNonzeroIdeal_injective K)
   have hm := hp.mul_of_nonneg hg
@@ -191,8 +191,11 @@ def higherPowerIdeal (pn : HeightOneSpectrum (𝓞 K) × ℕ) : NonzeroIdeal K :
 theorem higherPowerIdeal_injective : Function.Injective (higherPowerIdeal K) := by
   intro x y h
   have hpair := primePowerIdeal_injective K h
-  exact Prod.ext (congrArg Prod.fst hpair)
-    (Nat.add_right_cancel (congrArg Prod.snd hpair))
+  have hfst : x.1 = y.1 :=
+    congrArg (fun q : HeightOneSpectrum (𝓞 K) × ℕ => q.1) hpair
+  have hsnd : x.2 + 1 = y.2 + 1 :=
+    congrArg (fun q : HeightOneSpectrum (𝓞 K) × ℕ => q.2) hpair
+  exact Prod.ext hfst (Nat.add_right_cancel hsnd)
 
 theorem idealNorm_higherPowerIdeal (pn : HeightOneSpectrum (𝓞 K) × ℕ) :
     idealNorm K (higherPowerIdeal K pn) = powerNorm K pn := by
@@ -312,7 +315,9 @@ theorem hecke_annular_primePower_decomposition
     hf.comp_injective (fun _ _ h => congrArg Prod.fst h)
   have hhigh := summable_heckeHigherAnnularTerm K chi phi hP t hann
   have htail (p : HeightOneSpectrum (𝓞 K)) (n : ℕ) :
-      f (p, n + 1) = heckeHigherAnnularTerm K chi phi P t (p, n) := rfl
+      f (p, n + 1) = heckeHigherAnnularTerm K chi phi P t (p, n) := by
+    simp only [f, heckeAnnularPrimePowerTerm, heckeHigherAnnularTerm,
+      heckeHigherPowerTerm, powerNorm, Nat.add_assoc, Nat.reduceAdd]
   have hfirst (p : HeightOneSpectrum (𝓞 K)) :
       f (p, 0) = phi ((p.asIdeal.absNorm : ℝ) / P) * primeCoefficient K chi p *
         (p.asIdeal.absNorm : ℂ) ^ (-(1 / 2 : ℂ) + (t : ℂ) * Complex.I) := by

@@ -86,8 +86,46 @@ theorem finite_prime_windows_separate {ι : Type*} [Fintype ι] [DecidableEq ι]
   congr 1
   exact (Fintype.prod_sum factor).symm
 
+/-- Indexed form of the complete compensation. The distinct-prime tuple
+is retained explicitly, matching the original finite slot powerset. -/
+theorem indexed_compensation_factorization {Slot Prime : Type*}
+    [DecidableEq Slot] [DecidableEq Prime]
+    (S : Finset Slot) (p : Slot → Prime) (hp : Function.Injective p)
+    (H marked : Prime → ℂ) (A B : Slot → ℂ) (total : ℂ)
+    (hH : HasProd H total) (hne : ∀ i ∈ S, H (p i) ≠ 0) :
+    (∑ J ∈ S.powerset,
+      (∏ i ∈ J, -B i) * (∏ i ∈ S \ J, A i) *
+        markedEulerProduct H marked ((S \ J).image p)) =
+      total * ∏ i ∈ S, (A i * marked (p i) - B i * H (p i)) / H (p i) := by
+  have hterm : ∀ J ∈ S.powerset,
+      (∏ i ∈ J, -B i) * (∏ i ∈ S \ J, A i) *
+        markedEulerProduct H marked ((S \ J).image p) =
+      total * ((∏ i ∈ J, -B i) *
+        ∏ i ∈ S \ J, A i * (marked (p i) / H (p i))) := by
+    intro J hJ
+    have hnon : ∀ q ∈ (S \ J).image p, H q ≠ 0 := by
+      intro q hq
+      obtain ⟨i, hi, rfl⟩ := Finset.mem_image.mp hq
+      exact hne i (Finset.mem_sdiff.mp hi).1
+    rw [markedEulerProduct_eq H marked total hH _ hnon,
+      Finset.prod_image hp.injOn, Finset.prod_mul_distrib]
+    ring
+  calc
+    _ = ∑ J ∈ S.powerset, total * ((∏ i ∈ J, -B i) *
+        ∏ i ∈ S \ J, A i * (marked (p i) / H (p i))) :=
+      Finset.sum_congr rfl hterm
+    _ = total * ∏ i ∈ S, (-B i + A i * (marked (p i) / H (p i))) := by
+      rw [← Finset.mul_sum, ← Finset.prod_add]
+    _ = _ := by
+      congr 1
+      apply Finset.prod_congr rfl
+      intro i hi
+      field_simp [hne i hi]
+      ring
+
 end HighBinVerified.NormForm
 
 #print axioms HighBinVerified.NormForm.markedEulerProduct_eq
 #print axioms HighBinVerified.NormForm.finite_compensation_factorization
 #print axioms HighBinVerified.NormForm.finite_prime_windows_separate
+#print axioms HighBinVerified.NormForm.indexed_compensation_factorization

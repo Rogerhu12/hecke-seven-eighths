@@ -39,7 +39,7 @@ theorem summable_exteriorPrime_norm_rpow {σ : ℝ} (hσ : 1 < σ) :
     (primeNonzeroIdeal_injective K)
   have hs := hp.comp_injective
     (Subtype.val_injective : Function.Injective (fun p : ExteriorPrime K S => p.val))
-  simpa only [primeNonzeroIdeal] using hs
+  simpa only [Function.comp_def, primeNonzeroIdeal] using hs
 
 theorem summable_exteriorPrime_swept_error {e : ℝ} (he : 0 < e) :
     Summable (fun p : ExteriorPrime K S =>

@@ -42,5 +42,10 @@
   "HeckeSkeleton.HighBinSupport.BoundaryTupleScalar",
   "HeckeSkeleton.HighBinSupport.ContractiveGaussPhases",
   "HeckeGeneral.Analysis.FiniteEulerRational",
-  "HeckeSkeleton.HighBinSupport.FiniteEulerTables"
+  "HeckeSkeleton.HighBinSupport.FiniteEulerTables",
+  "HeckeGeneral.Analysis.AnnularTest",
+  "HeckeGeneral.Analysis.PrimeWindowGeometry",
+  "HeckeSkeleton.ThetaKernel.TestMellin",
+  "HeckeSkeleton.HighBinSupport.ActualDenominatorMellin",
+  "HeckeSkeleton.HighBinSupport.PrimeBlockEuler"
 ]

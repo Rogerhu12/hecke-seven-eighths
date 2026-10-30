@@ -1,5 +1,6 @@
 import HeckeSkeleton.HighBin
 import HeckeSkeleton.HighBinSupport.ActualBoundaryEstimate
+import HeckeSkeleton.HighBinSupport.HighNormFormHeight
 
 /-!
 # The actual whole-bin boundary and its remaining geometric data
@@ -292,9 +293,75 @@ theorem highBoundaryControl_of_arithmetic_geometry
         Real.rpow_mul hZ0.le, Real.rpow_mul hT0.le, Real.rpow_natCast, mul_pow]
       ring
 
+/-- The standard buffered heights have the required gap and a fixed
+polynomial envelope. The same internal power height already used by the
+norm-form schedule is retained. No tail order occurs in its exponent. -/
+theorem buffered_height_geometry (Z T κ δ : ℝ) (i I : ℕ)
+    (hZ : 1 ≤ Z) (hT : 1 ≤ T) (hκ : 0 ≤ κ) (hδ : 0 < δ) (hδ1 : δ ≤ 1)
+    (hi : i ≤ I) :
+    δ * T ≤ δ * HighBinVerified.NormForm.internalHeight Z T κ ∧
+      δ * HighBinVerified.NormForm.internalHeight Z T κ + 3 / 2 ≤
+        3 * ((i : ℝ) + 1) * HighBinVerified.NormForm.internalHeight Z T κ ∧
+      2 + 3 * ((i : ℝ) + 1) * HighBinVerified.NormForm.internalHeight Z T κ ≤
+        (3 * ((I : ℝ) + 1) + 2) * Z ^ κ * (1 + T) := by
+  let H := HighBinVerified.NormForm.internalHeight Z T κ
+  have hTH : T ≤ H := HighBinVerified.NormForm.le_internalHeight Z T κ
+  have hH1 : 1 ≤ H := hT.trans hTH
+  have hH0 : 0 ≤ H := zero_le_one.trans hH1
+  have hHupper : H ≤ Z ^ κ * (1 + T) :=
+    HighBinVerified.NormForm.internalHeight_le_power_mul Z T κ hZ
+      (zero_le_one.trans hT) hκ
+  have hi0 : 0 ≤ (i : ℝ) := Nat.cast_nonneg _
+  have hI0 : 0 ≤ (I : ℝ) := Nat.cast_nonneg _
+  have hiI : (i : ℝ) ≤ I := Nat.cast_le.mpr hi
+  have hδH : δ * H ≤ H := by
+    simpa only [one_mul] using mul_le_mul_of_nonneg_right hδ1 hH0
+  refine ⟨mul_le_mul_of_nonneg_left hTH hδ.le, ?_, ?_⟩
+  · have hiH : 0 ≤ (i : ℝ) * H := mul_nonneg hi0 hH0
+    change δ * H + 3 / 2 ≤ 3 * ((i : ℝ) + 1) * H
+    nlinarith
+  · change 2 + 3 * ((i : ℝ) + 1) * H ≤ _
+    calc
+      _ ≤ (3 * ((I : ℝ) + 1) + 2) * H := by
+        have hmono := mul_le_mul_of_nonneg_right hiI hH0
+        nlinarith
+      _ ≤ (3 * ((I : ℝ) + 1) + 2) * (Z ^ κ * (1 + T)) :=
+        mul_le_mul_of_nonneg_left hHupper (by positivity)
+      _ = _ := by ring
+
+/-- Specialization to concrete buffered-height formulas. Once the actual
+presentation uses these formulas, no independent height-growth estimate
+remains to be supplied; only its genuine retained-block count is needed. -/
+theorem highBoundaryControl_of_buffered_schedule
+    (c : TargetContext K) (P : ActualHighPresentation K c)
+    (hEuler : P.euler = HeckeSkeleton.HighBinActualEuler.arithmeticHighEulerData K _
+      (targetData K c).probe (targetCharacter K c))
+    (hcompanions : 1 ∈ P.companions)
+    (δ κ : ℝ) (I : ℕ) (hδ : 0 < δ) (hδ1 : δ ≤ 1) (hκ : 0 ≤ κ)
+    (AB RB ceiling Cb Zg : ℝ) (hAB : 0 ≤ AB) (hceiling : 0 < ceiling)
+    (hCb : 0 < Cb) (hZg : 1 ≤ Zg)
+    (hcount : ∀ Z T : ℝ, Zg ≤ Z → 1 ≤ T → T ≤ Z ^ ceiling →
+      (((targetData K c).expansion Z T).blockCount : ℝ) ≤
+        Cb * Z ^ RB * (1 + T) ^ AB)
+    (hschedule : ∀ Z T : ℝ, Zg ≤ Z → 1 ≤ T → T ≤ Z ^ ceiling →
+      ∀ b : HighBlockIndex K c Z T, ∃ i : ℕ, i ≤ I ∧
+        P.contourHeight Z T b = δ * HighBinVerified.NormForm.internalHeight Z T κ ∧
+        P.upperHeight Z T b =
+          3 * ((i : ℝ) + 1) * HighBinVerified.NormForm.internalHeight Z T κ) :
+    HighBoundaryControl K c P := by
+  apply highBoundaryControl_of_arithmetic_geometry K c P hEuler hcompanions δ hδ
+    AB RB 1 κ ceiling Cb (3 * ((I : ℝ) + 1) + 2) Zg hAB (by norm_num)
+    hceiling hCb (by positivity) hZg hcount
+  intro Z T hZ hT hTc b
+  obtain ⟨i, hi, hH, hU⟩ := hschedule Z T hZ hT hTc b
+  simp only [hH, hU, Real.rpow_one]
+  exact buffered_height_geometry Z T κ δ i I (hZg.trans hZ) hT hκ hδ hδ1 hi
+
 #print axioms highFixedRowBin_member_data
 #print axioms exists_presentationBoundaryPiece_external_tail
 #print axioms exists_wholeBinBoundary_heightSum_bound
 #print axioms highBoundaryControl_of_arithmetic_geometry
+#print axioms buffered_height_geometry
+#print axioms highBoundaryControl_of_buffered_schedule
 
 end HeckeSkeleton.HighBinBoundaryPresentation

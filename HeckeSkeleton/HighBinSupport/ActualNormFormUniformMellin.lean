@@ -1,4 +1,5 @@
 import HeckeSkeleton.HighBinSupport.ActualNormFormMellinInversion
+import HeckeGeneral.Analysis.PrimeWindowGeometry
 import Mathlib.Analysis.Calculus.ContDiff.Comp
 import Mathlib.Analysis.Calculus.Deriv.Prod
 import Mathlib.Analysis.Normed.Group.Bounded
@@ -18,6 +19,7 @@ namespace HighBinVerified.NormFormMellin
 
 open MeasureTheory Complex Set Filter
 open HeckeGeneral.ThetaSkeleton.Global HeckeSkeleton.ThetaKernel
+open HeckeGeneral.ThetaSkeleton.Physical
 open scoped Topology ContDiff BigOperators
 
 def compactLogProfile (V : SmoothAnnularTest) (h y : ℝ) : ℂ :=

@@ -27,10 +27,10 @@ open scoped Classical BigOperators
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 
-local instance primeResidueField (p : ExteriorPrime K S) :
+local instance signPrimeResidueField (p : ExteriorPrime K S) :
     Field (𝓞 K ⧸ p.val.asIdeal) := Ideal.Quotient.field _
 
-local instance primeResidueFintype (p : ExteriorPrime K S) :
+local instance signPrimeResidueFintype (p : ExteriorPrime K S) :
     Fintype (𝓞 K ⧸ p.val.asIdeal) := Fintype.ofFinite _
 
 /-- Reduction of the actual twelfth root realizes -1 as a sixth power. -/

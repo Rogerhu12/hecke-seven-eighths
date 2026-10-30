@@ -32,10 +32,10 @@ open scoped Classical BigOperators ComplexConjugate nonZeroDivisors
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 
-local instance primeResidueField (p : ExteriorPrime K S) :
+local instance calibrationPrimeResidueField (p : ExteriorPrime K S) :
     Field (𝓞 K ⧸ p.val.asIdeal) := Ideal.Quotient.field _
 
-local instance primeResidueFintype (p : ExteriorPrime K S) :
+local instance calibrationPrimeResidueFintype (p : ExteriorPrime K S) :
     Fintype (𝓞 K ⧸ p.val.asIdeal) := Fintype.ofFinite _
 
 /-- The mixed calibration at the actual prime, with its Mobius sign and

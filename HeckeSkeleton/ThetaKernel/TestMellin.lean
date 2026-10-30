@@ -1,4 +1,4 @@
-import HeckeGeneral.Analysis.GlobalThetaData
+import HeckeGeneral.Analysis.AnnularTest
 
 /-! Mellin transforms of smooth annular tests: entireness, Euler integration by
 parts, and the weighted bounds `|w|^j |M V(-w)| ≤ ∫ |E^j V| y^{-σ-1}`. -/
