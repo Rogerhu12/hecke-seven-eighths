@@ -1,0 +1,6 @@
+import ActualProbeSpectralCauchy
+import ActualGramRowBallPoissonReduction
+
+-- Two actual original-Gamma Gram core endpoints; candidate elaboration only.
+#print axioms HeckeGeneral.ThetaSkeleton.Physical.ActualProbeLogDraft.exists_probeSpectral_originalGamma_cauchy_bound
+#print axioms HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft.exists_actualGram_rowBall_reduction

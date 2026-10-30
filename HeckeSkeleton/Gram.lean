@@ -1,6 +1,13 @@
 import HeckeSkeleton.GramDefinitions
 import HeckeSkeleton.GramUnitInvariant
 import HeckeSkeleton.GramOrdinaryCount
+import HeckeSkeleton.GramDyadic
+import HeckeSkeleton.GramIdealShell
+import HeckeSkeleton.GramCorrelation
+import HeckeSkeleton.GramMeanZero
+import HeckeSkeleton.GramRowBall
+import HeckeSkeleton.GramExceptionalCount
+import HeckeSkeleton.GramSmallRadius
 
 /-!
 Top-down EXPLORATORY dependency skeleton for revised Proposition 3.8.
@@ -83,16 +90,16 @@ theorem complete_pair_fourier (P : ProbeData K S) (I J : ExteriorIdeal K S)
           sLocalPrincipalPhase K S
             (((-m : S.integer K) : K) *
               ((Classical.choose (Ideal.Quotient.mk_surjective j) : S.integer K) : K) /
-                ((P.arithmetic.generator I : K) * (P.arithmetic.generator J : K))) := by
-  sorry
+                ((P.arithmetic.generator I : K) * (P.arithmetic.generator J : K))) :=
+  HeckeSkeleton.GramCorrelation.complete_pair_fourier K S P I J m
 
 -- OBLIGATION GR-04 | revised §3.5, p.15 (zero frequency).
 -- Existing cache: ActualSexticZeroFrequencyDiagonal, ActualGramZeroFrequency.
 -- Associates are compared as ideals; only the I=J clause uses literal gen(I).
 theorem zero_frequency_diagonal (P : ProbeData K S) (I J : ExteriorIdeal K S) :
     (I ≠ J → correlation K S P I J 0 = 0) ∧
-    correlation K S P I I 0 = (Nat.card (ThetaQuotient K S I)ˣ : ℂ) := by
-  sorry
+    correlation K S P I I 0 = (Nat.card (ThetaQuotient K S I)ˣ : ℂ) :=
+  HeckeSkeleton.GramCorrelation.zero_frequency_diagonal K S P I J
 
 -- OBLIGATION GR-05 | revised §3.5 (3.36) and mean-zero paragraph, p.14.
 -- Existing: actual finite sextic evaluations and full local correlation tables.
@@ -101,8 +108,8 @@ theorem zero_frequency_diagonal (P : ProbeData K S) (I J : ExteriorIdeal K S) :
 theorem residual_character_mean_zero (P : ProbeData K S) (I : ExteriorIdeal K S)
     (hI : ∃ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ I.val.val ∧
       ¬ 6 ∣ idealPrimeMultiplicity K p I.val.val) :
-    (∑' x : ThetaQuotient K S I, columnCharacter K S P I x) = 0 := by
-  sorry
+    (∑' x : ThetaQuotient K S I, columnCharacter K S P I x) = 0 :=
+  HeckeSkeleton.GramMeanZero.residual_character_mean_zero K S P I hI
 
 -- OBLIGATION GR-06 | revised §3.1/§3.5, pp.3–5,15.
 -- Existing cache: ActualOrdinaryOrbitShellCount, using verified ideal linear
@@ -120,8 +127,8 @@ theorem exceptional_frequency_count {ε : ℝ} (hε : 0 < ε) :
     ∃ C : ℝ, 0 < C ∧ ∀ (A : NonzeroIdeal K) (X : ℝ), 0 < X →
       Finite (exceptionalCutoff K S A X) ∧
       (Nat.card (exceptionalCutoff K S A X) : ℝ) ≤
-        C * idealNorm K A ^ ε * X ^ (1 / 6 : ℝ) := by
-  sorry
+        C * idealNorm K A ^ ε * X ^ (1 / 6 : ℝ) :=
+  HeckeSkeleton.GramExceptionalCount.exceptional_frequency_count K S hε
 
 -- OBLIGATION GR-08 | revised §3.5 dyadic display after (3.37), p.15.
 -- Existing cache: ActualDyadicDoubleSum, static-reviewed, not imported here.
@@ -134,8 +141,8 @@ theorem positive_dyadic_double_sum :
       (∑' ij : ℕ × ℕ,
         (2 : ℝ) ^ (-(ij.1 + ij.2 : ℝ)) *
           min 1 (((2 : ℝ) ^ (ij.1 + ij.2) / Λ) ^ 3)) ≤
-        C * (1 + Real.log (2 + Λ)) / Λ := by
-  sorry
+        C * (1 + Real.log (2 + Λ)) / Λ :=
+  HeckeSkeleton.GramDyadic.positive_dyadic_double_sum
 
 -- OBLIGATION GR-09 | revised §3.5 ideal shells following (3.37), p.15.
 -- Existing cache: actual ideal-shell reindex candidate, not a count hypothesis.
@@ -151,8 +158,8 @@ theorem actual_ideal_double_shell :
       (∑' IJ : NonzeroIdeal K × NonzeroIdeal K,
         (idealNorm K IJ.1) ^ (-2 : ℝ) * (idealNorm K IJ.2) ^ (-2 : ℝ) *
           min 1 ((idealNorm K IJ.1 * idealNorm K IJ.2 / Λ) ^ 3)) ≤
-        C * (1 + Real.log (2 + Λ)) / Λ := by
-  sorry
+        C * (1 + Real.log (2 + Λ)) / Λ :=
+  HeckeSkeleton.GramIdealShell.actual_ideal_double_shell K
 
 section Profiles
 variable [MeasurableSpace (sLocalNormOneGroup K S)]
@@ -170,8 +177,8 @@ theorem row_ball_majorant (B : ℝ) (hB : 0 < B) :
       (∀ x, (sLocalTensorTestFunction K S φ ψ x).im = 0 ∧
         0 ≤ (sLocalTensorTestFunction K S φ ψ x).re) ∧
       ∀ R : {r : ℝ // 0 < r}, R.val ≤ B →
-        c ≤ (sUnitOrbitalProfile K S (sLocalTensorTestFunction K S φ ψ) R).re := by
-  sorry
+        c ≤ (sUnitOrbitalProfile K S (sLocalTensorTestFunction K S φ ψ) R).re :=
+  HeckeSkeleton.GramRowBall.row_ball_majorant K S B hB
 
 -- OBLIGATION GR-11 | revised §3.5 first shell / (3.37), p.15.
 -- Existing SR26 / free-test generalization candidates: actual positive Mellin
@@ -187,8 +194,8 @@ theorem small_radius_profile [IsTotallyComplex K]
         ‖iteratedDeriv j (fun v : ℝ =>
           sUnitOrbitalProfile K S (sLocalTensorTestFunction K S φ ψ)
             ⟨Real.exp v, Real.exp_pos v⟩) t‖ ≤
-          C * s.sup (schwartzSeminormFamily ℝ V ℂ) φ * Real.exp (-σ * t) := by
-  sorry
+          C * s.sup (schwartzSeminormFamily ℝ V ℂ) φ * Real.exp (-σ * t) :=
+  HeckeSkeleton.GramSmallRadius.small_radius_profile K S ψ hψ hcs σ hσ hσ1 J
 
 /-- Verified mainline large-radius bound. It retains its threshold R0 and
 must NOT be used to prove GR-11 at small radii. -/
