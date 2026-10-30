@@ -1,0 +1,37 @@
+THETA_LOCAL — source attribution and verification boundaries
+
+New local proof modules and reports were prepared for the supplied THETA_LOCAL task.
+The supplied project files, old repository reference, and paper excerpts were not modified.
+
+Upstream reference:
+  AxiomMath/DedekindZetaZeroFree
+  https://github.com/AxiomMath/DedekindZetaZeroFree
+  Fixed commit: 09afbb4ce6570c1615d58509dc197fc9f0956b7d
+  License: Apache License 2.0; see LICENSE.AXIOM.
+
+HeckeSkeleton/ThetaLocal/HighestHarmonicRoot.lean adapts the local highest-harmonic
+calculation from DedekindZetaZeroFree/Theta/Whittaker/TensorProduct/HighestRoot.lean.
+The namespace and imports are changed to isolate the local argument.
+Its remaining mathematical proof is retained with its upstream provenance.
+
+reference/Axiom contains only the fixed upstream files needed for the recorded
+local dependency closure. verification/axiom_overlay contains a second copy;
+its only permitted changes are complete import command lines. Exact source hashes
+and comparisons are recorded in build_evidence/axiom_overlay_provenance.json.
+No compiled Mathlib or Lean runtime, third-party credentials, or user repositories
+are bundled.
+
+integration/ActualExteriorAdapter.lean is an UNCOMPILED integration candidate.
+It is deliberately excluded from Audit.lean and from the claimed passing modules.
+The precise remaining arithmetic normalization checks are listed in the report.
+
+Typography:
+  The PDF embeds a subset of Noto Sans CJK SC, distributed under the SIL Open Font License.
+  https://github.com/notofonts/noto-cjk
+  Font source used:
+  https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf
+  To rebuild report_source/THETA_LOCAL_REPORT.tex, place that font in the sibling
+  report_assets directory and use XeLaTeX. DejaVu Sans Mono is also required.
+
+The proof status is determined by the versioned source, build logs, and explicit
+axiom audit, not by the natural-language report alone.

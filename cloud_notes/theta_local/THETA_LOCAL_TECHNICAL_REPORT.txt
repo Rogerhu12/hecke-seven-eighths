@@ -1,0 +1,1619 @@
+THETA_LOCAL — 完整技术报告与逐条声明附录
+========================================
+
+最终状态：11个新证明模块与1个审计模块全部通过。
+公开声明审计：133项，其中102项为公开定理/引理。
+公理依赖：Classical.choice, Quot.sound, propext；部分声明依赖为空。
+无 sorryAx；源码没有 sorry、axiom 声明或 native_decide。
+integration/ActualExteriorAdapter.lean 是未编译候选，明确不纳入上述验证声明。
+
+指定版本的最终模块记录：
+  PASS HeckeSkeleton.ThetaLocal.ArchimedeanConstants — 3.452秒
+  PASS HeckeSkeleton.ThetaLocal.ArchimedeanMellin — 12.587秒
+  PASS HeckeSkeleton.ThetaLocal.Audit — 4.737秒
+  PASS HeckeSkeleton.ThetaLocal.ComplexProfileBridge — 6.365秒
+  PASS HeckeSkeleton.ThetaLocal.ComplexRootPowers — 26.772秒
+  PASS HeckeSkeleton.ThetaLocal.ComplexWeylPowers — 8.498秒
+  PASS HeckeSkeleton.ThetaLocal.ExteriorFiniteSums — 63.818秒
+  PASS HeckeSkeleton.ThetaLocal.ExteriorFourierMasks — 5.594秒
+  PASS HeckeSkeleton.ThetaLocal.ExteriorPhaseSeparation — 11.273秒
+  PASS HeckeSkeleton.ThetaLocal.ExteriorUnitSums — 46.38秒
+  PASS HeckeSkeleton.ThetaLocal.HighestHarmonicRoot — 22.093秒
+  PASS HeckeSkeleton.ThetaLocal.RootIterates — 12.192秒
+
+源码 SHA-256、完整命令、日志与所有公理输出见 build_evidence/。
+
+
+THETA_LOCAL — 局部证明技术说明
+========================================
+
+本文件与一页主报告、完整 Lean 源码、逐条声明附录、构建日志共同组成交付。
+最终验证状态以附加的逐模块记录及公理审计为准；integration 中的实际有限位适配候选明确未编译。
+
+一、范围、版本与证明对象
+----------------------------------------
+按 TASK.md 的云端覆盖说明，本任务只处理 TH-REFL-ARCH 和 TH-REFL-EXTERIOR-DIGITS。
+没有构造全局 KP 系数数据，没有使用或修改 finiteMellinData，也没有更改给定原文件或提交代码。
+
+指定版本：
+  Lean: leanprover/lean4:v4.35.0-rc3
+  Mathlib: 0493595ecd5da8ef14742febab99728f98e948e8
+  Axiom: AxiomMath/DedekindZetaZeroFree
+  Axiom commit: 09afbb4ce6570c1615d58509dc197fc9f0956b7d
+
+公开源地址：
+  https://github.com/AxiomMath/DedekindZetaZeroFree/tree/09afbb4ce6570c1615d58509dc197fc9f0956b7d
+  https://github.com/leanprover-community/mathlib4/tree/0493595ecd5da8ef14742febab99728f98e948e8
+  https://github.com/leanprover/lean4/releases/tag/v4.35.0-rc3
+
+用户包中的五个 Axiom 文件与上述固定提交逐字节相同。原项目其余 Axiom 局部依赖从该固定公开提交取得。
+云端磁盘不足以保留全量 Mathlib 缓存，因此校验使用只收窄 imports 的 Axiom 副本。
+所有定义、定理陈述和证明正文均逐字节保留；仅完整 import 命令行可不同。
+这不引入任何新公理，也不把目标结论放进参数；原来源文件保持只读。
+精确文件差异、原文件与副本 SHA-256、正文一致性记录见构建证据。
+本地完整原项目中的导入环境仍须复核；本次记录证明的是所交付源码在明确记录的精简导入环境下通过。
+
+二、复位：所用向量、归一化和实际 Weyl 作用
+----------------------------------------
+设 c>0，β∈C× 且 β=c。使用 Axiom 的实际 Theta β、imageAction、dPiComplexUpperRoot 和 whittakerValue。
+定义归一化根算子
+  E_+ = 2/(i c) · dπ(Z_plus),
+  E_- = 2/(i c) · dπ(Z_minus)。
+它们作用在 Whittaker 值上分别是乘 y 和 conjugate(y)。
+从既有归一化球向量 vZero 开始，m≥0 时 φ_m=E_+^m vZero，m<0 时 φ_m=E_-^(-m) vZero。
+这里负角权使用自然数阶的另一根串；并非对 E 求逆。
+
+令 r=|y|_ord、ω=y/r。whittaker_archRootVector 的结论是
+  Wβ(φ_m,y) = r^(|m|+1) ω^m K_(1/3)(c r)。
+论文的复位归一化绝对值为 |y|_v=r²，故这恰是
+  |y|_v^((|m|+1)/2) ω^m K_(1/3)(c |y|_v^(1/2))。
+
+论文和 Axiom 使用同一个交换矩阵 w=[[0,1],[1,0]]。
+实际 Weyl 证明不依赖“Whittaker 值相等所以向量相等”的未给定单射性：
+  1. 直接计算最高谐函数在右乘 w 下成为其共轭；
+  2. 提取上游局部最高谐函数的根导数计算，保留原有证明；
+  3. 对实参数复值曲线应用 deriv.star，得到最低谐函数的另一根递推；
+  4. 正负根串在最高/最低谐函数上的标量递推相同；
+  5. 用 w²=1 与整数正负分类，得到 imageAction(w,φ_m)=φ_(-m)。
+HighestHarmonicRoot 的局部计算源于上游 TensorProduct/HighestRoot.lean；没有导入该文件的全局实现链。
+归一化及来源在源码头、许可证与 NOTICE 中公开。
+
+RootIterates 的四条纯算子引理独立成立，但实际 Weyl 结论由上述具体计算证明；没有将抽象引理的未证假设当成具体模型的结论。
+
+三、真实轮廓、Mellin 公式、常数和定义域
+----------------------------------------
+记
+  a=(|m|+1)/2，A=4/c²，G(z)=Gamma(z−1/6) Gamma(z+1/6)。
+在 t>0 上，两个字面 Bessel 轮廓为
+  D(t)=t^(a−iτ) K_(1/3)(c√t)，
+  H(t)=t^(a+iτ) K_(1/3)(c√t)。
+代码先将它们写成 t 的复幂乘实际 thirdBesselRadialProfile，再证明与上述公式相等。
+ComplexProfileBridge 从真实 φ_m、π(w)φ_m 的 Whittaker 值，移除相应角向因子并加入正负径向字符，证明这两个轮廓识别。
+
+Mellin 约定为 M f(s)=∫_(0,∞) f(t) t^s dt/t。实际 Bochner 积分的结果为
+  M D(s) = C_- A^s G(a+s−iτ)，
+  M H(s) = C_+ A^s G(a+s+iτ)，
+其中
+  C_- = (1/2) A^(a−iτ)，C_+ = (1/2) A^(a+iτ)。
+两个 HasMellin 定理分别要求 Re(s)>1/6−a；它们同时证明绝对可积性与积分值。
+
+在 1/6−a < Re(s) < a−1/6 上，
+  M H(s)=M D(−s) · A^(2s) · A^(2iτ) · G(a+s+iτ)/G(a−s−iτ)。
+分母 Gamma 因子的实部为正，因此先证明非零再相除。
+a≥1/2，所以所有整数角权均可使用共同开条带 −1/3<Re(s)<1/3。
+
+固定相位 P=A^(2iτ) 的模为1，但一般不是1。
+显式定义 H_normalized=P^(-1)H 后，另有不含 P 的反射恒等式。
+这是明确的固定标量归一化；没有通过 Mellin 变换的期望答案定义 H。
+
+当 c=4π 时，A=1/(4π²)。
+独立局部乘积、角向 Haar 总质量取1、径向测度取 dt_v/t_v 时，常数为
+  A0=∏_v A_v，
+  C0=vol(U) · 2^(-r) · ∏_v A_v^(a_v−iτ_v)，
+  C_ref=vol(U) · 2^(-r) · ∏_v A_v^(a_v+iτ_v)。
+这给出所需的显式常数；本任务没有形式化全局层面 X_l 的测度分解或全局 Fubini 定理。
+若每位用 dr_v/r_v，保留 t_v=r_v² 和 Mellin 配重 r_v^(2s)，每位会额外产生1/2，需相应更改常数。
+原始球向量或角向 Haar 若另有标量归一化，也须相应乘入，不能宣称这些常数独立于测度选择。
+
+上述是收敛条带内的实际积分恒等式；并未声称在整个复平面上 Bochner 积分都收敛。
+超出该条带的亚纯延拓、轮廓平移和全局核的增长估计不属于本次已形式化结论。
+
+四、与所给骨架的径向参数符号
+----------------------------------------
+给定 GlobalThetaData 定义 ρ=archRadial θ=−heckeComplexParameter θ。
+旧 AngularThirdBesselMellin 的 actual_archGammaProduct_forward 已把真实正向轮廓 t^(a+iρ)K 的变换识别为
+  Gρ(s)=Gamma(a+s+iρ−1/6) Gamma(a+s+iρ+1/6)。
+因此对应反射 Gamma 商应为
+  G_(-ρ)(s)/Gρ(−s)，
+而给定 reflectionMultiplier 写的是
+  Gρ(s)/G_(-ρ)(−s)。
+所见 MarkedThetaReflection 对正向与核传入同一个 θ，未见显式 θ→θ^(-1) 的对偶约定。
+本模块 τ=heckeComplexParameter θ 与论文的正向轮廓相符。
+若为匹配骨架 Gamma 商而把 τ 设成 archRadial θ，会交换真实正向/反射轮廓，因此不能声称直接接线成功。
+
+一般非零ρ时，这不是可由固定常数补偿的差异。
+例如 Fρ(s)=Gρ(s)/G_(-ρ)(−s) 在 s=−a+1/6−iρ 有极点，而 F_(-ρ) 在同一点正则且非零。
+这是基于显式 Gamma 因子的数学核查，不是本次另行形式化的亚纯函数定理。
+需在完整原项目中明确双对偶字符约定，或修正该乘子的径向符号。
+本交付按“不修改现有文件”的约束保留骨架原文；不以修改目标或假设来掩盖差异。
+
+五、有限位：精确有限和与数字表
+----------------------------------------
+令 k 为 q 元有限域，χ:k→C 为零延拓的六阶乘性特征，ψ 为本原加性特征。
+取 t∈k×、j∈{0,1,2,3,4,5}、e∈N。
+写 Gψ(η)=Σ_(x∈k) η(x)ψ(x)，τ_j=Gψ(χ^(-j))，γ2=q^(-1/2)Gψ(χ²)。
+零延拓的平凡乘性特征在0处为0，因而 j=0 必须与常数函数区分。
+
+球系数为
+  W_(3k)=q^(-k)，W_(3k+1)=q^(-k−1/2)γ2，W_(3k+2)=0。
+有限 Weyl 表达式为
+  Rβ(e,t)=W_e χ(t)^(4+2e) Σ_(v≠0) β(v)χ(v)^4 Ψ_e(t/v)，
+其中 Ψ_0=ψ，而 e>0 时 Ψ_e=1。
+证明使用实际换元 x=t/v：
+  Σ_v η(v)ψ(t/v)=η(t)Gψ(η^(-1))，
+然后使用乘性特征正交性。
+
+标记权重 β(v)=q^(-1) 的 active 部分：
+  e=0: q^(-1/2)γ2 χ(t)²；
+  e>0: 0。
+其 inactive 权重为 q^(-1)，完整 inactive 贡献还要乘原球 Whittaker 值。
+
+普通表 active 部分：
+  e=0,j=0: −q^(-1/2)γ2 χ(t)²；
+  e=0,j≠0: Gψ(χ^(j−4))/τ_j · χ(t)^(8−j)；
+  e>0: 1_(j=4) (q−1)/τ_4 · W_e χ(t)^(4+2e)。
+j=0 的 inactive 权重是1−q^(-1)。
+字符指数可模6约化；代码使用 (j+2)%6 表示 j−4 模6。
+localWeylExponent 是 e=0 时 (8−j)%6，否则 (4+2e)%6。
+证明从有限和中分离任意单位 t 的相位，不把该相位关系作为新假设。
+
+范数和非零性：1≤j≤5 时 |τ_j|=√q、τ_j≠0；|γ2|=1。
+注意 τ0=−1，不能将 |τ_j|=√q 的结论扩张到 j=0。
+零深度所有标量模≤1，j=1 的行素位标量模恰为1。
+正深度有 |s_(j,e)|≤√q |W_e|，故
+  |s_(j,3k+1)|≤q^(-k)，
+  |s_(j,3(k+1))|≤√q q^(-(k+1))，
+  e≡2 mod3 的 active 项为0。
+“正深度只有j=4”及上述支撑消失均只指 active/nonzero-digit 部分，不能泛化到含 inactive 项的整个平均。
+
+六、五个骨架对象与原项目的接线边界
+----------------------------------------
+项目对象                         新泛型对象（均在 ResidueField 命名空间）
+localTau                         localTau χ ψ j
+digitMask                        digitMask χ ψ j
+sphericalDigit                   sphericalDigit χ ψ e
+localWeylScalar                   localWeylScalar χ ψ j e
+localWeylExponent                localWeylExponent j e
+
+新定义逐项保留给定 MarkedThetaReflection 的单位群求和、负整数次幂、j=0 分支、平方根归一化和指数取模公式。
+其与全有限域求和的对应已有证明，不只是文字上相似。
+在完整原项目专门化时，还须证明：
+  (a) q=Fintype.card(𝓞K/p)=absNorm(p)；
+  (b) thetaPrimeCharacter 的阶恰为6；
+  (c) primePhase 是指定的本原 AddChar，并与有限和中 ψ 逐点相等；
+  (d) thetaGamma(p,2)=q^(-1/2)Gψ(χ²)，且这里 ψ 与 primePhase 的符号和规范化完全相同。
+两个加性特征都本原，并不足以推出(d)。这正是有限位接线最重要的未决归一化检查。
+所给包没有 LocalThetaInput.lean 的完整实现，故未虚构上述接口的项目引理名。
+
+integration/ActualExteriorAdapter.lean 是单独标注的未编译候选：
+它引用给定 Axiom 的 nonzero_localDigit、zero_localDigit，把真实 localDigitValue 的均匀与普通加权平均连接到有限表。
+候选采用整数 e=order_p(x)+2，包含负赋值消失；该部分未被四个已编译有限域核心的 e:N 定理覆盖。
+它仍依赖 Axiom 已有 ActualRecipe 和 JointUpperVanishingSources，不构造那些全局实现数据。
+候选没有 sorry 或目标表假设，但其完整3372个项目/外部/vendor依赖未在本次云端全部构建。
+用户包外的项目接口逐项列在附录并标“需核对”，不能把静态可读性等同于编译通过。
+
+七、薄弱步骤与本地复核重点
+----------------------------------------
+1. 最重要的实质问题是骨架反射 Gamma 商中的径向符号；局部公式已给出，需完整项目确认对偶字符约定。
+2. 有限位 primePhase 与 thetaGamma 的同一加性字符、符号和规范化，是专门化所必需的等式。
+3. 未编译实际有限位候选的 implicit 参数、局部 recipe 类型、商域单位换元、深度符号，需要在完整项目检查。
+4. 复位证明中最复杂的局部步骤是最高谐函数求导、取共轭得到最低递推、以及球向量的精确标量识别；已编译状态由日志决定。
+5. 复位 r² 与 t 的复幂转换、Mellin dt/t 与 dr/r 的测度因子不可混用；代码和上述报告分别明示。
+6. 精简 imports 的证明内核结果可审计，但完整原项目额外 simp 引理、命名冲突或 API 包装仍可能需要局部修正。
+
+八、使用与来源
+----------------------------------------
+将 HeckeSkeleton/ThetaLocal 目录合入原项目，按 REPRODUCING.txt 的目标顺序逐模块构建。
+integration 候选单独处理，不属于 Audit.lean 的导入集合。
+源码中的 #print axioms 及总 Audit.lean 用于核对新公开声明的实际公理依赖。
+只允许标准 propext、Classical.choice、Quot.sound；空依赖同样合格。
+最终公理审计结果及源码散列另附；没有使用 native_decide。
+
+AI辅助说明：本交付由 ChatGPT（系统标识 GPT-6 Astra Pro）及同会话协作代理生成、审查与迭代修正。
+可验证性依据是完整源码、固定版本、逐模块实际编译结果和公理依赖记录，不依赖模型自评。
+上游 Axiom 代码按其 Apache-2.0 许可证保留归属，许可证与 NOTICE 随包提供。
+
+附录以下接续全部新定义/定理的数学陈述、完整 Lean 声明头及包外引用核对表。
+
+
+
+
+附录A：复位、根迭代与常数
+TH-REFL-ARCH — 新定义、定理及引用逐条清单
+状态：七个阿基米德模块全部通过指定版本的串行编译，当前源码SHA与通过记录对应；统一Audit也已exit 0。
+已验证模块：RootIterates、ArchimedeanMellin、ArchimedeanConstants、ComplexRootPowers、HighestHarmonicRoot、ComplexWeylPowers、ComplexProfileBridge。
+实际验证环境：Lean 4.35.0-rc3；Mathlib 0493595ecd5da8ef14742febab99728f98e948e8。
+公理审计：RootIterates的四条定理无公理依赖；其余打印的目标仅依赖propext、Classical.choice、Quot.sound，无sorryAx。
+包外API按用户要求保留“需核对”标记：这些API在新模块中的实际调用已在上述固定版本编译核验；接回用户原项目时，完整命名空间、import环境与字符符号约定仍须另核对。
+共同记号：a=(|m|+1)/2；A=4/c²；G(z)=Γ(z−1/6)Γ(z+1/6)；P=A^(2iτ)。
+本清单包括全部新声明与private辅助引理，先给简短数学陈述，再保留精确Lean声明头。
+最高谐函数导数计算的来源：AxiomMath/DedekindZetaZeroFree 09afbb4ce6570c1615d58509dc197fc9f0956b7d，原文件Theta/Whittaker/TensorProduct/HighestRoot.lean；仅提取局部前段，原件不改。
+
+======================================================================
+RootIterates.lean
+======================================================================
+01. rootIterate  [def]
+定义 E^n(v)：零次为 v，后继次为 E(E^n(v))。
+Lean声明：
+def rootIterate {V : Type u} (E : V → V) : Nat → V → V
+
+02. intertwining_rootIterate  [theorem]
+若 W∘E=F∘W，则 W(E^n v)=F^n(Wv)。
+Lean声明：
+theorem intertwining_rootIterate {V : Type u} (W E F : V → V)
+    (h : ∀ v, W (E v) = F (W v)) (n : Nat) (v : V) :
+    W (rootIterate E n v) = rootIterate F n (W v)
+
+03. commuting_rootIterate  [theorem]
+若 F 与 Ebar 对易，则 F(Ebar^n v)=Ebar^n(Fv)。
+Lean声明：
+theorem commuting_rootIterate {V : Type u} (F Ebar : V → V)
+    (h : ∀ v, F (Ebar v) = Ebar (F v)) (n : Nat) (v : V) :
+    F (rootIterate Ebar n v) = rootIterate Ebar n (F v)
+
+04. opposite_rootIterate  [theorem]
+若 F 与 Ebar 对易且 Fv0=Ebar v0，则 F^n v0=Ebar^n v0。
+Lean声明：
+theorem opposite_rootIterate {V : Type u} (F Ebar : V → V) (v₀ : V)
+    (hcomm : ∀ v, F (Ebar v) = Ebar (F v))
+    (hcompact : F v₀ = Ebar v₀) (n : Nat) :
+    rootIterate F n v₀ = rootIterate Ebar n v₀
+
+05. weyl_rootIterate  [theorem]
+由 WE=FW、Wv0=v0、[F,Ebar]=0、Fv0=Ebar v0，推出 W(E^n v0)=Ebar^n v0；本通用引理不代替实际模型的验证。
+Lean声明：
+theorem weyl_rootIterate {V : Type u} (W E F Ebar : V → V) (v₀ : V)
+    (hweyl : ∀ v, W (E v) = F (W v))
+    (hspherical : W v₀ = v₀)
+    (hcomm : ∀ v, F (Ebar v) = Ebar (F v))
+    (hcompact : F v₀ = Ebar v₀) (n : Nat) :
+    W (rootIterate E n v₀) = rootIterate Ebar n v₀
+
+======================================================================
+ArchimedeanMellin.lean
+======================================================================
+06. archWeight  [def]
+定义 a_m=(|m|+1)/2，用 Int.natAbs 实现。
+Lean声明：
+def archWeight (m : ℤ) : ℝ
+
+07. archScale  [def]
+定义 A(c)=4/c²。
+Lean声明：
+def archScale (c : ℝ) : ℝ
+
+08. archScale_pos  [theorem]
+c>0 时 A(c)>0。
+Lean声明：
+theorem archScale_pos (c : ℝ) (hc : 0 < c) : 0 < archScale c
+
+09. archWeight_ge_half  [theorem]
+任意整数 m 有 a_m≥1/2。
+Lean声明：
+theorem archWeight_ge_half (m : ℤ) : (1 / 2 : ℝ) ≤ archWeight m
+
+10. archExponent  [def]
+定义 z_m,τ=a_m−iτ。
+Lean声明：
+def archExponent (m : ℤ) (τ : ℝ) : ℂ
+
+11. archDirectProfile  [def]
+定义 D(t)=t^(a_m−1−iτ)·thirdBesselRadialProfile(c,t)，基底为真实 tK_{1/3}(c√t)。
+Lean声明：
+def archDirectProfile (c : ℝ) (m : ℤ) (τ : ℝ) (t : ℝ) : ℂ
+
+12. archReflectedProfile  [def]
+定义 H(c,m,τ)=D(c,m,−τ)。后续 ComplexProfileBridge 将此定义与实际 Weyl 作用对应。
+Lean声明：
+def archReflectedProfile (c : ℝ) (m : ℤ) (τ : ℝ) : ℝ → ℂ
+
+13. archGammaPair  [def]
+定义 G(z)=Γ(z−1/6)Γ(z+1/6)。
+Lean声明：
+def archGammaPair (z : ℂ) : ℂ
+
+14. archDirectConstant  [def]
+定义 C−=(1/2)A^(a_m−iτ)。
+Lean声明：
+def archDirectConstant (c : ℝ) (m : ℤ) (τ : ℝ) : ℂ
+
+15. archReflectedConstant  [def]
+定义 C+=(1/2)A^(a_m+iτ)。
+Lean声明：
+def archReflectedConstant (c : ℝ) (m : ℤ) (τ : ℝ) : ℂ
+
+16. archReflectionPhase  [def]
+定义 P(c,τ)=A^(2iτ)。
+Lean声明：
+def archReflectionPhase (c τ : ℝ) : ℂ
+
+17. archExponent_re  [theorem]
+Re(a_m−iτ)=a_m。
+Lean声明：
+theorem archExponent_re (m : ℤ) (τ : ℝ) :
+    (archExponent m τ).re = archWeight m
+
+18. archExponent_neg  [theorem]
+z_m,−τ=a_m+iτ。
+Lean声明：
+theorem archExponent_neg (m : ℤ) (τ : ℝ) :
+    archExponent m (-τ) = (archWeight m : ℂ) + (τ : ℂ) * I
+
+19. archDirectProfile_eq  [theorem]
+t>0 时 D(t)=t^(a_m−iτ)K_{1/3}(c√t)，给出幂移位定义的真实 Bessel 含义。
+Lean声明：
+theorem archDirectProfile_eq (c : ℝ) (m : ℤ) (τ t : ℝ) (ht : 0 < t) :
+    archDirectProfile c m τ t =
+      (t : ℂ) ^ archExponent m τ *
+        (DedekindZetaZeroFree.KThird (c * Real.sqrt t) : ℂ)
+
+20. archReflectedProfile_eq  [theorem]
+t>0 时 H(t)=t^(a_m+iτ)K_{1/3}(c√t)。
+Lean声明：
+theorem archReflectedProfile_eq (c : ℝ) (m : ℤ) (τ t : ℝ) (ht : 0 < t) :
+    archReflectedProfile c m τ t =
+      (t : ℂ) ^ ((archWeight m : ℂ) + (τ : ℂ) * I) *
+        (DedekindZetaZeroFree.KThird (c * Real.sqrt t) : ℂ)
+
+21. archScale_four_pi  [theorem]
+标准 c=4π 时 A=1/(4π²)。
+Lean声明：
+theorem archScale_four_pi : archScale (4 * Real.pi) = 1 / (4 * Real.pi ^ 2)
+
+22. base_integrand_eq  [private theorem]
+t>0 时 t^(s−1)f0(t)=f0(t)t^s/t，将 mathlib 与来源的 Mellin 被积式对应。
+Lean声明：
+private theorem base_integrand_eq (c t : ℝ) (s : ℂ) (ht : 0 < t) :
+    (t : ℂ) ^ (s - 1) *
+        (DedekindZetaZeroFree.thirdBesselRadialProfile c t : ℂ) =
+      (DedekindZetaZeroFree.thirdBesselRadialProfile c t : ℂ) *
+        (t : ℂ) ^ s / (t : ℂ)
+
+23. thirdBessel_hasMellin  [theorem]
+c>0 且 Re s>−5/6 时，真实 f0=tK(c√t) 的 Mellin 收敛且等于 (2/c²)A^s Γ(s+5/6)Γ(s+7/6)；来源是包内已证明的积分定理。
+Lean声明：
+theorem thirdBessel_hasMellin (c : ℝ) (hc : 0 < c) (s : ℂ)
+    (hs : -(5 / 6 : ℝ) < s.re) :
+    HasMellin (fun t =>
+      (DedekindZetaZeroFree.thirdBesselRadialProfile c t : ℂ)) s
+      (((2 / c ^ 2 : ℝ) : ℂ) * (archScale c : ℂ) ^ s *
+        Gamma (s + 5 / 6) * Gamma (s + 7 / 6))
+
+24. shifted_gamma_value  [private theorem]
+把基底公式在 s+(a_m−1−iτ) 处的值整理为 C− A^s G(a_m+s−iτ)，精确保留1/2与尺度。
+Lean声明：
+private theorem shifted_gamma_value (c : ℝ) (hc : 0 < c)
+    (m : ℤ) (τ : ℝ) (s : ℂ) :
+    ((2 / c ^ 2 : ℝ) : ℂ) *
+        (archScale c : ℂ) ^ (s + (archExponent m τ - 1)) *
+        Gamma (s + (archExponent m τ - 1) + 5 / 6) *
+        Gamma (s + (archExponent m τ - 1) + 7 / 6) =
+      archDirectConstant c m τ * (archScale c : ℂ) ^ s *
+        archGammaPair (archExponent m τ + s)
+
+25. arch_direct_hasMellin  [theorem]
+c>0、Re s>1/6−a_m 时，D 的 Mellin 收敛且为 C− A^s G(a_m+s−iτ)。
+Lean声明：
+theorem arch_direct_hasMellin (c : ℝ) (hc : 0 < c)
+    (m : ℤ) (τ : ℝ) (s : ℂ)
+    (hs : (1 / 6 : ℝ) - archWeight m < s.re) :
+    HasMellin (archDirectProfile c m τ) s
+      (archDirectConstant c m τ * (archScale c : ℂ) ^ s *
+        archGammaPair (archExponent m τ + s))
+
+26. arch_reflected_hasMellin  [theorem]
+c>0、Re s>1/6−a_m 时，H 的 Mellin 收敛且为 C+ A^s G(a_m+s+iτ)。
+Lean声明：
+theorem arch_reflected_hasMellin (c : ℝ) (hc : 0 < c)
+    (m : ℤ) (τ : ℝ) (s : ℂ)
+    (hs : (1 / 6 : ℝ) - archWeight m < s.re) :
+    HasMellin (archReflectedProfile c m τ) s
+      (archReflectedConstant c m τ * (archScale c : ℂ) ^ s *
+        archGammaPair (archExponent m (-τ) + s))
+
+27. archGammaPair_ne_zero  [theorem]
+Re z>1/6 时 G(z)≠0，用 Gamma 在正实部无零点。
+Lean声明：
+theorem archGammaPair_ne_zero (z : ℂ) (hz : (1 / 6 : ℝ) < z.re) :
+    archGammaPair z ≠ 0
+
+28. archReflectedConstant_eq  [theorem]
+c>0 时 C+=C−·P，固定相位 P=A^(2iτ) 不可静默省略。
+Lean声明：
+theorem archReflectedConstant_eq (c : ℝ) (hc : 0 < c) (m : ℤ) (τ : ℝ) :
+    archReflectedConstant c m τ =
+      archDirectConstant c m τ * archReflectionPhase c τ
+
+29. archDirectConstant_ne_zero  [theorem]
+c>0 时 C−≠0。
+Lean声明：
+theorem archDirectConstant_ne_zero (c : ℝ) (hc : 0 < c) (m : ℤ) (τ : ℝ) :
+    archDirectConstant c m τ ≠ 0
+
+30. archReflectionPhase_ne_zero  [theorem]
+c>0 时 P≠0。
+Lean声明：
+theorem archReflectionPhase_ne_zero (c τ : ℝ) (hc : 0 < c) :
+    archReflectionPhase c τ ≠ 0
+
+31. archReflectionPhase_norm  [theorem]
+c>0、τ实数时 |P|=1。
+Lean声明：
+theorem archReflectionPhase_norm (c τ : ℝ) (hc : 0 < c) :
+    ‖archReflectionPhase c τ‖ = 1
+
+32. arch_reflected_mellin  [theorem]
+在共同收敛带 1/6−a_m<Re s<a_m−1/6 中，M[H](s)=M[D](−s) A^(2s) P·G(a_m+s+iτ)/G(a_m−s−iτ)。
+Lean声明：
+theorem arch_reflected_mellin (c : ℝ) (hc : 0 < c)
+    (m : ℤ) (τ : ℝ) (s : ℂ)
+    (hleft : (1 / 6 : ℝ) - archWeight m < s.re)
+    (hright : s.re < archWeight m - (1 / 6 : ℝ)) :
+    mellin (archReflectedProfile c m τ) s =
+      mellin (archDirectProfile c m τ) (-s) *
+        (archScale c : ℂ) ^ (2 * s) * archReflectionPhase c τ *
+        (archGammaPair (archExponent m (-τ) + s) /
+          archGammaPair (archExponent m τ + (-s)))
+
+33. archNormalizedReflectedProfile  [def]
+定义 H_normalized=P^(−1)H，只去掉已显示的固定相位。
+Lean声明：
+def archNormalizedReflectedProfile (c : ℝ) (m : ℤ) (τ : ℝ) (t : ℝ) : ℂ
+
+34. arch_normalized_reflected_mellin  [theorem]
+相同共同收敛带中，M[H_normalized](s)=M[D](−s) A^(2s)·G(a_m+s+iτ)/G(a_m−s−iτ)。
+Lean声明：
+theorem arch_normalized_reflected_mellin (c : ℝ) (hc : 0 < c)
+    (m : ℤ) (τ : ℝ) (s : ℂ)
+    (hleft : (1 / 6 : ℝ) - archWeight m < s.re)
+    (hright : s.re < archWeight m - (1 / 6 : ℝ)) :
+    mellin (archNormalizedReflectedProfile c m τ) s =
+      mellin (archDirectProfile c m τ) (-s) * (archScale c : ℂ) ^ (2 * s) *
+        (archGammaPair (archExponent m (-τ) + s) /
+          archGammaPair (archExponent m τ + (-s)))
+
+======================================================================
+ComplexRootPowers.lean
+======================================================================
+35. normalizedRootPlus  [def]
+在真实 Theta β 中定义 E=(2/(ic))dπ(Z_plus)，使 Whittaker 乘子恰为 z。
+Lean声明：
+def normalizedRootPlus (c : ℝ) (β : ℂˣ) (h : Theta β) : Theta β
+
+36. normalizedRootMinus  [def]
+定义 Ebar=(2/(ic))dπ(Z_minus)，使 Whittaker 乘子恰为 conjugate(z)。
+Lean声明：
+def normalizedRootMinus (c : ℝ) (β : ℂˣ) (h : Theta β) : Theta β
+
+37. higherPlus  [def]
+定义真实正根字符串 E^n vZero。
+Lean声明：
+def higherPlus (c : ℝ) (β : ℂˣ) (n : ℕ) : Theta β
+
+38. higherMinus  [def]
+定义真实反全纯根字符串 Ebar^n vZero。
+Lean声明：
+def higherMinus (c : ℝ) (β : ℂˣ) (n : ℕ) : Theta β
+
+39. local_whittaker_smul  [private theorem]
+W(a·h,y)=a W(h,y)，实际 Whittaker 泛函的复线性。
+Lean声明：
+private theorem local_whittaker_smul (β : ℂˣ) (a : ℂ) (h : Theta β) (y : ℂˣ) :
+    whittakerValue β (a • h) y = a * whittakerValue β h y
+
+40. whittaker_normalizedRootPlus  [theorem]
+c>0、β=c 时 W(Eh,y)=y W(h,y)。
+Lean声明：
+theorem whittaker_normalizedRootPlus (c : ℝ) (hc : 0 < c)
+    (β : ℂˣ) (hβ : (β : ℂ) = (c : ℂ)) (h : Theta β) (y : ℂˣ) :
+    whittakerValue β (normalizedRootPlus c β h) y =
+      (y : ℂ) * whittakerValue β h y
+
+41. whittaker_normalizedRootMinus  [theorem]
+同条件下 W(Ebar h,y)=conjugate(y) W(h,y)。
+Lean声明：
+theorem whittaker_normalizedRootMinus (c : ℝ) (hc : 0 < c)
+    (β : ℂˣ) (hβ : (β : ℂ) = (c : ℂ)) (h : Theta β) (y : ℂˣ) :
+    whittakerValue β (normalizedRootMinus c β h) y =
+      star (y : ℂ) * whittakerValue β h y
+
+42. whittaker_higherPlus  [theorem]
+同条件下 W(E^n vZero,y)=y^n·r K_{1/3}(cr)，r=|y|_ordinary。
+Lean声明：
+theorem whittaker_higherPlus (c : ℝ) (hc : 0 < c)
+    (β : ℂˣ) (hβ : (β : ℂ) = (c : ℂ)) (n : ℕ) (y : ℂˣ) :
+    whittakerValue β (higherPlus c β n) y =
+      (y : ℂ) ^ n *
+        ((radius y * besselKThird (c * radius y) : ℝ) : ℂ)
+
+43. whittaker_higherMinus  [theorem]
+同条件下 W(Ebar^n vZero,y)=conjugate(y)^n·r K_{1/3}(cr)。
+Lean声明：
+theorem whittaker_higherMinus (c : ℝ) (hc : 0 < c)
+    (β : ℂˣ) (hβ : (β : ℂ) = (c : ℂ)) (n : ℕ) (y : ℂˣ) :
+    whittakerValue β (higherMinus c β n) y =
+      star (y : ℂ) ^ n *
+        ((radius y * besselKThird (c * radius y) : ℝ) : ℂ)
+
+44. whittaker_higherPlus_polar  [theorem]
+W(E^n vZero,y)=r^(n+1)ω_plus(y)^n K_{1/3}(cr)，ω_plus=y/r。
+Lean声明：
+theorem whittaker_higherPlus_polar (c : ℝ) (hc : 0 < c)
+    (β : ℂˣ) (hβ : (β : ℂ) = (c : ℂ)) (n : ℕ) (y : ℂˣ) :
+    whittakerValue β (higherPlus c β n) y =
+      ((radius y ^ (n + 1) : ℝ) : ℂ) * omegaPlus y ^ n *
+        (besselKThird (c * radius y) : ℂ)
+
+45. whittaker_higherMinus_polar  [theorem]
+W(Ebar^n vZero,y)=r^(n+1)ω_minus(y)^n K_{1/3}(cr)，ω_minus=conjugate(y)/r。
+Lean声明：
+theorem whittaker_higherMinus_polar (c : ℝ) (hc : 0 < c)
+    (β : ℂˣ) (hβ : (β : ℂ) = (c : ℂ)) (n : ℕ) (y : ℂˣ) :
+    whittakerValue β (higherMinus c β n) y =
+      ((radius y ^ (n + 1) : ℝ) : ℂ) * omegaMinus y ^ n *
+        (besselKThird (c * radius y) : ℂ)
+
+46. omegaMinus_eq_inv  [theorem]
+非零复数 y 的两个角向单位满足 ω_minus=ω_plus^(−1)。
+Lean声明：
+theorem omegaMinus_eq_inv (y : ℂˣ) : omegaMinus y = (omegaPlus y)⁻¹
+
+======================================================================
+HighestHarmonicRoot.lean
+======================================================================
+47. Bcurve  [def]
+局部坐标定义 B(t)=|c|²+|d+tcz|²，这里的 c,d,z 为复矩阵坐标。
+Lean声明：
+def Bcurve (c d z : ℂ) (t : ℝ) : ℝ
+
+48. Bvel  [def]
+定义 Bvel=2 Re(conjugate(d)·c z)，即 B曲线零点速度。
+Lean声明：
+def Bvel (c d z : ℂ) : ℝ
+
+49. Bcurve_deriv  [private lemma]
+Bcurve 在实变量 t=0 的导数为 Bvel。
+Lean声明：
+private lemma Bcurve_deriv (c d z : ℂ) : HasDerivAt (Bcurve c d z) (Bvel c d z) 0
+
+50. Bvel_complex  [private lemma]
+Bvel 的复嵌入为 c z conjugate(d)+d conjugate(c z)。
+Lean声明：
+private lemma Bvel_complex (c d z : ℂ) :
+    (Bvel c d z : ℂ) = c*z*star d + d*star (c*z)
+
+51. Wcurve  [def]
+定义 W(t)=2c·conjugate(d+tcz)/B(t)。
+Lean声明：
+def Wcurve (c d z : ℂ) (t : ℝ) : ℂ
+
+52. Wvel  [def]
+定义 Wvel=(2c·conjugate(cz)B0−2c·conjugate(d)Bvel)/B0²，B0=|c|²+|d|²。
+Lean声明：
+def Wvel (c d z : ℂ) : ℂ
+
+53. Wcurve_deriv  [private lemma]
+B0非零时 Wcurve 在0的导数为 Wvel。
+Lean声明：
+private lemma Wcurve_deriv (c d z : ℂ) (hb : ‖c‖^2+‖d‖^2 ≠ 0) :
+    HasDerivAt (Wcurve c d z) (Wvel c d z) 0
+
+54. Hcurve  [def]
+定义 H(t)=(D/B(t))^(1+2s)W(t)^n，即沿实上幺正根轨道的最高谐函数。
+Lean声明：
+def Hcurve (s : ℝ) (n : ℕ) (D : ℝ) (c d z : ℂ) (t : ℝ) : ℂ
+
+55. Hvel  [def]
+定义 Hvel=(D/B0)^(1+2s)[−(1+2s)(Bvel/B0)W0^n+nW0^(n−1)Wvel]。
+Lean声明：
+def Hvel (s : ℝ) (n : ℕ) (D : ℝ) (c d z : ℂ) : ℂ
+
+56. Hcurve_deriv  [private lemma]
+D>0、B0>0 时，Hcurve 在0的导数为 Hvel。
+Lean声明：
+private lemma Hcurve_deriv (s : ℝ) (n : ℕ) (D : ℝ) (c d z : ℂ)
+    (hD : 0 < D) (hb : 0 < ‖c‖^2+‖d‖^2) :
+    HasDerivAt (Hcurve s n D c d z) (Hvel s n D c d z) 0
+
+57. highest_orbit_curve  [private lemma]
+harmonicSection(s,n,g·n(tz)) 的值正是上述 Hcurve，其中D=|det g|、c=g10、d=g11。
+Lean声明：
+private lemma highest_orbit_curve (s : ℝ) (n : ℕ) (g : ComplexGL2) (z : ℂ) (t : ℝ) :
+    harmonicSection s n (g * upperUnipotent ((t:ℂ)*z)) =
+      Hcurve s n ‖(g : Matrix (Fin 2) (Fin 2) ℂ).det‖ (g 1 0) (g 1 1) z t
+
+58. highest_orbit_deriv  [private lemma]
+上述真实轨道函数在0的导数为 Hvel。
+Lean声明：
+private lemma highest_orbit_deriv (s : ℝ) (n : ℕ) (g : ComplexGL2) (z : ℂ) :
+    deriv (fun t : ℝ => harmonicSection s n (g * upperUnipotent ((t:ℂ)*z))) 0 =
+      Hvel s n ‖(g : Matrix (Fin 2) (Fin 2) ℂ).det‖ (g 1 0) (g 1 1) z
+
+59. Hvel_plus  [private lemma]
+全纯组合 (Hvel(z=1)−i Hvel(z=i))/2=−(n+1+2s)/2·(D/B0)^(1+2s)W0^(n+1)。
+Lean声明：
+private lemma Hvel_plus (s : ℝ) (n : ℕ) (D : ℝ) (c d : ℂ)
+    (hb : ‖c‖^2+‖d‖^2 ≠ 0) :
+    (Hvel s n D c d 1 - Complex.I * Hvel s n D c d Complex.I)/2 =
+      -((n:ℂ)+((1+2*s:ℝ):ℂ))/2 *
+        (Real.rpow (D/(‖c‖^2+‖d‖^2)) (1+2*s):ℂ) *
+          (2*c*star d/((‖c‖^2+‖d‖^2:ℝ):ℂ))^(n+1)
+
+60. highestImage  [def]
+把负参数 −1/6 下的最高谐函数 harmonicSection(n) 作为真实 Theta β 中的向量 h_n。
+Lean声明：
+def highestImage (β : ℂˣ) (n : ℕ) : Theta β
+
+61. highestImage_upper  [theorem]
+真实导数 dπ(Z_plus)h_n=−(n+2/3)/2·h_(n+1)。来源局部证明完整提取，避免其原全局导入。
+Lean声明：
+theorem highestImage_upper (β : ℂˣ) (n : ℕ) :
+    dPiComplexUpperRoot β Z_plus (highestImage β n) =
+      (-((n:ℂ)+(2/3:ℂ))/2) • highestImage β (n+1)
+
+======================================================================
+ComplexWeylPowers.lean
+======================================================================
+62. rowB_weyl  [private theorem]
+右乘交换 Weyl 矩阵保持底行范数平方和 rowB。
+Lean声明：
+private theorem rowB_weyl (g : ComplexGL2) : rowB (g * weyl) = rowB g
+
+63. rowW_weyl  [private theorem]
+右乘交换 Weyl 矩阵把 rowW=2c·conjugate(d)/B0 变为其复共轭。
+Lean声明：
+private theorem rowW_weyl (g : ComplexGL2) : rowW (g * weyl) = star (rowW g)
+
+64. norm_det_weyl  [private theorem]
+交换 Weyl 矩阵的行列式模为1，因此保持 |det g|。
+Lean声明：
+private theorem norm_det_weyl (g : ComplexGL2) :
+    ‖((g * weyl : ComplexGL2) : Mat).det‖ = ‖(g : Mat).det‖
+
+65. harmonicSection_weyl  [theorem]
+真实最高谐函数满足 h_n(gw)=conjugate(h_n(g))，球面径向因子为实数。
+Lean声明：
+theorem harmonicSection_weyl (s : ℝ) (n : ℕ) (g : ComplexGL2) :
+    harmonicSection s n (g * weyl) = star (harmonicSection s n g)
+
+66. lowestImage  [def]
+定义真实最低谐向量 l_n=π(w)h_n。
+Lean声明：
+def lowestImage (β : ℂˣ) (n : ℕ) : Theta β
+
+67. lowestImage_apply  [theorem]
+l_n(g)=conjugate(harmonicSection(−1/6,n,g))。
+Lean声明：
+theorem lowestImage_apply (β : ℂˣ) (n : ℕ) (g : ComplexGL2) :
+    (lowestImage β n : PrincipalSeries negativeParameter) g =
+      star (harmonicSection negativeParameter n g)
+
+68. lowestImage_zero  [theorem]
+零阶最高与最低谐向量相同。
+Lean声明：
+theorem lowestImage_zero (β : ℂˣ) : lowestImage β 0 = highestImage β 0
+
+69. lowestImage_upper  [theorem]
+由实变量导数与共轭交换，dπ(Z_minus)l_n=−(n+2/3)/2·l_(n+1)。
+Lean声明：
+theorem lowestImage_upper (β : ℂˣ) (n : ℕ) :
+    dPiComplexUpperRoot β Z_minus (lowestImage β n) =
+      (-((n : ℂ) + (2 / 3 : ℂ)) / 2) • lowestImage β (n + 1)
+
+70. dPiComplexUpperRoot_smul  [theorem]
+真实复化上根导数对向量的复标量乘法线性。
+Lean声明：
+theorem dPiComplexUpperRoot_smul (β : ℂˣ) (X : ComplexifiedUpperRoot)
+    (a : ℂ) (h : Theta β) :
+    dPiComplexUpperRoot β X (a • h) = a • dPiComplexUpperRoot β X h
+
+71. rootStringCoefficient  [def]
+定义共同系数 κ0=besselCoefficient(c)^(−1)·(3 characterScale(β)/2)，κ_(n+1)=(2/(ic))κ_n·(−(n+2/3)/2)。
+Lean声明：
+def rootStringCoefficient (c : ℝ) (β : ℂˣ) : ℕ → ℂ
+
+72. vZero_eq_highestImage  [theorem]
+真实规范化球向量 vZero=κ0 h0。
+Lean声明：
+theorem vZero_eq_highestImage (c : ℝ) (β : ℂˣ) :
+    vZero c β = rootStringCoefficient c β 0 • highestImage β 0
+
+73. higherPlus_eq_highestImage  [theorem]
+真实 E^n vZero=κ_n h_n。
+Lean声明：
+theorem higherPlus_eq_highestImage (c : ℝ) (β : ℂˣ) (n : ℕ) :
+    higherPlus c β n = rootStringCoefficient c β n • highestImage β n
+
+74. higherMinus_eq_lowestImage  [theorem]
+真实 Ebar^n vZero=κ_n l_n，系数与全纯根字符串相同。
+Lean声明：
+theorem higherMinus_eq_lowestImage (c : ℝ) (β : ℂˣ) (n : ℕ) :
+    higherMinus c β n = rootStringCoefficient c β n • lowestImage β n
+
+75. weyl_higherPlus  [theorem]
+真实 Weyl 作用满足 π(w)E^n vZero=Ebar^n vZero。
+Lean声明：
+theorem weyl_higherPlus (c : ℝ) (β : ℂˣ) (n : ℕ) :
+    imageAction β (Matrix.ProjGenLinGroup.mk weyl) (higherPlus c β n) =
+      higherMinus c β n
+
+76. weyl_squared  [private theorem]
+实际交换 Weyl 矩阵满足w²=1，所以其表示作用平方为恒等。
+Lean声明：
+private theorem weyl_squared (β : ℂˣ) (h : Theta β) :
+    imageAction β (Matrix.ProjGenLinGroup.mk weyl)
+      (imageAction β (Matrix.ProjGenLinGroup.mk weyl) h) = h
+
+77. weyl_higherMinus  [theorem]
+π(w)Ebar^n vZero=E^n vZero。
+Lean声明：
+theorem weyl_higherMinus (c : ℝ) (β : ℂˣ) (n : ℕ) :
+    imageAction β (Matrix.ProjGenLinGroup.mk weyl) (higherMinus c β n) =
+      higherPlus c β n
+
+78. archRootVector  [def]
+按整数构造φ_m：m≥0用E^m vZero，m<0用Ebar^(−m)vZero。
+Lean声明：
+def archRootVector (c : ℝ) (β : ℂˣ) : ℤ → Theta β
+
+79. weyl_archRootVector  [theorem]
+对于所有整数m，实际局部表示内π(w)φ_m=φ_(−m)。
+Lean声明：
+theorem weyl_archRootVector (c : ℝ) (β : ℂˣ) (m : ℤ) :
+    imageAction β (Matrix.ProjGenLinGroup.mk weyl) (archRootVector c β m) =
+      archRootVector c β (-m)
+
+80. whittaker_archRootVector  [theorem]
+c>0、β=c时，所有整数m的实际Whittaker值统一为r^(|m|+1)ω_plus^m K_{1/3}(cr)。
+Lean声明：
+theorem whittaker_archRootVector (c : ℝ) (hc : 0 < c)
+    (β : ℂˣ) (hβ : (β : ℂ) = (c : ℂ)) (m : ℤ) (y : ℂˣ) :
+    whittakerValue β (archRootVector c β m) y =
+      ((radius y ^ (m.natAbs + 1) : ℝ) : ℂ) * omegaPlus y ^ m *
+        (besselKThird (c * radius y) : ℂ)
+
+======================================================================
+ComplexProfileBridge.lean
+======================================================================
+81. besselKThird_eq_KThird  [theorem]
+x>0时，实际Whittaker使用的besselKThird与Mellin基底使用的KThird相同。
+Lean声明：
+theorem besselKThird_eq_KThird (x : ℝ) (hx : 0 < x) :
+    besselKThird x = KThird x
+
+82. archDirectProfile_radius  [theorem]
+r>0时 D(r²)=r^(|m|+1)(r²)^(−iτ)K_{1/3}(cr)，准确处理普通半径与复绝对值。
+Lean声明：
+theorem archDirectProfile_radius (c : ℝ) (m : ℤ) (τ r : ℝ) (hr : 0 < r) :
+    archDirectProfile c m τ (r ^ 2) =
+      (r : ℂ) ^ (m.natAbs + 1) *
+        ((r ^ 2 : ℝ) : ℂ) ^ (-(τ : ℂ) * Complex.I) *
+        (KThird (c * r) : ℂ)
+
+83. direct_profile_from_whittaker  [theorem]
+实际 W(φ_m,y)乘ω^(−m)(r²)^(−iτ)正是D(r²)。
+Lean声明：
+theorem direct_profile_from_whittaker (c : ℝ) (hc : 0 < c)
+    (β : ℂˣ) (hβ : (β : ℂ) = (c : ℂ)) (m : ℤ) (τ : ℝ) (y : ℂˣ) :
+    whittakerValue β (archRootVector c β m) y * omegaPlus y ^ (-m) *
+      ((radius y ^ 2 : ℝ) : ℂ) ^ (-(τ : ℂ) * Complex.I) =
+        archDirectProfile c m τ (radius y ^ 2)
+
+84. reflected_profile_from_whittaker  [theorem]
+实际 W(π(w)φ_m,y)乘ω^m(r²)^(+iτ)正是H(r²)，没有把Weyl目标当作定义或假设。
+Lean声明：
+theorem reflected_profile_from_whittaker (c : ℝ) (hc : 0 < c)
+    (β : ℂˣ) (hβ : (β : ℂ) = (c : ℂ)) (m : ℤ) (τ : ℝ) (y : ℂˣ) :
+    whittakerValue β
+        (imageAction β (Matrix.ProjGenLinGroup.mk weyl) (archRootVector c β m)) y *
+      omegaPlus y ^ m * ((radius y ^ 2 : ℝ) : ℂ) ^ ((τ : ℂ) * Complex.I) =
+        archReflectedProfile c m τ (radius y ^ 2)
+
+======================================================================
+ArchimedeanConstants.lean
+======================================================================
+85. archWeight_neg  [theorem]
+角权取反不改变 a=(|m|+1)/2。
+Lean声明：
+theorem archWeight_neg (m : ℤ) : archWeight (-m) = archWeight m
+
+86. archReflectedConstant_ne_zero  [theorem]
+c>0 时反射常数 C_+ 非零。
+Lean声明：
+theorem archReflectedConstant_ne_zero (c : ℝ) (hc : 0 < c) (m : ℤ) (τ : ℝ) :
+    archReflectedConstant c m τ ≠ 0
+
+87. archDirectConstant_norm  [theorem]
+|C_-|=(1/2) A^a，与 τ 无关。
+Lean声明：
+theorem archDirectConstant_norm (c : ℝ) (hc : 0 < c) (m : ℤ) (τ : ℝ) :
+    ‖archDirectConstant c m τ‖ =
+      (1 / 2 : ℝ) * (archScale c) ^ archWeight m
+
+88. archReflectedConstant_norm  [theorem]
+|C_+|=(1/2) A^a，与 τ 无关。
+Lean声明：
+theorem archReflectedConstant_norm (c : ℝ) (hc : 0 < c) (m : ℤ) (τ : ℝ) :
+    ‖archReflectedConstant c m τ‖ =
+      (1 / 2 : ℝ) * (archScale c) ^ archWeight m
+
+89. arch_reflected_mellin_common_strip  [theorem]
+所有整数 m 都可以在 −1/3<Re(s)<1/3 上使用同一个原始反射 Mellin 恒等式。
+Lean声明：
+theorem arch_reflected_mellin_common_strip (c : ℝ) (hc : 0 < c)
+    (m : ℤ) (τ : ℝ) (s : ℂ)
+    (hleft : -(1 / 3 : ℝ) < s.re) (hright : s.re < (1 / 3 : ℝ)) :
+    mellin (archReflectedProfile c m τ) s =
+      mellin (archDirectProfile c m τ) (-s) *
+        (archScale c : ℂ) ^ (2 * s) * archReflectionPhase c τ *
+        (archGammaPair (archExponent m (-τ) + s) /
+          archGammaPair (archExponent m τ + (-s)))
+
+======================================================================
+包外显式引用API（需核对；固定版本中的实际调用已编译核验，原项目接线另核对）
+======================================================================
+分类原则：以下列的是新代码直接提及而原压缩包未包含声明本体的项目/Mathlib名。它们并非假设；源码中仍实际调用，且这些实际调用已随上述七个模块在固定版本中通过编译。保留“需核对”是为了原项目接线及与用户包外接口逐项对照，不表示当前证明尚未通过。包内已给出声明本体的定理列在后节。隐式类型类、simp自动调用的传递常量与战术展开产生的所有内核常量不重复罗列，已由#print axioms及统一Audit检查。
+
+包外Axiom项目定理/引理
+- KPCplxHarmonicPropagation.RaisingCalculation.rowB_pos — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- KPCplxHarmonicPropagation.RaisingCalculation.harmonicSection_harmonic — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- KPCplxActualImage.harmonicKType_le_imageSubmodule — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- KPCplxActualImage.spherical_image — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- DedekindZetaZeroFree.KThird_eq_integral — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- DedekindZetaZeroFree.KPCplxBessel.besselKThird_eq_modifiedBesselK — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+
+包外Axiom对象（用于对应实际表示，不是新公理）
+- KPCplxActualImage.Theta — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- KPCplxActualImage.imageAction — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- KPCplxActualImage.intertwinerToImage — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- KPCplxPrincipalSeriesCharts.PrincipalSeries — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- KPCplxPrincipalSeriesCharts.sphericalSection — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- negativeParameter — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- positiveParameter — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- KPCplxCharacterHaar.weyl — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- KPCplxCharacterHaar.upperUnipotent — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- KPCplxHarmonicPropagation.RaisingCalculation.rowB — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- KPCplxHarmonicPropagation.RaisingCalculation.rowW — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- KPCplxHarmonicPropagation.RaisingCalculation.harmonicSection — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- DedekindZetaZeroFree.KPCplxPlanarKernel.besselCoefficient — 需核对（已按源文件纠正命名空间，以最终编译日志为准）。
+- KPCplxBessel.besselKThird — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- KPCplxBessel.modifiedBesselK — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- characterScale — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- DedekindZetaZeroFree.KThird — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- DedekindZetaZeroFree.thirdBesselSchlafliIntegrand — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+
+Mathlib Mellin与测度
+- MellinConvergent.cpow_smul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- mellin_cpow_smul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- mellin_const_smul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- setIntegral_congr_fun — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Integrable.congr — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- ae_restrict_mem — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- measurableSet_Ioi — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+
+Mathlib Gamma、复幂、实幂与复数恒等式
+- Complex.Gamma_ne_zero_of_re_pos — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.cpow_add — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.cpow_sub — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.cpow_one — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.cpow_natCast — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.cpow_ne_zero_iff — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.cpow_mul_ofReal_nonneg — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.norm_cpow_eq_rpow_re_of_pos — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.ofReal_ne_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.ofReal_mul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.ofReal_pow — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.ofReal_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.ofReal_add — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.ofReal_neg — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.ofReal_ofNat — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.add_re — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.sub_re — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.one_re — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.neg_re — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.add_conj — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.conj_conj — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.conj_ofReal — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.conj_I — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.star_def — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.I_ne_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.I_sq — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.mul_conj' — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Real.sqrt_sq_eq_abs — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Real.pi_ne_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Real.rpow_sub — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Real.rpow_one — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Real.rpow_two — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Real.rpow_eq_pow — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+
+Mathlib实变量导数API
+- Complex.ofRealCLM.hasDerivAt — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Complex.ofRealCLM.hasFDerivAt — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- HasDerivAt.mul_const — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- HasDerivAt.const_add — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- HasDerivAt.norm_sq — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- HasDerivAt.star — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- HasDerivAt.const_mul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- HasDerivAt.div — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- HasDerivAt.rpow_const — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- HasDerivAt.pow — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- HasDerivAt.mul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- HasDerivAt.deriv — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- HasFDerivAt.comp_hasDerivAt — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- hasDerivAt_const — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- deriv.star — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- deriv_const_mul_field — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- real_inner_eq_re_inner — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- RCLike.inner_apply — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+
+Mathlib矩阵、范数和单位
+- Matrix.GeneralLinearGroup.coe_mul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Matrix.GeneralLinearGroup.det_ne_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Matrix.mul_apply — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Matrix.det_mul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Matrix.det_fin_two — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Matrix.one_apply — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Fin.sum_univ_two — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- norm_pos_iff — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- norm_ne_zero_iff — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- norm_mul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Units.ne_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Units.ext — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+
+基础代数与整数API（部分在Lean核心，列出便于复查）
+- Nat.cast_nonneg — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Nat.cast_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Nat.cast_succ — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Nat.succ_sub_one — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Int.natAbs_ofNat' — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Int.natAbs_negSucc — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Int.natAbs_neg — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- zpow_natCast — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- zpow_negSucc — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- zpow_neg — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- zpow_ne_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- inv_pow — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- pow_succ — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- pow_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- pow_one — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- mul_pow — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- mul_ne_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- div_ne_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- mul_left_cancel₀ — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- mul_inv_cancel₀ — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- inv_mul_cancel₀ — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- smul_smul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- smul_eq_mul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Prod.smul_fst — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Prod.smul_snd — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Prod.fst_sub — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Prod.snd_sub — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Prod.fst_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- Prod.snd_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- map_add — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- map_mul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- map_div₀ — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- star_mul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- star_pow — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- star_one — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- sub_add_cancel — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- abs_of_pos — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- sq_pos_of_pos — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- congrArg — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- mul_assoc — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- mul_comm — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- mul_left_comm — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- add_comm — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- one_mul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- mul_one — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- zero_mul — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- mul_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- zero_add — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- add_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- sub_zero — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+- zero_sub — 需核对项：已在指定版本校验环境编译核验；完整原项目接线仍须按技术说明检查。
+
+原包已提供声明本体的关键项目引理（无需臆造接口）：
+- DedekindZetaZeroFree.radial_integrable
+- DedekindZetaZeroFree.thirdBesselRadialProfile_mellin
+- KPCplxRootDerivativeVectors.whittaker_complexUpperRootDerivatives
+- KPCplxRootDerivativeVectors.whittaker_vZero
+- KPCplxRootDerivativeVectors.imageAction_smul
+- 同文件中已见的定义：Z_plus、Z_minus、dPiComplexUpperRoot、vZero、whittakerValue、radius、omegaPlus、omegaMinus。
+
+======================================================================
+静态审查中最需注意的步骤
+======================================================================
+1. 实际Weyl证明：必须使用交换矩阵w=[[0,1],[1,0]]。它右乘交换底行c,d，使rowW共轭且不改变实球面因子；另一常见有负号的Weyl代表会带固定角向符号。代码直接使用Axiom的weyl，并通过矩阵条目验证。
+2. lowestImage_upper：仅对实变量t求导，故deriv.star合法；复化Z_plus的系数共轭变成Z_minus。最高权导数系数−(n+2/3)/2是实数，两条字符串系数相同。最脆弱工程点是Theta/PrincipalSeries双重Subtype与star的强制转换；当前源码已通过编译，lowestImage_upper的公理依赖仅标准三条。
+3. 负整数：archRootVector以Int.ofNat/Int.negSucc两种构造器分别定义；零阶单独处理；ω_minus=ω_plus^(−1)依赖y是单位。统一公式使用zpow，natAbs只控制径向幂。
+4. 半径/复绝对值：t=r²；Mellin使用dt/t。直接转为dr/r会多1/2，不能复用同一C₀而不改测度。桥接中显式证明archDirectProfile_radius。
+5. 原始反射的固定相位：C+/C−=A^(2iτ)，模长1但一般不等于1。raw arch_reflected_mellin保留它；phase-free版本仅对明确定义的P^(−1)H成立。
+6. 实际积分收敛：正反单个Mellin要求Re s>1/6−a；涉及M[D](−s)时还须Re s<a−1/6。代码不把区间外totalized积分冒充亚纯延拓。
+7. 项目骨架的径向符号需独立核对：设tθ=heckeComplexParameter、ρ=archRadial=−tθ，旧adapter把direct识别为t^(a+iρ)K，Gamma为Gρ(s)。真实反射应G_(−ρ)(s)/Gρ(−s)，而GlobalThetaData.reflectionMultiplier写Gρ(s)/G_(−ρ)(−s)。MarkedThetaReflection使用同一θ传入primal和kernel；包中未见dual-character改参。只把本模块τ取ρ会交换正反profile，不能宣称同一θ的物理接线已经rfl完成。
+8. 第7点不是可由C₀吸收的固定相位：ρ≠0时两个亚纯Gamma商在s=−a+1/6−iρ的极点行为不同。保持既有骨架原件不改，在报告中保留需核对/明确dual-character转换的接口。
+9. HighestHarmonicRoot只复制来源中到highestImage_upper的局部实导数证明，替换namespace与import；避免原HighestRoot通过SelectedJacquetImage引入约3916模块的全局闭包。
+10. 七个阿基米德模块均已由主代理在Lean 4.35.0-rc3、Mathlib 0493595上逐模块串行构建通过。RootIterates四条定理无公理依赖；其余已打印目标均仅标准三公理。最终ComplexWeylPowers、ComplexProfileBridge及统一Audit分别exit 0；实际Axiom依赖使用只缩窄imports的审计overlay，原文件正文未改。原项目字符符号接线问题仍按第7–8点保留，编译通过不消除此数学约定差异。
+
+声明总数：89
+未提供摘要的声明：[]
+
+
+
+
+附录B：有限位核心及未编译适配候选
+外部局部数字：完整定义与定理清单
+
+共同上下文：F 为有限域，q=Fintype.card F，χ:MulChar F ℂ，ψ:AddChar F ℂ。
+四个核心模块只依赖 Mathlib 与新增模块，均已在下列指定版本成功编译。
+候选 ActualExteriorAdapter 未编译，不在已验证核心内。
+具体假设见逐项保留的完整 Lean 陈述；任何“χ阶六、ψ本原”等条件均没有省掉。
+指定版本：Lean 4.35.0-rc3 / Mathlib 0493595ecd5da8ef14742febab99728f98e948e8。
+核心编译通过：ExteriorFiniteSums、ExteriorUnitSums、ExteriorPhaseSeparation、ExteriorFourierMasks。
+公理依赖验证以最终 Audit 模块和日志为准，本清单不预先声称候选适配已通过审计。
+
+========================================================================
+HeckeSkeleton/ThetaLocal/ExteriorFiniteSums.lean
+========================================================================
+
+命名空间：HeckeSkeleton.ThetaLocal
+
+1. def uniformDigit
+均匀标记权 μ(v)=q⁻¹。
+def uniformDigit (_v : F) : ℂ := (Fintype.card F : ℂ)⁻¹
+
+2. def digitTau
+普通数字的 Gauss 分母 τ_j=G(χ^(−j))，对全有限域求和。
+def digitTau (χ : MulChar F ℂ) (ψ : AddChar F ℂ) (j : ℕ) : ℂ :=
+  gaussSum (χ⁻¹ ^ j) ψ
+
+3. def ordinaryDigit
+j=0 时为 δ_0−q⁻¹；j≠0 时为 τ_j⁻¹χ^(−j)，采用乘性特征的零延拓。
+def ordinaryDigit (χ : MulChar F ℂ) (ψ : AddChar F ℂ) (j : ℕ) (v : F) : ℂ :=
+  if j = 0 then
+    if v = 0 then 1 - (Fintype.card F : ℂ)⁻¹ else -(Fintype.card F : ℂ)⁻¹
+  else (digitTau χ ψ j)⁻¹ * (χ⁻¹ ^ j) v
+
+4. def finiteWeylSum
+W_eχ(t)^(4+2e)Σ_v β(v)χ(v)^4 Ψ_e(t/v)，其中 Ψ_0=ψ，正赋值 Ψ_e=1。
+def finiteWeylSum (χ : MulChar F ℂ) (ψ : AddChar F ℂ)
+    (W : ℕ → ℂ) (β : F → ℂ) (e : ℕ) (t : Fˣ) : ℂ :=
+  W e * χ t ^ (4 + 2 * e) *
+    ∑ v : F, β v * (χ ^ 4) v * (if e = 0 then ψ ((t : F) / v) else 1)
+
+5. theorem uniform_digit_fourier
+Σ_v q⁻¹ψ(tv)=1_(t=0)。
+theorem uniform_digit_fourier (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) (t : F) :
+    (∑ v : F, uniformDigit v * ψ (t * v)) = if t = 0 then 1 else 0
+
+6. theorem uniform_digit_zero
+零数字的均匀权值等于 q⁻¹。
+theorem uniform_digit_zero : uniformDigit (0 : F) = (Fintype.card F : ℂ)⁻¹
+
+7. theorem ordinary_digit_zero_zero
+普通 j=0 分支的零数字权值等于 1−q⁻¹。
+theorem ordinary_digit_zero_zero (χ : MulChar F ℂ) (ψ : AddChar F ℂ) :
+    ordinaryDigit χ ψ 0 0 = 1 - (Fintype.card F : ℂ)⁻¹
+
+8. theorem inverse_argument_gauss
+Σ_v η(v)ψ(t/v)=η(t)G(η⁻¹)；t 为非零单位。
+theorem inverse_argument_gauss (η : MulChar F ℂ) (ψ : AddChar F ℂ) (t : Fˣ) :
+    (∑ v : F, η v * ψ ((t : F) / v)) = η t * gaussSum η⁻¹ ψ
+
+9. theorem multiplicative_character_sum
+Σ_vη(v)=q−1（η=1）或0（η≠1）。
+theorem multiplicative_character_sum (η : MulChar F ℂ) :
+    (∑ v : F, η v) = if η = 1 then (Fintype.card Fˣ : ℂ) else 0
+
+10. theorem finite_weyl_char_zero
+β=cη 的 e=0 反射和为 W_0χ(t)^4 c(ηχ^4)(t)G((ηχ^4)⁻¹)。
+theorem finite_weyl_char_zero (χ η : MulChar F ℂ) (ψ : AddChar F ℂ)
+    (W : ℕ → ℂ) (c : ℂ) (t : Fˣ) :
+    finiteWeylSum χ ψ W (fun v => c * η v) 0 t =
+      W 0 * χ t ^ 4 * c * (η * χ ^ 4) t * gaussSum (η * χ ^ 4)⁻¹ ψ
+
+11. theorem finite_weyl_char_positive
+β=cη 的 e>0 反射和为 W_eχ(t)^(4+2e)c(q−1)1_(ηχ^4=1)。
+theorem finite_weyl_char_positive (χ η : MulChar F ℂ) (ψ : AddChar F ℂ)
+    (W : ℕ → ℂ) (c : ℂ) (e : ℕ) (he : e ≠ 0) (t : Fˣ) :
+    finiteWeylSum χ ψ W (fun v => c * η v) e t =
+      W e * χ t ^ (4 + 2 * e) * c *
+        (if η * χ ^ 4 = 1 then (Fintype.card Fˣ : ℂ) else 0)
+
+12. theorem mark_digit_positive
+χ^4 非主时，均匀标记的非零数字部分在所有正赋值处为0。
+theorem mark_digit_positive (χ : MulChar F ℂ) (hχ4 : χ ^ 4 ≠ 1)
+    (ψ : AddChar F ℂ) (W : ℕ → ℂ) (e : ℕ) (he : e ≠ 0) (t : Fˣ) :
+    finiteWeylSum χ ψ W uniformDigit e t = 0
+
+13. theorem sextic_fourth_inverse
+χ^6=1 推出 (χ^4)⁻¹=χ²。
+theorem sextic_fourth_inverse (χ : MulChar F ℂ) (hχ6 : χ ^ 6 = 1) :
+    (χ ^ 4)⁻¹ = χ ^ 2
+
+14. theorem mark_digit_zero
+W_0=1 时，均匀标记的 e=0 非零数字部分是 q⁻¹G(χ²)χ(t)²。
+theorem mark_digit_zero (χ : MulChar F ℂ) (hχ6 : χ ^ 6 = 1)
+    (ψ : AddChar F ℂ) (W : ℕ → ℂ) (hW : W 0 = 1) (t : Fˣ) :
+    finiteWeylSum χ ψ W uniformDigit 0 t =
+      (Fintype.card F : ℂ)⁻¹ * gaussSum (χ ^ 2) ψ * χ t ^ 2
+
+15. theorem mark_digit_table
+把上一条与所有正赋值消失合成完整 active-mark 表。
+theorem mark_digit_table (χ : MulChar F ℂ) (hχ6 : χ ^ 6 = 1) (hχ4 : χ ^ 4 ≠ 1)
+    (ψ : AddChar F ℂ) (W : ℕ → ℂ) (hW : W 0 = 1) (e : ℕ) (t : Fˣ) :
+    finiteWeylSum χ ψ W uniformDigit e t =
+      if e = 0 then (Fintype.card F : ℂ)⁻¹ * gaussSum (χ ^ 2) ψ * χ t ^ 2 else 0
+
+16. theorem ordinary_zero_eq_neg_mark
+普通 j=0 的非零数字部分等于均匀标记的负值，所有 e 均成立。
+theorem ordinary_zero_eq_neg_mark (χ : MulChar F ℂ) (ψ : AddChar F ℂ)
+    (W : ℕ → ℂ) (e : ℕ) (t : Fˣ) :
+    finiteWeylSum χ ψ W (ordinaryDigit χ ψ 0) e t =
+      -finiteWeylSum χ ψ W uniformDigit e t
+
+17. theorem ordinary_digit_table_zero
+j≠0 时 e=0 的普通表，使用有效特征 χ^(−j)χ^4 表示相位及 Gauss 分子。
+theorem ordinary_digit_table_zero (χ : MulChar F ℂ) (ψ : AddChar F ℂ)
+    (W : ℕ → ℂ) (hW : W 0 = 1) (j : ℕ) (hj : j ≠ 0) (t : Fˣ) :
+    finiteWeylSum χ ψ W (ordinaryDigit χ ψ j) 0 t =
+      (digitTau χ ψ j)⁻¹ * χ t ^ 4 * (χ⁻¹ ^ j * χ ^ 4) t *
+        gaussSum (χ⁻¹ ^ j * χ ^ 4)⁻¹ ψ
+
+18. theorem ordinary_digit_table_positive
+j≠0、e>0 时有效特征为主才有贡献。
+theorem ordinary_digit_table_positive (χ : MulChar F ℂ) (ψ : AddChar F ℂ)
+    (W : ℕ → ℂ) (j : ℕ) (hj : j ≠ 0) (e : ℕ) (he : e ≠ 0) (t : Fˣ) :
+    finiteWeylSum χ ψ W (ordinaryDigit χ ψ j) e t =
+      W e * χ t ^ (4 + 2 * e) * (digitTau χ ψ j)⁻¹ *
+        (if χ⁻¹ ^ j * χ ^ 4 = 1 then (Fintype.card Fˣ : ℂ) else 0)
+
+19. theorem sextic_positive_exception
+orderOf χ=6、0≤j<6 时，χ^(−j)χ^4=1 当且仅当 j=4。
+theorem sextic_positive_exception (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (j : ℕ) (hj : j < 6) :
+    χ⁻¹ ^ j * χ ^ 4 = 1 ↔ j = 4
+
+20. theorem ordinary_digit_table_positive_sextic
+正赋值普通表化为只在 j=4 非零的显式公式。
+theorem ordinary_digit_table_positive_sextic (χ : MulChar F ℂ)
+    (hχ : orderOf χ = 6) (ψ : AddChar F ℂ) (W : ℕ → ℂ)
+    (j : ℕ) (hj0 : j ≠ 0) (hj6 : j < 6) (e : ℕ) (he : e ≠ 0) (t : Fˣ) :
+    finiteWeylSum χ ψ W (ordinaryDigit χ ψ j) e t =
+      W e * χ t ^ (4 + 2 * e) * (digitTau χ ψ j)⁻¹ *
+        (if j = 4 then (Fintype.card Fˣ : ℂ) else 0)
+
+21. theorem digit_tau_ne_zero
+ψ 本原且 χ^(−j) 非主时 τ_j≠0。
+theorem digit_tau_ne_zero (χ : MulChar F ℂ) (ψ : AddChar F ℂ)
+    (hψ : ψ.IsPrimitive) (j : ℕ) (hj : χ⁻¹ ^ j ≠ 1) :
+    digitTau χ ψ j ≠ 0
+
+22. theorem gauss_sum_norm_sq
+非主 Gauss 和的模平方恰为 q。
+theorem gauss_sum_norm_sq (η : MulChar F ℂ) (hη : η ≠ 1)
+    (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) :
+    ‖gaussSum η ψ‖ ^ 2 = (Fintype.card F : ℝ)
+
+23. theorem gauss_sum_norm
+非主 Gauss 和的模恰为 √q。
+theorem gauss_sum_norm (η : MulChar F ℂ) (hη : η ≠ 1)
+    (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) :
+    ‖gaussSum η ψ‖ = Real.sqrt (Fintype.card F)
+
+========================================================================
+HeckeSkeleton/ThetaLocal/ExteriorUnitSums.lean
+========================================================================
+
+命名空间：HeckeSkeleton.ThetaLocal.ResidueField
+
+24. theorem sum_units_eq_sum
+若 f(0)=0，则 Σ_(x∈F×) f(x)=Σ_(x∈F) f(x)。
+theorem sum_units_eq_sum (f : F → ℂ) (hf : f 0 = 0) :
+    (∑ x : Fˣ, f x) = ∑ x : F, f x
+
+25. def localTau
+逐字泛化项目 localTau：单位群上 Σ χ(x)^(−j)ψ(x)。
+def localTau (χ : MulChar F ℂ) (ψ : AddChar F ℂ) (j : Fin 6) : ℂ :=
+  ∑ x : Fˣ, χ x ^ (-(j.val : ℤ)) * ψ x
+
+26. def digitMask
+逐字泛化项目 digitMask，保留 j=0 特殊分支与复数负整数幂。
+def digitMask (χ : MulChar F ℂ) (ψ : AddChar F ℂ) (j : Fin 6) (x : F) : ℂ :=
+  if j.val = 0 then
+    if x = 0 then 1 - (Fintype.card F : ℂ)⁻¹ else -(Fintype.card F : ℂ)⁻¹
+  else (localTau χ ψ j)⁻¹ * χ x ^ (-(j.val : ℤ))
+
+27. def gammaTwo
+γ₂=(√q)⁻¹G(χ²)。
+def gammaTwo (χ : MulChar F ℂ) (ψ : AddChar F ℂ) : ℂ :=
+  (Real.sqrt (Fintype.card F : ℝ) : ℂ)⁻¹ * gaussSum (χ ^ 2) ψ
+
+28. def sphericalDigit
+球值 W_(3k)=q⁻k，W_(3k+1)=q⁻k(√q)⁻¹γ₂，W_(3k+2)=0。
+def sphericalDigit (χ : MulChar F ℂ) (ψ : AddChar F ℂ) (e : ℕ) : ℂ :=
+  if e % 3 = 0 then (Fintype.card F : ℂ)⁻¹ ^ (e / 3)
+  else if e % 3 = 1 then
+    (Fintype.card F : ℂ)⁻¹ ^ (e / 3) *
+      (Real.sqrt (Fintype.card F : ℝ) : ℂ)⁻¹ * gammaTwo χ ψ
+  else 0
+
+29. def localWeylScalar
+逐字泛化项目 localWeylScalar，取单位变量 t=1 的真实有限和。
+def localWeylScalar (χ : MulChar F ℂ) (ψ : AddChar F ℂ) (j : Fin 6) (e : ℕ) : ℂ :=
+  sphericalDigit χ ψ e * ∑ x : Fˣ,
+    digitMask χ ψ j x * χ x ^ 4 * (if e = 0 then ψ ((x⁻¹ : Fˣ) : F) else 1)
+
+30. def localWeylExponent
+b_(j,e)=(8−j) mod6（e=0），或 (4+2e) mod6（e>0）。
+def localWeylExponent (j : Fin 6) (e : ℕ) : ℕ :=
+  if e = 0 then (8 - j.val) % 6 else (4 + 2 * e) % 6
+
+31. def unitWeylSum
+任意单位 t 的 Weyl 右侧有限和，单位群求和版本。
+def unitWeylSum (χ : MulChar F ℂ) (ψ : AddChar F ℂ)
+    (W : ℕ → ℂ) (β : F → ℂ) (e : ℕ) (t : Fˣ) : ℂ :=
+  W e * χ t ^ (4 + 2 * e) * ∑ v : Fˣ,
+    β v * χ v ^ 4 * (if e = 0 then ψ ((t : F) / v) else 1)
+
+32. def markedWeylValue
+球值 W 与均匀数字权组成的单位群 active-mark 有限和。
+def markedWeylValue (χ : MulChar F ℂ) (ψ : AddChar F ℂ) (e : ℕ) (t : Fˣ) : ℂ :=
+  unitWeylSum χ ψ (sphericalDigit χ ψ) uniformDigit e t
+
+33. theorem localTau_eq_digitTau
+证明项目形式的单位群 τ_j 与 Mathlib Gauss 分母相等。
+theorem localTau_eq_digitTau (χ : MulChar F ℂ) (ψ : AddChar F ℂ) (j : Fin 6) :
+    localTau χ ψ j = digitTau χ ψ j.val
+
+34. theorem digitMask_eq_ordinaryDigit
+证明项目负整数幂形式的 mask 与乘性特征形式相等，包括 x=0。
+theorem digitMask_eq_ordinaryDigit (χ : MulChar F ℂ) (ψ : AddChar F ℂ) (j : Fin 6) :
+    digitMask χ ψ j = ordinaryDigit χ ψ j.val
+
+35. theorem sphericalDigit_zero
+归一化球值 W_0=1。
+theorem sphericalDigit_zero (χ : MulChar F ℂ) (ψ : AddChar F ℂ) :
+    sphericalDigit χ ψ 0 = 1
+
+36. theorem sphericalDigit_vanishes
+e≡2 mod3 时球值为0。
+theorem sphericalDigit_vanishes (χ : MulChar F ℂ) (ψ : AddChar F ℂ)
+    (e : ℕ) (he : e % 3 = 2) : sphericalDigit χ ψ e = 0
+
+37. theorem unitWeylSum_eq_finiteWeylSum
+证明单位群版本与全有限域版本反射有限和相等。
+theorem unitWeylSum_eq_finiteWeylSum (χ : MulChar F ℂ) (ψ : AddChar F ℂ)
+    (W : ℕ → ℂ) (β : F → ℂ) (e : ℕ) (t : Fˣ) :
+    unitWeylSum χ ψ W β e t = finiteWeylSum χ ψ W β e t
+
+38. theorem localWeylScalar_eq_unitWeylSum
+localWeylScalar 恰为单位群反射有限和在 t=1 的值。
+theorem localWeylScalar_eq_unitWeylSum (χ : MulChar F ℂ) (ψ : AddChar F ℂ)
+    (j : Fin 6) (e : ℕ) :
+    localWeylScalar χ ψ j e =
+      unitWeylSum χ ψ (sphericalDigit χ ψ) (digitMask χ ψ j) e 1
+
+39. theorem localWeylScalar_eq_finiteWeylSum
+localWeylScalar 转换为已证明表的全有限域版本。
+theorem localWeylScalar_eq_finiteWeylSum (χ : MulChar F ℂ) (ψ : AddChar F ℂ)
+    (j : Fin 6) (e : ℕ) :
+    localWeylScalar χ ψ j e =
+      finiteWeylSum χ ψ (sphericalDigit χ ψ) (ordinaryDigit χ ψ j.val) e 1
+
+40. theorem sqrt_card_squared
+(√q:ℂ)²=(q:ℂ)。
+theorem sqrt_card_squared :
+    (Real.sqrt (Fintype.card F : ℝ) : ℂ) ^ 2 = (Fintype.card F : ℂ)
+
+41. theorem gauss_normalization
+q⁻¹G(χ²)=(√q)⁻¹γ₂。
+theorem gauss_normalization (χ : MulChar F ℂ) (ψ : AddChar F ℂ) :
+    (Fintype.card F : ℂ)⁻¹ * gaussSum (χ ^ 2) ψ =
+      (Real.sqrt (Fintype.card F : ℝ) : ℂ)⁻¹ * gammaTwo χ ψ
+
+42. theorem markedWeylValue_table
+active-mark 等于 (√q)⁻¹γ₂χ(t)²（e=0），或0（e>0）。
+theorem markedWeylValue_table (χ : MulChar F ℂ) (hχ6 : χ ^ 6 = 1)
+    (hχ4 : χ ^ 4 ≠ 1) (ψ : AddChar F ℂ) (e : ℕ) (t : Fˣ) :
+    markedWeylValue χ ψ e t =
+      if e = 0 then (Real.sqrt (Fintype.card F : ℝ) : ℂ)⁻¹ * gammaTwo χ ψ * χ t ^ 2
+      else 0
+
+43. theorem card_units_complex
+复数中 |F×|=q−1。
+theorem card_units_complex : (Fintype.card Fˣ : ℂ) = (Fintype.card F : ℂ) - 1
+
+44. theorem effective_character_inverse
+(χ^(−j)χ^4)⁻¹=χ^((j+2) mod6)。
+theorem effective_character_inverse (χ : MulChar F ℂ) (hχ6 : χ ^ 6 = 1) (j : Fin 6) :
+    (χ⁻¹ ^ j.val * χ ^ 4)⁻¹ = χ ^ ((j.val + 2) % 6)
+
+45. theorem localWeylScalar_zero_nonzero
+j≠0 时 s_(j,0)=G(χ^((j+2) mod6))/τ_j。
+theorem localWeylScalar_zero_nonzero (χ : MulChar F ℂ) (hχ6 : χ ^ 6 = 1)
+    (ψ : AddChar F ℂ) (j : Fin 6) (hj : j.val ≠ 0) :
+    localWeylScalar χ ψ j 0 =
+      gaussSum (χ ^ ((j.val + 2) % 6)) ψ / localTau χ ψ j
+
+46. theorem localWeylScalar_zero_zero
+s_(0,0)=−(√q)⁻¹γ₂。
+theorem localWeylScalar_zero_zero (χ : MulChar F ℂ) (hχ6 : χ ^ 6 = 1)
+    (ψ : AddChar F ℂ) :
+    localWeylScalar χ ψ 0 0 =
+      -(Real.sqrt (Fintype.card F : ℝ) : ℂ)⁻¹ * gammaTwo χ ψ
+
+47. theorem localWeylScalar_positive
+e>0 时 s_(j,e)=1_(j=4)(q−1)τ_j⁻¹W_e。
+theorem localWeylScalar_positive (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (ψ : AddChar F ℂ) (j : Fin 6) (e : ℕ) (he : e ≠ 0) :
+    localWeylScalar χ ψ j e =
+      if j.val = 4 then
+        ((Fintype.card F : ℂ) - 1) / localTau χ ψ j * sphericalDigit χ ψ e
+      else 0
+
+48. theorem localWeylScalar_support
+e≡2 mod3 时普通 active scalar 为0。
+theorem localWeylScalar_support (χ : MulChar F ℂ) (ψ : AddChar F ℂ)
+    (j : Fin 6) (e : ℕ) (he : e % 3 = 2) :
+    localWeylScalar χ ψ j e = 0
+
+49. theorem localTau_ne_zero
+orderOfχ=6、ψ本原、j=1,…,5 时项目形式 τ_j≠0。
+theorem localTau_ne_zero (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) (j : Fin 6) (hj : j.val ≠ 0) :
+    localTau χ ψ j ≠ 0
+
+50. theorem localTau_norm
+上述 τ_j 的模恰为 √q。
+theorem localTau_norm (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) (j : Fin 6) (hj : j.val ≠ 0) :
+    ‖localTau χ ψ j‖ = Real.sqrt (Fintype.card F : ℝ)
+
+51. theorem gammaTwo_norm
+归一化 γ₂ 的模恰为1。
+theorem gammaTwo_norm (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) : ‖gammaTwo χ ψ‖ = 1
+
+52. theorem row_prime_scalar_norm
+行素位 j=1,e=0 的 scalar 模恰为1。
+theorem row_prime_scalar_norm (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) :
+    ‖localWeylScalar χ ψ 1 0‖ = 1
+
+========================================================================
+HeckeSkeleton/ThetaLocal/ExteriorPhaseSeparation.lean
+========================================================================
+
+命名空间：HeckeSkeleton.ThetaLocal.ResidueField
+
+53. theorem character_unit_power_periodic
+χ(t)^(n mod6)=χ(t)^n；并未假设单个 χ(t) 的阶恰为6。
+theorem character_unit_power_periodic (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (t : Fˣ) (n : ℕ) : χ t ^ (n % 6) = χ t ^ n
+
+54. theorem depth_zero_unit_phase
+χ(t)^4(χ^(−j)χ^4)(t)=χ(t)^((8−j) mod6)。
+theorem depth_zero_unit_phase (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (j : Fin 6) (t : Fˣ) :
+    χ t ^ 4 * (χ⁻¹ ^ j.val * χ ^ 4) t = χ t ^ ((8 - j.val) % 6)
+
+55. theorem unitWeylSum_phase_separation
+任意单位 t 的普通 Weyl 有限和恰为 s_(j,e)χ(t)^b_(j,e)。
+theorem unitWeylSum_phase_separation (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (ψ : AddChar F ℂ) (j : Fin 6) (e : ℕ) (t : Fˣ) :
+    unitWeylSum χ ψ (sphericalDigit χ ψ) (digitMask χ ψ j) e t =
+      localWeylScalar χ ψ j e * χ t ^ localWeylExponent j e
+
+56. theorem localWeylScalar_zero_norm_le
+所有 j 的 depth-zero ordinary scalar 模≤1。
+theorem localWeylScalar_zero_norm_le (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) (j : Fin 6) :
+    ‖localWeylScalar χ ψ j 0‖ ≤ 1
+
+57. theorem localWeylScalar_positive_norm_le
+正赋值 ordinary scalar 模≤√q·|W_e|。
+theorem localWeylScalar_positive_norm_le (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) (j : Fin 6) (e : ℕ) (he : e ≠ 0) :
+    ‖localWeylScalar χ ψ j e‖ ≤
+      Real.sqrt (Fintype.card F : ℝ) * ‖sphericalDigit χ ψ e‖
+
+58. theorem sphericalDigit_three_mul
+W_(3k)=q⁻k。
+theorem sphericalDigit_three_mul (χ : MulChar F ℂ) (ψ : AddChar F ℂ) (k : ℕ) :
+    sphericalDigit χ ψ (3 * k) = (Fintype.card F : ℂ)⁻¹ ^ k
+
+59. theorem sphericalDigit_three_mul_add_one
+W_(3k+1)=q⁻k(√q)⁻¹γ₂。
+theorem sphericalDigit_three_mul_add_one (χ : MulChar F ℂ) (ψ : AddChar F ℂ) (k : ℕ) :
+    sphericalDigit χ ψ (3 * k + 1) =
+      (Fintype.card F : ℂ)⁻¹ ^ k *
+        (Real.sqrt (Fintype.card F : ℝ) : ℂ)⁻¹ * gammaTwo χ ψ
+
+60. theorem sphericalDigit_three_mul_norm
+|W_(3k)|=q⁻k。
+theorem sphericalDigit_three_mul_norm (χ : MulChar F ℂ) (ψ : AddChar F ℂ) (k : ℕ) :
+    ‖sphericalDigit χ ψ (3 * k)‖ = (Fintype.card F : ℝ)⁻¹ ^ k
+
+61. theorem sphericalDigit_three_mul_add_one_norm
+|W_(3k+1)|=q⁻k(√q)⁻¹。
+theorem sphericalDigit_three_mul_add_one_norm (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) (k : ℕ) :
+    ‖sphericalDigit χ ψ (3 * k + 1)‖ =
+      (Fintype.card F : ℝ)⁻¹ ^ k * (Real.sqrt (Fintype.card F : ℝ))⁻¹
+
+62. theorem localWeylScalar_three_mul_add_one_norm_le
+论文 β 表：|s_(j,3k+1)|≤q⁻k。
+theorem localWeylScalar_three_mul_add_one_norm_le (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) (j : Fin 6) (k : ℕ) :
+    ‖localWeylScalar χ ψ j (3 * k + 1)‖ ≤ (Fintype.card F : ℝ)⁻¹ ^ k
+
+63. theorem localWeylScalar_three_mul_succ_norm_le
+论文 β 表：|s_(j,3(k+1))|≤√q·q^(−k−1)。
+theorem localWeylScalar_three_mul_succ_norm_le (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) (j : Fin 6) (k : ℕ) :
+    ‖localWeylScalar χ ψ j (3 * (k + 1))‖ ≤
+      Real.sqrt (Fintype.card F : ℝ) * (Fintype.card F : ℝ)⁻¹ ^ (k + 1)
+
+========================================================================
+HeckeSkeleton/ThetaLocal/ExteriorFourierMasks.lean
+========================================================================
+
+命名空间：HeckeSkeleton.ThetaLocal.ResidueField
+
+64. theorem digitMask_fourier
+Σ_v digitMask_j(v)ψ(tv)=(χ^j)(t)，右侧零延拓，j=0 时为单位指示函数。
+theorem digitMask_fourier (χ : MulChar F ℂ) (hχ : orderOf χ = 6)
+    (ψ : AddChar F ℂ) (hψ : ψ.IsPrimitive) (j : Fin 6) (t : F) :
+    (∑ v : F, digitMask χ ψ j v * ψ (t * v)) = (χ ^ j.val) t
+
+========================================================================
+candidate/ActualExteriorAdapter.lean
+========================================================================
+
+命名空间：DedekindZetaZeroFree.OrbitExpansion.ExteriorDigits
+
+65. def uniformActiveLocalDigit
+候选：对实际 localDigitValue 的非零剩余数字作 q⁻¹ 加权求和。
+def uniformActiveLocalDigit (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F) : ℂ :=
+  (Fintype.card (DHCubic.Residue F p.val) : ℂ)⁻¹ *
+    ∑ v ∈ Finset.univ.erase (0 : DHCubic.Residue F p.val),
+      localDigitValue R C p x (L v)
+
+66. def uniformInactiveLocalDigit
+候选：实际 localDigitValue 的零剩余数字乘 q⁻¹。
+def uniformInactiveLocalDigit (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F) : ℂ :=
+  (Fintype.card (DHCubic.Residue F p.val) : ℂ)⁻¹ * localDigitValue R C p x (L 0)
+
+67. def ordinaryActiveLocalDigit
+候选：实际 localDigitValue 的非零剩余数字乘 ordinary mask 求和。
+def ordinaryActiveLocalDigit (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F) (j : Fin 6) : ℂ :=
+  ∑ v ∈ Finset.univ.erase (0 : DHCubic.Residue F p.val),
+    sexticFourierMask (ThetaBranch.residueCharacter R.A R.σ p) (Characters.psi R p) j v *
+      localDigitValue R C p x (L v)
+
+68. theorem ordinaryActiveLocalDigit_eq_model
+候选：真实 Weyl ordinary active average 等于 Axiom 已有 finite model。
+theorem ordinaryActiveLocalDigit_eq_model (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F)
+    (hL : ∀ v, Ideal.Quotient.mk p.val.asIdeal (L v) = v) (j : Fin 6) :
+    ordinaryActiveLocalDigit R C p x L j =
+      sexticReflectedNonzeroDigits (ThetaBranch.residueCharacter R.A R.σ p)
+        (Characters.psi R p) j (ThetaBranch.order p.val x + 2)
+        (ThetaBranch.unitResidue p.val (ThetaBranch.localUnit R.A R.probe.allowed p x))
+
+69. theorem uniformActiveLocalDigit_eq_neg_model
+候选：真实 uniform active average 等于 ordinary j0 finite model 的负值。
+theorem uniformActiveLocalDigit_eq_neg_model (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F)
+    (hL : ∀ v, Ideal.Quotient.mk p.val.asIdeal (L v) = v) :
+    uniformActiveLocalDigit R C p x L =
+      -sexticReflectedNonzeroDigits (ThetaBranch.residueCharacter R.A R.σ p)
+        (Characters.psi R p) 0 (ThetaBranch.order p.val x + 2)
+        (ThetaBranch.unitResidue p.val (ThetaBranch.localUnit R.A R.probe.allowed p x))
+
+70. theorem uniformInactiveLocalDigit_eq
+候选：真实 inactive mark 项恰为 q⁻¹ 乘原球 Whittaker 值。
+theorem uniformInactiveLocalDigit_eq (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F)
+    (hL : ∀ v, Ideal.Quotient.mk p.val.asIdeal (L v) = v) :
+    uniformInactiveLocalDigit R C p x L =
+      (Fintype.card (DHCubic.Residue F p.val) : ℂ)⁻¹ *
+        ThetaBranch.sphericalFactor R.A R.probe.allowed R.σ (Characters.psi R) p x
+
+71. theorem uniform_local_average_split
+候选：真实完整均匀平均分解为 active 与 inactive 两项。
+theorem uniform_local_average_split (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F) :
+    (Fintype.card (DHCubic.Residue F p.val) : ℂ)⁻¹ *
+        (∑ v : DHCubic.Residue F p.val, localDigitValue R C p x (L v)) =
+      uniformInactiveLocalDigit R C p x L + uniformActiveLocalDigit R C p x L
+
+72. theorem actual_mark_digit_table_raw
+候选：真实 active mark 在 e=ord_p(x)+2=0 时为 q⁻¹G(χ²)χ(t)²，其余整数 e 为0。
+theorem actual_mark_digit_table_raw (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F)
+    (hL : ∀ v, Ideal.Quotient.mk p.val.asIdeal (L v) = v) :
+    uniformActiveLocalDigit R C p x L =
+      if ThetaBranch.order p.val x + 2 = 0 then
+        (Fintype.card (DHCubic.Residue F p.val) : ℂ)⁻¹ *
+          gaussSum (ThetaBranch.residueCharacter R.A R.σ p ^ 2) (Characters.psi R p) *
+          ThetaBranch.symbol R.A R.σ p (ThetaBranch.localUnit R.A R.probe.allowed p x) ^ (2 : ℕ)
+      else 0
+
+73. theorem actual_mark_digit_table
+候选：上一式转换为 (√q)⁻¹·Axiom.gaussTwo·symbol(t)²。
+theorem actual_mark_digit_table (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ)
+    (L : DHCubic.Residue F p.val → 𝓞 F)
+    (hL : ∀ v, Ideal.Quotient.mk p.val.asIdeal (L v) = v) :
+    uniformActiveLocalDigit R C p x L =
+      if ThetaBranch.order p.val x + 2 = 0 then
+        (Real.sqrt (Fintype.card (DHCubic.Residue F p.val) : ℝ) : ℂ)⁻¹ *
+          ThetaBranch.gaussTwo R.A R.σ (Characters.psi R) p *
+          ThetaBranch.symbol R.A R.σ p (ThetaBranch.localUnit R.A R.probe.allowed p x) ^ (2 : ℕ)
+      else 0
+
+========================================================================
+包外引用与接线检查
+========================================================================
+
+Mathlib 非平凡 API（用户包外；需核对项已在指定 Lean 4.35.0-rc3 / Mathlib 0493595 版本编译核验）：
+gaussSum_mulShift_eq; gaussSum_mul_gaussSum_eq_card; gaussSum_ne_zero_of_nontrivial;
+gaussSum_one_left; star_gaussSum_eq; AddChar.sum_mulShift;
+MulChar.sum_eq_zero_of_ne_one; MulChar.sum_one_eq_card_units; MulChar.pow_apply_coe;
+MulChar.pow_apply'; MulChar.inv_apply'; MulChar.inv_apply_eq_inv'; MulChar.map_zero;
+MulChar.map_one; MulChar.one_apply; MulChar.one_apply_coe; MulChar.mul_apply;
+Fintype.sum_bijective; Fintype.sum_equiv; Fintype.sum_eq_add_sum_subtype_ne;
+Fintype.card_units; unitsEquivNeZero; inv_bijective; pow_mod_orderOf;
+pow_inj_mod; pow_ne_one_of_lt_orderOf; pow_orderOf_eq_one; orderOf_inv;
+Real.sq_sqrt; Real.sqrt_sq; Real.sqrt_pos; Real.sqrt_nonneg;
+Complex.mul_conj'; Complex.star_def; Complex.norm_natCast; Complex.norm_real;
+Complex.norm_of_nonneg. 其余 Finset/ring/field 基本改写见各完整证明源。
+
+候选适配调用的包内已有定理：
+nonzero_localDigit; zero_localDigit (LocalDigitValues.lean)。
+sexticReflectedNonzeroDigits_depth_zero; sexticReflectedNonzeroDigits_eq_zero
+(SexticReflectedLocalModel.lean)。这些定理陈述已从包内读到；候选适配的类型匹配仍需本地编译。
+
+候选适配调用的包外项目引理（逐项“需核对”，特别是导入闭包与参数类型）：
+DHCubic.orderOf_normalizedSextic_complex — 需核对。
+DHCubic.existsUnique_normalizedSextic — 需核对。
+DedekindZetaZeroFree.MomentSources.Characters.primitive — 需核对候选模块中的类型匹配。
+ThetaBranch.unitResidue_ne_zero — 需核对。
+ThetaBranch.localUnit_order — 需核对。
+
+候选适配所用包外项目定义/类型（需核对完整导入）：
+DHCubic.Residue; PrincipalMellin.ActualRecipe; MomentSources.TraceHaarTransport;
+MomentSources.JointUpperVanishingSources; ThetaBranch.ExteriorPrime;
+ThetaBranch.residueCharacter; ThetaBranch.order; ThetaBranch.localUnit;
+ThetaBranch.unitResidue; ThetaBranch.symbol; ThetaBranch.sphericalFactor;
+ThetaBranch.gaussTwo; Characters.psi。
+
+HeckeGeneral 接线中尚无可引用的包内定理名字（以下必须证明/核对，不能猜名字）：
+1. thetaPrimeCharacter 与本模块 χ 的函数/乘性特征身份相等，且阶恰为六。
+2. primePhase 等于本模块本原 AddChar ψ，包括加性符号、共轭约定。
+3. p.asIdeal.absNorm = Fintype.card(𝓞K/p)。
+4. thetaGamma K S D (exteriorPrimeIdeal p) 2 = (√q)⁻¹ G(χ²,ψ)。
+5. 选择原/反射局部 lift 后，Axiom actual localDigitValue 与项目的局部 Whittaker 对象同一。
+
+上述五项不包含“目标数字表成立”的假设；有限域表已通过独立有限和计算得到。
+
+候选适配额外使用、尚未通过该候选文件编译核验的 Mathlib API：
+MulChar.orderOf_dvd_card_sub_one — 需核对。
+Fintype.one_lt_card — 需核对。
+Nat.coprime_comm — 需核对。
+Finset.sum_erase_add — 需核对。
+Finset.ne_of_mem_erase — 需核对。
