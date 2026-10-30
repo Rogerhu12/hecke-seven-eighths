@@ -70,7 +70,11 @@ private theorem primeQuotientFunction_equiv (p : ExteriorPrime K S)
     primeQuotientFunction K S D p (thetaPrimeResidueEquiv K S p x) =
       thetaPrimeCharacter K S D p x := by
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
-  unfold primeQuotientFunction thetaPrimeResidueEquiv
+  change sIntegerSexticIdealQuotientFunction K S D.root6 D.primitive6 D.embedding
+      p.val.asIdeal p.val.ne_bot (primeExterior K S p)
+      (fun q hq => D.away_six q (primeExterior K S p q hq))
+      (sIntegerResidueEquiv K S p.val.asIdeal
+        (sIntegerSexticResidue_coprime K S p.val p.property) (Ideal.Quotient.mk _ a)) = _
   rw [sIntegerResidueEquiv_mk, sIntegerSexticIdealQuotientFunction_mk]
   change idealSymbol K S D (exteriorPrimeIdeal K S p)
       (algebraMap (𝓞 K) (S.integer K) a) = _
