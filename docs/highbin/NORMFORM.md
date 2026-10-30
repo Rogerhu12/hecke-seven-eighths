@@ -3,7 +3,7 @@
 This document records the norm-form implementation on
 `codex/highbin-euler-norm-boundary-20261030`. It describes declarations in
 the repository's actual arithmetic, prime-window and contour definitions.
-It does **not** certify `HighBin.highShiftedNormForm`: the original named
+It does **not** certify `HeckeSkeleton.highShiftedNormForm`: the original named
 presentation and expansion identifications remain missing.
 
 The status below is recorded on 2026-10-30. The exact source signatures in
@@ -18,7 +18,7 @@ body is not, by itself, an elaborated theorem or an exact-type audit.
 | `ActualNormFormHigherPrimePowers`, `ActualNormFormMellinInversion`, `ActualNormFormPrimeDetector`, `ActualNormFormUniformMellin` | Native separate-module build and all 55 public declaration audits passed at `6e3d24ca4579aa615ef0a23769c1695cb8f4b55d`, and again at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0` | Their axiom sets contain only `propext`, `Classical.choice`, `Quot.sound`; `mellin-axioms.json` has an empty `beyond_standard_axioms` object. |
 | `ActualOrbitalRapidDecay` and the four preceding Mellin modules | Native five-module / 59-public-declaration audit passed at `c71511a569ed8b98c243b66ead8d8ec8c83d59b9` | All axiom sets contain only the three standard axioms; [verified_mellin_axioms.json](verified_mellin_axioms.json) preserves the full mapping. |
 | The same Mellin dependency chain, combined locally | 40 source files and 577 public declarations passed | This is additional combined-source evidence, distinct from separate-module verification. |
-| `HighNormFormScalar`, including `exists_full_normForm_parameter_budget` | The native core run at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0` compiled the file successfully; the subsequent run at `61699e94a0a47e7770d10608732eff4b9f219c25` passed all 57 modules and 442 public declaration audits | Its printed parameter-budget axiom set is the same three standard axioms. The current core run references are maintained in `REPORT.md`; this core success does not verify the deep actual norm-form chain. |
+| `HighNormFormScalar`, including `exists_full_normForm_parameter_budget` | The native core run at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0` compiled the file successfully; the subsequent run at `45b507f4995fe107e2e98041f91971c8c78d5860` passed all 57 modules and 442 public declaration audits | Its printed parameter-budget axiom set is the same three standard axioms. The current core run references are maintained in `REPORT.md`; this core success does not verify the deep actual norm-form chain. |
 | Actual window detector, zero-free prime contour/cap, complete-slot correction, sharp factors, amplitude construction, kernel, integral, label grouping and target presentation consumer | Source implementation and static interface review only | The complete actual build had not reached these declarations. Their displayed source signatures and their transitive axiom sets have **not** been confirmed by Lean. |
 | Original `HighShiftedNormForm K c (actualHighPresentation K c)` | Not discharged | The original `HB-NORMFORM`, `HB-PRESENT` and `D-EXPANSION` admissions are not replaced by this chain. |
 
@@ -657,6 +657,28 @@ an added norm estimate. The exponent is proved equal to the original
 The constructed witness of `HighShiftedNormForm` uses `A = 0` for its
 external `(1+T)^A` exponent; the height loss has already been absorbed
 in the internal `Z^(c.lamB/4)` budget.
+
+The bin range is the full closed range required by the original
+obligation: `P.bin_range` gives `51/100 ≤ a ≤ c.family.B`, and
+`c.family.B_upper` gives `c.family.B ≤ 1`. The actual slot cap,
+amplitude grid, kernel, integral and finite-label source interfaces all
+use `a ≤ 1`, so the specialization includes `a = B = 1`; it does not
+require `a < 1` or a positive gap `1-a`. At that endpoint the actual
+real contour coordinates are `1+16*P.e`, `-6*P.e`, and `17/50`, within
+the closed ranges consumed by the kernel proof. The grid cap is
+`a-1/2 = 1/2`, covered by the existing choice `1/2 ≤ N*theta`. This is
+a source-interface and scalar-range check, not additional native
+verification of the uncompiled analytic modules.
+
+The order in steps 4 and 5 matters: the mean identity concerns the
+particular amplitude family already constructed by the theorem. The
+caller cannot choose new analytic fields after supplying the original
+means. Neither that mean identity nor the whole-row piece identity is
+proved satisfiable for an arbitrary presentation. In particular,
+requiring every retained `shiftedPiece` to equal a complete row contour
+is a stronger construction requirement than the record's total-sum
+`shifted_identification`; no implication from the latter to the former
+is asserted.
 
 The original labels may overlap. The consumer bounds each label's
 finite row sum individually, so it requires no artificial partition and

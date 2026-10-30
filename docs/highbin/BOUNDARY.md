@@ -21,7 +21,7 @@ not establish the actual arithmetic instantiations below. The new
 `BoundaryHeightAbsorption` separately passed its exact native single-module
 check in 34.736 seconds, with both public axiom reports using only those
 three standard axioms; its separate-module build and public audit have now also passed in the
-57-module core CI at `61699e94`.
+57-module core CI at `45b507f`.
 
 The actual boundary chain has **not yet passed a complete native build or its
 transitive axiom audit**. The first full actual build reached

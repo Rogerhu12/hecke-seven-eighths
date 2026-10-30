@@ -68,7 +68,7 @@ python scripts/highbin_verify.py actual
 
 The inventory command records source hashes and public declarations.
 The `core` verification command builds the listed core files as separate Lean modules,
-then asks Lean for every public declaration's exact type and transitive axiom
+then asks Lean for every enumerated named source declaration's exact type and transitive axiom
 set. Its allowed axioms are `propext`, `Classical.choice`, and `Quot.sound`.
 The `mellin` command separately checks five actual prime-power/Mellin modules
 and requires the same standard axiom set. The `actual` command checks the
@@ -105,8 +105,8 @@ correctly constructed presentation.
 
 ## Recorded native verification
 
-The latest completed core audit is commit
-`61699e94a0a47e7770d10608732eff4b9f219c25`: **57 separately compiled modules
+The recorded core audit is commit
+`45b507f4995fe107e2e98041f91971c8c78d5860`: **57 separately compiled modules
 and 442 public declarations passed**. The downloaded `core-axioms.json`
 contains an empty `beyond_standard_axioms` map. Every declaration uses only
 `propext`, `Classical.choice`, and `Quot.sound` (or a subset). This includes
@@ -115,8 +115,8 @@ the complete three-variable `JointAnalyticLimit`, `EulerRegionAnalytic`,
 `EulerRegionUniqueness`, `EulerRegionProduct`, `BoundaryHeightAbsorption` and
 the full parameter budget in `HighNormFormScalar`.
 
-Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41133265844
-Job: `124329335921`; artifact: `13013913423`.
+Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41135382154
+Job: `124336425848`; artifact: `13015787518`.
 The full declaration-to-axiom mapping is preserved in
 [verified_core_axioms.json](verified_core_axioms.json). This is evidence for
 that exact commit; it does not establish subsequent edits or the full
