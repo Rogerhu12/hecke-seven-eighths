@@ -124,6 +124,9 @@ PR-TARGET-UNRAMIFIED、PR-PERIOD-UNRAMIFIED，以及 TH-MARKED-EXTERIOR-UNRAMIFI
 
 ### 下一步：D-TESTS 簇（D-TESTS、PR-FOURIER-ZERO、PR-NORMALIZATION-REAL、PR-NORMALIZATION-POSITIVE）
 
+> 2026-10-30 下午更新：具体做法和当前进度见 [HANDOFF.md](HANDOFF.md)。第 3 块字典（乘法测度）已由 Axiom 的
+> `probe_sheet_mellin_estimates_of_disintegration` 现成给出。下面是原先的思路。
+
 修订稿 §6.1：在一个复位上取两个径向 bump 之差，使加法积分为零而 |y|^{5/6} 配对非零，其余位取非负
 环形因子，再由局部 zeta 函数方程得 (6.2)。Axiom 的 `probe_fixed_weight_construction` 正是这一构造，
 而且对 `SLocalProduct` 上**任意**加法 Haar 测度 μ 和其单位群上**任意**乘法 Haar 测度 ν 成立：
