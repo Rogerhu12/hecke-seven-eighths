@@ -66,6 +66,24 @@ variable (p : ExteriorPrime K S) {a : ℕ} (ha : 1 ≤ a)
 variable [Fintype (𝓞 K ⧸ p.val.asIdeal ^ a)] [Fintype (𝓞 K ⧸ p.val.asIdeal)]
 local instance : Field (𝓞 K ⧸ p.val.asIdeal) := Ideal.Quotient.field _
 
+theorem actualPrimePowerCharacter_zero_of_reduction_zero
+    (x : 𝓞 K ⧸ p.val.asIdeal ^ a)
+    (hx : primePowerReduction p.val.asIdeal ha x = 0) :
+    actualPrimePowerCharacter K S D p ha x = 0 := by
+  rw [actualPrimePowerCharacter_apply, hx, MulChar.map_zero]
+
+/-- Exponents divisible by six preserve the original unit mask, including
+its zero at the prime. -/
+theorem actualPrimePowerCharacter_trivial_exponent_mask (ha6 : 6 ∣ a)
+    (x : 𝓞 K ⧸ p.val.asIdeal ^ a) :
+    actualPrimePowerCharacter K S D p ha x =
+      if primePowerReduction p.val.asIdeal ha x = 0 then 0 else 1 := by
+  rw [actualPrimePowerCharacter_apply,
+    (actualPrimeCharacter_pow_eq_one_iff K S D p a).mpr ha6]
+  by_cases hx : primePowerReduction p.val.asIdeal ha x = 0
+  · simp [hx, MulChar.map_zero]
+  · rw [if_neg hx, MulChar.one_apply (isUnit_iff_ne_zero.mpr hx)]
+
 /-- The equal-prime-power unit table with the actual sextic phase. -/
 theorem actualPrimePowerCorrelation_units
     (u : (𝓞 K ⧸ p.val.asIdeal ^ a)ˣ) (v k : 𝓞 K ⧸ p.val.asIdeal ^ a)

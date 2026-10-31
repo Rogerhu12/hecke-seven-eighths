@@ -1,6 +1,4 @@
-import HeckeSkeleton.Moments.MOM_BASE.CanonicalCalibration
-import HeckeSkeleton.Moments.MOM_BASE.Marks
-import HeckeSkeleton.Moments.MOM_BASE.PairedContext
+import HeckeSkeleton.Moments.MOM_BASE.Main
 
 /-! Public entry-point audit for MOM_BASE. CI checks every printed axiom
 set against exactly `propext`, `Classical.choice`, and `Quot.sound`. -/
@@ -61,3 +59,20 @@ set against exactly `propext`, `Classical.choice`, and `Quot.sound`. -/
 #print axioms HeckeSkeleton.Moments.MOM_BASE.Paired.context_frozen_background
 #print axioms HeckeSkeleton.Moments.MOM_BASE.Paired.context_originalPrimePolynomial_eq_masked
 #print axioms HeckeSkeleton.Moments.MOM_BASE.Paired.context_originalPrimePolynomial_eq
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualPrimeCharacter_order
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualPrimeCharacter_pow_eq_one_iff
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualPrimeGaussNorm
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualPrimePowerCharacter_mk
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualPrimePowerCorrelation_units
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualPrimePowerCorrelation_second_zero
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualPrimePowerCorrelation_first_zero
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualPrimePowerCorrelation_unit_frequency_norm
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualPrimePowerCorrelation_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualCRTCharacter_mk
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualCRTCorrelation
+#print axioms HeckeSkeleton.Moments.MOM_BASE.targetCanonicalThetaBridge
+#print axioms HeckeSkeleton.Moments.MOM_BASE.Paired.frozen_live_slot_partition
+#print axioms HeckeSkeleton.Moments.MOM_BASE.Paired.finiteRayTable_after_pairing
+#print axioms HeckeSkeleton.Moments.MOM_BASE.Paired.finiteRayTable_pairing
+#print axioms HeckeSkeleton.Moments.MOM_BASE.Paired.context_finiteRayTable_pairing
+#print axioms HeckeSkeleton.Moments.MOM_BASE.Paired.finiteRayTables_exist

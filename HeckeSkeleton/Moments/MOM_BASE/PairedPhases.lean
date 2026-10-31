@@ -314,10 +314,10 @@ theorem norm_idealCoefficient_of_unramified (ω : HeckeCharacter K) (I : Nonzero
 
 /-- Exact extraction before division or estimation.  Ramified zeros of the
 row remain on the same actual ideals on both sides. -/
-theorem whole_product_extraction (λ : HeckeCharacter K) (D A : NonzeroIdeal K) :
-    heckeIdealCoefficient K λ (D * A) =
-      heckeIdealCoefficient K λ D * heckeIdealCoefficient K λ A :=
-  heckeIdealCoefficient_mul K λ D A
+theorem whole_product_extraction (χ : HeckeCharacter K) (D A : NonzeroIdeal K) :
+    heckeIdealCoefficient K χ (D * A) =
+      heckeIdealCoefficient K χ D * heckeIdealCoefficient K χ A :=
+  heckeIdealCoefficient_mul K χ D A
 
 /-- A common background is cancelled on the whole product, before profiles
 are separated.  This is the two-column identity preceding Lemma 4.3. -/
@@ -347,14 +347,14 @@ theorem frozen_background_norm_square (ω : HeckeCharacter K) (D A : NonzeroIdea
     norm_idealCoefficient_of_unramified K ω D hD, one_mul]
 
 /-- An extracted actual row coefficient with its zeros is a contraction. -/
-theorem frozen_row_norm_square_le (λ : HeckeCharacter K) (D A : NonzeroIdeal K)
+theorem frozen_row_norm_square_le (χ : HeckeCharacter K) (D A : NonzeroIdeal K)
     (z : ℂ) :
-    ‖heckeIdealCoefficient K λ (D * A) * z‖ ^ 2 ≤
-      ‖heckeIdealCoefficient K λ A * z‖ ^ 2 := by
-  rw [whole_product_extraction K λ D A, mul_assoc, norm_mul]
+    ‖heckeIdealCoefficient K χ (D * A) * z‖ ^ 2 ≤
+      ‖heckeIdealCoefficient K χ A * z‖ ^ 2 := by
+  rw [whole_product_extraction K χ D A, mul_assoc, norm_mul]
   apply pow_le_pow_left₀ (mul_nonneg (norm_nonneg _) (norm_nonneg _))
   simpa only [one_mul] using mul_le_mul_of_nonneg_right
-    (norm_heckeIdealCoefficient_le_one K λ D) (norm_nonneg (heckeIdealCoefficient K λ A * z))
+    (norm_heckeIdealCoefficient_le_one K χ D) (norm_nonneg (heckeIdealCoefficient K χ A * z))
 
 /-- Finite Fourier tables can be expanded with the background still on
 the entire residual ideal.  No unramifiedness is imposed on the finite factors. -/

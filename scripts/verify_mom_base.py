@@ -173,6 +173,7 @@ def discover(module: str) -> None:
         "source_sha256": hashlib.sha256(raw).hexdigest(),
     }
     fingerprints[module] = hashlib.sha256(json.dumps({
+        "verifier_format": 1,
         "environment": external_environment,
         "source": nodes[module]["source_sha256"],
         "source_path": str(path.relative_to(ROOT)),
@@ -259,6 +260,269 @@ def write_json_atomic(path: Path, value: object) -> None:
 
 def save_results() -> None:
     write_json_atomic(LOGS / "results.json", results)
+
+
+BASELINE_COMMIT = "5e4c85f172c101fd0c201219c13aa28f8b520d42"
+BASELINE_FINGERPRINT = "6707201d5789aca4222679e9dbf24b924367c460eda132ec71296300fcfb8a40"
+BASELINE_RUN = 41126752041
+BASELINE_ARTIFACTS = [
+    (13018074066, "prime-foundation-100-2", "aa98e4d6970f2350fcd65f8be16fd66fbf069799813a40f682524b7c9e3d82c0", "f422c5449fc4ee1732a86ce815954f5161816d11cda1c87bce2e540693a7d27b"),
+    (13018611868, "prime-foundation-100-1", "57dfd63d075039e0c150635df09c534bfdf8060b88f8602457b2c271f8079fc1", "1b4ac7498c77c8f84f05390429c1b20539f32585ab5b1350e0a7c5b4f7c9f780"),
+    (13015618946, "prime-foundation-100-3", "9ad599dfa01ff6e197493379480f2d7a62228e783a183e00e3f28841f7cb2f6d", "d53889d14a536536028254ecbeb445f193e6afd41eff716f4cedcd3edfe9b1cc"),
+    (13021514563, "prime-foundation-180-1", "14bb73f02e0f2631ca4bf4595cda97f0f90e615ab52cf71b340923fb37036e0f", "263454fb7a76f21cc7b333d6e82a31f37875c70330afb8468a5444bbb391abcd"),
+    (13013018508, "prime-foundation-40-3", "29fb1b025d9226a3d8bebb4849443770b04d90c0a4efeb6a406c6cf0c2d9968b", "30d2e905cb617a50757b884176ecac1f4adc920cc25141efd104964b4318fa64"),
+    (13022623396, "prime-foundation-180-3", "bf58ea2a7645a5ac1c10095f03b8bda3a7ed5b4380d7516412e26c160f79f423", "85cc022948406ffd11dc2fcbd5fd03bc8dd127ca07864b75e2ffca90ec1492b4"),
+    (13017749400, "prime-foundation-100-0", "384365645f5c02dacf5f8d05bfa4eb6211a2ab5ca9afddcefb39df51b63750be", "0fb746e74ef721d8167905d35361d87ffee0a563bf807405ed729c8a1dec6d43"),
+    (13011754956, "prime-foundation-40-2", "b01697611b3584fa210abd61876a3ccb1e6122a3c217fe55e1a283300aebaf88", "6d65e704af89126677dfe1dc1142f0e47fdb1f6f07ab7fea3ae5f632d4058c7a"),
+    (13021895900, "prime-foundation-180-2", "80467b2b0110ab6ff10a862ebbfa2742587c00fe0738140b1da54824e096510e", "c8b2152ce1a47dcae03984d53fcc96ec45f16bc9e9ed5e5d9d38f2373684b3e9"),
+    (13011719707, "prime-foundation-40-1", "7620df2fdd8bc50d9ae6f43bd14d18732a2fd2cd9c52de010b99e59701975f82", "4efd5cfae24809b98675993cd5544dfe6caf7d0ffb8d823f22a64f79c8102a8d"),
+    (13012376359, "prime-foundation-40-0", "6c48a54613d0064719d04bf4d4ad6d0491b39b98251bc3808961c0c6afde1324", "eeaae4ba35ea0b43578e132afdd904caef3fb7010baa8a3ad963b7e96bcb768e"),
+    (13021712535, "prime-foundation-180-0", "5e5137138741b9932002167dd64de9f71e6ee336de1ad47fe14ead193400d18b", "60234f15f055d6dabff28edb8b10069a2f4bf9fc8ab5d0aac864905efaf51bbf"),
+]
+LOAD_SUFFIXES = (".olean", ".olean.private", ".olean.server", ".ir", ".ir.sig")
+
+
+def baseline_graph(raw_files: dict[str, bytes]) -> tuple[dict, dict]:
+    """Recompute the original successful CI source/configuration fingerprint."""
+    original = tomllib.loads(raw_files["lakefile.toml"].decode())
+    roots = ["."] + [lib.get("srcDir", ".") for lib in original["lean_lib"]]
+    roots = list(dict.fromkeys(roots + ["vendor/class-field-theory/Lean4"]))
+    baseline_nodes, visiting = {}, set()
+
+    def visit(module):
+        if module in baseline_nodes:
+            return
+        path = next((str(Path(root) / module_path(module, ".lean")) for root in roots
+                     if str(Path(root) / module_path(module, ".lean")) in raw_files), None)
+        if path is None:
+            return
+        if module in visiting:
+            raise RuntimeError("Cycle in pinned CI baseline")
+        visiting.add(module)
+        raw = raw_files[path]
+        deps = imports(raw.decode("utf-8-sig"))
+        for dep in deps:
+            visit(dep)
+        build = ("vendor/class-field-theory/.lake/build/lib/lean"
+                 if path.startswith("vendor/class-field-theory/Lean4/")
+                 else ".lake/build/lib/lean")
+        baseline_nodes[module] = {
+            "source": path, "sha256": hashlib.sha256(raw).hexdigest(),
+            "deps": [d for d in deps if d in baseline_nodes], "build": build,
+        }
+        visiting.remove(module)
+
+    visit("HeckeSkeleton.Moments")
+    configuration = {path: hashlib.sha256(raw_files[path]).hexdigest() for path in
+                     ["lean-toolchain", "lake-manifest.json", "lakefile.toml",
+                      "vendor/class-field-theory/lakefile.toml"]}
+    payload = {"modules": {name: row["sha256"] for name, row in baseline_nodes.items()},
+               "config": configuration}
+    fingerprint = hashlib.sha256(json.dumps(payload, sort_keys=True,
+                                           separators=(",", ":")).encode()).hexdigest()
+    if fingerprint != BASELINE_FINGERPRINT:
+        raise RuntimeError("Pinned baseline source/configuration fingerprint mismatch")
+    for path in configuration:
+        current, previous = (ROOT / path).read_bytes(), raw_files[path]
+        if path.endswith(".toml"):
+            matches = tomllib.loads(current.decode()) == tomllib.loads(previous.decode())
+        else:
+            matches = current == previous
+        if not matches:
+            raise RuntimeError("Current configuration differs from CI baseline: " + path)
+    return baseline_nodes, configuration
+
+
+def bootstrap_original_ci() -> None:
+    """Reuse immutable successful CI bundles only for unchanged source closures.
+
+    This optional bootstrap does not certify a new MOM_BASE theorem. New task
+    files and their axiom audit always run through the actual compiler below.
+    """
+    import tarfile
+    import tempfile
+    import urllib.error
+    import urllib.parse
+    import urllib.request
+    import zipfile
+    from pathlib import PurePosixPath
+
+    token = os.environ.get("GH_TOKEN")
+    repo = os.environ.get("GITHUB_REPOSITORY", "")
+    if not token or repo != "Rogerhu12/hecke-seven-eighths":
+        print("CI bootstrap unavailable; compiling required dependencies from source.", flush=True)
+        return
+    needed = {m for m in order if not m.startswith("HeckeSkeleton.Moments.MOM_BASE.")
+              and not reusable(m, OUT / module_path(m, ".olean"))}
+    if not needed:
+        return
+    api = "https://api.github.com/repos/" + repo
+    headers = {"Authorization": "Bearer " + token, "Accept": "application/vnd.github+json",
+               "X-GitHub-Api-Version": "2022-11-28"}
+
+    class NoRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, request, response, code, message, hdrs, newurl):
+            return None
+
+    opener = urllib.request.build_opener(NoRedirect)
+
+    def download(url, destination, limit):
+        request = urllib.request.Request(url, headers=headers)
+        try:
+            response = opener.open(request, timeout=120)
+        except urllib.error.HTTPError as error:
+            if error.code not in (301, 302, 303, 307, 308):
+                raise
+            location = error.headers["Location"]
+            parsed = urllib.parse.urlparse(location)
+            if parsed.scheme != "https" or not parsed.hostname:
+                raise RuntimeError("Invalid GitHub download redirect")
+            # The temporary storage redirect receives no API authorization header.
+            response = urllib.request.urlopen(location, timeout=120)
+        count = 0
+        with response, destination.open("wb") as handle:
+            while chunk := response.read(1024 * 1024):
+                count += len(chunk)
+                if count > limit:
+                    raise RuntimeError("GitHub download exceeds its expected size")
+                handle.write(chunk)
+        return count
+
+    def sha_file(path):
+        with path.open("rb") as handle:
+            return hashlib.file_digest(handle, "sha256").hexdigest()
+
+    with tempfile.TemporaryDirectory(prefix="mom-base-bootstrap-") as directory:
+        temp = Path(directory)
+        source_archive = temp / "baseline.tar.gz"
+        download(api + "/tarball/" + BASELINE_COMMIT, source_archive, 150_000_000)
+        raw_files = {}
+        with tarfile.open(source_archive, "r:gz") as archive:
+            for member in archive:
+                parts = PurePosixPath(member.name).parts
+                if len(parts) < 2 or ".." in parts or not member.isfile():
+                    continue
+                path = PurePosixPath(*parts[1:]).as_posix()
+                if path.endswith(".lean") or path in {"lean-toolchain", "lake-manifest.json",
+                    "lakefile.toml", "vendor/class-field-theory/lakefile.toml"}:
+                    if path in raw_files:
+                        raise RuntimeError("Duplicate baseline archive path")
+                    raw_files[path] = archive.extractfile(member).read()
+        baseline, configuration = baseline_graph(raw_files)
+        eligible = {}
+        for module in order:
+            node, previous = nodes[module], baseline.get(module)
+            eligible[module] = bool(previous and previous["source"] == str(node["path"].relative_to(ROOT))
+                and previous["sha256"] == node["source_sha256"]
+                and previous["deps"] == [d for d in node["deps"] if d in nodes]
+                and all(eligible.get(dep, False) for dep in previous["deps"]))
+        wanted = {m for m in needed if eligible.get(m, False)}
+        if not wanted:
+            return
+        del raw_files
+        source_archive.unlink()
+        selected_paths = {}
+        for module in wanted:
+            stem = str(Path(baseline[module]["build"]) / Path(*module.split(".")))
+            for suffix in LOAD_SUFFIXES:
+                selected_paths[stem + suffix] = (module, suffix)
+        evidence = {"baseline_commit": BASELINE_COMMIT, "fingerprint": BASELINE_FINGERPRINT,
+                    "configuration": configuration, "eligible_modules": sorted(wanted),
+                    "artifacts": [], "restored_modules": []}
+        write_json_atomic(LOGS / "bootstrap.json", evidence)
+        for artifact_id, name, outer_hash, inner_hash in BASELINE_ARTIFACTS:
+            request = urllib.request.Request(api + f"/actions/artifacts/{artifact_id}", headers=headers)
+            with urllib.request.urlopen(request, timeout=60) as response:
+                metadata = json.load(response)
+            if (metadata.get("id") != artifact_id or metadata.get("name") != name
+                or metadata.get("expired") or metadata.get("digest") != "sha256:" + outer_hash
+                or (metadata.get("workflow_run") or {}).get("id") != BASELINE_RUN):
+                raise RuntimeError(f"Pinned CI artifact metadata mismatch: {artifact_id}")
+            zipped = temp / "artifact.zip"
+            size = download(api + f"/actions/artifacts/{artifact_id}/zip", zipped,
+                            metadata["size_in_bytes"])
+            if size != metadata["size_in_bytes"] or sha_file(zipped) != outer_hash:
+                raise RuntimeError(f"Pinned CI artifact digest mismatch: {artifact_id}")
+            per_module = {}
+            with zipfile.ZipFile(zipped) as outer:
+                names = outer.namelist()
+                manifests = [n for n in names if n.endswith(".manifest.json")]
+                bundles = [n for n in names if n.endswith(".tar.gz")]
+                if len(names) != 2 or len(manifests) != 1 or len(bundles) != 1:
+                    raise RuntimeError("Unexpected CI artifact structure")
+                manifest = json.loads(outer.read(manifests[0]))
+                if (manifest.get("format") != 1 or manifest.get("fingerprint") != BASELINE_FINGERPRINT
+                    or manifest.get("archive_sha256") != inner_hash):
+                    raise RuntimeError("CI inner manifest mismatch")
+                with outer.open(bundles[0]) as handle:
+                    actual = hashlib.file_digest(handle, "sha256").hexdigest()
+                if actual != inner_hash:
+                    raise RuntimeError("CI inner archive digest mismatch")
+                member_names = set()
+                with outer.open(bundles[0]) as stream, tarfile.open(fileobj=stream, mode="r|gz") as archive:
+                    for member in archive:
+                        parts = PurePosixPath(member.name)
+                        if parts.is_absolute() or ".." in parts.parts or not member.isfile() or member.name in member_names:
+                            raise RuntimeError("Unsafe or duplicate CI archive member")
+                        member_names.add(member.name)
+                        if member.name not in selected_paths:
+                            continue
+                        module, suffix = selected_paths[member.name]
+                        if module not in per_module:
+                            old_stem = OUT / Path(*module.split("."))
+                            for old in old_stem.parent.glob(old_stem.name + ".*"):
+                                if old.is_file() or old.is_symlink():
+                                    old.unlink()
+                        destination = Path(str(OUT / Path(*module.split("."))) + suffix)
+                        destination.parent.mkdir(parents=True, exist_ok=True)
+                        staged = destination.with_name(destination.name + ".bootstrap-tmp")
+                        if staged.is_symlink():
+                            staged.unlink()
+                        with archive.extractfile(member) as source, staged.open("wb") as target:
+                            digest = hashlib.sha256()
+                            count = 0
+                            while chunk := source.read(1024 * 1024):
+                                digest.update(chunk)
+                                count += len(chunk)
+                                target.write(chunk)
+                        if count != member.size:
+                            raise RuntimeError("Truncated CI object")
+                        staged.replace(destination)
+                        per_module.setdefault(module, {})[str(destination.relative_to(OUT))] = digest.hexdigest()
+                if len(member_names) != manifest.get("file_count"):
+                    raise RuntimeError("CI archive file count mismatch")
+            for module, hashes in per_module.items():
+                output = OUT / module_path(module, ".olean")
+                if str(output.relative_to(OUT)) not in hashes:
+                    raise RuntimeError("Missing native CI object for " + module)
+                # Check bytes again after extraction, including every companion.
+                if artifact_hashes(output) != hashes:
+                    raise RuntimeError("Native CI output bundle mismatch for " + module)
+                state[module] = {"module": module, "source": baseline[module]["source"],
+                    "source_sha256": nodes[module]["source_sha256"], "source_unchanged": True,
+                    "fingerprint": fingerprints[module], "exit_code": 0, "artifacts": hashes,
+                    "origin": {"kind": "verified_original_ci", "artifact_id": artifact_id,
+                        "baseline_commit": BASELINE_COMMIT, "baseline_fingerprint": BASELINE_FINGERPRINT,
+                        "outer_sha256": outer_hash, "inner_sha256": inner_hash,
+                        "source_dependency_closure_unchanged": True}}
+            write_json_atomic(STATE, state)
+            evidence["artifacts"].append({"id": artifact_id, "name": name,
+                                         "restored_modules": sorted(per_module)})
+            evidence["restored_modules"].extend(sorted(per_module))
+            write_json_atomic(LOGS / "bootstrap.json", evidence)
+            zipped.unlink()
+            print(f"BOOTSTRAP: artifact {artifact_id}, {len(per_module)} verified original modules", flush=True)
+
+
+try:
+    bootstrap_original_ci()
+except Exception as bootstrap_error:
+    # A transport miss affects speed only. Missing dependencies still compile
+    # below; neither a failed bootstrap nor a partial restore is a proof pass.
+    print(f"::warning::Original CI bootstrap unavailable ({type(bootstrap_error).__name__}); "
+          "remaining dependencies will compile from source.", flush=True)
+    safe_message = str(bootstrap_error) if isinstance(bootstrap_error, RuntimeError) else type(bootstrap_error).__name__
+    (LOGS / "bootstrap-error.txt").write_text(type(bootstrap_error).__name__ + ": " + safe_message + "\n")
 
 
 print(f"At most {workers} single-threaded Lean processes", flush=True)

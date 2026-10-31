@@ -79,7 +79,7 @@ theorem context_background_norm (c : TargetContext K) (β : HeckeCharacter K)
   norm_idealCoefficient_of_unramified K β I.val
     (fun p hp => context_background_unramified K c β hβ p (I.property p hp))
 
-/-- Whole-product extraction for a real canonical row.  The finite row
+/-- Whole-product extraction for an actual ideal-indexed `MomentData` row.  The finite row
 coefficient retains all its zeros; it need not be unramified on the index. -/
 theorem context_plain_coefficient (c : TargetContext K)
     (d : MomentData K c.family.omega (targetCharacter K c))
