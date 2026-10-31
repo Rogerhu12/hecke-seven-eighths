@@ -28,6 +28,7 @@ open Filter
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Bridge
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ExpansionRecipe
 open HeckeSkeleton.ExpansionDetectorBridge
+open HeckeSkeleton.ExplicitHeckeFunctionalEquation
 open ExpansionDetector.IdealCutoff ExpansionDetector.Hecke
 open ExpansionDetector.Fourier Expansion.Dyadic
 open scoped Classical BigOperators ContDiff Topology
@@ -97,7 +98,8 @@ theorem exists_original_masked_product
     K hcomplex radial weight R CD θ hR hCD hθ hbudget
   let CZ : ℝ := 1 + ∑' I : NonzeroIntegralIdeal (K := K),
     nonzeroIdealNorm I ^ (-2 : ℝ)
-  have hCZ : 0 ≤ CZ := by dsimp [CZ]; positivity
+  have hCZ : 0 ≤ CZ := add_nonneg zero_le_one
+    (tsum_nonneg fun I => Real.rpow_nonneg (nonzeroIdealNorm_pos I).le _)
   have hzeta : Summable (fun I : NonzeroIntegralIdeal (K := K) =>
       nonzeroIdealNorm I ^ (-2 : ℝ)) := by
     simpa only [nonzeroIdealNorm] using

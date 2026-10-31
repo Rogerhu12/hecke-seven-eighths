@@ -52,14 +52,15 @@ theorem sum_nonzeroTerminalSet_eq_normWindow (H : ℝ)
     refine ⟨?_, mem_nonZeroDivisors_iff_ne_zero.mp I.property⟩
     unfold finiteIdealNormWindow at hI
     have hmem := Finset.mem_preimage.mp hI
-    exact (Set.Finite.mem_toFinset _).mp hmem
+    exact (Ideal.finite_setOfPred_absNorm_le (S := 𝓞 K) ⌈2 * H⌉₊).mem_toFinset.mp hmem
   · intro I _ J _ hIJ
     exact Subtype.ext hIJ
   · intro I hI
     obtain ⟨hN, hne⟩ := (mem_nonzeroTerminalSet H I).mp hI
     refine ⟨⟨I, mem_nonZeroDivisors_of_ne_zero hne⟩, ?_, rfl⟩
     unfold finiteIdealNormWindow
-    exact Finset.mem_preimage.mpr ((Set.Finite.mem_toFinset _).mpr hN)
+    exact Finset.mem_preimage.mpr
+      ((Ideal.finite_setOfPred_absNorm_le (S := 𝓞 K) ⌈2 * H⌉₊).mem_toFinset.mpr hN)
   · intro I hI
     rfl
 

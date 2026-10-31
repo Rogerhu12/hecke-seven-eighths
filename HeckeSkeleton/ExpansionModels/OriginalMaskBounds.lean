@@ -36,9 +36,10 @@ theorem originalDeletedPrimes_dvd_envelope (u : NonzeroIdeal K)
     p.asIdeal ∣ originalDeletionEnvelope K S u := by
   rcases (mem_originalDeletedPrimes K S u p).mp hp with hpS | hp6 | hpu
   · have hp' : p ∈ S.toFinset := Set.mem_toFinset.mpr hpS
-    have hprod : p.asIdeal ∣ ∏ q ∈ S.toFinset, q.asIdeal :=
-      Finset.dvd_prod_of_mem (M := Ideal (𝓞 K))
-        (fun q : HeightOneSpectrum (𝓞 K) => q.asIdeal) hp'
+    have hprod : p.asIdeal ∣ ∏ q ∈ S.toFinset, q.asIdeal := by
+      apply Ideal.dvd_iff_le.mpr
+      exact (Ideal.prod_le_inf (s := S.toFinset)
+        (f := fun q : HeightOneSpectrum (𝓞 K) => q.asIdeal)).trans (Finset.inf_le hp')
     exact dvd_mul_of_dvd_left (dvd_mul_of_dvd_left hprod _) _
   · have hsix := (prime_dvd_sixNonzeroIdeal K p).mpr hp6
     exact dvd_mul_of_dvd_left (dvd_mul_of_dvd_right hsix _) _
