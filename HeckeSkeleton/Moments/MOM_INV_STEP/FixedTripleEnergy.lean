@@ -119,7 +119,7 @@ theorem childEnergy_bound_of_normalized (Z N V eps C : ℝ) (hZ : 0 < Z)
   apply (mul_le_mul_of_nonneg_left h (Real.rpow_nonneg hZ.le _)).trans_eq
   calc
     Z ^ (N + V) * (C * Z ^ (N + V + eps)) = C * (Z ^ (N + V) * Z ^ (N + V + eps)) := by ring
-    _ = _ := rw [← Real.rpow_add hZ]; congr 2 <;> ring
+    _ = _ := by rw [← Real.rpow_add hZ]; congr 2 <;> ring
 
 variable (sectorTransport : Ideal (𝓞 K) → Ideal (𝓞 K) → (Sector ≃ Sector))
 
@@ -416,6 +416,47 @@ def energy (F : SecondChild K Sector → ℂ) (γ : OuterTriple K) : ℝ :=
   childEnergy slotCap P.labels P.rows F γ
 
 def tripleMass : ℝ := ∑ γ ∈ P.triples, tripleDivisorWeight slotCap γ
+
+/-- The actual reduction before applying an induction hypothesis. Both
+children retain their label-normalized canonical energies, and the
+common frozen-triple measure stays inside both square roots. -/
+theorem signedValue_le_normalized (Z N V : ℝ) (hZ : 0 < Z)
+    (F G : SecondChild K Sector → ℂ) :
+    ‖P.signedValue F G‖ ≤ Z ^ (N + V) *
+      (Real.sqrt (∑ γ ∈ P.triples, tripleDivisorWeight slotCap γ *
+        normalizedChildEnergy Z N V slotCap P.labels P.rows F γ) *
+       Real.sqrt (∑ γ ∈ P.triples, tripleDivisorWeight slotCap γ *
+        normalizedChildEnergy Z N V slotCap P.labels P.rows G γ)) := by
+  have he (H : SecondChild K Sector → ℂ) :
+      (∑ γ ∈ P.triples, tripleDivisorWeight slotCap γ * P.energy H γ) =
+        Z ^ (N + V) * ∑ γ ∈ P.triples, tripleDivisorWeight slotCap γ *
+          normalizedChildEnergy Z N V slotCap P.labels P.rows H γ := by
+    rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl
+    intro γ hγ
+    rw [energy, childEnergy_restore Z N V hZ]
+    ring
+  have hs := second_source_cauchy sectorTransport P.source P.oldLists P.newLists P.keep
+    P.valid P.labels P.rows P.label_nonzero P.outer_nonzero P.child_mem slotCap
+    P.old_cap P.new_cap P.scalar P.scalar_norm F G
+  change ‖P.signedValue F G‖ ≤
+    Real.sqrt (∑ γ ∈ P.triples, tripleDivisorWeight slotCap γ * P.energy F γ) *
+    Real.sqrt (∑ γ ∈ P.triples, tripleDivisorWeight slotCap γ * P.energy G γ) at hs
+  rw [he F, he G, Real.sqrt_mul (Real.rpow_nonneg hZ.le _),
+    Real.sqrt_mul (Real.rpow_nonneg hZ.le _)] at hs
+  convert hs using 1
+  rw [show (Real.sqrt (Z ^ (N + V)) *
+      Real.sqrt (∑ γ ∈ P.triples, tripleDivisorWeight slotCap γ *
+        normalizedChildEnergy Z N V slotCap P.labels P.rows F γ)) *
+      (Real.sqrt (Z ^ (N + V)) *
+      Real.sqrt (∑ γ ∈ P.triples, tripleDivisorWeight slotCap γ *
+        normalizedChildEnergy Z N V slotCap P.labels P.rows G γ)) =
+      (Real.sqrt (Z ^ (N + V))) ^ 2 *
+      (Real.sqrt (∑ γ ∈ P.triples, tripleDivisorWeight slotCap γ *
+        normalizedChildEnergy Z N V slotCap P.labels P.rows F γ) *
+      Real.sqrt (∑ γ ∈ P.triples, tripleDivisorWeight slotCap γ *
+        normalizedChildEnergy Z N V slotCap P.labels P.rows G γ)) by ring,
+    Real.sq_sqrt (Real.rpow_nonneg hZ.le _)]
 
 theorem signedValue_le (F G : SecondChild K Sector → ℂ) (H : ℝ) (hH : 0 ≤ H)
     (hF : ∀ γ ∈ P.triples, P.energy F γ ≤ H)

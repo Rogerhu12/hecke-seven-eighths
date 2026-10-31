@@ -58,6 +58,7 @@ theorem integrable_separated (F : SchwartzMap LogPlane ℂ) (p : LogPlane) :
   apply hd.mono' (((𝓕 F).continuous.mul hleft).mul hright).aestronglyMeasurable
   exact Filter.Eventually.of_forall fun ξ => by
     simp only [norm_mul, norm_columnPhase, mul_one]
+    exact le_rfl
 
 theorem norm_separated_integrand (F : SchwartzMap LogPlane ℂ) (ξ p : LogPlane) :
     ‖(𝓕 F) ξ * columnPhase ξ.fst p.fst * columnPhase ξ.snd p.snd‖ = ‖(𝓕 F) ξ‖ := by
@@ -136,12 +137,20 @@ theorem schwartz_separated (F : SchwartzMap LogPlane ℂ) (p : LogPlane) :
     (FourierTransform.fourierInv_fourier_eq (F := SchwartzMap LogPlane ℂ) F)
   symm
   calc
-    _ = ∫ ξ : LogPlane, (Real.fourierChar (inner ℝ ξ p) : ℂ) * (𝓕 F) ξ := by
+    _ = ∫ ξ : LogPlane,
+        Complex.exp ((2 * Real.pi * inner ℝ ξ p : ℝ) * Complex.I) * (𝓕 F) ξ := by
       apply integral_congr_ae
-      exact Filter.Eventually.of_forall fun ξ => by rw [phase_product]; ring
+      exact Filter.Eventually.of_forall fun ξ => by
+        have hphase :
+            Complex.exp ((2 * Real.pi * inner ℝ ξ p : ℝ) * Complex.I) =
+              columnPhase ξ.fst p.fst * columnPhase ξ.snd p.snd := by
+          simpa only [Real.fourierChar_apply] using phase_product ξ p
+        dsimp only
+        rw [hphase]
+        ring
     _ = (𝓕⁻ (𝓕 F) : SchwartzMap LogPlane ℂ) p := by
       rw [SchwartzMap.fourierInv_coe, Real.fourierInv_eq']
-      simp only [Real.fourierChar_apply, smul_eq_mul]
+      simp only [smul_eq_mul]
     _ = F p := hinv
 
 private theorem finite_bilinear_factor {ι κ : Type*} (T : Finset ι) (U : Finset κ)

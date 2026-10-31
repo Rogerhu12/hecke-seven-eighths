@@ -17,6 +17,13 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalBlock
 import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalIdealRow
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
 import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobius
+import HeckeSkeleton.Moments.MOM_INV_STEP.ActualSecondTuple
+import HeckeSkeleton.Moments.MOM_INV_STEP.ActualSourceReindexing
+import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalLocus
+import HeckeSkeleton.Moments.MOM_INV_STEP.OuterFrequencyTail
+import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobiusOrbital
+import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalGaussCRT
+import HeckeSkeleton.Moments.MOM_INV_STEP.GaussConjugation
 
 /-! Recursive kernel-axiom audit for the canonical inverse single-step work. -/
 
@@ -83,3 +90,19 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobius
 #print axioms HeckeSkeleton.Moments.MOMInvStep.FullMobius.full_mobius_expansion
 #print axioms HeckeSkeleton.Moments.MOMInvStep.FullMobius.full_mobius_separated
 #print axioms HeckeSkeleton.Moments.MOMInvStep.FullMobius.full_mobius_energy
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FixedTripleEnergy.ReconstructionPacket.signedValue_le_normalized
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel.exists_orbitalDensity_exact_common_envelope
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualSecondTuple.Choices.valid
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualSecondTuple.Choices.newLabel_squarefree_of_live
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualSecondTuple.Choices.outer_nonzero
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.OuterFrequencyTail.outer_ball_imp_profile_tail
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.OuterFrequencyTail.exists_outer_frequency_tail_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualSourceReindexing.key_injective
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualSourceReindexing.signed_source_grouped
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalLocus.pair_active_empty_iff
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalLocus.pair_divisor_fourier_zero
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalLocus.pair_source_eq_principal_mask
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FullMobius.genuine_orbital_source_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalGaussCRT.principalGauss_mul
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.GaussConjugation.thetaGamma_five
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.GaussConjugation.second_cycle_five

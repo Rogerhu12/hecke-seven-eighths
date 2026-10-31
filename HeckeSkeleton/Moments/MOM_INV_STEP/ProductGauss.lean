@@ -79,9 +79,9 @@ def gaussProduct (χ : ∀ i, MulChar (F i) ℂ)
     (ψ : AddChar (∀ i, F i) ℂ) : ℂ :=
   ∏ i, gaussSum (χ i) (coordinateCharacter ψ i)
 
+set_option maxHeartbeats 800000 in
 /-- Genuine finite Fourier evaluation, including every nonunit frequency
 and the zero frequency of the product ring. -/
-set_option maxHeartbeats 800000 in
 theorem finite_fourier (χ : ∀ i, MulChar (F i) ℂ) (hχ : ∀ i, χ i ≠ 1)
     (ψ : AddChar (∀ i, F i) ℂ) (k : ∀ i, F i) :
     (∑ x : ∀ i, F i, tensorCoefficient χ x * ψ (k * x)) =

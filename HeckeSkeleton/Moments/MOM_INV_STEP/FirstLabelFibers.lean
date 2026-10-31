@@ -141,7 +141,7 @@ theorem source_energy_bound (T : Finset (SourcePair K Sector))
     have hy0 : y.1 ≠ 0 := by
       obtain ⟨x, hx, rfl⟩ := Finset.mem_image.mp hy
       exact hrow x hx
-    apply source_weight_le _ E y hy0 _ w d C hC
+    refine source_weight_le (sectorTransport := sectorTransport) _ E y hy0 ?_ w d C hC ?_
     · intro x hx
       simpa only [(Finset.mem_filter.mp hx).2] using
         (valid_newRow (sectorTransport := sectorTransport) E x)

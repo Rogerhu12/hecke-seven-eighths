@@ -34,7 +34,7 @@ open scoped Classical BigOperators ComplexConjugate nonZeroDivisors
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
-local notation "OS" => (Sset).integer K
+local notation "OS" => Set.integer Sset K
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 local notation "Ext" => ExteriorIdeal K Sset
 variable (D : ThetaArithmeticData K Sset)

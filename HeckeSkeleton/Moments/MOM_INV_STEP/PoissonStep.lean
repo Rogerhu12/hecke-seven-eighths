@@ -53,13 +53,13 @@ namespace ActualMaskedPoissonBlock
 
 variable {K S Γ}
 
-local notation "OS" => Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K
-local notation "V" => mixedEmbedding.euclidean.mixedSpace K
+local notation "OSi" => Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K
+local notation "Vi" => mixedEmbedding.euclidean.mixedSpace K
 
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [Γ.FiniteIndex]
-  [IsPrincipalIdealRing OS]
+  [IsPrincipalIdealRing OSi]
 
 /-- The literal masked physical sum. -/
 def physical (b : ActualMaskedPoissonBlock K S Γ) : ℂ :=
@@ -109,13 +109,13 @@ theorem finite_weighted_physical_eq_tsum {ι : Type*} (source : Finset ι)
 
 /-- Inclusion-exclusion coefficient for an actual mask divisor. -/
 def divisorCoefficient (b : ActualMaskedPoissonBlock K S Γ)
-    (D : Finset (HeightOneSpectrum OS)) : ℂ :=
+    (D : Finset (HeightOneSpectrum OSi)) : ℂ :=
   (moebius (IdealMobiusMask.primeProduct D) : ℂ)
 
 /-- The exact first prefactor, including the modulus, mask norm and
 discriminant. -/
 def prefactor (b : ActualMaskedPoissonBlock K S Γ)
-    (D : Finset (HeightOneSpectrum OS)) : ℂ :=
+    (D : Finset (HeightOneSpectrum OSi)) : ℂ :=
   sIntegerMaskPoissonFactor K S b.modulus b.modulus_ne_zero b.radius
     (sIntegerMaskGenerator K _ D)
 
@@ -127,7 +127,7 @@ variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion 
 
 /-- The genuine Fourier-side orbital series at the divisor's own radius. -/
 def dual (b : ActualMaskedPoissonBlock K S Γ)
-    (D : Finset (HeightOneSpectrum OS)) : ℂ :=
+    (D : Finset (HeightOneSpectrum OSi)) : ℂ :=
   sIntegerWeightedOrbitalSeries K S Γ (traceSchwartzFourier K b.profile)
     (sIntegerFiniteFourierTestFunction K S μv b.localTest)
     (sIntegerMaskDualRadius K S b.modulus b.modulus_ne_zero b.radius
@@ -137,7 +137,7 @@ def dual (b : ActualMaskedPoissonBlock K S Γ)
 
 /-- Both additive zero terms, with their actual Haar covolume. -/
 def zeroContribution (b : ActualMaskedPoissonBlock K S Γ)
-    (D : Finset (HeightOneSpectrum OS)) : ℂ :=
+    (D : Finset (HeightOneSpectrum OSi)) : ℂ :=
   ((sUnitHaarCovolume K (S : Set (HeightOneSpectrum (𝓞 K))) Γ).toReal : ℂ) *
     (b.prefactor D *
         (sIntegerPeriodicDivisorFourier K _ hS b.modulus b.modulus_ne_zero
@@ -185,9 +185,9 @@ not a hypothesis that an energy estimate or recursive bound already holds.
 All first and second divisor masks and both pairs of zero terms survive. -/
 theorem two_poisson_transforms_of_dual_identification {ι : Type*}
     (first : ActualMaskedPoissonBlock K S Γ)
-    (secondSource : Finset (HeightOneSpectrum OS) → Finset ι)
-    (weight : Finset (HeightOneSpectrum OS) → ι → ℂ)
-    (second : Finset (HeightOneSpectrum OS) → ι → ActualMaskedPoissonBlock K S Γ)
+    (secondSource : Finset (HeightOneSpectrum OSi) → Finset ι)
+    (weight : Finset (HeightOneSpectrum OSi) → ι → ℂ)
+    (second : Finset (HeightOneSpectrum OSi) → ι → ActualMaskedPoissonBlock K S Γ)
     (hidentify : ∀ D ∈ first.mask.powerset,
       first.dual μv hS D =
         ∑ i ∈ secondSource D, weight D i * (second D i).physical) :
@@ -209,7 +209,7 @@ theorem two_poisson_transforms_of_dual_identification {ι : Type*}
 /-- A zero-mode elimination requires both literal finite coefficients to
 vanish.  It cannot follow merely from the frequency being nonzero. -/
 theorem zeroContribution_eq_zero
-    (b : ActualMaskedPoissonBlock K S Γ) (D : Finset (HeightOneSpectrum OS))
+    (b : ActualMaskedPoissonBlock K S Γ) (D : Finset (HeightOneSpectrum OSi))
     (hprimal : b.coefficient 0 = 0)
     (hdual : sIntegerPeriodicDivisorFourier K _ hS b.modulus b.modulus_ne_zero
       b.coefficient (sIntegerMaskGenerator K _ D).val 0 = 0) :

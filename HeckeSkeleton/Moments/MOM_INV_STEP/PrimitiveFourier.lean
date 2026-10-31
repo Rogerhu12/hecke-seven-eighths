@@ -25,7 +25,7 @@ open scoped Classical BigOperators nonZeroDivisors
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
-local notation "OS" => (Sset).integer K
+local notation "OS" => Set.integer Sset K
 variable (D : ThetaArithmeticData K Sset)
 
 abbrev PrincipalQuotient (B : PrimeBlock K Sset)
@@ -122,7 +122,7 @@ theorem primitiveCoefficient_eq_tensor (B : PrimeBlock K Sset)
       ⟨p.property, (Finset.mem_filter.mp hp).2⟩⟩ : activeSupport B.support t))
     (fun _ _ => Finset.mem_univ _) ?_ ?_ ?_
   · intro p hp q hq he
-    exact Subtype.ext (congrArg Subtype.val he)
+    exact Subtype.ext (congrArg (fun x : activeSupport B.support t => x.val) he)
   · intro p _hp
     refine ⟨⟨p.val, (Finset.mem_filter.mp p.property).1⟩,
       Finset.mem_filter.mpr ⟨Finset.mem_univ _, (Finset.mem_filter.mp p.property).2⟩, rfl⟩
@@ -191,6 +191,29 @@ theorem primitiveGauss_eq_sum (B : PrimeBlock K Sset)
           (primitiveModulus K S D B t) (primitiveModulus_ne_zero K S D B t) q := by
   have h := finite_fourier K S D B t 1
   simpa only [one_mul, primitiveCoefficient_one, star_one] using h.symm
+
+/-- A literal sixth power of an S-unit has coefficient one on the
+actual primitive quotient, including the unit conductor. -/
+theorem primitiveCoefficient_sixth_unit (B : PrimeBlock K Sset)
+    (t : HeightOneSpectrum (𝓞 K) → ZMod 6) (u : (Sset).unit K) :
+    primitiveCoefficient K S D B t
+      (Ideal.Quotient.mk _ (((Sset).unitEquivUnitsInteger K u).val ^ 6)) = 1 := by
+  let Γ₆ := (powMonoidHom 6 : (Sset).unit K →* (Sset).unit K).range
+  have hu : u ^ 6 ∈ Γ₆ := ⟨u, rfl⟩
+  have h := primitiveCoefficient_invariant K S D Γ₆ le_rfl B t ⟨u ^ 6, hu⟩ 1
+  simpa only [map_pow, Units.val_pow_eq_pow_val, mul_one, map_one,
+    primitiveCoefficient_one] using h
+
+/-- The genuine Gauss phase is unchanged by a sixth-power unit shift.
+This is the exact phase correction required by allowed generators. -/
+theorem primitiveGauss_sixth_unit_phase (B : PrimeBlock K Sset)
+    (t : HeightOneSpectrum (𝓞 K) → ZMod 6) (u : (Sset).unit K) :
+    (∑ q : PrincipalQuotient K S D B t, primitiveCoefficient K S D B t q *
+      sIntegerActualModulusAddCharacter K Sset D.different_outside
+        (primitiveModulus K S D B t) (primitiveModulus_ne_zero K S D B t)
+        (Ideal.Quotient.mk _ (((Sset).unitEquivUnitsInteger K u).val ^ 6) * q)) =
+      primitiveGauss K S D B t := by
+  rw [finite_fourier, primitiveCoefficient_sixth_unit, star_one, one_mul]
 
 /-- Arbitrary divisor dilation is retained, including divisors that meet
 the active conductor.  No coprimality is silently required. -/

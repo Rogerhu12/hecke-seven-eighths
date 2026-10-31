@@ -29,10 +29,10 @@ open scoped Classical BigOperators nonZeroDivisors
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
-local notation "OS" => (Sset).integer K
+local notation "OS" => Set.integer Sset K
 local notation "Ext" => ExteriorIdeal K Sset
 
-def exteriorMonoid : Submonoid (NonzeroIdeal K) where
+abbrev exteriorMonoid : Submonoid (NonzeroIdeal K) where
   carrier := {I | ∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ I.val → p ∉ Sset}
   one_mem' := by
     intro p hp
