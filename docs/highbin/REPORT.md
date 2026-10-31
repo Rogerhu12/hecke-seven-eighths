@@ -109,17 +109,21 @@ correctly constructed presentation.
 ## Recorded native verification
 
 The recorded core audit is commit
-`823b1b0e017c7054b21824c7548746c8b1cfaef3`: **57 separately compiled modules
-and 442 public declarations passed**. The downloaded `core-axioms.json`
+`aac854175d6354c5d28d80362d74f026d77e4aa5`: **60 separately compiled modules
+and 459 public declarations passed**. The downloaded `core-axioms.json`
 contains an empty `beyond_standard_axioms` map. Every declaration uses only
 `propext`, `Classical.choice`, and `Quot.sound` (or a subset). This includes
 the complete three-variable `JointAnalyticLimit`, `EulerRegionAnalytic`,
 `LocalBlockSummation`, `PrimeBlockEuler`, `LocalSeriesFactorization`,
 `EulerRegionUniqueness`, `EulerRegionProduct`, `BoundaryHeightAbsorption` and
-the full parameter budget in `HighNormFormScalar`.
+the full parameter budget in `HighNormFormScalar`, all eleven declarations
+in `HighNormFormPointwisePartition`, and the six public declarations in
+`EntireVerticalZeros` and `EntireQuotientVerticalAE`.
 
-Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41137110940
-Job: `124342175741`; artifact: `13016438684`.
+Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41158905816
+Job: `124411794998`; artifact: `13026705440`.
+Downloaded artifact SHA-256:
+`168b6d5972fe73693ac6de8b831c93fba44c4808798ed26be9fbfdcd8301897e`.
 The full declaration-to-axiom mapping is preserved in
 [verified_core_axioms.json](verified_core_axioms.json). This is evidence for
 that exact commit; it does not establish subsequent edits or the full
@@ -172,8 +176,18 @@ Its successful core and Mellin jobs are independently recorded above.
 The 2026-10-31 continuation repairs these namespace and notation errors,
 including the same declaration pattern in downstream boundary/norm files.
 A temporary compiler view now delegates to the unchanged pinned Lean executable
-under a process lock and a 4096 MiB memory limit. Lake compilation through this
-view was checked locally. Restored native project objects are uploaded before
+under a process lock and a 6144 MiB memory limit. The initial 4096 MiB
+limit caused concrete Lean `memory_exception` failures in the actual dependency
+imports at `aac85417`: `SLocalFiniteFourier`, `ThetaPrimeGaussNorm`,
+`PrimeCalibrationIdealAssembly`, `PrincipalGeneratorCalibration`, and
+`ActualInitialAbsolute`. These Mellin/Fourier jobs did not complete their proof
+audits. The wrapper now removes competing Lake thread/memory flags before
+applying `-j1 -M6144`, including the `-Dmax_memory` spelling; it preserves
+arguments after `--` and the program arguments of `--run`/`-r`. Eight
+argument-forwarding and exit-code cases passed, and its compiler metadata
+matches the pinned Lean.
+The previous wrapper had also compiled a native Lake smoke check. The new
+resource setting still needs the next CI run to establish its effect. Restored native project objects are uploaded before
 the expensive actual build so an interrupted runner cannot lose that checkpoint.
 Neither scheduling nor cache preservation substitutes for proof verification.
 
@@ -182,7 +196,10 @@ before any build step started. The unrelated Theta workflow at the same
 commit also failed before its steps started. There is no compiler diagnostic
 from this run and its precise runner-startup failure is not established.
 It is not counted as a proof failure or as a completed verification.
-Local native verification continues independently of this runner failure.
+Later jobs at `aac85417` started normally: core passed, while Mellin/Fourier
+reported the concrete memory-limit failures above. This does not establish
+the precise cause of the earlier startup failure. Local verification continues
+independently.
 
 ## Continuation: concrete regions and finite arithmetic compilation
 
@@ -190,8 +207,8 @@ The renewed work window is 2026-10-31 09:15:12–12:15:12 (UTC+8).
 The current source inventory contains **60 core modules / 459 declarations**,
 **64 actual modules / 701 declarations**, **6 Mellin modules / 67 declarations**,
 and **8 Fourier modules / 160 declarations**. Mellin and Fourier are subsets
-of the actual inventory; their counts must not be added to it. These are source
-inventories, not new native success claims.
+of the actual inventory; their counts must not be added to it. Core has passed
+the native audit above; the other expanded counts remain source inventories.
 
 `ActualGaussData` moves the existing prime Gauss definitions and proofs out of
 `ActualEulerData` without changing their names, statements or bodies. The latter
@@ -202,7 +219,8 @@ remain separate, deeper verification obligations.
 
 `HighNormFormPointwisePartition` passed its exact separate-module local check
 in 117.609 seconds; the four printed main-theorem axiom reports contain only
-the standard three axioms. Its complete expanded core audit is pending.
+the standard three axioms. Its eleven public declarations now also passed
+the complete core audit at `aac85417`.
 It constructs measurable first-threshold fibers,
 with a clipped final bucket, strict positive-amplitude witnesses, disjointness,
 exhaustion and an exact restricted-integral sum. `ActualNormFormRegions` uses
@@ -227,7 +245,8 @@ are still construction obligations.
 
 The separate modules `EntireVerticalZeros` and `EntireQuotientVerticalAE`
 passed native Lean in 263.990 and 91.902 seconds, respectively. All six public
-declarations were printed with only the three standard axioms. The first
+declarations were printed with only the three standard axioms and now also
+passed the complete separate-module core CI audit at `aac85417`. The first
 proves that a nonzero entire function on three complex variables has a null
 zero set on every product of three vertical lines. The second obtains
 almost-everywhere equality of two entire quotients from their equality on
@@ -270,8 +289,8 @@ Local checks provide additional, separately identified evidence:
 | `EulerRegionUniqueness` | Passed, 22.756 seconds; three public declarations | Exact current source in a combined dependency wrapper; now also covered by native CI |
 | `EulerRegionProduct` | Passed, 18.706 seconds; two public declarations and standard axioms only | Exact current body in a combined dependency wrapper; now also covered by native separate-module CI |
 | `BoundaryHeightAbsorption` | Passed, 34.736 seconds; both public axiom reports use only the standard three axioms | Exact native separate module with its original Mathlib imports; now also covered by core CI |
-| `EntireVerticalZeros` | Passed, 263.990 seconds; all five public axiom reports use only the standard three axioms | Exact separate module and original imports |
-| `EntireQuotientVerticalAE` | Passed, 91.902 seconds; its public axiom report uses only the standard three axioms | Exact separate module importing the natively compiled zero-set module |
+| `EntireVerticalZeros` | Passed, 263.990 seconds; all five public axiom reports use only the standard three axioms | Exact separate module and original imports; now also covered by core CI |
+| `EntireQuotientVerticalAE` | Passed, 91.902 seconds; its public axiom report uses only the standard three axioms | Exact separate module importing the natively compiled zero-set module; now also covered by core CI |
 | Combined actual Mellin unit | Passed, 499.327 seconds; 40 source bodies and 577 public declarations, standard axioms only | Imports hoisted; not 40 separate native modules |
 
 The combined Mellin source SHA-256 is

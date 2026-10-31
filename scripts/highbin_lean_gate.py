@@ -20,7 +20,7 @@ def main():
     parser.add_argument('--lean', default=shutil.which('lean'))
     parser.add_argument('--directory', type=Path, required=True)
     parser.add_argument('--github-env', type=Path)
-    parser.add_argument('--memory-mib', type=int, default=4096)
+    parser.add_argument('--memory-mib', type=int, default=6144)
     args = parser.parse_args()
     if not args.lean or args.memory_mib <= 0:
         parser.error('a Lean executable and positive memory budget are required')
@@ -58,9 +58,32 @@ import sys
 real = %r
 if len(sys.argv) == 2 and sys.argv[1] in ('--version', '--print-prefix', '--githash'):
     os.execv(real, [real, *sys.argv[1:]])
+arguments = []
+incoming = iter(sys.argv[1:])
+for argument in incoming:
+    # Lean 4.35 stops option parsing immediately at --run (also -r),
+    # so its source filename and all following program arguments are data.
+    if argument in ('--', '--run', '-r'):
+        arguments.append(argument)
+        arguments.extend(incoming)
+        break
+    if argument in ('-j', '--threads', '-M', '--memory'):
+        next(incoming, None)
+    elif argument.startswith(('-j', '-M', '--threads=', '--memory=')):
+        continue
+    elif argument == '-D':
+        value = next(incoming, None)
+        if value is None:
+            arguments.append(argument)
+        elif not value.startswith('max_memory='):
+            arguments.extend((argument, value))
+    elif argument.startswith('-Dmax_memory='):
+        continue
+    else:
+        arguments.append(argument)
 with open(%r, 'a') as lock:
     fcntl.flock(lock, fcntl.LOCK_EX)
-    code = subprocess.call([real, '-j1', %r, *sys.argv[1:]])
+    code = subprocess.call([real, '-j1', %r, *arguments])
     sys.exit(code if code >= 0 else 128 - code)
 ''' % (str(real_lean), str(directory / 'compile.lock'), '-M' + str(args.memory_mib)))
     wrapper.chmod(0o755)

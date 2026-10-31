@@ -2198,14 +2198,100 @@
       "Quot.sound",
       "propext"
     ],
+    "HighBinVerified.NormForm.pointwiseBucket": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.pointwiseBucket_val_measurable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.pointwiseBucket_spec": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.pointwiseAmplitudeLabel": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.amplitudeRegion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.mem_amplitudeRegion_iff": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.amplitudeRegion_subset": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.amplitudeRegion_measurable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.amplitudeRegion_disjoint": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.iUnion_amplitudeRegion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.sum_integral_amplitudeRegion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.entire_zero_set_countable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.entire_ne_zero_ae_vertical": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.entire_triple_ne_zero_ae_vertical": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.entire_triple_vertical_zero_measure": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.finiteEulerPolynomialValue_entire": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.entire_quotients_ae_eq_vertical": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
     "HeckeSkeleton.HighBinActualInitial.FourExponent": [],
     "HeckeSkeleton.HighBinFiniteTables.Exponent": []
   },
   "beyond_standard_axioms": {},
-  "commit": "823b1b0e017c7054b21824c7548746c8b1cfaef3",
-  "workflow_run_id": 41137110940,
-  "job_id": 124342175741,
-  "artifact_id": 13016438684,
+  "commit": "aac854175d6354c5d28d80362d74f026d77e4aa5",
+  "workflow_run_id": 41158905816,
+  "job_id": 124411794998,
+  "artifact_id": 13026705440,
+  "artifact_sha256": "168b6d5972fe73693ac6de8b831c93fba44c4808798ed26be9fbfdcd8301897e",
   "verification_kind": "native separate-module build and enumerated public source declaration type/axiom audit",
-  "modules": 57
+  "modules": 60
 }

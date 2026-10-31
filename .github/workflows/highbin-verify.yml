@@ -37,7 +37,7 @@ jobs:
       matrix:
         scope: [core, mellin, fourier, actual]
     env:
-      LEAN_NUM_THREADS: '2'
+      LEAN_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
       - uses: leanprover/lean-action@bd5cb0b830eda614ce3fc186d8429b9409b16c47
