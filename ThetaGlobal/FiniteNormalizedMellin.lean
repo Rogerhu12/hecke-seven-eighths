@@ -21,6 +21,7 @@ namespace ThetaGlobal.FiniteNormalizedMellin
 open NumberField MeasureTheory DedekindZetaZeroFree
 open DedekindZetaZeroFree.MomentSources
 open DedekindZetaZeroFree.ThetaProfileHaarSheets
+open DedekindZetaZeroFree.ThetaPositiveSheetMellin
 open HeckeGeneral.Characters HeckeGeneral.ThetaSkeleton.Global
 open ThetaGlobal.FiniteLocalHighK ThetaGlobal.FiniteSheetMellin
 open scoped Classical NumberField BigOperators
@@ -42,7 +43,7 @@ def complexPlaceEquiv : InfinitePlace F ≃ {w : InfinitePlace F // w.IsComplex}
 
 theorem gammaPair_product (s : ℂ) :
     (∏ w : InfinitePlace F, gammaPair R θ w s) = archGammaProduct F θ s :=
-  Equiv.prod_comp (complexPlaceEquiv R) _
+  Fintype.prod_equiv (complexPlaceEquiv R) _ _ (fun _ => rfl)
 
 def directGammaProduct (s : ℂ) : ℂ :=
   ∏ v : {v : InfinitePlace F // v.IsComplex},
@@ -51,7 +52,7 @@ def directGammaProduct (s : ℂ) : ℂ :=
 
 theorem directGammaPair_product (s : ℂ) :
     (∏ w : InfinitePlace F, directGammaPair R θ w s) = directGammaProduct (F := F) θ s :=
-  Equiv.prod_comp (complexPlaceEquiv R) _
+  Fintype.prod_equiv (complexPlaceEquiv R) _ _ (fun _ => rfl)
 
 def archProfile (reflected : Bool) : ∀ w : InfinitePlace F, w.Completionˣ → ℂ :=
   fun w => localProfile R θ (L.functional w) (L.vector w) w reflected
@@ -122,7 +123,7 @@ theorem reflected_common_normalization (W : ℂ) (u : R.A.UnitQuotient)
 theorem direct_mellin (v₀ : InfinitePlace F) (s : ℂ)
     (hs : -(1 / 3 : ℝ) < s.re) :
     (∫ t : PositiveAxis, (t.val : ℂ) ^ s * direct R θ C L v₀ t ∂positiveHaar) =
-      M.C₀ * (M.A₀ : ℂ) ^ s * directGammaProduct θ s := by
+      (M).C₀ * ((M).A₀ : ℂ) ^ s * directGammaProduct θ s := by
   have h := FiniteDirectMellin.direct_sheet_mellin R C.transport C.projected.cutoffs
     (reflectedConstant R θ C L)⁻¹ (archProfile R θ C L false) v₀ s
     (fun w => L.direct_integrable w s hs)
@@ -136,14 +137,17 @@ theorem direct_mellin (v₀ : InfinitePlace F) (s : ℂ)
 theorem reflected_mellin (u : R.A.UnitQuotient) (κ : SixthLocalClasses F Sf)
     (v₀ : InfinitePlace F) (s : ℂ) (hs : -(1 / 3 : ℝ) < s.re) :
     (∫ t : PositiveAxis, (t.val : ℂ) ^ s * reflected R θ C L u κ v₀ t ∂positiveHaar) =
-      (M.A₀ : ℂ) ^ s * finiteMellinFactor F Sf M u κ s * archGammaProduct F θ s := by
+      ((M).A₀ : ℂ) ^ s * finiteMellinFactor F Sf M u κ s * archGammaProduct F θ s := by
   have h := FiniteSheetMellin.reflected_sheet_mellin R D C.transport θ C.projected.cutoffs
     (C₀ R θ C L) (C₀_ne_zero R θ C L) (A₀ R θ C L) (A₀_pos R θ C L)
     (reflectedConstant R θ C L)⁻¹ (archProfile R θ C L true) u κ v₀ s hs
     (fun w => L.reflected_integrable w s hs)
   rw [reflected_product_mellin R θ C L s hs] at h
   change _ = (A₀ R θ C L : ℂ) ^ s * _ * _
-  rw [reflected, h]
+  have hM : finiteMellinFactor F Sf M u κ s = finiteMellinFactor F Sf
+      (ProjectedFiniteMellin.targetFiniteMellinData R C.projected.base.factorization C.transport
+        (C₀ R θ C L) (C₀_ne_zero R θ C L) (A₀ R θ C L) (A₀_pos R θ C L) θ) u κ s := rfl
+  rw [reflected, h, hM]
   field_simp [reflectedConstant_nonzero R θ C L]
   <;> ring
 
@@ -167,8 +171,8 @@ theorem mellin_ratio (u : R.A.UnitQuotient) (κ : SixthLocalClasses F Sf)
     Complex.Gamma ((archShift F θ v : ℂ) - s - Complex.I * archRadial F θ v - 1 / 6)
   have h := FiniteMellinRatio.same_vector_ratio
     (I := {v : InfinitePlace F // v.IsComplex})
-    1 1 M.C₀ 1 one_ne_zero one_ne_zero M.C₀_ne_zero one_ne_zero
-    M.A₀ M.A₀_pos s (finiteMellinFactor F Sf M u κ s)
+    1 1 (M).C₀ 1 one_ne_zero one_ne_zero (M).C₀_ne_zero one_ne_zero
+    (M).A₀ (M).A₀_pos s (finiteMellinFactor F Sf M u κ s)
     (fun v => n₁ v * n₂ v) (fun v => d₁ v * d₂ v)
   rw [FiniteMellinRatio.product_pair_quotient] at h
   simpa only [one_mul, mul_one, FiniteMellinRatio.normalization, div_one,

@@ -45,7 +45,7 @@ theorem log_measurePreserving : MeasurePreserving logEquiv positiveHaar volume :
   simp only [hd, him, Measure.restrict_univ] at h
   change Measure.map (Real.log ∘ Subtype.val) positiveHaar = volume
   rw [← Measure.map_map Real.measurable_log measurable_subtype_coe,
-    positiveHaar_map_val, Measure.restrict_withDensity measurableSet_Ioi]
+    positiveHaar_map_val, MeasureTheory.restrict_withDensity measurableSet_Ioi]
   convert h using 2
   apply withDensity_congr_ae
   filter_upwards [ae_restrict_mem measurableSet_Ioi] with x hx
@@ -65,8 +65,8 @@ theorem integral_exp (f : PositiveAxis → ℂ) :
 theorem integrable_exp_iff (f : PositiveAxis → ℂ) :
     Integrable (fun u : ℝ => f (logEquiv.symm u)) ↔ Integrable f positiveHaar := by
   rw [← log_measurePreserving.map_eq,
-    logEquiv.toMeasurableEquiv.measurableEmbedding.integrable_map_iff]
-  simpa only [logEquiv.symm_apply_apply]
+    logEquiv.measurableEmbedding.integrable_map_iff]
+  simp only [Function.comp_def, Homeomorph.symm_apply_apply]
 
 theorem positiveSpectrum_eq_mellin (f : PositiveAxis → ℂ) (τ : ℝ) :
     ScalarMellinConvolution.positiveSpectrum (fun u => f (logEquiv.symm u)) τ =
@@ -75,7 +75,8 @@ theorem positiveSpectrum_eq_mellin (f : PositiveAxis → ℂ) (τ : ℝ) :
   rw [integral_log]
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun t => by
-    rw [logEquiv.symm_apply_apply]
+    beta_reduce
+    rw [show logEquiv.symm (Real.log t.val) = t from logEquiv.symm_apply_apply t]
     unfold ScalarMellinConvolution.phase
     rw [Complex.cpow_def_of_ne_zero (Complex.ofReal_ne_zero.mpr t.property.ne'),
       ← Complex.ofReal_log t.property.le]

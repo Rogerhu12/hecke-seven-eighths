@@ -41,6 +41,8 @@ local notation "B" => R.probe.correction.B
 local notation "Sf" => (R.A.Sf : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F)))
 
 local instance : Countable F := Finsupp.Countable.of_moduleFinite (R := ℚ)
+local instance : Countable Fˣ :=
+  Function.Injective.countable (f := ((↑) : Fˣ → F)) fun _ _ h => Units.ext h
 local instance : Countable R.A.Gamma1 :=
   Countable.of_equiv (ThetaReflectionData.rationalGamma R.A) (gammaEquiv R).toEquiv
 local instance : C.transport.groupHaar.IsHaarMeasure := C.transport.groupHaar_isHaar
@@ -63,7 +65,8 @@ theorem gammaFrequency_diagonal (a : Fˣ) (γ : R.A.Gamma1) :
 
 theorem gammaFrequency_class (a : Fˣ) (γ : R.A.Gamma1) :
     k (R.A.diagonal (gammaFrequency R a γ)) = k (R.A.diagonal a) := by
-  rw [gammaFrequency_diagonal, map_mul, GlobalProjectUnfolding.gamma_class, one_mul]
+  rw [gammaFrequency_diagonal, map_mul, GlobalProjectUnfolding.gamma_class]
+  exact one_mul (k (R.A.diagonal a))
 
 variable (u : R.A.UnitQuotient) (m : ThetaReflectionData.Row R.A)
   (c : GlobalProjectWeightedDigits.Digits R m → ℂ)
@@ -91,7 +94,7 @@ theorem forward_term (hR : RootAligned R) (a : Fˣ) (y : R.A.G) :
   unfold GlobalProjectForwardCoefficients.scalar
   calc
     _ = (GlobalProjectDigitProduct.forwardCoefficient R m c a *
-        ∏ᶠ p : ThetaBranch.ExteriorPrime R.A, D.exteriorValue R p a) *
+        ∏ᶠ p : ThetaBranch.ExteriorPrime R.A, (D).exteriorValue R p a) *
         GlobalProjectUnfolding.weight R (GlobalTargetPeriod.period R θ u) B y *
         (GlobalProjectConvention.paperHilbert R (k (R.A.diagonal a)) (k y) ^ 2 *
           GlobalProjectHighKExtraction.directProfile R D u L.vector (R.A.diagonal a * y)) := by ring
@@ -153,6 +156,8 @@ theorem reverse_orbit_term (hR : RootAligned R)
   rw [hy]
   change _ = _ * (_ * GlobalProjectHighKExtraction.reflectedProfile R D u L.vector
     (γ.val.val⁻¹ * R.A.diagonal a / y.val))
+  have hinv : ((γ⁻¹ : R.A.Gamma1).val.val) = (γ.val.val)⁻¹ := rfl
+  rw [hinv]
   ring
 
 /-- Reflected orbit unfolding, with every integrability and absolute

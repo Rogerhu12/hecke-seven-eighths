@@ -132,15 +132,19 @@ theorem direct_global_mellin (W : ℂ)
   refine ⟨((harch.mul_prod hfinite).const_mul W).congr
     (Filter.Eventually.of_forall (fun _ => (mul_assoc _ _ _).symm)), ?_⟩
   simp_rw [mul_assoc]
-  rw [integral_const_mul, integral_prod_mul, integral_fintype_prod_eq_prod,
-    cutoffProduct_integral]
+  rw [integral_const_mul]
+  refine congrArg (W * ·) ?_
+  refine (MeasureTheory.integral_prod_mul
+    (fun x : (∀ w : InfinitePlace F, w.Completionˣ) => ∏ w, archWeighted a s w (x w))
+    (cutoffProduct R B)).trans ?_
+  rw [integral_fintype_prod_eq_prod, cutoffProduct_integral]
   ring
 
 def directSheet (W : ℂ)
     (a : ∀ w : InfinitePlace F, w.Completionˣ → ℂ)
     (v₀ : InfinitePlace F) (t : PositiveAxis) : ℂ :=
-  ∫ z : R.A.G1, directTensor R B W a (sheetEquiv R v₀ (t, z))
-    ∂R.probe.domain.measure
+  MeasureTheory.integral R.probe.domain.measure
+    (fun z : R.A.G1 => directTensor R B W a (sheetEquiv R v₀ (t, z)))
 
 theorem direct_sheet_mellin (W : ℂ)
     (a : ∀ w : InfinitePlace F, w.Completionˣ → ℂ)

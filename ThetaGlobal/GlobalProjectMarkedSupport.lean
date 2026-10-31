@@ -32,7 +32,7 @@ variable {F : Type} [Field F] [NumberField F]
 local notation "Sf" => (R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))
 local notation "P" => ThetaBranch.ExteriorPrime R.A
 
-variable (Adata : ThetaArithmeticData F Sf) (d : MarkedDatum F Sf)
+variable (Adata : ThetaArithmeticData F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F))))) (d : MarkedDatum F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))))
 
 def support : Finset P :=
   exteriorSupport F Sf d.moving ∪ (frozenPrimes F Sf d ∪ d.marks)
@@ -157,11 +157,13 @@ theorem localSupport (x : Fˣ)
   let v : P → ℤ := fun p => ThetaBranch.order p.val x +
     2 * (primeExponents d.moving.val p.val : ℤ)
   have hmove (p : P) (hp : p ∈ exteriorSupport F Sf d.moving) : v p = 0 := by
-    rw [v, moving_order R Adata d D H x hx p hp, moving_exponent, if_pos hp]
+    simp only [v]
+    rw [moving_order R Adata d D H x hx p hp, moving_exponent, if_pos hp]
     norm_num
   have hnonmove (p : P) (hp : p ∉ exteriorSupport F Sf d.moving) :
       v p = ThetaBranch.order p.val x := by
-    rw [v, moving_exponent, if_neg hp]
+    simp only [v]
+    rw [moving_exponent, if_neg hp]
     simp
   change GlobalFrequencyReconstruction.LocalSupport (GlobalIndexSupport.mandatory F Sf d)
     (GlobalActualCoordinates.allowed R.A d) v

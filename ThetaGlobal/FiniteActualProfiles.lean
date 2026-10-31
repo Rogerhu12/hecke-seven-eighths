@@ -59,7 +59,7 @@ local instance : MeasurableSpace R.A.G1 := borel _
 local instance : BorelSpace R.A.G1 := ⟨rfl⟩
 
 def normalizingScalar (u : R.A.UnitQuotient) : ℂ :=
-  fourier R Q.dq (FiniteHighKTensor.source R D u L.vector) 1 *
+  fourier R (Q).dq (FiniteHighKTensor.source R D u L.vector) 1 *
     reflectedConstant R θ C L
 
 theorem normalizingScalar_ne_zero (u : R.A.UnitQuotient) :
@@ -71,7 +71,7 @@ theorem normalizingScalar_ne_zero (u : R.A.UnitQuotient) :
 
 def directPoint (u : R.A.UnitQuotient) (z : R.A.G) : ℂ :=
   (GlobalTargetPeriod.period R θ u z)⁻¹ *
-    fourier R Q.dq (FiniteHighKTensor.source R D u L.vector)
+    fourier R (Q).dq (FiniteHighKTensor.source R D u L.vector)
       (MomentSources.diagonal R z)
 
 def reflectedPoint (u : R.A.UnitQuotient) (κ : SixthLocalClasses F Sf)
@@ -79,14 +79,14 @@ def reflectedPoint (u : R.A.UnitQuotient) (κ : SixthLocalClasses F Sf)
   ProjectFiniteClass.reflectedClassMask R.A R.probe.correction.B R.σ κ
     (ProjectFiniteClass.assemble R.A (fun p => QuotientGroup.mk (z.2 p))) *
     GlobalTargetPeriod.period R θ u z *
-    fourier R Q.dq (FiniteHighKTensor.source R D u L.vector)
+    fourier R (Q).dq (FiniteHighKTensor.source R D u L.vector)
       (MomentSources.diagonal R z *
         KPRationalAdelicSplitting.pglW F R.A.zeta12 R.A.primitive_zeta12)
 
 theorem directPoint_eq (u : R.A.UnitQuotient) (z : R.A.G) :
     directPoint R θ C L u z =
       FiniteDirectMellin.directTensor R C.projected.cutoffs
-        (fourier R Q.dq (FiniteHighKTensor.source R D u L.vector) 1)
+        (fourier R (Q).dq (FiniteHighKTensor.source R D u L.vector) 1)
         (FiniteNormalizedMellin.archProfile R θ C L false) z :=
   FiniteHighKDirect.directTensor_eq R θ C L u z
 
@@ -94,7 +94,7 @@ theorem reflectedPoint_eq (u : R.A.UnitQuotient) (κ : SixthLocalClasses F Sf)
     (z : R.A.G) :
     reflectedPoint R θ C L u κ z =
       reflectedTensor R D θ
-        (fourier R Q.dq (FiniteHighKTensor.source R D u L.vector) 1)
+        (fourier R (Q).dq (FiniteHighKTensor.source R D u L.vector) 1)
         (FiniteNormalizedMellin.archProfile R θ C L true) u κ z := by
   have h := FiniteHighKWeyl.reflectedTensor_eq R D C.fullArchProduct
     (FiniteFixedSource.Source.period_nonzero R θ C) θ u L.vector L.source_nonzero κ z
@@ -106,13 +106,13 @@ theorem reflectedPoint_eq (u : R.A.UnitQuotient) (κ : SixthLocalClasses F Sf)
   exact h
 
 def directSheet (u : R.A.UnitQuotient) (v₀ : InfinitePlace F) (t : PositiveAxis) : ℂ :=
-  ∫ z : R.A.G1, directPoint R θ C L u (sheetEquiv R v₀ (t, z))
-    ∂R.probe.domain.measure
+  MeasureTheory.integral R.probe.domain.measure
+    (fun z : R.A.G1 => directPoint R θ C L u (sheetEquiv R v₀ (t, z)))
 
 def reflectedSheet (u : R.A.UnitQuotient) (κ : SixthLocalClasses F Sf)
     (v₀ : InfinitePlace F) (t : PositiveAxis) : ℂ :=
-  ∫ z : R.A.G1, reflectedPoint R θ C L u κ (sheetEquiv R v₀ (t, z))
-    ∂R.probe.domain.measure
+  MeasureTheory.integral R.probe.domain.measure
+    (fun z : R.A.G1 => reflectedPoint R θ C L u κ (sheetEquiv R v₀ (t, z)))
 
 theorem directSheet_normalization (u : R.A.UnitQuotient)
     (v₀ : InfinitePlace F) (t : PositiveAxis) :

@@ -23,7 +23,7 @@ open scoped Classical
 
 variable {K : Type} [Field K] [NumberField K] (A : SArithmeticData K)
 local notation "S" => (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-variable (d : MarkedDatum K S)
+variable (d : MarkedDatum K ((A.Sf : Set (HeightOneSpectrum (𝓞 K)))))
 
 def allowed : Set (ExteriorPrime K S) := ↑(frozenPrimes K S d ∪ d.marks)
 
@@ -107,7 +107,8 @@ theorem branch_indexOfCoordinates (b : GlobalIdealCoordinates.Coordinates A)
     (ε : SixthUnitClasses K S) :
     GlobalIndexSupport.branch K S d (indexOfCoordinates A d b hb ha ε) = b.toBranch A := by
   apply GlobalFrequency.Branch.ext
-  · exact congrArg (fun t : Finset (ExteriorPrime K S) => (t : Set _)) (union_parts A d b ha)
+  · exact congrArg (fun t : Finset (ExteriorPrime K S) => (↑t : Set (ExteriorPrime K S)))
+      (union_parts A d b ha)
   · rfl
   · rfl
   · rfl
@@ -163,9 +164,10 @@ theorem exists_index_with_frequency (D : ThetaArithmeticData K S) (x : Kˣ)
     (GlobalActualReindex.unitRepresentatives A) x y horders
   let i : ReflectionIndex K S d := {i₀ with unitSector := ε}
   refine ⟨i, hi₀, ?_⟩
-  simpa only [GlobalActualReindex.frequency, GlobalActualReindex.representative_eq,
+  simp only [GlobalActualReindex.frequency, GlobalActualReindex.representative_eq,
     GlobalUnitCoordinates.frequency, GlobalActualReindex.unitRepresentatives,
     frequencyUnit, GlobalActualReindex.bodyRepresentative, activeFrozenIdeal,
-    activeMarkedIdeal, i, y] using hε
+    activeMarkedIdeal, i, y] at hε ⊢
+  exact hε
 
 end ThetaGlobal.GlobalActualCoordinates

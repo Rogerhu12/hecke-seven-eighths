@@ -43,8 +43,8 @@ def tensor (W : ℂ) (a : ∀ w : InfinitePlace F, w.Completionˣ → ℂ)
 
 def sheet (W : ℂ) (a : ∀ w : InfinitePlace F, w.Completionˣ → ℂ)
     (f : FiniteUnits R → ℂ) (v₀ : InfinitePlace F) (t : PositiveAxis) : ℂ :=
-  ∫ z : R.A.G1, tensor R W a f (sheetEquiv R v₀ (t, z))
-    ∂R.probe.domain.measure
+  MeasureTheory.integral R.probe.domain.measure
+    (fun z : R.A.G1 => tensor R W a f (sheetEquiv R v₀ (t, z)))
 
 theorem tensor_weight (W : ℂ) (a : ∀ w : InfinitePlace F, w.Completionˣ → ℂ)
     (f : FiniteUnits R → ℂ) (s : ℂ) (y : R.A.G) :
@@ -113,9 +113,11 @@ theorem remainingMajorant_integrable
   have hlocal (v : RemainingComplex w) :
       Integrable (fun z : ℂˣ =>
         ‖archWeighted a 2 v.val.val (completionUnitsEquiv R.A v.val.val z)‖) (ν v) := by
-    rw [(completionUnitsEquiv R.A v.val.val).symm.toHomeomorph.toMeasurableEquiv
-      .measurableEmbedding.integrable_map_iff]
-    simpa only [ContinuousMulEquiv.apply_symm_apply] using (ha v.val.val).norm
+    have hemb : MeasurableEmbedding (completionUnitsEquiv R.A v.val.val).symm :=
+      (completionUnitsEquiv R.A v.val.val).symm.toHomeomorph.toMeasurableEquiv.measurableEmbedding
+    refine hemb.integrable_map_iff.mpr ?_
+    refine (ha v.val.val).norm.congr (Filter.Eventually.of_forall fun x => ?_)
+    simp only [Function.comp_apply, ContinuousMulEquiv.apply_symm_apply]
   let μ : Measure (RemainingUnits R.A w) :=
     (Measure.pi ν).prod (Measure.pi N.finiteMultHaar)
   have hg : Integrable g μ :=
@@ -139,7 +141,12 @@ theorem remainingMajorant_integrable
   obtain ⟨hp, hs, ht⟩ := hgeometry
   letI : μ.IsHaarMeasure := by
     dsimp only [μ]
-    infer_instance
+    haveI : LocallyCompactSpace ℂˣ := Units.isOpenEmbedding_val.locallyCompactSpace
+    haveI : ∀ v, SigmaFinite (ν v) := fun v => inferInstance
+    haveI : ∀ p, SigmaFinite (N.finiteMultHaar p) := fun p => inferInstance
+    haveI : (Measure.pi ν).IsHaarMeasure := Measure.pi.isHaarMeasure ν
+    haveI : (Measure.pi N.finiteMultHaar).IsHaarMeasure := Measure.pi.isHaarMeasure _
+    exact Measure.prod.instIsHaarMeasure _ _
   letI : (Measure.map (remainingProjection R.A w)
       R.probe.domain.measure).IsHaarMeasure :=
     Measure.isHaarMeasure_map R.probe.domain.measure (remainingProjection R.A w) hp hs ht
@@ -250,12 +257,11 @@ theorem sheet_continuous_and_bound
     · exact Filter.Eventually.of_forall fun z =>
         (htc.comp ((normSplit R.A v₀).continuous.comp
           (continuous_id.prodMk continuous_const))).continuousAt
-  · refine ⟨(‖W‖ * B) * (∫ z, G z ∂R.probe.domain.measure),
+  · refine ⟨(‖W‖ * B) * (MeasureTheory.integral R.probe.domain.measure (fun z => G z)),
       mul_nonneg (mul_nonneg (norm_nonneg _) hB0) (integral_nonneg hG0), ?_⟩
     intro t
     calc
-      ‖sheet R W a f v₀ t‖ ≤ ∫ z,
-          (‖W‖ * B) * (t.val ^ 2)⁻¹ * G z ∂R.probe.domain.measure :=
+      ‖sheet R W a f v₀ t‖ ≤ MeasureTheory.integral R.probe.domain.measure (fun z => (‖W‖ * B) * (t.val ^ 2)⁻¹ * G z) :=
         norm_integral_le_of_norm_le (hG.const_mul _)
           (Filter.Eventually.of_forall (hbound t))
       _ = _ := by rw [integral_const_mul]; ring

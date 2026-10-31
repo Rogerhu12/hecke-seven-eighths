@@ -51,7 +51,7 @@ theorem marked_forward (p : P) (t : ThetaDigitAverage.Residue p.val) :
     simp [ht, hn]
   · simp [ht]
 
-variable (Adata : ThetaArithmeticData F Sf)
+variable (Adata : ThetaArithmeticData F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))))
 
 def localMask (p : P) (j : Fin 6) (marked : Bool) (x : Fˣ) : ℂ :=
   if marked then
@@ -76,7 +76,9 @@ theorem localMask_gamma (p : P) (j : Fin 6) (marked : Bool) (x : Fˣ)
     rw [ThetaBranch.reduction_pow p.val u (ThetaBranch.unit_ord R.A p u')] at hred
     unfold localMask
     rw [hred]
-    simp only [hn, pow_ne_zero 6 hun, mul_ne_zero, ↓reduceIte, map_mul, map_pow]
+    have hz : ThetaBranch.unitResidue p.val x * ThetaBranch.unitResidue p.val u ^ 6 ≠ 0 :=
+      mul_ne_zero hn (pow_ne_zero 6 hun)
+    simp only [hn, hz, ↓reduceIte, map_mul, map_pow]
     rw [ThetaBranch.char_pow_six _
       (GlobalProjectFrequency.thetaPrimeCharacter_order_six F Sf Adata (skeletonPrime R p))
       _ hun, mul_one]
@@ -92,9 +94,11 @@ theorem forwardCoefficient_literal (H : Input R D Adata)
     (x : Fˣ) (hx : (x : F) ∈ R.A.R) :
     forwardCoefficient R m (GlobalProjectLiteralDigitWeights.tensorWeight R Adata m j marked) x =
       ∏ p : RowPrime R m, localMask R Adata (exteriorRowPrime R m p) (j p) (marked p) x := by
-  rw [GlobalProjectLiteralDigitWeights.tensorWeight,
-    forwardCoefficient_product R m x
-      (fun p hp => hx p ((ThetaDigitAverage.rowPrimes_finite R.A m.val m.property).mem_toFinset.mp hp).1)]
+  refine (forwardCoefficient_product R m x
+      (fun p hp => hx p ((ThetaDigitAverage.rowPrimes_finite R.A m.val m.property).mem_toFinset.mp hp).1)
+      (fun (p : RowPrime R m) (t : ThetaDigitAverage.Residue p.val) =>
+        if marked p then (p.val.asIdeal.absNorm : ℂ)⁻¹ else
+          digitMask F Sf Adata (skeletonPrime R (exteriorRowPrime R m p)) (j p) t)).trans ?_
   apply Finset.prod_congr rfl
   intro p _
   cases hmark : marked p with
@@ -114,6 +118,7 @@ theorem exteriorProduct_finite (E : ExteriorCoefficients R Q T D) (x : Fˣ) :
   by_contra hn
   simp only [Set.mem_setOf_eq, not_not] at hn
   apply hp
+  beta_reduce
   rw [E.rational_exact]
   exact sphericalFactor_order_zero R p x hn
 

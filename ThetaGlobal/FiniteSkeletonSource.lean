@@ -16,12 +16,14 @@ set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false
 set_option maxHeartbeats 2000000
 set_option maxRecDepth 4000
+set_option quotPrecheck false
 noncomputable section
 
 namespace HeckeSkeleton
 
 open NumberField MeasureTheory DedekindZetaZeroFree DedekindZetaZeroFree.MomentSources
 open HeckeGeneral.Characters HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
+open HeckeGeneral.ThetaSkeleton.Physical
 open scoped NumberField Classical BigOperators
 
 variable (K : Type) [Field K] [NumberField K] (c : TargetContext K)
@@ -64,50 +66,50 @@ theorem admissible : FiniteMellinAdmissible K (places K c) (data K c L) :=
 
 local notation "R" => thetaRecipe K c
 local notation "C" => thetaFiniteSource K c
-local notation "D" => C.projected.base.factorization
+local notation "D" => (C).projected.base.factorization
 local notation "θ" => thetaPeriod K (places K c) (probeData K c) (targetCharacter K c)
 
 theorem data_C₀ : (data K c L).C₀ =
-    (ThetaGlobal.FiniteDirectMellin.cutoffVolume R C.transport C.projected.cutoffs : ℂ) *
+    (ThetaGlobal.FiniteDirectMellin.cutoffVolume R (C).transport (C).projected.cutoffs : ℂ) *
       (∏ w : InfinitePlace K, L.directConstant w) /
       (∏ w : InfinitePlace K, L.reflectedConstant w) := rfl
 
 theorem data_A₀ : (data K c L).A₀ = ∏ w : InfinitePlace K, L.scale w := rfl
 
 def termClass (l : Fin (data K c L).terms) :
-    ∀ p : R.A.Sf, ThetaGlobal.ProjectFiniteClass.LocalClass R.A p :=
-  ThetaGlobal.ProjectedFiniteMellin.termClassEquiv R D C.transport
+    ∀ p : (R).A.Sf, ThetaGlobal.ProjectFiniteClass.LocalClass (R).A p :=
+  ThetaGlobal.ProjectedFiniteMellin.termClassEquiv R D (C).transport
     (ThetaGlobal.FiniteLocalHighK.C₀ R θ C L)
     (ThetaGlobal.FiniteLocalHighK.C₀_ne_zero R θ C L)
     (ThetaGlobal.FiniteLocalHighK.A₀ R θ C L)
     (ThetaGlobal.FiniteLocalHighK.A₀_pos R θ C L) θ l
 
-local instance (p : R.A.Sf) :
+local instance (p : (R).A.Sf) :
     MeasurableSpace (LocalIntegerRing K p.val)ˣ := borel _
 
-local instance (p : R.A.Sf) : BorelSpace (LocalIntegerRing K p.val)ˣ := ⟨rfl⟩
+local instance (p : (R).A.Sf) : BorelSpace (LocalIntegerRing K p.val)ˣ := ⟨rfl⟩
 
 /-- Literal shell formula for the skeleton's constructed table.  The
 coefficient is integrated against the same source's actual unit Haar. -/
 theorem coefficient_shell_spec
     (u : SixthUnitClasses K (places K c))
     (κ : SixthLocalClasses K (places K c))
-    (l : Fin (data K c L).terms) (p : R.A.Sf) (k : ℤ) :
+    (l : Fin (data K c L).terms) (p : (R).A.Sf) (k : ℤ) :
     (data K c L).coefficient u κ l p k =
       ∫ z,
-        (if p = D.scalarSlot then
-          ThetaGlobal.ProjectFiniteClass.reflectedClassMask R.A R.probe.correction.B R.σ κ
-            (ThetaGlobal.ProjectFiniteClass.assemble R.A (termClass K c L l)) else 1) *
+        (if p = (D).scalarSlot then
+          ThetaGlobal.ProjectFiniteClass.reflectedClassMask (R).A (R).probe.correction.B (R).σ κ
+            (ThetaGlobal.ProjectFiniteClass.assemble (R).A (termClass K c L l)) else 1) *
         (if (QuotientGroup.mk (ThetaGlobal.ProjectLocalShell.shellPoint K p.val k z) :
-          ThetaGlobal.ProjectFiniteClass.LocalClass R.A p) = termClass K c L l p
+          ThetaGlobal.ProjectFiniteClass.LocalClass (R).A p) = termClass K c L l p
           then 1 else 0) *
         (ThetaGlobal.TargetFinitePeriod.localPeriod R θ u p
           (ThetaGlobal.ProjectLocalShell.shellPoint K p.val k z) : ℂ) *
         ThetaGlobal.FiniteCanonicalVectors.weylValue R D p
           (ThetaGlobal.ProjectedFiniteMellin.normalizedSelectedVector R D u p)
           (ThetaGlobal.ProjectLocalShell.shellPoint K p.val k z)
-        ∂ThetaGlobal.ProjectedFiniteMellin.unitHaar R C.transport p :=
-  ThetaGlobal.ProjectedFiniteMellin.targetCoefficient_enumerated_spec R D C.transport
+        ∂ThetaGlobal.ProjectedFiniteMellin.unitHaar R (C).transport p :=
+  ThetaGlobal.ProjectedFiniteMellin.targetCoefficient_enumerated_spec R D (C).transport
     (ThetaGlobal.FiniteLocalHighK.C₀ R θ C L)
     (ThetaGlobal.FiniteLocalHighK.C₀_ne_zero R θ C L)
     (ThetaGlobal.FiniteLocalHighK.A₀ R θ C L)

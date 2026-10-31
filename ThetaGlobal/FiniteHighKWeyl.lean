@@ -33,6 +33,7 @@ variable (R : PrincipalMellin.ActualRecipe S η)
 variable {Q : AdmissibleFlatSources R} {T : Realization R Q}
 variable (D : SourceFactorization R Q T)
 
+set_option maxHeartbeats 1000000 in
 theorem finiteAction_weyl (z : R.A.G) (p : R.A.Sf) (φ : Vector R D p) :
     finiteAction R D (finiteWeylRaw R z) (Sum.inr p.val) φ =
       action R D p (KPPGLLocalCover.A F R.A.zeta12 R.A.primitive_zeta12
@@ -40,8 +41,19 @@ theorem finiteAction_weyl (z : R.A.G) (p : R.A.Sf) (φ : Vector R D p) :
         (action R D p (KPPGLLocalCover.W F R.A.zeta12 R.A.primitive_zeta12
           (Sum.inr p.val)) φ) := by
   have he := DigitMasks.localIdele_finite R z p.val p.property
-  unfold finiteAction finiteWeylRaw
-  rw [he, map_mul, map_mul] <;> rfl
+  have hfin : finiteWeylRaw R z p.val =
+      KPStandardLocalRootLifts.A F R.A.zeta12 R.A.primitive_zeta12 (Sum.inr p.val) (z.2 p) *
+        KPStandardLocalRootLifts.W F R.A.zeta12 R.A.primitive_zeta12 (Sum.inr p.val) := by
+    unfold finiteWeylRaw
+    rw [he]
+    rfl
+  change action R D p (KPPGLLocalCover.coverQuotient F R.A.zeta12 R.A.primitive_zeta12
+    (Sum.inr p.val) (finiteWeylRaw R z p.val)) φ = _
+  have h2 := congrArg (fun X => action R D p (KPPGLLocalCover.coverQuotient F R.A.zeta12
+    R.A.primitive_zeta12 (Sum.inr p.val) X) φ) hfin
+  refine h2.trans ?_
+  simp only [map_mul]
+  rfl
 
 theorem normalized_finiteWeyl (u : R.A.UnitQuotient) (z : R.A.G) (p : R.A.Sf) :
     D.ell (Sum.inr p.val)
@@ -51,7 +63,7 @@ theorem normalized_finiteWeyl (u : R.A.UnitQuotient) (z : R.A.G) (p : R.A.Sf) :
     weylValue R D p (normalizedSelectedVector R D u p) (z.2 p) := by
   rw [finiteAction_weyl]
   simp only [weylValue, normalizedSelectedVector, map_smul, smul_eq_mul,
-    div_eq_mul_inv, mul_comm]
+    div_eq_mul_inv] <;> ring
 
 def archArgument (w : InfinitePlace F) (z : w.Completionˣ) : ComplexPGL2 :=
   Matrix.ProjGenLinGroup.mk
@@ -83,8 +95,12 @@ theorem global_weyl_product
   have h := FiniteFullProduct.frozen_weyl_product R D hfull
     (frozenStage R D u) (frozenStage_exact R D u) (FiniteHighKTensor.tuple R D u arch)
     (FiniteHighKTensor.source_scalar_nonzero R D hn u arch harch) z
-  simpa only [FiniteHighKTensor.tuple_finite, normalized_finiteWeyl,
-    archArgument, archWeylMatrix] using h
+  simp only [FiniteHighKTensor.tuple_finite, archArgument, archWeylMatrix] at h ⊢
+  refine h.trans ?_
+  congr 2
+  all_goals first
+    | rfl
+    | exact Finset.prod_congr rfl fun p _ => normalized_finiteWeyl R D u z p
 
 theorem period_split (θ : HeckeCharacter F) (u : R.A.UnitQuotient) (z : R.A.G) :
     GlobalTargetPeriod.period R θ u z =
@@ -98,6 +114,7 @@ theorem period_split (θ : HeckeCharacter F) (u : R.A.UnitQuotient) (z : R.A.G) 
       TargetFinitePeriod.sectorPhaseHom R u (1, z.2) := by
     change R.σ ((R.A.H_S6 _ (QuotientGroup.mk' R.A.sixthPowers z) : Fˣ) : F) = _
     rw [hc]
+    rfl
   rw [GlobalTargetPeriod.period_spec, TargetFinitePeriod.localPeriod_product, hp,
     mul_inv_rev, Finset.prod_inv_distrib, Finset.prod_inv_distrib]
   ring

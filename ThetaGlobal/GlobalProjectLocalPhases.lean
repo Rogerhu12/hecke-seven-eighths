@@ -32,7 +32,7 @@ variable {F : Type} [Field F] [NumberField F]
 local notation "Sf" => (R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))
 local notation "P" => ThetaBranch.ExteriorPrime R.A
 
-variable (Adata : ThetaArithmeticData F Sf)
+variable (Adata : ThetaArithmeticData F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))))
 
 def localUnitHom (p : P) : Fˣ →* Fˣ where
   toFun := ThetaBranch.localUnit R.A R.probe.allowed p
@@ -52,7 +52,11 @@ def phaseHom (p : P) : Fˣ →* ℂ where
     intro x y
     change thetaPrimeCharacter F Sf Adata (skeletonPrime R p)
       (ThetaBranch.unitResidue p.val (localUnitHom R p (x * y))) = _
-    rw [map_mul, ThetaBranch.reduction_mul p.val _ _
+    rw [map_mul]
+    change thetaPrimeCharacter F Sf Adata (skeletonPrime R p)
+      (ThetaBranch.unitResidue p.val (ThetaBranch.localUnit R.A R.probe.allowed p x *
+        ThetaBranch.localUnit R.A R.probe.allowed p y)) = _
+    rw [ThetaBranch.reduction_mul p.val _ _
       (ThetaBranch.localUnit_order R.A R.probe.allowed p x)
       (ThetaBranch.localUnit_order R.A R.probe.allowed p y), map_mul]
     rfl
@@ -66,19 +70,20 @@ theorem phaseHom_sixth (p : P) (x : Fˣ) : phaseHom R Adata p x ^ 6 = 1 := by
 theorem phaseHom_ne_zero (p : P) (x : Fˣ) : phaseHom R Adata p x ≠ 0 := by
   intro hz
   have h := phaseHom_sixth R Adata p x
-  simpa only [hz, zero_pow (by decide : (6 : ℕ) ≠ 0)] using h
+  rw [hz, zero_pow (by decide : (6 : ℕ) ≠ 0)] at h
+  exact zero_ne_one h
 
 /-- The two actual residue constructions agree for every S-integer
 which is a unit at p. This uses their fraction representatives, including
 the denominator, rather than identifying two choices definitionally. -/
-theorem unitResidue_sInteger (p : P) (x : Fˣ) (a : Sf.integer F)
+theorem unitResidue_sInteger (p : P) (x : Fˣ) (a : (Sf).integer F)
     (ha : (x : F) = (a : F)) (hx : ThetaBranch.order p.val x = 0) :
     ThetaBranch.unitResidue p.val x = sIntegerSexticResidueMap F Sf p.val p.property a := by
   obtain ⟨b, c, hb, hc, hbc, hr⟩ := ThetaBranch.reduction_spec p.val x hx
   have hcF : (c : F) ≠ 0 := by
     exact_mod_cast (fun h => hc (h ▸ p.val.asIdeal.zero_mem) : c ≠ 0)
-  have he : a * algebraMap (𝓞 F) (Sf.integer F) c =
-      algebraMap (𝓞 F) (Sf.integer F) b := by
+  have he : a * algebraMap (𝓞 F) ((Sf).integer F) c =
+      algebraMap (𝓞 F) ((Sf).integer F) b := by
     apply Subtype.ext
     change (a : F) * (c : F) = (b : F)
     rw [← ha, hbc, div_mul_cancel₀ _ hcF]
@@ -89,7 +94,7 @@ theorem unitResidue_sInteger (p : P) (x : Fˣ) (a : Sf.integer F)
   rw [hr]
   exact ((eq_div_iff hcR).mpr hm).symm
 
-theorem phaseHom_sInteger (p : P) (x : Fˣ) (a : Sf.integer F)
+theorem phaseHom_sInteger (p : P) (x : Fˣ) (a : (Sf).integer F)
     (ha : (x : F) = (a : F)) (hx : ThetaBranch.order p.val x = 0) :
     phaseHom R Adata p x = primeEvaluation F Sf Adata (skeletonPrime R p) a := by
   have hu : ThetaBranch.localUnit R.A R.probe.allowed p x = x := by
@@ -99,9 +104,9 @@ theorem phaseHom_sInteger (p : P) (x : Fˣ) (a : Sf.integer F)
   rw [hu, unitResidue_sInteger R p x a ha hx]
   rfl
 
-theorem phaseHom_sUnit (p : P) (u : Sf.unit F) :
+theorem phaseHom_sUnit (p : P) (u : (Sf).unit F) :
     phaseHom R Adata p u.val =
-      primeEvaluation F Sf Adata (skeletonPrime R p) (Sf.unitEquivUnitsInteger F u).val := by
+      primeEvaluation F Sf Adata (skeletonPrime R p) ((Sf).unitEquivUnitsInteger F u).val := by
   apply phaseHom_sInteger R Adata p u.val _ rfl
   exact ThetaBranch.unit_ord R.A p u
 
@@ -115,7 +120,7 @@ theorem phaseHom_generator_mul (hA : AllowedGeneratorInput F Sf Adata)
       u.val ^ 6 * GlobalActualFrequency.generatorUnit F Sf Adata I *
         GlobalActualFrequency.generatorUnit F Sf Adata J := by
     apply Units.ext
-    exact congrArg (fun a : Sf.integer F => (a : F)) hu
+    exact congrArg (fun a : (Sf).integer F => (a : F)) hu
   rw [he, map_mul, map_mul, map_pow, phaseHom_sixth, one_mul]
 
 def primePower (p : P) (n : ℕ) : ExteriorIdeal F Sf :=
@@ -185,9 +190,9 @@ theorem removePrime_order (p : P) (I : ExteriorIdeal F Sf) :
   rw [primeExponents_idealOfPrimeExponents, Finsupp.erase_same]
   rfl
 
-variable (hA : AllowedGeneratorInput F Sf Adata)
-  (hgen : ∀ I : ExteriorIdeal F Sf,
-    GlobalActualFrequency.generatorUnit F Sf Adata I =
+variable (hA : AllowedGeneratorInput F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))) Adata)
+  (hgen : ∀ I : ExteriorIdeal F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))),
+    GlobalActualFrequency.generatorUnit F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))) Adata I =
       R.probe.allowed.generator ((HeckeAxiom.exteriorEquiv R.A).symm I))
 
 include hgen in
@@ -206,7 +211,7 @@ theorem phaseHom_generator_prime (p : P) :
   change thetaPrimeCharacter F Sf Adata (skeletonPrime R p)
     (ThetaBranch.unitResidue p.val
       (ThetaBranch.localUnit R.A R.probe.allowed p _)) = 1
-  rw [ThetaBranch.localUnit, ho, zpow_one, div_self,
+  rw [ThetaBranch.localUnit, ho, zpow_one, div_self',
     ThetaBranch.reduction_one, map_one]
 
 include hA hgen in
@@ -241,7 +246,7 @@ theorem phaseHom_generator (p : P) (I : ExteriorIdeal F Sf) :
 include hA hgen in
 theorem phaseHom_representative (d : MarkedDatum F Sf) (i : ReflectionIndex F Sf d) (p : P) :
     unitPhase R Adata p (GlobalActualFrequency.representative F Sf Adata d i) =
-      primeEvaluation F Sf Adata (skeletonPrime R p) (Sf.unitEquivUnitsInteger F
+      primeEvaluation F Sf Adata (skeletonPrime R p) ((Sf).unitEquivUnitsInteger F
         (frequencyUnit F Sf d i)).val *
       primeEvaluation F Sf Adata (skeletonPrime R p)
         (Adata.generator (removePrime F Sf i.numeratorFrozen (skeletonPrime R p))) *

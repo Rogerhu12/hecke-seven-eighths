@@ -57,10 +57,20 @@ theorem thetaRecipe_period_generator
           (arithmeticData K c) I)) =
       periodValue K (places K c) (arithmeticData K c) d θ I := by
   rw [thetaRecipe_generator, ThetaGlobal.GlobalGeneratorPeriod.period_generator
-    (thetaRecipe K c) θ hS,
-    ThetaGlobal.GlobalGeneratorPeriod.sexticResidue_unitRepresentative]
-  rw [periodValue, (axiomChoice K c).idealSymbol_eq I]
-  simp only [Equiv.apply_symm_apply] <;> rfl
+    (thetaRecipe K c) θ hS]
+  have h3 : (thetaRecipe K c).A.sexticResidue ((HeckeAxiom.exteriorEquiv (thetaRecipe K c).A).symm I)
+      ((thetaRecipe K c).A.unitEquiv ((thetaRecipe K c).probe.unitReps.representative
+        (QuotientGroup.mk d.rowUnit)) : (thetaRecipe K c).A.R) =
+      (thetaRecipe K c).A.sexticResidue ((HeckeAxiom.exteriorEquiv (thetaRecipe K c).A).symm I)
+        ((thetaRecipe K c).A.unitEquiv d.rowUnit : (thetaRecipe K c).A.R) :=
+    ThetaGlobal.GlobalGeneratorPeriod.sexticResidue_unitRepresentative _ _ _
+  simp only [h3]
+  rw [periodValue]
+  congr 1
+  all_goals first
+    | rfl
+    | (simp only [Equiv.apply_symm_apply]; done)
+    | exact ((axiomChoice K c).idealSymbol_eq I _).symm
 
 theorem thetaRecipe_period_representative
     (θ : HeckeGeneral.Characters.HeckeCharacter K)
@@ -79,8 +89,11 @@ theorem thetaRecipe_period_representative
         (activeFrozenIdeal K (places K c) d i) ^ (-2 : ℤ) *
       periodValue K (places K c) (arithmeticData K c) d θ
         (activeMarkedIdeal K (places K c) d i) ^ (-2 : ℤ) := by
+  have hu : ThetaGlobal.GlobalTargetPeriod.period (thetaRecipe K c) θ (QuotientGroup.mk d.rowUnit)
+      ((thetaRecipe K c).A.diagonal (frequencyUnit K (places K c) d i : Kˣ)) = 1 :=
+    ThetaGlobal.GlobalGeneratorPeriod.period_diagonal_unit (thetaRecipe K c) θ hS _
+      (frequencyUnit K (places K c) d i)
   simp only [ThetaGlobal.GlobalActualFrequency.representative, map_mul, map_pow, map_zpow,
-    ThetaGlobal.GlobalGeneratorPeriod.period_diagonal_unit (thetaRecipe K c) θ hS,
-    thetaRecipe_period_generator K c θ hS d, one_mul]
+    hu, thetaRecipe_period_generator K c θ hS d, one_mul]
 
 end HeckeSkeleton

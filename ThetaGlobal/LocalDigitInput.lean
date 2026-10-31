@@ -35,7 +35,7 @@ theorem localDigit_eq (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ) (s : 𝓞 F)
     localDigit R C.factorization p x s =
       LocalDigitEvaluation.localDigitValue R C p x s := by
   simp only [GlobalProjectDigitProduct.localDigit, OrbitExpansion.exteriorSlotValue,
-    LocalDigitEvaluation.localDigitValue, map_mul]
+    LocalDigitEvaluation.localDigitValue, map_mul] <;> rfl
 
 variable (hdiff : ∀ p : HeightOneSpectrum (𝓞 F),
   p ∉ (R.A.Sf : Set (HeightOneSpectrum (𝓞 F))) → HeckeGeneral.Characters.localDifferentExponent F p = 0)

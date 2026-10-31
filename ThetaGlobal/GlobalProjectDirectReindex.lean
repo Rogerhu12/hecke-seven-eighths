@@ -66,6 +66,7 @@ theorem exteriorProduct_eq_prod (a : Fˣ) (s : Finset P)
   intro p hp
   by_contra hn
   apply hp
+  beta_reduce
   rw [E.rational_exact]
   exact sphericalFactor_order_zero R p a (hs p hn)
 
@@ -122,8 +123,8 @@ theorem period_eq_of_frequency_eq
     exact GlobalTargetPeriod.period_diagonal_unit_sixth R θ hS u ⟨v, hv⟩
   rw [ha, map_mul, map_mul, hg, one_mul]
 
-variable (Adata : ThetaArithmeticData F Sf)
-  (H : GlobalProjectLocalDigitTables.Input R DC Adata)
+variable (Adata : ThetaArithmeticData F ((R.A.Sf : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F)))))
+  (H : GlobalProjectLocalDigitTables.Input R (C.projected.base.factorization) Adata)
   (hS : conductorPlaces F θ ⊆ R.A.Sf)
   (u : R.A.UnitQuotient) (m : ThetaReflectionData.Row R.A)
   (j : GlobalProjectWeightedDigits.Places R m → Fin 6)
@@ -147,7 +148,7 @@ theorem directTerm_eq_of_frequency_eq (w : InfinitePlace F) (l : PositiveAxis)
       C.projected.base.exterior H m j marked b γ
   have hc : k (R.A.diagonal a) = k (R.A.diagonal b) :=
     congrArg (ThetaReflectionData.frequencyClass R.A) h
-  have hq : q R.A a = q R.A b := by
+  have hq : ThetaSheetExactUnfolding.q R.A a = ThetaSheetExactUnfolding.q R.A b := by
     apply Subtype.ext
     exact congrArg (ThetaReflectionData.frequencyNorm R.A) h
   rw [GlobalProjectOrbitEvaluation.directTerm, GlobalProjectOrbitEvaluation.directTerm,
@@ -160,7 +161,9 @@ theorem directTerm_support (w : InfinitePlace F) (l : PositiveAxis)
   have hb : ThetaReflectionData.rationalClass R.A (Quotient.out ξ) ∈
       R.probe.correction.B := by
     by_contra hn
-    exact hξ (by simp [GlobalProjectOrbitEvaluation.directTerm, hn])
+    have hn' : (QuotientGroup.mk (R.A.diagonal (Quotient.out ξ)) : R.A.V) ∉
+        R.probe.correction.B := hn
+    exact hξ (by simp [GlobalProjectOrbitEvaluation.directTerm, hn, hn'])
   have he : exteriorProduct R DC (Quotient.out ξ) ≠ 0 := by
     intro hz
     apply hξ

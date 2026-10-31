@@ -65,7 +65,7 @@ theorem diagonal_geometry (z : R.A.G) :
     rw [SheetRescaling.localIdele_eval_arch R z w,
       finiteTuple_off (finiteDiagonalRaw R z) (Sum.inl w) (fun _ => Sum.inl_ne_inr), one_mul]
     change KPLocalCover.CubicGL2Raw.mk _ _ = KPLocalCover.CubicGL2Raw.mk _ _
-    simp only [KPLocalCover.sectionMap]
+    try simp only [KPLocalCover.sectionMap]
     congr 1
     apply Matrix.GeneralLinearGroup.ext
     intro i j
@@ -86,7 +86,10 @@ theorem diagonal_geometry (z : R.A.G) :
     by_cases hq : q ∈ R.A.Sf
     · rw [DigitMasks.localIdele_finite R z q hq,
         finiteTuple_at (finiteDiagonalRaw R z) ⟨q, hq⟩, finiteDiagonalRaw, dif_pos hq]
-    · rw [DigitMasks.localIdele_exterior R z q hq, KPStandardLocalRootLifts.A_one,
+    · have h1 := DigitMasks.localIdele_exterior R z q hq
+      refine (congrArg (KPStandardLocalRootLifts.A F R.A.zeta12 R.A.primitive_zeta12
+        (Sum.inr q)) h1).trans ?_
+      rw [KPStandardLocalRootLifts.A_one,
         finiteTuple_off (finiteDiagonalRaw R z) (Sum.inr q)
           (fun p h => hq (Sum.inr.inj h ▸ p.property))]
 
@@ -122,27 +125,27 @@ local notation "T" => C.projected.base.realization
 
 def finiteProduct (u : R.A.UnitQuotient)
     (z : ∀ p : R.A.Sf, (p.val.adicCompletion F)ˣ) : ℂ :=
-  ∏ p : R.A.Sf, D.ell (Sum.inr p.val)
+  ∏ p : R.A.Sf, (D).ell (Sum.inr p.val)
     (finiteAction R D (finiteDiagonalRaw R (1, z)) (Sum.inr p.val)
       (selectedFiniteVector R D u p)) /
-      D.ell (Sum.inr p.val) (selectedFiniteVector R D u p)
+      (D).ell (Sum.inr p.val) (selectedFiniteVector R D u p)
 
 theorem selected_finite_product (u : R.A.UnitQuotient)
     (z : ∀ p : R.A.Sf, (p.val.adicCompletion F)ˣ) :
     finiteProduct R θ C u z = FiniteDirectMellin.cutoffProduct R C.projected.cutoffs z := by
   have hn := FiniteFixedSource.Source.period_nonzero R θ C u
-  have hsource : stageFunction R D (frozenStage R D u) (frozenTuple R D u) = T.theta u :=
+  have hsource : stageFunction R D (frozenStage R D u) (frozenTuple R D u) = (T).theta u :=
     selected_source_provenance R D u
   have hfin := normalized_matrix_product R D (finiteDiagonalRaw R (1, z))
     (frozenStage R D u) (frozenStage_exact R D u) (frozenTuple R D u)
     (by simpa only [stageCoefficient, hsource] using hn)
   rw [finiteBase_diagonal] at hfin
-  change fourier R Q.dq (stageFunction R D _ _) (MomentSources.diagonal R (1, z)) =
-    fourier R Q.dq (stageFunction R D _ _) 1 * finiteProduct R θ C u z at hfin
+  change fourier R (Q).dq (stageFunction R D _ _) (MomentSources.diagonal R (1, z)) =
+    fourier R (Q).dq (stageFunction R D _ _) 1 * finiteProduct R θ C u z at hfin
   rw [hsource] at hfin
-  have hrad : fourier R Q.dq (T.theta u) (MomentSources.diagonal R (1, z)) =
+  have hrad : fourier R (Q).dq ((T).theta u) (MomentSources.diagonal R (1, z)) =
       FiniteDirectMellin.cutoffProduct R C.projected.cutoffs z *
-        fourier R Q.dq (T.theta u) 1 := by
+        fourier R (Q).dq ((T).theta u) 1 := by
     rw [C.projected.radial, ← ThetaExpansion.diagonal_one R, C.projected.radial,
       cutoffProduct_eq_indicator]
     simp only [firstRootRadialProfile, firstRootSphericalProduct, Prod.fst_one,
@@ -151,8 +154,8 @@ theorem selected_finite_product (u : R.A.UnitQuotient)
   exact hfin.symm.trans (hrad.trans (mul_comm _ _))
 
 theorem global_diagonal_product (u : R.A.UnitQuotient) (z : R.A.G) :
-    fourier R Q.dq (FiniteHighKTensor.source R D u L.vector) (MomentSources.diagonal R z) =
-      fourier R Q.dq (FiniteHighKTensor.source R D u L.vector) 1 *
+    fourier R (Q).dq (FiniteHighKTensor.source R D u L.vector) (MomentSources.diagonal R z) =
+      fourier R (Q).dq (FiniteHighKTensor.source R D u L.vector) 1 *
         FiniteDirectMellin.cutoffProduct R C.projected.cutoffs z.2 *
         ∏ w : InfinitePlace F,
           L.functional w (KPCplxActualImage.imageAction
@@ -188,7 +191,8 @@ theorem inverse_period_cutoff (u : R.A.UnitQuotient) (z : R.A.G) :
       rw [TargetFinitePeriod.localPeriod_on_cutoff R θ C.projected.cutoffs
         C.target_kernel u p (z.2 p) (hz p), Circle.coe_one]
     rw [FiniteHighKWeyl.period_split, hfinite, mul_one,
-      ← Finset.prod_inv_distrib, inv_inv]
+      ← Finset.prod_inv_distrib]
+    simp only [inv_inv]
   · have hzero : FiniteDirectMellin.cutoffProduct R C.projected.cutoffs z.2 = 0 := by
       rw [cutoffProduct_eq_indicator, if_neg hz]
     rw [hzero, mul_zero, mul_zero]
@@ -197,14 +201,14 @@ theorem inverse_period_cutoff (u : R.A.UnitQuotient) (z : R.A.G) :
 source used in the Weyl/reflected product. -/
 theorem directTensor_eq (u : R.A.UnitQuotient) (z : R.A.G) :
     (GlobalTargetPeriod.period R θ u z)⁻¹ *
-      fourier R Q.dq (FiniteHighKTensor.source R D u L.vector)
+      fourier R (Q).dq (FiniteHighKTensor.source R D u L.vector)
         (MomentSources.diagonal R z) =
     FiniteDirectMellin.directTensor R C.projected.cutoffs
-      (fourier R Q.dq (FiniteHighKTensor.source R D u L.vector) 1)
+      (fourier R (Q).dq (FiniteHighKTensor.source R D u L.vector) 1)
       (FiniteNormalizedMellin.archProfile R θ C L false) z := by
   rw [global_diagonal_product R θ C L]
   calc
-    _ = fourier R Q.dq (FiniteHighKTensor.source R D u L.vector) 1 *
+    _ = fourier R (Q).dq (FiniteHighKTensor.source R D u L.vector) 1 *
         ((GlobalTargetPeriod.period R θ u z)⁻¹ *
           FiniteDirectMellin.cutoffProduct R C.projected.cutoffs z.2) *
         ∏ w : InfinitePlace F,
@@ -232,7 +236,7 @@ theorem cutoff_class_one (B : FirstRootCutoffs R) (z : R.A.G)
 
 theorem global_diagonal_class_support (u : R.A.UnitQuotient) (z : R.A.G)
     (hz : QuotientGroup.mk' R.A.sixthPowers z ≠ 1) :
-    fourier R Q.dq (FiniteHighKTensor.source R D u L.vector)
+    fourier R (Q).dq (FiniteHighKTensor.source R D u L.vector)
       (MomentSources.diagonal R z) = 0 := by
   have hcut : ¬ ∀ p, z.2 p ∈ C.projected.cutoffs.cutoff p :=
     fun h => hz (cutoff_class_one R C.projected.cutoffs z h)
@@ -242,7 +246,7 @@ theorem global_diagonal_class_support (u : R.A.UnitQuotient) (z : R.A.G)
 theorem directTensor_class_support (u : R.A.UnitQuotient) (z : R.A.G)
     (hz : QuotientGroup.mk' R.A.sixthPowers z ≠ 1) :
     FiniteDirectMellin.directTensor R C.projected.cutoffs
-      (fourier R Q.dq (FiniteHighKTensor.source R D u L.vector) 1)
+      (fourier R (Q).dq (FiniteHighKTensor.source R D u L.vector) 1)
       (FiniteNormalizedMellin.archProfile R θ C L false) z = 0 := by
   rw [← directTensor_eq R θ C L u z, global_diagonal_class_support R θ C L u z hz,
     mul_zero]

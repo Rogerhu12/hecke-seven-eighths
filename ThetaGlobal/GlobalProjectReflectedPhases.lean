@@ -30,7 +30,7 @@ variable {F : Type} [Field F] [NumberField F]
 local notation "Sf" => (R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))
 local notation "P" => ThetaBranch.ExteriorPrime R.A
 
-variable (Adata : ThetaArithmeticData F Sf)
+variable (Adata : ThetaArithmeticData F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))))
 
 theorem removePrime_eq (I : ExteriorIdeal F Sf) (p : P)
     (hp : primeExponents I.val p.val = 0) : removePrime F Sf I (skeletonPrime R p) = I := by
@@ -46,9 +46,9 @@ theorem exponent_zero (I : ExteriorIdeal F Sf) (p : P)
     (hp : p ∉ exteriorSupport F Sf I) : primeExponents I.val p.val = 0 :=
   not_ne_iff.mp (fun h => hp ((GlobalIndexSupport.mem_exteriorSupport F Sf I p).mpr h))
 
-variable (hA : AllowedGeneratorInput F Sf Adata)
-  (hgen : ∀ I : ExteriorIdeal F Sf,
-    GlobalActualFrequency.generatorUnit F Sf Adata I =
+variable (hA : AllowedGeneratorInput F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))) Adata)
+  (hgen : ∀ I : ExteriorIdeal F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))),
+    GlobalActualFrequency.generatorUnit F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))) Adata I =
       R.probe.allowed.generator ((HeckeAxiom.exteriorEquiv R.A).symm I))
 
 include hA hgen in
@@ -58,7 +58,7 @@ theorem phase_generator_unit (p : P) (I : ExteriorIdeal F Sf)
       primeEvaluation F Sf Adata (skeletonPrime R p) (Adata.generator I) := by
   rw [phaseHom_generator R Adata hA hgen, removePrime_eq R I p hp]
 
-variable (d : MarkedDatum F Sf) (i : ReflectionIndex F Sf d)
+variable (d : MarkedDatum F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F))))) (i : ReflectionIndex F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))) d)
   (hi : Admissible R d i)
 
 def evaluation (p : P) (I : ExteriorIdeal F Sf) : ℂ :=
@@ -66,7 +66,7 @@ def evaluation (p : P) (I : ExteriorIdeal F Sf) : ℂ :=
 
 def unitEvaluation (p : P) : ℂ :=
   primeEvaluation F Sf Adata (skeletonPrime R p)
-    (Sf.unitEquivUnitsInteger F (frequencyUnit F Sf d i)).val
+    ((Sf).unitEquivUnitsInteger F (frequencyUnit F Sf d i)).val
 
 def movingPhase (p : P) : ℂ :=
   unitEvaluation R Adata d i p * evaluation R Adata p i.numeratorFrozen *
@@ -194,8 +194,8 @@ theorem zpow_neg_two_pow (z : ℂ) (e : ℕ) :
     (z ^ (-2 : ℤ)) ^ e = z ^ (-(2 * e : ℤ)) := by
   rw [← zpow_natCast, ← zpow_mul]
   congr 1
-  push_cast
-  ring
+  all_goals push_cast
+  all_goals ring
 
 def movingCore (p : P) : ℂ :=
   localWeylScalar F Sf Adata (skeletonPrime R p) ⟨1, by decide⟩ 0 * movingPhase R Adata d i p

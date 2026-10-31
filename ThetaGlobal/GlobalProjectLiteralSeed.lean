@@ -34,11 +34,11 @@ local notation "R" => thetaRecipe K c
 local notation "Sf" => places K c
 local notation "Adata" => arithmeticData K c
 
-variable (θ : HeckeCharacter K) (C : FiniteFixedSource.Source R θ)
-  (L : FiniteLocalHighK.Input R θ C)
-  (H : GlobalProjectLocalDigitTables.Input R C.projected.base.factorization Adata)
-  (hA : AllowedGeneratorInput K Sf Adata)
-  (hS : conductorPlaces K θ ⊆ R.A.Sf)
+variable (θ : HeckeCharacter K) (C : FiniteFixedSource.Source (thetaRecipe K c) θ)
+  (L : FiniteLocalHighK.Input (thetaRecipe K c) θ C)
+  (H : GlobalProjectLocalDigitTables.Input (thetaRecipe K c) C.projected.base.factorization (arithmeticData K c))
+  (hA : AllowedGeneratorInput K (places K c) (arithmeticData K c))
+  (hS : conductorPlaces K θ ⊆ ((thetaRecipe K c)).A.Sf)
 
 include H hA hS in
 /-- The literal fixed-profile seed is constructed from the actual
@@ -46,19 +46,26 @@ canonical source. This theorem supplies, rather than assumes, the seed
 used by the subsequent annular deconvolution and regularizer removal. -/
 theorem thetaRecipe_literal_seed
     (d : MarkedDatum K Sf) (w : InfinitePlace K)
-    (hk : heckeComplexWeight K w (R.A.complex_place w) θ ≠ 0) :
+    (hk : heckeComplexWeight K w ((R).A.complex_place w) θ ≠ 0) :
     ActualAnnularTransfer.LiteralSeed R θ C L Adata d w := by
+  show ∀ X : ℝ, 0 < X →
+    completedThetaSum K Sf Adata θ (rowElement K Sf Adata d) d.puncture d.marks
+      (ActualAnnularTransfer.directTest R θ C L w) X =
+    ∑' i : ReflectionIndex K Sf d,
+      ReflectedArithmetic.reflectedCoefficient K Sf Adata d i θ *
+        ActualAnnularTransfer.reflectedProfile R θ C L (QuotientGroup.mk d.rowUnit)
+          (frequencyClass K Sf Adata d i) w (ReflectedLimitProject.argument K Sf d X i)
   intro X hX
   let l : PositiveAxis := ⟨X⁻¹, inv_pos.mpr hX⟩
   have hs := (GlobalProjectFrequencySeed.actual_frequency_seed R θ C L
     (thetaRecipe_aligned K c) Adata H hS (QuotientGroup.mk d.rowUnit)
     (GlobalProjectMarkedSupport.row R d) (GlobalProjectMarkedSupport.digits R d)
     (GlobalProjectMarkedSupport.marks R d) w hk l).2.2
-  change (∑' ξ : ThetaReflectionData.Frequency R.A,
+  change (∑' ξ : ThetaReflectionData.Frequency (R).A,
     GlobalProjectOrbitEvaluation.directTerm R θ C L (QuotientGroup.mk d.rowUnit)
       (GlobalProjectMarkedSupport.row R d) (GlobalProjectMarkedSupport.weight R Adata d)
       w l (Quotient.out ξ)) =
-    ∑' ξ : ThetaReflectionData.Frequency R.A,
+    ∑' ξ : ThetaReflectionData.Frequency (R).A,
       GlobalProjectOrbitEvaluation.reflectedTerm R θ C L (QuotientGroup.mk d.rowUnit)
         (GlobalProjectMarkedSupport.row R d) (GlobalProjectMarkedSupport.weight R Adata d)
         w l (Quotient.out ξ) at hs
@@ -71,7 +78,7 @@ include H hA hS in
 from the actual compact-domain Fourier mass estimates. -/
 theorem thetaRecipe_literal_seed_absolute
     (d : MarkedDatum K Sf) (w : InfinitePlace K)
-    (hk : heckeComplexWeight K w (R.A.complex_place w) θ ≠ 0)
+    (hk : heckeComplexWeight K w ((R).A.complex_place w) θ ≠ 0)
     {X : ℝ} (hX : 0 < X) :
     Summable (fun i : ReflectionIndex K Sf d =>
       ‖ReflectedArithmetic.reflectedCoefficient K Sf Adata d i θ *

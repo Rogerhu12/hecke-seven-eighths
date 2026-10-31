@@ -37,7 +37,7 @@ local notation "Sf" => (R.A.Sf : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F
 local instance : C.transport.groupHaar.IsHaarMeasure := C.transport.groupHaar_isHaar
 
 def sourceScalar (u : R.A.UnitQuotient) : ℂ :=
-  fourier R Q.dq (FiniteHighKTensor.source R D u L.vector) 1
+  fourier R (Q).dq (FiniteHighKTensor.source R D u L.vector) 1
 
 def commonScalar (u : R.A.UnitQuotient) : ℂ :=
   sourceScalar R θ C L u * FiniteLocalHighK.reflectedConstant R θ C L
@@ -57,13 +57,17 @@ theorem direct_weight_profile (u : R.A.UnitQuotient) (κ : R.A.V) (z : R.A.G) :
         FiniteDirectMellin.directTensor R C.projected.cutoffs (sourceScalar R θ C L u)
           (FiniteNormalizedMellin.archProfile R θ C L false) z := by
   by_cases hz : k z = 1
-  · simp only [GlobalProjectUnfolding.directWeight, hz, mul_one,
+  · have h1 : κ⁻¹ * k z = κ⁻¹ := by
+      rw [hz]
+      exact mul_one κ⁻¹
+    simp only [GlobalProjectUnfolding.directWeight, h1,
       Subgroup.inv_mem_iff, GlobalProjectHighKExtraction.directProfile]
     rw [mul_assoc, FiniteHighKDirect.directTensor_eq R θ C L]
     rfl
   · rw [GlobalProjectHighKExtraction.directProfile,
-      FiniteHighKDirect.global_diagonal_class_support R θ C L u z hz,
-      FiniteHighKDirect.directTensor_class_support R θ C L u z hz]
+      FiniteHighKDirect.global_diagonal_class_support R θ C L u z hz]
+    unfold sourceScalar
+    rw [FiniteHighKDirect.directTensor_class_support R θ C L u z hz]
     simp
 
 theorem reflected_weight_profile (u : R.A.UnitQuotient) (κ : R.A.V) (z : R.A.G) :
@@ -76,6 +80,7 @@ theorem reflected_weight_profile (u : R.A.UnitQuotient) (κ : R.A.V) (z : R.A.G)
     (skeletonClass R κ) z
   have hm := FiniteHighKWeyl.table_mask_literal R (skeletonClass R κ) z
   simp only [skeletonClass, MulEquiv.apply_symm_apply] at hm
+  simp only [skeletonClass] at h
   rw [hm] at h
   have harch : FiniteHighKWeyl.archLocal R D θ u L.vector =
       FiniteNormalizedMellin.archProfile R θ C L true := by
@@ -85,9 +90,9 @@ theorem reflected_weight_profile (u : R.A.UnitQuotient) (κ : R.A.V) (z : R.A.G)
   by_cases hb : κ * (k z)⁻¹ ∈ B
   · simpa only [GlobalProjectUnfolding.reflectedWeight,
       GlobalProjectConvention.paperHilbert, GlobalProjectHighKExtraction.reflectedProfile,
-      sourceScalar, if_pos hb, one_mul, inv_pow, mul_assoc] using h
+      sourceScalar, skeletonClass, if_pos hb, one_mul, inv_pow, mul_assoc] using h
   · simpa only [GlobalProjectUnfolding.reflectedWeight,
-      GlobalProjectHighKExtraction.reflectedProfile, sourceScalar, if_neg hb,
+      GlobalProjectHighKExtraction.reflectedProfile, sourceScalar, skeletonClass, if_neg hb,
       zero_mul] using h
 
 /-- Sheet Haar is the pushforward of the original norm-one Haar under
@@ -96,8 +101,8 @@ theorem sheet_integral (w : InfinitePlace F) (x : PositiveAxis) (f : R.A.G → �
     (∫ z : Sheet R.A x, f z.val ∂sheetHaar R.A w C.transport.groupHaar x) =
       @integral R.A.G1 ℂ _ _ (borel _) R.probe.domain.measure
         (fun z => f (FiniteSheetMellin.sheetEquiv R w (x, z))) := by
-  rw [sheetHaar, GaussianSmoothing.kernelHaar_eq_probe,
-    integral_map_equiv (sheetTranslation R.A w x).toMeasurableEquiv]
+  rw [sheetHaar, GaussianSmoothing.kernelHaar_eq_probe]
+  refine (integral_map_equiv (sheetTranslation R.A w x).toMeasurableEquiv _).trans ?_
   rw [GaussianSmoothing.probeHaar_integral]
   rfl
 

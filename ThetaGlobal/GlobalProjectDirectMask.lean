@@ -33,11 +33,12 @@ variable {F : Type} [Field F] [NumberField F]
 local notation "Sf" => (R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))
 local notation "P" => ThetaBranch.ExteriorPrime R.A
 
-variable (Adata : ThetaArithmeticData F Sf)
+variable (Adata : ThetaArithmeticData F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))))
 
 theorem prime_dvd_iff_exponent_ne_zero (I : ExteriorIdeal F Sf) (p : P) :
     p.val.asIdeal ∣ I.val.val ↔ primeExponents I.val p.val ≠ 0 := by
-  rw [← mem_idealPrimeSupport_iff F I.val p.val, Finsupp.mem_support_iff]
+  rw [← HeckeGeneral.Analysis.SquarefreeAmplification.mem_idealPrimeSupport_iff F I.val p.val]
+  exact Finsupp.mem_support_iff
 
 theorem coprime_iff_exponent_zero (I J : ExteriorIdeal F Sf) :
     IsCoprime I.val.val J.val.val ↔
@@ -62,7 +63,7 @@ theorem generator_residue_zero_iff (I : ExteriorIdeal F Sf) (p : P) :
   · have ho : ThetaBranch.order p.val (GlobalActualFrequency.generatorUnit F Sf Adata I) ≠ 0 := by
       rw [GlobalActualReindex.order_generator R.A Adata]
       exact_mod_cast he
-    simp only [ThetaBranch.unitResidue, dif_neg ho, he, not_false_eq_true]
+    simp only [ThetaBranch.unitResidue, dif_neg ho, ne_eq, he, not_false_eq_true, iff_self]
 
 theorem ordinary_generator (I : ExteriorIdeal F Sf) (p : P) (j : Fin 6) :
     localMask R Adata p j false (GlobalActualFrequency.generatorUnit F Sf Adata I) =
@@ -76,8 +77,8 @@ theorem ordinary_generator (I : ExteriorIdeal F Sf) (p : P) (j : Fin 6) :
     have ho : ThetaBranch.order p.val (GlobalActualFrequency.generatorUnit F Sf Adata I) = 0 := by
       rw [GlobalActualReindex.order_generator R.A Adata, he, Nat.cast_zero]
     simp only [localMask, Bool.false_eq_true, if_false,
-      if_neg (fun h => hp (hz.mp h)), if_neg hp,
-      GlobalProjectLocalPhases.unitResidue_sInteger R p _ (Adata.generator I) rfl ho,
+      if_neg (fun h => hp (hz.mp h)), if_neg hp]
+    simp only [GlobalProjectLocalPhases.unitResidue_sInteger R p _ (Adata.generator I) rfl ho,
       primeEvaluation, sIntegerSexticEvaluation, thetaPrimeCharacter]
 
 theorem marked_generator (I : ExteriorIdeal F Sf) (p : P) (j : Fin 6) :
@@ -87,7 +88,7 @@ theorem marked_generator (I : ExteriorIdeal F Sf) (p : P) (j : Fin 6) :
 
 /-- Reindex the actual ideal residue product, retaining every prime
 divisor and its full multiplicity. -/
-theorem idealSymbol_product (I : ExteriorIdeal F Sf) (a : Sf.integer F) :
+theorem idealSymbol_product (I : ExteriorIdeal F Sf) (a : (Sf).integer F) :
     idealSymbol F Sf Adata I a =
       ∏ p ∈ exteriorSupport F Sf I,
         primeEvaluation F Sf Adata p a ^ primeExponents I.val p.val := by
@@ -99,7 +100,7 @@ theorem idealSymbol_product (I : ExteriorIdeal F Sf) (a : Sf.integer F) :
     exact (GlobalIndexSupport.mem_exteriorSupport F Sf I _).mpr
       ((prime_dvd_iff_exponent_ne_zero R I _).mp p.property)
   · intro p _ q _ he
-    exact Subtype.ext (congrArg Subtype.val he)
+    exact Subtype.ext (congrArg (fun z : P => z.val) he)
   · intro p hp
     exact ⟨⟨p.val, support_dvd R I p hp⟩, Finset.mem_univ _, Subtype.ext rfl⟩
   · intro p _
@@ -107,7 +108,7 @@ theorem idealSymbol_product (I : ExteriorIdeal F Sf) (a : Sf.integer F) :
     exact (Ideal.count_associates_factors_eq (nonZeroDivisors.coe_ne_zero I.val)
       p.val.isPrime p.val.ne_bot).trans (primeExponents_apply I.val p.val).symm
 
-variable (d : MarkedDatum F Sf)
+variable (d : MarkedDatum F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))))
 
 def baseIdeal : ExteriorIdeal F Sf := exteriorMul F Sf d.moving d.frozen
 
@@ -171,7 +172,7 @@ theorem base_localMask (I : ExteriorIdeal F Sf) (p : P)
   · rw [if_pos hdiv]
     have hz : primeEvaluation F Sf Adata p (Adata.generator I) = 0 := by
       unfold primeEvaluation sIntegerSexticEvaluation
-      rw [GlobalIndexSupport.residue_generator_zero F Sf Adata I p hdiv, map_zero]
+      rw [GlobalIndexSupport.residue_generator_zero F Sf Adata I p hdiv, MulChar.map_zero]
     rw [hz, zero_pow ((GlobalIndexSupport.mem_exteriorSupport F Sf _ p).mp hp)]
   · rw [if_neg hdiv]
     have he : primeExponents I.val p.val = 0 :=
@@ -276,7 +277,13 @@ theorem forwardCoefficient_generator (H : Input R D Adata) (I : ExteriorIdeal F 
   rw [weight, forwardCoefficient_literal R D Adata H (row R d) (digits R d) (marks R d)
     _ (Adata.generator I).property]
   simp only [digits, marks]
-  rw [← prod_exteriorRows R (row R d), exteriorRows_eq R d]
+  rw [show (∏ q : RowPrime R (row R d), localMask R Adata (exteriorRowPrime R (row R d) q)
+      (digitAt R d (exteriorRowPrime R (row R d) q)) (markAt R d (exteriorRowPrime R (row R d) q))
+        (GlobalActualFrequency.generatorUnit F Sf Adata I)) =
+      ∏ q ∈ exteriorRows R (row R d), localMask R Adata q (digitAt R d q) (markAt R d q)
+        (GlobalActualFrequency.generatorUnit F Sf Adata I) from
+    (prod_exteriorRows R (row R d) (fun q => localMask R Adata q (digitAt R d q) (markAt R d q)
+      (GlobalActualFrequency.generatorUnit F Sf Adata I))).symm, exteriorRows_eq R d]
   exact maskProduct R Adata d I
 
 end ThetaGlobal.GlobalProjectDirectMask

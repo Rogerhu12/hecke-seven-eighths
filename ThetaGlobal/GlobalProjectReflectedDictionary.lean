@@ -33,12 +33,12 @@ variable {F : Type} [Field F] [NumberField F]
 local notation "Sf" => (R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))
 local notation "P" => ThetaBranch.ExteriorPrime R.A
 
-variable (Adata : ThetaArithmeticData F Sf)
-  (hA : AllowedGeneratorInput F Sf Adata)
-  (hgen : ∀ I : ExteriorIdeal F Sf,
-    GlobalActualFrequency.generatorUnit F Sf Adata I =
+variable (Adata : ThetaArithmeticData F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))))
+  (hA : AllowedGeneratorInput F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))) Adata)
+  (hgen : ∀ I : ExteriorIdeal F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))),
+    GlobalActualFrequency.generatorUnit F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))) Adata I =
       R.probe.allowed.generator ((HeckeAxiom.exteriorEquiv R.A).symm I))
-  (d : MarkedDatum F Sf) (i : ReflectionIndex F Sf d) (hi : Admissible R d i)
+  (d : MarkedDatum F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F))))) (i : ReflectionIndex F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))) d) (hi : Admissible R d i)
 
 include hA hgen hi in
 theorem moving_product :

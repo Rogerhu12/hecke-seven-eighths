@@ -124,7 +124,8 @@ theorem reverseCoefficient_sixth (m : ThetaReflectionData.Row R.A)
       GlobalProjectSignedExtraction.reverseCoefficient R D m c x := by
   unfold GlobalProjectSignedExtraction.reverseCoefficient
   rw [← (DigitMasks.digitReindex R m u).sum_comp]
-  simp_rw [hc, exteriorDigitValue_reindex]
+  have hc' : ∀ d, c (DigitMasks.digitReindex R m u d) = c d := fun d => hc u d
+  simp_rw [hc', exteriorDigitValue_reindex]
 
 theorem reverseCoefficient_gamma (m : ThetaReflectionData.Row R.A)
     (c : GlobalProjectWeightedDigits.Digits R m → ℂ)

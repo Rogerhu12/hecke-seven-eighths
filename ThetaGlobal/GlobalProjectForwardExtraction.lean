@@ -61,8 +61,9 @@ theorem rational_diagonal (seed : ∀ p : D.bad, V p) (x : Fˣ) (y : R.A.G) :
     exact OrbitFrequencies.exterior_diagonal_slot R D p x
   simp_rw [he] at h
   refine ⟨h.1, ?_⟩
-  have hb := congrArg (restrictedLift R) (splitTuple R b)
-  rw [map_mul] at hb
+  have hb : restrictedLift R b = restrictedLift R g * restrictedLift R a := by
+    rw [← map_mul]
+    exact congrArg (restrictedLift R) (splitTuple R b)
   change fourier R Q.dq (badVector R D seed).val (restrictedLift R b) = _
   rw [hb, h.2]
   congr 1

@@ -42,9 +42,9 @@ variable {F : Type} [Field F] [NumberField F]
 local notation "Sf" => (R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))
 local notation "P" => ThetaBranch.ExteriorPrime R.A
 
-def skeletonPrime (p : P) : ExteriorPrime F Sf := ⟨p.val, p.property⟩
+abbrev skeletonPrime (p : P) : ExteriorPrime F Sf := ⟨p.val, p.property⟩
 
-variable (Adata : ThetaArithmeticData F Sf)
+variable (Adata : ThetaArithmeticData F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))))
 
 def unitPhase (p : P) (x : Fˣ) : ℂ :=
   thetaPrimeCharacter F Sf Adata (skeletonPrime R p)
@@ -114,6 +114,9 @@ theorem digitMask_zero (p : P) (j : Fin 6) :
   · simp [digitMask, hj]
   · have hz : -(j.val : ℤ) ≠ 0 := by omega
     simp [digitMask, hj, hz]
+    all_goals first
+      | exact Or.inr (MulChar.map_nonunit _ not_isUnit_zero)
+      | exact MulChar.map_nonunit _ not_isUnit_zero
 
 variable (H : Input R D Adata)
 
@@ -136,7 +139,7 @@ theorem neg_active_zero (p : P) (x : Fˣ) :
   by_cases hx : ThetaBranch.order p.val x = -2
   · simp only [activeValue, markedActive, hx, Int.reduceNeg, Int.reduceAdd,
       Int.lt_irrefl, ↓reduceIte, Int.toNat_zero, localWeylExponent,
-      Fin.val_zero, Nat.reduceSub, Nat.reduceMod, neg_mul]
+      Fin.val_zero, Nat.reduceSub, Nat.reduceMod, ← neg_mul]
     rw [H.zeroth_weyl]
   · rw [markedActive, if_neg hx]
     by_cases he : ThetaBranch.order p.val x + 2 < 0
@@ -160,7 +163,9 @@ theorem marked_average (p : P) (x : Fˣ)
           localDigit R D p x (L t)) := by
       apply Finset.sum_congr rfl
       intro t _
-      rw [← GlobalProjectLiteralDigitWeights.marked_eq_delta_sub_zero_digit]
+      exact congrArg (· * localDigit R D p x (L t))
+        (GlobalProjectLiteralDigitWeights.marked_eq_delta_sub_zero_digit F Sf Adata
+          (skeletonPrime R p) t)
     _ = localDigit R D p x (L 0) -
         ∑ t : ThetaDigitAverage.Residue p.val,
           digitMask F Sf Adata (skeletonPrime R p) 0 t * localDigit R D p x (L t) := by
@@ -202,11 +207,13 @@ theorem reverseCoefficient_literal_product (m : ThetaReflectionData.Row R.A)
     (marked : GlobalProjectWeightedDigits.Places R m → Bool) (x : Fˣ) :
     reverseCoefficient R D m (GlobalProjectLiteralDigitWeights.tensorWeight R Adata m j marked) x =
       (∏ p : RowPrime R m,
-        inactiveCoefficient R Adata (exteriorRowPrime R m p) (j p) (marked p) x +
-          activeCoefficient R Adata (exteriorRowPrime R m p) (j p) (marked p) x) *
+        (inactiveCoefficient R Adata (exteriorRowPrime R m p) (j p) (marked p) x +
+          activeCoefficient R Adata (exteriorRowPrime R m p) (j p) (marked p) x)) *
         offRowProduct R D m x := by
-  rw [GlobalProjectLiteralDigitWeights.tensorWeight,
-    reverseCoefficient_product R D m x]
+  refine (reverseCoefficient_product R D m x
+    (fun (p : RowPrime R m) (t : ThetaDigitAverage.Residue p.val) =>
+      if marked p then (p.val.asIdeal.absNorm : ℂ)⁻¹ else
+        digitMask F Sf Adata (GlobalProjectLiteralDigitWeights.exteriorPlace R m p) (j p) t)).trans ?_
   congr 1
   apply Finset.prod_congr rfl
   intro p _

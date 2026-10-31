@@ -87,7 +87,11 @@ theorem reverseCoefficient_product (m : ThetaReflectionData.Row R.A) (x : Fˣ)
   rw [← Finset.sum_mul]
   congr 1
   simp only [← Finset.prod_mul_distrib]
-  rw [← Fintype.prod_sum]
+  rw [Fintype.prod_sum]
+  all_goals first
+  | rfl
+  | (congr 1; done)
+  | (congr 1 <;> first | rfl | exact congrArg (fun I => @Finset.univ _ I) (Subsingleton.elim _ _))
 
 theorem offRowProduct_spherical (E : ExteriorCoefficients R Q T D)
     (m : ThetaReflectionData.Row R.A) (x : Fˣ) :
@@ -115,6 +119,10 @@ theorem forwardCoefficient_product (m : ThetaReflectionData.Row R.A) (x : Fˣ)
   unfold forwardCoefficient
   simp_rw [DigitMasks.digitParameter_rational_phase R m x hx]
   simp only [← Finset.prod_mul_distrib]
-  rw [← Fintype.prod_sum]
+  rw [Fintype.prod_sum]
+  all_goals first
+  | rfl
+  | (congr 1; done)
+  | (congr 1 <;> first | rfl | exact congrArg (fun I => @Finset.univ _ I) (Subsingleton.elim _ _))
 
 end ThetaGlobal.GlobalProjectDigitProduct

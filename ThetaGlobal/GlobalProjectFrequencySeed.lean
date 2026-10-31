@@ -35,6 +35,8 @@ variable {F : Type} [Field F] [NumberField F]
   (R : PrincipalMellin.ActualRecipe S η)
 
 local instance : Countable F := Finsupp.Countable.of_moduleFinite (R := ℚ)
+local instance : Countable Fˣ :=
+  Function.Injective.countable (f := ((↑) : Fˣ → F)) fun _ _ h => Units.ext h
 local instance : Countable R.A.Gamma1 :=
   Countable.of_equiv (ThetaReflectionData.rationalGamma R.A) (gammaEquiv R).toEquiv
 
@@ -61,7 +63,7 @@ theorem absolute_grouping (f : Fˣ → ℂ) (hf : Summable (fun a => ‖f a‖))
       ∑' ξ : ThetaReflectionData.Frequency R.A, ∑' γ : R.A.Gamma1,
         f (gammaFrequency R (Quotient.out ξ) γ) := by
   have hn := hf.comp_injective (frequencyOrbitEquiv R).injective
-  simp_rw [frequencyOrbitEquiv_apply_pair] at hn
+  simp_rw [Function.comp_def, frequencyOrbitEquiv_apply_pair] at hn
   refine ⟨?_, ?_⟩
   · exact hn.prod.of_nonneg_of_le (fun _ => norm_nonneg _) (fun ξ =>
       norm_tsum_le_tsum_norm (hn.prod_factor ξ))

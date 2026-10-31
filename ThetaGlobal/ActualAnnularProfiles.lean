@@ -33,7 +33,7 @@ variable (C : FiniteFixedSource.Source R θ) (L : Input R θ C)
 
 local notation "Sf" => (R.A.Sf : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F)))
 local notation "D" => C.projected.base.factorization
-local notation "M" => finiteMellinData R θ C L
+local notation "MT" => finiteMellinData R θ C L
 
 local instance : Finite (SixthLocalClasses F Sf) := by
   letI := primitive12_totallyComplex F R.A.zeta12 R.A.primitive_zeta12
@@ -120,15 +120,17 @@ def reflectedLog (u : R.A.UnitQuotient) (κ : SixthLocalClasses F Sf)
   FiniteNormalizedMellin.reflected R θ C L u κ v₀ (logEquiv.symm x)
 
 def directSpectrum (t : ℝ) : ℂ :=
-  GammaDeconvolver.directGamma (GammaDeconvolverProject.actualProfile F Sf M θ)
+  GammaDeconvolver.directGamma (GammaDeconvolverProject.actualProfile F Sf MT θ)
     ((t : ℂ) * Complex.I)
 
 theorem directLog_mellin (v₀ : InfinitePlace F) (t : ℝ) :
     ScalarMellinConvolution.positiveSpectrum (directLog R θ C L v₀) t =
       directSpectrum R θ C L t := by
-  rw [directLog, positiveSpectrum_eq_mellin]
+  show ScalarMellinConvolution.positiveSpectrum
+    (fun x => FiniteNormalizedMellin.direct R θ C L v₀ (logEquiv.symm x)) t = _
+  rw [positiveSpectrum_eq_mellin]
   exact FiniteActualProfiles.direct_mellin_eq_gamma R θ C L v₀
-    ((t : ℂ) * Complex.I) (by simp; norm_num)
+    ((t : ℂ) * Complex.I) (by first | norm_num | simp)
 
 theorem directSpectrum_ne_zero (t : ℝ) : directSpectrum R θ C L t ≠ 0 :=
   GammaDeconvolver.directGamma_imaginary_ne_zero _ t
@@ -136,13 +138,15 @@ theorem directSpectrum_ne_zero (t : ℝ) : directSpectrum R θ C L t ≠ 0 :=
 theorem reflectedLog_mellin (u : R.A.UnitQuotient)
     (κ : SixthLocalClasses F Sf) (v₀ : InfinitePlace F) (t : ℝ) :
     ScalarMellinConvolution.positiveSpectrum (reflectedLog R θ C L u κ v₀) t =
-      directSpectrum R θ C L (-t) * reflectionMultiplier F Sf M θ u κ
+      directSpectrum R θ C L (-t) * reflectionMultiplier F Sf MT θ u κ
         ((t : ℂ) * Complex.I) := by
-  rw [reflectedLog, positiveSpectrum_eq_mellin]
+  show ScalarMellinConvolution.positiveSpectrum
+    (fun x => FiniteNormalizedMellin.reflected R θ C L u κ v₀ (logEquiv.symm x)) t = _
+  rw [positiveSpectrum_eq_mellin]
   have h := FiniteNormalizedMellin.mellin_ratio R θ C L u κ v₀
-    ((t : ℂ) * Complex.I) (by simp; norm_num) (by simp; norm_num)
+    ((t : ℂ) * Complex.I) (by first | norm_num | simp) (by first | norm_num | simp)
   rw [FiniteActualProfiles.direct_mellin_eq_gamma R θ C L v₀
-    (-((t : ℂ) * Complex.I)) (by simp; norm_num)] at h
+    (-((t : ℂ) * Complex.I)) (by first | norm_num | simp)] at h
   have he : -((t : ℂ) * Complex.I) = ((-t : ℝ) : ℂ) * Complex.I := by simp
   rw [he] at h
   exact ((div_eq_iff (directSpectrum_ne_zero R θ C L (-t))).mp h).trans (mul_comm _ _)
@@ -177,13 +181,13 @@ def localProfiles (u : R.A.UnitQuotient) (v₀ : InfinitePlace F) :
     { direct := directLog R θ C L v₀
       reflected := fun κ => reflectedLog R θ C L u κ v₀
       M := directSpectrum R θ C L
-      R := fun κ (t : ℝ) => reflectionMultiplier F Sf M θ u κ ((t : ℂ) * Complex.I)
+      R := fun κ (t : ℝ) => reflectionMultiplier F Sf MT θ u κ ((t : ℂ) * Complex.I)
       direct_continuous := hd.1.comp logEquiv.symm.continuous
       reflected_continuous := fun κ => (hr κ v₀).1.comp logEquiv.symm.continuous
       direct_integrable := (integrable_exp_iff _).mpr hdi
       reflected_integrable := fun κ => (integrable_exp_iff _).mpr (hri κ)
       direct_mellin := directLog_mellin R θ C L v₀
-      reflected_mellin := reflectedLog_mellin R θ C L u · v₀
+      reflected_mellin := (reflectedLog_mellin R θ C L u · v₀)
       M_ne_zero := directSpectrum_ne_zero R θ C L
       exponent := 2
       directBound := Bd
@@ -215,7 +219,7 @@ def localProfiles (u : R.A.UnitQuotient) (v₀ : InfinitePlace F) :
 
 @[simp] theorem localProfiles_R (u : R.A.UnitQuotient) (v₀ : InfinitePlace F) :
     (localProfiles R θ C L u v₀).R =
-      fun κ (t : ℝ) => reflectionMultiplier F Sf M θ u κ ((t : ℂ) * Complex.I) := rfl
+      fun κ (t : ℝ) => reflectionMultiplier F Sf MT θ u κ ((t : ℂ) * Complex.I) := rfl
 
 @[simp] theorem localProfiles_exponent (u : R.A.UnitQuotient) (v₀ : InfinitePlace F) :
     (localProfiles R θ C L u v₀).exponent = 2 := rfl

@@ -27,6 +27,7 @@ open DedekindZetaZeroFree.KPCplxCharacterHaar
 open DedekindZetaZeroFree.FourierContinuation.ComplexLines
 open DedekindZetaZeroFree.KPLiteralScalarHCCompactOrbit
 open DedekindZetaZeroFree.ThetaProfileHaarSheets
+open DedekindZetaZeroFree.ThetaPositiveSheetMellin
 open HeckeGeneral.Characters HeckeGeneral.ThetaSkeleton.Global
 open scoped NumberField Classical BigOperators
 
@@ -65,7 +66,7 @@ private theorem complexDiagonal_continuous : Continuous KPCplxCharacterHaar.diag
     fun_prop
   apply Units.continuous_iff.mpr
   refine ⟨hv, ?_⟩
-  simpa only [complexDiagonal_inv] using hv.comp continuous_inv
+  simpa only [complexDiagonal_inv, Function.comp_def] using hv.comp continuous_inv
 
 theorem localArgument_continuous (w : InfinitePlace F) (reflected : Bool) :
     Continuous (localArgument R w reflected) := by
@@ -93,7 +94,8 @@ theorem localProfile_continuous
       else (infiniteComponent F w θ z : ℂ)) := by
     cases reflected
     · simpa using hθ
-    · simpa using hθ.inv₀ (fun z => Circle.coe_ne_zero _)
+    · simp only [↓reduceIte]
+      exact hθ.inv₀ (fun z => Circle.coe_ne_zero _)
   have hm : Continuous (fun z : w.Completionˣ =>
       M (KPCplxActualImage.imageAction traceFrequency (localArgument R w reflected z)
         (harmonicInclusion φ))) :=

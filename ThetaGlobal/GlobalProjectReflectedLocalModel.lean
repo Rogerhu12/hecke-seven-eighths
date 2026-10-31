@@ -32,8 +32,8 @@ variable {F : Type} [Field F] [NumberField F]
 local notation "Sf" => (R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))
 local notation "P" => ThetaBranch.ExteriorPrime R.A
 
-variable (Adata : ThetaArithmeticData F Sf) (d : MarkedDatum F Sf)
-  (i : ReflectionIndex F Sf d)
+variable (Adata : ThetaArithmeticData F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F))))) (d : MarkedDatum F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))))
+  (i : ReflectionIndex F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))) d)
 
 structure Admissible : Prop where
   supported : GlobalFrequency.Supported (GlobalIndexSupport.mandatory F Sf d)
@@ -100,7 +100,7 @@ theorem moving_order (p : P) (hp : p ∈ exteriorSupport F Sf d.moving) :
     fun h => (Finset.disjoint_left.mp (moving_active_disjoint R d i)) hp h
   have hfa : p ∉ i.activeFrozen := fun h => ha (Finset.mem_union_left _ h)
   rw [x, GlobalActualReindex.order_representative R.A Adata d i p]
-  simp only [GlobalFrequency.valuation, GlobalIndexSupport.branch,
+  simp only [GlobalFrequency.valuation, GlobalIndexSupport.branch, Finset.mem_coe,
     outside_a R d i p hfa, hi.moving_c p hp, hi.moving_n p hp,
     GlobalProjectMarkedSupport.moving_exponent R d p, if_pos hp,
     if_neg ha, Nat.cast_zero, Nat.cast_one]
@@ -114,7 +114,7 @@ theorem frozen_order (p : P) (hp : p ∈ i.activeFrozen) :
   have hm : p ∉ exteriorSupport F Sf d.moving :=
     fun h => (Finset.disjoint_left.mp (moving_active_disjoint R d i)) h ha
   rw [x, GlobalActualReindex.order_representative R.A Adata d i p]
-  simp only [GlobalFrequency.valuation, GlobalIndexSupport.branch,
+  simp only [GlobalFrequency.valuation, GlobalIndexSupport.branch, Finset.mem_coe,
     active_c R d i hi p ha, active_n R d i hi p ha,
     GlobalProjectMarkedSupport.moving_exponent R d p, if_neg hm,
     if_pos ha, Nat.cast_zero, add_zero, mul_zero, sub_zero]
@@ -128,7 +128,7 @@ theorem marked_order (p : P) (hp : p ∈ i.activeMarks) :
   have hm : p ∉ exteriorSupport F Sf d.moving :=
     fun h => (Finset.disjoint_left.mp (moving_active_disjoint R d i)) h ha
   rw [x, GlobalActualReindex.order_representative R.A Adata d i p]
-  simp only [GlobalFrequency.valuation, GlobalIndexSupport.branch,
+  simp only [GlobalFrequency.valuation, GlobalIndexSupport.branch, Finset.mem_coe,
     outside_a R d i p hf, active_c R d i hi p ha, active_n R d i hi p ha,
     GlobalProjectMarkedSupport.moving_exponent R d p, if_neg hm,
     if_pos ha, Nat.cast_zero]
@@ -140,7 +140,7 @@ theorem outside_order (p : P) (hm : p ∉ exteriorSupport F Sf d.moving)
       (primeExponents i.c.val p.val : ℤ) + 3 * (primeExponents i.n.val p.val : ℤ) := by
   have hf : p ∉ i.activeFrozen := fun h => ha (Finset.mem_union_left _ h)
   rw [x, GlobalActualReindex.order_representative R.A Adata d i p]
-  simp only [GlobalFrequency.valuation, GlobalIndexSupport.branch,
+  simp only [GlobalFrequency.valuation, GlobalIndexSupport.branch, Finset.mem_coe,
     outside_a R d i p hf, GlobalProjectMarkedSupport.moving_exponent R d p,
     if_neg hm, if_neg ha, Nat.cast_zero, zero_add, sub_zero, mul_zero]
 
@@ -169,8 +169,8 @@ theorem spherical_order (p : P) (a : Fˣ) (c n : ℕ) (hc : c ≤ 1)
   have hdiv : (c + 3 * n) / 3 = n := by omega
   have hp : unitPhase R Adata p a ^ (2 * (c + 3 * n)) = unitPhase R Adata p a ^ (2 * c) := by
     have hexp : 2 * (c + 3 * n) = 2 * c + 6 * n := by omega
-    rw [hexp, pow_add, pow_mul (unitPhase R Adata p a) 6 n,
-      phaseHom_sixth R Adata p a, one_pow, mul_one]
+    have h6 : unitPhase R Adata p a ^ 6 = 1 := phaseHom_sixth R Adata p a
+    rw [hexp, pow_add, pow_mul (unitPhase R Adata p a) 6 n, h6, one_pow, mul_one]
   rw [sphericalValue, if_neg hn, he, hp, sphericalDigit, hmod, hdiv]
   rcases (show c = 0 ∨ c = 1 by omega) with rfl | rfl <;> simp <;> ring
 
@@ -360,7 +360,7 @@ theorem localTotal_finite :
   exact (envelope R d i).finite_toSet.subset (modelLocal_support R Adata d i)
 
 def rawCoefficient : ℂ :=
-  (∏ p ∈ frozenPrimes F Sf d \ i.activeFrozen, 1 - (p.val.asIdeal.absNorm : ℂ)⁻¹) *
+  (∏ p ∈ frozenPrimes F Sf d \ i.activeFrozen, (1 - (p.val.asIdeal.absNorm : ℂ)⁻¹)) *
   (∏ p ∈ d.marks \ i.activeMarks, (p.val.asIdeal.absNorm : ℂ)⁻¹) *
   (exteriorNorm F Sf i.n : ℂ)⁻¹ *
   (∏ p ∈ exteriorSupport F Sf d.moving, movingLocal R Adata d i p) *
@@ -444,8 +444,19 @@ theorem reverseCoefficient_raw :
           (GlobalProjectMarkedSupport.markAt R d
             (exteriorRowPrime R (GlobalProjectMarkedSupport.row R d) p)) (x R Adata d i)) *
       GlobalProjectDigitProduct.offRowProduct R D (GlobalProjectMarkedSupport.row R d) (x R Adata d i) = _
-    rw [← prod_exteriorRows R (GlobalProjectMarkedSupport.row R d),
-      GlobalProjectMarkedSupport.exteriorRows_eq,
+    rw [show (∏ p : RowPrime R (GlobalProjectMarkedSupport.row R d),
+        localValue R Adata (exteriorRowPrime R (GlobalProjectMarkedSupport.row R d) p)
+          (GlobalProjectMarkedSupport.digitAt R d
+            (exteriorRowPrime R (GlobalProjectMarkedSupport.row R d) p))
+          (GlobalProjectMarkedSupport.markAt R d
+            (exteriorRowPrime R (GlobalProjectMarkedSupport.row R d) p)) (x R Adata d i)) =
+        ∏ p ∈ exteriorRows R (GlobalProjectMarkedSupport.row R d),
+          localValue R Adata p (GlobalProjectMarkedSupport.digitAt R d p)
+            (GlobalProjectMarkedSupport.markAt R d p) (x R Adata d i) from
+      (prod_exteriorRows R _ (fun p => localValue R Adata p
+        (GlobalProjectMarkedSupport.digitAt R d p)
+        (GlobalProjectMarkedSupport.markAt R d p) (x R Adata d i))).symm]
+    rw [GlobalProjectMarkedSupport.exteriorRows_eq,
       split_product (GlobalProjectMarkedSupport.support R d) _ (localTotal_finite R Adata d i hi)]
     congr 1
     · apply Finset.prod_congr rfl

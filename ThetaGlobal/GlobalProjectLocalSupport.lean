@@ -29,7 +29,7 @@ variable {F : Type} [Field F] [NumberField F]
 local notation "Sf" => (R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))
 local notation "P" => ThetaBranch.ExteriorPrime R.A
 
-variable (Adata : ThetaArithmeticData F Sf)
+variable (Adata : ThetaArithmeticData F ((R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))))
 
 def localValue (p : P) (j : Fin 6) (marked : Bool) (x : Fˣ) : ℂ :=
   inactiveCoefficient R Adata p j marked x + activeCoefficient R Adata p j marked x
@@ -44,7 +44,7 @@ theorem spherical_nonzero (p : P) (x : Fˣ)
   apply GlobalProjectDigitSupport.sphericalDigit_nonzero_mod_three F Sf Adata
     (skeletonPrime R p) _
   intro hz
-  exact hx (by simp [sphericalValue, hn, hz])
+  exact hx (by rw [sphericalValue, if_neg hn, hz, zero_mul])
 
 theorem active_nonzero (p : P) (j : Fin 6) (x : Fˣ)
     (hx : activeValue R Adata p j x ≠ 0) :
@@ -57,7 +57,7 @@ theorem active_nonzero (p : P) (j : Fin 6) (x : Fˣ)
   have hw : localWeylScalar F Sf Adata (skeletonPrime R p) j
       (ThetaBranch.order p.val x + 2).toNat ≠ 0 := by
     intro hz
-    exact hx (by simp [activeValue, hn, hz])
+    exact hx (by rw [activeValue, if_neg hn, hz, zero_mul])
   refine ⟨by omega,
     GlobalProjectDigitSupport.localWeylScalar_nonzero_mod_three F Sf Adata _ _ _ hw, ?_⟩
   intro hj
@@ -159,7 +159,7 @@ theorem off_row_nonzero (E : ExteriorCoefficients R Q T D)
     intro q hq
     by_cases hmem : q ∈ exteriorRows R m
     · exact False.elim (hq (if_pos hmem))
-    · simpa only [if_neg hmem] using hq
+    · simpa only [Function.mem_mulSupport, if_neg hmem] using hq
   exact finprod_eq_zero _ p (by rw [if_neg hp, H.diagonal p x, hz]) hf
 
 end ThetaGlobal.GlobalProjectLocalSupport

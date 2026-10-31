@@ -53,7 +53,7 @@ theorem reflectedProfile_eq_log (u : R.A.UnitQuotient) (κ : SixthLocalClasses K
   simp [reflectedProfile, ActualAnnularProfiles.reflectedLog, PositiveAxisLog.logEquiv,
     ht, Real.exp_log ht]
 
-variable (D : ThetaArithmeticData K S) (d : MarkedDatum K S)
+variable (D : ThetaArithmeticData K ((R.A.Sf : Set (HeightOneSpectrum (𝓞 K))))) (d : MarkedDatum K ((R.A.Sf : Set (HeightOneSpectrum (𝓞 K)))))
 
 /-- The precise statement to be supplied by the independently proved
 automorphic and coefficient dictionary. This definition is not a local
@@ -77,7 +77,7 @@ theorem completedTerm_eq_coefficient (V : ℝ → ℂ) (X : ℝ)
     (cn : ExteriorIdeal K S × ExteriorIdeal K S) :
     completedTerm K S D θ (rowElement K S D d) d.puncture d.marks V X cn =
       directCoefficient R θ D d cn * V (directArgument R X cn) := by
-  unfold completedTerm directCoefficient
+  unfold directCoefficient completedTerm
   dsimp only
   split_ifs <;> simp [directArgument]
 
@@ -102,13 +102,14 @@ theorem direct_mass_summable {X : ℝ} (hX : 0 < X) :
   apply (PrimalLimitProject.summable_majorant K S 1 X).of_nonneg_of_le
     (fun _ => mul_nonneg (norm_nonneg _) (Real.exp_pos _).le)
   intro cn
-  rw [exp_neg_two_log (PrimalLimitProject.completed_argument_pos K S hX cn)]
+  rw [exp_neg_two_log (t := directArgument R X cn)
+    (PrimalLimitProject.completed_argument_pos K S hX cn)]
   calc
     _ ≤ 1 * ReflectedAbsolute.inverseSquare (directArgument R X cn) :=
       mul_le_mul_of_nonneg_right (directCoefficient_norm_le_one R θ D d cn)
         (ReflectedAbsolute.inverseSquare_nonneg _)
     _ ≤ PrimalLimitProject.majorant K S 1 X cn := by
-      simpa only [one_mul, PrimalLimitProject.majorant] using
+      simpa only [one_mul, PrimalLimitProject.majorant, directArgument] using
         PrimalLimitProject.completed_argument_inverseSquare_le K S hX cn
 
 theorem reflected_mass_summable {X : ℝ} (hX : 0 < X) :
@@ -116,8 +117,9 @@ theorem reflected_mass_summable {X : ℝ} (hX : 0 < X) :
       ‖ReflectedArithmetic.reflectedCoefficient K S D d i θ‖ *
         Real.exp (-2 * Real.log (ReflectedLimitProject.argument K S d X i))) := by
   have h := ReflectedLimitProject.summable_majorant K S D d θ (B := 1) (by norm_num) hX
-  simpa only [ReflectedLimitProject.majorant, mul_one,
-    exp_neg_two_log (ReflectedLimitProject.argument_pos K S d hX _)] using h
+  refine h.congr fun i => ?_
+  rw [exp_neg_two_log (ReflectedLimitProject.argument_pos K S d hX i),
+    ReflectedLimitProject.majorant, mul_one]
 
 private theorem direct_log_scale {X : ℝ} (hX : 0 < X) (u : ℝ)
     (cn : ExteriorIdeal K S × ExteriorIdeal K S) :
@@ -152,8 +154,11 @@ theorem logarithmic_seed (w : InfinitePlace K) (hseed : LiteralSeed R θ C L D d
   have hz := mul_pos hX (Real.exp_pos (-u))
   have hs := hseed (X * Real.exp (-u)) hz
   unfold completedThetaSum at hs
-  simp_rw [completedTerm_eq_coefficient,
-    directTest_eq_log R θ C L w (PrimalLimitProject.completed_argument_pos K S hz _),
+  have hdt : ∀ cn, directTest R θ C L w (directArgument R (X * Real.exp (-u)) cn) =
+      ActualAnnularProfiles.directLog R θ C L w
+        (Real.log (directArgument R (X * Real.exp (-u)) cn)) :=
+    fun cn => directTest_eq_log R θ C L w (PrimalLimitProject.completed_argument_pos K S hz cn)
+  simp_rw [completedTerm_eq_coefficient, hdt,
     direct_log_scale R hX u,
     reflectedProfile_eq_log R θ C L (QuotientGroup.mk d.rowUnit) _ w
       (ReflectedLimitProject.argument_pos K S d hz _),
@@ -162,8 +167,7 @@ theorem logarithmic_seed (w : InfinitePlace K) (hseed : LiteralSeed R θ C L D d
 
 local instance : Countable K := Finsupp.Countable.of_moduleFinite (R := ℚ)
 local instance : Countable (ReflectionIndex K S d) :=
-  Countable.of_injective (ReflectedAbsoluteProject.reflectionEncode K S d)
-    (ReflectedAbsoluteProject.reflectionEncode_injective K S d)
+  Function.Injective.countable (ReflectedAbsoluteProject.reflectionEncode_injective K S d)
 
 /-- The actual scalar Fubini theorem produces the positive-regularizer
 identity; it is not an independent premise of the final limit step. -/
@@ -192,7 +196,7 @@ theorem regularized_identity (w : InfinitePlace K) (hseed : LiteralSeed R θ C L
       apply tsum_congr
       intro cn
       rw [completedTerm_eq_coefficient,
-        TestMellinLimit.scalar_regularizedTest_eq (mellin V.toFun) ε
+        TestMellinLimit.scalar_regularizedTest_eq (mellin V.toFun) ε (y := directArgument R X cn)
           (PrimalLimitProject.completed_argument_pos K S hX cn)]
       simp only [RegularizedTestProject.regularizedTest, Complex.ofReal_zero, zero_add]
     _ = _ := hc
@@ -215,7 +219,7 @@ theorem marked_reflection_of_literal_seed
   have hε₁ (n : ℕ) : ε n ≤ 1 := by
     dsimp [ε]
     exact (div_le_one (by positivity)).mpr (by
-      linarith [Nat.cast_nonneg (R := ℝ) n])
+      linarith [Nat.cast_nonneg (α := ℝ) n])
   have hε : Tendsto ε atTop (𝓝 0) := tendsto_one_div_add_atTop_nhds_zero_nat
   exact (ActualRegularizerRemoval.marked_reflection_of_regularized_identities
     K S D d M θ hM V ε hεpos hε₁ hε hX

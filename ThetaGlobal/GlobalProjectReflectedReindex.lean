@@ -62,7 +62,7 @@ theorem class_representative (Adata : ThetaArithmeticData F Sf)
 theorem norm_representative (Adata : ThetaArithmeticData F Sf)
     (hA : AllowedGeneratorInput F Sf Adata)
     (d : MarkedDatum F Sf) (i : ReflectionIndex F Sf d) (l : PositiveAxis) :
-    ((q R.A (GlobalActualFrequency.representative F Sf Adata d i) / l : PositiveAxis) : ℝ) =
+    ((ThetaSheetExactUnfolding.q R.A (GlobalActualFrequency.representative F Sf Adata d i) / l : PositiveAxis) : ℝ) =
       ReflectedLimitProject.argument F Sf d l.val⁻¹ i := by
   change R.A.norm (R.A.diagonal (GlobalActualFrequency.representative F Sf Adata d i)) / l.val = _
   rw [norm_diagonal, GlobalActualFrequency.norm_representative F Sf Adata hA]
@@ -91,7 +91,7 @@ theorem reflectedTerm_eq_of_frequency_eq
     exact GlobalProjectOrbitCoefficients.reverseCoefficient_gamma R D m c hc b γ
   have hk : k (R.A.diagonal a) = k (R.A.diagonal b) :=
     congrArg (ThetaReflectionData.frequencyClass R.A) h
-  have hq : q R.A a = q R.A b := by
+  have hq : ThetaSheetExactUnfolding.q R.A a = ThetaSheetExactUnfolding.q R.A b := by
     apply Subtype.ext
     exact congrArg (ThetaReflectionData.frequencyNorm R.A) h
   rw [GlobalProjectOrbitEvaluation.reflectedTerm, GlobalProjectOrbitEvaluation.reflectedTerm,
@@ -117,7 +117,7 @@ theorem admissible_of_actual_frequency (Adata : ThetaArithmeticData F Sf)
     rw [GlobalActualReindex.order_representative R.A Adata d i p,
       GlobalProjectMarkedSupport.moving_order R Adata d D H a ha p hp,
       GlobalProjectMarkedSupport.moving_exponent R d p, if_pos hp] at hv
-    simp only [GlobalFrequency.valuation, GlobalIndexSupport.branch,
+    simp only [GlobalFrequency.valuation, GlobalIndexSupport.branch, Finset.mem_coe,
       outside_a R d i p hfa, if_neg hac, Nat.cast_zero, Nat.cast_one] at hv
     omega
   exact ⟨hi, fun p hp => (hz p hp).1, fun p hp => (hz p hp).2⟩
@@ -138,11 +138,11 @@ local notation "R" => thetaRecipe K c
 local notation "Sf" => places K c
 local notation "Adata" => arithmeticData K c
 
-variable (θ : HeckeCharacter K) (C : FiniteFixedSource.Source R θ)
-  (L : FiniteLocalHighK.Input R θ C)
-  (H : GlobalProjectLocalDigitTables.Input R C.projected.base.factorization Adata)
-  (hA : AllowedGeneratorInput K Sf Adata)
-  (hS : conductorPlaces K θ ⊆ R.A.Sf)
+variable (θ : HeckeCharacter K) (C : FiniteFixedSource.Source (thetaRecipe K c) θ)
+  (L : FiniteLocalHighK.Input (thetaRecipe K c) θ C)
+  (H : GlobalProjectLocalDigitTables.Input (thetaRecipe K c) C.projected.base.factorization (arithmeticData K c))
+  (hA : AllowedGeneratorInput K (places K c) (arithmeticData K c))
+  (hS : conductorPlaces K θ ⊆ ((thetaRecipe K c)).A.Sf)
 
 def literalTerm (d : MarkedDatum K Sf) (w : InfinitePlace K) (l : PositiveAxis)
     (i : ReflectionIndex K Sf d) : ℂ :=
@@ -157,9 +157,13 @@ theorem representative_term (d : MarkedDatum K Sf) (w : InfinitePlace K)
       (GlobalProjectMarkedSupport.row R d) (GlobalProjectMarkedSupport.weight R Adata d)
       w l (GlobalActualFrequency.representative K Sf Adata d i) =
       literalTerm K c θ C L d w l i := by
+  have hcl : GlobalProjectSheetProfiles.skeletonClass R
+      (QuotientGroup.mk' (R).A.sixthPowers
+        ((R).A.diagonal (GlobalActualFrequency.representative K Sf Adata d i))) =
+      frequencyClass K Sf Adata d i := class_representative R Adata d i
   rw [GlobalProjectOrbitEvaluation.reflectedTerm,
-    thetaRecipe_reflected_coefficient K c θ hS C.projected.base.factorization H hA d i hi,
-    class_representative]
+    thetaRecipe_reflected_coefficient K c θ hS C.projected.base.factorization H hA d i hi]
+  simp only [hcl]
   unfold literalTerm ActualAnnularTransfer.reflectedProfile
   rw [dif_pos (ReflectedLimitProject.argument_pos K Sf d (inv_pos.mpr l.property) i)]
   congr 2
@@ -171,13 +175,13 @@ theorem quotient_term (d : MarkedDatum K Sf) (w : InfinitePlace K)
     (l : PositiveAxis) (i : ReflectionIndex K Sf d) (hi : Admissible R d i) :
     GlobalProjectOrbitEvaluation.reflectedTerm R θ C L (QuotientGroup.mk d.rowUnit)
       (GlobalProjectMarkedSupport.row R d) (GlobalProjectMarkedSupport.weight R Adata d)
-      w l (Quotient.out (GlobalActualReindex.frequency R.A Adata d i)) =
+      w l (Quotient.out (GlobalActualReindex.frequency (R).A Adata d i)) =
       literalTerm K c θ C L d w l i := by
   rw [reflectedTerm_eq_of_frequency_eq R θ C L hS (QuotientGroup.mk d.rowUnit)
     (GlobalProjectMarkedSupport.row R d) (GlobalProjectMarkedSupport.weight R Adata d)
     (GlobalProjectMarkedSupport.weight_reindexInvariant R Adata d) w l _
     (GlobalActualFrequency.representative K Sf Adata d i)
-    (Quotient.out_eq (GlobalActualReindex.frequency R.A Adata d i))]
+    (Quotient.out_eq (GlobalActualReindex.frequency (R).A Adata d i))]
   exact representative_term K c θ C L H hA hS d w l i hi
 
 theorem literalTerm_coefficient_nonzero (d : MarkedDatum K Sf) (w : InfinitePlace K)
@@ -187,21 +191,21 @@ theorem literalTerm_coefficient_nonzero (d : MarkedDatum K Sf) (w : InfinitePlac
   exact (mul_ne_zero_iff.mp hi).1
 
 theorem support_injective (d : MarkedDatum K Sf) (w : InfinitePlace K) (l : PositiveAxis) :
-    Set.InjOn (GlobalActualReindex.frequency R.A Adata d)
+    Set.InjOn (GlobalActualReindex.frequency (R).A Adata d)
       (Function.support (literalTerm K c θ C L d w l)) := by
   intro i hi j hj he
-  exact GlobalActualReindex.index_eq_of_frequency_eq R.A Adata d θ i j
+  exact GlobalActualReindex.index_eq_of_frequency_eq (R).A Adata d θ i j
     (literalTerm_coefficient_nonzero K c θ C L d w l i hi)
     (literalTerm_coefficient_nonzero K c θ C L d w l j hj) he
 
 include H hA hS in
 theorem support_coverage (d : MarkedDatum K Sf) (w : InfinitePlace K) (l : PositiveAxis)
-    (ξ : ThetaReflectionData.Frequency R.A)
+    (ξ : ThetaReflectionData.Frequency (R).A)
     (hξ : GlobalProjectOrbitEvaluation.reflectedTerm R θ C L (QuotientGroup.mk d.rowUnit)
       (GlobalProjectMarkedSupport.row R d) (GlobalProjectMarkedSupport.weight R Adata d)
       w l (Quotient.out ξ) ≠ 0) :
     ∃ i : ReflectionIndex K Sf d, literalTerm K c θ C L d w l i ≠ 0 ∧
-      GlobalActualReindex.frequency R.A Adata d i = ξ := by
+      GlobalActualReindex.frequency (R).A Adata d i = ξ := by
   have ha : GlobalProjectSignedExtraction.reverseCoefficient R C.projected.base.factorization
       (GlobalProjectMarkedSupport.row R d) (GlobalProjectMarkedSupport.weight R Adata d)
       (Quotient.out ξ) ≠ 0 := by
@@ -210,7 +214,7 @@ theorem support_coverage (d : MarkedDatum K Sf) (w : InfinitePlace K) (l : Posit
   obtain ⟨i, hi, hf⟩ := GlobalProjectMarkedSupport.exists_index R Adata d
     C.projected.base.factorization H C.projected.base.exterior (Quotient.out ξ) ha
   have hai := admissible_of_actual_frequency R θ C Adata H d (Quotient.out ξ) ha i hi hf
-  have hfi : GlobalActualReindex.frequency R.A Adata d i = ξ := hf.trans (Quotient.out_eq ξ)
+  have hfi : GlobalActualReindex.frequency (R).A Adata d i = ξ := hf.trans (Quotient.out_eq ξ)
   refine ⟨i, ?_, hfi⟩
   rw [← quotient_term K c θ C L H hA hS d w l i hai, hfi]
   exact hξ
@@ -219,13 +223,13 @@ include H hA hS in
 /-- Exact reflection-series reindexing on support, followed by restoration
 of every zero term in the repository's full `ReflectionIndex`. -/
 theorem reflected_sum_eq_literal (d : MarkedDatum K Sf) (w : InfinitePlace K) (l : PositiveAxis) :
-    (∑' ξ : ThetaReflectionData.Frequency R.A,
+    (∑' ξ : ThetaReflectionData.Frequency (R).A,
       GlobalProjectOrbitEvaluation.reflectedTerm R θ C L (QuotientGroup.mk d.rowUnit)
         (GlobalProjectMarkedSupport.row R d) (GlobalProjectMarkedSupport.weight R Adata d)
         w l (Quotient.out ξ)) =
       ∑' i : ReflectionIndex K Sf d, literalTerm K c θ C L d w l i := by
   apply GlobalSupportReindex.tsum_eq_of_supported_coordinates _ _
-    (GlobalActualReindex.frequency R.A Adata d)
+    (GlobalActualReindex.frequency (R).A Adata d)
     (support_injective K c θ C L d w l)
     (support_coverage K c θ C L H hA hS d w l)
   intro i hi
@@ -235,19 +239,19 @@ theorem reflected_sum_eq_literal (d : MarkedDatum K Sf) (w : InfinitePlace K) (l
 
 include H hA hS in
 theorem reflected_norm_summable (d : MarkedDatum K Sf) (w : InfinitePlace K) (l : PositiveAxis)
-    (hs : Summable (fun ξ : ThetaReflectionData.Frequency R.A =>
+    (hs : Summable (fun ξ : ThetaReflectionData.Frequency (R).A =>
       ‖GlobalProjectOrbitEvaluation.reflectedTerm R θ C L (QuotientGroup.mk d.rowUnit)
         (GlobalProjectMarkedSupport.row R d) (GlobalProjectMarkedSupport.weight R Adata d)
         w l (Quotient.out ξ)‖)) :
     Summable (fun i : ReflectionIndex K Sf d => ‖literalTerm K c θ C L d w l i‖) := by
-  let f : ThetaReflectionData.Frequency R.A → ℝ := fun ξ =>
+  let f : ThetaReflectionData.Frequency (R).A → ℝ := fun ξ =>
     ‖GlobalProjectOrbitEvaluation.reflectedTerm R θ C L (QuotientGroup.mk d.rowUnit)
       (GlobalProjectMarkedSupport.row R d) (GlobalProjectMarkedSupport.weight R Adata d)
       w l (Quotient.out ξ)‖
   let g : ReflectionIndex K Sf d → ℝ := fun i => ‖literalTerm K c θ C L d w l i‖
   have he : HasSum f (∑' ξ, f ξ) ↔ HasSum g (∑' ξ, f ξ) := by
     apply hasSum_iff_hasSum_of_ne_zero_bij
-      (fun i : Function.support g => GlobalActualReindex.frequency R.A Adata d i.val)
+      (fun i : Function.support g => GlobalActualReindex.frequency (R).A Adata d i.val)
     · intro i j h
       apply Subtype.ext
       exact support_injective K c θ C L d w l
