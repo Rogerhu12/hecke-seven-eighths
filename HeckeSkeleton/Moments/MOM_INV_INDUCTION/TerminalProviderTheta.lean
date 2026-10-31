@@ -212,6 +212,32 @@ theorem canonicalCompletedTerm_mem_pools
   · simpa only [boundedPool, Finset.mem_preimage,
       DedekindZetaZeroFree.LargeSieve.mem_boundedNormIdeals, cubeIdealNorm] using hBBound
 
+/-- A nonzero literal joint test bounds the whole cube, before any
+annular decomposition or Mellin separation is introduced. -/
+theorem canonicalCompletedTerm_cube_bound
+    (gamma : Ideal (𝓞 K) → ℂ) (tau : Ideal (𝓞 K) →* ℂ)
+    (mark : Ideal (𝓞 K) → ℂ) (V : ℝ → ℂ) (X : ℝ)
+    (hX : 0 < X) (hV : Function.support V ⊆ Set.Iic 2)
+    (C B : ExteriorIdeal K S)
+    (hne : canonicalCompletedTerm gamma tau mark V X (C.val.val, B.val.val) ≠ 0) :
+    cubeIdealNorm B.val.val ^ 3 ≤ 2 * X := by
+  have hsf : Squarefree C.val.val := by
+    by_contra h
+    exact hne (by simp only [canonicalCompletedTerm, if_neg h])
+  have ht : V (cubeIdealNorm C.val.val * cubeIdealNorm B.val.val ^ 3 / X) ≠ 0 := by
+    intro hz
+    exact hne (by simp only [canonicalCompletedTerm, if_pos hsf, hz, mul_zero])
+  have hprod : cubeIdealNorm C.val.val * cubeIdealNorm B.val.val ^ 3 ≤ 2 * X :=
+    (div_le_iff₀ hX).mp (hV ht)
+  have hC : 1 ≤ cubeIdealNorm C.val.val :=
+    cubeIdealNorm_one_le (nonZeroDivisors.coe_ne_zero C.val)
+  calc
+    _ = 1 * cubeIdealNorm B.val.val ^ 3 := (one_mul _).symm
+    _ ≤ cubeIdealNorm C.val.val * cubeIdealNorm B.val.val ^ 3 :=
+      mul_le_mul_of_nonneg_right hC (pow_nonneg
+        (by dsimp only [cubeIdealNorm]; positivity) _)
+    _ ≤ _ := hprod
+
 /-- The reopened all-ideal series is exactly a finite exterior cube
 times complete squarefree-column rectangle. Every original zero of
 `tau` and the full joint test are still inside the summand. -/
@@ -258,6 +284,35 @@ theorem reopenedCanonical_eq_finite
       exact hne (by change beta BC.1.val.val * _ = 0; rw [hz, mul_zero])
     have hp := canonicalCompletedTerm_mem_pools K S _ _ mark V X hX hV BC.2 BC.1 ht
     exact hnot (Finset.mem_product.mpr ⟨hp.2, hp.1⟩)
+
+/-- The column rectangle may be enlarged before splitting the joint
+profile. Its additional entries vanish in the literal completed source;
+after separation they remain available to complete every child pool. -/
+theorem reopenedCanonical_eq_finite_of_le
+    (θ : HeckeCharacter K) (m : S.integer K) (r : Ideal (𝓞 K))
+    (beta : Ideal (𝓞 K) → ℂ) (mark : Ideal (𝓞 K) → ℂ)
+    (V : ℝ → ℂ) (X R : ℝ) (hX : 0 < X) (hXR : X ≤ R)
+    (hV : Function.support V ⊆ Set.Iic 2) :
+    (∑' CB : Ideal (𝓞 K) × Ideal (𝓞 K), beta CB.2 *
+      canonicalCompletedTerm (exteriorGamma K S D) (canonicalTau K S D θ m r)
+        mark V X CB) =
+      ∑ B ∈ boundedPool K S X, ∑ C ∈ squarefreePool K S R,
+        beta B.val.val * canonicalCompletedTerm (exteriorGamma K S D)
+          (canonicalTau K S D θ m r) mark V X (C.val.val, B.val.val) := by
+  rw [reopenedCanonical_eq_finite K S D θ m r beta mark V X hX hV]
+  apply Finset.sum_congr rfl
+  intro B hB
+  apply Finset.sum_subset
+  · intro C hC
+    obtain ⟨hsf, hnorm⟩ := (mem_squarefreePool K S X C).mp hC
+    exact (mem_squarefreePool K S R C).mpr ⟨hsf,
+      hnorm.trans (mul_le_mul_of_nonneg_left hXR (by norm_num))⟩
+  · intro C hCR hCX
+    have hz : canonicalCompletedTerm (exteriorGamma K S D)
+        (canonicalTau K S D θ m r) mark V X (C.val.val, B.val.val) = 0 := by
+      by_contra hne
+      exact hCX (canonicalCompletedTerm_mem_pools K S _ _ mark V X hX hV C B hne).1
+    rw [hz, mul_zero]
 
 /-- The actual row-dependent frozen cube phase is bounded only after
 retaining its full coefficient; no independence of that phase is asserted. -/

@@ -79,7 +79,7 @@ theorem restrict {slotCap : ℕ} {Z z lo hi : ℝ}
 
 end MarkConditions
 
-variable (Γ : Subgroup (Sset.unit K))
+variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
 variable (Θ : Subgroup (HeckeCharacter K)) (ψ : HeckeCharacter K)
 

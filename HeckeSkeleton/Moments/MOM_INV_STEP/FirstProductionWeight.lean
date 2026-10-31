@@ -98,8 +98,7 @@ theorem weight_overlap_eq (i : Idx) :
     (SecondParentProduction.scale_pos K S Q) Q.radius B.secondDivisor B.common B.firstLabel
       (sIntegerMaskGenerator K Sset B.firstDivisor)‖) *
       ‖SecondColumnEnergy.overlapZero K S B.common B.firstLabel B.overlap‖ = _
-  rw [mul_assoc, hh]
-  rfl
+  rw [mul_assoc, hh] <;> rfl
 
 /-- The two actual Moebius coefficients contract without discarding
 the common/overlap zero. This is the physical scalar supplied to the

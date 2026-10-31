@@ -51,7 +51,7 @@ theorem provider_step_bound {E Z F M h eta tau pi eps B S : ℝ}
   calc
     _ ≤ S * ((B + 1) * Z ^ (F + stepLoss eta tau pi + eps) +
         Z ^ (F + stepLoss eta tau pi + eps)) :=
-      mul_le_mul_of_nonneg_left (add_le_add_left hp _) hS
+      mul_le_mul_of_nonneg_left (add_le_add le_rfl hp) hS
     _ = S * ((B + 2) * Z ^ (F + stepLoss eta tau pi + eps)) := by ring
     _ ≤ S * ((3 * B) * Z ^ (F + stepLoss eta tau pi + eps)) := by
       exact mul_le_mul_of_nonneg_left

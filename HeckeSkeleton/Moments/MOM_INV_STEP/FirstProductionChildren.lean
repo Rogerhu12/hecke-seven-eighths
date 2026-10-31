@@ -98,8 +98,7 @@ theorem sourceOn_sum {A : Type*} [AddCommMonoid A]
   unfold sourceOn
   rw [ActualPositiveIndex.source_sum]
   rw [Finset.sum_image (fun _ _ _ _ h =>
-    (indexEquiv K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂).injective h)]
-  rfl
+    (indexEquiv K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂).injective h)] <;> rfl
 
 variable (hprime : ∀ j ∈ T.columns.slots, ∀ p ∈ T.columns.primeLists j, Prime p)
 variable (hweights : ∀ j ∈ T.columns.slots, ∀ p ∈ T.columns.primeLists j,

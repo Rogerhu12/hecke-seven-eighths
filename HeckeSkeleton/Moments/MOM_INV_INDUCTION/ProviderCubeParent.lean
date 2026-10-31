@@ -136,7 +136,7 @@ theorem finite_orbit_rows_le (C : CanonicalBlock.ColumnData K S σ)
       (inv_nonneg.mpr (InverseRowMajorant.rowCovolume_pos K S).le)
 
 variable (hΓ : Γ ≤ (powMonoidHom 6 :
-  (Sset.unit K) →* (Sset.unit K)).range)
+  ((S : Set (HeightOneSpectrum (𝓞 K))).unit K) →* ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)).range)
 
 include hΓ in
 theorem amplitude_rowOrbit (C : CanonicalBlock.ColumnData K S σ)

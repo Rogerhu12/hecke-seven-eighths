@@ -25,7 +25,7 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION
 
-open HeckePort.Moments
+open HeckePort.Moments HeckeGeneral.Characters
 open scoped Classical BigOperators
 
 /-- The geometry in Lemma 4.8 for one retained completed block.
@@ -117,10 +117,13 @@ theorem TerminalBlockGeometry.power_le_ledger {N V M Q z d eta tau c Z pi : ℝ}
   unfold terminalLedger
   rcases g.terminal_cases hinv hQ hV with h | h | h
   · have hb := Real.rpow_le_rpow_of_exponent_le hZ (add_le_add_right h pi)
+    simp only [add_comm pi] at hb
     linarith
   · have hb := Real.rpow_le_rpow_of_exponent_le hZ (add_le_add_right h pi)
+    simp only [add_comm pi] at hb
     linarith
   · have hb := Real.rpow_le_rpow_of_exponent_le hZ (add_le_add_right h pi)
+    simp only [add_comm pi] at hb
     linarith
 
 /-- Weighted finite Cauchy in the actual row Hilbert space. The

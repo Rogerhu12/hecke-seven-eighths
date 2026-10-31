@@ -223,6 +223,55 @@ theorem smaller_piece_bound_of_uniform
       Z ^ ((piece side₂ p a).columnLength γ + Vc h + eps) at hb
   simpa only [hbase_eq] using hb
 
+include hZ hh hwidth hb hfirst hsecond in
+/-- Preserve the full actual 3d/2 row drop. This is used for the
+long-cube source, whose dyadic centers permit dStep=2dOriginal/3. -/
+theorem smaller_piece_bound_of_uniform_sharp
+    (Λ : HeckeCharacter K) (M r ell V tau z c d eta A lo hi Rcap eps Cih : ℝ)
+    (markLengths : σ → ℝ) (t : Finset (ℕ × ℕ))
+    (hL : 0 ≤ L) (heta : 0 ≤ eta) (hd : 0 ≤ d) (hM : M ≤ Rcap)
+    (hbase_eq : T.columns.base = Z) (hscale : U.val = Z ^ r / (grid k).val)
+    (hcutoff : H₂ = FirstToSecondData.fineCutoff K S D T R U Z tau)
+    (hrow : ∀ i ∈ Pbox, (R i.1).val =
+      Z ^ (firstPhysicalHeight M r ell V (length Z j .firstDivisor)
+        (length Z j .firstCommon) (length Z j .cubeLabel) + 12 * h + tau))
+    (hλ : T.columns.lambda = Λ)
+    (hcal : ThetaCalibrationInput K Sset D T.columns.lambda G)
+    (hbg : ∀ q : HeightOneSpectrum (𝓞 K), q ∉ Sset →
+      UnramifiedAt K T.columns.background q)
+    (hRho : T.columns.puncture ≠ 0)
+    (hmarks : MarkConditions K S slotCap Z z lo hi T.columns.slots
+      T.columns.primeLists T.columns.primeWeights markLengths)
+    (hF : r + 3 * ell + V ≤ A) (side₂ : Bool)
+    (hgeometry : ActualStepGeometry.PieceClassGeometry K S D Γ T Θ ψ G hν hG hbase
+      R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j
+      hprime hweights hJ₁ J₂ hJ₂ slotCap hcap M r ell V z c d eta h side₂)
+    (hih : UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+      (A + 11 * eta) (c - 7 * eta) z lo hi eps (Rcap - 3 * d / 2) Cih t) :
+    ActualClosedBoxBudget.SmallerPieceBound K S D Γ T Θ ψ G hν hG hbase
+      R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j
+      hprime hweights hJ₁ J₂ hJ₂ slotCap hcap h M ell V eps Cih t side₂ := by
+  intro p hMc γ hγ a ha
+  let x := nodeAt K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
+    grid centers alive k side₁ P b Z L j hprime hweights hJ₁ J₂ hJ₂ slotCap hcap
+    M ell V h markLengths side₂ p γ a
+  have hx := nodeAt_admissible K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
+    grid centers alive k side₁ P b Z L j hprime hweights hJ₁ J₂ hJ₂ slotCap hcap
+    h hZ hh hwidth hb hfirst hsecond Λ M r ell V tau z c d eta A lo hi markLengths
+    hL heta hbase_eq hscale hcutoff hrow hλ hcal hbg hRho hmarks hF side₂ hgeometry
+    p hMc γ hγ a ha
+  have hdrop := (hgeometry p hMc γ hγ a ha).2.2.2.2.1
+  have hrank : x.rowLength ≤ Rcap - 3 * d / 2 := by
+    change Mc M ell V h ≤ Rcap - 3 * d / 2
+    linarith
+  have hb := hih x hx hrank
+  change normalizedChildEnergy T.columns.base ((piece side₂ p a).columnLength γ)
+    (Vc h) slotCap packet.labels packet.rows
+    (childValue K Sset D (piece side₂ p a) (CanonicalSectors.sectorUnit K Sset Γ)) γ ≤
+    Cih * (t.sup (schwartzSeminormFamily ℝ ℝ ℂ) ((piece side₂ p a).cutoff γ)) ^ 2 *
+      Z ^ ((piece side₂ p a).columnLength γ + Vc h + eps) at hb
+  simpa only [hbase_eq] using hb
+
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderGeneratedNodes
 
 end

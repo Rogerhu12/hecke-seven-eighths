@@ -12,6 +12,8 @@ is extracted literally from `CanonicalChildren.column`.
 
 noncomputable section
 
+set_option maxHeartbeats 1600000
+
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRows
 
 open NumberField IsDedekindDomain
@@ -42,6 +44,9 @@ theorem amplitude_eq_star_inverse (N : Finset Ext) (a : Ext → ℂ) (q : Orbit)
     amplitude K S Γ D N a q =
       star (InverseRowMajorant.amplitude K S Γ D N (fun n => star (a n)) q) := by
   simp only [amplitude, InverseRowMajorant.amplitude, star_sum, star_mul, star_star]
+  apply Finset.sum_congr rfl
+  intro n hn
+  exact mul_comm _ _
 
 theorem amplitude_norm_eq_inverse (N : Finset Ext) (a : Ext → ℂ) (q : Orbit) :
     ‖amplitude K S Γ D N a q‖ =
@@ -149,7 +154,7 @@ theorem orbitalEnergy_re (N : Finset Ext) (a : Ext → ℂ)
     (H : {r : ℝ // 0 < r}) :
     (orbitalEnergy K S Γ D N a H).re = energy K S Γ D N a H := by
   unfold orbitalEnergy sIntegerWeightedOrbitalSeries
-  simp only [amplitude_norm_eq_inverse]
+  simp only [amplitude_norm_eq_inverse, InverseRowMajorant.rowRadius]
   have hs := (InverseRowMajorant.summable_norm_weightedProfile
     K S Γ D N (fun n => star (a n)) H).of_norm
   rw [Complex.re_tsum hs]
@@ -176,8 +181,9 @@ def rowEmbedding : (Ext × Sector) ↪ (Ideal (𝓞 K) × Sector) where
   toFun x := (x.1.val.val, x.2)
   inj' := by
     intro x y h
-    exact Prod.ext (Subtype.ext (Subtype.ext (congrArg Prod.fst h)))
-      (congrArg Prod.snd h)
+    exact Prod.ext
+      (Subtype.ext (Subtype.ext (congrArg (fun z : Ideal (𝓞 K) × Sector => z.1) h)))
+      (congrArg (fun z : Ideal (𝓞 K) × Sector => z.2) h)
 
 def exteriorRows (T : Finset (Ideal (𝓞 K) × Sector)) : Finset (Ext × Sector) :=
   T.preimage (rowEmbedding K S Γ) (rowEmbedding K S Γ).injective.injOn

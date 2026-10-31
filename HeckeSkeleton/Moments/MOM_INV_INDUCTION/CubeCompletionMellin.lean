@@ -43,7 +43,7 @@ theorem cube_source_window (W : SchwartzMap ℝ ℂ)
     simpa only [show (2 : ℝ) ^ 3 = 8 by norm_num] using pow_le_pow_left₀ hv0 hv2 3
   have heq : b ^ 3 * u / X = (b / H) ^ 3 * (u / U) := by
     rw [hX]
-    field_simp [hH.ne', hU.ne']
+    field_simp [hH.ne', hU.ne'] <;> ring
   have hs := hW (subset_closure (Function.mem_support.mpr hne))
   rw [heq] at hs
   have hlo := mul_le_mul_of_nonneg_right hv3hi hq
@@ -151,6 +151,7 @@ theorem finite_cube_profile_inverse {β α : Type*} (B : Finset β) (N : Finset 
     _ = _ := by
       apply integral_congr_ae
       exact Filter.Eventually.of_forall fun t => by
+        dsimp only
         rw [Finset.mul_sum]
         apply Finset.sum_congr rfl
         intro b _
@@ -163,6 +164,28 @@ theorem finite_cube_profile_inverse {β α : Type*} (B : Finset β) (N : Finset 
 def annularTest (t : ℝ) (i : SchwartzTestPartition.Index) : SchwartzMap ℝ ℂ :=
   SchwartzTestPartition.piece (FinalMellinTests.weightedTest 0 t)
     (SchwartzTestPartition.exponent i)
+
+def partitionScaleCap : ℝ := (3 / 2 : ℝ) ^ (18 : ℕ)
+
+theorem partitionScaleCap_one_le : 1 ≤ partitionScaleCap :=
+  one_le_pow₀ (by norm_num)
+
+theorem annular_scale_bounds (i : SchwartzTestPartition.Index) :
+    partitionScaleCap⁻¹ ≤ SchwartzTestPartition.scale (SchwartzTestPartition.exponent i) ∧
+      SchwartzTestPartition.scale (SchwartzTestPartition.exponent i) ≤ partitionScaleCap := by
+  have hbounds := SchwartzTestPartition.exponent_bounds i
+  constructor
+  · have h := zpow_le_zpow_right₀ (by norm_num : (1 : ℝ) ≤ 3 / 2) hbounds.1
+    simpa only [SchwartzTestPartition.scale, partitionScaleCap, zpow_neg, zpow_natCast] using h
+  · have h := zpow_le_zpow_right₀ (by norm_num : (1 : ℝ) ≤ 3 / 2)
+      (hbounds.2.trans (by norm_num : (5 : ℤ) ≤ 18))
+    simpa only [SchwartzTestPartition.scale, partitionScaleCap, zpow_natCast] using h
+
+theorem annular_scale_le_eight (i : SchwartzTestPartition.Index) :
+    SchwartzTestPartition.scale (SchwartzTestPartition.exponent i) ≤ 8 := by
+  have h := zpow_le_zpow_right₀ (by norm_num : (1 : ℝ) ≤ 3 / 2)
+    (SchwartzTestPartition.exponent_bounds i).2
+  exact h.trans (by norm_num)
 
 theorem wideTest_support (t : ℝ) :
     tsupport (FinalMellinTests.weightedTest 0 t) ⊆ Set.Icc (1 / 512 : ℝ) 4 := by
@@ -257,7 +280,7 @@ theorem annularTest_cauchy_budget (q : Finset (ℕ × ℕ)) :
           have hs := pow_le_pow_left₀
             (apply_nonneg (q.sup (schwartzSeminormFamily ℝ ℝ ℂ)) _) (hb t i) 2
           have hmul := mul_le_mul_of_nonneg_left hs (norm_nonneg (density W hW t))
-          convert hmul using 1 <;> simp only [mul_pow, ← pow_mul] <;> ring
+          convert hmul using 1 <;> simp only [mul_pow, ← pow_mul, Nat.mul_comm m 2] <;> ring
       _ = B ^ 2 * (∫ t : ℝ, (1 + |t|) ^ (2 * m) * ‖density W hW t‖) :=
         integral_const_mul _ _
       _ ≤ B ^ 2 * (C₁ * s₁.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) :=

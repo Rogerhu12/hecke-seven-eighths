@@ -11,7 +11,7 @@ Lemma 4.8 input and the authoritative one-step theorem. Unconstructed
 upstream objects are to be identified explicitly.
 
 The actual provider is now PR #13's complete
-`CanonicalStep.exists_uniform_step`, pinned at `4ed1751`. The historical
+`CanonicalStep.exists_uniform_step`, pinned at `83458b89`. The historical
 `fixed_triple_energy_step` boundary described below is superseded.
 `ProviderStep`, `ProviderChildParent`, `ProviderGeneratedNodes`,
 `ProviderUniformChildren` and `ProviderNodeStep` are written against the
@@ -39,10 +39,10 @@ come from the actual canonical recursion.
 | Source requirement | Current interface issue | Owner and action |
 | --- | --- | --- |
 | All complete rows and independent parameters | `SourcePolynomialCalibrationFor.character` only quantifies witness rows | PR #5, comment 6546096874; use actual complete-ideal recipe calibration |
-| Moving orientation in inverse column and marks | The inverse uses `rowCharacter^direction`, while slots use `rowCharacter`; direction -1 cannot be removed by a row-independent scalar | PR #5, same comment; require the true recipe identity, with no assumed energy replacement |
-| Whole source profiles | Independent unmarked family, prime windows, mixed/local parameter control and actual evaluation box must be covered | PR #10 owns the shared profile correction and is constructing the actual recipe instance |
-| Amplification seed | The strict seed must retain complete rows before sixth-power regrouping | PR #10 coordinated; this task's new estimates keep complete rows |
-| Named actual objects | Model/expansion/Mellin construction dependencies remain transitive axiom dependencies until upstream closure | Report separately; do not erase or rename them |
+| Moving orientation in inverse column and marks | Inverse-only conjugation preserves the exact absolute product energy; the fixed relative slot coefficient then supplies one live character | `SourceOrientation` and `SourceRelativeSlots`; PR #5 confirms both actual recipe directions are already +1; no polynomial definition change |
+| Whole source profiles | Independent unmarked family, prime windows, mixed/local parameter control and actual evaluation box must be covered | PR #10's actual source/profile code at `a46c8958` is merged, with PR #5 owner fixes at `77dbe777`; awaiting fresh native verification |
+| Amplification seed | Complete rows require one nonnegative majorant over every strictly smaller column scale of the same frozen profile | Consume PR #10's exact `CompleteUnmarkedScaleSupBound`; a pointwise sixth-free bound is insufficient |
+| Named actual objects | The actual model and expansion constructors are now merged; their complete chain needs validation | At `8e8c71d`, `finiteMellinData` already had only standard axioms; the old model and original target still had `sorryAx` |
 
 The manuscript basis for matching the same moving character in every
 marked inverse factor is Theorem 4.1 and its definitions, lines 1564–1607.

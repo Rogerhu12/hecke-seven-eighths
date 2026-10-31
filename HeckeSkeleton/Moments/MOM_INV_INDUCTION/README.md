@@ -50,6 +50,7 @@ been replaced.
 | --- | --- |
 | `InductionGeometry`, `InductionCapacity` | Simultaneous losses, finite depth, marked and independent-scale margins |
 | `BackwardSeminorm`, `UniformThreshold` | Backward finite-seminorm choice, fixed threshold, stage capacities and row ranks |
+| `ProviderInduction`, `ProviderMonotonicity` | Backward induction on the actual universal node class and restriction to its exact stage margins |
 | `ProviderRecursion`, `ProviderStep` | Exact implication-style provider and numerical absorption of its error |
 | `ProviderRows`, `ProviderChildParent`, `ProviderCubeParent` | Actual complete rows to a constructed positive orbital parent |
 | `ProviderNodes`, `ProviderGeneratedNodes`, `ProviderUniformChildren` | Literal canonical nodes and every actual generated child |
@@ -57,9 +58,12 @@ been replaced.
 | `ProviderHomogeneity` | Normalize cube coefficients and restore their squared scalar exactly |
 | `CubeCompletion`, `CubeCompletionCanonical` | Restricted cube Mobius identity, reopening, divisor bounds and exact source partition |
 | `CubeCompletionMellin`, `CubeCompletionEnergy` | Actual joint-profile separation and finite-row energy transport |
+| `CubeCompletionProfile`, `CubeCompletionBlocks`, `CubeCompletionPools`, `CubeCompletionProvider` | Exact long-cube normalization, dyadic windows, subunit column case, and constructed provider parents |
 | `GeneralReflectedEnergy` | Permitted general Lemma 4.8 on explicit fixed-scale reflected terms |
 | `TerminalProviderTheta`, `TerminalProviderShort`, `TerminalProvider` | Genuine completion, short-cube transport and derived terminal exponents |
 | `SourceReductionOverlap`, `SourceReductionPoisson` | Original source expansion, overlap, full-row source calibration and real initial Poisson |
+| `SourceOrientation`, `SourceRelativeSlots` | Exact inverse-only conjugation and common live-character coefficients for the original prime slots |
+| `ProviderInitialInverse`, `ProviderInitialSource`, `ProviderInitialGeometry` | Actual one-pass initial production, reconstruction fibers, and numerical prefactors/margins |
 | `BoundedScale`, `IndependentClosure` | Literal compact-scale estimates, complete sector rows, and all-scale independent gluing |
 | `Audit`, `CompletedEnergyTransportAudit`, `ProviderAudit`, `OriginalAudit` | Separate strict kernel axiom gates |
 
@@ -73,22 +77,26 @@ reductions are not counted as a completed actual source construction.
 
 - Task-rule baseline: `6eb687277d73bc16b4a3e537ba6cdd1fa0fca073`.
 - Actual one-step provider, merged without modifying its theorem:
-  `4ed175153b2a80930227957395c3c2bc4b159eec`, PR #13.
+  `83458b89cbfda6e01169dddb0241e1e7b0b83b35`, PR #13.
 - Explicit frozen reflected-source coordinates: 43 new modules copied
   verbatim from PR #3 at `da1cd936b24ede2c6b9d352cf9d1e8adb8c37d40`, under
   `HeckeSkeleton/LowEnergy/` and `LowFrozenCube/Exponents.lean`. All existing
   transitive source dependencies matched that pin. No PR #3 workflow or
   original target replacement was imported.
-- PR #5 owns actual expansion/model construction and polynomial calibration.
-  PR #10 owns profile uniformity and independent amplification. Their
-  shared definitions are not silently strengthened by this task.
+- Actual source models and complete-row profile/seed interfaces are merged
+  from PR #10 at `a46c8958b78e54202e01fa272af0190ce68a82b3`.
+- PR #5's actual source proof fixes and parameter fields are aligned with
+  owner commit `77dbe777f479823d0bc830f82a15e594a17191b7`. The four overlapping
+  dependency fixes use that exact owner version. These merges preserve the
+  source, calibration, and profile owners' definitions.
 
 `GeneralReflectedEnergy.Input` is the permitted general Lemma 4.8 input:
 only the actual fixed-scale reflected-block estimate and arbitrary-power
 tail. It has no canonical margin, short cube condition, source identity,
 terminal power, or final moment bound. The exact reflection identity is a
-separate theorem. The physical Gaussian endpoint of PR #3 is not asserted
-to imply this general input.
+separate theorem. Each background uses its actual character-dependent
+finite Mellin data, chosen before the uniform estimates. The physical
+Gaussian endpoint of PR #3 is not asserted to imply this general input.
 
 ## Verification
 
@@ -103,9 +111,19 @@ Every audit accepts only `propext`, `Classical.choice`, and `Quot.sound`.
 The original target gate remains mandatory and is not relaxed because of
 inherited unfinished objects.
 
-On `66dd7c5`, run `41220267530` passed the 45-declaration core gate and
-3-declaration physical transport gate. The provider gate reached a missing
-implicit `pi` argument in `ProviderRecursion`; that diagnostic is corrected
-in the working source and requires the next native check. Later modules
-have not been declared passing on that evidence. The original target
-remains open. See `STATEMENT_AUDIT.md` for the exact source-interface issues.
+On `8e8c71d`, run `41221280061` passed the 45-declaration core gate and
+the three-declaration physical completed-energy transport gate. Normal
+Lake compiled `ActualMoments`, `CanonicalEnergy`, and the then-current
+general reflected input. The provider group reported root elaboration
+errors in eleven new adapter modules, plus four upstream single-step modules;
+their diagnostics are being fixed before the next native run.
+
+The original skeleton compiled in that run, but its strict axiom gate
+correctly failed on `sorryAx`. The original artifact
+`13050149492` has verified SHA-256
+`8a5c928860651c528c720f25d102c3523c78ea233920c2ca89bc5448ce343f4c`.
+It reports standard axioms for `finiteMellinData`, while the original
+target and old model/expansion objects still depended on `sorryAx` at
+that commit. The subsequently merged source dependencies and all newly
+written modules require a fresh check. The original skeleton goal remains
+open. See `STATEMENT_AUDIT.md` for the exact source-interface issues.

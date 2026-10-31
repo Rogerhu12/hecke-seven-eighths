@@ -5,7 +5,8 @@ import HeckeGeneral.Analysis.HeckeNormPole
 /-!
 # The physical residue normalizer is a positive real
 
-The normalizer is `(1/6) · R² · M · m`, where `R` is the deleted residue of the Dedekind
+The normalizer is `c_K · (1/6) · R² · M · m`, where `c_K > 0` is the fixed
+Poisson lattice scalar and `R` is the deleted residue of the Dedekind
 zeta function, `M` the additive Mellin value of the probe test at `1/6` and `m` the Mellin
 value of the denominator test at `1`.
 
@@ -117,7 +118,8 @@ theorem physicalResidueNormalizer_pos (P : ProbeData K S)
   set z := additiveMellin K S μ P.additive (1 / 6)
   have hz : z = (z.re : ℂ) := Complex.ext rfl (by simpa using him)
   have hval : physicalResidueNormalizer K S μ P =
-      ((1 / 6 * residueValue (K := K) S ^ 2 * z.re * ∫ y, W.toFun y : ℝ) : ℂ) := by
+      ((physicalPoissonScalar K *
+        (1 / 6 * residueValue (K := K) S ^ 2 * z.re * ∫ y, W.toFun y) : ℝ) : ℂ) := by
     unfold physicalResidueNormalizer
     rw [deletedZetaResidue_eq, hden, mellin_denominatorTest_one,
       show additiveMellin K S μ P.additive (1 / 6) = (z.re : ℂ) from hz]
@@ -125,6 +127,7 @@ theorem physicalResidueNormalizer_pos (P : ProbeData K S)
     ring
   rw [hval, Complex.ofReal_im, Complex.ofReal_re]
   exact ⟨rfl, by
+    have := physicalPoissonScalar_pos K
     have := residueValue_pos (K := K) S
     have := integral_pos W
     positivity⟩

@@ -66,6 +66,7 @@ theorem parent_radialScale_power_le (T : FirstParentEnergy.Data K S (σ := σ)) 
         gcongr
       _ = _ := by
         rw [← Real.rpow_natCast, ← Real.rpow_mul hZ.le]
+        simp only [Nat.cast_ofNat]
         rw [show L * (4 : ℝ) = 4 * L by ring]
         simp only [Real.rpow_add hZ]
         rw [show (2 : ℝ) * B = B + B by ring, Real.rpow_add hZ]

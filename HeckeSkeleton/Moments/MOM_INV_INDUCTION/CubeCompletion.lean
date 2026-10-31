@@ -63,7 +63,7 @@ theorem longCubeCoefficient_zero_of_norm_lt (T : ℝ) (b : Ideal (𝓞 K))
 /-- A common scalar for a finite cube support; it is chosen before the
 row, label, or live squarefree column. -/
 def cubeCoefficientCap (B : Finset (Ideal (𝓞 K))) : ℝ :=
-  max 1 (B.sup (fun b => (idealDivisors b).card) : ℝ)
+  max 1 ((B.sup (fun b => (idealDivisors b).card) : ℕ) : ℝ)
 
 theorem cubeCoefficientCap_one_le (B : Finset (Ideal (𝓞 K))) :
     1 ≤ cubeCoefficientCap B := le_max_left _ _
@@ -179,8 +179,12 @@ theorem selected_cube_dilates_reopen (P : Ideal (𝓞 K) → Prop)
   have hfiltered (H : Ideal (𝓞 K)) :
       Summable (fun CB : Ideal (𝓞 K) × Ideal (𝓞 K) =>
         if H ∣ CB.2 then F CB else 0) := by
-    simpa only [Set.indicator_apply, Set.mem_setOf_eq] using
-      (summable_of_hasFiniteSupport hF).indicator {CB | H ∣ CB.2}
+    apply summable_of_hasFiniteSupport
+    apply hF.subset
+    intro CB hCB
+    show F CB ≠ 0
+    intro hzero
+    exact hCB (by simp only [hzero, ite_self])
   have hterm (H : Ideal (𝓞 K)) (hH : H ∈ A) :
       (if P H then (moebius H : ℂ) *
         ∑' C : Ideal (𝓞 K), ∑' B : Ideal (𝓞 K), F (C, H * B) else 0) =
@@ -190,8 +194,14 @@ theorem selected_cube_dilates_reopen (P : Ideal (𝓞 K) → Prop)
     have hH0 : H ≠ ⊥ := cubeDivisorPool_ne_zero hH
     by_cases hp : P H
     · simp only [hp, if_true]
-      simp_rw [← cube_tsum_ideal_divisible H hH0]
-      rw [← (hfiltered H).tsum_prod, tsum_mul_left]
+      calc
+        _ = (moebius H : ℂ) * ∑' C : Ideal (𝓞 K),
+            ∑' b : Ideal (𝓞 K), if H ∣ b then F (C, b) else 0 := by
+          congr 1
+          apply tsum_congr
+          intro C
+          exact (cube_tsum_ideal_divisible H hH0 (fun b => F (C, b))).symm
+        _ = _ := by rw [← (hfiltered H).tsum_prod, tsum_mul_left]
     · simp only [hp, if_false, zero_mul, tsum_zero]
   rw [Finset.sum_congr rfl hterm]
   rw [← Summable.tsum_finsetSum (fun H _ =>

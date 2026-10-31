@@ -4,6 +4,8 @@ import HeckeSkeleton.HighArithmeticInputs
 import HeckeGeneral.Analysis.BufferedPhysicalRowBin
 import HeckeGeneral.Analysis.RowEulerNegativeStrip
 import HeckeGeneral.Characters.LocalConductor
+import ExpansionInterfaces.BufferedHeights
+import Expansion.ActualPhysicalRecipePresentation
 
 /-!
 Top-down obligations for revised Proposition 6.3(ii), printed pp.41–42,
@@ -81,39 +83,39 @@ def highFixedRowBin (c : TargetContext K)
     selectedHeight upperHeight normLower normUpper a e
 
 /-- Choices/identifications for the named actual expansion D-TARGET.
-The contour, selected-zero and upper-zero heights are independent choices.
-The labels may overlap as row sets; their actual row contributions, rather
-than a spurious disjoint-row partition, identify the complete integral. -/
+One finite buffered index determines the selected and upper-zero heights;
+the contour height is the physical integration cutoff T. The arithmetic
+row selector is fixed before the Mellin variables and is a subset of the
+wider zero-control bin. Labels may overlap as row sets. Their pieces are
+transported actual row contributions: a sampled receiving row need not
+carry its own original kernel. The transport preserves the exact sum. -/
 structure ActualHighPresentation (c : TargetContext K) : Type 1 where
   e : ℝ
   e_pos : 0 < e
   e_small : e ≤ min c.family.lamA c.lamB / 100
-  zeta : ℝ
-  zeta_pos : 0 < zeta
-  zeta_small : zeta < 1 / 48
   euler : RowEulerData K
     ((targetData K c).S : Set (HeightOneSpectrum (𝓞 K))) (targetData K c).probe
   companions : Finset (HeckeCharacter K)
-  contourHeight : ∀ Z T : ℝ, HighBlockIndex K c Z T → ℝ
-  selectedHeight : ∀ Z T : ℝ, HighBlockIndex K c Z T → ℝ
-  upperHeight : ∀ Z T : ℝ, HighBlockIndex K c Z T → ℝ
+  heightCount : ℕ
+  heightIndex : ∀ Z T : ℝ, HighBlockIndex K c Z T → Fin (heightCount + 1)
+  fixedRows : ∀ Z T : ℝ, HighBlockIndex K c Z T → Finset (HighRow K c)
   labels : ∀ Z T : ℝ, (b : HighBlockIndex K c Z T) → Finset (HighLabel K c Z T b)
   shiftedPiece : ∀ Z T : ℝ, (b : HighBlockIndex K c Z T) →
     HighLabel K c Z T b → HighRow K c → ℂ
-  shell_range : ∀ Z T : ℝ, 1 ≤ Z → 1 ≤ T → ∀ b : HighBlockIndex K c Z T,
-    1 / 16 ≤ (((targetData K c).expansion Z T).block b).shell ∧
-      (((targetData K c).expansion Z T).block b).shell ≤ 13 / 16 + zeta
   bin_range : ∀ Z T : ℝ, 1 ≤ Z → 1 ≤ T → ∀ b : HighBlockIndex K c Z T,
     51 / 100 ≤ (((targetData K c).expansion Z T).block b).bin ∧
       (((targetData K c).expansion Z T).block b).bin ≤ c.family.B
-  rows_in_bin : ∀ Z T : ℝ, 1 ≤ Z → 1 ≤ T → ∀ b : HighBlockIndex K c Z T,
-    ∀ ℓ ∈ labels Z T b,
-      ((((targetData K c).expansion Z T).block b).amplitudeSet ℓ).rows ⊆
-        highFixedRowBin K c (targetData K c).probe euler companions
-          (selectedHeight Z T b) (upperHeight Z T b)
-          (Z ^ (((targetData K c).expansion Z T).block b).shell)
-          (2 * Z ^ (((targetData K c).expansion Z T).block b).shell)
-          (((targetData K c).expansion Z T).block b).bin e
+  fixedRows_in_bin : ∀ Z T : ℝ, 1 ≤ Z → 1 ≤ T → ∀ b : HighBlockIndex K c Z T,
+    fixedRows Z T b ⊆
+      highFixedRowBin K c (targetData K c).probe euler companions
+        (3 * ((heightIndex Z T b).val + 1 : ℝ) * T)
+        (3 * ((heightIndex Z T b).val + 2 : ℝ) * T)
+        (Z ^ (((targetData K c).expansion Z T).block b).shell)
+        (2 * Z ^ (((targetData K c).expansion Z T).block b).shell)
+        (((targetData K c).expansion Z T).block b).bin e
+  rows_in_fixedRows : ∀ Z T : ℝ, 1 ≤ Z → 1 ≤ T → ∀ b : HighBlockIndex K c Z T,
+    ∀ ℓ : HighLabel K c Z T b,
+      ((((targetData K c).expansion Z T).block b).amplitudeSet ℓ).rows ⊆ fixedRows Z T b
   block_identification : ∀ Z T : ℝ, 1 ≤ Z → 1 ≤ T →
     ∀ b : HighBlockIndex K c Z T,
       (((targetData K c).expansion Z T).block b).value =
@@ -125,26 +127,229 @@ structure ActualHighPresentation (c : TargetContext K) : Type 1 where
       (∑ ℓ ∈ labels Z T b,
         ∑ u ∈ ((((targetData K c).expansion Z T).block b).amplitudeSet ℓ).rows,
           shiftedPiece Z T b ℓ u) =
-        ∑ u ∈ highFixedRowBin K c (targetData K c).probe euler companions
-          (selectedHeight Z T b) (upperHeight Z T b)
-          (Z ^ (((targetData K c).expansion Z T).block b).shell)
-          (2 * Z ^ (((targetData K c).expansion Z T).block b).shell)
-          (((targetData K c).expansion Z T).block b).bin e,
+        ∑ u ∈ fixedRows Z T b,
           rowContourBox K _ (targetData K c).measures.haar (targetData K c).probe
             (targetCharacter K c) euler c.geometry (targetData K c).rayFilter u
-            Z (contourHeight Z T b)
+            Z T
             ((((targetData K c).expansion Z T).block b).bin + 16 * e)
             (1 - (((targetData K c).expansion Z T).block b).bin - 6 * e) (17 / 50)
 
--- OBLIGATION HB-PRESENT | revised Prop.6.3, pp.41–42; §7.1 pp.43–44.
--- Refine D-EXPANSION with the FINAL fixed-bin integral, actual full-correction
--- label pieces and actual amplitude means. No estimate may be supplied here.
--- Original-minus-final fixed-bin differences belong to the expansion tail,
--- before amplitude labels are introduced; they are not shifted labelwise.
--- Existing verified work: BufferedPhysicalRowBin:24–87 and PhysicalProbeContours:
--- 76–108 define the right objects, but do not construct these identifications.
-def actualHighPresentation (c : TargetContext K) : ActualHighPresentation K c := by
-  sorry
+namespace ActualHighPresentation
+
+variable {K} {c : TargetContext K}
+
+/-- The same fixed allowance used by the actual raw shell schedule. -/
+def zeta (_P : ActualHighPresentation K c) : ℝ := expansionShellAllowance K c
+
+theorem zeta_pos (P : ActualHighPresentation K c) : 0 < P.zeta :=
+  (ExpansionInterfaces.shellAllowance_spec c.family.lamA_pos).1
+
+theorem zeta_small (P : ActualHighPresentation K c) : P.zeta < 1 / 48 :=
+  (ExpansionInterfaces.shellAllowance_spec c.family.lamA_pos).2.1
+
+theorem zeta_le_lamA (P : ActualHighPresentation K c) : P.zeta ≤ c.family.lamA :=
+  (ExpansionInterfaces.shellAllowance_spec c.family.lamA_pos).2.2
+
+/-- The actual block index determines its shell. This range is derived
+from the common schedule, rather than stored as presentation data. -/
+theorem shell_range (P : ActualHighPresentation K c)
+    (Z T : ℝ) (_hZ : 1 ≤ Z) (_hT : 1 ≤ T) (b : HighBlockIndex K c Z T) :
+    1 / 16 ≤ (((targetData K c).expansion Z T).block b).shell ∧
+      (((targetData K c).expansion Z T).block b).shell ≤ 13 / 16 + P.zeta := by
+  have h := highExpansion_shell_range K c Z T b
+  exact ⟨h.1, h.2.le⟩
+
+/-- The physical coordinate cutoff used by `rowContourBox`. -/
+def contourHeight (_P : ActualHighPresentation K c) (_Z T : ℝ)
+    (_b : HighBlockIndex K c _Z T) : ℝ := T
+
+def selectedHeight (P : ActualHighPresentation K c) (Z T : ℝ)
+    (b : HighBlockIndex K c Z T) : ℝ :=
+  3 * ((P.heightIndex Z T b).val + 1 : ℝ) * T
+
+def upperHeight (P : ActualHighPresentation K c) (Z T : ℝ)
+    (b : HighBlockIndex K c Z T) : ℝ :=
+  3 * ((P.heightIndex Z T b).val + 2 : ℝ) * T
+
+/-- The finite index is fixed independently of the later scale and height. -/
+theorem heights_uniform (P : ActualHighPresentation K c) (Z T : ℝ)
+    (hT : 0 ≤ T) (b : HighBlockIndex K c Z T) :
+    0 ≤ P.contourHeight Z T b ∧ 0 ≤ P.selectedHeight Z T b ∧
+    0 ≤ P.upperHeight Z T b ∧
+    P.contourHeight Z T b ≤ 3 * (P.heightCount + 2 : ℝ) * (1 + T) ∧
+    P.selectedHeight Z T b ≤ 3 * (P.heightCount + 2 : ℝ) * (1 + T) ∧
+    P.upperHeight Z T b ≤ 3 * (P.heightCount + 2 : ℝ) * (1 + T) := by
+  have hi : (P.heightIndex Z T b).val ≤ P.heightCount :=
+    Nat.lt_succ_iff.mp (P.heightIndex Z T b).isLt
+  have hi' : ((P.heightIndex Z T b).val : ℝ) ≤ P.heightCount := by exact_mod_cast hi
+  have hn : (0 : ℝ) ≤ P.heightCount := Nat.cast_nonneg _
+  have hi0 : (0 : ℝ) ≤ (P.heightIndex Z T b).val := Nat.cast_nonneg _
+  have hm := mul_le_mul_of_nonneg_right hi' hT
+  dsimp only [contourHeight, selectedHeight, upperHeight]
+  refine ⟨hT, by positivity, by positivity, ?_, ?_, ?_⟩ <;> nlinarith
+
+/-- All labels, including inactive labels, inherit the fixed arithmetic support. -/
+theorem rows_in_bin (P : ActualHighPresentation K c)
+    (Z T : ℝ) (hZ : 1 ≤ Z) (hT : 1 ≤ T) (b : HighBlockIndex K c Z T)
+    (ℓ : HighLabel K c Z T b) :
+    ((((targetData K c).expansion Z T).block b).amplitudeSet ℓ).rows ⊆
+      highFixedRowBin K c (targetData K c).probe P.euler P.companions
+        (P.selectedHeight Z T b) (P.upperHeight Z T b)
+        (Z ^ (((targetData K c).expansion Z T).block b).shell)
+        (2 * Z ^ (((targetData K c).expansion Z T).block b).shell)
+        (((targetData K c).expansion Z T).block b).bin P.e :=
+  (P.rows_in_fixedRows Z T hZ hT b ℓ).trans (P.fixedRows_in_bin Z T hZ hT b)
+
+end ActualHighPresentation
+
+section PhysicalPresentationConstructor
+
+open Expansion.Project ExpansionInterfaces
+open HeckeGeneral.ThetaSkeleton.Global
+
+attribute [local instance] Expansion.ActualProbeContext.localCompletionSpace
+  Expansion.ActualProbeContext.localCompletionBorel
+  Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
+  Expansion.ActualProbeContext.finiteAdeleSpace
+  Expansion.ActualProbeContext.finiteAdeleBorel
+  Expansion.ActualProbeContext.finiteAdeleMeasure_isAddHaar
+
+variable (c : TargetContext K)
+
+local instance actualPresentation_sectorFintype :
+    Fintype (SixthUnitClasses K (places K c)) := Fintype.ofFinite _
+
+local notation "q" => expansionPhysicalParameters K c
+local notation "Eactual" => HighBinActualEuler.arithmeticHighEulerData K (places K c)
+  (probeData K c) (targetCharacter K c)
+
+/-- Decode the original raw block index; no second shell choice is made. -/
+def expansionScheduledShell (Z T : ℝ) (b : HighBlockIndex K c Z T) :
+    Fin (shellCount Z (1 / 16) (13 / 16 + expansionShellAllowance K c)) :=
+  physicalRecipeShellIndex K (places K c) c.family.B (q).e (expansionShellAllowance K c) Z
+    ((expansionRecipeRaw K c).rawBlockIndex Z T b)
+
+/-- The buffered height/bin and sector of that same raw block. -/
+def expansionScheduledChoice (Z T : ℝ) (b : HighBlockIndex K c Z T) :
+    PhysicalRecipeChoice K (places K c) c.family.B (q).e :=
+  physicalRecipeChoice K (places K c) c.family.B (q).e (expansionShellAllowance K c) Z
+    ((expansionRecipeRaw K c).rawBlockIndex Z T b)
+
+/-- The actual clipped, selected arithmetic rows of the original block. -/
+def expansionFixedRows (Z T : ℝ) (b : HighBlockIndex K c Z T) : Finset (HighRow K c) :=
+  physicalRecipeRows K (places K c) (probeData K c) Eactual c.family.omega
+    (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
+    c.family.B_upper (q).e_pos c.family.boundary (expansionShellAllowance K c) Z T
+    (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
+
+/-- Exactly the original amplitude alphabet inside the fixed finite one. -/
+def expansionRetainedLabels (Z T : ℝ) (b : HighBlockIndex K c Z T) :
+    Finset (HighLabel K c Z T b) :=
+  physicalRecipeRetainedLabels K (places K c) (expansionBoundary_lower K c)
+    c.family.B_upper (q).e_pos c.geometry (q).width (q).width_pos
+    (expansionScheduledChoice K c Z T b)
+
+/-- The genuine finite-pattern transport of the original compensated kernel. -/
+def expansionShiftedPiece (Z T : ℝ) (b : HighBlockIndex K c Z T)
+    (l : HighLabel K c Z T b) (u : HighRow K c) : ℂ :=
+  physicalRecipeShiftedPiece K (places K c) (probeData K c) Eactual c.family.omega
+    (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
+    c.family.B_upper (q).e_pos c.family.boundary c.geometry (probeMeasures K c).haar ∅
+    c.family.lamA (expansionShellAllowance K c) (q).width (q).k (q).width_pos Z T
+    (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b) l u
+
+theorem expansionScheduled_scale (Z T : ℝ) (b : HighBlockIndex K c Z T) :
+    1 < Z ∧ 0 ≤ T := by
+  have hs := highExpansion_scale_of_block K c Z T b
+  exact ⟨(by norm_num : (1 : ℝ) < 2 ^ (16 : ℕ)).trans_le hs.1,
+    zero_le_one.trans hs.2⟩
+
+theorem expansionScheduled_bin (Z T : ℝ) (b : HighBlockIndex K c Z T) :
+    (((targetData K c).expansion Z T).block b).bin =
+      (expansionScheduledChoice K c Z T b).1.center :=
+  physicalRecipeScheduledBlock_bin K (places K c) (probeData K c) Eactual c.family.omega
+    (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
+    c.family.B_upper (q).e_pos c.family.boundary c.geometry (probeMeasures K c).haar ∅
+    c.family.lamA (expansionShellAllowance K c) (q).width (q).k (q).width_pos Z T
+    (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
+
+theorem expansionScheduled_shell (Z T : ℝ) (b : HighBlockIndex K c Z T) :
+    (((targetData K c).expansion Z T).block b).shell =
+      shellExponent Z (1 / 16) (expansionScheduledShell K c Z T b).val := rfl
+
+-- HB-PRESENT | revised Prop.6.3, pp.41–42; §7.1 pp.43–44.
+-- Every field is read from the original physical recipe.  Its transported
+-- pieces integrate the actual kernel, including on the default source
+-- branch.  Original-minus-final fixed-bin boundaries are handled before
+-- the amplitude partition, in the actual expansion tail.
+def actualHighPresentation : ActualHighPresentation K c := by
+  letI : IsTotallyComplex K := Expansion.ActualProbeContext.totallyComplex K (axiomChoice K c)
+  have hAllowed : AllowedGeneratorInput K (places K c) (probeData K c).arithmetic :=
+    Expansion.ActualProbeContext.allowedGenerators K (axiomChoice K c)
+  refine
+    { e := (q).e
+      e_pos := (q).e_pos
+      e_small := expansionPhysicalParameters_e_losses K c
+      euler := Eactual
+      companions := {1}
+      heightCount := physicalRecipeHeightBound c.family.B (q).e
+      heightIndex := fun Z T b => physicalRecipePresentationHeightIndex K (places K c)
+        c.family.B (q).e (expansionScheduledChoice K c Z T b)
+      fixedRows := expansionFixedRows K c
+      labels := expansionRetainedLabels K c
+      shiftedPiece := expansionShiftedPiece K c
+      bin_range := ?_
+      fixedRows_in_bin := ?_
+      rows_in_fixedRows := ?_
+      block_identification := ?_
+      shifted_identification := ?_ }
+  · intro Z T _hZ _hT b
+    exact physicalRecipeScheduledBlock_bin_range K (places K c) (probeData K c) Eactual
+      c.family.omega (targetCharacter K c) (representative K c).val.property
+      (expansionBoundary_lower K c) c.family.B_upper (q).e_pos c.family.boundary
+      c.geometry (probeMeasures K c).haar ∅ c.family.lamA (expansionShellAllowance K c)
+      (q).width (q).k (q).width_pos Z T
+      (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
+  · intro Z T _hZ _hT b
+    rw [expansionScheduled_bin, expansionScheduled_shell]
+    exact physicalRecipeRows_in_bin K (places K c) (probeData K c) Eactual c.family.omega
+      (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
+      c.family.B_upper (q).e_pos c.family.boundary (expansionShellAllowance K c) Z T
+      (expansionScheduled_scale K c Z T b).1
+      (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
+  · intro Z T _hZ _hT b l
+    exact physicalRecipeScheduledBlock_rows_subset K (places K c) (probeData K c)
+      c.family.omega (targetCharacter K c) c.geometry Eactual
+      (representative K c).val.property (expansionBoundary_lower K c) c.family.B_upper
+      (q).e_pos c.family.boundary (probeMeasures K c).haar ∅ c.family.lamA
+      (expansionShellAllowance K c) (q).width (q).k (q).width_pos Z T
+      (expansionScheduled_scale K c Z T b).1 (expansionScheduled_scale K c Z T b).2
+      (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b) l
+  · intro Z T _hZ _hT b
+    exact actual_physicalRecipeScheduledBlock_identification K (excludedPlaces K c)
+      (Expansion.ActualProbeContext.allLocalMeasures K)
+      (Expansion.ActualProbeContext.finiteAdeleMeasure K) (probeData K c) c.family.omega
+      (targetCharacter K c) hAllowed c.geometry ∅ (representative K c).val.property
+      (expansionBoundary_lower K c) c.family.B_upper (q).e_pos
+      (expansionPhysicalParameters_e_sweep K c) c.family.boundary c.family.lamA
+      (expansionShellAllowance K c) (q).width (q).k (q).width_pos Z T
+      (expansionScheduled_scale K c Z T b).1 (expansionScheduled_scale K c Z T b).2
+      (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
+  · intro Z T _hZ _hT b
+    rw [expansionScheduled_bin]
+    exact actual_physicalRecipeShiftedPiece_sum K (excludedPlaces K c)
+      (Expansion.ActualProbeContext.allLocalMeasures K)
+      (Expansion.ActualProbeContext.finiteAdeleMeasure K) (probeData K c) c.family.omega
+      (targetCharacter K c) hAllowed c.geometry ∅ (representative K c).val.property
+      (expansionBoundary_lower K c) c.family.B_upper (q).e_pos
+      (expansionPhysicalParameters_e_sweep K c) c.family.boundary c.family.lamA
+      (expansionShellAllowance K c) (q).width (q).k (q).width_pos Z T
+      (expansionScheduled_scale K c Z T b).1 (expansionScheduled_scale K c Z T b).2
+      (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
+
+end PhysicalPresentationConstructor
+
+#print axioms actualHighPresentation
 
 /-- The full factor at an exceptional prime uses its finite rational table;
 there is no division by a possibly zero Gauss polynomial. -/
@@ -333,12 +538,26 @@ def HighLabelUniformity (c : TargetContext K) (P : ActualHighPresentation K c) :
         ((P.labels Z T b).card : ℝ) ≤ C * Z ^ (c.lamB / 4) * (1 + T) ^ A
 
 -- OBLIGATION HB-LABEL-HEIGHT | revised Prop.6.3 pp.41–42, §7.1 p.43.
--- Choose finite profile/height degrees uniformly in all pointwise labels,
--- BEFORE τ. Selected, upper-zero and contour heights must be controlled
--- separately. Existing finite-seminorm frameworks do not prove this transfer.
+-- The single recipe uses one fixed finite label type before Z, T and τ.
+-- Cardinality follows from that actual definition. The three height bounds
+-- are the separate theorem `ActualHighPresentation.heights_uniform` above.
+-- The construction of the raw expansion and actual presentation remains
+-- D-EXPANSION/HB-PRESENT; no analytic norm-form estimate is asserted here.
 theorem highLabelUniformity (c : TargetContext K) :
     HighLabelUniformity K c (actualHighPresentation K c) := by
-  sorry
+  let N : ℕ := (expansionRecipeRaw K c).labelCount
+  refine ⟨0, (N : ℝ) + 1, 1, 1, le_rfl, by positivity, zero_lt_one, le_rfl, ?_⟩
+  intro Z T hZ _hT _hceiling b
+  have hcard : ((actualHighPresentation K c).labels Z T b).card ≤ N := by
+    exact card_finset_fin_le
+      (((actualHighPresentation K c).labels Z T b) : Finset (Fin N))
+  have hcard' : (((actualHighPresentation K c).labels Z T b).card : ℝ) ≤ N := by
+    exact_mod_cast hcard
+  have hp : 1 ≤ Z ^ (c.lamB / 4) :=
+    Real.one_le_rpow hZ (by linarith [c.lamB_pos])
+  simpa only [Real.rpow_zero, mul_one] using
+    hcard'.trans ((by linarith : (N : ℝ) ≤ N + 1).trans
+      (le_mul_of_one_le_right (by positivity : (0 : ℝ) ≤ N + 1) hp))
 
 /-- Row-cardinality-free exponent. The later count contributes exactly dR. -/
 def highRowExponent (c : TargetContext K) (Z T : ℝ)
@@ -382,20 +601,12 @@ no moving amplitude label occurs in this definition. -/
 def wholeBinBoundary (c : TargetContext K) (P : ActualHighPresentation K c)
     (Z T : ℝ) : ℂ :=
   ∑ b : HighBlockIndex K c Z T,
-    ((∑ u ∈ highFixedRowBin K c (targetData K c).probe P.euler P.companions
-      (P.selectedHeight Z T b) (P.upperHeight Z T b)
-      (Z ^ (((targetData K c).expansion Z T).block b).shell)
-      (2 * Z ^ (((targetData K c).expansion Z T).block b).shell)
-      (((targetData K c).expansion Z T).block b).bin P.e,
+    ((∑ u ∈ P.fixedRows Z T b,
       rowContourBox K _ (targetData K c).measures.haar (targetData K c).probe
         (targetCharacter K c) P.euler c.geometry (targetData K c).rayFilter u
         Z (P.contourHeight Z T b) (c.family.B + 20 * P.e)
         (1 - (((targetData K c).expansion Z T).block b).bin - 6 * P.e) (17 / 50)) -
-    (∑ u ∈ highFixedRowBin K c (targetData K c).probe P.euler P.companions
-      (P.selectedHeight Z T b) (P.upperHeight Z T b)
-      (Z ^ (((targetData K c).expansion Z T).block b).shell)
-      (2 * Z ^ (((targetData K c).expansion Z T).block b).shell)
-      (((targetData K c).expansion Z T).block b).bin P.e,
+    (∑ u ∈ P.fixedRows Z T b,
       rowContourBox K _ (targetData K c).measures.haar (targetData K c).probe
         (targetCharacter K c) P.euler c.geometry (targetData K c).rayFilter u
         Z (P.contourHeight Z T b)

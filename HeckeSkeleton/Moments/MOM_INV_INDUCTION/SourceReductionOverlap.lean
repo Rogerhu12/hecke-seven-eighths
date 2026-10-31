@@ -54,7 +54,7 @@ def sourceSquarefreeOverlap (n P : Ideal (𝓞 K))
   let P₀ := idealQuotient j P
   have hjn : j ∣ n := gcd_dvd_left n P
   have hjP : j ∣ P := gcd_dvd_right n P
-  have hj : Squarefree j := hn.of_dvd hjn
+  have hj : Squarefree j := Squarefree.squarefree_of_dvd hjn hn
   have hn' : n = j * n₀ := (idealQuotient_mul hjn).symm
   have hP' : P = j * P₀ := (idealQuotient_mul hjP).symm
   obtain ⟨hjn₀, _, hn₀⟩ := squarefree_mul_iff.mp (hn' ▸ hn)
@@ -78,7 +78,7 @@ theorem column_squarefree (o : SourceSquarefreeOverlap n P) :
 and the new squarefree column. -/
 theorem product_identity (o : SourceSquarefreeOverlap n P) :
     n * P = o.common ^ 2 * (o.inverseResidual * o.slotResidual) := by
-  rw [o.inverse_eq, o.slots_eq]
+  simp only [o.inverse_eq, o.slots_eq]
   ring
 
 /-- This identity applies to the zero-extended ideal character. It
@@ -91,7 +91,7 @@ theorem coefficient_identity (o : SourceSquarefreeOverlap n P)
         (moebius (o.inverseResidual * o.slotResidual) : ℂ) *
         idealCoefficient (primeCoefficient K χ) o.common ^ 2 *
         idealCoefficient (primeCoefficient K χ) (o.inverseResidual * o.slotResidual) := by
-  rw [o.inverse_eq, o.slots_eq]
+  simp only [o.inverse_eq, o.slots_eq]
   exact moebius_character_overlap
     (idealCoefficientHom (primeCoefficient K χ)).toMonoidHom
     o.common_inverse_coprime o.residual_coprime.isRelPrime o.slots_squarefree
@@ -111,7 +111,7 @@ theorem puncture_identity (o : SourceSquarefreeOverlap n P) (R : Ideal (𝓞 K))
         (if IsCoprime P R then 1 else 0) =
       (if IsCoprime o.common R then 1 else 0) *
         (if IsCoprime (o.inverseResidual * o.slotResidual) R then 1 else 0) := by
-  rw [o.inverse_eq, o.slots_eq]
+  simp only [o.inverse_eq, o.slots_eq]
   simp only [IsCoprime.mul_left_iff]
   split_ifs <;> simp_all
 
@@ -242,8 +242,13 @@ theorem inverse_marked_polynomial_eq_overlap_sum (d : MomentData K ω ψ)
           sourceInverseTerm d u D t x.1 *
             ∏ i, sourceSlotTerm d u Z t i (x.2 i) := by
   dsimp only
-  rw [inverse_marked_polynomial_eq_source_sum, ← Finset.sum_product]
-  exact (Finset.sum_fiberwise_of_maps_to
-    (fun x hx => Finset.mem_image_of_mem (sourceOverlapKey d) hx) _).symm
+  rw [inverse_marked_polynomial_eq_source_sum]
+  calc
+    _ = ∑ x ∈ ((d.inverseTest.support u t D).filter (fun n => Squarefree n.val)) ×ˢ
+        sourceSlotTuples d Z t,
+        sourceInverseTerm d u D t x.1 * ∏ i, sourceSlotTerm d u Z t i (x.2 i) := by
+      rw [Finset.sum_product]
+    _ = _ := (Finset.sum_fiberwise_of_maps_to
+      (fun x hx => Finset.mem_image_of_mem (sourceOverlapKey d) hx) _).symm
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION

@@ -29,7 +29,7 @@ private theorem scalar_bound (r d X g : ℝ) (hr : 0 ≤ r) (hg : 1 ≤ g)
   have hdg : d / (g * g) ≤ 1 := (div_le_one hgg).mpr
     (hd.trans (le_mul_of_one_le_right hg0.le hg))
   calc
-    _ = (r * X ^ 2) * (d / (g * g)) := by field_simp [hg0.ne']; ring
+    _ = (r * X ^ 2) * (d / (g * g)) := by field_simp [hg0.ne']
     _ ≤ (r * X ^ 2) * 1 := mul_le_mul_of_nonneg_left hdg
       (mul_nonneg hr (sq_nonneg _))
     _ = _ := mul_one _

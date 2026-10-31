@@ -83,7 +83,7 @@ theorem normalizedScalar_le (Z M r ell V delta A B R eta : ℝ)
   have hsqrt : Z ^ ((R - eta) / 2) ≤ Real.sqrt (cubeNorm K S D r₁ r₂ b₁ b₂) := by
     have h := Real.sqrt_le_sqrt hR
     simpa only [Real.sqrt_eq_rpow, ← Real.rpow_mul hZpos.le,
-      div_eq_mul_inv] using h
+      div_eq_mul_inv, one_mul] using h
   have hden :
       Z ^ (-M) * Z ^ (delta - eta) * Z ^ ((R - eta) / 2) ≤
       radius.val * (sIntegerElementNorm K Sset d).val *

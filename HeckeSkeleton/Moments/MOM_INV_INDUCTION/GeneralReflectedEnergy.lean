@@ -160,19 +160,27 @@ def tail (f : FixedData K S) (s : FrozenState K S f.frozen f.puncture)
       atom K S D f s F θ V (Z ^ Nstar) k P cb.1 cb.2
     else 0
 
+/-- The genuine source and its Mellin table may depend on the period.
+All periods lie in the one finite inventory fixed before the constants.
+This record contains reflection identities, never energy estimates. -/
+structure ReflectionFamily (backgrounds : Finset (HeckeCharacter K)) where
+  data : HeckeCharacter K → FiniteMellinData K S
+  reflection : ∀ θ ∈ backgrounds,
+    MarkedCoefficientReflectionInput K S D (data θ) θ
+
 /-- Lemma 4.8 in its general fixed completed-scale form.
 
 Constants and the finite seminorm order precede all moving rows,
 frozen ideals, original coefficients, annular tests, and dyads.
 The two fields are only the actual reflected block estimate and its
 arbitrary-power tail; there is no canonical moment conclusion. -/
-structure Input (F : FiniteMellinData K S)
+structure Input (F : HeckeCharacter K → FiniteMellinData K S)
     (backgrounds : Finset (HeckeCharacter K)) : Prop where
   block_energy : ∀ L lo hi eps : ℝ, 0 < L → 0 < lo → lo ≤ hi → 0 < eps →
     ∃ C Z₀ A : ℝ, ∃ J : ℕ,
       0 < C ∧ 1 < Z₀ ∧ 0 ≤ A ∧
       ∀ (θ : HeckeCharacter K), θ ∈ backgrounds →
-      MarkedCoefficientReflectionInput K S D F θ →
+      MarkedCoefficientReflectionInput K S D (F θ) θ →
       ∀ (f : FixedData K S) (s : FrozenState K S f.frozen f.puncture)
         (V : SmoothAnnularTest) (Z Nstar H za v ell amp : ℝ),
       Z₀ ≤ Z → BoundedSource K S f Z L Nstar H za →
@@ -184,7 +192,7 @@ structure Input (F : FiniteMellinData K S)
       (∀ c ∈ cs, InAnnulus K S Z v c) →
       (∀ b ∈ bs, InAnnulus K S Z ell b) →
       (∀ P ∈ ps, ‖a P‖ ≤ amp) →
-      (∑ k ∈ rows, ‖block K S D f s F θ a V.toFun (Z ^ Nstar) ps cs bs k‖ ^ 2) ≤
+      (∑ k ∈ rows, ‖block K S D f s (F θ) θ a V.toFun (Z ^ Nstar) ps cs bs k‖ ^ 2) ≤
         C * amp ^ 2 * testSeminorm V.toFun J A ^ 2 * ‖inactiveWeight K S f‖ ^ 2 *
           Z ^ (exponent K S f s Z Nstar H za v ell + eps)
   tail_energy : ∀ L lo hi tau saving : ℝ,
@@ -192,7 +200,7 @@ structure Input (F : FiniteMellinData K S)
     ∃ C Z₀ A : ℝ, ∃ J : ℕ,
       0 < C ∧ 1 < Z₀ ∧ 0 ≤ A ∧
       ∀ (θ : HeckeCharacter K), θ ∈ backgrounds →
-      MarkedCoefficientReflectionInput K S D F θ →
+      MarkedCoefficientReflectionInput K S D (F θ) θ →
       ∀ (f : FixedData K S) (s : FrozenState K S f.frozen f.puncture)
         (V : SmoothAnnularTest) (Z Nstar H za amp : ℝ),
       Z₀ ≤ Z → BoundedSource K S f Z L Nstar H za → 0 ≤ amp →
@@ -201,7 +209,7 @@ structure Input (F : FiniteMellinData K S)
       (∀ k ∈ rows, InAnnulus K S Z H k) →
       (∀ P ∈ ps, InAnnulus K S Z za P) →
       (∀ P ∈ ps, ‖a P‖ ≤ amp) →
-      (∑ k ∈ rows, ‖tail K S D f s F θ a V.toFun Z Nstar H za tau ps k‖ ^ 2) ≤
+      (∑ k ∈ rows, ‖tail K S D f s (F θ) θ a V.toFun Z Nstar H za tau ps k‖ ^ 2) ≤
         C * amp ^ 2 * testSeminorm V.toFun J A ^ 2 * ‖inactiveWeight K S f‖ ^ 2 *
           Z ^ (-saving)
 

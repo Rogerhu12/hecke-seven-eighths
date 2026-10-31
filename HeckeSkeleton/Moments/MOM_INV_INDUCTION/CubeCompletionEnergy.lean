@@ -211,6 +211,47 @@ def annularEnergy (R : Finset κ) (w : κ → ℝ)
     (a : κ → β → α → ℂ) (U t : ℝ) (i : SchwartzTestPartition.Index) : ℝ :=
   ∑ k ∈ R, w k * ‖annularColumn B N bNorm nNorm (a k) U t i‖ ^ 2
 
+theorem source_norm_le_card (B : Finset β) (N : Finset α)
+    (bNorm : β → ℝ) (nNorm : α → ℝ) (a : β → α → ℂ)
+    (W : SchwartzMap ℝ ℂ) (X D : ℝ)
+    (ha : ∀ b ∈ B, ∀ n ∈ N, ‖a b n‖ ≤ D) :
+    ‖source B N bNorm nNorm a W X‖ ≤
+      (B.card : ℝ) * N.card * D * SchwartzMap.seminorm ℝ 0 0 W := by
+  unfold source
+  apply (norm_sum_le _ _).trans
+  calc
+    _ ≤ ∑ _b ∈ B, ∑ _n ∈ N, D * SchwartzMap.seminorm ℝ 0 0 W := by
+      apply Finset.sum_le_sum
+      intro b hb
+      apply (norm_sum_le _ _).trans
+      apply Finset.sum_le_sum
+      intro n hn
+      rw [norm_mul]
+      exact mul_le_mul (ha b hb n hn) (SchwartzMap.norm_le_seminorm ℝ W _)
+        (norm_nonneg _) (le_trans (norm_nonneg _) (ha b hb n hn))
+    _ = _ := by
+      simp only [Finset.sum_const, nsmul_eq_mul]
+      ring
+
+/-- The direct finite-column estimate used when the true annular
+column scale is below one. Its cube count and all weights are explicit,
+so the source normalization can cancel the cube count afterwards. -/
+theorem sourceEnergy_le_card (R : Finset κ) (w : κ → ℝ)
+    (hw : ∀ k ∈ R, 0 ≤ w k)
+    (B : Finset β) (N : Finset α) (bNorm : β → ℝ) (nNorm : α → ℝ)
+    (a : κ → β → α → ℂ) (W : SchwartzMap ℝ ℂ) (X D : ℝ)
+    (ha : ∀ k ∈ R, ∀ b ∈ B, ∀ n ∈ N, ‖a k b n‖ ≤ D) :
+    sourceEnergy R w B N bNorm nNorm a W X ≤
+      (∑ k ∈ R, w k) *
+        ((B.card : ℝ) * N.card * D * SchwartzMap.seminorm ℝ 0 0 W) ^ 2 := by
+  unfold sourceEnergy
+  rw [Finset.sum_mul]
+  apply Finset.sum_le_sum
+  intro k hk
+  exact mul_le_mul_of_nonneg_left
+    (pow_le_pow_left₀ (norm_nonneg _) (source_norm_le_card B N bNorm nNorm (a k) W X D
+      (ha k hk)) 2) (hw k hk)
+
 theorem annularEnergy_nonneg (R : Finset κ) (w : κ → ℝ)
     (hw : ∀ k ∈ R, 0 ≤ w k)
     (B : Finset β) (N : Finset α) (bNorm : β → ℝ) (nNorm : α → ℝ)
@@ -345,7 +386,9 @@ theorem exists_uniform_sourceEnergy_bound (q : Finset (ℕ × ℕ)) :
     have ht := pow_le_pow_left₀
       (apply_nonneg (q.sup (schwartzSeminormFamily ℝ ℝ ℂ)) _) (htest t i) 2
     exact (henergy t i).trans
-      ((mul_le_mul_of_nonneg_left ht hE).trans_eq (by rw [mul_pow, ← pow_mul]; ring))
+      ((mul_le_mul_of_nonneg_left ht hE).trans_eq (by
+        rw [mul_pow, ← pow_mul, Nat.mul_comm m 2]
+        ring))
   have hi (i : SchwartzTestPartition.Index) :
       (∫ t : ℝ, ‖density W hW t‖ * annularEnergy R w B N bNorm nNorm a U t i) ≤
         E * A ^ 2 * (∫ t : ℝ, (1 + |t|) ^ (2 * m) * ‖density W hW t‖) := by

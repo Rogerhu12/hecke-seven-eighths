@@ -58,8 +58,9 @@ what justifies the negative orientation in `inversePolynomial`. -/
 theorem hecke_coefficient_zero_or_norm_one (χ : HeckeCharacter K)
     (I : NonzeroIdeal K) :
     heckeIdealCoefficient K χ I = 0 ∨ ‖heckeIdealCoefficient K χ I‖ = 1 := by
+  have hI : I.val ≠ ⊥ := nonZeroDivisors.coe_ne_zero I
   unfold heckeIdealCoefficient nonzeroIdealCoefficient idealCoefficient
-  rw [if_neg (nonZeroDivisors.coe_ne_zero I)]
+  rw [if_neg hI]
   apply multiset_prod_zero_or_norm_one
   intro z hz
   obtain ⟨P, _hP, rfl⟩ := Multiset.mem_map.mp hz

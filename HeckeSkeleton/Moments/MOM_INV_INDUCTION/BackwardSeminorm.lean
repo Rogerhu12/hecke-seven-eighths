@@ -152,7 +152,7 @@ theorem backward_bound_with_epsilon {α : Type*}
         Z x ^ (F x + eps) := by
   intro x hx
   exact (hbound x hx).trans (mul_le_mul_of_nonneg_left
-    (Real.rpow_le_rpow_of_exponent_le (hZ x hx) (add_le_add_left hloss _))
+    (Real.rpow_le_rpow_of_exponent_le (hZ x hx) (add_le_add le_rfl hloss))
     (mul_nonneg hC (sq_nonneg _)))
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION

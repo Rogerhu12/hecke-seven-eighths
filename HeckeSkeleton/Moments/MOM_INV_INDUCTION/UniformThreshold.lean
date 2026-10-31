@@ -41,9 +41,7 @@ theorem abs_logb_le_of_power_bound {Z delta C s : ℝ}
   have hu := Real.logb_le_logb_of_le hZ hsp (hshigh.trans hCpower)
   rw [Real.logb_rpow (zero_lt_one.trans hZ) (ne_of_gt hZ)] at hu
   have hinv : s⁻¹ ≤ C := by
-    apply (inv_le_iff₀ hsp).mpr
-    have hm := mul_le_mul_of_nonneg_left hslow hCp.le
-    simpa only [mul_inv_cancel₀ hCp.ne'] using hm
+    simpa only [inv_inv] using (inv_le_inv₀ hsp (inv_pos.mpr hCp)).mpr hslow
   have hl := Real.logb_le_logb_of_le hZ (inv_pos.mpr hsp) (hinv.trans hCpower)
   rw [Real.logb_inv, Real.logb_rpow (zero_lt_one.trans hZ) (ne_of_gt hZ)] at hl
   exact abs_le.mpr ⟨by linarith, hu⟩

@@ -197,6 +197,14 @@ theorem orbitalEnergy_re (ν : HeckeCharacter K) (mark : Ext → ℂ)
   unfold orbitalEnergy sIntegerWeightedOrbitalSeries
   have hs := (InverseRowMajorant.summable_norm_weightedProfile
     K S Γ D (squarefreePool K Sset X) (coefficient K S ν mark W X) H).of_norm
+  change (∑' q : Orbit,
+    ((‖InverseRowMajorant.amplitude K S Γ D (squarefreePool K Sset X)
+      (coefficient K S ν mark W X) q‖ ^ 2 : ℝ) : ℂ) *
+      sUnitOrbitalProfile K Sset
+        (sLocalTensorTestFunction K Sset (rowBallArchTest K S 1)
+          (sIntegerFiniteTestFunction K S (rowBallFiniteFamily K S 1)))
+        ⟨H.val⁻¹ * (sIntegerOrbitNorm K Sset Γ q).val,
+          mul_pos (inv_pos.mpr H.property) (sIntegerOrbitNorm K Sset Γ q).property⟩).re = _
   rw [Complex.re_tsum hs]
   simp only [Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, zero_mul, sub_zero]
   rfl
