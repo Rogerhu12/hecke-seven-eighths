@@ -43,9 +43,9 @@ variable {k : ℕ} {ω ψ : HeckeCharacter F}
 /-- Only original one-ideal/one-prime arithmetic identities and actual
 theta membership occur in this calibration. -/
 structure Calibration (T : FixedChildCharacters F k) (d : MomentData F ω ψ)
-    (count : d.geometry.slotCount = k) (u : NonzeroIdeal F) (g h' : A.R) : Prop where
+    (count : d.geometry.slotCount = k) (u : HeckeGeneral.Analysis.NonzeroIdeal F) (g h' : A.R) : Prop where
   fixedRay_mem_theta : ∀ θ ∈ T.fixedRay, θ ∈ d.theta
-  plain : ∀ I : NonzeroIdeal F,
+  plain : ∀ I : HeckeGeneral.Analysis.NonzeroIdeal F,
     heckeIdealCoefficient F (d.plainBackground * d.rowCharacter u) I * maskValue d u I.val =
       sourcePlainCoefficient T.plain T.plainTwist T.mask I *
         actualIdealResidue (A := A) (σ := σ) I.val g *
@@ -57,7 +57,7 @@ structure Calibration (T : FixedChildCharacters F k) (d : MomentData F ω ψ)
           actualIdealResidue (A := A) (σ := σ) p.asIdeal h'
 
 def Calibration.toDictionary {T : FixedChildCharacters F k} {d : MomentData F ω ψ}
-    {count : d.geometry.slotCount = k} {u : NonzeroIdeal F} {g h' : A.R}
+    {count : d.geometry.slotCount = k} {u : HeckeGeneral.Analysis.NonzeroIdeal F} {g h' : A.R}
     (D : T.Calibration (σ := σ) d count u g h') :
     ChildHeckeTermDictionary (σ := σ) d u g h' where
   sourcePlain := T.plain
@@ -75,9 +75,9 @@ def Calibration.toDictionary {T : FixedChildCharacters F k} {d : MomentData F ω
 /-- The entire fixed coefficient, with the actual frequency g*h'. -/
 def coefficient (T : FixedChildCharacters F k) (g h' : A.R)
     (N₁ N₂ Z : ℝ) (length : Fin k → ℝ)
-    (w₁ w₂ : NonzeroIdeal F → ℂ)
+    (w₁ w₂ : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ)
     (w : Fin k → HeightOneSpectrum (𝓞 F) → ℂ) :
-    (NonzeroIdeal F × NonzeroIdeal F) × (Fin k → HeightOneSpectrum (𝓞 F)) → ℂ :=
+    (HeckeGeneral.Analysis.NonzeroIdeal F × HeckeGeneral.Analysis.NonzeroIdeal F) × (Fin k → HeightOneSpectrum (𝓞 F)) → ℂ :=
   childCartesianCoefficient
     (sourcePlainTerm (σ := σ) T.plain T.plainTwist T.mask g h' w₁ N₁)
     (sourcePlainTerm (σ := σ) T.plain T.plainTwist T.mask g h' w₂ N₂)
@@ -98,18 +98,18 @@ theorem fixed_child_polynomial_from_terms
     (T : FixedChildCharacters F k) (d : MomentData F ω ψ)
     (count : d.geometry.slotCount = k) (length : Fin k → ℝ)
     (hlength : ∀ i, (d.geometry.slots i).length = length (Fin.cast count i))
-    (u : NonzeroIdeal F) (g h' : A.R)
+    (u : HeckeGeneral.Analysis.NonzeroIdeal F) (g h' : A.R)
     (D : T.Calibration (σ := σ) d count u g h')
     (N₁ N₂ Z t : ℝ)
-    (S₁ S₂ : Finset (NonzeroIdeal F))
+    (S₁ S₂ : Finset (HeckeGeneral.Analysis.NonzeroIdeal F))
     (S : Fin k → Finset (HeightOneSpectrum (𝓞 F)))
     (hS₁ : d.plainTest₁.support u t N₁ ⊆ S₁)
     (hS₂ : d.plainTest₂.support u t N₂ ⊆ S₂)
     (hS : ∀ i, (d.geometry.slots i).support t (Z ^ (d.geometry.slots i).length) ⊆
       S (Fin.cast count i))
-    (w₁ w₂ : NonzeroIdeal F → ℂ)
+    (w₁ w₂ : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ)
     (w : Fin k → HeightOneSpectrum (𝓞 F) → ℂ)
-    (x₁ x₂ : NonzeroIdeal F → V)
+    (x₁ x₂ : HeckeGeneral.Analysis.NonzeroIdeal F → V)
     (x : Fin k → HeightOneSpectrum (𝓞 F) → V) (ξ : V)
     (hW₁ : ∀ I ∈ S₁, w₁ I * jointPhase ξ (x₁ I) =
       d.plainTest₁.profile u t (idealNorm F I / N₁))
@@ -142,7 +142,7 @@ theorem fixed_child_family_energy_from_terms {H : Type*}
     (hlength : ∀ ξ i, ((d ξ).geometry.slots i).length = length (Fin.cast (count ξ) i))
     (D : ∀ ξ j, (T j).Calibration (σ := σ) (d ξ) (count ξ)
       (r j).momentIdeal (g j) (r j).element)
-    (S₁ S₂ : Finset (NonzeroIdeal F))
+    (S₁ S₂ : Finset (HeckeGeneral.Analysis.NonzeroIdeal F))
     (S : Fin k → Finset (HeightOneSpectrum (𝓞 F)))
     (hS₁ : ∀ ξ, ∀ j ∈ rows, (d ξ).plainTest₁.support
       (r j).momentIdeal (t ξ) (Z ^ a.n₁) ⊆ S₁)
@@ -150,9 +150,9 @@ theorem fixed_child_family_energy_from_terms {H : Type*}
       (r j).momentIdeal (t ξ) (Z ^ a.n₂) ⊆ S₂)
     (hS : ∀ ξ i, ((d ξ).geometry.slots i).support (t ξ)
       (Z ^ ((d ξ).geometry.slots i).length) ⊆ S (Fin.cast (count ξ) i))
-    (w₁ w₂ : H → NonzeroIdeal F → ℂ)
+    (w₁ w₂ : H → HeckeGeneral.Analysis.NonzeroIdeal F → ℂ)
     (w : H → Fin k → HeightOneSpectrum (𝓞 F) → ℂ)
-    (x₁ x₂ : H → NonzeroIdeal F → V)
+    (x₁ x₂ : H → HeckeGeneral.Analysis.NonzeroIdeal F → V)
     (x : H → Fin k → HeightOneSpectrum (𝓞 F) → V)
     (hW₁ : ∀ ξ, ∀ j ∈ rows, ∀ I ∈ S₁,
       w₁ j I * jointPhase ξ (x₁ j I) =
@@ -171,7 +171,7 @@ theorem fixed_child_family_energy_from_terms {H : Type*}
     (hexception : ∀ ξ, ∀ j ∈ rows,
       if a.z = 0 then (d ξ).plainBackground * (d ξ).rowCharacter (r j).momentIdeal ≠ 1
       else (d ξ).rowCharacter (r j).momentIdeal ∉ (d ξ).theta)
-    (hfiber : ∀ u : NonzeroIdeal F,
+    (hfiber : ∀ u : HeckeGeneral.Analysis.NonzeroIdeal F,
       (rows.filter (fun j => (r j).momentIdeal = u)).card ≤ B) :
     ∀ ξ, jointColumnEnergy rows (childCartesianColumns S₁ S₂ S) q
       (fun j => (T j).coefficient (σ := σ) (g j) (r j).element
@@ -179,7 +179,7 @@ theorem fixed_child_family_energy_from_terms {H : Type*}
       (fun j => childCartesianLocation (x₁ j) (x₂ j) (x j)) ξ ≤
       W * (B : ℝ) * pairedEnergy (d ξ) a Z (t ξ) := by
   intro ξ
-  let P : NonzeroIdeal F → ℂ := fun u =>
+  let P : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ := fun u =>
     plainPolynomial (d ξ) (d ξ).plainTest₁ u (Z ^ a.n₁) (t ξ) *
       plainPolynomial (d ξ) (d ξ).plainTest₂ u (Z ^ a.n₂) (t ξ) *
         slotProduct (d ξ) u Z (t ξ)
@@ -191,7 +191,7 @@ theorem fixed_child_family_energy_from_terms {H : Type*}
       (x₁ j) (x₂ j) (x j) ξ (hW₁ ξ j hj) (hW₂ ξ j hj) (hW ξ j hj)
   have hrows (j : H) (hj : j ∈ rows) : (r j).momentIdeal ∈ pairedRows (d ξ) a Z :=
     (r j).mem_pairedRows (d ξ) a Z (hallowed ξ j hj) (hcutoff j hj) (hexception ξ j hj)
-  have hmass (u : NonzeroIdeal F) :
+  have hmass (u : HeckeGeneral.Analysis.NonzeroIdeal F) :
       (∑ j ∈ rows with (r j).momentIdeal = u, ‖q j‖) ≤ W * (B : ℝ) := by
     calc
       _ ≤ ∑ _j ∈ rows with (r _j).momentIdeal = u, W :=

@@ -23,21 +23,21 @@ variable {F : Type} [Field F] [NumberField F]
 variable {A : SArithmeticData F} {σ : F →+* ℂ}
 
 theorem sourcePlainCoefficient_mul
-    (χ θ : HeckeCharacter F) (M : Ideal (𝓞 F) →* ℂ) (B I : NonzeroIdeal F) :
+    (χ θ : HeckeCharacter F) (M : Ideal (𝓞 F) →* ℂ) (B I : HeckeGeneral.Analysis.NonzeroIdeal F) :
     sourcePlainCoefficient χ θ M (B * I) =
       sourcePlainCoefficient χ θ M B * sourcePlainCoefficient χ θ M I := by
   simp only [sourcePlainCoefficient, heckeIdealCoefficient_mul, map_mul]
   ring
 
 def sourcePlainFrozen (χ θ : HeckeCharacter F) (M : Ideal (𝓞 F) →* ℂ)
-    (g h' : A.R) (B : NonzeroIdeal F) : ℂ :=
+    (g h' : A.R) (B : HeckeGeneral.Analysis.NonzeroIdeal F) : ℂ :=
   (Real.sqrt (idealNorm F B) : ℂ)⁻¹ *
     (sourcePlainCoefficient χ θ M B *
       actualIdealResidue (A := A) (σ := σ) B.val (g * h'))
 
 theorem sourcePlainTerm_extract
     (χ θ : HeckeCharacter F) (M : Ideal (𝓞 F) →* ℂ)
-    (g h' : A.R) (w : NonzeroIdeal F → ℂ) (N : ℝ) (B I : NonzeroIdeal F) :
+    (g h' : A.R) (w : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ) (N : ℝ) (B I : HeckeGeneral.Analysis.NonzeroIdeal F) :
     sourcePlainTerm (σ := σ) χ θ M g h' w N (B * I) =
       sourcePlainFrozen (σ := σ) χ θ M g h' B *
         sourcePlainTerm (σ := σ) χ θ M g h' (fun J => w (B * J))
@@ -70,7 +70,7 @@ def restrictSlots (T : FixedChildCharacters F k) (keep : Finset (Fin k)) :
   slotTwist_mem j := T.slotTwist_mem (SlotRestriction.index keep j)
 
 def frozenScalar (T : FixedChildCharacters F k) (g h' : A.R)
-    (B₁ B₂ : NonzeroIdeal F) (Z : ℝ) (length : Fin k → ℝ)
+    (B₁ B₂ : HeckeGeneral.Analysis.NonzeroIdeal F) (Z : ℝ) (length : Fin k → ℝ)
     (keep : Finset (Fin k)) (frozen : Fin k → HeightOneSpectrum (𝓞 F))
     (w : Fin k → HeightOneSpectrum (𝓞 F) → ℂ) : ℂ :=
   sourcePlainFrozen (σ := σ) T.plain T.plainTwist T.mask g h' B₁ *
@@ -80,11 +80,11 @@ def frozenScalar (T : FixedChildCharacters F k) (g h' : A.R)
           g h' (w i) (Z ^ length i) (frozen i)
 
 theorem coefficient_extract (T : FixedChildCharacters F k) (g h' : A.R)
-    (B₁ B₂ : NonzeroIdeal F) (N₁ N₂ Z : ℝ) (length : Fin k → ℝ)
+    (B₁ B₂ : HeckeGeneral.Analysis.NonzeroIdeal F) (N₁ N₂ Z : ℝ) (length : Fin k → ℝ)
     (keep : Finset (Fin k)) (frozen : Fin k → HeightOneSpectrum (𝓞 F))
-    (w₁ w₂ : NonzeroIdeal F → ℂ)
+    (w₁ w₂ : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ)
     (w : Fin k → HeightOneSpectrum (𝓞 F) → ℂ)
-    (y : (NonzeroIdeal F × NonzeroIdeal F) × (Fin keep.card → HeightOneSpectrum (𝓞 F))) :
+    (y : (HeckeGeneral.Analysis.NonzeroIdeal F × HeckeGeneral.Analysis.NonzeroIdeal F) × (Fin keep.card → HeightOneSpectrum (𝓞 F))) :
     T.coefficient (σ := σ) g h' N₁ N₂ Z length w₁ w₂ w
       ((B₁ * y.1.1, B₂ * y.1.2), SlotRestriction.extend keep frozen y.2) =
       T.frozenScalar (σ := σ) g h' B₁ B₂ Z length keep frozen w *
@@ -100,11 +100,11 @@ theorem coefficient_extract (T : FixedChildCharacters F k) (g h' : A.R)
 
 /-- Both rectangles are transported by the same exact frozen scalar. -/
 theorem centered_coefficient_extract (T : FixedChildCharacters F k) (g h' : A.R)
-    (B₁ B₂ : NonzeroIdeal F) (X₁ X₂ Y₁ Y₂ Z : ℝ) (length : Fin k → ℝ)
+    (B₁ B₂ : HeckeGeneral.Analysis.NonzeroIdeal F) (X₁ X₂ Y₁ Y₂ Z : ℝ) (length : Fin k → ℝ)
     (keep : Finset (Fin k)) (frozen : Fin k → HeightOneSpectrum (𝓞 F))
-    (w₁ w₂ v₁ v₂ : NonzeroIdeal F → ℂ)
+    (w₁ w₂ v₁ v₂ : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ)
     (w : Fin k → HeightOneSpectrum (𝓞 F) → ℂ)
-    (y : (NonzeroIdeal F × NonzeroIdeal F) × (Fin keep.card → HeightOneSpectrum (𝓞 F))) :
+    (y : (HeckeGeneral.Analysis.NonzeroIdeal F × HeckeGeneral.Analysis.NonzeroIdeal F) × (Fin keep.card → HeightOneSpectrum (𝓞 F))) :
     (T.coefficient (σ := σ) g h' X₁ X₂ Z length w₁ w₂ w
         ((B₁ * y.1.1, B₂ * y.1.2), SlotRestriction.extend keep frozen y.2) -
       T.coefficient (σ := σ) g h' Y₁ Y₂ Z length v₁ v₂ w
@@ -162,10 +162,10 @@ def frozenSourceLocation (keep : Finset (Fin k))
     (x : Fin k → HeightOneSpectrum (𝓞 F) → V) : V :=
   ∑ i ∈ Finset.univ.filter (fun i => i ∉ keep), x i (frozen i)
 
-theorem source_location_extract (B₁ B₂ : NonzeroIdeal F)
+theorem source_location_extract (B₁ B₂ : HeckeGeneral.Analysis.NonzeroIdeal F)
     (keep : Finset (Fin k)) (frozen : Fin k → HeightOneSpectrum (𝓞 F))
-    (x₁ x₂ : NonzeroIdeal F → V) (x : Fin k → HeightOneSpectrum (𝓞 F) → V)
-    (y : (NonzeroIdeal F × NonzeroIdeal F) × (Fin keep.card → HeightOneSpectrum (𝓞 F))) :
+    (x₁ x₂ : HeckeGeneral.Analysis.NonzeroIdeal F → V) (x : Fin k → HeightOneSpectrum (𝓞 F) → V)
+    (y : (HeckeGeneral.Analysis.NonzeroIdeal F × HeckeGeneral.Analysis.NonzeroIdeal F) × (Fin keep.card → HeightOneSpectrum (𝓞 F))) :
     childCartesianLocation x₁ x₂ x
       ((B₁ * y.1.1, B₂ * y.1.2), SlotRestriction.extend keep frozen y.2) =
       frozenSourceLocation keep frozen x +
@@ -177,13 +177,13 @@ theorem source_location_extract (B₁ B₂ : NonzeroIdeal F)
 /-- Exact whole-column identity, still before every absolute value. -/
 theorem extracted_source_joint_polynomial
     (T : FixedChildCharacters F k) (g h' : A.R)
-    (B₁ B₂ : NonzeroIdeal F) (N₁ N₂ Z : ℝ) (length : Fin k → ℝ)
+    (B₁ B₂ : HeckeGeneral.Analysis.NonzeroIdeal F) (N₁ N₂ Z : ℝ) (length : Fin k → ℝ)
     (keep : Finset (Fin k)) (frozen : Fin k → HeightOneSpectrum (𝓞 F))
-    (S₁ S₂ : Finset (NonzeroIdeal F))
+    (S₁ S₂ : Finset (HeckeGeneral.Analysis.NonzeroIdeal F))
     (S : Fin keep.card → Finset (HeightOneSpectrum (𝓞 F)))
-    (w₁ w₂ : NonzeroIdeal F → ℂ)
+    (w₁ w₂ : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ)
     (w : Fin k → HeightOneSpectrum (𝓞 F) → ℂ)
-    (x₁ x₂ : NonzeroIdeal F → V) (x : Fin k → HeightOneSpectrum (𝓞 F) → V) (ξ : V) :
+    (x₁ x₂ : HeckeGeneral.Analysis.NonzeroIdeal F → V) (x : Fin k → HeightOneSpectrum (𝓞 F) → V) (ξ : V) :
     (∑ y ∈ childCartesianColumns S₁ S₂ S,
       T.coefficient (σ := σ) g h' N₁ N₂ Z length w₁ w₂ w
           ((B₁ * y.1.1, B₂ * y.1.2), SlotRestriction.extend keep frozen y.2) *

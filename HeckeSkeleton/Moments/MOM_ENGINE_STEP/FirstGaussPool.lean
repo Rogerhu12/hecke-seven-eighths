@@ -58,6 +58,25 @@ namespace FirstGaussPoolData
 variable {C : A.GeneralArithmeticContext σ η hS}
 variable {P : PowerScaleExteriorPool A bad Z ell eps} {ι : Type*}
 
+/-- Freezing one additional genuine divisor changes eligibility, while
+the earlier prime pool and the original columns and rows stay fixed.
+The displayed density loss is obtained from the two norm windows. -/
+def withFrozenFactor (d : FirstGaussPoolData C P ι)
+    (S : Ideal (𝓞 K)) (hS : S ≠ 0) (B : ℝ)
+    (hS_norm : (Ideal.absNorm S : ℝ) ≤ Z ^ B)
+    (hdensity : 0 < P.rowDensity d.rowExponent (d.frozenExponent + B)) :
+    FirstGaussPoolData C P ι :=
+  { d with
+    frozen := d.frozen * S
+    frozen_ne_zero := mul_ne_zero d.frozen_ne_zero hS
+    frozenExponent := d.frozenExponent + B
+    frozen_norm := by
+      rw [map_mul, Nat.cast_mul,
+        Real.rpow_add (zero_lt_one.trans P.base_gt_one)]
+      exact mul_le_mul d.frozen_norm hS_norm (Nat.cast_nonneg _)
+        (Real.rpow_nonneg (zero_lt_one.trans P.base_gt_one).le _)
+    density_pos := hdensity }
+
 def finiteColumn (d : FirstGaussPoolData C P ι) (i : ι) (h : A.R) : ℂ :=
   actualFiniteColumn C (unitExterior A) (d.ideal i) 1 (d.generator i)
     (unitExterior_generates A) (d.generates i) h
@@ -74,6 +93,22 @@ def adjustedCoefficient (d : FirstGaussPoolData C P ι) (c : ι → ℂ) (i : ι
 
 def eligible (d : FirstGaussPoolData C P ι) : Finset (A.R × ExteriorPrime A) :=
   eligiblePairs d.rows P.primes (fun h p => actualPrimeEligible d.frozen (d.rowIdeal h) p)
+
+/-- The very same extra divisor is avoided by every eligible prime.
+This fact is derived from the frozen product, rather than imposed on
+the residual ideal obtained after removing a prime power. -/
+theorem withFrozenFactor_eligible_not_dvd (d : FirstGaussPoolData C P ι)
+    (S : Ideal (𝓞 K)) (hS : S ≠ 0) (B : ℝ)
+    (hS_norm : (Ideal.absNorm S : ℝ) ≤ Z ^ B)
+    (hdensity : 0 < P.rowDensity d.rowExponent (d.frozenExponent + B))
+    (hp : A.R × ExteriorPrime A)
+    (hmem : hp ∈ (d.withFrozenFactor S hS B hS_norm hdensity).eligible) :
+    ¬hp.2.val.asIdeal ∣ S := by
+  have he := (Finset.mem_filter.mp hmem).2
+  change ¬hp.2.val.asIdeal ∣ (d.rowIdeal hp.1).val ∧
+    ¬hp.2.val.asIdeal ∣ d.frozen * S at he
+  intro hdiv
+  exact he.2 (hdiv.trans ⟨d.frozen, mul_comm _ _⟩)
 
 def mainRows (d : FirstGaussPoolData C P ι) : Finset A.R :=
   d.eligible.image (actualFrequencyAmplify C)

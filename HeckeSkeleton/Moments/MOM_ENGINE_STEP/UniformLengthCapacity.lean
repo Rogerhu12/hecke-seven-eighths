@@ -61,7 +61,8 @@ theorem length_remainingParameters_eq (d : MomentData K ω ψ) (n : ℕ)
     remainingParameters d a (lengthSelection d n hcount keep) =
       lengthRemainingParameters L a keep := by
   subst n
-  dsimp only [lengthSlot, lengthSelection] at hlength ⊢
+  change ∀ i, (d.geometry.slots i).length = L i at hlength
+  change remainingParameters d a keep = lengthRemainingParameters L a keep
   have hs : (d.geometry.restrictSlots keep).totalLength = ∑ i ∈ keep, L i := by
     rw [SlotGeometry.totalLength_restrictSlots]
     exact Finset.sum_congr rfl (fun i _ => hlength i)
@@ -76,7 +77,8 @@ theorem length_restrictSlots_length (d : MomentData K ω ψ) (n : ℕ)
     ((d.restrictSlots (lengthSelection d n hcount keep)).geometry).totalLength =
       ∑ i ∈ keep, L i := by
   subst n
-  dsimp only [lengthSlot, lengthSelection] at hlength ⊢
+  change ∀ i, (d.geometry.slots i).length = L i at hlength
+  change (d.geometry.restrictSlots keep).totalLength = ∑ i ∈ keep, L i
   rw [SlotGeometry.totalLength_restrictSlots]
   exact Finset.sum_congr rfl (fun i _ => hlength i)
 

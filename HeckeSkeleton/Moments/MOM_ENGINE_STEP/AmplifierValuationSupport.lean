@@ -127,7 +127,8 @@ theorem whole_error_polynomial (p : HeightOneSpectrum (𝓞 K)) (j : ℕ)
     · exact hI x.1.1 hx.1.1
     · exact hJ x.1.2 hx.1.2
     · exact (x.2 l).ne_bot
-  simpa only [paired_occurrences_product, ← paired_columns_eq_filter] using
+  simp_rw [paired_columns_eq_filter]
+  simpa only [paired_occurrences_product] using
     ValuationAllocation.whole_polynomial (childCartesianColumns S₁ S₂ S) (k + 2) j
       p.asIdeal (pairedOccurrences I J HeightOneSpectrum.asIdeal) C ha
 

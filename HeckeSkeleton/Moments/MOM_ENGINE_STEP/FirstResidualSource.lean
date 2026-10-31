@@ -126,7 +126,20 @@ theorem originalTriple_divisor_fourier (a b r : OrbitalGaussColumn K S Γ)
   rw [hcommon, completeResidueGauss_inverse] at he
   have hstar (χ : MulChar (OS ⧸ Ideal.span ({b.modulus} : Set OS)) ℂ) (x) :
       χ⁻¹ x = star (χ x) := (MulChar.star_apply' χ x).symm
-  change PeriodicFourier.divisorTransform _ _ _ _ = _
+  change PeriodicFourier.divisorTransform
+    (sIntegerActualModulusAddCharacter K (S : Set (HeightOneSpectrum (𝓞 K))) hS
+      (a.modulus * (b.modulus * r.modulus))
+      (mul_ne_zero a.nonzero (mul_ne_zero b.nonzero r.nonzero)))
+    (fun x : OS ⧸ Ideal.span ({a.modulus * (b.modulus * r.modulus)} : Set OS) =>
+      a.character (completeFrequencyReduction a.modulus
+        (a.modulus * (b.modulus * r.modulus)) (dvd_mul_right _ _) x) *
+      b.character⁻¹ (completeFrequencyReduction b.modulus
+        (a.modulus * (b.modulus * r.modulus))
+        (dvd_mul_of_dvd_right (dvd_mul_right _ _) _) x) *
+      r.character (completeFrequencyReduction r.modulus
+        (a.modulus * (b.modulus * r.modulus))
+        (dvd_mul_of_dvd_right (dvd_mul_left _ _) _) x))
+    (Ideal.Quotient.mk _ δ) (Ideal.Quotient.mk _ h) = _
   rw [he]
   unfold firstLeftDivisorFactor firstRightDivisorFactor firstReciprocalPhase
     actualSIntegerGauss

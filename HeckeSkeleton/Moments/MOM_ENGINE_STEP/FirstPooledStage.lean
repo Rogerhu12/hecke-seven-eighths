@@ -1,5 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstPooledResidual
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorPool
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonNormalization
 
 /-!
@@ -65,6 +65,7 @@ structure FirstBlockPoolData
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X) where
   leftData : FirstGaussPoolData C P ι
   rightData : FirstGaussPoolData C P κ
+  divisorPools : FirstDivisorPoolData leftData rightData
   left_columns : leftData.columns = b.leftColumns left
   right_columns : rightData.columns = b.rightColumns right
   left_ideal : leftData.ideal = b.leftResidual
@@ -125,7 +126,7 @@ def pooledCost (p : FirstBlockPoolData chart P M X hX) : ℝ :=
   let r := actualActiveColumn hΓ C b.primes b.primes_injective
     b.leftMultiplicity b.rightMultiplicity
   let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
-  firstPooledResidualCost PUnit chart.kernel p.leftData p.rightData
+  firstDivisorPooledResidualCost PUnit chart.kernel p.leftData p.rightData p.divisorPools
     (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle)) p.rowBound
     (fun i => chart.leftCoefficient i * firstLeftDivisorFactor (a i) r δ)
     (fun j => chart.rightCoefficient j * firstRightDivisorFactor (a' j) r δ)
@@ -141,8 +142,8 @@ theorem kernelCost_le_pool (p : FirstBlockPoolData chart P M X hX)
   let r := actualActiveColumn hΓ C b.primes b.primes_injective
     b.leftMultiplicity b.rightMultiplicity
   let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
-  have he := first_residual_cost_le_pool (Ray := PUnit) (hΓ := hΓ)
-    chart.kernel p.leftData p.rightData hDiff
+  have he := first_residual_cost_le_divisor_pool (Ray := PUnit) (hΓ := hΓ)
+    chart.kernel p.leftData p.rightData p.divisorPools hDiff
     (b.finiteSource hΓ C left right profiles M radius X hX).rows (fun t : Q => t.out.val)
     sIntegerOrbit_out_val_injective.injOn p.left_rows p.right_rows
     (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle))

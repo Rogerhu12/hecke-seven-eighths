@@ -85,7 +85,12 @@ theorem whole_gauss_eq_actual_unit_columns {ι : Type*}
   unfold wholePolynomial
   apply Finset.sum_congr rfl
   intro i hi
-  rw [actual_unit_column_eq_gauss_div_norm hS C]
+  change c i * actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hS
+      (a i) (ha i).1 (generatedIdealCharacter (σ := σ) (I i) (a i) (ha i)) h =
+    (c i * (A.exteriorNorm (I i) : ℂ)) *
+      actualFiniteColumn C (unitExterior A) (I i) 1 (a i)
+        (unitExterior_generates A) (ha i) h
+  rw [actual_unit_column_eq_gauss_div_norm hS C (I i) (a i) h (ha i)]
   have hn : (A.exteriorNorm (I i) : ℂ) ≠ 0 := by
     exact_mod_cast (ne_of_gt (A.exteriorNorm_pos (I i)))
   field_simp

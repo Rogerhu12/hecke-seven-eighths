@@ -46,7 +46,7 @@ def main() -> int:
             raise SystemExit(f'Unexpected task declaration: {declaration}')
     results = []
 
-    def run(name: str, command: list[str]) -> str:
+    def run(name: str, command: list[str], *, compact_build: bool = False) -> str:
         start = time.monotonic()
         with (evidence / (name + '.log')).open('w') as log:
             log.write(json.dumps({'command': command, 'cwd': str(repo)}) + '\n')
@@ -55,12 +55,28 @@ def main() -> int:
                                        stderr=subprocess.STDOUT, text=True)
             assert process.stdout is not None
             output = []
+            show_block = not compact_build
             for line in process.stdout:
                 output.append(line)
-                print(line, end='', flush=True)
                 log.write(line)
                 log.flush()
+                if compact_build:
+                    clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                    if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                        show_block = MODULE_ROOT in clean or clean.startswith('✖')
+                    elif re.match(r'^(error|warning|info):', clean):
+                        show_block = ('HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean
+                                      or clean.startswith('error:'))
+                    elif clean.startswith('Some required targets logged failures:'):
+                        show_block = True
+                    if show_block:
+                        print(line, end='', flush=True)
+                else:
+                    print(line, end='', flush=True)
             code = process.wait()
+        if compact_build:
+            print(f'MOM_ENGINE_STEP Lake exit code: {code}; complete output: {name}.log in the evidence artifact',
+                  flush=True)
         results.append({'step': name, 'command': command, 'exit_code': code,
                         'elapsed_seconds': time.monotonic() - start})
         (evidence / 'results.json').write_text(json.dumps(results, indent=2) + '\n')
@@ -88,7 +104,11 @@ def main() -> int:
     # is the only build authority; no custom cache or checkpoint verifier is used.
     # '+' disambiguates module targets; :olean avoids unrelated binaries.
     # Do not enable --fail-fast: independent branches can report their errors.
-    run('build', ['lake', 'build', *('+' + module + ':olean' for module in args.modules)])
+    # Keep all stdout/stderr in the artifact. The live console omits only
+    # unrelated successful dependency replay; all task diagnostics and all
+    # build errors retain their continuation blocks and the actual exit code.
+    run('build', ['lake', 'build', *('+' + module + ':olean' for module in args.modules)],
+        compact_build=True)
 
     audit = '\n'.join('import ' + module for module in args.modules) + '''
 import Lean.Elab.Command

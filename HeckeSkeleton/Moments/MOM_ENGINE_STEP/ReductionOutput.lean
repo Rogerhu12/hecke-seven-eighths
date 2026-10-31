@@ -130,7 +130,9 @@ theorem linearized
         (out.rightTwist b ξ))), Real.sq_sqrt hleft, Real.sq_sqrt hright]
   have hi := integral_mono (out.cauchy_integrable b)
     (((out.left_integrable b).add (out.right_integrable b)).div_const 2) hpoint
-  rw [integral_div, integral_add (out.left_integrable b) (out.right_integrable b)] at hi
+  rw [integral_div] at hi
+  simp only [Pi.add_apply] at hi
+  rw [integral_add (out.left_integrable b) (out.right_integrable b)] at hi
   exact hi
 
 theorem strict_width
