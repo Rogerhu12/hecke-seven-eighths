@@ -217,6 +217,15 @@ theorem width_eq : out.parameters.m + out.parameters.q = D.parameters.m + D.para
 theorem kappa_eq : out.parameters.κ = D.parameters.κ := rfl
 theorem theta_eq (ξ : V) : (out.data ξ).theta = (D.data ξ).theta := rfl
 theorem frozen_theta_eq (ξ : V) : (out.frozenData ξ).theta = (D.data ξ).theta := rfl
+theorem plainBackground_eq (ξ : V) : (out.data ξ).plainBackground = (D.data ξ).plainBackground := rfl
+theorem frozen_plainBackground_eq (ξ : V) :
+    (out.frozenData ξ).plainBackground = (D.data ξ).plainBackground := rfl
+
+theorem frozen_slotCoefficient_eq (ξ : V) (i : Fin (out.frozenData ξ).geometry.slotCount) :
+    (out.frozenData ξ).slotCoefficient i =
+      (D.data ξ).slotCoefficient (selectedSlotIndex
+        (lengthSelection (G.normalizedData ξ) s.allocation.keep.card (D.count ξ)
+          (Finset.univ \ out.removed)) i) := rfl
 
 theorem total_length (ξ : V) : out.parameters.z = (out.data ξ).geometry.totalLength :=
   (length_restrictSlots_length (G.normalizedData ξ) _ (D.count ξ) s.childLength
@@ -235,6 +244,14 @@ theorem frozen_total_length (ξ : V) :
 
 theorem frozen_slot_count (ξ : V) : (out.frozenData ξ).geometry.slotCount ≤ k :=
   out.slot_count ξ
+
+/-- The source slots retain their original parent indices; composing
+that injection with the two actual restrictions proves the parent cap. -/
+theorem frozen_slot_count_of_original_indices (ξ : V) (parentCount : ℕ)
+    (originalIndex : Fin k → Fin parentCount) (hinj : Function.Injective originalIndex) :
+    (out.frozenData ξ).geometry.slotCount ≤ parentCount := by
+  apply (out.frozen_slot_count ξ).trans
+  simpa only [Fintype.card_fin] using Fintype.card_le_of_injective originalIndex hinj
 
 theorem length_nonneg : 0 ≤ out.parameters.z :=
   D.restricted_z_nonneg (Finset.univ \ out.removed)

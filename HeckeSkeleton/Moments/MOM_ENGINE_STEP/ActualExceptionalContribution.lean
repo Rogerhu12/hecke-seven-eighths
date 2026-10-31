@@ -272,7 +272,8 @@ theorem absolute (H : ExceptionalVolumeControl Ψ W₁ W₂)
     have hm := mul_le_mul_of_nonneg_left
       (mul_le_mul hr hs (norm_nonneg _) hr0)
       (norm_nonneg (s.allocation.scalar (σ := σ) s.characters g h' s.Zslot s.length s.w))
-    convert hm using 1 <;> dsimp only [rawMass, slotMass] <;> ring
+    dsimp only [rawMass, slotMass]
+    convert hm using 1 <;> ring
   exact hh.trans (mul_le_mul_of_nonneg_right (by linarith) s.rawMass_nonneg)
 
 /-- This selects the centered constant before every actual source.
