@@ -1,9 +1,6 @@
 import HeckeSkeleton.GramDefinitions
 import ActualGramRowBallPoissonReduction
 import ActualRowBallResidualGoodPrimeBound
-import ActualRowBallDualResidualNorm
-import ActualRowBallResidualTrivialBound
-import GeneratorMaskWitness
 
 /-!
 GR-12-ASSEMBLY (work in progress): decomposition of the coarse assembly
@@ -230,71 +227,6 @@ theorem gramBound_of_obligations
 
 end Combine
 
-
-section StepB
-open HeckeGeneral.Arithmetic.AllowedGeneratorSectionDraft
-open HeckeGeneral.ThetaSkeleton.ActualGeneratorDivisionDraft
-open HeckeGeneral.ThetaSkeleton.Global.ActualGcdMobiusDraft
-open HeckeGeneral.ThetaSkeleton.Physical.ActualRowBallDualResidualNormDraft
-open HeckeGeneral.ThetaSkeleton.Physical.ActualRowBallResidualScalarDraft
-open HeckeGeneral.ThetaSkeleton.Physical.ActualRowBallDualChartDraft
-
-variable (w : GeneratorMaskWitness K)
-variable [MeasurableSpace (sLocalNormOneGroup K (w.S : Set (HeightOneSpectrum (𝓞 K))))]
-  [BorelSpace (sLocalNormOneGroup K (w.S : Set (HeightOneSpectrum (𝓞 K))))]
-variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K)]
-  [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)]
-variable (μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K))
-  [∀ v, (μv v).IsAddHaarMeasure]
-variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)] [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
-  (μf : Measure (FiniteAdeleRing (𝓞 K) K)) [μf.IsAddHaarMeasure]
-
-/-- The residual majorant of one frequency orbit: the sum over the actual gcd
-parts `C` and Mobius divisors `D` of the norms of the finite residual sums. -/
-def residualMajorant (P : ProbeData K (w.S : Set (HeightOneSpectrum (𝓞 K))))
-    (Y η : ℝ) (r : {r : ℝ // 0 < r})
-    (q : SIntegerOrbits K (w.S : Set (HeightOneSpectrum (𝓞 K)))
-      (sixthPowerUnits K (w.S : Set (HeightOneSpectrum (𝓞 K))))) : ℝ :=
-  let rows := additiveGramIdealSupport K (w.S : Set (HeightOneSpectrum (𝓞 K)))
-    P.denominator.toSmoothAnnularTest Y
-  ∑ C ∈ finiteCommonParts K (w.S : Set (HeightOneSpectrum (𝓞 K))) rows rows,
-    ∑ D ∈ residualMobiusDivisorSet K w C rows rows,
-      ‖rowBallResidualSum K w μv P Y η r C D q.out‖
-
-include μf in
-/-- Step B. The nonzero dual row-ball series (with its exact prefactor
-`r⁻¹ Y⁻³ · field factor`) is bounded by the prefactor times the sum over
-frequency orbits of the residual majorant. -/
-theorem norm_dualSeriesTerm_le_residualMajorant
-    (P : ProbeData K (w.S : Set (HeightOneSpectrum (𝓞 K)))) (Y η : ℝ) (hY : 0 < Y)
-    (r : {r : ℝ // 0 < r}) (hsum : Summable (residualMajorant K w μv P Y η r)) :
-    ‖rowBallDualSeriesTerm K w.S μv P (fun _ => 1) P.denominator.toSmoothAnnularTest Y η r‖ ≤
-      (r.val⁻¹ * Y ^ (-3 : ℝ) * ‖additiveGramPoissonFieldFactor K‖) *
-        ∑' q, residualMajorant K w μv P Y η r q := by
-  have hsixth : Subgroup.FiniteIndex (sixthPowerUnits K (w.S : Set (HeightOneSpectrum (𝓞 K)))) :=
-    sUnit_power_range_finiteIndex K (w.S : Set (HeightOneSpectrum (𝓞 K))) 6 (by decide)
-  haveI := hsixth
-  have hone := rowBallDualSeriesTerm_one_eq_tsum K w.S μv μf P
-    P.denominator.toSmoothAnnularTest Y η r
-  rw [hone, norm_mul]
-  have hpref : ‖((r.val : ℂ)⁻¹ * ((Y ^ (-3 : ℝ) : ℝ) : ℂ) * additiveGramPoissonFieldFactor K)‖ =
-      r.val⁻¹ * Y ^ (-3 : ℝ) * ‖additiveGramPoissonFieldFactor K‖ := by
-    rw [norm_mul, norm_mul, norm_inv, Complex.norm_real, Complex.norm_real,
-      Real.norm_of_nonneg r.property.le,
-      Real.norm_of_nonneg (Real.rpow_nonneg hY.le _)]
-  rw [hpref]
-  apply mul_le_mul_of_nonneg_left _
-    (mul_nonneg (mul_nonneg (inv_nonneg.mpr r.property.le) (Real.rpow_nonneg hY.le _))
-      (norm_nonneg _))
-  have hle : ∀ q, ‖rowBallDualIntegrand K w.S μv P P.denominator.toSmoothAnnularTest Y η r q‖ ≤
-      residualMajorant K w μv P Y η r q := fun q =>
-    norm_rowBallDualIntegrand_le_actualDivisors K w μv P Y η r q
-  have hnormsum : Summable (fun q => ‖rowBallDualIntegrand K w.S μv P
-      P.denominator.toSmoothAnnularTest Y η r q‖) :=
-    Summable.of_nonneg_of_le (fun _ => norm_nonneg _) hle hsum
-  exact (norm_tsum_le_tsum_norm hnormsum).trans (hnormsum.tsum_le_tsum hle hsum)
-
-end StepB
 
 
 section SmallY

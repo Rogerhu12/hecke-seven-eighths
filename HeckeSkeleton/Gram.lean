@@ -10,6 +10,7 @@ import HeckeSkeleton.GramExceptionalCount
 import HeckeSkeleton.GramSmallRadius
 import GeneratorMaskWitness
 import HeckeSkeleton.GramAssembly
+import HeckeSkeleton.GramAssembly.Final
 
 /-!
 Top-down EXPLORATORY dependency skeleton for revised Proposition 3.8.
@@ -221,17 +222,15 @@ theorem large_radius_profile
 end Profiles
 
 -- OBLIGATION GR-12 | revised §3.5, pp.14–15; §6.5 (6.23), pp.40–41.
--- COARSE ASSEMBLY, NOT COMPLETED: exact free-majorant orbital PSF (both
--- zero terms, actual discriminant/covolume); finite gcd/Möbius reindex;
--- genuine-correlation -> chart only on coprime residuals; chosen-generator
--- ideal×unit enumeration; original-Γ choice mask on fixed depth 2H+J;
--- SAME d unit transport; nonexceptional mean-zero at the good exterior
--- prime; two-column Poisson min-saving; ordinary/exceptional shell sums.
--- Cache has concrete pieces for these arrows, but the exact full weighted
--- consumer is still missing. This one coarse obligation is intentionally
--- visible, and must be refined rather than counted as a proved assembly.
--- Exact leaf propositions are explicit parameters below and are applied
--- in the final theorem. No unused have is counted as a dependency.
+-- CLOSED. The assembly (HeckeSkeleton/GramAssembly*.lean) combines the core
+-- row-ball Poisson reduction (zero frequency C Q / Y), the exact residual
+-- expansion of the nonzero dual series (finite gcd/Mobius, chosen-generator
+-- mask, original full correlation), the good-prime / trivial scalar bounds,
+-- the exceptional weighted shell sums and the ideal double shell leaf09, and
+-- the bounded-Y case.  `S` is identified with the places of the generator
+-- mask witness `w`, and `P.arithmetic` with `w.D`.
+-- Exact leaf propositions are explicit parameters below (only `leaf06` and
+-- `leaf09` are used; the others are retained for the interface).
 theorem gram_assembly (P : ProbeData K S)
     (w : GeneratorMaskWitness K) (hwS : S = (w.S : Set (HeightOneSpectrum (𝓞 K))))
     (hwD : HEq P.arithmetic w.D)
@@ -327,8 +326,7 @@ theorem gram_assembly (P : ProbeData K S)
     obtain ⟨C, _, hC⟩ := leaf06
     exact fun X hX => (hC X hX).1
   refine HeckeSkeleton.GramAssembly.gramBound_of_obligations K w.S μv μf μ hfin P ?_ ?_
-  · -- OBLIGATION (nonzero dual series): weighted ideal/orbit shell summation
-    sorry
+  · exact HeckeSkeleton.GramAssembly.Final.dualShell_core K w μf μv P (eq_of_heq hwD) leaf09
   · exact HeckeSkeleton.GramAssembly.smallYBound K w.S hfin P
 
 /-- The final application explicitly supplies every mathematical leaf to
