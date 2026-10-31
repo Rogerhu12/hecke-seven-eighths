@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedCapacityProvider
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondRowPartition
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchPartition
 
 /-!
 # One arithmetic exceptional partition for both actual child sides
@@ -333,13 +334,6 @@ variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 
 namespace ActualSecondCorrelationRows
 
-/-- Restrict the true second source before the two column energies are
-formed.  Its complete correlation and frequency factors stay literal. -/
-def restrictRows (R : ActualSecondCorrelationRows A σ H ι) (p : H → Prop) :
-    ActualSecondCorrelationRows A σ H ι :=
-  { R with rows := R.rows.filter p,
-    generates := fun h hh => R.generates h (Finset.mem_filter.mp hh).1 }
-
 theorem restrictRows_correlation (R : ActualSecondCorrelationRows A σ H ι)
     (p : H → Prop) (h : H) : (R.restrictRows p).correlation h = R.correlation h := rfl
 
@@ -456,3 +450,4 @@ end HeckeSkeleton.Moments.EngineStep
 #print axioms HeckeSkeleton.Moments.EngineStep.PairedFiniteCharacters.nonexceptionalCalibrationsOfFiniteTwists
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualSecondCorrelationRows.source_restrictRows_energy
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualSecondCorrelationRows.negative_source_restrictRows_energy
+

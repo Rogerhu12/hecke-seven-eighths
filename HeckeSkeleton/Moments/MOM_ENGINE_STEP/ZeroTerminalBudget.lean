@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualZeroBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstPooledStage
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondStage
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroDiagonal
@@ -158,8 +159,8 @@ theorem gauss_second_stage_zero_bound
     ∀ charts : ∀ DE, ∀ D : M.powerset,
       SecondBlockProfileChart (E := E) hΓ μv hDiff (blocks DE) C columns columns profiles
         finiteTest radius D.val,
-    ∀ factors : ι × ι → Fin k → Ideal (𝓞 K),
-    Set.InjOn factors (columns ×ˢ columns : Set (ι × ι)) →
+    ∀ (factors : ι × ι → Fin k → Ideal (𝓞 K)) (multiplicity : ℕ),
+    (∀ v, ((columns ×ˢ columns).filter (fun ij => factors ij = v)).card ≤ multiplicity) →
     (∀ ij ∈ columns ×ˢ columns, PowerfulDiagonal.tupleIdeal (factors ij) =
       (fullI ij.1).val * (fullI ij.2).val) →
     ∀ N Amp : ℝ, 1 ≤ N → 0 ≤ Amp →
@@ -175,7 +176,7 @@ theorem gauss_second_stage_zero_bound
     weightedEnergy rows weight
       (fun h => ∑ i ∈ columns, c i *
         (generatedOriginalColumn (σ := σ) hΓ (fullI i) (afull i) (hafull i)).orbit hDiff (rowMap h)) ≤
-      (B : ℝ) * (Czero * Amp * N ^ ε +
+      (B : ℝ) * (Czero * (multiplicity * Amp) * N ^ ε +
         (∑ DE, ∑ D : M.powerset, (charts DE D).kernelCost M X hX) +
         Ctail * X ^ (1 - decay) *
           ∑ DE, ∑ i ∈ (sources DE).leftColumns, ∑ j ∈ (sources DE).rightColumns,
@@ -185,17 +186,17 @@ theorem gauss_second_stage_zero_bound
     gauss_second_stage_bound (E := E) (hΓ := hΓ) (μv := μv) (ν := ν) (μ := μ)
       (hDiff := hDiff) C Drecipe hD finiteTest hlc hcs decay hdecay order horder hdegree
   obtain ⟨sZero, Czero, hCzero, hzero⟩ :=
-    second_zero_diagonal_normalized (σ := σ) (η := η) (hS := hS)
+    second_zero_diagonal_normalized_of_fibers (σ := σ) (η := η) (hS := hS)
       (hΓ := hΓ) (μv := μv) finiteTest k ε hε
   refine ⟨sTail, sZero, Ctail, Czero, hCtail, hCzero, ?_⟩
   intro H ι rows rowMap weight columns c fullI afull hafull hfull φ radius M X hX
   dsimp only
-  intro charts factors hinj hproduct N Amp hN hAmp hnorm hannular hprofile B cal
+  intro charts factors multiplicity hfiber hproduct N Amp hN hAmp hnorm hannular hprofile B cal
   let profiles := fun i j => (c i * star (c j)) • φ
   let blocks := fun DE : FirstZeroLabel columns columns fullI fullI =>
     canonicalFirstCommonBlock C columns columns fullI fullI DE.val DE.property
   have hz := hzero C columns columns fullI fullI blocks profiles hDiff radius M X hX
-    factors hinj hproduct N Amp hN hAmp hnorm
+    factors multiplicity hfiber hproduct N Amp hN hAmp hnorm
     (by
       intro i hi j hj
       change (c i * star (c j)) • φ 0 = 0
@@ -208,7 +209,7 @@ theorem gauss_second_stage_zero_bound
   apply hp.trans
   apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg _)
   rw [Finset.sum_add_distrib, Finset.sum_add_distrib, ← Finset.mul_sum]
-  exact add_le_add_right (add_le_add_right hz _) _
+  simpa only [mul_assoc] using add_le_add_right (add_le_add_right hz _) _
 
 end HeckeSkeleton.Moments.EngineStep
 

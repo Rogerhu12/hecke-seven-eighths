@@ -133,7 +133,7 @@ theorem normalized_capacity_children_actual_integrable
         Real.sqrt (normalizedPairedEnergy (left.data ξ) left.parameters Z (DL.height ξ)) *
           Real.sqrt (normalizedPairedEnergy (right.data ξ) right.parameters Z (DR.height ξ))) μ := by
   have hm : Measurable (normalizedCapacityPairEnvelope GL GR) :=
-    (hleftMeas.pow _).mul (hrightMeas.pow _)
+    (hleftMeas.pow_const _).mul (hrightMeas.pow_const _)
   have hn := fun ξ => normalizedCapacityPairEnvelope_nonneg (GL := GL) (GR := GR) ξ
   let μ := (actualFourierMeasure Fker).withDensity
     (fun ξ => ENNReal.ofReal (normalizedCapacityPairEnvelope GL GR ξ))
@@ -184,7 +184,7 @@ theorem normalized_capacity_pair_actual_integrable
         Real.sqrt (normalizedPairedEnergy (right.data ξ) right.parameters Z (DR.height ξ))))
       (actualFourierMeasure Fker) := by
   have hm : Measurable (normalizedCapacityPairEnvelope GL GR) :=
-    (hleftMeas.pow _).mul (hrightMeas.pow _)
+    (hleftMeas.pow_const _).mul (hrightMeas.pow_const _)
   have hn := fun ξ => normalizedCapacityPairEnvelope_nonneg (GL := GL) (GR := GR) ξ
   have hi := (normalized_capacity_children_actual_integrable left right Z hZ calL calR Fker
     hleftMeas hrightMeas hleftOne hrightOne C hC J hbound).2.2
@@ -326,3 +326,4 @@ end HeckeSkeleton.Moments.EngineStep
 #print axioms HeckeSkeleton.Moments.EngineStep.normalized_capacity_pair_actual_label_integrable
 #print axioms HeckeSkeleton.Moments.EngineStep.normalized_capacity_pair_nested_actual_integrable
 #print axioms HeckeSkeleton.Moments.EngineStep.normalized_capacity_children_nested_actual_integrable
+

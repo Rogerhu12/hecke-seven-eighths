@@ -54,7 +54,6 @@ private theorem central_term_norm_sq_le (N B : ℝ) (hN : 0 < N)
       simp only [norm_mul, norm_inv, Complex.norm_real,
         Real.norm_eq_abs, abs_of_nonneg (Real.sqrt_nonneg _), mul_pow, inv_pow,
         Real.sq_sqrt hN.le]
-      ring
     _ ≤ N⁻¹ * B := mul_le_mul_of_nonneg_left hp (inv_nonneg.mpr hN.le)
     _ = _ := by ring
 
@@ -242,3 +241,4 @@ end HeckeSkeleton.Moments.EngineStep
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualColumnAllocation.divisor_dvd_frozenIdeal
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualColumnAllocation.scalar_norm_sq_le_divisor
 #print axioms HeckeSkeleton.Moments.EngineStep.paired_scalar_inverse_norm
+

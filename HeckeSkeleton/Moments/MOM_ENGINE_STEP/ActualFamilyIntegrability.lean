@@ -18,7 +18,7 @@ coefficients, and the twist may vary with the Fourier parameter.
 -/
 
 noncomputable section
-open scoped Classical BigOperators FourierTransform SchwartzMap NumberField ENNReal
+open scoped Classical BigOperators FourierTransform SchwartzMap NumberField
 
 namespace HeckeSkeleton.Moments.EngineStep
 
@@ -315,9 +315,18 @@ end RawFamily
 /-- The generic density identity keeps elaboration independent of the
 large original Schwartz expression supplied by an application. -/
 theorem density_univ_eq_lintegral {X : Type*} [MeasurableSpace X]
-    (μ : Measure X) (f : X → ℝ≥0∞) :
+    (μ : Measure X) (f : X → ENNReal) :
     (μ.withDensity f) Set.univ = ∫⁻ x, f x ∂μ := by
   rw [withDensity_apply f MeasurableSet.univ, Measure.restrict_univ]
+
+theorem density_real_univ_eq_integral {X : Type*} [MeasurableSpace X]
+    (μ : Measure X) (f : X → ℝ) (hf : ∀ x, 0 ≤ f x)
+    (hmeas : AEStronglyMeasurable f μ) :
+    (μ.withDensity (fun x => ENNReal.ofReal (f x))).real Set.univ = ∫ x, f x ∂μ := by
+  change ((μ.withDensity (fun x => ENNReal.ofReal (f x))) Set.univ).toReal = _
+  rw [density_univ_eq_lintegral]
+  exact (integral_eq_lintegral_of_nonneg_ae
+    (Filter.Eventually.of_forall hf) hmeas).symm
 
 section Family
 
@@ -340,17 +349,11 @@ theorem actualFourierMeasure_finite (F : 𝓢(V, ℂ)) :
 
 theorem actualFourierMeasure_mass_eq (F : 𝓢(V, ℂ)) :
     (actualFourierMeasure F).real Set.univ = ∫ ξ : V, ‖(𝓕 F) ξ‖ := by
-  have hmeasure : (actualFourierMeasure F) Set.univ =
-      ∫⁻ ξ : V, ENNReal.ofReal ‖(𝓕 F) ξ‖ ∂(volume : Measure V) := by
-    exact density_univ_eq_lintegral (volume : Measure V)
-      (fun ξ : V => ENNReal.ofReal ‖(𝓕 F) ξ‖)
-  calc
-    _ = (∫⁻ ξ : V, ENNReal.ofReal ‖(𝓕 F) ξ‖ ∂(volume : Measure V)).toReal :=
-      congrArg ENNReal.toReal hmeasure
-    _ = _ := (integral_eq_lintegral_of_nonneg_ae
-      (μ := (volume : Measure V))
-      (Filter.Eventually.of_forall (fun ξ : V => norm_nonneg ((𝓕 F) ξ)))
-      (𝓕 F).continuous.norm.aestronglyMeasurable).symm
+  change ((volume : Measure V).withDensity
+    (fun ξ : V => ENNReal.ofReal ‖(𝓕 F) ξ‖)).real Set.univ = _
+  exact density_real_univ_eq_integral (volume : Measure V)
+    (fun ξ : V => ‖(𝓕 F) ξ‖) (fun ξ => norm_nonneg ((𝓕 F) ξ))
+    (𝓕 F).continuous.norm.aestronglyMeasurable
 
 /-- The positive kernel's mass is controlled by fixed original Schwartz
 seminorms, before choosing any actual child family. -/

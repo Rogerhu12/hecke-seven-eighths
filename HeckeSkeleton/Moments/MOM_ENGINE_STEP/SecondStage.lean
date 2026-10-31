@@ -58,6 +58,8 @@ structure SecondBlockProfileChart {ι κ : Type*}
   rightCoefficient : κ → ℂ
   leftPoint : Q → ι → E
   rightPoint : Q → κ → E
+  rowLabelCount : ℕ := 0
+  rowLabel : Q → Fin (rowLabelCount + 1) := fun _ => 0
   left_mask : ∀ i ∈ b.leftColumns left,
     IsCoprime (engineAllowedGenerator C b.commonLeftIdeal * b.leftGenerator i)
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
@@ -78,6 +80,38 @@ structure SecondBlockProfileChart {ι κ : Type*}
 
 variable {hΓ μv hDiff}
 
+def SecondBlockProfileChart.classKernelCost {ι κ : Type*}
+    {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
+    {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
+    {b : FirstCommonCharacterBlock fullI fullJ DE}
+    {C : A.GeneralArithmeticContext σ η htrace} {left : Finset ι} {right : Finset κ}
+    {profiles : ι → κ → SchwartzMap V ℂ}
+    {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
+    {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
+    (chart : SecondBlockProfileChart (E := E) hΓ μv hDiff b C left right
+      profiles finiteTest radius D)
+    (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
+    (label : Fin (chart.rowLabelCount + 1)) : ℝ :=
+  let source := b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX
+  let a := fun i => generatedOriginalColumn (σ := σ) hΓ (b.secondLeftIdeal i)
+    (engineAllowedGenerator C b.commonLeftIdeal * b.leftGenerator i)
+    (b.secondLeft_generates C i)
+  let a' := fun j => generatedOriginalColumn (σ := σ) hΓ (b.secondRightIdeal j)
+    (engineAllowedGenerator C b.commonRightIdeal * b.rightGenerator j)
+    (b.secondRight_generates C j)
+  let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
+  secondResidualKernelCost PUnit chart.kernel
+    (source.rows.filter (fun t => chart.rowLabel t = label)) (fun t => -t.out.val)
+    source.leftColumns source.rightColumns
+    b.commonLeftIdeal b.commonRightIdeal b.leftResidual b.rightResidual
+    (engineAllowedGenerator C b.commonLeftIdeal) (engineAllowedGenerator C b.commonRightIdeal)
+    (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
+    (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle))
+    (fun t => secondOrbitalScalar radius D * chart.weight t)
+    (fun i => chart.leftCoefficient i * (a i).divisorPhase δ)
+    (fun j => chart.rightCoefficient j * (a' j).divisorPhase δ)
+    chart.leftPoint chart.rightPoint
+
 def SecondBlockProfileChart.kernelCost {ι κ : Type*}
     {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
     {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
@@ -89,25 +123,62 @@ def SecondBlockProfileChart.kernelCost {ι κ : Type*}
     (chart : SecondBlockProfileChart (E := E) hΓ μv hDiff b C left right
       profiles finiteTest radius D)
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X) : ℝ :=
-  let source := b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX
-  let a := fun i => generatedOriginalColumn (σ := σ) hΓ (b.secondLeftIdeal i)
-    (engineAllowedGenerator C b.commonLeftIdeal * b.leftGenerator i)
-    (b.secondLeft_generates C i)
-  let a' := fun j => generatedOriginalColumn (σ := σ) hΓ (b.secondRightIdeal j)
-    (engineAllowedGenerator C b.commonRightIdeal * b.rightGenerator j)
-    (b.secondRight_generates C j)
-  let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
-  secondResidualKernelCost PUnit chart.kernel source.rows (fun t => -t.out.val)
-    source.leftColumns source.rightColumns
-    b.commonLeftIdeal b.commonRightIdeal b.leftResidual b.rightResidual
-    (engineAllowedGenerator C b.commonLeftIdeal) (engineAllowedGenerator C b.commonRightIdeal)
-    (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
-    (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle))
-    (fun t => secondOrbitalScalar radius D * chart.weight t)
-    (fun i => chart.leftCoefficient i * (a i).divisorPhase δ)
-    (fun j => chart.rightCoefficient j * (a' j).divisorPhase δ)
-    chart.leftPoint chart.rightPoint
+  ∑ label : Fin (chart.rowLabelCount + 1), chart.classKernelCost M X hX label
 
+theorem sum_actual_row_labels {H Λ : Type*} [Fintype Λ]
+    (rows : Finset H) (label : H → Λ) (f : H → ℂ) :
+    (∑ h ∈ rows, f h) = ∑ c : Λ, ∑ h ∈ rows.filter (fun h => label h = c), f h := by
+  simp only [Finset.sum_filter]
+  rw [Finset.sum_comm]
+  apply Finset.sum_congr rfl
+  intro h _
+  simp
+
+/-- Each complete row class is separated before Cauchy.  Its actual
+unit/nonunit support, inducing character class and physical dyad can
+therefore be fixed before the child length and normalization are used. -/
+theorem SecondBlockProfileChart.class_kernel_bound {ι κ : Type*}
+    {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
+    {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
+    {b : FirstCommonCharacterBlock fullI fullJ DE}
+    {C : A.GeneralArithmeticContext σ η htrace} {left : Finset ι} {right : Finset κ}
+    {profiles : ι → κ → SchwartzMap V ℂ}
+    {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
+    {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
+    (chart : SecondBlockProfileChart (E := E) hΓ μv hDiff b C left right
+      profiles finiteTest radius D)
+    (hsupport : primeSupport DE.1 = primeSupport DE.2)
+    (hleft : ∀ i, ∃ u : Kˣ, (u : K) = (b.leftGenerator i : K) ∧ A.IsAllowed C.correction.B u)
+    (hright : ∀ j, ∃ u : Kˣ, (u : K) = (b.rightGenerator j : K) ∧ A.IsAllowed C.correction.B u)
+    (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
+    (label : Fin (chart.rowLabelCount + 1)) :
+    let source := b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX
+    ‖∑ t ∈ source.rows.filter (fun t => chart.rowLabel t = label),
+      ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
+      (source.pairs i j).transformedRow μv hDiff finiteTest radius D t‖ ≤
+        chart.classKernelCost M X hX label := by
+  obtain ⟨hDa, hEa, hDb, hEb⟩ := b.second_coprimalities hsupport
+  exact actual_second_source_kernel_bound (hΓ := hΓ) (hS := hDiff)
+    (Ray := PUnit) (μv := μv) chart.kernel
+    ((b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).rows.filter
+      (fun t => chart.rowLabel t = label))
+    (b.leftColumns left) (b.rightColumns right)
+    b.commonLeftIdeal b.commonRightIdeal b.leftResidual b.rightResidual
+    b.secondLeftIdeal b.secondRightIdeal (fun _ => rfl) (fun _ => rfl)
+    (engineAllowedGenerator C b.commonLeftIdeal) (engineAllowedGenerator C b.commonRightIdeal)
+    b.leftGenerator b.rightGenerator
+    (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
+    b.left_generates b.right_generates (b.secondLeft_generates C) (b.secondRight_generates C)
+    hDa hEa hDb hEb (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle))
+    (fun i j hc => by simpa only [Circle.coe_one] using
+      b.secondPhase_one hΓ C hsupport hleft hright i j hc)
+    profiles finiteTest radius D chart.left_mask chart.right_mask
+    chart.weight chart.leftCoefficient chart.rightCoefficient chart.leftPoint chart.rightPoint
+    (fun t _ i hi j hj hc => chart.profile t i hi j hj hc)
+
+/-- The original complex row sum is partitioned first.  The triangle
+inequality then sums the genuine per-class Cauchy costs, with no cross
+terms between exceptional and ordinary rows. -/
 theorem SecondBlockProfileChart.kernel_bound {ι κ : Type*}
     {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
     {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
@@ -126,23 +197,14 @@ theorem SecondBlockProfileChart.kernel_bound {ι κ : Type*}
     ‖∑ t ∈ source.rows, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
       (source.pairs i j).transformedRow μv hDiff finiteTest radius D t‖ ≤
         chart.kernelCost M X hX := by
-  obtain ⟨hDa, hEa, hDb, hEb⟩ := b.second_coprimalities hsupport
-  exact actual_second_source_kernel_bound (hΓ := hΓ) (hS := hDiff)
-    (Ray := PUnit) (μv := μv) chart.kernel
-    (b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).rows
-    (b.leftColumns left) (b.rightColumns right)
-    b.commonLeftIdeal b.commonRightIdeal b.leftResidual b.rightResidual
-    b.secondLeftIdeal b.secondRightIdeal (fun _ => rfl) (fun _ => rfl)
-    (engineAllowedGenerator C b.commonLeftIdeal) (engineAllowedGenerator C b.commonRightIdeal)
-    b.leftGenerator b.rightGenerator
-    (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
-    b.left_generates b.right_generates (b.secondLeft_generates C) (b.secondRight_generates C)
-    hDa hEa hDb hEb (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle))
-    (fun i j hc => by simpa only [Circle.coe_one] using
-      b.secondPhase_one hΓ C hsupport hleft hright i j hc)
-    profiles finiteTest radius D chart.left_mask chart.right_mask
-    chart.weight chart.leftCoefficient chart.rightCoefficient chart.leftPoint chart.rightPoint
-    (fun t _ i hi j hj hc => chart.profile t i hi j hj hc)
+  dsimp only
+  unfold SecondBlockProfileChart.kernelCost
+  rw [sum_actual_row_labels
+    (b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).rows chart.rowLabel]
+  apply (norm_sum_le _ _).trans
+  apply Finset.sum_le_sum
+  intro label _
+  exact chart.class_kernel_bound hsupport hleft hright M X hX label
 
 variable (hΓ μv hDiff)
 

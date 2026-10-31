@@ -295,7 +295,64 @@ theorem centered_uniform (H : ExceptionalVolumeControl Ψ W₁ W₂)
     s.chartX₁ s.chartX₂ s.chartY₁ s.chartY₂
   convert hs using 1 <;> dsimp only [value, rawMass, slotMass] <;> ring
 
+/-- Formal plain scales are retained.  A positive lower length uses the
+single centered saving; a nonpositive length uses the actual absolute
+volume bound.  No clipping to one is imposed on an exceptional source. -/
+theorem centered_or_absolute_uniform (H : ExceptionalVolumeControl Ψ W₁ W₂)
+    (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent) :
+    ∃ J : ℕ, ∃ Cbound : ℝ, 0 < Cbound ∧ ∀ Z : ℝ, 1 ≤ Z →
+      ∀ {g h' : A.R} {k : ℕ}
+        (s : AllocatedExceptionalSource (V := V) (σ := σ) Ψ W₁ W₂ g h' k),
+      s.mask ≠ ⊥ → (Ideal.absNorm s.mask : ℝ) ≤ Z ^ maskExponent →
+      ∀ L : ℝ, Z ^ L ≤ s.lower →
+      ‖s.value‖ ≤ Cbound * Z ^ ε * (1 + ‖s.time‖) ^ J * s.rawMass * Z ^ (-max L 0) := by
+  obtain ⟨J, Ccenter, hCcenter, hc⟩ := H.centered_uniform (V := V) (σ := σ)
+    ε maskExponent hε hmask
+  let Cabs := 1 + 2 * H.absoluteConstant
+  have hCabs : 0 < Cabs := by
+    dsimp only [Cabs]
+    linarith [H.absoluteConstant_nonneg]
+  let Cbound := Ccenter + Cabs
+  have hCb : 0 < Cbound := add_pos hCcenter hCabs
+  refine ⟨J, Cbound, hCb, ?_⟩
+  intro Z hZ g h' k s hR hmasknorm L hLbound
+  have hZpos : 0 < Z := zero_lt_one.trans_le hZ
+  have htime : 0 ≤ (1 + ‖s.time‖) ^ J := pow_nonneg (by positivity) J
+  by_cases hL : 0 ≤ L
+  · rw [max_eq_left hL]
+    have hinv : s.lower⁻¹ ≤ Z ^ (-L) := by
+      simpa only [one_div, Real.rpow_neg hZpos.le] using
+        one_div_le_one_div_of_le (Real.rpow_pos_of_pos hZpos L) hLbound
+    have hcoeff : Ccenter * Z ^ ε * (1 + ‖s.time‖) ^ J ≤
+        Cbound * Z ^ ε * (1 + ‖s.time‖) ^ J := by
+      apply mul_le_mul_of_nonneg_right _ htime
+      exact mul_le_mul_of_nonneg_right (by dsimp only [Cbound]; linarith)
+        (Real.rpow_nonneg hZpos.le _)
+    have hm := mul_le_mul hcoeff (mul_le_mul_of_nonneg_left hinv s.rawMass_nonneg)
+      (mul_nonneg s.rawMass_nonneg (inv_nonneg.mpr s.lower_pos.le))
+      (mul_nonneg (mul_nonneg hCb.le (Real.rpow_nonneg hZpos.le _)) htime)
+    have hb := hc Z hZ s hR hmasknorm
+    apply hb.trans
+    simpa only [div_eq_mul_inv, mul_assoc] using hm
+  · rw [max_eq_right (le_of_not_ge hL), neg_zero, Real.rpow_zero, mul_one]
+    have hpow : 1 ≤ Z ^ ε := Real.one_le_rpow hZ hε.le
+    have hheight : 1 ≤ (1 + ‖s.time‖) ^ J := one_le_pow₀ (by linarith [norm_nonneg s.time])
+    have hprod : 1 ≤ Z ^ ε * (1 + ‖s.time‖) ^ J := by
+      simpa only [one_mul] using mul_le_mul hpow hheight zero_le_one (zero_le_one.trans hpow)
+    have hcoefficient : Cabs ≤ Cbound * Z ^ ε * (1 + ‖s.time‖) ^ J := by
+      apply (show Cabs ≤ Cbound by dsimp only [Cbound]; linarith).trans
+      simpa only [mul_one, mul_assoc] using mul_le_mul_of_nonneg_left hprod hCb.le
+    exact (s.absolute H).trans (mul_le_mul_of_nonneg_right hcoefficient s.rawMass_nonneg)
+
 end AllocatedExceptionalSource
+
+private theorem positive_part_after_extraction (L r : ℝ) (hr : 0 ≤ r) :
+    max (L - r) 0 = max (max L 0 - r) 0 := by
+  rcases le_total 0 L with hL | hL
+  · rw [max_eq_left hL]
+  · have hLr : L - r ≤ 0 := by linarith
+    have h0r : 0 - r ≤ 0 := by linarith
+    simp only [max_eq_right hL, max_eq_right hLr, max_eq_right h0r]
 
 variable {η : RayClassCharacter F A.modulus} {hS : A.ContainsTraceBadPlaces}
 
@@ -303,7 +360,13 @@ variable {η : RayClassCharacter F A.modulus} {hS : A.ContainsTraceBadPlaces}
 from the original frequency valuations and its genuine residual ideal;
 both amplitudes are actual allocated finite polynomials. The only size
 premise on the source is the displayed raw normalization of frozen
-scalars, finite prime masses, and formal square roots. -/
+scalars, finite prime masses, and formal square roots. The equal-multiplicity
+radical length `v` and the centered extraction length `vStar` are distinct.
+The final divisor dyad is retained as `Z ^ (slotError - divisorLower)`;
+its actual carrier count is paid outside this per-dyad estimate.
+The two literal source factors are independent parameters so that the
+actual pair can use the extracted factor and its negative, and either
+side may receive the single centered saving. -/
 theorem actual_exceptional_paired_contribution
     {Ψleft Ψright : Ideal (𝓞 F) →* ℂ} {WL₁ WL₂ WR₁ WR₂ : ℝ → ℂ}
     (HL : ExceptionalVolumeControl Ψleft WL₁ WL₂)
@@ -317,9 +380,11 @@ theorem actual_exceptional_paired_contribution
       (rows : Finset HRows) (Ih : HRows → A.Exterior) (frequency : HRows → A.R)
       (r : ∀ x, ActualExceptionalRow C p mult₁ mult₂ (Ih x) (frequency x))
       (base : Ideal (𝓞 F))
-      (Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v
-        sectors Cnormal height stepσ δ : ℝ),
-    1 ≤ Z → 0 ≤ v → 0 ≤ sectors → 0 ≤ Cnormal → 0 ≤ height →
+      (leftFactor rightFactor : HRows → A.R)
+      (Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v vStar
+        r₁ r₂ divisorLower slotError sectors Cnormal height stepσ δ : ℝ),
+    1 ≤ Z → 0 ≤ v → 0 ≤ r₁ → divisorLower - r₂ ≤ slotError →
+    0 ≤ sectors → 0 ≤ Cnormal → 0 ≤ height →
     let a₀ := Aexp - c - w
     let K₀ := 2 * Aexp - c - d + R₀ + E₀ - m
     let mChild := 2 * a₀ - K - g - g₂ - V₀
@@ -338,26 +403,26 @@ theorem actual_exceptional_paired_contribution
     (∀ I ∈ rows.image (fun x => (r x).ideal.val),
       ((rows.filter (fun x => (r x).ideal.val = I)).card : ℝ) ≤ sectors) →
     2 * (c + w) / 3 - 3 * stepσ - 5 * δ / 6 ≤ F₁ →
-    2 * b₂ / 3 ≤ F₂ → v ≤ c + w + b₂ →
-    let frozen := fun x => primePowerProductGenerator C p (fun i => min (mult₁ i) (mult₂ i)) *
-      nonunitFrequencyGenerator C p mult₁ mult₂ (frequency x)
+    2 * b₂ / 3 ≤ F₂ → vStar ≤ c + w + b₂ →
     ∀ {kleft kright : ℕ}
       (left : ∀ x, AllocatedExceptionalSource (V := V) (σ := σ)
-        Ψleft WL₁ WL₂ (frozen x) (r x).element kleft)
+        Ψleft WL₁ WL₂ (leftFactor x) (r x).element kleft)
       (right : ∀ x, AllocatedExceptionalSource (V := V) (σ := σ)
-        Ψright WR₁ WR₂ (frozen x) (r x).element kright),
+        Ψright WR₁ WR₂ (rightFactor x) (r x).element kright),
     (∀ x ∈ rows, (left x).mask ≠ ⊥) →
     (∀ x ∈ rows, (Ideal.absNorm (left x).mask : ℝ) ≤ Z ^ maskExponent) →
     (∀ x ∈ rows, ‖(left x).time‖ ≤ height) →
-    (∀ x ∈ rows, Z ^ max ((m + q) / 4 - v) 0 ≤ (left x).lower) →
+    (∀ x ∈ rows, Z ^ ((m + q) / 4 - vStar - r₁) ≤ (left x).lower) →
     (∀ x ∈ rows, (left x).rawMass * (right x).rawMass ≤
-      Cnormal * Z ^ (a₀ - b₂)) →
+      Cnormal * Z ^ (a₀ - b₂ - r₁ - r₂)) →
     Z ^ (-(mChild + qChild + Δ)) *
       (∑ x ∈ rows, ‖(left x).value‖ * ‖(right x).value‖) ≤
       (sectors * Cbound * Cnormal) * (1 + height) ^ J *
-        Z ^ (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε) := by
+        Z ^ (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε +
+          slotError - divisorLower) := by
   obtain ⟨J, Cleft, hCleft, hleftBound⟩ :=
-    AllocatedExceptionalSource.centered_uniform (V := V) (σ := σ) HL ε maskExponent hε hmask
+    AllocatedExceptionalSource.centered_or_absolute_uniform (V := V) (σ := σ)
+      HL ε maskExponent hε hmask
   let Cright := 1 + 2 * HR.absoluteConstant
   have hCright : 0 < Cright := by
     dsimp only [Cright]
@@ -366,8 +431,10 @@ theorem actual_exceptional_paired_contribution
   let Cbound := Cleft * Cright * idealCountConstant F
   refine ⟨J, Cbound, mul_pos (mul_pos hCleft hCright) hcount, ?_⟩
   intro ι HRows instFintype instDecidableEq C p hp mult₁ mult₂ rows Ih frequency r base
-    Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v
-    sectors Cnormal height stepσ δ hZ hv hsectors hCnormal hheight
+    leftFactor rightFactor
+    Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v vStar
+    r₁ r₂ divisorLower slotError sectors Cnormal height stepσ δ
+    hZ hv hr₁ hdivisor hsectors hCnormal hheight
   dsimp only
   intro hclass hfactor hwindow hcutoff hfiber hF₁ hF₂ hvsum kleft kright
     left right hmask0 hmasknorm htime hminimum hnormal
@@ -377,9 +444,9 @@ theorem actual_exceptional_paired_contribution
   let qChild := q + R₀ + E₀ + wo + t₂ + V₀
   let Δ := b₂ - p₂ + w + Bcommon + ell
   let normExp := mChild + qChild + Δ
-  let rawExp := a₀ - b₂
+  let rawExp := a₀ - b₂ - r₁ - r₂
   let rowExp := (mChild - 2 * v) / 6
-  let saving := max ((m + q) / 4 - v) 0
+  let saving := max ((m + q) / 4 - vStar - r₁) 0
   let F₁ := firstSaving c (d + K₀ - K) w (q + R₀ + E₀) wo Bcommon g ell
   let F₂ := 2 * b₂ - 5 * g₂ / 6 - p₂ + t₂ + V₀ / 6 + (2 * v) / 6
   have hZpos : 0 < Z := zero_lt_one.trans_le hZ
@@ -393,29 +460,29 @@ theorem actual_exceptional_paired_contribution
     (Real.rpow_nonneg hZpos.le _)
   have hpoint (x) (hx : x ∈ rows) : ‖(left x).value‖ * ‖(right x).value‖ ≤ U := by
     have hl := hleftBound Z hZ (left x) (hmask0 x hx) (hmasknorm x hx)
+      ((m + q) / 4 - vStar - r₁) (hminimum x hx)
     have hr := (right x).absolute HR
     have hp : (1 + ‖(left x).time‖) ^ J ≤ (1 + height) ^ J :=
       pow_le_pow_left₀ (by positivity) (by linarith [htime x hx]) J
-    have hratio : 0 ≤ (left x).rawMass / (left x).lower :=
-      div_nonneg (left x).rawMass_nonneg (left x).lower_pos.le
     have hl' : ‖(left x).value‖ ≤
-        Cleft * Z ^ ε * (1 + height) ^ J * ((left x).rawMass / (left x).lower) :=
+        Cleft * Z ^ ε * (1 + height) ^ J * (left x).rawMass * Z ^ (-saving) :=
       hl.trans (mul_le_mul_of_nonneg_right
-        (mul_le_mul_of_nonneg_left hp (mul_nonneg hCleft.le (Real.rpow_nonneg hZpos.le _))) hratio)
+        (mul_le_mul_of_nonneg_right
+          (mul_le_mul_of_nonneg_left hp
+            (mul_nonneg hCleft.le (Real.rpow_nonneg hZpos.le _)))
+          (left x).rawMass_nonneg) (Real.rpow_nonneg hZpos.le _))
     have hl0 : 0 ≤ Cleft * Z ^ ε * (1 + height) ^ J *
-        ((left x).rawMass / (left x).lower) :=
-      mul_nonneg (mul_nonneg (mul_nonneg hCleft.le (Real.rpow_nonneg hZpos.le _))
-        hheightpow) hratio
-    have hinv : (left x).lower⁻¹ ≤ Z ^ (-saving) := by
-      simpa only [one_div, Real.rpow_neg hZpos.le] using
-        one_div_le_one_div_of_le (Real.rpow_pos_of_pos hZpos saving) (hminimum x hx)
-    have hraw := mul_le_mul (hnormal x hx) hinv
-      (inv_nonneg.mpr (left x).lower_pos.le) (mul_nonneg hCnormal (Real.rpow_nonneg hZpos.le _))
+        (left x).rawMass * Z ^ (-saving) :=
+      mul_nonneg (mul_nonneg
+        (mul_nonneg (mul_nonneg hCleft.le (Real.rpow_nonneg hZpos.le _)) hheightpow)
+        (left x).rawMass_nonneg) (Real.rpow_nonneg hZpos.le _)
+    have hraw := mul_le_mul_of_nonneg_right (hnormal x hx)
+      (Real.rpow_nonneg hZpos.le (-saving))
     calc
-      _ ≤ (Cleft * Z ^ ε * (1 + height) ^ J * ((left x).rawMass / (left x).lower)) *
+      _ ≤ (Cleft * Z ^ ε * (1 + height) ^ J * (left x).rawMass * Z ^ (-saving)) *
           (Cright * (right x).rawMass) := mul_le_mul hl' hr (norm_nonneg _) hl0
       _ = (Cleft * Cright * Z ^ ε * (1 + height) ^ J) *
-          (((left x).rawMass * (right x).rawMass) * (left x).lower⁻¹) := by ring
+          (((left x).rawMass * (right x).rawMass) * Z ^ (-saving)) := by ring
       _ ≤ (Cleft * Cright * Z ^ ε * (1 + height) ^ J) *
           ((Cnormal * Z ^ rawExp) * Z ^ (-saving)) :=
         mul_le_mul_of_nonneg_left hraw
@@ -432,12 +499,16 @@ theorem actual_exceptional_paired_contribution
     Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ (2 * v)
   change (mChild - 2 * v) / 6 + a₀ - b₂ - normExp =
     Aexp - 5 * (m + q) / 6 - F₁ - F₂ at hid
-  have hledger := exceptional_paired_exponent Aexp (m + q) c w b₂ v F₁ F₂ stepσ δ
+  have hledger := exceptional_paired_exponent Aexp (m + q) c w b₂ vStar F₁ F₂ stepσ δ
     hF₁ hF₂ hvsum
+  have hdiv := centered_divisor_saving divisorLower r₁ r₂
+    (max ((m + q) / 4 - vStar) 0) slotError hdivisor
+  rw [← positive_part_after_extraction ((m + q) / 4 - vStar) r₁ hr₁] at hdiv
   have he : -normExp + rowExp + (rawExp + ε - saving) ≤
-      max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε := by
+      max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε +
+        slotError - divisorLower := by
     dsimp only [rowExp, rawExp, saving]
-    linarith [hid, hledger]
+    linarith [hid, hledger, hdiv]
   change Z ^ (-normExp) * (∑ x ∈ rows, ‖(left x).value‖ * ‖(right x).value‖) ≤ _
   calc
     _ ≤ Z ^ (-normExp) * ((rows.card : ℝ) * U) :=
@@ -458,5 +529,6 @@ theorem actual_exceptional_paired_contribution
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.AllocatedExceptionalSource.centered_uniform
+#print axioms HeckeSkeleton.Moments.EngineStep.AllocatedExceptionalSource.centered_or_absolute_uniform
 #print axioms HeckeSkeleton.Moments.EngineStep.AllocatedExceptionalSource.absolute
 #print axioms HeckeSkeleton.Moments.EngineStep.actual_exceptional_paired_contribution

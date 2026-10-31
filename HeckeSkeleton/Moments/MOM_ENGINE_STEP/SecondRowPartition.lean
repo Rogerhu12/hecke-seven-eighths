@@ -116,10 +116,21 @@ def kernelCostOn (rows : Finset Q) : ℝ :=
     (fun j => chart.rightCoefficient j * (a' j).divisorPhase δ)
     chart.leftPoint chart.rightPoint
 
+theorem classKernelCost_eq_on
+    (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
+    (label : Fin (chart.rowLabelCount + 1)) :
+    chart.classKernelCost M X hX label = chart.kernelCostOn
+      ((b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).rows.filter
+        (fun t => chart.rowLabel t = label)) := rfl
+
+/-- The original finite row labels remain outside Cauchy.  Summing
+their separate costs is the definition of the complete chart cost. -/
 theorem kernelCost_eq_on
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X) :
-    chart.kernelCost M X hX = chart.kernelCostOn
-      (b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).rows := rfl
+    chart.kernelCost M X hX =
+      ∑ label : Fin (chart.rowLabelCount + 1), chart.kernelCostOn
+        ((b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).rows.filter
+          (fun t => chart.rowLabel t = label)) := rfl
 
 theorem kernel_bound_on
     (hsupport : primeSupport DE.1 = primeSupport DE.2)
@@ -326,3 +337,4 @@ end HeckeSkeleton.Moments.EngineStep
 #print axioms HeckeSkeleton.Moments.EngineStep.canonical_second_block_transform_partitioned_bound
 
 #print axioms HeckeSkeleton.Moments.EngineStep.gauss_second_stage_partitioned_bound
+

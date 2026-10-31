@@ -80,10 +80,9 @@ theorem FirstGaussPoolData.twisted_integrable {ι : Type*}
       (actualFourierMeasure F) := by
   have hi : Integrable (fun ξ : V => ‖(𝓕 F) ξ‖ *
       d.energy (FirstGaussPoolData.twistedCoefficient c x ξ)) := by
-    apply ((𝓕 F).integrable (μ := (volume : Measure V))).norm.mul_bdd
+    apply ((𝓕 F).integrable (μ := (volume : Measure V))).norm.mul_bdd (c := d.mass c)
       (d.continuous_energy_twisted c x).aestronglyMeasurable
     exact Filter.Eventually.of_forall fun ξ => by
-      simp only [Pi.mul_apply, Function.comp_apply]
       rw [Real.norm_eq_abs, abs_of_nonneg (d.energy_nonneg _)]
       exact d.energy_twisted_le_mass c x ξ
   have hm : Measurable (fun ξ : V => ENNReal.ofReal ‖(𝓕 F) ξ‖) := by fun_prop

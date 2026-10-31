@@ -52,7 +52,8 @@ variable {ι : Type*} {G : ActualGaussSource C ι}
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 
 /-- Raw, per-source terminal data. `windows` supplies individual
-seminorm and norm bounds with an injective whole-factor encoding.
+seminorm and norm bounds with a proved finite whole-factor fibre.
+Residual sources use the actual valuation-allocation multiplicity.
 `zero_normalization` is an original pair scalar bound. Neither field
 asserts an energy, transformed-source, or summed-terminal estimate. -/
 structure TerminalCalibration
@@ -92,9 +93,9 @@ terms have been bounded. The individual normalization amplitudes stay
 visible for the outer common-measure budget. -/
 def cost (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (ε Cerror Czero : ℝ) : ℝ :=
-  (s.fiber : ℝ) * (Czero * T.zeroAmplitude * Z ^ (T.productExponent * ε) +
+  (s.fiber : ℝ) * (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.productExponent * ε) +
     (∑ DE, ∑ D : s.mask.powerset, (s.charts DE D).kernelCost s.mask s.cutoff s.cutoff_one) +
-    Cerror * T.tailAmplitude * Z ^ (-Nsave))
+    Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))
 
 end TerminalCalibration
 end ActualGaussStage

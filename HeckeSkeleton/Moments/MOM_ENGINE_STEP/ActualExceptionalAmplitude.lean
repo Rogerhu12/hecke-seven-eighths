@@ -30,8 +30,9 @@ variable {A : SArithmeticData F} {σ : F →+* ℂ}
 variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 
 /-- The primitive exceptional identification is pointwise in one
-original ideal. The support condition covers precisely the radial test;
-the multiplicative mask and all character zeros remain in `coefficient`. -/
+original ideal. Support is required only where the actual coprimality
+mask, multiplicative coefficient and radial profile can all contribute.
+Thus the genuine support-extracted domain need not contain masked zeros. -/
 structure ExceptionalPlainChart
     (χ θ : HeckeCharacter F) (M : Ideal (𝓞 F) →* ℂ) (g h' : A.R)
     (Ψ : Ideal (𝓞 F) →* ℂ) (R : Ideal (𝓞 F)) (W : ℝ → ℂ) (t N : ℝ)
@@ -45,7 +46,8 @@ structure ExceptionalPlainChart
   profile : ∀ I ∈ S, w I * jointPhase ξ (x I) =
     (Ideal.absNorm I.val : ℂ) ^ (Complex.I * t) * W ((Ideal.absNorm I.val : ℝ) / N)
   support : ∀ I : HeckeGeneral.Analysis.NonzeroIdeal F,
-    W ((Ideal.absNorm I.val : ℝ) / N) ≠ 0 → I ∈ S
+    IsCoprime I.val R → Ψ I.val ≠ 0 →
+      W ((Ideal.absNorm I.val : ℝ) / N) ≠ 0 → I ∈ S
 
 /-- A genuine finite-support series identity, including the zero ideal.
 Its zero contribution vanishes through the original coefficient. -/
@@ -54,7 +56,8 @@ theorem finite_twistedMaskedSum
     (R : Ideal (𝓞 F)) (W : ℝ → ℂ) (t N : ℝ)
     (S : Finset (HeckeGeneral.Analysis.NonzeroIdeal F))
     (hS : ∀ I : HeckeGeneral.Analysis.NonzeroIdeal F,
-      W ((Ideal.absNorm I.val : ℝ) / N) ≠ 0 → I ∈ S) :
+      IsCoprime I.val R → Ψ I.val ≠ 0 →
+        W ((Ideal.absNorm I.val : ℝ) / N) ≠ 0 → I ∈ S) :
     (∑ I ∈ S, (if IsCoprime I.val R then (1 : ℂ) else 0) *
       (Ψ I.val * (Ideal.absNorm I.val : ℂ) ^ (Complex.I * t) *
         W ((Ideal.absNorm I.val : ℝ) / N))) = twistedMaskedSum Ψ R W t N := by
@@ -67,10 +70,14 @@ theorem finite_twistedMaskedSum
     · simp only [f, hbot, hΨ0, zero_mul, mul_zero]
     · let J : HeckeGeneral.Analysis.NonzeroIdeal F :=
         ⟨I, mem_nonZeroDivisors_of_ne_zero hbot⟩
-      have hW : W ((Ideal.absNorm I : ℝ) / N) = 0 := by
-        by_contra hne
-        exact hI (Finset.mem_image.mpr ⟨J, hS J hne, rfl⟩)
-      simp only [f, hW, mul_zero]
+      by_cases hcop : IsCoprime I R
+      · by_cases hchar : Ψ I = 0
+        · simp only [f, hchar, zero_mul, mul_zero]
+        · have hW : W ((Ideal.absNorm I : ℝ) / N) = 0 := by
+            by_contra hne
+            exact hI (Finset.mem_image.mpr ⟨J, hS J hcop hchar hne, rfl⟩)
+          simp only [f, hW, mul_zero]
+      · simp only [f, if_neg hcop, zero_mul]
   change (∑ I ∈ S, f I.val) = ∑' I, f I
   symm
   rw [tsum_eq_sum hz, Finset.sum_image (fun I hI J hJ hIJ => Subtype.ext hIJ)]
@@ -379,7 +386,7 @@ theorem allocated_centered_amplitude
     (Y₁ / idealNorm F (B.plainDivisor 0))
     (Y₂ / idealNorm F (B.plainDivisor (Fin.succ 0))) Q L
     hL hX₁ hX₂ hY₁ hY₂ hpX hpY
-  have hs := norm_actualSourceSlotPolynomial_le (T.restrictSlots B.keep) g h' Z
+  have hs := norm_actualSourceSlotPolynomial_le (σ := σ) (T.restrictSlots B.keep) g h' Z
     (fun j => length (SlotRestriction.index B.keep j)) B.childSlots
     (fun j => w (SlotRestriction.index B.keep j))
     (fun j => x (SlotRestriction.index B.keep j)) ξ

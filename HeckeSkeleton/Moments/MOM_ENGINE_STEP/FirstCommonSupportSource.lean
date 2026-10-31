@@ -210,10 +210,16 @@ theorem firstActiveIdeal_dvd_common {τ : Type*} [Fintype τ] [DecidableEq τ]
     (firstActiveIdeal p m n).val ∣ (primePowerProduct p m).val := by
   change (∏ i : activeSupport Finset.univ m n, (p i.val).val.asIdeal ^ 1) ∣
     ∏ i : τ, (p i).val.asIdeal ^ m i
-  simp only [pow_one, Finset.prod_coe_sort]
+  simp only [pow_one]
+  have hprod : (∏ i : activeSupport Finset.univ m n, (p i.val).val.asIdeal) =
+      ∏ i ∈ activeSupport Finset.univ m n, (p i).val.asIdeal :=
+    Finset.prod_coe_sort (activeSupport Finset.univ m n)
+      (fun i : τ => (p i).val.asIdeal)
+  rw [hprod]
   apply dvd_trans (b := ∏ i ∈ activeSupport Finset.univ m n, (p i).val.asIdeal ^ m i)
   · apply Finset.prod_dvd_prod_of_dvd
-      (fun i => (p i).val.asIdeal) (fun i => (p i).val.asIdeal ^ m i)
+      (fun i : τ => (p i).val.asIdeal)
+      (fun i : τ => (p i).val.asIdeal ^ m i)
     intro i hi
     simpa only [pow_one] using
       pow_dvd_pow ((p i).val.asIdeal) (Nat.succ_le_iff.mpr (hm i))

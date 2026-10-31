@@ -38,7 +38,8 @@ theorem first_divisor_pool_nonzero (right : FirstGaussPoolData C P κ)
   have hd := (mem_idealDivisors (right.ideal j).property.1).mp hSj
   intro hzero
   obtain ⟨J, hJ⟩ := hd
-  exact (right.ideal j).property.1 (by simpa only [hzero, zero_mul] using hJ)
+  exact (right.ideal j).property.1
+    (by simpa only [hzero, zero_mul, Ideal.zero_eq_bot] using hJ)
 
 /-- The arithmetic data may vary with the internal divisor only after
 the single pool has been fixed. Both frozen products contain that divisor. -/
@@ -201,8 +202,16 @@ theorem first_residual_cost_le_divisor_pool {H : Type*}
       c i * (fixedLeftPhase Ray χ (rayLeft i) : ℂ) else 0)
     (fun j => if S.val ∣ (right.ideal j).val then
       d j * (fixedRightPhase Ray χ (rayRight j) : ℂ) else 0) x y
-  simpa only [FirstGaussPoolData.gaussColumn, p.left_columns S, p.right_columns S,
-    p.left_ideal S, p.right_ideal S, p.left_generator S, p.right_generator S] using he
+  have hleft : (p.leftData S).gaussColumn hDiff = left.gaussColumn hDiff := by
+    funext i h
+    simp only [FirstGaussPoolData.gaussColumn, p.left_ideal S, p.left_generator S]
+  have hright : (p.rightData S).gaussColumn hDiff = right.gaussColumn hDiff := by
+    funext j h
+    simp only [FirstGaussPoolData.gaussColumn, p.right_ideal S, p.right_generator S]
+  rw [hleft, hright] at he
+  simp only [p.left_columns S, p.right_columns S] at he
+  simpa only [wholePolynomial, FirstGaussPoolData.gaussColumn,
+    generatedOriginalColumn] using he
 
 end HeckeSkeleton.Moments.EngineStep
 

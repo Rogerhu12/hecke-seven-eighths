@@ -160,13 +160,13 @@ theorem zero_or_capacity_provider
     (hbudget : 0 ≤ 6 * (skeleton.w + ell) + supportError + rawClipError + widthError)
     (hcharge : 0 ≤ (b₂ - p₂ + skeleton.w + boundary + ell) +
       (supportError + rawClipError + widthError) / 6 + D.parameters.κ * mesh)
-    (primeBound : Fin s.allocation.keep.card → ℝ)
-    (hprimeBound : ∀ i, 0 ≤ primeBound i)
+    (primeBound : V → Fin s.allocation.keep.card → ℝ)
+    (hprimeBound : ∀ ξ i, 0 ≤ primeBound ξ i)
     (hprime : ∀ ξ, ∀ u ∈ pairedRows (D.data ξ) D.parameters s.base,
       ∀ i : Fin s.allocation.keep.card,
       ‖primePolynomial (D.data ξ)
         (lengthSlot (D.data ξ) s.allocation.keep.card (D.count ξ) i) u s.base (D.height ξ)‖ ^ 2 ≤
-          primeBound i * s.base ^ (D.parameters.κ * s.childLength i)) :
+          primeBound ξ i * s.base ^ (D.parameters.κ * s.childLength i)) :
     (∀ ξ, s.energy (σ := σ) ξ = 0) ∨
       (0 ≤ D.parameters.m + D.parameters.q ∧
        D.parameters.m + D.parameters.q ≤ skeleton.parentWidth - gap / 2 ∧
@@ -185,7 +185,7 @@ theorem zero_or_capacity_provider
           (∀ i, (D.restrictedClippedData keep ξ).slotCoefficient i ∈
             (D.restrictedClippedData keep ξ).theta) ∧
           s.energy (σ := σ) ξ ≤
-            D.mass * ((∏ i ∈ removed, primeBound i) *
+            D.mass * ((∏ i ∈ removed, primeBound ξ i) *
               s.base ^ ((b₂ - p₂ + skeleton.w + boundary + ell) +
                 (supportError + (rawClipError +
                   (Real.log leftAnnulus + Real.log rightAnnulus) / Real.log s.base) +
@@ -240,11 +240,11 @@ theorem zero_or_capacity_provider
   intro ξ
   refine ⟨D.restricted_count_le keep ξ, D.restricted_z keep ξ,
     D.restricted_mesh keep ξ mesh hfit, D.restricted_slot_in_theta keep ξ, ?_⟩
-  have hc := hbound ξ s.base s.base_gt_one.le primeBound hprimeBound (D.height ξ) (hprime ξ)
+  have hc := hbound ξ s.base s.base_gt_one.le (primeBound ξ) (hprimeBound ξ) (D.height ξ) (hprime ξ)
   have hmul := mul_le_mul_of_nonneg_left hc D.mass_nonneg
   exact (D.energy_le_clipped ξ).trans (by
-    simpa only [clipCost, restrictedClippedData, restrictedParameters,
-      clippedParameters, clipPlainParameters, mul_assoc] using hmul)
+    simpa only [mul_assoc, clipCost, restrictedClippedData, restrictedParameters,
+      clippedParameters, clipPlainParameters] using hmul)
 
 end Calibration
 end ActualAllocatedSource

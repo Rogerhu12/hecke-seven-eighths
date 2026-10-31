@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.TailFiberCount
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.TailBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroDiagonal
 import Mathlib.Analysis.Normed.Ring.Finite
@@ -246,7 +247,7 @@ theorem secondBlockTailMass_eq_original_pairs
 
 /-- The extra cost of the two complete Gauss residues is one original
 product norm. Both this factor and the modulus-radius factor are derived
-from the original ideals, and the whole-index count is proved internally. -/
+from the original ideals, and the whole-index fibre count is proved internally. -/
 theorem secondBlockTailMass_bound
     (C : A.GeneralArithmeticContext σ η hS)
     (left : Finset ι) (right : Finset κ)
@@ -256,7 +257,8 @@ theorem secondBlockTailMass_bound
     (seminorms : Finset (ℕ × ℕ)) (profiles : ι → κ → SchwartzMap V ℂ)
     (radius : {r : ℝ // 0 < r}) (M : Finset (HeightOneSpectrum A.R))
     {k : ℕ} (factors : ι × κ → Fin k → Ideal (𝓞 K))
-    (hinj : Set.InjOn factors (left ×ˢ right : Set (ι × κ)))
+    (multiplicity : ℕ)
+    (hfiber : ∀ v, ((left ×ˢ right).filter (fun ij => factors ij = v)).card ≤ multiplicity)
     (hproduct : ∀ ij ∈ left ×ˢ right, PowerfulDiagonal.tupleIdeal (factors ij) =
       (fullI ij.1).val * (fullJ ij.2).val)
     (X Amp maskBound : ℝ) (hX : 1 ≤ X)
@@ -270,10 +272,10 @@ theorem secondBlockTailMass_bound
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) M)).val ≤ maskBound) :
     secondBlockTailMass hΓ hDiff C left right fullI fullJ blocks seminorms profiles radius M ≤
       (firstTailFieldConstant K * idealCountConstant K ^ k) *
-        Amp * X ^ (k + 1) * maskBound * (radius.val⁻¹ + X) := by
+        (multiplicity : ℝ) * Amp * X ^ (k + 1) * maskBound * (radius.val⁻¹ + X) := by
   have hX0 : 0 ≤ X := zero_le_one.trans hX
-  have hcard := first_common_label_tuple_card left right fullI fullJ
-    factors hinj hproduct X hX hnorm
+  have hcard := first_common_label_tuple_card_of_fibers left right fullI fullJ
+    factors multiplicity hfiber hproduct X hX hnorm
   let bound := X * (firstTailFieldConstant K * maskBound * (radius.val⁻¹ + X))
   have hbound : 0 ≤ bound := mul_nonneg hX0 (mul_nonneg
     (mul_nonneg firstTailFieldConstant_nonneg hmaskBound)
@@ -320,7 +322,7 @@ theorem secondBlockTailMass_bound
     _ ≤ ∑ _v ∈ firstZeroPairs left right fullI fullJ, Amp * bound :=
       Finset.sum_le_sum hpoint
     _ = ((firstZeroPairs left right fullI fullJ).card : ℝ) * (Amp * bound) := by simp
-    _ ≤ (idealCountConstant K * X) ^ k * (Amp * bound) :=
+    _ ≤ ((multiplicity : ℝ) * (idealCountConstant K * X) ^ k) * (Amp * bound) :=
       mul_le_mul_of_nonneg_right hcard (mul_nonneg hAmp hbound)
     _ = _ := by
       rw [mul_pow, pow_succ]
@@ -335,7 +337,8 @@ def secondTailExponent (k : ℕ) (productExponent profileExponent maskExponent
     max productExponent inverseRadiusExponent
 
 /-- Only original pointwise data are supplied. In particular, the
-actual second modulus window and the total tail mass are conclusions. -/
+actual second modulus window and the total tail mass are conclusions.
+The finite tuple multiplicity is retained, including for residual sources. -/
 structure SecondTailWindows (C : A.GeneralArithmeticContext σ η hS)
     (left : Finset ι) (right : Finset κ)
     (fullI : ι → A.Exterior) (fullJ : κ → A.Exterior)
@@ -348,7 +351,9 @@ structure SecondTailWindows (C : A.GeneralArithmeticContext σ η hS)
   productExponent_nonneg : 0 ≤ productExponent
   amplitude_nonneg : 0 ≤ Amp
   factors : ι × κ → Fin k → Ideal (𝓞 K)
-  factors_injective : Set.InjOn factors (left ×ˢ right : Set (ι × κ))
+  multiplicity : ℕ
+  factors_fiber_card : ∀ v,
+    ((left ×ˢ right).filter (fun ij => factors ij = v)).card ≤ multiplicity
   factor_product : ∀ ij ∈ left ×ˢ right, PowerfulDiagonal.tupleIdeal (factors ij) =
     (fullI ij.1).val * (fullJ ij.2).val
   product_norm : ∀ ij ∈ left ×ˢ right,
@@ -374,18 +379,49 @@ variable {seminorms : Finset (ℕ × ℕ)} {profiles : ι → κ → SchwartzMap
 variable {radius : {r : ℝ // 0 < r}} {M : Finset (HeightOneSpectrum A.R)}
 variable {k : ℕ} {Z productExponent profileExponent maskExponent inverseRadiusExponent Amp : ℝ}
 
+/-- Main-source encodings are the multiplicity-one case.  The fibre
+bound is proved from their original injection rather than supplied. -/
+def ofInjective
+    (hZ : 1 ≤ Z) (hB : 0 ≤ productExponent) (hAmp : 0 ≤ Amp)
+    (factors : ι × κ → Fin k → Ideal (𝓞 K))
+    (hinj : Set.InjOn factors (left ×ˢ right : Set (ι × κ)))
+    (hproduct : ∀ ij ∈ left ×ˢ right, PowerfulDiagonal.tupleIdeal (factors ij) =
+      (fullI ij.1).val * (fullJ ij.2).val)
+    (hnorm : ∀ ij ∈ left ×ˢ right,
+      (Ideal.absNorm ((fullI ij.1).val * (fullJ ij.2).val) : ℝ) ≤ Z ^ productExponent)
+    (hprofile : ∀ v ∈ firstZeroPairs left right fullI fullJ,
+      seminorms.sup (schwartzSeminormFamily ℂ V ℂ) (profiles v.2.1 v.2.2) ≤
+        Amp * Z ^ profileExponent)
+    (hmask :
+      (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) M)).val ≤ Z ^ maskExponent)
+    (hradius : radius.val⁻¹ ≤ Z ^ inverseRadiusExponent) :
+    SecondTailWindows C left right fullI fullJ blocks seminorms profiles radius M
+      k Z productExponent profileExponent maskExponent inverseRadiusExponent Amp where
+  base_ge_one := hZ
+  productExponent_nonneg := hB
+  amplitude_nonneg := hAmp
+  factors := factors
+  multiplicity := 1
+  factors_fiber_card := factor_fiber_card_le_one (left ×ˢ right) factors hinj
+  factor_product := hproduct
+  product_norm := hnorm
+  profile_seminorm := hprofile
+  mask_norm := hmask
+  inverse_radius := hradius
+
 theorem power_bound
     (W : SecondTailWindows C left right fullI fullJ blocks seminorms profiles radius M
       k Z productExponent profileExponent maskExponent inverseRadiusExponent Amp) :
     secondBlockTailMass hΓ hDiff C left right fullI fullJ blocks seminorms profiles radius M ≤
-      (2 * firstTailFieldConstant K * idealCountConstant K ^ k) * Amp *
+      (2 * firstTailFieldConstant K * idealCountConstant K ^ k) * (W.multiplicity * Amp) *
         Z ^ secondTailExponent k productExponent profileExponent maskExponent inverseRadiusExponent := by
   have hZpos : 0 < Z := zero_lt_one.trans_le W.base_ge_one
   have hAmp : 0 ≤ Amp := W.amplitude_nonneg
   have hcount : 0 ≤ idealCountConstant K := zero_le_one.trans (one_le_idealCountConstant K)
   have hfield : 0 ≤ firstTailFieldConstant K := firstTailFieldConstant_nonneg
   have hraw := secondBlockTailMass_bound hΓ hDiff C left right fullI fullJ blocks
-    seminorms profiles radius M W.factors W.factors_injective W.factor_product
+    seminorms profiles radius M W.factors W.multiplicity W.factors_fiber_card W.factor_product
     (Z ^ productExponent) (Amp * Z ^ profileExponent) (Z ^ maskExponent)
     (Real.one_le_rpow W.base_ge_one W.productExponent_nonneg)
     (mul_nonneg W.amplitude_nonneg (Real.rpow_nonneg hZpos.le _))
@@ -399,10 +435,10 @@ theorem power_bound
       2 * Z ^ max productExponent inverseRadiusExponent := by linarith
   calc
     _ ≤ (firstTailFieldConstant K * idealCountConstant K ^ k) *
-        (Amp * Z ^ profileExponent) * (Z ^ productExponent) ^ (k + 1) *
+        (W.multiplicity : ℝ) * (Amp * Z ^ profileExponent) * (Z ^ productExponent) ^ (k + 1) *
         Z ^ maskExponent * (radius.val⁻¹ + Z ^ productExponent) := hraw
     _ ≤ (firstTailFieldConstant K * idealCountConstant K ^ k) *
-        (Amp * Z ^ profileExponent) * (Z ^ productExponent) ^ (k + 1) *
+        (W.multiplicity : ℝ) * (Amp * Z ^ profileExponent) * (Z ^ productExponent) ^ (k + 1) *
         Z ^ maskExponent * (2 * Z ^ max productExponent inverseRadiusExponent) :=
       mul_le_mul_of_nonneg_left hadd (by positivity)
     _ = _ := by
@@ -423,7 +459,7 @@ theorem cutoff_budget
       Ctail * X ^ (1 - decay) *
         secondBlockTailMass hΓ hDiff C left right fullI fullJ blocks seminorms profiles radius M ≤
           (Ctail * (2 * firstTailFieldConstant K * idealCountConstant K ^ k)) *
-            Amp * Z ^ (-N) := by
+            (W.multiplicity * Amp) * Z ^ (-N) := by
   dsimp only
   refine ⟨Real.one_le_rpow W.base_ge_one (firstTailCutoffExponent_nonneg _ _ _ hdecay), ?_⟩
   have hZpos : 0 < Z := zero_lt_one.trans_le W.base_ge_one
@@ -436,10 +472,10 @@ theorem cutoff_budget
     secondBlockTailMass hΓ hDiff C left right fullI fullJ blocks seminorms profiles radius M ≤ _
   calc
     _ ≤ Ctail * X ^ (1 - decay) *
-        ((2 * firstTailFieldConstant K * idealCountConstant K ^ k) * Amp * Z ^ L) :=
+        ((2 * firstTailFieldConstant K * idealCountConstant K ^ k) * (W.multiplicity * Amp) * Z ^ L) :=
       mul_le_mul_of_nonneg_left W.power_bound (mul_nonneg hCtail
         (Real.rpow_nonneg (Real.rpow_nonneg hZpos.le _) _))
-    _ = (Ctail * (2 * firstTailFieldConstant K * idealCountConstant K ^ k)) * Amp *
+    _ = (Ctail * (2 * firstTailFieldConstant K * idealCountConstant K ^ k)) * (W.multiplicity * Amp) *
         (X ^ (1 - decay) * Z ^ L) := by ring
     _ ≤ _ := mul_le_mul_of_nonneg_left
       (first_tail_cutoff_power Z L N decay W.base_ge_one hdecay) (by positivity)

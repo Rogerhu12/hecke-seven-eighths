@@ -38,7 +38,8 @@ theorem ParentPeriodicPair.gated_divisorFourier (p : ParentPeriodicPair K S Γ)
   by_cases hP : P
   · rw [p.gated_of_true P hP, if_pos hP]
   · simp only [ParentPeriodicPair.gated, if_neg hP, sIntegerPeriodicDivisorFourier,
-      PeriodicFourier.divisorTransform_apply, zero_mul, Finset.sum_const_zero]
+      PeriodicFourier.divisorTransform, PeriodicFourier.fourier, PeriodicFourier.dilate,
+      zero_mul, Finset.sum_const_zero]
 
 theorem ParentPeriodicPair.divisorFourier_zero_dilation (p : ParentPeriodicPair K S Γ)
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0) :
@@ -46,8 +47,8 @@ theorem ParentPeriodicPair.divisorFourier_zero_dilation (p : ParentPeriodicPair 
       p.residue 0 0 = (Nat.card (OS ⧸ Ideal.span {p.modulus}) : ℂ) * p.residue 0 := by
   letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) p.modulus p.modulus_ne_zero
   letI := Fintype.ofFinite (OS ⧸ Ideal.span {p.modulus})
-  simp [sIntegerPeriodicDivisorFourier, PeriodicFourier.divisorTransform_apply,
-    Nat.card_eq_fintype_card]
+  simp [sIntegerPeriodicDivisorFourier, PeriodicFourier.divisorTransform,
+    PeriodicFourier.fourier, PeriodicFourier.dilate, Nat.card_eq_fintype_card]
 
 end Gate
 

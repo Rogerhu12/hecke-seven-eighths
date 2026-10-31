@@ -223,9 +223,9 @@ theorem gauss_second_stage_terminal_bound
     weightedEnergy rows weight
       (fun h => ∑ i ∈ columns, c i *
         (generatedOriginalColumn (σ := σ) hΓ (fullI i) (afull i) (hafull i)).orbit hDiff (rowMap h)) ≤
-      (B : ℝ) * (Czero * AmpZero * Z ^ (prodExp * ε) +
+      (B : ℝ) * (Czero * (W.multiplicity * AmpZero) * Z ^ (prodExp * ε) +
         (∑ DE, ∑ D : M.powerset, (charts DE D).kernelCost M X hX) +
-        Cerror * AmpTail * Z ^ (-Nsave)) := by
+        Cerror * (W.multiplicity * AmpTail) * Z ^ (-Nsave)) := by
   let decay := tailDecayForWidth Lmax Nsave ξ
   have hdecay : 1 < decay := tailDecayForWidth_gt_one Lmax Nsave ξ hξ
   have hq : firstTailCutoffExponent Lmax Nsave decay ≤ ξ :=
@@ -256,20 +256,20 @@ theorem gauss_second_stage_terminal_bound
   have hX : 1 ≤ X := Real.one_le_rpow W.base_ge_one
     (firstTailCutoffExponent_nonneg Lmax Nsave decay hdecay)
   have hp := hstage rows rowMap weight columns c fullI afull hafull hfull
-    φ radius M X hX charts W.factors W.factors_injective W.factor_product (Z ^ prodExp) AmpZero
+    φ radius M X hX charts W.factors W.multiplicity W.factors_fiber_card W.factor_product (Z ^ prodExp) AmpZero
     (Real.one_le_rpow W.base_ge_one W.productExponent_nonneg) hAmpZero W.product_norm
     hannular hprofile B cal
   change weightedEnergy rows weight
       (fun h => ∑ i ∈ columns, c i *
         (generatedOriginalColumn (σ := σ) hΓ (fullI i) (afull i) (hafull i)).orbit hDiff (rowMap h)) ≤
-    (B : ℝ) * (Czero * AmpZero * (Z ^ prodExp) ^ ε +
+    (B : ℝ) * (Czero * (W.multiplicity * AmpZero) * (Z ^ prodExp) ^ ε +
       (∑ DE, ∑ D : M.powerset, (charts DE D).kernelCost M X hX) +
       Ctail * X ^ (1 - decay) *
         secondBlockTailMass hΓ hDiff C columns columns fullI fullI blocks sTail profiles radius M) at hp
   have htail := terminal_tail_of_power
     (secondBlockTailMass hΓ hDiff C columns columns fullI fullI blocks sTail profiles radius M)
-    Cnum AmpTail Z (secondTailExponent k prodExp profileExp maskExp inverseRadiusExp)
-    Lmax Nsave Ctail decay W.base_ge_one hdecay hL hCtail hCnum W.amplitude_nonneg W.power_bound
+    Cnum (W.multiplicity * AmpTail) Z (secondTailExponent k prodExp profileExp maskExp inverseRadiusExp)
+    Lmax Nsave Ctail decay W.base_ge_one hdecay hL hCtail hCnum (mul_nonneg (Nat.cast_nonneg _) W.amplitude_nonneg) W.power_bound
   refine ⟨Real.rpow_le_rpow_of_exponent_le W.base_ge_one hq, ?_⟩
   rw [← Real.rpow_mul (zero_le_one.trans W.base_ge_one)] at hp
   exact hp.trans (mul_le_mul_of_nonneg_left (add_le_add_left htail _)

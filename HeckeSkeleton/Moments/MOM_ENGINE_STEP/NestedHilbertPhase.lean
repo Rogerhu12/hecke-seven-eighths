@@ -108,6 +108,29 @@ theorem nested_joint_cauchy_fubini
     rw [actualFourierMeasure_integral_eq]
     simp only [nested_jointColumnEnergy]
 
+theorem iterated_joint_cauchy_integrable
+    {H ι κ : Type*} (rows : Finset H) (left : Finset ι) (right : Finset κ)
+    (q : H → ℂ) (c : H → ι → ℂ) (d : H → κ → ℂ)
+    (x₁ : H → ι → U) (x₂ : H → ι → V)
+    (y₁ : H → κ → U) (y₂ : H → κ → V)
+    (F₁ : SchwartzMap U ℂ) (F₂ : SchwartzMap V ℂ) :
+    Integrable (fun ξ => ∫ η, ‖(𝓕 F₂) η‖ *
+      (Real.sqrt (jointColumnEnergy rows left q
+        (fun h i => c h i * jointPhase ξ (x₁ h i)) x₂ η) *
+       Real.sqrt (jointColumnEnergy rows right q
+        (fun h j => d h j * jointPhase ξ (y₁ h j)) y₂ η)))
+      (actualFourierMeasure F₁) := by
+  letI := actualFourierMeasure_finite F₁
+  letI := actualFourierMeasure_finite F₂
+  letI := nestedFourierMeasure_finite F₁ F₂
+  have hi := (nested_joint_cauchy_integrable rows left right q c d
+    (fun h i => WithLp.toLp 2 (x₁ h i, x₂ h i))
+    (fun h j => WithLp.toLp 2 (y₁ h j, y₂ h j)) (nestedFourierMeasure F₁ F₂)).integral_prod_left
+  convert hi using 1
+  funext ξ
+  rw [actualFourierMeasure_integral_eq]
+  simp only [nested_jointColumnEnergy]
+
 variable {F : Type} [Field F] [NumberField F]
 variable {A : SArithmeticData F} {σ : F →+* ℂ}
 variable {H : Type*} {k : ℕ} {ω ψ : HeckeCharacter F}

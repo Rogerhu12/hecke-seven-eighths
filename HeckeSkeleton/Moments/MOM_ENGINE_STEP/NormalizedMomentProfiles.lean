@@ -14,7 +14,7 @@ finite sums, including the complete centered subtraction.
 -/
 
 noncomputable section
-open scoped Classical BigOperators ContDiff
+open scoped Classical BigOperators
 
 namespace HeckeSkeleton.Moments.EngineStep
 
@@ -273,7 +273,7 @@ theorem normalized_profile_family_integrable {X : Type*} [MeasurableSpace X]
     rw [normalizedPairedEnergy_profiles, hcount x]
   rw [heq]
   apply hi.norm.mono'
-    ((hmeas.inv.pow _).aestronglyMeasurable.mul hi.aestronglyMeasurable)
+    ((hmeas.inv.pow_const _).aestronglyMeasurable.mul hi.aestronglyMeasurable)
   exact Filter.Eventually.of_forall fun x => by
     have hinv : (B x)⁻¹ ≤ 1 := by
       simpa only [one_div] using (div_le_one (hB x)).mpr (hB₁ x)
@@ -358,3 +358,4 @@ end HeckeSkeleton.Moments.EngineStep
 #print axioms HeckeSkeleton.Moments.EngineStep.normalized_profile_family_integrable
 #print axioms HeckeSkeleton.Moments.EngineStep.normalizedPairedEnergy_frozenMomentProfiles
 #print axioms HeckeSkeleton.Moments.EngineStep.MomentProfileUnitBall.freeze_time
+
