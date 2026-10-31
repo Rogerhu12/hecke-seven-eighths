@@ -20,17 +20,17 @@ open HeckeGeneral.ThetaSkeleton.Global
 open scoped Classical ContDiff
 
 variable {K : Type} [Field K] [NumberField K]
-variable {ω ψ : HeckeCharacter K}
+variable {omega ψ : HeckeCharacter K}
 
 /-- Every scalar profile actually evaluated by `inversePolynomial`,
 `plainPolynomial`, and `primePolynomial`. -/
-inductive ModelProfileIndex (d : MomentData K ω ψ) where
+inductive ModelProfileIndex (d : MomentData K omega ψ) where
   | inverse (u : NonzeroIdeal K)
   | plain₁ (u : NonzeroIdeal K)
   | plain₂ (u : NonzeroIdeal K)
   | prime (j : Fin d.geometry.slotCount)
 
-def modelProfile (d : MomentData K ω ψ) : ModelProfileIndex d → ℝ → ℂ
+def modelProfile (d : MomentData K omega ψ) : ModelProfileIndex d → ℝ → ℂ
   | .inverse u => d.inverseTest.profile u 0
   | .plain₁ u => d.plainTest₁.profile u 0
   | .plain₂ u => d.plainTest₂.profile u 0
@@ -42,31 +42,31 @@ def SliceControl (J : ℕ) (A C H a b T : ℝ) (f : ℝ → ℂ) : Prop :=
     testSeminorm f J A ≤ C * (1 + T) ^ H
 
 /-- This replaces the ideal-test-only clause of the source interface. -/
-def ModelProfileControl (d : MomentData K ω ψ)
+def ModelProfileControl (d : MomentData K omega ψ)
     (J : ℕ) (A C H a b T : ℝ) : Prop :=
   ∀ q : ModelProfileIndex d, SliceControl J A C H a b T (modelProfile d q)
 
-theorem modelProfileControl_inverse {d : MomentData K ω ψ}
+theorem modelProfileControl_inverse {d : MomentData K omega ψ}
     {J : ℕ} {A C H a b T : ℝ}
     (h : ModelProfileControl d J A C H a b T) (u : NonzeroIdeal K) :
     SliceControl J A C H a b T (d.inverseTest.profile u 0) := h (.inverse u)
 
-theorem modelProfileControl_plain₁ {d : MomentData K ω ψ}
+theorem modelProfileControl_plain₁ {d : MomentData K omega ψ}
     {J : ℕ} {A C H a b T : ℝ}
     (h : ModelProfileControl d J A C H a b T) (u : NonzeroIdeal K) :
     SliceControl J A C H a b T (d.plainTest₁.profile u 0) := h (.plain₁ u)
 
-theorem modelProfileControl_plain₂ {d : MomentData K ω ψ}
+theorem modelProfileControl_plain₂ {d : MomentData K omega ψ}
     {J : ℕ} {A C H a b T : ℝ}
     (h : ModelProfileControl d J A C H a b T) (u : NonzeroIdeal K) :
     SliceControl J A C H a b T (d.plainTest₂.profile u 0) := h (.plain₂ u)
 
-theorem modelProfileControl_prime {d : MomentData K ω ψ}
+theorem modelProfileControl_prime {d : MomentData K omega ψ}
     {J : ℕ} {A C H a b T : ℝ}
     (h : ModelProfileControl d J A C H a b T) (j : Fin d.geometry.slotCount) :
     SliceControl J A C H a b T ((d.geometry.slots j).profile 0) := h (.prime j)
 
-theorem modelProfileControl_iff {d : MomentData K ω ψ}
+theorem modelProfileControl_iff {d : MomentData K omega ψ}
     {J : ℕ} {A C H a b T : ℝ} :
     ModelProfileControl d J A C H a b T ↔
       (∀ W ∈ [d.inverseTest, d.plainTest₁, d.plainTest₂], ∀ u,
@@ -115,7 +115,7 @@ theorem testSeminorm_mono_order (f : ℝ → ℂ) {J L : ℕ} (A : ℝ)
 
 /-- A single common family of finite Euler-integral bounds covers all
 ideal tests and all prime windows, including their independent row indices. -/
-theorem modelProfileControl_of_integrals (d : MomentData K ω ψ)
+theorem modelProfileControl_of_integrals (d : MomentData K omega ψ)
     (J : ℕ) (A C H a b T : ℝ) (hC : 0 ≤ C) (hT : 0 ≤ T)
     (hsmooth : ∀ q, ContDiff ℝ ∞ (modelProfile d q))
     (hsupport : ∀ q y, modelProfile d q y ≠ 0 → a ≤ y ∧ y ≤ b)
@@ -168,9 +168,11 @@ theorem UniformProfileControl.sum {ι κ : Type*}
       (Real.rpow_nonneg (by linarith) _) (hC.trans hCC)
   intro i
   cases i with
-  | inl i => exact raise _ _ _ _ _ _ (hfn i) hC₁.le (le_max_left _ _)
+  | inl i =>
+    exact raise _ _ _ _ _ _ (hfn i) hC₁.le (le_max_left _ _)
       (le_max_left _ _) (min_le_left _ _) (le_max_left _ _) (hbF i)
-  | inr k => exact raise _ _ _ _ _ _ (hgn k) hC₂.le (le_max_right _ _)
+  | inr k =>
+    exact raise _ _ _ _ _ _ (hgn k) hC₂.le (le_max_right _ _)
       (le_max_right _ _) (min_le_right _ _) (le_max_right _ _) (hbG k)
 
 end HeckeSkeleton.Moments.UniformAmplify

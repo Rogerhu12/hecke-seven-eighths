@@ -12,6 +12,7 @@
 | `FiniteSectorReindex.lean` | 仓库真实 `inverseEnergy`、`pairedEnergy` 和 unmarked ball 的三个适配器；输入为原始逐行多项式等式、行资格和注入性。 |
 | `ProfileControl.lean` | 同一 `ModelProfileIndex` 覆盖 inverse、两份 plain 和全部 prime window；共同 Euler 积分界推出仓库的 `testSeminorm` 界。统一控制可重索引、可合并索引族。 |
 | `FinitePropagation.lean` | 固定有限树中的加法、乘法、非负实幂、有限和/积，以及具有共同上界的归一化有限外层求和，传播明确的尺度、对数和高度次数。任意预先给定正损失吸收任意后来固定的有限对数次数。 |
+| `SharedFourierPropagation.lean` | 在任意测度空间上证明有限 Hilbert 空间 Minkowski 传播，把同一 Fourier majorant 及其 L¹ 质量界传入有限行能量；仅相加给定的尺度／对数／高度次数，没有额外行数损失。 |
 | `SourceGeometry.lean` | 从真实 `BlockSource`／`WitnessCover` 提取统一长度区间、正下尺度、选中槽长度非负和原始行包含；从任意 `TargetData` 传递其原有的 2U 范数截断。 |
 | `Eligibility.lean` | 严格逆矩区域、完整 κ≤1 配对区域、原行注入与六次方自由性；由实际算术字符的有限纤维构造统一底行范数阈值，同时处理 `pairedRows` 两个分支。 |
 | `SixthPowerMasks.lean` | 证明实际 `decomposedZeroSlotMomentData` 的全部三项六次方掩码身份；适用于与该算术构造逐字段一致的任意 `MomentData`。 |
@@ -64,7 +65,10 @@
    `SourcePolynomialCalibration` 只检查实际选取的高度/shift 和有限多项式的值；
    它没有说明所有其他 ξ、σ、τ 的光滑性或统一导数界，也没有共同 Fourier 测度、
    混合参数导数和逆向阶数选择。因此实际 `moment_profile_control` 仍需 EXPANSION
-   给出整个源剖面族的解析构造。有限树代数传播是已分离的证明，不声称自行构造这些解析边。
+   给出整个源剖面族的解析构造。有限树代数传播与共同 Fourier 积分传播已经分离：
+   后者将现有有限 Hilbert 积分证明推广到任意测度，覆盖有限维联合 Fourier 参数，
+   只要求真实逐坐标可积性、共同 majorant
+   及其 L¹ 质量输入；它不自行构造源端的共同测度或混合阶证书。
 
 2. **FIBER-ELIGIBILITY。** `WitnessSubdivision` 的长度和 `ModerateBlock.shell`
    是裸实数；原 hcal 没有非负长度、正 shell 或 `BlockSource` 前提。

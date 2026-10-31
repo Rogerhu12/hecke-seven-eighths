@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorReindex
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FinitePropagation
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SharedFourierPropagation
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.InterfaceObstructions
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceGeometry
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.Eligibility
@@ -25,6 +26,8 @@ run_cmd do
     `HeckeSkeleton.Moments.UniformAmplify.modelProfileControl_prime,
     `HeckeSkeleton.Moments.UniformAmplify.ReductionTree.propagate,
     `HeckeSkeleton.Moments.UniformAmplify.log_power_absorption,
+    `HeckeSkeleton.Moments.UniformAmplify.shared_measure_integral_envelope,
+    `HeckeSkeleton.Moments.UniformAmplify.shared_fourier_integral_envelope,
     `HeckeSkeleton.Moments.UniformAmplify.blockSource_witness_geometry,
     `HeckeSkeleton.Moments.UniformAmplify.paired_rows_eventual_eligibility,
     `HeckeSkeleton.Moments.UniformAmplify.decomposedZeroSlotMomentData_sixthPowerMasks,
@@ -57,3 +60,5 @@ run_cmd do
 
 #print axioms HeckeSkeleton.Moments.UniformAmplify.uniform_witness_calibration
 #print axioms HeckeSkeleton.Moments.UniformAmplify.blockSource_witness_geometry
+#print axioms HeckeSkeleton.Moments.UniformAmplify.shared_fourier_integral_envelope
+#print axioms HeckeSkeleton.Moments.UniformAmplify.shared_measure_integral_envelope

@@ -2,6 +2,7 @@ module
 
 public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorCore
 public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FinitePropagation
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SharedFourierPropagation
 public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.InterfaceObstructions
 public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.WitnessCalibration
 public import Lean.Elab.Command
@@ -20,6 +21,7 @@ run_cmd do
     `HeckeSkeleton.Moments.UniformAmplify.finite_sector_sum_le,
     `HeckeSkeleton.Moments.UniformAmplify.ReductionTree.propagate,
     `HeckeSkeleton.Moments.UniformAmplify.log_power_absorption,
+    `HeckeSkeleton.Moments.UniformAmplify.shared_measure_integral_envelope,
     `HeckeSkeleton.Moments.UniformAmplify.diagonalCutoffEnergy_violates_amplification,
     `HeckeSkeleton.Moments.UniformAmplify.uniform_witness_calibration]
   for name in required do
@@ -39,3 +41,4 @@ run_cmd do
 #print axioms HeckeSkeleton.Moments.UniformAmplify.log_power_absorption
 #print axioms HeckeSkeleton.Moments.UniformAmplify.diagonalCutoffEnergy_violates_amplification
 #print axioms HeckeSkeleton.Moments.UniformAmplify.uniform_witness_calibration
+#print axioms HeckeSkeleton.Moments.UniformAmplify.shared_measure_integral_envelope

@@ -131,7 +131,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          lake --rehash --fail-fast build +HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.Audit:olean 2>&1 |
+          lake --rehash build +HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.Audit:olean 2>&1 |
             tee "$RUNNER_TEMP/mom-uniform-amplify/build.log"
           lake env lean HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/Audit.lean 2>&1 |
             tee "$RUNNER_TEMP/mom-uniform-amplify/axioms.log"

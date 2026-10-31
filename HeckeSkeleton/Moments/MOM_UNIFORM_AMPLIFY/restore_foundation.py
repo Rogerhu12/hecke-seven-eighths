@@ -9,7 +9,7 @@ The original exporter checks its complete source/configuration fingerprint,
 archive digests, file counts and paths. No trace or hash is created or edited.
 
 Usage: python HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/restore_foundation.py BASELINE_CHECKOUT DOWNLOADS
-Always follow this with `lake --rehash --fail-fast build ...`; on any restore
+Always follow this with `lake --rehash build ...`; on any restore
 failure, the same ordinary source build remains the required verification.
 """
 from __future__ import annotations
@@ -102,7 +102,7 @@ def main() -> None:
         for relative in BUILD_DIRS:
             shutil.rmtree(baseline / relative, ignore_errors=True)
     print(f"Restored {moved} files from 12 verified exporter groups at {BASE_COMMIT}.")
-    print("Required next step: lake --rehash --fail-fast build <current targets>")
+    print("Required next step: lake --rehash build <current targets>")
 
 
 if __name__ == "__main__":
