@@ -277,13 +277,15 @@ theorem actualTotal_eq_selected (m : ℕ) (side₂ : Bool) :
       selectedTotalOn K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ w ε side₁ m side₂
         Finset.univ := by
   unfold actualTotal selectedTotalOn
-  simp only [ProductionIndex, Fintype.sum_sigma]
+  conv_rhs => rw [Fintype.sum_sigma]
   apply Finset.sum_congr rfl
   intro o ho
+  conv_rhs => rw [Fintype.sum_sigma]
   apply Finset.sum_congr rfl
   intro e he
   unfold SecondAdaptiveProduction.totalAt
   rw [Finset.mul_sum]
+  conv_rhs => rw [Fintype.sum_sigma]
   apply Finset.sum_congr rfl
   intro q hq
   unfold SecondAdaptiveProduction.centeredEnergyAt SecondParentProduction.centeredEnergy

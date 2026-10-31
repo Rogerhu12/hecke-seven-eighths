@@ -110,7 +110,7 @@ theorem centeredEnergy_eq (w : LogPlane → ℝ) :
             (centers.assignment e) e η := by
   unfold centeredEnergy
   rw [Finset.sum_comm]
-  simp only [Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [Finset.sum_ite_eq, Finset.mem_univ, if_true]
 
 variable (hΓ : Γ ≤ (powMonoidHom 6 :
   ((S : Set (HeightOneSpectrum (𝓞 K))).unit K) →*

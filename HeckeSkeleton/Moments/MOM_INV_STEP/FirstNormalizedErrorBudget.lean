@@ -217,7 +217,7 @@ theorem error_total_eq (hZ : 0 ≤ Z) :
       · simp only [if_pos ha, FirstNormalizedSource.liveWeight, ha, true_and]
         apply Finset.sum_congr rfl
         intro J hJ
-        simp only [ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+        simp only [ite_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
         rfl
       · simp only [if_neg ha, FirstNormalizedSource.liveWeight, ha, false_and,
           if_false, zero_mul, Finset.sum_const_zero]

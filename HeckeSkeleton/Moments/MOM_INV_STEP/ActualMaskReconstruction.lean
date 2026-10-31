@@ -80,7 +80,7 @@ theorem first_divisor_dvd_common_cube (n₁ n₂ b₁ b₂ : Ext)
   rw [principalIdeal_eq_common_mul_cube, commonResidualIdeal_eq_C] at hd
   apply hd.trans
   apply mul_dvd_mul_left
-  change cubePrincipalIdeal K S D n₁ n₂ b₁ b₂ ∣ (b₁.val * b₂.val).val.radical
+  change cubePrincipalIdeal K S n₁ n₂ b₁ b₂ ∣ (b₁.val * b₂.val).val.radical
   rw [radical_eq_primeProduct (b₁.val * b₂.val)]
   exact Finset.prod_dvd_prod_of_subset _ _
     (fun p : HeightOneSpectrum (𝓞 K) => p.asIdeal) Finset.filter_subset
@@ -92,9 +92,8 @@ def localGenerator (I : Ideal (𝓞 K)) : OS :=
 
 theorem localGenerator_actual (δ : Finset (HeightOneSpectrum OS)) :
     localGenerator K S (maskIdeal K S δ) = (sIntegerMaskGenerator K Sset δ).val := by
-  unfold localGenerator
-  rw [maskIdeal_map]
-  rfl
+  exact congrArg (fun I : Ideal OS => Submodule.IsPrincipal.generator I)
+    (maskIdeal_map K S δ)
 
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ

@@ -222,7 +222,7 @@ theorem exists_uniform_tail_bound
     calc
       (16 : ℝ) = (2 : ℝ) ^ (4 : ℕ) := by norm_num
       _ ≤ Z ^ (4 : ℕ) := pow_le_pow_left₀ (by norm_num) hZ 4
-      _ = _ := by rw [Real.rpow_natCast]
+      _ = _ := (Real.rpow_natCast Z 4).symm
   have hr : r.val ≤ 1 := Real.rpow_le_one_of_one_le_of_nonpos hz1 (by linarith)
   have hbudget : 16 * r.val * U ^ 2 ≤ Z ^ Rmax := by
     calc

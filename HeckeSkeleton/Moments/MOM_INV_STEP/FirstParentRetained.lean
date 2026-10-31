@@ -155,8 +155,8 @@ theorem pair_term_normalized (C : CanonicalBlock.ColumnData K S σ) (f : Ext)
     unfold outerFactor
     rw [cubeNorm_eq K S D n₁ n₂ r₁ r₂ b₁ b₂ hslice]
   rw [hfrozen] at hfac
-  change pairWeight K S D C f ((b₁,n₁),(b₂,n₂)) *
-    (_ * (_ * _)) = _
+  dsimp only [primitivePairBlock, PrimitivePoissonSource.block,
+    ActualMaskedPoissonBlock.prefactor]
   rw [← mul_assoc
     (sIntegerMaskPoissonFactor K S
       (primitiveModulus K S D (pairSupport K S D n₁ n₂ b₁ b₂) (pairExponent K S n₁ n₂ b₁ b₂))
@@ -246,8 +246,9 @@ theorem retained_slice_eq (C : CanonicalBlock.ColumnData K S σ) (f : Ext)
       rw [if_pos hs]
       have he := pair_term_normalized K S D Γ hΓ μv ν C f n₁ n₂ r₁ r₂ b₁ b₂ z.1
         hs z.2 φ h hlc hcs M r δ X Y
-      change _ = _
       simp only [ActualMaskedPoissonBlock.divisorCoefficient]
+      dsimp only [primitivePairBlock, PrimitivePoissonSource.block,
+        ActualMaskedPoissonBlock.prefactor, dualTerm] at he ⊢
       linear_combination (moebius (IdealMobiusMask.primeProduct δ) : ℂ) * he
     · simp only [if_neg hs, F, mul_zero, Finset.sum_const_zero]
   simp_rw [hpoint]

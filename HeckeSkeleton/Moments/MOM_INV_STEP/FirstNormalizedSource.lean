@@ -210,7 +210,7 @@ theorem normalized_freeTotal_eq (hZ : 0 ≤ Z) :
   simp_rw [sourceAverage_eq K S D Γ T H L grid centers side R massEps ε
     Z r ell V Θ ψ G hν hG W hW m hZ]
   rw [reorder_centers_marks]
-  simp only [Fintype.sum_sigma]
+  rw [Fintype.sum_sigma]
   unfold FirstLiveCappedFreeEnergy.freeTotal
   rw [Finset.mul_sum, Finset.mul_sum]
   apply Finset.sum_congr rfl
@@ -239,7 +239,7 @@ theorem normalized_freeTotal_eq (hZ : 0 ≤ Z) :
       intro J hJ
       have heq := normalized_branch_eq K S D Γ T grid centers side R massEps ε
         Z r ell V Θ ψ G hν hG W hW m o e k J
-      simpa only [liveWeight, if_pos ⟨halive, hassigned⟩,
+      simpa only [liveWeight, if_pos (And.intro halive hassigned),
         FirstLiveCappedFreeEnergy.freeRowIntegral_eq_capped, mul_assoc] using heq
     · simp [hassigned, liveWeight]
   · simp [halive, liveWeight]

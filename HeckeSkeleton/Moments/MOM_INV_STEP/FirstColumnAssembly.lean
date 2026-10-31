@@ -168,7 +168,8 @@ theorem bareCoefficient_eq (C : CanonicalBlock.ColumnData K S σ) (G : HeckeChar
   have hmask := childPuncture_mask C.puncture u.val.val (firstTriple K S r₁ r₂ b₁ b₂ e)
   simp only [idealCoprimeMask, firstTriple, isCoprime_one_right, if_true, mul_one] at hmask
   unfold FirstCompleteFamily.bareCoefficient
-  rw [BackgroundCycle.exterior_coefficient_mul K Sset C.background G hG u, hmask]
+  rw [BackgroundCycle.exterior_coefficient_mul K Sset C.background G hG u]
+  erw [hmask]
   rw [show (retainedLabel K S r₁ r₂ b₁ b₂).val.val =
     (CanonicalIdealRow.toExterior K S (retainedLabel K S r₁ r₂ b₁ b₂)).val.val from rfl,
     labelRow_exterior]
@@ -239,18 +240,24 @@ theorem source_sum_complete (C : CanonicalBlock.ColumnData K S σ)
           (FirstNormPoolEnergy.residualScale K S X r₁ r₂ b₁ b₂ side).val
           with e.val.val ∣ u.val.val,
         movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ u.val * P u.val := by
-  rw [sum_sideDomain K S D X r₁ r₂ b₁ b₂ side
-    (fun n : (Ideal (𝓞 K))⁰ => if e.val.val ∣ n.val then
-      movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ n * P n else 0)]
-  unfold residualPool
-  simp only [Finset.sum_filter]
-  apply Finset.sum_congr rfl
-  intro u hu
-  by_cases hc : Disjoint (primeSupport u.val) (blockedSupport K S r₁ r₂ b₁ b₂)
-  · simp only [if_pos hc]
-  · rw [if_neg hc, movingColumn_zero_outside K S D Γ hallowed C G
-      r₁ r₂ b₁ b₂ side f z d ξ u hc]
-    simp only [zero_mul, ite_self]
+  calc
+    _ = ∑ u ∈ residualPool K S X r₁ r₂ b₁ b₂ side,
+        if e.val.val ∣ u.val.val then
+          movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ u.val * P u.val else 0 := by
+      simpa only [FirstSourceReindexing.nonzeroProduct] using
+        (sum_sideDomain K S D X r₁ r₂ b₁ b₂ side
+          (fun n : (Ideal (𝓞 K))⁰ => if e.val.val ∣ n.val then
+            movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ n * P n else 0))
+    _ = _ := by
+      unfold residualPool
+      simp only [Finset.sum_filter]
+      apply Finset.sum_congr rfl
+      intro u hu
+      by_cases hc : Disjoint (primeSupport u.val) (blockedSupport K S r₁ r₂ b₁ b₂)
+      · simp only [if_pos hc]
+      · rw [if_neg hc, movingColumn_zero_outside K S D Γ hallowed C G
+          r₁ r₂ b₁ b₂ side f z d ξ u hc]
+        simp only [zero_mul, ite_self]
 
 include hallowed in
 theorem movingColumn_complete (C : CanonicalBlock.ColumnData K S σ) (G : HeckeCharacter K)
@@ -364,41 +371,47 @@ theorem first_column_eq_branches (C : CanonicalBlock.ColumnData K S σ)
             (quotientScale K S X r₁ r₂ b₁ b₂ side e) := by
   let Y := (FirstNormPoolEnergy.residualScale K S X r₁ r₂ b₁ b₂ side).val
   have hY : 0 < Y := (FirstNormPoolEnergy.residualScale K S X r₁ r₂ b₁ b₂ side).property
-  rw [source_sum_complete K S D Γ hallowed C G X r₁ r₂ b₁ b₂ side f z d ξ e
-    (fun n : (Ideal (𝓞 K))⁰ => CommonKernel.columnPhase τ
-      (Real.log ((n.val.absNorm : ℝ) / Y))),
-    sum_dyadic_multiples K S Y e he
-      (fun u : Ext => movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ u.val *
-        CommonKernel.columnPhase τ (Real.log (height K Sset u / Y)))]
-  simp only [Finset.sum_filter]
   calc
-    _ = ∑ u ∈ dyadicPool K Sset (Y / height K Sset e),
-        (extractedScalar K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ e *
-          ∑ J ∈ C.slots.powerset, assignedMark K S C r₁ r₂ b₁ b₂ side e J *
-            (normWeight K u.val *
-              FirstCompleteFamily.bareCoefficient K S D Γ C G J
-                (firstTriple K S r₁ r₂ b₁ b₂ e) (retainedLabel K S r₁ r₂ b₁ b₂).val.val d
-                ((firstRow K S r₁ r₂ b₁ b₂ f z).val.val, ξ) u *
-              C.cutoff (((extractedFactor K S r₁ r₂ b₁ b₂ side).val.val.absNorm : ℝ) *
-                (e.val.val.absNorm : ℝ) * (u.val.val.absNorm : ℝ) / C.base ^ C.length))) *
-          CommonKernel.columnPhase τ (Real.log (height K Sset (exteriorMul K Sset e u) / Y)) := by
-      apply Finset.sum_congr rfl
-      intro u hu
-      have hh := congrArg (fun w : ℂ => w * CommonKernel.columnPhase τ
-          (Real.log (height K Sset (exteriorMul K Sset e u) / Y)))
-        (movingColumn_complete K S D Γ hallowed C G hG r₁ r₂ b₁ b₂ side f z d ξ e u hprime)
-      simpa only [ite_mul, zero_mul, height] using hh
+    _ = ∑ u ∈ dyadicPool K Sset Y with e.val.val ∣ u.val.val,
+        movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ u.val *
+          CommonKernel.columnPhase τ (Real.log (height K Sset u / Y)) := by
+      simpa only [FirstSourceReindexing.nonzeroProduct, Y, height] using
+        (source_sum_complete K S D Γ hallowed C G X r₁ r₂ b₁ b₂ side f z d ξ e
+          (fun n : (Ideal (𝓞 K))⁰ => CommonKernel.columnPhase τ
+            (Real.log ((n.val.absNorm : ℝ) / Y))))
     _ = _ := by
-      simp only [FirstCompleteFamily.residualBranch, quotientScale, Finset.mul_sum,
-        Finset.sum_mul]
-      rw [Finset.sum_comm]
-      apply Finset.sum_congr rfl
-      intro J hJ
-      apply Finset.sum_congr rfl
-      intro u hu
-      rw [phase_at_product K S τ Y hY e u, normWeight_power K S u, hCW, hCX]
-      unfold extractedHeight height
-      ring
+      rw [sum_dyadic_multiples K S Y e he
+        (fun u : Ext => movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ u.val *
+          CommonKernel.columnPhase τ (Real.log (height K Sset u / Y)))]
+      simp only [Finset.sum_filter]
+      calc
+        _ = ∑ u ∈ dyadicPool K Sset (Y / height K Sset e),
+            (extractedScalar K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ e *
+              ∑ J ∈ C.slots.powerset, assignedMark K S C r₁ r₂ b₁ b₂ side e J *
+                (normWeight K u.val *
+                  FirstCompleteFamily.bareCoefficient K S D Γ C G J
+                    (firstTriple K S r₁ r₂ b₁ b₂ e) (retainedLabel K S r₁ r₂ b₁ b₂).val.val d
+                    ((firstRow K S r₁ r₂ b₁ b₂ f z).val.val, ξ) u *
+                  C.cutoff (((extractedFactor K S r₁ r₂ b₁ b₂ side).val.val.absNorm : ℝ) *
+                    (e.val.val.absNorm : ℝ) * (u.val.val.absNorm : ℝ) / C.base ^ C.length))) *
+              CommonKernel.columnPhase τ (Real.log (height K Sset (exteriorMul K Sset e u) / Y)) := by
+          apply Finset.sum_congr rfl
+          intro u hu
+          have hh := congrArg (fun w : ℂ => w * CommonKernel.columnPhase τ
+              (Real.log (height K Sset (exteriorMul K Sset e u) / Y)))
+            (movingColumn_complete K S D Γ hallowed C G hG r₁ r₂ b₁ b₂ side f z d ξ e u hprime)
+          simpa only [ite_mul, zero_mul, height] using hh
+        _ = _ := by
+          simp only [FirstCompleteFamily.residualBranch, quotientScale, Finset.mul_sum,
+            Finset.sum_mul]
+          rw [Finset.sum_comm]
+          apply Finset.sum_congr rfl
+          intro J hJ
+          apply Finset.sum_congr rfl
+          intro u hu
+          rw [phase_at_product K S τ Y hY e u, normWeight_power K S u, hCW, hCX]
+          unfold extractedHeight height
+          ring
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstColumnAssembly
 

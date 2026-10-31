@@ -217,14 +217,18 @@ theorem exists_normalized_inverse_tail_bound
     calc
       (16 : ℝ) = (2 : ℝ) ^ (4 : ℕ) := by norm_num
       _ ≤ Z ^ (4 : ℕ) := pow_le_pow_left₀ (by norm_num) hZ 4
-      _ = Z ^ (4 : ℝ) := by rw [Real.rpow_natCast]
+      _ = Z ^ (4 : ℝ) := (Real.rpow_natCast Z 4).symm
   have hbudget : 16 * r.val * (Z ^ B) ^ 2 ≤ Z ^ Rmax := by
     calc
       _ ≤ Z ^ (4 : ℝ) * Z ^ lengthCap * (Z ^ lengthCap) ^ 2 := by
-        gcongr
-        · exact h16
-        · exact Real.rpow_le_rpow_of_exponent_le hz1 (by linarith)
-        · exact Real.rpow_le_rpow_of_exponent_le hz1 hBc
+        have hr : r.val ≤ Z ^ lengthCap :=
+          Real.rpow_le_rpow_of_exponent_le hz1 (by linarith)
+        have hBpow : Z ^ B ≤ Z ^ lengthCap :=
+          Real.rpow_le_rpow_of_exponent_le hz1 hBc
+        exact mul_le_mul
+          (mul_le_mul h16 hr r.property.le (Real.rpow_nonneg hz.le _))
+          (pow_le_pow_left₀ (Real.rpow_nonneg hz.le _) hBpow 2)
+          (sq_nonneg _) (mul_nonneg (Real.rpow_nonneg hz.le _) (Real.rpow_nonneg hz.le _))
       _ = _ := by
         rw [← Real.rpow_natCast, ← Real.rpow_mul hz.le]
         repeat rw [← Real.rpow_add hz]
