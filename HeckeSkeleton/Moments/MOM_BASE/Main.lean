@@ -114,7 +114,7 @@ theorem targetCanonicalNormalizedThetaBridge (ν : HeckeCharacter K) (k : (place
   apply tsum_congr
   intro C
   by_cases hC : Squarefree C.val.val ∧ IsCoprime C.val.val r.val.val
-  · simp only [hC, if_true]
+  · simp only [hC, and_true, if_true]
     have hn := canonicalVstar_normalization W.toFun (exteriorNorm K S C) X
       (idealNorm_pos K C.val) hX
     linear_combination -(canonicalCoefficient K c C * heckeIdealCoefficient K ν C.val *
