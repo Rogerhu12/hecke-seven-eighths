@@ -253,7 +253,12 @@ theorem exists_actual_principal_sweep_kernel_rapid
         (Real.exp (-((s.im + z.im) ^ 2)) * ‖additiveMellin K Sset muS P.additive z‖ *
           ‖mellin P.denominator.toFun w‖ * (1 + |s.im|) ^ kr * (1 + |w.im|) ^ (0 : ℕ)) := by
     rw [actualPrincipalKernel_eq_core K S mu P psi hAllowed g Z hZpos]
-    simp only [actualPrincipalKernelCore, div_eq_mul_inv, mul_inv, norm_mul]
+    rw [actualPrincipalKernelCore,
+      div_eq_mul_inv _
+        (physicalResidueNormalizer K Sset muS P * primeNormalizer K Sset g ∅ Z),
+      div_eq_mul_inv _
+        (heckeDeletedContinuation K psi (exceptionalPrimes K Sset) s)]
+    simp only [mul_inv, norm_mul]
     calc
       _ ≤ Cp * (Real.exp 81 * Real.exp (-((s.im + z.im) ^ 2))) *
           ‖additiveMellin K Sset muS P.additive z‖ * ‖mellin P.denominator.toFun w‖ *

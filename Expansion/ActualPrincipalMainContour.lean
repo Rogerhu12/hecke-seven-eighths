@@ -77,7 +77,7 @@ theorem differentiableOn_actualPrincipal_main
     have : B < s.re := hs
     show (2 / 3 : ℝ) < s.re
     linarith)).differentiableAt
-  simpa only [actualPrincipalWeightedTerm, div_eq_mul_inv] using
+  simpa only [actualPrincipalWeightedTerm, div_eq_mul_inv, Pi.mul_def] using
     ((hp.mul hg).mul hcorr).differentiableWithinAt.mul (hr s hs)
 
 /-- All constants precede the prime scale and the line height.  The power

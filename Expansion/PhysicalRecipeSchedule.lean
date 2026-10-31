@@ -130,7 +130,8 @@ theorem physicalRecipeRows_spec (ζ Z T : ℝ) (hZ : 1 < Z)
   rw [hmem.2] at hgood
   refine ⟨hshell.2.1, hnorm, hsector, ?_, ?_⟩
   · exact hgood.2.2.1
-  · simpa only [upperHeight, Nat.add_assoc, show (1 + 1 : ℕ) = 2 by norm_num]
+  · simpa only [upperHeight, Nat.cast_add, Nat.cast_one, Nat.cast_ofNat,
+      add_assoc, show (1 + 1 : ℝ) = 2 by norm_num]
       using hgood.2.2.2
 
 variable [MeasurableSpace (sLocalNormOneGroup K S)] [BorelSpace (sLocalNormOneGroup K S)]

@@ -209,7 +209,11 @@ theorem exists_actual_principalCore_bound
     rw [Complex.norm_cpow_eq_rpow_re_of_pos (Real.rpow_pos_of_pos hZpos _)]
     simp only [Complex.sub_re, Complex.one_re, hw]
     exact (Real.rpow_mul hZpos.le _ _).symm
-  simp only [actualPrincipalKernelCore, div_eq_mul_inv, mul_inv, norm_mul, hx, hzpow, hy]
+  rw [actualPrincipalKernelCore,
+    div_eq_mul_inv _
+      (physicalResidueNormalizer K Sset muS P * primeNormalizer K Sset g ∅ Z),
+    div_eq_mul_inv _ (heckeDeletedContinuation K psi (exceptionalPrimes K Sset) s)]
+  simp only [mul_inv, norm_mul, hx, hzpow, hy]
   calc
     _ ≤ Cp * Cg * Ca * Cd * Z ^ ((17 / 48 : ℝ) * (1 / 2 - zLine)) *
         Z ^ (B + e + zLine - 1) * Z ^ ((23 / 48 : ℝ) * (wLine - 1)) *

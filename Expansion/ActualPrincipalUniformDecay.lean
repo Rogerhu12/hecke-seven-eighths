@@ -125,7 +125,11 @@ theorem exists_actualPrincipal_fixedScalar_bounds
       exact mul_le_mul
         (norm_heckeEulerDeletionPolynomial_le K (exceptionalPrimes K Sset) 1 (6 * z) (by linarith))
         (hl 1 (6 * z) hzre) (norm_nonneg _) hF.le
-    simp only [actualPrincipalWFixedScalar, div_eq_mul_inv, mul_inv, norm_mul]
+    rw [actualPrincipalWFixedScalar,
+      div_eq_mul_inv _
+        (physicalResidueNormalizer K Sset muS P * primeNormalizer K Sset g ∅ Z),
+      div_eq_mul_inv _ (heckeDeletedContinuation K psi (exceptionalPrimes K Sset) s)]
+    simp only [mul_inv, norm_mul]
     calc
       _ ≤ Cp * Real.exp 1 * Ca * Z * Z *
           ((F * Cl) * ((Cr * 4 ^ k) * (1 + |s.im|) ^ k)) * (Cm * Z) := by

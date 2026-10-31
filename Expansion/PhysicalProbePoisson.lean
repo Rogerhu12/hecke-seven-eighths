@@ -67,8 +67,15 @@ theorem physicalPrimalSchwartzTerm (W : AdditiveProbeTest K Sset)
         (sLocalNonzeroIntegerDiagonal K Sset m /
           ((t : G) * sLocalNormSection K Sset
             ⟨exteriorNorm K Sset den * X, mul_pos (idealNorm_pos K den.val) hX⟩)) := by
-  unfold sIntegerSchwartzTerm physicalPrimalRadius
-  rw [← additiveTest_eq_tensor, sLocalNormSection_inv, Subgroup.coe_inv]
+  let r : {r : ℝ // 0 < r} :=
+    ⟨exteriorNorm K Sset den * X, mul_pos (idealNorm_pos K den.val) hX⟩
+  change sLocalTensorTestFunction K Sset W.infiniteTest
+      (sIntegerFiniteTestFunction K S (finiteExtension K S W))
+      (sLocalNormSection K Sset ⟨r.val⁻¹, inv_pos.mpr r.property⟩ *
+        ((t⁻¹ : T) : G) * sLocalNonzeroIntegerDiagonal K Sset m) =
+    additiveTest K Sset W
+      (sLocalNonzeroIntegerDiagonal K Sset m / ((t : G) * sLocalNormSection K Sset r))
+  rw [← additiveTest_eq_tensor, sLocalNormSection_inv K Sset r, Subgroup.coe_inv]
   congr 1
   simp only [div_eq_mul_inv, mul_inv_rev]
   ac_rfl
@@ -171,6 +178,7 @@ theorem physicalGaussSymbolIntegral_eq_rows (P : ProbeData K Sset)
           {r : ℝ // 0 < r}) =
         ⟨X / exteriorNorm K Sset A, div_pos hX (idealNorm_pos K A.val)⟩ := by
     apply Subtype.ext
+    dsimp only
     rw [hρ, inv_div]
   have hC : ((physicalPrimalRadius K S den X hX).val : ℂ)⁻¹ *
       (physicalPoissonScalar K : ℂ) *

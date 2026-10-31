@@ -4,7 +4,7 @@
 
 **任务仍在进行，原始目标尚未全部通过。** 下文把实际成功的编译与已经写成但尚待编译的源码分开列出。辅助模块通过不替代 `expansionRecipeRaw`、原始 EX 定理及其类型依赖的严格验收；达到全部标准后才将 PR 标为可审查。
 
-最新完整原生证据为 `e28f926` / run `41208791356`：pure 通过 112 个模块、2,042 个声明、0 个非标准公理依赖；其余四组失败，共定位八个根模块。本批十个 Lean 文件的修复已经写成并冻结，仍待下一轮原生验证。19 个原名目标和三个共享实际源模块的严格公理 gate 尚未执行成功；详见文末本轮记录及 `EXPANSION_VALIDATION.json`。
+最新完整原生证据为 `2107024` / run `41210967770`：pure 通过 112 个模块、2,042 个声明、0 个非标准公理依赖；其余四组失败，共定位九个根模块。上一轮八个根模块中的六个已有新的实际 Built 记录。本批十八个 Lean 文件的修复已经写成并冻结，仍待下一轮原生验证；同时合入的基线清理仅删除七个已退役任务的 CI 工作流。19 个原名目标和三个共享实际源模块的严格公理 gate 尚未执行成功；详见文末本轮记录及 `EXPANSION_VALIDATION.json`。
 
 ## 原始目标与实际对象
 
@@ -128,3 +128,29 @@ arithmetic、physical 与 skeleton 的八个根模块、19 条诊断及完整上
 MOM_BASE 的 [run `41208797442`](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41208797442) / job `124559263969` 也完成失败，exit code 为 1。它测试的是 `e28f926` 合入 `e66f738` 的 merge checkout `4a39962d3b6765a26c30a025ef8b9ea5667a1e7d`；artifact `13045219208` 的 SHA-256 `2ef25fa5bd68a3d1a5055ceb8c1b7cd692d3519dbd8b112a8b3551a3f357c4a0` 已核验。其八根、19 条完整诊断与 arithmetic 相同，没有 Base/LocalGauss 的 Built 或 Replayed 记录，不能据此认定兼容检查成功。
 
 当前清单固定335个源模块，保留19个原名目标、三个共享源模块及原三条标准公理白名单。验证脚本未再改变，本轮原生运行已经使用压缩控制台输出并保留完整 artifact 日志。先前证据和原清单保存在历史快照中；最新清单对十个冻结修复重新计算 SHA-256，不沿用修改前的通过状态。原始 EXPANSION 完成标准、完整类型依赖审计及 PR 可审查状态仍待后续原生验证全部通过。
+
+## `2107024` 的原生复验、冻结修复与基线清理
+
+head `2107024b63d9de77d89e98c020cb4ce1780a21ec` 的 [run `41210967770`](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41210967770) 已全部结束。五份 artifact 的压缩包摘要、解包成员及合计335个源码哈希均已独立核对，并逐一匹配该原生 head。pure job `124565668810` 成功审计112个模块、2,042个声明，非标准公理依赖为零；112个源码也与当前冻结工作树逐一相同。artifact `13046655699` 的 SHA-256 为 `235ca7736d9a58fe5962f471b43b569565b27c68672e710cb5a5d55e2e422289`；完整公理输出的 SHA-256 为 `585bb43aacca843c3788b566ea08a37a13cf3d4d7e1bf7988e76cce3fc55e267`。
+
+| 分组 | 原生结果 | 清单模块数 | 根模块／诊断数 | Artifact |
+| --- | --- | ---: | ---: | ---: |
+| pure | success；完整严格审计通过 | 112 | 0／0 | 13046655699 |
+| actual-arithmetic | failure；未进入完整公理审计 | 116 | 9／19 | 13046826653 |
+| actual-physical | failure；未进入完整公理审计 | 39 | 9／19 | 13046279967 |
+| actual-contours | failure；未进入完整公理审计 | 56 | 8／18 | 13046542160 |
+| skeleton | failure；原名及共享源严格 gate 被前置构建阻挡 | 12 | 9／19 | 13046543147 |
+
+arithmetic、physical 与 skeleton 的九个根模块及19条完整诊断逐条一致；contours 仅缺 `PhysicalRecipeSchedule` 的一条诊断，其余八根、18条完整上下文一致。同一源码位置、相同首行摘要下的三条不同目标均分别保留比较，没有在汇总时去重。skeleton artifact 的 SHA-256 为 `5c121f259e0b10285eb7d52cd661a6ba02c37b1fea0c6132dffe9f2353478721`，原始 build log 的 SHA-256 为 `1995a2819d21be20a578d0867554519625bc3081daa41a316f3de6c68b7e2a5b`；其12个源码与原生 head 及当前工作树均相同。
+
+相较 `e28f926` 的八个根模块，本轮 arithmetic 原生日志明确新编译通过六个：`ActualNormFormPrimeContour`（15秒）、`PhysicalPositiveMellinInversion`（8.6秒）、`PhysicalFrequencyReindex`（7.7秒）、`PhysicalFloorSource`（5.2秒）、`PhysicalAmplitudeIntegral`（5.4秒）及 `ActualPrincipalSlotRemainder`（9.7秒）。`ActualMellinRegularity` 与 `ActualLocalBlockSummation` 各剩一条新诊断；这些 Built 事件不替代整组的穷尽公理审计。
+
+本批已按原生日志修复九个根模块：`ActualNormFormPrimeCap`、`ActualMellinStripDecay`、`ActualMellinRegularity`、`PhysicalInitialMellinWeights`、`PhysicalProbePoisson`、`ActualLocalBlockSummation`、`PhysicalContourMeasure`、`PhysicalRecipeSchedule` 与 `ActualPrincipalMainContour`。修复保留原声明、假设和实际物理对象，处理相应函数表示、竖线映射的点相等、可测与可积 API、局部求和以及自然数到实数的转换；尚未用后续原生运行验证这些新源码。
+
+另有九个已冻结的后继兼容修复：七个 small/large/principal/outer/moderate 核估计模块只定点改写原分母，保留 `1/2`、`17/48`、`23/48` 等幂表达式以匹配已经证明的界；`ActualPrincipalResidueTails` 与 `ActualPrincipalTruncatedShifts` 则显式给出竖线复合映射所需的点相等。这十八个文件的当前 SHA-256 全部重算并列入 validation JSON。三个没有原生错误证据的预测性 beta 改动已撤回，不计入本批修复。
+
+本批同时合入基线 `6eb687277d73bc16b4a3e537ba6cdd1fa0fca073`。相对 `e66f738`，该基线仅删除七个已经退役任务的 CI 工作流，没有 Lean 源码或数学陈述改动；`theta-local-wiring` 的 modify/delete 冲突按维护者删除处理，索引中已无未解决冲突。当前工作树中的十八个 Lean 修复哈希不受该合并影响。GitHub API 返回本 head 的 MOM_BASE run `41210971820` 与 THETA_GLOBAL run `41210971823` 均为 completed/cancelled，不能记为通过；Theta local run `41210971814` 的 success 仅作为独立工作流状态记录，不替代 EXPANSION 的验收。
+
+遵照 PR #5 维护者评论 `6541316400`，完整编译输出继续只保存在 Actions artifacts 和本地诊断目录。仓库验证记录只新增源码位置、单行错误摘要、日志行号及完整上下文的 `detail_sha256`，并保留 artifact、日志、清单的摘要和所有历史语义证据。既有 JSON 没有原始多行编译上下文，无需清洗历史记录。
+
+EXPANSION 的验收范围仍为335个源模块、19个原名目标和三个共享源模块，公理白名单仍只有 `propext`、`Classical.choice`、`Quot.sound`。基线工作流清理不减少这些 gate。当前十八个修复与完整原始接口均等待后续原生编译及公理审计，PR 尚未达到可审查标准。

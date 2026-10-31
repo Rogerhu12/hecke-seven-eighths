@@ -30,10 +30,17 @@ def physicalHeightEquiv : (ℝ × ℝ × ℝ) ≃ᵐ (Fin 3 → ℝ) where
   left_inv t := by rcases t with ⟨s, w, z⟩; rfl
   right_inv p := by ext j; fin_cases j <;> rfl
   measurable_toFun := by
+    change Measurable (fun t : ℝ × ℝ × ℝ => ![t.1, t.2.1, t.2.2])
     apply measurable_pi_iff.mpr
     intro j
-    fin_cases j <;> fun_prop
-  measurable_invFun := by fun_prop
+    fin_cases j
+    · exact measurable_fst
+    · exact measurable_fst.comp measurable_snd
+    · exact measurable_snd.comp measurable_snd
+  measurable_invFun := by
+    change Measurable (fun p : Fin 3 → ℝ => (p 0, p 1, p 2))
+    exact (measurable_pi_apply 0).prodMk
+      ((measurable_pi_apply 1).prodMk (measurable_pi_apply 2))
 
 /-- Product Lebesgue measure in the actual three physical coordinates. -/
 def physicalHeightVolume : Measure (Fin 3 → ℝ) :=
@@ -43,7 +50,8 @@ theorem physicalHeightEquiv_preimage_box (T : ℝ) (hT : 0 ≤ T) :
     physicalHeightEquiv ⁻¹' {p : Fin 3 → ℝ | ‖p‖ ≤ T} = rowRetainedHeightBox T := by
   ext t
   simp [pi_norm_le_iff_of_nonneg hT, physicalHeightEquiv,
-    rowRetainedHeightBox, Fin.forall_fin_succ, abs_le]
+    rowRetainedHeightBox, Fin.forall_fin_succ, abs_le, Prod.le_def,
+    and_assoc, and_left_comm, and_comm]
 
 /-- Restriction to the physical box commutes with the coordinate change. -/
 theorem physicalHeightVolume_restrict_box (T : ℝ) (hT : 0 ≤ T) :
@@ -112,7 +120,7 @@ theorem physicalContourKernel_integrable (P : ProbeData K S) (ψ : HeckeCharacte
     IntegrableOn (physicalContourKernel K S μ P ψ E g Γ Z σ ν zLine u)
       {p : Fin 3 → ℝ | ‖p‖ ≤ T} physicalHeightVolume := by
   apply (integrableOn_physicalHeight_box_iff T hT _).mpr
-  simpa only [physicalContourKernel, MeasurableEquiv.symm_apply_apply] using
+  simpa only [IntegrableOn, physicalContourKernel, MeasurableEquiv.symm_apply_apply] using
     hu.const_mul ((2 * (Real.pi : ℂ)) ^ (-(3 : ℤ)))
 
 /-- The exact row contour, with its original kernel and normalization. -/

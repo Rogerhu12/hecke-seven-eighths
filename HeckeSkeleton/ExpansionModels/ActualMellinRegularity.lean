@@ -232,7 +232,7 @@ theorem continuous_actual_additiveMellin_line [IsTotallyComplex K]
     ((sigma : ℂ) + (t : ℂ) * Complex.I) (by simpa using hsigma)
   have hline : ContinuousAt (fun r : ℝ =>
       (sigma : ℂ) + (r : ℂ) * Complex.I) t := by fun_prop
-  exact ha.continuousAt.comp hline
+  exact ha.continuousAt.comp_of_eq hline rfl
 
 end HeckeSkeleton.Expansion.MellinRegularity
 

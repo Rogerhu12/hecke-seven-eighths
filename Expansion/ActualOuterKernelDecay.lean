@@ -221,7 +221,13 @@ theorem exists_actual_outer_kernel_rapid_of_L_bounds
       (C0 * Z ^ A * frequencyRowNorm K Sset u ^ p) * V := by
     rw [compensatedRowMellinKernel_factorization K Sset muS P psi
       (arithmeticHighEulerData K Sset P psi) g ∅ u Z hZpos s w z]
-    simp only [div_eq_mul_inv, mul_inv, norm_mul]
+    rw [div_eq_mul_inv _
+        (physicalResidueNormalizer K Sset muS P * primeNormalizer K Sset g ∅ Z),
+      div_eq_mul_inv _
+        (heckeDeletedContinuation K
+          (psi * conjugate ((arithmeticHighEulerData K Sset P psi).rows.character u))
+          (exceptionalPrimes K Sset) s)]
+    simp only [mul_inv, norm_mul]
     calc
       _ ≤ Cp * (Cg * Real.exp (-((s.im + z.im) ^ 2))) *
           ‖additiveMellin K Sset muS P.additive z‖ * ‖mellin P.denominator.toFun w‖ *

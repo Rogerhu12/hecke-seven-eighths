@@ -165,7 +165,12 @@ theorem exists_actual_small_kernel_bound
     norm_num
   rw [compensatedRowMellinKernel_factorization K Sset muS P psi
     (arithmeticHighEulerData K Sset P psi) g T u Z hZpos s w z]
-  simp only [div_eq_mul_inv, mul_inv, norm_mul, hNpow, hXpow, hZpow, hYpow]
+  rw [div_eq_mul_inv _
+    (physicalResidueNormalizer K Sset muS P * primeNormalizer K Sset g T Z),
+    div_eq_mul_inv _ (heckeDeletedContinuation K
+      (psi * conjugate ((arithmeticHighEulerData K Sset P psi).rows.character u))
+      (exceptionalPrimes K Sset) s)]
+  simp only [mul_inv, norm_mul, hNpow, hXpow, hZpow, hYpow]
   change Cp * ‖Complex.exp ((s + z - 1) ^ 2)‖ * ‖additiveMellin K Sset muS P.additive z‖ *
       ‖mellin P.denominator.toFun w‖ * frequencyRowNorm K Sset u ^ (-(17 / 50 : ℝ)) *
       Z ^ (17 / 300 : ℝ) * Z ^ (B + e - 33 / 50) * Z ^ (-(23 / 96 : ℝ)) *

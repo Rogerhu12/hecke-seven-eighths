@@ -154,7 +154,7 @@ theorem actualPrincipal_w_shift_error_tail
         by fun_prop
       exact (differentiableAt_actualPrincipal_w_kernel K S mu P psi g Z hZpos s z _ hne
         (principal_rectangle_mem_rowEulerRegion s _ z (by rw [hs]; linarith)
-          (by simpa using hlo) (by rw [hz]; linarith))).continuousAt.comp hline
+          (by simpa using hlo) (by rw [hz]; linarith))).continuousAt.comp_of_eq hline rfl
     have hdec (a : ℝ) (hlo : 19 / 20 ≤ a) (hhi : a ≤ 1 + e)
         (t : ℝ) (ht : 1 ≤ |t|) :
         ‖f ((a : ℂ) + (t : ℂ) * Complex.I)‖ ≤
@@ -253,7 +253,7 @@ theorem actualPrincipal_z_shift_error_tail
       exact (differentiableAt_actualPrincipal_z_kernel K S mu nu P psi g Z hZpos s _
         (by simp; linarith) hne
         (principal_rectangle_mem_rowEulerRegion s 1 _ (by rw [hs]; linarith)
-          (by norm_num) (by simpa using hlo))).continuousAt.comp hline
+          (by norm_num) (by simpa using hlo))).continuousAt.comp_of_eq hline rfl
     have hdec (a : ℝ) (hlo : 33 / 200 ≤ a) (hhi : a ≤ 1 / 6 + e)
         (t : ℝ) (ht : 1 ≤ |t|) :
         ‖f ((a : ℂ) + (t : ℂ) * Complex.I)‖ ≤

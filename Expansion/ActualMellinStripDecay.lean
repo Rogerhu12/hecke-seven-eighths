@@ -51,7 +51,7 @@ theorem uniform_logFourier_weightedProfile_bound
     rw [Real.norm_of_nonneg (by positivity)]
     exact (mul_le_mul_of_nonneg_right
       (exponential_weight_le_endpoints hsigma.1 hsigma.2 v) (norm_nonneg _)).trans_eq
-        (by ring)
+        (by simp only [Pi.add_apply, add_mul])
   have hiter (sigma : ℝ) (hsigma : sigma ∈ Icc lower upper) (m j : ℕ) :
       Integrable (iteratedDeriv m (LogFourier.weightedProfile P sigma j)) :=
     LogFourier.weightedProfile_iteratedDeriv_integrable P sigma hc hd (hi sigma hsigma) m j
@@ -72,7 +72,8 @@ theorem uniform_logFourier_weightedProfile_bound
                 Real.exp (upper * v) * ‖P j v‖ := by
             apply integral_mono_ae (hiter sigma hsigma 0 j).norm ((hlo j).add (hhi j))
             filter_upwards [] with v
-            simp only [LogFourier.weightedProfile, norm_mul, Complex.norm_real,
+            simp only [iteratedDeriv_zero, Pi.add_apply, LogFourier.weightedProfile,
+              norm_mul, Complex.norm_real,
               Real.norm_eq_abs, abs_of_pos (Real.exp_pos _)]
             exact (mul_le_mul_of_nonneg_right
               (exponential_weight_le_endpoints hsigma.1 hsigma.2 v) (norm_nonneg _)).trans_eq

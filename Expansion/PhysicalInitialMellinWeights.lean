@@ -47,20 +47,29 @@ theorem normalized_inverseMellinKernel (F : ℂ → ℂ) (σ x : ℝ) :
 
 theorem gaussian_mellin_inversion (σ : ℝ) {x : ℝ} (hx : 0 < x) :
     mellinInv σ (fun s : ℂ => Complex.exp (s ^ 2)) x = logGaussianProfile x := by
+  have hm : mellin logGaussianProfile = (fun s : ℂ => Complex.exp (s ^ 2)) :=
+    funext mellin_logGaussianProfile
+  have hg : gaussianContourFactor 0 = (fun s : ℂ => Complex.exp (s ^ 2)) := by
+    funext s
+    simp only [gaussianContourFactor, Complex.ofReal_zero, sub_zero]
   have hv : Complex.VerticalIntegrable (mellin logGaussianProfile) σ := by
-    simpa only [mellin_logGaussianProfile, gaussianContourFactor, sub_zero] using
-      verticalIntegrable_gaussianContourFactor 0 σ
+    rw [hm, ← hg]
+    exact verticalIntegrable_gaussianContourFactor 0 σ
   have hc : ContinuousAt logGaussianProfile x := by
     unfold logGaussianProfile logarithmicGaussian
     fun_prop (disch := exact hx.ne')
   have h := mellinInv_mellin_eq σ logGaussianProfile hx
     (mellinConvergent_logGaussianProfile (σ : ℂ)) hv hc
-  simpa only [mellin_logGaussianProfile] using h
+  rw [hm] at h
+  exact h
 
 theorem verticalIntegrable_gaussianMellin (σ : ℝ) :
     Complex.VerticalIntegrable (fun s : ℂ => Complex.exp (s ^ 2)) σ := by
-  simpa only [gaussianContourFactor, sub_zero] using
-    verticalIntegrable_gaussianContourFactor 0 σ
+  have hg : gaussianContourFactor 0 = (fun s : ℂ => Complex.exp (s ^ 2)) := by
+    funext s
+    simp only [gaussianContourFactor, Complex.ofReal_zero, sub_zero]
+  rw [← hg]
+  exact verticalIntegrable_gaussianContourFactor 0 σ
 
 variable (K : Type) [Field K] [NumberField K] [IsTotallyComplex K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
