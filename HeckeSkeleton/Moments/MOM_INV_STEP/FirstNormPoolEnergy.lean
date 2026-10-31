@@ -31,8 +31,9 @@ def sideDomain (N : Finset Ext) (r₁ r₂ b₁ b₂ : Ext) (side : Bool) :=
 def residualScale (X : {r : ℝ // 0 < r}) (r₁ r₂ b₁ b₂ : Ext) (side : Bool) :
     {r : ℝ // 0 < r} :=
   ⟨X.val / ((extractedFactor K S r₁ r₂ b₁ b₂ side).val.val.absNorm : ℝ),
-    div_pos X.property (by exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors
-      (extractedFactor K S r₁ r₂ b₁ b₂ side).val)⟩
+    div_pos X.property (by
+      exact_mod_cast (Ideal.absNorm_pos_of_nonZeroDivisors
+        (extractedFactor K S r₁ r₂ b₁ b₂ side).val))⟩
 
 include D in
 theorem domain_reconstruct (N : Finset Ext) (hN : ∀ n ∈ N, Squarefree n.val.val)

@@ -58,7 +58,6 @@ theorem principalMask_congr_of_common (x₁ x₂ y₁ y₂ : Ext)
   simp only [primeSupport_nonzeroProduct] at hs
   unfold principalMask
   congr 1
-  exact hs
 
 theorem actualMask_eq_commonMask (x₁ x₂ : Ext) :
     FirstSourcePartition.actualMask K S D ∅ x₁ x₂ e e =
@@ -142,7 +141,18 @@ theorem sum_masks_frequencies_by_common {κ : Type*}
         (t := (commonMask K S D g).powerset)]
       simp_rw [Finset.sum_comm
         (s := squarefreePool K Sset (N / height K Sset g)) (t := A)]
-      rfl
+      apply Finset.sum_congr rfl
+      intro δ hδ
+      apply Finset.sum_congr rfl
+      intro k hk
+      apply Finset.sum_congr rfl
+      intro z₁ hz₁
+      apply Finset.sum_congr rfl
+      intro z₂ hz₂
+      by_cases hc : IsCoprime g.val.val z₁.val.val ∧ IsCoprime g.val.val z₂.val.val ∧
+          IsCoprime z₁.val.val z₂.val.val
+      · simp only [compatible, if_pos hc]
+      · simp only [compatible, if_neg hc]
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceMasks
 

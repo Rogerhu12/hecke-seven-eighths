@@ -133,7 +133,7 @@ theorem phase_at_product (τ Y : ℝ) (hY : 0 < Y) (v u : Ext) :
       (Real.log (height K Sset v) - Real.log Y) + Real.log (height K Sset u) by ring,
     MellinWeightedTests.columnPhase_add]
 
-variable {σ : Type*} [DecidableEq σ] {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeCharacter K}
+variable {σ : Type*} [dσ : DecidableEq σ] {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeCharacter K}
 
 /-- The physical first family has the complete sf pool of cap 2X.
 After its actual common g is extracted this is precisely the pool
@@ -195,7 +195,7 @@ theorem sourceColumn_eq_branches (C : ColumnFamily K Sset σ Θ ψ) (γ₀ : Out
     rw [branch, Finset.mul_sum]
     apply Finset.sum_congr rfl
     intro u hu
-    have hdec : (inferInstance : DecidableEq σ) = Classical.typeDecidableEq σ :=
+    have hdec : dσ = (fun a b : σ => Classical.propDecidable (a = b)) :=
       Subsingleton.elim _ _
     have hterm :
         childTerm K S Γ D C.lambda (C.background γ₀ * G⁻¹) g j d₂ v I ξ
@@ -205,7 +205,10 @@ theorem sourceColumn_eq_branches (C : ColumnFamily K Sset σ Θ ψ) (γ₀ : Out
           (appendResidual K γ₀ (residual K S g d₂).val.val)
           (finalLabel K S j d₂ v).val.val (I.val.val,ξ) u *
             W (height K Sset v * height K Sset u / (X / height K Sset g)) := by
-      simpa only [hdec, Classical.typeDecidableEq] using
+      exact (congrArg (fun dec : DecidableEq σ =>
+        @childTerm K _ _ S Γ D σ dec C.lambda (C.background γ₀ * G⁻¹) g j d₂ v I ξ
+          (childPuncture C.originalPuncture γ₀) (C.survivors γ₀) J
+          C.primeLists C.primeWeights W (X / height K Sset g) u) hdec).trans
         (childTerm_eq K S D Γ C γ₀ G J g j d₂ v I u ξ W (X / height K Sset g))
     rw [hterm,
       phase_at_product K S τ (X / height K Sset g) hY v u]

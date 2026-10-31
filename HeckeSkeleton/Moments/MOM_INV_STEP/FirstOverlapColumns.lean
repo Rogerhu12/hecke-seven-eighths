@@ -139,7 +139,8 @@ theorem movingColumn_mul (C : CanonicalBlock.ColumnData K S σ) (G : HeckeCharac
   simp only [Finset.mul_sum, Finset.sum_mul]
   apply Finset.sum_congr rfl
   intro J hJ
-  congr 1 <;> ring
+  simp only [mul_assoc]
+  ring
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstOverlapColumns
 

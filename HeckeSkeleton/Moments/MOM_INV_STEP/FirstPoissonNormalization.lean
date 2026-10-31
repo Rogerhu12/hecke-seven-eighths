@@ -32,7 +32,8 @@ def cubeNorm (n₁ n₂ b₁ b₂ : Ext) : ℝ :=
   ((cubeIdeal K S D n₁ n₂ b₁ b₂).val.val.absNorm : ℝ)
 
 theorem cubeNorm_pos (n₁ n₂ b₁ b₂ : Ext) : 0 < cubeNorm K S D n₁ n₂ b₁ b₂ := by
-  exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors (cubeIdeal K S D n₁ n₂ b₁ b₂).val
+  unfold cubeNorm
+  exact_mod_cast (Ideal.absNorm_pos_of_nonZeroDivisors (cubeIdeal K S D n₁ n₂ b₁ b₂).val)
 
 theorem cubeNorm_eq (n₁ n₂ r₁ r₂ b₁ b₂ : Ext)
     (h : SameExtraction K S n₁ n₂ r₁ r₂ b₁ b₂) :
