@@ -39,8 +39,8 @@ theorem frequencyClass_eq_block (d : MarkedDatum K S) (i : ReflectionIndex K S d
         (generatorLocalClass K S D d.moving)
         (generatorLocalClass K S D (activeMarkedIdeal K S d i))
         (generatorLocalClass K S D i.c) (generatorLocalClass K S D i.n) := by
-  unfold frequencyClass blockFrequency frozenFrequencyClass
-  simp only [mul_assoc, mul_left_comm, mul_comm]
+  simp only [frequencyClass, blockFrequency, frozenFrequencyClass, zpow_natCast]
+  ac_rfl
 
 /-- Every function of the actual local-frequency class has an exact
 componentwise expansion.  The masks are respectively row-only, mark-only
