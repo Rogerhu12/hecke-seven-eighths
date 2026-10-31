@@ -53,7 +53,7 @@ variable {E W : Type*}
   [MeasurableSpace W] [BorelSpace W]
   [MeasurableSpace (WithLp 2 (W × E))] [BorelSpace (WithLp 2 (W × E))]
 local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
-local instance : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance directNormalizedChildrenCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
 namespace ActualGaussStage
 

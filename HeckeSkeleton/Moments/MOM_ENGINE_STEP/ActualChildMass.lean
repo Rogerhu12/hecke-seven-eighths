@@ -138,8 +138,10 @@ namespace ActualSecondRowMass
 
 variable {R C} {kLeft kRight : ℕ} (W : ActualSecondRowMass R C kLeft kRight)
 
-def leftIdeal : Ideal (𝓞 F) := (primePowerProduct R.primes R.leftMultiplicity).val
-def rightIdeal : Ideal (𝓞 F) := (primePowerProduct R.primes R.rightMultiplicity).val
+def leftIdeal (W : ActualSecondRowMass R C kLeft kRight) : Ideal (𝓞 F) :=
+  (primePowerProduct R.primes R.leftMultiplicity).val
+def rightIdeal (W : ActualSecondRowMass R C kLeft kRight) : Ideal (𝓞 F) :=
+  (primePowerProduct R.primes R.rightMultiplicity).val
 
 def commonEnvelope : ℝ :=
   W.profileBound * Real.sqrt W.leftAtoms.envelope * Real.sqrt W.rightAtoms.envelope

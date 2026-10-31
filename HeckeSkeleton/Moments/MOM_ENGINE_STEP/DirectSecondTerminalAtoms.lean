@@ -166,13 +166,14 @@ theorem direct_tailBudget_div_allowance_le
 end ActualGaussStage.ResidualTerminalWindows
 
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
-local instance : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance directSecondTerminalAtomsCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
 namespace FirstBlockDirectData
 
 variable {ι κ : Type*} {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)} {b : FirstCommonCharacterBlock fullI fullJ DE}
-variable {left : Finset ι} {right : Finset κ} {profiles : ι → κ → SchwartzMap V ℂ}
+variable {left : Finset ι} {right : Finset κ}
+variable {profiles : ι → κ → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
 variable {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
 variable {chart : FirstBlockProfileChart (E := W) hΓ μv b C left right profiles finiteTest radius D}
 variable {mask : Finset (HeightOneSpectrum A.R)} {X : ℝ} {hX : 1 ≤ X}

@@ -72,17 +72,15 @@ variable {μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K)
 variable {W : Type*} [NormedAddCommGroup W] [InnerProductSpace ℝ W]
   [FiniteDimensional ℝ W] [MeasurableSpace W] [BorelSpace W]
 
-local notation "V" => mixedEmbedding.euclidean.mixedSpace K
-local instance : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance firstAllowanceNormalizationCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
 namespace FirstBlockPoolData
 
 variable {ι κ : Type*} {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)} {b : FirstCommonCharacterBlock fullI fullJ DE}
-variable {left : Finset ι} {right : Finset κ} {profiles : ι → κ → SchwartzMap V ℂ}
+variable {left : Finset ι} {right : Finset κ}
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
-variable {chart : FirstBlockProfileChart (E := W) hΓ μv b C left right profiles finiteTest radius D}
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
 variable {P : PowerScaleExteriorPool A bad Z ell eps}
 variable {mask : Finset (HeightOneSpectrum A.R)} {X : ℝ} {hX : 1 ≤ X}
@@ -90,7 +88,9 @@ variable {mask : Finset (HeightOneSpectrum A.R)} {X : ℝ} {hX : 1 ≤ X}
 /-- The primitive input is a pointwise original profile scalar window,
 not a normalized total kernel or parent estimate. -/
 theorem normalized_allowance_prefactor
-    (p : FirstBlockPoolData chart P mask X hX) (hZ : 1 < Z)
+    {profiles : ι → κ → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
+    {chart : FirstBlockProfileChart (E := W) hΓ μv b C left right profiles finiteTest radius D}
+    (p : FirstBlockPoolData (profiles := profiles) chart P mask X hX) (hZ : 1 < Z)
     (total M amplitude : ℝ)
     (hprofile : p.weightBound ≤ amplitude * Z ^ (M - total)) :
     p.rowBound * Real.sqrt (firstLeftAllowance Z total DE.1 DE.2) *
@@ -116,7 +116,9 @@ theorem normalized_allowance_prefactor
     _ = _ := by rw [first_allowance_scalar_identity Z total M hZ]
 
 theorem normalized_allowance_prefactor_radical
-    (p : FirstBlockPoolData chart P mask X hX) (hZ : 1 < Z)
+    {profiles : ι → κ → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
+    {chart : FirstBlockProfileChart (E := W) hΓ μv b C left right profiles finiteTest radius D}
+    (p : FirstBlockPoolData (profiles := profiles) chart P mask X hX) (hZ : 1 < Z)
     (total M amplitude : ℝ) (hamp : 0 ≤ amplitude)
     (hprofile : p.weightBound ≤ amplitude * Z ^ (M - total)) :
     p.rowBound * Real.sqrt (firstLeftAllowance Z total DE.1 DE.2) *
@@ -159,5 +161,6 @@ def canonicalNormalization
 end ActualFirstSource
 end HeckeSkeleton.Moments.EngineStep
 
+#print axioms HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.normalized_allowance_prefactor
 #print axioms HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.normalized_allowance_prefactor_radical
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualFirstSource.canonicalNormalization

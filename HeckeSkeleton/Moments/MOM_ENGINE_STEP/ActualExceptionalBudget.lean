@@ -5,6 +5,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalPoolAllowanceTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalThetaRows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPoolMonotonicity
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafRowZero
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalColumnOrientation
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonIndexSwap
 
 /-!
 # The original exceptional terminal on the actual parent family
@@ -382,8 +384,12 @@ end ExceptionalLeafRawData
 
 /-- The actual source can have no nonzero correlation row.  Such a
 class uses only its original constant-atom extraction and individual
-zero row weights.  Otherwise the original complete atom datum supplies
-the numerical savings.  Neither constructor takes a terminal bound. -/
+zero row weights. Otherwise the original complete atom datum supplies
+the numerical savings, either on the original orientation or on its
+literal column transpose with the same two divisor variables. The
+oriented atom datum uses its original individual profile windows; no
+left-sided window is inferred for the other side. No constructor takes
+a terminal bound. -/
 inductive ExceptionalLeafRawCase
     (R : ActualSecondCorrelationRows A σ H ι)
     (p : ExceptionalOriginalProfilePair K)
@@ -398,6 +404,9 @@ inductive ExceptionalLeafRawCase
   | ofAtoms (data : ExceptionalLeafRawData (C := C) R p ε maskExponent hε hmask
       cap degree J₁ J₂ order fiberCap firstFiber Z P m q loss lower tagWeight movingLength
       leaf j Q)
+  | ofTransposedAtoms (data : ExceptionalLeafRawData (C := C) R p ε maskExponent hε hmask
+      cap degree J₁ J₂ order fiberCap firstFiber Z P m q loss lower tagWeight movingLength
+      leaf.terminalTranspose (branch.swapSecondIndex j) Q)
 
 namespace ExceptionalLeafRawCase
 
@@ -414,9 +423,11 @@ variable (D : ExceptionalLeafRawCase (C := C) R p ε maskExponent hε hmask
 
 include D
 
-/-- Both raw cases give the same bound on the same literal leaf.
+/-- Every raw case gives the same bound on the same literal leaf.
 The zero branch derives its cost identity internally, without needing
-a numerical second saving or a live-row witness on an empty class. -/
+a numerical second saving or a live-row witness on an empty class.
+The transposed branch returns to the original index by the exact leaf
+cost and divisor-weight identities, without changing the chosen children. -/
 theorem cost_le (hZ : 1 < Z) (hP : 1 ≤ P) (htag : 0 ≤ tagWeight)
     (volumeConstant : ℝ) (hvolume : 0 ≤ volumeConstant)
     (horder : p.order (U := U) (E := E) (σ := σ) (η := η) (hS := hS)
@@ -441,6 +452,10 @@ theorem cost_le (hZ : 1 < Z) (hP : 1 ≤ P) (htag : 0 ≤ tagWeight)
         (branch.exceptionalDyadWeight_nonneg Z lower (zero_lt_one.trans hZ).le j)
   | ofAtoms data =>
       exact data.cost_le hZ hP htag volumeConstant hvolume horder hconstant
+  | ofTransposedAtoms data =>
+      simpa only [ActualHybridLeaf.terminalTranspose_exceptionalCost,
+        TwoDivisorCommonBranch.exceptionalDyadWeight_swapSecondIndex] using
+        data.cost_le hZ hP htag volumeConstant hvolume horder hconstant
 
 end ExceptionalLeafRawCase
 

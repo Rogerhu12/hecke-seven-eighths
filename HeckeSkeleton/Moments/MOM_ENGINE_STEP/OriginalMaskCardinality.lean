@@ -37,6 +37,8 @@ namespace OriginalMaskPrimeData
 variable {M : Finset α} {R : Ideal (𝓞 K)}
 variable (W : OriginalMaskPrimeData M R)
 
+include W
+
 theorem card_le_primeSupport (hR : R ≠ 0) : M.card ≤ (primeSupport R).card := by
   apply Finset.card_le_card_of_injOn (fun a => (W.prime a).asIdeal)
   · intro a ha

@@ -303,8 +303,10 @@ end OrdinaryExceptionalLeafRawData
 
 /-- The actual source can have no nonzero correlation row.  Such a
 class uses only its original constant-atom extraction and individual
-zero row weights.  Otherwise the original complete atom datum supplies
-the numerical savings.  Neither constructor takes a terminal bound. -/
+zero row weights. Otherwise the original complete atom datum supplies
+the numerical savings on either orientation of the same literal leaf.
+The column transpose keeps both Fourier kernels, both divisor variables
+and the original chosen children. No constructor takes a terminal bound. -/
 inductive OrdinaryExceptionalLeafRawCase
     (R : ActualSecondCorrelationRows A σ H ι)
     (p : ExceptionalOriginalProfilePair K)
@@ -318,6 +320,9 @@ inductive OrdinaryExceptionalLeafRawCase
   | ofAtoms (data : OrdinaryExceptionalLeafRawData (C := C) R p
       cap degree fiberCap firstFiber Z P m q loss lower tagWeight movingLength
       leaf j Q)
+  | ofTransposedAtoms (data : OrdinaryExceptionalLeafRawData (C := C) R p
+      cap degree fiberCap firstFiber Z P m q loss lower tagWeight movingLength
+      leaf.terminalTranspose (branch.swapSecondIndex j) Q)
 
 namespace OrdinaryExceptionalLeafRawCase
 
@@ -333,9 +338,10 @@ variable (D : OrdinaryExceptionalLeafRawCase (C := C) R p
 
 include D
 
-/-- Both raw cases give the same bound on the same literal leaf.
+/-- Every raw case gives the same bound on the same literal leaf.
 The zero branch derives its cost identity internally, without needing
-a numerical second saving or a live-row witness on an empty class. -/
+a numerical second saving or a live-row witness on an empty class.
+The transposed branch uses exact cost and arithmetic-weight identities. -/
 theorem cost_le (hZ : 1 < Z) (hP : 1 ≤ P) (htag : 0 ≤ tagWeight)
     (volumeConstant : ℝ) (hvolume : 0 ≤ volumeConstant)
     (hconstant : p.ordinaryConstant ≤ volumeConstant) :
@@ -357,6 +363,10 @@ theorem cost_le (hZ : 1 < Z) (hP : 1 ≤ P) (htag : 0 ≤ tagWeight)
         (branch.exceptionalDyadWeight_nonneg Z lower (zero_lt_one.trans hZ).le j)
   | ofAtoms data =>
       exact data.cost_le hZ hP htag volumeConstant hvolume hconstant
+  | ofTransposedAtoms data =>
+      simpa only [ActualHybridLeaf.terminalTranspose_exceptionalCost,
+        TwoDivisorCommonBranch.exceptionalDyadWeight_swapSecondIndex] using
+        data.cost_le hZ hP htag volumeConstant hvolume hconstant
 
 end OrdinaryExceptionalLeafRawCase
 

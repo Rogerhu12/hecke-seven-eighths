@@ -47,7 +47,7 @@ variable {E W : Type*}
   [MeasurableSpace W] [BorelSpace W]
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
-local instance : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance canonicalDirectParentWeightsCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {Z : ℝ}
 

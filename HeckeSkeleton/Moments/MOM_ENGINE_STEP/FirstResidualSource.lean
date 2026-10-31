@@ -167,7 +167,7 @@ theorem originalTriple_fourier_orbit (a b r : OrbitalGaussColumn K S Γ)
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance firstResidualSourceCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 /-- The first residual kernel estimate on an arbitrary row carrier.
 Using actual subgroup orbits as the carrier retains every sector; the

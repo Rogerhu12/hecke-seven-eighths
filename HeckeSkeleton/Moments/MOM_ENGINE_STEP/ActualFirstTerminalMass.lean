@@ -50,7 +50,7 @@ variable {P : PowerScaleExteriorPool A bad Z ell eps}
 variable {ω ψ : HeckeCharacter K} {centered : Bool}
 variable {d : MomentData K ω ψ} {a : RealParameters}
 variable {t Y₁ Y₂ X : ℝ} {hX : 1 ≤ X}
-local instance : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance actualFirstTerminalMassCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
 namespace ActualFirstSource
 

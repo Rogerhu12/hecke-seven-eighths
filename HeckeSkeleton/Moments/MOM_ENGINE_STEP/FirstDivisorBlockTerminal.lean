@@ -222,7 +222,7 @@ theorem tailBudget_div_allowance_le_original_profiles
 end ActualPoolStages.FirstDivisorWindows
 
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
-local instance : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance firstDivisorBlockTerminalCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
 namespace FirstBlockPoolData.SecondStages
 

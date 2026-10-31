@@ -110,7 +110,7 @@ theorem first_gauss_direct_integral_bound {H ι κ : Type*}
       rw [integral_const_mul, integral_add hL hR]
 
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance directFirstReductionCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 /-- Exact first Möbius and phase labels, now with the direct original
 Gauss energies and their original positive normalizations. -/

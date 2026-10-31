@@ -87,7 +87,7 @@ theorem allocated_joint_measure_bound
       exact Finset.sum_congr rfl fun a _ => integral_finsetSum AR (fun b _ => hi a b)
 
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance nestedSecondClassProductionCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 variable (R : ActualSecondCorrelationRows A σ H ι)
 
 def actualMeasuredSecondKernelCost {α β : Type*}

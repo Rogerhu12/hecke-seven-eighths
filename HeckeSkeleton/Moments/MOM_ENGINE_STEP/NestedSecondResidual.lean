@@ -45,7 +45,7 @@ theorem kernelDivisorCoefficient_star_first_phase {H ι : Type*}
   rw [kernelDivisorCoefficient_first_phase, star_mul', jointPhase_neg]
 
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance nestedSecondResidualCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 variable {H ι κ : Type*}
 variable (F₁ : 𝓢(U, ℂ)) (F₂ : 𝓢(V, ℂ))
 variable (rows : Finset H) (frequency : H → A.R)

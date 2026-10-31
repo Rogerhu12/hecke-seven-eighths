@@ -74,7 +74,7 @@ theorem first_gauss_pool_integral_bound {H ι κ : Type*}
   · exact Real.sqrt_nonneg _
 
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance firstPooledResidualCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 /-- The whole exact divisor and phase sum, with its two actual pooled
 energies. Only the coefficient varies across divisor/Fourier labels. -/

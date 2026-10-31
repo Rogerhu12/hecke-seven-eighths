@@ -39,7 +39,7 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
 
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
-local instance : Fintype ((PUnit.{1} × PUnit.{1}) →* Circle) := Fintype.ofFinite _
+local instance firstLinearizedSourceCircleCharacterFintype : Fintype ((PUnit.{1} × PUnit.{1}) →* Circle) := Fintype.ofFinite _
 
 variable {hΓ μv}
 variable {ι κ : Type*} {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}

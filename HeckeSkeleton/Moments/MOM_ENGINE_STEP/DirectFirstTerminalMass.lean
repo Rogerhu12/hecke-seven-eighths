@@ -50,7 +50,7 @@ variable {Z : ℝ}
 variable {ω ψ : HeckeCharacter K} {centered : Bool}
 variable {d : MomentData K ω ψ} {a : RealParameters}
 variable {t Y₁ Y₂ X : ℝ} {hX : 1 ≤ X}
-local instance : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance directFirstTerminalMassCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
 /-- Nonzero membership follows from the actual original column divisor,
 with no positivity assumption on an artificial pool. -/

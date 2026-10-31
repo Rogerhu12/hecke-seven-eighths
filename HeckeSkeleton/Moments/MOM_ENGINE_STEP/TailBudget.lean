@@ -169,9 +169,9 @@ theorem ParentPeriodicPair.truncationMass_le_mask_norm
           change ‖(ρ.val : ℂ)⁻¹ *
               (((2 : ℝ) ^ InfinitePlace.nrComplexPlaces K /
                 Real.sqrt |(discr K : ℝ)| : ℝ) : ℂ) * (N.val : ℂ)⁻¹‖ * N.val = _
-          simp only [norm_mul, norm_inv, Complex.norm_real, Real.norm_eq_abs,
+          simp only [firstTailFieldConstant, norm_mul, norm_inv, Complex.norm_real, Real.norm_eq_abs,
             abs_of_pos ρ.property, abs_of_pos N.property]
-          rw [mul_assoc, inv_mul_cancel₀ (ne_of_gt N.property), mul_one] <;> rfl
+          rw [mul_assoc, inv_mul_cancel₀ (ne_of_gt N.property), mul_one]
         rw [hfactor]
         simp only [sIntegerMaskDualRadius, inv_inv, N, ρ]
       _ = firstTailFieldConstant K * (ρ.val⁻¹ + N.val) := by

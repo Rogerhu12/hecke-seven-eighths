@@ -106,7 +106,7 @@ def actualSIntegerGauss (a : OS) (ha : a ≠ 0)
 
 variable [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance firstKernelCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 /-- The first residual mixed form is bounded by genuine whole Gauss norms.
 The common finite factor is kept in the same row weight on both sides.

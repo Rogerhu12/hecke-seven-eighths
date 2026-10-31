@@ -402,6 +402,17 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalOrdinaryExceptionalCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFrameColumnSwap
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalColumnOrientation
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalGaussOrbitRows
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualGaussStage
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualSecondRowMassSwap
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonIndexSwap
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteMovingRowRecipe
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalChildData
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingEngineOutput
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstRowWindows
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualSourceMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFrameExceptionalSwap
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfileBounds
 
 /-!
 # The unified child step of the paired fourth-moment engine

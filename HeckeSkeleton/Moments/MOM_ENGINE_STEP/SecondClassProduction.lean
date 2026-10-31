@@ -228,7 +228,7 @@ section FiniteClass
 
 variable [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance secondClassProductionCircleCharacterFintype1 : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 /-- The literal labels of the actual second Möbius and allocation sums. -/
 abbrev SecondAllocationBranch
@@ -436,7 +436,7 @@ variable {hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
   HeckeGeneral.Characters.localDifferentExponent K v = 0}
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
-local instance : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance secondClassProductionCircleCharacterFintype2 : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
 local notation "Arch" => mixedEmbedding.euclidean.mixedSpace K
 variable {α β : Type*} {fullI : α → A.Exterior} {fullJ : β → A.Exterior}

@@ -257,7 +257,7 @@ section ActualCorrelation
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance secondHybridAllocationCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 def secondResidualHybridCost
     (F : 𝓢(V, ℂ)) (rows : Finset H) (frequency : H → A.R)

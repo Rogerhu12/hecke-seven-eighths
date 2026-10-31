@@ -29,7 +29,7 @@ variable {H ι : Type*} [Fintype ι] [DecidableEq ι]
 variable {k l : ℕ}
 
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance secondAllocationLabelsCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 abbrev SecondAllocationLabel
     (T₁ T₂ : Finset (Ideal (𝓞 F)))

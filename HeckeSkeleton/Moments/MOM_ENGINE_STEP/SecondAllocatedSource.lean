@@ -261,7 +261,7 @@ theorem right_energy_eq_source
       (actual_allocation_column_mem B i hi) (IB i)
       (hIB i (actual_allocation_column_mem B i hi))
       (-R.frequency h.val) (-R.factor C h.val) (R.extractedRow C h).element
-      (by rw [(R.extractedRow C h).frequency, neg_mul])
+      ((congrArg Neg.neg (R.extractedRow C h).frequency).trans (neg_mul _ _).symm)
     exact (congrArg star he).trans (star_mul' _ _)
   calc
     _ = jointColumnEnergy Finset.univ B.columns
@@ -277,7 +277,12 @@ theorem right_energy_eq_source
     _ = _ := by
       rw [joint_energy_star_neg_locations]
       simp only [source, ActualAllocatedSource.negativeSide, ActualAllocatedSource.energy,
-        ActualChildRow.negative, rawSourceLocation_neg] <;> rfl
+        ActualChildRow.negative]
+      apply congrArg (fun locations : R.live → AllocationColumn F k → V =>
+        ‖ν‖ ^ 2 * jointColumnEnergy Finset.univ B.columns
+          (fun h : R.live => R.weight h.val * R.correlation h.val) c locations ξ)
+      funext h i
+      exact (rawSourceLocation_neg (x₁ h.val) (x₂ h.val) (x h.val) i).symm
 
 end ActualSecondCorrelationRows
 end HeckeSkeleton.Moments.EngineStep

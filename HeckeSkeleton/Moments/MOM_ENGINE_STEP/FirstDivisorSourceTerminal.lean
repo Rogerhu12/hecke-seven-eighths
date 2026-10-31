@@ -51,7 +51,7 @@ variable {ω ψ : HeckeCharacter K} {centered : Bool}
 variable {d : MomentData K ω ψ} {a : RealParameters}
 variable {t Y₁ Y₂ X : ℝ} {hX : 1 ≤ X}
 variable {s : ActualFirstSource (E := W) hΓ μv C P finiteTest centered d a t Y₁ Y₂ X hX}
-local instance : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance firstDivisorSourceTerminalCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
 namespace ActualFirstSource.SecondStages
 

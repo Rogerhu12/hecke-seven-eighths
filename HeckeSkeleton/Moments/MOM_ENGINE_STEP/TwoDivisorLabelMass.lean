@@ -22,7 +22,7 @@ open HeckePort.IdealMobiusDivisorSum
 variable {K : Type} [Field K] [NumberField K]
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
 
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance twoDivisorLabelMassCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 namespace TwoDivisorCommonBranch
 

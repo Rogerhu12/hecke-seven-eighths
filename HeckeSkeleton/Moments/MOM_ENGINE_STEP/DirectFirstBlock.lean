@@ -109,7 +109,7 @@ theorem common_weight_bound (p : FirstBlockDirectData chart M X hX)
   exact (mul_le_mul hmu hactive (norm_nonneg _) zero_le_one).trans_eq (one_mul _)
 
 
-local instance : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance directFirstBlockCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
 def originalLeftCoefficient (p : FirstBlockDirectData chart M X hX) (i : ι) : ℂ :=
   let a := generatedOriginalColumn (σ := σ) hΓ

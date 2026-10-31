@@ -140,7 +140,7 @@ theorem first_pool_pair_weighted_linearization {ι κ : Type*}
       rw [integral_const_mul, integral_add hleft hright]
 
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance firstWeightedReductionCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 /-- Explicit normalized left/right pooled integrals for every actual
 internal divisor and finite phase character.  All allowances are chosen

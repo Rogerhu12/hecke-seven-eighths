@@ -83,7 +83,7 @@ theorem joint_centered_cauchy_measure_bound
 
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance centeredSecondKernelCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 /-- This inequality is used only after the actual finite exceptional
 classification has separated the original complex source rows. It
