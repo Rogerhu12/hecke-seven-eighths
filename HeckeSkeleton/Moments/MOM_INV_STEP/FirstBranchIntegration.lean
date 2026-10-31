@@ -40,9 +40,11 @@ variable {σ ι : Type*} [Fintype ι]
 variable (C : CanonicalBlock.ColumnData K S σ)
 variable (Θ : Subgroup (HeckeCharacter K)) (ψ G : HeckeCharacter K)
 variable (hν : BackgroundCycle.Admissible K Θ ψ C.background) (hG : G ∈ Θ)
-variable (X : {r : ℝ // 0 < r}) (r₁ r₂ b₁ b₂ : Ext) (side : Bool)
+variable (X : {r : ℝ // 0 < r})
+  (r₁ r₂ b₁ b₂ : ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))) (side : Bool)
 variable (centers : FirstCenteredPositiveEnergy.Centering K S D ι X r₁ r₂ b₁ b₂ side)
-variable (f z : E) (d : OS) (ξ : Sector)
+variable (f z : CanonicalIdealRow.exteriorMonoid K S)
+  (d : Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) (ξ : CanonicalSectors.UnitClasses K (S : Set (HeightOneSpectrum (𝓞 K))) Γ)
 variable (W : SchwartzMap ℝ ℂ) (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2)
 
 def branchFactor (k : ι) (e : overlapPool K S X r₁ r₂ b₁ b₂ false) : ℝ :=

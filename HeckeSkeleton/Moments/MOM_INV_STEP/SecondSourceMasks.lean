@@ -67,7 +67,7 @@ theorem actualMask_eq_commonMask (x₁ x₂ : Ext) :
   apply principalMask_congr_of_common K S D
   exact (common_self K S (common K Sset x₁ x₂) (common_squarefree K Sset x₁ x₂)).symm
 
-variable [IsPrincipalIdealRing OS]
+variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 
 /-- Every divisor is a divisor of the frozen original common ideal,
 not of the subsequently extended residual gcd. -/

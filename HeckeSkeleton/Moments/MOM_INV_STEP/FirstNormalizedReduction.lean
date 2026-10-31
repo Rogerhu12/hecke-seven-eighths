@@ -38,7 +38,7 @@ local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 variable {σ ι : Type*} [DecidableEq σ] [Fintype ι]
 variable (T : FirstParentEnergy.Data K S (σ := σ))
-variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (L : Finset Ext)
+variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (L : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))))
 variable (grid : ι → {r : ℝ // 0 < r})
 variable (centers : FirstOuterCenters.Centering K S D T grid)
 variable (side : Bool)
@@ -82,7 +82,7 @@ theorem error_nonneg (hZ : 0 ≤ Z) (k : ι) (J : Finset σ) (s : ℝ) :
     (FirstSecondReduction.errorAt_nonneg K S D Γ hΓ μv T Θ ψ G hν hG hbase
       R (U k) J s (cutoff k) i.1 i.2)
 
-variable (hallowed : AllowedGeneratorInput K Sset D)
+variable (hallowed : AllowedGeneratorInput K (S : Set (HeightOneSpectrum (𝓞 K))) D)
 variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)] [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
   (ν : Measure (FiniteAdeleRing (𝓞 K) K)) [ν.IsAddHaarMeasure]
 variable [MeasurableSpace (AdeleRing (𝓞 K) K)] [BorelSpace (AdeleRing (𝓞 K) K)]

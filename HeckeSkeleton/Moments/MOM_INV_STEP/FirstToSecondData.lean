@@ -123,7 +123,7 @@ theorem first_freeEnergy_eq_second (o : OuterIndex K S D T)
     (DivisorInverseColumn.weightedEnergy K S Γ D Q.columns Q.triple Q.label.val.val
       Q.divisor.val Q.archTest Q.localTest ∅ Q.radius).re := rfl
 
-variable (H₂ : ∀ o : OuterIndex K S D T, Ext → Finset (HeightOneSpectrum OS) → ℝ)
+variable (H₂ : ∀ o : OuterIndex K S D T, (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))) → Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)) → ℝ)
 
 def actualCutoff : ActualPositiveIndex.Cutoff K S D T (sourceScale K S T U) :=
   fun o _ g δ => H₂ o g.val δ.val

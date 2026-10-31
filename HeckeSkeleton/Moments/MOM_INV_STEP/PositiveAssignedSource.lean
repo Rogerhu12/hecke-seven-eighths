@@ -29,7 +29,7 @@ variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K)
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
-variable {N : Finset Ext} {X : ℝ} {Jo Jn : ℕ}
+variable {N : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K))))} {X : ℝ} {Jo Jn : ℕ}
 
 def noLists : Fin 0 → Finset (HeightOneSpectrum (𝓞 K)) := fun i => Fin.elim0 i
 

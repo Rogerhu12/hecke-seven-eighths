@@ -24,6 +24,7 @@ open HeckeSkeleton.Moments.MOMInvStep
 open FixedTripleFibers CanonicalChildren CanonicalNormPools FirstParentRows
   FirstOuterCenters FirstToSecondData CommonKernel ActualProductionBoxes ActualBoxGeometry
   ActualUniformProduction
+open HeckePort.Moments
 open scoped Classical BigOperators nonZeroDivisors
 
 variable (K : Type) [Field K] [NumberField K]
@@ -46,7 +47,7 @@ section Box
 
 variable (R : OuterIndex K S D T → {r : ℝ // 0 < r})
 variable (U : {r : ℝ // 0 < r}) (J₁ : Finset σ) (s : ℝ)
-variable (H₂ : ∀ o : OuterIndex K S D T, Ext → Finset (HeightOneSpectrum OS) → ℝ)
+variable (H₂ : ∀ o : OuterIndex K S D T, (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))) → Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)) → ℝ)
 variable (hmask : T.mask = ∅)
 local notation "X" => sourceScale K S T U
 local notation "Idx" => ProductionIndex K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂
@@ -56,7 +57,7 @@ variable {ι : Type*} [Fintype ι]
 variable (grid : ι → {r : ℝ // 0 < r})
 variable (centers : FirstOuterCenters.Centering K S D T grid)
 variable (alive : OuterIndex K S D T → Prop) (k : ι) (side₁ : Bool)
-variable (P : Finset Idx) (b : SecondMobiusGeometry.Index X)
+variable (P : Finset (ProductionIndex K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂)) (b : SecondMobiusGeometry.Index (sourceScale K S T U))
 variable (Z L : ℝ) (j : BoxIndex Z L)
 local notation "Pbox" => ActualSingleBoxBudget.boxedSource K S D Γ T Θ ψ G hν hG hbase
   R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j
@@ -157,8 +158,8 @@ variable (A Z M r ell V h tau : ℝ) (hZ : 1 < Z)
 local notation "Rcap" => FirstOuterPhysicalCap.radius K S D Γ T hmask
   Z (boxCap A) M r ell V h tau (zero_lt_one.trans hZ)
 local notation "Grid" => FirstParentCentering.grid Z A 1
-variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (oldLabels : Finset Ext)
-variable (centers : FirstOuterCenters.Centering K S D T Grid)
+variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (oldLabels : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))))
+variable (centers : FirstOuterCenters.Centering K S D T (FirstParentCentering.grid Z A 1))
 variable (hprime : ∀ q ∈ T.columns.slots, ∀ p ∈ T.columns.primeLists q, Prime p)
 variable (hweights : ∀ q ∈ T.columns.slots, ∀ p ∈ T.columns.primeLists q,
   ‖T.columns.primeWeights q p‖ ≤ 1)

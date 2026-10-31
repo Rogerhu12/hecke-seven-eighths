@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleEnergy
 import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
 import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalStep
+import Batteries.Tactic.Alias
 
 /-!
 # Quantitative interface of the actual canonical inverse step
@@ -164,8 +165,8 @@ namespace HeckeSkeleton.Moments.MOMInvStep
 /-- Complete actual-parent inverse single step, with source-independent
 constants and the geometric closure of its precise induction class.
 The full quantified statement is `CanonicalStep.exists_uniform_step`. -/
-theorem canonical_inverse_step :=
-  @HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalStep.exists_uniform_step
+alias canonical_inverse_step :=
+  HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalStep.exists_uniform_step
 
 end HeckeSkeleton.Moments.MOMInvStep
 

@@ -36,7 +36,7 @@ local notation "Bare" => BareSource (K := K) (S := S) (D := D) (Γ := Γ) (N := 
 variable (hprime : ∀ j ∈ C.slots, ∀ p ∈ C.primeLists j, Prime p)
 variable (hweights : ∀ j ∈ C.slots, ∀ p ∈ C.primeLists j, ‖C.primeWeights j p‖ ≤ 1)
 variable (J₁ J₂ : Finset σ) (hJ₁ : J₁ ⊆ C.slots) (hJ₂ : J₂ ⊆ C.slots)
-variable (T : Finset Bare) (side : Bool) (slotCap : ℕ) (hcap : C.slots.card ≤ slotCap)
+variable (T : Finset (PositiveAssignedSource.BareSource (K := K) (S := S) (D := D) (Γ := Γ) (N := N) (X := X))) (side : Bool) (slotCap : ℕ) (hcap : C.slots.card ≤ slotCap)
 local notation "Q" => ActualTwoPassChildren.packet K S C D Γ hprime hweights
   J₁ J₂ hJ₁ hJ₂ T side slotCap hcap
 local notation "Tuple" => SecondTuple K Sector (J₁.card + J₁.card) (J₂.card + J₂.card)

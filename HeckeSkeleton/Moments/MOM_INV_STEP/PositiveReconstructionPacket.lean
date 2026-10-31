@@ -29,7 +29,7 @@ variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K)
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
-variable {Jo Jn : ℕ} {N : Finset Ext} {X : ℝ}
+variable {Jo Jn : ℕ} {N : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K))))} {X : ℝ}
 variable {oldLists : Fin Jo → Finset (HeightOneSpectrum (𝓞 K))}
 variable {newLists : Fin Jn → Finset (HeightOneSpectrum (𝓞 K))}
 local notation "Src" => PositiveReconstruction.Source K S D Γ N X oldLists newLists

@@ -85,7 +85,8 @@ private theorem source_free_energy_of_divisor_bound
 variable {σ : Type*} (C : CanonicalBlock.ColumnData K S σ)
 variable (Θ : Subgroup (HeckeCharacter K)) (ψ G : HeckeCharacter K)
 variable (hν : BackgroundCycle.Admissible K Θ ψ C.background) (hG : G ∈ Θ)
-variable (J : Finset σ) (U α : ℝ) (γ : OuterTriple K) (j : Ideal (𝓞 K)) (d : OS)
+variable (J : Finset σ) (U α : ℝ) (γ : OuterTriple K) (j : Ideal (𝓞 K))
+  (d : Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)
 variable (W : SchwartzMap ℝ ℂ) (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2)
 
 def sourceMellinEnergy (E : Ext) (T : Finset (FirstCanonicalLabel.SourcePair K S Γ))
@@ -191,9 +192,9 @@ theorem sourceFourierEnergy_le_of_divisor_bound
     exact (mul_le_mul_of_nonneg_left hb (frequencyEnvelope_nonneg m ξ)).trans_eq (by ring))
   rwa [integral_const_mul] at hi
 
+include hallowed hΓ in
 /-- The fiber constant precedes all original coefficients, old-label
 weights, source rows, center lengths and both spectral variables. -/
-include hallowed hΓ in
 theorem exists_uniform_sourceFourierEnergy_bound (a : ℕ) (ε : ℝ) (hε : 0 < ε) :
     ∃ B : ℝ, 1 ≤ B ∧
       ∀ {σ₀ : Type*} (C₀ : CanonicalBlock.ColumnData K S σ₀)

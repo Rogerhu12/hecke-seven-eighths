@@ -247,10 +247,10 @@ theorem term_bound (T : Data K S σ Θ ψ) (G : HeckeCharacter K) (hG : G ∈ Θ
     dsimp only [weight]
     ring)
 
+include hΓ hallowed ν in
 /-- Uniform production estimate for the entire second retained source.
 Constants precede every inverse family, original prime list, source
 ideal, physical radius, frequency cutoff and test function. -/
-include hΓ hallowed in
 theorem exists_retained_centered_bound
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (hlc : ∀ v ∈ S, IsLocallyConstant (h v))

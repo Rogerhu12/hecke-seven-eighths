@@ -35,8 +35,8 @@ local notation "Ext" => ExteriorIdeal K Sset
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
 variable {σ : Type*} [DecidableEq σ] {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeCharacter K}
 
-variable (C : ColumnFamily K Sset σ Θ ψ) (γ₀ : OuterTriple K)
-variable (G : HeckeCharacter K) (hG : G ∈ Θ) (g j d₂ I : Ext) (ξ : Sector)
+variable (C : ColumnFamily K (S : Set (HeightOneSpectrum (𝓞 K))) σ Θ ψ) (γ₀ : OuterTriple K)
+variable (G : HeckeCharacter K) (hG : G ∈ Θ) (g j d₂ I : (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K))))) (ξ : (CanonicalSectors.UnitClasses K (S : Set (HeightOneSpectrum (𝓞 K))) Γ))
 variable (W : SchwartzMap ℝ ℂ) (hW : tsupport W ⊆ Set.Icc (1 / 8 : ℝ) (21 / 8)) (X : ℝ)
 
 def branchEnergy (i : Index X) (v : overlapPool K S X g) (τ : ℝ) : ℝ :=

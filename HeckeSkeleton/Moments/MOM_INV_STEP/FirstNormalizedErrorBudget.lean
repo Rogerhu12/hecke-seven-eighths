@@ -66,7 +66,7 @@ local notation "hcs₀" => Physical.ActualGramMajorantDraft.rowBallFiniteFamily_
 
 variable {σ ι : Type*} [DecidableEq σ] [Fintype ι]
 variable (T : FirstParentEnergy.Data K S (σ := σ))
-variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (labels : Finset Ext)
+variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (labels : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))))
 variable (grid : ι → {r : ℝ // 0 < r})
 variable (centers : FirstOuterCenters.Centering K S D T grid) (side : Bool)
 variable (R : OuterIndex K S D T → {r : ℝ // 0 < r}) (massEps ε : ℝ)
@@ -315,12 +315,12 @@ theorem boxedTotal_le_principal_add_tail
 variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)] [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
   (ν : Measure (FiniteAdeleRing (𝓞 K) K)) [ν.IsAddHaarMeasure]
 
+include ν in
 /-- The uniform quantitative bound for the literal normalized error.
 Its only later assumptions concern the actual geometric windows,
 individual prime weights and the two explicitly displayed small-power
 factors. No principal, tail, source-energy, or error estimate is assumed.
 `FirstErrorBoxes` supplies these windows for the predetermined boxes. -/
-include ν in
 theorem exists_boxedTotal_bound
     (slotCap : ℕ) (lengthCap Hmax Umax tauMin loss saving : ℝ)
     (hcap : 0 ≤ lengthCap) (hHmax : 0 ≤ Hmax) (hUmax : 0 ≤ Umax)

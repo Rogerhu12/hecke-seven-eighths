@@ -51,11 +51,11 @@ variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)] [BorelSpace (FiniteAdele
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 
+include ν in
 /-- The final error estimate is for the literal normalized live error,
 with its genuine two first spectral integrals, selected first center,
 constructed first physical radius, and constructed fine second cutoff.
 The chosen constant is independent of the parent and all source data. -/
-include ν in
 theorem exists_actual_error_bound
     (slotCap : ℕ) (A piRad piError piBox tauMin saving : ℝ)
     (hA : 1 ≤ A) (hpiError : 0 < piError) (hpiBox : 0 < piBox)

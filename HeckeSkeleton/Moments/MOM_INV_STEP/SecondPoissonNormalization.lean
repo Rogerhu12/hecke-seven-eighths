@@ -94,7 +94,7 @@ variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 variable (hΓ : Γ ≤ (powMonoidHom 6 :
   ((S : Set (HeightOneSpectrum (𝓞 K))).unit K) →*
   ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)).range)
-variable [Γ.FiniteIndex] [IsPrincipalIdealRing OS]
+variable [Γ.FiniteIndex] [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
 
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]

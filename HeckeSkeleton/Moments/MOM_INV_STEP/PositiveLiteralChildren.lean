@@ -60,7 +60,7 @@ theorem family_column (C : ColumnFamily K Sset σ Θ ψ) (G : HeckeCharacter K)
         (CanonicalSectors.sectorUnit K Sset Γ) γ f y := rfl
 
 variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
-variable {Jo Jn : ℕ} {N : Finset Ext} {X : ℝ}
+variable {Jo Jn : ℕ} {N : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K))))} {X : ℝ}
 variable {oldLists : Fin Jo → Finset (HeightOneSpectrum (𝓞 K))}
 variable {newLists : Fin Jn → Finset (HeightOneSpectrum (𝓞 K))}
 local notation "Src" => PositiveReconstruction.Source K S D Γ N X oldLists newLists

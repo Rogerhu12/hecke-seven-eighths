@@ -24,6 +24,7 @@ open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Characters
   HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.MOMInvStep
+open HeckePort.Moments
 open FixedTripleFibers FixedTripleEnergy FirstParentRows FirstToSecondData CommonKernel
   CanonicalNormPools ActualProductionBoxes ActualBoxGeometry
 open scoped Classical BigOperators nonZeroDivisors
@@ -112,7 +113,9 @@ variable (hν : BackgroundCycle.Admissible K Θ ψ T.columns.background) (hG : G
 variable (hbase : 1 < T.columns.base)
 variable (R : OuterIndex K S D T → {r : ℝ // 0 < r})
 variable (U : {r : ℝ // 0 < r}) (J₁ : Finset σ) (s : ℝ)
-variable (H₂ : ∀ o : OuterIndex K S D T, Ext → Finset (HeightOneSpectrum OS) → ℝ)
+variable (H₂ : ∀ o : OuterIndex K S D T,
+  ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K))) →
+    Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)) → ℝ)
 variable (hmask : T.mask = ∅)
 local notation "X" => sourceScale K S T U
 local notation "Idx" => ProductionIndex K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂
@@ -124,7 +127,8 @@ variable {ι : Type*} [Fintype ι]
 variable (grid : ι → {r : ℝ // 0 < r})
 variable (centers : FirstOuterCenters.Centering K S D T grid)
 variable (alive : OuterIndex K S D T → Prop) (k : ι) (side₁ : Bool)
-variable (P : Finset Idx) (b : SecondMobiusGeometry.Index X)
+variable (P : Finset (ProductionIndex K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂))
+variable (b : SecondMobiusGeometry.Index (sourceScale K S T U))
 
 /-- The original normalized first Poisson and centered Mellin scalar.
 It is evaluated before any arithmetic norm box is selected. -/
@@ -181,8 +185,10 @@ theorem source_raw_box (i : Idx) (hi : i ∈ Pbox) :
       (Finset.mem_filter.mp hi).2⟩
 
 variable (h : ℝ) (hZ : 1 < Z) (hh : 0 ≤ h) (hwidth : 2 ≤ Z ^ h)
-variable (hb : ∀ c ∈ T.cubes, height K Sset c ≤ Z ^ L)
-variable (hfirst : 2 * T.scale.val ≤ Z ^ L) (hsecond : 4 * X ≤ Z ^ L)
+variable (hb : ∀ c ∈ T.cubes,
+  height K (S : Set (HeightOneSpectrum (𝓞 K))) c ≤ Z ^ L)
+variable (hfirst : 2 * T.scale.val ≤ Z ^ L)
+  (hsecond : 4 * sourceScale K S T U ≤ Z ^ L)
 
 include hZ hh hwidth hb hfirst hsecond in
 /-- The first mask, conductor, and extracted factor bounds are inherited

@@ -37,7 +37,7 @@ local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 variable {σ ι : Type*} [Fintype ι]
 variable (T : FirstParentEnergy.Data K S (σ := σ))
-variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (L : Finset Ext)
+variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (L : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))))
 variable (grid : ι → {r : ℝ // 0 < r})
 variable (centers : FirstOuterCenters.Centering K S D T grid)
 variable (side : Bool)

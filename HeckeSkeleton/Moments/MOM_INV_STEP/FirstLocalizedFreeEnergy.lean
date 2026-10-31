@@ -39,7 +39,8 @@ variable {σ ι : Type*} [Fintype ι]
 variable (T : FirstParentEnergy.Data K S (σ := σ))
 variable (Θ : Subgroup (HeckeCharacter K)) (ψ G : HeckeCharacter K)
 variable (hν : BackgroundCycle.Admissible K Θ ψ T.columns.background) (hG : G ∈ Θ)
-variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (L : Finset Ext) (w : Ext → ℝ)
+variable (H : OuterIndex K S D T → {r : ℝ // 0 < r})
+  (L : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K))))) (w : ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K))) → ℝ)
 variable (grid : ι → {r : ℝ // 0 < r}) (centers : FirstOuterCenters.Centering K S D T grid)
 variable (W : SchwartzMap ℝ ℂ) (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2)
 variable (m : ℕ) (side : Bool)
@@ -222,10 +223,10 @@ theorem centeredTotal_eq_rowTotal (ε : ℝ) :
 
 variable (hallowed : AllowedGeneratorInput K (S : Set (HeightOneSpectrum (𝓞 K))) D)
 
+include hallowed hΓ in
 /-- All the old label and frequency rows in the complete first positive
 source are removed at once. The original weight assumptions are the
 literal divisor bounds; the source and energy transformations are proved. -/
-include hallowed hΓ in
 theorem exists_centeredTotal_free_bound (a p : ℕ) (massEps : ℝ) (hmassEps : 0 < massEps) :
     ∃ B : ℝ, 1 ≤ B ∧
       ∀ {σ₀ ι₀ : Type*} [Fintype ι₀], ∀ (T : FirstParentEnergy.Data K S (σ := σ₀))

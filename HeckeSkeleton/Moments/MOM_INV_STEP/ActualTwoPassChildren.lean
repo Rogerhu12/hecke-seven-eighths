@@ -75,7 +75,7 @@ theorem background_cycle (G : HeckeCharacter K) (hG : G ∈ Θ)
   rw [mul_inv_cancel_right]
 
 variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
-variable {N : Finset Ext} {X : ℝ}
+variable {N : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K))))} {X : ℝ}
 local notation "Bare" => BareSource (K := K) (S := S) (D := D) (Γ := Γ) (N := N) (X := X)
 
 /-- The actual second complete column is a column of the restored

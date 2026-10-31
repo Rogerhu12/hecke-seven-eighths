@@ -113,8 +113,13 @@ theorem exists_inverse_tail_bound_uniform
     have htail : ‖CanonicalAdaptiveTail.dualTail K S D Γ μv
         (SecondPoissonSplit.pairBlock K S D Γ hΓ x φ h hlc hcs r)
         (fineCutoff K S r X Z tau (common K Sset x.1 x.2))‖ ≤ (Am * Y ^ 2) * U := by
-      apply (CanonicalAdaptiveTail.dualTail_norm_le K S D Γ μv _ _ U hU ?_).trans
-      · intro δ hδ
+      have hdivisor : ∀ δ ∈
+          (SecondPoissonSplit.pairBlock K S D Γ hΓ x φ h hlc hcs r).mask.powerset,
+          ‖(SecondPoissonSplit.pairBlock K S D Γ hΓ x φ h hlc hcs r).prefactor δ *
+            FirstDualTruncation.primitiveTail K S D Γ μv
+              (SecondPoissonSplit.pairBlock K S D Γ hΓ x φ h hlc hcs r) δ
+              (fineCutoff K S r X Z tau (common K Sset x.1 x.2) δ)‖ ≤ U := by
+        intro δ hδ
         have hδmask : δ ⊆ FirstSourcePartition.actualMask K S D ∅ x.1 x.2 e e :=
           Finset.mem_powerset.mp hδ
         rw [actualMask_eq_commonMask] at hδmask
@@ -129,15 +134,18 @@ theorem exists_inverse_tail_bound_uniform
         · exact fineCutoff_scaled_lower K S D x.1 x.2
             (C.columns_squarefree γ x.1 hx₁) (C.columns_squarefree γ x.2 hx₂)
             r X Z tau hX (zero_lt_one.trans_le hZ) (hn x.1 hx₁) (hn x.2 hx₂) δ
-      · apply mul_le_mul_of_nonneg_right _ hU
-        change (2 : ℝ) ^ (∅ ∪ principalMask K S (pairSupport K S D x.1 x.2 e e)
-          (pairExponent K S x.1 x.2 e e)).card ≤ Am * Y ^ 2
-        rw [Finset.empty_union]
-        apply (hm x.1 x.2).trans
+      apply (CanonicalAdaptiveTail.dualTail_norm_le K S D Γ μv _ _ U hU hdivisor).trans
+      apply mul_le_mul_of_nonneg_right _ hU
+      change (2 : ℝ) ^ (∅ ∪ principalMask K S (pairSupport K S D x.1 x.2 e e)
+        (pairExponent K S x.1 x.2 e e)).card ≤ Am * Y ^ 2
+      rw [Finset.empty_union]
+      have hnprod : (x.1.val.val.absNorm : ℝ) * (x.2.val.val.absNorm : ℝ) ≤ Y ^ 2 := by
         rw [pow_two]
-        gcongr
-        · exact hnY x.1 hx₁
-        · exact hnY x.2 hx₂
+        exact mul_le_mul (hnY x.1 hx₁) (hnY x.2 hx₂) (Nat.cast_nonneg _) hY0
+      calc
+        _ ≤ Am * (x.1.val.val.absNorm : ℝ) * (x.2.val.val.absNorm : ℝ) := hm x.1 x.2
+        _ = Am * ((x.1.val.val.absNorm : ℝ) * (x.2.val.val.absNorm : ℝ)) := by ring
+        _ ≤ Am * Y ^ 2 := mul_le_mul_of_nonneg_left hnprod hAm0
     rw [norm_mul]
     exact (mul_le_mul hw htail (norm_nonneg _) (sq_nonneg _)).trans_eq (by ring)
   have hcT : ((C.columns γ).card : ℝ) ≤ Ai * Y := by

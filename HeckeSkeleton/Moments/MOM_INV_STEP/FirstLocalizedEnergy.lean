@@ -127,10 +127,10 @@ variable (hΓ : Γ ≤ (powMonoidHom 6 :
   ((S : Set (HeightOneSpectrum (𝓞 K))).unit K) →*
   ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)).range)
 
+include hallowed hΓ in
 /-- The entire localized first positive source is controlled by actual
 centered inverse columns. The common density constant is uniform in
 the original labels, arithmetic cutoffs and complete center grid. -/
-include hallowed hΓ in
 theorem exists_centeredTotal_bound
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (hlc : ∀ v ∈ S, IsLocallyConstant (h v))

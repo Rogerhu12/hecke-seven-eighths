@@ -183,13 +183,13 @@ private theorem side_total_le
     exact (mul_le_mul_of_nonneg_left (hpoint i)
       (outerWeight_nonneg K S D Γ T i)).trans_eq (by ring)
 
+include hallowed hΓ ν in
 /-- The complete literal retained first parent is controlled by two
 positive energies of actual inverse columns at fixed centers. The
 finite seminorm family and constant are selected before the original
 Schwartz test, every arithmetic source, the finite center grid and its
 assignments. The common Fourier density estimate is proved from the
 orbital kernel and is not a premise. -/
-include hallowed hΓ in
 theorem exists_canonicalRetained_centered_bound
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (hlc : ∀ v ∈ S, IsLocallyConstant (h v))

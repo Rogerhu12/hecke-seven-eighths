@@ -251,9 +251,9 @@ theorem first_weight_cost (pi : ℝ)
 variable (Θ : Subgroup (HeckeCharacter K)) (ψ G : HeckeCharacter K)
 variable (hν : BackgroundCycle.Admissible K Θ ψ T.columns.background) (hG : G ∈ Θ)
 variable (hbase : 1 < T.columns.base)
-variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (oldLabels : Finset Ext)
+variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (oldLabels : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))))
 local notation "Grid" => FirstParentCentering.grid Z A 1
-variable (centers : FirstOuterCenters.Centering K S D T Grid)
+variable (centers : FirstOuterCenters.Centering K S D T (FirstParentCentering.grid Z A 1))
 variable (hprime : ∀ q ∈ T.columns.slots, ∀ p ∈ T.columns.primeLists q, Prime p)
 variable (hweights : ∀ q ∈ T.columns.slots, ∀ p ∈ T.columns.primeLists q,
   ‖T.columns.primeWeights q p‖ ≤ 1)

@@ -216,8 +216,8 @@ theorem radius_eq_errorAssignment (Z L M r ell V h tau : ℝ) (hZ : 0 < Z)
 
 section Production
 
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
-  [BorelSpace (sLocalNormOneGroup K Sset)] [Γ.FiniteIndex]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] [Γ.FiniteIndex]
 variable (X : ℝ) (H : ActualPositiveIndex.Cutoff K S D T X)
 
 theorem radius_eq_actualAssignment (Z L M r ell V h tau : ℝ) (hZ : 0 < Z)

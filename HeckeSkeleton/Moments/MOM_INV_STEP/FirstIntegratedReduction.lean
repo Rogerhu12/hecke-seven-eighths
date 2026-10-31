@@ -100,7 +100,7 @@ theorem integrationConstant_nonneg (slotCap : ℕ) (ε₂ : ℝ) (hε₂ : 0 < �
 
 variable {σ ι : Type*} [DecidableEq σ] [Fintype ι]
 variable (T : FirstParentEnergy.Data K S (σ := σ))
-variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (labels : Finset Ext)
+variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (labels : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))))
 variable (grid : ι → {r : ℝ // 0 < r})
 variable (centers : FirstOuterCenters.Centering K S D T grid) (side : Bool)
 variable (R : OuterIndex K S D T → {r : ℝ // 0 < r}) (massEps ε₁ : ℝ)

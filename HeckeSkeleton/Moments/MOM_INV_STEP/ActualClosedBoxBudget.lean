@@ -24,6 +24,7 @@ open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Characters
   HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.MOMInvStep
+open HeckePort.Moments
 open FixedTripleFibers FixedTripleEnergy CanonicalChildren CanonicalNormPools
   FirstParentRows FirstToSecondData CommonKernel ActualProductionBoxes ActualBoxGeometry
 open scoped Classical BigOperators nonZeroDivisors
@@ -154,7 +155,9 @@ variable (hν : BackgroundCycle.Admissible K Θ ψ T.columns.background) (hG : G
 variable (hbase : 1 < T.columns.base)
 variable (R : OuterIndex K S D T → {r : ℝ // 0 < r})
 variable (U : {r : ℝ // 0 < r}) (J₁ : Finset σ) (s : ℝ)
-variable (H₂ : ∀ o : OuterIndex K S D T, Ext → Finset (HeightOneSpectrum OS) → ℝ)
+variable (H₂ : ∀ o : OuterIndex K S D T,
+  ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K))) →
+    Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)) → ℝ)
 variable (hmask : T.mask = ∅)
 local notation "X" => sourceScale K S T U
 local notation "Idx" => ProductionIndex K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂
@@ -164,7 +167,8 @@ variable {ι : Type*} [Fintype ι]
 variable (grid : ι → {r : ℝ // 0 < r})
 variable (centers : FirstOuterCenters.Centering K S D T grid)
 variable (alive : OuterIndex K S D T → Prop) (k : ι) (side₁ : Bool)
-variable (P : Finset Idx) (b : SecondMobiusGeometry.Index X)
+variable (P : Finset (ProductionIndex K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂))
+variable (b : SecondMobiusGeometry.Index (sourceScale K S T U))
 variable (Z L : ℝ) (j : BoxIndex Z L)
 local notation "Pslice" => ActualSingleBoxBudget.slice K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂
   grid centers alive k side₁ P b
@@ -188,18 +192,22 @@ local notation "gLen" => length Z j .secondCommon
 local notation "thetaLen" => length Z j .secondDivisor
 local notation "vLen" => length Z j .secondOverlap
 
-def familyAt (side₂ : Bool) (p : LogPlane × ℝ) : ColumnFamily K Sset σ Θ ψ :=
+def familyAt (J₂ : Finset σ) (b : SecondMobiusGeometry.Index X)
+    (side₂ : Bool) (p : LogPlane × ℝ) : ColumnFamily K Sset σ Θ ψ :=
   ActualTwoPassChildren.family K S T.columns Θ ψ hν J₁ J₂
     (SecondMobiusGeometry.childScale X b) (p.2 + SecondParentProduction.coordinate side₂ p.1)
 
-def pieceAt (side₂ : Bool) (p : LogPlane × ℝ) (a : CanonicalChildClosure.Index) :
+def pieceAt (J₂ : Finset σ) (b : SecondMobiusGeometry.Index X)
+    (side₂ : Bool) (p : LogPlane × ℝ) (a : CanonicalChildClosure.Index) :
     ColumnFamily K Sset σ Θ ψ :=
   CanonicalChildClosure.pieceFamily K Sset
     (familyAt K S T Θ ψ hν U J₁ J₂ b side₂ p) hbase a
 
 variable (h : ℝ) (hZ : 1 < Z) (hh : 0 ≤ h) (hwidth : 2 ≤ Z ^ h)
-variable (hb : ∀ q ∈ T.cubes, height K Sset q ≤ Z ^ L)
-variable (hfirst : 2 * T.scale.val ≤ Z ^ L) (hsecond : 4 * X ≤ Z ^ L)
+variable (hb : ∀ q ∈ T.cubes,
+  height K (S : Set (HeightOneSpectrum (𝓞 K))) q ≤ Z ^ L)
+variable (hfirst : 2 * T.scale.val ≤ Z ^ L)
+  (hsecond : 4 * sourceScale K S T U ≤ Z ^ L)
 
 /-- The recursive premise lists only the actual canonical pieces with
 nonnegative row and column length. All rows, labels and triples are

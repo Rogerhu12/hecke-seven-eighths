@@ -163,10 +163,13 @@ theorem exists_inverse_tail_bound_uniform
         change (2 : ℝ) ^ (∅ ∪ principalMask K S (pairSupport K S D x.1 x.2 e e)
           (pairExponent K S x.1 x.2 e e)).card ≤ Am * X ^ 2
         rw [Finset.empty_union]
-        apply (hm x.1 x.2).trans
-        simpa only [pow_two, mul_assoc] using
-          (mul_le_mul_of_nonneg_left
-            (mul_le_mul (hn x.1 hx₁) (hn x.2 hx₂) (Nat.cast_nonneg _) hX0) hAm0)
+        have hnprod : (x.1.val.val.absNorm : ℝ) * (x.2.val.val.absNorm : ℝ) ≤ X ^ 2 := by
+          rw [pow_two]
+          exact mul_le_mul (hn x.1 hx₁) (hn x.2 hx₂) (Nat.cast_nonneg _) hX0
+        calc
+          _ ≤ Am * (x.1.val.val.absNorm : ℝ) * (x.2.val.val.absNorm : ℝ) := hm x.1 x.2
+          _ = Am * ((x.1.val.val.absNorm : ℝ) * (x.2.val.val.absNorm : ℝ)) := by ring
+          _ ≤ Am * X ^ 2 := mul_le_mul_of_nonneg_left hnprod hAm0
       · intro δ hδ
         apply ht (pairSupport K S D x.1 x.2 e e) (pairExponent K S x.1 x.2 e e)
           φ ∅ ρ δ Z R tau saving hZ hR hRR htau hsaving hss

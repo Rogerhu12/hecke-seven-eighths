@@ -66,9 +66,9 @@ local notation "Ext" => ExteriorIdeal K Sset
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
 variable {σ : Type*} {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeCharacter K}
 
-variable (C : ColumnFamily K Sset σ Θ ψ) (γ₀ : OuterTriple K)
+variable (C : ColumnFamily K (S : Set (HeightOneSpectrum (𝓞 K))) σ Θ ψ) (γ₀ : OuterTriple K)
 variable (G : HeckeCharacter K) (hG : G ∈ Θ) (J : Finset σ) (U : ℝ)
-variable (γ : OuterTriple K) (f : Ideal (𝓞 K)) (y : Ideal (𝓞 K) × Sector)
+variable (γ : OuterTriple K) (f : Ideal (𝓞 K)) (y : Ideal (𝓞 K) × (CanonicalSectors.UnitClasses K (S : Set (HeightOneSpectrum (𝓞 K))) Γ))
 
 def coefficientMass : ℝ :=
   ∑ n ∈ squarefreePool K Sset (2 * U),

@@ -59,7 +59,7 @@ variable (hν : BackgroundCycle.Admissible K Θ ψ T.columns.background) (hG : G
 variable (hbase : 1 < T.columns.base)
 variable (R : OuterIndex K S D T → {r : ℝ // 0 < r})
 variable (U : {r : ℝ // 0 < r}) (J : Finset σ) (s : ℝ)
-variable (H₂ : ∀ o : OuterIndex K S D T, Ext → Finset (HeightOneSpectrum OS) → ℝ)
+variable (H₂ : ∀ o : OuterIndex K S D T, (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))) → Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)) → ℝ)
 
 def errorAt (o : OuterIndex K S D T) (e : FirstOuterCenters.Overlap K S D T o) : ℝ :=
   let Q := data K S D T Θ ψ G hν hG hbase R U J s o e
@@ -75,9 +75,9 @@ theorem errorAt_nonneg (o : OuterIndex K S D T)
     0 ≤ errorAt K S D Γ hΓ μv T Θ ψ G hν hG hbase R U J s H₂ o e := by
   exact add_nonneg (norm_nonneg _) (norm_nonneg _)
 
+include hallowed ν μ in
 /-- The second common-kernel constant is independent of every first
 source, its physical scales, and its already frozen Mellin frequency. -/
-include ν μ in
 theorem exists_pointwise_free_bound (ε : ℝ) (hε : 0 < ε) (m : ℕ) :
     ∃ C : ℝ, 0 ≤ C ∧
       ∀ {σ : Type*} [DecidableEq σ] (T : FirstParentEnergy.Data K S (σ := σ))
@@ -145,10 +145,10 @@ theorem exists_pointwise_free_bound (ε : ℝ) (hε : 0 < ε) (m : ℕ) :
       (add_le_add (norm_add_le ret zeros) le_rfl)).trans
         (by linarith))
 
+include hallowed ν μ in
 /-- After the second two-root inequality, the whole first finite source
 is linear in the two actual production totals. There is no second
 count of the first arithmetic source or of the final frozen triples. -/
-include ν μ in
 theorem exists_weighted_free_bound (ε : ℝ) (hε : 0 < ε) (m : ℕ) :
     ∃ C : ℝ, 0 ≤ C ∧
       ∀ {σ : Type*} [DecidableEq σ] (T : FirstParentEnergy.Data K S (σ := σ))

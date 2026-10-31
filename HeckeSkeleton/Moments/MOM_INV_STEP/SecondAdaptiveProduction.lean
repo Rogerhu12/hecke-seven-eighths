@@ -112,9 +112,9 @@ theorem retained_eq_sum_at (T : SecondParentProduction.Data K S σ Θ ψ)
     forwardColumn, poweredFamily, SecondSourceAssembly.slicedColumn,
     SecondParentProduction.test, SecondParentProduction.scale, Finset.sum_coe_sort]
 
+include ν hΓ hallowed in
 /-- Every true fine frequency and original sector occurs once in the
 positive source. The uniform density constant is selected before H. -/
-include hΓ hallowed in
 theorem exists_retained_centered_bound
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (hlc : ∀ v ∈ S, IsLocallyConstant (h v)) (hcs : ∀ v ∈ S, HasCompactSupport (h v))

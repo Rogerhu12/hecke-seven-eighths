@@ -39,7 +39,7 @@ variable (hν : BackgroundCycle.Admissible K Θ ψ T.columns.background) (hG : G
 variable (hbase : 1 < T.columns.base)
 variable (R : OuterIndex K S D T → {r : ℝ // 0 < r})
 variable (U : {r : ℝ // 0 < r}) (J : Finset σ) (s : ℝ)
-variable (H₂ : ∀ o : OuterIndex K S D T, Ext → Finset (HeightOneSpectrum OS) → ℝ)
+variable (H₂ : ∀ o : OuterIndex K S D T, (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))) → Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)) → ℝ)
 variable (hmask : T.mask = ∅)
 local notation "Idx" => ProductionIndex K S D T Θ ψ G hν hG hbase R U J s Γ H₂
 

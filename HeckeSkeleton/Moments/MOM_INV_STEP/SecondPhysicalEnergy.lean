@@ -78,8 +78,8 @@ theorem profile_eq_kernel (P : Profile K S) (Y : ℝ)
       (Real.log (height K Sset z₁ / Y), Real.log (height K Sset z₂ / Y))
   simpa only [Profile.value, FirstSourceEnergy.normScale, height, hleft, hright] using hp.symm
 
-variable (C : ColumnFamily K Sset σ Θ ψ) (γ₀ : OuterTriple K)
-variable (G : HeckeCharacter K) (g j d₂ I : Ext) (ξ : Sector)
+variable (C : ColumnFamily K (S : Set (HeightOneSpectrum (𝓞 K))) σ Θ ψ) (γ₀ : OuterTriple K)
+variable (G : HeckeCharacter K) (g j d₂ I : (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K))))) (ξ : (CanonicalSectors.UnitClasses K (S : Set (HeightOneSpectrum (𝓞 K))) Γ))
 variable (W : SchwartzMap ℝ ℂ) (X : ℝ)
 
 def sourceCoefficient (z : Ext) : ℂ :=

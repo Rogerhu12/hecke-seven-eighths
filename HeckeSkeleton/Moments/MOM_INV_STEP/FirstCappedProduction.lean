@@ -53,6 +53,7 @@ local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 local notation "Varch" => mixedEmbedding.euclidean.mixedSpace K
 
+include hallowed ν in
 /-- Complete first production with constants chosen before the source,
 original prime lists, norm windows, and both common center assignments. -/
 theorem exists_retained_free_bound
@@ -125,9 +126,9 @@ def actualError (T : FirstParentEnergy.Data K S (σ := σ)) (f : Ext) (Z tau : �
       T.archTest T.localTest T.locallyConstant T.compactSupport T.mask
       T.radius T.scale Z tau‖
 
+include ν μ in
 /-- The original orbital parent, with its true infinite-frequency tail
 and physical primitive principal terms. No source identity is assumed. -/
-include ν μ in
 theorem parent_norm_le_retained_and_error
     (T : FirstParentEnergy.Data K S (σ := σ)) (f : Ext) (Z tau : ℝ) :
     ‖parent K S D Γ T f‖ ≤

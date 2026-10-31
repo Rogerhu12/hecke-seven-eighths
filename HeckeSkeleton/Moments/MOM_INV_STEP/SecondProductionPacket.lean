@@ -40,7 +40,7 @@ variable (hν : BackgroundCycle.Admissible K Θ ψ T.columns.background) (hG : G
 variable (hbase : 1 < T.columns.base)
 variable (R : OuterIndex K S D T → {r : ℝ // 0 < r})
 variable (U : {r : ℝ // 0 < r}) (J₁ : Finset σ) (s : ℝ)
-variable (H₂ : ∀ o : OuterIndex K S D T, Ext → Finset (HeightOneSpectrum OS) → ℝ)
+variable (H₂ : ∀ o : OuterIndex K S D T, (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))) → Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)) → ℝ)
 local notation "X" => sourceScale K S T U
 local notation "Idx" => ProductionIndex K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂
 local notation "Bin" => SecondMobiusGeometry.Index X
@@ -84,7 +84,7 @@ variable (hweights : ∀ j ∈ T.columns.slots, ∀ p ∈ T.columns.primeLists j
   ‖T.columns.primeWeights j p‖ ≤ 1)
 variable (hJ₁ : J₁ ⊆ T.columns.slots)
 variable (J₂ : Finset σ) (hJ₂ : J₂ ⊆ T.columns.slots)
-variable (P : Finset Idx) (side₁ : Bool) (slotCap : ℕ) (hcap : T.columns.slots.card ≤ slotCap)
+variable (P : Finset (FirstToSecondData.ProductionIndex K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂)) (side₁ : Bool) (slotCap : ℕ) (hcap : T.columns.slots.card ≤ slotCap)
 
 def packet : ReconstructionPacket (K := K) (Sector := Sector)
     (ActualMaskReconstruction.sectorTransport K S D Γ) slotCap
@@ -138,10 +138,10 @@ theorem source_pointwise_le (m : ℕ) (side₂ : Bool) (b : Bin)
   convert hh using 1 <;> dsimp only [firstMark, secondMark, PositiveAssignedSource.oldExtracted,
     PositiveAssignedSource.newExtracted, FirstOverlapColumns.assignedMark] <;> ring
 
+include G hG hbase in
 /-- Every reconstructed canonical column is jointly integrable under
 the same true Fourier/Mellin density, including labels and rows absent
 from an individual source fiber. -/
-include G hG hbase in
 theorem child_joint_integrable (m : ℕ) (side₂ : Bool) (b : Bin)
     (γ : OuterTriple K) (f : Ideal (𝓞 K)) (y : Ideal (𝓞 K) × Sector) :
     Integrable (fun p : LogPlane × ℝ => jointDensity s m p *
