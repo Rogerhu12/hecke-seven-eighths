@@ -97,7 +97,16 @@ theorem sum_masks_frequencies_by_commonAt {κ : Type*}
       intro δ hδ
       simp_rw [Finset.sum_comm
         (s := squarefreePool K Sset (N / height K Sset g)) (t := A g δ)]
-      rfl
+      apply Finset.sum_congr rfl
+      intro k hk
+      apply Finset.sum_congr rfl
+      intro z₁ hz₁
+      apply Finset.sum_congr rfl
+      intro z₂ hz₂
+      exact congrArg (fun decision : Decidable (compatible K Sset g z₁ z₂) =>
+        @ite ℂ (compatible K Sset g z₁ z₂) decision
+          (F (exteriorMul K Sset g z₁) (exteriorMul K Sset g z₂) δ k) 0)
+        (Subsingleton.elim _ _)
 
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 variable (hΓ : Γ ≤ (powMonoidHom 6 :
@@ -279,7 +288,7 @@ theorem retainedSourceAt_eq_fixed_common
       · simp only [hc, and_false, if_false, mul_zero]
     · have hz := forwardColumn_zero K S D Γ C γ G g j k.1 k.2 dk
         (sIntegerMaskGenerator K Sset δ) z₂ hc₂
-      simp only [hc₂, false_and, and_false, if_false, hz, mul_zero, ite_self]
+      simp only [hc₂, false_and, and_false, if_false, hz, mul_zero, zero_mul, ite_self]
   · have hz := forwardColumn_zero K S D Γ C γ G g j k.1 k.2 dk
       (sIntegerMaskGenerator K Sset δ) z₁ hc₁
     simp only [hc₁, false_and, if_false, hz, star_zero, zero_mul, ite_self, mul_zero]

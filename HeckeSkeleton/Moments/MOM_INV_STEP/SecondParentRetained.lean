@@ -154,6 +154,7 @@ theorem weighted_pairTerm_eq (C : ColumnFamily K Sset σ Θ ψ) (γ : OuterTripl
             (CanonicalSectors.rowElement K Sset Γ D k).val) *
         normWeight K z₁.val * normWeight K z₂.val *
         (sourceProfile K S μv ν C γ hX φ h hlc hcs r δ k.1 g).value K S z₁.val z₂.val := by
+      dsimp only [sourceProfile, X, z₁, z₂, d₂]
       ring
     _ = (SecondPoissonNormalization.outerFactor K S r d₂ : ℂ) * sliceScalar K S C γ g j dk *
         (star (A z₁) * A z₂ * normWeight K z₁.val * normWeight K z₂.val) *
@@ -162,7 +163,8 @@ theorem weighted_pairTerm_eq (C : ColumnFamily K Sset σ Θ ψ) (γ : OuterTripl
       ring
     _ = _ := by
       rw [hpair]
-      simp only [sourceScalar, Complex.ofReal_div, div_eq_mul_inv]
+      simp only [sourceScalar, Complex.ofReal_div, Complex.ofReal_mul,
+        Complex.ofReal_inv, div_eq_mul_inv]
       dsimp only [B, X, g, z₁, z₂, d₂]
       ring
 
@@ -263,7 +265,7 @@ theorem retainedSource_eq_fixed_common
       · simp only [hc, and_false, if_false, mul_zero]
     · have hz := forwardColumn_zero K S D Γ C γ G g j k.1 k.2 dk
         (sIntegerMaskGenerator K Sset δ) z₂ hc₂
-      simp only [hc₂, false_and, and_false, if_false, hz, mul_zero, ite_self]
+      simp only [hc₂, false_and, and_false, if_false, hz, mul_zero, zero_mul, ite_self]
   · have hz := forwardColumn_zero K S D Γ C γ G g j k.1 k.2 dk
       (sIntegerMaskGenerator K Sset δ) z₁ hc₁
     simp only [hc₁, false_and, if_false, hz, star_zero, zero_mul, ite_self, mul_zero]
@@ -281,11 +283,13 @@ theorem sourceScalar_norm_le (C : ColumnFamily K Sset σ Θ ψ) (γ : OuterTripl
   have hmask : ‖sliceScalar K S C γ g j dk‖ ≤ 1 := by
     unfold sliceScalar SecondSourceCharacters.commonZero
     rw [norm_mul, norm_mul]
-    calc
-      _ ≤ 1 * 1 * 1 := by
-        gcongr
-        all_goals exact norm_idealCoprimeMask_le_one _ _
-      _ = 1 := by norm_num
+    have h₁ := norm_idealCoprimeMask_le_one
+      (sIntegerModulusContraction K Sset dk.val) g.val.val
+    have h₂ := norm_idealCoprimeMask_le_one j.val.val g.val.val
+    have h₃ := norm_idealCoprimeMask_le_one (childPuncture C.originalPuncture γ) g.val.val
+    simpa only [one_mul] using
+      mul_le_mul (mul_le_mul h₁ h₂ (norm_nonneg _) zero_le_one) h₃
+        (norm_nonneg _) (mul_nonneg zero_le_one zero_le_one)
   rw [sourceScalar, norm_mul, Complex.norm_real, Real.norm_of_nonneg hA]
   exact (mul_le_mul_of_nonneg_left hmask hA).trans_eq (mul_one _)
 

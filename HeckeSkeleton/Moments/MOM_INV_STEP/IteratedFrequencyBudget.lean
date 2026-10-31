@@ -32,7 +32,8 @@ theorem weighted_coordinate_integrable (L : LogPlane →L[ℝ] ℝ) (m : ℕ) :
     ((frequencyEnvelope_continuous m).mul
       ((continuous_const.add L.continuous.abs).pow m)).aestronglyMeasurable
   · exact Filter.Eventually.of_forall fun ξ =>
-      mul_nonneg (frequencyEnvelope_nonneg m ξ) (by positivity)
+      mul_nonneg (frequencyEnvelope_nonneg m ξ)
+        (pow_nonneg (add_nonneg zero_le_one (abs_nonneg (L ξ))) m)
   · exact Filter.Eventually.of_forall (weighted_coordinate_bound L m)
 
 theorem polynomial_integral_bound (L : LogPlane →L[ℝ] ℝ) (m : ℕ)

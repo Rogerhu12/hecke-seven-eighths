@@ -178,6 +178,7 @@ theorem outerScalar_norm_le (C : CanonicalBlock.ColumnData K S σ) (G : HeckeCha
       gcongr <;> assumption
     _ = _ := by ring
 
+set_option maxHeartbeats 800000 in
 theorem sourceTerm_norm_le (hallowed : AllowedGeneratorInput K Sset D)
     (G : HeckeCharacter K) (T : Data K S (σ := σ))
     (hcal : ThetaCalibrationInput K Sset D T.columns.lambda G) (i : Index K S D Γ T) :
@@ -224,7 +225,7 @@ theorem sourceTerm_norm_le (hallowed : AllowedGeneratorInput K Sset D)
       have hh := mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_right ho hs)
         (mul_nonneg (norm_nonneg
           (UniqueFactorizationMonoid.moebius (IdealMobiusMask.primeProduct i.2.2.2.1.val) : ℂ)) hP)
-      convert hh using 1 <;> ring
+      exact hh.trans_eq (mul_assoc _ _ _).symm
 
 variable (hΓ : Γ ≤ (powMonoidHom 6 :
   ((S : Set (HeightOneSpectrum (𝓞 K))).unit K) →*
@@ -240,7 +241,23 @@ theorem canonicalRetained_eq_sum (T : Data K S (σ := σ)) :
     (fun r₁ r₂ b₁ b₂ => residualScale K S T.scale r₁ r₂ b₁ b₂ false)
     (fun r₁ r₂ b₁ b₂ => residualScale K S T.scale r₁ r₂ b₁ b₂ true)]
   simp only [Index, Fintype.sum_sigma, sourceTerm, selectedAnchor, selectedDivisor,
-    selectedProfile, FirstParentRetained.sliceValue, Finset.sum_coe_sort]
+    selectedProfile, FirstParentRetained.sliceValue]
+  rw [← Finset.sum_coe_sort T.cubes]
+  apply Finset.sum_congr rfl
+  intro b₁ hb₁
+  rw [← Finset.sum_coe_sort T.cubes]
+  apply Finset.sum_congr rfl
+  intro b₂ hb₂
+  apply Finset.sum_congr rfl
+  intro κ hκ
+  rw [← Finset.sum_coe_sort
+    (FirstParentRetained.actualMask K S D T.mask
+      (anchor K S (columnPool K S T) (columnPool K S T) b₁.val b₂.val κ).1
+      (anchor K S (columnPool K S T) (columnPool K S T) b₁.val b₂.val κ).2
+      b₁.val b₂.val).powerset]
+  apply Finset.sum_congr rfl
+  intro δ hδ
+  rw [← Finset.sum_coe_sort (sectorCutoff K S D Γ T.frequencyBound)]
 
 /-- One whole-parent Cauchy inequality over the same complete positive measure. -/
 theorem canonicalRetained_norm_le (hallowed : AllowedGeneratorInput K Sset D)

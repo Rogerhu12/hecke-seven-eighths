@@ -110,7 +110,15 @@ theorem retained_eq_sum_at (T : SecondParentProduction.Data K S σ Θ ψ)
     SecondParentProduction.selectedProfile, SecondPhysicalEnergy.source,
     SecondPhysicalEnergy.sourcePool, SecondPhysicalEnergy.sourceCoefficient,
     forwardColumn, poweredFamily, SecondSourceAssembly.slicedColumn,
-    SecondParentProduction.test, SecondParentProduction.scale, Finset.sum_coe_sort]
+    SecondParentProduction.test, SecondParentProduction.scale, neg_div]
+  rw [← Finset.sum_coe_sort
+    (squarefreePool K Sset (2 * T.columns.base ^ T.columns.columnLength T.triple))]
+  apply Finset.sum_congr rfl
+  intro g hg
+  rw [← Finset.sum_coe_sort (SecondSourceMasks.commonMask K S D g.val).powerset]
+  apply Finset.sum_congr rfl
+  intro δ hδ
+  rw [← Finset.sum_coe_sort (FirstDualTruncation.sectorCutoff K S D Γ (H g.val δ.val))]; rfl
 
 include ν hΓ hallowed in
 /-- Every true fine frequency and original sector occurs once in the

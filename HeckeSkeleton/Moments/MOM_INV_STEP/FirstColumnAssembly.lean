@@ -183,7 +183,8 @@ theorem bareCoefficient_eq (C : CanonicalBlock.ColumnData K S σ) (G : HeckeChar
   unfold fixedSectorCoefficient fixedMultiplierCoefficient fixedInverseCoefficient
     retainedLabel firstRow CanonicalIdealRow.generator
   simp only [map_mul, Complex.star_def, ite_eq_classical]
-  ring
+  set_option pp.explicit true in
+    ring1!
 
 include hallowed in
 /-- Priority deletion and the overlap coprimality restriction are
@@ -248,10 +249,11 @@ theorem source_sum_complete (C : CanonicalBlock.ColumnData K S σ)
     _ = ∑ u ∈ residualPool K S X r₁ r₂ b₁ b₂ side,
         if e.val.val ∣ u.val.val then
           movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ u.val * P u.val else 0 := by
-      simpa only [FirstSourceReindexing.nonzeroProduct, ite_eq_classical] using
-        (sum_sideDomain K S D X r₁ r₂ b₁ b₂ side
-          (fun n : (Ideal (𝓞 K))⁰ => if e.val.val ∣ n.val then
-            movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ n * P n else 0))
+      set_option pp.explicit true in
+        simpa only [FirstSourceReindexing.nonzeroProduct, ite_eq_classical] using!
+          (sum_sideDomain K S D X r₁ r₂ b₁ b₂ side
+            (fun n : (Ideal (𝓞 K))⁰ => if e.val.val ∣ n.val then
+              movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ n * P n else 0))
     _ = _ := by
       unfold residualPool
       simp only [Finset.sum_filter]

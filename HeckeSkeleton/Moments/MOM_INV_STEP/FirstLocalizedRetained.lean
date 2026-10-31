@@ -121,8 +121,30 @@ theorem retained_eq_sum (T : FirstParentEnergy.Data K S (σ := σ)) (f : Ext)
     (fun r₁ r₂ b₁ b₂ => residualScale K S T.scale r₁ r₂ b₁ b₂ false)
     (fun r₁ r₂ b₁ b₂ => residualScale K S T.scale r₁ r₂ b₁ b₂ true)]
   simp only [OuterIndex, Fintype.sum_sigma, FirstAdaptiveTruncation.sliceValue,
-    term, sourceCutoff, outerAnchor, divisor, FirstLocalizedEnergy.profile,
-    Finset.sum_coe_sort]
+    term, sourceCutoff, outerAnchor, divisor, FirstLocalizedEnergy.profile]
+  rw [← Finset.sum_coe_sort T.cubes]
+  apply Finset.sum_congr rfl
+  intro b₁ hb₁
+  rw [← Finset.sum_coe_sort T.cubes]
+  apply Finset.sum_congr rfl
+  intro b₂ hb₂
+  apply Finset.sum_congr rfl
+  intro κ hκ
+  rw [← Finset.sum_coe_sort
+    (FirstParentRetained.actualMask K S D T.mask
+      (anchor K S (FirstParentEnergy.columnPool K S T) (FirstParentEnergy.columnPool K S T)
+        b₁.val b₂.val κ).1
+      (anchor K S (FirstParentEnergy.columnPool K S T) (FirstParentEnergy.columnPool K S T)
+        b₁.val b₂.val κ).2 b₁.val b₂.val).powerset]
+  apply Finset.sum_congr rfl
+  intro δ hδ
+  rw [← Finset.sum_coe_sort
+    (FirstDualTruncation.sectorCutoff K S D Γ
+      (fineCutoff K S D T.radius T.scale Z tau
+        (anchor K S (FirstParentEnergy.columnPool K S T) (FirstParentEnergy.columnPool K S T)
+          b₁.val b₂.val κ).1
+        (anchor K S (FirstParentEnergy.columnPool K S T) (FirstParentEnergy.columnPool K S T)
+          b₁.val b₂.val κ).2 b₁.val b₂.val δ.val))] <;> rfl
 
 /-- Common Cauchy is applied once to the complete original weighted
 parent, with precisely the raw positive energies consumed by the first
