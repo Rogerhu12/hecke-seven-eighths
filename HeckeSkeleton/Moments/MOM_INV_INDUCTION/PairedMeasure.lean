@@ -92,7 +92,7 @@ theorem pairedWeight_mass_eq (triples : Finset ι) (weight : ι → ℝ)
     (∑ q ∈ pairedChildren triples, pairedWeight weight D q) =
       (∑ γ ∈ triples, weight γ) / D := by
   have h := paired_weighted_sum_eq triples weight (fun _ => 1) (fun _ => 1) D
-  simp only [pairedValue, ite_self, mul_one, one_add_one] at h
+  simp only [pairedValue, ite_self, mul_one] at h
   rw [h, ← Finset.sum_mul]
   field_simp [hD.ne'] <;> ring
 
