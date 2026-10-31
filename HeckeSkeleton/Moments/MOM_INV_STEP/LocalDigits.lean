@@ -25,8 +25,10 @@ theorem three_mul_parity_cast (m : ℕ) :
   rw [bit_parity]
   have h := congrArg (fun n : ℕ => (n : ZMod 6)) (Nat.mod_add_div m 2)
   simp only [Nat.cast_add, Nat.cast_mul, Nat.cast_ofNat] at h
+  have h6 : (6 : ZMod 6) = 0 := by decide
   calc
-    _ = 3 * (m % 2 : ℕ) + (6 : ZMod 6) * (m / 2 : ℕ) := by norm_num
+    _ = 3 * (m % 2 : ℕ) + (6 : ZMod 6) * (m / 2 : ℕ) := by
+      simp only [h6, zero_mul, add_zero]
     _ = 3 * (m : ZMod 6) := by rw [← h]; ring
 
 theorem conductorExponent_eq_valuation_digit (ε₁ ε₂ : Bool) (v₁ v₂ : ℕ) :
@@ -39,7 +41,8 @@ theorem pair_digit (ε₁ ε₂ : Bool) (v₁ v₂ : ℕ) :
       (conductorExponent (parity (v₁ + v₂)) ε₁ ε₂).val := by
   have hm := Nat.mod_lt (v₁ + v₂) (by decide : 0 < 2)
   cases ε₁ <;> cases ε₂ <;> by_cases h : (v₁ + v₂) % 2 = 1 <;>
-    norm_num [conductorExponent, bit, parity, h] <;> omega
+    norm_num [conductorExponent, bit, parity, h, ZMod.val_ofNat,
+      ZMod.val_one_eq_one_mod] <;> omega
 
 variable {F : Type*} [Field F] [Fintype F]
 
@@ -67,9 +70,9 @@ theorem local_source_reduction_of_supported (χ : MulChar F ℂ) (h6 : χ ^ 6 = 
   by_cases hx : x = 0
   · by_cases hv₁ : 0 < bit ε₁ + 3 * v₁
     · have he : bit ε₁ + 3 * v₁ ≠ 0 := by omega
-      simp [hx, MulChar.map_zero, he]
+      simp only [hx, MulChar.map_zero, zero_pow he, zero_mul]
     · have he : bit ε₂ + 3 * v₂ ≠ 0 := by omega
-      simp [hx, MulChar.map_zero, he]
+      simp only [hx, MulChar.map_zero, zero_pow he, star_zero, mul_zero]
   · have hpow (n : ℕ) : (χ ^ n) x = χ x ^ n := by
       simpa using MulChar.pow_apply_coe χ n (Units.mk0 x hx)
     have h := character_pair_reduction χ h6 (bit ε₁ + 3 * v₁) (bit ε₂ + 3 * v₂) x

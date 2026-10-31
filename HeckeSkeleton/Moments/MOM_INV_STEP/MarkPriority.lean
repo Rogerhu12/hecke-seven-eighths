@@ -147,6 +147,7 @@ theorem primeMark_priority_two_columns (I : Finset σ) (L : σ → Finset M)
         star (divisorMark J₂ L a D₂ * divisorMark (I \ J₂) (residualDivisorLists D₂ L) a n₂) := by
   rw [mark_priority I L a D₁ n₁ hL, mark_priority I L a D₂ n₂ hL]
   simp only [star_sum, Finset.sum_mul, Finset.mul_sum]
+  exact Finset.sum_comm
 
 /-- Ordered priority for the actual integral ideals and literal mark
 coefficients appearing in the canonical source. -/

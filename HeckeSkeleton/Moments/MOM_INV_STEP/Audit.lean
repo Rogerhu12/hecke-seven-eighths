@@ -6,6 +6,12 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.LocalGauss
 import HeckeSkeleton.Moments.MOM_INV_STEP.CubeLabels
 import HeckeSkeleton.Moments.MOM_INV_STEP.SupportPartition
 import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
+import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalConductor
+import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier
+import HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernelBounds
+import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientCycle
+import HeckeSkeleton.Moments.MOM_INV_STEP.SourceLengths
+import HeckeSkeleton.Moments.MOM_INV_STEP.Interface
 
 /-! Recursive kernel-axiom audit for the canonical inverse single-step work. -/
 
@@ -34,3 +40,22 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalPoissonSource.inverseSquaredRowOrbitalSeries_poisson
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource.squaredRowOrbitalSeries_primitive_poisson
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource.inverseSquaredRowOrbitalSeries_primitive_poisson
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalConductor.primitiveIdeal_eq_u₁_mul_u₂_mul_R1
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalConductor.primitiveModulus_norm_eq_named_conductor
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ProductGauss.finite_fourier
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier.divisor_fourier
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier.normalizedPrimitiveGauss_norm
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier.divisor_fourier_zero_of_active
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel.schwartz_separated
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel.finite_bilinear_separated
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel.orbitalProfile_separated
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel.exists_orbitalDensity_common_envelope
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientCycle.first_cycle_background
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientCycle.second_cycle_background
+#print axioms HeckeSkeleton.Moments.MOMInvStep.SourceLengths.cube_quotient_sharp_bound
+#print axioms HeckeSkeleton.Moments.MOMInvStep.SourceLengths.puncture_length_from_source
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FixedTripleEnergy.source_energy_projection
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FixedTripleEnergy.second_source_cauchy
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FixedTripleEnergy.common_mass_after_cauchy
+#print axioms HeckeSkeleton.Moments.MOMInvStep.fixed_triple_energy_step
+#print axioms HeckeSkeleton.Moments.MOMInvStep.canonical_child_geometry

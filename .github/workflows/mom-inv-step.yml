@@ -1,8 +1,6 @@
 name: Canonical inverse single step
 
 on:
-  push:
-    branches: [cloud/mom-inv-step]
   pull_request:
     branches: [dtests-handoff]
     paths:
@@ -15,7 +13,7 @@ permissions:
 
 concurrency:
   group: mom-inv-step-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   verify:
@@ -28,6 +26,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Install the pinned Lean and Mathlib environment
         uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
         with:
@@ -57,7 +56,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mom-inv-step-verification-${{ github.sha }}
+          name: mom-inv-step-verification-${{ github.event.pull_request.head.sha || github.sha }}
           path: ${{ runner.temp }}/mom-inv-step-verification/
           if-no-files-found: error
           retention-days: 14
