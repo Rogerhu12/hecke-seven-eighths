@@ -1,6 +1,8 @@
 name: Paired moment induction
 
 on:
+  push:
+    branches: [cloud/mom-engine-induction]
   pull_request:
     branches: [dtests-handoff]
     paths:
@@ -15,7 +17,7 @@ on:
 permissions:
   contents: read
 
-# PR and manual checks for the same exact source head share a concurrency
+# PR, branch-push and manual checks for the same exact source head share a concurrency
 # group. Different heads finish independently; only the final head's own
 # build and axiom evidence establish its verification result.
 concurrency:

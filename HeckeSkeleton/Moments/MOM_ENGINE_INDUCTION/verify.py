@@ -51,7 +51,6 @@ SOURCE_COMMIT = 'acc0c254a8e9aef3d7e4b04c03782b28d81a8de8'
 SOURCE_SOURCES = {'ExpansionInterfaces/DyadicCount.lean': 'a52681bd30d1e18c7c20b32165ddf11136870f357a21f267502caffb13f95331',
  'ExpansionInterfaces/DyadicShells.lean': 'a8330e7066ff7a3b3c53f9b4e8b6d6af137041a29cb6b0dab5d1bd31b3123610',
  'ExpansionInterfaces/ParameterChoices.lean': '371926930bf1e35af484c711c2e2d0668f4dd978f466ca34009c8c425fc86d61',
- 'HeckeSkeleton/Base.lean': 'fa480e94cbdc76a93ea1da49df13078ee07e28fd4a43f1ed5e5316668ab93266',
  'HeckeSkeleton/ExpansionModels/Core.lean': '537b4afd82871e007cb438518e663e9a45c064c3cefecaa81a7ce557eda0f6f4',
  'HeckeSkeleton/ExpansionModels/DyadicMomentEnvelope.lean': '63bd533c5a5b4bd2be880ceeb22ef5880f0753e01a2139dfd051bf98f899fcea',
  'HeckeSkeleton/ExpansionModels/RecipeSchedule.lean': '48b1838bd6aa0a1c7229424653ca47c8ca8ebba1abe850592c968964e41a3b48',
@@ -62,11 +61,15 @@ SOURCE_SOURCES = {'ExpansionInterfaces/DyadicCount.lean': 'a52681bd30d1e18c7c20b
  'HeckeSkeleton/ExpansionModels/WitnessHeightNormalization.lean': '31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520',
  'HeckeSkeleton/Moments.lean': 'ad32874b4e7f6da6d8ae670ccc5c588d26ca796041c4906a5ce0adad6db435ba',
  'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/ProfileControl.lean': '328a45dd8b9bea367aea65f9fd837482d3342c515550d3d1307c60bfe28c8ad1',
- 'HeckeSkeleton/SourceData.lean': 'f8956f17c60594f51eb17349d0d94f55a9c412a54d764d1f5588d51f670f9345',
- 'lakefile.toml': 'e3cec2fe7dd91f5d84903ece25f7dbc37c9f82dfe728a95c376e9bbec4ca3cac'}
+ 'HeckeSkeleton/SourceData.lean': 'f8956f17c60594f51eb17349d0d94f55a9c412a54d764d1f5588d51f670f9345'}
 REINDEX_COMMIT = '778b4220d3d4bc8538549bf74998a78e570d01d9'
 REINDEX_SOURCES = {'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/FiniteSectorCore.lean': 'aec890cdfe84c6a6bb97fa3d48ac88117ced794a5ead2b5aded1b469d1d636eb', 'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/FiniteSectorReindex.lean': 'c9cc4fb6c7156db541c69b1e50dd709cd198d9ab791572ffcb72e4857178de9b'}
-CANONICAL_SOURCES = PRODUCER_SOURCES | SOURCE_SOURCES | REINDEX_SOURCES
+# These two files preserve both the canonical source and the already merged
+# ThetaGlobal aligned choice / library configuration. They are deliberately
+# audited separately from byte-for-byte canonical imports.
+INTEGRATED_SOURCE_PARENTS = (SOURCE_COMMIT, "e66f7384bc08d1124d1a9a4e7dcc21e4facffab0")
+INTEGRATED_SOURCES = {'HeckeSkeleton/Base.lean': '16cd8ba7fec2cc47da61f2d7310a49fe87acf53992885ac2377d4eaeb146586c', 'lakefile.toml': '2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0'}
+CANONICAL_SOURCES = PRODUCER_SOURCES | SOURCE_SOURCES | REINDEX_SOURCES | INTEGRATED_SOURCES
 SOURCE_MODULES = ("SkeletonFamily", "SkeletonSource")
 EXCLUDED = {name + ".lean" for name in SOURCE_MODULES}
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}
@@ -381,6 +384,8 @@ def preflight(expected: str, output: Path) -> None:
                   producer_interface_commit=PRODUCER_COMMIT,
                   producer_interface_sha256=PRODUCER_SOURCES,
                   canonical_source_commit=SOURCE_COMMIT, canonical_source_sha256=SOURCE_SOURCES,
+                  integrated_source_parents=INTEGRATED_SOURCE_PARENTS,
+                  integrated_source_sha256=INTEGRATED_SOURCES,
                   finite_reindex_commit=REINDEX_COMMIT, finite_reindex_sha256=REINDEX_SOURCES,
                   excluded_integration_modules=sorted(EXCLUDED),
                   runner_resources=runner_resources())

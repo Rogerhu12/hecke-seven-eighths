@@ -1,0 +1,110 @@
+{
+  "lean": "4.35.0-rc3",
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+  "expected_lean_commit": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+  "version_fields_kind": "required versions; actual observations recorded only when --check runs",
+  "verification_kind": "transformed combined source-body QA; not native project import verification",
+  "transformations": [
+    "consolidate imports and module headers",
+    "replace applicable original umbrella Mathlib imports only in this QA header using the recorded ten-module curated map; see per-module records and total count",
+    "add one modern module header and a global @[expose] public section for the consolidated declaration environment",
+    "add public header imports Mathlib.Algebra.BigOperators.Ring.Nat for the original cardinality lemma and Lean.Util.CollectAxioms for the strict axiom audit",
+    "supply recorded additional Lie.OfAssociative imports for definitions previously re-exported by the original umbrellas",
+    "normalize source line endings to LF in the generated bundle",
+    "isolate every source file in its own section",
+    "close explicitly the original scopes left open at EOF",
+    "preserve legacy visibility with scoped backward.privateInPublic",
+    "import all AdicValuation when needed to retain private definition bodies used by an original legacy proof",
+    "preserve legacy proof elaboration with scoped backward.proofsInPublic",
+    "mark the legacy p2mOpenCore command elaborator helper meta in the modern bundle",
+    "export the unchanged private rightActions_smul_eq_one_tmul_mul lemma for a legacy public definition proof",
+    "qualify bare fourier and fourier_zero in ProductResidueFourier and ResidueGaussSums to the actual PeriodicFourier declarations to resolve consolidated-import ambiguity"
+  ],
+  "foundation_module": "ThetaGlobal.ActualReflectedVerification",
+  "external_public_imports": [
+    "Lean.Util.CollectAxioms",
+    "Mathlib.Algebra.BigOperators.Ring.Nat",
+    "ThetaGlobal.ActualReflectedVerification"
+  ],
+  "curated_import_replacement_count": 0,
+  "audit_targets": [
+    "ThetaGlobal.GlobalActualFrequency.localClass_representative",
+    "ThetaGlobal.GlobalActualFrequency.norm_representative",
+    "ThetaGlobal.GlobalActualFrequency.scaled_norm_representative"
+  ],
+  "allowed_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "curated_imports_snapshot_sha256": "2c8470016b5dd10c404d94812657011e8c24ed208c5a4882baa37e7ba4022c4e",
+  "private_body_imports": [],
+  "bundle_sha256": "2db0f5ae399a28897f4266f2b52e4bebf94d6869187c9e935957b32e7b71d4b3",
+  "modules": [
+    {
+      "module": "ThetaGlobal.GlobalActualFrequency",
+      "path": "ThetaGlobal/GlobalActualFrequency.lean",
+      "sha256": "5426ac58080e43632a02577853b863951107db376531e04f4ed6c14b672c3c1e",
+      "normalized_source_sha256": "5426ac58080e43632a02577853b863951107db376531e04f4ed6c14b672c3c1e",
+      "line_endings_normalized": false,
+      "curated_umbrella_import_overridden": false,
+      "curated_umbrella_import_override_count": 0,
+      "curated_umbrella_import_replacements": [],
+      "harness_additional_imports": [],
+      "transformed_body_sha256": "141c15d0855b52e48cef0a7d6b3546f66fc32146b570f41acfff377f8c04961c",
+      "explicit_eof_scope_names": [
+        ""
+      ],
+      "explicit_eof_closures": 1,
+      "legacy_private_visibility_compatibility": true,
+      "legacy_public_proof_elaboration_compatibility": true,
+      "qualify_periodic_fourier_for_consolidated_imports": false,
+      "qualified_identifiers": [],
+      "qualified_identifier_occurrences": {},
+      "qualified_identifier_namespace": null,
+      "mark_legacy_command_helper_meta": false,
+      "export_legacy_private_lemma_for_public_proof": false
+    }
+  ],
+  "exit_code": 0,
+  "source_unchanged": true,
+  "bundle_unchanged": true,
+  "all_original_and_foundation_source_hashes_verified_after_build": true,
+  "audit_complete": true,
+  "audit_markers": [
+    "THETA_GLOBAL_PROJECT_QA_AXIOMS|ThetaGlobal.GlobalActualFrequency.localClass_representative|propext,Classical.choice,Quot.sound",
+    "THETA_GLOBAL_PROJECT_QA_AXIOMS|ThetaGlobal.GlobalActualFrequency.norm_representative|propext,Classical.choice,Quot.sound",
+    "THETA_GLOBAL_PROJECT_QA_AXIOMS|ThetaGlobal.GlobalActualFrequency.scaled_norm_representative|propext,Classical.choice,Quot.sound"
+  ],
+  "reported_sorryAx": false,
+  "build_log": "verification/theta_global/ActualFrequencyVerification.build.log",
+  "build_log_sha256": "4acddc9dcc7cf5ee2104851f7e087c36fa3bf905427553fc1e1434ca57839c5f",
+  "utc": "2026-10-30T21:28:47.049423+00:00",
+  "elapsed_seconds": 60.409,
+  "actual_command": [
+    "/workspace/scratch/692d5e1ba19b/low_hybrid_work/verification435/lean-4.35.0-rc3-linux/bin/lean",
+    "-j2",
+    "-R",
+    "/workspace/scratch/db66a2660cb2/repo",
+    "-o",
+    "/workspace/scratch/db66a2660cb2/repo/verification/theta_global/ActualFrequencyVerification.olean",
+    "/workspace/scratch/db66a2660cb2/repo/verification/theta_global/ActualFrequencyVerification.lean"
+  ],
+  "observed_versions": {
+    "lean_version": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "repository_lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
+    "repository_mathlib_pin": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "mathlib_source_layout": "Pinned source snapshot and artifact union; local snapshot has no .git directory."
+  },
+  "foundation_bundle_sha256": "ca7bc30fa84a775939c7974b4f5361e8993522698bfa9fd118d4e73b5bf943a3",
+  "foundation_manifest_sha256": "b53df0b848b9ea1e6f437b64fd39a1dc2f1bc55a60bf7fcc3e750225c6a6c30c",
+  "foundation_artifact_sha256": {
+    "ThetaGlobal/ActualReflectedVerification.olean": "573153c6e29e11b678f33c45bc1193caba07792de5ef6dbd02ad196d4baba670",
+    "ThetaGlobal/ActualReflectedVerification.olean.private": "cc079c91a69c175333bf5493fa6da43ff4c2773351301d69fe7b05fc2ba61c27",
+    "ThetaGlobal/ActualReflectedVerification.olean.server": "c750abc9cff22a0f8b0124ff6ca62a43df49b1a8272daaefe0e164dbc6f497e0"
+  },
+  "builder_sha256": "a1320ef09c0b4057e594d0d3154baf29574968dde62c32a55bdb1e2499004d99",
+  "order_sha256": "9dce03022fae86e49f6b7d24b8aab49fda221086d6feeb11ed243d067644c852",
+  "reproduce_command": "python scripts/build_theta_global_project_bundle.py --order verification/theta_global/actual_frequency_order.txt --foundation-order verification/theta_global/actual_reflected_order.txt --foundation-module ThetaGlobal.ActualReflectedVerification --name ActualFrequencyVerification --manifest verification/theta_global/actual_frequency_manifest.json --audit ThetaGlobal.GlobalActualFrequency.localClass_representative --audit ThetaGlobal.GlobalActualFrequency.norm_representative --audit ThetaGlobal.GlobalActualFrequency.scaled_norm_representative --check",
+  "reproduction_notes": "First execute the foundation reproduction command in actual_reflected_manifest.json. The portable builder writes artifacts under .lake/build/lib/lean, automatically present in Lake workspace LEAN_PATH; no custom path is needed. The local actual command used the equivalent repository-root artifact/search path. The retained deprecated_module command in an original Mathlib body causes a nonfatal deprecation warning on importing the combined foundation."
+}

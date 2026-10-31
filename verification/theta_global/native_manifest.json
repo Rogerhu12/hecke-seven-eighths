@@ -1,0 +1,28 @@
+{
+  "lean": "4.35.0-rc3",
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+  "modules": [
+    {
+      "module": "ThetaGlobal.GammaReciprocalGrowth",
+      "source": "ThetaGlobal/GammaReciprocalGrowth.lean",
+      "sha256": "2dcaa41abcae69d2675085ed9e32c797247d99bcdcbff6d0f4bee6401e37a2e6",
+      "exit_code": 0,
+      "source_unchanged": true,
+      "reported_sorryAx": false,
+      "kind": "native module import verification",
+      "log": "verification/theta_global/GammaReciprocalGrowth.native.log",
+      "reproduce": "lake env lean ThetaGlobal/GammaReciprocalGrowth.lean"
+    },
+    {
+      "module": "ThetaGlobal.GlobalDiagonalNorm",
+      "source": "ThetaGlobal/GlobalDiagonalNorm.lean",
+      "sha256": "27f5688c4809a08d9ff4e178747bd186f86fea99bfe3506857574e5cc85c4a5e",
+      "exit_code": 0,
+      "source_unchanged": true,
+      "reported_sorryAx": false,
+      "kind": "native module import verification",
+      "log": "verification/theta_global/GlobalDiagonalNorm.native.log",
+      "reproduce": "lake env lean ThetaGlobal/GlobalDiagonalNorm.lean"
+    }
+  ]
+}

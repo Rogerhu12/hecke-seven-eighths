@@ -1,0 +1,89 @@
+{
+  "verification_kind": "Failed native-import resource diagnostic; not a successful proof check",
+  "compile_result": {
+    "target": "ThetaGlobal.GlobalProjectEmbedding",
+    "source": "/workspace/scratch/33bdfea70edd/repo/ThetaGlobal/GlobalProjectEmbedding.lean",
+    "compiler": "Lean 4.35.0-rc3, 470d5ce1400764999581fd26d5d72b00d990b0f4",
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "dependency_modules": 13951,
+    "source_project_provenance_checks": 2637,
+    "mathlib_repair_provenance": "mathlib-repair-crosscheck.json",
+    "proof_audit_note": "Exact unchanged original source compile; no additional #print axioms commands appended.",
+    "source_sha256_before": "aa62531e1d505e6889df5230264505011c025205e8169d4e92c119068b5ccd48",
+    "command": [
+      "/workspace/scratch/33bdfea70edd/runtime/bin/lean",
+      "-j1",
+      "-M2048",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false",
+      "-R",
+      "/workspace/scratch/33bdfea70edd/repo",
+      "-o",
+      "/workspace/scratch/33bdfea70edd/finite-shell-native-check/out/ThetaGlobal/GlobalProjectEmbedding.olean",
+      "/workspace/scratch/33bdfea70edd/repo/ThetaGlobal/GlobalProjectEmbedding.lean"
+    ],
+    "LEAN_PATH": "/workspace/scratch/33bdfea70edd/finite-shell-native-check/package-overlay",
+    "dependency_verification_reused_from": "global-project-embedding-native-retry1-inputs.json",
+    "package_overlay_manifest": "/workspace/scratch/33bdfea70edd/finite-shell-native-check/package-overlay-manifest.json",
+    "package_overlay_manifest_sha256": "67d97fee5ffd82d3c172fbc8543f8e9e53cffc8b7e72043c291cbda0c2f7b70a",
+    "started_utc": "2026-10-31T03:36:18.124198+00:00",
+    "vm_max_map_count": 65530,
+    "sampling_interval_seconds": 1,
+    "maps_samples_file": "/workspace/scratch/33bdfea70edd/finite-shell-native-check/global-project-embedding-native-retry2-maps.jsonl",
+    "maps_samples": 97,
+    "peak_map_count": 65531,
+    "peak_vm_rss_kb": 592804,
+    "pid": 369578,
+    "last_sample": {
+      "elapsed_seconds": 96.105,
+      "utc": "2026-10-31T03:37:54.230222+00:00",
+      "map_count": 0,
+      "VmRSS_kb": 0,
+      "VmSize_kb": 0,
+      "VmData_kb": 0,
+      "VmSwap_kb": 0,
+      "RssAnon_kb": 0,
+      "RssFile_kb": 0
+    },
+    "exit_code": 1,
+    "seconds": 97.106,
+    "finished_utc": "2026-10-31T03:37:55.230677+00:00",
+    "source_sha256_after": "aa62531e1d505e6889df5230264505011c025205e8169d4e92c119068b5ccd48",
+    "source_unchanged": true,
+    "log_sha256": "fadf142e243c2585b50e7da8c217b0ec4aa1b52fd484ac3837ecd211d5f9eb13",
+    "maps_samples_sha256": "c25b9f488efe222ac9e72956a42b5ef7dc6a750655e700594093be88b6e98b4b"
+  },
+  "failed_dependency": "DedekindZetaZeroFree.Arithmetic.LocalFields.HilbertSymbolCompletionNaturality",
+  "failed_dependency_artifact_checks": [
+    {
+      "suffix": ".ir",
+      "sha256": "94560aa90a8947f3c39d0c83a6f8f99e79b7408ba7f191c1f2cfce6252277f00",
+      "size_bytes": 1440,
+      "matches_prior_native_catalog": true
+    },
+    {
+      "suffix": ".olean",
+      "sha256": "d8385a37f583fe9a2afeeeeb1b2c3bf5ab8e90794cf9a17f77e2575beaecf1cc",
+      "size_bytes": 37176,
+      "matches_prior_native_catalog": true
+    },
+    {
+      "suffix": ".olean.private",
+      "sha256": "0021b714cfeaf5f1bb12bd7ea1297330e59265d3e656210aff2957cc3b1c5526",
+      "size_bytes": 765776,
+      "matches_prior_native_catalog": true
+    },
+    {
+      "suffix": ".olean.server",
+      "sha256": "41a7cf17616dd35196b1d3c97a0e7bccf2c205517d003111dd0fb2c53eae37ed",
+      "size_bytes": 5280,
+      "matches_prior_native_catalog": true
+    }
+  ],
+  "diagnostic_files_sha256": {
+    "native_import_map_limit_20261031.log": "fadf142e243c2585b50e7da8c217b0ec4aa1b52fd484ac3837ecd211d5f9eb13",
+    "native_import_map_limit_20261031.jsonl": "c25b9f488efe222ac9e72956a42b5ef7dc6a750655e700594093be88b6e98b4b"
+  },
+  "runtime_loader_source": "https://github.com/leanprover/lean4/blob/470d5ce1400764999581fd26d5d72b00d990b0f4/src/library/module.cpp",
+  "scope_note": "The unchanged module failed during import loading. Sampling reached the host mapping limit. The failed artifact parts match the prior native catalog. No target output or theorem-elaboration success is claimed. The subsequent allocator retry, if any, has a separate result."
+}

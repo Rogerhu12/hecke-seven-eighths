@@ -526,3 +526,22 @@ with finite original Euler seminorm control. These are explicit analytic
 proofs awaiting their own native verification; finite Euler masks, uniform
 row-type calibration and the recursive positive-kernel assembly remain
 separate steps.
+
+
+## Target-branch integration
+
+The merge with `dtests-handoff` at
+`e66f7384bc08d1124d1a9a4e7dcc21e4facffab0` preserves its already proved
+ThetaGlobal aligned embedding and arithmetic choice, together with the
+canonical source recipe definitions from `acc0c254`. The sole Base import
+conflict is resolved by retaining both import sets. The merged Lake file
+registers both ThetaGlobal and the three Expansion libraries, with unchanged
+Lean and Mathlib pins. These two integrated files have their own source
+hashes and both parent commits in `verify.py`; the remaining fourteen source
+imports remain byte-for-byte canonical files.
+
+The workflow also runs on pushes to this task branch, so an unrelated PR
+merge conflict cannot silently suppress exact-head proof verification.
+PR, push and manual runs of the same head share one concurrency group; each
+actual checkout and audit still uses the full source SHA. This does not
+replace resolving merge conflicts before review.

@@ -4,6 +4,7 @@ import HeckeSkeleton.ActualProbeIntegralComplete
 import HeckeSkeleton.ActualPrincipalWindowError
 import HeckeSkeleton.PrimeNormalizer
 import HeckeSkeleton.LowCauchy
+import HeckeSkeleton.GeneratorMask
 
 set_option autoImplicit false
 set_option quotPrecheck false
@@ -184,7 +185,8 @@ theorem low_of_gram_and_completedEnergy
       normalizedProbe K S μ P ψ g T =O[atTop] (fun Z : ℝ => Z ^ (3 / 16 + ε)) :=
   LowCauchy.low_of_gram_and_completedEnergy K c hgram henergy hnorm
 
-theorem principalSource : (probeMeasures K c).principalInput P ψ g T := by
+theorem principalSource :
+    (probeMeasures K c).principalInput P ψ g T := by
   change TPrincipalInput K S μ P ψ g T
   exact {
     arithmetic_calibration := arithmeticCalibration K c
@@ -200,7 +202,8 @@ theorem principalSource : (probeMeasures K c).principalInput P ψ g T := by
     normalizer_smallPower := principal_normalizer_smallPower K c
     principal_window_error := principal_principal_window_error K c
     low := low_of_gram_and_completedEnergy K c
-      (Gram.gramBound_of_calibrated K S P (allowedGenerators K c) (arithmeticCalibration K c))
+      (Gram.gramBound_of_calibrated K S P (generatorMaskWitness K c) rfl HEq.rfl
+        (allowedGenerators K c) (arithmeticCalibration K c))
       (completedMarkedEnergy K c (markedReflection K c))
       (principal_normalizer_smallPower K c)
   }

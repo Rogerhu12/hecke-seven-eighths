@@ -1,0 +1,405 @@
+UTC: 2026-10-30T21:21:55.692663+00:00
+LEAN: 4.35.0-rc3 (470d5ce1400764999581fd26d5d72b00d990b0f4)
+MATHLIB: 0493595ecd5da8ef14742febab99728f98e948e8
+SOURCE SHA256: 7a0fc3da65508c3aa6ce7beb897234058dfaaeddedae6813ebc369cefee92e90
+SOURCE UNCHANGED: True
+COMMAND: ['/workspace/scratch/692d5e1ba19b/low_hybrid_work/verification435/lean-4.35.0-rc3-linux/bin/lean', '-j2', '-R', '/workspace/scratch/db66a2660cb2/repo', '-o', '/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.olean', '/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean']
+
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:13:0: warning: Use RingTheory.RamificationInertia.Basic
+'ThetaGlobal.ActualReflectedVerification' has been deprecated: please replace this import by
+
+import Lean
+import Lean.Elab.Tactic.Omega
+import Lean.Util.CollectAxioms
+import Mathlib.Algebra.Algebra.Prod
+import Mathlib.Algebra.Algebra.Subalgebra.Lattice
+import Mathlib.Algebra.BigOperators.Finprod
+import Mathlib.Algebra.BigOperators.Group.Finset.Piecewise
+import Mathlib.Algebra.BigOperators.Group.Finset.Powerset
+import Mathlib.Algebra.BigOperators.GroupWithZero.Finset
+import Mathlib.Algebra.BigOperators.Pi
+import Mathlib.Algebra.BigOperators.Ring.Finset
+import Mathlib.Algebra.BigOperators.Ring.Nat
+import Mathlib.Algebra.EuclideanDomain.Int
+import Mathlib.Algebra.Group.AddChar
+import Mathlib.Algebra.Group.Equiv.TypeTags
+import Mathlib.Algebra.Group.Int.TypeTags
+import Mathlib.Algebra.Group.Pi.Units
+import Mathlib.Algebra.Group.Subgroup.Finite
+import Mathlib.Algebra.Group.Units.Equiv
+import Mathlib.Algebra.Group.Units.Hom
+import Mathlib.Algebra.Module.Equiv.Basic
+import Mathlib.Algebra.Module.Rat
+import Mathlib.Algebra.Module.Submodule.Equiv
+import Mathlib.Algebra.Module.ZLattice.Covolume
+import Mathlib.Algebra.Module.ZLattice.Summable
+import Mathlib.Algebra.Order.BigOperators.Group.Finset
+import Mathlib.Algebra.Order.BigOperators.Ring.Finset
+import Mathlib.Algebra.Order.GroupWithZero.Canonical
+import Mathlib.Algebra.Ring.GeomSum
+import Mathlib.Algebra.Ring.NonZeroDivisors
+import Mathlib.Algebra.Squarefree.Basic
+import Mathlib.Analysis.Calculus.MeanValue
+import Mathlib.Analysis.Complex.Basic
+import Mathlib.Analysis.Complex.CauchyIntegral
+import Mathlib.Analysis.Complex.Circle
+import Mathlib.Analysis.Complex.LocallyUniformLimit
+import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+import Mathlib.Analysis.Fourier.AddCircleMulti
+import Mathlib.Analysis.Fourier.FourierTransform
+import Mathlib.Analysis.InnerProductSpace.NormDet
+import Mathlib.Analysis.MellinTransform
+import Mathlib.Analysis.Meromorphic.Order
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+import Mathlib.Analysis.Normed.Group.Ultra
+import Mathlib.Analysis.Normed.Operator.BoundedLinearMaps
+import Mathlib.Analysis.Normed.Operator.Mul
+import Mathlib.Analysis.Normed.Ring.InfiniteSum
+import Mathlib.Analysis.Normed.Ring.Lemmas
+import Mathlib.Analysis.Normed.Ring.Ultra
+import Mathlib.Analysis.RCLike.Inner
+import Mathlib.Analysis.Real.Sqrt
+import Mathlib.Analysis.SpecialFunctions.Complex.Circle
+import Mathlib.Analysis.SpecialFunctions.Complex.CircleAddChar
+import Mathlib.Analysis.SpecialFunctions.Complex.Log
+import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Gaussian.FourierTransform
+import Mathlib.Analysis.SpecialFunctions.Log.Basic
+import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Analysis.SpecificLimits.Basic
+import Mathlib.Data.Finset.Lattice.Fold
+import Mathlib.Data.FunLike.Module
+import Mathlib.Data.Int.Interval
+import Mathlib.FieldTheory.Finite.Basic
+import Mathlib.FieldTheory.Finite.Trace
+import Mathlib.GroupTheory.Coset.Basic
+import Mathlib.GroupTheory.FiniteAbelian.Basic
+import Mathlib.GroupTheory.FiniteAbelian.Duality
+import Mathlib.GroupTheory.Finiteness
+import Mathlib.GroupTheory.GroupAction.Quotient
+import Mathlib.GroupTheory.Index
+import Mathlib.GroupTheory.OrderOfElement
+import Mathlib.GroupTheory.QuotientGroup.Basic
+import Mathlib.LinearAlgebra.BilinearForm.DualLattice
+import Mathlib.LinearAlgebra.DirectSum.Finsupp
+import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
+import Mathlib.LinearAlgebra.Prod
+import Mathlib.LinearAlgebra.TensorProduct.Basis
+import Mathlib.LinearAlgebra.TensorProduct.Pi
+import Mathlib.MeasureTheory.Function.LpSpace.Basic
+import Mathlib.MeasureTheory.Integral.Bochner.Basic
+import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+import Mathlib.MeasureTheory.Measure.Haar.DistribChar
+import Mathlib.NumberTheory.GaussSum
+import Mathlib.NumberTheory.LegendreSymbol.AddCharacter
+import Mathlib.NumberTheory.MulChar.Basic
+import Mathlib.NumberTheory.NumberField.AdeleRing
+import Mathlib.NumberTheory.NumberField.Basic
+import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
+import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.NormLeOne
+import Mathlib.NumberTheory.NumberField.ClassNumber
+import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
+import Mathlib.NumberTheory.NumberField.Completion.InfinitePlace
+import Mathlib.NumberTheory.NumberField.DedekindZeta
+import Mathlib.NumberTheory.NumberField.Discriminant.Basic
+import Mathlib.NumberTheory.NumberField.Discriminant.Defs
+import Mathlib.NumberTheory.NumberField.Discriminant.Different
+import Mathlib.NumberTheory.NumberField.FiniteAdeleRing
+import Mathlib.NumberTheory.NumberField.Ideal.Basic
+import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
+import Mathlib.NumberTheory.NumberField.ProductFormula
+import Mathlib.NumberTheory.NumberField.Units.DirichletTheorem
+import Mathlib.NumberTheory.Padics.HeightOneSpectrum
+import Mathlib.NumberTheory.Padics.PadicNumbers
+import Mathlib.NumberTheory.Padics.RingHoms
+import Mathlib.NumberTheory.RamificationInertia.Inertia
+import Mathlib.NumberTheory.RamificationInertia.Ramification
+import Mathlib.RingTheory.Artinian.Module
+import Mathlib.RingTheory.DedekindDomain.AdicValuation
+import Mathlib.RingTheory.DedekindDomain.Different
+import Mathlib.RingTheory.DedekindDomain.Factorization
+import Mathlib.RingTheory.DedekindDomain.FiniteAdeleRing
+import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+import Mathlib.RingTheory.DedekindDomain.SInteger
+import Mathlib.RingTheory.DedekindDomain.SelmerGroup
+import Mathlib.RingTheory.DiscreteValuationRing.Basic
+import Mathlib.RingTheory.FractionalIdeal.Norm
+import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+import Mathlib.RingTheory.Ideal.Quotient.HasFiniteQuotients.Basic
+import Mathlib.RingTheory.Ideal.Quotient.Operations
+import Mathlib.RingTheory.LocalRing.MaximalIdeal.Basic
+import Mathlib.RingTheory.LocalRing.MaximalIdeal.Defs
+import Mathlib.RingTheory.LocalRing.RingHom.Basic
+import Mathlib.RingTheory.Localization.Away.Basic
+import Mathlib.RingTheory.Localization.BaseChange
+import Mathlib.RingTheory.Localization.Basic
+import Mathlib.RingTheory.Localization.Ideal
+import Mathlib.RingTheory.Localization.Integral
+import Mathlib.RingTheory.Noetherian.Basic
+import Mathlib.RingTheory.Polynomial.Cyclotomic.Roots
+import Mathlib.RingTheory.PrincipalIdealDomain
+import Mathlib.RingTheory.RootsOfUnity.Complex
+import Mathlib.RingTheory.TensorProduct.Basic
+import Mathlib.RingTheory.Trace.Basic
+import Mathlib.RingTheory.UniqueFactorizationDomain.Finsupp
+import Mathlib.RingTheory.UniqueFactorizationDomain.Moebius
+import Mathlib.RingTheory.Valuation.Discrete.Basic
+import Mathlib.RingTheory.Valuation.Discrete.RankOne
+import Mathlib.Tactic.Abel
+import Mathlib.Tactic.Choose
+import Mathlib.Tactic.Ext
+import Mathlib.Tactic.FinCases
+import Mathlib.Tactic.FunProp
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Positivity
+import Mathlib.Tactic.Ring
+import Mathlib.Topology.Algebra.Algebra.Equiv
+import Mathlib.Topology.Algebra.ContinuousMonoidHom
+import Mathlib.Topology.Algebra.Group.Matrix
+import Mathlib.Topology.Algebra.Group.Neighborhood
+import Mathlib.Topology.Algebra.Group.Quotient
+import Mathlib.Topology.Algebra.Group.Units
+import Mathlib.Topology.Algebra.GroupWithZero
+import Mathlib.Topology.Algebra.InfiniteSum.Real
+import Mathlib.Topology.Algebra.IsUniformGroup.Basic
+import Mathlib.Topology.Algebra.Module.ModuleTopology
+import Mathlib.Topology.Algebra.OpenSubgroup
+import Mathlib.Topology.Algebra.RestrictedProduct.Basic
+import Mathlib.Topology.Algebra.RestrictedProduct.TopologicalSpace
+import Mathlib.Topology.Algebra.UniformRing
+import Mathlib.Topology.Algebra.Valued.LocallyCompact
+import Mathlib.Topology.Algebra.Valued.ValuationTopology
+import Mathlib.Topology.DenseEmbedding
+import Mathlib.Topology.DiscreteSubset
+import Mathlib.Topology.Instances.Int
+import Mathlib.Topology.LocallyConstant.Basic
+import Mathlib.Topology.Path
+import Mathlib.Topology.UniformSpace.UniformEmbedding
+import Mathlib.RingTheory.DedekindDomain.AdicValuation
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:105:32: warning: `if_false` has been deprecated: Use `ite_false` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵f̵a̵l̵s̵e̵i̲t̲e̲_̲f̲a̲l̲s̲e̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:122:37: warning: `if_true` has been deprecated: Use `ite_true` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵t̵r̵u̵e̵i̲t̲e̲_̲t̲r̲u̲e̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:130:37: warning: `if_false` has been deprecated: Use `ite_false` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵f̵a̵l̵s̵e̵i̲t̲e̲_̲f̲a̲l̲s̲e̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:236:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalCharacterSums.fourth_power_ne_one_of_order_six`:
+  [IsDomain C]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [IsDomain C] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:290:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalProjectFrequency.thetaPrimeCharacter_order_six`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:300:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:301:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:303:38: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:303:65: warning: `if_false` has been deprecated: Use `ite_false` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵f̵a̵l̵s̵e̵i̲t̲e̲_̲f̲a̲l̲s̲e̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:303:38: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [digitMask, Fin.val_zero, Units.ne_zero, if_false, he, mul_one]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:355:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:356:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:372:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:389:8: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:392:8: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:503:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalIndexSupport.mem_exteriorSupport`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:515:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalIndexSupport.exponent_primeSetIdeal`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:528:30: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:531:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalIndexSupport.exponent_zero_of_coprime`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:665:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalIndexSupport.exterior_ext`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:685:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalIndexSupport.coprime_of_exponent_zeros`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:802:2: warning: `simp` already closes the goal
+
+Hint: Use `simp` instead of `simpa`:
+  [apply] simp [hz] at h
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:835:21: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:956:18: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:958:20: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:1053:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:1099:8: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:1100:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:1115:8: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:1166:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalProjectArithmeticProduct.prod_exteriorSupport_val`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:1184:8: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:1187:8: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:1205:38: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:1227:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:1247:38: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:1255:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalProjectArithmeticProduct.primeSetIdeal_squarefree`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:1272:83: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:1311:4: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean:1312:4: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+'ThetaGlobal.GlobalIndexSupport.supported' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.GlobalIndexSupport.index_eq_of_branch_unit' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.GlobalProjectArithmeticProduct.symmetricCoefficient_eq' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+THETA_GLOBAL_PROJECT_QA_AXIOMS|ThetaGlobal.GlobalIndexSupport.supported|propext,Classical.choice,Quot.sound
+THETA_GLOBAL_PROJECT_QA_AXIOMS|ThetaGlobal.GlobalIndexSupport.index_eq_of_branch_unit|propext,Classical.choice,Quot.sound
+THETA_GLOBAL_PROJECT_QA_AXIOMS|ThetaGlobal.GlobalProjectArithmeticProduct.symmetricCoefficient_eq|propext,Classical.choice,Quot.sound
+
+ELAPSED SECONDS: 38.559
+EXIT CODE: 0

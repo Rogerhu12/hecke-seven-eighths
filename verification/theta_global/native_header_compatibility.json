@@ -1,0 +1,517 @@
+{
+  "base_commit": "de155afdd0cdf5d5603b32cface2e9d98639316b",
+  "compiler": "4.35.0-rc3",
+  "compiler_commit": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+  "scope": "70 newly added ThetaGlobal modules and two task audits; original repository definitions and proof bodies unchanged",
+  "changes": [
+    "Remove module header",
+    "Replace public import with import",
+    "Remove expose public section declaration"
+  ],
+  "files": [
+    {
+      "path": "ThetaGlobal/ActualAnnularProfiles.lean",
+      "before_sha256": "6e0ac5a1d5834eaebb0ae0cf9ebd3456bc663c3fc8dc280589b5c9e2fa5b699a",
+      "after_sha256": "21fc185f8061bf0e1406be97bc0595522083b699e79220b818f81da87396481d",
+      "normalized_body_sha256": "21fc185f8061bf0e1406be97bc0595522083b699e79220b818f81da87396481d",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/ActualAnnularTransfer.lean",
+      "before_sha256": "e0a4eac9c0569341ae491b72cd4d13b6313c1a6f4924511e600940bbd1000cc4",
+      "after_sha256": "3ecb3f30e08d288f03ea30dae6832935db9ff233e19ecba91fe01e3d7aef6052",
+      "normalized_body_sha256": "3ecb3f30e08d288f03ea30dae6832935db9ff233e19ecba91fe01e3d7aef6052",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/ActualRegularizerRemoval.lean",
+      "before_sha256": "cc132889b1d9586ada8234740469613fb379bc7de928e65fcf8001c6de7d4948",
+      "after_sha256": "c5b7761c8be9317c4e2c8c232fe8c4bc80d96d15aa1ebf7825d01866af8580e3",
+      "normalized_body_sha256": "c5b7761c8be9317c4e2c8c232fe8c4bc80d96d15aa1ebf7825d01866af8580e3",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/FiniteActualProfiles.lean",
+      "before_sha256": "5a06c1f82eb3b24e6514f0e220ad041e8b2e41300cf172420dea8160cebbcf7f",
+      "after_sha256": "9b7b44bc282a588b60d827dffd9b469c77dde87f11b545274d5ba1eabb195897",
+      "normalized_body_sha256": "9b7b44bc282a588b60d827dffd9b469c77dde87f11b545274d5ba1eabb195897",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/FiniteDirectMellin.lean",
+      "before_sha256": "6b571354e36107c544e546d614930b12b3a912b8310a55cf4ab22b5be6f043a4",
+      "after_sha256": "5c9c3a6438941a21fedef1ae206e0e4febb27c6ec12e2b7344f8ece74d0b0e77",
+      "normalized_body_sha256": "5c9c3a6438941a21fedef1ae206e0e4febb27c6ec12e2b7344f8ece74d0b0e77",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/FiniteFixedSource.lean",
+      "before_sha256": "3c063f0fa24ace9cbc7b65e2263a14ccb6d4fefe88a9c7d604679e520abf7ff8",
+      "after_sha256": "f263975dca7807d0dfdec7bcc76f7a19e53c172d57c371e2a73663e763fc6add",
+      "normalized_body_sha256": "f263975dca7807d0dfdec7bcc76f7a19e53c172d57c371e2a73663e763fc6add",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/FiniteFullProduct.lean",
+      "before_sha256": "6dee56472708aab1fac26d4af0c23ffc9d63190ecc4384b7d2b478319f2f40f9",
+      "after_sha256": "7f65e7d075e1c23ab7d7eb62d5c7271b0dc9367102a14c1a8254e599eec8ea7c",
+      "normalized_body_sha256": "7f65e7d075e1c23ab7d7eb62d5c7271b0dc9367102a14c1a8254e599eec8ea7c",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/FiniteHighKDirect.lean",
+      "before_sha256": "5327a1d7e60442581afb22f1a8735b210a357025446809ae3a59402ba784e435",
+      "after_sha256": "994d95a0507cd2df124ee5e3423e3d7f6540cc8217d30c8e3e2d1424e3b67a75",
+      "normalized_body_sha256": "994d95a0507cd2df124ee5e3423e3d7f6540cc8217d30c8e3e2d1424e3b67a75",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/FiniteLocalHighK.lean",
+      "before_sha256": "1f95e037dcfa04812a30d5a6b869100cad72548c08ab22620e94f720cf8a1672",
+      "after_sha256": "136457582ad8ee7cf005e36e8954b5ebc5a2917ef06a11d674c362ade713e16a",
+      "normalized_body_sha256": "136457582ad8ee7cf005e36e8954b5ebc5a2917ef06a11d674c362ade713e16a",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/FiniteNormalizedMellin.lean",
+      "before_sha256": "2fee7c57de00f444ef724fe0ddb46a382515ba212555398b63c5a06a7f4334ab",
+      "after_sha256": "e93422aceaa973d3be327893cda106a0637d7534bd4d32896b3e4fc19ffd3828",
+      "normalized_body_sha256": "e93422aceaa973d3be327893cda106a0637d7534bd4d32896b3e4fc19ffd3828",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/FiniteProjectedFullSource.lean",
+      "before_sha256": "dfbdb9fa15d61e56991d701f7e24ea94161361ddf833c1c97140df4b1ee8da8e",
+      "after_sha256": "bf81cd89eeca74e1db16dfe8bd72a4917d54558fa0154c3031043e9f0bd46b2e",
+      "normalized_body_sha256": "bf81cd89eeca74e1db16dfe8bd72a4917d54558fa0154c3031043e9f0bd46b2e",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/FiniteProjectedIntegral.lean",
+      "before_sha256": "5e252a7a24b8fa344df41fc7dfee3e82e8b882b2d085c0a2a1e8e07b107d009d",
+      "after_sha256": "5eaaffae184eba719cd6d13bdcf3f2102c67ebe9aba23308885c2195bd9ee8ad",
+      "normalized_body_sha256": "5eaaffae184eba719cd6d13bdcf3f2102c67ebe9aba23308885c2195bd9ee8ad",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/FiniteSkeletonSource.lean",
+      "before_sha256": "1148d19d49e2ca9be8d2e3f54924999b4f17cdc3a8d5197bea62a4e17d07d022",
+      "after_sha256": "a375fb500f836b4245ba992f3e57d00d184f2f9cfee34234416cecbaa6334929",
+      "normalized_body_sha256": "a375fb500f836b4245ba992f3e57d00d184f2f9cfee34234416cecbaa6334929",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/FiniteSourceConstantTerm.lean",
+      "before_sha256": "dc11e3a6a8fd866ce62125a344b242471a0bc75882e570b5e7f524aa1e721894",
+      "after_sha256": "d66253269a69e08e15dffe0189a9da7e676d0646d77c8bd720923e04e3df0f99",
+      "normalized_body_sha256": "d66253269a69e08e15dffe0189a9da7e676d0646d77c8bd720923e04e3df0f99",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GammaDeconvolverProject.lean",
+      "before_sha256": "4e1df6f2e0708fb5cf9135d4c0a344738e51b60e84665b79c3142bb7b3f0cf0e",
+      "after_sha256": "4c6c4cec5290b2e24f718c7297a9a47acf5f4a2d975cc91f1dd137a3de9176df",
+      "normalized_body_sha256": "4c6c4cec5290b2e24f718c7297a9a47acf5f4a2d975cc91f1dd137a3de9176df",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GammaProfileGrowth.lean",
+      "before_sha256": "00e7ddcbebb32d79dfdbc1a60a549e0ec2854e9d24a819585b724ef30899f255",
+      "after_sha256": "04f6c9bd0e39b5fef2418560b8042ca241841775cebfea4cda7b0549d9b639f4",
+      "normalized_body_sha256": "04f6c9bd0e39b5fef2418560b8042ca241841775cebfea4cda7b0549d9b639f4",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectAngular.lean",
+      "before_sha256": "f9ce65d7e73391fb7cdfa80c6fe79a8ab442cf01a7f384bee8c69a2bce605316",
+      "after_sha256": "e693622ab701ff0c2d3d93114262cc8acd3c2f7eab00c41c714880e3167af154",
+      "normalized_body_sha256": "e693622ab701ff0c2d3d93114262cc8acd3c2f7eab00c41c714880e3167af154",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectArithmeticProduct.lean",
+      "before_sha256": "1b6f77b05838830c830b1c82c802841e90d083ccb862140f9a0b031125809570",
+      "after_sha256": "475f9ca3ba73aee6522914008f45f13f3acc313e01c688a3f1b9703474589188",
+      "normalized_body_sha256": "475f9ca3ba73aee6522914008f45f13f3acc313e01c688a3f1b9703474589188",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectCoreEquivariance.lean",
+      "before_sha256": "1b0e40338ebdb4d681fba047446192cb5db4965beef5cc517234460d023c23f2",
+      "after_sha256": "79826506aaff94cdbf21fbc7ff171d42c94b4a11a3e0a3b93fa57b5c1a58fb74",
+      "normalized_body_sha256": "79826506aaff94cdbf21fbc7ff171d42c94b4a11a3e0a3b93fa57b5c1a58fb74",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectDescent.lean",
+      "before_sha256": "fda316a95b031740a2a5683dbdb83dd911c5a8cc91f0e5b04eb6bde6fd32bdb4",
+      "after_sha256": "0aebd2209f5e9f480d300fde9a958232680d7f34bee30e149db0dce15bf26590",
+      "normalized_body_sha256": "0aebd2209f5e9f480d300fde9a958232680d7f34bee30e149db0dce15bf26590",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectDigitDescent.lean",
+      "before_sha256": "da96e5f29052d7a7755a4b69f07a94da6987c1a17b767f0ac4508e82ba64019d",
+      "after_sha256": "0b8b77fb33d739a98a1948dd4de9f84f3e5341a19958b9d00838c581778ee891",
+      "normalized_body_sha256": "0b8b77fb33d739a98a1948dd4de9f84f3e5341a19958b9d00838c581778ee891",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectDigitProduct.lean",
+      "before_sha256": "6ce0f0cc064c14eba8290bc8902a88e28d9e85e80765c224656433941e846753",
+      "after_sha256": "811cae13cd2f93d3bf02ed4ccfc79c1ae1d0f789cfaad0f7ef134c8e4fd680b4",
+      "normalized_body_sha256": "811cae13cd2f93d3bf02ed4ccfc79c1ae1d0f789cfaad0f7ef134c8e4fd680b4",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectDigitSupport.lean",
+      "before_sha256": "f8363190f7fc41adffbc1b02f8f8e4ec1e39f1475c0d7df38476ea9ec23d011f",
+      "after_sha256": "4ae71a3e1b1b4a47740236a8a33e2795e0aae1fc8b338bfb415ee6c5c97f44c4",
+      "normalized_body_sha256": "4ae71a3e1b1b4a47740236a8a33e2795e0aae1fc8b338bfb415ee6c5c97f44c4",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectDirectMask.lean",
+      "before_sha256": "bb33fd4089c3acf5d33aa970ecdb1dbaf3105a820bec2e831f721319236d528c",
+      "after_sha256": "3c704c2054c69ee9a690f2d038cf491368d9c08f59455277707aa117b65789ac",
+      "normalized_body_sha256": "3c704c2054c69ee9a690f2d038cf491368d9c08f59455277707aa117b65789ac",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectDirectReindex.lean",
+      "before_sha256": "d464ace8e2b604b91511931c50e95e8e87afa1a0dd47562f35bad35f20d0bba3",
+      "after_sha256": "e248fe2cfb59ea28cd61e45ea9f642d550635dc4881efaf8b61920a763292a5f",
+      "normalized_body_sha256": "e248fe2cfb59ea28cd61e45ea9f642d550635dc4881efaf8b61920a763292a5f",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectEmbedding.lean",
+      "before_sha256": "8f8021e6bb54b9062308b2f537034a10239986bb5235b7e053566668879bc85f",
+      "after_sha256": "aa62531e1d505e6889df5230264505011c025205e8169d4e92c119068b5ccd48",
+      "normalized_body_sha256": "aa62531e1d505e6889df5230264505011c025205e8169d4e92c119068b5ccd48",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectExterior.lean",
+      "before_sha256": "0113cfbb7f1ad6803b9d142eb092273da3e84510f05df2a7410024b28fe1d8fe",
+      "after_sha256": "5a1afeb82de5e161222f46631763d507cc529709c308fe2547964f6989a2f47b",
+      "normalized_body_sha256": "5a1afeb82de5e161222f46631763d507cc529709c308fe2547964f6989a2f47b",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectExteriorExtraction.lean",
+      "before_sha256": "e72879d911b1976bf2f6198d2adbdcd5157f6d7a941cf271a368a6cff25ec201",
+      "after_sha256": "ab3c9408aa6b09c9e1899dfa892b407bc63d3f964ed1d8c0d3fde410d23fdd7c",
+      "normalized_body_sha256": "ab3c9408aa6b09c9e1899dfa892b407bc63d3f964ed1d8c0d3fde410d23fdd7c",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectForwardCoefficients.lean",
+      "before_sha256": "241500908b366654a6a3533ee964e1455d8359e6f0d343d8063f7cf706aa39c0",
+      "after_sha256": "cd440c6fe498c3e0aa68cde767471b052961bc052d45d3b944299d2e89cf2be9",
+      "normalized_body_sha256": "cd440c6fe498c3e0aa68cde767471b052961bc052d45d3b944299d2e89cf2be9",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectForwardExtraction.lean",
+      "before_sha256": "35e2b1059c11fd09593d772d7203a5654bcd33b06f41999341a569b4b8077d3b",
+      "after_sha256": "22bc69f95ee963fc7b313b42bddeaf16eeeb7fef426162799cc27521f647a575",
+      "normalized_body_sha256": "22bc69f95ee963fc7b313b42bddeaf16eeeb7fef426162799cc27521f647a575",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectFourierSmooth.lean",
+      "before_sha256": "055f133528a29d2842f9ab32f401461e121d4fbe1eb5ad15ebd5ed6ebc91b1f3",
+      "after_sha256": "5d95624a556cd3417f3c42f5cffcfc740e2e07736b4ea37dd015050bbc0f4cfe",
+      "normalized_body_sha256": "5d95624a556cd3417f3c42f5cffcfc740e2e07736b4ea37dd015050bbc0f4cfe",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectFrequency.lean",
+      "before_sha256": "1846d88605b993958a7e35d9a0d554adf5a330243328eb8b7b79a2f1e552851d",
+      "after_sha256": "79eee8f303d006feb585abd7b3266bea3db8279168623ef735c59532e71a2108",
+      "normalized_body_sha256": "79eee8f303d006feb585abd7b3266bea3db8279168623ef735c59532e71a2108",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectFrequencySeed.lean",
+      "before_sha256": "e68e512ee4afbbb10181974f2837963d838068425963d781a63f32540ce42dbe",
+      "after_sha256": "cebc2f7cc2db238ea18947b49688921d02a3e06dd8d7faf4f86462031d8e9413",
+      "normalized_body_sha256": "cebc2f7cc2db238ea18947b49688921d02a3e06dd8d7faf4f86462031d8e9413",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectHighKExtraction.lean",
+      "before_sha256": "a0e8646042612df05f429f5b17b20f0e8f9789d9a363340a20df166e9c498869",
+      "after_sha256": "036b039c46751d81ca7020edef00fd5d859e26ee9e2c0d0c1abb8189320c9869",
+      "normalized_body_sha256": "036b039c46751d81ca7020edef00fd5d859e26ee9e2c0d0c1abb8189320c9869",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectHighKReflection.lean",
+      "before_sha256": "6dc55f10fee78e9a3434fdbea3e93eb147a484e809d0b506bc216e7b92f93d35",
+      "after_sha256": "6cc1cd9463615432e4b8935d074aa0765923b25a267f96eb72e6a40d5c963071",
+      "normalized_body_sha256": "6cc1cd9463615432e4b8935d074aa0765923b25a267f96eb72e6a40d5c963071",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectLiteralDigitWeights.lean",
+      "before_sha256": "880597a7b4cafd4111e1d29ceb7cbe53b29c6531798ebd8c126628c66a85823a",
+      "after_sha256": "8182baa90811791a7a71debc4135b5689e199f23b7878d56dacf5474e7a057a3",
+      "normalized_body_sha256": "8182baa90811791a7a71debc4135b5689e199f23b7878d56dacf5474e7a057a3",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectLiteralSeed.lean",
+      "before_sha256": "e2bc43bf910fdf70904af7a2634e6f6b704869af837970c5340e5d43b8e681ad",
+      "after_sha256": "f3bcc67da0ea330fbf50441d5fd9ae2c1b3be7ef194c77b9725ce67e4b2e0f15",
+      "normalized_body_sha256": "f3bcc67da0ea330fbf50441d5fd9ae2c1b3be7ef194c77b9725ce67e4b2e0f15",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectLocalDigitTables.lean",
+      "before_sha256": "480ccc902bf6f24fc7c5965a43205ca924747268f4239d53ab5195bf2056c5f1",
+      "after_sha256": "a471c2a5df2cd066fd9d1bc92b2dc72543f369930b612a4a6bedcb377948db17",
+      "normalized_body_sha256": "a471c2a5df2cd066fd9d1bc92b2dc72543f369930b612a4a6bedcb377948db17",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectLocalPhases.lean",
+      "before_sha256": "a5288bb117f1b0faf00a9d87463b6166309d5ee97727e7faad7016baf9354595",
+      "after_sha256": "0e603139e3dcee405136c28239116d783483d24c30415043042a7b2ed880ca8f",
+      "normalized_body_sha256": "0e603139e3dcee405136c28239116d783483d24c30415043042a7b2ed880ca8f",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectLocalSupport.lean",
+      "before_sha256": "4f5a8d555251bb4f26c8d9c3dbbaa0afbacc27fa0beb2fd49418484d7b1bfb80",
+      "after_sha256": "ec055cf0f15daa08c6e6a028164e8903e21a5c6288c30277bab38be6bae1b08e",
+      "normalized_body_sha256": "ec055cf0f15daa08c6e6a028164e8903e21a5c6288c30277bab38be6bae1b08e",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectMarkedReflection.lean",
+      "before_sha256": "0660765a5bde55d376b88f24dbaa7d37f14b71dc4f97f7d13e67eb085aa5aed7",
+      "after_sha256": "f5b710c7578f6715bef090f1aba88f29e44a06a292f36f0560c1911dc128f160",
+      "normalized_body_sha256": "f5b710c7578f6715bef090f1aba88f29e44a06a292f36f0560c1911dc128f160",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectMarkedSupport.lean",
+      "before_sha256": "b9b532c59ac5f94fe7786652dbc6fb6a44135204eb79d625b0e41e0408e54963",
+      "after_sha256": "31a6b9a180fe64b83e5f21e2bb3e95545ab09fa49ed91963ab3eea87169bb008",
+      "normalized_body_sha256": "31a6b9a180fe64b83e5f21e2bb3e95545ab09fa49ed91963ab3eea87169bb008",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectMarks.lean",
+      "before_sha256": "5ac65147a2e31fffca4f512566c84cc44e39b89270740829e5daa076374ea80f",
+      "after_sha256": "493700d400e1c0707c3515dc5f2726c0e721d052f2818a54abb5955c431be385",
+      "normalized_body_sha256": "493700d400e1c0707c3515dc5f2726c0e721d052f2818a54abb5955c431be385",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectOrbitCoefficients.lean",
+      "before_sha256": "5516e0501d2d238717ec76cb50ca25b4f86a1ee6e0cede5c2c901da0982dba84",
+      "after_sha256": "817969e92320167e58ff6ec88b525016fee4345e4e1ffb52d5d302609656a58b",
+      "normalized_body_sha256": "817969e92320167e58ff6ec88b525016fee4345e4e1ffb52d5d302609656a58b",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectOrbitEvaluation.lean",
+      "before_sha256": "4c3dac15acc813f5bcdbcea1c246ec27605baeb7a3745e7b1f2e96eef5130513",
+      "after_sha256": "e08e1cef661be49c5f75e06e8b4f67b0f48ddcf398b520b9fc4d0611c137f4af",
+      "normalized_body_sha256": "e08e1cef661be49c5f75e06e8b4f67b0f48ddcf398b520b9fc4d0611c137f4af",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectPhases.lean",
+      "before_sha256": "f8a1efd2c35c9c53ed0b7dda9526c6b6006ec709920659b95a482f4c3e497c1d",
+      "after_sha256": "6327dc161a2c38db1b32caa78e319668f4834efc175e794aaa99eca979764b42",
+      "normalized_body_sha256": "6327dc161a2c38db1b32caa78e319668f4834efc175e794aaa99eca979764b42",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectRadial.lean",
+      "before_sha256": "5887e3ea428f7b7763a5532a4a65d59003038b8ce0b8867bc11558aa28edc0be",
+      "after_sha256": "e2e04bcb445168429b3d787267d0e40f4dd558c75364776a97e9a2d1152ed929",
+      "normalized_body_sha256": "e2e04bcb445168429b3d787267d0e40f4dd558c75364776a97e9a2d1152ed929",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectRationalDilation.lean",
+      "before_sha256": "8d9175298079bf6796f990a1ca1e47ac1a3d065d86791c056066bd965c1ba474",
+      "after_sha256": "6e98e6b23a91641968d23569b764afb040a9614cf0a312201c04a4599d295b7d",
+      "normalized_body_sha256": "6e98e6b23a91641968d23569b764afb040a9614cf0a312201c04a4599d295b7d",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectReflectedDictionary.lean",
+      "before_sha256": "1bf775fb219c418380510651fbd9233f995fc89b74a3b813f36b97fd34f783e7",
+      "after_sha256": "80f323549099cadf71b90b92878bf4f827a1c4350bc355072dccf58226cecba3",
+      "normalized_body_sha256": "80f323549099cadf71b90b92878bf4f827a1c4350bc355072dccf58226cecba3",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectReflectedLocalModel.lean",
+      "before_sha256": "948d4aa332663a1562c88437332273c2f85aa5b451ebbd40c8b760b9f453ebaa",
+      "after_sha256": "8269fb30e7a85ef0d1b2006d67a42d02ca020a6b70ea046b86de791293973dd7",
+      "normalized_body_sha256": "8269fb30e7a85ef0d1b2006d67a42d02ca020a6b70ea046b86de791293973dd7",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectReflectedPhases.lean",
+      "before_sha256": "c21b380a2e0ced92826a32c9b2a30e16d564e6b05eb2834c34f3fa7d1a9127ca",
+      "after_sha256": "a607fd710ec00ac011f929b8caab1383b164f625ceaba835a443cdee7eb56165",
+      "normalized_body_sha256": "a607fd710ec00ac011f929b8caab1383b164f625ceaba835a443cdee7eb56165",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectReflectedReindex.lean",
+      "before_sha256": "2626c3924bcccdaa97c305f69087f1586c3bd8c6afc292da1c0caec8c3de9e3d",
+      "after_sha256": "74468ca036cb464da190e7b469be5184eddbecce011ceb7ddbc3d423f790d2c8",
+      "normalized_body_sha256": "74468ca036cb464da190e7b469be5184eddbecce011ceb7ddbc3d423f790d2c8",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectSheetProfiles.lean",
+      "before_sha256": "3dba420b6e8ba2104ee2a9fdbf0bf7ef07c22f5fa2fd36db2c7bd340e44dcd7c",
+      "after_sha256": "7e192ee555fbb0dbc416cb2e58725819ef1c439d60fe2196f75a1d9059bbb0c0",
+      "normalized_body_sha256": "7e192ee555fbb0dbc416cb2e58725819ef1c439d60fe2196f75a1d9059bbb0c0",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectSheetReflection.lean",
+      "before_sha256": "a889e2899d41ed22ed9cc95d23f131db4ea53ba4eda83900e443e664b25a3c27",
+      "after_sha256": "59c38ec2a0f3b46ef700341c64faaa55e6f3dcb2ad585e4c9c4a9c6c6f4f7b90",
+      "normalized_body_sha256": "59c38ec2a0f3b46ef700341c64faaa55e6f3dcb2ad585e4c9c4a9c6c6f4f7b90",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectSignedExtraction.lean",
+      "before_sha256": "d7b191f5ce5c7378513ef36da4f89b18d52a3bc5ef2af50130775bf94dd93439",
+      "after_sha256": "72bd79625c023ab666bcfd0c4bf7c86a9a54045c3a64929fb70515bfd127b479",
+      "normalized_body_sha256": "72bd79625c023ab666bcfd0c4bf7c86a9a54045c3a64929fb70515bfd127b479",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectUnfolding.lean",
+      "before_sha256": "f836b891169b9ef1faa8ad3b0f26060e4c144bb18981fc9d2056ad3b2fe0a031",
+      "after_sha256": "739ca6add5743f803e95ba42a4dfada69cdbaefbfc56fe9e25291cf5362901d6",
+      "normalized_body_sha256": "739ca6add5743f803e95ba42a4dfada69cdbaefbfc56fe9e25291cf5362901d6",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectUniformFourier.lean",
+      "before_sha256": "0f047770ec0ffb62c0511b63439b15605cfb859a96126de6212daab5b0f59bd9",
+      "after_sha256": "d3f981ebe11cfa6b2068d0420aaa7f69b92d568380488184d153af4656fb4f0a",
+      "normalized_body_sha256": "d3f981ebe11cfa6b2068d0420aaa7f69b92d568380488184d153af4656fb4f0a",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectWeightedDigits.lean",
+      "before_sha256": "1d2b12d66eac5f8a2ffe7de0e68b1085fd61ad252e8342318877dc24f4b95ce9",
+      "after_sha256": "78b596cc0c605851945c815520a0a256f5c4ceb4c01dfa6dc98fb37f720d7433",
+      "normalized_body_sha256": "78b596cc0c605851945c815520a0a256f5c4ceb4c01dfa6dc98fb37f720d7433",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalProjectWeightedSheet.lean",
+      "before_sha256": "f5a0fc825995a2bf72be2f297078e4dead0b787ea3c4ec6e356db3be178a1ab4",
+      "after_sha256": "ad010e51a51b37c237f6a0ebf3b3d4fa1ab8360a1e7ad2649753e7d78fa5e7d3",
+      "normalized_body_sha256": "ad010e51a51b37c237f6a0ebf3b3d4fa1ab8360a1e7ad2649753e7d78fa5e7d3",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalSkeletonChoice.lean",
+      "before_sha256": "a6147583dadc273a6de016c2b0daba060fc811bd5e9226d73f476429ec84f2e8",
+      "after_sha256": "b3f1d14bb448ede7407f2c3a03554652ddb1c70ab5929309933107cdbee897cd",
+      "normalized_body_sha256": "b3f1d14bb448ede7407f2c3a03554652ddb1c70ab5929309933107cdbee897cd",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/GlobalSkeletonDirect.lean",
+      "before_sha256": "2a8aeb761eb834819235f806400d82328a07178c2e9958696e3a90b04adc20c8",
+      "after_sha256": "ee0ed48216fa217b3c97343a9277b72fbff61e2b588e7ee8e50a2b2e1c536445",
+      "normalized_body_sha256": "ee0ed48216fa217b3c97343a9277b72fbff61e2b588e7ee8e50a2b2e1c536445",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/LocalGammaOrientation.lean",
+      "before_sha256": "dc45ecfb0f4bf2d7349bdf3c96f995318e143722da67fe7641157abf280c944e",
+      "after_sha256": "ad9306b508904ca4a27d29065b4d55b476c123e19f9c5f379b7240b6f21813f0",
+      "normalized_body_sha256": "ad9306b508904ca4a27d29065b4d55b476c123e19f9c5f379b7240b6f21813f0",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/NormSheetTensorBounds.lean",
+      "before_sha256": "114393616e3b52f9eb63bd4854a0f94f8f6ff31e148c4ee4a04858f965d36cf7",
+      "after_sha256": "38e1b668f7b61dfed48895569dce0717e5e7a2e25642f05770fa5252b3027dd3",
+      "normalized_body_sha256": "38e1b668f7b61dfed48895569dce0717e5e7a2e25642f05770fa5252b3027dd3",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/PositiveAxisLog.lean",
+      "before_sha256": "970d5288f7b685f7b87ca0cb7c73c565b9ca046e836abb3a964e41981af67472",
+      "after_sha256": "e8f28a2483f1c116adeea6936ac08e4f0cc7d9f3a021747a0988b73432dc6034",
+      "normalized_body_sha256": "e8f28a2483f1c116adeea6936ac08e4f0cc7d9f3a021747a0988b73432dc6034",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/PrimalLimitProject.lean",
+      "before_sha256": "b3d0556527d97ef75d822c107aa00ac091311825952f76a4a1b2adb586907136",
+      "after_sha256": "514c8d6c0a5c34ca1fd128726a3fa84a943bb46257995be1c93eafb2efb53d27",
+      "normalized_body_sha256": "514c8d6c0a5c34ca1fd128726a3fa84a943bb46257995be1c93eafb2efb53d27",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/ReflectedAbsoluteProject.lean",
+      "before_sha256": "fab3b71b9028f2d5c35ab59fff323de1209835b5d38a9c9d3355f595cf412cf5",
+      "after_sha256": "81cfe458ee0ebba20e7868fcc8c09a45ad47ceae3ef51ccd76e882452e67985a",
+      "normalized_body_sha256": "81cfe458ee0ebba20e7868fcc8c09a45ad47ceae3ef51ccd76e882452e67985a",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/ReflectedArithmetic.lean",
+      "before_sha256": "dc6ab14c37b4f40583d4014a15ae257a2f5fdeb7a75a55508a922386305ed616",
+      "after_sha256": "1e7d57599f98ddb558faa469afd30595fdb5d9447b1bc8cc43cf8a12030f1ac9",
+      "normalized_body_sha256": "1e7d57599f98ddb558faa469afd30595fdb5d9447b1bc8cc43cf8a12030f1ac9",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/ReflectedCoefficientProject.lean",
+      "before_sha256": "ccea9c6d630a1d04e0f2a567728412387835bd628a644bbcec7945778fbe7aa4",
+      "after_sha256": "2a520e99fb5600c0ca4f86bc62e1943346a48d12e7fff9cbccbcf6382f76b5b1",
+      "normalized_body_sha256": "2a520e99fb5600c0ca4f86bc62e1943346a48d12e7fff9cbccbcf6382f76b5b1",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/ReflectedLimitProject.lean",
+      "before_sha256": "57bf3b7e74fc70e83e4b99bce8286a779e48797d1784d7da29e3dae945793536",
+      "after_sha256": "fcb8da5c866c35fc19b54daacdf5bfd02a78e0555759e9fba7c1bf2eac27f72d",
+      "normalized_body_sha256": "fcb8da5c866c35fc19b54daacdf5bfd02a78e0555759e9fba7c1bf2eac27f72d",
+      "only_header_changes": true
+    },
+    {
+      "path": "ThetaGlobal/ScalarKernelProject.lean",
+      "before_sha256": "0aafff0d502b4cb75240b361df552c1ad7dc53990540aacb4957a0c078ec219d",
+      "after_sha256": "6f62203e08ea5be70011ca16b5dba9fb345b0f209a9452a2e7128984fa8a30b3",
+      "normalized_body_sha256": "6f62203e08ea5be70011ca16b5dba9fb345b0f209a9452a2e7128984fa8a30b3",
+      "only_header_changes": true
+    },
+    {
+      "path": "verification/theta_global/ConsumerSignatures.lean",
+      "before_sha256": "9d42c045582ffbb5c9042c1df85f9cd397115a7fccf951f788d161f7a42a61d5",
+      "after_sha256": "14164e0961cc2c88ea9970f024d53272df9b952f951718a28c4b103975546a2a",
+      "normalized_body_sha256": "14164e0961cc2c88ea9970f024d53272df9b952f951718a28c4b103975546a2a",
+      "only_header_changes": true
+    },
+    {
+      "path": "verification/theta_global/EntryAudit.lean",
+      "before_sha256": "ce89a2022ccd7feab479401a76caba6502d579b42535c5a749992c1c80e8e65a",
+      "after_sha256": "fa5e61defdf9dc75311a86117839ca0f357561f49c55889a23eea48553fde030",
+      "normalized_body_sha256": "fa5e61defdf9dc75311a86117839ca0f357561f49c55889a23eea48553fde030",
+      "only_header_changes": true
+    }
+  ]
+}
