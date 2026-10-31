@@ -1,0 +1,76 @@
+name: MOM_BASE proofs and axioms
+
+on:
+  push:
+    branches: [cloud/mom-base]
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - HeckeSkeleton/Moments/MOM_BASE/**
+      - scripts/verify_mom_base.py
+      - .github/workflows/mom-base.yml
+      - lean-toolchain
+      - lake-manifest.json
+      - lakefile.toml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-base-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  proofs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      LEAN_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Initialize verification evidence
+        run: |
+          mkdir -p mom-base-verification
+          git rev-parse HEAD > mom-base-verification/commit.txt
+          cp lean-toolchain lake-manifest.json mom-base-verification/
+          df -h / > mom-base-verification/disk-before.txt
+      - name: Install pinned Lean and restore official Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore source-verified project objects
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: .lake/build
+          key: mom-base-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'scripts/verify_mom_base.py') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            mom-base-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'scripts/verify_mom_base.py') }}-
+      - name: Compile actual dependency closure and audit target axioms
+        id: verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -u scripts/verify_mom_base.py 2>&1 | tee mom-base-verification/build.log
+      - name: Preserve verified dependency progress
+        if: ${{ always() && !cancelled() && steps.verify.outcome != '' && steps.verify.outcome != 'skipped' }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: .lake/build
+          key: mom-base-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'scripts/verify_mom_base.py') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Upload full compilation and axiom evidence
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: mom-base-verification-${{ github.sha }}-${{ github.run_attempt }}
+          path: mom-base-verification/
+          retention-days: 30
+          if-no-files-found: error
+          overwrite: true
