@@ -78,7 +78,7 @@ def PieceClassGeometry (M r ell V z c d eta h : ℝ) (side₂ : Bool) : Prop :=
       (length Z j .secondCommon) (length Z j .secondDivisor) V (length Z j .cubeLabel) (5 * h)
     let Vc := secondFormalLabel (length Z j .firstCommon) (length Z j .secondDivisor)
       (length Z j .secondOverlap) (length Z j .cubeLabel) + 4 * h
-    0 ≤ Mc → ∀ γ ∈ packet.triples, ∀ a : CanonicalChildClosure.Index,
+    0 ≤ Mc → ∀ γ ∈ (packet).triples, ∀ a : CanonicalChildClosure.Index,
     0 ≤ (piece side₂ p a).columnLength γ →
       (piece side₂ p a).columns γ = squarefreePool K Sset
         (2 * Z ^ (piece side₂ p a).columnLength γ) ∧

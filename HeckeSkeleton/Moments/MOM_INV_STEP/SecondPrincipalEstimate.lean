@@ -129,7 +129,8 @@ theorem exists_additiveZeros_bound (slotCap : ℕ) (ε : ℝ) (hε : 0 < ε) :
       exact mul_le_mul h₁ h₂ (norm_nonneg _) (by positivity)
     have hm := hmask ∅ (fun v hv => by simp only [Finset.notMem_empty] at hv)
       1 one_ne_zero (fun v hv => by simp only [Finset.notMem_empty] at hv) p.1 p.2 e e
-    have hprod : ((e.val.val * e.val.val * p.1.val.val * p.2.val.val).absNorm : ℝ) ≤ X * X := by
+    have hprod : (((unitIdeal K S).val.val * (unitIdeal K S).val.val *
+        p.1.val.val * p.2.val.val).absNorm : ℝ) ≤ X * X := by
       change ((p.1.val.val * p.2.val.val).absNorm : ℝ) ≤ X * X
       simp only [map_mul, Nat.cast_mul]
       exact mul_le_mul (hN p.1 hp₁) (hN p.2 hp₂) (Nat.cast_nonneg _) hX0

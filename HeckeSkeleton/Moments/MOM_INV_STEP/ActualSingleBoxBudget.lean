@@ -175,7 +175,7 @@ theorem source_membership (i : Idx) (hi : i ∈ Pbox) :
 
 theorem source_raw_box (i : Idx) (hi : i ∈ Pbox) :
     Eidx i ∈ ActualProductionBoxes.box K S D Γ T hmask X Hraw
-      (Pslice.image Eidx) Z L j := by
+      ((Pslice).image Eidx) Z L j := by
   exact Finset.mem_filter.mpr
     ⟨Finset.mem_image.mpr ⟨i, (Finset.mem_filter.mp hi).1, rfl⟩,
       (Finset.mem_filter.mp hi).2⟩
@@ -200,11 +200,11 @@ theorem source_first_prefactor_le (M r ell V : ℝ)
   have hr := source_raw_box K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
     grid centers alive k side₁ P b Z L j i hi
   have ha := ActualProductionBoxes.coordinate_annulus K S D Γ T hmask X Hraw
-    (Pslice.image Eidx) Z L h hZ hh hwidth hb hfirst hsecond j (Eidx i) hr
+    ((Pslice).image Eidx) Z L h hZ hh hwidth hb hfirst hsecond j (Eidx i) hr
   have hconductor := (ActualBoxGeometry.cubeNorm_annulus K S D Γ T hmask X Hraw
-    (Pslice.image Eidx) Z L h hZ hh hwidth hb hfirst hsecond j (Eidx i) hr).1
+    ((Pslice).image Eidx) Z L h hZ hh hwidth hb hfirst hsecond j (Eidx i) hr).1
   have hextracted := (ActualBoxGeometry.extracted_factor_annulus K S D Γ T hmask X Hraw
-    (Pslice.image Eidx) Z L h hZ hh hwidth hb hfirst hsecond j (Eidx i) hr side₁).2
+    ((Pslice).image Eidx) Z L h hZ hh hwidth hb hfirst hsecond j (Eidx i) hr side₁).2
   have hd : Z ^ (length Z j .firstDivisor - h) ≤
       (sIntegerElementNorm K Sset (FirstLocalizedEnergy.divisor K S D T i.1)).val := by
     have hdiv := (ha .firstDivisor).1
@@ -249,7 +249,7 @@ theorem source_length_bounds (r : ℝ) (hscale : U.val = Z ^ r / (grid k).val)
     grid centers alive k side₁ P b Z L j i hi
   have hb' : ActualCenteredGeometry.secondBin K S D Γ T X Hraw (Eidx i) = b := hm.2.2.2.1
   have hs := ActualCenteredGeometry.source_child_length_from_assignment K S D Γ T hmask X Hraw
-    (Pslice.image Eidx) Z L h hZ hh hwidth hb hfirst hsecond j grid centers k r
+    ((Pslice).image Eidx) Z L h hZ hh hwidth hb hfirst hsecond j grid centers k r
     ((sourceScale_eq K S T hbase U).trans hscale) side₁ (Eidx i) hr hm.2.2.1
   simpa only [ActualCenteredGeometry.childLength, hb'] using hs
 
@@ -267,7 +267,7 @@ theorem source_scale_bounds (r : ℝ) (hscale : U.val = Z ^ r / (grid k).val)
   have hr := source_raw_box K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
     grid centers alive k side₁ P b Z L j i hi
   have ha := ActualProductionBoxes.coordinate_annulus K S D Γ T hmask X Hraw
-    (Pslice.image Eidx) Z L h hZ hh hwidth hb hfirst hsecond j (Eidx i) hr
+    ((Pslice).image Eidx) Z L h hZ hh hwidth hb hfirst hsecond j (Eidx i) hr
   have hc : (grid k).val ≤ FirstOuterCenters.extractedNorm K S D T side₁ i.1 i.2.1 ∧
       FirstOuterCenters.extractedNorm K S D T side₁ i.1 i.2.1 ≤ 2 * (grid k).val :=
     ⟨by simpa only [hm.2.2.1] using centers.lower side₁ i.1 i.2.1,
@@ -303,7 +303,7 @@ theorem source_physicalCost_le (M r ell V tau : ℝ)
   have hr := source_raw_box K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
     grid centers alive k side₁ P b Z L j i hi
   have ha := ActualProductionBoxes.coordinate_annulus K S D Γ T hmask X Hraw
-    (Pslice.image Eidx) Z L h hZ hh hwidth hb hfirst hsecond j (Eidx i) hr
+    ((Pslice).image Eidx) Z L h hZ hh hwidth hb hfirst hsecond j (Eidx i) hr
   have hscale' := source_scale_bounds K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
     grid centers alive k side₁ P b Z L j h hZ hh hwidth hb hfirst hsecond r hscale i hi
   rw [FirstProductionWeight.physicalCost_eq]
@@ -333,7 +333,7 @@ theorem source_row_bound (M r ell V tau : ℝ)
   have hr := source_raw_box K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
     grid centers alive k side₁ P b Z L j i hi
   have ha := ActualProductionBoxes.coordinate_annulus K S D Γ T hmask X Hraw
-    (Pslice.image Eidx) Z L h hZ hh hwidth hb hfirst hsecond j (Eidx i) hr
+    ((Pslice).image Eidx) Z L h hZ hh hwidth hb hfirst hsecond j (Eidx i) hr
   have hs := (source_scale_bounds K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
     grid centers alive k side₁ P b Z L j h hZ hh hwidth hb hfirst hsecond r hscale i hi).2
   have hd₁ : (sIntegerElementNorm K Sset (FirstLocalizedEnergy.divisor K S D T i.1)).val ≤
@@ -396,9 +396,9 @@ local notation "vLen" => length Z j .secondOverlap
 it is useful for transferring all source geometry to packet members. -/
 theorem sourceOn_eq_bare_image :
     FirstProductionChildren.sourceOn K S D Γ T Θ ψ G hν hG hbase
-      R U J₁ s H₂ hmask Pbox = Pbox.image Bsrc := by
-  simp only [FirstProductionChildren.sourceOn, ActualPositiveIndex.source, Finset.image_image]
-  rfl
+      R U J₁ s H₂ hmask Pbox = (Pbox).image Bsrc := by
+  simp only [FirstProductionChildren.sourceOn, ActualPositiveIndex.source,
+    Finset.image_image, FirstToSecondData.bare]
 
 include hZ hh hwidth hb hfirst hsecond in
 /-- Every packet row has a genuine source witness in the same first
@@ -408,7 +408,7 @@ theorem packet_rows_bound (M r ell V tau : ℝ)
     (hcutoff : H₂ = FirstToSecondData.fineCutoff K S D T R U Z tau)
     (hrow : ∀ i ∈ Pbox, (R i.1).val =
       Z ^ (firstPhysicalHeight M r ell V deltaLen BLen JLen + 12 * h + tau)) :
-    ∀ y ∈ packet.rows, (Ideal.absNorm y.1 : ℝ) ≤
+    ∀ y ∈ (packet).rows, (Ideal.absNorm y.1 : ℝ) ≤
       Z ^ (childM M ell ALen tLen gLen thetaLen V JLen (5 * h)) := by
   intro y hy
   apply ActualPacketProvenance.rows_norm_bound K S T.columns D Γ hprime hweights
@@ -431,7 +431,7 @@ theorem packet_puncture_bound (ell Q V : ℝ)
     (hV : 0 ≤ V) (hL : 0 ≤ L)
     (Rho : Ideal (𝓞 K)) (hRho : Rho ≠ 0)
     (hRhoNorm : (Ideal.absNorm Rho.radical : ℝ) ≤ Z ^ Q) :
-    ∀ γ ∈ packet.triples,
+    ∀ γ ∈ (packet).triples,
       Real.logb Z (Ideal.absNorm (childPuncture Rho γ).radical : ℝ) ≤
         Q + decrease ell ALen tLen gLen thetaLen V + 4 * h := by
   intro γ hγ
@@ -445,12 +445,12 @@ theorem packet_puncture_bound (ell Q V : ℝ)
   have hr := source_raw_box K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
     grid centers alive k side₁ P b Z L j i hi
   exact ActualBoxGeometry.source_puncture_bound K S D Γ T hmask X Hraw
-    (Pslice.image Eidx) Z L ell h hZ hh hwidth hb hfirst hsecond hcube j
+    ((Pslice).image Eidx) Z L ell h hZ hh hwidth hb hfirst hsecond hcube j
     Rho hRho Q V hV hL hRhoNorm side₁ (Eidx i) hr
 
 include hZ in
 theorem packet_puncture_nonneg (Rho : Ideal (𝓞 K)) (hRho : Rho ≠ 0) :
-    ∀ γ ∈ packet.triples,
+    ∀ γ ∈ (packet).triples,
       0 ≤ Real.logb Z (Ideal.absNorm (childPuncture Rho γ).radical : ℝ) := by
   intro γ hγ
   obtain ⟨B,hB,rfl⟩ := ActualPacketProvenance.triple_member K S T.columns D Γ
@@ -478,7 +478,7 @@ theorem packet_child_geometry (M r ell V Q z c d eta : ℝ)
     (hnonterminal : d ≤ ell + V)
     (Rho : Ideal (𝓞 K)) (hRho : Rho ≠ 0)
     (hRhoNorm : (Ideal.absNorm Rho.radical : ℝ) ≤ Z ^ Q) :
-    ∀ γ ∈ packet.triples,
+    ∀ γ ∈ (packet).triples,
       let Fc := max 0 Nactual + secondFormalLabel BLen thetaLen vLen JLen + 4 * h
       let Mc := childM M ell ALen tLen gLen thetaLen V JLen (5 * h)
       let Qc := Real.logb Z (Ideal.absNorm (childPuncture Rho γ).radical : ℝ)
@@ -501,7 +501,7 @@ theorem packet_child_geometry (M r ell V Q z c d eta : ℝ)
   have hn := source_length_bounds K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
     grid centers alive k side₁ P b Z L j h hZ hh hwidth hb hfirst hsecond r hscale i hi
   have hcommon := ActualBoxGeometry.source_common_and_label K S D Γ T hmask X Hraw
-    (Pslice.image Eidx) Z L ell h hZ hh hwidth hb hfirst hsecond hcube j (Eidx i) hr
+    ((Pslice).image Eidx) Z L ell h hZ hh hwidth hb hfirst hsecond hcube j (Eidx i) hr
   exact CenteredChildGeometry.centered_step M r ell V Q
     (Real.logb Z (Ideal.absNorm (childPuncture Rho γ).radical : ℝ)) z c d
     ALen BLen tLen gLen thetaLen vLen JLen h eta Nactual
@@ -537,10 +537,10 @@ theorem sourceIntegral_le_smaller_children
     (htest : Integrable
       (fun p : LogPlane × ℝ => SecondProductionIntegral.jointDensity s m p * Cchild p)
       ((volume : Measure LogPlane).prod (volume : Measure ℝ)))
-    (hchild : ∀ p : LogPlane × ℝ, ∀ γ ∈ packet.triples,
+    (hchild : ∀ p : LogPlane × ℝ, ∀ γ ∈ (packet).triples,
       normalizedChildEnergy Z (max 0 Nactual)
         (secondFormalLabel BLen thetaLen vLen JLen + 4 * h)
-        slotCap packet.labels packet.rows
+        slotCap (packet).labels (packet).rows
         (SecondProductionPacket.childFunction K S D Γ T Θ ψ hν U J₁ J₂ side₂ b p) γ ≤
       Cchild p * Z ^ (max 0 Nactual + secondFormalLabel BLen thetaLen vLen JLen + 4 * h + eps)) :
     SecondProductionIntegral.sourceIntegral K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂
@@ -552,7 +552,7 @@ theorem sourceIntegral_le_smaller_children
           ∂((volume : Measure LogPlane).prod (volume : Measure ℝ)) := by
   have hCphysical : 0 ≤ Cweight * Cradial * ActualPoissonScale.fieldConstant K :=
     mul_nonneg (mul_nonneg hCweight hCradial) (ActualPoissonScale.fieldConstant_nonneg K)
-  by_cases hne : Pbox.Nonempty
+  by_cases hne : (Pbox).Nonempty
   · obtain ⟨i,hi⟩ := hne
     have hlength := source_length_bounds K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
       grid centers alive k side₁ P b Z L j h hZ hh hwidth hb hfirst hsecond r hscale i hi

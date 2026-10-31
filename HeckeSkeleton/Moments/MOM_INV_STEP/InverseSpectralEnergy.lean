@@ -31,7 +31,8 @@ local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 local notation "Orbit" => SIntegerOrbits K Sset Γ
 
-variable (N : Finset Ext) (a : ℝ → Ext → ℂ)
+variable (N : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))))
+variable (a : ℝ → ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K))) → ℂ)
 variable (ha : ∀ n ∈ N, Continuous (fun t => a t n))
 variable (B : ℝ) (hbound : ∀ t, (∑ n ∈ N, ‖a t n‖) ≤ B)
 

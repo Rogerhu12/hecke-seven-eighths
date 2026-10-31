@@ -43,7 +43,7 @@ local notation "Tuple" => SecondTuple K Sector (J₁.card + J₁.card) (J₂.car
 
 /-- Prime-choice duplication preserves the original arithmetic child,
 including the exact unit sector, before any zero terms are removed. -/
-theorem source_member (x : Tuple) (hx : x ∈ Q.source) :
+theorem source_member (x : Tuple) (hx : x ∈ (Q).source) :
     ∃ B ∈ T, x.outer = B.outer ∧
       secondChild transport x = (B.outer,B.newLabel,B.newRow) := by
   change x ∈ (PositiveAssignedSource.source
@@ -54,13 +54,13 @@ theorem source_member (x : Tuple) (hx : x ∈ Q.source) :
   exact ⟨q.1.val, q.1.property, rfl, rfl⟩
 
 theorem live_source_member (x : Tuple)
-    (hx : x ∈ originalSource Q.source Q.oldLists Q.newLists Q.keep) :
+    (hx : x ∈ originalSource (Q).source (Q).oldLists (Q).newLists (Q).keep) :
     ∃ B ∈ T, x.outer = B.outer ∧
       secondChild transport x = (B.outer,B.newLabel,B.newRow) :=
   source_member K S C D Γ hprime hweights J₁ J₂ hJ₁ hJ₂ T side slotCap hcap x
     (Finset.mem_filter.mp hx).1
 
-theorem label_member (f : Ideal (𝓞 K)) (hf : f ∈ Q.labels) :
+theorem label_member (f : Ideal (𝓞 K)) (hf : f ∈ (Q).labels) :
     ∃ B ∈ T, f = B.newLabel := by
   change f ∈ (PositiveReconstructionPacket.liveTuples _ _ _).image
     (fun x => (secondChild transport x).2.1) at hf
@@ -69,7 +69,7 @@ theorem label_member (f : Ideal (𝓞 K)) (hf : f ∈ Q.labels) :
     J₁ J₂ hJ₁ hJ₂ T side slotCap hcap x hx
   exact ⟨B,hB,hf.symm.trans (congrArg (fun c : SecondChild K Sector => c.2.1) hchild)⟩
 
-theorem row_member (y : Ideal (𝓞 K) × Sector) (hy : y ∈ Q.rows) :
+theorem row_member (y : Ideal (𝓞 K) × Sector) (hy : y ∈ (Q).rows) :
     ∃ B ∈ T, y = B.newRow := by
   change y ∈ (PositiveReconstructionPacket.liveTuples _ _ _).image
     (fun x => (secondChild transport x).2.2) at hy
@@ -78,9 +78,9 @@ theorem row_member (y : Ideal (𝓞 K) × Sector) (hy : y ∈ Q.rows) :
     J₁ J₂ hJ₁ hJ₂ T side slotCap hcap x hx
   exact ⟨B,hB,hy.symm.trans (congrArg (fun c : SecondChild K Sector => c.2.2) hchild)⟩
 
-theorem triple_member (γ : OuterTriple K) (hγ : γ ∈ Q.triples) :
+theorem triple_member (γ : OuterTriple K) (hγ : γ ∈ (Q).triples) :
     ∃ B ∈ T, γ = B.outer := by
-  change γ ∈ (originalSource Q.source Q.oldLists Q.newLists Q.keep).image
+  change γ ∈ (originalSource (Q).source (Q).oldLists (Q).newLists (Q).keep).image
     (fun x => x.outer) at hγ
   obtain ⟨x,hx,hγ⟩ := Finset.mem_image.mp hγ
   obtain ⟨B,hB,houter,hchild⟩ := live_source_member K S C D Γ hprime hweights
@@ -94,7 +94,7 @@ theorem source_norm_box (Xq Xt Xr : ℝ)
       (Ideal.absNorm B.outer.q0 : ℝ) ≤ Xq ∧
       (Ideal.absNorm B.outer.quotient : ℝ) ≤ Xt ∧
       (Ideal.absNorm B.outer.residual : ℝ) ≤ Xr)
-    (x : Tuple) (hx : x ∈ originalSource Q.source Q.oldLists Q.newLists Q.keep) :
+    (x : Tuple) (hx : x ∈ originalSource (Q).source (Q).oldLists (Q).newLists (Q).keep) :
     (Ideal.absNorm x.outer.q0 : ℝ) ≤ Xq ∧
       (Ideal.absNorm x.outer.quotient : ℝ) ≤ Xt ∧
       (Ideal.absNorm x.outer.residual : ℝ) ≤ Xr := by
@@ -105,14 +105,14 @@ theorem source_norm_box (Xq Xt Xr : ℝ)
 
 theorem labels_norm_bound (V : ℝ)
     (hsource : ∀ B ∈ T, (Ideal.absNorm B.newLabel : ℝ) ≤ V)
-    (f : Ideal (𝓞 K)) (hf : f ∈ Q.labels) : (Ideal.absNorm f : ℝ) ≤ V := by
+    (f : Ideal (𝓞 K)) (hf : f ∈ (Q).labels) : (Ideal.absNorm f : ℝ) ≤ V := by
   obtain ⟨B,hB,rfl⟩ := label_member K S C D Γ hprime hweights
     J₁ J₂ hJ₁ hJ₂ T side slotCap hcap f hf
   exact hsource B hB
 
 theorem rows_norm_bound (M : ℝ)
     (hsource : ∀ B ∈ T, (Ideal.absNorm B.newRow.1 : ℝ) ≤ M)
-    (y : Ideal (𝓞 K) × Sector) (hy : y ∈ Q.rows) : (Ideal.absNorm y.1 : ℝ) ≤ M := by
+    (y : Ideal (𝓞 K) × Sector) (hy : y ∈ (Q).rows) : (Ideal.absNorm y.1 : ℝ) ≤ M := by
   obtain ⟨B,hB,rfl⟩ := row_member K S C D Γ hprime hweights
     J₁ J₂ hJ₁ hJ₂ T side slotCap hcap y hy
   exact hsource B hB

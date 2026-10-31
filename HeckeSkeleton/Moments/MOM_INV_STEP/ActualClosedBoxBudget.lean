@@ -208,12 +208,12 @@ def SmallerPieceBound (M ell V eps Cih : ℝ)
     (t : Finset (ℕ × ℕ)) (side₂ : Bool) : Prop :=
   ∀ p : LogPlane × ℝ,
     0 ≤ childM M ell ALen tLen gLen thetaLen V JLen (5 * h) →
-    ∀ γ ∈ packet.triples, ∀ a : CanonicalChildClosure.Index,
+    ∀ γ ∈ (packet).triples, ∀ a : CanonicalChildClosure.Index,
     0 ≤ (pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ →
     normalizedChildEnergy Z
       ((pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ)
       (secondFormalLabel BLen thetaLen vLen JLen + 4 * h)
-      slotCap packet.labels packet.rows
+      slotCap (packet).labels (packet).rows
       (childValue K Sset D (pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a)
         (CanonicalSectors.sectorUnit K Sset Γ)) γ ≤
     Cih * (t.sup (schwartzSeminormFamily ℝ ℝ ℂ)
@@ -232,7 +232,7 @@ theorem prescribed_radius_eq (M r ell V tau : ℝ)
   have hr := ActualSingleBoxBudget.source_raw_box K S D Γ T Θ ψ G hν hG hbase
     R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j i hi
   have he := FirstOuterPhysicalCap.radius_eq_of_box K S D Γ T hmask X Hraw
-    (Pslice.image Eidx) Z L M r ell V h tau (zero_lt_one.trans hZ) j (Eidx i) hr
+    ((Pslice).image Eidx) Z L M r ell V h tau (zero_lt_one.trans hZ) j (Eidx i) hr
   calc
     (R i.1).val =
         (FirstOuterPhysicalCap.radius K S D Γ T hmask Z L M r ell V h tau
@@ -254,7 +254,7 @@ theorem piece_child_geometry (M r ell V Q z c d eta : ℝ)
     (hRho : T.columns.puncture ≠ 0)
     (hRhoNorm : (Ideal.absNorm T.columns.puncture.radical : ℝ) ≤ Z ^ Q)
     (side₂ : Bool) (p : LogPlane × ℝ) :
-    ∀ γ ∈ packet.triples, ∀ a : CanonicalChildClosure.Index,
+    ∀ γ ∈ (packet).triples, ∀ a : CanonicalChildClosure.Index,
       let Fc := max 0 ((pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ) +
         secondFormalLabel BLen thetaLen vLen JLen + 4 * h
       let Mc := childM M ell ALen tLen gLen thetaLen V JLen (5 * h)
@@ -280,7 +280,7 @@ theorem piece_child_geometry (M r ell V Q z c d eta : ℝ)
     R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j h hZ hh hwidth hb hfirst hsecond
     r hscale i hi
   have hcommon := ActualBoxGeometry.source_common_and_label K S D Γ T hmask X Hraw
-    (Pslice.image Eidx) Z L ell h hZ hh hwidth hb hfirst hsecond hcube j (Eidx i) hr
+    ((Pslice).image Eidx) Z L ell h hZ hh hwidth hb hfirst hsecond hcube j (Eidx i) hr
   have hlen : (pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ =
       PartitionedChildGeometry.pieceLength Z Nactual a := by
     change PartitionedChildGeometry.pieceLength T.columns.base
@@ -319,22 +319,22 @@ theorem closed_child_bound
     (hcal : ThetaCalibrationInput K Sset D T.columns.lambda G)
     (t : Finset (ℕ × ℕ)) (side₂ : Bool) (p : LogPlane × ℝ)
     (hih : 0 ≤ childM M ell ALen tLen gLen thetaLen V JLen (5 * h) →
-      ∀ γ ∈ packet.triples, ∀ a : CanonicalChildClosure.Index,
+      ∀ γ ∈ (packet).triples, ∀ a : CanonicalChildClosure.Index,
       0 ≤ (pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ →
       normalizedChildEnergy Z
         ((pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ)
         (secondFormalLabel BLen thetaLen vLen JLen + 4 * h)
-        slotCap packet.labels packet.rows
+        slotCap (packet).labels (packet).rows
         (childValue K Sset D (pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a)
           (CanonicalSectors.sectorUnit K Sset Γ)) γ ≤
       Cih * (t.sup (schwartzSeminormFamily ℝ ℝ ℂ)
         ((pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).cutoff γ)) ^ 2 *
         Z ^ ((pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ +
           (secondFormalLabel BLen thetaLen vLen JLen + 4 * h) + eps)) :
-    ∀ γ ∈ packet.triples,
+    ∀ γ ∈ (packet).triples,
       normalizedChildEnergy Z (max 0 Nactual)
         (secondFormalLabel BLen thetaLen vLen JLen + 4 * h)
-        slotCap packet.labels packet.rows
+        slotCap (packet).labels (packet).rows
         (SecondProductionPacket.childFunction K S D Γ T Θ ψ hν U J₁ J₂ side₂ b p) γ ≤
       profile K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p *
         Z ^ (max 0 Nactual + (secondFormalLabel BLen thetaLen vLen JLen + 4 * h) +
@@ -361,12 +361,12 @@ theorem closed_child_bound
   by_cases hMc : childM M ell ALen tLen gLen thetaLen V JLen (5 * h) < 0
   · have hzero := CanonicalChildClosure.raw_energy_eq_zero_of_negative_row_length
       K Sset D (CanonicalSectors.sectorUnit K Sset Γ) C hCZ γ slotCap
-      packet.labels packet.rows (childM M ell ALen tLen gLen thetaLen V JLen (5 * h))
+      (packet).labels (packet).rows (childM M ell ALen tLen gLen thetaLen V JLen (5 * h))
       hMc (by simpa only [hCb] using hrows)
     rw [normalizedChildEnergy_eq Z (max 0 Nactual)
       (secondFormalLabel BLen thetaLen vLen JLen + 4 * h) (zero_lt_one.trans hZ)]
     change Z ^ (-(max 0 Nactual + (secondFormalLabel BLen thetaLen vLen JLen + 4 * h))) *
-      childEnergy slotCap packet.labels packet.rows
+      childEnergy slotCap (packet).labels (packet).rows
         (childValue K Sset D C (CanonicalSectors.sectorUnit K Sset Γ)) γ ≤ _
     rw [hzero, mul_zero]
     exact mul_nonneg (profile_nonneg K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih hCih side₂ p)
@@ -427,7 +427,7 @@ theorem closed_child_bound
   have hclose := (Classical.choose_spec (Classical.choose_spec
     (CanonicalChildClosure.exists_closed_raw_bound K Sset D slotCap Vcap piTerm hVcap hpiTerm t))).2
   have hraw := hclose C hCZ G hcal (CanonicalSectors.sectorUnit K Sset Γ) γ
-    packet.labels packet.rows (childM M ell ALen tLen gLen thetaLen V JLen (5 * h))
+    (packet).labels (packet).rows (childM M ell ALen tLen gLen thetaLen V JLen (5 * h))
     (secondFormalLabel BLen thetaLen vLen JLen + 4 * h) h eps Cih
     hpool hlive hsupport hchildV hlabelCap hh (by simpa only [hCb] using hwidth) heps hCih
     (by simpa only [hCb] using hrows)
@@ -438,7 +438,7 @@ theorem closed_child_bound
     hcapacity (by
       intro a ha
       simpa only [hCb] using hih (le_of_not_gt hMc) γ hγ a ha)
-  have hraw' : childEnergy slotCap packet.labels packet.rows
+  have hraw' : childEnergy slotCap (packet).labels (packet).rows
       (SecondProductionPacket.childFunction K S D Γ T Θ ψ hν U J₁ J₂ side₂ b p) γ ≤
       profile K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p *
         Z ^ (2 * (max 0 Nactual + (secondFormalLabel BLen thetaLen vLen JLen + 4 * h)) +
@@ -450,7 +450,7 @@ theorem closed_child_bound
   exact CanonicalChildClosure.normalized_bound_of_raw K Z (max 0 Nactual)
     (secondFormalLabel BLen thetaLen vLen JLen + 4 * h) (28 * h + eps + piTerm)
     (profile K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p)
-    (zero_lt_one.trans hZ) slotCap packet.labels packet.rows
+    (zero_lt_one.trans hZ) slotCap (packet).labels (packet).rows
     (SecondProductionPacket.childFunction K S D Γ T Θ ψ hν U J₁ J₂ side₂ b p) γ hraw'
 
 variable (w : ∀ o : OuterIndex K S D T, FirstOuterCenters.Overlap K S D T o → ℝ)
@@ -488,12 +488,12 @@ theorem closed_sourceIntegral_le
     (t : Finset (ℕ × ℕ)) (side₂ : Bool)
     (hih : ∀ p : LogPlane × ℝ,
       0 ≤ childM M ell ALen tLen gLen thetaLen V JLen (5 * h) →
-      ∀ γ ∈ packet.triples, ∀ a : CanonicalChildClosure.Index,
+      ∀ γ ∈ (packet).triples, ∀ a : CanonicalChildClosure.Index,
       0 ≤ (pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ →
       normalizedChildEnergy Z
         ((pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ)
         (secondFormalLabel BLen thetaLen vLen JLen + 4 * h)
-        slotCap packet.labels packet.rows
+        slotCap (packet).labels (packet).rows
         (childValue K Sset D (pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a)
           (CanonicalSectors.sectorUnit K Sset Γ)) γ ≤
       Cih * (t.sup (schwartzSeminormFamily ℝ ℝ ℂ)

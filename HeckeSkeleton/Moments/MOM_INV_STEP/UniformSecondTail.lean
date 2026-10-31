@@ -164,10 +164,9 @@ theorem exists_inverse_tail_bound_uniform
           (pairExponent K S x.1 x.2 e e)).card ≤ Am * X ^ 2
         rw [Finset.empty_union]
         apply (hm x.1 x.2).trans
-        rw [pow_two]
-        gcongr
-        · exact hn x.1 hx₁
-        · exact hn x.2 hx₂
+        simpa only [pow_two, mul_assoc] using
+          (mul_le_mul_of_nonneg_left
+            (mul_le_mul (hn x.1 hx₁) (hn x.2 hx₂) (Nat.cast_nonneg _) hX0) hAm0)
       · intro δ hδ
         apply ht (pairSupport K S D x.1 x.2 e e) (pairExponent K S x.1 x.2 e e)
           φ ∅ ρ δ Z R tau saving hZ hR hRR htau hsaving hss

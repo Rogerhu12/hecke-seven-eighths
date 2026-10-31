@@ -116,10 +116,10 @@ theorem sourceIntegral_le_smaller_children
     (htest : Integrable
       (fun p : LogPlane × ℝ => SecondProductionIntegral.jointDensity s m p * Cchild p)
       ((volume : Measure LogPlane).prod (volume : Measure ℝ)))
-    (hchild : ∀ p : LogPlane × ℝ, ∀ γ ∈ packet.triples,
+    (hchild : ∀ p : LogPlane × ℝ, ∀ γ ∈ (packet).triples,
       normalizedChildEnergy Z (max 0 Nactual)
         (secondFormalLabel BLen thetaLen vLen JLen + 4 * h)
-        slotCap packet.labels packet.rows
+        slotCap (packet).labels (packet).rows
         (SecondProductionPacket.childFunction K S D Γ T Θ ψ hν U J₁ J₂ side₂ b p) γ ≤
       Cchild p * Z ^ (max 0 Nactual + secondFormalLabel BLen thetaLen vLen JLen + 4 * h + eps)) :
     SecondProductionIntegral.sourceIntegral K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂

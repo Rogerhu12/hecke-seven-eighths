@@ -38,7 +38,7 @@ theorem appendResidual_mask (R n I : Ideal (𝓞 K)) (γ : OuterTriple K) :
   simp only [idealCoprimeMask, childPuncture, appendResidual, IsCoprime.mul_right_iff,
     isCoprime_radical_right_iff]
   congr 1
-  tauto
+  simp only [and_assoc]
 
 /-- Every moving label and row uses the same original family, surviving
 slot set, background, complete sf pool and fixed-center norm test. -/
@@ -89,6 +89,7 @@ theorem column_eq_complete_sum (C : ColumnFamily K Sset σ Θ ψ) (γ₀ : Outer
   intro n hn
   dsimp only [family, bareCoefficient, height, idealCoprimeMask]
   rw [FirstCompleteFamily.norm_scale C.base U hZ hU]
+  rfl
 
 /-- The actual complete second summand is already the literal child
 coefficient. Its new row and sector were computed by the two divisors. -/
@@ -105,6 +106,7 @@ theorem childTerm_eq (C : ColumnFamily K Sset σ Θ ψ) (γ₀ : OuterTriple K)
   unfold childTerm bareCoefficient
   rw [appendResidual_mask K, labelRow_exterior, sectorRow_exterior]
   unfold SecondOverlapColumns.forwardCoefficient CanonicalSectorRows.sectorCharacter
+    CanonicalSectors.rowElement
   ring
 
 def branch (C : ColumnFamily K Sset σ Θ ψ) (γ₀ : OuterTriple K)
@@ -167,7 +169,7 @@ theorem second_branch_centered (C : ColumnFamily K Sset σ Θ ψ) (γ₀ : Outer
   have hAU : A ≤ U := by
     have hh := mul_le_mul_of_nonneg_right hvlo hA.le
     rw [← hactual, hcenter] at hh
-    exact (mul_le_mul_left hc).mp hh
+    exact (mul_le_mul_iff_right₀ hc).mp hh
   rw [branch_eq_centered_pool K S D Γ C γ₀ G J γ f y W hW
     τ v X A U hv hA hU hAU hactual]
   have hm := CenteredMellin.finite_source_centered (1 / 8) (21 / 8)

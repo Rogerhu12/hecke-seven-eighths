@@ -142,7 +142,6 @@ theorem decoration_priority (C : CanonicalBlock.ColumnData K S σ)
   change _ * divisorMark C.slots C.primeLists C.primeWeights
     ((extractedFactor K S r₁ r₂ b₁ b₂ side).val.val * u.val.val * b ^ 3) * _ = _
   rw [hm, primeMark_priority_list _ _ _ _ _ hL]
-  rfl
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalFirstSource
 
