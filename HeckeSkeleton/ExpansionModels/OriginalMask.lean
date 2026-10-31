@@ -30,13 +30,15 @@ variable (K : Type) [Field K] [NumberField K]
 def sixNonzeroIdeal : NonzeroIdeal K :=
   ⟨Ideal.span {(6 : 𝓞 K)}, mem_nonZeroDivisors_of_ne_zero (by
     change Ideal.span {(6 : 𝓞 K)} ≠ ⊥
-    simpa only [Ideal.span_singleton_eq_bot] using (show (6 : 𝓞 K) ≠ 0 by norm_num))⟩
+    intro hz
+    have hzero : (6 : 𝓞 K) = 0 := Ideal.span_singleton_eq_bot.mp hz
+    norm_num at hzero)⟩
 
 lemma prime_dvd_sixNonzeroIdeal (p : HeightOneSpectrum (𝓞 K)) :
     p.asIdeal ∣ (sixNonzeroIdeal K).val ↔ (6 : 𝓞 K) ∈ p.asIdeal := by
   change p.asIdeal ∣ Ideal.span {(6 : 𝓞 K)} ↔ (6 : 𝓞 K) ∈ p.asIdeal
   rw [Ideal.dvd_iff_le]
-  exact Ideal.span_singleton_le_iff_mem
+  exact (Ideal.span_singleton_le_iff_mem (x := (6 : 𝓞 K)) (I := p.asIdeal))
 
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 

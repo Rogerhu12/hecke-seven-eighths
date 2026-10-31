@@ -50,15 +50,15 @@ theorem sum_nonzeroTerminalSet_eq_normWindow (H : ℝ)
   · intro I hI
     apply (mem_nonzeroTerminalSet H I.val).mpr
     refine ⟨?_, mem_nonZeroDivisors_iff_ne_zero.mp I.property⟩
-    simpa only [finiteIdealNormWindow, Finset.mem_preimage, Set.Finite.mem_toFinset,
-      Set.mem_setOf_eq] using hI
+    unfold finiteIdealNormWindow at hI
+    exact (Set.Finite.mem_toFinset _).mp (Finset.mem_preimage.mp hI)
   · intro I _ J _ hIJ
     exact Subtype.ext hIJ
   · intro I hI
     obtain ⟨hN, hne⟩ := (mem_nonzeroTerminalSet H I).mp hI
     refine ⟨⟨I, mem_nonZeroDivisors_of_ne_zero hne⟩, ?_, rfl⟩
-    simpa only [finiteIdealNormWindow, Finset.mem_preimage, Set.Finite.mem_toFinset,
-      Set.mem_setOf_eq] using hN
+    unfold finiteIdealNormWindow
+    exact Finset.mem_preimage.mpr ((Set.Finite.mem_toFinset _).mpr hN)
   · intro I hI
     rfl
 

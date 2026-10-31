@@ -30,23 +30,19 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-      - name: Build the theta-local adapter and its audit
-        id: theta_build
+      - name: Set up Lean and Mathlib
         uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
         with:
           auto-config: "false"
-          build: "true"
-          build-args: HeckeSkeleton.ThetaLocal.ProjectAudit
+          build: "false"
           test: "false"
           lint: "false"
           use-mathlib-cache: "true"
-          use-github-cache: "true"
-      - name: Preserve dependency progress after a build failure
-        if: ${{ failure() && !cancelled() && steps.theta_build.outcome == 'failure' }}
-        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
-        with:
-          path: ./.lake
-          key: lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('./lean-toolchain') }}-${{ hashFiles('./lake-manifest.json') }}-${{ github.sha }}-failed-${{ github.run_id }}-${{ github.run_attempt }}
+          use-github-cache: "false"
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
+      - name: Build the theta-local adapter and its audit
+        run: lake build HeckeSkeleton.ThetaLocal.ProjectAudit
       - name: Check every public declaration against the axiom allowlist
         shell: bash
         run: |

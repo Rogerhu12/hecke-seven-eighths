@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  actions: read
 
 concurrency:
   group: expansion-${{ github.ref }}
@@ -40,20 +39,10 @@ jobs:
           lint: 'false'
           use-mathlib-cache: 'true'
           use-github-cache: 'false'
-      - name: Restore project artifacts
-        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
-        with:
-          path: |
-            .lake/build
-            vendor/class-field-theory/.lake/build
-          key: expansion-${{ matrix.group }}-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
-          restore-keys: |
-            expansion-${{ matrix.group }}-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
-            expansion-actual-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
       - name: Compile original imports and audit transitive axioms
         id: compile
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           mkdir -p expansion-verification
@@ -63,19 +52,7 @@ jobs:
             sha256sum expansion-verification/sources.tar.gz > expansion-verification/sources.sha256
           fi
           lean --version | tee expansion-verification/environment.log
-          if [ '${{ matrix.group }}' = pure ]; then
-            python3 scripts/expansion_verify.py --group pure
-          else
-            python3 scripts/expansion_native_verify.py --group '${{ matrix.group }}' --jobs 2
-          fi
-      - name: Preserve project compilation progress
-        if: ${{ always() && !cancelled() && steps.compile.outcome != '' && steps.compile.outcome != 'skipped' }}
-        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
-        with:
-          path: |
-            .lake/build
-            vendor/class-field-theory/.lake/build
-          key: expansion-${{ matrix.group }}-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          python3 scripts/expansion_verify.py --group '${{ matrix.group }}'
       - name: Preserve exact source manifests and compiler output
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f

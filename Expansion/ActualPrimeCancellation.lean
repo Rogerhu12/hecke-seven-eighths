@@ -16,6 +16,7 @@ namespace Expansion.Project
 
 open NumberField IsDedekindDomain Set
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.Bridge HeckeSkeleton.ExplicitHeckeFunctionalEquation
 open HeckeSkeleton.HeckeBufferedReciprocal ExpansionInterfaces.Mellin
 open PrimeCancellationPrimeSeries
 open scoped Classical BigOperators ContDiff

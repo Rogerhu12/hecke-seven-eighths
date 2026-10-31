@@ -19,6 +19,7 @@ namespace Expansion.Project
 
 open NumberField IsDedekindDomain Set MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.Bridge HeckeSkeleton.ExplicitHeckeFunctionalEquation
 open HeckeSkeleton.HeckeBufferedReciprocal ExpansionDetector.Hecke
 open ExpansionInterfaces.Mellin
 open scoped Classical BigOperators
@@ -84,7 +85,7 @@ theorem exists_actual_primePower_bound_of_contour_data
     calc
       |(s + z).im| = |ν + z.im| := by simp only [s, Complex.add_im, vertical_im]
       _ ≤ |ν| + |z.im| := abs_add_le _ _
-      _ ≤ |ν| + H := add_le_add_left hz.2.2 _
+      _ ≤ |ν| + H := add_le_add le_rfl hz.2.2
   have hnonzero : ∀ z ∈ closedRectangle (β + δ) 2 H,
       heckeContinuation K χ (s + z) ≠ 0 := by
     intro z hz
@@ -150,7 +151,7 @@ theorem exists_actual_primePower_bound_of_contour_data
       2 * (CW / (1 + H) ^ order) * M * X ^ (2 : ℝ) * (2 - (β + δ)) +
       (actualPrimeLogMass K 2 * X ^ (2 : ℝ)) * (CW / H ^ order))
   apply le_trans (by simpa only [actualAnnularPrimePowerSum, s, vertical_re, zero_add] using hraw)
-  exact mul_le_mul_of_nonneg_left (add_le_add_left htail _)
+  exact mul_le_mul_of_nonneg_left (add_le_add le_rfl htail)
     (by positivity : 0 ≤ 1 / (2 * Real.pi))
 
 /-- Fixed-profile specialization; the constants are chosen before all row data. -/

@@ -26,6 +26,7 @@ open HeckeGeneral.Analysis HeckeGeneral.Analysis.ExpansionBufferedPolynomials
 open HeckeGeneral.Analysis.ExpansionReflectedPolynomials
 open HeckeGeneral.Analysis.ExpansionDeletedControl
 open HeckeGeneral.Analysis.ExpansionScaleBounds
+open HeckeGeneral.Bridge
 open HeckeSkeleton.HeckeBufferedReciprocal HeckeSkeleton.HeckeConductorNorm
 open HeckeSkeleton.ExplicitHeckeFunctionalEquation
 open ExpansionInterfaces.Mellin ExpansionDetector.Fourier ExpansionDetector.PowerBudget
@@ -268,20 +269,20 @@ theorem exists_actual_normalized_square_bounds
   have hk : 0 ≤ heightDegree K := by unfold heightDegree; positivity
   have hb : 0 ≤ b := by unfold b; positivity
   have hnumeric := contour_exponent_budget a r 22 e ε θ τ η (heightDegree K) N
-    hr hr' he.le hk hθ (by nlinarith [hforward]) hreflected hN
+    hr hr' he.le hk hθ (by nlinarith only [hforward]) hreflected hN
   have htail : 3 / 2 * r - τ * N ≤ -100 := by
     have hh := hnumeric.2.2.1
     change 3 / 2 * r + b - τ * N ≤ -100 at hh
-    linarith
+    linarith only [hh, hb]
   have hforwardexp :
       (a - 1 / 2 + 6 * e) * r + (2 * ε + heightDegree K * ε * θ) ≤
         (a - 1 / 2) * r + η / 4 := by
-    nlinarith [hnumeric.1]
+    nlinarith only [hnumeric.1]
   have hreflectedexp :
       (a - 1 / 2) * (1 - r) + 12 * e - 6 * e * r + 2 * ε +
           heightDegree K * θ * (1 + ε) ≤
         (a - 1 / 2) * (1 - r) + η / 4 := by
-    nlinarith [hnumeric.2.1]
+    nlinarith only [hnumeric.2.1]
   have hinverse := hF true χ I E U a H Hupper r β ν ratio hχ harch hweight hI hE
     hUone ha ha' hr hratio hβ hβ' hnorm hconductor hheight hHlower hpadding hupper S hS
   have hplain := hF false χ I E U a H Hupper r β ν 0 hχ harch hweight hI hE
@@ -297,11 +298,11 @@ theorem exists_actual_normalized_square_bounds
     hforwardexp hnumeric.2.2.1 htail
   have hreflectedMajorant := three_power_majorant_mono hUone hCR (le_max_right CF CR)
     hreflectedexp hnumeric.2.2.2 htail
-  have har : 0 ≤ (a - 1 / 2) * r := mul_nonneg (by linarith) hr
+  have har : 0 ≤ (a - 1 / 2) * r := mul_nonneg (by linarith only [ha]) hr
   have har' : (a - 1 / 2) * r ≤ (1 / 2 : ℝ) * 22 :=
-    mul_le_mul (by linarith) hr' hr (by norm_num)
-  have hx : -30 ≤ (a - 1 / 2) * r := by linarith
-  have hy : -30 ≤ (a - 1 / 2) * (1 - r) := by nlinarith
+    mul_le_mul (by linarith only [ha']) hr' hr (by norm_num)
+  have hx : -30 ≤ (a - 1 / 2) * r := by linarith only [har]
+  have hy : -30 ≤ (a - 1 / 2) * (1 - r) := by nlinarith only [ha, har']
   have hIsq := hsq U hU ((a - 1 / 2) * r) hx _ (hinverse.trans hforwardMajorant)
   have hPsq := hsq U hU ((a - 1 / 2) * r) hx _ (hplain.trans hforwardMajorant)
   have hRsq := hsq U hU ((a - 1 / 2) * (1 - r)) hy _
@@ -311,6 +312,6 @@ theorem exists_actual_normalized_square_bounds
       (2 * a - 1) * (1 - r) + η := by ring
   rw [heq₁] at hIsq hPsq
   rw [heq₂] at hRsq
-  exact ⟨hIsq, min_power_upper hUone (by linarith) hPsq hRsq⟩
+  exact ⟨hIsq, min_power_upper hUone (by linarith only [ha]) hPsq hRsq⟩
 
 end Expansion.ActualDetectorSaturation

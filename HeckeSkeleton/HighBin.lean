@@ -408,6 +408,9 @@ theorem highLabelUniformity (c : TargetContext K) :
   let N : ℕ := (expansionRecipeRaw K c).labelCount
   refine ⟨0, (N : ℝ) + 1, 1, 1, le_rfl, by positivity, zero_lt_one, le_rfl, ?_⟩
   intro Z T hZ _hT _hceiling b
+  letI : Fintype (HighLabel K c Z T b) := by
+    change Fintype (Fin N)
+    infer_instance
   have hcard : ((actualHighPresentation K c).labels Z T b).card ≤ N := by
     simpa only [Fintype.card_fin] using
       (Finset.card_le_univ
