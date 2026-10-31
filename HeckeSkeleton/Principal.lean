@@ -4,6 +4,7 @@ import HeckeSkeleton.ActualProbeIntegralComplete
 import HeckeSkeleton.ActualPrincipalWindowError
 import HeckeSkeleton.PrimeNormalizer
 import HeckeSkeleton.LowCauchy
+import HeckeSkeleton.GeneratorMask
 import HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy
 
 set_option autoImplicit false
@@ -206,7 +207,8 @@ theorem principalSource : (probeMeasures K c).principalInput P ψ g T := by
     normalizer_smallPower := principal_normalizer_smallPower K c
     principal_window_error := principal_principal_window_error K c
     low := low_of_gram_and_completedEnergy K c
-      (Gram.gramBound_of_calibrated K S P (allowedGenerators K c) (arithmeticCalibration K c))
+      (Gram.gramBound_of_calibrated K S P (generatorMaskWitness K c) rfl HEq.rfl
+        (allowedGenerators K c) (arithmeticCalibration K c))
       (completedMarkedEnergy K c (F := finiteMellinData K c) (markedReflection K c)
         (moment_quadratic_sieve K c) (moment_cubic_sieve K c))
       (principal_normalizer_smallPower K c)
