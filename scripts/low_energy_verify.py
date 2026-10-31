@@ -20,6 +20,7 @@ import subprocess
 import sys
 import time
 from lean_imports import imports as lean_imports, strip_comments
+from low_energy_axioms import inspect_axiom_output
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / '.lake/build/lib/lean'
@@ -96,6 +97,11 @@ def main():
         raise SystemExit('Unexpected Lean toolchain; refusing an incomparable audit.')
     OUT.mkdir(parents=True, exist_ok=True)
     LOG.mkdir(exist_ok=True)
+    if args.phase == 'actual':
+        # A prior target audit must not survive an interrupted or failed replay
+        # as though it belonged to the current verification attempt.
+        for suffix in ('.lean', '.json', '.log'):
+            (LOG / ('CompletedMarkedEnergyAudit' + suffix)).unlink(missing_ok=True)
     selected = CORE if args.phase == 'core' else ACTUAL
     targets = ['HeckeSkeleton.LowEnergy.' + m for m in selected]
     if args.phase == 'core':
@@ -154,16 +160,19 @@ def main():
     diagnostic_deadline = None
     failure_code = 0
 
-    def save_diagnostics():
+    def save_diagnostics(gate_status=None):
         (LOG / (args.phase + '_diagnostics.json')).write_text(json.dumps({
             'phase': args.phase, 'diagnostic_seconds': diagnostic_seconds,
             'first_failure': failures[0] if failures else None,
             'failed_modules': failures, 'skipped_modules': skipped,
             'budget_exhausted': diagnostic_deadline is not None and
                 time.monotonic() >= diagnostic_deadline,
-            'final_axiom_gate': 'not_run_due_to_failed_or_skipped_modules'
-                if failures or skipped else 'not_reached',
+            'final_axiom_gate': gate_status or (
+                'not_run_due_to_failed_or_skipped_modules'
+                if failures or skipped else 'not_reached'),
         }, indent=2) + '\n')
+
+    save_diagnostics(gate_status='not_started')
 
     def record_skip(module, source, reason, dependencies):
         discard_artifacts(module)
@@ -220,6 +229,8 @@ def main():
                 previous = json.loads(stamp.read_text())
             except (ValueError, OSError):
                 previous = None
+        cached_axiom_audit = (inspect_axiom_output(log_path.read_text())
+            if is_new_source and previous is not None else None)
         if (previous is not None and previous.get('cache_schema') == CACHE_SCHEMA
             and previous.get('source_sha256') == source_digest
             and previous.get('exit_code') == 0 and previous.get('audit_ok') is True
@@ -229,10 +240,12 @@ def main():
             and previous.get('new_source') == is_new_source
             and previous.get('local_dependency_artifact_hashes') == dependency_artifacts
             and previous.get('output_artifact_hashes') == artifact_hashes(module)
-            and previous.get('log_sha256') == hashlib.sha256(log_path.read_bytes()).hexdigest()):
+            and previous.get('log_sha256') == hashlib.sha256(log_path.read_bytes()).hexdigest()
+            and (not is_new_source or cached_axiom_audit['ok'])):
             print('CACHED EXACT ' + module, flush=True)
             print(log_path.read_text(), flush=True)
-            records.append({**previous, 'reused_exact_cache': True})
+            records.append({**previous, 'reused_exact_cache': True,
+                'printed_axiom_audit': cached_axiom_audit})
             (LOG / (args.phase + '.json')).write_text(json.dumps(records, indent=2) + '\n')
             continue
         if module == 'HeckeSkeleton.Principal':
@@ -255,8 +268,10 @@ def main():
                 output = output.decode(errors='replace')
             proc = subprocess.CompletedProcess(command, 124, stdout=output +
                 '\nDIAGNOSTIC BUDGET EXPIRED: compilation was stopped; no proof result.\n')
+        printed_axiom_audit = inspect_axiom_output(proc.stdout) if is_new_source else None
         audit_ok = proc.returncode == 0 and not (is_new_source and
-            ('sorryAx' in proc.stdout or "declaration uses 'sorry'" in proc.stdout))
+            ('sorryAx' in proc.stdout or "declaration uses 'sorry'" in proc.stdout
+                or not printed_axiom_audit['ok']))
         if not audit_ok:
             discard_artifacts(module)
         record = {'module': module, 'source': relative_source,
@@ -268,6 +283,7 @@ def main():
             'local_dependency_artifact_hashes': dependency_artifacts,
             'output_artifact_hashes': artifact_hashes(module) if audit_ok else {},
             'audit_ok': audit_ok, 'diagnostic_timeout': timed_out,
+            'printed_axiom_audit': printed_axiom_audit,
             'log_sha256': hashlib.sha256(proc.stdout.encode()).hexdigest(),
             'local_dependency_hashes': {
                 dependency: hashlib.sha256(artifact.read_bytes()).hexdigest()
@@ -283,7 +299,7 @@ def main():
         if not audit_ok:
             blocked.add(module)
             reason = ('diagnostic_timeout' if timed_out else
-                'compiler_error' if proc.returncode else 'admitted_dependency_in_audit')
+                'compiler_error' if proc.returncode else 'disallowed_or_malformed_axiom_audit')
             failures.append({'module': module, 'exit_code': proc.returncode or 1,
                 'reason': reason})
             if not failure_code:
@@ -305,24 +321,36 @@ def main():
         audit.write_text('import HeckeSkeleton.Principal\n\n' +
             '#print axioms HeckeSkeleton.completedMarkedEnergy\n')
         print('AXIOM GATE HeckeSkeleton.completedMarkedEnergy', flush=True)
+        save_diagnostics(gate_status='running')
         started = time.monotonic()
         proc = subprocess.run(['lean', *flags, '-R', str(LOG), str(audit)],
             cwd=ROOT, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        axiom_audit = inspect_axiom_output(proc.stdout,
+            required=['HeckeSkeleton.completedMarkedEnergy'])
         audit_record = {'declaration': 'HeckeSkeleton.completedMarkedEnergy',
             'source_sha256': hashlib.sha256(audit.read_bytes()).hexdigest(),
             'principal_source_sha256': hashlib.sha256(
                 (ROOT / 'HeckeSkeleton/Principal.lean').read_bytes()).hexdigest(),
             'exit_code': proc.returncode, 'seconds': round(time.monotonic()-started, 3),
             'lean': version, 'flags': flags, 'mentions_sorryAx': 'sorryAx' in proc.stdout,
+            'printed_axiom_audit': axiom_audit,
+            'audit_ok': proc.returncode == 0 and axiom_audit['ok'],
+            'log_sha256': hashlib.sha256(proc.stdout.encode()).hexdigest(),
             'scope': 'The conditional completedMarkedEnergy theorem, with the original two sieves.'}
         (LOG / 'CompletedMarkedEnergyAudit.json').write_text(
             json.dumps(audit_record, indent=2) + '\n')
         (LOG / 'CompletedMarkedEnergyAudit.log').write_text(proc.stdout)
         print(proc.stdout, flush=True)
         if proc.returncode:
+            save_diagnostics(gate_status='failed_compiler')
             return proc.returncode
-        if 'sorryAx' in proc.stdout:
-            raise RuntimeError('The replacement completedMarkedEnergy still has an admitted dependency.')
+        if not axiom_audit['ok']:
+            save_diagnostics(gate_status='failed_axiom_audit')
+            raise RuntimeError('The replacement completedMarkedEnergy failed its strict axiom audit: ' +
+                '; '.join(axiom_audit['errors']))
+        save_diagnostics(gate_status='passed')
+    else:
+        save_diagnostics(gate_status='not_applicable_core_phase')
     print(f'PASS: {len(order)} real source modules in {args.phase}', flush=True)
     return 0
 
