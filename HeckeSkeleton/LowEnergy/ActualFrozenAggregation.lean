@@ -184,7 +184,12 @@ theorem actual_frozen_row_energy [Finite (SixthLocalClasses K S)]
   letI : Fintype (FrozenState K S f.frozen f.puncture) := Fintype.ofFinite _
   let E : ℝ := Ce * A ^ 2 * exteriorNorm K S f.frozen ^ (-1 / 2 : ℝ) *
     Z ^ ((5 / 6 : ℝ) - 2 * d + 23 * delta + 2 * eps)
-  have hE : 0 ≤ E := by dsimp [E]; positivity
+  have hE : 0 ≤ E := by
+    dsimp only [E]
+    exact mul_nonneg
+      (mul_nonneg (mul_nonneg hCe.le (sq_nonneg A))
+        (Real.rpow_nonneg (exteriorNorm_pos K S f.frozen).le _))
+      (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)
   have hs (s : FrozenState K S f.frozen f.puncture)
       (classes : FourClasses (SixthLocalClasses K S)) :=
     henergy f s classes Z Klo Plo q d Ccut Cwin hZ hK hP hq hCut hWin hd hd' hf hpunc
@@ -213,7 +218,8 @@ theorem actual_frozen_row_energy [Finite (SixthLocalClasses K S)]
     rw [hnorm] at h
     simpa only [Nat.card_eq_fintype_card, States] using h
   have hcard := mul_le_mul hstates' (by linarith : Q ^ 2 ≤ Q ^ 2 + 1)
-    (sq_nonneg Q) (mul_nonneg hCs.le (by positivity))
+    (sq_nonneg Q) (mul_nonneg hCs.le
+      (Real.rpow_nonneg (exteriorNorm_pos K S f.frozen).le _))
   have h := mul_le_mul_of_nonneg_right hcard hE
   apply hcomb.trans
   apply h.trans_eq

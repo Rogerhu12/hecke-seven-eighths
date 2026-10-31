@@ -10,13 +10,31 @@ The native log records 84 distinct task Built events, two failed task modules, a
 
 Four new modules genuinely built since round 9: ActualSourceReindex (six printed reports), InactiveWindows (eight), TargetDictionary (zero), and TargetSieveDictionary (three). These are module build observations, not final-target success. TargetSieveDictionary's earlier identifier/heartbeat failure did not recur.
 
-The failed modules are ActualDyadicReflection (two diagnostics: norm-definition simplification and a redundant rfl) and TargetGaussian (one failed rewrite of the sixth-unit invariance identity). Both current repairs differ from the executed source and await compilation. Failed-module output, including compiler-generated sorryAx, remains failure evidence. No heartbeat or wall timeout was observed. Both final audits are not_started; the archive contains no final-audit files or completed output inventory.
+The failed modules are ActualDyadicReflection (two diagnostics: norm-definition simplification and a redundant rfl) and TargetGaussian (one failed rewrite of the sixth-unit invariance identity). Repairs following that executed snapshot require later verification; subsequent partial observations are recorded below. Failed-module output, including compiler-generated sorryAx, remains failure evidence. No heartbeat or wall timeout was observed. Both final audits are not_started; the archive contains no final-audit files or completed output inventory.
 
-All 84 Built source hashes still match current files. The two repaired sources differ from the round 11 snapshot; eight other modules retain their snapshot bytes without a terminal event. No per-module process exits, schema-2 receipts, or skip results are fabricated.
+The completed native observations remain unchanged. Current source assessments and pending changes are listed below; no per-module process exits, schema-2 receipts, or skip results are fabricated.
 
 The separate [round 11 native evidence](native_lake_round11.json) contains the original report/preparation records and complete observed compiler blocks. Its [exact 205,075-byte ZIP](evidence/native_lake_round11.zip) preserves the raw build log and cache metadata, SHA-256 `f14065da37fc7ae0b515b34491e73644276af7e215e8e9c6bde75d5b96d70d14`. The [round 9 native bundle](native_lake_round9.json) and [exact archive](evidence/native_lake_round9.zip) are unchanged. All five historical direct-record runs remain unchanged in [aggregate_evidence.json](aggregate_evidence.json); the old 1,794 native-foundation validations remain limited to their recorded old configuration.
 
 Python fixtures, cancelled runs, and incomplete local diagnostics are not proof evidence. No restored HeckeSkeleton output may supply a new native build. Both required final endpoint audits remain mandatory.
+
+<!-- pending-source-refresh:ledger:start -->
+### Current pending-source assessment
+
+The completed batch retains 84/94 Built observations. Current source assessments: 84 matching Built sources, 4 changed sources, 6 source-matching modules without terminal events. Later diagnostics do not create completed successes or verify the current full graph/final targets.
+<!-- pending-source-refresh:ledger:end -->
+
+**Pending source update — 2026-10-31T11:31:07.249463+00:00** (run 41196034806; job 124522578454; source_head 2850c225f246ebf9d535ef0bf1031debd8fe360a).
+
+`ActualAnnularBlockEnergy`, `ActualFrozenAggregation`: current hashes updated; repairs await compilation. This note is diagnostic context only, with no completed-run or final-audit claim.
+
+> Round 12 partial diagnostics belong to exact checkout 2850c225f246ebf9d535ef0bf1031debd8fe360a, run 41196034806, actual job 124522578454. ActualDyadicReflection has a fresh Built event (3.8 seconds); this is a partial observation, not a completed batch or final audit result.
+> 
+> ActualAnnularBlockEnergy reported errors at the executed source's lines 370 and 399: positivity could not infer the sign of the opaque exterior norm, and Finset.tsum_subtype could not infer the intended function through the local Row/G aliases. The repair explicitly supplies the nonnegative factors and the complete ideal-to-real function.
+> 
+> The identical opaque exterior-norm factors in ActualFrozenAggregation's hE and hcard proofs are also replaced with explicit Real.rpow_nonneg arguments. This is a preventive repair of the same proof pattern, not a claimed compiler failure in that module.
+> 
+> Statements, hypotheses, coefficients, cutoffs and constants are unchanged. These repairs still require compilation. The latest archived complete native evidence remains round 11; both final target audits remain unverified.
 
 | Module | Current source SHA-256 | Current source evidence | Round 11 native observation |
 |---|---|---|---|
@@ -104,8 +122,8 @@ Python fixtures, cancelled runs, and incomplete local diagnostics are not proof 
 | `HeckeSkeleton.LowEnergy.ActualDyadicReflection` | `407d2c085691973553239577a74fb4c1ce87cdf25a0fb4202cff452afaa47370` | changed_since_recorded_source | failed_build_event |
 | `HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial` | `bb5e86bb0bee0b24dc02e21993f90c896a32cbb096f4fbd0dfce68feebe3c409` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy` | `66559059e3e32ec55dba8fd635ed3fc1d2f52fabdb39b1751dda0d2054a9a2c8` | native_lake_built_source_match | Built |
-| `HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy` | `b367a9debe758ffd2aed265e13983f5c940fa8c565a6a4460545425fef9b7ddc` | native_lake_no_terminal_event | no_terminal_event |
-| `HeckeSkeleton.LowEnergy.ActualFrozenAggregation` | `47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131` | native_lake_no_terminal_event | no_terminal_event |
+| `HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy` | `b1dd7b6e8ef6f20165d47d3216f57c4f370817abc3f33ae1f3918eea762a210e` | changed_since_recorded_source | no_terminal_event |
+| `HeckeSkeleton.LowEnergy.ActualFrozenAggregation` | `57460542c3a0905caf2ffacdf7a2789a432c2a6ccc516d1fc6498abbf28a9e1d` | changed_since_recorded_source | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualFrozenReconstruction` | `5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7` | native_lake_no_terminal_event | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy` | `763cd3d13594e3caead07b43da22c3d0b1e49130f57ee42f3a3e6d1bf0076cdb` | native_lake_no_terminal_event | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualTupleReconstruction` | `9b6936640549aa01a807481159d296da64ef81c95a4a79c5e2d6da89db053f22` | native_lake_no_terminal_event | no_terminal_event |

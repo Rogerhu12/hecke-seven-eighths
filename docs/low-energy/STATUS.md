@@ -15,8 +15,8 @@
 
 | round 11 的实际观察 | 新增模块数 |
 |---|---:|
-| 真实 `Built` 事件，当前源文件 SHA-256 仍匹配 | 84 |
-| 失败构建事件；当前两项修复尚未编译确认 | 2 |
+| 真实 `Built` 事件（执行时的源码） | 84 |
+| 失败构建事件（执行时的源码） | 2 |
 | 没有终结构建事件 | 8 |
 
 `Principal` 不在上述 94 个新增模块内，也没有完成构建事件。
@@ -47,8 +47,7 @@
 - `ActualDyadicReflection`：`407d2c085691973553239577a74fb4c1ce87cdf25a0fb4202cff452afaa47370`。
 - `TargetGaussian`：`8b083364b55a7ba8e8bed5fb0a0bc763ecaf140e4f64df86fce4c8ecf0119010`。
 
-这两个文件是当前源码与 round 11 快照之间仅有的差异。
-另外八个未出现终结事件的模块保留该轮源码字节，仍无本轮构建成功事件。
+当前源码的匹配、修改和未完成事件分类见下方待验证更新；上述已归档运行结果保持不变。
 完整日志未观察到旧依赖文件编译错误或 heartbeat 超时。
 失败输出中的编译器占位 `sorryAx` 只保留为失败证据。
 两项最终公理门均为 **`not_started`**；没有最终审计文件或完整构建后的输出清单。
@@ -58,7 +57,7 @@
 本轮 actual 使用固定官方缓存与原生 Lake，构建前检查没有恢复的 `HeckeSkeleton` 输出。
 66 个旧文件的 import 调整已恢复为精确上游版本，
 所有非 import 字节的机械比较记录继续保留；数学证明体未改动。
-待发布的两个修复不属于本轮实际 checkout 的执行证据范围。
+后续源码修复不属于本轮实际 checkout 的执行证据范围。
 
 逐模块状态见 [VERIFICATION_LEDGER.md](VERIFICATION_LEDGER.md)，
 当前源码哈希与完整历史见 [source_manifest.json](source_manifest.json)。
@@ -68,6 +67,24 @@
 以及 [aggregate_evidence.json](aggregate_evidence.json) 内五个历史逐模块阶段全部保留。
 历史 **786 个直接成功记录**和 **1,794 个旧配置原生依赖验证**不与本轮 84 个
 新增模块相加，也不授权当前修复版本或最终目标通过。
+
+<!-- pending-source-refresh:status:start -->
+### 当前源码待验证分类
+
+已归档批次仍记录 84/94 个 Built 观察；当前源码匹配数为 84/94，已修改待验证 4 个，源码匹配但无终结事件 6 个。后续诊断不增加已完成构建数；当前完整依赖图和最终目标仍未验证。
+<!-- pending-source-refresh:status:end -->
+
+**Pending source update — 2026-10-31T11:31:07.249463+00:00** (run 41196034806; job 124522578454; source_head 2850c225f246ebf9d535ef0bf1031debd8fe360a).
+
+`ActualAnnularBlockEnergy`, `ActualFrozenAggregation`: current hashes updated; repairs await compilation. This note is diagnostic context only, with no completed-run or final-audit claim.
+
+> Round 12 partial diagnostics belong to exact checkout 2850c225f246ebf9d535ef0bf1031debd8fe360a, run 41196034806, actual job 124522578454. ActualDyadicReflection has a fresh Built event (3.8 seconds); this is a partial observation, not a completed batch or final audit result.
+> 
+> ActualAnnularBlockEnergy reported errors at the executed source's lines 370 and 399: positivity could not infer the sign of the opaque exterior norm, and Finset.tsum_subtype could not infer the intended function through the local Row/G aliases. The repair explicitly supplies the nonnegative factors and the complete ideal-to-real function.
+> 
+> The identical opaque exterior-norm factors in ActualFrozenAggregation's hE and hcard proofs are also replaced with explicit Real.rpow_nonneg arguments. This is a preventive repair of the same proof pattern, not a claimed compiler failure in that module.
+> 
+> Statements, hypotheses, coefficients, cutoffs and constants are unchanged. These repairs still require compilation. The latest archived complete native evidence remains round 11; both final target audits remain unverified.
 
 ## 目标、假设与调用方
 

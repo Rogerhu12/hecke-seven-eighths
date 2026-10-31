@@ -367,7 +367,11 @@ theorem actual_all_annuli_dual_energy [Finite (SixthLocalClasses K S)]
     fun i k => annularDualRow K S D f s F θ classes a Z ps i k.val
   let R : ℝ := Cb * A ^ 2 * ‖inactiveWeight K S f‖ ^ 2 *
     exteriorNorm K S f.frozen ^ (-1 / 2 : ℝ)
-  have hR : 0 ≤ R := by dsimp [R]; positivity
+  have hR : 0 ≤ R := by
+    dsimp only [R]
+    exact mul_nonneg
+      (mul_nonneg (mul_nonneg hCb.le (sq_nonneg A)) (sq_nonneg ‖inactiveWeight K S f‖))
+      (Real.rpow_nonneg (exteriorNorm_pos K S f.frozen).le _)
   have hlocal (i : GaussianEnergyAssembly.Index) (rset : Finset Row) :
       (∑ r ∈ rset, ‖G i r‖ ^ 2) ≤
         GaussianSeminorm.seminorm i.1 (ActualCommonMellinTail.order K 0) 2 ^ 2 *
@@ -395,8 +399,10 @@ theorem actual_all_annuli_dual_energy [Finite (SixthLocalClasses K S)]
   obtain ⟨hpoint, hsum, he⟩ := hgauss Z hZ T hT Row G ((5 / 6 : ℝ) - 2 * d) R hR hlocal
   refine ⟨fun k hk => hpoint ⟨k, hk⟩, ?_⟩
   have heq : (∑' r : Row, ‖∑' i, G i r‖ ^ 2) =
-      ∑ k ∈ rows, ‖∑' i, annularDualRow K S D f s F θ classes a Z ps i k‖ ^ 2 :=
-    Finset.tsum_subtype rows _
+      ∑ k ∈ rows, ‖∑' i, annularDualRow K S D f s F θ classes a Z ps i k‖ ^ 2 := by
+    simpa only [Row, G] using
+      (Finset.tsum_subtype rows
+        (fun k : Ideal (𝓞 K) => ‖∑' i, annularDualRow K S D f s F θ classes a Z ps i k‖ ^ 2))
   rw [heq] at he
   convert he using 1 <;> (try dsimp [R]) <;> ring
 

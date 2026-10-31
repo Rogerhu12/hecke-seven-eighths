@@ -40501,8 +40501,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy",
       "path": "HeckeSkeleton/LowEnergy/ActualAnnularBlockEnergy.lean",
-      "source_sha256": "b367a9debe758ffd2aed265e13983f5c940fa8c565a6a4460545425fef9b7ddc",
-      "bytes": 23038,
+      "source_sha256": "b1dd7b6e8ef6f20165d47d3216f57c4f370817abc3f33ae1f3918eea762a210e",
+      "bytes": 23348,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": [],
@@ -40584,15 +40584,15 @@
         }
       ],
       "current_verification": {
-        "assessment": "native_lake_no_terminal_event",
+        "assessment": "changed_since_recorded_source",
         "checked_exact_source": false,
         "latest_supplied_attempt": {
           "run_key": "41194215379:native-lake:13040671465",
           "evidence_kind": "native_lake_observation",
           "observed_lake_event": "no_terminal_event",
           "recorded_source_sha256": "b367a9debe758ffd2aed265e13983f5c940fa8c565a6a4460545425fef9b7ddc",
-          "current_source_sha256": "b367a9debe758ffd2aed265e13983f5c940fa8c565a6a4460545425fef9b7ddc",
-          "source_matches": true,
+          "current_source_sha256": "b1dd7b6e8ef6f20165d47d3216f57c4f370817abc3f33ae1f3918eea762a210e",
+          "source_matches": false,
           "evidence": {
             "file": "docs/low-energy/native_lake_round11.json",
             "run_key": "41194215379:native-lake:13040671465",
@@ -40606,7 +40606,7 @@
         "matching_preserved_historical_successes": [],
         "unresolved_historical_invalidation": null,
         "current_full_dependency_graph_verified": false,
-        "scope": "Current source bytes match the round 11 snapshot, but no terminal build event was observed for this module. No successful compilation or skip receipt is inferred."
+        "scope": "Current source changed after the recorded completed snapshot. The old native observation is retained as history; no success, process exit, or final-audit result is inferred for this repair."
       },
       "verification_assessment_history": [
         {
@@ -40663,6 +40663,36 @@
             "current_full_dependency_graph_verified": false,
             "scope": "Current source bytes matching a Built observation in the recorded native 6dc context. The batch failed; current repaired graph and both final targets remain unverified. Printed reports cover only the declarations actually printed."
           }
+        },
+        {
+          "archived_at": "2026-10-31T11:31:07.249463+00:00",
+          "current_source_sha256": "b367a9debe758ffd2aed265e13983f5c940fa8c565a6a4460545425fef9b7ddc",
+          "reason": "Pending source repair; diagnostic note is not proof evidence.",
+          "assessment": {
+            "assessment": "native_lake_no_terminal_event",
+            "checked_exact_source": false,
+            "latest_supplied_attempt": {
+              "run_key": "41194215379:native-lake:13040671465",
+              "evidence_kind": "native_lake_observation",
+              "observed_lake_event": "no_terminal_event",
+              "recorded_source_sha256": "b367a9debe758ffd2aed265e13983f5c940fa8c565a6a4460545425fef9b7ddc",
+              "current_source_sha256": "b367a9debe758ffd2aed265e13983f5c940fa8c565a6a4460545425fef9b7ddc",
+              "source_matches": true,
+              "evidence": {
+                "file": "docs/low-energy/native_lake_round11.json",
+                "run_key": "41194215379:native-lake:13040671465",
+                "collection": "original_native_report.source_snapshot.sources",
+                "module": "HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy"
+              },
+              "scope": "Observed native event in the recorded round 11 batch, whose whole process exited 1. No per-module compiler exit or schema-2 receipt is inferred."
+            },
+            "matching_native_lake_built_observations": [],
+            "matching_supplied_successes": [],
+            "matching_preserved_historical_successes": [],
+            "unresolved_historical_invalidation": null,
+            "current_full_dependency_graph_verified": false,
+            "scope": "Current source bytes match the round 11 snapshot, but no terminal build event was observed for this module. No successful compilation or skip receipt is inferred."
+          }
         }
       ],
       "native_lake_observations": [
@@ -40701,8 +40731,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualFrozenAggregation",
       "path": "HeckeSkeleton/LowEnergy/ActualFrozenAggregation.lean",
-      "source_sha256": "47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131",
-      "bytes": 13278,
+      "source_sha256": "57460542c3a0905caf2ffacdf7a2789a432c2a6ccc516d1fc6498abbf28a9e1d",
+      "bytes": 13512,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": [],
@@ -40784,15 +40814,15 @@
         }
       ],
       "current_verification": {
-        "assessment": "native_lake_no_terminal_event",
+        "assessment": "changed_since_recorded_source",
         "checked_exact_source": false,
         "latest_supplied_attempt": {
           "run_key": "41194215379:native-lake:13040671465",
           "evidence_kind": "native_lake_observation",
           "observed_lake_event": "no_terminal_event",
           "recorded_source_sha256": "47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131",
-          "current_source_sha256": "47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131",
-          "source_matches": true,
+          "current_source_sha256": "57460542c3a0905caf2ffacdf7a2789a432c2a6ccc516d1fc6498abbf28a9e1d",
+          "source_matches": false,
           "evidence": {
             "file": "docs/low-energy/native_lake_round11.json",
             "run_key": "41194215379:native-lake:13040671465",
@@ -40806,7 +40836,7 @@
         "matching_preserved_historical_successes": [],
         "unresolved_historical_invalidation": null,
         "current_full_dependency_graph_verified": false,
-        "scope": "Current source bytes match the round 11 snapshot, but no terminal build event was observed for this module. No successful compilation or skip receipt is inferred."
+        "scope": "Current source changed after the recorded completed snapshot. The old native observation is retained as history; no success, process exit, or final-audit result is inferred for this repair."
       },
       "verification_assessment_history": [
         {
@@ -40862,6 +40892,36 @@
             "unresolved_historical_invalidation": null,
             "current_full_dependency_graph_verified": false,
             "scope": "Current source bytes matching a Built observation in the recorded native 6dc context. The batch failed; current repaired graph and both final targets remain unverified. Printed reports cover only the declarations actually printed."
+          }
+        },
+        {
+          "archived_at": "2026-10-31T11:31:07.249463+00:00",
+          "current_source_sha256": "47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131",
+          "reason": "Pending source repair; diagnostic note is not proof evidence.",
+          "assessment": {
+            "assessment": "native_lake_no_terminal_event",
+            "checked_exact_source": false,
+            "latest_supplied_attempt": {
+              "run_key": "41194215379:native-lake:13040671465",
+              "evidence_kind": "native_lake_observation",
+              "observed_lake_event": "no_terminal_event",
+              "recorded_source_sha256": "47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131",
+              "current_source_sha256": "47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131",
+              "source_matches": true,
+              "evidence": {
+                "file": "docs/low-energy/native_lake_round11.json",
+                "run_key": "41194215379:native-lake:13040671465",
+                "collection": "original_native_report.source_snapshot.sources",
+                "module": "HeckeSkeleton.LowEnergy.ActualFrozenAggregation"
+              },
+              "scope": "Observed native event in the recorded round 11 batch, whose whole process exited 1. No per-module compiler exit or schema-2 receipt is inferred."
+            },
+            "matching_native_lake_built_observations": [],
+            "matching_supplied_successes": [],
+            "matching_preserved_historical_successes": [],
+            "unresolved_historical_invalidation": null,
+            "current_full_dependency_graph_verified": false,
+            "scope": "Current source bytes match the round 11 snapshot, but no terminal build event was observed for this module. No successful compilation or skip receipt is inferred."
           }
         }
       ],
@@ -42690,8 +42750,8 @@
     "not_checked_exact_source": 10,
     "assessments": {
       "native_lake_built_source_match": 84,
-      "changed_since_recorded_source": 2,
-      "native_lake_no_terminal_event": 8
+      "changed_since_recorded_source": 4,
+      "native_lake_no_terminal_event": 6
     },
     "current_full_dependency_graph_verified": false,
     "latest_completed_actual_head": "0c47c707eeb3e05caa1934d3da6cf0f4d6e1ce52",
@@ -42722,9 +42782,49 @@
           "recorded_source_sha256": "c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574",
           "current_source_sha256": "407d2c085691973553239577a74fb4c1ce87cdf25a0fb4202cff452afaa47370",
           "bytes": 11182
+        },
+        {
+          "module": "HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy",
+          "path": "HeckeSkeleton/LowEnergy/ActualAnnularBlockEnergy.lean",
+          "recorded_source_sha256": "b367a9debe758ffd2aed265e13983f5c940fa8c565a6a4460545425fef9b7ddc",
+          "current_source_sha256": "b1dd7b6e8ef6f20165d47d3216f57c4f370817abc3f33ae1f3918eea762a210e",
+          "bytes": 23348
+        },
+        {
+          "module": "HeckeSkeleton.LowEnergy.ActualFrozenAggregation",
+          "path": "HeckeSkeleton/LowEnergy/ActualFrozenAggregation.lean",
+          "recorded_source_sha256": "47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131",
+          "current_source_sha256": "57460542c3a0905caf2ffacdf7a2789a432c2a6ccc516d1fc6498abbf28a9e1d",
+          "bytes": 13512
         }
       ],
-      "scope": "Only the two current source repairs differ from the latest completed snapshot; both require subsequent CI. Earlier failed/no-event records are preserved, and no local diagnostic or future run is counted as success."
+      "scope": "Current source differences require subsequent CI. Partial diagnostics do not add completed successes or verify final targets."
+    },
+    "pending_source_refresh": {
+      "generated_at": "2026-10-31T11:31:07.249463+00:00",
+      "changed_sources": [
+        {
+          "module": "HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy",
+          "path": "HeckeSkeleton/LowEnergy/ActualAnnularBlockEnergy.lean",
+          "previous_source_sha256": "b367a9debe758ffd2aed265e13983f5c940fa8c565a6a4460545425fef9b7ddc",
+          "source_sha256": "b1dd7b6e8ef6f20165d47d3216f57c4f370817abc3f33ae1f3918eea762a210e",
+          "bytes": 23348
+        },
+        {
+          "module": "HeckeSkeleton.LowEnergy.ActualFrozenAggregation",
+          "path": "HeckeSkeleton/LowEnergy/ActualFrozenAggregation.lean",
+          "previous_source_sha256": "47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131",
+          "source_sha256": "57460542c3a0905caf2ffacdf7a2789a432c2a6ccc516d1fc6498abbf28a9e1d",
+          "bytes": 13512
+        }
+      ],
+      "diagnostic_note": "Round 12 partial diagnostics belong to exact checkout 2850c225f246ebf9d535ef0bf1031debd8fe360a, run 41196034806, actual job 124522578454. ActualDyadicReflection has a fresh Built event (3.8 seconds); this is a partial observation, not a completed batch or final audit result.\n\nActualAnnularBlockEnergy reported errors at the executed source's lines 370 and 399: positivity could not infer the sign of the opaque exterior norm, and Finset.tsum_subtype could not infer the intended function through the local Row/G aliases. The repair explicitly supplies the nonnegative factors and the complete ideal-to-real function.\n\nThe identical opaque exterior-norm factors in ActualFrozenAggregation's hE and hcard proofs are also replaced with explicit Real.rpow_nonneg arguments. This is a preventive repair of the same proof pattern, not a claimed compiler failure in that module.\n\nStatements, hypotheses, coefficients, cutoffs and constants are unchanged. These repairs still require compilation. The latest archived complete native evidence remains round 11; both final target audits remain unverified.\n",
+      "diagnostic_context": {
+        "run": 41196034806,
+        "job": 124522578454,
+        "source_head": "2850c225f246ebf9d535ef0bf1031debd8fe360a"
+      },
+      "scope": "Caller-supplied diagnostic context only; no proof result or new completed run."
     }
   },
   "verification_refresh_history": [
@@ -42989,6 +43089,34 @@
         "partial_ci_source_head": "0c47c707eeb3e05caa1934d3da6cf0f4d6e1ce52",
         "scope": "Source-only repair refresh. Partial round 11 observations do not change the completed evidence count, native round 9 records, or final-target status."
       }
+    }
+  ],
+  "pending_source_refresh_history": [
+    {
+      "generated_at": "2026-10-31T11:31:07.249463+00:00",
+      "changed_sources": [
+        {
+          "module": "HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy",
+          "path": "HeckeSkeleton/LowEnergy/ActualAnnularBlockEnergy.lean",
+          "previous_source_sha256": "b367a9debe758ffd2aed265e13983f5c940fa8c565a6a4460545425fef9b7ddc",
+          "source_sha256": "b1dd7b6e8ef6f20165d47d3216f57c4f370817abc3f33ae1f3918eea762a210e",
+          "bytes": 23348
+        },
+        {
+          "module": "HeckeSkeleton.LowEnergy.ActualFrozenAggregation",
+          "path": "HeckeSkeleton/LowEnergy/ActualFrozenAggregation.lean",
+          "previous_source_sha256": "47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131",
+          "source_sha256": "57460542c3a0905caf2ffacdf7a2789a432c2a6ccc516d1fc6498abbf28a9e1d",
+          "bytes": 13512
+        }
+      ],
+      "diagnostic_note": "Round 12 partial diagnostics belong to exact checkout 2850c225f246ebf9d535ef0bf1031debd8fe360a, run 41196034806, actual job 124522578454. ActualDyadicReflection has a fresh Built event (3.8 seconds); this is a partial observation, not a completed batch or final audit result.\n\nActualAnnularBlockEnergy reported errors at the executed source's lines 370 and 399: positivity could not infer the sign of the opaque exterior norm, and Finset.tsum_subtype could not infer the intended function through the local Row/G aliases. The repair explicitly supplies the nonnegative factors and the complete ideal-to-real function.\n\nThe identical opaque exterior-norm factors in ActualFrozenAggregation's hE and hcard proofs are also replaced with explicit Real.rpow_nonneg arguments. This is a preventive repair of the same proof pattern, not a claimed compiler failure in that module.\n\nStatements, hypotheses, coefficients, cutoffs and constants are unchanged. These repairs still require compilation. The latest archived complete native evidence remains round 11; both final target audits remain unverified.\n",
+      "diagnostic_context": {
+        "run": 41196034806,
+        "job": 124522578454,
+        "source_head": "2850c225f246ebf9d535ef0bf1031debd8fe360a"
+      },
+      "scope": "Caller-supplied diagnostic context only; no proof result or new completed run."
     }
   ]
 }
