@@ -36,7 +36,12 @@ local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
 def rowRadius (H : {r : ℝ // 0 < r}) : {r : ℝ // 0 < r} :=
   ⟨H.val⁻¹, inv_pos.mpr H.property⟩
 
-def rowCovolume : ℝ := (sUnitHaarCovolume K Sset (sixthPowerUnits K Sset)).toReal
+local instance sixthUnits_finiteIndex : Subgroup.FiniteIndex
+    (Physical.sixthPowerUnits K (S : Set (HeightOneSpectrum (𝓞 K)))) :=
+  sUnit_power_range_finiteIndex K (S : Set (HeightOneSpectrum (𝓞 K))) 6 (by decide)
+
+def rowCovolume : ℝ :=
+  (sUnitHaarCovolume K Sset (Physical.sixthPowerUnits K Sset)).toReal
 
 theorem rowCovolume_pos : 0 < rowCovolume K S := rowBall_covolume_pos K S
 
@@ -82,7 +87,7 @@ theorem summable_norm_fixedProfile (H : {r : ℝ // 0 < r}) :
     (hasCompactSupport_sIntegerFiniteTestFunction K S _ (rowBallFiniteFamily_compactSupport K S 1))
     (rowRadius H)
   apply Summable.of_nonneg_of_le (fun q => norm_nonneg _) (fun q => ?_) hs
-  exact Complex.norm_re_le_norm _
+  simpa only [fixedProfile, rowRadius, Real.norm_eq_abs] using (Complex.abs_re_le_norm _)
 
 theorem summable_norm_weightedProfile (N : Finset Ext) (a : Ext → ℂ)
     (H : {r : ℝ // 0 < r}) :
@@ -146,8 +151,11 @@ theorem free_weightedEnergy_re (C : ColumnFamily K Sset σ Θ ψ)
   unfold DivisorInverseColumn.weightedEnergy sIntegerWeightedOrbitalSeries
   simp only [sIntegerOrbitAvoidanceMask, Finset.notMem_empty, false_implies, implies_true,
     if_true, one_mul]
-  rw [Complex.re_tsum (summable_norm_weightedProfile K S Γ D (C.columns γ)
-    (DivisorInverseColumn.coefficient K S D C γ j d) H).of_norm]
+  have hs := (summable_norm_weightedProfile K S Γ D (C.columns γ)
+    (DivisorInverseColumn.coefficient K S D C γ j d) H).of_norm
+  dsimp only [amplitude] at hs
+  dsimp only [DivisorInverseColumn.orbitColumn, rowRadius]
+  rw [Complex.re_tsum hs]
   simp only [Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, zero_mul, sub_zero]
   rfl
 

@@ -61,11 +61,11 @@ theorem primitive_prefactor_norm (B : PrimeBlock K Sset)
   rw [norm_mul, primitiveGauss_norm]
   simp only [sIntegerMaskPoissonFactor, sIntegerMaskDilationRadius,
     primitiveModulus_norm, norm_mul, norm_inv, Complex.norm_real,
-    Real.norm_of_nonneg (mul_pos r.property hd).le,
-    Real.norm_of_nonneg (fieldConstant_nonneg K), Real.norm_of_nonneg hq.le]
+    Real.norm_of_nonneg (mul_pos r.property hd).le, Real.norm_of_nonneg hq.le]
   change (r.val * (sIntegerElementNorm K Sset d).val)⁻¹ *
-      fieldConstant K * ((primitiveIdeal B.support t).absNorm : ℝ)⁻¹ *
+      ‖fieldConstant K‖ * ((primitiveIdeal B.support t).absNorm : ℝ)⁻¹ *
         Real.sqrt ((primitiveIdeal B.support t).absNorm : ℝ) = _
+  rw [Real.norm_of_nonneg (fieldConstant_nonneg K)]
   have hsimpl : ((primitiveIdeal B.support t).absNorm : ℝ)⁻¹ *
       Real.sqrt ((primitiveIdeal B.support t).absNorm : ℝ) =
         (Real.sqrt ((primitiveIdeal B.support t).absNorm : ℝ))⁻¹ := by
@@ -93,7 +93,11 @@ theorem primitive_prefactor_norm_at_row_scale (B : PrimeBlock K Sset)
       fieldConstant K * Z ^ M /
         ((sIntegerElementNorm K Sset d).val *
           Real.sqrt ((primitiveIdeal B.support t).absNorm : ℝ)) := by
-  rw [primitive_prefactor_norm, Real.rpow_neg hZ.le]
+  rw [primitive_prefactor_norm]
+  change fieldConstant K /
+    (Z ^ (-M) * (sIntegerElementNorm K Sset d).val *
+      Real.sqrt ((primitiveIdeal B.support t).absNorm : ℝ)) = _
+  rw [Real.rpow_neg hZ.le]
   simp only [div_eq_mul_inv, mul_inv, inv_inv]
   ring
 

@@ -58,7 +58,7 @@ def residualScale (C : ColumnFamily K Sset σ Θ ψ) (γ : OuterTriple K)
   ⟨C.base ^ C.columnLength γ / height K Sset g, div_pos hX (height_pos K Sset g)⟩
 
 def poweredFamily (C : ColumnFamily K Sset σ Θ ψ) : ColumnFamily K Sset σ Θ ψ :=
-  { C with cutoff := fun γ => WideMellinTests.powerTest (C.cutoff γ) (-(1 / 2 : ℝ)) }
+  { C with cutoff := fun γ => FinalMellinTests.powerTest (C.cutoff γ) (-(1 / 2 : ℝ)) }
 
 def forwardColumn (C : ColumnFamily K Sset σ Θ ψ) (γ : OuterTriple K)
     (G : HeckeCharacter K) (g j I : Ext) (ξ : Sector)
@@ -85,14 +85,14 @@ def sourceScalar (C : ColumnFamily K Sset σ Θ ψ) (γ : OuterTriple K)
   ((SecondPoissonNormalization.outerFactor K S r (sIntegerMaskGenerator K Sset δ) /
     (residualScale K S C γ hX g).val : ℝ) : ℂ) * sliceScalar K S C γ g j dk
 
-variable (hallowed : AllowedGeneratorInput K Sset D)
+variable (hallowed : AllowedGeneratorInput K (S : Set (HeightOneSpectrum (𝓞 K))) D)
 
 include hΓ hallowed in
 theorem weighted_pairTerm_eq (C : ColumnFamily K Sset σ Θ ψ) (γ : OuterTriple K)
     (G : HeckeCharacter K) (hcal : ThetaCalibrationInput K Sset D C.lambda G)
     (hbg : ∀ p : HeightOneSpectrum (𝓞 K), p ∉ Sset → UnramifiedAt K (C.background γ) p)
     (hX : 0 < C.base ^ C.columnLength γ)
-    (hW : tsupport (C.cutoff γ) ⊆ Set.Icc (1 / 2 : ℝ) (5 / 2))
+    (hW : tsupport (C.cutoff γ) ⊆ Set.Icc (1 / 8 : ℝ) (21 / 8))
     (x₁ x₂ j : Ext) (hx₁ : Squarefree x₁.val.val) (hx₂ : Squarefree x₂.val.val)
     (dk : NonzeroRingElements OS) (φ : SchwartzMap V ℂ)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
@@ -196,7 +196,7 @@ theorem retainedSource_eq_fixed_common
     (G : HeckeCharacter K) (hcal : ThetaCalibrationInput K Sset D C.lambda G)
     (hbg : ∀ p : HeightOneSpectrum (𝓞 K), p ∉ Sset → UnramifiedAt K (C.background γ) p)
     (hX : 0 < C.base ^ C.columnLength γ)
-    (hW : tsupport (C.cutoff γ) ⊆ Set.Icc (1 / 2 : ℝ) (5 / 2))
+    (hW : tsupport (C.cutoff γ) ⊆ Set.Icc (1 / 8 : ℝ) (21 / 8))
     (j : Ext) (dk : NonzeroRingElements OS) (N : ℝ) (hN : 0 ≤ N)
     (φ : SchwartzMap V ℂ)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)

@@ -273,7 +273,7 @@ theorem wide_window_of_dyadic_outer (W : SchwartzMap ℝ ℂ)
   rw [he']
   have hl := mul_le_mul_of_nonneg_left hvlo hz
   have hh := mul_le_mul_of_nonneg_left hvhi hz
-  constructor <;> nlinarith
+  constructor <;> nlinarith [hb.1, hb.2]
 
 theorem wide_cutoff_of_dyadic_outer (W : SchwartzMap ℝ ℂ)
     (hW : tsupport W ⊆ Set.Icc (1 / 2 : ℝ) (5 / 2))

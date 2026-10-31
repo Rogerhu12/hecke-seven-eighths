@@ -38,7 +38,8 @@ theorem pair_period_dvd_source (n₁ n₂ b₁ b₂ : Ext) :
   · exact dvd_mul_of_dvd_left (dvd_mul_of_dvd_right h _) _
   · exact dvd_mul_of_dvd_right h _
 
-variable [IsPrincipalIdealRing OS]
+variable [IsPrincipalIdealRing
+  (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 
 /-- The mask divisor uses only external primes and principal digits. -/
 theorem maskIdeal_dvd_external_mul_principal (Q n₁ n₂ b₁ b₂ : Ext)
@@ -88,8 +89,9 @@ theorem mask_mul_primitive_dvd_source (Q n₁ n₂ b₁ b₂ : Ext)
   have hperiod : principalIdeal B t * primitiveIdeal B t =
       IdealMobiusMask.primeProduct B := by
     rw [mul_comm, ← period_eq_primitive_mul_principal]
-  have hfirst := mul_dvd_mul_right (primitiveIdeal B t)
+  have hfirst := mul_dvd_mul_right
     (maskIdeal_dvd_external_mul_principal K S D Q n₁ n₂ b₁ b₂ δ hδ)
+    (primitiveIdeal B t)
   have hfirst' : maskIdeal K S δ * primitiveIdeal B t ∣
       Q.val.val * IdealMobiusMask.primeProduct B := by
     simpa only [mul_assoc, hperiod] using hfirst

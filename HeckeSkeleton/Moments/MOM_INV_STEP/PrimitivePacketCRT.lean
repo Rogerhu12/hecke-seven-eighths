@@ -345,10 +345,13 @@ theorem primitiveIdeal_symbol_eq_product (B : PrimeBlock K Sset)
       have hm := squarefree_prime_multiplicity K (primitiveIdeal B.support t) hI
         (primitiveIdeal_squarefree B.support t) p.val
       rw [hm]
-      simp only [hd, decide_true, CubeAlgebra.bit, pow_one,
+      simp only [hd, decide_true, CubeAlgebra.bit, if_true, pow_one,
         primeScalar, dif_pos (C.outside p.val p.property), PrimeBlock.row,
         sIntegerSexticEvaluation]
-    _ = _ := Finset.prod_coe_sort _ _
+    _ = _ := by
+      convert (Finset.prod_coe_sort (activeSupport B.support t)
+        (fun p => primeScalar K S D p a)) using 1 <;>
+        congr 1 <;> ext p <;> simp [C, activeBlock]
 
 /-- A uniform digit is the scalar power of the literal squarefree ideal
 row. This includes the empty active conductor without deleting its zero mode. -/

@@ -38,7 +38,7 @@ theorem scaled_weighted_phase_all (a t u U : ℝ) (hu : 0 < u) (hU : 0 < U) :
         (columnPhase t (Real.log U) * columnPhase t (Real.log (u / U))) := by
       rw [Complex.ofReal_mul]
       ring
-    _ = _ := rw [hp, ← columnPhase_add, hl]
+    _ = _ := by rw [hp, ← columnPhase_add, hl]
 
 theorem cutoff_source (W : SchwartzMap ℝ ℂ)
     (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2)

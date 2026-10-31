@@ -62,8 +62,8 @@ theorem primitive_prefactor_norm_le (B : PrimeBlock K Sset)
   have hs : 1 ≤ Real.sqrt ((primitiveIdeal B.support t).absNorm : ℝ) :=
     by simpa only [Real.sqrt_one] using Real.sqrt_le_sqrt hq
   apply div_le_div_of_nonneg_left (fieldConstant_nonneg K) r.property
-  nlinarith [r.property, (sIntegerElementNorm K Sset d).property,
-    mul_nonneg (sub_nonneg.mpr hd) (sub_nonneg.mpr hs)]
+  have hp := one_le_mul_of_one_le_of_one_le hd hs
+  simpa only [mul_one, mul_assoc] using mul_le_mul_of_nonneg_left hp r.property.le
 
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 variable (hΓ : Γ ≤ (powMonoidHom 6 :
@@ -256,7 +256,7 @@ theorem exists_sourceSubsetTail_bound_uniform
     (Rmax tauMin savingMax : ℝ) (hRmax : 0 ≤ Rmax)
     (htauMin : 0 < tauMin) (hsavingMax : 0 ≤ savingMax) :
     ∃ s : Finset (ℕ × ℕ), ∃ A : ℝ, 0 ≤ A ∧
-      ∀ (C : ColumnData K S σ) (f : Ext)
+      ∀ {σ : Type*} (C : ColumnData K S σ) (f : Ext)
       (P : Finset ((Ext × Ext) × (Ext × Ext))) (φ : SchwartzMap V ℂ)
       (M : Finset (HeightOneSpectrum OS)) (r : {r : ℝ // 0 < r})
       (Z R tau saving : ℝ),
@@ -273,7 +273,7 @@ theorem exists_sourceSubsetTail_bound_uniform
   obtain ⟨s, A, hA, hb⟩ := exists_primitive_tail_bound_uniform
     K S D Γ hΓ μv ν h hlc hcs Rmax tauMin savingMax hRmax htauMin hsavingMax
   refine ⟨s, A, hA, ?_⟩
-  intro C f P φ M r Z R tau saving hZ hR hRR htau hsaving hss hbudget
+  intro σ C f P φ M r Z R tau saving hZ hR hRR htau hsaving hss hbudget
   let U := A * s.sup (schwartzSeminormFamily ℝ V ℂ) φ *
     (fieldConstant K / r.val) * Z ^ (-saving)
   have hU : 0 ≤ U := by

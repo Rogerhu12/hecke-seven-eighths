@@ -48,7 +48,7 @@ theorem common_of_products (g z₁ z₂ : Ext)
     (squarefree_exteriorMul K S g z₂ hg hz₂ hc₂)]
   change gcd (g.val.val * z₁.val.val) (g.val.val * z₂.val.val) = g.val.val
   rw [Ideal.gcd_eq_sup, ← Ideal.mul_sup, hc.sup_eq]
-  exact mul_one _
+  exact Ideal.mul_top g.val.val
 
 theorem residual_of_products (g z₁ z₂ : Ext)
     (hg : Squarefree g.val.val) (hz₁ : Squarefree z₁.val.val)
@@ -163,7 +163,10 @@ theorem pairKey_mem (N : ℝ) (p : Ext × Ext)
   apply Finset.mem_sigma.mpr
   refine ⟨hg, Finset.mem_filter.mpr ⟨Finset.mem_product.mpr ⟨hz₁, hz₂⟩, ?_⟩⟩
   exact ⟨common_residual_coprime K S p.1 p.2,
-    by rw [common_comm]; exact common_residual_coprime K S p.2 p.1,
+    by
+      change IsCoprime (common K S p.1 p.2).val.val (residual K S p.2 p.1).val.val
+      rw [common_comm K S p.1 p.2]
+      exact common_residual_coprime K S p.2 p.1,
     residuals_coprime K S p.1 p.2⟩
 
 theorem reconstructKey_mem (N : ℝ) (k : Σ _g : Ext, Ext × Ext)
@@ -181,7 +184,7 @@ theorem reconstructKey_mem (N : ℝ) (k : Σ _g : Ext, Ext × Ext)
     calc
       _ ≤ height K S k.1 * (2 * (N / height K S k.1)) :=
         mul_le_mul_of_nonneg_left hz (height_pos K S k.1).le
-      _ = _ := by field_simp
+      _ = _ := by field_simp [(height_pos K S k.1).ne']
   exact Finset.mem_product.mpr
     ⟨(mem_squarefreePool K S N _).mpr
       ⟨squarefree_exteriorMul K S k.1 k.2.1 hgs hz₁s hc.1, hn _ hz₁n⟩,
@@ -238,11 +241,20 @@ end HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceReindexing
 
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.SecondDyadicReindexing
 
-open HeckeGeneral.Arithmetic HeckeGeneral.ThetaSkeleton.Global
+open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.ThetaSkeleton.Global
 
 /-- Compatibility name for the fresh-pair factorization used by the
 retained-source caller. -/
-theorem factors_of_products := @SecondSourceReindexing.factors_of_products
+theorem factors_of_products (K : Type) [Field K] [NumberField K]
+    (S : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 K))) [Fintype S]
+    (g z₁ z₂ : ExteriorIdeal K S)
+    (hg : Squarefree g.val.val) (hz₁ : Squarefree z₁.val.val)
+    (hz₂ : Squarefree z₂.val.val) (hc₁ : IsCoprime g.val.val z₁.val.val)
+    (hc₂ : IsCoprime g.val.val z₂.val.val) (hc : IsCoprime z₁.val.val z₂.val.val) :
+    ActualInverseFactors.common K S (exteriorMul K S g z₁) (exteriorMul K S g z₂) = g ∧
+      ActualInverseFactors.residual K S (exteriorMul K S g z₁) (exteriorMul K S g z₂) = z₁ ∧
+      ActualInverseFactors.residual K S (exteriorMul K S g z₂) (exteriorMul K S g z₁) = z₂ :=
+  SecondSourceReindexing.factors_of_products K S g z₁ z₂ hg hz₁ hz₂ hc₁ hc₂ hc
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.SecondDyadicReindexing
 

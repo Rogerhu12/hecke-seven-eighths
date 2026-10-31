@@ -119,8 +119,13 @@ theorem exists_absoluteRowMass_bound
     letI := hH.fintype
     have hc : hH.toFinset.card = Nat.card H := by
       rw [hH.card_toFinset, Nat.card_eq_fintype_card]
-    rw [hc]
-    simpa only [H, BoundedSIntegerOrbits] using hcount _ (inv_nonneg.mpr ρ.property.le)
+    let e : H ≃ BoundedSIntegerOrbits K S Γ ρ.val⁻¹ :=
+      { toFun := fun q => ⟨q.val, q.property⟩
+        invFun := fun q => ⟨q.val, q.property⟩
+        left_inv := fun _ => rfl
+        right_inv := fun _ => rfl }
+    rw [hc, Nat.card_congr e]
+    exact hcount _ (inv_nonneg.mpr ρ.property.le)
   have hhead : ∑ q ∈ hH.toFinset, ‖f q‖ ≤
       D * (1 + ρ.val⁻¹) * (A * P * ρ.val ^ (-ε)) := by
     calc
@@ -132,7 +137,10 @@ theorem exists_absoluteRowMass_bound
         (mul_nonneg (mul_nonneg hA hP) (Real.rpow_nonneg ρ.property.le _))
   have htail' : (∑' q : ↥(Hᶜ), ‖f q.val‖) ≤ B * P * (1 + ρ.val⁻¹) := by
     rw [hcompl]
-    exact (by simpa only [Real.one_rpow, mul_one] using hb).trans
+    have hb' : (∑' q : {q : Q // 1 < ρ.val * (sIntegerOrbitNorm K S Γ q).val},
+        ‖f q.val‖) ≤ B * SchwartzMap.seminorm ℂ M 0 φ * (1 + ρ.val⁻¹) := by
+      simpa only [Real.one_rpow, mul_one] using hb
+    exact hb'.trans
       (mul_le_mul_of_nonneg_right
         (mul_le_mul_of_nonneg_left (hlargeSup φ) hB)
         (add_nonneg zero_le_one (inv_nonneg.mpr ρ.property.le)))

@@ -1,6 +1,6 @@
 import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceAssembly
 import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalFirstEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.WideMellinTests
+import HeckeSkeleton.Moments.MOM_INV_STEP.FinalMellinTests
 
 /-!
 # The genuine second conductor contributes its square-root norm weights
@@ -51,18 +51,18 @@ is absorbed into an actual Schwartz test, with X^(-1/2) outside. -/
 theorem sourceTerm_normWeight (Λ ν : HeckeCharacter K) (g j d₂ I : Ext) (ξ : Sector)
     (R : Ideal (𝓞 K)) (slots : Finset σ) (lists : σ → Finset (Ideal (𝓞 K)))
     (a : σ → Ideal (𝓞 K) → ℂ) (W : SchwartzMap ℝ ℂ)
-    (hW : tsupport W ⊆ Set.Icc (1 / 2 : ℝ) (5 / 2))
+    (hW : tsupport W ⊆ Set.Icc (1 / 8 : ℝ) (21 / 8))
     (X : ℝ) (hX : 0 < X) (z : Ext) :
     normWeight K z.val *
       SecondCanonicalEnergy.sourceTerm K S Γ D Λ ν g j d₂ I ξ R slots lists a W X z =
       ((X ^ (-(1 / 2 : ℝ)) : ℝ) : ℂ) *
         SecondCanonicalEnergy.sourceTerm K S Γ D Λ ν g j d₂ I ξ R slots lists a
-          (WideMellinTests.powerTest W (-(1 / 2 : ℝ))) X z := by
-  have hs : tsupport W ⊆ Set.Icc (1 / 4 : ℝ) (5 / 2) := by
+          (FinalMellinTests.powerTest W (-(1 / 2 : ℝ))) X z := by
+  have hs : tsupport W ⊆ Set.Icc (1 / 64 : ℝ) 3 := by
     intro x hx
     have hb := hW hx
-    exact ⟨by linarith [hb.1], hb.2⟩
-  have hp := WideMellinTests.scaled_powerTest W (-(1 / 2 : ℝ))
+    exact ⟨by linarith [hb.1], by linarith [hb.2]⟩
+  have hp := FinalMellinTests.scaled_powerTest W (-(1 / 2 : ℝ))
     (z.val.val.absNorm : ℝ) X
     (by exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors z.val) hX hs
   rw [normWeight_eq_rpow]
@@ -78,10 +78,10 @@ theorem sourceTerm_normWeight (Λ ν : HeckeCharacter K) (g j d₂ I : Ext) (ξ 
     _ = _ := by rw [hp]; ring
 
 theorem powerTest_support (W : SchwartzMap ℝ ℂ)
-    (hW : tsupport W ⊆ Set.Icc (1 / 2 : ℝ) (5 / 2)) :
-    tsupport (WideMellinTests.powerTest W (-(1 / 2 : ℝ))) ⊆
-      Set.Icc (1 / 2 : ℝ) (5 / 2) :=
-  (WideMellinTests.powerTest_support W _).trans hW
+    (hW : tsupport W ⊆ Set.Icc (1 / 8 : ℝ) (21 / 8)) :
+    tsupport (FinalMellinTests.powerTest W (-(1 / 2 : ℝ))) ⊆
+      Set.Icc (1 / 8 : ℝ) (21 / 8) :=
+  (FinalMellinTests.powerTest_support W _).trans hW
 end HeckeSkeleton.Moments.MOM_INV_STEP.SecondNormWeights
 
 end

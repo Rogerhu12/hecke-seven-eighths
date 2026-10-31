@@ -201,7 +201,7 @@ theorem first_cube_coefficient_after_dilation {Λ G : HeckeCharacter K}
         idealSymbol K Sset D u (CanonicalIdealRow.generator K S D (crtLabel p B v ε₁ ε₂ side))) *
         conj (idealSymbol K Sset D u (CanonicalIdealRow.generator K S D z))) := by
       rw [hc]
-      dsimp only [c, CanonicalIdealRow.generator]
+      dsimp only [c, CanonicalIdealRow.generator, CanonicalIdealRow.toExterior]
       ring
     _ = _ := by
       rw [show
@@ -306,9 +306,12 @@ theorem first_cube_coefficient_with_common_factor {Λ G : HeckeCharacter K}
         idealSymbol K Sset D u (CanonicalIdealRow.generator K S D f) ^ 4 *
         conj (idealSymbol K Sset D u (CanonicalIdealRow.generator K S D z))) := by
       rw [hc]
-      dsimp only [c, CanonicalIdealRow.generator]
+      dsimp only [c, CanonicalIdealRow.generator, CanonicalIdealRow.toExterior]
       ring
-    _ = _ := by rw [hd]; ring
+    _ = _ := by
+      have he := congrArg (fun w : ℂ => c * w) hd
+      dsimp only [L]
+      simpa only [Complex.star_def, mul_assoc] using he
 
 /-- When the common source factor is the unit, J is the sole remaining
 averaged label. The old f is entirely in the actual new row z·f²·E. -/

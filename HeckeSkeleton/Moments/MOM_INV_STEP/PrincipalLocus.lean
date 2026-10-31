@@ -29,7 +29,7 @@ theorem primeProduct_eq_one_iff (B : Finset (HeightOneSpectrum R)) :
     IdealMobiusMask.primeProduct B = 1 ↔ B = ∅ := by
   constructor
   · intro h
-    apply Finset.eq_empty_iff_forall_not_mem.mpr
+    apply Finset.eq_empty_iff_forall_notMem.mpr
     intro p hp
     have hd : p.asIdeal ∣ IdealMobiusMask.primeProduct B :=
       Finset.dvd_prod_of_mem (fun q : HeightOneSpectrum R => q.asIdeal) hp
@@ -43,9 +43,11 @@ theorem ideal_mul_eq_one_iff (I J : Ideal R) :
   constructor
   · intro h
     constructor
-    · apply le_antisymm le_top
+    · change I = ⊤
+      apply le_antisymm le_top
       simpa only [h] using (Ideal.mul_le_left : I * J ≤ I)
-    · apply le_antisymm le_top
+    · change J = ⊤
+      apply le_antisymm le_top
       simpa only [h] using (Ideal.mul_le_right : I * J ≤ J)
   · rintro ⟨rfl, rfl⟩
     exact one_mul _
@@ -94,7 +96,7 @@ theorem primitiveCoefficient_eq_one_of_empty (B : PrimeBlock K Sset)
     (q : PrincipalQuotient K S D B t) :
     primitiveCoefficient K S D B t q = 1 := by
   letI : IsEmpty (activeSupport B.support t) :=
-    ⟨fun p => Finset.not_mem_empty p.val (hempty ▸ p.property)⟩
+    ⟨fun p => Finset.notMem_empty p.val (hempty ▸ p.property)⟩
   rw [primitiveCoefficient_eq_tensor]
   simp only [ProductGauss.tensorCoefficient, Finset.univ_eq_empty, Finset.prod_empty]
 
@@ -103,7 +105,7 @@ theorem primitiveGauss_eq_one_of_empty (B : PrimeBlock K Sset)
     (hempty : activeSupport B.support t = ∅) :
     primitiveGauss K S D B t = 1 := by
   letI : IsEmpty (activeSupport B.support t) :=
-    ⟨fun p => Finset.not_mem_empty p.val (hempty ▸ p.property)⟩
+    ⟨fun p => Finset.notMem_empty p.val (hempty ▸ p.property)⟩
   simp only [primitiveGauss, ProductGauss.gaussProduct,
     Finset.univ_eq_empty, Finset.prod_empty]
 
