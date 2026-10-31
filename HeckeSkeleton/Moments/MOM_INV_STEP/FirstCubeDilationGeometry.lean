@@ -72,8 +72,7 @@ theorem ideal_budget {R : Type*} [CommRing R] [IsDedekindDomain R]
       (CubeLabels.cubePrimeSupport b₁ b₂) (CubeLabels.cubeMultiplicity b₁ b₂) =
       b₁.val * b₂.val := by
     change (idealOfPrimeExponents (primeExponents (b₁ * b₂))).val = _
-    rw [idealOfPrimeExponents_primeExponents]
-    rfl
+    rw [idealOfPrimeExponents_primeExponents] <;> rfl
   rw [hR, CubeLabels.J, ← hrec]
   exact product_budget HeightOneSpectrum.asIdeal (CubeLabels.cubePrimeSupport b₁ b₂)
     (CubeLabels.cubeMultiplicity b₁ b₂) ε₁ ε₂ (CubeLabels.cubeMultiplicity_pos b₁ b₂)

@@ -116,7 +116,9 @@ theorem sourceRows_row_bound (L : Finset Ext) (E : Ext)
   · intro x hx
     exact hL x.1 (Finset.mem_product.mp hx).1
   · intro x hx
-    exact (mem_sectorCutoff K S D Γ H.val x.2).mp (Finset.mem_product.mp hx).2
+    have hz : x.2 ∈ sectorCutoff K S D Γ H.val := (Finset.mem_product.mp hx).2
+    simpa only [sectorCutoff, orbitCutoff, Finset.mem_preimage,
+      Set.Finite.mem_toFinset, Set.mem_setOf_eq, CanonicalSectors.rowOrbit_norm] using hz
   · exact hy
 
 /-- The old beta factors remain part of the original common label weight. -/

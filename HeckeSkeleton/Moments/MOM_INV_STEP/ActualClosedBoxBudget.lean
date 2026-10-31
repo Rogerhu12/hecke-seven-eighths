@@ -293,8 +293,7 @@ theorem piece_child_geometry (M r ell V Q z c d eta : ℝ)
       PartitionedChildGeometry.pieceLength Z Nactual a := by
     change PartitionedChildGeometry.pieceLength T.columns.base
       (Real.log (SecondMobiusGeometry.childScale X b) / Real.log T.columns.base) a = _
-    rw [hbase_eq]
-    rfl
+    rw [hbase_eq] <;> rfl
   dsimp only
   rw [hlen]
   exact PartitionedChildGeometry.partitioned_step Z M r ell V Q
@@ -353,8 +352,7 @@ theorem closed_child_bound
   have hCZ : 1 < C.base := hbase
   have hlen : C.columnLength γ = Nactual := by
     change Real.log (SecondMobiusGeometry.childScale X b) / Real.log T.columns.base = _
-    rw [hbase_eq]
-    rfl
+    rw [hbase_eq] <;> rfl
   have hU : 0 < SecondMobiusGeometry.childScale X b :=
     SecondMobiusGeometry.childScale_pos X
       (by rw [sourceScale_eq K S T hbase U]; exact U.property) b
