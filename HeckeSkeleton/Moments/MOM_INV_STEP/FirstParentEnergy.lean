@@ -95,7 +95,7 @@ def selectedProfile (T : Data K S (σ := σ)) (i : Index K S D Γ T) : Profile K
       (selectedAnchor K S D Γ T i).2 i.1.val i.2.1.val true)
 
 def sourceTerm (T : Data K S (σ := σ)) (i : Index K S D Γ T) : ℂ :=
-  (moebius (IdealMobiusMask.primeProduct i.2.2.2.1.val) : ℂ) *
+  (UniqueFactorizationMonoid.moebius (IdealMobiusMask.primeProduct i.2.2.2.1.val) : ℂ) *
     (outerFactor K S D T.radius (selectedDivisor K S D Γ T i)
       (selectedAnchor K S D Γ T i).1 (selectedAnchor K S D Γ T i).2 i.1.val i.2.1.val : ℂ) *
     originalSource K S D Γ T.columns (columnPool K S T) (columnPool K S T)
@@ -106,7 +106,7 @@ def sourceTerm (T : Data K S (σ := σ)) (i : Index K S D Γ T) : ℂ :=
       (selectedDivisor K S D Γ T i).val i.2.2.2.2.val.2 (selectedProfile K S D Γ μv ν T i)
 
 def outerWeight (T : Data K S (σ := σ)) (i : Index K S D Γ T) : ℝ :=
-  ‖(moebius (IdealMobiusMask.primeProduct i.2.2.2.1.val) : ℂ)‖ *
+  ‖(UniqueFactorizationMonoid.moebius (IdealMobiusMask.primeProduct i.2.2.2.1.val) : ℂ)‖ *
     outerFactor K S D T.radius (selectedDivisor K S D Γ T i)
       (selectedAnchor K S D Γ T i).1 (selectedAnchor K S D Γ T i).2 i.1.val i.2.1.val *
     (‖T.columns.labelWeight i.1.val T.label‖ * ‖T.columns.labelWeight i.2.1.val T.label‖)
@@ -166,7 +166,7 @@ theorem outerScalar_norm_le (C : CanonicalBlock.ColumnData K S σ) (G : HeckeCha
       (CanonicalIdealRow.ofExterior K S f) (CanonicalIdealRow.ofExterior K S f)
       (CanonicalIdealRow.ofExterior K S z) d ξ‖ ≤
         ‖C.labelWeight b₁ f‖ * ‖C.labelWeight b₂ f‖ := by
-  simp only [outerScalar, norm_mul, Complex.norm_conj]
+  simp only [outerScalar, norm_mul, Complex.norm_conj, CanonicalIdealRow.toExterior_ofExterior]
   have h₁ := outerCoefficient_norm_le_one K S D hcal C.background r₁ r₂ b₁ b₂
     hr₁ hr₂ false (CanonicalIdealRow.ofExterior K S f)
   have h₂ := outerCoefficient_norm_le_one K S D hcal C.background r₁ r₂ b₁ b₂
@@ -205,7 +205,7 @@ theorem sourceTerm_norm_le (hallowed : AllowedGeneratorInput K Sset D)
   rw [sourceTerm, norm_mul, norm_mul, Complex.norm_real, Real.norm_of_nonneg hP]
   change _ ≤ _ * (_ * _)
   calc
-    _ ≤ (‖(moebius (IdealMobiusMask.primeProduct i.2.2.2.1.val) : ℂ)‖ *
+    _ ≤ (‖(UniqueFactorizationMonoid.moebius (IdealMobiusMask.primeProduct i.2.2.2.1.val) : ℂ)‖ *
       outerFactor K S D T.radius (selectedDivisor K S D Γ T i)
         (selectedAnchor K S D Γ T i).1 (selectedAnchor K S D Γ T i).2 i.1.val i.2.1.val) *
       (‖outerScalar K S D Γ T.columns (selectedAnchor K S D Γ T i).1
@@ -223,7 +223,7 @@ theorem sourceTerm_norm_le (hallowed : AllowedGeneratorInput K Sset D)
         mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _)
       have hh := mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_right ho hs)
         (mul_nonneg (norm_nonneg
-          (moebius (IdealMobiusMask.primeProduct i.2.2.2.1.val) : ℂ)) hP)
+          (UniqueFactorizationMonoid.moebius (IdealMobiusMask.primeProduct i.2.2.2.1.val) : ℂ)) hP)
       convert hh using 1 <;> ring
 
 variable (hΓ : Γ ≤ (powMonoidHom 6 :

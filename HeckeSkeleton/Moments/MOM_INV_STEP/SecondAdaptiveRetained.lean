@@ -188,7 +188,7 @@ theorem retained_pair_at (a : Ext → ℂ) (x₁ x₂ : Ext) (φ : SchwartzMap V
         (H (common K Sset x₁ x₂)) =
       ∑ δ ∈ (FirstSourcePartition.actualMask K S D ∅ x₁ x₂ e e).powerset,
         ∑ k ∈ sectorCutoff K S D Γ (H (common K Sset x₁ x₂) δ),
-          (moebius (IdealMobiusMask.primeProduct δ) : ℂ) * (star (a x₁) * a x₂) *
+          (UniqueFactorizationMonoid.moebius (IdealMobiusMask.primeProduct δ) : ℂ) * (star (a x₁) * a x₂) *
             FirstParentRetained.pairTerm K S D Γ hΓ μv x₁ x₂ e e φ h hlc hcs ∅ r δ k := by
   unfold CanonicalAdaptiveTail.retainedDual
   rw [Finset.mul_sum]
@@ -223,7 +223,7 @@ theorem retainedSourceAt_eq_fixed_common
       (squarefreePool K Sset N ×ˢ squarefreePool K Sset N) φ h hlc hcs r H =
       ∑ g ∈ squarefreePool K Sset N, ∑ δ ∈ (commonMask K S D g).powerset,
         ∑ k ∈ sectorCutoff K S D Γ (H g δ),
-          (moebius (IdealMobiusMask.primeProduct δ) : ℂ) *
+          (UniqueFactorizationMonoid.moebius (IdealMobiusMask.primeProduct δ) : ℂ) *
             sourceScalar K S C γ hX r δ g j dk *
             ∑ z₁ ∈ squarefreePool K Sset (N / height K Sset g),
               ∑ z₂ ∈ squarefreePool K Sset (N / height K Sset g),
@@ -267,7 +267,7 @@ theorem retainedSourceAt_eq_fixed_common
           dk φ h hlc hcs r δ k
         rw [hf.1, hf.2.1, hf.2.2] at hp
         calc
-          _ = (moebius (IdealMobiusMask.primeProduct δ) : ℂ) *
+          _ = (UniqueFactorizationMonoid.moebius (IdealMobiusMask.primeProduct δ) : ℂ) *
               ((star (DivisorInverseColumn.coefficient K S D C γ j.val.val dk.val
                   (exteriorMul K Sset g z₁)) *
                 DivisorInverseColumn.coefficient K S D C γ j.val.val dk.val

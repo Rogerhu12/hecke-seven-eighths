@@ -39,7 +39,7 @@ theorem frequencyEnvelope_le (m : ℕ) (ξ : LogPlane) :
     frequencyEnvelope m ξ ≤ fourierEnvelope ξ := by
   have hp : 1 ≤ (1 + ‖ξ‖) ^ m := by
     simpa only [one_pow] using pow_le_pow_left₀ (by norm_num : (0 : ℝ) ≤ 1)
-      (by positivity : (1 : ℝ) ≤ 1 + ‖ξ‖) m
+      (show (1 : ℝ) ≤ 1 + ‖ξ‖ from le_add_of_nonneg_right (norm_nonneg ξ)) m
   unfold frequencyEnvelope
   apply (div_le_iff₀ (pow_pos (by positivity : (0 : ℝ) < 1 + ‖ξ‖) m)).mpr
   exact le_mul_of_one_le_right (fourierEnvelope_nonneg ξ) hp

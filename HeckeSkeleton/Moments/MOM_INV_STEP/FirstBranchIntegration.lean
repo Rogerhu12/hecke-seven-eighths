@@ -103,7 +103,7 @@ theorem centeredEnergy_expanded (m : ℕ) :
       (frequencyEnvelope m) =
       ∑ k : ι, ∑ e : overlapPool K S X r₁ r₂ b₁ b₂ false,
         if centers.assignment e = k then
-          ‖(moebius e.val : ℂ)‖ *
+          ‖(UniqueFactorizationMonoid.moebius e.val : ℂ)‖ *
           (branchFactor K S D C X r₁ r₂ b₁ b₂ side centers W hW k e *
             ∑ J ∈ C.slots.powerset,
               ‖assignedMark K S C r₁ r₂ b₁ b₂ side

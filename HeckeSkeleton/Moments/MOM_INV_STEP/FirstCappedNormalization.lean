@@ -62,8 +62,8 @@ theorem freeRowIntegral_nonneg (o : OuterIndex K S D T)
 Poisson/overlap/center prefactor has been accounted for. -/
 def remainder (o : OuterIndex K S D T)
     (e : FirstOuterCenters.Overlap K S D T o) (k : ι) (J : Finset σ) : ℝ :=
-  ‖(moebius (IdealMobiusMask.primeProduct o.2.2.2.val) : ℂ)‖ *
-    ‖(moebius e.val : ℂ)‖ * (T.columns.slots.powerset.card : ℝ) *
+  ‖(UniqueFactorizationMonoid.moebius (IdealMobiusMask.primeProduct o.2.2.2.val) : ℂ)‖ *
+    ‖(UniqueFactorizationMonoid.moebius e.val : ℂ)‖ * (T.columns.slots.powerset.card : ℝ) *
     (∫ t : ℝ, ‖MellinSeparation.density W hW t‖) *
     ‖assignedMark K S T.columns (outerAnchor K S D T o).1 (outerAnchor K S D T o).2
       o.1.val o.2.1.val side

@@ -43,7 +43,7 @@ def divisor (T : FirstParentEnergy.Data K S (σ := σ)) (o : OuterIndex K S D T)
     NonzeroRingElements OS := sIntegerMaskGenerator K Sset o.2.2.2.val
 
 def maskWeight (T : FirstParentEnergy.Data K S (σ := σ)) (o : OuterIndex K S D T) : ℝ :=
-  ‖(moebius (IdealMobiusMask.primeProduct o.2.2.2.val) : ℂ)‖ *
+  ‖(UniqueFactorizationMonoid.moebius (IdealMobiusMask.primeProduct o.2.2.2.val) : ℂ)‖ *
     outerFactor K S D T.radius (divisor K S D T o)
       (outerAnchor K S D T o).1 (outerAnchor K S D T o).2 o.1.val o.2.1.val
 

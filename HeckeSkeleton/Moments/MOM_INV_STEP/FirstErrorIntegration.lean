@@ -136,8 +136,8 @@ def mark (i : FirstErrorSource.Index K S D T) (J : Finset σ) : ℂ :=
       i.1.1.val i.1.2.1.val false i.2) J
 
 def mobiusWeight (i : FirstErrorSource.Index K S D T) : ℝ :=
-  ‖(moebius (IdealMobiusMask.primeProduct i.1.2.2.2.val) : ℂ)‖ *
-    ‖(moebius i.2.val : ℂ)‖
+  ‖(UniqueFactorizationMonoid.moebius (IdealMobiusMask.primeProduct i.1.2.2.2.val) : ℂ)‖ *
+    ‖(UniqueFactorizationMonoid.moebius i.2.val : ℂ)‖
 
 theorem mobiusWeight_nonneg (i : FirstErrorSource.Index K S D T) :
     0 ≤ mobiusWeight K S D T i :=

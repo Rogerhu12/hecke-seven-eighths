@@ -24,6 +24,10 @@ open FirstSourceColumns FirstSourceFrozen CanonicalFirstSource CanonicalFirstEne
   CanonicalChildren CanonicalNormPools
 open scoped Classical BigOperators ComplexConjugate nonZeroDivisors
 
+private theorem ite_eq_classical {α : Sort*} (p : Prop) (decision : Decidable p) (a b : α) :
+    @ite α p decision a b = @ite α p (Classical.propDecidable p) a b :=
+  congrArg (fun d : Decidable p => @ite α p d a b) (Subsingleton.elim _ _)
+
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
@@ -178,7 +182,7 @@ theorem bareCoefficient_eq (C : CanonicalBlock.ColumnData K S σ) (G : HeckeChar
     sectorRow_exterior, CanonicalPoissonSource.idealSymbol_mul]
   unfold fixedSectorCoefficient fixedMultiplierCoefficient fixedInverseCoefficient
     retainedLabel firstRow CanonicalIdealRow.generator
-  simp only [map_mul, Complex.star_def]
+  simp only [map_mul, Complex.star_def, ite_eq_classical]
   ring
 
 include hallowed in
@@ -244,7 +248,7 @@ theorem source_sum_complete (C : CanonicalBlock.ColumnData K S σ)
     _ = ∑ u ∈ residualPool K S X r₁ r₂ b₁ b₂ side,
         if e.val.val ∣ u.val.val then
           movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ u.val * P u.val else 0 := by
-      simpa only [FirstSourceReindexing.nonzeroProduct] using
+      simpa only [FirstSourceReindexing.nonzeroProduct, ite_eq_classical] using
         (sum_sideDomain K S D X r₁ r₂ b₁ b₂ side
           (fun n : (Ideal (𝓞 K))⁰ => if e.val.val ∣ n.val then
             movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ n * P n else 0))

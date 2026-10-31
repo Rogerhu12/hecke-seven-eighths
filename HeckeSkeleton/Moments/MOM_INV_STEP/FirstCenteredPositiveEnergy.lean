@@ -97,14 +97,14 @@ theorem branchEnergy_nonneg (k : ι) (e : overlapPool K S X r₁ r₂ b₁ b₂ 
 def centeredEnergy (w : LogPlane → ℝ) : ℝ :=
   ∑ k : ι, ∑ e : overlapPool K S X r₁ r₂ b₁ b₂ false,
     if centers.assignment e = k then
-      ‖(moebius e.val : ℂ)‖ *
+      ‖(UniqueFactorizationMonoid.moebius e.val : ℂ)‖ *
         ∫ η : LogPlane, w η *
           branchEnergy K S D Γ C Θ ψ G hν hG X r₁ r₂ b₁ b₂ side centers f z d ξ W hW k e η
     else 0
 
 theorem centeredEnergy_eq (w : LogPlane → ℝ) :
     centeredEnergy K S D Γ C Θ ψ G hν hG X r₁ r₂ b₁ b₂ side centers f z d ξ W hW w =
-      ∑ e : overlapPool K S X r₁ r₂ b₁ b₂ false, ‖(moebius e.val : ℂ)‖ *
+      ∑ e : overlapPool K S X r₁ r₂ b₁ b₂ false, ‖(UniqueFactorizationMonoid.moebius e.val : ℂ)‖ *
         ∫ η : LogPlane, w η *
           branchEnergy K S D Γ C Θ ψ G hν hG X r₁ r₂ b₁ b₂ side centers f z d ξ W hW
             (centers.assignment e) e η := by
@@ -202,7 +202,7 @@ theorem sourceEnergy_le_of_density_bound
     (Filter.Eventually.of_forall hbound)
   have hi := integral_mono hl hr hbound
   rw [integral_const_mul] at hi
-  exact (mul_le_mul_of_nonneg_left hi (norm_nonneg (moebius e.val : ℂ))).trans_eq (by ring)
+  exact (mul_le_mul_of_nonneg_left hi (norm_nonneg (UniqueFactorizationMonoid.moebius e.val : ℂ))).trans_eq (by ring)
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredPositiveEnergy
 

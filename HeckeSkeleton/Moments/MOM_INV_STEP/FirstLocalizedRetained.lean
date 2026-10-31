@@ -48,7 +48,7 @@ variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)] [BorelSpace (FiniteAdele
 
 def term (T : FirstParentEnergy.Data K S (σ := σ))
     (o : OuterIndex K S D T) (f : Ext) (z : Ext × Sector) : ℂ :=
-  (moebius (IdealMobiusMask.primeProduct o.2.2.2.val) : ℂ) *
+  (UniqueFactorizationMonoid.moebius (IdealMobiusMask.primeProduct o.2.2.2.val) : ℂ) *
     (outerFactor K S D T.radius (divisor K S D T o)
       (outerAnchor K S D T o).1 (outerAnchor K S D T o).2 o.1.val o.2.1.val : ℂ) *
     CanonicalFirstEnergy.originalSource K S D Γ T.columns

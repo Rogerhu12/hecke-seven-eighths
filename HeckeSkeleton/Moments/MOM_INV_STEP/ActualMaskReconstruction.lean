@@ -82,8 +82,12 @@ theorem first_divisor_dvd_common_cube (n₁ n₂ b₁ b₂ : Ext)
   apply mul_dvd_mul_left
   change cubePrincipalIdeal K S n₁ n₂ b₁ b₂ ∣ (b₁.val * b₂.val).val.radical
   rw [radical_eq_primeProduct (b₁.val * b₂.val)]
-  exact Finset.prod_dvd_prod_of_subset _ _
-    (fun p : HeightOneSpectrum (𝓞 K) => p.asIdeal) Finset.filter_subset
+  apply Finset.prod_dvd_prod_of_subset _ _
+    (fun p : HeightOneSpectrum (𝓞 K) => p.asIdeal)
+  simpa only [CubeLabels.cubePrimeSupport, FirstSourceDecomposition.primeSupport] using
+    (Finset.filter_subset
+      (fun p : HeightOneSpectrum (𝓞 K) => pairExponent K S n₁ n₂ b₁ b₂ p = 0)
+      (CubeLabels.cubePrimeSupport b₁.val b₂.val))
 
 /-- The principal local generator is a deterministic function of the
 ordinary ideal, including for the actual mask divisors. -/

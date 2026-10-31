@@ -105,12 +105,12 @@ theorem sourceEnergy_eq (C : ColumnData K S σ) (G : HeckeCharacter K)
     (P : Profile K S) (X : {r : ℝ // 0 < r}) (r₁ r₂ b₁ b₂ : Ext)
     (side : Bool) (f z : E) (d : OS) (ξ : Sector) :
     sourceEnergy K S D Γ C G P X r₁ r₂ b₁ b₂ side f z d ξ =
-      ∑ e : overlapPool K S X r₁ r₂ b₁ b₂ false, ‖(moebius e.val : ℂ)‖ *
+      ∑ e : overlapPool K S X r₁ r₂ b₁ b₂ false, ‖(UniqueFactorizationMonoid.moebius e.val : ℂ)‖ *
         ∫ η : LogPlane, ‖P.density K S Γ η‖ *
           ‖sourceColumn K S D Γ C G X r₁ r₂ b₁ b₂ side f z d ξ
             (overlapIdeal K S D X r₁ r₂ b₁ b₂ false e) (signedCoordinate side η)‖ ^ 2 := by
   unfold sourceEnergy positiveEnergy
-  change (∑ e ∈ overlapPool K S X r₁ r₂ b₁ b₂ false, ‖(moebius e : ℂ)‖ * _) = _
+  change (∑ e ∈ overlapPool K S X r₁ r₂ b₁ b₂ false, ‖(UniqueFactorizationMonoid.moebius e : ℂ)‖ * _) = _
   rw [← Finset.sum_coe_sort]
   apply Finset.sum_congr rfl
   intro e he

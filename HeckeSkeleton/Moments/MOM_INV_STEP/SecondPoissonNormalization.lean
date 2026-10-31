@@ -51,7 +51,7 @@ variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 theorem cubeNorm_unit (x₁ x₂ : Ext) :
     FirstPoissonNormalization.cubeNorm K S D x₁ x₂ e e = 1 := by
   rw [FirstPoissonNormalization.cubeNorm, CanonicalGroupedGauss.cubeIdeal_val,
-    cube_R1_one, Ideal.absNorm_one, Nat.cast_one]
+    cube_R1_one, map_one, Nat.cast_one]
 
 theorem finite_fourier_normalization (x₁ x₂ : Ext)
     (r : {r : ℝ // 0 < r}) (d : NonzeroRingElements OS) (a : OS) :
@@ -142,6 +142,8 @@ theorem actual_pairTerm_eq (x₁ x₂ : Ext)
   unfold FirstParentRetained.pairTerm
   rw [FirstParentRetained.dualTerm_sector K S D Γ hΓ μv ν
     x₁ x₂ x₁ x₂ e e I ⟨rfl, rfl, rfl⟩ ξ φ h hlc hcs ∅ r δ X Y]
+  dsimp only [CanonicalBlock.primitivePairBlock, PrimitivePoissonSource.block,
+    ActualMaskedPoissonBlock.prefactor]
   change sIntegerMaskPoissonFactor K S _ _ r (sIntegerMaskGenerator K Sset δ) *
     (sIntegerPeriodicDivisorFourier K Sset D.different_outside _ _ _
       (sIntegerMaskGenerator K Sset δ).val

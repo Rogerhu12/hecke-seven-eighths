@@ -11,7 +11,7 @@ no cutoff depends on an old label, residual column, or sector.
 
 noncomputable section
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.FirstAdaptiveTruncation
-open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
+open NumberField IsDedekindDomain UniqueFactorizationMonoid HeckeGeneral.Arithmetic HeckeGeneral.Characters
   HeckeGeneral.Analysis HeckeGeneral.Bridge HeckeGeneral.ThetaSkeleton
   HeckeGeneral.ThetaSkeleton.Global MeasureTheory
 open PrimitivePoissonSource FirstSourceColumns FirstSourceFrozen CanonicalFirstEnergy
@@ -111,7 +111,7 @@ def sliceValue (C : CanonicalBlock.ColumnData K S σ) (f : Ext) (N₁ N₂ : Fin
     (hcs : ∀ v ∈ S, HasCompactSupport (h v))
     (M : Finset (HeightOneSpectrum OS)) (r : {r : ℝ // 0 < r})
     (H : Finset (HeightOneSpectrum OS) → ℝ) (X Y : {r : ℝ // 0 < r}) : ℂ :=
-  ∑ δ ∈ (actualMask K S D M r₁ r₂ b₁ b₂).powerset,
+  ∑ δ ∈ (FirstParentRetained.actualMask K S D M r₁ r₂ b₁ b₂).powerset,
     ∑ z ∈ sectorCutoff K S D Γ (H δ),
       (moebius (IdealMobiusMask.primeProduct δ) : ℂ) *
         (outerFactor K S D r (sIntegerMaskGenerator K Sset δ) r₁ r₂ b₁ b₂ : ℂ) *
@@ -137,7 +137,7 @@ theorem retained_slice_eq (C : CanonicalBlock.ColumnData K S σ) (f : Ext)
             (primitivePairBlock K S D Γ hΓ (b₁,n₁) (b₂,n₂) φ h hlc hcs M r) (H n₁ n₂ b₁ b₂)
       else 0) =
       sliceValue K S D Γ μv ν C f N₁ N₂ r₁ r₂ b₁ b₂ φ h hlc hcs M r (H r₁ r₂ b₁ b₂) X Y := by
-  let A := (actualMask K S D M r₁ r₂ b₁ b₂).powerset
+  let A := (FirstParentRetained.actualMask K S D M r₁ r₂ b₁ b₂).powerset
   let Z (δ : Finset (HeightOneSpectrum OS)) := sectorCutoff K S D Γ (H r₁ r₂ b₁ b₂ δ)
   let F (n₁ n₂ : Ext) (δ : Finset (HeightOneSpectrum OS)) (z : Ext × Sector) : ℂ :=
     (moebius (IdealMobiusMask.primeProduct δ) : ℂ) *
@@ -175,8 +175,9 @@ theorem retained_slice_eq (C : CanonicalBlock.ColumnData K S σ) (f : Ext)
       rw [if_pos hs]
       have he := pair_term_normalized K S D Γ hΓ μv ν C f n₁ n₂ r₁ r₂ b₁ b₂ z.1
         hs z.2 φ h hlc hcs M r δ X Y
-      change _ = _
       simp only [ActualMaskedPoissonBlock.divisorCoefficient]
+      dsimp only [primitivePairBlock, PrimitivePoissonSource.block,
+        ActualMaskedPoissonBlock.prefactor, dualTerm] at he ⊢
       linear_combination (moebius (IdealMobiusMask.primeProduct δ) : ℂ) * he
     · simp only [if_neg hs, F, mul_zero, Finset.sum_const_zero]
   simp_rw [hpoint]

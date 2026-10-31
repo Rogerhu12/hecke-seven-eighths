@@ -47,7 +47,7 @@ variable (m : ℕ) (side : Bool)
 
 def branchCoefficient (o : OuterIndex K S D T) (e : FirstOuterCenters.Overlap K S D T o)
     (k : ι) (J : Finset σ) : ℝ :=
-  ‖(moebius e.val : ℂ)‖ *
+  ‖(UniqueFactorizationMonoid.moebius e.val : ℂ)‖ *
     branchFactor K S D T.columns T.scale (outerAnchor K S D T o).1 (outerAnchor K S D T o).2
       o.1.val o.2.1.val side (FirstOuterCenters.Centering.at K S D T grid centers side o)
       W hW k e *
