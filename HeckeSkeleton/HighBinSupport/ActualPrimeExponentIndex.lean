@@ -76,7 +76,7 @@ def exteriorPrimeExponentEquiv : ExteriorIdeal K S ≃ (ExteriorPrime K S →₀
   apply Subtype.ext
   apply Subtype.ext
   change (idealOfPrimeExponents (0 : ExteriorPrime K S →₀ ℕ).extendDomain).val = _
-  simp only [h0, idealOfPrimeExponents_zero, primeSetIdeal_empty_val]
+  simp only [h0, idealOfPrimeExponents_zero, primeSetIdeal_empty_val, Submonoid.coe_one]
 
 theorem exteriorIdealOfPrimeExponents_add (e f : ExteriorPrime K S →₀ ℕ) :
     exteriorIdealOfPrimeExponents K S (e + f) =
@@ -113,8 +113,8 @@ def fourIdealOfPrimeExponents (e : ExteriorPrime K S →₀ FourExponent) : Four
 
 @[simp] theorem fourPrimeExponents_of_exponents (e : ExteriorPrime K S →₀ FourExponent) :
     fourPrimeExponents K S (fourIdealOfPrimeExponents K S e) = e := by
-  ext p
-  simp only [fourPrimeExponents, fourIdealOfPrimeExponents, Finsupp.zipWith_apply,
+  ext p <;>
+    simp only [fourPrimeExponents, fourIdealOfPrimeExponents, Finsupp.zipWith_apply,
     exteriorPrimeExponents_of_exponents, Finsupp.mapRange_apply]
 
 @[simp] theorem fourIdealOfPrimeExponents_exponents (I : FourIdealIndex K S) :

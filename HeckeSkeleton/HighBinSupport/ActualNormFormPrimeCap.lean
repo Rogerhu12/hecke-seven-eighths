@@ -433,7 +433,7 @@ theorem exists_actual_powerWeighted_primeWindow_radical_cap
   apply (mul_le_mul_of_nonneg_left hb (Real.rpow_nonneg hP.le r)).trans_eq
   simp only [primeScale_powerWeightedGeometry]
   rw [show r + a - 1 / 2 + 8 * e = r + (a - 1 / 2 + 8 * e) by ring,
-    Real.rpow_add hP]
+    Real.rpow_add hP r (a - 1 / 2 + 8 * e)]
   ring
 
 /-- The exact q^(z-1) main term of the complete compensation on Re z=17/50.
@@ -467,7 +467,8 @@ theorem exists_actual_compensation_main_cap
       norm_num [Complex.sub_re, Complex.add_re, Complex.sub_im, Complex.add_im,
         Complex.mul_re, Complex.mul_im, hz]
   have hexp : -(4 / 25 : ℝ) + a - 1 / 2 + 8 * e = a - 33 / 50 + 8 * e := by ring
-  simpa only [← hzexpr, hexp] using h
+  rw [hzexpr]
+  simpa only [hexp, Complex.ofReal_neg] using h
 
 end HighBinVerified.NormFormPrimeCap
 

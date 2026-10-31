@@ -1,0 +1,11 @@
+UTC: 2026-10-30T20:23:57.728424+00:00
+LEAN: 4.35.0-rc3 (470d5ce1400764999581fd26d5d72b00d990b0f4)
+MATHLIB: 0493595ecd5da8ef14742febab99728f98e948e8
+SOURCE SHA256: 27f5688c4809a08d9ff4e178747bd186f86fea99bfe3506857574e5cc85c4a5e
+SOURCE UNCHANGED: True
+COMMAND: ['/workspace/scratch/692d5e1ba19b/low_hybrid_work/verification435/lean-4.35.0-rc3-linux/bin/lean', '-j2', '-R', '/workspace/scratch/db66a2660cb2/repo', '-o', '/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/GlobalDiagonalNorm.olean', '/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/GlobalDiagonalNorm.lean']
+
+'ThetaGlobal.GlobalDiagonalNorm.archimedean_product' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+ELAPSED SECONDS: 30.010
+EXIT CODE: 0

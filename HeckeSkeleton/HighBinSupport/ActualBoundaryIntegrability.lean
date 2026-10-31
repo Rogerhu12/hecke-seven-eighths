@@ -83,10 +83,10 @@ theorem compensatedRowMellinKernel_continuousOn_heightBox
     have hline := ActualAdditiveBorel.additiveMellin_continuous_line_actualBorel K S
       (fun p => inferInstance) (fun p => inferInstance) μ (fun p => inferInstance)
       P.additive (17 / 50) (by norm_num) (by norm_num)
-    simpa [zLine] using hline.comp (continuous_snd.comp continuous_snd)
+    simpa [zLine, Function.comp_def] using hline.comp (continuous_snd.comp continuous_snd)
   have hdenMellin : Continuous (fun q : ℝ × (ℝ × ℝ) =>
       mellin P.denominator.toFun (wLine ν q)) :=
-    (ActualDenominator.differentiable_mellin P.denominator).continuous.comp hw
+    (ActualDenominator.differentiable_mellin P.denominator.toSmoothAnnularTest).continuous.comp hw
   have hzeta : Continuous (fun q : ℝ × (ℝ × ℝ) =>
       heckeDeletedContinuation K 1 (exceptionalPrimes K S₀) (6 * zLine q)) := by
     apply continuous_iff_continuousAt.mpr
@@ -95,7 +95,7 @@ theorem compensatedRowMellinKernel_continuousOn_heightBox
     have hL := (analyticAt_heckeContinuation K (1 : HeckeCharacter K) hre).differentiableAt
     have hD := (heckeEulerDeletionPolynomial_analyticAt
       K (1 : HeckeCharacter K) (exceptionalPrimes K S₀) (6 * zLine q)).differentiableAt
-    exact (hD.mul hL).continuousAt.comp q (hz.const_mul 6).continuousAt
+    exact (hD.mul hL).continuousAt.comp (hz.const_mul 6).continuousAt
   have hnum : Continuous (fun q : ℝ × (ℝ × ℝ) =>
       heckeDeletedContinuation K (E.rows.character u) (exceptionalPrimes K S₀)
         (wLine ν q)) := by
@@ -107,7 +107,7 @@ theorem compensatedRowMellinKernel_continuousOn_heightBox
       exact (heckeEulerDeletionPolynomial_analyticAt
         K (E.rows.character u) (exceptionalPrimes K S₀) w).continuousAt
     exact (hD.mul hL).comp hw
-  have hmem := denominator_mem_physicalRowFamily K S₀ ψ Θ P E u hΘ
+  have hmem := HeckeSkeleton.HeckeBufferedReciprocal.denominator_mem_physicalRowFamily K S₀ ψ Θ P E u hΘ
   have hupper : HeckeSkeleton.HeckeBufferedReciprocal.ZeroUpperBound K
       (ψ * conjugate (E.rows.character u)) U α := hbelow _ hmem
   have hden : ContinuousOn (fun q : ℝ × (ℝ × ℝ) =>
@@ -122,7 +122,7 @@ theorem compensatedRowMellinKernel_continuousOn_heightBox
     have hd := (ActualHolomorphy.deleted_denominator_regular K S₀
       (ψ * conjugate (E.rows.character u)) hβ U α hα hupper (sLine σ q)
       (by simpa [sLine] using hσ) hqi).1
-    exact (hd.continuousAt.comp q hs.continuousAt).continuousWithinAt
+    exact (hd.continuousAt.comp hs.continuousAt).continuousWithinAt
   have hn : ∀ q ∈ heightBox H,
       heckeDeletedContinuation K (ψ * conjugate (E.rows.character u))
         (exceptionalPrimes K S₀) (sLine σ q) ≠ 0 := by
@@ -172,13 +172,13 @@ theorem compensatedRowMellinKernel_continuousOn_heightBox
     have h1 := hpow (Z ^ (17 / 48 : ℝ) / exteriorNorm K S₀ (subsetPrimeIdeal K S₀ p J))
       (div_pos (Real.rpow_pos_of_pos hZ _) hsel) _ (continuous_const.sub hz)
     have h2 := hpow (Z * exteriorNorm K S₀ (subsetPrimeIdeal K S₀ p (Finset.univ \ J)))
-      (mul_pos hZ hmark) _ ((hs.add hz).sub_const 1)
+      (mul_pos hZ hmark) _ ((hs.add hz).sub (continuous_const (y := (1 : ℂ))))
     have h3 := hpow (Z ^ (23 / 48 : ℝ) / exteriorNorm K S₀ (subsetPrimeIdeal K S₀ p J))
-      (div_pos (Real.rpow_pos_of_pos hZ _) hsel) _ (hw.sub_const 1)
+      (div_pos (Real.rpow_pos_of_pos hZ _) hsel) _ (hw.sub (continuous_const (y := (1 : ℂ))))
     exact (((h1.const_mul _).mul h2).mul h3).continuousOn.mul
       (hrow ((Finset.univ \ J).image p))
-  exact (((((hs.add hz).sub_const 1).pow 2).cexp.mul hadd).mul hdenMellin).mul hfreq
-    |>.continuousOn.mul hsum |>.div_const _
+  exact (((((hs.add hz).sub (continuous_const (y := (1 : ℂ)))).pow 2).cexp.mul hadd).mul hdenMellin).mul hfreq
+    |>.continuousOn.mul hsum |>.const_mul (physicalPoissonScalar K : ℂ) |>.div_const _
 
 /-- Literal product-measure integrability needed by parameterBox/Fubini. -/
 theorem compensatedRowMellinKernel_integrable_heightBox
@@ -199,7 +199,8 @@ theorem compensatedRowMellinKernel_integrable_heightBox
       ((volume.restrict (Icc (-H) H)).prod (twoHeightMeasure H)) := by
   have hc := compensatedRowMellinKernel_continuousOn_heightBox K S μ P ψ E g T Θ hΘ u
     hχ hβ H U α σ ν Z hHU hα hσ hZ hbelow hcorr
-  have hi := hc.integrableOn_compact (heightBox_isCompact H) (μ := volume)
+  have hi := hc.integrableOn_compact (heightBox_isCompact H)
+    (μ := (volume : Measure ℝ).prod ((volume : Measure ℝ).prod (volume : Measure ℝ)))
   simpa only [IntegrableOn, heightBox, twoHeightMeasure, Measure.prod_restrict] using hi
 
 #print axioms compensatedRowMellinKernel_continuousOn_heightBox

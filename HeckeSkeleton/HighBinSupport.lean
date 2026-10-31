@@ -1,3 +1,8 @@
+import HeckeSkeleton.HighBinSupport.ActualPhysicalKernel
+import HeckeSkeleton.HighBinSupport.PhysicalNormScalar
+import HeckeSkeleton.HighBinSupport.ActualPhysicalSlotBound
+import HeckeSkeleton.HighBinSupport.ActualPhysicalConductorProduct
+import HeckeSkeleton.HighBinSupport.ActualPhysicalBoundary
 import HeckeSkeleton.HighBinSupport.ActualCanonicalIdentities
 import HeckeSkeleton.HighBinSupport.ActualCanonicalData
 import HeckeSkeleton.HighBinSupport.ActualCanonicalEuler

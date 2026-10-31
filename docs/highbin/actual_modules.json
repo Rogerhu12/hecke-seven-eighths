@@ -67,6 +67,10 @@
   "HeckeSkeleton.HighBinSupport.ActualNormFormUniformMellin",
   "HeckeSkeleton.HighBinSupport.ActualNormFormWindowDetector",
   "HeckeSkeleton.HighBinSupport.ActualOrbitalRapidDecay",
+  "HeckeSkeleton.HighBinSupport.ActualPhysicalBoundary",
+  "HeckeSkeleton.HighBinSupport.ActualPhysicalConductorProduct",
+  "HeckeSkeleton.HighBinSupport.ActualPhysicalKernel",
+  "HeckeSkeleton.HighBinSupport.ActualPhysicalSlotBound",
   "HeckeSkeleton.HighBinSupport.ActualPresentationGauge",
   "HeckeSkeleton.HighBinSupport.ActualPrimeExponentIndex",
   "HeckeSkeleton.HighBinSupport.ActualPrimeNormalizerCancellation",
@@ -77,5 +81,6 @@
   "HeckeSkeleton.HighBinSupport.ActualRowPrimeCharacter",
   "HeckeSkeleton.HighBinSupport.ActualTargetEuler",
   "HeckeSkeleton.HighBinSupport.ActualTargetFamily",
-  "HeckeSkeleton.HighBinSupport.ActualTupleAmplitudeBound"
+  "HeckeSkeleton.HighBinSupport.ActualTupleAmplitudeBound",
+  "HeckeSkeleton.HighBinSupport.PhysicalNormScalar"
 ]

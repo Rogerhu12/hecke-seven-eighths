@@ -2398,245 +2398,245 @@
     "kind": "abbrev",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 28,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.Laurent",
     "kind": "abbrev",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 29,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.toFinite",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 33,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.exponentValue",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 37,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.exponentialCharacter",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 40,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.evaluate",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 52,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.finiteValue_eq_evaluate",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 55,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.monomial",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 60,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.evaluate_monomial",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 62,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.constant",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 67,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.X",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 68,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.Y",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 69,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.V",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 70,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.evaluate_constant",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 72,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.evaluate_X",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 76,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.evaluate_Y",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 80,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.evaluate_V",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 84,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.monomialSW",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 88,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.evaluate_monomialSW",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 91,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.R",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 97,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.evaluate_R",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 100,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.special",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 105,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.evaluate_special",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 113,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.ramifiedDenominator",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 119,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.ramifiedNumerator",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 121,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.ramified",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 129,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.ramified_value",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 134,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.ramified_dynamic_bound",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 148,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.W",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 158,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.D",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 159,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.E",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 160,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.regularDenominator",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 162,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.regularNumerator",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 165,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.regular",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 170,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeSkeleton.HighBinFiniteTables.regular_value",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/FiniteEulerTables.lean",
     "line": 175,
-    "source_sha256": "217bae646448c53ed588d10e4c84d2a53f859c7233612dac297eb232f5e6970b"
+    "source_sha256": "3c579de29d5bd529b8a1f244215c2ff285bf024a22f9c08635a712495356a1c2"
   },
   {
     "name": "HeckeGeneral.ThetaSkeleton.Global.eulerDerivative",
@@ -2951,77 +2951,77 @@
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
     "line": 25,
-    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
+    "source_sha256": "ac40274ca2a30f8e0d421cce71c7fd2795c8c17a80c03767395b181b8dd8f42e"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.phaseRowEuler_analyticAt",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
     "line": 66,
-    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
+    "source_sha256": "ac40274ca2a30f8e0d421cce71c7fd2795c8c17a80c03767395b181b8dd8f42e"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.phaseRowEuler_analyticOnNhd_positiveRegion",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
     "line": 100,
-    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
+    "source_sha256": "ac40274ca2a30f8e0d421cce71c7fd2795c8c17a80c03767395b181b8dd8f42e"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.ramifiedTable_analyticAt",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
     "line": 118,
-    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
+    "source_sha256": "ac40274ca2a30f8e0d421cce71c7fd2795c8c17a80c03767395b181b8dd8f42e"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.coordR_norm_lt_one_of_re",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
     "line": 151,
-    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
+    "source_sha256": "ac40274ca2a30f8e0d421cce71c7fd2795c8c17a80c03767395b181b8dd8f42e"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.ramifiedTable_analyticOnNhd_positiveRegion",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
     "line": 157,
-    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
+    "source_sha256": "ac40274ca2a30f8e0d421cce71c7fd2795c8c17a80c03767395b181b8dd8f42e"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.unmarkedZeroPart_analyticAt",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
     "line": 170,
-    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
+    "source_sha256": "ac40274ca2a30f8e0d421cce71c7fd2795c8c17a80c03767395b181b8dd8f42e"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.explicitLocalEuler_analyticOnNhd_positiveRegion",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
     "line": 191,
-    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
+    "source_sha256": "ac40274ca2a30f8e0d421cce71c7fd2795c8c17a80c03767395b181b8dd8f42e"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.exists_region_margin",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
     "line": 229,
-    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
+    "source_sha256": "ac40274ca2a30f8e0d421cce71c7fd2795c8c17a80c03767395b181b8dd8f42e"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.phaseRowEuler_region_bound",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
     "line": 252,
-    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
+    "source_sha256": "ac40274ca2a30f8e0d421cce71c7fd2795c8c17a80c03767395b181b8dd8f42e"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.rowEulerRegion_isOpen",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/EulerRegionAnalytic.lean",
     "line": 290,
-    "source_sha256": "306cfe1724c5bf774174307fa808ba32c0fa7c370bf04b3a52bfa56ddb1a7b7a"
+    "source_sha256": "ac40274ca2a30f8e0d421cce71c7fd2795c8c17a80c03767395b181b8dd8f42e"
   },
   {
     "name": "HeckeGeneral.ThetaSkeleton.Physical.rowEulerRegion",

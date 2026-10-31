@@ -55,8 +55,9 @@ theorem primeBlockTerm_tsum_eq_markedSeries (P : ProbeData K S)
         ((p.val.asIdeal.absNorm : ℂ) ^ (-6 * z))
         (primeExponents u.ideal.val p.val) := by
   have hbase : Summable (primeBlockBase K S P ψ u s w z p) := by
-    simpa only [primeBlockTerm, Finset.not_mem_empty, false_and, if_false] using
-      (primeBlockTerm_absolute K S P ψ ∅ u s w z hs hw hz p).of_norm
+    apply (primeBlockTerm_absolute K S P ψ ∅ u s w z hs hw hz p).of_norm.congr
+    intro n
+    simp only [primeBlockTerm, Finset.notMem_empty, false_and, if_false]
   have hlocal := hbase.congr (primeBlockBase_eq_localBlockValue K S P hP ψ u s w z p)
   have hq : (1 : ℝ) < p.val.asIdeal.absNorm := by
     exact_mod_cast NumberField.HeightOneSpectrum.one_lt_absNorm p.val
@@ -67,7 +68,8 @@ theorem primeBlockTerm_tsum_eq_markedSeries (P : ProbeData K S)
   have hV : ‖(p.val.asIdeal.absNorm : ℂ) ^ (-6 * z)‖ < 1 := by
     rw [hnorm]
     apply Real.rpow_lt_one_of_one_lt_of_neg hq
-    simp only [Complex.mul_re, Complex.neg_re, Complex.ofNat_re, Complex.ofNat_im,
+    simp only [Complex.mul_re, Complex.neg_re, Complex.neg_im,
+      Complex.re_ofNat, Complex.im_ofNat,
       neg_zero, zero_mul, sub_zero]
     linarith
   have hρ : ‖thetaPrimeCharacter K S P.arithmetic p (rowPrimeUnit K S P u p)‖ = 1 :=

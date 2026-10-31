@@ -16,9 +16,9 @@ decomposition. The analytic estimate may shorten the upper-zero detector
 without changing the fixed rows. Increasing the internal decay order then
 absorbs the complete polynomial height cost. Lower height bounds, detector
 coverage and the retained-block count yield the
-repository's `HighBoundaryControl`. The named `actualHighPresentation` is
-still an upstream construction obligation; these consumers expose its
-remaining data instead of asserting that construction has been solved.
+repository's `HighBoundaryControl`. The named `actualHighPresentation` now uses the original raw recipe.
+These general consumers retain its assigned `fixedRows`; the larger
+zero-control bins are used only for membership and analytic estimates.
 
 AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-31.
 -/
@@ -94,23 +94,15 @@ theorem presentation_shell_le_one (c : TargetContext K) (P : ActualHighPresentat
   linarith [(P.shell_range Z T hZ hT b).2, P.zeta_small]
 
 /-- Exactly one summand of the repository's whole-bin boundary. This is
-only an abbreviation of the original initial-minus-final fixed-bin sum. -/
+only an abbreviation of the original initial-minus-final assigned-row sum. -/
 def presentationBoundaryPiece (c : TargetContext K) (P : ActualHighPresentation K c)
     (Z T : ℝ) (b : HighBlockIndex K c Z T) : ℂ :=
-  (∑ u ∈ highFixedRowBin K c (targetData K c).probe P.euler P.companions
-    (P.selectedHeight Z T b) (P.upperHeight Z T b)
-    (Z ^ (((targetData K c).expansion Z T).block b).shell)
-    (2 * Z ^ (((targetData K c).expansion Z T).block b).shell)
-    (((targetData K c).expansion Z T).block b).bin P.e,
+  (∑ u ∈ P.fixedRows Z T b,
     rowContourBox K _ (targetData K c).measures.haar (targetData K c).probe
       (targetCharacter K c) P.euler c.geometry (targetData K c).rayFilter u
       Z (P.contourHeight Z T b) (c.family.B + 20 * P.e)
       (1 - (((targetData K c).expansion Z T).block b).bin - 6 * P.e) (17 / 50)) -
-  (∑ u ∈ highFixedRowBin K c (targetData K c).probe P.euler P.companions
-    (P.selectedHeight Z T b) (P.upperHeight Z T b)
-    (Z ^ (((targetData K c).expansion Z T).block b).shell)
-    (2 * Z ^ (((targetData K c).expansion Z T).block b).shell)
-    (((targetData K c).expansion Z T).block b).bin P.e,
+  (∑ u ∈ P.fixedRows Z T b,
     rowContourBox K _ (targetData K c).measures.haar (targetData K c).probe
       (targetCharacter K c) P.euler c.geometry (targetData K c).rayFilter u
       Z (P.contourHeight Z T b)
@@ -125,28 +117,20 @@ theorem wholeBinBoundary_eq_sum (c : TargetContext K) (P : ActualHighPresentatio
 /-- The initial fixed-bin integral for one original retained block. -/
 def presentationInitialBlock (c : TargetContext K) (P : ActualHighPresentation K c)
     (Z T : ℝ) (b : HighBlockIndex K c Z T) : ℂ :=
-  ∑ u ∈ highFixedRowBin K c (targetData K c).probe P.euler P.companions
-    (P.selectedHeight Z T b) (P.upperHeight Z T b)
-    (Z ^ (((targetData K c).expansion Z T).block b).shell)
-    (2 * Z ^ (((targetData K c).expansion Z T).block b).shell)
-    (((targetData K c).expansion Z T).block b).bin P.e,
+  ∑ u ∈ P.fixedRows Z T b,
     rowContourBox K _ (targetData K c).measures.haar (targetData K c).probe
       (targetCharacter K c) P.euler c.geometry (targetData K c).rayFilter u
       Z (P.contourHeight Z T b) (c.family.B + 20 * P.e)
       (1 - (((targetData K c).expansion Z T).block b).bin - 6 * P.e) (17 / 50)
 
-/-- The original presentation already identifies each block value with
-the final fixed-bin contour. No individual label-piece identity or
+/-- The original presentation identifies each block value with
+the final contour on its unchanged assigned rows. No individual label-piece identity or
 disjointness of its row labels is needed. -/
 theorem presentationBlock_value_eq_finalRows
     (c : TargetContext K) (P : ActualHighPresentation K c)
     (Z T : ℝ) (hZ : 1 ≤ Z) (hT : 1 ≤ T) (b : HighBlockIndex K c Z T) :
     (((targetData K c).expansion Z T).block b).value =
-      ∑ u ∈ highFixedRowBin K c (targetData K c).probe P.euler P.companions
-        (P.selectedHeight Z T b) (P.upperHeight Z T b)
-        (Z ^ (((targetData K c).expansion Z T).block b).shell)
-        (2 * Z ^ (((targetData K c).expansion Z T).block b).shell)
-        (((targetData K c).expansion Z T).block b).bin P.e,
+      ∑ u ∈ P.fixedRows Z T b,
         rowContourBox K _ (targetData K c).measures.haar (targetData K c).probe
           (targetCharacter K c) P.euler c.geometry (targetData K c).rayFilter u
           Z (P.contourHeight Z T b)
@@ -223,11 +207,11 @@ theorem exists_presentationBoundaryPiece_detector_tail
   have hZ1 : 1 ≤ Z := hZ₀.trans hZ
   let d := (((targetData K c).expansion Z T).block b).shell
   let a := (((targetData K c).expansion Z T).block b).bin
-  let R := highFixedRowBin K c (targetData K c).probe P.euler P.companions
-    (P.selectedHeight Z T b) (P.upperHeight Z T b) (Z ^ d) (2 * Z ^ d) a P.e
+  let R := P.fixedRows Z T b
   have hdata (u : HighRow K c) (hu : u ∈ R) := highFixedRowBin_member_data K c
     (targetData K c).probe P.euler P.companions (P.selectedHeight Z T b)
-    (P.upperHeight Z T b) (Z ^ d) (2 * Z ^ d) a P.e u hu
+    (P.upperHeight Z T b) (Z ^ d) (2 * Z ^ d) a P.e u
+    (P.fixedRows_in_bin Z T hZ1 hT b hu)
   have hR : R ⊆ frequencyRows K _ (2 * Z ^ d) := fun u hu => (hdata u hu).1
   have hlo : ∀ u ∈ R, Z ^ d ≤ frequencyRowNorm K _ u :=
     fun u hu => (hdata u hu).2.1.le
@@ -352,11 +336,11 @@ theorem exists_presentationBoundaryPiece_heightfree_tail
   have hH : 1 ≤ H := hδT.trans hTH
   let d := (((targetData K c).expansion Z T).block b).shell
   let a := (((targetData K c).expansion Z T).block b).bin
-  let R := highFixedRowBin K c (targetData K c).probe P.euler P.companions
-    (P.selectedHeight Z T b) (P.upperHeight Z T b) (Z ^ d) (2 * Z ^ d) a P.e
+  let R := P.fixedRows Z T b
   have hdata (u : HighRow K c) (hu : u ∈ R) := highFixedRowBin_member_data K c
     (targetData K c).probe P.euler P.companions (P.selectedHeight Z T b)
-    (P.upperHeight Z T b) (Z ^ d) (2 * Z ^ d) a P.e u hu
+    (P.upperHeight Z T b) (Z ^ d) (2 * Z ^ d) a P.e u
+    (P.fixedRows_in_bin Z T hZ1 hT b hu)
   have hR : R ⊆ frequencyRows K _ (2 * Z ^ d) := fun u hu => (hdata u hu).1
   have hlo : ∀ u ∈ R, Z ^ d ≤ frequencyRowNorm K _ u :=
     fun u hu => (hdata u hu).2.1.le

@@ -1,0 +1,9 @@
+ThetaGlobal.GlobalFrequency
+ThetaGlobal.GlobalCharacterSums
+ThetaGlobal.GlobalProjectFrequency
+HeckeGeneral.Characters.SIntegerSexticPowerMask
+ThetaGlobal.GlobalIndexSupport
+ThetaGlobal.GlobalPhases
+ThetaGlobal.GlobalProjectPhases
+HeckeGeneral.Analysis.PrimeCalibrationIdealAssembly
+ThetaGlobal.GlobalProjectArithmeticProduct

@@ -38,8 +38,12 @@ theorem windowWeight_eq_real (g : PrimeWindowGeometry) (Z : ℝ)
 theorem norm_windowWeight (g : PrimeWindowGeometry) (Z : ℝ)
     (i : Fin g.slots) (p : ExteriorPrime K S) :
     ‖windowWeight K S g Z i p‖ = (windowWeight K S g Z i p).re := by
-  rw [windowWeight_eq_real K S g Z i p, Complex.norm_real,
-    Real.norm_eq_abs, abs_of_nonneg (g.nonnegative i _)]
+  calc
+    ‖windowWeight K S g Z i p‖ = ‖((windowWeight K S g Z i p).re : ℂ)‖ :=
+      congrArg norm (windowWeight_eq_real K S g Z i p)
+    _ = (windowWeight K S g Z i p).re := by
+      rw [Complex.norm_real, Real.norm_eq_abs]
+      exact abs_of_nonneg (g.nonnegative i _)
 
 theorem slotMassWeight_nonneg (g : PrimeWindowGeometry) (Z : ℝ)
     (i : Fin g.slots) (p : ExteriorPrime K S) :
@@ -210,8 +214,9 @@ theorem compensatedRowMellinKernel_eq_normalized_tuple_sum
     (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K))
     (u : FrequencyRow K S) (Z : ℝ) (s w z : ℂ) :
     compensatedRowMellinKernel K S μ P ψ E g T u Z s w z =
-      (Complex.exp ((s + z - 1) ^ 2) * additiveMellin K S μ P.additive z *
-        mellin P.denominator.toFun w * (frequencyRowNorm K S u : ℂ) ^ (-z) /
+      ((physicalPoissonScalar K : ℂ) *
+        (Complex.exp ((s + z - 1) ^ 2) * additiveMellin K S μ P.additive z *
+          mellin P.denominator.toFun w * (frequencyRowNorm K S u : ℂ) ^ (-z)) /
           physicalResidueNormalizer K S μ P) *
       ((∑ p ∈ Fintype.piFinset (fun i => primeWindow K S g T Z i),
         (∏ i : Fin g.slots, windowWeight K S g Z i (p i)) *
@@ -230,8 +235,9 @@ theorem compensatedRowMellinKernel_bound_of_tuple_bound
     (hF : ∀ p ∈ Fintype.piFinset (fun i => primeWindow K S g T Z i),
       ‖tupleMellinAmplitude K S P ψ E g u Z s w z p‖ ≤ M) :
     ‖compensatedRowMellinKernel K S μ P ψ E g T u Z s w z‖ ≤
-      ‖Complex.exp ((s + z - 1) ^ 2) * additiveMellin K S μ P.additive z *
-        mellin P.denominator.toFun w * (frequencyRowNorm K S u : ℂ) ^ (-z) /
+      ‖(physicalPoissonScalar K : ℂ) *
+        (Complex.exp ((s + z - 1) ^ 2) * additiveMellin K S μ P.additive z *
+          mellin P.denominator.toFun w * (frequencyRowNorm K S u : ℂ) ^ (-z)) /
           physicalResidueNormalizer K S μ P‖ *
       ((2 ^ ((5 / 6 : ℝ) * (g.slots : ℝ)) * Z ^ (1 / 6 : ℝ)) * M) := by
   rw [compensatedRowMellinKernel_eq_normalized_tuple_sum, norm_mul]

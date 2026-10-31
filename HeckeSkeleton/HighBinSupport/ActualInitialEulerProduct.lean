@@ -93,7 +93,7 @@ theorem initialRowEulerTerm_finite_product (P : ProbeData K S)
       (∀ p ∈ Q, 0 < (e p).1.1 + 3 * (e p).1.2) := by
     simp only [fourIdealOfPrimeExponents, primeExponents_exteriorIdealOfPrimeExponents,
       Finsupp.mapRange_apply]
-  rw [hmask]
+  simp only [hmask]
   by_cases hQ : ∀ p ∈ Q, 0 < (e p).1.1 + 3 * (e p).1.2
   · rw [if_pos hQ, initialRowEulerTerm_empty_finite_product K S P hP]
     unfold HighBin.PrimeBlockEuler.weight HighBin.PrimeBlockEuler.finiteWeight
@@ -103,21 +103,25 @@ theorem initialRowEulerTerm_finite_product (P : ProbeData K S)
       intro p _ hp
       rw [Finsupp.notMem_support_iff.mp hp, primeBlockBase_zero]
     rw [hbase]
-    apply Finset.prod_congr rfl
-    intro p _
-    symm
-    apply if_neg
-    rintro ⟨hpQ, hz⟩
-    have hpos := hQ p hpQ
-    omega
+    refine Finset.prod_congr ?_ ?_
+    · ext p
+      simp only [Finset.mem_union]
+    · intro p _
+      symm
+      apply if_neg
+      rintro ⟨hpQ, hz⟩
+      have hpos := hQ p hpQ
+      omega
   · rw [if_neg hQ]
     push_neg at hQ
     obtain ⟨p, hpQ, hp⟩ := hQ
     have hz : (e p).1.1 + 3 * (e p).1.2 = 0 := by omega
     symm
     unfold HighBin.PrimeBlockEuler.weight HighBin.PrimeBlockEuler.finiteWeight
-    exact Finset.prod_eq_zero (Finset.mem_union_right e.support hpQ)
-      (by simp only [primeBlockTerm, hpQ, hz, true_and, if_true])
+    refine Finset.prod_eq_zero (i := p) ?_ ?_
+    · simp only [Finset.mem_union]
+      exact Or.inr hpQ
+    · simp only [primeBlockTerm, hpQ, hz, true_and, ite_true]
 
 /-- Absolute convergence is obtained directly for norms of the original
 four-ideal term, before either prime reindexing or local summation. -/

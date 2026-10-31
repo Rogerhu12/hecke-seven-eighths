@@ -18,6 +18,7 @@ namespace HighBinVerified.NormFormActual
 
 open NumberField IsDedekindDomain MeasureTheory Complex Set
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open NormFormMellin NormFormPrimeDetector
 open scoped Classical BigOperators
@@ -124,11 +125,13 @@ theorem exists_actual_primeWindow_detector_error (g : PrimeWindowGeometry)
   let f := annularPrimeTerm K (g.weight i).toFun chi (primeScale g Z) t
   have hsum := summable_annularPrimeTerm K (g.weight i).toFun
     (g.support_annular i) chi (primeScale g Z) t
-  have hpart := hsum.tsum_subtype_add_tsum_subtype_compl S
+  have hpart : (∑' p : S, f p.val) + (∑' p : ExteriorPrime K S, f p.val) =
+      ∑' p, f p := hsum.tsum_subtype_add_tsum_subtype_compl S
   have heq : actualWindowPrimePolynomial K S g chi Z t i + L =
       ((∑' p, f p) + L) - ∑' p : S, f p.val := by
-    rw [actualWindowPrimePolynomial_eq_exterior_tsum, ← hpart]
+    rw [actualWindowPrimePolynomial_eq_exterior_tsum]
     change (∑' p : ExteriorPrime K S, f p.val) + L = _
+    rw [← hpart]
     ring
   have hmain := norm_annular_phase_sum_add_logDerivative_integral_le K (g.weight i)
     (g.support_annular i) chi (primeScale g Z) delta t M hP hdelta hM.le
@@ -147,8 +150,10 @@ theorem exists_actual_primeWindow_detector_error (g : PrimeWindowGeometry)
       rw [Real.mul_rpow (by norm_num : (0 : ℝ) ≤ 2) hP0.le]
       dsimp only [A]
       ring
-    _ ≤ A * (primeScale g Z) ^ delta + D * (primeScale g Z) ^ delta :=
-      add_le_add_left (by simpa only [mul_one] using mul_le_mul_of_nonneg_left hpow hD) _
+    _ ≤ A * (primeScale g Z) ^ delta + D * (primeScale g Z) ^ delta := by
+      have hDpow : D ≤ D * (primeScale g Z) ^ delta := by
+        simpa only [mul_one] using mul_le_mul_of_nonneg_left hpow hD
+      exact add_le_add le_rfl hDpow
     _ ≤ (A + D + 1) * (primeScale g Z) ^ delta := by
       nlinarith
 

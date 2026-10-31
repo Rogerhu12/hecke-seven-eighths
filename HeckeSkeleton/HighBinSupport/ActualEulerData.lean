@@ -167,7 +167,7 @@ theorem rowPrimeUnit_character_of_not_mem_row (P : ProbeData K S)
     have heq := p.val.isMaximal.eq_of_le h le_sup_left
     exact hnot (Ideal.dvd_iff_le.mpr (le_sup_right.trans_eq heq.symm))
   have hcal := arithmeticRowCharacter_coefficient_calibration K S P u (exteriorPrimeIdeal K S p)
-  rw [if_pos hcop] at hcal
+  rw [if_pos (show IsCoprime (exteriorPrimeIdeal K S p).val.val u.ideal.val.val from hcop)] at hcal
   change idealCoefficient (primeCoefficient K (arithmeticRowCharacter K S P u))
       p.val.asIdeal = idealSymbol K S P.arithmetic (exteriorPrimeIdeal K S p)
         (frequencyRowElement K S P u) at hcal

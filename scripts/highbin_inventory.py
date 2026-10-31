@@ -146,10 +146,11 @@ def main():
 
     frontiers = {
         'euler': ['ActualCanonicalEuler'],
-        'normform': ['ActualNormFormComputedPacket', 'ActualCanonicalHighBin'],
+        'normform': ['ActualNormFormComputedPacket', 'ActualCanonicalHighBin',
+                     'ActualPhysicalKernel', 'ActualPhysicalConductorProduct', 'PhysicalNormScalar'],
         'boundary': ['ActualBoundaryGeometry', 'ActualDetectorBoundary',
                      'ActualFinalContourIntegrability', 'ActualDyadicRows',
-                     'ActualDyadicBoundary'],
+                     'ActualDyadicBoundary', 'ActualPhysicalBoundary'],
         'canonical': ['ActualTargetFamily', 'ActualCanonicalEuler'],
         'presentation': ['ActualEulerPresentation', 'ActualBoundaryCalibration',
                          'ActualNormFormRegionCalibration', 'ActualNormFormLabels',

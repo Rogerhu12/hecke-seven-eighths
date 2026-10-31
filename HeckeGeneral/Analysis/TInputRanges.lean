@@ -97,8 +97,8 @@ structure TSmallRowInput (P : ProbeData K S) (ψ : HeckeCharacter K)
   bound : ∃ C Z₀ A ceiling : ℝ, 0 < C ∧ 1 ≤ Z₀ ∧ 0 ≤ A ∧ 0 < ceiling ∧
     ∀ Z height : ℝ, Z₀ ≤ Z → 1 ≤ height → height ≤ Z ^ ceiling →
       ‖finiteRowContourBlock K S μ P ψ E g T Z height 0
-          (Z ^ (1 / 100 : ℝ)) (B + e) (1 / 2) (17 / 50)‖ ≤
-        C * Z ^ (B - 11 / 16 - 63 / 800 + e + loss) * (1 + height) ^ A
+          (Z ^ (1 / 16 : ℝ)) (B + e) (1 / 2) (17 / 50)‖ ≤
+        C * Z ^ (B - 11 / 16 - 1 / 50 + e + loss) * (1 + height) ^ A
 
 /-- The arbitrary absolute decay of rows above h+ζ on (2,2,zInfinity).
 ζ,zInfinity and the requested scale decay are pretarget real choices.

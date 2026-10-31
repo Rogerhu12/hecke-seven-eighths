@@ -108,7 +108,7 @@ theorem compensatedRowMellinKernel_differentiableAt_s
     exact (((hpow (subsetPrimeIdeal K S p (Finset.univ \ J))).const_mul _).mul_const _).mul
       (hrow ((Finset.univ \ J).image p))
   exact (((((differentiableAt_id.add_const z).sub_const 1).pow 2).cexp.mul_const _).mul_const _
-    |>.mul_const _ |>.mul hsum).div_const _
+    |>.mul_const _ |>.mul hsum |>.const_mul (physicalPoissonScalar K : ℂ)).div_const _
 
 /-- On all sufficiently high rows, finite character fibers remove the
 background non-norm hypothesis. The cutoff precedes the row and heights. -/

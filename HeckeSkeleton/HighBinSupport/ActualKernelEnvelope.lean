@@ -81,14 +81,17 @@ theorem exists_compensated_kernel_envelope
           C * Z ^ 5 * M *
             (Real.exp (-((s.im + z.im) ^ 2)) * ‖additiveMellin K S μ P.additive z‖) := by
   obtain ⟨D, hD, hden⟩ :=
-    ActualDenominator.exists_mellin_uniform_strip_bound P.denominator (-1) 1 0
+    ActualDenominator.exists_mellin_uniform_strip_bound P.denominator.toSmoothAnnularTest (-1) 1 0
   let C₀ : ℝ := Real.exp 4 * D * (‖(physicalResidueNormalizer K S μ P)⁻¹‖ + 1)
   let C₂ : ℝ := 2 ^ ((5 / 6 : ℝ) * (g.slots : ℝ))
   let C₃₂ : ℝ := (32 : ℝ) ^ g.slots
+  let Cpoisson : ℝ := ‖(physicalPoissonScalar K : ℂ)‖ + 1
+  have hCpoisson : 0 < Cpoisson := by dsimp only [Cpoisson]; positivity
   have hC₀ : 0 < C₀ := by dsimp [C₀]; positivity
   have hC₂ : 0 < C₂ := Real.rpow_pos_of_pos (by norm_num) _
   have hC₃₂ : 0 < C₃₂ := by dsimp [C₃₂]; positivity
-  refine ⟨C₀ * C₂ * C₃₂, mul_pos (mul_pos hC₀ hC₂) hC₃₂, ?_⟩
+  refine ⟨(Cpoisson * C₀) * C₂ * C₃₂,
+    mul_pos (mul_pos (mul_pos hCpoisson hC₀) hC₂) hC₃₂, ?_⟩
   intro ψ E T u Z hZ s w z hs0 hs1 hw0 hw1 hz M hM hrow
   have hZ0 : 0 < Z := by linarith
   have htuple (p : Fin g.slots → ExteriorPrime K S)
@@ -123,15 +126,33 @@ theorem exists_compensated_kernel_envelope
               (norm_nonneg _) (by positivity)) hN (norm_nonneg _) (by positivity))
           hP (norm_nonneg _) (by positivity)
       _ = _ := by dsimp [C₀]; ring
+  have hprefPoisson :
+      ‖(physicalPoissonScalar K : ℂ) *
+        (Complex.exp ((s + z - 1) ^ 2) * additiveMellin K S μ P.additive z *
+          mellin P.denominator.toFun w * (frequencyRowNorm K S u : ℂ) ^ (-z)) /
+          physicalResidueNormalizer K S μ P‖ ≤
+      (Cpoisson * C₀) *
+        (Real.exp (-((s.im + z.im) ^ 2)) * ‖additiveMellin K S μ P.additive z‖) := by
+    rw [mul_div_assoc, norm_mul]
+    calc
+      _ ≤ ‖(physicalPoissonScalar K : ℂ)‖ *
+          (C₀ * (Real.exp (-((s.im + z.im) ^ 2)) *
+            ‖additiveMellin K S μ P.additive z‖)) :=
+        mul_le_mul_of_nonneg_left hpref (norm_nonneg _)
+      _ ≤ Cpoisson *
+          (C₀ * (Real.exp (-((s.im + z.im) ^ 2)) *
+            ‖additiveMellin K S μ P.additive z‖)) :=
+        mul_le_mul_of_nonneg_right (by dsimp only [Cpoisson]; linarith) (by positivity)
+      _ = _ := by ring
   have hsmall : Z ^ (1 / 6 : ℝ) ≤ Z := by
     calc
       _ ≤ Z ^ (1 : ℝ) := Real.rpow_le_rpow_of_exponent_le hZ (by norm_num)
       _ = Z := Real.rpow_one _
   apply hraw.trans
   calc
-    _ ≤ (C₀ * (Real.exp (-((s.im + z.im) ^ 2)) * ‖additiveMellin K S μ P.additive z‖)) *
+    _ ≤ ((Cpoisson * C₀) * (Real.exp (-((s.im + z.im) ^ 2)) * ‖additiveMellin K S μ P.additive z‖)) *
         ((C₂ * Z) * (C₃₂ * Z ^ 4 * M)) := by
-      exact mul_le_mul hpref
+      exact mul_le_mul hprefPoisson
         (mul_le_mul_of_nonneg_right
           (mul_le_mul_of_nonneg_left hsmall hC₂.le) (by positivity))
         (by positivity) (by positivity)

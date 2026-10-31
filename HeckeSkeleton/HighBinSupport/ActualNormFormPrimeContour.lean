@@ -16,7 +16,9 @@ namespace HighBinVerified.NormFormPrimeContour
 
 open NumberField IsDedekindDomain MeasureTheory Complex Set Filter
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
+open HeckeSkeleton.ExplicitHeckeFunctionalEquation
 open HeckeSkeleton.HeckeBufferedReciprocal
 open HeckeSkeleton.HeckePhysicalFamilyBufferedControl
 open NormFormMellin NormFormPrimeDetector NormFormActual ActualRowLogDerivative
@@ -38,7 +40,8 @@ theorem integrable_decayWeight : Integrable decayWeight := by
 def decayMass : ℝ := (∫ r : ℝ, decayWeight r) + 1
 
 theorem decayMass_pos : 0 < decayMass := by
-  have h := integral_nonneg decayWeight_nonneg
+  have h : 0 ≤ ∫ r : ℝ, decayWeight r :=
+    MeasureTheory.integral_nonneg decayWeight_nonneg
   unfold decayMass
   linarith
 
@@ -121,8 +124,9 @@ def initialLogDerivativeBound : ℝ :=
     idealVerticalMajorant K 1 (3 / 2) (primePowerIdeal K pn)) + 1
 
 theorem initialLogDerivativeBound_pos : 0 < initialLogDerivativeBound K := by
-  have h := tsum_nonneg (fun pn : HeightOneSpectrum (𝓞 K) × ℕ =>
-    idealVerticalMajorant_nonneg K 1 (3 / 2) (primePowerIdeal K pn))
+  have h : 0 ≤ ∑' pn : HeightOneSpectrum (𝓞 K) × ℕ,
+      idealVerticalMajorant K 1 (3 / 2) (primePowerIdeal K pn) :=
+    tsum_nonneg (fun pn => idealVerticalMajorant_nonneg K 1 (3 / 2) (primePowerIdeal K pn))
   unfold initialLogDerivativeBound
   linarith
 
@@ -154,11 +158,12 @@ theorem primeDetectorIntegrand_differentiableOn_rectangle (V : SmoothAnnularTest
   have hsi : |s.im| ≤ H := abs_le.mpr hs.2
   have hshift : |(s - (t : ℂ) * I).im| ≤ U := by
     simp only [Complex.sub_im, Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im,
-      Complex.I_re, Complex.I_im, mul_one, mul_zero, zero_add]
+      Complex.I_re, Complex.I_im, mul_one, mul_zero, add_zero]
     calc
-      |s.im - t| ≤ |s.im| + |-t| := abs_add _ _
+      |s.im - t| ≤ |s.im| + |-t| := by
+        simpa only [sub_eq_add_neg] using abs_add_le s.im (-t)
       _ = |s.im| + |t| := by rw [abs_neg]
-      _ ≤ H + |t| := add_le_add_right hsi _
+      _ ≤ H + |t| := add_le_add hsi le_rfl
       _ ≤ U := hheight
   have hlog := continuedLogDerivative_analyticAt_of_upper K chi hnon U alpha halpha
     hupper (s - (t : ℂ) * I) (by simpa using hal.trans_le hs.1.1) hshift
@@ -253,8 +258,11 @@ theorem primeDetector_initial_integral_norm_le (V : SmoothAnnularTest)
           4 * D * P * M / (1 + H) ^ n := by
     have hb := HighBinBoundary.finite_rectangle_bound (primeDetectorIntegrand K V chi P t)
       l (3 / 2) H (D * P * M / (1 + H) ^ n) hF
-      (fun sigma hs => hface sigma hs (-H) (by simp [abs_of_nonneg hH]))
-      (fun sigma hs => hface sigma hs H (abs_of_nonneg hH))
+      (fun sigma hs => by
+        simpa only [idealVerticalPoint, Complex.ofReal_neg] using
+          hface sigma hs (-H) (by rw [abs_neg, abs_of_nonneg hH]))
+      (fun sigma hs => by
+        simpa only [idealVerticalPoint] using hface sigma hs H (abs_of_nonneg hH))
     have hwidth : |3 / 2 - l| ≤ (2 : ℝ) := abs_le.mpr ⟨by linarith, by linarith⟩
     apply hb.trans
     calc
@@ -294,7 +302,7 @@ theorem primeDetector_initial_integral_norm_le (V : SmoothAnnularTest)
     calc
       ‖R‖ = ‖(L0 + (R0 - L0)) + (R - R0)‖ := by congr 1; ring
       _ ≤ ‖L0 + (R0 - L0)‖ + ‖R - R0‖ := norm_add_le _ _
-      _ ≤ _ := add_le_add_right (norm_add_le _ _) _
+      _ ≤ _ := add_le_add (norm_add_le _ _) le_rfl
   apply htri.trans
   calc
     _ ≤ (D * M * decayMass * P ^ (l - 1 / 2) +
@@ -390,9 +398,10 @@ theorem exists_actual_primeWindow_cap
     intro sigma r hs hs' hr
     have hh : |r - t| ≤ H + |t| := by
       calc
-        |r - t| ≤ |r| + |-t| := abs_add _ _
+        |r - t| ≤ |r| + |-t| := by
+          simpa only [sub_eq_add_neg] using abs_add_le r (-t)
         _ = |r| + |t| := by rw [abs_neg]
-        _ ≤ H + |t| := add_le_add_right hr _
+        _ ≤ H + |t| := add_le_add hr le_rfl
     simpa only [G, mul_assoc] using hlog Z hZZ1 d hd u hu a (H + |t|) U ha ha1
       (add_nonneg hH (abs_nonneg t)) hHU hbelow chi hchi
       (idealVerticalPoint sigma r - (t : ℂ) * I) (by simpa using hs)
@@ -422,8 +431,8 @@ theorem exists_actual_primeWindow_cap
         (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right hA0I hG) hL)
         (mul_le_mul_of_nonneg_right
           (add_le_add hB0I (mul_le_mul_of_nonneg_right hA1I hG)) hR)
-      _ ≤ CI * (1 + G) * L + (CI + CI * G) * R := add_le_add_right
-        (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left (by linarith : G ≤ 1 + G) hCI) hL) _
+      _ ≤ CI * (1 + G) * L + (CI + CI * G) * R := add_le_add
+        (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left (by linarith : G ≤ 1 + G) hCI) hL) le_rfl
       _ = _ := by ring
   let I0 : ℂ := ∫ r : ℝ,
     primeDetectorIntegrand K Vp chi P t (idealVerticalPoint (3 / 2) r)
@@ -435,6 +444,9 @@ theorem exists_actual_primeWindow_cap
         heckeLogDerivative K chi (idealVerticalPoint (3 / 2) r - (t : ℂ) * I) := by
       apply integral_congr_ae
       exact Eventually.of_forall (fun r => by
+        change primeDetectorIntegrand K Vp chi P t (idealVerticalPoint (3 / 2) r) =
+          annularMellinKernel Vp P (1 / 2) (3 / 2) r *
+            heckeLogDerivative K chi (idealVerticalPoint (3 / 2) r - (t : ℂ) * I)
         rw [primeDetectorIntegrand_vertical,
           continuedLogDerivative_eq_heckeLogDerivative K chi (by norm_num [idealVerticalPoint])])
     rw [hi]

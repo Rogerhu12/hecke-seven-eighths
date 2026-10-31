@@ -16,6 +16,7 @@ left side is log(m+1+w) − log(m+w) (FTC for Complex.log on the slit plane) and
 import Zeta23.GammaFacts.Mu
 import Mathlib.NumberTheory.Harmonic.EulerMascheroni
 import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
 import Mathlib.Analysis.SumIntegralComparisons
 import Mathlib.Analysis.PSeries
 

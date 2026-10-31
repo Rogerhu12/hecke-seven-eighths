@@ -21,6 +21,20 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / '.highbin-verification'
+NAMED_HIGHBIN_TARGETS = (
+    'HeckeSkeleton.actualHighPresentation',
+    'HeckeSkeleton.highInitialEulerControl',
+    'HeckeSkeleton.highExceptionalEulerControl',
+    'HeckeSkeleton.fullHighEulerControl',
+    'HeckeSkeleton.highPureNormPoleExclusion',
+    'HeckeSkeleton.highConductorDeficit',
+    'HeckeSkeleton.highLabelUniformity',
+    'HeckeSkeleton.highShiftedNormForm',
+    'HeckeSkeleton.highBoundaryControl',
+    'HeckeSkeleton.wholeBoundaryTail',
+    'HeckeSkeleton.highBin_of_piece_controls',
+    'HeckeSkeleton.highBin',
+)
 
 
 def run(command, log):
@@ -43,10 +57,15 @@ def audit(group, modules, declarations):
         if hashlib.sha256(source.read_bytes()).hexdigest() != declaration['source_sha256']:
             raise SystemExit('Stale declaration inventory: ' + str(source))
     lines = ['import ' + m for m in modules]
+    named_targets = NAMED_HIGHBIN_TARGETS if group in {'actual', 'presentation'} else ()
+    if named_targets:
+        lines.append('import HeckeSkeleton.HighBin')
     lines += ['', 'set_option pp.universes true', 'set_option format.width 120',
               'set_option pp.maxSteps 1000000']
     for declaration in declarations:
         lines += ['#check @' + declaration['name'], '#print axioms ' + declaration['name']]
+    for name in named_targets:
+        lines += ['#check @' + name, '#print axioms ' + name]
     source = OUT / f'Public{group.title()}Audit.lean'
     source.write_text('\n'.join(lines) + '\n')
     log = OUT / f'{group}-public-types-and-axioms.log'
@@ -59,32 +78,22 @@ def audit(group, modules, declarations):
         rows[name] = sorted({a.strip() for a in clean.split(',') if a.strip()})
     for name in re.findall(r"'([^']+)' does not depend on any axioms", text):
         rows[name] = []
-    missing = {d['name'] for d in declarations} - rows.keys()
+    missing = ({d['name'] for d in declarations} | set(named_targets)) - rows.keys()
     if missing:
         raise SystemExit('Missing axiom reports: ' + repr(sorted(missing)))
     extra = {name: sorted(set(axioms) - allowed) for name, axioms in rows.items()
              if not set(axioms) <= allowed}
     (OUT / f'{group}-axioms.json').write_text(json.dumps(
-        {'group': group, 'declarations': rows, 'beyond_standard_axioms': extra}, indent=2) + '\n')
-    # The norm scopes expose the pre-existing upstream prime-window admission
-    # used by PrimeNormalizer.normalizer_smallPower. The presentation scope
-    # additionally checks consumers of the remaining named skeleton inputs.
-    # Every transitive axiom
-    # is recorded; a successful job does not mean admission-free norm bounds.
-    # The source inventory separately rejects any admission in HIGHBIN files.
-    reports_upstream_admissions = group in {'actual', 'normform', 'canonical', 'presentation'}
-    if not reports_upstream_admissions and extra:
-        raise SystemExit(f'Unexpected transitive {group} axioms: ' + repr(extra))
-    if group in {'normform', 'canonical', 'presentation'}:
-        unexpected = {name: sorted(set(axioms) - {'sorryAx'})
-                      for name, axioms in extra.items() if set(axioms) - {'sorryAx'}}
-        if unexpected:
-            raise SystemExit(f'Unexpected {group} axioms beyond the recorded upstream admission: '
-                             + repr(unexpected))
-    print(f'Checked {len(modules)} individual {group} modules and {len(declarations)} public declarations.')
+        {'group': group, 'declarations': rows, 'named_targets': list(named_targets),
+         'beyond_standard_axioms': extra}, indent=2) + '\n')
+    # Lean's pinned collectAxioms implementation traverses declaration types
+    # and values. Every scope, including the original named targets, uses
+    # the same strict allowlist; inherited sorryAx is a verification failure.
     if extra:
-        print(f'{len(extra)} {group} declarations depend on additional upstream axioms/admissions; '
-              f'see {group}-axioms.json. They are not admission-free proofs.')
+        raise SystemExit(f'Unexpected transitive {group} axioms: ' + repr(extra))
+    print(f'Checked {len(modules)} individual {group} modules and {len(declarations)} public declarations.')
+    if named_targets:
+        print(f'Checked {len(named_targets)} original HIGHBIN targets; standard axioms only.')
 
 
 def main():
@@ -97,8 +106,21 @@ def main():
     modules = json.loads((ROOT / f'docs/highbin/{args.group}_modules.json').read_text())
     declarations = json.loads(
         (ROOT / f'docs/highbin/{args.group}_public_declarations.json').read_text())
+    (OUT / f'{args.group}-sources.json').write_text(json.dumps({
+        'commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
+        'group': args.group,
+        'modules': [{'module': module, 'source': str(Path(*module.split('.')).with_suffix('.lean')),
+                     'sha256': hashlib.sha256(ROOT.joinpath(*module.split('.')).with_suffix('.lean')
+                                              .read_bytes()).hexdigest()}
+                    for module in dict.fromkeys([*modules, *(
+                        ['HeckeSkeleton.HighBin'] if args.group in {'actual', 'presentation'} else [])])],
+        'declarations': declarations,
+        'allowed_axioms': ['propext', 'Classical.choice', 'Quot.sound'],
+    }, indent=2) + '\n')
     targets = modules if args.group != 'actual' else [
         'HeckeSkeleton.HighBinSupport', 'HeckeSkeleton.HighBin']
+    if args.group == 'presentation':
+        targets = [*targets, 'HeckeSkeleton.HighBin']
     if args.group == 'actual':
         # A failure in a small analytic/algebraic prerequisite should not
         # wait behind the complete class-field-theory dependency build.

@@ -1,4 +1,4 @@
-import HeckeGeneral.Analysis.RowEulerRegion
+import HeckeGeneral.Analysis.TInputRanges
 import HeckeSkeleton.HighBinSupport.EulerCorrectedRegion
 import HeckeSkeleton.HighBinSupport.EulerAnalytic
 import HeckeSkeleton.HighBinSupport.HighEulerScalarBounds

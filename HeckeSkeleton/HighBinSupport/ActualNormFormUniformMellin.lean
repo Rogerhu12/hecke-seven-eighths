@@ -1,5 +1,5 @@
 import HeckeSkeleton.HighBinSupport.ActualNormFormMellinInversion
-import HeckeGeneral.Analysis.PrimeWindowGeometry
+import HeckeGeneral.Analysis.PhysicalProbeData
 import Mathlib.Analysis.Calculus.ContDiff.Comp
 import Mathlib.Analysis.Calculus.Deriv.Prod
 import Mathlib.Analysis.Normed.Group.Bounded

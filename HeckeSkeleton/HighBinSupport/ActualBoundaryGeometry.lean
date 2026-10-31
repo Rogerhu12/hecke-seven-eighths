@@ -240,7 +240,7 @@ theorem sum_retainedChoices (B e T : ℝ) (he : 0 < e) (hB : 51 / 100 ≤ B)
   · simp only [h, if_pos]
   · have hz : assignedRows K S P ψ Θ E B e T he hB hcommon R k = ∅ :=
       Finset.not_nonempty_iff_eq_empty.mp h
-    simp only [h, if_neg, hz, Finset.sum_empty]
+    simp only [hz, Finset.sum_empty, ite_self]
 
 /-- The literal contour summands may depend on the retained detector
 index; removing empty fibers still preserves their exact row sum. -/
@@ -261,7 +261,7 @@ theorem sum_retainedChoices_indexed {M : Type*} [AddCommMonoid M]
   · simp only [h, if_pos]
   · have hz : assignedRows K S P ψ Θ E B e T he hB hcommon R k = ∅ :=
       Finset.not_nonempty_iff_eq_empty.mp h
-    simp only [h, if_neg, hz, Finset.sum_empty]
+    simp only [hz, Finset.sum_empty, ite_self]
 
 /-- An assigned live piece lies in the original actual buffered bin.
 Only the original shell membership, lower norm cutoff and nonprincipal

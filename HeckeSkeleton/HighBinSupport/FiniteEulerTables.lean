@@ -1,4 +1,4 @@
-import HeckeGeneral.Analysis.FiniteEulerRational
+import HeckeGeneral.Analysis.PhysicalProbeRows
 import HeckeSkeleton.HighBinSupport.ExceptionalSweptTube
 import HeckeSkeleton.HighBinSupport.ExplicitEulerFamily
 import Mathlib.Algebra.MonoidAlgebra.Basic

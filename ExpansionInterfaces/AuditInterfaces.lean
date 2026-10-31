@@ -1,0 +1,45 @@
+import ExpansionInterfaces.AmplitudePartition
+import ExpansionInterfaces.AmplitudeMeasurability
+import ExpansionInterfaces.CommonBudget
+import ExpansionInterfaces.IndexedBudget
+import ExpansionInterfaces.BufferedHeights
+import ExpansionInterfaces.ParameterChoices
+import ExpansionInterfaces.DyadicCount
+import ExpansionInterfaces.BufferedBinOverlap
+import ExpansionInterfaces.DyadicShells
+import ExpansionInterfaces.MaskedAmplitudePartition
+
+#print axioms ExpansionInterfaces.decode_amplitudeCode
+#print axioms ExpansionInterfaces.slotAmplitude_bounds
+#print axioms ExpansionInterfaces.slotAmplitude_lower
+#print axioms ExpansionInterfaces.slotAmplitude_upper
+#print axioms ExpansionInterfaces.rowPiece_support
+#print axioms ExpansionInterfaces.sum_rowPiece
+#print axioms ExpansionInterfaces.amplitudeLabels_uniform_bound
+#print axioms ExpansionInterfaces.physical_amplitudePiece_spec
+#print axioms ExpansionInterfaces.meanAmplitude_bounds
+#print axioms ExpansionInterfaces.refinedRowPiece_eq
+#print axioms ExpansionInterfaces.sectorParameter_eq_on_refinedPiece
+#print axioms ExpansionInterfaces.card_sectorAmplitudeLabels
+#print axioms ExpansionInterfaces.measurable_natFloor_real
+#print axioms ExpansionInterfaces.measurableSet_amplitudeLabel_eq
+#print axioms ExpansionInterfaces.finite_simultaneous_package
+#print axioms ExpansionInterfaces.finite_simultaneous_mixed_package
+#print axioms ExpansionInterfaces.finite_simultaneous_indexed_package
+#print axioms ExpansionInterfaces.buffered_heights_bound
+#print axioms ExpansionInterfaces.binWidth_spec
+#print axioms ExpansionInterfaces.shellAllowance_spec
+#print axioms ExpansionInterfaces.dyadicWitnessLabels_subpower
+#print axioms ExpansionInterfaces.numerical_buffer_overlap
+
+#print axioms ExpansionInterfaces.actualShellIndex_spec
+#print axioms ExpansionInterfaces.actualShell_range
+#print axioms ExpansionInterfaces.shellCount_subpower
+#print axioms ExpansionInterfaces.retainedBlockSchedule_subpower
+#print axioms ExpansionInterfaces.completeAmplitudeLabels_uniform_bound
+#print axioms ExpansionInterfaces.dyadicShell_unique
+#print axioms ExpansionInterfaces.height_degree_absorption
+
+#print axioms ExpansionInterfaces.masked_amplitudePiece_spec
+#print axioms ExpansionInterfaces.measurableSet_maskedAmplitudeLabel_eq
+#print axioms ExpansionInterfaces.card_completeAmplitudeLabels

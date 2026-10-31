@@ -308,7 +308,7 @@ theorem compensatedRowMellinKernel_ae_eq_vertical_of_calibrated
       K S P ψ E₁ E₂ h₁ h₂ ((Finset.univ \ J).image p) u ha ha1 he he1 σ hσ
   filter_upwards [hcont] with t ht
   unfold compensatedRowMellinKernel
-  congr 2
+  congr 3
   apply Finset.sum_congr rfl
   intro p hp
   congr 1

@@ -232,6 +232,7 @@ theorem exists_uniform_actual_row_conductor_norm_bound :
     have hnat := Nat.le_of_dvd (Ideal.absNorm_pos_of_nonZeroDivisors u.ideal.val)
       (Ideal.absNorm_dvd_absNorm_of_le
         (Ideal.le_radical : u.ideal.val.val ≤ u.ideal.val.val.radical))
+    change (u.ideal.val.val.radical.absNorm : ℝ) ≤ (u.ideal.val.val.absNorm : ℝ)
     exact_mod_cast hnat
   calc
     heckeConductorScale K (E.rows.character u) ≤

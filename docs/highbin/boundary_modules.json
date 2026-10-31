@@ -16,6 +16,7 @@
   "HeckeSkeleton.HighBinSupport.ActualKernelEnvelope",
   "HeckeSkeleton.HighBinSupport.ActualLRatioStrip",
   "HeckeSkeleton.HighBinSupport.ActualOrbitalRapidDecay",
+  "HeckeSkeleton.HighBinSupport.ActualPhysicalBoundary",
   "HeckeSkeleton.HighBinSupport.ActualPrimeNormalizerCancellation",
   "HeckeSkeleton.HighBinSupport.ActualPrimePowerSymbols",
   "HeckeSkeleton.HighBinSupport.ActualRegularEuler",

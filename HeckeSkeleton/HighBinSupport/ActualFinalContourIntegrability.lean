@@ -170,10 +170,10 @@ theorem compensatedRowMellinKernel_continuousOn_final_heightBox
     have hline := ActualAdditiveBorel.additiveMellin_continuous_line_actualBorel K S
       (fun p => inferInstance) (fun p => inferInstance) μ (fun p => inferInstance)
       P.additive (17 / 50) (by norm_num) (by norm_num)
-    simpa [zLine] using hline.comp (continuous_snd.comp continuous_snd)
+    simpa [zLine, Function.comp_def] using hline.comp (continuous_snd.comp continuous_snd)
   have hdenMellin : Continuous (fun q : ℝ × (ℝ × ℝ) =>
       mellin P.denominator.toFun (wLine ν q)) :=
-    (ActualDenominator.differentiable_mellin P.denominator).continuous.comp hw
+    (ActualDenominator.differentiable_mellin P.denominator.toSmoothAnnularTest).continuous.comp hw
   have hzeta : Continuous (fun q : ℝ × (ℝ × ℝ) =>
       heckeDeletedContinuation K 1 (exceptionalPrimes K S₀) (6 * zLine q)) := by
     apply continuous_iff_continuousAt.mpr
@@ -182,7 +182,7 @@ theorem compensatedRowMellinKernel_continuousOn_final_heightBox
     have hL := (analyticAt_heckeContinuation K (1 : HeckeCharacter K) hre).differentiableAt
     have hD := (heckeEulerDeletionPolynomial_analyticAt
       K (1 : HeckeCharacter K) (exceptionalPrimes K S₀) (6 * zLine q)).differentiableAt
-    exact (hD.mul hL).continuousAt.comp q (hz.const_mul 6).continuousAt
+    exact (hD.mul hL).continuousAt.comp (hz.const_mul 6).continuousAt
   have hnum : Continuous (fun q : ℝ × (ℝ × ℝ) =>
       heckeDeletedContinuation K (E.rows.character u) (exceptionalPrimes K S₀)
         (wLine ν q)) := by
@@ -196,8 +196,8 @@ theorem compensatedRowMellinKernel_continuousOn_final_heightBox
       (wLine ν q) hne).differentiableAt
     have hD := (heckeEulerDeletionPolynomial_analyticAt K (E.rows.character u)
       (exceptionalPrimes K S₀) (wLine ν q)).differentiableAt
-    exact (hD.mul hL).continuousAt.comp q hw.continuousAt
-  have hmem := denominator_mem_physicalRowFamily K S₀ ψ Θ P E u hΘ
+    exact (hD.mul hL).continuousAt.comp hw.continuousAt
+  have hmem := HeckeSkeleton.HeckeBufferedReciprocal.denominator_mem_physicalRowFamily K S₀ ψ Θ P E u hΘ
   have hupper : HeckeSkeleton.HeckeBufferedReciprocal.ZeroUpperBound K
       (ψ * conjugate (E.rows.character u)) U α := hbelow _ hmem
   have hrecip : ContinuousOn (fun q : ℝ × (ℝ × ℝ) =>
@@ -212,7 +212,7 @@ theorem compensatedRowMellinKernel_continuousOn_final_heightBox
     have hi := analyticAt_deleted_reciprocal_of_upper K S₀
       (ψ * conjugate (E.rows.character u)) U α hα hupper
       (sLine σ q) (by simpa [sLine] using hσ) hqi
-    exact (hi.differentiableAt.continuousAt.comp q hs.continuousAt).continuousWithinAt
+    exact (hi.differentiableAt.continuousAt.comp hs.continuousAt).continuousWithinAt
   have hrow (Q : Finset (ExteriorPrime K S₀)) :
       ContinuousOn (fun q => rowEulerContinuation K S₀ P ψ E Q u
         (sLine σ q) (wLine ν q) (zLine q)) (heightBox H) := by
@@ -251,13 +251,13 @@ theorem compensatedRowMellinKernel_continuousOn_final_heightBox
     have h1 := hpow (Z ^ (17 / 48 : ℝ) / exteriorNorm K S₀ (subsetPrimeIdeal K S₀ p J))
       (div_pos (Real.rpow_pos_of_pos hZ _) hsel) _ (continuous_const.sub hz)
     have h2 := hpow (Z * exteriorNorm K S₀ (subsetPrimeIdeal K S₀ p (Finset.univ \ J)))
-      (mul_pos hZ hmark) _ ((hs.add hz).sub_const 1)
+      (mul_pos hZ hmark) _ ((hs.add hz).sub (continuous_const (y := (1 : ℂ))))
     have h3 := hpow (Z ^ (23 / 48 : ℝ) / exteriorNorm K S₀ (subsetPrimeIdeal K S₀ p J))
-      (div_pos (Real.rpow_pos_of_pos hZ _) hsel) _ (hw.sub_const 1)
+      (div_pos (Real.rpow_pos_of_pos hZ _) hsel) _ (hw.sub (continuous_const (y := (1 : ℂ))))
     exact (((h1.const_mul _).mul h2).mul h3).continuousOn.mul
       (hrow ((Finset.univ \ J).image p))
-  exact (((((hs.add hz).sub_const 1).pow 2).cexp.mul hadd).mul hdenMellin).mul hfreq
-    |>.continuousOn.mul hsum |>.div_const _
+  exact (((((hs.add hz).sub (continuous_const (y := (1 : ℂ)))).pow 2).cexp.mul hadd).mul hdenMellin).mul hfreq
+    |>.continuousOn.mul hsum |>.const_mul (physicalPoissonScalar K : ℂ) |>.div_const _
 
 /-- Compact-box integrability of the final arithmetic kernel, with no
 large-scale cutoff or row-norm premise. -/

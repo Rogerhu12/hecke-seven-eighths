@@ -132,7 +132,13 @@
   "ActualChoiceMaskedTotalNorm",
   "ActualAllowedTotalNormProviderIdentity",
   "ActualRowBallResidualMaskedIdentity",
-  "ActualRowBallResidualGoodPrimeBound"
+  "ActualRowBallResidualGoodPrimeBound",
+  "ActualFixedBoxTotalNormSeminormBound",
+  "ActualFixedBoxTotalNormDecay",
+  "ActualRowBallResidualScalarBound",
+  "ActualRowBallDualResidualNorm",
+  "ActualRowBallResidualTrivialBound",
+  "ActualWholeAnnularSmallRadiusPoisson"
  ],
  "sources": {
   "ActiveBoxPrincipalUnitRatio": "g12a/staged/GR12TransportInputs/history/native-runs/1029T184139-61167/src/ActiveBoxPrincipalUnitRatio.lean",
