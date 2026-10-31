@@ -1,3 +1,0 @@
-'HeckeSkeleton.LowHybrid.finite_complex_sum_mul_sq_le' depends on axioms: [propext, Classical.choice, Quot.sound]
-'HeckeSkeleton.LowHybrid.finite_operator_bound_transpose' depends on axioms: [propext, Classical.choice, Quot.sound]
-'HeckeSkeleton.LowHybrid.quadratic_sieve_input_transpose' depends on axioms: [propext, Classical.choice, Quot.sound]

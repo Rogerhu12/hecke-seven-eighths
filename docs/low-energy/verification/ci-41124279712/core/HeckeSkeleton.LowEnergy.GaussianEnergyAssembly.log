@@ -1,3 +1,0 @@
-'HeckeSkeleton.LowEnergy.GaussianEnergyAssembly.all_annuli_all_dyads_energy' depends on axioms: [propext,
- Classical.choice,
- Quot.sound]

@@ -33,6 +33,7 @@ PRINCIPAL = 'HeckeSkeleton.Principal'
 CALIBRATION_MODULES = ('Expansion.PhysicalFourierNormalization',)
 REQUIRED_AXIOMS = (
     'HeckeSkeleton.completedMarkedEnergy',
+    'HeckeSkeleton.physicalCompletedMarkedEnergy',
     'HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy.completedMarkedEnergy',
 )
 EXPECTED_AXIOMS = frozenset({'propext', 'Classical.choice', 'Quot.sound'})
@@ -343,7 +344,7 @@ def verify(expected_head: str, metadata_dir: Path, build_timeout: float) -> None
         if (report['final_audit']['exit_code'] != 0 or report['final_audit']['timed_out']
                 or not audit['ok']):
             report['final_axiom_gate'] = 'failed'
-            raise RuntimeError('The two required completedMarkedEnergy declarations failed the strict axiom gate.')
+            raise RuntimeError('The general and physical energy declarations failed the strict axiom gate.')
         checkout_identity(expected_head)
         if source_snapshot(ROOT) != prepared['source_snapshot']:
             raise RuntimeError('Sources or configuration changed during the final audit.')

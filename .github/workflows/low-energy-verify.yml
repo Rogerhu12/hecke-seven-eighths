@@ -71,7 +71,7 @@ jobs:
         with:
           repository: Rogerhu12/hecke-seven-eighths
           tag: lake-cache-76c696e
-      - name: Build every new proof source and run both strict target audits
+      - name: Build every new proof source and run the strict target audits
         timeout-minutes: 155
         run: >-
           python3 scripts/low_energy_lake_verify.py verify
@@ -86,14 +86,85 @@ jobs:
           include-hidden-files: true
           if-no-files-found: warn
           retention-days: 14
+      - name: Collect native build outputs for diagnosis
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import shutil
+
+          root = Path.cwd()
+          log = root / '.low-energy-lake-verification/lake-build.log'
+          raw_log = log.read_bytes() if log.is_file() else b''
+          built = set(re.findall(
+              r'(?m)^[^\r\n]*\[\d+/\d+\]\s+Built\s+([A-Za-z_][A-Za-z0-9_.]*)\s+\(',
+              raw_log.decode('utf-8', errors='replace')))
+          normalization = {
+              'Expansion.PhysicalFourierNormalization',
+              'HeckeGeneral.Analysis.PhysicalProbePrincipal',
+              'HeckeGeneral.Analysis.PhysicalProbeContours',
+              'HeckeAxiom.ProbeNormalization',
+          }
+          native = root / '.lake/build/lib/lean'
+          destination = root / '.low-energy-native-outputs'
+          if destination.is_symlink():
+              raise RuntimeError('The diagnostic output directory must be local.')
+          if destination.exists():
+              shutil.rmtree(destination)
+          destination.mkdir()
+          source_roots = [root, *(root / p for p in (
+              'SkeletonInputs', 'GramCoreInputs', 'GramAssemblyInputs',
+              'PrimeCancellation', 'vendor/openai', 'vendor/flt',
+              'vendor/zeta23', 'vendor/tauceti'))]
+          entries = []
+          unresolved_sources = []
+          for module in sorted(built):
+              relative = Path(*module.split('.'))
+              candidates = [p / relative.with_suffix('.lean') for p in source_roots]
+              sources = [p for p in candidates if p.is_file()]
+              source = sources[0] if len(sources) == 1 else None
+              if source is None:
+                  unresolved_sources.append(module)
+                  continue
+              for suffix in ('.olean', '.olean.private', '.olean.server', '.ir', '.ir.sig'):
+                  path = native / (str(relative) + suffix)
+                  if not path.is_file():
+                      continue
+                  target = destination / path.relative_to(native)
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  shutil.copyfile(path, target)
+                  entries.append({
+                      'module': module, 'path': str(target.relative_to(destination)),
+                      'bytes': target.stat().st_size,
+                      'sha256': hashlib.sha256(target.read_bytes()).hexdigest(),
+                      'built_event': module in built,
+                      'source': str(source.relative_to(root)),
+                      'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
+                  })
+          manifest = {
+              'scope': 'Diagnostic outputs; not a CI restore cache or acceptance evidence.',
+              'head': os.environ['EXPECTED_SOURCE_HEAD'],
+              'run_id': os.environ['GITHUB_RUN_ID'],
+              'build_log_sha256': hashlib.sha256(raw_log).hexdigest(),
+              'selection': 'Native Built events with an exact project source path.',
+              'normalization_without_built_event': sorted(normalization - built),
+              'unresolved_source_modules': sorted(unresolved_sources),
+              'files': entries,
+          }
+          (destination / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
+          print(f'Collected {len(entries)} native output files from '
+                f'{len({entry["module"] for entry in entries})} modules for diagnosis.')
+          PY
       - name: Preserve native proof outputs for diagnosis
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: low-energy-native-outputs-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            .lake/build/lib/lean/HeckeSkeleton/
-            .lake/build/lib/lean/Expansion/PhysicalFourierNormalization.*
+          path: .low-energy-native-outputs/
           include-hidden-files: true
           if-no-files-found: warn
           retention-days: 7

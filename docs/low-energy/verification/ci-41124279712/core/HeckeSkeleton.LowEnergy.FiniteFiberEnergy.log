@@ -1,4 +1,0 @@
-'HeckeSkeleton.LowEnergy.FiniteFiberEnergy.sum_eq_fibres' depends on axioms: [propext, Classical.choice, Quot.sound]
-'HeckeSkeleton.LowEnergy.FiniteFiberEnergy.sum_le_shell_majorants' depends on axioms: [propext,
- Classical.choice,
- Quot.sound]

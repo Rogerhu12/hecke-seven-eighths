@@ -1,3 +1,0 @@
-'HeckeSkeleton.LowEnergy.EulerLog.eulerOrder_log' depends on axioms: [propext, Classical.choice, Quot.sound]
-'HeckeSkeleton.LowEnergy.EulerLog.iteratedDeriv_ofReal' depends on axioms: [propext, Classical.choice, Quot.sound]
-'HeckeSkeleton.LowEnergy.EulerLog.testIntegral_log' depends on axioms: [propext, Classical.choice, Quot.sound]

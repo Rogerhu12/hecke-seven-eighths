@@ -89,18 +89,26 @@ theorem completedThetaSum_eq_fixedPhysicalRows
   letI : Fintype (MarkChoice K S d) :=
     Fintype.ofEquiv d.marks.powerset (subsetsEquiv K S d.marks).symm
   rw [completedThetaSum_eq_physical_atoms K S D hD F θ hreflection d V Y hY]
-  -- The state type is independent of the active subset.  Expose the
-  -- projections before rewriting the powerset sum so that its motive is
-  -- well typed at the simplifier's transparency level.
-  simp only [splitFixed]
-  erw [← tsum_subsets_eq K S d.marks]
-  simp only [tsum_fintype]
-  erw [Finset.sum_comm]
-  apply Finset.sum_congr rfl
-  intro A _
-  erw [fixedPhysicalRow, ← mul_assoc,
-    mul_inv_cancel₀ (inactiveWeight_ne_zero K S (splitFixed K S d A)), one_mul,
-    tsum_fintype]
+  -- Supply the dependent motive explicitly.  Backward rewriting cannot
+  -- infer it from a powerset sum whose branch carries the subset proof.
+  let H : MarkChoice K S d → ℂ := fun A =>
+    ActualSeparatedBlock.inactiveWeight K S (splitFixed K S d A) *
+      fixedPhysicalRow K S D (splitFixed K S d A) F θ V.toFun Y
+        d.moving (primeSetIdeal K S A.val)
+  calc
+    _ = ∑' A : MarkChoice K S d, ∑' s : FrozenState K S d.frozen d.puncture,
+        ∑' cb : ExteriorIdeal K S × ExteriorIdeal K S,
+          physicalAtom K S D (splitFixed K S d A) s F θ (fun _ => 1) V.toFun Y
+            d.moving (primeSetIdeal K S A.val) cb.1 cb.2 := by
+      simp only [tsum_fintype]
+      exact Finset.sum_comm
+    _ = ∑' A : MarkChoice K S d, H A := by
+      apply tsum_congr
+      intro A
+      dsimp only [H]
+      rw [fixedPhysicalRow, ← mul_assoc,
+        mul_inv_cancel₀ (inactiveWeight_ne_zero K S (splitFixed K S d A)), one_mul]
+    _ = _ := tsum_subsets_eq K S d.marks H
 
 def tuplePhysicalRow (x : ExteriorIdeal K S × SixthUnitClasses K S)
     (F : FiniteMellinData K S) (θ : HeckeCharacter K)

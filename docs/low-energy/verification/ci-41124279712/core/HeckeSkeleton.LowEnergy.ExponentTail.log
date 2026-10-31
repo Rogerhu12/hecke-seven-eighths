@@ -1,9 +1,0 @@
-'HeckeSkeleton.LowEnergy.Numerics.low_full_exponent' depends on axioms: [propext, Classical.choice, Quot.sound]
-'HeckeSkeleton.LowEnergy.Numerics.low_full_ramified_exponent' depends on axioms: [propext, Classical.choice, Quot.sound]
-'HeckeSkeleton.LowEnergy.Numerics.hybrid_small_power_width' depends on axioms: [propext, Classical.choice, Quot.sound]
-'HeckeSkeleton.LowEnergy.Numerics.low_full_ramified_exponent_with_sieve_loss' depends on axioms: [propext,
- Classical.choice,
- Quot.sound]
-'HeckeSkeleton.LowEnergy.Numerics.low_full_exponent_with_sieve_loss' depends on axioms: [propext,
- Classical.choice,
- Quot.sound]

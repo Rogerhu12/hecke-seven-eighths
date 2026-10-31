@@ -6,6 +6,7 @@ import HeckeSkeleton.PrimeNormalizer
 import HeckeSkeleton.LowCauchy
 import HeckeSkeleton.GeneratorMask
 import HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy
+import HeckeSkeleton.LowEnergy.GeneralCompletedEnergy
 
 set_option autoImplicit false
 set_option quotPrecheck false
@@ -168,10 +169,32 @@ def CompletedMarkedEnergy : Prop :=
       then ‖completedMarkedRow K c Z p J u.out‖ ^ 2 else 0) ≤
       C * Z ^ (5 / 6 + ε) / q ^ 2
 
--- LOW-REFLECTED-ENERGY | revised Lemma 4.8 and (6.22), pp.23–25,40.
--- Literal reflection, the original two sieves, charged powerful fibres,
--- all Gaussian annuli, and every original sixth-unit sector.
+/-- The general canonical terminal of Lemma 4.8.  Arithmetic calibration,
+background, puncture, label, completed scale, profile and all original
+tuple coefficients are parameters of this interface. -/
+def CompletedCanonicalMarkedEnergy
+    (S₀ : Set (HeightOneSpectrum (𝓞 K))) [Fintype S₀]
+    (D₀ : ThetaArithmeticData K S₀) (F : FiniteMellinData K S₀)
+    (θ : HeckeCharacter K) : Prop :=
+  LowEnergy.GeneralCompletedEnergy.CompletedMarkedEnergy K S₀ D₀ F θ
+
+-- LOW-REFLECTED-ENERGY | revised Lemma 4.8, (can-Eref), (can-conductor-comparison).
+-- This is the general source-block terminal consumed by canonical induction.
+-- The physical Gaussian specialization is kept below under its explicit name.
 theorem completedMarkedEnergy
+    (S₀ : Set (HeightOneSpectrum (𝓞 K))) [Fintype S₀]
+    [Finite (SixthLocalClasses K S₀)] (D₀ : ThetaArithmeticData K S₀)
+    {F : FiniteMellinData K S₀} {θ : HeckeCharacter K}
+    (hreflection : MarkedCoefficientReflectionInput K S₀ D₀ F θ)
+    (hquadratic : LowEnergy.ActualSieveDictionary.ExteriorQuadraticBound K S₀ D₀)
+    (hcubic : LowEnergy.ActualSieveDictionary.ExteriorCubicBound K S₀ D₀) :
+    CompletedCanonicalMarkedEnergy K S₀ D₀ F θ :=
+  LowEnergy.GeneralCompletedEnergy.completedMarkedEnergy K S₀ D₀ F θ
+    hreflection hquadratic hcubic
+
+/-- The original physical Gaussian row budget (6.22), with its literal
+selected-ideal denominator and all original sixth-unit sectors. -/
+theorem physicalCompletedMarkedEnergy
     {F : FiniteMellinData K S}
     (hreflection : MarkedCoefficientReflectionInput K S (probeData K c).arithmetic
       F (thetaPeriod K S P ψ))
@@ -210,7 +233,7 @@ theorem principalSource :
     low := low_of_gram_and_completedEnergy K c
       (Gram.gramBound_of_calibrated K S P (generatorMaskWitness K c) rfl HEq.rfl
         (allowedGenerators K c) (arithmeticCalibration K c))
-      (completedMarkedEnergy K c (F := finiteMellinData K c) (markedReflection K c)
+      (physicalCompletedMarkedEnergy K c (F := finiteMellinData K c) (markedReflection K c)
         (moment_quadratic_sieve K c) (moment_cubic_sieve K c))
       (principal_normalizer_smallPower K c)
   }

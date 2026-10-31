@@ -1,8 +1,0 @@
-{
-  "run_id": 41126417398,
-  "head_sha": "1359722d0d8c3f8f4a14b28ba86c31e1b879563c",
-  "artifact_id": 13010764177,
-  "archive_sha256": "4d2571d86e07017a158af7cd8c9019ac8721538266771f1089b399e0ba4e9d43",
-  "files": 199,
-  "status": "restored_unverified; per-module verification is mandatory"
-}

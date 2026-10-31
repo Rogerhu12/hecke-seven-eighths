@@ -131,10 +131,10 @@ class Gates(unittest.TestCase):
         return ''.join("'" + name + "' depends on axioms: [" + axioms + "]\n"
                        for name in lane.REQUIRED_AXIOMS)
 
-    def test_both_exact_names_and_allowed_three_accept(self):
+    def test_all_exact_names_and_allowed_three_accept(self):
         result = lane.inspect_final_audit(self.reports())
         self.assertTrue(result['ok'])
-        self.assertEqual(result['printed_declaration_count'], 2)
+        self.assertEqual(result['printed_declaration_count'], len(lane.REQUIRED_AXIOMS))
 
     def test_missing_or_qualified_wrong_second_name_rejected(self):
         for output in (self.reports().splitlines()[0] + '\n',
