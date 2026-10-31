@@ -142,7 +142,7 @@ theorem exists_pointwise_free_bound (ε : ℝ) (hε : 0 < ε) (m : ℕ) :
   change (ret + zeros + tail).re ≤ C / 2 * (L + E) + (‖zeros‖ + ‖tail‖)
   exact (Complex.re_le_norm _).trans
     (((norm_add_le (ret + zeros) tail).trans
-      (add_le_add_right (norm_add_le ret zeros) _)).trans
+      (add_le_add (norm_add_le ret zeros) le_rfl)).trans
         (by linarith))
 
 /-- After the second two-root inequality, the whole first finite source

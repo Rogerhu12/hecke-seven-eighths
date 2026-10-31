@@ -90,10 +90,9 @@ theorem firstCommon_norm (o : OuterIndex K S D T) :
     coordinateNorm K S D Γ (outerBare K S D Γ T hmask o) .firstCommon =
       FirstLocalizedRows.commonNorm K S
         (outerAnchor K S D T o).1 (outerAnchor K S D T o).2 o.1.val o.2.1.val := by
-  simp only [coordinateNorm, coordinateIdeal, PositiveReconstruction.Source.firstCommon,
+  simpa only [coordinateNorm, coordinateIdeal, PositiveReconstruction.Source.firstCommon,
     FirstLocalizedRows.commonNorm, height, FirstSourceColumns.commonIdeal_val,
     CanonicalConductor.commonResidualIdeal_eq_C]
-  rfl
 
 theorem cubeLabel_norm (o : OuterIndex K S D T) :
     coordinateNorm K S D Γ (outerBare K S D Γ T hmask o) .cubeLabel =

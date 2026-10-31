@@ -97,6 +97,10 @@ theorem physicalPrincipal_norm_le (a : Ext → ℂ) (T : Finset Ext)
     ‖physicalPrincipal K S D Γ hΓ a T φ h hlc hcs r‖ ≤
       (T.card : ℝ) * L ^ 2 *
         absoluteRowMass K Sset Γ φ (sIntegerFiniteTestFunction K S h) r := by
+  letI : ∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K) :=
+    fun v => borel (v.adicCompletion K)
+  letI : ∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K) :=
+    fun _ => ⟨rfl⟩
   let z := absoluteRowMass K Sset Γ φ (sIntegerFiniteTestFunction K S h) r
   have hz : 0 ≤ z := tsum_nonneg (fun _ => norm_nonneg _)
   have hp (p : Ext × Ext) (hmem : p ∈ principalPairs K S D T) :

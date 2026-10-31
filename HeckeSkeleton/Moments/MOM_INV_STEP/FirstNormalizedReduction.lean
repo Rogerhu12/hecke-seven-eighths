@@ -24,6 +24,7 @@ open HeckeSkeleton.Moments.MOMInvStep
 open FixedTripleFibers CanonicalChildren CanonicalNormPools FirstParentRows
   FirstOuterCenters FirstToSecondData FirstPositiveSource FirstFreeMellinEnergy
   FirstErrorIntegration FirstCenteredErrorIntegrals CommonKernel InverseRowMajorant
+  FirstCenteredPositiveEnergy
 open scoped Classical BigOperators nonZeroDivisors
 
 variable (K : Type) [Field K] [NumberField K]

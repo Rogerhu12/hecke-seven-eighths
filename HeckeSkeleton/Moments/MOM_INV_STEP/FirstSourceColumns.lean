@@ -227,7 +227,8 @@ theorem source_column (hallowed : AllowedGeneratorInput K Sset D)
   convert hc' using 1 <;>
     simp only [CanonicalCubeLabels.crt, CanonicalCubeLabels.J, CanonicalCubeLabels.q0,
       CanonicalCubeLabels.dilation, CanonicalIdealRow.generator,
-      CanonicalIdealRow.toExterior_val] <;> (try split_ifs) <;> ring
+      CanonicalIdealRow.toExterior_val] <;> (try split_ifs) <;>
+      simp_all only [ite_true, ite_false] <;> ring
 
 /-- The same genuine column identity keeps an arbitrary mask-divisor
 character in the moving residual column. It is never made an outer scalar. -/

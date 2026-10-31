@@ -129,13 +129,13 @@ theorem exists_uniform_parent_reduction
     (retainedSource K S D Γ hΓ μv a (C.columns γ ×ˢ C.columns γ) φ h hlc hcs rad (Z ^ (R + tau)) +
       additiveZeros K S D Γ hΓ μv a (C.columns γ) φ h hlc hcs rad)
     (tailSource K S D Γ hΓ μv a (C.columns γ ×ˢ C.columns γ) φ h hlc hcs rad (Z ^ (R + tau)))).trans
-      (add_le_add_right (norm_add_le _ _) _)
+      (add_le_add (norm_add_le _ _) le_rfl)
   have hn' := mul_le_mul_of_nonneg_left hn (Real.rpow_nonneg hZpos.le (-U))
   rw [mul_add, mul_add] at hn'
   apply hn'.trans
-  apply (add_le_add (add_le_add_left hzero' _) htail').trans
+  apply (add_le_add (add_le_add le_rfl hzero') htail').trans
   rw [add_assoc]
-  apply add_le_add_left
+  apply add_le_add le_rfl
   have h₁ : 0 ≤ Ap * W ^ 2 * p * Z ^ (-saving) := by positivity
   have h₂ : 0 ≤ At * W ^ 2 * p * Z ^ (H + loss) := by positivity
   nlinarith

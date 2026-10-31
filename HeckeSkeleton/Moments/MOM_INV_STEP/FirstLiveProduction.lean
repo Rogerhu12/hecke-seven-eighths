@@ -158,7 +158,7 @@ theorem exists_parent_free_bound
     K S D Γ hΓ μv ν μ T L w hw0 Z tau
   have hret := hb T hlocal Θ ψ G hν hG hcal Z tau hZ L w grid centers W hW F R
     Aweight hAw hw0 hF hcap hw hβ hGunramified hscale hbase hcut hprime
-  exact hparent.trans (add_le_add_right hret _)
+  exact hparent.trans (add_le_add hret le_rfl)
 
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstLiveProduction

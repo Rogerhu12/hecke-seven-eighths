@@ -644,6 +644,29 @@ theorem actualTotal_weightOn_le_boxes (m : ℕ) (side₂ : Bool)
   intro J₂ hJ₂
   exact Finset.sum_le_sum (fun j _ => hB b J₂ hJ₂ j)
 
+/-- A uniform closed box bound is summed with the exact bin, mark and
+norm-box multiplicities. The Mellin Cauchy mass stays paired with the
+same spectral integral. -/
+theorem actualTotal_weightOn_le_uniform_box (m : ℕ) (side₂ : Bool) (A I : ℝ)
+    (hB : ∀ b : SecondMobiusGeometry.Index X, ∀ J₂ ∈ (T.columns.slots \ J₁).powerset,
+      ∀ j : BoxIndex Z L,
+        SecondProductionIntegral.sourceIntegral K S D Γ T Θ ψ G hν hG hbase
+          R U J₁ s H₂ w ε side₁ m side₂
+          (boxedSource K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
+            grid centers alive k side₁ Finset.univ b Z L j) b J₂ ≤ A * I) :
+    SecondProductionIntegral.actualTotal K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂
+      (SecondProductionRestriction.weightOn K S D T w
+        (fun o e => alive o ∧ centers.assignment side₁ o e = k))
+      ε side₁ m side₂ ≤
+      ((Fintype.card (SecondMobiusGeometry.Index X) : ℝ) *
+        ((T.columns.slots \ J₁).powerset.card : ℝ) * (Fintype.card (BoxIndex Z L) : ℝ) * A) *
+        (SecondProductionIntegral.cauchyMass K S T J₁ s * I) := by
+  have hb := actualTotal_weightOn_le_boxes K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
+    grid centers alive k side₁ Z L w ε m side₂ (fun _ _ _ => A * I) hB
+  apply hb.trans_eq
+  simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
+  ring
+
 end HeckeSkeleton.Moments.MOM_INV_STEP.ActualSingleBoxBudget
 
 end

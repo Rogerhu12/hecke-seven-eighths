@@ -132,7 +132,8 @@ theorem second_extracted_dvd (x₁ x₂ j d₂ v : Ext) (R : Ideal (𝓞 K))
       ((j.val.val * d₂.val.val) * v.val.val) =
     ((ActualInverseFactors.common K Sset x₁ x₂).val.val * v.val.val) * (R * j.val.val)
   rw [hg]
-  simp only [residual, ActualInverseFactors.residual_val, FirstSourceDecomposition.pairResidual,
+  simp only [SecondOverlapColumns.residual, ActualInverseFactors.residual_val,
+    FirstSourceDecomposition.pairResidual,
     FirstSourceDecomposition.divisorResidual]
   ring
 

@@ -110,7 +110,7 @@ theorem exists_weighted_source_mass_bound (slotCap p : ℕ) :
         hX0 hH0 hβ hW (hn _ hn₂) (hb _ hb₂) (hlabelWeight _ hb₂ f hfl) (hcut _ hn₂) ha
       simp only [Real.rpow_one] at hcol₁ hcol₂
       have hpair : ‖pairWeight K S D C f x‖ ≤ (Ac * β * W * (X * H ^ 3)) ^ 2 := by
-        rw [pairWeight, norm_mul, norm_conj, pow_two]
+        rw [pairWeight, norm_mul, Complex.norm_conj, pow_two]
         exact mul_le_mul hcol₁ hcol₂ (norm_nonneg _) (by positivity)
       have hm := hmask (FirstSourceDecomposition.primeSupport Q.val)
         (fun p hp => Q.property p ((FirstSourceDecomposition.mem_primeSupport Q.val p).mp hp))

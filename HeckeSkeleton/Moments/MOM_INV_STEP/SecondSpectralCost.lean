@@ -106,7 +106,8 @@ theorem joint_polynomial_integral_eq (s : ℝ) (k : ℕ) (B : ℝ)
       ring
     _ = _ := by
       rw [integral_const_mul, integral_prod_mul]
-      rfl
+      unfold coordinateMoment moment
+      ring
 
 theorem mass_joint_polynomial_eq (s : ℝ) (k : ℕ) (B : ℝ)
     (L : LogPlane →L[ℝ] ℝ) :
@@ -237,7 +238,7 @@ theorem exists_cauchy_polynomial_majorant (k : ℕ) :
       cauchyCost (-(1 / 2 : ℝ)) s k ≤ firstPolynomial m B s := by
   obtain ⟨m, B, hB, hb⟩ := cauchyCost_bound (-(1 / 2 : ℝ)) k
   refine ⟨m, B, hB, fun s => ?_⟩
-  simpa only [firstPolynomial, add_zero, abs_zero, one_add_zero, one_pow, mul_one]
+  simpa only [firstPolynomial, add_zero, abs_zero, one_pow, mul_one]
     using hb s 0
 
 theorem firstPolynomial_inner_integrable (ρ : SchwartzMap ℝ ℂ)
@@ -387,7 +388,8 @@ theorem remaining_masks_bound (T : FirstParentEnergy.Data K S (σ := σ))
     ((T.columns.slots \ J).powerset.card : ℝ) ≤ (2 : ℝ) ^ slotCap := by
   rw [Finset.card_powerset]
   norm_cast
-  exact Nat.pow_le_pow_right (by omega) ((Finset.card_sdiff_le).trans hcap)
+  exact Nat.pow_le_pow_right (by omega)
+    ((Finset.card_le_card Finset.sdiff_subset).trans hcap)
 
 theorem actual_cauchy_polynomial_bound (T : FirstParentEnergy.Data K S (σ := σ))
     (slotCap : ℕ) (hcap : T.columns.slots.card ≤ slotCap) (J : Finset σ)

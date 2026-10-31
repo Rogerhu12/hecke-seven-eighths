@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualSingleBoxBudget
 import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildClosure
 import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSpectralCost
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterPhysicalCap
 
 /-!
 # Smooth canonical child closure inside the actual source integral
@@ -199,6 +200,103 @@ def pieceAt (side₂ : Bool) (p : LogPlane × ℝ) (a : CanonicalChildClosure.In
 variable (h : ℝ) (hZ : 1 < Z) (hh : 0 ≤ h) (hwidth : 2 ≤ Z ^ h)
 variable (hb : ∀ q ∈ T.cubes, height K Sset q ≤ Z ^ L)
 variable (hfirst : 2 * T.scale.val ≤ Z ^ L) (hsecond : 4 * X ≤ Z ^ L)
+
+/-- The recursive premise lists only the actual canonical pieces with
+nonnegative row and column length. All rows, labels and triples are
+those reconstructed from the first slice and the second norm box. -/
+def SmallerPieceBound (M ell V eps Cih : ℝ)
+    (t : Finset (ℕ × ℕ)) (side₂ : Bool) : Prop :=
+  ∀ p : LogPlane × ℝ,
+    0 ≤ childM M ell ALen tLen gLen thetaLen V JLen (5 * h) →
+    ∀ γ ∈ packet.triples, ∀ a : CanonicalChildClosure.Index,
+    0 ≤ (pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ →
+    normalizedChildEnergy Z
+      ((pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ)
+      (secondFormalLabel BLen thetaLen vLen JLen + 4 * h)
+      slotCap packet.labels packet.rows
+      (childValue K Sset D (pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a)
+        (CanonicalSectors.sectorUnit K Sset Γ)) γ ≤
+    Cih * (t.sup (schwartzSeminormFamily ℝ ℝ ℂ)
+      ((pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).cutoff γ)) ^ 2 *
+      Z ^ ((pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ +
+        (secondFormalLabel BLen thetaLen vLen JLen + 4 * h) + eps)
+
+include hZ in
+/-- The row cap is chosen before the second transform from the original
+outer source. Every actual box recovers those same three coordinates. -/
+theorem prescribed_radius_eq (M r ell V tau : ℝ)
+    (hR : R = FirstOuterPhysicalCap.radius K S D Γ T hmask Z L M r ell V h tau
+      (zero_lt_one.trans hZ)) (i : Idx) (hi : i ∈ Pbox) :
+    (R i.1).val =
+      Z ^ (firstPhysicalHeight M r ell V deltaLen BLen JLen + 12 * h + tau) := by
+  have hr := ActualSingleBoxBudget.source_raw_box K S D Γ T Θ ψ G hν hG hbase
+    R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j i hi
+  have he := FirstOuterPhysicalCap.radius_eq_of_box K S D Γ T hmask X Hraw
+    (Pslice.image Eidx) Z L M r ell V h tau (zero_lt_one.trans hZ) j (Eidx i) hr
+  calc
+    (R i.1).val =
+        (FirstOuterPhysicalCap.radius K S D Γ T hmask Z L M r ell V h tau
+          (zero_lt_one.trans hZ) i.1).val := by rw [hR]
+    _ = _ := he
+
+include hZ hh hwidth hb hfirst hsecond in
+/-- Every smooth piece in the recursive premise has its literal
+logarithmic length and the certified descent margins. All windows and
+the puncture estimate come from the same actual source box. -/
+theorem piece_child_geometry (M r ell V Q z c d eta : ℝ)
+    (hbase_eq : T.columns.base = Z)
+    (hscale : U.val = Z ^ r / (grid k).val)
+    (hcube : ∀ q ∈ T.cubes, height K Sset q ≤ Z ^ (ell + h))
+    (hell : 0 ≤ ell) (hV : 0 ≤ V) (hL : 0 ≤ L)
+    (hmesh : h ≤ eta / 16) (hstep : eta ≤ d / 16)
+    (hparent : HeckePort.Moments.CanonicalMargins (r + 3 * ell + V) M Q z c)
+    (hnonterminal : d ≤ ell + V)
+    (hRho : T.columns.puncture ≠ 0)
+    (hRhoNorm : (Ideal.absNorm T.columns.puncture.radical : ℝ) ≤ Z ^ Q)
+    (side₂ : Bool) (p : LogPlane × ℝ) :
+    ∀ γ ∈ packet.triples, ∀ a : CanonicalChildClosure.Index,
+      let Fc := max 0 ((pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ) +
+        secondFormalLabel BLen thetaLen vLen JLen + 4 * h
+      let Mc := childM M ell ALen tLen gLen thetaLen V JLen (5 * h)
+      let Qc := Real.logb Z (Ideal.absNorm (childPuncture T.columns.puncture γ).radical : ℝ)
+      c - 5 * eta ≤ Fc - Mc - Qc - z ∧
+        c - 7 * eta ≤ 4 * Fc - 3 * Mc - 6 * z ∧
+        3 * d / 2 ≤ M - Mc ∧ Fc ≤ r + 3 * ell + V + 11 * eta := by
+  intro γ hγ a
+  have hpuncture := ActualSingleBoxBudget.packet_puncture_bound K S D Γ T Θ ψ G hν hG hbase
+    R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j h hZ hh hwidth hb hfirst hsecond
+    hprime hweights hJ₁ J₂ hJ₂ slotCap hcap ell Q V hcube hV hL
+    T.columns.puncture hRho hRhoNorm γ hγ
+  obtain ⟨B,hB,hγB⟩ := ActualPacketProvenance.triple_member K S T.columns D Γ
+    hprime hweights J₁ J₂ hJ₁ hJ₂
+    (FirstProductionChildren.sourceOn K S D Γ T Θ ψ G hν hG hbase
+      R U J₁ s H₂ hmask Pbox) side₁ slotCap hcap γ hγ
+  rw [ActualSingleBoxBudget.sourceOn_eq_bare_image K S D Γ T Θ ψ G hν hG hbase
+    R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j] at hB
+  obtain ⟨i,hi,hBi⟩ := Finset.mem_image.mp hB
+  have hr := ActualSingleBoxBudget.source_raw_box K S D Γ T Θ ψ G hν hG hbase
+    R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j i hi
+  have hn := ActualSingleBoxBudget.source_length_bounds K S D Γ T Θ ψ G hν hG hbase
+    R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j h hZ hh hwidth hb hfirst hsecond
+    r hscale i hi
+  have hcommon := ActualBoxGeometry.source_common_and_label K S D Γ T hmask X Hraw
+    (Pslice.image Eidx) Z L ell h hZ hh hwidth hb hfirst hsecond hcube j (Eidx i) hr
+  have hlen : (pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ =
+      PartitionedChildGeometry.pieceLength Z Nactual a := by
+    change PartitionedChildGeometry.pieceLength T.columns.base
+      (Real.log (SecondMobiusGeometry.childScale X b) / Real.log T.columns.base) a = _
+    rw [hbase_eq]
+    rfl
+  dsimp only
+  rw [hlen]
+  exact PartitionedChildGeometry.partitioned_step Z M r ell V Q
+    (Real.logb Z (Ideal.absNorm (childPuncture T.columns.puncture γ).radical : ℝ)) z c d
+    ALen BLen tLen gLen thetaLen vLen JLen h eta Nactual
+    (childM M ell ALen tLen gLen thetaLen V JLen (5 * h)) hZ hwidth hparent hh hmesh hstep
+    hell (extractedLength_nonneg Z L hZ hL j side₁)
+    (length_bounds Z L hZ hL j .firstOverlap).1 hV
+    (length_bounds Z L hZ hL j .cubeLabel).1 hcommon.1 hcommon.2 hpuncture
+    hnonterminal hn.1 hn.2.1 hn.2.2 le_rfl a
 
 include hZ hh hwidth hb hfirst hsecond in
 /-- The actual child is controlled by the positive-length canonical
@@ -456,6 +554,165 @@ theorem closed_sourceIntegral_le
   · exact integral_nonneg fun p =>
       mul_nonneg (SecondProductionIntegral.jointDensity_nonneg s _ p)
         (spectralCost_nonneg K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih hCih side₂ p)
+
+include hcap in
+/-- The actual second Cauchy mass and the proved continuous child cost
+reduce to the fixed two-pass Mellin ledger. -/
+theorem spectralCost_cauchy_le (Vcap piTerm : ℝ)
+    (hVcap : 0 ≤ Vcap) (hpiTerm : 0 < piTerm) (t : Finset (ℕ × ℕ))
+    (Cih : ℝ) (hCih : 0 ≤ Cih) (side₂ : Bool) :
+    SecondProductionIntegral.cauchyMass K S T J₁ s *
+      (∫ p : LogPlane × ℝ,
+        SecondProductionIntegral.jointDensity s
+          (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t) p *
+          spectralCost K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p
+        ∂((volume : Measure LogPlane).prod (volume : Measure ℝ))) ≤
+      ((2 : ℝ) ^ slotCap *
+        (closureConstant K S D slotCap Vcap piTerm hVcap hpiTerm t *
+          (Cih + (Fintype.card Sector : ℝ)) *
+          spectralCoefficient K S D slotCap Vcap piTerm hVcap hpiTerm t) *
+        SecondSpectralCost.coordinateMoment
+          (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t)
+          (SecondParentProduction.coordinate side₂)) *
+        NestedMellinBudget.cauchyCost (-(1 / 2 : ℝ)) s
+          (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t) := by
+  apply SecondSpectralCost.actual_cauchy_polynomial_bound K S T slotCap hcap J₁ s
+    (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t) _ _
+    (SecondParentProduction.coordinate side₂)
+  exact mul_nonneg
+    (mul_nonneg (closureConstant_pos K S D slotCap Vcap piTerm hVcap hpiTerm t).le
+      (add_nonneg hCih (Nat.cast_nonneg _)))
+    (spectralCoefficient_nonneg K S D slotCap Vcap piTerm hVcap hpiTerm t)
+
+include hZ hh hwidth hb hfirst hsecond in
+/-- Full actual production after all second bins, marks and arithmetic
+norm boxes. The row cap is the previously selected original cap, the
+first activity and center condition belong to each source, and the only
+energy assumption is the smaller canonical piece induction hypothesis.
+Both mask multiplicities are charged to the original slot cap. -/
+theorem actualTotal_closed_le
+    (M r ell V Q z c eta tau piMass eps Vcap piTerm Cih Cweight Cradial massEps : ℝ)
+    (hbase_eq : T.columns.base = Z) (hL : 0 ≤ L) (hV : 0 ≤ V)
+    (hscale : U.val = Z ^ r / (grid k).val)
+    (hcube : ∀ q ∈ T.cubes, height K Sset q ≤ Z ^ (ell + h))
+    (hR : R = FirstOuterPhysicalCap.radius K S D Γ T hmask Z L M r ell V h tau
+      (zero_lt_one.trans hZ))
+    (hcutoff : H₂ = FirstToSecondData.fineCutoff K S D T R U Z tau)
+    (hparent : c ≤ r + 3 * ell + V - M - Q - z) (hc : 0 ≤ c) (hz : 0 ≤ z)
+    (hRho : T.columns.puncture ≠ 0)
+    (hRhoNorm : (Ideal.absNorm T.columns.puncture.radical : ℝ) ≤ Z ^ Q)
+    (hVcap : 0 ≤ Vcap) (hpiTerm : 0 < piTerm)
+    (hlabelCap : ∀ j : BoxIndex Z L,
+      secondFormalLabel (length Z j .firstCommon) (length Z j .secondDivisor)
+        (length Z j .secondOverlap) (length Z j .cubeLabel) + 4 * h ≤ Vcap)
+    (heps : 0 ≤ eps) (hCih : 0 ≤ Cih)
+    (hcal : ThetaCalibrationInput K Sset D T.columns.lambda G)
+    (hmassEps : 0 < massEps) (hmesh : h ≤ eta / 32)
+    (hCweight : 0 ≤ Cweight) (hCradial : 0 ≤ Cradial)
+    (hloss : ∀ j : BoxIndex Z L,
+      massEps * (secondCount ell (length Z j .activeConductor) (length Z j .cubeLabel)
+        (length Z j .firstOverlap) (length Z j .secondCommon) (length Z j .secondDivisor) +
+          11 * h / 2) ≤ piMass)
+    (hw : ∀ i : Idx, 0 ≤ w i.1 i.2.1)
+    (hweight : ∀ b : SecondMobiusGeometry.Index X, ∀ j : BoxIndex Z L,
+      ∀ i ∈ ActualSingleBoxBudget.boxedSource K S D Γ T Θ ψ G hν hG hbase
+        R U J₁ s H₂ hmask grid centers alive k side₁ Finset.univ b Z L j,
+      w i.1 i.2.1 ≤ Cweight *
+        Z ^ (firstKappa M r ell V (length Z j .firstDivisor) (extractedLength Z j side₁)
+          (length Z j .firstCommon) (length Z j .activeConductor) + (9 / 2 : ℝ) * h))
+    (hradial : ∀ i : Idx,
+      SecondProductionPacket.radialWeight K S D Γ T Θ ψ G hν hG hbase
+        R U J₁ s H₂ ε i ≤ Cradial)
+    (t : Finset (ℕ × ℕ)) (side₂ : Bool)
+    (hih : ∀ (b : SecondMobiusGeometry.Index X) (J₂ : Finset σ)
+      (hJ₂ : J₂ ⊆ T.columns.slots), J₂ ∈ (T.columns.slots \ J₁).powerset →
+      ∀ j : BoxIndex Z L,
+      SmallerPieceBound
+        (K := K) (S := S) (D := D) (Γ := Γ) (T := T) (Θ := Θ) (ψ := ψ) (G := G)
+        (hν := hν) (hG := hG) (hbase := hbase) (R := R) (U := U) (J₁ := J₁) (s := s)
+        (H₂ := H₂) (hmask := hmask) (grid := grid) (centers := centers) (alive := alive)
+        (k := k) (side₁ := side₁) (P := Finset.univ) (b := b) (Z := Z) (L := L) (j := j)
+        (hprime := hprime) (hweights := hweights) (hJ₁ := hJ₁) (J₂ := J₂) (hJ₂ := hJ₂)
+        (slotCap := slotCap) (hcap := hcap) (h := h) M ell V eps Cih t side₂) :
+    SecondProductionIntegral.actualTotal K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂
+      (SecondProductionRestriction.weightOn K S D T w
+        (fun o e => alive o ∧ centers.assignment side₁ o e = k))
+      ε side₁ (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t) side₂ ≤
+      ((Fintype.card (SecondMobiusGeometry.Index X) : ℝ) * (2 : ℝ) ^ slotCap *
+        (Fintype.card (BoxIndex Z L) : ℝ) *
+        ((Cweight * Cradial * ActualPoissonScale.fieldConstant K) *
+          SecondProductionBudget.massConstant K S D Γ slotCap massEps hmassEps *
+            Z ^ (r + 3 * ell + V + 40 * eta + tau + piMass + piTerm + eps))) *
+        (((2 : ℝ) ^ slotCap *
+          (closureConstant K S D slotCap Vcap piTerm hVcap hpiTerm t *
+            (Cih + (Fintype.card Sector : ℝ)) *
+            spectralCoefficient K S D slotCap Vcap piTerm hVcap hpiTerm t) *
+          SecondSpectralCost.coordinateMoment
+            (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t)
+            (SecondParentProduction.coordinate side₂)) *
+          NestedMellinBudget.cauchyCost (-(1 / 2 : ℝ)) s
+            (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t)) := by
+  let m₂ := spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t
+  let Cscalar := (Cweight * Cradial * ActualPoissonScale.fieldConstant K) *
+    SecondProductionBudget.massConstant K S D Γ slotCap massEps hmassEps *
+      Z ^ (r + 3 * ell + V + 40 * eta + tau + piMass + piTerm + eps)
+  let I : ℝ := ∫ p : LogPlane × ℝ, SecondProductionIntegral.jointDensity s m₂ p *
+    spectralCost K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p
+    ∂((volume : Measure LogPlane).prod (volume : Measure ℝ))
+  have hbox (b : SecondMobiusGeometry.Index X) (J₂ : Finset σ)
+      (hmem : J₂ ∈ (T.columns.slots \ J₁).powerset) (j : BoxIndex Z L) :
+      SecondProductionIntegral.sourceIntegral K S D Γ T Θ ψ G hν hG hbase
+        R U J₁ s H₂ w ε side₁ m₂ side₂
+        (ActualSingleBoxBudget.boxedSource K S D Γ T Θ ψ G hν hG hbase
+          R U J₁ s H₂ hmask grid centers alive k side₁ Finset.univ b Z L j) b J₂ ≤ Cscalar * I := by
+    have hJ₂ : J₂ ⊆ T.columns.slots := (Finset.mem_powerset.mp hmem).trans Finset.sdiff_subset
+    apply closed_sourceIntegral_le
+      (K := K) (S := S) (D := D) (Γ := Γ) (T := T) (Θ := Θ) (ψ := ψ) (G := G)
+      (hν := hν) (hG := hG) (hbase := hbase) (R := R) (U := U) (J₁ := J₁) (s := s)
+      (H₂ := H₂) (hmask := hmask) (grid := grid) (centers := centers) (alive := alive)
+      (k := k) (side₁ := side₁) (P := Finset.univ) (b := b) (Z := Z) (L := L) (j := j)
+      (hprime := hprime) (hweights := hweights) (hJ₁ := hJ₁) (J₂ := J₂) (hJ₂ := hJ₂)
+      (slotCap := slotCap) (hcap := hcap) (h := h) (hZ := hZ) (hh := hh) (hwidth := hwidth)
+      (hb := hb) (hfirst := hfirst) (hsecond := hsecond) (w := w) (ε := ε)
+      M r ell V Q z c eta tau piMass eps Vcap piTerm Cih Cweight Cradial massEps
+      hbase_eq hL hV hscale hcube hcutoff _ hparent hc hz hRho hRhoNorm
+      hVcap hpiTerm (hlabelCap j) heps hCih hcal hmassEps hmesh hCweight hCradial
+      (hloss j) (fun i _ => hw i) (hweight b j) (fun i _ => hradial i) t side₂
+      (hih b J₂ hJ₂ hmem j)
+    exact prescribed_radius_eq
+      (K := K) (S := S) (D := D) (Γ := Γ) (T := T) (Θ := Θ) (ψ := ψ) (G := G)
+      (hν := hν) (hG := hG) (hbase := hbase) (R := R) (U := U) (J₁ := J₁) (s := s)
+      (H₂ := H₂) (hmask := hmask) (grid := grid) (centers := centers) (alive := alive)
+      (k := k) (side₁ := side₁) (P := Finset.univ) (b := b) (Z := Z) (L := L) (j := j)
+      (h := h) (hZ := hZ) M r ell V tau hR
+  have hsum := ActualSingleBoxBudget.actualTotal_weightOn_le_uniform_box
+    (K := K) (S := S) (D := D) (Γ := Γ) (T := T) (Θ := Θ) (ψ := ψ) (G := G)
+    (hν := hν) (hG := hG) (hbase := hbase) (R := R) (U := U) (J₁ := J₁) (s := s)
+    (H₂ := H₂) (hmask := hmask) (grid := grid) (centers := centers) (alive := alive)
+    (k := k) (side₁ := side₁) (Z := Z) (L := L) (w := w) (ε := ε)
+    m₂ side₂ Cscalar I hbox
+  have hspec := spectralCost_cauchy_le K S D Γ T J₁ s slotCap hcap
+    Vcap piTerm hVcap hpiTerm t Cih hCih side₂
+  have hCscalar : 0 ≤ Cscalar :=
+    mul_nonneg
+      (mul_nonneg
+        (mul_nonneg (mul_nonneg hCweight hCradial) (ActualPoissonScale.fieldConstant_nonneg K))
+        (SecondProductionBudget.massConstant_pos K S D Γ slotCap massEps hmassEps).le)
+      (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)
+  have hI : 0 ≤ I := integral_nonneg fun p =>
+    mul_nonneg (SecondProductionIntegral.jointDensity_nonneg s m₂ p)
+      (spectralCost_nonneg K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih hCih side₂ p)
+  have hmass : 0 ≤ SecondProductionIntegral.cauchyMass K S T J₁ s := by
+    rw [SecondSpectralCost.cauchyMass_eq]
+    exact mul_nonneg (Nat.cast_nonneg _) (NestedMellinBudget.moment_nonneg _ _ _)
+  have hcount := mul_le_mul_of_nonneg_right
+    (mul_le_mul_of_nonneg_left
+      (SecondSpectralCost.remaining_masks_bound K S T slotCap hcap J₁)
+      (Nat.cast_nonneg (Fintype.card (SecondMobiusGeometry.Index X))))
+    (Nat.cast_nonneg (Fintype.card (BoxIndex Z L)))
+  exact hsum.trans (mul_le_mul
+    (mul_le_mul_of_nonneg_right hcount hCscalar) hspec (mul_nonneg hmass hI)
+    (mul_nonneg (by positivity) hCscalar))
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.ActualClosedBoxBudget
 

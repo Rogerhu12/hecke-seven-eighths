@@ -123,7 +123,7 @@ theorem principalRetained_norm_le (C : ColumnData K S σ)
       ‖canonicalPrincipalTail K S D Γ hΓ μv C f B N φ h hlc hcs M R H‖ := by
   rw [principalRetained_eq_physical_sub_zeros_sub_tail K S D Γ hΓ μv ν μ
     C f B N φ h hlc hcs M R H]
-  exact (norm_sub_le _ _).trans (add_le_add_right (norm_sub_le _ _) _)
+  exact (norm_sub_le _ _).trans (add_le_add (norm_sub_le _ _) le_rfl)
 
 include ν μ in
 /-- The complete original parent is bounded by the independent full
@@ -152,7 +152,7 @@ theorem canonicalParent_norm_le_fullSource_and_principal (C : ColumnData K S σ)
           ‖canonicalNonprincipalTail K S D Γ hΓ μv C f B N φ h hlc hcs M R H‖) +
           ‖canonicalPrincipalSource K S D Γ hΓ C f B N φ h hlc hcs M R‖ := by
       exact (norm_add_le _ _).trans
-        (add_le_add_right ((norm_add_le _ _).trans (add_le_add_right (norm_sub_le _ _) _)) _)
+        (add_le_add ((norm_add_le _ _).trans (add_le_add (norm_sub_le _ _) le_rfl)) le_rfl)
     _ ≤ _ := by linarith
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalRestoration

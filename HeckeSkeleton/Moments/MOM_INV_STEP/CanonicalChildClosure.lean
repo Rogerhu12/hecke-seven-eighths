@@ -68,7 +68,8 @@ theorem clipped_support (C : ColumnFamily K S σ Θ ψ) (hZ : 1 < C.base)
     4 (1 / 128) 4
     (div_pos (zero_lt_one.trans_le (le_max_left _ _)) hU)
     ha.1 ha.2 (by norm_num) (C.cutoff γ) hW
-  convert hb using 1 <;> norm_num
+  simpa only [ClippedChildren.clippedFamily,
+    show (1 / 128 : ℝ) / 4 = 1 / 512 by norm_num] using hb
 
 theorem pieceFamily_support (C : ColumnFamily K S σ Θ ψ) (hZ : 1 < C.base)
     (i : Index) (γ : OuterTriple K)

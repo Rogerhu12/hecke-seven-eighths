@@ -203,9 +203,9 @@ theorem exists_uniform_parent_reduction
     simp only [mul_add, Finset.sum_add_distrib]
   rw [hsplit, mul_add, mul_add] at hscaled
   apply hscaled.trans
-  apply (add_le_add (add_le_add_left hp'' _) ht'').trans
+  apply (add_le_add (add_le_add le_rfl hp'') ht'').trans
   rw [add_assoc]
-  apply add_le_add_left
+  apply add_le_add le_rfl
   let F := Aweight * W ^ 2 * s.sup (schwartzSeminormFamily ℝ Varch ℂ) φ
   have hF : 0 ≤ F := by dsimp only [F]; positivity
   have h₁ : 0 ≤ Ap * F * Z ^ (-saving) := by positivity

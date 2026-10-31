@@ -23,7 +23,7 @@ open HeckeSkeleton.Moments.MOMInvStep
 open FixedTripleFibers CanonicalChildren CanonicalNormPools FirstParentRows
   FirstOuterCenters FirstToSecondData FirstPositiveSource FirstFreeMellinEnergy
   FirstErrorIntegration FirstCenteredErrorIntegrals CommonKernel InverseRowMajorant
-  FirstSpectralAggregation
+  FirstSpectralAggregation FirstCenteredPositiveEnergy
 open scoped Classical BigOperators nonZeroDivisors
 
 variable (K : Type) [Field K] [NumberField K]
@@ -57,8 +57,11 @@ def firstScalar (k : ι) (i : Idx) : ℝ :=
 theorem firstScalar_nonneg (hZ : 0 ≤ Z) (k : ι) (i : Idx) :
     0 ≤ firstScalar K S D T grid Z r ell V k i := by
   unfold firstScalar FirstActualPrefactor.normalizedScalar FirstActualPrefactor.columnScale
-    FirstPoissonNormalization.outerFactor
-  positivity
+  exact mul_nonneg
+    (mul_nonneg (Real.rpow_nonneg hZ _)
+      (FirstPoissonNormalization.outerFactor_nonneg K S D T.radius
+        (FirstLocalizedEnergy.divisor K S D T i.1) _ _ _ _))
+    (mul_nonneg (inv_nonneg.mpr (height_pos K Sset _).le) (sq_nonneg _))
 
 def weight (k : ι) (i : Idx) : ℝ :=
   firstScalar K S D T grid Z r ell V k i * mobiusWeight K S D T i *
@@ -212,7 +215,18 @@ theorem normalized_freeTotal_eq (hZ : 0 ≤ Z) :
   rw [Finset.mul_sum, Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro o ho
-  rw [Finset.sum_comm (s := Finset.univ) (t := Finset.univ)]
+  have hswap :
+      (∑ e : FirstOuterCenters.Overlap K S D T o, ∑ k : ι, ∑ J ∈ T.columns.slots.powerset,
+        liveWeight K S D Γ T H L grid centers side R massEps ε Z r ell V k ⟨o,e⟩ *
+          ‖mark K S D T side ⟨o,e⟩ J‖ ^ 2 *
+          spectralAverage (MellinSeparation.density W hW) m (signedCoordinate side)
+            (freeAt K S D Γ T grid R Θ ψ G hν hG k J ⟨o,e⟩)) =
+      ∑ k : ι, ∑ e : FirstOuterCenters.Overlap K S D T o, ∑ J ∈ T.columns.slots.powerset,
+        liveWeight K S D Γ T H L grid centers side R massEps ε Z r ell V k ⟨o,e⟩ *
+          ‖mark K S D T side ⟨o,e⟩ J‖ ^ 2 *
+          spectralAverage (MellinSeparation.density W hW) m (signedCoordinate side)
+            (freeAt K S D Γ T grid R Θ ψ G hν hG k J ⟨o,e⟩) := Finset.sum_comm
+  rw [hswap]
   by_cases halive : FirstLiveCappedFreeEnergy.alive K S D Γ T H L o
   · simp only [if_pos halive, mul_assoc, Finset.mul_sum]
     apply Finset.sum_congr rfl
@@ -229,6 +243,42 @@ theorem normalized_freeTotal_eq (hZ : 0 ≤ Z) :
         FirstLiveCappedFreeEnergy.freeRowIntegral_eq_capped, mul_assoc] using heq
     · simp [hassigned, liveWeight]
   · simp [halive, liveWeight]
+
+/-- The exact normalized first energy, expressed through its original
+finite arithmetic source and the two common spectral integrations. -/
+def total : ℝ :=
+  ((T.columns.slots.powerset.card : ℝ) * (rowCovolume K S)⁻¹ * mellinMass W hW) *
+    ∑ k : ι, ∑ J ∈ T.columns.slots.powerset,
+      spectralAverage (MellinSeparation.density W hW) m (signedCoordinate side)
+        (sourceAt K S D Γ T H L grid centers side R massEps ε Z r ell V
+          Θ ψ G hν hG k J)
+
+theorem total_nonneg (hZ : 0 ≤ Z) :
+    0 ≤ total K S D Γ T H L grid centers side R massEps ε Z r ell V Θ ψ G hν hG W hW m := by
+  apply mul_nonneg
+  · exact mul_nonneg
+      (mul_nonneg (Nat.cast_nonneg _)
+        (inv_nonneg.mpr (rowCovolume_pos K S).le)) (mellinMass_nonneg W hW)
+  apply Finset.sum_nonneg
+  intro k hk
+  apply Finset.sum_nonneg
+  intro J hJ
+  apply integral_nonneg
+  intro ξ
+  apply mul_nonneg (FirstCommonEnvelope.frequencyEnvelope_nonneg m ξ)
+  apply integral_nonneg
+  intro t
+  exact mul_nonneg (norm_nonneg _)
+    (sourceAt_nonneg K S D Γ T H L grid centers side R massEps ε Z r ell V
+      Θ ψ G hν hG hZ k J _)
+
+theorem total_eq_normalized_freeTotal (hZ : 0 ≤ Z) :
+    total K S D Γ T H L grid centers side R massEps ε Z r ell V Θ ψ G hν hG W hW m =
+      Z ^ (-r - 2 * ell - V) *
+        FirstLiveCappedFreeEnergy.freeTotal K S D Γ T Θ ψ G hν hG
+          H L grid centers W hW m side R massEps ε :=
+  (normalized_freeTotal_eq K S D Γ T H L grid centers side R massEps ε Z r ell V
+    Θ ψ G hν hG W hW m hZ).symm
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedSource
 

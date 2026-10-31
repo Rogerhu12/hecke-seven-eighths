@@ -69,7 +69,7 @@ theorem parent_norm_le_retained_and_errors {σ : Type*}
     (canonicalRetained K S D Γ hΓ μv C f B N φ h hlc hcs mask R H +
       canonicalTail K S D Γ hΓ μv C f B N φ h hlc hcs mask R H)
     (canonicalPrincipal K S D Γ hΓ μv C f B N φ h hlc hcs mask R)).trans
-      (add_le_add_right (norm_add_le _ _) _)
+      (add_le_add (norm_add_le _ _) le_rfl)
   change ‖_‖ ≤ _ + (_ + _) +
     ‖canonicalTail K S D Γ hΓ μv C f B N φ h hlc hcs mask R H‖
   linarith [norm_nonneg (canonicalPrincipalSource K S D Γ hΓ C f B N φ h hlc hcs mask R)]
@@ -187,9 +187,9 @@ theorem exists_uniform_parent_reduction
     simp only [mul_add, Finset.sum_add_distrib]
   rw [hsplit, mul_add, mul_add] at hscaled
   apply hscaled.trans
-  apply (add_le_add (add_le_add_left hp'' _) ht'').trans
+  apply (add_le_add (add_le_add le_rfl hp'') ht'').trans
   rw [add_assoc]
-  apply add_le_add_left
+  apply add_le_add le_rfl
   let F := Aweight * W ^ 2 * s.sup (schwartzSeminormFamily ℝ Varch ℂ) φ
   have hF : 0 ≤ F := by dsimp only [F]; positivity
   have h₁ : 0 ≤ Ap * F * Z ^ (-saving) := by positivity

@@ -89,7 +89,7 @@ theorem prefactor_fourier_norm_le (B : PrimeBlock K Sset)
         (primitiveModulus K S D B t) (primitiveModulus_ne_zero K S D B t)
         (primitiveCoefficient K S D B t) (primitiveCoefficient_invariant K S D Γ hΓ B t)
         d.val q‖ ≤ fieldConstant K / r.val := by
-  rw [primitiveFourierOrbitWeight_eq]
+  rw [primitiveFourierOrbitWeight_eq K S D Γ hΓ B t d.val q]
   calc
     _ = ‖sIntegerMaskPoissonFactor K S (primitiveModulus K S D B t)
         (primitiveModulus_ne_zero K S D B t) r d * primitiveGauss K S D B t‖ *
@@ -200,8 +200,9 @@ theorem exists_primitive_tail_bound_uniform
   calc
     _ ≤ (fieldConstant K / r.val) * C *
         ((F : ℝ) * s.sup (schwartzSeminormFamily ℝ V ℂ) φ) * Z ^ (-saving) := by
-      gcongr
-      exact hFT' φ
+      apply mul_le_mul_of_nonneg_right _ (Real.rpow_nonneg (zero_le_one.trans hZ) _)
+      exact mul_le_mul_of_nonneg_left (hFT' φ)
+        (mul_nonneg (div_nonneg (fieldConstant_nonneg K) r.property.le) hC)
     _ = _ := by ring
 
 /-- The exact divisor signs have norm one. -/
