@@ -42,7 +42,7 @@ variable (hB0 : 51 / 100 ≤ B) (hB : B ≤ 1)
 variable (hbound : ∀ chi r, r ∈ heckePacketZeros K omega chi →
   1 / 2 ≤ r → r ≤ 1 → r ≤ B)
 local notation "E" => arithmeticHighEulerData K Sset P psi
-local notation "muS" => (fun p : Sset => mu p.val)
+local notation "muS" => (fun p : Sset => mu (Subtype.val p))
 
 /-- The principal initial complement occurs only in `actualPrincipalTail`;
 the second term contains precisely the nonprincipal complements. -/
@@ -87,7 +87,7 @@ theorem actualPhysicalRecipe_source_at_power_height (tau : ℝ)
       ∀ b : Fin ((actualPhysicalRecipe K S mu P omega psi g hpsi hB0 hB hbound
         lam zeta eCap q).activeCount Z (Z ^ tau)),
         BlockSource g (((actualPhysicalRecipe K S mu P omega psi g hpsi hB0 hB hbound
-          lam zeta eCap q).toHigh (P := P) (R := E.rows) (ω := omega) Z (Z ^ tau)).block b)
+          lam zeta eCap q).toHigh (P := P) (R := (E).rows) (ω := omega) Z (Z ^ tau)).block b)
           B lam q.k Z := by
   obtain ⟨Z0, hZ0, hsource⟩ := q.source tau htau hceiling
   refine ⟨Z0, hZ0, ?_⟩

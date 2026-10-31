@@ -30,7 +30,7 @@ variable (mu : ∀ p : HeightOneSpectrum (𝓞 K), Measure (p.adicCompletion K))
 variable [∀ p, (mu p).IsAddHaarMeasure]
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
-local notation "muS" => (fun p : Sset => mu p.val)
+local notation "muS" => (fun p : Sset => mu (Subtype.val p))
 
 theorem actualPrincipalKernelCore_linear (P : ProbeData K Sset) (psi : HeckeCharacter K)
     (g : PrimeWindowGeometry) (Z : ℝ) (s w z Wvalue : ℂ) :

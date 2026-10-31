@@ -77,7 +77,7 @@ variable (mu : ∀ p : HeightOneSpectrum (𝓞 K), Measure (p.adicCompletion K))
 variable [∀ p, (mu p).IsAddHaarMeasure]
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
-local notation "muS" => (fun p : Sset => mu p.val)
+local notation "muS" => (fun p : Sset => mu (Subtype.val p))
 
 /-- Every term is a genuine complement, horizontal face, or finite
 residue/main-line truncation error of the original principal contour. -/

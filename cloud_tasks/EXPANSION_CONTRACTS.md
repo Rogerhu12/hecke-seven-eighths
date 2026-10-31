@@ -806,7 +806,7 @@ variable (hB0 : 51 / 100 ≤ B) (hB : B ≤ 1)
 variable (hbound : ∀ chi r, r ∈ heckePacketZeros K omega chi →
   1 / 2 ≤ r → r ≤ 1 → r ≤ B)
 local notation "E" => arithmeticHighEulerData K Sset P psi
-local notation "muS" => (fun p : Sset => mu p.val)
+local notation "muS" => (fun p : Sset => mu (Subtype.val p))
 ```
 
 实际 tail 的定义是：
@@ -852,7 +852,7 @@ theorem actualPhysicalRecipe_source_at_power_height (tau : ℝ)
       ∀ b : Fin ((actualPhysicalRecipe K S mu P omega psi g hpsi hB0 hB hbound
         lam zeta eCap q).activeCount Z (Z ^ tau)),
         BlockSource g (((actualPhysicalRecipe K S mu P omega psi g hpsi hB0 hB hbound
-          lam zeta eCap q).toHigh (P := P) (R := E.rows) (ω := omega) Z (Z ^ tau)).block b)
+          lam zeta eCap q).toHigh (P := P) (R := (E).rows) (ω := omega) Z (Z ^ tau)).block b)
           B lam q.k Z
 ```
 
@@ -892,7 +892,7 @@ variable (hB0 : 51 / 100 ≤ B) (hB1 : B ≤ 1)
 variable (hboundary : ∀ chi : HeckePacketIndex K omega,
   ∀ r ∈ heckePacketZeros K omega chi, 1 / 2 ≤ r → r ≤ 1 → r ≤ B)
 local notation "E" => arithmeticHighEulerData K Sset P psi
-local notation "muS" => (fun p : Sset => mu p.val)
+local notation "muS" => (fun p : Sset => mu (Subtype.val p))
 variable (lam zeta eCap : ℝ)
 variable (q : PhysicalRecipeParameters K (S : Set (HeightOneSpectrum (𝓞 K))) P omega psi g
   (arithmeticHighEulerData K (S : Set (HeightOneSpectrum (𝓞 K))) P psi) hpsi hB0 hB1 hboundary
@@ -906,7 +906,7 @@ local notation "X" => actualPhysicalRecipe K S mu P omega psi g hpsi hB0 hB1 hbo
 ```lean
 theorem actualPhysicalRecipe_block_sum (Z H : ℝ)
     (hZ : (2 : ℝ) ^ (16 : ℕ) ≤ Z) (hH : 1 ≤ H) :
-    (∑ b, (((X).toHigh (P := P) (R := E.rows) (ω := omega) Z H).block b).value) =
+    (∑ b, (((X).toHigh (P := P) (R := (E).rows) (ω := omega) Z H).block b).value) =
       ∑ j : Fin (shellCount Z (1 / 16) (13 / 16 + zeta)),
         ∑ c : PhysicalRecipeChoice K Sset B q.e,
           physicalRecipeBlockValue K Sset P E omega psi hpsi hB0 hB1 q.e_pos hboundary
@@ -923,11 +923,11 @@ theorem actualPhysicalRecipe_identity
     (hB : 7 / 8 < B) (he1 : q.e ≤ 1 / 10000) (hzeta : 0 < zeta)
     (Z H : ℝ) (hZ : (2 : ℝ) ^ (16 : ℕ) ≤ Z) (hH : 1 ≤ H) :
     normalizedProbe K Sset muS P psi g ∅ Z - principalLineProbe K Sset P psi Z =
-      ((X).toHigh (P := P) (R := E.rows) (ω := omega) Z H).principal +
-      ((X).toHigh (P := P) (R := E.rows) (ω := omega) Z H).small +
-      ((X).toHigh (P := P) (R := E.rows) (ω := omega) Z H).large +
-      (∑ b, (((X).toHigh (P := P) (R := E.rows) (ω := omega) Z H).block b).value) +
-      ((X).toHigh (P := P) (R := E.rows) (ω := omega) Z H).tail
+      ((X).toHigh (P := P) (R := (E).rows) (ω := omega) Z H).principal +
+      ((X).toHigh (P := P) (R := (E).rows) (ω := omega) Z H).small +
+      ((X).toHigh (P := P) (R := (E).rows) (ω := omega) Z H).large +
+      (∑ b, (((X).toHigh (P := P) (R := (E).rows) (ω := omega) Z H).block b).value) +
+      ((X).toHigh (P := P) (R := (E).rows) (ω := omega) Z H).tail
 ```
 
 这里的 hzero、hAllowed、hcal、hunram、hN 是原算术和测度背景的具体性质；展开恒等式是结论。原名 specialization 用 ActualProbeContext 和 Base 中已选对象供应这些事实，调用者不再额外提供它们。原始 active guard 只控制这条全尺度积分恒等式的使用范围：
@@ -1051,7 +1051,7 @@ theorem wholeBinBoundary_eq_physicalScheduled (Z H : ℝ)
       physicalScheduledWholeBoundary K (excludedPlaces K c)
         (Expansion.ActualProbeContext.allLocalMeasures K) (probeData K c) Eactual
         c.family.omega (targetCharacter K c) (representative K c).val.property
-        (expansionBoundary_lower K c) c.family.B_upper q.e_pos c.family.boundary
+        (expansionBoundary_lower K c) c.family.B_upper (q).e_pos c.family.boundary
         c.geometry (expansionShellAllowance K c) Z H
 
 theorem physicalScheduledWholeBoundary_tail_of_highBoundaryControl
@@ -1060,7 +1060,7 @@ theorem physicalScheduledWholeBoundary_tail_of_highBoundaryControl
       (physicalScheduledWholeBoundary K (excludedPlaces K c)
         (Expansion.ActualProbeContext.allLocalMeasures K) (probeData K c) Eactual
         c.family.omega (targetCharacter K c) (representative K c).val.property
-        (expansionBoundary_lower K c) c.family.B_upper q.e_pos c.family.boundary
+        (expansionBoundary_lower K c) c.family.B_upper (q).e_pos c.family.boundary
         c.geometry (expansionShellAllowance K c))
 ```
 

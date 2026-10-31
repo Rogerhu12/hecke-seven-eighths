@@ -43,7 +43,7 @@ local notation "N" => NonzeroRingElements (Set.integer (S : Set (HeightOneSpectr
 local notation "CN" => ExteriorIdeal K Sset × ExteriorIdeal K Sset
 local notation "O" => ActualSIntegerOrbit K Sset
 
-local instance : Γ.FiniteIndex := sUnit_power_range_finiteIndex K Sset 6 (by decide)
+local instance : (Γ).FiniteIndex := sUnit_power_range_finiteIndex K Sset 6 (by decide)
 
 /-- At m=1 the actual symbol is one, so this is precisely the original
 completed coefficient before its S-integer symbol is inserted. -/

@@ -226,27 +226,27 @@ local notation "Eactual" => HighBinActualEuler.arithmeticHighEulerData K (places
 /-- Decode the original raw block index; no second shell choice is made. -/
 def expansionScheduledShell (Z T : ℝ) (b : HighBlockIndex K c Z T) :
     Fin (shellCount Z (1 / 16) (13 / 16 + expansionShellAllowance K c)) :=
-  physicalRecipeShellIndex K (places K c) c.family.B q.e (expansionShellAllowance K c) Z
+  physicalRecipeShellIndex K (places K c) c.family.B (q).e (expansionShellAllowance K c) Z
     ((expansionRecipeRaw K c).rawBlockIndex Z T b)
 
 /-- The buffered height/bin and sector of that same raw block. -/
 def expansionScheduledChoice (Z T : ℝ) (b : HighBlockIndex K c Z T) :
-    PhysicalRecipeChoice K (places K c) c.family.B q.e :=
-  physicalRecipeChoice K (places K c) c.family.B q.e (expansionShellAllowance K c) Z
+    PhysicalRecipeChoice K (places K c) c.family.B (q).e :=
+  physicalRecipeChoice K (places K c) c.family.B (q).e (expansionShellAllowance K c) Z
     ((expansionRecipeRaw K c).rawBlockIndex Z T b)
 
 /-- The actual clipped, selected arithmetic rows of the original block. -/
 def expansionFixedRows (Z T : ℝ) (b : HighBlockIndex K c Z T) : Finset (HighRow K c) :=
   physicalRecipeRows K (places K c) (probeData K c) Eactual c.family.omega
     (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
-    c.family.B_upper q.e_pos c.family.boundary (expansionShellAllowance K c) Z T
+    c.family.B_upper (q).e_pos c.family.boundary (expansionShellAllowance K c) Z T
     (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
 
 /-- Exactly the original amplitude alphabet inside the fixed finite one. -/
 def expansionRetainedLabels (Z T : ℝ) (b : HighBlockIndex K c Z T) :
     Finset (HighLabel K c Z T b) :=
   physicalRecipeRetainedLabels K (places K c) (expansionBoundary_lower K c)
-    c.family.B_upper q.e_pos c.geometry q.width q.width_pos
+    c.family.B_upper (q).e_pos c.geometry (q).width (q).width_pos
     (expansionScheduledChoice K c Z T b)
 
 /-- The genuine finite-pattern transport of the original compensated kernel. -/
@@ -254,8 +254,8 @@ def expansionShiftedPiece (Z T : ℝ) (b : HighBlockIndex K c Z T)
     (l : HighLabel K c Z T b) (u : HighRow K c) : ℂ :=
   physicalRecipeShiftedPiece K (places K c) (probeData K c) Eactual c.family.omega
     (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
-    c.family.B_upper q.e_pos c.family.boundary c.geometry (probeMeasures K c).haar ∅
-    c.family.lamA (expansionShellAllowance K c) q.width q.k q.width_pos Z T
+    c.family.B_upper (q).e_pos c.family.boundary c.geometry (probeMeasures K c).haar ∅
+    c.family.lamA (expansionShellAllowance K c) (q).width (q).k (q).width_pos Z T
     (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b) l u
 
 theorem expansionScheduled_scale (Z T : ℝ) (b : HighBlockIndex K c Z T) :
@@ -269,8 +269,8 @@ theorem expansionScheduled_bin (Z T : ℝ) (b : HighBlockIndex K c Z T) :
       (expansionScheduledChoice K c Z T b).1.center :=
   physicalRecipeScheduledBlock_bin K (places K c) (probeData K c) Eactual c.family.omega
     (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
-    c.family.B_upper q.e_pos c.family.boundary c.geometry (probeMeasures K c).haar ∅
-    c.family.lamA (expansionShellAllowance K c) q.width q.k q.width_pos Z T
+    c.family.B_upper (q).e_pos c.family.boundary c.geometry (probeMeasures K c).haar ∅
+    c.family.lamA (expansionShellAllowance K c) (q).width (q).k (q).width_pos Z T
     (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
 
 theorem expansionScheduled_shell (Z T : ℝ) (b : HighBlockIndex K c Z T) :
@@ -287,14 +287,14 @@ def actualHighPresentation : ActualHighPresentation K c := by
   have hAllowed : AllowedGeneratorInput K (places K c) (probeData K c).arithmetic :=
     Expansion.ActualProbeContext.allowedGenerators K (axiomChoice K c)
   refine
-    { e := q.e
-      e_pos := q.e_pos
+    { e := (q).e
+      e_pos := (q).e_pos
       e_small := expansionPhysicalParameters_e_losses K c
       euler := Eactual
       companions := {1}
-      heightCount := physicalRecipeHeightBound c.family.B q.e
+      heightCount := physicalRecipeHeightBound c.family.B (q).e
       heightIndex := fun Z T b => physicalRecipePresentationHeightIndex K (places K c)
-        c.family.B q.e (expansionScheduledChoice K c Z T b)
+        c.family.B (q).e (expansionScheduledChoice K c Z T b)
       fixedRows := expansionFixedRows K c
       labels := expansionRetainedLabels K c
       shiftedPiece := expansionShiftedPiece K c
@@ -306,23 +306,23 @@ def actualHighPresentation : ActualHighPresentation K c := by
   · intro Z T _hZ _hT b
     exact physicalRecipeScheduledBlock_bin_range K (places K c) (probeData K c) Eactual
       c.family.omega (targetCharacter K c) (representative K c).val.property
-      (expansionBoundary_lower K c) c.family.B_upper q.e_pos c.family.boundary
+      (expansionBoundary_lower K c) c.family.B_upper (q).e_pos c.family.boundary
       c.geometry (probeMeasures K c).haar ∅ c.family.lamA (expansionShellAllowance K c)
-      q.width q.k q.width_pos Z T
+      (q).width (q).k (q).width_pos Z T
       (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
   · intro Z T _hZ _hT b
     rw [expansionScheduled_bin, expansionScheduled_shell]
     exact physicalRecipeRows_in_bin K (places K c) (probeData K c) Eactual c.family.omega
       (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
-      c.family.B_upper q.e_pos c.family.boundary (expansionShellAllowance K c) Z T
+      c.family.B_upper (q).e_pos c.family.boundary (expansionShellAllowance K c) Z T
       (expansionScheduled_scale K c Z T b).1
       (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
   · intro Z T _hZ _hT b l
     exact physicalRecipeScheduledBlock_rows_subset K (places K c) (probeData K c)
       c.family.omega (targetCharacter K c) c.geometry Eactual
       (representative K c).val.property (expansionBoundary_lower K c) c.family.B_upper
-      q.e_pos c.family.boundary (probeMeasures K c).haar ∅ c.family.lamA
-      (expansionShellAllowance K c) q.width q.k q.width_pos Z T
+      (q).e_pos c.family.boundary (probeMeasures K c).haar ∅ c.family.lamA
+      (expansionShellAllowance K c) (q).width (q).k (q).width_pos Z T
       (expansionScheduled_scale K c Z T b).1 (expansionScheduled_scale K c Z T b).2
       (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b) l
   · intro Z T _hZ _hT b
@@ -330,9 +330,9 @@ def actualHighPresentation : ActualHighPresentation K c := by
       (Expansion.ActualProbeContext.allLocalMeasures K)
       (Expansion.ActualProbeContext.finiteAdeleMeasure K) (probeData K c) c.family.omega
       (targetCharacter K c) hAllowed c.geometry ∅ (representative K c).val.property
-      (expansionBoundary_lower K c) c.family.B_upper q.e_pos
+      (expansionBoundary_lower K c) c.family.B_upper (q).e_pos
       (expansionPhysicalParameters_e_sweep K c) c.family.boundary c.family.lamA
-      (expansionShellAllowance K c) q.width q.k q.width_pos Z T
+      (expansionShellAllowance K c) (q).width (q).k (q).width_pos Z T
       (expansionScheduled_scale K c Z T b).1 (expansionScheduled_scale K c Z T b).2
       (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
   · intro Z T _hZ _hT b
@@ -341,9 +341,9 @@ def actualHighPresentation : ActualHighPresentation K c := by
       (Expansion.ActualProbeContext.allLocalMeasures K)
       (Expansion.ActualProbeContext.finiteAdeleMeasure K) (probeData K c) c.family.omega
       (targetCharacter K c) hAllowed c.geometry ∅ (representative K c).val.property
-      (expansionBoundary_lower K c) c.family.B_upper q.e_pos
+      (expansionBoundary_lower K c) c.family.B_upper (q).e_pos
       (expansionPhysicalParameters_e_sweep K c) c.family.boundary c.family.lamA
-      (expansionShellAllowance K c) q.width q.k q.width_pos Z T
+      (expansionShellAllowance K c) (q).width (q).k (q).width_pos Z T
       (expansionScheduled_scale K c Z T b).1 (expansionScheduled_scale K c Z T b).2
       (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
 

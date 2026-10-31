@@ -189,7 +189,7 @@ variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Γ" => sixthPowerUnits K Sset
 
-local instance : Γ.FiniteIndex := sUnit_power_range_finiteIndex K Sset 6 (by decide)
+local instance : (Γ).FiniteIndex := sUnit_power_range_finiteIndex K Sset 6 (by decide)
 
 variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K)]
   [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)]

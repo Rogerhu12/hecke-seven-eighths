@@ -215,7 +215,7 @@ variable (mu : ∀ p : HeightOneSpectrum (𝓞 K), Measure (p.adicCompletion K))
 variable [∀ p, (mu p).IsAddHaarMeasure]
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
-local notation "muS" => (fun p : Sset => mu p.val)
+local notation "muS" => (fun p : Sset => mu (Subtype.val p))
 
 /-- The double residue has coefficient exactly one after the actual
 Poisson/Mellin normalization.  The prime and L denominators are not cancelled. -/

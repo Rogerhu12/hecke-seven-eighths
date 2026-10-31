@@ -80,7 +80,7 @@ theorem actualZetaLog_eq {s : ℂ} (hs : 31 / 32 < s.re) (hs1 : s ≠ 1) :
   have hd : HasDerivAt (fun z : ℂ => normPoleNumerator K 0 z / (z - 1))
       ((deriv (normPoleNumerator K 0) s * (s - 1) - normPoleNumerator K 0 s) /
         (s - 1) ^ 2) s := by
-    simpa only [mul_one] using
+    simpa only [id_eq, mul_one] using!
       ((normPoleNumerator_differentiable K 0 s).hasDerivAt.fun_div
         ((hasDerivAt_id s).sub_const 1) (sub_ne_zero.mpr hs1))
   rw [actualPrimeLogFunction, heckeContinuation_trivial_eq_normNumerator, hd.deriv]
@@ -126,7 +126,7 @@ theorem actualZetaLog_eq_regularized {s : ℂ} (hs : 31 / 32 < s.re) (hs1 : s �
     simp only [normPoleRegularization, Complex.ofReal_zero, zero_mul, sub_zero]
   have hd : HasDerivAt (fun z : ℂ => normPoleNumerator K 0 z / z)
       ((deriv (normPoleNumerator K 0) s * s - normPoleNumerator K 0 s) / s ^ 2) s := by
-    simpa only [mul_one] using
+    simpa only [id_eq, mul_one] using!
       ((normPoleNumerator_differentiable K 0 s).hasDerivAt.fun_div
         (hasDerivAt_id s) hs0)
   rw [actualZetaLog_eq K hs hs1, heq, hd.deriv]

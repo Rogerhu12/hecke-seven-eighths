@@ -110,14 +110,22 @@ theorem integrable_mixed_large_positive_moment [IsTotallyComplex K]
     (phi : SchwartzMap V ℂ) {sigma : ℝ} (hsigma : 1 ≤ sigma) :
     Integrable (weightedArchAbsolute K phi sigma) (mixedMultiplicativeHaar K) := by
   obtain ⟨M, hM⟩ := exists_nat_ge (2 * sigma + 1)
-  let Phi : SchwartzMap W ℂ :=
-    SchwartzMap.compCLMOfContinuousLinearEquiv ℝ (traceToMixed K).symm phi
+  -- Keep the coordinate transport opaque during seminorm elaboration.
+  -- Its pointwise equality retains the original Schwartz test exactly.
+  obtain ⟨Phi, hPhi⟩ : ∃ Phi : SchwartzMap W ℂ,
+      ∀ y : W, Phi y = phi ((traceToMixed K).symm y) :=
+    ⟨SchwartzMap.compCLMOfContinuousLinearEquiv ℝ (traceToMixed K).symm phi,
+      fun _ => rfl⟩
   let d := M * Fintype.card (ComplexPlace K)
   let B : ℝ := 2 ^ d * (Finset.Iic (d, 0)).sup
     (fun m => SchwartzMap.seminorm ℝ m.1 m.2) Phi
-  have hB : 0 ≤ B := by dsimp only [B]; positivity
+  have hB : 0 ≤ B :=
+    mul_nonneg (pow_nonneg (by norm_num : (0 : ℝ) ≤ 2) d)
+      (apply_nonneg ((Finset.Iic (d, 0)).sup
+        (fun m => SchwartzMap.seminorm ℝ m.1 m.2)) Phi)
   have hpoint (u : Wˣ) : weightedArchAbsolute K phi sigma u ≤ B * mixedHaarEnvelope K 1 u := by
     have hphi := norm_le_complex_product_decay K M Phi (u : W)
+    rw [hPhi (u : W)] at hphi
     have hproduct :
         (∏ v : ComplexPlace K, (1 + ‖(u : W).2 v‖) ^ (-(M : ℝ))) *
           (mixedEmbedding.norm (u : W)) ^ sigma ≤ mixedHaarEnvelope K 1 u := by
@@ -201,7 +209,10 @@ theorem exists_actual_additiveMellin_positive_line_bound [IsTotallyComplex K]
   let C : ℝ := (∫ x : G, weightedTensorAbsolute K Sset phi psi sigma x
     ∂sLocalRadialMeasure K Sset) + 1
   have hC : 0 < C := by
-    have hi := integral_nonneg (weightedTensorAbsolute_nonneg K Sset phi psi sigma)
+    have hi : 0 ≤ ∫ x : G, weightedTensorAbsolute K Sset phi psi sigma x
+        ∂sLocalRadialMeasure K Sset :=
+      MeasureTheory.integral_nonneg
+        (weightedTensorAbsolute_nonneg K Sset phi psi sigma)
     dsimp only [C]
     linarith
   refine ⟨C, hC, ?_⟩

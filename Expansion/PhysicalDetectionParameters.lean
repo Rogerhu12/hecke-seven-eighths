@@ -20,7 +20,7 @@ namespace Expansion.Project
 open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ExpansionRecipe
-open HeckeGeneral.ThetaSkeleton.Physical
+open HeckeGeneral.ThetaSkeleton.Physical HeckeGeneral.ThetaSkeleton.Global
 open Expansion.ActualTerminalSaturation Expansion.Dyadic
 open scoped Classical BigOperators
 
@@ -59,9 +59,12 @@ theorem CanonicalDyadicDetection.spikes
       d.zero.re (2 * Real.pi * d.fourier - d.zero.im) := by
   have hsat := d.saturation
   dsimp only at hsat
+  dsimp only [physicalDetectionSpikes, CanonicalDyadicDetection.toTerminalLabel]
   constructor
-  · exact (Real.rpow_le_rpow_of_exponent_le hU (by linarith)).trans hsat.2.2.2.1
-  · exact (Real.rpow_le_rpow_of_exponent_le hU (by linarith)).trans hsat.2.2.2.2.1
+  · exact (Real.rpow_le_rpow_of_exponent_le hU
+      (sub_le_sub_left hloss _)).trans hsat.2.2.2.1
+  · exact (Real.rpow_le_rpow_of_exponent_le hU
+      (sub_le_sub_left hloss _)).trans hsat.2.2.2.2.1
 
 variable (K S P E ψ)
 
@@ -119,7 +122,7 @@ theorem exists_physical_detection_parameters
       have hchosen : ∀ u ∈ rows, good u (choice u) :=
         chooseTerminalLabel_spec U rows good hlocal
       obtain ⟨β, ν, hβ, hν, hactual⟩ := assemble_terminal_raw_parameters_on_sector
-        (frequencyRowIdealSectorEmbedding K S) sector rows hsector
+        (frequencyRowIdealSectorEmbedding (K := K) (S := S)) sector rows hsector
         (3 * ((N : ℝ) + 1)) T hC hT
         (fun u β ν => terminalLabelValid U t lam (choice u) ∧
           physicalDetectionSpikes K S P E ψ U a t lam u (choice u) β ν) hchosen
@@ -137,10 +140,12 @@ theorem exists_physical_detection_parameters
     (fun t I => if 1 ≤ t ∧ t ≤ 3 / 2 then β t I else 0),
     (fun t I => if 1 ≤ t ∧ t ≤ 3 / 2 then ν t I else 0), ?_, ?_, ?_⟩
   · intro t I
+    dsimp only
     split_ifs with ht
     · exact hβ t I
     · norm_num
   · intro t I
+    dsimp only
     split_ifs with ht
     · exact hν t I
     · simpa only [abs_zero] using mul_nonneg hC.le hT

@@ -62,9 +62,9 @@ theorem actualRecipeAmplitude_norm_range (i : SourceMomentIndexFor K c Source Z 
     momentBaseFor i < frequencyRowNorm K (places K c) u ∧
       frequencyRowNorm K (places K c) u ≤ 2 * momentBaseFor i := by
   let b := (Raw).rawBlockIndex Z T i.block
-  let j := physicalRecipeShellIndex K (places K c) c.family.B q.e
+  let j := physicalRecipeShellIndex K (places K c) c.family.B (q).e
     (expansionShellAllowance K c) Z b
-  let a := physicalRecipeChoice K (places K c) c.family.B q.e
+  let a := physicalRecipeChoice K (places K c) c.family.B (q).e
     (expansionShellAllowance K c) Z b
   have hscale := recipeMoment_scale_of_index i
   have hZ : 1 < Z := (by norm_num : (1 : ℝ) < 2 ^ (16 : ℕ)).trans_le hscale.1
@@ -72,11 +72,11 @@ theorem actualRecipeAmplitude_norm_range (i : SourceMomentIndexFor K c Source Z 
   have hfixed := physicalRecipeScheduledBlock_rows_subset K (places K c) (probeData K c)
     c.family.omega (targetCharacter K c) c.geometry Eactual
     (representative K c).val.property (expansionBoundary_lower K c) c.family.B_upper
-    q.e_pos c.family.boundary (probeMeasures K c).haar ∅ c.family.lamA
-    (expansionShellAllowance K c) q.width q.k q.width_pos Z T hZ hT j a i.label
+    (q).e_pos c.family.boundary (probeMeasures K c).haar ∅ c.family.lamA
+    (expansionShellAllowance K c) (q).width (q).k (q).width_pos Z T hZ hT j a i.label
   have hr := physicalRecipeRows_spec K (places K c) (probeData K c) Eactual
     c.family.omega (targetCharacter K c) (representative K c).val.property
-    (expansionBoundary_lower K c) c.family.B_upper q.e_pos c.family.boundary
+    (expansionBoundary_lower K c) c.family.B_upper (q).e_pos c.family.boundary
     (expansionShellAllowance K c) Z T hZ j a u (hfixed hu)
   exact ⟨hr.1, hr.2.1⟩
 

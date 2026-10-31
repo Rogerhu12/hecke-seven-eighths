@@ -103,12 +103,17 @@ theorem dualTensor_zero (W : AdditiveProbeTest K Sset) :
   have hsnd : (0 : AdeleRing (𝓞 K) K).2 = 0 := rfl
   have hlocal (v : HeightOneSpectrum (𝓞 K)) :
       (0 : FiniteAdeleRing (𝓞 K) K) v = 0 := rfl
+  have htrace :
+      (traceSchwartzToMixed K W.infiniteTest : mixedEmbedding.mixedSpace K → ℂ) =
+        (fun y => W.infiniteTest ((traceToMixed K).symm y)) := by
+    funext y
+    exact traceSchwartzToMixed_apply K W.infiniteTest y
   unfold sIntegerDualTensorTerm
   simp only [map_zero, hfst, hsnd]
   unfold sIntegerLocalFourierProduct
   simp only [hlocal]
   rw [← Finset.prod_finset_coe]
-  simp only [finiteExtension_subtype, additiveFourierAtZero]
+  simp only [finiteExtension_subtype, additiveFourierAtZero, htrace]
 
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]

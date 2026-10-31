@@ -42,7 +42,7 @@ variable (nu : Measure (FiniteAdeleRing (𝓞 K) K)) [nu.IsAddHaarMeasure]
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 
-local notation "muS" => (fun p : Sset => mu p.val)
+local notation "muS" => (fun p : Sset => mu (Subtype.val p))
 
 private theorem small_scale_product (Z B e : ℝ) (hZ : 0 < Z) :
     Z ^ (17 / 300 : ℝ) * Z ^ (B + e - 33 / 50) * Z ^ (-(23 / 96 : ℝ)) *

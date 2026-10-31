@@ -36,7 +36,7 @@ variable [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
 variable (nu : Measure (FiniteAdeleRing (𝓞 K) K)) [nu.IsAddHaarMeasure]
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
-local notation "muS" => (fun p : Sset => mu p.val)
+local notation "muS" => (fun p : Sset => mu (Subtype.val p))
 
 /-- Three explicit pairs of actual horizontal faces, with the original
 normalization; the fixed vertical destination is not part of this term. -/

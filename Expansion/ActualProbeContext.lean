@@ -105,7 +105,7 @@ def selectedProbe : ProbeData K (X.places : Set (HeightOneSpectrum (𝓞 K))) wh
 
 local notation "S" => (X.places : Set (HeightOneSpectrum (𝓞 K)))
 local notation "P" => selectedProbe K X
-local notation "muS" => (fun p : S => allLocalMeasures K p.val)
+local notation "muS" => (fun p : S => allLocalMeasures K (Subtype.val p))
 
 def normOneSpace : MeasurableSpace (sLocalNormOneGroup K S) := borel _
 
@@ -129,11 +129,11 @@ theorem isComplex (v : InfinitePlace K) : v.IsComplex := by
   letI : IsTotallyComplex K := totallyComplex K X
   exact IsTotallyComplex.isComplex v
 
-theorem allowedGenerators : AllowedGeneratorInput K S P.arithmetic :=
+theorem allowedGenerators : AllowedGeneratorInput K S (P).arithmetic :=
   AllowedGeneratorInput.of_multiplicative_reciprocity K S X.thetaData
     X.thetaData_multiplicative X.idealSymbol_reciprocity
 
-theorem arithmeticCalibration : ThetaCalibrationInput K S P.arithmetic P.Lambda P.G where
+theorem arithmeticCalibration : ThetaCalibrationInput K S (P).arithmetic (P).Lambda (P).G where
   lambda_unramified := X.Lambda_unramified
   G_unramified := X.G_unramified
   G_finite_order := X.G_finiteOrder
@@ -142,12 +142,12 @@ theorem arithmeticCalibration : ThetaCalibrationInput K S P.arithmetic P.Lambda 
   cube_calibration := X.cube_calibration
   mixed_calibration := X.mixed_calibration
 
-theorem fourier_zero : additiveFourierAtZero K S muS P.additive = 0 :=
+theorem fourier_zero : additiveFourierAtZero K S muS (P).additive = 0 :=
   (Classical.choose_spec (HeckeAxiom.ProbeTestChoice.exists_probeTest X.A X.hS)).1
 
 theorem mellin_positive :
-    (additiveMellin K S muS P.additive (1 / 6)).im = 0 ∧
-      0 < (additiveMellin K S muS P.additive (1 / 6)).re :=
+    (additiveMellin K S muS (P).additive (1 / 6)).im = 0 ∧
+      0 < (additiveMellin K S muS (P).additive (1 / 6)).re :=
   (Classical.choose_spec (HeckeAxiom.ProbeTestChoice.exists_probeTest X.A X.hS)).2
 
 theorem normalizer_positive :

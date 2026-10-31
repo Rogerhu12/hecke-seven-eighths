@@ -57,19 +57,19 @@ theorem wholeBinBoundary_eq_physicalScheduled (Z H : ℝ)
       physicalScheduledWholeBoundary K (excludedPlaces K c)
         (Expansion.ActualProbeContext.allLocalMeasures K) (probeData K c) Eactual
         c.family.omega (targetCharacter K c) (representative K c).val.property
-        (expansionBoundary_lower K c) c.family.B_upper q.e_pos c.family.boundary
+        (expansionBoundary_lower K c) c.family.B_upper (q).e_pos c.family.boundary
         c.geometry (expansionShellAllowance K c) Z H := by
   let term : Fin (shellCount Z (1 / 16) (13 / 16 + expansionShellAllowance K c)) →
-      PhysicalRecipeChoice K (places K c) c.family.B q.e → ℂ := fun j d =>
+      PhysicalRecipeChoice K (places K c) c.family.B (q).e → ℂ := fun j d =>
     ∑ u ∈ physicalRecipeRows K (places K c) (probeData K c) Eactual c.family.omega
       (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
-      c.family.B_upper q.e_pos c.family.boundary (expansionShellAllowance K c) Z H j d,
+      c.family.B_upper (q).e_pos c.family.boundary (expansionShellAllowance K c) Z H j d,
       (rowContourBox K (places K c) (probeMeasures K c).haar (probeData K c)
         (targetCharacter K c) Eactual c.geometry ∅ u Z H
-        (c.family.B + 20 * q.e) (1 - d.1.center - 6 * q.e) (17 / 50) -
+        (c.family.B + 20 * (q).e) (1 - d.1.center - 6 * (q).e) (17 / 50) -
         rowContourBox K (places K c) (probeMeasures K c).haar (probeData K c)
           (targetCharacter K c) Eactual c.geometry ∅ u Z H
-          (d.1.center + 16 * q.e) (1 - d.1.center - 6 * q.e) (17 / 50))
+          (d.1.center + 16 * (q).e) (1 - d.1.center - 6 * (q).e) (17 / 50))
   calc
     _ = ∑ b : HighBlockIndex K c Z H,
         term (expansionScheduledShell K c Z H b) (expansionScheduledChoice K c Z H b) := by
@@ -79,14 +79,14 @@ theorem wholeBinBoundary_eq_physicalScheduled (Z H : ℝ)
       rw [expansionScheduled_bin K c Z H b, ← Finset.sum_sub_distrib]
       rfl
     _ = ∑ b : Fin ((X).scheduledCount Z),
-        term (physicalRecipeShellIndex K (places K c) c.family.B q.e
+        term (physicalRecipeShellIndex K (places K c) c.family.B (q).e
           (expansionShellAllowance K c) Z b)
-          (physicalRecipeChoice K (places K c) c.family.B q.e
+          (physicalRecipeChoice K (places K c) c.family.B (q).e
             (expansionShellAllowance K c) Z b) :=
       recipeExpansion_sum_active_map K (places K c) (X) Z H hZ hH _
     _ = ∑ j : Fin (shellCount Z (1 / 16) (13 / 16 + expansionShellAllowance K c)),
-        ∑ d : PhysicalRecipeChoice K (places K c) c.family.B q.e, term j d :=
-      sum_physicalRecipeSchedule K (places K c) c.family.B q.e
+        ∑ d : PhysicalRecipeChoice K (places K c) c.family.B (q).e, term j d :=
+      sum_physicalRecipeSchedule K (places K c) c.family.B (q).e
         (expansionShellAllowance K c) Z term
     _ = _ := rfl
 
@@ -98,7 +98,7 @@ theorem physicalScheduledWholeBoundary_tail_of_highBoundaryControl
       (physicalScheduledWholeBoundary K (excludedPlaces K c)
         (Expansion.ActualProbeContext.allLocalMeasures K) (probeData K c) Eactual
         c.family.omega (targetCharacter K c) (representative K c).val.property
-        (expansionBoundary_lower K c) c.family.B_upper q.e_pos c.family.boundary
+        (expansionBoundary_lower K c) c.family.B_upper (q).e_pos c.family.boundary
         c.geometry (expansionShellAllowance K c)) := by
   exact PowerHeightTailBound.of_eventuallyEq hmove ((2 : ℝ) ^ (16 : ℕ))
     (wholeBinBoundary_eq_physicalScheduled K c)

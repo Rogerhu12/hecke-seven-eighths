@@ -36,7 +36,7 @@ variable [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
 variable (nu : Measure (FiniteAdeleRing (𝓞 K) K)) [nu.IsAddHaarMeasure]
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
-local notation "muS" => (fun p : Sset => mu p.val)
+local notation "muS" => (fun p : Sset => mu (Subtype.val p))
 
 variable (P : ProbeData K (S : Set (HeightOneSpectrum (𝓞 K)))) (omega psi : HeckeCharacter K)
 variable (hAllowed : AllowedGeneratorInput K (S : Set (HeightOneSpectrum (𝓞 K))) P.arithmetic)
@@ -81,7 +81,7 @@ theorem integrable_actual_physicalRecipeLabel (lam zeta width k : ℝ) (hw : 0 <
     (label : AmplitudeLabels g.slots width ((2 * c.1.center - 1) / 2))
     (u : FrequencyRow K Sset) :
     IntegrableOn
-      (physicalBlockLabelIntegrand (P := P) (R := E.rows) (ω := omega)
+      (physicalBlockLabelIntegrand (P := P) (R := (E).rows) (ω := omega)
         width ((2 * c.1.center - 1) / 2) Z
         (physicalRecipeRows K Sset P E omega psi hpsi hB0 hB he hbound zeta Z T j c)
         (physicalRecipeScheduledBlock K Sset P omega psi g E hpsi hB0 hB he hbound

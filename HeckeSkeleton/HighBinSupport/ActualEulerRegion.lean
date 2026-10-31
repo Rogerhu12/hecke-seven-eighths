@@ -132,7 +132,8 @@ theorem localFactor_eq_explicit_rowEulerRegion (P : ProbeData K S) (ψ : HeckeCh
       simpa [localFactor, arithmeticHighEulerData, exceptionalFactor, explicitLocalEuler,
         rowW, rowD, rowE, hp, hR, hQ] using hvalue
     · have hp : p ∉ rowExceptionalPrimes K S Q u := by
-        simp only [rowExceptionalPrimes, Finset.mem_union, not_or, hR, hQ, and_self]
+        simp only [rowExceptionalPrimes, Finset.mem_union, not_or]
+        exact ⟨hR, hQ⟩
       simpa only [localFactor, dif_neg hp, explicitLocalEuler, if_neg hR, if_neg hQ,
         sub_zero, rowW, rowD, rowE] using
         localRowCorrection_eq_phase K S P ψ (arithmeticRowCharacter K S P u)

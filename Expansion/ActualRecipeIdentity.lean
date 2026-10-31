@@ -59,7 +59,7 @@ variable (hB0 : 51 / 100 ≤ B) (hB1 : B ≤ 1)
 variable (hboundary : ∀ chi : HeckePacketIndex K omega,
   ∀ r ∈ heckePacketZeros K omega chi, 1 / 2 ≤ r → r ≤ 1 → r ≤ B)
 local notation "E" => arithmeticHighEulerData K Sset P psi
-local notation "muS" => (fun p : Sset => mu p.val)
+local notation "muS" => (fun p : Sset => mu (Subtype.val p))
 variable (lam zeta eCap : ℝ)
 variable (q : PhysicalRecipeParameters K (S : Set (HeightOneSpectrum (𝓞 K))) P omega psi g
   (arithmeticHighEulerData K (S : Set (HeightOneSpectrum (𝓞 K))) P psi) hpsi hB0 hB1 hboundary
@@ -71,7 +71,7 @@ local notation "X" => actualPhysicalRecipe K S mu P omega psi g hpsi hB0 hB1 hbo
 original scheduled contour values, with no additional labels or weights. -/
 theorem actualPhysicalRecipe_block_sum (Z H : ℝ)
     (hZ : (2 : ℝ) ^ (16 : ℕ) ≤ Z) (hH : 1 ≤ H) :
-    (∑ b, (((X).toHigh (P := P) (R := E.rows) (ω := omega) Z H).block b).value) =
+    (∑ b, (((X).toHigh (P := P) (R := (E).rows) (ω := omega) Z H).block b).value) =
       ∑ j : Fin (shellCount Z (1 / 16) (13 / 16 + zeta)),
         ∑ c : PhysicalRecipeChoice K Sset B q.e,
           physicalRecipeBlockValue K Sset P E omega psi hpsi hB0 hB1 q.e_pos hboundary
@@ -97,11 +97,11 @@ theorem actualPhysicalRecipe_identity
     (hB : 7 / 8 < B) (he1 : q.e ≤ 1 / 10000) (hzeta : 0 < zeta)
     (Z H : ℝ) (hZ : (2 : ℝ) ^ (16 : ℕ) ≤ Z) (hH : 1 ≤ H) :
     normalizedProbe K Sset muS P psi g ∅ Z - principalLineProbe K Sset P psi Z =
-      ((X).toHigh (P := P) (R := E.rows) (ω := omega) Z H).principal +
-      ((X).toHigh (P := P) (R := E.rows) (ω := omega) Z H).small +
-      ((X).toHigh (P := P) (R := E.rows) (ω := omega) Z H).large +
-      (∑ b, (((X).toHigh (P := P) (R := E.rows) (ω := omega) Z H).block b).value) +
-      ((X).toHigh (P := P) (R := E.rows) (ω := omega) Z H).tail := by
+      ((X).toHigh (P := P) (R := (E).rows) (ω := omega) Z H).principal +
+      ((X).toHigh (P := P) (R := (E).rows) (ω := omega) Z H).small +
+      ((X).toHigh (P := P) (R := (E).rows) (ω := omega) Z H).large +
+      (∑ b, (((X).toHigh (P := P) (R := (E).rows) (ω := omega) Z H).block b).value) +
+      ((X).toHigh (P := P) (R := (E).rows) (ω := omega) Z H).tail := by
   letI : IsTotallyComplex K := ⟨hcomplex⟩
   have hZ1 : 1 < Z := (by norm_num : (1 : ℝ) < 2 ^ (16 : ℕ)).trans_le hZ
   have hZpos : 0 < Z := zero_lt_one.trans hZ1

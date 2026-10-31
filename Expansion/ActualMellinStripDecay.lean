@@ -147,7 +147,7 @@ variable (Gamma : Subgroup (S.unit K)) [Gamma.FiniteIndex]
 
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 set_option quotPrecheck false in
-local notation "A" => ((v : S) → v.val.adicCompletion K)
+local notation "A" => ((v : S) → (Subtype.val v).adicCompletion K)
 
 include Gamma in
 /-- Actual orbital decay is uniform on the entire chosen positive strip. -/
@@ -213,7 +213,7 @@ theorem exists_actual_additiveMellin_strip_rapid_bound
     (finiteExtension K S W) (finiteExtension_locallyConstant K S W)
     (finiteExtension_compactSupport K S W)
   simp_rw [physical_additiveMellin_eq_orbital]
-  exact exists_actual_orbitalMellin_strip_rapid_bound K Sset (⊤ : Subgroup (Sset.unit K))
+  exact exists_actual_orbitalMellin_strip_rapid_bound K Sset (⊤ : Subgroup ((Sset).unit K))
     (traceSchwartzFourier K W.infiniteTest)
     (sIntegerFiniteFourierTestFunction K S mu (finiteExtension K S W))
     hft.1.continuous hft.2 lower upper hlower hlu n

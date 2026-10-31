@@ -52,7 +52,7 @@ variable (Γ : Subgroup (S.unit K)) [Γ.FiniteIndex]
 
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 set_option quotPrecheck false in
-local notation "A" => ((v : S) → v.val.adicCompletion K)
+local notation "A" => ((v : S) → (Subtype.val v).adicCompletion K)
 
 /-- The literal radial absolute integral exists for every positive exponent. -/
 theorem integrable_weightedTensorAbsolute_positive (φ : SchwartzMap V ℂ)

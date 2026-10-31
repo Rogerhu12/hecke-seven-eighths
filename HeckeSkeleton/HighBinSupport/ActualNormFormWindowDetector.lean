@@ -125,11 +125,13 @@ theorem exists_actual_primeWindow_detector_error (g : PrimeWindowGeometry)
   let f := annularPrimeTerm K (g.weight i).toFun chi (primeScale g Z) t
   have hsum := summable_annularPrimeTerm K (g.weight i).toFun
     (g.support_annular i) chi (primeScale g Z) t
-  have hpart := hsum.tsum_subtype_add_tsum_subtype_compl S
+  have hpart : (∑' p : S, f p.val) + (∑' p : ExteriorPrime K S, f p.val) =
+      ∑' p, f p := hsum.tsum_subtype_add_tsum_subtype_compl S
   have heq : actualWindowPrimePolynomial K S g chi Z t i + L =
       ((∑' p, f p) + L) - ∑' p : S, f p.val := by
-    rw [actualWindowPrimePolynomial_eq_exterior_tsum, ← hpart]
+    rw [actualWindowPrimePolynomial_eq_exterior_tsum]
     change (∑' p : ExteriorPrime K S, f p.val) + L = _
+    rw [← hpart]
     ring
   have hmain := norm_annular_phase_sum_add_logDerivative_integral_le K (g.weight i)
     (g.support_annular i) chi (primeScale g Z) delta t M hP hdelta hM.le
