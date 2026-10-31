@@ -18,7 +18,7 @@ coefficients, and the twist may vary with the Fourier parameter.
 -/
 
 noncomputable section
-open scoped Classical BigOperators FourierTransform SchwartzMap NumberField
+open scoped Classical BigOperators FourierTransform SchwartzMap NumberField ENNReal
 
 namespace HeckeSkeleton.Moments.EngineStep
 

@@ -46,7 +46,10 @@ theorem live_length_le : D.parameters.z ≤ s.beforeLength := by
 
 theorem actual_length_reduction : s.beforeLength - D.parameters.z = s.allocatedLength := by
   rw [D.slot_sum_original]
-  exact (Finset.sum_sdiff (Finset.subset_univ s.allocation.keep) (f := s.length)).symm
+  have hsum := Finset.sum_sdiff (Finset.subset_univ s.allocation.keep) (f := s.length)
+  change (∑ i, s.length i) - (∑ i ∈ s.allocation.keep, s.length i) =
+    ∑ i ∈ Finset.univ \ s.allocation.keep, s.length i
+  linarith
 
 private theorem cast_lengthSlot (d : MomentData F ω ψ) (n : ℕ)
     (hc : d.geometry.slotCount = n) (i : Fin n) :
@@ -239,7 +242,9 @@ theorem zero_or_capacity_provider
     D.restricted_mesh keep ξ mesh hfit, D.restricted_slot_in_theta keep ξ, ?_⟩
   have hc := hbound ξ s.base s.base_gt_one.le primeBound hprimeBound (D.height ξ) (hprime ξ)
   have hmul := mul_le_mul_of_nonneg_left hc D.mass_nonneg
-  exact (D.energy_le_clipped ξ).trans (by simpa only [mul_assoc] using hmul)
+  exact (D.energy_le_clipped ξ).trans (by
+    simpa only [clipCost, restrictedClippedData, restrictedParameters,
+      clippedParameters, clipPlainParameters, mul_assoc] using hmul)
 
 end Calibration
 end ActualAllocatedSource

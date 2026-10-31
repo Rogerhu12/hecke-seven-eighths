@@ -126,9 +126,9 @@ theorem first_gauss_pool_kernel_integrable {ι κ : Type*}
         ((continuous_const : Continuous (fun _ : V => W)).mul
           (right.continuous_energy_twisted d y)))
   apply ((𝓕 F).integrable (μ := (volume : Measure V))).norm.mul_bdd
+    (c := Real.sqrt (W * left.mass c) * Real.sqrt (W * right.mass d))
     hc.aestronglyMeasurable
   exact Filter.Eventually.of_forall fun ξ => by
-    simp only [Pi.mul_apply, Function.comp_apply]
     rw [Real.norm_eq_abs,
       abs_of_nonneg (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))]
     exact mul_le_mul

@@ -52,7 +52,8 @@ private theorem central_term_norm_sq_le (N B : ℝ) (hN : 0 < N)
   calc
     _ = N⁻¹ * (‖z‖ ^ 2 * ‖w‖ ^ 2) := by
       simp only [norm_mul, norm_inv, Complex.norm_real,
-        abs_of_nonneg (Real.sqrt_nonneg _), mul_pow, inv_pow, Real.sq_sqrt hN.le]
+        Real.norm_eq_abs, abs_of_nonneg (Real.sqrt_nonneg _), mul_pow, inv_pow,
+        Real.sq_sqrt hN.le]
       ring
     _ ≤ N⁻¹ * B := mul_le_mul_of_nonneg_left hp (inv_nonneg.mpr hN.le)
     _ = _ := by ring
@@ -169,15 +170,19 @@ theorem scalar_norm_sq_le_frozen_norm
           ‖sourcePrimeTerm (σ := σ) (T.slot i) (T.slotTwist i) T.mask
             g h (w i) (Z ^ length i) (B.witness.2 i)‖ ^ 2 := by
       simp only [scalar, FixedChildCharacters.frozenScalar, norm_mul, norm_prod,
-        mul_pow, Finset.prod_pow]
+        mul_pow, Finset.prod_pow, Finset.sdiff_eq_filter, Finset.mem_univ, true_and]
     _ ≤ (1 / HeckeGeneral.Analysis.idealNorm F (B.plainDivisor 0) *
         (1 / HeckeGeneral.Analysis.idealNorm F (B.plainDivisor (Fin.succ 0)))) *
         ∏ i ∈ Finset.univ \ B.keep,
           (annulus i * profile i) / (Ideal.absNorm (B.witness.2 i).asIdeal : ℝ) :=
       mul_le_mul
-        (mul_le_mul (hplain _ hplain₁) (hplain _ hplain₂) (sq_nonneg _) (by positivity))
+        (mul_le_mul (hplain _ hplain₁) (hplain _ hplain₂) (sq_nonneg _)
+          (div_nonneg zero_le_one (HeckeGeneral.Analysis.idealNorm_pos F _).le))
         (Finset.prod_le_prod₀ (fun _ _ => sq_nonneg _) hslot)
-        (Finset.prod_nonneg (fun _ _ => sq_nonneg _)) (by positivity)
+        (Finset.prod_nonneg (fun _ _ => sq_nonneg _))
+        (mul_nonneg
+          (div_nonneg zero_le_one (HeckeGeneral.Analysis.idealNorm_pos F _).le)
+          (div_nonneg zero_le_one (HeckeGeneral.Analysis.idealNorm_pos F _).le))
     _ = _ := by
       rw [B.frozenIdeal_norm, Finset.prod_div_distrib]
       simp only [div_eq_mul_inv, mul_inv_rev]

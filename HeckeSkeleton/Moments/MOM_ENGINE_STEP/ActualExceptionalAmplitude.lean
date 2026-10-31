@@ -126,7 +126,7 @@ theorem norm_actualSourceSlotPolynomial_le {k : ℕ} (T : FixedChildCharacters F
           g h' (w i) (Z ^ length i) p‖ := by
   unfold actualSourceSlotPolynomial
   rw [norm_prod]
-  apply Finset.prod_le_prod
+  apply Finset.prod_le_prod₀
   · intro i hi
     exact norm_nonneg _
   · intro i hi
@@ -268,8 +268,12 @@ structure ExceptionalVolumeControl
   coefficient_norm : ∀ I, ‖Ψ I‖ ≤ 1
   coefficient_zero : Ψ ⊥ = 0
   volume : IdealVolumeInput F Ψ
-  lower₁ upper₁ lower₂ upper₂ : ℝ
-  bound₁ bound₂ : ℝ
+  lower₁ : ℝ
+  upper₁ : ℝ
+  lower₂ : ℝ
+  upper₂ : ℝ
+  bound₁ : ℝ
+  bound₂ : ℝ
   lower₁_pos : 0 < lower₁
   lower₂_pos : 0 < lower₂
   upper₁_nonneg : 0 ≤ upper₁
@@ -278,13 +282,16 @@ structure ExceptionalVolumeControl
   bound₂_nonneg : 0 ≤ bound₂
   support₁ : Function.support W₁ ⊆ Set.Icc lower₁ upper₁
   support₂ : Function.support W₂ ⊆ Set.Icc lower₂ upper₂
-  profile₁ profile₂ : ℝ → 𝓢(ℝ, ℂ)
+  profile₁ : ℝ → 𝓢(ℝ, ℂ)
+  profile₂ : ℝ → 𝓢(ℝ, ℂ)
   profile₁_eq : ∀ t x, profile₁ t x = (x : ℂ) ^ (Complex.I * t) * W₁ x
   profile₂_eq : ∀ t x, profile₂ t x = (x : ℂ) ^ (Complex.I * t) * W₂ x
   norm₁ : ∀ y, ‖W₁ y‖ ≤ bound₁
   norm₂ : ∀ y, ‖W₂ y‖ ≤ bound₂
-  order₁ order₂ : ℕ
-  error₁ error₂ : ℝ
+  order₁ : ℕ
+  order₂ : ℕ
+  error₁ : ℝ
+  error₂ : ℝ
   error₁_nonneg : 0 ≤ error₁
   error₂_nonneg : 0 ≤ error₂
   error₁_bound : ∀ t : ℝ, volume.error (profile₁ t) ≤ error₁ * (1 + ‖t‖) ^ order₁

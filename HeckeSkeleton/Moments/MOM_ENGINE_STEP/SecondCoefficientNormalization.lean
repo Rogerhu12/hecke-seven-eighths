@@ -32,7 +32,8 @@ theorem extraGaussNormalizer_norm_sq (N₁ N₂ : ℝ) (P : Fin k → ℝ)
     (hN₁ : 0 < N₁) (hN₂ : 0 < N₂) (hP : ∀ i, 0 < P i) :
     ‖extraGaussNormalizer N₁ N₂ P‖ ^ 2 = (extraGaussScale N₁ N₂ P)⁻¹ := by
   have hterm (N : ℝ) (hN : 0 < N) : ‖(Real.sqrt N : ℂ)⁻¹‖ ^ 2 = N⁻¹ := by
-    simp only [norm_inv, Complex.norm_real, abs_of_nonneg (Real.sqrt_nonneg _),
+    simp only [norm_inv, Complex.norm_real, Real.norm_eq_abs,
+      abs_of_nonneg (Real.sqrt_nonneg _),
       inv_pow, Real.sq_sqrt hN.le]
   simp only [extraGaussNormalizer, SecondCoefficientTermDictionary.centralNormalizer,
     norm_mul, norm_prod, mul_pow, ← Finset.prod_pow]

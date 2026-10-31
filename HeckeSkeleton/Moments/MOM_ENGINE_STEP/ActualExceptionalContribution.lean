@@ -104,15 +104,25 @@ structure AllocatedExceptionalSource
     (Ψ : Ideal (𝓞 F) →* ℂ) (W₁ W₂ : ℝ → ℂ) (g h' : A.R) (k : ℕ) where
   allocation : ActualColumnAllocation F k
   characters : FixedChildCharacters F k
-  X₁ X₂ Y₁ Y₂ Zslot : ℝ
+  X₁ : ℝ
+  X₂ : ℝ
+  Y₁ : ℝ
+  Y₂ : ℝ
+  Zslot : ℝ
   length : Fin k → ℝ
-  w₁ w₂ v₁ v₂ : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ
+  w₁ : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ
+  w₂ : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ
+  v₁ : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ
+  v₂ : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ
   w : Fin k → HeightOneSpectrum (𝓞 F) → ℂ
-  x₁ x₂ : HeckeGeneral.Analysis.NonzeroIdeal F → V
+  x₁ : HeckeGeneral.Analysis.NonzeroIdeal F → V
+  x₂ : HeckeGeneral.Analysis.NonzeroIdeal F → V
   x : Fin k → HeightOneSpectrum (𝓞 F) → V
   ξ : V
   mask : Ideal (𝓞 F)
-  time product lower : ℝ
+  time : ℝ
+  product : ℝ
+  lower : ℝ
   lower_pos : 0 < lower
   X₁_lower : lower ≤ X₁ / idealNorm F (allocation.plainDivisor 0)
   X₂_lower : lower ≤ X₂ / idealNorm F (allocation.plainDivisor (Fin.succ 0))
@@ -206,7 +216,7 @@ theorem rawMass_le_prime_windows
       ∏ j, (idealCountConstant F * normCutoff j) * primeBound j := by
   have hcount : 0 ≤ idealCountConstant F := zero_le_one.trans (one_le_idealCountConstant F)
   have hp : s.slotMass ≤ ∏ j, (idealCountConstant F * normCutoff j) * primeBound j := by
-    apply Finset.prod_le_prod
+    apply Finset.prod_le_prod₀
     · intro j hj
       exact Finset.sum_nonneg (fun _ _ => norm_nonneg _)
     · intro j hj

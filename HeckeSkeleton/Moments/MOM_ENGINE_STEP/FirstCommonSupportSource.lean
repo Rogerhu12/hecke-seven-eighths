@@ -213,6 +213,7 @@ theorem firstActiveIdeal_dvd_common {τ : Type*} [Fintype τ] [DecidableEq τ]
   simp only [pow_one, Finset.prod_coe_sort]
   apply dvd_trans (b := ∏ i ∈ activeSupport Finset.univ m n, (p i).val.asIdeal ^ m i)
   · apply Finset.prod_dvd_prod_of_dvd
+      (fun i => (p i).val.asIdeal) (fun i => (p i).val.asIdeal ^ m i)
     intro i hi
     simpa only [pow_one] using
       pow_dvd_pow ((p i).val.asIdeal) (Nat.succ_le_iff.mpr (hm i))
