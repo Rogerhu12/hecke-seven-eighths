@@ -67,13 +67,8 @@ theorem cubeSupport_subset_pairSupport (n₁ n₂ b₁ b₂ : ExteriorIdeal K Ss
     CubeLabels.cubePrimeSupport b₁.val b₂.val ⊆
       (pairSupport K S D n₁ n₂ b₁ b₂).support := by
   intro p hp
-  have hne : idealPrimeMultiplicity K p (b₁.val.val * b₂.val.val) ≠ 0 := by
-    rw [ideal_multiplicity_eq_primeExponents K (b₁.val * b₂.val) p]
-    exact Finsupp.mem_support_iff.mp hp
   have hd : p.asIdeal ∣ b₁.val.val * b₂.val.val :=
-    (Associates.count_ne_zero_iff_dvd
-      (mul_ne_zero (nonZeroDivisors.coe_ne_zero b₁.val)
-        (nonZeroDivisors.coe_ne_zero b₂.val)) p.irreducible).mp hne
+    (FirstSourceDecomposition.mem_primeSupport (b₁.val * b₂.val) p).mp hp
   apply (mem_pairSupport K S D n₁ n₂ b₁ b₂ p).mpr
   rcases p.prime.dvd_mul.mp hd with h₁ | h₂
   · exact Or.inl h₁
@@ -198,8 +193,14 @@ theorem u₁_eq_residual (n₁ n₂ b₁ b₂ : ExteriorIdeal K Sset) :
       ((FirstSourceDecomposition.mem_primeSupport n₁.val p).mp hp)))
   have h := FirstSourceDecomposition.residualSupport_eq_leftResidual
     n₁.val n₂.val b₁.val b₂.val (pairSupport K S D n₁ n₂ b₁ b₂).support hs
-  simpa only [u₁, FirstSourceDecomposition.u, squarefreeBit, CubeLabels.cubeMultiplicity]
-    using congrArg IdealMobiusMask.primeProduct h.symm
+  change IdealMobiusMask.primeProduct
+    (SupportPartition.leftResidual (pairSupport K S D n₁ n₂ b₁ b₂).support
+      (fun p => primeExponents (b₁.val * b₂.val) p)
+      (fun p => decide (p.asIdeal ∣ n₁.val.val))
+      (fun p => decide (p.asIdeal ∣ n₂.val.val))) =
+    IdealMobiusMask.primeProduct
+      (FirstSourceDecomposition.residualSupport n₁.val n₂.val b₁.val b₂.val)
+  exact congrArg IdealMobiusMask.primeProduct h.symm
 
 theorem u₂_eq_residual (n₁ n₂ b₁ b₂ : ExteriorIdeal K Sset) :
     u₂ K S D n₁ n₂ b₁ b₂ =
@@ -212,8 +213,14 @@ theorem u₂_eq_residual (n₁ n₂ b₁ b₂ : ExteriorIdeal K Sset) :
       ((FirstSourceDecomposition.mem_primeSupport n₂.val p).mp hp)))
   have h := FirstSourceDecomposition.residualSupport_eq_rightResidual
     n₁.val n₂.val b₁.val b₂.val (pairSupport K S D n₁ n₂ b₁ b₂).support hs
-  simpa only [u₂, FirstSourceDecomposition.u, squarefreeBit, CubeLabels.cubeMultiplicity]
-    using congrArg IdealMobiusMask.primeProduct h.symm
+  change IdealMobiusMask.primeProduct
+    (SupportPartition.rightResidual (pairSupport K S D n₁ n₂ b₁ b₂).support
+      (fun p => primeExponents (b₁.val * b₂.val) p)
+      (fun p => decide (p.asIdeal ∣ n₁.val.val))
+      (fun p => decide (p.asIdeal ∣ n₂.val.val))) =
+    IdealMobiusMask.primeProduct
+      (FirstSourceDecomposition.residualSupport n₂.val n₁.val b₁.val b₂.val)
+  exact congrArg IdealMobiusMask.primeProduct h.symm
 
 theorem commonResidualIdeal_eq_C (n₁ n₂ b₁ b₂ : ExteriorIdeal K Sset) :
     commonResidualIdeal K S D n₁ n₂ b₁ b₂ =
@@ -226,8 +233,14 @@ theorem commonResidualIdeal_eq_C (n₁ n₂ b₁ b₂ : ExteriorIdeal K Sset) :
       ((FirstSourceDecomposition.mem_primeSupport n₁.val p).mp hp)))
   have h := FirstSourceDecomposition.commonSupport_eq_commonResidual
     n₁.val n₂.val b₁.val b₂.val (pairSupport K S D n₁ n₂ b₁ b₂).support hs
-  simpa only [commonResidualIdeal, FirstSourceDecomposition.C, squarefreeBit,
-    CubeLabels.cubeMultiplicity] using congrArg IdealMobiusMask.primeProduct h.symm
+  change IdealMobiusMask.primeProduct
+    (SupportPartition.commonResidual (pairSupport K S D n₁ n₂ b₁ b₂).support
+      (fun p => primeExponents (b₁.val * b₂.val) p)
+      (fun p => decide (p.asIdeal ∣ n₁.val.val))
+      (fun p => decide (p.asIdeal ∣ n₂.val.val))) =
+    IdealMobiusMask.primeProduct
+      (FirstSourceDecomposition.commonSupport n₁.val n₂.val b₁.val b₂.val)
+  exact congrArg IdealMobiusMask.primeProduct h.symm
 
 /-- The source decomposition and the conductor use exactly the same
 residual and common ideals. Both actual original columns are recovered. -/

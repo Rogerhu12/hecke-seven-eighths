@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: mom-inv-step-${{ github.head_ref || github.ref_name }}
@@ -52,6 +53,16 @@ jobs:
         with:
           path: .lake/build
           key: mom-inv-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}-${{ github.run_id }}
+      - name: Preserve validated project objects as an artifact backup
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-inv-step-objects-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .lake/build
+          if-no-files-found: warn
+          include-hidden-files: true
+          retention-days: 14
+          compression-level: 6
       - name: Upload compiler logs, environment and axiom evidence
         if: always()
         uses: actions/upload-artifact@v4

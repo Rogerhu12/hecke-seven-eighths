@@ -108,15 +108,12 @@ theorem first_source_energy (C : ColumnFamily K Sset σ Θ ψ) (γ : OuterTriple
   refine hb.trans_eq ?_
   apply Finset.sum_congr ?_ (fun _ _ => rfl)
   ext y
+  simp only [T', Finset.mem_image]
   constructor
-  · intro hy
-    obtain ⟨x, hx, he⟩ := Finset.mem_image.mp hy
-    obtain ⟨z, hz, rfl⟩ := Finset.mem_image.mp hx
-    exact Finset.mem_image.mpr ⟨z, hz, he⟩
-  · intro hy
-    obtain ⟨z, hz, he⟩ := Finset.mem_image.mp hy
-    exact Finset.mem_image.mpr ⟨FirstCanonicalLabel.encode K S Γ z,
-      Finset.mem_image.mpr ⟨z, hz, rfl⟩, he⟩
+  · rintro ⟨x, ⟨z, hz, rfl⟩, he⟩
+    exact ⟨z, hz, he⟩
+  · rintro ⟨z, hz, he⟩
+    exact ⟨FirstCanonicalLabel.encode K S Γ z, ⟨z, hz, rfl⟩, he⟩
 
 def orbitColumn (C : ColumnFamily K Sset σ Θ ψ) (γ : OuterTriple K)
     (j : Ideal (𝓞 K)) (d : OS) (q : SIntegerOrbits K Sset Γ) : ℂ :=

@@ -16,7 +16,7 @@ namespace HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel
 
 open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Analysis
   HeckeGeneral.Bridge MeasureTheory SUnitSmallRadius
-open scoped Classical ContDiff BigOperators nonZeroDivisors FourierTransform
+open scoped Classical ContDiff BigOperators nonZeroDivisors FourierTransform NNReal
 
 variable (K : Type) [Field K] [NumberField K]
 
@@ -33,7 +33,8 @@ theorem traceFourierEulerIter_finite_seminorm_bound (t : Finset (ℕ × ℕ)) (J
     (t.sup (schwartzSeminormFamily ℝ V ℂ)).comp (traceFourierEulerIterCLM K j).toLinearMap
   let q : Seminorm ℝ (SchwartzMap V ℂ) := (Finset.range (J + 1)).sup p
   have hp := schwartz_withSeminorms ℝ V ℂ
-  have ht : Continuous (t.sup (schwartzSeminormFamily ℝ V ℂ)) :=
+  have ht : Continuous (fun φ : SchwartzMap V ℂ =>
+      t.sup (schwartzSeminormFamily ℝ V ℂ) φ) :=
     Seminorm.continuous_finsetSup (fun m _ => hp.continuous_seminorm m)
   have hq : Continuous q := Seminorm.continuous_finsetSup
     (fun j _ => ht.comp (traceFourierEulerIterCLM K j).continuous)

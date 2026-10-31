@@ -35,9 +35,8 @@ theorem archLog_div (u v : S.unit K) (w : InfinitePlace K) :
     (InfinitePlace.pos_iff.mpr (u : Kˣ).ne_zero).ne'
   have hv : w ((v : Kˣ) : K) ≠ 0 :=
     (InfinitePlace.pos_iff.mpr (v : Kˣ).ne_zero).ne'
-  change (InfinitePlace.mult w : ℝ) * Real.log
-    (w (((u : Kˣ) : K) / ((v : Kˣ) : K))) = _
-  rw [map_div₀, Real.log_div hu hv, mul_sub]
+  simp only [archLog, Subgroup.coe_div, Units.val_div_eq_div_val,
+    map_div₀, Real.log_div hu hv, mul_sub]
 
 def kernelUnit (u : S.unit K) (hu : sUnitValuations K S u = 1) : (𝓞 K)ˣ :=
   Set.unitEmptyEquivUnits K ⟨u.val, by
@@ -61,12 +60,14 @@ fiber. The construction uses no section or chosen principal generator. -/
 def ordinaryRatio (u v : S.unit K)
     (h : valuationVector K S u = valuationVector K S v) : (𝓞 K)ˣ :=
   kernelUnit K S (u / v) (by
-    rw [map_div, valuations_eq_of_vector_eq K S u v h, div_self])
+    rw [map_div, valuations_eq_of_vector_eq K S u v h, div_self'])
 
 @[simp] theorem ordinaryRatio_coe (u v : S.unit K)
     (h : valuationVector K S u = valuationVector K S v) :
     algebraMap (𝓞 K) K (ordinaryRatio K S u v h : 𝓞 K) =
-      ((u : Kˣ) : K) / ((v : Kˣ) : K) := kernelUnit_coe K S (u / v) _
+      ((u : Kˣ) : K) / ((v : Kˣ) : K) := by
+  simpa only [ordinaryRatio, Subgroup.coe_div, Units.val_div_eq_div_val] using
+    kernelUnit_coe K S (u / v) _
 
 theorem ordinaryRatio_injective_left (v u₁ u₂ : S.unit K)
     (h₁ : valuationVector K S u₁ = valuationVector K S v)
@@ -86,7 +87,8 @@ theorem ordinaryRatio_log (u v : S.unit K)
   change (InfinitePlace.mult w.val : ℝ) * Real.log
     (w.val (algebraMap (𝓞 K) K (ordinaryRatio K S u v h : 𝓞 K))) = _
   rw [ordinaryRatio_coe]
-  exact archLog_div K S u v w.val
+  simpa only [archLog, Subgroup.coe_div, Units.val_div_eq_div_val] using
+    archLog_div K S u v w.val
 
 theorem ordinaryRatio_log_norm_le (u v : S.unit K)
     (h : valuationVector K S u = valuationVector K S v)

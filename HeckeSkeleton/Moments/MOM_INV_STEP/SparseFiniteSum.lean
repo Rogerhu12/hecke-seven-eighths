@@ -47,7 +47,7 @@ theorem schwartz_dilated_equiv_weighted_bound
     nlinarith
   have hφ : (1 + ‖α • e z‖) ^ 3 * ‖φ (α • e z)‖ ≤
       8 * (Finset.Iic (3, 0)).sup (schwartzSeminormFamily ℝ E ℂ) φ := by
-    simpa only [norm_iteratedFDeriv_zero, schwartzSeminormFamily_apply, show (2 : ℝ) ^ 3 = 8 by norm_num] using
+    simpa only [norm_iteratedFDeriv_zero, schwartzSeminormFamily, show (2 : ℝ) ^ 3 = 8 by norm_num] using
       SchwartzMap.one_add_le_sup_seminorm_apply (𝕜 := ℝ) (m := (3, 0))
         (k := 3) (n := 0) le_rfl le_rfl φ (α • e z)
   calc
@@ -121,7 +121,7 @@ theorem finite_sum_le {ι : Type*} (s : Finset ι) (height f : ι → ℝ)
       _ ≤ (C * (2 * (n : ℝ) * α ^ (-δ))) * (Q / (n : ℝ) ^ 3) :=
         mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hpow hC)
           (div_nonneg hQ (pow_nonneg hnpos.le _))
-      _ = _ := by field_simp [hnpos.ne']; ring
+      _ = _ := by field_simp [hnpos.ne']
   have hfactor : 0 ≤ 2 * C * Q * α ^ (-δ) := by positivity
   have hmass := (Real.summable_nat_pow_inv.mpr (by norm_num : 1 < (2 : ℕ))).sum_le_tsum
     (s.image k) (fun _ _ => by positivity)

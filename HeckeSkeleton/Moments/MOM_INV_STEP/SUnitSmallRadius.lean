@@ -165,7 +165,9 @@ theorem exists_sLocalSchwartzSlice_smallRadius_integral_bound
   refine ⟨D * (sUnitHaarCovolume K S Γ).toReal, mul_nonneg hD ENNReal.toReal_nonneg,
     fun φ r hr => ?_⟩
   let C : ℝ := D * (Finset.Iic (3, 0)).sup (schwartzSeminormFamily ℝ V ℂ) φ * r.val ^ (-ε)
-  have hC : 0 ≤ C := by dsimp only [C]; positivity
+  have hC : 0 ≤ C :=
+    mul_nonneg (mul_nonneg hD (apply_nonneg _ _))
+      (Real.rpow_nonneg r.property.le _)
   have horbit : ∀ x ∈ sUnitFundamentalDomain K S Γ,
       (∑' g : (sLocalNormOneGamma K S Γ).op,
         ‖sLocalSchwartzSlice K S φ ψ r (g • x)‖ₑ) ≤ ENNReal.ofReal C := by
@@ -226,8 +228,10 @@ theorem exists_sLocalSchwartzProfile_smallPower_global_bound
     exact Seminorm.le_finset_sup_apply (Finset.mem_union_left _ hi)
   have hlargeSup (φ : SchwartzMap V ℂ) :
       SchwartzMap.seminorm ℂ M 0 φ ≤ s.sup (schwartzSeminormFamily ℝ V ℂ) φ := by
-    exact Seminorm.le_finset_sup_apply (show (M, 0) ∈ s by simp only [s, Finset.mem_union,
-      Finset.mem_singleton, or_true])
+    simpa only [SchwartzMap.schwartzSeminormFamily_apply, SchwartzMap.seminorm_apply] using
+      (Seminorm.le_finset_sup_apply (p := schwartzSeminormFamily ℝ V ℂ) (x := φ)
+        (show (M, 0) ∈ s by simp only [s, Finset.mem_union,
+          Finset.mem_singleton, or_true]))
   refine ⟨s, D₀ + D₁, add_nonneg hD₀ hD₁, fun φ r => ?_⟩
   by_cases hr : r.val ≤ 1
   · exact (hsmall φ r hr).trans

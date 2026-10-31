@@ -57,6 +57,7 @@ theorem exists_local_height_small_power_count (F : ℝ) (hF : 1 ≤ F)
     have hl := Real.log_le_rpow_div hHpos.le hδ
     have hf := mul_le_mul_of_nonneg_left hP (Real.log_nonneg hF)
     dsimp only [T, logBoxRadius, a]
+    rw [mul_assoc]
     apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg _)
     change 2 * Real.log H + Real.log F ≤ (2 / δ + Real.log F) * P
     dsimp only [P] at hl hf ⊢
@@ -72,7 +73,7 @@ theorem exists_local_height_small_power_count (F : ℝ) (hF : 1 ≤ F)
   have hinside : 1 + (2 * T) ^ M * Q ≤ (1 + (2 * a) ^ M * Q) * P ^ M := by
     have hb : (2 * T) ^ M ≤ (2 * a * P) ^ M :=
       pow_le_pow_left₀ (by positivity) (by nlinarith) M
-    rw [mul_pow] at hb
+    rw [mul_pow (2 * a) P] at hb
     have hmul := mul_le_mul_of_nonneg_right hb hQ
     nlinarith
   have hraw := local_height_count K S M (Nat.lt_succ_self _) F H hF hH s harch hfin
@@ -115,7 +116,8 @@ theorem infinitePlace_le_trace_norm (u : S.unit K) (w : InfinitePlace K) :
       (mixedEmbedding K ((u : Kˣ) : K))) (Finset.mem_univ w)
   rw [mixedEmbedding.normAtPlace_apply] at hplace
   exact hplace.trans (by
-    simpa only [traceEmbedding, ContinuousLinearEquiv.apply_symm_apply] using
+    simpa only [traceEmbedding, ContinuousLinearEquiv.coe_coe,
+      ContinuousLinearEquiv.apply_symm_apply] using
       (traceToMixed K).toContinuousLinearMap.le_opNorm (traceEmbedding K ((u : Kˣ) : K)))
 
 /-- The same sparse count in the exact Euclidean trace norm used by the
@@ -131,7 +133,7 @@ theorem exists_trace_height_small_power_count (F : ℝ) (hF : 1 ≤ F)
   have hB : 1 ≤ B := le_max_left _ _
   refine ⟨C * B ^ ε, mul_nonneg hC (Real.rpow_nonneg (zero_le_one.trans hB) _),
     fun H hH s harch hfin => ?_⟩
-  have hBH : 1 ≤ B * H := one_le_mul₀ hB hH
+  have hBH : 1 ≤ B * H := one_le_mul_of_one_le_of_one_le hB hH
   have h := hb (B * H) hBH s (by
     intro u hu w
     exact (infinitePlace_le_trace_norm K S u w).trans

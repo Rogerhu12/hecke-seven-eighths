@@ -61,9 +61,13 @@ theorem actualCRT_algebraMap (B : PrimeBlock K Sset)
     (a : 𝓞 K) (p : activeSupport B.support t) :
     actualCRT K S D B t (Ideal.Quotient.mk _ (algebraMap (𝓞 K) OS a)) p =
       Ideal.Quotient.mk p.val.asIdeal a := by
-  unfold actualCRT
-  simp only [RingEquiv.trans_apply, Ideal.quotEquivOfEq_mk,
-    sIntegerResidueEquiv_symm_mk] <;> rfl
+  change squarefreeCRT (activeSupport B.support t)
+    ((sIntegerResidueEquiv K Sset (primitiveIdeal B.support t)
+      (sexticIdeal_coprime_S K Sset _ (primitiveExterior K S B t).property)).symm
+      ((Ideal.quotEquivOfEq (primitiveModulus_span K S D B t))
+        (Ideal.Quotient.mk _ (algebraMap (𝓞 K) OS a)))) p = _
+  rw [Ideal.quotEquivOfEq_mk, sIntegerResidueEquiv_symm_mk]
+  rfl
 
 /-- Every coordinate is the literal S-integer residue, including
 nonintegral S-integer representatives. -/
@@ -100,9 +104,11 @@ theorem activeCharacter_ne_one (B : PrimeBlock K Sset)
     activeCharacter K S D B t p ≠ 1 := by
   intro hp
   have hd : 6 ∣ (t p.val).val := by
-    rw [← sexticResidueCharacter_order K D.root6 D.primitive6 D.embedding p.val
-      (B.awaySix p.val (Finset.mem_filter.mp p.property).1)]
-    exact orderOf_dvd_of_pow_eq_one hp
+    have hpow : sexticResidueCharacter K D.root6 D.primitive6 D.embedding p.val
+        (B.awaySix p.val (Finset.mem_filter.mp p.property).1) ^ (t p.val).val = 1 := hp
+    have hdiv := orderOf_dvd_of_pow_eq_one hpow
+    simpa only [sexticResidueCharacter_order K D.root6 D.primitive6 D.embedding p.val
+      (B.awaySix p.val (Finset.mem_filter.mp p.property).1)] using hdiv
   have hz := Nat.mod_eq_zero_of_dvd hd
   rw [Nat.mod_eq_of_lt (ZMod.val_lt _)] at hz
   exact (Finset.mem_filter.mp p.property).2 ((ZMod.val_eq_zero _).mp hz)
@@ -171,9 +177,12 @@ theorem finite_fourier (B : PrimeBlock K Sset)
       simp only [primitiveCoefficient_eq_tensor, productPhase,
         transportCharacter_apply, ← map_mul, RingEquiv.symm_apply_apply]
     _ = _ := by
-      rw [ProductGauss.finite_fourier _ (activeCharacter_ne_one K S D B t)]
-      rw [← primitiveCoefficient_eq_tensor]
-      rfl
+      change (∑ x : (p : activeSupport B.support t) → Residue p.val,
+        ProductGauss.tensorCoefficient (activeCharacter K S D B t) x *
+          productPhase K S D B t (actualCRT K S D B t k * x)) = _
+      simpa only [primitiveCoefficient_eq_tensor, primitiveGauss] using
+        ProductGauss.finite_fourier (activeCharacter K S D B t)
+          (activeCharacter_ne_one K S D B t) (productPhase K S D B t) (actualCRT K S D B t k)
 
 @[simp] theorem primitiveCoefficient_one (B : PrimeBlock K Sset)
     (t : HeightOneSpectrum (𝓞 K) → ZMod 6) :
@@ -235,9 +244,14 @@ theorem primitiveGauss_norm (B : PrimeBlock K Sset)
     ‖primitiveGauss K S D B t‖ = Real.sqrt ((primitiveIdeal B.support t).absNorm : ℝ) := by
   rw [primitiveGauss, ProductGauss.gaussProduct_norm _
     (activeCharacter_ne_one K S D B t) _ (productPhase_isPrimitive K S D B t)]
-  rw [← Fintype.card_congr (actualCRT K S D B t).toEquiv,
-    ← Nat.card_eq_fintype_card, natCard_sIntegerPrincipalResidue_eq_productNorm,
-    primitiveModulus_norm]
+  have hcard : Fintype.card ((p : activeSupport B.support t) → Residue p.val) =
+      Nat.card (PrincipalQuotient K S D B t) := by
+    rw [← Nat.card_eq_fintype_card]
+    exact Nat.card_congr (actualCRT K S D B t).symm.toEquiv
+  rw [hcard]
+  change Real.sqrt (Nat.card (OS ⧸ Ideal.span
+    ({primitiveModulus K S D B t} : Set OS)) : ℝ) = _
+  rw [natCard_sIntegerPrincipalResidue_eq_productNorm, primitiveModulus_norm]
 
 def normalizedPrimitiveGauss (B : PrimeBlock K Sset)
     (t : HeightOneSpectrum (𝓞 K) → ZMod 6) : ℂ :=
@@ -320,8 +334,17 @@ theorem fourier_orbital_series_eq_inverse (B : PrimeBlock K Sset)
     primitiveCoefficient K S D B t (Ideal.Quotient.mk _ d) * primitiveGauss K S D B t *
       HeckeGeneral.Analysis.sIntegerWeightedOrbitalSeries K S Γ φ ψ r
         (fun q => star (primitiveOrbitCoefficient K S D Γ hΓ B t q)) := by
+  have he :
+      sIntegerPeriodicFourierOrbitWeight K Sset D.different_outside Γ
+        (primitiveModulus K S D B t) (primitiveModulus_ne_zero K S D B t)
+        (primitiveCoefficient K S D B t) (primitiveCoefficient_invariant K S D Γ hΓ B t) d =
+      fun q => primitiveCoefficient K S D B t (Ideal.Quotient.mk _ d) *
+        primitiveGauss K S D B t * star (primitiveOrbitCoefficient K S D Γ hΓ B t q) := by
+    funext q
+    exact primitiveFourierOrbitWeight_eq K S D Γ hΓ B t d q
+  rw [he]
   unfold HeckeGeneral.Analysis.sIntegerWeightedOrbitalSeries
-  simp_rw [primitiveFourierOrbitWeight_eq, mul_assoc]
+  simp_rw [mul_assoc]
   rw [tsum_mul_left, tsum_mul_left]
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier

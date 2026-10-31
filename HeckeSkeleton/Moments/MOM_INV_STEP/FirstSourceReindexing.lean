@@ -94,8 +94,8 @@ theorem residual_restored {B A₁ A₂ C U V : Finset α}
     (hU : Disjoint U (B ∪ C)) (hV : Disjoint V (B ∪ C)) (hUV : Disjoint U V) :
     residual B (restore A₁ C U) (restore A₂ C V) = U := by
   ext p
-  have ha₁ : p ∈ A₁ → p ∈ B := hA₁
-  have ha₂ : p ∈ A₂ → p ∈ B := hA₂
+  have ha₁ : p ∈ A₁ → p ∈ B := fun hp => hA₁ hp
+  have ha₂ : p ∈ A₂ → p ∈ B := fun hp => hA₂ hp
   have hu : ¬ (p ∈ U ∧ (p ∈ B ∨ p ∈ C)) := fun hp =>
     Finset.disjoint_left.mp hU hp.1 (Finset.mem_union.mpr hp.2)
   have hv : ¬ (p ∈ V ∧ (p ∈ B ∨ p ∈ C)) := fun hp =>

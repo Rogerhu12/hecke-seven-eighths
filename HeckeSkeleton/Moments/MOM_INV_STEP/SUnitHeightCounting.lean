@@ -69,7 +69,8 @@ theorem abs_le_card_mul_of_sum_zero {ι : Type*} [Fintype ι]
     (hsum : ∑ i, f i = 0) (hupper : ∀ i, f i ≤ A) (i : ι) :
     |f i| ≤ (Fintype.card ι : ℝ) * A := by
   have hsum' : ∑ j, (A - f j) = (Fintype.card ι : ℝ) * A := by
-    rw [Finset.sum_sub_distrib, Finset.sum_const, nsmul_eq_mul, hsum, sub_zero]
+    rw [Finset.sum_sub_distrib, Finset.sum_const, nsmul_eq_mul, hsum, sub_zero,
+      Finset.card_univ]
   have hi := Finset.single_le_sum (s := Finset.univ) (f := fun j => A - f j)
     (fun j _ => sub_nonneg.mpr (hupper j)) (Finset.mem_univ i)
   rw [hsum'] at hi

@@ -172,8 +172,8 @@ def primitivePairBlock (x y : Ext × Ext) (φ : SchwartzMap V ℂ)
     φ h hlc hcs M R
 
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
-  [BorelSpace (sLocalNormOneGroup K Sset)] [Γ.FiniteIndex]
-  [IsPrincipalIdealRing OS]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] [Γ.FiniteIndex]
+  [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 
 /-- The actual squared forward row over a finite cube-by-column support. -/
 def canonicalCubeEnergy (C : ColumnData K S σ) (f : Ext)
