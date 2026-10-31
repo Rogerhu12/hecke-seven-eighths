@@ -53,7 +53,7 @@ theorem canonical_energy_from_ledger {α : Type*}
   have hnonneg : ∀ h x, Good h x → 0 ≤ M x := fun _ _ hx => hx.2.2.1
   have hMF : ∀ h x, Good h x → M x ≤ F x := by
     intro h x hx
-    exact canonicalAdmissible_row_le_total b hc hx.1 hx.2.2
+    exact canonicalAdmissible_row_le_total b hc.le hx.1 hx.2.2
       (hdata x hx.2.1).2.1 (hdata x hx.2.1).2.2
   have hgeom : ∀ h x, h < b.depth → Good h x → ¬ Terminal x →
       StepGeometry F M Q cap b.eta b.step x (s x) := by

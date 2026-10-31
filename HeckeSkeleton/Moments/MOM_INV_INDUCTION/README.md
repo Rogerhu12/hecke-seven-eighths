@@ -65,6 +65,7 @@ still an explicit unresolved obligation.
 | Module | Content |
 | --- | --- |
 | `Interface` | Consumer-side one-step statement; prefactors remain separate |
+| `PairedMeasure` | Linearization of two Cauchy roots with one common triple mass |
 | `InductionGeometry` | Simultaneous budget, strict margins, finite branch length, terminal gains |
 | `InductionClosure` | Finite backward induction and canonical admissibility |
 | `EnergyClosure` | Weighted child-energy consumption; explicit constants and height order |

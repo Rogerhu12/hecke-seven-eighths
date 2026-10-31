@@ -137,6 +137,7 @@ theorem budget_row_decrease {Mmax c ε M M' V ell : ℝ}
     (hchild : 2 * (V + ell) - 8 * b.eta ≤ M - M') :
     b.step ≤ M - M' := by
   have hη := b.eta_step
+  have hd := b.step_pos
   linarith
 
 /-- Uniform strict gain for all three reflected terminal branches. -/
