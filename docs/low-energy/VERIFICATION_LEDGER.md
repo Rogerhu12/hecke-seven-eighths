@@ -82,6 +82,12 @@ The completed batch retains 84/94 Built observations. Current source assessments
 > 
 > The separately staged ActualMarkedTupleEnergy patch addresses five real diagnostics from the complete cancelled round14 native archive. Both pending source versions require a new native run. All theorem statements, inputs, mathematical factors and strict verification gates remain unchanged.
 
+**Pending source update — 2026-10-31T14:39:53.491732+00:00** (run 41207973892; job 124557130675; source_head c737146cb860dcfd5b62355b5047408f9b45501f).
+
+`ActualTupleReconstruction`: current hashes updated; repairs await compilation. This note is diagnostic context only, with no completed-run or final-audit claim.
+
+> Round16 completed naturally on exact c737146cb860dcfd5b62355b5047408f9b45501f: real Lake exit 1 after 1802.12 seconds, no timeout; both final audits were not_started. The complete original native archive confirms ActualMarkedTupleEnergy Built (5.0s), ActualFrozenReconstruction Built (6.1s), and freshly Built Base, Theta, and TargetGaussian. Its only failed module is ActualTupleReconstruction, with ten diagnostics at executed lines 92,159,162,173,264,303,477,478,491,493. This pending Tuple-only repair uses local reducible rewrites, typed subtype transport and contraction equality, a normalized active guard and local M alias, explicitly ordered reconstruction premises, and True.intro for simplified zero equalities. Theorem statements, assumptions, coefficients, resource budgets and validation gates are unchanged. This is a candidate proof repair, not compiled or audited evidence. The complete outer GitHub job log was unavailable through the supported wrapper (Transport closed); the complete original native compiler archive and terminal metadata were saved separately. Historical archived evidence and the unchanged round11 comparison baseline are preserved.
+
 | Module | Current source SHA-256 | Current source evidence | Round 11 native observation |
 |---|---|---|---|
 | `HeckeSkeleton.LowEnergy.AnnularEnergy` | `5d1592104712b988144dd32b0783c3daa735c0f74545654345362f50fbd24748` | native_lake_built_source_match | Built |
@@ -172,7 +178,7 @@ The completed batch retains 84/94 Built observations. Current source assessments
 | `HeckeSkeleton.LowEnergy.ActualFrozenAggregation` | `c9d2d736cb4ee3648e3978c78396714e4278278612329f0cbf609231de9b863f` | changed_since_recorded_source | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualFrozenReconstruction` | `e75d895808f14994b5778a2322df09e2d202a6c40c3c890ec89c34fae80c5bb0` | changed_since_recorded_source | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy` | `384b2a21287a0e649e7712ab9d5cf4c276428aa1f72f3ca23a8d669bb79c7ec5` | changed_since_recorded_source | no_terminal_event |
-| `HeckeSkeleton.LowEnergy.ActualTupleReconstruction` | `b392756fdc165372d0bae7f1d938035bc839c45f341fe102baadf636f6ff5bd4` | changed_since_recorded_source | no_terminal_event |
+| `HeckeSkeleton.LowEnergy.ActualTupleReconstruction` | `5a576997ec2d071653189855f7ea88c494186c36015813ded97613d8b1c49b9a` | changed_since_recorded_source | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy` | `001887112b5907e1c7bb94d554053c22acd26a656670b04f9eb7ccb06e2b7901` | native_lake_no_terminal_event | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy` | `71dbbfa8c77ed1adef2041985ce38e9e5b36bcdee74934eae85f39aa0080003a` | native_lake_no_terminal_event | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy` | `8cdabc4e7694086af7fed2fc28be6a1799945229c838e831e9300fa0ca3fba3c` | native_lake_no_terminal_event | no_terminal_event |

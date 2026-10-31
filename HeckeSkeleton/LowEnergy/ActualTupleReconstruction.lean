@@ -89,12 +89,12 @@ theorem completedThetaSum_eq_fixedPhysicalRows
   letI : Fintype (MarkChoice K S d) :=
     Fintype.ofEquiv d.marks.powerset (subsetsEquiv K S d.marks).symm
   rw [completedThetaSum_eq_physical_atoms K S D hD F θ hreflection d V Y hY]
-  rw [← tsum_subsets_eq K S d.marks]
+  erw [← tsum_subsets_eq K S d.marks]
   simp only [tsum_fintype]
-  rw [Finset.sum_comm]
+  erw [Finset.sum_comm]
   apply Finset.sum_congr rfl
   intro A _
-  rw [fixedPhysicalRow, ← mul_assoc,
+  erw [fixedPhysicalRow, ← mul_assoc,
     mul_inv_cancel₀ (inactiveWeight_ne_zero K S (splitFixed K S d A)), one_mul,
     tsum_fintype]
 
@@ -156,7 +156,8 @@ theorem tuplePhysicalRow_zero_of_collision
     · have hbad : ¬InactiveRowGood K S (M \ A) (fun i => t i)
           (exteriorResidualPart K S x.1).val.val := by
         intro h
-        exact h ⟨i, Finset.mem_sdiff.mpr ⟨hiM, hiA⟩⟩ (hit.symm ▸ hpk)
+        apply h ⟨i, Finset.mem_sdiff.mpr ⟨hiM, hiA⟩⟩
+        simpa only [hit] using hpk
       simp [tuplePhysicalRow, hbad]
   · by_cases hiA : i ∈ A
     · have hbad : ¬ActiveGood K S (exteriorPowerfulPart K S x.1)
@@ -166,11 +167,13 @@ theorem tuplePhysicalRow_zero_of_collision
           rw [activeIdeal, exteriorSupport_primeSetIdeal]
           exact Finset.mem_image.mpr ⟨⟨i, hiA⟩, Finset.mem_univ _, hit⟩
         exact h p hpP hpf
+      simp only [activeIdeal_restrict] at hbad
       simp [tuplePhysicalRow, hbad]
     · have hbad : ¬InactiveGood K S (exteriorPowerfulPart K S x.1)
           (M \ A) (fun i => t i) := by
         intro h
-        exact h ⟨i, Finset.mem_sdiff.mpr ⟨hiM, hiA⟩⟩ (hit.symm ▸ hpf)
+        apply h ⟨i, Finset.mem_sdiff.mpr ⟨hiM, hiA⟩⟩
+        simpa only [hit] using hpf
       simp [tuplePhysicalRow, hbad]
 
 /-- Identifying the complete fixed-data record is what makes the extracted
@@ -261,7 +264,9 @@ theorem completedThetaSum_eq_slotPhysicalRows
     have hz := completedThetaSum_eq_zero_of_mark_overlap K S D θ
       (idealSectorElement K S D x).val (primeSetIdeal K S ∅) (M.image t)
       V.toFun (Y * exteriorNorm K S (subsetPrimeIdeal K S t M)) p hp
-    rw [idealSectorOrbit_contraction K S D x] at hz
+    have hcontr : sIntegerModulusContraction K S (idealSectorElement K S D x).val =
+        x.1.val.val := idealSectorOrbit_contraction K S D x
+    rw [hcontr] at hz
     rw [hz hpi]
     symm
     apply Finset.sum_eq_zero
@@ -340,7 +345,7 @@ theorem weightedThetaRow_eq_activeInactive
     funext (SlotTuples.fill_active J A hAM p a b)
   have hb' : (fun i : ↥(M \ A) => SlotTuples.fill J A p a b i) = b :=
     funext (SlotTuples.fill_inactive J A p a b)
-  simp only [H, ha', hb']
+  simp only [H, ha', hb', M]
 
 def annularTupleRow (x : ExteriorIdeal K S × SixthUnitClasses K S)
     (F : FiniteMellinData K S) (θ ψ : HeckeCharacter K)
@@ -465,13 +470,13 @@ theorem annularTupleRow_reconstruction [Finite (SixthLocalClasses K S)]
           ((2 : ℝ) ^ j)
           (activeIdealDyad_support K S g T (zero_lt_one.trans hZ) A j hPj).2.1
         have hd := selected_exponent_bounds g J
-        apply actual_frozen_row_reconstruction K S D F hF θ hKernel hθ hD hquadratic hcubic
+        refine actual_frozen_row_reconstruction K S D F hF θ hKernel hθ hD hquadratic hcubic
           hreflection f Z Klo ((2 : ℝ) ^ j) q ((J.card : ℝ) / (6 * g.slots))
           Ccut ((2 : ℝ) ^ g.slots) hZ hK (one_le_pow₀ (by norm_num)) hq hCut
           (by positivity) hd.1 hd.2 (IdealRows.powerfulPart_powerful x.1.val) rfl
           hselected hrow hwindow (activeIdealDyad K S g T Z A j) ?_
           (exteriorResidualPart K S x.1) (tupleDatum_row_admissible K S x _ b hgood hk)
-          hkr a
+          hkr a ?_
         · intro Q hQ
           have hs := activeIdealDyad_support K S g T (zero_lt_one.trans hZ) A j hQ
           exact ⟨hs.1, hs.2.1, hs.2.2.le⟩
@@ -488,9 +493,9 @@ theorem annularTupleRow_reconstruction [Finite (SixthLocalClasses K S)]
         intro j hj
         exact (hr j hj).2
     · simp only [frozenTupleRow, annularTupleRow, dif_pos hgood, if_neg hk, tsum_zero]
-      exact ⟨summable_zero, rfl⟩
+      exact ⟨summable_zero, True.intro⟩
   · simp only [frozenTupleRow, annularTupleRow, dif_neg hgood, tsum_zero]
-    exact ⟨summable_zero, rfl⟩
+    exact ⟨summable_zero, True.intro⟩
 
 /-- All original finite tuple sums may now be interchanged with the
 Gaussian series.  The supporting convergence is a conclusion of the

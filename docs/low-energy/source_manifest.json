@@ -41451,8 +41451,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction",
       "path": "HeckeSkeleton/LowEnergy/ActualTupleReconstruction.lean",
-      "source_sha256": "b392756fdc165372d0bae7f1d938035bc839c45f341fe102baadf636f6ff5bd4",
-      "bytes": 34899,
+      "source_sha256": "5a576997ec2d071653189855f7ea88c494186c36015813ded97613d8b1c49b9a",
+      "bytes": 35116,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": [],
@@ -41541,7 +41541,7 @@
           "evidence_kind": "native_lake_observation",
           "observed_lake_event": "no_terminal_event",
           "recorded_source_sha256": "9b6936640549aa01a807481159d296da64ef81c95a4a79c5e2d6da89db053f22",
-          "current_source_sha256": "b392756fdc165372d0bae7f1d938035bc839c45f341fe102baadf636f6ff5bd4",
+          "current_source_sha256": "5a576997ec2d071653189855f7ea88c494186c36015813ded97613d8b1c49b9a",
           "source_matches": false,
           "evidence": {
             "file": "docs/low-energy/native_lake_round11.json",
@@ -41687,6 +41687,36 @@
               "observed_lake_event": "no_terminal_event",
               "recorded_source_sha256": "9b6936640549aa01a807481159d296da64ef81c95a4a79c5e2d6da89db053f22",
               "current_source_sha256": "45c15eea1cf481c806970e6aaa6f658e897b21b0b2abbacb0d9c500d622752ec",
+              "source_matches": false,
+              "evidence": {
+                "file": "docs/low-energy/native_lake_round11.json",
+                "run_key": "41194215379:native-lake:13040671465",
+                "collection": "original_native_report.source_snapshot.sources",
+                "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction"
+              },
+              "scope": "Observed native event in the recorded round 11 batch, whose whole process exited 1. No per-module compiler exit or schema-2 receipt is inferred."
+            },
+            "matching_native_lake_built_observations": [],
+            "matching_supplied_successes": [],
+            "matching_preserved_historical_successes": [],
+            "unresolved_historical_invalidation": null,
+            "current_full_dependency_graph_verified": false,
+            "scope": "Current source changed after the recorded completed snapshot. The old native observation is retained as history; no success, process exit, or final-audit result is inferred for this repair."
+          }
+        },
+        {
+          "archived_at": "2026-10-31T14:39:53.491732+00:00",
+          "current_source_sha256": "b392756fdc165372d0bae7f1d938035bc839c45f341fe102baadf636f6ff5bd4",
+          "reason": "Pending source repair; diagnostic note is not proof evidence.",
+          "assessment": {
+            "assessment": "changed_since_recorded_source",
+            "checked_exact_source": false,
+            "latest_supplied_attempt": {
+              "run_key": "41194215379:native-lake:13040671465",
+              "evidence_kind": "native_lake_observation",
+              "observed_lake_event": "no_terminal_event",
+              "recorded_source_sha256": "9b6936640549aa01a807481159d296da64ef81c95a4a79c5e2d6da89db053f22",
+              "current_source_sha256": "b392756fdc165372d0bae7f1d938035bc839c45f341fe102baadf636f6ff5bd4",
               "source_matches": false,
               "evidence": {
                 "file": "docs/low-energy/native_lake_round11.json",
@@ -42995,28 +43025,28 @@
           "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction",
           "path": "HeckeSkeleton/LowEnergy/ActualTupleReconstruction.lean",
           "recorded_source_sha256": "9b6936640549aa01a807481159d296da64ef81c95a4a79c5e2d6da89db053f22",
-          "current_source_sha256": "b392756fdc165372d0bae7f1d938035bc839c45f341fe102baadf636f6ff5bd4",
-          "bytes": 34899
+          "current_source_sha256": "5a576997ec2d071653189855f7ea88c494186c36015813ded97613d8b1c49b9a",
+          "bytes": 35116
         }
       ],
       "scope": "Current source differences require subsequent CI. Partial diagnostics do not add completed successes or verify final targets."
     },
     "pending_source_refresh": {
-      "generated_at": "2026-10-31T13:56:59.048129+00:00",
+      "generated_at": "2026-10-31T14:39:53.491732+00:00",
       "changed_sources": [
         {
           "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction",
           "path": "HeckeSkeleton/LowEnergy/ActualTupleReconstruction.lean",
-          "previous_source_sha256": "45c15eea1cf481c806970e6aaa6f658e897b21b0b2abbacb0d9c500d622752ec",
-          "source_sha256": "b392756fdc165372d0bae7f1d938035bc839c45f341fe102baadf636f6ff5bd4",
-          "bytes": 34899
+          "previous_source_sha256": "b392756fdc165372d0bae7f1d938035bc839c45f341fe102baadf636f6ff5bd4",
+          "source_sha256": "5a576997ec2d071653189855f7ea88c494186c36015813ded97613d8b1c49b9a",
+          "bytes": 35116
         }
       ],
-      "diagnostic_note": "Round 15 partial evidence belongs to exact checkout 1d40e4275c82a259015e362220a2a0925caee056, run 41207139641, actual job 124554654875. ActualFrozenReconstruction now has a fresh Built event (6.3 seconds at 13:55:29 UTC), confirming the bounded scalar cancellation repair with the unchanged default heartbeat limit. This partial observation is not a completed full-graph or final-audit result.\n\nThe third localized erw in ActualTupleReconstruction is now composed with the following reflexivity step using <;> rfl. Any remaining goals must still close by reflexivity, while an already closed goal does not trigger a redundant-tactic error. This is a preventive elaboration adjustment; no compiler failure at this site has been observed.\n\nThe separately staged ActualMarkedTupleEnergy patch addresses five real diagnostics from the complete cancelled round14 native archive. Both pending source versions require a new native run. All theorem statements, inputs, mathematical factors and strict verification gates remain unchanged.\n",
+      "diagnostic_note": "Round16 completed naturally on exact c737146cb860dcfd5b62355b5047408f9b45501f: real Lake exit 1 after 1802.12 seconds, no timeout; both final audits were not_started. The complete original native archive confirms ActualMarkedTupleEnergy Built (5.0s), ActualFrozenReconstruction Built (6.1s), and freshly Built Base, Theta, and TargetGaussian. Its only failed module is ActualTupleReconstruction, with ten diagnostics at executed lines 92,159,162,173,264,303,477,478,491,493. This pending Tuple-only repair uses local reducible rewrites, typed subtype transport and contraction equality, a normalized active guard and local M alias, explicitly ordered reconstruction premises, and True.intro for simplified zero equalities. Theorem statements, assumptions, coefficients, resource budgets and validation gates are unchanged. This is a candidate proof repair, not compiled or audited evidence. The complete outer GitHub job log was unavailable through the supported wrapper (Transport closed); the complete original native compiler archive and terminal metadata were saved separately. Historical archived evidence and the unchanged round11 comparison baseline are preserved.\n",
       "diagnostic_context": {
-        "run": 41207139641,
-        "job": 124554654875,
-        "source_head": "1d40e4275c82a259015e362220a2a0925caee056"
+        "run": 41207973892,
+        "job": 124557130675,
+        "source_head": "c737146cb860dcfd5b62355b5047408f9b45501f"
       },
       "scope": "Caller-supplied diagnostic context only; no proof result or new completed run."
     }
@@ -43399,6 +43429,25 @@
         "run": 41207139641,
         "job": 124554654875,
         "source_head": "1d40e4275c82a259015e362220a2a0925caee056"
+      },
+      "scope": "Caller-supplied diagnostic context only; no proof result or new completed run."
+    },
+    {
+      "generated_at": "2026-10-31T14:39:53.491732+00:00",
+      "changed_sources": [
+        {
+          "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction",
+          "path": "HeckeSkeleton/LowEnergy/ActualTupleReconstruction.lean",
+          "previous_source_sha256": "b392756fdc165372d0bae7f1d938035bc839c45f341fe102baadf636f6ff5bd4",
+          "source_sha256": "5a576997ec2d071653189855f7ea88c494186c36015813ded97613d8b1c49b9a",
+          "bytes": 35116
+        }
+      ],
+      "diagnostic_note": "Round16 completed naturally on exact c737146cb860dcfd5b62355b5047408f9b45501f: real Lake exit 1 after 1802.12 seconds, no timeout; both final audits were not_started. The complete original native archive confirms ActualMarkedTupleEnergy Built (5.0s), ActualFrozenReconstruction Built (6.1s), and freshly Built Base, Theta, and TargetGaussian. Its only failed module is ActualTupleReconstruction, with ten diagnostics at executed lines 92,159,162,173,264,303,477,478,491,493. This pending Tuple-only repair uses local reducible rewrites, typed subtype transport and contraction equality, a normalized active guard and local M alias, explicitly ordered reconstruction premises, and True.intro for simplified zero equalities. Theorem statements, assumptions, coefficients, resource budgets and validation gates are unchanged. This is a candidate proof repair, not compiled or audited evidence. The complete outer GitHub job log was unavailable through the supported wrapper (Transport closed); the complete original native compiler archive and terminal metadata were saved separately. Historical archived evidence and the unchanged round11 comparison baseline are preserved.\n",
+      "diagnostic_context": {
+        "run": 41207973892,
+        "job": 124557130675,
+        "source_head": "c737146cb860dcfd5b62355b5047408f9b45501f"
       },
       "scope": "Caller-supplied diagnostic context only; no proof result or new completed run."
     }

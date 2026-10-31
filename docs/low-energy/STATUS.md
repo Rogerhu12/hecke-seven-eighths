@@ -134,6 +134,12 @@
 > 
 > The separately staged ActualMarkedTupleEnergy patch addresses five real diagnostics from the complete cancelled round14 native archive. Both pending source versions require a new native run. All theorem statements, inputs, mathematical factors and strict verification gates remain unchanged.
 
+**Pending source update — 2026-10-31T14:39:53.491732+00:00** (run 41207973892; job 124557130675; source_head c737146cb860dcfd5b62355b5047408f9b45501f).
+
+`ActualTupleReconstruction`: current hashes updated; repairs await compilation. This note is diagnostic context only, with no completed-run or final-audit claim.
+
+> Round16 completed naturally on exact c737146cb860dcfd5b62355b5047408f9b45501f: real Lake exit 1 after 1802.12 seconds, no timeout; both final audits were not_started. The complete original native archive confirms ActualMarkedTupleEnergy Built (5.0s), ActualFrozenReconstruction Built (6.1s), and freshly Built Base, Theta, and TargetGaussian. Its only failed module is ActualTupleReconstruction, with ten diagnostics at executed lines 92,159,162,173,264,303,477,478,491,493. This pending Tuple-only repair uses local reducible rewrites, typed subtype transport and contraction equality, a normalized active guard and local M alias, explicitly ordered reconstruction premises, and True.intro for simplified zero equalities. Theorem statements, assumptions, coefficients, resource budgets and validation gates are unchanged. This is a candidate proof repair, not compiled or audited evidence. The complete outer GitHub job log was unavailable through the supported wrapper (Transport closed); the complete original native compiler archive and terminal metadata were saved separately. Historical archived evidence and the unchanged round11 comparison baseline are preserved.
+
 ## 目标、假设与调用方
 
 目标的行、截断、标记权重与六次单位商均沿用原定义。结论仍为：
