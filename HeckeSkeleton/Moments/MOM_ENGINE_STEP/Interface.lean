@@ -482,6 +482,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectSecondTerminalAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectSecondSourceTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstSourceTerminalNonneg
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualNormalizedParentProduction
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectNormalizedChildren
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstDualTerminalWindows
 
 /-!
 # The unified child step of the paired fourth-moment engine
