@@ -22,6 +22,9 @@ LEAN_COMMIT = '470d5ce1400764999581fd26d5d72b00d990b0f4'
 MATHLIB_COMMIT = '0493595ecd5da8ef14742febab99728f98e948e8'
 PREFIX = 'HeckeSkeleton.Moments.EngineStep'
 MODULE_ROOT = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP'
+CORE_MODULES = [MODULE_ROOT + '.' + name for name in (
+    'Ledger', 'Pool', 'IdealPool', 'Coefficient', 'Capacity', 'WholeTransform',
+)]
 
 
 def main() -> int:
@@ -82,6 +85,11 @@ def main() -> int:
         'targets': args.modules, 'source_sha256': sources,
     }, indent=2) + '\n')
 
+    # Collect independent, smaller proof failures in one pass before starting
+    # the full arithmetic closure. Lake reuses these exact compiled artifacts
+    # for the interface build; this does not alter the final audit's scope.
+    if MODULE_ROOT + '.Interface' in args.modules:
+        run('core-build', ['lake', 'build', *('+' + module + ':olean' for module in CORE_MODULES)])
     # '+' disambiguates genuine module targets; :olean avoids unrelated binaries.
     run('build', ['lake', '--fail-fast', 'build', *('+' + module + ':olean' for module in args.modules)])
     audit = '\n'.join('import ' + module for module in args.modules) + '''
