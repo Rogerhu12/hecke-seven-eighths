@@ -161,7 +161,8 @@ theorem physicalInitialMellinTerm_eq_sheared [IsTotallyComplex K]
   · unfold tripleProfileKernel inverseMellinKernel
     rw [initial_shear_line]
     simp only [heightShear, MeasurableEquiv.coe_mk, Equiv.coe_fn_mk,
-      Matrix.cons_val_one, Matrix.cons_val_fin_one]
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      Matrix.cons_val_fin_one, Matrix.head_cons, Matrix.tail_cons]
     calc
       _ = ((physicalPoissonScalar K : ℂ) *
           thetaGamma K Sset P.arithmetic I.1.1 2 *
@@ -193,7 +194,9 @@ theorem integrable_physicalInitialMellinTerm (P : ProbeData K Sset)
     (X Y Z : ℝ) (hX : 0 < X) (hY : 0 < Y) (hZ : 0 < Z)
     (u : FrequencyRow K Sset) (I : FIdx) :
     Integrable (physicalInitialMellinTerm K S μv P ψ Q X Y Z u I) := by
-  simp_rw [physicalInitialMellinTerm_eq_sheared K S μv P ψ Q X Y Z hX hY hZ]
+  have hfun := funext
+    (physicalInitialMellinTerm_eq_sheared K S μv P ψ Q X Y Z hX hY hZ u I)
+  rw [hfun]
   apply Integrable.const_mul
   apply (integrable_heightShear_iff _).mpr
   exact integrable_tripleProfileKernel K S μv ν P _ _ _
@@ -210,13 +213,21 @@ theorem physicalPoissonTerm_eq_initial_integral (P : ProbeData K Sset)
     physicalPoissonTerm K S μv P ψ Q X Y Z hX u I =
       tripleMellinConstant * ∫ t : Fin 3 → ℝ,
         physicalInitialMellinTerm K S μv P ψ Q X Y Z u I t := by
-  rw [physicalPoissonTerm_eq_coefficient_profiles K S μv P ψ Q X Y Z hX hY]
-  rw [three_profiles_mellin_inversion_sheared K S μv ν P _ _ _
-    (div_pos (idealNorm_pos K _) hZ) (div_pos (idealNorm_pos K _) hY)
-    (mul_pos (div_pos hX (idealNorm_pos K _))
-      (mul_pos (idealNorm_pos K _) (pow_pos (idealNorm_pos K _) 6)))]
+  let L : ℝ := exteriorNorm K Sset (completedIdeal K Sset I.1.1 I.1.2) / Z
+  let D : ℝ := exteriorNorm K Sset I.2.1 / Y
+  let R : ℝ := X / exteriorNorm K Sset (completedIdeal K Sset I.1.1 I.1.2) *
+    (frequencyRowNorm K Sset u * exteriorNorm K Sset I.2.2 ^ 6)
+  have hL : 0 < L := div_pos (idealNorm_pos K _) hZ
+  have hD : 0 < D := div_pos (idealNorm_pos K _) hY
+  have hR : 0 < R := mul_pos (div_pos hX (idealNorm_pos K _))
+    (mul_pos (idealNorm_pos K _) (pow_pos (idealNorm_pos K _) 6))
+  have hinv := three_profiles_mellin_inversion_sheared K S μv ν P L D R hL hD hR
+  refine (physicalPoissonTerm_eq_coefficient_profiles K S μv P ψ Q X Y Z hX hY u I).trans ?_
+  refine (congrArg (fun value : ℂ => physicalPoissonCoefficient K S P ψ Q X Y u I * value)
+    hinv).trans ?_
   simp_rw [physicalInitialMellinTerm_eq_sheared K S μv P ψ Q X Y Z hX hY hZ]
   rw [integral_const_mul]
+  dsimp only [L, D, R]
   ring
 
 end Expansion.PhysicalInitialMellin

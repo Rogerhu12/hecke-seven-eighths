@@ -178,7 +178,7 @@ theorem compensatedInitialRowAt_absolute (P : ProbeData K Sset) (ψ : HeckeChara
   have he u t : compensatedInitialRowAt K S μv P ψ g T Z u t = outer u t / D := rfl
   constructor
   · intro u
-    simp_rw [he]
+    rw [funext (he u)]
     exact (ho u).div_const D
   · simp_rw [he, div_eq_mul_inv, norm_mul, integral_mul_const]
     exact hos.mul_right ‖D⁻¹‖
@@ -203,7 +203,10 @@ theorem actualInitialRows_absolute (P : ProbeData K Sset)
     (∀ u : FrequencyRow K Sset, Integrable (actualInitialRowAt K S μv P ψ g T Z u)) ∧
     Summable (fun u : FrequencyRow K Sset =>
       ∫ t : Fin 3 → ℝ, ‖actualInitialRowAt K S μv P ψ g T Z u t‖) := by
-  simp_rw [actualInitialRowAt_eq_compensated K S μv P hP ψ hcal hψ]
+  have he (u : FrequencyRow K Sset) :
+      actualInitialRowAt K S μv P ψ g T Z u = compensatedInitialRowAt K S μv P ψ g T Z u :=
+    funext (actualInitialRowAt_eq_compensated K S μv P hP ψ hcal hψ g T Z u)
+  simp_rw [he]
   exact compensatedInitialRowAt_absolute K S μv ν P ψ g T hZ
 
 include ν in

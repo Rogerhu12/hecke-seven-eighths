@@ -62,7 +62,7 @@ theorem physicalRecipeParameters_nonempty
       μ windowCharacters lam ζ eCap) := by
   obtain ⟨e, width, ceiling, k, he, hw, heSmall, heLam, heCap', hbuffer, hwidthCap,
       hc, hk, hsource⟩ :=
-    exists_physical_recipe_parameters K S P ω ψ g E hψ hB0 hB hbound
+    exists_bounded_physical_recipe_parameters K S P ω ψ g E hψ hB0 hB hbound
       μ windowCharacters hcomplex lam ζ hlam hlamSmall hζ eCap heCap
   exact ⟨⟨e, width, ceiling, k, he, hw, heSmall, heLam, heCap', hbuffer, hwidthCap,
     hc, hk, hsource⟩⟩
