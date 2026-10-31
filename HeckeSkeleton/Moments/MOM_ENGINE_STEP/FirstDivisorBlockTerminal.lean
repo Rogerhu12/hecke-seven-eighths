@@ -70,9 +70,10 @@ private theorem original_allowance_power_cancel
       congr 2
       ring
 
-/-- A scalar calculation used only after both actual side bounds and
-the original row-profile estimate have already been proved. -/
-private theorem original_terminal_class_scalar
+/-- The same literal first-allowance scalar calculation for the direct
+and amplified entrances.  Both actual side bounds and the original
+row-profile estimate are proved before this lemma is applied. -/
+theorem original_terminal_class_scalar
     (Z parentWidth NL NR row mob phase mass massBound left right CL CR
       divisorNorm loss amplitude commonWeight : ℝ)
     (hZ : 0 < Z) (hNL : 0 < NL) (hNR : 0 < NR)
