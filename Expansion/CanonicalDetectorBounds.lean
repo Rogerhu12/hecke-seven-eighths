@@ -53,7 +53,7 @@ def canonicalDetectorConductorConstant : ℝ :=
 theorem canonicalDetectorConductorConstant_ge_one :
     1 ≤ canonicalDetectorConductorConstant K S ψ := by
   unfold canonicalDetectorConductorConstant
-  positivity
+  exact le_add_of_nonneg_right (by positivity)
 
 theorem row_conductorScale_le_original_norm (u : FrequencyRow K S) :
     heckeConductorScale K (E.rows.character u) ≤

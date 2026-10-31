@@ -114,7 +114,11 @@ theorem exists_actual_normalized_buffered_scale_bound
         contourMajorant B B (initialMass K) CW (2 - a - 6 * e)
           (U ^ r) β (a + 6 * e) H N := by
     simpa only [centralShift_re, contourMajorant, B, CW] using hnormalized
-  convert hraw'.trans hbudget using 1 <;> dsimp only [C] <;> congr 2 <;> ring
+  have hmainexp : (2 * ε + heightDegree K * ε * θ) + (a + 6 * e - 1 / 2) * r =
+      (a - 1 / 2 + 6 * e) * r + (2 * ε + heightDegree K * ε * θ) := by ring
+  have hhorizontalexp : (2 * ε + heightDegree K * ε * θ) + 3 / 2 * r - τ * N =
+      3 / 2 * r + (2 * ε + heightDegree K * ε * θ) - τ * N := by ring
+  simpa only [C, hmainexp, hhorizontalexp] using hraw'.trans hbudget
 
 /-- The plain polynomial also has the reflected exponent. Its constant is
 chosen before the abscissa, so the gain remains uniform over buffered bins. -/
@@ -202,7 +206,14 @@ theorem exists_actual_normalized_reflected_scale_bound
         contourMajorant BL BR (initialMass K) CW (1 + a + 6 * e)
           (U ^ r) β (1 - a - 6 * e) H N := by
     simpa only [centralShift_re, contourMajorant, BL, BR, CW] using hnormalized
-  convert hraw'.trans hbudget using 1 <;> dsimp only [C] <;> congr 2 <;> ring
+  have hmainexp :
+      (a - 1 / 2 + 12 * e + 2 * ε + heightDegree K * θ * (1 + ε)) +
+          (1 - a - 6 * e - 1 / 2) * r =
+      (a - 1 / 2) * (1 - r) + 12 * e - 6 * e * r + 2 * ε +
+          heightDegree K * θ * (1 + ε) := by ring
+  have hhorizontalexp : (3 / 4 + ε + heightDegree K * θ) + 3 / 2 * r - τ * N =
+      3 / 2 * r + (3 / 4 + ε + heightDegree K * θ) - τ * N := by ring
+  simpa only [C, hmainexp, hhorizontalexp] using hraw'.trans hbudget
 
 /-- Uniform squared bounds for the actual inverse and plain detector
 polynomials. The displayed small-loss conditions are purely numerical;

@@ -1,5 +1,11 @@
 import Mathlib.Analysis.Normed.Group.Constructions
-import Mathlib.Tactic
+import Mathlib.Data.Fin.VecNotation
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.FinCases
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Positivity
+import Mathlib.Tactic.Ring
 
 /-!
 # Fixed six-dimensional witness parameters with the original height box
