@@ -172,7 +172,7 @@ theorem principal_physical_norm_le_profile_mass (B : ActualFiniteSource.PrimeBlo
             mul_pos R.property (sIntegerOrbitNorm K Sset Γ q).property⟩‖ := by
     unfold ActualMaskedPoissonBlock.orbitalTerm
     rw [hw, mul_one, norm_mul]
-    simpa only [one_mul] using mul_le_mul_of_nonneg_right
+    simpa only [one_mul, b, PrimitivePoissonSource.block] using mul_le_mul_of_nonneg_right
       (norm_sIntegerOrbitAvoidanceMask_le_one K Sset Γ b.mask q) (norm_nonneg _)
   change ‖b.physical‖ ≤ _
   rw [b.physical_eq_tsum]

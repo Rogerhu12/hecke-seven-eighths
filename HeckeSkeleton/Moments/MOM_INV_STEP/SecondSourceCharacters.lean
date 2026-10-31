@@ -63,7 +63,7 @@ theorem left_character (x₁ x₂ : Ext) (a : OS) :
     intro p hp
     rw [left_digit K S D x₁ x₂ e e p (Finset.mem_filter.mp hp).1]
     rfl
-  simpa only [pow_one] using primitiveCoefficient_uniform K S D
+  simpa only [pow_one, leftIdeal] using primitiveCoefficient_uniform K S D
     (leftBlock K S D x₁ x₂ e e) (pairExponent K S x₁ x₂ e e) 1 ht a
 
 theorem right_character (x₁ x₂ : Ext) (a : OS) :
@@ -112,6 +112,7 @@ theorem divisor_fourier_split (x₁ x₂ : Ext) (d k : OS) :
       primitiveGauss K S D (pairSupport K S D x₁ x₂ e e) (pairExponent K S x₁ x₂ e e) := by
   rw [PrimitiveFourier.divisor_fourier, primitive_character, primitive_character,
     star_mul, star_star]
+  ring
 
 def decoration (n j : Ext) (d : OS) : ℂ :=
   idealSymbol K Sset D n d * idealSymbol K Sset D n (D.generator j) ^ 4
@@ -197,8 +198,8 @@ theorem second_label_squarefree (x₁ x₂ j : Ext) (d : OS) (hj : Squarefree j.
     (d₂ : Ideal (𝓞 K)) (hd₂ : d₂ ∣ (ActualInverseFactors.common K Sset x₁ x₂).val.val)
     (hlive : commonZero K S (ActualInverseFactors.common K Sset x₁ x₂) j d ≠ 0) :
     Squarefree (j.val.val * d₂) := by
-  have hc := (commonZero_coprime K S (ActualInverseFactors.common K Sset x₁ x₂) j d hlive)
-    .of_isCoprime_of_dvd_left hd₂
+  have hc := (commonZero_coprime K S
+    (ActualInverseFactors.common K Sset x₁ x₂) j d hlive).of_isCoprime_of_dvd_left hd₂
   exact squarefree_mul_iff.mpr ⟨hc.symm.isRelPrime, hj,
     (ActualInverseFactors.common_squarefree K Sset x₁ x₂).squarefree_of_dvd hd₂⟩
 

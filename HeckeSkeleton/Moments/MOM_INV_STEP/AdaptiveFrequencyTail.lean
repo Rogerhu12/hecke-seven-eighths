@@ -95,10 +95,10 @@ theorem exists_tail_bound
   refine ⟨hs', ?_⟩
   change ‖∑' q, f (e q)‖ ≤ _
   rw [e.tsum_eq f]
-  have hcurrent : Rmax + tau * (1 - A) ≤ -saving :=
-    (add_le_add_left (mul_le_mul_of_nonpos_right htau
-      (show 1 - A ≤ 0 by linarith)) Rmax).trans
-      (horder.trans (neg_le_neg hsave))
+  have hcurrent : Rmax + tau * (1 - A) ≤ -saving := by
+    have hmul : tau * (1 - A) ≤ tauMin * (1 - A) :=
+      mul_le_mul_of_nonpos_right htau (show 1 - A ≤ 0 by linarith)
+    linarith
   apply hb.trans
   calc
     _ = (W * C * SchwartzMap.seminorm ℂ m 0 φ) *

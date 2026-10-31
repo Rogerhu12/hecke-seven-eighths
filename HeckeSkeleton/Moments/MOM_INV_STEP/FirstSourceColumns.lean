@@ -62,7 +62,6 @@ theorem extractedFactor_val (n₁ n₂ b₁ b₂ : Ext) (side : Bool) :
   change (CanonicalCubeLabels.A K S b₁ b₂
     (squarefreeBit K S (sourceIdeal K S n₁ n₂ side))).val.val *
       (commonIdeal K S n₁ n₂ b₁ b₂).val.val = _
-  dsimp only [squarefreeBit]
   rw [CanonicalCubeLabels.A_val_eq_extracted, commonIdeal_val, commonResidualIdeal_eq_C]
 
 theorem source_factorization (n₁ n₂ b₁ b₂ : Ext)
@@ -131,7 +130,6 @@ theorem extracted_coprime_residual (n₁ n₂ b₁ b₂ : Ext)
   have hd : (CanonicalCubeLabels.A K S b₁ b₂
       (squarefreeBit K S (sourceIdeal K S n₁ n₂ side))).val.val ∣
       (b₁.val.val * b₂.val.val).radical := by
-    dsimp only [squarefreeBit]
     rw [CanonicalCubeLabels.A_val_eq_gcd K S (sourceIdeal K S n₁ n₂ side) b₁ b₂ hn]
     exact gcd_dvd_right _ _
   exact ((residual_coprime_cube K S D n₁ n₂ b₁ b₂ side).symm.of_isCoprime_of_dvd_left hd).mul_left
@@ -226,7 +224,8 @@ theorem source_column (hallowed : AllowedGeneratorInput K Sset D)
   rw [hf]
   convert hc' using 1 <;>
     simp only [CanonicalCubeLabels.crt, CanonicalCubeLabels.J, CanonicalCubeLabels.q0,
-      CanonicalCubeLabels.dilation, CanonicalIdealRow.generator] <;> ring
+      CanonicalCubeLabels.dilation, CanonicalIdealRow.generator,
+      CanonicalIdealRow.toExterior_val] <;> ring
 
 /-- The same genuine column identity keeps an arbitrary mask-divisor
 character in the moving residual column. It is never made an outer scalar. -/
