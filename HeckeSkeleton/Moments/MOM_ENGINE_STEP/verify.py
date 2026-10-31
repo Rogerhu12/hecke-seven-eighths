@@ -3,8 +3,10 @@
 
 Run from a normal pinned checkout after the mathlib cache has been restored.
 All outputs belong to a caller-selected evidence directory, intended for an
-Actions artifact. This script uses Lake's ordinary dependency build and does
-not alter any proof source, package option, toolchain, or trusted declaration.
+Actions artifact. Builds use Lake or the existing strict source/object cache
+verifier; every cache miss is compiled from its real source with the pinned
+compiler and package options. The final namespace audit is always compiled
+afresh. No proof source, package option, or trusted declaration is altered.
 """
 from __future__ import annotations
 import argparse
@@ -13,6 +15,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -35,6 +38,8 @@ def main() -> int:
     parser.add_argument('--evidence', type=Path, default=Path('mom-engine-step-verification'))
     parser.add_argument('--declaration', action='append', default=[], help='Also emit #print axioms for this declaration')
     parser.add_argument('--serial-build', action='store_true', help='Build the requested modules in order before the combined axiom audit')
+    parser.add_argument('--checked-project-cache', action='store_true',
+                        help='Use the existing strict source/import/options/object verifier and compile every cache miss from its real source')
     args = parser.parse_args()
     repo = args.repo.resolve()
     evidence = args.evidence.resolve()
@@ -49,13 +54,13 @@ def main() -> int:
             raise SystemExit(f'Unexpected task declaration: {declaration}')
     results = []
 
-    def run(name: str, command: list[str]) -> str:
+    def run(name: str, command: list[str], env: dict | None = None) -> str:
         start = time.monotonic()
         with (evidence / (name + '.log')).open('w') as log:
             log.write(json.dumps({'command': command, 'cwd': str(repo)}) + '\n')
             log.flush()
             process = subprocess.Popen(command, cwd=repo, stdout=subprocess.PIPE,
-                                       stderr=subprocess.STDOUT, text=True)
+                                       stderr=subprocess.STDOUT, text=True, env=env)
             assert process.stdout is not None
             output = []
             for line in process.stdout:
@@ -84,20 +89,38 @@ def main() -> int:
     (evidence / 'environment.json').write_text(json.dumps({
         'commit': head, 'lean': version.strip(), 'mathlib': mathlib,
         'targets': args.modules, 'source_sha256': sources,
+        'build_backend': 'checked-source-object-cache' if args.checked_project_cache else 'lake',
     }, indent=2) + '\n')
+
+    def build(name: str, modules: list[str], fail_fast: bool = True) -> None:
+        if args.checked_project_cache:
+            verifier = repo / 'scripts/verify_low_hybrid_exterior.py'
+            environment = dict(os.environ)
+            environment['WIRE_BUILD_WORKERS'] = '1'
+            try:
+                run(name, [sys.executable, '-u', str(verifier), *modules], environment)
+            finally:
+                # The existing verifier updates these summaries on each call.
+                # Preserve every stage's full records, including on failure.
+                for item in ('environment.json', 'results.json'):
+                    source = repo / 'wire-low-hybrid-verification' / item
+                    if source.is_file():
+                        shutil.copyfile(source, evidence / (name + '-project-' + item))
+        else:
+            command = ['lake', *(['--fail-fast'] if fail_fast else []), 'build']
+            run(name, [*command, *('+' + module + ':olean' for module in modules)])
 
     # Collect independent, smaller proof failures in one pass before starting
     # the full arithmetic closure. Lake reuses these exact compiled artifacts
     # for the interface build; this does not alter the final audit's scope.
     if MODULE_ROOT + '.Interface' in args.modules:
-        run('core-build', ['lake', 'build', *('+' + module + ':olean' for module in CORE_MODULES)])
+        build('core-build', CORE_MODULES, fail_fast=False)
     # '+' disambiguates genuine module targets; :olean avoids unrelated binaries.
     if args.serial_build:
         for index, module in enumerate(args.modules, 1):
-            run(f'build-{index}-{module.rsplit(".", 1)[-1]}',
-                ['lake', '--fail-fast', 'build', '+' + module + ':olean'])
+            build(f'build-{index}-{module.rsplit(".", 1)[-1]}', [module])
     else:
-        run('build', ['lake', '--fail-fast', 'build', *('+' + module + ':olean' for module in args.modules)])
+        build('build', args.modules)
     audit = '\n'.join('import ' + module for module in args.modules) + '''
 import Lean.Elab.Command
 import Lean.Util.CollectAxioms
@@ -123,7 +146,18 @@ run_cmd do
     audit += '\n'.join('#print axioms ' + name for name in args.declaration) + '\n'
     audit_file = evidence / 'AxiomAudit.lean'
     audit_file.write_text(audit)
-    output = run('axioms', ['lake', 'env', 'lean', str(audit_file)])
+    if args.checked_project_cache:
+        # Match the verifier's precedence exactly: verified project objects,
+        # including vendored modules, precede ordinary package build paths.
+        compiler = run('audit-compiler', ['lake', 'env', 'which', 'lean']).strip()
+        raw_path = run('audit-import-path', ['lake', 'env', 'printenv', 'LEAN_PATH']).strip()
+        project_out = (repo / '.lake/build/lib/lean').resolve()
+        other_paths = [(repo / path).resolve() for path in raw_path.split(os.pathsep)]
+        audit_env = dict(os.environ)
+        audit_env['LEAN_PATH'] = os.pathsep.join(map(str, [project_out] + [p for p in other_paths if p != project_out]))
+        output = run('axioms', [compiler, '-j1', str(audit_file)], audit_env)
+    else:
+        output = run('axioms', ['lake', 'env', 'lean', str(audit_file)])
     if 'MOM_ENGINE_STEP AXIOM AUDIT PASSED:' not in output:
         raise SystemExit('The axiom audit success marker is missing')
     for relative, digest in sources.items():

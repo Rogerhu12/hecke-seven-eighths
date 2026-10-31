@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: mom-engine-step-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}-${{ github.event.pull_request.head.sha || github.sha }}
@@ -56,6 +57,18 @@ jobs:
           lint: 'false'
           use-mathlib-cache: 'true'
           use-github-cache: 'true'
+      - name: Overlay the saved arithmetic dependencies for the full interface
+        if: ${{ matrix.lane == 'interface' }}
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-arithmetic-${{ github.event.pull_request.head.sha || github.sha }}-read-only
+          restore-keys: |
+            mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-arithmetic-${{ github.event.pull_request.head.sha || github.sha }}-
+            mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-arithmetic-
+            mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-04cc5c645c7f79bb19439b6f8fddbc7fd820882e-arithmetic-
       - name: Restore project build artifacts
         id: project-cache
         uses: actions/cache/restore@v4
@@ -63,10 +76,20 @@ jobs:
           path: |
             .lake/build
             vendor/class-field-theory/.lake/build
-          key: mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}-${{ matrix.lane }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.lane }}-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
-            mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}-
+            mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.lane }}-${{ github.event.pull_request.head.sha || github.sha }}-
+            mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.lane }}-
+            mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-04cc5c645c7f79bb19439b6f8fddbc7fd820882e-${{ matrix.lane }}-
             mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+      - name: Seed the strict verifier from the pinned successful project checkpoint
+        continue-on-error: true
+        timeout-minutes: 10
+        env:
+          MOM_CHECKPOINT_TOKEN: ${{ github.token }}
+        run: |
+          python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/checkpoint.py \
+            --evidence mom-engine-step-verification
       - name: Compile assigned modules and audit their complete task namespace
         env:
           MOM_PROOF_LANE: ${{ matrix.lane }}
@@ -78,11 +101,13 @@ jobs:
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT \
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualPool \
               --serial-build \
+              --checked-project-cache \
               --namespace HeckeSkeleton.Moments.EngineStep \
               --evidence mom-engine-step-verification
           else
             python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.Interface \
+              --checked-project-cache \
               --namespace HeckeSkeleton.Moments.EngineStep \
               --evidence mom-engine-step-verification
           fi
@@ -91,7 +116,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mom-engine-step-verification-${{ matrix.lane }}-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
-          path: mom-engine-step-verification/
+          path: |
+            mom-engine-step-verification/
+            wire-low-hybrid-verification/
           if-no-files-found: error
           retention-days: 14
       - name: Preserve completed dependency builds after proof failures

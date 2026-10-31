@@ -43,7 +43,7 @@ theorem remaining_capacity {ι : Type*} [DecidableEq ι]
     nlinarith
 
 /-- A single choice of removed slots works simultaneously for every row. -/
-theorem capacity_removal_step {ι : Type*} [DecidableEq ι]
+theorem capacity_removal_step {ι : Type*} [inst : DecidableEq ι]
     (live : Finset ι) (length : ι → ℝ) (n₁ n₂ width κ mesh Δ err : ℝ)
     (hκ : 0 < κ) (hmesh : 0 ≤ mesh)
     (hL : ∀ i ∈ live, 0 ≤ length i) (hLm : ∀ i ∈ live, length i ≤ mesh)
@@ -55,6 +55,8 @@ theorem capacity_removal_step {ι : Type*} [DecidableEq ι]
         ‖∏ i ∈ live, Q i‖ ^ 2 ≤
           (∏ i ∈ removed, C i) * Z ^ (Δ + err / 6 + κ * mesh) *
             ‖∏ i ∈ live \ removed, Q i‖ ^ 2 := by
+  have hinst : inst = Classical.decEq ι := Subsingleton.elim _ _
+  cases hinst
   obtain ⟨removed, hR, hpay, hbound⟩ := HeckePort.Moments.actual_product_removal
     live length mesh κ (capacityDefect live length n₁ n₂ width κ) hmesh hκ
     (capacityDefect_nonneg _ _ _ _ _ _) hL hLm
