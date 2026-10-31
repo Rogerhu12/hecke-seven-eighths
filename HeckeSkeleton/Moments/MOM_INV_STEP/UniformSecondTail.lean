@@ -38,7 +38,7 @@ theorem externalMask_unit : externalMask K S e = ∅ := by
   apply Finset.eq_empty_iff_forall_notMem.mpr
   intro P hP
   obtain ⟨p, hp, rfl⟩ := Finset.mem_image.mp hP
-  have hdiv := (FirstSourceDecomposition.mem_primeSupport e.val p.val).mp p.property
+  have hdiv := (FirstSourceDecomposition.mem_primeSupport (unitIdeal K S).val p.val).mp p.property
   exact p.val.prime.not_dvd_one (by simpa only [unitIdeal_val] using hdiv)
 
 variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
@@ -64,11 +64,12 @@ theorem exists_second_mask_bound :
   obtain ⟨A, hA, hb⟩ := MaskCounting.exists_actual_pair_mask_bound K S D 1 (by norm_num)
   refine ⟨A, hA, ?_⟩
   intro x₁ x₂
-  have hQ : ∀ p ∈ FirstSourceDecomposition.primeSupport e.val, p ∉ Sset :=
-    fun p hp => e.property p ((FirstSourceDecomposition.mem_primeSupport e.val p).mp hp)
-  have h := hb (FirstSourceDecomposition.primeSupport e.val) hQ e.val.val
-    (nonZeroDivisors.coe_ne_zero e.val)
-    (fun p hp => (FirstSourceDecomposition.mem_primeSupport e.val p).mp hp) x₁ x₂ e e
+  have hQ : ∀ p ∈ FirstSourceDecomposition.primeSupport (unitIdeal K S).val, p ∉ Sset :=
+    fun p hp => (unitIdeal K S).property p
+      ((FirstSourceDecomposition.mem_primeSupport (unitIdeal K S).val p).mp hp)
+  have h := hb (FirstSourceDecomposition.primeSupport (unitIdeal K S).val) hQ
+    (unitIdeal K S).val.val (nonZeroDivisors.coe_ne_zero (unitIdeal K S).val)
+    (fun p hp => (FirstSourceDecomposition.mem_primeSupport (unitIdeal K S).val p).mp hp) x₁ x₂ e e
   change (2 : ℝ) ^ (externalMask K S e ∪ principalMask K S
     (pairSupport K S D x₁ x₂ e e) (pairExponent K S x₁ x₂ e e)).card ≤ _ at h
   simpa only [externalMask_unit, Finset.empty_union, unitIdeal_val,
@@ -158,6 +159,15 @@ theorem exists_inverse_tail_bound_uniform
         ‖dualTail K S D Γ μv (SecondPoissonSplit.pairBlock K S D Γ hΓ x φ h hlc hcs ρ)
           (Z ^ (R + tau))‖ ≤ (Am * X ^ 2) * U := by
       apply (dualTail_norm_le K S D Γ μv _ _ U hU ?_).trans
+      · apply mul_le_mul_of_nonneg_right _ hU
+        change (2 : ℝ) ^ (∅ ∪ principalMask K S (pairSupport K S D x.1 x.2 e e)
+          (pairExponent K S x.1 x.2 e e)).card ≤ Am * X ^ 2
+        rw [Finset.empty_union]
+        apply (hm x.1 x.2).trans
+        rw [pow_two]
+        gcongr
+        · exact hn x.1 hx₁
+        · exact hn x.2 hx₂
       · intro δ hδ
         apply ht (pairSupport K S D x.1 x.2 e e) (pairExponent K S x.1 x.2 e e)
           φ ∅ ρ δ Z R tau saving hZ hR hRR htau hsaving hss
@@ -176,15 +186,6 @@ theorem exists_inverse_tail_bound_uniform
                 (pairExponent K S x.1 x.2 e e)).absNorm : ℝ)) := by ring
           _ ≤ ρ.val * X ^ 2 := mul_le_mul_of_nonneg_left (hd.trans hnprod) ρ.property.le
           _ ≤ _ := hbudget
-      · apply mul_le_mul_of_nonneg_right _ hU
-        change (2 : ℝ) ^ (∅ ∪ principalMask K S (pairSupport K S D x.1 x.2 e e)
-          (pairExponent K S x.1 x.2 e e)).card ≤ Am * X ^ 2
-        rw [Finset.empty_union]
-        apply (hm x.1 x.2).trans
-        rw [pow_two]
-        gcongr
-        · exact hn x.1 hx₁
-        · exact hn x.2 hx₂
     rw [norm_mul]
     exact (mul_le_mul hw htail (norm_nonneg _) (sq_nonneg _)).trans_eq (by ring)
   have hcT : ((C.columns γ).card : ℝ) ≤ Ai * X := by

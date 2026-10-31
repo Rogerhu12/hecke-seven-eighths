@@ -285,7 +285,7 @@ theorem boxedTotal_le_principal_add_tail
         (Real.rpow_nonneg (R i.1).property.le _))
       (mul_nonneg hscalarCost (Real.rpow_nonneg hZ.le _))
     have hh := mul_le_mul_of_nonneg_right hgeom (mobiusWeight_nonneg K S D T i)
-    convert hh using 1 <;> unfold FirstNormalizedSource.weight <;> ring
+    convert hh using 1 <;> simp only [FirstNormalizedSource.weight] <;> ring
   have hterm (i : Idx) (hi : i ∈ I) (J : Finset σ) :
       FirstNormalizedSource.weight K S D T grid R massEps ε Z r ell V (assigned i) i *
         ‖mark K S D T side i J‖ ^ 2 *
@@ -293,7 +293,7 @@ theorem boxedTotal_le_principal_add_tail
           Θ ψ G hν hG hbase W hW m i J ≤
       (scalarCost * weightCost * Z ^ kappa) *
         (mobiusWeight K S D T i * ‖mark K S D T side i J‖ ^ 2 * (p i J + t i J)) := by
-    have hw := mul_le_mul_of_nonneg_right (hs i hi) (sq_nonneg (mark K S D T side i J))
+    have hw := mul_le_mul_of_nonneg_right (hs i hi) (sq_nonneg ‖mark K S D T side i J‖)
     have hh := mul_le_mul hw (hav i hi J)
       (assignedErrorAverage_nonneg K S D Γ hΓ μv T grid centers side R Z tau
         Θ ψ G hν hG hbase W hW m i J)
@@ -301,16 +301,16 @@ theorem boxedTotal_le_principal_add_tail
         (mul_nonneg (mul_nonneg (mul_nonneg hscalarCost hweightCost)
           (Real.rpow_nonneg hZ.le kappa))
           (mul_nonneg (mobiusWeight_nonneg K S D T i)
-            (sq_nonneg (mark K S D T side i J)))))
+            (sq_nonneg ‖mark K S D T side i J‖))))
     exact hh.trans_eq (by ring)
-  have hsum := Finset.sum_le_sum (fun i hi =>
-    Finset.sum_le_sum (fun J hJ => hterm i hi J))
+  have hsum := Finset.sum_le_sum (s := I) (fun i hi =>
+    Finset.sum_le_sum (s := T.columns.slots.powerset) (fun J _hJ => hterm i hi J))
   apply (mul_le_mul_of_nonneg_left hsum (outerCoefficient_nonneg K S T W hW)).trans_eq
   unfold FirstErrorPhysicalBudget.principalTotal FirstErrorTailBudget.tailTotal
     FirstActualErrorTotal.centerPairs outerCoefficient
   dsimp only [p, t]
-  simp only [Finset.mul_sum, Finset.sum_add_distrib, mul_add]
-  ring
+  simp only [Finset.mul_sum, Finset.sum_add_distrib, mul_add,
+    mul_assoc, mul_left_comm, mul_comm]
 
 variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)] [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
   (ν : Measure (FiniteAdeleRing (𝓞 K) K)) [ν.IsAddHaarMeasure]

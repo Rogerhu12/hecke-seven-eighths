@@ -187,6 +187,7 @@ variable (A Z M r ell V h tau : ℝ) (hA : 1 ≤ A) (hZ : 1 < Z)
 local notation "Rcap" => FirstOuterPhysicalCap.radius K S D Γ T hmask
   Z (boxCap A) M r ell V h tau (zero_lt_one.trans hZ)
 
+include hA hZ in
 theorem radius_exponent_bounds
     (hM : M ∈ Set.Icc (0 : ℝ) A) (hr : r ∈ Set.Icc (0 : ℝ) A)
     (hell : ell ∈ Set.Icc (0 : ℝ) A) (hV : V ∈ Set.Icc (0 : ℝ) A)
@@ -208,6 +209,7 @@ theorem radius_exponent_bounds
   constructor <;> linarith [hM.1, hM.2, hr.1, hr.2, hell.1, hell.2,
     hV.1, hV.2, hh.1, hh.2, htau.1, htau.2]
 
+include hA in
 theorem inverse_radius_le
     (hM : M ∈ Set.Icc (0 : ℝ) A) (hr : r ∈ Set.Icc (0 : ℝ) A)
     (hell : ell ∈ Set.Icc (0 : ℝ) A) (hV : V ∈ Set.Icc (0 : ℝ) A)
@@ -224,6 +226,7 @@ theorem inverse_radius_le
   rw [← Real.rpow_neg (zero_lt_one.trans hZ).le]
   exact Real.rpow_le_rpow_of_exponent_le hZ.le (by linarith)
 
+include hA in
 theorem first_weight_cost (pi : ℝ)
     (choice : UniformFirstWeightChoice.Choice K S D (2 * A) (32 * boxCap A) pi)
     (hM : M ∈ Set.Icc (0 : ℝ) A) (hr : r ∈ Set.Icc (0 : ℝ) A)

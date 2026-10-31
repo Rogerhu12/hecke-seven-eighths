@@ -54,9 +54,17 @@ theorem exists_seminorm_majorant (q : Finset (ℕ × ℕ)) :
 
 /-- The production density is exactly the density in the Mellin
 moment ledger, including its negative half-power test. -/
+theorem actual_mellinDensity_eq (s : ℝ) :
+    SecondMellinEnergy.mellinDensity (SecondProductionIntegral.mellinTest s)
+      (SecondProductionIntegral.mellinTest_support s) =
+        secondDensity (-(1 / 2 : ℝ)) s := by
+  simp only [SecondMellinEnergy.mellinDensity, SecondProductionIntegral.mellinTest,
+    secondDensity, secondTest, neg_div]
+
 theorem jointDensity_eq (s : ℝ) (k : ℕ) (p : LogPlane × ℝ) :
     SecondProductionIntegral.jointDensity s k p =
-      frequencyEnvelope k p.1 * ‖secondDensity (-(1 / 2 : ℝ)) s p.2‖ := rfl
+      frequencyEnvelope k p.1 * ‖secondDensity (-(1 / 2 : ℝ)) s p.2‖ := by
+  simp only [SecondProductionIntegral.jointDensity, actual_mellinDensity_eq]
 
 theorem joint_polynomial_integrable (s : ℝ) (k : ℕ) (B : ℝ)
     (L : LogPlane →L[ℝ] ℝ) :
@@ -366,8 +374,7 @@ theorem cauchyMass_eq (T : FirstParentEnergy.Data K S (σ := σ))
     SecondProductionIntegral.cauchyMass K S T J s =
       (((T.columns.slots \ J).powerset.card : ℝ) * moment (-(1 / 2 : ℝ)) s 0) := by
   simp only [SecondProductionIntegral.cauchyMass, SecondMellinEnergy.mellinMass,
-    moment, pow_zero, one_mul]
-  rfl
+    actual_mellinDensity_eq, moment, pow_zero, one_mul]
 
 theorem actual_cauchy_polynomial_eq (T : FirstParentEnergy.Data K S (σ := σ))
     (J : Finset σ) (s : ℝ) (k : ℕ) (B : ℝ) (L : LogPlane →L[ℝ] ℝ) :

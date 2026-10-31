@@ -17,6 +17,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[3]
 LOGS = Path(os.environ.get("RUNNER_TEMP", "/tmp")) / "mom-inv-step-verification"
 TARGETS = sys.argv[1:] or [
+    "HeckeSkeleton.Moments.MOM_INV_STEP.SpectralAudit",
     "HeckeSkeleton.Moments.MOM_INV_STEP.CoreAudit",
     "HeckeSkeleton.Moments.MOM_INV_STEP.Audit",
 ]

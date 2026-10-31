@@ -58,7 +58,7 @@ theorem exists_physicalPrincipal_bound (slotCap : ℕ) (ε : ℝ) (hε : 0 < ε)
         absoluteRowMass K Sset Γ φ (sIntegerFiniteTestFunction K S h) r *
         X ^ (1 + 2 * ε) := by
   obtain ⟨Ac, hAc, hcoef⟩ := exists_coefficient_bound K S D slotCap ε hε
-  obtain ⟨An, hAn, hcount⟩ := PrincipalCounting.exists_ideal_count_bound K
+  obtain ⟨An, hAn, hcount⟩ := exists_ideal_count_bound K
   refine ⟨An * Ac ^ 2, one_le_mul_of_one_le_of_one_le hAn (one_le_pow₀ hAc), ?_⟩
   intro σ Θ ψ C γ j d X φ h hlc hcs r hX hcap ha hN
   let W := SchwartzMap.seminorm ℝ 0 0 (C.cutoff γ)
@@ -105,7 +105,7 @@ theorem exists_additiveZeros_bound (slotCap : ℕ) (ε : ℝ) (hε : 0 < ε) :
         zeroEnvelope K S Γ μv φ h r * X ^ (1 + 4 * ε) := by
   obtain ⟨Ac, hAc, hcoef⟩ := exists_coefficient_bound K S D slotCap ε hε
   obtain ⟨Am, hAm, hmask⟩ := MaskCounting.exists_actual_pair_mask_bound K S D ε hε
-  obtain ⟨An, hAn, hcount⟩ := PrincipalCounting.exists_ideal_count_bound K
+  obtain ⟨An, hAn, hcount⟩ := exists_ideal_count_bound K
   refine ⟨An * Ac ^ 2 * Am, one_le_mul_of_one_le_of_one_le
     (one_le_mul_of_one_le_of_one_le hAn (one_le_pow₀ hAc)) hAm, ?_⟩
   intro σ Θ ψ C γ j d X φ h hlc hcs r hX hcap ha hN

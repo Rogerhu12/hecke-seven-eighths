@@ -9,7 +9,7 @@ namespace HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalAdaptiveTail
 
 open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
   HeckeGeneral.Analysis HeckeGeneral.Bridge HeckeGeneral.ThetaSkeleton MeasureTheory
-open PrimitivePoissonSource PrimitiveFourier ConductorMasks CanonicalPoissonSplit
+open ActualFiniteSource PrimitivePoissonSource PrimitiveFourier ConductorMasks CanonicalPoissonSplit
   FirstDualTruncation CanonicalTailBound ActualPoissonScale PrincipalSource
 open scoped Classical BigOperators nonZeroDivisors
 
@@ -141,8 +141,9 @@ theorem exists_primitive_tail_bound_uniform
   calc
     _ ≤ (fieldConstant K / r.val) * C *
         ((F : ℝ) * s.sup (schwartzSeminormFamily ℝ V ℂ) φ) * Z ^ (-saving) := by
-      gcongr
-      exact hFT' φ
+      apply mul_le_mul_of_nonneg_right _ (Real.rpow_nonneg (zero_le_one.trans hZ) _)
+      exact mul_le_mul_of_nonneg_left (hFT' φ)
+        (mul_nonneg (div_nonneg (fieldConstant_nonneg K) r.property.le) hC)
     _ = _ := by ring
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalAdaptiveTail

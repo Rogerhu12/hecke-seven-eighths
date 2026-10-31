@@ -41,8 +41,11 @@ theorem forwardCoefficient_mul (Λ ν : HeckeCharacter K) (v u f I : Ext) (ξ : 
         forwardCoefficient K S Γ D Λ ν u (exteriorMul K Sset f v) I ξ := by
   have ha := CanonicalGaussCalibration.canonicalCoefficient_mul K S D hallowed Λ v u hcp
   rw [hallowed.reciprocity v u] at ha
+  have hν : heckeIdealCoefficient K ν (exteriorMul K Sset v u).val =
+      heckeIdealCoefficient K ν v.val * heckeIdealCoefficient K ν u.val :=
+    heckeIdealCoefficient_mul K ν v.val u.val
   unfold forwardCoefficient
-  rw [ha, heckeIdealCoefficient_mul, generator_mul_character K S D hallowed]
+  rw [ha, hν, generator_mul_character K S D hallowed]
   simp only [sectorCharacter, ThetaGaussCRT.idealSymbol_mul_denominator, mul_pow]
   ring
 
@@ -76,8 +79,8 @@ theorem extracted_dvd_final (g j d₂ v : Ext) (hg : Squarefree g.val.val)
     (hd₂ : d₂.val.val ∣ g.val.val) (R : Ideal (𝓞 K)) :
     g.val.val * v.val.val ∣
       (R * (residual K S g d₂).val.val) * (finalLabel K S j d₂ v).val.val := by
-  have hf := (FirstSourceDecomposition.squarefree_divisor_decomposition
-    g.val d₂.val hg hd₂).1
+  have hf : g.val.val = d₂.val.val * (residual K S g d₂).val.val :=
+    (FirstSourceDecomposition.squarefree_divisor_decomposition g.val d₂.val hg hd₂).1
   refine ⟨R * j.val.val, ?_⟩
   change R * (residual K S g d₂).val.val * ((j.val.val * d₂.val.val) * v.val.val) =
     (g.val.val * v.val.val) * (R * j.val.val)
@@ -137,7 +140,7 @@ theorem sourceTerm_mul (Λ ν : HeckeCharacter K) (g j d₂ v u I : Ext) (ξ : S
     divisorMark slots lists a (g.val.val * (v.val.val * u.val.val)) *
     W (((v.val.val * u.val.val).absNorm : ℝ) / X) = _
   rw [mask_product, ← mul_assoc g.val.val, mark_priority _ _ _ _ _ hprime,
-    Ideal.absNorm_mul, Nat.cast_mul]
+    map_mul, Nat.cast_mul]
   unfold extractedScalar assignedMark childTerm height finalLabel
   simp only [Finset.sum_mul, Finset.mul_sum]
   apply Finset.sum_congr rfl

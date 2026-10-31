@@ -3,8 +3,8 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLabelFibers
 import HeckeSkeleton.Moments.MOM_INV_STEP.FourierSeparation
 import HeckeSkeleton.Moments.MOM_INV_STEP.SourceLengths
 
-/-! This independent audit records the finite reconstruction interface even if
-another analytic module fails.  The workflow still requires `Audit` to pass. -/
+/-! Recursive audit of the public single-step interface and its finite
+reconstruction components. The workflow also requires the full `Audit`. -/
 
 #print axioms HeckeSkeleton.Moments.MOMInvStep.physical_prefactor_identity
 #print axioms HeckeSkeleton.Moments.MOMInvStep.physical_block_scalar_budget
@@ -16,3 +16,4 @@ another analytic module fails.  The workflow still requires `Audit` to pass. -/
 #print axioms HeckeSkeleton.Moments.MOMInvStep.fixed_triple_energy_step
 #print axioms HeckeSkeleton.Moments.MOMInvStep.canonical_child_geometry
 #print axioms HeckeSkeleton.Moments.MOMInvStep.SourceLengths.puncture_length_from_source
+#print axioms HeckeSkeleton.Moments.MOMInvStep.canonical_inverse_step

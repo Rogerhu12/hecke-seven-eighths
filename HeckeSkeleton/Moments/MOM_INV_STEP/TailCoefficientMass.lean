@@ -140,11 +140,12 @@ theorem exists_weighted_source_mass_bound (slotCap p : ℕ) :
           exact_mod_cast Finset.card_le_card (hP f hfl)
         exact hc.trans hcPairs
   have hlabelMass : (∑ f ∈ L, w f) ≤ Al * Aweight * Y ^ 2 := by
-    simpa using hlabel L w Aweight Y hAweight hY hf hw
+    simpa only [show (1 : ℝ) + 1 = 2 by norm_num, Real.rpow_two] using
+      hlabel L w Aweight Y hAweight hY hf hw
   calc
     _ ≤ ∑ f ∈ L, w f * (Ai ^ 4 * H ^ 2 * X ^ 2 * U) :=
       Finset.sum_le_sum (fun f hfl => mul_le_mul_of_nonneg_left (hmass f hfl) (hw0 f hfl))
-    _ = (∑ f ∈ L, w f) * (Ai ^ 4 * H ^ 2 * X ^ 2 * U) := Finset.sum_mul.symm
+    _ = (∑ f ∈ L, w f) * (Ai ^ 4 * H ^ 2 * X ^ 2 * U) := by rw [Finset.sum_mul]
     _ ≤ (Al * Aweight * Y ^ 2) * (Ai ^ 4 * H ^ 2 * X ^ 2 * U) :=
       mul_le_mul_of_nonneg_right hlabelMass (by positivity)
     _ = A * Aweight * (β * W) ^ 2 * (Q.val.val.absNorm : ℝ) * H ^ 10 * X ^ 6 * Y ^ 2 := by

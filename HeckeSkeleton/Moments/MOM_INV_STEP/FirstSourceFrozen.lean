@@ -16,7 +16,7 @@ noncomputable section
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceFrozen
 
 open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
-  HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
+  HeckeGeneral.Analysis HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open ActualFiniteSource ConductorMasks PrimitivePoissonSource PrimitiveFourier
   PrimitivePacketCRT CanonicalGroupedGauss CanonicalConductor FirstSourceColumns
 open FirstSourceDecomposition
@@ -70,6 +70,7 @@ theorem extractedFactor_eq (n₁ n₂ r₁ r₂ b₁ b₂ : Ext)
   unfold CanonicalCubeLabels.A CubeAlgebra.aLabel CubeAlgebra.primeProduct
   apply Finset.prod_congr rfl
   intro p hp
+  dsimp only
   cases side with
   | false => rw [show sourceIdeal K S n₁ n₂ false = n₁ from rfl,
       show sourceIdeal K S r₁ r₂ false = r₁ from rfl, cube_bit_eq K S n₁ r₁ b₁ b₂ h.1 p hp]
@@ -90,14 +91,17 @@ theorem fixed_labels (n₁ n₂ r₁ r₂ b₁ b₂ : Ext)
   · unfold CanonicalCubeLabels.J CubeAlgebra.jLabel CubeAlgebra.primeProduct
     apply Finset.prod_congr rfl
     intro p hp
+    dsimp only
     rw [h₁ p hp, h₂ p hp]
   · unfold CanonicalCubeLabels.q0 CubeAlgebra.b0Label CubeAlgebra.primeProduct
     apply Finset.prod_congr rfl
     intro p hp
+    dsimp only
     rw [h₁ p hp, h₂ p hp]
   · unfold CanonicalCubeLabels.dilation CubeAlgebra.dilationLabel CubeAlgebra.primeProduct
     apply Finset.prod_congr rfl
     intro p hp
+    dsimp only
     rw [h₁ p hp, h₂ p hp]
 
 variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
@@ -111,7 +115,7 @@ theorem coefficient_congr (B₁ B₂ : PrimeBlock K Sset)
   rw [primitiveCoefficient_mk_eq_product, primitiveCoefficient_mk_eq_product]
   apply Finset.prod_congr hactive
   intro p hp
-  rw [ht p hp]
+  rw [ht p (hactive.symm ▸ hp)]
 
 /-- A finite Gauss packet depends only on its actual active ideal and
 its conductor digits there. The quotient generator is transported by

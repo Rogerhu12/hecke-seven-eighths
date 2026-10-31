@@ -1,25 +1,39 @@
 import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleEnergy
 import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
+import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalStep
 
 /-!
-# Quantitative interface of the reconstructed canonical inverse step
+# Quantitative interface of the actual canonical inverse step
 
-`fixed_triple_energy_step` is the one-block energy estimate after the
-second true Poisson transform and common-kernel separation. Its input is
-the literal source reconstruction packet. The reconstruction fiber bound,
-the mass of distinct frozen triples, the two Cauchy roots, and the physical
-prefactor cancellation are all proved, rather than assumed.
+`canonical_inverse_step` starts with the literal original canonical
+parent. It constructs both true Poisson transforms and their actual
+sources, masks, old and new labels, fixed-triple fibers, norm boxes,
+physical radii and Mellin tests. The complete principal and localized
+infinite-tail errors are included in its energy inequality.
 
-The energy hypotheses are precisely the induction hypotheses on the two
-smaller canonical child columns. The remaining support hypotheses are
-upper bounds for norms of actual source ideals. They can be obtained from
-the annular source witnesses, as in `SourceLengths`.
+For F = r + 3 ell + V, its normalized parent bound is
 
-Scope: constructing this packet from every original canonical parent,
-including the complete common-kernel and coefficient reindexing, is a
-separate obligation. This interface does not hide that obligation in an
-assumed parent-energy inequality or call it a proved full recursion.
-The complete induction theorem belongs to MOM_INV_INDUCTION.
+  C Aw qArch(φ) qW(W)^2
+    ((Cih + 1) Z^(F + 40 eta + tau + pi + eps) + Z^(M + 5 h + pi)).
+
+The constant and finite seminorms precede the original parent, its prime
+lists, base, lengths and tests. The only recursive energy hypothesis is
+`ActualUniformProduction.AllSmallerPieces`, on the actual generated
+canonical children. Those same children are proved to have complete
+norm pools, tests supported in [1,2], the c−5 eta and c−7 eta margins,
+row descent 3d/2, and Fchild ≤ F+11 eta. The first center assignment and
+first physical cap are constructed internally from the original source.
+
+The original hypotheses are the fixed bounded length window, the
+canonical parent margins, the fine mesh h ≤ eta/32, eta ≤ d/16 and
+d ≤ ell+V, the exact parent scales, the original coefficient and prime
+weight bounds, and the actual background and Gauss calibration data.
+The empty extra orbital mask does not restrict the nonzero coefficient
+puncture, which is retained throughout both transformations.
+
+`fixed_triple_energy_step` exposes the finite packet estimate used
+inside that construction. Full tree induction and finite termination
+belong to MOM_INV_INDUCTION.
 -/
 
 noncomputable section
@@ -142,6 +156,16 @@ theorem canonical_child_geometry {F M Q z c d eta : ℝ}
     c - 7 * eta ≤ 4 * x.Fchild - 3 * x.Mchild - 6 * z ∧
     3 * d / 2 ≤ M - x.Mchild ∧ x.Fchild ≤ F + 11 * eta :=
   x.step hparent heta hstep
+
+end HeckeSkeleton.Moments.MOMInvStep
+
+namespace HeckeSkeleton.Moments.MOMInvStep
+
+/-- Complete actual-parent inverse single step, with source-independent
+constants and the geometric closure of its precise induction class.
+The full quantified statement is `CanonicalStep.exists_uniform_step`. -/
+theorem canonical_inverse_step :=
+  @HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalStep.exists_uniform_step
 
 end HeckeSkeleton.Moments.MOMInvStep
 
