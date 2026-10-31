@@ -1,4 +1,5 @@
 import HeckeSkeleton.LowHybridExterior
+import Lean.Elab.Command
 import Lean.Util.CollectAxioms
 
 /-!
@@ -23,11 +24,11 @@ run_cmd do
     `HeckeSkeleton.LowFrozenCube.Exterior]
   let names := (env.constants.toList.filterMap fun (name, _) =>
     let userName := privateToUserName name
-    if prefixes.any (fun prefix => prefix.isPrefixOf userName)
+    if prefixes.any (fun nsPrefix => nsPrefix.isPrefixOf userName)
     then some name else none).toArray.qsort Name.lt
-  for prefix in prefixes do
-    unless names.any (fun name => prefix.isPrefixOf (privateToUserName name)) do
-      throwError "Missing exterior adapter namespace in axiom audit: {prefix}"
+  for nsPrefix in prefixes do
+    unless names.any (fun name => nsPrefix.isPrefixOf (privateToUserName name)) do
+      throwError "Missing exterior adapter namespace in axiom audit: {nsPrefix}"
   let permitted : Array Name := #[`propext, `Classical.choice, `Quot.sound]
   for name in names do
     let dependencies ← collectAxioms name

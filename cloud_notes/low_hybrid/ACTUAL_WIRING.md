@@ -163,6 +163,15 @@ E_{\rm family} Z^\kappa\le C Z^{F-c/4}.
 尺度预算组装到这些有限能量入口；这一调用方的整体分析属于
 `LOW-REFLECTED-ENERGY`。接线文件给出可直接使用的实际对象定理和明确的预算参数。
 
+`reflectedTerm_eq_rawSourceTerm` 是逐字保留原 `mellinReflectionKernel` 的代数等式。
+将该核接到真实正向复位轮廓时，还须遵守最新基线的
+[theta-local 径向符号修正](https://github.com/Rogerhu12/hecke-seven-eighths/blob/556fd33068f5914887e850ed2dce9e9272d9b8c2/cloud_notes/theta_local/WIRING_REPORT.md)：原乘子的 Gamma 商为
+`archGammaProduct K θ s / archGammaProduct K θ⁻¹ (-s)`，真实正向轮廓需要
+`archGammaProduct K θ⁻¹ s / archGammaProduct K θ (-s)`。
+新增的 `HeckeSkeleton.ThetaLocal.Project.directReflectionMultiplier` 对此作了适配；
+所有复位满足 `archRadial K θ v = 0` 时，也可使用该模块已证明的原乘子相等式。
+这一复位 Mellin 识别属于下游组装；本任务的有限位字典与能量不等式保持原有陈述。
+
 ### `Principal` 中的具体参数
 
 `Principal` 使用的就是同一个 `axiomChoice K c`：`places K c` 定义归约为该

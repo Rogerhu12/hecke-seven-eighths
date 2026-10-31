@@ -156,7 +156,7 @@ theorem completed_quadratic_energy_bounded (eps : ℝ) (heps : 0 < eps) :
         (∀ b ∈ cubes, exteriorNorm K S b ≤ B) →
         (∀ n ∈ columns, ∀ b ∈ cubes, ‖beta n b‖ ≤ 1) →
         (∑ k ∈ rows, ‖∑ n ∈ columns, ∑ b ∈ cubes,
-          beta n b * idealSymbol K S D k (D.generator (exteriorMul K S n b)) ^ 3‖ ^ 2) ≤
+          beta n b * idealSymbol K S D k (X.thetaData.generator (exteriorMul K S n b)) ^ 3‖ ^ 2) ≤
             C * (R * N * B) ^ eps * (R + N * B) * (N * B) := by
   simpa only [ExteriorArithmetic.coords_squarefree_iff, ExteriorArithmetic.normHom_apply,
     ExteriorSymbol.symbol_apply, ExteriorArithmetic.mul_eq] using

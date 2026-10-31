@@ -39,19 +39,21 @@ jobs:
         uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
         with:
           path: .lake/build
-          key: low-hybrid-exterior-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          key: low-hybrid-exterior-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}-final
           restore-keys: |
+            low-hybrid-exterior-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}-
             low-hybrid-exterior-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
       - name: Compile arithmetic, symbols and literal reflected coefficients
         run: python3 -u scripts/verify_low_hybrid_exterior.py HeckeSkeleton.LowFrozenCube.ExteriorCoefficientBounds
       - name: Compile both sieve providers and audit every new declaration
+        timeout-minutes: 300
         run: python3 -u scripts/verify_low_hybrid_exterior.py
       - name: Save successfully compiled objects
         if: ${{ !cancelled() }}
         uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
         with:
           path: .lake/build
-          key: low-hybrid-exterior-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          key: low-hybrid-exterior-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}-final
       - name: Preserve complete verification evidence
         if: always()
         uses: actions/upload-artifact@v4

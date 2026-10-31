@@ -225,8 +225,14 @@ def compile_module(module: str) -> tuple[dict, str, Path]:
     return record, result.stdout, output
 
 
+def write_json_atomic(path: Path, value: object) -> None:
+    temporary = path.with_name(path.name + ".tmp")
+    temporary.write_text(json.dumps(value, indent=2) + "\n")
+    temporary.replace(path)
+
+
 def save_results() -> None:
-    (LOGS / "results.json").write_text(json.dumps(results, indent=2) + "\n")
+    write_json_atomic(LOGS / "results.json", results)
 
 
 print(f"At most {workers} single-threaded Lean processes", flush=True)
@@ -274,7 +280,7 @@ with ThreadPoolExecutor(max_workers=workers) as executor:
             else:
                 record["artifacts"] = artifact_hashes(output)
                 state[module] = record
-            STATE.write_text(json.dumps(state, indent=2) + "\n")
+            write_json_atomic(STATE, state)
             results.append(record)
             (LOGS / (module + ".log")).write_text(json.dumps(record, indent=2) + "\n\n" + stdout)
             save_results()
@@ -286,4 +292,4 @@ if failed:
     print(f"FAIL: {len(errors)} compilation failures; {len(failed) - len(errors)} blocked modules", flush=True)
     print("\n".join(errors), flush=True)
     raise SystemExit(1)
-print("PASS: actual exterior wiring and recursive axiom guard", flush=True)
+print(f"PASS: verified actual project import closure for {', '.join(TARGETS)}", flush=True)
