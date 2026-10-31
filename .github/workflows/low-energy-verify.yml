@@ -1,6 +1,8 @@
 name: Low reflected energy verification
 
 on:
+  push:
+    branches: [codex/low-reflected-energy-ade19eee]
   workflow_dispatch:
     inputs:
       export_replay:
