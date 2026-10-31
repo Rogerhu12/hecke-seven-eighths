@@ -85,7 +85,7 @@ theorem extractedHeight_le_square (X : {r : ℝ // 0 < r}) (r₁ r₂ b₁ b₂ 
   have hright := overlap_height_le K S D X r₁ r₂ b₁ b₂ e
   exact (mul_le_mul hleft hright
     (height_pos K Sset (overlapIdeal K S D X r₁ r₂ b₁ b₂ false e)).le
-    (by positivity : (0 : ℝ) ≤ 2 * X.val)).trans_eq (by ring)
+    (mul_nonneg (by norm_num : (0 : ℝ) ≤ 2) X.property.le)).trans_eq (by ring)
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstExtractedGeometry
 

@@ -172,7 +172,7 @@ theorem retained_eq_sum (T : Data K S σ Θ ψ) (G : HeckeCharacter K)
       T.archTest T.localTest T.locallyConstant T.compactSupport T.radius T.frequencyBound =
       ∑ i : Index K S D Γ T, term K S D Γ μv ν T G i := by
   rw [T.fullPool]
-  rw [retainedSource_eq_fixed_common K S D Γ hΓ μv ν hallowed T.columns T.triple G hcal hbg
+  erw [retainedSource_eq_fixed_common K S D Γ hΓ μv ν hallowed T.columns T.triple G hcal hbg
     (scale_pos K S T) T.cutoffSupport T.label T.divisor (2 * scale K S T)
     (by positivity) T.archTest T.localTest T.locallyConstant T.compactSupport T.radius
     T.frequencyBound]
@@ -280,7 +280,7 @@ theorem exists_retained_centered_bound
         (Real.sqrt (total K S D Γ T G hG ε m false) *
           Real.sqrt (total K S D Γ T G hG ε m true)) := by
   obtain ⟨s, A, hA, hb⟩ := SecondCommonEnvelope.exists_second_density_common_envelope
-    K S D Γ μv ν h hlc hcs ε hε m
+    K S Γ μv ν h hlc hcs ε hε m
   refine ⟨s, A, hA, ?_⟩
   intro σ₀ _ Θ₀ ψ₀ T hlocal G hG hcal hbg hprime
   subst h

@@ -145,7 +145,11 @@ def reconstruction (B : Bare) (side : Bool) (q : choices oldLists newLists B sid
 theorem forget_reconstruction (B : Bare) (side : Bool)
     (q : choices oldLists newLists B side) :
     forget oldLists newLists (reconstruction oldLists newLists B side q) = B := by
-  apply PositiveReconstruction.Source.ext <;> try rfl <;> exact Subsingleton.elim _ _
+  apply PositiveReconstruction.Source.ext <;> try rfl
+  · funext i
+    exact Fin.elim0 i
+  · funext i
+    exact Fin.elim0 i
 
 theorem reconstruction_injective (B : Bare) (side : Bool) :
     Function.Injective (reconstruction oldLists newLists B side) := by
@@ -173,8 +177,9 @@ theorem expandedReconstruction_injective (T : Finset Bare) (side : Bool) :
   rcases b with ⟨b,qb⟩
   dsimp only at hb
   cases hb
-  apply Sigma.ext rfl
-  exact heq_of_eq (reconstruction_injective oldLists newLists a.val side h)
+  have hq : qa = qb := reconstruction_injective oldLists newLists a.val side h
+  cases hq
+  rfl
 
 def source (T : Finset Bare) (side : Bool) : Finset Marked :=
   Finset.univ.image (expandedReconstruction oldLists newLists T side)
@@ -213,6 +218,7 @@ theorem actual_marks_expansion (aold : Fin Jo → Ideal (𝓞 K) → ℂ)
     (fun q => pairedWeight aold q.1 * pairedWeight anew q.2),
     divisorMark_norm_sq_eq_pairedChoices, divisorMark_norm_sq_eq_pairedChoices]
   simp only [choices, Finset.sum_product, Finset.sum_mul, Finset.mul_sum]
+  exact Finset.sum_comm
 
 theorem actual_marks_norm_bound (aold : Fin Jo → Ideal (𝓞 K) → ℂ)
     (anew : Fin Jn → Ideal (𝓞 K) → ℂ) (B : Bare) (side : Bool) :

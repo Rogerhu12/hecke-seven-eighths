@@ -381,18 +381,18 @@ theorem exists_boxedTotal_bound
     hell hRlen hB htlen hhcap hj htau hH0 hH hU hprime hweights hslots hsource
     hscalarCost hweightCost hscalar hcost hrow W hW m
   have hz : 1 < Z := lt_of_lt_of_le (by norm_num) hZ
-  let U : FirstErrorSource.Index K S D T → {r : ℝ // 0 < r} :=
+  let secondScale : FirstErrorSource.Index K S D T → {r : ℝ // 0 < r} :=
     FirstErrorBoxes.assignedScale K S D T grid centers side
   have hUi (i : FirstErrorSource.Index K S D T) (hi : i ∈ I) :
-      0 < (U i).val ∧ (U i).val ≤ Z ^ Umax ∧
-        (U i).val ≤ Z ^ (r - A - B - t + 4 * h) :=
-    ⟨(U i).property, (hU i hi).1, (hU i hi).2⟩
-  have hp' := hp T hmask Θ ψ G hν hG I side (fun i => (U i).val)
+      0 < (secondScale i).val ∧ (secondScale i).val ≤ Z ^ Umax ∧
+        (secondScale i).val ≤ Z ^ (r - A - B - t + 4 * h) :=
+    ⟨(secondScale i).property, (hU i hi).1, (hU i hi).2⟩
+  have hp' := hp T hmask Θ ψ G hν hG I side (fun i => (secondScale i).val)
     Z M r ell V delta A B Rlen j t h tau hz hell hRlen hB htlen hhcap hj
     hH0 hH hUi hprime hweights hslots hsource W hW m (signedCoordinate side)
     (signedCoordinate_continuous side)
-  have ht' := ht T hmask Θ ψ G hν hG I side (fun i => (U i).val)
-    (FirstActualErrorTotal.centerPairs K S D T U) Z M r ell V delta A B Rlen j t h tau hZ
+  have ht' := ht T hmask Θ ψ G hν hG I side (fun i => (secondScale i).val)
+    (FirstActualErrorTotal.centerPairs K S D T secondScale) Z M r ell V delta A B Rlen j t h tau hZ
     hell hRlen hB htlen hhcap hj htau hH0 hH hUi
     (fun i hi J hJ => Finset.Subset.refl _) hprime hweights hslots hsource
     W hW m (signedCoordinate side) (signedCoordinate_continuous side)

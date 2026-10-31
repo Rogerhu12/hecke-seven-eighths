@@ -100,7 +100,7 @@ theorem retained_eq_sum_at (T : SecondParentProduction.Data K S σ Θ ψ)
       T.archTest T.localTest T.locallyConstant T.compactSupport T.radius H =
       ∑ i : IndexAt K S D Γ T H, termAt K S D Γ μv ν T H G i := by
   rw [T.fullPool]
-  rw [retainedSourceAt_eq_fixed_common K S D Γ hΓ μv ν hallowed T.columns T.triple G hcal hbg
+  erw [retainedSourceAt_eq_fixed_common K S D Γ hΓ μv ν hallowed T.columns T.triple G hcal hbg
     (SecondParentProduction.scale_pos K S T) T.cutoffSupport T.label T.divisor
     (2 * SecondParentProduction.scale K S T) (by positivity)
     T.archTest T.localTest T.locallyConstant T.compactSupport T.radius H]
@@ -144,7 +144,7 @@ theorem exists_retained_centered_bound
         (Real.sqrt (totalAt K S D Γ T H G hG ε m false) *
           Real.sqrt (totalAt K S D Γ T H G hG ε m true)) := by
   obtain ⟨s, A, hA, hb⟩ := SecondCommonEnvelope.exists_second_density_common_envelope
-    K S D Γ μv ν h hlc hcs ε hε m
+    K S Γ μv ν h hlc hcs ε hε m
   refine ⟨s, A, hA, ?_⟩
   intro σ₀ _ Θ₀ ψ₀ T hlocal H G hG hcal hbg hprime
   subst h
