@@ -1,10 +1,6 @@
-module
-
-public import ThetaGlobal.GlobalProjectFrequencySeed
-public import ThetaGlobal.GlobalGeneratorPeriod
-public import DedekindZetaZeroFree.Theta.Unfolding.PrimeGeneratorFrequencyIndex
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectFrequencySeed
+import ThetaGlobal.GlobalGeneratorPeriod
+import DedekindZetaZeroFree.Theta.Unfolding.PrimeGeneratorFrequencyIndex
 
 /-!
 # The actual direct frequency series is indexed by squarefree/cube ideals

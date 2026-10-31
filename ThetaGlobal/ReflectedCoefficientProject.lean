@@ -1,7 +1,5 @@
-module
-
-public import ThetaGlobal.ReflectedCoefficientSummability
-public import ThetaGlobal.ReflectedArithmetic
+import ThetaGlobal.ReflectedCoefficientSummability
+import ThetaGlobal.ReflectedArithmetic
 
 /-!
 # Exact instantiation of the standalone scalar model by project arithmetic
@@ -11,8 +9,6 @@ It imports the provided project and consequently needs its vendored dependencies
 Every local hypothesis of ScalarData is discharged here from actual project
 characters and the proved prime Gauss norm. No global identity is supplied.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false

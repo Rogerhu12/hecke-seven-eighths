@@ -1,9 +1,5 @@
-module
-
-public import ThetaGlobal.GlobalProjectLocalPhases
-public import ThetaGlobal.GlobalProjectArithmeticProduct
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectLocalPhases
+import ThetaGlobal.GlobalProjectArithmeticProduct
 
 /-!
 # Local normal form of a supported reflected frequency

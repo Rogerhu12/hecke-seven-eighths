@@ -1,7 +1,5 @@
-module
-
-public import HeckeSkeleton.Main
-public import Lean.Util.CollectAxioms
+import HeckeSkeleton.Main
+import Lean.Util.CollectAxioms
 
 /-!
 # THETA_GLOBAL consumer signatures

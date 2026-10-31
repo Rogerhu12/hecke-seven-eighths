@@ -1,8 +1,6 @@
-module
-
-public import HeckeSkeleton.Theta
-public import ThetaGlobal.LocalGammaOrientation
-public import Lean.Util.CollectAxioms
+import HeckeSkeleton.Theta
+import ThetaGlobal.LocalGammaOrientation
+import Lean.Util.CollectAxioms
 
 /-!
 # Admission gate for the five THETA_GLOBAL entry points

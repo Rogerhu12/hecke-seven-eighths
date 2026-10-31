@@ -1,9 +1,5 @@
-module
-
-public import ThetaGlobal.GlobalCoreSource
-public import ThetaGlobal.GlobalFourierDescent
-
-@[expose] public section
+import ThetaGlobal.GlobalCoreSource
+import ThetaGlobal.GlobalFourierDescent
 
 /-!
 # Actual residual-vector rational Fourier descent

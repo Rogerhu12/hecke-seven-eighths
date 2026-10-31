@@ -1,10 +1,8 @@
-module
-
-public import ThetaGlobal.ScalarMellinConvolution
-public import DedekindZetaZeroFree.HarmonicAnalysis.Haar.PositiveAxisSheetDisintegration
-public import Mathlib.MeasureTheory.Function.Jacobian
-public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
-public import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+import ThetaGlobal.ScalarMellinConvolution
+import DedekindZetaZeroFree.HarmonicAnalysis.Haar.PositiveAxisSheetDisintegration
+import Mathlib.MeasureTheory.Function.Jacobian
+import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+import Mathlib.Analysis.SpecialFunctions.Pow.Complex
 
 /-!
 # Exact logarithmic coordinates for the stored positive Haar measure
@@ -13,8 +11,6 @@ The normalization is proved from the literal density `dt / t`.
 Consequently the positive-spectrum Fourier transform is the actual
 imaginary-axis Mellin transform, without a hidden Haar scalar.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 noncomputable section

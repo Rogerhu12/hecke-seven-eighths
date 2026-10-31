@@ -1,9 +1,5 @@
-module
-
-public import ThetaGlobal.GlobalProjectForwardExtraction
-public import ThetaGlobal.GlobalProjectHighKReflection
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectForwardExtraction
+import ThetaGlobal.GlobalProjectHighKReflection
 
 /-!
 # The signed extraction uses the actual high K-type source

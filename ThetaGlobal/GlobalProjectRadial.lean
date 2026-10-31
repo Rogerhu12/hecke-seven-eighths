@@ -1,12 +1,8 @@
-module
-
-public import ThetaGlobal.GlobalAngular
-public import ThetaGlobal.GlobalCompactPeriod
-public import DedekindZetaZeroFree.RepresentationTheory.Smooth.RightDerivativeCyclicSpan
-public import DedekindZetaZeroFree.Theta.Periods.UpperCurveDifferentiation
-public import DedekindZetaZeroFree.Theta.Periods.ComplexRotationOddness
-
-@[expose] public section
+import ThetaGlobal.GlobalAngular
+import ThetaGlobal.GlobalCompactPeriod
+import DedekindZetaZeroFree.RepresentationTheory.Smooth.RightDerivativeCyclicSpan
+import DedekindZetaZeroFree.Theta.Periods.UpperCurveDifferentiation
+import DedekindZetaZeroFree.Theta.Periods.ComplexRotationOddness
 
 /-!
 # Radial constant terms throughout the actual residual core

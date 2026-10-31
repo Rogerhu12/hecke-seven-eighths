@@ -1,8 +1,6 @@
-module
-
-public import ThetaGlobal.FiniteProjectedMellin
-public import ThetaGlobal.FiniteTensorMellin
-public import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+import ThetaGlobal.FiniteProjectedMellin
+import ThetaGlobal.FiniteTensorMellin
+import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
 
 /-!
 # Exact Haar-integral specification of the actual finite Mellin factor
@@ -13,8 +11,6 @@ indices are summed with proved absolute integrability.  The result retains
 the actual source vectors, target Hecke period, Hilbert convention, and
 the local Haar measures from the same trace transport.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

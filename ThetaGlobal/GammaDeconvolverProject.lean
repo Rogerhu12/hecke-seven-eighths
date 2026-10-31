@@ -1,7 +1,5 @@
-module
-
-public import ThetaGlobal.GammaProfileGrowth
-public import ThetaGlobal.RegularizedTestProject
+import ThetaGlobal.GammaProfileGrowth
+import ThetaGlobal.RegularizedTestProject
 
 /-!
 # Concrete archimedean parameters for the scalar deconvolver
@@ -20,8 +18,6 @@ The reciprocal-Gamma strip bound is proved by Euler reflection and compactness.
 
 This imports the original project and is outside the Mathlib-only bundle.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 noncomputable section

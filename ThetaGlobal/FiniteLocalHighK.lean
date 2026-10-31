@@ -1,8 +1,6 @@
-module
-
-public import ThetaGlobal.FiniteFixedSource
-public import ThetaGlobal.FiniteHighKWeyl
-public import ThetaGlobal.FiniteDirectMellin
+import ThetaGlobal.FiniteFixedSource
+import ThetaGlobal.FiniteHighKWeyl
+import ThetaGlobal.FiniteDirectMellin
 
 /-!
 # Explicit local high K-type Mellin inputs and their normalization
@@ -13,8 +11,6 @@ finite table, global tensor, Haar disintegration and reflection identity
 are not fields.  In particular C₀ is the ratio of the actual cutoff
 volume and the two products of local Mellin constants.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

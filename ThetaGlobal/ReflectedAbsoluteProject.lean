@@ -1,7 +1,5 @@
-module
-
-public import ThetaGlobal.ReflectedArithmetic
-public import HeckeGeneral.Analysis.IdealSummability
+import ThetaGlobal.ReflectedArithmetic
+import HeckeGeneral.Analysis.IdealSummability
 
 /-!
 # Absolute convergence of the project's actual marked reflected series
@@ -12,8 +10,6 @@ All arithmetic bounds are proved from the literal finite sums in
 `ReflectedArithmetic`.  In particular the sharp exterior Weyl table is not
 an assumption here.  No global reflection identity is used.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false

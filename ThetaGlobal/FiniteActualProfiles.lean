@@ -1,7 +1,5 @@
-module
-
-public import ThetaGlobal.FiniteHighKDirect
-public import ThetaGlobal.GammaDeconvolverProject
+import ThetaGlobal.FiniteHighKDirect
+import ThetaGlobal.GammaDeconvolverProject
 
 /-!
 # The normalized Mellin profiles are measured coefficients of one source
@@ -12,8 +10,6 @@ before cancellation.  Weighted L1 of both sheet functions is deduced
 from their local integrability and the stored norm-sheet disintegration.
 The direct Mellin transform is the concrete Gamma deconvolver profile.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

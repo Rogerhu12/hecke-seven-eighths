@@ -1,12 +1,8 @@
-module
-
-public import ThetaGlobal.GlobalProjectReflectedDictionary
-public import ThetaGlobal.GlobalProjectDirectReindex
-public import ThetaGlobal.GlobalSupportReindex
-public import ThetaGlobal.ActualAnnularTransfer
-public import ThetaGlobal.GlobalDiagonalNorm
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectReflectedDictionary
+import ThetaGlobal.GlobalProjectDirectReindex
+import ThetaGlobal.GlobalSupportReindex
+import ThetaGlobal.ActualAnnularTransfer
+import ThetaGlobal.GlobalDiagonalNorm
 
 /-!
 # Reindexing the actual reflected quotient series by the full literal index

@@ -1,10 +1,6 @@
-module
-
-public import ThetaGlobal.GlobalMarks
-public import HeckeSkeleton.MarkedAnnularSupport
-public import HeckeGeneral.Analysis.SIntegerSexticAmplification
-
-@[expose] public section
+import ThetaGlobal.GlobalMarks
+import HeckeSkeleton.MarkedAnnularSupport
+import HeckeGeneral.Analysis.SIntegerSexticAmplification
 
 /-!
 # Exact mark insertion for the project's literal completed theta sum

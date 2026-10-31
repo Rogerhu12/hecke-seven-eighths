@@ -1,6 +1,4 @@
-module
-
-public import ThetaGlobal.FiniteLocalHighK
+import ThetaGlobal.FiniteLocalHighK
 
 /-!
 # The actual two sheet Mellin transforms with a common normalization
@@ -11,8 +9,6 @@ same reflected local constant.  Consequently the reflected Mellin
 prefactor is one and the direct prefactor is the stored C₀.  Their quotient
 is precisely the skeleton's reflectionMultiplier, including A₀^(2s).
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

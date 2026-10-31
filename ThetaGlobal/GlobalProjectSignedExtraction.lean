@@ -1,11 +1,7 @@
-module
-
-public import ThetaGlobal.GlobalProjectCoreEquivariance
-public import ThetaGlobal.GlobalProjectExteriorExtraction
-public import ThetaGlobal.GlobalProjectUnfolding
-public import DedekindZetaZeroFree.Theta.Periods.ExteriorDigitExtraction
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectCoreEquivariance
+import ThetaGlobal.GlobalProjectExteriorExtraction
+import ThetaGlobal.GlobalProjectUnfolding
+import DedekindZetaZeroFree.Theta.Periods.ExteriorDigitExtraction
 
 /-!
 # Actual signed digit extraction for the replacement tensor

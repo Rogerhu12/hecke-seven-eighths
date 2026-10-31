@@ -1,9 +1,5 @@
-module
-
-public import ThetaGlobal.GlobalProjectOrbitEvaluation
-public import ThetaGlobal.FiniteSourceConstantTerm
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectOrbitEvaluation
+import ThetaGlobal.FiniteSourceConstantTerm
 
 /-!
 # The actual normalized seed identity on rational frequency classes

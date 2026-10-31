@@ -1,10 +1,8 @@
-module
-
-public import ThetaGlobal.FiniteProjectedFullSource
-public import DedekindZetaZeroFree.Theta.Profiles.CanonicalSphericalRealization
-public import DedekindZetaZeroFree.Theta.Periods.SphericalRealizationAndCommonGerms
-public import DedekindZetaZeroFree.Theta.Whittaker.FirstRootNondegeneracy
-public import DedekindZetaZeroFree.HarmonicAnalysis.Haar.TraceCharactersAndGaussShifts
+import ThetaGlobal.FiniteProjectedFullSource
+import DedekindZetaZeroFree.Theta.Profiles.CanonicalSphericalRealization
+import DedekindZetaZeroFree.Theta.Periods.SphericalRealizationAndCommonGerms
+import DedekindZetaZeroFree.Theta.Whittaker.FirstRootNondegeneracy
+import DedekindZetaZeroFree.HarmonicAnalysis.Haar.TraceCharactersAndGaussShifts
 
 /-!
 # The fixed actual projected source, retaining the full matrix product
@@ -14,8 +12,6 @@ map and local models.  This strengthens those constructive proofs by
 retaining the full arbitrary-vector archimedean product.  The public
 `source` is obtained by those proofs; its existence is not an input.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

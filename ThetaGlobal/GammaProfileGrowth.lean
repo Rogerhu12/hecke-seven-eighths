@@ -1,7 +1,5 @@
-module
-
-public import ThetaGlobal.GammaReciprocalGrowth
-public import ThetaGlobal.GammaDeconvolver
+import ThetaGlobal.GammaReciprocalGrowth
+import ThetaGlobal.GammaDeconvolver
 
 /-!
 # The finite Gamma profile has the required strip growth
@@ -10,8 +8,6 @@ This discharges the reciprocal-Gamma growth hypothesis of the scalar
 deconvolver from the actual Gamma function.  The proof uses Euler reflection
 and finite products; no separate Stirling assumption remains.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 noncomputable section

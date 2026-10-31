@@ -1,10 +1,6 @@
-module
-
-public import ThetaGlobal.GlobalPhases
-public import HeckeGeneral.Analysis.MarkedThetaReflection
-public import HeckeGeneral.Characters.SIntegerSexticPowerMask
-
-@[expose] public section
+import ThetaGlobal.GlobalPhases
+import HeckeGeneral.Analysis.MarkedThetaReflection
+import HeckeGeneral.Characters.SIntegerSexticPowerMask
 
 /-!
 # Actual ideal-symbol cross phases

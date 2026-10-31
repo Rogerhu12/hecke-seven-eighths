@@ -29,6 +29,29 @@ types and reports their existing axioms. Its allowlist includes the
 pre-existing `sorryAx`; the Theta entry gate continues to reject it.
 These added checks are pending until their exact native run succeeds.
 
+### Native module compatibility
+
+The pinned Lean compiler rejects a modern `module` importing a legacy
+file, and also rejects `public import` in a legacy file. Both failures
+were reproduced with native two-file probes; the ordinary legacy import
+probe passed with `autoImplicit=false` and `relaxedAutoImplicit=false`.
+
+The dependency audit found this boundary in 70 newly added `ThetaGlobal`
+modules and the two task audits. Their headers now use the same legacy
+format as the existing skeleton: remove `module`, use ordinary `import`,
+and remove the modern `@[expose] public section` command. All theorem
+statements, assumptions, proof bodies and compiler options are preserved.
+The before/after source hashes and equal normalized-body hashes are in
+`verification/theta_global/native_header_compatibility.json`.
+
+`GlobalProjectOrbitCoefficients` also now imports its actual
+`GlobalProjectWeightedDigits` dependency directly. Those two files were
+outside the historical consolidated-body verification lists; inspection
+of the larger native source closure exposed the missing edge.
+
+The complete statements and local-input fields are recorded in
+[`THETA_GLOBAL_STATEMENTS.md`](THETA_GLOBAL_STATEMENTS.md).
+
 The task targets five declarations in `HeckeSkeleton/Theta.lean`:
 
 | Target | Source implementation | Validation |
@@ -398,8 +421,12 @@ in its incremental GitHub cache. Official Mathlib cache downloads remain
 enabled. Whole-project setup-cache packaging is disabled because native
 CI recorded a disk-space failure while duplicating the large Mathlib
 artifacts into a second archive.
-Successive runs for the same PR are queued so that an active dependency
-build can finish and save its cache before the latest correction starts.
+Both workflows set `concurrency.cancel-in-progress: true`: a new commit
+cancels an obsolete build for the same PR or branch. The actual-entry job
+first builds the shared `HeckeAxiom.ArithmeticChoice` dependency closure
+and saves a separate foundation cache checkpoint. This preserves completed
+common dependencies before it starts the Theta proofs and consumer checks.
+The final cache uses a distinct key so it can also retain later artifacts.
 Every result remains tied to its own commit; an earlier run does not
 certify a later source change.
 
@@ -418,7 +445,9 @@ It leaves the repository, Python, Lean, and Mathlib paths intact and records
 disk availability before and after cleanup. The strict native gate is
 unchanged and still requires a successful subsequent run.
 
-The local checkout was based on `503ad9895e5f8affef55b22fea082e251bf33aa7`.
-The published tree preserves upstream work through parent
+The original implementation checkout was based on
+`503ad9895e5f8affef55b22fea082e251bf33aa7`. Its first published tree
+preserved upstream work through parent
 `5e4c85f172c101fd0c201219c13aa28f8b520d42`, including the additional
-`HeckePort.PrimeCancellation` library configuration.
+`HeckePort.PrimeCancellation` library configuration. The current continuation
+also incorporates the upstream parent recorded at the top of this report.

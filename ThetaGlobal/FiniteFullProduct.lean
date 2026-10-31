@@ -1,9 +1,7 @@
-module
-
-public import ThetaGlobal.FiniteCanonicalSource
-public import ThetaGlobal.FiniteCoreProduct
-public import ThetaGlobal.GlobalProjectExterior
-public import DedekindZetaZeroFree.Theta.Whittaker.TensorProduct.WeylGeometry
+import ThetaGlobal.FiniteCanonicalSource
+import ThetaGlobal.FiniteCoreProduct
+import ThetaGlobal.GlobalProjectExterior
+import DedekindZetaZeroFree.Theta.Whittaker.TensorProduct.WeylGeometry
 
 /-!
 # The full matrix product for the same frozen pure tensor
@@ -14,8 +12,6 @@ finite projector in `FiniteProjectedFullSource`.  It is not an additional
 global input for the final construction.  The normalization everywhere is
 the Fourier coefficient at one of this very tensor.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

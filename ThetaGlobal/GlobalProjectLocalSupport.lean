@@ -1,8 +1,4 @@
-module
-
-public import ThetaGlobal.GlobalProjectForwardCoefficients
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectForwardCoefficients
 
 /-!
 # Local support extracted from the actual digit coefficient

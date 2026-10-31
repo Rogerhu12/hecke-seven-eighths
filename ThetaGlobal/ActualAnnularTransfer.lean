@@ -1,12 +1,8 @@
-module
-
-public import ThetaGlobal.ActualAnnularProfiles
-public import ThetaGlobal.GammaDeconvolverProject
-public import ThetaGlobal.ActualRegularizerRemoval
-public import ThetaGlobal.ScalarKernelProject
-public import Mathlib.Analysis.SpecificLimits.Basic
-
-@[expose] public section
+import ThetaGlobal.ActualAnnularProfiles
+import ThetaGlobal.GammaDeconvolverProject
+import ThetaGlobal.ActualRegularizerRemoval
+import ThetaGlobal.ScalarKernelProject
+import Mathlib.Analysis.SpecificLimits.Basic
 
 /-!
 # Arbitrary annular tests from the literal actual fixed-profile seed

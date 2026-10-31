@@ -1,12 +1,8 @@
-module
-
-public import ThetaGlobal.GlobalProjectSheetProfiles
-public import ThetaGlobal.GlobalProjectForwardCoefficients
-public import ThetaGlobal.GlobalProjectOrbitAbsolute
-public import DedekindZetaZeroFree.Theta.Unfolding.RationalOrbitFrequencyEquivalence
-public import DedekindZetaZeroFree.Theta.Profiles.ReflectedOrbitSmoothing
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectSheetProfiles
+import ThetaGlobal.GlobalProjectForwardCoefficients
+import ThetaGlobal.GlobalProjectOrbitAbsolute
+import DedekindZetaZeroFree.Theta.Unfolding.RationalOrbitFrequencyEquivalence
+import DedekindZetaZeroFree.Theta.Profiles.ReflectedOrbitSmoothing
 
 /-!
 # Absolute actual orbit evaluation for the high K-type source

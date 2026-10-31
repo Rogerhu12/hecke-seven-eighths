@@ -66,7 +66,7 @@ jobs:
   actual-entry:
     name: Actual Theta entry and strict five-target axiom gate
     runs-on: ubuntu-24.04
-    timeout-minutes: 140
+    timeout-minutes: 270
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Check repository version pins
@@ -110,11 +110,30 @@ jobs:
           key: theta-entry-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
             theta-entry-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-
+      # This shared arithmetic closure contains the expensive class-field-theory
+      # dependencies. Save it before elaborating the task's modules so a later
+      # superseding commit can reuse it even when this run is cancelled.
+      - name: Build the shared arithmetic dependency closure
+        timeout-minutes: 75
+        shell: bash
+        run: |
+          set -o pipefail
+          lake --fail-fast build +HeckeAxiom.ArithmeticChoice:olean 2>&1 | tee verification/theta_global/foundation-build.log
+      - name: Checkpoint the shared arithmetic dependency artifacts
+        if: ${{ !cancelled() && steps.entry-cache.outcome == 'success' }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        timeout-minutes: 3
+        continue-on-error: true
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: ${{ steps.entry-cache.outputs.cache-primary-key }}-foundation
       # + selects one module, and :olean requests its importable Lean artifact.
       # This builds its real dependency closure, without the library's all-module glob.
       # https://github.com/leanprover/lean4/blob/v4.35.0-rc3/src/lake/README.md#specifying-targets
       - name: Build only the actual Theta entry and its dependencies
-        timeout-minutes: 55
+        timeout-minutes: 90
         shell: bash
         run: |
           set -o pipefail
@@ -126,7 +145,7 @@ jobs:
           set -o pipefail
           lake env lean -j2 -DautoImplicit=false -DrelaxedAutoImplicit=false verification/theta_global/EntryAudit.lean 2>&1 | tee verification/theta_global/entry-audit.log
       - name: Compile the modified Principal, Moments and Main consumers
-        timeout-minutes: 45
+        timeout-minutes: 60
         shell: bash
         run: |
           set -o pipefail
@@ -154,6 +173,7 @@ jobs:
           name: theta-global-actual-entry-${{ github.run_id }}
           path: |
             verification/theta_global/EntryAudit.lean
+            verification/theta_global/foundation-build.log
             verification/theta_global/entry-build.log
             verification/theta_global/entry-audit.log
             verification/theta_global/ConsumerSignatures.lean

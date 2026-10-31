@@ -1,11 +1,7 @@
-module
-
-public import ThetaGlobal.GlobalAngular
-public import ThetaGlobal.GlobalProjectRadial
-public import HeckeGeneral.Characters.InfinityType
-public import DedekindZetaZeroFree.Theta.Periods.OddUpperAverageVanishing
-
-@[expose] public section
+import ThetaGlobal.GlobalAngular
+import ThetaGlobal.GlobalProjectRadial
+import HeckeGeneral.Characters.InfinityType
+import DedekindZetaZeroFree.Theta.Periods.OddUpperAverageVanishing
 
 /-!
 # Actual complex rotations and the compact sheet-quotient integral

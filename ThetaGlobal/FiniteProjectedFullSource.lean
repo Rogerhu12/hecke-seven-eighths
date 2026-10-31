@@ -1,7 +1,5 @@
-module
-
-public import ThetaGlobal.FiniteFullProduct
-public import ThetaGlobal.FiniteTargetCutoff
+import ThetaGlobal.FiniteFullProduct
+import ThetaGlobal.FiniteTargetCutoff
 
 /-!
 # The actual finite projector retains the canonical full matrix product
@@ -12,8 +10,6 @@ normalization and projector word is constructed by those existing proofs.
 The newly retained property is proved for the literal canonical source in
 `FiniteFullProduct.canonical_fullArchProduct`; it is not a final input.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

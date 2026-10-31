@@ -1,12 +1,8 @@
-module
-
-public import ThetaGlobal.GlobalProjectSignedExtraction
-public import ThetaGlobal.GlobalProjectLiteralDigitWeights
-public import DedekindZetaZeroFree.Theta.Digits.SphericalValueBounds
-public import DedekindZetaZeroFree.Theta.Digits.RationalMaskFrequencies
-public import DedekindZetaZeroFree.Theta.Digits.Exterior.FiniteRowProducts
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectSignedExtraction
+import ThetaGlobal.GlobalProjectLiteralDigitWeights
+import DedekindZetaZeroFree.Theta.Digits.SphericalValueBounds
+import DedekindZetaZeroFree.Theta.Digits.RationalMaskFrequencies
+import DedekindZetaZeroFree.Theta.Digits.Exterior.FiniteRowProducts
 
 /-!
 # Independent local digit products for the literal marked average

@@ -1,10 +1,6 @@
-module
-
-public import ThetaGlobal.GlobalEmbedding
-public import HeckeAxiom.ArithmeticChoice
-public import DedekindZetaZeroFree.Metaplectic.Kubota.CubicLocalCoverAlgebra
-
-@[expose] public section
+import ThetaGlobal.GlobalEmbedding
+import HeckeAxiom.ArithmeticChoice
+import DedekindZetaZeroFree.Metaplectic.Kubota.CubicLocalCoverAlgebra
 
 /-!
 # Same-choice arithmetic adapter for the KP coefficient convention

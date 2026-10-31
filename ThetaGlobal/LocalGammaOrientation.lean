@@ -1,7 +1,5 @@
-module
-
-public import ThetaGlobal.FiniteNormalizedMellin
-public import HeckeGeneral.Characters.InfinityPacket
+import ThetaGlobal.FiniteNormalizedMellin
+import HeckeGeneral.Characters.InfinityPacket
 
 /-!
 # Character orientation of the actual local Mellin pair
@@ -16,8 +14,6 @@ hypothesis, and do not change either profile or the stored multiplier.
 In particular, a local convention whose direct profile uses an inverse
 character must be applied at `θ⁻¹` when it is connected to this source.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 noncomputable section

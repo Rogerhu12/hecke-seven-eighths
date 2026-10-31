@@ -1,8 +1,6 @@
-module
-
-public import ThetaGlobal.RegularizedKernelProject
-public import ThetaGlobal.ReflectedLimitProject
-public import ThetaGlobal.TestMellinLimit
+import ThetaGlobal.RegularizedKernelProject
+import ThetaGlobal.ReflectedLimitProject
+import ThetaGlobal.TestMellinLimit
 
 /-!
 # Exact compatibility of scalar Mellin convolution with the actual kernel
@@ -12,8 +10,6 @@ They check both the t -> -t sign in Vhat(-t) and the 1/(2π) normalization.
 No Mellin inversion, theta reflection, or scalar convolution identity is
 assumed in this project bridge.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false

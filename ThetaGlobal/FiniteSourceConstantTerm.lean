@@ -1,8 +1,6 @@
-module
-
-public import ThetaGlobal.FiniteFixedSource
-public import ThetaGlobal.GlobalProjectRadial
-public import DedekindZetaZeroFree.Eisenstein.ConstantTerms.ResidualRadialCovariance
+import ThetaGlobal.FiniteFixedSource
+import ThetaGlobal.GlobalProjectRadial
+import DedekindZetaZeroFree.Eisenstein.ConstantTerms.ResidualRadialCovariance
 
 /-!
 # Constant-term covariance for the actual projected finite source
@@ -13,8 +11,6 @@ constant term descend to the original projected source.  The source,
 finite vectors, coefficient table, quotient Haar and high K-type tensor
 remain the ones constructed in `FiniteFixedSource`.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

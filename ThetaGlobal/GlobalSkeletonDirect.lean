@@ -1,11 +1,7 @@
-module
-
-public import ThetaGlobal.GlobalProjectDirectMask
-public import ThetaGlobal.GlobalSkeletonChoice
-public import ThetaGlobal.ActualAnnularTransfer
-public import HeckeAxiom.GaussDictionary
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectDirectMask
+import ThetaGlobal.GlobalSkeletonChoice
+import ThetaGlobal.ActualAnnularTransfer
+import HeckeAxiom.GaussDictionary
 
 /-!
 # The actual direct quotient series is the skeleton's completed theta sum

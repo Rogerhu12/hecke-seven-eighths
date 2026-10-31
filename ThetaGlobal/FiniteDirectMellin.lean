@@ -1,6 +1,4 @@
-module
-
-public import ThetaGlobal.FiniteSheetMellin
+import ThetaGlobal.FiniteSheetMellin
 
 /-!
 # Direct sheet Mellin transform and the actual finite Haar volume
@@ -11,8 +9,6 @@ therefore its Mellin transform is precisely its Haar volume, with no
 suppressed factor.  The archimedean factors are left local for the
 explicit high K-type Mellin input.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

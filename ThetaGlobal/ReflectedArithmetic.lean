@@ -1,8 +1,6 @@
-module
-
-public import ThetaGlobal.ReflectedLocalBounds
-public import HeckeGeneral.Analysis.MarkedThetaReflection
-public import HeckeGeneral.Analysis.ThetaPrimeGaussNorm
+import ThetaGlobal.ReflectedLocalBounds
+import HeckeGeneral.Analysis.MarkedThetaReflection
+import HeckeGeneral.Analysis.ThetaPrimeGaussNorm
 
 /-!
 # Elementary bounds for the actual reflected arithmetic coefficients
@@ -12,8 +10,6 @@ It does not import HeckeSkeleton.Theta, nor any KP realization hypothesis.
 The local bound is deliberately coarse and uniform in the numerator valuation.
 The sharp local Weyl table is not needed for fixed-row absolute convergence.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false

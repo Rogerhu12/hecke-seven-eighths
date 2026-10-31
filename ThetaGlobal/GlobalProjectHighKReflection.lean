@@ -1,9 +1,5 @@
-module
-
-public import ThetaGlobal.GlobalProjectLiteralDigitWeights
-public import ThetaGlobal.FiniteHighKTensor
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectLiteralDigitWeights
+import ThetaGlobal.FiniteHighKTensor
 
 /-!
 # Concrete marked Fourier reflection for the actual high K-type tensor

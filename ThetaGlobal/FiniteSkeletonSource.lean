@@ -1,8 +1,6 @@
-module
-
-public import HeckeSkeleton.Base
-public import ThetaGlobal.FiniteLocalHighK
-public import ThetaGlobal.FiniteAssembly
+import HeckeSkeleton.Base
+import ThetaGlobal.FiniteLocalHighK
+import ThetaGlobal.FiniteAssembly
 
 /-!
 # Finite Mellin data on the skeleton's one actual arithmetic choice
@@ -13,8 +11,6 @@ remaining input is the explicit per-place high K-type Mellin package.
 The source is selected before that local input, and every later theorem
 uses the same selection.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

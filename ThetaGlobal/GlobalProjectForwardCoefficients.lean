@@ -1,9 +1,5 @@
-module
-
-public import ThetaGlobal.GlobalProjectLocalDigitTables
-public import ThetaGlobal.GlobalProjectOrbitCoefficients
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectLocalDigitTables
+import ThetaGlobal.GlobalProjectOrbitCoefficients
 
 /-!
 # Literal forward masks and their actual rational-unit invariance

@@ -1,9 +1,5 @@
-module
-
-public import ThetaGlobal.GlobalProjectLocalPhases
-public import ThetaGlobal.GlobalProjectDirectReindex
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectLocalPhases
+import ThetaGlobal.GlobalProjectDirectReindex
 
 /-!
 # The literal marked forward mask on an actual ideal generator

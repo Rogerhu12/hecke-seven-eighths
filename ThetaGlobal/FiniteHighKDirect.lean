@@ -1,6 +1,4 @@
-module
-
-public import ThetaGlobal.FiniteNormalizedMellin
+import ThetaGlobal.FiniteNormalizedMellin
 
 /-!
 # The actual high K-type direct coefficient and its finite cutoff
@@ -10,8 +8,6 @@ proved radial identity.  Replacing its archimedean components preserves
 that finite product.  The direct unfolding weight uses the positive
 infinity character, while the reflected weight uses its inverse.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

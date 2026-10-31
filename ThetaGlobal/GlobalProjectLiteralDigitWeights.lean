@@ -1,9 +1,5 @@
-module
-
-public import ThetaGlobal.GlobalProjectWeightedSheet
-public import ThetaGlobal.GlobalProjectFrequency
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectWeightedSheet
+import ThetaGlobal.GlobalProjectFrequency
 
 /-!
 # Literal project masks in the actual finite digit average

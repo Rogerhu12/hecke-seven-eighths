@@ -1,8 +1,4 @@
-module
-
-public import ThetaGlobal.GlobalProjectLiteralSeed
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectLiteralSeed
 
 /-!
 # Marked reflection from the actual source and the permitted local inputs

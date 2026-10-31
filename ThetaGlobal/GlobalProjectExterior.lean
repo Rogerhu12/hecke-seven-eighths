@@ -1,11 +1,7 @@
-module
-
-public import ThetaGlobal.GlobalCoreSource
-public import ThetaGlobal.GlobalProjectRadial
-public import DedekindZetaZeroFree.Theta.Whittaker.ExteriorSlotExtraction
-public import DedekindZetaZeroFree.Theta.Digits.SUnitReindexing
-
-@[expose] public section
+import ThetaGlobal.GlobalCoreSource
+import ThetaGlobal.GlobalProjectRadial
+import DedekindZetaZeroFree.Theta.Whittaker.ExteriorSlotExtraction
+import DedekindZetaZeroFree.Theta.Digits.SUnitReindexing
 
 /-!
 # Exterior compact invariance for arbitrary tensors at the fixed bad places

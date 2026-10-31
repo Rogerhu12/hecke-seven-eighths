@@ -1,7 +1,5 @@
-module
-
-public import ThetaGlobal.PrimalLimitProject
-public import ThetaGlobal.ReflectedLimitProject
+import ThetaGlobal.PrimalLimitProject
+import ThetaGlobal.ReflectedLimitProject
 
 /-!
 # The final extensional limit step for the actual marked theorem
@@ -16,8 +14,6 @@ deconvolution/Fubini machinery. They are not asserted here.
 `GlobalProjectLiteralSeed` supplies that seed from the actual source. This
 module keeps the limit argument separate from those arithmetic steps.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false

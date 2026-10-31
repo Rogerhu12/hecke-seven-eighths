@@ -1,8 +1,6 @@
-module
-
-public import ThetaGlobal.ReflectedAbsoluteProject
-public import ThetaGlobal.RegularizedKernelProject
-public import Mathlib.Analysis.Normed.Group.Tannery
+import ThetaGlobal.ReflectedAbsoluteProject
+import ThetaGlobal.RegularizedKernelProject
+import Mathlib.Analysis.Normed.Group.Tannery
 
 /-!
 # Regularizer removal for the project's literal reflected ideal series
@@ -15,8 +13,6 @@ reflectedTerm sum, with no theta reflection or fixed-profile seed premise.
 
 This file requires the original project's vendored dependencies.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false

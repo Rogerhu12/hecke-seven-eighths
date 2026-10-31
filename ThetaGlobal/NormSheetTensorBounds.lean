@@ -1,7 +1,5 @@
-module
-
-public import ThetaGlobal.FiniteSheetMellin
-public import DedekindZetaZeroFree.Adeles.Quotients.NormSheets.RemainingCoordinateIntegrals
+import ThetaGlobal.FiniteSheetMellin
+import DedekindZetaZeroFree.Adeles.Quotients.NormSheets.RemainingCoordinateIntegrals
 
 /-!
 # Continuity and quadratic tails of actual tensor norm sheets
@@ -12,8 +10,6 @@ pushforward of norm-one Haar to those coordinates is a scalar multiple
 of their product Haar, with compact angular kernel.  This proves the
 sheet majorant and the domination needed for continuity from local data.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

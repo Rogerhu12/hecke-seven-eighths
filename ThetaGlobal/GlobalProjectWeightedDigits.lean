@@ -1,8 +1,4 @@
-module
-
-public import ThetaGlobal.GlobalProjectDigitDescent
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectDigitDescent
 
 /-!
 # Ordinary, punctured, and marked weights on an arbitrary support row

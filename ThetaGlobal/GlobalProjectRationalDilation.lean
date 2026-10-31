@@ -1,9 +1,5 @@
-module
-
-public import ThetaGlobal.GlobalProjectDigitDescent
-public import DedekindZetaZeroFree.Theta.Whittaker.RationalFrequencyDilation
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectDigitDescent
+import DedekindZetaZeroFree.Theta.Whittaker.RationalFrequencyDilation
 
 /-! The exact rational-frequency to standard Whittaker-period dictionary
 for every vector of the same residual core, with the original additive

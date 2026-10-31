@@ -1,9 +1,7 @@
-module
-
-public import ThetaGlobal.FiniteActualProfiles
-public import ThetaGlobal.NormSheetTensorBounds
-public import ThetaGlobal.PositiveAxisLog
-public import HeckeSkeleton.SixthLocalFinite
+import ThetaGlobal.FiniteActualProfiles
+import ThetaGlobal.NormSheetTensorBounds
+import ThetaGlobal.PositiveAxisLog
+import HeckeSkeleton.SixthLocalFinite
 
 /-!
 # The actual normalized sheet pair supplies annular-transfer profiles
@@ -13,8 +11,6 @@ integrals.  In particular global continuity and uniform logarithmic
 quadratic tails are conclusions of the one-coordinate norm-sheet bound.
 The only analytic inputs are the displayed per-place high K-type data.
 -/
-
-@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

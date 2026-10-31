@@ -1,8 +1,4 @@
-module
-
-public import ThetaGlobal.GlobalProjectReflectedLocalModel
-
-@[expose] public section
+import ThetaGlobal.GlobalProjectReflectedLocalModel
 
 /-!
 # The four literal phase blocks of the reflected local product
