@@ -135,6 +135,24 @@ physical expression with explicit `S`, `ProbeData`, character, geometry,
 and ray filter. This avoids named expansion choices but does not enlarge
 the analytic conclusion.
 
+`CompletedEnergyTransport.lean` gives a concrete consumer of this exact
+input. `CompletedLabelRealization` requires an exact row-polynomial identity
+between a canonical row polynomial and a bounded scalar times the actual
+physical `markedRow`, an injective map to the original sixth-unit orbit
+space, and the prescribed row-norm cutoff. The theorem
+`completedEnergy_label_transport` then bounds the literal `labelEnergy`
+using `MarkedEnergy`. `completedEnergy_normalized_transport` combines
+those identities with purely numerical scale bounds and cancels the label
+normalization. Neither theorem assumes a canonical row-energy bound.
+The finite-to-infinite sum comparison uses the existing proved
+`lc_sum_le_tsum_orbit_box`, whose support is finite; no divergent-series
+convention enters. What remains is to construct the stated polynomial
+identities and support maps for the actual general terminal blocks. In
+particular, the adapter does not construct a term-by-term correspondence
+between the finite squarefree column and the infinite completed theta
+sum, nor a uniform transform replacing its Gaussian by an arbitrary
+annular profile.
+
 ## 4. Precise division between the step and its closure
 
 The relative induction should consume an actual family of node energies
@@ -173,6 +191,59 @@ strict row-length descent; prove finite termination; and run backward
 energy induction with the correct normalization and common constants.
 This is not equivalent to assuming `MIInput`,
 `CanonicalInverseModelBounds`, or a row bound at the target exponent.
+
+### Published single-step interface and the remaining parent reconstruction
+
+The provider has published
+`HeckeSkeleton.Moments.MOMInvStep.fixed_triple_energy_step` in
+`HeckeSkeleton/Moments/MOM_INV_STEP/Interface.lean` on
+`cloud/mom-inv-step` (reviewed interface blob
+`ef81d921d241be38b2d3ab8d3c1c156eaaa5644b`). It bounds the actual
+`physicalStepScalar * ‖ReconstructionPacket.signedValue F G‖` of a fixed
+reconstructed block. Its two induction premises are bounds on
+`ReconstructionPacket.energy F γ` and `ReconstructionPacket.energy G γ`
+for every frozen triple. Those energies are **unnormalized**: their target
+power is `2 * Fchild + eps`. The conclusion has power
+`Fparent + 40 * eta + tau + pi + eps` and uses the distinct-triple mass once.
+The provider explicitly leaves construction of the packet from every
+original parent, including its common kernel and coefficient reindexing,
+as a separate obligation.
+
+`CanonicalDatum.rawEnergy` and `rawEnergy_eq_totalLength_mul_energy` supply
+the exact numerical normalization bridge:
+
+`rawEnergy Z = Z^F * energy Z`.
+
+Consequently `rawEnergy_le_of_energy_le` turns a canonical child bound
+`energy Z ≤ B * Z^(F + eps)` into `rawEnergy Z ≤ B * Z^(2F + eps)` without
+another label-mass estimate. To apply this to the provider's actual
+packet still requires the following identifications:
+
+- The packet's squarefree ideal labels correspond to the datum's nonzero
+  ideal labels, and the datum's weights equal the packet's explicit
+  divisor weights `#idealDivisors(f)^(9 + 4 * slotCap)`.
+- The packet's rows are ideals paired with sectors. They must be
+  reindexed as the relevant canonical rows and a finite sector sum;
+  zero rows must be excluded or their columns shown to vanish.
+- Its functions `F` and `G` must equal the corresponding literal
+  `columnSum`, with their masks and original product-form marks retained.
+- Its clipped column-plus-label length must equal each datum's
+  `totalLength`.
+- The same child constant must cover every triple, sector, and both
+  columns; the finite sector mass must be included in that constant once.
+
+The fixed reconstructed blocks must then be assembled into the original
+parent's energy, with all outer scalar and localization losses accounted
+for. The physical ray factor and the count's small-power parameter must
+have common bounds for the whole tree.
+
+The consumer's `StepEnergy` is a whole-parent linear reduction. It is not
+the statement of `fixed_triple_energy_step`, and the provider's theorem
+does not by itself instantiate it. Until the listed identities and
+outer aggregation are proved, `StepEnergy` remains an additional
+explicit source-reduction obligation in the relative closure. The
+normalization theorem resolves the exponent convention, not this
+reconstruction gap.
 
 Existing useful arithmetic is already proved in
 `HeckePort/Moments/Descent/Basic.lean`:

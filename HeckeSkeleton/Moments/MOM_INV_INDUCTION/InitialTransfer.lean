@@ -77,6 +77,39 @@ theorem initial_children_margins {α : Type*} {F M Q cap : α → ℝ}
   exact initial_margins h₁ h₂ (g.overlap_nonneg y hy) (g.puncture_lower y hy)
     (g.puncture_upper y hy) hc (g.clipping_nonneg y hy) heta htau
 
+/-- The first marked margin also gives the initial row range.  Thus the
+finite descent can use the source's fixed upper range, chosen before any
+Poisson child or clipping parameter. -/
+theorem initial_children_row_upper {α : Type*} {F M Q cap : α → ℝ}
+    {m r z eta tau margin upper : ℝ} {s : InitialData α}
+    (g : InitialGeometry F M Q cap m r z eta tau s)
+    (hz : 0 ≤ z) (hm : m ≤ upper) (hmargin : r + 2 * z ≤ m - margin)
+    (hloss : 10 * eta + tau ≤ 2 * margin) :
+    ∀ y ∈ s.nodes, M y ≤ upper := by
+  intro y hy
+  have hG := g.overlap_nonneg y hy
+  have hP := g.puncture_lower y hy
+  rw [g.row_length y hy]
+  unfold initialM
+  linarith
+
+/-- The same source range bounds the initial column-and-label length.
+Together with `budget_total_length_bound`, this gives one bounded length
+range for all descendants. -/
+theorem initial_children_total_upper {α : Type*} {F M Q cap : α → ℝ}
+    {m r z eta tau margin upper : ℝ} {s : InitialData α}
+    (g : InitialGeometry F M Q cap m r z eta tau s)
+    (hz : 0 ≤ z) (hm : m ≤ upper) (hmargin : r + 2 * z ≤ m - margin)
+    (hloss : 5 * eta ≤ margin) :
+    ∀ y ∈ s.nodes, F y ≤ upper := by
+  intro y hy
+  have hG := g.overlap_nonneg y hy
+  have hP := g.puncture_lower y hy
+  have hclip := g.clipping_le y hy
+  rw [g.total_length y hy]
+  unfold initialF
+  linarith
+
 /-- The two restored child normalizations use the clipping error twice. -/
 theorem initial_normalized_prefactor_le {α : Type*} {F M Q cap : α → ℝ}
     {m r z eta tau : ℝ} {s : InitialData α}

@@ -7,3 +7,7 @@ excluded from `Audit.lean`, so the two axiom reports cannot be conflated.
 -/
 
 #print axioms HeckeSkeleton.canonical_inverse_models
+#print axioms HeckeSkeleton.momentModels
+#print axioms HeckeSkeleton.SourceMomentIndex
+#print axioms HeckeSkeleton.targetData
+#print axioms HeckeSkeleton.finiteMellinData

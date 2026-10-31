@@ -33,7 +33,8 @@ The local inputs are explicit:
 
 From these inputs, the proof constructs a finite depth and simultaneous
 loss budget, proves both margins stay at least half the initial margin,
-closes the recursion, restores the initial normalization, and obtains
+derives the initial row and total-length bounds from the source's marked
+margin, closes the recursion, restores the initial normalization, and obtains
 the uniform bound
 
 \[
@@ -46,6 +47,18 @@ sixth-free unmarked ball energy with independent `U,D`, using
 `D ≤ U^(1/(1+a))`. The logarithmic reparameterization includes `U=D=1`.
 An eventual source construction still requires a separate bounded-scale
 estimate; the corresponding gluing lemma is explicit.
+The uniform sector versions sum the actual fixed finite sector family;
+the common scalar acquires a factor of at most the number of sectors plus
+one, while the height order stays unchanged.
+
+`CompletedEnergyTransport` supplies a separate bridge from the exact
+general-data physical hypothesis `LowCauchy.MarkedEnergy`. It proves the
+finite-row estimate from an exact row-polynomial realization in the physical
+marked polynomial, an injective map into the original orbit space, and
+the actual support and scalar bounds. It then performs the normalized
+label sum with a single mass factor. Constructing these realizations for
+all canonical terminal backgrounds, punctures, labels and profiles is
+still an explicit unresolved obligation.
 
 ## Proof modules
 
@@ -57,12 +70,14 @@ estimate; the corresponding gluing lemma is explicit.
 | `EnergyClosure` | Weighted child-energy consumption; explicit constants and height order |
 | `Terminal` | Three terminal branches and exact single cancellation of label mass |
 | `CanonicalEnergy` | Literal canonical ideal sums and normalization identities |
+| `CompletedEnergyTransport` | Exact physical-energy transport through injective row realizations |
 | `CanonicalClosure` | Geometry and analytic recursion combined |
 | `InitialTransfer` | Initial margins, overlap prefactor and source-energy transfer |
 | `InductionCapacity` | Marked capacity, independent scales and bounded-scale gluing |
 | `ActualMoments` | Corrected relative endpoints on the actual ideal polynomials |
-| `Uniform` | Common constants for an entire parameter family |
+| `Uniform` | Common constants for an entire parameter family and its finite sector sum |
 | `Audit` | Clean declarations and their axiom lists |
+| `CompletedEnergyTransportAudit` | Independent audit of the physical-energy adapter |
 | `OriginalAudit` | Separate audit of the original skeleton target |
 
 ## Remaining source integration
@@ -84,12 +99,15 @@ Use the pinned Lean `4.35.0-rc3` and Mathlib
 ```sh
 lake build HeckeSkeleton.Moments.MOM_INV_INDUCTION.Audit
 lake env lean HeckeSkeleton/Moments/MOM_INV_INDUCTION/Audit.lean
+lake build HeckeSkeleton.Moments.MOM_INV_INDUCTION.CompletedEnergyTransportAudit
+lake env lean HeckeSkeleton/Moments/MOM_INV_INDUCTION/CompletedEnergyTransportAudit.lean
 lake build HeckeSkeleton.Moments
 lake env lean HeckeSkeleton/Moments/MOM_INV_INDUCTION/OriginalAudit.lean
 ```
 
 The dedicated Actions workflow has separate mandatory jobs for the new
-relative theorem and the original skeleton theorem. Both enforce the
+relative theorem, the physical-energy adapter, and the original skeleton
+theorem. Each enforces the
 allowlist `{propext, Classical.choice, Quot.sound}`; the original job must
 report a failure while its admissions remain. Compiler logs, environment
 details, and axiom reports are uploaded as Actions artifacts. They are not

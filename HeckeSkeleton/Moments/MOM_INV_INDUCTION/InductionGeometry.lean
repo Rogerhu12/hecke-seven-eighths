@@ -1,6 +1,6 @@
 import HeckePort.Moments.Descent.Basic
 import Mathlib.Algebra.Order.Archimedean.Real.Basic
-import Mathlib.Tactic.Omega
+import Lean.Elab.Tactic.Omega
 
 /-!
 # Finite geometry of the canonical inverse induction
@@ -75,9 +75,11 @@ theorem exists_descentBudget (Mmax c ε : ℝ) (hc : 0 < c) (hε : 0 < ε) :
 theorem chain_row_bound (row : ℕ → ℝ) (d : ℝ) (n : ℕ)
     (hdrop : ∀ k < n, row (k + 1) + d ≤ row k) :
     row n + (n : ℝ) * d ≤ row 0 := by
+  revert hdrop
   induction n with
-  | zero => simp
+  | zero => intro _; simp
   | succ n ih =>
+      intro hdrop
       have hp := ih (fun k hk => hdrop k (Nat.lt_succ_of_lt hk))
       have hn := hdrop n (Nat.lt_succ_self _)
       push_cast
@@ -88,9 +90,11 @@ despite the small enlargement caused by clipping at each step. -/
 theorem chain_total_length_bound (length : ℕ → ℝ) (η : ℝ) (n : ℕ)
     (hgrowth : ∀ k < n, length (k + 1) ≤ length k + 11 * η) :
     length n ≤ length 0 + 11 * (n : ℝ) * η := by
+  revert hgrowth
   induction n with
-  | zero => simp
+  | zero => intro _; simp
   | succ n ih =>
+      intro hgrowth
       have hp := ih (fun k hk => hgrowth k (Nat.lt_succ_of_lt hk))
       have hn := hgrowth n (Nat.lt_succ_self _)
       push_cast

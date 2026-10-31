@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: mom-inv-induction-${{ github.head_ref || github.ref_name }}
@@ -24,10 +25,13 @@ jobs:
     timeout-minutes: 360
     env:
       LEAN_NUM_THREADS: '1'
+      CI_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Set up the repository's pinned Lean and Mathlib
         uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
         with:
@@ -36,19 +40,80 @@ jobs:
           test: 'false'
           lint: 'false'
           use-mathlib-cache: 'true'
-          use-github-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore real project build progress
+        id: project-cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: mom-inv-induction-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-${{ env.CI_HEAD_SHA }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.job }}
+          restore-keys: |
+            mom-inv-induction-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-${{ env.CI_HEAD_SHA }}-
+            mom-inv-induction-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-
+      - name: Check whether the exact-source native bootstrap is useful
+        id: native-bootstrap
+        continue-on-error: true
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/mom-inv-induction-verification"
+          python3 HeckeSkeleton/Moments/MOM_INV_INDUCTION/bootstrap.py plan --optional \
+            --report "$RUNNER_TEMP/mom-inv-induction-verification/bootstrap-plan.json"
+      - name: Download the pinned successful foundation artifact
+        id: bootstrap-download
+        if: steps.native-bootstrap.outputs.needed == 'true'
+        # Availability is optional; compilation and both axiom gates are mandatory.
+        continue-on-error: true
+        timeout-minutes: 10
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          artifact-ids: '13012376359'
+          run-id: '41126752041'
+          repository: Rogerhu12/hecke-seven-eighths
+          github-token: ${{ github.token }}
+          merge-multiple: true
+          path: ${{ runner.temp }}/mom-inv-induction-bootstrap
+      - name: Read the pinned producer source for full fingerprint validation
+        id: bootstrap-source
+        if: steps.bootstrap-download.outcome == 'success'
+        # This auxiliary source fetch is optional; proof gates below remain required.
+        continue-on-error: true
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          repository: Rogerhu12/hecke-seven-eighths
+          ref: 984b0de3ddf8bd9ea8051e0325765532c7c6550f
+          path: mom-inv-induction-bootstrap-source
+      - name: Authenticate the source closure and real native artifact before reuse
+        if: steps.bootstrap-source.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 HeckeSkeleton/Moments/MOM_INV_INDUCTION/bootstrap.py restore \
+            "$RUNNER_TEMP/mom-inv-induction-bootstrap" --optional \
+            --producer-source mom-inv-induction-bootstrap-source \
+            --report "$RUNNER_TEMP/mom-inv-induction-verification/bootstrap-report.json" 2>&1 |
+            tee "$RUNNER_TEMP/mom-inv-induction-verification/bootstrap.log"
       - name: Compile the hypothesis-parameterized induction and literal moment endpoint
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/mom-inv-induction-verification"
           {
+            printf 'Requested head: %s\nPR base: %s\n' "$CI_HEAD_SHA" "$CI_BASE_SHA"
             git rev-parse HEAD
             cat lean-toolchain
             lake env lean --version
             git -C .lake/packages/mathlib rev-parse HEAD
           } | tee "$RUNNER_TEMP/mom-inv-induction-verification/environment.log"
-          lake build HeckeSkeleton.Moments.MOM_INV_INDUCTION.Audit 2>&1 |
+          lake --fail-fast build \
+            HeckeSkeleton.Moments.MOM_INV_INDUCTION.CanonicalClosure \
+            HeckeSkeleton.Moments.MOM_INV_INDUCTION.InitialTransfer \
+            HeckeSkeleton.Moments.MOM_INV_INDUCTION.InductionCapacity 2>&1 |
+            tee "$RUNNER_TEMP/mom-inv-induction-verification/numerical-build.log"
+          lake --fail-fast build HeckeSkeleton.Moments.MOM_INV_INDUCTION.Audit 2>&1 |
             tee "$RUNNER_TEMP/mom-inv-induction-verification/build.log"
       - name: Enforce the axiom allowlist on every listed clean declaration
         shell: bash
@@ -80,11 +145,19 @@ jobs:
               summary.write('The original `HeckeSkeleton.canonical_inverse_models` is a separate target in `OriginalAudit.lean`; this clean-core job does not certify its existing admissions.\n')
           print(f'PASS: {len(expected)} declarations; axioms within {sorted(allowed)}')
           PY
+      - name: Preserve successfully compiled project dependencies for the next job/run
+        if: ${{ !cancelled() }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: mom-inv-induction-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-${{ env.CI_HEAD_SHA }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.job }}
       - name: Preserve compiler and axiom evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mom-inv-induction-verification-${{ github.sha }}
+          name: mom-inv-induction-verification-${{ env.CI_HEAD_SHA }}
           path: ${{ runner.temp }}/mom-inv-induction-verification/
           if-no-files-found: warn
           retention-days: 14
@@ -95,10 +168,13 @@ jobs:
     timeout-minutes: 360
     env:
       LEAN_NUM_THREADS: '1'
+      CI_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Set up the repository's pinned Lean and Mathlib
         uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
         with:
@@ -107,13 +183,69 @@ jobs:
           test: 'false'
           lint: 'false'
           use-mathlib-cache: 'true'
-          use-github-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore real project build progress
+        id: project-cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: mom-inv-induction-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-${{ env.CI_HEAD_SHA }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.job }}
+          restore-keys: |
+            mom-inv-induction-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-${{ env.CI_HEAD_SHA }}-
+            mom-inv-induction-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-
+      - name: Check whether the exact-source native bootstrap is useful
+        id: native-bootstrap
+        continue-on-error: true
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/mom-inv-induction-original"
+          python3 HeckeSkeleton/Moments/MOM_INV_INDUCTION/bootstrap.py plan --optional \
+            --report "$RUNNER_TEMP/mom-inv-induction-original/bootstrap-plan.json"
+      - name: Download the pinned successful foundation artifact
+        id: bootstrap-download
+        if: steps.native-bootstrap.outputs.needed == 'true'
+        # Availability is optional; compilation and both axiom gates are mandatory.
+        continue-on-error: true
+        timeout-minutes: 10
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          artifact-ids: '13012376359'
+          run-id: '41126752041'
+          repository: Rogerhu12/hecke-seven-eighths
+          github-token: ${{ github.token }}
+          merge-multiple: true
+          path: ${{ runner.temp }}/mom-inv-induction-bootstrap
+      - name: Read the pinned producer source for full fingerprint validation
+        id: bootstrap-source
+        if: steps.bootstrap-download.outcome == 'success'
+        # This auxiliary source fetch is optional; proof gates below remain required.
+        continue-on-error: true
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          repository: Rogerhu12/hecke-seven-eighths
+          ref: 984b0de3ddf8bd9ea8051e0325765532c7c6550f
+          path: mom-inv-induction-bootstrap-source
+      - name: Authenticate the source closure and real native artifact before reuse
+        if: steps.bootstrap-source.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 HeckeSkeleton/Moments/MOM_INV_INDUCTION/bootstrap.py restore \
+            "$RUNNER_TEMP/mom-inv-induction-bootstrap" --optional \
+            --producer-source mom-inv-induction-bootstrap-source \
+            --report "$RUNNER_TEMP/mom-inv-induction-original/bootstrap-report.json" 2>&1 |
+            tee "$RUNNER_TEMP/mom-inv-induction-original/bootstrap.log"
       - name: Record the original-target compilation environment
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/mom-inv-induction-original"
           {
+            printf 'Requested head: %s\nPR base: %s\n' "$CI_HEAD_SHA" "$CI_BASE_SHA"
             git rev-parse HEAD
             cat lean-toolchain
             lake env lean --version
@@ -123,7 +255,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          lake build HeckeSkeleton.Moments 2>&1 |
+          lake --fail-fast build HeckeSkeleton.Moments 2>&1 |
             tee "$RUNNER_TEMP/mom-inv-induction-original/original-build.log"
           lake env lean HeckeSkeleton/Moments/MOM_INV_INDUCTION/OriginalAudit.lean 2>&1 |
             tee "$RUNNER_TEMP/mom-inv-induction-original/original-axioms.log"
@@ -145,11 +277,158 @@ jobs:
               summary.write(f'Unexpected axioms: `{unexpected}`.\n')
           assert not unexpected, f'Original skeleton target remains blocked by {unexpected}'
           PY
+      - name: Preserve successfully compiled project dependencies for the next job/run
+        if: ${{ !cancelled() }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: mom-inv-induction-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-${{ env.CI_HEAD_SHA }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.job }}
       - name: Preserve the original statement's compiler and axiom evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mom-inv-induction-original-${{ github.sha }}
+          name: mom-inv-induction-original-${{ env.CI_HEAD_SHA }}
           path: ${{ runner.temp }}/mom-inv-induction-original/
+          if-no-files-found: warn
+          retention-days: 14
+
+  completed-energy-transport:
+    name: Completed marked energy transport and axiom gate
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      LEAN_NUM_THREADS: '1'
+      CI_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Set up the repository's pinned Lean and Mathlib
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore real project build progress
+        id: project-cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: mom-inv-induction-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-${{ env.CI_HEAD_SHA }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.job }}
+          restore-keys: |
+            mom-inv-induction-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-${{ env.CI_HEAD_SHA }}-
+            mom-inv-induction-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-
+      - name: Check whether the exact-source native bootstrap is useful
+        id: native-bootstrap
+        continue-on-error: true
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/mom-inv-induction-transport"
+          python3 HeckeSkeleton/Moments/MOM_INV_INDUCTION/bootstrap.py plan --optional \
+            --report "$RUNNER_TEMP/mom-inv-induction-transport/bootstrap-plan.json"
+      - name: Download the pinned successful foundation artifact
+        id: bootstrap-download
+        if: steps.native-bootstrap.outputs.needed == 'true'
+        # Availability is optional; compilation and both axiom gates are mandatory.
+        continue-on-error: true
+        timeout-minutes: 10
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          artifact-ids: '13012376359'
+          run-id: '41126752041'
+          repository: Rogerhu12/hecke-seven-eighths
+          github-token: ${{ github.token }}
+          merge-multiple: true
+          path: ${{ runner.temp }}/mom-inv-induction-bootstrap
+      - name: Read the pinned producer source for full fingerprint validation
+        id: bootstrap-source
+        if: steps.bootstrap-download.outcome == 'success'
+        # This auxiliary source fetch is optional; proof gates below remain required.
+        continue-on-error: true
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          repository: Rogerhu12/hecke-seven-eighths
+          ref: 984b0de3ddf8bd9ea8051e0325765532c7c6550f
+          path: mom-inv-induction-bootstrap-source
+      - name: Authenticate the source closure and real native artifact before reuse
+        if: steps.bootstrap-source.outcome == 'success'
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 HeckeSkeleton/Moments/MOM_INV_INDUCTION/bootstrap.py restore \
+            "$RUNNER_TEMP/mom-inv-induction-bootstrap" --optional \
+            --producer-source mom-inv-induction-bootstrap-source \
+            --report "$RUNNER_TEMP/mom-inv-induction-transport/bootstrap-report.json" 2>&1 |
+            tee "$RUNNER_TEMP/mom-inv-induction-transport/bootstrap.log"
+      - name: Compile the explicit completed-energy transport
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/mom-inv-induction-transport"
+          {
+            printf 'Requested head: %s\nPR base: %s\n' "$CI_HEAD_SHA" "$CI_BASE_SHA"
+            git rev-parse HEAD
+            cat lean-toolchain
+            lake env lean --version
+            git -C .lake/packages/mathlib rev-parse HEAD
+          } | tee "$RUNNER_TEMP/mom-inv-induction-transport/environment.log"
+          lake --fail-fast build HeckeSkeleton.Moments.MOM_INV_INDUCTION.CompletedEnergyTransportAudit 2>&1 |
+            tee "$RUNNER_TEMP/mom-inv-induction-transport/build.log"
+      - name: Enforce the axiom allowlist on every listed clean declaration
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake env lean HeckeSkeleton/Moments/MOM_INV_INDUCTION/CompletedEnergyTransportAudit.lean 2>&1 |
+            tee "$RUNNER_TEMP/mom-inv-induction-transport/axioms.log"
+          python3 - <<'PY'
+          import json, os, re
+          from pathlib import Path
+          directory = Path(os.environ['RUNNER_TEMP']) / 'mom-inv-induction-transport'
+          source = Path('HeckeSkeleton/Moments/MOM_INV_INDUCTION/CompletedEnergyTransportAudit.lean').read_text()
+          expected = set(re.findall(r'^#print axioms (\S+)', source, re.M))
+          assert expected, 'The audit module contains no declarations'
+          output = (directory / 'axioms.log').read_text()
+          pattern = r"'([^']+)' (?:depends on axioms: \[([^\]]*)\]|does not depend on any axioms)"
+          records = dict(re.findall(pattern, output, re.S))
+          missing = expected - records.keys()
+          assert not missing, f'Missing audit records: {sorted(missing)}'
+          allowed = {'propext', 'Classical.choice', 'Quot.sound'}
+          report = {}
+          for name in sorted(expected):
+              axioms = {item.strip() for item in records[name].split(',') if item.strip()}
+              report[name] = sorted(axioms)
+              assert axioms <= allowed, f'{name}: unexpected axioms {sorted(axioms - allowed)}'
+          (directory / 'clean-axiom-report.json').write_text(json.dumps(report, indent=2) + '\n')
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              summary.write(f'## Completed marked energy transport\n\n{len(expected)} clean declarations compiled and passed the axiom allowlist.\n\n')
+              summary.write('The original `HeckeSkeleton.canonical_inverse_models` is a separate target in `OriginalAudit.lean`; this clean-core job does not certify its existing admissions.\n')
+          print(f'PASS: {len(expected)} declarations; axioms within {sorted(allowed)}')
+          PY
+      - name: Preserve successfully compiled project dependencies for the next job/run
+        if: ${{ !cancelled() }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: mom-inv-induction-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-${{ env.CI_HEAD_SHA }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.job }}
+      - name: Preserve compiler and axiom evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-inv-induction-transport-${{ env.CI_HEAD_SHA }}
+          path: ${{ runner.temp }}/mom-inv-induction-transport/
           if-no-files-found: warn
           retention-days: 14

@@ -131,6 +131,16 @@ def labelEnergy (d : CanonicalDatum K) (Z : ℝ) (f : NonzeroIdeal K) : ℝ :=
 def energy (d : CanonicalDatum K) (Z : ℝ) : ℝ :=
   Z ^ (-d.labelLength) * ∑ f ∈ d.labels, d.labelWeight f * d.labelEnergy Z f
 
+/-- The literal weighted row energy before either the column or label
+normalization. This is the normalization used by the provider's
+`ReconstructionPacket.energy`, once its supports and columns are identified. -/
+def rawEnergy (d : CanonicalDatum K) (Z : ℝ) : ℝ :=
+  ∑ f ∈ d.labels, d.labelWeight f * ∑ k ∈ d.rows, ‖d.columnSum Z k f‖ ^ 2
+
+theorem rawEnergy_nonneg (d : CanonicalDatum K) (Z : ℝ) : 0 ≤ d.rawEnergy Z := by
+  exact Finset.sum_nonneg (fun f hf =>
+    mul_nonneg (d.labelWeight_nonneg f hf) (Finset.sum_nonneg (fun _ _ => sq_nonneg _)))
+
 theorem labelEnergy_nonneg (d : CanonicalDatum K) (Z : ℝ)
     (f : NonzeroIdeal K) : 0 ≤ d.labelEnergy Z f := by
   exact Finset.sum_nonneg (fun k _ => sq_nonneg _)
@@ -195,6 +205,33 @@ theorem energy_eq_rpow_neg_totalLength (d : CanonicalDatum K)
       rw [← Real.rpow_neg hZ.le, ← Real.rpow_add hZ]
       congr 2
       unfold totalLength
+      ring
+
+/-- Restore exactly the combined column and label normalization. The
+identity does not identify any independently supplied reconstruction packet. -/
+theorem rawEnergy_eq_totalLength_mul_energy (d : CanonicalDatum K)
+    (Z : ℝ) (hZ : 0 < Z) :
+    d.rawEnergy Z = Z ^ d.totalLength * d.energy Z := by
+  rw [d.energy_eq_rpow_neg_totalLength Z hZ]
+  change d.rawEnergy Z =
+    Z ^ d.totalLength * (Z ^ (-d.totalLength) * d.rawEnergy Z)
+  rw [← mul_assoc, ← Real.rpow_add hZ, add_neg_cancel, Real.rpow_zero, one_mul]
+
+/-- A normalized child bound at `F + ε` supplies the provider's raw child
+exponent `2F + ε`. No additional label mass is charged in this conversion. -/
+theorem rawEnergy_le_of_energy_le (d : CanonicalDatum K) {Z B ε : ℝ}
+    (hZ : 0 < Z)
+    (henergy : d.energy Z ≤ B * Z ^ (d.totalLength + ε)) :
+    d.rawEnergy Z ≤ B * Z ^ (2 * d.totalLength + ε) := by
+  calc
+    d.rawEnergy Z = Z ^ d.totalLength * d.energy Z :=
+      d.rawEnergy_eq_totalLength_mul_energy Z hZ
+    _ ≤ Z ^ d.totalLength * (B * Z ^ (d.totalLength + ε)) :=
+      mul_le_mul_of_nonneg_left henergy (Real.rpow_nonneg hZ.le _)
+    _ = B * (Z ^ d.totalLength * Z ^ (d.totalLength + ε)) := by ring
+    _ = B * Z ^ (2 * d.totalLength + ε) := by
+      rw [← Real.rpow_add hZ]
+      congr 2
       ring
 
 /-- The reflected terminal ledger bounds this literal canonical energy;

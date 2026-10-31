@@ -5,10 +5,16 @@ import Mathlib.Algebra.Order.BigOperators.Group.Finset
 /-!
 # The numerical and energy interface of one canonical inverse step
 
-This is the consumer-side interface required by `MOMENTS_README.md`.  A
-provider of the two Poisson transforms must instantiate it for the literal
-canonical energies, with the original masks, squarefree labels and frozen
-triples.  No canonical moment bound is a field of this interface.
+This is an explicit full-parent reduction obligation for the consumer.
+It is stronger than the published fixed reconstructed-block theorem
+`MOMInvStep.fixed_triple_energy_step` in `cloud/mom-inv-step`, file
+`HeckeSkeleton/Moments/MOM_INV_STEP/Interface.lean` (reviewed interface blob
+`ef81d921d241be38b2d3ab8d3c1c156eaaa5644b`).  That theorem consumes two raw
+child-energy bounds and does not construct every parent's reconstruction
+packet or its outer aggregation.  Instantiating `StepEnergy` therefore
+still requires those source identities for the literal canonical energies,
+with the original masks, squarefree labels and frozen triples.  No final
+canonical moment bound is a field of this interface.
 
 The three prefactors are kept separate.  `normalization` is the identity
 `κ + λ + count + 2 F_c = F` before clipping.  The normalized weight on the

@@ -152,6 +152,27 @@ structure InitialInputs {α : Type*} (node : α → CanonicalDatum K)
   reduction : InitialEnergy (fun y => (node y).energy Z) (fun y => (node y).totalLength)
     source Z m r z b.eta b.pi ((3 * C * L) * H ^ A) data
 
+/-- Construct the initial ledger from its actual source reduction.  The
+row upper bound is derived from the source's marked margin and bounded
+range; it need not be supplied as an additional analytic input. -/
+def InitialInputs.of_initial_reduction {α : Type*} {node : α → CanonicalDatum K}
+    {Mmax c eps Z C L H A source m r z : ℝ} {b : DescentBudget Mmax c eps}
+    (p : CanonicalInputs node b Z C L H A) (data : InitialData α)
+    (geometry : InitialGeometry (fun y => (node y).totalLength) (fun y => (node y).rowLength)
+      (fun y => (node y).punctureLength) (fun y => (node y).markCap) m r z b.eta b.tau data)
+    (admissible : ∀ y ∈ data.nodes, p.admissible y)
+    (reduction : InitialEnergy (fun y => (node y).energy Z) (fun y => (node y).totalLength)
+      source Z m r z b.eta b.pi ((3 * C * L) * H ^ A) data)
+    (hc : 0 < c) (hz : 0 ≤ z) (hm : m ≤ Mmax)
+    (hmargin : r + 2 * z ≤ m - 4 * c / 3) :
+    InitialInputs node p source m r z where
+  data := data
+  geometry := geometry
+  admissible := admissible
+  row_upper := initial_children_row_upper geometry hz hm hmargin
+    (by linarith [b.eta_terminal, b.tau_terminal])
+  reduction := reduction
+
 /-- Combine the initial masked Poisson reduction with the completed
 canonical induction.  Initial margins are proved from the original
 marked inequalities; they are not fields of `InitialInputs`. -/
