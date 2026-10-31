@@ -37,7 +37,7 @@ theorem actual_unit_coefficient_eq_gauss
     (I : A.Exterior) (a h : A.R) (ha : A.Generates I a) :
     MaskedQuotientCRT.coefficient C (unitExterior A) I 1 a h
         (unitExterior_generates A) ha =
-      actualSIntegerGauss K (A.Sf : Set _) hS a ha.1
+      actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hS a ha.1
         (generatedIdealCharacter (σ := σ) I a ha) h := by
   letI : Finite (FiniteTransform.Residue A.R.toSubring (1 : A.R)) := by
     change Finite (A.R ⧸ Ideal.span {(1 : A.R)})
@@ -64,7 +64,7 @@ theorem actual_unit_column_eq_gauss_div_norm
     (C : A.GeneralArithmeticContext σ η htrace)
     (I : A.Exterior) (a h : A.R) (ha : A.Generates I a) :
     actualFiniteColumn C (unitExterior A) I 1 a (unitExterior_generates A) ha h =
-      actualSIntegerGauss K (A.Sf : Set _) hS a ha.1
+      actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hS a ha.1
         (generatedIdealCharacter (σ := σ) I a ha) h / (A.exteriorNorm I : ℂ) := by
   unfold actualFiniteColumn
   rw [actual_unit_coefficient_eq_gauss hS C I a h ha]
@@ -77,7 +77,7 @@ theorem whole_gauss_eq_actual_unit_columns {ι : Type*}
     (columns : Finset ι) (c : ι → ℂ)
     (I : ι → A.Exterior) (a : ι → A.R) (ha : ∀ i, A.Generates (I i) (a i)) (h : A.R) :
     wholePolynomial columns c
-        (fun i h => actualSIntegerGauss K (A.Sf : Set _) hS (a i) (ha i).1
+        (fun i h => actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hS (a i) (ha i).1
           (generatedIdealCharacter (σ := σ) (I i) (a i) (ha i)) h) h =
       wholePolynomial columns (fun i => c i * (A.exteriorNorm (I i) : ℂ))
         (fun i h => actualFiniteColumn C (unitExterior A) (I i) 1 (a i)
@@ -102,9 +102,9 @@ theorem actual_gauss_generator_replacement
     (ha : A.Generates I a) (hb : A.Generates I b)
     (haa : A.IsAllowed C.correction.B (Units.mk0 (a : K) (by exact_mod_cast ha.1)))
     (hbb : A.IsAllowed C.correction.B (Units.mk0 (b : K) (by exact_mod_cast hb.1))) :
-    actualSIntegerGauss K (A.Sf : Set _) hS b hb.1
+    actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hS b hb.1
         (generatedIdealCharacter (σ := σ) I b hb) h =
-      actualSIntegerGauss K (A.Sf : Set _) hS a ha.1
+      actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hS a ha.1
         (generatedIdealCharacter (σ := σ) I a ha) h := by
   have he := actual_gauss_column_generator_replacement C D hD I a b h ha hb haa hbb
   simpa only [actual_unit_coefficient_eq_gauss hS C] using he

@@ -27,6 +27,7 @@ variable (hΓ : ∀ u : Γ, ∃ v : A.U, u.val = v ^ 6)
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
 
+include hΓ in
 theorem generated_character_subgroup_value (I : A.Exterior)
     (a : A.R) (ha : A.Generates I a) (u : Γ) :
     σ (A.sexticResidue I (A.unitEquiv u.val : A.R)) = 1 := by
@@ -63,7 +64,7 @@ theorem firstReciprocalPhase_allowed (C : A.GeneralArithmeticContext σ η hS)
     star (generatedIdealCharacter (σ := σ) J b hb (Ideal.Quotient.mk _ a)) = 1
   rw [he, MulChar.star_apply', MulChar.inv_apply_eq_inv']
   apply mul_inv_cancel₀
-  exact (MulChar.apply_ne_zero_iff _ _).mpr
+  exact MulChar.apply_ne_zero_iff.mpr
     (isUnit_residue_of_coprime b a
       (generated_elements_coprime I J a b ha hb hcop).symm)
 

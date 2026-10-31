@@ -63,9 +63,10 @@ variable (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExp
 
 def OrbitalGaussColumn.residue (c : OrbitalGaussColumn K S Γ)
     (h : OS ⧸ Ideal.span ({c.modulus} : Set OS)) : ℂ := by
-  letI := finite_sIntegerPrincipalResidue K (S : Set _) c.modulus c.nonzero
+  letI : Finite (OS ⧸ Ideal.span ({c.modulus} : Set OS)) :=
+    finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) c.modulus c.nonzero
   letI := Fintype.ofFinite (OS ⧸ Ideal.span ({c.modulus} : Set OS))
-  exact completeResidueGauss (actualSIntegerTrace K (S : Set _) hS)
+  exact completeResidueGauss (R := OS) (actualSIntegerTrace K (S : Set (HeightOneSpectrum (𝓞 K))) hS)
     c.modulus c.character h
 
 theorem OrbitalGaussColumn.residue_invariant (c : OrbitalGaussColumn K S Γ)
@@ -73,15 +74,16 @@ theorem OrbitalGaussColumn.residue_invariant (c : OrbitalGaussColumn K S Γ)
     c.residue hS (Ideal.Quotient.mk _
         (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val) * x) =
       c.residue hS x := by
-  letI := finite_sIntegerPrincipalResidue K (S : Set _) c.modulus c.nonzero
+  letI : Finite (OS ⧸ Ideal.span ({c.modulus} : Set OS)) :=
+    finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) c.modulus c.nonzero
   letI := Fintype.ofFinite (OS ⧸ Ideal.span ({c.modulus} : Set OS))
   unfold OrbitalGaussColumn.residue
-  rw [← sIntegerResidueUnitHom_val K (S : Set _) c.modulus u.val,
+  rw [← sIntegerResidueUnitHom_val K (S : Set (HeightOneSpectrum (𝓞 K))) c.modulus u.val,
     completeResidueGauss_unit_dilate, MulChar.inv_apply_eq_inv',
     sIntegerResidueUnitHom_val, c.invariant u, inv_one, one_mul]
 
 def OrbitalGaussColumn.orbit (c : OrbitalGaussColumn K S Γ) : Q → ℂ :=
-  sIntegerPeriodicOrbitWeight K (S : Set _) Γ c.modulus (c.residue hS)
+  sIntegerPeriodicOrbitWeight K (S : Set (HeightOneSpectrum (𝓞 K))) Γ c.modulus (c.residue hS)
     (fun u a => by rw [map_mul]; exact c.residue_invariant hS u _)
 
 @[simp] theorem OrbitalGaussColumn.orbit_mk (c : OrbitalGaussColumn K S Γ)
@@ -126,10 +128,11 @@ theorem OrbitalGaussColumn.pair_profile (c d : OrbitalGaussColumn K S Γ)
     (c.pair hS d ((b * star e) • φ)).orbitProfile ψ r q =
       (b * star e) * (c.pair hS d φ).orbitProfile ψ r q := by
   unfold ParentPeriodicPair.orbitProfile OrbitalGaussColumn.pair
-  exact sUnitOrbitalProfile_tensor_smul K (S : Set _) ψ (b * star e) φ _
+  exact sUnitOrbitalProfile_tensor_smul K (S : Set (HeightOneSpectrum (𝓞 K))) ψ (b * star e) φ _
 
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.OrbitalGaussColumn.ofSixth
 #print axioms HeckeSkeleton.Moments.EngineStep.OrbitalGaussColumn.pair_orbitWeight
 #print axioms HeckeSkeleton.Moments.EngineStep.OrbitalGaussColumn.pair_profile
+

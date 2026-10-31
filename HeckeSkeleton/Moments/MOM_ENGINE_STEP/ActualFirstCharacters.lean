@@ -104,7 +104,7 @@ theorem actualFirstActiveCharacter_mk (C : A.GeneralArithmeticContext σ η hS)
       ∏ i : activeSupport Finset.univ m n,
         (chi (σ := σ) (p i.val) ^ netExponent (m i.val) (n i.val))
           (Ideal.Quotient.mk (A.extendIdeal (primeIdeal (p i.val))) x) := by
-  unfold actualFirstActiveCharacter
+  unfold actualFirstActiveCharacter firstActiveGenerator primePowerProductGenerator
   rw [crtCharacter_apply]
   simp only [productCRT_mk]
   apply Finset.prod_congr rfl

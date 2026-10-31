@@ -166,7 +166,25 @@ theorem OrbitalGaussColumn.transformedRow_mk
       c.secondProfile μv hS d φ h r D (Quotient.mk _ j) := by ring
     _ = _ := by rw [hc]; ring
 
+/-- Every original unit-sector orbit is retained.  The representative is
+only used to display the complete correlation at its actual frequency. -/
+theorem OrbitalGaussColumn.transformedRow_out
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (c d : OrbitalGaussColumn K S Γ) (φ : SchwartzMap V ℂ)
+    (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
+    (r : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum OS))
+    (hcD : IsCoprime c.modulus (sIntegerMaskGenerator K (S : Set _) D).val)
+    (hdD : IsCoprime d.modulus (sIntegerMaskGenerator K (S : Set _) D).val)
+    (q : Q) :
+    (c.pair hS d φ).transformedRow μv hS h r D q =
+      secondOrbitalScalar r D *
+        (c.divisorPhase (sIntegerMaskGenerator K (S : Set _) D).val *
+          star (d.divisorPhase (sIntegerMaskGenerator K (S : Set _) D).val)) *
+        c.correlation d (-q.out.val) * c.secondProfile μv hS d φ h r D q := by
+  simpa only [Quotient.out_eq] using c.transformedRow_mk μv hS d φ h r D hcD hdD q.out
+
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.maskPoissonFactor_mul_card
 #print axioms HeckeSkeleton.Moments.EngineStep.OrbitalGaussColumn.transformedRow_mk
+

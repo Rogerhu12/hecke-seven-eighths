@@ -33,7 +33,7 @@ local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 theorem generatedColumn_orbit_eq_gauss (I : A.Exterior) (a : A.R)
     (ha : A.Generates I a) (q : Q) :
     (generatedOriginalColumn (σ := σ) hΓ I a ha).orbit hS q =
-      actualSIntegerGauss K (A.Sf : Set _) hS a ha.1
+      actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hS a ha.1
         (generatedIdealCharacter (σ := σ) I a ha) q.out.val := by
   conv_lhs => rw [← Quotient.out_eq q]
   rfl

@@ -40,6 +40,8 @@ theorem actualIdealResidue_exterior (I : A.Exterior) (h : A.R) :
     actualIdealResidue (A := A) (σ := σ) I.val h = σ (A.sexticResidue I h) := by
   rw [actualIdealResidue, dif_pos
     ⟨I.property.1, Ideal.isCoprime_iff_sup_eq.mpr I.property.2⟩]
+  apply congrArg (fun J : A.Exterior => σ (A.sexticResidue J h))
+  exact Subtype.ext rfl
 
 /-- Extraction of `h = g * h'` preserves the actual ramification zeros. -/
 theorem actualIdealResidue_frequency_mul (I : Ideal (𝓞 F)) (g h : A.R) :
@@ -77,10 +79,14 @@ theorem actualIdealResidue_ideal_mul (I J : Ideal (𝓞 F)) (h : A.R) :
   · by_cases hJ : J ≠ 0 ∧ IsCoprime J A.cS
     · have hIJ := (exterior_product_iff (A := A) I J).mpr ⟨hI, hJ⟩
       simp only [actualIdealResidue, dif_pos hI, dif_pos hJ, dif_pos hIJ]
-      change σ (A.residueValue A.sexticResidueFamily _ h) = _
-      rw [A.sexticResidueFamily_normalized.2.2
-        ⟨I, hI.1, Ideal.isCoprime_iff_sup_eq.mp hI.2⟩
-        ⟨J, hJ.1, Ideal.isCoprime_iff_sup_eq.mp hJ.2⟩ _ rfl h, map_mul]
+      let II : A.Exterior := ⟨I, hI.1, Ideal.isCoprime_iff_sup_eq.mp hI.2⟩
+      let JJ : A.Exterior := ⟨J, hJ.1, Ideal.isCoprime_iff_sup_eq.mp hJ.2⟩
+      let IJ : A.Exterior := ⟨I * J, hIJ.1, Ideal.isCoprime_iff_sup_eq.mp hIJ.2⟩
+      change σ (A.residueValue A.sexticResidueFamily IJ h) =
+        σ (A.residueValue A.sexticResidueFamily II h) *
+          σ (A.residueValue A.sexticResidueFamily JJ h)
+      simpa only [map_mul] using congrArg σ
+        (A.sexticResidueFamily_normalized.2.2 II JJ IJ rfl h)
     · have hIJ : ¬(I * J ≠ 0 ∧ IsCoprime (I * J) A.cS) :=
         fun h => hJ ((exterior_product_iff (A := A) I J).mp h).2
       simp only [actualIdealResidue, dif_neg hIJ, dif_neg hJ, mul_zero]
@@ -93,8 +99,9 @@ theorem actualIdealResidue_one (h : A.R) :
   have hI : (1 : Ideal (𝓞 F)) ≠ 0 ∧ IsCoprime (1 : Ideal (𝓞 F)) A.cS :=
     ⟨one_ne_zero, isCoprime_one_left⟩
   rw [actualIdealResidue, dif_pos hI]
-  change σ (A.residueValue A.sexticResidueFamily _ h) = 1
-  rw [A.residueValue_top A.sexticResidueFamily _ (by rfl), map_one]
+  let II : A.Exterior := ⟨1, hI.1, Ideal.isCoprime_iff_sup_eq.mp hI.2⟩
+  change σ (A.residueValue A.sexticResidueFamily II h) = 1
+  rw [A.residueValue_top A.sexticResidueFamily II (by rfl), map_one]
 
 theorem actualIdealResidue_prod {ι : Type*} (S : Finset ι)
     (I : ι → Ideal (𝓞 F)) (h : A.R) :
@@ -141,10 +148,10 @@ theorem joint_cartesian_column_factorization {X Y P : Type*} {k : ℕ}
       (∑ I ∈ S₁, a₁ I * jointPhase ξ (x₁ I)) *
         (∑ J ∈ S₂, a₂ J * jointPhase ξ (x₂ J)) *
           ∏ i, ∑ p ∈ S i, a i p * jointPhase ξ (x i p) := by
-  rw [mul_assoc, Finset.prod_univ_sum]
+  rw [Finset.prod_univ_sum]
   simp only [jointFourierColumn, childCartesianColumns, childCartesianCoefficient,
-    childCartesianLocation, Finset.sum_product, jointPhase_add, jointPhase_sum,
-    Finset.sum_mul_sum, Finset.mul_sum]
+    childCartesianLocation, Finset.product_eq_sprod, Finset.sum_product,
+    jointPhase_add, jointPhase_sum, Finset.sum_mul, Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro I _
   apply Finset.sum_congr rfl

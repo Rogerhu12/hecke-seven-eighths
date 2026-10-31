@@ -79,8 +79,7 @@ theorem actual_field_phase_eq_orbital (A : SArithmeticData K) (x : K) :
         (algebraMap K (v.val.adicCompletion K) x)) = _
   rw [ResidueTraceFactorProductFormula.archTraceCharacter_product_eq_trace,
     map_mul, map_prod]
-  simp only [Circle.coeHom_apply]
-  rw [Circle.coe_exp]
+  simp only [Circle.coeHom_apply, Circle.coe_exp]
   unfold HeckeGeneral.Characters.sLocalPrincipalPhase
   congr 1
   · congr 1
@@ -90,17 +89,17 @@ theorem actual_field_phase_eq_orbital (A : SArithmeticData K) (x : K) :
     intro v _
     exact local_trace_phase_eq_standard K v.val x
 
-/-- The complete Gauss column used after the first orbital transform is
-the very same finite Gauss sum used by the arithmetic coefficient recipe. -/
 set_option Elab.async false in
 set_option maxHeartbeats 1600000 in
+/-- The complete Gauss column used after the first orbital transform is
+the very same finite Gauss sum used by the arithmetic coefficient recipe. -/
 theorem completeResidueGauss_eq_finiteGauss (A : SArithmeticData K)
     (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
       HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (a : A.R) (ha : a ≠ 0)
     [Fintype (FiniteTransform.Residue A.R.toSubring a)]
     (χ : MulChar (FiniteTransform.Residue A.R.toSubring a) ℂ) (h : A.R) :
-    completeResidueGauss (actualSIntegerTrace K (A.Sf : Set _) hS) a χ
+    completeResidueGauss (R := A.R) (actualSIntegerTrace K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hS) a χ
         (Ideal.Quotient.mk _ h) =
       FiniteTransform.gaussSum A.R.toSubring a χ
         (Circle.coeHom.compAddChar A.fieldTraceCharacter) h := by
@@ -111,18 +110,18 @@ theorem completeResidueGauss_eq_finiteGauss (A : SArithmeticData K)
   let v : A.R := (FiniteTransform.canonicalLifts A.R.toSubring a).val x
   have hv : Ideal.Quotient.mk (Ideal.span ({a} : Set A.R)) v = x :=
     (FiniteTransform.canonicalLifts A.R.toSubring a).property x
-  rw [actualSIntegerTrace_psi K (A.Sf : Set _) hS a ha, ← hv, ← map_mul,
+  rw [actualSIntegerTrace_psi K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hS a ha, ← hv, ← map_mul,
     HeckeGeneral.Characters.sIntegerActualModulusAddCharacter_mk]
-  change HeckeGeneral.Characters.sLocalPrincipalPhase K (A.Sf : Set _)
+  change HeckeGeneral.Characters.sLocalPrincipalPhase K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
       (((h * v : A.R) : K) / (a : K)) =
     (A.fieldTraceCharacter ((h : K) * (v : K) / (a : K)) : ℂ)
   rw [Subalgebra.coe_mul]
   exact (actual_field_phase_eq_orbital K A _).symm
 
-/-- The old common modulus, the first-transform Gauss column and the
-amplifier's finite coefficient are connected without a phase hypothesis. -/
 set_option Elab.async false in
 set_option maxHeartbeats 1600000 in
+/-- The old common modulus, the first-transform Gauss column and the
+amplifier's finite coefficient are connected without a phase hypothesis. -/
 theorem finiteCoefficient_coprime_orbital (A : SArithmeticData K)
     (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
       HeckeGeneral.Characters.localDifferentExponent K v = 0)
@@ -137,7 +136,7 @@ theorem finiteCoefficient_coprime_orbital (A : SArithmeticData K)
       χs (FiniteTransform.residueMap A.R.toSubring s h) *
         star (χs (FiniteTransform.residueMap A.R.toSubring s a)) *
         χa (FiniteTransform.residueMap A.R.toSubring a s) *
-        completeResidueGauss (actualSIntegerTrace K (A.Sf : Set _) hS) a χa
+        completeResidueGauss (R := A.R) (actualSIntegerTrace K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hS) a χa
           (Ideal.Quotient.mk _ h) := by
   rw [completeResidueGauss_eq_finiteGauss K A hS a ha]
   apply finiteCoefficient_coprime_factor A.R.toSubring s a h hs ha hcop χs χa

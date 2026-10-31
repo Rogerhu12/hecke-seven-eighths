@@ -37,6 +37,13 @@ def geometrySelection (d : MomentData K ω ψ) (g : SlotGeometry K)
     Finset (Fin d.geometry.slotCount) :=
   cast (congrArg (fun g : SlotGeometry K => Finset (Fin g.slotCount)) hgeometry.symm) keep
 
+/-- Transporting the full finite set keeps every actual slot. -/
+theorem geometry_selection_univ (d : MomentData K ω ψ) (g : SlotGeometry K)
+    (hgeometry : d.geometry = g) :
+    geometrySelection d g hgeometry Finset.univ = Finset.univ := by
+  subst g
+  rfl
+
 /-- These successor parameters depend only on the fixed geometry. -/
 def geometryRemainingParameters (g : SlotGeometry K) (a : RealParameters)
     (keep : Finset (Fin g.slotCount)) : RealParameters :=
@@ -169,7 +176,7 @@ theorem geometry_uniform_capacity_step_or_zero
       subst g
       have ha : geometryRemainingParameters d.geometry a Finset.univ = a :=
         remainingParameters_univ d a hz
-      simp only [geometrySelection, ha, Finset.prod_empty, one_mul,
+      simp only [geometry_selection_univ, ha, Finset.prod_empty, one_mul,
         pairedEnergy_restrictSlots_univ]
       have hE : 0 ≤ pairedEnergy d a Z t :=
         Finset.sum_nonneg (fun _ _ => sq_nonneg _)

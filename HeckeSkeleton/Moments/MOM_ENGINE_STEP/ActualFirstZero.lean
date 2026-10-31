@@ -63,11 +63,12 @@ theorem actual_prime_power_product_zero_gauss
         localMaskedCharacter C (p i) (n i) (hn i).ne' x := by
   let a : ι → A.R := fun i => generator C (p i) ^ n i
   let hc := primePowerGenerator_pairwise C p hp n
+  letI : Fintype (CommonSupport.Residue (∏ i, a i)) := zeroProductFintype C p n
   let e := productCRT a hc
   have hchar : generatedIdealCharacter (σ := σ) (primePowerProduct p n)
       (primePowerProductGenerator C p n) (primePowerProduct_generates C p n) =
       crtCharacter e (fun i => localMaskedCharacter C (p i) (n i) (hn i).ne') := by
-    have he := generatedIdealCharacter_product
+    have he := generatedIdealCharacter_product (σ := σ)
       (fun i => powerIdeal (p i) (n i)) a
       (fun i => generator_power_generates C (p i) (n i)) hc
     change generatedIdealCharacter (σ := σ) (primePowerProduct p n)
@@ -132,8 +133,8 @@ end Product
 
 section FirstTransform
 
-variable {ι κ λ : Type*} [Fintype ι] [DecidableEq ι]
-  [Fintype κ] [DecidableEq κ] [Fintype λ] [DecidableEq λ]
+variable {ι κ ν : Type*} [Fintype ι] [DecidableEq ι]
+  [Fintype κ] [DecidableEq κ] [Fintype ν] [DecidableEq ν]
 
 /-- The first mixed Fourier coefficient at zero can be nonzero only on
 the powerful product diagonal of the complete original two indices.
@@ -143,7 +144,7 @@ theorem actual_first_zero_powerful_original
     (C : A.GeneralArithmeticContext σ η hS) (T : NonzeroModulusTrace A.R)
     (p : ι → ExteriorPrime A) (m n : ι → ℕ) (hm : ∀ i, 0 < m i) (hn : ∀ i, 0 < n i)
     (q : κ → ExteriorPrime A) (hq : Function.Injective q) (u : κ → ℕ) (hu : ∀ i, 0 < u i)
-    (r : λ → ExteriorPrime A) (hr : Function.Injective r) (v : λ → ℕ) (hv : ∀ i, 0 < v i)
+    (r : ν → ExteriorPrime A) (hr : Function.Injective r) (v : ν → ℕ) (hv : ∀ i, 0 < v i)
     (c : A.R) (hc : c ≠ 0)
     (habc : IsCoprime (primePowerProductGenerator C q u)
       (primePowerProductGenerator C r v * c))
