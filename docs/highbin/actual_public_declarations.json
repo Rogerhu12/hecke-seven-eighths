@@ -522,350 +522,350 @@
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 38,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.quotientSymbol_mul",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 45,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.quotientSymbol_one",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 56,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.quotientSymbol_sixth_global_unit",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 63,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.quotientSymbolHom",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 76,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.quotientSymbol_unit_sixth",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 83,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.probeGaussOnQuotient_unit_scale",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 104,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.probeGaussOnQuotient_sixth_unit",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
-    "line": 131,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "line": 130,
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.quotientSymbol_product",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
-    "line": 145,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "line": 144,
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.principalPhase_add",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
-    "line": 156,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "line": 155,
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.generator_isUnit_mod",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
-    "line": 164,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "line": 163,
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.quotientCRT",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
-    "line": 185,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "line": 184,
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.quotientCRT_mk",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
-    "line": 195,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "line": 194,
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.scaledCRT",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
-    "line": 201,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "line": 200,
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.scaledCRT_mk",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
-    "line": 209,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "line": 208,
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.quotientSymbol_scaledCRT",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
-    "line": 231,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "line": 230,
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.productPrincipalCharacter_scaledCRT",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
-    "line": 258,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "line": 257,
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.product_character_sixth_shift",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
-    "line": 279,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "line": 278,
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.fourier_chosen_product_character",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
-    "line": 301,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "line": 300,
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.thetaGamma_product_character",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 329,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.thetaGamma_coprime_product",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 349,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.probeGauss_product_character",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 399,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.probeGauss_coprime_product",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 417,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.poissonCore",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 441,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.poissonCore_mk",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 446,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.poissonCore_sixth_unit",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 456,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.finitePoissonFactor_eq_fourier",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 487,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.finitePoissonFactor_eq_theta_fourier",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 502,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.poissonCoreOn",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 517,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.poissonCoreOn_mk",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 523,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.poissonCoreOn_sixth_unit",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 530,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.finitePoissonFactor_eq_theta_fourier_on",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 544,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.exteriorMul_exchange",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 561,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.generator_zero_mod_of_dvd",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 569,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.probeGauss_scaled_sum",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 579,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.idealSymbol_scaled_sum",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 598,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.idealSymbol_generator_product",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 606,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.idealSymbol_generator_ne_zero",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 622,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.idealSymbol_generator_sixth",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 628,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.rawPoissonCrossPhase",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 638,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.rawPoissonCrossPhase_eq",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 648,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.poissonCoreOn_scaledCRT",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 671,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.finitePoissonFactor_coprime_product",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 707,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.completedIdeal_mul",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 762,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.completedIdeal_cross_symbol",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 773,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.completedIdeal_cross_phase_cancel",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 787,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.thetaGamma_finitePoisson_coprime_product",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 817,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.finitePoissonFactor_frequency_sixth_unit",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 847,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.finitePoissonFactor_poissonFrequency_mul_right",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 868,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualCRT.fourIdeal_finite_coefficient_coprime_product",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean",
     "line": 894,
-    "source_sha256": "8dcf45c755a237c481f47e1d663b29bdb517a4523a2131abe964094557c82d94"
+    "source_sha256": "1302c5d067365f7a66f8037e7dec4b3806363f2eb3ab8c031ae9e326a9348111"
   },
   {
     "name": "HeckeSkeleton.HighBinActualEuler.mem_exteriorSupport_iff",
@@ -1376,196 +1376,196 @@
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
     "line": 65,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.probeGauss_prime_eq_gaussAt",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
     "line": 78,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.principalResidue",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
     "line": 108,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.principalResidue_mk",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
     "line": 114,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.principalCharacter_power_residue",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
     "line": 121,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.principalResidue_fourier_sixth_shift",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
     "line": 131,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.primeTimesPowerQuotientEquiv",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
     "line": 162,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.primeTimesPowerQuotientEquiv_mk",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
     "line": 173,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.primeProduct_addCharacter_unitShift",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
     "line": 178,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_prime_power_eq_fourier",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
     "line": 214,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_prime_power_eq_valuationGauss",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 276,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 277,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.symbolOnQuotient_primePower_zero",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 295,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 296,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.probeGauss_primePower_zero",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 306,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 307,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.productPrincipalCharacter_unitShift_of_generators",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 326,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 329,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.primeZeroTimesPowerQuotientEquiv",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 359,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 362,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.primeZeroTimesPowerQuotientEquiv_mk",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 371,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 374,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_zero_power_eq_fourier",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 378,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 381,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_zero_power_eq_valuationGauss",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 423,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 426,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_primePowers_eq_positiveConvolution",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 441,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 444,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.primePowerTimesZeroQuotientEquiv",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 464,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 467,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.primePowerTimesZeroQuotientEquiv_mk",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 476,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 479,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_power_zero_eq_symbol",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 484,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 487,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_zero_zero",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 536,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 542,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_primePowers_completedUnit",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 564,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 572,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.principalPower_mk_isUnit",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 588,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 596,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.principalPower_fourier_frequency_sixth_unit",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 598,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 609,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.idealSymbol_primePower_sixth_invariant",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 612,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 623,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_primePowers_frequency_sixth_invariant",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean",
-    "line": 643,
-    "source_sha256": "cc9ac421588b6e36ef6b6ef3c53c29bf4c3aa904e49fd9fed4f322ea7168ec57"
+    "line": 654,
+    "source_sha256": "8fc84d1814278b421f478166fdc83bb248e50b55d8624482c6f1e2ae09d52207"
   },
   {
     "name": "HeckeSkeleton.HighBinActualEuler.prime_mixed_calibration",

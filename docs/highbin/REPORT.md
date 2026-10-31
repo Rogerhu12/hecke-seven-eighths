@@ -2,7 +2,7 @@
 
 Working branch: `codex/highbin-euler-norm-boundary-20261030`.
 Original base: `503ad9895e5f8affef55b22fea082e251bf33aa7`.
-Merged current base: `556fd33068f5914887e850ed2dce9e9272d9b8c2` (`dtests-handoff`).
+Merged current base: `6e67559f4285ab833a746db021a0d73200e47590` (`dtests-handoff`).
 PR: https://github.com/Rogerhu12/hecke-seven-eighths/pull/1.
 Toolchain: Lean `4.35.0-rc3`; Mathlib `0493595ecd5da8ef14742febab99728f98e948e8`.
 
@@ -107,6 +107,25 @@ name repairs are also applied to the downstream `ActualFinitePoisson` module. Pu
 these latest repairs still require a new native build. The failed run's artifact
 `13028526379` was downloaded and verified against SHA256
 `893a5a386e5f7448f269de67770fee57707de50d2855df3c6957969c4f78efd8`.
+At `8bc1e92`, native compilation also passed `ActualGaussSigns` (4.5 seconds)
+and `ActualPrimePowerGauss` (12 seconds). CRT was reduced to three proof errors,
+and `ActualFinitePoisson` then reached its own proofs. The next repairs replace
+an ambiguous permutation-sum rewrite by `Fintype.sum_equiv`, explicitly
+specialize sixth-unit invariance, avoid expensive automatic congruence,
+and handle the actual one-element quotient in the zero-exponent branches.
+The finite-Poisson transport preserves its original finite sums and factors;
+prime-ideal-power equality is proved before transporting the quotient type.
+All 78 public declaration headers in these two modules are unchanged.
+Their full native recheck and the eight-module axiom audit remain pending.
+Artifact `13029277888` was downloaded and verified against SHA256
+`5657cb2c722449379ae6078126d2ad021e646586d8238fa41d1567e25ce3f998`.
+
+The current base also includes the separately merged low-hybrid/exterior
+wiring. Its 20 changed files were transferred from `6e67559` and checked
+against their exact Git blob identities. They do not overlap this PR's
+support-source edits; the new workflow already has
+`concurrency.cancel-in-progress: true`. All three repository workflows retain
+that setting.
 The comparisons are recorded in
 [physical_row_data_narrowing_provenance.json](physical_row_data_narrowing_provenance.json)
 and [flt_import_narrowing_provenance.json](flt_import_narrowing_provenance.json).

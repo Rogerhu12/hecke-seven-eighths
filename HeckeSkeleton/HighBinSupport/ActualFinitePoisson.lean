@@ -68,7 +68,7 @@ theorem finitePoissonFactor_eq_sum_kernel (P : ProbeData K S)
       ∑ x : ThetaQuotient K S (exteriorMul K S den A),
         poissonKernelOnQuotient K S P den A h x := by
   unfold finitePoissonFactor
-  congr 1
+  apply congrArg (fun v : ℂ => (exteriorNorm K S den : ℂ)⁻¹ * v)
   apply Finset.sum_congr rfl
   intro x _
   rw [← poissonKernelOnQuotient_mk, Ideal.Quotient.mk_out]
@@ -103,7 +103,7 @@ theorem probeGauss_prime_eq_gaussAt (P : ProbeData K S) (p : ExteriorPrime K S)
       change _ = thetaPrimeCharacter K S P.arithmetic p x *
         thetaPrincipalAddCharacter K S P.arithmetic (exteriorPrimeIdeal K S p)
           (e (sIntegerSexticResidueMap K S p.val p.property m * x))
-      rw [map_mul, he]
+      rw [map_mul e, he]
 
 def principalResidue (D : ThetaArithmeticData K S) (p : ExteriorPrime K S)
     (n : ℕ) (hn : 1 ≤ n) :
@@ -257,7 +257,8 @@ theorem finitePoisson_prime_power_eq_fourier (P : ProbeData K S)
     rw [hsum]
     unfold HighBin.FourierInversion.liftedConvolution
     rw [card_primeIdealResidueField]
-    simp only [exteriorNorm, exteriorPrimeIdeal, Complex.ofReal_natCast, AddChar.mulShift_apply]
+    simp only [exteriorNorm, exteriorPrimeIdeal, Complex.ofReal_natCast,
+      AddChar.mulShift_apply] <;> rfl
   have hχ : χ ≠ 1 := HighBin.ActualGaussPhases.character_nonprincipal χ
     (thetaPrimeCharacter_order K S D p)
   have hminus : χ⁻¹ (-1) = 1 := by
@@ -269,7 +270,7 @@ theorem finitePoisson_prime_power_eq_fourier (P : ProbeData K S)
     principalResidue_fourier_sixth_shift K S D p (t + 1) (by omega) (t - 1) V,
     card_primeIdealResidueField]
   simp only [HighBin.ActualGaussPhases.gaussFamily, pow_one,
-    principalCharacter_power_residue]
+    principalCharacter_power_residue] <;> rfl
 
 /-- The k=1 valuation table for the actual finitePoissonFactor, retaining
 the product of the two chosen ideal generators in its definition. -/
@@ -311,6 +312,8 @@ theorem probeGauss_primePower_zero (P : ProbeData K S) (p : ExteriorPrime K S)
     change (p.val.asIdeal ^ 0).map (algebraMap (𝓞 K) (S.integer K)) = ⊤
     rw [pow_zero, Ideal.one_eq_top, Ideal.map_top]
   letI : Subsingleton (ThetaQuotient K S I) := Ideal.Quotient.subsingleton_iff.mpr htop
+  letI : Unique (ThetaQuotient K S I) :=
+    { default := 0, uniq := fun x => Subsingleton.elim x 0 }
   change (∑ x : ThetaQuotient K S I, symbolOnQuotient K S P.arithmetic I x *
     thetaPrincipalAddCharacter K S P.arithmetic I (Ideal.Quotient.mk _ m * x)) = 1
   calc
@@ -398,7 +401,7 @@ theorem finitePoisson_zero_power_eq_fourier (P : ProbeData K S)
   let V : Rˣ := Units.map (Ideal.Quotient.mk (powerIdeal π t)).toMonoidHom U⁻¹
   have hgen : D.generator den * D.generator A = (U : S.integer K) ^ 6 * π ^ t := by
     rw [hv₀, hv₁]
-    simp only [U, Units.val_mul, mul_pow, pow_zero, mul_one]
+    simp only [U, π, primeGenerator, Units.val_mul, mul_pow, pow_zero, mul_one]
     ring
   have hk (x : R) : poissonKernelOnQuotient K S P den A h (e x) =
       (χ ^ t) (ρ x) * ψ ((V : R) ^ 6 * (Ideal.Quotient.mk _ h * x)) := by
@@ -418,7 +421,7 @@ theorem finitePoisson_zero_power_eq_fourier (P : ProbeData K S)
     rw [hN, Complex.ofReal_one, inv_one, one_mul, ← e.toEquiv.sum_comp]
     exact Finset.sum_congr rfl (fun x _ => hk x)
   rw [heq, principalResidue_fourier_sixth_shift K S D p t ht t V]
-  simp only [principalCharacter_power_residue]
+  simp only [principalCharacter_power_residue] <;> rfl
 
 theorem finitePoisson_zero_power_eq_valuationGauss (P : ProbeData K S)
     (hP : AllowedGeneratorInput K S P.arithmetic)
@@ -501,7 +504,7 @@ theorem finitePoisson_power_zero_eq_symbol (P : ProbeData K S)
   let V : Rˣ := Units.map (Ideal.Quotient.mk (powerIdeal π k)).toMonoidHom U⁻¹
   have hgen : D.generator den * D.generator A = (U : S.integer K) ^ 6 * π ^ k := by
     rw [hv₁, hv₀]
-    simp only [U, Units.val_mul, mul_pow, pow_zero, mul_one]
+    simp only [U, π, primeGenerator, Units.val_mul, mul_pow, pow_zero, mul_one]
     ring
   have hkernel (x : R) : poissonKernelOnQuotient K S P den A h (e x) =
       fourier ψ f (-x) * ψ ((V : R) ^ 6 * (Ideal.Quotient.mk _ h * x)) := by
@@ -520,6 +523,9 @@ theorem finitePoisson_power_zero_eq_symbol (P : ProbeData K S)
       map_pow, Nat.cast_pow, Complex.ofReal_pow, Complex.ofReal_natCast]
   have heq : finitePoissonFactor K S P den A h = f ((V : R) ^ 6 * Ideal.Quotient.mk _ h) := by
     rw [finitePoissonFactor_eq_sum_kernel, hN, ← e.toEquiv.sum_comp]
+    change (Fintype.card R : ℂ)⁻¹ *
+      (∑ x : R, poissonKernelOnQuotient K S P den A h (e x)) =
+        f ((V : R) ^ 6 * Ideal.Quotient.mk _ h)
     simp_rw [hkernel]
     simpa only [mul_assoc] using
       HighBin.FourierInversion.normalized_finite_fourier_inversion ψ
@@ -544,6 +550,8 @@ theorem finitePoisson_zero_zero (P : ProbeData K S) (p : ExteriorPrime K S)
       (algebraMap (𝓞 K) (S.integer K)) = ⊤
     rw [pow_zero, one_mul, Ideal.one_eq_top, Ideal.map_top]
   letI : Subsingleton (ThetaQuotient K S B) := Ideal.Quotient.subsingleton_iff.mpr htop
+  letI : Unique (ThetaQuotient K S B) :=
+    { default := 0, uniq := fun x => Subsingleton.elim x 0 }
   have hg (x : ThetaQuotient K S A) : probeGaussOnQuotient K S P A x = 1 := by
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
     exact probeGauss_primePower_zero K S P p a
@@ -555,9 +563,9 @@ theorem finitePoisson_zero_zero (P : ProbeData K S) (p : ExteriorPrime K S)
       Subsingleton.elim (Ideal.Quotient.mk _ h * x) 0, AddChar.map_zero_eq_one]
   rw [finitePoissonFactor_eq_sum_kernel]
   have hN : exteriorNorm K S A = 1 := by simp [A, exteriorNorm, exteriorPower]
-  rw [hN]
-  simp only [hkernel, Complex.ofReal_one, inv_one, one_mul]
-  simp
+  rw [hN, Complex.ofReal_one, inv_one, one_mul]
+  change (∑ x : ThetaQuotient K S B, poissonKernelOnQuotient K S P A A h x) = 1
+  simp only [hkernel, Finset.sum_const, Finset.card_univ, Fintype.card_unique, one_smul]
 
 /-- The completed-unit row used by the Euler sum, with its exact zero
 mask for every positive denominator and positive frequency valuation. -/
@@ -593,7 +601,10 @@ theorem principalPower_mk_isUnit (D : ThetaArithmeticData K S)
     simpa only [powerIdeal, pow_one, Ideal.mem_span_singleton] using ha
   have h := Ideal.Quotient.isUnit_mk_pow_of_notMem
     (powerIdeal (primeGenerator K S D p) 1) (n := n) hnot
-  simpa only [powerIdeal, pow_one, Ideal.span_singleton_pow] using h
+  have hpow : powerIdeal (primeGenerator K S D p) 1 ^ n =
+      powerIdeal (primeGenerator K S D p) n := by
+    simp only [powerIdeal, pow_one, Ideal.span_singleton_pow]
+  rwa [hpow] at h
 
 theorem principalPower_fourier_frequency_sixth_unit (D : ThetaArithmeticData K S)
     (p : ExteriorPrime K S) (n : ℕ) (hn : 1 ≤ n) (r : ℕ)

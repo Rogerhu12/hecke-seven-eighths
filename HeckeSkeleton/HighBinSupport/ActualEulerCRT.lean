@@ -116,9 +116,8 @@ theorem probeGaussOnQuotient_unit_scale (P : ProbeData K S)
       (((v : ThetaQuotient K S I) * h) * x)) =
     ∑ x : ThetaQuotient K S I, χ x * thetaPrincipalAddCharacter K S P.arithmetic I (h * x)
   rw [Finset.mul_sum]
-  conv_rhs => rw [← (Units.mulLeft v).sum_comp]
-  apply Finset.sum_congr rfl
-  intro x _
+  apply Fintype.sum_equiv (Units.mulLeft v)
+  intro x
   change χ (v : ThetaQuotient K S I) * (χ x * _) =
     χ ((v : ThetaQuotient K S I) * x) * _
   rw [map_mul]
@@ -321,7 +320,8 @@ theorem fourier_chosen_product_character (D : ThetaArithmeticData K S)
   intro x
   change f x * _ = f ((U : ThetaQuotient K S B) ^ 6 * x) *
     thetaPrincipalAddCharacter K S D B (h * ((U : ThetaQuotient K S B) ^ 6 * x))
-  rw [hf]
+  have hfu : f ((U : ThetaQuotient K S B) ^ 6 * x) = f x := hf u x
+  rw [hfu]
   rw [show h * ((U : ThetaQuotient K S B) ^ 6 * x) =
     (U : ThetaQuotient K S B) ^ 6 * (h * x) by ring, hphase]
 
@@ -490,7 +490,7 @@ theorem finitePoissonFactor_eq_fourier (P : ProbeData K S)
       fourier (productPrincipalCharacter K S P.arithmetic den A)
         (poissonCore K S P den A) (Ideal.Quotient.mk _ h) := by
   unfold finitePoissonFactor HighBin.FiniteResidueFourier.fourier
-  congr 1
+  refine congrArg (fun t : ℂ => (exteriorNorm K S den : ℂ)⁻¹ * t) ?_
   apply Finset.sum_congr rfl
   intro x _
   have hker := poissonKernelOnQuotient_mk K S P den A h (Quotient.out x)
