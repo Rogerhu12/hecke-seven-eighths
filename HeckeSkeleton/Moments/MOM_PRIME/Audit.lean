@@ -1,0 +1,48 @@
+import HeckeSkeleton.Moments.MOM_PRIME.Endpoint
+import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalTerminal
+import HeckeSkeleton.Moments.MOM_PRIME.AbsoluteMasks
+import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalHecke
+import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalSmooth
+import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalFiniteFamily
+import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalMomentBridge
+
+/-! Axiom audit for the actual endpoint and exceptional-terminal consumers.
+The conditional analytic inputs remain ordinary theorem parameters. -/
+
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exists_rows_card_absolute_bound
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exists_pairedRows_card_absolute_bound
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exists_slotProductAbsoluteBound
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exists_pairedPrimeAbsoluteBound
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exists_pairedPrimeAbsoluteBound_fixed
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exists_actualSelectedPrimeGeometry_slotProduct_bound
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exists_actualSelectedPrimeGeometry_absolute_bound
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exists_actualSelectedPrimeGeometryMomentData_absolute_bound
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.PrimeEndpointFamily.one_le_base
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.paired_primes_endpoint
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.paired_primes_endpoint_uniform
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.idealNormPhase
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.twisted_mask_deletion
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exceptionalResidue_zero
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exceptional_residue_extraction
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.twistedMaskedSum_absolute_direct
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exceptional_normalized_fallback
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exceptional_masked_error_uniform
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exceptional_main_of_volume
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exceptional_equal_product_main
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exceptional_equal_product_cancellation
+
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.primeIdeal_coprime_iff_not_dvd
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.primePolynomial_withExtraIdealMask
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.slotProduct_withExtraIdealMask
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.pairedRows_withExtraIdealMask
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.heckeExceptionalSum_eq_finite_sum
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.hecke_exceptional_main
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.hecke_exceptional_nonprincipal
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.hecke_exceptional_equal_product
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.contDiff_normPowerWeight
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.normPowerSchwartzProfile
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.hecke_exceptional_finite_family
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.plainPolynomial_norm_phase_bridge
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.plainPolynomial_exceptional_rectangle_norm
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.plainPolynomial_exceptional_fallback
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.plainPolynomial_exceptional_equal_product
