@@ -4,7 +4,7 @@
 
 **任务仍在进行，原始目标尚未全部通过。** 下文把实际成功的编译与已经写成但尚待编译的源码分开列出。辅助模块通过不替代 `expansionRecipeRaw`、原始 EX 定理及其类型依赖的严格验收；达到全部标准后才将 PR 标为可审查。
 
-最新完整原生证据为 `ec60fe7` / run `41214968233`：pure 通过112个模块、2,042个声明、0个非标准公理依赖；其余四组失败，共定位五个根模块。上一轮九个根模块中的八个已有新的实际 Built 记录。本批五个原生根错误修复及一个后继同形 API 修复，共六个 Lean 文件，已写成并冻结，仍待下一轮原生验证。此前七个分母家族和两个主行后继模块仍无新的 Built 记录；19个原名目标和三个共享源模块的严格公理 gate 也尚未通过。详见文末本轮记录及 `EXPANSION_VALIDATION.json`。
+最新完整原生证据为 `0263481` / run `41217907744`：pure 通过112个模块、2,042个声明、0个非标准公理依赖；其余四组失败，共定位四个根模块。上一轮五个根模块中的三个已有新的实际 Built 记录。随后已固定七个证明修复文件（四个原生根错误、三个有直接 API 依据的后继修复），并独立调整两个幅度宽度构造文件，合计八个不同 Lean 文件；最新不可变代码提交为 `d972f69776401dc514d8fd5a0d9e863103f9d6d1`，这些后续改动均待原生复验。19个原名目标和三个共享源模块的严格公理 gate 尚未通过。详见文末记录及 `EXPANSION_VALIDATION.json`。
 
 ## 原始目标与实际对象
 
@@ -180,3 +180,43 @@ arithmetic artifact 还保存了原生提交标识、源码归档及归档摘要
 此前七个 small/large/principal/outer/moderate 分母家族模块，以及 `ActualPrincipalResidueTails`、`ActualPrincipalTruncatedShifts` 两个后继，在本轮仍没有新的 Built 记录。验证 JSON 保留这九项已包含在 `ec60fe7`、但仍被前置依赖阻挡的状态；它们没有因为本批仅修改六个文件而被清除或标为通过。新六个文件的当前 SHA-256 已重新计算，修复均等待下一轮原生复验。
 
 历史语义记录、source hashes、公理清单、artifact IDs 和计数继续保留。仓库仅增加单行错误摘要、位置、`detail_sha256` 及 artifact/log 摘要；完整编译上下文仍只在 Actions artifacts 和本地诊断目录。当前19个原名目标及三个共享源模块的严格 gate 尚未通过，原始完成标准及 PR 可审查状态仍待全部原生验证达到。
+
+## `0263481` 的原生复验、联合解析性修复与幅度宽度预算
+
+head `0263481ab8c8f2ef30d909f6a665ed22d64e5b8c` 的 [run `41217907744`](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41217907744) 已全部结束。五份 artifact 的压缩包摘要、原始成员及合计335个分组源码哈希均已核对并匹配这一原生提交。pure job `124586189983` 成功审计112个模块、2,042个声明，非标准公理依赖为零；112个源码也与最终冻结代码相同。pure artifact `13048478654` 的 SHA-256 为 `c5747c756de3a09ae5ff10ca9bb698551bf7600e9fe998c93f80f3d6359603f0`。
+
+| 分组 | 原生结果 | 清单模块数 | 根模块／诊断数 | Artifact |
+| --- | --- | ---: | ---: | ---: |
+| pure | success；完整严格审计通过 | 112 | 0／0 | 13048478654 |
+| actual-arithmetic | failure；未进入完整公理审计 | 116 | 4／11 | 13049502116 |
+| actual-physical | failure；未进入完整公理审计 | 39 | 4／11 | 13049436978 |
+| actual-contours | failure；未进入完整公理审计 | 56 | 3／9 | 13049636130 |
+| skeleton | failure；原名及共享源严格 gate 被前置构建阻挡 | 12 | 4／11 | 13049294518 |
+
+arithmetic、physical 与 skeleton 的四个根模块、11条完整诊断作为多重集完全相同，比较不依赖输出顺序；contours 的三根、九条是其中的完整子集，仅缺 `PhysicalRecipeAssembly` 的两条诊断。skeleton artifact 的 SHA-256 为 `8fdce51d118ac3e671b2eb59901775ab29499ae42c5ddeea4a1210e5d699c1e8`，原始 build log 的 SHA-256 为 `d75b4edc51f6372d54ca1abf6bc692756eb2fbf505e02cfda10eebdb7bc2a684`；其12个源码匹配原生提交。包含完整源码归档的 artifacts 也已逐文件核对；arithmetic 的归档 SHA-256 为 `fcb317b5685f2192a3076af5061cb02d8d17a18f58116bbbd87c3fff577f9c1a`，1,112个文件全部匹配 `0263481` 的 Git blobs。
+
+上一轮五个根模块中的三个已有本轮 arithmetic 日志明确的 fresh Built 记录：`ActualKernelRegularity`、`ActualInitialCalibration`、`ActualNormFormPrimeCap`。`PhysicalCompletedPoisson` 与 `PhysicalRecipeAssembly` 分别还剩一条和两条诊断；新编译到的 `ActualRowKernelHolomorphy` 有两条诊断，`ActualNormFormFullCorrection` 有六条。单模块 Built 事件仍不替代整组尚未执行的穷尽公理审计。
+
+### 后续证明修复的不可变版本
+
+七个证明修复文件固定在 [commit `496aee9914912e54feac9fced688ce6e61bc7f6f`](https://github.com/Rogerhu12/hecke-seven-eighths/commit/496aee9914912e54feac9fced688ce6e61bc7f6f)，其中四个对应本轮实际根错误，三个对应已确认的相同 API 问题。`ActualRowKernelHolomorphy` 保留原可微接口，并从真实标量因子的解析性、解析坐标映射及原 joint correction 直接组合出三复变量联合解析性。原先错误调用的标量 `DifferentiableOn.analyticOnNhd` 只用于其合法的单复变量来源；最终联合解析结论及原数学域保持原陈述。
+
+三个后继修复是 `ActualShiftedRecipeIntegrability`、`ActualPrincipalInitialTransport` 与 `ActualModerateSweepHolomorphy`。第一项展开原 product measure 的别名以取得已有有限性实例，并显式展开由原 `hzre` 给出的正半平面成员条件；后两项使用同一实际因子构造联合解析证明。它们在本轮没有对应的新原生错误诊断，均明确记为有直接 API 依据、仍被前置依赖阻挡的修复。`ModerateSweep` 四个具体标量复合点的显式等式随后固定在 [commit `b7b3375650826ae2572ecc1667a2bf54a8a016d3`](https://github.com/Rogerhu12/hecke-seven-eighths/commit/b7b3375650826ae2572ecc1667a2bf54a8a016d3)，归入同一静态修复，不增加文件或修复计数。
+
+### 独立的幅度宽度预算修正
+
+[commit `7d598d966a6105f816c4b421bbd6dd8d537f0c15`](https://github.com/Rogerhu12/hecke-seven-eighths/commit/7d598d966a6105f816c4b421bbd6dd8d537f0c15) 单独修改 `PhysicalRecipeParameters` 与 `PhysicalRecipeAssembly` 的数值构造。旧参数仅给 `width_pos : 0 < width` 和 `e_cap : e ≤ eCap`，assembly 将 detector 提供的独立 ε 用作幅度宽度，缺少它与 detector 位移及外部损失预算之间的联系。同一个实际 amplitude source 已对任意正宽度成立，因此非空性证明取 `width = 4 * eCap` 为见证，并将以下不等式记录为实际选择参数的契约：
+
+| 字段 | 当前构造或结论 |
+| --- | --- |
+| 非空性见证的 `width` | `4 * eCap` |
+| `width_buffer` | `2 * e < width` |
+| `width_cap` | `width ≤ 4 * eCap` |
+
+实际 `choosePhysicalRecipeParameters` 保证两个新增不等式；其接口不要求选出的宽度与上述见证宽度逐字相等。在既定 `eCap = min(lamA, lamB) / 1000` 的实例中，由 `width_cap` 得到 `width ≤ lamB / 250 ≤ lamB / 100`。这是一项协调后的数值构造修正，单独列为待验证，不计入四个原生根错误或三个后继 API 修复。由于 `PhysicalRecipeAssembly` 同时属于证明修复与宽度构造，两类改动合计八个不同 Lean 文件。
+
+依据 [论文 TeX](../weil_seven_eighths_revised.tex) 第3868–3898行，尤其3880–3884行，幅度宽度与 detector/prime 损失必须协调选择，以获得实际幅度分箱界；第4301–4308行要求总指数损失放入固定剩余预算，第4348–4355行将实参数放在后续高度选择之前。数字4、1000、100是本实现对这些“充分小”条件的具体预算分配。原核、原标签分箱定义及全尺度 source 的量化仍用于同一个实际配方；新增不等式由构造给出，最终定理没有新增假设。第4364–4381行要求的内部高度次数先于 τ 与外部尾阶 N 的顺序也继续保留。
+
+最终正半平面成员条件修复固定在 [commit `d972f69776401dc514d8fd5a0d9e863103f9d6d1`](https://github.com/Rogerhu12/hecke-seven-eighths/commit/d972f69776401dc514d8fd5a0d9e863103f9d6d1)，仍属于同一个 shifted 可积性后继修复。最终代码 tree 为 `aa82b45f5f1eb4422f387bbd3fec250ece1e65b4`。本地提交与上述 GitHub 提交的对应代码树已核对一致；报告和源码清单引用正式 GitHub 版本。本次 `0263481` CI 没有验证这些后续源码。先前静态修复中仍有10项没有新的 Built 记录，原有 pending 状态继续逐项保留。
+
+所有历史语义记录、source hashes、公理清单、artifact IDs 和计数均保留；仓库只增加单行错误摘要、位置、`detail_sha256` 及 artifact/log 摘要，完整编译上下文仍只在 Actions artifacts 和本地诊断目录。验收范围仍为335个源模块、19个原名目标、三个共享源模块以及原三条标准公理。全部后续证明与数值构造尚待原生复验，PR 尚未达到可审查标准。

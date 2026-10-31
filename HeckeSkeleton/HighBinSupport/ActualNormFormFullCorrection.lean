@@ -117,8 +117,8 @@ theorem actualFullCorrectionSlot_decomposition (P : ProbeData K S)
     by_cases hone : primeExponents u.ideal.val p.val = 1
     · simp [hmem, hone, hzero]
     · have htwo : 2 ≤ primeExponents u.ideal.val p.val := by omega
-      simp only [hmem, not_true_eq_false, ite_false, hone, htwo, ite_true,
-        hzero, map_zero, mul_zero, zero_mul, neg_zero, zero_add, add_zero]
+      simp only [primeExponents_apply] at hone htwo
+      simp [hmem, hone, htwo, hzero]
   · have hval : primeExponents u.ideal.val p.val = 0 := by
       by_contra hn
       exact hmem (hrow.mpr hn)
@@ -271,7 +271,7 @@ theorem actualLocalCompensation_ramified_eq (P : ProbeData K S)
   rw [localFactor_eq_explicit K S P psi {p} u ha he p (s, w, z) hv,
     localFactor_eq_explicit K S P psi ∅ u ha he p (s, w, z) hv]
   simp only [explicitLocalEuler, if_pos hp, Finset.mem_singleton, if_pos rfl,
-    Finset.notMem_empty, if_false, sub_zero, ite_true]
+    Finset.notMem_empty, if_false, ite_true, sub_zero]
   rw [rowPhaseData_eta K S P psi hcal u p]
   unfold slotMarkedScalar slotSelectedScalar HighBin.SelectedCompensation.normalizedCompensation
   rw [show s + z - 1 = (z - 1) + s by ring,
@@ -384,7 +384,7 @@ theorem regularCompensationErrorConstant_pos : 0 < regularCompensationErrorConst
   unfold regularCompensationErrorConstant
   exact div_pos (by have := sweptTubeEulerMargin_pos; positivity) sweptTubeEulerMargin_pos
 
-set_option maxHeartbeats 1200000 in
+set_option maxHeartbeats 400000 in
 /-- The displayed error is genuinely smaller by a square root. All
 coordinate estimates are read from the actual dynamic contour, and the
 actual unmarked Euler error supplies the remaining term. -/
@@ -959,9 +959,7 @@ theorem exists_actualRegularErrorSlot_bound (g : PrimeWindowGeometry)
       mul_le_mul_of_nonneg_left hsum (mul_nonneg hM.le regularCompensationErrorConstant_pos.le)
     _ = C * (primeScale g Z) ^ (-(4 / 25 : ℝ) + delta) := by dsimp only [C]; ring
     _ ≤ _ := mul_le_mul_of_nonneg_left
-      (Real.rpow_le_rpow_of_exponent_le hP1 (by
-        dsimp only [delta]
-        linarith [min_le_left eta (2 / 25)])) hC.le
+      (Real.rpow_le_rpow_of_exponent_le hP1 (add_le_add le_rfl (min_le_left eta (2 / 25)))) hC.le
 
 theorem exists_actualValuationOneSlot_bound (g : PrimeWindowGeometry)
     {e eta : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000) (heta : 0 < eta) :

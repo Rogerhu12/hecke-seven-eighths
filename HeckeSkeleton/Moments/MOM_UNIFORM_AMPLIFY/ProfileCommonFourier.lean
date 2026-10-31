@@ -158,7 +158,7 @@ theorem shared_nonnegative_kernel_l2 {ι : Type*} [Fintype ι]
     intro t
     simpa only [hnorm, growthEnvelope, Real.rpow_zero, mul_one] using hpoint t
   have hm : (∫ t : ℝ, ‖K t‖) ≤ growthEnvelope (∫ t : ℝ, W t) 0 0 0 1 0 := by
-    simp only [hnorm, growthEnvelope, Real.rpow_zero, mul_one]
+    simp only [hnorm, growthEnvelope, Real.rpow_zero, mul_one, le_refl]
   have h := shared_fourier_integral_envelope g hg K hW.ofReal hE
     (by norm_num : (1 : ℝ) ≤ 1) (by norm_num : (0 : ℝ) ≤ 0) hp hm
   simpa only [growthEnvelope, zero_add, Real.rpow_zero, mul_one] using h

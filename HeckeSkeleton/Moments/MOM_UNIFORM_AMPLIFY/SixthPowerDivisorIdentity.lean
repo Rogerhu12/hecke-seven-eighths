@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerMasks
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerSeed
 import HeckeGeneral.Analysis.IdealAmplifierSmallPower
 
 /-!
@@ -26,15 +27,6 @@ open scoped BigOperators Classical nonZeroDivisors
 
 variable {K : Type} [Field K] [NumberField K]
 variable {ω ψ : HeckeCharacter K}
-
-/-- Only the profile is pulled back.  All original arithmetic fields,
-backgrounds, directions and fixed-place zeros remain unchanged. -/
-def sixthRootInverseData (d : MomentData K ω ψ) : MomentData K ω ψ :=
-  { d with inverseTest := {
-      profile u t y := d.inverseTest.profile (sixthPowerFreePart u) t y
-      support u t D := d.inverseTest.support (sixthPowerFreePart u) t D
-      support_spec u t D I :=
-        d.inverseTest.support_spec (sixthPowerFreePart u) t D I } }
 
 theorem sixthRootInverseData_profile_sixth (d : MomentData K ω ψ)
     (u a : NonzeroIdeal K) (t y : ℝ) :

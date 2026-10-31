@@ -112,7 +112,7 @@ theorem annularCutoffNormTwist_mixed_derivative (W : SmoothAnnularTest)
     unfold annularCutoffNormTwist profilePower linearExp
     rw [mul_comm (Real.log y : ℂ)]
   simp_rw [he]
-  rw [mixed_parameter_derivative]
+  rw [mixed_parameter_derivative (fun _ : ℝ => W.toFun y * V (R * y)) r s a ν (Real.log y)]
   simp only [annularCutoffNormTwist, annularMixedWindow, annularMixedWindowFun,
     profilePower, linearExp]
   rw [mul_comm (Real.log y : ℂ) ((a : ℂ) + (ν : ℂ) * Complex.I)]

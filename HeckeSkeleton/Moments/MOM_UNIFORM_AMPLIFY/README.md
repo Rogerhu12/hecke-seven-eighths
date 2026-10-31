@@ -75,6 +75,8 @@ mask(u*a^6, I) = mask(u, I) * 1_{IsCoprime(I,a)}.
 列唯一拆成支持于 a 和与 a 互素的两部分，得到原 `inversePolynomial` 的精确除数
 恒等式，包括 `N(d)^(-1/2)` 归一化、背景字符、Möbius 系数和全部零延拓。
 
+`SixthPowerSeed` 单独给出完整行严格尺度输入和原 profile 的 sixth-free 拉回。
+共享源接口只依赖这些定义，源模型与放大证明可以独立编译。
 `SixthPowerEnergy` 对真实理想乘子平均该恒等式，应用 divisor bound 和加权 Cauchy，
 再以素理想赋值模 6 证明 `(u,a) ↦ u*a^6` 注入。完整行求和只支付一次。
 `AmplificationSource` 保留有限扇区和 dyadic 2U 常数，推出
@@ -118,10 +120,12 @@ scales 的 default witness 也由实际构造覆盖。
 `u*a^6` 上仍取同一个原 profile。该 seed 是规范逆归纳应生产的严格短尺度结论，
 不是放大后的独立尺度估计。共享定义变更已在 MOM_INV_INDUCTION 的 PR #8 协调。
 
-为编译实际源，还修复了来自 #5 的四个依赖模块的 proof/elaboration 问题：
-`PhysicalCompletedPoisson`、`ActualRowKernelHolomorphy`、`PhysicalRecipeAssembly`、
-`HighBinSupport.ActualNormFormFullCorrection`。其中联合解析性由原核的真实解析
-因子复合得到；这些依赖的定理陈述、数学对象和共享定义均保留。
+实际源依赖采用 #5 负责人 `77dbe777` 的最新八个 Lean 文件，包含原四个
+proof/elaboration 根错误的修复，以及 shifted 可积性、principal 和 moderate
+联合解析性的后继修复。联合解析性由原核的真实解析因子复合得到。
+同一次上游合并还保留负责人对幅度宽度的构造修正：先按外部 cap 选择宽度，
+再证明 `2 * e < width` 与 `width ≤ 4 * eCap`。这一增强由实际构造生产，
+没有为最终零点定理增加假设；详细新旧对照与论文依据见 #5 的报告。
 
 ## 编译及严格公理检查
 
