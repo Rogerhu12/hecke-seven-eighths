@@ -166,8 +166,6 @@ theorem ramified_small_error (P : PhaseData) {q : ℝ} (hq : 2 ≤ q)
     _ = q ^ s.re * (9 * q ^ (-(3 / 8 : ℝ))) := by
       rw [mul_left_comm, ← Real.rpow_add hq0]
       congr 1
-      congr 1
-      ring
 
 /-- Every ramified local compensation has at most a square-root cost on
 the actual small-row line.  The only cutoff is a numerical inequality. -/

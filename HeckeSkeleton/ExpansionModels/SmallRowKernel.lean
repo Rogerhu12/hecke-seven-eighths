@@ -21,6 +21,7 @@ namespace HeckeSkeleton.Expansion.SmallRows
 
 open NumberField IsDedekindDomain MeasureTheory Set
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.HighBinActualEuler HeckeSkeleton.HeckeUniformStripGrowth
 open HeckeSkeleton.HeckeDeletedEulerControl
@@ -57,6 +58,7 @@ private theorem small_row_product (N eta : ℝ) (hN : 0 < N) :
   congr 1
   ring
 
+include nu in
 /-- The exact physical small-row kernel, before summing rows or integrating.
 Its scale exponent includes the full correction's 17/300 contribution. -/
 theorem exists_actual_small_kernel_bound
@@ -94,10 +96,11 @@ theorem exists_actual_small_kernel_bound
   have hFz : 0 < Fz := deletionUpperConstant_pos K (exceptionalPrimes K Sset)
   let kn : ℕ := 2 * Fintype.card (InfinitePlace K)
   let Cg : ℝ := Real.exp ((B + e + 17 / 50 - 1) ^ 2)
+  let Cp : ℝ := ‖(physicalPoissonScalar K : ℂ)‖
   let Cm : ℝ := ‖(physicalResidueNormalizer K Sset muS P)⁻¹‖
-  let C0 : ℝ := Cg * Ca * Cd * (Fz * Cz) * Cn * Cr * Ch *
+  let C0 : ℝ := Cp * Cg * Ca * Cd * (Fz * Cz) * Cn * Cr * Ch *
     (2 : ℝ) ^ kn * (4 : ℝ) ^ kr * Cm
-  have hC0 : 0 ≤ C0 := by dsimp [C0, Cg, Cm]; positivity
+  have hC0 : 0 ≤ C0 := by dsimp [C0, Cp, Cg, Cm]; positivity
   refine ⟨C0 + 1, Z0, (kn : ℝ) + kr, by linarith, hZ0, by positivity, ?_⟩
   intro Z H hZ hH u hu s w z hs hw hz hsh hwh _hzh
   have hZ1 : 1 ≤ Z := hZ0.trans hZ
@@ -163,7 +166,7 @@ theorem exists_actual_small_kernel_bound
   rw [compensatedRowMellinKernel_factorization K Sset muS P psi
     (arithmeticHighEulerData K Sset P psi) g T u Z hZpos s w z]
   simp only [div_eq_mul_inv, mul_inv, norm_mul, hNpow, hXpow, hZpow, hYpow]
-  change ‖Complex.exp ((s + z - 1) ^ 2)‖ * ‖additiveMellin K Sset muS P.additive z‖ *
+  change Cp * ‖Complex.exp ((s + z - 1) ^ 2)‖ * ‖additiveMellin K Sset muS P.additive z‖ *
       ‖mellin P.denominator.toFun w‖ * frequencyRowNorm K Sset u ^ (-(17 / 50 : ℝ)) *
       Z ^ (17 / 300 : ℝ) * Z ^ (B + e - 33 / 50) * Z ^ (-(23 / 96 : ℝ)) *
       (‖heckeDeletedContinuation K 1 (exceptionalPrimes K Sset) (6 * z)‖ *
@@ -174,7 +177,7 @@ theorem exists_actual_small_kernel_bound
         g T u Z s w z‖ *
       (Cm * ‖(primeNormalizer K Sset g T Z)⁻¹‖) ≤ _
   calc
-    _ ≤ Cg * Ca * Cd * frequencyRowNorm K Sset u ^ (-(17 / 50 : ℝ)) *
+    _ ≤ Cp * Cg * Ca * Cd * frequencyRowNorm K Sset u ^ (-(17 / 50 : ℝ)) *
         Z ^ (17 / 300 : ℝ) * Z ^ (B + e - 33 / 50) * Z ^ (-(23 / 96 : ℝ)) *
         ((Fz * Cz) * (Cn * frequencyRowNorm K Sset u ^ (3 / 5 : ℝ) *
           ((2 : ℝ) ^ kn * (1 + H) ^ (kn : ℝ))) *

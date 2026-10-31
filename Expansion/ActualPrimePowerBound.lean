@@ -60,6 +60,7 @@ theorem exists_actual_normalized_prime_power_bound
   have hDder : 0 ≤ Dder :=
     logDerivativeConstant_nonneg hdegree hC (zero_le_one.trans hA) hL hε
   have hDfix : 1 ≤ Dfix := by
+    dsimp only [Dfix]
     have hn : 0 < Ideal.absNorm (fixedDeletedIdeal K S) := Nat.pos_of_ne_zero
       (Ideal.absNorm_eq_zero_iff.not.mpr (fixedDeletedIdeal_ne_zero K S))
     exact_mod_cast (Nat.one_le_iff_ne_zero.mpr hn.ne')

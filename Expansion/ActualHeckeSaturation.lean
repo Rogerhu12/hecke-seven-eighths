@@ -19,6 +19,7 @@ open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Bridge
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ExpansionRecipe
 open HeckeSkeleton.ExpansionDetectorBridge HeckeSkeleton.HeckeBufferedReciprocal
+open HeckeSkeleton.ExplicitHeckeFunctionalEquation
 open ExpansionDetector.IdealCutoff ExpansionDetector.Hecke
 open Expansion.ActualTerminalSaturation
 open scoped Classical BigOperators ContDiff
@@ -80,7 +81,9 @@ theorem exists_original_masked_saturation
     K hcomplex arch weight R CD θzero hRzero hCD hθzero hzeroBudget
   let CZ : ℝ := 1 + ∑' I : NonzeroIntegralIdeal (K := K),
     nonzeroIdealNorm I ^ (-2 : ℝ)
-  have hCZ : 0 ≤ CZ := by dsimp [CZ]; positivity
+  have hCZ : 0 ≤ CZ := by
+    exact add_nonneg zero_le_one
+      (tsum_nonneg fun I => Real.rpow_nonneg (nonzeroIdealNorm_pos I).le _)
   have hzeta : Summable (fun I : NonzeroIntegralIdeal (K := K) =>
       nonzeroIdealNorm I ^ (-2 : ℝ)) := by
     simpa only [nonzeroIdealNorm] using

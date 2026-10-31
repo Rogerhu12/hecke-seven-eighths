@@ -16,6 +16,7 @@ namespace HighBinVerified.NormFormPrimeContour
 
 open NumberField IsDedekindDomain MeasureTheory Complex Set Filter
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.HeckeBufferedReciprocal
 open HeckeSkeleton.HeckePhysicalFamilyBufferedControl

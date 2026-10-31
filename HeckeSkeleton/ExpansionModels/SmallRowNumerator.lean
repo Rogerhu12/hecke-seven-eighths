@@ -33,6 +33,7 @@ namespace HeckeSkeleton.Expansion.SmallRows
 open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Bridge HeckeGeneral.Arithmetic.ConductorNormDraft
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.ExplicitHeckeFunctionalEquation
 open HeckeSkeleton.HeckeUniformStripGrowth HeckeSkeleton.HeckeDeletedEulerControl

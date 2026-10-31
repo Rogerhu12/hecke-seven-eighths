@@ -19,6 +19,7 @@ namespace HeckeSkeleton.Expansion.SmallRows
 
 open NumberField IsDedekindDomain MeasureTheory Set
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.HighBinActualEuler
 open scoped Classical BigOperators Topology
@@ -70,6 +71,7 @@ theorem norm_actual_rowContourBox_le
   rw [rowContourBox, norm_mul, hfactor]
   exact (mul_le_mul_of_nonneg_left hs (by positivity)).trans_eq (by ring)
 
+include nu in
 /-- All actual nonprincipal rows in the small range, with the paper's exact
 1/50 saving.  Eta/8 is the two row-subpower losses after the Z^(1/16) cutoff.
 The independent prime normalizer is retained explicitly. -/

@@ -27,6 +27,7 @@ namespace HeckeSkeleton.Expansion.SmallRows
 
 open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Bridge
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeGeneral.Analysis.SLocalRadialHaarDraft
 open HeckeGeneral.Analysis.ActualSLocalPositiveMomentDraft
@@ -48,7 +49,8 @@ def probeFiniteExtension (W : AdditiveProbeTest K Sset)
 
 @[simp] theorem probeFiniteExtension_mem (W : AdditiveProbeTest K Sset) (p : Sset) :
     probeFiniteExtension K S W p.val = W.finiteTest p := by
-  simp only [probeFiniteExtension, dif_pos p.property]
+  have hp : p.val ∈ S := p.property
+  simp only [probeFiniteExtension, dif_pos hp]
 
 variable [∀ p : HeightOneSpectrum (𝓞 K), MeasurableSpace (p.adicCompletion K)]
 variable [∀ p : HeightOneSpectrum (𝓞 K), BorelSpace (p.adicCompletion K)]
@@ -63,6 +65,7 @@ variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
 variable [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
 variable (nu : Measure (FiniteAdeleRing (𝓞 K) K)) [nu.IsAddHaarMeasure]
 
+include nu in
 /-- Fourier closure is supplied by the actual adelic theorem, not by an
 assumption on the transformed test. -/
 theorem additiveFourierFiniteProfile_locallyConstant_compactSupport
@@ -105,6 +108,7 @@ local instance : BorelSpace (mixedEmbedding.mixedSpace K)ˣ := ⟨rfl⟩
 local instance (p : Sset) : MeasurableSpace (p.val.adicCompletion K)ˣ := borel _
 local instance (p : Sset) : BorelSpace (p.val.adicCompletion K)ˣ := ⟨rfl⟩
 
+include nu in
 /-- Both the actual weighted Fourier function and its additive Mellin
 transform have uniform bounds on a fixed line with real part in (0,1]. -/
 theorem exists_actual_additiveMellin_line_bound [IsTotallyComplex K]

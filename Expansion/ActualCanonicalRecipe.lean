@@ -118,36 +118,36 @@ theorem canonicalRecipeWitness_plainDetectorPolynomial
 /-- The actual named source witness value inherits the same finite-sum
 identity, including every physical-model parameter. -/
 theorem canonicalRecipeWitness_inverseValue
-    (ω : HeckeCharacter K) (hV : ContDiff ℝ ∞ V)
+    («ω» : HeckeCharacter K) (hV : ContDiff ℝ ∞ V)
     (rows : Finset (FrequencyRow K S)) (p : Fin 3 → ℝ)
     (U t T : ℝ) (j k : ℕ) (i : Fin 2) (β ν : NonzeroIdeal K → ℝ)
     (u : FrequencyRow K S) (hU : 1 < U) (hj : j ≤ dyadicCap (3 * U ^ (21 : ℕ))) :
     ((canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν).toWitness
-        (P := P) (R := E.rows) (ω := ω) rows p t T U).inverseValue u =
+        (P := P) (R := E.rows) («ω» := «ω») rows p t T U).inverseValue u =
       inverseDetectorValue K (canonicalDetectorCharacter K ψ S P E i u)
         (originalDeletedPrimes K S u.ideal.val) V (U ^ t) U j (β u.ideal.val) (ν u.ideal.val) := by
   let w := canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν
-  change inversePolynomial (w.model (P := P) (R := E.rows) (ω := ω) p t T U u.sector)
+  change inversePolynomial (w.model (P := P) (R := E.rows) («ω» := «ω») p t T U u.sector)
     u.ideal.val (U ^ w.inverseLength) 0 = _
-  rw [w.inversePolynomial_eq_normalized (P := P) (R := E.rows) (ω := ω)
+  rw [w.inversePolynomial_eq_normalized (P := P) (R := E.rows) («ω» := «ω»)
     p t T U u (zero_lt_one.trans hU)]
   exact canonicalRecipeWitness_inverseDetectorPolynomial K ψ g V slotTime slotPower
     slotCoefficient S P E hV U t j k i β ν u hU hj
 
 /-- The named plain source witness is the second raw source factor. -/
 theorem canonicalRecipeWitness_plainValue
-    (ω : HeckeCharacter K) (rows : Finset (FrequencyRow K S)) (p : Fin 3 → ℝ)
+    («ω» : HeckeCharacter K) (rows : Finset (FrequencyRow K S)) (p : Fin 3 → ℝ)
     (U t T : ℝ) (j k : ℕ) (i : Fin 2) (β ν : NonzeroIdeal K → ℝ)
     (u : FrequencyRow K S) (hU : 1 < U) (hk : k ≤ dyadicCap (3 * U ^ (21 : ℕ))) :
     ((canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν).toWitness
-        (P := P) (R := E.rows) (ω := ω) rows p t T U).plainValue u =
+        (P := P) (R := E.rows) («ω» := «ω») rows p t T U).plainValue u =
       plainDetectorValue K (canonicalDetectorCharacter K ψ S P E i u)
         (originalDeletedPrimes K S u.ideal.val) U k (β u.ideal.val) (ν u.ideal.val) := by
   let w := canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν
   let F := canonicalRecipeFamily K ψ g V slotTime slotPower slotCoefficient
-  change plainPolynomial (w.model (P := P) (R := E.rows) (ω := ω) p t T U u.sector)
+  change plainPolynomial (w.model (P := P) (R := E.rows) («ω» := «ω») p t T U u.sector)
     (F.plainTest K ψ g w.realShifts w.imagShifts) u.ideal.val (U ^ w.plainLength) 0 = _
-  rw [w.plainPolynomial_eq_normalized (P := P) (R := E.rows) (ω := ω)
+  rw [w.plainPolynomial_eq_normalized (P := P) (R := E.rows) («ω» := «ω»)
     p t T U u (zero_lt_one.trans hU)]
   exact canonicalRecipeWitness_plainDetectorPolynomial K ψ g V slotTime slotPower
     slotCoefficient S P E U j k i β ν u hU hk
@@ -215,37 +215,37 @@ theorem scaledCanonicalRecipeWitness_plainDetectorPolynomial
 
 /-- Exact named inverse-witness identity for the normalized parameter family. -/
 theorem scaledCanonicalRecipeWitness_inverseValue
-    (C : ℝ) (hC : 0 < C) (ω : HeckeCharacter K) (hV : ContDiff ℝ ∞ V)
+    (C : ℝ) (hC : 0 < C) («ω» : HeckeCharacter K) (hV : ContDiff ℝ ∞ V)
     (rows : Finset (FrequencyRow K S)) (p : Fin 3 → ℝ)
     (U t T : ℝ) (j k : ℕ) (i : Fin 2) (β ν : NonzeroIdeal K → ℝ)
     (u : FrequencyRow K S) (hU : 1 < U) (hj : j ≤ dyadicCap (3 * U ^ (21 : ℕ))) :
     ((scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν).toWitness
-        (P := P) (R := E.rows) (ω := ω) rows p t T U).inverseValue u =
+        (P := P) (R := E.rows) («ω» := «ω») rows p t T U).inverseValue u =
       inverseDetectorValue K (canonicalDetectorCharacter K ψ S P E i u)
         (originalDeletedPrimes K S u.ideal.val) V (U ^ t) U j (β u.ideal.val) (ν u.ideal.val) := by
   let w := scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν
-  change inversePolynomial (w.model (P := P) (R := E.rows) (ω := ω) p t T U u.sector)
+  change inversePolynomial (w.model (P := P) (R := E.rows) («ω» := «ω») p t T U u.sector)
     u.ideal.val (U ^ w.inverseLength) 0 = _
-  rw [w.inversePolynomial_eq_normalized (P := P) (R := E.rows) (ω := ω)
+  rw [w.inversePolynomial_eq_normalized (P := P) (R := E.rows) («ω» := «ω»)
     p t T U u (zero_lt_one.trans hU)]
   exact scaledCanonicalRecipeWitness_inverseDetectorPolynomial K ψ g V slotTime slotPower
     slotCoefficient S P E C hC hV U t j k i β ν u hU hj
 
 /-- Exact named plain-witness identity for the same normalized parameters. -/
 theorem scaledCanonicalRecipeWitness_plainValue
-    (C : ℝ) (hC : 0 < C) (ω : HeckeCharacter K)
+    (C : ℝ) (hC : 0 < C) («ω» : HeckeCharacter K)
     (rows : Finset (FrequencyRow K S)) (p : Fin 3 → ℝ)
     (U t T : ℝ) (j k : ℕ) (i : Fin 2) (β ν : NonzeroIdeal K → ℝ)
     (u : FrequencyRow K S) (hU : 1 < U) (hk : k ≤ dyadicCap (3 * U ^ (21 : ℕ))) :
     ((scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν).toWitness
-        (P := P) (R := E.rows) (ω := ω) rows p t T U).plainValue u =
+        (P := P) (R := E.rows) («ω» := «ω») rows p t T U).plainValue u =
       plainDetectorValue K (canonicalDetectorCharacter K ψ S P E i u)
         (originalDeletedPrimes K S u.ideal.val) U k (β u.ideal.val) (ν u.ideal.val) := by
   let w := scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν
   let F := scaledCanonicalRecipeFamily K ψ g V slotTime slotPower slotCoefficient C
-  change plainPolynomial (w.model (P := P) (R := E.rows) (ω := ω) p t T U u.sector)
+  change plainPolynomial (w.model (P := P) (R := E.rows) («ω» := «ω») p t T U u.sector)
     (F.plainTest K ψ g w.realShifts w.imagShifts) u.ideal.val (U ^ w.plainLength) 0 = _
-  rw [w.plainPolynomial_eq_normalized (P := P) (R := E.rows) (ω := ω)
+  rw [w.plainPolynomial_eq_normalized (P := P) (R := E.rows) («ω» := «ω»)
     p t T U u (zero_lt_one.trans hU)]
   exact scaledCanonicalRecipeWitness_plainDetectorPolynomial K ψ g V slotTime slotPower
     slotCoefficient S P E C hC U j k i β ν u hU hk

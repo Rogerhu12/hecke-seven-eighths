@@ -23,6 +23,7 @@ namespace HighBinVerified.NormFormFullCorrection
 
 open NumberField IsDedekindDomain Set Filter
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.Analysis.SquarefreeAmplification
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds

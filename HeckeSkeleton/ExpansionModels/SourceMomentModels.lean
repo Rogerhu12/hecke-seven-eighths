@@ -23,6 +23,7 @@ namespace HeckeSkeleton.ExpansionRecipe
 
 open NumberField HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
+open HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical HeckeGeneral.ThetaSkeleton.TIP
 open scoped Classical BigOperators
 

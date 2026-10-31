@@ -107,7 +107,7 @@ theorem exists_normPoleNumerator_strip_bound
       rw [hh] at hs'
       norm_num at hs'
     rw [normPoleNumerator_right K t s hs]
-    dsimp only [R]
+    dsimp only [R, Function.comp_def, id_eq]
     rw [DedekindZetaZeroFree.principalHeckeEntireRegularization_eq K hK ⊤ top_ne_bot
       eta D _ (zero_lt_one.trans hs') hs1,
       DedekindZetaZeroFree.PositiveZetaResidue.principal_continuation_eq_dedekindZeta
@@ -131,6 +131,7 @@ theorem exists_normPoleNumerator_strip_bound
     ⊤ top_ne_bot eta D (s - (t : ℂ) * Complex.I) (by simpa using (show 0 < s.re by linarith))
   rw [hsame]
   change ‖R (s - (t : ℂ) * Complex.I)‖ ≤ _
+  dsimp only [R]
   rw [hreq]
   simp only [Complex.sub_im, Complex.mul_im, Complex.ofReal_re, Complex.I_im,
     mul_one, Complex.ofReal_im, Complex.I_re, mul_zero, zero_add, add_zero] at hb
@@ -187,7 +188,9 @@ theorem normPoleNumerator_ne_zero_of_upper (t H alpha : ℝ)
   · simpa only [hp] using normPoleNumerator_at_pole K t
   intro hzero
   have hLzero : heckeContinuation K (heckeNormTwist K t) s = 0 := by
-    rw [heckeContinuation_normTwist_eq K t, hzero, zero_div]
+    rw [heckeContinuation_normTwist_eq K t]
+    change normPoleNumerator K t s / (s - heckeNormPole t) = 0
+    rw [hzero, zero_div]
   by_cases hright : 1 < s.re
   · exact heckeContinuation_ne_zero K (heckeNormTwist K t) hright hLzero
   have ha : AnalyticAt ℂ (heckeContinuation K (heckeNormTwist K t)) s := by

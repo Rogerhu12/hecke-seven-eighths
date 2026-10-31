@@ -19,6 +19,7 @@ namespace HeckeSkeleton.Expansion.SmallRows
 
 open NumberField IsDedekindDomain Set Filter
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds
 open HeckeSkeleton.HighBinContinuation HeckeSkeleton.HighBinActualEuler

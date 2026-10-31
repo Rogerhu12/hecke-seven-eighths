@@ -19,6 +19,7 @@ namespace HighBinVerified.NormFormActual
 
 open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open scoped Classical BigOperators nonZeroDivisors
 

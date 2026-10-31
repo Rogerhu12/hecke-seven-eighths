@@ -48,7 +48,7 @@ theorem annularProfile_real_mass_pos (W : AnnularProfile)
     intro hzero
     apply hy
     exact Complex.ext hzero (hre y)
-  exact integral_pos_of_integrable_nonneg_nonzero W.smooth.continuous.re
+  exact integral_pos_of_integrable_nonneg_nonzero (Complex.continuous_re.comp W.smooth.continuous)
     (annularProfile_integrable W).re hnn hyr
 
 theorem logWindow_real_lower (W : AnnularProfile)
@@ -57,7 +57,7 @@ theorem logWindow_real_lower (W : AnnularProfile)
     {X : ℝ} (hX : 2 ≤ X) (y : ℝ) :
     (W.function y).re / (2 * Real.log X) ≤ (logWindow X W.function y).re := by
   by_cases hWy : W.function y = 0
-  · simp only [hWy, Complex.zero_re, zero_div, logWindow]
+  · simp only [hWy, Complex.zero_re, zero_div, logWindow, le_refl]
   have hy := hs hWy
   have hXpos : 0 < X := by linarith
   have hypos : 0 < y := by linarith [hy.1]
@@ -87,8 +87,10 @@ theorem exists_logWindow_mellin_one_lower (W : AnnularProfile)
   have hV : Integrable (logWindow X W.function) :=
     (contDiff_logWindow hX2 W.smooth hs').continuous.integrable_of_hasCompactSupport
       (hasCompactSupport_logWindow X W.function hs')
-  rw [mellin_one_eq_integral_of_window _ (support_logWindow_subset_Icc X W.function hs'),
-    ← integral_re hV]
+  have hreal : (∫ y : ℝ, logWindow X W.function y).re =
+      ∫ y : ℝ, (logWindow X W.function y).re :=
+    (Complex.reCLM.integral_comp_comm hV).symm
+  rw [mellin_one_eq_integral_of_window _ (support_logWindow_subset_Icc X W.function hs'), hreal]
   have hi := integral_mono ((annularProfile_integrable W).re.div_const (2 * Real.log X))
     hV.re (logWindow_real_lower W hnn hs' hX2)
   rw [integral_div] at hi
@@ -104,8 +106,9 @@ theorem eventually_primeWindow_error_le (c C B D : ℝ)
   have hM : 0 ≤ M := by dsimp [M]; positivity
   have hlittle : (fun X : ℝ => M * Real.log X) =o[atTop]
       (fun X : ℝ => X ^ (1 / 64 : ℝ)) :=
-    (Real.isLittleO_log_rpow_atTop (by norm_num : (0 : ℝ) < 1 / 64)).const_mul_left M
-  filter_upwards [hlittle.bound (div_pos hc (by norm_num)), eventually_ge_atTop (2 : ℝ)]
+    (isLittleO_log_rpow_atTop (by norm_num : (0 : ℝ) < 1 / 64)).const_mul_left M
+  filter_upwards [hlittle.bound (div_pos hc (by norm_num : (0 : ℝ) < 2)),
+    eventually_ge_atTop (2 : ℝ)]
     with X hlog hX
   have hX1 : 1 ≤ X := by linarith
   have hXpos : 0 < X := by linarith
