@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalExceptionalSavingCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalThetaRows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantCommonLeaf
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafRowZero
 
 /-!
 # Empty actual correlation classes and inherited second savings
@@ -41,7 +42,7 @@ theorem correlation_eq_zero_of_live_empty (hR : R.live = ∅)
   by_contra hne
   have hm : h ∈ R.live := Finset.mem_filter.mpr ⟨hh, hne⟩
   rw [hR] at hm
-  exact Finset.not_mem_empty h hm
+  exact Finset.notMem_empty h hm
 
 end ActualSecondCorrelationRows
 
@@ -56,19 +57,6 @@ variable {U E : Type*}
 namespace ActualHybridLeaf
 
 variable (B : ActualHybridLeaf K H U E)
-
-theorem exceptionalIntegrand_eq_zero_of_rowWeight_zero
-    (hweight : ∀ h ∈ B.rows, B.rowWeight h = 0) (z : U × E) :
-    B.exceptionalIntegrand z = 0 := by
-  unfold exceptionalIntegrand jointColumnPairMagnitude
-  apply Finset.sum_eq_zero
-  intro h hh
-  rw [hweight h (Finset.mem_filter.mp hh).1, norm_zero, zero_mul, zero_mul]
-
-theorem exceptionalCost_eq_zero_of_rowWeight_zero
-    (hweight : ∀ h ∈ B.rows, B.rowWeight h = 0) : B.exceptionalCost = 0 := by
-  simp only [exceptionalCost, B.exceptionalIntegrand_eq_zero_of_rowWeight_zero hweight,
-    integral_zero, mul_zero]
 
 /-- The exact original row binding suffices; no bound on a sum, a
 kernel or a source coefficient is needed. -/
@@ -85,6 +73,18 @@ theorem exceptionalCost_eq_zero_of_correlation_live_empty
 namespace ConstantAtomExtraction
 
 variable {B} (X : B.ConstantAtomExtraction)
+
+/-- Raw input for the zero constructor of ExceptionalLeafRawCase.
+The original row binding and empty correlation carrier imply each
+individual zero weight; no cost identity is assumed. -/
+theorem rowWeight_zero_of_correlation_live_empty
+    (R : ActualSecondCorrelationRows A σ H ι)
+    (hrows : X.leaf.rows = R.rows)
+    (hweight : ∀ h ∈ X.leaf.rows, X.leaf.rowWeight h = R.weight h * R.correlation h)
+    (hR : R.live = ∅) : ∀ h ∈ X.leaf.rows, X.leaf.rowWeight h = 0 := by
+  intro h hh
+  have hr : h ∈ R.rows := hrows ▸ hh
+  rw [hweight h hh, R.correlation_eq_zero_of_live_empty hR h hr, mul_zero]
 
 /-- Return the zero contribution to the original leaf, before the
 same constant-atom extraction used by the nonempty terminal estimate. -/

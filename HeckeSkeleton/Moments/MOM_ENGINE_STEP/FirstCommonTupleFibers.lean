@@ -62,7 +62,8 @@ theorem supportResidual_injOn_fixed_extract
   intro I hI J hJ he
   calc
     I = supportExtract I R * supportResidual I R := (support_reconstruct I hI.1 R).symm
-    _ = supportExtract J R * supportResidual J R := by rw [hI.2, hJ.2, he]
+    _ = supportExtract J R * supportResidual J R :=
+      congrArg₂ (fun I J : Ideal (𝓞 K) => I * J) (hI.2.trans hJ.2.symm) he
     _ = J := support_reconstruct J hJ.1 R
 
 /-- With the complete extracted occurrence tuple fixed, the original
@@ -76,9 +77,12 @@ theorem actual_support_residual_tuple_injective_on_extract {α : Type*} {k : ℕ
   intro x hx y hy he
   apply hinj hx hy
   funext i
-  rw [actual_support_factor_reconstruct R (f x) i,
-    actual_support_factor_reconstruct R (f y) i,
-    hextract x hx, hextract y hy, congrFun he i]
+  have ha : actualSupportExtractedFactors R (f x) i =
+      actualSupportExtractedFactors R (f y) i :=
+    congrFun ((hextract x hx).trans (hextract y hy).symm) i
+  exact (actual_support_factor_reconstruct R (f x) i).trans
+    ((congrArg₂ (fun I J : Ideal (𝓞 K) => I * J) ha (congrFun he i)).trans
+      (actual_support_factor_reconstruct R (f y) i).symm)
 
 private theorem support_fingerprint_mem {k : ℕ}
     (R : Finset (Ideal (𝓞 K))) (f : Fin k → A.Exterior)
@@ -111,10 +115,12 @@ theorem actual_support_residual_tuple_fiber_card {α : Type*} {k : ℕ}
     intro x hx y hy he
     apply hinj (Finset.mem_filter.mp hx).1 (Finset.mem_filter.mp hy).1
     funext i
-    rw [actual_support_factor_reconstruct R (f x) i,
-      actual_support_factor_reconstruct R (f y) i, congrFun he i]
-    rw [congrFun (Finset.mem_filter.mp hx).2 i,
-      congrFun (Finset.mem_filter.mp hy).2 i]
+    have hr : (fun i => (actualSupportResidualFactors R (f x) i).val) =
+        (fun i => (actualSupportResidualFactors R (f y) i).val) :=
+      (Finset.mem_filter.mp hx).2.trans (Finset.mem_filter.mp hy).2.symm
+    exact (actual_support_factor_reconstruct R (f x) i).trans
+      ((congrArg₂ (fun I J : Ideal (𝓞 K) => I * J) (congrFun he i)
+        (congrFun hr i)).trans (actual_support_factor_reconstruct R (f y) i).symm)
   have hsub : T.image (fun x => actualSupportExtractedFactors R (f x)) ⊆
       Fintype.piFinset (fun _ : Fin k => idealDivisors D) := by
     intro w hw
@@ -146,16 +152,24 @@ theorem actual_support_amplifier_tuple_fiber_card {α : Type*} {k n : ℕ}
       actualFactorValuation p (actualSupportResidualFactors R (f x)))
   have hi : Set.InjOn fingerprint (T : Set α) := by
     intro x hx y hy he
-    have he₁ := congrArg Prod.fst he
-    have he₂ := congrArg Prod.snd he
+    have he₁ : actualSupportExtractedFactors R (f x) =
+        actualSupportExtractedFactors R (f y) := congrArg Prod.fst he
+    have he₂ : actualFactorValuation p (actualSupportResidualFactors R (f x)) =
+        actualFactorValuation p (actualSupportResidualFactors R (f y)) := congrArg Prod.snd he
+    have hr : actualResidualFactorTuple C p (actualSupportResidualFactors R (f x)) =
+        actualResidualFactorTuple C p (actualSupportResidualFactors R (f y)) :=
+      (Finset.mem_filter.mp hx).2.trans (Finset.mem_filter.mp hy).2.symm
     apply hinj (Finset.mem_filter.mp hx).1 (Finset.mem_filter.mp hy).1
     funext i
-    rw [actual_support_factor_reconstruct R (f x) i,
-      actual_support_factor_reconstruct R (f y) i,
-      actual_factor_reconstructed C p (actualSupportResidualFactors R (f x)) i,
-      actual_factor_reconstructed C p (actualSupportResidualFactors R (f y)) i]
-    rw [congrFun he₁ i, congrFun he₂ i,
-      (Finset.mem_filter.mp hx).2, (Finset.mem_filter.mp hy).2]
+    have hres : (actualSupportResidualFactors R (f x) i).val =
+        (actualSupportResidualFactors R (f y) i).val :=
+      (actual_factor_reconstructed C p (actualSupportResidualFactors R (f x)) i).trans
+        ((congrArg₂ (fun n I => p.val.asIdeal ^ n * I)
+          (congrFun he₂ i) (congrFun hr i)).trans
+          (actual_factor_reconstructed C p (actualSupportResidualFactors R (f y)) i).symm)
+    exact (actual_support_factor_reconstruct R (f x) i).trans
+      ((congrArg₂ (fun I J : Ideal (𝓞 K) => I * J) (congrFun he₁ i) hres).trans
+        (actual_support_factor_reconstruct R (f y) i).symm)
   have hsub : T.image fingerprint ⊆
       (Fintype.piFinset (fun _ : Fin k => idealDivisors D)) ×ˢ
         ValuationAllocation.choices k n := by
@@ -196,7 +210,10 @@ theorem actual_support_residual_pair_data {ι : Type*} {k : ℕ}
     rfl
   · intro v
     apply actual_support_residual_tuple_fiber_card
-      (columns ×ˢ columns) f hinj R (D ^ 2) (pow_ne_zero 2 hD) _ v
+      (columns ×ˢ columns) f
+      (fun ij hij uv huv he => hinj (Finset.mem_product.mp hij)
+        (Finset.mem_product.mp huv) he)
+      R (D ^ 2) (pow_ne_zero 2 hD) _ v
     intro ij hij
     obtain ⟨hi, hj⟩ := Finset.mem_product.mp hij
     rw [hproduct ij hij,
@@ -233,7 +250,9 @@ theorem actual_support_amplifier_pair_data {ι : Type*} {k n : ℕ}
       (hsupport ij hij) (Q ij.1) (Q ij.2)
   · intro v
     apply actual_support_amplifier_tuple_fiber_card C p (columns ×ˢ columns) f
-      hinj R (D ^ 2) (pow_ne_zero 2 hD) _ _ v
+      (fun ij hij uv huv he => hinj (Finset.mem_product.mp hij)
+        (Finset.mem_product.mp huv) he)
+      R (D ^ 2) (pow_ne_zero 2 hD) _ _ v
     · intro ij hij
       obtain ⟨hi, hj⟩ := Finset.mem_product.mp hij
       rw [hproduct ij hij,

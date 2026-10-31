@@ -16,7 +16,7 @@ open scoped Classical BigOperators NumberField nonZeroDivisors SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStep.CanonicalSecondLogChart
 
-open NumberField IsDedekindDomain
+open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis MeasureTheory
 
@@ -254,7 +254,7 @@ end HeckeSkeleton.Moments.EngineStep.CanonicalSecondLogChart
 
 namespace HeckeSkeleton.Moments.EngineStep
 
-open NumberField IsDedekindDomain MeasureTheory
+open NumberField IsDedekindDomain DedekindZetaZeroFree MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Bridge
 open HeckeGeneral.Characters
 

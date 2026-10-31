@@ -18,6 +18,8 @@ open scoped Classical BigOperators
 
 namespace HeckeSkeleton.Moments.EngineStep
 
+open DedekindZetaZeroFree
+
 open NumberField HeckeGeneral.Characters
 
 variable {K : Type} [Field K] [NumberField K]

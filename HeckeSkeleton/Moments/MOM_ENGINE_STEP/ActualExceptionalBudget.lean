@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalOriginalAtomWindow
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalPoolAllowanceTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalThetaRows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPoolMonotonicity
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafRowZero
 
 /-!
 # The original exceptional terminal on the actual parent family
@@ -25,7 +26,7 @@ open MeasureTheory
 
 namespace HeckeSkeleton.Moments.EngineStep
 
-open NumberField IsDedekindDomain DedekindZetaZeroFree
+open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments HeckePort.Moments.MobiusRegroup HeckePort.Moments.Support
@@ -125,8 +126,8 @@ structure ExceptionalLeafRawData
     {branch : TwoDivisorCommonBranch (K := K)} (j : branch.Index)
     (Q : PairedFiniteCharacters theta H) where
   extraction : leaf.ConstantAtomExtraction
-  left : SecondSideFrame (V := V) C R PUnit .left leaf.leftSlots
-  right : SecondSideFrame (V := V) C R PUnit .right leaf.rightSlots
+  left : SecondSideFrame (V := V) C R PUnit.{1} .left leaf.leftSlots
+  right : SecondSideFrame (V := V) C R PUnit.{1} .right leaf.rightSlots
   leftComparison : SecondCoefficientComparison left.dictionary
   rightComparison : SecondCoefficientComparison right.dictionary
   commonLeftSlots : ℕ
@@ -214,7 +215,7 @@ structure ExceptionalLeafRawData
     j.2.2.2.2.1.val
   right_allocation : HEq (AllocationMass.padSelection right_occurrences right.allocation.selection)
     j.2.2.2.2.2.val
-  firstCharacter : (PUnit × PUnit) →* Circle
+  firstCharacter : (PUnit.{1} × PUnit.{1}) →* Circle
   first_profile : numbers.firstProfile ≤ P ^ degree * Z ^ ((m + q) - numbers.firstTotal)
   first_left_nonzero : j.1.val.1.1 ≠ 0
   first_right_nonzero : j.1.val.1.2 ≠ 0
@@ -234,9 +235,9 @@ structure ExceptionalLeafRawData
     (((firstFiber : ℝ) * (secondFiber : ℝ) / 2) * tagWeight) *
       (firstOriginalAllowanceWeight Z (m + q) numbers.firstTotal numbers.firstProfile
         j.1.val.1.1 j.1.val.1.2 *
-        ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) firstCharacter‖ *
+        ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)) firstCharacter‖ *
         ‖(moebius left.allocation.divisor : ℂ)‖ *
-        ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) left.phaseCharacter‖) / Z ^ numbers.parentWidth
+        ‖fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)) left.phaseCharacter‖) / Z ^ numbers.parentWidth
 
 /-- The power is fixed by the original occurrence cap: six cap plus
 three for atoms, and four additional original profile controls. -/
@@ -267,6 +268,8 @@ variable {branch : TwoDivisorCommonBranch (K := K)} {j : branch.Index}
 variable {Q : PairedFiniteCharacters theta H}
 variable (D : ExceptionalLeafRawData (C := C) R p ε maskExponent hε hmask
   cap degree J₁ J₂ order fiberCap firstFiber Z P m q loss lower tagWeight movingLength leaf j Q)
+
+include D
 
 /-- The bound on this literal leaf is derived from its raw atoms.
 The height order and volume constant come from the earlier catalogue. -/
@@ -376,6 +379,70 @@ theorem cost_le (hZ : 1 < Z) (hP : 1 ≤ P) (htag : 0 ≤ tagWeight)
           (pow_nonneg (zero_le_one.trans hP) _)) htag)) hdyad
 
 end ExceptionalLeafRawData
+
+/-- The actual source can have no nonzero correlation row.  Such a
+class uses only its original constant-atom extraction and individual
+zero row weights.  Otherwise the original complete atom datum supplies
+the numerical savings.  Neither constructor takes a terminal bound. -/
+inductive ExceptionalLeafRawCase
+    (R : ActualSecondCorrelationRows A σ H ι)
+    (p : ExceptionalOriginalProfilePair K)
+    (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent)
+    (cap degree J₁ J₂ order fiberCap firstFiber : ℕ)
+    (Z P m q loss lower tagWeight movingLength : ℝ)
+    (leaf : ActualHybridLeaf K H U E)
+    {branch : TwoDivisorCommonBranch (K := K)} (j : branch.Index)
+    (Q : PairedFiniteCharacters theta H) where
+  | ofRowWeightsZero (extraction : leaf.ConstantAtomExtraction)
+      (rowWeight_zero : ∀ h ∈ extraction.leaf.rows, extraction.leaf.rowWeight h = 0)
+  | ofAtoms (data : ExceptionalLeafRawData (C := C) R p ε maskExponent hε hmask
+      cap degree J₁ J₂ order fiberCap firstFiber Z P m q loss lower tagWeight movingLength
+      leaf j Q)
+
+namespace ExceptionalLeafRawCase
+
+variable {R : ActualSecondCorrelationRows A σ H ι}
+variable {p : ExceptionalOriginalProfilePair K}
+variable {ε maskExponent : ℝ} {hε : 0 < ε} {hmask : 0 ≤ maskExponent}
+variable {cap degree J₁ J₂ order fiberCap firstFiber : ℕ}
+variable {Z P m q loss lower tagWeight movingLength : ℝ}
+variable {leaf : ActualHybridLeaf K H U E}
+variable {branch : TwoDivisorCommonBranch (K := K)} {j : branch.Index}
+variable {Q : PairedFiniteCharacters theta H}
+variable (D : ExceptionalLeafRawCase (C := C) R p ε maskExponent hε hmask
+  cap degree J₁ J₂ order fiberCap firstFiber Z P m q loss lower tagWeight movingLength leaf j Q)
+
+include D
+
+/-- Both raw cases give the same bound on the same literal leaf.
+The zero branch derives its cost identity internally, without needing
+a numerical second saving or a live-row witness on an empty class. -/
+theorem cost_le (hZ : 1 < Z) (hP : 1 ≤ P) (htag : 0 ≤ tagWeight)
+    (volumeConstant : ℝ) (hvolume : 0 ≤ volumeConstant)
+    (horder : p.order (U := U) (E := E) (σ := σ) (η := η) (hS := hS)
+      ε maskExponent hε hmask ≤ order)
+    (hconstant : p.constant (U := U) (E := E) (σ := σ) (η := η) (hS := hS)
+      ε maskExponent hε hmask ≤ volumeConstant) :
+    leaf.exceptionalCost / Z ^ (m + q) ≤
+      exceptionalBudgetAtomConstant (K := K) (U := U) (E := E)
+        cap fiberCap J₁ J₂ volumeConstant * P ^ exceptionalBudgetProfileDegree cap degree *
+        tagWeight * Z ^ (loss + movingLength) * branch.exceptionalDyadWeight Z lower j := by
+  cases D with
+  | ofRowWeightsZero extraction hweight =>
+      rw [extraction.exceptionalCost_eq,
+        extraction.leaf.exceptionalCost_eq_zero_of_rowWeight_zero hweight, zero_div]
+      exact mul_nonneg
+        (mul_nonneg
+          (mul_nonneg
+            (mul_nonneg
+              (exceptionalBudgetAtomConstant_nonneg _ _ _ _ volumeConstant hvolume)
+              (pow_nonneg (zero_le_one.trans hP) _)) htag)
+          (Real.rpow_nonneg (zero_lt_one.trans hZ).le _))
+        (branch.exceptionalDyadWeight_nonneg Z lower (zero_lt_one.trans hZ).le j)
+  | ofAtoms data =>
+      exact data.cost_le hZ hP htag volumeConstant hvolume horder hconstant
+
+end ExceptionalLeafRawCase
 
 namespace AmplifiedCommonIndex
 
@@ -492,7 +559,7 @@ structure ExceptionalOriginalData
   atoms : ∀ i χ,
     letI := primeFintype i χ
     letI := primeDecidableEq i χ
-    ExceptionalLeafRawData (C := C) (rows i χ) (profiles χ) ε maskExponent hε hmask
+    ExceptionalLeafRawCase (C := C) (rows i χ) (profiles χ) ε maskExponent hε hmask
       cap degree J₁ J₂
       (exceptionalCatalogueOrder (U := U) (E := E) (σ := σ) (η := η) (hS := hS)
         profiles ε maskExponent hε hmask)
@@ -677,5 +744,6 @@ end Pooled
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.ExceptionalLeafRawData.cost_le
+#print axioms HeckeSkeleton.Moments.EngineStep.ExceptionalLeafRawCase.cost_le
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualFirstSource.SecondStages.exceptional_parent_leaf_le
 #print axioms HeckeSkeleton.Moments.EngineStep.actual_amplified_exceptionalBudget_from_original_atoms

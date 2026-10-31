@@ -39,7 +39,7 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
 
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
-local instance : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance : Fintype ((PUnit.{1} × PUnit.{1}) →* Circle) := Fintype.ofFinite _
 
 variable {hΓ μv}
 variable {ι κ : Type*} {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
@@ -75,8 +75,8 @@ def originalRightCoefficient (p : FirstBlockPoolData (profiles := profiles) char
 
 def linearizedCost (p : FirstBlockPoolData (profiles := profiles) chart P M X hX)
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
-      ((PUnit × PUnit) →* Circle) → ℝ) : ℝ :=
-  firstDivisorLinearizedCost PUnit chart.kernel p.leftData p.rightData p.divisorPools
+      ((PUnit.{1} × PUnit.{1}) →* Circle) → ℝ) : ℝ :=
+  firstDivisorLinearizedCost PUnit.{1} chart.kernel p.leftData p.rightData p.divisorPools
     (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle)) p.rowBound
     NL NR p.originalLeftCoefficient p.originalRightCoefficient chart.leftPoint chart.rightPoint
 
@@ -84,10 +84,10 @@ def linearizedCost (p : FirstBlockPoolData (profiles := profiles) chart P M X hX
 is an integral of a genuine normalized main-plus-1/6/7 source. -/
 theorem pooledCost_le_linearized (p : FirstBlockPoolData (profiles := profiles) chart P M X hX)
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
-      ((PUnit × PUnit) →* Circle) → ℝ)
+      ((PUnit.{1} × PUnit.{1}) →* Circle) → ℝ)
     (hNL : ∀ S χ, 0 < NL S χ) (hNR : ∀ S χ, 0 < NR S χ) :
     p.pooledCost ≤ p.linearizedCost NL NR := by
-  exact first_divisor_pool_le_linearized PUnit chart.kernel
+  exact first_divisor_pool_le_linearized PUnit.{1} chart.kernel
     p.leftData p.rightData p.divisorPools
     (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle))
     p.rowBound p.rowBound_nonneg NL NR hNL hNR
@@ -97,7 +97,7 @@ theorem kernelCost_le_linearized (p : FirstBlockPoolData (profiles := profiles) 
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
       HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
-      ((PUnit × PUnit) →* Circle) → ℝ)
+      ((PUnit.{1} × PUnit.{1}) →* Circle) → ℝ)
     (hNL : ∀ S χ, 0 < NL S χ) (hNR : ∀ S χ, 0 < NR S χ) :
     chart.kernelCost hDiff M X hX ≤ p.linearizedCost NL NR :=
   (p.kernelCost_le_pool hDiff).trans (p.pooledCost_le_linearized NL NR hNL hNR)

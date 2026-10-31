@@ -91,8 +91,21 @@ theorem sum_amplifiedIndexWeight
         rw [Fintype.sum_sigma]
         apply Finset.sum_congr rfl
         intro p _
+        change (∑ y : (error n.val p.val).Index,
+          FirstGaussPoolData.localErrorWeight p.val n.val *
+            Q p.val ^ amplifierMovingExponent n.val * (error n.val p.val).indexWeight y) = _
         rw [← Finset.mul_sum, TwoDivisorCommonBranch.sum_indexWeight]
-      _ = _ := by simp only [Finset.sum_coe_sort]
+      _ = ∑ n : ({1, 6, 7} : Finset ℕ), ∑ p ∈ P.primes,
+          FirstGaussPoolData.localErrorWeight p n.val *
+            Q p ^ amplifierMovingExponent n.val * (error n.val p).mass := by
+        apply Finset.sum_congr rfl
+        intro n _
+        exact Finset.sum_coe_sort P.primes (fun p =>
+          FirstGaussPoolData.localErrorWeight p n.val *
+            Q p ^ amplifierMovingExponent n.val * (error n.val p).mass)
+      _ = _ := Finset.sum_coe_sort ({1, 6, 7} : Finset ℕ) (fun n =>
+        ∑ p ∈ P.primes, FirstGaussPoolData.localErrorWeight p n *
+          Q p ^ amplifierMovingExponent n * (error n p).mass)
   have hthree (f : ℕ → ℝ) :
       (∑ n ∈ ({1, 6, 7} : Finset ℕ), f n) = f 1 + (f 6 + f 7) := by
     simp

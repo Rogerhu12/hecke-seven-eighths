@@ -18,6 +18,8 @@ open scoped Classical NumberField SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStep
 
+open DedekindZetaZeroFree
+
 open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Bridge
 open HeckeGeneral.Characters

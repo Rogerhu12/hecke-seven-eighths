@@ -225,7 +225,9 @@ theorem actual_residual_second_zero_bound
   let factors := fun ij => actualResidualFactorTuple C p (originalFactors ij)
   have hfiber (v) : ((left ×ˢ right).filter (fun ij => factors ij = v)).card ≤
       (nLeft + nRight + 1) ^ k := by
-    apply actual_residual_tuple_fiber_card C p (left ×ˢ right) originalFactors hinj
+    apply actual_residual_tuple_fiber_card C p (left ×ˢ right) originalFactors
+      (fun ij hij uv huv he => hinj (Finset.mem_product.mp hij)
+        (Finset.mem_product.mp huv) he)
     intro ij hij
     have hs := actual_factor_valuation_sum p (originalFactors ij)
       (ExteriorIdealEuler.mul (originalI ij.1) (originalJ ij.2)) (hproduct ij hij)
@@ -277,7 +279,8 @@ theorem residual_source_pair_factors {ι : Type*} (d : FirstGaussPoolData C P ι
       ((d.residualSource p n c).columns ×ˢ (d.residualSource p n c).columns)
       (fun ij => originalFactors (ij.1.val, ij.2.val))
     · intro ij hij uv huv he
-      have hp := hinj (hmem ij) (hmem uv) he
+      have hp := hinj (Finset.mem_product.mp (hmem ij))
+        (Finset.mem_product.mp (hmem uv)) he
       apply Prod.ext
       · exact Subtype.ext (congrArg Prod.fst hp)
       · exact Subtype.ext (congrArg Prod.snd hp)

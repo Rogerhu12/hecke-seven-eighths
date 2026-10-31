@@ -167,7 +167,6 @@ theorem iterated_joint_cauchy_integrable
     (fun h j => WithLp.toLp 2 (y₁ h j, y₂ h j)) (nestedFourierMeasure F₁ F₂)).integral_prod_left
   convert hi using 1
   funext ξ
-  dsimp only
   rw [actualFourierMeasure_integral_eq]
   simp only [nested_jointColumnEnergy]
 

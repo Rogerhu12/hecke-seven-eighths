@@ -80,7 +80,7 @@ structure ExceptionalOriginalData
   atoms : ∀ i χ,
     letI := primeFintype i χ
     letI := primeDecidableEq i χ
-    ExceptionalLeafRawData (C := C) (rows i χ) (profiles χ) ε maskExponent hε hmask
+    ExceptionalLeafRawCase (C := C) (rows i χ) (profiles χ) ε maskExponent hε hmask
       cap degree J₁ J₂
       (exceptionalCatalogueOrder (U := U) (E := E) (σ := σ) (η := η) (hS := hS)
         profiles ε maskExponent hε hmask)

@@ -68,7 +68,7 @@ theorem exceptionalMagnitude_nonneg
 
 end SecondSideFrame
 
-private theorem original_exceptional_label_scalar
+theorem original_exceptional_label_scalar
     {branch : TwoDivisorCommonBranch (K := F)} (j : branch.Index)
     {Ray₁ Ray₂ : Type*} [CommGroup Ray₁] [Fintype Ray₁] [CommGroup Ray₂] [Fintype Ray₂]
     (phase₁ : Ray₁ × Ray₁ → Circle) (χ₁ : (Ray₁ × Ray₁) →* Circle)
