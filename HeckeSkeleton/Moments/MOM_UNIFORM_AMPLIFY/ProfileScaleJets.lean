@@ -66,7 +66,8 @@ theorem SliceControl.const_mul {J : ℕ} {A C H a b T : ℝ} {f : ℝ → ℂ}
 theorem hasDerivAt_profileExpScale (C b x : ℝ) :
     HasDerivAt (fun t : ℝ => C * Real.exp (b * t))
       (b * (C * Real.exp (b * x))) x := by
-  convert (((hasDerivAt_id x).const_mul b).exp.const_mul C) using 1 <;> ring
+  convert (((hasDerivAt_id x).const_mul b).exp.const_mul C) using 1 <;>
+    simp only [id_eq] <;> ring
 
 theorem deriv_profileExpScale_comp {f : ℝ → ℂ} (hf : ContDiff ℝ ∞ f)
     (C b x : ℝ) :

@@ -123,6 +123,8 @@ scales 的 default witness 也由实际构造覆盖。
 实际源依赖采用 #5 负责人 `77dbe777` 的最新八个 Lean 文件，包含原四个
 proof/elaboration 根错误的修复，以及 shifted 可积性、principal 和 moderate
 联合解析性的后继修复。联合解析性由原核的真实解析因子复合得到。
+此外按完整源编译的实际诊断，修复 `PhysicalInitialMellinTerm` 的坐标展开、
+可积性等式输运和三重 Mellin 反演重写；原定义和定理陈述保留。
 同一次上游合并还保留负责人对幅度宽度的构造修正：先按外部 cap 选择宽度，
 再证明 `2 * e < width` 与 `width ≤ 4 * eCap`。这一增强由实际构造生产，
 没有为最终零点定理增加假设；详细新旧对照与论文依据见 #5 的报告。

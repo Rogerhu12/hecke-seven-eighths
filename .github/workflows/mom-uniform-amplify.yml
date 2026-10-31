@@ -105,7 +105,7 @@ jobs:
             git -C .lake/packages/mathlib rev-parse HEAD
           } | tee "$evidence/environment.log"
           lake_flags=(--rehash)
-          if [[ '${{ matrix.audit }}' != 'SourceAudit' ]]; then
+          if [[ '${{ matrix.audit }}' == 'ArithmeticAudit' ]]; then
             lake_flags+=(--fail-fast)
           fi
           lake "${lake_flags[@]}" build +HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.${{ matrix.audit }}:olean 2>&1 |

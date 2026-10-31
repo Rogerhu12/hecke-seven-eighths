@@ -217,8 +217,6 @@ theorem completeIdeal_amplification_to_majorant {δ : ℝ} (hδ : 0 < δ) :
         (sum_sixth_descendant_majorants_le S d hrows R F hR hF hPH B hB) (sq_nonneg _)
     _ = _ := by rw [hpow]
 
-variable (S)
-
 /-- Optimize the actual ideal amplifier with uniform polynomial height
 control.  The seed is used only at complete row scale H and at strictly
 shorter polynomial scales.  All constants precede the original U,D and
