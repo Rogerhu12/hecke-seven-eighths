@@ -150,8 +150,11 @@ theorem primeExponent_unitExterior (p : ExteriorPrime A) :
 theorem unitExterior_allowed (C : A.GeneralArithmeticContext σ η hS) :
     A.IsAllowed C.correction.B
       (Units.mk0 ((1 : A.R) : F) (by exact_mod_cast (unitExterior_generates A).1)) := by
-  change A.sClass (1 : Fˣ) ∈ C.correction.B
-  rw [map_one]
+  have he : Units.mk0 ((1 : A.R) : F)
+      (by exact_mod_cast (unitExterior_generates A).1) = (1 : Fˣ) := by
+    apply Units.ext
+    simp
+  rw [he, SArithmeticData.IsAllowed, map_one]
   exact C.correction.B.one_mem
 
 theorem actual_prime_power_allowed (C : A.GeneralArithmeticContext σ η hS)
@@ -336,7 +339,7 @@ theorem product_allowed (R : AmplifierResidualPresentation C p n I) :
 
 theorem power_coprime (R : AmplifierResidualPresentation C p n I) :
     IsCoprime (powerIdeal p n).val R.residual.val := by
-  simpa only [pow_one] using (R.coprime.pow :
+  simpa only [powerIdeal, ExteriorIdealEuler.pow, pow_one] using (R.coprime.pow :
     IsCoprime (p.val.asIdeal ^ n) (R.residual.val ^ 1))
 
 theorem residual_support (R : AmplifierResidualPresentation C p n I)
@@ -433,7 +436,8 @@ theorem difference (R : AmplifierResidualPresentation C p n I)
     actual_prime_power_column C p n (amplifiedExterior Ih p)
       (h * LocalFiniteSums.generator C p ^ 6) (amplifiedExterior_generates C Ih p h hh)
       P hp hSupportH',
-    amplifierRowPhase_insert, primeExponent_amplifiedExterior, if_pos rfl, hunit]
+    amplifierRowPhase_insert C p n Ih h hh, primeExponent_amplifiedExterior,
+    if_pos rfl, hunit]
   norm_num only [zero_add]
   ring
 

@@ -47,6 +47,15 @@ def generatedOriginalColumn (I : A.Exterior) (a : A.R) (ha : A.Generates I a) :
     rw [generatedIdealCharacter_mk]
     exact generated_character_subgroup_value hΓ I a ha u
 
+/-- Evaluate through the column alias before unfolding its dependent
+quotient field. This keeps the quotient's ring instance unchanged. -/
+@[simp] theorem generatedOriginalColumn_character_mk
+    (I : A.Exterior) (a : A.R) (ha : A.Generates I a) (x : A.R) :
+    (generatedOriginalColumn (σ := σ) hΓ I a ha).character (Ideal.Quotient.mk _ x) =
+      σ (A.sexticResidue I x) := by
+  change generatedIdealCharacter (σ := σ) I a ha (Ideal.Quotient.mk _ x) = _
+  exact generatedIdealCharacter_mk I a ha x
+
 theorem firstReciprocalPhase_allowed (C : A.GeneralArithmeticContext σ η hS)
     (I J : A.Exterior) (a b : A.R) (ha : A.Generates I a) (hb : A.Generates J b)
     (ua ub : Kˣ) (hua : (ua : K) = (a : K)) (hub : (ub : K) = (b : K))
@@ -133,6 +142,12 @@ def actualActiveColumn (C : A.GeneralArithmeticContext σ η hS)
       simpa only [SArithmeticData.unitEquiv] using hu
     rw [hu', one_pow]
 
+@[simp] theorem actualActiveColumn_character_mk
+    (C : A.GeneralArithmeticContext σ η hS)
+    (p : ι → ExteriorPrime A) (hp : Function.Injective p) (m n : ι → ℕ) (x : A.R) :
+    (actualActiveColumn hΓ C p hp m n).character (Ideal.Quotient.mk _ x) =
+      actualFirstActiveCharacter C p hp m n (Ideal.Quotient.mk _ x) := rfl
+
 def actualExteriorSPrime (p : ExteriorPrime A) : HeightOneSpectrum A.R where
   asIdeal := A.extendIdeal (primeIdeal p)
   isPrime := (CanonicalLocalGaussTable.primeResidueMaximal p).isPrime
@@ -209,7 +224,7 @@ theorem actual_first_character_source_term
   unfold ParentPeriodicPair.maskedTerm
   rw [OrbitalGaussColumn.originalPair_orbit_mk, OrbitalGaussColumn.originalTriple_orbit_mk,
     sIntegerOrbitAvoidanceMask_union, ← firstPrincipalMask_eq_orbit_mask C p m n x]
-  simp only [generatedOriginalColumn, generatedIdealCharacter_mk, actualActiveColumn]
+  simp only [generatedOriginalColumn_character_mk, actualActiveColumn_character_mk]
   rw [he]
   change _ * _ * sUnitOrbitalProfile K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) _ _ =
     _ * _ * sUnitOrbitalProfile K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) _ _
@@ -235,7 +250,7 @@ theorem actual_first_character_source_series
       (generatedOriginalColumn (σ := σ) hΓ IB b hb)
       (actualActiveColumn hΓ C p hp m n) φ).maskedSeries ψ radius
         (M ∪ firstPrincipalPrimeMask p m n) := by
-  change (∑' q, _.maskedTerm ψ radius M q) = ∑' q, _.maskedTerm ψ radius _ q
+  unfold ParentPeriodicPair.maskedSeries sIntegerWeightedOrbitalSeries
   apply tsum_congr
   intro q
   exact actual_first_character_source_term hΓ C p hp m n hm hn

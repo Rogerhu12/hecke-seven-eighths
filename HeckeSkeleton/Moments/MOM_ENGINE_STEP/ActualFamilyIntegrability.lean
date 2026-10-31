@@ -115,10 +115,9 @@ theorem norm_finite_sum_le_card {ι : Type*} (s : Finset ι) (f : ι → ℂ)
     _ ≤ ∑ _i ∈ s, B := Finset.sum_le_sum h
     _ = _ := by rw [Finset.sum_const, nsmul_eq_mul]
 
-section Family
+section RawFamily
 
-variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
-  [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
+variable {V : Type*} [NormedAddCommGroup V] [MeasureSpace V]
 
 /-- Raw finite carrier and individual-summand information only.  This
 structure contains no energy estimate or integrability assertion. -/
@@ -311,6 +310,13 @@ theorem energy_aestronglyMeasurable :
 
 end ActualFiniteFamilyControl
 
+end RawFamily
+
+section Family
+
+variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
+  [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
+
 /-- The actual positive measure used by the Fourier separation. -/
 def actualFourierMeasure (F : 𝓢(V, ℂ)) : Measure V :=
   volume.withDensity (fun ξ => ENNReal.ofReal ‖(𝓕 F) ξ‖)
@@ -327,11 +333,18 @@ theorem actualFourierMeasure_finite (F : 𝓢(V, ℂ)) :
 
 theorem actualFourierMeasure_mass_eq (F : 𝓢(V, ℂ)) :
     (actualFourierMeasure F).real Set.univ = ∫ ξ : V, ‖(𝓕 F) ξ‖ := by
-  change ((volume.withDensity (fun ξ : V => ENNReal.ofReal ‖(𝓕 F) ξ‖)) Set.univ).toReal = _
-  rw [Measure.withDensity_apply _ MeasurableSet.univ, Measure.restrict_univ]
-  exact (integral_eq_lintegral_of_nonneg_ae
-    (Filter.Eventually.of_forall (fun ξ : V => norm_nonneg ((𝓕 F) ξ)))
-    (𝓕 F).continuous.norm.aestronglyMeasurable).symm
+  have hmeasure : (actualFourierMeasure F) Set.univ =
+      ∫⁻ ξ : V, ENNReal.ofReal ‖(𝓕 F) ξ‖ ∂(volume : Measure V) := by
+    simpa only [actualFourierMeasure, Measure.restrict_univ] using
+      (Measure.withDensity_apply (μ := (volume : Measure V))
+        (fun ξ : V => ENNReal.ofReal ‖(𝓕 F) ξ‖) MeasurableSet.univ)
+  calc
+    _ = (∫⁻ ξ : V, ENNReal.ofReal ‖(𝓕 F) ξ‖ ∂(volume : Measure V)).toReal :=
+      congrArg ENNReal.toReal hmeasure
+    _ = _ := (integral_eq_lintegral_of_nonneg_ae
+      (μ := (volume : Measure V))
+      (Filter.Eventually.of_forall (fun ξ : V => norm_nonneg ((𝓕 F) ξ)))
+      (𝓕 F).continuous.norm.aestronglyMeasurable).symm
 
 /-- The positive kernel's mass is controlled by fixed original Schwartz
 seminorms, before choosing any actual child family. -/

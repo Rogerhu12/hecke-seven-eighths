@@ -223,8 +223,7 @@ theorem energy_bound (d : FirstGaussPoolData C P ι)
   have hunit (p : ExteriorPrime A) :
       MaskedQuotientCRT.primeExponent p (unitExterior A) = 0 := by
     unfold MaskedQuotientCRT.primeExponent idealPrimeExponent unitExterior
-    change (UniqueFactorizationMonoid.normalizedFactors (1 : Ideal (𝓞 K))).count p.val.asIdeal = 0
-    simp
+    simp [← Ideal.one_eq_top]
   have he := P.finite_energy C d.columns (d.adjustedCoefficient c)
     (fun _ => unitExterior A) d.ideal (fun _ => 1) d.generator
     (fun _ => unitExterior_generates A) d.generates
@@ -239,7 +238,6 @@ theorem energy_bound (d : FirstGaussPoolData C P ι)
   simp_rw [d.whole_gauss_eq hDiff c]
   unfold energy mainEnergy errorEnergy mainRows eligible density multiplicity
   simp_rw [d.whole_error_eq c]
-  dsimp only [finiteColumn]
   simpa only [Finset.sum_add_distrib, add_assoc] using he
 
 /-- An injective genuine row chart may be used directly by the first

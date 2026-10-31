@@ -26,7 +26,8 @@ theorem sourcePlainCoefficient_mul
     (χ θ : HeckeCharacter F) (M : Ideal (𝓞 F) →* ℂ) (B I : HeckeGeneral.Analysis.NonzeroIdeal F) :
     sourcePlainCoefficient χ θ M (B * I) =
       sourcePlainCoefficient χ θ M B * sourcePlainCoefficient χ θ M I := by
-  simp only [sourcePlainCoefficient, heckeIdealCoefficient_mul, map_mul]
+  simp only [sourcePlainCoefficient, heckeIdealCoefficient_mul,
+    show (B * I).val = B.val * I.val from rfl, map_mul]
   ring
 
 def sourcePlainFrozen (χ θ : HeckeCharacter F) (M : Ideal (𝓞 F) →* ℂ)
