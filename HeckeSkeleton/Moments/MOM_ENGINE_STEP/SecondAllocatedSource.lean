@@ -201,7 +201,7 @@ theorem left_energy_eq_source
     (x₁ x₂ : H → HeckeGeneral.Analysis.NonzeroIdeal F → V)
     (x : H → Fin k → HeightOneSpectrum (𝓞 F) → V) (ξ : V) :
     jointColumnEnergy R.rows B.columns (fun h => R.weight h * R.correlation h)
-      (secondAllocatedLeftCoefficient Ray IA R.frequency D.ray χ
+      (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency D.ray χ
         (D.normalizedCoefficient u v t))
       (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h)) ξ =
       ‖SecondCoefficientTermDictionary.centralNormalizer u v t‖ ^ 2 *
@@ -212,7 +212,7 @@ theorem left_energy_eq_source
     (R.extractedRow C h).element D.scale₁ D.scale₂ D.base D.length
       D.leftWeight D.rightWeight D.slotWeight
   have hc (h : R.live) (i : AllocationColumn F k) (hi : i ∈ B.columns) :
-      secondAllocatedLeftCoefficient Ray IA R.frequency D.ray χ
+      secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency D.ray χ
         (D.normalizedCoefficient u v t) h.val i =
       SecondCoefficientTermDictionary.centralNormalizer u v t * c h i :=
     D.normalized_coefficient_residue u v t i (actual_allocation_column_mem B i hi)
@@ -243,7 +243,7 @@ theorem right_energy_eq_source
     (x₁ x₂ : H → HeckeGeneral.Analysis.NonzeroIdeal F → V)
     (x : H → Fin k → HeightOneSpectrum (𝓞 F) → V) (ξ : V) :
     jointColumnEnergy R.rows B.columns (fun h => R.weight h * R.correlation h)
-      (secondAllocatedRightCoefficient Ray IB R.frequency D.ray χ
+      (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency D.ray χ
         (D.normalizedCoefficient u v t))
       (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h)) ξ =
       ‖SecondCoefficientTermDictionary.centralNormalizer u v t‖ ^ 2 *
@@ -255,7 +255,7 @@ theorem right_energy_eq_source
       D.leftWeight D.rightWeight D.slotWeight
   let ν := SecondCoefficientTermDictionary.centralNormalizer u v t
   have hc (h : R.live) (i : AllocationColumn F k) (hi : i ∈ B.columns) :
-      secondAllocatedRightCoefficient Ray IB R.frequency D.ray χ
+      secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency D.ray χ
         (D.normalizedCoefficient u v t) h.val i = star ν * star (c h i) := by
     have he := D.normalized_coefficient_residue u v t i
       (actual_allocation_column_mem B i hi) (IB i)

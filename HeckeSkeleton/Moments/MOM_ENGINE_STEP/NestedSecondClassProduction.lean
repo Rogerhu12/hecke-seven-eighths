@@ -124,11 +124,11 @@ def actualMeasuredAllocatedKernelCost
           ∫ z, Real.sqrt (jointColumnEnergy R.rows
             (pairedAllocatedColumns L a S₁ S₂ S id id HeightOneSpectrum.asIdeal)
             (fun h => R.weight h * R.correlation h)
-            (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft χ c) x (WithLp.toLp 2 z)) *
+            (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft χ c) x (WithLp.toLp 2 z)) *
             Real.sqrt (jointColumnEnergy R.rows
               (pairedAllocatedColumns L b T₁ T₂ T id id HeightOneSpectrum.asIdeal)
               (fun h => R.weight h * R.correlation h)
-              (secondAllocatedRightCoefficient Ray IB R.frequency rayRight χ f) y (WithLp.toLp 2 z)) ∂μ
+              (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight χ f) y (WithLp.toLp 2 z)) ∂μ
 
 theorem actual_measured_second_allocation_bound
     (μ : Measure (U × V)) [IsFiniteMeasure μ]
@@ -162,7 +162,7 @@ theorem actual_measured_second_allocation_bound
             (fun i h => σ (A.sexticResidue (IA i) (R.frequency h)))) x (WithLp.toLp 2 z) =
         jointColumnEnergy R.rows
           ((childCartesianColumns S₁ S₂ S).filter (fun i => L ∣ allocationColumnIdeal i)) weight
-          (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft χ c) x (WithLp.toLp 2 z) := by
+          (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft χ c) x (WithLp.toLp 2 z) := by
       unfold jointColumnEnergy
       apply Finset.sum_congr rfl
       intro h _
@@ -172,7 +172,7 @@ theorem actual_measured_second_allocation_bound
             (fun i h => σ (A.sexticResidue (IA i) (R.frequency h))) h) (x h) (WithLp.toLp 2 z) =
           jointFourierColumn
             ((childCartesianColumns S₁ S₂ S).filter (fun i => L ∣ allocationColumnIdeal i))
-            (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft χ c h) (x h)
+            (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft χ c h) (x h)
             (WithLp.toLp 2 z) := by
         simp only [jointFourierColumn, Finset.sum_filter]
         apply Finset.sum_congr rfl
@@ -188,7 +188,7 @@ theorem actual_measured_second_allocation_bound
             (fun j h => σ (A.sexticResidue (IB j) (-R.frequency h))) h j)) y (WithLp.toLp 2 z) =
         jointColumnEnergy R.rows
           ((childCartesianColumns T₁ T₂ T).filter (fun j => L ∣ allocationColumnIdeal j)) weight
-          (secondAllocatedRightCoefficient Ray IB R.frequency rayRight χ f) y (WithLp.toLp 2 z) := by
+          (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight χ f) y (WithLp.toLp 2 z) := by
       unfold jointColumnEnergy
       apply Finset.sum_congr rfl
       intro h _
@@ -198,7 +198,7 @@ theorem actual_measured_second_allocation_bound
             (fun j h => σ (A.sexticResidue (IB j) (-R.frequency h))) h j)) (y h) (WithLp.toLp 2 z) =
           jointFourierColumn
             ((childCartesianColumns T₁ T₂ T).filter (fun j => L ∣ allocationColumnIdeal j))
-            (secondAllocatedRightCoefficient Ray IB R.frequency rayRight χ f h) (y h)
+            (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight χ f h) (y h)
             (WithLp.toLp 2 z) := by
         simp only [jointFourierColumn, Finset.sum_filter]
         apply Finset.sum_congr rfl
@@ -209,8 +209,8 @@ theorem actual_measured_second_allocation_bound
       rw [hp]
     simp_rw [hl, hr]
     exact allocated_joint_measure_bound μ L hsq R.rows S₁ S₂ S T₁ T₂ T weight
-      (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft χ c)
-      (secondAllocatedRightCoefficient Ray IB R.frequency rayRight χ f) x y
+      (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft χ c)
+      (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight χ f) x y
   · simp only [moebius_of_not_squarefree hsq, Int.cast_zero, norm_zero, zero_mul, le_refl]
 
 /-- Individual source-column reindexing also commutes with the original
@@ -253,10 +253,10 @@ variable (x : H → AllocationColumn K k → W) (y : H → AllocationColumn K l 
 def measuredSecondBranchCost (b : SecondAllocationBranch Ray T₁ T₂ T IB k) : ℝ :=
   b.weight phaseTable * ∫ z, Real.sqrt (jointColumnEnergy R.rows (b.leftColumns S₁ S₂ S)
     (fun h => R.weight h * R.correlation h)
-    (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft b.2.1 c) x (WithLp.toLp 2 z)) *
+    (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.2.1 c) x (WithLp.toLp 2 z)) *
     Real.sqrt (jointColumnEnergy R.rows b.rightColumns
       (fun h => R.weight h * R.correlation h)
-      (secondAllocatedRightCoefficient Ray IB R.frequency rayRight b.2.1 f) y (WithLp.toLp 2 z)) ∂μ
+      (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.2.1 f) y (WithLp.toLp 2 z)) ∂μ
 
 theorem measuredSecondBranchCost_zero (b : SecondAllocationBranch Ray T₁ T₂ T IB k)
     (hb : ¬b.Live S₁ S₂ S) :

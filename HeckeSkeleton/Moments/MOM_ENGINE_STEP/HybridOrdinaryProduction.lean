@@ -93,16 +93,16 @@ def originalIntegrand (_B : HybridOrdinaryRectangles R Ray S₁ S₂ S T₁ T₂
     rayLeft rayRight wholeLeft wholeRight x y b exceptional) (ξ : V) : ℝ :=
   Real.sqrt (jointColumnEnergy (R.rows.filter (fun h => ¬exceptional h))
     (b.val.leftColumns S₁ S₂ S) (fun h => R.weight h * R.correlation h)
-    (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft b.val.2.1 wholeLeft) x ξ) *
+    (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 wholeLeft) x ξ) *
   Real.sqrt (jointColumnEnergy (R.rows.filter (fun h => ¬exceptional h))
     b.val.rightColumns (fun h => R.weight h * R.correlation h)
-    (secondAllocatedRightCoefficient Ray IB R.frequency rayRight b.val.2.1 wholeRight) y ξ)
+    (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 wholeRight) y ξ)
 
 theorem left_energy_eq (C : A.GeneralArithmeticContext σ η hS) (r : Bool) (ξ : V) :
     (B.leftFrame C r).energy ξ =
       jointColumnEnergy (R.rows.filter (fun h => ¬exceptional h))
         (b.val.leftColumns S₁ S₂ S) (fun h => R.weight h * R.correlation h)
-        (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft b.val.2.1 (B.leftTerms r)) x ξ :=
+        (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 (B.leftTerms r)) x ξ :=
   (B.leftFactors r).frame_energy C b.val.1.val b.val.2.2.1.val
     (Finset.mem_filter.mp b.property).2.2.1 ξ
 
@@ -110,7 +110,7 @@ theorem right_energy_eq (C : A.GeneralArithmeticContext σ η hS) (r : Bool) (ξ
     (B.rightFrame C r).energy ξ =
       jointColumnEnergy (R.rows.filter (fun h => ¬exceptional h))
         b.val.rightColumns (fun h => R.weight h * R.correlation h)
-        (secondAllocatedRightCoefficient Ray IB R.frequency rayRight b.val.2.1 (B.rightTerms r)) y ξ :=
+        (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 (B.rightTerms r)) y ξ :=
   (B.rightFactors r).frame_energy C b.val.1.val b.val.2.2.2.val
     (Finset.mem_filter.mp b.property).2.2.2 ξ
 
@@ -128,10 +128,10 @@ theorem ordinary_le_rectangles (C : A.GeneralArithmeticContext σ η hS) (ξ : V
         Real.sqrt ((B.rightFrame C true).energy ξ) := by
   let rows := R.rows.filter (fun h => ¬exceptional h)
   let q : H → ℂ := fun h => R.weight h * R.correlation h
-  let c₀ := secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft b.val.2.1 (B.leftTerms false)
-  let c₁ := secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft b.val.2.1 (B.leftTerms true)
-  let d₀ := secondAllocatedRightCoefficient Ray IB R.frequency rayRight b.val.2.1 (B.rightTerms false)
-  let d₁ := secondAllocatedRightCoefficient Ray IB R.frequency rayRight b.val.2.1 (B.rightTerms true)
+  let c₀ := secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 (B.leftTerms false)
+  let c₁ := secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 (B.leftTerms true)
+  let d₀ := secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 (B.rightTerms false)
+  let d₁ := secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 (B.rightTerms true)
   have he {J : Type*} (columns : Finset J) (u v : H → J → ℂ)
       (point : H → J → V) (huv : ∀ h i, i ∈ columns → u h i = v h i) :
       jointColumnEnergy rows columns q u point ξ =
@@ -145,12 +145,12 @@ theorem ordinary_le_rectangles (C : A.GeneralArithmeticContext σ η hS) (ξ : V
       exact Finset.sum_congr rfl fun i hi => by rw [huv h i hi]
     rw [hp]
   have hlE := he (b.val.leftColumns S₁ S₂ S)
-    (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft b.val.2.1 wholeLeft)
+    (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 wholeLeft)
     (fun h i => c₀ h i - c₁ h i) x (by
       intro h i hi
       simp only [secondAllocatedLeftCoefficient, B.left_difference i hi, sub_mul, c₀, c₁])
   have hrE := he b.val.rightColumns
-    (secondAllocatedRightCoefficient Ray IB R.frequency rayRight b.val.2.1 wholeRight)
+    (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 wholeRight)
     (fun h j => d₀ h j - d₁ h j) y (by
       intro h j hj
       simp only [secondAllocatedRightCoefficient, B.right_difference j hj,
@@ -226,15 +226,15 @@ theorem nested_hybrid_eq_exception_plus_ordinary
     (z : U × W) :
     nestedJointHybridIntegrand R.rows (b.val.leftColumns S₁ S₂ S) b.val.rightColumns
       (fun h => R.weight h * R.correlation h)
-      (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft b.val.2.1 c)
+      (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 c)
       (fun h j => f j * (fixedRightPhase Ray b.val.2.1 (rayRight j) : ℂ) *
         σ (A.sexticResidue (IB j) (-R.frequency h)))
       x₁ x₂ y₁ y₂ exceptional z =
     jointColumnPairMagnitude (R.rows.filter exceptional)
       (b.val.leftColumns S₁ S₂ S) b.val.rightColumns
       (fun h => R.weight h * R.correlation h)
-      (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft b.val.2.1 c)
-      (secondAllocatedRightCoefficient Ray IB R.frequency rayRight b.val.2.1 f)
+      (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 c)
+      (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 f)
       (fun h i => WithLp.toLp 2 (x₁ h i, x₂ h i))
       (fun h j => WithLp.toLp 2 (-y₁ h j, y₂ h j)) (WithLp.toLp 2 z) +
         B.originalIntegrand (WithLp.toLp 2 z) := rfl

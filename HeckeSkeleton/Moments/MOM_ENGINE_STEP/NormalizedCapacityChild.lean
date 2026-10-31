@@ -337,13 +337,13 @@ theorem left_zero_or_normalized_capacity_child
       (σ := σ) ω ψ) (G : cal.NormalizedCapacityData) :
     (∀ ξ : V, jointColumnEnergy R.rows B.columns
       (fun h => R.weight h * R.correlation h)
-      (secondAllocatedLeftCoefficient Ray IA R.frequency D.ray χ
+      (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency D.ray χ
         (D.normalizedCoefficient u v t))
       (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h)) ξ = 0) ∨
     ∃ out : G.Child, ∀ ξ : V,
       Real.sqrt (jointColumnEnergy R.rows B.columns
         (fun h => R.weight h * R.correlation h)
-        (secondAllocatedLeftCoefficient Ray IA R.frequency D.ray χ
+        (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency D.ray χ
           (D.normalizedCoefficient u v t))
         (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h)) ξ) ≤
         ‖SecondCoefficientTermDictionary.centralNormalizer u v t‖ * Real.sqrt out.weight *
@@ -379,13 +379,13 @@ theorem right_zero_or_normalized_capacity_child
       (σ := σ) ω ψ) (G : cal.NormalizedCapacityData) :
     (∀ ξ : V, jointColumnEnergy R.rows B.columns
       (fun h => R.weight h * R.correlation h)
-      (secondAllocatedRightCoefficient Ray IB R.frequency D.ray χ
+      (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency D.ray χ
         (D.normalizedCoefficient u v t))
       (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h)) ξ = 0) ∨
     ∃ out : G.Child, ∀ ξ : V,
       Real.sqrt (jointColumnEnergy R.rows B.columns
         (fun h => R.weight h * R.correlation h)
-        (secondAllocatedRightCoefficient Ray IB R.frequency D.ray χ
+        (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency D.ray χ
           (D.normalizedCoefficient u v t))
         (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h)) ξ) ≤
         ‖SecondCoefficientTermDictionary.centralNormalizer u v t‖ * Real.sqrt out.weight *

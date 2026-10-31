@@ -90,14 +90,18 @@ theorem atomic_harmonic_mass :
   simp only [AtomicLabel, Fintype.sum_sigma, AtomicLabel.harmonicWeight,
     AtomicLabel.firstLabel, AtomicLabel.firstDivisor, AtomicLabel.secondLabel, AtomicLabel.secondDivisor]
   simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul, Fintype.card_coe, hchar,
-    Finset.sum_coe_sort, mass, secondDivisorAllocationMass]
+    mass, secondDivisorAllocationMass]
   simp only [Finset.mul_sum, Finset.sum_mul, Finset.sum_div]
+  rw [← Finset.sum_coe_sort b.first]
   apply Finset.sum_congr rfl
   intro v hv
+  rw [← Finset.sum_coe_sort (b.firstDivisors v.val)]
   apply Finset.sum_congr rfl
   intro S hS
+  rw [← Finset.sum_coe_sort (b.second v.val S.val)]
   apply Finset.sum_congr rfl
   intro w hw
+  rw [← Finset.sum_coe_sort (b.secondDivisors v.val S.val w.val)]
   apply Finset.sum_congr rfl
   intro L hL
   ring

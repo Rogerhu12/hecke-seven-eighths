@@ -45,8 +45,8 @@ def SecondColumnSide.actualCoefficient (side : SecondColumnSide)
     (ray : AllocationColumn K k → Ray) (χ : (Ray × Ray) →* Circle)
     (c : AllocationColumn K k → ℂ) : H → AllocationColumn K k → ℂ :=
   match side with
-  | .left => secondAllocatedLeftCoefficient Ray ideal frequency ray χ c
-  | .right => secondAllocatedRightCoefficient Ray ideal frequency ray χ c
+  | .left => secondAllocatedLeftCoefficient (σ := σ) Ray ideal frequency ray χ c
+  | .right => secondAllocatedRightCoefficient (σ := σ) Ray ideal frequency ray χ c
 
 /-- A single original-column factorization, before any polynomial sum.
 Its two plain factors and every prime occurrence retain their own
@@ -288,10 +288,10 @@ def secondAllocationBranchCost (b : SecondAllocationBranch Ray T₁ T₂ T IB k)
   b.weight phaseTable * ∫ ξ : V, ‖(𝓕 F) ξ‖ *
     (Real.sqrt (jointColumnEnergy R.rows (b.leftColumns S₁ S₂ S)
       (fun h => R.weight h * R.correlation h)
-      (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft b.2.1 c) x ξ) *
+      (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.2.1 c) x ξ) *
     Real.sqrt (jointColumnEnergy R.rows b.rightColumns
       (fun h => R.weight h * R.correlation h)
-      (secondAllocatedRightCoefficient Ray IB R.frequency rayRight b.2.1 f) y ξ))
+      (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.2.1 f) y ξ))
 
 theorem secondAllocationBranchCost_zero
     (b : SecondAllocationBranch Ray T₁ T₂ T IB k) (hb : ¬b.Live S₁ S₂ S) :
@@ -310,7 +310,7 @@ theorem secondAllocationBranchCost_zero
 /-- Empty allocations and zero Möbius terms do not require any child
 calibration.  They disappear from the genuine finite kernel internally. -/
 theorem secondAllocatedKernelCost_eq_live_branches :
-    secondAllocatedKernelCost Ray F R.rows R.frequency S₁ S₂ S T₁ T₂ T
+    secondAllocatedKernelCost (σ := σ) Ray F R.rows R.frequency S₁ S₂ S T₁ T₂ T
       (primePowerProduct R.primes R.leftMultiplicity)
       (primePowerProduct R.primes R.rightMultiplicity) IA IB
       R.leftGenerator R.rightGenerator R.leftGenerates R.rightGenerates
@@ -319,7 +319,7 @@ theorem secondAllocatedKernelCost_eq_live_branches :
       secondAllocationBranchCost R F S₁ S₂ S T₁ T₂ T IA IB rayLeft rayRight
         phaseTable c f x y b.val := by
   have hall :
-      secondAllocatedKernelCost Ray F R.rows R.frequency S₁ S₂ S T₁ T₂ T
+      secondAllocatedKernelCost (σ := σ) Ray F R.rows R.frequency S₁ S₂ S T₁ T₂ T
         (primePowerProduct R.primes R.leftMultiplicity)
         (primePowerProduct R.primes R.rightMultiplicity) IA IB
         R.leftGenerator R.rightGenerator R.leftGenerates R.rightGenerates
@@ -399,7 +399,7 @@ theorem secondAllocatedKernel_produces_normalized_children
       SecondSideNormalization
         (secondLiveRightFrame R S₁ S₂ S T₁ T₂ T IB rayRight f y C rightFactors b)
         ω ψ rowDomain heightDomain window seminorms) :
-    (secondAllocatedKernelCost Ray F R.rows R.frequency S₁ S₂ S T₁ T₂ T
+    (secondAllocatedKernelCost (σ := σ) Ray F R.rows R.frequency S₁ S₂ S T₁ T₂ T
       (primePowerProduct R.primes R.leftMultiplicity)
       (primePowerProduct R.primes R.rightMultiplicity) IA IB
       R.leftGenerator R.rightGenerator R.leftGenerates R.rightGenerates

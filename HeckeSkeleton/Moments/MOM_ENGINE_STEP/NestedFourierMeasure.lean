@@ -42,18 +42,26 @@ theorem nestedFourierMeasure_finite (F₁ : 𝓢(V, ℂ)) (F₂ : 𝓢(E, ℂ)) 
   dsimp only [nestedFourierMeasure]
   infer_instance
 
+/-- Establish the density identity before inserting the two Fourier
+transforms, so rewriting sees only the original Schwartz functions. -/
+private theorem schwartz_norm_density_prod (G₁ : 𝓢(V, ℂ)) (G₂ : 𝓢(E, ℂ)) :
+    ((volume : Measure V).withDensity (fun ξ => ENNReal.ofReal ‖G₁ ξ‖)).prod
+      ((volume : Measure E).withDensity (fun η => ENNReal.ofReal ‖G₂ η‖)) =
+      ((volume : Measure V).prod (volume : Measure E)).withDensity
+        (fun z : V × E => ENNReal.ofReal (‖G₁ z.1‖ * ‖G₂ z.2‖)) := by
+  rw [prod_withDensity (by fun_prop) (by fun_prop)]
+  congr 1
+  funext z
+  exact (ENNReal.ofReal_mul (norm_nonneg (G₁ z.1))).symm
+
 /-- The product is exactly the density of the two actual Fourier
 transforms with respect to the original product Haar measure. -/
 theorem nestedFourierMeasure_density (F₁ : 𝓢(V, ℂ)) (F₂ : 𝓢(E, ℂ)) :
     nestedFourierMeasure F₁ F₂ =
       ((volume : Measure V).prod (volume : Measure E)).withDensity
         (fun z : V × E => ENNReal.ofReal (‖(𝓕 F₁) z.1‖ * ‖(𝓕 F₂) z.2‖)) := by
-  change ((volume : Measure V).withDensity (fun ξ => ENNReal.ofReal ‖(𝓕 F₁) ξ‖)).prod
-      ((volume : Measure E).withDensity (fun η => ENNReal.ofReal ‖(𝓕 F₂) η‖)) = _
-  rw [prod_withDensity (by fun_prop) (by fun_prop)]
-  congr 1
-  funext z
-  exact (ENNReal.ofReal_mul (norm_nonneg ((𝓕 F₁) z.1))).symm
+  unfold nestedFourierMeasure actualFourierMeasure
+  exact schwartz_norm_density_prod (𝓕 F₁) (𝓕 F₂)
 
 theorem nestedFourierMeasure_mass_eq (F₁ : 𝓢(V, ℂ)) (F₂ : 𝓢(E, ℂ)) :
     (nestedFourierMeasure F₁ F₂).real Set.univ =
@@ -145,7 +153,7 @@ theorem nestedFourierMeasure_integral_density
   have hm : Measurable (fun z : V × E =>
       ENNReal.ofReal (‖(𝓕 F₁) z.1‖ * ‖(𝓕 F₂) z.2‖)) := by fun_prop
   simpa only [ENNReal.toReal_ofReal (mul_nonneg (norm_nonneg _) (norm_nonneg _)),
-    smul_eq_mul] using integral_withDensity_eq_integral_toReal_smul hm
+    smul_eq_mul, Measure.volume_eq_prod] using integral_withDensity_eq_integral_toReal_smul hm
       (Filter.Eventually.of_forall (fun z : V × E => ENNReal.ofReal_lt_top)) G
 
 section ActualChildren

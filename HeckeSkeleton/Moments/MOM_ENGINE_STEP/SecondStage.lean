@@ -20,6 +20,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments MeasureTheory
+open HeckePort.IdealMobiusDivisorSum
 open UniqueFactorizationMonoid
 
 variable {K : Type} [Field K] [NumberField K]
@@ -100,7 +101,7 @@ def SecondBlockProfileChart.classKernelCost {ι κ : Type*}
     (engineAllowedGenerator C b.commonRightIdeal * b.rightGenerator j)
     (b.secondRight_generates C j)
   let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
-  secondResidualKernelCost PUnit chart.kernel
+  secondResidualKernelCost (σ := σ) PUnit.{1} chart.kernel
     (source.rows.filter (fun t => chart.rowLabel t = label)) (fun t => -t.out.val)
     source.leftColumns source.rightColumns
     b.commonLeftIdeal b.commonRightIdeal b.leftResidual b.rightResidual
@@ -158,8 +159,8 @@ theorem SecondBlockProfileChart.class_kernel_bound {ι κ : Type*}
       (source.pairs i j).transformedRow μv hDiff finiteTest radius D t‖ ≤
         chart.classKernelCost M X hX label := by
   obtain ⟨hDa, hEa, hDb, hEb⟩ := b.second_coprimalities hsupport
-  exact actual_second_source_kernel_bound (hΓ := hΓ) (hS := hDiff)
-    (Ray := PUnit) (μv := μv) chart.kernel
+  exact actual_second_source_kernel_bound (σ := σ) (hΓ := hΓ) (hS := hDiff)
+    (Ray := PUnit.{1}) (μv := μv) chart.kernel
     ((b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).rows.filter
       (fun t => chart.rowLabel t = label))
     (b.leftColumns left) (b.rightColumns right)

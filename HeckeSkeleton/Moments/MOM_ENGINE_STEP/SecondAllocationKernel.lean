@@ -72,11 +72,11 @@ def secondAllocatedKernelCost
               (Real.sqrt (jointColumnEnergy rows
                 (pairedAllocatedColumns L a S₁ S₂ S id id HeightOneSpectrum.asIdeal)
                 (fun h => q h * generatedIdealCorrelation (σ := σ) ID IE d e hd he (frequency h))
-                (secondAllocatedLeftCoefficient Ray IA frequency rayLeft χ c) x ξ) *
+                (secondAllocatedLeftCoefficient (σ := σ) Ray IA frequency rayLeft χ c) x ξ) *
                Real.sqrt (jointColumnEnergy rows
                 (pairedAllocatedColumns L b T₁ T₂ T id id HeightOneSpectrum.asIdeal)
                 (fun h => q h * generatedIdealCorrelation (σ := σ) ID IE d e hd he (frequency h))
-                (secondAllocatedRightCoefficient Ray IB frequency rayRight χ f) y ξ))
+                (secondAllocatedRightCoefficient (σ := σ) Ray IB frequency rayRight χ f) y ξ))
 
 private theorem allocation_energy_filter_of_terms {ι : Type*}
     (rows : Finset H) (columns : Finset ι) (q : H → ℂ) (p : ι → Prop)
@@ -114,10 +114,10 @@ theorem actual_second_kernel_allocation_bound
     (phaseTable : Ray × Ray → Circle)
     (q : H → ℂ) (c : AllocationColumn K k → ℂ) (f : AllocationColumn K l → ℂ)
     (x : H → AllocationColumn K k → V) (y : H → AllocationColumn K l → V) :
-    secondResidualKernelCost Ray F rows frequency
+    secondResidualKernelCost (σ := σ) Ray F rows frequency
       (childCartesianColumns S₁ S₂ S) (childCartesianColumns T₁ T₂ T)
       ID IE IA IB d e hd he rayLeft rayRight phaseTable q c f x y ≤
-        secondAllocatedKernelCost Ray F rows frequency S₁ S₂ S T₁ T₂ T
+        secondAllocatedKernelCost (σ := σ) Ray F rows frequency S₁ S₂ S T₁ T₂ T
           ID IE IA IB d e hd he rayLeft rayRight phaseTable q c f x y := by
   unfold secondResidualKernelCost secondAllocatedKernelCost
   apply Finset.sum_le_sum
@@ -136,7 +136,7 @@ theorem actual_second_kernel_allocation_bound
             (fun i h => σ (A.sexticResidue (IA i) (frequency h)))) x ξ =
         jointColumnEnergy rows ((childCartesianColumns S₁ S₂ S).filter
           (fun i => L ∣ allocationColumnIdeal i)) weight
-          (secondAllocatedLeftCoefficient Ray IA frequency rayLeft χ c) x ξ := by
+          (secondAllocatedLeftCoefficient (σ := σ) Ray IA frequency rayLeft χ c) x ξ := by
       apply allocation_energy_filter_of_terms
       intro h _ i hi
       unfold kernelDivisorCoefficient
@@ -149,7 +149,7 @@ theorem actual_second_kernel_allocation_bound
             (fun j h => σ (A.sexticResidue (IB j) (-frequency h))) h j)) y ξ =
         jointColumnEnergy rows ((childCartesianColumns T₁ T₂ T).filter
           (fun j => L ∣ allocationColumnIdeal j)) weight
-          (secondAllocatedRightCoefficient Ray IB frequency rayRight χ f) y ξ := by
+          (secondAllocatedRightCoefficient (σ := σ) Ray IB frequency rayRight χ f) y ξ := by
       apply allocation_energy_filter_of_terms
       intro h _ j hj
       unfold kernelDivisorCoefficient
@@ -168,8 +168,8 @@ theorem actual_second_kernel_allocation_bound
     simp_rw [hleft, hright]
     exact allocated_joint_kernel_bound F L hsq rows S₁ S₂ S T₁ T₂ T
       id id HeightOneSpectrum.asIdeal id id HeightOneSpectrum.asIdeal weight
-      (secondAllocatedLeftCoefficient Ray IA frequency rayLeft χ c)
-      (secondAllocatedRightCoefficient Ray IB frequency rayRight χ f) x y
+      (secondAllocatedLeftCoefficient (σ := σ) Ray IA frequency rayLeft χ c)
+      (secondAllocatedRightCoefficient (σ := σ) Ray IB frequency rayRight χ f) x y
   · simp only [moebius_of_not_squarefree hsq, Int.cast_zero, norm_zero, zero_mul, le_refl]
 
 end HeckeSkeleton.Moments.EngineStep

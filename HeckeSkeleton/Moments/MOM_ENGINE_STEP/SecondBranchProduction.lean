@@ -94,10 +94,10 @@ def source : ActualAllocatedSource A V R.live k :=
 
 def coefficient : H → AllocationColumn F k → ℂ :=
   match side with
-  | .left => secondAllocatedLeftCoefficient Ray f.ideal R.frequency f.dictionary.ray f.phaseCharacter
+  | .left => secondAllocatedLeftCoefficient (σ := σ) Ray f.ideal R.frequency f.dictionary.ray f.phaseCharacter
       (f.dictionary.normalizedCoefficient (Real.sqrt f.gaussScale₁ : ℂ)⁻¹
         (Real.sqrt f.gaussScale₂ : ℂ)⁻¹ (fun i => (Real.sqrt (f.gaussSlotScale i) : ℂ)⁻¹))
-  | .right => secondAllocatedRightCoefficient Ray f.ideal R.frequency f.dictionary.ray f.phaseCharacter
+  | .right => secondAllocatedRightCoefficient (σ := σ) Ray f.ideal R.frequency f.dictionary.ray f.phaseCharacter
       (f.dictionary.normalizedCoefficient (Real.sqrt f.gaussScale₁ : ℂ)⁻¹
         (Real.sqrt f.gaussScale₂ : ℂ)⁻¹ (fun i => (Real.sqrt (f.gaussSlotScale i) : ℂ)⁻¹))
 
@@ -161,10 +161,10 @@ def comparison (e : SecondCoefficientComparison f.dictionary) :
 
 def centeredCoefficient (e : SecondCoefficientComparison f.dictionary) : H → AllocationColumn F k → ℂ :=
   match side with
-  | .left => secondAllocatedLeftCoefficient Ray f.ideal R.frequency f.dictionary.ray f.phaseCharacter
+  | .left => secondAllocatedLeftCoefficient (σ := σ) Ray f.ideal R.frequency f.dictionary.ray f.phaseCharacter
       (e.centeredCoefficient (Real.sqrt f.gaussScale₁ : ℂ)⁻¹ (Real.sqrt f.gaussScale₂ : ℂ)⁻¹
         (fun i => (Real.sqrt (f.gaussSlotScale i) : ℂ)⁻¹))
-  | .right => secondAllocatedRightCoefficient Ray f.ideal R.frequency f.dictionary.ray f.phaseCharacter
+  | .right => secondAllocatedRightCoefficient (σ := σ) Ray f.ideal R.frequency f.dictionary.ray f.phaseCharacter
       (e.centeredCoefficient (Real.sqrt f.gaussScale₁ : ℂ)⁻¹ (Real.sqrt f.gaussScale₂ : ℂ)⁻¹
         (fun i => (Real.sqrt (f.gaussSlotScale i) : ℂ)⁻¹))
 

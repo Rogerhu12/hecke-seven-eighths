@@ -70,10 +70,10 @@ def pairEnergy (R : ActualSecondCorrelationRows A σ H ι)
     (x : H → AllocationColumn F k → V) (y : H → AllocationColumn F l → V) (ξ : V) : ℝ :=
   Real.sqrt (jointColumnEnergy R.rows (z.leftColumns S₁ S₂ S)
     (fun h => R.weight h * R.correlation h)
-    (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft z.2.1 c) x ξ) *
+    (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft z.2.1 c) x ξ) *
   Real.sqrt (jointColumnEnergy R.rows z.rightColumns
     (fun h => R.weight h * R.correlation h)
-    (secondAllocatedRightCoefficient Ray IB R.frequency rayRight z.2.1 f) y ξ)
+    (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight z.2.1 f) y ξ)
 
 theorem pairEnergy_eq_zero_of_empty (R : ActualSecondCorrelationRows A σ H ι)
     (IA : AllocationColumn F k → A.Exterior)
@@ -111,8 +111,8 @@ theorem pairEnergy_integrable (Fker : 𝓢(V, ℂ))
   simpa only [pairEnergy, ENNReal.toReal_ofReal (norm_nonneg _), smul_eq_mul] using
     joint_kernel_energy_integrable Fker R.rows (z.leftColumns S₁ S₂ S) z.rightColumns
       (fun h => R.weight h * R.correlation h)
-      (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft z.2.1 c)
-      (secondAllocatedRightCoefficient Ray IB R.frequency rayRight z.2.1 f) x y
+      (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft z.2.1 c)
+      (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight z.2.1 f) x y
 
 end SecondAllocationLabel
 
@@ -161,7 +161,7 @@ theorem secondAllocatedKernelCost_eq_labels
     (phaseTable : Ray × Ray → Circle)
     (c : AllocationColumn F k → ℂ) (f : AllocationColumn F l → ℂ)
     (x : H → AllocationColumn F k → V) (y : H → AllocationColumn F l → V) :
-    secondAllocatedKernelCost Ray Fker R.rows R.frequency S₁ S₂ S T₁ T₂ T
+    secondAllocatedKernelCost (σ := σ) Ray Fker R.rows R.frequency S₁ S₂ S T₁ T₂ T
       (primePowerProduct R.primes R.leftMultiplicity) (primePowerProduct R.primes R.rightMultiplicity)
       IA IB R.leftGenerator R.rightGenerator R.leftGenerates R.rightGenerates
       rayLeft rayRight phaseTable R.weight c f x y =
@@ -184,7 +184,7 @@ theorem secondAllocatedKernelCost_eq_live_labels
     (phaseTable : Ray × Ray → Circle)
     (c : AllocationColumn F k → ℂ) (f : AllocationColumn F l → ℂ)
     (x : H → AllocationColumn F k → V) (y : H → AllocationColumn F l → V) :
-    secondAllocatedKernelCost Ray Fker R.rows R.frequency S₁ S₂ S T₁ T₂ T
+    secondAllocatedKernelCost (σ := σ) Ray Fker R.rows R.frequency S₁ S₂ S T₁ T₂ T
       (primePowerProduct R.primes R.leftMultiplicity) (primePowerProduct R.primes R.rightMultiplicity)
       IA IB R.leftGenerator R.rightGenerator R.leftGenerates R.rightGenerates
       rayLeft rayRight phaseTable R.weight c f x y =

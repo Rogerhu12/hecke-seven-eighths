@@ -36,7 +36,7 @@ theorem ParentPeriodicPair.gated_divisorFourier (p : ParentPeriodicPair K S Γ)
       if P then sIntegerPeriodicDivisorFourier K (S : Set (HeightOneSpectrum (𝓞 K))) hDiff
         p.modulus p.modulus_ne_zero p.residue δ h else 0 := by
   by_cases hP : P
-  · rw [p.gated_of_true P hP, if_pos hP]
+  · simp only [ParentPeriodicPair.gated, if_pos hP]
   · simp only [ParentPeriodicPair.gated, if_neg hP, sIntegerPeriodicDivisorFourier,
       PeriodicFourier.divisorTransform, PeriodicFourier.fourier, PeriodicFourier.dilate,
       zero_mul, Finset.sum_const_zero]
@@ -72,9 +72,8 @@ theorem FirstCommonCharacterBlock.zeroFourier_nonzero_powerful
       (b.pair hΓ C profiles i j).residue δ 0 ≠ 0) :
     Powerful ((fullI i).val * (fullJ j).val) := by
   unfold FirstCommonCharacterBlock.pair at hzero
-  rw [ParentPeriodicPair.gated_divisorFourier] at hzero
   by_cases hcop : IsCoprime (b.leftResidual i).val (b.rightResidual j).val
-  · rw [if_pos hcop] at hzero
+  · simp only [ParentPeriodicPair.gated, if_pos hcop] at hzero
     have hgen := b.generator_coprime C left right i hi j hj hcop
     obtain ⟨hpI, hpJ⟩ := originalTriple_zero_powerful_residuals hΓ C hDiff
       (b.leftResidual i) (b.rightResidual j) (b.leftGenerator i) (b.rightGenerator j)
@@ -91,7 +90,9 @@ theorem FirstCommonCharacterBlock.zeroFourier_nonzero_powerful
       hcommon (powerful_mul (b.leftResidual i).property.1 (b.rightResidual j).property.1 hpI hpJ)
     rw [b.left_reconstruct left i hi, b.right_reconstruct right j hj]
     convert hproduct using 1 <;> ring
-  · simp only [if_neg hcop, ne_self_iff_false] at hzero
+  · simp only [ParentPeriodicPair.gated, if_neg hcop, sIntegerPeriodicDivisorFourier,
+      PeriodicFourier.divisorTransform, PeriodicFourier.fourier, PeriodicFourier.dilate,
+      zero_mul, Finset.sum_const_zero, ne_self_iff_false] at hzero
 
 theorem FirstCommonCharacterBlock.zeroFourier_eq_zero_of_not_powerful
     (b : FirstCommonCharacterBlock fullI fullJ DE)
@@ -141,8 +142,9 @@ theorem ParentPeriodicPair.gated_transformedZero
   by_cases hP : P
   · rw [p.gated_of_true P hP, if_pos hP]
   · unfold ParentPeriodicPair.transformedZero
-    rw [p.gated_divisorFourier]
-    simp only [ParentPeriodicPair.gated, if_neg hP, zero_mul, mul_zero, sub_zero]
+    simp only [ParentPeriodicPair.gated, if_neg hP, sIntegerPeriodicDivisorFourier,
+      PeriodicFourier.divisorTransform, PeriodicFourier.fourier, PeriodicFourier.dilate,
+      zero_mul, Finset.sum_const_zero, mul_zero, sub_zero]
 
 theorem FirstCommonCharacterBlock.transformedZero_eq_zero_of_not_coprime
     (b : FirstCommonCharacterBlock fullI fullJ DE)

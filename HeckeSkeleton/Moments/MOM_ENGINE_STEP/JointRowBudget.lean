@@ -82,7 +82,9 @@ theorem pairedRows_jointRowBudgetData
       (pairedRows d a Z).filter (fun u =>
         idealNorm F u * A.exteriorNorm (support u) ≤ budget) := by
   ext u
-  simp only [pairedRows, jointRowBudgetData, Finset.mem_filter]
+  unfold pairedRows
+  dsimp only [jointRowBudgetData]
+  simp only [Finset.mem_filter]
   tauto
 
 theorem jointRowBudgetData_paired_budget
@@ -129,20 +131,20 @@ def ofCompleteMask
       (squarefree_one : Squarefree (1 : Ideal (𝓞 F)))
   mask ξ u I := by
     rw [hmask ξ u I]
-    change _ = _ && decide (IsCoprime I (⊤ : Ideal (𝓞 F)))
+    change _ = (_ && decide (IsCoprime I (⊤ : Ideal (𝓞 F))))
     simp only [← Ideal.one_eq_top, isCoprime_one_right, decide_true, Bool.and_true]
 
 @[simp] theorem ofCompleteMask_support
     (hmask : ∀ ξ u I, (data ξ).commonMask u I =
       completeIdealCommonMask F (A.Sf : Set (HeightOneSpectrum (𝓞 F))) u I)
-    (u : NonzeroIdeal F) :
+    (u : HeckeGeneral.Analysis.NonzeroIdeal F) :
     (ofCompleteMask hmask).support u = unitExterior A := rfl
 
 /-- The extra-deletion norm of the complete original row is one. -/
 @[simp] theorem ofCompleteMask_support_norm
     (hmask : ∀ ξ u I, (data ξ).commonMask u I =
       completeIdealCommonMask F (A.Sf : Set (HeightOneSpectrum (𝓞 F))) u I)
-    (u : NonzeroIdeal F) :
+    (u : HeckeGeneral.Analysis.NonzeroIdeal F) :
     A.exteriorNorm ((ofCompleteMask hmask).support u) = 1 := by
   change (Ideal.absNorm (⊤ : Ideal (𝓞 F)) : ℝ) = 1
   simp only [← Ideal.one_eq_top, map_one, Nat.cast_one]

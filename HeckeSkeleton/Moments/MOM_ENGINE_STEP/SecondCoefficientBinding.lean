@@ -231,7 +231,7 @@ theorem second_allocated_left_coefficient_from_terms
     (frequency g h : H → A.R) (hfrequency : ∀ r, frequency r = g r * h r)
     (r : H)
     (i : AllocationColumn F k) (hi : i ∈ childCartesianColumns S₁ S₂ S) :
-    secondAllocatedLeftCoefficient Ray IA frequency D.ray χ D.coefficient r i =
+    secondAllocatedLeftCoefficient (σ := σ) Ray IA frequency D.ray χ D.coefficient r i =
       rawSourceCoefficient (σ := σ) T (g r) (h r) D.scale₁ D.scale₂ D.base D.length
         D.leftWeight D.rightWeight D.slotWeight i :=
   D.coefficient_residue i hi (IA i) (hIA i hi) (frequency r) (g r) (h r) (hfrequency r)
@@ -244,7 +244,7 @@ theorem second_allocated_right_coefficient_from_terms
     (frequency g h : H → A.R) (hfrequency : ∀ r, frequency r = g r * h r)
     (r : H)
     (i : AllocationColumn F k) (hi : i ∈ childCartesianColumns S₁ S₂ S) :
-    secondAllocatedRightCoefficient Ray IB frequency D.ray χ D.coefficient r i =
+    secondAllocatedRightCoefficient (σ := σ) Ray IB frequency D.ray χ D.coefficient r i =
       star (rawSourceCoefficient (σ := σ) T (-g r) (h r) D.scale₁ D.scale₂ D.base D.length
         D.leftWeight D.rightWeight D.slotWeight i) := by
   apply congrArg star

@@ -66,6 +66,68 @@ theorem exceptionalDyadWeight_le_indexWeight (b : TwoDivisorCommonBranch (K := K
   unfold exceptionalDyadWeight indexWeight
   exact dyad_weight_le_harmonic Z r mesh _ _ hZ hnorm (by positivity) hwindow
 
+/-- Select the arithmetic constant before introducing the dependent
+allocation carrier.  The choice theorem itself mentions only `b.mass`. -/
+private def exceptionalArithmeticConstant (N : ℕ) (B ε : ℝ)
+    (hB : 0 ≤ B) (hε : 0 < ε) : ℝ :=
+  Classical.choose (uniform_mass (K := K) N B ε hB hε)
+
+private theorem exceptionalArithmeticConstant_pos (N : ℕ) (B ε : ℝ)
+    (hB : 0 ≤ B) (hε : 0 < ε) :
+    0 < exceptionalArithmeticConstant (K := K) N B ε hB hε :=
+  (Classical.choose_spec (uniform_mass (K := K) N B ε hB hε)).1
+
+private theorem exceptionalArithmeticConstant_mass (N : ℕ) (B ε : ℝ)
+    (hB : 0 ≤ B) (hε : 0 < ε)
+    (Z : ℝ) (hZ : 1 ≤ Z) (s : Ideal (𝓞 K)) (hs : Squarefree s) (hs0 : s ≠ 0)
+    (b : TwoDivisorCommonBranch (K := K)) (hb : b.Admissible N B Z s) :
+    b.mass ≤ exceptionalArithmeticConstant (K := K) N B ε hB hε *
+      Z ^ ε / (Ideal.absNorm s : ℝ) :=
+  (Classical.choose_spec (uniform_mass (K := K) N B ε hB hε)).2 Z hZ s hs hs0 b hb
+
+/-- Finite-sum transport on abstract types.  In particular, deciding
+equality in a fibre never unfolds the actual nested allocation carrier. -/
+private theorem weighted_sum_bound_of_fibres
+    {I J : Type*} [Fintype I] [Fintype J]
+    (index : I → J) (weight : J → ℝ) (hweight : ∀ j, 0 ≤ weight j)
+    (summand : I → ℝ) (scale massBound multiplicity : ℝ)
+    (hscale : 0 ≤ scale) (hmultiplicity : 0 ≤ multiplicity)
+    (cardDecision : ∀ j : J, DecidablePred (fun i : I => index i = j))
+    (hcard : ∀ j, ((@Finset.filter I (fun i => index i = j)
+      (cardDecision j) Finset.univ).card : ℝ) ≤ multiplicity)
+    (hpoint : ∀ i, summand i ≤ scale * weight (index i))
+    (hmass : (∑ j : J, weight j) ≤ massBound) :
+    (∑ i : I, summand i) ≤ scale * (multiplicity * massBound) := by
+  have hfibre : (∑ i : I, weight (index i)) ≤ multiplicity * ∑ j : J, weight j :=
+    sum_weighted_fibres_le (I := I) (J := J) index weight hweight multiplicity
+      (fun j => by
+        rw [← Finset.filter_congr_decidable Finset.univ
+          (fun i : I => index i = j) (cardDecision j)]
+        exact hcard j)
+  calc
+    _ ≤ ∑ i : I, scale * weight (index i) := Finset.sum_le_sum (fun i _ => hpoint i)
+    _ = scale * ∑ i : I, weight (index i) := (Finset.mul_sum _ _ _).symm
+    _ ≤ scale * (multiplicity * ∑ j : J, weight j) :=
+      mul_le_mul_of_nonneg_left hfibre hscale
+    _ ≤ scale * (multiplicity * massBound) :=
+      mul_le_mul_of_nonneg_left
+        (mul_le_mul_of_nonneg_left hmass hmultiplicity) hscale
+
+private theorem dyad_mass_scale_identity (Z ε mesh multiplicity C norm : ℝ)
+    (hZ : 0 < Z) :
+    Z ^ mesh * (multiplicity * (C * Z ^ ε / norm)) =
+      multiplicity * C * Z ^ (ε + mesh) / norm := by
+  rw [Real.rpow_add hZ]
+  ring
+
+private theorem admissible_index_second_divisor_ne_zero
+    (N : ℕ) (B Z : ℝ) (s : Ideal (𝓞 K))
+    (b : TwoDivisorCommonBranch (K := K)) (hb : b.Admissible N B Z s)
+    (j : b.Index) : j.2.2.2.1.val ≠ 0 :=
+  hb.second_divisor_ne_zero j.1.val j.1.property
+    j.2.1.val j.2.1.property j.2.2.1.val j.2.2.1.property
+    j.2.2.2.1.val j.2.2.2.1.property
+
 /-- The same fixed arithmetic constant controls the actual decorated
 exceptional carrier.  Only its original ideal windows and actual fibre
 cardinalities enter; no exceptional sum or terminal budget is an input. -/
@@ -80,34 +142,28 @@ theorem uniform_exceptional_dyad_mass (N : ℕ) (B ε : ℝ) (hB : 0 ≤ B) (hε
       (∀ i, (Ideal.absNorm (index i).2.2.2.1.val : ℝ) ≤ Z ^ (lower i + mesh)) →
       (∑ i : I, b.exceptionalDyadWeight Z (lower i) (index i)) ≤
         multiplicity * C * Z ^ (ε + mesh) / (Ideal.absNorm s : ℝ) := by
-  obtain ⟨C, hC, hmass⟩ := uniform_mass (K := K) N B ε hB hε
-  refine ⟨C, hC, ?_⟩
+  let C : ℝ := exceptionalArithmeticConstant (K := K) N B ε hB hε
+  refine ⟨C, exceptionalArithmeticConstant_pos (K := K) N B ε hB hε, ?_⟩
   intro Z hZ s hs hs0 b hbranch I inst index multiplicity mesh hmult hcard lower hwindow
   have hz : 0 < Z := zero_lt_one.trans_le hZ
-  have hindex : (∑ i : I, b.indexWeight (index i)) ≤
-      multiplicity * C * Z ^ ε / (Ideal.absNorm s : ℝ) := by
-    have hfibre := sum_weighted_fibres_le index b.indexWeight b.indexWeight_nonneg
-      multiplicity (fun j => by
-        convert hcard j using 1 <;> congr 2 <;> ext i <;> simp)
-    rw [b.sum_indexWeight] at hfibre
-    exact hfibre.trans ((mul_le_mul_of_nonneg_left
-      (hmass Z hZ s hs hs0 b hbranch) hmult).trans_eq (by ring))
+  have hmass : b.mass ≤ C * Z ^ ε / (Ideal.absNorm s : ℝ) :=
+    exceptionalArithmeticConstant_mass N B ε hB hε Z hZ s hs hs0 b hbranch
+  have hindex : (∑ j : b.Index, b.indexWeight j) ≤
+      C * Z ^ ε / (Ideal.absNorm s : ℝ) :=
+    b.sum_indexWeight.le.trans hmass
   have hi (i : I) : b.exceptionalDyadWeight Z (lower i) (index i) ≤
-      Z ^ mesh * b.indexWeight (index i) := by
-    apply b.exceptionalDyadWeight_le_indexWeight Z (lower i) mesh hz (index i)
-    · exact hbranch.second_divisor_ne_zero (index i).1.val (index i).1.property
-        (index i).2.1.val (index i).2.1.property
-        (index i).2.2.1.val (index i).2.2.1.property
-        (index i).2.2.2.1.val (index i).2.2.2.1.property
-    · exact hwindow i
-  calc
-    _ ≤ ∑ i : I, Z ^ mesh * b.indexWeight (index i) := Finset.sum_le_sum (fun i _ => hi i)
-    _ = Z ^ mesh * ∑ i : I, b.indexWeight (index i) := by rw [Finset.mul_sum]
-    _ ≤ Z ^ mesh * (multiplicity * C * Z ^ ε / (Ideal.absNorm s : ℝ)) :=
-      mul_le_mul_of_nonneg_left
-        hindex
-        (Real.rpow_nonneg hz.le _)
-    _ = _ := by rw [Real.rpow_add hz]; ring
+      Z ^ mesh * b.indexWeight (index i) :=
+    b.exceptionalDyadWeight_le_indexWeight Z (lower i) mesh hz (index i)
+      (admissible_index_second_divisor_ne_zero N B Z s b hbranch (index i)) (hwindow i)
+  have hsum : (∑ i : I, b.exceptionalDyadWeight Z (lower i) (index i)) ≤
+      Z ^ mesh * (multiplicity * (C * Z ^ ε / (Ideal.absNorm s : ℝ))) :=
+    weighted_sum_bound_of_fibres (I := I) (J := b.Index)
+      index (fun j : b.Index => b.indexWeight j) (fun j => b.indexWeight_nonneg j)
+      (fun i : I => b.exceptionalDyadWeight Z (lower i) (index i))
+      (Z ^ mesh) (C * Z ^ ε / (Ideal.absNorm s : ℝ)) multiplicity
+      (Real.rpow_nonneg hz.le mesh) hmult (fun _ _ => inferInstance) hcard hi hindex
+  exact hsum.trans_eq (dyad_mass_scale_identity Z ε mesh multiplicity C
+    (Ideal.absNorm s : ℝ) hz)
 
 end CommonSupportMass.TwoDivisorCommonBranch
 

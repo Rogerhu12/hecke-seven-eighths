@@ -125,6 +125,7 @@ def normalizeWindow {rowDomain : Set (NonzeroIdeal K)}
     {d : MomentData K ω ψ} {A : ℝ} (hA : 0 < A)
     (w : RawProfileWindow rowDomain heightDomain window s d A) :
     RawProfileWindow rowDomain heightDomain window s (P.normalizeData d A hA) 1 := by
+  unfold normalizeData
   have hbound (φ : 𝓢(ℝ, ℂ))
       (hφ : s.sup (schwartzSeminormFamily ℂ ℝ ℂ) φ ≤ A) :
       s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (((A⁻¹ : ℝ) : ℂ) • φ) ≤ 1 := by

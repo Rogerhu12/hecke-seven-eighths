@@ -114,9 +114,9 @@ theorem second_residual_kernel_reindex
     (rayLeft : ι → Ray) (rayRight : κ → Ray) (phaseTable : Ray × Ray → Circle)
     (q : H → ℂ) (c : ι → ℂ) (f : κ → ℂ)
     (x : H → ι → V) (y : H → κ → V) :
-    secondResidualKernelCost Ray F rows frequency left right ID IE IA IB d e hd he
+    secondResidualKernelCost (σ := σ) Ray F rows frequency left right ID IE IA IB d e hd he
       rayLeft rayRight phaseTable q c f x y =
-      secondResidualKernelCost Ray F rows frequency L.cartesian R.cartesian ID IE
+      secondResidualKernelCost (σ := σ) Ray F rows frequency L.cartesian R.cartesian ID IE
         (fun i => IA (L.index i)) (fun j => IB (R.index j)) d e hd he
         (fun i => rayLeft (L.index i)) (fun j => rayRight (R.index j)) phaseTable q
         (fun i => c (L.index i)) (fun j => f (R.index j))
@@ -144,9 +144,9 @@ theorem second_residual_kernel_cartesian_allocation
     (rayLeft : ι → Ray) (rayRight : κ → Ray) (phaseTable : Ray × Ray → Circle)
     (q : H → ℂ) (c : ι → ℂ) (f : κ → ℂ)
     (x : H → ι → V) (y : H → κ → V) :
-    secondResidualKernelCost Ray F rows frequency left right ID IE IA IB d e hd he
+    secondResidualKernelCost (σ := σ) Ray F rows frequency left right ID IE IA IB d e hd he
       rayLeft rayRight phaseTable q c f x y ≤
-      secondAllocatedKernelCost Ray F rows frequency
+      secondAllocatedKernelCost (σ := σ) Ray F rows frequency
         L.plain₁ L.plain₂ L.slots R.plain₁ R.plain₂ R.slots ID IE
         (fun i => IA (L.index i)) (fun j => IB (R.index j)) d e hd he
         (fun i => rayLeft (L.index i)) (fun j => rayRight (R.index j)) phaseTable q
@@ -236,7 +236,7 @@ def allocatedClassCost
     (label : Fin (chart.rowLabelCount + 1))
     (L : CartesianSourceReindex (b.leftColumns left) b.leftResidual k)
     (R : CartesianSourceReindex (b.rightColumns right) b.rightResidual l) : ℝ :=
-  secondAllocatedKernelCost PUnit chart.kernel
+  secondAllocatedKernelCost (σ := σ) PUnit chart.kernel
         (chart.actualRows M X hX label).rows
         (chart.actualRows M X hX label).frequency
         L.plain₁ L.plain₂ L.slots R.plain₁ R.plain₂ R.slots

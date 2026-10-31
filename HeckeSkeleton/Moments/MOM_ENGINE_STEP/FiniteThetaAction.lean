@@ -25,9 +25,9 @@ def ActualThetaAction (theta : Finset (HeckeCharacter F)) (χ : HeckeCharacter F
 namespace ActualThetaAction
 
 variable {theta : Finset (HeckeCharacter F)} {χ : HeckeCharacter F}
-variable (hχ : ActualThetaAction theta χ)
 
-theorem mul_mem_iff (ψ : HeckeCharacter F) : χ * ψ ∈ theta ↔ ψ ∈ theta := by
+theorem mul_mem_iff (hχ : ActualThetaAction theta χ) (ψ : HeckeCharacter F) :
+    χ * ψ ∈ theta ↔ ψ ∈ theta := by
   constructor
   · intro hmem
     have hi : χ * ψ ∈ theta.image (fun η => χ * η) := by
@@ -41,13 +41,14 @@ theorem mul_mem_iff (ψ : HeckeCharacter F) : χ * ψ ∈ theta ↔ ψ ∈ theta
       Finset.mem_image.mpr ⟨ψ, hmem, rfl⟩
     rwa [hχ] at hi
 
-theorem inv_mul_mem_iff (ψ : HeckeCharacter F) : χ⁻¹ * ψ ∈ theta ↔ ψ ∈ theta := by
+theorem inv_mul_mem_iff (hχ : ActualThetaAction theta χ) (ψ : HeckeCharacter F) :
+    χ⁻¹ * ψ ∈ theta ↔ ψ ∈ theta := by
   have hh := hχ.mul_mem_iff (χ⁻¹ * ψ)
   have he : χ * (χ⁻¹ * ψ) = ψ := by group
   rw [he] at hh
   exact hh.symm
 
-theorem inv : ActualThetaAction theta χ⁻¹ := by
+theorem inv (hχ : ActualThetaAction theta χ) : ActualThetaAction theta χ⁻¹ := by
   apply Finset.ext
   intro ψ
   constructor
@@ -60,14 +61,16 @@ theorem inv : ActualThetaAction theta χ⁻¹ := by
     group
 
 theorem one : ActualThetaAction theta 1 := by
-  simp only [ActualThetaAction, one_mul, Finset.image_id]
+  change theta.image (fun ψ => (1 : HeckeCharacter F) * ψ) = theta
+  simpa only [one_mul] using (Finset.image_id (s := theta))
 
-theorem mul {η : HeckeCharacter F} (hη : ActualThetaAction theta η) :
+theorem mul (hχ : ActualThetaAction theta χ) {η : HeckeCharacter F}
+    (hη : ActualThetaAction theta η) :
     ActualThetaAction theta (χ * η) := by
   change theta.image (fun ψ => (χ * η) * ψ) = theta
   calc
     _ = (theta.image (fun ψ => η * ψ)).image (fun ψ => χ * ψ) := by
-      simp only [Finset.image_image, mul_assoc]
+      simp only [Finset.image_image, Function.comp_def, mul_assoc]
     _ = theta := by rw [hη, hχ]
 
 /-- Exceptional membership depends only on a ratio acting on theta. -/

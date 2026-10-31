@@ -60,10 +60,10 @@ structure OrdinaryBinding
   rowWeight : ∀ h ∈ leaf.rows, leaf.rowWeight h = R.weight h * R.correlation h
   leftCoefficient : ∀ h ∈ leaf.rows, ∀ i ∈ leaf.left,
     leaf.leftCoefficient h i =
-      secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft b.val.2.1 wholeLeft h i
+      secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 wholeLeft h i
   rightCoefficient : ∀ h ∈ leaf.rows, ∀ j ∈ leaf.right,
     star (leaf.rightCoefficient h j) =
-      secondAllocatedRightCoefficient Ray IB R.frequency rayRight b.val.2.1 wholeRight h j
+      secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 wholeRight h j
   leftPoint : ∀ h ∈ leaf.rows, ∀ i ∈ leaf.left,
     WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i) = x h i
   rightPoint : ∀ h ∈ leaf.rows, ∀ j ∈ leaf.right,
@@ -97,7 +97,7 @@ theorem ordinaryIntegrand_eq (z : U × V) :
         (WithLp.toLp 2 z) =
       jointColumnEnergy (R.rows.filter (fun h => ¬exceptional h))
         (b.val.leftColumns S₁ S₂ S) (fun h => R.weight h * R.correlation h)
-        (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft b.val.2.1 wholeLeft)
+        (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 wholeLeft)
         x (WithLp.toLp 2 z) := by
     rw [← d.ordinary_rows, ← d.left]
     unfold jointColumnEnergy
@@ -109,7 +109,7 @@ theorem ordinaryIntegrand_eq (z : U × V) :
           (fun i => WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i))
           (WithLp.toLp 2 z) =
         jointFourierColumn leaf.left
-          (secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft b.val.2.1 wholeLeft h)
+          (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 wholeLeft h)
           (x h) (WithLp.toLp 2 z) := by
       unfold jointFourierColumn
       apply Finset.sum_congr rfl
@@ -123,7 +123,7 @@ theorem ordinaryIntegrand_eq (z : U × V) :
         (WithLp.toLp 2 z) =
       jointColumnEnergy (R.rows.filter (fun h => ¬exceptional h))
         b.val.rightColumns (fun h => R.weight h * R.correlation h)
-        (secondAllocatedRightCoefficient Ray IB R.frequency rayRight b.val.2.1 wholeRight)
+        (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 wholeRight)
         y (WithLp.toLp 2 z) := by
     rw [← d.ordinary_rows, ← d.right]
     unfold jointColumnEnergy
@@ -135,7 +135,7 @@ theorem ordinaryIntegrand_eq (z : U × V) :
           (fun j => WithLp.toLp 2 (-leaf.rightFirst h j, leaf.rightSecond h j))
           (WithLp.toLp 2 z) =
         jointFourierColumn leaf.right
-          (secondAllocatedRightCoefficient Ray IB R.frequency rayRight b.val.2.1 wholeRight h)
+          (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 wholeRight h)
           (y h) (WithLp.toLp 2 z) := by
       unfold jointFourierColumn
       apply Finset.sum_congr rfl

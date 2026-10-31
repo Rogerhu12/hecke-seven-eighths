@@ -74,7 +74,7 @@ def nestedSecondResidualKernelCost : ℝ :=
         ∂nestedFourierMeasure F₁ F₂
 
 theorem actual_second_residual_first_phase_integrable :
-    Integrable (fun ξ => secondResidualKernelCost Ray F₂ rows frequency left right
+    Integrable (fun ξ => secondResidualKernelCost (σ := σ) Ray F₂ rows frequency left right
       ID IE IA IB d e hd he rayLeft rayRight phaseTable q
       (fun i => c i * jointPhase ξ (x₁ i))
       (fun j => f j * jointPhase ξ (y₁ j)) x₂ y₂) (actualFourierMeasure F₁) := by
@@ -92,7 +92,7 @@ theorem actual_second_residual_first_phase_integrable :
 /-- Both integrability and the exact product-kernel formula are proved
 from the actual finite residual source, not assumed by the producer. -/
 theorem actual_second_residual_nested_integral :
-    (∫ ξ, secondResidualKernelCost Ray F₂ rows frequency left right
+    (∫ ξ, secondResidualKernelCost (σ := σ) Ray F₂ rows frequency left right
       ID IE IA IB d e hd he rayLeft rayRight phaseTable q
       (fun i => c i * jointPhase ξ (x₁ i))
       (fun j => f j * jointPhase ξ (y₁ j)) x₂ y₂ ∂actualFourierMeasure F₁) =

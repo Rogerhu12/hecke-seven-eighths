@@ -21,19 +21,21 @@ open HeckeGeneral.Analysis HeckePort.Moments MeasureTheory UniqueFactorizationMo
 variable {K : Type} [Field K] [NumberField K]
 variable {S : Finset (HeightOneSpectrum (𝓞 K))}
 variable {Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)}
-local notation "OS" => Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K
 
 theorem OrbitalGaussColumn.divisorPhase_norm_le_one
-    (c : OrbitalGaussColumn K S Γ) (δ : OS) : ‖c.divisorPhase δ‖ ≤ 1 := by
-  letI : Finite (OS ⧸ Ideal.span {c.modulus}) :=
+    (c : OrbitalGaussColumn K S Γ)
+    (δ : Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) : ‖c.divisorPhase δ‖ ≤ 1 := by
+  letI : Finite ((Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸ Ideal.span {c.modulus}) :=
     finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) c.modulus c.nonzero
-  letI : Fintype (OS ⧸ Ideal.span {c.modulus}) := Fintype.ofFinite _
+  letI : Fintype ((Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸ Ideal.span {c.modulus}) :=
+    Fintype.ofFinite _
   exact finiteCharacter_norm_le_one c.character⁻¹ _
 
-variable [IsPrincipalIdealRing OS]
+variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 
 theorem secondOrbitalScalar_norm_eq_zeroWeight
-    (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum OS)) :
+    (radius : {r : ℝ // 0 < r})
+    (D : Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K))) :
     ‖secondOrbitalScalar radius D‖ = orbitalFieldFactor K * firstZeroDivisorWeight radius D := by
   let r := sIntegerMaskDilationRadius K S radius
     (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)

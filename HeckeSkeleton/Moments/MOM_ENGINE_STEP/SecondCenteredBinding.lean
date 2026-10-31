@@ -145,7 +145,7 @@ theorem left_centered_energy_eq_source
     (x₁ x₂ : H → HeckeGeneral.Analysis.NonzeroIdeal F → V)
     (x : H → Fin k → HeightOneSpectrum (𝓞 F) → V) (ξ : V) :
     jointColumnEnergy R.rows B.columns (fun h => R.weight h * R.correlation h)
-      (secondAllocatedLeftCoefficient Ray IA R.frequency D.ray χ
+      (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency D.ray χ
         (E.centeredCoefficient u v t))
       (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h)) ξ =
       ‖SecondCoefficientTermDictionary.centralNormalizer u v t‖ ^ 2 *
@@ -158,7 +158,7 @@ theorem left_centered_energy_eq_source
       rawSourceCoefficient (σ := σ) T (R.factor C h.val) (R.extractedRow C h).element
         E.scale₁ E.scale₂ D.base D.length E.leftWeight E.rightWeight D.slotWeight i
   have hc (h : R.live) (i : AllocationColumn F k) (hi : i ∈ B.columns) :
-      secondAllocatedLeftCoefficient Ray IA R.frequency D.ray χ
+      secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency D.ray χ
         (E.centeredCoefficient u v t) h.val i =
       SecondCoefficientTermDictionary.centralNormalizer u v t * c h i :=
     E.centered_coefficient_residue u v t i (centered_column_mem_source B i hi)
@@ -190,7 +190,7 @@ theorem right_centered_energy_eq_source
     (x₁ x₂ : H → HeckeGeneral.Analysis.NonzeroIdeal F → V)
     (x : H → Fin k → HeightOneSpectrum (𝓞 F) → V) (ξ : V) :
     jointColumnEnergy R.rows B.columns (fun h => R.weight h * R.correlation h)
-      (secondAllocatedRightCoefficient Ray IB R.frequency D.ray χ
+      (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency D.ray χ
         (E.centeredCoefficient u v t))
       (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h)) ξ =
       ‖SecondCoefficientTermDictionary.centralNormalizer u v t‖ ^ 2 *
@@ -204,7 +204,7 @@ theorem right_centered_energy_eq_source
         E.scale₁ E.scale₂ D.base D.length E.leftWeight E.rightWeight D.slotWeight i
   let ν := SecondCoefficientTermDictionary.centralNormalizer u v t
   have hc (h : R.live) (i : AllocationColumn F k) (hi : i ∈ B.columns) :
-      secondAllocatedRightCoefficient Ray IB R.frequency D.ray χ
+      secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency D.ray χ
         (E.centeredCoefficient u v t) h.val i = star ν * star (c h i) := by
     have he := E.centered_coefficient_residue u v t i
       (centered_column_mem_source B i hi) (IB i)

@@ -16,6 +16,9 @@ energy comparison occurs among the inputs.
 noncomputable section
 open scoped Classical BigOperators NumberField nonZeroDivisors SchwartzMap
 
+-- Keep the first calibration error synchronous during the native CI audit.
+set_option Elab.async false
+
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
@@ -57,6 +60,8 @@ variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K �
 variable {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Zpool ell eps : ℝ}
 
+#check @FirstBlockProfileChart
+
 /-- Primitive calibration from one actual first source to the earlier
 pool. Both complete residual columns and every physical orbit are kept. -/
 structure FirstBlockPoolData
@@ -80,6 +85,9 @@ structure FirstBlockPoolData
   weight_nonneg : 0 ≤ weightBound
   weight_bound : ∀ t ∈ (b.finiteSource hΓ C left right profiles M radius X hX).rows,
     ‖chart.weight t‖ ≤ weightBound
+
+#print FirstBlockPoolData
+#print FirstBlockPoolData.mk
 
 namespace FirstBlockPoolData
 

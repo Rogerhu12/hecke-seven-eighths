@@ -101,7 +101,8 @@ theorem localErrorWeight_mul_moving_norm_le_one (p : ExteriorPrime A) (n : ℕ) 
   by_cases h6 : n = 6
   · subst n
     norm_num [FirstGaussPoolData.localErrorWeight, amplifierMovingExponent]
-    nlinarith [mul_nonneg hi0 (sub_nonneg.mpr hi1)]
+    rw [abs_of_nonneg (sub_nonneg.mpr hi1)]
+    linarith
   by_cases h7 : n = 7
   · subst n
     simp [FirstGaussPoolData.localErrorWeight, amplifierMovingExponent, hp.ne']

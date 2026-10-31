@@ -105,7 +105,7 @@ def kernelCostOn (rows : Finset Q) : ℝ :=
     (engineAllowedGenerator C b.commonRightIdeal * b.rightGenerator j)
     (b.secondRight_generates C j)
   let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
-  secondResidualKernelCost PUnit chart.kernel rows (fun t => -t.out.val)
+  secondResidualKernelCost (σ := σ) PUnit chart.kernel rows (fun t => -t.out.val)
     (b.leftColumns left) (b.rightColumns right)
     b.commonLeftIdeal b.commonRightIdeal b.leftResidual b.rightResidual
     (engineAllowedGenerator C b.commonLeftIdeal) (engineAllowedGenerator C b.commonRightIdeal)

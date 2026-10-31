@@ -217,10 +217,10 @@ def ordinaryBinding
       B.rowWeight h * X.leftScalar * star X.rightScalar = R.weight h * R.correlation h)
     (hleftCoefficient : ∀ h ∈ B.rows, ∀ i ∈ B.left,
       X.leftResidual h i =
-        secondAllocatedLeftCoefficient Ray IA R.frequency rayLeft b.val.2.1 wholeLeft h i)
+        secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 wholeLeft h i)
     (hrightCoefficient : ∀ h ∈ B.rows, ∀ i ∈ B.right,
       star (X.rightResidual h i) =
-        secondAllocatedRightCoefficient Ray IB R.frequency rayRight b.val.2.1 wholeRight h i)
+        secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 wholeRight h i)
     (hleftPoint : ∀ h ∈ B.rows, ∀ i ∈ B.left,
       WithLp.toLp 2 (B.leftFirst h i, B.leftSecond h i) = x h i)
     (hrightPoint : ∀ h ∈ B.rows, ∀ i ∈ B.right,

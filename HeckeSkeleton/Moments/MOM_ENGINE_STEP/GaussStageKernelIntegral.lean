@@ -79,7 +79,7 @@ theorem phase_class_kernel_integrable
   convert hi using 1
   funext ξ
   unfold SecondBlockProfileChart.classKernelCost
-  change secondResidualKernelCost PUnit chart.kernel
+  change secondResidualKernelCost (σ := σ) PUnit chart.kernel
       (source.rows.filter (fun t => chart.rowLabel t = label)) (fun t => -t.out.val)
       source.leftColumns source.rightColumns
       b.commonLeftIdeal b.commonRightIdeal b.leftResidual b.rightResidual

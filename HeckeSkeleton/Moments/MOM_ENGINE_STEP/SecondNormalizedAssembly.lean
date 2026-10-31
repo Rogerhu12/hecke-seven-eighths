@@ -169,7 +169,7 @@ theorem secondNormalizedPairFamily_sourcePair_integrable
 
 def secondNonexceptionalAllocatedCost (Fker : 𝓢(V, ℂ)) (phaseTable : Ray × Ray → Circle) : ℝ :=
   let R' := R.restrictRows (fun h => ¬ Q.exceptional h)
-  secondAllocatedKernelCost Ray Fker R'.rows R'.frequency S₁ S₂ S T₁ T₂ T
+  secondAllocatedKernelCost (σ := σ) Ray Fker R'.rows R'.frequency S₁ S₂ S T₁ T₂ T
     (primePowerProduct R'.primes R'.leftMultiplicity)
     (primePowerProduct R'.primes R'.rightMultiplicity)
     IA IB R'.leftGenerator R'.rightGenerator R'.leftGenerates R'.rightGenerates
@@ -181,7 +181,7 @@ local notation "Cost" => secondNonexceptionalAllocatedCost R x₁ x₂ y₁ y₂
 
 def secondNonexceptionalResidualCost (Fker : 𝓢(V, ℂ)) (phaseTable : Ray × Ray → Circle) : ℝ :=
   let R' := R.restrictRows (fun h => ¬ Q.exceptional h)
-  secondResidualKernelCost Ray Fker R'.rows R'.frequency
+  secondResidualKernelCost (σ := σ) Ray Fker R'.rows R'.frequency
     (childCartesianColumns S₁ S₂ S) (childCartesianColumns T₁ T₂ T)
     (primePowerProduct R'.primes R'.leftMultiplicity)
     (primePowerProduct R'.primes R'.rightMultiplicity)
