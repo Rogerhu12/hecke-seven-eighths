@@ -31,24 +31,43 @@ variable (ψ : HeckeCharacter K)
 def canonicalDetectorBackground (i : Fin 2) : HeckeCharacter K :=
   if i = 0 then 1 else ψ⁻¹
 
+/-- The full positive-slot model excludes every finite-order background
+that can cancel its plain character, including inverse psi when applicable.
+This filter is separate from the four physical zero-detection characters. -/
+def canonicalDetectorTheta : Finset (HeckeCharacter K) :=
+  if FiniteOrder ψ then {1, ψ, ψ⁻¹} else {1}
+
+theorem one_mem_canonicalDetectorTheta : (1 : HeckeCharacter K) ∈
+    canonicalDetectorTheta K ψ := by
+  by_cases hψ : FiniteOrder ψ <;> simp [canonicalDetectorTheta, hψ]
+
+theorem canonicalDetectorTheta_finiteOrder (θ : HeckeCharacter K)
+    (hθ : θ ∈ canonicalDetectorTheta K ψ) : FiniteOrder θ := by
+  by_cases hψ : FiniteOrder ψ
+  · simp only [canonicalDetectorTheta, if_pos hψ, Finset.mem_insert,
+      Finset.mem_singleton] at hθ
+    rcases hθ with rfl | rfl | rfl
+    · exact (finiteOrder_iff _).mpr ⟨1, by norm_num, by simp⟩
+    · exact hψ
+    · exact hψ.inv
+  · have heq : θ = 1 := by simpa [canonicalDetectorTheta, hψ] using hθ
+    subst θ
+    exact (finiteOrder_iff _).mpr ⟨1, by norm_num, by simp⟩
+
 /-- Both polynomial backgrounds agree, and every field of the original
 presentation type is proved without extending its permitted characters. -/
 def canonicalDetectorPresentation (i : Fin 2) : PolynomialPresentation K ψ where
-  theta := {1}
-  theta_finite := by
-    intro θ hθ
-    have hθ' : θ = 1 := Finset.mem_singleton.mp hθ
-    subst θ
-    exact (finiteOrder_iff _).mpr ⟨1, by norm_num, by simp⟩
+  theta := canonicalDetectorTheta K ψ
+  theta_finite := canonicalDetectorTheta_finiteOrder K ψ
   inverseBackground := canonicalDetectorBackground K ψ i
   direction := 1
   direction_spec := Or.inr rfl
   directed_background := by
     by_cases hi : i = 0
     · left
-      simp [canonicalDetectorBackground, hi]
+      simpa [canonicalDetectorBackground, hi] using one_mem_canonicalDetectorTheta K ψ
     · right
-      refine ⟨1, Finset.mem_singleton_self _, ?_⟩
+      refine ⟨1, one_mem_canonicalDetectorTheta K ψ, ?_⟩
       simp [canonicalDetectorBackground, hi]
   plainBackground := canonicalDetectorBackground K ψ i
   plain_background_spec := by
@@ -57,6 +76,19 @@ def canonicalDetectorPresentation (i : Fin 2) : PolynomialPresentation K ψ wher
       simp [canonicalDetectorBackground, hi]
     · right; right
       simp [canonicalDetectorBackground, hi]
+
+/-- The finite-order cancellation character is in the actual model filter. -/
+theorem canonicalDetectorPresentation_plain_inverse_mem (i : Fin 2)
+    (h : FiniteOrder (canonicalDetectorPresentation K ψ i).plainBackground) :
+    (canonicalDetectorPresentation K ψ i).plainBackground⁻¹ ∈
+      (canonicalDetectorPresentation K ψ i).theta := by
+  by_cases hi : i = 0
+  · simpa [canonicalDetectorPresentation, canonicalDetectorBackground, hi] using
+      one_mem_canonicalDetectorTheta K ψ
+  · have hψ : FiniteOrder ψ := by
+      simpa [canonicalDetectorPresentation, canonicalDetectorBackground, hi] using h.inv
+    simp [canonicalDetectorPresentation, canonicalDetectorBackground, hi,
+      canonicalDetectorTheta, hψ]
 
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 variable (P : ProbeData K S) (E : RowEulerData K S P)
@@ -127,6 +159,7 @@ theorem canonicalDetector_zero_upper (u : FrequencyRow K S) (height a : ℝ)
 end Expansion.Project
 
 #print axioms Expansion.Project.canonicalDetectorPresentation
+#print axioms Expansion.Project.canonicalDetectorPresentation_plain_inverse_mem
 #print axioms Expansion.Project.canonicalDetectorPresentation_characters
 #print axioms Expansion.Project.exists_canonicalDetector_zero
 #print axioms Expansion.Project.canonicalDetector_zero_upper

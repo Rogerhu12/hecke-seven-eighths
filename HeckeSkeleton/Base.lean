@@ -5,6 +5,7 @@ import HeckeAxiom.ProbeTestChoice
 import HeckeAxiom.ProbeNormalization
 import HeckeGeneral.Analysis.HeckeConjugateZeros
 import HeckeGeneral.Analysis.HeckeNormTwistZeros
+import HeckeGeneral.Characters.RadialNormalization
 import HeckePort.Schedule.MomentMesh
 import ArithmeticRowCharacterInput
 import HeckeSkeleton.ExpansionModels.Core
@@ -63,27 +64,33 @@ theorem exists_normTwistParameter (c : TargetContext K) :
   obtain ⟨θ, hθ, e, he, t, ht⟩ := c.target.property
   exact ⟨t, θ, hθ, e, he, ht⟩
 
-/-- The global norm twist `N^{it}` of a decomposition `θ ω^e N^{it}` of the target. -/
+/-- The full global norm parameter, including any norm factor in omega.
+It is fixed canonically by one field-dependent infinite place. -/
 def normTwistParameter (c : TargetContext K) : ℝ :=
-  Classical.choose (exists_normTwistParameter K c)
+  -heckeRadialParameter K (normNormalizationPlace K) c.target.val
 
 /-- The target with its global norm twist removed (revised §6, first sentence). -/
 def untwisted (c : TargetContext K) : HeckePacketIndex K c.family.omega :=
   ⟨c.target.val * heckeNormTwist K (-normTwistParameter K c),
     heckePacket_mul_normTwist K c.family.omega c.target.property _⟩
 
-/-- The untwisted target is `θ ω^e` with `θ` of finite order. -/
+/-- The untwisted target uses the normalized packet generator; an arbitrary
+generator may itself carry a global norm twist. -/
 theorem untwisted_eq (c : TargetContext K) :
     ∃ θ : HeckeCharacter K, FiniteOrder θ ∧ ∃ e : ℤ, PacketExponent e ∧
-      (untwisted K c).val = θ * c.family.omega ^ e := by
-  obtain ⟨θ, hθ, e, he, ht⟩ := Classical.choose_spec (exists_normTwistParameter K c)
-  have ht' : c.target.val = θ * c.family.omega ^ e * heckeNormTwist K (normTwistParameter K c) :=
-    ht
+      (untwisted K c).val =
+        θ * radialNormalization K (normNormalizationPlace K) c.family.omega ^ e := by
+  obtain ⟨θ, hθ, e, he, t, ht⟩ := c.target.property
   refine ⟨θ, hθ, e, he, ?_⟩
-  change c.target.val * heckeNormTwist K (-normTwistParameter K c) = _
-  rw [ht']
-  unfold heckeNormTwist
-  rw [normTwist_neg, mul_inv_cancel_right]
+  have hnorm : (untwisted K c).val =
+      radialNormalization K (normNormalizationPlace K) c.target.val := by
+    simp only [untwisted, normTwistParameter, neg_neg, radialNormalization_apply]
+  rw [hnorm, ht, radialNormalization_packet K _ _ _ hθ]
+
+theorem untwisted_radial_zero (c : TargetContext K) :
+    heckeRadialParameter K (normNormalizationPlace K) (untwisted K c).val = 0 := by
+  simpa only [untwisted, normTwistParameter, neg_neg, radialNormalization_apply] using
+    radialParameter_radialNormalization K (normNormalizationPlace K) c.target.val
 
 theorem untwisted_zeros (c : TargetContext K) :
     heckePacketZeros K c.family.omega (untwisted K c) =
@@ -241,6 +248,19 @@ def rayFilter (_c : TargetContext K) : Finset (HeckeCharacter K) := ∅
 
 abbrev targetCharacter (c : TargetContext K) : HeckeCharacter K :=
   (representative K c).val.val
+
+/-- Inversion for angular orientation preserves the normalized radial slice. -/
+theorem targetCharacter_radial_zero (c : TargetContext K) :
+    heckeRadialParameter K (normNormalizationPlace K) (targetCharacter K c) = 0 := by
+  rcases representative_val K c with h | h <;> rw [show targetCharacter K c = _ from h]
+  · exact untwisted_radial_zero K c
+  · rw [heckeRadialParameter_inv, untwisted_radial_zero, neg_zero]
+
+theorem targetCharacter_ne_normTwist (c : TargetContext K)
+    (hne : targetCharacter K c ≠ 1) (t : ℝ) :
+    targetCharacter K c ≠ heckeNormTwist K t :=
+  ne_normTwist_of_radial_zero K (normNormalizationPlace K) _
+    (targetCharacter_radial_zero K c) hne t
 
 /-- The same shell allowance is used by the raw schedule and all consumers. -/
 def expansionShellAllowance (c : TargetContext K) : ℝ :=

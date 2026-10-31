@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "expansion-verification"
 PREFIXES = ("Expansion", "ExpansionDetector", "ExpansionInterfaces")
 PROJECT_PATHS = (
+    "HeckeGeneral/Characters/RadialNormalization.lean",
     "HeckeGeneral/Analysis/Expansion*.lean",
     "HeckeSkeleton/ExpansionDetectorBridge.lean",
     "HeckeSkeleton/ExpansionModels/*.lean",
