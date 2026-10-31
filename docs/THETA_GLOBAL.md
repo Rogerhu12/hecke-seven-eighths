@@ -323,11 +323,47 @@ faults; those snapshot counters are not whole-run totals. The
 and [mapping samples](../verification/theta_global/native_local_arch_haar_20261031.maps.jsonl)
 preserve the scope and diagnostics.
 
+### Native LocalArchBounds attempt: resource-inconclusive
+
 The independent check of the actual `LocalArchBounds` source
 `1a0ebeb15576956ca65f09cc6526a1b9d0522081cd61820cd14761c67f43dd8f`
-is still running; no result is recorded here. The historical sections
-below retain their original commits, source transformations, compiler
-options and artifact provenance.
+ended at its 15-minute resource budget on `2026-10-31T04:57:35Z`.
+It ran for 901.295 seconds and exited with code -15. The source and its
+snapshot stayed byte-identical. Its log has zero bytes, with no Lean
+diagnostic and neither of its two axiom reports. This is another
+`resource-inconclusive` attempt, establishing neither a native pass nor
+a Lean proof error. The measured peak was 54,277 mappings, below the
+host limit of 65,530. The [run record](../verification/theta_global/native_local_arch_bounds_20261031.json),
+[raw log](../verification/theta_global/native_local_arch_bounds_20261031.log)
+and [mapping samples](../verification/theta_global/native_local_arch_bounds_20261031.maps.jsonl)
+retain the exact command, source hashes and cached-dependency provenance
+limits. The complete native CI gates remain required.
+
+### Native entry at b454: local arithmetic elaboration failure
+
+The same run's [actual-entry job 124436512106](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41166970094/job/124436512106)
+completed the real `HeckeAxiom.ArithmeticChoice` foundation on
+`2026-10-31T04:49:51Z`. Both its foundation checkpoint and final dependency
+cache were genuinely uploaded, with 807,129,529 and 877,769,215 bytes
+respectively. The job then failed in `ThetaGlobal.LocalDigitArithmetic`:
+the natural/integer coefficient cases were not simplified, the two
+`localDifferentExponent` names were ambiguous, character extensionality
+introduced a unit rather than a residue element, and the final scalar
+identity did not unfold the prime wrapper.
+
+This revision corrects those source issues and qualifies the same
+integer-valued different exponent in `LocalDigitAverage` and
+`LocalDigitInput`. These corrections still require a new native result.
+The failed job did not finish `LocalDigitEvaluation` or the H chain;
+its local audit, Theta, EntryAudit, Main and consumer checks were skipped.
+Its failure was a Lean elaboration failure, not a timeout or superseding
+commit cancellation. The [result record](../verification/theta_global/ci_41166970094_native.json),
+[diagnostic excerpt](../verification/theta_global/ci_41166970094_native_failure.log)
+and [unmodified diagnostic artifact](../verification/theta_global/ci_41166970094_native_artifact.zip)
+preserve the exact failed revision, source hashes, cache evidence and scope.
+
+The historical sections below retain their original commits, source
+transformations, compiler options and artifact provenance.
 
 ## Verification protocol
 

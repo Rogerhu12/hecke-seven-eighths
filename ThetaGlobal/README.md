@@ -95,7 +95,18 @@ an empty log and no axiom output. Its
 [resource-inconclusive record](../verification/theta_global/native_local_arch_haar_20261031.json)
 and [raw log](../verification/theta_global/native_local_arch_haar_20261031.log)
 establish neither a native pass nor a Lean proof error. The independent
-Bounds check remains in progress.
+Bounds check also ended at its 15-minute resource budget with exit -15,
+an empty log and no axiom reports; its [record](../verification/theta_global/native_local_arch_bounds_20261031.json)
+likewise establishes neither a native pass nor a Lean proof error.
+
+The same historical run passed the actual arithmetic foundation and saved
+both dependency caches, then failed in `LocalDigitArithmetic` elaboration.
+The revision fixes the reported cast, namespace, extensionality and prime-wrapper
+issues; those fixes still await native verification. `LocalDigitEvaluation`,
+the full H chain and subsequent entry/consumer gates were not completed.
+The [native result](../verification/theta_global/ci_41166970094_native.json) and
+[unaltered artifact](../verification/theta_global/ci_41166970094_native_artifact.zip)
+record the failed revision separately from the standalone success.
 
 EntryAudit checks **49 = 5 targets + 44 interfaces**, extending the previous
 21 checks by 28. LocalDigitAudit has 12 checks and consumer signatures have

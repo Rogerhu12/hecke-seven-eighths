@@ -38,7 +38,7 @@ theorem localDigit_eq (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ) (s : 𝓞 F)
     LocalDigitEvaluation.localDigitValue, map_mul]
 
 variable (hdiff : ∀ p : HeightOneSpectrum (𝓞 F),
-  p ∉ (R.A.Sf : Set (HeightOneSpectrum (𝓞 F))) → localDifferentExponent F p = 0)
+  p ∉ (R.A.Sf : Set (HeightOneSpectrum (𝓞 F))) → HeckeGeneral.Characters.localDifferentExponent F p = 0)
 
 local notation "Adata" => HeckeAxiom.thetaArithmeticData R.A R.probe.allowed R.σ hdiff
 

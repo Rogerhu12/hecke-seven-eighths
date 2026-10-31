@@ -33,7 +33,7 @@ variable {S : SArithmeticData F} {η : RayClassCharacter F S.modulus}
 variable (R : PrincipalMellin.ActualRecipe S η)
 variable {N : TraceHaarTransport R} (C : JointExteriorCoefficientSources R N)
 variable (hdiff : ∀ p : HeightOneSpectrum (𝓞 F),
-  p ∉ (R.A.Sf : Set (HeightOneSpectrum (𝓞 F))) → localDifferentExponent F p = 0)
+  p ∉ (R.A.Sf : Set (HeightOneSpectrum (𝓞 F))) → HeckeGeneral.Characters.localDifferentExponent F p = 0)
 
 local notation "Sf" => (R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))
 local notation "Adata" => HeckeAxiom.thetaArithmeticData R.A R.probe.allowed R.σ hdiff

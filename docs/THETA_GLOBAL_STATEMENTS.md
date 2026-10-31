@@ -4,7 +4,7 @@
 
 本报告对照仓库实际定义，记录五个原始目标、同一次算术选择、完整的规范局部构造及七个消费者。代码块中的声明与字段取自本修订源码；“声明头”只省略证明体，不改动参数。原 TASK 允许单处高 K-型、Mellin 对、乘子恒等式及外部数字表作为显式输入；本修订进一步用实际局部定理填满这些接口。Main 的其他任务 admissions 仍保留。
 
-目标环境：Lean `4.35.0-rc3`，Mathlib `0493595ecd5da8ef14742febab99728f98e948e8`。历史提交 `b45484e24f3d4e28cc8092ff6b296f38f4a0f94f` 的 standalone 检查通过 45 个 transformed source bodies 与 56 条严格公理记录；该检查的 45 个源文件哈希仍与本修订匹配，但其范围不含规范 L 构造，也不能认证完整 native Theta/H 依赖链。证据已归档为 [核查记录](../verification/theta_global/ci_41166970094_standalone.json) 和 [编译日志](../verification/theta_global/ci_41166970094_standalone.log)。`LocalArchHaar` 的独立原生尝试已在 20 分钟预算处停止，结果为 `resource-inconclusive`，没有产生诊断或公理记录；这不是原生通过记录，也未确定 Lean 证明错误。详见 [运行记录](../verification/theta_global/native_local_arch_haar_20261031.json)。`LocalArchBounds` 的独立检查仍在运行。
+目标环境：Lean `4.35.0-rc3`，Mathlib `0493595ecd5da8ef14742febab99728f98e948e8`。历史提交 `b45484e24f3d4e28cc8092ff6b296f38f4a0f94f` 的 standalone 检查通过 45 个 transformed source bodies 与 56 条严格公理记录；该检查的 45 个源文件哈希仍与本修订匹配，但其范围不含规范 L 构造，也不能认证完整 native Theta/H 依赖链。证据已归档为 [核查记录](../verification/theta_global/ci_41166970094_standalone.json) 和 [编译日志](../verification/theta_global/ci_41166970094_standalone.log)。`LocalArchHaar` 的独立原生尝试已在 20 分钟预算处停止，结果为 `resource-inconclusive`，没有产生诊断或公理记录；这不是原生通过记录，也未确定 Lean 证明错误。详见 [运行记录](../verification/theta_global/native_local_arch_haar_20261031.json)。`LocalArchBounds` 的独立原生尝试也在 15 分钟预算处停止，耗时 `901.295` 秒，退出码 `-15`，日志为 0 字节，没有诊断或公理输出；同样归类为 `resource-inconclusive`，详见 [运行记录](../verification/theta_global/native_local_arch_bounds_20261031.json)。
 
 ## 1. 固定上下文与记号
 
@@ -731,7 +731,7 @@ theorem localDigit_eq (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ) (s : 𝓞 F)
     LocalDigitEvaluation.localDigitValue, map_mul]
 
 variable (hdiff : ∀ p : HeightOneSpectrum (𝓞 F),
-  p ∉ (R.A.Sf : Set (HeightOneSpectrum (𝓞 F))) → localDifferentExponent F p = 0)
+  p ∉ (R.A.Sf : Set (HeightOneSpectrum (𝓞 F))) → HeckeGeneral.Characters.localDifferentExponent F p = 0)
 
 local notation "Adata" => HeckeAxiom.thetaArithmeticData R.A R.probe.allowed R.σ hdiff
 
@@ -988,7 +988,9 @@ def GeneralHeckeSevenEighths : Prop :=
 
 [ConsumerSignatures.lean](../verification/theta_global/ConsumerSignatures.lean) 的七项类型检查已接到第 7 节签名，但仍允许既有 `sorryAx`。它检查下游接口兼容性，不能用于宣称整个 seven-eighths endpoint 已无 admission。
 
-历史提交 `b45484e24f3d4e28cc8092ff6b296f38f4a0f94f` 的 [standalone job](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41166970094/job/124436512226) 于 `2026-10-31T04:05:38Z` 成功，检查 45 个 transformed source bodies 和全部 56 条严格记录；artifact SHA-256 为 `7f3d0592a8f2ec9ea13582f711f061a4c614f2f439892733e1b7f8cd5c265f6e`。该检查的 45 个源文件哈希仍全部匹配本修订。仓库中的 [核查记录](../verification/theta_global/ci_41166970094_standalone.json) 和 [原始编译日志](../verification/theta_global/ci_41166970094_standalone.log) 保留其提交、变换与验证范围。它没有检查规范 L 构造，也未认证 H 或完整 native entry closure。实际 `LocalArchHaar` 源码（指纹见第 9 节）的独立原生尝试于 `2026-10-31T04:42:03Z` 在 20 分钟预算处停止：耗时 `1201.156` 秒，退出码 `-15`，日志为 0 字节，没有公理输出，归类为 `resource-inconclusive`。该结果既不认证通过，也不确定 Lean 证明错误；[运行记录](../verification/theta_global/native_local_arch_haar_20261031.json)、[原始日志](../verification/theta_global/native_local_arch_haar_20261031.log) 与 [映射采样](../verification/theta_global/native_local_arch_haar_20261031.maps.jsonl) 已归档。`LocalArchBounds` 的实际源码检查仍在运行，不预填结果。
+历史提交 `b45484e24f3d4e28cc8092ff6b296f38f4a0f94f` 的 [standalone job](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41166970094/job/124436512226) 于 `2026-10-31T04:05:38Z` 成功，检查 45 个 transformed source bodies 和全部 56 条严格记录；artifact SHA-256 为 `7f3d0592a8f2ec9ea13582f711f061a4c614f2f439892733e1b7f8cd5c265f6e`。该检查的 45 个源文件哈希仍全部匹配本修订。仓库中的 [核查记录](../verification/theta_global/ci_41166970094_standalone.json) 和 [原始编译日志](../verification/theta_global/ci_41166970094_standalone.log) 保留其提交、变换与验证范围。它没有检查规范 L 构造，也未认证 H 或完整 native entry closure。实际 `LocalArchHaar` 源码（指纹见第 9 节）的独立原生尝试于 `2026-10-31T04:42:03Z` 在 20 分钟预算处停止：耗时 `1201.156` 秒，退出码 `-15`，日志为 0 字节，没有公理输出，归类为 `resource-inconclusive`。该结果既不认证通过，也不确定 Lean 证明错误；[运行记录](../verification/theta_global/native_local_arch_haar_20261031.json)、[原始日志](../verification/theta_global/native_local_arch_haar_20261031.log) 与 [映射采样](../verification/theta_global/native_local_arch_haar_20261031.maps.jsonl) 已归档。`LocalArchBounds` 的实际源码检查于 `2026-10-31T04:57:35Z` 在 15 分钟预算处停止，耗时 `901.295` 秒，退出码 `-15`，日志为 0 字节，没有诊断或两条预期公理输出；源码前后与快照均为第 9 节所列指纹，映射峰值为 54,277，低于主机上限 65,530。该结果同样为 `resource-inconclusive`，不构成通过或确定的 Lean 证明错误；[运行记录](../verification/theta_global/native_local_arch_bounds_20261031.json)、[原始日志](../verification/theta_global/native_local_arch_bounds_20261031.log) 与 [映射采样](../verification/theta_global/native_local_arch_bounds_20261031.maps.jsonl) 保留其精确命令与依赖来源限制。
+
+同一次历史运行的 [actual-entry job](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41166970094/job/124436512106) 已于 `2026-10-31T04:49:51Z` 成功完成 `HeckeAxiom.ArithmeticChoice` foundation，随后实际上传 foundation 缓存 `807,129,529` 字节和最终依赖缓存 `877,769,215` 字节。该 job 在 `LocalDigitArithmetic` 的真实 elaboration 处失败：Nat/Int 分支转换、同名 different exponent、乘法特征外延的单位／元素区别、以及 prime 包装未展开。本修订修正这些源码问题，并同步限定两个下游模块的整数值 different exponent；修正尚待新一轮原生结果。旧运行未完成 `LocalDigitEvaluation`，H 链及其后严格审计、Theta、Main 和消费者检查均未通过；后续门为 skipped。该失败并非 timeout 或新提交取消。详见 [结果记录](../verification/theta_global/ci_41166970094_native.json)、[诊断摘录](../verification/theta_global/ci_41166970094_native_failure.log) 与 [未改写的诊断 artifact](../verification/theta_global/ci_41166970094_native_artifact.zip)。
 
 历史事实保持其原范围：`FiniteLocalShellProject` 与 `GlobalEmbedding` 独立原生通过；`GlobalProjectEmbedding` 本地尝试在导入时达到映射数量上限而失败；CI `41159434388` 在算术 foundation 的时间上限停止并保存两个缓存，Theta/Main 门未运行。旧 standalone／188-module／9-module／54-module 等 transformed 验证仍只认证其记录的源码、变换和选项。详见 [`THETA_GLOBAL.md`](THETA_GLOBAL.md) 原有历史段落；历史 QA 和 manifests 保持原样。
 
@@ -1027,10 +1029,10 @@ def GeneralHeckeSevenEighths : Prop :=
 | `ThetaGlobal/LocalArchProfile.lean` | `002d162e1001e9927ca95cc0f29093eb7811df8e71be3a9a22174a744d438f84` |
 | `ThetaGlobal/LocalArchRootCore.lean` | `487dd632507ea032c3f832e53c94f3756e8db66335844263fad0b1f8a069e11a` |
 | `ThetaGlobal/LocalArchSource.lean` | `553c96489c7b1bcc31925da658ef2b256229e4192b3e46210f4885ab65f9fad2` |
-| `ThetaGlobal/LocalDigitArithmetic.lean` | `1464df23e54d81fa75155d54c29905c7b00ee7307570ec6d32a76ac3b5e7fef9` |
-| `ThetaGlobal/LocalDigitAverage.lean` | `c6ea37aba5300c9f3017f946f37130fa95ab773c3969c390d9b87ccbee4b7bed` |
+| `ThetaGlobal/LocalDigitArithmetic.lean` | `f6fc3c0f8f0f4f211425a415433767fe82e714ebbd91a04434b88bdf2c4fefad` |
+| `ThetaGlobal/LocalDigitAverage.lean` | `4763183c60d63d9f3e4581c807954b33149369a9b3657ad019d6a3d4da68643c` |
 | `ThetaGlobal/LocalDigitEvaluation.lean` | `e2745823d85284461f96ee1c874084d098057119c1f3859a9e54530f912f0d93` |
-| `ThetaGlobal/LocalDigitInput.lean` | `c99f638c29b7d9dff6eb12b406f6b3032dbe646130edf6f7d0e6fe8f28981fa6` |
+| `ThetaGlobal/LocalDigitInput.lean` | `5b5678b431e622e3e5a8c6d47532a5c3102621357abad7fa992c5469d4f275cd` |
 | `ThetaGlobal/LocalDigitSource.lean` | `219ff4ea7eaf32cd12fd74370a4bcce4923c8f37cd81bfded988fc29f8ea3a83` |
 | `ThetaGlobal/LocalGammaOrientation.lean` | `ad9306b508904ca4a27d29065b4d55b476c123e19f9c5f379b7240b6f21813f0` |
 | `verification/theta_global/ConsumerSignatures.lean` | `6c4c89e6d5370ddad6a4c7462935b91154b894cf329ed5e5161abaa7875dbf00` |

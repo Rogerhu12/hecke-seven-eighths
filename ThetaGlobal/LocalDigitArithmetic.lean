@@ -29,10 +29,15 @@ theorem sexticSphericalCoefficient_nat {k : Type*} [Field k] [Fintype k]
     (χ : MulChar k ℂ) (ψ : AddChar k ℂ) (e : ℕ) :
     sexticSphericalCoefficient χ ψ (e : ℤ) =
       HeckeSkeleton.ThetaLocal.ResidueField.sphericalDigit χ ψ e := by
-  simp [sexticSphericalCoefficient,
+  have hnonneg : ¬ (e : ℤ) < 0 := Int.not_lt.mpr (Int.natCast_nonneg e)
+  have hdiv : (e : ℤ) / 3 = ((e / 3 : ℕ) : ℤ) :=
+    (Int.natCast_ediv e 3).symm
+  have hmod0 : (e : ℤ) % 3 = 0 ↔ e % 3 = 0 := by omega
+  have hmod1 : (e : ℤ) % 3 = 1 ↔ e % 3 = 1 := by omega
+  simp only [sexticSphericalCoefficient,
     HeckeSkeleton.ThetaLocal.ResidueField.sphericalDigit,
     HeckeSkeleton.ThetaLocal.ResidueField.gammaTwo,
-    ← Int.natCast_ediv, ← Int.natCast_emod, zpow_neg]
+    hnonneg, ite_false, hmod0, hmod1, hdiv, zpow_neg, zpow_natCast, inv_pow]
 
 def prime (A : SArithmeticData F) (p : ThetaBranch.ExteriorPrime A) :
     ExteriorPrime F (A.Sf : Set (HeightOneSpectrum (𝓞 F))) := ⟨p.val, p.property⟩
@@ -42,14 +47,16 @@ section Arithmetic
 variable (A : SArithmeticData F) (G : ThetaBranch.AllowedRecipe A)
   (σ : F →+* ℂ)
   (hdiff : ∀ p : HeightOneSpectrum (𝓞 F),
-    p ∉ (A.Sf : Set (HeightOneSpectrum (𝓞 F))) → localDifferentExponent F p = 0)
+    p ∉ (A.Sf : Set (HeightOneSpectrum (𝓞 F))) →
+      HeckeGeneral.Characters.localDifferentExponent F p = 0)
 
 local notation "Sf" => (A.Sf : Set (HeightOneSpectrum (𝓞 F)))
 local notation "D" => HeckeAxiom.thetaArithmeticData A G σ hdiff
 
 theorem thetaPrimeCharacter_eq (p : ThetaBranch.ExteriorPrime A) :
     thetaPrimeCharacter F Sf D (prime A p) = ThetaBranch.residueCharacter A σ p := by
-  ext y
+  apply MulChar.ext'
+  intro y
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective y
   rw [NormalizedProbe.principal_prime_residueCharacter_transport,
     ArithGaussCRT.exteriorQuotientEquiv_mk]
@@ -70,7 +77,8 @@ section Recipe
 variable {S : SArithmeticData F} {η : RayClassCharacter F S.modulus}
   (R : PrincipalMellin.ActualRecipe S η)
   (hdiff : ∀ p : HeightOneSpectrum (𝓞 F),
-    p ∉ (R.A.Sf : Set (HeightOneSpectrum (𝓞 F))) → localDifferentExponent F p = 0)
+    p ∉ (R.A.Sf : Set (HeightOneSpectrum (𝓞 F))) →
+      HeckeGeneral.Characters.localDifferentExponent F p = 0)
 
 local notation "Sf" => (R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))
 local notation "D" => HeckeAxiom.thetaArithmeticData R.A R.probe.allowed R.σ hdiff
@@ -149,6 +157,7 @@ theorem zeroth_weyl (p : ThetaBranch.ExteriorPrime R.A) :
       (Real.sqrt (p.val.asIdeal.absNorm : ℝ) : ℂ)⁻¹ *
         thetaGamma F Sf D (exteriorPrimeIdeal F Sf (prime R.A p)) 2 := by
   rw [localWeylScalar_zero_zero]
+  dsimp only [prime]
   ring
 
 end Recipe
