@@ -66,8 +66,8 @@ def bare (hmask : T.mask = ∅) (X : ℝ) (H : Cutoff K S D T X)
   firstDivisor := i.1.2.2.2.val
   first_mem := by
     have h := Finset.mem_powerset.mp i.1.2.2.2.property
-    simpa only [FirstParentRetained.actualMask, FirstSourcePartition.actualMask, hmask]
-      using h
+    simp only [FirstParentRetained.actualMask, FirstSourcePartition.actualMask, hmask] at h ⊢
+    exact h
   secondDivisor := i.2.2.2.1.val
   second_mem := Finset.mem_powerset.mp i.2.2.2.1.property
   frequency := i.2.2.2.2.1.val

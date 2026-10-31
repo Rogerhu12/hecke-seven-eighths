@@ -207,7 +207,8 @@ theorem exists_centeredTotal_bound
       intro f hf
       have hpf : 0 ≤ pairWeight K S T.columns o.1.val o.2.1.val w f :=
         mul_nonneg (mul_nonneg (hw f hf) (norm_nonneg _)) (norm_nonneg _)
-      have hz := Finset.sum_le_sum (fun z hz => hpoint o f z)
+      have hz := Finset.sum_le_sum (s := Finset.univ)
+        (fun z (_ : z ∈ Finset.univ) => hpoint o f z)
       rw [← Finset.mul_sum] at hz
       exact (mul_le_mul_of_nonneg_left hz hpf).trans_eq (by ring)
     _ = _ := by ring

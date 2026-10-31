@@ -47,6 +47,8 @@ local notation "Orbit" => SIntegerOrbits K Sset Γ
 def orbitCutoff (H : ℝ) : Finset Orbit :=
   (finite_setOf_sIntegerOrbitNorm_le K Sset Γ H).toFinset
 
+omit [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K)]
+  [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)] in
 @[simp] theorem mem_orbitCutoff (H : ℝ) (q : Orbit) :
     q ∈ orbitCutoff K S Γ H ↔ (sIntegerOrbitNorm K Sset Γ q).val ≤ H := by
   simp only [orbitCutoff, Set.Finite.mem_toFinset, Set.mem_setOf_eq]
@@ -56,6 +58,8 @@ def sectorCutoff (H : ℝ) : Finset (Ext × CanonicalSectors.UnitClasses K Sset 
   (orbitCutoff K S Γ H).preimage (CanonicalSectors.rowOrbit K Sset Γ D)
     (CanonicalSectors.rowOrbit_injective K Sset Γ D).injOn
 
+omit [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K)]
+  [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)] in
 @[simp] theorem mem_sectorCutoff (H : ℝ)
     (x : Ext × CanonicalSectors.UnitClasses K Sset Γ) :
     x ∈ sectorCutoff K S D Γ H ↔ (x.1.val.val.absNorm : ℝ) ≤ H := by
