@@ -216,11 +216,13 @@ theorem normalizedPrimeWindow_profile_support (W : PrimeWindow K)
   change ((B⁻¹ : ℝ) : ℂ) * W.profile t y ≠ 0 ↔ W.profile t y ≠ 0
   exact ⟨right_ne_zero_of_mul, mul_ne_zero (by exact_mod_cast (inv_pos.mpr hB).ne')⟩
 
+open scoped ContDiff in
 theorem normalizedIdealTest_smooth (W : IdealTest K) (B : ℝ) (hB : 0 < B)
     (u : NonzeroIdeal K) (t : ℝ) (h : ContDiff ℝ ∞ (W.profile u t)) :
     ContDiff ℝ ∞ ((normalizedIdealTest W B hB).profile u t) :=
   contDiff_const.mul h
 
+open scoped ContDiff in
 theorem normalizedPrimeWindow_smooth (W : PrimeWindow K) (B : ℝ) (hB : 0 < B)
     (t : ℝ) (h : ContDiff ℝ ∞ (W.profile t)) :
     ContDiff ℝ ∞ ((normalizedPrimeWindow W B hB).profile t) :=
@@ -279,6 +281,8 @@ theorem normalized_profile_family_integrable {X : Type*} [MeasurableSpace X]
       simpa only [one_div] using (div_le_one (hB x)).mpr (hB₁ x)
     have hp : (B x)⁻¹ ^ ((n + 2) * 2) ≤ 1 :=
       pow_le_one₀ (inv_nonneg.mpr (hB x).le) hinv
+    change ‖(B x)⁻¹ ^ ((n + 2) * 2) * normalizedPairedEnergy (D x) a Z (t x)‖ ≤
+      ‖normalizedPairedEnergy (D x) a Z (t x)‖
     rw [norm_mul, Real.norm_eq_abs,
       abs_of_nonneg (pow_nonneg (inv_nonneg.mpr (hB x).le) _)]
     exact mul_le_of_le_one_left (norm_nonneg _) hp
@@ -316,7 +320,10 @@ theorem primePolynomial_frozenMomentProfiles (d : MomentData K ω ψ)
 theorem slotProduct_frozenMomentProfiles (d : MomentData K ω ψ)
     (u : NonzeroIdeal K) (Z t : ℝ) :
     slotProduct (frozenMomentProfiles d t) u Z 0 = slotProduct d u Z t := by
-  simp only [slotProduct, primePolynomial_frozenMomentProfiles]
+  change (∏ i : Fin d.geometry.slotCount,
+    primePolynomial (frozenMomentProfiles d t) i u Z 0) =
+      ∏ i : Fin d.geometry.slotCount, primePolynomial d i u Z t
+  exact Finset.prod_congr rfl (fun i _ => primePolynomial_frozenMomentProfiles d i u Z t)
 
 theorem pairedEnergy_frozenMomentProfiles (d : MomentData K ω ψ)
     (a : RealParameters) (Z t : ℝ) :

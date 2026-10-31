@@ -326,7 +326,8 @@ theorem actual_second_normalized_common_mass
       rw [Finset.mul_sum]
     _ = F * ∑ v ∈ labels,
         1 / (Ideal.absNorm (commonRadical v.1.1 v.1.2) : ℝ) := by
-      rw [Finset.sum_coe_sort]
+      exact congrArg (fun x : ℝ => F * x) (Finset.sum_coe_sort labels
+        (fun v : Label K => 1 / (Ideal.absNorm (commonRadical v.1.1 v.1.2) : ℝ)))
     _ ≤ F * (Cbound * Z ^ ε / (Ideal.absNorm s : ℝ)) :=
       mul_le_mul_of_nonneg_left (hmass Z hZ.le s hs hs0 labels hvalid hnorm) hF
     _ = _ := by
@@ -384,7 +385,8 @@ theorem actual_amplifier_error_moving_density
       centralPrimePower C p e.multiplicity 6‖ ^ 2 =
       e.squaredCentral (Ideal.absNorm (primeIdeal p).val : ℝ) := by
     rw [centralPrimePower_difference_norm_sq]
-    cases e <;> norm_num [AmplifierValuation.multiplicity, AmplifierValuation.squaredCentral]
+    cases e <;> norm_num [AmplifierValuation.multiplicity, AmplifierValuation.squaredCentral,
+      Q, SArithmeticData.exteriorNorm, idealNorm]
   rw [he]
   exact amplifier_squaredCentral_moving_density e Z hZ (primeIdeal p).val
     (primeIdeal p).property.1

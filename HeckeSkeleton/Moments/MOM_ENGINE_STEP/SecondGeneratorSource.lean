@@ -88,7 +88,6 @@ theorem generated_gauss_pair_source_generator_change
   apply tsum_congr
   intro q
   unfold ParentPeriodicPair.maskedTerm
-  dsimp only
   rw [OrbitalGaussColumn.pair_orbitWeight, OrbitalGaussColumn.pair_orbitWeight,
     generatedColumn_orbit_generator_change hΓ hS C D hD I a a' ha ha' haa haa' q,
     generatedColumn_orbit_generator_change hΓ hS C D hD J b b' hb hb' hbb hbb' q]

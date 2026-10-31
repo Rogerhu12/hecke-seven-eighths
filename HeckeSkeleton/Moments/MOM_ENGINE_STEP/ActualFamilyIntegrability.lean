@@ -347,13 +347,15 @@ theorem actualFourierMeasure_finite (F : 𝓢(V, ℂ)) :
     (Filter.Eventually.of_forall (fun ξ : V => norm_nonneg ((𝓕 F) ξ)))).mp
       hi.hasFiniteIntegral).ne
 
+set_option maxHeartbeats 800000 in
 theorem actualFourierMeasure_mass_eq (F : 𝓢(V, ℂ)) :
     (actualFourierMeasure F).real Set.univ = ∫ ξ : V, ‖(𝓕 F) ξ‖ := by
   change ((volume : Measure V).withDensity
     (fun ξ : V => ENNReal.ofReal ‖(𝓕 F) ξ‖)).real Set.univ = _
-  exact density_real_univ_eq_integral (volume : Measure V)
-    (fun ξ : V => ‖(𝓕 F) ξ‖) (fun ξ => norm_nonneg ((𝓕 F) ξ))
+  have hmeas : AEStronglyMeasurable (fun ξ : V => ‖(𝓕 F) ξ‖) (volume : Measure V) :=
     (𝓕 F).continuous.norm.aestronglyMeasurable
+  exact density_real_univ_eq_integral (volume : Measure V)
+    (fun ξ : V => ‖(𝓕 F) ξ‖) (fun ξ => norm_nonneg ((𝓕 F) ξ)) hmeas
 
 /-- The positive kernel's mass is controlled by fixed original Schwartz
 seminorms, before choosing any actual child family. -/

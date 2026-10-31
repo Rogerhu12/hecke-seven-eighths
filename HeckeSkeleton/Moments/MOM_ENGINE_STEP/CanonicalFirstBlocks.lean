@@ -27,11 +27,10 @@ def exteriorPrimeOfSupport (I : A.Exterior) (P : primeSupport I.val) : ExteriorP
   ⟨⟨P.val, Ideal.isPrime_of_prime (support_prime P.property),
       (support_prime P.property).ne_zero⟩, by
     apply top_unique
-    rw [← I.property.2]
-    apply sup_le_sup_right
-    exact Ideal.dvd_iff_le.mp
+    have hle : I.val ≤ P.val := Ideal.dvd_iff_le.mp
       ((HeckePort.Moments.prime_mem_support_iff_dvd P.val I.val
-        (support_prime P.property) I.property.1).mp P.property)⟩
+        (support_prime P.property) I.property.1).mp P.property)
+    exact I.property.2.symm.le.trans (sup_le_sup_right hle A.cS)⟩
 
 private theorem ideal_support_count_product (I : Ideal (𝓞 K)) (hI : I ≠ 0) :
     (∏ P ∈ primeSupport I, P ^ (normalizedFactors I).count P) = I := by
@@ -73,6 +72,7 @@ theorem exists_actual_first_common_block
     intro i
     apply Multiset.count_pos.mpr
     apply Multiset.mem_toFinset.mp
+    change (e i).val ∈ primeSupport CJ.val
     rw [← hsupport]
     exact (e i).property
   have hCI : (primePowerProduct p m).val = CI.val := by
@@ -82,7 +82,8 @@ theorem exists_actual_first_common_block
       _ = ∏ P : primeSupport CI.val, P.val ^ (normalizedFactors CI.val).count P.val :=
         Fintype.prod_equiv e _ _ (fun i => rfl)
       _ = ∏ P ∈ primeSupport CI.val, P ^ (normalizedFactors CI.val).count P :=
-        Finset.prod_coe_sort _ _
+        Finset.prod_coe_sort (primeSupport CI.val)
+          (fun P : Ideal (𝓞 K) => P ^ (normalizedFactors CI.val).count P)
       _ = CI.val := ideal_support_count_product CI.val CI.property.1
   have hCJ : (primePowerProduct p n).val = CJ.val := by
     change (∏ i : Fin (Fintype.card (primeSupport CI.val)),
@@ -91,7 +92,8 @@ theorem exists_actual_first_common_block
       _ = ∏ P : primeSupport CI.val, P.val ^ (normalizedFactors CJ.val).count P.val :=
         Fintype.prod_equiv e _ _ (fun i => rfl)
       _ = ∏ P ∈ primeSupport CI.val, P ^ (normalizedFactors CJ.val).count P :=
-        Finset.prod_coe_sort _ _
+        Finset.prod_coe_sort (primeSupport CI.val)
+          (fun P : Ideal (𝓞 K) => P ^ (normalizedFactors CJ.val).count P)
       _ = CJ.val := by
         rw [hsupport]
         exact ideal_support_count_product CJ.val CJ.property.1

@@ -83,6 +83,8 @@ def PairedEngineConclusion.ofFintype
     PairedEngineConclusion (Ω := Ω) centered d a
       Z t Y₁ Y₂ σ ε terminalExponent C control admissible := by
   let e : Fin (Fintype.card I) ≃ I := (Fintype.equivFin I).symm
+  have hs (f : I → ℝ) : (∑ b : Fin (Fintype.card I), f (e b)) = ∑ i : I, f i :=
+    Fintype.sum_equiv e (fun b => f (e b)) f (fun b => rfl)
   refine {
     branches := Fintype.card I
     leftData := fun b => leftData (e b)
@@ -129,8 +131,12 @@ def PairedEngineConclusion.ofFintype
     cauchy_integrable := fun b => cauchy_integrable (e b)
     parent := ?_
     mass := ?_ }
-  · simpa only [e.sum_comp] using parent
-  · simpa only [e.sum_comp] using mass
+  · exact parent.trans_eq (congrArg (fun x => firstZero + secondZero + exceptional + tail + x)
+      (hs (fun i => ∫ ξ,
+        Real.sqrt (normalizedPairedEnergy (leftData i ξ) (leftParameters i) Z (leftTwist i ξ)) *
+          Real.sqrt (normalizedPairedEnergy (rightData i ξ) (rightParameters i) Z (rightTwist i ξ))
+            ∂kernel i)).symm)
+  · exact (hs (fun i => (kernel i).real Set.univ)).trans_le mass
 
 end HeckeSkeleton.Moments.EngineStep
 

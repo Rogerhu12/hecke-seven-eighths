@@ -29,19 +29,17 @@ open HeckePort.Moments
 variable {K : Type} [Field K] [NumberField K]
 variable {S : Finset (HeightOneSpectrum (𝓞 K))}
 variable {Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)}
-local notation "OS" => Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K
-local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 
 theorem OrbitalGaussColumn.originalTriple_residue_norm_le_one
-    (a b r : OrbitalGaussColumn K S Γ) (φ : SchwartzMap V ℂ)
-    (x : OS ⧸ Ideal.span {(a.originalTriple b r φ).modulus}) :
+    (a b r : OrbitalGaussColumn K S Γ) (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
+    (x : (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸ Ideal.span {(a.originalTriple b r φ).modulus}) :
     ‖(a.originalTriple b r φ).residue x‖ ≤ 1 := by
   letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) a.modulus a.nonzero
   letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) b.modulus b.nonzero
   letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) r.modulus r.nonzero
-  letI := Fintype.ofFinite (OS ⧸ Ideal.span {a.modulus})
-  letI := Fintype.ofFinite (OS ⧸ Ideal.span {b.modulus})
-  letI := Fintype.ofFinite (OS ⧸ Ideal.span {r.modulus})
+  letI := Fintype.ofFinite ((Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸ Ideal.span {a.modulus})
+  letI := Fintype.ofFinite ((Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸ Ideal.span {b.modulus})
+  letI := Fintype.ofFinite ((Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸ Ideal.span {r.modulus})
   unfold OrbitalGaussColumn.originalTriple
   rw [norm_mul, norm_mul]
   exact (mul_le_mul
@@ -53,23 +51,23 @@ theorem OrbitalGaussColumn.originalTriple_residue_norm_le_one
 theorem ParentPeriodicPair.divisorFourier_norm_le_card
     (p : ParentPeriodicPair K S Γ) (hres : ∀ x, ‖p.residue x‖ ≤ 1)
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
-    (δ : OS) (h : OS ⧸ Ideal.span {p.modulus}) :
+    (δ : (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)) (h : (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸ Ideal.span {p.modulus}) :
     ‖sIntegerPeriodicDivisorFourier K (S : Set (HeightOneSpectrum (𝓞 K))) hDiff
       p.modulus p.modulus_ne_zero p.residue δ h‖ ≤
-      (Nat.card (OS ⧸ Ideal.span {p.modulus}) : ℝ) := by
+      (Nat.card ((Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸ Ideal.span {p.modulus}) : ℝ) := by
   letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) p.modulus p.modulus_ne_zero
-  letI := Fintype.ofFinite (OS ⧸ Ideal.span {p.modulus})
+  letI := Fintype.ofFinite ((Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸ Ideal.span {p.modulus})
   apply (norm_sIntegerPeriodicDivisorFourier_le_pullback_L1 K (S : Set (HeightOneSpectrum (𝓞 K)))
     hDiff p.modulus p.modulus_ne_zero p.residue δ h).trans
-  change (∑ x : OS ⧸ Ideal.span {p.modulus}, ‖p.residue (Ideal.Quotient.mk _ δ * x)‖) ≤ _
+  change (∑ x : (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸ Ideal.span {p.modulus}, ‖p.residue (Ideal.Quotient.mk _ δ * x)‖) ≤ _
   calc
-    _ ≤ ∑ _x : OS ⧸ Ideal.span {p.modulus}, (1 : ℝ) :=
+    _ ≤ ∑ _x : (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸ Ideal.span {p.modulus}, (1 : ℝ) :=
       Finset.sum_le_sum (fun x _ => hres _)
     _ = _ := by simp [Nat.card_eq_fintype_card]
 
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
-variable [Γ.FiniteIndex] [IsPrincipalIdealRing OS]
+variable [Γ.FiniteIndex] [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K)]
   [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)]
   (μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K))
@@ -78,9 +76,9 @@ variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion 
 /-- The actual dual tensor at zero, with no profile or Fourier-bound input. -/
 theorem dual_tensor_zero_seminorm_bound
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) :
-    ∃ s : Finset (ℕ × ℕ), ∃ C : ℝ, 0 < C ∧ ∀ φ : SchwartzMap V ℂ,
+    ∃ s : Finset (ℕ × ℕ), ∃ C : ℝ, 0 < C ∧ ∀ φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ,
       ‖sIntegerDualTensorTerm K μv S (traceSchwartzToMixed K φ) finiteTest 0‖ ≤
-        C * s.sup (schwartzSeminormFamily ℂ V ℂ) φ := by
+        C * s.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ) φ := by
   obtain ⟨s, D, hD, hbound⟩ := traceSchwartzFourier_seminorm_bound K 0 0
   let B : ℝ := ‖sIntegerLocalFourierProduct K μv S finiteTest 0‖
   refine ⟨s, 1 + (D : ℝ) * B, by dsimp [B]; positivity, ?_⟩
@@ -94,19 +92,19 @@ theorem dual_tensor_zero_seminorm_bound
     simpa only [map_zero] using fourierIntegral_traceSchwartzToMixed_traceToMixed K φ 0
   rw [hz, norm_mul]
   have hp := (SchwartzMap.norm_le_seminorm ℂ (traceSchwartzFourier K φ) 0).trans (hbound φ)
-  have hs : 0 ≤ s.sup (schwartzSeminormFamily ℂ V ℂ) φ := apply_nonneg _ _
+  have hs : 0 ≤ s.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ) φ := apply_nonneg _ _
   calc
-    _ ≤ ((D : ℝ) * s.sup (schwartzSeminormFamily ℂ V ℂ) φ) * B :=
+    _ ≤ ((D : ℝ) * s.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ) φ) * B :=
       mul_le_mul_of_nonneg_right hp (norm_nonneg _)
     _ ≤ _ := by nlinarith [D.coe_nonneg, norm_nonneg (sIntegerLocalFourierProduct K μv S finiteTest 0)]
 
 /-- The complete quotient cardinal cancels its literal Poisson denominator. -/
 theorem ParentPeriodicPair.poissonFactor_mul_card
     (p : ParentPeriodicPair K S Γ) (radius : {r : ℝ // 0 < r})
-    (D : Finset (HeightOneSpectrum OS)) :
+    (D : Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K))) :
     ‖sIntegerMaskPoissonFactor K S p.modulus p.modulus_ne_zero radius
         (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)‖ *
-      (Nat.card (OS ⧸ Ideal.span {p.modulus}) : ℝ) =
+      (Nat.card ((Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸ Ideal.span {p.modulus}) : ℝ) =
       (sIntegerMaskDilationRadius K S radius (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)).val⁻¹ *
         ‖(((2 : ℝ) ^ InfinitePlace.nrComplexPlaces K /
           Real.sqrt |(discr K : ℝ)| : ℝ) : ℂ)‖ := by
@@ -122,12 +120,12 @@ theorem ParentPeriodicPair.poissonFactor_mul_card
 
 /-- The remaining divisor weight contains its genuine norm-dilated radius. -/
 def firstZeroDivisorWeight (radius : {r : ℝ // 0 < r})
-    (D : Finset (HeightOneSpectrum OS)) : ℝ :=
+    (D : Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K))) : ℝ :=
   ‖(moebius (IdealMobiusMask.primeProduct D) : ℂ)‖ *
     (sIntegerMaskDilationRadius K S radius (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)).val⁻¹
 
 theorem firstZeroDivisorWeight_nonneg (radius : {r : ℝ // 0 < r})
-    (D : Finset (HeightOneSpectrum OS)) :
+    (D : Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K))) :
     0 ≤ firstZeroDivisorWeight radius D :=
   mul_nonneg (norm_nonneg _) (inv_nonneg.mpr
     (sIntegerMaskDilationRadius K S radius (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)).property.le)
@@ -141,9 +139,9 @@ theorem first_zero_amplitude_uniform
     ∀ p : ParentPeriodicPair K S Γ,
       (∀ x, ‖p.residue x‖ ≤ 1) → p.profile 0 = 0 →
     ∀ hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0,
-    ∀ (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum OS)),
+    ∀ (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K))),
       ‖p.transformedZero μv hDiff finiteTest radius D‖ ≤
-        C * s.sup (schwartzSeminormFamily ℂ V ℂ) p.profile *
+        C * s.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ) p.profile *
           firstZeroDivisorWeight radius D := by
   obtain ⟨s, C₀, hC₀, hzero⟩ :=
     dual_tensor_zero_seminorm_bound (K := K) (S := S) μv finiteTest
@@ -164,16 +162,16 @@ theorem first_zero_amplitude_uniform
     _ ≤ ‖(moebius (IdealMobiusMask.primeProduct D) : ℂ)‖ * H *
         (‖sIntegerMaskPoissonFactor K S p.modulus p.modulus_ne_zero radius
             (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)‖ *
-          ((Nat.card (OS ⧸ Ideal.span {p.modulus}) : ℝ) *
-            (C₀ * s.sup (schwartzSeminormFamily ℂ V ℂ) p.profile))) := by
+          ((Nat.card ((Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸ Ideal.span {p.modulus}) : ℝ) *
+            (C₀ * s.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ) p.profile))) := by
       apply mul_le_mul_of_nonneg_left _ (mul_nonneg (norm_nonneg _) (norm_nonneg _))
       apply mul_le_mul_of_nonneg_left _ (norm_nonneg _)
       exact mul_le_mul hfourier hdual (norm_nonneg _) (Nat.cast_nonneg _)
     _ = ‖(moebius (IdealMobiusMask.primeProduct D) : ℂ)‖ * H *
         ((‖sIntegerMaskPoissonFactor K S p.modulus p.modulus_ne_zero radius
             (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)‖ *
-          (Nat.card (OS ⧸ Ideal.span {p.modulus}) : ℝ)) *
-          (C₀ * s.sup (schwartzSeminormFamily ℂ V ℂ) p.profile)) := by ring
+          (Nat.card ((Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸ Ideal.span {p.modulus}) : ℝ)) *
+          (C₀ * s.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ) p.profile)) := by ring
     _ = _ := by
       rw [p.poissonFactor_mul_card radius D]
       unfold firstZeroDivisorWeight
@@ -191,7 +189,7 @@ theorem FirstCommonCharacterBlock.residue_norm_le_one
     {ι κ : Type*} {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
     {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
     (b : FirstCommonCharacterBlock fullI fullJ DE)
-    (C : A.GeneralArithmeticContext σ η hS) (profiles : ι → κ → SchwartzMap V ℂ)
+    (C : A.GeneralArithmeticContext σ η hS) (profiles : ι → κ → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (i : ι) (j : κ)
     (x : A.R ⧸ Ideal.span {(b.pair hΓ₀ C profiles i j).modulus}) :
     ‖(b.pair hΓ₀ C profiles i j).residue x‖ ≤ 1 := by

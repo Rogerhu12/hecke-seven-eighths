@@ -26,7 +26,10 @@ private theorem ideal_powerProduct_count {ι : Type*}
     (normalizedFactors (∏ i ∈ S, P i ^ n i)).count Q =
       ∑ i ∈ S, if P i = Q then n i else 0 := by
   induction S using Finset.induction_on with
-  | empty => simp
+  | empty =>
+    change (normalizedFactors (1 : Ideal (𝓞 K))).count Q = 0
+    rw [normalizedFactors_one]
+    rfl
   | @insert a S ha ih =>
     rw [Finset.prod_insert ha, Finset.sum_insert ha,
       normalizedFactors_mul (pow_ne_zero _ (hP a).ne_zero)
@@ -88,7 +91,9 @@ theorem firstActiveIdeal_eq_firstActiveRadical (p : ι → ExteriorPrime A)
     Finset.filter_image, Finset.prod_image (primePowerProduct_prime_injective p hp).injOn]
   simp_rw [primePowerProduct_count p hp m, primePowerProduct_count p hp n]
   change (∏ i : activeSupport Finset.univ m n, (p i.val).val.asIdeal ^ 1) = _
-  simp only [pow_one, Finset.prod_coe_sort]
+  simp only [pow_one]
+  rw [Finset.prod_coe_sort (activeSupport Finset.univ m n)
+    (fun i : ι => (p i).val.asIdeal)]
   apply Finset.prod_congr
   · ext i
     simp only [activeSupport, Finset.mem_filter, Finset.mem_univ, true_and,
