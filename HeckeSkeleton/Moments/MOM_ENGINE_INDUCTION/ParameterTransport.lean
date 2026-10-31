@@ -48,8 +48,9 @@ theorem parameterMap_integrable (μ : Measure Ω) {f : Ω → Ω'}
     (hf : MeasurableEmbedding f) (g : Ω' → Ω) (hgf : Function.LeftInverse g f)
     (value : Ω → ℝ) (hi : Integrable value μ) :
     Integrable (fun η => value (g η)) (μ.map f) := by
+  have hgf_apply (ξ : Ω) : g (f ξ) = ξ := hgf ξ
   apply hf.integrable_map_iff.mpr
-  simpa only [Function.comp_def, hgf] using hi
+  simpa only [Function.comp_def, hgf_apply] using hi
 
 /-- Exact numerical integral transport does not require a measurable
 map into the actual node family, nor a measurable extension off the image. -/
@@ -57,18 +58,20 @@ theorem parameterMap_integral (μ : Measure Ω) {f : Ω → Ω'}
     (hf : MeasurableEmbedding f) (g : Ω' → Ω) (hgf : Function.LeftInverse g f)
     (value : Ω → ℝ) :
     (∫ η, value (g η) ∂μ.map f) = ∫ ξ, value ξ ∂μ := by
+  have hgf_apply (ξ : Ω) : g (f ξ) = ξ := hgf ξ
   rw [hf.integral_map]
-  simp only [hgf]
+  simp only [hgf_apply]
 
 /-- Embedding transport also applies to arbitrary geometric predicates. -/
 theorem parameterMap_ae (μ : Measure Ω) {f : Ω → Ω'}
     (hf : MeasurableEmbedding f) (g : Ω' → Ω) (hgf : Function.LeftInverse g f)
     {p : Ω → Prop} (hp : ∀ᵐ ξ ∂μ, p ξ) :
     ∀ᵐ η ∂μ.map f, p (g η) := by
+  have hgf_apply (ξ : Ω) : g (f ξ) = ξ := hgf ξ
   apply ae_iff.mpr
   rw [hf.map_apply]
   change μ {ξ | ¬p (g (f ξ))} = 0
-  simpa only [hgf] using ae_iff.mp hp
+  simpa only [hgf_apply] using ae_iff.mp hp
 
 /-- The fixed left summand has its standard measurable embedding. -/
 theorem measurableEmbedding_parameterInl :
@@ -116,8 +119,9 @@ def CoreReflectionData.mapParameter {parent : S.Label} {U t padding : ℝ}
   child_integrable := parameterMap_integrable out.kernel hf g hgf _ out.child_integrable
   child_geometry := parameterMap_ae out.kernel hf g hgf out.child_geometry
   estimate := by
+    have hgf_apply (ξ : Ω) : g (f ξ) = ξ := hgf ξ
     rw [hf.integral_map]
-    simpa only [hgf] using out.estimate
+    simpa only [hgf_apply] using out.estimate
 
 theorem CoreReflectionData.mapParameter_mass {parent : S.Label} {U t padding : ℝ}
     (out : CoreReflectionData (Ω := Ω) S parent U t padding)
@@ -143,8 +147,9 @@ def ReflectedComparisonData.mapParameter {parent source : S.Label} {U t boundary
   child_integrable := parameterMap_integrable out.kernel hf g hgf _ out.child_integrable
   child_geometry := parameterMap_ae out.kernel hf g hgf out.child_geometry
   estimate := by
+    have hgf_apply (ξ : Ω) : g (f ξ) = ξ := hgf ξ
     rw [hf.integral_map]
-    simpa only [hgf] using out.estimate
+    simpa only [hgf_apply] using out.estimate
 
 theorem ReflectedComparisonData.mapParameter_mass {parent source : S.Label}
     {U t boundary : ℝ}

@@ -133,7 +133,7 @@ theorem ordinaryRestorationPhase_fubini
       (∫ t : ℝ, f t * ordinaryRestorationPhase a ai S Q X N σ t) =
         ∑ D ∈ S.powerset, ∑' H : SmoothIdeal S,
           ∫ t : ℝ, f t * ordinaryRestorationTerm a ai S Q X N σ D H t := by
-  letI : Countable (SmoothIdeal S) := Countable.of_injective (exponents S) (exponents_injective S)
+  letI : Countable (SmoothIdeal S) := (exponents_injective S).countable
   have hD (D : Finset (Ideal (𝓞 K))) (hD : D ∈ S.powerset) :
       Integrable (fun t : ℝ => ∑' H : SmoothIdeal S,
         f t * ordinaryRestorationTerm a ai S Q X N σ D H t) :=

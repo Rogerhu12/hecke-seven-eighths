@@ -125,7 +125,7 @@ theorem ordinaryReflectedDyadicSum_eq_tsum
   rw [← Summable.tsum_finsetSum (fun j _ => hs j)]
   apply tsum_congr
   intro I
-  simp only [ordinaryDyadicCutoff, Complex.ofReal_sum, Finset.mul_sum]
+  simp only [ordinaryDyadicCutoff, Complex.ofReal_sum, Finset.mul_sum, f]
 
 /-- A power-saving actual tail after finitely many smooth windows.
 All original-test constants precede the coefficients, test and scale. -/

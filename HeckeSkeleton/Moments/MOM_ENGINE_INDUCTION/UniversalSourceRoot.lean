@@ -114,7 +114,7 @@ theorem recipeUniversalRootLabel_eq
 /-- The unrestricted no-slot root needs no positive-slot capacity. -/
 theorem recipeRoot_noSlots_zero : (recipeRoot R i.noSlots s).parameters.z = 0 := by
   change selectedLengthFor i.noSlots = 0
-  simp only [selectedLengthFor, SourceMomentIndexFor.noSlots, Finset.sum_empty]
+  simp only [selectedLengthFor, HeckeSkeleton.SourceMomentIndexFor.noSlots, Finset.sum_empty]
 
 end Source
 

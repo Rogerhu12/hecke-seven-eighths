@@ -92,6 +92,13 @@ MODULES = (
     'UniversalSourceRoot',
     'UniversalReflectionBranches',
     'ParameterTransport',
+    'BranchParameterTransport',
+    'RecipeReflectionParameters',
+    'RankedReflectionAssembly',
+    'RecipeReflectionRoot',
+    'AnnularSchwartzControl',
+    'RecipeReflectionFamily',
+    'SchwartzEulerControl',
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.
@@ -389,7 +396,11 @@ def inventory() -> tuple[dict[str, str], list[str]]:
                 f"{path.name} imports the admitted skeleton")
         require(all("MOM_ENGINE_INDUCTION." + source not in code for source in SOURCE_MODULES),
                 f"{path.name} imports the separate skeleton adapter")
-        declared.update(declarations(path))
+        module_declarations = declarations(path)
+        require(not (declared & module_declarations),
+                f"Duplicate public declarations in {path.name}: "
+                f"{sorted(declared & module_declarations)}")
+        declared.update(module_declarations)
         hashes[str(path.relative_to(ROOT))] = digest(path)
     require(set(printed) == declared,
             f"Audit declaration inventory mismatch: missing={sorted(declared - set(printed))}, "

@@ -22,6 +22,7 @@ namespace HeckeSkeleton.Moments.EngineInduction
 
 open MeasureTheory Set Filter
 open HeckeGeneral.Analysis HeckeGeneral.ThetaSkeleton.Global
+open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeSkeleton.ThetaKernel HeckeSkeleton.Moments.UniformAmplify
 open scoped Classical BigOperators ContDiff Topology
 
@@ -60,8 +61,9 @@ private theorem powerWindowLogExp_smooth (z : ℂ) :
 
 private theorem powerWindowLogExp_deriv (z : ℂ) (x : ℝ) :
     HasDerivAt (powerWindowLogExp z) (z * powerWindowLogExp z x) x := by
-  have h := (((hasDerivAt_id x).ofReal_comp).const_mul z).cexp
-  simpa only [powerWindowLogExp, id_eq, Complex.ofReal_one, mul_one, mul_comm] using h
+  have hlinear : HasDerivAt (fun y : ℝ => z * (y : ℂ)) z x := by
+    simpa using! (Complex.ofRealCLM.hasDerivAt (x := x)).const_mul z
+  simpa only [powerWindowLogExp, mul_comm] using! hlinear.cexp
 
 private theorem powerWindowLogExp_iteratedDeriv (z : ℂ) (j : ℕ) (x : ℝ) :
     iteratedDeriv j (powerWindowLogExp z) x = z ^ j * powerWindowLogExp z x := by
