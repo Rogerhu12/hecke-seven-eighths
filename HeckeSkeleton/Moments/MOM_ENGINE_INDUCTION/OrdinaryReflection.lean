@@ -61,6 +61,8 @@ theorem continuous_ordinaryReflectionKernel (χ : HeckeCharacter K)
       (canonicalHeckeGammaProfile_ne_zero_of_re_pos K χ⁻¹ (by
         simp only [Complex.sub_re, Complex.one_re, idealVerticalPoint_re]
         linarith)))
+    change Continuous (fun t : ℝ =>
+      ((canonicalHeckeGammaProfile K χ⁻¹ (1 - (1 - idealVerticalPoint (1 + δ) t)))⁻¹)⁻¹) at h
     simpa only [inv_inv] using h
   exact (hM.continuous.comp hs).mul
     (((differentiable_canonicalHeckeGammaReciprocal K χ).continuous.comp hs).mul hG)
@@ -84,7 +86,7 @@ theorem integrable_ordinaryReflectionKernel
   let s := 1 - idealVerticalPoint (1 + δ) t
   let T : ℝ := 1 + |t|
   have hT : 0 < T := by dsimp [T]; positivity
-  have hsre : s.re = -δ := by simp [s, idealVerticalPoint]; ring
+  have hsre : s.re = -δ := by simp [s, idealVerticalPoint]
   have hsim : |s.im| = |t| := by simp [s, idealVerticalPoint]
   have hgamma : ‖(canonicalHeckeGammaProfile K χ s)⁻¹ *
       canonicalHeckeGammaProfile K χ⁻¹ (1 - s)‖ ≤ G * (2 + |t|) ^ k := by

@@ -56,13 +56,19 @@ MODULES = (
     'ReflectionMask',
     'ReflectionConductor',
     'RowIntegralKernel',
+    'OrdinaryReflectionWhole',
+    'OrdinaryRestorationTail',
+    'OrdinaryRowReflection',
+    'ReflectionTailLedger',
+    'PowerWindowSeminorm',
+    'PowerWindowEnergy',
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.
-PRODUCER_COMMIT = "9d50cdc3c83c60be3fcf0054c2a051a348969903"
+PRODUCER_COMMIT = "76caaeb556d9d3a4edb7fb624e5670f6a1bdf990"
 PRODUCER_SOURCES = {
     "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ReductionOutput.lean":
-        "d3987e85aa8cb748c4f28fdd5797ee05a57b6e8974b405afcf1d1c144cc25df1",
+        "64349c79968876d4c28fd8b9d68861f2acd52770c43e5426c161a48da60d6558",
     "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ParentMoment.lean":
         "2ad71b4fcede7f07ec9fd898dc154aa37597d94ac0ea1a0e40f4d25f9612e391",
     "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Pool.lean":

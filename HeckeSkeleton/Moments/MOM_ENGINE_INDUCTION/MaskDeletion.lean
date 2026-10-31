@@ -171,13 +171,20 @@ theorem plainPolynomial_eq_complete_deleted_sum {ω ψ : HeckeCharacter K}
             (HeckePort.Moments.inorm (nonzeroIdealDeletionEquiv (K := K) I) / N) := by
       apply tsum_congr
       intro I
-      dsimp only [term, nonzeroIdealDeletionEquiv, HeckePort.Moments.inorm,
-        heckeIdealCoefficient, nonzeroIdealCoefficient, idealNorm]
+      change idealCoefficient (primeCoefficient K (d.plainBackground * d.rowCharacter u)) I.val *
+          W.profile u t ((Ideal.absNorm I.val : ℝ) / N) * maskValue d u I.val =
+        HeckePort.Moments.excl (completeRowDeletionPrimes S u)
+          (idealCoefficient (primeCoefficient K (d.plainBackground * d.rowCharacter u))) I.val *
+            W.profile u t ((Ideal.absNorm I.val : ℝ) / N)
       rw [maskValue_eq_complete_deletion d S u hmask I]
       by_cases hI : outside (completeRowDeletionPrimes S u) I.val
       · simp only [HeckePort.Moments.excl, if_pos hI, mul_one]
       · simp only [HeckePort.Moments.excl, if_neg hI, mul_zero, zero_mul]
-    _ = _ := (nonzeroIdealDeletionEquiv (K := K)).tsum_eq _
+    _ = _ := (nonzeroIdealDeletionEquiv (K := K)).tsum_eq
+      (fun I : HeckePort.Moments.NI K =>
+        HeckePort.Moments.excl (completeRowDeletionPrimes S u)
+          (idealCoefficient (primeCoefficient K (d.plainBackground * d.rowCharacter u))) I.val *
+            W.profile u t (HeckePort.Moments.inorm I / N))
 
 /-- The exact finite Möbius deletion formula is now available for the
 original actual moment polynomial. Its inputs are only the original

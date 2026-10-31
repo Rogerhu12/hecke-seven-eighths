@@ -140,12 +140,19 @@ theorem plainPolynomial_eq_remaining_deleted_sum {ω ψ : HeckeCharacter K}
           W.profile u t (inorm (nonzeroIdealDeletionEquiv I) / N) := by
       apply tsum_congr
       intro I
-      dsimp only [term, nonzeroIdealDeletionEquiv, inorm,
-        heckeIdealCoefficient, nonzeroIdealCoefficient, idealNorm]
+      change idealCoefficient (primeCoefficient K (d.plainBackground * d.rowCharacter u)) I.val *
+          W.profile u t ((Ideal.absNorm I.val : ℝ) / N) * maskValue d u I.val =
+        excl (remainingRowDeletionPrimes S u R)
+          (idealCoefficient (primeCoefficient K (d.plainBackground * d.rowCharacter u))) I.val *
+            W.profile u t ((Ideal.absNorm I.val : ℝ) / N)
       rw [maskValue_eq_remaining_deletion d S u R hmask I]
       by_cases hI : outside (remainingRowDeletionPrimes S u R) I.val
       · simp only [excl, if_pos hI, mul_one]
       · simp only [excl, if_neg hI, mul_zero, zero_mul]
-    _ = _ := (nonzeroIdealDeletionEquiv (K := K)).tsum_eq _
+    _ = _ := (nonzeroIdealDeletionEquiv (K := K)).tsum_eq
+      (fun I : HeckePort.Moments.NI K =>
+        excl (remainingRowDeletionPrimes S u R)
+          (idealCoefficient (primeCoefficient K (d.plainBackground * d.rowCharacter u))) I.val *
+            W.profile u t (inorm I / N))
 
 end HeckeSkeleton.Moments.EngineInduction

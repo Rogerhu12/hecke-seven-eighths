@@ -82,6 +82,10 @@ structure PairedEngineConclusion {Ω : Type*} [MeasurableSpace Ω]
   right_width : ∀ b, (rightParameters b).m + (rightParameters b).q ≤ a.m + a.q - σ / 2
   left_width_nonneg : ∀ b, 0 ≤ (leftParameters b).m + (leftParameters b).q
   right_width_nonneg : ∀ b, 0 ≤ (rightParameters b).m + (rightParameters b).q
+  left_plain_left_nonneg : ∀ b, 0 ≤ (leftParameters b).n₁
+  left_plain_right_nonneg : ∀ b, 0 ≤ (leftParameters b).n₂
+  right_plain_left_nonneg : ∀ b, 0 ≤ (rightParameters b).n₁
+  right_plain_right_nonneg : ∀ b, 0 ≤ (rightParameters b).n₂
   left_length : ∀ b ξ, (leftParameters b).z = (leftData b ξ).geometry.totalLength
   right_length : ∀ b ξ, (rightParameters b).z = (rightData b ξ).geometry.totalLength
   left_kappa : ∀ b, (leftParameters b).κ = a.κ

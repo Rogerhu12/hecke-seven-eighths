@@ -7,7 +7,8 @@ import HeckeGeneral.Analysis.TInputSeparatedProfiles
 # Consuming the canonical complete engine output
 
 `EngineStep.PairedEngineConclusion` is imported from the provider's exact
-`9d50cdc` source.  Its production remains the engine theorem's obligation;
+`76caaeb` source, including all four actual plain-length nonnegativity
+fields. Its production remains the engine theorem's obligation;
 this module does not assert that the record is inhabited.
 
 The provider permits a different twist at each continuous child parameter.

@@ -33,7 +33,7 @@ theorem integral_norm_sq_le_mass (ν : Measure Ω) [IsFiniteMeasure ν]
     (f := fun _ : Ω => (1 : ℝ)) (g := fun ξ => ‖f ξ‖)
     (Filter.Eventually.of_forall (fun _ => zero_le_one))
     (Filter.Eventually.of_forall (fun _ => norm_nonneg _))
-    (memLp_const 1) hf.norm
+    (memLp_const 1) (by convert hf.norm using 1 <;> norm_num)
   have hbound : (∫ ξ, ‖f ξ‖ ∂ν) ≤
       Real.sqrt (ν.real Set.univ) * Real.sqrt (∫ ξ, ‖f ξ‖ ^ 2 ∂ν) := by
     rw [Real.sqrt_eq_rpow, Real.sqrt_eq_rpow]
@@ -172,9 +172,7 @@ theorem finite_rows_energy_with_tail (μ : Measure Ω) (rows : Finset ι)
     nlinarith [sq_nonneg (‖tail u‖ - ‖∫ ξ, coefficient u ξ * f u ξ ∂μ‖)]
   have hs := Finset.sum_le_sum hrow
   rw [Finset.sum_add_distrib, ← Finset.mul_sum, ← Finset.mul_sum] at hs
-  exact hs.trans (add_le_add_left
-    (mul_le_mul_of_nonneg_left
-      (finite_rows_energy_le_rowEnergyKernel μ rows hm hw hi coefficient f hf hint hcoeff)
-      (by norm_num : (0 : ℝ) ≤ 2)) _)
+  have hk := finite_rows_energy_le_rowEnergyKernel μ rows hm hw hi coefficient f hf hint hcoeff
+  linarith
 
 end HeckeSkeleton.Moments.EngineInduction

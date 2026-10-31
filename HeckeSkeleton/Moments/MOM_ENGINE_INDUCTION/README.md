@@ -2,12 +2,13 @@
 
 ## Current native verification batch
 
-The registered source inventory now contains 65 clean modules and 651
+The registered source inventory now contains 71 clean modules and 685
 explicit public declarations. These are source counts, not a claim of a
-completed native audit. The preceding exact head `cb5e48f` built 38 of its
-44 task modules; eight diagnostics in four files prevented the complete
-503-declaration audit. The corresponding parser, instance and expression
-unfolding fixes are included in this batch. Its actual source and original
+completed native audit. Exact head `5e3b389` built 47 of its 65 task modules; seven diagnostics
+in three files prevented its complete 651-declaration audit. The earlier
+cb5 parser, instance and expression fixes all passed. This batch fixes
+the remaining inverse-function, ideal-equivalence and weighted-Cauchy
+elaboration errors and adds the actual row energy and tail consumers. Its actual source and original
 three theorem gates remain separate and mandatory.
 
 The new reflection chain proves the literal deleted Hecke polynomial's
@@ -19,8 +20,9 @@ full-row norm bound. `RowIntegralKernel` applies weighted Cauchy to each
 original row and then interchanges the finite row sum with the same
 positive measure. Its mass is exactly the square of the common envelope's
 L1 mass; no row-cardinality factor or row-dependent measure supremum is
-introduced. The power-window Euler bounds, actual restoration tails and
-recursive family calibration are still being assembled.
+introduced. The power-window Euler bounds, actual restoration tails, complete deleted
+row identity and original-character child energy are now registered for
+native verification. Recursive family calibration is still being assembled.
 
 Integration with `dtests-handoff` commit `e66f738` preserves its aligned
 ThetaGlobal embedding and choice, the existing canonical recipe source,
