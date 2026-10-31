@@ -463,7 +463,7 @@ theorem modeRow_norm_le (θ : HeckeCharacter K)
     ‖modeRow K S D f s θ q Y Klo t k‖ ≤ 16 := by
   rw [modeRow, norm_mul]
   have h := mul_le_mul (ordinaryRow_norm_le_one K S D f s θ hθ q k)
-    (CommonMellinTail.norm_rowFactor_le hk0 hk1 t) (norm_nonneg _) zero_le_one
+    (CommonMellinTail.norm_rowFactor_le (Y := Y) hk0 hk1 t) (norm_nonneg _) zero_le_one
   simpa only [one_mul] using h
 
 theorem modeMark_norm_le (θ : HeckeCharacter K)
@@ -477,7 +477,7 @@ theorem modeMark_norm_le (θ : HeckeCharacter K)
   have hw' : ‖markWeight P‖ * ‖ordinaryMark K S D f s θ q P‖ ≤ A := by
     simpa only [mul_one] using mul_le_mul hw
       (ordinaryMark_norm_le_one K S D f s θ hθ q P) (norm_nonneg _) hA
-  have h := mul_le_mul hw' (CommonMellinTail.norm_markFactor_le hP0 hP1 t)
+  have h := mul_le_mul hw' (CommonMellinTail.norm_markFactor_le (Y := Y) hP0 hP1 t)
     (norm_nonneg _) hA
   simpa only [mul_comm A] using h
 
@@ -493,7 +493,8 @@ theorem modeColumn_norm_le (θ : HeckeCharacter K)
   have hC := ordinaryColumn_norm_le K S D f s θ hθ q c b hc hb
   have hnon : 0 ≤ stateMajorant K S s / (Real.sqrt (c.absNorm : ℝ) * (b.absNorm : ℝ)) :=
     div_nonneg (stateMajorant_nonneg K S s) (by positivity)
-  have h := mul_le_mul hC (CommonMellinTail.norm_columnFactor_le hc0 hc1 hb0 hb1 t)
+  have h := mul_le_mul hC
+    (CommonMellinTail.norm_columnFactor_le (Y := Y) hc0 hc1 hb0 hb1 t)
     (norm_nonneg _) hnon
   convert h using 1 <;> ring
 
@@ -607,11 +608,16 @@ theorem slicedPhysicalBlock_eq_integral [Finite (SixthLocalClasses K S)]
       ring)
   unfold slicedPhysicalBlock
   rw [heq]
-  rw [← integral_const_mul]
-  congr 1
-  congr 1
-  funext t
-  unfold modeRow modeMark modeColumn
+  repeat rw [← integral_const_mul]
+  apply integral_congr_ae
+  filter_upwards [] with t
+  dsimp only [rho, κ, Y, modeRow, modeMark, modeColumn]
   ring
+
+#print axioms source_reflectedTerm
+#print axioms modeRow_norm_le
+#print axioms modeMark_norm_le
+#print axioms modeColumn_norm_le
+#print axioms slicedPhysicalBlock_eq_integral
 
 end HeckeSkeleton.LowEnergy.ActualSeparatedBlock

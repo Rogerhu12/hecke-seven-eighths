@@ -224,7 +224,6 @@ theorem reflectedRowFactor_eq_separated (θ : HeckeCharacter K) :
   apply Finset.prod_congr rfl
   intro p hp
   rw [rowDigit_frozen_primes K S d p (i.frozen_subset hp)]
-  rfl
 
 /-- The actual reflected summand in the weighted full-cube form.  Its sole
 dual coefficient has the proved frozen-only representation and norm bound. -/
@@ -276,5 +275,10 @@ theorem reflectedTerm_eq_separatedFullCube (hD : AllowedGeneratorInput K S D)
     reflectedMarkFactor_eq_separated K S D d (minimumIndex K S d i) θ,
     reflectedRowFactor_eq_separated K S D d (minimumIndex K S d i) θ]
   rfl
+
+#print axioms fullCubeCoefficient_frozenOnly
+#print axioms fullCube_coprime_activeMarked
+#print axioms reflectedTerm_eq_weightedFullCube
+#print axioms reflectedTerm_eq_separatedFullCube
 
 end HeckeSkeleton.LowEnergy.ActualFrozenIndependence

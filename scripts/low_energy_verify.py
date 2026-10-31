@@ -26,6 +26,10 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / '.lake/build/lib/lean'
 LOG = ROOT / '.low-energy-verification'
 CACHE_SCHEMA = 2
+NATIVE_SCHEMA = 'native-lake-foundation-v1'
+NATIVE_CATALOG_SHA256 = 'bc9f033a972d4133ce3ff3ffb9c0328cae42eafdc8d9e147d36e6a0166d5cf0c'
+NATIVE_CONFIG_PATHS = ('lean-toolchain', 'lake-manifest.json', 'lakefile.toml',
+    'vendor/class-field-theory/lakefile.toml')
 MATHLIB_REV = '0493595ecd5da8ef14742febab99728f98e948e8'
 ARTIFACT_SUFFIXES = ('.olean', '.olean.private', '.olean.server', '.ir', '.ir.sig')
 SOURCE_ROOTS = [ROOT, ROOT / 'vendor/class-field-theory/Lean4',
@@ -82,6 +86,122 @@ def discard_artifacts(module):
     base = OUT / Path(*module.split('.'))
     for suffix in ARTIFACT_SUFFIXES:
         base.with_name(base.name + suffix).unlink(missing_ok=True)
+
+
+def load_native_foundation(version):
+    """Load a separate, fail-closed receipt for revalidated old dependencies.
+
+    This is not a direct-compiler schema-2 record. The original native Lake
+    traces must have passed a rehashing, no-build validation before this receipt
+    can exist. Each module's current bytes and dependency bytes are checked
+    again below; new proof sources and Principal are never admitted this way.
+    """
+    receipt = LOG / 'native_foundation.json'
+    if not receipt.is_file():
+        return None
+    try:
+        data = json.loads(receipt.read_text())
+        if not isinstance(data, dict):
+            return None
+        catalog_bytes = (ROOT / 'docs/low-energy/native_foundation_catalog.json').read_bytes()
+        catalog = json.loads(catalog_bytes)
+        if not isinstance(catalog, dict):
+            return None
+        validation = data['validation']
+        command = validation['command']
+        if not (data.get('schema') == NATIVE_SCHEMA
+                and data.get('status') == 'validated_native_dependencies'
+                and data.get('lean') == version and data.get('mathlib') == MATHLIB_REV
+                and set(data['config_sha256']) == set(NATIVE_CONFIG_PATHS)
+                and all(data['config_sha256'][path] == hashlib.sha256(
+                    (ROOT / path).read_bytes()).hexdigest() for path in NATIVE_CONFIG_PATHS)
+                and data['catalog_sha256'] == hashlib.sha256(catalog_bytes).hexdigest()
+                    == NATIVE_CATALOG_SHA256
+                and catalog.get('schema') == 'native-lake-foundation-catalog-v1'
+                and catalog.get('lean') == data['lean']
+                and catalog.get('mathlib') == data['mathlib']
+                and catalog.get('config_sha256') == data['config_sha256']
+                and isinstance(catalog.get('modules'), dict)
+                and type(validation['exit_code']) is int and validation['exit_code'] == 0
+                and validation['log_file'] == 'native_foundation_validation.log'
+                and validation['log_sha256'] == hashlib.sha256(
+                    (LOG / validation['log_file']).read_bytes()).hexdigest()
+                and isinstance(command, list) and len(command) > 5
+                and command[:5] == ['lake', '--rehash', '--no-cache', '--no-build', 'build']
+                and all(isinstance(arg, str) and re.fullmatch(
+                    r'\+[A-Za-z_][A-Za-z0-9_.]*:olean', arg) for arg in command[5:])
+                and isinstance(data['modules'], dict)):
+            return None
+        covered, visiting = set(), set()
+
+        def covered_by_validation(module):
+            if module in covered:
+                return True
+            if module in visiting:
+                return False
+            entry = data['modules'][module]
+            pinned = catalog['modules'][module]
+            found = resolve(module)
+            if found is None:
+                return False
+            source, _ = found
+            if (str(source.relative_to(ROOT)) != entry['source'] or
+                    entry['source'] != pinned['source'] or
+                    hashlib.sha256(source.read_bytes()).hexdigest() != entry['source_sha256'] or
+                    entry['source_sha256'] != pinned['source_sha256']):
+                return False
+            visiting.add(module)
+            for dependency in imports(source):
+                if resolve(dependency) is not None and not covered_by_validation(dependency):
+                    return False
+            visiting.remove(module)
+            covered.add(module)
+            return True
+
+        if (not all(covered_by_validation(arg[1:-len(':olean')]) for arg in command[5:]) or
+                covered != set(data['modules'])):
+            return None
+        return {**data, '_catalog_modules': catalog['modules']}
+    except (KeyError, TypeError, ValueError, OSError):
+        return None
+
+
+def native_module_record(data, module, relative_source, source_digest,
+        dependency_artifacts, is_new_source):
+    """Validate current observations without relabelling a native build."""
+    if data is None or is_new_source or module == 'HeckeSkeleton.Principal':
+        return None
+    try:
+        entry = data['modules'][module]
+        pinned = data['_catalog_modules'][module]
+        if not isinstance(pinned['artifacts'], dict):
+            return None
+        expected_outputs = {suffix: artifact['sha256']
+            for suffix, artifact in pinned['artifacts'].items() if suffix in ARTIFACT_SUFFIXES}
+        if not (entry['source'] == relative_source == pinned['source']
+                and entry['source_sha256'] == source_digest == pinned['source_sha256']
+                and entry['artifact_id'] == pinned['artifact_id']
+                and '.olean' in expected_outputs
+                and entry['validated_dependency_artifact_hashes'] == dependency_artifacts
+                and entry['output_artifact_hashes'] == expected_outputs == artifact_hashes(module)):
+            return None
+        return {'module': module, 'source': relative_source,
+            'source_sha256': source_digest, 'new_source': False,
+            'status': 'validated_native_dependency', 'reused_native_foundation': True,
+            'native_schema': NATIVE_SCHEMA, 'native_artifact_id': entry['artifact_id'],
+            'lean': data['lean'], 'mathlib': data['mathlib'],
+            'config_sha256': data['config_sha256'],
+            'catalog_sha256': data['catalog_sha256'],
+            'native_validation': {
+                'receipt': 'native_foundation.json',
+                'log_file': data['validation']['log_file'],
+                'log_sha256': data['validation']['log_sha256'],
+                'command_sha256': hashlib.sha256(json.dumps(
+                    data['validation']['command'], separators=(',', ':')).encode()).hexdigest()},
+            'validated_dependency_artifact_hashes': dependency_artifacts,
+            'output_artifact_hashes': entry['output_artifact_hashes']}
+    except (KeyError, TypeError, ValueError, OSError, RuntimeError):
+        return None
 
 
 def main():
@@ -165,6 +285,7 @@ def main():
         raise RuntimeError('Unexpected Mathlib revision in lake-manifest.json.')
     manifest = json.loads((ROOT / 'docs/low-energy/source_manifest.json').read_text())
     new_sources = {entry['path'] for entry in manifest['files']}
+    native_foundation = load_native_foundation(version)
     records = []
     blocked = set()
     failures = []
@@ -255,6 +376,15 @@ def main():
             print(log_path.read_text(), flush=True)
             records.append({**previous, 'reused_exact_cache': True,
                 'printed_axiom_audit': cached_axiom_audit})
+            (LOG / (args.phase + '.json')).write_text(json.dumps(records, indent=2) + '\n')
+            continue
+        native = native_module_record(native_foundation, module, relative_source,
+            source_digest, dependency_artifacts, is_new_source)
+        if native is not None:
+            print('NATIVE VALIDATED DEPENDENCY ' + module, flush=True)
+            # Keep the native provenance visibly distinct from a compiler exit
+            # record; no fabricated flags, exit code or axiom audit is supplied.
+            records.append(native)
             (LOG / (args.phase + '.json')).write_text(json.dumps(records, indent=2) + '\n')
             continue
         # The budget limits new compiler work.  An independent, exact cache

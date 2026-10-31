@@ -7,17 +7,18 @@ on:
         description: Export the pinned compiler and libraries for local replay
         type: boolean
         default: false
-  push:
-    branches: [codex/low-reflected-energy-ade19eee]
   pull_request:
     paths:
       - 'HeckeSkeleton/LowEnergy/**'
       - 'HeckeSkeleton/LowFrozenCube/**'
       - 'HeckeSkeleton/Principal.lean'
       - 'scripts/low_energy_verify.py'
+      - 'scripts/low_energy_native_foundation.py'
       - 'scripts/low_energy_axioms.py'
       - 'tests/test_low_energy_axioms.py'
       - 'tests/test_low_energy_scheduler.py'
+      - 'tests/test_low_energy_native_receipts.py'
+      - 'tests/test_low_energy_native_foundation.py'
       - 'scripts/low_energy_restore_ci.py'
       - 'scripts/low_energy_export_ci.py'
       - 'scripts/lean_imports.py'
@@ -44,7 +45,7 @@ jobs:
       LEAN_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
-      - name: Check verifier scheduling and axiom parser
+      - name: Check verification gates and cache scheduling
         if: matrix.phase == 'core'
         run: python3 -m unittest discover -s tests -p 'test_low_energy_*.py'
       - uses: leanprover/lean-action@bd5cb0b830eda614ce3fc186d8429b9409b16c47
@@ -85,6 +86,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python3 scripts/low_energy_restore_ci.py ${{ matrix.phase }}
+      - name: Revalidate pinned native dependency traces
+        if: matrix.phase == 'actual'
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/low_energy_native_foundation.py actual
       - name: Compile real sources and preserve axiom output
         run: python3 scripts/low_energy_verify.py ${{ matrix.phase }} --diagnostic-seconds 600
       - name: Save verified module checkpoints

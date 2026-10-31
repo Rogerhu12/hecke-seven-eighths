@@ -111,7 +111,7 @@ theorem actual_annular_physical_polynomial [Finite (SixthLocalClasses K S)]
     rows ps cs bs hrows hps hcs hbs hd hp hc hb markWeight A hA hw
   rw [GaussianTheta.testSeminorm_annulus,
     normalizedScale_eq_physicalScale K S f s] at hb0
-  have hpoly := physical_polynomial_le hZ
+  have hpoly := physical_polynomial_le (shift := (shift : ℝ)) hZ
     (exteriorNorm_pos K S (primeSetIdeal K S f.inactive))
     (exteriorNorm_pos K S (primeSetIdeal K S s.active))
     (exteriorNorm_pos K S (minimumLinearIdeal K S s))

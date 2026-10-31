@@ -22,8 +22,10 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT_PREFIX = '.lake/build/lib/lean/'
 LOG_PREFIX = '.low-energy-verification/'
 SUFFIXES = ('.olean.private', '.olean.server', '.ir.sig', '.olean', '.ir')
-MAX_ARCHIVE = 512 * 1024 * 1024
-MAX_EXPANDED = 1024 * 1024 * 1024
+MAX_ARCHIVE = 1024 * 1024 * 1024
+# The native dependency island and the completed actual closure carry up to
+# five runtime companions per module, plus the preserved JSON/log audit.
+MAX_EXPANDED = 4 * 1024 * 1024 * 1024
 
 
 class RestoreError(Exception):
@@ -66,12 +68,13 @@ def allowed_member(info):
 
 
 def restore_archive(archive, expected_digest=None):
-    digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+    with archive.open('rb') as stream:
+        digest = hashlib.file_digest(stream, 'sha256').hexdigest()
     if expected_digest and expected_digest != 'sha256:' + digest:
         raise RestoreError('Checkpoint ZIP digest does not match GitHub metadata.')
     with zipfile.ZipFile(archive) as zipped:
         entries = zipped.infolist()
-        if len(entries) > 20000 or sum(i.file_size for i in entries) > MAX_EXPANDED:
+        if len(entries) > 40000 or sum(i.file_size for i in entries) > MAX_EXPANDED:
             raise RestoreError('Checkpoint exceeds the extraction limit.')
         if len({i.filename for i in entries}) != len(entries):
             raise RestoreError('Checkpoint contains duplicate ZIP paths.')

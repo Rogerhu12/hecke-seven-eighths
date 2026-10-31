@@ -160,7 +160,7 @@ theorem actual_block_energy [Finite (SixthLocalClasses K S)]
         congr 1
         ring
       _ = _ := by
-        rw [div_pow, mul_pow, mul_pow, Real.sq_sqrt hC.le]
+        simp only [div_pow, mul_pow, Real.sq_sqrt hC.le]
         norm_num <;> ring
   have hW : 0 ≤ (Kup * Cup * Bup * Pup) ^ eps * (Kup + Cup * Bup) * Bup *
       (Cup + Pup + (Cup * Pup) ^ (2 / 3 : ℝ)) := by
