@@ -62,7 +62,7 @@ theorem inv (hχ : ActualThetaAction theta χ) : ActualThetaAction theta χ⁻¹
 
 theorem one : ActualThetaAction theta 1 := by
   change theta.image (fun ψ => (1 : HeckeCharacter F) * ψ) = theta
-  simpa only [one_mul] using (Finset.image_id (s := theta))
+  simpa only [one_mul] using (Finset.image_id' (s := theta))
 
 theorem mul (hχ : ActualThetaAction theta χ) {η : HeckeCharacter F}
     (hη : ActualThetaAction theta η) :

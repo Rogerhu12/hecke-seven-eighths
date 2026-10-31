@@ -55,7 +55,7 @@ def canonicalProfileNormalizationInput : ProfileNormalizationInput K ω ψ where
     rw [inv_inv]
   prime_profile d c hc i t y := by
     change (((c⁻¹)⁻¹ : ℝ) : ℂ) * (d.geometry.slots i).profile t y = _
-    rw [inv_inv]
+    simp only [inv_inv, Equiv.refl_apply]
   energy_scale d p c hc Z t := by
     simpa only [inv_inv] using
       pairedEnergy_normalizedMomentProfiles d p c⁻¹ (inv_pos.mpr hc) Z t
@@ -78,8 +78,8 @@ theorem normalizedMomentProfiles_in_fixed_window
     InFixedProfileWindow rowDomain heightDomain window s
       (normalizedMomentProfiles d A hA) := by
   simpa only [canonicalProfileNormalizationInput_normalize] using
-    (canonicalProfileNormalizationInput (K := K) (ω := ω) (ψ := ψ)).
-      normalized_in_fixed_window hA w
+    (ProfileNormalizationInput.normalized_in_fixed_window
+      (canonicalProfileNormalizationInput (K := K) (ω := ω) (ψ := ψ)) hA w)
 
 end HeckeSkeleton.Moments.EngineStep
 

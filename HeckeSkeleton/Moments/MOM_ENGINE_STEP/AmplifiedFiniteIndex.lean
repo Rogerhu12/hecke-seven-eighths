@@ -86,7 +86,6 @@ theorem sum_amplifiedIndexWeight
   congr 1
   simp only [AmplifiedCommonIndex, Fintype.sum_sum_type, Fintype.sum_sigma,
     ← Finset.mul_sum, TwoDivisorCommonBranch.sum_indexWeight]
-  simp only [Finset.sum_coe_sort]
   simp
   <;> ring
 

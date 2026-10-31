@@ -100,10 +100,10 @@ private theorem weighted_sum_bound_of_fibres
     (∑ i : I, summand i) ≤ scale * (multiplicity * massBound) := by
   have hfibre : (∑ i : I, weight (index i)) ≤ multiplicity * ∑ j : J, weight j :=
     sum_weighted_fibres_le (I := I) (J := J) index weight hweight multiplicity
-      (fun j => by
-        rw [← Finset.filter_congr_decidable Finset.univ
-          (fun i : I => index i = j) (cardDecision j)]
-        exact hcard j)
+      (fun j => calc
+        _ = ((@Finset.filter I (fun i => index i = j)
+          (cardDecision j) Finset.univ).card : ℝ) := by congr
+        _ ≤ multiplicity := hcard j)
   calc
     _ ≤ ∑ i : I, scale * weight (index i) := Finset.sum_le_sum (fun i _ => hpoint i)
     _ = scale * ∑ i : I, weight (index i) := (Finset.mul_sum _ _ _).symm

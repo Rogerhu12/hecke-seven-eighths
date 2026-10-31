@@ -53,13 +53,15 @@ theorem firstZeroPairs_projection_injective
     Set.InjOn (fun v : FirstZeroLabel left right fullI fullJ × (ι × κ) => v.2)
       (firstZeroPairs left right fullI fullJ : Set _) := by
   intro v hv w hw he
+  change v.2 = w.2 at he
   have hv' := (mem_firstZeroPairs left right fullI fullJ v).mp hv
   have hw' := (mem_firstZeroPairs left right fullI fullJ w).mp hw
   apply Prod.ext
   · apply Subtype.ext
     calc
       v.1.val = commonSupportLabel (fullI v.2.1).val (fullJ v.2.2).val := hv'.2.2.symm
-      _ = commonSupportLabel (fullI w.2.1).val (fullJ w.2.2).val := by rw [he]
+      _ = commonSupportLabel (fullI w.2.1).val (fullJ w.2.2).val :=
+        congrArg (fun ij : ι × κ => commonSupportLabel (fullI ij.1).val (fullJ ij.2).val) he
       _ = w.1.val := hw'.2.2
   · exact he
 
@@ -106,7 +108,8 @@ theorem common_label_powerful_normalized_sum
     exact Finset.mem_product.mpr ⟨hv'.1, hv'.2.1⟩
   apply hcount (firstZeroPairs left right fullI fullJ) (fun v => factors v.2)
     (fun v hv w hw he => firstZeroPairs_projection_injective left right fullI fullJ
-      hv hw (hinj (hij v hv) (hij w hw) he)) N Amp coeff hN hAmp
+      hv hw (hinj (Finset.mem_product.mp (hij v hv))
+        (Finset.mem_product.mp (hij w hw)) he)) N Amp coeff hN hAmp
   · intro v hv
     rw [hfactor v.2 (hij v hv)]
     exact mul_ne_zero (fullI v.2.1).property.1 (fullJ v.2.2).property.1
@@ -265,10 +268,13 @@ theorem first_zero_diagonal_normalized
     ((blocks v.1).mem_iff_label left right
       (commonSupportPool_support_eq left right (fun i => (fullI i).val)
         (fun j => (fullJ j).val) v.1.val v.1.property) _ _).mpr (hmem v hv)
-  have hfactorinj : Set.InjOn (fun v => factors v.2) (pairs : Set _) := by
+  have hfactorinj : Set.InjOn
+      (fun v : FirstZeroLabel left right fullI fullJ × (ι × κ) => factors v.2)
+      (pairs : Set (FirstZeroLabel left right fullI fullJ × (ι × κ))) := by
     intro v hv w hw he
     exact firstZeroPairs_projection_injective left right fullI fullJ hv hw
-      (hinj (hij v hv) (hij w hw) he)
+      (hinj (Finset.mem_product.mp (hij v hv))
+        (Finset.mem_product.mp (hij w hw)) he)
   have hcoef (v) (hv : v ∈ pairs) : amp v ≤ (C₀ * Amp) / Real.sqrt N := by
     change ‖∑ D ∈ ((blocks v.1).mask M).powerset,
       ((blocks v.1).pair hΓ C profiles v.2.1 v.2.2).transformedZero μv hDiff finiteTest radius D‖ ≤ _

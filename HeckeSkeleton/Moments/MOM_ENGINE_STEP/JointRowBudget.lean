@@ -81,11 +81,14 @@ theorem pairedRows_jointRowBudgetData
     pairedRows (jointRowBudgetData d support budget) a Z =
       (pairedRows d a Z).filter (fun u =>
         idealNorm F u * A.exteriorNorm (support u) ≤ budget) := by
-  ext u
-  unfold pairedRows
-  dsimp only [jointRowBudgetData]
-  simp only [Finset.mem_filter]
-  tauto
+  dsimp only [pairedRows, jointRowBudgetData]
+  convert Finset.filter_comm
+    (fun u : HeckeGeneral.Analysis.NonzeroIdeal F =>
+      idealNorm F u * A.exteriorNorm (support u) ≤ budget)
+    (fun u : HeckeGeneral.Analysis.NonzeroIdeal F =>
+      if a.z = 0 then d.plainBackground * d.rowCharacter u ≠ 1
+      else d.rowCharacter u ∉ d.theta)
+    (d.rows (Z ^ (a.m + a.q))) using 1 <;> congr 1
 
 theorem jointRowBudgetData_paired_budget
     (d : MomentData F ω ψ)

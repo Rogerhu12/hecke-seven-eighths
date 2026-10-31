@@ -69,8 +69,10 @@ theorem nestedFourierMeasure_weighted_mass_bound (J₁ J₂ : ℕ) :
       (∫ z : V × E, (1 + ‖z.1‖) ^ J₁ * (1 + ‖z.2‖) ^ J₂
         ∂nestedFourierMeasure F₁ F₂) =
       (∫ ξ, (1 + ‖ξ‖) ^ J₁ ∂actualFourierMeasure F₁) *
-        (∫ η, (1 + ‖η‖) ^ J₂ ∂actualFourierMeasure F₂) :=
-    integral_prod_mul _ _
+        (∫ η, (1 + ‖η‖) ^ J₂ ∂actualFourierMeasure F₂) := by
+    unfold nestedFourierMeasure
+    exact integral_prod_mul (μ := actualFourierMeasure F₁) (ν := actualFourierMeasure F₂)
+      (fun ξ : V => (1 + ‖ξ‖) ^ J₁) (fun η : E => (1 + ‖η‖) ^ J₂)
   rw [heq, actualFourierMeasure_polynomial_integral,
     actualFourierMeasure_polynomial_integral]
   exact (mul_le_mul (h₁ F₁).2 (h₂ F₂).2

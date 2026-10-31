@@ -126,7 +126,7 @@ def SecondBlockProfileChart.kernelCost {ι κ : Type*}
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X) : ℝ :=
   ∑ label : Fin (chart.rowLabelCount + 1), chart.classKernelCost M X hX label
 
-theorem sum_actual_row_labels {H Λ : Type*} [Fintype Λ]
+theorem sum_actual_row_labels {H Λ : Type*} [Fintype Λ] [DecidableEq Λ]
     (rows : Finset H) (label : H → Λ) (f : H → ℂ) :
     (∑ h ∈ rows, f h) = ∑ c : Λ, ∑ h ∈ rows.filter (fun h => label h = c), f h := by
   simp only [Finset.sum_filter]

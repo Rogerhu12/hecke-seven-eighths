@@ -45,13 +45,14 @@ variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable {b : FirstCommonCharacterBlock fullI fullJ DE}
 variable {C : A.GeneralArithmeticContext σ η hS}
 variable {left : Finset ι} {right : Finset κ}
-variable {profiles : ι → κ → SchwartzMap V ℂ}
+variable {profiles : ι → κ → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
 
 /-- Primitive calibration of the original unamplified Gauss columns,
 without a positive pool, density, or amplification parameter. -/
 structure FirstBlockDirectData
+    {profiles : ι → κ → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
     (chart : FirstBlockProfileChart (E := E) hΓ μv b C left right profiles finiteTest radius D)
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X) where
   leftData : DirectGaussData C ι

@@ -52,7 +52,7 @@ def parentPlainAtom (d : MomentData K ω ψ) (W : IdealTest K)
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) : ℂ :=
   (Real.sqrt N : ℂ)⁻¹ *
-    (heckeIdealCoefficient K (d.plainBackground * d.rowCharacter u) I *
+    (HeckeGeneral.Analysis.heckeIdealCoefficient K (d.plainBackground * d.rowCharacter u) I *
       W.profile u t (HeckeGeneral.Analysis.idealNorm K I / N) * maskValue d u I.val)
 
 def parentPrimeAtom (d : MomentData K ω ψ) (i : Fin d.geometry.slotCount)
@@ -183,7 +183,9 @@ theorem polynomial (centered : Bool) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     rw [plainPolynomial_enlarge_support d d.plainTest₁ u _ t raw.leftColumns
       (parentPlainCarrier_contains (pairedRows d a Z) d.plainTest₁ t
         (Z ^ a.n₁) Y₁ comparison u hu)]
-    exact Finset.sum_congr rfl (fun I _ => raw.left comparison u hu I)
+    apply Finset.sum_congr rfl
+    intro I _
+    simpa only [parentPlainAtom] using raw.left comparison u hu I
   have hright (comparison : Bool) :
       plainPolynomial d d.plainTest₂ u (if comparison then Y₂ else Z ^ a.n₂) t =
         ∑ I ∈ raw.rightColumns,
@@ -191,7 +193,9 @@ theorem polynomial (centered : Bool) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     rw [plainPolynomial_enlarge_support d d.plainTest₂ u _ t raw.rightColumns
       (parentPlainCarrier_contains (pairedRows d a Z) d.plainTest₂ t
         (Z ^ a.n₂) Y₂ comparison u hu)]
-    exact Finset.sum_congr rfl (fun I _ => raw.right comparison u hu I)
+    apply Finset.sum_congr rfl
+    intro I _
+    simpa only [parentPlainAtom] using raw.right comparison u hu I
   have hslot : slotProduct d u Z t =
       ∏ i, ∑ p ∈ raw.slotColumns i,
         raw.primeCoefficient (raw.rowMap u) i p * raw.primePhase (raw.rowMap u) i p := by
@@ -199,8 +203,14 @@ theorem polynomial (centered : Bool) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     intro i _
     rw [primePolynomial_enlarge_support d i u Z t (raw.slotColumns i) (fun _ hp => hp)]
     exact Finset.sum_congr rfl (fun p _ => raw.prime u hu i p)
+  have hleftMain := hleft false
+  have hrightMain := hright false
+  have hleftComparison := hleft true
+  have hrightComparison := hright true
+  simp only [Bool.false_eq_true, ite_false, ite_true] at
+    hleftMain hrightMain hleftComparison hrightComparison
   rw [raw.coefficient_phase_sum, pairedStagePolynomial,
-    hleft false, hright false, hleft true, hright true, hslot]
+    hleftMain, hrightMain, hleftComparison, hrightComparison, hslot]
 
 end ParentRawAtoms
 
@@ -210,8 +220,6 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Analysis MeasureTheory
 
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)) [Γ.FiniteIndex]
-local notation "OS" => Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K
-local notation "Q" => SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 
@@ -219,16 +227,21 @@ variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (�
 one original pair at one orbit.  It cannot be replaced by independent
 rowwise profile bounds.  The finite source polynomial is not a field. -/
 structure ParentRawOrbitalInput {d : MomentData K ω ψ} {a : RealParameters}
-    {Z t Y₁ Y₂ : ℝ} (centered : Bool) (raw : ParentRawAtoms Q d a Z t Y₁ Y₂)
+    {Z t Y₁ Y₂ : ℝ} (centered : Bool)
+    (raw : ParentRawAtoms (SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ)
+      d a Z t Y₁ Y₂)
     (pairs : raw.Column → raw.Column → ParentPeriodicPair K S Γ)
     (finiteTest : ((v : (S : Set (HeightOneSpectrum (𝓞 K)))) → v.val.adicCompletion K) → ℂ)
-    (radius : {r : ℝ // 0 < r}) (mask : Finset (HeightOneSpectrum OS)) (fiberBound : ℕ) where
-  weight : Q → ℝ
+    (radius : {r : ℝ // 0 < r})
+    (mask : Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)))
+    (fiberBound : ℕ) where
+  weight : SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ → ℝ
   weight_nonneg : ∀ q, 0 ≤ weight q
   row_weight : ∀ u ∈ pairedRows d a Z, 1 ≤ weight (raw.rowMap u)
   row_mask : ∀ u ∈ pairedRows d a Z,
     sIntegerOrbitAvoidanceMask K _ Γ mask (raw.rowMap u) = 1
-  fiber : ∀ q : Q, ((pairedRows d a Z).filter (fun u => raw.rowMap u = q)).card ≤ fiberBound
+  fiber : ∀ q : SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ,
+    ((pairedRows d a Z).filter (fun u => raw.rowMap u = q)).card ≤ fiberBound
   periodic : ∀ i ∈ raw.columns, ∀ j ∈ raw.columns, ∀ q,
     (pairs i j).orbitWeight q = raw.phase q i * star (raw.phase q j)
   gram : ∀ i ∈ raw.columns, ∀ j ∈ raw.columns, ∀ q,
@@ -241,10 +254,14 @@ variable {S Γ}
 and pair data.  No whole-polynomial equality or moment bound is an input. -/
 def ParentRawOrbitalInput.toCalibration
     {d : MomentData K ω ψ} {a : RealParameters} {Z t Y₁ Y₂ : ℝ}
-    {centered : Bool} {raw : ParentRawAtoms Q d a Z t Y₁ Y₂}
+    {centered : Bool}
+    {raw : ParentRawAtoms (SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ)
+      d a Z t Y₁ Y₂}
     {pairs : raw.Column → raw.Column → ParentPeriodicPair K S Γ}
     {finiteTest : ((v : (S : Set (HeightOneSpectrum (𝓞 K)))) → v.val.adicCompletion K) → ℂ}
-    {radius : {r : ℝ // 0 < r}} {mask : Finset (HeightOneSpectrum OS)} {fiberBound : ℕ}
+    {radius : {r : ℝ // 0 < r}}
+    {mask : Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K))}
+    {fiberBound : ℕ}
     (source : ParentRawOrbitalInput S Γ centered raw pairs finiteTest radius mask fiberBound) :
     ParentSourceCalibration centered d a Z t Y₁ Y₂ raw.columns pairs
       finiteTest radius mask fiberBound where
@@ -265,9 +282,12 @@ identities contain no centered coefficient, no sum over columns and no
 transformed profile.  Centering will be performed by the actual linear
 orbital integral. -/
 structure ParentRectangleProfiles {d : MomentData K ω ψ} {a : RealParameters}
-    {Z t Y₁ Y₂ : ℝ} (raw : ParentRawAtoms Q d a Z t Y₁ Y₂)
+    {Z t Y₁ Y₂ : ℝ}
+    (raw : ParentRawAtoms (SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ)
+      d a Z t Y₁ Y₂)
     (finiteTest : ((v : (S : Set (HeightOneSpectrum (𝓞 K)))) → v.val.adicCompletion K) → ℂ)
-    (radius : {r : ℝ // 0 < r}) (weight : Q → ℝ) where
+    (radius : {r : ℝ // 0 < r})
+    (weight : SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ → ℝ) where
   profile : Bool → Bool → raw.Column → raw.Column →
     SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ
   gram : ∀ comparison₁ comparison₂, ∀ i ∈ raw.columns, ∀ j ∈ raw.columns, ∀ q,
@@ -282,24 +302,28 @@ structure ParentRectangleProfiles {d : MomentData K ω ψ} {a : RealParameters}
 namespace ParentRectangleProfiles
 
 variable {d : MomentData K ω ψ} {a : RealParameters} {Z t Y₁ Y₂ : ℝ}
-variable {raw : ParentRawAtoms Q d a Z t Y₁ Y₂}
+variable {raw : ParentRawAtoms (SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ)
+  d a Z t Y₁ Y₂}
 variable {finiteTest : ((v : (S : Set (HeightOneSpectrum (𝓞 K)))) → v.val.adicCompletion K) → ℂ}
-variable {radius : {r : ℝ // 0 < r}} {weight : Q → ℝ}
-variable (profiles : ParentRectangleProfiles raw finiteTest radius weight)
+variable {radius : {r : ℝ // 0 < r}}
+variable {weight : SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ → ℝ}
 
 /-- The whole centered profile is formed before any absolute value.
 The same four original rectangle profiles are used at the equal-product
 quarter comparison scales, without changing a support or a slot. -/
-def wholeProfile (centered : Bool) (i j : raw.Column) :
+def wholeProfile (profiles : ParentRectangleProfiles raw finiteTest radius weight)
+    (centered : Bool) (i j : raw.Column) :
     SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ :=
   if centered then
     profiles.profile false false i j - profiles.profile false true i j -
       profiles.profile true false i j + profiles.profile true true i j
   else profiles.profile false false i j
 
-theorem wholeProfile_gram (hTest : Continuous finiteTest)
+theorem wholeProfile_gram (profiles : ParentRectangleProfiles raw finiteTest radius weight)
+    (hTest : Continuous finiteTest)
     (hTestcs : HasCompactSupport finiteTest) (centered : Bool)
-    (i : raw.Column) (hi : i ∈ raw.columns) (j : raw.Column) (hj : j ∈ raw.columns) (q : Q) :
+    (i : raw.Column) (hi : i ∈ raw.columns) (j : raw.Column) (hj : j ∈ raw.columns)
+    (q : SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ) :
     sUnitOrbitalProfile K (S : Set (HeightOneSpectrum (𝓞 K)))
       (sLocalTensorTestFunction K (S : Set (HeightOneSpectrum (𝓞 K)))
         (profiles.wholeProfile centered i j) finiteTest)
@@ -329,7 +353,7 @@ theorem wholeProfile_gram (hTest : Continuous finiteTest)
     rw [hgram false false, hgram false true, hgram true false, hgram true true]
     ring
 
-def pairs (centered : Bool)
+def pairs (profiles : ParentRectangleProfiles raw finiteTest radius weight) (centered : Bool)
     (template : raw.Column → raw.Column → ParentPeriodicPair K S Γ) :
     raw.Column → raw.Column → ParentPeriodicPair K S Γ :=
   fun i j => { template i j with profile := profiles.wholeProfile centered i j }
@@ -337,14 +361,17 @@ def pairs (centered : Bool)
 /-- Pointwise rectangle Gram data yield the complete centered source.
 The periodic character, finite row map, mask and original fibers are
 retained literally; there is no summed parent identity among the inputs. -/
-def toRawOrbitalInput (hTest : Continuous finiteTest) (hTestcs : HasCompactSupport finiteTest)
+def toRawOrbitalInput (profiles : ParentRectangleProfiles raw finiteTest radius weight)
+    (hTest : Continuous finiteTest) (hTestcs : HasCompactSupport finiteTest)
     (centered : Bool) (template : raw.Column → raw.Column → ParentPeriodicPair K S Γ)
-    (mask : Finset (HeightOneSpectrum OS)) (fiberBound : ℕ)
+    (mask : Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)))
+    (fiberBound : ℕ)
     (weight_nonneg : ∀ q, 0 ≤ weight q)
     (row_weight : ∀ u ∈ pairedRows d a Z, 1 ≤ weight (raw.rowMap u))
     (row_mask : ∀ u ∈ pairedRows d a Z,
       sIntegerOrbitAvoidanceMask K _ Γ mask (raw.rowMap u) = 1)
-    (fiber : ∀ q : Q, ((pairedRows d a Z).filter (fun u => raw.rowMap u = q)).card ≤ fiberBound)
+    (fiber : ∀ q : SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ,
+      ((pairedRows d a Z).filter (fun u => raw.rowMap u = q)).card ≤ fiberBound)
     (periodic : ∀ i ∈ raw.columns, ∀ j ∈ raw.columns, ∀ q,
       (template i j).orbitWeight q = raw.phase q i * star (raw.phase q j)) :
     ParentRawOrbitalInput S Γ centered raw (profiles.pairs centered template)

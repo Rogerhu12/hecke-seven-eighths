@@ -139,9 +139,9 @@ theorem actual_second_kernel_allocation_bound
           (secondAllocatedLeftCoefficient (σ := σ) Ray IA frequency rayLeft χ c) x ξ := by
       apply allocation_energy_filter_of_terms
       intro h _ i hi
-      unfold kernelDivisorCoefficient
-      rw [hIA i hi]
-      rfl
+      exact congrArg (fun I : Ideal (𝓞 K) =>
+        if L ∣ I then secondAllocatedLeftCoefficient (σ := σ) Ray
+          IA frequency rayLeft χ c h i else 0) (hIA i hi)
     have hright (ξ : V) :
         jointColumnEnergy rows (childCartesianColumns T₁ T₂ T) weight
           (fun h j => star (kernelDivisorCoefficient (fun j => (IB j).val) L f
@@ -152,10 +152,16 @@ theorem actual_second_kernel_allocation_bound
           (secondAllocatedRightCoefficient (σ := σ) Ray IB frequency rayRight χ f) y ξ := by
       apply allocation_energy_filter_of_terms
       intro h _ j hj
-      unfold kernelDivisorCoefficient
-      rw [hIB j hj]
-      by_cases hdiv : L ∣ allocationColumnIdeal j <;>
-        simp only [hdiv, ite_true, ite_false, star_zero, secondAllocatedRightCoefficient]
+      calc
+        _ = star (if L ∣ allocationColumnIdeal j then
+            f j * (fixedRightPhase Ray χ (rayRight j) : ℂ) *
+              σ (A.sexticResidue (IB j) (-frequency h)) else 0) :=
+          congrArg (fun I : Ideal (𝓞 K) => star (if L ∣ I then
+            f j * (fixedRightPhase Ray χ (rayRight j) : ℂ) *
+              σ (A.sexticResidue (IB j) (-frequency h)) else 0)) (hIB j hj)
+        _ = _ := by
+          by_cases hdiv : L ∣ allocationColumnIdeal j <;>
+            simp only [hdiv, ite_true, ite_false, star_zero, secondAllocatedRightCoefficient]
     change (∫ ξ : V, ‖(𝓕 F) ξ‖ *
       (Real.sqrt (jointColumnEnergy rows (childCartesianColumns S₁ S₂ S) weight
         (kernelDivisorCoefficient (fun i => (IA i).val) L c
