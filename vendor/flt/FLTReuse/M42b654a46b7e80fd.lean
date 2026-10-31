@@ -1,4 +1,4 @@
-import FLTReuse.ExplicitMathlibImports
+import Mathlib
 import FLTReuse.M55164c2a16500130
 import FLTReuse.M1868db956c866c8d
 namespace P2MW.S_NumberField_AdelicFourier_comp_mul_algebraMap_mem_pureTensorSet

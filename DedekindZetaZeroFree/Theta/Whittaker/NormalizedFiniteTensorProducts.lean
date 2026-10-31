@@ -1,9 +1,6 @@
 module
 
-public import Mathlib.RepresentationTheory.Basic
-public import Mathlib.Analysis.Normed.Operator.Basic
-public import Mathlib.Analysis.Complex.Basic
-public import Mathlib.Tactic.Ring
+public import Mathlib
 
 @[expose] public section
 

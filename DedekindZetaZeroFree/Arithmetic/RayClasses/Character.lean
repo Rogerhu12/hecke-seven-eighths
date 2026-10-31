@@ -1,7 +1,6 @@
 module
 
-public import Mathlib.NumberTheory.NumberField.Ideal.Basic
-public import Mathlib.Analysis.Complex.Basic
+public import Mathlib
 
 @[expose] public section
 

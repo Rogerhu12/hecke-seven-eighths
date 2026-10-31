@@ -2,7 +2,7 @@ import FLTReuse.Mc4dd375116d61c53
 import FLTReuse.Md2cadaa4525e04a6
 import FLTReuse.Mb160b7190bc2968b
 import Mathlib.MeasureTheory.Measure.Haar.DistribChar
-import FLTReuse.ExplicitMathlibImports
+import Mathlib
 import FLTReuse.M1868db956c866c8d
 namespace P2MW.S_NumberField_AdeleRing_distribHaarChar_eq_prod_norm_pow_mult_of_snd_eq_one
 

@@ -1,4 +1,4 @@
-import FLTReuse.ExplicitMathlibImports
+import Mathlib
 import FLTReuse.M3dc69d582d3e4757
 
 set_option autoImplicit false

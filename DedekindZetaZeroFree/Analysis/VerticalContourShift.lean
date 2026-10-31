@@ -1,7 +1,6 @@
 module
 
 public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character
-public import Mathlib.Analysis.Complex.RemovableSingularity
 
 @[expose] public section
 

@@ -1,7 +1,5 @@
-import FLTReuse.ExplicitMathlibImports
+import Mathlib
 import FLTReuse.M80d3d6b9857c4a98
-import Mathlib.RingTheory.Ideal.IsPrincipalPowQuotient
-import Mathlib.Topology.Algebra.Valued.WithZeroMulInt
 
 section
 

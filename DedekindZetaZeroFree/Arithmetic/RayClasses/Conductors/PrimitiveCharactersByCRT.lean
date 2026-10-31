@@ -1,6 +1,5 @@
 module
 
-public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
 public import DedekindZetaZeroFree.Arithmetic.Ideals.ExteriorIdeals.EulerWeights
 
 @[expose] public section

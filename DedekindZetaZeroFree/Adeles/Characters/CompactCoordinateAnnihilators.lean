@@ -1,6 +1,5 @@
 module
 
-public import Mathlib.Analysis.SpecialFunctions.Complex.Circle
 public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character
 
 @[expose] public section

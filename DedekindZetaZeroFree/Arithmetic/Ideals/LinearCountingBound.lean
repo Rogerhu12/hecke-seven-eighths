@@ -1,6 +1,5 @@
 module
 
-public import Mathlib.NumberTheory.NumberField.DedekindZeta
 public import DedekindZetaZeroFree.Arithmetic.Ideals.BoundedNormFinsets
 
 @[expose] public section

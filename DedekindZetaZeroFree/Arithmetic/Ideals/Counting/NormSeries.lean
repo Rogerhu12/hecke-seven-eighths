@@ -1,9 +1,5 @@
 module
 
-public import Mathlib.NumberTheory.NumberField.Ideal.Asymptotics
-public import Mathlib.Algebra.Order.Chebyshev
-public import Mathlib.Analysis.PSeries
-public import Mathlib.NumberTheory.Harmonic.Bounds
 public import DedekindZetaZeroFree.Arithmetic.Ideals.ExteriorIdeals.EulerWeights
 
 @[expose] public section
