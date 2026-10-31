@@ -289,6 +289,78 @@ theorem residual_rows_le_free_energy (W : SchwartzMap ℝ ℂ)
       exact Filter.Eventually.of_forall (fun t => (Finset.mul_sum _ _ _).symm)
     _ ≤ _ := mul_le_mul_of_nonneg_left hi hcost
 
+
+def mellinEnergy (W : SchwartzMap ℝ ℂ)
+    (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2) (y : Ext × Sector) (τ : ℝ) : ℝ :=
+  ∫ t : ℝ, ‖density W hW t‖ *
+    ‖DivisorInverseColumn.column K S Γ D
+      (family K S C Θ ψ G hν hG J U a (t + τ)) γ j d (y.1.val.val,y.2)‖ ^ 2
+
+theorem mellinEnergy_nonneg (W : SchwartzMap ℝ ℂ)
+    (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2) (y : Ext × Sector) (τ : ℝ) :
+    0 ≤ mellinEnergy K S Γ D C Θ ψ G hν hG J U a γ j d W hW y τ :=
+  integral_nonneg (fun _ => mul_nonneg (norm_nonneg _) (sq_nonneg _))
+
+include hΓ in
+theorem mellinEnergy_bound (W : SchwartzMap ℝ ℂ)
+    (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2) (y : Ext × Sector) (τ : ℝ) :
+    mellinEnergy K S Γ D C Θ ψ G hν hG J U a γ j d W hW y τ ≤
+      (coefficientMass K S D C Θ ψ G hν hG J U a γ j d) ^ 2 *
+        ∫ t : ℝ, ‖density W hW t‖ := by
+  have hi := integral_mono
+    (column_energy_integrable K S Γ D C Θ ψ G hν hG J U a γ j d hΓ W hW y τ)
+    ((density W hW).integrable.norm.mul_const
+      ((coefficientMass K S D C Θ ψ G hν hG J U a γ j d) ^ 2))
+    (fun t => mul_le_mul_of_nonneg_left
+      (pow_le_pow_left₀ (norm_nonneg _)
+        (column_bound K S Γ D C Θ ψ G hν hG J U a γ j d hΓ y τ t) 2)
+      (norm_nonneg _))
+  rw [integral_mul_const] at hi
+  exact hi.trans_eq (mul_comm _ _)
+
+include hΓ in
+theorem mellinEnergy_continuous (W : SchwartzMap ℝ ℂ)
+    (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2) (y : Ext × Sector) :
+    Continuous (fun τ => mellinEnergy K S Γ D C Θ ψ G hν hG J U a γ j d W hW y τ) := by
+  apply continuous_of_dominated
+    (fun τ => (column_energy_integrable K S Γ D C Θ ψ G hν hG J U a γ j d hΓ
+      W hW y τ).aestronglyMeasurable)
+    (bound := fun t => ‖density W hW t‖ *
+      (coefficientMass K S D C Θ ψ G hν hG J U a γ j d) ^ 2)
+  · intro τ
+    filter_upwards [] with t
+    rw [Real.norm_of_nonneg (mul_nonneg (norm_nonneg _) (sq_nonneg _))]
+    exact mul_le_mul_of_nonneg_left
+      (pow_le_pow_left₀ (norm_nonneg _)
+        (column_bound K S Γ D C Θ ψ G hν hG J U a γ j d hΓ y τ t) 2)
+      (norm_nonneg _)
+  · exact (density W hW).integrable.norm.mul_const _
+  · filter_upwards [] with t
+    have hc : Continuous (fun τ : ℝ => ‖density W hW t‖ *
+        ‖DivisorInverseColumn.column K S Γ D
+          (family K S C Θ ψ G hν hG J U a (τ + t)) γ j d (y.1.val.val,y.2)‖ ^ 2) :=
+      continuous_const.mul
+        ((column_continuous K S Γ D C Θ ψ G hν hG J U a γ j d
+          (y.1.val.val,y.2) t).norm.pow 2)
+    simpa only [add_comm] using hc
+
+include hΓ in
+theorem fourier_mellinEnergy_integrable (W : SchwartzMap ℝ ℂ)
+    (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2) (y : Ext × Sector)
+    (w : LogPlane → ℝ) (hw : Integrable w)
+    (coordinate : LogPlane → ℝ) (hc : Continuous coordinate) :
+    Integrable (fun ξ : LogPlane => w ξ *
+      mellinEnergy K S Γ D C Θ ψ G hν hG J U a γ j d W hW y (coordinate ξ)) := by
+  apply hw.mul_bdd
+    (c := (coefficientMass K S D C Θ ψ G hν hG J U a γ j d) ^ 2 *
+      ∫ t : ℝ, ‖density W hW t‖)
+    ((mellinEnergy_continuous K S Γ D C Θ ψ G hν hG J U a γ j d hΓ W hW y).comp
+      hc).aestronglyMeasurable
+  filter_upwards [] with ξ
+  rw [Real.norm_of_nonneg (mellinEnergy_nonneg K S Γ D C Θ ψ G hν hG J U a γ j d
+    W hW y (coordinate ξ))]
+  exact mellinEnergy_bound K S Γ D C Θ ψ G hν hG J U a γ j d hΓ W hW y (coordinate ξ)
+
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy
 
 end

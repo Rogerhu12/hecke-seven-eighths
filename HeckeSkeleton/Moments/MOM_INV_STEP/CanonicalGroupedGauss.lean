@@ -81,7 +81,6 @@ theorem coefficient_generator_union (hallowed : AllowedGeneratorInput K Sset D)
   rw [hu]
   simp only [map_mul, primitiveCoefficient_mul]
   rw [primitiveCoefficient_sixth_unit, one_mul]
-  rfl
 
 theorem crossFactor_union (hallowed : AllowedGeneratorInput K Sset D)
     (B₁ B₂ B₃ : PrimeBlock K Sset) (hdisj : Disjoint B₁.support B₂.support)
@@ -247,13 +246,13 @@ theorem pair_normalizedGauss_grouped (hallowed : AllowedGeneratorInput K Sset D)
   have hleft : normalizedPrimitiveGauss K S D L t = thetaGamma K Sset D (leftIdeal K S D n₁ n₂ b₁ b₂) 1 := by
     apply normalizedPrimitiveGauss_uniform K S D L t 1
     intro p hp
-    rw [left_digit K S D n₁ n₂ b₁ b₂ p (Finset.mem_filter.mp hp).1]
-    rfl
+    exact congrArg (fun a : ZMod 6 => a.val)
+      (left_digit K S D n₁ n₂ b₁ b₂ p (Finset.mem_filter.mp hp).1)
   have hright : normalizedPrimitiveGauss K S D R t = thetaGamma K Sset D (rightIdeal K S D n₁ n₂ b₁ b₂) 5 := by
     apply normalizedPrimitiveGauss_uniform K S D R t 5
     intro p hp
-    rw [right_digit K S D n₁ n₂ b₁ b₂ p (Finset.mem_filter.mp hp).1]
-    rfl
+    exact congrArg (fun a : ZMod 6 => a.val)
+      (right_digit K S D n₁ n₂ b₁ b₂ p (Finset.mem_filter.mp hp).1)
   rw [hleft, hright]
   rfl
 

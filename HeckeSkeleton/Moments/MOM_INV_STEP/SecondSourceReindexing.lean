@@ -241,7 +241,8 @@ end HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceReindexing
 
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.SecondDyadicReindexing
 
-open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.ThetaSkeleton.Global
+open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
+  HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 
 /-- Compatibility name for the fresh-pair factorization used by the
 retained-source caller. -/

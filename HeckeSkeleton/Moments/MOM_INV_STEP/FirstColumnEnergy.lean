@@ -105,7 +105,7 @@ def sourceColumn (C : ColumnData K S σ) (G : HeckeCharacter K)
           (FirstNormPoolEnergy.residualScale K S X r₁ r₂ b₁ b₂ side).val))
     else 0
 
-variable (hallowed : AllowedGeneratorInput K Sset D)
+variable (hallowed : AllowedGeneratorInput K (S : Set (HeightOneSpectrum (𝓞 K))) D)
 
 include hallowed in
 theorem sourceColumn_sq_le_branches (C : ColumnData K S σ)

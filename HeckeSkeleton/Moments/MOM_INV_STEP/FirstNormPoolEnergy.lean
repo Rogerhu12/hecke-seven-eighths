@@ -80,7 +80,7 @@ theorem domain_height_window (X : {r : ℝ // 0 < r})
   have hnorm : height K Sset n =
       ((extractedFactor K S r₁ r₂ b₁ b₂ side).val.val.absNorm : ℝ) *
         ((IdealMobiusMask.primeProduct U).absNorm : ℝ) := by
-    simp only [height, he, Ideal.absNorm_mul, Nat.cast_mul]
+    simp only [height, he, map_mul, Nat.cast_mul]
   rw [hnorm] at hlo hhi
   constructor
   · exact (div_le_iff₀ hE).mpr (by simpa only [mul_comm] using hlo)

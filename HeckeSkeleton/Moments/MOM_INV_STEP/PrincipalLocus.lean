@@ -43,12 +43,12 @@ theorem ideal_mul_eq_one_iff (I J : Ideal R) :
   constructor
   · intro h
     constructor
-    · change I = ⊤
+    · rw [Ideal.one_eq_top]
       apply le_antisymm le_top
-      simpa only [h] using (Ideal.mul_le_left : I * J ≤ I)
-    · change J = ⊤
+      simpa only [h, Ideal.one_eq_top] using (Ideal.mul_le_left : I * J ≤ I)
+    · rw [Ideal.one_eq_top]
       apply le_antisymm le_top
-      simpa only [h] using (Ideal.mul_le_right : I * J ≤ J)
+      simpa only [h, Ideal.one_eq_top] using (Ideal.mul_le_right : I * J ≤ J)
   · rintro ⟨rfl, rfl⟩
     exact one_mul _
 

@@ -72,7 +72,7 @@ theorem exists_second_mask_bound :
   change (2 : ℝ) ^ (externalMask K S e ∪ principalMask K S
     (pairSupport K S D x₁ x₂ e e) (pairExponent K S x₁ x₂ e e)).card ≤ _ at h
   simpa only [externalMask_unit, Finset.empty_union, unitIdeal_val,
-    Ideal.absNorm_mul, map_one, Nat.cast_mul, Nat.cast_one, one_mul, Real.rpow_one,
+    map_mul, map_one, Nat.cast_mul, Nat.cast_one, one_mul, Real.rpow_one,
     mul_assoc] using h
 
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))

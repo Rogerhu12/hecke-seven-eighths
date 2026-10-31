@@ -117,7 +117,7 @@ theorem exists_weighted_source_mass_bound (slotCap p : ℕ) :
         Q.val.val (nonZeroDivisors.coe_ne_zero Q.val)
         (fun p hp => (FirstSourceDecomposition.mem_primeSupport Q.val p).mp hp)
         x.1.2 x.2.2 x.1.1 x.2.1
-      simp only [Real.rpow_one, Ideal.absNorm_mul, Nat.cast_mul] at hm
+      simp only [Real.rpow_one, map_mul, Nat.cast_mul] at hm
       have hm' :
           (2 : ℝ) ^ (externalMask K S Q ∪
             principalMask K S (pairSupport K S D x.1.2 x.2.2 x.1.1 x.2.1)

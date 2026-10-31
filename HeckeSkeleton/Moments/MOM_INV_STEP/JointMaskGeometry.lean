@@ -92,6 +92,8 @@ theorem mask_mul_primitive_dvd_source (Q n₁ n₂ b₁ b₂ : Ext)
   have hfirst := mul_dvd_mul_right
     (maskIdeal_dvd_external_mul_principal K S D Q n₁ n₂ b₁ b₂ δ hδ)
     (primitiveIdeal B t)
+  change maskIdeal K S δ * primitiveIdeal B t ∣
+    (Q.val.val * principalIdeal B t) * primitiveIdeal B t at hfirst
   have hfirst' : maskIdeal K S δ * primitiveIdeal B t ∣
       Q.val.val * IdealMobiusMask.primeProduct B := by
     simpa only [mul_assoc, hperiod] using hfirst
@@ -109,7 +111,7 @@ theorem actual_norm_product_bound (Q n₁ n₂ b₁ b₂ : Ext)
         (n₁.val.val.absNorm : ℝ) * (n₂.val.val.absNorm : ℝ) := by
   have h := absNorm_le_of_dvd K _ _ (sourceIdeal_ne_zero K S Q n₁ n₂ b₁ b₂)
     (mask_mul_primitive_dvd_source K S D Q n₁ n₂ b₁ b₂ δ hδ)
-  simpa only [Ideal.absNorm_mul, Nat.cast_mul, maskIdeal_norm,
+  simpa only [map_mul, Nat.cast_mul, maskIdeal_norm,
     sourceIdeal_norm] using h
 
 theorem actual_radius_product_bound (Q n₁ n₂ b₁ b₂ : Ext)

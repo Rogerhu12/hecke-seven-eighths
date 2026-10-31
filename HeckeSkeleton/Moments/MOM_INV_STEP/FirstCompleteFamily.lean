@@ -17,7 +17,7 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompleteFamily
 
-open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
+open NumberField IsDedekindDomain UniqueFactorizationMonoid HeckeGeneral.Arithmetic HeckeGeneral.Characters
   HeckeGeneral.Analysis HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global MeasureTheory
 open HeckeSkeleton.Moments.MOMInvStep
 open FixedTripleFibers CanonicalChildren CanonicalBlock CanonicalNormPools

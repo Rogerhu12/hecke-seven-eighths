@@ -34,8 +34,9 @@ def forget (y : Ext × Sector) : Ideal (𝓞 K) × Sector := (y.1.val.val, y.2)
 theorem forget_injective : Function.Injective (forget K S Γ) := by
   rintro ⟨I,ξ⟩ ⟨J,η⟩ h
   apply Prod.ext
-  · exact Subtype.ext (Subtype.ext (congrArg Prod.fst h))
-  · exact congrArg Prod.snd h
+  · exact Subtype.ext (Subtype.ext
+      (congrArg (fun y : Ideal (𝓞 K) × Sector => y.1) h))
+  · exact congrArg (fun y : Ideal (𝓞 K) × Sector => y.2) h
 
 theorem newRow_eq (E : Ext) (x : FirstCanonicalLabel.SourcePair K S Γ) :
     FirstCanonicalLabel.newRow K S Γ E x = forget K S Γ (row K S Γ E x) :=

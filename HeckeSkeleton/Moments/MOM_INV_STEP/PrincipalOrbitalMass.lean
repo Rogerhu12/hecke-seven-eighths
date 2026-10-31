@@ -139,7 +139,7 @@ theorem exists_absoluteRowMass_bound
     rw [hcompl]
     have hb' : (∑' q : {q : Q // 1 < ρ.val * (sIntegerOrbitNorm K S Γ q).val},
         ‖f q.val‖) ≤ B * SchwartzMap.seminorm ℂ M 0 φ * (1 + ρ.val⁻¹) := by
-      simpa only [Real.one_rpow, mul_one] using hb
+      simpa only [f, rowProfile, Real.one_rpow, mul_one] using hb
     exact hb'.trans
       (mul_le_mul_of_nonneg_right
         (mul_le_mul_of_nonneg_left (hlargeSup φ) hB)
