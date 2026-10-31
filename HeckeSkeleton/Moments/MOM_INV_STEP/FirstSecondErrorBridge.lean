@@ -85,6 +85,7 @@ theorem cutoff_at_rpow (U : {r : ℝ // 0 < r}) (Z H tau : ℝ) (hZ : 0 < Z)
         ⟨Z ^ (-H), Real.rpow_pos_of_pos hZ (-H)⟩ U.val Z tau := by
   unfold cutoff
   rw [rowRadius_rpow]
+  exact hZ
 
 variable (Θ : Subgroup (HeckeCharacter K)) (ψ G : HeckeCharacter K)
 variable (hν : BackgroundCycle.Admissible K Θ ψ T.columns.background) (hG : G ∈ Θ)
@@ -273,7 +274,7 @@ theorem spectralAverage_errorAt_le (Z tau : ℝ) (i : FirstErrorSource.Index K S
             mul_le_mul_of_nonneg_left (hb _) (norm_nonneg _)
           _ = ‖ρ t‖ * P (t + coordinate ξ) + ‖ρ t‖ * Q (t + coordinate ξ) :=
             mul_add _ _ _)
-    rwa [integral_add (hp.1 (coordinate ξ)) (hq.1 (coordinate ξ))] at hi
+    rwa [integral_add' (hp.1 (coordinate ξ)) (hq.1 (coordinate ξ))] at hi
   have hout := integral_mono he.2 (hp.2.add hq.2) (fun ξ => by
     calc
       frequencyEnvelope m ξ * (∫ t : ℝ, ‖ρ t‖ * E (t + coordinate ξ)) ≤
@@ -284,7 +285,7 @@ theorem spectralAverage_errorAt_le (Z tau : ℝ) (i : FirstErrorSource.Index K S
       _ = frequencyEnvelope m ξ * (∫ t : ℝ, ‖ρ t‖ * P (t + coordinate ξ)) +
           frequencyEnvelope m ξ * (∫ t : ℝ, ‖ρ t‖ * Q (t + coordinate ξ)) :=
         mul_add _ _ _)
-  rw [integral_add hp.2 hq.2] at hout
+  rw [integral_add' hp.2 hq.2] at hout
   exact hout
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstSecondErrorBridge
