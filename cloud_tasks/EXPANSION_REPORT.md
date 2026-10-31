@@ -94,3 +94,13 @@ head `63fb331` 的 run `41204649328` / pure job `124547158378` 已完整成功�
 本批逐项修复这九个根模块：`ActualProbeContext` 的局部记号字段及 subtype quotation；`ActualZetaLogDerivative` 的 id 函数表示和标准复数实例转换；`PhysicalFourierNormalization` 的真实 Schwartz 坐标变换；`PhysicalDetectionParameters` 的终端标签索引、隐式参数及 wrapper 化简；`LargeRowMellin` 的坐标变换展开与实积分类型；以及四个 actual Euler/prime-window 模块的有限乘积集合实例、显式区域参数和 tsum 表示。相同的局部记号问题在未编译到的下游统一改为显式 `Subtype.val` 或带括号的 term projection，包括四处实际 sixth-power unit 记号。没有添加定理假设或提高 heartbeat 预算；这些修复仍须下一轮原生 CI 验证。
 
 已在本地合入最新基线 `e66f738`；Base 的唯一 import 冲突取双方并集，保留新的 aligned arithmetic choice 及本 PR 的唯一实际 recipe。修正 MOM_BASE/LocalGauss 四处 complexEmbedding 调用补齐原上下文参数 c；最终主定理陈述未变。合并后的完整原生检查仍待后续CI。
+
+## `dd22356` 的原生复验
+
+包含该基线合并与全标签资格的 head `dd22356` 已发布；run `41206596037` 的 pure job `124552815612` 再次完整成功：112 个模块、2,042 个声明、0 个非标准公理依赖。artifact `13045026083` 的 SHA-256 为 `1fb1ade44fb3932743b799997ecdca8e66e69b4c2282240b715f9c2bbbe10d6b`；已核对压缩包、原日志以及112个源码哈希与该 head 完全一致。
+
+四个 actual/skeleton 分组均完成失败；五份 artifact 已全部下载并核对 SHA-256。arithmetic、contours、physical、skeleton 的原生日志逐条比较完全相同：七个根模块、41条诊断，完整错误上下文没有差异。完整 artifact 标识、摘要与日志 SHA-256 见 validation JSON。上一轮九根中的八个已明确实际 Built：`ActualNormFormWindowDetector`、`PhysicalFourierNormalization`、`ActualEulerRegion`、`ActualInitialEulerProduct`、`ActualDeletedEulerProduct`、`ActualZetaLogDerivative`、`PhysicalDetectionParameters`、`ActualProbeContext`。`LargeRowMellin` 的超时已消除，剩余错误是一处原权函数非负性的改写。
+
+本批修复七根的名称解析、原积分/求和类型、自然数/实数/复数转换、有限 Poisson 原轨道权重、局部域原点的 punctured-neighborhood 实例，以及实际素数窗口有限删除等式的代数方向。另补实际 presentation 边界与两个后继 amplitude/schedule 模块缺失的命名空间；四个后继 Mellin/retained/height/full-correction 模块中的同型加法单调证明改为明确的 `add_le_add` 组合。原声明、假设、实际物理对象及公理白名单保持不变；这些新修复仍待下一轮原生编译。MOM_BASE 的测试 merge commit `794d9a5` 也返回相同七根与41条诊断；该失败运行尚未构建到 Base/LocalGauss，不能将其计为兼容验证通过。
+
+该 arithmetic 原始日志为126,068行、7,503,795字节，其中大量为缓存重放的警告。验证脚本现仅压缩 `lake build` 的控制台显示，保留实际 Built/失败头、完整错误上下文和最终状态；每一行仍原样写入同一个 artifact 日志，所有 axiom audit 的控制台输出也保持完整。Lake 命令、全部 imports、清单、公理白名单及非零退出 gate 均未改。独立的失败子进程检查确认完整日志逐字保存且退出码7原样传播；未据此断言日志是构建时长的瓶颈。

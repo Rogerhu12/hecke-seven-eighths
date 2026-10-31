@@ -125,7 +125,9 @@ theorem principalDivisorFourier_eq (P : ProbeData K S)
     _ = productPrincipalCharacter K S P.arithmetic den A
         (poissonQuotientEquiv K S P den A (Ideal.Quotient.mk _ h * x)) :=
       (productCharacter_quotientEquiv K S P den A _).symm
-    _ = _ := by rw [map_mul, poissonQuotientEquiv_mk]
+    _ = _ := by
+      simp only [map_mul, poissonQuotientEquiv_mk,
+        RingEquiv.toEquiv_eq_coe, RingEquiv.coe_toEquiv]
 
 /-- Exact physical finite Fourier coefficient, including its original
 inverse denominator norm.  Common factors of den and A are unrestricted. -/
@@ -144,8 +146,10 @@ theorem principalDivisorFourier_eq_norm_mul (P : ProbeData K S)
         (poissonModulus K S P den A) (poissonModulus_ne_zero K S P den A)
         (principalPoissonCoefficient K S P den A) 1 (Ideal.Quotient.mk _ h) =
       (exteriorNorm K S den : ℂ) * finitePoissonFactor K S P den A h := by
+  have hnorm : (exteriorNorm K S den : ℂ) ≠ 0 :=
+    Complex.ofReal_ne_zero.mpr (idealNorm_pos K den.val).ne'
   rw [finitePoissonFactor_eq_principalDivisorFourier, ← mul_assoc,
-    mul_inv_cancel₀ (Complex.ofReal_ne_zero.mpr (idealNorm_pos K den.val).ne'), one_mul]
+    mul_inv_cancel₀ hnorm, one_mul]
 
 def gaussSymbolOrbitWeight (P : ProbeData K S) (den A : ExteriorIdeal K S)
     (q : SIntegerOrbits K S (sixthPowerUnits K S)) : ℂ :=
@@ -229,8 +233,25 @@ theorem gaussSymbolOrbitalPoisson (P : ProbeData K Sset) (den A : ExteriorIdeal 
     (principalPoissonCoefficient_invariant K Sset P den A) 1 r
   have hz := principalDivisorFourier_eq_norm_mul K Sset P den A 0
   simp only [map_zero] at hz
+  have hweight :
+      sIntegerPeriodicOrbitWeight K Sset Γ (poissonModulus K Sset P den A)
+        (fun z => principalPoissonCoefficient K Sset P den A (Ideal.Quotient.mk _ 1 * z))
+        (sIntegerPeriodic_divisorPullback_literal_invariant K S Γ
+          (poissonModulus K Sset P den A) (principalPoissonCoefficient K Sset P den A)
+          (principalPoissonCoefficient_invariant K Sset P den A) 1) =
+        gaussSymbolOrbitWeight K Sset P den A := by
+    funext q
+    have hq := sIntegerPeriodicOrbitWeight_mk K Sset Γ (poissonModulus K Sset P den A)
+      (fun z => principalPoissonCoefficient K Sset P den A (Ideal.Quotient.mk _ 1 * z))
+      (sIntegerPeriodic_divisorPullback_literal_invariant K S Γ
+        (poissonModulus K Sset P den A) (principalPoissonCoefficient K Sset P den A)
+        (principalPoissonCoefficient_invariant K Sset P den A) 1) q.out
+    rw [Quotient.out_eq] at hq
+    simpa only [map_one, one_mul, principalPoissonCoefficient_mk, gaussSymbolOrbitWeight]
+      using hq
   dsimp only at h ⊢
-  simpa only [map_one, one_mul, periodicOrbitWeight_eq, periodicFourierOrbitWeight_eq,
+  rw [hweight] at h
+  simpa only [map_one, one_mul, periodicFourierOrbitWeight_eq,
     principalPoissonCoefficient_zero, hz] using h
 
 end OrbitalIdentity

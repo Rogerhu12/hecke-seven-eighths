@@ -127,7 +127,7 @@ theorem norm_three_faces_le_of_rapid
     · intro ts _ tw _ x hx
       exact hpoint s1 w1 x ts tw H right_mem_uIcc right_mem_uIcc hx
         (Or.inr (Or.inr (abs_of_nonneg hH)))
-  apply ((norm_add_le _ _).trans (add_le_add_right (norm_add_le _ _) _)).trans
+  apply ((norm_add_le _ _).trans (add_le_add (norm_add_le _ _) le_rfl)).trans
   exact (add_le_add (add_le_add hsface hwface) hzface).trans_eq (by ring)
 
 variable (K : Type) [Field K] [NumberField K]

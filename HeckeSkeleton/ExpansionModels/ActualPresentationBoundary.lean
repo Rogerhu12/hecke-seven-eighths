@@ -25,6 +25,7 @@ open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ExpansionRecipe
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Physical
+open HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.TIP
 open Expansion.Project ExpansionInterfaces HighBinActualEuler
 open scoped Classical BigOperators

@@ -19,6 +19,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ExpansionRecipe
 open HeckeGeneral.ThetaSkeleton.Physical HeckeGeneral.ThetaSkeleton.Global
 open ExpansionInterfaces
+open Expansion.Dyadic
 open scoped Classical BigOperators ComplexConjugate
 
 variable (K : Type) [Field K] [NumberField K]

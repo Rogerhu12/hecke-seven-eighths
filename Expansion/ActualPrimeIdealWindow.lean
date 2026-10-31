@@ -71,7 +71,9 @@ theorem actualPrimeIdealWindow_differentiable (W : AnnularProfile)
       (comparisonClosedStrip (63 / 64) 2 \ {1}) := by
     apply (actualZetaLog_differentiableOn K).mono
     intro s hs
-    exact ⟨by have hh := hs.1.1; linarith, hs.2⟩
+    refine ⟨?_, hs.2⟩
+    change (31 / 32 : ℝ) < s.re
+    exact lt_of_lt_of_le (by norm_num) hs.1.1
   have hpower : Differentiable ℂ (fun s : ℂ => (X : ℂ) ^ s) :=
     differentiable_id.const_cpow (Or.inl (Complex.ofReal_ne_zero.mpr hX.ne'))
   exact (W.mellin_differentiable.differentiableOn.mul hF).mul hpower.differentiableOn
@@ -88,7 +90,7 @@ theorem actualPrimeIdealWindow_residue (W : AnnularProfile)
   have hpower : Tendsto (fun s : ℂ => (X : ℂ) ^ s)
       (𝓝[≠] (1 : ℂ)) (𝓝 (X : ℂ)) := by
     simpa only [Complex.cpow_one] using
-      (Complex.continuousAt_const_cpow (Complex.ofReal_ne_zero.mpr hX.ne')
+      (continuousAt_const_cpow (Complex.ofReal_ne_zero.mpr hX.ne')
         (b := (1 : ℂ))).tendsto.mono_left nhdsWithin_le_nhds
   have hprod := ((actualZetaLog_residue K).mul hM).mul hpower
   have he : (fun s : ℂ => (s - 1) * actualPrimeIdealWindowIntegrand K W X s) =
@@ -324,7 +326,7 @@ theorem actual_prime_window_deletion_bound (W : AnnularProfile)
   have hsplit := Finset.sum_filter_add_sum_filter_not pool (fun p => p ∈ S) f
   have he : (∑ p ∈ pool.filter (fun p => p ∉ S), f p) - ∑ p ∈ pool, f p =
       -(∑ p ∈ pool.filter (fun p => p ∈ S), f p) := by
-    linear_combination -hsplit
+    linear_combination hsplit
   change ‖(∑ p ∈ pool.filter (fun p => p ∉ S), f p) - ∑ p ∈ pool, f p‖ ≤ _
   rw [he, norm_neg]
   have hsub : pool.filter (fun p => p ∈ S) ⊆ S.toFinset := by

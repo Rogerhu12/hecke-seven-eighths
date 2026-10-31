@@ -153,8 +153,9 @@ theorem integrable_mixed_large_positive_moment [IsTotallyComplex K]
       Units.continuous_val)).norm.measurable).mul (hm.pow_const sigma)).aestronglyMeasurable
   apply ((integrable_mixedHaarEnvelope K 1 (by norm_num) le_rfl).const_mul B).mono' hmeas
   exact Filter.Eventually.of_forall fun u => by
-    rw [Real.norm_eq_abs, abs_of_nonneg
-      (mul_nonneg (norm_nonneg _) (Real.rpow_nonneg (mixedEmbedding.norm_nonneg _) _))]
+    have hnonneg : 0 ≤ weightedArchAbsolute K phi sigma u :=
+      mul_nonneg (norm_nonneg _) (Real.rpow_nonneg (mixedEmbedding.norm_nonneg _) _)
+    rw [Real.norm_eq_abs, abs_of_nonneg hnonneg]
     exact hpoint u
 
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))

@@ -107,8 +107,8 @@ theorem uniform_logFourier_weightedProfile_bound
                 (hiter sigma hsigma m (j + 1)).norm)
             filter_upwards [] with v
             rw [heq]
-            exact (norm_add_le _ _).trans (add_le_add_right
-              (by rw [norm_mul]; exact mul_le_mul_of_nonneg_right hsigmaNorm (norm_nonneg _)) _)
+            exact (norm_add_le _ _).trans (add_le_add
+              (by rw [norm_mul]; exact mul_le_mul_of_nonneg_right hsigmaNorm (norm_nonneg _)) le_rfl)
           _ = upper * (∫ v : ℝ, ‖iteratedDeriv m (LogFourier.weightedProfile P sigma j) v‖) +
               ∫ v : ℝ, ‖iteratedDeriv m (LogFourier.weightedProfile P sigma (j + 1)) v‖ := by
             rw [integral_add ((hiter sigma hsigma m j).norm.const_mul upper)

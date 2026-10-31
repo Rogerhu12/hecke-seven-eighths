@@ -176,7 +176,7 @@ theorem exists_actual_principalRetained_bound
     _ ≤ ‖actualPrincipalWRemainder K S mu P psi g Z H B e‖ +
         ‖actualPrincipalZRemainder K S mu P psi g Z H B e‖ +
         ‖actualPrincipalSlotRemainder K Sset P psi g Z H (B + e)‖ :=
-      add_le_add_right (norm_add_le _ _) _
+      add_le_add (norm_add_le _ _) le_rfl
     _ ≤ C * Z ^ (B - 11 / 16 - 23 / 960 + lamB) * (1 + H) ^ A +
         C * Z ^ (B - 11 / 16 - 13 / 9600 + lamB) * (1 + H) ^ A +
         C * Z ^ (B - 11 / 16 - principalSlotSaving g + lamB) * (1 + H) ^ A :=

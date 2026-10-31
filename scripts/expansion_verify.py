@@ -141,16 +141,28 @@ def groups(all_sources: dict[str, Path]) -> dict[str, list[str]]:
             for group, rank in (("pure", 0), ("actual", 1), ("skeleton", 2))}
 
 
-def command(args: list[str], log: Path) -> None:
+def command(args: list[str], log: Path, *, compact_console: bool = False) -> None:
+    show_context = False
     with log.open("w") as stream:
         proc = subprocess.Popen(args, cwd=ROOT, stdout=subprocess.PIPE,
                                 stderr=subprocess.STDOUT, text=True)
         assert proc.stdout is not None
         for line in proc.stdout:
-            print(line, end="", flush=True)
+            # The artifact always retains the exact complete compiler output.
+            # Only the build console omits repeated cached warnings; audits
+            # keep their original complete console output as well.
             stream.write(line)
+            if line.startswith("error:") or line.startswith("Some required "):
+                show_context = True
+            elif re.match(r"^(?:warning:|info:|trace:|[✔⚠✖] )", line):
+                show_context = False
+            build_status = bool(re.match(r"^[✔⚠✖] .*\b(?:Built|Building|Failed)\b", line))
+            if (not compact_console or show_context or build_status
+                    or line.startswith("Build completed")):
+                print(line, end="", flush=True)
         code = proc.wait()
     if code:
+        print(f"EXPANSION command exited {code}; complete output: {log}", flush=True)
         raise SystemExit(code)
 
 
@@ -239,7 +251,7 @@ def main() -> None:
     # does not discard unrelated diagnostics or reusable compilation work.
     # Lake still exits nonzero on any required failure; the audit stays gated.
     command(["lake", "build", *[f"+{m}:olean" for m in selected]],
-            OUT / f"{args.group}-build.log")
+            OUT / f"{args.group}-build.log", compact_console=True)
     command(["lake", "env", "lean", str(audit.relative_to(ROOT))],
             OUT / f"{args.group}-axioms.log")
     # These modules import the actual context, but their explicit source data

@@ -21,6 +21,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.Analysis.ExpansionRecipe
 open HeckeGeneral.ThetaSkeleton.Physical HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.TIP ExpansionInterfaces
+open Expansion.Dyadic
 open scoped Classical BigOperators
 
 /-- The canonical embedding of the actual bin alphabet into a fixed one. -/

@@ -1199,14 +1199,16 @@ theorem exists_actualFullCorrectionSlot_bound
           actualRegularErrorSlot K S P psi g ∅ u Z s w z i‖ +
           ‖actualValuationOneSlot K S P psi g ∅ u Z s w z i‖) +
             ‖actualRepeatedSlot K S P psi g ∅ u Z s w z i‖ :=
-        add_le_add_right (norm_add_le _ _) _
+        add_le_add (norm_add_le _ _) le_rfl
       _ ≤ (‖actualCompensationMainSlot K S P g ∅ u Z z i‖ +
           ‖actualRegularErrorSlot K S P psi g ∅ u Z s w z i‖ +
           ‖actualValuationOneSlot K S P psi g ∅ u Z s w z i‖) +
             ‖actualRepeatedSlot K S P psi g ∅ u Z s w z i‖ := by
-        simpa only [norm_neg] using add_le_add_right (add_le_add_right
-          (norm_add_le (-actualCompensationMainSlot K S P g ∅ u Z z i)
-            (actualRegularErrorSlot K S P psi g ∅ u Z s w z i)) _) _
+        apply add_le_add ?_ le_rfl
+        apply add_le_add ?_ le_rfl
+        simpa only [norm_neg] using
+          norm_add_le (-actualCompensationMainSlot K S P g ∅ u Z z i)
+            (actualRegularErrorSlot K S P psi g ∅ u Z s w z i)
       _ ≤ (CM * A + CR * B + CV * B) + CQ * D :=
         add_le_add (add_le_add (add_le_add hM hR) hV) hQ
       _ = _ := by ring

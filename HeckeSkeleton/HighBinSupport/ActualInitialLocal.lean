@@ -1,5 +1,6 @@
 import HeckeSkeleton.HighBinSupport.ActualInitialEulerProduct
 import HeckeSkeleton.HighBinSupport.ActualFinitePoisson
+import HeckeSkeleton.HighBinSupport.ActualEulerData
 
 /-!
 # The original prime-block coefficient and the finite valuation table
@@ -203,7 +204,11 @@ theorem thetaGamma_primePower_weight (D : ThetaArithmeticData K S)
         thetaGamma K S D (exteriorPrimeIdeal K S p) 2 at hΓ
     rw [← hΓ]
     change _ * (p.val.asIdeal.absNorm : ℂ) ^ (-(1 / 2 : ℂ) - s) = _
-    rw [sub_eq_add_neg, Complex.cpow_add _ _ hqC, positive_cpow_neg_half _ hq]
+    have hhalf : (p.val.asIdeal.absNorm : ℂ) ^ (-(1 / 2 : ℂ)) =
+        (Real.sqrt (p.val.asIdeal.absNorm : ℝ) : ℂ)⁻¹ := by
+      simpa only [Complex.ofReal_natCast] using
+        positive_cpow_neg_half (p.val.asIdeal.absNorm : ℝ) hq
+    rw [sub_eq_add_neg, Complex.cpow_add _ _ hqC, hhalf]
     have hs : (Real.sqrt (p.val.asIdeal.absNorm : ℝ) : ℂ) ≠ 0 :=
       Complex.ofReal_ne_zero.mpr (Real.sqrt_pos.mpr hq).ne'
     have hs2 : (Real.sqrt (p.val.asIdeal.absNorm : ℝ) : ℂ) ^ 2 =
@@ -260,7 +265,7 @@ theorem primeBlockWeight_eq (P : ProbeData K S) (ψ : HeckeCharacter K)
       rw [thetaGamma_primePower_weight K S P.arithmetic p s e he, hcoef,
         primePower_cube_weight, exteriorPower_norm_cpow, exteriorPower_norm_cpow]
       change _ = _
-      simp only [exteriorNorm, exteriorPrimeIdeal, pow_add]
+      simp only [exteriorNorm, exteriorPrimeIdeal, Complex.ofReal_natCast, pow_add]
       ring
 
 /-- The original prime-block term equals the actual positive local table. -/

@@ -28,6 +28,7 @@ open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.Analysis.ExpansionRec
 open HeckeGeneral.ThetaSkeleton.Physical HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.TIP
 open ExpansionInterfaces
+open Expansion.Dyadic
 open scoped Classical BigOperators
 
 variable (K : Type) [Field K] [NumberField K]
@@ -63,7 +64,8 @@ theorem exists_recipeAmplitude_sample (F : RecipeFamily K ψ g)
       (recipeAmplitudeRows K S P R ω ψ g F width cap Z rows q label).card ≤
         (recipeAmplitudeRows K S P R ω ψ g F width cap Z rows p label).card := by
   exact _root_.ExpansionRecipe.CommonPhysicalSample.exists_card_max_point rows
-    {p : Fin 3 → ℝ | ‖p‖ ≤ T} ⟨0, by simpa only [norm_zero] using hT⟩
+    {p : Fin 3 → ℝ | ‖p‖ ≤ T}
+      ⟨0, by simpa only [Set.mem_setOf_eq, norm_zero] using hT⟩
     (fun p => recipeAmplitudeRows K S P R ω ψ g F width cap Z rows p label)
     (fun p _ => recipeAmplitudeRows_subset K S P R ω ψ g F width cap Z rows p label)
 

@@ -37,6 +37,10 @@ theorem additiveValueAtZero_eq_zero (test : AdditiveProbeTest K Sset) :
   have hψ : (∏ v : Sset, test.finiteTest v 0) ≠ 0 := (mul_ne_zero_iff.mp hzero).2
   have hchoose (v : Sset) : ∃ a : v.val.adicCompletion K,
       a ≠ 0 ∧ test.finiteTest v a = test.finiteTest v 0 := by
+    haveI : Filter.NeBot (𝓝[≠] (0 : v.val.adicCompletion K)) := by
+      letI : NontriviallyNormedField (v.val.adicCompletion K) :=
+        Valued.toNontriviallyNormedField _ (WithZero (Multiplicative ℤ))
+      exact NormedField.nhdsNE_neBot _
     have he := (test.finite_locallyConstant v).eventually_eq 0
     have hn : ∀ᶠ a : v.val.adicCompletion K in 𝓝[≠] 0,
         a ≠ 0 ∧ test.finiteTest v a = test.finiteTest v 0 := by
@@ -50,8 +54,7 @@ theorem additiveValueAtZero_eq_zero (test : AdditiveProbeTest K Sset) :
   have harch : Continuous arch := by
     apply test.infiniteTest.continuous.comp
     apply (traceToMixed K).symm.continuous.comp
-    simp only [Algebra.algebraMap_eq_smul_one]
-    exact continuous_id.smul continuous_const
+    exact continuous_algebraMap ℝ W
   have harch0 : arch 0 ≠ 0 := by simpa only [arch, map_zero] using hφ
   let Cf : ℝ := ∏ v : Sset, ‖a v‖
   let radius : ℝ → ℝ := fun r => |r| ^ Module.finrank ℚ K * Cf
