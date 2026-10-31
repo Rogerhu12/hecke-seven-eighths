@@ -77,14 +77,14 @@ variable (side₁ : Bool) (slotCap : ℕ) (hcap : T.columns.slots.card ≤ slotC
 local notation "packet" => SecondProductionPacket.packet K S D Γ T Θ ψ G hν hG hbase
   R U J₁ s H₂ hmask hprime hweights hJ₁ J₂ hJ₂ Pbox side₁ slotCap hcap
 local notation "ALen" => extractedLength Z j side₁
-local notation "BLen" => length Z j .firstCommon
-local notation "RLen" => length Z j .activeConductor
-local notation "JLen" => length Z j .cubeLabel
-local notation "deltaLen" => length Z j .firstDivisor
-local notation "tLen" => length Z j .firstOverlap
-local notation "gLen" => length Z j .secondCommon
-local notation "thetaLen" => length Z j .secondDivisor
-local notation "vLen" => length Z j .secondOverlap
+local notation "BLen" => length Z j Coordinate.firstCommon
+local notation "RLen" => length Z j Coordinate.activeConductor
+local notation "JLen" => length Z j Coordinate.cubeLabel
+local notation "deltaLen" => length Z j Coordinate.firstDivisor
+local notation "tLen" => length Z j Coordinate.firstOverlap
+local notation "gLen" => length Z j Coordinate.secondCommon
+local notation "thetaLen" => length Z j Coordinate.secondDivisor
+local notation "vLen" => length Z j Coordinate.secondOverlap
 
 /-- The left side is the original finite-source integral with its
 unchanged original marks, retained zeros and actual child columns.
@@ -140,9 +140,9 @@ theorem sourceIntegral_le_smaller_children
   have hnorm := SecondProductionBoxes.packet_source_norm_box K S D Γ T Θ ψ G
     hν hG hbase R U J₁ s H₂ hmask P Z L ell h hZ hh hwidth
     hb hfirst hsecond hcube j hprime hweights hJ₁ J₂ hJ₂ side₁ slotCap hcap
-  have hbudget := (Classical.choose_spec
+  obtain ⟨-, hbudget⟩ := Classical.choose_spec
     (PositivePacketBudget.exists_centered_positive_budget
-      (K := K) transport slotCap massEps hmassEps)).2
+      (K := K) transport slotCap massEps hmassEps)
   have hp : ∀ p : LogPlane × ℝ,
       physicalPower * e p ≤
         massConstant K S D Γ slotCap massEps hmassEps * Cchild p * targetPower := by
