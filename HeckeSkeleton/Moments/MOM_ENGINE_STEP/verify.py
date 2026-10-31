@@ -27,6 +27,7 @@ PREFIX = 'HeckeSkeleton.Moments.EngineStep'
 MODULE_ROOT = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP'
 CORE_MODULES = [MODULE_ROOT + '.' + name for name in (
     'Ledger', 'Pool', 'IdealPool', 'ActualLengths', 'Coefficient', 'Capacity', 'WholeTransform',
+    'CommonSupportPartition',
 )]
 
 
@@ -92,20 +93,58 @@ def main() -> int:
         'build_backend': 'checked-source-object-cache' if args.checked_project_cache else 'lake',
     }, indent=2) + '\n')
 
+    prepared_externals: set[str] = set()
+
     def build(name: str, modules: list[str], fail_fast: bool = True) -> None:
         if args.checked_project_cache:
             verifier = repo / 'scripts/verify_low_hybrid_exterior.py'
             environment = dict(os.environ)
             environment['WIRE_BUILD_WORKERS'] = '1'
-            try:
-                run(name, [sys.executable, '-u', str(verifier), *modules], environment)
-            finally:
-                # The existing verifier updates these summaries on each call.
-                # Preserve every stage's full records, including on failure.
+            attempt = 0
+            while True:
+                attempt += 1
+                stage = name if attempt == 1 else f'{name}-attempt-{attempt}'
+                missing = None
+                # Discovery can fail before the verifier writes its summaries.
+                # Do not label a previous stage's summaries as this attempt's.
                 for item in ('environment.json', 'results.json'):
-                    source = repo / 'wire-low-hybrid-verification' / item
-                    if source.is_file():
-                        shutil.copyfile(source, evidence / (name + '-project-' + item))
+                    (repo / 'wire-low-hybrid-verification' / item).unlink(missing_ok=True)
+                try:
+                    run(stage, [sys.executable, '-u', str(verifier), *modules], environment)
+                except SystemExit:
+                    # The pinned checkpoint contains project objects. A package
+                    # such as TauCeti can still need its genuine Lake build.
+                    # Discover every such cache miss in this invocation, build
+                    # it normally, then rerun the unchanged strict verifier.
+                    match = re.search(
+                        r'^RuntimeError: Missing cached external module: '
+                        r'([A-Za-z_][A-Za-z_0-9]*(?:\.[A-Za-z_][A-Za-z_0-9]*)*)'
+                        r'; run lake exe cache get$',
+                        (evidence / (stage + '.log')).read_text(), re.MULTILINE)
+                    if match is None or match.group(1) in prepared_externals:
+                        raise
+                    missing = match.group(1)
+                finally:
+                    # The existing verifier updates these summaries on each
+                    # call. Keep all attempts, including failed discovery.
+                    for item in ('environment.json', 'results.json'):
+                        source = repo / 'wire-low-hybrid-verification' / item
+                        if source.is_file():
+                            shutil.copyfile(source, evidence / (stage + '-project-' + item))
+                if missing is None:
+                    return
+                package_name = missing.split('.', 1)[0]
+                manifest = json.loads((repo / 'lake-manifest.json').read_text())
+                package = next((p for p in manifest['packages'] if p['name'] == package_name), None)
+                if package is not None and package.get('type') == 'git':
+                    package_dir = repo / manifest['packagesDir'] / package_name
+                    revision = run('external-revision-' + package_name,
+                                   ['git', '-C', str(package_dir), 'rev-parse', 'HEAD']).strip()
+                    if revision != package['rev']:
+                        raise SystemExit(f'Unexpected {package_name} revision: {revision}')
+                run('external-build-' + missing,
+                    ['lake', '--fail-fast', 'build', '+' + missing + ':olean'])
+                prepared_externals.add(missing)
         else:
             command = ['lake', *(['--fail-fast'] if fail_fast else []), 'build']
             run(name, [*command, *('+' + module + ':olean' for module in modules)])

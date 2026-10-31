@@ -64,6 +64,7 @@ jobs:
           path: |
             .lake/build
             vendor/class-field-theory/.lake/build
+            .lake/packages/TauCeti/.lake/build
           key: mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-arithmetic-${{ github.event.pull_request.head.sha || github.sha }}-read-only
           restore-keys: |
             mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-arithmetic-${{ github.event.pull_request.head.sha || github.sha }}-
@@ -76,6 +77,7 @@ jobs:
           path: |
             .lake/build
             vendor/class-field-theory/.lake/build
+            .lake/packages/TauCeti/.lake/build
           key: mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.lane }}-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
             mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.lane }}-${{ github.event.pull_request.head.sha || github.sha }}-
@@ -100,6 +102,7 @@ jobs:
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCorrelation \
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT \
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualPool \
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.ArithmeticPrimePool \
               --serial-build \
               --checked-project-cache \
               --namespace HeckeSkeleton.Moments.EngineStep \
@@ -128,4 +131,5 @@ jobs:
           path: |
             .lake/build
             vendor/class-field-theory/.lake/build
+            .lake/packages/TauCeti/.lake/build
           key: ${{ steps.project-cache.outputs.cache-primary-key }}
