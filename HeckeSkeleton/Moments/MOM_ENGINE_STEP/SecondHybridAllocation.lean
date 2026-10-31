@@ -85,11 +85,25 @@ theorem joint_kernel_whole_allocation
             (pairedAllocatedColumns D a S₁ S₂ S id id HeightOneSpectrum.asIdeal)
             (pairedAllocatedColumns D b T₁ T₂ T id id HeightOneSpectrum.asIdeal)
             q c d x y := by
+  have hleft (f : AllocationColumn K k → ℂ) :
+      (∑ i ∈ (childCartesianColumns S₁ S₂ S).filter
+        (fun i => D ∣ allocationColumnIdeal i), f i) =
+      ∑ a ∈ AllocationMass.idealAllocations D (k + 2),
+        AllocationMass.sign (primeSupport D) a *
+          ∑ i ∈ pairedAllocatedColumns D a S₁ S₂ S id id HeightOneSpectrum.asIdeal,
+            f i := by
+    exact whole_paired_divisor_allocation D hD S₁ S₂ S id id HeightOneSpectrum.asIdeal f
+  have hright (f : AllocationColumn K l → ℂ) :
+      (∑ j ∈ (childCartesianColumns T₁ T₂ T).filter
+        (fun j => D ∣ allocationColumnIdeal j), f j) =
+      ∑ b ∈ AllocationMass.idealAllocations D (l + 2),
+        AllocationMass.sign (primeSupport D) b *
+          ∑ j ∈ pairedAllocatedColumns D b T₁ T₂ T id id HeightOneSpectrum.asIdeal,
+            f j := by
+    exact whole_paired_divisor_allocation D hD T₁ T₂ T id id HeightOneSpectrum.asIdeal f
   rw [joint_kernel_two_filters]
   unfold jointKernelPairing
-  simp only [allocationColumnIdeal]
-  simp_rw [whole_paired_divisor_allocation D hD S₁ S₂ S id id HeightOneSpectrum.asIdeal,
-    whole_paired_divisor_allocation D hD T₁ T₂ T id id HeightOneSpectrum.asIdeal]
+  simp_rw [hleft, hright]
   simp only [Finset.mul_sum]
   rw [Finset.sum_comm (s := rows) (t := AllocationMass.idealAllocations D (k + 2))]
   apply Finset.sum_congr rfl
@@ -305,7 +319,7 @@ theorem actual_second_residual_hybrid_allocated_bound
           generatedIdealCorrelation (σ := σ) (IDA i) (IEB j) (d * a i) (e * b j)
             (hda i) (heb j) (frequency h) else 0) *
           (c i * star (f j)) * F (x h i + y h j)‖ ≤
-      secondResidualHybridCost Ray F rows frequency S₁ S₂ S T₁ T₂ T
+      secondResidualHybridCost (σ := σ) Ray F rows frequency S₁ S₂ S T₁ T₂ T
         ID IE IA IB d e hd he rayLeft rayRight phaseTable q c f x y exceptional := by
   apply full_correlation_cartesian_hybrid_bound F rows S₁ S₂ S T₁ T₂ T
     (fun i => (IA i).val) (fun j => (IB j).val) (fun j _ => (IB j).property.1) hIA hIB

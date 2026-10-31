@@ -64,7 +64,8 @@ theorem polynomialProfileRadius_le (B : ℝ) (J₁ J₂ : ℕ) (z : V × E) :
     one_le_pow₀ (le_add_of_nonneg_right (norm_nonneg _))
   have h₂ : 1 ≤ (1 + ‖z.2‖) ^ J₂ :=
     one_le_pow₀ (le_add_of_nonneg_right (norm_nonneg _))
-  have hprod : 1 ≤ (1 + ‖z.1‖) ^ J₁ * (1 + ‖z.2‖) ^ J₂ := one_le_mul h₁ h₂
+  have hprod : 1 ≤ (1 + ‖z.1‖) ^ J₁ * (1 + ‖z.2‖) ^ J₂ :=
+    one_le_mul_of_one_le_of_one_le h₁ h₂
   unfold polynomialProfileRadius
   nlinarith
 
@@ -139,10 +140,9 @@ theorem pairedProfileEnvelope_bound (B₁ B₂ : ℝ) (hB₁ : 0 ≤ B₁) (hB�
     (pow_nonneg (polynomialProfileRadius_pos B₂ hB₂ J₂₁ J₂₂ z).le _)
     (pow_nonneg (by positivity :
       0 ≤ (1 + B₁) * ((1 + ‖z.1‖) ^ J₁₁ * (1 + ‖z.2‖) ^ J₁₂)) _)
-  convert h using 1
-  simp only [pairedProfileEnvelopeConstant, pairedProfileEnvelopeOrder,
-    mul_pow, pow_add, pow_mul]
-  ring
+  convert h using 1 <;>
+    simp only [pairedProfileEnvelope, pairedProfileEnvelopeConstant, pairedProfileEnvelopeOrder,
+      mul_pow, pow_add, pow_mul] <;> ring
 
 /-- A fixed slot cap controls every subsequent allocation and deletion.
 The density itself retains its exact smaller amplitude powers. -/

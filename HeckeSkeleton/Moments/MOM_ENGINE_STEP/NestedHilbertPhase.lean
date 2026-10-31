@@ -52,6 +52,29 @@ theorem nested_jointColumnEnergy {H ι : Type*}
         (WithLp.toLp 2 (ξ, η)) := by
   simp only [jointColumnEnergy, nested_jointFourierColumn]
 
+/-- Each finite phase is measurable for the original product sigma-algebra.
+This uses the two coordinate maps, so no second-countability assumption
+on the ambient Hilbert spaces is needed. -/
+theorem measurable_nested_jointColumnEnergy
+    [MeasurableSpace U] [BorelSpace U] [MeasurableSpace V] [BorelSpace V]
+    {H ι : Type*} (rows : Finset H) (columns : Finset ι) (q : H → ℂ)
+    (c : H → ι → ℂ) (x : H → ι → WithLp 2 (U × V)) :
+    Measurable (fun z : U × V =>
+      jointColumnEnergy rows columns q c x (WithLp.toLp 2 z)) := by
+  have hphase (w : WithLp 2 (U × V)) :
+      Measurable (fun z : U × V => jointPhase (WithLp.toLp 2 z) w) := by
+    simpa only [jointPhase, WithLp.prod_inner_apply, WithLp.ofLp_toLp,
+      AddChar.map_add_eq_mul, Circle.coe_mul, Function.comp_apply] using
+      ((continuous_jointPhase (WithLp.ofLp w).1).measurable.comp measurable_fst).mul
+        ((continuous_jointPhase (WithLp.ofLp w).2).measurable.comp measurable_snd)
+  have hcolumn (h : H) : Measurable (fun z : U × V =>
+      jointFourierColumn columns (c h) (x h) (WithLp.toLp 2 z)) := by
+    unfold jointFourierColumn
+    exact columns.measurable_sum fun i _ => measurable_const.mul (hphase (x h i))
+  unfold jointColumnEnergy
+  exact rows.measurable_sum fun h _ =>
+    measurable_const.mul ((hcolumn h).norm.pow_const 2)
+
 /-- Convergence of the actual two-frequency finite source follows from
 its fixed coefficient arrays. This estimate is used only for Fubini. -/
 theorem nested_joint_cauchy_integrable
@@ -63,15 +86,14 @@ theorem nested_joint_cauchy_integrable
     Integrable (fun z : U × V =>
       Real.sqrt (jointColumnEnergy rows left q c x (WithLp.toLp 2 z)) *
         Real.sqrt (jointColumnEnergy rows right q d y (WithLp.toLp 2 z))) μ := by
-  have hc := (continuous_jointColumnEnergy rows left q c x).comp
-    (WithLp.prod_continuous_toLp 2 U V)
-  have hd := (continuous_jointColumnEnergy rows right q d y).comp
-    (WithLp.prod_continuous_toLp 2 U V)
+  have hc := measurable_nested_jointColumnEnergy rows left q c x
+  have hd := measurable_nested_jointColumnEnergy rows right q d y
   apply (integrable_const
     (Real.sqrt (jointColumnMass rows left q c) *
       Real.sqrt (jointColumnMass rows right q d))).mono'
-    ((Real.continuous_sqrt.comp hc).mul (Real.continuous_sqrt.comp hd)).aestronglyMeasurable
+    (hc.sqrt.mul hd.sqrt).aestronglyMeasurable
   exact Filter.Eventually.of_forall fun z => by
+    dsimp only [Pi.mul_apply, Function.comp_apply]
     rw [Real.norm_eq_abs, abs_of_nonneg (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))]
     exact mul_le_mul
       (Real.sqrt_le_sqrt (jointColumnEnergy_le_mass rows left q c x _))
@@ -105,7 +127,8 @@ theorem nested_joint_cauchy_fubini
     (nested_joint_cauchy_integrable rows left right q c d _ _ _)]
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun ξ => by
-    rw [actualFourierMeasure_integral_eq]
+    dsimp only
+    rw [actualFourierMeasure_integral_eq F₂]
     simp only [nested_jointColumnEnergy]
 
 theorem iterated_joint_cauchy_integrable

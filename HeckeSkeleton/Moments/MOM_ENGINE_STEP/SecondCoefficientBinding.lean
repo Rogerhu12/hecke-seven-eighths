@@ -78,11 +78,11 @@ theorem raw_source_coefficient_eq_bare_mul_residue
   have hleft : i.1.1 ≠ 0 := by
     intro hz
     apply I.property.1
-    rw [hI, allocationColumnIdeal, hz, zero_mul, zero_mul]
+    rw [hI, allocationColumnIdeal, hz, zero_mul, zero_mul, Ideal.zero_eq_bot]
   have hright : i.1.2 ≠ 0 := by
     intro hz
     apply I.property.1
-    rw [hI, allocationColumnIdeal, hz, mul_zero, zero_mul]
+    rw [hI, allocationColumnIdeal, hz, mul_zero, zero_mul, Ideal.zero_eq_bot]
   have he : childIndexIdeal ((sourceMomentIdeal i.1.1, sourceMomentIdeal i.1.2), i.2) = I.val := by
     simp only [childIndexIdeal, sourceMomentIdeal_val_of_ne_zero _ hleft,
       sourceMomentIdeal_val_of_ne_zero _ hright]
@@ -260,7 +260,8 @@ def negative {Ih : A.Exterior} {h g : A.R} {Q : ℝ}
   ideal := r.ideal
   element := r.element
   generates := r.generates
-  frequency := by rw [r.frequency, neg_mul]
+  frequency := by
+    simpa only [neg_mul] using congrArg (fun x : A.R => -x) r.frequency
   norm_factor := r.norm_factor
 
 end ActualChildRow
