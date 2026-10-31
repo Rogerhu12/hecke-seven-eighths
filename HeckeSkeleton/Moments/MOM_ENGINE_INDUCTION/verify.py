@@ -30,13 +30,14 @@ MODULES = (
     "BaseTerminal", "SourceConsumers",
     "LengthStages", "BaseUniformity", "BranchedIntegralRecursion", "BaseBranch",
     "StepOutputAdapter", "BranchAssembly", "ProfileScaling", "SourceReindex",
+    "CoreGeometry", "ReflectionBranch", "ReflectedRoot",
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.
-PRODUCER_COMMIT = "6aeadaaeb5f69585c36604853c52cdadc3d2d926"
+PRODUCER_COMMIT = "9d50cdc3c83c60be3fcf0054c2a051a348969903"
 PRODUCER_SOURCES = {
     "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ReductionOutput.lean":
-        "9a7f650e9381861ee23b9c2f6f891f3dd3be01e6a8d073e0a8e2ca2eee3147fa",
+        "d3987e85aa8cb748c4f28fdd5797ee05a57b6e8974b405afcf1d1c144cc25df1",
     "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ParentMoment.lean":
         "2ad71b4fcede7f07ec9fd898dc154aa37597d94ac0ea1a0e40f4d25f9612e391",
     "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Pool.lean":
@@ -127,6 +128,17 @@ REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.engineOutputsToBranchedStep",
     "HeckeSkeleton.Moments.EngineInduction.engineOutputsToClosedParentReduction",
     "HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.combine_mass",
+    "HeckeSkeleton.Moments.EngineInduction.Node.base_length_of_zero_padded_core",
+    "HeckeSkeleton.Moments.EngineInduction.Node.base_length_of_positive_capacity",
+    "HeckeSkeleton.Moments.EngineInduction.Node.quarterCentered_energy_decomposition",
+    "HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_same_length_schedule",
+    "HeckeSkeleton.Moments.EngineInduction.ReflectedComparisonData.earlier",
+    "HeckeSkeleton.Moments.EngineInduction.ReflectedComparisonData.toAt",
+    "HeckeSkeleton.Moments.EngineInduction.ReflectedComparisonData.toAt_mass",
+    "HeckeSkeleton.Moments.EngineInduction.OuterReflectionAt.power_bound",
+    "HeckeSkeleton.Moments.EngineInduction.ReflectedRootInput.sectorBound",
+    "HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_of_reflected_core",
+    "HeckeSkeleton.Moments.EngineInduction.moment_mesh_loss_budget_with_outer_reflection",
     "HeckeSkeleton.Moments.EngineInduction.Node.plainPair_scaleProfiles",
     "HeckeSkeleton.Moments.EngineInduction.Node.energy_scaleProfiles",
     "HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy_normalizeProfiles",

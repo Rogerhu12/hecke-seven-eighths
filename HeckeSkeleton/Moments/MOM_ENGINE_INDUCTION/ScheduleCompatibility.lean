@@ -105,4 +105,51 @@ theorem moment_mesh_total_loss_budget {ε : ℝ} (hε : 0 < ε) :
   change σ ≤ ε / 16000 at hσε
   linarith
 
+/-- The unchanged original mesh also pays for one genuine outer ordinary
+reflection. Its local mass loss is charged once, after the finite core
+induction, rather than being inserted as a fictitious earlier edge. -/
+theorem moment_mesh_loss_budget_with_outer_reflection {ε : ℝ} (hε : 0 < ε) :
+    let σ := HeckePort.Schedule.amplification ε
+    let r := sourceReserve ε
+    let η := HeckePort.Schedule.momentMeshValue ε
+    terminalBudget (16 * σ) (σ / 16) σ r +
+      (4 * (widthBand σ 2 + 1) : ℕ) * (r + η + r) + r < ε := by
+  dsimp only
+  let σ := HeckePort.Schedule.amplification ε
+  let r := sourceReserve ε
+  let η := HeckePort.Schedule.momentMeshValue ε
+  let D := HeckePort.Schedule.count 2 ε
+  let N := 4 * (widthBand σ 2 + 1)
+  change terminalBudget (16 * σ) (σ / 16) σ r + (N : ℝ) * (r + η + r) + r < ε
+  obtain ⟨hσ, _, hσε, hr, _, hmr, _, _, _, hloss⟩ :=
+    HeckePort.Schedule.bounds 2 (HeckePort.Schedule.finalSourceCap 2 0 1 ε) 1 ε
+      (by norm_num)
+      (HeckePort.Schedule.finalSourceCap_nonneg 2 0 1 ε (by norm_num) le_rfl)
+      zero_le_one hε
+  change 0 < r at hr
+  change η ≤ r at hmr
+  change r + 64 * (D : ℝ) * r ≤ ε / 1000 at hloss
+  have hNnat : N ≤ 8 * D :=
+    engine_rank_bound_le_schedule_depth (by norm_num) hσ
+  have hN : (N : ℝ) ≤ 8 * (D : ℝ) := by exact_mod_cast hNnat
+  have hcoarse : terminalBudget (16 * σ) (σ / 16) σ r ≤ 24 * σ + r := by
+    unfold terminalBudget
+    change 0 < σ at hσ
+    linarith
+  have hedge : (N : ℝ) * (r + η + r) ≤ 24 * (D : ℝ) * r := by
+    calc
+      _ ≤ (N : ℝ) * (3 * r) :=
+        mul_le_mul_of_nonneg_left (by linarith) (Nat.cast_nonneg _)
+      _ ≤ (8 * (D : ℝ)) * (3 * r) :=
+        mul_le_mul_of_nonneg_right hN (by positivity)
+      _ = _ := by ring
+  have hDr : 0 ≤ (D : ℝ) * r := mul_nonneg (Nat.cast_nonneg _) hr.le
+  have hrε : r ≤ ε / 1000 := by linarith
+  have htotal : terminalBudget (16 * σ) (σ / 16) σ r +
+      (N : ℝ) * (r + η + r) + r ≤ 24 * σ + 2 * ε / 1000 := by
+    linarith
+  apply htotal.trans_lt
+  change σ ≤ ε / 16000 at hσε
+  linarith
+
 end HeckeSkeleton.Moments.EngineInduction

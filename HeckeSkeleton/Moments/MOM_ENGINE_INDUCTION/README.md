@@ -95,7 +95,7 @@ Those analytic construction modules are not imported or counted in this
 branch's clean audit; only the canonical public output and its minimal
 definition dependencies are imported below.
 
-At the newer producer commit `6aeadaaeb5f69585c36604853c52cdadc3d2d926`,
+At the newer producer commit `9d50cdc3c83c60be3fcf0054c2a051a348969903`,
 `ReductionOutput.lean` defines the authoritative `PairedEngineConclusion`.
 Its complete producing theorem belongs to MOM_ENGINE_STEP and may be assumed
 by the induction under parallel-task rule 3. The output record itself is not
@@ -114,9 +114,9 @@ The canonical output now also retains actual total lengths, nonnegative child
 widths, the parent kappa, slot-count bounds, and an explicit admissibility
 predicate. Zero-slot preservation follows from these fields and the positive
 slot lengths, rather than an extra assumed energy or parameter invariant.
-The producer's separate domain currently imposes `kappa <= 5/6`; this does
-not cover the required endpoint and has been reported to its owner. The
-output consumer does not silently assume a producing theorem for that range.
+The producer corrected its separate domain to `kappa <= 1` at this pin,
+after the endpoint mismatch was reported. The full required range is now
+present in the canonical statement; its producing theorem remains separate.
 
 ## The finite order and quantitative conclusion
 
@@ -151,6 +151,24 @@ labels and derives an earlier comparison edge from the actual reflected
 length inequalities. The unchanged equal-product rectangle before reflection
 is not claimed to be earlier. The same fixed mesh reserve fits both comparison
 margins above the chosen width floor.
+
+`CoreGeometry.lean` constructs the actual quarter-centered node and its
+equal-product rectangle, derives the width-floor counting condition from
+the true slot lengths, and distinguishes short-plain reflection from the
+two-long-plain centered branch. The raw comparison keeps the same stage.
+`ReflectionBranch.lean` consumes an actual positive reflection integral and
+derives its children’s earlier stage from the zero/positive comparison margins.
+The reflection kernel is charged once; the numerical length inequality is
+not treated as a proof of the underlying polynomial reflection.
+
+`ReflectedRoot.lean` handles the distinct outer reflection needed for
+unrestricted zero-slot roots. It first applies the proved core induction,
+then integrates the actual core children once against the original outer
+measure. It retains the original row width and the fixed mesh. The extra
+mass loss is charged once, giving `beta + N*delta + delta_outer`, and the
+height degree is `H*(N+1) + H_outer`. A strengthened fixed-mesh budget in
+`ScheduleCompatibility` pays for this extra outer loss. No same-band
+unrestricted root is falsely declared earlier.
 
 The local reduction has nonnegative weights or a finite positive child measure.
 Its terminal remainder

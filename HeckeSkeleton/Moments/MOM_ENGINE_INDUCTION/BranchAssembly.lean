@@ -139,7 +139,7 @@ theorem combine_mass
       2 * (∑ b, (centerStep.kernel b).real Set.univ) +
         2 * (∑ b, (comparisonStep.kernel b).real Set.univ) := by
   change (∑ b : Fin (centerStep.branches + comparisonStep.branches),
-    (Fin.addCases (fun i => (2 : ℝ≥0) • centerStep.kernel i)
+    (Fin.addCases (motive := fun _ => Measure Ω) (fun i => (2 : ℝ≥0) • centerStep.kernel i)
       (fun i => (2 : ℝ≥0) • comparisonStep.kernel i) b).real Set.univ) = _
   rw [Fin.sum_univ_add]
   simp [Finset.mul_sum]
