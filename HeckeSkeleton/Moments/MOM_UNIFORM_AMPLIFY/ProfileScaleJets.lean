@@ -66,7 +66,8 @@ theorem SliceControl.const_mul {J : ℕ} {A C H a b T : ℝ} {f : ℝ → ℂ}
 theorem hasDerivAt_profileExpScale (C b x : ℝ) :
     HasDerivAt (fun t : ℝ => C * Real.exp (b * t))
       (b * (C * Real.exp (b * x))) x := by
-  convert (((hasDerivAt_id x).const_mul b).exp.const_mul C) using 1 <;> ring
+  convert (((hasDerivAt_id x).const_mul b).exp.const_mul C) using 1 <;>
+    simp only [id_eq] <;> ring
 
 theorem deriv_profileExpScale_comp {f : ℝ → ℂ} (hf : ContDiff ℝ ∞ f)
     (C b x : ℝ) :
@@ -112,7 +113,7 @@ theorem annularCutoffNormTwist_mixed_derivative (W : SmoothAnnularTest)
     unfold annularCutoffNormTwist profilePower linearExp
     rw [mul_comm (Real.log y : ℂ)]
   simp_rw [he]
-  rw [mixed_parameter_derivative]
+  rw [mixed_parameter_derivative (fun _ : ℝ => W.toFun y * V (R * y)) r s a ν (Real.log y)]
   simp only [annularCutoffNormTwist, annularMixedWindow, annularMixedWindowFun,
     profilePower, linearExp]
   rw [mul_comm (Real.log y : ℂ) ((a : ℂ) + (ν : ℂ) * Complex.I)]

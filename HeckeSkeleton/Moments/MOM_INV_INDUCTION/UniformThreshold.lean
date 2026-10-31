@@ -120,6 +120,57 @@ theorem stageRowBound_rank_iff (M Mmax d : ℝ) (h : ℕ) :
   dsimp only [stageRowBound]
   constructor <;> intro hm <;> linarith
 
+/-- A budget selected with a smaller numerical margin is a valid budget
+for the original class.  The chosen depth and every loss stay identical. -/
+def DescentBudget.enlargeMargin {Mmax c c' eps : ℝ}
+    (b : DescentBudget Mmax c' eps) (hc : c' ≤ c) : DescentBudget Mmax c eps where
+  depth := b.depth
+  step := b.step
+  eta := b.eta
+  tau := b.tau
+  pi := b.pi
+  step_pos := b.step_pos
+  eta_pos := b.eta_pos
+  tau_pos := b.tau_pos
+  pi_pos := b.pi_pos
+  step_small := b.step_small.trans (div_le_div_of_nonneg_right hc (by norm_num))
+  depth_bound := b.depth_bound
+  eta_step := b.eta_step
+  margin_budget := b.margin_budget.trans (div_le_div_of_nonneg_right hc (by norm_num))
+  eta_terminal := b.eta_terminal.trans (div_le_div_of_nonneg_right hc (by norm_num))
+  tau_terminal := b.tau_terminal.trans (div_le_div_of_nonneg_right hc (by norm_num))
+  pi_terminal := b.pi_terminal.trans (div_le_div_of_nonneg_right hc (by norm_num))
+  loss_budget := b.loss_budget
+
+/-- The descent can be made as fine as any positive fixed allowance.
+This choice still precedes all nodes and their radial tests. -/
+theorem exists_descentBudget_small_step (Mmax c eps delta : ℝ)
+    (hc : 0 < c) (heps : 0 < eps) (hdelta : 0 < delta) :
+    ∃ b : DescentBudget Mmax c eps, b.step ≤ delta := by
+  let c' := min c (200 * delta)
+  have hc' : 0 < c' := lt_min hc (mul_pos (by norm_num) hdelta)
+  obtain ⟨b⟩ := exists_descentBudget Mmax c' eps hc' heps
+  refine ⟨b.enlargeMargin (min_le_left _ _), ?_⟩
+  change b.step ≤ delta
+  have hs := b.step_small
+  have hsmall : c' ≤ 200 * delta := min_le_right _ _
+  linarith
+
+/-- The short reflected source uses the common surviving margin c/2.
+Its stronger step allowance is included in the simultaneous choice. -/
+theorem exists_terminal_descentBudget (Mmax c eps : ℝ)
+    (hc : 0 < c) (heps : 0 < eps) :
+    ∃ b : DescentBudget Mmax c eps, b.step ≤ (c / 2) / 1000 :=
+  exists_descentBudget_small_step Mmax c eps ((c / 2) / 1000) hc heps (by positivity)
+
+/-- Every stage can absorb the fixed annular shift c -> c-eta/2. -/
+theorem stageMargin_half_eta_nonneg {Mmax c eps : ℝ}
+    (b : DescentBudget Mmax c eps) (hc : 0 < c) {j : ℕ} (hj : j ≤ b.depth) :
+    0 ≤ stageMargin c b.eta j - b.eta / 2 := by
+  have hm := stageMargin_lower b hj
+  have he := b.eta_terminal
+  linarith
+
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION
 
 end

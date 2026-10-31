@@ -237,6 +237,7 @@ theorem finite_cube_profile_annular_inverse {β α : Type*}
   rw [finite_cube_profile_inverse B N bNorm nNorm weight W hW H U X hH hU hX hb hn]
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun t => by
+    dsimp only
     congr 1
     simp_rw [wideTest_eq_sum_annular, Finset.mul_sum]
     conv_lhs =>

@@ -25,6 +25,7 @@ open HeckeSkeleton.Moments.MOMInvStep
 open HeckeSkeleton.Moments.MOM_INV_STEP
 open FixedTripleFibers FixedTripleEnergy CanonicalNormPools ActualDivisorSectors
 open ProviderInitialSource
+open DedekindZetaZeroFree.LargeSieve.Vendor
 open scoped Classical BigOperators nonZeroDivisors
 
 variable (K : Type) [Field K] [NumberField K]
@@ -100,6 +101,16 @@ theorem sum_boxes {B : Type*} [AddCommMonoid B]
 theorem sum_bins {B : Type*} [AddCommMonoid B] (P : Finset Idx) (F : Idx → B) :
     (∑ i ∈ P, F i) = ∑ b : SecondMobiusGeometry.Index X,
       ∑ i ∈ bin K S D Γ X H P b, F i := by
+  simp only [bin, Finset.sum_filter]
+  rw [Finset.sum_comm]
+  apply Finset.sum_congr rfl
+  intro i hi
+  simp
+
+theorem sum_bins_dependent {B : Type*} [AddCommMonoid B]
+    (P : Finset Idx) (F : SecondMobiusGeometry.Index X → Idx → B) :
+    (∑ i ∈ P, F (binIndex K S D Γ X H i) i) =
+      ∑ b : SecondMobiusGeometry.Index X, ∑ i ∈ bin K S D Γ X H P b, F b i := by
   simp only [bin, Finset.sum_filter]
   rw [Finset.sum_comm]
   apply Finset.sum_congr rfl
@@ -259,6 +270,34 @@ theorem exists_box_count_bound (A pi : ℝ) (hA : 0 ≤ A) (hpi : 0 < pi) :
     congr 1
     ring
   simpa only [BoxIndex, Fintype.card_fun, Fintype.card_fin, Nat.cast_pow, he] using hp
+
+/-- The actual width-four common/overlap centers have a uniform count
+under the same fixed norm cap used by the three arithmetic coordinates. -/
+theorem exists_center_count_bound (A pi : ℝ) (hA : 0 ≤ A) (hpi : 0 < pi) :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ Z X : ℝ, 1 ≤ Z → 1 ≤ 4 * X → 4 * X ≤ Z ^ A →
+      (Fintype.card (SecondMobiusGeometry.Index X) : ℝ) ≤ C * Z ^ pi := by
+  let e := pi / (A + 1)
+  have hden : 0 < A + 1 := by linarith
+  have he : 0 < e := div_pos hpi hden
+  let C := 2 + 1 / (e * Real.log 2)
+  have hC : 0 ≤ C := (dyadicLength_small_power_constant_pos he).le
+  refine ⟨C, hC, ?_⟩
+  intro Z X hZ hX hcap
+  have hcount : (Fintype.card (SecondMobiusGeometry.Index X) : ℝ) ≤ C * (4 * X) ^ e := by
+    simpa only [SecondMobiusGeometry.Index, Fintype.card_fin, Nat.cast_add, Nat.cast_one]
+      using dyadicLength_small_power he hX
+  have hexp : A * e ≤ pi := by
+    have hr : A / (A + 1) ≤ 1 := (div_le_iff₀ hden).mpr (by linarith)
+    calc
+      _ = pi * (A / (A + 1)) := by dsimp only [e]; ring
+      _ ≤ pi * 1 := mul_le_mul_of_nonneg_left hr hpi.le
+      _ = pi := mul_one _
+  apply hcount.trans
+  apply mul_le_mul_of_nonneg_left _ hC
+  calc
+    (4 * X) ^ e ≤ (Z ^ A) ^ e := Real.rpow_le_rpow (zero_le_one.trans hX) hcap he.le
+    _ = Z ^ (A * e) := (Real.rpow_mul (zero_le_one.trans hZ) _ _).symm
+    _ ≤ Z ^ pi := Real.rpow_le_rpow_of_exponent_le hZ hexp
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes
 

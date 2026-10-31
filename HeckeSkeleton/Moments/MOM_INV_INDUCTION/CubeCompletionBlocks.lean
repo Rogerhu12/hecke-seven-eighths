@@ -107,15 +107,16 @@ theorem weighted_energy_le_blocks (rows : Finset κ) (w : κ → ℝ)
 
 theorem count_le_log (R : ℝ) (hR : 1 ≤ R) :
     (count R : ℝ) ≤ Real.logb 2 R + 1 := by
-  simpa only [count, Nat.cast_add, Nat.cast_one] using
-    add_le_add_right (Nat.floor_le (Real.logb_nonneg (by norm_num) hR)) (1 : ℝ)
+  have hl : 0 ≤ Real.logb 2 R := Real.logb_nonneg (by norm_num) hR
+  simp only [count, Nat.cast_add, Nat.cast_one]
+  linarith [Nat.floor_le hl]
 
 /-- The dyadic family and its later Cauchy factor can be budgeted by
 small powers chosen before the source. -/
 theorem exists_count_small_power (eps : ℝ) (heps : 0 < eps) :
     ∃ C : ℝ, 1 ≤ C ∧ ∀ R : ℝ, 1 ≤ R → (count R : ℝ) ≤ C * R ^ eps := by
   have hl2 : 0 < Real.log 2 := Real.log_pos (by norm_num)
-  refine ⟨1 + (eps * Real.log 2)⁻¹, by positivity, ?_⟩
+  refine ⟨1 + (eps * Real.log 2)⁻¹, le_add_of_nonneg_right (inv_nonneg.mpr (mul_pos heps hl2).le), ?_⟩
   intro R hR
   have hp : 1 ≤ R ^ eps := Real.one_le_rpow hR heps.le
   have hlog := Real.log_le_rpow_div (zero_le_one.trans hR) heps

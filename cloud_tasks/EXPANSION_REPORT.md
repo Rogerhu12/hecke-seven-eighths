@@ -4,7 +4,7 @@
 
 **任务仍在进行，原始目标尚未全部通过。** 下文把实际成功的编译与已经写成但尚待编译的源码分开列出。辅助模块通过不替代 `expansionRecipeRaw`、原始 EX 定理及其类型依赖的严格验收；达到全部标准后才将 PR 标为可审查。
 
-最新完整原生证据为 `0263481` / run `41217907744`：pure 通过112个模块、2,042个声明、0个非标准公理依赖；其余四组失败，共定位四个根模块。上一轮五个根模块中的三个已有新的实际 Built 记录。随后已固定七个证明修复文件（四个原生根错误、三个有直接 API 依据的后继修复），并独立调整两个幅度宽度构造文件，合计八个不同 Lean 文件；最新不可变代码提交为 `d972f69776401dc514d8fd5a0d9e863103f9d6d1`，这些后续改动均待原生复验。19个原名目标和三个共享源模块的严格公理 gate 尚未通过。详见文末记录及 `EXPANSION_VALIDATION.json`。
+最新完整原生证据为 `77dbe77` / run `41221403216`：pure 通过112个模块、2,042个声明、0个非标准公理依赖；其余四组失败，共定位五个根模块。上一轮四个根模块中的三个已有新的实际 Built 记录。当前已冻结五个原生根错误修复、一份有直接 API 依据的后继修复，并恢复两份参数/配方源码的既有公开接口，合计七个不同 Lean 文件，均待下一轮原生复验。bounded 增强入口保留幅度宽度的两个界，原名入口恢复此前类型。19个原名目标和三个共享源模块的严格公理 gate 尚未通过。详见文末记录及 `EXPANSION_VALIDATION.json`。
 
 ## 原始目标与实际对象
 
@@ -220,3 +220,68 @@ arithmetic、physical 与 skeleton 的四个根模块、11条完整诊断作为�
 最终正半平面成员条件修复固定在 [commit `d972f69776401dc514d8fd5a0d9e863103f9d6d1`](https://github.com/Rogerhu12/hecke-seven-eighths/commit/d972f69776401dc514d8fd5a0d9e863103f9d6d1)，仍属于同一个 shifted 可积性后继修复。最终代码 tree 为 `aa82b45f5f1eb4422f387bbd3fec250ece1e65b4`。本地提交与上述 GitHub 提交的对应代码树已核对一致；报告和源码清单引用正式 GitHub 版本。本次 `0263481` CI 没有验证这些后续源码。先前静态修复中仍有10项没有新的 Built 记录，原有 pending 状态继续逐项保留。
 
 所有历史语义记录、source hashes、公理清单、artifact IDs 和计数均保留；仓库只增加单行错误摘要、位置、`detail_sha256` 及 artifact/log 摘要，完整编译上下文仍只在 Actions artifacts 和本地诊断目录。验收范围仍为335个源模块、19个原名目标、三个共享源模块以及原三条标准公理。全部后续证明与数值构造尚待原生复验，PR 尚未达到可审查标准。
+
+## `77dbe77` 的原生复验、五处根修复与兼容接口
+
+提交 `77dbe777f479823d0bc830f82a15e594a17191b7` 的 [run `41221403216`](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41221403216) 已全部完成。五份 artifacts 的 ZIP 摘要、每个归档成员及合计335个分组源码哈希均已独立核对。pure job `124596540705` 实际审计112个模块、2,042个声明，非标准公理依赖为零；全部112个源码也与当前冻结工作树一致。其 artifact `13049498965` 的 SHA-256 为 `63cbd38a5cc748b9a5f22c1a9b235a39f1a7b4bf82e23c14feb65ac14a665486`，完整公理审计日志 SHA-256 为 `585bb43aacca843c3788b566ea08a37a13cf3d4d7e1bf7988e76cce3fc55e267`。
+
+| 分组 | 原生结果 | 清单模块数 | 根模块／诊断数 | Artifact |
+| --- | --- | ---: | ---: | ---: |
+| pure | success；完整严格审计通过 | 112 | 0／0 | 13049498965 |
+| actual-arithmetic | failure；未进入完整公理审计 | 116 | 5／15 | 13050288916 |
+| actual-physical | failure；未进入完整公理审计 | 39 | 4／9 | 13050463893 |
+| actual-contours | failure；未进入完整公理审计 | 56 | 3／7 | 13049904150 |
+| skeleton | failure；原名及共享源严格 gate 被前置构建阻挡 | 12 | 4／9 | 13050634333 |
+
+arithmetic 有五个根模块、15条完整诊断；physical 与 skeleton 的四个根模块、九条完整诊断作为保留重复次数的多重集完全相同，相对 arithmetic 缺少 `ActualCompensationSlotIdentity` 的六条；contours 的三根、七条还缺少 `PhysicalRecipeAssembly` 的两条。所有共享诊断的完整上下文均逐项相同，比较不依赖输出顺序。skeleton artifact 的 ZIP SHA-256 为 `b16f32976b2d5e4e5ef93bbba86a2038e597a7d58e6c0e430139e25c057c90ea`，build log SHA-256 为 `62922fbc6c873627b8bff29ee2e8d73c7f1dc14c7a6d8bd0d6ecbb66b954a472`，其12份源码哈希与 `77dbe77` 精确一致。含完整源码归档的 artifacts 也逐文件核对了1,112个 Git blobs；arithmetic 源码归档 SHA-256 为 `df11300ff0092e5c7252c2afcff9041861b3bd22b4960b9970c0335f913f2baf`。这些归档证明源版本一致，不能替代编译或公理审计。
+
+### 已解阻的原生模块
+
+上一轮四个根模块中的三个已有明确 fresh Built 事件：
+
+| 模块 | 证据分组 | 原始日志位置 | 编译耗时 |
+| --- | --- | ---: | ---: |
+| `ActualRowKernelHolomorphy` | `77dbe77-actual-arithmetic` | 123990 | `6.1s` |
+| `PhysicalCompletedPoisson` | `77dbe77-actual-arithmetic` | 125259 | `11s` |
+| `ActualNormFormFullCorrection` | `77dbe77-actual-arithmetic` | 17731 | `20s` |
+
+这包括 `ActualRowKernelHolomorphy` 的实际联合解析性证明及两个公开 analytic helpers。该模块的编译成功解除了这条前置阻塞；它所在分组仍然失败，不能据此记整组穷尽公理审计通过。`PhysicalRecipeAssembly` 仍有两条新的原生诊断。
+
+### 五个原生根模块的冻结修复
+
+以下修复依据本轮完整原生错误上下文，均已写入源码，尚未经过下一轮原生复验：
+
+| 根模块 | 本轮诊断数 | 修复内容 |
+| --- | ---: | --- |
+| `SmallRowCorrection` | 2 | 补全 `1 * 2⁻¹` 的单位元化简，并由已有正 margin 定理显式证明商非负。 |
+| `ActualModerateSweepHolomorphy` | 2 | 使用联合解析性工具的完整命名空间，保持原实际 correction 与原解析域。 |
+| `PhysicalInitialMellinTerm` | 3 | 显式化有限坐标投影、函数等式与真实三个尺度，保留原 Mellin 积分及 Poisson 系数。 |
+| `ActualCompensationSlotIdentity` | 6 | 修正现有 API 名称，并显式处理依赖型 slot 索引、共轭及同一 primeScale 的正性。 |
+| `PhysicalRecipeAssembly` | 2 | 通过对实际 cap 的等式消去传递依赖标签类型与来源证明。 |
+
+这些证明修复没有增加最终目标假设，没有更换实际核、有限素数窗口、完整掩码或原归一化因子。本轮没有将同行提出但未原生通过的补丁计入成功证据。
+
+### 一项独立的后继 API 修复
+
+`PhysicalInitialRowSum` 的两个 `Integrable` 证明具有本轮 `PhysicalInitialMellinTerm` 原生错误所暴露的相同函数表示问题；现改为先用 `funext` 建立显式函数等式，再输运原积分性证明。该文件在本轮没有对应原生错误诊断，单独标记为静态审查后的预测修复，仍待下一轮原生编译。它不计入五个原生根模块或15条原生诊断。
+
+### bounded 增强入口与既有公开类型
+
+`PhysicalRecipeAssembly` 与 `PhysicalRecipeParameters` 另有一项兼容调整，与 assembly 的原生证明修复重合一份源码，加上前述一项静态后继修复，本批合计七个不同 Lean 文件：
+
+| 入口或结构 | 当前契约 |
+| --- | --- |
+| `exists_bounded_physical_recipe_parameters` | 增强入口，保留同一参数存在性、全尺度实际 source，以及 `2 * e < width` 与 `width ≤ 4 * eCap`。 |
+| `exists_physical_recipe_parameters` | 从增强入口投影，恢复增强前的原名公开类型。 |
+| `exists_physical_recipe_expansion` | 恢复增强前的原名公开类型，继续输出同一个实际配方的几何与全尺度 source。 |
+| `physicalRecipeParameters_nonempty` | 使用 bounded 入口构造原参数结构；`width_buffer` 与 `width_cap` 字段保持不变。 |
+
+非空构造使用 `width = 4 * eCap` 作为见证；随后 `Classical.choice` 所选参数的结构保证是 `2 * e < width ≤ 4 * eCap`。结构没有导出“所选宽度等于该见证宽度”的字段，文档与下游调用均不使用这一等式。既定 `eCap = min(lamA, lamB) / 1000` 下的 `width ≤ lamB / 250 ≤ lamB / 100` 仍由这两个界给出。参数在 τ 之前固定，阈值 Z₀ 在 τ 之后选择，原全尺度 source、几何与最终目标假设保持原有顺序和含义。
+
+最新协调评论已核对。HIGHBIN 同行撤回了自己的兼容 wrapper，转而跟随既有宽度结构；本分支保留上述向后兼容入口，结构中的两个宽度界与共享版本一致。同行评论属于接口协调依据，不作为本轮原生编译证据。
+
+### 当前仍未通过的范围
+
+七份源码的最终哈希已纳入335源清单，并与本轮 `77dbe77` 原生源码分别记录；本轮 CI 没有验证这些后续修改。先前13份静态修复源码本轮均没有 fresh Built 事件，其中 `ActualModerateSweepHolomorphy` 已到达原生错误并归入当前五个根模块，其余12项继续保留各自的前置阻塞状态。七份分母相关源码也仍未取得新的 Built 记录。
+
+完整编译日志和多行错误上下文继续只保存在 Actions artifacts 与本地诊断目录；仓库证据仅记录位置、单行摘要、`detail_sha256`、artifact/log 摘要和源版本。历史快照、257份既有公理记录、artifact IDs 与计数全部保留。验收范围仍是335个源模块、19个原名目标、三个共享源模块，以及 `propext`、`Classical.choice`、`Quot.sound` 三条允许公理；这些原名与共享源严格 gate 尚未通过，PR 仍未达到可审查标准。

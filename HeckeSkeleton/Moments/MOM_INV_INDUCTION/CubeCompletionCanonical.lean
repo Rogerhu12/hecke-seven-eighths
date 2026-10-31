@@ -76,9 +76,9 @@ theorem canonical_completion_partition
           canonicalCompletedTerm gamma tau d V X CB := by
   have hs := extractedCubeTerm_summable gamma tau d V X U hX hV
   have hp : Summable (fun H => if P H then extractedCubeTerm gamma tau d V X H else 0) := by
-    simpa only [Set.indicator_apply, Set.mem_setOf_eq] using hs.indicator {H | P H}
+    simpa only [Set.indicator] using hs.indicator {H | P H}
   have hn : Summable (fun H => if ¬ P H then extractedCubeTerm gamma tau d V X H else 0) := by
-    simpa only [Set.indicator_apply, Set.mem_setOf_eq] using hs.indicator {H | ¬ P H}
+    simpa only [Set.indicator] using hs.indicator {H | ¬ P H}
   rw [← canonical_selected_cubes_reopen (fun H => ¬ P H) gamma tau d V X U hX hV,
     ← hp.tsum_add hn]
   apply tsum_congr

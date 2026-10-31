@@ -43,7 +43,8 @@ theorem annular_log_support (W : SmoothAnnularTest) :
 
 theorem annular_log_compact (W : SmoothAnnularTest) :
     HasCompactSupport (profileLogPullback W.toFun) :=
-  IsCompact.of_isClosed_subset isCompact_Icc isClosed_tsupport (annular_log_support W)
+  IsCompact.of_isClosed_subset isCompact_Icc (isClosed_tsupport (profileLogPullback W.toFun))
+    (annular_log_support W)
 
 theorem annular_log_smooth (W : SmoothAnnularTest) :
     ContDiff ℝ ∞ (profileLogPullback W.toFun) := W.smooth.comp Real.contDiff_exp
@@ -82,16 +83,18 @@ theorem annularCutoffNormTwist_smooth (W : SmoothAnnularTest) (V : ℝ → ℂ)
     ContDiff ℝ ∞ (annularCutoffNormTwist W V R z) :=
   supported_norm_twist_smooth (fun y : ℝ => W.toFun y * V (R * y)) W.lower W.upper
     W.lower_pos (W.smooth.mul (hV.comp (by fun_prop)))
-    ((Function.support_mul_subset_left).trans W.support) z
+    ((Function.support_mul_subset_left W.toFun (fun y : ℝ => V (R * y))).trans W.support) z
 
 theorem annularNormTwist_support (W : SmoothAnnularTest) (z : ℂ) :
     Function.support (annularNormTwist W z) ⊆ Icc W.lower W.upper :=
-  Function.support_mul_subset_left.trans W.support
+  (Function.support_mul_subset_left W.toFun (profilePower z)).trans W.support
 
 theorem annularCutoffNormTwist_support (W : SmoothAnnularTest) (V : ℝ → ℂ)
     (R : ℝ) (z : ℂ) :
     Function.support (annularCutoffNormTwist W V R z) ⊆ Icc W.lower W.upper :=
-  Function.support_mul_subset_left.trans (Function.support_mul_subset_left.trans W.support)
+  (Function.support_mul_subset_left (fun y : ℝ => W.toFun y * V (R * y))
+    (profilePower z)).trans
+      ((Function.support_mul_subset_left W.toFun (fun y : ℝ => V (R * y))).trans W.support)
 
 theorem annularNormTwist_log (W : SmoothAnnularTest) (z : ℂ) (x : ℝ) :
     annularNormTwist W z (Real.exp x) = profileLogPullback W.toFun x * linearExp z x := by
@@ -232,7 +235,9 @@ def annularMixedWindow (W : SmoothAnnularTest) (r s : ℕ) : SmoothAnnularTest w
   upper := W.upper
   lower_pos := W.lower_pos
   upper_ge := W.upper_ge
-  support := Function.support_mul_subset_right.trans W.support
+  support := (Function.support_mul_subset_right
+    (fun y : ℝ => (Real.log y : ℂ) ^ r * (Complex.I * (Real.log y : ℂ)) ^ s)
+    W.toFun).trans W.support
 
 /-- Literal mixed derivatives of the original norm-power profile,
 including the project's total convention at nonpositive y. -/
@@ -248,7 +253,7 @@ theorem annularNormTwist_mixed_derivative (W : SmoothAnnularTest)
     unfold annularNormTwist profilePower linearExp
     rw [mul_comm (Real.log y : ℂ)]
   simp_rw [he]
-  rw [mixed_parameter_derivative]
+  rw [mixed_parameter_derivative (fun _ : ℝ => W.toFun y) r s a ν (Real.log y)]
   unfold annularNormTwist annularMixedWindow annularMixedWindowFun profilePower linearExp
   rw [mul_comm (Real.log y : ℂ)]
 

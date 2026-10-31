@@ -104,7 +104,11 @@ jobs:
             lake env lean --version
             git -C .lake/packages/mathlib rev-parse HEAD
           } | tee "$evidence/environment.log"
-          lake --rehash build +HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.${{ matrix.audit }}:olean 2>&1 |
+          lake_flags=(--rehash)
+          if [[ '${{ matrix.audit }}' == 'ArithmeticAudit' ]]; then
+            lake_flags+=(--fail-fast)
+          fi
+          lake "${lake_flags[@]}" build +HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.${{ matrix.audit }}:olean 2>&1 |
             tee "$evidence/build.log"
           lake env lean HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/${{ matrix.audit }}.lean 2>&1 |
             tee "$evidence/axioms.log"

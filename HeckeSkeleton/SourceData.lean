@@ -2,7 +2,7 @@ import HeckeSkeleton.Base
 import HeckeGeneral.Analysis.MomentInputs
 import HeckeSkeleton.ExpansionModels.ScaleCutoff
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerEnergy
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerSeed
 
 /-!
 # A fixed source for indices, models, and uniform moment statements

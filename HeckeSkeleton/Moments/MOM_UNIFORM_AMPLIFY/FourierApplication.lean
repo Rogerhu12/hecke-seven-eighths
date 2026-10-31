@@ -26,8 +26,8 @@ def weightedProfileFourierKernel (f : SchwartzMap ℝ ℂ) (J : ℕ) (t : ℝ) :
 @[simp] theorem weightedProfileFourierKernel_norm (f : SchwartzMap ℝ ℂ)
     (J : ℕ) (t : ℝ) :
     ‖weightedProfileFourierKernel f J t‖ = (1 + ‖t‖) ^ J * ‖(𝓕 f) t‖ := by
-  simp only [weightedProfileFourierKernel, norm_mul, Complex.norm_real,
-    Real.norm_eq_abs, abs_of_nonneg (by positivity : 0 ≤ (1 + ‖t‖) ^ J)]
+  rw [weightedProfileFourierKernel, norm_mul, Complex.norm_real,
+    Real.norm_of_nonneg (by positivity : 0 ≤ (1 + ‖t‖) ^ J)]
 
 theorem weightedProfileFourierKernel_integrable (f : SchwartzMap ℝ ℂ) (J : ℕ) :
     Integrable (weightedProfileFourierKernel f J) := by

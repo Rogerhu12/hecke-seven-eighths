@@ -53,8 +53,10 @@ theorem norm_heckeIdealCoefficient_zpow_le_one
     | cons J F ih =>
       rw [Multiset.map_cons, Multiset.prod_cons, mul_zpow, norm_mul]
       exact (mul_le_mul (hvalue J) ih (norm_nonneg _) zero_le_one).trans_eq (one_mul 1)
+  have hI : I.val ≠ (⊥ : Ideal (𝓞 K)) := by
+    simpa only [Ideal.zero_eq_bot] using nonZeroDivisors.coe_ne_zero I
   simpa only [heckeIdealCoefficient, nonzeroIdealCoefficient, idealCoefficient,
-    if_neg (nonZeroDivisors.coe_ne_zero I)] using hprod (normalizedFactors I.val)
+    if_neg hI] using hprod (normalizedFactors I.val)
 
 theorem norm_inverseRowCoefficient_le_one (d : MomentData K ω ψ)
     (u I : NonzeroIdeal K) : ‖inverseRowCoefficient d u I‖ ≤ 1 := by
@@ -114,8 +116,9 @@ theorem ideal_sixth_descendant_norm_le (u : NonzeroIdeal K) (a : ExteriorIdeal K
     {U P : ℝ} (hu : idealNorm K u ≤ U) (ha : idealNorm K a.val ≤ P) :
     idealNorm K (u * a.val ^ 6) ≤ U * P ^ 6 := by
   have hn : idealNorm K (u * a.val ^ 6) = idealNorm K u * idealNorm K a.val ^ 6 := by
-    simp only [idealNorm, Submonoid.coe_mul, Submonoid.coe_pow, map_mul, map_pow,
-      Nat.cast_mul, Nat.cast_pow]
+    change (Ideal.absNorm (u.val * a.val.val ^ 6) : ℝ) =
+      (Ideal.absNorm u.val : ℝ) * (Ideal.absNorm a.val.val : ℝ) ^ 6
+    simp only [map_mul, map_pow, Nat.cast_mul, Nat.cast_pow]
   rw [hn]
   exact mul_le_mul hu (pow_le_pow_left₀ (idealNorm_pos K _).le ha 6)
     (pow_nonneg (idealNorm_pos K _).le _) ((idealNorm_pos K _).le.trans hu)
@@ -204,63 +207,15 @@ theorem completeIdeal_amplification_to_majorant {δ : ℝ} (hδ : 0 < δ) :
       (C * P ^ δ) ^ 2 * ∑ u ∈ R, ∑ a ∈ F, B (u * a.val ^ 6) := by
     simpa only [Finset.sum_const, nsmul_eq_mul, Finset.mul_sum] using hsum
   have hpow : (C * P ^ δ) ^ 2 = C ^ 2 * P ^ (2 * δ) := by
-    rw [mul_pow, ← Real.rpow_mul_natCast hP0 δ 2,
-      show δ * (2 : ℝ) = 2 * δ by ring]
+    rw [mul_pow, ← Real.rpow_mul_natCast hP0 δ 2]
+    norm_num only [Nat.cast_ofNat]
+    rw [show δ * (2 : ℝ) = 2 * δ by ring]
   calc
     _ ≤ (C * P ^ δ) ^ 2 * ∑ u ∈ R, ∑ a ∈ F, B (u * a.val ^ 6) := hsum'
     _ ≤ (C * P ^ δ) ^ 2 * ∑ v ∈ d.rows H, B v :=
       mul_le_mul_of_nonneg_left
         (sum_sixth_descendant_majorants_le S d hrows R F hR hF hPH B hB) (sq_nonneg _)
     _ = _ := by rw [hpow]
-
-/-- The canonical zero-slot seed controls complete rows and all smaller
-polynomial scales of the same inherited profile.  Its height order is
-uniform before any member of the source family or row scale is selected.
-It is a strict-scale statement, not the independent-scale conclusion. -/
-def CompleteIdealScaleSupSeed {ι : Type*}
-    (family : ι → MomentData K ω ψ) (height : ι → ℝ) : Prop :=
-  ∀ gap ε : ℝ, 0 < gap → gap < 1 → 0 < ε →
-    ∃ C A h H₀ : ℝ, 0 < C ∧ 0 ≤ A ∧ 0 < h ∧ 1 ≤ H₀ ∧
-      ∀ i H, H₀ ≤ H → height i ≤ H ^ h →
-        ∃ B : NonzeroIdeal K → ℝ, (∀ u, 0 ≤ B u) ∧
-          (∀ u ∈ (family i).rows H, ∀ D : ℝ, 0 < D → D ≤ H ^ (1 - gap) →
-            ‖inversePolynomial (sixthRootInverseData (family i)) u D 0‖ ^ 2 ≤ B u) ∧
-          (∑ u ∈ (family i).rows H, B u) ≤
-            C * H ^ (1 + ε) * (1 + height i) ^ A
-
-/-- The fixed independent source scales and row-local parameter maps.  The
-amplified row scale H is not part of these data. -/
-structure UnmarkedProfileParameters (dimension : ℕ) where
-  rowScale : ℝ
-  polynomialScale : ℝ
-  rowScale_one_le : 1 ≤ rowScale
-  polynomialScale_one_le : 1 ≤ polynomialScale
-  sector : SixthUnitClasses K S
-  heights : Fin dimension → ℝ
-  realShifts : NonzeroIdeal K → Fin dimension → ℝ
-  imagShifts : NonzeroIdeal K → Fin dimension → ℝ
-  realShifts_bound : ∀ u, ‖realShifts u‖ ≤ 8
-  imagShifts_bound : ∀ u, ‖imagShifts u‖ ≤ 1 + ‖heights‖
-
-variable {S}
-
-def unmarkedProfileData {dimension : ℕ}
-    (unmarked : ℝ → ℝ → SixthUnitClasses K S → (Fin dimension → ℝ) →
-      (NonzeroIdeal K → Fin dimension → ℝ) →
-      (NonzeroIdeal K → Fin dimension → ℝ) → MomentData K ω ψ)
-    (i : UnmarkedProfileParameters S dimension) : MomentData K ω ψ :=
-  unmarked i.rowScale i.polynomialScale i.sector i.heights i.realShifts i.imagShifts
-
-/-- A source-independent version of the corrected no-slot canonical
-output.  It can be used by the shared source interface without importing
-the source-specific amplification consumer. -/
-def CompleteUnmarkedScaleSupBound {dimension : ℕ}
-    (unmarked : ℝ → ℝ → SixthUnitClasses K S → (Fin dimension → ℝ) →
-      (NonzeroIdeal K → Fin dimension → ℝ) →
-      (NonzeroIdeal K → Fin dimension → ℝ) → MomentData K ω ψ) : Prop :=
-  CompleteIdealScaleSupSeed (unmarkedProfileData unmarked) (fun i => ‖i.heights‖)
-
-variable (S)
 
 /-- Optimize the actual ideal amplifier with uniform polynomial height
 control.  The seed is used only at complete row scale H and at strictly

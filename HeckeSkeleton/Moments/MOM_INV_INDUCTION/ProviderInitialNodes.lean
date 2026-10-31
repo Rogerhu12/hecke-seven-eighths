@@ -143,7 +143,7 @@ theorem puncture_length (Q : ℝ) (hRho : C.puncture ≠ 0)
         Q + glen - dlen + 2 * h := by
   let gamma := ProviderInitialSource.outer K S D Γ X H i
   have hres := ProviderInitialBoxes.residual_norm K S D Γ X H P b C.base A h
-    hbase hh hwidth hboxCap j i hiBox
+    hbase hh hwidth hboxCap j i hi
   have hr0 : gamma.residual ≠ 0 :=
     nonZeroDivisors.coe_ne_zero (ProviderInitialSource.residual K S D Γ X H i).val
   have hp : childPuncture C.puncture gamma ≠ 0 := by

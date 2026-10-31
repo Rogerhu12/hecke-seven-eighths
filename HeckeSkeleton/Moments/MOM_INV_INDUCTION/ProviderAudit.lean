@@ -1,27 +1,48 @@
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.BackwardSeminorm
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.BoundedScale
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletion
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlockBound
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionCanonical
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnergy
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnvelope
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionFinite
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionGeometry
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionLong
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionMellin
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionNodeStep
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionPools
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProfile
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProvider
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionSmall
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.GeneralReflectedEnergy
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.IndependentClosure
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderChildParent
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderCubeParent
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderFiniteClosure
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderGeneratedNodes
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderHomogeneity
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInduction
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialClosure
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialEstimate
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialGeometry
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialInverse
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialMass
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialNodes
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialPointwise
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialProduction
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSource
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSpectral
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderLocalStep
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedReindex
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMonotonicity
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodeStep
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
@@ -30,35 +51,58 @@ import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRows
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderStep
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformChildren
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularRows
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceOrientation
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourcePrefixEnergy
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionOverlap
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionPoisson
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceRelativeSlots
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupClosure
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupRows
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedComplete
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProvider
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderAggregation
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderAtoms
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderBackgrounds
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderBlockEnergy
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderCounts
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderCubeMass
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderExponent
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFamily
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFrozenBlock
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderGeometry
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderInput
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMarkFamily
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMarks
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMellin
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderNode
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderProfile
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderPuncture
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderRectangles
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderReflection
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderReflectionFamily
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderSelectedTail
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderShort
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderSlices
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStateEnergy
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStates
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTail
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTheta
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTupleSplit
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.UniformThreshold
 
-/-!
-Audit of the actual provider, cube-completion, terminal, source-reduction,
-and bounded-scale consumers. This gate complements the original skeleton
-target gate; it does not replace that target.
--/
+/-! Public declarations of the actual provider, source, cube, and terminal proof chain.
+The CI axiom gate checks every entry; this file does not change any proof assumptions. -/
 
--- BackwardSeminorm
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.exists_backward_finite_seminorm
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.backward_bound_with_epsilon
-
--- BoundedScale
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.independentInverseEnergy_le_complete
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.hecke_coefficient_zero_or_norm_one
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.directed_coefficient_norm_le_one
@@ -67,8 +111,6 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.exists_nonzero_ideal_count_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.exists_bounded_complete_scale_inverse_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.exists_bounded_scale_inverse_bound
-
--- CubeCompletion
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.reopenedCubeCoefficient_norm_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.reopenedCubeCoefficient_eq_zero
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.longCubeCoefficient_zero_of_norm_lt
@@ -82,8 +124,9 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.cube_sum_normalization
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.cube_row_energy_normalization
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.selected_cube_dilates_reopen
-
--- CubeCompletionBlocks
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlockBound.square_scale_identity
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlockBound.normalization_power_identity
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlockBound.exists_uniform_block_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks.scale_pos
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks.scale_one_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks.norm_window
@@ -97,8 +140,6 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks.exists_count_small_power
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks.long_block_lower
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks.long_block_log_lower
-
--- CubeCompletionCanonical
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.extractedCubeTerm_eq_dilation
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.extractedCubeTerm_summable
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonical_selected_cubes_reopen
@@ -108,8 +149,6 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.reopenedCubeTerm_factor
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.completedVstar_cube_normalization
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.reopenedCubeTerm_vstar
-
--- CubeCompletionEnergy
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnergy.windowBound_nonneg
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnergy.annularTest_continuous
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnergy.annularTest_norm_le
@@ -126,8 +165,18 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnergy.sourceEnergy_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnergy.density_cauchy_moment_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnergy.exists_uniform_sourceEnergy_bound
-
--- CubeCompletionGeometry
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnvelope.small_power_exponent
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnvelope.exists_cap_square_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnvelope.exists_count_square_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionFinite.longPool_norm_bounds
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionFinite.block_support
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionFinite.reopened_eq_longPool
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionFinite.longValue_eq_finiteValue
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionFinite.longEnergy_eq_finiteEnergy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionFinite.finiteValue_eq_source
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionFinite.finiteEnergy_eq_sourceEnergy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionFinite.finiteValue_eq_blocks
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionFinite.finiteEnergy_le_blocks
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionGeometry.annularScale_pos
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionGeometry.cubeLength_scale
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionGeometry.annularLength_scale
@@ -142,8 +191,7 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionGeometry.provider_row_drop
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionGeometry.provider_child_capacity
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionGeometry.provider_child_margin
-
--- CubeCompletionMellin
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionLong.exists_uniform_long_cube_step
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionMellin.cube_source_window
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionMellin.cutoff_cube_source
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionMellin.column_phase_window
@@ -159,11 +207,7 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionMellin.annularTest_seminorm_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionMellin.finite_cube_profile_annular_inverse
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionMellin.annularTest_cauchy_budget
-
--- CubeCompletionNodeStep
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionNodeStep.exists_uniform_annular_step
-
--- CubeCompletionPools
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionPools.squarefree_sum_eq_support_pool
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionPools.squarefree_sum_eq_provider_pool
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionPools.annular_columnScale_le
@@ -171,8 +215,6 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionPools.small_column_test_zero
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionPools.small_column_norm_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionPools.annularColumn_small_norm_le
-
--- CubeCompletionProfile
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProfile.cubeAmplitude_norm_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProfile.normalizedCubeBaseCoefficient_norm_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProfile.normalizedCubeLabelWeight_norm_le
@@ -183,8 +225,6 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProfile.parent_normalization_cancel
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProfile.parent_output_scale_cancel
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProfile.bounded_column_normalization
-
--- CubeCompletionProvider
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProvider.staticTau_norm_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProvider.canonicalTau_row_factor
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProvider.calibrated_static_coefficient
@@ -194,19 +234,19 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProvider.annularColumn_eq_rowPolynomial
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProvider.annularColumn_eq_complete_parent_row
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProvider.annularEnergy_le_parent
-
--- GeneralReflectedEnergy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionSmall.bareCoefficient_norm_le_mark
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionSmall.arithmeticCoefficient_norm_le_mark
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionSmall.sectorRow_norm_le_one
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionSmall.exterior_label_mass_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionSmall.annularEnergy_le_mass
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionSmall.exists_uniform_small_annular_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.GeneralReflectedEnergy.atom_on_source
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.GeneralReflectedEnergy.atom_eq_hybrid
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.GeneralReflectedEnergy.completed_source_expansion
-
--- IndependentClosure
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.independent_column_le_row
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.exists_bounded_complete_sector_inverse_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.complete_independent_bound_all_scales
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.independent_sector_energy_le_complete
-
--- ProviderChildParent
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderChildParent.parentData_background
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderChildParent.parentData_slots_subset
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderChildParent.amplitude_eq_dyadic
@@ -216,8 +256,6 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderChildParent.column_zero_of_label_not_exterior
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderChildParent.childEnergy_eq_exterior_labels
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderChildParent.normalized_childEnergy_le_parent
-
--- ProviderCubeParent
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderCubeParent.amplitude_norm_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderCubeParent.summable_norm_weightedProfile
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderCubeParent.orbitalEnergy_re
@@ -229,33 +267,30 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderCubeParent.finite_rows_le_parent
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderCubeParent.complete_row_eq_dyadic
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderCubeParent.weighted_rows_le_parent
-
--- ProviderGeneratedNodes
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderFiniteClosure.exists_uniform_bound_with_thresholds
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderFiniteClosure.exists_uniform_bound_of_budget_with_thresholds
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderFiniteClosure.exists_stage_steps_of_short_contribution
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderFiniteClosure.exists_uniform_bound_of_short_contribution
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderGeneratedNodes.label_length_nonneg
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderGeneratedNodes.nodeAt_admissible
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderGeneratedNodes.smaller_piece_bound_of_uniform
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderGeneratedNodes.smaller_piece_bound_of_uniform_sharp
-
--- ProviderHomogeneity
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderHomogeneity.canonicalColumn_scale
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderHomogeneity.parent_scale
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderHomogeneity.parent_norm_scale
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderHomogeneity.normalized_weight_le_one
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderHomogeneity.parent_norm_restore
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderHomogeneity.weighted_parent_restore
-
--- ProviderInduction
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInduction.uniformBound_of_negative_row_cap
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInduction.uniformBound_mono_loss
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInduction.exists_uniform_bound_from_local_steps
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInduction.exists_uniform_bound_of_budget
-
--- ProviderInitialBoxes
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes.coordinateNorm_one_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes.divisor_norm_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes.coordinateNorm_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes.sum_boxes
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes.sum_bins
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes.sum_bins_dependent
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes.sum_boxed
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes.length_bounds
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes.coordinate_annulus
@@ -265,8 +300,10 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes.row_norm
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes.child_length
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes.exists_box_count_bound
-
--- ProviderInitialGeometry
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes.exists_center_count_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialClosure.normalized_sqrt_product_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialClosure.exists_uniform_orbital_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialEstimate.exists_uniform_total_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialGeometry.center_log_bounds
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialGeometry.clipped_length_bounds
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialGeometry.piece_length_bounds
@@ -274,11 +311,24 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialGeometry.small_piece_row
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialGeometry.initial_capacities
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialGeometry.initial_exponent_identity
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialGeometry.physical_power_identity
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialGeometry.closed_exponent_budget
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialGeometry.actual_row_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialGeometry.normalized_scalar
-
--- ProviderInitialInverse
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral.mellinTest_support
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral.density_nonneg
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral.column_as_actual_child
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral.jointColumn_integrable
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral.outer_column_integrable
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral.outer_column_eq_joint
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral.branchAt_eq
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral.nodeIntegral_eq
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral.sourceIntegral_eq_sum
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral.actualTotal_eq_selected
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral.selectedTotalOn_eq_integrals
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral.actualTotal_eq_integrals
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral.sourceIntegral_sum_boxes
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral.actualTotal_eq_boxed_integrals
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialInverse.childPuncture_unitTriple
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialInverse.unit_label
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialInverse.inverse_coefficient
@@ -287,8 +337,7 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialInverse.source_energy_eq_inverse_parent
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialInverse.initial_poisson_split
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialInverse.exists_uniform_initial_retained_bound
-
--- ProviderInitialNodes
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialMass.exists_packet_mass_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialNodes.wide_length
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialNodes.wide_complete
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialNodes.wide_support
@@ -298,8 +347,12 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialNodes.puncture_length
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialNodes.nodeAt_admissible
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialNodes.exists_uniform_raw_bound
-
--- ProviderInitialSource
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialPointwise.sourceSum_nonneg
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialPointwise.exists_uniform_source_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialProduction.parent_radius
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialProduction.positiveScalar_nonneg
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialProduction.normalized_weight_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialProduction.exists_uniform_scalar_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSource.unitDivisor_ideal
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSource.unitDivisor_norm
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSource.divisor_dvd_common
@@ -317,28 +370,98 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSource.packet_triple_member
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSource.expanded_energy_le_packet
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSource.marked_energy_le_packet
-
--- ProviderMonotonicity
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSpectral.moment_nonneg
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSpectral.moment_integrable
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSpectral.exists_moment_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSpectral.exists_cauchy_moment_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSpectral.joint_polynomial_integrable
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSpectral.joint_polynomial_integral
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSpectral.exists_uniform_spectral_cost
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderLocalStep.exists_uniform_local_step_of_short_contribution
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.outside_mul
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.value_mul
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.value_sq
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.norm_value_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.overlap_value
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.context_value
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.original_mask_overlap
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.extracted_scalar_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.test_apply
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.test_support
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.test_phase
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.test_polynomial_seminorm
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.quotient_inverse
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.quotient_integrable
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.quotient_annular_inverse
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.quotient_annular_integrable
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.finite_quotient_inverse
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.phase_sum
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.product_norm_phase
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.primeWeight_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.twisted_choices_eq_mark
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.original_twisted_choices
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.residual_source_eq_canonical_integral
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.fixed_selected_annular_eq_canonical_integral
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap.idealQuotient_self_mul
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap.ideal_coprime_of_relPrime
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap.source_common_dvd
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap.forward_mem
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap.backward_mem
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap.backward_forward
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap.forward_backward
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap.sum_source_eq_target
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap.forward_norm
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap.coefficient_identity
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap.extracted_character_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools.norm_pos
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools.norm_mul
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools.mem_pool
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools.source_of_mem
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools.target_of_mem
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools.backward_norm
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools.forward_mem_targetPool
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools.sum_sourcePool_eq_targetPool
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools.character_source_eq_target
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedReindex.tuple_injective
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedReindex.tuple_product_squarefree
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedReindex.primeChoices_eq_filter
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedReindex.targetPool_eq_filter
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedReindex.sum_target_fibers
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedReindex.fixed_selected_reindex
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale.inverse_sqrt_rpow
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale.normalization
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale.slot_normalization
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale.complete_normalization
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale.profile_argument
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale.first_margin
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale.second_margin
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale.strict_margins
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale.shifted_strict_margins
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale.normalized_primeProduct
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale.normalized_primeProduct_bounds
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots.primeProduct_squarefree
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots.primeProduct_split
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots.commonSlots_product_dvd
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots.residual_product_coprime
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots.commonSlots_product_eq_gcd
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots.primeProduct_moebius
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots.primeChoices_injective
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots.primeChoices_product_dvd
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots.signed_choices_eq_divisorMark
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots.original_choices_eq_canonical_mark
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots.signed_weight_norm_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes.Node.Admissible.weaken
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes.uniformBound_restrict
-
--- ProviderNodeStep
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodeStep.exists_uniform_long_label_step
-
--- ProviderNodes
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes.MarkConditions.restrict
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes.Node.energy_nonneg
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes.Node.Admissible.puncture_norm
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes.Node.Admissible.puncture_nonneg
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes.Node.Admissible.lengths_le
-
--- ProviderRecursion
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.provider_error_exponent_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.provider_step_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.provider_finite_energy_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.provider_seminorm_le_common
-
--- ProviderRows
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRows.amplitude_eq_star_inverse
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRows.amplitude_norm_eq_inverse
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRows.energy_eq_tsum
@@ -353,11 +476,7 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRows.column_zero_of_not_exterior
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRows.rows_sum_eq_exterior
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRows.canonical_rows_le_orbital_norm
-
--- ProviderStep
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderStep.exists_uniform_normalized_step
-
--- ProviderTerminalConductor
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor.local_conductor_charge
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor.exponent_primeSetIdeal
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor.frozenIdeal_exponent
@@ -371,12 +490,51 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor.rowResidual_coprime_puncture
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor.rowResidual_coprime_frozen
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor.actual_row_conductor_bound
-
--- ProviderUniformChildren
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformChildren.all_smaller_pieces_of_uniform
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformChildren.all_smaller_pieces_of_uniform_sharp
-
--- SourceOrientation
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.calibration_mem
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.original_theta
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.original_direction
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.pulled_direction
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.pulled_arithmetic
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.pulled_rows
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.pulled_background
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.filter_unramified
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.twists_unramified
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.admissible_unramified
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.periods_unramified
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.periods_angular
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.reflected_input
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale.weightedLogProfile_eq
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale.weightedLogProfile_apply
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale.profile_support
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale.weightedLogProfile_live
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale.profileFourierTail_continuous
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale.exists_common_majorant
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale.normalized_term
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale.inversePolynomial_eq_prefix_integral
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale.inversePolynomial_sq_le_rowMajorant
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularRows.polynomial_eq
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularRows.polynomial_eq_zero_small
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularRows.exists_small_scale_row_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests.annulus_apply
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests.test_apply
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests.test_support
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests.test_wide_support
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests.piece_support
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests.piece_polynomial_seminorm
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests.rpow_neg_half
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests.scaled_test
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests.finite_annular_eq
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests.finite_test_eq_pieces
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows.conjugateTest_apply
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows.conjugateTest_support
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows.conjugateTest_seminorm
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows.conjugate_coefficient
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows.conjugate_polynomial
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows.negative_polynomial_eq_source
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows.positive_polynomial_norm
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows.complete_positive_rows_le_orbital
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.sourceConjugateTest_norm
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.hecke_coefficient_inverse_eq_conj
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.directed_coefficient_conjugate
@@ -390,8 +548,12 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.positiveInverseModel_energy
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.positiveInverseModel_complete_energy
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.positiveInverseModel_profile_norm
-
--- SourceReductionOverlap
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourcePrefixEnergy.scale_pos
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourcePrefixEnergy.scale_le_pool
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourcePrefixEnergy.supported_sum_eq
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourcePrefixEnergy.annular_eq_pieces
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourcePrefixEnergy.annular_sq_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourcePrefixEnergy.prefix_energy_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceSquarefreeOverlap.column_squarefree
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceSquarefreeOverlap.product_identity
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceSquarefreeOverlap.coefficient_identity
@@ -405,8 +567,6 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.inversePolynomial_eq_squarefree_sum
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.inverse_marked_polynomial_eq_source_sum
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.inverse_marked_polynomial_eq_overlap_sum
-
--- SourceReductionPoisson
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionPoisson.idealSymbol_inverse
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionPoisson.zeroExtended_exterior
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionPoisson.squarefreePool_image
@@ -417,15 +577,63 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionPoisson.finite_rows_le_orbital_norm
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionPoisson.orbitalEnergy_eq_inverseSquared
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionPoisson.genuine_initial_poisson
-
--- SourceRelativeSlots
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.inverseRelativeSlotCoefficient_norm_le_one
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.sourceRelativeSlotTerm_eq
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.source_idealCoefficient_mul_unramified
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.sourceInverseTerm_eq_live
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.slotProduct_eq_relative_tuples
-
--- TerminalProvider
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.annularScale_pos
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.annularScale_le_eight
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.columnScale_pos
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.two_pow_dyadicCap_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.cap_bounds
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.scaled_dyadic_upper
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.columnScale_upper
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.scaled_dyadic_length
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.columnScale_length
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.columnScale_eq_rpow
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.count_le_log
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.exists_count_square_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.exists_count_square_threshold
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.exists_uniform_scale_budget
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.initial_margins
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget.initial_pool_cap
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup.prefixColumn_continuous
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup.prefixColumn_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup.prefixColumn_eq_annular_sum
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup.prefixColumn_sq_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup.finite_shifted_fourier
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup.shifted_profile_eq_prefix_integral
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup.prefix_energy_integrable
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup.rowMajorant_nonneg
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup.shifted_profile_sq_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup.sum_rowMajorant
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupClosure.prefix_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupClosure.majorant_sum_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupClosure.strict_seed_of_uniform_annular
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupRows.pulled_profile
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupRows.realParameter_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupRows.imagParameter_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupRows.majorant_nonneg
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupRows.exists_actual_common_majorant
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupRows.complete_row_sum
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedComplete.annular_bound_of_uniform
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedComplete.strict_seed_of_canonical_uniform
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.sourceMark_eq_one
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.empty_marks
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.mesh_pos
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.mesh_le_one
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.mesh_le_gap
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.mesh_le_loss
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.source_loss_budget
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.final_loss_budget
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.source_conditions
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.column_scale
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.rowCap_eq
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.exists_uniform_orbital_bound_of_uniform
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.exists_uniform_orbital_bound_of_scale
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.admissible_one
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital.admissible_target
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.terminalLedger_nonneg
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalBlockGeometry.terminal_cases
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalBlockGeometry.power_le_ledger
@@ -433,8 +641,16 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.finite_reconstruction_energy_bounded
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.terminal_label_from_reflected_blocks
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalBlockGeometry.exponent_saving
-
--- TerminalProviderAtoms
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAggregation.tuplePrime_injective
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAggregation.tupleIdeal_squarefree
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAggregation.tupleIdeal_injective
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAggregation.coefficient_on_tuple
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAggregation.coefficient_norm_le_one
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAggregation.sum_eq_aggregated
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAggregation.reciprocalWeight_nonneg
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAggregation.reciprocalWeight_eq_product
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAggregation.reciprocalWeight_sum
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAggregation.exists_inactive_mass_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAtoms.exteriorSupport_primeSetIdeal
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAtoms.moving_admissible
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAtoms.active_admissible
@@ -443,8 +659,6 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAtoms.extended_original_eq_atom
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAtoms.atom_tsum_over_complete_columns
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalAtoms.completedThetaSum_eq_atoms
-
--- TerminalProviderBackgrounds
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalBackgrounds.mem_generatedTwists
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalBackgrounds.calibration_mem_generatedTwists
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalBackgrounds.generatedTwists_finiteOrder
@@ -455,13 +669,64 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalBackgrounds.cycle_periods_mem_inventory
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalBackgrounds.inventory_unramified
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalBackgrounds.inventory_nonzero_angular
-
--- TerminalProviderFamily
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalBlockEnergy.canonical_block_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.fromSupport_eq_primeSetIdeal
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.supported_coords_iff
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.rowSupported_squarefree
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.rowSupported_coords_squarefree
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.rowSupported_coords_supported
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.powerful_coords
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.primeSetIdeal_dvd_of_primes
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.rowSupport_primeSetIdeal_dvd
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.rowSupport_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.frozenPairs_spec
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.exists_frozen_pair_count
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.reconstruct_residual
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.rowResidual_injective_on_pair
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.rowResidual_injective_on_fiber
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.reconstruct_mem
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.residualRows_squarefree
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.residualRows_coprime_label
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.residualRows_coprime_puncture
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.residualRows_coprime_frozen
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.reconstruct_norm
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.residualRows_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.sum_fiber_eq_residualRows
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCounts.sum_rows_eq_pairs_residualRows
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCubeMass.exists_divisor_power_harmonic_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCubeMass.exists_exterior_cube_mass_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCubeMass.exists_exterior_divisor_mass_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalExponent.rpow_logNorm
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalExponent.logNorm_nonneg
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalExponent.canonicalScale_eq
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalExponent.state_charge_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalExponent.normalized_state_charge_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalExponent.scalar_sq_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalExponent.doubled_hybrid_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalExponent.doubled_small_power
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalExponent.actual_factor_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonical_period_coefficient
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.completeCanonicalColumn_eq_calibrated
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.family_column_eq_completeCanonicalColumn
-
--- TerminalProviderMarks
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalFrozenBlock.fullSource_eq_rectangles_tail
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalFrozenBlock.fullSource_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalFrozenBlock.canonical_block_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalGeometry.logNorm_eq_logb
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalGeometry.logNorm_mul
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalGeometry.logNorm_pow
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalGeometry.logNorm_le_iff
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalGeometry.le_logNorm_iff
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalGeometry.row_log_budget
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalGeometry.row_conductor
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalGeometry.frozen_conductor_log
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalGeometry.dual_conductor
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalInput.fixed_period_block_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalInput.uniform_block_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarkFamily.choiceValue_eq_zero_of_collision
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarkFamily.completedThetaSum_eq_choices
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarkFamily.inactiveBlock_eq_fullSource
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarkFamily.tuple_sum_eq_inactive_blocks
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarkFamily.canonicalCompletedSum_eq_inactive_blocks
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarks.tuplePrimes_divides
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarks.divisorMark_eq_whole_tuples
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarks.tupleWeight_norm_le_one
@@ -469,20 +734,38 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarks.canonicalCompletedSum_finset_linear
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarks.canonicalCompletedSum_eq_marked_tuples
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarks.canonicalCompletedSum_cube_priority
-
--- TerminalProviderNode
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMellin.kernel_canonical_separation_at_zero
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMellin.canonicalScale_pos
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMellin.canonical_argument_normalized
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMellin.continuous_canonicalModeMark
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMellin.canonicalModeMark_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMellin.slicedCanonicalBlock_zero_of_markWeight
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMellin.slicedCanonicalBlock_zero_of_ordinaryRow
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMellin.slicedCanonicalBlock_eq_integral
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalNodes.column_normalization
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalNodes.normalized_column_short_long
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalNodes.energy_le_short_long
-
--- TerminalProviderPuncture
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProfile.completionCLM_apply
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProfile.completionCLM_support
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProfile.completionCLM_eq_vstar
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProfile.completedTest_apply
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProfile.exists_finite_seminorm_control
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.exteriorRadicalPuncture_squarefree
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.exteriorRadicalPuncture_dvd_radical
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.exteriorRadicalPuncture_norm_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.exteriorRadicalPuncture_coprime
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonicalTau_exteriorRadicalPuncture
-
--- TerminalProviderReflection
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRectangles.mem_pool
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRectangles.norm_one_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRectangles.retained_bounds
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRectangles.omitted_large
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRectangles.mem_retainedPool
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRectangles.fiber_eq_rectangle
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRectangles.sum_retained_eq_rectangles
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRectangles.tsum_eq_rectangles_add_tail
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRectangles.annulus_window
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRectangles.retained_lengths
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRectangles.indices_card_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalReflection.moving_frozen_eq_total
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalReflection.markedDatum_rowElement
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalReflection.fourth_generator_symbol
@@ -494,28 +777,58 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalReflection.completedThetaSum_eq_reflectedRow
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalReflection.completedThetaSum_canonical_reindexed
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalReflection.canonicalCompletedSum_eq_reflected_tuples
-
--- TerminalProviderReflectionFamily
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalReflectionFamily.mellin_admissible
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalReflectionFamily.kernel
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalReflectionFamily.exterior_digits
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalReflectionFamily.reflection
-
--- TerminalProviderShort
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSelectedTail.atom_summable
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSelectedTail.norm_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSelectedTail.fixed_period_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSelectedTail.uniform_energy
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.mem_shortCubes
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.shortCompletedColumn_eq_tsum
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.shortCubes_mass_small_power
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.shortCompletedColumn_energy
-
--- TerminalProviderStates
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSlices.atom_eq_entry
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSlices.entry_eq_slices
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSlices.block_eq_slices
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSlices.ordinaryWeight_on_exterior
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSlices.exteriorSlicedBlock_eq_ordinary
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSlices.block_eq_zero_of_row
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSlices.block_eq_filter
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSlices.block_energy_eq_filter
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSlices.block_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStateEnergy.exists_indices_mass_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStateEnergy.boundedSource_mono
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStateEnergy.exists_uniform_state_energy
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStates.active_prime_dvd
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStates.active_divides
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStates.minimum_divides_cube
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStates.encode_injective
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStates.card_le_divisors
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStates.exists_state_mass_bound
-
--- TerminalProviderTheta
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.idealMass_nonneg
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.column_mass_summable
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.column_mass
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.card_le_mass
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.kernel_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.norm_ge_one
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.stateMajorant_le_one
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.columnCoefficient_norm_le_one
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.hybridKernel_norm_le_one
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.argument_pos
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.atom_norm_le_kernel
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.active_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.threshold_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.argument_lower
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.argument_tail_lower
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.argument_inverseSquare_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.tail_power_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.tail_norm_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.tailShift_ge_two
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.fixed_period_tail_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.uniform_tail_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTail.reflected_energy_input
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonicalVstar_support_upper
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.completeCanonicalColumn_term
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.completeCanonicalColumn_cube_completion
@@ -527,8 +840,14 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.reopenedCanonical_eq_finite_of_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.completeCanonicalColumn_cube_coefficient_norm_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.completeCanonicalColumn_eq_symbols
-
--- UniformThreshold
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTupleSplit.join_active
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTupleSplit.join_inactive
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTupleSplit.sum_split
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTupleSplit.weight_split
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTupleSplit.weight_join
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTupleSplit.activePrimes_mem
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTupleSplit.activePrimes_subset
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalTupleSplit.inactivePrimes_eq
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.exists_uniform_power_threshold
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.abs_logb_le_of_power_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.fineMesh_spec
@@ -540,3 +859,6 @@ target gate; it does not replace that target.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.stageCapacity_le_common
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.stageMargin_lower
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.stageRowBound_rank_iff
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.exists_descentBudget_small_step
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.exists_terminal_descentBudget
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.stageMargin_half_eta_nonneg

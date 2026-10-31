@@ -140,6 +140,13 @@ and both raw child normalizations cancel exactly. -/
 theorem initial_exponent_identity (m L P : ℝ) :
     (m - 2 * L + P) + P + 2 * (L - P) = m := by ring
 
+theorem physical_power_identity (Z m L R A : ℝ) (hZ : 0 < Z) :
+    A * Z ^ m * Z ^ R / (Z ^ L) ^ 2 = A * Z ^ (m - 2 * L + R) := by
+  have htwo : Z ^ (2 * L) = (Z ^ L) ^ 2 := by
+    rw [mul_comm, Real.rpow_mul_natCast hZ.le]
+  rw [Real.rpow_add hZ, Real.rpow_sub hZ, htwo]
+  ring
+
 /-- Closure uses the original clipped family, so its 28h unit-column
 allowance is paid together with both actual norm-window errors. -/
 theorem closed_exponent_budget (m L g theta v h N pi eps : ℝ)

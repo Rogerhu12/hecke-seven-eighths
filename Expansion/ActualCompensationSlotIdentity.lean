@@ -60,7 +60,7 @@ theorem actualOriginalMaskedPrimeSum_eq_physicalWindow
   let A := (analyticMomentPrimeWindow K g i).support 0 (primeScale g Z)
   have hmem (p : ExteriorPrime K S) :
       p ∈ primeWindow K S g ∅ Z i ↔ p.val ∈ A := by
-    simp only [mem_physicalPrimeWindow_iff_analytic, Finset.not_mem_empty,
+    simp only [mem_physicalPrimeWindow_iff_analytic, Finset.notMem_empty,
       false_implies, implies_true, and_true, A]
   have hext :
       (∑ p ∈ primeWindow K S g ∅ Z i,
@@ -97,7 +97,7 @@ theorem actualOriginalMaskedPrimeSum_eq_physicalWindow
 theorem conj_profilePower_conj_sub_one (z : ℂ) {y : ℝ} (hy : 0 < y) :
     conj (profilePower (conj z - 1) y) = (y : ℂ) ^ (z - 1) := by
   rw [profilePower, ← Complex.exp_conj]
-  simp only [map_mul, Complex.conj_ofReal, map_sub, map_one, conj_conj]
+  simp only [map_mul, Complex.conj_ofReal, map_sub, map_one, Complex.conj_conj]
   exact profilePower_eq_cpow (z - 1) hy
 
 /-- On the actual physical line the real profile is fixed before every
@@ -184,7 +184,8 @@ theorem actualCompensationMainSlot_eq_shared_primePolynomial
         conj (primePolynomial
           (sharedMomentData K S P R omega ψ a (compensationPrimeGeometry K g z)
             (fun _ => 1) u.sector V W) i u.ideal.val Z 0) := by
-  rw [shared_primePolynomial_eq_actualOriginalMaskedPrimeSum K S P R omega ψ, mul_one]
+  erw [shared_primePolynomial_eq_actualOriginalMaskedPrimeSum K S P R omega ψ]
+  simp only [mul_one]
   exact actualCompensationMainSlot_eq_normalized_masked K S P R g u Z hZ z i
 
 /-- The normalization retained by the moment interface contributes exactly
@@ -197,9 +198,10 @@ theorem norm_actualCompensationMainSlot_eq_shared_primePolynomial
         ‖primePolynomial
           (sharedMomentData K S P R omega ψ a (compensationPrimeGeometry K g z)
             (fun _ => 1) u.sector V W) i u.ideal.val Z 0‖ := by
+  have hP : 0 < primeScale g Z := Real.rpow_pos_of_pos hZ _
   rw [actualCompensationMainSlot_eq_shared_primePolynomial K S P R omega ψ a g V W
     u Z hZ z i, norm_mul, Complex.norm_conj,
-    Complex.norm_cpow_eq_rpow_re_of_pos (Real.rpow_pos_of_pos hZ _)]
+    Complex.norm_cpow_eq_rpow_re_of_pos hP]
   congr 2 <;> simp
 
 end Expansion.Project

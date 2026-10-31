@@ -72,8 +72,9 @@ theorem annularLength_upper {Z N H : ℝ} (hZ : 2 ≤ Z) (hH : 1 ≤ H)
   have hH0 := zero_lt_one.trans_le hH
   have hX := Real.rpow_pos_of_pos hz0 N
   have h8 : (8 : ℝ) ≤ Z ^ (3 : ℝ) := by
-    rw [Real.rpow_natCast]
-    nlinarith [mul_nonneg (Z - 2) (Z + 2), mul_nonneg (Z - 2) (Z ^ 2 + 2 * Z + 4)]
+    have hp := pow_le_pow_left₀ (by norm_num : (0 : ℝ) ≤ 2) hZ 3
+    norm_num at hp
+    simpa only [Real.rpow_natCast] using hp
   have hbound : annularScale i * (Z ^ N / H ^ 3) ≤ Z ^ (N + 3) := by
     calc
       _ ≤ 8 * Z ^ N :=
