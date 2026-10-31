@@ -30,11 +30,12 @@ open scoped Classical BigOperators Topology
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "S₀" => (S : Set (HeightOneSpectrum (𝓞 K)))
-variable [MeasurableSpace (sLocalNormOneGroup K S₀)] [BorelSpace (sLocalNormOneGroup K S₀)]
-variable [∀ p : S₀, MeasurableSpace (p.val.adicCompletion K)]
-variable [∀ p : S₀, BorelSpace (p.val.adicCompletion K)]
-variable (μ : (p : S₀) → Measure (p.val.adicCompletion K))
-variable [∀ p : S₀, (μ p).IsAddHaarMeasure]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), MeasurableSpace (p.val.adicCompletion K)]
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), BorelSpace (p.val.adicCompletion K)]
+variable (μ : (p : (S : Set (HeightOneSpectrum (𝓞 K)))) → Measure (p.val.adicCompletion K))
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), (μ p).IsAddHaarMeasure]
 
 /-- A fixed bound for the original Gaussian and both Mellin tests on
 the actual contour strips. The physical residue normalizer is fixed
@@ -75,23 +76,17 @@ theorem exists_actual_profile_bound (P : ProbeData K S₀) :
       hDen (norm_nonneg _) (mul_nonneg (Real.exp_pos 4).le hA.le))
     hNorm (norm_nonneg _) (mul_nonneg (mul_nonneg (Real.exp_pos 4).le hA.le) hD.le)
 
-/-- The actual compensated kernel satisfies the row-count-free norm
-form with a constructed full-correction amplitude. The height loss is
-explicit and can be made small by choosing kappa before Z and T. -/
-theorem exists_actual_kernel_normForm
+/-- The actual non-slot factors give a uniform pointwise norm form for
+any finite amplitude vector whose bounds hold at the current point.
+This is used both for a whole-box maximum and for a measurable height
+fiber. The subsequent constructors prove the slot bounds themselves. -/
+theorem exists_actual_kernel_normForm_of_slot_bounds
     (psi : HeckeCharacter K) (companions : Finset (HeckeCharacter K))
     (hcomp : (1 : HeckeCharacter K) ∈ companions)
     (P : ProbeData K S₀) (g : PrimeWindowGeometry)
-    (hcal : ThetaCalibrationInput K S₀ P.arithmetic P.Lambda P.G)
-    (hpsi : ∀ p : ExteriorPrime K S₀, UnramifiedAt K psi p.val)
     {e eps eta kappa theta nu : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000)
     (heps : 0 < eps) (heta : 0 < eta) (hkappa : 0 < kappa) (htheta : 0 < theta)
-    (hnu : 0 < nu)
-    (hbudget : eps + eta + kappa *
-        (((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) * eps) +
-        ((1 / 6 : ℝ) / g.slots) * (8 * e + eta) ≤
-      ((1 / 6 : ℝ) / g.slots) * theta / 2)
-    (N : ℕ) (hN : (1 / 2 : ℝ) ≤ (N : ℝ) * theta) :
+    (hnu : 0 < nu) :
     ∃ C Z0 : ℝ, 0 < C ∧ 1 ≤ Z0 ∧ ∀ Z T : ℝ, Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
       ∀ d : ℝ, (1 / 16 : ℝ) ≤ d → d ≤ 1 →
       ∀ u : FrequencyRow K S₀, Z ^ d ≤ frequencyRowNorm K S₀ u →
@@ -99,17 +94,16 @@ theorem exists_actual_kernel_normForm
       ∀ a : ℝ, 51 / 100 ≤ a → a ≤ 1 →
       rowZeroBelow K S₀ psi companions P (arithmeticHighEulerData K S₀ P psi) u
         (2 * NormForm.internalHeight Z T kappa + 2) (a + 2 * e) →
-      ∃ A : ActualFullSlotAmplitude K S₀ P psi g u Z a e
-          (NormForm.internalHeight Z T kappa) theta N,
+      ∀ amplitude : Fin g.slots → ℝ,
         ∀ x ∈ heightBox (NormForm.internalHeight Z T kappa),
+          (∀ i, ‖actualSlotHeightProfile K S₀ P psi g ∅ u Z a e i x‖ ≤
+            (primeScale g Z) ^ (-(4 / 25 : ℝ) + amplitude i + theta)) →
           ‖compensatedRowMellinKernel K S₀ μ P psi (arithmeticHighEulerData K S₀ P psi) g ∅ u Z
             (sLine (a + 16 * e) x) (wLine (1 - a - 6 * e) x) (zLine x)‖ ≤
-            C * Z ^ (NormForm.rowExponent d a (ActualFullSlotAmplitude.mean K S₀ A) +
+            C * Z ^ (NormForm.rowExponent d a ((∑ i, amplitude i) / g.slots) +
               (105 / 8 + 6 * d) * e + d * (2 * eps + eta) + (theta / 6 + nu) +
               kappa * (((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) +
                 2 * ((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) * eps)) := by
-  obtain ⟨ZA, hZA, hamp⟩ := exists_actualFullSlotAmplitude K S₀ psi companions hcomp P g
-    hcal hpsi he he1 heps heta hkappa htheta hbudget N hN
   obtain ⟨CL, ZL, hCL, hZL, hratio⟩ := NormFormSharpFactors.exists_actual_threeLFactor_radical_bound
     K S₀ psi companions hcomp P he he1 heps
   obtain ⟨CE, hCE, heuler⟩ := exists_uniform_rowCorrection_subpower K S₀ he he1 heta
@@ -124,19 +118,13 @@ theorem exists_actual_kernel_normForm
   have hdeg : 0 ≤ deg := by dsimp only [deg]; positivity
   have hD : 0 ≤ D := by dsimp only [D]; positivity
   have hC : 0 < C := by dsimp only [C]; positivity
-  refine ⟨C, max ZA (max ZL (max ZN ZF)), hC, hZA.trans (le_max_left _ _), ?_⟩
-  intro Z T hZ hT hTceiling d hd hd1 u hu hu1 a ha ha1 hbelow
-  have hZZA : ZA ≤ Z := (le_max_left _ _).trans hZ
-  have hZZL : ZL ≤ Z := (le_max_left _ _).trans ((le_max_right _ _).trans hZ)
-  have hZZN : ZN ≤ Z := (le_max_left _ _).trans
-    ((le_max_right _ _).trans ((le_max_right _ _).trans hZ))
-  have hZZF : ZF ≤ Z := (le_max_right _ _).trans
-    ((le_max_right _ _).trans ((le_max_right _ _).trans hZ))
-  have hZ1 : 1 ≤ Z := hZA.trans hZZA
+  refine ⟨C, max ZL (max ZN ZF), hC, hZL.trans (le_max_left _ _), ?_⟩
+  intro Z T hZ hT hTceiling d hd hd1 u hu hu1 a ha ha1 hbelow amplitude x hx hupper
+  have hZZL : ZL ≤ Z := (le_max_left _ _).trans hZ
+  have hZZN : ZN ≤ Z := (le_max_left _ _).trans ((le_max_right _ _).trans hZ)
+  have hZZF : ZF ≤ Z := (le_max_right _ _).trans ((le_max_right _ _).trans hZ)
+  have hZ1 : 1 ≤ Z := hZL.trans hZZL
   have hZ0 : 0 < Z := zero_lt_one.trans_le hZ1
-  obtain ⟨A⟩ := hamp Z T hZZA hT hTceiling d hd hd1 u hu hu1 a ha ha1 hbelow
-  refine ⟨A, ?_⟩
-  intro x hx
   let E := arithmeticHighEulerData K S₀ P psi
   let H : ℝ := NormForm.internalHeight Z T kappa
   let U : ℝ := 2 * H + 2
@@ -178,15 +166,15 @@ theorem exists_actual_kernel_normForm
     simpa only [Finset.card_empty, pow_zero, mul_one] using
       heuler P psi ∅ u a ha ha1 (s, w, z) hv
   have hslots : ‖slots‖ ≤ 1 * (1 : ℝ) ^ (a - 1 / 2 + 6 * e) *
-      Z ^ (-2 / 75 + ActualFullSlotAmplitude.mean K S₀ A / 6 + theta / 6) := by
+      Z ^ (-2 / 75 + ((∑ i, amplitude i) / g.slots) / 6 + theta / 6) := by
     have h := NormForm.uniform_slot_product_bound g.slots g.slots_pos Z theta 1
-      (ActualFullSlotAmplitude.amplitude K S₀ A)
+      amplitude
       (fun i => actualFullCorrectionSlot K S₀ P psi g ∅ u Z s w z i) hZ0
-      (fun i => by simpa only [one_mul] using A.upper i x hx)
-    simpa only [slots, ActualFullSlotAmplitude.mean, one_pow, Real.one_rpow, one_mul] using h
+      (fun i => by simpa only [one_mul] using hupper i)
+    simpa only [slots, one_pow, Real.one_rpow, one_mul] using h
   have hnorm := NormForm.pointwise_normForm_of_factors
     Z (frequencyRowNorm K S₀ u) (u.ideal.val.val.radical.absNorm : ℝ) 1 d a
-    (ActualFullSlotAmplitude.mean K S₀ A) e (2 * eps) eta theta nu D
+    ((∑ i, amplitude i) / g.slots) e (2 * eps) eta theta nu D
     CP (CL * (2 + U) ^ deg) CE 1 CN 1 s w z profile ratio euler slots
     (primeNormalizer K S₀ g ∅ Z)⁻¹ hZ0 hu hu1 hRpos hRle (by norm_num)
     (by simpa only [one_mul] using hRle) (by linarith) (by positivity) hD
@@ -214,7 +202,7 @@ theorem exists_actual_kernel_normForm
   change ‖compensatedRowMellinKernel K S₀ μ P psi E g ∅ u Z s w z‖ ≤ _
   rw [hid]
   apply hnorm.trans
-  let b : ℝ := NormForm.rowExponent d a (ActualFullSlotAmplitude.mean K S₀ A) +
+  let b : ℝ := NormForm.rowExponent d a ((∑ i, amplitude i) / g.slots) +
     (105 / 8 + 6 * d) * e + d * (2 * eps + eta) + (theta / 6 + nu)
   calc
     _ = (CP * CL * CE * CN * (2 : ℝ) ^ D) * (2 + U) ^ deg * Z ^ b := by
@@ -228,7 +216,55 @@ theorem exists_actual_kernel_normForm
     _ = C * Z ^ (b + kappa * deg) := by rw [← Real.rpow_add hZ0]
     _ = _ := rfl
 
+/-- The actual compensated kernel satisfies the row-count-free norm
+form with a constructed full-correction amplitude. The height loss is
+explicit and can be made small by choosing kappa before Z and T. -/
+theorem exists_actual_kernel_normForm
+    (psi : HeckeCharacter K) (companions : Finset (HeckeCharacter K))
+    (hcomp : (1 : HeckeCharacter K) ∈ companions)
+    (P : ProbeData K S₀) (g : PrimeWindowGeometry)
+    (hcal : ThetaCalibrationInput K S₀ P.arithmetic P.Lambda P.G)
+    (hpsi : ∀ p : ExteriorPrime K S₀, UnramifiedAt K psi p.val)
+    {e eps eta kappa theta nu : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000)
+    (heps : 0 < eps) (heta : 0 < eta) (hkappa : 0 < kappa) (htheta : 0 < theta)
+    (hnu : 0 < nu)
+    (hbudget : eps + eta + kappa *
+        (((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) * eps) +
+        ((1 / 6 : ℝ) / g.slots) * (8 * e + eta) ≤
+      ((1 / 6 : ℝ) / g.slots) * theta / 2)
+    (N : ℕ) (hN : (1 / 2 : ℝ) ≤ (N : ℝ) * theta) :
+    ∃ C Z0 : ℝ, 0 < C ∧ 1 ≤ Z0 ∧ ∀ Z T : ℝ, Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+      ∀ d : ℝ, (1 / 16 : ℝ) ≤ d → d ≤ 1 →
+      ∀ u : FrequencyRow K S₀, Z ^ d ≤ frequencyRowNorm K S₀ u →
+        frequencyRowNorm K S₀ u ≤ 2 * Z ^ d →
+      ∀ a : ℝ, 51 / 100 ≤ a → a ≤ 1 →
+      rowZeroBelow K S₀ psi companions P (arithmeticHighEulerData K S₀ P psi) u
+        (2 * NormForm.internalHeight Z T kappa + 2) (a + 2 * e) →
+      ∃ A : ActualFullSlotAmplitude K S₀ P psi g u Z a e
+          (NormForm.internalHeight Z T kappa) theta N,
+        ∀ x ∈ heightBox (NormForm.internalHeight Z T kappa),
+          ‖compensatedRowMellinKernel K S₀ μ P psi (arithmeticHighEulerData K S₀ P psi) g ∅ u Z
+            (sLine (a + 16 * e) x) (wLine (1 - a - 6 * e) x) (zLine x)‖ ≤
+            C * Z ^ (NormForm.rowExponent d a (ActualFullSlotAmplitude.mean K S₀ A) +
+              (105 / 8 + 6 * d) * e + d * (2 * eps + eta) + (theta / 6 + nu) +
+              kappa * (((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) +
+                2 * ((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) * eps)) := by
+  obtain ⟨ZA, hZA, hamp⟩ := exists_actualFullSlotAmplitude K S₀ psi companions hcomp P g
+    hcal hpsi he he1 heps heta hkappa htheta hbudget N hN
+  obtain ⟨C, ZK, hC, hZK, hkernel⟩ := exists_actual_kernel_normForm_of_slot_bounds
+    K S μ psi companions hcomp P g he he1 heps heta hkappa htheta hnu
+  refine ⟨C, max ZA ZK, hC, hZA.trans (le_max_left _ _), ?_⟩
+  intro Z T hZ hT hTceiling d hd hd1 u hu hu1 a ha ha1 hbelow
+  obtain ⟨A⟩ := hamp Z T ((le_max_left _ _).trans hZ) hT hTceiling
+    d hd hd1 u hu hu1 a ha ha1 hbelow
+  refine ⟨A, ?_⟩
+  intro x hx
+  exact hkernel Z T ((le_max_right _ _).trans hZ) hT hTceiling
+    d hd hd1 u hu hu1 a ha ha1 hbelow (ActualFullSlotAmplitude.amplitude K S₀ A)
+    x hx (fun i => A.upper i x hx)
+
 end HighBinVerified.NormFormKernel
 
 #print axioms HighBinVerified.NormFormKernel.exists_actual_profile_bound
+#print axioms HighBinVerified.NormFormKernel.exists_actual_kernel_normForm_of_slot_bounds
 #print axioms HighBinVerified.NormFormKernel.exists_actual_kernel_normForm

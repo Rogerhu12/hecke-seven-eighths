@@ -55,5 +55,6 @@
   "HeckeSkeleton.HighBinSupport.JointAnalyticLimit",
   "HeckeSkeleton.HighBinSupport.EulerRegionUniqueness",
   "HeckeSkeleton.HighBinSupport.EulerRegionProduct",
-  "HeckeSkeleton.HighBinSupport.BoundaryHeightAbsorption"
+  "HeckeSkeleton.HighBinSupport.BoundaryHeightAbsorption",
+  "HeckeSkeleton.HighBinSupport.HighNormFormPointwisePartition"
 ]

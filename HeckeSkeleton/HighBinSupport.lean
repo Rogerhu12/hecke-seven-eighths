@@ -104,3 +104,5 @@ import HeckeSkeleton.HighBinSupport.UnramifiedFiniteTable
 import HeckeSkeleton.HighBinSupport.ValuationSeries
 import HeckeSkeleton.HighBinSupport.EulerRegionProduct
 import HeckeSkeleton.HighBinSupport.BoundaryHeightAbsorption
+import HeckeSkeleton.HighBinSupport.HighNormFormPointwisePartition
+import HeckeSkeleton.HighBinSupport.ActualNormFormRegionIntegral

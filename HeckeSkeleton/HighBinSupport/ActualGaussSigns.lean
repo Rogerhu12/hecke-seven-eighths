@@ -1,4 +1,4 @@
-import HeckeSkeleton.HighBinSupport.ActualEulerData
+import HeckeSkeleton.HighBinSupport.ActualGaussData
 import Mathlib.RingTheory.RootsOfUnity.Minpoly
 
 /-!
@@ -20,6 +20,7 @@ noncomputable section
 namespace HeckeSkeleton.HighBinActualEuler
 
 open NumberField IsDedekindDomain
+open AlgebraicNumberTheory.PowerResidueSymbols
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open scoped Classical BigOperators

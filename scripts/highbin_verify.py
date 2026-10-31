@@ -4,6 +4,7 @@
 Run from a checkout with the pinned toolchain and Mathlib cache installed:
     python scripts/highbin_verify.py core
     python scripts/highbin_verify.py mellin
+    python scripts/highbin_verify.py fourier
     python scripts/highbin_verify.py actual
 """
 import argparse
@@ -70,7 +71,7 @@ def audit(group, modules, declarations):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('group', choices=['core', 'mellin', 'actual'])
+    parser.add_argument('group', choices=['core', 'mellin', 'fourier', 'actual'])
     args = parser.parse_args()
     OUT.mkdir(exist_ok=True)
     modules = json.loads((ROOT / f'docs/highbin/{args.group}_modules.json').read_text())

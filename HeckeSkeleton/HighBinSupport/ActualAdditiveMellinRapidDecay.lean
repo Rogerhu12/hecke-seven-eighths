@@ -14,6 +14,7 @@ noncomputable section
 namespace HighBinBoundary.ActualAdditive
 
 open MeasureTheory Complex NumberField IsDedekindDomain
+open NumberField.AdelicFourier NumberField.StandardAddChar
 open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Bridge
 open HeckeGeneral.ThetaSkeleton.Physical
 open HeckeGeneral.Analysis.SLocalRadialHaarDraft
@@ -31,8 +32,9 @@ local notation "A" => ((p : S₀) → p.val.adicCompletion K)
 attribute [local instance] LanglandsTunnell.TateLocal.localBorel
   LanglandsTunnell.TateLocal.borelSpace_localBorel
 
-variable (μ : (p : S₀) → Measure (p.val.adicCompletion K))
-variable [∀ p : S₀, (μ p).IsAddHaarMeasure]
+variable (μ : (p : (S : Set (HeightOneSpectrum (𝓞 K)))) →
+  Measure (p.val.adicCompletion K))
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), (μ p).IsAddHaarMeasure]
 
 /-- The literal finite part of additiveFourier, including all Haar masses. -/
 def finiteFourierProfile (W : AdditiveProbeTest K S₀) (y : A) : ℂ :=
@@ -84,8 +86,8 @@ theorem additiveFourier_eq_tensor (W : AdditiveProbeTest K S₀) (x : G) :
   exact (mixedTraceSchwartzFourier_apply K W.infiniteTest
     (x.1 : mixedEmbedding.mixedSpace K)).symm
 
-variable [MeasurableSpace (sLocalNormOneGroup K S₀)]
-  [BorelSpace (sLocalNormOneGroup K S₀)]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 
 /-- Exact dictionary for the physical Mellin integral and the original
 norm-one Haar. The logarithmic substitution cancels du/u literally. -/
@@ -111,7 +113,7 @@ theorem additiveMellin_eq_orbitalMellin (W : AdditiveProbeTest K S₀) (z : ℂ)
   exact mul_comm _ _
 
 variable [IsTotallyComplex K]
-variable (Γ : Subgroup (S₀.unit K)) [Γ.FiniteIndex]
+variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)) [Γ.FiniteIndex]
 
 include Γ in
 /-- Actual arbitrary-order vertical decay of the additive Mellin transform.
@@ -159,8 +161,8 @@ local notation "S₀" => (S : Set (HeightOneSpectrum (𝓞 K)))
 attribute [local instance] LanglandsTunnell.TateLocal.localBorel
   LanglandsTunnell.TateLocal.borelSpace_localBorel
 
-variable [MeasurableSpace (sLocalNormOneGroup K S₀)]
-  [BorelSpace (sLocalNormOneGroup K S₀)]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 
 /-- Transport back to the literal Borel structures and Haar measures of
 ProbeMeasures. Borel uniqueness removes a representation choice; the Haar

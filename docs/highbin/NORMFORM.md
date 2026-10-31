@@ -6,7 +6,7 @@ the repository's actual arithmetic, prime-window and contour definitions.
 It does **not** certify `HeckeSkeleton.highShiftedNormForm`: the original named
 presentation and expansion identifications remain missing.
 
-The status below is recorded on 2026-10-30. The exact source signatures in
+The status below was updated on 2026-10-31. The exact source signatures in
 the appendix are candidates until the corresponding individual actual
 modules have elaborated successfully. A source declaration with a proof
 body is not, by itself, an elaborated theorem or an exact-type audit.
@@ -19,7 +19,7 @@ body is not, by itself, an elaborated theorem or an exact-type audit.
 | `ActualOrbitalRapidDecay` and the four preceding Mellin modules | Native five-module / 59-public-declaration audit passed at `c71511a569ed8b98c243b66ead8d8ec8c83d59b9` | All axiom sets contain only the three standard axioms; [verified_mellin_axioms.json](verified_mellin_axioms.json) preserves the full mapping. |
 | The same Mellin dependency chain, combined locally | 40 source files and 577 public declarations passed | This is additional combined-source evidence, distinct from separate-module verification. |
 | `HighNormFormScalar`, including `exists_full_normForm_parameter_budget` | The native core run at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0` compiled the file successfully; the subsequent run at `45b507f4995fe107e2e98041f91971c8c78d5860` passed all 57 modules and 442 public declaration audits | Its printed parameter-budget axiom set is the same three standard axioms. The current core run references are maintained in `REPORT.md`; this core success does not verify the deep actual norm-form chain. |
-| Actual window detector, zero-free prime contour/cap, complete-slot correction, sharp factors, amplitude construction, kernel, integral, label grouping and target presentation consumer | Source implementation and static interface review only | The complete actual build had not reached these declarations. Their displayed source signatures and their transitive axiom sets have **not** been confirmed by Lean. |
+| Actual window detector, zero-free prime contour/cap, complete-slot correction, sharp factors, amplitude construction, kernel, integral, label grouping, computed height regions and target presentation consumer | Source implementation and static interface review only | The complete actual build had not reached these declarations. Their displayed source signatures and their transitive axiom sets have **not** been confirmed by Lean. |
 | Original `HighShiftedNormForm K c (actualHighPresentation K c)` | Not discharged | The original `HB-NORMFORM`, `HB-PRESENT` and `D-EXPANSION` admissions are not replaced by this chain. |
 
 The reproducible module lists and audit machinery are
@@ -498,6 +498,68 @@ an analytic budget. Genuine integrability is established by the
 upstream integral theorem, although the shorter quarter-loss conclusion
 does not repeat that field.
 
+### Computed restricted-height pieces
+
+The 2026-10-31 extension constructs actual regions instead of accepting
+arbitrary regions as input. The pure
+[HighNormFormPointwisePartition.lean](../../HeckeSkeleton/HighBinSupport/HighNormFormPointwisePartition.lean)
+defines a total bucket index by `Nat.find`: take the first geometric
+threshold reached, retaining index `N` as a fallback. The final amplitude
+is clipped at `a-1/2`. Measurability follows from the threshold predicates,
+so it does not depend on the measurability of an arbitrary choice function.
+
+[ActualNormFormRegions.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean)
+instantiates this recipe at the literal values
+
+\[
+M_i(u,x)=pScale^{4/25}\lVert S_i(u,x)\rVert.
+\]
+
+For a label `ell : Fin g.slots → Fin (N+1)`, its region is the subset of
+the actual `heightBox H` where all computed bucket indices equal `ell`.
+All slots use the repository's common `primeScale g Z`; their different
+window positions remain inside the original slot functions. These regions
+are measurable, pairwise disjoint and exhaust the box for each row.
+Different labels may retain the same row because their height regions can
+both be nonempty. The corresponding amplitude vector and mean are
+
+\[
+\alpha_{\ell,i}=\min(\ell_i\theta,a-1/2),\qquad
+q_\ell=\frac1J\sum_i\alpha_{\ell,i}.
+\]
+
+The actual arithmetic cap proves the complete-slot upper bound throughout
+each region. If an amplitude is positive, every point in that region
+also supplies its strict lower witness. In particular, all positive slot
+witnesses can be evaluated at the same point; separate slot maxima are
+not substituted for a simultaneous region witness.
+
+[ActualNormFormRegionIntegral.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean)
+defines `actualRegionPiece` to be exactly `(2*pi)^(-3)` times the original
+compensated kernel integrated over this computed region. Its
+`exists_actual_region_normForm_quarter_loss` has the same fixed arithmetic,
+Borel and Haar inputs as the whole-box theorem, and assumes only
+`0 < e ≤ 1/10000`, `0 < lam`, and `e ≤ lam/100` before choosing
+`kappa,theta,N,C,Z0`. After those choices, it quantifies over `Z,T,d,u,a`
+with the same scale, dyadic shell, closed bin range and upper-detector
+conditions. It returns, for **every** label:
+
+- measurability of the computed region and genuine integrability of its
+  literal restricted kernel;
+- the actual slot upper bounds and same-point positive lower witnesses;
+- the individual estimate
+  `‖actualRegionPiece label‖ ≤ C*Z^(rowExponent d a q_label + lam/4)`.
+
+It also returns the exact identity `sum label, actualRegionPiece label =
+rowContourBox`, with the original tests, Euler provider and normalizers.
+The proof bounds the mass of each region by the actual box mass `8*H^3`
+and uses the same native scalar budget. No piece norm bound, slot bound,
+region, or integrability assertion is a premise of this complete theorem.
+The auxiliary kernel factor lemma accepts pointwise slot bounds; this
+complete theorem supplies them from the constructed regions and the
+actual arithmetic cap. The deep actual extension remains unelaborated
+until its separate native build succeeds.
+
 ## 7. Actual finite labels and exact sum identity
 
 Source:
@@ -733,9 +795,11 @@ means or pieces with the constructed full-slot labels.
 
 ### Review of possible restricted-height label pieces
 
-A direct review of the existing types found **no representation of an
-original label as a measurable height region**. This is a structural
-absence, before any analytic estimate:
+A direct review of the original types, repeated against upstream
+`245e38879fecf3d4a52655c027ac14eb3bf178f2`, found **no representation of an
+original label as a measurable height region**. The new concrete regions
+in Section 6 supply such objects for the actual slot functions, but the
+original named expansion has not yet been identified with them:
 
 - `AmplitudeSet` has exactly `rows`, `amplitude`, `slotValue`,
   `subdivisionCount`, and `subdivision`. Its `slotValue` is a complex
@@ -758,16 +822,16 @@ add any of these missing fields or identities. Also, the pure
 about its supplied kernels and selectors; the repository does not
 identify that packet with the named target's `shiftedPiece`.
 
-For a construction that uses restricted-height pieces, the missing
-identification theorem must have the following concrete content. For
-each actual `K,c,P,Z,T,b`, it must construct
+For the named presentation to use restricted-height pieces, the remaining
+identification theorem must select the constructed regions for each
+original label. For each actual `K,c,P,Z,T,b`, this supplies a map of type
 
 ```lean
 regions : HighLabel K c Z T b → HighRow K c → Set (ℝ × (ℝ × ℝ))
 ```
 
 and, for every `ℓ ∈ P.labels Z T b` and every original retained row
-`u ∈ (block.amplitudeSet ℓ).rows`, prove both
+`u ∈ (block.amplitudeSet ℓ).rows`, must retain
 
 ```lean
 MeasurableSet (regions ℓ u)
@@ -790,8 +854,11 @@ actual probe and Haar measures, `P.euler`, `c.geometry`, the original
 ray filter, and real contour coordinates
 `a+16*P.e`, `1-a-6*P.e`, `17/50`, where `a = block.bin`.
 The integral above uses the ordinary product Lebesgue measure on
-`ℝ × (ℝ × ℝ)` restricted to the constructed region. These displays
-specify a **missing theorem**, not a newly proved declaration.
+`ℝ × (ℝ × ℝ)` restricted to the constructed region. The equality with
+the original `P.shiftedPiece` is still a **missing identification**.
+Measurability, the subset property and the integral formula for the new
+`actualRegionPiece` itself are now supplied by the concrete region chain;
+they do not force an equality with the opaque original presentation.
 
 If the total decomposition is to be recovered from these regions, it
 also needs the almost-everywhere finite indicator identity: for each
@@ -803,22 +870,19 @@ per-piece norm estimate: changing two pieces by opposite complex
 quantities preserves the total while their individual norms can grow.
 
 There is a second independent identification needed for the requested
-exponent. The original label's amplitude vector and mean must be tied
-to the **actual complete-slot values on that same region**. The current
-`ActualFullSlotAmplitude` construction chooses a grid vector valid over
-the whole box. That vector need not equal the pointwise label's vector
-on a smaller region. Integrating its whole-box estimate on an arbitrary
-subset therefore does not by itself produce the original label mean in
-`highRowExponent`.
+exponent. The original label's amplitude vector and mean must equal the
+computed `actualRegionAmplitude` and `actualRegionMean` of its assigned
+grid label. The new restricted integral theorem proves the estimate with
+this precise region mean. It does not substitute the whole-box maximum
+mean from `ActualFullSlotAmplitude`. Thus the analytic region estimate is
+now available as source code, while its equality with the named
+expansion's `.mean` remains a construction obligation.
 
-Consequently no additional generic restricted-integral consumer was
-added during this review. It would leave both missing identities
-untouched and would not consume an object presently constructed in
-the repository. The existing target consumer remains explicitly
-conditional on its stronger whole-row piece identity. A genuine
-restricted-piece extension should follow the construction of the
-regions and their complete-slot label identities, using the existing
-pointwise kernel factorization and the finite box-volume estimate.
+The existing whole-row target consumer remains explicitly conditional on
+its stronger whole-row piece identity. The new region chain avoids that
+identity for the pieces it constructs. Neither route changes the opaque
+`Base.highExpansion`, fabricates a witness subdivision, or derives a
+per-piece identity merely from the original total-sum identity.
 
 Accordingly this document records a proposed actual analytic chain and
 its exact remaining connection. It does not assert that the original
@@ -903,7 +967,7 @@ theorem exists_actual_fullSlot_amplitude_grid
 ### `HighBinVerified.NormFormKernel.exists_actual_kernel_normForm`
 
 Source: [ActualNormFormKernel.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormKernel.lean).  
-Source SHA-256: `6e6e492bddfce70f870ce9111fa667528f9b28a97828bb48acc6d7d80b245176`.
+Source SHA-256: `b17d13b31c842b214e1af4d2b14560fc63d04a5b2debe87765f4bcdf809dba6d`.
 
 ```lean
 theorem exists_actual_kernel_normForm
@@ -941,7 +1005,7 @@ theorem exists_actual_kernel_normForm
 ### `HighBinVerified.NormFormIntegral.exists_actual_rowContour_normForm`
 
 Source: [ActualNormFormIntegral.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormIntegral.lean).  
-Source SHA-256: `52525599f344ae8345137536b64de79f8381c756d14cdeed7a87b6568fbda8da`.
+Source SHA-256: `59fec086818ec36437e9e927f62cd56ddf94edc88f70e599e65678a7674126af`.
 
 ```lean
 theorem exists_actual_rowContour_normForm
@@ -984,7 +1048,7 @@ theorem exists_actual_rowContour_normForm
 ### `HighBinVerified.NormFormIntegral.exists_actual_rowContour_normForm_quarter_loss`
 
 Source: [ActualNormFormIntegral.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormIntegral.lean).  
-Source SHA-256: `52525599f344ae8345137536b64de79f8381c756d14cdeed7a87b6568fbda8da`.
+Source SHA-256: `59fec086818ec36437e9e927f62cd56ddf94edc88f70e599e65678a7674126af`.
 
 ```lean
 theorem exists_actual_rowContour_normForm_quarter_loss
@@ -1014,7 +1078,7 @@ theorem exists_actual_rowContour_normForm_quarter_loss
 ### `HighBinVerified.NormFormLabels.exists_actual_labelled_rowContour_normForm`
 
 Source: [ActualNormFormLabels.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormLabels.lean).  
-Source SHA-256: `83f2a08a52a1337b27f835a334a8615c8bd33db46c3b63f67fe71139bb3be2b8`.
+Source SHA-256: `5f8a37404d4f6339a6ce96ad30000af200f03e4b0b3b3908e293e8fe5127d348`.
 
 ```lean
 theorem exists_actual_labelled_rowContour_normForm
@@ -1143,4 +1207,47 @@ theorem exists_target_highShiftedNormForm_connection
               ((((targetData K c).expansion Z T).block b).bin + 16 * P.e)
               (1 - (((targetData K c).expansion Z T).block b).bin - 6 * P.e) (17 / 50)) →
         HighShiftedNormForm K c P)
+```
+
+
+### `HighBinVerified.NormFormRegionIntegral.exists_actual_region_normForm_quarter_loss`
+
+Source: [ActualNormFormRegionIntegral.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean). SHA-256: `b9c9da41daf9ce3144d835a517e45e1d69204bca95cc07afd62a69a8cf049028`.
+
+This uses the finite-set/Borel/Haar context in Section 2. `actualSlotRegion`, `actualRegionMean` and `actualRegionPiece` are the computed objects from Section 6. `ActualRegionSlotBounds` is an output proposition containing the actual slot upper bounds and same-point strict lower witnesses. This is an unelaborated source signature.
+
+```lean
+theorem exists_actual_region_normForm_quarter_loss
+    (psi : HeckeCharacter K) (companions : Finset (HeckeCharacter K))
+    (hcomp : (1 : HeckeCharacter K) ∈ companions)
+    (P : ProbeData K S₀) (g : PrimeWindowGeometry)
+    (hcal : ThetaCalibrationInput K S₀ P.arithmetic P.Lambda P.G)
+    (hpsi : ∀ p : ExteriorPrime K S₀, UnramifiedAt K psi p.val)
+    {e lam : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000)
+    (hlam : 0 < lam) (heLam : e ≤ lam / 100) :
+    ∃ kappa theta : ℝ, ∃ N : ℕ, ∃ C Z0 : ℝ,
+      0 < kappa ∧ 0 < theta ∧ 0 < C ∧ 1 ≤ Z0 ∧
+      ∀ Z T : ℝ, Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+      ∀ d : ℝ, (1 / 16 : ℝ) ≤ d → d ≤ 1 →
+      ∀ u : FrequencyRow K S₀, Z ^ d ≤ frequencyRowNorm K S₀ u →
+        frequencyRowNorm K S₀ u ≤ 2 * Z ^ d →
+      ∀ a : ℝ, 51 / 100 ≤ a → a ≤ 1 →
+      rowZeroBelow K S₀ psi companions P (arithmeticHighEulerData K S₀ P psi) u
+        (2 * NormForm.internalHeight Z T kappa + 2) (a + 2 * e) →
+      (∀ label : Fin g.slots → Fin (N + 1),
+        MeasurableSet (actualSlotRegion K S₀ P psi g u Z a e
+          (NormForm.internalHeight Z T kappa) theta N label) ∧
+        ActualRegionSlotBounds K S₀ P psi g u Z a e
+          (NormForm.internalHeight Z T kappa) theta N label ∧
+        IntegrableOn (actualRegionKernel K S μ P psi g u Z a e)
+          (actualSlotRegion K S₀ P psi g u Z a e
+            (NormForm.internalHeight Z T kappa) theta N label) ∧
+        ‖actualRegionPiece K S μ P psi g u Z a e
+            (NormForm.internalHeight Z T kappa) theta N label‖ ≤
+          C * Z ^ (NormForm.rowExponent d a (actualRegionMean g a theta N label) + lam / 4)) ∧
+      (∑ label : Fin g.slots → Fin (N + 1),
+        actualRegionPiece K S μ P psi g u Z a e
+          (NormForm.internalHeight Z T kappa) theta N label) =
+        rowContourBox K S₀ μ P psi (arithmeticHighEulerData K S₀ P psi) g ∅ u Z
+          (NormForm.internalHeight Z T kappa) (a + 16 * e) (1 - a - 6 * e) (17 / 50)
 ```

@@ -298,10 +298,10 @@
     ]
   },
   "beyond_standard_axioms": {},
-  "commit": "c71511a569ed8b98c243b66ead8d8ec8c83d59b9",
-  "workflow_run_id": 41127250262,
-  "job_id": 124308854297,
-  "artifact_id": 13012239754,
-  "verification_kind": "native separate-module build and all public declaration type/axiom audit",
+  "commit": "823b1b0e017c7054b21824c7548746c8b1cfaef3",
+  "workflow_run_id": 41137110940,
+  "job_id": 124342176014,
+  "artifact_id": 13018131993,
+  "verification_kind": "native separate-module build and enumerated public source declaration type/axiom audit",
   "modules": 5
 }

@@ -28,11 +28,58 @@ open scoped Classical BigOperators Topology
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "S₀" => (S : Set (HeightOneSpectrum (𝓞 K)))
-variable [MeasurableSpace (sLocalNormOneGroup K S₀)] [BorelSpace (sLocalNormOneGroup K S₀)]
-variable [∀ p : S₀, MeasurableSpace (p.val.adicCompletion K)]
-variable [∀ p : S₀, BorelSpace (p.val.adicCompletion K)]
-variable (μ : (p : S₀) → Measure (p.val.adicCompletion K))
-variable [∀ p : S₀, (μ p).IsAddHaarMeasure]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), MeasurableSpace (p.val.adicCompletion K)]
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), BorelSpace (p.val.adicCompletion K)]
+variable (μ : (p : (S : Set (HeightOneSpectrum (𝓞 K)))) → Measure (p.val.adicCompletion K))
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), (μ p).IsAddHaarMeasure]
+
+/-- The iterated line measure is the literal restricted product volume. -/
+theorem heightBoxMeasure_eq (H : ℝ) :
+    ((volume.restrict (Icc (-H) H)).prod (twoHeightMeasure H)) =
+      (volume : Measure (ℝ × (ℝ × ℝ))).restrict (heightBox H) := by
+  simp only [heightBox, twoHeightMeasure, Measure.prod_restrict]
+
+theorem heightBox_volume_real (H : ℝ) (hH : 0 ≤ H) :
+    (volume : Measure (ℝ × (ℝ × ℝ))).real (heightBox H) = 8 * H ^ 3 := by
+  change ((volume : Measure ℝ).prod ((volume : Measure ℝ).prod volume)).real
+    (Icc (-H) H ×ˢ (Icc (-H) H ×ˢ Icc (-H) H)) = _
+  rw [measureReal_prod_prod, measureReal_prod_prod]
+  simp only [Measure.real, Real.volume_Icc,
+    ENNReal.toReal_ofReal (show 0 ≤ H - -H by linarith)]
+  ring
+
+/-- Fubini identifies the original row contour with its integral over
+the real three-height box. The hypothesis is actual integrability. -/
+theorem rowContourBox_eq_heightBox_integral
+    (P : ProbeData K S₀) (psi : HeckeCharacter K) (E : RowEulerData K S₀ P)
+    (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K))
+    (u : FrequencyRow K S₀) (Z H sigma nu : ℝ)
+    (hi : Integrable (fun x : ℝ × (ℝ × ℝ) =>
+      compensatedRowMellinKernel K S₀ μ P psi E g T u Z
+        (sLine sigma x) (wLine nu x) (zLine x))
+      ((volume.restrict (Icc (-H) H)).prod (twoHeightMeasure H))) :
+    rowContourBox K S₀ μ P psi E g T u Z H sigma nu (17 / 50) =
+      (2 * (Real.pi : ℂ)) ^ (-(3 : ℤ)) *
+        ∫ x in heightBox H, compensatedRowMellinKernel K S₀ μ P psi E g T u Z
+          (sLine sigma x) (wLine nu x) (zLine x) := by
+  let f : (ℝ × (ℝ × ℝ)) → ℂ := fun x =>
+    compensatedRowMellinKernel K S₀ μ P psi E g T u Z
+      (sLine sigma x) (wLine nu x) (zLine x)
+  have hFubini : (∫ x, f x ∂((volume.restrict (Icc (-H) H)).prod (twoHeightMeasure H))) =
+      ∫ ts in Icc (-H) H, ∫ tw in Icc (-H) H, ∫ tz in Icc (-H) H,
+        f (ts, tw, tz) := by
+    rw [integral_prod _ hi]
+    apply integral_congr_ae
+    filter_upwards [hi.prod_right_ae] with ts hts
+    exact integral_prod _ hts
+  rw [← heightBoxMeasure_eq H]
+  change rowContourBox K S₀ μ P psi E g T u Z H sigma nu (17 / 50) =
+    _ * ∫ x, f x ∂((volume.restrict (Icc (-H) H)).prod (twoHeightMeasure H))
+  rw [hFubini]
+  simp only [rowContourBox, f, sLine, wLine, zLine,
+    Complex.ofReal_div, Complex.ofReal_ofNat]
 
 /-- A rowwise norm form for the actual rowContourBox, with the finite
 full-slot amplitude constructed in the conclusion. All constants and
@@ -204,3 +251,4 @@ end HighBinVerified.NormFormIntegral
 
 #print axioms HighBinVerified.NormFormIntegral.exists_actual_rowContour_normForm
 #print axioms HighBinVerified.NormFormIntegral.exists_actual_rowContour_normForm_quarter_loss
+#print axioms HighBinVerified.NormFormIntegral.rowContourBox_eq_heightBox_integral

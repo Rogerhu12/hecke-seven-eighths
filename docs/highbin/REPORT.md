@@ -2,11 +2,11 @@
 
 Working branch: `codex/highbin-euler-norm-boundary-20261030`.
 Original base: `503ad9895e5f8affef55b22fea082e251bf33aa7`.
-Merged current base: `5e4c85f172c101fd0c201219c13aa28f8b520d42` (`dtests-handoff`).
+Merged current base: `245e38879fecf3d4a52655c027ac14eb3bf178f2` (`dtests-handoff`).
 PR: https://github.com/Rogerhu12/hecke-seven-eighths/pull/1.
 Toolchain: Lean `4.35.0-rc3`; Mathlib `0493595ecd5da8ef14742febab99728f98e948e8`.
 
-AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-30.
+AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-30–31.
 
 ## Current task status
 
@@ -63,6 +63,7 @@ Run:
 python scripts/highbin_inventory.py
 python scripts/highbin_verify.py core
 python scripts/highbin_verify.py mellin
+python scripts/highbin_verify.py fourier
 python scripts/highbin_verify.py actual
 ```
 
@@ -70,8 +71,10 @@ The inventory command records source hashes and public declarations.
 The `core` verification command builds the listed core files as separate Lean modules,
 then asks Lean for every enumerated named source declaration's exact type and transitive axiom
 set. Its allowed axioms are `propext`, `Classical.choice`, and `Quot.sound`.
-The `mellin` command separately checks five actual prime-power/Mellin modules
-and requires the same standard axiom set. The `actual` command checks the
+The `mellin` command now checks six actual prime-power/Mellin modules, including
+the physical additive transform. The new `fourier` command checks eight actual
+finite Fourier/CRT modules. Both require the same standard axiom set. Their
+current expanded targets are distinct from the completed five-module Mellin audit below. The `actual` command checks the
 complete arithmetic adapters and `HighBin.lean`, then records every additional
 transitive axiom explicitly in `actual-axioms.json`.
 The existing upstream admissions remain relevant to any transitive audit of
@@ -106,7 +109,7 @@ correctly constructed presentation.
 ## Recorded native verification
 
 The recorded core audit is commit
-`45b507f4995fe107e2e98041f91971c8c78d5860`: **57 separately compiled modules
+`823b1b0e017c7054b21824c7548746c8b1cfaef3`: **57 separately compiled modules
 and 442 public declarations passed**. The downloaded `core-axioms.json`
 contains an empty `beyond_standard_axioms` map. Every declaration uses only
 `propext`, `Classical.choice`, and `Quot.sound` (or a subset). This includes
@@ -115,25 +118,25 @@ the complete three-variable `JointAnalyticLimit`, `EulerRegionAnalytic`,
 `EulerRegionUniqueness`, `EulerRegionProduct`, `BoundaryHeightAbsorption` and
 the full parameter budget in `HighNormFormScalar`.
 
-Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41135382154
-Job: `124336425848`; artifact: `13015787518`.
+Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41137110940
+Job: `124342175741`; artifact: `13016438684`.
 The full declaration-to-axiom mapping is preserved in
 [verified_core_axioms.json](verified_core_axioms.json). This is evidence for
 that exact commit; it does not establish subsequent edits or the full
 arithmetic chain.
 
 The actual Mellin audit passed **5 separate modules and 59 public
-declarations** at `c71511a569ed8b98c243b66ead8d8ec8c83d59b9`. These cover
+declarations** at `823b1b0e017c7054b21824c7548746c8b1cfaef3`. These cover
 higher prime powers, divided-log Mellin inversion, uniform profiles, the
 actual logarithmic prime detector and `ActualOrbitalRapidDecay`. The complete
 axiom mapping has an empty `beyond_standard_axioms` map and is preserved in
 [verified_mellin_axioms.json](verified_mellin_axioms.json). The prior four-module,
 55-declaration audits also passed at `6e3d24ca` and `a2ea9121`.
 
-Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41127250262
-Job: `124308854297`; artifact: `13012239754`.
+Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41137110940
+Job: `124342176014`; artifact: `13018131993`.
 
-That successful proof job could not save its previous whole-`.lake` cache:
+An earlier successful proof job at `c71511a` could not save its previous whole-`.lake` cache:
 archive compression ran out of runner disk space. The current workflow
 therefore caches only the root, class-field-theory and TauCeti `build`
 directories, after dependency setup, and releases already-extracted Mathlib
@@ -156,13 +159,55 @@ preserves the smaller completed project-build caches after a proof failure
 or the build subprocess timeout.
 
 
-The arithmetic run at `61699e94` checks the source before four final tactic
-sequencing adjustments in `ActualEulerCRT`, `ActualPrimePowerSymbols`, and
-`ActualNormFormFullCorrection`: an independent `rfl` after `simp only` is
-replaced by `simp only ... <;> rfl`. These preserve every declaration
-statement and handle either a residual definitional-equality goal or a goal
-already closed by simplification. The actual audit for this revised source
-is queued separately; no successful complete arithmetic build is claimed.
+The arithmetic run at `61699e94` reached the 60-minute subprocess timeout.
+It preserved its logs and a 230812670-byte compressed project-build cache.
+Its concrete source errors were in `ActualAdditiveMellinRapidDecay`: missing
+Fourier namespaces and local-notation captures in section `variable` commands.
+The subsequent `823b1b0` arithmetic job ended abnormally while its compilation
+step was still active; no final log/artifact was available from that job.
+Its successful core and Mellin jobs are independently recorded above.
+
+The 2026-10-31 continuation repairs these namespace and notation errors,
+including the same declaration pattern in downstream boundary/norm files.
+A temporary compiler view now delegates to the unchanged pinned Lean executable
+under a process lock and a 4096 MiB memory limit. Lake compilation through this
+view was checked locally. Restored native project objects are uploaded before
+the expensive actual build so an interrupted runner cannot lose that checkpoint.
+Neither scheduling nor cache preservation substitutes for proof verification.
+
+## Continuation: concrete regions and finite arithmetic compilation
+
+The renewed work window is 2026-10-31 09:15:12–12:15:12 (UTC+8).
+The current source inventory contains **58 core modules / 453 declarations**,
+**58 actual modules / 657 declarations**, **6 Mellin modules / 67 declarations**,
+and **8 Fourier modules / 160 declarations**. Mellin and Fourier are subsets
+of the actual inventory; their counts must not be added to it. These are source
+inventories, not new native success claims.
+
+`ActualGaussData` moves the existing prime Gauss definitions and proofs out of
+`ActualEulerData` without changing their names, statements or bodies. The latter
+imports and reexports them. Finite prime-power, Poisson and CRT modules therefore
+avoid the unrelated global row-character construction during their independent
+native check. The actual initial calibration and complete `TRowEulerInput`
+remain separate, deeper verification obligations.
+
+`HighNormFormPointwisePartition` passed its exact separate-module local check
+in 117.609 seconds; the four printed main-theorem axiom reports contain only
+the standard three axioms. Its complete 58-module core audit is pending.
+It constructs measurable first-threshold fibers,
+with a clipped final bucket, strict positive-amplitude witnesses, disjointness,
+exhaustion and an exact restricted-integral sum. `ActualNormFormRegions` uses
+the repository's actual complete-slot profiles and common `primeScale` to
+instantiate those fibers. `ActualNormFormRegionIntegral` defines literal
+restricted contour pieces, supplies genuine integrability and quarter-loss
+bounds, and recovers the original full row integral by summing the pieces.
+These actual constructions still need native verification and identification
+with the original opaque presentation's labelled means and `shiftedPiece`.
+They do not provide an arbitrary whole-row identity for each existing label.
+
+The two new upstream base commits add GramAssemblyInputs and update WORK_LEDGER;
+they do not alter the HIGHBIN, expansion, source or height definitions used here.
+The merged tree preserves those upstream changes.
 
 Local checks provide additional, separately identified evidence:
 

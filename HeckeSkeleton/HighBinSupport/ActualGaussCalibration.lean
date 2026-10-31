@@ -23,6 +23,7 @@ noncomputable section
 namespace HeckeSkeleton.HighBinActualEuler
 
 open NumberField IsDedekindDomain
+open AlgebraicNumberTheory.PowerResidueSymbols
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical

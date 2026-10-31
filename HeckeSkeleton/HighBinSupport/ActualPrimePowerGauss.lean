@@ -1,4 +1,4 @@
-import HeckeSkeleton.HighBinSupport.ActualEulerData
+import HeckeSkeleton.HighBinSupport.ActualGaussData
 import HeckeSkeleton.HighBinSupport.ActualInitialAbsolute
 import HeckeSkeleton.HighBinSupport.PrincipalPowerGauss
 import HeckeSkeleton.HighBinSupport.GeneratorUnitInvariance

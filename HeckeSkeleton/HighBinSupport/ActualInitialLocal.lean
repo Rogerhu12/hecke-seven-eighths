@@ -197,7 +197,7 @@ theorem thetaGamma_primePower_weight (D : ThetaArithmeticData K S)
     simp only [pow_one]
     have hΓ := normalizedFamily_eq_thetaGamma K S D p 2 (by decide)
     unfold HighBin.ActualGaussPhases.normalizedFamily HighBin.FiniteResidueFourier.normalizedGauss at hΓ
-    rw [card_primeIdealResidueField] at hΓ
+    rw [AlgebraicNumberTheory.PowerResidueSymbols.card_primeIdealResidueField] at hΓ
     change HighBin.ActualGaussPhases.gaussFamily (thetaPrimeCharacter K S D p)
       (primeAddCharacter K S D p) 2 / (Real.sqrt (p.val.asIdeal.absNorm : ℝ) : ℂ) =
         thetaGamma K S D (exteriorPrimeIdeal K S p) 2 at hΓ

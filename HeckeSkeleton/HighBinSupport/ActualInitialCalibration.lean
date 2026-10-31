@@ -24,6 +24,7 @@ noncomputable section
 namespace HeckeSkeleton.HighBinActualInitial
 
 open NumberField IsDedekindDomain
+open AlgebraicNumberTheory.PowerResidueSymbols
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.SquarefreeAmplification
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global

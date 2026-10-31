@@ -3092,5 +3092,82 @@
     "source": "HeckeSkeleton/HighBinSupport/BoundaryHeightAbsorption.lean",
     "line": 42,
     "source_sha256": "f56df8a38e877d93d3ffa993d9e8d6dd7418b530e60190d01f85f787717e6955"
+  },
+  {
+    "name": "HighBinVerified.NormForm.pointwiseBucket",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/HighNormFormPointwisePartition.lean",
+    "line": 30,
+    "source_sha256": "0f7dfba42ccb069d843cd585cc557dd5d7e626fbdb4cd22f617c469c808d5023"
+  },
+  {
+    "name": "HighBinVerified.NormForm.pointwiseBucket_val_measurable",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/HighNormFormPointwisePartition.lean",
+    "line": 36,
+    "source_sha256": "0f7dfba42ccb069d843cd585cc557dd5d7e626fbdb4cd22f617c469c808d5023"
+  },
+  {
+    "name": "HighBinVerified.NormForm.pointwiseBucket_spec",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/HighNormFormPointwisePartition.lean",
+    "line": 45,
+    "source_sha256": "0f7dfba42ccb069d843cd585cc557dd5d7e626fbdb4cd22f617c469c808d5023"
+  },
+  {
+    "name": "HighBinVerified.NormForm.pointwiseAmplitudeLabel",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/HighNormFormPointwisePartition.lean",
+    "line": 86,
+    "source_sha256": "0f7dfba42ccb069d843cd585cc557dd5d7e626fbdb4cd22f617c469c808d5023"
+  },
+  {
+    "name": "HighBinVerified.NormForm.amplitudeRegion",
+    "kind": "def",
+    "source": "HeckeSkeleton/HighBinSupport/HighNormFormPointwisePartition.lean",
+    "line": 91,
+    "source_sha256": "0f7dfba42ccb069d843cd585cc557dd5d7e626fbdb4cd22f617c469c808d5023"
+  },
+  {
+    "name": "HighBinVerified.NormForm.mem_amplitudeRegion_iff",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/HighNormFormPointwisePartition.lean",
+    "line": 95,
+    "source_sha256": "0f7dfba42ccb069d843cd585cc557dd5d7e626fbdb4cd22f617c469c808d5023"
+  },
+  {
+    "name": "HighBinVerified.NormForm.amplitudeRegion_subset",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/HighNormFormPointwisePartition.lean",
+    "line": 105,
+    "source_sha256": "0f7dfba42ccb069d843cd585cc557dd5d7e626fbdb4cd22f617c469c808d5023"
+  },
+  {
+    "name": "HighBinVerified.NormForm.amplitudeRegion_measurable",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/HighNormFormPointwisePartition.lean",
+    "line": 109,
+    "source_sha256": "0f7dfba42ccb069d843cd585cc557dd5d7e626fbdb4cd22f617c469c808d5023"
+  },
+  {
+    "name": "HighBinVerified.NormForm.amplitudeRegion_disjoint",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/HighNormFormPointwisePartition.lean",
+    "line": 123,
+    "source_sha256": "0f7dfba42ccb069d843cd585cc557dd5d7e626fbdb4cd22f617c469c808d5023"
+  },
+  {
+    "name": "HighBinVerified.NormForm.iUnion_amplitudeRegion",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/HighNormFormPointwisePartition.lean",
+    "line": 135,
+    "source_sha256": "0f7dfba42ccb069d843cd585cc557dd5d7e626fbdb4cd22f617c469c808d5023"
+  },
+  {
+    "name": "HighBinVerified.NormForm.sum_integral_amplitudeRegion",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/HighNormFormPointwisePartition.lean",
+    "line": 148,
+    "source_sha256": "0f7dfba42ccb069d843cd585cc557dd5d7e626fbdb4cd22f617c469c808d5023"
   }
 ]

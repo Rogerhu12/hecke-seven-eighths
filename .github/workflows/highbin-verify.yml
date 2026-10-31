@@ -17,6 +17,7 @@ on:
       - 'HeckeGeneral/Analysis/RowEulerRegion.lean'
       - 'scripts/highbin_verify.py'
       - 'scripts/highbin_inventory.py'
+      - 'scripts/highbin_lean_gate.py'
       - 'docs/highbin/**'
       - '.github/workflows/highbin-verify.yml'
 
@@ -34,7 +35,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scope: [core, mellin, actual]
+        scope: [core, mellin, fourier, actual]
     env:
       LEAN_NUM_THREADS: '2'
     steps:
@@ -80,6 +81,26 @@ jobs:
             highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-actual-
             highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-mellin-
             highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-core-
+      # Preserve a reusable native dependency checkpoint before starting the
+      # expensive arithmetic build, including when a runner later disappears.
+      - name: Export restored project objects
+        if: matrix.scope == 'actual'
+        uses: actions/upload-artifact@v4
+        with:
+          name: highbin-restored-project-objects
+          path: |
+            .lake/build/lib/lean/
+            vendor/class-field-theory/.lake/build/lib/lean/
+            .lake/packages/TauCeti/.lake/build/lib/lean/
+          if-no-files-found: ignore
+          include-hidden-files: true
+          compression-level: 3
+          retention-days: 3
+      - name: Bound native compiler memory and concurrency
+        run: >-
+          python scripts/highbin_lean_gate.py
+          --directory "$RUNNER_TEMP/highbin-lean-gate"
+          --github-env "$GITHUB_ENV"
       - name: Compile modules and audit public declarations
         id: verification
         run: timeout --signal=TERM --kill-after=30s 60m python scripts/highbin_verify.py ${{ matrix.scope }}

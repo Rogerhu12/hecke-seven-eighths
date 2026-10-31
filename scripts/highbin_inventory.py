@@ -108,12 +108,21 @@ def main():
     mellin = ['HeckeSkeleton.HighBinSupport.' + name for name in (
         'ActualNormFormHigherPrimePowers', 'ActualNormFormMellinInversion',
         'ActualNormFormPrimeDetector', 'ActualNormFormUniformMellin',
-        'ActualOrbitalRapidDecay')]
+        'ActualOrbitalRapidDecay', 'ActualAdditiveMellinRapidDecay')]
     items = [item for module in mellin for item in declarations(module)]
     (DOC / 'mellin_modules.json').write_text(json.dumps(mellin, indent=2) + '\n')
     (DOC / 'mellin_public_declarations.json').write_text(
         json.dumps(items, ensure_ascii=False, indent=2) + '\n')
     print(f'mellin: {len(mellin)} actual modules, {len(items)} public source declarations')
+    fourier = ['HeckeSkeleton.HighBinSupport.' + name for name in (
+        'ActualGeneratorPowers', 'ActualPrimePowerSymbols', 'ActualGaussData',
+        'ActualPrimePowerGauss', 'ActualGaussSigns', 'ActualFinitePoisson',
+        'ActualEulerCRT', 'ActualInitialAbsolute')]
+    items = [item for module in fourier for item in declarations(module)]
+    (DOC / 'fourier_modules.json').write_text(json.dumps(fourier, indent=2) + '\n')
+    (DOC / 'fourier_public_declarations.json').write_text(
+        json.dumps(items, ensure_ascii=False, indent=2) + '\n')
+    print(f'fourier: {len(fourier)} actual modules, {len(items)} public source declarations')
 
 
 if __name__ == '__main__':

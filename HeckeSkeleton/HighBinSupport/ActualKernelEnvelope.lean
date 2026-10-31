@@ -153,12 +153,12 @@ open scoped Classical BigOperators
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "S₀" => (S : Set (HeightOneSpectrum (𝓞 K)))
-variable [MeasurableSpace (sLocalNormOneGroup K S₀)]
-  [BorelSpace (sLocalNormOneGroup K S₀)]
-variable [∀ p : S₀, MeasurableSpace (p.val.adicCompletion K)]
-  [∀ p : S₀, BorelSpace (p.val.adicCompletion K)]
-variable (μ : (p : S₀) → Measure (p.val.adicCompletion K))
-variable [∀ p : S₀, (μ p).IsAddHaarMeasure]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), MeasurableSpace (p.val.adicCompletion K)]
+  [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), BorelSpace (p.val.adicCompletion K)]
+variable (μ : (p : (S : Set (HeightOneSpectrum (𝓞 K)))) → Measure (p.val.adicCompletion K))
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), (μ p).IsAddHaarMeasure]
 
 /-- Every horizontal decay order is obtained from the original additive
 test and the coupled Gaussian. The fixed geometric degree stays 5. -/
