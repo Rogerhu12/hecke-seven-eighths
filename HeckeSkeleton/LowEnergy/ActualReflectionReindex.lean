@@ -112,7 +112,7 @@ def toFrozenState (d : MarkedDatum K S) (i : ReflectionIndex K S d) :
   active_subset := i.frozen_subset
   nonzero_active := by
     intro p hp hn
-    apply i.nonzero_active hp
+    apply i.nonzero_active p hp
     rw [rowDigit_frozen_primes K S d p hp]
     exact hn
   minimum := numeratorMinimum K S d i

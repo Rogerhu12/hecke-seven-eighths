@@ -87,7 +87,7 @@ def frozenOnlyIndex : ReflectionIndex K S (frozenOnlyDatum K S d) where
   frozen_subset := i.frozen_subset
   nonzero_active := by
     intro p hp hn
-    apply i.nonzero_active hp
+    apply i.nonzero_active p hp
     have he := (rowDigit_frozen_primes K S d p hp).trans
       (rowDigit_frozen_primes K S (frozenOnlyDatum K S d) p hp).symm
     simpa only [he] using hn

@@ -94,7 +94,8 @@ theorem idealSymbol_unit_norm (I : ExteriorIdeal K S) (u : S.unit K) :
     change (elementSymbolHom K S D I) (S.unitEquivUnitsInteger K u).val ^ 6 = 1
     rw [← (elementSymbolHom K S D I).map_pow]
     exact sIntegerSexticIdealEvaluation_sixth_power_unit K S D.root6 D.primitive6
-      D.embedding _ _ _ _ u
+      D.embedding I.val.val (nonZeroDivisors.coe_ne_zero I.val) I.property
+      (fun p hp => D.away_six p (I.property p hp)) u
   exact Complex.norm_eq_one_of_pow_eq_one h6 (by decide : (6 : ℕ) ≠ 0)
 
 theorem periodValue_norm (d : MarkedDatum K S) (θ : HeckeCharacter K)

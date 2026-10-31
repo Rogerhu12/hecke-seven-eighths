@@ -17,6 +17,7 @@ on:
       - 'scripts/low_energy_verify.py'
       - 'scripts/low_energy_axioms.py'
       - 'tests/test_low_energy_axioms.py'
+      - 'tests/test_low_energy_scheduler.py'
       - 'scripts/low_energy_restore_ci.py'
       - 'scripts/low_energy_export_ci.py'
       - 'scripts/lean_imports.py'
@@ -43,6 +44,9 @@ jobs:
       LEAN_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
+      - name: Check verifier scheduling and axiom parser
+        if: matrix.phase == 'core'
+        run: python3 -m unittest discover -s tests -p 'test_low_energy_*.py'
       - uses: leanprover/lean-action@bd5cb0b830eda614ce3fc186d8429b9409b16c47
         with:
           auto-config: 'false'
