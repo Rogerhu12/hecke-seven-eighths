@@ -17,6 +17,7 @@ namespace HeckeSkeleton.Moments.MOM_BASE
 open NumberField IsDedekindDomain UniqueFactorizationMonoid
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
+open HeckePort.CenteredMomentGenerator
 open scoped Classical BigOperators
 
 variable (K : Type) [Field K] [NumberField K]

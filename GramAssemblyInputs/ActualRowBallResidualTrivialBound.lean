@@ -88,8 +88,11 @@ theorem exists_rowBallResidual_trivial_bound
       exteriorNorm K S C := by
     have h := natCard_sIntegerPrincipalResidue_eq_productNorm K S
       (gen C).val (gen C).property
-    simpa only [natCard_sIntegerPrincipalResidue K S (gen C).val (gen C).property, actualFrequencyIdeal,
-      probeGenerator_norm_eq_exteriorNorm] using h
+    have h1 : (Ideal.absNorm (actualFrequencyIdeal K S (gen C)) : ℝ) =
+        ((sIntegerElementNorm K S (gen C)).val : ℝ) := by
+      simpa only [natCard_sIntegerPrincipalResidue K S (gen C).val (gen C).property,
+        actualFrequencyIdeal] using h
+    exact h1.trans (probeGenerator_norm_eq_exteriorNorm K S w.D C)
   have h := hb (gen D) (gen C) (thetaChartFrequencyQuotient K S w.D C j hj)
     η (rowBallArchTest K w.S 1) (residualJointRadius K w.S Y hY r j)
     (Y / exteriorNorm K S C) hN

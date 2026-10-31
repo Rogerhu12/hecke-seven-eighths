@@ -237,9 +237,10 @@ private theorem local_generator_irreducible : Irreducible (localUniformizer C P)
   have hπ : (Valued.v : Valuation (LocalField P) (WithZero (Multiplicative ℤ))).IsUniformizer
       (localUniformizer C P) := by
     change (Valued.v (uniformizer C P) : WithZero (Multiplicative ℤ)) = _
-    simp only [uniformizer_valuation,
-      Valuation.IsRankOneDiscrete.generator_eq_exp_neg_one_of_surjective
-        (HeightOneSpectrum.valuedAdicCompletion_surjective K p.val)]
+    rw [uniformizer_valuation]
+    exact (congrArg (fun u : (WithZero (Multiplicative ℤ))ˣ => u.val)
+      (Valuation.IsRankOneDiscrete.generator_eq_exp_neg_one_of_surjective
+        (HeightOneSpectrum.valuedAdicCompletion_surjective K P.val))).symm
   exact (IsDiscreteValuationRing.irreducible_iff_uniformizer _).mpr hπ.is_generator
 
 /-- The actual completed integer ring maps back to the same finite quotient. -/

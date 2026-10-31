@@ -256,8 +256,8 @@ theorem actualFullCorrelation_unequal_common_formula
   have hcard : Nat.card (𝓞 K ⧸ p.val.asIdeal) = p.val.asIdeal.absNorm := rfl
   rw [actualFullCorrelation_factorization K S D C N₁ N₂ hcop]
   change actualResidualPhase K S D C N₁ N₂ k * _ = _
-  congr 1
-  simpa only [sIntegerPrimePowerReduction_mk, hcard] using hf
+  exact congrArg (fun z => actualResidualPhase K S D C N₁ N₂ k * z)
+    (by simpa only [sIntegerPrimePowerReduction_mk, hcard] using hf)
 
 /-- Pure prime powers a>b, with the chosen generators of both full ideals.
 No multiplicativity of the generator section is imposed. -/
@@ -393,6 +393,9 @@ theorem actualFullCorrelation_equal_prime_power_formula
     have hm := hn.map π
     rw [h] at hm
     exact not_isCoprime_zero_zero hm
+  have hratio :
+      sIntegerPrimePowerReduction K S p.val p.property a ha x /
+        sIntegerPrimePowerReduction K S p.val p.property a ha x = 1 := div_self hx
   have hcard : Nat.card (𝓞 K ⧸ p.val.asIdeal) = p.val.asIdeal.absNorm := rfl
   have hf := actualFullCorrelation_factorization K S D C U U hcop k
   have hCU : exteriorMul K S C U = C := by
@@ -406,12 +409,12 @@ theorem actualFullCorrelation_equal_prime_power_formula
       K S p.val p.property a ha D.root6 D.primitive6 D.embedding
       (D.away_six p.val p.property) x x (Ideal.Quotient.mk _ k) hn hx hx
       (by simpa only [sIntegerPrimePowerReduction_mk] using hk)
-    simpa only [hcard, div_self hx, map_one, one_mul, if_pos hk] using hz
+    simpa only [hcard, hratio, map_one, one_mul, if_pos hk] using hz
   · have hz := sIntegerSexticPrimePowerCorrelation_nonzero
       K S p.val p.property a ha D.root6 D.primitive6 D.embedding
       (D.away_six p.val p.property) x x (Ideal.Quotient.mk _ k) hn hx hx
       (by simpa only [sIntegerPrimePowerReduction_mk] using hk)
-    simpa only [hcard, div_self hx, map_one, if_neg hk] using hz
+    simpa only [hcard, hratio, map_one, if_neg hk] using hz
 
 /-- The improved equal-multiplicity bound at a unit divided frequency. -/
 theorem actualFullCorrelation_equal_unit_frequency_norm_le

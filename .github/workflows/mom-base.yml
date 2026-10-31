@@ -16,7 +16,6 @@ on:
 
 permissions:
   contents: read
-  actions: read
 
 concurrency:
   group: mom-base-${{ github.head_ref || github.ref_name }}
@@ -24,10 +23,10 @@ concurrency:
 
 jobs:
   proofs:
-    runs-on: ubuntu-latest
-    timeout-minutes: 360
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
     env:
-      LEAN_NUM_THREADS: '1'
+      LEAN_NUM_THREADS: '2'
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -38,6 +37,8 @@ jobs:
           git rev-parse HEAD > mom-base-verification/commit.txt
           cp lean-toolchain lake-manifest.json mom-base-verification/
           df -h / > mom-base-verification/disk-before.txt
+      - name: Free hosted runner storage for Lean and the project cache
+        run: sudo rm -rf -- /usr/local/lib/android/sdk /usr/share/dotnet
       - name: Install pinned Lean and restore official Mathlib cache
         uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
         with:
@@ -47,27 +48,26 @@ jobs:
           lint: 'false'
           use-mathlib-cache: 'true'
           use-github-cache: 'false'
-      - name: Restore source-verified project objects
-        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
-        with:
-          path: .lake/build
-          key: mom-base-v1-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: |
-            mom-base-v1-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+      - name: Restore precompiled project artifacts
+        id: lake-cache
+        uses: ./.github/actions/restore-lake-cache
+      - name: Record restored cache provenance
+        env:
+          CACHE_TAG: ${{ steps.lake-cache.outputs.tag }}
+        run: |
+          printf '%s\n' "$CACHE_TAG" > mom-base-verification/lake-cache-tag.txt
+          if [ -n "$CACHE_TAG" ]; then
+            cp "$RUNNER_TEMP/lake-cache-download/lake-cache-manifest.json" mom-base-verification/
+            cp "$RUNNER_TEMP/lake-cache-download/SHA256SUMS" mom-base-verification/
+          fi
       - name: Compile actual dependency closure and audit target axioms
         id: verify
         env:
-          GH_TOKEN: ${{ github.token }}
+          RESTORED_LAKE_CACHE: ${{ steps.lake-cache.outputs.tag }}
         shell: bash
         run: |
           set -euo pipefail
           python3 -u scripts/verify_mom_base.py 2>&1 | tee mom-base-verification/build.log
-      - name: Preserve verified dependency progress
-        if: ${{ always() && !cancelled() && steps.verify.outcome != '' && steps.verify.outcome != 'skipped' }}
-        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
-        with:
-          path: .lake/build
-          key: mom-base-v1-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Upload full compilation and axiom evidence
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f

@@ -20,7 +20,7 @@ a_0(I)\gamma_1(I)=\mu_K(I)G(I),\qquad
 
 这里 `canonicalCoefficient` 是 \(a_0=\bar\Lambda\gamma_2\)，`canonicalPeriod` 是 \(\Lambda^{-1}\nu\)。校准、单位模长和 `G` 的有限阶性质均由实际算术选择导出。
 
-`FiniteBackground.lean` 证明有限扭曲保持实际径向参数、复位角权重和非零角条件，并将此结论应用到同一个活跃规范周期。
+`FiniteBackground.lean` 证明有限扭曲保持实际径向参数、复位角权重和非零角条件。它还由同一个 `TargetContext` 的 `Lambda_weight`、`representative_angular` 和 `G` 的有限阶性质，直接证明 `Θ ∪ ψΘ` 背景的规范周期具有非零角权；`momentData_canonicalPeriod_nonzero_angular` 接入实际 `MomentData.directed_background`，无需另加角条件。
 
 `Arithmetic.lean` 把实际六次剩余符号扩展到所有整数理想；排除素数处取零。`canonicalTau` 同时包含 Hecke 系数、实际剩余符号和原始互素 puncture，并证明完全乘法性。六次幂、十二次幂保留互素指示函数，不能在零点处替换成常数一。
 
@@ -85,6 +85,8 @@ a_0(I)\gamma_1(I)=\mu_K(I)G(I),\qquad
 python3 scripts/verify_mom_base.py
 ```
 
-专用 Actions workflow 编译本目录所有 Lean 模块及其真实依赖，并重新编译 `Audit.lean`。每个公开审计入口的递归公理集必须包含于 `{propext, Classical.choice, Quot.sound}`；缺失目标、重复目标或任何额外公理均使验证失败。已有依赖对象仅在源码、编译配置、完整项目依赖闭包及对象哈希相符时复用；本目录代码和公理审计每次重新编译。
+专用 Actions workflow 在官方 Mathlib 缓存之后调用仓库的 `restore-lake-cache` action，恢复最新已发布的 `lake-cache-*`。标准 `lake build` 负责校验依赖缓存的源码、配置、依赖和产物哈希；本目录的编译产物在验证前移除，确保 18 个任务模块（含单独重编的 `Audit.lean`）每次均重新编译。
 
-编译输出、环境清单、依赖和公理证据只放在 Actions artifact 中。
+验证脚本同时检查源码中的全部 230 个公开 theorem/lemma 与显式审计清单完全一致，再重新执行递归 `#print axioms`。每个入口的公理集必须包含于 `{propext, Classical.choice, Quot.sound}`；缺失目标、重复目标、源码变化或任何额外公理均使验证失败。脚本不会复用旧的自定义对象缓存，也不需要历史 Actions artifacts。
+
+编译输出、固定环境、源码哈希、release 缓存 manifest 与 SHA256SUMS、公理清单只放在 Actions artifact 中。

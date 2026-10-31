@@ -81,6 +81,9 @@ audited recursively. CI rejects missing output and every axiom outside
 #print axioms HeckeSkeleton.Moments.MOM_BASE.finiteTwist_complexWeight
 #print axioms HeckeSkeleton.Moments.MOM_BASE.finiteTwist_nonzero_angular
 #print axioms HeckeSkeleton.Moments.MOM_BASE.canonicalPeriod_finiteTwist_parameters
+#print axioms HeckeSkeleton.Moments.MOM_BASE.canonicalPeriod_finite_nonzero_angular
+#print axioms HeckeSkeleton.Moments.MOM_BASE.canonicalPeriod_target_finite_nonzero_angular
+#print axioms HeckeSkeleton.Moments.MOM_BASE.momentData_canonicalPeriod_nonzero_angular
 
 /- FiniteCoefficients.lean -/
 #print axioms HeckeSkeleton.Moments.MOM_BASE.actualPrimeCharacter_order
