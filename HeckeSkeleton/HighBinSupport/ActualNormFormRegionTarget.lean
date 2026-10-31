@@ -10,8 +10,9 @@ detector, so no equality of `RowEulerData` records is assumed.
 The remaining data are genuine presentation identifications: its chosen
 heights, a grid code for each original label, the label's original mean,
 and its actual shifted piece. The theorem proves all analytic estimates
-internally. It does not claim to construct the opaque named expansion or
-its witness subdivisions, and it inherits the prime-normalizer PIT input.
+internally, including the proved actual prime-window normalization. The
+named physical presentation uses the main-polynomial amplitude transport
+route in `ActualPhysicalScheduledNorm`; this remains a complete-slot adapter.
 -/
 
 set_option autoImplicit false
@@ -103,6 +104,7 @@ theorem exists_target_highShiftedNormForm_region_connection
       P.e_pos (presentation_e_small K c P) c.lamB_pos heLam
   refine ⟨kappa, theta, N, C, Z0, hkappa, htheta, hC, hZ0, ?_⟩
   intro hheight hupper code hmean hpiece
+  apply HighShiftedNormForm.of_uniform K c P
   refine ⟨0, C, kappa, Z0, le_rfl, hC, hkappa, hZ0, ?_⟩
   intro Z T hZ hT hTcap b label hlabel
   have hZ1 : 1 ≤ Z := hZ0.trans hZ
@@ -113,7 +115,7 @@ theorem exists_target_highShiftedNormForm_region_connection
           C * Z ^ (highRowExponent K c Z T b label + c.lamB / 4) := by
       apply Finset.sum_le_sum
       intro u hu
-      have hmem := P.rows_in_bin Z T hZ1 hT b label hlabel hu
+      have hmem := P.rows_in_bin Z T hZ1 hT b label hu
       have hdata := highFixedRowBin_member_data K c (targetData K c).probe P.euler
         P.companions (P.selectedHeight Z T b) (P.upperHeight Z T b)
         (Z ^ (((targetData K c).expansion Z T).block b).shell)

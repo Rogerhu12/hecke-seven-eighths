@@ -14,8 +14,8 @@ integrability of the old provider, or desired piece bound is assumed.
 The final consumer retains the original height, label-code and mean
 identifications. Its shifted-piece identity now uses the presentation's
 own Euler provider, rather than an arithmetic-provider identity supplied
-by the caller. This does not identify the opaque named expansion or
-construct the independent witness subdivisions.
+by the caller. The named physical recipe and its witness subdivisions
+are constructed separately by the shared expansion source.
 -/
 
 set_option autoImplicit false

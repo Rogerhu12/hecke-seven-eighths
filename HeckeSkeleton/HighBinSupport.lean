@@ -1,3 +1,7 @@
+import HeckeSkeleton.HighBinSupport.ActualPhysicalScheduledNorm
+import HeckeSkeleton.HighBinSupport.ActualPhysicalNormForm
+import HeckeSkeleton.HighBinSupport.ActualPhysicalTransport
+import HeckeSkeleton.HighBinSupport.ActualPhysicalPrimeLabels
 import HeckeSkeleton.HighBinSupport.ActualPhysicalKernel
 import HeckeSkeleton.HighBinSupport.PhysicalNormScalar
 import HeckeSkeleton.HighBinSupport.ActualPhysicalSlotBound

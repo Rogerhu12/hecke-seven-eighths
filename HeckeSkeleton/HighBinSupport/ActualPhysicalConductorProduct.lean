@@ -147,8 +147,11 @@ theorem fullSlot_product_of_physical_bounds
   rw [hlength, hweight] at hp
   have he : (-4 / 25 + width) * (1 / 6) + ((∑ i, amplitude i) / g.slots) / 6 =
       -2 / 75 + ((∑ i, amplitude i) / g.slots) / 6 + width / 6 := by ring
+  have hNpow : (frequencyRowNorm K S u ^ eta) ^ g.slots =
+      frequencyRowNorm K S u ^ (eta * g.slots) := by
+    rw [← Real.rpow_natCast, ← Real.rpow_mul hN.le]
   rw [he, Finset.prod_mul_distrib, Finset.prod_const, Finset.card_univ,
-    Fintype.card_fin, mul_pow, ← Real.rpow_natCast, ← Real.rpow_mul hN.le] at hp
+    Fintype.card_fin, mul_pow, hNpow] at hp
   have hmass := repeatedSlotMass_product_conductor_bound K S u g ray Z hlam heta
   calc
     _ ≤ (u.ideal.val.val.radical.absNorm : ℝ) ^ lam *
@@ -163,7 +166,7 @@ theorem fullSlot_product_of_physical_bounds
       mul_le_mul_of_nonneg_left hmass (by dsimp only [scale]; positivity)
     _ = _ := by
       rw [show lam + (g.slots + 1) * eta = eta * g.slots + (lam + eta) by ring,
-        Real.rpow_add hN]
+        Real.rpow_add hN (eta * g.slots) (lam + eta)]
       ring
 
 end HeckeSkeleton.HighBinPhysicalNorm

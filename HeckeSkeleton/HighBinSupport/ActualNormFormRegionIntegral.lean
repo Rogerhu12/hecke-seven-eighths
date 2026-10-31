@@ -8,8 +8,8 @@ finite labels is the original row contour, proved by genuine integrability
 and the exact measurable partition. The complete theorem constructs the
 slot bounds; no piece estimate or supplied region is a hypothesis.
 
-As in the whole-box sharp norm form, the original prime normalizer retains
-the upstream PR-WINDOW-PIT dependency.
+As in the whole-box sharp norm form, the original prime normalizer is
+bounded by the proved actual prime-window theorem.
 -/
 
 set_option autoImplicit false

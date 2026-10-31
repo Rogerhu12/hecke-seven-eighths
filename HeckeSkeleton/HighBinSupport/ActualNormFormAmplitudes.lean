@@ -83,12 +83,12 @@ theorem exists_actualSlotHeightProfile_continuous (g : PrimeWindowGeometry)
   have hmarked : Continuous (fun q => slotMarkedScalar K S psi
       (sLine (a + 16 * e) q) (zLine q) p) := by
     unfold slotMarkedScalar
-    exact ((((continuous_sLine _).add continuous_zLine).sub_const 1).const_cpow
+    exact ((((continuous_sLine _).add continuous_zLine).sub (continuous_const (y := (1 : ℂ)))).const_cpow
       (Or.inl hqC)).const_mul _
   have hselected : Continuous (fun q => slotSelectedScalar K S
       (wLine (1 - a - 6 * e) q) (zLine q) p) := by
     unfold slotSelectedScalar
-    exact ((continuous_zLine.sub (continuous_wLine _)).sub_const 1).const_cpow (Or.inl hqC)
+    exact ((continuous_zLine.sub (continuous_wLine _)).sub (continuous_const (y := (1 : ℂ)))).const_cpow (Or.inl hqC)
   have hH : Continuous (fun q => actualLocalUnmarked K S P psi u
       (sLine (a + 16 * e) q) (wLine (1 - a - 6 * e) q) (zLine q) p) := hlocal ∅ p
   have hM : Continuous (fun q => actualLocalMarked K S P psi u

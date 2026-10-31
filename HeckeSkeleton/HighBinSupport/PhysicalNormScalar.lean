@@ -60,7 +60,8 @@ theorem joint_pointwise_normForm_of_factors
           (mul_nonneg (mul_nonneg hCL hheight) (Real.rpow_nonneg hN.le _))
       _ = _ := by
         rw [show a - 1 / 2 + 6 * e + etaL + etaS =
-          etaL + (a - 1 / 2 + 6 * e + etaS) by ring, Real.rpow_add hN]
+          etaL + (a - 1 / 2 + 6 * e + etaS) by ring,
+          Real.rpow_add hN etaL (a - 1 / 2 + 6 * e + etaS)]
         ring
   have hmajor :
       ‖NormForm.geometricFactor Z N s w z * profile * ratio * euler * slots * normalizerInv‖ ≤
@@ -79,19 +80,25 @@ theorem joint_pointwise_normForm_of_factors
   let loss := etaL + etaE + etaS
   have hscale := NormForm.dyadic_full_scale_bound Z N d a q e loss
     (mesh / 6 + nu) D hZ hNlo hNhi hD hpower
+  have hNcombine : N ^ (-17 / 50 : ℝ) *
+      N ^ (a - 1 / 2 + 6 * e + etaL + etaS) * N ^ etaE =
+      N ^ (a - 1 / 2 + 6 * e + loss - 17 / 50) := by
+    rw [← Real.rpow_add hN, ← Real.rpow_add hN]
+    congr 1
+    dsimp only [loss]
+    ring
+  have hZcombine : Z ^ (-2 / 75 + q / 6 + mesh / 6) * Z ^ nu =
+      Z ^ (-2 / 75 + q / 6 + (mesh / 6 + nu)) := by
+    rw [← Real.rpow_add hZ]
+    congr 1
+    ring
   apply hmajor.trans
   calc
     _ = (CP * CL * CE * CS * CN * height) *
         (NormForm.geometricMajorant Z a e *
           N ^ (a - 1 / 2 + 6 * e + loss - 17 / 50) *
           Z ^ (-2 / 75 + q / 6 + (mesh / 6 + nu))) := by
-      rw [show a - 1 / 2 + 6 * e + loss - 17 / 50 =
-        (-17 / 50) + (a - 1 / 2 + 6 * e + etaL + etaS) + etaE by
-          dsimp only [loss]; ring,
-        Real.rpow_add hN, Real.rpow_add hN,
-        show -2 / 75 + q / 6 + (mesh / 6 + nu) =
-          (-2 / 75 + q / 6 + mesh / 6) + nu by ring,
-        Real.rpow_add hZ]
+      rw [← hNcombine, ← hZcombine]
       ring
     _ ≤ (CP * CL * CE * CS * CN * height) *
         ((2 : ℝ) ^ D * Z ^ (NormForm.rowExponent d a q +

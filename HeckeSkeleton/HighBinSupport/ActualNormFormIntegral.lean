@@ -9,8 +9,8 @@ Integrability is proved from the constructed actual Euler product and
 the original buffered detector before Fubini is used. The original
 (2 pi)^(-3) normalization and all three finite integration intervals are
 retained. The fixed box-volume loss is explicitly 3 kappa; no row count
-or integral estimate is an input. This sharp route inherits PR-WINDOW-PIT
-through its original prime normalizer.
+or integral estimate is an input. The original prime normalizer is bounded
+by the proved actual prime-window theorem.
 -/
 
 set_option autoImplicit false

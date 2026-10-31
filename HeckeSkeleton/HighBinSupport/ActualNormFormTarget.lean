@@ -14,9 +14,10 @@ chosen heights, the original label means, and the literal shifted pieces.
 No row estimate, integral estimate, or externally supplied amplitude bound
 is a premise. The conclusion is the original `HighShiftedNormForm` type.
 
-This is a conditional consumer of the presentation, not a construction of
-`Base.highExpansion` or `actualHighPresentation`. It inherits PR-WINDOW-PIT
-through the original prime-window normalizer used by the integral theorem.
+This is a conditional adapter for complete-slot amplitudes. Its original
+prime normalizer is now bounded by the proved actual prime-window theorem.
+The named physical presentation uses the separate main-amplitude transport
+route in `ActualPhysicalScheduledNorm`.
 -/
 
 set_option autoImplicit false
@@ -195,7 +196,7 @@ theorem exists_target_highShiftedNormForm_connection
             (((targetData K c).expansion Z T).block b).bin
             (ActualFullSlotAmplitude.mean K _ A) + c.lamB / 4) := by
     have hZ1 : 1 ≤ Z := hZ0.trans hZ
-    have hmem := P.rows_in_bin Z T hZ1 hT b ℓ hℓ hu
+    have hmem := P.rows_in_bin Z T hZ1 hT b ℓ hu
     have hdata := highFixedRowBin_member_data K c (targetData K c).probe P.euler
       P.companions (P.selectedHeight Z T b) (P.upperHeight Z T b)
       (Z ^ (((targetData K c).expansion Z T).block b).shell)
@@ -228,6 +229,7 @@ theorem exists_target_highShiftedNormForm_connection
   choose A hA using hrowChosen
   refine ⟨A, ?_⟩
   intro hmean hpiece
+  apply HighShiftedNormForm.of_uniform K c P
   refine ⟨0, C, kappa, Z0, le_rfl, hC, hkappa, hZ0, ?_⟩
   intro Z T hZ hT hTcap b ℓ hℓ
   calc

@@ -10,9 +10,9 @@ and their exact sums are the original rowContourBox sums. The label mean is
 the mean of the actual complete-slot amplitudes. No row-count estimate and
 no bound on a proposed presentation is assumed.
 
-The sharp row estimate retains the inherited PR-WINDOW-PIT dependence of
-the original prime normalizer, as documented in ActualNormFormNormalization.
-This module does not identify an opaque Base.highExpansion with these fibers.
+The original prime normalizer is bounded by the proved actual prime-window
+theorem through ActualNormFormNormalization. These complete-slot fibers
+are separate from the physical source's main-polynomial amplitude labels.
 -/
 
 set_option autoImplicit false

@@ -11,8 +11,8 @@ The amplitude object is constructed from the actual complete slots.
 The three deleted L-factors, arithmetic Euler product, Mellin tests,
 geometric powers and original normalizer are all instantiated below.
 No kernel bound, slot estimate, conductor estimate or arbitrary
-presentation is an input. The sharp normalizer step inherits the named
-upstream PR-WINDOW-PIT admission, as isolated in ActualNormFormNormalization.
+presentation is an input. The sharp normalizer step uses the proved
+actual prime-window theorem through ActualNormFormNormalization.
 -/
 
 set_option autoImplicit false
@@ -43,17 +43,18 @@ data and is included with its original totalized inverse. -/
 theorem exists_actual_profile_bound (P : ProbeData K S₀) :
     ∃ C : ℝ, 0 < C ∧ ∀ s w z : ℂ,
       1 / 2 ≤ s.re → s.re ≤ 2 → -1 ≤ w.re → w.re ≤ 1 → z.re = 17 / 50 →
-      ‖Complex.exp ((s + z - 1) ^ 2) * additiveMellin K S₀ μ P.additive z *
+      ‖(physicalPoissonScalar K : ℂ) * Complex.exp ((s + z - 1) ^ 2) * additiveMellin K S₀ μ P.additive z *
           mellin P.denominator.toFun w / physicalResidueNormalizer K S₀ μ P‖ ≤ C := by
   letI : IsTotallyComplex K :=
     ⟨HeckeSkeleton.HeckeFiniteBackgroundControl.all_complex_of_primitive12
       K P.arithmetic.primitive12⟩
   obtain ⟨D, hD, hden⟩ := HighBinBoundary.ActualDenominator.exists_mellin_uniform_strip_bound
-    P.denominator (-1) 1 0
+    P.denominator.toSmoothAnnularTest (-1) 1 0
   obtain ⟨A, hA, hadd⟩ := HighBinBoundary.ActualAdditiveBorel.exists_additiveMellin_rapid_bound_actualBorel
     K S (fun p => inferInstance) (fun p => inferInstance) μ (fun p => inferInstance)
       P.additive (17 / 50) (by norm_num) (by norm_num) 0
-  let C : ℝ := Real.exp 4 * A * D * (‖(physicalResidueNormalizer K S₀ μ P)⁻¹‖ + 1)
+  let C : ℝ := (‖(physicalPoissonScalar K : ℂ)‖ + 1) * Real.exp 4 * A * D *
+    (‖(physicalResidueNormalizer K S₀ μ P)⁻¹‖ + 1)
   have hC : 0 < C := by dsimp only [C]; positivity
   refine ⟨C, hC, ?_⟩
   intro s w z hs0 hs1 hw0 hw1 hz
@@ -71,10 +72,16 @@ theorem exists_actual_profile_bound (P : ProbeData K S₀) :
       ‖(physicalResidueNormalizer K S₀ μ P)⁻¹‖ + 1 := by linarith
   rw [div_eq_mul_inv]
   simp only [norm_mul]
+  dsimp only [C]
   exact mul_le_mul
-    (mul_le_mul (mul_le_mul hGauss hAdd (norm_nonneg _) (Real.exp_pos 4).le)
-      hDen (norm_nonneg _) (mul_nonneg (Real.exp_pos 4).le hA.le))
-    hNorm (norm_nonneg _) (mul_nonneg (mul_nonneg (Real.exp_pos 4).le hA.le) hD.le)
+    (mul_le_mul
+      (mul_le_mul
+        (mul_le_mul (by linarith : ‖(physicalPoissonScalar K : ℂ)‖ ≤
+          ‖(physicalPoissonScalar K : ℂ)‖ + 1) hGauss
+          (norm_nonneg _) (by positivity))
+        hAdd (norm_nonneg _) (by positivity))
+      hDen (norm_nonneg _) (by positivity))
+    hNorm (norm_nonneg _) (by positivity)
 
 /-- The actual non-slot factors give a uniform pointwise norm form for
 any finite amplitude vector whose bounds hold at the current point.
@@ -108,7 +115,9 @@ theorem exists_actual_kernel_normForm_of_slot_bounds
     K S₀ psi companions hcomp P he he1 heps
   obtain ⟨CE, hCE, heuler⟩ := exists_uniform_rowCorrection_subpower K S₀ he he1 heta
   obtain ⟨CN, ZN, hCN, hZN, hnormalizer⟩ :=
-    NormFormNormalization.exists_actual_primeNormalizer_inverse_subpower K S₀ g hnu
+    NormFormNormalization.exists_actual_primeNormalizer_inverse_subpower K S₀
+      (HeckeSkeleton.HeckeFiniteBackgroundControl.all_complex_of_primitive12
+        K P.arithmetic.primitive12) g hnu
   obtain ⟨ZF, hZF, hfactor⟩ := exists_actualFullCorrection_product_cutoff K S₀ g he he1
   obtain ⟨CP, hCP, hprofile⟩ := exists_actual_profile_bound K S μ P
   let deg : ℝ := ((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) +
@@ -131,7 +140,8 @@ theorem exists_actual_kernel_normForm_of_slot_bounds
   let s : ℂ := sLine (a + 16 * e) x
   let w : ℂ := wLine (1 - a - 6 * e) x
   let z : ℂ := zLine x
-  let profile : ℂ := Complex.exp ((s + z - 1) ^ 2) * additiveMellin K S₀ μ P.additive z *
+  let profile : ℂ := (physicalPoissonScalar K : ℂ) * Complex.exp ((s + z - 1) ^ 2) *
+    additiveMellin K S₀ μ P.additive z *
     mellin P.denominator.toFun w / physicalResidueNormalizer K S₀ μ P
   let ratio : ℂ := heckeDeletedContinuation K 1 (exceptionalPrimes K S₀) (6 * z) *
     heckeDeletedContinuation K (E.rows.character u) (exceptionalPrimes K S₀) w /

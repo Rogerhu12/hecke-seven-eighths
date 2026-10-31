@@ -49,7 +49,7 @@ theorem exists_physical_profile_bound (P : ProbeData K S₀) :
     ⟨HeckeSkeleton.HeckeFiniteBackgroundControl.all_complex_of_primitive12
       K P.arithmetic.primitive12⟩
   obtain ⟨D, hD, hden⟩ := HighBinBoundary.ActualDenominator.exists_mellin_uniform_strip_bound
-    P.denominator (-1) 1 0
+    P.denominator.toSmoothAnnularTest (-1) 1 0
   obtain ⟨A, hA, hadd⟩ := HighBinBoundary.ActualAdditiveBorel.exists_additiveMellin_rapid_bound_actualBorel
     K S (fun p => inferInstance) (fun p => inferInstance) mu (fun p => inferInstance)
       P.additive (17 / 50) (by norm_num) (by norm_num) 0
