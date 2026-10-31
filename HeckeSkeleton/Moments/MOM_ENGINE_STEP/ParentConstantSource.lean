@@ -319,8 +319,7 @@ theorem ParentPeriodicPair.transformedProfile_smul
     (p : ParentPeriodicPair K A.Sf Γ) (c : ℂ)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum A.R)) (q : Q) :
-    ({ p with profile := c • p.profile } : ParentPeriodicPair K A.Sf Γ).
-        transformedProfile μv finiteTest radius D q =
+    ({ p with profile := c • p.profile } : ParentPeriodicPair K A.Sf Γ).transformedProfile μv finiteTest radius D q =
       c * p.transformedProfile μv finiteTest radius D q := by
   unfold ParentPeriodicPair.transformedProfile
   dsimp only [ParentPeriodicPair.dualRadius]

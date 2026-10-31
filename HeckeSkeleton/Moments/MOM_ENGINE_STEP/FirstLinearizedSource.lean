@@ -14,6 +14,8 @@ on the two original pooled energies under their common Fourier measure.
 noncomputable section
 open scoped Classical BigOperators NumberField nonZeroDivisors SchwartzMap
 
+set_option Elab.async false
+
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
@@ -45,7 +47,7 @@ variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable {b : FirstCommonCharacterBlock fullI fullJ DE}
 variable {C : A.GeneralArithmeticContext σ η hS}
 variable {left : Finset ι} {right : Finset κ}
-variable {profiles : ι → κ → SchwartzMap V ℂ}
+variable {profiles : ι → κ → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
@@ -55,7 +57,7 @@ variable {M : Finset (HeightOneSpectrum A.R)} {X : ℝ} {hX : 1 ≤ X}
 
 namespace FirstBlockPoolData
 
-def originalLeftCoefficient (p : FirstBlockPoolData chart P M X hX) (i : ι) : ℂ :=
+def originalLeftCoefficient (p : FirstBlockPoolData (profiles := profiles) chart P M X hX) (i : ι) : ℂ :=
   let a := generatedOriginalColumn (σ := σ) hΓ
     (b.leftResidual i) (b.leftGenerator i) (b.left_generates i)
   let r := actualActiveColumn hΓ C b.primes b.primes_injective
@@ -63,7 +65,7 @@ def originalLeftCoefficient (p : FirstBlockPoolData chart P M X hX) (i : ι) : �
   let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
   chart.leftCoefficient i * firstLeftDivisorFactor a r δ
 
-def originalRightCoefficient (p : FirstBlockPoolData chart P M X hX) (j : κ) : ℂ :=
+def originalRightCoefficient (p : FirstBlockPoolData (profiles := profiles) chart P M X hX) (j : κ) : ℂ :=
   let a := generatedOriginalColumn (σ := σ) hΓ
     (b.rightResidual j) (b.rightGenerator j) (b.right_generates j)
   let r := actualActiveColumn hΓ C b.primes b.primes_injective
@@ -71,7 +73,7 @@ def originalRightCoefficient (p : FirstBlockPoolData chart P M X hX) (j : κ) : 
   let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
   chart.rightCoefficient j * firstRightDivisorFactor a r δ
 
-def linearizedCost (p : FirstBlockPoolData chart P M X hX)
+def linearizedCost (p : FirstBlockPoolData (profiles := profiles) chart P M X hX)
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
       ((PUnit × PUnit) →* Circle) → ℝ) : ℝ :=
   firstDivisorLinearizedCost PUnit chart.kernel p.leftData p.rightData p.divisorPools
@@ -80,7 +82,7 @@ def linearizedCost (p : FirstBlockPoolData chart P M X hX)
 
 /-- The literal actual first pooled cost is linearized, so every term
 is an integral of a genuine normalized main-plus-1/6/7 source. -/
-theorem pooledCost_le_linearized (p : FirstBlockPoolData chart P M X hX)
+theorem pooledCost_le_linearized (p : FirstBlockPoolData (profiles := profiles) chart P M X hX)
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
       ((PUnit × PUnit) →* Circle) → ℝ)
     (hNL : ∀ S χ, 0 < NL S χ) (hNR : ∀ S χ, 0 < NR S χ) :
@@ -91,7 +93,7 @@ theorem pooledCost_le_linearized (p : FirstBlockPoolData chart P M X hX)
     p.rowBound p.rowBound_nonneg NL NR hNL hNR
     p.originalLeftCoefficient p.originalRightCoefficient chart.leftPoint chart.rightPoint
 
-theorem kernelCost_le_linearized (p : FirstBlockPoolData chart P M X hX)
+theorem kernelCost_le_linearized (p : FirstBlockPoolData (profiles := profiles) chart P M X hX)
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
       HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →

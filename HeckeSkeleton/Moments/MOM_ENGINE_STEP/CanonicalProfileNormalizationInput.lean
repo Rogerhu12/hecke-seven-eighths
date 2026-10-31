@@ -54,8 +54,9 @@ def canonicalProfileNormalizationInput : ProfileNormalizationInput K ω ψ where
     change (((c⁻¹)⁻¹ : ℝ) : ℂ) * d.plainTest₂.profile u t y = _
     rw [inv_inv]
   prime_profile d c hc i t y := by
-    change (((c⁻¹)⁻¹ : ℝ) : ℂ) * (d.geometry.slots i).profile t y = _
-    simp only [inv_inv, Equiv.refl_apply]
+    change (((c⁻¹)⁻¹ : ℝ) : ℂ) * (d.geometry.slots i).profile t y =
+      (c : ℂ) * (d.geometry.slots i).profile t y
+    rw [inv_inv]
   energy_scale d p c hc Z t := by
     simpa only [inv_inv] using
       pairedEnergy_normalizedMomentProfiles d p c⁻¹ (inv_pos.mpr hc) Z t

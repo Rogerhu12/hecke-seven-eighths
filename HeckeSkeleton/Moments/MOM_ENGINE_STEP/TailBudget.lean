@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroDiagonal
+import HeckePort.CenteredMoment.Counting
 import Mathlib.RingTheory.Ideal.Quotient.Operations
 
 /-!
@@ -43,7 +44,8 @@ def firstTailFieldConstant (K : Type) [Field K] [NumberField K] : ℝ :=
 
 theorem firstTailFieldConstant_nonneg : 0 ≤ firstTailFieldConstant K := norm_nonneg _
 
-variable [IsPrincipalIdealRing OS]
+variable [IsPrincipalIdealRing
+  (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 
 /-- Every Boolean choice of actual mask primes gives a different residue
 class by CRT, so the number of squarefree divisors is at most the genuine
@@ -245,7 +247,8 @@ theorem first_common_label_tuple_card
     exact Finset.mem_product.mpr ⟨hm.1, hm.2.1⟩
   apply whole_ideal_tuple_card (firstZeroPairs left right fullI fullJ) (fun v => factors v.2)
     (fun v hv w hw he => firstZeroPairs_projection_injective left right fullI fullJ hv hw
-      (hinj (hij v hv) (hij w hw) he)) X hX
+      (hinj (Finset.mem_product.mp (hij v hv))
+        (Finset.mem_product.mp (hij w hw)) he)) X hX
   · intro v hv
     rw [hproduct v.2 (hij v hv)]
     exact mul_ne_zero (fullI v.2.1).property.1 (fullJ v.2.2).property.1
@@ -480,7 +483,8 @@ variable {left : Finset ι} {right : Finset κ}
 variable {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
 variable {blocks : ∀ DE : FirstZeroLabel left right fullI fullJ,
   FirstCommonCharacterBlock fullI fullJ DE.val}
-variable {seminorms : Finset (ℕ × ℕ)} {profiles : ι → κ → SchwartzMap V ℂ}
+variable {seminorms : Finset (ℕ × ℕ)}
+variable {profiles : ι → κ → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
 variable {radius : {r : ℝ // 0 < r}} {M : Finset (HeightOneSpectrum A.R)}
 variable {k : ℕ} {Z productExponent profileExponent maskExponent modulusExponent Amp : ℝ}
 

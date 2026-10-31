@@ -442,8 +442,7 @@ theorem rowPresent_of_leaf_live (exceptional : s.CoverHybridPredicates covers)
     (hj : (s.coveredLeaf covers exceptional F x j).Live) : s.rowPresent covers j := by
   rcases j with j | (⟨p, j⟩ | (⟨p, j⟩ | ⟨p, j⟩))
   · exact s.main.rowPresent_of_fiberLeaf_live covers.main covers.main exceptional.main F x j
-      ((s.main.fiberCoveredLeaf covers.main covers.main exceptional.main F x j).
-        live_of_scale_live _ _ hj)
+      ((s.main.fiberCoveredLeaf covers.main covers.main exceptional.main F x j).live_of_scale_live _ _ hj)
   · exact (s.one p).rowPresent_of_fiberLeaf_live
       (covers.residual p 1) (covers.residual p 1) (exceptional.one p) F (fun i => x i.val) j
       (((s.one p).fiberCoveredLeaf (covers.residual p 1) (covers.residual p 1)
@@ -564,8 +563,7 @@ theorem rowPresent_of_leaf_live
   · exact (R.right S χ).rowPresent_of_leaf_live (p.rightSourceCovers RA S χ)
       (exceptional.right S χ) chart.kernel (fun i => -chart.rightPoint i) j
       (((R.right S χ).coveredLeaf (p.rightSourceCovers RA S χ)
-        (exceptional.right S χ) chart.kernel (fun i => -chart.rightPoint i) j).
-          live_of_scale_live _ _ hj)
+        (exceptional.right S χ) chart.kernel (fun i => -chart.rightPoint i) j).live_of_scale_live _ _ hj)
 
 /-- Once the original first divisor and pool tag are fixed, only the
 two genuine side choices contribute a fixed multiplicity. The phase

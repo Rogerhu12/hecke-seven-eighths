@@ -72,8 +72,7 @@ theorem phase_hybridClassCost_integrable
       (primeSupport S → Finset (Fin (k + 2))) →
       (primeSupport S → Finset (Fin (l + 2))) → Q → Prop) :
     Integrable (fun ξ : W =>
-      ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts DE D).
-        hybridClassCost s.mask s.cutoff s.cutoff_one label L R exceptional)
+      ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts DE D).hybridClassCost s.mask s.cutoff s.cutoff_one label L R exceptional)
       (actualFourierMeasure F) := by
   let b := canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
     DE.val DE.property
@@ -145,8 +144,7 @@ theorem integral_rawPhaseNonzeroCost_le_cover
     (s.rawPhaseNonzeroCost_integrable F x)
     (s.coverHybridPhaseNonzeroCost_integrable LC RC F x exceptional)
   intro ξ
-  exact (s.withMultiplier (fun i => jointPhase ξ (x i))).
-    rawNonzeroCost_le_coverHybrid LC RC exceptional
+  exact (s.withMultiplier (fun i => jointPhase ξ (x i))).rawNonzeroCost_le_coverHybrid LC RC exceptional
 
 namespace TerminalCalibration
 

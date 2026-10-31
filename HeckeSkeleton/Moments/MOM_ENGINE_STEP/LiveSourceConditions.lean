@@ -144,23 +144,19 @@ theorem supported_gated_live_source
       Squarefree (s.supported.gated.innerDivisor B j) := by
   rcases j with j | (⟨p, j⟩ | (⟨p, j⟩ | ⟨p, j⟩))
   · exact s.main.supported_gated_fiberLeaf_live B.main B.main exceptional.main F x j
-      ((s.main.supported.gated.fiberCoveredLeaf B.main B.main exceptional.main F x j).
-        live_of_scale_live _ _ hj)
+      ((s.main.supported.gated.fiberCoveredLeaf B.main B.main exceptional.main F x j).live_of_scale_live _ _ hj)
   · exact (s.one p).supported_gated_fiberLeaf_live
       (B.residual p 1) (B.residual p 1) (exceptional.one p) F (fun i => x i.val) j
       (((s.one p).supported.gated.fiberCoveredLeaf
-        (B.residual p 1) (B.residual p 1) (exceptional.one p) F (fun i => x i.val) j).
-        live_of_scale_live _ _ hj)
+        (B.residual p 1) (B.residual p 1) (exceptional.one p) F (fun i => x i.val) j).live_of_scale_live _ _ hj)
   · exact (s.six p).supported_gated_fiberLeaf_live
       (B.residual p 6) (B.residual p 6) (exceptional.six p) F (fun i => x i.val) j
       (((s.six p).supported.gated.fiberCoveredLeaf
-        (B.residual p 6) (B.residual p 6) (exceptional.six p) F (fun i => x i.val) j).
-        live_of_scale_live _ _ hj)
+        (B.residual p 6) (B.residual p 6) (exceptional.six p) F (fun i => x i.val) j).live_of_scale_live _ _ hj)
   · exact (s.seven p).supported_gated_fiberLeaf_live
       (B.residual p 7) (B.residual p 7) (exceptional.seven p) F (fun i => x i.val) j
       (((s.seven p).supported.gated.fiberCoveredLeaf
-        (B.residual p 7) (B.residual p 7) (exceptional.seven p) F (fun i => x i.val) j).
-        live_of_scale_live _ _ hj)
+        (B.residual p 7) (B.residual p 7) (exceptional.seven p) F (fun i => x i.val) j).live_of_scale_live _ _ hj)
 
 /-- The support of the original whole coefficient, combined with the
 actual eligible rows, transports the old squarefree divisor through
@@ -293,8 +289,7 @@ theorem supported_gated_live_old_mask
       (fun i _ hi => p.leftDivisorCoefficient_nonzero_dvd S χ i hi)
       (exceptional.left S χ) chart.kernel chart.leftPoint j
     exact ((s.left S χ).supported.gated.coveredLeaf
-      (p.leftSourceCovers LA S χ) (exceptional.left S χ) chart.kernel chart.leftPoint j).
-      live_of_scale_live _ _ hj
+      (p.leftSourceCovers LA S χ) (exceptional.left S χ) chart.kernel chart.leftPoint j).live_of_scale_live _ _ hj
   · apply (s.right S χ).supported_gated_live_old_mask (p.rightSourceCovers RA S χ)
       S.val hS (p.firstDivisor_dvd_right_frozen S)
       (fun i _ hi => p.rightDivisorCoefficient_nonzero_dvd S χ i hi)
@@ -311,8 +306,7 @@ theorem supported_gated_live_errorPrime
     ¬r.val.asIdeal ∣ j.1.val := by
   rcases j with ⟨S, χ, j | j⟩
   · have hlive := ((s.left S χ).supported.gated.coveredLeaf
-      (p.leftSourceCovers LA S χ) (exceptional.left S χ) chart.kernel chart.leftPoint j).
-      live_of_scale_live _ _ hj
+      (p.leftSourceCovers LA S χ) (exceptional.left S χ) chart.kernel chart.leftPoint j).live_of_scale_live _ _ hj
     have hp := (s.left S χ).supported_gated_live_errorPrime (p.leftSourceCovers LA S χ)
       (exceptional.left S χ) chart.kernel chart.leftPoint j hlive r hr
     exact fun h => hp (h.trans (p.firstDivisor_dvd_left_frozen S))
@@ -330,8 +324,7 @@ theorem supported_gated_live_inner_squarefree
     Squarefree (s.supported.gated.innerDivisor LA RA j) := by
   rcases j with ⟨S, χ, j | j⟩
   · have hlive := ((s.left S χ).supported.gated.coveredLeaf
-      (p.leftSourceCovers LA S χ) (exceptional.left S χ) chart.kernel chart.leftPoint j).
-      live_of_scale_live _ _ hj
+      (p.leftSourceCovers LA S χ) (exceptional.left S χ) chart.kernel chart.leftPoint j).live_of_scale_live _ _ hj
     exact ((s.left S χ).supported_gated_live_source (p.leftSourceCovers LA S χ)
       (exceptional.left S χ) chart.kernel chart.leftPoint j hlive).2.2
   · have hlive := ((s.right S χ).supported.gated.coveredLeaf
@@ -368,8 +361,7 @@ theorem live_common_old_mask
     Squarefree j.val.2.2.1.val ∧
       j.val.2.2.1.val ∣ (R.supported.gated.commonLabel L j.val).1 ∧
       j.val.2.2.1.val ∣ (R.supported.gated.commonLabel L j.val).2 := by
-  have hlive := (R.supported.gated.coveredLeaf L exceptional N j.val).
-    live_of_scale_live _ _ (R.supported.gated.liveLeaves_spec L exceptional N j)
+  have hlive := (R.supported.gated.coveredLeaf L exceptional N j.val).live_of_scale_live _ _ (R.supported.gated.liveLeaves_spec L exceptional N j)
   exact (R j.val.1 j.val.2.1).supported_gated_live_old_mask L L
     (N.left j.val.1 j.val.2.1) (N.right j.val.1 j.val.2.1)
     (N.left_pos j.val.1 j.val.2.1) (N.right_pos j.val.1 j.val.2.1)
@@ -380,8 +372,7 @@ theorem live_errorPrime_avoids_old_mask
     (j : R.supported.gated.liveLeaves L exceptional N)
     (p : ExteriorPrime A) (hp : R.supported.gated.errorPrime L j.val = some p) :
     ¬p.val.asIdeal ∣ j.val.2.2.1.val := by
-  have hlive := (R.supported.gated.coveredLeaf L exceptional N j.val).
-    live_of_scale_live _ _ (R.supported.gated.liveLeaves_spec L exceptional N j)
+  have hlive := (R.supported.gated.coveredLeaf L exceptional N j.val).live_of_scale_live _ _ (R.supported.gated.liveLeaves_spec L exceptional N j)
   exact (R j.val.1 j.val.2.1).supported_gated_live_errorPrime L L
     (N.left j.val.1 j.val.2.1) (N.right j.val.1 j.val.2.1)
     (N.left_pos j.val.1 j.val.2.1) (N.right_pos j.val.1 j.val.2.1)
@@ -391,8 +382,7 @@ theorem live_inner_divisor_squarefree
     (exceptional : R.supported.gated.CoverHybridPredicates L) (N : s.Normalization)
     (j : R.supported.gated.liveLeaves L exceptional N) :
     Squarefree (R.supported.gated.innerDivisor L j.val) := by
-  have hlive := (R.supported.gated.coveredLeaf L exceptional N j.val).
-    live_of_scale_live _ _ (R.supported.gated.liveLeaves_spec L exceptional N j)
+  have hlive := (R.supported.gated.coveredLeaf L exceptional N j.val).live_of_scale_live _ _ (R.supported.gated.liveLeaves_spec L exceptional N j)
   exact (R j.val.1 j.val.2.1).supported_gated_live_inner_squarefree L L
     (N.left j.val.1 j.val.2.1) (N.right j.val.1 j.val.2.1)
     (N.left_pos j.val.1 j.val.2.1) (N.right_pos j.val.1 j.val.2.1)

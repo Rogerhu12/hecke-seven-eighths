@@ -159,8 +159,7 @@ theorem rowPresent_of_leaf_live
       (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ)
       (exceptional.right S χ) chart.kernel (fun i => -chart.rightPoint i) j
       (((R.right S χ).fiberCoveredLeaf (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ)
-        (exceptional.right S χ) chart.kernel (fun i => -chart.rightPoint i) j).
-          live_of_scale_live _ _ hj)
+        (exceptional.right S χ) chart.kernel (fun i => -chart.rightPoint i) j).live_of_scale_live _ _ hj)
 
 theorem original_predicate_subpower
     (hLA : LA.slotCount ≤ cap) (hRA : RA.slotCount ≤ cap)

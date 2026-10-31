@@ -116,9 +116,11 @@ theorem actual_residual_tuple_injective_on_allocation {α : Type*} {k : ℕ}
   intro x hx y hy he
   apply hinj hx hy
   funext i
-  rw [actual_factor_reconstructed C p (f x) i,
-    actual_factor_reconstructed C p (f y) i,
-    hallocation x hx, hallocation y hy, congrFun he i]
+  have ha : actualFactorValuation p (f x) i = actualFactorValuation p (f y) i :=
+    congrFun ((hallocation x hx).trans (hallocation y hy).symm) i
+  exact (actual_factor_reconstructed C p (f x) i).trans
+    ((congrArg₂ (fun n I => p.val.asIdeal ^ n * I) ha (congrFun he i)).trans
+      (actual_factor_reconstructed C p (f y) i).symm)
 
 /-- Without fixing the allocation, every fibre still has a fixed finite
 size.  The bound is independent of the prime, the ideals and the scale. -/
@@ -134,9 +136,11 @@ theorem actual_residual_tuple_fiber_card {α : Type*} {k n : ℕ}
     intro x hx y hy he
     apply hinj (Finset.mem_filter.mp hx).1 (Finset.mem_filter.mp hy).1
     funext i
-    rw [actual_factor_reconstructed C p (f x) i,
-      actual_factor_reconstructed C p (f y) i,
-      congrFun he i, (Finset.mem_filter.mp hx).2, (Finset.mem_filter.mp hy).2]
+    have hr : actualResidualFactorTuple C p (f x) = actualResidualFactorTuple C p (f y) :=
+      (Finset.mem_filter.mp hx).2.trans (Finset.mem_filter.mp hy).2.symm
+    exact (actual_factor_reconstructed C p (f x) i).trans
+      ((congrArg₂ (fun n I => p.val.asIdeal ^ n * I) (congrFun he i)
+        (congrFun hr i)).trans (actual_factor_reconstructed C p (f y) i).symm)
   have hs : T.image (fun x => actualFactorValuation p (f x)) ⊆
       ValuationAllocation.choices k n := by
     intro w hw
@@ -231,11 +235,14 @@ theorem common_label_powerful_normalized_sum_of_fibers
   have hij (v) (hv : v ∈ firstZeroPairs left right fullI fullJ) : v.2 ∈ left ×ˢ right := by
     have hv' := (mem_firstZeroPairs left right fullI fullJ v).mp hv
     exact Finset.mem_product.mpr ⟨hv'.1, hv'.2.1⟩
-  apply hcount (firstZeroPairs left right fullI fullJ) (fun v => factors v.2)
-    multiplicity ?_ N Amp coeff hN hAmp
-  · intro w
-    let T := (firstZeroPairs left right fullI fullJ).filter (fun v => factors v.2 = w)
-    have hi : Set.InjOn Prod.snd (T : Set _) := by
+  have hfiber' (w : Fin k → Ideal (𝓞 K)) :
+      ((firstZeroPairs left right fullI fullJ).filter
+        (fun v => factors v.2 = w)).card ≤ multiplicity := by
+    let T : Finset (FirstZeroLabel left right fullI fullJ × (ι × κ)) :=
+      (firstZeroPairs left right fullI fullJ).filter (fun v => factors v.2 = w)
+    have hi : Set.InjOn
+        (fun v : FirstZeroLabel left right fullI fullJ × (ι × κ) => v.2)
+        (T : Set (FirstZeroLabel left right fullI fullJ × (ι × κ))) := by
       intro v hv u hu he
       exact firstZeroPairs_projection_injective left right fullI fullJ
         (Finset.mem_filter.mp hv).1 (Finset.mem_filter.mp hu).1 he
@@ -247,6 +254,8 @@ theorem common_label_powerful_normalized_sum_of_fibers
     have hc := (Finset.card_le_card hs).trans (hfiber w)
     rw [Finset.card_image_of_injOn hi] at hc
     exact hc
+  refine hcount (firstZeroPairs left right fullI fullJ) (fun v => factors v.2)
+    multiplicity hfiber' N Amp coeff hN hAmp ?_ ?_ ?_ hcoef
   · intro v hv
     rw [hfactor v.2 (hij v hv)]
     exact mul_ne_zero (fullI v.2.1).property.1 (fullJ v.2.2).property.1
@@ -256,7 +265,6 @@ theorem common_label_powerful_normalized_sum_of_fibers
   · intro v hv hbad
     apply hzero v hv
     simpa only [hfactor v.2 (hij v hv)] using hbad
-  · exact hcoef
 
 end HeckeSkeleton.Moments.EngineStep
 

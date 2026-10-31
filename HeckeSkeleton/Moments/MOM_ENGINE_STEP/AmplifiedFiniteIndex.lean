@@ -72,6 +72,30 @@ theorem sum_amplifiedIndexWeight
     (error : ℕ → ExteriorPrime A → TwoDivisorCommonBranch (K := K)) :
     (∑ i : AmplifiedCommonIndex P main error, amplifiedIndexWeight P M B main error i) =
       amplifiedCommonBranchMass P M B main error := by
+  have herror :
+      (∑ j : (Σ n : ({1, 6, 7} : Finset ℕ),
+          Σ p : P.primes, (error n.val p.val).Index),
+        FirstGaussPoolData.localErrorWeight j.2.1.val j.1.val *
+          Q j.2.1.val ^ amplifierMovingExponent j.1.val *
+            (error j.1.val j.2.1.val).indexWeight j.2.2) =
+        ∑ n ∈ ({1, 6, 7} : Finset ℕ), ∑ p ∈ P.primes,
+          FirstGaussPoolData.localErrorWeight p n * Q p ^ amplifierMovingExponent n *
+            (error n p).mass := by
+    rw [Fintype.sum_sigma]
+    calc
+      _ = ∑ n : ({1, 6, 7} : Finset ℕ), ∑ p : P.primes,
+          FirstGaussPoolData.localErrorWeight p.val n.val *
+            Q p.val ^ amplifierMovingExponent n.val * (error n.val p.val).mass := by
+        apply Finset.sum_congr rfl
+        intro n _
+        rw [Fintype.sum_sigma]
+        apply Finset.sum_congr rfl
+        intro p _
+        rw [← Finset.mul_sum, TwoDivisorCommonBranch.sum_indexWeight]
+      _ = _ := by simp only [Finset.sum_coe_sort]
+  have hthree (f : ℕ → ℝ) :
+      (∑ n ∈ ({1, 6, 7} : Finset ℕ), f n) = f 1 + (f 6 + f 7) := by
+    simp
   rw [show (∑ i : AmplifiedCommonIndex P main error,
       amplifiedIndexWeight P M B main error i) =
       (4 / P.rowDensity M B) *
@@ -84,10 +108,9 @@ theorem sum_amplifiedIndexWeight
     simp only [amplifiedIndexWeight, Finset.mul_sum]]
   unfold amplifiedCommonBranchMass
   congr 1
-  simp only [AmplifiedCommonIndex, Fintype.sum_sum_type, Fintype.sum_sigma,
-    ← Finset.mul_sum, TwoDivisorCommonBranch.sum_indexWeight]
-  simp
-  <;> ring
+  rw [Fintype.sum_sum_type, ← Finset.mul_sum,
+    TwoDivisorCommonBranch.sum_indexWeight, herror, hthree]
+  simp only [add_assoc]
 
 /-- The literal finite arithmetic carrier has the already-proved
 uniform mass. The constants precede the scale and every moving index. -/

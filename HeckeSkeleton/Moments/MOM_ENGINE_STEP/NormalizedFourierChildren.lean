@@ -35,7 +35,8 @@ theorem profilePolynomialWindow_one_le (J₁ J₂ : ℕ) (z : V × E) :
     1 ≤ profilePolynomialWindow J₁ J₂ z := by
   have h₁ : 1 ≤ (1 + ‖z.1‖) ^ J₁ := one_le_pow₀ (by linarith [norm_nonneg z.1])
   have h₂ : 1 ≤ (1 + ‖z.2‖) ^ J₂ := one_le_pow₀ (by linarith [norm_nonneg z.2])
-  simpa only [one_mul] using mul_le_mul h₁ h₂ zero_le_one (by positivity)
+  unfold profilePolynomialWindow
+  simpa only [one_mul] using mul_le_mul h₁ h₂ zero_le_one (zero_le_one.trans h₁)
 
 def canonicalProfileAmplitude (B : ℝ) (J₁ J₂ : ℕ) (z : V × E) : ℝ :=
   1 + B * profilePolynomialWindow J₁ J₂ z
@@ -94,7 +95,8 @@ theorem canonicalPairEnvelope_bound (n₁ n₂ : ℕ) (B₁ B₂ : ℝ)
         (pow_le_pow_left₀ (canonicalProfileAmplitude_pos B₂ hB₂ J₁ J₂ z).le
           (canonicalProfileAmplitude_le B₂ J₁ J₂ z) _)
         (pow_nonneg (canonicalProfileAmplitude_pos B₂ hB₂ J₁ J₂ z).le _)
-        (by positivity)
+        (pow_nonneg (mul_nonneg (by linarith : 0 ≤ 1 + B₁)
+          (zero_le_one.trans (profilePolynomialWindow_one_le J₁ J₂ z))) _)
     _ = _ := by
       dsimp only [profilePolynomialWindow]
       simp only [mul_pow, pow_mul, pow_add]
@@ -224,7 +226,7 @@ private theorem normalized_energy_integrable_of_raw {X : Type*} [MeasurableSpace
     have hp : (A z)⁻¹ ^ ((n + 2) * 2) ≤ 1 := by
       simpa only [one_pow] using pow_le_pow_left₀ (inv_nonneg.mpr hpos.le) hinv ((n + 2) * 2)
     have hE := normalizedPairedEnergy_nonneg (D z) a Z (t z) hZ
-    simp only [Pi.mul_apply]
+    simp only [Pi.mul_apply, Pi.inv_apply]
     rw [Real.norm_eq_abs, abs_of_nonneg
       (mul_nonneg (pow_nonneg (inv_nonneg.mpr hpos.le) _) hE)]
     exact (mul_le_mul_of_nonneg_right hp hE).trans_eq (one_mul _)
@@ -276,17 +278,18 @@ theorem canonical_normalized_pair_integrable_with_budget
     (Real.continuous_sqrt.comp_aestronglyMeasurable right.aestronglyMeasurable)
   apply ((left.add right).div_const 2).mono' hmeas
   exact Filter.Eventually.of_forall fun z => by
-    have hl := normalizedPairedEnergy_nonneg
+    let L := normalizedPairedEnergy
+      (canonicalNormalizedFamily P D₁ B₁ hB₁ J₁ J₂ z) a₁ Z (t₁ z)
+    let R := normalizedPairedEnergy
+      (canonicalNormalizedFamily P D₂ B₂ hB₂ J₁ J₂ z) a₂ Z (t₂ z)
+    have hl : 0 ≤ L := normalizedPairedEnergy_nonneg
       (canonicalNormalizedFamily P D₁ B₁ hB₁ J₁ J₂ z) a₁ Z (t₁ z) hZ
-    have hr := normalizedPairedEnergy_nonneg
+    have hr : 0 ≤ R := normalizedPairedEnergy_nonneg
       (canonicalNormalizedFamily P D₂ B₂ hB₂ J₁ J₂ z) a₂ Z (t₂ z) hZ
-    simp only [Pi.mul_apply, Pi.add_apply]
+    change ‖Real.sqrt L * Real.sqrt R‖ ≤ (L + R) / 2
     rw [Real.norm_eq_abs, abs_of_nonneg (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))]
-    nlinarith [Real.sq_sqrt hl, Real.sq_sqrt hr, sq_nonneg
-      (Real.sqrt (normalizedPairedEnergy
-        (canonicalNormalizedFamily P D₁ B₁ hB₁ J₁ J₂ z) a₁ Z (t₁ z)) -
-      Real.sqrt (normalizedPairedEnergy
-        (canonicalNormalizedFamily P D₂ B₂ hB₂ J₁ J₂ z) a₂ Z (t₂ z)))]
+    nlinarith only [Real.sq_sqrt hl, Real.sq_sqrt hr,
+      sq_nonneg (Real.sqrt L - Real.sqrt R)]
 
 /-- The exact homogeneity degree is the budget when no slots were removed. -/
 theorem canonical_normalized_pair_integrable

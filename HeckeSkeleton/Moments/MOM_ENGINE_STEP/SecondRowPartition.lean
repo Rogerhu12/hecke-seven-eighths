@@ -18,7 +18,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
-open HeckeGeneral.Analysis HeckePort.Moments MeasureTheory
+open HeckeGeneral.Analysis HeckePort.Moments HeckePort.IdealMobiusDivisorSum MeasureTheory
 open UniqueFactorizationMonoid
 
 private theorem norm_sum_partition_singletons {H : Type*}
@@ -85,7 +85,7 @@ variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable {b : FirstCommonCharacterBlock fullI fullJ DE}
 variable {C : A.GeneralArithmeticContext σ η htrace}
 variable {left : Finset ι} {right : Finset κ}
-variable {profiles : ι → κ → SchwartzMap MV ℂ}
+variable {profiles : ι → κ → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
 
@@ -105,7 +105,7 @@ def kernelCostOn (rows : Finset Q) : ℝ :=
     (engineAllowedGenerator C b.commonRightIdeal * b.rightGenerator j)
     (b.secondRight_generates C j)
   let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
-  secondResidualKernelCost (σ := σ) PUnit chart.kernel rows (fun t => -t.out.val)
+  secondResidualKernelCost (σ := σ) PUnit.{1} chart.kernel rows (fun t => -t.out.val)
     (b.leftColumns left) (b.rightColumns right)
     b.commonLeftIdeal b.commonRightIdeal b.leftResidual b.rightResidual
     (engineAllowedGenerator C b.commonLeftIdeal) (engineAllowedGenerator C b.commonRightIdeal)
@@ -146,7 +146,7 @@ theorem kernel_bound_on
         chart.kernelCostOn rows := by
   obtain ⟨hDa, hEa, hDb, hEb⟩ := b.second_coprimalities hsupport
   exact actual_second_source_kernel_bound (hΓ := hΓ) (hS := hDiff)
-    (Ray := PUnit) (μv := μv) chart.kernel rows
+    (Ray := PUnit.{1}) (μv := μv) chart.kernel rows
     (b.leftColumns left) (b.rightColumns right)
     b.commonLeftIdeal b.commonRightIdeal b.leftResidual b.rightResidual
     b.secondLeftIdeal b.secondRightIdeal (fun _ => rfl) (fun _ => rfl)

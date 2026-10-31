@@ -121,7 +121,12 @@ theorem energy_eq_sources (d : FirstGaussPoolData C P ι)
         (∑ p : P.primes, localErrorWeight p.val 6 * (d.residualSource p.val 6 c).energy hDiff) +
         (∑ p : P.primes, localErrorWeight p.val 7 * (d.residualSource p.val 7 c).energy hDiff)) := by
   rw [d.energy_eq_residual_sources hDiff D hD c]
-  simp only [Finset.sum_coe_sort, residualSource_energy]
+  have hsum (n : ℕ) :
+      (∑ p : P.primes, localErrorWeight p.val n * (d.residualSource p.val n c).energy hDiff) =
+        ∑ p ∈ P.primes, localErrorWeight p n * d.residualEnergy hDiff p n c := by
+    change (∑ p : P.primes, localErrorWeight p.val n * d.residualEnergy hDiff p.val n c) = _
+    exact Finset.sum_coe_sort P.primes (fun p => localErrorWeight p n * d.residualEnergy hDiff p n c)
+  rw [hsum 1, hsum 6, hsum 7]
   rfl
 
 end FirstGaussPoolData
@@ -173,8 +178,8 @@ variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K �
 def sources (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val)) :=
-  (canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property).
-    secondFiniteSource hΓ hDiff C G.columns G.columns
+  (canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property).secondFiniteSource
+      hΓ hDiff C G.columns G.columns
       (fun i j => (G.coefficient i * star (G.coefficient j)) • s.profile)
       s.mask s.radius s.cutoff s.cutoff_one
 

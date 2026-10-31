@@ -50,8 +50,7 @@ theorem ParentPeriodicPair.transformedRow_profile_smul
     (p : ParentPeriodicPair K A.Sf Γ) (a : ℂ)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum A.R)) (q : Q) :
-    ({ p with profile := a • p.profile } : ParentPeriodicPair K A.Sf Γ).
-        transformedRow μv hDiff finiteTest radius D q =
+    ({ p with profile := a • p.profile } : ParentPeriodicPair K A.Sf Γ).transformedRow μv hDiff finiteTest radius D q =
       a * p.transformedRow μv hDiff finiteTest radius D q := by
   unfold ParentPeriodicPair.transformedRow sIntegerPeriodicFourierProfileTerm
   dsimp only [ParentPeriodicPair.dualRadius]
@@ -66,10 +65,8 @@ theorem FirstCommonCharacterBlock.secondPair_transformedRow_smul
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum A.R))
     (q : Q) (i : ι) (j : κ) :
-    (b.secondPair hΓ hDiff C (fun i j => u i j • profiles i j) i j).
-        transformedRow μv hDiff finiteTest radius D q =
-      u i j * (b.secondPair hΓ hDiff C profiles i j).
-        transformedRow μv hDiff finiteTest radius D q := by
+    (b.secondPair hΓ hDiff C (fun i j => u i j • profiles i j) i j).transformedRow μv hDiff finiteTest radius D q =
+      u i j * (b.secondPair hΓ hDiff C profiles i j).transformedRow μv hDiff finiteTest radius D q := by
   have hp :
       b.secondPair hΓ hDiff C (fun i j => u i j • profiles i j) i j =
         { b.secondPair hΓ hDiff C profiles i j with
@@ -86,10 +83,8 @@ theorem withMultiplier_transformedRow
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (q : Q) (i j : ι) :
-    (((s.withMultiplier u).sources DE).pairs i j).
-        transformedRow μv hDiff finiteTest s.radius D.val q =
-      (u i * star (u j)) * ((s.sources DE).pairs i j).
-        transformedRow μv hDiff finiteTest s.radius D.val q := by
+    (((s.withMultiplier u).sources DE).pairs i j).transformedRow μv hDiff finiteTest s.radius D.val q =
+      (u i * star (u j)) * ((s.sources DE).pairs i j).transformedRow μv hDiff finiteTest s.radius D.val q := by
   have hp :
       (fun i j => ((u i * G.coefficient i) * star (u j * G.coefficient j)) • s.profile) =
         (fun i j => (u i * star (u j)) •
@@ -100,8 +95,7 @@ theorem withMultiplier_transformedRow
     ring
   change ((canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
       DE.val DE.property).secondPair hΓ hDiff C
-        (fun i j => ((u i * G.coefficient i) * star (u j * G.coefficient j)) • s.profile) i j).
-      transformedRow μv hDiff finiteTest s.radius D.val q = _
+        (fun i j => ((u i * G.coefficient i) * star (u j * G.coefficient j)) • s.profile) i j).transformedRow μv hDiff finiteTest s.radius D.val q = _
   rw [hp]
   exact FirstCommonCharacterBlock.secondPair_transformedRow_smul _ _ _ _ _ _ _ _ _
 
@@ -114,8 +108,7 @@ theorem phase_transformedRow_integrable
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (q : Q) (i j : ι) :
     Integrable (fun ξ : W =>
-      (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).
-        transformedRow μv hDiff finiteTest s.radius D.val q) (actualFourierMeasure F) := by
+      (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).transformedRow μv hDiff finiteTest s.radius D.val q) (actualFourierMeasure F) := by
   letI := actualFourierMeasure_finite F
   let a := ((s.sources DE).pairs i j).transformedRow μv hDiff finiteTest s.radius D.val q
   have hc : Continuous (fun ξ : W => jointPhase ξ (x i) * star (jointPhase ξ (x j))) :=
@@ -143,8 +136,7 @@ theorem rawPhaseNonzeroCost_integrable
     ∑ DE, ∑ D : s.mask.powerset,
       ‖∑ q ∈ (s.sources DE).rows,
         ∑ i ∈ (s.sources DE).leftColumns, ∑ j ∈ (s.sources DE).rightColumns,
-          (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).
-            transformedRow μv hDiff finiteTest s.radius D.val q‖) (actualFourierMeasure F)
+          (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).transformedRow μv hDiff finiteTest s.radius D.val q‖) (actualFourierMeasure F)
   apply integrable_finsetSum
   intro DE _
   apply integrable_finsetSum

@@ -11,7 +11,7 @@ chooses its original-profile seminorms before every moving source.
 -/
 
 noncomputable section
-open scoped Classical BigOperators NumberField SchwartzMap
+open scoped Classical BigOperators NumberField nonZeroDivisors SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStep
 
@@ -109,7 +109,9 @@ structure Normalization where
 
 def linearizedCost (N : s.Normalization) : ℝ :=
   ∑ v : s.CommonLabel, ∑ D : ((s.block v).mask s.mask).powerset,
-    (s.pools v D).linearizedCost (N.left v D) (N.right v D)
+    FirstBlockPoolData.linearizedCost (profiles := s.profiles)
+      (b := s.block v) (left := s.columns) (right := s.columns)
+      (chart := s.charts v D) (s.pools v D) (N.left v D) (N.right v D)
 
 def zeroCost
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →

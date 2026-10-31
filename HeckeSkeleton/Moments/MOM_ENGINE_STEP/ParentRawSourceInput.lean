@@ -207,8 +207,7 @@ theorem polynomial (centered : Bool) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
   have hrightMain := hright false
   have hleftComparison := hleft true
   have hrightComparison := hright true
-  simp only [Bool.false_eq_true, ite_false, ite_true] at
-    hleftMain hrightMain hleftComparison hrightComparison
+  simp only [Bool.false_eq_true, ite_false, ite_true] at hleftMain hrightMain hleftComparison hrightComparison
   rw [raw.coefficient_phase_sum, pairedStagePolynomial,
     hleftMain, hrightMain, hleftComparison, hrightComparison, hslot]
 

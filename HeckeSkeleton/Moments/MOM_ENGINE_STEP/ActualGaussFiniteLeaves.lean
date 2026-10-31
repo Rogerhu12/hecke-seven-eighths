@@ -131,8 +131,7 @@ def leaf (exceptional : s.CoverHybridPredicates LC RC)
 followed by the literal finite allocation sum from the second. -/
 theorem phase_class_eq_leaf_sum (exceptional : s.CoverHybridPredicates LC RC)
     (F : SchwartzMap W ℂ) (x : ι → W) (ξ : W) :
-    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts v.1 v.2.1).
-      hybridClassCost s.mask s.cutoff s.cutoff_one v.rowLabel
+    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts v.1 v.2.1).hybridClassCost s.mask s.cutoff s.cutoff_one v.rowLabel
         v.leftReindex v.rightReindex
         (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
           v.2.2.2.2.2.1 v.2.2.2.2.2.2) =

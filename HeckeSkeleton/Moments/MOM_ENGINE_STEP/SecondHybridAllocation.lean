@@ -85,11 +85,24 @@ theorem joint_kernel_whole_allocation
             (pairedAllocatedColumns D a S₁ S₂ S id id HeightOneSpectrum.asIdeal)
             (pairedAllocatedColumns D b T₁ T₂ T id id HeightOneSpectrum.asIdeal)
             q c d x y := by
+  have halloc {m : ℕ}
+      (U₁ U₂ : Finset (Ideal (𝓞 K)))
+      (U : Fin m → Finset (HeightOneSpectrum (𝓞 K)))
+      (C : AllocationColumn K m → ℂ) :
+      (∑ i ∈ (childCartesianColumns U₁ U₂ U).filter
+          (fun i => D ∣ allocationColumnIdeal i), C i) =
+        ∑ a ∈ AllocationMass.idealAllocations D (m + 2),
+          AllocationMass.sign (primeSupport D) a *
+            ∑ i ∈ pairedAllocatedColumns D a U₁ U₂ U id id HeightOneSpectrum.asIdeal,
+              C i := by
+    calc
+      _ = ∑ i ∈ (childCartesianColumns U₁ U₂ U).filter
+          (fun i => D ∣ i.1.1 * i.1.2 * ∏ j, (i.2 j).asIdeal), C i := rfl
+      _ = _ := whole_paired_divisor_allocation D hD U₁ U₂ U
+        id id HeightOneSpectrum.asIdeal C
   rw [joint_kernel_two_filters]
   unfold jointKernelPairing
-  simp only [allocationColumnIdeal]
-  simp_rw [whole_paired_divisor_allocation D hD S₁ S₂ S id id HeightOneSpectrum.asIdeal,
-    whole_paired_divisor_allocation D hD T₁ T₂ T id id HeightOneSpectrum.asIdeal]
+  simp_rw [halloc S₁ S₂ S, halloc T₁ T₂ T]
   simp only [Finset.mul_sum]
   rw [Finset.sum_comm (s := rows) (t := AllocationMass.idealAllocations D (k + 2))]
   apply Finset.sum_congr rfl
@@ -305,7 +318,7 @@ theorem actual_second_residual_hybrid_allocated_bound
           generatedIdealCorrelation (σ := σ) (IDA i) (IEB j) (d * a i) (e * b j)
             (hda i) (heb j) (frequency h) else 0) *
           (c i * star (f j)) * F (x h i + y h j)‖ ≤
-      secondResidualHybridCost Ray F rows frequency S₁ S₂ S T₁ T₂ T
+      secondResidualHybridCost (σ := σ) Ray F rows frequency S₁ S₂ S T₁ T₂ T
         ID IE IA IB d e hd he rayLeft rayRight phaseTable q c f x y exceptional := by
   apply full_correlation_cartesian_hybrid_bound F rows S₁ S₂ S T₁ T₂ T
     (fun i => (IA i).val) (fun j => (IB j).val) (fun j _ => (IB j).property.1) hIA hIB
