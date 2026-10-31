@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolStageTerminalBudget
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.TerminalPowerBudget
 
 /-!
 # The genuine second source with terminals paid before Cauchy
@@ -250,7 +251,7 @@ theorem actual_gauss_raw_terminal_bound
   change s.rawTailMass sTail ≤ Cnum * (T.windows.multiplicity * T.tailAmplitude) *
     Z ^ secondTailExponent k T.productExponent T.profileExponent T.maskExponent
       T.inverseRadiusExponent at hmass
-  have ht := terminal_tail_of_power (s.rawTailMass sTail) Cnum
+  have ht := terminal_tail_power_bound (s.rawTailMass sTail) Cnum
     (T.windows.multiplicity * T.tailAmplitude) Z
     (secondTailExponent k T.productExponent T.profileExponent T.maskExponent T.inverseRadiusExponent)
     Lmax Nsave Ctail decay T.windows.base_ge_one hdecay T.exponent_bound hCtail hCnum
