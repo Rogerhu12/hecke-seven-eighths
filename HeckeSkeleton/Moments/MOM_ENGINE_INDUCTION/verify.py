@@ -32,6 +32,7 @@ MODULES = (
     "StepOutputAdapter", "BranchAssembly", "ProfileScaling", "SourceReindex",
     "CoreGeometry", "ReflectionBranch", "ReflectedRoot",
     "CoreStages", "GeneralBaseTerminal", "RecipeRoot", "ProfileSupremum",
+    "CoreRecursion", "RecipeInduction", "AnnularMellin", "AnnularReflection",
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.
@@ -44,7 +45,7 @@ PRODUCER_SOURCES = {
     "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Pool.lean":
         "98a8f2bc36a6c8095bf7a169cd66ad763875ddd0d27236bcf879804daf525601",
 }
-SOURCE_COMMIT = '02a49e0d49c25b5c162a99bf3e18cb5cd4e3a5ba'
+SOURCE_COMMIT = 'acc0c254a8e9aef3d7e4b04c03782b28d81a8de8'
 SOURCE_SOURCES = {'ExpansionInterfaces/DyadicCount.lean': 'a52681bd30d1e18c7c20b32165ddf11136870f357a21f267502caffb13f95331',
  'ExpansionInterfaces/DyadicShells.lean': 'a8330e7066ff7a3b3c53f9b4e8b6d6af137041a29cb6b0dab5d1bd31b3123610',
  'ExpansionInterfaces/ParameterChoices.lean': '371926930bf1e35af484c711c2e2d0668f4dd978f466ca34009c8c425fc86d61',
@@ -57,7 +58,7 @@ SOURCE_SOURCES = {'ExpansionInterfaces/DyadicCount.lean': 'a52681bd30d1e18c7c20b
  'HeckeSkeleton/ExpansionModels/SourceData.lean': '4b40c6980a5cb1e4e4f6b5196c4034049b6c9af107b8bf21356ad7f681f8cdc3',
  'HeckeSkeleton/ExpansionModels/SourceGeometry.lean': '71cf993ca28b14f63ed4fe02456e0227a0affdb9dc02c1bff156cb2d048b6419',
  'HeckeSkeleton/ExpansionModels/WitnessHeightNormalization.lean': '31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520',
- 'HeckeSkeleton/Moments.lean': 'de5f7344e843539c5777748f0c697e33977f415d09fbac949ce29a48243732b3',
+ 'HeckeSkeleton/Moments.lean': 'ad32874b4e7f6da6d8ae670ccc5c588d26ca796041c4906a5ce0adad6db435ba',
  'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/ProfileControl.lean': '328a45dd8b9bea367aea65f9fd837482d3342c515550d3d1307c60bfe28c8ad1',
  'HeckeSkeleton/SourceData.lean': 'f8956f17c60594f51eb17349d0d94f55a9c412a54d764d1f5588d51f670f9345',
  'lakefile.toml': 'e3cec2fe7dd91f5d84903ece25f7dbc37c9f82dfe728a95c376e9bbec4ca3cac'}
@@ -157,6 +158,15 @@ REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.Source.paired_source_reindex",
     "HeckeSkeleton.Moments.EngineInduction.engineOutput_zero_parameters",
     "HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.centeredComparisonBranch",
+    "HeckeSkeleton.Moments.EngineInduction.CoreRecursionInput.toClosedParentReduction",
+    "HeckeSkeleton.Moments.EngineInduction.Source.RecipeLocalInput.toParentReductionInput",
+    "HeckeSkeleton.Moments.EngineInduction.Source.paired_zero_slot_recipe",
+    "HeckeSkeleton.Moments.EngineInduction.Source.paired_positive_recipe_below_one",
+    "HeckeSkeleton.Moments.EngineInduction.Source.paired_positive_recipe_endpoint",
+    "HeckeSkeleton.Moments.EngineInduction.annularIdealSum_mellin",
+    "HeckeSkeleton.Moments.EngineInduction.annularHeckeSum_mellin",
+    "HeckeSkeleton.Moments.EngineInduction.annularHeckeSum_shift",
+    "HeckeSkeleton.Moments.EngineInduction.annularHeckeSum_reflectedContour",
 }
 
 

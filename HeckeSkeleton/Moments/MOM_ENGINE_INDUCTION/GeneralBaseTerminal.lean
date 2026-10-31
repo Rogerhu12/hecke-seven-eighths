@@ -146,9 +146,13 @@ theorem slotProduct_sq_uniform_bound_of_upper (cap : ℕ) (b B : ℝ)
   have hD : 1 ≤ D := le_max_left _ _
   have hi (i : Fin d.geometry.slotCount) :
       ‖primePolynomial d i u U t‖ ^ 2 ≤ D ^ 2 * U ^ (d.geometry.slots i).length := by
-    have hp := (primePolynomial_absolute_bound_of_upper d i u U t b B hU hb hB
+    have hp : ‖primePolynomial d i u U t‖ ≤
+        D * Real.sqrt (U ^ (d.geometry.slots i).length) :=
+      (primePolynomial_absolute_bound_of_upper d i u U t b B hU hb hB
       (hann i) (hprof i)).trans
-      (mul_le_mul_of_nonneg_right (le_max_right _ _) (Real.sqrt_nonneg _))
+      (mul_le_mul_of_nonneg_right
+        (le_max_right 1 (primeAbsoluteCountConstant K * (supportProfileScale K b * B)))
+        (Real.sqrt_nonneg _))
     have hs := (sq_le_sq₀ (norm_nonneg _) (by positivity :
       0 ≤ D * Real.sqrt (U ^ (d.geometry.slots i).length))).2 hp
     simpa only [mul_pow, Real.sq_sqrt (Real.rpow_nonneg hU.le _)] using hs

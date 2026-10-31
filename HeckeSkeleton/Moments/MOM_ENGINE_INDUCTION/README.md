@@ -8,13 +8,17 @@ finite `MomentData` polynomials. The three public projections are:
 * `EngineInduction.paired_positive_below_one`;
 * `EngineInduction.paired_positive_endpoint`.
 
-Their explicit remaining input is `ParentReductionInput`. It includes the
-parent's normalized positive decomposition and uniform coefficient estimates.
-The decomposition may use finite sums or finite positive measures on actual
-child nodes, so continuous Fourier parameters are retained.
-The published child-step theorem supplies one part of this input. The source
-specialization in `SkeletonFamily.lean` records the exact original conclusions
-with this additional hypothesis visible.
+The low-level projections consume `ParentReductionInput`. The newer
+`CoreRecursion.lean` constructs that whole reduction from the canonical
+local engine output, actual reflection integrals, and genuine base
+components. `RecipeInduction.lean` performs this construction for the same
+explicit `RecipeExpansion R`, using the original mesh and actual root.
+Its three recipe projections accept no completed parent reduction or child
+moment estimates. Actual recursive family calibration, uniform profile
+control, and the local analytic producing theorems are still explicit inputs.
+The original skeleton's three admitted declarations have not yet been
+replaced, because their actual recipe and local producers remain separate
+upstream obligations.
 
 ## Relation to the authoritative child step
 
@@ -210,7 +214,7 @@ as in the original `UniformMomentBound`. Summing sectors introduces the
 fixed sector cardinality once.
 
 `ScheduleCompatibility.lean` uses the skeleton's original `momentMeshValue`,
-fixed before the geometry. It bounds the full rank count by eight times the
+fixed before the geometry. It bounds the full rank count by twelve times the
 existing strict-width schedule depth. At width limit two, the existing
 reserve pays for the terminal error and every boundary, mesh and local edge
 loss. No smaller replacement mesh is selected after the source is fixed.
@@ -358,7 +362,7 @@ capacity, energy and uniform-bound quantifiers definitionally with
 
 `SourceData.lean` now consists only of transparent compatibility names for
 the shared `HeckeSkeleton.SourceData` interface published by EXPANSION at
-`02a49e0d49c25b5c162a99bf3e18cb5cd4e3a5ba`. It fixes one explicit expansion
+`acc0c254a8e9aef3d7e4b04c03782b28d81a8de8`. It fixes one explicit expansion
 and row exponent before all indices, models and uniform constants; there
 is no duplicate local source structure. The canonical `For` types contain
 no globally selected unfinished expansion, default argument or desired
@@ -466,3 +470,37 @@ an extra axiom. Thus successful conditional-core and source-adapter builds
 cannot make the original-goal acceptance gate pass.
 
 AI-assisted implementation and review: ChatGPT, GPT-6 Astra Pro and collaborating agents.
+
+## Local case construction and ordinary Mellin reflection
+
+`CoreRecursion.lean` performs the complete geometric case split. An ordinary
+zero-slot node outside the padded core first uses its actual reflection.
+Small widths use actual terminal components. Core first-stage and centered
+nodes use the authoritative engine domain. A core second-stage ordinary
+node with a short plain factor uses comparison reflection; with both factors
+long, the literal quarter-centered and comparison rectangles are substituted
+locally before recursion. The latter two intermediate nodes are never treated
+as earlier children. The resulting coefficient is uniformly `4*C`.
+
+`RecipeInduction.lean` retains the same recipe, index and sector at every root.
+It fixes amplification, width limit two, terminal budget and edge loss from
+the already selected source schedule, then derives all three uniform source
+projections. Constants follow the original quantifier order. The endpoint
+has kappa one and no below-one premise. A `RecipeLocalInput` supplies genuine
+local analytic producers and primitive family calibration; it contains no
+parent-reduction field or final uniform moment conclusion.
+
+`AnnularMellin.lean` derives vertical Mellin decay from Euler derivatives,
+proves the actual integrability needed for Mellin inversion, identifies the
+finite support at literal ideal norms, and exchanges the absolutely
+convergent ordinary Hecke series with the integral. The test is any
+`SmoothAnnularTest`, not a Gaussian substitute.
+
+`AnnularReflection.lean` uses the existing non-norm-character Hecke
+functional equation with its actual conductor/discriminant scale. It derives
+the contour's strip bound from genuine Hecke growth and Euler decay, shifts
+the ordinary annular sum to a negative vertical line, and applies the
+functional equation there. Actual reflected norm profiles, finite Euler
+masks, uniform profile transport and a quantitative truncation still have
+to be calibrated to the recursive polynomial family. The contour identity
+is not itself claimed to provide the required positive moment kernel.
