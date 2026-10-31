@@ -10,6 +10,7 @@ on:
       - 'HeckeSkeleton/Principal.lean'
       - 'scripts/low_energy_verify.py'
       - 'scripts/low_energy_restore_ci.py'
+      - 'scripts/low_energy_export_ci.py'
       - 'scripts/lean_imports.py'
       - 'docs/low-energy/**'
       - '.github/workflows/low-energy-verify.yml'
@@ -42,6 +43,20 @@ jobs:
           lint: 'false'
           use-mathlib-cache: 'true'
           use-github-cache: 'false'
+      - name: Export pinned compiler, library, and tracked-source replay
+        if: matrix.phase == 'actual'
+        continue-on-error: true
+        run: python3 scripts/low_energy_export_ci.py
+      - name: Preserve local replay environment
+        if: matrix.phase == 'actual'
+        uses: actions/upload-artifact@v4
+        with:
+          name: low-energy-replay
+          path: .low-energy-replay/
+          include-hidden-files: true
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 3
       - name: Restore exact verified module cache
         id: proof-cache
         uses: actions/cache/restore@v4
