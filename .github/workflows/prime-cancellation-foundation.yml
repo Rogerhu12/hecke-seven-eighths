@@ -15,6 +15,9 @@ permissions:
 
 jobs:
   foundation:
+    concurrency:
+      group: prime-cancellation-foundation-${{ github.workflow }}-${{ github.head_ref || github.ref_name }}-${{ inputs.lower }}-${{ inputs.upper }}-${{ matrix.shard }}
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     timeout-minutes: 360
     strategy:
