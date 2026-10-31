@@ -1,5 +1,6 @@
 import Expansion.ActualTerminalSaturation
 import Expansion.ActualRecipePolynomials
+import Expansion.ActualCanonicalRecipe
 
 /-! Kernel dependency audit for the actual source-to-saturation chain and
 the exact adapter into the repository's ideal-test recipe. -/
@@ -14,3 +15,6 @@ the exact adapter into the repository's ideal-test recipe. -/
 #print axioms Expansion.ActualTerminalSaturation.exists_actual_terminal_saturation
 #print axioms Expansion.ActualRecipePolynomials.actual_inverse_normalized_eq_test
 #print axioms Expansion.ActualRecipePolynomials.actual_plain_normalized_eq_test
+
+#print axioms Expansion.Project.canonicalRecipeWitness_inverseValue
+#print axioms Expansion.Project.canonicalRecipeWitness_plainValue

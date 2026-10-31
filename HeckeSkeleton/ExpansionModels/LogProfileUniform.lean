@@ -1,7 +1,14 @@
 import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
 import Mathlib.Analysis.Calculus.ContDiff.Bounds
 import Mathlib.Analysis.SpecialFunctions.ExpDeriv
-import Mathlib.Tactic
+import Mathlib.Tactic.FunProp
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.Positivity
+import Mathlib.Tactic.Ring
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Convert
+import Lean.Elab.Tactic.NormCast
+import Lean.Elab.Tactic.Omega
 
 /-!
 # Uniform logarithmic detector profiles
