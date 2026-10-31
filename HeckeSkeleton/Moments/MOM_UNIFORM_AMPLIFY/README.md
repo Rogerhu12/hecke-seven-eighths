@@ -24,7 +24,8 @@
 
 `ModelProfileIndex` 同时枚举 inverse、两份 plain 和全部 prime windows。
 统一源控制包括原 marked 参数族、独立的 `U,D≥1` unmarked 参数族，以及实际
-选取的 `heights`、`realShifts`、`imagShifts` 的 admissibility。原 marked 调用
+选取的 `heights`、`realShifts`、`imagShifts` 的 admissibility，以及先于所有源索引的
+统一 plain 长度上界（实际源可取 22）。原 marked 调用
 `h J A hA` 通过兼容的函数 coercion 保留。
 
 实际公式是固定 dyadic annular window、原 one-sided cutoff 和归一化 norm power。
@@ -37,12 +38,14 @@ plain 使用同一 annular window，prime 使用固定有限槽系统的原窗�
 | `ProfileControl` | 仓库原 `testSeminorm`、共同支持及全类型 profile 索引 |
 | `ProfileEuler` | 真实 Euler 连续线性算子、迭代及有限 Schwartz 阶控制 |
 | `ProfileLogCoordinates` | 原正半轴 Euler 积分与对数坐标的精确换元 |
+| `ProfileCommonFourier` | 对全部 rowwise twists 和 cutoff ratios 的同一个点态 Fourier majorant；其 weighted L1 界及无行数损失的 Minkowski 传播 |
 | `ProfileFourier` | 原 Schwartz Fourier 变换的 weighted L1 界；实/虚 norm-power 混合导数；独立 cutoff ratio |
 | `ProfileNormTwists` | 实际 annular norm power、原 cutoff 的无损扩展，以及原 `testSeminorm` 的多项式高度界 |
 | `ProfileScaleJets` | 字面混合导数，包括 ξ₃ 导数的 `(-2 log U)^n E^n V` 公式及有限对数损失 |
 | `CanonicalProfileControl` | 从固定配方的原始公式证明全部模型 profile bounds |
 | `SourceProfileControl` | 接到实际源的 marked/unmarked 全族和实际 admissibility |
 | `SourceProfileJets` | 同一个实际 inverse/prime 窗口的混合参数导数与支持控制 |
+| `SourceFourierControl` | 原始 inverse 剖面与 log Schwartz 函数的精确等式、同一共同核及 rowwise Fourier 传播 |
 | `SharedFourierPropagation`、`FourierApplication` | 对共同 Fourier 核应用有限 Hilbert 空间 Minkowski，并把 child frequency envelope 纳入一次 weighted L1 费用 |
 | `FinitePropagation` | 有限树中的尺度、对数和高度次数传播，以及任意预留正损失对有限对数次数的吸收 |
 
@@ -95,7 +98,7 @@ scales 的 default witness 也由实际构造覆盖。
 | 旧陈述/缺陷 | 修正版 | 论文依据 |
 | --- | --- | --- |
 | 全 profile 控制只覆盖 ideal tests，缺少 prime windows | `ModelProfileIndex` 覆盖 inverse、两份 plain、prime | 第 1550–1559、1655–1679 行：全部 tests、有限槽系统和统一有限阶控制 |
-| 源控制未覆盖独立 unmarked 族，也未提供实际参数 admissibility | `WholeMomentProfileControlFor` 的 `marked`、`unmarked`、`parameters` 三字段；实际公式生产实例 | 第 1554–1559、3159–3174、3212–3224 行 |
+| 源控制未覆盖独立 unmarked 族，也未提供实际参数 admissibility | `WholeMomentProfileControlFor` 的 `marked`、`unmarked`、`parameters`、`lengths` 四字段；实际公式生产实例 | 第 1554–1559、3159–3174、3212–3224 行 |
 | strict seed 只求和 sixth-free rows，无法包含非平凡的 `u*a^6` | `StrictUnmarkedMomentBoundFor = CompleteUnmarkedScaleSupBound M.unmarked`；同一 profile 的完整行共同 scale majorant | 第 1589–1604、3237–3257 行 |
 | 仅有 frozen compact 谱集的常数，无法推出固定 polynomial height degree | 新 seed 的 `C,A,h,H₀` 先于全部 profile 索引和完整行尺度 H；放大保留该固定 A | 第 3164–3190、3223–3224 行 |
 | 原物理行上界为 2U，而旧模型参数给 U | 采用 #5 的 `m(U)` 和精确 `U^m(U)=2U`；重排与最终常数桥均保持这个等式 | 第 1521–1526、3194–3202 行及 §7.1 的有限扇区重排 |

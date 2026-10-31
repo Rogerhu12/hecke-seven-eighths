@@ -15,6 +15,8 @@ import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileEuler
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileScaleJets
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FourierApplication
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceProfileJets
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceFourierControl
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileCommonFourier
 import Lean.Elab.Command
 import Lean.Util.CollectAxioms
 

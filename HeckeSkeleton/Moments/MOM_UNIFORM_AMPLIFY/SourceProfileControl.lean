@@ -34,13 +34,15 @@ theorem recipe_source_profile_control
     (hcutoff : R.family.cutoff = Expansion.Dyadic.cutoffProfile)
     (hprime : ∀ j p, R.family.slotPower j p =
       conj ((17 / 50 : ℂ) + (p 2 : ℂ) * Complex.I) - 1)
-    (hparameters : SourceMomentParameterControlFor (recipeMomentModels K c R)) :
+    (hparameters : SourceMomentParameterControlFor (recipeMomentModels K c R))
+    (hlengths : ∃ L : ℝ, 0 ≤ L ∧
+      SourceWitnessLengthBoundFor (recipeMomentSourceData K c R) L) :
     WholeMomentProfileControlFor (recipeMomentModels K c R) := by
   have hfamily (J : ℕ) (A : ℝ) := canonical_recipe_model_profile_control
     (places K c) (probeData K c) (momentRowCharacters K c)
     c.family.omega (targetCharacter K c) c.geometry R.family
     hinverse hplain hcutoff hprime J A
-  refine ⟨?_, ?_, hparameters⟩
+  refine ⟨?_, ?_, hparameters, hlengths⟩
   · intro J A _hA
     obtain ⟨C, hC, hb⟩ := hfamily J A
     refine ⟨C, (J : ℝ), 1 / 2, 2, hC, Nat.cast_nonneg _, by norm_num, by norm_num, ?_⟩
@@ -63,6 +65,14 @@ theorem recipe_source_profile_control
     exact (hb T (zero_le_one.trans hT) U D (zero_lt_one.trans_le hU)
       (zero_le_one.trans hD) s ξ σ τ hξ hσ hτ).2
 
+/-- The same actual source has one plain-length bound before all scales,
+heights and later losses.  Inverse lengths are nonnegative on every index. -/
+theorem actual_source_uniform_lengths (K : Type) [Field K] [NumberField K]
+    (c : TargetContext K) :
+    SourceWitnessLengthBoundFor (recipeMomentSourceData K c (expansionRecipeRaw K c)) 22 :=
+  (recipeMomentModels_geometry K c (expansionRecipeRaw K c)
+    (expansionRecipeRaw_geometry K c)).1
+
 /-- MI-M-PROFILE-UNIFORMITY for the named actual data.  The primitive
 identifications are definitional facts of the physical recipe, and the
 selected parameter box is the geometry theorem of that same recipe. -/
@@ -79,6 +89,7 @@ theorem actual_source_profile_control (K : Type) [Field K] [NumberField K]
     rfl
   · exact (recipeMomentModels_geometry K c (expansionRecipeRaw K c)
       (expansionRecipeRaw_geometry K c)).2
+  · exact ⟨22, by norm_num, actual_source_uniform_lengths K c⟩
 
 end HeckeSkeleton.Moments.UniformAmplify
 

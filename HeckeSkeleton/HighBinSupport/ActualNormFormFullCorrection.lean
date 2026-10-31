@@ -118,7 +118,7 @@ theorem actualFullCorrectionSlot_decomposition (P : ProbeData K S)
     · simp [hmem, hone, hzero]
     · have htwo : 2 ≤ primeExponents u.ideal.val p.val := by omega
       simp only [hmem, not_true_eq_false, ite_false, hone, htwo, ite_true,
-        hzero, map_zero, mul_zero, neg_zero, zero_add, add_zero]
+        hzero, map_zero, mul_zero, zero_mul, neg_zero, zero_add, add_zero]
   · have hval : primeExponents u.ideal.val p.val = 0 := by
       by_contra hn
       exact hmem (hrow.mpr hn)

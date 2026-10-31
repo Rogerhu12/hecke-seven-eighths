@@ -100,4 +100,43 @@ theorem compact_profile_shared_fourier_envelope (Ω : ℝ → ℂ)
       dsimp only [n]
       ring
 
+
+/-- The independent-scale inverse cutoff uses the same weighted common
+kernel argument, with no cost in its arbitrary nonnegative ratio. -/
+theorem scaled_profile_shared_fourier_envelope (Ω : ℝ → ℂ) (V : SchwartzMap ℝ ℂ)
+    (hΩc : HasCompactSupport Ω) (hΩ : ContDiff ℝ ∞ Ω)
+    (R L M : ℝ) (hR : 0 ≤ R) (hL : 0 ≤ L) (hM : 0 ≤ M)
+    (hwindow : tsupport Ω ⊆ Set.Icc (-L) L) (J : ℕ) :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ ratio : ℝ, 0 ≤ ratio → ∀ T : ℝ, 0 ≤ T → ∀ z : ℂ,
+      |z.re| ≤ R → |z.im| ≤ M * (1 + T) →
+      ∀ (ι : Type*) [Fintype ι] (g : ℝ → ι → ℂ),
+      (∀ i, Integrable (fun t : ℝ => g t i)) →
+      ∀ C₀ p B H Z : ℝ, 0 ≤ C₀ → 1 ≤ Z →
+      (∀ t : ℝ, Real.sqrt (∑ i, ‖g t i‖ ^ 2) ≤
+        ((1 + ‖t‖) ^ J * ‖(𝓕 (scaledCompactExpTwist Ω V hΩc hΩ ratio z)) t‖) *
+          growthEnvelope C₀ p B H Z T) →
+      Real.sqrt (∑ i, ‖∫ t : ℝ, g t i‖ ^ 2) ≤
+        growthEnvelope (C₀ * C) p B (H + (J + integrationPower : ℕ)) Z T := by
+  obtain ⟨C, hC, hb⟩ := scaled_compact_exp_twist_uniform_fourier_moment
+    Ω V hΩc hΩ R L hR hL hwindow J
+  let n := J + integrationPower
+  refine ⟨C * (1 + M) ^ n, by positivity, ?_⟩
+  intro ratio hratio T hT z hz him ι _ g hg C₀ p B H Z hC₀ hZ hpoint
+  have hm : (∫ t : ℝ, (1 + ‖t‖) ^ J *
+      ‖(𝓕 (scaledCompactExpTwist Ω V hΩc hΩ ratio z)) t‖) ≤
+      (C * (1 + M) ^ n) * (1 + T) ^ (n : ℝ) := by
+    exact (hb ratio hratio z hz).trans ((mul_le_mul_of_nonneg_left
+      (polynomial_twist_height hM hT him n) hC).trans_eq (by ring))
+  have h := shared_weighted_profile_fourier (scaledCompactExpTwist Ω V hΩc hΩ ratio z) J g hg
+    (growthEnvelope_nonneg hC₀ hZ hT) hpoint hm
+  have ht : 0 < 1 + T := by linarith
+  calc
+    _ ≤ growthEnvelope C₀ p B H Z T *
+        ((C * (1 + M) ^ n) * (1 + T) ^ (n : ℝ)) := h
+    _ = growthEnvelope (C₀ * (C * (1 + M) ^ n)) p B
+        (H + (J + integrationPower : ℕ)) Z T := by
+      simp only [growthEnvelope, Real.rpow_add ht]
+      dsimp only [n]
+      ring
+
 end HeckeSkeleton.Moments.UniformAmplify

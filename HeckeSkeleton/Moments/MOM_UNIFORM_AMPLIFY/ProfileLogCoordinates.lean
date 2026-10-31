@@ -39,10 +39,11 @@ theorem eulerDerivativeOrder_smooth {f : ℝ → ℂ} (hf : ContDiff ℝ ∞ f) 
 
 theorem deriv_profileLogPullback {f : ℝ → ℂ} (hf : ContDiff ℝ ∞ f) (x : ℝ) :
     deriv (profileLogPullback f) x = eulerDerivative f (Real.exp x) := by
+  change deriv (fun t : ℝ => f (Real.exp t)) x =
+    (Real.exp x : ℂ) * deriv f (Real.exp x)
   have h := ((hf.differentiable (by simp)).differentiableAt.hasDerivAt).scomp x
     (Real.hasDerivAt_exp x)
-  simpa only [profileLogPullback, eulerDerivative, Function.comp_def,
-    Complex.real_smul, mul_comm] using h.deriv
+  simpa only [Function.comp_def, Complex.real_smul] using h.deriv
 
 /-- Every order is an identity of the actual functions, before any norm,
 integral, support restriction, or estimate is applied. -/

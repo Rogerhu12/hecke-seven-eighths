@@ -55,7 +55,8 @@ theorem inversePolynomial_sixthRoot_eq (d : MomentData K ω ψ)
     {u : NonzeroIdeal K} (hu : SixthPowerFreeIdeal u) (D t : ℝ) :
     inversePolynomial (sixthRootInverseData d) u D t =
       inversePolynomial d u D t := by
-  simp only [inversePolynomial, sixthRootInverseData, sixthPowerFreePart_eq_self hu, maskValue]
+  simp only [inversePolynomial, sixthRootInverseData, sixthPowerFreePart_eq_self hu, maskValue] <;>
+    rfl
 
 /-- The literal coefficient, including the full row mask, before inserting
 the smooth profile and the square-root normalization. -/

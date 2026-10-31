@@ -265,6 +265,7 @@ structure WholeMomentProfileControlFor (M : SourceMomentModelsFor K c E) : Prop 
   marked : MarkedMomentProfileControlFor M
   unmarked : UnmarkedMomentProfileControlFor M
   parameters : SourceMomentParameterControlFor M
+  lengths : ∃ L : ℝ, 0 ≤ L ∧ SourceWitnessLengthBoundFor E L
 
 instance {M : SourceMomentModelsFor K c E} :
     CoeFun (WholeMomentProfileControlFor M) (fun _ => MarkedMomentProfileControlFor M) :=

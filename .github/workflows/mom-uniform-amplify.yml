@@ -15,12 +15,11 @@ permissions:
   contents: read
   actions: read
 
-concurrency:
-  group: mom-uniform-amplify-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: true
-
 jobs:
   pure:
+    concurrency:
+      group: mom-uniform-amplify-${{ github.head_ref || github.ref_name }}-pure
+      cancel-in-progress: true
     name: Pure numerical proofs and axiom audit
     runs-on: ubuntu-latest
     timeout-minutes: 90
@@ -36,7 +35,7 @@ jobs:
           test: 'false'
           lint: 'false'
           use-mathlib-cache: 'true'
-          use-github-cache: 'true'
+          use-github-cache: 'false'
       - name: Restore precompiled project artifacts
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
       - name: Compile and audit the independent numerical proofs
@@ -63,6 +62,11 @@ jobs:
           retention-days: 14
 
   components:
+    # Finish the full source closure so its new diagnostics are preserved.
+    # GitHub retains only the newest pending source audit for the branch.
+    concurrency:
+      group: mom-uniform-amplify-${{ github.head_ref || github.ref_name }}-${{ matrix.audit }}
+      cancel-in-progress: ${{ matrix.audit != 'SourceAudit' }}
     name: ${{ matrix.audit }}
     runs-on: ubuntu-latest
     timeout-minutes: 180
@@ -114,6 +118,9 @@ jobs:
           retention-days: 14
 
   verify:
+    concurrency:
+      group: mom-uniform-amplify-${{ github.head_ref || github.ref_name }}-verify
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 360
     env:
@@ -140,7 +147,7 @@ jobs:
           test: 'false'
           lint: 'false'
           use-mathlib-cache: 'true'
-          use-github-cache: 'true'
+          use-github-cache: 'false'
       - name: Record the source and compiler environment
         id: environment
         shell: bash
