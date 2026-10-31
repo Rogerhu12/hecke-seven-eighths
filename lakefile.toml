@@ -51,6 +51,11 @@ name = "HeckeAxiom"
 name = "HeckeSkeleton"
 globs = ["HeckeSkeleton.+"]
 
+# Fixed-choice marked theta construction and its standalone analytic lemmas.
+[[lean_lib]]
+name = "ThetaGlobal"
+globs = ["ThetaGlobal.+"]
+
 # The audited arithmetic input modules imported by the default skeleton,
 # from `skeleton/*Inputs/src`. Their three `ClassFieldTheory.*` reciprocity
 # modules are provided by the vendored class-field-theory package instead.

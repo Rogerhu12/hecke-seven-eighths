@@ -1,0 +1,244 @@
+{
+  "lean": "4.35.0-rc3",
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+  "verification_kind": "combined source bodies, not native project imports",
+  "transformations": [
+    "consolidate imports and module/public headers",
+    "isolate each original file in a named section",
+    "close the original end-of-file noncomputable section"
+  ],
+  "bundle_sha256": "076e5a154df8572bfacfe3cc36f21375733a9c456b30c468e6b3b5d112818179",
+  "modules": [
+    {
+      "module": "ThetaGlobal.FiniteShellCoefficients",
+      "source": "ThetaGlobal/FiniteShellCoefficients.lean",
+      "sha256": "b707107a6593a7cd257c0944e59217e2ee57d5b8b64a363a865eed7e543ab945"
+    },
+    {
+      "module": "ThetaGlobal.FiniteClassExpansion",
+      "source": "ThetaGlobal/FiniteClassExpansion.lean",
+      "sha256": "3a26fcd4dd26336e550c82a623a8942b1429b961ced7e66168615b3b04c2ebd2"
+    },
+    {
+      "module": "ThetaGlobal.FiniteTensorCoefficients",
+      "source": "ThetaGlobal/FiniteTensorCoefficients.lean",
+      "sha256": "7c9f8724ff278d14e993b8c77552b38f06f93410362176e7da6b77660cc2a051"
+    },
+    {
+      "module": "ThetaGlobal.FinitePowerQuotient",
+      "source": "ThetaGlobal/FinitePowerQuotient.lean",
+      "sha256": "1c6599fdf28cf7a74245269efb049d3f57dc1722daf934038d010acdb805bac3"
+    },
+    {
+      "module": "ThetaGlobal.FiniteHaarShells",
+      "source": "ThetaGlobal/FiniteHaarShells.lean",
+      "sha256": "c235fa9586da0616b020bd6cab5575ff22e7f4461878f14b2f4c5f3d0b6a99db"
+    },
+    {
+      "module": "ThetaGlobal.FiniteMellinIntegration",
+      "source": "ThetaGlobal/FiniteMellinIntegration.lean",
+      "sha256": "d3b7a2bbdcf068b764532e3adc68a02867f27f3269029b3e34f256a25692a453"
+    },
+    {
+      "module": "ThetaGlobal.FiniteTensorMellin",
+      "source": "ThetaGlobal/FiniteTensorMellin.lean",
+      "sha256": "634c16579cabd4fd61d39907fd627f4c3c3e1584c198eeeeb7b7ad2593e759c2"
+    },
+    {
+      "module": "ThetaGlobal.FiniteMellinRatio",
+      "source": "ThetaGlobal/FiniteMellinRatio.lean",
+      "sha256": "921d2abeb9ec44b5d37b32133216962dfefc7a9921170f0548fb3ac8973ad7d6"
+    },
+    {
+      "module": "ThetaGlobal.ReflectedAbsoluteCore",
+      "source": "ThetaGlobal/ReflectedAbsoluteCore.lean",
+      "sha256": "4b99e7928519b41c9eac69f2880305b8c1eff3ce9fc36056842748c607bd9c66"
+    },
+    {
+      "module": "ThetaGlobal.ReflectedLocalBounds",
+      "source": "ThetaGlobal/ReflectedLocalBounds.lean",
+      "sha256": "467ceb8100063784e793670bcda45c8c8a6ae924f5146961fdc1f60c351d9dc2"
+    },
+    {
+      "module": "ThetaGlobal.ReflectedIdealMajorant",
+      "source": "ThetaGlobal/ReflectedIdealMajorant.lean",
+      "sha256": "5c1f522d2954a8359148c3a5d092f3b7a9764e4d24b647c219cc515c6a1ecba4"
+    },
+    {
+      "module": "ThetaGlobal.ReflectedCoefficientModel",
+      "source": "ThetaGlobal/ReflectedCoefficientModel.lean",
+      "sha256": "233d85a3f42504f2ce58baa826cc0a1b77eb7411813fbb7b3a8daeaa516cb3e0"
+    },
+    {
+      "module": "ThetaGlobal.ReflectedCoefficientSummability",
+      "source": "ThetaGlobal/ReflectedCoefficientSummability.lean",
+      "sha256": "42e7bd99cc7bd2ade571a8cde47fa070518ba307086168b9e5d0d04d582423ae"
+    },
+    {
+      "module": "ThetaGlobal.ReflectedDominatedLimit",
+      "source": "ThetaGlobal/ReflectedDominatedLimit.lean",
+      "sha256": "1cdde6944d94fe2bffdf2ec442d8622cd4c018c66e67706a581be8b3db4a3f78"
+    },
+    {
+      "module": "ThetaGlobal.GlobalMarks",
+      "source": "ThetaGlobal/GlobalMarks.lean",
+      "sha256": "4ac44a970b39a8159b38d79675cc8d471f977c066f19da1867928960d8221569"
+    },
+    {
+      "module": "ThetaGlobal.GlobalPhases",
+      "source": "ThetaGlobal/GlobalPhases.lean",
+      "sha256": "ae33b6d4f8e297c16e980658d13632f768ea9f1be209899bb0dc2a9b2060ec2f"
+    },
+    {
+      "module": "ThetaGlobal.GlobalFrequency",
+      "source": "ThetaGlobal/GlobalFrequency.lean",
+      "sha256": "9f1b6eb3f2050a9f407729924c11a3a5bfd365619fc418ee3f8df9949a54361b"
+    },
+    {
+      "module": "ThetaGlobal.GlobalFrequencyReconstruction",
+      "source": "ThetaGlobal/GlobalFrequencyReconstruction.lean",
+      "sha256": "f98e3ba9b292e23f11265c23e0bb968b0b372200f2e6425bd1c5de14c49c6977"
+    },
+    {
+      "module": "ThetaGlobal.GlobalSupportReindex",
+      "source": "ThetaGlobal/GlobalSupportReindex.lean",
+      "sha256": "f34c0ba4aa706fc236f5c81b57e5761f36a7045cf5ed7e9d12e3d12b96358a84"
+    },
+    {
+      "module": "ThetaGlobal.GlobalEmbedding",
+      "source": "ThetaGlobal/GlobalEmbedding.lean",
+      "sha256": "42d71b175d8208d4e4c072f5d6b3d098a16259ca5e932e0bcbb206ee091b246f"
+    },
+    {
+      "module": "ThetaGlobal.GlobalCharacterSums",
+      "source": "ThetaGlobal/GlobalCharacterSums.lean",
+      "sha256": "4bb8b92479399c9d555277bd36ae6c5251ace8875d8a416c9ce7448c99320f1c"
+    },
+    {
+      "module": "ThetaGlobal.GlobalDigitSupport",
+      "source": "ThetaGlobal/GlobalDigitSupport.lean",
+      "sha256": "6c28952a874646998acdee5a6d145a461ecc3aae8b25e83130d2b08cd7bbeef1"
+    },
+    {
+      "module": "ThetaGlobal.GlobalFourierDescent",
+      "source": "ThetaGlobal/GlobalFourierDescent.lean",
+      "sha256": "edf27cfd6b6d73a8b86edcd4f9745717e1ce6fffc8d11f9196bafe464edfaeaa"
+    },
+    {
+      "module": "ThetaGlobal.GlobalAngular",
+      "source": "ThetaGlobal/GlobalAngular.lean",
+      "sha256": "3b7035e8dda8ab63af186ff893917ca21094651ed4296da3eb99c9277e3b7d04"
+    },
+    {
+      "module": "ThetaGlobal.GlobalCompactPeriod",
+      "source": "ThetaGlobal/GlobalCompactPeriod.lean",
+      "sha256": "2d137ef38379d25fb9f4988b67e02ba01c965a73b4f63ce9fa2c9c21d3678224"
+    },
+    {
+      "module": "ThetaGlobal.GlobalAffineJets",
+      "source": "ThetaGlobal/GlobalAffineJets.lean",
+      "sha256": "522a6768be8233f4547c029428e52aa3306695436bee3334ad88325e100841b6"
+    },
+    {
+      "module": "ThetaGlobal.WeightedUnfolding",
+      "source": "ThetaGlobal/WeightedUnfolding.lean",
+      "sha256": "ee6414a68da76696ac212b253e34343e7858ceadc614bdb3e1799d6a22ec9f72"
+    },
+    {
+      "module": "ThetaGlobal.SheetMellin",
+      "source": "ThetaGlobal/SheetMellin.lean",
+      "sha256": "e57c1ae90c457046540e54bc97d8c40341c939ecf10058e895ec6f2ca4a783f5"
+    },
+    {
+      "module": "ThetaGlobal.GaussianRegularization",
+      "source": "ThetaGlobal/GaussianRegularization.lean",
+      "sha256": "c14f5d33dc538bd321c98fa5bf0a258545cab2d1fce2d9d7bc23973bc582ea8d"
+    },
+    {
+      "module": "ThetaGlobal.GaussianTransfer",
+      "source": "ThetaGlobal/GaussianTransfer.lean",
+      "sha256": "af45568e3d516cb890f3b3a8356754792d2eb035b72abf3028c32c1ab34bc182"
+    },
+    {
+      "module": "ThetaGlobal.ConvolutionMass",
+      "source": "ThetaGlobal/ConvolutionMass.lean",
+      "sha256": "676d80687fdecb2ad846355b59977a39ff8a8cbd3729932123789eaed9645ffc"
+    },
+    {
+      "module": "ThetaGlobal.ScalarMellinConvolution",
+      "source": "ThetaGlobal/ScalarMellinConvolution.lean",
+      "sha256": "d252cfd340345a96bee6e376486cec12346540e003ebce376545cf04b7877b5e"
+    },
+    {
+      "module": "ThetaGlobal.VerticalContour",
+      "source": "ThetaGlobal/VerticalContour.lean",
+      "sha256": "7b18cd7e80af368778e287764ad896c7fa916151cd51869bb13da5c93acae1be"
+    },
+    {
+      "module": "ThetaGlobal.VerticalInverseBounds",
+      "source": "ThetaGlobal/VerticalInverseBounds.lean",
+      "sha256": "b3e4d8929d5445a06ce943ffdb69deae3ecdd6905caba5b6600dad26f6d4f5a0"
+    },
+    {
+      "module": "ThetaGlobal.TestMellinLimit",
+      "source": "ThetaGlobal/TestMellinLimit.lean",
+      "sha256": "4aafce81ce6d4be1edfe2d0506ac75fc8b56b2f620f16e8f7ae0110bdb4a2557"
+    },
+    {
+      "module": "ThetaGlobal.DeconvolverMoments",
+      "source": "ThetaGlobal/DeconvolverMoments.lean",
+      "sha256": "92721af1bddeed49a715b8d31b02930222572dde7a8e7ea000e92a3d17f14d0b"
+    },
+    {
+      "module": "ThetaGlobal.AnnularTransfer",
+      "source": "ThetaGlobal/AnnularTransfer.lean",
+      "sha256": "d51a3507b69ee861e0fd338cbf049659639a6c4735169b69fec12198c351592f"
+    },
+    {
+      "module": "ThetaGlobal.ScalarGaussianLimits",
+      "source": "ThetaGlobal/ScalarGaussianLimits.lean",
+      "sha256": "38d1a75e96eb3325a5c42a6293fe9bd49cfc036c1c077a0bee93c2502cf074f3"
+    },
+    {
+      "module": "ThetaGlobal.GaussianStripDecay",
+      "source": "ThetaGlobal/GaussianStripDecay.lean",
+      "sha256": "b990350d3351beb90c7325f8359c8d4f35974cb3db0c9d514e3ebd2b503d0091"
+    },
+    {
+      "module": "ThetaGlobal.GammaDeconvolver",
+      "source": "ThetaGlobal/GammaDeconvolver.lean",
+      "sha256": "406dcb8f9a1e1395ff6cb4e031329cd05bc8f3b325373bd69891d790a794fb94"
+    },
+    {
+      "module": "ThetaGlobal.GammaAnnularTransfer",
+      "source": "ThetaGlobal/GammaAnnularTransfer.lean",
+      "sha256": "e1a14f31dbb81dc3b37fd616aaa6390a7825310f02f65285dac73a90fb53a814"
+    },
+    {
+      "module": "ThetaGlobal.GammaReciprocalGrowth",
+      "source": "ThetaGlobal/GammaReciprocalGrowth.lean",
+      "sha256": "2dcaa41abcae69d2675085ed9e32c797247d99bcdcbff6d0f4bee6401e37a2e6"
+    },
+    {
+      "module": "ThetaGlobal.GammaProfileGrowth",
+      "source": "ThetaGlobal/GammaProfileGrowth.lean",
+      "sha256": "00e7ddcbebb32d79dfdbc1a60a549e0ec2854e9d24a819585b724ef30899f255"
+    },
+    {
+      "module": "ThetaGlobal.GlobalProjectOrbitAbsolute",
+      "source": "ThetaGlobal/GlobalProjectOrbitAbsolute.lean",
+      "sha256": "2ffed353763d4a2e78108b5bceadaa109134b62f3887b15617a25648399e5ace"
+    },
+    {
+      "module": "ThetaGlobal.ReflectedAudit",
+      "source": "ThetaGlobal/ReflectedAudit.lean",
+      "sha256": "55235b5dd6253e6cc33d75b65fd77469ec5515d8685412e3e564e2817e7ae895"
+    }
+  ],
+  "exit_code": 0,
+  "source_unchanged": true,
+  "reported_sorryAx": false,
+  "build_log": "verification/theta_global/Standalone.build.log",
+  "execution_command": "python work/compile.py repo/verification/theta_global/Standalone.lean",
+  "reproduce": "python scripts/build_theta_global_bundle.py --check"
+}
