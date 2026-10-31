@@ -1,0 +1,13 @@
+import ActualExteriorGcdMobiusSum
+import ActualThetaGeneratorDivision
+
+set_option autoImplicit false
+set_option relaxedAutoImplicit false
+
+-- SOURCE-ONLY six endpoint audit; nothing has been executed.
+#print axioms HeckeGeneral.ThetaSkeleton.Global.ActualPairDivisorDraft.finite_coprime_exterior_pair_sum_mobius_reindexed
+#print axioms HeckeGeneral.ThetaSkeleton.Global.ActualIdealGcdDraft.coprime_factorization_unique
+#print axioms HeckeGeneral.ThetaSkeleton.Global.ActualIdealGcdDraft.sum_pair_eq_sum_gcdTriples
+#print axioms HeckeGeneral.ThetaSkeleton.Global.ActualGcdMobiusDraft.sum_pair_eq_gcd_mobius_residual
+#print axioms HeckeGeneral.ThetaSkeleton.ActualGeneratorDivisionDraft.thetaGeneratorDivision_span
+#print axioms HeckeGeneral.ThetaSkeleton.ActualGeneratorDivisionDraft.thetaGeneratorDivision_norm

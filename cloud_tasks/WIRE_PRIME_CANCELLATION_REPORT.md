@@ -4,6 +4,9 @@
 
 新增模块 `HeckeSkeleton/PrimeCancellationWiring.lean` 给出：
 
+上下文为数域 `K` 与仓库现有的 `c : TargetContext K`；角色族的其余条件由
+该上下文保留。
+
 ```lean
 theorem paired_primes_below_one_of_models
     (M : SourceMomentModels K c) (hB : c.family.B < 1)
@@ -139,14 +142,83 @@ X^(1 + (2B - 1) * z + lamA) * (1 + T)^A.
 
 ## 编译与公理核查
 
-固定环境为 Lean `4.35.0-rc3`、Mathlib
+### 已实际通过的五个模块
+
+以下结果均来自 GitHub Actions 中真实的 Lake 编译成功日志。统一环境为
+Lean `4.35.0-rc3`（编译器 commit
+`470d5ce1400764999581fd26d5d72b00d990b0f4`）、Mathlib
 `0493595ecd5da8ef14742febab99728f98e948e8`，与任务指定环境一致。
-新增工作流使用仓库原始 Lake 配置构建实际完整依赖链：
+五个当前源文件均与对应成功构建所使用的源码一致。下表的模块名均带有
+`HeckeSkeleton.` 前缀；链接指向对应提交的实际构建日志。
+
+| 已通过模块 | 已验证源码提交 | 成功构建日志 |
+| --- | --- | --- |
+| `PrimeCancellationBounds` | `cb28ed029b1f` | [job 124280728197](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41119051510/job/124280728197) |
+| `PrimeCancellationCounting` | `4b5717c0a804` | [job 124291471905](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41122341018/job/124291471905) |
+| `PrimeCancellationHecke` | `28eb6e63413a` | [job 124300338501](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124606697/job/124300338501) |
+| `PrimeCancellationPolynomials` | `7cca3e66bbe40` | [job 124305154358](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41126168054/job/124305154358) |
+| `PrimeCancellationWindows` | `7cca3e66bbe40` | [job 124305153743](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41126168054/job/124305153743) |
+
+各项日志均有相应模块的 `Built` 记录和 `Build completed successfully`。
+这些结果分别覆盖该模块及其实际依赖闭包。
+
+### 已取得的逐声明公理输出
+
+以下十一项新声明已在成功编译日志中实际执行 `#print axioms`，每一项的精确
+公理清单均为：
+
+```text
+[propext, Classical.choice, Quot.sound]
+```
+
+- `PrimeCancellationCounting`：`exists_ideal_count_bound`、`actualPrimeArithmetic`。
+- `PrimeCancellationHecke`：`deletedContinuation_eq_series`、
+  `absolute_primePowerSeries`、`deleted_euler`、`deletedSlotData`、
+  `exists_uniform_finiteOrder_polynomial`、`exists_uniform_deleted_finiteOrder_polynomial`。
+- `PrimeCancellationPolynomials`：`logQ_le_of_norm_polynomial`、
+  `primePolynomial_bound_of_analytic_data`。
+- `PrimeCancellationWindows`：`actualPrimeWindowSchwartz_uniform_seminorm`。
+
+上述十一项输出均不含 `sorryAx`。`PrimeCancellationBounds` 已实际编译通过，
+但该独立 job 没有打印本模块新声明的公理清单；其
+`absorb_slot_logarithms` 已列入统一审计文件，逐声明公理状态仍待该审计实际运行。
+
+### 完整矩模型接线仍待核验
+
+`HeckeSkeleton.PrimeCancellationMoment`、`HeckeSkeleton.PrimeCancellationWiring`
+和 `HeckeSkeleton.PrimeCancellationAudit` 的完整构建／审计状态仍为**待核验**。
+最终主定理尚未登记为编译通过，也尚未登记完整公理清单。
+
+工作分支同步目标分支 `6e67559f` 中已合并的 import 优化：
+`AllIdealTransfer.lean` 的定义和证明正文保持一致，`Moments` 的项目依赖由
+6,028 个减为 3,347 个，最大深度由 364 减为 191。
+新增 CI 按真实依赖图的深度上界 `40`、`100`、`180` 分三阶段构建基础依赖，
+每阶段分四片，剩余依赖由最终 Lake 构建检查。基础阶段可复用相同工具链和
+包配置下已保存的较高阶段编译进度；恢复之后仍由 Lake 检查真实构建记录。各片调用原始 Lake 配置，只有成功的真实
+编译才生成供后续阶段使用的完整原生产物包；恢复时核对源码／配置指纹及包的
+SHA-256，随后仍由 Lake 检查原有构建记录。阶段拆分只调整构建调度，不替换
+任何模块或证明。已有定义、证明保持原样，新增 Lean 源码没有使用 `sorry`、
+`axiom` 或 `native_decide`。
+
+基础依赖完成后，最终检查执行：
 
 ```sh
-lake build +HeckeSkeleton.PrimeCancellationWiring:olean
+lake --fail-fast build +HeckeSkeleton.PrimeCancellationWiring:olean
 lake env lean HeckeSkeleton/PrimeCancellationAudit.lean
 ```
 
-`PrimeCancellationAudit.lean` 分别打印实际解析输入、行能量转移和最终两个定理
-的公理依赖。编译结果和完整公理清单将在完成核验后记录于本节。
+工作流使用 `set -euo pipefail`，保留真实退出码和完整构建、公理日志。
+三个工作流均启用 `concurrency.cancel-in-progress: true`。主验证与解析输入
+按分支分组；可复用的基础编译 job 另含阶段上下界及分片编号，因此新提交会取消
+同分支的过时编译，同时保留当前构建各分片的独立并行。取消后的缓存保存只接收
+已实际开始编译的任务，并先停止该独占 runner 中的编译进程。
+`PrimeCancellationAudit.lean` 分别打印实际解析输入、窗口／数值预算、行能量转移
+和最终两个定理的公理依赖；本节将在取得这些实际结果后补全。
+
+还需区分原骨架中已经存在的 admitted 数据：原 `SourceMomentIndex` 的类型经
+`targetData` 引用 `highExpansion`；`targetData` 同时携带
+`rows_in_norm_envelope`。后两项在原 `HeckeSkeleton/Base.lean` 中仍为既有的
+`sorry` 数据／证明。本次没有修改它们，也没有以新占位证明替代它们。因此，
+仅凭新证明未调用 `momentModels`，不能预先断言完整主定理只依赖标准三公理。
+`Moment`、`Wiring` 及最终定理是否继承、具体继承哪些上游公理依赖，正式清单
+以待完成的 `PrimeCancellationAudit.lean` 实际输出为准。

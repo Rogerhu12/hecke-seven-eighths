@@ -41,7 +41,7 @@ jobs:
           lint: 'false'
           use-mathlib-cache: 'true'
           use-github-cache: 'false'
-      - name: Restore previous full-build progress
+      - name: Restore reusable project compilation progress
         uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
         with:
           path: |
@@ -50,6 +50,14 @@ jobs:
           key: prime-cancellation-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
           restore-keys: |
             prime-cancellation-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+            prime-foundation-180-0-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+            prime-foundation-180-1-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+            prime-foundation-180-2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+            prime-foundation-180-3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+            prime-foundation-100-0-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+            prime-foundation-100-1-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+            prime-foundation-100-2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+            prime-foundation-100-3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
       - name: Restore progress for this dependency group
         uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
         with:
