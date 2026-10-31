@@ -29,7 +29,7 @@ MODULES = (
     "SourceData", "SourceAdapter", "ScheduleCompatibility",
     "BaseTerminal", "SourceConsumers",
     "LengthStages", "BaseUniformity", "BranchedIntegralRecursion", "BaseBranch",
-    "StepOutputAdapter",
+    "StepOutputAdapter", "BranchAssembly",
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.
@@ -42,6 +42,23 @@ PRODUCER_SOURCES = {
     "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Pool.lean":
         "98a8f2bc36a6c8095bf7a169cd66ad763875ddd0d27236bcf879804daf525601",
 }
+SOURCE_COMMIT = 'dc3dee7ec16ec75c1ea219259f25389561523048'
+SOURCE_SOURCES = {'ExpansionInterfaces/DyadicCount.lean': 'a52681bd30d1e18c7c20b32165ddf11136870f357a21f267502caffb13f95331',
+ 'ExpansionInterfaces/DyadicShells.lean': 'a8330e7066ff7a3b3c53f9b4e8b6d6af137041a29cb6b0dab5d1bd31b3123610',
+ 'ExpansionInterfaces/ParameterChoices.lean': '371926930bf1e35af484c711c2e2d0668f4dd978f466ca34009c8c425fc86d61',
+ 'HeckeSkeleton/Base.lean': 'fa480e94cbdc76a93ea1da49df13078ee07e28fd4a43f1ed5e5316668ab93266',
+ 'HeckeSkeleton/ExpansionModels/Core.lean': '537b4afd82871e007cb438518e663e9a45c064c3cefecaa81a7ce557eda0f6f4',
+ 'HeckeSkeleton/ExpansionModels/DyadicMomentEnvelope.lean': '63bd533c5a5b4bd2be880ceeb22ef5880f0753e01a2139dfd051bf98f899fcea',
+ 'HeckeSkeleton/ExpansionModels/RecipeSchedule.lean': '48b1838bd6aa0a1c7229424653ca47c8ca8ebba1abe850592c968964e41a3b48',
+ 'HeckeSkeleton/ExpansionModels/ScaleCutoff.lean': '98a5345a361d159a7d17d02b7953cf7f9e562402cda8d3eec912321fd43cad65',
+ 'HeckeSkeleton/ExpansionModels/SharedWitnessRecipe.lean': '78011ed1fb6076260b23abae7dc22ab40c34686ec032a9e5e39e2b7a83d9d611',
+ 'HeckeSkeleton/ExpansionModels/SourceData.lean': '4b40c6980a5cb1e4e4f6b5196c4034049b6c9af107b8bf21356ad7f681f8cdc3',
+ 'HeckeSkeleton/ExpansionModels/SourceGeometry.lean': '71cf993ca28b14f63ed4fe02456e0227a0affdb9dc02c1bff156cb2d048b6419',
+ 'HeckeSkeleton/ExpansionModels/WitnessHeightNormalization.lean': '31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520',
+ 'HeckeSkeleton/Moments.lean': 'de5f7344e843539c5777748f0c697e33977f415d09fbac949ce29a48243732b3',
+ 'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/ProfileControl.lean': '328a45dd8b9bea367aea65f9fd837482d3342c515550d3d1307c60bfe28c8ad1',
+ 'HeckeSkeleton/SourceData.lean': 'd4e6205d54c6efb9153da389deb6ac980d7597cff7af11d74ea6cef9c983ab08',
+ 'lakefile.toml': 'e3cec2fe7dd91f5d84903ece25f7dbc37c9f82dfe728a95c376e9bbec4ca3cac'}
 SOURCE_MODULES = ("SkeletonFamily", "SkeletonSource")
 EXCLUDED = {name + ".lean" for name in SOURCE_MODULES}
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}
@@ -106,6 +123,8 @@ REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.engineOutputToBranchedAt",
     "HeckeSkeleton.Moments.EngineInduction.engineOutputsToBranchedStep",
     "HeckeSkeleton.Moments.EngineInduction.engineOutputsToClosedParentReduction",
+    "HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.combine_mass",
+    "HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.centeredComparisonBranch",
 }
 
 
@@ -266,12 +285,12 @@ def inventory() -> tuple[dict[str, str], list[str]]:
             f"extra={sorted(set(printed) - declared)}")
     require(REQUIRED_TARGETS <= declared,
             f"Missing target declarations: {sorted(REQUIRED_TARGETS - declared)}")
-    for relative, pinned in PRODUCER_SOURCES.items():
+    for relative, pinned in (PRODUCER_SOURCES | SOURCE_SOURCES).items():
         path = ROOT / relative
         require(path.is_file(), f"Missing canonical producer interface: {relative}")
         actual = digest(path)
         require(actual == pinned,
-                f"Canonical interface differs from {PRODUCER_COMMIT}: {relative}")
+                f"Canonical imported source differs from its published pin: {relative}")
         hashes[relative] = actual
     for path in (TASK / "Audit.lean", TASK / "verify.py", ROOT / "lean-toolchain",
                  ROOT / "lake-manifest.json", ROOT / "lakefile.toml"):
@@ -286,7 +305,7 @@ def verify_checkout(expected: str) -> None:
     paths = [str((TASK / (module + ".lean")).relative_to(ROOT)) for module in MODULES]
     paths += [str((TASK / name).relative_to(ROOT)) for name in ("Audit.lean", "verify.py")]
     paths += [".github/workflows/mom-engine-induction.yml"]
-    paths += list(PRODUCER_SOURCES)
+    paths += list(PRODUCER_SOURCES | SOURCE_SOURCES)
     subprocess.run(["git", "ls-files", "--error-unmatch", "--"] + paths, cwd=ROOT,
                    check=True, stdout=subprocess.DEVNULL)
     subprocess.run(["git", "diff", "--exit-code", "HEAD", "--"], cwd=ROOT, check=True,
@@ -311,6 +330,7 @@ def preflight(expected: str, output: Path) -> None:
                   modules=[PREFIX + "." + name for name in MODULES],
                   producer_interface_commit=PRODUCER_COMMIT,
                   producer_interface_sha256=PRODUCER_SOURCES,
+                  canonical_source_commit=SOURCE_COMMIT, canonical_source_sha256=SOURCE_SOURCES,
                   excluded_integration_modules=sorted(EXCLUDED),
                   runner_resources=runner_resources())
     (output / "preflight.json").write_text(json.dumps(record, indent=2) + "\n")

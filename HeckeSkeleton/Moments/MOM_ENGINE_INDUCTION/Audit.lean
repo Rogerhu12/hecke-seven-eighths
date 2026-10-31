@@ -23,6 +23,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseUniformity
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchedIntegralRecursion
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseBranch
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchAssembly
 
 -- Order
 #print axioms HeckeSkeleton.Moments.EngineInduction.State
@@ -398,3 +399,10 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
 #print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_slotProduct
 #print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_totalLength
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinary_freezeMomentTime_normalizedEnergy
+
+-- BranchAssembly
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.combine
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.combine_mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.combine_remainder
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy_le_centered_add_comparison
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.centeredComparisonBranch

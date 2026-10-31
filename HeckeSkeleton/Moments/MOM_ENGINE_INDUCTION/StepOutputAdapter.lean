@@ -71,11 +71,15 @@ def freezeMomentTime (d : MomentData K ω ψ) (time : ℝ) : MomentData K ω ψ 
     primePolynomial (freezeMomentTime d time) i u U 0 = primePolynomial d i u U time := by
   simp only [freezeMomentTime, primePolynomial, MomentData.separatedProfiles,
     SlotGeometry.freezeTwists, PrimeWindow.freezeTwist, profilePower_zero, mul_one, maskValue]
+  rfl
 
 @[simp] theorem freezeMomentTime_slotProduct (d : MomentData K ω ψ)
     (time : ℝ) (u : NonzeroIdeal K) (U : ℝ) :
     slotProduct (freezeMomentTime d time) u U 0 = slotProduct d u U time := by
-  simp only [slotProduct, freezeMomentTime_primePolynomial]
+  unfold slotProduct
+  apply Finset.prod_congr rfl
+  intro i _
+  exact freezeMomentTime_primePolynomial d time i u U
 
 @[simp] theorem freezeMomentTime_pairedEnergy (d : MomentData K ω ψ)
     (time : ℝ) (a : RealParameters) (U : ℝ) :

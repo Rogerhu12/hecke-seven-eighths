@@ -4,8 +4,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Family
 /-!
 # Exact paired-family map for the generic source data
 
-Every index, finite sector, evaluated model, row cutoff and selected slot
-is retained.  The identifications are definitional and introduce no energy
+The transparent source aliases refer directly to the canonical
+`HeckeSkeleton.SourceData` interface. Every index, finite sector, evaluated
+model, row cutoff and selected slot is retained.  The identifications are definitional and introduce no energy
 estimate or analytic input.  This module does not import `Moments.lean`,
 so the source declarations can later consume it without an import cycle.
 -/

@@ -6,6 +6,9 @@ import HeckeAxiom.ProbeNormalization
 import HeckeGeneral.Analysis.HeckeConjugateZeros
 import HeckeGeneral.Analysis.HeckeNormTwistZeros
 import HeckePort.Schedule.MomentMesh
+import ArithmeticRowCharacterInput
+import HeckeSkeleton.ExpansionModels.Core
+import ExpansionInterfaces.ParameterChoices
 
 /-! Exploratory, intentionally incomplete proof skeleton. This library is
 separate from HeckeGeneral and its verified declaration count. Every admitted
@@ -236,12 +239,57 @@ def probeMeasures (c : TargetContext K) : ProbeMeasures K (places K c) :=
 -- windows; the fixed finite-ray restrictions permitted in §4.3 are not used.
 def rayFilter (_c : TargetContext K) : Finset (HeckeCharacter K) := ∅
 
+abbrev targetCharacter (c : TargetContext K) : HeckeCharacter K :=
+  (representative K c).val.val
+
+/-- The same shell allowance is used by the raw schedule and all consumers. -/
+def expansionShellAllowance (c : TargetContext K) : ℝ :=
+  ExpansionInterfaces.shellAllowance c.family.lamA
+
 -- OBLIGATION D-EXPANSION | revised Proposition 6.3, §7.1–7.2 (pp.41–44).
--- Buffered blocks, true slot values and actual detector witness subdivisions.
--- Values are data only; exact identity and all bounds occur downstream.
-def highExpansion (c : TargetContext K) : ℝ → ℝ →
-    HighExpansion (FrequencyRow K (places K c)) c.geometry.slots := by
+-- This is the original unfinished data construction.  Its ONE raw recipe
+-- generates the expansion and every moment model.  It has no calibration,
+-- spike, admissibility or energy fields.  A finite global label family and
+-- the explicit shell/buffer schedule must be constructed here; downstream
+-- identities do not establish this outstanding analytic construction.
+def expansionRecipeRaw (c : TargetContext K) :
+    ExpansionRecipe.RecipeExpansion K (places K c) (targetCharacter K c)
+      c.geometry (expansionShellAllowance K c) := by
   sorry
+
+/-- Actual finite-polynomial values are projections of the one raw recipe. -/
+def highExpansion (c : TargetContext K) : ℝ → ℝ →
+    HighExpansion (FrequencyRow K (places K c)) c.geometry.slots :=
+  (expansionRecipeRaw K c).toHigh (P := probeData K c)
+    (R := arithmeticRowCharacterInput K (places K c) (probeData K c))
+    (ω := c.family.omega)
+
+theorem highExpansion_scale_of_block (c : TargetContext K) (Z T : ℝ)
+    (b : Fin (highExpansion K c Z T).blockCount) :
+    (2 : ℝ) ^ (16 : ℕ) ≤ Z ∧ 1 ≤ T :=
+  (expansionRecipeRaw K c).active_of_index Z T b
+
+theorem highExpansion_blockCount_le_schedule (c : TargetContext K) (Z T : ℝ) :
+    (highExpansion K c Z T).blockCount ≤ (expansionRecipeRaw K c).scheduledCount Z :=
+  (expansionRecipeRaw K c).toHigh_blockCount_le (P := probeData K c)
+    (R := arithmeticRowCharacterInput K (places K c) (probeData K c))
+    (ω := c.family.omega) Z T
+
+theorem highExpansion_shell_lower (c : TargetContext K) (Z T : ℝ)
+    (b : Fin (highExpansion K c Z T).blockCount) :
+    1 / 16 ≤ ((highExpansion K c Z T).block b).shell :=
+  ((expansionRecipeRaw K c).shell_range Z T b).1
+
+theorem highExpansion_shell_range (c : TargetContext K) (Z T : ℝ)
+    (b : Fin (highExpansion K c Z T).blockCount) :
+    1 / 16 ≤ ((highExpansion K c Z T).block b).shell ∧
+      ((highExpansion K c Z T).block b).shell < 13 / 16 + expansionShellAllowance K c :=
+  (expansionRecipeRaw K c).shell_range Z T b
+
+theorem highExpansion_shell_pos (c : TargetContext K) (Z T : ℝ)
+    (b : Fin (highExpansion K c Z T).blockCount) :
+    0 < ((highExpansion K c Z T).block b).shell :=
+  (by norm_num : (0 : ℝ) < 1 / 16).trans_le (highExpansion_shell_lower K c Z T b)
 
 -- OBLIGATION D-SUPPORT | revised §7.1 (pp.42–43).
 theorem rows_in_norm_envelope (c : TargetContext K) :
@@ -250,7 +298,11 @@ theorem rows_in_norm_envelope (c : TargetContext K) :
     ∀ ℓ : ((highExpansion K c Z T₁).block b).Label,
       (((highExpansion K c Z T₁).block b).amplitudeSet ℓ).rows ⊆
         frequencyRows K (places K c) (2 * Z ^ ((highExpansion K c Z T₁).block b).shell) := by
-  sorry
+  intro Z T₁ _hZ _hT b ℓ
+  exact (expansionRecipeRaw K c).toHigh_rows_in_norm_envelope
+    (P := probeData K c)
+    (R := arithmeticRowCharacterInput K (places K c) (probeData K c))
+    (ω := c.family.omega) Z T₁ b ℓ
 
 def targetData (c : TargetContext K) : TargetData K c.geometry where
   S := excludedPlaces K c
@@ -259,8 +311,5 @@ def targetData (c : TargetContext K) : TargetData K c.geometry where
   rayFilter := rayFilter K c
   expansion := highExpansion K c
   rows_in_norm_envelope := rows_in_norm_envelope K c
-
-abbrev targetCharacter (c : TargetContext K) : HeckeCharacter K :=
-  (representative K c).val.val
 
 end HeckeSkeleton

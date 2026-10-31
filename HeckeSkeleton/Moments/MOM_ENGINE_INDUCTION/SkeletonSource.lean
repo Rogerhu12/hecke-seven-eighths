@@ -6,10 +6,10 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceConsumers
 
 This integration adapter retains the original expansion, all dependent
 index fields, all finite sectors and the complete model data.  It does
-not construct a second expansion or model family.  The constant row
-exponent records the current skeleton's literal `m = 1` convention; the
-shared dyadic correction can change that one choice together with the
-corresponding parameter identifications.
+not construct a second expansion or model family. The index and model
+maps are identities on the shared canonical types. The actual dyadic
+row exponent is retained, and its proved factor two returns raw moment
+bounds to the physical source power.
 
 Unlike the generic source modules, this file imports `Moments.lean`.
 Its declarations therefore inherit the unfinished global expansion's
@@ -27,24 +27,23 @@ open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.TIP
 
 variable (K : Type) [Field K] [NumberField K] (c : TargetContext K)
 
-/-- The one original expansion, with its current literal row exponent.
-There is no default or alternate unfinished choice in the generic API. -/
-def skeletonMomentSourceData : Source.MomentSourceData K c where
-  expansion := (targetData K c).expansion
-  rowExponent := fun _ => 1
+/-- The one canonical actual source, selected only in this integration
+module. The generic API has no default or alternate unfinished choice. -/
+abbrev skeletonMomentSourceData : Source.MomentSourceData K c :=
+  actualMomentSourceData K c
 
 variable {K c} {Z T : ℝ}
 
 /-- All seven fields of the original index, without discarding slots. -/
 def sourceIndexOfSkeleton (i : SourceMomentIndex K c Z T) :
     Source.SourceMomentIndexFor K c (skeletonMomentSourceData K c) Z T :=
-  ⟨i.block, i.label, i.t, i.t_lower, i.t_upper, i.subdivision, i.selected⟩
+  i
 
 /-- The inverse index map retains the same block and witness proof fields. -/
 def sourceIndexToSkeleton
     (i : Source.SourceMomentIndexFor K c (skeletonMomentSourceData K c) Z T) :
     SourceMomentIndex K c Z T :=
-  ⟨i.block, i.label, i.t, i.t_lower, i.t_upper, i.subdivision, i.selected⟩
+  i
 
 @[simp] theorem sourceIndexToSkeleton_ofSkeleton (i : SourceMomentIndex K c Z T) :
     sourceIndexToSkeleton (sourceIndexOfSkeleton i) = i := by
@@ -92,17 +91,10 @@ def skeletonSourceIndexEquiv :
     (i : SourceMomentIndex K c Z T) :
     Source.pairedCapacity (sourceIndexOfSkeleton i) ↔ pairedCapacity i := Iff.rfl
 
-/-- Reuse all seven original model fields.  In particular the unmarked
-model still has independent `U,D`, rather than a source-index argument. -/
-def sourceModelsOfSkeleton (M : SourceMomentModels K c) :
-    Source.SourceMomentModelsFor K c (skeletonMomentSourceData K c) where
-  dimension := M.dimension
-  inverse Z T i := M.inverse Z T (sourceIndexToSkeleton i)
-  paired Z T i := M.paired Z T (sourceIndexToSkeleton i)
-  unmarked := M.unmarked
-  heights Z T i := M.heights Z T (sourceIndexToSkeleton i)
-  realShifts Z T i := M.realShifts Z T (sourceIndexToSkeleton i)
-  imagShifts Z T i := M.imagShifts Z T (sourceIndexToSkeleton i)
+/-- Reuse the identical canonical model family, including the independent
+`U,D` unmarked models and all original external parameters. -/
+abbrev sourceModelsOfSkeleton (M : SourceMomentModels K c) :
+    Source.SourceMomentModelsFor K c (skeletonMomentSourceData K c) := M
 
 @[simp] theorem sourceModelsOfSkeleton_inverseModel (M : SourceMomentModels K c)
     (i : SourceMomentIndex K c Z T) (s : SixthUnitClasses K (places K c)) :
@@ -158,54 +150,33 @@ theorem skeleton_uniformMomentBound_iff
       (fun Z T i => E Z T (sourceIndexToSkeleton i))
       (fun Z T i => power Z T (sourceIndexToSkeleton i))
       (fun Z T i => eligible Z T (sourceIndexToSkeleton i)) ↔
-        UniformMomentBound E power eligible := by
-  constructor
-  · rintro ⟨A, ceiling, hA, hc, hb⟩
-    refine ⟨A, ceiling, hA, hc, ?_⟩
-    intro τ hτ hτc
-    obtain ⟨Z₀, C, hZ₀, hC, hbound⟩ := hb τ hτ hτc
-    refine ⟨Z₀, C, hZ₀, hC, ?_⟩
-    intro Z hZ i hbin heligible
-    simpa only [sourceIndexToSkeleton_ofSkeleton, sourceIndexOfSkeleton_base] using
-      hbound Z hZ (sourceIndexOfSkeleton i) hbin heligible
-  · rintro ⟨A, ceiling, hA, hc, hb⟩
-    refine ⟨A, ceiling, hA, hc, ?_⟩
-    intro τ hτ hτc
-    obtain ⟨Z₀, C, hZ₀, hC, hbound⟩ := hb τ hτ hτc
-    refine ⟨Z₀, C, hZ₀, hC, ?_⟩
-    intro Z hZ i hbin heligible
-    exact hbound Z hZ (sourceIndexToSkeleton i) hbin heligible
+        UniformMomentBound E power eligible := Iff.rfl
 
 /-- The original unrestricted zero-slot target has exactly the generic
 source statement, evaluated at the same no-slot models. -/
 theorem skeleton_zeroSlotBound_iff (M : SourceMomentModels K c) :
     Source.UniformMomentBound
       (fun _ _ i => Source.pairedModelEnergy (sourceModelsOfSkeleton M) i.noSlots)
-      (fun _ _ _ => 1) (fun _ _ _ => True) ↔
+      (fun _ _ i => Source.rowWidth i) (fun _ _ _ => True) ↔
     UniformMomentBound (fun _ _ i => pairedModelEnergy M i.noSlots)
-      (fun _ _ _ => 1) (fun _ _ _ => True) := by
-  exact skeleton_uniformMomentBound_iff
-    (fun _ _ i => pairedModelEnergy M i.noSlots) (fun _ _ _ => 1) (fun _ _ _ => True)
+      (fun _ _ i => momentRowExponent (momentBase i)) (fun _ _ _ => True) := Iff.rfl
 
-/-- The original positive-slot target keeps the exact physical capacity
-and every selected slot under the generic source map. -/
+/-- The original positive-slot target keeps the exact physical capacity,
+actual row exponent and every selected slot under the canonical source map. -/
 theorem skeleton_positiveSlotBound_iff (M : SourceMomentModels K c) :
     Source.UniformMomentBound
       (fun _ _ i => Source.pairedModelEnergy (sourceModelsOfSkeleton M) i)
-      (fun _ _ _ => 1)
+      (fun _ _ i => Source.rowWidth i)
       (fun _ _ i => Source.pairedCapacity i ∧ i.selected.Nonempty) ↔
     UniformMomentBound (fun _ _ i => pairedModelEnergy M i)
-      (fun _ _ _ => 1) (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
-  exact skeleton_uniformMomentBound_iff (fun _ _ i => pairedModelEnergy M i)
-    (fun _ _ _ => 1) (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty)
+      (fun _ _ i => momentRowExponent (momentBase i))
+      (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := Iff.rfl
 
 /-- The independent prime-product input uses the same rows, masks,
 physical exponent and finite sectors after the source-type migration. -/
 theorem skeleton_primeProductBound_iff (M : SourceMomentModels K c) (κ : ℝ) :
     Source.PairedPrimeProductBound (sourceModelsOfSkeleton M) κ ↔
-      PairedPrimeProductBound K c M κ := by
-  unfold Source.PairedPrimeProductBound PairedPrimeProductBound
-  exact skeleton_uniformMomentBound_iff (K := K) (c := c) _ _ _
+      PairedPrimeProductBound K c M κ := Iff.rfl
 
 /-- The clean source consumer reaches the original `PSource` statement
 after exact reindexing.  The hypotheses are the proved model estimates and
@@ -226,5 +197,29 @@ theorem skeleton_plainSource_of_generic_model_bounds (M : SourceMomentModels K c
     (targetData K c) rfl rfl hpositive hzero
   intro Z T i
   exact hreindex Z T (sourceIndexToSkeleton i)
+
+/-- The proved actual dyadic row geometry closes the source transfer
+from raw row-width bounds with the fixed scalar factor two. No geometric
+or energy assumption is substituted for `momentRowExponent_spec`. -/
+theorem skeleton_plainSource_of_generic_row_bounds (M : SourceMomentModels K c)
+    (hpositive : Source.UniformMomentBound
+      (fun _ _ i => Source.pairedModelEnergy (sourceModelsOfSkeleton M) i)
+      (fun _ _ i => Source.rowWidth i)
+      (fun _ _ i => Source.pairedCapacity i ∧ i.selected.Nonempty))
+    (hzero : Source.UniformMomentBound
+      (fun _ _ i => Source.pairedModelEnergy (sourceModelsOfSkeleton M) i.noSlots)
+      (fun _ _ i => Source.rowWidth i) (fun _ _ _ => True))
+    (hreindex : ∀ Z T (i : SourceMomentIndex K c Z T),
+      physicalPlainEnergy i ≤ pairedModelEnergy M i) :
+    PSource c.geometry (targetData K c) c.family.B c.family.lamA
+      (momentMesh K c.family).val := by
+  apply Source.plainSource_of_row_bounds (sourceModelsOfSkeleton M)
+    (targetData K c) rfl rfl (rowFactor := 2) (by norm_num) 1 ?_ hpositive hzero
+  · intro Z T i _hZ _hbin
+    have hU := momentBase_ge_two (sourceIndexToSkeleton i)
+    have hrow := (momentRowExponent_spec (sourceIndexToSkeleton i)).2.2
+    exact ⟨lt_of_lt_of_le (by norm_num : (0 : ℝ) < 2) hU, hrow.le⟩
+  · intro Z T i
+    exact hreindex Z T (sourceIndexToSkeleton i)
 
 end HeckeSkeleton.Moments.EngineInduction

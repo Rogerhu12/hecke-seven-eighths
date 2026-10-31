@@ -48,7 +48,9 @@ branched recursion, irrespective of the parameter measure space. -/
 @[simp] theorem baseBranch_mass (S : PolynomialSystem.{u} K ω ψ σ W)
     (U t : ℝ) (x : S.Label) :
     (∑ b, ((S.baseBranch (Ω := Ω) U t x).kernel b).real Set.univ) = 0 := by
-  simp [baseBranch, BranchedIntegralAt.terminal]
+  apply Finset.sum_eq_zero
+  intro b hb
+  exact Fin.elim0 b
 
 /-- Close the genuine base certificate through the common terminal
 ledger. The inputs are raw components, not a completed moment bound. -/

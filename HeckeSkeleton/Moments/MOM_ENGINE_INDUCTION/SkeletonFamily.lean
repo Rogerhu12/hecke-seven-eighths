@@ -35,7 +35,7 @@ local instance : Fintype (SixthUnitClasses K (places K c)) := Fintype.ofFinite _
 
 /-- The actual source family, retaining every selected slot and every
 original unit sector.  External heights are evaluated exactly as in
-`pairedModel`. -/
+`pairedModel`; the canonical dyadic row exponent is unchanged. -/
 def actualSourceFamily (M : SourceMomentModels K c) :
     SourceFamily K c.family.omega (targetCharacter K c)
       (fun Z T => SourceMomentIndex K c Z T) (SixthUnitClasses K (places K c)) where
@@ -43,7 +43,7 @@ def actualSourceFamily (M : SourceMomentModels K c) :
   kappa := 2 * c.family.B - 1
   mesh := (momentMesh K c.family).val
   loss := c.family.lamA
-  rowExponent := fun _ => 1
+  rowExponent := momentRowExponent
   shell := fun _ _ i => (momentBlock i).shell
   bin := fun _ _ i => (momentBlock i).bin
   plainLength := fun _ _ i => (momentWitness i).plainLength
@@ -86,12 +86,12 @@ variable {K c}
 @[simp] theorem actualSourceFamily_zeroSlotBound (M : SourceMomentModels K c) :
     (actualSourceFamily K c M).ZeroSlotBound ↔
       UniformMomentBound (fun _ _ i => pairedModelEnergy M i.noSlots)
-        (fun _ _ _ => 1) (fun _ _ _ => True) := Iff.rfl
+        (fun _ _ i => momentRowExponent (momentBase i)) (fun _ _ _ => True) := Iff.rfl
 
 @[simp] theorem actualSourceFamily_positiveSlotBound (M : SourceMomentModels K c) :
     (actualSourceFamily K c M).PositiveSlotBound ↔
       UniformMomentBound (fun _ _ i => pairedModelEnergy M i)
-        (fun _ _ _ => 1) (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := Iff.rfl
+        (fun _ _ i => momentRowExponent (momentBase i)) (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := Iff.rfl
 
 @[simp] theorem actualSourceFamily_primeProductBound
     (M : SourceMomentModels K c) (κ : ℝ) :
@@ -106,7 +106,7 @@ theorem paired_zero_slot_models_of_parent_reduction (M : SourceMomentModels K c)
     (hassembly : ParentReductionInput.{u} (actualSourceFamily K c M)
       (fun _ _ i => i.noSlots) (fun _ _ _ => True)) :
     UniformMomentBound (fun _ _ i => pairedModelEnergy M i.noSlots)
-      (fun _ _ _ => 1) (fun _ _ _ => True) := by
+      (fun _ _ i => momentRowExponent (momentBase i)) (fun _ _ _ => True) := by
   exact (actualSourceFamily_zeroSlotBound M).mp
     (paired_zero_slot_models (actualSourceFamily K c M) hassembly)
 
@@ -122,7 +122,7 @@ theorem paired_positive_below_one_of_parent_reduction (M : SourceMomentModels K 
           (fun _ _ i => i)
           (fun _ _ i => (actualSourceFamily K c M).positiveEligible i))) :
     UniformMomentBound (fun _ _ i => pairedModelEnergy M i)
-      (fun _ _ _ => 1) (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
+      (fun _ _ i => momentRowExponent (momentBase i)) (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
   have hκ : (actualSourceFamily K c M).kappa < 1 := by
     change 2 * c.family.B - 1 < 1
     linarith
@@ -141,7 +141,7 @@ theorem paired_positive_endpoint_of_parent_reduction (M : SourceMomentModels K c
         (fun _ _ i => i)
         (fun _ _ i => (actualSourceFamily K c M).positiveEligible i))) :
     UniformMomentBound (fun _ _ i => pairedModelEnergy M i)
-      (fun _ _ _ => 1) (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
+      (fun _ _ i => momentRowExponent (momentBase i)) (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
   have hκ : (actualSourceFamily K c M).kappa = 1 := by
     change 2 * c.family.B - 1 = 1
     linarith

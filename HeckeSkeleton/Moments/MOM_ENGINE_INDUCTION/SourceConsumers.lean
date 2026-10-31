@@ -31,10 +31,8 @@ variable {c : TargetContext K} {S : MomentSourceData K c}
 
 /-- The actual selected-slot fourth moment on the witness rows, before
 the finite-sector reindexing. -/
-def physicalPlainEnergy {Z T : ℝ} (i : SourceMomentIndexFor K c S Z T) : ℝ :=
-  ∑ u ∈ (momentWitness i).rows,
-    ‖(momentWitness i).plainValue u ^ 2 *
-      ∏ j ∈ i.selected, (momentAmplitude i).slotValue j u‖ ^ 2
+abbrev physicalPlainEnergy {Z T : ℝ} (i : SourceMomentIndexFor K c S Z T) : ℝ :=
+  _root_.HeckeSkeleton.physicalPlainEnergyFor i
 
 /-- Transport only the expansion's row type along the equality of the
 actual excluded-place sets.  The complete expansion itself is unchanged. -/
@@ -137,9 +135,12 @@ theorem plainSource_of_model_bounds
         ((hbound Z hZ i hbin).2 trivial)
   · let i : SourceMomentIndexFor K c S Z (Z ^ τ) := ⟨b, ℓ, t, ht, ht', j, ∅⟩
     have hh := (hreindex Z (Z ^ τ) i).trans ((hbound Z hZ i hbin).2 trivial)
-    simpa only [i, physicalPlainEnergy, SourceMomentIndexFor.noSlots,
-      momentWitness, momentAmplitude, momentBlock, momentBase,
-      Finset.prod_empty, mul_one] using hh
+    simpa only [i, physicalPlainEnergy, _root_.HeckeSkeleton.physicalPlainEnergyFor,
+      SourceMomentIndexFor.noSlots, _root_.HeckeSkeleton.SourceMomentIndexFor.noSlots,
+      momentWitness, _root_.HeckeSkeleton.momentWitnessFor,
+      momentAmplitude, _root_.HeckeSkeleton.momentAmplitudeFor,
+      momentBlock, _root_.HeckeSkeleton.momentBlockFor,
+      momentBase, _root_.HeckeSkeleton.momentBaseFor, Finset.prod_empty, mul_one] using hh
 
 /-- A fixed enlargement of the actual row cutoff returns the raw paired
 moment estimates to the physical source power.  Only the scalar and the
@@ -197,7 +198,7 @@ theorem plainSource_of_dyadic_model_bounds
   intro Z T i hZ hbin
   have hU := hbase Z T i hZ hbin
   refine ⟨zero_lt_one.trans hU, ?_⟩
-  rw [rowWidth, hwidth _ hU]
+  rw [rowWidth, _root_.HeckeSkeleton.rowWidthFor, hwidth _ hU]
   exact (rpow_log_row_width hU (by norm_num : (0 : ℝ) < 2)).le
 
 end HeckeSkeleton.Moments.EngineInduction.Source

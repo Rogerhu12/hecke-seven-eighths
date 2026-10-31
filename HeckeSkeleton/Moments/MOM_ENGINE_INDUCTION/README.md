@@ -201,6 +201,13 @@ measurable structure. The two half weights charge each branch's common
 kernel mass once. Its local-node constructor permits actual base, reflection
 and two-transform cases to be assembled without changing their meanings.
 
+`BranchAssembly.lean` substitutes both local reductions into the actual
+ordinary-parent centering inequality. It concatenates their true branches
+and doubles the original measures and remainders. The intermediate centered
+node and raw comparison may have the same induction state as the parent;
+neither becomes a recursive child. In particular, the comparison's local
+reduction must already contain its genuine reflection to earlier models.
+
 `KernelReduction.lean` now constructs the required positive measure from
 a genuine common Cauchy kernel. For child-column factors `aL, aR`, its density
 is `sqrt(aL*U^widthL) * sqrt(aR*U^widthR) / U^widthParent`. Each child receives
@@ -308,16 +315,17 @@ parent producer.
 capacity, energy and uniform-bound quantifiers definitionally with
 `HeckeSkeleton.Moments`. It provides the three `_of_parent_reduction` wrappers.
 
-`SourceData.lean` fixes a single explicit expansion and row exponent before
-defining its block/amplitude/witness indices and actual inverse, paired and
-unmarked models. Its data types contain no globally selected unfinished
-expansion, default argument, energy estimate or analytic admissibility
-field. `SourceAdapter.lean` maps this same datum and model to `SourceFamily`,
-with definitional identities for rows, parameters, capacities, energies and
-all uniform quantifiers. Neither module imports `Moments.lean`; they can
-therefore be consumed by the source declarations without a circular import.
-The shared-source aliases are being coordinated with EXPANSION before the
-original source types are migrated.
+`SourceData.lean` now consists only of transparent compatibility names for
+the shared `HeckeSkeleton.SourceData` interface published by EXPANSION at
+`dc3dee7ec16ec75c1ea219259f25389561523048`. It fixes one explicit expansion
+and row exponent before all indices, models and uniform constants; there
+is no duplicate local source structure. The canonical `For` types contain
+no globally selected unfinished expansion, default argument or desired
+energy estimate. `SourceAdapter.lean` maps that same datum and model to
+`SourceFamily`, with definitional identities for parameters, capacities,
+energies and uniform quantifiers. Neither module imports `Moments.lean`.
+The producer's actual aliases and minimal recipe dependency files are
+imported unchanged at the same pin, with their hashes checked in CI.
 
 `SourceConsumers.lean` proves the corresponding physical `PSource` consumer
 for an explicitly identified `TargetData` and the same expansion. It joins
@@ -328,14 +336,15 @@ retained bins; the output threshold is the maximum of the two thresholds,
 with only the fixed factor two in the scalar. Thus completing the original
 three model estimates feeds the unchanged physical source conclusion.
 
-`SkeletonSource.lean` separately verifies the complete old-to-explicit index
-equivalence, all seven model fields, actual polynomial energies, prime-product
-premise and uniform quantifiers. Its last theorem reaches the literal original
-`PSource` through the clean consumer. It is an integration adapter, not part of
-the clean source core: the old global source types retain their inherited
-admissions. The shared source-definition migration is owned by EXPANSION
-under the coordinator's assignment of 2026-10-31; the task-local source data
-are a checked adapter prototype to be replaced by that authoritative interface.
+`SkeletonSource.lean` now verifies the identity between the producer's actual
+aliases and their canonical explicit source, all seven model fields, actual
+polynomial energies, prime-product premise and uniform quantifiers. The raw
+model targets use the actual row exponent; its last consumer uses the proved
+`momentBase_ge_two` and `momentRowExponent_spec` to reach the unchanged
+physical `PSource` with the fixed factor two. This integration adapter remains
+separate from the clean source core: the actual raw recipe is still an
+unfinished upstream construction. Shared definitions and actual primitive
+geometry remain owned by EXPANSION, as assigned by the coordinator.
 
 At the task base `182769d49e5c184547c0949ddc328b9e7a87e6f7`, the original
 theorem types already refer to admitted constructions:
@@ -347,13 +356,13 @@ momentModels
 
 Lean's recursive axiom collector visits declaration types as well as proof
 bodies. Thus even a completed proof body at those original signatures
-inherits `sorryAx` until the upstream constructions are completed. Their
-signatures also lack the permitted single-step argument and the additional
-parent-assembly input. The updated task rules allow correcting these source
-types and require continuing past relative statements. Work is proceeding on
-an explicit common expansion/model core and an acyclic source adapter, with
-ownership coordinated in PR #5; the current source wrappers are a verified
-intermediate boundary, not completion of the original obligations.
+inherits `sorryAx` until those references are removed from the generic
+theorem types. The new canonical `For` interface supplies the clean type
+boundary. Its actual aliases intentionally retain the raw recipe's admission
+until the source construction is finished. The original theorems still need
+the permitted complete single-step argument, actual primitive geometry,
+ordinary reflection and recursive profile closure before their final wiring;
+the source wrappers alone do not complete those original obligations.
 
 The original averaged `PairedPrimeProductBound` concerns the original row
 family. The published child step requires pointwise prime-factor bounds on
