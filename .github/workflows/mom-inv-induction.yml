@@ -56,7 +56,7 @@ jobs:
       CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
       AUDIT_FILE: ${{ matrix.audit }}
       AUDIT_TARGET: ${{ matrix.target }}
-      EVIDENCE_DIR: ${{ runner.temp }}/mom-inv-induction-${{ matrix.id }}
+      EVIDENCE_DIR: /tmp/mom-inv-induction-${{ matrix.id }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
