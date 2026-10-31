@@ -50,7 +50,7 @@ structure PairedEngineDomain (centered : Bool) (d : MomentData K ω ψ)
   plain_right_nonneg : 0 ≤ a.n₂
   total_length : a.z = d.geometry.totalLength
   kappa_lower : 3 / 4 ≤ a.κ
-  kappa_upper : a.κ ≤ 5 / 6
+  kappa_upper : a.κ ≤ 1
   capacity : a.z = 0 ∨ a.n₁ + a.n₂ + 6 * a.κ * a.z ≤ a.m + a.q
   padded_core : a.n₁ + a.n₂ + a.z ≤ a.m + a.q + padding
   ordinary : centered = false →

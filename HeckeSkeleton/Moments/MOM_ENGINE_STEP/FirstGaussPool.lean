@@ -235,6 +235,11 @@ theorem energy_bound (d : FirstGaussPoolData C P ι)
       simpa only [unitExterior, ← Ideal.one_eq_top] using (one_dvd d.frozen))
     d.rowExponent d.frozenExponent d.row_norm d.frozen_norm d.density_pos
   dsimp only at he
+  have hfinite :
+      (fun (i : ι) (z : A.R) =>
+        actualFiniteColumn C (unitExterior A) (d.ideal i) 1 (d.generator i)
+          (unitExterior_generates A) (d.generates i) z) = d.finiteColumn := rfl
+  rw [hfinite] at he
   simp_rw [d.whole_gauss_eq hDiff c]
   unfold energy mainEnergy errorEnergy mainRows eligible density multiplicity
   simp_rw [d.whole_error_eq c]

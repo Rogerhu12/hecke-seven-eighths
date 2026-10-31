@@ -226,8 +226,8 @@ theorem actual_first_character_source_term
     sIntegerOrbitAvoidanceMask_union, ← firstPrincipalMask_eq_orbit_mask C p m n x]
   simp only [generatedOriginalColumn_character_mk, actualActiveColumn_character_mk]
   rw [he]
-  change _ * _ * sUnitOrbitalProfile K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) _ _ =
-    _ * _ * sUnitOrbitalProfile K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) _ _
+  dsimp only [ParentPeriodicPair.orbitProfile, OrbitalGaussColumn.originalPair,
+    OrbitalGaussColumn.originalTriple]
   ring
 
 theorem actual_first_character_source_series

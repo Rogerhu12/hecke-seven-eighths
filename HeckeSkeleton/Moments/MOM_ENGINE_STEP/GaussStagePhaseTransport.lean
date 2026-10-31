@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolSecondStage
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstGaussPoolKernel
 
 /-!
 # The second original kernel is fixed before the first Fourier variable
@@ -29,11 +30,11 @@ local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 theorem engine_traceSchwartzFourier_smul (a : ℂ) (φ : SchwartzMap V ℂ) :
     traceSchwartzFourier K (a • φ) = a • traceSchwartzFourier K φ := by
   unfold traceSchwartzFourier
-  change ((((2 : ℝ) ^ nrComplexPlaces K)⁻¹ : ℝ) : ℂ) •
+  change ((((2 : ℝ) ^ InfinitePlace.nrComplexPlaces K)⁻¹ : ℝ) : ℂ) •
     SchwartzMap.compCLMOfContinuousLinearEquiv ℂ
       (traceConjugation K).toContinuousLinearEquiv
       (SchwartzMap.fourierTransformCLM ℂ (a • φ)) =
-    a • (((((2 : ℝ) ^ nrComplexPlaces K)⁻¹ : ℝ) : ℂ) •
+    a • (((((2 : ℝ) ^ InfinitePlace.nrComplexPlaces K)⁻¹ : ℝ) : ℂ) •
       SchwartzMap.compCLMOfContinuousLinearEquiv ℂ
       (traceConjugation K).toContinuousLinearEquiv
       (SchwartzMap.fourierTransformCLM ℂ φ))
@@ -135,7 +136,39 @@ theorem withMultiplier_rows
 
 end ActualGaussStage
 
+namespace FirstGaussPoolData
+
+variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
+variable {P : PowerScaleExteriorPool A bad Z ell eps} {ι : Type*}
+variable {W : Type*} [NormedAddCommGroup W] [InnerProductSpace ℝ W]
+
+/-- The literal first Fourier coefficient is precisely a multiplier of
+the original whole main source. -/
+theorem mainSource_twisted (d : FirstGaussPoolData C P ι)
+    (c : ι → ℂ) (x : ι → W) (ξ : W) :
+    d.mainSource (twistedCoefficient c x ξ) =
+      (d.mainSource c).withMultiplier (fun i => jointPhase ξ (x i)) := by
+  unfold mainSource ActualGaussSource.withMultiplier
+  congr 1
+  funext i
+  exact mul_comm _ _
+
+/-- The same statement holds after the genuine valuation extraction:
+the residual scalar is independent of the first Fourier parameter. -/
+theorem residualSource_twisted (d : FirstGaussPoolData C P ι)
+    (p : ExteriorPrime A) (n : ℕ) (c : ι → ℂ) (x : ι → W) (ξ : W) :
+    d.residualSource p n (twistedCoefficient c x ξ) =
+      (d.residualSource p n c).withMultiplier (fun i => jointPhase ξ (x i.val)) := by
+  unfold residualSource ActualGaussSource.withMultiplier
+  congr 1
+  funext i
+  simp only [residualCoefficient, adjustedCoefficient, twistedCoefficient]
+  ring
+
+end FirstGaussPoolData
+
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.OrbitalGaussColumn.secondProfile_smul
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.withMultiplier
+#print axioms HeckeSkeleton.Moments.EngineStep.FirstGaussPoolData.residualSource_twisted

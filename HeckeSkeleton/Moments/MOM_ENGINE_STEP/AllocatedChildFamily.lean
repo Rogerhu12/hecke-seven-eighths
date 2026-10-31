@@ -33,7 +33,6 @@ def sourceMomentIdeal (I : Ideal (𝓞 F)) : HeckeGeneral.Analysis.NonzeroIdeal 
     sourceMomentIdeal I.val = I := by
   unfold sourceMomentIdeal
   rw [dif_pos (nonZeroDivisors.coe_ne_zero I)]
-  exact Subtype.ext rfl
 
 @[simp] theorem sourceMomentIdeal_mul_val (B I : HeckeGeneral.Analysis.NonzeroIdeal F) :
     sourceMomentIdeal (B.val * I.val) = B * I := sourceMomentIdeal_coe (B * I)

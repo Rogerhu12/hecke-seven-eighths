@@ -36,10 +36,14 @@ def scaleIdealTest (W : IdealTest F) (c : ℝ) (hc : 0 < c) : IdealTest F where
     have hroot : (Real.sqrt c : ℂ) ≠ 0 :=
       Complex.ofReal_ne_zero.mpr (Real.sqrt_pos.mpr hc).ne'
     have harg : idealNorm F I / (N / c) = c * (idealNorm F I / N) := by
-      rw [div_div]
+      simp only [div_eq_mul_inv, mul_inv_rev, inv_inv]
       ring
-    rw [W.support_spec, harg, mul_ne_zero_iff]
-    simp only [hroot, true_and]
+    rw [W.support_spec, harg]
+    constructor
+    · intro hw
+      exact mul_ne_zero hroot hw
+    · intro hw
+      exact (mul_ne_zero_iff.mp hw).2
 
 /-- No change to a Hecke coefficient, row, common mask, or other factor is
 needed for this exact normalization identity. -/
@@ -53,7 +57,7 @@ theorem plainPolynomial_scaleIdealTest
     rw [Real.sqrt_div' N hc.le, Complex.ofReal_div, inv_div, div_eq_mul_inv, mul_comm]
   have harg (I : NonzeroIdeal F) :
       idealNorm F I / (N / c) = c * (idealNorm F I / N) := by
-    rw [div_div]
+    simp only [div_eq_mul_inv, mul_inv_rev, inv_inv]
     ring
   calc
     _ = ((Real.sqrt N : ℂ)⁻¹ * (Real.sqrt c : ℂ)) *

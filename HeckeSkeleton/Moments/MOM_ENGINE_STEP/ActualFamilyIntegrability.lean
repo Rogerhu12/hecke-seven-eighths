@@ -336,7 +336,7 @@ theorem actualFourierMeasure_mass_eq (F : 𝓢(V, ℂ)) :
   have hmeasure : (actualFourierMeasure F) Set.univ =
       ∫⁻ ξ : V, ENNReal.ofReal ‖(𝓕 F) ξ‖ ∂(volume : Measure V) := by
     simpa only [actualFourierMeasure, Measure.restrict_univ] using
-      (Measure.withDensity_apply (μ := (volume : Measure V))
+      (withDensity_apply (μ := (volume : Measure V))
         (fun ξ : V => ENNReal.ofReal ‖(𝓕 F) ξ‖) MeasurableSet.univ)
   calc
     _ = (∫⁻ ξ : V, ENNReal.ofReal ‖(𝓕 F) ξ‖ ∂(volume : Measure V)).toReal :=

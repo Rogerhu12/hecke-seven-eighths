@@ -339,7 +339,7 @@ theorem product_allowed (R : AmplifierResidualPresentation C p n I) :
 
 theorem power_coprime (R : AmplifierResidualPresentation C p n I) :
     IsCoprime (powerIdeal p n).val R.residual.val := by
-  simpa only [powerIdeal, ExteriorIdealEuler.pow, pow_one] using (R.coprime.pow :
+  simpa only [powerIdeal, ExteriorIdealEuler.pow, primeIdeal, pow_one] using (R.coprime.pow :
     IsCoprime (p.val.asIdeal ^ n) (R.residual.val ^ 1))
 
 theorem residual_support (R : AmplifierResidualPresentation C p n I)
