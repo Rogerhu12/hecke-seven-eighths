@@ -77,6 +77,7 @@ jobs:
           path: |
             .lake/build/lib/lean
             .low-energy-verification
+            .lake/packages/TauCeti/.lake/build
           key: low-energy-v2-${{ runner.os }}-${{ matrix.phase }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
           restore-keys: |
             low-energy-v2-${{ runner.os }}-${{ matrix.phase }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
@@ -86,6 +87,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python3 scripts/low_energy_restore_ci.py ${{ matrix.phase }}
+      - name: Build pinned package dependencies required by the integration target
+        if: matrix.phase == 'actual'
+        run: >-
+          lake --fail-fast build
+          +Mathlib.Basic.Real.Sign:olean
+          +TauCeti.NumberTheory.ArithmeticDirichletSeries.Prime.PrimeIdealTheorem:olean
       - name: Revalidate pinned native dependency traces
         if: matrix.phase == 'actual'
         continue-on-error: true
@@ -101,6 +108,7 @@ jobs:
           path: |
             .lake/build/lib/lean
             .low-energy-verification
+            .lake/packages/TauCeti/.lake/build
           key: ${{ steps.proof-cache.outputs.cache-primary-key }}
       - name: Preserve compiled checkpoints
         if: always()
