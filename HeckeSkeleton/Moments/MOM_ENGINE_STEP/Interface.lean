@@ -500,6 +500,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalJointFirstSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.UnrestrictedSixthCapacity
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPatternChildWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalFirstWindows
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFirstPhysicalWindows
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFullSupportParameters
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridZeroRowSupport
 
 /-!
 # The unified child step of the paired fourth-moment engine

@@ -226,7 +226,71 @@ def ordinaryBinding
     (hrightPoint : ∀ h ∈ B.rows, ∀ i ∈ B.right,
       WithLp.toLp 2 (-B.rightFirst h i, B.rightSecond h i) = y h i) :
     X.leaf.OrdinaryBinding rectangles where
-  rows := hrows
+  rows := by
+    intro h hh
+    exact hrows.symm ▸ hh
+  rows_zero h hh hn := (hn (hrows ▸ hh)).elim
+  left := hleft
+  right := hright
+  exceptional := hexceptional
+  rowWeight := hweight
+  leftCoefficient := hleftCoefficient
+  rightCoefficient := hrightCoefficient
+  leftPoint := hleftPoint
+  rightPoint := hrightPoint
+
+/-- The arithmetic source uses precisely the original nonzero complete
+correlations. Omitted rows have zero actual weight, proved from the same
+single-row common-atom identity. The original leaf, its two kernels,
+the outer labels and both stored complete columns remain unchanged. -/
+def ordinaryBindingOnCorrelationSupport
+    {A : SArithmeticData K} {σ : K →+* ℂ}
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    {R : ActualSecondCorrelationRows A σ H ι}
+    {Ray : Type*} [CommGroup Ray] [Fintype Ray]
+    {S₁ S₂ : Finset (Ideal (𝓞 K))}
+    {S : Fin B.leftSlots → Finset (HeightOneSpectrum (𝓞 K))}
+    {T₁ T₂ : Finset (Ideal (𝓞 K))}
+    {T : Fin B.rightSlots → Finset (HeightOneSpectrum (𝓞 K))}
+    {IA : AllocationColumn K B.leftSlots → A.Exterior}
+    {IB : AllocationColumn K B.rightSlots → A.Exterior}
+    {rayLeft : AllocationColumn K B.leftSlots → Ray}
+    {rayRight : AllocationColumn K B.rightSlots → Ray}
+    {wholeLeft : AllocationColumn K B.leftSlots → ℂ}
+    {wholeRight : AllocationColumn K B.rightSlots → ℂ}
+    {x : H → AllocationColumn K B.leftSlots → WithLp 2 (U × V)}
+    {y : H → AllocationColumn K B.rightSlots → WithLp 2 (U × V)}
+    {b : liveSecondAllocationBranches (Ray := Ray) S₁ S₂ S T₁ T₂ T IB}
+    {exceptional : H → Prop}
+    (rectangles : HybridOrdinaryRectangles
+      (R.restrictRows (fun h => R.correlation h ≠ 0))
+      Ray S₁ S₂ S T₁ T₂ T IA IB rayLeft rayRight wholeLeft wholeRight x y b exceptional)
+    (hrows : B.rows = R.rows)
+    (hleft : B.left = b.val.leftColumns S₁ S₂ S)
+    (hright : B.right = b.val.rightColumns)
+    (hexceptional : ∀ h ∈ B.rows, B.exceptional h ↔ exceptional h)
+    (hweight : ∀ h ∈ B.rows,
+      B.rowWeight h * X.leftScalar * star X.rightScalar = R.weight h * R.correlation h)
+    (hleftCoefficient : ∀ h ∈ B.rows, ∀ i ∈ B.left,
+      X.leftResidual h i =
+        secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 wholeLeft h i)
+    (hrightCoefficient : ∀ h ∈ B.rows, ∀ i ∈ B.right,
+      star (X.rightResidual h i) =
+        secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 wholeRight h i)
+    (hleftPoint : ∀ h ∈ B.rows, ∀ i ∈ B.left,
+      WithLp.toLp 2 (B.leftFirst h i, B.leftSecond h i) = x h i)
+    (hrightPoint : ∀ h ∈ B.rows, ∀ i ∈ B.right,
+      WithLp.toLp 2 (-B.rightFirst h i, B.rightSecond h i) = y h i) :
+    X.leaf.OrdinaryBinding rectangles where
+  rows := by
+    intro h hh
+    exact hrows.symm ▸ (Finset.mem_filter.mp hh).1
+  rows_zero h hh hn := by
+    have hc : R.correlation h = 0 := by
+      by_contra hc
+      exact hn (Finset.mem_filter.mpr ⟨hrows ▸ hh, hc⟩)
+    change B.rowWeight h * X.leftScalar * star X.rightScalar = 0
+    rw [hweight h hh, hc, mul_zero]
   left := hleft
   right := hright
   exceptional := hexceptional
