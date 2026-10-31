@@ -204,9 +204,8 @@ theorem completeIdeal_amplification_to_majorant {δ : ℝ} (hδ : 0 < δ) :
       (C * P ^ δ) ^ 2 * ∑ u ∈ R, ∑ a ∈ F, B (u * a.val ^ 6) := by
     simpa only [Finset.sum_const, nsmul_eq_mul, Finset.mul_sum] using hsum
   have hpow : (C * P ^ δ) ^ 2 = C ^ 2 * P ^ (2 * δ) := by
-    rw [mul_pow, ← Real.rpow_mul_natCast hP0 δ 2]
-    congr 1
-    ring
+    rw [mul_pow, ← Real.rpow_mul_natCast hP0 δ 2,
+      show δ * (2 : ℝ) = 2 * δ by ring]
   calc
     _ ≤ (C * P ^ δ) ^ 2 * ∑ u ∈ R, ∑ a ∈ F, B (u * a.val ^ 6) := hsum'
     _ ≤ (C * P ^ δ) ^ 2 * ∑ v ∈ d.rows H, B v :=
@@ -353,7 +352,7 @@ theorem completeIdeal_independent_energy {ι : Type*}
       _ = (U * P ^ 6) ^ h := by
         rw [← Real.rpow_natCast_mul hH0 2 (h / 2)]
         congr 1
-        norm_num
+        ring
   obtain ⟨B, hB, hrow, hsum⟩ := hmajorant i (U * P ^ 6) hH hheightH
   let F := exteriorAmplifierIdeals K S P
   have hF : ∀ a ∈ F, idealNorm K a.val ≤ P :=
@@ -379,10 +378,8 @@ theorem completeIdeal_independent_energy {ι : Type*}
       _ = (Cₘ * Cᵢ) * U ^ (1 + e) * (P ^ (2 * a) * P ^ (6 * (1 + e))) *
           (1 + height i) ^ A := by ring
       _ = (Cₘ * Cᵢ) * U ^ (1 + e) * P ^ (L + 1) * (1 + height i) ^ A := by
-        rw [← Real.rpow_add hPpos]
-        congr 2
-        dsimp [L]
-        ring
+        rw [← Real.rpow_add hPpos,
+          show 2 * a + 6 * (1 + e) = L + 1 by dsimp [L]; ring]
       _ = _ := by
         rw [Real.rpow_add hPpos, Real.rpow_one]
         field_simp [ne_of_gt hk]

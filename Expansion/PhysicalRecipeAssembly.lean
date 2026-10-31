@@ -293,9 +293,19 @@ theorem exists_physical_recipe_parameters
         Z (Z ^ τ) d B lam k width value hZone hT hd.1 hdUpper hB0 hw c.2 rows
         (fun u hu => (hrows u hu).2.1) (fun u hu => (hrows u hu).2.2.1)
     refine ⟨b, hbin.trans hfloor.symm, hvalue, hblock, hgeometry, ?_, ?_⟩
-    · simpa only [hfloor, show (2 * (51 / 100 : ℝ) - 1) / 2 = 1 / 100 by norm_num]
+    · change ∀ label : AmplitudeLabels g.slots width ((2 * c.1.center - 1) / 2),
+        PhysicalAmplitudeOrigin K S P E.rows ω ψ g F width ((2 * c.1.center - 1) / 2)
+          Z (Z ^ τ) (Z ^ d) rows c.2 label
+            (b.amplitude (physicalAmplitudeLabelEmbedding g.slots width
+              ((2 * c.1.center - 1) / 2)
+                (amplitudeLabels_card_le_fixed g.slots hw
+                  (physicalRecipeChoice_cap K S hB0 hB he₁ c)) label))
+      simpa only [hfloor, show (2 * (51 / 100 : ℝ) - 1) / 2 = 1 / 100 by norm_num]
         using horigin
-    · simpa only [hfloor, show (2 * (51 / 100 : ℝ) - 1) / 2 = 1 / 100 by norm_num]
+    · change ∀ l, ∃ label : AmplitudeLabels g.slots width ((2 * c.1.center - 1) / 2),
+        PhysicalAmplitudeOrigin K S P E.rows ω ψ g F width ((2 * c.1.center - 1) / 2)
+          Z (Z ^ τ) (Z ^ d) rows c.2 label (b.amplitude l)
+      simpa only [hfloor, show (2 * (51 / 100 : ℝ) - 1) / 2 = 1 / 100 by norm_num]
         using horiginAll
 
 /-- The same parameter choice supplies the geometry for every choice of

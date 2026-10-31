@@ -40,8 +40,7 @@ def profileEulerIterCLM : ℕ → SchwartzMap ℝ ℂ →L[ℝ] SchwartzMap ℝ 
     have hfun : (profileEulerIterCLM j f : ℝ → ℂ) = eulerDerivativeOrder j (f : ℝ → ℂ) :=
       funext ih
     simp only [profileEulerIterCLM, ContinuousLinearMap.comp_apply,
-      profileEulerCLM_apply, hfun, eulerDerivativeOrder, Function.iterate_succ_apply']
-    rfl
+      profileEulerCLM_apply, hfun, eulerDerivativeOrder, Function.iterate_succ_apply'] <;> rfl
 
 theorem profileEulerCLM_support (f : SchwartzMap ℝ ℂ) :
     tsupport (profileEulerCLM f) ⊆ tsupport f := by
@@ -109,7 +108,8 @@ theorem testIntegral_le_annular_euler (f : SchwartzMap ℝ ℂ) (a b A : ℝ)
   have hzero (y : ℝ) (hy : y ∉ Icc a b) : g y = 0 := by
     apply Function.notMem_support.mp
     exact fun h => hy (hgs (subset_tsupport g h))
-  have hweight := (annularEulerWeight_continuousOn a b A ha).integrableOn_Icc
+  have hweight : IntegrableOn (annularEulerWeight A) (Icc a b) :=
+    (annularEulerWeight_continuousOn a b A ha).integrableOn_Icc
   have hg : IntegrableOn (fun y : ℝ => ‖g y‖ * annularEulerWeight A y) (Icc a b) :=
     (g.continuous.norm.continuousOn.mul
       (annularEulerWeight_continuousOn a b A ha)).integrableOn_Icc
@@ -149,6 +149,6 @@ theorem testSeminorm_finite_schwartz_control (a b A : ℝ) (ha : 0 < a) (J : ℕ
       testIntegral_le_annular_euler f a b A ha hs j
     _ ≤ annularEulerMass a b A * (C * s.sup (schwartzSeminormFamily ℝ ℝ ℂ) f) :=
       mul_le_mul_of_nonneg_left (hb f j hj) hmass
-    _ ≤ _ := by nlinarith
+    _ ≤ _ := by nlinarith [mul_nonneg hC.le hsf]
 
 end HeckeSkeleton.Moments.UniformAmplify

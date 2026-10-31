@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceWitnessGeometry
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerRecipe
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.WitnessSource
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.AmplificationSource
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceProfileJets
 import Lean.Elab.Command
 import Lean.Util.CollectAxioms
 

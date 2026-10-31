@@ -39,7 +39,7 @@ theorem eulerDerivativeOrder_smooth {f : ℝ → ℂ} (hf : ContDiff ℝ ∞ f) 
 
 theorem deriv_profileLogPullback {f : ℝ → ℂ} (hf : ContDiff ℝ ∞ f) (x : ℝ) :
     deriv (profileLogPullback f) x = eulerDerivative f (Real.exp x) := by
-  have h := ((hf.differentiable (by simp)).differentiableAt.hasDerivAt).comp x
+  have h := ((hf.differentiable (by simp)).differentiableAt.hasDerivAt).scomp x
     (Real.hasDerivAt_exp x)
   simpa only [profileLogPullback, eulerDerivative, Function.comp_def,
     Complex.real_smul, mul_comm] using h.deriv
@@ -123,7 +123,8 @@ theorem testIntegral_le_log_seminorm {f : ℝ → ℂ} (hf : ContDiff ℝ ∞ f)
       (Icc (-L) L) :=
     (((W.smooth ⊤).continuous_iteratedDeriv j (by simp)).norm.mul
       (logEulerWeight_continuous A)).continuousOn.integrableOn_Icc
-  have hw := (logEulerWeight_continuous A).continuousOn.integrableOn_Icc (a := -L) (b := L)
+  have hw : IntegrableOn (logEulerWeight A) (Icc (-L) L) :=
+    (logEulerWeight_continuous A).continuousOn.integrableOn_Icc
   apply setIntegral_mono_on hg (hw.const_mul _) measurableSet_Icc
   intro x _
   apply mul_le_mul_of_nonneg_right _ (logEulerWeight_nonneg A x)

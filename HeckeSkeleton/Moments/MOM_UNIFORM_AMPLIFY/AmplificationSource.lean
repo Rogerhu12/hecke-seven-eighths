@@ -101,8 +101,10 @@ theorem recipe_inverse_independent_amplification
     (mul_pos hC (mul_pos (by norm_num) (Real.rpow_pos_of_pos (by norm_num) _)))
   refine ⟨C', A, h, hC', hA, hh, ?_⟩
   intro U D hU hD ξ σ τ hheight hσ hτ
+  have hU0 : 0 ≤ U := zero_le_one.trans hU
+  have hD0 : 0 ≤ D := zero_le_one.trans hD
   have hU2 : 1 ≤ 2 * U := by linarith
-  have hUD : 0 ≤ U * D := mul_nonneg (zero_le_one.trans hU) (zero_le_one.trans hD)
+  have hUD : 0 ≤ U * D := mul_nonneg hU0 hD0
   have hheight' : ‖ξ‖ ≤ ((2 * U) * D) ^ h := hheight.trans
     (Real.rpow_le_rpow hUD (by nlinarith [hUD]) hh.le)
   let F : ℝ := max U (U ^ (1 / 6 : ℝ) * D ^ (5 * (1 + a) / 6)) *

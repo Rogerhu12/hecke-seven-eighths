@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileNormTwists
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileEuler
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.CanonicalProfileControl
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileScaleJets
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FourierApplication
 import Lean.Elab.Command
 import Lean.Util.CollectAxioms
 

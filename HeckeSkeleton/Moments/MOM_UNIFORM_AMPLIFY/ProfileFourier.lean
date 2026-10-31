@@ -74,7 +74,7 @@ theorem iteratedDeriv_affine_exp (c b z : ℂ) (n : ℕ) (x : ℝ) :
     iteratedDeriv n (fun t : ℝ => c * Complex.exp (b + z * (t : ℂ))) x =
       c * z ^ n * Complex.exp (b + z * (x : ℂ)) := by
   have he : (fun t : ℝ => c * Complex.exp (b + z * (t : ℂ))) =
-      fun t => (c * Complex.exp b) * linearExp z t := by
+      fun t : ℝ => (c * Complex.exp b) * linearExp z t := by
     funext t
     simp only [linearExp, Complex.exp_add]
     ring
@@ -96,12 +96,11 @@ theorem mixed_parameter_derivative (Ω : ℝ → ℂ) (r s : ℕ) (a ν y : ℝ)
       Ω y * (Complex.I * (y : ℂ)) ^ s *
         Complex.exp ((ν : ℂ) * Complex.I * (y : ℂ) + (y : ℂ) * (a' : ℂ)) := by
     have he : (fun ν' : ℝ => Ω y * linearExp ((a' : ℂ) + (ν' : ℂ) * Complex.I) y) =
-        fun ν' => Ω y * Complex.exp ((a' : ℂ) * (y : ℂ) +
+        fun ν' : ℝ => Ω y * Complex.exp ((a' : ℂ) * (y : ℂ) +
           (Complex.I * (y : ℂ)) * (ν' : ℂ)) := by
       funext ν'
-      congr 2
       unfold linearExp
-      congr 1
+      congr 2
       ring
     rw [he, iteratedDeriv_affine_exp]
     congr 2
@@ -120,7 +119,8 @@ def mixedLogWindow (Ω : ℝ → ℂ) (r s : ℕ) (y : ℝ) : ℂ :=
 theorem mixedLogWindow_smooth (Ω : ℝ → ℂ) (hΩ : ContDiff ℝ ∞ Ω) (r s : ℕ) :
     ContDiff ℝ ∞ (mixedLogWindow Ω r s) := by
   unfold mixedLogWindow
-  fun_prop
+  have hy : ContDiff ℝ ∞ (fun y : ℝ => (y : ℂ)) := Complex.ofRealCLM.contDiff
+  exact ((hy.pow r).mul ((contDiff_const.mul hy).pow s)).mul hΩ
 
 theorem mixedLogWindow_compact (Ω : ℝ → ℂ) (hΩc : HasCompactSupport Ω) (r s : ℕ) :
     HasCompactSupport (mixedLogWindow Ω r s) := hΩc.mul_left
@@ -201,5 +201,54 @@ theorem scaled_compact_exp_twist_uniform_seminorm (Ω : ℝ → ℂ) (V : Schwar
       mul_le_mul (by simpa [Real.norm_eq_abs] using pow_le_pow_left₀ (abs_nonneg y) hy k)
         hb (norm_nonneg _) (pow_nonneg hL k)
     _ = _ := by ring
+
+/-- The weighted Fourier measure for the actual scaled cutoff.  The
+constant is selected before the independent nonnegative ratio R and before
+the imaginary twist.  Only the latter has a polynomial cost. -/
+theorem scaled_compact_exp_twist_uniform_fourier_moment (Ω : ℝ → ℂ)
+    (V : SchwartzMap ℝ ℂ) (hΩc : HasCompactSupport Ω) (hΩ : ContDiff ℝ ∞ Ω)
+    (H L : ℝ) (hH : 0 ≤ H) (hL : 0 ≤ L)
+    (hwindow : tsupport Ω ⊆ Set.Icc (-L) L) (J : ℕ) :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ R : ℝ, 0 ≤ R → ∀ z : ℂ, |z.re| ≤ H →
+      (∫ t : ℝ, (1 + ‖t‖) ^ J *
+        ‖(𝓕 (scaledCompactExpTwist Ω V hΩc hΩ R z)) t‖) ≤
+          C * (1 + |z.im|) ^ (J + integrationPower) := by
+  obtain ⟨C, hC, hb⟩ := scaled_compact_exp_twist_uniform_seminorm Ω V hΩc hΩ
+    H L hH hL hwindow (J + integrationPower)
+  let C' := (1 + L ^ integrationPower) * C
+  have hC' : 0 ≤ C' := by dsimp [C']; positivity
+  refine ⟨profileFourierCost J C', profileFourierCost_nonneg J hC', ?_⟩
+  intro R hR z hz
+  have hbound (j : ℕ) (hj : j ≤ J + integrationPower) :
+      SchwartzMap.seminorm ℝ 0 j (scaledCompactExpTwist Ω V hΩc hΩ R z) +
+          SchwartzMap.seminorm ℝ integrationPower j
+            (scaledCompactExpTwist Ω V hΩc hΩ R z) ≤
+        C' * (1 + |z.im|) ^ (J + integrationPower) := by
+    have h0 := hb R hR z hz 0 j hj
+    have hp := hb R hR z hz integrationPower j hj
+    simp only [pow_zero, one_mul] at h0
+    dsimp [C']
+    nlinarith
+  have h := uniform_fourier_one_plus_moment (scaledCompactExpTwist Ω V hΩc hΩ R z)
+    J (C' * (1 + |z.im|) ^ (J + integrationPower)) (by positivity) hbound
+  change _ ≤ profileFourierCost J (C' * (1 + |z.im|) ^ (J + integrationPower)) at h
+  exact h.trans_eq (profileFourierCost_mul _ _ _)
+
+/-- Fixed mixed norm-power derivatives and the independent cutoff ratio
+share the same Fourier order.  This is an application to their literal
+polynomially weighted logarithmic window. -/
+theorem scaled_mixed_parameter_uniform_fourier_moment (Ω : ℝ → ℂ)
+    (V : SchwartzMap ℝ ℂ) (hΩc : HasCompactSupport Ω) (hΩ : ContDiff ℝ ∞ Ω)
+    (H L : ℝ) (hH : 0 ≤ H) (hL : 0 ≤ L)
+    (hwindow : tsupport Ω ⊆ Set.Icc (-L) L) (r s J : ℕ) :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ R : ℝ, 0 ≤ R → ∀ z : ℂ, |z.re| ≤ H →
+      (∫ t : ℝ, (1 + ‖t‖) ^ J *
+        ‖(𝓕 (scaledCompactExpTwist (mixedLogWindow Ω r s) V
+          (mixedLogWindow_compact Ω hΩc r s)
+          (mixedLogWindow_smooth Ω hΩ r s) R z)) t‖) ≤
+          C * (1 + |z.im|) ^ (J + integrationPower) :=
+  scaled_compact_exp_twist_uniform_fourier_moment _ V
+    (mixedLogWindow_compact Ω hΩc r s) (mixedLogWindow_smooth Ω hΩ r s)
+    H L hH hL ((mixedLogWindow_support Ω r s).trans hwindow) J
 
 end HeckeSkeleton.Moments.UniformAmplify
