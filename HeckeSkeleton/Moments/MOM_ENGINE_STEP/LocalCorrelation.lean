@@ -313,8 +313,10 @@ theorem actual_unequal_prime_power_zero_of_not_six
   rw [HeckePort.Moments.Unequal.fullCorrelation_divisor_constant
     (generator C p ^ j) (generator C p ^ d) k
     (pow_ne_zero _ (generator_generates C p).1) _ _
-    (productPowerCharacter_lift_constant C p j d hj hd k),
-    localMaskedCharacter_sum_zero C p j hj hsix, star_zero, mul_zero]
+    (productPowerCharacter_lift_constant C p j d hj hd k)]
+  change productPowerCharacter C p j d _ (Ideal.Quotient.mk _ k) *
+    star (∑ y : Residue C p j, localMaskedCharacter C p j hj.ne' y) = 0
+  rw [localMaskedCharacter_sum_zero C p j hj hsix, star_zero, mul_zero]
 
 /-- A nonunit divided frequency also vanishes on the unequal-depth row. -/
 theorem actual_unequal_prime_power_zero_of_nonunit
@@ -356,9 +358,11 @@ theorem actual_unequal_prime_power_norm_le
     (productPowerCharacter C p j d (by omega)) (localMaskedCharacter C p j hj.ne')
     (productPowerCharacter_lift_constant C p j d hj hd k)
     (finiteCharacter_norm_le_one _ _) (fun y => finiteCharacter_norm_le_one _ y)
-  have hc : (Fintype.card (Residue C p j) : ℝ) = Q p ^ j := by
+  have hc : (Fintype.card (HeckePort.Moments.CommonSupport.Residue
+      (generator C p ^ j)) : ℝ) = Q p ^ j := by
+    change (Fintype.card (Residue C p j) : ℝ) = Q p ^ j
     exact_mod_cast localPrimePowerResidue_card C p j
-  simpa only [hc] using hb
+  exact hb.trans hc.le
 
 /-- The retained support of a complete unequal prime-power correlation:
 the full smaller power divides the frequency, its multiplicity is a
