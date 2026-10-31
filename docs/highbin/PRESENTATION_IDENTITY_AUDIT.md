@@ -233,7 +233,12 @@ S_i=-M_i+E_i^{\mathrm{reg}}+E_i^{(1)}+E_i^{(\geq2)}.
 Here `M_i` is `actualCompensationMainSlot`, and the three errors are the
 literal `actualRegularErrorSlot`, `actualValuationOneSlot` and
 `actualRepeatedSlot`. The region packet's slot value is
-`P^(4/25) * S_i` at one shared height point, with `P = primeScale g Z`.
+`P^(4/25) * S_i` at `actualRegionPoint`, with `P = primeScale g Z`.
+All slots of one fixed row use the same selected height point, but the
+point can depend on the row and label. This does not establish a single
+common physical point for every row of a label. A source recipe requiring
+that stronger property still needs its actual common-point and witness
+construction.
 
 On the line `Re z = 17/50`, the corresponding main term has the expected
 central prime normalization: `4/25 + 17/50 - 1 = -1/2`.

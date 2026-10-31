@@ -204,6 +204,9 @@ provider 相等式。原 `highInitialEulerControl` 直接调用 `targetTRowEuler
 - `011125ed` 的 Mellin 分组完整通过：6 个实际模块、67 个公开声明的类型及公理
   全部检查完成，额外公理集合为空。精确源哈希与下载证据见
   `verified_mellin_axioms.json`；这一结果不替代后续 Euler、范数形与边界模块的验证。
+- `357effad` 的 Fourier 分组完整通过：8 个实际模块、162 个公开声明的类型及
+  公理检查，额外公理集合为空。实际 Gauss/Fourier/Poisson、CRT、初始绝对收敛
+  的精确源绑定见 `verified_fourier_axioms.json`。后续 Euler 乘积校准仍单独验证。
 - `f1dd2fc` 的 CI 已实际编译 `ActualGeneratorPowers`、`ActualPrimePowerSymbols`、
   `ActualGaussData`、`ActualInitialAbsolute` 四个模块；这次输出中的 12 项公理检查
   仅含三项标准公理。该 Fourier job 整体仍失败，不能把它记作完整 Fourier 审计通过。

@@ -136,6 +136,33 @@ jobs:
           path: .highbin-verification/
           if-no-files-found: ignore
           include-hidden-files: true
+      # A failed downstream proof must not hide already completed native
+      # prerequisites. Consumers still validate source and import traces.
+      - name: Export completed finite Fourier dependencies
+        if: ${{ always() && !cancelled() && matrix.scope == 'fourier' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: highbin-fourier-project-objects
+          path: |
+            .lake/build/lib/lean/
+            vendor/class-field-theory/.lake/build/lib/lean/
+            .lake/packages/TauCeti/.lake/build/lib/lean/
+            .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.olean*
+            .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.ir*
+            .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.trace
+            .lake/packages/mathlib/.lake/build/lib/lean/Mathlib.hash
+            .lake/packages/mathlib/.lake/build/lib/lean/Mathlib/NumberTheory/RamificationInertia/Basic.olean*
+            .lake/packages/mathlib/.lake/build/lib/lean/Mathlib/NumberTheory/RamificationInertia/Basic.ir*
+            .lake/packages/mathlib/.lake/build/lib/lean/Mathlib/NumberTheory/RamificationInertia/Basic.trace
+            .lake/packages/mathlib/.lake/build/lib/lean/Mathlib/NumberTheory/RamificationInertia/Basic.hash
+            .lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Analysis/Meromorphic/Basic.olean*
+            .lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Analysis/Meromorphic/Basic.ir*
+            .lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Analysis/Meromorphic/Basic.trace
+            .lake/packages/mathlib/.lake/build/lib/lean/Mathlib/Analysis/Meromorphic/Basic.hash
+          if-no-files-found: ignore
+          include-hidden-files: true
+          compression-level: 3
+          retention-days: 3
       - name: Preserve completed dependency builds
         if: ${{ !cancelled() && steps.verification.outcome != 'skipped' }}
         uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25

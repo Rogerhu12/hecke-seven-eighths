@@ -29,6 +29,20 @@ downloaded CI artifacts.
 
 ## Repository changes
 
+### Current complete native frontiers
+
+The continuation branch has completed three independent public-declaration
+audits: **core 66 modules / 533 declarations**, **Mellin 6 actual modules /
+67 declarations**, and **Fourier 8 actual modules / 162 declarations**.
+Each extra-axiom map is empty; only `propext`, `Classical.choice`, and
+`Quot.sound` occur. The Mellin checkpoint is `011125ed` (run `41168616566`,
+job `124441514049`); the Fourier checkpoint is `357effad` (run `41169447315`,
+job `124444023173`). The corresponding source-bound downloaded evidence is
+in `verified_mellin_axioms.json` and `verified_fourier_axioms.json`.
+Lake replay of exact source/import traces is distinguished from new builds
+in those records. The remaining Euler, norm-form, boundary, canonical-family
+and old-presentation endpoints are still being checked.
+
 `rowEulerRegion` includes the necessary conditions
 `1 < Re(w) + 6 Re(z)` and `1 < Re(s) + 6 Re(z)`.
 The current base independently acquired the same correction in commit

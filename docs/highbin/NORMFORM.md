@@ -1,7 +1,8 @@
 # Actual HIGHBIN norm form: statements, hypotheses and verification boundary
 
 This document records the norm-form implementation on
-`codex/highbin-euler-norm-boundary-20261030`. It describes declarations in
+`codex/highbin-canonical-partitions-20261031`, continuing the original
+HIGHBIN branch. It describes declarations in
 the repository's actual arithmetic, prime-window and contour definitions.
 It does **not** certify `HeckeSkeleton.highShiftedNormForm`: the original named
 presentation and expansion identifications remain missing.
@@ -16,7 +17,7 @@ body is not, by itself, an elaborated theorem or an exact-type audit.
 | Part | Recorded result | Scope of the result |
 |---|---|---|
 | `ActualNormFormHigherPrimePowers`, `ActualNormFormMellinInversion`, `ActualNormFormPrimeDetector`, `ActualNormFormUniformMellin` | Native separate-module build and all 55 public declaration audits passed at `6e3d24ca4579aa615ef0a23769c1695cb8f4b55d`, and again at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0` | Their axiom sets contain only `propext`, `Classical.choice`, `Quot.sound`; `mellin-axioms.json` has an empty `beyond_standard_axioms` object. |
-| `ActualOrbitalRapidDecay` and the four preceding Mellin modules | Native five-module / 59-public-declaration audit passed at `c71511a569ed8b98c243b66ead8d8ec8c83d59b9` | All axiom sets contain only the three standard axioms; [verified_mellin_axioms.json](verified_mellin_axioms.json) preserves the full mapping. |
+| `ActualOrbitalRapidDecay`, `ActualAdditiveMellinRapidDecay` and the four preceding Mellin modules | Native six-module / 67-public-declaration audit passed at `011125ed7144684ad0d1a817dd21ddb5ec9c2b66`, and again at `357effad` | All axiom sets contain only the three standard axioms; [verified_mellin_axioms.json](verified_mellin_axioms.json) preserves the complete current source-bound mapping. This extends the earlier five-module / 59-declaration checkpoint at `c71511a5`. |
 | The same Mellin dependency chain, combined locally | 40 source files and 577 public declarations passed | This is additional combined-source evidence, distinct from separate-module verification. |
 | `HighNormFormScalar`, including `exists_full_normForm_parameter_budget` | The native core run at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0` compiled the file successfully; the subsequent run at `45b507f4995fe107e2e98041f91971c8c78d5860` passed all 57 modules and 442 public declaration audits | Its printed parameter-budget axiom set is the same three standard axioms. The current core run references are maintained in `REPORT.md`; this core success does not verify the deep actual norm-form chain. |
 | `HighNormFormPointwisePartition` | Native separate-module build passed on 2026-10-31 with the original imports, in 117.609 seconds; source SHA-256 `0f7dfba42ccb069d843cd585cc557dd5d7e626fbdb4cd22f617c469c808d5023` | The four printed main declarations—measurable bucket index, bucket bounds, measurable regions and exact integral decomposition—contain only the three standard axioms. This does not verify the actual arithmetic instantiation. |
