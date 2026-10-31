@@ -143,4 +143,52 @@ theorem reopenedCubeTerm_factor
     ring
   · simp only [canonicalCompletedTerm, hC, if_false, mul_zero]
 
+/-- The central normalization of a reopened cube is exactly
+`sqrt(N(b))/sqrt(X)`, before replacing its cube norm by an annular scale. -/
+theorem completedVstar_cube_normalization (u b X : ℝ)
+    (hu : 0 < u) (hb : 0 < b) (hX : 0 < X) :
+    (Real.sqrt (u * b ^ 3 / X) : ℂ) /
+        ((Real.sqrt u : ℂ) * (b : ℂ)) =
+      (Real.sqrt b : ℂ) / (Real.sqrt X : ℂ) := by
+  have hcube : Real.sqrt (b ^ 3) = b * Real.sqrt b := by
+    rw [show b ^ 3 = b ^ 2 * b by ring, Real.sqrt_mul (sq_nonneg b),
+      Real.sqrt_sq hb.le]
+  have hroot : Real.sqrt (u * b ^ 3 / X) =
+      Real.sqrt u * (b * Real.sqrt b) / Real.sqrt X := by
+    rw [Real.sqrt_div (mul_nonneg hu.le (pow_nonneg hb.le 3)),
+      Real.sqrt_mul hu.le, hcube]
+  have hsu : (Real.sqrt u : ℂ) ≠ 0 := by exact_mod_cast (Real.sqrt_pos.mpr hu).ne'
+  have hbC : (b : ℂ) ≠ 0 := by exact_mod_cast hb.ne'
+  rw [hroot, Complex.ofReal_div, Complex.ofReal_mul, Complex.ofReal_mul]
+  field_simp [hsu, hbC]
+
+/-- The literal normalized long-cube polynomial, with its common joint
+profile still present. This is the input to `CubeCompletionMellin`. -/
+theorem reopenedCubeTerm_vstar
+    (P : Ideal (𝓞 K) → Prop) (gamma : Ideal (𝓞 K) → ℂ)
+    (staticTau rowTau : Ideal (𝓞 K) →* ℂ) (d : Ideal (𝓞 K) → ℂ)
+    (W : ℝ → ℂ) (X : ℝ) (C b : Ideal (𝓞 K))
+    (hC : C ≠ ⊥) (hb : b ≠ ⊥) (hX : 0 < X) :
+    reopenedCubeCoefficient P b *
+        canonicalCompletedTerm gamma (staticTau * rowTau) d (canonicalVstar W) X (C, b) =
+      if Squarefree C then
+        (Real.sqrt (cubeIdealNorm b) : ℂ) / (Real.sqrt X : ℂ) *
+          reopenedCubeCoefficient P b * staticTau b ^ 3 * rowTau b ^ 3 *
+          gamma C * staticTau C * rowTau C * d (C * b ^ 3) *
+          W (cubeIdealNorm C * cubeIdealNorm b ^ 3 / X)
+      else 0 := by
+  by_cases hsf : Squarefree C
+  · have hs := completedVstar_cube_normalization (cubeIdealNorm C) (cubeIdealNorm b) X
+      (cubeIdealNorm_pos hC) (cubeIdealNorm_pos hb) hX
+    simp only [canonicalCompletedTerm, hsf, if_true, canonicalVstar,
+      MonoidHom.mul_apply, map_mul, map_pow]
+    calc
+      _ = ((Real.sqrt (cubeIdealNorm C * cubeIdealNorm b ^ 3 / X) : ℂ) /
+            ((Real.sqrt (cubeIdealNorm C) : ℂ) * (cubeIdealNorm b : ℂ))) *
+          (reopenedCubeCoefficient P b * staticTau b ^ 3 * rowTau b ^ 3 *
+            gamma C * staticTau C * rowTau C * d (C * b ^ 3) *
+            W (cubeIdealNorm C * cubeIdealNorm b ^ 3 / X)) := by ring
+      _ = _ := by rw [hs]; ring
+  · simp only [canonicalCompletedTerm, hsf, if_false, mul_zero]
+
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION

@@ -122,7 +122,7 @@ theorem retained_eq_sum_at (T : SecondParentProduction.Data K S σ Θ ψ)
   rw [← Finset.sum_coe_sort (SecondSourceMasks.commonMask K S D g.val).powerset]
   apply Finset.sum_congr rfl
   intro δ hδ
-  rw [← Finset.sum_coe_sort (FirstDualTruncation.sectorCutoff K S D Γ (H g.val δ.val))]; rfl
+  rw [← Finset.sum_coe_sort (FirstDualTruncation.sectorCutoff K S D Γ (H g.val δ.val))] <;> rfl
 
 include ν hΓ hallowed in
 /-- Every true fine frequency and original sector occurs once in the

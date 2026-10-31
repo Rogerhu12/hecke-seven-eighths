@@ -61,7 +61,9 @@ theorem parent_radialScale_power_le (T : FirstParentEnergy.Data K S (σ := σ)) 
       (i.1.val.val.val.absNorm : ℝ) * (i.2.1.val.val.val.absNorm : ℝ) * T.scale.val ^ 4 ≤
       4 * Z ^ (R + E + 2 * B + 4 * L) := by
     calc
-      _ ≤ 4 * Z ^ R * Z ^ E * Z ^ B * Z ^ B * (Z ^ L) ^ 4 := by gcongr
+      _ ≤ 4 * Z ^ R * Z ^ E * Z ^ B * Z ^ B * (Z ^ L) ^ 4 := by
+        have hscale : 0 ≤ T.scale.val := T.scale.property.le
+        gcongr
       _ = _ := by
         rw [← Real.rpow_natCast, ← Real.rpow_mul hZ.le]
         rw [show L * (4 : ℝ) = 4 * L by ring]

@@ -1,14 +1,62 @@
 # Canonical inverse induction: statement and dependency audit
 
-Base reviewed: `dtests-handoff` at
-`182769d49e5c184547c0949ddc328b9e7a87e6f7`.
+## Current integration boundary
 
-This audit distinguishes the finite induction in Proposition 4.10 from its
-analytic inputs and from specialization to the named expansion. The task
-explicitly permits the single-step theorem and the marked-energy theorem as
-hypotheses. A relative induction theorem is therefore an appropriate
-deliverable, provided its hypotheses describe those operations rather than
-the desired endpoint itself.
+This task is continuing from `914f13f`; the historical analysis below is
+preserved as evidence of the old relative layer, not a reason to stop.
+Maintainer comments on PR #8 authorize correcting defective skeleton
+statements while keeping the final zero-free theorem unchanged, require
+shared definitions to remain with their owners, and permit the general
+Lemma 4.8 input and the authoritative one-step theorem. Unconstructed
+upstream objects are to be identified explicitly.
+
+The actual provider is now PR #13's complete
+`CanonicalStep.exists_uniform_step`, pinned at `4ed1751`. The historical
+`fixed_triple_energy_step` boundary described below is superseded.
+`ProviderStep`, `ProviderChildParent`, `ProviderGeneratedNodes`,
+`ProviderUniformChildren` and `ProviderNodeStep` are written against the
+actual original parent and the exact generated children. Their native
+verification is still in progress. The old linear `StepEnergy` is not the
+new provider contract.
+
+The general reflected input now has explicit actual fixed-X
+`reflectedTerm` atoms, minimum-valuation charges, full cube variables,
+original masks, the paper's E_ref, and the genuine off-threshold tail.
+Its permitted analytic fields correspond to manuscript lines 2120–2155,
+particularly 2144–2148. The source reflection identity, cube completion,
+canonical conductor inequalities and terminal margins remain consumer
+proofs outside that input. PR #3's physical X=Z*q_marks normalization is
+kept distinct from the canonical fixed-X normalization.
+
+The compact independent-scale bound is now supplied by `BoundedScale`,
+using the actual unitary coefficients, zero masks and ideal count.
+`IndependentClosure` retains the complete row ball for amplification,
+then obtains the sixth-free subsum. Its eventual analytic bound must still
+come from the actual canonical recursion.
+
+### Shared source issues under coordination
+
+| Source requirement | Current interface issue | Owner and action |
+| --- | --- | --- |
+| All complete rows and independent parameters | `SourcePolynomialCalibrationFor.character` only quantifies witness rows | PR #5, comment 6546096874; use actual complete-ideal recipe calibration |
+| Moving orientation in inverse column and marks | The inverse uses `rowCharacter^direction`, while slots use `rowCharacter`; direction -1 cannot be removed by a row-independent scalar | PR #5, same comment; require the true recipe identity, with no assumed energy replacement |
+| Whole source profiles | Independent unmarked family, prime windows, mixed/local parameter control and actual evaluation box must be covered | PR #10 owns the shared profile correction and is constructing the actual recipe instance |
+| Amplification seed | The strict seed must retain complete rows before sixth-power regrouping | PR #10 coordinated; this task's new estimates keep complete rows |
+| Named actual objects | Model/expansion/Mellin construction dependencies remain transitive axiom dependencies until upstream closure | Report separately; do not erase or rename them |
+
+The manuscript basis for matching the same moving character in every
+marked inverse factor is Theorem 4.1 and its definitions, lines 1564–1607.
+The initial overlap and canonical reconstruction are lines 2550–2614.
+No new final moment inequality is introduced to repair these structural
+requirements.
+
+## Historical audit of the 914f13f relative layer
+
+The following sections refer to the earlier skeleton and provider
+revision. They are retained to explain why the old relative result alone
+did not close the requested obligation. Claims of missing operations below
+must be read with the current integration boundary above and the native
+verification status in `README.md`.
 
 ## 1. The original target's type already depends on admissions
 

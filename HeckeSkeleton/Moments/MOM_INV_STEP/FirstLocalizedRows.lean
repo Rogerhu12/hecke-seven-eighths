@@ -174,6 +174,11 @@ theorem fine_row_rpow_bound (radius X F : {r : ℝ // 0 < r})
         (Z ^ (ell + eta) * Z ^ (ell + eta)) ^ 2 * (Z ^ r) ^ 2 /
           ((Z ^ (B - eta)) ^ 2 * Z ^ (j - eta)) * Z ^ tau := by
       rw [hr, hX]
+      have hF0 : 0 ≤ F.val := F.property.le
+      have hd0 : 0 ≤ (sIntegerElementNorm K Sset (sIntegerMaskGenerator K Sset δ)).val :=
+        (sIntegerElementNorm K Sset (sIntegerMaskGenerator K Sset δ)).property.le
+      have hb₁0 : 0 ≤ height K Sset b₁ := (height_pos K Sset b₁).le
+      have hb₂0 : 0 ≤ height K Sset b₂ := (height_pos K Sset b₂).le
       gcongr
     _ = _ := hformula
     _ ≤ Z ^ (2 * eta) *

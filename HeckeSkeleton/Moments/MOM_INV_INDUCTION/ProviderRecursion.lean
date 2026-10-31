@@ -44,7 +44,7 @@ theorem provider_step_bound {E Z F M h eta tau pi eps B S : ℝ}
       Z ^ (M + 5 * h + pi))) :
     E ≤ 3 * S * B * Z ^ (F + stepLoss eta tau pi + eps) := by
   have hp := Real.rpow_le_rpow_of_exponent_le hZ
-    (provider_error_exponent_le hMF hh hmesh htau heps)
+    (provider_error_exponent_le (pi := pi) hMF hh hmesh htau heps)
   have hpow : 0 ≤ Z ^ (F + stepLoss eta tau pi + eps) :=
     Real.rpow_nonneg (zero_le_one.trans hZ) _
   apply hstep.trans

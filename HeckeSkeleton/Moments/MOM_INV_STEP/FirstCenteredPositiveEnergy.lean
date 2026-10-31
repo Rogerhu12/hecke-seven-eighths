@@ -170,7 +170,8 @@ theorem sourceEnergy_le_of_density_bound
     (hGunramified : ∀ p : HeightOneSpectrum (𝓞 K), p ∉ Sset → UnramifiedAt K G p)
     (hCX : C.base ^ C.length = X.val) (hZ : 1 < C.base) (hCW : C.cutoff = W)
     (hprime : ∀ i ∈ C.slots, ∀ p ∈ C.primeLists i, Prime p)
-    (P : Profile K S) (w : LogPlane → ℝ) (hw : Integrable w) (hw0 : ∀ η, 0 ≤ w η)
+    (P : CanonicalFirstEnergy.Profile K S) (w : LogPlane → ℝ)
+    (hw : Integrable w) (hw0 : ∀ η, 0 ≤ w η)
     (M : ℝ) (hM : 0 ≤ M) (hP : ∀ η, ‖P.density K S Γ η‖ ≤ M * w η) :
     sourceEnergy K S D Γ C G P X r₁ r₂ b₁ b₂ side f z d ξ ≤
       M * centeredEnergy K S D Γ C Θ ψ G hν hG X r₁ r₂ b₁ b₂ side centers f z d ξ W hW w := by

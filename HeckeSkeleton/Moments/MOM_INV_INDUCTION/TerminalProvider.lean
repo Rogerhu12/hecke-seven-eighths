@@ -166,6 +166,50 @@ theorem finite_reconstruction_energy {ι κ : Type*}
     _ ≤ W ^ 2 * B :=
       mul_le_mul_of_nonneg_right (pow_le_pow_left₀ hmass0 hmass 2) hB
 
+/-- The short cube completion has a row-dependent frozen character.
+Only its independent positive majorant is extracted; its zeros remain
+inside the exact reconstruction until the norm inequality is applied. -/
+theorem finite_reconstruction_energy_bounded {ι κ : Type*}
+    (blocks : Finset ι) (rows : Finset κ)
+    (coefficient : ι → κ → ℂ) (weight : ι → ℝ)
+    (piece : ι → κ → ℂ) (source : κ → ℂ)
+    {B W : ℝ} (hB : 0 ≤ B)
+    (hweight : ∀ i ∈ blocks, 0 ≤ weight i)
+    (hcoefficient : ∀ i ∈ blocks, ∀ k ∈ rows, ‖coefficient i k‖ ≤ weight i)
+    (hsource : ∀ k ∈ rows, source k = ∑ i ∈ blocks, coefficient i k * piece i k)
+    (hmass : ∑ i ∈ blocks, weight i ≤ W)
+    (henergy : ∀ i ∈ blocks, ∑ k ∈ rows, ‖piece i k‖ ^ 2 ≤ B) :
+    ∑ k ∈ rows, ‖source k‖ ^ 2 ≤ W ^ 2 * B := by
+  let mass := ∑ i ∈ blocks, weight i
+  have hmass0 : 0 ≤ mass := Finset.sum_nonneg hweight
+  have hpoint (k : κ) (hk : k ∈ rows) :
+      ‖source k‖ ^ 2 ≤ mass * ∑ i ∈ blocks, weight i * ‖piece i k‖ ^ 2 := by
+    rw [hsource k hk]
+    have hnorm : ‖∑ i ∈ blocks, coefficient i k * piece i k‖ ≤
+        ∑ i ∈ blocks, weight i * ‖piece i k‖ := by
+      apply (norm_sum_le _ _).trans
+      apply Finset.sum_le_sum
+      intro i hi
+      rw [norm_mul]
+      exact mul_le_mul_of_nonneg_right (hcoefficient i hi k hk) (norm_nonneg _)
+    apply (pow_le_pow_left₀ (norm_nonneg _) hnorm 2).trans
+    exact Finset.sum_sq_le_sum_mul_sum_of_sq_le_mul blocks hweight
+      (fun i hi => mul_nonneg (hweight i hi) (sq_nonneg _))
+      (fun i _ => le_of_eq (by ring))
+  calc
+    _ ≤ ∑ k ∈ rows, mass * ∑ i ∈ blocks, weight i * ‖piece i k‖ ^ 2 :=
+      Finset.sum_le_sum hpoint
+    _ = mass * ∑ i ∈ blocks, weight i * ∑ k ∈ rows, ‖piece i k‖ ^ 2 := by
+      rw [← Finset.mul_sum, Finset.sum_comm]
+      simp only [Finset.mul_sum]
+    _ ≤ mass * ∑ i ∈ blocks, weight i * B := by
+      apply mul_le_mul_of_nonneg_left _ hmass0
+      exact Finset.sum_le_sum (fun i hi =>
+        mul_le_mul_of_nonneg_left (henergy i hi) (hweight i hi))
+    _ = mass ^ 2 * B := by rw [← Finset.sum_mul]; dsimp only [mass]; ring
+    _ ≤ W ^ 2 * B :=
+      mul_le_mul_of_nonneg_right (pow_le_pow_left₀ hmass0 hmass 2) hB
+
 open NumberField IsDedekindDomain
 
 variable {K : Type} [Field K] [NumberField K]

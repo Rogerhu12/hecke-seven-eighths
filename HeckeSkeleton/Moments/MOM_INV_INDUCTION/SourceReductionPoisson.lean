@@ -132,6 +132,48 @@ theorem physical_polynomial_eq_sourceColumn (ν : HeckeCharacter K)
       W (idealNorm K n.val / X)) * star (idealSymbol K Sset D n a)
   ring
 
+/-- An actual `IdealTest` is extended to the complete norm envelope
+using its exact support theorem. The analytic scale and its square-root
+normalization remain the original `X`. -/
+theorem physical_test_eq_sourceColumn (ν : HeckeCharacter K)
+    (W : ConditionalMoments.IdealTest K) (u : NonzeroIdeal K) (t X : ℝ)
+    (hX : 0 < X) (hW : Function.support (W.profile u t) ⊆ Set.Iic 2)
+    (a : OS) :
+    sIntegerSexticInverseIdealPolynomial K Sset D.root6 D.primitive6 D.embedding
+        ν (W.support u t X) a X (W.profile u t) =
+      sourceColumn K S D ν (fun _ => 1) (W.profile u t) X a := by
+  rw [← physical_polynomial_eq_sourceColumn K S D ν (W.profile u t) X hX.le a]
+  unfold sIntegerSexticInverseIdealPolynomial
+  congr 1
+  apply Finset.sum_subset
+  · intro I hI
+    apply (mem_dyadicIdealSupport_iff K hX.le I).mpr
+    exact (div_le_iff₀ hX).mp (hW ((W.support_spec u t X I).mp hI))
+  · intro I hI hnot
+    have hz : W.profile u t (idealNorm K I / X) = 0 := by
+      by_contra hne
+      exact hnot ((W.support_spec u t X I).mpr hne)
+    simp only [sIntegerSexticInverseIdealTerm, hz, mul_zero]
+
+/-- The original complete-row zero-slot moment polynomial reaches the
+literal first-Poisson source through its proved finite-ray calibration.
+This theorem quantifies over every exterior row and original sector. -/
+theorem decomposed_moment_eq_sourceColumn
+    (P : HeckeGeneral.ThetaSkeleton.Physical.ProbeData K Sset)
+    (R : HeckeGeneral.ThetaSkeleton.Physical.RowCharacterInput K Sset P)
+    (ω η : HeckeCharacter K)
+    (ξ : SixthUnitClasses K Sset)
+    (W : ConditionalMoments.IdealTest K) (I : Ext) (t X : ℝ)
+    (hX : 0 < X) (hW : Function.support (W.profile I.val t) ⊆ Set.Iic 2) :
+    ConditionalMoments.inversePolynomial
+        (HeckeGeneral.ThetaSkeleton.Physical.decomposedZeroSlotMomentData
+          K Sset P R ω η ξ W) I.val X t =
+      sourceColumn K S P.arithmetic η (fun _ => 1) (W.profile I.val t) X
+        (HeckeGeneral.ThetaSkeleton.Physical.decomposedIdealSectorOrbit
+          K Sset P (I, ξ)).out.val := by
+  rw [HeckeGeneral.ThetaSkeleton.Physical.inversePolynomial_decomposedZeroSlotMomentData]
+  exact physical_test_eq_sourceColumn K S P.arithmetic η W I.val t X hX hW _
+
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]

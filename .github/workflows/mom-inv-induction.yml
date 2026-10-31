@@ -89,7 +89,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          lake --fail-fast build '${{ matrix.module }}' 2>&1 |
+          lake build '${{ matrix.module }}' 2>&1 |
             tee "$EVIDENCE_DIR/build.log"
       - name: Print and enforce the axiom allowlist
         shell: bash
