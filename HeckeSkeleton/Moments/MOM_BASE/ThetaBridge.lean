@@ -107,12 +107,13 @@ theorem canonicalCompletedTerm_eq_actual (θ : HeckeCharacter K) (m : S.integer 
         d (completedIdeal K S C B).val.val) *
       V (cubeIdealNorm C.val.val * cubeIdealNorm B.val.val ^ 3 / X)
     else 0) = _
+  have hNC : exteriorNorm K S C = cubeIdealNorm C.val.val := rfl
+  have hNB : exteriorNorm K S B = cubeIdealNorm B.val.val := rfl
+  rw [hNC, hNB]
   by_cases hc : Squarefree C.val.val <;>
     by_cases hr : IsCoprime (completedIdeal K S C B).val.val r.val.val <;>
       by_cases hQ : ∀ p ∈ Q, p.val.asIdeal ∣ (completedIdeal K S C B).val.val <;>
-        simp only [hc, hr, hQ, and_true, and_false, if_true, if_false,
-          mul_one, one_mul, mul_zero, zero_mul, zero_div]
-  ring
+        simp [hc, hr, hQ] <;> ring
 
 private theorem canonicalCompletedTerm_support_exterior (θ : HeckeCharacter K)
     (m : S.integer K) (r : Ideal (𝓞 K)) (d : Ideal (𝓞 K) → ℂ)

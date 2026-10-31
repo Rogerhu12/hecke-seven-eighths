@@ -205,7 +205,8 @@ theorem raw_mul_unit (n : ℕ) (hn : 0 < n) (u : (Quotient K c p n)ˣ)
       have hh : ((u : Quotient K c p n) * h) * x = h * ((u : Quotient K c p n) * x) := by ring
       rw [hh]
       ring
-    _ = _ := u.mulLeft.sum_comp (fun x => maskedPower C P n (n : ℤ) x * psi C P n (h * x))
+    _ = _ := Equiv.sum_comp u.mulLeft
+      (fun x => maskedPower C P n (n : ℤ) x * psi C P n (h * x))
 
 theorem normalized_mul_unit (n : ℕ) (hn : 0 < n) (u : (Quotient K c p n)ˣ)
     (h : Quotient K c p n) :
@@ -238,7 +239,7 @@ private theorem local_generator_irreducible : Irreducible (localUniformizer C P)
     change (Valued.v (uniformizer C P) : WithZero (Multiplicative ℤ)) = _
     simp only [uniformizer_valuation,
       Valuation.IsRankOneDiscrete.generator_eq_exp_neg_one_of_surjective
-        (HeightOneSpectrum.valuedAdicCompletion_surjective K P.val)]
+        (HeightOneSpectrum.valuedAdicCompletion_surjective K p.val)]
   exact (IsDiscreteValuationRing.irreducible_iff_uniformizer _).mpr hπ.is_generator
 
 /-- The actual completed integer ring maps back to the same finite quotient. -/
@@ -250,8 +251,7 @@ theorem localQuotientMap_generator (n : ℕ) :
   apply (residueEquiv C P n).injective
   change residueEquiv C P n ((residueEquiv C P n).symm
     (Ideal.Quotient.mk _ (localUniformizer C P))) = _
-  simpa only [RingEquiv.apply_symm_apply] using
-    (residueEquiv_mk C P n (generator C P)).symm
+  rw [RingEquiv.apply_symm_apply, residueEquiv_mk] <;> rfl
 
 /-- Every nonzero frequency has a derived unit-times-prime-power
 representative in its original quotient.  No valuation decomposition is
@@ -267,7 +267,8 @@ theorem nonzero_frequency_representation (n : ℕ) (h : Quotient K c p n) (hh : 
     intro hzero
     apply hh
     rw [← hz', hzero, map_zero]
-  obtain ⟨M, u, hu⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hz0
+  obtain ⟨M, u, hu⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible
+    (R := LocalIntegers P) hz0
     (local_generator_irreducible K c p)
   let v : (Quotient K c p n)ˣ := Units.map (localQuotientMap K c p n).toMonoidHom u
   have hrep : h = (v : Quotient K c p n) * generatorClass K c p n M := by
@@ -339,8 +340,8 @@ theorem frequencyOrder_support (n : ℕ) (hn : 0 < n) (h : Quotient K c p n) :
   · subst h
     have hne : n ≠ n - 1 := by omega
     simp [hne]
-  · simp only [hz, true_and]
-    exact frequencyOrder_eq_pred_iff K c p n hn h hz
+  · simpa only [ne_eq, hz, not_false_eq_true, true_and] using
+      frequencyOrder_eq_pred_iff K c p n hn h hz
 
 theorem frequencyOrder_lastLayer (n : ℕ) (hn : 0 < n) (h : Quotient K c p n) :
     n - 1 ≤ frequencyOrder K c p n h ↔ lastLayer K c p n h := by
@@ -363,15 +364,13 @@ theorem raw_generatorClass_norm (n M : ℕ) (hn : 0 < n) (h6 : ¬ 6 ∣ n) :
     ‖raw K c p n (generatorClass K c p n M)‖ =
       if M = n - 1 then primeNorm K c p ^ (n - 1) * Real.sqrt (primeNorm K c p) else 0 := by
   have h6Z : ¬ (6 : ℤ) ∣ (n : ℤ) := by exact_mod_cast h6
-  have hnormQ : ‖(primeNorm K c p : ℂ)‖ = primeNorm K c p := by
-    rw [Complex.norm_real, Real.norm_of_nonneg (primeNorm_pos K c p).le]
   have ht := norm_tau_of_not_six_dvd C P (n : ℤ) h6Z
   change ‖tau C P (n : ℤ)‖ = Real.sqrt (primeNorm K c p) at ht
   rw [raw_generatorClass K c p n M hn]
   simp only [generatorClass, T_generator_power]
   by_cases hM : M = n - 1
   · subst M
-    simp [norm_mul, norm_pow, hnormQ, ht]
+    simp [norm_pow, ht, abs_of_pos (primeNorm_pos K c p)]
   · by_cases hle : n - 1 ≤ M
     · have hne : M - (n - 1) ≠ 0 := by omega
       simp [hle, hne, h6Z, hM]
@@ -380,7 +379,7 @@ theorem raw_generatorClass_norm (n M : ℕ) (hn : 0 < n) (h6 : ¬ 6 ∣ n) :
 private theorem normalized_sqrt_ratio (q : ℝ) (hq : 0 < q) (n : ℕ) (hn : 0 < n) :
     (q ^ (n - 1) * Real.sqrt q) / Real.sqrt (q ^ n) = Real.sqrt (q ^ (n - 1)) := by
   obtain ⟨r, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hn.ne'
-  simp only [Nat.add_sub_cancel]
+  change (q ^ r * Real.sqrt q) / Real.sqrt (q ^ (r + 1)) = Real.sqrt (q ^ r)
   rw [pow_succ, Real.sqrt_mul (pow_nonneg hq.le _)]
   apply (div_eq_iff (mul_ne_zero (Real.sqrt_pos.mpr (pow_pos hq _)).ne'
     (Real.sqrt_pos.mpr hq).ne')).2
@@ -413,6 +412,7 @@ theorem raw_generatorClass_of_six_dvd (n M : ℕ) (hn : 0 < n) (h6 : 6 ∣ n) :
       simp only [hle, hnM, hne, h6Z, if_true, if_false]
       have he : n = (n - 1) + 1 := by omega
       conv_rhs => lhs; rw [he, pow_succ]
+      simp only [primeNorm]
       ring
     · have he : M - (n - 1) = 0 := by omega
       simp [hle, hnM, he, prime_tau_of_six_dvd K c p n h6]
@@ -472,7 +472,7 @@ theorem normalized_norm_original_mask (n : ℕ) (hn : 0 < n) (h6 : ¬ 6 ∣ n)
     (h : Quotient K c p n) :
     ‖normalized K c p n h‖ =
       if h ≠ 0 ∧ lastLayer K c p n h then Real.sqrt (primeNorm K c p ^ (n - 1)) else 0 := by
-  rw [normalized_norm K c p n hn h6, frequencyOrder_support K c p n hn h]
+  simp only [normalized_norm K c p n hn h6, frequencyOrder_support K c p n hn h]
 
 /-- The principal formula stated using the original quotient support masks. -/
 theorem normalized_of_six_dvd_original_mask (n : ℕ) (hn : 0 < n) (h6 : 6 ∣ n)
@@ -480,7 +480,7 @@ theorem normalized_of_six_dvd_original_mask (n : ℕ) (hn : 0 < n) (h6 : 6 ∣ n
     normalized K c p n h = (Real.sqrt (primeNorm K c p ^ n) : ℂ)⁻¹ *
       ((if h = 0 then (primeNorm K c p : ℂ) ^ n else 0) -
         (if lastLayer K c p n h then (primeNorm K c p : ℂ) ^ (n - 1) else 0)) := by
-  rw [normalized_of_six_dvd K c p n hn h6, frequencyOrder_lastLayer K c p n hn h]
+  simp only [normalized_of_six_dvd K c p n hn h6, frequencyOrder_lastLayer K c p n hn h]
 
 /-- Equation (can-local-G), nonprincipal case, for an arbitrary original
 S-integer frequency.  The two membership tests are exactly the consecutive
@@ -504,7 +504,7 @@ theorem normalized_of_six_dvd_mk (n : ℕ) (hn : 0 < n) (h6 : 6 ∣ n)
             (primeNorm K c p : ℂ) ^ n else 0) -
           (if h ∈ (p.val.asIdeal ^ (n - 1)).map (algebraMap (𝓞 K) (axiomChoice K c).A.R) then
             (primeNorm K c p : ℂ) ^ (n - 1) else 0)) := by
-  rw [normalized_of_six_dvd_original_mask K c p n hn h6,
+  simp only [normalized_of_six_dvd_original_mask K c p n hn h6,
     frequency_mk_eq_zero_iff, lastLayer_mk_iff]
 
 end HeckeSkeleton.Moments.MOM_BASE.LocalGauss

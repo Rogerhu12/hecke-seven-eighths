@@ -67,7 +67,7 @@ theorem actualFullCorrelation_zero_frequency (I J : E) :
       if I = J then (Nat.card (ThetaQuotient K S I)ˣ : ℂ) else 0 := by
   by_cases h : I = J
   · subst J
-    simp only [if_pos rfl, actualFullCorrelation_zero_diagonal]
+    simp [actualFullCorrelation_zero_diagonal]
   · rw [if_neg h, actualFullCorrelation_zero_off_diagonal K S D I J h]
 
 /-- Every common exterior ideal divides every supported frequency. -/
@@ -233,6 +233,7 @@ theorem actualFullCorrelation_unequal_common_formula
             if sIntegerSexticResidueMap K S p.val p.property k = 0
               then 0 else (p.val.asIdeal.absNorm : ℂ) - 1
            else 0)) := by
+  dsimp only
   let C := actualPrimePowerIdeal K S p b
   let n₁ := actualResidualGenerator K S D C N₁
   let n₂ := actualResidualGenerator K S D C N₂
@@ -275,7 +276,8 @@ theorem actualFullCorrelation_unequal_prime_power_formula
   have hcop : IsCoprime (actualPrimePowerIdeal K S p (a - b)).val.val
       (actualPrimePowerIdeal K S p 0).val.val := by
     change IsCoprime (p.val.asIdeal ^ (a - b)) (p.val.asIdeal ^ 0)
-    simp
+    simp only [pow_zero]
+    exact isCoprime_one_right
   have hp : p.val.asIdeal ∣ (actualPrimePowerIdeal K S p (a - b)).val.val :=
     dvd_pow_self _ (by omega)
   have hsum : b + (a - b) = a := by omega
@@ -372,6 +374,7 @@ theorem actualFullCorrelation_equal_prime_power_formula
           (if sIntegerSexticResidueMap K S p.val p.property k = 0
             then (p.val.asIdeal.absNorm : ℂ) - 1
            else if 6 ∣ a then (p.val.asIdeal.absNorm : ℂ) - 2 else -1)) := by
+  dsimp only
   letI : Field (𝓞 K ⧸ p.val.asIdeal) := Ideal.Quotient.field _
   let C := actualPrimePowerIdeal K S p a
   let U := actualPrimePowerIdeal K S p 0
@@ -381,7 +384,8 @@ theorem actualFullCorrelation_equal_prime_power_formula
   let π := sIntegerPrimePowerReduction K S p.val p.property a ha
   have hcop : IsCoprime U.val.val U.val.val := by
     change IsCoprime (p.val.asIdeal ^ 0) (p.val.asIdeal ^ 0)
-    simp
+    simp only [pow_zero]
+    exact isCoprime_one_right
   have hn : IsCoprime x x :=
     (actualResidualGenerator_isCoprime K S D C U U hcop).map (Ideal.Quotient.mk _)
   have hx : π x ≠ 0 := by
