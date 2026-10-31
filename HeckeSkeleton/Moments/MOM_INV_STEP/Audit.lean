@@ -1,0 +1,36 @@
+import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
+import HeckeSkeleton.Moments.MOM_INV_STEP.MarkPriority
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLabelFibers
+import HeckeSkeleton.Moments.MOM_INV_STEP.LocalSource
+import HeckeSkeleton.Moments.MOM_INV_STEP.LocalGauss
+import HeckeSkeleton.Moments.MOM_INV_STEP.CubeLabels
+import HeckeSkeleton.Moments.MOM_INV_STEP.SupportPartition
+import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
+
+/-! Recursive kernel-axiom audit for the canonical inverse single-step work. -/
+
+#print axioms HeckeSkeleton.Moments.MOMInvStep.physical_prefactor_identity
+#print axioms HeckeSkeleton.Moments.MOMInvStep.physical_block_scalar_budget
+#print axioms HeckeSkeleton.Moments.MOMInvStep.ChildGeometry.step
+#print axioms HeckeSkeleton.Moments.MOMInvStep.ideal_divisibility_mark_priority_list
+#print axioms HeckeSkeleton.Moments.MOMInvStep.primeMark_priority_two_columns
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FirstLabelFibers.source_energy_bound
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FixedTripleFibers.valid_tuple_card_le_separated
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FixedTripleFibers.exists_sourceTriples_normalized_mass_bound
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FixedTripleFibers.valid_label_squarefree_of_scalar_ne_zero
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FixedTripleFibers.childPuncture_mask
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CubeAlgebra.first_pass_after_dual_dilation
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.LocalDigits.finite_source_split
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.LocalGauss.active_source_fourier
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.LocalSource.actual_first_pass_after_dual_dilation
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CubeLabels.actual_cube_decomposition
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CubeLabels.s_dvd_R1
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualFiniteSource.PrimeBlock.actual_pair_source_split
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ConductorMasks.principal_source_mask_eq_coprime
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SupportPartition.primitive_product
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.LocalizedMasks.avoidanceMask_localize
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualMaskedPoissonBlock.physical_eq_transformed
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalPoissonSource.squaredRowOrbitalSeries_poisson
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalPoissonSource.inverseSquaredRowOrbitalSeries_poisson
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource.squaredRowOrbitalSeries_primitive_poisson
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource.inverseSquaredRowOrbitalSeries_primitive_poisson

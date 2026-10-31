@@ -1,0 +1,63 @@
+name: Canonical inverse single step
+
+on:
+  push:
+    branches: [cloud/mom-inv-step]
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - HeckeSkeleton/Moments/MOM_INV_STEP/**
+      - .github/workflows/mom-inv-step.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-inv-step-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      LEAN_NUM_THREADS: "1"
+      WIRE_BUILD_WORKERS: "2"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Install the pinned Lean and Mathlib environment
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "false"
+      - name: Restore source-validated project objects
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: .lake/build
+          key: mom-inv-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}-${{ github.run_id }}
+          restore-keys: |
+            mom-inv-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+            low-hybrid-exterior-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+      - name: Compile all single-step modules and check recursive axioms
+        run: python3 -u HeckeSkeleton/Moments/MOM_INV_STEP/verify.py
+      - name: Preserve validated compilation progress
+        if: ${{ !cancelled() }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: .lake/build
+          key: mom-inv-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}-${{ github.run_id }}
+      - name: Upload compiler logs, environment and axiom evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-inv-step-verification-${{ github.sha }}
+          path: ${{ runner.temp }}/mom-inv-step-verification/
+          if-no-files-found: error
+          retention-days: 14
