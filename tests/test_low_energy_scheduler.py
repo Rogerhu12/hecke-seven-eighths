@@ -5,7 +5,7 @@ verification records live in a virtual filesystem, never in repository caches.
 """
 from __future__ import annotations
 
-from contextlib import redirect_stdout
+from contextlib import ExitStack, contextmanager, redirect_stdout
 import hashlib
 import io
 import json
@@ -80,7 +80,7 @@ def sha256(data):
     return hashlib.sha256(data).hexdigest()
 
 
-class SchedulerTests(unittest.TestCase):
+class VerifierMemoryFixture(unittest.TestCase):
     MODULE_NAMES = (
         "Fail", "Blocked", "Exact", "ExactChild", "SourceChanged",
         "OutputChanged", "DependencyChanged", "LogChanged", "BadAxioms", "Cold",
@@ -103,20 +103,19 @@ class SchedulerTests(unittest.TestCase):
         self.out = self.root / "out"
         self.log = self.root / "records"
         self.seed_fixture()
-        self.preserved_outputs = {
-            name: self.output_path(name).read_bytes()
-            for name in ("Exact", "ExactChild")
-        }
-        self.run_verifier()
 
     def source_path(self, name):
         return self.root / "Fixture" / (name + ".lean")
 
-    def output_path(self, name):
-        return self.out / "Fixture" / (name + ".olean")
+    def output_path(self, name, suffix=".olean"):
+        return self.out / "Fixture" / (name + suffix)
 
     def output_hashes(self, name):
-        return {".olean": sha256(self.output_path(name).read_bytes())}
+        return {
+            suffix: sha256(self.output_path(name, suffix).read_bytes())
+            for suffix in verifier.ARTIFACT_SUFFIXES
+            if self.output_path(name, suffix).is_file()
+        }
 
     def seed_fixture(self):
         (self.root / "lean-toolchain").write_text("leanprover/lean4:v4.35.0-rc3\n")
@@ -137,7 +136,10 @@ class SchedulerTests(unittest.TestCase):
             )
             self.source_path(name).write_text(imports + "def fixture_marker : Nat := 0\n")
             if name != "Cold":
-                self.output_path(name).write_text("IN-MEMORY FIXTURE " + name)
+                for suffix in verifier.ARTIFACT_SUFFIXES:
+                    self.output_path(name, suffix).write_text(
+                        "IN-MEMORY FIXTURE " + name + suffix,
+                    )
 
         for name in self.MODULE_NAMES:
             if name in {"Fail", "Cold"}:
@@ -177,6 +179,48 @@ class SchedulerTests(unittest.TestCase):
         self.output_path("OutputChanged").write_text("changed fixture output")
         (self.log / "Fixture.LogChanged.log").write_text("changed fixture output log\n")
 
+    @contextmanager
+    def verifier_environment(self, arguments, *, compiler=None, clock=None):
+        def unexpected_compiler(*args, **kwargs):
+            self.fail("Startup failure unexpectedly reached compiler work")
+
+        printed = io.StringIO()
+        with ExitStack() as stack:
+            stack.enter_context(patch.multiple(
+                verifier, Path=MemoryPath, ROOT=self.root, OUT=self.out, LOG=self.log,
+                SOURCE_ROOTS=[self.root],
+            ))
+            self.version_check = stack.enter_context(patch.object(
+                verifier.subprocess, "check_output", return_value=self.VERSION,
+            ))
+            self.compiler = stack.enter_context(patch.object(
+                verifier.subprocess, "run", side_effect=compiler or unexpected_compiler,
+            ))
+            process_spawn = stack.enter_context(patch.object(
+                verifier.subprocess, "Popen",
+                side_effect=AssertionError("No external process is allowed in memory tests"),
+            ))
+            if clock is not None:
+                stack.enter_context(patch.object(verifier.time, "monotonic", side_effect=clock))
+            stack.enter_context(patch.dict(os.environ, {"LEAN_PATH": str(self.out)}))
+            stack.enter_context(patch.object(sys, "argv", arguments))
+            stack.enter_context(redirect_stdout(printed))
+            try:
+                yield
+            finally:
+                self.printed = printed.getvalue()
+                process_spawn.assert_not_called()
+
+
+class SchedulerTests(VerifierMemoryFixture):
+    def setUp(self):
+        super().setUp()
+        self.preserved_outputs = {
+            name: self.output_path(name).read_bytes()
+            for name in ("Exact", "ExactChild")
+        }
+        self.run_verifier()
+
     def run_verifier(self):
         clock_calls = 0
 
@@ -197,24 +241,9 @@ class SchedulerTests(unittest.TestCase):
         arguments = ["verifier-fixture", "actual", "--direct-env", "--diagnostic-seconds", "600"]
         for name in self.MODULE_NAMES:
             arguments += ["--target", "Fixture." + name]
-        printed = io.StringIO()
-        with patch.multiple(
-            verifier, Path=MemoryPath, ROOT=self.root, OUT=self.out, LOG=self.log,
-            SOURCE_ROOTS=[self.root],
-        ), patch.object(
-            verifier.subprocess, "check_output", return_value=self.VERSION,
-        ) as version_check, patch.object(
-            verifier.subprocess, "run", side_effect=fake_compiler,
-        ) as compiler, patch.object(
-            verifier.time, "monotonic", side_effect=clock,
-        ), patch.dict(
-            os.environ, {"LEAN_PATH": str(self.out)},
-        ), patch.object(sys, "argv", arguments), redirect_stdout(printed):
+        with self.verifier_environment(arguments, compiler=fake_compiler, clock=clock):
             self.exit_code = verifier.main()
 
-        self.compiler = compiler
-        self.version_check = version_check
-        self.printed = printed.getvalue()
         self.records = {
             record["module"]: record
             for record in json.loads((self.log / "actual.json").read_text())
@@ -284,6 +313,84 @@ class SchedulerTests(unittest.TestCase):
         ])
         self.assertEqual(len(self.diagnostics["skipped_modules"]), 7)
         self.assertNotIn("AXIOM GATE", self.printed)
+
+
+class StartupResetTests(VerifierMemoryFixture):
+    def setUp(self):
+        super().setUp()
+        (self.log / "actual.json").write_text(json.dumps([
+            {"module": "Fixture.StaleRound", "audit_ok": True, "round": 4},
+        ]))
+        (self.log / "actual_diagnostics.json").write_text(json.dumps({
+            "phase": "actual", "stage": "complete", "final_axiom_gate": "passed",
+            "stale_round": 4,
+        }))
+        for suffix in (".lean", ".json", ".log"):
+            (self.log / ("CompletedMarkedEnergyAudit" + suffix)).write_text(
+                "STALE FINAL AUDIT FROM AN EARLIER FIXTURE RUN" + suffix,
+            )
+        (self.log / "native_foundation.json").write_text(json.dumps({
+            "fixture_only": True, "schema": verifier.NATIVE_SCHEMA,
+            "status": "validated_native_dependencies", "modules": {"Fixture.Native": {}},
+        }))
+        (self.log / "native_foundation_validation.log").write_text(
+            "IN-MEMORY NATIVE VALIDATION FIXTURE; NO LAKE PROCESS RAN\n",
+        )
+        for suffix in verifier.ARTIFACT_SUFFIXES:
+            self.output_path("Native", suffix).write_text("IN-MEMORY NATIVE OUTPUT" + suffix)
+        (self.log / "core.json").write_text('[{"fixture_only": true, "phase": "core"}]\n')
+        (self.log / "core_diagnostics.json").write_text('{"phase": "core", "fixture_only": true}\n')
+        reset_paths = {
+            str(self.log / name) for name in (
+                "actual.json", "actual_diagnostics.json", "CompletedMarkedEnergyAudit.lean",
+                "CompletedMarkedEnergyAudit.json", "CompletedMarkedEnergyAudit.log",
+            )
+        }
+        self.preserved_cache = {
+            path: contents for path, contents in MemoryPath.files.items()
+            if path.startswith((str(self.out) + "/", str(self.log) + "/"))
+            and path not in reset_paths
+        }
+
+    def startup_arguments(self):
+        return ["verifier-fixture", "actual", "--direct-env", "--diagnostic-seconds", "600",
+                "--target", "Fixture.Startup"]
+
+    def assert_startup_reset_preserves_cache(self):
+        self.assertEqual(json.loads((self.log / "actual.json").read_text()), [])
+        diagnostics = json.loads((self.log / "actual_diagnostics.json").read_text())
+        self.assertEqual(diagnostics.get("phase"), "actual")
+        self.assertEqual(diagnostics.get("stage"), "initializing")
+        self.assertEqual(diagnostics.get("final_axiom_gate"), "not_started")
+        self.assertNotIn("stale_round", diagnostics)
+        for suffix in (".lean", ".json", ".log"):
+            self.assertFalse((self.log / ("CompletedMarkedEnergyAudit" + suffix)).is_file())
+        for path, contents in self.preserved_cache.items():
+            with self.subTest(preserved=path):
+                self.assertIn(path, MemoryPath.files)
+                self.assertEqual(MemoryPath.files[path], contents)
+        self.compiler.assert_not_called()
+        self.version_check.assert_not_called()
+        self.assertNotIn("AXIOM GATE", self.printed)
+        self.assertNotIn("PASS:", self.printed)
+
+    def test_missing_dependency_startup_clears_stale_results_and_preserves_cache(self):
+        self.source_path("Startup").write_text(
+            "import TauCeti.FixtureMissingDependency\ndef fixture_startup : Nat := 0\n",
+        )
+        with self.verifier_environment(self.startup_arguments()):
+            with self.assertRaisesRegex(
+                RuntimeError, r"Missing real source or compiled dependency: TauCeti\.FixtureMissingDependency",
+            ):
+                verifier.main()
+        self.assert_startup_reset_preserves_cache()
+
+    def test_wrong_toolchain_startup_clears_stale_results_and_preserves_cache(self):
+        (self.root / "lean-toolchain").write_text("leanprover/lean4:v4.34.0\n")
+        with self.verifier_environment(self.startup_arguments()):
+            with self.assertRaisesRegex(SystemExit, "Unexpected Lean toolchain"):
+                verifier.main()
+        self.assert_startup_reset_preserves_cache()
 
 
 if __name__ == "__main__":

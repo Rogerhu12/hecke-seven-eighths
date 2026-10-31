@@ -1,6 +1,7 @@
 module
 
 public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character
+public import Mathlib.NumberTheory.MulChar.Lemmas
 
 @[expose] public section
 

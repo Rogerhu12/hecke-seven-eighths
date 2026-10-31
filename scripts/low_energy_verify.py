@@ -217,15 +217,26 @@ def main():
     if not math.isfinite(args.diagnostic_seconds) or args.diagnostic_seconds < 0:
         ap.error('--diagnostic-seconds must be a finite nonnegative number')
     diagnostic_seconds = args.diagnostic_seconds if args.phase == 'actual' else 0.0
-    if (ROOT / 'lean-toolchain').read_text().strip() != 'leanprover/lean4:v4.35.0-rc3':
-        raise SystemExit('Unexpected Lean toolchain; refusing an incomparable audit.')
     OUT.mkdir(parents=True, exist_ok=True)
     LOG.mkdir(exist_ok=True)
+    # A dependency-resolution or toolchain error can occur before the module
+    # loop. Never let a restored aggregate masquerade as this attempt's work.
+    # Individual module receipts, logs, outputs, and native evidence stay intact.
+    attempt_context = {'github_run_id': os.environ.get('GITHUB_RUN_ID'),
+        'github_sha': os.environ.get('GITHUB_SHA'), 'requested_targets': args.target}
+    (LOG / (args.phase + '.json')).write_text('[]\n')
+    (LOG / (args.phase + '_diagnostics.json')).write_text(json.dumps({
+        'phase': args.phase, 'stage': 'initializing', **attempt_context,
+        'diagnostic_seconds': diagnostic_seconds, 'first_failure': None,
+        'failed_modules': [], 'skipped_modules': [], 'budget_exhausted': False,
+        'final_axiom_gate': 'not_started'}, indent=2) + '\n')
     if args.phase == 'actual':
         # A prior target audit must not survive an interrupted or failed replay
         # as though it belonged to the current verification attempt.
         for suffix in ('.lean', '.json', '.log'):
             (LOG / ('CompletedMarkedEnergyAudit' + suffix)).unlink(missing_ok=True)
+    if (ROOT / 'lean-toolchain').read_text().strip() != 'leanprover/lean4:v4.35.0-rc3':
+        raise SystemExit('Unexpected Lean toolchain; refusing an incomparable audit.')
     selected = CORE if args.phase == 'core' else ACTUAL
     targets = ['HeckeSkeleton.LowEnergy.' + m for m in selected]
     if args.phase == 'core':
@@ -295,7 +306,8 @@ def main():
 
     def save_diagnostics(gate_status=None):
         (LOG / (args.phase + '_diagnostics.json')).write_text(json.dumps({
-            'phase': args.phase, 'diagnostic_seconds': diagnostic_seconds,
+            'phase': args.phase, 'stage': 'module_verification', **attempt_context,
+            'diagnostic_seconds': diagnostic_seconds,
             'first_failure': failures[0] if failures else None,
             'failed_modules': failures, 'skipped_modules': skipped,
             'budget_exhausted': diagnostic_deadline is not None and

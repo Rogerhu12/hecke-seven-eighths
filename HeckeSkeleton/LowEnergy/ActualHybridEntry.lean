@@ -37,14 +37,15 @@ theorem quadraticKernel_exterior_product (hD : AllowedGeneratorInput K S D)
   rw [quadraticKernel, sexticSymbol_of_exterior K S D _ _ hk hcb]
   change idealSymbol K S D k (D.generator (exteriorMul K S c b)) ^ 3 = _
   rw [actualSymbol_mul_right K S D hD]
-  rw [(elementSymbolHom K S D k).map_mul]
+  have hmul : idealSymbol K S D k (D.generator c * D.generator b) =
+      idealSymbol K S D k (D.generator c) * idealSymbol K S D k (D.generator b) :=
+    (elementSymbolHom K S D k).map_mul _ _
+  rw [hmul]
 
 theorem cubicKernel_exterior (P c : ExteriorIdeal K S) :
     cubicKernel K S D P.val.val c.val.val =
       idealSymbol K S D P (D.generator c) ^ (-2 : ℤ) := by
-  rw [cubicKernel, sexticSymbol_of_exterior K S D _ _
-    ⟨nonZeroDivisors.coe_ne_zero P.val, P.property⟩
-    ⟨nonZeroDivisors.coe_ne_zero c.val, c.property⟩]
+  exact HeckeSkeleton.LowEnergy.ActualSieveDictionary.cubicKernel_on_exterior K S D P c
 
 theorem activeMarked_coprime_moving (d : MarkedDatum K S) (i : ReflectionIndex K S d) :
     IsCoprime d.moving.val.val (activeMarkedIdeal K S d i).val.val := by
@@ -92,7 +93,7 @@ theorem reflectedTerm_eq_hybridAtom (hD : AllowedGeneratorInput K S D)
     if_pos (fullCube_coprime_activeMarked K S d i).symm,
     quadraticKernel_exterior_product K S D hD,
     cubicKernel_exterior]
-  change _ = _
+  simp only [exteriorNorm]
   ring
 
 /-- The exact finite exterior row, with the original zeros and coefficients. -/

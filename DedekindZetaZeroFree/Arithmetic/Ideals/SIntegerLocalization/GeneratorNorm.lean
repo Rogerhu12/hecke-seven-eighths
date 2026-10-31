@@ -1,6 +1,7 @@
 module
 
 public import DedekindZetaZeroFree.Arithmetic.Ideals.SIntegerLocalization.GeneratorValuation
+public import Mathlib.NumberTheory.NumberField.ProductFormula
 
 @[expose] public section
 

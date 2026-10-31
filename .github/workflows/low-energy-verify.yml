@@ -92,6 +92,13 @@ jobs:
         run: >-
           lake --fail-fast build
           +Mathlib.Basic.Real.Sign:olean
+          +Mathlib.Analysis.SpecialFunctions.Gaussian.PoissonSummation:olean
+          +Mathlib.NumberTheory.LSeries.AbstractFuncEq:olean
+          +Mathlib.Analysis.SpecialFunctions.Stirling:olean
+          +Mathlib.NumberTheory.NumberField.ProductFormula:olean
+          +Mathlib.Analysis.Complex.RemovableSingularity:olean
+          +Mathlib.Analysis.SpecialFunctions.Gamma.Deligne:olean
+          +Mathlib.NumberTheory.MulChar.Lemmas:olean
           +TauCeti.NumberTheory.ArithmeticDirichletSeries.Prime.PrimeIdealTheorem:olean
       - name: Revalidate pinned native dependency traces
         if: matrix.phase == 'actual'

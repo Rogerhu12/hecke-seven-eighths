@@ -100,7 +100,7 @@ theorem actual_marked_tuple_energy [Finite (SixthLocalClasses K S)]
 
 [源码](../../HeckeSkeleton/LowEnergy/RawIdealHybrid.lean)
 
-**环境：** namespace HeckeSkeleton.LowEnergy.RawIdealHybrid; {K : Type} [Field K] [NumberField K].
+**环境：** namespace HeckeSkeleton.LowEnergy.RawIdealHybrid; {K : Type} [Field K] [NumberField K]; (Ext : Ideal (𝓞 K) → Prop).
 
 ```lean
 theorem raw_ideal_hybrid_energy
@@ -207,7 +207,7 @@ theorem physical_low_polynomial
 
 [源码](../../HeckeSkeleton/LowEnergy/PowerfulRowAssembly.lean)
 
-**环境：** namespace HeckeSkeleton.LowEnergy.PowerfulRowAssembly; (K : Type) [Field K] [NumberField K].
+**环境：** namespace HeckeSkeleton.LowEnergy.PowerfulRowAssembly; (K : Type*) [Field K] [NumberField K].
 
 ```lean
 theorem powerful_shell_aggregation_at_scale (L eps C0 : ℝ)

@@ -1,3 +1,6 @@
+import Mathlib.Analysis.SpecialFunctions.Gaussian.PoissonSummation
+import Mathlib.NumberTheory.LSeries.AbstractFuncEq
+import Mathlib.Analysis.SpecialFunctions.Stirling
 import FLTReuse.ExplicitMathlibImports
 import FLTReuse.M1868db956c866c8d
 namespace P2MW.S_NumberField_exists_completedDedekindZeta_package

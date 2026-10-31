@@ -246,7 +246,9 @@ theorem reflectionIndex_ext {d : MarkedDatum K S} {i j : ReflectionIndex K S d}
 
 theorem from_toCoordinates (d : MarkedDatum K S) (i : ReflectionIndex K S d) :
     fromCoordinates K S d (toCoordinates K S d i) = i := by
-  apply reflectionIndex_ext K S rfl rfl _ _ rfl rfl
+  refine reflectionIndex_ext K S
+    (i := fromCoordinates K S d (toCoordinates K S d i)) (j := i)
+    rfl rfl ?_ ?_ rfl rfl
   · have hx : supportedExterior K S i.activeFrozen (fullCubeIdeal K S d i) =
         numeratorCube K S d i := by
       apply Subtype.ext
@@ -272,8 +274,10 @@ theorem cube_fromCoordinates (d : MarkedDatum K S) (r : ReflectionCoordinates K 
 
 theorem to_fromCoordinates (d : MarkedDatum K S) (r : ReflectionCoordinates K S d) :
     toCoordinates K S d (fromCoordinates K S d r) = r := by
-  apply ReflectionCoordinates.ext K S _ rfl rfl _
-  · apply FrozenState.ext K S rfl _ rfl
+  refine ReflectionCoordinates.ext K S
+    (r := toCoordinates K S d (fromCoordinates K S d r)) (t := r) ?_ rfl rfl ?_
+  · refine FrozenState.ext K S
+      (s := toFrozenState K S d (fromCoordinates K S d r)) (t := r.state) rfl ?_ rfl
     exact minimum_fromCoordinates K S d r
   · change exteriorMul K S (numeratorCube K S d (fromCoordinates K S d r))
       (awayExterior K S r.state.active r.b) = r.b
@@ -431,7 +435,8 @@ theorem tsum_extendColumn {frozen puncture : ExteriorIdeal K S}
   have hs : Function.support g ⊆ {cb | ColumnCondition K S s cb.1 cb.2} := by
     intro cb hcb
     by_contra h
-    exact hcb (by simp [g, extendColumn, h])
+    change ¬ColumnCondition K S s cb.1 cb.2 at h
+    exact hcb (by simp only [g, extendColumn, dif_neg h])
   calc
     _ = ∑' cb : FrozenColumn K S s, g cb.val := by
       apply tsum_congr
@@ -494,7 +499,8 @@ theorem tsum_extendMarkedColumn {frozen puncture : ExteriorIdeal K S}
       {cb | IsCoprime (primeSetIdeal K S A).val.val cb.val.2.val.val} := by
     intro cb hcb
     by_contra h
-    exact hcb (by simp [g, extendMarkedColumn, h])
+    change ¬IsCoprime (primeSetIdeal K S A).val.val cb.val.2.val.val at h
+    exact hcb (by simp only [g, extendMarkedColumn, dif_neg h])
   calc
     _ = ∑' cb : MarkedColumn K S s A, g cb.val := by
       apply tsum_congr
@@ -519,5 +525,14 @@ theorem completedThetaSum_reindexed (D : ThetaArithmeticData K S)
   apply tsum_congr
   intro A
   exact tsum_extendMarkedColumn K S s A.val _
+
+#print axioms from_toCoordinates
+#print axioms to_fromCoordinates
+#print axioms reflectionSigmaEquiv
+#print axioms tsum_extendColumn
+#print axioms truncated_columns_eq_rectangle
+#print axioms tsum_reflectionSigma
+#print axioms tsum_extendMarkedColumn
+#print axioms completedThetaSum_reindexed
 
 end HeckeSkeleton.LowEnergy.ActualReflectionReindex

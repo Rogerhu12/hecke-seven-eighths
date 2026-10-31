@@ -1,6 +1,7 @@
 module
 
 public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
 
 @[expose] public section
 
