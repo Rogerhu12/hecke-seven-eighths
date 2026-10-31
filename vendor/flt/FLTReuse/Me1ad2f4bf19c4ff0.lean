@@ -1,4 +1,7 @@
-import Mathlib
+import Mathlib.NumberTheory.NumberField.AdeleRing
+import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Basic
+import Mathlib.MeasureTheory.Function.LpSeminorm.Basic
+import Mathlib.Analysis.Complex.Basic
 
 open NumberField MeasureTheory Matrix
 

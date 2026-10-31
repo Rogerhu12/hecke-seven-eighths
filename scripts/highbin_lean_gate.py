@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Keep HIGHBIN's native Lean processes within a runner's memory budget.
+"""Serialize HIGHBIN's native Lean processes with explicit resource settings.
 
 Create a temporary toolchain view whose compiler delegates to the unchanged
 pinned Lean executable under one process lock.  Lake's documented
 LAKE_OVERRIDE_LEAN/LEAN_SYSROOT mechanism selects this view.  This changes
 resource scheduling only; declarations, dependencies and compiler version
-remain unchanged.  Metadata queries do not acquire the compilation lock.
+remain unchanged. A zero memory setting preserves Lean's default without a
+language-level memory cap. Metadata queries do not acquire the compilation lock.
 """
 import argparse
 import json
@@ -20,10 +21,11 @@ def main():
     parser.add_argument('--lean', default=shutil.which('lean'))
     parser.add_argument('--directory', type=Path, required=True)
     parser.add_argument('--github-env', type=Path)
-    parser.add_argument('--memory-mib', type=int, default=6144)
+    parser.add_argument('--memory-mib', type=int, default=0,
+                        help='Per-compiler limit in MiB; 0 uses Lean default')
     args = parser.parse_args()
-    if not args.lean or args.memory_mib <= 0:
-        parser.error('a Lean executable and positive memory budget are required')
+    if not args.lean or args.memory_mib < 0:
+        parser.error('a Lean executable and nonnegative memory limit are required')
     prefix = Path(subprocess.check_output(
         [args.lean, '--print-prefix'], text=True).strip()).resolve()
     real_lean = prefix / 'bin' / 'lean'

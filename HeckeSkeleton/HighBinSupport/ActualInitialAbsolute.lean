@@ -1,4 +1,4 @@
-import HeckeGeneral.Analysis.PhysicalProbeRows
+import HeckeGeneral.Analysis.PhysicalProbeRowData
 import HeckeGeneral.Analysis.IdealSummability
 import Mathlib.Analysis.Normed.Ring.Finite
 import Mathlib.Analysis.Normed.Ring.InfiniteSum

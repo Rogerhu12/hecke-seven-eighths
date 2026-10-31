@@ -1,4 +1,8 @@
-import Mathlib
+import Mathlib.RingTheory.TensorProduct.Basic
+import Mathlib.RingTheory.TensorProduct.Free
+import Mathlib.LinearAlgebra.TensorProduct.Basis
+import Mathlib.LinearAlgebra.TensorProduct.Finiteness
+import Mathlib.Topology.Algebra.Module.ModuleTopology
 
 section
 

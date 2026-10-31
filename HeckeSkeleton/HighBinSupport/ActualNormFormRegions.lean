@@ -22,7 +22,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.HighBinContinuation HeckeSkeleton.HighBinActualEuler
 open HighBinBoundary.ActualIntegrability
-open NormFormAmplitudes NormFormAmplitudeGrid
+open NormFormAmplitudes NormFormAmplitudeGrid NormFormFullCorrection
 open scoped Classical BigOperators Topology
 
 variable (K : Type) [Field K] [NumberField K]
@@ -85,7 +85,62 @@ theorem iUnion_actualSlotRegion (P : ProbeData K S) (psi : HeckeCharacter K)
     (⋃ label, actualSlotRegion K S P psi g u Z a e H theta N label) = heightBox H :=
   NormForm.iUnion_amplitudeRegion _ _ _ _ _ _
 
-/-- One arithmetic cutoff gives measurable regions for all rows and labels. -/
+/-- The literal slot is measurable at every scale, including at zeros of
+the selected local denominator. Measurable division uses its actual
+totalized complex value and does not require a nonvanishing cutoff. -/
+theorem actualSlotHeightProfile_measurable
+    (P : ProbeData K S) (psi : HeckeCharacter K) (g : PrimeWindowGeometry)
+    (T : Finset (HeckeCharacter K)) (u : FrequencyRow K S) (Z a e : ℝ)
+    (ha : 51 / 100 ≤ a) (he : 0 < e) (i : Fin g.slots) :
+    Measurable (actualSlotHeightProfile K S P psi g T u Z a e i) := by
+  let F : (ℝ × (ℝ × ℝ)) → ℂ × ℂ × ℂ :=
+    fun q => (sLine (a + 16 * e) q, wLine (1 - a - 6 * e) q, zLine q)
+  have hF : Continuous F := (continuous_sLine _).prodMk
+    ((continuous_wLine _).prodMk continuous_zLine)
+  have hFmem : ∀ q, F q ∈ sweptTube a e := by
+    intro q
+    apply swept_contour_mem_tube he le_rfl
+    · simp [F, sLine]
+    · simp [F, wLine]
+    · norm_num [F, zLine]
+  have hlocal (Q : Finset (ExteriorPrime K S)) (p : ExteriorPrime K S) :
+      Continuous (fun q => localFactor K S P psi Q u p (F q)) :=
+    (actual_localFactor_continuousOn K S P psi Q u ha he.le p).comp_continuous hF hFmem
+  unfold actualSlotHeightProfile actualFullCorrectionSlot
+  apply Finset.measurable_fun_sum
+  intro p _hp
+  have hqC : (p.val.asIdeal.absNorm : ℂ) ≠ 0 := by
+    exact_mod_cast (lt_trans Nat.zero_lt_one (one_lt_primeIdeal_absNorm K p.val)).ne'
+  have hmarked : Continuous (fun q => slotMarkedScalar K S psi
+      (sLine (a + 16 * e) q) (zLine q) p) := by
+    unfold slotMarkedScalar
+    exact ((((continuous_sLine _).add continuous_zLine).sub_const 1).const_cpow
+      (Or.inl hqC)).const_mul _
+  have hselected : Continuous (fun q => slotSelectedScalar K S
+      (wLine (1 - a - 6 * e) q) (zLine q) p) := by
+    unfold slotSelectedScalar
+    exact ((continuous_zLine.sub (continuous_wLine _)).sub_const 1).const_cpow (Or.inl hqC)
+  have hH : Continuous (fun q => actualLocalUnmarked K S P psi u
+      (sLine (a + 16 * e) q) (wLine (1 - a - 6 * e) q) (zLine q) p) := hlocal ∅ p
+  have hM : Continuous (fun q => actualLocalMarked K S P psi u
+      (sLine (a + 16 * e) q) (wLine (1 - a - 6 * e) q) (zLine q) p) := hlocal {p} p
+  exact (((hmarked.measurable.mul hM.measurable).sub
+    (hselected.measurable.mul hH.measurable)).div hH.measurable).const_mul _
+
+/-- Computed height regions are measurable for every scale and height.
+No slot bound, detector, denominator nonvanishing or integrability is an
+input. The stronger eventual hypotheses are needed only for estimates. -/
+theorem actualSlotRegion_measurable (P : ProbeData K S) (psi : HeckeCharacter K)
+    (g : PrimeWindowGeometry) (u : FrequencyRow K S) (Z a e H theta : ℝ)
+    (N : ℕ) (label : Fin g.slots → Fin (N + 1))
+    (ha : 51 / 100 ≤ a) (he : 0 < e) :
+    MeasurableSet (actualSlotRegion K S P psi g u Z a e H theta N label) := by
+  apply NormForm.amplitudeRegion_measurable
+  · intro i
+    exact (actualSlotHeightProfile_measurable K S P psi g ∅ u Z a e ha he i).norm.const_mul _
+  · exact measurableSet_Icc.prod (measurableSet_Icc.prod measurableSet_Icc)
+
+/-- The original eventual interface is retained, now with cutoff one. -/
 theorem exists_actualSlotRegion_measurable (g : PrimeWindowGeometry)
     {e : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000) :
     ∃ Z0 : ℝ, 1 ≤ Z0 ∧ ∀ Z : ℝ, Z0 ≤ Z →
@@ -93,13 +148,9 @@ theorem exists_actualSlotRegion_measurable (g : PrimeWindowGeometry)
         (a : ℝ), 51 / 100 ≤ a → a ≤ 1 → ∀ H theta : ℝ, ∀ N : ℕ,
       ∀ label : Fin g.slots → Fin (N + 1),
         MeasurableSet (actualSlotRegion K S P psi g u Z a e H theta N label) := by
-  obtain ⟨Z0, hZ0, hcontinuous⟩ := exists_actualSlotHeightProfile_continuous K S g he he1
-  refine ⟨Z0, hZ0, ?_⟩
-  intro Z hZ P psi u a ha ha1 H theta N label
-  apply NormForm.amplitudeRegion_measurable
-  · intro i
-    exact ((hcontinuous Z hZ P psi ∅ u a ha ha1 i).norm.const_mul _).measurable
-  · exact measurableSet_Icc.prod (measurableSet_Icc.prod measurableSet_Icc)
+  refine ⟨1, le_rfl, ?_⟩
+  intro Z _hZ P psi u a ha _ha1 H theta N label
+  exact actualSlotRegion_measurable K S P psi g u Z a e H theta N label ha he
 
 /-- All upper bounds and all positive lower witnesses are obtained from
 the real full correction. No desired slot or kernel estimate is an input. -/
@@ -175,5 +226,7 @@ end HighBinVerified.NormFormRegions
 
 #print axioms HighBinVerified.NormFormRegions.actualSlotRegion_disjoint
 #print axioms HighBinVerified.NormFormRegions.iUnion_actualSlotRegion
+#print axioms HighBinVerified.NormFormRegions.actualSlotHeightProfile_measurable
+#print axioms HighBinVerified.NormFormRegions.actualSlotRegion_measurable
 #print axioms HighBinVerified.NormFormRegions.exists_actualSlotRegion_measurable
 #print axioms HighBinVerified.NormFormRegions.exists_actualSlotRegion_bounds

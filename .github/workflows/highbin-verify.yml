@@ -13,6 +13,8 @@ on:
       - 'HeckeGeneral/Analysis/PhysicalProbeData.lean'
       - 'HeckeSkeleton/ThetaKernel/TestMellin.lean'
       - 'HeckeGeneral/Analysis/PhysicalProbeRows.lean'
+      - 'HeckeGeneral/Analysis/PhysicalProbeRowData.lean'
+      - 'vendor/flt/FLTReuse/**'
       - 'HeckeGeneral/Analysis/TInputRanges.lean'
       - 'HeckeGeneral/Analysis/RowEulerRegion.lean'
       - 'scripts/highbin_verify.py'
@@ -96,14 +98,14 @@ jobs:
           include-hidden-files: true
           compression-level: 3
           retention-days: 3
-      - name: Bound native compiler memory and concurrency
+      - name: Serialize native compilers
         run: >-
           python scripts/highbin_lean_gate.py
           --directory "$RUNNER_TEMP/highbin-lean-gate"
           --github-env "$GITHUB_ENV"
       - name: Compile modules and audit public declarations
         id: verification
-        run: timeout --signal=TERM --kill-after=30s 60m python scripts/highbin_verify.py ${{ matrix.scope }}
+        run: /usr/bin/time -v timeout --signal=TERM --kill-after=30s 60m python scripts/highbin_verify.py ${{ matrix.scope }}
       - name: Preserve verification logs
         if: always()
         uses: actions/upload-artifact@v4

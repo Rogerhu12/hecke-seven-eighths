@@ -50,6 +50,40 @@ def actualRegionPiece (P : ProbeData K S₀) (psi : HeckeCharacter K)
     ∫ x in actualSlotRegion K S₀ P psi g u Z a e H theta N label,
       actualRegionKernel K S μ P psi g u Z a e x
 
+/-- At every scale and height, genuine integrability of the literal
+kernel suffices for the exact finite-label decomposition. Measurability
+of the computed regions is proved without a cutoff. This statement does
+not assert all-scale integrability or require a norm-form bound. -/
+theorem sum_actualRegionPiece_eq_rowContourBox
+    (P : ProbeData K S₀) (psi : HeckeCharacter K) (g : PrimeWindowGeometry)
+    (u : FrequencyRow K S₀) (Z a e H theta : ℝ) (N : ℕ)
+    (ha : 51 / 100 ≤ a) (he : 0 < e)
+    (hi : IntegrableOn (actualRegionKernel K S μ P psi g u Z a e) (heightBox H)) :
+    (∑ label : Fin g.slots → Fin (N + 1),
+      actualRegionPiece K S μ P psi g u Z a e H theta N label) =
+      rowContourBox K S₀ μ P psi (arithmeticHighEulerData K S₀ P psi) g ∅ u Z H
+        (a + 16 * e) (1 - a - 6 * e) (17 / 50) := by
+  let f := actualRegionKernel K S μ P psi g u Z a e
+  let region := actualSlotRegion K S₀ P psi g u Z a e H theta N
+  have hRegion (label : Fin g.slots → Fin (N + 1)) : MeasurableSet (region label) :=
+    actualSlotRegion_measurable K S₀ P psi g u Z a e H theta N label ha he
+  have hsubset (label : Fin g.slots → Fin (N + 1)) : region label ⊆ heightBox H :=
+    actualSlotRegion_subset K S₀ P psi g u Z a e H theta N label
+  have hsum : (∑ label : Fin g.slots → Fin (N + 1), ∫ x in region label, f x) =
+      ∫ x in heightBox H, f x := by
+    rw [← integral_iUnion_fintype hRegion
+      (actualSlotRegion_disjoint K S₀ P psi g u Z a e H theta N)
+      (fun label => hi.mono_set (hsubset label))]
+    rw [iUnion_actualSlotRegion]
+  have hiProd : Integrable f
+      ((volume.restrict (Icc (-H) H)).prod (twoHeightMeasure H)) := by
+    simpa only [IntegrableOn, ← NormFormIntegral.heightBoxMeasure_eq] using hi
+  change (∑ label : Fin g.slots → Fin (N + 1),
+    (2 * (Real.pi : ℂ)) ^ (-(3 : ℤ)) * ∫ x in region label, f x) = _
+  rw [← Finset.mul_sum, hsum]
+  exact (NormFormIntegral.rowContourBox_eq_heightBox_integral K S μ P psi
+    (arithmeticHighEulerData K S₀ P psi) g ∅ u Z H (a + 16 * e) (1 - a - 6 * e) hiProd).symm
+
 /-- The exact measurable pieces, their slot witnesses and their individual
 norm forms are simultaneous conclusions for the actual arithmetic data. -/
 theorem exists_actual_region_normForm
@@ -94,21 +128,17 @@ theorem exists_actual_region_normForm
           (NormForm.internalHeight Z T kappa) (a + 16 * e) (1 - a - 6 * e) (17 / 50) := by
   obtain ⟨ZB, hZB, hbounds⟩ := exists_actualSlotRegion_bounds K S₀ psi companions hcomp P g
     hcal hpsi he he1 heps heta hkappa htheta hbudget N hN
-  obtain ⟨ZM, hZM, hmeas⟩ := exists_actualSlotRegion_measurable K S₀ g he he1
   obtain ⟨C, ZK, hC, hZK, hkernel⟩ := NormFormKernel.exists_actual_kernel_normForm_of_slot_bounds
     K S μ psi companions hcomp P g he he1 heps heta hkappa htheta hnu
   obtain ⟨CI, ZI, hCI, hZI, hint⟩ := NormFormIntegral.exists_actual_rowContour_normForm
     K S μ psi companions hcomp P g hcal hpsi he he1 heps heta hkappa htheta hnu hbudget N hN
   let cpi : ℂ := (2 * (Real.pi : ℂ)) ^ (-(3 : ℤ))
-  refine ⟨8 * (‖cpi‖ + 1) * C, max ZB (max ZM (max ZK ZI)), by positivity,
+  refine ⟨8 * (‖cpi‖ + 1) * C, max ZB (max ZK ZI), by positivity,
     hZB.trans (le_max_left _ _), ?_⟩
   intro Z T hZ hT hTcap d hd hd1 u hu hu1 a ha ha1 hbelow
   have hZZB : ZB ≤ Z := (le_max_left _ _).trans hZ
-  have hZZM : ZM ≤ Z := (le_max_left _ _).trans ((le_max_right _ _).trans hZ)
-  have hZZK : ZK ≤ Z := (le_max_left _ _).trans
-    ((le_max_right _ _).trans ((le_max_right _ _).trans hZ))
-  have hZZI : ZI ≤ Z := (le_max_right _ _).trans
-    ((le_max_right _ _).trans ((le_max_right _ _).trans hZ))
+  have hZZK : ZK ≤ Z := (le_max_left _ _).trans ((le_max_right _ _).trans hZ)
+  have hZZI : ZI ≤ Z := (le_max_right _ _).trans ((le_max_right _ _).trans hZ)
   have hZ1 : 1 ≤ Z := hZB.trans hZZB
   have hZ0 : 0 < Z := zero_lt_one.trans_le hZ1
   let H : ℝ := NormForm.internalHeight Z T kappa
@@ -121,7 +151,7 @@ theorem exists_actual_region_normForm
   have hiBox : IntegrableOn f (heightBox H) := by
     simpa only [IntegrableOn, ← NormFormIntegral.heightBoxMeasure_eq] using hi
   have hRegion (label : Fin g.slots → Fin (N + 1)) : MeasurableSet (region label) :=
-    hmeas Z hZZM P psi u a ha ha1 H theta N label
+    actualSlotRegion_measurable K S₀ P psi g u Z a e H theta N label ha he
   have hsubset (label : Fin g.slots → Fin (N + 1)) : region label ⊆ heightBox H :=
     actualSlotRegion_subset K S₀ P psi g u Z a e H theta N label
   have hB (label : Fin g.slots → Fin (N + 1)) :=
@@ -165,16 +195,7 @@ theorem exists_actual_region_normForm
         congr 2
         dsimp only [b]
         ring
-  · have hsum : (∑ label : Fin g.slots → Fin (N + 1), ∫ x in region label, f x) =
-        ∫ x in heightBox H, f x := by
-      rw [← integral_iUnion_fintype hRegion
-        (actualSlotRegion_disjoint K S₀ P psi g u Z a e H theta N)
-        (fun label => hiBox.mono_set (hsubset label))]
-      rw [iUnion_actualSlotRegion]
-    change (∑ label : Fin g.slots → Fin (N + 1), cpi * ∫ x in region label, f x) = _
-    rw [← Finset.mul_sum, hsum]
-    exact (NormFormIntegral.rowContourBox_eq_heightBox_integral K S μ P psi
-      (arithmeticHighEulerData K S₀ P psi) g ∅ u Z H (a + 16 * e) (1 - a - 6 * e) hi).symm
+  · exact sum_actualRegionPiece_eq_rowContourBox K S μ P psi g u Z a e H theta N ha he hiBox
 
 /-- The exact pieces, witnesses and decomposition with the original
 quarter-lambda loss. All small parameters precede scales, rows and labels. -/
@@ -231,5 +252,6 @@ theorem exists_actual_region_normForm_quarter_loss
 
 end HighBinVerified.NormFormRegionIntegral
 
+#print axioms HighBinVerified.NormFormRegionIntegral.sum_actualRegionPiece_eq_rowContourBox
 #print axioms HighBinVerified.NormFormRegionIntegral.exists_actual_region_normForm
 #print axioms HighBinVerified.NormFormRegionIntegral.exists_actual_region_normForm_quarter_loss

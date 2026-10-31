@@ -537,6 +537,18 @@ both be nonempty. The corresponding amplitude vector and mean are
 q_\ell=\frac1J\sum_i\alpha_{\ell,i}.
 \]
 
+The declarations `actualSlotHeightProfile_measurable` and
+`actualSlotRegion_measurable` prove measurability for **every** real scale
+`Z`, height `H`, mesh `theta` and finite grid `N`, with only `51/100 ≤ a`
+and `0 < e`. There is no scale cutoff, upper bound on `a`, upper bound
+on `e`, zero detector, or nonvanishing premise. Each literal slot is a
+finite sum of quotients of continuous local factors and complex powers.
+The proof uses measurable complex division, which remains valid at the
+actual totalized value when a local denominator is zero. It does not
+claim continuity or an upper bound there. The existing
+`exists_actualSlotRegion_measurable` signature is unchanged and now uses
+the cutoff `1`.
+
 The actual arithmetic cap proves the complete-slot upper bound throughout
 each region. If an amplitude is positive, every point in that region
 also supplies its strict lower witness. In particular, all positive slot
@@ -545,7 +557,17 @@ not substituted for a simultaneous region witness.
 
 [ActualNormFormRegionIntegral.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean)
 defines `actualRegionPiece` to be exactly `(2*pi)^(-3)` times the original
-compensated kernel integrated over this computed region. Its
+compensated kernel integrated over this computed region. The separate
+`sum_actualRegionPiece_eq_rowContourBox` proves the exact sum identity
+for every `Z,H,theta,N` under `51/100 ≤ a`, `0 < e` and genuine
+`IntegrableOn` of that literal kernel on `heightBox H`. It requires no
+scale, shell, detector, arithmetic calibration, slot bound or norm bound.
+This removes the scale restriction from the finite-partition/Fubini
+argument itself; it does **not** establish integrability at every scale.
+The complete eventual theorem proves its own integrability and calls
+this exact decomposition theorem. Its original signature is unchanged.
+
+The theorem
 `exists_actual_region_normForm_quarter_loss` has the same fixed arithmetic,
 Borel and Haar inputs as the whole-box theorem, and assumes only
 `0 < e ≤ 1/10000`, `0 < lam`, and `e ≤ lam/100` before choosing
@@ -927,6 +949,27 @@ in the table. In particular, the hypotheses `FullHighEulerControl`,
 `HighPureNormPoleExclusion`, and `HighConductorDeficit` of the original
 `highShiftedNormForm` theorem do not identify arbitrary presentation
 means or pieces with the constructed full-slot labels.
+
+The original construction also has a wider quantifier range than the
+eventual norm theorem: `ActualHighPresentation` requires its support and
+sum identities for every `Z ≥ 1` and `T ≥ 1`. The new global measurable
+partition and exact sum theorem separate that structural issue from the
+norm estimate, but the exact sum theorem still requires genuine kernel
+integrability. The current complete analytic chain supplies it only
+after its large-row cutoff. `Expansion.expansion_blocks` does not fill
+this gap: it is itself an admitted obligation, applies only eventually
+with `T = Z^tau`, and its `BlockSource` shell lower bound is `1/100`,
+whereas `ActualHighPresentation.shell_range` requires `1/16`.
+
+No existing physical-probe-to-initial-row-integral identity or instantiated
+buffered-bin construction was found in this review. The source
+`TFixedBinTransferInput` explicitly leaves that initial identity open.
+The literal `rowZeroAbove` and `rowZeroBelow` both include their real
+boundary; adjacent complete zero bins can therefore overlap at a shared
+boundary zero. A future expansion construction must account for that
+when proving its total identity. The presentation does not itself demand
+disjoint block row sets, and this observation does not assert that its
+construction is impossible.
 
 ### Review of possible restricted-height label pieces
 
@@ -1347,9 +1390,57 @@ theorem exists_target_highShiftedNormForm_connection
 ```
 
 
+### `HighBinVerified.NormFormRegions.actualSlotHeightProfile_measurable`
+
+Source: [ActualNormFormRegions.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean). SHA-256: `9c311bc0844b7e007af00ddaccf2b8e7ff4721ba4c0781fc3882c535731119fc`.
+
+This uses the set/Fintype context in Section 2 and no Borel or Haar inputs. The finite ray filter `T` is arbitrary. All real scales are included, and complex division is measurable even where its denominator vanishes. This is an unelaborated source signature.
+
+```lean
+theorem actualSlotHeightProfile_measurable
+    (P : ProbeData K S) (psi : HeckeCharacter K) (g : PrimeWindowGeometry)
+    (T : Finset (HeckeCharacter K)) (u : FrequencyRow K S) (Z a e : ℝ)
+    (ha : 51 / 100 ≤ a) (he : 0 < e) (i : Fin g.slots) :
+    Measurable (actualSlotHeightProfile K S P psi g T u Z a e i)
+```
+
+
+### `HighBinVerified.NormFormRegions.actualSlotRegion_measurable`
+
+Source: [ActualNormFormRegions.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean). SHA-256: `9c311bc0844b7e007af00ddaccf2b8e7ff4721ba4c0781fc3882c535731119fc`.
+
+This uses the set/Fintype context in Section 2 and no Borel or Haar inputs. All scales, heights, meshes and finite grids are included. No slot cap or integrability assertion is a hypothesis. This is an unelaborated source signature.
+
+```lean
+theorem actualSlotRegion_measurable (P : ProbeData K S) (psi : HeckeCharacter K)
+    (g : PrimeWindowGeometry) (u : FrequencyRow K S) (Z a e H theta : ℝ)
+    (N : ℕ) (label : Fin g.slots → Fin (N + 1))
+    (ha : 51 / 100 ≤ a) (he : 0 < e) :
+    MeasurableSet (actualSlotRegion K S P psi g u Z a e H theta N label)
+```
+
+
+### `HighBinVerified.NormFormRegionIntegral.sum_actualRegionPiece_eq_rowContourBox`
+
+Source: [ActualNormFormRegionIntegral.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean). SHA-256: `0ecd715ec1c608f87e5667775d5a7e6783fdf63ba7adfe56494723efdf8c3794`.
+
+This uses the finite-set/Borel/Haar context in Section 2. Its only analytic premise is genuine integrability of the literal kernel on the literal height box. It establishes the exact finite sum without assuming a norm bound or asserting all-scale integrability. This is an unelaborated source signature.
+
+```lean
+theorem sum_actualRegionPiece_eq_rowContourBox
+    (P : ProbeData K S₀) (psi : HeckeCharacter K) (g : PrimeWindowGeometry)
+    (u : FrequencyRow K S₀) (Z a e H theta : ℝ) (N : ℕ)
+    (ha : 51 / 100 ≤ a) (he : 0 < e)
+    (hi : IntegrableOn (actualRegionKernel K S μ P psi g u Z a e) (heightBox H)) :
+    (∑ label : Fin g.slots → Fin (N + 1),
+      actualRegionPiece K S μ P psi g u Z a e H theta N label) =
+      rowContourBox K S₀ μ P psi (arithmeticHighEulerData K S₀ P psi) g ∅ u Z H
+        (a + 16 * e) (1 - a - 6 * e) (17 / 50)
+```
+
 ### `HighBinVerified.NormFormRegionIntegral.exists_actual_region_normForm_quarter_loss`
 
-Source: [ActualNormFormRegionIntegral.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean). SHA-256: `b9c9da41daf9ce3144d835a517e45e1d69204bca95cc07afd62a69a8cf049028`.
+Source: [ActualNormFormRegionIntegral.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean). SHA-256: `0ecd715ec1c608f87e5667775d5a7e6783fdf63ba7adfe56494723efdf8c3794`.
 
 This uses the finite-set/Borel/Haar context in Section 2. `actualSlotRegion`, `actualRegionMean` and `actualRegionPiece` are the computed objects from Section 6. `ActualRegionSlotBounds` is an output proposition containing the actual slot upper bounds and same-point strict lower witnesses. This is an unelaborated source signature.
 

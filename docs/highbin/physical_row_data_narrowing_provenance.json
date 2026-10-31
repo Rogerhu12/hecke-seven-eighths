@@ -1,0 +1,49 @@
+{
+  "reason": "Move the original row definitions without changing names, statements or proof bodies, so the actual finite Fourier branch need not import unrelated principal/Fourier-continuation definitions. The original PhysicalProbeRows entry point retains its old principal dependency and re-exports every row definition.",
+  "original_module": "HeckeGeneral.Analysis.PhysicalProbeRows",
+  "new_definition_module": "HeckeGeneral.Analysis.PhysicalProbeRowData",
+  "original_source_sha256": "12b4d83279a111a7a3a9a07ce1d10fdc76fd4cacaf9111fa08daffef51073d13",
+  "new_definition_source_sha256": "a7ca14e404b1d2903f66eb1bac26d0fd539d938328338989f889fe378c7a7921",
+  "compatibility_entry_source_sha256": "0be19d623e32c4aaac0ae8baf3209a9640f99ddf85f5d019efbfc6eb3e688b51",
+  "declaration_region_sha256": "8a498a20af1f973b0860739a6c24e7b29de8ce11769401915b30f3bdecd75fb3",
+  "declaration_region_byte_identical": true,
+  "public_declarations": [
+    "FrequencyRow",
+    "frequencyRowNorm",
+    "frequencyRowElement",
+    "principalFrequencyRow",
+    "frequencyRows",
+    "poissonFrequency",
+    "finitePoissonFactor",
+    "FourIdealIndex",
+    "initialRowEulerTerm",
+    "initialRowEulerSeries",
+    "RowCharacterInput"
+  ],
+  "actual_initial_absolute": {
+    "path": "HeckeSkeleton/HighBinSupport/ActualInitialAbsolute.lean",
+    "old_source_sha256": "6df4d57cd501666b9b3ddb689ebe0d3fa795cd9632d86c366a4c34434085c646",
+    "new_source_sha256": "591403e856ead4b75f510c094a245e954b52dec3e215811097c7752bf5968dc9",
+    "declaration_region_sha256": "5b12739d777e307dfdac2cba97bf6e6be5639e04619355bcea3f9c493c085f80",
+    "declaration_region_byte_identical": true
+  },
+  "validation": "pending native check; source-level identity and import closure are checked separately",
+  "mathlib_revision": "0493595ecd5da8ef14742febab99728f98e948e8",
+  "toolchain": "leanprover/lean4:v4.35.0-rc3",
+  "fourier_source_closure_check": {
+    "targets": [
+      "HeckeSkeleton.HighBinSupport.ActualGeneratorPowers",
+      "HeckeSkeleton.HighBinSupport.ActualPrimePowerSymbols",
+      "HeckeSkeleton.HighBinSupport.ActualGaussData",
+      "HeckeSkeleton.HighBinSupport.ActualGaussSigns",
+      "HeckeSkeleton.HighBinSupport.ActualInitialAbsolute",
+      "HeckeSkeleton.HighBinSupport.ActualPrimePowerGauss",
+      "HeckeSkeleton.HighBinSupport.ActualFinitePoisson",
+      "HeckeSkeleton.HighBinSupport.ActualEulerCRT"
+    ],
+    "project_module_count": 223,
+    "direct_Mathlib_umbrella_modules": [],
+    "unresolved_project_imports": [],
+    "source_tree_sha256": "8e615f9b975ffa275fc29ac50dfd467a982cdee85674d1ff627bc8e60aab6ed9"
+  }
+}

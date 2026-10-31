@@ -42,9 +42,21 @@ without importing unrelated arithmetic constructions.
 `rowEulerRegion` also moves verbatim into its own module, reexported by
 `TInputRanges`; this permits its analytic estimates to be checked without
 the arithmetic dependency chain.
-All 12 moved declarations were compared against the pinned current base;
+The 12 earlier moved declarations were compared against the pinned current base;
 their declaration text is unchanged after ignoring comments and whitespace.
 The result is recorded in [definition_moves.json](definition_moves.json).
+
+The eleven original row definitions now live in `PhysicalProbeRowData`.
+`PhysicalProbeRows` retains its original principal dependency and reexports
+the row definitions. Their complete declaration region is byte-identical;
+`ActualInitialAbsolute` changes only its import to the lighter module. Ten
+FLT reuse sources also replace the whole `Mathlib` import with explicit
+submodules while retaining their declaration/proof bodies byte-for-byte.
+The eight Fourier targets now have a resolved 223-project-module source
+closure with no `import Mathlib` umbrella. This is a dependency check, not
+a compilation-success claim. The comparisons are recorded in
+[physical_row_data_narrowing_provenance.json](physical_row_data_narrowing_provenance.json)
+and [flt_import_narrowing_provenance.json](flt_import_narrowing_provenance.json).
 
 `HighBin.lean` now imports the actual regular-prime adapter and proves the
 regular branch's error estimate and joint analyticity on an open tube around
@@ -175,21 +187,24 @@ Its successful core and Mellin jobs are independently recorded above.
 
 The 2026-10-31 continuation repairs these namespace and notation errors,
 including the same declaration pattern in downstream boundary/norm files.
-A temporary compiler view now delegates to the unchanged pinned Lean executable
-under a process lock and a 6144 MiB memory limit. The initial 4096 MiB
-limit caused concrete Lean `memory_exception` failures in the actual dependency
-imports at `aac85417`: `SLocalFiniteFourier`, `ThetaPrimeGaussNorm`,
-`PrimeCalibrationIdealAssembly`, `PrincipalGeneratorCalibration`, and
-`ActualInitialAbsolute`. These Mellin/Fourier jobs did not complete their proof
-audits. The wrapper now removes competing Lake thread/memory flags before
-applying `-j1 -M6144`, including the `-Dmax_memory` spelling; it preserves
-arguments after `--` and the program arguments of `--run`/`-r`. Eight
-argument-forwarding and exit-code cases passed, and its compiler metadata
-matches the pinned Lean.
-The previous wrapper had also compiled a native Lake smoke check. The new
-resource setting still needs the next CI run to establish its effect. Restored native project objects are uploaded before
-the expensive actual build so an interrupted runner cannot lose that checkpoint.
-Neither scheduling nor cache preservation substitutes for proof verification.
+A temporary compiler view delegates to the unchanged pinned Lean executable
+under a process lock with one compiler thread. The first 4096 MiB language-level
+limit failed with concrete Lean `memory_exception` diagnostics in
+`SLocalFiniteFourier`, `ThetaPrimeGaussNorm`, `PrimeCalibrationIdealAssembly`,
+`PrincipalGeneratorCalibration`, and `ActualInitialAbsolute`. A 6144 MiB retry
+at `5e29c2b` failed in the same dependencies, while the 60-module core audit
+passed again. Neither failed scope completed its expanded proof audit.
+
+CI now retains the single-process/thread scheduling and restores Lean's default
+memory behavior with `-M0`. GNU time records the build's peak resident memory.
+This removes the newly introduced language-level threshold; the next native
+run must establish whether the complete actual dependencies fit the runner.
+The wrapper removes competing standard Lake resource flags, including
+`-Dmax_memory`, and preserves arguments after `--` and `--run`/`-r`.
+Argument forwarding and exit-code checks passed, and compiler metadata
+matches the pinned Lean. Restored native project objects are uploaded before
+the expensive actual build. Scheduling and cache preservation do not replace
+proof verification.
 
 The next run at `1ce7b23c`, run `41155873176`, failed in all four scopes
 before any build step started. The unrelated Theta workflow at the same
@@ -205,7 +220,7 @@ independently.
 
 The renewed work window is 2026-10-31 09:15:12–12:15:12 (UTC+8).
 The current source inventory contains **60 core modules / 459 declarations**,
-**64 actual modules / 701 declarations**, **6 Mellin modules / 67 declarations**,
+**64 actual modules / 704 declarations**, **6 Mellin modules / 67 declarations**,
 and **8 Fourier modules / 160 declarations**. Mellin and Fourier are subsets
 of the actual inventory; their counts must not be added to it. Core has passed
 the native audit above; the other expanded counts remain source inventories.
@@ -231,6 +246,15 @@ bounds, and recovers the original full row integral by summing the pieces.
 These actual constructions still need native verification and identification
 with the original opaque presentation's labelled means and `shiftedPiece`.
 They do not provide an arbitrary whole-row identity for each existing label.
+
+Three additional source theorems remove an unnecessary scale restriction from
+the structural decomposition. The actual slot profiles and regions are
+measurable for every real scale/height, using measurable complex division even
+at zero denominators. The exact finite sum of restricted pieces equals the
+original contour whenever its literal kernel is integrable on the literal
+height box. No norm bound is assumed for this identity. The earlier eventual
+norm theorem reuses it. These additions still need native verification;
+full-range integrability and the named expansion construction remain open.
 
 `ActualNormFormRegionPacket` turns the nonempty regions into the repository's
 actual amplitude-set and moderate-block objects. Its positive-amplitude
@@ -264,16 +288,15 @@ premise for the older provider. These actual adapters are source candidates
 pending native verification; the two pure analytic checks do not verify them.
 
 A genuine same-repository CI cache was found locally with exact module-level
-source hashes, object hashes and artifact provenance. Of its 4433 modules,
-1509 match the current local sources and 2914 more match both their recorded
-source hashes and the already-fetched remote Git tree. Ten source differences
-are excluded from reuse and are scheduled for recompilation. Borrowed
-objects are checked before use and accessed through read-only links; outputs
-go to a separate task directory. The explicit Mathlib submodule imports have
-a 3724-module cached closure. A further preflight found ten FLT reuse files
-that import the entire `Mathlib` umbrella; resolving that larger dependency
-remains part of the actual native setup. These checks establish dependency
-provenance, not success of any uncompiled HIGHBIN source.
+source hashes, object hashes and artifact provenance. Its original 4433 records
+were compared against local sources or the fetched remote Git tree: 4423 matched
+that snapshot and ten changed sources were excluded. Subsequent import changes
+also invalidate their dependent parents. The stricter local native plan for
+`ActualGaussData` now schedules 64 recompilations and checks 124 unchanged cloud
+records, binding reuse to recursive source/object fingerprints and every native
+sidecar. Old records containing only a module's source and main object hash are
+not promoted to full verified-cache records. The new plan is still running.
+These checks establish dependency provenance, not success of uncompiled source.
 
 The merged upstream updates add GramAssemblyInputs and the Theta local wiring,
 and update WORK_LEDGER. Their changes do not alter the HIGHBIN, expansion,

@@ -72,7 +72,7 @@ prime ideal norm. There are no new free local Gauss coefficients or row
 character hypotheses in the constructed data.
 
 The original
-[initialRowEulerTerm](../../HeckeGeneral/Analysis/PhysicalProbeRows.lean)
+[initialRowEulerTerm](../../HeckeGeneral/Analysis/PhysicalProbeRowData.lean)
 is indexed by the four exterior ideals `(c, n, den, r)`. It retains:
 
 * The squarefree condition on `c` and the whole-index mark on `A = c * n^3`.
