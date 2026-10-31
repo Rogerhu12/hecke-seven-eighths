@@ -135,7 +135,8 @@ theorem actual_marks_expansion (aold : Fin Jo → Ideal (𝓞 K) → ℂ)
         v a.val.1.1 a.val.1.2 * scalar B oldLists newLists aold anew a := by
   change _ = ∑ a : ↥(rawChoices B oldLists newLists),
     v a.val.1.1 a.val.1.2 * (pairedWeight aold a.val.2.1 * pairedWeight anew a.val.2.2)
-  rw [Finset.sum_coe_sort]
+  rw [Finset.sum_coe_sort (rawChoices B oldLists newLists)
+    (fun a => v a.1.1 a.1.2 * (pairedWeight aold a.2.1 * pairedWeight anew a.2.2))]
   simp only [rawChoices, Finset.sum_product]
   apply Finset.sum_congr rfl
   intro d₁ hd₁

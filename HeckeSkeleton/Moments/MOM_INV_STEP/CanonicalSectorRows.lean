@@ -37,7 +37,7 @@ def sectorCharacter (n I : Ext) (ξ : Sector) : ℂ :=
 theorem sectorCharacter_eq (n I : Ext) (ξ : Sector) :
     sectorCharacter K S Γ D n I ξ =
       idealSymbol K Sset D n
-        (Sset.unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val *
+        ((Sset).unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val *
         idealSymbol K Sset D n (D.generator I) := by
   exact CanonicalPoissonSource.idealSymbol_mul K S D n _ _
 
@@ -88,7 +88,7 @@ theorem first_label_absorb (n f E h : Ext) (ξ : Sector) :
       CanonicalIdealRow.generator_ofExterior] using hb
   have he := congrArg (fun z : ℂ =>
     star (idealSymbol K Sset D n
-      (Sset.unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val) * z) hb'
+      ((Sset).unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val) * z) hb'
   simp only [sectorCharacter_eq, firstRowIdeal,
     generator_mul_character K S D hallowed, star_mul, star_pow] at he ⊢
   convert he using 1 <;> ring

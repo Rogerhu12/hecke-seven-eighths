@@ -83,6 +83,7 @@ theorem literal_child_expansion
   apply Finset.sum_congr rfl
   intro n hn
   rw [star_sum, Finset.mul_sum]
+  rfl
 
 /-- The literal second-pass canonical source is bounded by the two
 canonical child energies. The reconstruction multiplicity and the

@@ -105,8 +105,8 @@ theorem primitiveQuotientFunction_mk (B : PrimeBlock K Sset)
   apply Finset.prod_congr rfl
   intro p _hp
   by_cases ht : t p.val ≠ 0
-  · simp only [ht, dif_pos, if_pos, sexticIdealPrimeQuotientMap_mk] <;> rfl
-  · simp only [ht, dif_neg, if_neg]
+  · rw [dif_pos ht, if_pos ht, sexticIdealPrimeQuotientMap_mk] <;> rfl
+  · rw [dif_neg ht, if_neg ht]
 
 /-- Transport only across the proved equation span(c)=primitiveIdeal.map. -/
 def primitiveCoefficient (B : PrimeBlock K Sset)
@@ -122,7 +122,9 @@ def primitiveCoefficient (B : PrimeBlock K Sset)
         (sexticResidueCharacter K D.root6 D.primitive6 D.embedding p.val
           (B.awaySix p.val p.property) ^ (t p.val).val)
           (sIntegerSexticResidueMap K Sset p.val (B.outside p.val p.property) a) := by
-  simp only [primitiveCoefficient, Ideal.quotEquivOfEq_mk, primitiveQuotientFunction_mk]
+  unfold primitiveCoefficient
+  rw [Ideal.quotEquivOfEq_mk]
+  exact primitiveQuotientFunction_mk K S D B t a
 
 variable (Γ : Subgroup (((S : Set (HeightOneSpectrum (𝓞 K)))).unit K))
 variable (hΓ : Γ ≤ (powMonoidHom 6 : ((S : Set (HeightOneSpectrum (𝓞 K)))).unit K →* ((S : Set (HeightOneSpectrum (𝓞 K)))).unit K).range)
@@ -267,7 +269,8 @@ theorem pair_source_factorization (n₁ n₂ b₁ b₂ : ExteriorIdeal K Sset)
       ((mem_pairSupport K S D n₁ n₂ b₁ b₂ p.val).mp p.property)) a.val
   rw [CanonicalPoissonSource.pairCoefficient_mk_cubeNumerator,
     principalMask_mk, primitiveCoefficient_mk]
-  simpa only [B, PrimeBlock.idealRow, idealSymbol, pairExponent, Complex.star_def] using hs
+  dsimp only [B, PrimeBlock.idealRow, idealSymbol, pairExponent, Complex.star_def] at hs ⊢
+  convert hs using 1 <;> rfl
 
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] [Γ.FiniteIndex]

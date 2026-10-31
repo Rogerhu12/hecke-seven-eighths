@@ -45,6 +45,12 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCanonicalLabel
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualInverseFactors
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCrossLabels
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualMarkChoices
+import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalDiagonal
+import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalCounting
+import HeckeSkeleton.Moments.MOM_INV_STEP.LogLatticeCounting
+import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitLogCounting
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstInversePoisson
+import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss
 
 /-! Recursive kernel-axiom audit for the canonical inverse single-step work. -/
 
@@ -176,3 +182,16 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.ActualMarkChoices
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualMarkChoices.signed_source_reindex
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualMarkChoices.scalar_norm_le_one
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualMarkChoices.actual_marks_expansion
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalDiagonal.principal_source_diagonal
+#print axioms HeckeSkeleton.Moments.MOMInvStep.PrincipalCounting.exists_squarePairs_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.LogLatticeCounting.lattice_card_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.LogLatticeCounting.unit_log_fiber_card_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.LogLatticeCounting.ordinary_unit_log_count
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SUnitLogCounting.sunit_log_box_count
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstInversePoisson.orbitColumn_rowOrbit
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstInversePoisson.weightedEnergy_eq_sector_sum
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstInversePoisson.genuine_second_poisson
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss.primitive_conductor
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss.principal_mask
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss.genuine_second_gauss
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss.inverse_pair_returns_canonical

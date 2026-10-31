@@ -130,7 +130,8 @@ theorem radical_val (b₁ b₂ : Ext) :
   change (radical K S b₁ b₂).val.val = (b₁.val * b₂.val).val.radical
   rw [FirstSourceDecomposition.radical_eq_primeProduct (b₁.val * b₂.val)]
   simpa only [radical, cubeRadical, primeProduct, pow_one,
-    IdealMobiusMask.primeProduct] using product_value K S b₁ b₂ (fun _ => 1)
+    IdealMobiusMask.primeProduct, CubeLabels.cubePrimeSupport,
+    FirstSourceDecomposition.primeSupport] using product_value K S b₁ b₂ (fun _ => 1)
 
 /-- The chosen-generator labels reconstruct the original cube ideals,
 and their underlying arithmetic identity is the already proved one. -/
