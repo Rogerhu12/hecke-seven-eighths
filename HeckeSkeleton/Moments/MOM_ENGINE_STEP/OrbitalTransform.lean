@@ -115,6 +115,7 @@ variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
 
 include ν μ in
 set_option Elab.async false in
+set_option maxHeartbeats 1600000 in
 /-- Either engine transform, on the actual whole nonnegative row norm. -/
 theorem whole_masked_orbital_poisson {ι : Type*}
     (hmodulus : modulus ≠ 0)
@@ -132,7 +133,11 @@ theorem whole_masked_orbital_poisson {ι : Type*}
     (M : Finset (HeightOneSpectrum OS)) (r : {r : ℝ // 0 < r}) :
     let f := wholeResidueEnergy columns c G
     let hf := fun (u : Γ) (a : OS) =>
-      wholeResidueEnergy_congr columns c G _ _ (fun i hi => hinv i hi u a)
+      wholeResidueEnergy_congr columns c G
+        (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS))
+          (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a))
+        (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS)) a)
+        (fun i hi => hinv i hi u a)
     sIntegerWeightedOrbitalSeries K S Γ φ (sIntegerFiniteTestFunction K S h) r
         (fun q => sIntegerOrbitAvoidanceMask K _ Γ M q *
           sIntegerPeriodicOrbitWeight K _ Γ modulus f hf q) =
@@ -152,7 +157,11 @@ theorem whole_masked_orbital_poisson {ι : Type*}
   dsimp only
   exact sIntegerMaskedPeriodicOrbitalPoisson K S Γ modulus hmodulus hS ν μv μ
     φ h hlc hcs M (wholeResidueEnergy columns c G)
-    (fun u a => wholeResidueEnergy_congr columns c G _ _ (fun i hi => hinv i hi u a)) r
+    (fun u a => wholeResidueEnergy_congr columns c G
+        (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS))
+          (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a))
+        (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS)) a)
+        (fun i hi => hinv i hi u a)) r
 
 include ν μ in
 /-- A common dual cutoff for the entire squared polynomial, with actual
@@ -177,7 +186,11 @@ theorem exists_whole_masked_orbital_truncation
       ∀ r : {r : ℝ // 0 < r}, ∀ φ : SchwartzMap V ℂ, ∀ X : ℝ, 1 ≤ X →
         let f := wholeResidueEnergy columns c G
         let hf := fun (u : Γ) (a : OS) =>
-          wholeResidueEnergy_congr columns c G _ _ (fun i hi => hinv i hi u a)
+          wholeResidueEnergy_congr columns c G
+            (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS))
+              (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a))
+            (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS)) a)
+            (fun i hi => hinv i hi u a)
         ‖sIntegerWeightedOrbitalSeries K S Γ φ (sIntegerFiniteTestFunction K S h) r
             (fun q => sIntegerOrbitAvoidanceMask K _ Γ M q *
               sIntegerPeriodicOrbitWeight K _ Γ modulus f hf q) -
@@ -190,7 +203,11 @@ theorem exists_whole_masked_orbital_truncation
   refine ⟨seminorms, C, hC, ?_⟩
   intro M modulus hmodulus ι columns c G hinv r φ X hX
   exact (hbound M modulus hmodulus (wholeResidueEnergy columns c G)
-    (fun u a => wholeResidueEnergy_congr columns c G _ _ (fun i hi => hinv i hi u a))
+    (fun u a => wholeResidueEnergy_congr columns c G
+        (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS))
+          (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a))
+        (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS)) a)
+        (fun i hi => hinv i hi u a))
     r φ X hX).2
 
 end HeckeSkeleton.Moments.EngineStep

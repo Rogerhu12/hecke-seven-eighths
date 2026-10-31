@@ -147,7 +147,7 @@ theorem parent_orbital_source_bound {ω ψ₀ : HeckeCharacter K}
     ring
   have hre (q : Q) : (T q).re =
       (sIntegerOrbitAvoidanceMask K _ Γ M q).re * cal.weight q * ‖P q‖ ^ 2 := by
-    rw [hgram, Complex.star_def, Complex.mul_conj']
+    rw [hgram, Complex.star_def, Complex.mul_conj', ← Complex.ofReal_pow]
     rcases sIntegerOrbitAvoidanceMask_zero_or_one K _ Γ M q with h | h <;>
       simp [h]
   have hnonneg (q : Q) : 0 ≤ (T q).re := by
@@ -197,8 +197,6 @@ theorem parent_orbital_source_bound {ω ψ₀ : HeckeCharacter K}
       mul_le_mul_of_nonneg_left
         (hsumre.sum_le_tsum imageRows (fun q hq => hnonneg q)) (Nat.cast_nonneg _)
     _ = _ := by rw [← Complex.re_tsum hsum, htotal]
-
-section Poisson
 
 variable [IsPrincipalIdealRing OS]
 variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
@@ -265,8 +263,6 @@ theorem parent_first_orbital_transform {ω ψ₀ : HeckeCharacter K}
   have hrewrite (i j : ι) := ParentPeriodicPair.maskedSeries_eq_firstTransform
     ν μv μ (pairs i j) hS h hlc hcs M r
   simpa only [hrewrite] using hsource
-
-end Poisson
 
 end HeckeSkeleton.Moments.EngineStep
 

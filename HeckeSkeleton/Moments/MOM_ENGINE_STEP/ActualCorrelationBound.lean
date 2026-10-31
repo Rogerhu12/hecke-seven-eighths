@@ -112,8 +112,10 @@ theorem generatedIdealCharacter_prime_power
   apply MulChar.ext'
   intro z
   obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective z
-  rw [generatedIdealCharacter_mk, actual_sextic_prime_power,
-    localMaskedCharacter_mk, MulChar.pow_apply' _ hn]
+  rw [generatedIdealCharacter_mk, actual_sextic_prime_power]
+  change σ (A.sexticResidue (primeIdeal p) x) ^ n =
+    (chi (σ := σ) p ^ n) (Ideal.Quotient.mk (A.extendIdeal (primeIdeal p)) x)
+  rw [MulChar.pow_apply' _ hn]
   congr 1
   have hb := generatedIdealCharacter_mk (σ := σ) (primeIdeal p)
     (generator C p) (generator_generates C p) x
@@ -381,6 +383,7 @@ theorem unitFrequencyRadical_dvd_gcd (C : A.GeneralArithmeticContext σ η hS)
     change (if unitFrequencySaving C (p i) (m i) (n i) h then 1 else 0) ≤ min (m i) (n i)
     split_ifs with hs
     · rw [hs.1, min_self]
+      apply Nat.succ_le_iff.mpr
       simpa only [hs.1] using hm i
     · exact Nat.zero_le _
   · exact primePowerProduct_min_dvd_gcd p m n
