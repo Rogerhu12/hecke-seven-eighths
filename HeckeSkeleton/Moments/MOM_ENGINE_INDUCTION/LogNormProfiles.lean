@@ -41,6 +41,39 @@ theorem profilePower_logNorm (ξ y : ℝ) :
   congr 1
   ring
 
+@[simp] theorem logNormPhase_norm (ξ y : ℝ) : ‖logNormPhase ξ y‖ = 1 :=
+  Circle.norm_coe _
+
+/-- Pure imaginary powers preserve the exact profile supremum used in the
+absolute width-floor estimate, for arbitrary Fourier frequency. -/
+theorem idealTest_logNorm_profile_norm (W : IdealTest K)
+    (time frequency : NonzeroIdeal K → ℝ) (u : NonzeroIdeal K) (t y : ℝ) :
+    ‖(W.freezeTwist time (fun v => logNormPower (frequency v))).profile u t y‖ =
+      ‖W.profile u (time u) y‖ := by
+  simp only [IdealTest.freezeTwist, norm_mul, profilePower_logNorm, logNormPhase_norm, mul_one]
+
+theorem primeWindow_logNorm_profile_norm (W : PrimeWindow K) (time frequency t y : ℝ) :
+    ‖(W.freezeTwist time (logNormPower frequency)).profile t y‖ = ‖W.profile time y‖ := by
+  simp only [PrimeWindow.freezeTwist, norm_mul, profilePower_logNorm, logNormPhase_norm, mul_one]
+
+/-- Annular support as a function of the real ratio is also unchanged. -/
+theorem idealTest_logNorm_profile_support (W : IdealTest K)
+    (time frequency : NonzeroIdeal K → ℝ) (u : NonzeroIdeal K) (t : ℝ) :
+    Function.support ((W.freezeTwist time (fun v => logNormPower (frequency v))).profile u t) =
+      Function.support (W.profile u (time u)) := by
+  ext y
+  change (W.profile u (time u) y * profilePower (logNormPower (frequency u)) y ≠ 0) ↔
+    W.profile u (time u) y ≠ 0
+  exact ⟨left_ne_zero_of_mul, fun h => mul_ne_zero h (profilePower_ne_zero _ _)⟩
+
+theorem primeWindow_logNorm_profile_support (W : PrimeWindow K) (time frequency t : ℝ) :
+    Function.support ((W.freezeTwist time (logNormPower frequency)).profile t) =
+      Function.support (W.profile time) := by
+  ext y
+  change (W.profile time y * profilePower (logNormPower frequency) y ≠ 0) ↔
+    W.profile time y ≠ 0
+  exact ⟨left_ne_zero_of_mul, fun h => mul_ne_zero h (profilePower_ne_zero _ _)⟩
+
 /-- This equality has the `weight * phase = new profile` orientation used
 by the actual child-term dictionary. -/
 theorem idealTest_logNorm_calibration (W : IdealTest K)

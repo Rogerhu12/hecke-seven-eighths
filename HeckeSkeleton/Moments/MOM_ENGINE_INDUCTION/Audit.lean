@@ -16,6 +16,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.LogNormProfiles
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceData
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceAdapter
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ScheduleCompatibility
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseTerminal
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceConsumers
 
 /-!
 # Recursive axiom audit for paired-moment induction
@@ -192,6 +194,7 @@ separately by the source-integration gate.
 -- RootNormalization
 #print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.uniformBound_of_dyadic_rowWidth
 #print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.uniformBound_of_rowWidth_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.uniformBound_of_rowWidth_le_from
 #print axioms HeckeSkeleton.Moments.EngineInduction.dyadic_row_width_bounds
 #print axioms HeckeSkeleton.Moments.EngineInduction.rpow_add_le_of_row_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.rpow_log_row_width
@@ -236,7 +239,10 @@ separately by the source-integration gate.
 
 -- LogNormProfiles
 #print axioms HeckeSkeleton.Moments.EngineInduction.idealTest_logNorm_calibration
+#print axioms HeckeSkeleton.Moments.EngineInduction.idealTest_logNorm_profile_norm
+#print axioms HeckeSkeleton.Moments.EngineInduction.idealTest_logNorm_profile_support
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormPhase
+#print axioms HeckeSkeleton.Moments.EngineInduction.logNormPhase_norm
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormPower
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormSeparatedProfiles
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormSeparatedProfiles_fitsMesh
@@ -253,6 +259,8 @@ separately by the source-integration gate.
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormSeparatedProfiles_slotLength
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormSeparatedProfiles_totalLength
 #print axioms HeckeSkeleton.Moments.EngineInduction.primeWindow_logNorm_calibration
+#print axioms HeckeSkeleton.Moments.EngineInduction.primeWindow_logNorm_profile_norm
+#print axioms HeckeSkeleton.Moments.EngineInduction.primeWindow_logNorm_profile_support
 #print axioms HeckeSkeleton.Moments.EngineInduction.profilePower_logNorm
 
 -- SourceData
@@ -298,3 +306,27 @@ separately by the source-integration gate.
 #print axioms HeckeSkeleton.Moments.EngineInduction.moment_mesh_engine_bounds
 #print axioms HeckeSkeleton.Moments.EngineInduction.moment_mesh_total_loss_budget
 #print axioms HeckeSkeleton.Moments.EngineInduction.sourceReserve
+
+-- BaseTerminal
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.absoluteBaseComponents
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.exists_absolute_base_components
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy_absolute_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.plainPair_sq_absolute_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.positive_slot_base_exponent
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.zero_slot_base_exponent
+#print axioms HeckeSkeleton.Moments.EngineInduction.finite_ideal_rows_count
+#print axioms HeckeSkeleton.Moments.EngineInduction.idealTest_support_count
+#print axioms HeckeSkeleton.Moments.EngineInduction.idealTest_support_empty_of_subunit
+#print axioms HeckeSkeleton.Moments.EngineInduction.nodeAbsoluteConstant
+#print axioms HeckeSkeleton.Moments.EngineInduction.nodeAbsoluteConstant_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.plainAbsoluteConstant
+#print axioms HeckeSkeleton.Moments.EngineInduction.plainAbsoluteConstant_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.plainPolynomial_absolute_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.plainRectangle_absolute_bound
+
+-- SourceConsumers
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.physicalPlainEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.plainSource_of_dyadic_model_bounds
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.plainSource_of_model_bounds
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.plainSource_of_row_bounds
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.uniformMomentBound_join

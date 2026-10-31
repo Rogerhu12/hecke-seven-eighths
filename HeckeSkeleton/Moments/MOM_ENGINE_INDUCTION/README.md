@@ -204,6 +204,20 @@ terminal components. Its raw cases are the width floor, uncentered exceptional,
 centered positive, centered zero-slot, diagonal, and tail contributions. The
 final terminal bound is derived from the component masses and local ledgers.
 
+`BaseTerminal.lean` constructs the actual width-floor terminal certificate.
+Linear ideal counting, unitary Hecke coefficients and the original mask bound
+each normalized plain polynomial by an explicit constant times `sqrt(N)`.
+The proof includes all positive subunit scales: support is forced empty only
+when `2*N < 1`, and the unit ideal is retained whenever it can occur. Both
+rectangles keep their equal product. The existing absolute prime-product
+bound then gives normalized exponent `n1+n2+z`. Its slot cost is `z`; it is
+not relabelled `kappa*z`. Actual positive capacity implies this exponent is
+at most the width. The zero-slot corollary uses the reflected padded core.
+The profile/count constant is explicit, and the resulting base certificate
+does not assume a terminal moment estimate. The log-norm Fourier twists
+preserve the exact profile supremum and support used by this base proof;
+higher derivative seminorms still incur their actual frequency costs.
+
 `ExceptionalCounting.lean` uses actual nonzero ideals and a finite sector
 coordinate. An exact classification `u = h₀ * a^6`, injective in
 `(sector, row ideal)`, gives an injective encoding by `(sector, a)`. For
@@ -253,6 +267,15 @@ all uniform quantifiers. Neither module imports `Moments.lean`; they can
 therefore be consumed by the source declarations without a circular import.
 The shared-source aliases are being coordinated with EXPANSION before the
 original source types are migrated.
+
+`SourceConsumers.lean` proves the corresponding physical `PSource` consumer
+for an explicitly identified `TargetData` and the same expansion. It joins
+the positive- and zero-slot bounds, uses the literal finite witness sum and
+its full-sector reindexing, and preserves the original no-slot model index.
+The row-envelope transfer only needs its fixed large-scale threshold on
+retained bins; the output threshold is the maximum of the two thresholds,
+with only the fixed factor two in the scalar. Thus completing the original
+three model estimates feeds the unchanged physical source conclusion.
 
 At the task base `182769d49e5c184547c0949ddc328b9e7a87e6f7`, the original
 theorem types already refer to admitted constructions:

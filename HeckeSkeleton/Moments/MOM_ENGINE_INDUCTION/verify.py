@@ -27,6 +27,7 @@ MODULES = (
     "TerminalCertificate", "Interface", "Centering", "Induction", "ChildStepCompatibility",
     "RootNormalization", "KernelReduction", "LogNormProfiles",
     "SourceData", "SourceAdapter", "ScheduleCompatibility",
+    "BaseTerminal", "SourceConsumers",
 )
 EXCLUDED = {"SkeletonFamily.lean"}
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}
@@ -70,6 +71,11 @@ REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentModelsFor",
     "HeckeSkeleton.Moments.EngineInduction.sourceFamily",
     "HeckeSkeleton.Moments.EngineInduction.moment_mesh_total_loss_budget",
+    "HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy_absolute_bound",
+    "HeckeSkeleton.Moments.EngineInduction.Node.absoluteBaseComponents",
+    "HeckeSkeleton.Moments.EngineInduction.Node.exists_absolute_base_components",
+    "HeckeSkeleton.Moments.EngineInduction.Source.plainSource_of_dyadic_model_bounds",
+    "HeckeSkeleton.Moments.EngineInduction.SourceFamily.uniformBound_of_rowWidth_le_from",
 }
 
 

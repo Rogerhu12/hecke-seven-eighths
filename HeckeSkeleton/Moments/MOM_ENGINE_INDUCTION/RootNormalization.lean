@@ -115,6 +115,41 @@ theorem uniformBound_of_dyadic_rowWidth
   rw [hwidth _ hU]
   exact (rpow_log_row_width hU (by norm_num : (0 : ℝ) < 2)).le
 
+/-- The physical row-envelope bound is only needed above its own fixed
+threshold and on the retained bins.  Joining that threshold with the
+moment threshold preserves the order of all uniform constants.  In
+particular, this version makes no strict-base assertion at `Z = 1`. -/
+theorem uniformBound_of_rowWidth_le_from
+    (E : ∀ Z T, Index Z T → ℝ)
+    (eligible : ∀ Z T, Index Z T → Prop)
+    {D : ℝ} (hD : 0 ≤ D) (Zrow : ℝ)
+    (hscale : ∀ (Z T : ℝ) (i : Index Z T), Zrow ≤ Z →
+      51 / 100 < F.bin Z T i →
+      0 < F.base i ∧ F.base i ^ F.rowWidth i ≤ D * F.base i)
+    (h : F.UniformBound E (fun _ _ i => F.rowWidth i) eligible) :
+    F.UniformBound E (fun _ _ _ => 1) eligible := by
+  obtain ⟨A, ceiling, hA, hc, hb⟩ := h
+  refine ⟨A, ceiling, hA, hc, ?_⟩
+  intro τ hτ hτc
+  obtain ⟨Z₀, C, hZ₀, hC, hbound⟩ := hb τ hτ hτc
+  refine ⟨max Z₀ Zrow, D * C, hZ₀.trans (le_max_left _ _),
+    mul_nonneg hD hC, ?_⟩
+  intro Z hZ i hbin heligible
+  have hZ₀' : Z₀ ≤ Z := (le_max_left _ _).trans hZ
+  have hZrow : Zrow ≤ Z := (le_max_right _ _).trans hZ
+  obtain ⟨hU, hrow⟩ := hscale Z (Z ^ τ) i hZrow hbin
+  have hZn : 0 ≤ Z := zero_le_one.trans (hZ₀.trans hZ₀')
+  have hheight : 0 ≤ (1 + Z ^ τ) ^ A :=
+    Real.rpow_nonneg (add_nonneg zero_le_one (Real.rpow_nonneg hZn τ)) A
+  calc
+    E Z (Z ^ τ) i ≤
+        C * F.base i ^ (F.rowWidth i + F.loss) * (1 + Z ^ τ) ^ A :=
+      hbound Z hZ₀' i hbin heligible
+    _ ≤ C * (D * F.base i ^ (1 + F.loss)) * (1 + Z ^ τ) ^ A :=
+      mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_left (rpow_add_le_of_row_bound hU hrow) hC) hheight
+    _ = (D * C) * F.base i ^ (1 + F.loss) * (1 + Z ^ τ) ^ A := by ring
+
 end SourceFamily
 
 end HeckeSkeleton.Moments.EngineInduction

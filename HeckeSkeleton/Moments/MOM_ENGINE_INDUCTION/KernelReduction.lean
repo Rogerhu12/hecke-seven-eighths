@@ -344,7 +344,7 @@ theorem linearized_estimate (d : CommonKernelReduction S U t Ω) (hU : 0 < U)
     (Real.rpow_pos_of_pos hU (S.node x).width).le
   rw [add_div] at hsource
   apply hsource.trans
-  apply add_le_add_left
+  apply add_le_add le_rfl
   convert hint using 1
   rw [childrenMeasure, integral_halfPushforward _ (d.left_measurable x)
     (d.right_measurable x) d.value_measurable
