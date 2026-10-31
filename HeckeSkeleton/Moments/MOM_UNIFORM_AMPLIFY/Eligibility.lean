@@ -141,8 +141,12 @@ theorem finite_character_family_cutoff
   intro u hlarge hmem
   let v : E := ⟨u, hmem⟩
   have hterm : |frequencyRowNorm K S u| ≤
-      ∑ w : E, |frequencyRowNorm K S w.val| :=
-    Finset.single_le_sum (fun _ _ => abs_nonneg _) (Finset.mem_univ v)
+      ∑ w : E, |frequencyRowNorm K S w.val| := by
+    change |frequencyRowNorm K S v.val| ≤ ∑ w : E, |frequencyRowNorm K S w.val|
+    exact Finset.single_le_sum
+      (f := fun w : E => |frequencyRowNorm K S w.val|)
+      (fun w _ => abs_nonneg (frequencyRowNorm K S w.val))
+      (Finset.mem_univ v)
   have hu := le_abs_self (frequencyRowNorm K S u)
   dsimp [C] at hlarge
   linarith

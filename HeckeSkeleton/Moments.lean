@@ -496,6 +496,8 @@ theorem moment_finite_sector_reindex
       physicalInverseEnergy i ≤ markedModelEnergy (momentModels K c) i ∧
       physicalPlainEnergy i ≤ pairedModelEnergy (momentModels K c) i ∧
       physicalUnmarkedEnergy i ≤ amplifiedModelEnergy (momentModels K c) i := by
+  letI : Fintype (SixthUnitClasses K
+      ((targetData K c).S : Set (HeightOneSpectrum (𝓞 K)))) := Fintype.ofFinite _
   intro Z T i
   refine ⟨?_, ?_, ?_⟩
   · exact Moments.UniformAmplify.inverse_finite_sector_reindex
