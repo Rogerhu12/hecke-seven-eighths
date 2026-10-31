@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: mom-inv-step-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   verify:

@@ -107,6 +107,7 @@ theorem zeroContribution_norm_le (B : PrimeBlock K Sset)
   rw [zeroContribution_eq]
   split_ifs with he
   · rw [norm_mul, Complex.norm_real, Real.norm_of_nonneg ENNReal.toReal_nonneg]
+    unfold zeroEnvelope
     apply mul_le_mul_of_nonneg_left _ ENNReal.toReal_nonneg
     apply (norm_sub_le _ _).trans
     rw [norm_mul]

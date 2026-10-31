@@ -147,6 +147,23 @@ theorem sectorCharacter_translate (n I : Ext) (u : (Sset).unit K) (ξ : Sector) 
         idealSymbol K Sset D n (D.generator I))
   rw [unitCharacter_class_eq K S Γ D hΓ n _ _ he, map_mul, mul_assoc]
 
+/-- The original sector of an arbitrary nonzero Fourier numerator,
+computed from its actual contraction and its actual generator unit. -/
+def frequencySector (k : NonzeroRingElements OS) : Sector :=
+  QuotientGroup.mk' Γ (divisorUnit K S D k)
+
+include hΓ in
+theorem sectorCharacter_actual_frequency (n : Ext) (k : NonzeroRingElements OS) :
+    sectorCharacter K S Γ D n (divisorIdeal K S k) (frequencySector K S Γ D k) =
+      idealSymbol K Sset D n k.val := by
+  rw [sectorCharacter_eq]
+  change unitCharacter K S D n
+      (CanonicalSectors.sectorUnit K Sset Γ (frequencySector K S Γ D k)) *
+        idealSymbol K Sset D n (D.generator (divisorIdeal K S k)) = _
+  rw [unitCharacter_class_eq K S Γ D hΓ n _ (divisorUnit K S D k)
+    (Quotient.out_eq (frequencySector K S Γ D k))]
+  exact (divisorCharacter K S D n k).symm
+
 def divisorTransport (d : NonzeroRingElements OS) : Sector ≃ Sector :=
   sectorTranslation K S Γ (divisorUnit K S D d)⁻¹
 

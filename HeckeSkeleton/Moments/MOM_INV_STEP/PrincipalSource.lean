@@ -94,7 +94,9 @@ theorem exists_principalPairs_bound (ε : ℝ) (hε : 0 < ε) :
       exact Subtype.ext (exterior_value_injective K S (congrArg Subtype.val he))
     have hc : N.card ≤ (boundedNormIdeals K X).card := by
       simpa only [Fintype.card_coe] using Fintype.card_le_of_injective encode hinj
-    exact (by exact_mod_cast hc).trans (hcount X hX)
+    have hcR : (N.card : ℝ) ≤ ((boundedNormIdeals K X).card : ℝ) := by
+      exact_mod_cast hc
+    exact hcR.trans (hcount X hX)
   have hB0 : ∀ I ∈ B.image (fun I => I.val.val), I ≠ 0 := by
     intro I hI
     obtain ⟨b, hb, rfl⟩ := Finset.mem_image.mp hI

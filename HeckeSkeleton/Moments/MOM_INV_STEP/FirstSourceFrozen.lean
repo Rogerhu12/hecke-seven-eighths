@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceColumns
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceReindexing
+import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectorRows
 
 /-!
 # Fixed first-extraction data give genuine independent columns
@@ -239,6 +240,92 @@ theorem first_source_pair_frozen (hallowed : AllowedGeneratorInput K Sset D)
     outerCoefficient_eq K S D Λ ν n₁ n₂ r₁ r₂ b₁ b₂ h true,
     inverseCoefficient_eq_fixed K S D ν G n₁ n₂ r₁ r₂ b₁ b₂ h false,
     inverseCoefficient_eq_fixed K S D ν G n₁ n₂ r₁ r₂ b₁ b₂ h true]
+
+theorem pairFourier_mul_left (n₁ n₂ b₁ b₂ : Ext) (d v a : OS) :
+    pairFourier K S D n₁ n₂ b₁ b₂ d (v * a) =
+      pairFourier K S D n₁ n₂ b₁ b₂ d a *
+        conj (primitiveCoefficient K S D (pairSupport K S D n₁ n₂ b₁ b₂)
+          (pairExponent K S n₁ n₂ b₁ b₂) (Ideal.Quotient.mk _ v)) := by
+  rw [pairFourier_eq, pairFourier_eq, map_mul, primitiveCoefficient_mul]
+  simp only [map_mul]
+  ring
+
+theorem cubeFourierScalar_mul_left (n₁ n₂ b₁ b₂ : Ext) (d v a : OS) :
+    cubeFourierScalar K S D n₁ n₂ b₁ b₂ d (v * a) =
+      cubeFourierScalar K S D n₁ n₂ b₁ b₂ d a *
+        conj (primitiveCoefficient K S D (cubeBlock K S D n₁ n₂ b₁ b₂)
+          (pairExponent K S n₁ n₂ b₁ b₂) (Ideal.Quotient.mk _ v)) := by
+  unfold cubeFourierScalar
+  rw [map_mul, primitiveCoefficient_mul]
+  simp only [map_mul]
+  ring
+
+/-- The multiplier belongs to the row sector. Its value on the moving
+residual is kept inside the column. -/
+def fixedMultiplierCoefficient (ν G : HeckeCharacter K) (r₁ r₂ b₁ b₂ : Ext)
+    (f z : E) (d v : OS) (u : Ext) : ℂ :=
+  fixedInverseCoefficient K S D ν G r₁ r₂ b₁ b₂ f z d u *
+    conj (idealSymbol K Sset D u v)
+
+theorem first_source_pair_multiplier (hallowed : AllowedGeneratorInput K Sset D)
+    {Λ G : HeckeCharacter K} (hcal : ThetaCalibrationInput K Sset D Λ G)
+    (ν : HeckeCharacter K) (n₁ n₂ r₁ r₂ b₁ b₂ : Ext)
+    (hn₁ : Squarefree n₁.val.val) (hn₂ : Squarefree n₂.val.val)
+    (h : SameExtraction K S n₁ n₂ r₁ r₂ b₁ b₂)
+    (f₁ f₂ z : E) (d v : OS) :
+    sourceCoefficient K S D Λ ν n₁ f₁ * conj (sourceCoefficient K S D Λ ν n₂ f₂) *
+      pairFourier K S D n₁ n₂ b₁ b₂ d (v * CanonicalIdealRow.generator K S D z) =
+    cubeFourierScalar K S D r₁ r₂ b₁ b₂ d (v * CanonicalIdealRow.generator K S D z) *
+      (outerCoefficient K S D Λ ν r₁ r₂ b₁ b₂ false f₁ *
+        fixedMultiplierCoefficient K S D ν G r₁ r₂ b₁ b₂ f₁ z d v
+          (residualIdeal K S D n₁ n₂ b₁ b₂ false)) *
+      conj (outerCoefficient K S D Λ ν r₁ r₂ b₁ b₂ true f₂ *
+        fixedMultiplierCoefficient K S D ν G r₁ r₂ b₁ b₂ f₂ z d v
+          (residualIdeal K S D n₁ n₂ b₁ b₂ true)) := by
+  have he := congrArg (fun w : ℂ => w *
+    conj (primitiveCoefficient K S D (pairSupport K S D n₁ n₂ b₁ b₂)
+      (pairExponent K S n₁ n₂ b₁ b₂) (Ideal.Quotient.mk _ v)))
+    (first_source_pair_frozen K S D hallowed hcal ν n₁ n₂ r₁ r₂ b₁ b₂ hn₁ hn₂ h f₁ f₂ z d)
+  obtain ⟨hactive, ht⟩ := cube_packet_data K S D n₁ n₂ r₁ r₂ b₁ b₂ h
+  rw [primitive_pair_coefficient K S D n₁ n₂ b₁ b₂ v,
+    coefficient_congr K S D _ _ _ _ hactive ht v] at he
+  rw [pairFourier_mul_left, cubeFourierScalar_mul_left,
+    primitive_pair_coefficient K S D n₁ n₂ b₁ b₂ v,
+    coefficient_congr K S D _ _ _ _ hactive ht v]
+  simp only [fixedMultiplierCoefficient, residualIdeal, Bool.false_eq_true, if_false, if_true,
+    map_mul, starRingEnd_self_apply] at he ⊢
+  convert he using 1 <;> ring
+
+def fixedSectorCoefficient
+    (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
+    (ν G : HeckeCharacter K) (r₁ r₂ b₁ b₂ : Ext) (f z : E) (d : OS)
+    (ξ : CanonicalSectors.UnitClasses K Sset Γ) (u : Ext) : ℂ :=
+  fixedMultiplierCoefficient K S D ν G r₁ r₂ b₁ b₂ f z d
+    ((Sset).unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val u
+
+/-- Every original unit sector is covered by its actual row element;
+there is no principal-sector restriction in the first source identity. -/
+theorem first_source_pair_sector
+    (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
+    (hallowed : AllowedGeneratorInput K Sset D)
+    {Λ G : HeckeCharacter K} (hcal : ThetaCalibrationInput K Sset D Λ G)
+    (ν : HeckeCharacter K) (n₁ n₂ r₁ r₂ b₁ b₂ : Ext)
+    (hn₁ : Squarefree n₁.val.val) (hn₂ : Squarefree n₂.val.val)
+    (h : SameExtraction K S n₁ n₂ r₁ r₂ b₁ b₂)
+    (f₁ f₂ z : E) (d : OS) (ξ : CanonicalSectors.UnitClasses K Sset Γ) :
+    sourceCoefficient K S D Λ ν n₁ f₁ * conj (sourceCoefficient K S D Λ ν n₂ f₂) *
+      pairFourier K S D n₁ n₂ b₁ b₂ d
+        (CanonicalSectors.rowElement K Sset Γ D (CanonicalIdealRow.toExterior K S z, ξ)).val =
+    cubeFourierScalar K S D r₁ r₂ b₁ b₂ d
+        (CanonicalSectors.rowElement K Sset Γ D (CanonicalIdealRow.toExterior K S z, ξ)).val *
+      (outerCoefficient K S D Λ ν r₁ r₂ b₁ b₂ false f₁ *
+        fixedSectorCoefficient K S D Γ ν G r₁ r₂ b₁ b₂ f₁ z d ξ
+          (residualIdeal K S D n₁ n₂ b₁ b₂ false)) *
+      conj (outerCoefficient K S D Λ ν r₁ r₂ b₁ b₂ true f₂ *
+        fixedSectorCoefficient K S D Γ ν G r₁ r₂ b₁ b₂ f₂ z d ξ
+          (residualIdeal K S D n₁ n₂ b₁ b₂ true)) :=
+  first_source_pair_multiplier K S D hallowed hcal ν n₁ n₂ r₁ r₂ b₁ b₂ hn₁ hn₂ h
+    f₁ f₂ z d ((Sset).unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceFrozen
 
