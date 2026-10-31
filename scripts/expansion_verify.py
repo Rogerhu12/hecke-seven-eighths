@@ -21,6 +21,8 @@ PROJECT_PATHS = (
     "HeckeGeneral/Analysis/Expansion*.lean",
     "HeckeSkeleton/ExpansionDetectorBridge.lean",
     "HeckeSkeleton/ExpansionModels/*.lean",
+    "HeckeSkeleton/SourceData.lean",
+    "HeckeSkeleton/HighBinSupport/*.lean",
 )
 SKELETON = (
     "HeckeSkeleton/Base.lean",
@@ -30,6 +32,10 @@ SKELETON = (
     "HeckeSkeleton/ExpansionModels/SourceRecipeNormalization.lean",
     "HeckeGeneral/Analysis/TInputRanges.lean",
     "HeckeGeneral/Analysis/TInputFixedBinTransfer.lean",
+)
+STRICT_SOURCE_MODULES = (
+    "HeckeSkeleton.SourceData",
+    "HeckeSkeleton.ExpansionModels.SourceData",
 )
 
 
@@ -161,6 +167,14 @@ def main() -> None:
             OUT / f"{args.group}-build.log")
     command(["lake", "env", "lean", str(audit.relative_to(ROOT))],
             OUT / f"{args.group}-axioms.log")
+    # These modules import the actual context, but their explicit source data
+    # must not depend on its unfinished raw-expansion choice, even in types.
+    # Audit every declaration separately with the unchanged strict allowlist.
+    if args.group == "skeleton":
+        strict_audit = OUT / "source_data_audit.lean"
+        strict_audit.write_text(audit_source(list(STRICT_SOURCE_MODULES), True))
+        command(["lake", "env", "lean", str(strict_audit.relative_to(ROOT))],
+                OUT / "source-data-axioms.log")
 
 
 if __name__ == "__main__":

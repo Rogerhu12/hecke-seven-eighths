@@ -3,7 +3,7 @@ import HeckeGeneral.Analysis.TInputParameterUniformMoments
 import HeckeSkeleton.HighArithmeticInputs
 import HeckeAxiom.QuadraticSieve
 import CubicSieve.Complete
-import HeckeSkeleton.ExpansionModels.ScaleCutoff
+import HeckeSkeleton.ExpansionModels.SourceData
 
 /-! Exploratory actual I/P pipeline, revised §§4–5 and §7.
 This file intentionally contains named admissions. None is native verified.
@@ -28,261 +28,97 @@ variable (K : Type) [Field K] [NumberField K]
 local instance momentSectorFintype (c : TargetContext K) :
     Fintype (SixthUnitClasses K (places K c)) := Fintype.ofFinite _
 
-/-- The index belongs to the ONE actual expansion, including its original
-selected slots. No arbitrary finite row family is substituted. -/
-structure SourceMomentIndex (c : TargetContext K) (Z T : ℝ) : Type 1 where
-  block : Fin ((targetData K c).expansion Z T).blockCount
-  label : (((targetData K c).expansion Z T).block block).Label
-  t : ℝ
-  t_lower : 1 ≤ t
-  t_upper : t ≤ 3 / 2
-  subdivision : Fin
-    (((((targetData K c).expansion Z T).block block).amplitudeSet label).subdivisionCount t)
-  selected : Finset (Fin c.geometry.slots)
+/-- The actual source is selected once, after the generic source interface. -/
+abbrev actualMomentSourceData (c : TargetContext K) : MomentSourceData K c :=
+  recipeMomentSourceData K c (expansionRecipeRaw K c)
+
+/-- Compatibility name for the indices of that same actual source. -/
+abbrev SourceMomentIndex (c : TargetContext K) (Z T : ℝ) : Type 1 :=
+  SourceMomentIndexFor K c (actualMomentSourceData K c) Z T
 
 variable {K}
 variable {c : TargetContext K} {Z T : ℝ}
-abbrev momentBlock (i : SourceMomentIndex K c Z T) :=
-  ((targetData K c).expansion Z T).block i.block
-abbrev momentAmplitude (i : SourceMomentIndex K c Z T) :=
-  (momentBlock i).amplitudeSet i.label
-abbrev momentWitness (i : SourceMomentIndex K c Z T) :=
-  (momentAmplitude i).subdivision i.t i.subdivision
-def momentBase (i : SourceMomentIndex K c Z T) : ℝ := Z ^ (momentBlock i).shell
-def selectedLength (i : SourceMomentIndex K c Z T) : ℝ :=
-  ∑ _j ∈ i.selected,
-    HeckeGeneral.ThetaSkeleton.TIP.slotLength c.geometry.slots (momentBlock i).shell
-def SourceMomentIndex.noSlots (i : SourceMomentIndex K c Z T) :
-    SourceMomentIndex K c Z T := { i with selected := ∅ }
-
-/-- The physical shell extends to 2U.  Only the row-enumeration exponent
-changes; the actual inverse, plain and prime polynomial scales remain U. -/
-def momentRowExponent (U : ℝ) : ℝ :=
-  if 1 < U then _root_.ExpansionRecipe.dyadicMassExponent U else 1
-
-def inverseParameters (i : SourceMomentIndex K c Z T) : RealParameters :=
-  ⟨momentRowExponent (momentBase i), (momentWitness i).inverseLength,
-    selectedLength i, 0, 0, 0, 2 * c.family.B - 1⟩
-def pairedParameters (i : SourceMomentIndex K c Z T) : RealParameters :=
-  ⟨momentRowExponent (momentBase i), 0, selectedLength i, 0, (momentWitness i).plainLength,
-    (momentWitness i).plainLength, 2 * c.family.B - 1⟩
-
-/-- Revised full range, with the genuine unrestricted zero-slot alternative. -/
-def ExtendedPRegion (a : RealParameters) : Prop :=
-  3 / 4 ≤ a.κ ∧ a.κ ≤ 1 ∧
-    (a.z = 0 ∨ (0 < a.z ∧ a.n₁ + a.n₂ + 6 * a.κ * a.z ≤ a.m + a.q))
-
-def inverseCapacity (i : SourceMomentIndex K c Z T) : Prop :=
-  (momentWitness i).inverseLength + 2 * selectedLength i ≤ 1 - 2 * c.family.lamA ∧
-  2 * (momentWitness i).inverseLength + 8 * selectedLength i ≤ 3 - 2 * c.family.lamA
-def pairedCapacity (i : SourceMomentIndex K c Z T) : Prop :=
-  (∀ j ∈ i.selected,
-    HeckeGeneral.ThetaSkeleton.TIP.slotLength c.geometry.slots (momentBlock i).shell ≤
-      (momentMesh K c.family).val) ∧
-  2 * (momentWitness i).plainLength +
-    6 * (2 * c.family.B - 1) * selectedLength i ≤ 1
+abbrev momentBlock (i : SourceMomentIndex K c Z T) := momentBlockFor i
+abbrev momentAmplitude (i : SourceMomentIndex K c Z T) := momentAmplitudeFor i
+abbrev momentWitness (i : SourceMomentIndex K c Z T) := momentWitnessFor i
+abbrev momentBase (i : SourceMomentIndex K c Z T) : ℝ := momentBaseFor i
+abbrev selectedLength (i : SourceMomentIndex K c Z T) : ℝ := selectedLengthFor i
+abbrev SourceMomentIndex.noSlots (i : SourceMomentIndex K c Z T) :
+    SourceMomentIndex K c Z T := SourceMomentIndexFor.noSlots i
+abbrev inverseParameters (i : SourceMomentIndex K c Z T) : RealParameters :=
+  inverseParametersFor i
+abbrev pairedParameters (i : SourceMomentIndex K c Z T) : RealParameters :=
+  pairedParametersFor i
+abbrev ExtendedPRegion (a : RealParameters) : Prop := ExtendedPRegionFor a
+abbrev inverseCapacity (i : SourceMomentIndex K c Z T) : Prop := inverseCapacityFor i
+abbrev pairedCapacity (i : SourceMomentIndex K c Z T) : Prop := pairedCapacityFor i
 
 variable (K)
 
-/-- One family, with a finite physical/witness height vector and independent
-rowwise real/imaginary twists. The unmarked family has INDEPENDENT U,D.
-Tests, backgrounds and masks are actual data; no energy is a field. -/
-structure SourceMomentModels (c : TargetContext K) where
-  dimension : ℕ
-  inverse : ∀ Z T, SourceMomentIndex K c Z T →
-    SixthUnitClasses K (places K c) → (Fin dimension → ℝ) →
-    (NonzeroIdeal K → Fin dimension → ℝ) →
-    (NonzeroIdeal K → Fin dimension → ℝ) →
-      MomentData K c.family.omega (targetCharacter K c)
-  paired : ∀ Z T, SourceMomentIndex K c Z T →
-    SixthUnitClasses K (places K c) → (Fin dimension → ℝ) →
-    (NonzeroIdeal K → Fin dimension → ℝ) →
-    (NonzeroIdeal K → Fin dimension → ℝ) →
-      MomentData K c.family.omega (targetCharacter K c)
-  unmarked : ℝ → ℝ → SixthUnitClasses K (places K c) →
-    (Fin dimension → ℝ) → (NonzeroIdeal K → Fin dimension → ℝ) →
-    (NonzeroIdeal K → Fin dimension → ℝ) →
-      MomentData K c.family.omega (targetCharacter K c)
-  heights : ∀ Z T, SourceMomentIndex K c Z T → Fin dimension → ℝ
-  realShifts : ∀ Z T, SourceMomentIndex K c Z T → NonzeroIdeal K → Fin dimension → ℝ
-  imagShifts : ∀ Z T, SourceMomentIndex K c Z T → NonzeroIdeal K → Fin dimension → ℝ
-
--- OBLIGATION MI-M-ROW-CHARACTER | Prop3.1(iii),§4.1,§7.1,pp3–4,16–18,43–44.
--- MIGRATION: the audited default input arithmeticRowCharacterInput (ArithmeticInputs),
--- the same actual Kummer rows that the high-bin consumers require.
-def momentRowCharacters (c : TargetContext K) : RowCharacterInput K (places K c) (probeData K c) :=
-  arithmeticRowCharacterInput K (places K c) (probeData K c)
+/-- Compatibility name; all models use the same fixed actual source. -/
+abbrev SourceMomentModels (c : TargetContext K) :=
+  SourceMomentModelsFor K c (actualMomentSourceData K c)
 
 variable {K}
 
-abbrev sourceRecipeBlock (i : SourceMomentIndex K c Z T) :=
-  (expansionRecipeRaw K c).blocks Z T ((expansionRecipeRaw K c).rawBlockIndex Z T i.block)
+abbrev sourceRecipeBlock (i : SourceMomentIndex K c Z T) := recipeSourceBlock i
+abbrev sourceRecipeAmplitude (i : SourceMomentIndex K c Z T) := recipeSourceAmplitude i
+abbrev sourceRecipeWitness (i : SourceMomentIndex K c Z T) := recipeSourceWitness i
 
-abbrev sourceRecipeAmplitude (i : SourceMomentIndex K c Z T) :=
-  (sourceRecipeBlock i).amplitude i.label
-
-abbrev sourceRecipeWitness (i : SourceMomentIndex K c Z T) :=
-  (sourceRecipeAmplitude i).witness i.t i.subdivision
-
-def sourceSelectedMomentModel (i : SourceMomentIndex K c Z T)
+abbrev sourceSelectedMomentModel (i : SourceMomentIndex K c Z T)
     (s : SixthUnitClasses K (places K c))
     (ξ : ExpansionRecipe.RecipeVector)
     (σ τ : NonzeroIdeal K → ExpansionRecipe.RecipeVector) :
     MomentData K c.family.omega (targetCharacter K c) :=
-  (((expansionRecipeRaw K c).family.fullModel K (places K c) (probeData K c)
-    (momentRowCharacters K c) c.family.omega (targetCharacter K c) c.geometry
-    (momentBase i) ((momentBase i) ^ (momentWitness i).inverseLength) s ξ σ τ).
-      changeSlotBase (momentBlock i).shell (highExpansion_shell_pos K c Z T i.block)).
-        restrictSlots i.selected
+  recipeSourceSelectedMomentModel i s ξ σ τ
 
 variable (K)
 
 -- MI-M-MODELS | §4.1–4.2,§7.1,pp16–20,43.
 -- Both marked models and the independent U,D family are generated from
 -- the SAME D-EXPANSION recipe.  No independent model choice remains.
-def momentModels (c : TargetContext K) : SourceMomentModels K c where
-  dimension := 6
-  inverse _Z _T i := sourceSelectedMomentModel i
-  paired _Z _T i := sourceSelectedMomentModel i
-  unmarked := (expansionRecipeRaw K c).family.inverseFamily K (places K c)
-    (probeData K c) (momentRowCharacters K c) c.family.omega
-    (targetCharacter K c) c.geometry
-  heights _Z T i := (sourceRecipeWitness i).heights (sourceRecipeAmplitude i).physical i.t T
-  realShifts _Z _T i := (sourceRecipeWitness i).realShifts
-  imagShifts _Z _T i := (sourceRecipeWitness i).imagShifts
+abbrev momentModels (c : TargetContext K) : SourceMomentModels K c :=
+  recipeMomentModels K c (expansionRecipeRaw K c)
 
 variable {K}
 abbrev inverseModel (M : SourceMomentModels K c) (i : SourceMomentIndex K c Z T)
-    (s : SixthUnitClasses K (places K c)) :=
-  M.inverse Z T i s (M.heights Z T i) (M.realShifts Z T i) (M.imagShifts Z T i)
+    (s : SixthUnitClasses K (places K c)) := inverseModelFor M i s
 abbrev pairedModel (M : SourceMomentModels K c) (i : SourceMomentIndex K c Z T)
-    (s : SixthUnitClasses K (places K c)) :=
-  M.paired Z T i s (M.heights Z T i) (M.realShifts Z T i) (M.imagShifts Z T i)
+    (s : SixthUnitClasses K (places K c)) := pairedModelFor M i s
 abbrev unmarkedModel (M : SourceMomentModels K c) (i : SourceMomentIndex K c Z T)
-    (s : SixthUnitClasses K (places K c)) :=
-  M.unmarked (momentBase i) ((momentBase i) ^ (momentWitness i).inverseLength)
-    s (M.heights Z T i) (M.realShifts Z T i) (M.imagShifts Z T i)
-
-/-- Original complete-ideal zeros, including redundant sixth powers. -/
-def originalMomentMask (u : NonzeroIdeal K) (I : Ideal (𝓞 K)) : Bool :=
-  if (∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ I →
-    p ∉ places K c ∧ (6 : 𝓞 K) ∉ p.asIdeal) ∧
-    IsCoprime I u.val then true else false
+    (s : SixthUnitClasses K (places K c)) := unmarkedModelFor M i s
 
 /-- Literal polynomial calibration. Sector dependence is retained, and the
 two plain factors are both matched, with their actual conjugated profiles. -/
-structure SourcePolynomialCalibration (R : RowCharacterInput K (places K c) (probeData K c))
-    (M : SourceMomentModels K c) : Prop where
-  character : ∀ Z T (i : SourceMomentIndex K c Z T) u,
-    u ∈ (momentWitness i).rows →
-      (inverseModel M i u.sector).rowCharacter u.ideal.val = R.character u ∧
-      (pairedModel M i u.sector).rowCharacter u.ideal.val = R.character u
-  mask : ∀ Z T (i : SourceMomentIndex K c Z T) s u I,
-    (inverseModel M i s).commonMask u I = originalMomentMask (c := c) u I ∧
-    (pairedModel M i s).commonMask u I = originalMomentMask (c := c) u I
-  inverse : ∀ Z T (i : SourceMomentIndex K c Z T) u,
-    u ∈ (momentWitness i).rows →
-      (momentWitness i).inverseValue u =
-        inversePolynomial (inverseModel M i u.sector) u.ideal.val
-          ((momentBase i) ^ (momentWitness i).inverseLength) 0
-  plain₁ : ∀ Z T (i : SourceMomentIndex K c Z T) u,
-    u ∈ (momentWitness i).rows →
-      (momentWitness i).plainValue u =
-        plainPolynomial (pairedModel M i u.sector)
-          (pairedModel M i u.sector).plainTest₁ u.ideal.val
-          ((momentBase i) ^ (momentWitness i).plainLength) 0
-  plain₂ : ∀ Z T (i : SourceMomentIndex K c Z T) u,
-    u ∈ (momentWitness i).rows →
-      (momentWitness i).plainValue u =
-        plainPolynomial (pairedModel M i u.sector)
-          (pairedModel M i u.sector).plainTest₂ u.ideal.val
-          ((momentBase i) ^ (momentWitness i).plainLength) 0
-  inverse_slots : ∀ Z T (i : SourceMomentIndex K c Z T) u,
-    u ∈ (momentWitness i).rows →
-      (∏ j ∈ i.selected, (momentAmplitude i).slotValue j u) =
-        slotProduct (inverseModel M i u.sector) u.ideal.val (momentBase i) 0
-  paired_slots : ∀ Z T (i : SourceMomentIndex K c Z T) u,
-    u ∈ (momentWitness i).rows →
-      (∏ j ∈ i.selected, (momentAmplitude i).slotValue j u) =
-        slotProduct (pairedModel M i u.sector) u.ideal.val (momentBase i) 0
-  unmarked : ∀ Z T (i : SourceMomentIndex K c Z T) u,
-    u ∈ (momentWitness i).rows →
-      (momentWitness i).inverseValue u =
-        inversePolynomial (unmarkedModel M i u.sector) u.ideal.val
-          ((momentBase i) ^ (momentWitness i).inverseLength) 0
+abbrev SourcePolynomialCalibration
+    (R : RowCharacterInput K (places K c) (probeData K c))
+    (M : SourceMomentModels K c) : Prop := SourcePolynomialCalibrationFor R M
 
 /-- The base ideal, original sector and complete common mask must survive
 the true source reindex. Large complete norm alone cannot prove this. -/
-structure SourceRowEligibility (M : SourceMomentModels K c) : Prop where
-  /-- The actual strict widths r+2z<m and 2r+8z<3m, not the old ceiling. -/
-  inverse_region : ∀ Z T (i : SourceMomentIndex K c Z T),
-    inverseCapacity i → MIRegion (inverseParameters i)
-  /-- Full kappa <= 1, retaining the unrestricted z=0 branch. -/
-  paired_region : ∀ Z T (i : SourceMomentIndex K c Z T),
-    pairedCapacity i → ExtendedPRegion (pairedParameters i)
-  inverse_rows : ∀ Z T (i : SourceMomentIndex K c Z T) u,
-    u ∈ (momentWitness i).rows →
-      u.ideal.val ∈ (inverseModel M i u.sector).rows
-        ((momentBase i) ^ (inverseParameters i).m)
-  paired_rows : ∀ Z T (i : SourceMomentIndex K c Z T) u,
-    u ∈ (momentWitness i).rows →
-      u.ideal.val ∈ pairedRows (pairedModel M i u.sector) (pairedParameters i) (momentBase i)
-  unmarked_rows : ∀ Z T (i : SourceMomentIndex K c Z T) u,
-    u ∈ (momentWitness i).rows →
-      u.ideal.val ∈ (unmarkedModel M i u.sector).rows (2 * momentBase i) ∧
-      SixthPowerFreeIdeal (K := K) u.ideal.val
-  fiber : Function.Injective
-    (fun u : FrequencyRow K (places K c) => (u.ideal.val, u.sector))
-  geometry : ∀ Z T (i : SourceMomentIndex K c Z T) s,
-    (inverseModel M i s).geometry.totalLength = selectedLength i ∧
-    (pairedModel M i s).geometry.totalLength = selectedLength i
-  paired_finite_slots : ∀ Z T (i : SourceMomentIndex K c Z T) s j,
-    FiniteOrder ((pairedModel M i s).slotCoefficient j)
+abbrev SourceRowEligibility (M : SourceMomentModels K c) : Prop :=
+  SourceRowEligibilityFor M
 
-/-- Uniform control of each one-variable slice at every finite order.
-This statement does NOT assert mixed parameter derivatives or locality.
-Those requirements of the full profile family remain to be split out of
-the coarse canonical-recursion obligations; slice bounds do not imply them. -/
-def WholeMomentProfileControl (M : SourceMomentModels K c) : Prop :=
-  ∀ J : ℕ, ∀ A : ℝ, 0 ≤ A →
-    ∃ C H a b : ℝ, 0 < C ∧ 0 ≤ H ∧ 0 < a ∧ a < b ∧
-      ∀ Z T (i : SourceMomentIndex K c Z T), 1 ≤ Z → 1 ≤ T →
-      ∀ s (ξ : Fin M.dimension → ℝ) σ τ,
-        ‖ξ‖ ≤ T → (∀ u, ‖σ u‖ ≤ 8) → (∀ u, ‖τ u‖ ≤ 1 + ‖ξ‖) →
-        ∀ d ∈ [M.inverse Z T i s ξ σ τ, M.paired Z T i s ξ σ τ],
-        ∀ W ∈ [d.inverseTest, d.plainTest₁, d.plainTest₂], ∀ u,
-          ContDiff ℝ ∞ (W.profile u 0) ∧
-          (∀ y, W.profile u 0 y ≠ 0 → a ≤ y ∧ y ≤ b) ∧
-          testSeminorm (W.profile u 0) J A ≤ C * (1 + T) ^ H
+/-- Shared whole-profile control, including the prime windows from #10.
+The original parameter region and actual source are retained. -/
+abbrev WholeMomentProfileControl (M : SourceMomentModels K c) : Prop :=
+  WholeMomentProfileControlFor M
 
 /-- Every actual source index lies in the retained physical range. -/
 theorem momentBase_ge_two (i : SourceMomentIndex K c Z T) : 2 ≤ momentBase i :=
-  _root_.ExpansionRecipe.shell_base_ge_two
-    (highExpansion_scale_of_block K c Z T i.block).1
-    (highExpansion_shell_lower K c Z T i.block)
+  recipeMomentBase_ge_two i
 
 theorem momentRowExponent_spec (i : SourceMomentIndex K c Z T) :
     1 < momentRowExponent (momentBase i) ∧ momentRowExponent (momentBase i) ≤ 2 ∧
-      (momentBase i) ^ momentRowExponent (momentBase i) = 2 * momentBase i := by
-  have hU2 := momentBase_ge_two i
-  have hU : 1 < momentBase i := by linarith
-  rw [momentRowExponent, if_pos hU]
-  exact ⟨_root_.ExpansionRecipe.dyadicMassExponent_gt_one hU,
-    _root_.ExpansionRecipe.dyadicMassExponent_le_two hU2,
-    _root_.ExpansionRecipe.rpow_dyadicMassExponent hU⟩
+      (momentBase i) ^ momentRowExponent (momentBase i) = 2 * momentBase i :=
+  recipeMoment_rowWidth_spec i
 
 theorem sourceSelectedMomentModel_slots (i : SourceMomentIndex K c Z T)
     (u : FrequencyRow K (places K c)) :
     (∏ j ∈ i.selected, (momentAmplitude i).slotValue j u) =
       slotProduct (inverseModel (momentModels K c) i u.sector)
-        u.ideal.val (momentBase i) 0 := by
-  have hZ : 0 < Z := (by norm_num : (0 : ℝ) < 2 ^ (16 : ℕ)).trans_le
-    (highExpansion_scale_of_block K c Z T i.block).1
-  exact ((sourceRecipeWitness i).selectedSlotProduct
-    (P := probeData K c) (R := momentRowCharacters K c) (ω := c.family.omega)
-    (sourceRecipeAmplitude i).physical i.t T u.sector
-    (momentBlock i).shell (highExpansion_shell_pos K c Z T i.block)
-    i.selected u.ideal.val hZ).symm
+        u.ideal.val (momentBase i) 0 :=
+  recipeSourceSelectedMomentModel_slots i u
 
 variable (K) (c : TargetContext K)
 
@@ -290,30 +126,8 @@ variable (K) (c : TargetContext K)
 -- Literal identities from the one raw data recipe.  The analytic
 -- construction of that recipe remains the original D-EXPANSION obligation.
 theorem moment_polynomial_calibration :
-    SourcePolynomialCalibration (momentRowCharacters K c) (momentModels K c) := by
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
-  · intro Z T i u _hu
-    constructor <;>
-      exact ExpansionRecipe.completeIdealRowCharacter_of_frequencyRow
-        (P := probeData K c) (R := momentRowCharacters K c) u
-  · intro Z T i s u I
-    change completeIdealCommonMask K (places K c) u I = originalMomentMask (c := c) u I ∧
-      completeIdealCommonMask K (places K c) u I = originalMomentMask (c := c) u I
-    by_cases h : (∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ I →
-      p ∉ places K c ∧ (6 : 𝓞 K) ∉ p.asIdeal) ∧ IsCoprime I u.val
-    <;> simp [completeIdealCommonMask, originalMomentMask, h]
-  · intro Z T i u _hu
-    rfl
-  · intro Z T i u _hu
-    rfl
-  · intro Z T i u _hu
-    rfl
-  · intro Z T i u _hu
-    exact sourceSelectedMomentModel_slots i u
-  · intro Z T i u _hu
-    exact sourceSelectedMomentModel_slots i u
-  · intro Z T i u _hu
-    rfl
+    SourcePolynomialCalibration (momentRowCharacters K c) (momentModels K c) :=
+  recipeMoment_polynomial_calibration K c (expansionRecipeRaw K c)
 
 -- OBLIGATION MI-M-FIBER-ELIGIBILITY | §4.9,§7.1,pp35,43–44.
 -- MIGRATION: ArithmeticFrequencyRowCharacterFibers/EventualExclusion.
@@ -374,37 +188,19 @@ theorem moment_cubic_sieve : CubicSieveBound K c := by
     (probeData K c).arithmetic (allowedGenerators K c)
 
 variable {K c}
-def markedModelEnergy (M : SourceMomentModels K c) {Z T}
-    (i : SourceMomentIndex K c Z T) : ℝ :=
-  ∑ s : SixthUnitClasses K (places K c),
-    inverseEnergy (inverseModel M i s) (inverseParameters i) (momentBase i) 0
-def pairedModelEnergy (M : SourceMomentModels K c) {Z T}
-    (i : SourceMomentIndex K c Z T) : ℝ :=
-  ∑ s : SixthUnitClasses K (places K c),
-    pairedEnergy (pairedModel M i s) (pairedParameters i) (momentBase i) 0
-
-def unmarkedBallEnergy (d : MomentData K c.family.omega (targetCharacter K c))
-    (U D : ℝ) : ℝ :=
-  ∑ u ∈ (d.rows (2 * U)).filter (SixthPowerFreeIdeal (K := K)),
-    ‖inversePolynomial d u D 0‖ ^ 2
-def amplifiedModelEnergy (M : SourceMomentModels K c) {Z T}
-    (i : SourceMomentIndex K c Z T) : ℝ :=
-  ∑ s : SixthUnitClasses K (places K c),
-    unmarkedBallEnergy (unmarkedModel M i s)
-      (momentBase i) ((momentBase i) ^ (momentWitness i).inverseLength)
+abbrev markedModelEnergy (M : SourceMomentModels K c) {Z T}
+    (i : SourceMomentIndex K c Z T) : ℝ := markedModelEnergyFor M i
+abbrev pairedModelEnergy (M : SourceMomentModels K c) {Z T}
+    (i : SourceMomentIndex K c Z T) : ℝ := pairedModelEnergyFor M i
+abbrev amplifiedModelEnergy (M : SourceMomentModels K c) {Z T}
+    (i : SourceMomentIndex K c Z T) : ℝ := amplifiedModelEnergyFor M i
 
 /-- Constants are for the ENTIRE actual index/profile family. Height order
 and ceiling precede tau; threshold and scalar may depend on that fixed tau. -/
-def UniformMomentBound
-    (E : ∀ Z T, SourceMomentIndex K c Z T → ℝ)
-    (power : ∀ Z T, SourceMomentIndex K c Z T → ℝ)
+abbrev UniformMomentBound
+    (E power : ∀ Z T, SourceMomentIndex K c Z T → ℝ)
     (eligible : ∀ Z T, SourceMomentIndex K c Z T → Prop) : Prop :=
-  ∃ A ceiling : ℝ, 0 ≤ A ∧ 0 < ceiling ∧
-    ∀ τ : ℝ, 0 < τ → τ ≤ ceiling → ∃ Z₀ k : ℝ, 1 ≤ Z₀ ∧ 0 ≤ k ∧
-      ∀ Z : ℝ, Z₀ ≤ Z → ∀ i : SourceMomentIndex K c Z (Z ^ τ),
-        51 / 100 < (momentBlock i).bin → eligible Z (Z ^ τ) i →
-          E Z (Z ^ τ) i ≤
-            k * (momentBase i) ^ (power Z (Z ^ τ) i + c.family.lamA) * (1 + Z ^ τ) ^ A
+  UniformMomentBoundFor E power eligible
 
 /-- Transport from the correct dyadic row exponent to the source exponent
 costs exactly the constant 2.  Height order and ceiling stay unchanged. -/
@@ -428,46 +224,17 @@ theorem uniformMomentBound_repaired_power
   rw [momentRowExponent, if_pos hU] at hh
   exact _root_.ExpansionRecipe.repaired_moment_bound hU hh
 
-def StrictUnmarkedMomentBound (M : SourceMomentModels K c) : Prop :=
-  ∀ a ε : ℝ, 0 < a → 0 < ε →
-    ∃ C A h : ℝ, 0 < C ∧ 0 ≤ A ∧ 0 < h ∧
-      ∀ U D : ℝ, 1 ≤ U → 1 ≤ D → D ≤ U ^ (1 / (1 + a)) →
-      ∀ (ξ : Fin M.dimension → ℝ) σ τ,
-        ‖ξ‖ ≤ (U * D) ^ h → (∀ u, ‖σ u‖ ≤ 8) →
-        (∀ u, ‖τ u‖ ≤ 1 + ‖ξ‖) →
-        (∑ s : SixthUnitClasses K (places K c),
-          unmarkedBallEnergy (M.unmarked U D s ξ σ τ) U D) ≤
-          C * U ^ (1 + ε) * (1 + ‖ξ‖) ^ A
+abbrev StrictUnmarkedMomentBound (M : SourceMomentModels K c) : Prop :=
+  StrictUnmarkedMomentBoundFor M
 
-structure CanonicalInverseModelBounds (M : SourceMomentModels K c) : Prop where
-  marked : UniformMomentBound
-    (fun _ _ i => markedModelEnergy M i)
-    (fun _ _ i => momentRowExponent (momentBase i))
-    (fun _ _ i => inverseCapacity i)
-  unmarked_strict : StrictUnmarkedMomentBound M
+abbrev CanonicalInverseModelBounds (M : SourceMomentModels K c) : Prop :=
+  CanonicalInverseModelBoundsFor M
 
-def SixthPowerMaskIdentity (M : SourceMomentModels K c) : Prop :=
-  ∀ U D s ξ σ τ (u : NonzeroIdeal K) (a : ExteriorIdeal K (places K c)),
-    (M.unmarked U D s ξ σ τ).allowedRow u →
-      (M.unmarked U D s ξ σ τ).allowedRow (u * a.val ^ 6) ∧
-      (M.unmarked U D s ξ σ τ).rowCharacter (u * a.val ^ 6) =
-        (M.unmarked U D s ξ σ τ).rowCharacter u ∧
-      ∀ I : Ideal (𝓞 K),
-        maskValue (M.unmarked U D s ξ σ τ) (u * a.val ^ 6) I =
-          maskValue (M.unmarked U D s ξ σ τ) u I *
-            (if IsCoprime I a.val.val then 1 else 0)
+abbrev SixthPowerMaskIdentity (M : SourceMomentModels K c) : Prop :=
+  SixthPowerMaskIdentityFor M
 
-def AmplifiedIndependentMomentBound (M : SourceMomentModels K c) : Prop :=
-  ∀ a ε : ℝ, 0 < a → 0 < ε →
-    ∃ C A h : ℝ, 0 < C ∧ 0 ≤ A ∧ 0 < h ∧
-      ∀ U D : ℝ, 1 ≤ U → 1 ≤ D →
-      ∀ (ξ : Fin M.dimension → ℝ) σ τ,
-        ‖ξ‖ ≤ (U * D) ^ h → (∀ u, ‖σ u‖ ≤ 8) →
-        (∀ u, ‖τ u‖ ≤ 1 + ‖ξ‖) →
-        (∑ s : SixthUnitClasses K (places K c),
-          unmarkedBallEnergy (M.unmarked U D s ξ σ τ) U D) ≤
-          C * max U (U ^ (1 / 6 : ℝ) * D ^ (5 * (1 + a) / 6)) *
-            (U * D) ^ ε * (1 + ‖ξ‖) ^ A
+abbrev AmplifiedIndependentMomentBound (M : SourceMomentModels K c) : Prop :=
+  AmplifiedIndependentMomentBoundFor M
 
 variable (K c)
 -- OBLIGATION MI-I-CANONICAL-RECURSION | Lemma4.8,Prop4.10,Thm4.1,pp23–28.
@@ -517,13 +284,8 @@ theorem inverse_amplified_witness_models
 
 /-- These are inequalities for the ACTUAL selected finite prime products,
 not arbitrary sublists in P. At kappa1 no zero-free premise is supplied. -/
-def PairedPrimeProductBound (M : SourceMomentModels K c) (κ : ℝ) : Prop :=
-  UniformMomentBound
-    (fun _ _ i => ∑ s : SixthUnitClasses K (places K c),
-      ∑ u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i),
-        ‖slotProduct (pairedModel M i s) u (momentBase i) 0‖ ^ 2)
-    (fun _ _ i => 1 + κ * selectedLength i)
-    (fun _ _ i => pairedCapacity i)
+abbrev PairedPrimeProductBound (M : SourceMomentModels K c) (κ : ℝ) : Prop :=
+  PairedPrimeProductBoundFor M κ
 
 -- OBLIGATION MI-P-PRIME-CANCELLATION-BELOW-ONE | §4.6,(4.38),p29.
 -- Actual finite-character log derivative and smooth prime Mellin estimate.
@@ -592,16 +354,12 @@ theorem paired_positive_endpoint
   sorry
 
 variable {K c}
-def physicalInverseEnergy {Z T} (i : SourceMomentIndex K c Z T) : ℝ :=
-  ∑ u ∈ (momentWitness i).rows,
-    ‖(momentWitness i).inverseValue u *
-      ∏ j ∈ i.selected, (momentAmplitude i).slotValue j u‖ ^ 2
-def physicalPlainEnergy {Z T} (i : SourceMomentIndex K c Z T) : ℝ :=
-  ∑ u ∈ (momentWitness i).rows,
-    ‖(momentWitness i).plainValue u ^ 2 *
-      ∏ j ∈ i.selected, (momentAmplitude i).slotValue j u‖ ^ 2
-def physicalUnmarkedEnergy {Z T} (i : SourceMomentIndex K c Z T) : ℝ :=
-  ∑ u ∈ (momentWitness i).rows, ‖(momentWitness i).inverseValue u‖ ^ 2
+abbrev physicalInverseEnergy {Z T} (i : SourceMomentIndex K c Z T) : ℝ :=
+  physicalInverseEnergyFor i
+abbrev physicalPlainEnergy {Z T} (i : SourceMomentIndex K c Z T) : ℝ :=
+  physicalPlainEnergyFor i
+abbrev physicalUnmarkedEnergy {Z T} (i : SourceMomentIndex K c Z T) : ℝ :=
+  physicalUnmarkedEnergyFor i
 
 variable (K c)
 -- OBLIGATION MI-M-FINITE-SECTOR-REINDEX | §4.1,§7.1,pp16–18,43.
@@ -747,8 +505,10 @@ theorem plainSource :
         ((hbound Z hZ i hbin).2 trivial)
   · let i : SourceMomentIndex K c Z (Z ^ τ) := ⟨b, ℓ, t, ht, ht', j, ∅⟩
     have hh := (hreindex Z (Z ^ τ) i).2.1.trans ((hbound Z hZ i hbin).2 trivial)
-    simpa only [i, physicalPlainEnergy, SourceMomentIndex.noSlots,
-      momentWitness, momentAmplitude, momentBlock, momentBase,
+    simpa only [i, physicalPlainEnergy, physicalPlainEnergyFor,
+      SourceMomentIndex.noSlots, SourceMomentIndexFor.noSlots,
+      momentWitness, momentWitnessFor, momentAmplitude, momentAmplitudeFor,
+      momentBlock, momentBlockFor, momentBase, momentBaseFor,
       Finset.prod_empty, mul_one] using hh
 
 end HeckeSkeleton
