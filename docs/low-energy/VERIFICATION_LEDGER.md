@@ -1,26 +1,24 @@
 # Low reflected energy: source and verification ledger
 
-Prepared at 2026-10-31T10:45:34.121377+00:00 from the completed round 9 native Lake artifact.
+Prepared at 2026-10-31T11:13:17.782302+00:00 from the completed round 11 native Lake artifact.
 
-**80 of 94 new modules have current source bytes matching successful native Built observations in the recorded 6dc context. The current modified full graph and both final targets remain unverified.**
+**84 of 94 new modules have current source bytes matching successful native Built observations in the recorded 0c47 context. The current repaired full graph and both final targets remain unverified.**
 
-The latest completed actual run is [41191387620](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41191387620), job 124509013422, exact checkout `6dc98c6993b60edf5ecd8c449fb697ccfe711176`. Its real native Lake process exited 1 after 1155.833 seconds, without a process timeout. All 94 manifest sources plus `HeckeSkeleton.Principal` were requested.
+The latest completed actual run is [41194215379](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41194215379), job 124517149642, exact checkout `0c47c707eeb3e05caa1934d3da6cf0f4d6e1ce52`. Its real Lake process exited 1 after 760.616 seconds, without a process timeout. All 94 manifest sources plus `HeckeSkeleton.Principal` were requested.
 
-The native log records 80 distinct task `Built` events, four failed task modules, and ten task modules without a terminal event. `Principal` has no completed build event. The 80 built blocks contain 302 printed declaration reports within the standard-three allowlist. Six built modules print no reports: `ActualReflection`, `ActualSymbolProducts`, `IdealMajorant`, `ActualHybridEntry`, `GaussianTheta`, and `LowFrozenCube.Valuations`.
+The native log records 84 distinct task Built events, two failed task modules, and eight task modules without a terminal event. Principal has no completed build event. The 84 built blocks contain 319 printed declaration reports within the standard-three allowlist. Seven built modules print no reports: ActualReflection, ActualSymbolProducts, IdealMajorant, ActualHybridEntry, GaussianTheta, TargetDictionary, and LowFrozenCube.Valuations.
 
-`ActualBlockReindex` and `ActualBlockEnergy` both genuinely built; their three and two public reports respectively contain exactly `propext`, `Classical.choice`, and `Quot.sound`. These observations remain separate from historical schema-2 module receipts. No per-module process exit or output-artifact inventory is fabricated.
+Four new modules genuinely built since round 9: ActualSourceReindex (six printed reports), InactiveWindows (eight), TargetDictionary (zero), and TargetSieveDictionary (three). These are module build observations, not final-target success. TargetSieveDictionary's earlier identifier/heartbeat failure did not recur.
 
-The four failed modules are `ActualSourceReindex` (five diagnostics), `InactiveWindows` (four), `TargetDictionary` (three), and `TargetSieveDictionary` (eight). The last includes a Lean elaboration heartbeat diagnostic; it is not an external process timeout. Failed-module reports containing `sorryAx` are failure evidence. The strict final gate is `not_started`, and the archive contains no final-audit files.
+The failed modules are ActualDyadicReflection (two diagnostics: norm-definition simplification and a redundant rfl) and TargetGaussian (one failed rewrite of the sixth-unit invariance identity). Both current repairs differ from the executed source and await compilation. Failed-module output, including compiler-generated sorryAx, remains failure evidence. No heartbeat or wall timeout was observed. Both final audits are not_started; the archive contains no final-audit files or completed output inventory.
 
-All 80 built source hashes still match the current files. Ten other sources differ from the round 9 snapshot; four retain their snapshot bytes without a completed native event. The pending source repairs preserve the mathematical statements and require subsequent CI. Neither the later published 417 snapshot nor further edits are attributed to round 9.
+All 84 Built source hashes still match current files. The two repaired sources differ from the round 11 snapshot; eight other modules retain their snapshot bytes without a terminal event. No per-module process exits, schema-2 receipts, or skip results are fabricated.
 
-Pending round 11 ([run 41194215379](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41194215379), actual job 124517149642) checks out exact `0c47c707eeb3e05caa1934d3da6cf0f4d6e1ce52`. Its partial log records a genuine `ActualSourceReindex` Built event (4.4 seconds) and two `ActualDyadicReflection` errors: norm-definition simplification at line 53 and a redundant `rfl` at line 162. Only those two source locations have now been repaired; that repair awaits compilation. These partial observations do not promote the completed 80/94 count or establish a full-run/final-audit result.
+The separate [round 11 native evidence](native_lake_round11.json) contains the original report/preparation records and complete observed compiler blocks. Its [exact 205,075-byte ZIP](evidence/native_lake_round11.zip) preserves the raw build log and cache metadata, SHA-256 `f14065da37fc7ae0b515b34491e73644276af7e215e8e9c6bde75d5b96d70d14`. The [round 9 native bundle](native_lake_round9.json) and [exact archive](evidence/native_lake_round9.zip) are unchanged. All five historical direct-record runs remain unchanged in [aggregate_evidence.json](aggregate_evidence.json); the old 1,794 native-foundation validations remain limited to their recorded old configuration.
 
-The separate [native evidence](native_lake_round9.json) contains the original report/preparation records and observed compiler blocks. Its [exact 206,809-byte ZIP](evidence/native_lake_round9.zip) preserves the full native build log and cache metadata, SHA-256 `f67514c4bf82fbfc1713dbe848e338ed43f5f471a6215e8e363cae9b546bae15`. Earlier direct records and native-foundation reuse stay unchanged in [aggregate_evidence.json](aggregate_evidence.json). The old 1,794 native-foundation validations are historical and do not imply success in the new configuration.
+Python fixtures, cancelled runs, and incomplete local diagnostics are not proof evidence. No restored HeckeSkeleton output may supply a new native build. Both required final endpoint audits remain mandatory.
 
-Python regression fixtures and incomplete local diagnostic processes are excluded from proof evidence. No restored `HeckeSkeleton` output may supply a new native build; both required final endpoint reports remain necessary.
-
-| Module | Current source SHA-256 | Current source evidence | Round 9 native observation |
+| Module | Current source SHA-256 | Current source evidence | Round 11 native observation |
 |---|---|---|---|
 | `HeckeSkeleton.LowEnergy.AnnularEnergy` | `5d1592104712b988144dd32b0783c3daa735c0f74545654345362f50fbd24748` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.MellinEnergy` | `3246452a28eba477a0534613895cb331e8dfecb6e25f3570c85f726b042b30dc` | native_lake_built_source_match | Built |
@@ -95,25 +93,25 @@ Python regression fixtures and incomplete local diagnostic processes are exclude
 | `HeckeSkeleton.LowEnergy.ActualBlockEnergy` | `eee0dd9a7cc01951dc550b9f3f92430cd3fa79e8ba6e80d60300f917e2bd1bdb` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.SlotTuples` | `6bf40582c293fce717b909cbd8783c9a6d70b685771b0b75afffffea4416c1b9` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.WindowTuples` | `c8ce8280dc4e6164ed75ab79447e5fa1101473a1c94a478c8b0f824a2951d36f` | native_lake_built_source_match | Built |
-| `HeckeSkeleton.LowEnergy.InactiveWindows` | `af73d34d84990d0ea3d0c75da8a65ad70840108fd5f6f57a08a8a90740739aaa` | changed_since_recorded_source | failed_build_event |
-| `HeckeSkeleton.LowEnergy.TargetDictionary` | `4fd82ed29f24695aae485d1670a5aa6783fd85fbdf4dba4b075fb126868581ef` | changed_since_recorded_source | failed_build_event |
+| `HeckeSkeleton.LowEnergy.InactiveWindows` | `af73d34d84990d0ea3d0c75da8a65ad70840108fd5f6f57a08a8a90740739aaa` | native_lake_built_source_match | Built |
+| `HeckeSkeleton.LowEnergy.TargetDictionary` | `4fd82ed29f24695aae485d1670a5aa6783fd85fbdf4dba4b075fb126868581ef` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.GaussianTheta` | `9b4b613f3db37039dd4fa21714455c44494d56174596b8a249500f6a4855efea` | native_lake_built_source_match | Built |
-| `HeckeSkeleton.LowEnergy.TargetGaussian` | `c0b9e0ca4c778ac3d9a26ea783a4faa54a1658129a01504b4f66fc9b2770f41a` | changed_since_recorded_source | no_terminal_event |
-| `HeckeSkeleton.LowEnergy.TargetSieveDictionary` | `5cf3fba4376c51339e0096ad2227d5ca75aa809e8af7fee5b4159be841ae74a5` | changed_since_recorded_source | failed_build_event |
+| `HeckeSkeleton.LowEnergy.TargetGaussian` | `8b083364b55a7ba8e8bed5fb0a0bc763ecaf140e4f64df86fce4c8ecf0119010` | changed_since_recorded_source | failed_build_event |
+| `HeckeSkeleton.LowEnergy.TargetSieveDictionary` | `5cf3fba4376c51339e0096ad2227d5ca75aa809e8af7fee5b4159be841ae74a5` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.ActualBlockReindex` | `03b246ca9d5136a7ca69fd47f3820dea993a6b8a5a70411c5228e6406a51fc4a` | native_lake_built_source_match | Built |
-| `HeckeSkeleton.LowEnergy.ActualSourceReindex` | `7c3d5f6df58f481b4243865f48ac3078e568e1a17e9d49c5e8115cea28bec264` | changed_since_recorded_source | failed_build_event |
+| `HeckeSkeleton.LowEnergy.ActualSourceReindex` | `7c3d5f6df58f481b4243865f48ac3078e568e1a17e9d49c5e8115cea28bec264` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.ActualRowFibres` | `1759c44a943601c80a103da42945620c346fb7608d47df0cb02491b56a8742bb` | native_lake_built_source_match | Built |
-| `HeckeSkeleton.LowEnergy.ActualDyadicReflection` | `407d2c085691973553239577a74fb4c1ce87cdf25a0fb4202cff452afaa47370` | changed_since_recorded_source | no_terminal_event |
+| `HeckeSkeleton.LowEnergy.ActualDyadicReflection` | `407d2c085691973553239577a74fb4c1ce87cdf25a0fb4202cff452afaa47370` | changed_since_recorded_source | failed_build_event |
 | `HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial` | `bb5e86bb0bee0b24dc02e21993f90c896a32cbb096f4fbd0dfce68feebe3c409` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy` | `66559059e3e32ec55dba8fd635ed3fc1d2f52fabdb39b1751dda0d2054a9a2c8` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy` | `b367a9debe758ffd2aed265e13983f5c940fa8c565a6a4460545425fef9b7ddc` | native_lake_no_terminal_event | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualFrozenAggregation` | `47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131` | native_lake_no_terminal_event | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualFrozenReconstruction` | `5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7` | native_lake_no_terminal_event | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy` | `763cd3d13594e3caead07b43da22c3d0b1e49130f57ee42f3a3e6d1bf0076cdb` | native_lake_no_terminal_event | no_terminal_event |
-| `HeckeSkeleton.LowEnergy.ActualTupleReconstruction` | `9b6936640549aa01a807481159d296da64ef81c95a4a79c5e2d6da89db053f22` | changed_since_recorded_source | no_terminal_event |
-| `HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy` | `001887112b5907e1c7bb94d554053c22acd26a656670b04f9eb7ccb06e2b7901` | changed_since_recorded_source | no_terminal_event |
-| `HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy` | `71dbbfa8c77ed1adef2041985ce38e9e5b36bcdee74934eae85f39aa0080003a` | changed_since_recorded_source | no_terminal_event |
-| `HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy` | `8cdabc4e7694086af7fed2fc28be6a1799945229c838e831e9300fa0ca3fba3c` | changed_since_recorded_source | no_terminal_event |
+| `HeckeSkeleton.LowEnergy.ActualTupleReconstruction` | `9b6936640549aa01a807481159d296da64ef81c95a4a79c5e2d6da89db053f22` | native_lake_no_terminal_event | no_terminal_event |
+| `HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy` | `001887112b5907e1c7bb94d554053c22acd26a656670b04f9eb7ccb06e2b7901` | native_lake_no_terminal_event | no_terminal_event |
+| `HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy` | `71dbbfa8c77ed1adef2041985ce38e9e5b36bcdee74934eae85f39aa0080003a` | native_lake_no_terminal_event | no_terminal_event |
+| `HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy` | `8cdabc4e7694086af7fed2fc28be6a1799945229c838e831e9300fa0ca3fba3c` | native_lake_no_terminal_event | no_terminal_event |
 | `HeckeSkeleton.LowFrozenCube.Valuations` | `5249d242539316a45ea01cfe73af5ac6dd607b1ddf6b3b9033ca850ef980a1c7` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowFrozenCube.LocalCoefficients` | `480a326fa64d1ab714ab9e751e3c32a88a248c7938b1c398bbed187a8fba4a17` | native_lake_built_source_match | Built |
 
@@ -124,4 +122,5 @@ Python regression fixtures and incomplete local diagnostic processes are exclude
 - `41169613835:actual:13030109450`: 575 historical direct successes; final gate `not_run_due_to_failed_or_skipped_modules`.
 - `41171430364:actual:13031561006`: 634 historical direct successes; final gate `not_run_due_to_failed_or_skipped_modules`.
 - `41188282678:actual:13038675514`: 786 historical direct successes; final gate `not_run_due_to_failed_or_skipped_modules`.
-- `41191387620:native-lake:13039132601`: separate native observations—80 built task modules, four failed, ten without a terminal event; whole process exit 1; both final audits not started.
+- `41191387620:native-lake:13039132601`: 80 native Built task observations, 4 failed, 10 without terminal events; whole process exit 1; final gate `not_started`.
+- `41194215379:native-lake:13040671465`: 84 native Built task observations, 2 failed, 8 without terminal events; whole process exit 1; final gate `not_started`.

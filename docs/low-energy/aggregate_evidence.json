@@ -46582,6 +46582,25 @@
       "whole_process_exit_code": 1,
       "final_axiom_gate": "not_started",
       "scope": "Separate native event observations. Existing runs remain historical direct records and are not rewritten into the native schema."
+    },
+    "41194215379:native-lake:13040671465": {
+      "file": "docs/low-energy/native_lake_round11.json",
+      "sha256": "8c1cdfb4ee194338b4870f98374cc8d3792dc0605330a9294a9e013415a4a985",
+      "archive": {
+        "path": "docs/low-energy/evidence/native_lake_round11.zip",
+        "bytes": 205075,
+        "sha256": "f14065da37fc7ae0b515b34491e73644276af7e215e8e9c6bde75d5b96d70d14",
+        "git_blob_sha": "65f11814618017453039bf2939c1a93d55a13aa5"
+      },
+      "source_head": "0c47c707eeb3e05caa1934d3da6cf0f4d6e1ce52",
+      "job_id": 124517149642,
+      "observed_task_built": 84,
+      "observed_task_failed": 2,
+      "task_no_terminal_event": 8,
+      "printed_reports_in_built_tasks": 319,
+      "whole_process_exit_code": 1,
+      "final_axiom_gate": "not_started",
+      "scope": "Separate native event observations. Earlier direct runs and native round 9 records are unchanged; no native events are converted to schema-2 receipts."
     }
   }
 }

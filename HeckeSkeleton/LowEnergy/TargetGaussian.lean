@@ -102,9 +102,10 @@ theorem annularMarkedRow_sixthInvariant (Z : ℝ)
   intro u m
   apply Finset.sum_congr rfl
   intro p' _
-  rw [completedThetaSum_sixthInvariant K S (P).arithmetic (thetaPeriod K S P ψ)
-    (primeSetIdeal K S ∅) ((Finset.univ \ J).image p') (annulusTest k).toFun
-    (thetaScale K c Z J p' * Real.exp (k : ℝ)) u m]
+  exact congrArg (fun z : ℂ => markWeight K c Z p J p' * z)
+    (completedThetaSum_sixthInvariant K S (P).arithmetic (thetaPeriod K S P ψ)
+      (primeSetIdeal K S ∅) ((Finset.univ \ J).image p') (annulusTest k).toFun
+      (thetaScale K c Z J p' * Real.exp (k : ℝ)) u m)
 
 /-- The original orbit cutoff commutes with the reconstructed linear row.
 No new row family or reduced set of unit sectors is substituted. -/
