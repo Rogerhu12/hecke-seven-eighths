@@ -1,8 +1,6 @@
 name: Moment uniformity and amplification
 
 on:
-  push:
-    branches: [cloud/mom-uniform-amplify]
   pull_request:
     branches: [dtests-handoff]
     paths:
@@ -16,7 +14,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: mom-uniform-amplify-${{ github.event_name == 'push' && github.ref_name || github.head_ref || github.ref_name }}
+  group: mom-uniform-amplify-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:

@@ -76,7 +76,7 @@ theorem modelProfileControl_iff {d : MomentData K omega ψ}
   · intro h
     refine ⟨?_, modelProfileControl_prime h⟩
     intro W hW u
-    simp only [List.mem_cons, List.mem_singleton] at hW
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hW
     rcases hW with rfl | rfl | rfl
     · exact modelProfileControl_inverse h u
     · exact modelProfileControl_plain₁ h u

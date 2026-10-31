@@ -36,7 +36,8 @@ theorem blockSource_witness_lengths
       0 ≤ ((b.amplitudeSet ℓ).subdivision t j).plainLength ∧
       ((b.amplitudeSet ℓ).subdivision t j).rows ⊆ (b.amplitudeSet ℓ).rows := by
   have hw := ((hb.2.2.2.2 ℓ).2.2 hbin t ht ht').2.2 j
-  exact ⟨hw.2.1, hw.2.2.2.1.trans (add_le_add_right ht' lam), hw.2.2.1, hw.1⟩
+  exact ⟨hw.2.1, hw.2.2.2.1.trans (_root_.add_le_add ht' (le_rfl : lam ≤ lam)),
+    hw.2.2.1, hw.1⟩
 
 /-- A selected subset of the actual uniform slot system has nonnegative
 total length because the source shell is positive. -/
