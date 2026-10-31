@@ -1,5 +1,6 @@
 import HeckePort.Moments.Canonical
 import HeckeGeneral.Analysis.ThetaPrimeGaussNorm
+import HeckeGeneral.Analysis.GlobalThetaData
 import SIntegerSexticPrimePowerQuotient
 
 /-!
@@ -71,8 +72,7 @@ def actualPrimePowerCharacter (p : ExteriorPrime K S) {a : ℕ} (ha : 1 ≤ a) :
     {a : ℕ} (ha : 1 ≤ a) (x : 𝓞 K) :
     actualPrimePowerCharacter K S D p ha (Ideal.Quotient.mk _ x) =
       thetaPrimeCharacter K S D p (Ideal.Quotient.mk _ x) ^ a := by
-  rw [actualPrimePowerCharacter_apply, MulChar.pow_apply' _ (by omega)]
-  rfl
+  rw [actualPrimePowerCharacter_apply, MulChar.pow_apply' _ (by omega)] <;> rfl
 
 /-- Localization identifies the ordinary prime-power quotient with the
 actual S-integer quotient, without a principal prime in the integers. -/
@@ -89,8 +89,7 @@ def actualPrimePowerResidueEquiv (p : ExteriorPrime K S) (a : ℕ) :
       primePowerReduction p.val.asIdeal ha x := by
   obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
   rw [actualPrimePowerResidueEquiv, sIntegerResidueEquiv_mk,
-    sIntegerPrimePowerReduction_mk, sIntegerSexticResidueMap_algebraMap]
-  rfl
+    sIntegerPrimePowerReduction_mk, sIntegerSexticResidueMap_algebraMap] <;> rfl
 
 /-- The port's prime-power character is the actual ideal quotient
 function after the proved localization equivalence. This equality
@@ -105,8 +104,7 @@ theorem actualPrimePowerCharacter_eq_quotientFunction (p : ExteriorPrime K S)
         (actualPrimePowerResidueEquiv K S p a x) := by
   rw [sIntegerSexticPrimePowerQuotientFunction_eq_pullback K S p.val p.property
     a ha D.root6 D.primitive6 D.embedding (D.away_six p.val p.property),
-    actualPrimePowerResidueEquiv_reduction]
-  rfl
+    actualPrimePowerResidueEquiv_reduction] <;> rfl
 
 section PrimePower
 
@@ -249,6 +247,7 @@ variable {ι : Type*} [Fintype ι]
 variable (p : ι → ExteriorPrime K S) (hp : Function.Injective p)
 variable (a : ι → ℕ) (ha : ∀ i, 1 ≤ a i)
 
+include hp in
 theorem actualPrimeList_coprime :
     Pairwise (Function.onFun IsCoprime (fun i => (p i).val.asIdeal)) := by
   intro i j hij
@@ -259,6 +258,7 @@ theorem actualPrimeList_coprime :
   apply Subtype.ext
   exact HeightOneSpectrum.asIdeal_injective he
 
+include hp in
 theorem actualPrimePowerList_coprime :
     Pairwise (Function.onFun IsCoprime (fun i => (p i).val.asIdeal ^ a i)) := by
   intro i j hij

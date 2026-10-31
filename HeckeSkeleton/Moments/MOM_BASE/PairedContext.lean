@@ -128,7 +128,6 @@ theorem contextOriginalMask_exterior (c : TargetContext K) (u : NonzeroIdeal K)
   unfold contextOriginalMask at hm
   split_ifs at hm with h
   · exact (h.1 p dvd_rfl).1
-  · cases hm
 
 /-- The exact source prime polynomial after cancelling the actual target
 background.  Its common mask, profile and analytic support are unchanged.

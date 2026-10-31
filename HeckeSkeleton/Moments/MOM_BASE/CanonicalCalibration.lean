@@ -24,8 +24,8 @@ variable (K : Type) [Field K] [NumberField K] (c : TargetContext K)
 
 local notation "S" => places K c
 local notation "D" => arithmeticData K c
-local notation "Λ" => (axiomChoice K c).Lambda
-local notation "G" => (axiomChoice K c).G
+local notation "Λ" => HeckeAxiom.ArithmeticChoice.Lambda (axiomChoice K c)
+local notation "G" => HeckeAxiom.ArithmeticChoice.G (axiomChoice K c)
 
 /-- The coefficient a₀ = conjugate(Λ) γ₂ in the manuscript. -/
 def canonicalCoefficient (I : ExteriorIdeal K S) : ℂ :=

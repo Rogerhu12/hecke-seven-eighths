@@ -37,7 +37,9 @@ def cubeIdealNorm (I : Ideal (𝓞 K)) : ℝ := I.absNorm
 theorem cubeIdealNorm_one_le {I : Ideal (𝓞 K)} (hI : I ≠ ⊥) :
     1 ≤ cubeIdealNorm I := by
   have hN : I.absNorm ≠ 0 := by
-    simpa only [Ideal.absNorm_eq_zero_iff] using hI
+    intro hz
+    exact hI (Ideal.absNorm_eq_zero_iff.mp hz)
+  change (1 : ℝ) ≤ (I.absNorm : ℝ)
   exact_mod_cast Nat.one_le_iff_ne_zero.mpr hN
 
 theorem cubeIdealNorm_pos {I : Ideal (𝓞 K)} (hI : I ≠ ⊥) :
@@ -151,8 +153,9 @@ theorem canonicalCompletedTerm_cube_extract (gamma : Ideal (𝓞 K) → ℂ)
         cubeIdealNorm C * (cubeIdealNorm H * cubeIdealNorm B) ^ 3 / X := by
       simp only [div_div_eq_mul_div, mul_pow]
       ring
-    simp only [canonicalCompletedTerm, hC, if_true, cubeIdealNorm_mul, harg,
-      hwhole, map_mul, map_pow, Complex.ofReal_mul, div_eq_mul_inv, mul_inv_rev]
+    simp only [canonicalCompletedTerm, hC, if_true, cubeIdealNorm_mul, hwhole]
+    rw [harg]
+    simp only [map_mul, map_pow, Complex.ofReal_mul, div_eq_mul_inv, mul_inv_rev]
     ring
   · simp [canonicalCompletedTerm, hC]
 
@@ -199,14 +202,13 @@ theorem canonicalCubeInversion (gamma : Ideal (𝓞 K) → ℂ)
         if Squarefree C then gamma C * tau C /
           (Real.sqrt (cubeIdealNorm C) : ℂ) * d C * V (cubeIdealNorm C / X)
         else 0 := by
-    simp [canonicalCompletedTerm, ← Ideal.one_eq_top]
+    simp [canonicalCompletedTerm, cubeIdealNorm, ← Ideal.one_eq_top]
   simp_rw [hone] at hbase
   rw [hbase]
   apply tsum_congr
   intro H
   simp_rw [← canonicalCompletedTerm_cube_extract gamma tau d V X H]
-  rw [tsum_mul_left, tsum_mul_left]
-  unfold canonicalCompletedSum
+  simp only [tsum_mul_left, canonicalCompletedSum]
   ring
 
 /-- The compact-support form of the canonical coefficient/cube theorem. -/
@@ -234,8 +236,9 @@ theorem canonicalVstar_normalization (W : ℝ → ℂ) (N X : ℝ)
       (Real.sqrt X : ℂ)⁻¹ * W (N / X) := by
   have hsN : (Real.sqrt N : ℂ) ≠ 0 := by
     exact_mod_cast (Real.sqrt_pos.mpr hN).ne'
-  simp only [canonicalVstar, Real.sqrt_div hN.le, Complex.ofReal_div,
-    div_eq_mul_inv]
+  unfold canonicalVstar
+  rw [Real.sqrt_div hN.le, Complex.ofReal_div]
+  simp only [div_eq_mul_inv]
   rw [← mul_assoc, ← mul_assoc, inv_mul_cancel₀ hsN, one_mul]
 
 theorem canonicalVstar_ideal_normalization (W : ℝ → ℂ) (C : Ideal (𝓞 K))

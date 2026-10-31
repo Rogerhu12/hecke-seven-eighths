@@ -540,9 +540,9 @@ try:
 except Exception as bootstrap_error:
     # A transport miss affects speed only. Missing dependencies still compile
     # below; neither a failed bootstrap nor a partial restore is a proof pass.
-    print(f"::warning::Original CI bootstrap unavailable ({type(bootstrap_error).__name__}); "
-          "remaining dependencies will compile from source.", flush=True)
     safe_message = str(bootstrap_error) if isinstance(bootstrap_error, RuntimeError) else type(bootstrap_error).__name__
+    print(f"::warning::Original CI bootstrap unavailable ({safe_message}); "
+          "remaining dependencies will compile from source.", flush=True)
     (LOGS / "bootstrap-error.txt").write_text(type(bootstrap_error).__name__ + ": " + safe_message + "\n")
 
 

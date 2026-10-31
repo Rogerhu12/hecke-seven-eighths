@@ -5,6 +5,8 @@ import HeckeSkeleton.Moments.MOM_BASE.PairedFiniteRay
 import HeckeSkeleton.Moments.MOM_BASE.CoefficientInterfaces
 import HeckeSkeleton.Moments.MOM_BASE.SupportedCorrelation
 import HeckeSkeleton.Moments.MOM_BASE.FiniteBackground
+import HeckeSkeleton.Moments.MOM_BASE.LocalGauss
+import HeckeSkeleton.Moments.MOM_BASE.FiniteArithmetic
 
 /-! Importable actual-context entry point for the shared MOM_BASE foundation. -/
 

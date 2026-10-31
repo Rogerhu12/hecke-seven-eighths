@@ -44,9 +44,15 @@ a_0(I)\gamma_1(I)=\mu_K(I)G(I),\qquad
 
 ## 有限相关和删除接口
 
+`LocalGauss.lean` 从 `TargetContext` 已有的实际算术选择出发，证明任意 S-整数频率上的规范素数幂 Gauss 公式，包括零频率。非平凡分支的模长为 `sqrt(P^(n-1))`，且只在频率属于原始 `p^(n-1)` 而不属于 `p^n` 时非零；`6 ∣ n` 的分支给出原始两个理想成员指示函数的 Ramanujan 差。商环基数、单位乘统一化元的分解及其与原始理想支撑的关系均在模块内导出。
+
 `FiniteCoefficients.lean` 用 `ThetaArithmeticData` 给出的六次单位根、嵌入和排除条件，证明实际外部素数上的六次角色阶数、素数 Gauss 模长、素数幂角色、零值保持和相关表。实际 CRT 入口从互异素数导出所需的两两互素性，不把它作为额外算术公理。
 
+`FiniteArithmetic.lean` 将该 CRT 角色直接识别为同一 `ThetaArithmeticData` 的实际理想剩余符号。它覆盖任意 S-整数分子，保留所有零值；`canonicalTau_actualCRT` 进一步给出实际 Hecke 系数、CRT 角色与原始 puncture 的精确乘积。
+
 `SupportedCorrelation.lean` 使用实际允许生成元，证明完整相关的零频对角、共同理想对频率的支撑限制、共同因子的精确分解，以及在插入 Möbius 掩码前固定的扩展。剩余生成元使用原生成元的**字面商**；独立生成元之间的单位差和 `R` 修正均保留在公式中。
+
+对实际完整素数幂模数，相同重数给出 `P^a` 上界，以及非平凡指数、单位除后频率处的 `P^(a-1)` 上界；不同重数 `a > b` 给出 `6 ∣ b` 和单位除后频率的必要条件，以及 `P^b` 上界。
 
 `CoefficientInterfaces.lean` 证明实际 `canonicalTau` 满足 `HeckePort.Moments.IdealCoeff`，并给出实际 plain 和的可和性与精确有限素数删除公式。没有把仅在互素对上成立的结论冒充成完全乘法性。
 

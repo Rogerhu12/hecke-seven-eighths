@@ -65,6 +65,17 @@ audited recursively. CI rejects missing output and every axiom outside
 #print axioms HeckeSkeleton.Moments.MOM_BASE.cube_moebius_dilates_summable
 #print axioms HeckeSkeleton.Moments.MOM_BASE.tsum_moebius_cube_dilates
 
+/- FiniteArithmetic.lean -/
+#print axioms HeckeSkeleton.Moments.MOM_BASE.exteriorSymbolHom_prime
+#print axioms HeckeSkeleton.Moments.MOM_BASE.exteriorSymbolHom_prime_algebraMap
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualCRTCharacter_eq_symbolHom
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualCRTCharacter_eq_idealSymbol
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualIdealCRTResidueEquiv_mk
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualCRTCharacter_eq_quotientFunction
+#print axioms HeckeSkeleton.Moments.MOM_BASE.actualCRTCharacter_eq_idealSymbol_sInteger
+#print axioms HeckeSkeleton.Moments.MOM_BASE.canonicalTau_actualCRT
+#print axioms HeckeSkeleton.Moments.MOM_BASE.canonicalTau_actualCRT_algebraMap
+
 /- FiniteBackground.lean -/
 #print axioms HeckeSkeleton.Moments.MOM_BASE.finiteTwist_radialParameter
 #print axioms HeckeSkeleton.Moments.MOM_BASE.finiteTwist_complexWeight
@@ -93,6 +104,46 @@ audited recursively. CI rejects missing output and every axiom outside
 #print axioms HeckeSkeleton.Moments.MOM_BASE.actualPrimePowerList_coprime
 #print axioms HeckeSkeleton.Moments.MOM_BASE.actualCRTCharacter_mk
 #print axioms HeckeSkeleton.Moments.MOM_BASE.actualCRTCorrelation
+
+/- LocalGauss.lean -/
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.primeNorm_eq
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.primeNorm_pos
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.generatorClass_eq_zero_of_le
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.generatorClass_self
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.generatorClass_eq_zero_iff
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.generatorClass_mul
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.quotient_card
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.lastLayer_zero
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.lastLayer_mk_iff
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.frequency_mk_eq_zero_iff
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.raw_generatorClass
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.maskedPower_mul_unit
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.maskedPower_unit_norm
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.sexticExponent_eq_zero
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.maskedPower_unit_of_six_dvd
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.raw_mul_unit
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.normalized_mul_unit
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.normalized_mul_unit_norm
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.normalized_mul_unit_of_six_dvd
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.localQuotientMap_generator
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.nonzero_frequency_representation
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.frequencyOrder_zero
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.frequencyOrder_lt
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.frequencyOrder_representation
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.frequencyOrder_eq_pred_iff
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.frequencyOrder_support
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.frequencyOrder_lastLayer
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.prime_tau_of_six_dvd
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.raw_generatorClass_norm
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.normalized_generatorClass_norm
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.raw_generatorClass_of_six_dvd
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.normalized_generatorClass_of_six_dvd
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.normalized_norm
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.normalized_of_six_dvd
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.normalized_norm_original_mask
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.normalized_of_six_dvd_original_mask
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.normalized_norm_mk
+#print axioms HeckeSkeleton.Moments.MOM_BASE.LocalGauss.normalized_of_six_dvd_mk
 
 /- Main.lean -/
 #print axioms HeckeSkeleton.Moments.MOM_BASE.targetCanonicalThetaBridge_of_support

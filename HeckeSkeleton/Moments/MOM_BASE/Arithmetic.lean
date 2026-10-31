@@ -110,7 +110,7 @@ theorem idealSymbol_twelfth_power_mask (I : ExteriorIdeal K S) (a : S.integer K)
 /-- The original puncture, defined on all ideals for the cube inversion. -/
 def punctureHom (r : Ideal (𝓞 K)) : Ideal (𝓞 K) →* ℂ where
   toFun I := if IsCoprime I r then 1 else 0
-  map_one' := by simp
+  map_one' := ite_eq_left isCoprime_one_left
   map_mul' I J := by
     by_cases hI : IsCoprime I r <;> by_cases hJ : IsCoprime J r <;>
       simp [IsCoprime.mul_left_iff, hI, hJ]
@@ -128,7 +128,7 @@ theorem canonicalTau_apply (θ : HeckeCharacter K) (m : S.integer K)
         (if IsCoprime I.val.val r then 1 else 0) := by
   change idealCoefficient (primeCoefficient K θ) I.val.val *
     exteriorSymbolHom K S D m I.val.val * _ = _
-  rw [exteriorSymbolHom_apply]
+  rw [exteriorSymbolHom_apply] <;> rfl
 
 theorem canonicalTau_eq_zero_of_excluded (θ : HeckeCharacter K)
     (m : S.integer K) (r I : Ideal (𝓞 K))
