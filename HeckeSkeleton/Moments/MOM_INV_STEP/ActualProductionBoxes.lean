@@ -42,7 +42,9 @@ instance coordinateFintype : Fintype Coordinate where
     cases c <;> simp
 
 @[simp] theorem card_coordinate : Fintype.card Coordinate = 12 := by
-  simp [Fintype.card, coordinateFintype]
+  first
+    | rfl
+    | decide
 
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
@@ -165,10 +167,17 @@ theorem coordinateNorm_le_cube (B : Bare) (Y : ℝ) (hY : 1 ≤ Y)
     exact h.trans ((mul_le_mul hC hrad (Nat.cast_nonneg _) hy0).trans_eq (by ring))
   have hd₂ := (norm_le_of_dvd K B.d₂.val.val B.common.val.val
     (nonZeroDivisors.coe_ne_zero B.common.val) B.d₂_dvd).trans hg
+  have hJdvd : B.cubeJ ∣ B.b₁.val.val * B.b₂.val.val := by
+    refine ⟨B.cubeQ ^ 2 * B.cubeJ2, ?_⟩
+    change B.b₁.val.val * B.b₂.val.val =
+      CubeLabels.J B.b₁.val B.b₂.val (PositiveReconstruction.Source.epsilon B.refs.1)
+        (PositiveReconstruction.Source.epsilon B.refs.2) * (B.cubeQ ^ 2 * B.cubeJ2)
+    rw [CubeLabels.J_eq_s_mul_J2, CubeLabels.actual_cube_decomposition]
+    unfold PositiveReconstruction.Source.cubeQ PositiveReconstruction.Source.cubeJ2
+    ring
   have hJ := (norm_le_of_dvd K B.cubeJ (B.b₁.val.val * B.b₂.val.val)
     (mul_ne_zero (nonZeroDivisors.coe_ne_zero B.b₁.val)
-      (nonZeroDivisors.coe_ne_zero B.b₂.val))
-    (cube_label_dvd_original_product B.valid)).trans hprod
+      (nonZeroDivisors.coe_ne_zero B.b₂.val)) hJdvd).trans hprod
   have hR := (norm_le_of_dvd K (activeConductor K S D Γ B)
     (B.b₁.val.val * B.b₂.val.val)
     (mul_ne_zero (nonZeroDivisors.coe_ne_zero B.b₁.val)

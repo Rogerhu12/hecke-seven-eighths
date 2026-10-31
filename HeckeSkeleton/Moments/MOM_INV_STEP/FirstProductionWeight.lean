@@ -53,8 +53,10 @@ theorem physicalCost_nonneg (i : Idx) :
   unfold physicalCost
   apply div_nonneg
   · exact mul_nonneg (ActualPoissonScale.fieldConstant_nonneg K) (height_pos K Sset _).le
-  · rw [sourceScale_eq K S T hbase U]
-    exact (mul_pos (InverseRowMajorant.rowRadius (R i.1)).property U.property).le
+  · have hs : 0 < sourceScale K S T U := by
+      rw [sourceScale_eq K S T hbase U]
+      exact U.property
+    exact (mul_pos (InverseRowMajorant.rowRadius (R i.1)).property hs).le
 
 theorem physicalCost_eq (i : Idx) :
     physicalCost K S D Γ T Θ ψ G hν hG hbase R U J s H₂ hmask i =
@@ -63,7 +65,7 @@ theorem physicalCost_eq (i : Idx) :
           (FirstToSecondData.bare K S D T Θ ψ G hν hG hbase R U J s Γ H₂ hmask i).commonResidual *
         (R i.1).val / U.val := by
   unfold physicalCost
-  rw [sourceScale_eq K S T hbase U]
+  simp only [sourceScale_eq K S T hbase U]
   dsimp only [InverseRowMajorant.rowRadius]
   field_simp [(R i.1).property.ne', U.property.ne']
   <;> ring
@@ -98,7 +100,9 @@ theorem weight_overlap_eq (i : Idx) :
     (SecondParentProduction.scale_pos K S Q) Q.radius B.secondDivisor B.common B.firstLabel
       (sIntegerMaskGenerator K Sset B.firstDivisor)‖) *
       ‖SecondColumnEnergy.overlapZero K S B.common B.firstLabel B.overlap‖ = _
-  rw [mul_assoc, hh] <;> rfl
+  refine (mul_assoc _ _ _).trans ?_
+  refine (congrArg (HMul.hMul _) hh).trans ?_
+  rfl
 
 /-- The two actual Moebius coefficients contract without discarding
 the common/overlap zero. This is the physical scalar supplied to the
@@ -117,9 +121,10 @@ theorem actual_weight_le (i : Idx) :
   have hc : 0 ≤ c := mul_nonneg
     (physicalCost_nonneg K S D Γ T Θ ψ G hν hG hbase R U J s H₂ hmask i) (norm_nonneg _)
   have hμ : ‖(moebius i.2.2.2.val : ℂ)‖ *
-      ‖(moebius (IdealMobiusMask.primeProduct i.2.2.1.2.1.val) : ℂ)‖ ≤ 1 :=
-    mul_le_one₀ (HeckePort.IdealMobiusDivisorSum.norm_ideal_moebius_le_one _)
-      (norm_nonneg _) (HeckePort.IdealMobiusDivisorSum.norm_ideal_moebius_le_one _)
+      ‖(moebius (IdealMobiusMask.primeProduct i.2.2.1.2.1.val) : ℂ)‖ ≤ 1 := by
+    refine mul_le_one₀ ?_ (norm_nonneg _) ?_ <;>
+    · unfold moebius
+      split_ifs <;> simp
   calc
     _ = ‖(moebius i.2.2.2.val : ℂ)‖ *
         (SecondAdaptiveProduction.weightAt K S D Γ

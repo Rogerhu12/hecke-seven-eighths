@@ -75,7 +75,7 @@ theorem spectralAverage_le_add
       ((hPi (coordinate ξ)).add (hEi (coordinate ξ)))
       (Filter.Eventually.of_forall (fun t =>
         (mul_le_mul_of_nonneg_left (hbound _) (norm_nonneg _)).trans_eq (mul_add _ _ _)))
-    rwa [integral_add (hPi (coordinate ξ)) (hEi (coordinate ξ))] at hb
+    rwa [integral_add' (hPi (coordinate ξ)) (hEi (coordinate ξ))] at hb
   have hout := integral_mono_of_nonneg
     (Filter.Eventually.of_forall (fun ξ => mul_nonneg (frequencyEnvelope_nonneg m ξ)
       (integral_nonneg (fun t => mul_nonneg (norm_nonneg _) (hF0 _)))))
@@ -83,7 +83,7 @@ theorem spectralAverage_le_add
     (Filter.Eventually.of_forall (fun ξ =>
       (mul_le_mul_of_nonneg_left (hinner ξ) (frequencyEnvelope_nonneg m ξ)).trans_eq
         (mul_add _ _ _)))
-  rw [integral_add hPo hEo] at hout
+  rw [integral_add' hPo hEo] at hout
   exact hout
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstSpectralAggregation
