@@ -74,7 +74,7 @@ variable (arithmetic : ∀ j, (N j).ArithmeticInput)
 
 local notation "chosen" => fun j => (N j).withArithmetic (arithmetic j)
 
-variable (b : (normalizedFamily leaves chosen).active Finset.univ)
+variable (b : (normalizedFamily leaves (fun j => (N j).withArithmetic (arithmetic j))).active Finset.univ)
 local notation "raw" => N b.val.1
 local notation "costs" => arithmetic b.val.1
 local notation "rectangle" => activeRectangle leaves chosen b
@@ -82,11 +82,11 @@ local notation "leftFrame" => raw.rectangles.leftFrame C b.val.2.1
 local notation "rightFrame" => raw.rectangles.rightFrame C b.val.2.2
 
 variable {firstNormalization remaining : ℝ}
-variable (L : OriginalPairAllowanceWindow leftFrame rightFrame
-  (raw.left b.val.2.1).calibration (raw.right b.val.2.2).calibration
-  costs.rowMass (costs.leftAtoms b.val.2.1) (costs.rightAtoms b.val.2.2)
-  ((raw.withArithmetic costs).left b.val.2.1).capacity
-  ((raw.withArithmetic costs).right b.val.2.2).capacity
+variable (L : OriginalPairAllowanceWindow ((N b.val.1).rectangles.leftFrame C b.val.2.1) ((N b.val.1).rectangles.rightFrame C b.val.2.2)
+  ((N b.val.1).left b.val.2.1).calibration ((N b.val.1).right b.val.2.2).calibration
+  (arithmetic b.val.1).rowMass ((arithmetic b.val.1).leftAtoms b.val.2.1) ((arithmetic b.val.1).rightAtoms b.val.2.2)
+  (((N b.val.1).withArithmetic (arithmetic b.val.1)).left b.val.2.1).capacity
+  (((N b.val.1).withArithmetic (arithmetic b.val.1)).right b.val.2.2).capacity
   Z firstNormalization remaining)
 variable {branch : TwoDivisorCommonBranch (K := K)}
 variable {Ray₁ Ray₂ : Type*}

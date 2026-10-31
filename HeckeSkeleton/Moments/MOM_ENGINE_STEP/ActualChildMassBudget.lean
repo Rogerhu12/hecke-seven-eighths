@@ -257,8 +257,8 @@ variable (BL : left.source.FrozenAtomBounds) (BR : right.source.FrozenAtomBounds
 local notation "LC" => left.arithmeticCalibration calL W BL
 local notation "RC" => right.arithmeticCalibration calR W BR
 
-variable {li : LC.CapacityInput} {ri : RC.CapacityInput}
-variable (lc : LC.CapacityChild li) (rc : RC.CapacityChild ri)
+variable {li : (left.arithmeticCalibration calL W BL).CapacityInput} {ri : (right.arithmeticCalibration calR W BR).CapacityInput}
+variable (lc : (left.arithmeticCalibration calL W BL).CapacityChild li) (rc : (right.arithmeticCalibration calR W BR).CapacityChild ri)
 variable (boundsL : Fin left.source.allocation.keep.card → ℝ)
 variable (boundsR : Fin right.source.allocation.keep.card → ℝ)
 

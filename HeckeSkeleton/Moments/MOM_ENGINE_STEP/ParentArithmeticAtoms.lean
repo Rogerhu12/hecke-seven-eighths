@@ -97,7 +97,7 @@ def jointRows {A : SArithmeticData K}
   T.transport _ id (fun _ h => h.1) rfl rfl rfl (fun _ => rfl)
 
 def withPlainTests (left right : IdealTest K) :
-    ParentArithmeticAtoms Q { d with plainTest₁ := left, plainTest₂ := right } :=
+    ParentArithmeticAtoms (ω := ω) (ψ := ψ) Q { d with plainTest₁ := left, plainTest₂ := right } :=
   T.transport _ id (fun _ h => h) rfl rfl rfl (fun _ => rfl)
 
 /-- The source atoms are constructed from the original per-ideal

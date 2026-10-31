@@ -104,7 +104,7 @@ end Ideal
 
 variable {ω ψ : HeckeCharacter K}
 variable {d : MomentData K ω ψ} {a : RealParameters} {Z t Y₁ Y₂ : ℝ}
-variable (raw : ParentRawAtoms Q d a Z t Y₁ Y₂)
+variable (raw : ParentRawAtoms (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) d a Z t Y₁ Y₂)
 
 /-- Only complete columns in the original exterior support are kept.
 All other columns will be proved to have zero complete phase. -/
@@ -124,11 +124,11 @@ theorem columnExterior_val_of_mem (v : raw.Column) (hv : v ∈ raw.exteriorColum
   have h := (Finset.mem_filter.mp hv).2
   simp only [columnExterior, dif_pos h]
 
-variable (left : ∀ I ∈ raw.leftColumns, ∀ q : Q,
+variable (left : ∀ I ∈ raw.leftColumns, ∀ q : (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ),
   raw.leftPhase q I = actualIdealResidue (A := A) (σ := σ) I.val q.out.val)
-variable (right : ∀ I ∈ raw.rightColumns, ∀ q : Q,
+variable (right : ∀ I ∈ raw.rightColumns, ∀ q : (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ),
   raw.rightPhase q I = actualIdealResidue (A := A) (σ := σ) I.val q.out.val)
-variable (prime : ∀ i, ∀ p ∈ raw.slotColumns i, ∀ q : Q,
+variable (prime : ∀ i, ∀ p ∈ raw.slotColumns i, ∀ q : (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ),
   raw.primePhase q i p = actualIdealResidue (A := A) (σ := σ) p.asIdeal q.out.val)
 
 include left right prime
@@ -211,7 +211,7 @@ section Calibration
 variable [Γ.FiniteIndex]
 variable [MeasurableSpace (sLocalNormOneGroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))]
-variable {φ : SchwartzMap V ℂ}
+variable {φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
 variable {finiteTest : ((v : (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) → v.val.adicCompletion K) → ℂ}
 variable {radius : {r : ℝ // 0 < r}} {mask : Finset (HeightOneSpectrum A.R)}
 variable {fiberBound : ℕ}

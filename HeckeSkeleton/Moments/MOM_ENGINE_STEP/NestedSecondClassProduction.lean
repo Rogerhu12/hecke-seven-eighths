@@ -248,7 +248,7 @@ variable (IA : AllocationColumn K k → A.Exterior) (IB : AllocationColumn K l �
 variable (rayLeft : AllocationColumn K k → Ray) (rayRight : AllocationColumn K l → Ray)
 variable (phaseTable : Ray × Ray → Circle)
 variable (c : AllocationColumn K k → ℂ) (f : AllocationColumn K l → ℂ)
-variable (x : H → AllocationColumn K k → W) (y : H → AllocationColumn K l → W)
+variable (x : H → AllocationColumn K k → (WithLp 2 (U × V))) (y : H → AllocationColumn K l → (WithLp 2 (U × V)))
 
 def measuredSecondBranchCost (b : SecondAllocationBranch Ray T₁ T₂ T IB k) : ℝ :=
   b.weight phaseTable * ∫ z, Real.sqrt (jointColumnEnergy R.rows (b.leftColumns S₁ S₂ S)

@@ -39,8 +39,8 @@ local notation "W" => WithLp 2 (U × V)
 namespace ActualHybridLeaf
 
 variable (leaf : ActualHybridLeaf K H U V)
-variable (left : SecondSideFrame (V := W) C R Ray .left leaf.leftSlots)
-variable (right : SecondSideFrame (V := W) C R Ray .right leaf.rightSlots)
+variable (left : SecondSideFrame (V := (WithLp 2 (U × V))) C R Ray .left leaf.leftSlots)
+variable (right : SecondSideFrame (V := (WithLp 2 (U × V))) C R Ray .right leaf.rightSlots)
 variable {theta : Finset (HeckeCharacter K)} (Q : PairedFiniteCharacters theta H)
 
 /-- These fields identify only raw finite atoms.  There is no magnitude,
@@ -149,8 +149,8 @@ end OrdinaryExceptionalBinding
 namespace ConstantAtomExtraction
 
 variable {leaf} (X : leaf.ConstantAtomExtraction)
-variable (left : SecondSideFrame (V := W) C R Ray .left X.leaf.leftSlots)
-variable (right : SecondSideFrame (V := W) C R Ray .right X.leaf.rightSlots)
+variable (left : SecondSideFrame (V := (WithLp 2 (U × V))) C R Ray .left X.leaf.leftSlots)
+variable (right : SecondSideFrame (V := (WithLp 2 (U × V))) C R Ray .right X.leaf.rightSlots)
 variable [FiniteDimensional ℝ U] [MeasurableSpace U] [BorelSpace U]
 variable [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
 

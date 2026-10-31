@@ -26,7 +26,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Analysis
 variable {K : Type} [Field K] [NumberField K]
 variable {S : Finset (HeightOneSpectrum (𝓞 K))}
 local notation "OS" => Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K
-variable [IsPrincipalIdealRing OS]
+variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 
 theorem firstZeroDivisorWeight_le_inverseRadius
     (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum OS)) :

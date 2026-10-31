@@ -57,7 +57,7 @@ local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
 
 namespace ParentRawAtoms.ConstantValues
 
-variable {raw : ParentRawAtoms Q d a Z t Y₁ Y₂}
+variable {raw : ParentRawAtoms (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) d a Z t Y₁ Y₂}
 
 /-- A genuine original first source constructed uniformly in all slot
 counts and in both the ordinary and centered parent coefficient. -/

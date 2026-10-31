@@ -165,7 +165,7 @@ variable {Z t Y₁ Y₂ : ℝ}
 
 namespace ParentRawAtoms
 
-variable (raw : ParentRawAtoms Q d a Z t Y₁ Y₂)
+variable (raw : ParentRawAtoms (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) d a Z t Y₁ Y₂)
 
 theorem rowMap_injective_of_originalIdeal
     (hideal : ∀ u ∈ pairedRows d a Z,
@@ -187,10 +187,10 @@ variable [MeasurableSpace (sLocalNormOneGroup K (A.Sf : Set (HeightOneSpectrum (
 
 namespace ParentRectangleProfiles
 
-variable {raw : ParentRawAtoms Q d a Z t Y₁ Y₂}
+variable {raw : ParentRawAtoms (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) d a Z t Y₁ Y₂}
 variable {finiteTest : ((v : (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) →
   v.val.adicCompletion K) → ℂ}
-variable {radius : {r : ℝ // 0 < r}} {weight : Q → ℝ}
+variable {radius : {r : ℝ // 0 < r}} {weight : (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) → ℝ}
 variable (profiles : ParentRectangleProfiles raw finiteTest radius weight)
 
 /-- The original rectangle profiles produce an orbital source with

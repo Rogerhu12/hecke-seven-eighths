@@ -35,7 +35,7 @@ local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
 
 namespace ParentRawAtoms
 
-variable (raw : ParentRawAtoms Q d a Z t Y₁ Y₂)
+variable (raw : ParentRawAtoms (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) d a Z t Y₁ Y₂)
 
 /-- The original tuple is nonzero before any exterior filtering. -/
 theorem columnIdeal_ne_zero (v : raw.Column) : raw.columnIdeal v ≠ 0 := by

@@ -256,32 +256,71 @@ theorem rowPresent_of_fiberLeaf_live
 
 /-- Primitive original row coordinates.  The forward classifier
 identity forbids arbitrary refinement of the declared row-label set.
-The two ideal windows concern the original mask and row support only. -/
+The mask remains fixed for the stage, while each common block uses
+its own original prime support and original support-ideal window. -/
 structure OriginalFibreRows (Θ : Type*) (dimension width : ℕ) (B Z : ℝ) where
-  support : Finset (HeightOneSpectrum (𝓞 K))
+  support : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val) →
+    Finset (HeightOneSpectrum (𝓞 K))
   maskIdeal : Ideal (𝓞 K)
-  rowIdeal : Ideal (𝓞 K)
+  rowIdeal : commonSupportPool G.columns G.columns
+    (fun i => (G.ideal i).val) (fun j => (G.ideal j).val) → Ideal (𝓞 K)
   mask_nonzero : maskIdeal ≠ 0
-  row_nonzero : rowIdeal ≠ 0
+  row_nonzero : ∀ DE, rowIdeal DE ≠ 0
   maskPrimes : OriginalMaskPrimeData s.mask maskIdeal
-  row_divides : ∀ p ∈ support, p.asIdeal ∣ rowIdeal
+  row_divides : ∀ DE, ∀ p ∈ support DE, p.asIdeal ∣ rowIdeal DE
   mask_norm : (Ideal.absNorm maskIdeal : ℝ) ≤ Z ^ B
-  row_norm : (Ideal.absNorm rowIdeal : ℝ) ≤ Z ^ B
+  row_norm : ∀ DE, (Ideal.absNorm (rowIdeal DE) : ℝ) ≤ Z ^ B
   code : ∀ DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val),
-    s.mask.powerset → Q → RowCode support Θ dimension width
+    s.mask.powerset → Q → RowCode (support DE) Θ dimension width
   encode : ∀ DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val),
-    ∀ D : s.mask.powerset, RowCode support Θ dimension width →
+    ∀ D : s.mask.powerset, RowCode (support DE) Θ dimension width →
       Fin ((s.charts DE D).rowLabelCount + 1)
   row_label : ∀ DE D, ∀ h ∈ (s.sources DE).rows,
     (s.charts DE D).rowLabel h = encode DE D (code DE D h)
 
-def OriginalFibreRows.rowPrimes (rows : s.OriginalFibreRows Θ dimension width B Z) :
-    OriginalMaskPrimeData rows.support rows.rowIdeal where
+/-- A genuinely uniform original support remains a special case of
+the block-dependent certificate.  Existing uniform constructors keep
+their original scalar windows and classifier identities. -/
+def OriginalFibreRows.ofUniform
+    (support : Finset (HeightOneSpectrum (𝓞 K))) (maskIdeal rowIdeal : Ideal (𝓞 K))
+    (mask_nonzero : maskIdeal ≠ 0) (row_nonzero : rowIdeal ≠ 0)
+    (maskPrimes : OriginalMaskPrimeData s.mask maskIdeal)
+    (row_divides : ∀ p ∈ support, p.asIdeal ∣ rowIdeal)
+    (mask_norm : (Ideal.absNorm maskIdeal : ℝ) ≤ Z ^ B)
+    (row_norm : (Ideal.absNorm rowIdeal : ℝ) ≤ Z ^ B)
+    (code : ∀ DE : commonSupportPool G.columns G.columns
+        (fun i => (G.ideal i).val) (fun j => (G.ideal j).val),
+      s.mask.powerset → Q → RowCode support Θ dimension width)
+    (encode : ∀ DE : commonSupportPool G.columns G.columns
+        (fun i => (G.ideal i).val) (fun j => (G.ideal j).val),
+      ∀ D : s.mask.powerset, RowCode support Θ dimension width →
+        Fin ((s.charts DE D).rowLabelCount + 1))
+    (row_label : ∀ DE D, ∀ h ∈ (s.sources DE).rows,
+      (s.charts DE D).rowLabel h = encode DE D (code DE D h)) :
+    s.OriginalFibreRows Θ dimension width B Z where
+  support _ := support
+  maskIdeal := maskIdeal
+  rowIdeal _ := rowIdeal
+  mask_nonzero := mask_nonzero
+  row_nonzero _ := row_nonzero
+  maskPrimes := maskPrimes
+  row_divides _ := row_divides
+  mask_norm := mask_norm
+  row_norm _ := row_norm
+  code := code
+  encode := encode
+  row_label := row_label
+
+def OriginalFibreRows.rowPrimes (rows : s.OriginalFibreRows Θ dimension width B Z)
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val)) :
+    OriginalMaskPrimeData (rows.support DE) (rows.rowIdeal DE) where
   prime := id
   injective := fun _ _ _ _ h => h
-  divides := rows.row_divides
+  divides := rows.row_divides DE
 
 end ActualGaussStage
 
@@ -343,11 +382,11 @@ theorem main_original_predicate_subpower
       (fun j hj _ => Subtype.ext ((hcommon j (Finset.mem_filter.mp hj).2).trans
         (hcommon j₀ hj₀).symm))
       (fun j hj => hrow j (Finset.mem_filter.mp hj).2)
-      rows.support (rows.code DE) (rows.encode DE) (rows.row_label DE)
+      (rows.support DE) (rows.code DE) (rows.encode DE) (rows.row_label DE)
       ⟨(actual_common_pair_properties _ _ _ _ DE).1,
         (actual_common_pair_properties _ _ _ _ DE).2.1⟩ hD₀
-      rows.maskIdeal rows.rowIdeal rows.mask_nonzero rows.row_nonzero
-      rows.maskPrimes rows.rowPrimes rows.mask_norm rows.row_norm hND₀ hn.1 hn.2
+      rows.maskIdeal (rows.rowIdeal DE) rows.mask_nonzero (rows.row_nonzero DE)
+      rows.maskPrimes (rows.rowPrimes DE) rows.mask_norm (rows.row_norm DE) hND₀ hn.1 hn.2
     have he : leaves.filter (fun j => index j = a) = leaves :=
       Finset.filter_eq_self.mpr (fun j hj => hallocation j (Finset.mem_filter.mp hj).2)
     rw [he] at hc
@@ -407,11 +446,11 @@ theorem residual_original_predicate_subpower
       (fun j hj _ => Subtype.ext ((hcommon j (Finset.mem_filter.mp hj).2).trans
         (hcommon j₀ hj₀).symm))
       (fun j hj => hrow j (Finset.mem_filter.mp hj).2)
-      rows.support (rows.code DE) (rows.encode DE) (rows.row_label DE)
+      (rows.support DE) (rows.code DE) (rows.encode DE) (rows.row_label DE)
       ⟨(actual_common_pair_properties _ _ _ _ DE).1,
         (actual_common_pair_properties _ _ _ _ DE).2.1⟩ hD₀
-      rows.maskIdeal rows.rowIdeal rows.mask_nonzero rows.row_nonzero
-      rows.maskPrimes rows.rowPrimes rows.mask_norm rows.row_norm hNcombined hn.1 hn.2
+      rows.maskIdeal (rows.rowIdeal DE) rows.mask_nonzero (rows.row_nonzero DE)
+      rows.maskPrimes (rows.rowPrimes DE) rows.mask_norm (rows.row_norm DE) hNcombined hn.1 hn.2
     have he : leaves.filter (fun j => index j = a) = leaves :=
       Finset.filter_eq_self.mpr (fun j hj => hallocation j (Finset.mem_filter.mp hj).2)
     rw [he] at hc
@@ -527,7 +566,7 @@ namespace FirstBlockPoolData
 
 variable {κ : Type*} {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)} {b : FirstCommonCharacterBlock fullI fullJ DE}
-variable {left : Finset ι} {right : Finset κ} {profiles : ι → κ → SchwartzMap V ℂ}
+variable {left : Finset ι} {right : Finset κ} {profiles : ι → κ → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
 variable {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
 variable {chart : FirstBlockProfileChart (E := W) hΓ μv b C left right profiles finiteTest radius D}
 variable {M : Finset (HeightOneSpectrum A.R)} {X : ℝ} {hX : 1 ≤ X}

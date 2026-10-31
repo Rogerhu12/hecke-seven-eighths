@@ -40,8 +40,8 @@ variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "SF" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
-variable [MeasurableSpace (sLocalNormOneGroup K SF)]
-  [BorelSpace (sLocalNormOneGroup K SF)]
+variable [MeasurableSpace (sLocalNormOneGroup K ((S : Set (HeightOneSpectrum (𝓞 K)))))]
+  [BorelSpace (sLocalNormOneGroup K ((S : Set (HeightOneSpectrum (𝓞 K)))))]
 
 def mass : ℝ := (sUnitHaarCovolume K SF (sixthPowerUnits K SF)).toReal
 
@@ -177,7 +177,7 @@ end CanonicalRowBall
 
 variable [Γ.FiniteIndex]
 variable {t Y₁ Y₂ : ℝ}
-variable {raw : ParentRawAtoms Q d a Z t Y₁ Y₂}
+variable {raw : ParentRawAtoms (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) d a Z t Y₁ Y₂}
 
 /-- The actual original source is now produced from the single-column
 phase dictionary and the original row ideals.  The common positive

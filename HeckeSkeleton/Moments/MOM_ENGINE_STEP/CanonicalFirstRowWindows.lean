@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstGaussData
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalGaussOrbitRows
 
 /-!
 # Original radius windows bound the actual first frequencies
@@ -103,13 +103,6 @@ theorem originalFrequencyIdeal_neg_norm (h : A.R) (hh : h ≠ 0) :
     ← natCard_sIntegerPrincipalResidue_eq_productNorm K
       (A.Sf : Set (HeightOneSpectrum (𝓞 K))) h hh,
     Ideal.span_singleton_neg]
-
-theorem originalFrequencyIdeal_out_norm (q : Q) :
-    A.exteriorNorm (originalFrequencyIdeal q.out.val) =
-      (sIntegerOrbitNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ q).val := by
-  rw [originalFrequencyIdeal_norm q.out.val q.out.property]
-  exact congrArg Subtype.val
-    (sIntegerOrbitNorm_out K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ q)
 
 variable {ι κ : Type*}
 

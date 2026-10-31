@@ -28,6 +28,18 @@ def ActualSecondCorrelationRows.restrictRows (R : ActualSecondCorrelationRows A 
   { R with rows := R.rows.filter p
     generates := fun h hh => R.generates h (Finset.mem_filter.mp hh).1 }
 
+theorem sqrt_add_le_sqrt_add_sqrt (x y : ℝ) :
+    Real.sqrt (x + y) ≤ Real.sqrt x + Real.sqrt y := by
+  apply Real.sqrt_le_iff.mpr
+  refine ⟨add_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _), ?_⟩
+  have hx : x ≤ (Real.sqrt x) ^ 2 := by
+    rw [Real.sq_sqrt']
+    exact le_max_left _ _
+  have hy : y ≤ (Real.sqrt y) ^ 2 := by
+    rw [Real.sq_sqrt']
+    exact le_max_left _ _
+  nlinarith [mul_nonneg (Real.sqrt_nonneg x) (Real.sqrt_nonneg y)]
+
 namespace SecondSideFrame
 
 variable {C : A.GeneralArithmeticContext σ η hS}
@@ -84,7 +96,7 @@ theorem sqrt_energy_partition (p : H → Prop) (ξ : V) :
     Real.sqrt (f.energy ξ) ≤ Real.sqrt ((f.restrictRows p).energy ξ) +
       Real.sqrt ((f.restrictRows (fun h => ¬p h)).energy ξ) := by
   rw [← f.energy_partition p ξ]
-  exact Real.sqrt_add_le _ _
+  exact sqrt_add_le_sqrt_add_sqrt _ _
 
 end SecondSideFrame
 end HeckeSkeleton.Moments.EngineStep

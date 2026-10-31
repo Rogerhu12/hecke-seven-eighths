@@ -142,18 +142,18 @@ variable (exceptional : R.prepared.CoverHybridPredicates L)
 local notation "firstNormalization" => s.canonicalNormalization hZ total
 local notation "Live" => R.prepared.liveLeaves L exceptional firstNormalization
 
-variable (extract : ∀ i : Live,
-  (R.prepared.parentLeaf L exceptional firstNormalization i.val).ConstantAtomExtraction)
+variable (extract : ∀ i : (R.prepared.liveLeaves L exceptional (s.canonicalNormalization hZ total)),
+  (R.prepared.parentLeaf L exceptional (s.canonicalNormalization hZ total) i.val).ConstantAtomExtraction)
 local notation "leaves" => fun i : Live => (extract i).leaf
-variable {I : Live → Type*} [∀ i, Fintype (I i)] [∀ i, DecidableEq (I i)]
-variable (N : ∀ i : Live, (extract i).leaf.NormalizationData (ι := I i)
+variable {I : (R.prepared.liveLeaves L exceptional (s.canonicalNormalization hZ total)) → Type*} [∀ i, Fintype (I i)] [∀ i, DecidableEq (I i)]
+variable (N : ∀ i : (R.prepared.liveLeaves L exceptional (s.canonicalNormalization hZ total)), (extract i).leaf.NormalizationData (ι := I i)
   C Ray ω ψ Z rowDomain heightDomain window seminorms)
 variable (arithmetic : ∀ i, (N i).ArithmeticInput)
 local notation "chosen" => fun i => (N i).withArithmetic (arithmetic i)
 local notation "families" => fun i => (chosen i).family
 local notation "Labels" => R.prepared.arithmeticLabels L hcap exceptional firstNormalization
 
-variable (b : (ActualHybridFamily.normalizedFamily leaves chosen).active Finset.univ)
+variable (b : (ActualHybridFamily.normalizedFamily (fun i : (R.prepared.liveLeaves L exceptional (s.canonicalNormalization hZ total)) => (extract i).leaf) (fun i => (N i).withArithmetic (arithmetic i))).active Finset.univ)
 local notation "i" => b.val.1
 local notation "raw" => N i
 local notation "costs" => arithmetic i
@@ -461,11 +461,11 @@ variable (exceptional : R.supported.gated.CoverHybridPredicates L)
 local notation "firstNormalization" => s.canonicalNormalization hZ total
 local notation "Live" => R.supported.gated.liveLeaves L exceptional firstNormalization
 
-variable (extract : ∀ i : Live,
-  (R.supported.gated.parentLeaf L exceptional firstNormalization i.val).ConstantAtomExtraction)
+variable (extract : ∀ i : (R.supported.gated.liveLeaves L exceptional (s.canonicalNormalization hZ total)),
+  (R.supported.gated.parentLeaf L exceptional (s.canonicalNormalization hZ total) i.val).ConstantAtomExtraction)
 local notation "leaves" => fun i : Live => (extract i).leaf
-variable {I : Live → Type*} [∀ i, Fintype (I i)] [∀ i, DecidableEq (I i)]
-variable (N : ∀ i : Live, (extract i).leaf.NormalizationData (ι := I i)
+variable {I : (R.supported.gated.liveLeaves L exceptional (s.canonicalNormalization hZ total)) → Type*} [∀ i, Fintype (I i)] [∀ i, DecidableEq (I i)]
+variable (N : ∀ i : (R.supported.gated.liveLeaves L exceptional (s.canonicalNormalization hZ total)), (extract i).leaf.NormalizationData (ι := I i)
   C Ray ω ψ Z rowDomain heightDomain window seminorms)
 variable (arithmetic : ∀ i, (N i).ArithmeticInput)
 local notation "chosen" => fun i => (N i).withArithmetic (arithmetic i)
@@ -476,7 +476,7 @@ local notation "tagMem" => R.supported.gated.arithmeticTag_mem L exceptional fir
 local notation "Main" => Labels.mainCarrier Tags
 local notation "Errors" => Labels.errorCarrier Tags
 
-variable (b : (ActualHybridFamily.normalizedFamily leaves chosen).active Finset.univ)
+variable (b : (ActualHybridFamily.normalizedFamily (fun i : (R.supported.gated.liveLeaves L exceptional (s.canonicalNormalization hZ total)) => (extract i).leaf) (fun i => (N i).withArithmetic (arithmetic i))).active Finset.univ)
 local notation "i" => b.val.1
 local notation "raw" => N i
 local notation "costs" => arithmetic i

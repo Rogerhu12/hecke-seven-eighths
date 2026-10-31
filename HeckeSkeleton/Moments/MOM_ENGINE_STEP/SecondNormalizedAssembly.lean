@@ -42,10 +42,10 @@ variable (R : ActualSecondCorrelationRows A σ H ι)
 variable (C : A.GeneralArithmeticContext σ η hS)
 variable (hS₁ : ∀ I ∈ S₁, I ≠ 0) (hS₂ : ∀ I ∈ S₂, I ≠ 0)
 variable (hT₁ : ∀ I ∈ T₁, I ≠ 0) (hT₂ : ∀ I ∈ T₂, I ≠ 0)
-variable (LC : Labels → FixedChildCharacters F k) (RC : Labels → FixedChildCharacters F l)
-variable (DL : ∀ z : Labels,
+variable (LC : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)) → FixedChildCharacters F k) (RC : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)) → FixedChildCharacters F l)
+variable (DL : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)),
   SecondCoefficientTermDictionary (LC z) (fixedLeftPhase Ray z.val.2.1) S₁ S₂ S)
-variable (DR : ∀ z : Labels,
+variable (DR : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)),
   SecondCoefficientTermDictionary (RC z) (fixedRightPhase Ray z.val.2.1) T₁ T₂ T)
 variable (hbaseL : ∀ z, 1 < (DL z).base) (hbaseR : ∀ z, 1 < (DR z).base)
 variable (hlengthL : ∀ z i, 0 < (DL z).length i) (hlengthR : ∀ z i, 0 < (DR z).length i)
@@ -84,12 +84,12 @@ def secondNonexceptionalCalibrations
   (Q.comap (fun h : R.live => h.val)).nonexceptionalCalibrationsOfFiniteTwists
     (CL z) (CR z) (left_theta z) (right_theta z) (left_ratio z) (right_ratio z)
 
-variable (CL : ∀ z : Labels,
-  ((LSource z).restrictRows (fun h => ¬ Q.exceptional h.val)).Calibration (σ := σ) ω ψ)
-variable (CR : ∀ z : Labels,
-  ((RSource z).restrictRows (fun h => ¬ Q.exceptional h.val)).Calibration (σ := σ) ω ψ)
-variable (GL : ∀ z : Labels, (CL z).NormalizedCapacityData)
-variable (GR : ∀ z : Labels, (CR z).NormalizedCapacityData)
+variable (CL : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)),
+  (((secondOriginalLeftSource R C hS₁ hS₂ LC DL hbaseL hlengthL x₁ x₂ x) z).restrictRows (fun h => ¬ Q.exceptional h.val)).Calibration (σ := σ) ω ψ)
+variable (CR : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)),
+  (((secondOriginalRightSource R C hT₁ hT₂ RC DR hbaseR hlengthR y₁ y₂ y) z).restrictRows (fun h => ¬ Q.exceptional h.val)).Calibration (σ := σ) ω ψ)
+variable (GL : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)), (CL z).NormalizedCapacityData)
+variable (GR : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)), (CR z).NormalizedCapacityData)
 variable (PL : SecondColumnFactors F Ray k) (PR : SecondColumnFactors F Ray l)
 variable {Z : ℝ} (left_base : ∀ z, (DL z).base = Z) (right_base : ∀ z, (DR z).base = Z)
 
@@ -115,8 +115,8 @@ def secondNormalizedPairFamily : ActualNormalizedPairFamily A σ V Labels ω ψ 
 local notation "Fam" => secondNormalizedPairFamily R C hS₁ hS₂ hT₁ hT₂ LC RC DL DR
   hbaseL hbaseR hlengthL hlengthR x₁ x₂ y₁ y₂ x y Q CL CR GL GR PL PR left_base right_base
 
-variable (hidentL : ∀ z : Labels, (DL z).FactorIdentification PL)
-variable (hidentR : ∀ z : Labels, (DR z).FactorIdentification PR)
+variable (hidentL : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)), (DL z).FactorIdentification PL)
+variable (hidentR : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)), (DR z).FactorIdentification PR)
 variable (IA : AllocationColumn F k → A.Exterior)
 variable (hIA : ∀ i ∈ childCartesianColumns S₁ S₂ S, (IA i).val = allocationColumnIdeal i)
 variable (hIB : ∀ i ∈ childCartesianColumns T₁ T₂ T, (IB i).val = allocationColumnIdeal i)

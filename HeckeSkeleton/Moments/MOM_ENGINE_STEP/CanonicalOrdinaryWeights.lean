@@ -72,8 +72,8 @@ variable (W : ActualSecondRowMass R C kLeft kRight)
 variable (BL : left.source.FrozenAtomBounds) (BR : right.source.FrozenAtomBounds)
 local notation "LC" => left.arithmeticCalibration calL W BL
 local notation "RC" => right.arithmeticCalibration calR W BR
-variable {li : LC.CapacityInput} {ri : RC.CapacityInput}
-variable (lc : LC.CapacityChild li) (rc : RC.CapacityChild ri)
+variable {li : (left.arithmeticCalibration calL W BL).CapacityInput} {ri : (right.arithmeticCalibration calR W BR).CapacityInput}
+variable (lc : (left.arithmeticCalibration calL W BL).CapacityChild li) (rc : (right.arithmeticCalibration calR W BR).CapacityChild ri)
 variable (boundsL : Fin left.source.allocation.keep.card → ℝ)
 variable (boundsR : Fin right.source.allocation.keep.card → ℝ)
 
@@ -136,7 +136,7 @@ namespace FirstBlockPoolData.SecondStages
 
 variable {ι κ : Type*} {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)} {b : FirstCommonCharacterBlock fullI fullJ DE}
-variable {left : Finset ι} {right : Finset κ} {profiles : ι → κ → SchwartzMap V ℂ}
+variable {left : Finset ι} {right : Finset κ} {profiles : ι → κ → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
 variable {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
 variable {chart : FirstBlockProfileChart (E := W) hΓ μv b C left right profiles finiteTest radius D}
 variable {M : Finset (HeightOneSpectrum A.R)} {X : ℝ} {hX : 1 ≤ X}

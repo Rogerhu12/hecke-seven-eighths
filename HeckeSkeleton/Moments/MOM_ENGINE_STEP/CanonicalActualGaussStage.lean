@@ -92,8 +92,9 @@ namespace OriginalGaussRowClassifier
 
 local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
 
-/-- The actual nonunit support of the negative second Poisson
-frequency, restricted to the original common-prime support. -/
+/-- Raw prime divisibility of the negative second Poisson frequency.
+This does not classify the frequency after division by a common prime
+power; a divided-frequency classifier uses `nonunitFrequencySaving`. -/
 def nonunitSupport (support : Finset (HeightOneSpectrum (𝓞 K))) (q : Q) :
     support.powerset :=
   ⟨support.filter (fun p => p.asIdeal ∣

@@ -443,7 +443,7 @@ variable {α β : Type*} {fullI : α → A.Exterior} {fullJ : β → A.Exterior}
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable {block : FirstCommonCharacterBlock fullI fullJ DE}
 variable {C : A.GeneralArithmeticContext σ η hS} {left : Finset α} {right : Finset β}
-variable {profiles : α → β → SchwartzMap Arch ℂ}
+variable {profiles : α → β → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
 

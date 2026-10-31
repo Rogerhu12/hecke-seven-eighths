@@ -101,11 +101,11 @@ theorem original_predicate_subpower
       (fun j hj _ => Subtype.ext ((hcommon j (Finset.mem_filter.mp hj).2).trans
         (hcommon j₀ hj₀).symm))
       (fun j hj => hrow j (Finset.mem_filter.mp hj).2)
-      rows.support (rows.code DE) (rows.encode DE) (rows.row_label DE)
+      (rows.support DE) (rows.code DE) (rows.encode DE) (rows.row_label DE)
       ⟨(actual_common_pair_properties _ _ _ _ DE).1,
         (actual_common_pair_properties _ _ _ _ DE).2.1⟩ hD₀
-      rows.maskIdeal rows.rowIdeal rows.mask_nonzero rows.row_nonzero
-      rows.maskPrimes rows.rowPrimes rows.mask_norm rows.row_norm hND₀ hn.1 hn.2
+      rows.maskIdeal (rows.rowIdeal DE) rows.mask_nonzero (rows.row_nonzero DE)
+      rows.maskPrimes (rows.rowPrimes DE) rows.mask_norm (rows.row_norm DE) hND₀ hn.1 hn.2
     have he : leaves.filter (fun j => index j = a) = leaves :=
       Finset.filter_eq_self.mpr (fun j hj => hallocation j (Finset.mem_filter.mp hj).2)
     rw [he] at hc
@@ -119,7 +119,7 @@ namespace FirstBlockDirectData
 
 variable {ι κ : Type*} {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)} {b : FirstCommonCharacterBlock fullI fullJ DE}
-variable {left : Finset ι} {right : Finset κ} {profiles : ι → κ → SchwartzMap V ℂ}
+variable {left : Finset ι} {right : Finset κ} {profiles : ι → κ → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
 variable {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
 variable {chart : FirstBlockProfileChart (E := W) hΓ μv b C left right profiles finiteTest radius D}
 variable {M : Finset (HeightOneSpectrum A.R)} {X : ℝ} {hX : 1 ≤ X}
