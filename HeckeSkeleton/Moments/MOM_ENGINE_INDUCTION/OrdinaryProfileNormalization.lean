@@ -108,7 +108,9 @@ theorem exists_normalizedOrdinaryPowerChild_control (J : ℕ) (A : ℝ) :
       | true => exact raise (modelProfileControl_plain₂ hparent u)
     | prime j => exact raise (modelProfileControl_prime hparent j)
   exact normalizedMomentProfiles_unit_control hc
-    (zero_lt_one.trans_le henv) (by simp only [ordinaryProfileEnvelope, Real.rpow_natCast])
+    (zero_lt_one.trans_le henv) (by
+      simpa only [ordinaryProfileEnvelope, Real.rpow_natCast] using
+        (le_refl (E0 * (1 + |frequency|) ^ J)))
 
 /-- The exact complete child energy removed during normalization. -/
 theorem ordinaryPowerChild_energy_normalization

@@ -112,10 +112,10 @@ theorem ordinaryReflectionLine_bound {r : ℝ} (hr : 0 < r) :
       r ^ (ordinaryReflectionLine r - 1 / 2) ≤ 1 := by
   by_cases h : r ≤ 1
   · simp only [ordinaryReflectionLine, if_pos h]
-    refine ⟨Or.inr rfl, by norm_num, by norm_num, ?_⟩
+    refine ⟨by simp, by norm_num, by norm_num, ?_⟩
     exact Real.rpow_le_one hr.le h (by norm_num)
   · simp only [ordinaryReflectionLine, if_neg h]
-    refine ⟨Or.inl rfl, by norm_num, by norm_num, ?_⟩
+    refine ⟨by simp, by norm_num, by norm_num, ?_⟩
     exact Real.rpow_le_one_of_one_le_of_nonpos (le_of_not_ge h) (by norm_num)
 
 end HeckeSkeleton.Moments.EngineInduction

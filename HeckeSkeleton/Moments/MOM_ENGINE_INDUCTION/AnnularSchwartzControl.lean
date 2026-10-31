@@ -145,9 +145,12 @@ theorem exists_annular_iteratedDeriv_bound (a b : ℝ) (ha : 0 < a) (n : ℕ) :
     have he : Set.EqOn (g ∘ Real.log) V.toFun (Ioi (0 : ℝ)) := by
       intro z hz
       simp only [g, Function.comp_def, Real.exp_log hz]
-    rw [iteratedFDerivWithin_congr he hy0 n,
-      iteratedFDerivWithin_eq_iteratedFDeriv isOpen_Ioi.uniqueDiffOn
-        (V.smooth.contDiffAt.of_le (by simp)) hy0,
+    have hwithin : iteratedFDerivWithin ℝ n V.toFun (Ioi (0 : ℝ)) y =
+        iteratedFDeriv ℝ n V.toFun y :=
+      iteratedFDerivWithin_eq_iteratedFDeriv (s := Ioi (0 : ℝ)) (n := n)
+        (f := V.toFun) isOpen_Ioi.uniqueDiffOn
+        (V.smooth.contDiffAt.of_le (by simp)) hy0
+    rw [iteratedFDerivWithin_congr he hy0 n, hwithin,
       norm_iteratedFDeriv_eq_norm_iteratedDeriv] at hcomp
     apply hcomp.trans
     dsimp only [D]

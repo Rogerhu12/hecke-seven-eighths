@@ -101,9 +101,10 @@ theorem ordinaryReflectedDyadic_normalized_tail
   intro a ha V Y hY J
   have hscale : (Real.sqrt Y)⁻¹ * (Y ^ 2 * ((2 : ℝ) ^ J / Y) ^ (1 - A)) =
       Y ^ (A + 1 / 2) * ((2 : ℝ) ^ J) ^ (1 - A) := by
-    rw [Real.sqrt_eq_rpow, ← Real.rpow_neg hY.le,
+    rw [Real.sqrt_eq_rpow, ← Real.rpow_neg hY.le (1 / 2),
       Real.div_rpow (pow_nonneg (by norm_num : (0 : ℝ) ≤ 2) J) hY.le,
-      div_eq_mul_inv, ← Real.rpow_neg hY.le, ← Real.rpow_two Y]
+      div_eq_mul_inv (((2 : ℝ) ^ J) ^ (1 - A)) (Y ^ (1 - A)),
+      ← Real.rpow_neg hY.le (1 - A), ← Real.rpow_two Y]
     calc
       _ = (Y ^ (-(1 / 2 : ℝ)) * Y ^ (2 : ℝ) * Y ^ (-(1 - A))) *
           ((2 : ℝ) ^ J) ^ (1 - A) := by ring
