@@ -56,6 +56,10 @@ structure FirstDualOriginalWindows
   zeroProfileConstant : ℝ
   zeroProfileConstant_nonneg : 0 ≤ zeroProfileConstant
   zeroProfileExponent : ℝ
+  /-- The actual inverse-radius window used only by the pure-dual zero
+  term. It is independent of the larger pair-modulus tail window. -/
+  zeroInverseRadiusExponent : ℝ
+  zero_inverse_radius : radius.val⁻¹ ≤ Z ^ zeroInverseRadiusExponent
   windows : FirstTailWindows hΓ C columns columns I I blocks
     sTail profiles radius M k Z productExponent profileExponent maskExponent
     modulusExponent tailProfileConstant
@@ -85,7 +89,23 @@ variable (T : FirstDualOriginalWindows (hΓ := hΓ) C columns I blocks profiles 
   sTail sZero k Z X normBound Lmax Nsave decay)
 
 def zeroExponent (δ : ℝ) : ℝ :=
-  T.zeroProfileExponent + T.modulusExponent + δ + T.productExponent / 2
+  T.zeroProfileExponent + T.zeroInverseRadiusExponent + δ + T.productExponent / 2
+
+/-- Install a sharper original radius window without changing the
+source, profiles, mask, cutoff, or any of the original tail windows. -/
+def withZeroInverseRadius (exponent : ℝ) (hradius : radius.val⁻¹ ≤ Z ^ exponent) :
+    FirstDualOriginalWindows (hΓ := hΓ) C columns I blocks profiles radius M
+      sTail sZero k Z X normBound Lmax Nsave decay :=
+  { T with zeroInverseRadiusExponent := exponent, zero_inverse_radius := hradius }
+
+@[simp] theorem withZeroInverseRadius_zeroExponent
+    (exponent δ : ℝ) (hradius : radius.val⁻¹ ≤ Z ^ exponent) :
+    (T.withZeroInverseRadius exponent hradius).zeroExponent δ =
+      T.zeroProfileExponent + exponent + δ + T.productExponent / 2 := rfl
+
+@[simp] theorem withZeroInverseRadius_windows
+    (exponent : ℝ) (hradius : radius.val⁻¹ ≤ Z ^ exponent) :
+    (T.withZeroInverseRadius exponent hradius).windows = T.windows := rfl
 
 def zeroAmplitude (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ) : ℝ :=
   originalFirstMaskConstant (K := K) normBound δ hB hδ *
@@ -117,7 +137,7 @@ theorem zero_normalization (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ) :
   have hmask := (firstZeroDivisorSum_le_card radius ((blocks v.1).mask M)).trans
     (mul_le_mul_of_nonneg_right hcard (inv_nonneg.mpr radius.property.le))
   have hmask' := hmask.trans
-    (mul_le_mul_of_nonneg_left T.windows.inverse_radius
+    (mul_le_mul_of_nonneg_left T.zero_inverse_radius
       (mul_nonneg (originalFirstMaskConstant_pos (K := K) normBound δ hB hδ).le
         (Real.rpow_nonneg hz.le _)))
   have hp := mul_le_mul (T.zero_profile v hv) hmask'
@@ -130,8 +150,8 @@ theorem zero_normalization (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ) :
     ring
   unfold zeroAmplitude zeroExponent
   rw [hsqrt, mul_div_assoc, ← Real.rpow_sub hz,
-    show (T.zeroProfileExponent + T.modulusExponent + δ + T.productExponent / 2) -
-      T.productExponent / 2 = T.zeroProfileExponent + T.modulusExponent + δ by ring,
+    show (T.zeroProfileExponent + T.zeroInverseRadiusExponent + δ + T.productExponent / 2) -
+      T.productExponent / 2 = T.zeroProfileExponent + T.zeroInverseRadiusExponent + δ by ring,
     Real.rpow_add hz, Real.rpow_add hz]
   ring
 
@@ -269,6 +289,7 @@ end ActualFirstSource
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.FirstDualOriginalWindows.zero_normalization
+#print axioms HeckeSkeleton.Moments.EngineStep.FirstDualOriginalWindows.withZeroInverseRadius
 #print axioms HeckeSkeleton.Moments.EngineStep.FirstDualOriginalWindows.tailMass_bound
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualFirstSource.originalDualTerminalCalibration
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualFirstSource.normalizedFirstDualZero_of_original_le

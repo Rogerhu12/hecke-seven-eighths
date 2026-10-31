@@ -79,7 +79,9 @@ variable [IsPrincipalIdealRing A.R]
 profiles. The modulus window uses the unweighted fixed test: multiplying
 its profile by the original coefficient leaves the actual modulus
 definitionally unchanged. Complete mask windows are supplied per actual
-common block, so an external full-mask constructor can be used directly. -/
+common block, so an external full-mask constructor can be used directly.
+The optional `zeroRadius` supplies the independent sharp original
+inverse-radius window; its default preserves the earlier constructor. -/
 def firstDualOriginalWindows
     (C : A.GeneralArithmeticContext σ η hS)
     {ι : Type*} (columns : Finset ι) (I : ι → A.Exterior)
@@ -115,7 +117,9 @@ def firstDualOriginalWindows
     (maskIdeal : Ideal (𝓞 K)) (hmaskIdeal : maskIdeal ≠ 0)
     (hmaskNorm : (Ideal.absNorm maskIdeal : ℝ) ≤ Z ^ normBound)
     (originalMask : OriginalMaskPrimeData M maskIdeal)
-    (hcolumn : ∀ i ∈ columns, (Ideal.absNorm (I i).val : ℝ) ≤ Z ^ normBound) :
+    (hcolumn : ∀ i ∈ columns, (Ideal.absNorm (I i).val : ℝ) ≤ Z ^ normBound)
+    (zeroRadius : {exponent : ℝ // radius.val⁻¹ ≤ Z ^ exponent} :=
+      ⟨modulusExponent, hinverse⟩) :
     FirstDualOriginalWindows (hΓ := hΓ) C columns I blocks
       (fun i j => (c i * star (c j)) • archTest K A.Sf 1) radius M
       sTail sZero k Z X normBound Lmax Nsave decay where
@@ -128,6 +132,8 @@ def firstDualOriginalWindows
   zeroProfileConstant_nonneg :=
     mul_nonneg (sq_nonneg coefficientConstant) (terminalSeminorm_nonneg sZero)
   zeroProfileExponent := 2 * coefficientExponent
+  zeroInverseRadiusExponent := zeroRadius.val
+  zero_inverse_radius := zeroRadius.property
   windows := {
     base_ge_one := hZ
     productExponent_nonneg := hproduct
