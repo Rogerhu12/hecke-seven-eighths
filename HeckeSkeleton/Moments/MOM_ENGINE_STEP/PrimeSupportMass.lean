@@ -145,6 +145,7 @@ theorem ideal_mass_eq (R : Finset (Ideal (𝓞 K))) (I : Ideal (𝓞 K)) (hI : I
   rw [he]
   exact (Real.finsetProd_rpow _ _ (fun _ _ => pow_nonneg (Nat.cast_nonneg _) _) _).symm
 
+set_option maxHeartbeats 800000 in
 theorem fixed_support_mass (K : Type*) [Field K] [NumberField K] (δ : ℝ) (hδ : 0 < δ) :
     ∃ C : ℝ, 0 < C ∧ ∀ (R S : Finset (Ideal (𝓞 K))),
       (∀ P ∈ R,Prime P) → (∀ I ∈ S,I ≠ 0) → (∀ I ∈ S,primeSupport I=R) →

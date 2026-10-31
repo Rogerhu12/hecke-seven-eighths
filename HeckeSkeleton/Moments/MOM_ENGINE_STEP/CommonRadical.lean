@@ -144,7 +144,9 @@ theorem divisible_inverse_norm_sum (S : Finset (Ideal (𝓞 K))) (s : Ideal (�
         ∑ I ∈ S, 1 / (Ideal.absNorm (idealQuotient s I) : ℝ) := by rw [Finset.mul_sum]
     _ = (1 / (Ideal.absNorm s : ℝ)) * ∑ J ∈ Q, 1 / (Ideal.absNorm J : ℝ) := by
       congr 1
-      exact (Finset.sum_image (divisor_quotient_injOn S s hdiv)).symm
+      exact (Finset.sum_image
+        (f := fun J : Ideal (𝓞 K) => 1 / (Ideal.absNorm J : ℝ))
+        (divisor_quotient_injOn S s hdiv)).symm
     _ ≤ (1 / (Ideal.absNorm s : ℝ)) *
         (2 * idealCountConstant K * (columnDyadicLength Y + 1 : ℝ)) :=
       mul_le_mul_of_nonneg_left (finite_inverse_norm_sum Q Y hQ0 hQN)

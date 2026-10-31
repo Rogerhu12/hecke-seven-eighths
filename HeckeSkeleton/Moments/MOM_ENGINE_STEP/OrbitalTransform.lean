@@ -36,9 +36,7 @@ def wholeResidueEnergy {ι R : Type*} (columns : Finset ι) (c : ι → ℂ)
 theorem wholeResidueEnergy_re {ι R : Type*} (columns : Finset ι) (c : ι → ℂ)
     (G : ι → R → ℂ) (x : R) :
     (wholeResidueEnergy columns c G x).re = ‖wholePolynomial columns c G x‖ ^ 2 := by
-  simp only [wholeResidueEnergy, Complex.mul_re, Complex.star_def, Complex.conj_re,
-    Complex.conj_im, sub_neg_eq_add]
-  exact (Complex.sq_norm _).symm
+  simp [wholeResidueEnergy, Complex.star_def, Complex.mul_conj', pow_two]
 
 theorem wholeResidueEnergy_re_nonneg {ι R : Type*}
     (columns : Finset ι) (c : ι → ℂ) (G : ι → R → ℂ) (x : R) :
@@ -51,12 +49,14 @@ theorem wholeResidueEnergy_expand {ι R : Type*} (columns : Finset ι) (c : ι �
     (G : ι → R → ℂ) (x : R) :
     wholeResidueEnergy columns c G x =
       ∑ i ∈ columns, ∑ j ∈ columns, c i * star (c j) * (G i x * star (G j x)) := by
-  simp only [wholeResidueEnergy, wholePolynomial, star_sum, star_mul,
-    Finset.sum_mul, Finset.mul_sum]
+  unfold wholeResidueEnergy wholePolynomial
+  rw [star_sum, Finset.sum_mul]
+  simp_rw [Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro i hi
   apply Finset.sum_congr rfl
   intro j hj
+  simp only [star_mul]
   ring
 
 /-- Taking the finite Fourier transform keeps the full coefficient array. -/
@@ -90,7 +90,7 @@ variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K)
 local notation "Q" => SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ
 
 variable (modulus : OS)
-local notation "R" => OS ⧸ Ideal.span ({modulus} : Set OS)
+local notation "R" => OS ⧸ Ideal.span (Set.singleton modulus)
 
 /-- Literal column invariance proves whole-coefficient invariance. -/
 theorem wholeResidueEnergy_literal_invariant {ι : Type*}

@@ -44,7 +44,9 @@ theorem divisor_pair_product {ι κ H : Type*}
           star (d j * rightPhase j * rightColumn j h) else 0) =
       divisorPolynomial leftColumns leftIdeals D c leftPhase leftColumn h *
         star (divisorPolynomial rightColumns rightIdeals D d rightPhase rightColumn h) := by
-  simp only [divisorPolynomial, star_sum, Finset.sum_mul, Finset.mul_sum]
+  unfold divisorPolynomial
+  rw [star_sum, Finset.sum_mul]
+  simp_rw [Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro i hi
   apply Finset.sum_congr rfl
@@ -96,19 +98,20 @@ theorem full_correlation_divisor_children {ι κ γ H : Type*} [Fintype γ]
           (c i * leftPhase χ i * leftColumn i h) *
             star (d j * rightPhase χ j * rightColumn j h) else 0) := by
     by_cases hc : D ∣ leftIdeals i ∧ D ∣ rightIdeals j
-    · simp only [hc, ite_true, Finset.mul_sum, Finset.sum_mul, star_mul]
+    · simp only [hc, and_self, ite_true, Finset.mul_sum, Finset.sum_mul, star_mul]
       apply Finset.sum_congr rfl
       intro χ hχ
       ring
     · simp only [hc, ite_false, mul_zero, Finset.sum_const_zero]
   simp_rw [hex]
-  rw [Finset.sum_comm (s := rightColumns) (t := Finset.univ)]
+  simp_rw [Finset.sum_comm (s := rightColumns) (t := Finset.univ)]
   rw [Finset.sum_comm (s := leftColumns) (t := Finset.univ)]
-  simp only [← Finset.mul_sum]
+  rw [mul_assoc (moebius D : ℂ) (common h)]
   congr 1
   rw [Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro χ hχ
+  simp_rw [← Finset.mul_sum]
   rw [divisor_pair_product]
   ring
 

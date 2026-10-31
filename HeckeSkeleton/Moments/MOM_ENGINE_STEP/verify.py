@@ -27,7 +27,8 @@ PREFIX = 'HeckeSkeleton.Moments.EngineStep'
 MODULE_ROOT = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP'
 CORE_MODULES = [MODULE_ROOT + '.' + name for name in (
     'Ledger', 'Pool', 'IdealPool', 'ActualLengths', 'Coefficient', 'Capacity', 'WholeTransform',
-    'CommonSupportPartition', 'PrimeSupportMass', 'CommonHarmonicMass',
+    'CommonSupportPartition', 'PrimeSupportMass', 'CommonHarmonicMass', 'PowerfulDiagonal',
+    'ChildAssembly', 'OrbitalTransform', 'OrbitalCorrelation', 'ParentMoment',
 )]
 
 

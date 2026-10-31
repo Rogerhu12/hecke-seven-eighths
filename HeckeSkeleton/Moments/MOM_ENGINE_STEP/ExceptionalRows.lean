@@ -43,7 +43,7 @@ theorem sixth_factor_norm_bound (base factor : Ideal (𝓞 K))
         simp only [map_mul, map_pow, Nat.cast_mul, Nat.cast_pow]
       _ ≤ _ := hrow
   rw [← he] at hp
-  have hp' := (mul_le_mul_left (Real.rpow_pos_of_pos hZ b)).mp hp
+  have hp' := le_of_mul_le_mul_left hp (Real.rpow_pos_of_pos hZ b)
   by_contra hn
   have hlt := pow_lt_pow_left₀ (lt_of_not_ge hn)
     (Real.rpow_nonneg hZ.le ((m - b) / 6)) (by decide : (6 : ℕ) ≠ 0)

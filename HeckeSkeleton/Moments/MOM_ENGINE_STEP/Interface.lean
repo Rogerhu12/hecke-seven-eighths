@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Coefficient
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentMoment
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Ledger
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualPool
@@ -21,6 +22,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernel
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernelBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalRows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalAmplitude
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PowerfulDiagonal
 
 /-!
 # The unified child step of the paired fourth-moment engine
