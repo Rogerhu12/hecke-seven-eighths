@@ -43,7 +43,7 @@ variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion 
 /-- Exact cardinality cancellation for the pure dual zero. The primal
 profile value does not occur in this identity. -/
 theorem OrbitalGaussColumn.dualZero_pair
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c d : OrbitalGaussColumn K S Γ)
     (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
@@ -100,7 +100,7 @@ variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion 
   [∀ v, (μv v).IsAddHaarMeasure]
 
 theorem generated_second_dualZero_of_ne
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (I J : A.Exterior) (a b : A.R) (ha : A.Generates I a) (hb : A.Generates J b)
     (hIJ : I ≠ J) (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
@@ -117,7 +117,7 @@ theorem generated_second_dualZero_of_ne
 /-- The full Euler factor is the unit group of the original quotient,
 with every prime-power depth. The original phases remain explicit. -/
 theorem generated_second_dualZero_diagonal_norm
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (I : A.Exterior) (a b : A.R) (ha : A.Generates I a) (hb : A.Generates I b)
     (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
@@ -144,7 +144,7 @@ theorem second_dualZero_amplitude_uniform
     ∃ s : Finset (ℕ × ℕ), ∃ C : ℝ, 0 ≤ C ∧
     ∀ (I J : A.Exterior) (a b : A.R) (ha : A.Generates I a) (hb : A.Generates J b),
     ∀ (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ),
-    ∀ hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0,
+    ∀ hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0,
     ∀ (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum A.R)),
     IsCoprime a (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val →
     IsCoprime b (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val →

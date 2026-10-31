@@ -48,7 +48,8 @@ variable {theta : Finset (HeckeCharacter K)} (Q : PairedFiniteCharacters theta H
 /-- These fields identify only raw finite atoms.  There is no magnitude,
 integral, parent inequality, or terminal estimate among the premises. -/
 structure ExceptionalBinding : Prop where
-  rows : leaf.rows = R.rows
+  rows : R.rows ⊆ leaf.rows
+  rows_zero : ∀ h ∈ leaf.rows, h ∉ R.rows → leaf.rowWeight h = 0
   left_columns : leaf.left = left.allocation.columns
   right_columns : leaf.right = right.allocation.columns
   exceptional : ∀ h ∈ leaf.rows, leaf.exceptional h ↔ Q.exceptional h
@@ -68,17 +69,23 @@ namespace ExceptionalBinding
 
 variable {leaf left right EL ER Q} (b : leaf.ExceptionalBinding left right EL ER Q)
 
-theorem exceptional_rows :
-    leaf.rows.filter leaf.exceptional = R.rows.filter Q.exceptional := by
-  ext h
-  constructor
-  · intro hh
-    obtain ⟨hm, he⟩ := Finset.mem_filter.mp hh
-    exact Finset.mem_filter.mpr ⟨b.rows ▸ hm, (b.exceptional h hm).mp he⟩
-  · intro hh
-    obtain ⟨hm, he⟩ := Finset.mem_filter.mp hh
-    have hl : h ∈ leaf.rows := b.rows.symm ▸ hm
-    exact Finset.mem_filter.mpr ⟨hl, (b.exceptional h hl).mpr he⟩
+include b
+
+theorem exceptional_rows_subset :
+    R.rows.filter Q.exceptional ⊆ leaf.rows.filter leaf.exceptional := by
+  intro h hh
+  obtain ⟨hm, he⟩ := Finset.mem_filter.mp hh
+  have hl : h ∈ leaf.rows := b.rows hm
+  exact Finset.mem_filter.mpr ⟨hl, (b.exceptional h hl).mpr he⟩
+
+theorem exceptional_rows_zero :
+    ∀ h ∈ leaf.rows.filter leaf.exceptional,
+      h ∉ R.rows.filter Q.exceptional → leaf.rowWeight h = 0 := by
+  intro h hh hn
+  obtain ⟨hm, he⟩ := Finset.mem_filter.mp hh
+  apply b.rows_zero h hm
+  intro hr
+  exact hn (Finset.mem_filter.mpr ⟨hr, (b.exceptional h hm).mp he⟩)
 
 /-- The two complete centered columns are compared before taking their
 norms.  No Cauchy estimate is applied to the exceptional rows. -/
@@ -95,34 +102,43 @@ theorem exceptionalIntegrand_eq (z : U × V) :
         (fun h => rawSourceLocation (right.leftLocation h) (right.rightLocation h)
           (right.slotLocation h)) (WithLp.toLp 2 z) := by
     unfold ActualHybridLeaf.exceptionalIntegrand
-    rw [← b.exceptional_rows, ← b.left_columns, ← b.right_columns]
-    unfold jointColumnPairMagnitude
-    apply Finset.sum_congr rfl
-    intro h hh
-    have hm := (Finset.mem_filter.mp hh).1
-    have hl :
-        jointFourierColumn leaf.left (leaf.leftCoefficient h)
-          (fun i => WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i))
-          (WithLp.toLp 2 z) =
-        jointFourierColumn leaf.left (left.centeredCoefficient EL h)
-          (rawSourceLocation (left.leftLocation h) (left.rightLocation h)
-            (left.slotLocation h)) (WithLp.toLp 2 z) := by
-      unfold jointFourierColumn
-      apply Finset.sum_congr rfl
-      intro i hi
-      rw [b.leftCoefficient h hm i hi, b.leftPoint h hm i hi]
-    have hr :
-        jointFourierColumn leaf.right (fun j => star (leaf.rightCoefficient h j))
-          (fun j => WithLp.toLp 2 (-leaf.rightFirst h j, leaf.rightSecond h j))
-          (WithLp.toLp 2 z) =
-        jointFourierColumn leaf.right (right.centeredCoefficient ER h)
-          (rawSourceLocation (right.leftLocation h) (right.rightLocation h)
-            (right.slotLocation h)) (WithLp.toLp 2 z) := by
-      unfold jointFourierColumn
-      apply Finset.sum_congr rfl
-      intro j hj
-      rw [b.rightCoefficient h hm j hj, b.rightPoint h hm j hj]
-    rw [b.rowWeight h hm, hl, hr]
+    calc
+      _ = jointColumnPairMagnitude (R.rows.filter Q.exceptional) leaf.left leaf.right
+          leaf.rowWeight leaf.leftCoefficient (fun h j => star (leaf.rightCoefficient h j))
+          (fun h i => WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i))
+          (fun h j => WithLp.toLp 2 (-leaf.rightFirst h j, leaf.rightSecond h j))
+          (WithLp.toLp 2 z) :=
+        jointColumnPairMagnitude_eq_on_zero_rows _ _ _ _ _ _ _ _ _ _
+          b.exceptional_rows_subset b.exceptional_rows_zero
+      _ = _ := by
+        rw [← b.left_columns, ← b.right_columns]
+        unfold jointColumnPairMagnitude
+        apply Finset.sum_congr rfl
+        intro h hh
+        have hm : h ∈ leaf.rows := b.rows (Finset.mem_filter.mp hh).1
+        have hl :
+            jointFourierColumn leaf.left (leaf.leftCoefficient h)
+              (fun i => WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i))
+              (WithLp.toLp 2 z) =
+            jointFourierColumn leaf.left (left.centeredCoefficient EL h)
+              (rawSourceLocation (left.leftLocation h) (left.rightLocation h)
+                (left.slotLocation h)) (WithLp.toLp 2 z) := by
+          unfold jointFourierColumn
+          apply Finset.sum_congr rfl
+          intro i hi
+          rw [b.leftCoefficient h hm i hi, b.leftPoint h hm i hi]
+        have hr :
+            jointFourierColumn leaf.right (fun j => star (leaf.rightCoefficient h j))
+              (fun j => WithLp.toLp 2 (-leaf.rightFirst h j, leaf.rightSecond h j))
+              (WithLp.toLp 2 z) =
+            jointFourierColumn leaf.right (right.centeredCoefficient ER h)
+              (rawSourceLocation (right.leftLocation h) (right.rightLocation h)
+                (right.slotLocation h)) (WithLp.toLp 2 z) := by
+          unfold jointFourierColumn
+          apply Finset.sum_congr rfl
+          intro j hj
+          rw [b.rightCoefficient h hm j hj, b.rightPoint h hm j hj]
+        rw [b.rowWeight h hm, hl, hr]
   exact hfull.trans (R.pair_magnitude_live
     left.allocation.columns right.allocation.columns
     (left.centeredCoefficient EL) (right.centeredCoefficient ER)
@@ -145,6 +161,43 @@ theorem exceptionalCost_eq :
   exact integral_congr_ae (Filter.Eventually.of_forall b.exceptionalIntegrand_eq)
 
 end ExceptionalBinding
+
+/-- The exact support restriction has the same original centered
+coefficients and locations. Its omitted-row proof is derived from the
+original single-row correlation identity, not supplied as a bound. -/
+def exceptionalBindingOnCorrelationSupport
+    (hrows : leaf.rows = R.rows)
+    (hleft : leaf.left = left.allocation.columns)
+    (hright : leaf.right = right.allocation.columns)
+    (hexceptional : ∀ h ∈ leaf.rows, leaf.exceptional h ↔ Q.exceptional h)
+    (hweight : ∀ h ∈ leaf.rows, leaf.rowWeight h = R.weight h * R.correlation h)
+    (hleftCoefficient : ∀ h ∈ leaf.rows, ∀ i ∈ leaf.left,
+      leaf.leftCoefficient h i = left.centeredCoefficient EL h i)
+    (hrightCoefficient : ∀ h ∈ leaf.rows, ∀ i ∈ leaf.right,
+      star (leaf.rightCoefficient h i) = right.centeredCoefficient ER h i)
+    (hleftPoint : ∀ h ∈ leaf.rows, ∀ i ∈ leaf.left,
+      WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i) =
+        rawSourceLocation (left.leftLocation h) (left.rightLocation h) (left.slotLocation h) i)
+    (hrightPoint : ∀ h ∈ leaf.rows, ∀ i ∈ leaf.right,
+      WithLp.toLp 2 (-leaf.rightFirst h i, leaf.rightSecond h i) =
+        rawSourceLocation (right.leftLocation h) (right.rightLocation h) (right.slotLocation h) i) :
+    leaf.ExceptionalBinding
+      (left.restrictRows (fun h => R.correlation h ≠ 0))
+      (right.restrictRows (fun h => R.correlation h ≠ 0)) EL ER Q where
+  rows := by
+    intro h hh
+    exact hrows.symm ▸ (Finset.mem_filter.mp hh).1
+  rows_zero h hh hn := by
+    rw [hweight h hh]
+    exact R.weight_correlation_eq_zero_of_not_live h (hrows ▸ hh) hn
+  left_columns := hleft
+  right_columns := hright
+  exceptional := hexceptional
+  rowWeight := hweight
+  leftCoefficient := hleftCoefficient
+  rightCoefficient := hrightCoefficient
+  leftPoint := hleftPoint
+  rightPoint := hrightPoint
 
 namespace ConstantAtomExtraction
 
@@ -173,4 +226,5 @@ end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualHybridLeaf.ExceptionalBinding.exceptionalIntegrand_eq
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualHybridLeaf.ExceptionalBinding.exceptionalCost_eq
+#print axioms HeckeSkeleton.Moments.EngineStep.ActualHybridLeaf.exceptionalBindingOnCorrelationSupport
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualHybridLeaf.ConstantAtomExtraction.exceptionalCost_eq_frames

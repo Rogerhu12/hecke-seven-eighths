@@ -42,7 +42,7 @@ variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion 
   [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)]
 variable {μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K)}
   [∀ v, (μv v).IsAddHaarMeasure]
-variable {hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0}
+variable {hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0}
 variable {C : A.GeneralArithmeticContext σ η htrace}
 
 section Charts

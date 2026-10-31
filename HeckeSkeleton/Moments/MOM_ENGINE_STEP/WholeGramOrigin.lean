@@ -55,14 +55,14 @@ variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K)
 
 theorem OrbitalGaussColumn.pair_residue_zero
     (c d : OrbitalGaussColumn K S Γ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ) :
     (c.pair hDiff d φ).residue 0 = c.residue hDiff 0 * star (d.residue hDiff 0) := by
   simp only [OrbitalGaussColumn.pair, map_zero]
 
 theorem OrbitalGaussColumn.pair_originZero_empty
     (c d : OrbitalGaussColumn K S Γ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (a b : ℂ) (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) :
     (c.pair hDiff d ((a * star b) • φ)).originZero h ∅ =
@@ -79,7 +79,7 @@ tensor and covolume.  No individual block positivity is claimed. -/
 theorem gauss_originZero_sum_eq_square
     {ι : Type*} (columns : Finset ι) (coefficient : ι → ℂ)
     (col : ι → OrbitalGaussColumn K S Γ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) :
     (∑ i ∈ columns, ∑ j ∈ columns,
@@ -94,7 +94,7 @@ theorem gauss_originZero_sum_eq_square
 theorem gauss_originZero_sum_nonneg
     {ι : Type*} (columns : Finset ι) (coefficient : ι → ℂ)
     (col : ι → OrbitalGaussColumn K S Γ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (hpositive : 0 ≤ (sIntegerTensorTerm K S (traceSchwartzToMixed K φ) h 0).re) :
@@ -108,7 +108,7 @@ theorem gauss_originZero_sum_nonneg
 theorem canonical_rowBall_originZero_sum_nonneg
     {ι : Type*} (columns : Finset ι) (coefficient : ι → ℂ)
     (col : ι → OrbitalGaussColumn K S Γ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (B : ℝ) :
     0 ≤ (∑ i ∈ columns, ∑ j ∈ columns,
       ((col i).pair hDiff (col j)

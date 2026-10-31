@@ -44,6 +44,15 @@ theorem kernelDivisorCoefficient_star_first_phase {H ι : Type*}
       star (kernelDivisorCoefficient ideal L c phase χ h i) * jointPhase ξ (-x i) := by
   rw [kernelDivisorCoefficient_first_phase, star_mul', jointPhase_neg]
 
+private theorem kernelDivisorCoefficient_first_phase_function {H ι : Type*}
+    (ideal : ι → Ideal (𝓞 K)) (L : Ideal (𝓞 K)) (c phase : ι → ℂ)
+    (χ : ι → H → ℂ) (x : ι → U) (ξ : U) :
+    kernelDivisorCoefficient ideal L (fun i => c i * jointPhase ξ (x i)) phase χ =
+      (fun h i => kernelDivisorCoefficient ideal L c phase χ h i *
+        jointPhase ξ (x i)) := by
+  funext h i
+  exact kernelDivisorCoefficient_first_phase ideal L c phase χ x ξ h i
+
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
 local instance nestedSecondResidualCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 variable {H ι κ : Type*}
@@ -81,7 +90,7 @@ theorem actual_second_residual_first_phase_integrable :
       (fun i => c i * jointPhase ξ (x₁ i))
       (fun j => f j * jointPhase ξ (y₁ j)) x₂ y₂) (actualFourierMeasure F₁) := by
   unfold secondResidualKernelCost
-  simp_rw [kernelDivisorCoefficient_star_first_phase, kernelDivisorCoefficient_first_phase]
+  simp only [kernelDivisorCoefficient_first_phase_function, star_mul', ← jointPhase_neg]
   apply integrable_finsetSum
   intro L hL
   apply Integrable.const_mul
@@ -98,7 +107,7 @@ theorem actual_second_residual_nested_integral :
       ID IE IA IB d e hd he rayLeft rayRight phaseTable q
       (fun i => c i * jointPhase ξ (x₁ i))
       (fun j => f j * jointPhase ξ (y₁ j)) x₂ y₂ ∂actualFourierMeasure F₁) =
-      nestedSecondResidualKernelCost Ray F₁ F₂ rows frequency left right
+      nestedSecondResidualKernelCost (σ := σ) Ray F₁ F₂ rows frequency left right
         ID IE IA IB d e hd he rayLeft rayRight phaseTable q c f x₁ y₁ x₂ y₂ := by
   let weight := fun h => q h * generatedIdealCorrelation (σ := σ) ID IE d e hd he (frequency h)
   have hi (L : Ideal (𝓞 K)) (χ : (Ray × Ray) →* Circle) :=
@@ -111,7 +120,7 @@ theorem actual_second_residual_nested_integral :
         (fun j h => σ (A.sexticResidue (IB j) (-frequency h))) h j))
       (fun _ i => x₁ i) x₂ (fun _ j => -y₁ j) y₂ F₁ F₂
   unfold secondResidualKernelCost nestedSecondResidualKernelCost
-  simp_rw [kernelDivisorCoefficient_star_first_phase, kernelDivisorCoefficient_first_phase]
+  simp only [kernelDivisorCoefficient_first_phase_function, star_mul', ← jointPhase_neg]
   rw [integral_finsetSum _ (fun L _ =>
     (integrable_finsetSum _ (fun χ _ => (hi L χ).const_mul _)).const_mul _)]
   apply Finset.sum_congr rfl

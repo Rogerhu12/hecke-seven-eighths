@@ -111,7 +111,7 @@ theorem FirstCommonCharacterBlock.dualZero_eq_zero_of_not_coprime
     {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (profiles : ι → κ → SchwartzMap V ℂ) (i : ι) (j : κ)
     (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum A.R))
@@ -127,7 +127,7 @@ theorem FirstCommonCharacterBlock.dualZero_eq_zero_of_not_powerful
     {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (left : Finset ι) (right : Finset κ) (profiles : ι → κ → SchwartzMap V ℂ)
     (i : ι) (hi : i ∈ b.leftColumns left) (j : κ) (hj : j ∈ b.rightColumns right)

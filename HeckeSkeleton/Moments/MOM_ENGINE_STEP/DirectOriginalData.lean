@@ -24,7 +24,7 @@ variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 variable {C : A.GeneralArithmeticContext σ η hS}
 variable {hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
-  localDifferentExponent K v = 0}
+  HeckeGeneral.Characters.localDifferentExponent K v = 0}
 variable {ι : Type*}
 
 /-- Only the genuine finite arithmetic data needed for direct
@@ -52,7 +52,7 @@ def directSource (d : DirectGaussData C ι) (c : ι → ℂ) : ActualGaussSource
   coefficient := c
 
 def gaussColumn (d : DirectGaussData C ι)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (i : ι) (h : A.R) : ℂ :=
   actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff
     (d.generator i) (d.generates i).1

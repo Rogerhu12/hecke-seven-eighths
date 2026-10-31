@@ -34,7 +34,7 @@ variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion 
 variable (μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K))
   [∀ v, (μv v).IsAddHaarMeasure]
 variable (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
-  localDifferentExponent K v = 0)
+  HeckeGeneral.Characters.localDifferentExponent K v = 0)
 variable {E W : Type*}
   [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
   [MeasurableSpace E] [BorelSpace E]

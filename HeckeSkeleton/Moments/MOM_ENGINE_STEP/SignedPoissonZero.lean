@@ -62,7 +62,7 @@ variable (μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K)
 /-- The original dual-frequency zero.  This definition contains no
 subtraction of the original additive origin and assumes no annularity. -/
 def ParentPeriodicPair.dualZero (p : ParentPeriodicPair K S Γ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (r : {r : ℝ // 0 < r})
     (D : Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K))) : ℂ :=
@@ -77,7 +77,7 @@ def ParentPeriodicPair.dualZero (p : ParentPeriodicPair K S Γ)
 
 theorem ParentPeriodicPair.gated_dualZero (p : ParentPeriodicPair K S Γ)
     (P : Prop) [Decidable P]
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (r : {r : ℝ // 0 < r})
     (D : Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K))) :
@@ -102,7 +102,7 @@ theorem ParentPeriodicPair.gated_originZero (p : ParentPeriodicPair K S Γ)
 /-- The original Poisson correction is retained exactly, with its sign. -/
 theorem ParentPeriodicPair.transformedZero_eq_dual_sub_origin
     (p : ParentPeriodicPair K S Γ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (r : {r : ℝ // 0 < r})
     (D : Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K))) :
@@ -112,14 +112,14 @@ theorem ParentPeriodicPair.transformedZero_eq_dual_sub_origin
 
 def FirstFiniteSource.dualZeroTerm {ι κ : Type*}
     (s : FirstFiniteSource K S Γ ι κ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) : ℂ :=
   ∑ i ∈ s.leftColumns, ∑ j ∈ s.rightColumns, ∑ D ∈ s.mask.powerset,
     (s.pairs i j).dualZero μv hDiff h s.radius D
 
 theorem FirstFiniteSource.zeroTerm_eq_dual_sub_origin {ι κ : Type*}
     (s : FirstFiniteSource K S Γ ι κ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) :
     s.zeroTerm μv hDiff h = s.dualZeroTerm μv hDiff h - s.originZeroTerm h := by
   simp only [zeroTerm, dualZeroTerm, originZeroTerm,
@@ -129,7 +129,7 @@ theorem FirstFiniteSource.zeroTerm_eq_dual_sub_origin {ι κ : Type*}
 before any nonzero row is assigned to an ordinary or exceptional class. -/
 theorem FirstFiniteSource.transform_re_le_dual_rows {ι κ : Type*}
     (s : FirstFiniteSource K S Γ ι κ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) :
     (s.transform μv hDiff h).re ≤
       ‖s.dualZeroTerm μv hDiff h‖ - (s.originZeroTerm h).re +

@@ -257,7 +257,7 @@ theorem right_energy_eq_source
   have hc (h : R.live) (i : AllocationColumn F k) (hi : i ∈ B.columns) :
       secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency D.ray χ
         (D.normalizedCoefficient u v t) h.val i = star ν * star (c h i) := by
-    have he := D.normalized_coefficient_residue u v t i
+    have he := D.normalized_coefficient_residue (σ := σ) u v t i
       (actual_allocation_column_mem B i hi) (IB i)
       (hIB i (actual_allocation_column_mem B i hi))
       (-R.frequency h.val) (-R.factor C h.val) (R.extractedRow C h).element

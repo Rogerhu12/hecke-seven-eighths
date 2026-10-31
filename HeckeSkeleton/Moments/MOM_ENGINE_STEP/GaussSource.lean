@@ -59,7 +59,7 @@ def OrbitalGaussColumn.ofSixth
       (Units.map (Ideal.Quotient.mk (Ideal.span ({a} : Set OS))).toMonoidHom v)
 
 variable {K S Γ}
-variable (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+variable (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
 
 def OrbitalGaussColumn.residue (c : OrbitalGaussColumn K S Γ)
     (h : OS ⧸ Ideal.span ({c.modulus} : Set OS)) : ℂ := by

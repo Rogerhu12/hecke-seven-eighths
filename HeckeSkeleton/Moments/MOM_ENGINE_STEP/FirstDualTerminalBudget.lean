@@ -126,7 +126,7 @@ end DualTerminalCalibration
 that occur in the signed first-source exit. -/
 theorem rawRowCost_le_linearized
     (s : ActualFirstSource (E := E) hΓ μv C P finiteTest centered d a t Y₁ Y₂ X hX)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (N : s.Normalization) : s.rawRowCost hDiff ≤ s.linearizedCost N := by
   unfold ActualFirstSource.rawRowCost ActualFirstSource.linearizedCost
   apply Finset.sum_le_sum
@@ -159,7 +159,7 @@ theorem actual_first_dual_terminal_cost_bound
     ∀ (s : ActualFirstSource (E := E) hΓ μv C P finiteTest centered d a t Y₁ Y₂ X hX)
       (Lmax Nsave decay : ℝ), 1 < decay →
     ∀ (T : s.DualTerminalCalibration sTail sZero k Lmax Nsave decay)
-      (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0),
+      (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0),
       s.dualZeroCost hDiff + Ctail * X ^ (1 - decay) * s.tailCost sTail ≤
         T.cost ε (Ctail * (2 * firstTailFieldConstant K * idealCountConstant K ^ k)) Czero := by
   obtain ⟨sZero, Czero, hCzero, hz⟩ :=
@@ -189,7 +189,7 @@ include ν μ in
 first-source exits, with the two terminal terms already paid. -/
 theorem actual_parent_first_dual_terminal_bound
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (rowBallSize : ℝ) (k : ℕ) (ε : ℝ) (hε : 0 < ε)
     (Lmax Nsave ξmax : ℝ) (hξmax : 0 < ξmax) :
     ∃ (decay : ℝ) (hdecay : 1 < decay),

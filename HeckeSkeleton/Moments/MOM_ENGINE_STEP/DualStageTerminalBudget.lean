@@ -239,7 +239,7 @@ include ν μ in
 fixed small physical cutoff chosen before all moving source data. -/
 theorem actual_gauss_stage_dual_terminal_bound
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (Drecipe : ComparisonPoissonCoefficientData K A)
     (hD : GlobalPairCancel.HasArithmeticRecipes A σ hS C.correction.B Drecipe)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)

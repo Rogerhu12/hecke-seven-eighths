@@ -41,11 +41,13 @@ theorem first_common_label_tuple_card_of_fibers
     (by
       intro v hv
       obtain ⟨ij, hij, rfl⟩ := Finset.mem_image.mp hv
+      change PowerfulDiagonal.tupleIdeal (factors ij) ≠ 0
       rw [hproduct ij hij]
       exact mul_ne_zero (fullI ij.1).property.1 (fullJ ij.2).property.1)
     (by
       intro v hv
       obtain ⟨ij, hij, rfl⟩ := Finset.mem_image.mp hv
+      change (Ideal.absNorm (PowerfulDiagonal.tupleIdeal (factors ij)) : ℝ) ≤ X
       rw [hproduct ij hij]
       exact hnorm ij hij)
   have hSc : (S.card : ℝ) ≤ (multiplicity : ℝ) * (S.image factors).card := by

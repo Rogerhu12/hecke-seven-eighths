@@ -76,6 +76,8 @@ namespace OrdinaryBinding
 
 variable {leaf B} (d : leaf.OrdinaryBinding B)
 
+include d
+
 theorem ordinary_rows_subset :
     R.rows.filter (fun h => ¬exceptional h) ⊆
       leaf.rows.filter (fun h => ¬leaf.exceptional h) := by

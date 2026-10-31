@@ -121,13 +121,21 @@ calculation. Neither divisor nor its allocations are removed. -/
 @[simp] theorem indexWeight_swapSecondIndex (j : b.Index) :
     b.swapSecond.indexWeight (b.swapSecondIndex j) = b.indexWeight j := by
   dsimp only [indexWeight, swapSecondIndex, swapSecondLabel]
-  rw [commonRadical_comm j.2.2.1.val.1.2 j.2.2.1.val.1.1]
+  exact congrArg (fun I : Ideal (𝓞 K) =>
+    (1 / (Ideal.absNorm (commonRadical j.1.val.1.1 j.1.val.1.2) : ℝ)) *
+      ‖(moebius j.2.1.val : ℂ)‖ * (1 / (Ideal.absNorm I : ℝ)) *
+        ‖(moebius j.2.2.2.1.val : ℂ)‖ / (Ideal.absNorm j.2.2.2.1.val : ℝ))
+    (commonRadical_comm j.2.2.1.val.1.2 j.2.2.1.val.1.1)
 
 @[simp] theorem exceptionalDyadWeight_swapSecondIndex (Z lower : ℝ) (j : b.Index) :
     b.swapSecond.exceptionalDyadWeight Z lower (b.swapSecondIndex j) =
       b.exceptionalDyadWeight Z lower j := by
   dsimp only [exceptionalDyadWeight, swapSecondIndex, swapSecondLabel]
-  rw [commonRadical_comm j.2.2.1.val.1.2 j.2.2.1.val.1.1]
+  exact congrArg (fun I : Ideal (𝓞 K) =>
+    (1 / (Ideal.absNorm (commonRadical j.1.val.1.1 j.1.val.1.2) : ℝ)) *
+      ‖(moebius j.2.1.val : ℂ)‖ * (1 / (Ideal.absNorm I : ℝ)) *
+        ‖(moebius j.2.2.2.1.val : ℂ)‖ * Z ^ (-lower))
+    (commonRadical_comm j.2.2.1.val.1.2 j.2.2.1.val.1.1)
 
 theorem swapSecond_mass : b.swapSecond.mass = b.mass := by
   calc

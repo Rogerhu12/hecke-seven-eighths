@@ -45,7 +45,7 @@ variable (μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K)
 There is no replacement by a post-Cauchy kernel cost in this definition. -/
 def FirstFiniteSource.rawRowCost {ι κ : Type*}
     (s : FirstFiniteSource K S Γ ι κ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) : ℝ :=
   ∑ D : s.mask.powerset,
     ‖∑ t ∈ s.rows, ∑ i ∈ s.leftColumns, ∑ j ∈ s.rightColumns,
@@ -80,7 +80,7 @@ carrier and only the pure dual zero in the positive terminal budget.
 The original zero is a proved whole-source square, not an input bound. -/
 theorem parent_first_stage_dual_raw_bound
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (rowBallSize : ℝ) (decay : ℝ) (hdecay : 1 < decay) (order : ℕ)
     (horder : Module.finrank ℤ Lattice < order)
     (hdegree : (Module.finrank ℚ K : ℝ) * decay ≤ order) :
@@ -183,7 +183,7 @@ pool.  The original finite row cost is bounded by the existing genuine
 Fourier chart and pool providers only at this final step. -/
 theorem parent_first_stage_pool_dual_bound
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (rowBallSize : ℝ) (decay : ℝ) (hdecay : 1 < decay) (order : ℕ)
     (horder : Module.finrank ℤ Lattice < order)
     (hdegree : (Module.finrank ℚ K : ℝ) * decay ≤ order) :

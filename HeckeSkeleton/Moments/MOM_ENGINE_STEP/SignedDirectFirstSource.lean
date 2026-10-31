@@ -51,19 +51,19 @@ variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K �
 
 def ActualDirectFirstSource.dualZeroCost
     (s : ActualDirectFirstSource (E := E) hΓ μv C Z finiteTest centered d a t Y₁ Y₂ X hX)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0) : ℝ :=
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0) : ℝ :=
   ∑ v : s.CommonLabel, ‖(s.source v).dualZeroTerm μv hDiff finiteTest‖
 
 def ActualDirectFirstSource.rawRowCost
     (s : ActualDirectFirstSource (E := E) hΓ μv C Z finiteTest centered d a t Y₁ Y₂ X hX)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0) : ℝ :=
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0) : ℝ :=
   ∑ v : s.CommonLabel, (s.source v).rawRowCost μv hDiff finiteTest
 
 /-- Direct row enlargement and the original positive normalization,
 with no pool scalar and no additional choice of rows. -/
 theorem ActualDirectFirstSource.rawRowCost_le_linearized
     (s : ActualDirectFirstSource (E := E) hΓ μv C Z finiteTest centered d a t Y₁ Y₂ X hX)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (N : s.Normalization) : s.rawRowCost hDiff ≤ s.linearizedCost hDiff N := by
   unfold ActualDirectFirstSource.rawRowCost ActualDirectFirstSource.linearizedCost
   apply Finset.sum_le_sum
@@ -94,7 +94,7 @@ test. The whole original-origin square is proved by the raw first-stage
 theorem, and the direct branch requires no prime pool. -/
 theorem actual_parent_first_direct_dual
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (rowBallSize : ℝ) (decay : ℝ) (hdecay : 1 < decay) (order : ℕ)
     (horder : Module.finrank ℤ Lattice < order)
     (hdegree : (Module.finrank ℚ K : ℝ) * decay ≤ order) :

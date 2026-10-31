@@ -61,7 +61,7 @@ theorem actual_direct_first_dual_terminal_cost_bound
     ∀ (T : FirstDualOriginalWindows (hΓ := hΓ) C s.columns s.ideal s.block s.profiles
       s.radius s.mask sTail sZero k Z X normBound Lmax Nsave decay)
       (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ)
-      (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0),
+      (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0),
       s.dualZeroCost hDiff + Ctail * X ^ (1 - decay) * s.tailCost sTail ≤
         T.cost hB δ hδ ε (Ctail * (2 * firstTailFieldConstant K * idealCountConstant K ^ k)) Czero := by
   obtain ⟨sZero, Czero, hCzero, hz⟩ :=
@@ -94,7 +94,7 @@ costs proved from primitive windows. This includes zero original slots
 without choosing a different schema or an auxiliary pool. -/
 theorem actual_parent_direct_first_dual_terminal_bound
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (rowBallSize normBound : ℝ) (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ)
     (k : ℕ) (ε : ℝ) (hε : 0 < ε) (Lmax Nsave ξmax : ℝ) (hξmax : 0 < ξmax) :
     ∃ (decay : ℝ) (hdecay : 1 < decay),

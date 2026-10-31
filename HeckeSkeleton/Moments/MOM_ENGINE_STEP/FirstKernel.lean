@@ -92,7 +92,7 @@ theorem kernelDivisorCoefficient_eq_fun {ι H : Type*}
   exact kernelDivisorCoefficient_eq_mul ideals D c phase G h i
 
 variable (K) (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
-variable (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+variable (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
 local notation "OS" => S.integer K
 
 /-- The complete positive-sign Gauss column on the actual S-integer ring.

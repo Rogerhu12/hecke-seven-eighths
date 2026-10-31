@@ -223,7 +223,7 @@ def ParentRawAtoms.ConstantValues.rectangleProfiles :
     change (values.rectangle comparison₁ i * star (values.rectangle comparison₂ j)) *
       gaussSourceProfile φ finiteTest radius q = _
     rw [chart.profile_eq_real q, values.rectangle_eq, values.rectangle_eq]
-    ring
+    simp only [Complex.ofReal_re] <;> ring
 
 theorem ParentRawAtoms.ConstantValues.wholeProfile_eq (centered : Bool) (i j : raw.Column) :
     (values.rectangleProfiles chart).wholeProfile centered i j =
@@ -359,25 +359,23 @@ def FirstBlockProfileChart.withCoefficients
   rightPoint := chart.rightPoint
   rowPoint := chart.rowPoint
   profile q i hi j hj hcop := by
-    have he :
-        ((generatedOriginalColumn (σ := σ) hΓ (b.leftResidual i) (b.leftGenerator i)
-            (b.left_generates i)).originalTriple
-          (generatedOriginalColumn (σ := σ) hΓ (b.rightResidual j) (b.rightGenerator j)
-            (b.right_generates j))
-          (actualActiveColumn hΓ C b.primes b.primes_injective
-            b.leftMultiplicity b.rightMultiplicity)
-          ((c i * star (e j)) • profiles i j)) =
-        { (generatedOriginalColumn (σ := σ) hΓ (b.leftResidual i) (b.leftGenerator i)
-            (b.left_generates i)).originalTriple
-          (generatedOriginalColumn (σ := σ) hΓ (b.rightResidual j) (b.rightGenerator j)
-            (b.right_generates j))
-          (actualActiveColumn hΓ C b.primes b.primes_injective
-            b.leftMultiplicity b.rightMultiplicity) (profiles i j) with
-          profile := (c i * star (e j)) • profiles i j } := rfl
-    rw [he, ParentPeriodicPair.transformedProfile_smul,
-      chart.profile q i hi j hj hcop]
-    simp only [star_mul]
-    ring
+    let p : ParentPeriodicPair K A.Sf Γ :=
+      (generatedOriginalColumn (σ := σ) hΓ (b.leftResidual i) (b.leftGenerator i)
+        (b.left_generates i)).originalTriple
+        (generatedOriginalColumn (σ := σ) hΓ (b.rightResidual j) (b.rightGenerator j)
+          (b.right_generates j))
+        (actualActiveColumn hΓ C b.primes b.primes_injective
+          b.leftMultiplicity b.rightMultiplicity) (profiles i j)
+    calc
+      _ = (c i * star (e j)) * p.transformedProfile μv finiteTest radius D q :=
+        ParentPeriodicPair.transformedProfile_smul μv p (c i * star (e j)) finiteTest radius D q
+      _ = _ := by
+        rw [show p.transformedProfile μv finiteTest radius D q =
+          chart.weight q * (chart.leftCoefficient i * star (chart.rightCoefficient j)) *
+            chart.kernel (chart.rowPoint q + chart.leftPoint i + chart.rightPoint j) from
+          chart.profile q i hi j hj hcop]
+        simp only [star_mul]
+        ring
 
 theorem FirstBlockProfileChart.withCoefficients_kernel
     (chart : FirstBlockProfileChart (E := E) hΓ μv b C left right profiles finiteTest radius D)

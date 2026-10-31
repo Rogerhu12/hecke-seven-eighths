@@ -81,7 +81,7 @@ variable [Γ.FiniteIndex]
 pair source.  All identities and all summability needed here are derived
 from the original columns and the common actual Haar profile. -/
 theorem gauss_energy_orbital_source_bound
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     {H ι : Type*} (rows : Finset H) (rowMap : H → Q) (w : H → ℝ)
     (columns : Finset ι) (c : ι → ℂ) (col : ι → OrbitalGaussColumn K S Γ)
     (φ : SchwartzMap V ℂ)
@@ -190,7 +190,7 @@ theorem gauss_energy_orbital_source_bound
 /-- The actual second-transform source of one whole Gauss polynomial.
 The pair modulus, residue, and Schwartz profile are computed, not supplied. -/
 def gaussFiniteSource
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     {ι : Type*} (columns : Finset ι) (c : ι → ℂ)
     (col : ι → OrbitalGaussColumn K S Γ) (φ : SchwartzMap V ℂ)
     (M : Finset (HeightOneSpectrum OS)) (r : {r : ℝ // 0 < r})
@@ -219,7 +219,7 @@ include ν μ in
 energy.  The constant and seminorms are chosen before all moving data;
 the tail is the computed mass of the actual product-modulus pairs. -/
 theorem gauss_energy_finite_source_bound
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (hlc : ∀ v ∈ S, IsLocallyConstant (h v))
     (hcs : ∀ v ∈ S, HasCompactSupport (h v))

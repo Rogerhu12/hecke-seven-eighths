@@ -36,7 +36,7 @@ variable {α β : Type*} {fullI : α → A.Exterior} {fullJ : β → A.Exterior}
 theorem actual_capacity_same_label_scalar_le
     (first : FirstCommonCharacterBlock fullI fullJ z.firstLabel.1)
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 F), v ∉ A.Sf → localDifferentExponent F v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 F), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent F v = 0)
     (firstResidue firstFrequency : A.R)
     (phase₁ phase₂ : branch.AtomicLabel Ray → Ray × Ray → Circle)
     (left : GL.Child) (right : GR.Child) (originalLeft originalRight : ℂ)

@@ -140,7 +140,7 @@ include ν μ in
 additive zero terms, the Haar covolume, and the discriminant factor. -/
 theorem whole_masked_orbital_poisson {ι : Type*}
     (hmodulus : modulus ≠ 0)
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (columns : Finset ι) (c : ι → ℂ)
     (G : ι → (OS ⧸ Ideal.span ({modulus} : Set OS)) → ℂ)
     (hinv : ∀ i ∈ columns, ∀ u : Γ, ∀ a : OS,
@@ -163,7 +163,7 @@ include ν μ in
 /-- A common dual cutoff for the entire squared polynomial, with actual
 finite coefficient mass and a fixed Schwartz order chosen first. -/
 theorem exists_whole_masked_orbital_truncation
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (hlc : ∀ v ∈ S, IsLocallyConstant (h v))
     (hcs : ∀ v ∈ S, HasCompactSupport (h v))

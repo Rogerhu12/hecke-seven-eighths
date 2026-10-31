@@ -30,7 +30,7 @@ variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {htrace : A.ContainsTraceBadPlaces}
 variable {Γ : Subgroup A.U}
 variable (hΓ : ∀ u : Γ, ∃ v : A.U, u.val = v ^ 6)
-variable (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+variable (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
 
 /-- The complete zero Gauss sum is independent of the chosen generator
 of the same original ideal. The entire quotient is retained. -/

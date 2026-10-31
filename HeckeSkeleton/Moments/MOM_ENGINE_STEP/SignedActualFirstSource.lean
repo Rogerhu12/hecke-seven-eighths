@@ -55,13 +55,13 @@ variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K �
 /-- Only the genuine dual-frequency zero on the original common blocks. -/
 def ActualFirstSource.dualZeroCost
     (s : ActualFirstSource (E := E) hΓ μv C P finiteTest centered d a t Y₁ Y₂ X hX)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0) : ℝ :=
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0) : ℝ :=
   ∑ v : s.CommonLabel, ‖(s.source v).dualZeroTerm μv hDiff finiteTest‖
 
 /-- The raw finite row expression, before its Fourier Cauchy estimate. -/
 def ActualFirstSource.rawRowCost
     (s : ActualFirstSource (E := E) hΓ μv C P finiteTest centered d a t Y₁ Y₂ X hX)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0) : ℝ :=
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0) : ℝ :=
   ∑ v : s.CommonLabel, (s.source v).rawRowCost μv hDiff finiteTest
 
 end Costs
@@ -75,7 +75,7 @@ variable (μ : Measure (AdeleRing (𝓞 K) K)) [μ.IsAddHaarMeasure]
 include ν μ in
 theorem actual_parent_first_dual_raw
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (rowBallSize : ℝ) (decay : ℝ) (hdecay : 1 < decay) (order : ℕ)
     (horder : Module.finrank ℤ Lattice < order)
     (hdegree : (Module.finrank ℚ K : ℝ) * decay ≤ order) :
@@ -109,7 +109,7 @@ include ν μ in
 after the genuine signed first transform. -/
 theorem actual_parent_first_dual_linearized
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (rowBallSize : ℝ) (decay : ℝ) (hdecay : 1 < decay) (order : ℕ)
     (horder : Module.finrank ℤ Lattice < order)
     (hdegree : (Module.finrank ℚ K : ℝ) * decay ≤ order) :

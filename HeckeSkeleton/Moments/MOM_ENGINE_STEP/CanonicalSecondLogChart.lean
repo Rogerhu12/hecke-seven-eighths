@@ -61,7 +61,7 @@ def rowRadius (r : {r : ℝ // 0 < r})
 
 /-- The actual dual profile radius, with the full product modulus. -/
 theorem pair_dualRadius_mul_orbitNorm
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c d : OrbitalGaussColumn K S Γ)
     (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (r : {r : ℝ // 0 < r})
@@ -103,7 +103,7 @@ variable (μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K)
 /-- The profile uses the unchanged original trace and finite Fourier
 transforms, at the exact quotient radius for every subgroup orbit. -/
 theorem secondProfile_at_quotient
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c d : OrbitalGaussColumn K S Γ)
     (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
@@ -135,7 +135,7 @@ variable [∀ v : (S : Set (HeightOneSpectrum (𝓞 K))),
 /-- The same actual logarithmic kernel works on every original orbit.
 The two full column norm powers and the row power remain explicit. -/
 theorem secondProfile_log
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c d : OrbitalGaussColumn K S Γ)
     (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
@@ -167,7 +167,7 @@ theorem secondProfile_log
 cardinality cancellation.  The logarithmic change affects only the last
 profile factor in this identity. -/
 theorem transformedRow_log
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c d : OrbitalGaussColumn K S Γ)
     (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
@@ -273,7 +273,7 @@ variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion 
   [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)]
 variable (μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K))
   [∀ v, (μv v).IsAddHaarMeasure]
-variable (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+variable (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
 
 section Coefficients
 

@@ -31,7 +31,7 @@ variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 normalizations are applied before integration. -/
 theorem first_gauss_direct_integral_bound {H ι κ : Type*}
     (F : 𝓢(V, ℂ)) (left : DirectGaussData C ι) (right : DirectGaussData C κ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (rows : Finset H) (frequencyLeft frequencyRight : H → A.R)
     (hleft_inj : Set.InjOn frequencyLeft (rows : Set H))
     (hright_inj : Set.InjOn frequencyRight (rows : Set H))
@@ -116,7 +116,7 @@ local instance directFirstReductionCircleCharacterFintype : Fintype ((Ray × Ray
 Gauss energies and their original positive normalizations. -/
 def firstDirectLinearizedCost {ι κ : Type*}
     (F : 𝓢(V, ℂ)) (left : DirectGaussData C ι) (right : DirectGaussData C κ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (rayLeft : ι → Ray) (rayRight : κ → Ray) (phaseTable : Ray × Ray → Circle)
     (W : ℝ)
     (NL NR : (divisorPool right.columns (fun j => (right.ideal j).val)) →
@@ -143,7 +143,7 @@ sources. The result is derived from the literal first residual kernel. -/
 theorem first_residual_cost_le_direct_linearized {H ι κ : Type*}
     (hΓ : ∀ u : Γ, ∃ v : A.U, u.val = v ^ 6)
     (F : 𝓢(V, ℂ)) (left : DirectGaussData C ι) (right : DirectGaussData C κ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (rows : Finset H) (frequency : H → A.R)
     (hinj : Set.InjOn frequency (rows : Set H))
     (hleft_rows : rows.image frequency ⊆ left.rows)

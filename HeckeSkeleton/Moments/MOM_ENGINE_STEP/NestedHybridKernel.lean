@@ -42,11 +42,38 @@ theorem nested_joint_magnitude_integrable
     (μ : Measure (U × V)) [IsFiniteMeasure μ] :
     Integrable (fun z : U × V =>
       jointColumnPairMagnitude rows left right q c d x y (WithLp.toLp 2 z)) μ := by
-  have hc := (continuous_jointColumnPairMagnitude rows left right q c d x y).comp
-    (WithLp.prod_continuous_toLp 2 U V)
+  have hphase (a : WithLp 2 (U × V)) :
+      Measurable (fun z : U × V => jointPhase (WithLp.toLp 2 z) a) := by
+    have heq : (fun z : U × V => jointPhase (WithLp.toLp 2 z) a) =
+        (fun z : U × V => jointPhase z.1 (WithLp.ofLp a).1 *
+          jointPhase z.2 (WithLp.ofLp a).2) := by
+      funext z
+      exact jointPhase_toLp_pair z.1 (WithLp.ofLp a).1 z.2 (WithLp.ofLp a).2
+    rw [heq]
+    exact ((continuous_jointPhase (WithLp.ofLp a).1).measurable.comp measurable_fst).mul
+      ((continuous_jointPhase (WithLp.ofLp a).2).measurable.comp measurable_snd)
+  have hc : Measurable (fun z : U × V =>
+      jointColumnPairMagnitude rows left right q c d x y (WithLp.toLp 2 z)) := by
+    unfold jointColumnPairMagnitude
+    apply Finset.measurable_sum
+    intro h _
+    apply Measurable.mul
+    · apply measurable_const.mul
+      apply Measurable.norm
+      unfold jointFourierColumn
+      apply Finset.measurable_sum
+      intro i _
+      exact measurable_const.mul (hphase (x h i))
+    · apply Measurable.norm
+      unfold jointFourierColumn
+      apply Finset.measurable_sum
+      intro j _
+      exact measurable_const.mul (hphase (y h j))
   apply (integrable_const (jointColumnPairMass rows left right q c d)).mono'
     hc.aestronglyMeasurable
   exact Filter.Eventually.of_forall fun z => by
+    change ‖jointColumnPairMagnitude rows left right q c d x y (WithLp.toLp 2 z)‖ ≤
+      jointColumnPairMass rows left right q c d
     rw [Real.norm_eq_abs, abs_of_nonneg
       (jointColumnPairMagnitude_nonneg rows left right q c d x y _)]
     exact jointColumnPairMagnitude_le_mass rows left right q c d x y _

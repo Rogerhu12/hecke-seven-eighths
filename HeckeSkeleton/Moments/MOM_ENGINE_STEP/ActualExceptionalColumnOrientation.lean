@@ -269,6 +269,9 @@ def ExceptionalBinding.terminalTranspose
     B.terminalTranspose.ExceptionalBinding right.toLeft left.toRight
       (right.toLeftComparison ER) (left.toRightComparison EL) Q.swapColumns where
   rows := b.rows
+  rows_zero h hh hn := by
+    change star (B.rowWeight h) = 0
+    rw [b.rows_zero h hh hn, star_zero]
   left_columns := b.right_columns
   right_columns := b.left_columns
   exceptional h hh := by
@@ -298,6 +301,9 @@ def OrdinaryExceptionalBinding.terminalTranspose
     (b : B.OrdinaryExceptionalBinding left right Q) :
     B.terminalTranspose.OrdinaryExceptionalBinding right.toLeft left.toRight Q.swapColumns where
   rows := b.rows
+  rows_zero h hh hn := by
+    change star (B.rowWeight h) = 0
+    rw [b.rows_zero h hh hn, star_zero]
   left_columns := b.right_columns
   right_columns := b.left_columns
   exceptional h hh := by
