@@ -347,13 +347,19 @@ theorem actualFourierMeasure_finite (F : 𝓢(V, ℂ)) :
     (Filter.Eventually.of_forall (fun ξ : V => norm_nonneg ((𝓕 F) ξ)))).mp
       hi.hasFiniteIntegral).ne
 
+/-- Establish the density identity before inserting the Fourier
+transform, so measurability elaboration only sees a Schwartz function. -/
+theorem schwartz_norm_density_real_univ (G : 𝓢(V, ℂ)) :
+    (volume.withDensity (fun ξ : V => ENNReal.ofReal ‖G ξ‖)).real Set.univ =
+      ∫ ξ : V, ‖G ξ‖ := by
+  exact density_real_univ_eq_integral (volume : Measure V)
+    (fun ξ : V => ‖G ξ‖) (fun ξ => norm_nonneg (G ξ))
+    G.continuous.norm.aestronglyMeasurable
+
+set_option maxHeartbeats 1000000 in
 theorem actualFourierMeasure_mass_eq (F : 𝓢(V, ℂ)) :
     (actualFourierMeasure F).real Set.univ = ∫ ξ : V, ‖(𝓕 F) ξ‖ := by
-  unfold actualFourierMeasure
-  have hmeas : AEStronglyMeasurable (fun ξ : V => ‖(𝓕 F) ξ‖) (volume : Measure V) :=
-    (𝓕 F).continuous.norm.aestronglyMeasurable
-  exact density_real_univ_eq_integral (volume : Measure V)
-    (fun ξ : V => ‖(𝓕 F) ξ‖) (fun ξ => norm_nonneg ((𝓕 F) ξ)) hmeas
+  exact schwartz_norm_density_real_univ (𝓕 F)
 
 /-- The positive kernel's mass is controlled by fixed original Schwartz
 seminorms, before choosing any actual child family. -/

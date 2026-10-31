@@ -80,7 +80,8 @@ theorem actual_second_source_common_mass
       rw [Finset.mul_sum]
     _ = F * ∑ v ∈ labels,
         1 / (Ideal.absNorm (commonRadical v.1.1 v.1.2) : ℝ) := by
-      rw [Finset.sum_coe_sort]
+      exact congrArg (fun x : ℝ => F * x) (Finset.sum_coe_sort labels
+        (fun v : Label K => 1 / (Ideal.absNorm (commonRadical v.1.1 v.1.2) : ℝ)))
     _ ≤ F * (Cbound * Z ^ ε / (Ideal.absNorm s : ℝ)) :=
       mul_le_mul_of_nonneg_left (hmass Z hZ.le s hs hs0 labels hvalid hnorm) hF
     _ = _ := by

@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectCoveredStage
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectParentLeaves
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSupportedLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedHybridLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyAtoms
@@ -170,11 +171,6 @@ namespace SecondStages
 variable (R : s.SecondStages (E := E) (hDiff := hDiff))
 variable (L : SourceCartesianAtlas s.columns s.ideal)
 variable (exceptional : R.CoverHybridPredicates L) (N₀ : s.Normalization)
-
-/-- The original direct parent uses precisely the same literal live
-test as the amplified source.  No normalized child is used to define it. -/
-def liveLeaves : Finset (R.CoveredLeafKey L) :=
-  ActualHybridFamily.live (R.parentLeaf L exceptional N₀)
 
 def liveLeaf (j : R.liveLeaves L exceptional N₀) : ActualHybridLeaf K Q W E :=
   R.parentLeaf L exceptional N₀ j.val

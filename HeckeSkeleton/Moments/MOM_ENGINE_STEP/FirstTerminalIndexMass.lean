@@ -46,7 +46,15 @@ theorem sum_firstTerminalIndexWeight (Z : ℝ) (first : Finset (Label K))
       ∑ v ∈ first, firstCommonWeight Z v.1.1 v.1.2 *
         ∑ S ∈ divisors v, ‖(moebius S : ℂ)‖ / (Ideal.absNorm S : ℝ) := by
   simp only [FirstTerminalIndex, Fintype.sum_sigma, firstTerminalIndexWeight,
-    mul_div_assoc, ← Finset.mul_sum, Finset.sum_coe_sort]
+    mul_div_assoc, ← Finset.mul_sum]
+  have hS (v : Label K) :
+      (∑ S : divisors v, ‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) =
+        ∑ S ∈ divisors v, ‖(moebius S : ℂ)‖ / (Ideal.absNorm S : ℝ) :=
+    Finset.sum_coe_sort (divisors v)
+      (fun S => ‖(moebius S : ℂ)‖ / (Ideal.absNorm S : ℝ))
+  simp_rw [hS]
+  exact Finset.sum_coe_sort first (fun v => firstCommonWeight Z v.1.1 v.1.2 *
+    ∑ S ∈ divisors v, ‖(moebius S : ℂ)‖ / (Ideal.absNorm S : ℝ))
 
 /-- The constant precedes every moving source carrier and every
 decorating phase, sector, mask or side label.  Only their actual finite
@@ -104,7 +112,8 @@ theorem uniform_first_terminal_index_mass (B ε : ℝ) (hB : 0 ≤ B) (hε : 0 <
         rw [hεeq, Real.rpow_add hz]
         ring
   have hfibre := sum_weighted_fibres_le index (firstTerminalIndexWeight Z first divisors)
-    (firstTerminalIndexWeight_nonneg Z first divisors hz.le) multiplicity hcard
+    (firstTerminalIndexWeight_nonneg Z first divisors hz.le) multiplicity (fun j => by
+      convert hcard j using 1 <;> congr 2 <;> ext i <;> simp)
   exact hfibre.trans ((mul_le_mul_of_nonneg_left hbase hmult).trans_eq (by ring))
 
 end HeckeSkeleton.Moments.EngineStep.CommonSupportMass

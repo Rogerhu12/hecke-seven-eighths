@@ -131,7 +131,7 @@ theorem originalTriple_zero_powerful_residuals
   · apply actual_sInteger_zero_gauss_nonzero_powerful C hDiff J b hb
     intro hz
     apply (mul_ne_zero_iff.mp hpair).2
-    exact (congrArg star hz).trans star_zero
+    exact (congrArg star hz).trans (star_zero ℂ)
 
 end HeckeSkeleton.Moments.EngineStep
 

@@ -19,6 +19,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckePort.CenteredMomentCounting
 
 variable {F : Type} [Field F] [NumberField F]
 

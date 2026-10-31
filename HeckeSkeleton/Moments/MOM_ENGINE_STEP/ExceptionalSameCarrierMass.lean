@@ -36,6 +36,23 @@ theorem exceptionalDyadWeight_nonneg (b : TwoDivisorCommonBranch (K := K))
   unfold exceptionalDyadWeight
   positivity
 
+private theorem dyad_weight_le_harmonic (Z r mesh N factor : ℝ)
+    (hZ : 0 < Z) (hN : 0 < N) (hfactor : 0 ≤ factor)
+    (hwindow : N ≤ Z ^ (r + mesh)) :
+    factor * Z ^ (-r) ≤ Z ^ mesh * (factor / N) := by
+  have hi : Z ^ (-r) ≤ Z ^ mesh / N := by
+    apply (le_div_iff₀ hN).mpr
+    calc
+      _ ≤ Z ^ (-r) * Z ^ (r + mesh) :=
+        mul_le_mul_of_nonneg_left hwindow (Real.rpow_nonneg hZ.le _)
+      _ = Z ^ mesh := by
+        rw [← Real.rpow_add hZ]
+        congr 1
+        ring
+  calc
+    _ ≤ factor * (Z ^ mesh / N) := mul_le_mul_of_nonneg_left hi hfactor
+    _ = _ := by ring
+
 /-- No count of the second-divisor carrier is assumed: its original
 upper norm window produces the precise harmonic denominator already
 present in the proved two-divisor mass theorem. -/
@@ -46,21 +63,8 @@ theorem exceptionalDyadWeight_le_indexWeight (b : TwoDivisorCommonBranch (K := K
     b.exceptionalDyadWeight Z r i ≤ Z ^ mesh * b.indexWeight i := by
   have hnorm : (0 : ℝ) < Ideal.absNorm i.2.2.2.1.val :=
     Nat.cast_pos.mpr (Nat.pos_of_ne_zero (Ideal.absNorm_eq_zero_iff.not.mpr hL))
-  have hi : Z ^ (-r) ≤ Z ^ mesh / (Ideal.absNorm i.2.2.2.1.val : ℝ) := by
-    apply (le_div_iff₀ hnorm).mpr
-    calc
-      _ ≤ Z ^ (-r) * Z ^ (r + mesh) :=
-        mul_le_mul_of_nonneg_left hwindow (Real.rpow_nonneg hZ.le _)
-      _ = Z ^ mesh := by
-        rw [← Real.rpow_add hZ]
-        congr 1
-        ring
-  have hp := mul_le_mul_of_nonneg_left hi
-    (show 0 ≤ (1 / (Ideal.absNorm (commonRadical i.1.val.1.1 i.1.val.1.2) : ℝ)) *
-      ‖(moebius i.2.1.val : ℂ)‖ *
-      (1 / (Ideal.absNorm (commonRadical i.2.2.1.val.1.1 i.2.2.1.val.1.2) : ℝ)) *
-      ‖(moebius i.2.2.2.1.val : ℂ)‖ by positivity)
-  convert hp using 1 <;> unfold exceptionalDyadWeight indexWeight <;> ring
+  unfold exceptionalDyadWeight indexWeight
+  exact dyad_weight_le_harmonic Z r mesh _ _ hZ hnorm (by positivity) hwindow
 
 /-- The same fixed arithmetic constant controls the actual decorated
 exceptional carrier.  Only its original ideal windows and actual fibre
@@ -76,10 +80,18 @@ theorem uniform_exceptional_dyad_mass (N : ℕ) (B ε : ℝ) (hB : 0 ≤ B) (hε
       (∀ i, (Ideal.absNorm (index i).2.2.2.1.val : ℝ) ≤ Z ^ (lower i + mesh)) →
       (∑ i : I, b.exceptionalDyadWeight Z (lower i) (index i)) ≤
         multiplicity * C * Z ^ (ε + mesh) / (Ideal.absNorm s : ℝ) := by
-  obtain ⟨C, hC, hb⟩ := uniform_index_mass (K := K) N B ε hB hε
+  obtain ⟨C, hC, hmass⟩ := uniform_mass (K := K) N B ε hB hε
   refine ⟨C, hC, ?_⟩
   intro Z hZ s hs hs0 b hbranch I inst index multiplicity mesh hmult hcard lower hwindow
   have hz : 0 < Z := zero_lt_one.trans_le hZ
+  have hindex : (∑ i : I, b.indexWeight (index i)) ≤
+      multiplicity * C * Z ^ ε / (Ideal.absNorm s : ℝ) := by
+    have hfibre := sum_weighted_fibres_le index b.indexWeight b.indexWeight_nonneg
+      multiplicity (fun j => by
+        convert hcard j using 1 <;> congr 2 <;> ext i <;> simp)
+    rw [b.sum_indexWeight] at hfibre
+    exact hfibre.trans ((mul_le_mul_of_nonneg_left
+      (hmass Z hZ s hs hs0 b hbranch) hmult).trans_eq (by ring))
   have hi (i : I) : b.exceptionalDyadWeight Z (lower i) (index i) ≤
       Z ^ mesh * b.indexWeight (index i) := by
     apply b.exceptionalDyadWeight_le_indexWeight Z (lower i) mesh hz (index i)
@@ -93,7 +105,7 @@ theorem uniform_exceptional_dyad_mass (N : ℕ) (B ε : ℝ) (hB : 0 ≤ B) (hε
     _ = Z ^ mesh * ∑ i : I, b.indexWeight (index i) := by rw [Finset.mul_sum]
     _ ≤ Z ^ mesh * (multiplicity * C * Z ^ ε / (Ideal.absNorm s : ℝ)) :=
       mul_le_mul_of_nonneg_left
-        (hb Z hZ s hs hs0 b hbranch index multiplicity hmult hcard)
+        hindex
         (Real.rpow_nonneg hz.le _)
     _ = _ := by rw [Real.rpow_add hz]; ring
 

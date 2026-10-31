@@ -170,7 +170,7 @@ def restrictLive (h : (R.restrictRows p).live) : R.live :=
 
 /-- The chosen residual element and its generating ideal are literally
 the same after a finite-character restriction; only proof fields differ. -/
-theorem restrictRows_extractedRow (C : A.GeneralArithmeticContext σ η hS)
+theorem restrictLive_extractedRow (C : A.GeneralArithmeticContext σ η hS)
     (h : (R.restrictRows p).live) :
     (R.restrictRows p).extractedRow C h = R.extractedRow C (R.restrictLive p h) := rfl
 

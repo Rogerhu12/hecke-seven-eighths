@@ -91,7 +91,7 @@ theorem atomic_harmonic_mass :
     AtomicLabel.firstLabel, AtomicLabel.firstDivisor, AtomicLabel.secondLabel, AtomicLabel.secondDivisor]
   simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul, Fintype.card_coe, hchar,
     Finset.sum_coe_sort, mass, secondDivisorAllocationMass]
-  simp_rw [Finset.mul_sum, Finset.sum_mul, Finset.sum_div]
+  simp only [Finset.mul_sum, Finset.sum_mul, Finset.sum_div]
   apply Finset.sum_congr rfl
   intro v hv
   apply Finset.sum_congr rfl

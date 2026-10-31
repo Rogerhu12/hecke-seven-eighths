@@ -77,12 +77,11 @@ section Orbital
 
 variable {S : Finset (HeightOneSpectrum (𝓞 K))}
 variable {Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)}
-local notation "OS" => Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K
-local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
-variable [Γ.FiniteIndex] [IsPrincipalIdealRing OS]
+variable [Γ.FiniteIndex]
+  [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K)]
   [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)]
   (μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K))
@@ -92,9 +91,11 @@ variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion 
 cancellation and the original annular profile's primal zero subtraction. -/
 theorem OrbitalGaussColumn.transformedZero_pair
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
-    (c d : OrbitalGaussColumn K S Γ) (φ : SchwartzMap V ℂ) (hφ : φ 0 = 0)
+    (c d : OrbitalGaussColumn K S Γ)
+    (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ) (hφ : φ 0 = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
-    (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum OS))
+    (radius : {r : ℝ // 0 < r})
+    (D : Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)))
     (hcδ : IsCoprime c.modulus
       (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D).val)
     (hdδ : IsCoprime d.modulus
@@ -127,7 +128,8 @@ theorem OrbitalGaussColumn.transformedZero_pair
     _ = ((sUnitHaarCovolume K (S : Set (HeightOneSpectrum (𝓞 K))) Γ).toReal : ℂ) *
         (moebius (IdealMobiusMask.primeProduct D) : ℂ) *
         (sIntegerMaskPoissonFactor K S (c.modulus * d.modulus) (mul_ne_zero c.nonzero d.nonzero)
-            radius δ * (Nat.card (OS ⧸ Ideal.span {c.modulus * d.modulus}) : ℂ)) *
+            radius δ * (Nat.card ((Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) ⧸
+              Ideal.span {c.modulus * d.modulus}) : ℂ)) *
         (c.divisorPhase δ.val * star (d.divisorPhase δ.val)) * c.correlation d 0 *
           sIntegerDualTensorTerm K μv S (traceSchwartzToMixed K φ) finiteTest 0 := by ring
     _ = _ := by rw [hcard]; ring
@@ -138,7 +140,6 @@ section Generated
 
 variable {Γ : Subgroup A.U}
 variable (hΓ : ∀ u : Γ, ∃ v : A.U, u.val = v ^ 6)
-local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 variable [MeasurableSpace (sLocalNormOneGroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))]
 variable [Γ.FiniteIndex] [IsPrincipalIdealRing A.R]
@@ -152,7 +153,8 @@ at frequency zero.  The original annular profile is retained. -/
 theorem generated_second_zero_of_ne
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (I J : A.Exterior) (a b : A.R) (ha : A.Generates I a) (hb : A.Generates J b)
-    (hIJ : I ≠ J) (φ : SchwartzMap V ℂ) (hφ : φ 0 = 0)
+    (hIJ : I ≠ J) (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
+    (hφ : φ 0 = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum A.R))
     (haδ : IsCoprime a (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)

@@ -197,7 +197,8 @@ theorem allocated_joint_kernel_bound (F : 𝓢(V, ℂ))
             (mul_le_mul hL hR (Real.sqrt_nonneg _)
               (Finset.sum_nonneg fun _ _ => Real.sqrt_nonneg _)) (norm_nonneg _)
         _ = _ := by
-          simp only [Finset.sum_mul_sum, Finset.mul_sum, integrand, mul_assoc]
+          rw [Finset.sum_mul_sum]
+          simp only [Finset.mul_sum, integrand]
     _ = _ := by
       rw [integral_finsetSum L
         (fun a _ => integrable_finsetSum R (fun b _ => hint a b))]

@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolGaussDecomposition
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedCommonMass
+import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
 
 /-!
 # The single pool density pays the complete prime-label mass
@@ -95,15 +96,15 @@ theorem localErrorWeight_mul_moving_norm_le_one (p : ExteriorPrime A) (n : ℕ) 
   have hi0 : 0 ≤ (Q p)⁻¹ := inv_nonneg.mpr hp.le
   have hi1 : (Q p)⁻¹ ≤ 1 := (inv_le_one₀ hp).mpr hQ
   by_cases h1 : n = 1
-  · simp only [FirstGaussPoolData.localErrorWeight, amplifierMovingExponent,
-      h1, if_true, pow_one, inv_mul_cancel₀ hp.ne', le_refl]
+  · subst n
+    simp [FirstGaussPoolData.localErrorWeight, amplifierMovingExponent, hp.ne']
   by_cases h6 : n = 6
-  · simp only [FirstGaussPoolData.localErrorWeight, amplifierMovingExponent,
-      h1, h6, if_true, if_false, show ¬(6 : ℕ) = 7 by decide, pow_zero, mul_one]
+  · subst n
+    norm_num [FirstGaussPoolData.localErrorWeight, amplifierMovingExponent]
     nlinarith [mul_nonneg hi0 (sub_nonneg.mpr hi1)]
   by_cases h7 : n = 7
-  · simp only [FirstGaussPoolData.localErrorWeight, amplifierMovingExponent,
-      h1, h6, h7, if_true, if_false, pow_one, inv_mul_cancel₀ hp.ne', le_refl]
+  · subst n
+    simp [FirstGaussPoolData.localErrorWeight, amplifierMovingExponent, hp.ne']
   · simp only [FirstGaussPoolData.localErrorWeight, amplifierMovingExponent,
       h1, h6, h7, if_false, zero_mul, zero_le_one]
 
@@ -141,7 +142,7 @@ theorem uniform_pool_density_and_mass (ell eps Mmax Bmax : ℝ)
           Q p ^ amplifierMovingExponent n) / P.rowDensity M B ≤
             2 * idealCountConstant K * Z ^ eps := by
   have hexp : 0 < ell - eps := sub_pos.mpr hepsell
-  have hevent := (Real.tendsto_rpow_atTop hexp).eventually
+  have hevent := (_root_.tendsto_rpow_atTop hexp).eventually
     (Filter.eventually_ge_atTop (2 * (Mmax / (ell / 2) + Bmax / (ell / 2))))
   obtain ⟨Z₁, hZ₁⟩ := Filter.eventually_atTop.mp hevent
   refine ⟨max Z₁ 2, lt_of_lt_of_le (by norm_num) (le_max_right _ _), ?_⟩

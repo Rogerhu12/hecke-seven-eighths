@@ -24,6 +24,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckePort.Moments HeckePort.Moments.Support UniqueFactorizationMonoid
+open HeckePort.IdealMobiusDivisorSum
 open MeasureTheory
 
 variable {K : Type} [Field K] [NumberField K]
@@ -166,8 +167,8 @@ theorem actualCommonPhase_allowed
     ub ud hub hud hab' had hDb.symm
   have hBA := firstReciprocalPhase_allowed hΓ C IB IA b a hb ha
     ub ua hub hua hab' haa hab.symm
-  simp only [firstReciprocalPhase, generatedOriginalColumn,
-    generatedIdealCharacter_mk] at hEA hBD hBA
+  dsimp only [firstReciprocalPhase, generatedOriginalColumn] at hEA hBD hBA
+  simp only [generatedIdealCharacter_mk] at hEA hBD hBA
   rw [actualCommonPhase, hEA, hBD, hBA]
   simp only [one_mul]
 

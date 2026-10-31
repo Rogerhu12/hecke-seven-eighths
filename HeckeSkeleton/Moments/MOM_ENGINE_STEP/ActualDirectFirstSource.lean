@@ -170,8 +170,8 @@ theorem actual_parent_first_direct_linearized
   apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg s.fiber)
   simp only [ActualDirectFirstSource.zeroCost, ActualDirectFirstSource.linearizedCost,
     ActualDirectFirstSource.tailCost, Finset.sum_add_distrib, ← Finset.mul_sum]
-  apply add_le_add_right
-  apply add_le_add_left
+  refine add_le_add ?_ le_rfl
+  apply add_le_add le_rfl
   apply Finset.sum_le_sum
   intro v _
   apply Finset.sum_le_sum

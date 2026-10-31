@@ -151,7 +151,7 @@ theorem uniform_tag_norm_charge_mass (ell eps Mmax Bmax : ℝ)
         (4 / d.density) *
             (∑ b : PoolSourceTag P, d.tagWeight b * poolTagNormCharge P b) ≤
           poolTerminalConstant K ell Mmax * Z ^ eps := by
-  have hevent := (Real.tendsto_rpow_atTop (sub_pos.mpr hepsell)).eventually
+  have hevent := (_root_.tendsto_rpow_atTop (sub_pos.mpr hepsell)).eventually
     (Filter.eventually_ge_atTop (2 * (Mmax / (ell / 2) + Bmax / (ell / 2))))
   obtain ⟨Z₁, hZ₁⟩ := Filter.eventually_atTop.mp hevent
   refine ⟨max Z₁ 2, lt_of_lt_of_le (by norm_num) (le_max_right _ _), ?_⟩

@@ -22,7 +22,7 @@ def finInclusion {m n : ℕ} (h : m ≤ n) : Fin m ↪ Fin n where
   toFun i := ⟨i.val, lt_of_lt_of_le i.isLt h⟩
   inj' := by
     intro i j hij
-    exact Fin.ext (congrArg Fin.val hij)
+    exact Fin.ext (congrArg (fun z : Fin n => z.val) hij)
 
 def pad {ι : Type*} (P : Finset ι) {m n : ℕ} (h : m ≤ n)
     (a : allocations P m) : allocations P n :=

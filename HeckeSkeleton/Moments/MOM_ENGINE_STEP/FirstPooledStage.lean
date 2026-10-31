@@ -126,12 +126,13 @@ def pooledCost (p : FirstBlockPoolData chart P M X hX) : ℝ :=
   let r := actualActiveColumn hΓ C b.primes b.primes_injective
     b.leftMultiplicity b.rightMultiplicity
   let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
-  firstDivisorPooledResidualCost PUnit chart.kernel p.leftData p.rightData p.divisorPools
+  firstDivisorPooledResidualCost PUnit.{1} chart.kernel p.leftData p.rightData p.divisorPools
     (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle)) p.rowBound
     (fun i => chart.leftCoefficient i * firstLeftDivisorFactor (a i) r δ)
     (fun j => chart.rightCoefficient j * firstRightDivisorFactor (a' j) r δ)
     chart.leftPoint chart.rightPoint
 
+include profiles in
 theorem kernelCost_le_pool (p : FirstBlockPoolData chart P M X hX)
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0) :
     chart.kernelCost hDiff M X hX ≤ p.pooledCost := by
@@ -142,7 +143,7 @@ theorem kernelCost_le_pool (p : FirstBlockPoolData chart P M X hX)
   let r := actualActiveColumn hΓ C b.primes b.primes_injective
     b.leftMultiplicity b.rightMultiplicity
   let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
-  have he := first_residual_cost_le_divisor_pool (Ray := PUnit) (hΓ := hΓ)
+  have he := first_residual_cost_le_divisor_pool (Ray := PUnit.{1}) (hΓ := hΓ)
     chart.kernel p.leftData p.rightData p.divisorPools hDiff
     (b.finiteSource hΓ C left right profiles M radius X hX).rows (fun t : Q => t.out.val)
     sIntegerOrbit_out_val_injective.injOn p.left_rows p.right_rows
