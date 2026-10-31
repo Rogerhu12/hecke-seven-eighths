@@ -113,6 +113,7 @@ section Product
 
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 
+include hΓ in
 def actualActiveColumn (C : A.GeneralArithmeticContext σ η hS)
     (p : ι → ExteriorPrime A) (hp : Function.Injective p) (m n : ι → ℕ) :
     OrbitalGaussColumn K A.Sf Γ where
@@ -125,8 +126,12 @@ def actualActiveColumn (C : A.GeneralArithmeticContext σ η hS)
     intro i _
     rw [MulChar.pow_apply' _ (netExponent_ne_zero Finset.univ m n i),
       actual_prime_character_value C]
-    rw [generated_character_subgroup_value hΓ (primeIdeal (p i.val))
-      (generator C (p i.val)) (generator_generates C (p i.val)) u, one_pow]
+    have hu := generated_character_subgroup_value (σ := σ) hΓ (primeIdeal (p i.val))
+      (generator C (p i.val)) (generator_generates C (p i.val)) u
+    have hu' : σ (A.sexticResidue (primeIdeal (p i.val))
+        (((A.Sf : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val) : A.R)) = 1 := by
+      simpa only [SArithmeticData.unitEquiv] using hu
+    rw [hu', one_pow]
 
 def actualExteriorSPrime (p : ExteriorPrime A) : HeightOneSpectrum A.R where
   asIdeal := A.extendIdeal (primeIdeal p)
@@ -148,16 +153,15 @@ theorem firstPrincipalMask_eq_orbit_mask (C : A.GeneralArithmeticContext σ η h
       (∀ q ∈ firstPrincipalPrimeMask p m n, x.val ∉ q.asIdeal) ↔
         ¬ ∃ i ∈ principalSupport Finset.univ m n, generator C (p i) ∣ x.val := by
     simp only [firstPrincipalPrimeMask, Finset.mem_image, forall_exists_index,
-      and_imp, forall_apply_eq_imp_iff₂, not_exists]
+      and_imp, forall_apply_eq_imp_iff₂, not_exists, not_and]
     apply forall_congr'
     intro i
     apply forall_congr'
     intro hi
     change x.val ∉ A.extendIdeal (primeIdeal (p i)) ↔ ¬ generator C (p i) ∣ x.val
     rw [← (generator_generates C (p i)).2, Ideal.mem_span_singleton]
-  rw [he]
   by_cases hp : ∃ i ∈ principalSupport Finset.univ m n, generator C (p i) ∣ x.val <;>
-    simp only [hp, if_true, if_false, not_true_eq_false, not_false_eq_true]
+    simp only [he, hp, if_true, if_false, not_true_eq_false, not_false_eq_true]
 
 end Product
 

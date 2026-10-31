@@ -214,7 +214,7 @@ theorem slot_polynomial_bound (ξ : V) (u : NonzeroIdeal K) (hu : u ∈ cal.rows
       (∏ i : Fin n, ((cal.primes i).card : ℝ) * cal.primeBound i) *
         (1 + ‖ξ‖) ^ (cal.order * n) := by
   rw [actualSlotProduct_reindex (D ξ) n (hcount ξ), norm_prod]
-  apply (Finset.prod_le_prod (fun i _ => norm_nonneg _)
+  apply (Finset.prod_le_prod₀ (fun i _ => norm_nonneg _)
     (fun i _ => cal.prime_polynomial_bound ξ u hu i)).trans_eq
   rw [Finset.prod_mul_distrib, Finset.prod_const, Finset.card_univ, Fintype.card_fin, ← pow_mul]
 
@@ -266,6 +266,7 @@ theorem energy_polynomial_bound (ξ : V) :
       simp only [energyConstant, energyOrder, pow_mul, mul_pow]
       ring
 
+include cal in
 theorem energy_aestronglyMeasurable :
     AEStronglyMeasurable (fun ξ => pairedEnergy (D ξ) a Z (t ξ)) (volume : Measure V) := by
   have hplain₁ (u : NonzeroIdeal K) (hu : u ∈ cal.rows) :
@@ -324,6 +325,25 @@ theorem actualFourierMeasure_finite (F : 𝓢(V, ℂ)) :
     (Filter.Eventually.of_forall (fun ξ : V => norm_nonneg ((𝓕 F) ξ)))).mp
       hi.hasFiniteIntegral).ne
 
+theorem actualFourierMeasure_mass_eq (F : 𝓢(V, ℂ)) :
+    (actualFourierMeasure F).real Set.univ = ∫ ξ : V, ‖(𝓕 F) ξ‖ := by
+  change ((volume.withDensity (fun ξ : V => ENNReal.ofReal ‖(𝓕 F) ξ‖)) Set.univ).toReal = _
+  rw [Measure.withDensity_apply _ MeasurableSet.univ, Measure.restrict_univ]
+  exact (integral_eq_lintegral_of_nonneg_ae
+    (Filter.Eventually.of_forall (fun ξ : V => norm_nonneg ((𝓕 F) ξ)))
+    (𝓕 F).continuous.norm.aestronglyMeasurable).symm
+
+/-- The positive kernel's mass is controlled by fixed original Schwartz
+seminorms, before choosing any actual child family. -/
+theorem actualFourierMeasure_uniform_mass :
+    ∃ s : Finset (ℕ × ℕ), ∃ C : ℝ, 0 < C ∧ ∀ F : 𝓢(V, ℂ),
+      (actualFourierMeasure F).real Set.univ ≤
+        C * s.sup (schwartzSeminormFamily ℝ V ℂ) F := by
+  obtain ⟨s, C, hC, hweight⟩ := joint_fourier_mass_bound (V := V) 0
+  refine ⟨s, C, hC, fun F => ?_⟩
+  rw [actualFourierMeasure_mass_eq]
+  simpa only [pow_zero, mul_one] using (hweight F).2
+
 theorem actual_paired_family_integrable
     {D : V → MomentData K ω ψ} {n : ℕ}
     {hcount : ∀ ξ, (D ξ).geometry.slotCount = n}
@@ -377,6 +397,7 @@ theorem actual_normalized_cauchy_integrable
   exact Filter.Eventually.of_forall fun ξ => by
     have hl := normalizedPairedEnergy_nonneg (D₁ ξ) a₁ Z (t₁ ξ) hZ
     have hr := normalizedPairedEnergy_nonneg (D₂ ξ) a₂ Z (t₂ ξ) hZ
+    simp only [Pi.mul_apply, Pi.add_apply]
     rw [Real.norm_eq_abs, abs_of_nonneg (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))]
     nlinarith [Real.sq_sqrt hl, Real.sq_sqrt hr, sq_nonneg
       (Real.sqrt (normalizedPairedEnergy (D₁ ξ) a₁ Z (t₁ ξ)) -
@@ -388,6 +409,7 @@ end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualFiniteFamilyControl.energy_polynomial_bound
 #print axioms HeckeSkeleton.Moments.EngineStep.actualFourierMeasure_finite
+#print axioms HeckeSkeleton.Moments.EngineStep.actualFourierMeasure_uniform_mass
 #print axioms HeckeSkeleton.Moments.EngineStep.actual_paired_family_integrable
 #print axioms HeckeSkeleton.Moments.EngineStep.actual_normalized_paired_family_integrable
 #print axioms HeckeSkeleton.Moments.EngineStep.actual_normalized_cauchy_integrable

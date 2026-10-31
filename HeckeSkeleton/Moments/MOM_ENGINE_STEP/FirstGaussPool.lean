@@ -18,6 +18,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters
+open HeckePort.Moments
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -221,6 +222,7 @@ theorem energy_bound (d : FirstGaussPoolData C P ι)
       d.energy c := by
   have hunit (p : ExteriorPrime A) :
       MaskedQuotientCRT.primeExponent p (unitExterior A) = 0 := by
+    unfold MaskedQuotientCRT.primeExponent idealPrimeExponent unitExterior
     change (UniqueFactorizationMonoid.normalizedFactors (1 : Ideal (𝓞 K))).count p.val.asIdeal = 0
     simp
   have he := P.finite_energy C d.columns (d.adjustedCoefficient c)
@@ -229,12 +231,16 @@ theorem energy_bound (d : FirstGaussPoolData C P ι)
     (by intro i hi; simp [SArithmeticData.IsAllowed]) d.allowed
     d.support (by intro i hi p hp; exact (hp (hunit p)).elim) d.column_support
     d.rows d.rowIdeal d.row_generates d.row_support d.pool_support
-    d.frozen d.frozen_ne_zero (by intro i hi; exact one_dvd _)
+    d.frozen d.frozen_ne_zero (by
+      intro i hi
+      simpa only [unitExterior, ← Ideal.one_eq_top] using (one_dvd d.frozen))
     d.rowExponent d.frozenExponent d.row_norm d.frozen_norm d.density_pos
   dsimp only at he
   simp_rw [d.whole_gauss_eq hDiff c]
-  simpa only [energy, mainEnergy, errorEnergy, mainRows, eligible, density,
-    multiplicity, whole_error_eq, finiteColumn, Finset.sum_add_distrib, add_assoc] using he
+  unfold energy mainEnergy errorEnergy mainRows eligible density multiplicity
+  simp_rw [d.whole_error_eq c]
+  dsimp only [finiteColumn]
+  simpa only [Finset.sum_add_distrib, add_assoc] using he
 
 /-- An injective genuine row chart may be used directly by the first
 orbital source. Its bounded row multiplier is retained explicitly. -/

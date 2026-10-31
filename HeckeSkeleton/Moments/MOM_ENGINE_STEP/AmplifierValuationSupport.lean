@@ -127,10 +127,26 @@ theorem whole_error_polynomial (p : HeightOneSpectrum (𝓞 K)) (j : ℕ)
     · exact hI x.1.1 hx.1.1
     · exact hJ x.1.2 hx.1.2
     · exact (x.2 l).ne_bot
-  simp_rw [paired_columns_eq_filter]
-  simpa only [paired_occurrences_product] using
-    ValuationAllocation.whole_polynomial (childCartesianColumns S₁ S₂ S) (k + 2) j
+  calc
+    _ = ∑ x ∈ childCartesianColumns S₁ S₂ S with
+        (normalizedFactors (∏ i, pairedOccurrences I J HeightOneSpectrum.asIdeal x i)).count
+          p.asIdeal = j, C x := by
+      apply Finset.sum_congr ?_ (fun x _ => rfl)
+      ext x
+      simp only [Finset.mem_filter, paired_occurrences_product]
+    _ = ∑ n ∈ ValuationAllocation.choices (k + 2) j,
+        ∑ x ∈ childCartesianColumns S₁ S₂ S with
+          ∀ i, (normalizedFactors
+            (pairedOccurrences I J HeightOneSpectrum.asIdeal x i)).count p.asIdeal = n i,
+          C x := ValuationAllocation.whole_polynomial
+      (childCartesianColumns S₁ S₂ S) (k + 2) j
       p.asIdeal (pairedOccurrences I J HeightOneSpectrum.asIdeal) C ha
+    _ = _ := by
+      apply Finset.sum_congr rfl
+      intro n hn
+      apply Finset.sum_congr ?_ (fun x _ => rfl)
+      ext x
+      rw [paired_columns_eq_filter] <;> simp only [Finset.mem_filter]
 
 theorem actual_error_polynomial_subsupport
     (p : HeightOneSpectrum (𝓞 K)) (n : Fin (k + 2) → ℕ)

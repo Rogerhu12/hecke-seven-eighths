@@ -128,7 +128,7 @@ theorem fixed_child_polynomial_from_terms
   have hh := actual_child_polynomial_from_terms d u g h' D.toDictionary
     N₁ N₂ Z t S₁ S₂ S hS₁ hS₂ hS w₁ w₂ w x₁ x₂ x ξ hW₁ hW₂ hW
   simpa only [FixedChildCharacters.coefficient,
-    FixedChildCharacters.Calibration.toDictionary, Fin.cast_refl, hlength] using hh
+    FixedChildCharacters.Calibration.toDictionary, Fin.cast_refl, id_eq, hlength] using hh
 
 /-- A complete Fourier family has the same source c/x at every
 parameter.  Actual row membership follows from the extracted ideal and
