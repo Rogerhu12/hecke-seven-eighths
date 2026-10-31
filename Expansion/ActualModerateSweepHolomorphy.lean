@@ -246,14 +246,14 @@ theorem analyticOnNhd_actual_moderate_kernel [IsTotallyComplex K]
   have hrec0 := ((differentiableOn_actual_target_reciprocal K Sset omega
     (psi * conjugate (R.character u)) hpacket hB hboundary).analyticOnNhd
       (isOpen_rightHalfPlane B)) v.1 hv.1
-  have hrec := hrec0.comp hs
+  have hrec := hrec0.comp_of_eq hs rfl
   have hcont := ((differentiable_heckeContinuation_of_nonNorm K (R.character u)
     hnon).differentiableOn.analyticOnNhd isOpen_univ) v.2.1 (Set.mem_univ _)
   have hLw0 : AnalyticAt ℂ
       (heckeDeletedContinuation K (R.character u) (exceptionalPrimes K Sset)) v.2.1 :=
     (heckeEulerDeletionPolynomial_analyticAt K (R.character u)
       (exceptionalPrimes K Sset) v.2.1).fun_mul hcont
-  have hLw := hLw0.comp hw
+  have hLw := hLw0.comp_of_eq hw rfl
   have hzeta : 1 < (6 * v.2.2).re := by
     have hzr : 1 / 6 < v.2.2.re := hv.2.1
     simp only [Complex.mul_re, Complex.re_ofNat, Complex.im_ofNat, zero_mul, sub_zero]
@@ -269,11 +269,11 @@ theorem analyticOnNhd_actual_moderate_kernel [IsTotallyComplex K]
   have hzpos : 0 < v.2.2.re := by
     have hzr : 1 / 6 < v.2.2.re := hv.2.1
     linarith
-  have hM := (analyticOnNhd_actual_additiveMellin K S mu nu P.additive v.2.2 hzpos).comp hz
+  have hM := (analyticOnNhd_actual_additiveMellin K S mu nu P.additive v.2.2 hzpos).comp_of_eq hz rfl
   have hden0 := ((HighBinBoundary.ActualDenominator.differentiable_mellin
     P.denominator.toSmoothAnnularTest).differentiableOn.analyticOnNhd isOpen_univ)
       v.2.1 (Set.mem_univ _)
-  have hden := hden0.comp hw
+  have hden := hden0.comp_of_eq hw rfl
   have hN : (frequencyRowNorm K Sset u : ℂ) ≠ 0 :=
     Complex.ofReal_ne_zero.mpr (idealNorm_pos K u.ideal.val).ne'
   have hX : ((Z ^ (17 / 48 : ℝ) : ℝ) : ℂ) ≠ 0 :=
