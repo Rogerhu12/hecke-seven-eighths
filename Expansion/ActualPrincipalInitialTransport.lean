@@ -73,7 +73,10 @@ theorem differentiableAt_actual_principal_kernel_comp [IsTotallyComplex K]
       (analyticAt_heckeContinuation K 1 hzeta).differentiableAt).comp x
         ((differentiableAt_const _).fun_mul hz)
   have hM := (analyticOnNhd_actual_additiveMellin K S mu nu P.additive (z x)
-    (by have := hregion.2.2; linarith)).differentiableAt.comp x hz
+    (by
+      change 0 < (z x).re
+      have hzr : 1 / 6 < (z x).re := hregion.2.2
+      linarith)).differentiableAt.comp x hz
   have hden := (HighBinBoundary.ActualDenominator.differentiable_mellin
     P.denominator.toSmoothAnnularTest (w x)).comp x hw
   have hX : ((Z ^ (17 / 48 : ℝ) : ℝ) : ℂ) ≠ 0 :=
@@ -101,6 +104,76 @@ theorem differentiableAt_actual_principal_kernel_comp [IsTotallyComplex K]
     hzPower).fun_mul hyPower).fun_mul hL).fun_mul hcorr).fun_mul (differentiableAt_const _)
 
 include nu in
+/-- The literal principal kernel is analytic after analytic coordinate
+maps into its initial region. Scalar continuation and Mellin factors are
+composed with these maps before taking the joint product. -/
+theorem analyticAt_actual_principal_kernel_comp [IsTotallyComplex K]
+    {X : Type*} [NormedAddCommGroup X] [NormedSpace ℂ X]
+    (P : ProbeData K Sset) (omega psi : HeckeCharacter K) (hpsi : psi ∈ HeckePacket K omega)
+    (hAllowed : AllowedGeneratorInput K Sset P.arithmetic)
+    (g : PrimeWindowGeometry) {B Z : ℝ} (hB : 7 / 8 < B) (hZ : 0 < Z)
+    (hboundary : ∀ chi : HeckePacketIndex K omega,
+      ∀ r ∈ heckePacketZeros K omega chi, 1 / 2 ≤ r → r ≤ 1 → r ≤ B)
+    (s w z : X → ℂ) (x : X)
+    (hs : AnalyticAt ℂ s x) (hw : AnalyticAt ℂ w x)
+    (hz : AnalyticAt ℂ z x)
+    (hregion : (s x, w x, z x) ∈ actualPrincipalInitialRegion B) :
+    AnalyticAt ℂ (fun y => compensatedRowMellinKernel K Sset muS P psi
+      (arithmeticHighEulerData K Sset P psi) g ∅ (physicalPrincipalRow K Sset)
+        Z (s y) (w y) (z y)) x := by
+  have hrec := ((differentiableOn_actual_target_reciprocal K Sset omega psi hpsi
+    (by linarith : 1 / 2 ≤ B) hboundary).analyticOnNhd
+      (isOpen_rightHalfPlane B)) (s x) hregion.1
+  have hrec' := hrec.comp_of_eq hs rfl
+  have hLw : AnalyticAt ℂ
+      (fun y => heckeDeletedContinuation K 1 (exceptionalPrimes K Sset) (w y)) x :=
+    ((heckeEulerDeletionPolynomial_analyticAt K 1
+      (exceptionalPrimes K Sset) (w x)).fun_mul
+        (analyticAt_heckeContinuation K 1 hregion.2.1)).comp_of_eq hw rfl
+  have hzeta : 1 < (6 * z x).re := by
+    have hzr := hregion.2.2
+    simp only [Complex.mul_re, Complex.re_ofNat, Complex.im_ofNat, zero_mul, sub_zero]
+    linarith
+  have hline : AnalyticAt ℂ (fun y : X => (6 : ℂ) * z y) x :=
+    analyticAt_const.fun_mul hz
+  have hLz : AnalyticAt ℂ
+      (fun y => heckeDeletedContinuation K 1 (exceptionalPrimes K Sset) (6 * z y)) x :=
+    ((heckeEulerDeletionPolynomial_analyticAt K 1
+      (exceptionalPrimes K Sset) (6 * z x)).fun_mul
+        (analyticAt_heckeContinuation K 1 hzeta)).comp_of_eq hline rfl
+  have hM := (analyticOnNhd_actual_additiveMellin K S mu nu P.additive (z x)
+    (by
+      change 0 < (z x).re
+      have hzr : 1 / 6 < (z x).re := hregion.2.2
+      linarith)).comp_of_eq hz rfl
+  have hden := ((HighBinBoundary.ActualDenominator.differentiable_mellin
+    P.denominator.toSmoothAnnularTest).analyticAt (w x)).comp_of_eq hw rfl
+  have hX : ((Z ^ (17 / 48 : ℝ) : ℝ) : ℂ) ≠ 0 :=
+    Complex.ofReal_ne_zero.mpr (Real.rpow_pos_of_pos hZ _).ne'
+  have hY : ((Z ^ (23 / 48 : ℝ) : ℝ) : ℂ) ≠ 0 :=
+    Complex.ofReal_ne_zero.mpr (Real.rpow_pos_of_pos hZ _).ne'
+  have hZc : (Z : ℂ) ≠ 0 := Complex.ofReal_ne_zero.mpr hZ.ne'
+  have hxPower := analyticAt_const_cpow_comp hX
+    ((analyticAt_const (v := (1 / 2 : ℂ))).fun_sub hz)
+  have hExponent := (hs.fun_add hz).fun_sub (analyticAt_const (v := (1 : ℂ)))
+  have hzPower := analyticAt_const_cpow_comp hZc hExponent
+  have hyPower := analyticAt_const_cpow_comp hY
+    (hw.fun_sub (analyticAt_const (v := (1 : ℂ))))
+  have hexp := (hExponent.fun_pow 2).cexp'
+  have hEuler : (s x, w x, z x) ∈ rowEulerRegion :=
+    principal_rectangle_mem_rowEulerRegion (s x) (w x) (z x)
+      (by have := hregion.1; linarith)
+      (by have := hregion.2.1; linarith) (by have := hregion.2.2; linarith)
+  have hcorr := analyticAt_actual_fullCorrection_comp K S P psi g ∅
+    (physicalPrincipalRow K Sset) Z s w z x hs hw hz hEuler
+  simp_rw [actualPrincipalKernel_eq_core K S mu P psi hAllowed g Z hZ]
+  unfold actualPrincipalKernelCore
+  simp only [div_eq_mul_inv]
+  have hL := (hLz.fun_mul hLw).fun_mul hrec'
+  exact (((((((((analyticAt_const.fun_mul hexp).fun_mul hM).fun_mul hden).fun_mul hxPower).fun_mul
+    hzPower).fun_mul hyPower).fun_mul hL).fun_mul hcorr).fun_mul analyticAt_const
+
+include nu in
 theorem analyticOnNhd_actual_principal_kernel [IsTotallyComplex K]
     (P : ProbeData K Sset) (omega psi : HeckeCharacter K) (hpsi : psi ∈ HeckePacket K omega)
     (hAllowed : AllowedGeneratorInput K Sset P.arithmetic)
@@ -110,19 +183,16 @@ theorem analyticOnNhd_actual_principal_kernel [IsTotallyComplex K]
     AnalyticOnNhd ℂ (fun v : ℂ × ℂ × ℂ => compensatedRowMellinKernel K Sset muS
       P psi (arithmeticHighEulerData K Sset P psi) g ∅ (physicalPrincipalRow K Sset)
         Z v.1 v.2.1 v.2.2) (actualPrincipalInitialRegion B) := by
-  have hopen : IsOpen (actualPrincipalInitialRegion B) :=
-    (isOpen_lt continuous_const (Complex.continuous_re.comp continuous_fst)).inter
-      ((isOpen_lt continuous_const
-        (Complex.continuous_re.comp (continuous_fst.comp continuous_snd))).inter
-        (isOpen_lt continuous_const
-          (Complex.continuous_re.comp (continuous_snd.comp continuous_snd))))
-  apply DifferentiableOn.analyticOnNhd _ hopen
   intro v hv
-  exact (differentiableAt_actual_principal_kernel_comp K S mu nu P omega psi hpsi hAllowed
+  have hs : AnalyticAt ℂ (fun p : ℂ × ℂ × ℂ => p.1) v := analyticAt_fst
+  have htail : AnalyticAt ℂ (fun p : ℂ × ℂ × ℂ => p.2) v := analyticAt_snd
+  have hw := (show AnalyticAt ℂ (fun p : ℂ × ℂ => p.1) v.2 from
+    analyticAt_fst).comp_of_eq htail rfl
+  have hz := (show AnalyticAt ℂ (fun p : ℂ × ℂ => p.2) v.2 from
+    analyticAt_snd).comp_of_eq htail rfl
+  exact analyticAt_actual_principal_kernel_comp K S mu nu P omega psi hpsi hAllowed
     g hB hZ hboundary Prod.fst (fun v : ℂ × ℂ × ℂ => v.2.1)
-      (fun v : ℂ × ℂ × ℂ => v.2.2) v differentiableAt_fst
-      (differentiableAt_fst.comp _ differentiableAt_snd)
-      (differentiableAt_snd.comp _ differentiableAt_snd) hv).differentiableWithinAt
+      (fun v : ℂ × ℂ × ℂ => v.2.2) v hs hw hz hv
 
 /-- The six genuine horizontal faces of the initial principal transport. -/
 def actualPrincipalInitialHorizontal (P : ProbeData K Sset) (psi : HeckeCharacter K)

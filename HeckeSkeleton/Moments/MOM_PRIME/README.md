@@ -1,192 +1,164 @@
-# MOM_PRIME: absolute prime endpoint and exceptional cancellation
+# MOM_PRIME: the actual prime endpoint and exceptional terminal
 
-This directory implements the actual finite-polynomial endpoint and the
-equal-product terminal consumers of manuscript §§4.6–4.7. The source-model
-construction and the general-field volume input remain explicit interfaces.
-The PR targets `dtests-handoff` from `cloud/mom-prime`.
+This task proves the absolute prime endpoint in manuscript §4.6 and the
+same-mask, equal-product exceptional terminal in Lemma 4.11 (§4.7).
+The results use the repository's actual ideal coefficients, finite prime
+products, row sets, common masks, and finite plain polynomials.
 
-## Endpoint statements
+## Actual prime endpoint
 
-`exists_slotProductAbsoluteBound` works with the existing `MomentData`,
-`primePolynomial`, and `slotProduct`. For at most `N` prime windows with
-support in `(1, 2)` and profile norm at most `B * V ^ H`, it proves
+The original `HeckeSkeleton.paired_primes_endpoint` calls
+`actual_recipe_paired_primes_endpoint`. Its existing signature is preserved.
+The proof supplies the absolute endpoint before the calibration,
+row-eligibility, profile-control, and `B = 1` hypotheses are used downstream.
 
-```text
-‖slotProduct d u Z t‖² ≤ C * Z^(d.geometry.totalLength) * V^(2*N*H).
-```
+`RecipeEndpoint.lean` uses the canonical source and the same explicit
+recipe for every index and model. The actual slot count is the cardinality
+of the selected set, the total length is `selectedLengthFor`, and the
+frozen windows keep their original annular support. A common upper bound
+on the real parts of their powers gives a profile bound before every
+source index, scale, sector, and height.
 
-Here `Z,V ≥ 1`, `B ≥ 0`, and `H ≥ 0`; the row-sum estimate also assumes
-`0 ≤ a.m + a.q`. The constant is chosen before the actual data,
-rows, masks, characters, lengths, scales, and heights. Linear ideal counting
-then gives `exists_pairedPrimeAbsoluteBound`:
-
-```text
-∑ u ∈ pairedRows d a Z, ‖slotProduct d u Z t‖²
-  ≤ C * Z^(a.m + a.q + d.geometry.totalLength) * V^(2*N*H).
-```
-
-The two branches of `pairedRows` and all original zero masks are retained.
-These estimates require no additional zero-free premise, capacity condition, or
-finite-order condition beyond the existing `MomentData` structure.
-
-`AbsoluteGeometry.lean` derives the profile bound from the actual fixed
-`PrimeWindowGeometry`. For this fixed-window specialization, the required
-identification is
-
-```lean
-d.geometry =
-  ((momentPrimeGeometry K g).changeBase shell hshell).restrictSlots I
-```
-
-The bound is uniform over all positive shell lengths, all selections
-(including the empty selection), and every other field of `MomentData`.
-Its exponent is the literal sum of the existing `TIP.slotLength`.
-
-`PrimeEndpointFamily` records this geometry identification and row width
-`m + q = 1` for an arbitrary dependent index family and finite sector type.
-The new theorem
-
-```lean
-HeckeSkeleton.Moments.MOM_PRIME.paired_primes_endpoint
-```
-
-proves the exact exponent `1 + selectedLength` after summing all sectors.
-`paired_primes_endpoint_uniform` gives the source's required quantifier
-order with height order zero, ceiling one, and threshold one. Every
-nonnegative exponent loss is permitted.
-
-The physical profiles may also contain their own complex norm powers.
-`PrimeWindow.freezeTwist` changes the profile values, so the fixed-geometry
-equality above is not a calibration of every such profile.
-`ProfileEndpoint.lean` handles this general case: `PrimeProfileEndpointFamily`
-calibrates only the selected total length, while `WholePrimeProfileControl`
-records a common slot-count bound, annular support, and the actual bound
-`B * (1 + T)^H`. The theorem `paired_primes_endpoint_profiles` proves
+`ActualEndpoint.lean` computes the physical power's real part as `-33/50`.
+The physical row width is the dyadic exponent `rho`, with `U^rho = 2*U`.
+Consequently the actual finite sector/row sum satisfies
 
 ```text
-energy ≤ C * base^(1 + selectedLength) * (1 + T)^(2*g.slots*H).
+sum_sector sum_u ||slotProduct u||^2 <= C * U^(1 + selectedLength).
 ```
 
-Its uniform version chooses the height order and ceiling before the height
-parameter, and the scalar and threshold before even the model family.
-Neither interface assumes a prime-product or energy estimate.
+The fixed factor two is absorbed into the constant. The source's uniform
+quantifier order holds with height order zero, ceiling one, and threshold
+one. Both empty-slot and positive-slot row filters are retained.
 
-`TwistedWindows.lean` proves that the existing `freezeTwist`/`freezeTwists`
-operations preserve the actual annular support. If the real part of each
-complex power is at most a fixed `L`, an original sup bound `B` becomes
-`B * 2^(max L 0)`, uniformly in the imaginary parts and frozen times.
-The bound also survives every positive shell change and slot selection.
-Thus these genuine physical norm-power profiles admit the height-free
-case `H = 0`, without identifying them with the untwisted windows.
+The auxiliary fixed-window and general profile-family endpoints in
+`Endpoint.lean` and `ProfileEndpoint.lean` remain available. The actual
+source proof uses its true dyadic width directly.
 
-`AbsoluteMasks.lean` also proves the exact subtraction of the original
-prime terms at primes dividing an additional mask, for each slot and
-simultaneously for the full product. The row filters remain unchanged.
-`OrdinaryMasks.lean` proves the actual
-normalized divisor identity for the Hecke ideal sums and the original
-`plainPolynomial`, with the exact coefficient `μ(D) χ(D) / sqrt(N D)` and
-the shortened scale `X / N D`. `OrdinaryMaskMass.lean` bounds the absolute
-coefficient mass, including an independent norm phase, by `C * Z^ε` when
-the mask norm is at most `Z^B`. This constant precedes the character,
-mask, height, and scale.
+## Constructed exceptional analytic input
 
-## Equal-product terminal
+| Module | Result |
+| --- | --- |
+| `AnnularMellin` | Mellin inversion of the actual finite annular ideal sum on an absolute line. |
+| `ExceptionalContinuation` | Polynomial control of the actual principal pole numerator and nonnorm Hecke continuation, with the actual residue. |
+| `ExceptionalAnnular` | Exact contour shift from `Re(s)=11/10` to `Re(s)=0`, crossing the principal residue. |
+| `ExceptionalAnnularBounds` | A remainder uniform over every positive scale, controlled by finite Euler seminorms of the original test and polynomial norm-phase height. |
 
-`ExceptionalTerminal.lean` retains the common mask and the common norm
-phase. It proves exact finite Möbius deletion, exact extraction of the
-scale/height-independent residue coefficient, direct absolute bounds for
-all positive scales, and equal-product cancellation before absolute values.
-
-For `ε > 0`, `B ≥ 0`, `Z ≥ 1`, a nonzero mask, and a whole profile family
-with common support, seminorm control, and the explicit `IdealVolumeInput`
-error estimate, one constant works for all profiles, masks of norm at most
-`Z^B`, heights, and four scales. If `X₁*X₂ = Y₁*Y₂ = T`, `a ≥ 0`, and every
-scale is at least `Z^a`, the normalized rectangle is bounded by
+For a norm-reduced character `chi`, a smooth annular test `W`, and every
+`X > 0`, the unmasked sum has the form
 
 ```text
-C * Z^ε * sqrt(T) * Z^(-a) * (p(W₁)+p(W₂))² * (1+‖t‖)^n.
+sum_I chi(I) * N(I)^(i*t) * W(N(I)/X)
+  = poleCoefficient(chi) * X^(1+i*t) * integral(W(y)*y^(i*t), y>0)
+    + error.
 ```
 
-The proof uses an absolute bound for a complete factor and hence needs
-only one divisor loss. A second theorem gives the absolute fallback
-without any lower-length or volume-input assumption.
+The pole coefficient is the actual Dedekind-zeta residue for `chi = 1`
+and zero for a nonnorm character. The order and constant precede `W`, `t`,
+and `X`. Moving the norm phase into the Mellin argument expresses the
+error bound through a translated fixed integrable envelope.
 
-`ExceptionalHecke.lean` uses the real repository coefficient
-`idealCoefficientHom (primeCoefficient K χ)`, identifies it with
-`heckeIdealCoefficient` on nonzero ideals, and rewrites the original ideal
-sum as a finite `boundedNormIdeals` sum. The main-term identification is
-explicit; the nonprincipal branch is conditional on that identification.
+The analytic statements use a totally complex field and the alternative
+`chi = 1` or `chi` is not a global norm twist. The original source supplies
+these facts: `isComplex_of_family` follows from its primitive twelfth root;
+`ExceptionalBackgrounds.lean` derives norm reduction from
+`targetCharacter_radial_zero`, the permitted plain backgrounds, and the
+finite order of the original row characters. It also treats a normalized
+generator multiplied by a finite-order background.
 
-`ExceptionalSmooth.lean` constructs the actual Schwartz realization of
-`y^(it) W(y)` from smoothness and compact support away from zero.
-`ExceptionalFiniteFamily.lean` makes the constants uniform over the finite
-Hecke background family. `ExceptionalMomentBridge.lean` identifies the
-original `plainPolynomial`, with arbitrary actual profile parameter and
-an independent norm phase, with the normalized Hecke sum. The equal-product
-and fallback estimates consequently apply to the original finite moment
-polynomials.
+## Lemma 4.11 with the original seminorm
 
-## Interfaces still required from the other constructions
+`ExceptionalAnnularTerminal.lean` inserts the original common mask by
+finite inclusion-exclusion. The divisor phase cancels the reciprocal phase
+at scale `X/N(D)`, giving the actual coefficient
 
-The source model must provide its actual prime-geometry calibration. The
-old `WholeMomentProfileControl` controls only the inverse and two plain
-`IdealTest`s. It contains no prime-window bound or slot-count bound. Its
-height/shift bounds also apply only inside specified parameter ranges;
-`SourceMomentModels` does not certify that its chosen values lie in them.
-The general endpoint instead requires the missing whole-family prime
-certificate directly. Fixed-window geometry derives that certificate in
-its special case; it must not be identified with a twisted profile whose
-values have changed.
+```text
+heckeExceptionalResidue chi R
+  = poleCoefficient(chi) * sum_(D|R) mu(D) * chi(D) / N(D).
+```
 
-For the exceptional terminal, the analytic inputs are:
+`exists_actualMaskedExceptional_bound` gives the all-scale asymptotic
+uniformly for `R != bottom`, `N(R) <= Z^B`, `Z >= 1`, `B >= 0`, and any
+prescribed positive loss `epsilon`.
 
-1. `IdealVolumeInput` for the actual Hecke ideal coefficients;
-2. its uniform seminorm and polynomial-height error control;
-3. identification of its density with the Hecke residue times the Mellin
-   profile integral, when the full main-term formula is needed.
+`exists_actualAnnularExceptional_equal_product_seminorm` chooses `J`, `N`,
+and `C > 0` before the tests, mask, phase, and four scales. For a fixed
+annulus upper bound `b`, if `X1*X2 = Y1*Y2 = T`, `a >= 0`, and all four
+scales are at least `Z^a`, the normalized difference is bounded by
 
-The equal-product estimate itself does not assume its desired conclusion.
-The remaining inputs are unmasked linear volume estimates and profile
-control, as in the existing `HeckePort/CenteredMoment/Volume.lean` interface.
-They are not constructed here from general-field Tate continuation.
+```text
+C * Z^epsilon * sqrt(T) * Z^(-a)
+  * (testSeminorm W1 J 0 + testSeminorm W2 J 0)^2
+  * (1 + ||t||)^N.
+```
 
-## Why the old skeleton declaration is unchanged
+The all-scale asymptotic and absolute ideal count also control the actual
+main coefficient. The final bound therefore retains a single divisor
+loss `Z^epsilon`. An absolute fallback covers all positive scales with
+equal products.
 
-At base commit `182769d49e5c184547c0949ddc328b9e7a87e6f7`, the original
-`HeckeSkeleton.paired_primes_endpoint` has two independent obstacles:
+`ExceptionalAnnularFiniteFamily.lean` chooses a common seminorm order,
+height degree, and constant for a fixed finite family of backgrounds,
+including the empty family.
 
-* Its hypotheses do not supply the missing prime-window calibration.
-* Its **type** refers to `momentModels`, whose definition is admitted, and
-  through `SourceMomentIndex` to admitted `highExpansion` and
-  `rows_in_norm_envelope`. Lean's axiom collector traverses theorem types
-  as well as proof terms. Replacing this theorem's own proof cannot remove
-  those dependencies on `sorryAx`.
+`ActualExceptionalMomentBridge.lean` transfers the constructed analytic
+result to the original finite `plainPolynomial`. Its hypotheses identify
+the actual character, common mask, and phase-carrying tests pointwise.
+The two equal products preserve the same total phase during normalization.
 
-The task's rule against editing existing definitions therefore prevents an
-honest claim that the original declaration passes the standard-axiom gate
-in this PR alone. The clean endpoint theorem is parameterized over the
-actual model data and its structural calibration. It is not presented as
-an unconditional proof of the old admitted source construction. The old
-`Moments.lean` is left unchanged.
+`ActualExceptionalFiniteFamilyBridge.lean` chooses the constants before
+every family member and original model or row. Its canonical specialization
+uses one radially normalized generator and a fixed finite family of
+finite-order twists. Character membership, mask equality, and test-phase
+identities are explicit identifications of the original summands.
+The same module's seminorm fallback covers every positive scale without
+requiring character reduction or a lower-length assumption.
 
-## Reproduction and audit
+## Ordinary masks and reusable interfaces
 
-The required environment is Lean `4.35.0-rc3` and Mathlib
-`0493595ecd5da8ef14742febab99728f98e948e8`, exactly as pinned by the repository.
+`OrdinaryMasks.lean` proves the exact normalized divisor identity, with
+coefficient `mu(D)*chi(D)*N(D)^(i*t)/sqrt(N(D))` and scale `X/N(D)`.
+`OrdinaryMaskMass.lean` gives uniform subpower coefficient mass for
+polynomial-size masks, and `AbsoluteMasks.lean` gives absolute deletion
+bounds. The earlier exceptional modules retain their reusable algebraic
+consumers; the new annular chain constructs the needed residue and error.
+
+## Shared source prerequisites
+
+The canonical source, actual recipe, and required import closure are
+consumed from PR #5 commit `0263481ab8c8f2ef30d909f6a665ed22d64e5b8c`.
+They replace the former admitted source/model objects with the same
+constructed recipe. Shared profile control is the owner's
+`MOM_UNIFORM_AMPLIFY/ProfileControl` interface.
+
+Eight imported proof files needed native API/elaboration repairs:
+`PhysicalCompletedPoisson`, `PhysicalRecipeAssembly`,
+`ActualRowKernelHolomorphy`, `ActualNormFormFullCorrection`,
+`SmallRowCorrection`, `PhysicalInitialMellinTerm`,
+`ActualPrincipalInitialTransport`, and `ActualModerateSweepHolomorphy`.
+The joint-analytic repairs consume the source owner's proof fixes from
+PR #5 commit `496aee9914912e54feac9fced688ce6e61bc7f6f`.
+Their existing statements and mathematical definitions are preserved.
+The top-level zero-free theorem's statement is unchanged.
+
+## Compilation and axiom gates
+
+The environment is Lean `4.35.0-rc3`, with Mathlib
+`0493595ecd5da8ef14742febab99728f98e948e8`.
 
 ```sh
-lake --rehash build HeckeSkeleton.Moments.MOM_PRIME.Audit
+lake --rehash build HeckeSkeleton.Moments.MOM_PRIME.Audit \
+  HeckeSkeleton.Moments.MOM_PRIME.SkeletonAudit
 lake env lean HeckeSkeleton/Moments/MOM_PRIME/Audit.lean
+lake env lean HeckeSkeleton/Moments/MOM_PRIME/SkeletonAudit.lean
 ```
 
-The dedicated `mom-prime.yml` workflow checks the explicit `#print axioms`
-records against `{propext, Classical.choice, Quot.sound}` and rejects
-missing records. Environment, build, and audit logs are uploaded as an
-Actions artifact and are not committed to the repository. The PR records
-the observed verification status and links to its exact commit/run.
+`Audit.lean` names the task interfaces and analytic producers.
+`SkeletonAudit.lean` independently checks the original
+`HeckeSkeleton.paired_primes_endpoint`. The workflow requires every
+explicit audit record and checks that its axioms are contained in
+`{propext, Classical.choice, Quot.sound}`.
 
-The workflow may seed dependency artifacts from pinned archive digests.
-Only facets in the current source import closure are restored; ordinary
-Lake checking with `--rehash` then validates their original traces against
-the current sources, options, and artifacts. This cache is optional, and
-missing artifacts are rebuilt from source.
+The workflow restores the shared project cache and runs Lake with
+`--rehash`. Build, environment, and axiom records are uploaded as Actions
+artifacts; the environment record identifies the exact checkout.

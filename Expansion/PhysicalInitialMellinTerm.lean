@@ -153,6 +153,8 @@ theorem physicalInitialMellinTerm_eq_sheared [IsTotallyComplex K]
     hX hY hZ (idealNorm_pos K _) (idealNorm_pos K _) (idealNorm_pos K _)
     (idealNorm_pos K _) (idealNorm_pos K _)
     (idealVerticalPoint 5 (t 0)) (idealVerticalPoint 5 (t 1)) (idealVerticalPoint 3 (t 2))
+  have hshear₁ : (heightShear t) 1 = t 1 := rfl
+  have hshear₂ : (heightShear t) 2 = t 2 := rfl
   simp only [← exteriorNorm_completed K Sset I.1.1 I.1.2] at hpower
   unfold physicalInitialMellinTerm physicalInitialScalar initialRowEulerTerm
     physicalPoissonCoefficient
@@ -160,8 +162,7 @@ theorem physicalInitialMellinTerm_eq_sheared [IsTotallyComplex K]
   split_ifs with hmask
   · unfold tripleProfileKernel inverseMellinKernel
     rw [initial_shear_line]
-    simp only [heightShear, MeasurableEquiv.coe_mk, Equiv.coe_fn_mk,
-      Matrix.cons_val_one, Matrix.cons_val_fin_one]
+    simp only [hshear₁, hshear₂]
     calc
       _ = ((physicalPoissonScalar K : ℂ) *
           thetaGamma K Sset P.arithmetic I.1.1 2 *
@@ -193,7 +194,16 @@ theorem integrable_physicalInitialMellinTerm (P : ProbeData K Sset)
     (X Y Z : ℝ) (hX : 0 < X) (hY : 0 < Y) (hZ : 0 < Z)
     (u : FrequencyRow K Sset) (I : FIdx) :
     Integrable (physicalInitialMellinTerm K S μv P ψ Q X Y Z u I) := by
-  simp_rw [physicalInitialMellinTerm_eq_sheared K S μv P ψ Q X Y Z hX hY hZ]
+  have hkernel : physicalInitialMellinTerm K S μv P ψ Q X Y Z u I =
+      fun t : Fin 3 → ℝ => physicalPoissonCoefficient K S P ψ Q X Y u I *
+        tripleProfileKernel K S μv P
+          (exteriorNorm K Sset (completedIdeal K Sset I.1.1 I.1.2) / Z)
+          (exteriorNorm K Sset I.2.1 / Y)
+          (X / exteriorNorm K Sset (completedIdeal K Sset I.1.1 I.1.2) *
+            (frequencyRowNorm K Sset u * exteriorNorm K Sset I.2.2 ^ 6)) (heightShear t) := by
+    funext t
+    exact physicalInitialMellinTerm_eq_sheared K S μv P ψ Q X Y Z hX hY hZ u I t
+  rw [hkernel]
   apply Integrable.const_mul
   apply (integrable_heightShear_iff _).mpr
   exact integrable_tripleProfileKernel K S μv ν P _ _ _
@@ -210,13 +220,27 @@ theorem physicalPoissonTerm_eq_initial_integral (P : ProbeData K Sset)
     physicalPoissonTerm K S μv P ψ Q X Y Z hX u I =
       tripleMellinConstant * ∫ t : Fin 3 → ℝ,
         physicalInitialMellinTerm K S μv P ψ Q X Y Z u I t := by
-  rw [physicalPoissonTerm_eq_coefficient_profiles K S μv P ψ Q X Y Z hX hY]
-  rw [three_profiles_mellin_inversion_sheared K S μv ν P _ _ _
-    (div_pos (idealNorm_pos K _) hZ) (div_pos (idealNorm_pos K _) hY)
-    (mul_pos (div_pos hX (idealNorm_pos K _))
-      (mul_pos (idealNorm_pos K _) (pow_pos (idealNorm_pos K _) 6)))]
-  simp_rw [physicalInitialMellinTerm_eq_sheared K S μv P ψ Q X Y Z hX hY hZ]
-  rw [integral_const_mul]
+  let L : ℝ := exteriorNorm K Sset (completedIdeal K Sset I.1.1 I.1.2) / Z
+  let D : ℝ := exteriorNorm K Sset I.2.1 / Y
+  let R : ℝ := X / exteriorNorm K Sset (completedIdeal K Sset I.1.1 I.1.2) *
+    (frequencyRowNorm K Sset u * exteriorNorm K Sset I.2.2 ^ 6)
+  have hL : 0 < L := div_pos (idealNorm_pos K _) hZ
+  have hD : 0 < D := div_pos (idealNorm_pos K _) hY
+  have hR : 0 < R := mul_pos (div_pos hX (idealNorm_pos K _))
+    (mul_pos (idealNorm_pos K _) (pow_pos (idealNorm_pos K _) 6))
+  have hprofiles := three_profiles_mellin_inversion_sheared K S μv ν P L D R hL hD hR
+  have hterm : physicalPoissonTerm K S μv P ψ Q X Y Z hX u I =
+      physicalPoissonCoefficient K S P ψ Q X Y u I *
+        (logGaussianProfile L * P.denominator.toFun D *
+          sUnitOrbitalProfile K Sset
+            (additiveFourier K Sset (fun v => μv v.val) P.additive) ⟨R, hR⟩) :=
+    physicalPoissonTerm_eq_coefficient_profiles K S μv P ψ Q X Y Z hX hY u I
+  have hkernel : physicalInitialMellinTerm K S μv P ψ Q X Y Z u I =
+      fun t : Fin 3 → ℝ => physicalPoissonCoefficient K S P ψ Q X Y u I *
+        tripleProfileKernel K S μv P L D R (heightShear t) := by
+    funext t
+    exact physicalInitialMellinTerm_eq_sheared K S μv P ψ Q X Y Z hX hY hZ u I t
+  rw [hterm, hprofiles, hkernel, integral_const_mul]
   ring
 
 end Expansion.PhysicalInitialMellin

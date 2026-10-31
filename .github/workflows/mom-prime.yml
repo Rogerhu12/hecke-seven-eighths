@@ -47,7 +47,12 @@ jobs:
           lean --version | tee /tmp/mom-prime-verification/environment.log
           git rev-parse HEAD >> /tmp/mom-prime-verification/environment.log
           cat lean-toolchain lake-manifest.json >> /tmp/mom-prime-verification/environment.log
-          lake --rehash build HeckeSkeleton.Moments.MOM_PRIME.Audit HeckeSkeleton.Moments.MOM_PRIME.SkeletonAudit 2>&1 | tee /tmp/mom-prime-verification/build.log
+          lake --rehash build HeckeSkeleton.Moments.MOM_PRIME.Audit HeckeSkeleton.Moments.MOM_PRIME.SkeletonAudit 2>&1 |
+            tee /tmp/mom-prime-verification/build.log |
+            awk '/^error:|^✖/ { remaining = 120 }
+              /MOM_PRIME|Build completed|Some required targets logged failures|error: build failed/ || remaining > 0 {
+                print; fflush(); if (remaining > 0) remaining--
+              }'
       - name: Check the standard axiom allowlist
         shell: bash
         run: |

@@ -8,7 +8,9 @@ import HeckeSkeleton.ExpansionModels.ActualRowEligibility
 import HeckeSkeleton.Moments.MOM_PRIME.ActualEndpoint
 
 /-! Exploratory actual I/P pipeline, revised §§4–5 and §7.
-This file intentionally contains named admissions. None is native verified.
+This file still contains named admissions for the other moment tasks.
+The absolute prime endpoint is supplied by the MOM_PRIME actual-recipe proof
+and has a separate `MOM_PRIME/SkeletonAudit.lean` axiom audit.
 The existing cache arithmetic/fiber proofs are migration candidates; the
 canonical recursions, KP consumption and full kappa range are separate gaps.
 The 5/6-capped old PRegion and ParameterUniformPInput are never used here.

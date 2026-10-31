@@ -50,16 +50,17 @@ def gramScale (Q Y : ℝ) : ℝ :=
   Q / Y * (1 + Pa Q Y ^ (1 / 6 : ℝ) + Pa Q Y ^ 2 / Y)
 
 /-- Revised Proposition 3.8 (pp.14–15), restricted to the ACTUAL T route
-c=1. Polynomial budget L, row constant B and requested loss precede all
+c=1, for the ACTUAL physical denominator `P.denominator` (the only test the
+Low-Cauchy compensation uses). Polynomial budget L, row constant B and requested loss precede all
 moving scales. The Mellin derivative order may depend on ε, but precedes all moving scales.
 This does not claim the source's arbitrary finite-ray coefficient version. -/
 def GramBound (P : ProbeData K S) : Prop :=
-  ∀ (W : SmoothAnnularTest) (B L : ℝ), 0 < B → 0 < L →
+  ∀ (B L : ℝ), 0 < B → 0 < L →
     ∀ ε : ℝ, 0 < ε → ∃ J : ℕ,
       ∃ C Z₀ : ℝ, 0 < C ∧ 1 ≤ Z₀ ∧
         ∀ (Z Q Y ν : ℝ), Z₀ ≤ Z → 1 ≤ Q → 1 ≤ Y →
           Q ≤ Z ^ L → Y ≤ Z ^ L → 1 ≤ Pa Q Y →
-          rowEnergy K S P W B Q Y ν ≤
+          rowEnergy K S P P.denominator.toSmoothAnnularTest B Q Y ν ≤
             C * (1 + |ν|) ^ J * gramScale Q Y * Z ^ ε
 
 /-- All sixth-power descendants and all global unit sectors are counted. -/

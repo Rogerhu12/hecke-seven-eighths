@@ -288,7 +288,7 @@ theorem exists_physical_recipe_parameters
         (fun u hu => (hrows u hu).2.2.2.2) width hw value
     exact ⟨b, hbin, hvalue, hblock, hgeometry, horigin, horiginAll⟩
   · have hfloor : c.1.center = 51 / 100 := le_antisymm (le_of_not_gt hlive) ha.1
-    have hdelta : (2 * c.1.center - 1) / 2 = (1 / 100 : ℝ) := by
+    have hcapFloor : (2 * c.1.center - 1) / 2 = (1 / 100 : ℝ) := by
       rw [hfloor]
       norm_num
     obtain ⟨hcard, b, hbin, hvalue, hblock, hgeometry, horigin, horiginAll⟩ :=
@@ -296,8 +296,25 @@ theorem exists_physical_recipe_parameters
         Z (Z ^ τ) d B lam k width value hZone hT hd.1 hdUpper hB0 hw c.2 rows
         (fun u hu => (hrows u hu).2.1) (fun u hu => (hrows u hu).2.2.1)
     refine ⟨b, hbin.trans hfloor.symm, hvalue, hblock, hgeometry, ?_, ?_⟩
-    · simpa only [hdelta] using horigin
-    · simpa only [hdelta] using horiginAll
+    · have htransport (cap : ℝ) (hcapEq : cap = 1 / 100)
+          (hcard' : Fintype.card (AmplitudeLabels g.slots width cap) ≤
+            fixedAmplitudeLabelCount g.slots width) :
+          ∀ label : AmplitudeLabels g.slots width cap,
+            PhysicalAmplitudeOrigin K S P E.rows ω ψ g F width cap Z (Z ^ τ) (Z ^ d)
+              rows c.2 label
+              (b.amplitude (physicalAmplitudeLabelEmbedding g.slots width cap hcard' label)) := by
+        subst cap
+        exact horigin
+      exact htransport _ hcapFloor
+        (amplitudeLabels_card_le_fixed g.slots hw
+          (physicalRecipeChoice_cap K S hB0 hB he₁ c))
+    · have htransport (cap : ℝ) (hcapEq : cap = 1 / 100) :
+          ∀ l, ∃ label : AmplitudeLabels g.slots width cap,
+            PhysicalAmplitudeOrigin K S P E.rows ω ψ g F width cap Z (Z ^ τ) (Z ^ d)
+              rows c.2 label (b.amplitude l) := by
+        subst cap
+        exact horiginAll
+      exact htransport _ hcapFloor
 
 /-- The same parameter choice supplies the geometry for every choice of
 the four literal analytic components; it does not depend on those values. -/

@@ -1,0 +1,453 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-31T05:02:30.390564+00:00",
+  "repository": "Rogerhu12/hecke-seven-eighths",
+  "run": {
+    "id": 41166970094,
+    "url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41166970094",
+    "head_sha": "b45484e24f3d4e28cc8092ff6b296f38f4a0f94f",
+    "status": "completed",
+    "conclusion": "failure"
+  },
+  "job": {
+    "id": 124436512106,
+    "html_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41166970094/job/124436512106",
+    "name": "Actual Theta entry and strict five-target axiom gate",
+    "status": "completed",
+    "conclusion": "failure",
+    "started_at": "2026-10-31T04:03:39Z",
+    "completed_at": "2026-10-31T04:58:27Z"
+  },
+  "checkout_binding": {
+    "head_sha": "b45484e24f3d4e28cc8092ff6b296f38f4a0f94f",
+    "merge_sha": "36ec3d5fed4764f3d784ffdbb55bd321e75b68b4",
+    "head_tree": "d4480a7246a8ed3c15d5c71a2e813fd01a5adb2c",
+    "merge_tree": "d4480a7246a8ed3c15d5c71a2e813fd01a5adb2c",
+    "head_and_merge_have_identical_tree": true,
+    "ThetaGlobal_tree": "ca62d66f3b56293b5d72159518263d3ee070e79c",
+    "merge_parents": [
+      "6e67559f4285ab833a746db021a0d73200e47590",
+      "b45484e24f3d4e28cc8092ff6b296f38f4a0f94f"
+    ]
+  },
+  "runtime_pins": {
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
+    "lean_commit_expected": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+    "mathlib_manifest_rev": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "mathlib_config_rev": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "lean_version": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+    "mathlib_runtime_rev": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "errors": []
+  },
+  "runner_mapping_floor_evidence": [
+    "2026-10-31T04:05:41.0781428Z vm.max_map_count = 262144"
+  ],
+  "foundation": {
+    "step": {
+      "name": "Build the shared arithmetic dependency closure",
+      "status": "completed",
+      "conclusion": "success",
+      "number": 8,
+      "started_at": "2026-10-31T04:08:06Z",
+      "completed_at": "2026-10-31T04:49:51Z"
+    },
+    "result": "success",
+    "build_completed_successfully": true,
+    "completion_evidence": [
+      "2026-10-31T04:49:51.7133640Z ✔ [11581/11581] Built HeckeAxiom.ArithmeticChoice (16s)",
+      "2026-10-31T04:49:51.8635448Z Build completed successfully (11581 jobs)."
+    ]
+  },
+  "cache_restore": {
+    "restore_evidence": [
+      "2026-10-31T04:07:34.2900859Z Cache Size: ~431 MB (451464312 B)",
+      "2026-10-31T04:08:06.1093050Z Cache restored from key: theta-entry-Linux-X64-177bd14229ed792fc6a675516bae61452a962aacb554afbaafb0b299bdb430be-b971ab014b2f2a4dc4964e3dda7b6b320e15d0eb-41159434388-1"
+    ],
+    "restored_key": "theta-entry-Linux-X64-177bd14229ed792fc6a675516bae61452a962aacb554afbaafb0b299bdb430be-b971ab014b2f2a4dc4964e3dda7b6b320e15d0eb-41159434388-1",
+    "restored_bytes": 451464312
+  },
+  "cache_saves": [
+    {
+      "key": "theta-entry-Linux-X64-177bd14229ed792fc6a675516bae61452a962aacb554afbaafb0b299bdb430be-36ec3d5fed4764f3d784ffdbb55bd321e75b68b4-41166970094-1-foundation",
+      "saved_at": "2026-10-31T04:50:25.9418125Z",
+      "uploaded_bytes": 807129529,
+      "upload_evidence": "2026-10-31T04:50:25.5552660Z Sent 807129529 of 807129529 (100.0%), 216.5 MBs/sec",
+      "saved_evidence": "2026-10-31T04:50:25.9418125Z Cache saved with key: theta-entry-Linux-X64-177bd14229ed792fc6a675516bae61452a962aacb554afbaafb0b299bdb430be-36ec3d5fed4764f3d784ffdbb55bd321e75b68b4-41166970094-1-foundation"
+    },
+    {
+      "key": "theta-entry-Linux-X64-177bd14229ed792fc6a675516bae61452a962aacb554afbaafb0b299bdb430be-36ec3d5fed4764f3d784ffdbb55bd321e75b68b4-41166970094-1",
+      "saved_at": "2026-10-31T04:58:23.5777983Z",
+      "uploaded_bytes": 877769215,
+      "upload_evidence": "2026-10-31T04:58:23.2924028Z Sent 877769215 of 877769215 (100.0%), 222.0 MBs/sec",
+      "saved_evidence": "2026-10-31T04:58:23.5777983Z Cache saved with key: theta-entry-Linux-X64-177bd14229ed792fc6a675516bae61452a962aacb554afbaafb0b299bdb430be-36ec3d5fed4764f3d784ffdbb55bd321e75b68b4-41166970094-1"
+    }
+  ],
+  "local_digit_build": {
+    "step": {
+      "name": "Build the actual one-place exterior digit construction",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 10,
+      "started_at": "2026-10-31T04:50:25Z",
+      "completed_at": "2026-10-31T04:57:37Z"
+    },
+    "command": [
+      "lake",
+      "--fail-fast",
+      "build",
+      "+ThetaGlobal.LocalDigitAverage:olean"
+    ],
+    "exit_code": 1,
+    "failed_modules": [
+      "ThetaGlobal.LocalDigitArithmetic"
+    ],
+    "module_compilation_failure_evidence": [
+      "2026-10-31T04:57:31.0684746Z ✖ [11742/11750] Building ThetaGlobal.LocalDigitArithmetic (5.3s)"
+    ],
+    "lean_errors": [
+      {
+        "file": "ThetaGlobal/LocalDigitArithmetic.lean",
+        "line": 31,
+        "column": 68,
+        "message": "unsolved goals"
+      },
+      {
+        "file": "ThetaGlobal/LocalDigitArithmetic.lean",
+        "line": 45,
+        "column": 49,
+        "message": "Ambiguous term"
+      },
+      {
+        "file": "ThetaGlobal/LocalDigitArithmetic.lean",
+        "line": 53,
+        "column": 50,
+        "message": "Application type mismatch: The argument"
+      },
+      {
+        "file": "ThetaGlobal/LocalDigitArithmetic.lean",
+        "line": 73,
+        "column": 51,
+        "message": "Ambiguous term"
+      },
+      {
+        "file": "ThetaGlobal/LocalDigitArithmetic.lean",
+        "line": 89,
+        "column": 32,
+        "message": "unknown free variable `_fvar.13493`"
+      },
+      {
+        "file": "ThetaGlobal/LocalDigitArithmetic.lean",
+        "line": 102,
+        "column": 24,
+        "message": "Unknown identifier `hdiff`"
+      },
+      {
+        "file": "ThetaGlobal/LocalDigitArithmetic.lean",
+        "line": 125,
+        "column": 30,
+        "message": "unknown free variable `_fvar.16907`"
+      },
+      {
+        "file": "ThetaGlobal/LocalDigitArithmetic.lean",
+        "line": 127,
+        "column": 33,
+        "message": "Unknown identifier `hdiff`"
+      },
+      {
+        "file": "ThetaGlobal/LocalDigitArithmetic.lean",
+        "line": 129,
+        "column": 55,
+        "message": "Unknown identifier `hdiff`"
+      },
+      {
+        "file": "ThetaGlobal/LocalDigitArithmetic.lean",
+        "line": 139,
+        "column": 29,
+        "message": "Unknown identifier `hdiff`"
+      },
+      {
+        "file": "ThetaGlobal/LocalDigitArithmetic.lean",
+        "line": 150,
+        "column": 71,
+        "message": "unsolved goals"
+      }
+    ],
+    "error_categories": [
+      {
+        "category": "Integer/natural coefficient normalization not closed",
+        "lines": [
+          31
+        ]
+      },
+      {
+        "category": "Ambiguous localDifferentExponent namespace and result type",
+        "lines": [
+          45,
+          73
+        ]
+      },
+      {
+        "category": "Units supplied where an underlying quotient element is expected",
+        "lines": [
+          53
+        ]
+      },
+      {
+        "category": "Likely cascading errors after failed hdiff elaboration; not independently diagnosed",
+        "lines": [
+          89,
+          102,
+          125,
+          127,
+          129,
+          139
+        ]
+      },
+      {
+        "category": "Zeroth Weyl equality retains different prime projections before ring normalization",
+        "lines": [
+          150
+        ]
+      }
+    ],
+    "axiom_diagnostics_from_failed_module": [
+      {
+        "declaration": "ThetaGlobal.LocalDigitArithmetic.thetaPrimeCharacter_eq",
+        "axioms": [
+          "propext",
+          "sorryAx",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "declaration": "ThetaGlobal.LocalDigitArithmetic.probe_additive_eq",
+        "axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "declaration": "ThetaGlobal.LocalDigitArithmetic.primePhase_eq",
+        "axioms": [
+          "propext",
+          "sorryAx",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "declaration": "ThetaGlobal.LocalDigitArithmetic.sphericalDigit_eq",
+        "axioms": [
+          "propext",
+          "sorryAx",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "declaration": "ThetaGlobal.LocalDigitArithmetic.sphericalFactor_eq",
+        "axioms": [
+          "propext",
+          "sorryAx",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "declaration": "ThetaGlobal.LocalDigitArithmetic.forward_mask",
+        "axioms": [
+          "propext",
+          "sorryAx",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      {
+        "declaration": "ThetaGlobal.LocalDigitArithmetic.zeroth_weyl",
+        "axioms": [
+          "propext",
+          "sorryAx",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      }
+    ],
+    "axiom_diagnostics_scope": "These records come from a compiler invocation that failed. They include sorryAx and are not a successful module or strict-gate certificate.",
+    "cancelled_modules": [
+      "DedekindZetaZeroFree.Metaplectic.Kubota.TameCompact.SmallZeroEntryCocycle",
+      "DedekindZetaZeroFree.Metaplectic.Kubota.TameCompact.SmallNonzeroEntryCocycle",
+      "DedekindZetaZeroFree.Metaplectic.Kubota.LocalCoverChartTopology",
+      "DedekindZetaZeroFree.Metaplectic.Kubota.CentralScalarSplitting",
+      "DedekindZetaZeroFree.Metaplectic.Kubota.LocalRootLifts"
+    ],
+    "evaluation_check": {
+      "module": "ThetaGlobal.LocalDigitEvaluation",
+      "successful_native_compile_observed": false,
+      "module_build_or_replay_log_records": [],
+      "axiom_records": [],
+      "expected_print_record_count": 4,
+      "scope": "No success or axiom report for this module appears in either full job log or local-digit-build.log. The unique failed module does not establish that the independent Evaluation branch succeeded; fail-fast canceled dependency work."
+    }
+  },
+  "skipped_gates": [
+    {
+      "name": "Audit the actual local digit construction",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Build only the actual Theta entry and its dependencies",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Audit the actual five declarations for inherited admissions",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Compile the modified Principal, Moments and Main consumers",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Check the seven consumer signatures and report their existing admissions",
+      "conclusion": "skipped"
+    }
+  ],
+  "proof_sources_bound_to_checkout": [
+    {
+      "module": "ThetaGlobal.LocalDigitArithmetic",
+      "repository_path": "ThetaGlobal/LocalDigitArithmetic.lean",
+      "git_blob_sha": "91dd620e2a7aed7c580499036eb1b5b4547425cf",
+      "sha256": "1464df23e54d81fa75155d54c29905c7b00ee7307570ec6d32a76ac3b5e7fef9",
+      "size_in_bytes": 7208,
+      "source_url": "https://github.com/Rogerhu12/hecke-seven-eighths/blob/b45484e24f3d4e28cc8092ff6b296f38f4a0f94f/ThetaGlobal/LocalDigitArithmetic.lean",
+      "expected_print_axioms": [
+        "ThetaGlobal.LocalDigitArithmetic.thetaPrimeCharacter_eq",
+        "ThetaGlobal.LocalDigitArithmetic.probe_additive_eq",
+        "ThetaGlobal.LocalDigitArithmetic.primePhase_eq",
+        "ThetaGlobal.LocalDigitArithmetic.sphericalDigit_eq",
+        "ThetaGlobal.LocalDigitArithmetic.sphericalFactor_eq",
+        "ThetaGlobal.LocalDigitArithmetic.forward_mask",
+        "ThetaGlobal.LocalDigitArithmetic.zeroth_weyl"
+      ],
+      "proof_source_sorry_tokens": []
+    },
+    {
+      "module": "ThetaGlobal.LocalDigitAverage",
+      "repository_path": "ThetaGlobal/LocalDigitAverage.lean",
+      "git_blob_sha": "570660972bdac2e70ece6dbb40435c23c0bbb62e",
+      "sha256": "c6ea37aba5300c9f3017f946f37130fa95ab773c3969c390d9b87ccbee4b7bed",
+      "size_in_bytes": 6575,
+      "source_url": "https://github.com/Rogerhu12/hecke-seven-eighths/blob/b45484e24f3d4e28cc8092ff6b296f38f4a0f94f/ThetaGlobal/LocalDigitAverage.lean",
+      "expected_print_axioms": [
+        "ThetaGlobal.LocalDigitAverage.nonzero_digits"
+      ],
+      "proof_source_sorry_tokens": []
+    },
+    {
+      "module": "ThetaGlobal.LocalDigitEvaluation",
+      "repository_path": "ThetaGlobal/LocalDigitEvaluation.lean",
+      "git_blob_sha": "bfef48dd75941cfb38e04a7a1abe3b9e2af37f71",
+      "sha256": "e2745823d85284461f96ee1c874084d098057119c1f3859a9e54530f912f0d93",
+      "size_in_bytes": 11182,
+      "source_url": "https://github.com/Rogerhu12/hecke-seven-eighths/blob/b45484e24f3d4e28cc8092ff6b296f38f4a0f94f/ThetaGlobal/LocalDigitEvaluation.lean",
+      "expected_print_axioms": [
+        "ThetaGlobal.LocalDigitEvaluation.bruhat_value",
+        "ThetaGlobal.LocalDigitEvaluation.rational_word_value",
+        "ThetaGlobal.LocalDigitEvaluation.nonzero_value",
+        "ThetaGlobal.LocalDigitEvaluation.nonzero_localDigit"
+      ],
+      "proof_source_sorry_tokens": []
+    },
+    {
+      "module": "ThetaGlobal.LocalDigitInput",
+      "repository_path": "ThetaGlobal/LocalDigitInput.lean",
+      "git_blob_sha": "76f916e497f083f6cfa8c6263cc0beacf384dab9",
+      "sha256": "c99f638c29b7d9dff6eb12b406f6b3032dbe646130edf6f7d0e6fe8f28981fa6",
+      "size_in_bytes": 2562,
+      "source_url": "https://github.com/Rogerhu12/hecke-seven-eighths/blob/b45484e24f3d4e28cc8092ff6b296f38f4a0f94f/ThetaGlobal/LocalDigitInput.lean",
+      "expected_print_axioms": [
+        "ThetaGlobal.LocalDigitInput.localDigit_eq",
+        "ThetaGlobal.LocalDigitInput.input"
+      ],
+      "proof_source_sorry_tokens": []
+    },
+    {
+      "module": "ThetaGlobal.LocalDigitSource",
+      "repository_path": "ThetaGlobal/LocalDigitSource.lean",
+      "git_blob_sha": "778c0ed951c69ac1fe74f434522e150edabcf31e",
+      "sha256": "219ff4ea7eaf32cd12fd74370a4bcce4923c8f37cd81bfded988fc29f8ea3a83",
+      "size_in_bytes": 1981,
+      "source_url": "https://github.com/Rogerhu12/hecke-seven-eighths/blob/b45484e24f3d4e28cc8092ff6b296f38f4a0f94f/ThetaGlobal/LocalDigitSource.lean",
+      "expected_print_axioms": [
+        "HeckeSkeleton.thetaRecipe_arithmeticData",
+        "HeckeSkeleton.localExteriorDigitInput"
+      ],
+      "proof_source_sorry_tokens": []
+    }
+  ],
+  "actual_artifact": {
+    "id": 13031241368,
+    "name": "theta-global-actual-entry-41166970094",
+    "url": "https://api.github.com/repos/Rogerhu12/hecke-seven-eighths/actions/artifacts/13031241368",
+    "download_url": "https://api.github.com/repos/Rogerhu12/hecke-seven-eighths/actions/artifacts/13031241368/zip",
+    "created_at": "2026-10-31T04:58:24Z",
+    "expired": false,
+    "github_digest": "sha256:54e35213e4acb14e3072004e1e4a485462aeae8a8ac2608aa8bbd4f5fe29b20f",
+    "archived_filename": "ci_41166970094_native_artifact.zip",
+    "size_in_bytes": 216594,
+    "sha256": "54e35213e4acb14e3072004e1e4a485462aeae8a8ac2608aa8bbd4f5fe29b20f",
+    "github_digest_matches": true,
+    "archive_modified": false,
+    "members": [
+      {
+        "path": "LocalDigitAudit.lean",
+        "size_in_bytes": 1495,
+        "sha256": "970991b499c597961ed1669490e9f0781c79ab76de7352514be266a08f5e21c6"
+      },
+      {
+        "path": "local-digit-build.log",
+        "size_in_bytes": 1694071,
+        "sha256": "36edd984afdd26b91c11ed409e7584dddf3ef09ce2df7ce7b2fd6dfa67eff24b"
+      },
+      {
+        "path": "EntryAudit.lean",
+        "size_in_bytes": 3078,
+        "sha256": "9d5333eb7285dea7f2e17ddfc2ded14e0976ab27c3a50c0be02c355c9ff72ab2"
+      },
+      {
+        "path": "foundation-build.log",
+        "size_in_bytes": 1392832,
+        "sha256": "98514b930f887db80e72e7552aaf1cb7e73e67e0602aea147b2ee9edc7d95291"
+      },
+      {
+        "path": "ConsumerSignatures.lean",
+        "size_in_bytes": 4303,
+        "sha256": "400327963ab57815de4c9a499e5790ad2388fa51cbdcd3e2f205499063a7d9d9"
+      },
+      {
+        "path": "pins.json",
+        "size_in_bytes": 479,
+        "sha256": "4702fe27675b27b2ba8af45e4bbc706d28b5dcd4d45c0d950df98c9989dddb77"
+      }
+    ]
+  },
+  "failure_excerpt": {
+    "archived_filename": "ci_41166970094_native_failure.log",
+    "source": "Contiguous unmodified timestamped lines from the full job log, from LocalDigitArithmetic failure through process exit code 1",
+    "size_in_bytes": 20692,
+    "sha256": "fbbe6f27d62f8960bcebdadf7b7b55863fef7fcad17f2a92fd84546be6414633",
+    "line_count": 224
+  },
+  "full_job_log": {
+    "source_url": "https://api.github.com/repos/Rogerhu12/hecke-seven-eighths/actions/jobs/124436512106/logs",
+    "encoding": "UTF-8 encoding of the full decoded GitHub job log returned by the connector",
+    "sha256": "c5d81f258c2c04b1719118256c3a8a7afaa9bb06434e6ba13f047a33b6056214",
+    "size_in_bytes": 4586538,
+    "line_count": 50692,
+    "embedded_in_repository": false,
+    "external_file": "/workspace/scratch/33bdfea70edd/theta-ci-audit/run-41166970094/native-job-124436512106.log",
+    "scope": "The full unfiltered job log is retained outside the repository. The repository archive contains the unchanged GitHub artifact ZIP and the exact failure excerpt, not this full job log."
+  },
+  "certification_scope": "Arithmetic foundation completed with pinned Lean and saved caches. The early native local-digit build failed in LocalDigitArithmetic. LocalDigitEvaluation has no success/axiom report, the 12-declaration LocalDigitAudit and actual Theta/EntryAudit/Main/consumer gates were skipped. This run does not certify the H chain or the later unpublished canonical L changes."
+}

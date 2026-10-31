@@ -68,9 +68,7 @@ theorem smoothAnnular_norm_le_errorSeminorm (V : SmoothAnnularTest) (y : ℝ) :
       intro u
       rw [norm_mul, Complex.norm_cpow_eq_rpow_re_of_pos hy,
         Complex.neg_re, idealVerticalPoint_re, neg_zero, Real.rpow_zero, one_mul]
-      simpa only [annularErrorSeminorm, zero_add, neg_zero,
-        show (2 : ℝ) ^ (2 : ℕ) = 4 by norm_num] using
-          smoothAnnular_mellin_vertical_decay V 2 0 u
+      simpa [annularErrorSeminorm] using smoothAnnular_mellin_vertical_decay V 2 0 u
     rw [integral_const_mul] at hb
     calc
       _ ≤ ‖(2 * (Real.pi : ℂ))⁻¹‖ *
@@ -183,7 +181,9 @@ theorem annularHeckeSum_phase_error
       (exceptionalHeckeContour_phase_zero_bound K χ V hX n C hC hL t))
   have hv : (∫ u : ℝ, A * (1 + |u + t|) ^ (-(2 : ℝ))) =
       A * ∫ u : ℝ, (1 + |u|) ^ (-(2 : ℝ)) := by
-    rw [integral_const_mul, integral_add_right_eq_self]
+    rw [integral_const_mul]
+    congr 1
+    exact integral_add_right_eq_self (fun u : ℝ => (1 + |u|) ^ (-(2 : ℝ))) t
   rw [hv] at hb
   calc
     _ ≤ ‖(2 * (Real.pi : ℂ))⁻¹‖ *

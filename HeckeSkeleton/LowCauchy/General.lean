@@ -356,7 +356,7 @@ theorem lc_compensatedProbe_isBigO (P : ProbeData K S) (ψ : HeckeCharacter K)
     compensatedProbe K S P ψ g T =O[atTop] (fun Z : ℝ => Z ^ (3 / 16 + δ)) := by
   obtain ⟨Cball, hCball, hphys⟩ := lc_marked_physical_bound K S P ψ
   obtain ⟨JG, CG, Z₀G, hCG, _hZ₀G, hG⟩ :=
-    hgram P.denominator.toSmoothAnnularTest Cball 1 hCball one_pos δ hδ
+    hgram Cball 1 hCball one_pos δ hδ
   obtain ⟨K₀, hK₀, hphysJ⟩ := hphys JG
   obtain ⟨CE, Z₀E, hCE, _hZ₀E, hE⟩ := henergy Cball δ hCball hδ
   obtain ⟨Clin, hClin, hcount⟩ := dyadicIdealSupport_linear_count K

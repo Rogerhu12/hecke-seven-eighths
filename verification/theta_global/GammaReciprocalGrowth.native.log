@@ -1,0 +1,28 @@
+UTC: 2026-10-30T20:03:45.554439+00:00
+LEAN: 4.35.0-rc3 (470d5ce1400764999581fd26d5d72b00d990b0f4)
+MATHLIB: 0493595ecd5da8ef14742febab99728f98e948e8
+SOURCE SHA256: 2dcaa41abcae69d2675085ed9e32c797247d99bcdcbff6d0f4bee6401e37a2e6
+SOURCE UNCHANGED: True
+COMMAND: ['/workspace/scratch/692d5e1ba19b/low_hybrid_work/verification435/lean-4.35.0-rc3-linux/bin/lean', '-j2', '-R', '/workspace/scratch/db66a2660cb2/repo', '-o', '/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/GammaReciprocalGrowth.olean', '/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/GammaReciprocalGrowth.lean']
+
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/GammaReciprocalGrowth.lean:60:2: warning: `simp` already closes the goal
+
+Hint: Use `simp` instead of `simpa`:
+  [apply] simp only [hn, neg_im, natCast_im, neg_zero]
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/GammaReciprocalGrowth.lean:137:28: warning: This simp argument is unused:
+  zero_sub
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [z, sub_re, add_re, ofReal_re, mul_re, ofReal_im, I_re, I_im, mul_zero, zero_mul, sub_zero,
+    natCast_re, one_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/GammaReciprocalGrowth.lean:151:25: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+'ThetaGlobal.GammaReciprocalGrowth.inverse_Gamma_strip_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+ELAPSED SECONDS: 16.447
+EXIT CODE: 0

@@ -27,7 +27,7 @@ open ActualGramJointChartDraft ActualGramJointChartCoverDraft
 open ActualGramMajorantDraft ActualRowBallDualChartDraft
 open ActualDenominatorGramWeightDraft ActualRowBallResidualAnalyticDraft
 open ActualRowBallResidualMaskedDraft ActualAllowedTotalNormProviderDraft
-open ActualChoiceMaskedTotalNormDraft ActualGeneratorChoiceDraft
+open ActualChoiceMaskedTotalNormDraft ActualGeneratorChoiceDraft ActualGramJointMeanDraft
 open ActualRowBallResidualGoodPrimeDraft ActualFixedBoxTotalNormSeminormDraft ActualFixedBoxTotalNormDecayDraft
 open scoped Classical BigOperators ContDiff
 
@@ -102,8 +102,11 @@ theorem exists_rowBallResidual_goodPrime_scalar_bound
       exteriorNorm K S C := by
     have h := natCard_sIntegerPrincipalResidue_eq_productNorm K S
       (gen C).val (gen C).property
-    simpa only [natCard_sIntegerPrincipalResidue K S (gen C).val (gen C).property, actualFrequencyIdeal,
-      probeGenerator_norm_eq_exteriorNorm] using h
+    have h1 : (Ideal.absNorm (actualFrequencyIdeal K S (gen C)) : ℝ) =
+        ((sIntegerElementNorm K S (gen C)).val : ℝ) := by
+      simpa only [natCard_sIntegerPrincipalResidue K S (gen C).val (gen C).property,
+        actualFrequencyIdeal] using h
+    exact h1.trans (probeGenerator_norm_eq_exteriorNorm K S w.D C)
   have hbase := hb C D j hj p hpC hpJ Y η hY r
   dsimp only at hbase
   rw [residualFrequency_idealNorm_factor K w C j hj, hqC, div_div] at hbase

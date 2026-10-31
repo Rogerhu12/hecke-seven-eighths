@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_PRIME.ActualExceptionalFiniteFamilyBridge
 import HeckeSkeleton.Moments.MOM_PRIME.ActualExceptionalMomentBridge
 import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalAnnularFiniteFamily
 import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalAnnularTerminal
@@ -17,8 +18,9 @@ import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalSmooth
 import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalFiniteFamily
 import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalMomentBridge
 
-/-! Axiom audit for the actual endpoint and exceptional-terminal consumers.
-The conditional analytic inputs remain ordinary theorem parameters. -/
+/-! Axiom audit for the actual endpoint, constructed exceptional analytic
+input, and original finite-polynomial terminals.  The older conditional
+interfaces remain checked as independently reusable declarations. -/
 
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.exists_rows_card_absolute_bound
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.exists_pairedRows_card_absolute_bound
@@ -108,3 +110,7 @@ The conditional analytic inputs remain ordinary theorem parameters. -/
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.plainPolynomial_actual_exceptional_equal_product
 
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.exceptionalNormReduced_normalized_finite_background
+
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.plainPolynomial_actual_exceptional_finite_family
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.plainPolynomial_actual_exceptional_normalized_finite_background
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.plainPolynomial_actual_exceptional_fallback_seminorm
