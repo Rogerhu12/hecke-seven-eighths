@@ -1,3 +1,5 @@
+import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalContinuation
+import HeckeSkeleton.Moments.MOM_PRIME.ActualEndpoint
 import HeckeSkeleton.Moments.MOM_PRIME.Endpoint
 import HeckeSkeleton.Moments.MOM_PRIME.ProfileEndpoint
 import HeckeSkeleton.Moments.MOM_PRIME.TwistedWindows
@@ -68,3 +70,6 @@ The conditional analytic inputs remain ordinary theorem parameters. -/
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.ordinaryMaskCoefficient_norm_le_one
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.ordinaryMaskMass_le_card
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.exists_ordinaryMaskMass_bound
+
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.recipe_paired_primes_endpoint
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.actual_recipe_paired_primes_endpoint
