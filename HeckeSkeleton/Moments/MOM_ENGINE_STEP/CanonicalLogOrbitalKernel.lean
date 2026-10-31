@@ -18,7 +18,7 @@ There is no row-dependent cutoff or row-dependent kernel.
 -/
 
 noncomputable section
-open scoped Classical SchwartzMap
+open scoped Classical SchwartzMap ContDiff
 
 namespace HeckeSkeleton.Moments.EngineStep.CanonicalLogOrbital
 
@@ -50,16 +50,14 @@ variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 variable [MeasurableSpace (sLocalNormOneGroup K S)]
   [BorelSpace (sLocalNormOneGroup K S)]
 variable (Γ : Subgroup (S.unit K)) [Γ.FiniteIndex]
-set_option quotPrecheck false in
-local notation "A" => ((v : S) → v.val.adicCompletion K)
-variable (ψ : A → ℂ) (hψ : Continuous ψ) (hψsupport : HasCompactSupport ψ)
+variable (ψ : ((v : S) → v.val.adicCompletion K) → ℂ) (hψ : Continuous ψ) (hψsupport : HasCompactSupport ψ)
 
 /-- The actual Haar orbital profile, with its positive Mellin tilt. -/
 def profile (δ : ℝ) (φ : 𝓢(V, ℂ)) (t : ℝ) : ℂ :=
   Real.exp (δ * t) • sUnitOrbitalProfile K S
     (sLocalTensorTestFunction K S φ ψ) (sUnitExpRadius t)
 
-include Γ in
+include Γ hψ hψsupport in
 theorem orbital_real_smul (c : ℝ) (φ : 𝓢(V, ℂ)) (r : {r : ℝ // 0 < r}) :
     sUnitOrbitalProfile K S (sLocalTensorTestFunction K S (c • φ) ψ) r =
       c • sUnitOrbitalProfile K S (sLocalTensorTestFunction K S φ ψ) r := by
@@ -68,21 +66,21 @@ theorem orbital_real_smul (c : ℝ) (φ : 𝓢(V, ℂ)) (r : {r : ℝ // 0 < r})
     c • sUnitProfileCLM K S Γ ψ hψ hψsupport r φ at h
   simpa only [sUnitProfileCLM_apply] using h
 
-include Γ in
+include Γ hψ hψsupport in
 theorem profile_add (δ : ℝ) (φ η : 𝓢(V, ℂ)) (t : ℝ) :
     profile K S ψ δ (φ + η) t =
       profile K S ψ δ φ t + profile K S ψ δ η t := by
   simp only [profile, sUnitOrbitalProfile_tensor_add K S Γ ψ hψ hψsupport,
     smul_add]
 
-include Γ in
+include Γ hψ hψsupport in
 theorem profile_real_smul (δ c : ℝ) (φ : 𝓢(V, ℂ)) (t : ℝ) :
     profile K S ψ δ (c • φ) t = c • profile K S ψ δ φ t := by
   unfold profile
   rw [orbital_real_smul K S Γ ψ hψ hψsupport]
   exact smul_comm _ _ _
 
-include Γ in
+include Γ hψ hψsupport in
 theorem orbital_shiftedEuler (δ : ℝ) (φ : 𝓢(V, ℂ)) (t : ℝ) :
     sUnitOrbitalProfile K S
         (sLocalTensorTestFunction K S (shiftedEulerCLM K δ φ) ψ) (sUnitExpRadius t) =
@@ -97,7 +95,7 @@ theorem orbital_shiftedEuler (δ : ℝ) (φ : 𝓢(V, ℂ)) (t : ℝ) :
   rw [sUnitOrbitalProfile_tensor_add K S Γ ψ hψ hψsupport,
     orbital_real_smul K S Γ ψ hψ hψsupport]
 
-include Γ in
+include Γ hψ hψsupport in
 theorem hasDerivAt_profile (δ : ℝ) (φ : 𝓢(V, ℂ)) (t : ℝ) :
     HasDerivAt (profile K S ψ δ φ)
       (profile K S ψ δ (shiftedEulerCLM K δ φ) t) t := by
@@ -109,7 +107,7 @@ theorem hasDerivAt_profile (δ : ℝ) (φ : 𝓢(V, ℂ)) (t : ℝ) :
   simp only [mul_one, smul_add, smul_smul]
   exact add_comm _ _
 
-include Γ in
+include Γ hψ hψsupport in
 theorem iteratedDeriv_profile (δ : ℝ) (φ : 𝓢(V, ℂ)) (n : ℕ) :
     iteratedDeriv n (profile K S ψ δ φ) =
       profile K S ψ δ (shiftedEulerIterCLM K δ n φ) := by
@@ -121,7 +119,7 @@ theorem iteratedDeriv_profile (δ : ℝ) (φ : 𝓢(V, ℂ)) (n : ℕ) :
       exact (hasDerivAt_profile K S Γ ψ hψ hψsupport δ
         (shiftedEulerIterCLM K δ n φ) t).deriv
 
-include Γ in
+include Γ hψ hψsupport in
 theorem contDiff_profile (δ : ℝ) (φ : 𝓢(V, ℂ)) :
     ContDiff ℝ ∞ (profile K S ψ δ φ) :=
   (Real.contDiff_exp.comp (contDiff_const.mul contDiff_id)).smul
@@ -135,7 +133,7 @@ variable [MeasurableSpace (mixedEmbedding.mixedSpace K)ˣ]
 variable [∀ v : S, MeasurableSpace (v.val.adicCompletion K)ˣ]
   [∀ v : S, BorelSpace (v.val.adicCompletion K)ˣ]
 
-include Γ in
+include Γ hψ hψsupport in
 /-- The actual positive-Mellin estimate is composed with a fixed shifted
 Euler iterate.  All original seminorm indices precede the free test. -/
 theorem exists_weighted_shiftedEuler_bound (δ σ : ℝ) (hσ : 0 < σ) (hσ1 : σ ≤ 1)
@@ -164,7 +162,7 @@ theorem exists_weighted_shiftedEuler_bound (δ σ : ℝ) (hσ : 0 < σ) (hσ1 : 
   exact (hraw.trans (mul_le_mul_of_nonneg_left hsemi hC₀.le)).trans_eq
     (mul_assoc _ _ _).symm
 
-include Γ in
+include Γ hψ hψsupport in
 /-- Every target Schwartz derivative and polynomial weight is uniformly
 controlled by finitely many original seminorms.  The fixed tilt can be
 arbitrarily small; the bounds hold on the complete log-radius axis. -/
@@ -173,33 +171,33 @@ theorem exists_profile_schwartz_bound (δ : ℝ) (hδ : 0 < δ) (hδ1 : δ ≤ 1
     ∃ s : Finset (ℕ × ℕ), ∃ C : ℝ, 0 < C ∧ ∀ φ : 𝓢(V, ℂ), ∀ t : ℝ,
       ‖t‖ ^ k * ‖iteratedFDeriv ℝ n (profile K S ψ δ φ) t‖ ≤
         C * s.sup (schwartzSeminormFamily ℝ V ℂ) φ := by
-  obtain ⟨s₋, C₋, hC₋, hminus⟩ := exists_weighted_shiftedEuler_bound
+  obtain ⟨sMinus, Cminus, hCminus, hminus⟩ := exists_weighted_shiftedEuler_bound
     K S Γ ψ hψ hψsupport δ (δ - δ / 2) (by linarith) (by linarith) n
-  obtain ⟨s₊, C₊, hC₊, hplus⟩ := exists_weighted_shiftedEuler_bound
+  obtain ⟨sPlus, Cplus, hCplus, hplus⟩ := exists_weighted_shiftedEuler_bound
     K S Γ ψ hψ hψsupport δ (δ + δ / 2) (by linarith) (by linarith) n
-  let s := s₋ ∪ s₊
+  let s := sMinus ∪ sPlus
   have hm (φ : 𝓢(V, ℂ)) :
-      s₋.sup (schwartzSeminormFamily ℝ V ℂ) φ ≤
+      sMinus.sup (schwartzSeminormFamily ℝ V ℂ) φ ≤
         s.sup (schwartzSeminormFamily ℝ V ℂ) φ :=
     Seminorm.le_def.mp (Finset.sup_mono Finset.subset_union_left) φ
   have hp (φ : 𝓢(V, ℂ)) :
-      s₊.sup (schwartzSeminormFamily ℝ V ℂ) φ ≤
+      sPlus.sup (schwartzSeminormFamily ℝ V ℂ) φ ≤
         s.sup (schwartzSeminormFamily ℝ V ℂ) φ :=
     Seminorm.le_def.mp (Finset.sup_mono Finset.subset_union_right) φ
-  let C : ℝ := ((k.factorial : ℝ) / (δ / 2) ^ k) * (C₋ + C₊)
+  let C : ℝ := ((k.factorial : ℝ) / (δ / 2) ^ k) * (Cminus + Cplus)
   refine ⟨s, C, by dsimp only [C]; positivity, fun φ t => ?_⟩
   have hbminus : Real.exp ((δ - δ / 2) * t) *
       ‖sUnitOrbitalProfile K S
         (sLocalTensorTestFunction K S (shiftedEulerIterCLM K δ n φ) ψ)
-        (sUnitExpRadius t)‖ ≤ (C₋ + C₊) * s.sup (schwartzSeminormFamily ℝ V ℂ) φ :=
-    (hminus φ t).trans (mul_le_mul (le_add_of_nonneg_right hC₊.le) (hm φ)
-      (apply_nonneg _ _) (add_nonneg hC₋.le hC₊.le))
+        (sUnitExpRadius t)‖ ≤ (Cminus + Cplus) * s.sup (schwartzSeminormFamily ℝ V ℂ) φ :=
+    (hminus φ t).trans (mul_le_mul (le_add_of_nonneg_right hCplus.le) (hm φ)
+      (apply_nonneg _ _) (add_nonneg hCminus.le hCplus.le))
   have hbplus : Real.exp ((δ + δ / 2) * t) *
       ‖sUnitOrbitalProfile K S
         (sLocalTensorTestFunction K S (shiftedEulerIterCLM K δ n φ) ψ)
-        (sUnitExpRadius t)‖ ≤ (C₋ + C₊) * s.sup (schwartzSeminormFamily ℝ V ℂ) φ :=
-    (hplus φ t).trans (mul_le_mul (le_add_of_nonneg_left hC₋.le) (hp φ)
-      (apply_nonneg _ _) (add_nonneg hC₋.le hC₊.le))
+        (sUnitExpRadius t)‖ ≤ (Cminus + Cplus) * s.sup (schwartzSeminormFamily ℝ V ℂ) φ :=
+    (hplus φ t).trans (mul_le_mul (le_add_of_nonneg_left hCminus.le) (hp φ)
+      (apply_nonneg _ _) (add_nonneg hCminus.le hCplus.le))
   rw [norm_iteratedFDeriv_eq_norm_iteratedDeriv,
     iteratedDeriv_profile K S Γ ψ hψ hψsupport]
   exact (ExponentialTilt.polynomial_weight_le k (by linarith : 0 < δ / 2) t _
