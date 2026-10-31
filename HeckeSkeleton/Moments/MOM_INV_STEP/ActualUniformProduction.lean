@@ -27,6 +27,8 @@ open FixedTripleFibers CanonicalChildren CanonicalNormPools FirstParentRows
 open DedekindZetaZeroFree.LargeSieve.Vendor
 open scoped Classical BigOperators nonZeroDivisors
 
+universe uσ
+
 def boxCap (A : ℝ) : ℝ := 4 * A
 def labelCap (A : ℝ) : ℝ := 12 * boxCap A + 4
 
@@ -106,12 +108,12 @@ local notation "Ext" => ExteriorIdeal K Sset
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
 
 def secondEpsilon (A pi : ℝ) (hA : 1 ≤ A) (hpi : 0 < pi) : ℝ :=
-  Classical.choose (ActualSingleBoxBudget.exists_uniform_radialWeight_bound
+  Classical.choose (ActualSingleBoxBudget.exists_uniform_radialWeight_bound.{uσ}
     K S D Γ (10 * boxCap A) pi (by unfold boxCap; linarith) hpi)
 
 theorem secondEpsilon_pos (A pi : ℝ) (hA : 1 ≤ A) (hpi : 0 < pi) :
-    0 < secondEpsilon K S D Γ A pi hA hpi :=
-  (Classical.choose_spec (ActualSingleBoxBudget.exists_uniform_radialWeight_bound
+    0 < secondEpsilon.{uσ} K S D Γ A pi hA hpi :=
+  (Classical.choose_spec (ActualSingleBoxBudget.exists_uniform_radialWeight_bound.{uσ}
     K S D Γ (10 * boxCap A) pi (by unfold boxCap; linarith) hpi)).1
 
 def coordinateConstant (m : ℕ) : ℝ :=
@@ -138,7 +140,7 @@ theorem massExponent_pos (A pi : ℝ) (hA : 1 ≤ A) (hpi : 0 < pi) :
 
 def degree (A : ℝ) (hA : 1 ≤ A) (slotCap : ℕ) (piTerm : ℝ) (hpiTerm : 0 < piTerm)
     (t : Finset (ℕ × ℕ)) : ℕ :=
-  ActualClosedBoxBudget.spectralDegree K S D slotCap (labelCap A) piTerm
+  ActualClosedBoxBudget.spectralDegree.{uσ} K S D slotCap (labelCap A) piTerm
     (labelCap_nonneg A hA) hpiTerm t
 
 /-- This coefficient is fixed before the source, the base, the mesh,
@@ -155,18 +157,18 @@ def productionConstant (A : ℝ) (hA : 1 ≤ A) (slotCap : ℕ)
       SecondProductionBudget.massConstant K S D Γ slotCap (massExponent A piMass)
         (massExponent_pos A piMass hA hpiMass))) *
     ((2 : ℝ) ^ slotCap *
-      ActualClosedBoxBudget.closureConstant K S D slotCap (labelCap A) piTerm
+      ActualClosedBoxBudget.closureConstant.{uσ} K S D slotCap (labelCap A) piTerm
         (labelCap_nonneg A hA) hpiTerm t *
-      ActualClosedBoxBudget.spectralCoefficient K S D slotCap (labelCap A) piTerm
+      ActualClosedBoxBudget.spectralCoefficient.{uσ} K S D slotCap (labelCap A) piTerm
         (labelCap_nonneg A hA) hpiTerm t *
-      coordinateConstant (degree K S D A hA slotCap piTerm hpiTerm t))
+      coordinateConstant (degree.{uσ} K S D A hA slotCap piTerm hpiTerm t))
 
 theorem productionConstant_nonneg (A : ℝ) (hA : 1 ≤ A) (slotCap : ℕ)
     (piMass piTerm piBins piNorm : ℝ)
     (hpiMass : 0 < piMass) (hpiTerm : 0 < piTerm)
     (hpiBins : 0 < piBins) (hpiNorm : 0 < piNorm)
     (t : Finset (ℕ × ℕ)) (firstConstant : ℝ) (hfirstConstant : 0 ≤ firstConstant) :
-    0 ≤ productionConstant K S D Γ A hA slotCap piMass piTerm piBins piNorm
+    0 ≤ productionConstant.{uσ} K S D Γ A hA slotCap piMass piTerm piBins piNorm
       hpiMass hpiTerm hpiBins hpiNorm t firstConstant := by
   have hbin := (binConstant_one_le A piBins hA hpiBins).trans' zero_le_one
   have hnorm := (normBoxConstant_one_le A piNorm hA hpiNorm).trans' zero_le_one
@@ -177,11 +179,11 @@ theorem productionConstant_nonneg (A : ℝ) (hA : 1 ≤ A) (slotCap : ℕ)
     (labelCap A) piTerm (labelCap_nonneg A hA) hpiTerm t).le
   have hspectral := ActualClosedBoxBudget.spectralCoefficient_nonneg K S D slotCap
     (labelCap A) piTerm (labelCap_nonneg A hA) hpiTerm t
-  have hcoordinate := coordinateConstant_nonneg (degree K S D A hA slotCap piTerm hpiTerm t)
+  have hcoordinate := coordinateConstant_nonneg (degree.{uσ} K S D A hA slotCap piTerm hpiTerm t)
   unfold productionConstant
   positivity
 
-variable {σ : Type*} [DecidableEq σ]
+variable {σ : Type uσ} [DecidableEq σ]
 variable (T : FirstParentEnergy.Data K S (σ := σ)) (hmask : T.mask = ∅)
 variable (A Z M r ell V h tau : ℝ) (hA : 1 ≤ A) (hZ : 1 < Z)
 local notation "Rcap" => FirstOuterPhysicalCap.radius K S D Γ T hmask
@@ -195,7 +197,7 @@ theorem radius_exponent_bounds
     (o : OuterIndex K S D T) :
     let j := FirstOuterPhysicalCap.assignment K S D Γ T hmask Z (boxCap A) o
     let E := firstPhysicalHeight M r ell V (length Z j .firstDivisor)
-      (length Z j .firstCommon) (length Z j .cubeLabel) + 12 * h + tau
+      (length Z j .firstCommon) (length Z j .cubeLabel) + 12 * h + tau;
     -(10 * boxCap A) ≤ E ∧ E ≤ 32 * boxCap A := by
   have hL : 0 ≤ boxCap A := by unfold boxCap; linarith
   have hd := length_bounds Z (boxCap A) hZ hL
@@ -228,7 +230,7 @@ theorem inverse_radius_le
 
 include hA in
 theorem first_weight_cost (pi : ℝ)
-    (choice : UniformFirstWeightChoice.Choice K S D (2 * A) (32 * boxCap A) pi)
+    (choice : UniformFirstWeightChoice.Choice.{uσ} K S D (2 * A) (32 * boxCap A) pi)
     (hM : M ∈ Set.Icc (0 : ℝ) A) (hr : r ∈ Set.Icc (0 : ℝ) A)
     (hell : ell ∈ Set.Icc (0 : ℝ) A) (hV : V ∈ Set.Icc (0 : ℝ) A)
     (hh : h ∈ Set.Icc (0 : ℝ) 1) (htau : tau ∈ Set.Icc (0 : ℝ) A)
@@ -281,6 +283,7 @@ def AllSmallerPieces (eps Cih : ℝ) (t : Finset (ℕ × ℕ)) : Prop :=
         (hprime := hprime) (hweights := hweights) (hJ₁ := hJ₁) (J₂ := J₂) (hJ₂ := hJ₂)
         (slotCap := slotCap) (hcap := hcap) (h := h) M ell V eps Cih t side₂
 
+set_option maxHeartbeats 1000000 in
 /-- The normalized original production is uniformly bounded by the
 fixed second Mellin cost. All physical weights, radial powers, label
 windows and finite bin counts are discharged from the parent window.
@@ -289,7 +292,7 @@ theorem production_le
     (piRad1 piRad2 piMass piTerm piBins piNorm Q z c eta eps Cih : ℝ)
     (hpiRad2 : 0 < piRad2) (hpiMass : 0 < piMass) (hpiTerm : 0 < piTerm)
     (hpiBins : 0 < piBins) (hpiNorm : 0 < piNorm)
-    (choice : UniformFirstWeightChoice.Choice K S D (2 * A) (32 * boxCap A) piRad1)
+    (choice : UniformFirstWeightChoice.Choice.{uσ} K S D (2 * A) (32 * boxCap A) piRad1)
     (hM : M ∈ Set.Icc (0 : ℝ) A) (hr : r ∈ Set.Icc (0 : ℝ) A)
     (hell : ell ∈ Set.Icc (0 : ℝ) A) (hV : V ∈ Set.Icc (0 : ℝ) A)
     (hh : h ∈ Set.Icc (0 : ℝ) 1) (htau : tau ∈ Set.Icc (0 : ℝ) A)
@@ -313,20 +316,20 @@ theorem production_le
     (J₁ : Finset σ) (hJ₁ : J₁ ⊆ T.columns.slots) (side₂ : Bool) (s : ℝ) :
     FirstNormalizedReduction.production K S D Γ T H oldLabels Grid centers side₁
       Rcap choice.massExponent choice.epsilon Z r ell V tau Θ ψ G hν hG hbase
-      (secondEpsilon K S D Γ A piRad2 hA hpiRad2)
-      (degree K S D A hA slotCap piTerm hpiTerm t) k J₁ side₂ s ≤
-      (productionConstant K S D Γ A hA slotCap piMass piTerm piBins piNorm
+      (secondEpsilon.{uσ} K S D Γ A piRad2 hA hpiRad2)
+      (degree.{uσ} K S D A hA slotCap piTerm hpiTerm t) k J₁ side₂ s ≤
+      (productionConstant.{uσ} K S D Γ A hA slotCap piMass piTerm piBins piNorm
         hpiMass hpiTerm hpiBins hpiNorm t choice.constant *
         (Cih + (Fintype.card Sector : ℝ)) *
         Z ^ (r + 3 * ell + V + 40 * eta + tau + piMass + piTerm + piRad1 +
           piRad2 + piNorm + piBins + eps)) *
         NestedMellinBudget.cauchyCost (-(1 / 2 : ℝ)) s
-          (degree K S D A hA slotCap piTerm hpiTerm t) := by
+          (degree.{uσ} K S D A hA slotCap piTerm hpiTerm t) := by
   let U := centerScale T.scale (Grid k)
   let H₂ := FirstSecondErrorBridge.cutoff K S D T Rcap U Z tau
   let w := fun o e => FirstNormalizedSource.weight K S D T Grid Rcap
     choice.massExponent choice.epsilon Z r ell V k ⟨o,e⟩
-  let m₂ := degree K S D A hA slotCap piTerm hpiTerm t
+  let m₂ := degree.{uσ} K S D A hA slotCap piTerm hpiTerm t
   have hz0 : 0 < Z := zero_lt_one.trans hZ
   have hZ2 : 2 ≤ Z := by
     have hp := Real.rpow_le_rpow_of_exponent_le hZ.le hh.2
@@ -365,9 +368,10 @@ theorem production_le
         mul_le_mul h4 hX hXpos.le (Real.rpow_nonneg hz0.le _)
       _ = Z ^ (2 + A) := (Real.rpow_add hz0 _ _).symm
       _ ≤ _ := Real.rpow_le_rpow_of_exponent_le hZ.le (by unfold boxCap; linarith)
-  have hradial := (Classical.choose_spec
-    (ActualSingleBoxBudget.exists_uniform_radialWeight_bound K S D Γ
-      (10 * boxCap A) piRad2 (by unfold boxCap; linarith) hpiRad2)).2
+  obtain ⟨-, hradial'⟩ := Classical.choose_spec
+    (ActualSingleBoxBudget.exists_uniform_radialWeight_bound.{uσ} K S D Γ
+      (10 * boxCap A) piRad2 (by unfold boxCap; linarith) hpiRad2)
+  have hradial := hradial'
       T Θ ψ G hν hG hbase Rcap U J₁ s H₂ Z (10 * boxCap A) A hZ.le le_rfl
       (by unfold boxCap; linarith)
       (inverse_radius_le K S D Γ T hmask A Z M r ell V h tau hA hZ hM hr hell hV hh htau) hU
@@ -394,8 +398,8 @@ theorem production_le
         (Real.rpow_nonneg (Rcap i.1).property.le _))
       (mul_nonneg (ActualPoissonScale.fieldConstant_nonneg K) (Real.rpow_nonneg hz0.le _))
     convert hc using 1 <;>
-      dsimp only [w, FirstNormalizedSource.weight, FirstNormalizedSource.firstScalar,
-        ActualSingleBoxBudget.firstScalar, FirstToSecondData.quotient] <;> ring
+      (try dsimp only [w, FirstNormalizedSource.weight, FirstNormalizedSource.firstScalar,
+        ActualSingleBoxBudget.firstScalar, FirstToSecondData.quotient]) <;> ring
   have hchoice0 : 0 ≤ choice.constant := zero_le_one.trans choice.one_le_constant
   have hfield0 := ActualPoissonScale.fieldConstant_nonneg K
   have hclosed := ActualClosedBoxBudget.actualTotal_closed_le
@@ -406,7 +410,7 @@ theorem production_le
     (hprime := hprime) (hweights := hweights) (hJ₁ := hJ₁)
     (slotCap := slotCap) (hcap := hcap) (h := h) (hZ := hZ) (hh := hh.1)
     (hwidth := hwidth) (hb := hb) (hfirst := hfirst) (hsecond := hsecond)
-    (w := w) (ε := secondEpsilon K S D Γ A piRad2 hA hpiRad2)
+    (w := w) (ε := secondEpsilon.{uσ} K S D Γ A piRad2 hA hpiRad2)
     M r ell V Q z c eta tau piMass eps (labelCap A) piTerm Cih
     (ActualPoissonScale.fieldConstant K * choice.constant * Z ^ piRad1) (Z ^ piRad2)
     (massExponent A piMass) hbase_eq hL hV.1 hUscale hcube rfl
@@ -444,8 +448,13 @@ theorem production_le
     ring
   change FirstNormalizedReduction.production K S D Γ T H oldLabels Grid centers side₁
     Rcap choice.massExponent choice.epsilon Z r ell V tau Θ ψ G hν hG hbase
-    (secondEpsilon K S D Γ A piRad2 hA hpiRad2) m₂ k J₁ side₂ s ≤ _
-  apply hclosed.trans
+    (secondEpsilon.{uσ} K S D Γ A piRad2 hA hpiRad2) m₂ k J₁ side₂ s ≤ _
+  refine le_trans (le_of_eq ?_) (hclosed.trans ?_)
+  · unfold FirstNormalizedReduction.production
+    congr 1
+    funext o e
+    unfold SecondProductionRestriction.weightOn FirstNormalizedSource.liveWeight
+    split_ifs <;> rfl
   calc
     _ ≤ (binConstant A piBins hA hpiBins * Z ^ piBins * (2 : ℝ) ^ slotCap *
         (normBoxConstant A piNorm hA hpiNorm * Z ^ piNorm) *
@@ -455,13 +464,22 @@ theorem production_le
             (massExponent_pos A piMass hA hpiMass) *
           Z ^ (r + 3 * ell + V + 40 * eta + tau + piMass + piTerm + eps))) *
         (((2 : ℝ) ^ slotCap *
-          (ActualClosedBoxBudget.closureConstant K S D slotCap (labelCap A) piTerm
+          (ActualClosedBoxBudget.closureConstant.{uσ} K S D slotCap (labelCap A) piTerm
             (labelCap_nonneg A hA) hpiTerm t * (Cih + (Fintype.card Sector : ℝ)) *
-            ActualClosedBoxBudget.spectralCoefficient K S D slotCap (labelCap A) piTerm
+            ActualClosedBoxBudget.spectralCoefficient.{uσ} K S D slotCap (labelCap A) piTerm
               (labelCap_nonneg A hA) hpiTerm t) * coordinateConstant m₂) *
           NestedMellinBudget.cauchyCost (-(1 / 2 : ℝ)) s m₂) := by
-      gcongr <;> assumption
-    _ = (productionConstant K S D Γ A hA slotCap piMass piTerm piBins piNorm
+      gcongr
+      all_goals first
+        | assumption
+        | exact le_rfl
+        | exact mul_nonneg (mul_nonneg (mul_nonneg (pow_nonneg zero_le_two _)
+            (mul_nonneg (mul_nonneg hclosure0 hcoeff0) hspectral0))
+            (SecondSpectralCost.coordinateMoment_nonneg _ _))
+            (NestedMellinBudget.cauchyCost_nonneg _ _ _)
+        | exact mul_nonneg (mul_nonneg (pow_nonneg zero_le_two _)
+            (mul_nonneg (mul_nonneg hclosure0 hcoeff0) hspectral0)) (coordinateConstant_nonneg _)
+    _ = (productionConstant.{uσ} K S D Γ A hA slotCap piMass piTerm piBins piNorm
         hpiMass hpiTerm hpiBins hpiNorm t choice.constant *
         (Cih + (Fintype.card Sector : ℝ)) *
         (Z ^ piBins * Z ^ piNorm * Z ^ piRad1 * Z ^ piRad2 *
