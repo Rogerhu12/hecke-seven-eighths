@@ -98,7 +98,8 @@ theorem comparison_same_slots (S : PolynomialSystem.{u} K ω ψ σ W)
     (child parent : S.Label)
     (hchild : S.node child = (S.node parent).comparisonOrdinary) :
     (S.schedule child).slots = (S.schedule parent).slots := by
-  change (if (S.node child).parameters.z = 0 then (0 : Fin 2) else 1) = _
+  change (if (S.node child).parameters.z = 0 then (0 : Fin 2) else 1) =
+    (if (S.node parent).parameters.z = 0 then (0 : Fin 2) else 1)
   simp only [hchild, Node.comparison_slots]
 
 theorem comparison_same_band (S : PolynomialSystem.{u} K ω ψ σ W)
