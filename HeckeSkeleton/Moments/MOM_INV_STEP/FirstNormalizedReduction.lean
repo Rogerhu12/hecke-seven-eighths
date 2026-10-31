@@ -36,7 +36,9 @@ variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (�
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] [Γ.FiniteIndex]
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
-variable {σ ι : Type*} [DecidableEq σ] [Fintype ι]
+universe uσ
+
+variable {σ : Type uσ} {ι : Type*} [DecidableEq σ] [Fintype ι]
 variable (T : FirstParentEnergy.Data K S (σ := σ))
 variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (L : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))))
 variable (grid : ι → {r : ℝ // 0 < r})
@@ -48,11 +50,11 @@ variable (Θ : Subgroup (HeckeCharacter K)) (ψ G : HeckeCharacter K)
 variable (hν : BackgroundCycle.Admissible K Θ ψ T.columns.background) (hG : G ∈ Θ)
 variable (hbase : 1 < T.columns.base)
 local notation "Idx" => FirstErrorSource.Index K S D T
-local notation "U" k => centerScale T.scale (grid k)
-local notation "weight" k o e =>
+local notation "U" k:max => centerScale T.scale (grid k)
+local notation "weight" k:max o:max e:max =>
   FirstNormalizedSource.liveWeight K S D Γ T H L grid centers side R massEps ε₁
     Z r ell V k ⟨o,e⟩
-local notation "cutoff" k => FirstSecondErrorBridge.cutoff K S D T R (U k) Z tau
+local notation "cutoff" k:max => FirstSecondErrorBridge.cutoff K S D T R (U k) Z tau
 
 def production (ε₂ : ℝ) (m₂ : ℕ) (k : ι) (J : Finset σ) (side₂ : Bool) (s : ℝ) : ℝ :=
   SecondProductionIntegral.actualTotal K S D Γ T Θ ψ G hν hG hbase R (U k) J s (cutoff k)
@@ -91,11 +93,11 @@ variable [MeasurableSpace (AdeleRing (𝓞 K) K)] [BorelSpace (AdeleRing (𝓞 K
 /-- A field/background constant chosen before every source, scale,
 frequency, test, original slot and prime list. -/
 def reductionConstant (ε₂ : ℝ) (hε₂ : 0 < ε₂) (m₂ : ℕ) : ℝ :=
-  Classical.choose (FirstSecondReduction.exists_weighted_free_bound
+  Classical.choose (FirstSecondReduction.exists_weighted_free_bound.{uσ}
     K S D Γ hΓ hallowed μv ν μ ε₂ hε₂ m₂)
 
 theorem reductionConstant_nonneg (ε₂ : ℝ) (hε₂ : 0 < ε₂) (m₂ : ℕ) :
-    0 ≤ reductionConstant K S D Γ hΓ μv hallowed ν μ ε₂ hε₂ m₂ :=
+    0 ≤ reductionConstant.{uσ} K S D Γ hΓ μv hallowed ν μ ε₂ hε₂ m₂ :=
   (Classical.choose_spec (FirstSecondReduction.exists_weighted_free_bound
     K S D Γ hΓ hallowed μv ν μ ε₂ hε₂ m₂)).1
 
@@ -111,15 +113,15 @@ theorem sourceAt_le (ε₂ : ℝ) (hε₂ : 0 < ε₂) (m₂ : ℕ)
     (k : ι) (J : Finset σ) (s : ℝ) :
     FirstNormalizedSource.sourceAt K S D Γ T H L grid centers side R massEps ε₁
       Z r ell V Θ ψ G hν hG k J s ≤
-    reductionConstant K S D Γ hΓ μv hallowed ν μ ε₂ hε₂ m₂ / 2 *
+    reductionConstant.{uσ} K S D Γ hΓ μv hallowed ν μ ε₂ hε₂ m₂ / 2 *
       (production K S D Γ T H L grid centers side R massEps ε₁ Z r ell V tau
         Θ ψ G hν hG hbase ε₂ m₂ k J false s +
        production K S D Γ T H L grid centers side R massEps ε₁ Z r ell V tau
         Θ ψ G hν hG hbase ε₂ m₂ k J true s) +
     error K S D Γ T H L grid centers side R massEps ε₁ Z r ell V tau
       Θ ψ G hν hG hbase hΓ μv k J s := by
-  have hb := (Classical.choose_spec (FirstSecondReduction.exists_weighted_free_bound
-    K S D Γ hΓ hallowed μv ν μ ε₂ hε₂ m₂)).2
+  obtain ⟨-, hb⟩ := Classical.choose_spec (FirstSecondReduction.exists_weighted_free_bound.{uσ}
+    K S D Γ hΓ hallowed μv ν μ ε₂ hε₂ m₂)
   have hs := hb T Θ ψ G hν hG hbase R (U k) J s (cutoff k)
     hcal hbg hprime (fun o e => weight k o e)
     (fun o e => FirstNormalizedSource.liveWeight_nonneg K S D Γ T H L grid centers side
