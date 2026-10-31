@@ -141,6 +141,10 @@ def FirstFiniteSource.rows {ι κ : Type*} (s : FirstFiniteSource K S Γ ι κ) 
   simp only [FirstFiniteSource.rows, sIntegerOrbitCutoff,
     Set.Finite.mem_toFinset, Set.mem_setOf_eq, one_mul]
 
+omit [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
+  [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [Γ.FiniteIndex] in
 theorem one_le_sIntegerOrbitNorm (q : Q) :
     1 ≤ (sIntegerOrbitNorm K (S : Set (HeightOneSpectrum (𝓞 K))) Γ q).val := by
   refine Quotient.inductionOn q ?_

@@ -138,6 +138,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourcePrimitive
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteParentSource
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulus
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusModel
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusArithmetic
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusActual
 
 #print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt
 #print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.bound_of_children
@@ -419,7 +421,10 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusModel
 #print axioms HeckeSkeleton.Moments.EngineInduction.ReflectionPrimitiveTransfer.withKappa
 #print axioms HeckeSkeleton.Moments.EngineInduction.ReflectionPrimitiveTransfer.withOriginalMesh
 #print axioms HeckeSkeleton.Moments.EngineInduction.ReflectionRowCalibration
+#print axioms HeckeSkeleton.Moments.EngineInduction.ReflectionRowCalibration.deleted_prime_count
 #print axioms HeckeSkeleton.Moments.EngineInduction.ReflectionRowCalibration.scalar_bounds
+#print axioms HeckeSkeleton.Moments.EngineInduction.ReflectionRowCalibration.slot_conductor_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.ReflectionRowCalibration.slot_log_conductor_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.RootCertificate
 #print axioms HeckeSkeleton.Moments.EngineInduction.ShortReflectionBranchAt
 #print axioms HeckeSkeleton.Moments.EngineInduction.ShortReflectionBranchAt.inrParameter
@@ -737,6 +742,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusModel
 #print axioms HeckeSkeleton.Moments.EngineInduction.eulerDerivativeOrder_const_mul
 #print axioms HeckeSkeleton.Moments.EngineInduction.eulerDerivativeOrder_log_coordinate
 #print axioms HeckeSkeleton.Moments.EngineInduction.excl_heckeCoefficient_conductor_sdiff
+#print axioms HeckeSkeleton.Moments.EngineInduction.exists_actual_prime_slot_annulus_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.exists_actual_prime_slot_annulus_log_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.exists_actual_prime_slot_capacity_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_annular_iteratedDeriv_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_annular_schwartz_finset_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_annular_schwartz_seminorm_bound
@@ -1075,6 +1083,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusModel
 #print axioms HeckeSkeleton.Moments.EngineInduction.pairedRows_scaledMomentProfiles
 #print axioms HeckeSkeleton.Moments.EngineInduction.paired_positive_below_one
 #print axioms HeckeSkeleton.Moments.EngineInduction.paired_positive_endpoint
+#print axioms HeckeSkeleton.Moments.EngineInduction.paired_slot_finite_nonNorm_of_theta
 #print axioms HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_models
 #print axioms HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_of_reflected_core
 #print axioms HeckeSkeleton.Moments.EngineInduction.parameterCoreRank
@@ -1117,6 +1126,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusModel
 #print axioms HeckeSkeleton.Moments.EngineInduction.primeAbsoluteCountConstant_pos
 #print axioms HeckeSkeleton.Moments.EngineInduction.primePolynomial_absolute_bound_of_upper
 #print axioms HeckeSkeleton.Moments.EngineInduction.primePolynomial_scaledMomentProfiles
+#print axioms HeckeSkeleton.Moments.EngineInduction.primeThetaConductorConstant
+#print axioms HeckeSkeleton.Moments.EngineInduction.primeThetaConductorConstant_one_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.primeWindow_logNorm_calibration
 #print axioms HeckeSkeleton.Moments.EngineInduction.primeWindow_logNorm_profile_norm
 #print axioms HeckeSkeleton.Moments.EngineInduction.primeWindow_logNorm_profile_support
@@ -1174,6 +1185,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusModel
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflectionConductorBudget
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflectionConductorBudget_ne_bot
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflectionConductorConstant
+#print axioms HeckeSkeleton.Moments.EngineInduction.reflectionConductorConstant_le_primeTheta
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflectionConductorConstant_le_uniform
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflectionConductorConstant_pos
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflectionDyadicExponent
@@ -1212,6 +1224,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusModel
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflection_whole_tail_exponent
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflection_whole_tail_uniform_exponent
 #print axioms HeckeSkeleton.Moments.EngineInduction.remainingCommonMask_eq_deletion
+#print axioms HeckeSkeleton.Moments.EngineInduction.remainingMask_deleted_prime_dvd
 #print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters
 #print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters_width
 #print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters_z_eq_zero

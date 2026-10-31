@@ -157,11 +157,23 @@ theorem ParentPeriodicPair.truncationMass_le_mask_norm
           (Nat.card (OS ⧸ Ideal.span {p.modulus}) : ℝ) *
           (1 + (sIntegerMaskDualRadius K S p.modulus p.modulus_ne_zero radius δ).val⁻¹) := by
         have hn := mul_le_mul_of_nonneg_right hmu
-          (mul_nonneg (mul_nonneg (norm_nonneg _) (Nat.cast_nonneg _)) hlast)
+          (mul_nonneg (mul_nonneg
+            (norm_nonneg (sIntegerMaskPoissonFactor K S p.modulus p.modulus_ne_zero radius δ))
+            (Nat.cast_nonneg (Nat.card (OS ⧸ Ideal.span {p.modulus})))) hlast)
         simpa only [one_mul, mul_assoc] using hn
       _ = (ρ.val⁻¹ * firstTailFieldConstant K) * (1 + ρ.val * N.val) := by
-        rw [p.poissonFactor_mul_card radius D]
-        simp only [sIntegerMaskDualRadius, inv_inv, N, ρ, firstTailFieldConstant]
+        have hfactor : ‖sIntegerMaskPoissonFactor K S p.modulus p.modulus_ne_zero radius δ‖ *
+            (Nat.card (OS ⧸ Ideal.span {p.modulus}) : ℝ) =
+              ρ.val⁻¹ * firstTailFieldConstant K := by
+          rw [natCard_sIntegerPrincipalResidue_eq_productNorm]
+          change ‖(ρ.val : ℂ)⁻¹ *
+              (((2 : ℝ) ^ InfinitePlace.nrComplexPlaces K /
+                Real.sqrt |(discr K : ℝ)| : ℝ) : ℂ) * (N.val : ℂ)⁻¹‖ * N.val = _
+          simp only [norm_mul, norm_inv, Complex.norm_real, Real.norm_eq_abs,
+            abs_of_pos ρ.property, abs_of_pos N.property]
+          rw [mul_assoc, inv_mul_cancel₀ (ne_of_gt N.property), mul_one] <;> rfl
+        rw [hfactor]
+        simp only [sIntegerMaskDualRadius, inv_inv, N, ρ]
       _ = firstTailFieldConstant K * (ρ.val⁻¹ + N.val) := by
         field_simp [ne_of_gt ρ.property]
         <;> ring

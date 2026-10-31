@@ -8,8 +8,11 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchParameterTransport
 The reflection preparation is executed here, rather than supplied as a
 completed local reduction. Its literal root, base coefficient ledgers,
 positive reflection kernels and universal quarter labels form the local
-scalar certificates. The two real parameter spaces occupy fixed summands
-of one common space. Only coefficient and height budgets are enlarged.
+scalar certificates. The actual engine parameter space and the reflection
+parameters occupy fixed summands of one common space. The engine space
+may be its genuine finite-dimensional Hilbert product; it is not
+identified with the two real Mellin preprocessing frequencies. Only
+coefficient and height budgets are enlarged.
 
 The remaining strict callback contains actual Mellin profiles and labelled
 canonical outputs, never a parent moment or local scalar bound. Its
@@ -116,9 +119,10 @@ namespace Source
 variable {c : TargetContext K}
 variable [MeasurableSpace (ℕ × Bool)] [MeasurableSingletonClass (ℕ × Bool)]
 
-/-- The strict producer and the real dyadic reflection parameters share
-one fixed space; no frequency-dependent measure bind is used. -/
-abbrev RecipeMellinParameter := (ℝ × ℝ) ⊕ ((ℕ × Bool) × ℝ)
+/-- The strict producer keeps its actual parameter space. The two real
+Mellin preprocessing frequencies remain a separate outer integral and
+are not used as a replacement for the engine's Fourier coordinates. -/
+abbrev RecipeMellinParameter (Ωengine : Type) := Ωengine ⊕ ((ℕ × Bool) × ℝ)
 
 /-- The exact remaining strict producer obligation on the prepared
 family. It supplies actual per-frequency canonical outputs with their
@@ -129,6 +133,7 @@ fixed cancellation exponent are already primitive invariants of every
 node in this family. Supplying its canonical producing theorem remains
 a separate obligation; no finished energy estimate is a field here. -/
 structure RecipeMellinStrictFamily
+    (Ωengine : Type) [MeasurableSpace Ωengine]
     (R : ExpansionRecipe.RecipeExpansion K (places K c) (targetCharacter K c)
       c.geometry (expansionShellAllowance K c))
     (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
@@ -148,11 +153,13 @@ structure RecipeMellinStrictFamily
       (momentBaseFor i ^ (S.node x).comparison₁)
       (momentBaseFor i ^ (S.node x).comparison₂)
       (16 * recipeInductionSigma c) (recipeInductionSigma c / 16) →
-    Nonempty (MellinStrictBranchAt (Ω := RecipeMellinParameter) S x (momentBaseFor i) T
+    Nonempty (MellinStrictBranchAt (Ω := RecipeMellinParameter Ωengine) S x (momentBaseFor i) T
       coefficient heightDegree (recipeInductionTerminalLoss c) (recipeInductionEdgeLoss c)
       (admissibleOfInvariant (recipeDataReflectionPrimitive c Q ground engine reflection
         (recipeInductionSigma c) (recipeInductionSigma c / 16)
         A Cp Hp lower upper (momentBaseFor i) T)))
+
+variable {Ωengine : Type} [MeasurableSpace Ωengine]
 
 /-- Every non-strict input is constructed from the actual prepared
 reflection family. The same original root is retained, including when
@@ -169,7 +176,7 @@ def RecipeDataReflectionFamilyData.scalarCertificate
     {s : SixthUnitClasses K (places K c)}
     (prepared : RecipeDataReflectionFamilyData R Q ground engine reflection
       A Cp Hp lower upper Cr Hr (indexMap Z T i) s)
-    (strict : RecipeMellinStrictFamily R Q ground engine reflection A Cp Hp lower upper)
+    (strict : RecipeMellinStrictFamily Ωengine R Q ground engine reflection A Cp Hp lower upper)
     (hCr : 0 ≤ Cr) (hT : 0 ≤ T) (hZ : strict.threshold ≤ Z)
     (hbase : momentBaseFor (indexMap Z T i) = momentBaseFor i) :
     RecipeScalarLocalCertificate.{0} R indexMap
@@ -190,7 +197,7 @@ def RecipeDataReflectionFamilyData.scalarCertificate
   have hr : 0 ≤ sourceReserve c.family.lamA :=
     (moment_mesh_engine_bounds c.family.lamA_pos).2.1.le
   have hU : 0 ≤ momentBaseFor j := (zero_lt_one.trans prepared.scale).le
-  let localInputs : MellinCoreRecursionInput (Ω := RecipeMellinParameter) S
+  let localInputs : MellinCoreRecursionInput (Ω := RecipeMellinParameter Ωengine) S
       (momentBaseFor j) T C H (recipeInductionTerminalLoss c) (recipeInductionEdgeLoss c)
       (16 * recipeInductionSigma c) (recipeInductionSigma c / 16)
       (sourceReserve c.family.lamA) ((1 + T) ^ H) (admissibleOfInvariant primitive) := {
@@ -214,11 +221,11 @@ def RecipeDataReflectionFamilyData.scalarCertificate
     shortReflection := fun x hwidth hcore hordinary hlarge hshort =>
       short_enlarge_budget
         ((Classical.choice (prepared.shortReflection x hwidth hcore hordinary hlarge hshort)).inrParameter
-          (Ω' := ℝ × ℝ) ((0, false), 0)) hU hreflection
+          (Ω' := Ωengine) ((0, false), 0)) hU hreflection
     outerReflection := fun x hnoncore hzero hordinary =>
       outer_enlarge_budget
         ((Classical.choice (prepared.outerReflection x hnoncore hzero hordinary)).inrParameter
-          (Ω' := ℝ × ℝ) ((0, false), 0)) hU hreflection
+          (Ω' := Ωengine) ((0, false), 0)) hU hreflection
     quarterLabels := fun x _hwidth hcore _hordinary _hlarge hleft hright =>
       universalQuarterLabels primitive (recipeInductionSigma c) 2
         (recipeInductionSigma c / 16) c.geometry.slots hσ x hcore hleft.le hright.le }
@@ -226,7 +233,7 @@ def RecipeDataReflectionFamilyData.scalarCertificate
     system := S
     root := prepared.source.root
     root_eq := prepared.source.root_eq
-    parameterSpace := RecipeMellinParameter
+    parameterSpace := RecipeMellinParameter Ωengine
     parameterMeasurable := inferInstance
     originalControl := (1 + T) ^ H
     admissible := admissibleOfInvariant primitive
@@ -237,7 +244,7 @@ private def scalarInput_from_reflectionFamilies
       c.geometry (expansionShellAllowance K c)}
     {Q : MomentData K c.family.omega (targetCharacter K c) → Prop}
     {ground : ℕ} {engine reflection : ℕ → ℕ} {A Cp Hp lower upper Cr Hr Zr : ℝ}
-    (strict : RecipeMellinStrictFamily R Q ground engine reflection A Cp Hp lower upper)
+    (strict : RecipeMellinStrictFamily Ωengine R Q ground engine reflection A Cp Hp lower upper)
     (hCr : 0 ≤ Cr) (hHr : 0 ≤ Hr) (hZr : 1 ≤ Zr)
     (indexMap : ∀ Z T,
       SourceMomentIndexFor K c (recipeMomentSourceData K c R) Z T →
@@ -292,7 +299,8 @@ theorem recipeMellinFamily_preparation
       (∀ J, J ≤ reflection J ∧ 1 ≤ reflection J) ∧
       ∀ (ground : ℕ) (engine : ℕ → ℕ), 1 ≤ ground →
       ∃ Cp Hp : ℝ, 0 < Cp ∧ 0 ≤ Hp ∧
-      ∀ strict : RecipeMellinStrictFamily R Q ground engine reflection decay Cp Hp lower upper,
+      ∀ (Ωengine : Type) [MeasurableSpace Ωengine],
+      ∀ strict : RecipeMellinStrictFamily Ωengine R Q ground engine reflection decay Cp Hp lower upper,
       Nonempty (RecipeScalarLocalInput.{0} R (fun _ _ i => i.noSlots) (fun _ _ _ => True)) ∧
       ((∀ j : Fin R.family.presentationCount,
           FiniteOrder (R.family.presentation j).plainBackground →
@@ -308,7 +316,7 @@ theorem recipeMellinFamily_preparation
   obtain ⟨Cp, Hp, Cr, Hr, Zr, hCp, hHp, hCr, hHr, hZr, families⟩ :=
     preparation ground engine hground
   refine ⟨Cp, Hp, hCp, hHp, ?_⟩
-  intro strict
+  intro Ωengine instΩengine strict
   constructor
   · exact ⟨scalarInput_from_reflectionFamilies strict hCr hHr hZr
       (fun _ _ i => i.noSlots) (fun _ _ _ => True) (fun _ _ _ => rfl)

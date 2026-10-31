@@ -20,7 +20,7 @@ open scoped Classical BigOperators NumberField nonZeroDivisors FourierTransform 
 
 namespace HeckeSkeleton.Moments.EngineStep
 
-open NumberField IsDedekindDomain DedekindZetaZeroFree
+open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis MeasureTheory
 
@@ -107,6 +107,7 @@ def withMultiplier (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
       rightCoefficient := fun j => u j * (s.charts DE D).rightCoefficient j
       profile := by
         intro q i hi j hj hcop
+        dsimp only [ActualGaussSource.withMultiplier] at hi hj hcop ⊢
         have hscale :
             ((u i * G.coefficient i) * star (u j * G.coefficient j)) • s.profile =
               (u i * star (u j)) •

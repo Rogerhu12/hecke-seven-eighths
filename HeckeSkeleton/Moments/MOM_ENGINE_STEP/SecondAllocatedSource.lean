@@ -20,7 +20,7 @@ open scoped Classical BigOperators NumberField nonZeroDivisors
 
 namespace HeckeSkeleton.Moments.EngineStep
 
-open NumberField IsDedekindDomain DedekindZetaZeroFree HeckeGeneral.Characters
+open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums HeckeGeneral.Characters
 open HeckePort.Moments HeckePort.IdealMobiusDivisorSum WholeAllocation
 open HeckeGeneral.Analysis.ConditionalMoments
 

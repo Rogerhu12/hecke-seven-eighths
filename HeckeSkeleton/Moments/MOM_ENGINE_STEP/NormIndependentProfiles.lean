@@ -19,6 +19,8 @@ open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStep
 
+open DedekindZetaZeroFree
+
 open NumberField IsDedekindDomain
 open HeckeGeneral.Characters HeckeGeneral.Analysis.ConditionalMoments
 
