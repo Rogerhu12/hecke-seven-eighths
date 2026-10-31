@@ -34,18 +34,6 @@ theorem arithmeticTRowEulerInput (P : ProbeData K S)
     (arithmeticHighEulerData K S P ψ) Q u v hv
   correction_analytic Q u := rowCorrection_analyticOnNhd_rowEulerRegion K S P ψ Q u
 
-/-- The concrete target specialization uses its actual probe and places,
-without importing the unrelated expansion fields into the statement. -/
-theorem targetTRowEulerInput (c : HeckeSkeleton.TargetContext K) :
-    TRowEulerInput K (HeckeSkeleton.places K c)
-      (HeckeSkeleton.probeData K c) (HeckeSkeleton.targetCharacter K c)
-      (arithmeticHighEulerData K (HeckeSkeleton.places K c)
-        (HeckeSkeleton.probeData K c) (HeckeSkeleton.targetCharacter K c)) :=
-  arithmeticTRowEulerInput K _ _ (HeckeSkeleton.allowedGenerators K c) _
-    (HeckeSkeleton.arithmeticCalibration K c)
-    (fun p => HeckeSkeleton.target_unramified_outside K c p.val p.property)
-
 #print axioms arithmeticTRowEulerInput
-#print axioms targetTRowEulerInput
 
 end HeckeSkeleton.HighBinActualInitial

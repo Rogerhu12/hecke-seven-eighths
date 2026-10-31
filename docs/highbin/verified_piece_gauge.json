@@ -1,0 +1,29 @@
+{
+  "module": "HeckeSkeleton.HighBinSupport.FinitePieceGauge",
+  "source_sha256": "2b06d321d6d19dc10617c9f16b56ec72baf5e7db4a20e9a0147d902fc1d3ca34",
+  "toolchain": "Lean 4.35.0-rc3",
+  "lean_commit": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+  "mathlib_commit": "0493595ecd5da8ef14742febab99728f98e948e8",
+  "native_build_exit_code": 0,
+  "elapsed_seconds": 274.055,
+  "source_unchanged": true,
+  "log_sha256": "7a69b5d2424f2587d5db99a65ce10a38784717595bedc5fd80fe88e476502107",
+  "axioms": {
+    "HighBinVerified.FinitePieceGauge.sum_prescribePiece": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "HighBinVerified.FinitePieceGauge.norm_le_sum_norm_prescribePiece": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "HighBinVerified.FinitePieceGauge.exists_same_sum_larger_norm": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "scope": "Exact separate-module native build; three printed main declarations. This record does not validate the actual HighBin adapter or canonical packet modules."
+}

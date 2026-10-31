@@ -1,5 +1,4 @@
 import HeckeSkeleton.HighBinSupport.ActualEulerData
-import HeckeSkeleton.Theta
 import HeckeGeneral.Characters.UnramifiedPrimeCoefficientAlgebra
 import HeckeGeneral.Analysis.HeckeConjugation
 
@@ -9,8 +8,8 @@ import HeckeGeneral.Analysis.HeckeConjugation
 The finite table's coefficient is `-theta(p) * gamma_1(p) * gamma_2(p)`.
 It is the target coefficient by the repository's existing arithmetic
 calibration, including when the target is ramified and its coefficient is
-zero. The final theorem specializes this identity to `targetData`, using
-`HeckeSkeleton.arithmeticCalibration` from the existing arithmetic choice.
+zero. The named-target specialization is in `ActualTargetEuler`; the arithmetic
+proof here has no dependency on the target expansion or theta construction.
 No Euler-series identity is assumed here.
 
 AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-31.
@@ -140,20 +139,9 @@ theorem regular_D_phase_identification (P : ProbeData K S) (ψ : HeckeCharacter 
   rw [raw_eta_eq_targetCoefficient K S P ψ hcal u p,
     rowPrimeUnit_character_of_not_mem_row K S P u p hp, Complex.inv_eq_conj hu]
 
-/-- Instantiation at the named target data uses the existing arithmetic
-provider, rather than adding a calibration field to the new Euler data. -/
-theorem target_rowPhaseData_eta (c : HeckeSkeleton.TargetContext K)
-    (u : FrequencyRow K (HeckeSkeleton.places K c))
-    (p : ExteriorPrime K (HeckeSkeleton.places K c)) :
-    (rowPhaseData K (HeckeSkeleton.places K c)
-      (HeckeSkeleton.probeData K c) (HeckeSkeleton.targetCharacter K c) u p).eta =
-        primeCoefficient K (HeckeSkeleton.targetCharacter K c) p.val :=
-  rowPhaseData_eta K _ _ _ (HeckeSkeleton.arithmeticCalibration K c) u p
-
 #print axioms prime_mixed_calibration
 #print axioms rowPhaseData_eta
 #print axioms raw_eta_eq_targetCoefficient
 #print axioms regular_D_phase_identification
-#print axioms target_rowPhaseData_eta
 
 end HeckeSkeleton.HighBinActualEuler

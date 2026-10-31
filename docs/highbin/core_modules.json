@@ -59,5 +59,10 @@
   "HeckeSkeleton.HighBinSupport.HighNormFormPointwisePartition",
   "HeckeSkeleton.HighBinSupport.EntireVerticalZeros",
   "HeckeSkeleton.HighBinSupport.EntireQuotientVerticalAE",
-  "HeckeSkeleton.HighBinSupport.RegularEulerInitial"
+  "HeckeSkeleton.HighBinSupport.RegularEulerInitial",
+  "HeckeSkeleton.HighBinSupport.BufferedDetectorGeometry",
+  "HeckeSkeleton.HighBinSupport.FinitePieceGauge",
+  "HeckeSkeleton.HighBinSupport.DyadicCount",
+  "HeckeSkeleton.HighBinSupport.DyadicShells",
+  "HeckeSkeleton.HighBinSupport.DyadicRowPartition"
 ]

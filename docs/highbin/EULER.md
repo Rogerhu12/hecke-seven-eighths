@@ -317,7 +317,7 @@ entire product is nonzero.
 
 ## 6. The original `TRowEulerInput` fields and target specialization
 
-The source endpoint in
+The generic source endpoint in
 [ActualEulerInput.lean](../../HeckeSkeleton/HighBinSupport/ActualEulerInput.lean)
 is:
 
@@ -336,8 +336,10 @@ theorem arithmeticTRowEulerInput (P : ProbeData K S)
 | `local_product` | Actual ideal-norm summability of the eleven-monomial regular error, with finite exceptional modifications |
 | `correction_analytic` | Joint analyticity of each actual local factor and the three-variable locally uniform-limit theorem |
 
-The named specialization has the following source type, under only the
-ambient number-field assumptions and the existing `TargetContext`:
+The named specialization now lives in
+[ActualTargetEuler.lean](../../HeckeSkeleton/HighBinSupport/ActualTargetEuler.lean).
+It has the following source type, under only the ambient number-field
+assumptions and the existing `TargetContext`:
 
 ```lean
 theorem targetTRowEulerInput (c : HeckeSkeleton.TargetContext K) :
@@ -447,3 +449,69 @@ imports the previously compiled exact `EulerRegionAnalytic` and
 `JointAnalyticLimit` bodies; this check is distinct from a native separate
 module build. That separate native build and both public type/axiom audits
 have now also passed in the 57-module core CI at `45b507f`. Source SHA-256: `65790197956fee62f0753b5f69df9c30e9bf54d50e261c2c9a5ded7d57323134`.
+
+
+## 9. The named construction and the generic arithmetic dependency split
+
+The generic initial calibration has a direct absolute-convergence input:
+
+\[
+\lVert a(c,n,\mathrm{den},r;s,w,z)\rVert
+\le (Nc)^{1-\Re s}(Nn)^{2-3\Re s}
+     (N\mathrm{den})^{1-\Re w}(Nr)^{-6\Re z}.
+\]
+
+This comes from the literal finite-sum bounds
+`norm_thetaGamma_two_le_sqrt` and `norm_finitePoissonFactor_le`.
+It is summable already for `2 < Re s`, `2 < Re w`, and
+`1/6 < Re z`; the original initial interface asks only for the smaller
+region `4 < Re s`, `4 < Re w`, `2 < Re z`. Neither this majorant nor the
+subsequent CRT factorization assumes the desired Euler identity.
+The exact reindexing retains four prime exponents and every completed-unit
+term in the marked local sum.
+
+The three named-target specializations were moved verbatim to
+`ActualTargetEuler`: `target_rowPhaseData_eta`,
+`targetRowEulerCalibrationInput`, and `targetTRowEulerInput`.
+Their declaration bodies are compared byte-for-byte in
+[euler_target_split.json](euler_target_split.json). Generic arithmetic
+modules no longer import `HeckeSkeleton.Theta` just to state these target
+specializations. Named-target consumers explicitly import the new module;
+the `HeckeSkeleton.HighBinSupport` aggregate reexports it. Code that imports
+only a generic arithmetic module must now import `ActualTargetEuler` to
+use those three target declarations. This source split is not a native
+verification claim.
+
+The common contexts and primitive target data also move verbatim from
+`Base` to `BaseContext` (27 declarations), and the arithmetic prefix of
+`Theta` moves to `TargetArithmeticData` (12 declarations). The old `Base`
+and `Theta` entry points reexport those names. The retained expansion,
+support obligation and later theta declarations are unchanged. Exact
+moved-region hashes are in
+[context_definition_moves.json](context_definition_moves.json).
+`ActualTargetEuler` now imports `TargetArithmeticData`, so target Euler
+specialization no longer introduces either the retained-expansion
+construction or the unrelated theta obligations. The static dependency
+check in [context_import_graph.json](context_import_graph.json) finds no
+`Base`, `HighBin`, or `Theta` import in the five construction-layer entry
+points and no unresolved project import. This permits a genuine shared
+expansion construction to depend on the common primitive data without an
+import cycle; the source split does not itself construct that expansion.
+
+To discharge the two named HIGHBIN Euler obligations, the genuine
+`actualHighPresentation` construction must set
+
+```lean
+euler := HighBinActualEuler.arithmeticHighEulerData K _
+  (targetData K c).probe (targetCharacter K c)
+```
+
+and prove its remaining row, label, and contour fields for the **same**
+`Base.highExpansion` data. The arithmetic identity is then definitional;
+`highInitialEulerControl_of_arithmetic` and
+`highExceptionalEulerControl_of_arithmetic` supply the two required
+conclusions with no extra analytic assumption. A separately postulated
+identity for the existing admitted presentation is not such a construction.
+The current `RowEulerData` type contains arbitrary exceptional rational
+tables, so its type alone cannot identify those tables with the constructed
+five-row tables.

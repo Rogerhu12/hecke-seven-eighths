@@ -307,21 +307,9 @@ theorem arithmeticRowEulerCalibrationInput (P : ProbeData K S)
   initial_identity Q u s w z hs hw hz :=
     initialRowEulerSeries_eq_rowEulerContinuation K S P hP ψ hcal hψ Q u s w z hs hw hz
 
-/-- The named target uses precisely the existing allowed generators,
-mixed calibration and exterior-unramified target provider. -/
-theorem targetRowEulerCalibrationInput (c : HeckeSkeleton.TargetContext K) :
-    RowEulerCalibrationInput K (HeckeSkeleton.places K c)
-      (HeckeSkeleton.probeData K c) (HeckeSkeleton.targetCharacter K c)
-      (arithmeticHighEulerData K (HeckeSkeleton.places K c)
-        (HeckeSkeleton.probeData K c) (HeckeSkeleton.targetCharacter K c)) :=
-  arithmeticRowEulerCalibrationInput K _ _ (HeckeSkeleton.allowedGenerators K c) _
-    (HeckeSkeleton.arithmeticCalibration K c)
-    (fun p => HeckeSkeleton.target_unramified_outside K c p.val p.property)
-
 #print axioms actualValuationSeries_eq_localEuler
 #print axioms primeBlockTerm_tsum_eq_localEuler
 #print axioms initialRowEulerSeries_eq_rowEulerContinuation
 #print axioms arithmeticRowEulerCalibrationInput
-#print axioms targetRowEulerCalibrationInput
 
 end HeckeSkeleton.HighBinActualInitial
