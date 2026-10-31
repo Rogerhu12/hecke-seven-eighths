@@ -43,7 +43,7 @@ theorem overlap_nonzero (X : ℝ) (g : Ext) (v : Ideal (𝓞 K))
 theorem overlap_squarefree (X : ℝ) (g : Ext) (v : Ideal (𝓞 K))
     (hv : v ∈ overlapPool K S X g) : Squarefree v := by
   obtain ⟨z,hz,hvz⟩ := overlap_exists_source K S X g v hv
-  exact (squarefreePool_squarefree K Sset hz).of_dvd hvz
+  exact (squarefreePool_squarefree K Sset hz).squarefree_of_dvd hvz
 
 theorem overlap_outside (X : ℝ) (g : Ext) (v : Ideal (𝓞 K))
     (hv : v ∈ overlapPool K S X g) :
@@ -70,7 +70,9 @@ theorem overlap_norm_le (X : ℝ) (g : Ext) (v : overlapPool K S X g) :
     Nat.le_of_dvd (Ideal.absNorm_pos_of_nonZeroDivisors z.val)
       (Ideal.absNorm_dvd_absNorm_of_le (Ideal.dvd_iff_le.mp hvz))
   have hzr := (mem_squarefreePool K Sset (2 * X / height K Sset g) z).mp hz
-  exact (by exact_mod_cast hn).trans hzr.2
+  have hnR : (v.val.absNorm : ℝ) ≤ (z.val.val.absNorm : ℝ) := by
+    exact_mod_cast hn
+  exact hnR.trans hzr.2
 
 theorem product_bounds (X : ℝ) (g : Ext) (v : overlapPool K S X g) :
     1 ≤ productHeight K S g (overlapIdeal K S X g v) ∧

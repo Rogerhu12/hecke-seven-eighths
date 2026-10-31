@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourcePartition
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMaskGeometry
 import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceMasks
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualDivisorSectors
+import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceColumns
 
 /-!
 # Actual Poisson divisors determine their reconstruction ideals and sectors
@@ -41,7 +42,7 @@ theorem maskIdeal_injective : Function.Injective (maskIdeal K S) := by
   intro δ ε h
   have hm := congrArg (fun I : Ideal (𝓞 K) => I.map (algebraMap (𝓞 K) OS)) h
   rw [maskIdeal_map, maskIdeal_map] at hm
-  have hf := congrArg normalizedFactors hm
+  have hf := congrArg UniqueFactorizationMonoid.normalizedFactors hm
   rw [IdealMobiusMask.normalizedFactors_primeProduct,
     IdealMobiusMask.normalizedFactors_primeProduct] at hf
   exact Finset.val_injective (Multiset.map_injective HeightOneSpectrum.asIdeal_injective hf)
@@ -79,6 +80,7 @@ theorem first_divisor_dvd_common_cube (n₁ n₂ b₁ b₂ : Ext)
   rw [principalIdeal_eq_common_mul_cube, commonResidualIdeal_eq_C] at hd
   apply hd.trans
   apply mul_dvd_mul_left
+  change cubePrincipalIdeal K S D n₁ n₂ b₁ b₂ ∣ (b₁.val * b₂.val).val.radical
   rw [radical_eq_primeProduct (b₁.val * b₂.val)]
   exact Finset.prod_dvd_prod_of_subset _ _
     (fun p : HeightOneSpectrum (𝓞 K) => p.asIdeal) Finset.filter_subset
@@ -86,7 +88,7 @@ theorem first_divisor_dvd_common_cube (n₁ n₂ b₁ b₂ : Ext)
 /-- The principal local generator is a deterministic function of the
 ordinary ideal, including for the actual mask divisors. -/
 def localGenerator (I : Ideal (𝓞 K)) : OS :=
-  (I.map (algebraMap (𝓞 K) OS)).generator
+  Submodule.IsPrincipal.generator (I.map (algebraMap (𝓞 K) OS))
 
 theorem localGenerator_actual (δ : Finset (HeightOneSpectrum OS)) :
     localGenerator K S (maskIdeal K S δ) = (sIntegerMaskGenerator K Sset δ).val := by

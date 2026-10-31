@@ -111,9 +111,10 @@ theorem fineCutoff_scaled_lower (x₁ x₂ : Ext)
       (pairExponent K S x₁ x₂ e e)).absNorm : ℝ)
   have ha : 0 < a := by
     exact mul_pos (mul_pos r.property (sIntegerElementNorm K Sset _).property)
-      (by exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors
-        (primitiveExterior K S (pairSupport K S D x₁ x₂ e e)
-          (pairExponent K S x₁ x₂ e e)).val)
+      (by
+        exact_mod_cast (Ideal.absNorm_pos_of_nonZeroDivisors
+          (primitiveExterior K S (pairSupport K S D x₁ x₂ e e)
+            (pairExponent K S x₁ x₂ e e)).val))
   have hb : a ≤ fineScale K S r X (common K Sset x₁ x₂) δ :=
     radius_denominator_le_fineScale K S D x₁ x₂ hx₁ hx₂ r X hX hx₁N hx₂N δ
   have hunit : 1 ≤ a⁻¹ * fineScale K S r X (common K Sset x₁ x₂) δ := by
@@ -148,7 +149,10 @@ theorem fineScale_le (r : {r : ℝ // 0 < r}) (X : ℝ)
       unfold fineScale
       ring
     _ ≤ 16 * ((r.val * (X / height K Sset g) ^ 2) *
-        (height K Sset g * height K Sset g)) := by gcongr
+        (height K Sset g * height K Sset g)) := by
+      exact mul_le_mul_of_nonneg_left
+        (mul_le_mul_of_nonneg_left hd
+          (mul_nonneg r.property.le (sq_nonneg _))) (by norm_num)
     _ = _ := by rw [he]; ring
 
 theorem actual_radius_lower (x₁ x₂ : Ext)

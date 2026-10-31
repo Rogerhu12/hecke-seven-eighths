@@ -81,7 +81,7 @@ def outerAnchor (T : FirstParentEnergy.Data K S (σ := σ))
 def cubeDilation (r₁ r₂ b₁ b₂ : Ext) : Ext :=
   CanonicalIdealRow.toExterior K S
     (CanonicalCubeLabels.dilation K S b₁ b₂
-      (ConductorMasks.squarefreeBit K S r₁) (ConductorMasks.squarefreeBit K S r₂))
+      (CanonicalConductor.squarefreeBit K S r₁) (CanonicalConductor.squarefreeBit K S r₂))
 
 /-- This is an equality of the actual ideals used in the two source
 constructions, not a fresh character or orbit identification premise. -/
@@ -95,10 +95,10 @@ theorem firstRow_eq (r₁ r₂ b₁ b₂ f z : Ext) :
   rw [CanonicalSectorRows.firstRowIdeal_val]
   change z.val.val * f.val.val ^ 2 *
       (CanonicalCubeLabels.dilation K S b₁ b₂
-        (ConductorMasks.squarefreeBit K S r₁) (ConductorMasks.squarefreeBit K S r₂)).val.val =
+        (CanonicalConductor.squarefreeBit K S r₁) (CanonicalConductor.squarefreeBit K S r₂)).val.val =
     f.val.val ^ 2 *
       (CanonicalCubeLabels.dilation K S b₁ b₂
-        (ConductorMasks.squarefreeBit K S r₁) (ConductorMasks.squarefreeBit K S r₂)).val.val * z.val.val
+        (CanonicalConductor.squarefreeBit K S r₁) (CanonicalConductor.squarefreeBit K S r₂)).val.val * z.val.val
   ring
 
 def sourceRows (L : Finset Ext) (H : ℝ) : Finset (FirstCanonicalLabel.SourcePair K S Γ) :=

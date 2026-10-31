@@ -36,16 +36,16 @@ local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
 
 def firstTriple (r₁ r₂ b₁ b₂ e : Ext) : OuterTriple K :=
   ⟨(CanonicalCubeLabels.q0 K S b₁ b₂
-    (ConductorMasks.squarefreeBit K S r₁) (ConductorMasks.squarefreeBit K S r₂)).val.val,
+    (CanonicalConductor.squarefreeBit K S r₁) (CanonicalConductor.squarefreeBit K S r₂)).val.val,
     e.val.val, 1⟩
 
 def retainedLabel (r₁ r₂ b₁ b₂ : Ext) : E :=
   commonFactor K S r₁ r₂ b₁ b₂ * CanonicalCubeLabels.J K S b₁ b₂
-    (ConductorMasks.squarefreeBit K S r₁) (ConductorMasks.squarefreeBit K S r₂)
+    (CanonicalConductor.squarefreeBit K S r₁) (CanonicalConductor.squarefreeBit K S r₂)
 
 def firstRow (r₁ r₂ b₁ b₂ : Ext) (f z : E) : E :=
   z * f ^ 2 * CanonicalCubeLabels.dilation K S b₁ b₂
-    (ConductorMasks.squarefreeBit K S r₁) (ConductorMasks.squarefreeBit K S r₂)
+    (CanonicalConductor.squarefreeBit K S r₁) (CanonicalConductor.squarefreeBit K S r₂)
 
 variable (hallowed : AllowedGeneratorInput K (S : Set (HeightOneSpectrum (𝓞 K))) D)
 
@@ -68,7 +68,7 @@ theorem fixed_live_coprime (ν G : HeckeCharacter K)
     IsCoprime u.val.val (b₁.val.val * b₂.val.val) ∧
       IsCoprime u.val.val (commonFactor K S r₁ r₂ b₁ b₂).val.val := by
   have hq : IsCoprime u.val.val (CanonicalCubeLabels.q0 K S b₁ b₂
-      (ConductorMasks.squarefreeBit K S r₁) (ConductorMasks.squarefreeBit K S r₂)).val.val := by
+      (CanonicalConductor.squarefreeBit K S r₁) (CanonicalConductor.squarefreeBit K S r₂)).val.val := by
     by_contra hc
     apply hlive
     simp only [fixedSectorCoefficient, fixedMultiplierCoefficient, fixedInverseCoefficient,
@@ -84,14 +84,14 @@ theorem fixed_live_coprime (ν G : HeckeCharacter K)
   have hlabel := symbol_generator_live K S D hallowed u _ hj
   change IsCoprime u.val.val
     ((commonFactor K S r₁ r₂ b₁ b₂).val.val *
-      (CanonicalCubeLabels.J K S b₁ b₂ (ConductorMasks.squarefreeBit K S r₁)
-        (ConductorMasks.squarefreeBit K S r₂)).val.val) at hlabel
+      (CanonicalCubeLabels.J K S b₁ b₂ (CanonicalConductor.squarefreeBit K S r₁)
+        (CanonicalConductor.squarefreeBit K S r₂)).val.val) at hlabel
   have hJ := hlabel.of_mul_right_right
   rw [CanonicalCubeLabels.q0_val] at hq
   rw [CanonicalCubeLabels.J_val, CubeLabels.J_eq_s_mul_J2] at hJ
   refine ⟨?_, hlabel.of_mul_right_left⟩
   rw [CubeLabels.actual_cube_decomposition b₁.val b₂.val
-    (ConductorMasks.squarefreeBit K S r₁) (ConductorMasks.squarefreeBit K S r₂)]
+    (CanonicalConductor.squarefreeBit K S r₁) (CanonicalConductor.squarefreeBit K S r₂)]
   exact (hq.pow_right.mul_right hJ.of_mul_right_right.pow_right).mul_right
     hJ.of_mul_right_left
 
@@ -138,15 +138,15 @@ variable {σ : Type*} [DecidableEq σ]
 theorem original_marks_on_coprime (slots : Finset σ)
     (lists : σ → Finset (Ideal (𝓞 K))) (a : σ → Ideal (𝓞 K) → ℂ)
     (hprime : ∀ i ∈ slots, ∀ p ∈ lists i, Prime p)
-    (E n : Ideal (𝓞 K)) (hc : IsCoprime n E) :
-    divisorMark slots (residualDivisorLists E lists) a n = divisorMark slots lists a n := by
+    (I₀ n : Ideal (𝓞 K)) (hc : IsCoprime n I₀) :
+    divisorMark slots (residualDivisorLists I₀ lists) a n = divisorMark slots lists a n := by
   unfold divisorMark
   apply Finset.prod_congr rfl
   intro i hi
-  change (∑ p ∈ (lists i).filter (fun p => ¬p ∣ E), if p ∣ n then a i p else 0) = _
+  change (∑ p ∈ (lists i).filter (fun p => ¬p ∣ I₀), if p ∣ n then a i p else 0) = _
   apply Finset.sum_subset (Finset.filter_subset _ _)
   intro p hp hnot
-  have hE : p ∣ E := by
+  have hE : p ∣ I₀ := by
     by_contra h
     exact hnot (Finset.mem_filter.mpr ⟨hp, h⟩)
   have hn : ¬p ∣ n := fun hd => (hprime i hi p hp).not_unit (hc.isUnit_of_dvd' hd hE)
@@ -164,6 +164,7 @@ theorem bareCoefficient_eq (C : CanonicalBlock.ColumnData K S σ) (G : HeckeChar
         (if IsCoprime u.val.val C.puncture then 1 else 0) *
         (if IsCoprime u.val.val e.val.val then 1 else 0) *
         divisorMark (C.slots \ J) C.primeLists C.primeWeights u.val.val := by
+  cases Subsingleton.elim ‹DecidableEq σ› (Classical.typeDecidableEq σ)
   have hmask := childPuncture_mask C.puncture u.val.val (firstTriple K S r₁ r₂ b₁ b₂ e)
   simp only [idealCoprimeMask, firstTriple, isCoprime_one_right, if_true, mul_one] at hmask
   unfold FirstCompleteFamily.bareCoefficient
@@ -238,7 +239,9 @@ theorem source_sum_complete (C : CanonicalBlock.ColumnData K S σ)
           (FirstNormPoolEnergy.residualScale K S X r₁ r₂ b₁ b₂ side).val
           with e.val.val ∣ u.val.val,
         movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ u.val * P u.val := by
-  rw [sum_sideDomain K S D X r₁ r₂ b₁ b₂ side]
+  rw [sum_sideDomain K S D X r₁ r₂ b₁ b₂ side
+    (fun n : (Ideal (𝓞 K))⁰ => if e.val.val ∣ n.val then
+      movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ n * P n else 0)]
   unfold residualPool
   simp only [Finset.sum_filter]
   apply Finset.sum_congr rfl
@@ -361,8 +364,12 @@ theorem first_column_eq_branches (C : CanonicalBlock.ColumnData K S σ)
             (quotientScale K S X r₁ r₂ b₁ b₂ side e) := by
   let Y := (FirstNormPoolEnergy.residualScale K S X r₁ r₂ b₁ b₂ side).val
   have hY : 0 < Y := (FirstNormPoolEnergy.residualScale K S X r₁ r₂ b₁ b₂ side).property
-  rw [source_sum_complete K S D Γ hallowed C G X r₁ r₂ b₁ b₂ side f z d ξ e,
-    sum_dyadic_multiples K S Y e he]
+  rw [source_sum_complete K S D Γ hallowed C G X r₁ r₂ b₁ b₂ side f z d ξ e
+    (fun n : (Ideal (𝓞 K))⁰ => CommonKernel.columnPhase τ
+      (Real.log ((n.val.absNorm : ℝ) / Y))),
+    sum_dyadic_multiples K S Y e he
+      (fun u : Ext => movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ u.val *
+        CommonKernel.columnPhase τ (Real.log (height K Sset u / Y)))]
   simp only [Finset.sum_filter]
   calc
     _ = ∑ u ∈ dyadicPool K Sset (Y / height K Sset e),

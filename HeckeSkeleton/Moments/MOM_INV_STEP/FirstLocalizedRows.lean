@@ -41,35 +41,37 @@ local notation "Ext" => ExteriorIdeal K Sset
 
 def aNorm (r₁ r₂ b₁ b₂ : Ext) (side : Bool) : ℝ :=
   ((CanonicalCubeLabels.A K S b₁ b₂
-    (ConductorMasks.squarefreeBit K S (sourceIdeal K S r₁ r₂ side))).val.val.absNorm : ℝ)
+    (CanonicalConductor.squarefreeBit K S (sourceIdeal K S r₁ r₂ side))).val.val.absNorm : ℝ)
 
 def commonNorm (r₁ r₂ b₁ b₂ : Ext) : ℝ :=
   height K Sset (commonIdeal K S r₁ r₂ b₁ b₂)
 
 def labelNorm (r₁ r₂ b₁ b₂ : Ext) : ℝ :=
   ((CanonicalCubeLabels.J K S b₁ b₂
-    (ConductorMasks.squarefreeBit K S r₁)
-    (ConductorMasks.squarefreeBit K S r₂)).val.val.absNorm : ℝ)
+    (CanonicalConductor.squarefreeBit K S r₁)
+    (CanonicalConductor.squarefreeBit K S r₂)).val.val.absNorm : ℝ)
 
 theorem aNorm_pos (r₁ r₂ b₁ b₂ : Ext) (side : Bool) :
     0 < aNorm K S r₁ r₂ b₁ b₂ side := by
-  exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors
+  unfold aNorm
+  exact_mod_cast (Ideal.absNorm_pos_of_nonZeroDivisors
     (CanonicalCubeLabels.A K S b₁ b₂
-      (ConductorMasks.squarefreeBit K S (sourceIdeal K S r₁ r₂ side))).val
+      (CanonicalConductor.squarefreeBit K S (sourceIdeal K S r₁ r₂ side))).val)
 
 theorem commonNorm_pos (r₁ r₂ b₁ b₂ : Ext) : 0 < commonNorm K S r₁ r₂ b₁ b₂ :=
   height_pos K Sset (commonIdeal K S r₁ r₂ b₁ b₂)
 
 theorem labelNorm_pos (r₁ r₂ b₁ b₂ : Ext) : 0 < labelNorm K S r₁ r₂ b₁ b₂ := by
-  exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors
+  unfold labelNorm
+  exact_mod_cast (Ideal.absNorm_pos_of_nonZeroDivisors
     (CanonicalCubeLabels.J K S b₁ b₂
-      (ConductorMasks.squarefreeBit K S r₁) (ConductorMasks.squarefreeBit K S r₂)).val
+      (CanonicalConductor.squarefreeBit K S r₁) (CanonicalConductor.squarefreeBit K S r₂)).val)
 
 theorem extracted_norm (r₁ r₂ b₁ b₂ : Ext) (side : Bool) :
     ((extractedFactor K S r₁ r₂ b₁ b₂ side).val.val.absNorm : ℝ) =
       aNorm K S r₁ r₂ b₁ b₂ side * commonNorm K S r₁ r₂ b₁ b₂ := by
   change (((CanonicalCubeLabels.A K S b₁ b₂
-    (ConductorMasks.squarefreeBit K S (sourceIdeal K S r₁ r₂ side))).val.val *
+    (CanonicalConductor.squarefreeBit K S (sourceIdeal K S r₁ r₂ side))).val.val *
       (commonIdeal K S r₁ r₂ b₁ b₂).val.val).absNorm : ℝ) = _
   simp only [map_mul, Nat.cast_mul, aNorm, commonNorm, height]
 

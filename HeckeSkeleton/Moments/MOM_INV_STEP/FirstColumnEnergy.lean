@@ -55,11 +55,11 @@ theorem fixedSectorCoefficient_norm_le_one (ν G : HeckeCharacter K)
   have hν := norm_heckeIdealCoefficient_le_one K ν u.val
   have hG := norm_heckeIdealCoefficient_le_one K G u.val
   have hmask : ‖(if IsCoprime u.val.val (CanonicalCubeLabels.q0 K S b₁ b₂
-      (ConductorMasks.squarefreeBit K S r₁) (ConductorMasks.squarefreeBit K S r₂)).val.val
+      (CanonicalConductor.squarefreeBit K S r₁) (CanonicalConductor.squarefreeBit K S r₂)).val.val
       then (1 : ℂ) else 0)‖ ≤ 1 := by split_ifs <;> norm_num
   have hlabel : ‖idealSymbol K Sset D u (CanonicalIdealRow.generator K S D
       (commonFactor K S r₁ r₂ b₁ b₂ * CanonicalCubeLabels.J K S b₁ b₂
-        (ConductorMasks.squarefreeBit K S r₁) (ConductorMasks.squarefreeBit K S r₂))) ^ 4‖ ≤ 1 := by
+        (CanonicalConductor.squarefreeBit K S r₁) (CanonicalConductor.squarefreeBit K S r₂))) ^ 4‖ ≤ 1 := by
     rw [norm_pow]
     exact pow_le_one₀ (norm_nonneg _) (hs _)
   unfold fixedSectorCoefficient fixedMultiplierCoefficient fixedInverseCoefficient

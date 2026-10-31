@@ -45,7 +45,7 @@ theorem overlap_nonzero (X : {r : ℝ // 0 < r}) (r₁ r₂ b₁ b₂ : Ext) (si
 theorem overlap_squarefree (X : {r : ℝ // 0 < r}) (r₁ r₂ b₁ b₂ : Ext) (side : Bool)
     (e : Ideal (𝓞 K)) (he : e ∈ overlapPool K S X r₁ r₂ b₁ b₂ side) : Squarefree e := by
   obtain ⟨U,hU,heU⟩ := overlap_exists_source K S X r₁ r₂ b₁ b₂ side e he
-  exact (squarefree_primeProduct U).of_dvd heU
+  exact (squarefree_primeProduct U).squarefree_of_dvd heU
 
 include D in
 theorem overlap_outside (X : {r : ℝ // 0 < r}) (r₁ r₂ b₁ b₂ : Ext) (side : Bool)
@@ -73,7 +73,9 @@ theorem overlap_norm_le (X : {r : ℝ // 0 < r}) (r₁ r₂ b₁ b₂ : Ext) (si
   have hn : e.absNorm ≤ (primeProduct U).absNorm :=
     Nat.le_of_dvd (Ideal.absNorm_pos_of_nonZeroDivisors (nonzeroProduct U))
       (Ideal.absNorm_dvd_absNorm_of_le (Ideal.dvd_iff_le.mp heU))
-  exact (by exact_mod_cast hn).trans
+  have hnR : (e.absNorm : ℝ) ≤ ((primeProduct U).absNorm : ℝ) := by
+    exact_mod_cast hn
+  exact hnR.trans
     (domain_height_window K S D X r₁ r₂ b₁ b₂ side U hU).2
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstMobiusGeometry

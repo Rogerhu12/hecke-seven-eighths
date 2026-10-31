@@ -156,8 +156,8 @@ def firstLabel : Ext := CanonicalIdealRow.toExterior K S
 
 theorem firstLabel_val : B.firstLabel.val.val = B.firstCommon * B.cubeJ := by
   change B.firstCommon * (CanonicalCubeLabels.J K S B.b₁ B.b₂
-    (ConductorMasks.squarefreeBit K S B.refs.1)
-    (ConductorMasks.squarefreeBit K S B.refs.2)).val.val = _
+    (CanonicalConductor.squarefreeBit K S B.refs.1)
+    (CanonicalConductor.squarefreeBit K S B.refs.2)).val.val = _
   rw [CanonicalCubeLabels.J_val]
   rfl
 

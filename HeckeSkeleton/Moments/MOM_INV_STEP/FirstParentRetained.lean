@@ -14,10 +14,10 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRetained
 
-open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
+open NumberField IsDedekindDomain UniqueFactorizationMonoid HeckeGeneral.Arithmetic HeckeGeneral.Characters
   HeckeGeneral.Analysis HeckeGeneral.Bridge HeckeGeneral.ThetaSkeleton
   HeckeGeneral.ThetaSkeleton.Global MeasureTheory
-open PrimitivePoissonSource FirstSourceColumns FirstSourceFrozen CanonicalFirstEnergy
+open CanonicalBlock PrimitivePoissonSource FirstSourceColumns FirstSourceFrozen CanonicalFirstEnergy
   FirstPoissonNormalization FirstSourcePartition FirstDualTruncation CanonicalPoissonSplit
 open scoped Classical BigOperators ComplexConjugate nonZeroDivisors
 
