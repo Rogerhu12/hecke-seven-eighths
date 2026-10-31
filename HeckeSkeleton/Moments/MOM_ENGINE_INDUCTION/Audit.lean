@@ -19,14 +19,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ScheduleCompatibility
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceConsumers
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.LengthStages
-
-/-!
-# Recursive axiom audit for paired-moment induction
-
-Every explicit public declaration in the clean task modules is printed.
-Actual-source adapters and their upstream type dependencies are audited
-separately by the source-integration gate.
--/
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseUniformity
 
 -- Order
 #print axioms HeckeSkeleton.Moments.EngineInduction.State
@@ -352,3 +345,11 @@ separately by the source-integration gate.
 #print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.withLengthStages
 #print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.zero_comparison_earlier
 #print axioms HeckeSkeleton.Moments.EngineInduction.moment_mesh_comparison_margins
+
+-- BaseUniformity
+#print axioms HeckeSkeleton.Moments.EngineInduction.baseHeightDegree
+#print axioms HeckeSkeleton.Moments.EngineInduction.baseHeightDegree_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.plainAbsoluteConstant_height
+#print axioms HeckeSkeleton.Moments.EngineInduction.uniformBaseConstant_height_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.uniformSlotAbsoluteConstant_height_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.uniform_polynomial_height_base_components

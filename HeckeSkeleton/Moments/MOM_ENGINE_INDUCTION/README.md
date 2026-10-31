@@ -229,6 +229,13 @@ character, scale and phase, using a common profile supremum and slot-count
 cap. The actual `restrictSlots` operation preserves that cap. A width or
 upper mesh bound alone is not used to infer a bound on the number of slots.
 
+`BaseUniformity.lean` propagates actual profile bounds
+`B_j * (1+T)^H_j` through these explicit constants. The resulting height
+degree is `2*H1 + 2*H2 + 2*cap*Hslots`, with one coefficient chosen before
+the height, all nodes, characters, scales and phases. It constructs the
+same actual base terminal components, without assuming a moment estimate
+or replacing the recursive profile controls owned by MOM_UNIFORM.
+
 `ExceptionalCounting.lean` uses actual nonzero ideals and a finite sector
 coordinate. An exact classification `u = h₀ * a^6`, injective in
 `(sector, row ideal)`, gives an injective encoding by `(sector, a)`. For

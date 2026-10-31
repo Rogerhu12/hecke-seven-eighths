@@ -386,6 +386,7 @@ theorem slotProduct_sq_uniform_absolute_bound (cap : ℕ) (B : ℝ) (hB : 0 ≤ 
   have hD : 1 ≤ D := le_max_left _ _
   have hp := (Classical.choose_spec
     (HeckeGeneral.ThetaSkeleton.Physical.exists_norm_primePolynomial_absolute_bound K)).2
+      (ω := ω) (ψ := ψ)
   have hi (i : Fin d.geometry.slotCount) :
       ‖primePolynomial d i u U t‖ ^ 2 ≤ D ^ 2 * U ^ (d.geometry.slots i).length := by
     have hprime : ‖primePolynomial d i u U t‖ ≤ D * Real.sqrt (U ^ (d.geometry.slots i).length) :=

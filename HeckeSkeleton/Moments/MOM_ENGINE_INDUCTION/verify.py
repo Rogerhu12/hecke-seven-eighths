@@ -28,7 +28,7 @@ MODULES = (
     "RootNormalization", "KernelReduction", "LogNormProfiles",
     "SourceData", "SourceAdapter", "ScheduleCompatibility",
     "BaseTerminal", "SourceConsumers",
-    "LengthStages",
+    "LengthStages", "BaseUniformity",
 )
 SOURCE_MODULES = ("SkeletonFamily", "SkeletonSource")
 EXCLUDED = {name + ".lean" for name in SOURCE_MODULES}
@@ -85,6 +85,8 @@ REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.uniform_absolute_base_components",
     "HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_earlier_of_lengths",
     "HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.positive_comparison_earlier",
+    "HeckeSkeleton.Moments.EngineInduction.uniformBaseConstant_height_le",
+    "HeckeSkeleton.Moments.EngineInduction.uniform_polynomial_height_base_components",
 }
 
 

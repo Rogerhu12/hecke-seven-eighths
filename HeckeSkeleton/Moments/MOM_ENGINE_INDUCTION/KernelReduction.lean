@@ -356,6 +356,7 @@ theorem linearized_estimate (d : CommonKernelReduction S U t Ω) (hU : 0 < U)
     integral_kernelWeightedMeasure (d.kernel x) (weight := d.weight x)
       (d.weight_measurable x) (d.weight_nonneg hU x)
       (fun ξ => (S.node (d.right x ξ)).normalizedEnergy U t)]
+  rfl
 
 /-- Construct the continuous recursion on the unchanged, actual polynomial
 system.  The raw source remainder is normalized by the actual parent width. -/
