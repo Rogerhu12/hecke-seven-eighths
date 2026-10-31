@@ -7,6 +7,11 @@ import HeckeSkeleton.ExpansionModels.SourceData
 import HeckeSkeleton.ExpansionModels.ActualRowEligibility
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorReindex
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceProfileControl
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceReindex
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerRecipe
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.AmplificationSource
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.WitnessSource
 
 /-! Exploratory actual I/P pipeline, revised §§4–5 and §7.
 This file intentionally contains named admissions. None is native verified.
@@ -142,13 +147,12 @@ theorem moment_row_eligibility
   exact actualRecipeRowEligibility K c
 
 -- OBLIGATION MI-M-PROFILE-UNIFORMITY | Lemma4.12,Prop4.14,pp33–35.
--- COARSE: must further split mixed Sobolev derivatives/locality/backward
--- finite-order propagation; this endpoint does not claim that pointwise
--- testSeminorm control alone establishes those stronger properties.
+-- Actual dyadic inverse/plain profiles and selected prime windows, with
+-- all independent unmarked scales and the same physical parameter box.
 theorem moment_profile_control
     (hcal : SourcePolynomialCalibration (momentRowCharacters K c) (momentModels K c)) :
     WholeMomentProfileControl (momentModels K c) := by
-  sorry
+  exact Moments.UniformAmplify.actual_source_profile_control K c
 
 /-- Actual allowed-symbol quadratic sieve, with arbitrary independent
 column coefficients and common-prime zeros. -/
@@ -258,7 +262,7 @@ theorem canonical_inverse_models
 theorem inverse_sixth_power_masks
     (hcal : SourcePolynomialCalibration (momentRowCharacters K c) (momentModels K c)) :
     SixthPowerMaskIdentity (momentModels K c) := by
-  sorry
+  exact Moments.UniformAmplify.recipeMomentModels_sixthPowerMasks (expansionRecipeRaw K c)
 
 -- OBLIGATION MI-I-INDEPENDENT-AMPLIFICATION | Lemma5.1,pp35–36.
 -- Includes multiplier ideal count and injective(u,a)->u*a^6. U,D and the
@@ -268,11 +272,12 @@ theorem inverse_independent_amplification
     (hmask : SixthPowerMaskIdentity (momentModels K c))
     (hprofiles : WholeMomentProfileControl (momentModels K c)) :
     AmplifiedIndependentMomentBound (momentModels K c) := by
-  sorry
+  exact Moments.UniformAmplify.recipe_inverse_independent_amplification
+    (expansionRecipeRaw K c) hmi.unmarked_strict
 
 -- OBLIGATION MI-I-AMPLIFIED-WITNESS-CALIBRATION | (5.4),(7.6),pp36,43.
--- COARSE scale/height bridge: choose a and preliminary epsilon from the
--- fixed bounded witness lengths/loss; retain the true row-local profiles.
+-- Choose the preliminary strict margin and epsilon from the actual
+-- bounded witness lengths/loss, retaining the row-local profiles.
 theorem inverse_amplified_witness_models
     (hamp : AmplifiedIndependentMomentBound (momentModels K c))
     (hcal : SourcePolynomialCalibration (momentRowCharacters K c) (momentModels K c))
@@ -282,7 +287,7 @@ theorem inverse_amplified_witness_models
       (fun _ _ i => amplifiedModelEnergy (momentModels K c) i)
       (fun _ _ i => amplifiedInverseExponent (momentWitness i).inverseLength)
       (fun _ _ _ => True) := by
-  sorry
+  exact Moments.UniformAmplify.actual_inverse_amplified_witness_models hamp
 
 /-- These are inequalities for the ACTUAL selected finite prime products,
 not arbitrary sublists in P. At kappa1 no zero-free premise is supplied. -/
@@ -365,7 +370,7 @@ abbrev physicalUnmarkedEnergy {Z T} (i : SourceMomentIndex K c Z T) : ℝ :=
 
 variable (K c)
 -- OBLIGATION MI-M-FINITE-SECTOR-REINDEX | §4.1,§7.1,pp16–18,43.
--- COARSE finite-sum plumbing only. Uses actual pointwise calibration,
+-- Uses actual pointwise calibration,
 -- original pairedRows eligibility and injective(ideal,sector), no final
 -- energy estimate. All sectors are summed rather than discarded.
 theorem moment_finite_sector_reindex
@@ -375,31 +380,8 @@ theorem moment_finite_sector_reindex
       physicalInverseEnergy i ≤ markedModelEnergy (momentModels K c) i ∧
       physicalPlainEnergy i ≤ pairedModelEnergy (momentModels K c) i ∧
       physicalUnmarkedEnergy i ≤ amplifiedModelEnergy (momentModels K c) i := by
-  letI : Fintype (SixthUnitClasses K
-      ((targetData K c).S : Set (HeightOneSpectrum (𝓞 K)))) := Fintype.ofFinite _
-  intro Z T i
-  refine ⟨?_, ?_, ?_⟩
-  · exact Moments.UniformAmplify.inverse_finite_sector_reindex
-      (momentWitness i).rows (fun u => u.ideal.val) (fun u => u.sector)
-      (inverseModel (momentModels K c) i) (inverseParameters i) (momentBase i) 0
-      (momentWitness i).inverseValue
-      (fun u => ∏ j ∈ i.selected, (momentAmplitude i).slotValue j u)
-      hrows.fiber (fun u hu => by
-        simpa only [inverseParameters, Real.rpow_one] using hrows.inverse_rows Z T i u hu)
-      (hcal.inverse Z T i) (hcal.inverse_slots Z T i)
-  · exact Moments.UniformAmplify.paired_finite_sector_reindex
-      (momentWitness i).rows (fun u => u.ideal.val) (fun u => u.sector)
-      (pairedModel (momentModels K c) i) (pairedParameters i) (momentBase i) 0
-      (momentWitness i).plainValue
-      (fun u => ∏ j ∈ i.selected, (momentAmplitude i).slotValue j u)
-      hrows.fiber (hrows.paired_rows Z T i)
-      (hcal.plain₁ Z T i) (hcal.plain₂ Z T i) (hcal.paired_slots Z T i)
-  · exact Moments.UniformAmplify.unmarked_finite_sector_reindex
-      (momentWitness i).rows (fun u => u.ideal.val) (fun u => u.sector)
-      (unmarkedModel (momentModels K c) i) (momentBase i)
-      ((momentBase i) ^ (momentWitness i).inverseLength) 0
-      (momentWitness i).inverseValue hrows.fiber
-      (hrows.unmarked_rows Z T i) (hcal.unmarked Z T i)
+  exact Moments.UniformAmplify.source_moment_finite_sector_reindex
+    (momentModels K c) hcal hrows
 
 variable {K c}
 

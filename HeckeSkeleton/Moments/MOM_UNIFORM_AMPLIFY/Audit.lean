@@ -7,6 +7,11 @@ import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceGeometry
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.Eligibility
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerMasks
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.IndependentAmplification
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceProfileControl
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceActualReindex
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.AmplificationSource
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.WitnessSource
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileEuler
 import Lean.Elab.Command
 import Lean.Util.CollectAxioms
 
@@ -33,7 +38,12 @@ run_cmd do
     `HeckeSkeleton.Moments.UniformAmplify.decomposedZeroSlotMomentData_sixthPowerMasks,
     `HeckeSkeleton.Moments.UniformAmplify.actual_witness_energy,
     `HeckeSkeleton.Moments.UniformAmplify.witness_bound_of_independent_bound,
-    `HeckeSkeleton.Moments.UniformAmplify.uniform_witness_calibration]
+    `HeckeSkeleton.Moments.UniformAmplify.uniform_witness_calibration,
+    `HeckeSkeleton.Moments.UniformAmplify.actual_source_profile_control,
+    `HeckeSkeleton.Moments.UniformAmplify.source_moment_finite_sector_reindex,
+    `HeckeSkeleton.Moments.UniformAmplify.recipeMomentModels_sixthPowerMasks,
+    `HeckeSkeleton.Moments.UniformAmplify.recipe_inverse_independent_amplification,
+    `HeckeSkeleton.Moments.UniformAmplify.actual_inverse_amplified_witness_models]
   for name in required do
     unless names.contains name do
       throwError "Missing task theorem: {name}"
