@@ -155,9 +155,11 @@ theorem overlapZero_eq (i : Idx) :
     ‖SecondColumnEnergy.overlapZero K S (common K S D Γ X H i)
       (FirstInversePoisson.unitIdeal K S) (overlap K S D Γ X H i)‖ =
       if live K S D Γ X H i then 1 else 0 := by
-  by_cases hi : live K S D Γ X H i <;>
-    simp [SecondColumnEnergy.overlapZero, FirstInversePoisson.unitIdeal,
-      idealCoprimeMask, live, hi] at *
+  simp only [SecondColumnEnergy.overlapZero, FirstInversePoisson.unitIdeal_val,
+    mul_one, idealCoprimeMask, live]
+  by_cases hi : IsCoprime (overlap K S D Γ X H i).val.val (common K S D Γ X H i).val.val
+  · simp only [if_pos hi, norm_one]
+  · simp only [if_neg hi, norm_zero]
 
 section Marks
 
@@ -191,11 +193,11 @@ theorem tuple_valid (i : Idx) (q : choices K S D Γ X H J lists hprime i) :
   refine ⟨rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, rfl, ?_, ?_⟩
   · simp [tuple, newLabel]
   · simp [tuple]
-  · simp [tuple, outer]
+  · simp [tuple, outer, Ideal.top_pow, Ideal.top_mul]
   · simp [tuple]
   · simp [tuple]
   · simp [tuple]
-  · simpa only [tuple, if_pos rfl, outer] using common_factorization K S D Γ X H i
+  · simpa only [tuple, if_pos rfl, ite_true, outer] using common_factorization K S D Γ X H i
   · simp [tuple, newRow]
   · intro j
     exact Fin.elim0 j
@@ -211,10 +213,7 @@ theorem tuple_valid (i : Idx) (q : choices K S D Γ X H J lists hprime i) :
 theorem tuple_child (i : Idx) (q : choices K S D Γ X H J lists hprime i) :
     secondChild (sectorTransport K S D Γ) (tuple K S D Γ X H J lists hprime i q) =
       child K S D Γ X H i := by
-  apply Prod.ext rfl
-  apply Prod.ext
-  · simp [secondChild, tuple, child, newLabel]
-  · simp [secondChild, tuple, child, newRow]
+  simp [secondChild, tuple, child, newLabel, newRow]
 
 /-- Recover the actual sigma source from its four arithmetic components. -/
 theorem index_ext (i j : Idx)
@@ -230,8 +229,11 @@ theorem index_ext (i j : Idx)
   have hd' : di = dj := Subtype.ext (ActualMaskReconstruction.maskIdeal_injective K S hd)
   cases hd'
   have hk' : ki = kj := by
+    change (ki.val.1.val.val, ki.val.2) = (kj.val.1.val.val, kj.val.2) at hk
+    have hkIdeal := congrArg (fun p : Ideal (𝓞 K) × Sector => p.1) hk
+    have hkSector := congrArg (fun p : Ideal (𝓞 K) × Sector => p.2) hk
     apply Subtype.ext
-    exact Prod.ext (Subtype.ext (Subtype.ext (congrArg Prod.fst hk))) (congrArg Prod.snd hk)
+    exact Prod.ext (Subtype.ext (Subtype.ext hkIdeal)) hkSector
   cases hk'
   have hv' : vi = vj := Subtype.ext hv
   cases hv'
@@ -247,7 +249,7 @@ theorem expandedTuple_injective (P : Finset Idx) :
     apply Subtype.ext
     apply index_ext K S D Γ X H
     · exact congrArg SecondTuple.extractedCommon h
-    · simpa only [expandedTuple, tuple, if_pos rfl] using
+    · simpa only [expandedTuple, tuple, if_pos rfl, ite_true] using
         congrArg (fun q : SecondTuple K Sector 0 (J.card + J.card) => q.core 2) h
     · exact congrArg SecondTuple.frequency h
     · exact congrArg SecondTuple.commonResidual h
@@ -272,10 +274,14 @@ theorem originalSource_eq (P : Finset Idx) :
     originalSource (source K S D Γ X H J lists hprime P)
       (noLists K) (doubledLists K J lists hprime) (fun _ => True) =
         source K S D Γ X H J lists hprime P := by
-  apply Finset.filter_eq_self.mpr
-  intro x hx
+  classical
+  ext x
+  simp only [originalSource, Finset.mem_filter]
+  constructor
+  · exact fun h => h.1
+  intro hx
   obtain ⟨q, hq, rfl⟩ := Finset.mem_image.mp hx
-  refine ⟨fun j => Fin.elim0 j, ?_, trivial⟩
+  refine ⟨Finset.mem_image.mpr ⟨q, hq, rfl⟩, fun j => Fin.elim0 j, ?_, trivial⟩
   intro j
   exact (pairedAssignment_source PL _ q.2.val q.2.property j).1
 
@@ -290,7 +296,7 @@ variable (slotCap : ℕ) (hcap : J.card ≤ slotCap)
 /-- The actual one-pass packet inherits the independently proved fiber
 count, with no assumed source energy or terminal estimate. -/
 def packet (P : Finset Idx) :
-    ReconstructionPacket (K := K) (Sector := Sector) (sectorTransport K S D Γ)
+    ReconstructionPacket (K := K) (sectorTransport K S D Γ)
       slotCap 0 (J.card + J.card) where
   source := source K S D Γ X H J lists hprime P
   oldLists := noLists K

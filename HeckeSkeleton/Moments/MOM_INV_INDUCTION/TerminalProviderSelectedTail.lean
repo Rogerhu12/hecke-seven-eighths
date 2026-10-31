@@ -86,8 +86,10 @@ theorem atom_summable
     exact (mul_le_mul_of_nonneg_left hi
       (show 0 ≤ ‖inactiveWeight K S f‖ * (C * testSeminorm V.toFun (kernelOrder K 2) 2)
         by positivity)).trans_eq (by dsimp only [B]; ring)
-  exact Summable.of_norm ((column_mass_summable K S).mul_left B |>.of_nonneg_of_le
-    (fun _ => norm_nonneg _) hb)
+  have hnorm : Summable (fun cb : Ext × Ext =>
+      ‖GeneralReflectedEnergy.atom K S D f s F θ V.toFun (Z ^ Nstar) k P cb.1 cb.2‖) :=
+    ((column_mass_summable K S).mul_left B).of_nonneg_of_le (fun _ => norm_nonneg _) hb
+  exact hnorm.of_norm
 
 theorem norm_bound
     (F : FiniteMellinData K S) (θ : HeckeCharacter K)

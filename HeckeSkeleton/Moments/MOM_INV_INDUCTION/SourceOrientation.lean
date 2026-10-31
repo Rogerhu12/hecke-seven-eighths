@@ -53,7 +53,7 @@ theorem hecke_coefficient_inverse_eq_conj (χ : HeckeCharacter K) (I : NonzeroId
 theorem directed_coefficient_conjugate (χ : HeckeCharacter K)
     (I : NonzeroIdeal K) (e : ℤ) :
     heckeIdealCoefficient K χ I ^ (-e) = conj (heckeIdealCoefficient K χ I ^ e) := by
-  rw [map_zpow, ← hecke_coefficient_inverse_eq_conj, inv_zpow, zpow_neg]
+  rw [map_zpow₀, ← hecke_coefficient_inverse_eq_conj, inv_zpow, zpow_neg]
 
 /-- Only the inverse factor is conjugated. The row character, actual
 prime slots, complete row pool and common zero mask are unchanged. -/
@@ -89,6 +89,7 @@ theorem conjugateInverseModel_polynomial (d : MomentData K ω ψ)
     map_mul, map_sum, map_inv₀, map_intCast, Complex.conj_ofReal,
     heckeIdealCoefficient_inv, directed_coefficient_conjugate, source_mask_conjugate,
     maskValue]
+  simp only [apply_ite, map_one, map_zero]
 
 @[simp] theorem conjugateInverseModel_slots (d : MomentData K ω ψ)
     (u : NonzeroIdeal K) (Z t : ℝ) :
@@ -122,7 +123,10 @@ theorem positiveInverseModel_direction (d : MomentData K ω ψ) :
   by_cases hd : d.direction = 1
   · simpa only [positiveInverseModel, if_pos hd] using hd
   · have hm := d.direction_spec.resolve_right hd
-    simp only [positiveInverseModel, if_neg hd, conjugateInverseModel, hm, neg_neg]
+    rw [positiveInverseModel, if_neg hd]
+    change -d.direction = 1
+    rw [hm]
+    norm_num
 
 theorem positiveInverseModel_energy (d : MomentData K ω ψ)
     (a : RealParameters) (Z t : ℝ) :

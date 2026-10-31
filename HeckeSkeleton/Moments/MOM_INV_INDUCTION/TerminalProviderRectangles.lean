@@ -65,11 +65,11 @@ theorem retained_bounds (R : ℝ) (cb : Ext × Ext) (hcb : retained K S R cb) :
   change scale (index (exteriorNorm K S cb.1)) *
     scale (index (exteriorNorm K S cb.2)) ^ 3 ≤ R at hscale
   have hbp : scale (index (exteriorNorm K S cb.2)) ≤
-      scale (index (exteriorNorm K S cb.2)) ^ 3 := by nlinarith [sq_nonneg (scale (index (exteriorNorm K S cb.2)) - 1)]
-  have hcp : scale (index (exteriorNorm K S cb.1)) ≤ R := by
-    nlinarith [pow_le_pow_left₀ (by norm_num : (0 : ℝ) ≤ 1) hb1 3]
-  have hbr : scale (index (exteriorNorm K S cb.2)) ≤ R := by
-    nlinarith [pow_nonneg (scale_pos (index (exteriorNorm K S cb.2))).le 3]
+      scale (index (exteriorNorm K S cb.2)) ^ 3 := le_self_pow₀ hb1 (by norm_num)
+  have hcp : scale (index (exteriorNorm K S cb.1)) ≤ R :=
+    (le_mul_of_one_le_right (scale_pos _).le (one_le_pow₀ hb1)).trans hscale
+  have hbr : scale (index (exteriorNorm K S cb.2)) ≤ R :=
+    hbp.trans ((le_mul_of_one_le_left (pow_nonneg (scale_pos _).le 3) hc1).trans hscale)
   exact ⟨hc.2.le.trans (by linarith [le_max_right 1 R]),
     hb.2.le.trans (by linarith [le_max_right 1 R])⟩
 
@@ -81,15 +81,16 @@ theorem omitted_large (R : ℝ) (cb : Ext × Ext) (hcb : ¬retained K S R cb) :
   have hprod := le_of_not_gt hn
   have hc1 := norm_one_le K S cb.1
   have hb1 := norm_one_le K S cb.2
-  have hbp : exteriorNorm K S cb.2 ≤ exteriorNorm K S cb.2 ^ 3 := by
-    nlinarith [sq_nonneg (exteriorNorm K S cb.2 - 1)]
+  have hbp : exteriorNorm K S cb.2 ≤ exteriorNorm K S cb.2 ^ 3 :=
+    le_self_pow₀ hb1 (by norm_num)
   have hcR : exteriorNorm K S cb.1 ≤ 2 * max 1 R := by
-    have hh : exteriorNorm K S cb.1 ≤ R := by
-      nlinarith [pow_le_pow_left₀ (by norm_num : (0 : ℝ) ≤ 1) hb1 3]
+    have hh : exteriorNorm K S cb.1 ≤ R :=
+      (le_mul_of_one_le_right (exteriorNorm_pos K S cb.1).le (one_le_pow₀ hb1)).trans hprod
     linarith [le_max_right 1 R, le_max_left 1 R]
   have hbR : exteriorNorm K S cb.2 ≤ 2 * max 1 R := by
-    have hh : exteriorNorm K S cb.2 ≤ R := by
-      nlinarith [pow_nonneg (exteriorNorm_pos K S cb.2).le 3]
+    have hh : exteriorNorm K S cb.2 ≤ R :=
+      hbp.trans ((le_mul_of_one_le_left
+        (pow_nonneg (exteriorNorm_pos K S cb.2).le 3) hc1).trans hprod)
     linarith [le_max_right 1 R, le_max_left 1 R]
   apply hcb
   apply Finset.mem_filter.mpr
@@ -185,7 +186,10 @@ theorem indices_card_bound (R : ℝ) :
     (fun j : ℕ × ℕ => scale j.1 * scale j.2 ^ 3 ≤ R)
     ((Finset.range (count (2 * max 1 R))) ×ˢ (Finset.range (count (2 * max 1 R)))))
   rw [Finset.card_product, Finset.card_range, Finset.card_range] at h
-  exact_mod_cast h
+  have hc : ((indices R).card : ℝ) ≤
+      (count (2 * max 1 R) : ℝ) * (count (2 * max 1 R) : ℝ) := by
+    exact_mod_cast h
+  simpa only [pow_two] using hc
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRectangles
 

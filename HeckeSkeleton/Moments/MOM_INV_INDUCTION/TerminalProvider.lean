@@ -25,7 +25,7 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION
 
-open HeckePort.Moments HeckeGeneral.Characters
+open HeckePort.Moments HeckeGeneral.Characters HeckeGeneral.Analysis
 open scoped Classical BigOperators
 
 /-- The geometry in Lemma 4.8 for one retained completed block.

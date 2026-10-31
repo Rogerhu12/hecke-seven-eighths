@@ -109,13 +109,13 @@ theorem conductor_divisibility (P J f r : Ext) (hP : Powerful P.val)
       change primeExponents (primeSetIdeal K S (minimumLinearPrimes K S s)).val p.val = _
       rw [exponent_primeSetIdeal]
       simp only [minimumLinearPrimes, HeckeSkeleton.LowEnergy.FrozenChargeCore.linearPrimes,
-        Finset.mem_filter, hp, true_and]
+        Finset.mem_filter, hp, true_and, p]
     have hcube : primeExponents (minimumCubeIdeal K S s).val q =
         if primeExponents s.minimum.val q = 3 then 1 else 0 := by
       change primeExponents (primeSetIdeal K S (minimumCubePrimes K S s)).val p.val = _
       rw [exponent_primeSetIdeal]
       simp only [minimumCubePrimes, HeckeSkeleton.LowEnergy.FrozenChargeCore.cubePrimes,
-        Finset.mem_filter, hp, true_and]
+        Finset.mem_filter, hp, true_and, p]
     have hsmall : primeExponents (minimumSmallIdeal K S s).val q =
         if primeExponents s.minimum.val q = 0 ∧
           ((primeExponents P.val q + primeExponents J.val q + 4 * primeExponents f.val q) % 6 = 0 ∨
@@ -125,7 +125,7 @@ theorem conductor_divisibility (P J f r : Ext) (hP : Powerful P.val)
       rw [exponent_primeSetIdeal]
       simp only [minimumSmallPrimes, HeckeSkeleton.LowEnergy.FrozenChargeCore.smallPrimes,
         HeckeSkeleton.LowEnergy.FrozenChargeCore.smallCharge, Finset.mem_filter, hp, true_and,
-        frozenDigit, frozenIdeal_exponent]
+        frozenDigit, frozenIdeal_exponent, p]
     have hcharge := local_conductor_charge
       (primeExponents P.val q) (primeExponents J.val q) (primeExponents f.val q)
       (primeExponents r.val q) (primeExponents s.minimum.val q) (hP q) hactive
@@ -246,8 +246,10 @@ theorem actual_row_conductor_bound (k f r : Ext)
           exteriorNorm K S (minimumCubeIdeal K S s) ^ 4) ≤
       exteriorNorm K S (exteriorPowerfulPart K S k) *
         exteriorNorm K S (rowSupported K S k f r) ^ 2 *
-          exteriorNorm K S f * exteriorNorm K S r :=
-  conductor_ratio_bound K S _ _ f r (powerfulPart_powerful k.val) s
+          exteriorNorm K S f * exteriorNorm K S r := by
+  have hP : Powerful (exteriorPowerfulPart K S k).val := powerfulPart_powerful k.val
+  exact conductor_ratio_bound K S (exteriorPowerfulPart K S k)
+    (rowSupported K S k f r) f r hP s
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor
 

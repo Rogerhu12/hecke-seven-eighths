@@ -47,6 +47,34 @@ theorem extractedCubeTerm_summable
     Summable (extractedCubeTerm gamma tau d V X) :=
   canonicalCubeInversion_summable gamma tau d V X U hX hV
 
+/-- Every nonzero extracted term comes from a divisor of an actual
+cube coordinate in the finite completed source support. -/
+theorem extractedCubeTerm_finite_support
+    (gamma : Ideal (𝓞 K) → ℂ) (tau : Ideal (𝓞 K) →* ℂ)
+    (d : Ideal (𝓞 K) → ℂ) (V : ℝ → ℂ) (X U : ℝ)
+    (hX : 0 < X) (hV : Function.support V ⊆ Set.Iic U) :
+    Function.HasFiniteSupport (extractedCubeTerm gamma tau d V X) := by
+  classical
+  let F := canonicalCompletedTerm gamma tau d V X
+  have hF : Function.HasFiniteSupport F := canonicalCompletedTerm_finite_support gamma tau d V X U hX hV
+  let T := hF.toFinset
+  let A := cubeDivisorPool (T.image Prod.snd)
+  apply A.finite_toSet.subset
+  intro H hH
+  by_contra hnot
+  have hz (C B : Ideal (𝓞 K)) : F (C, H * B) = 0 := by
+    by_contra hn
+    have hmem : (C, H * B) ∈ T := (Set.Finite.mem_toFinset hF).mpr hn
+    have hHB : H * B ≠ ⊥ := by
+      intro he
+      exact hn (by simpa only [he] using canonicalCompletedTerm_bot_right gamma tau d V X C)
+    exact hnot (cubeDivisorPool_mem (Finset.mem_image_of_mem Prod.snd hmem)
+      hHB (dvd_mul_right H B))
+  apply hH
+  rw [extractedCubeTerm_eq_dilation]
+  change (moebius H : ℂ) * ∑' C : Ideal (𝓞 K), ∑' B : Ideal (𝓞 K), F (C, H * B) = 0
+  simp only [hz, tsum_zero, mul_zero]
+
 /-- The selected extracted cubes reopen on the same ideal polynomial,
 including `d(C * b^3)` and every zero in the multiplicative mask `tau`. -/
 theorem canonical_selected_cubes_reopen
@@ -74,15 +102,22 @@ theorem canonical_completion_partition
       ∑' CB : Ideal (𝓞 K) × Ideal (𝓞 K),
         reopenedCubeCoefficient (fun H => ¬ P H) CB.2 *
           canonicalCompletedTerm gamma tau d V X CB := by
-  have hs := extractedCubeTerm_summable gamma tau d V X U hX hV
-  have hp : Summable (fun H => if P H then extractedCubeTerm gamma tau d V X H else 0) := by
-    simpa only [Set.indicator] using hs.indicator {H | P H}
-  have hn : Summable (fun H => if ¬ P H then extractedCubeTerm gamma tau d V X H else 0) := by
-    simpa only [Set.indicator] using hs.indicator {H | ¬ P H}
+  classical
+  have hs := extractedCubeTerm_finite_support gamma tau d V X U hX hV
+  let A := hs.toFinset
+  have ha (H : Ideal (𝓞 K)) (hH : H ∉ A) : extractedCubeTerm gamma tau d V X H = 0 := by
+    by_contra hn
+    exact hH ((Set.Finite.mem_toFinset hs).mpr hn)
+  have hp (H : Ideal (𝓞 K)) (hH : H ∉ A) :
+      (if P H then extractedCubeTerm gamma tau d V X H else 0) = 0 := by
+    simp only [ha H hH, ite_self]
+  have hn (H : Ideal (𝓞 K)) (hH : H ∉ A) :
+      (if ¬ P H then extractedCubeTerm gamma tau d V X H else 0) = 0 := by
+    simp only [ha H hH, ite_self]
   rw [← canonical_selected_cubes_reopen (fun H => ¬ P H) gamma tau d V X U hX hV,
-    ← hp.tsum_add hn]
-  apply tsum_congr
-  intro H
+    tsum_eq_sum ha, tsum_eq_sum hp, tsum_eq_sum hn, ← Finset.sum_add_distrib]
+  apply Finset.sum_congr rfl
+  intro H hH
   by_cases h : P H <;> simp only [h, not_true_eq_false, not_false_eq_true,
     if_true, if_false, zero_add, add_zero]
 

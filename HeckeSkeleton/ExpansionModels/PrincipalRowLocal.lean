@@ -155,7 +155,7 @@ theorem actualRegularCompensationError_principal_rectangle_bound (P : ProbeData 
     exact (mul_le_mul hdenUpper hHupper (norm_nonneg _) (by norm_num)).trans_eq (by norm_num)
   have hdenHlower : sweptTubeEulerMargin / 2 ≤ ‖den * H‖ := by
     rw [norm_mul]
-    simpa only [div_eq_mul_inv] using
+    simpa only [div_eq_mul_inv, one_mul] using
       mul_le_mul hdenLower hHlower (by norm_num : (0 : ℝ) ≤ 1 / 2) (norm_nonneg _)
   have hdenHpos : 0 < ‖den * H‖ :=
     (div_pos sweptTubeEulerMargin_pos (by norm_num)).trans_le hdenHlower
@@ -218,7 +218,8 @@ theorem actualRegularCompensationError_principal_rectangle_bound (P : ProbeData 
     _ = (48 / sweptTubeEulerMargin) * (sweptTubeEulerMargin / 2) := by
       field_simp [sweptTubeEulerMargin_pos.ne']
       <;> ring
-    _ ≤ _ := mul_le_mul_of_nonneg_left hdenHlower (by positivity)
+    _ ≤ _ := mul_le_mul_of_nonneg_left hdenHlower
+      (div_nonneg (by norm_num) sweptTubeEulerMargin_pos.le)
 
 /-- The actual leading cancellation gives one q^(Re z-1) factor. -/
 theorem actualLocalCompensation_principal_rectangle_bound (P : ProbeData K S)

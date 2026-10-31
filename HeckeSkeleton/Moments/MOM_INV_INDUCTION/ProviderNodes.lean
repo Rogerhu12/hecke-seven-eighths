@@ -108,7 +108,7 @@ def test (x : Node K S Γ Θ ψ σ) : SchwartzMap ℝ ℂ := x.family.cutoff x.t
 
 variable (D : ThetaArithmeticData K Sset)
 
-def energy (slotCap : ℕ) (x : Node K S Γ Θ ψ σ) : ℝ :=
+def energy (D : ThetaArithmeticData K Sset) (slotCap : ℕ) (x : Node K S Γ Θ ψ σ) : ℝ :=
   normalizedChildEnergy x.family.base x.columnLength x.labelLength slotCap x.labels x.rows
     (childValue K Sset D x.family (CanonicalSectors.sectorUnit K Sset Γ)) x.triple
 
@@ -126,7 +126,8 @@ variable (Λ G : HeckeCharacter K) (slotCap : ℕ) (Z A c z lo hi : ℝ)
 
 /-- The universal induction class for the complete actual canonical
 energy. The puncture exponent is computed from its genuine radical. -/
-structure Admissible (x : Node K S Γ Θ ψ σ) : Prop where
+structure Admissible (D : ThetaArithmeticData K Sset) (Λ G : HeckeCharacter K)
+    (slotCap : ℕ) (Z A c z lo hi : ℝ) (x : Node K S Γ Θ ψ σ) : Prop where
   base_eq : x.family.base = Z
   row_nonneg : 0 ≤ x.rowLength
   column_nonneg : 0 ≤ x.columnLength
@@ -175,7 +176,7 @@ theorem Admissible.lengths_le (x : Node K S Γ Θ ψ σ)
     (hc : 0 ≤ c) (hz : 0 ≤ z) :
     x.rowLength ≤ A ∧ x.columnLength ≤ A ∧ x.labelLength ≤ A := by
   have hQ := Admissible.puncture_nonneg x hx hZ
-  have hm := hx.margins.1
+  have hm : c ≤ x.totalLength - x.rowLength - x.punctureLength Z - z := hx.margins.1
   have ht := hx.total_le
   have hn := hx.column_nonneg
   have hv := hx.label_nonneg

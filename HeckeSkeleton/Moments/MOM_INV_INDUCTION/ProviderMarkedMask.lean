@@ -41,6 +41,22 @@ theorem value_mul (good : HeightOneSpectrum (𝓞 K) → Prop)
   simp only [value, outside_mul, IsCoprime.mul_left_iff]
   split_ifs <;> simp_all
 
+theorem value_one (good : HeightOneSpectrum (𝓞 K) → Prop)
+    (u : Ideal (𝓞 K)) : value good u 1 = 1 := by
+  have hgood : outside good 1 := by
+    intro p hp
+    exact (p.irreducible.not_isUnit (isUnit_of_dvd_one hp)).elim
+  simp only [value, hgood, isCoprime_one_left, and_self, if_true]
+
+theorem value_prod {ι : Type*} (I : Finset ι)
+    (good : HeightOneSpectrum (𝓞 K) → Prop) (u : Ideal (𝓞 K))
+    (n : ι → Ideal (𝓞 K)) :
+    value good u (∏ i ∈ I, n i) = ∏ i ∈ I, value good u (n i) := by
+  classical
+  induction I using Finset.induction_on with
+  | empty => simp only [Finset.prod_empty, value_one]
+  | @insert i I hi ih => rw [Finset.prod_insert hi, value_mul, Finset.prod_insert hi, ih]
+
 theorem value_sq (good : HeightOneSpectrum (𝓞 K) → Prop)
     (u I : Ideal (𝓞 K)) : value good u I * value good u I = value good u I := by
   unfold value

@@ -60,29 +60,42 @@ theorem exists_actual_moderate_fullCorrection_mass_bound
     rw [Finset.sum_mul]
     apply Finset.sum_le_sum
     intro J _
+    have hselPos : 0 < exteriorNorm K S (subsetPrimeIdeal K S p J) :=
+      idealNorm_pos K _
+    have hmarkPos : 0 < exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) :=
+      idealNorm_pos K _
     have hsel : ‖(exteriorNorm K S (subsetPrimeIdeal K S p J) : ℂ) ^ (z - w - 1)‖ ≤
         exteriorNorm K S (subsetPrimeIdeal K S p J) ^ ((10 : ℝ) - 3) := by
-      rw [Complex.norm_cpow_eq_rpow_re_of_pos (idealNorm_pos K _)]
+      rw [Complex.norm_cpow_eq_rpow_re_of_pos hselPos]
       apply Real.rpow_le_rpow_of_exponent_le (one_le_idealNorm K _)
       simp only [Complex.sub_re, Complex.one_re]
       linarith
     have hmark : ‖(exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) : ℂ) ^
         (s + z - 1)‖ ≤
         exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ ((10 : ℝ) + 1) := by
-      rw [Complex.norm_cpow_eq_rpow_re_of_pos (idealNorm_pos K _)]
+      rw [Complex.norm_cpow_eq_rpow_re_of_pos hmarkPos]
       apply Real.rpow_le_rpow_of_exponent_le (one_le_idealNorm K _)
       simp only [Complex.sub_re, Complex.add_re, Complex.one_re]
       linarith
     have hc := norm_heckeIdealCoefficient_le_one K psi
       (subsetPrimeIdeal K S p (Finset.univ \ J)).val
     have he := hrow P psi ((Finset.univ \ J).image p) u a ha ha1 (s, w, z) hv
+    have hselNonneg :
+        0 ≤ exteriorNorm K S (subsetPrimeIdeal K S p J) ^ ((10 : ℝ) - 3) :=
+      Real.rpow_nonneg hselPos.le _
+    have hmarkNonneg :
+        0 ≤ exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ ((10 : ℝ) + 1) :=
+      Real.rpow_nonneg hmarkPos.le _
     simp only [norm_mul, norm_pow, norm_neg, norm_one, one_pow, one_mul,
       Complex.norm_conj]
     calc
       _ ≤ (exteriorNorm K S (subsetPrimeIdeal K S p J) ^ ((10 : ℝ) - 3) * 1) *
           exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ ((10 : ℝ) + 1) *
           (C * frequencyRowNorm K S u ^ eta * markedBound ^ ((Finset.univ \ J).image p).card) := by
-        gcongr
+        exact mul_le_mul
+          (mul_le_mul (mul_le_mul hsel hc (norm_nonneg _) hselNonneg)
+            hmark (norm_nonneg _) (mul_nonneg hselNonneg zero_le_one))
+          he (norm_nonneg _) (mul_nonneg (mul_nonneg hselNonneg zero_le_one) hmarkNonneg)
       _ = _ := by ring
   unfold compensatedRowFullCorrection
   dsimp only

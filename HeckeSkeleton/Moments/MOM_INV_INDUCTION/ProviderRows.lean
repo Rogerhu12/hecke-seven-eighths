@@ -230,6 +230,7 @@ theorem rows_sum_eq_exterior (C : ColumnFamily K Sset σ Θ ψ)
     Finset.sum_image (fun _ _ _ _ h => (rowEmbedding K S Γ).injective h)]
   rfl
 
+set_option maxHeartbeats 6400000 in
 include hΓ in
 /-- The row ranges used by the actual packet need no separate
 exterior-ideal assumption. All bad rows are removed by exact zeros. -/
@@ -241,11 +242,12 @@ theorem canonical_rows_le_orbital_norm (C : ColumnFamily K Sset σ Θ ψ)
       ‖column K Sset D C (CanonicalSectors.sectorUnit K Sset Γ) γ f x‖ ^ 2) ≤
       (InverseRowMajorant.rowCovolume K S)⁻¹ *
         ‖orbitalEnergy K S Γ D (C.columns γ) (coefficient K S D C γ f) H‖ := by
-  rw [rows_sum_eq_exterior]
-  apply canonical_sector_rows_le_orbital_norm K S Γ D hΓ C γ f H
-    (exteriorRows K S Γ T)
-  intro x hx
-  exact hT _ (Finset.mem_preimage.mp hx)
+  calc
+    _ = ∑ x ∈ exteriorRows K S Γ T,
+        ‖column K Sset D C (CanonicalSectors.sectorUnit K Sset Γ) γ f (x.1.val.val, x.2)‖ ^ 2 :=
+      rows_sum_eq_exterior K S Γ D C γ f T
+    _ ≤ _ := canonical_sector_rows_le_orbital_norm K S Γ D hΓ C γ f H
+      (exteriorRows K S Γ T) (fun x hx => hT _ (Finset.mem_preimage.mp hx))
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRows
 

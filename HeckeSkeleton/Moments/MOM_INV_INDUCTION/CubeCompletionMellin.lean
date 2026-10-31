@@ -175,11 +175,23 @@ theorem annular_scale_bounds (i : SchwartzTestPartition.Index) :
       SchwartzTestPartition.scale (SchwartzTestPartition.exponent i) ≤ partitionScaleCap := by
   have hbounds := SchwartzTestPartition.exponent_bounds i
   constructor
-  · have h := zpow_le_zpow_right₀ (by norm_num : (1 : ℝ) ≤ 3 / 2) hbounds.1
-    simpa only [SchwartzTestPartition.scale, partitionScaleCap, zpow_neg, zpow_natCast] using h
-  · have h := zpow_le_zpow_right₀ (by norm_num : (1 : ℝ) ≤ 3 / 2)
-      (hbounds.2.trans (by norm_num : (5 : ℤ) ≤ 18))
-    simpa only [SchwartzTestPartition.scale, partitionScaleCap, zpow_natCast] using h
+  · have hexp : ((-18 : ℤ) : ℝ) ≤ (SchwartzTestPartition.exponent i : ℝ) := by
+      exact_mod_cast hbounds.1
+    calc
+      partitionScaleCap⁻¹ = (3 / 2 : ℝ) ^ ((-18 : ℤ) : ℝ) := by
+        simp only [partitionScaleCap, Real.rpow_intCast, zpow_neg, zpow_natCast]
+      _ ≤ (3 / 2 : ℝ) ^ (SchwartzTestPartition.exponent i : ℝ) :=
+        Real.rpow_le_rpow_of_exponent_le (by norm_num) hexp
+      _ = _ := Real.rpow_intCast _ _
+  · have hexp : (SchwartzTestPartition.exponent i : ℝ) ≤ ((18 : ℤ) : ℝ) := by
+      exact_mod_cast hbounds.2.trans (by norm_num : (5 : ℤ) ≤ 18)
+    calc
+      SchwartzTestPartition.scale (SchwartzTestPartition.exponent i) =
+          (3 / 2 : ℝ) ^ (SchwartzTestPartition.exponent i : ℝ) :=
+        (Real.rpow_intCast _ _).symm
+      _ ≤ (3 / 2 : ℝ) ^ ((18 : ℤ) : ℝ) :=
+        Real.rpow_le_rpow_of_exponent_le (by norm_num) hexp
+      _ = partitionScaleCap := by simp only [partitionScaleCap, Real.rpow_intCast, zpow_natCast]
 
 theorem annular_scale_le_eight (i : SchwartzTestPartition.Index) :
     SchwartzTestPartition.scale (SchwartzTestPartition.exponent i) ≤ 8 := by

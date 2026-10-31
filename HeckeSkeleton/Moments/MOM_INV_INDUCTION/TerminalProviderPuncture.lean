@@ -64,6 +64,8 @@ theorem exteriorRadicalPuncture_norm_le (r : NonzeroIdeal K) :
       (le_bot_iff.mp (hz ▸ (Ideal.le_radical : r.val ≤ r.val.radical)))
   have hn : 0 < r.val.radical.absNorm :=
     Nat.pos_of_ne_zero (fun h => hr (Ideal.absNorm_eq_zero_iff.mp h))
+  change ((exteriorRadicalPuncture K S r).val.val.absNorm : ℝ) ≤
+    (r.val.radical.absNorm : ℝ)
   exact_mod_cast Nat.le_of_dvd hn
     (Ideal.absNorm_dvd_absNorm_of_le
       (Ideal.dvd_iff_le.mp (exteriorRadicalPuncture_dvd_radical K S r)))

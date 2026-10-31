@@ -63,7 +63,10 @@ theorem exists_bounded_complete_sector_inverse_bound
   have hH0 : 0 ≤ H i := zero_le_one.trans (hH i)
   have hpow0 : 0 ≤ H i ^ (2 * A₀) := Real.rpow_nonneg hH0 _
   have hheight : (H i ^ A₀) ^ 2 = H i ^ (2 * A₀) := by
-    rw [mul_comm (2 : ℝ) A₀, Real.rpow_mul_natCast hH0 A₀ 2]
+    calc
+      (H i ^ A₀) ^ 2 = (H i ^ A₀) ^ (2 : ℝ) := by rw [Real.rpow_two]
+      _ = H i ^ (A₀ * (2 : ℝ)) := (Real.rpow_mul hH0 A₀ 2).symm
+      _ = H i ^ (2 * A₀) := by rw [mul_comm A₀ (2 : ℝ)]
   have hpoint (s : σ) :
       completeIndependentInverseEnergy (source U D i s) U D ≤
         (B * (C₀ ^ 2 + 1)) * H i ^ (2 * A₀) := by

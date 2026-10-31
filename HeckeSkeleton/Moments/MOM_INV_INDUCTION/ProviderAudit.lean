@@ -36,13 +36,19 @@ import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialProduction
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSource
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSpectral
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderLocalStep
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedCount
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedLogMellin
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMaskedMellin
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOriginal
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedReindex
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTests
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMonotonicity
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodeStep
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
@@ -51,11 +57,16 @@ import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRows
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderStep
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformChildren
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformMarks
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularRows
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCanonicalClosure
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedComplete
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedOrbital
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedPhysical
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceOrientation
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourcePrefixEnergy
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionOverlap
@@ -74,24 +85,32 @@ import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderBackgrounds
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderBlockEnergy
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderCounts
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderCubeMass
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderCubePriority
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderExponent
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFamily
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFiber
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFrozenBlock
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderGeometry
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderHilbert
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderInput
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMarkEnergy
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMarkFamily
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMarks
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMellin
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderNode
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderNodeShort
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderProfile
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderPuncture
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderRectangles
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderReflection
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderReflectionFamily
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderRows
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderSelectedTail
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderShort
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderShortBound
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderSlices
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStateEnergy
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStateProfile
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStates
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTail
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTheta
@@ -142,6 +161,7 @@ The CI axiom gate checks every entry; this file does not change any proof assump
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks.long_block_log_lower
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.extractedCubeTerm_eq_dilation
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.extractedCubeTerm_summable
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.extractedCubeTerm_finite_support
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonical_selected_cubes_reopen
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonical_completion_partition
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonical_completion_short_long
@@ -378,14 +398,29 @@ The CI axiom gate checks every entry; this file does not change any proof assump
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSpectral.joint_polynomial_integral
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSpectral.exists_uniform_spectral_cost
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderLocalStep.exists_uniform_local_step_of_short_contribution
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedCount.tuple_product_injective
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedCount.tuple_product_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedCount.exists_original_tuple_count
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedCount.squared_mass_cancel
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedLogMellin.quotient_inverse
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedLogMellin.quotient_integrable
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedLogMellin.quotient_annular_inverse
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedLogMellin.quotient_annular_integrable
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedLogMellin.finite_quotient_inverse
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedLogMellin.weighted_residual_source_eq_integral
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedLogMellin.fixed_selected_masked_annular_eq_integral
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.outside_mul
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.value_mul
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.value_one
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.value_prod
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.value_sq
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.norm_value_le
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.overlap_value
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.context_value
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.original_mask_overlap
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask.extracted_scalar_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMaskedMellin.weighted_residual_source_eq_integral
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMaskedMellin.fixed_selected_masked_annular_eq_integral
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.test_apply
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.test_support
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.test_phase
@@ -402,6 +437,12 @@ The CI axiom gate checks every entry; this file does not change any proof assump
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.original_twisted_choices
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.residual_source_eq_canonical_integral
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin.fixed_selected_annular_eq_canonical_integral
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOriginal.primeWeight_asIdeal
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOriginal.squarefree_pool_image
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOriginal.inverse_eq_complete_live_source
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOriginal.live_coefficient_primeProduct
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOriginal.relative_tuple_product
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOriginal.inverse_marked_eq_complete_source
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap.idealQuotient_self_mul
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap.ideal_coprime_of_relPrime
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap.source_common_dvd
@@ -450,6 +491,35 @@ The CI axiom gate checks every entry; this file does not change any proof assump
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots.signed_choices_eq_divisorMark
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots.original_choices_eq_canonical_mark
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots.signed_weight_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTests.test_wide_support
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTests.piece_support
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTests.piece_polynomial_seminorm
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTests.finite_test_eq_pieces
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTests.live_coefficient
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTests.complete_pool_sum
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTests.polynomial_eq_complete_column
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.slot_mem
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.slot_injective
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.slot_equivFin
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.restrictedLists_disjoint
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.glue_selected
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.glue_remaining
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.glue_restrict
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.restrict_glue_selected
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.restrict_glue_remaining
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.restrict_mem
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.glue_mem
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.sum_tuples_split
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.restriction_product
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.primeProduct_glue
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.selected_remaining_coprime
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.selected_product_glue
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.primeProduct_subsets_injective
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.commonSlots_eq_iff_gcd
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.sum_commonSlots_partition
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.sourcePool_eq_selected_filter
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.full_source_decomposition
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit.weight_glue
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes.Node.Admissible.weaken
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes.uniformBound_restrict
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodeStep.exists_uniform_long_label_step
@@ -492,6 +562,11 @@ The CI axiom gate checks every entry; this file does not change any proof assump
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor.actual_row_conductor_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformChildren.all_smaller_pieces_of_uniform
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformChildren.all_smaller_pieces_of_uniform_sharp
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformMarks.exists_uniform_local_step_uniform_marks
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformMarks.exists_uniform_bound_with_thresholds_uniform_marks
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformMarks.exists_uniform_bound_of_budget_with_thresholds_uniform_marks
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformMarks.exists_stage_steps_of_short_contribution_uniform_marks
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformMarks.exists_uniform_bound_of_short_contribution_uniform_marks
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.calibration_mem
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.original_theta
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic.original_direction
@@ -527,6 +602,8 @@ The CI axiom gate checks every entry; this file does not change any proof assump
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests.scaled_test
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests.finite_annular_eq
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests.finite_test_eq_pieces
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCanonicalClosure.exists_uniform_canonical_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCanonicalClosure.actual_complete_unmarked_scale_sup
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows.conjugateTest_apply
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows.conjugateTest_support
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows.conjugateTest_seminorm
@@ -535,6 +612,21 @@ The CI axiom gate checks every entry; this file does not change any proof assump
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows.negative_polynomial_eq_source
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows.positive_polynomial_norm
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows.complete_positive_rows_le_orbital
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedComplete.conjugate_marks
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedComplete.annular_bound_of_uniform
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedOrbital.sourceMark_eq
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedOrbital.radical_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedOrbital.source_conditions
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedOrbital.uniform_restrict
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedOrbital.exists_uniform_orbital_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedPhysical.conjugate_polynomial
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedPhysical.inverse_coefficient_calibration
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedPhysical.negative_polynomial_eq_source
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedPhysical.positive_polynomial_norm
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedPhysical.complete_positive_rows_le_orbital
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedPhysical.conjugate_divisorMark
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedPhysical.conjugate_mark
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedPhysical.exists_small_scale_row_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.sourceConjugateTest_norm
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.hecke_coefficient_inverse_eq_conj
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.directed_coefficient_conjugate
@@ -696,6 +788,9 @@ The CI axiom gate checks every entry; this file does not change any proof assump
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCubeMass.exists_divisor_power_harmonic_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCubeMass.exists_exterior_cube_mass_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCubeMass.exists_exterior_divisor_mass_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes.MarkConditions.residual_lists
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCubePriority.completed_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalCubePriority.short_energy
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalExponent.rpow_logNorm
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalExponent.logNorm_nonneg
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalExponent.canonicalScale_eq
@@ -708,6 +803,7 @@ The CI axiom gate checks every entry; this file does not change any proof assump
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonical_period_coefficient
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.completeCanonicalColumn_eq_calibrated
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.family_column_eq_completeCanonicalColumn
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalFiber.exists_uniform_energy
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalFrozenBlock.fullSource_eq_rectangles_tail
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalFrozenBlock.fullSource_energy
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalFrozenBlock.canonical_block_energy
@@ -720,8 +816,16 @@ The CI axiom gate checks every entry; this file does not change any proof assump
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalGeometry.row_conductor
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalGeometry.frozen_conductor_log
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalGeometry.dual_conductor
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalHilbert.finite_sum_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalHilbert.finite_coefficient_energy
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalInput.fixed_period_block_energy
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalInput.uniform_block_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarkEnergy.tupleIdeal_norm
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarkEnergy.tupleIdeal_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarkEnergy.idealPool_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarkEnergy.inactiveWeight_norm
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarkEnergy.subsets_card
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarkEnergy.marked_source_energy
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarkFamily.choiceValue_eq_zero_of_collision
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarkFamily.completedThetaSum_eq_choices
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalMarkFamily.inactiveBlock_eq_fullSource
@@ -745,6 +849,12 @@ The CI axiom gate checks every entry; this file does not change any proof assump
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalNodes.column_normalization
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalNodes.normalized_column_short_long
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalNodes.energy_le_short_long
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalNodeShort.short_extracted_eq_completed
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalNodeShort.shortValue_eq_extended_completed
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalNodeShort.shortValue_exterior
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalNodeShort.shortValue_zero_of_nonexterior_label
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalNodeShort.shortValue_zero_of_nonexterior_row
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalNodeShort.exists_label_normalized_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProfile.completionCLM_apply
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProfile.completionCLM_support
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProfile.completionCLM_eq_vstar
@@ -781,6 +891,21 @@ The CI axiom gate checks every entry; this file does not change any proof assump
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalReflectionFamily.kernel
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalReflectionFamily.exterior_digits
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalReflectionFamily.reflection
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.norm_one_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.powerful_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.Data.powerfulRows_subset
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.Data.powerfulRows_window
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.Data.pair_powerful_window
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.Data.movingRows_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.canonicalTau_symbol_congr
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.totalRow_reconstruct
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.Data.value_reconstruct
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.Data.fiberData_admissible
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.Data.energy_eq_fibers
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.scale_le_of_lt_count
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.sqrt_scale_eq
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.Data.pair_count_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalRows.exists_uniform_completed_energy
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSelectedTail.atom_summable
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSelectedTail.norm_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSelectedTail.fixed_period_energy
@@ -789,6 +914,13 @@ The CI axiom gate checks every entry; this file does not change any proof assump
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.shortCompletedColumn_eq_tsum
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.shortCubes_mass_small_power
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.shortCompletedColumn_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalShort.residualData_admissible
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalShort.residualData_scale
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalShort.exists_uniform_short_row_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalShort.exteriorRows_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalShort.row_energy_le_sectors
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalShort.nodeData_admissible
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalShort.exists_uniform_short_contribution
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSlices.atom_eq_entry
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSlices.entry_eq_slices
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSlices.block_eq_slices
@@ -801,6 +933,7 @@ The CI axiom gate checks every entry; this file does not change any proof assump
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStateEnergy.exists_indices_mass_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStateEnergy.boundedSource_mono
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStateEnergy.exists_uniform_state_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStateProfile.exists_uniform_state_energy
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStates.active_prime_dvd
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStates.active_divides
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalStates.minimum_divides_cube

@@ -37,14 +37,17 @@ theorem exists_indices_mass_bound (L cstar : ℝ) (hL : 0 ≤ L) (hcstar : 0 < c
   have hcap : 2 * max 1 R ≤ Z ^ (L + 1) := by
     rw [Real.rpow_add hz, Real.rpow_one]
     have hm : max 1 R ≤ Z ^ L := max_le (Real.one_le_rpow hZ1 hL) hRL
-    nlinarith [Real.rpow_nonneg hz.le L]
+    calc
+      _ ≤ 2 * Z ^ L := mul_le_mul_of_nonneg_left hm (by norm_num)
+      _ = Z ^ L * 2 := mul_comm _ _
+      _ ≤ _ := mul_le_mul_of_nonneg_left hZ (Real.rpow_nonneg hz.le L)
   have hc : (CubeCompletionBlocks.count (2 * max 1 R) : ℝ) ≤ C * Z ^ (cstar / 64) := by
     have ht := hb (2 * max 1 R) (by linarith [le_max_left 1 R])
     have hp := Real.rpow_le_rpow (by positivity : (0 : ℝ) ≤ 2 * max 1 R) hcap hd.le
     rw [← Real.rpow_mul hz.le] at hp
     have he : (L + 1) * delta = cstar / 64 := by
       dsimp only [delta]
-      field_simp
+      field_simp [(add_pos_of_nonneg_of_pos hL zero_lt_one).ne']
       <;> ring
     rw [he] at hp
     exact ht.trans (mul_le_mul_of_nonneg_left hp (zero_le_one.trans hC))
@@ -175,8 +178,10 @@ theorem exists_uniform_state_energy
     (Z ^ (N - 3 * h)) cap rows ps hsum
     (CB * amp ^ 2 * qB ^ 2 * w ^ 2 * Z ^ (N + V - cstar / 4 - O / 2))
     (CT * amp ^ 2 * qT ^ 2 * w ^ 2 * Z ^ (-saving)) (by positivity) hblocks htail
-  have hqBb : qB ^ 2 ≤ (qB + qT) ^ 2 := by nlinarith
-  have hqTb : qT ^ 2 ≤ (qB + qT) ^ 2 := by nlinarith
+  have hqBb : qB ^ 2 ≤ (qB + qT) ^ 2 :=
+    pow_le_pow_left₀ hqB (le_add_of_nonneg_right hqT) 2
+  have hqTb : qT ^ 2 ≤ (qB + qT) ^ 2 :=
+    pow_le_pow_left₀ hqT (le_add_of_nonneg_left hqB) 2
   have hblockBound : ((TerminalRectangles.indices cap).card : ℝ) ^ 2 *
       (CB * amp ^ 2 * qB ^ 2 * w ^ 2 * Z ^ (N + V - cstar / 4 - O / 2)) ≤
         (BD * CB) * amp ^ 2 * (qB + qT) ^ 2 * w ^ 2 *
