@@ -5,6 +5,7 @@ import FLTReuse.M255459499690ff8e
 import FLTReuse.M1d838ff8bf72f37a
 import Mathlib.Topology.Algebra.Module.FiniteDimension
 import Mathlib.Algebra.Lie.OfAssociative
+import Mathlib.Topology.Algebra.Valued.NormedValued
 
 set_option backward.isDefEq.respectTransparency false
 

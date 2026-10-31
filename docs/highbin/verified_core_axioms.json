@@ -2283,15 +2283,30 @@
       "Quot.sound",
       "propext"
     ],
+    "HeckeSkeleton.HighBinContinuation.sweptTubeEulerMargin_ge_one_eighth": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_norm_initial": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_ne_zero_initial": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
     "HeckeSkeleton.HighBinActualInitial.FourExponent": [],
     "HeckeSkeleton.HighBinFiniteTables.Exponent": []
   },
   "beyond_standard_axioms": {},
-  "commit": "aac854175d6354c5d28d80362d74f026d77e4aa5",
-  "workflow_run_id": 41158905816,
-  "job_id": 124411794998,
-  "artifact_id": 13026705440,
-  "artifact_sha256": "168b6d5972fe73693ac6de8b831c93fba44c4808798ed26be9fbfdcd8301897e",
+  "commit": "8e45885f856b8c8b56287eec188be654682256ec",
+  "workflow_run_id": 41162601172,
+  "job_id": 124423219569,
+  "artifact_id": 13027308190,
+  "artifact_sha256": "3ee88d907d1017fc749da9ba494d0be3b23bc26c3ae752bc5160cc8fc28dc3b1",
   "verification_kind": "native separate-module build and enumerated public source declaration type/axiom audit",
-  "modules": 60
+  "modules": 61
 }

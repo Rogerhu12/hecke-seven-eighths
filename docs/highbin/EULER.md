@@ -51,15 +51,18 @@ The generated module contains the one source module plus its two public
 type/axiom checks. This is distinct from a combined check with imports
 hoisted from multiple source files.
 
-### Pending isolated regular-factor check
+### Verified isolated regular-factor check
 
 [RegularEulerInitial.lean](../../HeckeSkeleton/HighBinSupport/RegularEulerInitial.lean)
 now contains the three original scalar declarations
 `sweptTubeEulerMargin_ge_one_eighth`, `phaseRowEuler_norm_initial`, and
 `phaseRowEuler_ne_zero_initial`, under their unchanged namespace and names.
 It imports only `EulerRegionAnalytic`; the actual module imports and reexports
-these declarations. The extraction adds no assumptions and is **pending native
-verification**. The number-field product statement remains a separate actual check.
+these declarations. The extraction adds no assumptions. All three declarations
+passed the separate-module native core audit at `8e45885`, run `41162601172`,
+job `124423219569`; their complete axiom reports contain only `propext`,
+`Classical.choice`, and `Quot.sound`. The number-field product statement
+remains a separate actual check.
 
 The complete moved declaration block, including its original proofs, is
 byte-identical before and after extraction: SHA-256 `bca1f6c7858d1019d11862bda4e7014ce775dd9169b0a9cd7819c522cbc857b7`.

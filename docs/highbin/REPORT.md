@@ -69,6 +69,12 @@ resident memory was 4481772 KiB, without a memory exception. Commit `b25a38a`
 adds those two direct imports and is preserved as the parent of this update.
 The superseded Mellin and actual logs report the same missing imports; those
 jobs were cancelled before their complete audits and are not counted as passes.
+The Fourier run at `8e45885` then reduced the same module's failures to three
+finite-dimensional topology type mismatches (peak 3503380 KiB). Its existing
+rank-one valuation and `Valued` scope require the official
+`Mathlib.Topology.Algebra.Valued.NormedValued` import, which registers the
+compatible nontrivially normed field instance. That import is now explicit;
+no mathematical body was changed. Its next native build remains required.
 The comparisons are recorded in
 [physical_row_data_narrowing_provenance.json](physical_row_data_narrowing_provenance.json)
 and [flt_import_narrowing_provenance.json](flt_import_narrowing_provenance.json).
@@ -136,8 +142,8 @@ correctly constructed presentation.
 ## Recorded native verification
 
 The recorded core audit is commit
-`aac854175d6354c5d28d80362d74f026d77e4aa5`: **60 separately compiled modules
-and 459 public declarations passed**. The downloaded `core-axioms.json`
+`8e45885f856b8c8b56287eec188be654682256ec`: **61 separately compiled modules
+and 462 public declarations passed**. The downloaded `core-axioms.json`
 contains an empty `beyond_standard_axioms` map. Every declaration uses only
 `propext`, `Classical.choice`, and `Quot.sound` (or a subset). This includes
 the complete three-variable `JointAnalyticLimit`, `EulerRegionAnalytic`,
@@ -145,12 +151,13 @@ the complete three-variable `JointAnalyticLimit`, `EulerRegionAnalytic`,
 `EulerRegionUniqueness`, `EulerRegionProduct`, `BoundaryHeightAbsorption` and
 the full parameter budget in `HighNormFormScalar`, all eleven declarations
 in `HighNormFormPointwisePartition`, and the six public declarations in
-`EntireVerticalZeros` and `EntireQuotientVerticalAE`.
+`EntireVerticalZeros` and `EntireQuotientVerticalAE`, plus the three initial-domain
+scalar estimates in `RegularEulerInitial`.
 
-Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41158905816
-Job: `124411794998`; artifact: `13026705440`.
+Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41162601172
+Job: `124423219569`; artifact: `13027308190`.
 Downloaded artifact SHA-256:
-`168b6d5972fe73693ac6de8b831c93fba44c4808798ed26be9fbfdcd8301897e`.
+`3ee88d907d1017fc749da9ba494d0be3b23bc26c3ae752bc5160cc8fc28dc3b1`.
 The full declaration-to-axiom mapping is preserved in
 [verified_core_axioms.json](verified_core_axioms.json). This is evidence for
 that exact commit; it does not establish subsequent edits or the full
@@ -238,11 +245,11 @@ The current source inventory contains **61 core modules / 462 declarations**,
 **64 actual modules / 701 declarations**, **6 Mellin modules / 67 declarations**,
 and **8 Fourier modules / 160 declarations**. Mellin and Fourier are subsets
 of the actual inventory; their counts must not be added to it. The recorded
-native core audit above covers 60 modules / 459 declarations. The three pure
+native core audit above covers all 61 modules / 462 declarations. The three pure
 initial-domain scalar declarations now move verbatim from
 `ActualEulerRegularNonvanishing` into `RegularEulerInitial`, which imports only
 `EulerRegionAnalytic`. Their names, statements and 2307-byte declaration block
-are unchanged; the new separate module still requires native verification.
+are unchanged; the new separate module passed the native core audit at `8e45885`.
 The remaining expanded counts are source inventories.
 
 `ActualGaussData` moves the existing prime Gauss definitions and proofs out of

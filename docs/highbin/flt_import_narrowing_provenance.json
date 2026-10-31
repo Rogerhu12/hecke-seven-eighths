@@ -285,13 +285,14 @@
       "module": "FLTReuse.Ma6dd0c4d713fb96a",
       "path": "vendor/flt/FLTReuse/Ma6dd0c4d713fb96a.lean",
       "old_source_sha256": "0af6d58a4e7815b86454642aa937a4f3f6cb3dc2acef038ff36573dcb4be1a8f",
-      "new_source_sha256": "1e07164a1b004aaf5c2de10236c3318b660691a591f0112889d7945a9198b00e",
+      "new_source_sha256": "abcdf0901cba3fd3e251a2063830cb0531d8b90cdfd2868f513fcd53d4e498d2",
       "declaration_region_sha256": "f0ba8b60319b8fae166c6398764f826ad4f14349a0966975905b4c38c3bff677",
       "declaration_region_unchanged": true,
       "removed_imports": [],
       "added_imports": [
         "Mathlib.Topology.Algebra.Module.FiniteDimension",
-        "Mathlib.Algebra.Lie.OfAssociative"
+        "Mathlib.Algebra.Lie.OfAssociative",
+        "Mathlib.Topology.Algebra.Valued.NormedValued"
       ],
       "retained_imports": [
         "FLTReuse.M387d45cde57b612d",
