@@ -61,13 +61,13 @@ local notation "M" => actualFiniteMellinData R D N θ C₀ hC₀ A₀ hA₀
 /-- TH-FINITE-VALUATION-CUTOFF for the exact table used in every theorem
 of this module.  The cutoff is uniform in all sectors and local classes. -/
 theorem actualFiniteValuationCutoff :
-    ∃ k₀ : ℤ, ∀ u κ l p k, k < k₀ → M.coefficient u κ l p k = 0 :=
+    ∃ k₀ : ℤ, ∀ u κ l p k, k < k₀ → (M).coefficient u κ l p k = 0 :=
   targetFiniteMellinData_valuation_cutoff R D N C₀ hC₀ A₀ hA₀ θ
 
 /-- TH-FINITE-VALUATION-DECAY, including all real `δ < 1/3`. -/
 theorem actualFiniteValuationDecay :
     ∀ δ : ℝ, δ < 1 / 3 → ∃ C : ℝ, 0 ≤ C ∧ ∀ u κ l p k, 0 ≤ k →
-      ‖M.coefficient u κ l p k‖ ≤
+      ‖(M).coefficient u κ l p k‖ ≤
         C * (p.val.asIdeal.absNorm : ℝ) ^ (-(k : ℝ) * δ) :=
   targetFiniteMellinData_valuation_decay R D N C₀ hC₀ A₀ hA₀ θ
 
@@ -78,8 +78,8 @@ theorem actualFiniteAdmissible : FiniteMellinAdmissible F Sf M :=
 and the actual local Haar; no independent choice of coefficients occurs. -/
 theorem actualCoefficient_shell_spec
     (u : R.A.UnitQuotient) (κ : SixthLocalClasses F Sf)
-    (l : Fin M.terms) (p : R.A.Sf) (k : ℤ) :
-    M.coefficient u κ l p k =
+    (l : Fin (M).terms) (p : R.A.Sf) (k : ℤ) :
+    (M).coefficient u κ l p k =
       ∫ z,
         (if p = D.scalarSlot then ProjectFiniteClass.reflectedClassMask R.A
           R.probe.correction.B R.σ κ
@@ -157,8 +157,8 @@ are built from the single prescribed `X₀`, not two chosen contexts. -/
 theorem sameChoice_actualReflectedAbsolute
     (d : MarkedDatum F (X₀.A.Sf : Set (HeightOneSpectrum (𝓞 F))))
     (V : SmoothAnnularTest) {X : ℝ} (hX : 0 < X) :
-    Summable (fun i : ReflectionIndex F (X₀.A.Sf : Set _) d =>
-      reflectedTerm F (X₀.A.Sf : Set _) X₀.thetaData d i
+    Summable (fun i : ReflectionIndex F (X₀.A.Sf : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F))) d =>
+      reflectedTerm F (X₀.A.Sf : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F))) X₀.thetaData d i
         (actualFiniteMellinData (GlobalSameChoice.recipe X₀ hmod) D₀ N₀
           θ C₀ hC₀ A₀ hA₀) θ V.toFun X) :=
   actualReflectedAbsolute (GlobalSameChoice.recipe X₀ hmod) D₀ N₀ θ C₀ hC₀ A₀ hA₀

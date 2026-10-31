@@ -69,7 +69,8 @@ theorem rowPrimes_eq (T : Finset (ExteriorPrime A)) :
     have hm : p ∉ T.map (primeEmbedding A) := by
       intro h
       obtain ⟨q, _, hq⟩ := Finset.mem_map.mp h
-      exact q.property (by simpa [primeEmbedding] using hq.symm ▸ hp)
+      have hqv : q.val = p := hq
+      exact q.property (hqv ▸ hp)
     simp only [hn, hm]
   · have hm : p ∈ T.map (primeEmbedding A) ↔ (⟨p, hp⟩ : ExteriorPrime A) ∈ T := by
       constructor

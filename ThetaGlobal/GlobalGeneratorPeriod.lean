@@ -101,8 +101,8 @@ theorem idealCoefficient_product (θ : HeckeCharacter F) (I : R.A.Exterior) :
   have hsupp : (primeExponents I₀).support ⊆ ThetaBranch.support I.val := by
     intro p hp
     apply (mem_support_iff R I p).mpr
-    simpa only [Finsupp.mem_support_iff, primeExponents_apply, idealPrimeExponent]
-      using hp
+    simp only [Finsupp.mem_support_iff, primeExponents_apply, idealPrimeExponent] at hp
+    exact hp
   have hI : I.val = (idealOfPrimeExponents (primeExponents I₀)).val :=
     (congrArg Subtype.val (idealOfPrimeExponents_primeExponents I₀)).symm
   change (idealCoefficientHom (primeCoefficient F θ)).toMonoidHom I.val = _
@@ -141,13 +141,15 @@ theorem inverse_sHeckeHom_generator (θ : HeckeCharacter F)
       r hr.1 hr.2 p hpS, hz]
     rfl
   let u : (T : Set (HeightOneSpectrum (𝓞 F))).unit F := ⟨a, ha⟩
-  have hprincipal := sUnitFinite_mul_infinity_eq_one F (T : Set _) θ u
+  have hprincipal := sUnitFinite_mul_infinity_eq_one F (T : Set (HeightOneSpectrum (𝓞 F))) θ u
   rw [HeckeAxiom.sUnitFiniteCharacter_eq_prod F T θ hT u] at hprincipal
   let localValue (p : HeightOneSpectrum (𝓞 F)) : ℂ :=
-    (localComponent F p θ (sUnitLocal F (T : Set _) p u) : ℂ)
+    (localComponent F p θ (sUnitLocal F (T : Set (HeightOneSpectrum (𝓞 F))) p u) : ℂ)
   have hprincipalC : (∏ p ∈ T, localValue p) *
-      (sUnitInfinityCharacter F (T : Set _) θ u : ℂ) = 1 := by
-    simpa only [map_mul, map_prod, map_one] using congrArg Circle.coeHom hprincipal
+      (sUnitInfinityCharacter F (T : Set (HeightOneSpectrum (𝓞 F))) θ u : ℂ) = 1 := by
+    have h := congrArg Circle.coeHom hprincipal
+    simp only [map_mul, map_prod, map_one] at h
+    exact h
   have hlocal (p : HeightOneSpectrum (𝓞 F)) (hp : p ∈ ThetaBranch.support I.val) :
       localValue p = primeCoefficient F θ p ^ idealPrimeExponent p.asIdeal I.val := by
     have hpS := ThetaBranch.support_outside R.A I p hp
@@ -156,7 +158,7 @@ theorem inverse_sHeckeHom_generator (θ : HeckeCharacter F)
       exact hpS (hS ((mem_conductorPlaces F θ p).mpr hn))
     apply localComponent_of_valuation θ p hθ _ _
     change Valued.v (((a : F) : p.adicCompletion F)) = _
-    rw [adicCompletion.valued_coe, har,
+    rw [HeightOneSpectrum.valuedAdicCompletion_eq_valuation', har,
       SIntegerLocalization.generator_valuation R.A.Sf I.val I.property.1
         r hr.1 hr.2 p hpS]
   have hIprod : (∏ p ∈ ThetaBranch.support I.val, localValue p) =
@@ -168,7 +170,7 @@ theorem inverse_sHeckeHom_generator (θ : HeckeCharacter F)
         (localComponent F p.val θ ((R.A.diagonal a).2 p) : ℂ) := by
     symm
     exact Finset.prod_coe_sort R.A.Sf localValue
-  have harch : (sUnitInfinityCharacter F (T : Set _) θ u : ℂ) =
+  have harch : (sUnitInfinityCharacter F (T : Set (HeightOneSpectrum (𝓞 F))) θ u : ℂ) =
       ∏ w : InfinitePlace F,
         (infiniteComponent F w θ ((R.A.diagonal a).1 w) : ℂ) := by
     change Circle.coeHom (∏ w : InfinitePlace F,
@@ -180,7 +182,9 @@ theorem inverse_sHeckeHom_generator (θ : HeckeCharacter F)
       infiniteComponent F w θ ((R.A.diagonal a).1 w)) *
       (∏ p : R.A.Sf,
         localComponent F p.val θ ((R.A.diagonal a).2 p))) * _ = 1
+    have e : ∀ x : Circle, Circle.coeHom x = (x : ℂ) := fun _ => rfl
     simp only [map_mul, map_prod]
+    simp only [e]
     rw [Finset.prod_union hdis, hIprod, hSprod, harch] at hprincipalC
     convert hprincipalC using 1 <;> ring
   exact inv_eq_of_mul_eq_one_right hprod

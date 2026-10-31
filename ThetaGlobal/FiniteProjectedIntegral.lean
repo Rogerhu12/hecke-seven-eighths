@@ -40,12 +40,15 @@ local instance (p : R.A.Sf) : IsFiniteMeasure (unitHaar R N p) :=
 variable (θ : HeckeCharacter F) (B : FirstRootCutoffs R)
 
 def maskedData (u : R.A.UnitQuotient) (p : R.A.Sf) :=
-  withClassMask (ProjectFiniteClass.allowedClasses R.A R.probe.correction.B)
+  withClassMask (X := fun q : R.A.Sf => (q.val.adicCompletion F)ˣ)
+    (U := fun q : R.A.Sf => (LocalIntegerRing F q.val)ˣ)
+    (C := fun q : R.A.Sf => ProjectFiniteClass.LocalClass R.A q)
+    (ProjectFiniteClass.allowedClasses R.A R.probe.correction.B)
     (ProjectFiniteClass.reflectedHilbert R.A R.σ)
     (fun x y => (ProjectFiniteClass.reflectedHilbert_norm_one R.A R.σ x y).le)
     (ProjectFiniteClass.assemble R.A) D.scalarSlot
     (fun q z => (QuotientGroup.mk z : ProjectFiniteClass.LocalClass R.A q)) p
-    (projectedShellData R D (TargetFinitePeriod.localPeriod R θ) u PUnit.unit p)
+    (projectedShellData.{0} R D (TargetFinitePeriod.localPeriod R θ) u PUnit.unit p)
 
 def localMellinFunction (u : R.A.UnitQuotient)
     (κ : SixthLocalClasses F (R.A.Sf : Set (HeightOneSpectrum (𝓞 F))))
@@ -66,13 +69,18 @@ theorem localMellinFunction_continuous (u : R.A.UnitQuotient)
       localMaskFactor D.scalarSlot (fun c => ProjectFiniteClass.reflectedClassMask R.A
         R.probe.correction.B R.σ κ (ProjectFiniteClass.assemble R.A c)) σ p
           (QuotientGroup.mk z)) :=
-    ((TargetFinitePeriod.localClass_locallyConstant R B p).comp _).continuous
+    ((TargetFinitePeriod.localClass_locallyConstant R B p).comp
+      (fun c : ProjectFiniteClass.LocalClass R.A p => localMaskFactor D.scalarSlot
+        (fun c => ProjectFiniteClass.reflectedClassMask R.A R.probe.correction.B R.σ κ
+          (ProjectFiniteClass.assemble R.A c)) σ p c)).continuous
   have hw : Continuous (fun z : (p.val.adicCompletion F)ˣ => (‖z.val‖ : ℂ) ^ s) := by
     apply continuous_iff_continuousAt.mpr
     intro z
-    exact (Complex.continuousAt_ofReal_cpow_const ‖z.val‖ s
-      (Or.inr (norm_ne_zero_iff.mpr z.ne_zero))).comp
-        (Units.continuous_val.norm.continuousAt)
+    exact ContinuousAt.comp (g := fun r : ℝ => (r : ℂ) ^ s)
+      (f := fun x : (p.val.adicCompletion F)ˣ => ‖x.val‖)
+      (Complex.continuousAt_ofReal_cpow_const ‖z.val‖ s
+        (Or.inr (norm_ne_zero_iff.mpr z.ne_zero)))
+      (Units.continuous_val.norm.continuousAt)
   exact hm.mul ((TargetFinitePeriod.localPeriod_continuous R θ B u p).mul
     ((weylValue_locallyConstant R D p (normalizedSelectedVector R D u p)).continuous.mul hw))
 
@@ -87,9 +95,11 @@ theorem maskedData_shellIntegrable (u : R.A.UnitQuotient) (p : R.A.Sf) :
   have hi := ((localMellinFunction_continuous R D θ B u b.1 b.2 p 0).comp
     (ProjectFiniteHaar.shellPoint_continuous F p.val k)).integrable_of_hasCompactSupport
       (μ := unitHaar R N p) (HasCompactSupport.of_compactSpace _)
-  simpa only [Function.comp_def, localMellinFunction, maskedData, withClassMask, projectedShellData,
-    vectorShellData, ProjectLocalShell.shellData, Complex.cpow_zero, mul_one, mul_assoc]
-    using hi
+  simp only [Function.comp_def, localMellinFunction, Complex.cpow_zero, mul_one,
+    mul_assoc] at hi
+  simp only [maskedData, withClassMask, projectedShellData,
+    vectorShellData, ProjectLocalShell.shellData, mul_assoc]
+  exact hi
 
 /-- The exact finite part of the reflected sheet's Mellin integrand. -/
 def finiteMellinIntegrand (u : R.A.UnitQuotient)
@@ -105,14 +115,18 @@ theorem finiteMellinIntegrand_tensor_expansion (u : R.A.UnitQuotient)
     (s : ℂ) (z : ∀ p : R.A.Sf, (p.val.adicCompletion F)ˣ) :
     finiteMellinIntegrand R D θ u κ s z =
       ∑ σ : ∀ p : R.A.Sf, ProjectFiniteClass.LocalClass R.A p,
-        ∏ p, localMellinFunction R D θ u κ σ p s (z p) :=
-  (FiniteClass.tensor_expansion D.scalarSlot
+        ∏ p, localMellinFunction R D θ u κ σ p s (z p) := by
+  refine Eq.trans (FiniteClass.tensor_expansion D.scalarSlot
     (fun c => ProjectFiniteClass.reflectedClassMask R.A R.probe.correction.B R.σ κ
       (ProjectFiniteClass.assemble R.A c))
     (fun p => (QuotientGroup.mk (z p) : ProjectFiniteClass.LocalClass R.A p))
     (fun p => (TargetFinitePeriod.localPeriod R θ u p (z p) : ℂ) *
       (weylValue R D p (normalizedSelectedVector R D u p) (z p) *
-        (‖(z p).val‖ : ℂ) ^ s))).symm
+        (‖(z p).val‖ : ℂ) ^ s))).symm ?_
+  first
+  | rfl
+  | (congr 1; done)
+  | (congr 1 <;> first | rfl | exact congrArg (fun I => @Finset.univ _ I) (Subsingleton.elim _ _))
 
 include B in
 /-- The full finite integrand is continuous because its actual class
@@ -140,8 +154,8 @@ theorem class_series_integral (u : R.A.UnitQuotient)
       ∏ p, ∑' k : ℤ, coefficient (maskedData R D θ u p) (unitHaar R N p) (κ, σ) k *
         (p.val.asIdeal.absNorm : ℂ) ^ (-(k : ℂ) * s)) =
       ∫ z, finiteMellinIntegrand R D θ u κ s z ∂Measure.pi N.finiteMultHaar := by
-  let d := fun p => projectedShellData R D (TargetFinitePeriod.localPeriod R θ) u PUnit.unit p
-  apply FiniteTensorMellin.finite_tensor_mellin_integral
+  let d := fun p => projectedShellData.{0} R D (TargetFinitePeriod.localPeriod R θ) u PUnit.unit p
+  obtain ⟨h1, h2⟩ := FiniteTensorMellin.finite_tensor_mellin_integral
     (ProjectFiniteClass.allowedClasses R.A R.probe.correction.B)
     (ProjectFiniteClass.reflectedHilbert R.A R.σ)
     (fun x y => (ProjectFiniteClass.reflectedHilbert_norm_one R.A R.σ x y).le)
@@ -149,12 +163,16 @@ theorem class_series_integral (u : R.A.UnitQuotient)
     (fun p z => (QuotientGroup.mk z : ProjectFiniteClass.LocalClass R.A p))
     d (unitHaar R N) N.finiteMultHaar
     (fun p z => (TargetFinitePeriod.localPeriod R θ u p z : ℂ))
-    (fun p => projectedShellData_bounds R D (TargetFinitePeriod.localPeriod R θ) u PUnit.unit p)
+    (fun p => projectedShellData_bounds.{0} R D (TargetFinitePeriod.localPeriod R θ) u PUnit.unit p)
     (fun p => ProjectFiniteHaar.local_haar_eq_shellMeasure F p.val (N.finiteMultHaar p) _ _)
     (fun p k => (ProjectFiniteHaar.shellPoint_continuous F p.val k).measurable.aemeasurable)
     (fun _ _ _ => rfl) (maskedData_shellIntegrable R D N θ B u) κ s hs
-  intro σ p k
-  exact (localMellinFunction_continuous R D θ B u κ σ p s).aestronglyMeasurable
+    (fun σ p k => (localMellinFunction_continuous R D θ B u κ σ p s).aestronglyMeasurable)
+  refine ⟨h1, Eq.trans ?_ h2⟩
+  first
+  | rfl
+  | (congr 1; done)
+  | (congr 1 <;> first | rfl | exact congrArg (fun I => @Finset.univ _ I) (Subsingleton.elim _ _))
 
 include B in
 /-- TH-KP-DATA's full finite Mellin factor is the actual finite S-local

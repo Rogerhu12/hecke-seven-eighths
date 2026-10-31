@@ -131,7 +131,8 @@ theorem existsUnique_coordinates (mandatory allowed : Set (ExteriorPrime A))
   let c := coordinatesOfBranch A b ha haa hc hn
   have he : c.toBranch A = b := coordinatesOfBranch_toBranch A b ha haa hc hn
   refine ⟨c, ?_, ?_⟩
-  · rw [he]
+  · beta_reduce
+    rw [he]
     exact ⟨GlobalFrequencyReconstruction.reconstructed_supported mandatory allowed v hv,
       GlobalFrequencyReconstruction.reconstructed_valuation mandatory allowed v hv⟩
   · intro d hd
@@ -174,7 +175,7 @@ theorem representative_order (d : A.Exterior) (b : Coordinates A) (p : ExteriorP
     order p.val (representative A G d b) =
       GlobalFrequency.valuation (b.toBranch A) p - 2 * (exponent A d p : ℤ) := by
   simp only [representative, order_div, order_mul, order_pow,
-    generator_order, ← exponent, exponent_primeSetIdeal]
+    generator_order, exponent_primeSetIdeal]
   unfold GlobalFrequency.valuation Coordinates.toBranch
   by_cases hp : p ∈ b.active <;> simp [hp] <;> ring
 

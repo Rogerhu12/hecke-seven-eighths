@@ -39,10 +39,10 @@ def upperLinear : mixedEmbedding.mixedSpace F →L[ℝ] ArchCoordinates F where
     x.2 ⟨w, KPHilbert.infinite_isComplex F R.A.zeta12 R.A.primitive_zeta12 w⟩ else 0
   map_add' x y := by
     ext w i
-    split_ifs <;> simp
+    by_cases h : i = 0 <;> simp [h]
   map_smul' c x := by
     ext w i
-    split_ifs <;> simp
+    by_cases h : i = 0 <;> simp [h]
   cont := by
     apply continuous_pi
     intro w
@@ -67,6 +67,7 @@ theorem upper_affine_chart (x : mixedEmbedding.mixedSpace F) :
       KPGlobalTorusFunctionData.N F R.A.zeta12 R.A.primitive_zeta12
         (((InfiniteAdeleRing.ringEquiv_mixedSpace F).symm x, 0) : KPAdeles F) := by
   unfold archChart KPGlobalTorusFunctionData.N
+  dsimp only
   congr 2
   apply RestrictedProduct.ext
   intro p
@@ -113,7 +114,9 @@ theorem native_left_jet_continuous (f : sameResidueModule T) (n : ℕ) :
   have hbase : archBase F ∈ archDomain F := by intro w; simp [archBase]
   have h := hj.comp_continuous (continuous_const.prodMk continuous_id)
     (fun _ => ⟨hbase, Set.mem_univ _⟩)
-  simpa only [Function.comp_def, id_eq, one_mul] using h
+  refine h.congr fun g => ?_
+  simp only [Function.comp_apply, id_eq, one_mul]
+  rfl
 
 def upperJet (f : sameResidueModule T) (n : ℕ) (g : Group R) :=
   (iteratedFDeriv ℝ n
@@ -158,7 +161,7 @@ theorem fiber_joint_jets_continuous (f : sameResidueModule T) (n : ℕ) :
   have h := (upperJet_continuous R f n).comp
     (((KPWildIndependentGenericity.NonzeroPeriod.actual_upper_root_continuous
       F R.A.zeta12 R.A.primitive_zeta12).comp continuous_snd).mul continuous_fst)
-  simpa only [Function.comp_def, Prod.map, id_eq, smoothArchJet_mk] using h
+  simpa only [Function.comp_def, Prod.map, id_eq, smoothArchJet_mk, Pi.mul_apply] using h
 
 /-- Actual rational coefficients admit a common summable majorant on any
 compact continuous family of arguments. -/
@@ -172,12 +175,14 @@ theorem compact_rationalPeriod_majorant
   obtain ⟨K, hKc, hKo, hK⟩ := fiber_exists_uniform_compact_open_level R f
     (Set.range g) (isCompact_range hg)
   let φ : P × KPAdditiveQuotient F → ℂ := fun z => fiber T f (g z.1) z.2
-  have hc : Continuous φ :=
-    (GlobalProjectRadial.upper_integrand_joint_continuous R f.val
+  have hc : Continuous φ := by
+    have h := (GlobalProjectRadial.upper_integrand_joint_continuous R f.val
       f.property.2.1 f.property.2.2.1).comp (hg.prodMap continuous_id)
+    exact h
   have hj (n : ℕ) : Continuous (fun z : P × KPAdditiveQuotient F =>
-      smoothArchJet n (fiber T f (g z.1)) z.2) :=
-    (fiber_joint_jets_continuous R f n).comp (hg.prodMap continuous_id)
+      smoothArchJet n (fiber T f (g z.1)) z.2) := by
+    have h := (fiber_joint_jets_continuous R f n).comp (hg.prodMap continuous_id)
+    exact h
   let B := fun (n : ℕ) (v : Fin n → mixedEmbedding.mixedSpace F) =>
     sSup (Set.range (fun z : P × KPAdditiveQuotient F =>
       ‖smoothArchJet n (fiber T f (g z.1)) z.2 v‖))
@@ -195,7 +200,12 @@ theorem compact_rationalPeriod_majorant
   refine ⟨b, hb, hp, ?_⟩
   intro p a
   have h := hbound p a
-  simpa only [OrbitExpansion.negativeFrequency_eq_star_rationalCharacter,
-    φ, rationalPeriod] using h
+  have hfun : (fun q => φ (p, q) * (PrincipalOfKP.standardCharacter F).toAddChar
+      (QuotientAddGroup.mk (-(algebraMap F (KPAdeles F) a * Quotient.out q)))) =
+      fun q => fiber T f (g p) q * star (adelicRationalFrequencyQuotientCharacter F a q : ℂ) := by
+    funext q
+    exact congrArg (φ (p, q) * ·) (OrbitExpansion.negativeFrequency_eq_star_rationalCharacter a q)
+  rw [hfun] at h
+  exact h
 
 end ThetaGlobal.GlobalProjectUniformFourier

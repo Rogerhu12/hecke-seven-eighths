@@ -43,7 +43,9 @@ theorem summable_majorant (B X : ℝ) :
   have hprod := hN.mul_of_nonneg hN
     (fun c => inverseSquare_nonneg (exteriorNorm K S c))
     (fun n => inverseSquare_nonneg (exteriorNorm K S n))
-  simpa only [majorant, mul_assoc] using hprod.mul_left (B * X ^ 2)
+  refine (hprod.mul_left (B * X ^ 2)).congr fun cn => ?_
+  simp only [majorant]
+  ring
 
 theorem completed_argument_pos {X : ℝ} (hX : 0 < X) (cn : DirectIndex K S) :
     0 < exteriorNorm K S (completedIdeal K S cn.1 cn.2) / X :=

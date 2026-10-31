@@ -46,7 +46,9 @@ theorem rationalPeriod_eq_fourier (f : sameResidueModule T) (a : Fˣ) (g : Group
       rw [← hq]
       rfl
     unfold φ
-    rw [hd, GlobalCoreSource.fiber_mk, adelicTraceQuotientCharacter_mk,
+    have hmk : ∀ y : KPAdeles F, (QuotientAddGroup.mk y : KPAdditiveQuotient F) =
+        QuotientAddGroup.mk' (AdeleRing.principalSubgroup (𝓞 F) F) y := fun _ => rfl
+    rw [hd, GlobalCoreSource.fiber_mk, hmk, adelicTraceQuotientCharacter_mk,
       OrbitExpansion.rationalCharacter_out]
     congr 1
     rw [← mul_assoc]
@@ -65,7 +67,8 @@ theorem rationalPeriod_eq_fourier (f : sameResidueModule T) (a : Fˣ) (g : Group
     rfl
   have h := hmp.integral_comp hme φ
   change (∫ q, φ (E q) ∂Q.dq) = _ at h
-  simpa only [htransform, GlobalCoreSource.rationalPeriod,
+  simp only [htransform] at h
+  simpa only [GlobalCoreSource.rationalPeriod,
     MomentSources.fourier, φ, A, GlobalCoreSource.fiber] using h
 
 end ThetaGlobal.GlobalProjectRationalDilation

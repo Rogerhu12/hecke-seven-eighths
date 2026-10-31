@@ -113,7 +113,7 @@ theorem target_quotient_upper_zero
   let L := GlobalTargetPeriod.period R θ u
   let z := GlobalProjectAngular.complexRotation θ w (R.A.complex_place w)
   have hL := GlobalTargetPeriod.period_gamma R θ hS u
-  have hext' := GlobalProjectExterior.upper_fullExteriorInvariant R f.val hext
+  have hext' := GlobalProjectExterior.upper_fullExteriorInvariant (Q := Q) R f.val hext
   have hr := core_upper_rationalDiagonalInvariant R f
   have hi := quotientAverage_integrable R w μG L hL
     (GlobalTargetPeriod.period_measurable R θ u) (GlobalTargetPeriod.period_norm R θ u)
@@ -179,6 +179,7 @@ theorem weighted_coefficient_integrable
   apply hi.bdd_mul (hw.comp measurable_subtype_coe).stronglyMeasurable.aestronglyMeasurable (c := 1)
   filter_upwards [] with y
   unfold GlobalProjectUnfolding.weight
+  simp only [Function.comp_apply]
   rw [norm_mul, norm_inv, GlobalTargetPeriod.period_norm, inv_one, mul_one]
   split_ifs <;> simp
 
@@ -307,8 +308,8 @@ theorem target_sheet_fourier_identity
     (by intro a; simpa only [hg] using
       weighted_coefficient_integrable R w μG l Ω hΩc θ u f m false a)
     (by simpa only [hg] using habs false)
-    hθ (hc true) (by simpa only [hg] using hc false)
-    (hz true) (by simpa only [hg] using hz false)
+    hθ (hc true) (by simpa only [hg, digitAverage] using hc false)
+    (hz true) (by simpa only [hg, digitAverage] using hz false)
   simpa only [GlobalProjectDescent.coefficientIntegral, hg] using h
 
 end ThetaGlobal.GlobalProjectSheetReflection

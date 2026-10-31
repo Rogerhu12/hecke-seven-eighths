@@ -114,7 +114,6 @@ theorem rationalPeriod_left_root (f : sameResidueModule T)
   rw [ExteriorWhittakerValues.StoredWhittaker.fourier_left_root R Q.dq f.val
     (core_rational_root R f) _ (A * g)
     (FourierContinuation.sameResidue_period_integrable T f.property (A * g))]
-  rw [adelicTraceQuotientCharacter_mk]
   exact congrArg (fun z : ℂ =>
     (adelicTraceCharacter F (algebraMap F (KPAdeles F) (a : F) * t) : ℂ) * z)
     (GlobalProjectRationalDilation.rationalPeriod_eq_fourier R f a g).symm
@@ -132,7 +131,11 @@ theorem forward_digit_average (f : sameResidueModule T)
   apply Finset.sum_congr rfl
   intro d _
   simp only [signedArgument, Bool.true_eq, ↓reduceIte, one_mul]
-  rw [(diagonal_commute_digit_root R y m d).eq,
-    rationalPeriod_left_root R f, mul_assoc]
+  have hc : diagonal R y * KPGlobalTorusFunctionData.N F R.A.zeta12 R.A.primitive_zeta12
+      (digitParameter R m d) = KPGlobalTorusFunctionData.N F R.A.zeta12 R.A.primitive_zeta12
+        (digitParameter R m d) * diagonal R y := (diagonal_commute_digit_root R y m d).eq
+  have h2 := rationalPeriod_left_root R f a (diagonal R y) (digitParameter R m d)
+  rw [← hc] at h2
+  exact (congrArg (c d * ·) h2).trans (mul_assoc _ _ _).symm
 
 end ThetaGlobal.GlobalProjectCoreEquivariance

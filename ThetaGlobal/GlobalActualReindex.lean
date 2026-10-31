@@ -26,7 +26,7 @@ variable {K : Type} [Field K] [NumberField K] (A : SArithmeticData K)
 
 local notation "S" => (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
 
-variable (D : ThetaArithmeticData K S) (d : MarkedDatum K S)
+variable (D : ThetaArithmeticData K ((A.Sf : Set (HeightOneSpectrum (𝓞 K))))) (d : MarkedDatum K ((A.Sf : Set (HeightOneSpectrum (𝓞 K)))))
 
 def unitRepresentatives : ThetaBranch.UnitRepresentatives A where
   representative := Quotient.out
@@ -71,7 +71,7 @@ theorem order_generator (I : ExteriorIdeal K S) (p : ExteriorPrime K S) :
     (nonZeroDivisors.coe_ne_zero I.val) (D.generator I) (D.generator_ne_zero I)
     (D.generator_span I) p.val p.property
   change -WithZero.log (p.val.valuation K (D.generator I : K)) = _
-  simpa only [hv, WithZero.log_exp, neg_neg]
+  simp only [hv, WithZero.log_exp, neg_neg] <;> rfl
 
 theorem order_representative (i : ReflectionIndex K S d) (p : ExteriorPrime K S) :
     ThetaBranch.order p.val (GlobalActualFrequency.representative K S D d i) =
@@ -132,9 +132,10 @@ theorem index_eq_of_frequency_eq (θ : HeckeCharacter K)
     GlobalActualFrequency.generatorUnit K S D (activeMarkedIdeal K S d i) ^ (-2 : ℤ)
   have hu : i.unitSector = j.unitSector := by
     apply GlobalUnitCoordinates.frequency_injective A (unitRepresentatives A) y
-    simpa only [frequency, GlobalActualFrequency.representative,
+    simp only [frequency, GlobalActualFrequency.representative,
       GlobalUnitCoordinates.frequency, unitRepresentatives, frequencyUnit,
-      activeFrozenIdeal, activeMarkedIdeal, i', y, mul_assoc] using hf
+      activeFrozenIdeal, activeMarkedIdeal, i', y, mul_assoc] at hf ⊢
+    exact hf
   exact GlobalIndexSupport.index_eq_of_branch_unit K S d i j hb hu
 
 /-- The exact map needed for support-level `tsum` reindexing.  The

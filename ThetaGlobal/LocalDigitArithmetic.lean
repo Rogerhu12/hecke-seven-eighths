@@ -39,7 +39,7 @@ theorem sexticSphericalCoefficient_nat {k : Type*} [Field k] [Fintype k]
     HeckeSkeleton.ThetaLocal.ResidueField.gammaTwo,
     hnonneg, ite_false, hmod0, hmod1, hdiv, zpow_neg, zpow_natCast, inv_pow]
 
-def prime (A : SArithmeticData F) (p : ThetaBranch.ExteriorPrime A) :
+abbrev prime (A : SArithmeticData F) (p : ThetaBranch.ExteriorPrime A) :
     ExteriorPrime F (A.Sf : Set (HeightOneSpectrum (𝓞 F))) := ⟨p.val, p.property⟩
 
 section Arithmetic
@@ -58,17 +58,16 @@ theorem thetaPrimeCharacter_eq (p : ThetaBranch.ExteriorPrime A) :
   apply MulChar.ext'
   intro y
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective y
-  rw [NormalizedProbe.principal_prime_residueCharacter_transport,
-    ArithGaussCRT.exteriorQuotientEquiv_mk]
+  have ht := NormalizedProbe.principal_prime_residueCharacter_transport A σ p
+    (Ideal.Quotient.mk p.val.asIdeal a)
   have hchar := HeckeAxiom.sexticResidue_pow_eq_powerChar A σ
     (ThetaBranch.primeIdeal A p) 1 (by decide) (by decide)
     (algebraMap (𝓞 F) A.R a)
   rw [pow_one] at hchar
-  rw [← hchar]
   have hres := HeckeAxiom.sexticEvaluation_eq_sexticResidue A σ p.val p.property
     (algebraMap (𝓞 F) A.R a)
   rw [sIntegerSexticEvaluation_algebraMap] at hres
-  exact hres
+  exact (hres.trans hchar).trans ht.symm
 
 end Arithmetic
 
@@ -94,9 +93,9 @@ theorem primePhase_eq (p : ThetaBranch.ExteriorPrime R.A)
     (x : 𝓞 F ⧸ p.val.asIdeal) :
     primePhase F Sf D (prime R.A p) x = Characters.psi R p x := by
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
-  change projectPrimePhase F Sf D (prime R.A p)
-    (Ideal.Quotient.mk p.val.asIdeal a) = _
-  rw [projectPrimePhase_mk, Characters.psi_apply, probe_additive_eq,
+  refine Eq.trans (projectPrimePhase_mk F Sf D (prime R.A p) a :
+    primePhase F Sf D (prime R.A p) (Ideal.Quotient.mk p.val.asIdeal a) = _) ?_
+  rw [Characters.psi_apply, probe_additive_eq,
     HeckeAxiom.thetaArithmeticData_generator]
   have hp : (HeckeAxiom.exteriorEquiv R.A).symm
       (exteriorPrimeIdeal F Sf (prime R.A p)) = ThetaBranch.primeIdeal R.A p :=
@@ -144,10 +143,18 @@ theorem forward_mask (p : ThetaBranch.ExteriorPrime R.A) (j : Fin 6)
     (∑ v : 𝓞 F ⧸ p.val.asIdeal,
       digitMask F Sf D (prime R.A p) j v * Characters.psi R p (t * v)) =
       if t = 0 then 0 else thetaPrimeCharacter F Sf D (prime R.A p) t ^ j.val := by
-  simp_rw [← primePhase_eq R hdiff p]
-  rw [digitMask_fourier]
+  have hsum : (∑ v : 𝓞 F ⧸ p.val.asIdeal,
+      digitMask F Sf D (prime R.A p) j v * Characters.psi R p (t * v)) =
+      ∑ v : 𝓞 F ⧸ p.val.asIdeal,
+        digitMask F Sf D (prime R.A p) j v * primePhase F Sf D (prime R.A p) (t * v) :=
+    Finset.sum_congr rfl fun v _ =>
+      congrArg (digitMask F Sf D (prime R.A p) j v * ·) (primePhase_eq R hdiff p (t * v)).symm
+  rw [hsum]
+  refine (digitMask_fourier F Sf D (prime R.A p) j t).trans ?_
   by_cases ht : t = 0
-  · simp [ht]
+  · subst ht
+    rw [if_pos rfl]
+    exact MulChar.map_nonunit _ not_isUnit_zero
   · rw [if_neg ht]
     exact (thetaPrimeCharacter F Sf D (prime R.A p)).pow_apply_coe
       j.val (Units.mk0 t ht)

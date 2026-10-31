@@ -93,7 +93,7 @@ theorem reflectedTensor_weight (θ : HeckeCharacter F) (W : ℂ)
   ring
 
 theorem reflected_global_mellin
-    (θ : HeckeCharacter F) (B : FirstRootCutoffs R)
+    (θ : HeckeCharacter F) (B : ThetaExpansion.FirstRootCutoffs R)
     (C₀ : ℂ) (hC₀ : C₀ ≠ 0) (A₀ : ℝ) (hA₀ : 0 < A₀)
     (W : ℂ) (a : ∀ w : InfinitePlace F, w.Completionˣ → ℂ)
     (u : R.A.UnitQuotient)
@@ -132,8 +132,12 @@ theorem reflected_global_mellin
   refine ⟨((harch.mul_prod hfinite).const_mul W).congr
     (Filter.Eventually.of_forall (fun _ => (mul_assoc _ _ _).symm)), ?_⟩
   simp_rw [mul_assoc]
-  rw [integral_const_mul, integral_prod_mul, integral_fintype_prod_eq_prod,
-    ← hfiniteIntegral]
+  rw [integral_const_mul]
+  refine congrArg (W * ·) ?_
+  refine (MeasureTheory.integral_prod_mul
+    (fun x : (∀ w : InfinitePlace F, w.Completionˣ) => ∏ w, archWeighted a s w (x w))
+    (finiteMellinIntegrand R D θ u κ s)).trans ?_
+  rw [integral_fintype_prod_eq_prod, ← hfiniteIntegral]
   ring
 
 /-- The actual norm-one Haar profile, including the actual global scalar. -/
@@ -142,11 +146,11 @@ def reflectedSheet (θ : HeckeCharacter F) (W : ℂ)
     (u : R.A.UnitQuotient)
     (κ : SixthLocalClasses F (R.A.Sf : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F))))
     (v₀ : InfinitePlace F) (t : PositiveAxis) : ℂ :=
-  ∫ z : R.A.G1, reflectedTensor R D θ W a u κ (sheetEquiv R v₀ (t, z))
-    ∂R.probe.domain.measure
+  MeasureTheory.integral R.probe.domain.measure
+    (fun z : R.A.G1 => reflectedTensor R D θ W a u κ (sheetEquiv R v₀ (t, z)))
 
 theorem reflected_sheet_mellin
-    (θ : HeckeCharacter F) (B : FirstRootCutoffs R)
+    (θ : HeckeCharacter F) (B : ThetaExpansion.FirstRootCutoffs R)
     (C₀ : ℂ) (hC₀ : C₀ ≠ 0) (A₀ : ℝ) (hA₀ : 0 < A₀)
     (W : ℂ) (a : ∀ w : InfinitePlace F, w.Completionˣ → ℂ)
     (u : R.A.UnitQuotient)
