@@ -51,7 +51,8 @@ theorem sum_nonzeroTerminalSet_eq_normWindow (H : ℝ)
     apply (mem_nonzeroTerminalSet H I.val).mpr
     refine ⟨?_, mem_nonZeroDivisors_iff_ne_zero.mp I.property⟩
     unfold finiteIdealNormWindow at hI
-    exact (Set.Finite.mem_toFinset _).mp (Finset.mem_preimage.mp hI)
+    have hmem := Finset.mem_preimage.mp hI
+    exact (Set.Finite.mem_toFinset _).mp hmem
   · intro I _ J _ hIJ
     exact Subtype.ext hIJ
   · intro I hI

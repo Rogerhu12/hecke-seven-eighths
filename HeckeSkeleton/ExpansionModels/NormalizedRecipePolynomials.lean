@@ -72,7 +72,7 @@ theorem shared_inverse_cutoff_eq_normalized
   · rw [if_pos hv]
     ring
   · have hz : V (ratio * (idealNorm K I / D)) = 0 := not_ne_iff.mp hv
-    simp only [if_neg hv, hz, mul_zero, zero_mul]
+    simp only [hz, mul_zero, zero_mul, ite_self]
 
 /-- The plain factor uses the same original deletion set and the same
 real/imaginary shifts, with the exact sqrt normalizer. -/
