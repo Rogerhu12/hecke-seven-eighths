@@ -62,8 +62,10 @@ def actualPrimeLogWindow (B : ℝ) : Finset (ActualPrimeLogIndex K) :=
 
 theorem mem_actualPrimeLogWindow_of_le (B : ℝ) (np : ActualPrimeLogIndex K)
     (hN : actualPrimePowerNorm K np ≤ B) : np ∈ actualPrimeLogWindow K B := by
-  simp only [actualPrimeLogWindow, Finset.mem_preimage, Set.Finite.mem_toFinset,
-    Set.mem_setOf_eq]
+  unfold actualPrimeLogWindow
+  apply Finset.mem_preimage.mpr
+  apply (Set.Finite.mem_toFinset _).mpr
+  change Ideal.absNorm (primePowerIdeal K (Prod.swap np)).val ≤ ⌈B⌉₊
   have h : (Ideal.absNorm (primePowerIdeal K (Prod.swap np)).val : ℝ) ≤ (⌈B⌉₊ : ℝ) :=
     hN.trans (Nat.le_ceil B)
   exact_mod_cast h
@@ -131,7 +133,11 @@ theorem summable_actualPrimeLogMajorant {σ : ℝ} (hσ : 1 < σ) :
   have h := (summable_ideal_logPower_rpow K 1 hσ).comp_injective
     ((primePowerIdeal_injective K).comp
       (Equiv.prodComm ℕ (HeightOneSpectrum (𝓞 K))).injective)
-  simpa only [actualPrimeLogMajorant, actualPrimePowerNorm, pow_one] using h
+  refine h.congr ?_
+  intro np
+  change Real.log (actualPrimePowerNorm K np) ^ 1 * actualPrimePowerNorm K np ^ (-σ) =
+    Real.log (actualPrimePowerNorm K np) * actualPrimePowerNorm K np ^ (-σ)
+  rw [pow_one]
 
 theorem actualPrimeLog_mass_term_le (χ : HeckeCharacter K) (σ : ℝ)
     (np : ActualPrimeLogIndex K) :

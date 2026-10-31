@@ -43,8 +43,13 @@ def recipeCutoffTwist (W : IdealTest K) (V : ℝ → ℂ) (ratio : ℝ)
   support u _ D := (W.support u 0 D).filter
     (fun I => V (ratio * (idealNorm K I / D)) ≠ 0)
   support_spec u _ D I := by
-    simp only [Finset.mem_filter, W.support_spec, mul_ne_zero_iff,
-      profilePower_ne_zero, and_true]
+    rw [Finset.mem_filter, W.support_spec]
+    constructor
+    · rintro ⟨hW, hV⟩
+      exact mul_ne_zero (mul_ne_zero hW hV) (profilePower_ne_zero _ _)
+    · intro h
+      have hWV := left_ne_zero_of_mul h
+      exact ⟨left_ne_zero_of_mul hWV, right_ne_zero_of_mul hWV⟩
 
 /-- Fixed algebraic and profile choices shared by every source scale. -/
 structure RecipeFamily (ψ : HeckeCharacter K) (g : PrimeWindowGeometry) where
@@ -171,6 +176,7 @@ theorem RecipeWitnessData.model_eq_shared {F : RecipeFamily K ψ g}
   unfold RecipeWitnessData.model RecipeFamily.fullModel RecipeFamily.inverseFamily
   rw [RecipeWitnessData.heights_presentation, RecipeWitnessData.heights_cutoff,
     RecipeWitnessData.physicalPoint_heights]
+  rfl
 
 /-- Witness choices change no physical prime polynomial.  All selected
 prime factors use the same three physical coordinates. -/
@@ -183,13 +189,14 @@ theorem RecipeWitnessData.primePolynomial_model {F : RecipeFamily K ψ g}
   dsimp only [primePolynomial, RecipeWitnessData.model,
     RecipeFamily.fullModel, RecipeFamily.slotModel]
   rw [RecipeWitnessData.physicalPoint_heights]
+  rfl
 
 theorem RecipeWitnessData.selectedSlotProduct {F : RecipeFamily K ψ g}
     (w : RecipeWitnessData K ψ g F) (p : Fin 3 → ℝ) (t T : ℝ)
     (s : SixthUnitClasses K S) (d : ℝ) (hd : 0 < d)
     (J : Finset (Fin g.slots)) (u : NonzeroIdeal K) {Z : ℝ} (hZ : 0 < Z) :
-    slotProduct (((w.model (P := P) (R := R) (ω := ω) p t T (Z ^ d) s).
-      changeSlotBase d hd).restrictSlots J) u (Z ^ d) 0 =
+    slotProduct (((w.model (P := P) (R := R) (ω := ω) p t T (Z ^ d) s).changeSlotBase
+      d hd).restrictSlots J) u (Z ^ d) 0 =
         ∏ j ∈ J, primePolynomial (F.slotModel K S P R ω ψ g p s) j u Z 0 := by
   rw [selectedSlotProduct_changeSlotBase _ d hd J u hZ 0]
   apply Finset.prod_congr rfl

@@ -69,7 +69,7 @@ theorem rowZeroAbove_iff (u : FrequencyRow K S) {height lower : ℝ}
   · intro hm
     obtain ⟨χ, s, hz, ht, hs, _, hhi⟩ :=
       (rowFamily K S ψ Θ P E u).maximum_attained (hl.trans_le hm)
-    exact ⟨χ.val, χ.property, s, hz, by simpa only [hs] using hm, hhi, ht⟩
+    exact ⟨χ.val, χ.property, s, hz, by simpa only [rowMaximum, hs] using hm, hhi, ht⟩
 
 /-- Both zero heights arise from one finite buffered choice.  The finite
 family boundary is the pre-existing family boundary, not a stronger one. -/
@@ -94,6 +94,7 @@ theorem exists_actual_row_buffer (u : FrequencyRow K S)
     have hhi : s.re ≤ 1 := by
       by_contra hgt
       have ho := meromorphicOrderAt_heckeContinuation K χ.val (lt_of_not_ge hgt)
+      change 0 < meromorphicOrderAt (heckeContinuation K χ.val) s at hz
       rw [ho] at hz
       exact (lt_irrefl 0) hz
     exact ⟨χ.val, χ.property, s, hz, hs, hhi, ht⟩

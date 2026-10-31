@@ -62,8 +62,8 @@ theorem FiniteWitnessChoice.subdivision_mem (F : FiniteWitnessChoice K S ψ)
     (amp : Fin g.slotCount → ℝ) (a₀ : PolynomialPresentation K ψ)
     (c : Fin g.slotCount → HeckeCharacter K) (U Z t : ℝ)
     (j : Fin (F.count t)) (u : FrequencyRow K S) :
-    u ∈ ((F.amplitudeSet (P := P) (R := R) (ω := ω) rows g amp a₀ c U Z).
-      subdivision t j).rows ↔ u ∈ rows ∧ F.choice t u = j := by
+    u ∈ ((F.amplitudeSet (P := P) (R := R) (ω := ω) rows g amp a₀ c U Z).subdivision
+      t j).rows ↔ u ∈ rows ∧ F.choice t u = j := by
   simp [FiniteWitnessChoice.amplitudeSet, FiniteWitnessChoice.recipeOn,
     WitnessRecipe.toWitness]
 
@@ -72,8 +72,8 @@ theorem FiniteWitnessChoice.subdivision_cover (F : FiniteWitnessChoice K S ψ)
     (amp : Fin g.slotCount → ℝ) (a₀ : PolynomialPresentation K ψ)
     (c : Fin g.slotCount → HeckeCharacter K) (U Z t : ℝ) :
     ∀ u ∈ rows, ∃ j,
-      u ∈ ((F.amplitudeSet (P := P) (R := R) (ω := ω) rows g amp a₀ c U Z).
-        subdivision t j).rows := by
+      u ∈ ((F.amplitudeSet (P := P) (R := R) (ω := ω) rows g amp a₀ c U Z).subdivision
+        t j).rows := by
   intro u hu
   exact ⟨F.choice t u, (F.subdivision_mem rows g amp a₀ c U Z t _ u).mpr ⟨hu, rfl⟩⟩
 

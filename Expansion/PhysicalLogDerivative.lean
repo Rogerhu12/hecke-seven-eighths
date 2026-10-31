@@ -19,6 +19,7 @@ namespace Expansion.Project
 open NumberField IsDedekindDomain Set Metric
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeSkeleton.HeckeUniformStripGrowth HeckeSkeleton.HeckeBufferedReciprocal
+open HeckeSkeleton.ExplicitHeckeFunctionalEquation
 open HeckeSkeleton.ActualEulerLogarithm ExpansionDetector.Hecke
 open PrimeCancellationDiskGeometry
 open scoped Classical

@@ -19,6 +19,7 @@ namespace HeckeSkeleton.ExpansionDetectorBridge
 open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Bridge HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ExpansionDetectorInitial
+open HeckeSkeleton.ExplicitHeckeFunctionalEquation
 open ExpansionDetector.IdealCutoff ExpansionDetector.Hecke
 open scoped NumberField Classical BigOperators nonZeroDivisors
 
@@ -48,11 +49,18 @@ theorem exists_actual_deleted_terminal_source
           (fun n => (n : ℂ) ^ (-ρ) * (Real.exp (-(n : ℝ) / U ^ 20) : ℂ)) I‖ := by
   obtain ⟨CL, hCL, hstrip⟩ := exists_actual_detector_strip_bound K hcomplex τ m R hR
   let CZ : ℝ := 1 + ∑' I : NonzeroIntegralIdeal (K := K), nonzeroIdealNorm I ^ (-2 : ℝ)
-  have hCZ : 0 < CZ := by dsimp [CZ]; positivity
+  have hZnonneg : 0 ≤ ∑' I : NonzeroIntegralIdeal (K := K),
+      nonzeroIdealNorm I ^ (-2 : ℝ) := by
+    apply tsum_nonneg
+    intro I
+    apply Real.rpow_nonneg
+    change (0 : ℝ) ≤ (Ideal.absNorm I.val : ℝ)
+    exact Nat.cast_nonneg _
+  have hCZ : 0 < CZ := by dsimp [CZ]; linarith
   have hA : 0 ≤ heightDegree K := by dsimp [heightDegree]; positivity
   have hzeta₃ : Summable (fun I : NonzeroIntegralIdeal (K := K) => nonzeroIdealNorm I ^ (-3 / 2 : ℝ)) := by
-    simpa only [nonzeroIdealNorm, idealNorm] using
-      (summable_nonzeroIdeal_norm_rpow K (σ := 3 / 2) (by norm_num))
+    convert (summable_nonzeroIdeal_norm_rpow K (σ := 3 / 2) (by norm_num)) using 1 <;>
+      norm_num [nonzeroIdealNorm, idealNorm]
   have hzeta₂ : Summable (fun I : NonzeroIntegralIdeal (K := K) => nonzeroIdealNorm I ^ (-2 : ℝ)) := by
     simpa only [nonzeroIdealNorm, idealNorm] using
       (summable_nonzeroIdeal_norm_rpow K (σ := 2) (by norm_num))

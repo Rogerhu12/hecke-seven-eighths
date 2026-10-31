@@ -77,10 +77,9 @@ theorem exists_background_normTwist_cutoff (B : Finset (HeckeCharacter K)) :
         η * R.character u ≠ heckeNormTwist K t ∧
         η * (R.character u)⁻¹ ≠ heckeNormTwist K t := by
   let T := backgroundExceptionalCharacters K B
-  letI : Finite {u : FrequencyRow K S // arithmeticRowCharacter K S P u ∈ T} :=
-    arithmeticRowCharacter_finiteFamily_finite K S P T
-  have hfinite : Set.Finite {u : FrequencyRow K S | arithmeticRowCharacter K S P u ∈ T} :=
-    Set.toFinite _
+  have hfinite : Set.Finite {u : FrequencyRow K S | arithmeticRowCharacter K S P u ∈ T} := by
+    change Finite {u : FrequencyRow K S // arithmeticRowCharacter K S P u ∈ T}
+    exact arithmeticRowCharacter_finiteFamily_finite K S P T
   obtain ⟨C, hC⟩ := (hfinite.image (frequencyRowNorm K S)).bddAbove
   refine ⟨max 1 C, le_max_left _ _, ?_⟩
   intro u hu η hη t

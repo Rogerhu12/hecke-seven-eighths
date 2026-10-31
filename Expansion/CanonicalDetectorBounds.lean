@@ -63,10 +63,12 @@ theorem row_conductorScale_le_original_norm (u : FrequencyRow K S) :
   have hn : ((finiteConductor K (arithmeticRowCharacter K S P u)).val.absNorm : ℝ) ≤
       (sexticSConductorNormConstant K S : ℝ) *
         HeckeGeneral.Analysis.idealNorm K u.ideal.val := by
+    dsimp only [HeckeGeneral.Analysis.idealNorm]
     exact_mod_cast arithmeticRowCharacter_finiteConductor_absNorm_le_originalIdeal K S P u
   unfold heckeConductorScale
   exact (mul_le_mul_of_nonneg_left hn (Nat.cast_nonneg _)).trans_eq (by ring)
 
+set_option maxHeartbeats 800000 in
 /-- The actual conductor hypothesis of the zero and saturation theorems
 holds uniformly for every original row of norm at most twice its shell. -/
 theorem canonicalDetector_conductor (i : Fin 2) (u : FrequencyRow K S)
@@ -90,9 +92,10 @@ theorem canonicalDetector_conductor (i : Fin 2) (u : FrequencyRow K S)
       conductorScale_mul_le K (canonicalDetectorBackground K ψ i) (E.rows.character u)
     _ ≤ b * (A * (2 * U)) := mul_le_mul_of_nonneg_left hrow hb
     _ ≤ M * (A * (2 * U)) := mul_le_mul_of_nonneg_right hbM (by positivity)
-    _ ≤ canonicalDetectorConductorConstant K S ψ * U := by
-      dsimp [canonicalDetectorConductorConstant, M, A]
-      nlinarith
+    _ ≤ M * (A * (2 * U)) + U := le_add_of_nonneg_right hU
+    _ = canonicalDetectorConductorConstant K S ψ * U := by
+      dsimp only [canonicalDetectorConductorConstant, M, A]
+      ring
 
 end Expansion.Project
 

@@ -133,7 +133,7 @@ theorem deletedFunction_rectangle_differentiable (reciprocal : Bool)
       · calc
           |(s + z).im| = |s.im + z.im| := rfl
           _ ≤ |s.im| + |z.im| := abs_add_le _ _
-          _ ≤ |s.im| + H := add_le_add_left hz.2.2 _
+          _ ≤ |s.im| + H := add_le_add le_rfl hz.2.2
           _ ≤ Hupper := hpadding
 
 /-- The finite-height upper bound, with all series and analytic premises
@@ -190,7 +190,7 @@ theorem exists_actual_buffered_annular_upper
       linarith [hz.1]
     · simp only [Complex.add_re]
       linarith [hz.2.1]
-    · exact (abs_add_le s.im z.im).trans (add_le_add_left hz.2.2 _)
+    · exact (abs_add_le s.im z.im).trans (add_le_add le_rfl hz.2.2)
   have hleft : ∀ t : ℝ, |t| ≤ H →
       ‖deletedFunction K reciprocal χ E (s + vertical (a + 6 * e - s.re) t)‖ ≤ B := by
     intro t ht
@@ -229,6 +229,6 @@ theorem exists_actual_buffered_annular_upper
     (div_nonneg hCW (pow_nonneg hH.le order))
   have hwidth : (2 - s.re) - (a + 6 * e - s.re) = 2 - a - 6 * e := by ring
   rw [hwidth]
-  exact add_le_add_left htail _
+  exact add_le_add le_rfl htail
 
 end HeckeGeneral.Analysis.ExpansionBufferedPolynomials

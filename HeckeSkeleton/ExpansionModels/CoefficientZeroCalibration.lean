@@ -167,7 +167,11 @@ theorem rowCharacter_unramified_on_masked_divisors
   let E : ExteriorIdeal K S := ⟨I, hS⟩
   have hcal : heckeIdealCoefficient K (R.character u) I =
       idealSymbol K S P.arithmetic E (frequencyRowElement K S P u) := by
-    simpa only [if_pos hcop] using R.coefficient_calibration u E
+    have hc := R.coefficient_calibration u E
+    change (if IsCoprime I.val u.ideal.val.val then
+      heckeIdealCoefficient K (R.character u) I else 0) =
+      idealSymbol K S P.arithmetic E (frequencyRowElement K S P u) at hc
+    simpa only [if_pos hcop] using hc
   have hcop' : IsCoprime I.val
       (sIntegerModulusContraction K S (frequencyRowElement K S P u)) := by
     rw [frequencyRowElement_contraction]
@@ -197,11 +201,9 @@ theorem masked_background_signed_coefficient
         (if completeIdealCommonMask K S u.ideal.val I.val then (1 : ℂ) else 0) := by
   by_cases h : (∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ I.val →
       p ∉ S ∧ (6 : 𝓞 K) ∉ p.asIdeal) ∧ IsCoprime I.val u.ideal.val.val
-  · simp only [completeIdealCommonMask, h, decide_true, Bool.true_eq_true, if_true, mul_one]
-    symm
-    exact heckeIdealCoefficient_background_signed K ψ (R.character u) I e he
+  · rw [heckeIdealCoefficient_background_signed K ψ (R.character u) I e he
       (rowCharacter_unramified_on_masked_divisors K S P R u I
-        (fun p hp => (h.1 p hp).1) h.2)
+        (fun p hp => (h.1 p hp).1) h.2)]
   · simp [completeIdealCommonMask, h]
 
 end HeckeGeneral.Analysis.ExpansionRecipe
