@@ -1,5 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Family
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Recursion
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Reduction
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Terminal
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.TerminalCertificate
 
@@ -11,18 +11,23 @@ rectangles, the common original row set, both profiles, the whole slot
 product and the common mask.  The same data are used in a centered
 difference, and its comparison lengths have the same sum.
 
-The contract gives a finite local inequality and earlier children, together
-with the normalized terminal remainder and weight mass.  It contains no
+The contract gives a positive local inequality and earlier children, together
+with the normalized terminal remainder and weight mass. Children may form
+a finite weighted sum or a finite positive measure, allowing the genuine
+continuous Fourier parameters to remain inside the recursion. It contains no
 `UniformMomentBound`, `SectorBound`, final root estimate or recursive
 estimate as an assumed field.  Uniform constants are chosen before the
 moving scale, source index and sector.
 
 The published `EngineStep.paired_child_step` at commit
-`2b04a3b039c12f019628959267fac2e4e7a73d21` supplies a narrower conclusion:
+`04cc5c645c7f79bb19439b6f8fddbc7fd820882e` supplies a narrower conclusion:
 strict child width, capacity repair and the actual slot-removal inequality.
 `ChildStepCompatibility.lean` records that precise interface.  It leaves
-the parent's finite norm decomposition, terminal component masses and
-common-kernel tails to be assembled.  Those additional obligations are
+the parent's norm decomposition, terminal component masses and
+uniform common-kernel tail budget to be assembled.  The newer orbital
+transform and kernel modules supply exact identities and quantitative
+truncation with an explicit coefficient mass; that mass still needs its
+uniform bound over the recursive profile family.  Those additional obligations are
 explicit here and require more than the published child theorem alone.
 
 The producer must prove this contract for its actual two-transform output.
@@ -134,10 +139,9 @@ the one slot-removal overshoot. -/
 structure ClosedParentReduction {ω ψ : HeckeCharacter K} {σ W : ℝ}
     (S : PolynomialSystem.{u} K ω ψ σ W)
     (U T t C H β δ : ℝ) where
-  reduction : LocalStep (fun x => (S.node x).normalizedEnergy U t) S.schedule
+  reduction : Reduction (fun x => (S.node x).normalizedEnergy U t) S.schedule
   terminal : ∀ x, reduction.remainder x ≤ C * (1 + T) ^ H * U ^ β
-  mass : ∀ x, (∑ y ∈ reduction.children x, reduction.weight x y) ≤
-    C * (1 + T) ^ H * U ^ δ
+  mass : ∀ x, reduction.mass x ≤ C * (1 + T) ^ H * U ^ δ
 
 /-- The producer-facing contract keeps the raw terminal components.  The
 exceptional exponent and the aggregate terminal bound are proved by this
@@ -145,7 +149,7 @@ task, rather than assumed as the final bound for a remainder. -/
 structure RawParentReduction {ω ψ : HeckeCharacter K} {σ W : ℝ}
     (S : PolynomialSystem.{u} K ω ψ σ W)
     (U T t C H β δ : ℝ) where
-  reduction : LocalStep (fun x => (S.node x).normalizedEnergy U t) S.schedule
+  reduction : Reduction (fun x => (S.node x).normalizedEnergy U t) S.schedule
   floor : ℝ
   padding : ℝ
   boundary : ℝ
@@ -155,8 +159,7 @@ structure RawParentReduction {ω ψ : HeckeCharacter K} {σ W : ℝ}
   terminal_budget : terminalBudget floor padding σ boundary ≤ β
   components : ∀ x,
     TerminalComponents.{u} (reduction.remainder x) U T C H floor padding σ boundary
-  mass : ∀ x, (∑ y ∈ reduction.children x, reduction.weight x y) ≤
-    C * (1 + T) ^ H * U ^ δ
+  mass : ∀ x, reduction.mass x ≤ C * (1 + T) ^ H * U ^ δ
 
 /-- Close the raw terminal ledgers before running the recursion. -/
 def RawParentReduction.closeTerminals {ω ψ : HeckeCharacter K} {σ W : ℝ}
@@ -176,12 +179,12 @@ of numerical widths. -/
 structure RootCertificate {ω ψ : HeckeCharacter K}
     {Index : ℝ → ℝ → Type v} {Sector : Type w}
     (F : SourceFamily K ω ψ Index Sector)
-    (at : ∀ Z T, Index Z T → Index Z T)
+    (indexMap : ∀ Z T, Index Z T → Index Z T)
     (σ W C H β δ : ℝ) {Z T : ℝ} (i : Index Z T) (s : Sector) where
   system : PolynomialSystem.{u} K ω ψ σ W
   root : system.Label
   root_eq : system.node root =
-    Node.ordinary (F.model Z T (at Z T i) s) (F.parameters (at Z T i))
+    Node.ordinary (F.model Z T (indexMap Z T i) s) (F.parameters (indexMap Z T i))
   base_one_le : 1 ≤ F.base i
   step : RawParentReduction K system (F.base i) T 0 C H β δ
 
@@ -191,7 +194,7 @@ all source indices, sectors and recursively generated nodes. -/
 structure ParentReductionInput {ω ψ : HeckeCharacter K}
     {Index : ℝ → ℝ → Type v} {Sector : Type w}
     (F : SourceFamily K ω ψ Index Sector)
-    (at : ∀ Z T, Index Z T → Index Z T)
+    (indexMap : ∀ Z T, Index Z T → Index Z T)
     (eligible : ∀ Z T, Index Z T → Prop) where
   sigma : ℝ
   widthLimit : ℝ
@@ -205,12 +208,12 @@ structure ParentReductionInput {ω ψ : HeckeCharacter K}
   ceiling_pos : 0 < ceiling
   loss_budget : terminalLoss + (4 * (widthBand sigma widthLimit + 1) : ℕ) *
     edgeLoss ≤ F.loss
-  base_at : ∀ Z T (i : Index Z T), F.base (at Z T i) = F.base i
+  base_at : ∀ Z T (i : Index Z T), F.base (indexMap Z T i) = F.base i
   certificates : ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
     ∃ Z₀ C : ℝ, 1 ≤ Z₀ ∧ 0 ≤ C ∧
       ∀ Z : ℝ, Z₀ ≤ Z → ∀ i : Index Z (Z ^ τ),
         51 / 100 < F.bin Z (Z ^ τ) i → eligible Z (Z ^ τ) i →
-          ∀ s : Sector, Nonempty (RootCertificate.{u} F at sigma widthLimit C
+          ∀ s : Sector, Nonempty (RootCertificate.{u} F indexMap sigma widthLimit C
             heightDegree terminalLoss edgeLoss i s)
 
 end HeckeSkeleton.Moments.EngineInduction

@@ -14,7 +14,7 @@ the interface.
 
 The weight mass includes the complete normalized outer counting measure,
 the common-support factors, the one prime-pool density, and the whole-slot
-removal cost.  They must be included once by the single-step provider.
+removal cost.  They must be included once in the parent's local reduction.
 This module then proves termination and propagates the constants, height
 degree and local power loss.  The number of child labels may vary with
 the scale: only the total weight mass is used.
@@ -81,7 +81,8 @@ theorem bound (step : LocalStep value schedule) (terminal mass : ℝ)
         _ ≤ terminal + mass * (terminal * (1 + mass) ^ n) :=
           add_le_add_left (mul_le_mul_of_nonneg_right (hmass x) hnonneg) _
         _ ≤ terminal * (1 + mass) ^ n + mass * (terminal * (1 + mass) ^ n) :=
-          add_le_add_right (by nlinarith) _
+          add_le_add_right
+            (by simpa only [mul_one] using mul_le_mul_of_nonneg_left hpower ht) _
         _ = terminal * (1 + mass) ^ (n + 1) := by rw [pow_succ]; ring
   intro x
   exact hmain _ x rfl

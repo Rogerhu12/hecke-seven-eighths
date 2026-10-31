@@ -1,6 +1,6 @@
 # Paired fourth-moment induction
 
-This directory contains the finite induction from revised §4.8, its terminal
+This directory contains the finite-rank induction from revised §4.8, its terminal
 arithmetic and exceptional-row counting, and exact adapters for the original
 finite `MomentData` polynomials. The three public projections are:
 
@@ -9,7 +9,9 @@ finite `MomentData` polynomials. The three public projections are:
 * `EngineInduction.paired_positive_endpoint`.
 
 Their explicit remaining input is `ParentReductionInput`. It includes the
-parent's normalized finite decomposition and uniform coefficient estimates.
+parent's normalized positive decomposition and uniform coefficient estimates.
+The decomposition may use finite sums or finite positive measures on actual
+child nodes, so continuous Fourier parameters are retained.
 The published child-step theorem supplies one part of this input. The source
 specialization in `SkeletonFamily.lean` records the exact original conclusions
 with this additional hypothesis visible.
@@ -17,7 +19,7 @@ with this additional hypothesis visible.
 ## Relation to the authoritative child step
 
 The parallel task's interface at commit
-`2b04a3b039c12f019628959267fac2e4e7a73d21` is
+`04cc5c645c7f79bb19439b6f8fddbc7fd820882e` is
 `HeckeSkeleton.Moments.EngineStep.paired_child_step`. It proves:
 
 1. the actual child effective width is at most the parent width minus `σ / 2`;
@@ -31,12 +33,24 @@ converts the actual-energy inequality to its centrally normalized version.
 The successor enters the finite state order proved here.
 
 The published child theorem explicitly leaves parent analytic assembly open.
-In particular, it supplies no inequality for the parent energy, no common
-terminal coefficient mass, and no common-kernel tail estimate. The stronger
-parent reduction required by this directory therefore remains an additional
-obligation. For a zero-slot child, the published energy comparison can reduce
-to a multiple of the same child energy; it cannot by itself bound the parent
-or initialize induction.
+The newer `OrbitalTransform`, `ChildAssembly` and `JointKernel` modules also
+provide genuine orbital Poisson and common-cutoff truncation, exact finite
+Moebius/phase separation, and paired Cauchy with a common Fourier measure.
+The remaining step is to connect these expressions to the actual parent
+moment and bound their coefficient masses and tails uniformly over the
+recursive profile family. Integrability alone does not provide the uniform
+weight mass required here. The stronger parent reduction therefore remains
+an additional obligation. For a zero-slot child, the published energy
+comparison can reduce to a multiple of the same child energy; it cannot by
+itself bound the parent or initialize induction.
+
+`ExceptionalRows` at that pin still takes the sixth-power classification as
+an explicit input. `ExceptionalAmplitude` supplies estimates for whole
+masked rectangles from volume, profile and error controls; those controls
+and the outer sum over frozen cores must still be charged to the common
+terminal coefficient mass. The additional `hcharge` and zero-slot premise
+in the updated child theorem do not change its conclusion, so the exact
+`ChildStepConclusion` consumed here is unchanged.
 
 ## The finite order and quantitative conclusion
 
@@ -55,7 +69,8 @@ natural rank is less than
 N = 4 * (floor(4 * W / σ) + 1).
 ```
 
-The local finite reduction has nonnegative weights. Its terminal remainder
+The local reduction has nonnegative weights or a finite positive child measure.
+Its terminal remainder
 has bound `C (1+T)^H U^β`, and its total normalized weight mass has bound
 `C (1+T)^H U^δ`. Finite induction proves the uniform normalized estimate
 
@@ -65,7 +80,8 @@ C * (1+C)^N * U^(β + N*δ) * (1+T)^(H*(N+1)).
 
 The coarse terminal loss `β` is charged once. Only the local edge loss is
 multiplied by the finite depth. The number of finite child labels may vary
-with the scale; their total weight mass is the controlled quantity. Undoing
+with the scale, and integral children may have continuous frequency labels;
+their total weight mass is the controlled quantity. Undoing
 the normalization restores `U^(m+q)`. At an original source root this width
 is exactly one, and `β + N*δ ≤ loss` gives the requested exponent.
 
@@ -73,6 +89,16 @@ All constants precede the moving index and sector. The height degree and
 ceiling precede `τ`; the scalar and threshold may depend on fixed `τ`, exactly
 as in the original `UniformMomentBound`. Summing sectors introduces the
 fixed sector cardinality once.
+
+`IntegralRecursion.lean` proves the same estimate for finite positive measures.
+The actual child energy is integrable and the child is earlier almost
+everywhere. The proof uses pointwise strong induction followed by monotonicity
+of the Bochner integral and the exact integral of a constant. No finite
+representative or supremum is substituted for the genuine Fourier integral.
+`Reduction.lean` exposes one interface with explicit finite-sum and integral
+constructors; both feed the same three source projections. Constructing the
+measure and proving its uniform mass bound remain producer obligations,
+including any frequency growth from the recursive profile bounds.
 
 ## Terminal and exceptional-row proofs
 
@@ -150,6 +176,13 @@ family. The published child step requires pointwise prime-factor bounds on
 its recursively generated rows. The parent producer must supply those
 masked estimates and source calibration. `RootCertificate.base_one_le`
 also records the source condition needed to increase power exponents.
+
+The original `WholeMomentProfileControl` controls the listed one-variable
+inverse and plain profiles. Prime-window bounds and the mixed-parameter,
+locality, and recursive profile estimates needed for the uniform Fourier
+mass remain separate obligations. The corrected statements expose the
+resulting uniform local estimates in their parent certificates; they do not
+assert that the original profile hypothesis constructs those certificates.
 
 ## Verification
 

@@ -168,7 +168,7 @@ theorem width_chain_drop (width : ℕ → ℝ) (σ : ℝ) (n : ℕ) :
       intro hstep
       have hprev := ih (fun j hj => hstep j (Nat.lt_trans hj (Nat.lt_succ_self n)))
       have hlast := hstep n (Nat.lt_succ_self n)
-      simp only [Nat.cast_succ, Nat.cast_add, Nat.cast_one] at *
+      simp only [Nat.cast_succ] at *
       linarith
 
 /-- The paper's finite depth bound for strict calls, including its two

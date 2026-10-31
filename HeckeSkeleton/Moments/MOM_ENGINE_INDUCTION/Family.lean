@@ -140,25 +140,26 @@ def PrimeProductBound (κ : ℝ) : Prop :=
     (fun _ _ i => 1 + κ * F.selectedLength i) (fun _ _ i => F.capacity i)
 
 /-- Pointwise sector estimates with one set of constants for the entire
-scale/index family and for all sectors.  `at` is either identity or the
+scale/index family and for all sectors.  `indexMap` is either identity or the
 source's zero-slot projection. -/
-def SectorBound (at : ∀ Z T, Index Z T → Index Z T)
+def SectorBound (indexMap : ∀ Z T, Index Z T → Index Z T)
     (eligible : ∀ Z T, Index Z T → Prop) : Prop :=
   ∃ A ceiling : ℝ, 0 ≤ A ∧ 0 < ceiling ∧
     ∀ τ : ℝ, 0 < τ → τ ≤ ceiling → ∃ Z₀ C : ℝ, 1 ≤ Z₀ ∧ 0 ≤ C ∧
       ∀ Z : ℝ, Z₀ ≤ Z → ∀ i : Index Z (Z ^ τ),
         51 / 100 < F.bin Z (Z ^ τ) i → eligible Z (Z ^ τ) i → ∀ s : Sector,
-          pairedEnergy (F.model Z (Z ^ τ) (at Z (Z ^ τ) i) s)
-            (F.parameters (at Z (Z ^ τ) i)) (F.base (at Z (Z ^ τ) i)) 0 ≤
+          pairedEnergy (F.model Z (Z ^ τ) (indexMap Z (Z ^ τ) i) s)
+            (F.parameters (indexMap Z (Z ^ τ) i))
+            (F.base (indexMap Z (Z ^ τ) i)) 0 ≤
             C * F.base i ^ (1 + F.loss) * (1 + Z ^ τ) ^ A
 
 /-- Summing a common per-sector estimate introduces exactly the fixed
 sector cardinality.  No index, height or tau dependence enters that factor. -/
 theorem uniformBound_of_sectorBound
-    (at : ∀ Z T, Index Z T → Index Z T)
+    (indexMap : ∀ Z T, Index Z T → Index Z T)
     (eligible : ∀ Z T, Index Z T → Prop)
-    (h : F.SectorBound at eligible) :
-    F.UniformBound (fun Z T i => F.energy (at Z T i))
+    (h : F.SectorBound indexMap eligible) :
+    F.UniformBound (fun Z T i => F.energy (indexMap Z T i))
       (fun _ _ _ => 1) eligible := by
   obtain ⟨A, ceiling, hA, hc, hb⟩ := h
   refine ⟨A, ceiling, hA, hc, ?_⟩
@@ -167,7 +168,7 @@ theorem uniformBound_of_sectorBound
   refine ⟨Z₀, (Fintype.card Sector : ℝ) * C, hZ₀, mul_nonneg (by positivity) hC, ?_⟩
   intro Z hZ i hbin helig
   calc
-    F.energy (at Z (Z ^ τ) i) ≤
+    F.energy (indexMap Z (Z ^ τ) i) ≤
         ∑ _s : Sector, C * F.base i ^ (1 + F.loss) * (1 + Z ^ τ) ^ A :=
       Finset.sum_le_sum fun s _ => hh Z hZ i hbin helig s
     _ = (Fintype.card Sector : ℝ) * C * F.base i ^ (1 + F.loss) *

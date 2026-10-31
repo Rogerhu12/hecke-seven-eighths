@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Order
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Recursion
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.IntegralRecursion
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Reduction
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Family
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Terminal
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ExceptionalCounting
@@ -12,7 +14,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ChildStepCompatibility
 /-!
 # Recursive axiom audit for the paired-moment induction
 
-This target covers the ten clean proof modules and the three conditional
+This target covers the clean proof modules and the three conditional
 paired-moment projections. The existing skeleton adapter has a separate
 integration boundary because its upstream model definitions are admitted.
 -/
@@ -40,6 +42,21 @@ integration boundary because its upstream model definitions are admitted.
 #print axioms HeckeSkeleton.Moments.EngineInduction.LocalStep.uniform_rank_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.localStep_power_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.propagated_majorant
+
+-- IntegralRecursion
+#print axioms HeckeSkeleton.Moments.EngineInduction.IntegralStep
+#print axioms HeckeSkeleton.Moments.EngineInduction.IntegralStep.bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.IntegralStep.mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.IntegralStep.mass_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.IntegralStep.uniform_rank_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.integralStep_power_bound
+
+-- Reduction
+#print axioms HeckeSkeleton.Moments.EngineInduction.Reduction
+#print axioms HeckeSkeleton.Moments.EngineInduction.Reduction.mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.Reduction.mass_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.Reduction.power_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.Reduction.remainder
 
 -- Family
 #print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily

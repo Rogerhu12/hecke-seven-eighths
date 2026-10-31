@@ -22,7 +22,7 @@ TASK = Path(__file__).resolve().parent
 ROOT = TASK.parents[2]
 PREFIX = "HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION"
 MODULES = (
-    "Order", "Recursion", "Family", "Terminal", "ExceptionalCounting",
+    "Order", "Recursion", "IntegralRecursion", "Reduction", "Family", "Terminal", "ExceptionalCounting",
     "TerminalCertificate", "Interface", "Centering", "Induction", "ChildStepCompatibility",
 )
 EXCLUDED = {"SkeletonFamily.lean"}
@@ -37,6 +37,11 @@ UPSTREAM_PROBES = (
     "HeckeSkeleton.targetData",
     "HeckeSkeleton.momentModels",
 )
+REQUIRED_SKELETON_TARGETS = {
+    "HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_models_of_parent_reduction",
+    "HeckeSkeleton.Moments.EngineInduction.paired_positive_below_one_of_parent_reduction",
+    "HeckeSkeleton.Moments.EngineInduction.paired_positive_endpoint_of_parent_reduction",
+}
 REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_models",
     "HeckeSkeleton.Moments.EngineInduction.paired_positive_below_one",
@@ -46,6 +51,9 @@ REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.RawParentReduction.closeTerminals",
     "HeckeSkeleton.Moments.EngineInduction.LocalStep.bound",
     "HeckeSkeleton.Moments.EngineInduction.LocalStep.uniform_rank_bound",
+    "HeckeSkeleton.Moments.EngineInduction.IntegralStep.bound",
+    "HeckeSkeleton.Moments.EngineInduction.IntegralStep.uniform_rank_bound",
+    "HeckeSkeleton.Moments.EngineInduction.Reduction.power_bound",
     "HeckeSkeleton.Moments.EngineInduction.normalized_child_transfer",
     "HeckeSkeleton.Moments.EngineInduction.repaired_child_for_recursion",
 }
@@ -62,6 +70,7 @@ def digest(path: Path) -> str:
 
 def runner_resources() -> dict:
     result = dict(system=platform.system(), kernel=platform.release(), cpu_count=os.cpu_count(),
+                  lean_num_threads=os.environ.get("LEAN_NUM_THREADS"),
                   address_space_limit=list(resource.getrlimit(resource.RLIMIT_AS)),
                   open_file_limit=list(resource.getrlimit(resource.RLIMIT_NOFILE)))
     mapping_limit = Path("/proc/sys/vm/max_map_count")
@@ -296,7 +305,8 @@ def skeleton_inventory() -> tuple[str, list[str]]:
                            lean_code(path.read_text()))
     require(not forbidden, f"New proof shortcut in skeleton adapter: {forbidden}")
     names = sorted(declarations(path))
-    require(bool(names), "Skeleton adapter has no public declarations to audit")
+    require(REQUIRED_SKELETON_TARGETS <= set(names),
+            f"Missing source adapter targets: {sorted(REQUIRED_SKELETON_TARGETS - set(names))}")
     return digest(path), names
 
 

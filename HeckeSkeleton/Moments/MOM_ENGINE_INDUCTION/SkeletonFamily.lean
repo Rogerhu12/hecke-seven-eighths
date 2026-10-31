@@ -12,8 +12,9 @@ is admitted.  Therefore the declarations in this specialization inherit
 that upstream axiom dependency; the general induction and `Family.lean`
 are deliberately independent of it.
 
-The conditional wrappers below also require a finite parent-decomposition
-assembly.  That hypothesis is stronger than the published
+The conditional wrappers below also require an assembly of the parent
+reduction, using finite sums or finite positive child measures.  That
+hypothesis is stronger than the published
 `EngineStep.paired_child_step`, which controls an already produced child.
 This file does not construct the missing parent assembly.
 -/
@@ -96,8 +97,8 @@ variable {K c}
     (actualSourceFamily K c M).PrimeProductBound κ ↔
       PairedPrimeProductBound K c M κ := Iff.rfl
 
-/-- Conditional source zero-slot statement with the finite parent
-reduction explicit.  Its conclusion is the original unrestricted uniform
+/-- Conditional source zero-slot statement with the parent reduction
+explicit.  Its conclusion is the original unrestricted uniform
 bound.  The original skeleton declaration has no argument for this
 additional assembly hypothesis. -/
 theorem paired_zero_slot_models_of_parent_reduction (M : SourceMomentModels K c)
@@ -110,7 +111,7 @@ theorem paired_zero_slot_models_of_parent_reduction (M : SourceMomentModels K c)
 
 /-- Conditional positive-slot source statement below the endpoint,
 retaining the original prime-product premise and exact source capacity,
-and displaying the additional finite parent-assembly hypothesis. -/
+and displaying the additional parent-assembly hypothesis. -/
 theorem paired_positive_below_one_of_parent_reduction (M : SourceMomentModels K c)
     (hB : c.family.B < 1)
     (hprime : PairedPrimeProductBound K c M (2 * c.family.B - 1))

@@ -7,7 +7,7 @@ import HeckeGeneral.Analysis.SelectedMomentSlots
 The authoritative producer is
 `HeckeSkeleton.Moments.EngineStep.paired_child_step`, published on
 `cloud/mom-engine-step` at commit
-`2b04a3b039c12f019628959267fac2e4e7a73d21`.
+`04cc5c645c7f79bb19439b6f8fddbc7fd820882e`.
 
 `ChildStepConclusion` below is its exact conclusion after abbreviating
 `parentWidth = m + q` and `allowance = b₂ - p₂ + w + B + ell`.
@@ -15,11 +15,15 @@ The authoritative producer is
 `MomentDataAdapter.lean`.  Thus, after both branches are merged, `change`
 converts the producer's conclusion to this interface by definitional equality.
 Only the baseline `SelectedMomentSlots` operation is imported here.
+At this pin the producer explicitly assumes nonnegative total removal
+charge and allows an already zero-slot child in its defect premise.
+These changes concern the producer's hypotheses; its conclusion, and
+therefore `ChildStepConclusion`, are unchanged.
 
 This file places that actual restricted-slot successor earlier in the
 induction order and converts the actual energy inequality into the normalized
-inequality used by `LocalStep`.  The unrepaired child remains the left side of
-this inequality.  Constructing the parent's complete finite decomposition,
+inequality used by either form of `Reduction`.  The unrepaired child remains
+the left side of this inequality.  Constructing the parent's complete positive reduction,
 its exceptional terminal components, and its common-kernel tails is a
 separate analytic assembly obligation, recorded by `RawParentReduction`.
 -/
@@ -92,8 +96,8 @@ def ChildStepConclusion (d : MomentData K ω ψ) (a : RealParameters)
     (keep : Finset (Fin d.geometry.slotCount)) :
     (Node.ordinary (d.restrictSlots keep) (remainingParameters d a keep)).width = a.m + a.q := rfl
 
-/-- The explicit nonnegative weight available to the finite parent
-decomposition once the pointwise prime bounds have been supplied. -/
+/-- The explicit nonnegative weight available to the parent reduction
+once the pointwise prime bounds have been supplied. -/
 theorem child_repair_weight_nonneg
     (d : MomentData K ω ψ) (a : RealParameters)
     (removed : Finset (Fin d.geometry.slotCount))
@@ -103,7 +107,7 @@ theorem child_repair_weight_nonneg
   mul_nonneg (Finset.prod_nonneg fun i _ => hC i) (Real.rpow_nonneg hZ _)
 
 /-- The published inequality is for the actual child energy.  Dividing by
-its unchanged width power gives the normalized transfer for `LocalStep`. -/
+its unchanged width power gives the transfer for either parent reduction. -/
 theorem normalized_child_transfer
     (d : MomentData K ω ψ) (a : RealParameters)
     (keep : Finset (Fin d.geometry.slotCount)) (U t factor : ℝ) (hU : 0 ≤ U)
@@ -149,7 +153,7 @@ theorem PolynomialSystem.earlier_of_width_drop
 /-- Consume the authoritative child conclusion inside an actual polynomial
 system.  The system's successor labels are calibrated to the exact restricted
 models.  The result gives an earlier successor and its normalized transfer;
-the estimate for the parent still comes from the separate finite assembly. -/
+the estimate for the parent still comes from the separate parent assembly. -/
 theorem repaired_child_for_recursion
     {σ W : ℝ} (S : PolynomialSystem.{u} K ω ψ σ W) (parent : S.Label)
     (d : MomentData K ω ψ) (a : RealParameters) (parentWidth allowance mesh err : ℝ)

@@ -3,9 +3,11 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
 /-!
 # Three projections of the paired fourth-moment induction
 
-The same finite weighted induction proves the zero-slot, positive below-one,
-and positive endpoint conclusions.  The provider hypotheses below include the additional parent norm assembly.  The zero-slot result has no plain-length capacity
-hypothesis; the endpoint has no zero-free hypothesis.
+The same finite-rank positive induction proves the zero-slot, positive below-one,
+and positive endpoint conclusions for finite sums and continuous child measures.
+The provider hypotheses below include the additional parent norm assembly.
+The zero-slot result has no plain-length capacity hypothesis; the endpoint
+has no zero-free hypothesis.
 
 `SourceFamily` is the axiom-clean generalization of the exploratory source
 index.  `SkeletonFamily.lean` gives exact definitional identifications with
@@ -36,7 +38,7 @@ theorem ClosedParentReduction.energy_bound {σ W : ℝ}
         U ^ ((S.node x).width + β + (4 * (widthBand σ W + 1) : ℕ) * δ) *
         (1 + T) ^ (H * ((4 * (widthBand σ W + 1) : ℕ) + 1)) := by
   have hUpos : 0 < U := zero_lt_one.trans_le hU
-  have hnorm := localStep_power_bound step.reduction C U T H β δ
+  have hnorm := step.reduction.power_bound C U T H β δ
     hC hU hT hH hδ step.terminal step.mass x
   change (S.node x).energy U t / U ^ (S.node x).width ≤ _ at hnorm
   have hraw := (div_le_iff₀ (Real.rpow_pos_of_pos hUpos _)).mp hnorm
@@ -51,9 +53,9 @@ depend only on the common local constants and the finite state count. -/
 theorem ParentReductionInput.sectorBound
     {Index : ℝ → ℝ → Type v} {Sector : Type w}
     {F : SourceFamily K ω ψ Index Sector}
-    {at : ∀ Z T, Index Z T → Index Z T}
+    {indexMap : ∀ Z T, Index Z T → Index Z T}
     {eligible : ∀ Z T, Index Z T → Prop}
-    (input : ParentReductionInput.{u} F at eligible) : F.SectorBound at eligible := by
+    (input : ParentReductionInput.{u} F indexMap eligible) : F.SectorBound indexMap eligible := by
   let N : ℕ := 4 * (widthBand input.sigma input.widthLimit + 1)
   refine ⟨input.heightDegree * ((N : ℝ) + 1), input.ceiling,
     mul_nonneg input.heightDegree_nonneg (by positivity), input.ceiling_pos, ?_⟩

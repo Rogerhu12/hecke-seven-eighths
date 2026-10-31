@@ -9,11 +9,13 @@ import Mathlib.Tactic.Ring
 
 The arithmetic classification of a row as `h₀ * a^6` is explicit input from
 the exceptional-row assembly; the published paired child theorem does not
-supply that classification.  This file derives its counting consequence
-using the actual absolute norm on ideals of the number field.  A finite
-sector coordinate is retained, and injectivity is required for the pair
-(sector, row ideal), so
-element-row multiplicities are never silently discarded.
+supply that classification.  The producer's `ExceptionalRows.lean` also
+takes this factorization as a MOM_BASE input and proves its counting
+consequence using ideal norms and the actual row fibers.  The proof below
+uses the actual absolute norm and retains a finite sector coordinate.
+Injectivity is required for the pair
+(sector, row ideal), so element-row multiplicities are never silently
+discarded.
 
 The norm calculation gives the stronger exponent `(m - 2*f)/6` from the
 lower bound `N(h₀) ≥ Z^(2*f)`.  For `f ≥ 0`, weakening it gives exactly the
@@ -60,6 +62,7 @@ theorem SixthPowerClassification.root_encoding_injective
   have hroot : d.sixthRoot u = d.sixthRoot v := congrArg Prod.snd heq
   apply d.row_injective hu hv
   apply Prod.ext hsector
+  change d.rowIdeal u = d.rowIdeal v
   rw [d.factorization u hu, d.factorization v hv, hsector, hroot]
 
 theorem SixthPowerClassification.norm_factorization
@@ -114,7 +117,7 @@ theorem SixthPowerClassification.card_le_root_bound
         intro v hv
         exact Finset.mem_product.mpr ⟨Finset.mem_univ _, mem_boundedNormIdeals.mpr (hroots v hv)⟩)
       d.root_encoding_injective
-  rw [Finset.card_product, Finset.card_univ] at hcard
+  rw [Finset.product_eq_sprod, Finset.card_product, Finset.card_univ] at hcard
   have hcardReal : (rows.card : ℝ) ≤
       (Fintype.card Sector : ℝ) * ((boundedNormIdeals K H).card : ℝ) := by
     exact_mod_cast hcard
