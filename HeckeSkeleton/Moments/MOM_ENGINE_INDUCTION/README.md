@@ -19,7 +19,7 @@ with this additional hypothesis visible.
 ## Relation to the authoritative child step
 
 The parallel task's interface at commit
-`04cc5c645c7f79bb19439b6f8fddbc7fd820882e` is
+`3820604a66b6c3a41d93dec1bf6156a69029be74` is
 `HeckeSkeleton.Moments.EngineStep.paired_child_step`. It proves:
 
 1. the actual child effective width is at most the parent width minus `σ / 2`;
@@ -32,25 +32,66 @@ The parallel task's interface at commit
 converts the actual-energy inequality to its centrally normalized version.
 The successor enters the finite state order proved here.
 
-The published child theorem explicitly leaves parent analytic assembly open.
-The newer `OrbitalTransform`, `ChildAssembly` and `JointKernel` modules also
-provide genuine orbital Poisson and common-cutoff truncation, exact finite
-Moebius/phase separation, and paired Cauchy with a common Fourier measure.
-The remaining step is to connect these expressions to the actual parent
-moment and bound their coefficient masses and tails uniformly over the
-recursive profile family. Integrability alone does not provide the uniform
-weight mass required here. The stronger parent reduction therefore remains
-an additional obligation. For a zero-slot child, the published energy
-comparison can reduce to a multiple of the same child energy; it cannot by
-itself bound the parent or initialize induction.
+The published child theorem still leaves the complete positive parent reduction
+open, but the companion modules now establish substantial parts of its actual
+construction. `ParentSource` and `ParentTruncation` connect the same ordinary or
+centered paired energy to the genuine first orbital transform and a common
+finite cutoff. They preserve both zero terms and prove a quantitative tail.
+Their `ParentSourceCalibration` still needs an actual instance: the complete
+row polynomial, periodic phases, Haar Gram profiles, original common mask,
+admissible row map, and its fiber and weight bounds.
 
-`ExceptionalRows` at that pin still takes the sixth-power classification as
-an explicit input. `ExceptionalAmplitude` supplies estimates for whole
-masked rectangles from volume, profile and error controls; those controls
-and the outer sum over frozen cores must still be charged to the common
-terminal coefficient mass. The additional `hcharge` and zero-slot premise
-in the updated child theorem do not change its conclusion, so the exact
-`ChildStepConclusion` consumed here is unchanged.
+`ActualFrequencyPartition` derives the residual frequency, its exterior ideal
+and the exact norm factorization from a nonzero complete correlation.
+`ActualChildren` descends that complete correlation together with its common
+Schwartz kernel. `ChildTermDictionary` reconstructs the actual two plain
+polynomials and full slot product from single-ideal and single-prime identities;
+`ChildMomentDataAdapter` proves the finite row-fiber energy comparison.
+`KernelMomentDescent` combines those comparisons with two actual child moment
+estimates. Those estimates are intended to come from the induction, so they
+are not inserted here as new assumptions on the final result.
+
+The mass estimates also have proved components. `JointKernelBounds` bounds the
+polynomially weighted Fourier L1 mass by finitely many original Schwartz
+seminorms, for a fixed continuous linear transport. `FinitePhase` proves the
+finite Fourier expansion and its coefficient mass once the actual fixed-ray
+quotient is calibrated. `AllocationMass`, `FirstCommonMass`, `CommonHarmonicMass`
+and `RankinLabels` supply subpower estimates for the indicated actual ideal
+labels. Instantiating the label hypotheses and controlling the seminorms over
+the entire recursively generated profile family remain part of the producer's
+uniform assembly.
+
+The actual model identification must respect the norm-profile form of
+`IdealTest`. The untruncated `traceJointOrbitalKernel` already factors through
+the two arithmetic log norms. `ChildTermDictionary` now derives the whole-column
+identity from explicit termwise `hW₁`, `hW₂` and slot-profile equalities; it does
+not construct the `MomentData` or prove those profile equalities. The generic
+joint Fourier API permits arbitrary embedding-valued column maps, so the
+separated and truncated columns still require this calibration. A frequency
+label alone does not establish it. There is no demonstrated need to enlarge
+the polynomial state used here.
+
+The first tail is a genuine proved decay estimate. Its normalized moving mass
+is the fiber constant times the sum of the original profile seminorms and
+`truncationMass`, divided by the parent width power. The actual producer must
+bound this quantity uniformly before choosing a common cutoff. Likewise, the
+positive recursive weights must include both Poisson factors, the complete
+quotient cardinality, common-kernel and divisor/phase masses, the parent/child
+normalization ratio, and one slot-removal charge. A complex first-transform
+sum is not itself the positive child measure required by `IntegralStep`.
+
+`ExceptionalRows` at this pin still takes sixth-power classification as an
+explicit input. `ExceptionalAmplitude` bounds whole masked rectangles from
+calibrated volume, profile and error controls. The varying frozen cores and
+all retained zero terms still need their terminal coefficient-mass accounting.
+The full local reduction, admissible earlier children, terminal ledgers and
+uniform mass bound are therefore still exposed through `ParentReductionInput`.
+For a zero-slot child, the published slot-removal comparison can reduce to a
+multiple of the same child energy; it cannot by itself initialize induction.
+
+The conclusion of `paired_child_step` is unchanged from the earlier pin;
+its nonnegative charge and zero-slot defect premises remain producer inputs.
+The new modules are not imported or counted in this branch's clean audit.
 
 ## The finite order and quantitative conclusion
 

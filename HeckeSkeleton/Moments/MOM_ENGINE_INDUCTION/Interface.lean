@@ -20,15 +20,16 @@ estimate as an assumed field.  Uniform constants are chosen before the
 moving scale, source index and sector.
 
 The published `EngineStep.paired_child_step` at commit
-`04cc5c645c7f79bb19439b6f8fddbc7fd820882e` supplies a narrower conclusion:
+`3820604a66b6c3a41d93dec1bf6156a69029be74` supplies a narrower conclusion:
 strict child width, capacity repair and the actual slot-removal inequality.
-`ChildStepCompatibility.lean` records that precise interface.  It leaves
-the parent's norm decomposition, terminal component masses and
-uniform common-kernel tail budget to be assembled.  The newer orbital
-transform and kernel modules supply exact identities and quantitative
-truncation with an explicit coefficient mass; that mass still needs its
-uniform bound over the recursive profile family.  Those additional obligations are
-explicit here and require more than the published child theorem alone.
+`ChildStepCompatibility.lean` records that precise interface.  The companion parent, correlation and dictionary modules now supply genuine
+first-transform and cutoff bounds, residual-frequency extraction, whole-child
+polynomial reconstruction from termwise identities, and row-fiber energy
+comparison. They also bound Fourier and ideal-label masses under their stated
+profile and label hypotheses. The actual source/dictionary instances, earlier
+child calibration, terminal assembly and uniform bounds over the recursive
+profile family still need to be combined into the positive reduction below.
+These obligations require more than the published child theorem alone.
 
 The producer must prove this contract for its actual two-transform output.
 In particular, it must supply the recursively masked prime-subproduct

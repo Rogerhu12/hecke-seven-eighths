@@ -7,7 +7,7 @@ import HeckeGeneral.Analysis.SelectedMomentSlots
 The authoritative producer is
 `HeckeSkeleton.Moments.EngineStep.paired_child_step`, published on
 `cloud/mom-engine-step` at commit
-`04cc5c645c7f79bb19439b6f8fddbc7fd820882e`.
+`3820604a66b6c3a41d93dec1bf6156a69029be74`.
 
 `ChildStepConclusion` below is its exact conclusion after abbreviating
 `parentWidth = m + q` and `allowance = b₂ - p₂ + w + B + ell`.
@@ -24,8 +24,11 @@ This file places that actual restricted-slot successor earlier in the
 induction order and converts the actual energy inequality into the normalized
 inequality used by either form of `Reduction`.  The unrepaired child remains
 the left side of this inequality.  Constructing the parent's complete positive reduction,
-its exceptional terminal components, and its common-kernel tails is a
-separate analytic assembly obligation, recorded by `RawParentReduction`.
+its exceptional terminal components, and the uniform mass budget for its
+proved common-kernel tails remains an analytic assembly obligation, recorded
+by `RawParentReduction`. The newer parent and dictionary modules provide
+intermediate actual identities and estimates; their calibrated inputs and
+uniform recursive combination are not supplied by this child conclusion.
 
 The proof stage is supplied independently by `PolynomialSystem.proofStage`;
 `Node.centered` controls only the actual coefficient.  The strict-width
