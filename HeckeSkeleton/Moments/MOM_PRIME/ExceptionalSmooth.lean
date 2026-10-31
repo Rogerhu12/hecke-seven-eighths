@@ -15,7 +15,7 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_PRIME
 
-open scoped NumberField SchwartzMap Topology
+open scoped NumberField SchwartzMap Topology ContDiff
 open HeckePort.CenteredMomentVolume
 
 theorem contDiff_normPowerWeight (W : ℝ → ℂ) (a b : ℝ)

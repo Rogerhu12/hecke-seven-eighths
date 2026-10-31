@@ -1,4 +1,6 @@
 import HeckeSkeleton.Moments.MOM_PRIME.Endpoint
+import HeckeSkeleton.Moments.MOM_PRIME.ProfileEndpoint
+import HeckeSkeleton.Moments.MOM_PRIME.TwistedWindows
 import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalTerminal
 import HeckeSkeleton.Moments.MOM_PRIME.AbsoluteMasks
 import HeckeSkeleton.Moments.MOM_PRIME.OrdinaryMasks
@@ -22,6 +24,17 @@ The conditional analytic inputs remain ordinary theorem parameters. -/
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.PrimeEndpointFamily.one_le_base
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.paired_primes_endpoint
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.paired_primes_endpoint_uniform
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.paired_primes_endpoint_profiles
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.paired_primes_endpoint_profiles_uniform
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.norm_profilePower_eq_rpow
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.norm_profilePower_le_annular
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.primeWindow_freezeTwist_support
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.primeWindow_freezeTwist_annular
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.primeWindow_freezeTwist_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.freezeTwists_annular
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.freezeTwists_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exists_actualFrozenPrimeGeometry_profile_bound
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exists_actualSelectedFrozenPrimeGeometry_profile_bounds
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.idealNormPhase
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.twisted_mask_deletion
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.exceptionalResidue_zero

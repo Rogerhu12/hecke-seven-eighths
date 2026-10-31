@@ -30,7 +30,8 @@ These estimates require no additional zero-free premise, capacity condition, or
 finite-order condition beyond the existing `MomentData` structure.
 
 `AbsoluteGeometry.lean` derives the profile bound from the actual fixed
-`PrimeWindowGeometry`. The one required identification is
+`PrimeWindowGeometry`. For this fixed-window specialization, the required
+identification is
 
 ```lean
 d.geometry =
@@ -53,6 +54,30 @@ proves the exact exponent `1 + selectedLength` after summing all sectors.
 `paired_primes_endpoint_uniform` gives the source's required quantifier
 order with height order zero, ceiling one, and threshold one. Every
 nonnegative exponent loss is permitted.
+
+The physical profiles may also contain their own complex norm powers.
+`PrimeWindow.freezeTwist` changes the profile values, so the fixed-geometry
+equality above is not a calibration of every such profile.
+`ProfileEndpoint.lean` handles this general case: `PrimeProfileEndpointFamily`
+calibrates only the selected total length, while `WholePrimeProfileControl`
+records a common slot-count bound, annular support, and the actual bound
+`B * (1 + T)^H`. The theorem `paired_primes_endpoint_profiles` proves
+
+```text
+energy ≤ C * base^(1 + selectedLength) * (1 + T)^(2*g.slots*H).
+```
+
+Its uniform version chooses the height order and ceiling before the height
+parameter, and the scalar and threshold before even the model family.
+Neither interface assumes a prime-product or energy estimate.
+
+`TwistedWindows.lean` proves that the existing `freezeTwist`/`freezeTwists`
+operations preserve the actual annular support. If the real part of each
+complex power is at most a fixed `L`, an original sup bound `B` becomes
+`B * 2^(max L 0)`, uniformly in the imaginary parts and frozen times.
+The bound also survives every positive shell change and slot selection.
+Thus these genuine physical norm-power profiles admit the height-free
+case `H = 0`, without identifying them with the untwisted windows.
 
 `AbsoluteMasks.lean` also proves the exact subtraction of the original
 prime terms at primes dividing an additional mask, for each slot and
@@ -108,8 +133,10 @@ old `WholeMomentProfileControl` controls only the inverse and two plain
 `IdealTest`s. It contains no prime-window bound or slot-count bound. Its
 height/shift bounds also apply only inside specified parameter ranges;
 `SourceMomentModels` does not certify that its chosen values lie in them.
-The geometry equality above is a sufficient replacement for the endpoint
-and derives all of the needed prime-profile bounds automatically.
+The general endpoint instead requires the missing whole-family prime
+certificate directly. Fixed-window geometry derives that certificate in
+its special case; it must not be identified with a twisted profile whose
+values have changed.
 
 For the exceptional terminal, the analytic inputs are:
 
