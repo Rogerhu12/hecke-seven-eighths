@@ -64,8 +64,10 @@ theorem image_eq : R.cartesian.image R.index = columns := by
 
 theorem sum_reindex {M : Type*} [AddCommMonoid M] (f : ι → M) :
     (∑ i ∈ columns, f i) = ∑ x ∈ R.cartesian, f (R.index x) := by
-  rw [← R.image_eq, Finset.sum_image]
-  exact R.injective
+  calc
+    _ = ∑ i ∈ R.cartesian.image R.index, f i :=
+      congrArg (fun s : Finset ι => ∑ i ∈ s, f i) R.image_eq.symm
+    _ = _ := Finset.sum_image R.injective
 
 theorem divisorPool_reindex :
     divisorPool columns (fun i => (ideal i).val) =
@@ -131,7 +133,18 @@ theorem second_residual_kernel_reindex
   congr 1
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun ξ => by
-    rw [L.energy_reindex, R.energy_reindex]
+    exact congrArg₂ (fun a b : ℝ =>
+      ‖(FourierTransform.fourier F) ξ‖ * (Real.sqrt a * Real.sqrt b))
+      (L.energy_reindex rows
+        (fun h => q h * generatedIdealCorrelation (σ := σ) ID IE d e hd he (frequency h))
+        (kernelDivisorCoefficient (fun i => (IA i).val) D c
+          (fun i => (fixedLeftPhase Ray χ (rayLeft i) : ℂ))
+          (fun i h => σ (A.sexticResidue (IA i) (frequency h)))) x ξ)
+      (R.energy_reindex rows
+        (fun h => q h * generatedIdealCorrelation (σ := σ) ID IE d e hd he (frequency h))
+        (fun h j => star (kernelDivisorCoefficient (fun j => (IB j).val) D f
+          (fun j => (fixedRightPhase Ray χ (rayRight j) : ℂ))
+          (fun j h => σ (A.sexticResidue (IB j) (-frequency h))) h j)) y ξ)
 
 /-- The complete original second kernel, reindexed and then allocated
 on all plain and prime occurrences, with no aggregate premise. -/
@@ -236,7 +249,7 @@ def allocatedClassCost
     (label : Fin (chart.rowLabelCount + 1))
     (L : CartesianSourceReindex (b.leftColumns left) b.leftResidual k)
     (R : CartesianSourceReindex (b.rightColumns right) b.rightResidual l) : ℝ :=
-  secondAllocatedKernelCost (σ := σ) PUnit chart.kernel
+  secondAllocatedKernelCost (σ := σ) PUnit.{1} chart.kernel
         (chart.actualRows M X hX label).rows
         (chart.actualRows M X hX label).frequency
         L.plain₁ L.plain₂ L.slots R.plain₁ R.plain₂ R.slots
@@ -259,7 +272,7 @@ theorem classKernelCost_le_cartesian_allocation
     (L : CartesianSourceReindex (b.leftColumns left) b.leftResidual k)
     (R : CartesianSourceReindex (b.rightColumns right) b.rightResidual l) :
     chart.classKernelCost M X hX label ≤ chart.allocatedClassCost M X hX label L R := by
-  exact second_residual_kernel_cartesian_allocation PUnit chart.kernel
+  exact second_residual_kernel_cartesian_allocation PUnit.{1} chart.kernel
     ((b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).rows.filter
       (fun q => chart.rowLabel q = label))
     (fun q : Q => -q.out.val) (b.leftColumns left) (b.rightColumns right)

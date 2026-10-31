@@ -57,13 +57,19 @@ structure NormalizationData (leaf : ActualHybridLeaf K H U E)
   rightRay : AllocationColumn K leaf.rightSlots → Ray
   leftWhole : AllocationColumn K leaf.leftSlots → ℂ
   rightWhole : AllocationColumn K leaf.rightSlots → ℂ
+  /-- The residual occurrence coordinates may differ from the stored
+  source by a common row translation. `binding` proves that exact
+  relation, and cancels its unit Fourier phase in the column norm. -/
+  leftPoint : H → AllocationColumn K leaf.leftSlots → WithLp 2 (U × E) :=
+    fun h i => WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i)
+  rightPoint : H → AllocationColumn K leaf.rightSlots → WithLp 2 (U × E) :=
+    fun h j => WithLp.toLp 2 (-leaf.rightFirst h j, leaf.rightSecond h j)
   branch : liveSecondAllocationBranches (Ray := Ray)
     leftPlain₁ leftPlain₂ leftPrimes rightPlain₁ rightPlain₂ rightPrimes rightIdeal
   rectangles : HybridOrdinaryRectangles rows Ray
     leftPlain₁ leftPlain₂ leftPrimes rightPlain₁ rightPlain₂ rightPrimes leftIdeal rightIdeal
     leftRay rightRay leftWhole rightWhole
-    (fun h i => WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i))
-    (fun h j => WithLp.toLp 2 (-leaf.rightFirst h j, leaf.rightSecond h j))
+    leftPoint rightPoint
     branch leaf.exceptional
   binding : leaf.OrdinaryBinding rectangles
   left : ∀ r : Bool, SecondSideNormalization (rectangles.leftFrame C r)

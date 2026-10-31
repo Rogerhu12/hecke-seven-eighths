@@ -56,11 +56,13 @@ theorem fullModulusCorrelation_swap (u v : R)
     rw [scaledResidue_congruence, scaledResidue_congruence]
     have he : u * b - v * a - (-h) = -(v * a - u * b - h) := by ring
     rw [he, mul_comm v u, dvd_neg]
+  simp only [map_neg] at heq ⊢
   by_cases hh : scaledResidue u v (u * v) rfl x -
       scaledResidue v u (u * v) (mul_comm u v) y =
         Ideal.Quotient.mk (Ideal.span {u * v}) h
-  · simp [hh, heq.mp hh, star_mul, mul_comm]
-  · simp [hh, (not_congr heq).mp hh]
+  · simp only [if_pos hh, if_pos (heq.mp hh), star_mul, star_star]
+    ring
+  · simp only [if_neg hh, if_neg ((not_congr heq).mp hh), star_zero]
 
 end Ring
 
@@ -137,8 +139,9 @@ theorem generatedIdealCharacter_product_power
     (fun χ : MulChar (A.R ⧸ Ideal.span {generator C p ^ (j + d)}) ℂ =>
       χ (Ideal.Quotient.mk _ x))
     (generatedIdealCharacter_prime_power C p (j + d) hn)
-  simpa only [generatedIdealCharacter_mk, productPowerCharacter_mk,
-    localMaskedCharacter_mk] using he
+  rw [generatedIdealCharacter_mk, productPowerCharacter_mk]
+  rw [generatedIdealCharacter_mk] at he
+  exact he.trans (localMaskedCharacter_mk C p (j + d) hn x)
 
 /-- The complete unequal-depth support theorem, now on the actual
 generated ideal correlation rather than an independently given local

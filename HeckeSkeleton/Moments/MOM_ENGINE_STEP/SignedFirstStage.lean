@@ -48,8 +48,30 @@ def FirstFiniteSource.rawRowCost {ι κ : Type*}
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) : ℝ :=
   ∑ D : s.mask.powerset,
-    ‖∑ t ∈ s.rows, ∑ i ∈ s.leftColumns, ∑ j ∈ s.rightColumns,
+    ‖∑ t ∈ s.divisorRows D.val, ∑ i ∈ s.leftColumns, ∑ j ∈ s.rightColumns,
       (s.pairs i j).transformedRow μv hDiff finiteTest s.radius D.val t‖
+
+/-- The genuine finite transform retains its original-origin sign
+before any nonzero row is assigned to an ordinary or exceptional class. -/
+theorem FirstFiniteSource.divisorTransform_re_le_dual_rows {ι κ : Type*}
+    (s : FirstFiniteSource K S Γ ι κ)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
+    (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) :
+    (s.divisorTransform μv hDiff h).re ≤
+      ‖s.dualZeroTerm μv hDiff h‖ - (s.originZeroTerm h).re +
+        ∑ D : s.mask.powerset,
+          ‖∑ t ∈ s.divisorRows D.val, ∑ i ∈ s.leftColumns, ∑ j ∈ s.rightColumns,
+            (s.pairs i j).transformedRow μv hDiff h s.radius D.val t‖ := by
+  rw [s.divisorTransform_eq_common_rows μv hDiff h,
+    s.zeroTerm_eq_dual_sub_origin μv hDiff h]
+  simp only [Complex.add_re, Complex.sub_re]
+  apply add_le_add (sub_le_sub_right (Complex.re_le_norm _) _)
+  apply (Complex.re_le_norm _).trans
+  calc
+    _ ≤ ∑ D ∈ s.mask.powerset,
+        ‖∑ t ∈ s.divisorRows D, ∑ i ∈ s.leftColumns, ∑ j ∈ s.rightColumns,
+          (s.pairs i j).transformedRow μv hDiff h s.radius D t‖ := norm_sum_le _ _
+    _ = _ := (Finset.sum_coe_sort _ _).symm
 
 end RawRows
 
@@ -114,7 +136,7 @@ theorem parent_first_stage_dual_raw_bound
   let finiteTest := rowBallFiniteFamily K A.Sf rowBallSize
   have hlc := rowBallFiniteFamily_locallyConstant K A.Sf rowBallSize
   have hcs := rowBallFiniteFamily_compactSupport K A.Sf rowBallSize
-  obtain ⟨seminorms, Ctail, hC, htail⟩ := finite_source_uniform_bound
+  obtain ⟨seminorms, Ctail, hC, htail⟩ := finite_source_divisor_uniform_bound
     (K := K) (S := A.Sf) (Γ := Γ) ν μv μ hDiff finiteTest hlc hcs
     decay hdecay order horder hdegree
   refine ⟨seminorms, Ctail, hC, ?_⟩
@@ -149,10 +171,10 @@ theorem parent_first_stage_dual_raw_bound
   have hblock (DE) :
       (series DE).re ≤ cost DE - ((sources DE).originZeroTerm finiteTest).re := by
     have ht := htail (sources DE)
-    have hk := (sources DE).transform_re_le_dual_rows μv hDiff finiteTest
-    have hre := Complex.re_le_norm (series DE - (sources DE).transform μv hDiff finiteTest)
+    have hk := (sources DE).divisorTransform_re_le_dual_rows μv hDiff finiteTest
+    have hre := Complex.re_le_norm (series DE - (sources DE).divisorTransform μv hDiff finiteTest)
     rw [Complex.sub_re] at hre
-    change ‖series DE - (sources DE).transform μv hDiff finiteTest‖ ≤ _ at ht
+    change ‖series DE - (sources DE).divisorTransform μv hDiff finiteTest‖ ≤ _ at ht
     exact ((sub_le_iff_le_add.mp (hre.trans ht)).trans
       (add_le_add le_rfl hk)).trans_eq (by
         dsimp only [cost, FirstFiniteSource.rawRowCost]
@@ -239,7 +261,7 @@ theorem parent_first_stage_pool_dual_bound
   let b := canonicalFirstCommonBlock C columns columns fullI fullI DE.val DE.property
   let source := b.finiteSource hΓ C columns columns profiles M radius X hX
   change (∑ D : (b.mask M).powerset,
-      ‖∑ t ∈ source.rows, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
+      ‖∑ t ∈ source.divisorRows D.val, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
         (source.pairs i j).transformedRow μv hDiff
           (rowBallFiniteFamily K A.Sf rowBallSize) radius D.val t‖) ≤ _
   apply Finset.sum_le_sum
@@ -250,5 +272,6 @@ theorem parent_first_stage_pool_dual_bound
 
 end HeckeSkeleton.Moments.EngineStep
 
+#print axioms HeckeSkeleton.Moments.EngineStep.FirstFiniteSource.divisorTransform_re_le_dual_rows
 #print axioms HeckeSkeleton.Moments.EngineStep.parent_first_stage_dual_raw_bound
 #print axioms HeckeSkeleton.Moments.EngineStep.parent_first_stage_pool_dual_bound

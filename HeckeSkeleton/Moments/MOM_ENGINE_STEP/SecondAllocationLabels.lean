@@ -168,10 +168,20 @@ theorem secondAllocatedKernelCost_eq_labels
       ∑ z : SecondAllocationLabel Ray T₁ T₂ T IB k,
         z.weight phaseTable * ∫ ξ : V, ‖(𝓕 Fker) ξ‖ *
           z.pairEnergy (S₁ := S₁) (S₂ := S₂) (S := S) R IA rayLeft rayRight c f x y ξ := by
-  simp only [SecondAllocationLabel, Fintype.sum_sigma, Finset.sum_coe_sort,
+  simp only [SecondAllocationLabel, Fintype.sum_sigma,
     secondAllocatedKernelCost, SecondAllocationLabel.weight, SecondAllocationLabel.pairEnergy,
     SecondAllocationLabel.leftColumns, SecondAllocationLabel.rightColumns,
     ActualSecondCorrelationRows.correlation, Finset.mul_sum, mul_assoc]
+  refine (Finset.sum_coe_sort
+    (divisorPool (childCartesianColumns T₁ T₂ T) (fun j => (IB j).val)) _).symm.trans ?_
+  apply Finset.sum_congr rfl
+  intro L _
+  apply Finset.sum_congr rfl
+  intro χ _
+  refine (Finset.sum_coe_sort (AllocationMass.idealAllocations L.val (k + 2)) _).symm.trans ?_
+  apply Finset.sum_congr rfl
+  intro a _
+  exact (Finset.sum_coe_sort (AllocationMass.idealAllocations L.val (l + 2)) _).symm
 
 /-- Empty allocation branches are removed by their literal zero
 polynomial; all other original labels and weights remain unchanged. -/
@@ -192,15 +202,22 @@ theorem secondAllocatedKernelCost_eq_live_labels
         z.val.weight phaseTable * ∫ ξ : V, ‖(𝓕 Fker) ξ‖ *
           z.val.pairEnergy (S₁ := S₁) (S₂ := S₂) (S := S) R IA rayLeft rayRight c f x y ξ := by
   rw [secondAllocatedKernelCost_eq_labels]
-  rw [Finset.sum_coe_sort]
-  symm
-  apply Finset.sum_subset (Finset.filter_subset _ _)
-  intro z _ hz
-  have he : ¬ ((z.leftColumns S₁ S₂ S).Nonempty ∧ z.rightColumns.Nonempty) := by
-    intro hne
-    exact hz (Finset.mem_filter.mpr ⟨Finset.mem_univ _, hne⟩)
-  simp_rw [z.pairEnergy_eq_zero_of_empty R IA rayLeft rayRight c f x y he]
-  simp only [mul_zero, integral_zero]
+  let cost : SecondAllocationLabel Ray T₁ T₂ T IB k → ℝ := fun z =>
+    z.weight phaseTable * ∫ ξ : V, ‖(𝓕 Fker) ξ‖ *
+      z.pairEnergy (S₁ := S₁) (S₂ := S₂) (S := S) R IA rayLeft rayRight c f x y ξ
+  change (∑ z, cost z) =
+    ∑ z : liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB, cost z.val
+  calc
+    _ = ∑ z ∈ liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB, cost z := by
+      symm
+      apply Finset.sum_subset (Finset.filter_subset _ _)
+      intro z _ hz
+      have he : ¬ ((z.leftColumns S₁ S₂ S).Nonempty ∧ z.rightColumns.Nonempty) := by
+        intro hne
+        exact hz (Finset.mem_filter.mpr ⟨Finset.mem_univ _, hne⟩)
+      simp only [cost, z.pairEnergy_eq_zero_of_empty R IA rayLeft rayRight c f x y he,
+        mul_zero, integral_zero]
+    _ = _ := (Finset.sum_coe_sort _ cost).symm
 
 variable {η : RayClassCharacter F A.modulus}
 variable {hS : A.ContainsTraceBadPlaces}
@@ -239,11 +256,12 @@ theorem secondAllocationLabel_pair_eq_actual_sources
         (fixedRightPhase Ray z.val.2.1) DR hbaseR hlengthR y₁ y₂ y).negativeSide.energy (σ := σ) ξ) := by
   unfold SecondAllocationLabel.pairEnergy
   rw [← secondLabelLeftAllocation_columns hS₁ hS₂ z,
-    ← secondLabelRightAllocation_columns hT₁ hT₂ z,
-    R.left_energy_eq_source Ray C (secondLabelLeftAllocation hS₁ hS₂ z) leftCharacters
-      z.val.2.1 DL hbaseL hlengthL IA hIA uL vL tL x₁ x₂ x ξ,
-    R.right_energy_eq_source Ray C (secondLabelRightAllocation hT₁ hT₂ z) rightCharacters
-      z.val.2.1 DR hbaseR hlengthR IB hIB uR vR tR y₁ y₂ y ξ]
+    ← secondLabelRightAllocation_columns hT₁ hT₂ z]
+  exact congrArg₂ (fun a b : ℝ => Real.sqrt a * Real.sqrt b)
+    (R.left_energy_eq_source Ray C (secondLabelLeftAllocation hS₁ hS₂ z) leftCharacters
+      z.val.2.1 DL hbaseL hlengthL IA hIA uL vL tL x₁ x₂ x ξ)
+    (R.right_energy_eq_source Ray C (secondLabelRightAllocation hT₁ hT₂ z) rightCharacters
+      z.val.2.1 DR hbaseR hlengthR IB hIB uR vR tR y₁ y₂ y ξ)
 
 end HeckeSkeleton.Moments.EngineStep
 

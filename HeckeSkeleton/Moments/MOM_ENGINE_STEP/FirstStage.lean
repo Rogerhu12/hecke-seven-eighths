@@ -92,7 +92,7 @@ def FirstBlockProfileChart.kernelCost {ι κ : Type*}
   let r := actualActiveColumn hΓ C b.primes b.primes_injective
     b.leftMultiplicity b.rightMultiplicity
   let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
-  firstResidualKernelCost hDiff (PUnit : Type) chart.kernel source.rows (fun t => t.out.val)
+  firstResidualKernelCost hDiff (PUnit : Type) chart.kernel (source.divisorRows D) (fun t => t.out.val)
     source.leftColumns source.rightColumns
     (fun i => (b.leftResidual i).val) (fun j => (b.rightResidual j).val)
     a a' (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle))
@@ -122,7 +122,7 @@ theorem FirstBlockProfileChart.kernel_bound_of_phase_one {ι κ : Type*}
         (generatedOriginalColumn (σ := σ) hΓ (b.rightResidual j) (b.rightGenerator j)
           (b.right_generates j)) = 1) :
     let source := b.finiteSource hΓ C left right profiles M radius X hX
-    ‖∑ t ∈ source.rows, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
+    ‖∑ t ∈ (source.divisorRows D), ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
       (source.pairs i j).transformedRow μv hDiff finiteTest radius D t‖ ≤
       chart.kernelCost hDiff M X hX := by
   exact b.kernel_bound hΓ μv PUnit C hDiff finiteTest left right profiles M radius X hX D
@@ -147,27 +147,27 @@ theorem canonical_first_block_transform_bound
     let source := b.finiteSource hΓ C left right profiles M radius X hX
     ∀ charts : ∀ D : (b.mask M).powerset,
       FirstBlockProfileChart (E := E) hΓ μv b C left right profiles finiteTest radius D.val,
-    ‖source.transform μv hDiff finiteTest‖ ≤
+    ‖source.divisorTransform μv hDiff finiteTest‖ ≤
       ‖source.zeroTerm μv hDiff finiteTest‖ +
         ∑ D : (b.mask M).powerset, (charts D).kernelCost hDiff M X hX := by
   dsimp only
   intro charts
   let b := canonicalFirstCommonBlock C left right fullI fullJ DE.val DE.property
   let source := b.finiteSource hΓ C left right profiles M radius X hX
-  change ‖source.transform μv hDiff finiteTest‖ ≤ _
-  rw [source.transform_eq_common_rows μv hDiff finiteTest]
+  change ‖source.divisorTransform μv hDiff finiteTest‖ ≤ _
+  rw [source.divisorTransform_eq_common_rows μv hDiff finiteTest]
   apply (norm_add_le _ _).trans
   apply add_le_add le_rfl
   calc
     _ ≤ ∑ D ∈ source.mask.powerset,
-        ‖∑ t ∈ source.rows, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
+        ‖∑ t ∈ (source.divisorRows D), ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
           (source.pairs i j).transformedRow μv hDiff finiteTest source.radius D t‖ :=
       norm_sum_le _ _
     _ = ∑ D : (b.mask M).powerset,
-        ‖∑ t ∈ source.rows, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
+        ‖∑ t ∈ (source.divisorRows D.val), ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
           (source.pairs i j).transformedRow μv hDiff finiteTest source.radius D.val t‖ :=
        (Finset.sum_coe_sort (b.mask M).powerset (fun D =>
-         ‖∑ t ∈ source.rows, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
+         ‖∑ t ∈ (source.divisorRows D), ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
            (source.pairs i j).transformedRow μv hDiff finiteTest source.radius D t‖)).symm
     _ ≤ _ := by
       apply Finset.sum_le_sum
@@ -217,7 +217,7 @@ theorem parent_first_stage_bound
             ∑ i ∈ (sources DE).leftColumns, ∑ j ∈ (sources DE).rightColumns,
               seminorms.sup (schwartzSeminormFamily ℂ V ℂ) ((sources DE).pairs i j).profile *
                 ((sources DE).pairs i j).truncationMass (sources DE).mask radius) := by
-  obtain ⟨seminorms, Ctail, hC, htail⟩ := finite_source_uniform_bound
+  obtain ⟨seminorms, Ctail, hC, htail⟩ := finite_source_divisor_uniform_bound
     (K := K) (S := A.Sf) (Γ := Γ) ν μv μ hDiff finiteTest hlc hcs
     decay hdecay order horder hdegree
   refine ⟨seminorms, Ctail, hC, ?_⟩
@@ -247,11 +247,11 @@ theorem parent_first_stage_bound
   have ht := htail (sources DE)
   have hk := canonical_first_block_transform_bound hΓ μv C columns columns fullI fullI
     DE profiles hDiff finiteTest M radius X hX (charts DE)
-  have hre := Complex.re_le_norm (series DE - (sources DE).transform μv hDiff finiteTest)
+  have hre := Complex.re_le_norm (series DE - (sources DE).divisorTransform μv hDiff finiteTest)
   rw [Complex.sub_re] at hre
-  have hfinite := Complex.re_le_norm ((sources DE).transform μv hDiff finiteTest)
+  have hfinite := Complex.re_le_norm ((sources DE).divisorTransform μv hDiff finiteTest)
   change (series DE).re ≤ _
-  change ‖series DE - (sources DE).transform μv hDiff finiteTest‖ ≤ _ at ht
+  change ‖series DE - (sources DE).divisorTransform μv hDiff finiteTest‖ ≤ _ at ht
   exact ((sub_le_iff_le_add.mp (hre.trans ht)).trans
      (add_le_add le_rfl (hfinite.trans hk))).trans_eq (add_comm _ _)
 

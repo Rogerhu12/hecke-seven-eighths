@@ -236,8 +236,8 @@ def ordinaryBinding
   rowWeight := hweight
   leftCoefficient := hleftCoefficient
   rightCoefficient := hrightCoefficient
-  leftPoint := hleftPoint
-  rightPoint := hrightPoint
+  leftPoint h hh := ⟨0, fun i hi => by simpa only [zero_add] using hleftPoint h hh i hi⟩
+  rightPoint h hh := ⟨0, fun i hi => by simpa only [zero_add] using hrightPoint h hh i hi⟩
 
 /-- The arithmetic source uses precisely the original nonzero complete
 correlations. Omitted rows have zero actual weight, proved from the same
@@ -297,8 +297,8 @@ def ordinaryBindingOnCorrelationSupport
   rowWeight := hweight
   leftCoefficient := hleftCoefficient
   rightCoefficient := hrightCoefficient
-  leftPoint := hleftPoint
-  rightPoint := hrightPoint
+  leftPoint h hh := ⟨0, fun i hi => by simpa only [zero_add] using hleftPoint h hh i hi⟩
+  rightPoint h hh := ⟨0, fun i hi => by simpa only [zero_add] using hrightPoint h hh i hi⟩
 
 /-- A normalization for the actual residual leaf bounds the original
 ordinary term. No source-polynomial or source-energy identity is input. -/

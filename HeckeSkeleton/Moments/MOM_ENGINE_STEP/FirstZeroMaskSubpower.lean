@@ -95,7 +95,11 @@ theorem first_zero_profile_normalization_uniform (B ε : ℝ) (hB : 0 ≤ B) (h�
   have hmask := (hm Z hZ radius M R hR hN W).trans
     (mul_le_mul_of_nonneg_left hradius (mul_nonneg hC.le (Real.rpow_nonneg hz.le _)))
   have hpair := mul_le_mul hprofile hmask
-    (Finset.sum_nonneg (fun D _ => firstZeroDivisorWeight_nonneg radius D))
+    (Finset.sum_nonneg (fun D _ =>
+      (mul_nonneg (norm_nonneg _) (inv_nonneg.mpr
+        (sIntegerMaskDilationRadius K S radius
+          (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)).property.le) :
+        0 ≤ firstZeroDivisorWeight radius D)))
     (mul_nonneg hP (Real.rpow_nonneg hz.le _))
   have hsqrt : Real.sqrt (Z ^ productExponent) = Z ^ (productExponent / 2) := by
     rw [Real.sqrt_eq_rpow, ← Real.rpow_mul hz.le]

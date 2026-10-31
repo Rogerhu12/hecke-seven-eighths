@@ -52,7 +52,7 @@ def FirstFiniteSource.originZeroTerm {ι κ : Type*}
       ((sUnitHaarCovolume K (S : Set (HeightOneSpectrum (𝓞 K))) Γ).toReal : ℂ) *
         (p.residue 0 * sIntegerTensorTerm K S (traceSchwartzToMixed K p.profile) h 0) := by
   simp only [originZero, IdealMobiusMask.primeProduct, Finset.prod_empty,
-    moebius_one, one_mul]
+    moebius_one, Int.cast_one, one_mul]
 
 variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K)]
   [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)]

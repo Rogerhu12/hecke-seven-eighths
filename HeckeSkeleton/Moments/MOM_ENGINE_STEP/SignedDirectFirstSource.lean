@@ -69,7 +69,7 @@ theorem ActualDirectFirstSource.rawRowCost_le_linearized
   apply Finset.sum_le_sum
   intro v _
   change (∑ D : ((s.block v).mask s.mask).powerset,
-      ‖∑ q ∈ (s.source v).rows,
+      ‖∑ q ∈ (s.source v).divisorRows D.val,
         ∑ i ∈ (s.source v).leftColumns, ∑ j ∈ (s.source v).rightColumns,
           ((s.source v).pairs i j).transformedRow μv hDiff finiteTest s.radius D.val q‖) ≤ _
   apply Finset.sum_le_sum

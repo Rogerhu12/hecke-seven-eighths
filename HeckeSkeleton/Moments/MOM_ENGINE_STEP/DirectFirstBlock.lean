@@ -63,13 +63,13 @@ structure FirstBlockDirectData
   right_ideal : rightData.ideal = b.rightResidual
   left_generator : leftData.generator = b.leftGenerator
   right_generator : rightData.generator = b.rightGenerator
-  left_rows : ((b.finiteSource hΓ C left right profiles M radius X hX).rows.image
+  left_rows : (((b.finiteSource hΓ C left right profiles M radius X hX).divisorRows D).image
     (fun t : Q => t.out.val)) ⊆ leftData.rows
-  right_rows : ((b.finiteSource hΓ C left right profiles M radius X hX).rows.image
+  right_rows : (((b.finiteSource hΓ C left right profiles M radius X hX).divisorRows D).image
     (fun t : Q => -t.out.val)) ⊆ rightData.rows
   weightBound : ℝ
   weight_nonneg : 0 ≤ weightBound
-  weight_bound : ∀ t ∈ (b.finiteSource hΓ C left right profiles M radius X hX).rows,
+  weight_bound : ∀ t ∈ ((b.finiteSource hΓ C left right profiles M radius X hX).divisorRows D),
     ‖chart.weight t‖ ≤ weightBound
 
 namespace FirstBlockDirectData
@@ -88,7 +88,7 @@ theorem rowBound_nonneg (p : FirstBlockDirectData chart M X hX) : 0 ≤ p.rowBou
 the original Moebius coefficient, is bounded internally. -/
 theorem common_weight_bound (p : FirstBlockDirectData chart M X hX)
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
-    (t : Q) (ht : t ∈ (b.finiteSource hΓ C left right profiles M radius X hX).rows) :
+    (t : Q) (ht : t ∈ ((b.finiteSource hΓ C left right profiles M radius X hX).divisorRows D)) :
     let r := actualActiveColumn hΓ C b.primes b.primes_injective
       b.leftMultiplicity b.rightMultiplicity
     let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
@@ -150,7 +150,7 @@ theorem kernelCost_le_linearized (p : FirstBlockDirectData chart M X hX)
   let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
   have he := first_residual_cost_le_direct_linearized (Ray := PUnit) (hΓ := hΓ)
     chart.kernel p.leftData p.rightData hDiff
-    (b.finiteSource hΓ C left right profiles M radius X hX).rows (fun t : Q => t.out.val)
+    ((b.finiteSource hΓ C left right profiles M radius X hX).divisorRows D) (fun t : Q => t.out.val)
     sIntegerOrbit_out_val_injective.injOn p.left_rows p.right_rows
     (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle))
     (fun t : Q => (moebius (IdealMobiusMask.primeProduct D) : ℂ) *

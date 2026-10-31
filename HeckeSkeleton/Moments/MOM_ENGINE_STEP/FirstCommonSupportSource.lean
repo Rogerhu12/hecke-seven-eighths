@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCharacterSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonSupportPartition
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorPhysicalSource
 
 /-!
 # Actual common-support rectangles for the first source
@@ -330,7 +331,7 @@ theorem FirstCommonCharacterBlock.kernel_bound
         (generatedOriginalColumn (σ := σ) hΓ (b.leftResidual i) (b.leftGenerator i) (b.left_generates i))
         (generatedOriginalColumn (σ := σ) hΓ (b.rightResidual j) (b.rightGenerator j)
           (b.right_generates j)) = (phaseTable (rayLeft i, rayRight j) : ℂ))
-    (hprofile : ∀ t ∈ (b.finiteSource hΓ C left right profiles M radius X hX).rows,
+    (hprofile : ∀ t ∈ ((b.finiteSource hΓ C left right profiles M radius X hX).divisorRows D),
       ∀ i ∈ b.leftColumns left, ∀ j ∈ b.rightColumns right,
       IsCoprime (b.leftResidual i).val (b.rightResidual j).val →
       ((generatedOriginalColumn (σ := σ) hΓ (b.leftResidual i) (b.leftGenerator i)
@@ -351,9 +352,9 @@ theorem FirstCommonCharacterBlock.kernel_bound
     let common := fun t : Q => (moebius (IdealMobiusMask.primeProduct D) : ℂ) *
       (r.character (Ideal.Quotient.mk _ δ) *
         actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff r.modulus r.nonzero r.character t.out.val)
-    ‖∑ t ∈ source.rows, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
+    ‖∑ t ∈ (source.divisorRows D), ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
       (source.pairs i j).transformedRow μv hDiff finiteTest radius D t‖ ≤
-      firstResidualKernelCost hDiff Ray F source.rows (fun t => t.out.val)
+      firstResidualKernelCost hDiff Ray F (source.divisorRows D) (fun t => t.out.val)
         source.leftColumns source.rightColumns
         (fun i => (b.leftResidual i).val) (fun j => (b.rightResidual j).val)
         a a' rayLeft rayRight phaseTable common q
@@ -361,7 +362,7 @@ theorem FirstCommonCharacterBlock.kernel_bound
         (fun j => d j * firstRightDivisorFactor (a' j) r δ) x y := by
   dsimp only
   have hb := first_source_kernel_bound hDiff Ray μv F
-    (b.finiteSource hΓ C left right profiles M radius X hX).rows
+    ((b.finiteSource hΓ C left right profiles M radius X hX).divisorRows D)
     (b.leftColumns left) (b.rightColumns right)
     (fun i => (b.leftResidual i).val) (fun j => (b.rightResidual j).val)
     (fun j _ => (b.rightResidual j).property.1)

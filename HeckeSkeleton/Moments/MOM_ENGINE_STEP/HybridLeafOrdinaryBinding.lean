@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridZeroRowSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridOrdinaryProduction
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogNormLocations
 
 /-!
 # Literal finite leaves enter the ordinary child producer
@@ -67,10 +68,10 @@ structure OrdinaryBinding
   rightCoefficient : ∀ h ∈ leaf.rows, ∀ j ∈ leaf.right,
     star (leaf.rightCoefficient h j) =
       secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 wholeRight h j
-  leftPoint : ∀ h ∈ leaf.rows, ∀ i ∈ leaf.left,
-    WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i) = x h i
-  rightPoint : ∀ h ∈ leaf.rows, ∀ j ∈ leaf.right,
-    WithLp.toLp 2 (-leaf.rightFirst h j, leaf.rightSecond h j) = y h j
+  leftPoint : ∀ h ∈ leaf.rows, ∃ z : WithLp 2 (U × V), ∀ i ∈ leaf.left,
+    WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i) = z + x h i
+  rightPoint : ∀ h ∈ leaf.rows, ∃ z : WithLp 2 (U × V), ∀ j ∈ leaf.right,
+    WithLp.toLp 2 (-leaf.rightFirst h j, leaf.rightSecond h j) = z + y h j
 
 namespace OrdinaryBinding
 
@@ -122,18 +123,20 @@ theorem ordinaryIntegrand_eq (z : U × V) :
         apply Finset.sum_congr rfl
         intro h hh
         have hm : h ∈ leaf.rows := d.rows (Finset.mem_filter.mp hh).1
+        obtain ⟨zh, hzh⟩ := d.leftPoint h hm
         have hc :
             jointFourierColumn leaf.left (leaf.leftCoefficient h)
               (fun i => WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i))
               (WithLp.toLp 2 z) =
-            jointFourierColumn leaf.left
+            jointPhase (WithLp.toLp 2 z) zh * jointFourierColumn leaf.left
               (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 wholeLeft h)
               (x h) (WithLp.toLp 2 z) := by
+          rw [← jointFourierColumn_rowTranslation]
           unfold jointFourierColumn
           apply Finset.sum_congr rfl
           intro i hi
-          rw [d.leftCoefficient h hm i hi, d.leftPoint h hm i hi]
-        rw [d.rowWeight h hm, hc]
+          rw [d.leftCoefficient h hm i hi, hzh i hi]
+        simp only [d.rowWeight h hm, hc, norm_mul, norm_jointPhase, one_mul]
   have hright :
       jointColumnEnergy (leaf.rows.filter (fun h => ¬leaf.exceptional h)) leaf.right
         leaf.rowWeight (fun h j => star (leaf.rightCoefficient h j))
@@ -156,18 +159,20 @@ theorem ordinaryIntegrand_eq (z : U × V) :
         apply Finset.sum_congr rfl
         intro h hh
         have hm : h ∈ leaf.rows := d.rows (Finset.mem_filter.mp hh).1
+        obtain ⟨zh, hzh⟩ := d.rightPoint h hm
         have hc :
             jointFourierColumn leaf.right (fun j => star (leaf.rightCoefficient h j))
               (fun j => WithLp.toLp 2 (-leaf.rightFirst h j, leaf.rightSecond h j))
               (WithLp.toLp 2 z) =
-            jointFourierColumn leaf.right
+            jointPhase (WithLp.toLp 2 z) zh * jointFourierColumn leaf.right
               (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 wholeRight h)
               (y h) (WithLp.toLp 2 z) := by
+          rw [← jointFourierColumn_rowTranslation]
           unfold jointFourierColumn
           apply Finset.sum_congr rfl
           intro j hj
-          rw [d.rightCoefficient h hm j hj, d.rightPoint h hm j hj]
-        rw [d.rowWeight h hm, hc]
+          rw [d.rightCoefficient h hm j hj, hzh j hj]
+        simp only [d.rowWeight h hm, hc, norm_mul, norm_jointPhase, one_mul]
   exact congrArg₂ (fun a c : ℝ => Real.sqrt a * Real.sqrt c) hleft hright
 
 end OrdinaryBinding

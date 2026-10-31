@@ -122,7 +122,10 @@ def columnExterior (v : raw.Column) : A.Exterior :=
 theorem columnExterior_val_of_mem (v : raw.Column) (hv : v ∈ raw.exteriorColumns) :
     (raw.columnExterior v).val = raw.columnIdeal v := by
   have h := (Finset.mem_filter.mp hv).2
-  simp only [columnExterior, dif_pos h]
+  unfold columnExterior
+  split_ifs with h'
+  · rfl
+  · exact (h' h).elim
 
 variable (left : ∀ I ∈ raw.leftColumns, ∀ q : (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ),
   raw.leftPhase q I = actualIdealResidue (A := A) (σ := σ) I.val q.out.val)

@@ -226,7 +226,7 @@ def canonicalFirstDirectLogBlock
         C left right φ c e finiteTest hlc hcs radius D δ hδ hδ1) M X hX := by
   let b := canonicalFirstCommonBlock C left right fullI fullJ DE hDE
   let profiles := fun i j => (c i * star (e j)) • φ
-  let rows := (b.finiteSource hΓ C left right profiles M radius X hX).rows
+  let rows := ((b.finiteSource hΓ C left right profiles M radius X hX).divisorRows D)
   let active := actualActiveColumn hΓ C b.primes b.primes_injective
     b.leftMultiplicity b.rightMultiplicity
   exact

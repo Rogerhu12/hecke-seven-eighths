@@ -19,6 +19,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Characters HeckeGeneral.Analysis.ConditionalMoments
+open HeckeGeneral.ThetaSkeleton.Global
 
 variable {F : Type} [Field F] [NumberField F]
 variable {A : SArithmeticData F} {σ : F →+* ℂ}
@@ -87,9 +88,12 @@ variable {D} (G : D.NormalizedCapacityData)
 def normalizedData (ξ : V) : MomentData F ω ψ :=
   normalizedMomentProfiles (D.clippedData ξ) (G.radius ξ) (G.radius_pos ξ)
 
+theorem normalizedData_count (ξ : V) :
+    (G.normalizedData ξ).geometry.slotCount = s.allocation.keep.card := D.count ξ
+
 def childData (keep : Finset (Fin s.allocation.keep.card)) (ξ : V) : MomentData F ω ψ :=
   (G.normalizedData ξ).restrictSlots
-    (lengthSelection (G.normalizedData ξ) s.allocation.keep.card (D.count ξ) keep)
+    (lengthSelection (G.normalizedData ξ) s.allocation.keep.card (G.normalizedData_count ξ) keep)
 
 def exponent : ℝ :=
   (G.b₂ - G.p₂ + G.geometry.w + G.boundary + G.ell) +
@@ -153,25 +157,28 @@ theorem zero_or_child : (∀ ξ, s.energy (σ := σ) ξ = 0) ∨ Nonempty G.Chil
     linarith [G.charge_nonneg]
   have hlength (ξ : V) (i : Fin s.allocation.keep.card) :
       ((G.normalizedData ξ).geometry.slots
-        (lengthSlot (G.normalizedData ξ) s.allocation.keep.card (D.count ξ) i)).length =
+        (lengthSlot (G.normalizedData ξ) s.allocation.keep.card (G.normalizedData_count ξ) i)).length =
           s.childLength i := D.clipped_lengths ξ i
   obtain ⟨hdrop, _, removed, hcapacity, hbound⟩ :=
     uniform_length_child_capacity_of_allocation G.normalizedData s.allocation.keep.card
-      s.childLength D.count hlength D.clippedParameters G.geometry
+      s.childLength G.normalizedData_count hlength D.clippedParameters G.geometry
       s.beforeLength s.allocatedLength G.b₂ G.p₂ G.boundary G.ell G.gap G.δ G.mesh
       G.supportError (G.rawClipError + clipCost) G.widthError G.gap_pos G.kappa_pos
       G.mesh_nonneg (fun i => (s.length_pos _).le) (fun i => G.fits_mesh _) D.slot_sum
       D.principal_in_theta G.enlargement G.unit_length G.actual_width G.boundary_width
       G.radical_length G.boundary_nonneg D.live_length_le D.actual_length_reduction.le
       G.parent_capacity G.common_length G.paid_shift hclip' G.width_error hbudget' hcharge'
-  refine ⟨{ removed := removed,
-    width_nonneg := D.clipped_width_nonneg_of_source_nonzero ξ₀ hnonzero,
-    width_drop := hdrop, capacity := hcapacity, energy := ?_ }⟩
+  refine ⟨{
+    removed := removed
+    width_nonneg := D.clipped_width_nonneg_of_source_nonzero ξ₀ hnonzero
+    width_drop := hdrop
+    capacity := hcapacity
+    energy := ?_ }⟩
   intro ξ
   have hprime : ∀ u ∈ pairedRows (G.normalizedData ξ) D.clippedParameters s.base,
       ∀ i : Fin s.allocation.keep.card,
       ‖primePolynomial (G.normalizedData ξ)
-        (lengthSlot (G.normalizedData ξ) s.allocation.keep.card (D.count ξ) i)
+        (lengthSlot (G.normalizedData ξ) s.allocation.keep.card (G.normalizedData_count ξ) i)
         u s.base (D.height ξ)‖ ^ 2 ≤
         G.primeBound i * s.base ^ (D.clippedParameters.κ * s.childLength i) :=
     G.prime_bound ξ
@@ -224,11 +231,11 @@ theorem frozen_plainBackground_eq (ξ : V) :
 theorem frozen_slotCoefficient_eq (ξ : V) (i : Fin (out.frozenData ξ).geometry.slotCount) :
     (out.frozenData ξ).slotCoefficient i =
       (D.data ξ).slotCoefficient (selectedSlotIndex
-        (lengthSelection (G.normalizedData ξ) s.allocation.keep.card (D.count ξ)
+        (lengthSelection (G.normalizedData ξ) s.allocation.keep.card (G.normalizedData_count ξ)
           (Finset.univ \ out.removed)) i) := rfl
 
 theorem total_length (ξ : V) : out.parameters.z = (out.data ξ).geometry.totalLength :=
-  (length_restrictSlots_length (G.normalizedData ξ) _ (D.count ξ) s.childLength
+  (length_restrictSlots_length (G.normalizedData ξ) _ (G.normalizedData_count ξ) s.childLength
     (D.clipped_lengths ξ) _).symm
 
 theorem slot_count (ξ : V) : (out.data ξ).geometry.slotCount ≤ k := by
@@ -289,7 +296,7 @@ theorem frozen_unit_ball (ξ : V) (orders : Finset (ℕ × ℝ))
     MomentProfileUnitBall (out.frozenData ξ) 0 orders := by
   apply MomentProfileUnitBall.freeze_time
   exact MomentProfileUnitBall.restrictSlots (G.normalizedData ξ)
-    (lengthSelection (G.normalizedData ξ) s.allocation.keep.card (D.count ξ)
+    (lengthSelection (G.normalizedData ξ) s.allocation.keep.card (G.normalizedData_count ξ)
       (Finset.univ \ out.removed)) (D.height ξ) orders
     (normalizedMomentProfiles_unit_ball (D.clippedData ξ) (G.radius ξ) (G.radius_pos ξ)
       (D.height ξ) orders hideal hprime)
@@ -301,6 +308,8 @@ theorem sqrt_energy_le (ξ : V) :
       Real.sqrt out.weight * (G.radius ξ) ^ (s.allocation.keep.card + 2) *
         Real.sqrt (pairedEnergy (out.data ξ) out.parameters s.base (D.height ξ)) := by
   apply (Real.sqrt_le_sqrt (out.energy ξ)).trans_eq
+  change Real.sqrt (out.weight * (G.radius ξ) ^ ((s.allocation.keep.card + 2) * 2) *
+    pairedEnergy (out.data ξ) out.parameters s.base (D.height ξ)) = _
   rw [Real.sqrt_mul (mul_nonneg out.weight_nonneg (pow_nonneg (G.radius_pos ξ).le _)),
     Real.sqrt_mul out.weight_nonneg, pow_mul,
     Real.sqrt_sq (pow_nonneg (G.radius_pos ξ).le _)]
@@ -348,12 +357,13 @@ theorem left_zero_or_normalized_capacity_child
         (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h)) ξ) ≤
         ‖SecondCoefficientTermDictionary.centralNormalizer u v t‖ * Real.sqrt out.weight *
           (G.radius ξ) ^ (B.keep.card + 2) * Real.sqrt (pairedEnergy (out.data ξ) out.parameters D.base (cal.height ξ)) := by
-  rcases G.zero_or_child with hz | ⟨out⟩
+  rcases G.zero_or_child with hz | hchild
   · left
     intro ξ
     rw [R.left_energy_eq_source Ray C B T χ D hbase hlength IA hIA u v t x₁ x₂ x ξ,
       hz ξ, mul_zero]
-  · refine Or.inr ⟨out, ?_⟩
+  · rcases hchild with ⟨out⟩
+    refine Or.inr ⟨out, ?_⟩
     intro ξ
     rw [R.left_energy_eq_source Ray C B T χ D hbase hlength IA hIA u v t x₁ x₂ x ξ,
       Real.sqrt_mul (sq_nonneg _), Real.sqrt_sq_eq_abs, abs_of_nonneg (norm_nonneg _)]
@@ -390,12 +400,13 @@ theorem right_zero_or_normalized_capacity_child
         (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h)) ξ) ≤
         ‖SecondCoefficientTermDictionary.centralNormalizer u v t‖ * Real.sqrt out.weight *
           (G.radius ξ) ^ (B.keep.card + 2) * Real.sqrt (pairedEnergy (out.data ξ) out.parameters D.base (cal.height ξ)) := by
-  rcases G.zero_or_child with hz | ⟨out⟩
+  rcases G.zero_or_child with hz | hchild
   · left
     intro ξ
     rw [R.right_energy_eq_source Ray C B T χ D hbase hlength IB hIB u v t x₁ x₂ x ξ,
       hz ξ, mul_zero]
-  · refine Or.inr ⟨out, ?_⟩
+  · rcases hchild with ⟨out⟩
+    refine Or.inr ⟨out, ?_⟩
     intro ξ
     rw [R.right_energy_eq_source Ray C B T χ D hbase hlength IB hIB u v t x₁ x₂ x ξ,
       Real.sqrt_mul (sq_nonneg _), Real.sqrt_sq_eq_abs, abs_of_nonneg (norm_nonneg _)]
