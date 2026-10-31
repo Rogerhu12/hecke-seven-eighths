@@ -32,7 +32,7 @@ theorem rational_trace_phase_eq_standard (p : Nat.Primes) (x : ℚ_[p]) :
   have hq : q ∈ rationalPInverted p := by
     dsimp only [q]
     rw [div_eq_mul_inv, ← inv_pow]
-    exact (rationalPInverted p).mul_mem ((rationalPInverted p).intCast_mem a)
+    exact (rationalPInverted p).mul_mem (intCast_mem (rationalPInverted p) a)
       ((rationalPInverted p).pow_mem (Subring.subset_closure (by simp)) k)
   have hqx : ‖x - (q : ℚ_[p])‖ ≤ 1 := by
     simpa only [q, Rat.cast_div, Rat.cast_pow, Rat.cast_intCast, Rat.cast_natCast] using ha
@@ -78,7 +78,9 @@ theorem actual_field_phase_eq_orbital (A : SArithmeticData K) (x : K) :
       ∏ v : A.Sf, ResidueTrace.localTraceCharacter v.val
         (algebraMap K (v.val.adicCompletion K) x)) = _
   rw [ResidueTraceFactorProductFormula.archTraceCharacter_product_eq_trace,
-    map_mul, map_prod, Circle.coe_exp]
+    map_mul, map_prod]
+  simp only [Circle.coeHom_apply]
+  rw [Circle.coe_exp]
   unfold HeckeGeneral.Characters.sLocalPrincipalPhase
   congr 1
   · congr 1
@@ -90,6 +92,8 @@ theorem actual_field_phase_eq_orbital (A : SArithmeticData K) (x : K) :
 
 /-- The complete Gauss column used after the first orbital transform is
 the very same finite Gauss sum used by the arithmetic coefficient recipe. -/
+set_option Elab.async false in
+set_option maxHeartbeats 1600000 in
 theorem completeResidueGauss_eq_finiteGauss (A : SArithmeticData K)
     (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
       HeckeGeneral.Characters.localDifferentExponent K v = 0)
@@ -117,6 +121,8 @@ theorem completeResidueGauss_eq_finiteGauss (A : SArithmeticData K)
 
 /-- The old common modulus, the first-transform Gauss column and the
 amplifier's finite coefficient are connected without a phase hypothesis. -/
+set_option Elab.async false in
+set_option maxHeartbeats 1600000 in
 theorem finiteCoefficient_coprime_orbital (A : SArithmeticData K)
     (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
       HeckeGeneral.Characters.localDifferentExponent K v = 0)
@@ -145,3 +151,4 @@ end HeckeSkeleton.Moments.EngineStep
 #print axioms HeckeSkeleton.Moments.EngineStep.local_trace_phase_eq_standard
 #print axioms HeckeSkeleton.Moments.EngineStep.actual_field_phase_eq_orbital
 #print axioms HeckeSkeleton.Moments.EngineStep.finiteCoefficient_coprime_orbital
+

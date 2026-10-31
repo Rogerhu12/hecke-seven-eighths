@@ -1,5 +1,6 @@
 import HeckeGeneral.Analysis.SIntegerMaskedTruncation
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentSource
 
 /-!
 # The genuine orbital transform of a whole polynomial
@@ -101,7 +102,27 @@ variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)) [Γ.Fin
 variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 local notation "Q" => SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ
 
-variable (modulus : OS)
+variable (modulus : Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)
+
+/-- The actual whole squared polynomial, with its original unit invariance and
+Schwartz profile, as the provider's concrete periodic input. -/
+def wholePeriodicPair {ι : Type*} (hmodulus : modulus ≠ 0)
+    (columns : Finset ι) (c : ι → ℂ)
+    (G : ι → (OS ⧸ Ideal.span ({modulus} : Set OS)) → ℂ)
+    (hinv : ∀ i ∈ columns, ∀ u : Γ, ∀ a : OS,
+      G i (Ideal.Quotient.mk _
+        (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a)) =
+          G i (Ideal.Quotient.mk _ a))
+    (φ : SchwartzMap V ℂ) : ParentPeriodicPair K S Γ where
+  modulus := modulus
+  modulus_ne_zero := hmodulus
+  residue := wholeResidueEnergy columns c G
+  invariant u a := wholeResidueEnergy_congr columns c G
+    (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS))
+      (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a))
+    (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS)) a)
+    (fun i hi => hinv i hi u a)
+  profile := φ
 
 variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
   [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
@@ -114,9 +135,9 @@ variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
   (μ : Measure (AdeleRing (𝓞 K) K)) [μ.IsAddHaarMeasure]
 
 include ν μ in
-set_option Elab.async false in
-set_option maxHeartbeats 1600000 in
-/-- Either engine transform, on the actual whole nonnegative row norm. -/
+/-- Either engine transform, on the actual whole nonnegative row norm.
+`firstTransform` is the proved provider's full Möbius formula, including both
+additive zero terms, the Haar covolume, and the discriminant factor. -/
 theorem whole_masked_orbital_poisson {ι : Type*}
     (hmodulus : modulus ≠ 0)
     (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
@@ -131,42 +152,12 @@ theorem whole_masked_orbital_poisson {ι : Type*}
     (hlc : ∀ v ∈ S, IsLocallyConstant (h v))
     (hcs : ∀ v ∈ S, HasCompactSupport (h v))
     (M : Finset (HeightOneSpectrum OS)) (r : {r : ℝ // 0 < r}) :
-    let f : (OS ⧸ Ideal.span ({modulus} : Set OS)) → ℂ :=
-      wholeResidueEnergy columns c G
-    let hf : ∀ u : Γ, ∀ a : OS,
-        f (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS))
-          (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a)) =
-        f (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS)) a) :=
-      fun (u : Γ) (a : OS) =>
-      wholeResidueEnergy_congr columns c G
-        (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS))
-          (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a))
-        (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS)) a)
-        (fun i hi => hinv i hi u a)
-    sIntegerWeightedOrbitalSeries K S Γ φ (sIntegerFiniteTestFunction K S h) r
-        (fun q => sIntegerOrbitAvoidanceMask K _ Γ M q *
-          sIntegerPeriodicOrbitWeight K (S : Set (HeightOneSpectrum (𝓞 K))) Γ modulus f hf q) =
-      ∑ D ∈ M.powerset, (moebius (IdealMobiusMask.primeProduct D) : ℂ) *
-        (sIntegerMaskPoissonFactor K S modulus hmodulus r (sIntegerMaskGenerator K _ D) *
-          sIntegerWeightedOrbitalSeries K S Γ (traceSchwartzFourier K φ)
-            (sIntegerFiniteFourierTestFunction K S μv h)
-            (sIntegerMaskDualRadius K S modulus hmodulus r (sIntegerMaskGenerator K _ D))
-            (sIntegerPeriodicFourierOrbitWeight K (S : Set (HeightOneSpectrum (𝓞 K))) hS Γ modulus hmodulus f hf
-              (sIntegerMaskGenerator K _ D).val) +
-          ((sUnitHaarCovolume K (S : Set (HeightOneSpectrum (𝓞 K))) Γ).toReal : ℂ) *
-            (sIntegerMaskPoissonFactor K S modulus hmodulus r (sIntegerMaskGenerator K _ D) *
-                (sIntegerPeriodicDivisorFourier K (S : Set (HeightOneSpectrum (𝓞 K))) hS modulus hmodulus f
-                    (sIntegerMaskGenerator K _ D).val 0 *
-                  sIntegerDualTensorTerm K μv S (traceSchwartzToMixed K φ) h 0) -
-              f 0 * sIntegerTensorTerm K S (traceSchwartzToMixed K φ) h 0)) := by
-  dsimp only
-  exact sIntegerMaskedPeriodicOrbitalPoisson K S Γ modulus hmodulus hS ν μv μ
-    φ h hlc hcs M (wholeResidueEnergy columns c G)
-    (fun u a => wholeResidueEnergy_congr columns c G
-        (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS))
-          (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a))
-        (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS)) a)
-        (fun i hi => hinv i hi u a)) r
+    (wholePeriodicPair K S Γ modulus hmodulus columns c G hinv φ).maskedSeries
+        (sIntegerFiniteTestFunction K S h) r M =
+      (wholePeriodicPair K S Γ modulus hmodulus columns c G hinv φ).firstTransform
+        μv hS h M r :=
+  ParentPeriodicPair.maskedSeries_eq_firstTransform ν μv μ
+    (wholePeriodicPair K S Γ modulus hmodulus columns c G hinv φ) hS h hlc hcs M r
 
 include ν μ in
 /-- A common dual cutoff for the entire squared polynomial, with actual
@@ -219,3 +210,4 @@ end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.whole_masked_orbital_poisson
 #print axioms HeckeSkeleton.Moments.EngineStep.exists_whole_masked_orbital_truncation
+

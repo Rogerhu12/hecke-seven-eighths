@@ -61,7 +61,11 @@ theorem schwartz_operator_weighted_L1_bound
     have hp : 0 < 1 + ‖ξ‖ := by positivity
     have hh : (1 + ‖ξ‖) ^ (n + J) * ‖T F ξ‖ ≤
         (2 : ℝ) ^ (n + J) * t.sup (schwartzSeminormFamily ℝ V ℂ) (T F) := by
-      simpa only [t, schwartzSeminormFamily, norm_iteratedFDeriv_zero] using
+      change (1 + ‖ξ‖) ^ (n + J) * ‖T F ξ‖ ≤
+        (2 : ℝ) ^ (n + J) *
+          ((Finset.Iic (n + J, 0)).sup
+            (fun m => SchwartzMap.seminorm ℝ m.1 m.2)) (T F)
+      simpa only [norm_iteratedFDeriv_zero] using
         (SchwartzMap.one_add_le_sup_seminorm_apply (𝕜 := ℝ)
           (m := (n + J, 0)) (k := n + J) (n := 0) le_rfl le_rfl (T F) ξ)
     rw [Real.rpow_neg hp.le, ← div_eq_inv_mul,
@@ -154,3 +158,4 @@ end
 #print axioms HeckeSkeleton.Moments.EngineStep.schwartz_operator_weighted_L1_bound
 #print axioms HeckeSkeleton.Moments.EngineStep.joint_fourier_mass_bound
 #print axioms HeckeSkeleton.Moments.EngineStep.joint_kernel_paired_cauchy_uniform
+

@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentTruncation
+import HeckeGeneral.Arithmetic.SIntegerModulusNorm
 
 /-!
 # One physical frequency set for the whole finite source
@@ -64,7 +65,7 @@ def FirstFiniteSource.branches {ι κ : Type*} (s : FirstFiniteSource K S Γ ι 
 
 def FirstFiniteSource.inverseRadii {ι κ : Type*} (s : FirstFiniteSource K S Γ ι κ) :
     Finset ℝ :=
-  insert 1 (s.branches.image fun e =>
+  insert 0 (s.branches.image fun e =>
     ((s.pairs e.1.1 e.1.2).dualRadius s.radius e.2).val⁻¹)
 
 def FirstFiniteSource.inverseRadiusBound {ι κ : Type*}
@@ -75,9 +76,9 @@ def FirstFiniteSource.physicalCutoff {ι κ : Type*}
     (s : FirstFiniteSource K S Γ ι κ) : ℝ :=
   s.cutoff * s.inverseRadiusBound
 
-theorem FirstFiniteSource.one_le_inverseRadiusBound {ι κ : Type*}
-    (s : FirstFiniteSource K S Γ ι κ) : 1 ≤ s.inverseRadiusBound := by
-  exact Finset.le_sup' id (Finset.mem_insert_self 1 _)
+theorem FirstFiniteSource.inverseRadiusBound_nonneg {ι κ : Type*}
+    (s : FirstFiniteSource K S Γ ι κ) : 0 ≤ s.inverseRadiusBound := by
+  exact Finset.le_sup' id (Finset.mem_insert_self 0 _)
 
 theorem FirstFiniteSource.inverseRadius_le {ι κ : Type*}
     (s : FirstFiniteSource K S Γ ι κ)
@@ -109,7 +110,7 @@ theorem FirstFiniteSource.scaledCutoff_ge {ι κ : Type*}
 /-- A uniform dyadic upper bound for the actual inverse radii bounds the
 common physical length without multiplying by the number of columns. -/
 theorem FirstFiniteSource.physicalCutoff_le {ι κ : Type*}
-    (s : FirstFiniteSource K S Γ ι κ) (R : ℝ) (hR : 1 ≤ R)
+    (s : FirstFiniteSource K S Γ ι κ) (R : ℝ) (hR : 0 ≤ R)
     (hradii : ∀ i ∈ s.leftColumns, ∀ j ∈ s.rightColumns,
       ∀ D ∈ s.mask.powerset, ((s.pairs i j).dualRadius s.radius D).val⁻¹ ≤ R) :
     s.physicalCutoff ≤ s.cutoff * R := by
@@ -139,6 +140,20 @@ def FirstFiniteSource.rows {ι κ : Type*} (s : FirstFiniteSource K S Γ ι κ) 
         s.physicalCutoff := by
   simp only [FirstFiniteSource.rows, sIntegerOrbitCutoff,
     Set.Finite.mem_toFinset, Set.mem_setOf_eq, one_mul]
+
+theorem one_le_sIntegerOrbitNorm (q : Q) :
+    1 ≤ (sIntegerOrbitNorm K (S : Set (HeightOneSpectrum (𝓞 K))) Γ q).val := by
+  refine Quotient.inductionOn q ?_
+  intro a
+  simpa only [sIntegerOrbitNorm_mk] using
+    one_le_sIntegerElementNorm K (S : Set (HeightOneSpectrum (𝓞 K))) a
+
+theorem FirstFiniteSource.rows_empty_of_subunit {ι κ : Type*}
+    (s : FirstFiniteSource K S Γ ι κ) (hH : s.physicalCutoff < 1) : s.rows = ∅ := by
+  apply Finset.eq_empty_iff_forall_not_mem.mpr
+  intro q hq
+  exact (not_lt_of_ge
+    ((one_le_sIntegerOrbitNorm q).trans ((s.mem_rows q).mp hq))) hH
 
 theorem orbitCutoff_mul_radius (ρ : {r : ℝ // 0 < r}) (H : ℝ) :
     sIntegerOrbitCutoff K S Γ ρ (ρ.val * H) =
@@ -406,7 +421,7 @@ theorem finite_source_uniform_bound
           ∑ i ∈ s.leftColumns, ∑ j ∈ s.rightColumns,
             seminorms.sup (schwartzSeminormFamily ℂ V ℂ) (s.pairs i j).profile *
               (s.pairs i j).truncationMass s.mask s.radius := by
-  obtain ⟨seminorms, C, hC, hbound⟩ := physical_transform_uniform_bound
+  obtain ⟨seminorms, C, hC, hbound⟩ := physical_transform_uniform_bound (K := K) (S := S) (Γ := Γ)
     ν μv μ hS h hlc hcs decay hdecay order horder hdegree
   refine ⟨seminorms, C, hC, ?_⟩
   intro ι κ s
@@ -437,3 +452,4 @@ end
 #print axioms HeckeSkeleton.Moments.EngineStep.physical_transform_uniform_bound
 #print axioms HeckeSkeleton.Moments.EngineStep.finite_source_uniform_bound
 #print axioms HeckeSkeleton.Moments.EngineStep.FirstFiniteSource.transform_eq_common_rows
+

@@ -83,6 +83,14 @@ theorem kernelDivisorCoefficient_eq_mul {ι H : Type*}
       (if D ∣ ideals i then c i * phase i else 0) * G i h := by
   by_cases hd : D ∣ ideals i <;> simp [kernelDivisorCoefficient, hd]
 
+theorem kernelDivisorCoefficient_eq_fun {ι H : Type*}
+    (ideals : ι → Ideal (𝓞 K)) (D : Ideal (𝓞 K))
+    (c phase : ι → ℂ) (G : ι → H → ℂ) :
+    kernelDivisorCoefficient ideals D c phase G =
+      fun h i => (if D ∣ ideals i then c i * phase i else 0) * G i h := by
+  funext h i
+  exact kernelDivisorCoefficient_eq_mul ideals D c phase G h i
+
 variable (K) (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 variable (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
 local notation "OS" => S.integer K
@@ -149,7 +157,7 @@ theorem first_residual_gauss_kernel_bound {ι κ : Type*}
     (fun i j h hc => by
       rw [hphase i j hc, fixed_phase_expansion Ray phaseTable])
     c d (fun h i => z h + x i) (fun _ j => y j)
-  simpa only [kernelDivisorCoefficient_eq_mul, joint_energy_gauss_rows,
+  simpa only [kernelDivisorCoefficient_eq_fun, joint_energy_gauss_rows,
     joint_energy_conjugate_gauss_rows, G₁, G₂] using hbnd
 
 end HeckeSkeleton.Moments.EngineStep
@@ -158,3 +166,4 @@ end
 
 #print axioms HeckeSkeleton.Moments.EngineStep.joint_energy_gauss_rows
 #print axioms HeckeSkeleton.Moments.EngineStep.first_residual_gauss_kernel_bound
+

@@ -239,7 +239,7 @@ theorem gauss_energy_finite_source_bound
             seminorms.sup (schwartzSeminormFamily ℂ V ℂ) ((c i * star (c j)) • φ) *
               (source.pairs i j).truncationMass M r) := by
   obtain ⟨seminorms, C, hC, htail⟩ := finite_source_uniform_bound
-    ν μv μ hS h hlc hcs decay hdecay order horder hdegree
+    (K := K) (S := S) (Γ := Γ) ν μv μ hS h hlc hcs decay hdecay order horder hdegree
   refine ⟨seminorms, C, hC, ?_⟩
   intro X hX M r H ι rows rowMap w B columns c col φ cal
   let source := gaussFiniteSource hS columns c col φ M r X hX
@@ -269,3 +269,4 @@ end
 
 #print axioms HeckeSkeleton.Moments.EngineStep.gauss_energy_orbital_source_bound
 #print axioms HeckeSkeleton.Moments.EngineStep.gauss_energy_finite_source_bound
+

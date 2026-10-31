@@ -97,7 +97,10 @@ theorem parent_first_finite_transform
         C * X ^ (1 - decay) *
           (seminorms.sup (schwartzSeminormFamily ℂ V ℂ) (pairs i j).profile *
             (pairs i j).truncationMass M r) := by
-      convert hb using 1 <;> unfold ParentPeriodicPair.truncationMass <;> ring
+      convert hb using 1
+      · rfl
+      · unfold ParentPeriodicPair.truncationMass
+        ring
     have hr := Complex.re_le_norm
       ((pairs i j).maskedSeries (sIntegerFiniteTestFunction K S h) r M -
         (pairs i j).finiteTransform μv hS h M r X)
@@ -120,3 +123,4 @@ end HeckeSkeleton.Moments.EngineStep
 end
 
 #print axioms HeckeSkeleton.Moments.EngineStep.parent_first_finite_transform
+

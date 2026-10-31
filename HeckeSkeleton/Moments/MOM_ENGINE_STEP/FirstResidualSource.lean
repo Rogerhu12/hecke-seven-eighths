@@ -201,7 +201,7 @@ theorem first_residual_gauss_kernel_bound_on {H ι κ : Type*}
     (fun χ j => (fixedRightPhase Ray χ (rayRight j) : ℂ)) G₁ G₂
     (fun i j h hc => by rw [hphase i j hc, fixed_phase_expansion Ray phaseTable])
     c d (fun h i => z h + x i) (fun _ j => y j)
-  simpa only [kernelDivisorCoefficient_eq_mul, joint_energy_gauss_rows,
+  simpa only [kernelDivisorCoefficient_eq_fun, joint_energy_gauss_rows,
     joint_energy_conjugate_gauss_rows, G₁, G₂] using hbnd
 
 /-- The explicit sum of whole residual Gauss energies arising from the
@@ -363,3 +363,4 @@ end
 #print axioms HeckeSkeleton.Moments.EngineStep.originalTriple_divisor_fourier
 #print axioms HeckeSkeleton.Moments.EngineStep.first_residual_gauss_kernel_bound_on
 #print axioms HeckeSkeleton.Moments.EngineStep.first_source_kernel_bound
+

@@ -26,7 +26,7 @@ def firstActiveRadical (C D : Ideal (𝓞 K)) : Ideal (𝓞 K) :=
       (normalizedFactors C).count P % 6 ≠ (normalizedFactors D).count P % 6), P
 
 theorem firstActiveRadical_ne_zero (C D : Ideal (𝓞 K)) : firstActiveRadical C D ≠ 0 :=
-  support_product_ne_zero Finset.filter_subset
+  support_product_ne_zero (Finset.filter_subset _ _)
 
 theorem ideal_primeSupport_reconstruct (I : Ideal (𝓞 K)) (hI : I ≠ 0) :
     I = ∏ P ∈ primeSupport I, P ^ (normalizedFactors I).count P := by
@@ -48,8 +48,11 @@ theorem first_actual_common_allowance (Z : ℝ) (hZ : 1 < Z)
       1 ≤ (normalizedFactors C).count P :=
     Multiset.count_pos.mpr (Multiset.mem_toFinset.mp hP)
   have hd (P : Ideal (𝓞 K)) (hP : P ∈ primeSupport C) :
-      1 ≤ (normalizedFactors D).count P :=
-    Multiset.count_pos.mpr (Multiset.mem_toFinset.mp (hCD ▸ hP))
+      1 ≤ (normalizedFactors D).count P := by
+    have hPD : P ∈ primeSupport D := by
+      rw [← hCD]
+      exact hP
+    exact Multiset.count_pos.mpr (Multiset.mem_toFinset.mp hPD)
   have he := actual_ideal_paired_allowance Z hZ (primeSupport C)
     (fun P : Ideal (𝓞 K) => P)
     (fun P => (normalizedFactors C).count P)
@@ -137,3 +140,4 @@ end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.firstCommonWeight_le_radical
 #print axioms HeckeSkeleton.Moments.EngineStep.actual_first_common_mass
+

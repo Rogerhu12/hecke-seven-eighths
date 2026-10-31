@@ -107,7 +107,8 @@ theorem completeGaussPair_divisor_fourier (T : NonzeroModulusTrace R)
     _ = _ := by
       congr 1
       simp_rw [completeGaussPair_eq_fourierSum T a b ha hb χa χb]
-      simpa only [fullModulusCorrelation, map_neg] using
+      simpa only [fullModulusCorrelation, map_neg,
+        PeriodicFourier.divisorTransform_apply, one_mul] using
         gauss_pair_fourier (T.ψ (a * b)) (T.primitive (a * b) hab)
           (scaledResidue a b (a * b) rfl)
           (scaledResidue b a (a * b) (mul_comm a b)) χa χb (Ideal.Quotient.mk _ j)
@@ -151,3 +152,4 @@ theorem actual_gauss_pair_divisor_transform (a b : OS) (ha : a ≠ 0) (hb : b �
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.actual_gauss_pair_divisor_transform
+
