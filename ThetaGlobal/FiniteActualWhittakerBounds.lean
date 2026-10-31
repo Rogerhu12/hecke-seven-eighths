@@ -85,7 +85,7 @@ data-identification dictionaries; no coefficient estimate is assumed. -/
 theorem actual_local_bounds {Branch U : Type*}
     (v : R.A.UnitQuotient) (p : R.A.Sf)
     (d : FiniteShell.LocalShellData Branch (p.val.adicCompletion F)ˣ U)
-    (hradius : d.radius = fun z => ‖(z : p.val.adicCompletion F)‖)
+    (hradius : d.radius = fun z : (p.val.adicCompletion F)ˣ => ‖(z : p.val.adicCompletion F)‖)
     (hvalue : d.value = fun z =>
       ThetaExpansion.normalizedLocalWeylValue R C v (Sum.inr p.val) z) :
     FiniteShell.LocalWhittakerBounds d := by

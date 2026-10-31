@@ -78,6 +78,11 @@ theorem localWeyl_actual (p : ExteriorPrime K S) (j : Fin 6) (e : ℕ) :
     ReflectedLocalBounds.finiteWeylCoefficient,
     ReflectedLocalBounds.sphericalCoefficient, localWeylScalar, sphericalDigit,
     Complex.ofReal_natCast]
+  all_goals first
+    | rfl
+    | (congr 1
+       apply Finset.sum_congr _ (fun _ _ => rfl)
+       exact congrArg (fun I => @Finset.univ _ I) (Subsingleton.elim _ _))
 
 theorem reflectedCoefficient_actual (i : ReflectionIndex K S d) :
     ReflectedCoefficientModel.reflectedCoefficient (actualScalarData K S D d θ)
@@ -88,11 +93,14 @@ theorem reflectedCoefficient_actual (i : ReflectionIndex K S d) :
     ReflectedCoefficientModel.reflectedMarkFactor,
     ReflectedCoefficientModel.reflectedColumnFactor,
     ReflectedCoefficientModel.activeFrozenIdeal, ReflectedCoefficientModel.activeMarkedIdeal,
-    ReflectedCoefficientModel.localExponent, localWeyl_actual, actualFrame, actualIndex,
-    ReflectedArithmetic.reflectedCoefficient, frozenOmega, reflectedRowFactor,
+    ReflectedCoefficientModel.localExponent, localWeyl_actual, actualFrame, actualIndex]
+  simp only [ReflectedArithmetic.reflectedCoefficient, frozenOmega, reflectedRowFactor,
     reflectedMarkFactor, reflectedColumnFactor, localWeylExponent,
     activeFrozenIdeal, activeMarkedIdeal, frequencyUnit, actualScalarData,
     Complex.ofReal_natCast]
+  all_goals first
+    | rfl
+    | (congr <;> exact Subsingleton.elim _ _)
 
 /-- An independent confirmation that every actual index appears in the
 standalone ambient space with all six independent data coordinates retained. -/

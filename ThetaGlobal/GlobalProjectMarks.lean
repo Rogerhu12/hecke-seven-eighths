@@ -117,8 +117,8 @@ theorem completedThetaSum_marks_inclusion_exclusion_of_summable
     _ = ∑ J ∈ Q.powerset, (-1 : ℂ) ^ J.card *
         ∑' cn, completedTerm K S D θ m r ∅ V X cn *
           (if ∀ p ∈ J, ¬p.val.asIdeal ∣ (completedIdeal K S cn.1 cn.2).val.val
-            then (1 : ℂ) else 0) :=
-      GlobalMarks.tsum_marked_eq_alternating_unmarked Q
+            then (1 : ℂ) else 0) := by
+      convert GlobalMarks.tsum_marked_eq_alternating_unmarked Q
         (fun p cn => p.val.asIdeal ∣ (completedIdeal K S cn.1 cn.2).val.val)
         (completedTerm K S D θ m r ∅ V X) hs
     _ = _ := by
