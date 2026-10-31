@@ -111,6 +111,11 @@ MODULES = (
     'RankedAnnulusReflectionAssembly',
     'RecipeRankedAnnulusReflection',
     'MellinStrictTransfer',
+    'ScalarRecursion',
+    'MellinScalarStep',
+    'MellinCoreRecursion',
+    'RecipeMellinInduction',
+    'OriginalMesh',
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.
@@ -260,6 +265,13 @@ REQUIRED_TARGETS = {
     'HeckeSkeleton.Moments.EngineInduction.Node.energy_le_normalizedMellinPlain_kernel',
     'HeckeSkeleton.Moments.EngineInduction.mellinPairEnvelope_kernel_mass',
     'HeckeSkeleton.Moments.EngineInduction.rankedAnnulus_child_enlargement_subset',
+    'HeckeSkeleton.Moments.EngineInduction.scalarRecursion_power_bound',
+    'HeckeSkeleton.Moments.EngineInduction.MellinStrictBranchAt.bound',
+    'HeckeSkeleton.Moments.EngineInduction.MellinCoreRecursionInput.energy_bound',
+    'HeckeSkeleton.Moments.EngineInduction.Source.RecipeScalarLocalInput.sectorBound',
+    'HeckeSkeleton.Moments.EngineInduction.Source.paired_zero_slot_recipe_mellin',
+    'HeckeSkeleton.Moments.EngineInduction.Source.paired_positive_recipe_mellin_below_one',
+    'HeckeSkeleton.Moments.EngineInduction.Source.paired_positive_recipe_mellin_endpoint',
 }
 
 

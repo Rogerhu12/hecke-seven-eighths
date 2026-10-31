@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryProfileNormalization
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RowNonNorm
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileScaling
 
 /-!
 # Primitive arithmetic calibration at actual roots and reflection children
@@ -236,7 +238,7 @@ theorem recipeRoot_nonNorm (w : InfinitePlace K)
   refine pairedRows_actualPlain_nonNorm_of_target (recipeRoot recipe i s).data w hψ ?_
     (recipeRoot recipe i s).parameters (momentBaseFor i)
   exact hfinite (_root_.ExpansionRecipe.decodePresentation recipe.family.presentationCount
-    recipe.family.presentationCount_pos ((recipeMomentModels K c recipe).heights Z T i 4))
+    recipe.family.presentationCount_pos ((recipeMomentModels K c recipe).heights Z T i (4 : Fin 6)))
 
 end Source
 end HeckeSkeleton.Moments.EngineInduction

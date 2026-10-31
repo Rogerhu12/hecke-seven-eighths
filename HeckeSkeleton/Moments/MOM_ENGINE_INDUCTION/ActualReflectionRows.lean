@@ -54,8 +54,10 @@ theorem rowRestorationDualCoefficient_eq
     idealCoefficient (primeCoefficient K χ⁻¹) I.val * maskValue d u I.val
   rw [← hprune, maskValue_eq_remaining_deletion d S u (extra u) hmask I]
   by_cases hI : outside P I.val
-  · simp only [excl, if_pos hI, mul_one]
-  · simp only [excl, if_neg hI, mul_zero]
+  · dsimp only [P] at hI ⊢
+    simp only [excl, if_pos hI, mul_one]
+  · dsimp only [P] at hI ⊢
+    simp only [excl, if_neg hI, mul_zero]
 
 /-- The selected literal plain polynomial is the genuine restoration
 tail plus finitely many common-frequency dual columns. -/
@@ -130,7 +132,9 @@ theorem plainPolynomial_row_commonFrequency
           ordinaryReflectionDensity K χ (V u) b bi E Q (U ^ long) ((2 : ℝ) ^ j)
               (sigma j) frequency *
             ordinaryPowerColumn K (fun I => excl E bi I.val) (sigma j) ((2 : ℝ) ^ j) frequency := hFE
-    _ = _ := by rw [hop]
+    _ = _ := by
+      rw [hop]
+      rfl
 
 /-- The very-long-factor branch uses the whole genuine restored series;
 it need not manufacture a reflected child with a negative exponent. -/
@@ -150,9 +154,11 @@ theorem plainPolynomial_row_wholeReflection
         G * rowRestorationPiece false S d extra V δ U long J u := by
   let χ := d.plainBackground * d.rowCharacter u
   let E := rowRestorationDeletion S d extra u
-  have hsource := plainPolynomial_eq_remaining_pruned_sum
-    d W S u (extra u) hmask (U ^ long) 0
-  rw [← hprofile] at hsource
+  have hsource : plainPolynomial d W u (U ^ long) 0 =
+      plainPoly (excl E (idealCoefficient (primeCoefficient K χ))) (V u).toFun
+        (U ^ long) := by
+    simpa only [E, rowRestorationDeletion, χ, hprofile] using
+      plainPolynomial_eq_remaining_pruned_sum d W S u (extra u) hmask (U ^ long) 0
   obtain ⟨G, hG, hFE⟩ := deletedHeckePlainPoly_ordinary_reflection K hcomplex χ hcharacter
     E (rowRestorationDeletion_prime S d extra u) (V u) hδ hδsmall
   refine ⟨G, hG, ?_⟩

@@ -33,7 +33,13 @@ theorem mem_annularMellinSupport (B : SmoothAnnularTest) (N frequency : ℝ)
       annularMellinWindow B frequency (idealNorm K I / N) ≠ 0 := by
   have hw : annularMellinWindow B frequency (idealNorm K I / N) ≠ 0 ↔
       B.toFun (idealNorm K I / N) ≠ 0 := by
-    simp only [annularMellinWindow, mul_ne_zero_iff, profilePower_ne_zero, and_true]
+    change (B.toFun (idealNorm K I / N) *
+      profilePower (-idealVerticalPoint 0 frequency) (idealNorm K I / N) ≠ 0) ↔
+        B.toFun (idealNorm K I / N) ≠ 0
+    constructor
+    · exact left_ne_zero_of_mul
+    · intro hB
+      exact mul_ne_zero hB (profilePower_ne_zero _ _)
   by_cases hN : 0 < N
   · rw [annularMellinSupport, if_pos hN, mem_annularIdealSupport K B hN, hw]
   · have hy : idealNorm K I / N ≤ 0 :=
@@ -175,6 +181,9 @@ theorem plainPolynomial_annularMellin_separation
     _ = _ := by
       rw [← integral_const_mul]
       apply integral_congr_ae
-      exact Filter.Eventually.of_forall fun frequency => by rw [hcolumn]; ring
+      exact Filter.Eventually.of_forall fun frequency => by
+        dsimp only
+        rw [hcolumn]
+        ring
 
 end HeckeSkeleton.Moments.EngineInduction
