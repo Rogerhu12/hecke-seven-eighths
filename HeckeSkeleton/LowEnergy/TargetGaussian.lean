@@ -1,6 +1,6 @@
 import HeckeSkeleton.LowEnergy.TargetDictionary
 import HeckeSkeleton.LowEnergy.GaussianTheta
-import HeckeSkeleton.ActualProbeIntegralComplete
+import HeckeSkeleton.ActualProbeThetaAbsolute
 
 /-!
 # Gaussian reconstruction of the exact target row
@@ -10,8 +10,8 @@ Z. Only the completed theta scale is multiplied by exp(k). Replacing Z by
 Z*exp(k) in the entire marked row would move the windows and would be wrong.
 
 This adapter imports LowCauchy's identical target definition rather than
-Principal's unfinished energy theorem. Absolute convergence is supplied by
-the existing actual probe integral theorem.
+Principal's unfinished energy theorem. Absolute convergence is supplied directly
+by the actual theta series theorem, without constructing unrelated integral fields.
 -/
 
 set_option autoImplicit false
@@ -76,7 +76,7 @@ theorem annularMarkedRow_summable {Z : ℝ} (hZ : 0 < Z)
   exact (completedThetaSum_annuli_summable K S P.arithmetic (thetaPeriod K S P ψ) m
     (primeSetIdeal K S ∅) ((Finset.univ \ J).image p')
     (thetaScale_pos K c hZ J p')
-    ((actual_probeIntegralInput K S P ψ).theta_absolute m
+    (ActualThetaAbsoluteDraft.actual_probeTheta_absolute K S P ψ m
       ((Finset.univ \ J).image p') (thetaScale K c Z J p')
       (thetaScale_pos K c hZ J p'))).mul_left (markWeight K c Z p J p')
 
@@ -92,7 +92,7 @@ theorem completedMarkedRow_gaussian_annuli {Z : ℝ} (hZ : 0 < Z)
     (markWeight K c Z p J) (thetaPeriod K S P ψ) m.val (primeSetIdeal K S ∅)
     (fun p' => (Finset.univ \ J).image p') (thetaScale K c Z J)
     (fun p' _ => thetaScale_pos K c hZ J p')
-    (fun p' _ => (actual_probeIntegralInput K S P ψ).theta_absolute m.val
+    (fun p' _ => ActualThetaAbsoluteDraft.actual_probeTheta_absolute K S P ψ m.val
       ((Finset.univ \ J).image p') (thetaScale K c Z J p')
       (thetaScale_pos K c hZ J p'))
 

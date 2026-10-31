@@ -87,6 +87,10 @@ def discard_artifacts(module):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('phase', choices=['core', 'actual'])
+    ap.add_argument('--direct-env', action='store_true',
+        help='Use the explicitly supplied PATH and LEAN_PATH instead of asking Lake for them.')
+    ap.add_argument('--target', action='append', default=[],
+        help='Compile this exact module closure only; does not claim the full phase passed.')
     ap.add_argument('--diagnostic-seconds', type=float, default=120.0,
         help='Actual phase only: continue independent modules this long after the first failure.')
     args = ap.parse_args()
@@ -112,12 +116,18 @@ def main():
         # admissions are not treated as new-source admissions; the particular
         # replacement theorem receives a separate transitive axiom audit below.
         targets.append('HeckeSkeleton.Principal')
+    if args.target:
+        targets = args.target
     env = os.environ.copy()
-    lake_env = json.loads(subprocess.check_output([
-        'lake', 'env', 'python3', '-c',
-        'import os,json;print(json.dumps({k:os.environ.get(k, "") for k in ["PATH","LEAN_PATH","LEAN_SRC_PATH"]}))'
-    ], cwd=ROOT, text=True).strip().splitlines()[-1])
-    env.update(lake_env)
+    if args.direct_env:
+        if not env.get('LEAN_PATH'):
+            ap.error('--direct-env requires a nonempty LEAN_PATH')
+    else:
+        lake_env = json.loads(subprocess.check_output([
+            'lake', 'env', 'python3', '-c',
+            'import os,json;print(json.dumps({k:os.environ.get(k, "") for k in ["PATH","LEAN_PATH","LEAN_SRC_PATH"]}))'
+        ], cwd=ROOT, text=True).strip().splitlines()[-1])
+        env.update(lake_env)
     env['LEAN_PATH'] = str(OUT) + os.pathsep + env.get('LEAN_PATH', '')
     paths = [Path(p) if Path(p).is_absolute() else ROOT / p
         for p in env['LEAN_PATH'].split(os.pathsep) if p]
@@ -144,6 +154,8 @@ def main():
     for target in targets:
         visit(target)
     version = subprocess.check_output(['lean', '--version'], env=env, cwd=ROOT, text=True).strip()
+    if 'version 4.35.0-rc3,' not in version:
+        raise RuntimeError('Unexpected Lean executable version: ' + version)
     flags = ['-j1', '-DautoImplicit=false', '-DrelaxedAutoImplicit=false']
     lake_manifest = ROOT / 'lake-manifest.json'
     package_lock = hashlib.sha256(lake_manifest.read_bytes()).hexdigest()
@@ -316,7 +328,7 @@ def main():
         print(f'FAIL: {len(failures)} failed, {len(skipped)} skipped; ' +
             'the final axiom gate was not run.', flush=True)
         return failure_code or 1
-    if args.phase == 'actual':
+    if args.phase == 'actual' and not args.target:
         audit = LOG / 'CompletedMarkedEnergyAudit.lean'
         audit.write_text('import HeckeSkeleton.Principal\n\n' +
             '#print axioms HeckeSkeleton.completedMarkedEnergy\n')
@@ -350,8 +362,10 @@ def main():
                 '; '.join(axiom_audit['errors']))
         save_diagnostics(gate_status='passed')
     else:
-        save_diagnostics(gate_status='not_applicable_core_phase')
-    print(f'PASS: {len(order)} real source modules in {args.phase}', flush=True)
+        save_diagnostics(gate_status='not_run_targeted_closure' if args.target else
+            'not_applicable_core_phase')
+    scope = 'targeted closure ' + ', '.join(args.target) if args.target else args.phase
+    print(f'PASS: {len(order)} real source modules in {scope}', flush=True)
     return 0
 
 

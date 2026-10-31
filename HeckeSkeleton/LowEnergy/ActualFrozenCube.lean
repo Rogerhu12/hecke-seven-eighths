@@ -92,6 +92,7 @@ theorem numerator_admissible : Admissible i.numeratorFrozen.val := by
   intro p
   by_cases hpS : p ∉ S
   · have hd := i.frozen_digits (⟨p, hpS⟩ : ExteriorPrime K S)
+    change primeExponents i.numeratorFrozen.val p % 3 ≠ 2 at hd
     unfold AdmissibleExponent
     omega
   · have hz : primeExponents i.numeratorFrozen.val p = 0 := by
@@ -143,8 +144,9 @@ def minimumIndex : ReflectionIndex K S d :=
       intro p
       change primeExponents (minimumPart i.numeratorFrozen.val) p.val % 3 ≠ 2
       rw [exponent_minimumPart]
+      change frozenMin (primeExponents i.numeratorFrozen.val p.val) % 3 ≠ 2
       rcases frozenMin_cases (primeExponents i.numeratorFrozen.val p.val) with h | h | h <;>
-        simp [h] }
+        omega }
 
 theorem frozenExponent_minimum (p : ExteriorPrime K S) :
     localWeylExponent (rowDigit K S d p) (primeExponents i.numeratorFrozen.val p.val) =
@@ -166,6 +168,7 @@ theorem primeEvaluation_generator_mul (hD : AllowedGeneratorInput K S D)
     (D.away_six p.val p.property)
       ((S.unitEquivUnitsInteger K u).val ^ 6 * (D.generator A * D.generator B)) = _
   rw [sIntegerSexticEvaluation_mul_sixth_power_unit, sIntegerSexticEvaluation_mul]
+  rfl
 
 theorem primeEvaluation_generator_cube (hD : AllowedGeneratorInput K S D)
     (p : ExteriorPrime K S) (A : ExteriorIdeal K S) :
@@ -174,7 +177,7 @@ theorem primeEvaluation_generator_cube (hD : AllowedGeneratorInput K S D)
   have he : exteriorPower K S A 3 = exteriorMul K S A (exteriorMul K S A A) := by
     apply Subtype.ext
     change A.val ^ 3 = A.val * (A.val * A.val)
-    simp only [pow_succ, pow_zero, mul_one, mul_assoc]
+    simp only [pow_succ, pow_zero, one_mul, mul_assoc]
   rw [he, primeEvaluation_generator_mul K S D hD,
     primeEvaluation_generator_mul K S D hD]
   ring
@@ -359,7 +362,7 @@ theorem reflectedRowFactor_minimum_prime_product (hD : AllowedGeneratorInput K S
     intro p _
     ring
   rw [hprod]
-  change _ = (_ * _ * _) * _
+  simp only [frequencyUnit, activeFrozenIdeal, minimumIndex]
   ring
 
 /-- The retained prime product is exactly the actual cubic row symbol. -/
