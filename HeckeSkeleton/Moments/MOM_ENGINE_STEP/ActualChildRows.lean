@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFrequencyPartition
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedCorrelation
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildTermDictionary
 
 /-!
@@ -100,6 +101,27 @@ theorem exists_actual_extracted_child_row {ι : Type*} [Fintype ι] [DecidableEq
     actual_product_correlation_frequency_ideal_extract C p hp m n Ih h hh hne
   exact ⟨⟨I', h', hgen, hfreq, hnorm⟩⟩
 
+/-- Independently chosen generators of the actual two common ideals
+produce the same extracted row, with the original frequency unchanged. -/
+theorem exists_actual_extracted_child_row_of_generates
+    {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (C : A.GeneralArithmeticContext σ η hS)
+    (p : ι → ExteriorPrime A) (hp : Function.Injective p) (m n : ι → ℕ)
+    (a b : A.R) (ha : A.Generates (primePowerProduct p m) a)
+    (hb : A.Generates (primePowerProduct p n) b)
+    (Ih : A.Exterior) (h : A.R) (hh : A.Generates Ih h)
+    (hne : generatedIdealCorrelation (σ := σ) (primePowerProduct p m) (primePowerProduct p n)
+      a b ha hb h ≠ 0) :
+    Nonempty (ActualChildRow Ih h
+      (primePowerProductGenerator C p (fun i => min (m i) (n i)) *
+        nonunitFrequencyGenerator C p m n h)
+      ((Ideal.absNorm (gcd (primePowerProduct p m).val (primePowerProduct p n).val) : ℝ) *
+        A.exteriorNorm (nonunitFrequencyRadical C p m n h))) := by
+  obtain ⟨h', I', hgen, hfreq, _hideal, hnorm⟩ :=
+    actual_product_correlation_frequency_ideal_extract_of_generates
+      C p hp m n a b ha hb Ih h hh hne
+  exact ⟨⟨I', h', hgen, hfreq, hnorm⟩⟩
+
 section Energy
 
 variable {ω ψ : HeckeCharacter F}
@@ -192,4 +214,6 @@ end Energy
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.exists_actual_extracted_child_row
+#print axioms HeckeSkeleton.Moments.EngineStep.exists_actual_extracted_child_row_of_generates
 #print axioms HeckeSkeleton.Moments.EngineStep.actual_child_energy_from_terms
+

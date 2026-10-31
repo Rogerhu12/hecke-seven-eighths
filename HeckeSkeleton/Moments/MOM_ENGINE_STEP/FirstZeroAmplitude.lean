@@ -129,7 +129,8 @@ def firstZeroDivisorWeight (radius : {r : ℝ // 0 < r})
 theorem firstZeroDivisorWeight_nonneg (radius : {r : ℝ // 0 < r})
     (D : Finset (HeightOneSpectrum OS)) :
     0 ≤ firstZeroDivisorWeight radius D :=
-  mul_nonneg (norm_nonneg _) (inv_nonneg.mpr (sIntegerMaskDilationRadius K S radius _).property.le)
+  mul_nonneg (norm_nonneg _) (inv_nonneg.mpr
+    (sIntegerMaskDilationRadius K S radius (sIntegerMaskGenerator K (S : Set _) D)).property.le)
 
 /-- A uniform actual first-zero amplitude, before any counting of columns.
 The annular condition is on the original profile value, and the arithmetic
@@ -177,6 +178,30 @@ theorem first_zero_amplitude_uniform
       unfold firstZeroDivisorWeight
       dsimp only [H, J]
       ring
+
+section ActualBlocks
+
+variable {A : SArithmeticData K} {σ : K →+* ℂ}
+variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
+variable {Γ₀ : Subgroup A.U}
+variable (hΓ₀ : ∀ u : Γ₀, ∃ v : A.U, u.val = v ^ 6)
+
+theorem FirstCommonCharacterBlock.residue_norm_le_one
+    {ι κ : Type*} {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
+    {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
+    (b : FirstCommonCharacterBlock fullI fullJ DE)
+    (C : A.GeneralArithmeticContext σ η hS) (profiles : ι → κ → SchwartzMap V ℂ)
+    (i : ι) (j : κ)
+    (x : A.R ⧸ Ideal.span {(b.pair hΓ₀ C profiles i j).modulus}) :
+    ‖(b.pair hΓ₀ C profiles i j).residue x‖ ≤ 1 := by
+  unfold FirstCommonCharacterBlock.pair
+  by_cases hc : IsCoprime (b.leftResidual i).val (b.rightResidual j).val
+  · simp only [ParentPeriodicPair.gated, if_pos hc]
+    exact OrbitalGaussColumn.originalTriple_residue_norm_le_one _ _ _ _ x
+  · simp only [ParentPeriodicPair.gated, if_neg hc, norm_zero]
+    exact zero_le_one
+
+end ActualBlocks
 
 end HeckeSkeleton.Moments.EngineStep
 

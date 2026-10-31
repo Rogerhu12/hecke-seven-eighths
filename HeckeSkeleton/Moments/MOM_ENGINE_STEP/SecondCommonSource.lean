@@ -141,6 +141,55 @@ variable (hΓ : ∀ u : Γ, ∃ v : A.U, u.val = v ^ 6)
 variable (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 
+include hΓ in
+/-- The three reciprocal phases in the complete common-support formula
+are one for actual allowed generators of the coprime residual factors. -/
+theorem actualCommonPhase_allowed
+    (C : A.GeneralArithmeticContext σ η htrace)
+    (ID IE IA IB : A.Exterior) (d e a b : A.R)
+    (hd : A.Generates ID d) (he : A.Generates IE e)
+    (ha : A.Generates IA a) (hb : A.Generates IB b)
+    (hdAllowed : ∃ u : Kˣ, (u : K) = (d : K) ∧ A.IsAllowed C.correction.B u)
+    (heAllowed : ∃ u : Kˣ, (u : K) = (e : K) ∧ A.IsAllowed C.correction.B u)
+    (haAllowed : ∃ u : Kˣ, (u : K) = (a : K) ∧ A.IsAllowed C.correction.B u)
+    (hbAllowed : ∃ u : Kˣ, (u : K) = (b : K) ∧ A.IsAllowed C.correction.B u)
+    (hEa : IsCoprime IE.val IA.val) (hDb : IsCoprime ID.val IB.val)
+    (hab : IsCoprime IA.val IB.val) :
+    actualCommonPhase (σ := σ) ID IE IA IB d e a b = 1 := by
+  obtain ⟨ud, hud, had⟩ := hdAllowed
+  obtain ⟨ue, hue, hae⟩ := heAllowed
+  obtain ⟨ua, hua, haa⟩ := haAllowed
+  obtain ⟨ub, hub, hab'⟩ := hbAllowed
+  have hEA := firstReciprocalPhase_allowed hΓ C IE IA e a he ha
+    ue ua hue hua hae haa hEa
+  have hBD := firstReciprocalPhase_allowed hΓ C IB ID b d hb hd
+    ub ud hub hud hab' had hDb.symm
+  have hBA := firstReciprocalPhase_allowed hΓ C IB IA b a hb ha
+    ub ua hub hua hab' haa hab.symm
+  simp only [firstReciprocalPhase, generatedOriginalColumn,
+    generatedIdealCharacter_mk] at hEA hBD hBA
+  rw [actualCommonPhase, hEA, hBD, hBA]
+  simp only [one_mul]
+
+include hΓ in
+theorem FirstCommonCharacterBlock.secondPhase_one
+    (b : FirstCommonCharacterBlock fullI fullJ DE)
+    (C : A.GeneralArithmeticContext σ η htrace)
+    (hsupport : primeSupport DE.1 = primeSupport DE.2)
+    (hleft : ∀ i, ∃ u : Kˣ, (u : K) = (b.leftGenerator i : K) ∧ A.IsAllowed C.correction.B u)
+    (hright : ∀ j, ∃ u : Kˣ, (u : K) = (b.rightGenerator j : K) ∧ A.IsAllowed C.correction.B u)
+    (i : ι) (j : κ) (hcop : IsCoprime (b.leftResidual i).val (b.rightResidual j).val) :
+    actualCommonPhase (σ := σ) b.commonLeftIdeal b.commonRightIdeal
+      (b.leftResidual i) (b.rightResidual j)
+      (engineAllowedGenerator C b.commonLeftIdeal) (engineAllowedGenerator C b.commonRightIdeal)
+      (b.leftGenerator i) (b.rightGenerator j) = 1 := by
+  obtain ⟨hDa, hEa, hDb, hEb⟩ := b.second_coprimalities hsupport
+  exact actualCommonPhase_allowed hΓ C _ _ _ _ _ _ _ _
+    (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
+    (b.left_generates i) (b.right_generates j)
+    (engineAllowedGenerator_allowed C _) (engineAllowedGenerator_allowed C _)
+    (hleft i) (hright j) (hEa i) (hDb j) hcop
+
 def FirstCommonCharacterBlock.secondPair
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (C : A.GeneralArithmeticContext σ η htrace) (profiles : ι → κ → SchwartzMap V ℂ)

@@ -79,7 +79,6 @@ theorem actual_field_phase_eq_orbital (A : SArithmeticData K) (x : K) :
         (algebraMap K (v.val.adicCompletion K) x)) = _
   rw [ResidueTraceFactorProductFormula.archTraceCharacter_product_eq_trace,
     map_mul, map_prod]
-  simp only [Circle.coeHom_apply, Circle.coe_exp]
   unfold HeckeGeneral.Characters.sLocalPrincipalPhase
   congr 1
   · congr 1
@@ -110,7 +109,8 @@ theorem completeResidueGauss_eq_finiteGauss (A : SArithmeticData K)
   let v : A.R := (FiniteTransform.canonicalLifts A.R.toSubring a).val x
   have hv : Ideal.Quotient.mk (Ideal.span ({a} : Set A.R)) v = x :=
     (FiniteTransform.canonicalLifts A.R.toSubring a).property x
-  rw [actualSIntegerTrace_psi K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hS a ha, ← hv, ← map_mul,
+  rw [actualSIntegerTrace_psi K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hS a ha]
+  conv_lhs => rw [← hv, ← map_mul,
     HeckeGeneral.Characters.sIntegerActualModulusAddCharacter_mk]
   change HeckeGeneral.Characters.sLocalPrincipalPhase K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
       (((h * v : A.R) : K) / (a : K)) =

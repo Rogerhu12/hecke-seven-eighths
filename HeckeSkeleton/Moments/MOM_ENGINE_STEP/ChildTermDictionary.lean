@@ -101,7 +101,7 @@ theorem actualIdealResidue_one (h : A.R) :
   rw [actualIdealResidue, dif_pos hI]
   let II : A.Exterior := ⟨1, hI.1, Ideal.isCoprime_iff_sup_eq.mp hI.2⟩
   change σ (A.residueValue A.sexticResidueFamily II h) = 1
-  rw [A.residueValue_top A.sexticResidueFamily II (by rfl), map_one]
+  rw [A.residueValue_top A.sexticResidueFamily II (by simp only [II, Ideal.one_eq_top]), map_one]
 
 theorem actualIdealResidue_prod {ι : Type*} (S : Finset ι)
     (I : ι → Ideal (𝓞 F)) (h : A.R) :
@@ -152,12 +152,15 @@ theorem joint_cartesian_column_factorization {X Y P : Type*} {k : ℕ}
   simp only [jointFourierColumn, childCartesianColumns, childCartesianCoefficient,
     childCartesianLocation, Finset.product_eq_sprod, Finset.sum_product,
     jointPhase_add, jointPhase_sum, Finset.sum_mul, Finset.mul_sum]
+  rw [Finset.sum_comm (s := S₁) (t := S₂)]
+  simp_rw [Finset.sum_comm (s := S₁) (t := Fintype.piFinset S)]
+  rw [Finset.sum_comm (s := S₂) (t := Fintype.piFinset S)]
   apply Finset.sum_congr rfl
-  intro I _
+  intro v _
   apply Finset.sum_congr rfl
   intro J _
   apply Finset.sum_congr rfl
-  intro v _
+  intro I _
   rw [Finset.prod_mul_distrib]
   ring
 
