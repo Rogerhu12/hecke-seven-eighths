@@ -128,8 +128,7 @@ theorem centralPrimePower_one_norm_sq (C : A.GeneralArithmeticContext σ η hS)
     (p : ExteriorPrime A) :
     ‖centralPrimePower C p 1 0‖ ^ 2 = (Q p)⁻¹ := by
   have hQ := primeNorm_pos p
-  rw [centralPrimePower_unit_frequency]
-  norm_num only
+  rw [centralPrimePower_unit_frequency, if_neg (by decide : (1 : ℕ) ≠ 0), if_pos rfl]
   rw [norm_div, Complex.norm_real, Real.norm_of_nonneg hQ.le, div_pow,
     norm_tau_of_not_six_dvd C p 1 (by norm_num), Real.sq_sqrt hQ.le]
   field_simp [hQ.ne'] <;> ring
@@ -137,8 +136,7 @@ theorem centralPrimePower_one_norm_sq (C : A.GeneralArithmeticContext σ η hS)
 theorem centralPrimePower_six_norm_sq (C : A.GeneralArithmeticContext σ η hS)
     (p : ExteriorPrime A) :
     ‖centralPrimePower C p 6 6‖ ^ 2 = (1 - (Q p)⁻¹) ^ 2 := by
-  rw [centralPrimePower_sixth_frequency]
-  norm_num only
+  rw [centralPrimePower_sixth_frequency, if_neg (by decide : (6 : ℕ) ≠ 0), if_pos rfl]
   rw [← Complex.ofReal_one, ← Complex.ofReal_inv, ← Complex.ofReal_sub,
     Complex.norm_real, Real.norm_eq_abs, sq_abs]
 
@@ -187,8 +185,10 @@ theorem centralPrimePower_difference_norm_sq (C : A.GeneralArithmeticContext σ 
       centralPrimePower_one_norm_sq C p
   by_cases h6 : n = 6
   · subst n
-    simpa [centralPrimePower_unit_frequency, centralPrimePower_sixth_frequency] using
-      centralPrimePower_six_norm_sq C p
+    have hz : centralPrimePower C p 6 0 = 0 := by
+      simp [centralPrimePower_unit_frequency]
+    rw [hz, zero_sub, norm_neg, if_neg (by decide : (6 : ℕ) ≠ 1), if_pos rfl]
+    exact centralPrimePower_six_norm_sq C p
   by_cases h7 : n = 7
   · subst n
     simpa [centralPrimePower_unit_frequency, centralPrimePower_sixth_frequency] using
