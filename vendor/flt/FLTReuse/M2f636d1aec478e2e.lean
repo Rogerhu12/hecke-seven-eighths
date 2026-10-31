@@ -1,6 +1,4 @@
-import Mathlib.Algebra.Algebra.Prod
-import Mathlib.Algebra.Module.LinearMap.Prod
-import Mathlib.Tactic.Simps
+import Mathlib
 
 section
 

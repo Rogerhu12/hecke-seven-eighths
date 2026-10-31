@@ -113,8 +113,7 @@ def primeGeneratorQuotientEquiv (D : ThetaArithmeticData K S)
     primeGeneratorQuotientEquiv K S D p n
       (Ideal.Quotient.mk (powerIdeal (primeGenerator K S D p) n) a) =
         Ideal.Quotient.mk _ a := by
-  unfold primeGeneratorQuotientEquiv
-  rw [Ideal.quotEquivOfEq_mk]
+  rfl
 
 local instance principalPowerFinite (D : ThetaArithmeticData K S)
     (p : ExteriorPrime K S) (n : ℕ) :
@@ -154,8 +153,6 @@ def principalPrimeResidueEquiv (D : ThetaArithmeticData K S) (p : ExteriorPrime 
     principalPrimeResidueEquiv K S D p
       (Ideal.Quotient.mk (powerIdeal (primeGenerator K S D p) 1) x) =
         sIntegerSexticResidueMap K S p.val p.property x := by
-  unfold principalPrimeResidueEquiv
-  rw [RingEquiv.trans_apply, Ideal.quotEquivOfEq_mk]
   rfl
 
 theorem principalPrime_isMaximal (D : ThetaArithmeticData K S) (p : ExteriorPrime K S) :
@@ -185,7 +182,9 @@ def principalPrimeCharacter (D : ThetaArithmeticData K S) (p : ExteriorPrime K S
     principalPrimeCharacter K S D p
         (Ideal.Quotient.mk (powerIdeal (primeGenerator K S D p) 1) x) =
       thetaPrimeCharacter K S D p (sIntegerSexticResidueMap K S p.val p.property x) := by
-  simp only [principalPrimeCharacter, pullbackMulChar, principalPrimeResidueEquiv_mk]
+  change thetaPrimeCharacter K S D p
+    (principalPrimeResidueEquiv K S D p (Ideal.Quotient.mk _ x)) = _
+  rw [principalPrimeResidueEquiv_mk]
 
 theorem principalPrimeCharacter_order (D : ThetaArithmeticData K S) (p : ExteriorPrime K S) :
     orderOf (principalPrimeCharacter K S D p) = 6 := by
@@ -196,6 +195,16 @@ def principalPowerAddCharacter (D : ThetaArithmeticData K S)
     AddChar (PowerQuotient (primeGenerator K S D p) n) ℂ :=
   sIntegerActualModulusAddCharacter K S D.different_outside (primeGenerator K S D p ^ n)
     (pow_ne_zero n (primeGenerator_ne_zero K S D p))
+
+@[simp] theorem principalPowerAddCharacter_mk (D : ThetaArithmeticData K S)
+    (p : ExteriorPrime K S) (n : ℕ) (x : S.integer K) :
+    principalPowerAddCharacter K S D p n
+        (Ideal.Quotient.mk (powerIdeal (primeGenerator K S D p) n) x) =
+      sLocalPrincipalPhase K S ((x : K) / (primeGenerator K S D p : K) ^ n) := by
+  change sIntegerActualModulusAddCharacter K S D.different_outside
+    (primeGenerator K S D p ^ n) (pow_ne_zero n (primeGenerator_ne_zero K S D p))
+    (Ideal.Quotient.mk _ x) = _
+  rw [sIntegerActualModulusAddCharacter_mk, Subalgebra.coe_pow]
 
 theorem principalPowerAddCharacter_isPrimitive (D : ThetaArithmeticData K S)
     (p : ExteriorPrime K S) (n : ℕ) :
@@ -209,9 +218,11 @@ theorem principalPowerAddCharacter_compatible (D : ThetaArithmeticData K S)
           (primeGenerator K S D p ^ (n - 1) * x)) =
       principalPowerAddCharacter K S D p 1
         (Ideal.Quotient.mk (powerIdeal (primeGenerator K S D p) 1) x) := by
-  simpa only [principalPowerAddCharacter, powerIdeal, pow_one] using
-    principalPower_character_compatible K S D (primeGenerator K S D p)
-      (primeGenerator_ne_zero K S D p) n hn x
+  rw [principalPowerAddCharacter_mk, principalPowerAddCharacter_mk, pow_one]
+  have h := principalPower_character_compatible K S D (primeGenerator K S D p)
+    (primeGenerator_ne_zero K S D p) n hn x
+  rw [sIntegerActualModulusAddCharacter_mk, sIntegerActualModulusAddCharacter_mk] at h
+  simpa only [Subalgebra.coe_pow] using h
 
 /-- The two actual prime phases agree under the proved residue
 equivalence: both evaluate the same literal fraction x/generator(p). -/
@@ -220,11 +231,18 @@ theorem principalPrime_addCharacter (D : ThetaArithmeticData K S)
     principalPowerAddCharacter K S D p 1 x =
       primeAddCharacter K S D p (principalPrimeResidueEquiv K S D p x) := by
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
-  unfold principalPowerAddCharacter primeAddCharacter
-  rw [transportCharacter_apply]
-  unfold principalPrimeResidueEquiv
-  rw [RingEquiv.trans_apply, RingEquiv.apply_symm_apply, Ideal.quotEquivOfEq_mk,
-    thetaPrincipalAddCharacter_mk, sIntegerActualModulusAddCharacter_mk]
+  have he : thetaPrimeResidueEquiv K S p
+      (principalPrimeResidueEquiv K S D p (Ideal.Quotient.mk _ a)) =
+      Ideal.Quotient.mk _ a := by
+    change thetaPrimeResidueEquiv K S p
+      ((thetaPrimeResidueEquiv K S p).symm (Ideal.Quotient.mk _ a)) = _
+    exact RingEquiv.apply_symm_apply _ _
+  rw [principalPowerAddCharacter_mk]
+  change sLocalPrincipalPhase K S ((a : K) / (primeGenerator K S D p : K) ^ 1) =
+    thetaPrincipalAddCharacter K S D (exteriorPrimeIdeal K S p)
+      (thetaPrimeResidueEquiv K S p
+        (principalPrimeResidueEquiv K S D p (Ideal.Quotient.mk _ a)))
+  rw [he, thetaPrincipalAddCharacter_mk]
   simp only [primeGenerator, pow_one]
 
 /-- Prime-level Gauss coefficients in the principal-power computation
@@ -360,7 +378,8 @@ theorem primePower_addCharacter_unitShift (D : ThetaArithmeticData K S)
       (exteriorPower K S (exteriorPrimeIdeal K S p) n)
       (primeGeneratorQuotientEquiv K S D p n (Ideal.Quotient.mk _ a)) =
     principalPowerAddCharacter K S D p n
-      (Ideal.Quotient.mk _ (u⁻¹ : (S.integer K)ˣ) ^ 6 * Ideal.Quotient.mk _ a)
+      (Ideal.Quotient.mk _ ((u⁻¹ : (S.integer K)ˣ) : S.integer K) ^ 6 *
+        Ideal.Quotient.mk _ a)
   rw [primeGeneratorQuotientEquiv_mk, ← map_pow, ← map_mul,
     thetaPrincipalAddCharacter_mk, principalPowerAddCharacter,
     sIntegerActualModulusAddCharacter_mk]
@@ -371,8 +390,11 @@ theorem primePower_addCharacter_unitShift (D : ThetaArithmeticData K S)
   have huK : ((u : S.integer K) : K) ≠ 0 := by
     intro h
     exact u.ne_zero (Subtype.ext h)
+  have huinv : (((u⁻¹ : (S.integer K)ˣ) : S.integer K) : K) =
+      (((u : S.integer K) : K)⁻¹) :=
+    map_units_inv (S.integer K).val u
   rw [hgen]
-  simp only [map_mul, map_pow, map_units_inv]
+  simp only [Subalgebra.coe_mul, Subalgebra.coe_pow, huinv]
   field_simp [hπK, huK] <;> ring
 
 /-- The original probe Gauss sum on the actual p^n quotient is exactly

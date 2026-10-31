@@ -1,0 +1,32 @@
+[
+  {
+    "module": "HeckeSkeleton.HighBinSupport.DyadicCount",
+    "source_sha256": "1d42b40ff0358c2434bbe5f8c5d5fe60ee1aaae86e7d3c4836ccebfd6bd1e1f4",
+    "log_sha256": "fd80f4999280e87ad23e82a537edd3d92adaa5fd813c0ce05190048202a138b3",
+    "olean_sha256": "c3448b765f1682ef019e8ee0827ddb30a321cd2a110f8237c8113b003ecd00d6",
+    "exit_code": 0,
+    "source_unchanged": true,
+    "elapsed_seconds": 378.172,
+    "full_axiom_audit": "GitHub run 41163566828 / core job 124426178864 / commit 4f733f5f9a616332feffeed212aed57972daf012"
+  },
+  {
+    "module": "HeckeSkeleton.HighBinSupport.DyadicShells",
+    "source_sha256": "122970eccf43ac1bfc9038b7641a7add4ce53a6bcad74ea4d50831376e5e825d",
+    "log_sha256": "f13a65c869624c6b43dc2499c359406d478f8a168389b429a3b7e7da505579db",
+    "olean_sha256": "9151f33f09f064ce819db6dbc98d0620798aacdb5ff995eaf9425450828ec20f",
+    "exit_code": 0,
+    "source_unchanged": true,
+    "elapsed_seconds": 423.659,
+    "full_axiom_audit": "GitHub run 41163566828 / core job 124426178864 / commit 4f733f5f9a616332feffeed212aed57972daf012"
+  },
+  {
+    "module": "HeckeSkeleton.HighBinSupport.DyadicRowPartition",
+    "source_sha256": "ddc1773ade06f0bdcec3f9ea74dc1081a0e502c0aa0e9734b29a36784e0e6ccc",
+    "log_sha256": "710f7f096e76cafff54f50aae63d173ac86552f977554d82085630521b83d94e",
+    "olean_sha256": "c3b3efc7bffc06c34b158726e00835cc47f910a14f7085fc95986c15306d3889",
+    "exit_code": 0,
+    "source_unchanged": true,
+    "elapsed_seconds": 282.892,
+    "full_axiom_audit": "GitHub run 41163566828 / core job 124426178864 / commit 4f733f5f9a616332feffeed212aed57972daf012"
+  }
+]

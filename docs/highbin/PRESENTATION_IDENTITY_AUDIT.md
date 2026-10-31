@@ -134,6 +134,65 @@ the theorem takes no label-mean or individual-piece identity as an input.
 Its recursive project import closure contains none of `Base`, `HighBin`
 or `Theta`, allowing the shared constructor to precede those named data.
 
+## The direct target endpoint and the remaining named interface
+
+`ActualCanonicalTarget.lean` specializes the constructor using only
+`BaseContext`, `TargetArithmeticData`, and the actual Euler construction.
+It sets the buffer to `min lamA lamB / 100`, takes companions `{1}`, and
+derives the common row boundary from `FamilyContext.boundary`. The
+existing target providers discharge allowed generators, mixed-Gauss
+calibration and outside-S unramifiedness. No caller supplies these
+calibrations or an identification with an unknown Euler provider.
+
+`targetCanonicalNormForm` proves existence of numerical parameters.
+`targetCanonicalParameters` chooses this tuple once, and
+`targetCanonicalParameters_spec` proves the conclusion for that exact
+choice. The record contains only numbers, with no analytic estimate
+field. `chosenTargetCanonicalBlock` uses these same parameters at every
+scale. The target dyadic-boundary endpoint uses the same buffer,
+companions and detector, and provides scale exponent 14 with height
+degree zero for a source mask that may depend on scale and height.
+
+These constructed endpoints do not by themselves replace the old named
+`highExpansion` or `actualHighPresentation`. Two concrete interfaces
+still require a coordinated implementation:
+
+1. **The actual expansion data.** The named expansion must be defined from
+   the same finite shell schedule, retained detector fibers, amplitude
+   grid, actual slot values and supplied witness recipes. Merely assuming
+   equality of the old opaque expansion with this construction would
+   leave the construction obligation unsolved. In particular, a recipe
+   must be obtained from the real witness selection and saturation
+   construction, not from an empty default or an admitted provider.
+2. **The row set used in both contour sums.** The old presentation's
+   `shifted_identification` integrates over the entire buffered raw bin.
+   A canonical detector fiber is a subset of this bin; different raw
+   bins may overlap. It cannot be replaced by the entire raw bin using
+   the proven subset relation. A corrected presentation must use an
+   explicit `fixedRows` field for both the initial and final contour
+   sums, with these rows defined by the actual detector partition.
+
+The generic packet retains an integrability gate even at small scales.
+Its norm theorem proves that every assigned row passes the gate in the
+eventual range. The additional `ActualFinalContourIntegrability` and
+`ActualCanonicalIdentities` modules address the stronger target-range
+identity directly: the actual denominator reciprocal extends across a
+norm pole, while the numerator contour stays strictly to the left of
+the pole line. Compact-box continuity then proves integrability for
+every positive scale and every canonical detector fiber. For `Z > 0`
+and `T ≥ 1`, their gate equality identifies the computed block with the
+raw assigned-row final integral and identifies the boundary piece with
+the initial integral minus that block. Removing the gate here uses this
+analytic integrability theorem; it is not a definitional equality.
+
+The minimal remaining proof interface is consequently about literal
+data and exact integration: construct the common named block and recipe
+data; identify the retained rows, full-slot amplitudes and individual
+restricted integrals; and use the same fixed row set on both contours.
+The norm-form estimate, exceptional Euler estimate and boundary decay
+must remain conclusions of the existing analytic theorems. They must
+not be supplied as fields or renamed hypotheses to this interface.
+
 ## Full correction and the moment polynomial
 
 The source identity

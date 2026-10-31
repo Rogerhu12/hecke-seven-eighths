@@ -47,14 +47,36 @@ the stated number-field, Haar-measure and probe data. The bound is
 uniform in the source mask, ray filter, internal-height exponent, and
 shell. There is no input boundary estimate or height/count bound.
 
+`ActualDyadicRows` identifies membership in the original frequency-row
+envelope with its literal norm cutoff by reconstructing the ideal/sector
+index. Its moderate source is exactly the nonprincipal rows with
+`Z^(1/16) < Nu <= Z^upper`. The masked shells coincide with the proved
+dyadic fibers, including the last shell and exact endpoint cases.
+
+`ActualDyadicBoundary` sums these actual shells. Its whole-boundary tail
+is `C*Z^14*T^(-N)`, with the threshold chosen before `N`; it supplies
+`PowerHeightTailBound` with height degree zero. The indexed finite-sum
+identity also identifies this boundary with the sum over the original
+moderate source. Each row keeps its own detector-dependent `w` line.
+
+`ActualCanonicalFamily` gives one dependent finite type for the actual
+shell and its nonempty detector fiber. Its cardinality, rather than a
+separately postulated block count, has every positive subpower bound.
+The sum over its actual rows preserves the original moderate source.
+
 `ActualNormFormComputedPacket` and `ActualCanonicalHighBin` populate
 the original `ModerateBlock` using literal restricted-height integrals
 of the full corrected amplitude. The label means, row sets, individual
 pieces and block value are definitions. An integrability filter makes
 the exact finite-integral identity valid at every scale; the uniform
 norm theorem proves that this filter retains every assigned source row
-throughout the eventual norm-form range. It is not an assumed
-integrability statement.
+throughout the eventual norm-form range. `ActualFinalContourIntegrability`
+and `ActualCanonicalIdentities` additionally prove the gate is the original
+assigned fiber for every `Z>0` and `T>=1` in the target contour range.
+The denominator reciprocal extends analytically across a possible norm
+pole; the numerator contour avoids its pole. Compact-box integrability
+then gives the exact raw final-contour identity before an asymptotic
+norm bound is invoked. It is not an assumed integrability statement.
 
 The norm theorem chooses `kappa,theta,N,C,Z0` before the scale, external
 height, shell, finite source mask, retained detector choice and witness
@@ -64,6 +86,23 @@ over precisely that assigned fiber. It retains the original calibrated
 probe/character hypotheses and the upstream prime-window input. Its
 witness recipes are explicit data: this constructor does not manufacture
 an empty witness cover or assert the missing moment calibration.
+
+`ActualCanonicalData` supplies the primitive original `TargetContext` data:
+`e=min(lamA,lamB)/100`, companion packet `{1}`, the original calibrated
+probe, its Haar measures, arithmetic Euler provider, and common zero
+boundary. `ActualCanonicalEuler` proves the full actual row Euler input
+and the regular/exceptional estimates for this very Euler provider. The
+exceptional branch has constant `9` and cutoff `2`; its nonexceptional
+prime alternative and arithmetic phase calibration are proved.
+`ActualCanonicalTarget` chooses one numerical parameter tuple from the
+proved norm-form existence theorem. The estimates for that tuple are proved by the choice
+specification; no estimate is a caller-supplied field.
+
+`ActualTargetFamily` fixes
+`zeta=min(1/96,min(lamA,lamB)/100)` and `upper=13/16+zeta`, and ties this
+same source mask and parameter tuple to the actual retained family. Its
+norm theorem has the exact `lamB/4` loss of HB-NORMFORM. Its boundary
+theorem concerns the same source and internal-height exponent.
 
 ## Acyclic arithmetic interface
 
@@ -92,3 +131,14 @@ expansion/witness identification and any upstream admissions must be
 reported explicitly. Source inventories and static dependency checks
 are not compiler verification. New native compilation is in progress;
 only exact-source exit-zero records count as passed.
+
+## Verification checkpoint
+
+The native GitHub Actions core job at commit
+`4f733f5f9a616332feffeed212aed57972daf012` passed all 66 core modules and
+533 public declarations. The audit permits only `propext`,
+`Classical.choice`, and `Quot.sound`. This includes the detector geometry,
+finite-piece gauge, dyadic count, strict-endpoint assignment, and finite
+row partition. The exact commit, job, artifact, and source hashes are in
+`verified_core_canonical_ci.json`. The actual arithmetic/integral
+adapters and later actual-only files are not covered by that checkpoint.

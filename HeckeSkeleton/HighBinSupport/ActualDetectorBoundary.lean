@@ -184,6 +184,49 @@ def maskedShellBoundary (P : ProbeData K S₀) (ψ : HeckeCharacter K)
     (maskedShellRows K S₀ source Z d),
       maskedBoundaryPiece K S μ P ψ Θ g B e he hB hcommon ray source Z T κ d k
 
+/-- The actual contour difference for one row at its canonical detector
+choice. The `w` line depends on that choice. The expression is independent
+of the shell and source mask containing the row. -/
+def rowBoundaryAtChoice (P : ProbeData K S₀) (ψ : HeckeCharacter K)
+    (Θ : Finset (HeckeCharacter K)) (g : PrimeWindowGeometry)
+    (B e : ℝ) (he : 0 < e) (hB : 51 / 100 ≤ B)
+    (hcommon : ∀ u : FrequencyRow K S₀, ∀ height : ℝ,
+      rowZeroBelow K S₀ ψ Θ P (arithmeticHighEulerData K S₀ P ψ) u height B)
+    (ray : Finset (HeckeCharacter K)) (Z T κ : ℝ) (u : FrequencyRow K S₀) : ℂ :=
+  let H := HighBinVerified.NormForm.internalHeight Z T κ
+  let k := detectorChoice K S₀ P ψ Θ (arithmeticHighEulerData K S₀ P ψ)
+    B e (2 * H) he hB hcommon u
+  let a := gridRealPart e k.2.val
+  rowContourBox K S₀ μ P ψ (arithmeticHighEulerData K S₀ P ψ)
+    g ray u Z H (B + 20 * e) (1 - a - 6 * e) (17 / 50) -
+  rowContourBox K S₀ μ P ψ (arithmeticHighEulerData K S₀ P ψ)
+    g ray u Z H (a + 16 * e) (1 - a - 6 * e) (17 / 50)
+
+/-- The shell boundary is exactly the sum of its original row contour
+differences, including each row's chosen `w` line. No constancy across
+different detector indices is used. -/
+theorem maskedShellBoundary_eq_rowSum (P : ProbeData K S₀) (ψ : HeckeCharacter K)
+    (Θ : Finset (HeckeCharacter K)) (g : PrimeWindowGeometry)
+    (B e : ℝ) (he : 0 < e) (hB : 51 / 100 ≤ B)
+    (hcommon : ∀ u : FrequencyRow K S₀, ∀ height : ℝ,
+      rowZeroBelow K S₀ ψ Θ P (arithmeticHighEulerData K S₀ P ψ) u height B)
+    (ray : Finset (HeckeCharacter K)) (source : Finset (FrequencyRow K S₀))
+    (Z T κ d : ℝ) :
+    maskedShellBoundary K S μ P ψ Θ g B e he hB hcommon ray source Z T κ d =
+      ∑ u ∈ maskedShellRows K S₀ source Z d,
+        rowBoundaryAtChoice K S μ P ψ Θ g B e he hB hcommon ray Z T κ u := by
+  unfold maskedShellBoundary maskedBoundaryPiece rowBoundaryAtChoice
+  simp_rw [← Finset.sum_sub_distrib]
+  exact sum_retainedChoices_indexed K S₀ P ψ Θ (arithmeticHighEulerData K S₀ P ψ)
+    B e (2 * HighBinVerified.NormForm.internalHeight Z T κ) he hB hcommon
+    (maskedShellRows K S₀ source Z d) (fun k u =>
+      rowContourBox K S₀ μ P ψ (arithmeticHighEulerData K S₀ P ψ) g ray u Z
+        (HighBinVerified.NormForm.internalHeight Z T κ)
+        (B + 20 * e) (1 - gridRealPart e k.2.val - 6 * e) (17 / 50) -
+      rowContourBox K S₀ μ P ψ (arithmeticHighEulerData K S₀ P ψ) g ray u Z
+        (HighBinVerified.NormForm.internalHeight Z T κ)
+        (gridRealPart e k.2.val + 16 * e) (1 - gridRealPart e k.2.val - 6 * e) (17 / 50))
+
 theorem maskedShellBoundary_full_eq (P : ProbeData K S₀) (ψ : HeckeCharacter K)
     (Θ : Finset (HeckeCharacter K)) (g : PrimeWindowGeometry)
     (B e : ℝ) (he : 0 < e) (hB : 51 / 100 ≤ B)

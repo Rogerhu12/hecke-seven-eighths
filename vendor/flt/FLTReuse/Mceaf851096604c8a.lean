@@ -1,10 +1,4 @@
-import Mathlib.Topology.Algebra.Algebra.Equiv
-import Mathlib.Topology.Algebra.Module.ModuleTopology
-import Mathlib.Topology.Algebra.Algebra
-import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-import Mathlib.RingTheory.TensorProduct.Basic
-import Mathlib.Tactic.FunProp
-import Mathlib.Tactic.Simps
+import Mathlib
 
 section IsTopologicalModuleDep
 

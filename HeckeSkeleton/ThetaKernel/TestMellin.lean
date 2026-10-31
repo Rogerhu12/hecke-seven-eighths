@@ -1,10 +1,4 @@
-import HeckeGeneral.Analysis.AnnularTest
-import Mathlib.Analysis.MellinTransform
-import Mathlib.MeasureTheory.Integral.IntegralEqImproper
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Ring
+import HeckeGeneral.Analysis.GlobalThetaData
 
 /-! Mellin transforms of smooth annular tests: entireness, Euler integration by
 parts, and the weighted bounds `|w|^j |M V(-w)| ≤ ∫ |E^j V| y^{-σ-1}`. -/

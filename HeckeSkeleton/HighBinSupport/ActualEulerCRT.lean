@@ -110,15 +110,18 @@ theorem probeGaussOnQuotient_unit_scale (P : ProbeData K S)
   have hχ : χ (v : ThetaQuotient K S I) ≠ 0 :=
     (v.isUnit.map χ).ne_zero
   apply mul_left_cancel₀ hχ
+  change χ (v : ThetaQuotient K S I) *
+    probeGaussOnQuotient K S P I ((v : ThetaQuotient K S I) * h) =
+      χ (v : ThetaQuotient K S I) *
+        ((χ (v : ThetaQuotient K S I))⁻¹ * probeGaussOnQuotient K S P I h)
   rw [← mul_assoc, mul_inv_cancel₀ hχ, one_mul]
   change χ (v : ThetaQuotient K S I) *
     (∑ x : ThetaQuotient K S I, χ x * thetaPrincipalAddCharacter K S P.arithmetic I
       (((v : ThetaQuotient K S I) * h) * x)) =
     ∑ x : ThetaQuotient K S I, χ x * thetaPrincipalAddCharacter K S P.arithmetic I (h * x)
   rw [Finset.mul_sum]
-  conv_rhs => rw [← (Units.mulLeft v).sum_comp]
-  apply Finset.sum_congr rfl
-  intro x _
+  apply Fintype.sum_equiv (Units.mulLeft v)
+  intro x
   change χ (v : ThetaQuotient K S I) * (χ x * _) =
     χ ((v : ThetaQuotient K S I) * x) * _
   rw [map_mul]
@@ -247,8 +250,11 @@ theorem quotientSymbol_scaledCRT (D : ThetaArithmeticData K S)
     apply Ideal.Quotient.eq_zero_iff_mem.mpr
     rw [← D.generator_span]
     exact Ideal.subset_span (Set.mem_singleton _)
-  simp only [productQuotientLeft, productQuotientRight, Ideal.quotientMap_mk,
-    RingHom.id_apply, map_add, map_mul, hI, hJ, zero_mul, mul_zero, add_zero,
+  change quotientSymbol K S D I
+      (Ideal.Quotient.mk _ (D.generator J * a + D.generator I * b)) *
+    quotientSymbol K S D J
+      (Ideal.Quotient.mk _ (D.generator J * a + D.generator I * b)) = _
+  simp only [map_add, map_mul, hI, hJ, zero_mul, mul_zero, add_zero,
     zero_add, quotientSymbol_mul, quotientSymbol_mk]
 
 /-- The product denominator gives exactly the two original principal phases. -/
@@ -269,7 +275,7 @@ theorem productPrincipalCharacter_scaledCRT (D : ThetaArithmeticData K S)
     D.generator_ne_zero I (Subtype.ext hz)
   have hJ : (D.generator J : K) ≠ 0 := fun hz =>
     D.generator_ne_zero J (Subtype.ext hz)
-  simp only [map_mul, map_add]
+  simp only [Subalgebra.coe_mul, Subalgebra.coe_add]
   field_simp [hI, hJ] <;> ring
 
 /-- Exact character transport for a specified allowed-generator correction. -/
@@ -290,7 +296,7 @@ theorem product_character_sixth_shift (D : ThetaArithmeticData K S)
   have hI : (D.generator I : K) ≠ 0 := fun hz => D.generator_ne_zero I (Subtype.ext hz)
   have hJ : (D.generator J : K) ≠ 0 := fun hz => D.generator_ne_zero J (Subtype.ext hz)
   rw [hu]
-  simp only [map_mul, map_pow]
+  simp only [Subalgebra.coe_mul, Subalgebra.coe_pow]
   field_simp [huK, hI, hJ] <;> ring
 
 /-- An invariant actual quotient function sees the same Fourier transform
@@ -301,8 +307,8 @@ theorem fourier_chosen_product_character (D : ThetaArithmeticData K S)
     (hf : ∀ (u : S.unit K) (x : ThetaQuotient K S (exteriorMul K S I J)),
       f (Ideal.Quotient.mk _ (S.unitEquivUnitsInteger K u).val ^ 6 * x) = f x)
     (h : ThetaQuotient K S (exteriorMul K S I J)) :
-    fourier (thetaPrincipalAddCharacter K S D (exteriorMul K S I J)) f h =
-      fourier (productPrincipalCharacter K S D I J) f h := by
+    HighBin.FiniteResidueFourier.fourier (thetaPrincipalAddCharacter K S D (exteriorMul K S I J)) f h =
+      HighBin.FiniteResidueFourier.fourier (productPrincipalCharacter K S D I J) f h := by
   let B := exteriorMul K S I J
   obtain ⟨u, hu⟩ := hD.multiplicative I J
   let U : (ThetaQuotient K S B)ˣ := Units.map
@@ -312,13 +318,15 @@ theorem fourier_chosen_product_character (D : ThetaArithmeticData K S)
       thetaPrincipalAddCharacter K S D B ((U : ThetaQuotient K S B) ^ 6 * x) =
         productPrincipalCharacter K S D I J x :=
     product_character_sixth_shift K S D I J u hu x
-  unfold fourier
+  have hfU (x : ThetaQuotient K S B) :
+      f ((U : ThetaQuotient K S B) ^ 6 * x) = f x := hf u x
+  unfold HighBin.FiniteResidueFourier.fourier
   symm
   apply Fintype.sum_equiv (Units.mulLeft (U ^ 6))
   intro x
   change f x * _ = f ((U : ThetaQuotient K S B) ^ 6 * x) *
     thetaPrincipalAddCharacter K S D B (h * ((U : ThetaQuotient K S B) ^ 6 * x))
-  rw [hf]
+  rw [hfU]
   rw [show h * ((U : ThetaQuotient K S B) ^ 6 * x) =
     (U : ThetaQuotient K S B) ^ 6 * (h * x) by ring, hphase]
 
@@ -327,7 +335,7 @@ theorem thetaGamma_product_character (D : ThetaArithmeticData K S)
     (hD : AllowedGeneratorInput K S D) (I J : ExteriorIdeal K S) (j : ℕ) :
     thetaGamma K S D (exteriorMul K S I J) j =
       (Real.sqrt (exteriorNorm K S (exteriorMul K S I J)) : ℂ)⁻¹ *
-        fourier (productPrincipalCharacter K S D I J)
+        HighBin.FiniteResidueFourier.fourier (productPrincipalCharacter K S D I J)
           (fun x => quotientSymbol K S D (exteriorMul K S I J) x ^ j) 1 := by
   have hf (u : S.unit K) (x : ThetaQuotient K S (exteriorMul K S I J)) :
       quotientSymbol K S D (exteriorMul K S I J)
@@ -340,7 +348,7 @@ theorem thetaGamma_product_character (D : ThetaArithmeticData K S)
     (∑ x, quotientSymbol K S D (exteriorMul K S I J) x ^ j *
       thetaPrincipalAddCharacter K S D (exteriorMul K S I J) x) = _
   congr 1
-  simpa only [fourier, one_mul] using h
+  simpa only [HighBin.FiniteResidueFourier.fourier, one_mul] using h
 
 /-- Actual normalized Gauss CRT. At j=2 the two cross symbols are squared. -/
 theorem thetaGamma_coprime_product (D : ThetaArithmeticData K S)
@@ -350,7 +358,7 @@ theorem thetaGamma_coprime_product (D : ThetaArithmeticData K S)
       idealSymbol K S D I (D.generator J) ^ j *
       idealSymbol K S D J (D.generator I) ^ j *
       thetaGamma K S D I j * thetaGamma K S D J j := by
-  have hsum : fourier (productPrincipalCharacter K S D I J)
+  have hsum : HighBin.FiniteResidueFourier.fourier (productPrincipalCharacter K S D I J)
       (fun x => quotientSymbol K S D (exteriorMul K S I J) x ^ j) 1 =
       (idealSymbol K S D I (D.generator J) ^ j *
         idealSymbol K S D J (D.generator I) ^ j) *
@@ -358,7 +366,7 @@ theorem thetaGamma_coprime_product (D : ThetaArithmeticData K S)
         thetaPrincipalAddCharacter K S D I x) *
       (∑ y : ThetaQuotient K S J, quotientSymbol K S D J y ^ j *
         thetaPrincipalAddCharacter K S D J y) := by
-    unfold fourier
+    unfold HighBin.FiniteResidueFourier.fourier
     rw [← (scaledCRT K S D I J hIJ).sum_comp, Fintype.sum_prod_type]
     have hp (x : ThetaQuotient K S I) (y : ThetaQuotient K S J) :
         productPrincipalCharacter K S D I J (scaledCRT K S D I J hIJ (x, y)) =
@@ -379,7 +387,8 @@ theorem thetaGamma_coprime_product (D : ThetaArithmeticData K S)
   have hnorm : (Real.sqrt (exteriorNorm K S (exteriorMul K S I J)) : ℂ) =
       (Real.sqrt (exteriorNorm K S I) : ℂ) *
         (Real.sqrt (exteriorNorm K S J) : ℂ) := by
-    rw [exteriorNorm_mul, Real.sqrt_mul (idealNorm_pos K I.val).le, Complex.ofReal_mul]
+    have hI : 0 ≤ exteriorNorm K S I := (idealNorm_pos K I.val).le
+    rw [exteriorNorm_mul, Real.sqrt_mul hI, Complex.ofReal_mul]
   rw [hnorm, mul_inv]
   change _ = _ * _ *
     ((Real.sqrt (exteriorNorm K S I) : ℂ)⁻¹ *
@@ -396,31 +405,14 @@ theorem probeGauss_product_character (P : ProbeData K S)
     (hP : AllowedGeneratorInput K S P.arithmetic)
     (I J : ExteriorIdeal K S) (h : S.integer K) :
     probeGauss K S P (exteriorMul K S I J) h =
-      fourier (productPrincipalCharacter K S P.arithmetic I J)
+      HighBin.FiniteResidueFourier.fourier (productPrincipalCharacter K S P.arithmetic I J)
         (quotientSymbol K S P.arithmetic (exteriorMul K S I J))
         (Ideal.Quotient.mk _ h) := by
-  let D := P.arithmetic
-  let B := exteriorMul K S I J
-  obtain ⟨u, hu⟩ := hP.multiplicative I J
-  let U : (ThetaQuotient K S B)ˣ := Units.map
-    (Ideal.Quotient.mk (B.val.val.map (algebraMap (𝓞 K) (S.integer K)))).toMonoidHom
-      (S.unitEquivUnitsInteger K u)
-  have hphase (x : ThetaQuotient K S B) :
-      thetaPrincipalAddCharacter K S D B ((U : ThetaQuotient K S B) ^ 6 * x) =
-        productPrincipalCharacter K S D I J x :=
-    product_character_sixth_shift K S D I J u hu x
-  change (∑ x : ThetaQuotient K S B, quotientSymbol K S D B x *
-    thetaPrincipalAddCharacter K S D B (Ideal.Quotient.mk _ h * x)) = _
-  symm
-  apply Fintype.sum_equiv (Units.mulLeft (U ^ 6))
-  intro x
-  change quotientSymbol K S D B x * _ =
-    quotientSymbol K S D B ((U : ThetaQuotient K S B) ^ 6 * x) *
-      thetaPrincipalAddCharacter K S D B
-        (Ideal.Quotient.mk _ h * ((U : ThetaQuotient K S B) ^ 6 * x))
-  rw [quotientSymbol_sixth_global_unit]
-  rw [show Ideal.Quotient.mk _ h * ((U : ThetaQuotient K S B) ^ 6 * x) =
-    (U : ThetaQuotient K S B) ^ 6 * (Ideal.Quotient.mk _ h * x) by ring, hphase]
+  change HighBin.FiniteResidueFourier.fourier
+    (thetaPrincipalAddCharacter K S P.arithmetic (exteriorMul K S I J))
+    (quotientSymbol K S P.arithmetic (exteriorMul K S I J)) (Ideal.Quotient.mk _ h) = _
+  apply fourier_chosen_product_character K S P.arithmetic hP I J
+  exact quotientSymbol_sixth_global_unit K S P.arithmetic (exteriorMul K S I J)
 
 /-- Actual Gauss CRT, valid for every denominator multiplicity and every
 frequency, including nonunit and zero frequencies. -/
@@ -433,7 +425,7 @@ theorem probeGauss_coprime_product (P : ProbeData K S)
       idealSymbol K S P.arithmetic J (P.arithmetic.generator I) *
       probeGauss K S P I h * probeGauss K S P J h := by
   rw [probeGauss_product_character K S P hP]
-  unfold fourier
+  unfold HighBin.FiniteResidueFourier.fourier
   rw [← (scaledCRT K S P.arithmetic I J hIJ).sum_comp, Fintype.sum_prod_type]
   simp_rw [quotientSymbol_scaledCRT, productPrincipalCharacter_scaledCRT]
   change (∑ x : ThetaQuotient K S I, ∑ y : ThetaQuotient K S J, _) = _
@@ -485,16 +477,21 @@ theorem poissonCore_sixth_unit (P : ProbeData K S)
   rw [map_mul, map_pow, map_mul, map_pow]
   have he : -((productQuotientLeft K S den A v) ^ 6 * productQuotientLeft K S den A x) =
       (productQuotientLeft K S den A v) ^ 6 * (-(productQuotientLeft K S den A x)) := by ring
-  rw [he, hg, ha]
+  rw [he]
+  change probeGaussOnQuotient K S P den
+      ((vd : ThetaQuotient K S den) ^ 6 * (-(productQuotientLeft K S den A x))) *
+    quotientSymbol K S P.arithmetic A
+      ((va : ThetaQuotient K S A) ^ 6 * productQuotientRight K S den A x) = _
+  rw [hg, ha]
 
 /-- Exact quotient form of the original finite Poisson definition. -/
 theorem finitePoissonFactor_eq_fourier (P : ProbeData K S)
     (den A : ExteriorIdeal K S) (h : S.integer K) :
     finitePoissonFactor K S P den A h = (exteriorNorm K S den : ℂ)⁻¹ *
-      fourier (productPrincipalCharacter K S P.arithmetic den A)
+      HighBin.FiniteResidueFourier.fourier (productPrincipalCharacter K S P.arithmetic den A)
         (poissonCore K S P den A) (Ideal.Quotient.mk _ h) := by
-  unfold finitePoissonFactor fourier
-  congr 1
+  unfold finitePoissonFactor HighBin.FiniteResidueFourier.fourier
+  apply congrArg (fun z : ℂ => (exteriorNorm K S den : ℂ)⁻¹ * z)
   apply Finset.sum_congr rfl
   intro x _
   have hker := poissonKernelOnQuotient_mk K S P den A h (Quotient.out x)
@@ -507,7 +504,7 @@ theorem finitePoissonFactor_eq_theta_fourier (P : ProbeData K S)
     (hP : AllowedGeneratorInput K S P.arithmetic)
     (den A : ExteriorIdeal K S) (h : S.integer K) :
     finitePoissonFactor K S P den A h = (exteriorNorm K S den : ℂ)⁻¹ *
-      fourier (thetaPrincipalAddCharacter K S P.arithmetic (exteriorMul K S den A))
+      HighBin.FiniteResidueFourier.fourier (thetaPrincipalAddCharacter K S P.arithmetic (exteriorMul K S den A))
         (poissonCore K S P den A) (Ideal.Quotient.mk _ h) := by
   rw [finitePoissonFactor_eq_fourier]
   congr 1
@@ -531,23 +528,31 @@ def poissonCoreOn (P : ProbeData K S) (den A C : ExteriorIdeal K S)
       probeGauss K S P den (-m) * idealSymbol K S P.arithmetic A m := by
   rw [poissonCoreOn, Ideal.quotEquivOfEq_mk, poissonCore_mk]
 
+/-- Transport along reflexive equality preserves the actual quotient function. -/
+@[simp] theorem poissonCoreOn_self (P : ProbeData K S) (den A : ExteriorIdeal K S) :
+    poissonCoreOn K S P den A (exteriorMul K S den A) rfl =
+      poissonCore K S P den A := by
+  funext x
+  obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
+  rfl
+
 theorem poissonCoreOn_sixth_unit (P : ProbeData K S)
     (den A C : ExteriorIdeal K S) (hC : exteriorMul K S den A = C)
     (v : (ThetaQuotient K S C)ˣ) (x : ThetaQuotient K S C) :
     poissonCoreOn K S P den A C hC ((v : ThetaQuotient K S C) ^ 6 * x) =
       poissonCoreOn K S P den A C hC x := by
   subst C
-  exact poissonCore_sixth_unit K S P den A v x
+  simpa only [poissonCoreOn_self] using poissonCore_sixth_unit K S P den A v x
 
 theorem finitePoissonFactor_eq_theta_fourier_on (P : ProbeData K S)
     (hP : AllowedGeneratorInput K S P.arithmetic)
     (den A C : ExteriorIdeal K S) (hC : exteriorMul K S den A = C)
     (h : S.integer K) :
     finitePoissonFactor K S P den A h = (exteriorNorm K S den : ℂ)⁻¹ *
-      fourier (thetaPrincipalAddCharacter K S P.arithmetic C)
+      HighBin.FiniteResidueFourier.fourier (thetaPrincipalAddCharacter K S P.arithmetic C)
         (poissonCoreOn K S P den A C hC) (Ideal.Quotient.mk _ h) := by
   subst C
-  exact finitePoissonFactor_eq_theta_fourier K S P hP den A h
+  simpa only [poissonCoreOn_self] using finitePoissonFactor_eq_theta_fourier K S P hP den A h
 
 /-- This equality only reorders the original ideal factors. -/
 theorem exteriorMul_exchange (d₁ d₂ a₁ a₂ : ExteriorIdeal K S) :
@@ -717,16 +722,16 @@ theorem finitePoissonFactor_coprime_product (P : ProbeData K S)
   rw [finitePoissonFactor_eq_theta_fourier_on K S P hP _ _ C
     (exteriorMul_exchange K S d₁ d₂ a₁ a₂)]
   change (exteriorNorm K S (exteriorMul K S d₁ d₂) : ℂ)⁻¹ *
-    fourier (thetaPrincipalAddCharacter K S P.arithmetic C) f (Ideal.Quotient.mk _ h) = _
+    HighBin.FiniteResidueFourier.fourier (thetaPrincipalAddCharacter K S P.arithmetic C) f (Ideal.Quotient.mk _ h) = _
   rw [fourier_chosen_product_character K S P.arithmetic hP B₁ B₂ f hf]
-  have hsum : fourier (productPrincipalCharacter K S P.arithmetic B₁ B₂) f
+  have hsum : HighBin.FiniteResidueFourier.fourier (productPrincipalCharacter K S P.arithmetic B₁ B₂) f
       (Ideal.Quotient.mk _ h) =
       rawPoissonCrossPhase K S P.arithmetic d₁ d₂ a₁ a₂ *
-        fourier (thetaPrincipalAddCharacter K S P.arithmetic B₁) (poissonCore K S P d₁ a₁)
+        HighBin.FiniteResidueFourier.fourier (thetaPrincipalAddCharacter K S P.arithmetic B₁) (poissonCore K S P d₁ a₁)
           (Ideal.Quotient.mk _ h) *
-        fourier (thetaPrincipalAddCharacter K S P.arithmetic B₂) (poissonCore K S P d₂ a₂)
+        HighBin.FiniteResidueFourier.fourier (thetaPrincipalAddCharacter K S P.arithmetic B₂) (poissonCore K S P d₂ a₂)
           (Ideal.Quotient.mk _ h) := by
-    unfold fourier
+    unfold HighBin.FiniteResidueFourier.fourier
     rw [← (scaledCRT K S P.arithmetic B₁ B₂ hc).sum_comp, Fintype.sum_prod_type]
     simp_rw [show ∀ x y, f (scaledCRT K S P.arithmetic B₁ B₂ hc (x, y)) =
       rawPoissonCrossPhase K S P.arithmetic d₁ d₂ a₁ a₂ *
@@ -848,8 +853,8 @@ theorem finitePoissonFactor_frequency_sixth_unit (P : ProbeData K S)
     (productPrincipalCharacter K S P.arithmetic den A)
     (poissonCore K S P den A) (v ^ 6) hf (Ideal.Quotient.mk _ h)
   rw [finitePoissonFactor_eq_fourier, finitePoissonFactor_eq_fourier]
-  congr 1
-  simpa only [Units.val_pow_eq_pow_val, hv, map_mul, map_pow] using hF
+  exact congrArg ((exteriorNorm K S den : ℂ)⁻¹ * ·)
+    (by simpa only [Units.val_pow_eq_pow_val, hv, map_mul, map_pow] using hF)
 
 /-- A prime block of r outside the current finite quotient is removed by
 the proved sixth-power invariance; all actual row sectors are retained. -/

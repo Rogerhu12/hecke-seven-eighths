@@ -304,5 +304,7 @@
       "validation": "pending native recheck after a concrete missing-import diagnostic; declarations and proofs unchanged"
     }
   ],
-  "declaration_region_hash_method": "SHA256 of all original source bytes except complete lines beginning with import followed by a space; every other byte, including blank lines, is retained."
+  "declaration_region_hash_method": "SHA256 of all original source bytes except complete lines beginning with import followed by a space; every other byte, including blank lines, is retained.",
+  "current_status": "Superseded by vendor_import_restoration_provenance.json: all 15 original cloud headers restored after full Mathlib native compilation; original declarations unchanged.",
+  "superseding_import_restoration": "vendor_import_restoration_provenance.json"
 }

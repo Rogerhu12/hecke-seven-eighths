@@ -36,7 +36,13 @@ The source modules are:
   choice, disjoint fibers, exact finite-sum partition, raw-bin containment;
 - `HeckeSkeleton/HighBinSupport/ActualDetectorBoundary.lean`:
   actual nonprincipal shells and the boundary estimate for the constructed
-  finite family.
+  finite family;
+- `HeckeSkeleton/HighBinSupport/ActualDyadicRows.lean`:
+  reverse membership in the original frequency-row enumeration and the
+  exact masked dyadic partition of its moderate source;
+- `HeckeSkeleton/HighBinSupport/ActualFinalContourIntegrability.lean`:
+  final-kernel compact integrability at every positive scale, including
+  the denominator's actual norm-pole branch.
 
 ## The shared contour geometry
 
@@ -99,6 +105,48 @@ height-absorption inequality. Thus the height degree is zero and the
 scale exponent is 13. Summing the explicit finite detector partition
 only multiplies the constant by `(ceil(1/e)+1)^2`.
 
+## Exact moderate source
+
+The moderate source is the original `frequencyRows (Z^upper)`, filtered
+by `Z^(1/16) < Nu` and the nonprincipal condition. The reverse envelope
+membership theorem reconstructs the row's original ideal/sector index;
+it does not replace this enumeration with a new abstract row set.
+
+At dyadic exponent `1/16 + j log(2)/log(Z)`, the actual masked shell
+equals the deterministic dyadic fiber of this source. The coverage,
+disjointness and finite-sum theorems therefore apply to the literal
+arithmetic rows. A row on a dyadic endpoint is assigned to the preceding
+shell, and the final shell retains the source's original upper cutoff.
+
+The indexed partition identities also permit summands `f(k,u)`, so the
+actual `w = 1-a(k)-6e` line is retained. In particular,
+`maskedShellBoundary_eq_rowSum` expresses the boundary as the sum of
+`rowBoundaryAtChoice` over the masked shell. That row contribution is
+independent of which shell contains the row. Consequently the dyadic
+partition can be applied to the literal contour difference, not only
+to index-independent surrogate values.
+
+## Final-kernel integrability at positive scales
+
+The eventual large-row exclusion is unnecessary for finite-box
+integrability on the final contour. Its numerator line has real part
+`1-a-6e < 1`, whereas every possible norm pole has real part one.
+For the denominator's norm-character branch, the chosen continuation
+retains the exact formula `L(s) = Q(s)/(s-p)`. Entire uniqueness identifies
+`Q` with the proved pole-cleared numerator, whose value at `p` is nonzero.
+The actual upper-zero detector excludes all other zeros of `Q` on the
+retained contour. Hence the actual reciprocal is `(s-p)/Q(s)` and is
+analytic even at the pole.
+
+Together with the constructed arithmetic correction's continuity, this
+gives continuity and compact integrability of the full compensated
+kernel for every `Z > 0`, `51/100 ≤ a ≤ 1`, `0 < e ≤ 1/10000`, and
+`H ≤ U`, assuming the original row upper detector at `U` and `a+2e`.
+It requires no row-norm cutoff, nonprincipal premise, background-character
+exclusion, prime-normalizer lower bound, or norm-form estimate. This is
+the direct input for identifying the computed integrability gate with
+the same selected rows already at `Z,T ≥ 1`.
+
 ## Exact interface requirement
 
 The canonical row fibers are subsets of the enclosing raw buffered
@@ -114,8 +162,18 @@ specific requirement on the joint expansion/presentation constructor;
 the new construction does not identify an arbitrary pre-existing
 presentation with the canonical one.
 
-Native arithmetic verification of the new modules is pending the
-project dependency build. Source-level statements and candidate proof
-terms are not by themselves a completed native verification claim.
+## Verification status
+
+The pure `BufferedDetectorGeometry` module has passed native Lean
+compilation with its source unchanged. A separate native audit checked
+all 25 public declarations and printed the axioms of each: the only
+axioms reported are `propext`, `Classical.choice`, and `Quot.sound`.
+`DetectorIndex` uses no axioms. The source, object, build-log and audit-log
+hashes are recorded in `verified_detector_geometry_axioms.json`.
+
+Native arithmetic verification of the actual adapters is pending the
+project dependency build. The pure-module result does not certify those
+adapters; source-level statements and candidate proof terms are not by
+themselves a completed native verification claim.
 
 AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-31.

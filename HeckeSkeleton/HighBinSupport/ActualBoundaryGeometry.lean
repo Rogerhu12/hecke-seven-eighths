@@ -1,6 +1,7 @@
 import HeckeSkeleton.HighBinSupport.BufferedDetectorGeometry
 import HeckeGeneral.Analysis.BufferedPhysicalRowBin
 import HeckeGeneral.Analysis.PhysicalRowPacketBoundary
+import Mathlib.Algebra.BigOperators.Group.Finset.Piecewise
 
 /-!
 # Buffered choices and a finite partition of the actual rows
@@ -189,6 +190,23 @@ theorem sum_assignedRows (B e T : ℝ) (he : 0 < e) (hB : 51 / 100 ≤ B)
   simpa only [assignedRows] using
     Finset.sum_fiberwise R (detectorChoice K S P ψ Θ E B e T he hB hcommon) value
 
+/-- The summand may depend on the detector index, for example through
+the actual `w = 1-a-6e` contour. Each row uses its own canonical choice. -/
+theorem sum_assignedRows_indexed {M : Type*} [AddCommMonoid M]
+    (B e T : ℝ) (he : 0 < e) (hB : 51 / 100 ≤ B)
+    (hcommon : ∀ u : FrequencyRow K S, ∀ height : ℝ,
+      rowZeroBelow K S ψ Θ P E u height B)
+    (R : Finset (FrequencyRow K S))
+    (value : DetectorIndex (detectorDepth e) → FrequencyRow K S → M) :
+    (∑ k : DetectorIndex (detectorDepth e),
+      ∑ u ∈ assignedRows K S P ψ Θ E B e T he hB hcommon R k, value k u) =
+        ∑ u ∈ R, value (detectorChoice K S P ψ Θ E B e T he hB hcommon u) u := by
+  simp only [assignedRows, Finset.sum_filter]
+  rw [Finset.sum_comm]
+  apply Finset.sum_congr rfl
+  intro u _
+  simp only [Finset.sum_ite_eq, Finset.mem_univ, if_true]
+
 /-- This finite set removes empty detector pieces while preserving an
 explicit uniform count. -/
 def retainedChoices (B e T : ℝ) (he : 0 < e) (hB : 51 / 100 ≤ B)
@@ -204,6 +222,46 @@ theorem retainedChoices_card (B e T : ℝ) (he : 0 < e) (hB : 51 / 100 ≤ B)
       (detectorDepth e + 1) ^ 2 := by
   exact (Finset.card_filter_le _ _).trans_eq
     ((Finset.card_univ).trans (detectorIndex_card (detectorDepth e)))
+
+/-- Removing empty detector choices preserves the original exact row
+sum, rather than merely a support inclusion. -/
+theorem sum_retainedChoices (B e T : ℝ) (he : 0 < e) (hB : 51 / 100 ≤ B)
+    (hcommon : ∀ u : FrequencyRow K S, ∀ height : ℝ,
+      rowZeroBelow K S ψ Θ P E u height B)
+    (R : Finset (FrequencyRow K S)) (value : FrequencyRow K S → ℂ) :
+    (∑ k ∈ retainedChoices K S P ψ Θ E B e T he hB hcommon R,
+      ∑ u ∈ assignedRows K S P ψ Θ E B e T he hB hcommon R k, value u) =
+        ∑ u ∈ R, value u := by
+  rw [← sum_assignedRows K S P ψ Θ E B e T he hB hcommon R value]
+  simp only [retainedChoices, Finset.sum_filter]
+  apply Finset.sum_congr rfl
+  intro k _
+  by_cases h : (assignedRows K S P ψ Θ E B e T he hB hcommon R k).Nonempty
+  · simp only [h, if_pos]
+  · have hz : assignedRows K S P ψ Θ E B e T he hB hcommon R k = ∅ :=
+      Finset.not_nonempty_iff_eq_empty.mp h
+    simp only [h, if_neg, hz, Finset.sum_empty]
+
+/-- The literal contour summands may depend on the retained detector
+index; removing empty fibers still preserves their exact row sum. -/
+theorem sum_retainedChoices_indexed {M : Type*} [AddCommMonoid M]
+    (B e T : ℝ) (he : 0 < e) (hB : 51 / 100 ≤ B)
+    (hcommon : ∀ u : FrequencyRow K S, ∀ height : ℝ,
+      rowZeroBelow K S ψ Θ P E u height B)
+    (R : Finset (FrequencyRow K S))
+    (value : DetectorIndex (detectorDepth e) → FrequencyRow K S → M) :
+    (∑ k ∈ retainedChoices K S P ψ Θ E B e T he hB hcommon R,
+      ∑ u ∈ assignedRows K S P ψ Θ E B e T he hB hcommon R k, value k u) =
+        ∑ u ∈ R, value (detectorChoice K S P ψ Θ E B e T he hB hcommon u) u := by
+  rw [← sum_assignedRows_indexed K S P ψ Θ E B e T he hB hcommon R value]
+  simp only [retainedChoices, Finset.sum_filter]
+  apply Finset.sum_congr rfl
+  intro k _
+  by_cases h : (assignedRows K S P ψ Θ E B e T he hB hcommon R k).Nonempty
+  · simp only [h, if_pos]
+  · have hz : assignedRows K S P ψ Θ E B e T he hB hcommon R k = ∅ :=
+      Finset.not_nonempty_iff_eq_empty.mp h
+    simp only [h, if_neg, hz, Finset.sum_empty]
 
 /-- An assigned live piece lies in the original actual buffered bin.
 Only the original shell membership, lower norm cutoff and nonprincipal

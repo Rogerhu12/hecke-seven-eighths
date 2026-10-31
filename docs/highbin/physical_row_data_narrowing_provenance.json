@@ -46,5 +46,7 @@
     "unresolved_project_imports": [],
     "source_tree_sha256": "9769a5cf4d5589cbb121049cd9d91b78b25b742a41f3197cad395c3fd623fbbd",
     "source_tree_hash_method": "SHA256 of UTF-8 lines sorted by module name, each line: module name, one ASCII space, source SHA256, newline; current repository sources only."
-  }
+  },
+  "current_status": "Structural PhysicalProbeRowData separation remains current. Any source hashes for ActualInitialAbsolute in this historical record are superseded by subsequent actual proof repairs; TestMellin original cloud import restored under vendor_import_restoration_provenance.json.",
+  "superseding_import_restoration": "vendor_import_restoration_provenance.json"
 }

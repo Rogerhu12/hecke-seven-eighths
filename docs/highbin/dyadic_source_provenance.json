@@ -8,7 +8,7 @@
       "namespace qualification",
       "import path"
     ],
-    "verification": "pending native validation in this branch"
+    "verification": "GitHub Actions native core group passed: run 41163566828, job 124426178864, commit 4f733f5f9a616332feffeed212aed57972daf012; exact source hashed in core_public_declarations.json"
   },
   {
     "source": "/workspace/scratch/e20bf035739d/hecke-seven-eighths/ExpansionInterfaces/DyadicShells.lean",
@@ -19,6 +19,6 @@
       "namespace qualification",
       "import path"
     ],
-    "verification": "pending native validation in this branch"
+    "verification": "GitHub Actions native core group passed: run 41163566828, job 124426178864, commit 4f733f5f9a616332feffeed212aed57972daf012; exact source hashed in core_public_declarations.json"
   }
 ]

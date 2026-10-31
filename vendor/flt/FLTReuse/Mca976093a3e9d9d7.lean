@@ -1,6 +1,4 @@
-import Mathlib.RingTheory.Localization.BaseChange
-import Mathlib.LinearAlgebra.TensorProduct.Tower
-import Mathlib.Tactic.Simps
+import Mathlib
 
 section
 

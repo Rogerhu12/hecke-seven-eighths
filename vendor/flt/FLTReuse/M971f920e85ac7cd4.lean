@@ -1,5 +1,4 @@
 import FLTReuse.M019e33ff0c031ad2
-import Mathlib.NumberTheory.NumberField.ProductFormula
 
 open NumberField IsDedekindDomain Matrix
 
