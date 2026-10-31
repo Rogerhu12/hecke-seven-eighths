@@ -1,8 +1,6 @@
 name: MOM_ENGINE_STEP proof verification
 
 on:
-  push:
-    branches: [cloud/mom-engine-step]
   pull_request:
     branches: [dtests-handoff]
     paths:
@@ -49,7 +47,7 @@ jobs:
           test: 'false'
           lint: 'false'
           use-mathlib-cache: 'true'
-          use-github-cache: 'false'
+          use-github-cache: 'true'
       - name: Restore project build artifacts
         id: project-cache
         uses: actions/cache/restore@v4

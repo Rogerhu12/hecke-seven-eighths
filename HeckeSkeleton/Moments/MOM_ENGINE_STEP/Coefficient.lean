@@ -13,7 +13,7 @@ whole coefficient before any absolute value is taken.
 -/
 
 noncomputable section
-open scoped Classical BigOperators
+open scoped Classical BigOperators NNReal
 
 namespace HeckeSkeleton.Moments.EngineStep
 

@@ -566,4 +566,148 @@ theorem actual_gauss_column_generator_replacement
 
 end GeneratorReplacement
 
+section ActualFrequencyInsertion
+
+/-- Multiplication by the sixth power of the actual auxiliary prime ideal. -/
+def amplifiedExterior (I : A.Exterior) (p : ExteriorPrime A) : A.Exterior :=
+  ExteriorIdealEuler.mul I (powerIdeal p 6)
+
+theorem amplifiedExterior_val (I : A.Exterior) (p : ExteriorPrime A) :
+    (amplifiedExterior I p).val = p.val.asIdeal ^ 6 * I.val := by
+  change I.val * p.val.asIdeal ^ 6 = _
+  exact mul_comm _ _
+
+theorem primeExponent_exterior_mul (q : ExteriorPrime A) (I J : A.Exterior) :
+    primeExponent q (ExteriorIdealEuler.mul I J) =
+      primeExponent q I + primeExponent q J := by
+  simp [primeExponent, ExteriorIdealEuler.mul, idealPrimeExponent,
+    UniqueFactorizationMonoid.normalizedFactors_mul I.property.1 J.property.1]
+
+theorem primeExponent_exterior_pow (q : ExteriorPrime A) (I : A.Exterior) (n : ℕ) :
+    primeExponent q (ExteriorIdealEuler.pow I n) = n * primeExponent q I := by
+  simp [primeExponent, ExteriorIdealEuler.pow, idealPrimeExponent,
+    UniqueFactorizationMonoid.normalizedFactors_pow]
+
+theorem primeExponent_powerIdeal (q p : ExteriorPrime A) (n : ℕ) :
+    primeExponent q (powerIdeal p n) = if q = p then n else 0 := by
+  change (UniqueFactorizationMonoid.normalizedFactors (p.val.asIdeal ^ n)).count
+    q.val.asIdeal = _
+  rw [UniqueFactorizationMonoid.normalizedFactors_pow]
+  simp only [UniqueFactorizationMonoid.normalizedFactors_irreducible p.val.irreducible,
+    Multiset.count_nsmul, Multiset.count_singleton]
+  by_cases h : q = p
+  · simp [h]
+  · have h' : q.val.asIdeal ≠ p.val.asIdeal :=
+      fun hh => h (Subtype.ext (HeightOneSpectrum.asIdeal_injective hh))
+    simp [h, h', Ne.symm h']
+
+/-- The valuation update is derived from normalized factors of the
+literal amplified ideal. -/
+theorem primeExponent_amplifiedExterior (I : A.Exterior) (p q : ExteriorPrime A) :
+    primeExponent q (amplifiedExterior I p) =
+      primeExponent q I + if q = p then 6 else 0 := by
+  rw [amplifiedExterior, primeExponent_exterior_mul, primeExponent_powerIdeal]
+
+theorem amplifiedExterior_generates (C : A.GeneralArithmeticContext σ η hS)
+    (I : A.Exterior) (p : ExteriorPrime A) (h : A.R) (hh : A.Generates I h) :
+    A.Generates (amplifiedExterior I p) (h * generator C p ^ 6) :=
+  generated_product I (powerIdeal p 6) (amplifiedExterior I p) rfl
+    h (generator C p ^ 6) hh (generator_power_generates C p 6)
+
+/-- Local unit parts multiply for the actual product generators. -/
+theorem localUnitPart_exterior_mul (C : A.GeneralArithmeticContext σ η hS)
+    (q : ExteriorPrime A) (I J : A.Exterior) (x y : A.R)
+    (hx : A.Generates I x) (hy : A.Generates J y) :
+    localUnitPart C q (ExteriorIdealEuler.mul I J) (x * y)
+      (generated_product I J (ExteriorIdealEuler.mul I J) rfl x y hx hy) =
+        localUnitPart C q I x hx * localUnitPart C q J y hy := by
+  apply Units.ext
+  apply Subtype.ext
+  change ((localUnitPart C q (ExteriorIdealEuler.mul I J) (x * y) _).val :
+    LocalField q) =
+      ((localUnitPart C q I x hx).val : LocalField q) *
+        ((localUnitPart C q J y hy).val : LocalField q)
+  rw [localUnitPart_spec, localUnitPart_spec, localUnitPart_spec,
+    primeExponent_exterior_mul]
+  change algebraMap F (LocalField q) ((x : F) * (y : F)) /
+      uniformizer C q ^ (primeExponent q I + primeExponent q J) = _
+  rw [map_mul, pow_add, div_mul_div_comm]
+
+theorem localUnitPart_generator_power (C : A.GeneralArithmeticContext σ η hS)
+    (q p : ExteriorPrime A) (n : ℕ) :
+    localUnitPart C q (powerIdeal p n) (generator C p ^ n)
+      (generator_power_generates C p n) =
+        localUnitPart C q (primeIdeal p) (generator C p) (generator_generates C p) ^ n := by
+  apply Units.ext
+  apply Subtype.ext
+  change ((localUnitPart C q (powerIdeal p n) (generator C p ^ n) _).val :
+    LocalField q) =
+      ((localUnitPart C q (primeIdeal p) (generator C p) _).val : LocalField q) ^ n
+  rw [localUnitPart_spec, localUnitPart_spec]
+  change algebraMap F (LocalField q) ((generator C p : F) ^ n) /
+      uniformizer C q ^ primeExponent q (ExteriorIdealEuler.pow (primeIdeal p) n) = _
+  rw [map_pow, primeExponent_exterior_pow, Nat.mul_comm n _, pow_mul, div_pow]
+
+/-- All other local factors receive an actual sixth power of a local
+unit.  This also records the unit part at the inserted prime itself. -/
+theorem localUnitPart_amplifiedExterior (C : A.GeneralArithmeticContext σ η hS)
+    (I : A.Exterior) (p q : ExteriorPrime A) (h : A.R) (hh : A.Generates I h) :
+    localUnitPart C q (amplifiedExterior I p) (h * generator C p ^ 6)
+      (amplifiedExterior_generates C I p h hh) =
+        localUnitPart C q I h hh *
+          localUnitPart C q (primeIdeal p) (generator C p) (generator_generates C p) ^ 6 := by
+  change localUnitPart C q (ExteriorIdealEuler.mul I (powerIdeal p 6))
+    (h * generator C p ^ 6) _ = _
+  rw [localUnitPart_exterior_mul, localUnitPart_generator_power]
+
+/-- The three valuation rows now refer to multiplication of the original
+frequency by the sixth power of the original allowed prime generator.
+The valuation and unit-part relations are proved above, not supplied as
+independent premises.  The common whole coefficient is retained. -/
+theorem actual_frequency_insertion_support
+    (C : A.GeneralArithmeticContext σ η hS)
+    (Is Ia Ih : A.Exterior) (s a h : A.R)
+    (hs : A.Generates Is s) (ha : A.Generates Ia a) (hh : A.Generates Ih h)
+    (hsAllowed : A.IsAllowed C.correction.B
+      (Units.mk0 (s : F) (by exact_mod_cast hs.1)))
+    (haAllowed : A.IsAllowed C.correction.B
+      (Units.mk0 (a : F) (by exact_mod_cast ha.1)))
+    (P : Finset (ExteriorPrime A)) (p : ExteriorPrime A) (hp : p ∈ P)
+    (hSupportS : ∀ q : ExteriorPrime A, primeExponent q Is ≠ 0 → q ∈ P)
+    (hSupportA : ∀ q : ExteriorPrime A, primeExponent q Ia ≠ 0 → q ∈ P)
+    (hSupportH : ∀ q : ExteriorPrime A, primeExponent q Ih ≠ 0 → q ∈ P)
+    (hk : primeExponent p Is = 0) (hJ : primeExponent p Ih = 0)
+    (whole : ℂ)
+    (hne : whole * MaskedQuotientCRT.coefficient C Is Ia s a h hs ha /
+        (A.exteriorNorm Ia : ℂ) ≠
+      whole * MaskedQuotientCRT.coefficient C Is Ia s a (h * generator C p ^ 6) hs ha /
+        (A.exteriorNorm Ia : ℂ)) :
+    primeExponent p Ia = 1 ∨ primeExponent p Ia = 6 ∨ primeExponent p Ia = 7 := by
+  have hSupportH' : ∀ q : ExteriorPrime A,
+      primeExponent q (amplifiedExterior Ih p) ≠ 0 → q ∈ P := by
+    intro q hq
+    by_cases hqp : q = p
+    · simpa only [hqp] using hp
+    · apply hSupportH q
+      simpa only [primeExponent_amplifiedExterior, if_neg hqp, add_zero] using hq
+  apply rawCRT_product_difference_support C P p hp
+    (fun q => primeExponent q Ia) (fun q => primeExponent q Is)
+    (fun q => primeExponent q Ih) (fun q => primeExponent q (amplifiedExterior Ih p))
+    (fun q => localUnitPart C q Is s hs) (fun q => localUnitPart C q Ia a ha)
+    (fun q => localUnitPart C q Ih h hh)
+    (fun q => localUnitPart C q (primeIdeal p) (generator C p) (generator_generates C p))
+    hk hJ (by simp [primeExponent_amplifiedExterior, hJ])
+    (by intro q hq hqp; simp [primeExponent_amplifiedExterior, hqp])
+  intro he
+  apply hne
+  rw [whole_coefficient_full_prime_power_crt_norm C Is Ia Ih s a h hs ha hh
+      hsAllowed haAllowed P hSupportS hSupportA hSupportH whole,
+    whole_coefficient_full_prime_power_crt_norm C Is Ia (amplifiedExterior Ih p)
+      s a (h * generator C p ^ 6) hs ha (amplifiedExterior_generates C Ih p h hh)
+      hsAllowed haAllowed P hSupportS hSupportA hSupportH' whole]
+  congr 1
+  simpa only [localUnitPart_amplifiedExterior] using he
+
+end ActualFrequencyInsertion
+
 end HeckeSkeleton.Moments.EngineStep

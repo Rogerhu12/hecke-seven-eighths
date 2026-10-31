@@ -38,9 +38,8 @@ local instance localPrimeResidueFintype (p : ExteriorPrime A) :
 theorem sextic_character_nat (p : ExteriorPrime A) (n : ℕ) :
     chi (σ := σ) p ^ SArithmeticData.sexticExponent (n : ℤ) = chi (σ := σ) p ^ n := by
   have he : SArithmeticData.sexticExponent (n : ℤ) = n % 6 := by
-    unfold SArithmeticData.sexticExponent
-    have h : (n : ℤ) % 6 = ((n % 6 : ℕ) : ℤ) := by norm_num
-    rw [h, Int.toNat_natCast]
+    simp [SArithmeticData.sexticExponent,
+      Int.toNat_emod (Int.natCast_nonneg n) (by decide : (0 : ℤ) ≤ 6)]
   rw [he]
   simpa only [chi_exact_order] using pow_mod_orderOf (chi (σ := σ) p) n
 
