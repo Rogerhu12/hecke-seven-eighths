@@ -25,16 +25,18 @@ local notation "Ext" => ExteriorIdeal K S
 def height (I : Ext) : ℝ := (I.val.val.absNorm : ℝ)
 
 theorem height_pos (I : Ext) : 0 < height K S I := by
+  change (0 : ℝ) < (I.val.val.absNorm : ℝ)
   exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors I.val
 
 theorem height_one_le (I : Ext) : 1 ≤ height K S I := by
+  change (1 : ℝ) ≤ (I.val.val.absNorm : ℝ)
   have h : 1 ≤ I.val.val.absNorm := Ideal.absNorm_pos_of_nonZeroDivisors I.val
   exact_mod_cast h
 
 theorem height_mul (I J : Ext) :
     height K S (exteriorMul K S I J) = height K S I * height K S J := by
   change ((I.val.val * J.val.val).absNorm : ℝ) = _
-  rw [Ideal.absNorm_mul, Nat.cast_mul]
+  rw [map_mul, Nat.cast_mul]
   rfl
 
 theorem ideal_injective : Function.Injective (fun I : Ext => I.val.val) := by
@@ -113,7 +115,7 @@ theorem ideal_relPrime_iff_coprime (I J : Ideal (𝓞 K)) :
   refine ⟨fun h => ?_, IsCoprime.isRelPrime⟩
   apply Ideal.isCoprime_iff_sup_eq.mpr
   exact Ideal.isUnit_iff.mp
-    (h (I ⊔ J) (Ideal.dvd_iff_le.mpr le_sup_left) (Ideal.dvd_iff_le.mpr le_sup_right))
+    (h (Ideal.dvd_iff_le.mpr le_sup_left) (Ideal.dvd_iff_le.mpr le_sup_right))
 
 theorem squarefree_quotient (n e : Ext) (hn : Squarefree n.val.val)
     (hdiv : e.val.val ∣ n.val.val) :
@@ -122,6 +124,7 @@ theorem squarefree_quotient (n e : Ext) (hn : Squarefree n.val.val)
   have hm : Squarefree
       (e.val.val * (squarefreeQuotient K S n e hdiv).val.val) := by
     have he := congrArg (fun I : Ext => I.val.val) (squarefreeQuotient_spec K S n e hdiv)
+    change e.val.val * (squarefreeQuotient K S n e hdiv).val.val = n.val.val at he
     rwa [he]
   exact ⟨hm.of_mul_right,
     (ideal_relPrime_iff_coprime K _ _).mp (IsRelPrime.of_squarefree_mul hm)⟩
@@ -176,7 +179,7 @@ theorem sum_multiples (e : Ext) (X : ℝ) (he : Squarefree e.val.val) (F : Ext �
 theorem sum_dyadicPool_eq (X : ℝ) (F : Ext → ℂ) :
     (∑ n ∈ dyadicPool K S X, F n) =
       ∑ n ∈ squarefreePool K S X, if X ≤ height K S n then F n else 0 := by
-  exact Finset.sum_filter _ _ _
+  exact Finset.sum_filter _ _
 
 theorem cutoff_mul_scale (W : ℝ → ℂ) (A u : Ext) (X : ℝ) (hX : 0 < X) :
     W (height K S (exteriorMul K S A u) / X) =

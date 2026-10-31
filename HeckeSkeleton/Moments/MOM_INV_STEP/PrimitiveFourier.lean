@@ -252,7 +252,9 @@ theorem primitiveGauss_norm (B : PrimeBlock K Sset)
   rw [hcard]
   change Real.sqrt (Nat.card (OS ⧸ Ideal.span
     ({primitiveModulus K S D B t} : Set OS)) : ℝ) = _
-  rw [natCard_sIntegerPrincipalResidue_eq_productNorm, primitiveModulus_norm]
+  rw [natCard_sIntegerPrincipalResidue_eq_productNorm K Sset
+    (primitiveModulus K S D B t) (primitiveModulus_ne_zero K S D B t),
+    primitiveModulus_norm]
 
 def normalizedPrimitiveGauss (B : PrimeBlock K Sset)
     (t : HeightOneSpectrum (𝓞 K) → ZMod 6) : ℂ :=

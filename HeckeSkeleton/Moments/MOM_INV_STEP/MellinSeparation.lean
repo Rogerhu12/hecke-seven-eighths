@@ -36,13 +36,16 @@ def expCorrection (s : ℝ) : ℝ := expBump s * (Real.exp s - s)
 
 theorem expCorrection_contDiff : ContDiff ℝ ∞ expCorrection := by
   unfold expCorrection
-  fun_prop
+  exact expBump.contDiff.mul (Real.contDiff_exp.sub contDiff_id)
 
 theorem expCorrection_compact : HasCompactSupport expCorrection :=
   expBump.hasCompactSupport.mul_right
 
 def expCorrectionSchwartz : SchwartzMap ℝ ℝ :=
   expCorrection_compact.toSchwartzMap expCorrection_contDiff
+
+@[simp] theorem expCorrectionSchwartz_apply (s : ℝ) :
+    expCorrectionSchwartz s = expCorrection s := rfl
 
 def expExtension (s : ℝ) : ℝ := s + expCorrection s
 
@@ -56,7 +59,7 @@ theorem expExtension_proper :
   let C := SchwartzMap.seminorm ℝ 0 0 expCorrectionSchwartz
   have hC : 0 ≤ C := apply_nonneg _ _
   have hb (s : ℝ) : ‖expCorrection s‖ ≤ C := by
-    simpa only [pow_zero, one_mul, norm_iteratedFDeriv_zero] using
+    simpa only [pow_zero, one_mul, norm_iteratedFDeriv_zero, expCorrectionSchwartz_apply] using
       SchwartzMap.le_seminorm ℝ 0 0 expCorrectionSchwartz s
   refine ⟨1, C + 1, fun s => ?_⟩
   have hs : s = expExtension s - expCorrection s := by
@@ -65,7 +68,7 @@ theorem expExtension_proper :
   calc
     ‖s‖ = ‖expExtension s - expCorrection s‖ := congrArg norm hs
     _ ≤ ‖expExtension s‖ + ‖expCorrection s‖ := norm_sub_le _ _
-    _ ≤ ‖expExtension s‖ + C := add_le_add_left (hb s) _
+    _ ≤ ‖expExtension s‖ + C := add_le_add_right (hb s) _
     _ ≤ (C + 1) * (1 + ‖expExtension s‖) ^ 1 := by
       rw [pow_one]
       nlinarith [norm_nonneg (expExtension s), mul_nonneg hC (norm_nonneg (expExtension s))]
@@ -119,7 +122,8 @@ theorem logLiftCLM_eq (W : SchwartzMap ℝ ℂ)
   · rw [hs, mul_zero]
   · obtain ⟨hl, hu⟩ := live_log_bounds W hW hs
     have hlog : Real.log (2 : ℝ) ≤ 1 := by
-      simpa using Real.log_le_sub_one_of_pos (by norm_num : (0 : ℝ) < 2)
+      simpa only [show (2 : ℝ) - 1 = 1 by norm_num] using
+        Real.log_le_sub_one_of_pos (by norm_num : (0 : ℝ) < 2)
     have hm : s ∈ Metric.closedBall (0 : ℝ) liftBump.rIn := by
       rw [Metric.mem_closedBall, Real.dist_eq, sub_zero, abs_of_nonneg hl]
       exact hu.trans hlog
@@ -177,8 +181,9 @@ theorem moment_integrable (F : SchwartzMap ℝ ℂ) (m : ℕ) :
   exact Filter.Eventually.of_forall fun t => by
     rw [Real.norm_of_nonneg (by positivity)]
     have hp := add_pow_le (by norm_num : (0 : ℝ) ≤ 1) (abs_nonneg t) m
-    simpa only [one_pow, Real.norm_eq_abs, mul_add, one_mul, mul_assoc] using
-      mul_le_mul_of_nonneg_right hp (norm_nonneg (F t))
+    exact (mul_le_mul_of_nonneg_right hp (norm_nonneg (F t))).trans_eq (by
+      simp only [one_pow, Real.norm_eq_abs]
+      ring)
 
 theorem density_moment_integrable (W : SchwartzMap ℝ ℂ)
     (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2) (m : ℕ) :
@@ -205,8 +210,10 @@ theorem density_moment_bound (m : ℕ) :
         (C * s.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) / (1 + |t|) ^ p := by
       apply (le_div_iff₀ (by positivity)).mpr
       convert hb W hW t using 1 <;> rw [pow_add] <;> ring
-    simpa only [E, Real.rpow_neg (by positivity : (0 : ℝ) ≤ 1 + ‖t‖),
-      Real.rpow_natCast, Real.norm_eq_abs, div_eq_mul_inv] using hd
+    dsimp only [E]
+    rw [Real.rpow_neg (by positivity : (0 : ℝ) ≤ 1 + ‖t‖), Real.rpow_natCast,
+      Real.norm_eq_abs]
+    simpa only [div_eq_mul_inv] using hd
   calc
     _ ≤ ∫ t : ℝ, (C * s.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) * E t :=
       integral_mono (density_moment_integrable W hW m) (hE.const_mul _) hp
@@ -214,7 +221,9 @@ theorem density_moment_bound (m : ℕ) :
 
 theorem integrable_inverse (F : SchwartzMap ℝ ℂ) (x : ℝ) :
     Integrable (fun t : ℝ => (𝓕 F) t * columnPhase t x) := by
-  apply (𝓕 F).integrable.norm.mono'
+  have hd : Integrable (fun t : ℝ => ‖(𝓕 F) t‖) :=
+    ((𝓕 F).integrable (μ := (volume : Measure ℝ))).norm
+  apply hd.mono'
     (((𝓕 F).continuous.mul (continuous_columnPhase x)).aestronglyMeasurable)
   exact Filter.Eventually.of_forall fun t => by
     simp only [norm_mul, norm_columnPhase, mul_one]
@@ -251,6 +260,7 @@ theorem source_inverse (W : SchwartzMap ℝ ℂ)
   rw [mellin_inverse W hW _ (div_pos (mul_pos hv hu) hX)]
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun t => by
+    dsimp only
     rw [Real.log_div (mul_ne_zero hv.ne' hu.ne') hX.ne',
       Real.log_mul hv.ne' hu.ne', sub_eq_add_neg, columnPhase_add, columnPhase_add]
     ring
@@ -278,6 +288,7 @@ theorem separated_source (W : SchwartzMap ℝ ℂ)
   rw [source_inverse W hW v u X hv hu hX, ← integral_mul_const, ← integral_mul_const]
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun t => by
+    dsimp only
     have hs := scaled_weighted_phase a (t + τ) u U hu hU hlo hhi
     rw [← hs, ← columnPhase_frequency_add]
     ring

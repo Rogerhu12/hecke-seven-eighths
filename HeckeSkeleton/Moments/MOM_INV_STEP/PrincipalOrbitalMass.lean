@@ -98,7 +98,7 @@ theorem exists_absoluteRowMass_bound
   have hhc : Summable (fun q : H => ‖f q.val‖) := by
     letI := hH.fintype
     exact Summable.of_finite
-  have htc : Summable (fun q : Hᶜ => ‖f q.val‖) := by
+  have htc : Summable (fun q : ↥(Hᶜ) => ‖f q.val‖) := by
     rw [hcompl]
     exact ht.norm
   have hfn : Summable (fun q : Q => ‖f q‖) := summable_subtype_and_compl.mp ⟨hhc, htc⟩
@@ -117,11 +117,10 @@ theorem exists_absoluteRowMass_bound
         (mul_nonneg hA hP))
   have hcard : (hH.toFinset.card : ℝ) ≤ D * (1 + ρ.val⁻¹) := by
     letI := hH.fintype
-    have hc : hH.toFinset.card = Nat.card (BoundedSIntegerOrbits K S Γ ρ.val⁻¹) := by
+    have hc : hH.toFinset.card = Nat.card H := by
       rw [hH.card_toFinset, Nat.card_eq_fintype_card]
-      rfl
     rw [hc]
-    exact hcount _ (inv_nonneg.mpr ρ.property.le)
+    simpa only [H, BoundedSIntegerOrbits] using hcount _ (inv_nonneg.mpr ρ.property.le)
   have hhead : ∑ q ∈ hH.toFinset, ‖f q‖ ≤
       D * (1 + ρ.val⁻¹) * (A * P * ρ.val ^ (-ε)) := by
     calc
@@ -131,16 +130,17 @@ theorem exists_absoluteRowMass_bound
         rw [Finset.sum_const, nsmul_eq_mul]
       _ ≤ _ := mul_le_mul_of_nonneg_right hcard
         (mul_nonneg (mul_nonneg hA hP) (Real.rpow_nonneg ρ.property.le _))
-  have htail' : (∑' q : Hᶜ, ‖f q.val‖) ≤ B * P * (1 + ρ.val⁻¹) := by
+  have htail' : (∑' q : ↥(Hᶜ), ‖f q.val‖) ≤ B * P * (1 + ρ.val⁻¹) := by
     rw [hcompl]
     exact (by simpa only [Real.one_rpow, mul_one] using hb).trans
       (mul_le_mul_of_nonneg_right
-        (mul_le_mul_of_nonneg_left (hlargeSup φ) hB) (by positivity))
+        (mul_le_mul_of_nonneg_left (hlargeSup φ) hB)
+        (add_nonneg zero_le_one (inv_nonneg.mpr ρ.property.le)))
   have hsplit := hfn.sum_add_tsum_subtype_compl hH.toFinset
-  have hsplit' : (∑ q ∈ hH.toFinset, ‖f q‖) + (∑' q : Hᶜ, ‖f q.val‖) =
+  have hsplit' : (∑ q ∈ hH.toFinset, ‖f q‖) + (∑' q : ↥(Hᶜ), ‖f q.val‖) =
       ∑' q : Q, ‖f q‖ := by
     have he : (∑' q : {q : Q // q ∉ hH.toFinset}, ‖f q.val‖) =
-        (∑' q : Hᶜ, ‖f q.val‖) :=
+        (∑' q : ↥(Hᶜ), ‖f q.val‖) :=
       tsum_congr_subtype (fun q : Q => ‖f q‖) (fun q => by
         simp only [Set.Finite.mem_toFinset, Set.mem_compl_iff])
     rwa [he] at hsplit
@@ -148,7 +148,7 @@ theorem exists_absoluteRowMass_bound
   rw [← hsplit']
   apply (add_le_add hhead htail').trans
   have hrp : 0 ≤ ρ.val ^ (-ε) := Real.rpow_nonneg ρ.property.le _
-  have hri : 0 ≤ 1 + ρ.val⁻¹ := by positivity
+  have hri : 0 ≤ 1 + ρ.val⁻¹ := add_nonneg zero_le_one (inv_nonneg.mpr ρ.property.le)
   nlinarith [mul_nonneg (mul_nonneg (mul_nonneg hD.le hA) hP) hri,
     mul_nonneg (mul_nonneg (mul_nonneg hB hP) hri) hrp]
 
@@ -159,9 +159,12 @@ theorem rowScale_cost_le (Z M ε : ℝ) (hZ : 1 ≤ Z)
   have hz : 0 < Z := zero_lt_one.trans_le hZ
   have hMpow : 1 ≤ Z ^ M := Real.one_le_rpow hZ hM
   have hεpow : 1 ≤ Z ^ (ε * M) := Real.one_le_rpow hZ (mul_nonneg hε hM)
-  rw [Real.rpow_neg hz.le, inv_inv, ← Real.rpow_mul hz.le]
-  have hexp : (-M) * (-ε) = ε * M := by ring
-  rw [hexp]
+  have hinv : (Z ^ (-M))⁻¹ = Z ^ M := by rw [Real.rpow_neg hz.le, inv_inv]
+  have hp : (Z ^ (-M)) ^ (-ε) = Z ^ (ε * M) := by
+    rw [← Real.rpow_mul hz.le]
+    congr 1
+    ring
+  rw [hinv, hp]
   calc
     _ ≤ (2 * Z ^ M) * (2 * Z ^ (ε * M)) := by
       gcongr <;> linarith

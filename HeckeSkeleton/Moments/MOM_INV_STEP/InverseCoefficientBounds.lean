@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn
+import HeckeGeneral.Analysis.IdealMobiusReciprocal
 import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
 import HeckeGeneral.Analysis.IdealMobiusReciprocal
 
@@ -41,7 +42,7 @@ theorem coefficient_norm_le_mark (C : ColumnFamily K Sset σ Θ ψ)
     ‖DivisorInverseColumn.coefficient K S D C γ j d n‖ ≤
       ‖divisorMark (C.survivors γ) C.primeLists C.primeWeights n.val.val‖ *
         SchwartzMap.seminorm ℝ 0 0 (C.cutoff γ) := by
-  have hμ := norm_moebius_le_one K n.val
+  have hμ := IdealMobiusReciprocal.norm_moebius_le_one K n.val
   have hν := norm_heckeIdealCoefficient_le_one K (C.background γ) n.val
   have hρ : ‖(if IsCoprime n.val.val (childPuncture C.originalPuncture γ)
       then 1 else 0 : ℂ)‖ ≤ 1 := by split_ifs <;> norm_num

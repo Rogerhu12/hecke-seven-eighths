@@ -107,6 +107,18 @@ theorem dualTerm_sector (n₁ n₂ r₁ r₂ b₁ b₂ z : Ext)
   exact dualRadius_normalized K S D n₁ n₂ r₁ r₂ b₁ b₂ z hslice r
     (sIntegerMaskGenerator K Sset δ) X Y
 
+/-- The actual prefactor times one Fourier orbital term, before any norm. -/
+def pairTerm (n₁ n₂ b₁ b₂ : Ext) (φ : SchwartzMap V ℂ)
+    (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
+    (hlc : ∀ v ∈ S, IsLocallyConstant (h v))
+    (hcs : ∀ v ∈ S, HasCompactSupport (h v))
+    (M : Finset (HeightOneSpectrum OS)) (r : {r : ℝ // 0 < r})
+    (δ : Finset (HeightOneSpectrum OS)) (k : Ext × Sector) : ℂ :=
+  (primitivePairBlock K S D Γ hΓ (b₁,n₁) (b₂,n₂) φ h hlc hcs M r).prefactor δ *
+    dualTerm K S D Γ μv
+      (primitivePairBlock K S D Γ hΓ (b₁,n₁) (b₂,n₂) φ h hlc hcs M r) δ
+      (CanonicalSectors.rowOrbit K Sset Γ D k)
+
 variable {σ : Type*}
 
 theorem pair_term_normalized (C : CanonicalBlock.ColumnData K S σ) (f : Ext)

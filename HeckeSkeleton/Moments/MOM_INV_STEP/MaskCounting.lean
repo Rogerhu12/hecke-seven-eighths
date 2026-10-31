@@ -41,7 +41,7 @@ theorem localized_support_card_le (P : Finset (HeightOneSpectrum (𝓞 K)))
     (hP : ∀ p ∈ P, p ∉ Sset) :
     (localizeSupportedMask K Sset P hP).card ≤ P.card := by
   unfold localizeSupportedMask
-  exact (Finset.card_image_le).trans_eq (Finset.card_attach _)
+  exact (Finset.card_image_le).trans_eq Finset.card_attach
 
 theorem principalMask_card_le (B : PrimeBlock K Sset)
     (t : HeightOneSpectrum (𝓞 K) → ZMod 6) :

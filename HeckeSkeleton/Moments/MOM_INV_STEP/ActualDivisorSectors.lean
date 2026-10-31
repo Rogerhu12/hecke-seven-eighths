@@ -160,8 +160,11 @@ theorem sectorCharacter_actual_frequency (n : Ext) (k : NonzeroRingElements OS) 
   change unitCharacter K S D n
       (CanonicalSectors.sectorUnit K Sset Γ (frequencySector K S Γ D k)) *
         idealSymbol K Sset D n (D.generator (divisorIdeal K S k)) = _
-  rw [unitCharacter_class_eq K S Γ D hΓ n _ (divisorUnit K S D k)
-    (Quotient.out_eq (frequencySector K S Γ D k))]
+  have he : QuotientGroup.mk' Γ
+      (CanonicalSectors.sectorUnit K Sset Γ (frequencySector K S Γ D k)) =
+      QuotientGroup.mk' Γ (divisorUnit K S D k) :=
+    Quotient.out_eq (frequencySector K S Γ D k)
+  rw [unitCharacter_class_eq K S Γ D hΓ n _ _ he]
   exact (divisorCharacter K S D n k).symm
 
 def divisorTransport (d : NonzeroRingElements OS) : Sector ≃ Sector :=

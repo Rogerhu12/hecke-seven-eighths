@@ -106,7 +106,8 @@ theorem actualMask_prime_le_source_map (Q n₁ n₂ b₁ b₂ : Ext)
       (pair_prime_dvd_source K S D Q n₁ n₂ b₁ b₂ p.val
         (Finset.mem_filter.mp p.property).1))
 
-variable [IsPrincipalIdealRing OS]
+variable [IsPrincipalIdealRing
+  (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 
 def maskIdeal (δ : Finset (HeightOneSpectrum OS)) : Ideal (𝓞 K) :=
   sIntegerModulusContraction K Sset (sIntegerMaskGenerator K Sset δ).val
@@ -171,7 +172,7 @@ theorem sourceIdeal_norm (Q n₁ n₂ b₁ b₂ : Ext) :
     ((sourceIdeal K S Q n₁ n₂ b₁ b₂).absNorm : ℝ) =
       (Q.val.val.absNorm : ℝ) * (b₁.val.val.absNorm : ℝ) * (b₂.val.val.absNorm : ℝ) *
         (n₁.val.val.absNorm : ℝ) * (n₂.val.val.absNorm : ℝ) := by
-  simp only [sourceIdeal, Ideal.absNorm_mul, Nat.cast_mul]
+  simp only [sourceIdeal, map_mul, Nat.cast_mul]
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstMaskGeometry
 
