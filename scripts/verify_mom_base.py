@@ -62,27 +62,37 @@ sysroot = Path(lean).resolve().parent.parent
 paths.append(sysroot / "lib/lean")
 external_paths = [path for path in paths if path != OUT]
 config = tomllib.loads((ROOT / "lakefile.toml").read_text())
-source_libraries = []
-for package in (ROOT, ROOT / "vendor/class-field-theory"):
-    package_config = tomllib.loads((package / "lakefile.toml").read_text())
+
+
+def library_definitions(package: Path, package_config: dict) -> list[dict]:
+    libraries = []
     for lib in package_config.get("lean_lib", []):
         roots = lib.get("roots", [lib["name"]])
         prefixes = list(roots) + [g.removesuffix(".+").removesuffix(".*")
                                  for g in lib.get("globs", [])]
-        source_libraries.append({
+        libraries.append({
             "root": package / lib.get("srcDir", package_config.get("srcDir", ".")),
             "prefixes": prefixes,
             "options": {**package_config.get("leanOptions", {}), **lib.get("leanOptions", {})},
         })
+    return libraries
 
 
-def find_source(module: str):
+source_libraries = []
+for package in (ROOT, ROOT / "vendor/class-field-theory"):
+    package_config = tomllib.loads((package / "lakefile.toml").read_text())
+    source_libraries.extend(library_definitions(package, package_config))
+
+
+def find_source(module: str, libraries=None, exists=None):
+    libraries = source_libraries if libraries is None else libraries
+    exists = Path.is_file if exists is None else exists
     candidates = []
-    for library in source_libraries:
+    for library in libraries:
         lengths = [len(p) for p in library["prefixes"]
                    if module == p or module.startswith(p + ".")]
         path = library["root"] / module_path(module, ".lean")
-        if lengths and path.is_file():
+        if lengths and exists(path):
             candidates.append((max(lengths), path, library["root"], library["options"]))
     candidates.sort(key=lambda row: row[0], reverse=True)
     return candidates[0][1:] if candidates else None
@@ -285,6 +295,9 @@ LOAD_SUFFIXES = (".olean", ".olean.private", ".olean.server", ".ir", ".ir.sig")
 def baseline_graph(raw_files: dict[str, bytes]) -> tuple[dict, dict]:
     """Recompute the original successful CI source/configuration fingerprint."""
     original = tomllib.loads(raw_files["lakefile.toml"].decode())
+    baseline_libraries = library_definitions(ROOT, original)
+    baseline_libraries.extend(library_definitions(ROOT / "vendor/class-field-theory",
+        tomllib.loads(raw_files["vendor/class-field-theory/lakefile.toml"].decode())))
     roots = ["."] + [lib.get("srcDir", ".") for lib in original["lean_lib"]]
     roots = list(dict.fromkeys(roots + ["vendor/class-field-theory/Lean4"]))
     baseline_nodes, visiting = {}, set()
@@ -310,6 +323,11 @@ def baseline_graph(raw_files: dict[str, bytes]) -> tuple[dict, dict]:
             "source": path, "sha256": hashlib.sha256(raw).hexdigest(),
             "deps": [d for d in deps if d in baseline_nodes], "build": build,
         }
+        resolved = find_source(module, baseline_libraries,
+            lambda candidate: str(candidate.relative_to(ROOT)) in raw_files)
+        if resolved is not None and str(resolved[0].relative_to(ROOT)) == path:
+            baseline_nodes[module]["source_root"] = str(resolved[1].relative_to(ROOT))
+            baseline_nodes[module]["options"] = resolved[2]
         visiting.remove(module)
 
     visit("HeckeSkeleton.Moments")
@@ -322,13 +340,11 @@ def baseline_graph(raw_files: dict[str, bytes]) -> tuple[dict, dict]:
                                            separators=(",", ":")).encode()).hexdigest()
     if fingerprint != BASELINE_FINGERPRINT:
         raise RuntimeError("Pinned baseline source/configuration fingerprint mismatch")
-    for path in configuration:
-        current, previous = (ROOT / path).read_bytes(), raw_files[path]
-        if path.endswith(".toml"):
-            matches = tomllib.loads(current.decode()) == tomllib.loads(previous.decode())
-        else:
-            matches = current == previous
-        if not matches:
+    # These pins must remain byte-identical. Library declarations may acquire
+    # unrelated roots as the PR base advances: each selected module's resolved
+    # source root and effective compiler options are compared below instead.
+    for path in ("lean-toolchain", "lake-manifest.json"):
+        if (ROOT / path).read_bytes() != raw_files[path]:
             raise RuntimeError("Current configuration differs from CI baseline: " + path)
     return baseline_nodes, configuration
 
@@ -414,6 +430,8 @@ def bootstrap_original_ci() -> None:
             node, previous = nodes[module], baseline.get(module)
             eligible[module] = bool(previous and previous["source"] == str(node["path"].relative_to(ROOT))
                 and previous["sha256"] == node["source_sha256"]
+                and previous.get("source_root") == str(node["root"].relative_to(ROOT))
+                and previous.get("options") == node["options"]
                 and previous["deps"] == [d for d in node["deps"] if d in nodes]
                 and all(eligible.get(dep, False) for dep in previous["deps"]))
         wanted = {m for m in needed if eligible.get(m, False)}
@@ -428,6 +446,9 @@ def bootstrap_original_ci() -> None:
                 selected_paths[stem + suffix] = (module, suffix)
         evidence = {"baseline_commit": BASELINE_COMMIT, "fingerprint": BASELINE_FINGERPRINT,
                     "configuration": configuration, "eligible_modules": sorted(wanted),
+                    "current_configuration": {path: hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
+                                              for path in configuration},
+                    "configuration_policy": "exact external pins; per-module source root and effective options",
                     "artifacts": [], "restored_modules": []}
         write_json_atomic(LOGS / "bootstrap.json", evidence)
         for artifact_id, name, outer_hash, inner_hash in BASELINE_ARTIFACTS:

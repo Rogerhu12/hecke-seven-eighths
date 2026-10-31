@@ -1,5 +1,6 @@
 import HeckePort.Moments.Canonical
 import HeckeGeneral.Analysis.ThetaPrimeGaussNorm
+import SIntegerSexticPrimePowerQuotient
 
 /-!
 # Actual finite coefficients for the canonical moment reductions
@@ -17,6 +18,7 @@ namespace HeckeSkeleton.Moments.MOM_BASE
 open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters
 open HeckeGeneral.ThetaSkeleton HeckePort.Moments
+open HeckeGeneral.ThetaSkeleton.Global
 open scoped Classical BigOperators
 
 variable (K : Type) [Field K] [NumberField K]
@@ -42,6 +44,18 @@ theorem actualPrimeGaussNorm (p : ExteriorPrime K S) :
     ‖thetaGamma K S D (exteriorPrimeIdeal K S p) 2‖ = 1 :=
   thetaGamma_exteriorPrime_two_norm K S D p
 
+/-- An arbitrary power of an actual exterior prime, including power zero. -/
+def actualPrimePowerIdeal (p : ExteriorPrime K S) (a : ℕ) : ExteriorIdeal K S :=
+  ⟨⟨p.val.asIdeal ^ a, mem_nonZeroDivisors_of_ne_zero (pow_ne_zero _ p.val.ne_bot)⟩,
+    primePower_exterior K S p.val p.property a⟩
+
+@[simp] theorem actualPrimePowerIdeal_mul (p : ExteriorPrime K S) (a b : ℕ) :
+    exteriorMul K S (actualPrimePowerIdeal K S p a) (actualPrimePowerIdeal K S p b) =
+      actualPrimePowerIdeal K S p (a + b) := by
+  apply Subtype.ext
+  apply Subtype.ext
+  exact (pow_add p.val.asIdeal a b).symm
+
 /-- The original zero-extended prime-power character. In particular a
 positive exponent divisible by six gives the unit mask. -/
 def actualPrimePowerCharacter (p : ExteriorPrime K S) {a : ℕ} (ha : 1 ≤ a) :
@@ -58,6 +72,40 @@ def actualPrimePowerCharacter (p : ExteriorPrime K S) {a : ℕ} (ha : 1 ≤ a) :
     actualPrimePowerCharacter K S D p ha (Ideal.Quotient.mk _ x) =
       thetaPrimeCharacter K S D p (Ideal.Quotient.mk _ x) ^ a := by
   rw [actualPrimePowerCharacter_apply, MulChar.pow_apply' _ (by omega)]
+  rfl
+
+/-- Localization identifies the ordinary prime-power quotient with the
+actual S-integer quotient, without a principal prime in the integers. -/
+def actualPrimePowerResidueEquiv (p : ExteriorPrime K S) (a : ℕ) :
+    (𝓞 K ⧸ p.val.asIdeal ^ a) ≃+* sIntegerPrimePowerQuotient K S p.val a :=
+  sIntegerResidueEquiv K S (p.val.asIdeal ^ a)
+    (sexticIdeal_coprime_S K S (p.val.asIdeal ^ a)
+      (primePower_exterior K S p.val p.property a))
+
+@[simp] theorem actualPrimePowerResidueEquiv_reduction (p : ExteriorPrime K S)
+    {a : ℕ} (ha : 1 ≤ a) (x : 𝓞 K ⧸ p.val.asIdeal ^ a) :
+    sIntegerPrimePowerReduction K S p.val p.property a ha
+      (actualPrimePowerResidueEquiv K S p a x) =
+      primePowerReduction p.val.asIdeal ha x := by
+  obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
+  rw [actualPrimePowerResidueEquiv, sIntegerResidueEquiv_mk,
+    sIntegerPrimePowerReduction_mk, sIntegerSexticResidueMap_algebraMap]
+  rfl
+
+/-- The port's prime-power character is the actual ideal quotient
+function after the proved localization equivalence. This equality
+includes every zero and all positive exponents divisible by six. -/
+theorem actualPrimePowerCharacter_eq_quotientFunction (p : ExteriorPrime K S)
+    {a : ℕ} (ha : 1 ≤ a) (x : 𝓞 K ⧸ p.val.asIdeal ^ a) :
+    actualPrimePowerCharacter K S D p ha x =
+      sIntegerSexticIdealQuotientFunction K S D.root6 D.primitive6 D.embedding
+        (p.val.asIdeal ^ a) (pow_ne_zero _ p.val.ne_bot)
+        (primePower_exterior K S p.val p.property a)
+        (primePower_away_six K p.val a (D.away_six p.val p.property))
+        (actualPrimePowerResidueEquiv K S p a x) := by
+  rw [sIntegerSexticPrimePowerQuotientFunction_eq_pullback K S p.val p.property
+    a ha D.root6 D.primitive6 D.embedding (D.away_six p.val p.property),
+    actualPrimePowerResidueEquiv_reduction]
   rfl
 
 section PrimePower

@@ -129,7 +129,6 @@ theorem canonicalTau_apply (θ : HeckeCharacter K) (m : S.integer K)
   change idealCoefficient (primeCoefficient K θ) I.val.val *
     exteriorSymbolHom K S D m I.val.val * _ = _
   rw [exteriorSymbolHom_apply]
-  rfl
 
 theorem canonicalTau_eq_zero_of_excluded (θ : HeckeCharacter K)
     (m : S.integer K) (r I : Ideal (𝓞 K))

@@ -33,7 +33,6 @@ theorem exteriorGamma_apply (I : ExteriorIdeal K S) :
     exteriorGamma K S D I.val.val = thetaGamma K S D I 2 := by
   have h : IsExterior K S I.val.val := ⟨nonZeroDivisors.coe_ne_zero I.val, I.property⟩
   simp only [exteriorGamma, dif_pos h]
-  rfl
 
 theorem canonicalTau_eq_zero_of_not_exterior (θ : HeckeCharacter K)
     (m : S.integer K) (r I : Ideal (𝓞 K)) (hI : ¬ IsExterior K S I) :

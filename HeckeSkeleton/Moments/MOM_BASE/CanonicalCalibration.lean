@@ -75,7 +75,7 @@ theorem canonical_gamma_two_norm (I : ExteriorIdeal K S) (hI : Squarefree I.val.
 
 theorem canonicalCoefficient_norm (I : ExteriorIdeal K S) (hI : Squarefree I.val.val) :
     ‖canonicalCoefficient K c I‖ = 1 := by
-  rw [canonicalCoefficient, norm_mul, norm_conj, canonical_lambda_norm K c I,
+  rw [canonicalCoefficient, norm_mul, Complex.norm_conj, canonical_lambda_norm K c I,
     canonical_gamma_two_norm K c I hI, one_mul]
 
 /-- The reverse primitive transform, with its finite-order correction. -/
