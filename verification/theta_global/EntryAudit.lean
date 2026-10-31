@@ -1,6 +1,7 @@
 module
 
 public import HeckeSkeleton.Theta
+public import ThetaGlobal.LocalGammaOrientation
 public import Lean.Util.CollectAxioms
 
 /-!
@@ -29,3 +30,28 @@ run_cmd do
       unless #[`propext, `Classical.choice, `Quot.sound].contains axiomName do
         throwError "THETA_GLOBAL entry {name} depends on forbidden axiom {axiomName}"
     logInfo m!"THETA_GLOBAL_AXIOMS|{name}|{String.intercalate "," (axioms.toList.map toString)}"
+
+/- The table specification and returned reflection package are part of the
+actual public interface. The orientation lemmas check the character label
+used when connecting inverse-character local Mellin formulas. -/
+open Lean Elab Command in
+run_cmd do
+  for name in #[`HeckeSkeleton.thetaFiniteSource,
+      `HeckeSkeleton.FiniteSkeletonSource.coefficient_shell_spec,
+      `HeckeSkeleton.FiniteSkeletonSource.data_C₀,
+      `HeckeSkeleton.FiniteSkeletonSource.data_A₀,
+      `HeckeSkeleton.markedReflection,
+      `ThetaGlobal.LocalGammaOrientation.archShift_inv,
+      `ThetaGlobal.LocalGammaOrientation.archRadial_inv,
+      `ThetaGlobal.LocalGammaOrientation.directGammaProduct_eq_archGammaProduct_inv,
+      `ThetaGlobal.LocalGammaOrientation.gammaPair_inv_eq_directGammaPair,
+      `ThetaGlobal.LocalGammaOrientation.directGammaPair_inv_eq_gammaPair,
+      `ThetaGlobal.LocalGammaOrientation.directGammaPair_product_eq_archGammaProduct_inv,
+      `ThetaGlobal.LocalGammaOrientation.reflectionMultiplier_eq_gamma_quotient] do
+    unless ((← getEnv).find? name).isSome do
+      throwError "THETA_GLOBAL interface declaration {name} was not imported"
+    let axioms ← Lean.collectAxioms name
+    for axiomName in axioms do
+      unless #[`propext, `Classical.choice, `Quot.sound].contains axiomName do
+        throwError "THETA_GLOBAL interface declaration {name} depends on forbidden axiom {axiomName}"
+    logInfo m!"THETA_GLOBAL_INTERFACE_AXIOMS|{name}|{String.intercalate "," (axioms.toList.map toString)}"

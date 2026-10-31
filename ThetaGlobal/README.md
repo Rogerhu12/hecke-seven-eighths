@@ -5,7 +5,7 @@ definitions in `HeckeGeneral`, `HeckeAxiom`, `HeckeSkeleton`, and
 `DedekindZetaZeroFree`. The base is commit
 `503ad9895e5f8affef55b22fea082e251bf33aa7` on `dtests-handoff`; publication
 preserves the subsequent changes through
-`5e4c85f172c101fd0c201219c13aa28f8b520d42`.
+`556fd33068f5914887e850ed2dce9e9272d9b8c2`.
 
 **Work in progress: the project-facing source is not yet certified by a
 successful dependency-complete Lean build.** All five target entry points
@@ -22,12 +22,12 @@ scripts are distinguished from successful compiler results there.
 | Actual finite source and target-character projection | `FiniteFixedSource`, `FiniteTargetCutoff`, `FiniteProjectedFullSource` |
 | Literal rotated shell integrals, cutoff and decay | `FiniteProjectedMellin`, `FiniteProjectedIntegral`, `FiniteSkeletonSource` |
 | Explicit local archimedean boundary | `FiniteLocalHighK` |
-| Normalized direct/reflected Mellin transforms | `FiniteNormalizedMellin`, `FiniteActualProfiles` |
+| Normalized direct/reflected Mellin transforms | `FiniteNormalizedMellin`, `FiniteActualProfiles`, `LocalGammaOrientation` |
 | Full three-ideal absolute convergence | `ReflectedArithmetic`, `ReflectedAbsoluteProject` |
 | All-core Fourier summability and orbit integration | `GlobalProjectFourierSmooth`, `GlobalProjectWeightedSheet`, `GlobalProjectOrbitEvaluation` |
 | Derived frequency seed | `GlobalProjectFrequencySeed` |
 | Literal direct/reflected coefficient dictionaries and seed | `GlobalSkeletonDirect`, `GlobalProjectReflectedDictionary`, `GlobalProjectReflectedReindex`, `GlobalProjectLiteralSeed` |
-| Final source entry point | `GlobalProjectMarkedReflection`, `HeckeSkeleton.Theta.marked_reflection` |
+| Final source entry point | `GlobalProjectMarkedReflection`, `HeckeSkeleton.marked_reflection` |
 | Explicit local exterior digit boundary | `GlobalProjectLocalDigitTables` |
 | Actual index support, uniqueness and coverage | `GlobalIndexSupport`, `GlobalActualReindex`, `GlobalActualCoordinates`, `GlobalProjectMarkedSupport` |
 | Scalar deconvolution and actual annular transfer | `GammaReciprocalGrowth`, `GammaDeconvolverProject`, `ActualAnnularProfiles`, `ActualAnnularTransfer` |
@@ -36,6 +36,13 @@ The two local boundary types contain local representation vectors,
 Whittaker/Mellin formulas, local integrability and local digit formulas.
 They contain no theta reflection equality, global frequency bijection,
 global coefficient formula, or global summability assertion.
+
+The original task explicitly permits these local inputs; its complete text
+is preserved in [`../docs/THETA_GLOBAL_TASK.md`](../docs/THETA_GLOBAL_TASK.md).
+`LocalGammaOrientation` identifies the direct Gamma product with
+`archGammaProduct θ⁻¹` and the reflected product with `archGammaProduct θ`.
+Thus local formulas whose direct profile uses an inverse character are
+applied at `θ⁻¹` for this fixed source, whose direct profile uses `θ`.
 
 The raw reflected index deliberately retains zero coefficients. Its map
 to frequencies is not injective. The support-level reindexing proves

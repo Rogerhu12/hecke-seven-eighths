@@ -8,6 +8,27 @@ It is not a claim that the repository's seven-eighths endpoint is proved.
 The upstream skeleton contains unrelated admissions that this work does
 not discharge.
 
+### Continuation on 2026-10-31
+
+The continuation restores every file of PR head
+`4988fbd89fde953539b77c9930ebe9fd206fb0ea` by its Git blob hash and incorporates
+the upstream changes through `556fd33068f5914887e850ed2dce9e9272d9b8c2`.
+The original task is preserved in `docs/THETA_GLOBAL_TASK.md`; it explicitly
+permits the archimedean high K-type/Mellin and exterior-prime digit results
+as local assumptions. Their actual input types remain explicit below.
+
+`LocalGammaOrientation` records the character inversion convention at the
+level of the actual Hecke parameters. The expanded native gate also checks
+the coefficient-shell specification, its two normalization constants,
+the fixed source, and the returned `markedReflection` package.
+
+The modified `Principal`, `Moments`, and `Main` consumers receive a separate
+native build followed by `ConsumerSignatures.lean`. That file checks all
+seven affected consumer declarations against their complete expected
+types and reports their existing axioms. Its allowlist includes the
+pre-existing `sorryAx`; the Theta entry gate continues to reject it.
+These added checks are pending until their exact native run succeeds.
+
 The task targets five declarations in `HeckeSkeleton/Theta.lean`:
 
 | Target | Source implementation | Validation |
@@ -77,6 +98,28 @@ identity, a global seed, a frequency parametrization, or a convergence
 assertion about the final ideal series. Existence of the local high
 K-type input is exposed explicitly to callers; it is not silently
 obtained by an admitted choice.
+
+The endpoint `generalHeckeSevenEighths_skeleton` now has the explicit
+conditional type
+
+```lean
+(∀ (F : Type) [Field F] [NumberField F] (c : TargetContext F),
+  Nonempty (LocalHighKMellinInput F c)) →
+(∀ (F : Type) [Field F] [NumberField F] (c : TargetContext F),
+  LocalExteriorDigitInput F c) →
+GeneralHeckeSevenEighths
+```
+
+It also retains the other tasks' original admissions. The five Theta
+targets prove the global construction under the permitted local input
+boundary; they do not provide those local inputs for every number field.
+
+The arithmetic embedding is refined before making the shared choice:
+`complexEmbedding K c` sends the family's selected primitive twelfth root
+to the prescribed complex root, and `axiomChoice` uses this aligned
+embedding. Every finite table, allowed generator and global source then
+uses that same choice. The new `c` argument and the explicit local inputs
+are API changes; the consumer signature checks record their propagation.
 
 The original `Theta` entry point receives `LocalHighKMellinInput` and
 `LocalExteriorDigitInput`. These are propagated through the actual

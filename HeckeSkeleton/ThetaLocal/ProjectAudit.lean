@@ -1,0 +1,101 @@
+import HeckeSkeleton.ThetaLocal.Project
+
+/-! Public declaration audit for the theta-local project adapter. -/
+
+-- ProjectResidue
+#print axioms HeckeGeneral.ThetaSkeleton.Global.residue_card_eq_absNorm
+#print axioms HeckeGeneral.ThetaSkeleton.Global.thetaPrimeCharacter_orderOf
+#print axioms HeckeGeneral.ThetaSkeleton.Global.projectPrimePhase
+#print axioms HeckeGeneral.ThetaSkeleton.Global.projectPrimePhase_apply
+#print axioms HeckeGeneral.ThetaSkeleton.Global.projectPrimePhase_isPrimitive
+#print axioms HeckeGeneral.ThetaSkeleton.Global.projectPrimePhase_mk
+#print axioms HeckeGeneral.ThetaSkeleton.Global.thetaPrimeQuotientFunction_eq
+#print axioms HeckeGeneral.ThetaSkeleton.Global.thetaGamma_two_eq_gammaTwo
+
+-- ProjectFinite
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localTau_eq_residueField
+#print axioms HeckeGeneral.ThetaSkeleton.Global.digitMask_eq_residueField
+#print axioms HeckeGeneral.ThetaSkeleton.Global.sphericalDigit_eq_residueField
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localWeylScalar_eq_residueField
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localWeylExponent_eq_residueField
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localTau_eq_gaussSum
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localTau_zero
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localTau_ne_zero
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localTau_norm
+#print axioms HeckeGeneral.ThetaSkeleton.Global.digitMask_fourier
+#print axioms HeckeGeneral.ThetaSkeleton.Global.thetaGamma_two_norm
+#print axioms HeckeGeneral.ThetaSkeleton.Global.sphericalDigit_zero
+#print axioms HeckeGeneral.ThetaSkeleton.Global.sphericalDigit_three_mul
+#print axioms HeckeGeneral.ThetaSkeleton.Global.sphericalDigit_three_mul_add_one
+#print axioms HeckeGeneral.ThetaSkeleton.Global.sphericalDigit_vanishes
+#print axioms HeckeGeneral.ThetaSkeleton.Global.digitMask_zero_zero
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localWeylScalar_zero_zero
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localWeylScalar_zero_nonzero
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localWeylScalar_positive
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localWeylScalar_support
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localWeyl_phase_separation
+#print axioms HeckeGeneral.ThetaSkeleton.Global.marked_localWeyl_table
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localWeylScalar_zero_norm_le
+#print axioms HeckeGeneral.ThetaSkeleton.Global.row_prime_scalar_norm
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localWeylScalar_three_mul_add_one_norm_le
+#print axioms HeckeGeneral.ThetaSkeleton.Global.localWeylScalar_three_mul_succ_norm_le
+
+-- ProjectDigitTable
+#print axioms HeckeGeneral.ThetaSkeleton.Global.projectSphericalDigitTable
+#print axioms HeckeGeneral.ThetaSkeleton.Global.projectSphericalDigitTable_input
+#print axioms HeckeGeneral.ThetaSkeleton.Global.projectSphericalDigitTable_normalized
+
+-- ProjectArchimedeanSign
+#print axioms HeckeSkeleton.ThetaLocal.Project.radialGammaQuotient
+#print axioms HeckeSkeleton.ThetaLocal.Project.radialSignWitness
+#print axioms HeckeSkeleton.ThetaLocal.Project.gamma_ne_zero_of_im_ne_zero
+#print axioms HeckeSkeleton.ThetaLocal.Project.radialGammaQuotient_at_witness
+#print axioms HeckeSkeleton.ThetaLocal.Project.radialGammaQuotient_neg_at_witness_ne_zero
+#print axioms HeckeSkeleton.ThetaLocal.Project.radialGammaQuotient_ne_neg
+#print axioms HeckeSkeleton.ThetaLocal.Project.radialGammaQuotient_ne_const_mul_neg
+
+-- ProjectArchimedean
+#print axioms HeckeSkeleton.ThetaLocal.Project.archShift_eq_archWeight
+#print axioms HeckeSkeleton.ThetaLocal.Project.archShift_inv
+#print axioms HeckeSkeleton.ThetaLocal.Project.archRadial_eq_neg_parameter
+#print axioms HeckeSkeleton.ThetaLocal.Project.archRadial_inv
+#print axioms HeckeSkeleton.ThetaLocal.Project.actual_archExponent
+#print axioms HeckeSkeleton.ThetaLocal.Project.directProfile
+#print axioms HeckeSkeleton.ThetaLocal.Project.reflectedProfile
+#print axioms HeckeSkeleton.ThetaLocal.Project.normalizedReflectedProfile
+#print axioms HeckeSkeleton.ThetaLocal.Project.localGamma
+#print axioms HeckeSkeleton.ThetaLocal.Project.directProfile_eq
+#print axioms HeckeSkeleton.ThetaLocal.Project.reflectedProfile_eq
+#print axioms HeckeSkeleton.ThetaLocal.Project.reflectedProfile_eq_directProfile_inv
+#print axioms HeckeSkeleton.ThetaLocal.Project.localGamma_eq_direct_pair
+#print axioms HeckeSkeleton.ThetaLocal.Project.localGamma_inv_eq_reflected_pair
+#print axioms HeckeSkeleton.ThetaLocal.Project.archGammaProduct_eq_prod_localGamma
+#print axioms HeckeSkeleton.ThetaLocal.Project.localGamma_ratio_eq_radialGammaQuotient
+#print axioms HeckeSkeleton.ThetaLocal.Project.localGamma_reflected_ratio_eq_radialGammaQuotient
+#print axioms HeckeSkeleton.ThetaLocal.Project.localGamma_quotients_ne_of_radial_ne_zero
+#print axioms HeckeSkeleton.ThetaLocal.Project.localGamma_quotients_ne_const_mul_of_radial_ne_zero
+#print axioms HeckeSkeleton.ThetaLocal.Project.directProfile_hasMellin
+#print axioms HeckeSkeleton.ThetaLocal.Project.reflectedProfile_hasMellin
+#print axioms HeckeSkeleton.ThetaLocal.Project.reflectedProfile_mellin
+#print axioms HeckeSkeleton.ThetaLocal.Project.normalizedReflectedProfile_mellin
+#print axioms HeckeSkeleton.ThetaLocal.Project.directReflectionGammaQuotient
+#print axioms HeckeSkeleton.ThetaLocal.Project.productScale
+#print axioms HeckeSkeleton.ThetaLocal.Project.productScale_pos
+#print axioms HeckeSkeleton.ThetaLocal.Project.productScale_cpow
+#print axioms HeckeSkeleton.ThetaLocal.Project.normalizedReflectedProfile_mellin_product
+#print axioms HeckeSkeleton.ThetaLocal.Project.reflectionMultiplier_eq_gamma_quotient
+#print axioms HeckeSkeleton.ThetaLocal.Project.directReflectionMultiplier
+#print axioms HeckeSkeleton.ThetaLocal.Project.directReflectionMultiplier_eq
+#print axioms HeckeSkeleton.ThetaLocal.Project.directReflectionMultiplier_mellin_product
+#print axioms HeckeSkeleton.ThetaLocal.Project.archGammaProduct_inv_of_radial_zero
+#print axioms HeckeSkeleton.ThetaLocal.Project.directReflectionMultiplier_eq_of_radial_zero
+
+-- ProjectArchimedeanWhittaker
+#print axioms HeckeSkeleton.ThetaLocal.Project.inverse_actual_radial_character
+#print axioms HeckeSkeleton.ThetaLocal.Project.inverse_actual_complex_character
+#print axioms HeckeSkeleton.ThetaLocal.Project.actual_complex_character
+#print axioms HeckeSkeleton.ThetaLocal.Project.actualHeckeRootVector_weyl
+#print axioms HeckeSkeleton.ThetaLocal.Project.directProfile_from_actual_whittaker
+#print axioms HeckeSkeleton.ThetaLocal.Project.reflectedProfile_from_actual_whittaker
+#print axioms HeckeSkeleton.ThetaLocal.Project.directProfile_from_whittaker_character
+#print axioms HeckeSkeleton.ThetaLocal.Project.reflectedProfile_from_whittaker_character
