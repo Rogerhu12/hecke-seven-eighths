@@ -112,7 +112,7 @@ or source-reconstruction assumption. -/
 def packet (T : Finset Src) (R : Src → Ideal (𝓞 K)) (a : Src → ℂ)
     (ha : ∀ B ∈ T, ‖a B‖ ≤ 1) (slotCap : ℕ)
     (ho : Jo ≤ 2 * slotCap) (hn : Jn ≤ 2 * slotCap) :
-    ReconstructionPacket (K := K) (Sector := Sector) transport slotCap Jo Jn where
+    ReconstructionPacket (K := K) («Sector» := Sector) transport slotCap Jo Jn where
   source := tupleRange T
   oldLists := oldLists
   newLists := newLists

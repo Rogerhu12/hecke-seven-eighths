@@ -99,7 +99,7 @@ theorem source_triple_norm_box (P : Finset Idx) (Z L ell h : ℝ) (hZ : 1 < Z)
     (hcube : ∀ b ∈ T.cubes, height K Sset b ≤ Z ^ (ell + h))
     (j : BoxIndex Z L)
     (B : PositiveAssignedSource.BareSource (K := K) (S := S) (D := D) (Γ := Γ)
-      (N := FirstParentEnergy.columnPool K S T) (X := X))
+      (N := FirstParentEnergy.columnPool K S T) («X» := X))
     (hB : B ∈ FirstProductionChildren.sourceOn K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
       (normBox K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask P Z L j)) :
     (Ideal.absNorm B.outer.q0 : ℝ) ≤
@@ -118,7 +118,7 @@ theorem source_label_norm_bound (P : Finset Idx) (Z L h : ℝ) (hZ : 1 < Z)
     (hfirst : 2 * T.scale.val ≤ Z ^ L) (hsecond : 4 * X ≤ Z ^ L)
     (j : BoxIndex Z L)
     (B : PositiveAssignedSource.BareSource (K := K) (S := S) (D := D) (Γ := Γ)
-      (N := FirstParentEnergy.columnPool K S T) (X := X))
+      (N := FirstParentEnergy.columnPool K S T) («X» := X))
     (hB : B ∈ FirstProductionChildren.sourceOn K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
       (normBox K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask P Z L j)) :
     (Ideal.absNorm B.newLabel : ℝ) ≤

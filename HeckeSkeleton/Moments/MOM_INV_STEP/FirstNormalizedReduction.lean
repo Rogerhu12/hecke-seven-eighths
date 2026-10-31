@@ -126,7 +126,7 @@ theorem sourceAt_le (ε₂ : ℝ) (hε₂ : 0 < ε₂) (m₂ : ℕ)
       R massEps ε₁ Z r ell V hZ k ⟨o,e⟩) side
   simpa only [FirstNormalizedSource.sourceAt, FirstNormalizedSource.freeAt,
     Fintype.sum_sigma, production, error, reductionConstant,
-    SecondProductionIntegral.firstMark, mark] using hs
+    SecondProductionIntegral.firstMark, mark, FirstToSecondData.quotient] using hs
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedReduction
 

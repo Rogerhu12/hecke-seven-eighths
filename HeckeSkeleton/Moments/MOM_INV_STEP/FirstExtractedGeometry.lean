@@ -25,6 +25,7 @@ variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 
+include D in
 theorem extractedFactor_height_le_source (r₁ r₂ b₁ b₂ : Ext)
     (hr₁ : Squarefree r₁.val.val) (hr₂ : Squarefree r₂.val.val) (side : Bool) :
     ((extractedFactor K S r₁ r₂ b₁ b₂ side).val.val.absNorm : ℝ) ≤
@@ -37,6 +38,7 @@ theorem extractedFactor_height_le_source (r₁ r₂ b₁ b₂ : Ext)
   have hu := height_one_le K Sset (residualIdeal K S D r₁ r₂ b₁ b₂ side)
   exact (le_mul_of_one_le_right he hu).trans_eq hf
 
+include D in
 theorem extractedFactor_height_le (X : {r : ℝ // 0 < r}) (r₁ r₂ b₁ b₂ : Ext)
     (hr₁ : r₁ ∈ dyadicPool K Sset X.val) (hr₂ : r₂ ∈ dyadicPool K Sset X.val)
     (side : Bool) :

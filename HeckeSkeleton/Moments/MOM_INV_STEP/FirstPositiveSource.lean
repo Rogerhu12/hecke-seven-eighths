@@ -79,14 +79,14 @@ theorem actual_column_norm (C : ColumnData K S σ) (G : HeckeCharacter K)
           (nonzeroProduct U))
         else movingColumn K S D Γ C G r₁ r₂ b₁ b₂ side f z d ξ (nonzeroProduct U)) *
         columnPhase (coordinate side η)
-          (Real.log (normScale K (residualScale K S X r₁ r₂ b₁ b₂ side)
+          (Real.log (FirstSourceEnergy.normScale K (residualScale K S X r₁ r₂ b₁ b₂ side)
             (nonzeroProduct U)).val)‖ =
       ‖sourceColumn K S D Γ C G X r₁ r₂ b₁ b₂ side f z d ξ e (signedCoordinate side η)‖ := by
   cases side
   · simp only [sourceColumn, coordinate, signedCoordinate, Bool.false_eq_true, if_false,
-      Finset.sum_filter, normScale, nonzeroProduct]
+      Finset.sum_filter, FirstSourceEnergy.normScale, nonzeroProduct]
   · simp only [sourceColumn, coordinate, signedCoordinate, if_true,
-      Finset.sum_filter, normScale, nonzeroProduct]
+      Finset.sum_filter, FirstSourceEnergy.normScale, nonzeroProduct]
     exact conjugated_column_norm _ _ _ _ _
 
 theorem sourceColumn_continuous (C : ColumnData K S σ) (G : HeckeCharacter K)

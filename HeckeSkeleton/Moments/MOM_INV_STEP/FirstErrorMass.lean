@@ -47,7 +47,7 @@ def lists : Fin J.card → Finset (HeightOneSpectrum (𝓞 K)) :=
   PrimeChoiceSlots.lists J T.columns.primeLists (fun j hj => hprime j (hJ hj))
 
 def packet :
-    ReconstructionPacket (K := K) (Sector := Sector)
+    ReconstructionPacket (K := K) («Sector» := Sector)
       (ActualMaskReconstruction.sectorTransport K S D Γ)
       slotCap (J.card + J.card) (0 + 0) :=
   PositiveAssignedSource.reconstructionPacket
@@ -148,7 +148,7 @@ theorem exists_original_mass_bound (slotCap : ℕ) (ε : ℝ) (hε : 0 < ε) :
           (PositiveAssignedSource.oldExtracted (bare K S D Γ T hmask i) side)‖ ^ 2) ≤
         A * (Xq * Xe) ^ (1 + ε) * Xq ^ ε * Xf ^ (1 + ε) := by
   obtain ⟨A,hA,hbound⟩ := DivisorRowMass.exists_packet_mass_bound
-    (K := K) (Sector := Sector) (ActualMaskReconstruction.sectorTransport K S D Γ)
+    (K := K) («Sector» := Sector) (ActualMaskReconstruction.sectorTransport K S D Γ)
     slotCap ε hε
   refine ⟨A,hA,?_⟩
   intro σ T hmask I side J hJ hprime hweights hcap Xq Xe Xf hq he hf hnorm

@@ -264,7 +264,7 @@ def reconstructionPacket (T : Finset Bare) (side : Bool) (R : Bare → Ideal (�
     (ho : ∀ i, ∀ p ∈ oldLists i, ‖aold i p.asIdeal‖ ≤ 1)
     (hn : ∀ i, ∀ p ∈ newLists i, ‖anew i p.asIdeal‖ ≤ 1)
     (slotCap : ℕ) (hJo : Jo ≤ slotCap) (hJn : Jn ≤ slotCap) :
-    ReconstructionPacket (K := K) (Sector := Sector)
+    ReconstructionPacket (K := K) («Sector» := Sector)
       (ActualMaskReconstruction.sectorTransport K S D Γ) slotCap (Jo + Jo) (Jn + Jn) :=
   PositiveReconstructionPacket.packet (source oldLists newLists T side)
     (fun B => R (forget oldLists newLists B)) (scalar oldLists newLists T side aOuter aold anew)

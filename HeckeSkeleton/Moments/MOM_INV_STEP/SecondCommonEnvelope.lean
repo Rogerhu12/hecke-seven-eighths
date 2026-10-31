@@ -46,7 +46,7 @@ theorem outerRadius_power_le (ε : ℝ) (hε : 0 ≤ ε)
   have hk := height_one_le K Sset k
   have hp := radialScale_pos K S r d X Y
   have hpow : (k.val.val.absNorm : ℝ) ^ (-ε) ≤ 1 := by
-    simpa only [Real.one_rpow] using
+    simpa only [height, Real.one_rpow] using
       Real.rpow_le_rpow_of_nonpos zero_lt_one hk (neg_nonpos.mpr hε)
   change ((k.val.val.absNorm : ℝ) / radialScale K S r d X Y) ^ (-ε) ≤ _
   rw [Real.div_rpow (by positivity : (0 : ℝ) ≤ (k.val.val.absNorm : ℝ)) hp.le,

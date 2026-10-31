@@ -108,7 +108,7 @@ def secondLists : Fin J₂.card → Finset (HeightOneSpectrum (𝓞 K)) :=
 /-- The packet is built from the actual original squared marks. Its
 structural conditions and scalar contraction are proved internally. -/
 def packet (B : Finset Bare) (side : Bool) (slotCap : ℕ) (hcap : C.slots.card ≤ slotCap) :
-    ReconstructionPacket (K := K) (Sector := Sector)
+    ReconstructionPacket (K := K) («Sector» := Sector)
       (ActualMaskReconstruction.sectorTransport K S D Γ) slotCap
       (J₁.card + J₁.card) (J₂.card + J₂.card) :=
   PositiveAssignedSource.reconstructionPacket

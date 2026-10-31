@@ -86,7 +86,7 @@ variable (hJ₁ : J₁ ⊆ T.columns.slots)
 variable (J₂ : Finset σ) (hJ₂ : J₂ ⊆ T.columns.slots)
 variable (P : Finset (FirstToSecondData.ProductionIndex K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂)) (side₁ : Bool) (slotCap : ℕ) (hcap : T.columns.slots.card ≤ slotCap)
 
-def packet : ReconstructionPacket (K := K) (Sector := Sector)
+def packet : ReconstructionPacket (K := K) («Sector» := Sector)
     (ActualMaskReconstruction.sectorTransport K S D Γ) slotCap
       (J₁.card + J₁.card) (J₂.card + J₂.card) :=
   ActualTwoPassChildren.packet K S T.columns D Γ hprime hweights J₁ J₂ hJ₁ hJ₂
