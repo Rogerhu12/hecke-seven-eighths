@@ -30,6 +30,7 @@ EVIDENCE = ROOT / '.low-energy-lake-verification'
 SCHEMA = 'low-energy-native-lake-verification-v1'
 SOURCE_MANIFEST = 'docs/low-energy/source_manifest.json'
 PRINCIPAL = 'HeckeSkeleton.Principal'
+CALIBRATION_MODULES = ('Expansion.PhysicalFourierNormalization',)
 REQUIRED_AXIOMS = (
     'HeckeSkeleton.completedMarkedEnergy',
     'HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy.completedMarkedEnergy',
@@ -313,7 +314,8 @@ def verify(expected_head: str, metadata_dir: Path, build_timeout: float) -> None
         if 'version 4.35.0-rc3,' not in version or LEAN_COMMIT not in version:
             raise RuntimeError('Unexpected Lean executable: ' + version)
         report['lean'] = version
-        modules = sorted({PRINCIPAL, *(e['module'] for e in prepared['source_snapshot']['sources'])})
+        modules = sorted({PRINCIPAL, *CALIBRATION_MODULES,
+                          *(e['module'] for e in prepared['source_snapshot']['sources'])})
         command = ['lake', '--rehash', '--no-cache', 'build', *('+' + m + ':olean' for m in modules)]
         report.update(stage='building', requested_modules=modules)
         save(report)

@@ -89,6 +89,10 @@ theorem completedThetaSum_eq_fixedPhysicalRows
   letI : Fintype (MarkChoice K S d) :=
     Fintype.ofEquiv d.marks.powerset (subsetsEquiv K S d.marks).symm
   rw [completedThetaSum_eq_physical_atoms K S D hD F θ hreflection d V Y hY]
+  -- The state type is independent of the active subset.  Expose the
+  -- projections before rewriting the powerset sum so that its motive is
+  -- well typed at the simplifier's transparency level.
+  simp only [splitFixed]
   erw [← tsum_subsets_eq K S d.marks]
   simp only [tsum_fintype]
   erw [Finset.sum_comm]

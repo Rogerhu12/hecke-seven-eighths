@@ -166,11 +166,9 @@ theorem physicalResidueNormalizer_cancel (P : ProbeData K S) (a b : ℂ) :
         (physicalResidueNormalizer K S μ P * b) =
       a / (((1 / 6 : ℂ) * deletedZetaResidue K S ^ 2 *
         additiveMellin K S μ P.additive (1 / 6) * mellin P.denominator.toFun 1) * b) := by
-  simpa only [physicalResidueNormalizer, mul_assoc] using
-    (mul_div_mul_left a
-      (((1 / 6 : ℂ) * deletedZetaResidue K S ^ 2 *
-        additiveMellin K S μ P.additive (1 / 6) * mellin P.denominator.toFun 1) * b)
-      (physicalPoissonScalar_ne_zero K))
+  unfold physicalResidueNormalizer
+  conv_lhs => arg 2; rw [mul_assoc]
+  exact mul_div_mul_left a _ (physicalPoissonScalar_ne_zero K)
 
 def normalizedProbe (P : ProbeData K S) (ψ : HeckeCharacter K)
     (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K)) (Z : ℝ) : ℂ :=

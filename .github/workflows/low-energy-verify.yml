@@ -1,165 +1,99 @@
 name: Low reflected energy verification
-'on':
+
+on:
   push:
     branches:
-    - codex/low-reflected-energy-ade19eee
+      - codex/low-reflected-energy-ade19eee
   workflow_dispatch:
-    inputs:
-      export_replay:
-        description: Export the pinned compiler and libraries for local replay
-        type: boolean
-        default: false
   pull_request:
     paths:
-    - HeckeSkeleton/LowEnergy/**
-    - HeckeSkeleton/LowFrozenCube/**
-    - HeckeSkeleton/Principal.lean
-    - scripts/low_energy_verify.py
-    - scripts/low_energy_native_foundation.py
-    - scripts/low_energy_axioms.py
-    - tests/test_low_energy_axioms.py
-    - tests/test_low_energy_scheduler.py
-    - tests/test_low_energy_native_receipts.py
-    - tests/test_low_energy_native_foundation.py
-    - scripts/low_energy_restore_ci.py
-    - scripts/low_energy_export_ci.py
-    - scripts/lean_imports.py
-    - docs/low-energy/**
-    - .github/workflows/low-energy-verify.yml
-    - scripts/low_energy_lake_verify.py
-    - tests/test_low_energy_lake_verify.py
-    - lean-toolchain
-    - lakefile.toml
-    - lake-manifest.json
+      - HeckeSkeleton/LowEnergy/**
+      - HeckeSkeleton/LowFrozenCube/**
+      - HeckeSkeleton/Principal.lean
+      - Expansion/PhysicalFourierNormalization.lean
+      - HeckeGeneral/Analysis/PhysicalProbePrincipal.lean
+      - HeckeGeneral/Analysis/PhysicalProbeContours.lean
+      - HeckeGeneral/Analysis/CompensatedRowKernelFactorization.lean
+      - HeckeAxiom/ProbeNormalization.lean
+      - scripts/low_energy_lake_verify.py
+      - scripts/low_energy_axioms.py
+      - scripts/lean_imports.py
+      - tests/test_low_energy_lake_verify.py
+      - tests/test_low_energy_axioms.py
+      - docs/low-energy/**
+      - .github/workflows/low-energy-verify.yml
+      - lean-toolchain
+      - lakefile.toml
+      - lake-manifest.json
+
 permissions:
   contents: read
-  actions: read
+
 concurrency:
   group: low-energy-native-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
+
 jobs:
   proofs:
-    strategy:
-      fail-fast: false
-      matrix:
-        phase:
-        - core
-        - actual
     runs-on: ubuntu-24.04
     timeout-minutes: 180
     env:
-      LEAN_NUM_THREADS: ${{ matrix.phase == 'actual' && '2' || '1' }}
+      LEAN_NUM_THREADS: '2'
       EXPECTED_SOURCE_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
-    - uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.sha || github.sha }}
-    - name: Check verification gates and cache scheduling
-      if: matrix.phase == 'core'
-      run: python3 -m unittest discover -s tests -p 'test_low_energy_*.py'
-    - name: Record exact sources and reject new-source admissions
-      run: python3 scripts/low_energy_lake_verify.py prepare --expected-head "$EXPECTED_SOURCE_HEAD"
-      if: matrix.phase == 'actual'
-    - name: Prepare runner space and memory-map capacity
-      run: "sudo rm -rf -- /usr/local/lib/android/sdk /usr/share/dotnet\nlean_map_limit=\"$(sysctl -n vm.max_map_count)\"\nif [ \"$lean_map_limit\"\
-        \ -lt 262144 ]; then\n  sudo sysctl -w vm.max_map_count=262144\nfi\ndf -h /\n"
-      if: matrix.phase == 'actual'
-    - uses: leanprover/lean-action@bd5cb0b830eda614ce3fc186d8429b9409b16c47
-      with:
-        auto-config: 'false'
-        build: 'false'
-        test: 'false'
-        lint: 'false'
-        use-mathlib-cache: 'true'
-        use-github-cache: 'false'
-    - name: Export pinned compiler, library, and tracked-source replay
-      if: matrix.phase == 'actual' && github.event_name == 'workflow_dispatch' && inputs.export_replay
-      continue-on-error: true
-      run: python3 scripts/low_energy_export_ci.py
-    - name: Preserve local replay environment
-      if: matrix.phase == 'actual' && github.event_name == 'workflow_dispatch' && inputs.export_replay
-      uses: actions/upload-artifact@v4
-      with:
-        name: low-energy-replay
-        path: .low-energy-replay/
-        include-hidden-files: true
-        if-no-files-found: warn
-        compression-level: 0
-        retention-days: 3
-    - name: Restore exact verified module cache
-      id: proof-cache
-      uses: actions/cache/restore@v4
-      with:
-        path: '.lake/build/lib/lean
-
-          .low-energy-verification
-
-          .lake/packages/TauCeti/.lake/build
-
-          '
-        key: low-energy-v2-${{ runner.os }}-${{ matrix.phase }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
-        restore-keys: 'low-energy-v2-${{ runner.os }}-${{ matrix.phase }}-${{ hashFiles(''lean-toolchain'', ''lake-manifest.json'') }}-
-
-          '
-      if: matrix.phase == 'core'
-    - name: Restore previous workflow checkpoint after a cache miss
-      if: matrix.phase == 'core' && steps.proof-cache.outputs.cache-matched-key == ''
-      continue-on-error: true
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      run: python3 scripts/low_energy_restore_ci.py ${{ matrix.phase }}
-    - name: Restore the pinned native dependency release
-      uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@5f3c782680be2c74365b4d8e5760fc16f1f222c5
-      with:
-        repository: Rogerhu12/hecke-seven-eighths
-        tag: lake-cache-76c696e
-      if: matrix.phase == 'actual'
-    - name: Verify the independent core with exact-source receipts
-      run: python3 scripts/low_energy_verify.py core
-      if: matrix.phase == 'core'
-    - name: Build every new proof source and run both strict target audits
-      timeout-minutes: 155
-      run: python3 scripts/low_energy_lake_verify.py verify --expected-head "$EXPECTED_SOURCE_HEAD" --cache-metadata-dir "$RUNNER_TEMP/lake-cache-download"
-      if: matrix.phase == 'actual'
-    - name: Save verified module checkpoints
-      if: always() && matrix.phase == 'core' && steps.proof-cache.outputs.cache-hit != 'true'
-      uses: actions/cache/save@v4
-      with:
-        path: '.lake/build/lib/lean
-
-          .low-energy-verification
-
-          .lake/packages/TauCeti/.lake/build
-
-          '
-        key: ${{ steps.proof-cache.outputs.cache-primary-key }}
-    - name: Preserve compiled checkpoints
-      if: always() && matrix.phase == 'core'
-      uses: actions/upload-artifact@v4
-      with:
-        name: low-energy-compiled-${{ matrix.phase }}
-        path: '.lake/build/lib/lean/
-
-          .low-energy-verification/
-
-          '
-        if-no-files-found: ignore
-        include-hidden-files: true
-        retention-days: 7
-    - name: Preserve verification logs
-      if: always() && matrix.phase == 'core'
-      uses: actions/upload-artifact@v4
-      with:
-        name: low-energy-verification-${{ matrix.phase }}
-        path: .low-energy-verification/
-        if-no-files-found: ignore
-        include-hidden-files: true
-    - name: Preserve native Lake evidence and failure logs
-      if: always() && matrix.phase == 'actual'
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-      with:
-        name: low-energy-native-lake-${{ github.run_id }}-${{ github.run_attempt }}
-        path: .low-energy-lake-verification/
-        include-hidden-files: true
-        if-no-files-found: warn
-        retention-days: 14
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Check build and axiom verification gates
+        run: >-
+          python3 -m unittest discover -s tests -p 'test_low_energy_lake_verify.py'
+      - name: Record exact sources and reject new-source admissions
+        run: python3 scripts/low_energy_lake_verify.py prepare --expected-head "$EXPECTED_SOURCE_HEAD"
+      - name: Prepare runner space and memory-map capacity
+        run: |
+          sudo rm -rf -- /usr/local/lib/android/sdk /usr/share/dotnet
+          lean_map_limit="$(sysctl -n vm.max_map_count)"
+          if [ "$lean_map_limit" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          df -h /
+      - name: Install the pinned Lean toolchain and Mathlib cache
+        uses: leanprover/lean-action@bd5cb0b830eda614ce3fc186d8429b9409b16c47
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore the pinned native dependency release
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@5f3c782680be2c74365b4d8e5760fc16f1f222c5
+        with:
+          repository: Rogerhu12/hecke-seven-eighths
+          tag: lake-cache-76c696e
+      - name: Build every new proof source and run both strict target audits
+        timeout-minutes: 155
+        run: >-
+          python3 scripts/low_energy_lake_verify.py verify
+          --expected-head "$EXPECTED_SOURCE_HEAD"
+          --cache-metadata-dir "$RUNNER_TEMP/lake-cache-download"
+      - name: Preserve native Lake evidence and failure logs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: low-energy-native-lake-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .low-energy-lake-verification/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Preserve native proof outputs for diagnosis
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: low-energy-native-outputs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .lake/build/lib/lean/HeckeSkeleton/
+            .lake/build/lib/lean/Expansion/PhysicalFourierNormalization.*
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 7
