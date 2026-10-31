@@ -114,7 +114,7 @@ variable {sFirst sFirstZero : Finset (ℕ × ℕ)}
 
 def dualFirstZeroBudget
     (F : s.DualTerminalCalibration sFirst sFirstZero k Lmax Nsave decay) (ε CfirstZero : ℝ) : ℝ :=
-  (s.fiber : ℝ) * CfirstZero * F.zeroAmplitude * Z ^ (F.productExponent * ε)
+  (s.fiber : ℝ) * CfirstZero * F.zeroAmplitude * Z ^ (F.zeroProductExponent * ε)
 
 def dualFirstTailBudget
     (F : s.DualTerminalCalibration sFirst sFirstZero k Lmax Nsave decay) (CfirstError : ℝ) : ℝ :=

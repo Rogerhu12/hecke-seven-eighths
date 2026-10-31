@@ -49,6 +49,12 @@ structure FirstDualOriginalWindows
     (sTail sZero : Finset (ℕ × ℕ)) (k : ℕ)
     (Z X normBound Lmax Nsave decay : ℝ) where
   productExponent : ℝ
+  /-- A sharp product window on the actual nonzero profiles. The
+  full Cartesian carrier and the larger tail window are unchanged. -/
+  zeroProductExponent : ℝ
+  zeroProductExponent_nonneg : 0 ≤ zeroProductExponent
+  zero_product_norm : ∀ ij ∈ columns ×ˢ columns, profiles ij.1 ij.2 ≠ 0 →
+    (Ideal.absNorm ((I ij.1).val * (I ij.2).val) : ℝ) ≤ Z ^ zeroProductExponent
   profileExponent : ℝ
   maskExponent : ℝ
   modulusExponent : ℝ
@@ -89,7 +95,30 @@ variable (T : FirstDualOriginalWindows (hΓ := hΓ) C columns I blocks profiles 
   sTail sZero k Z X normBound Lmax Nsave decay)
 
 def zeroExponent (δ : ℝ) : ℝ :=
-  T.zeroProfileExponent + T.zeroInverseRadiusExponent + δ + T.productExponent / 2
+  T.zeroProfileExponent + T.zeroInverseRadiusExponent + δ + T.zeroProductExponent / 2
+
+/-- Install the product window proved only for the same nonzero
+original profiles; no column is removed or reindexed. -/
+def withZeroProduct (exponent : ℝ) (hpos : 0 ≤ exponent)
+    (hnorm : ∀ ij ∈ columns ×ˢ columns, profiles ij.1 ij.2 ≠ 0 →
+      (Ideal.absNorm ((I ij.1).val * (I ij.2).val) : ℝ) ≤ Z ^ exponent) :
+    FirstDualOriginalWindows (hΓ := hΓ) C columns I blocks profiles radius M
+      sTail sZero k Z X normBound Lmax Nsave decay :=
+  { T with zeroProductExponent := exponent, zeroProductExponent_nonneg := hpos,
+    zero_product_norm := hnorm }
+
+@[simp] theorem withZeroProduct_zeroExponent
+    (exponent δ : ℝ) (hpos : 0 ≤ exponent)
+    (hnorm : ∀ ij ∈ columns ×ˢ columns, profiles ij.1 ij.2 ≠ 0 →
+      (Ideal.absNorm ((I ij.1).val * (I ij.2).val) : ℝ) ≤ Z ^ exponent) :
+    (T.withZeroProduct exponent hpos hnorm).zeroExponent δ =
+      T.zeroProfileExponent + T.zeroInverseRadiusExponent + δ + exponent / 2 := rfl
+
+@[simp] theorem withZeroProduct_windows
+    (exponent : ℝ) (hpos : 0 ≤ exponent)
+    (hnorm : ∀ ij ∈ columns ×ˢ columns, profiles ij.1 ij.2 ≠ 0 →
+      (Ideal.absNorm ((I ij.1).val * (I ij.2).val) : ℝ) ≤ Z ^ exponent) :
+    (T.withZeroProduct exponent hpos hnorm).windows = T.windows := rfl
 
 /-- Install a sharper original radius window without changing the
 source, profiles, mask, cutoff, or any of the original tail windows. -/
@@ -101,7 +130,7 @@ def withZeroInverseRadius (exponent : ℝ) (hradius : radius.val⁻¹ ≤ Z ^ ex
 @[simp] theorem withZeroInverseRadius_zeroExponent
     (exponent δ : ℝ) (hradius : radius.val⁻¹ ≤ Z ^ exponent) :
     (T.withZeroInverseRadius exponent hradius).zeroExponent δ =
-      T.zeroProfileExponent + exponent + δ + T.productExponent / 2 := rfl
+      T.zeroProfileExponent + exponent + δ + T.zeroProductExponent / 2 := rfl
 
 @[simp] theorem withZeroInverseRadius_windows
     (exponent : ℝ) (hradius : radius.val⁻¹ ≤ Z ^ exponent) :
@@ -125,7 +154,7 @@ theorem zero_normalization (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ) :
     ∀ v ∈ firstZeroPairs columns columns I I,
       sZero.sup (schwartzSeminormFamily ℂ V ℂ) (profiles v.2.1 v.2.2) *
         (∑ D ∈ ((blocks v.1).mask M).powerset, firstZeroDivisorWeight radius D) ≤
-          T.zeroAmplitude hB δ hδ / Real.sqrt (Z ^ T.productExponent) := by
+          T.zeroAmplitude hB δ hδ / Real.sqrt (Z ^ T.zeroProductExponent) := by
   intro v hv
   have hz : 0 < Z := zero_lt_one.trans_le T.windows.base_ge_one
   have hcommon := actualCommonLabels_norm columns columns _ _
@@ -144,14 +173,14 @@ theorem zero_normalization (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ) :
     (Finset.sum_nonneg fun D _ => firstZeroDivisorWeight_nonneg radius D)
     (mul_nonneg T.zeroProfileConstant_nonneg (Real.rpow_nonneg hz.le _))
   apply hp.trans_eq
-  have hsqrt : Real.sqrt (Z ^ T.productExponent) = Z ^ (T.productExponent / 2) := by
+  have hsqrt : Real.sqrt (Z ^ T.zeroProductExponent) = Z ^ (T.zeroProductExponent / 2) := by
     rw [Real.sqrt_eq_rpow, ← Real.rpow_mul hz.le]
     congr 1
     ring
   unfold zeroAmplitude zeroExponent
   rw [hsqrt, mul_div_assoc, ← Real.rpow_sub hz,
-    show (T.zeroProfileExponent + T.zeroInverseRadiusExponent + δ + T.productExponent / 2) -
-      T.productExponent / 2 = T.zeroProfileExponent + T.zeroInverseRadiusExponent + δ by ring,
+    show (T.zeroProfileExponent + T.zeroInverseRadiusExponent + δ + T.zeroProductExponent / 2) -
+      T.zeroProductExponent / 2 = T.zeroProfileExponent + T.zeroInverseRadiusExponent + δ by ring,
     Real.rpow_add hz, Real.rpow_add hz]
   ring
 
@@ -159,7 +188,7 @@ theorem zero_normalization (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ) :
 profile windows, independently of any prime pool. -/
 def cost (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ)
     (ε Cerror Czero : ℝ) : ℝ :=
-  Czero * T.zeroAmplitude hB δ hδ * Z ^ (T.productExponent * ε) +
+  Czero * T.zeroAmplitude hB δ hδ * Z ^ (T.zeroProductExponent * ε) +
     Cerror * T.tailProfileConstant * Z ^ (-Nsave)
 
 theorem tailMass_bound (hdecay : 1 < decay) (Ctail : ℝ) (hCtail : 0 ≤ Ctail) :
@@ -194,8 +223,8 @@ theorem tailMass_bound (hdecay : 1 < decay) (Ctail : ℝ) (hCtail : 0 ≤ Ctail)
 width. Only its explicit real exponent is compared at the final step. -/
 theorem normalized_zero_le (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ)
     (fiber : ℕ) (parentWidth ε Czero terminalExponent : ℝ) (hC : 0 ≤ Czero)
-    (hledger : T.zeroExponent δ + T.productExponent * ε - parentWidth ≤ terminalExponent) :
-    ((fiber : ℝ) * Czero * T.zeroAmplitude hB δ hδ * Z ^ (T.productExponent * ε)) /
+    (hledger : T.zeroExponent δ + T.zeroProductExponent * ε - parentWidth ≤ terminalExponent) :
+    ((fiber : ℝ) * Czero * T.zeroAmplitude hB δ hδ * Z ^ (T.zeroProductExponent * ε)) /
         Z ^ parentWidth ≤
       (fiber : ℝ) * Czero * originalFirstMaskConstant (K := K) normBound δ hB hδ *
         T.zeroProfileConstant * Z ^ terminalExponent := by
@@ -203,7 +232,7 @@ theorem normalized_zero_le (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ)
   calc
     _ = ((fiber : ℝ) * Czero * originalFirstMaskConstant (K := K) normBound δ hB hδ *
         T.zeroProfileConstant) *
-          Z ^ (T.zeroExponent δ + T.productExponent * ε - parentWidth) := by
+          Z ^ (T.zeroExponent δ + T.zeroProductExponent * ε - parentWidth) := by
       unfold zeroAmplitude
       rw [Real.rpow_sub hz, Real.rpow_add hz]
       ring
@@ -250,6 +279,9 @@ def originalDualTerminalCalibration
     (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ) :
     s.DualTerminalCalibration sTail sZero k Lmax Nsave decay where
   productExponent := T.productExponent
+  zeroProductExponent := T.zeroProductExponent
+  zeroProductExponent_nonneg := T.zeroProductExponent_nonneg
+  zero_product_norm := T.zero_product_norm
   profileExponent := T.profileExponent
   maskExponent := T.maskExponent
   modulusExponent := T.modulusExponent
@@ -266,9 +298,9 @@ theorem normalizedFirstDualZero_of_original_le
       s.radius s.mask sTail sZero k Z X normBound Lmax Nsave decay)
     (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ)
     (ε Czero terminalExponent : ℝ) (hC : 0 ≤ Czero)
-    (hledger : T.zeroExponent δ + T.productExponent * ε - (a.m + a.q) ≤ terminalExponent) :
+    (hledger : T.zeroExponent δ + T.zeroProductExponent * ε - (a.m + a.q) ≤ terminalExponent) :
     ((s.fiber : ℝ) * Czero * (s.originalDualTerminalCalibration T hB δ hδ).zeroAmplitude *
-        Z ^ ((s.originalDualTerminalCalibration T hB δ hδ).productExponent * ε)) /
+        Z ^ ((s.originalDualTerminalCalibration T hB δ hδ).zeroProductExponent * ε)) /
         Z ^ (a.m + a.q) ≤
       (s.fiber : ℝ) * Czero * originalFirstMaskConstant (K := K) normBound δ hB hδ *
         T.zeroProfileConstant * Z ^ terminalExponent :=
@@ -289,6 +321,7 @@ end ActualFirstSource
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.FirstDualOriginalWindows.zero_normalization
+#print axioms HeckeSkeleton.Moments.EngineStep.FirstDualOriginalWindows.withZeroProduct
 #print axioms HeckeSkeleton.Moments.EngineStep.FirstDualOriginalWindows.withZeroInverseRadius
 #print axioms HeckeSkeleton.Moments.EngineStep.FirstDualOriginalWindows.tailMass_bound
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualFirstSource.originalDualTerminalCalibration

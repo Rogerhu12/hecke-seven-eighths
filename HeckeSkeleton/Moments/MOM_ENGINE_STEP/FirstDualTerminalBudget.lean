@@ -1,5 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SignedActualFirstSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDualZeroSupport
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDualZeroSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
 
 /-!
@@ -61,6 +61,14 @@ structure DualTerminalCalibration
     (s : ActualFirstSource (E := E) hΓ μv C P finiteTest centered d a t Y₁ Y₂ X hX)
     (sTail sZero : Finset (ℕ × ℕ)) (k : ℕ) (Lmax Nsave decay : ℝ) where
   productExponent : ℝ
+  /-- The pure-dual diagonal only uses pairs with a nonzero original
+  profile. Zero cross-columns remain in the original carrier. -/
+  zeroProductExponent : ℝ
+  zeroProductExponent_nonneg : 0 ≤ zeroProductExponent
+  zero_product_norm : ∀ ij ∈ s.columns ×ˢ s.columns,
+    s.profiles ij.1 ij.2 ≠ 0 →
+      (Ideal.absNorm ((s.ideal ij.1).val * (s.ideal ij.2).val) : ℝ) ≤
+        Z ^ zeroProductExponent
   profileExponent : ℝ
   maskExponent : ℝ
   modulusExponent : ℝ
@@ -76,7 +84,7 @@ structure DualTerminalCalibration
   zero_normalization : ∀ v ∈ firstZeroPairs s.columns s.columns s.ideal s.ideal,
     sZero.sup (schwartzSeminormFamily ℂ V ℂ) (s.profiles v.2.1 v.2.2) *
       (∑ D ∈ ((s.block v.1).mask s.mask).powerset, firstZeroDivisorWeight s.radius D) ≤
-        zeroAmplitude / Real.sqrt (Z ^ productExponent)
+        zeroAmplitude / Real.sqrt (Z ^ zeroProductExponent)
 
 namespace DualTerminalCalibration
 
@@ -85,7 +93,7 @@ variable {sTail sZero : Finset (ℕ × ℕ)} {k : ℕ} {Lmax Nsave decay : ℝ}
 
 def cost (T : s.DualTerminalCalibration sTail sZero k Lmax Nsave decay)
     (ε Cerror Czero : ℝ) : ℝ :=
-  Czero * T.zeroAmplitude * Z ^ (T.productExponent * ε) +
+  Czero * T.zeroAmplitude * Z ^ (T.zeroProductExponent * ε) +
     Cerror * T.tailAmplitude * Z ^ (-Nsave)
 
 theorem tailCost_bound
@@ -155,17 +163,18 @@ theorem actual_first_dual_terminal_cost_bound
       s.dualZeroCost hDiff + Ctail * X ^ (1 - decay) * s.tailCost sTail ≤
         T.cost ε (Ctail * (2 * firstTailFieldConstant K * idealCountConstant K ^ k)) Czero := by
   obtain ⟨sZero, Czero, hCzero, hz⟩ :=
-    first_dual_zero_diagonal_normalized (σ := σ) (η := η) (hS := hS)
+    first_dual_zero_diagonal_supported (σ := σ) (η := η) (hS := hS)
       (hΓ := hΓ) (μv := μv) finiteTest k ε hε
   refine ⟨sZero, Czero, hCzero, ?_⟩
   intro sTail Ctail hCtail Z ell eps bad P ω ψ centered d a t Y₁ Y₂ X hX s
     Lmax Nsave decay hdecay T hDiff
   have hzero := hz C s.columns s.columns s.ideal s.ideal s.block s.profiles hDiff
     s.radius s.mask X hX T.windows.factors T.windows.factors_injective T.windows.factor_product
-    (Z ^ T.productExponent) T.zeroAmplitude
-    (Real.one_le_rpow T.windows.base_ge_one T.windows.productExponent_nonneg)
-    T.zeroAmplitude_nonneg T.windows.product_norm T.zero_normalization
-  change s.dualZeroCost hDiff ≤ Czero * T.zeroAmplitude * (Z ^ T.productExponent) ^ ε at hzero
+    (Z ^ T.zeroProductExponent) T.zeroAmplitude
+    (Real.one_le_rpow T.windows.base_ge_one T.zeroProductExponent_nonneg)
+    T.zeroAmplitude_nonneg T.zero_product_norm T.zero_normalization
+  change s.dualZeroCost hDiff ≤
+    Czero * T.zeroAmplitude * (Z ^ T.zeroProductExponent) ^ ε at hzero
   rw [← Real.rpow_mul (zero_le_one.trans T.windows.base_ge_one)] at hzero
   exact add_le_add hzero (T.tailCost_bound hdecay Ctail hCtail)
 

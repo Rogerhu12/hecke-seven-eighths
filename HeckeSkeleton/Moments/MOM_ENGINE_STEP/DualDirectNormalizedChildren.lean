@@ -116,7 +116,7 @@ variable (F : FirstDualOriginalWindows (hΓ := hΓ) C s.columns s.ideal s.block 
 
 def dualFirstZeroBudget (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ)
     (ε CfirstZero : ℝ) : ℝ :=
-  (s.fiber : ℝ) * CfirstZero * F.zeroAmplitude hB δ hδ * Z ^ (F.productExponent * ε)
+  (s.fiber : ℝ) * CfirstZero * F.zeroAmplitude hB δ hδ * Z ^ (F.zeroProductExponent * ε)
 
 def dualFirstTailBudget (CfirstError : ℝ) : ℝ :=
   (s.fiber : ℝ) * CfirstError * F.tailProfileConstant * Z ^ (-Nsave)
@@ -145,7 +145,7 @@ parent width and parent fibre. -/
 theorem normalizedFirstDualZero_of_original_le
     (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ)
     (ε CfirstZero terminalExponent : ℝ) (hC : 0 ≤ CfirstZero)
-    (hledger : F.zeroExponent δ + F.productExponent * ε - (a.m + a.q) ≤ terminalExponent) :
+    (hledger : F.zeroExponent δ + F.zeroProductExponent * ε - (a.m + a.q) ≤ terminalExponent) :
     s.dualFirstZeroBudget F hB δ hδ ε CfirstZero / Z ^ (a.m + a.q) ≤
       (s.fiber : ℝ) * CfirstZero * originalFirstMaskConstant (K := K) normBound δ hB hδ *
         F.zeroProfileConstant * Z ^ terminalExponent :=

@@ -65,18 +65,18 @@ theorem actual_direct_first_dual_terminal_cost_bound
       s.dualZeroCost hDiff + Ctail * X ^ (1 - decay) * s.tailCost sTail ≤
         T.cost hB δ hδ ε (Ctail * (2 * firstTailFieldConstant K * idealCountConstant K ^ k)) Czero := by
   obtain ⟨sZero, Czero, hCzero, hz⟩ :=
-    first_dual_zero_diagonal_normalized (σ := σ) (η := η) (hS := hS)
+    first_dual_zero_diagonal_supported (σ := σ) (η := η) (hS := hS)
       (hΓ := hΓ) (μv := μv) finiteTest k ε hε
   refine ⟨sZero, Czero, hCzero, ?_⟩
   intro sTail Ctail hCtail Z ω ψ centered d a t Y₁ Y₂ X hX s
     normBound Lmax Nsave decay hdecay T hB δ hδ hDiff
   have hzero := hz C s.columns s.columns s.ideal s.ideal s.block s.profiles hDiff
     s.radius s.mask X hX T.windows.factors T.windows.factors_injective T.windows.factor_product
-    (Z ^ T.productExponent) (T.zeroAmplitude hB δ hδ)
-    (Real.one_le_rpow T.windows.base_ge_one T.windows.productExponent_nonneg)
-    (T.zeroAmplitude_nonneg hB δ hδ) T.windows.product_norm (T.zero_normalization hB δ hδ)
+    (Z ^ T.zeroProductExponent) (T.zeroAmplitude hB δ hδ)
+    (Real.one_le_rpow T.windows.base_ge_one T.zeroProductExponent_nonneg)
+    (T.zeroAmplitude_nonneg hB δ hδ) T.zero_product_norm (T.zero_normalization hB δ hδ)
   change s.dualZeroCost hDiff ≤
-    Czero * T.zeroAmplitude hB δ hδ * (Z ^ T.productExponent) ^ ε at hzero
+    Czero * T.zeroAmplitude hB δ hδ * (Z ^ T.zeroProductExponent) ^ ε at hzero
   rw [← Real.rpow_mul (zero_le_one.trans T.windows.base_ge_one)] at hzero
   have htail := T.tailMass_bound hdecay Ctail hCtail
   change Ctail * X ^ (1 - decay) * s.tailCost sTail ≤ _ at htail

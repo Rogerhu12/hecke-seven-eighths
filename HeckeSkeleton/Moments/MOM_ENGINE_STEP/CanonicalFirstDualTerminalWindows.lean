@@ -81,7 +81,9 @@ its profile by the original coefficient leaves the actual modulus
 definitionally unchanged. Complete mask windows are supplied per actual
 common block, so an external full-mask constructor can be used directly.
 The optional `zeroRadius` supplies the independent sharp original
-inverse-radius window; its default preserves the earlier constructor. -/
+inverse-radius window. The optional `sharpZeroProduct` bounds products
+only where the original profile is nonzero. Both defaults preserve the
+earlier constructor's windows; neither changes the original carrier. -/
 def firstDualOriginalWindows
     (C : A.GeneralArithmeticContext σ η hS)
     {ι : Type*} (columns : Finset ι) (I : ι → A.Exterior)
@@ -119,11 +121,19 @@ def firstDualOriginalWindows
     (originalMask : OriginalMaskPrimeData M maskIdeal)
     (hcolumn : ∀ i ∈ columns, (Ideal.absNorm (I i).val : ℝ) ≤ Z ^ normBound)
     (zeroRadius : {exponent : ℝ // radius.val⁻¹ ≤ Z ^ exponent} :=
-      ⟨modulusExponent, hinverse⟩) :
+      ⟨modulusExponent, hinverse⟩)
+    (sharpZeroProduct : {exponent : ℝ // 0 ≤ exponent ∧
+      ∀ ij ∈ columns ×ˢ columns,
+        (c ij.1 * star (c ij.2)) • archTest K A.Sf 1 ≠ 0 →
+          (Ideal.absNorm ((I ij.1).val * (I ij.2).val) : ℝ) ≤ Z ^ exponent} :=
+      ⟨productExponent, hproduct, fun ij hij _ => hproductNorm ij hij⟩) :
     FirstDualOriginalWindows (hΓ := hΓ) C columns I blocks
       (fun i j => (c i * star (c j)) • archTest K A.Sf 1) radius M
       sTail sZero k Z X normBound Lmax Nsave decay where
   productExponent := productExponent
+  zeroProductExponent := sharpZeroProduct.val
+  zeroProductExponent_nonneg := sharpZeroProduct.property.1
+  zero_product_norm := sharpZeroProduct.property.2
   profileExponent := 2 * coefficientExponent
   maskExponent := maskExponent
   modulusExponent := modulusExponent
