@@ -158,7 +158,8 @@ theorem exists_paired_linear_count (F : ExplicitModelFamily c ι) :
     intro v w h
     apply Subtype.ext
     apply Subtype.ext
-    exact congrArg Subtype.val h
+    exact congrArg
+      (fun I : {I : Ideal (𝓞 K) // (I.absNorm : ℝ) ≤ X} => I.val) h
   have hc := Nat.card_le_card_of_injective f hf
   have hc' : rows.card ≤ Nat.card {I : Ideal (𝓞 K) // (I.absNorm : ℝ) ≤ X} := by
     simpa only [Nat.card_eq_fintype_card, Fintype.card_coe] using hc
