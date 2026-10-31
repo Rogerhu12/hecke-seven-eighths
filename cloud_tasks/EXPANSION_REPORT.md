@@ -121,9 +121,12 @@ ceiling = min (1/(64*(A+1))) (η/(2048*(A+1)))
 - 首个 run `41155570075` 在执行 job steps 前失败；它不是 Lean 结果。
 - run `41156938468` 的 pure job 实际编译了 68 个任务模块；当时独立复核其中 66 个与当前源码一致。实际终端 Fourier 端点和 57 份有效打印公理记录只包含标准三项。三个来自失败 annular 模块的记录明确排除。
 - run `41158889277` 的 pure job `124411822493` 又验证了固定 sector 组装、更新后的 log-profile 层与 `CanonicalCutoff`；它因新 `FiniteTerminalLabels` 的三类 Lean 接口错误失败，修复已在当前源码中。
-- run `41158889277` 的 actual job `124411822152` 因 `ExpansionDetectorInitial` 的五处 Lean 化简错误失败；已补删除系数同态的应用引理、用 `map_zero` 处理零理想并移去冗余 tactic，原定理陈述未改，当前修复尚待 CI 重验。
+- run `41158889277` 的 actual job `124411822152` 因 `ExpansionDetectorInitial` 的五处 Lean 化简错误失败；已补删除系数同态的应用引理、用 `map_zero` 处理零理想并移去冗余 tactic，原定理陈述未改，修复已在 run `41161175643` 明确重新编译通过（3.9 秒），对应当前源 SHA `cc56b060…`。
 - 本机已验证当前源码的 `DetectorHeightGeometry`、`WitnessHeightNormalization` 和 `FixedSectorParameters`；对应打印公理只有标准三项，固定 sector 的理想嵌入本身不依赖公理。
-- run `41161175643` 的 pure job `124418947565` 明确重新编译通过当前 `AnnularCutoffFamily`，三项打印公理都为标准依赖；该组仍因 `FiniteTerminalLabels` 一处 guard 化简和 `RecipeSchedule` 两处依赖索引化简失败；当前源码已修复，等待重新核验。
+- run `41161175643` 的 pure job `124418947565` 明确重新编译通过当前 `AnnularCutoffFamily`，三项打印公理都为标准依赖；该组当时因 `FiniteTerminalLabels` 一处 guard 化简和 `RecipeSchedule` 两处依赖索引化简失败；修复已由下列 checkpoint7 的完整 pure 结果重新核验。
+- run `41161175643` 的 actual 日志还明确编译通过 `CanonicalDetectorCharacters`；四个字符归约/零点转换端点的打印公理只有标准三项。该 run 整体被后续提交取消，不能报告 actual 全组通过。
+- run `41164162713` 的 pure job `124428231293` **完整成功**。`FiniteTerminalLabels`、`RecipeSchedule`、`AnnularContourDataBound` 分别明确重新编译（2.6 / 1.7 / 2.5 秒）；随后对 **1,329 个声明**执行穷尽公理审计，**非标准依赖为 0**。这是提交 `10e70e1` 的完整 pure 组结果，相关源在后续适配修复中保持相同。
+- 旧 actual 完整日志暴露的下一层错误已修复：Möbius 范数乘积的显式比较、zeta majorant 的非负性、反射定理的冗余 tactic、有限和/积分接口的 Countable 实例与平移参数、物理字符适配器的 universe/namespace，以及实际行枚举的 attach/product 成员证明。当前修复尚待实际组重验。
 - 实际 Hecke/Mellin/最终 recipe 接线仍以完成的当前-source native/CI 记录为准，不预先宣称通过。
 - 本地大型 legacy Hecke 导入曾发生持续换页：一次导入约 12 分钟、物理读取超过 200GB 而无 proof 诊断，已停止该重复检查并记录为资源取消。它既不是定理失败，也不是编译通过。实际项目链继续由真实 GitHub runner 检查。
 

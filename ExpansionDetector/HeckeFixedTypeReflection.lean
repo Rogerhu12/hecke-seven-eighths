@@ -70,7 +70,7 @@ theorem exists_fixedType_reflected_ordinary_bound
         G * (2 + |s.im|) ^ (2 * Fintype.card (InfinitePlace K)) := by
     rw [hcan, hcanD, mul_comm]
     exact hG s hs
-  have hre : (s - 1 / 2).re = -(1 / 2 - s.re) := by simp; ring
+  have hre : (s - 1 / 2).re = -(1 / 2 - s.re) := by simp
   have hnorm : ‖heckeContinuation K χ s‖ =
       (‖(canonicalHeckeGammaProfile K χ s)⁻¹ * canonicalHeckeGammaProfile K χ⁻¹ (1 - s)‖ *
         ‖heckeContinuation K χ⁻¹ (1 - s)‖) * heckeConductorScale K χ ^ (1 / 2 - s.re) := by

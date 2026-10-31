@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_utc": "2026-10-31T03:21:47.241619+00:00",
+  "generated_utc": "2026-10-31T03:27:38.245394+00:00",
   "repository": "Rogerhu12/hecke-seven-eighths",
   "pull_request_url": "https://github.com/Rogerhu12/hecke-seven-eighths/pull/5",
   "scope": "Individual source-module validation evidence; not a complete project or EXPANSION theorem certificate.",
@@ -67,13 +67,13 @@
       "skeleton": 7
     },
     "validation_counts": {
-      "unverified": 58,
-      "ci_build_pass": 46,
+      "unverified": 53,
+      "ci_build_pass": 51,
       "local_strict_pass_and_ci_build": 33
     },
-    "successful_axiom_record_count": 224,
-    "distinct_printed_axiom_declarations": 141,
-    "distinct_printed_axiom_declarations_with_current_reporting_source": 123,
+    "successful_axiom_record_count": 257,
+    "distinct_printed_axiom_declarations": 145,
+    "distinct_printed_axiom_declarations_with_current_reporting_source": 127,
     "full_current_project_build_passed": false,
     "full_current_declaration_audit_passed": false
   },
@@ -165,6 +165,50 @@
         "HeckeSkeleton/ExpansionModels/RecipeSchedule.lean"
       ],
       "full_declaration_audit": "not_executed_after_build_failure"
+    },
+    {
+      "id": "checkpoint6-actual",
+      "run_id": 41161175643,
+      "job_id": 124418947636,
+      "head_sha": "e97f6f38bff6c600ccaea8a3b254d1ab2017fd39",
+      "group": "actual",
+      "job_conclusion": "cancelled",
+      "artifact_id": 13028149105,
+      "artifact_sha256": "07ec9f08d94612a758ca3fc659d86d7fdc7f68564204c5893c98e30b78583e2c",
+      "cancellation_reason": "Superseded by checkpoint7 while compiling; already emitted Lean diagnostics and individual successful modules are retained.",
+      "project_cache_saved": false,
+      "manifest_sha256": "cc882d4ce28ce7c9154bea689b64b3f913424b768ac85a9d7e77d28f055ef7a9",
+      "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41161175643",
+      "job_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41161175643/job/124418947636",
+      "build_log_sha256": "47ed50c54b47951aedabea03a4846e5951538d3a8e8f9a2f4bec02a6929e0f22",
+      "failed_source_paths": [
+        "Expansion/FiniteTerminalLabels.lean",
+        "Expansion/PhysicalRowSupport.lean",
+        "ExpansionDetector/HeckeFixedTypeReflection.lean",
+        "ExpansionDetector/HeckeGammaDetector.lean",
+        "HeckeGeneral/Analysis/ExpansionBufferedPolynomials.lean",
+        "HeckeSkeleton/ExpansionModels/CoefficientZeroCalibration.lean",
+        "HeckeSkeleton/ExpansionModels/RecipeSchedule.lean"
+      ],
+      "full_declaration_audit": "not_executed_after_cancellation"
+    },
+    {
+      "id": "checkpoint6-skeleton",
+      "run_id": 41161175643,
+      "job_id": 124418947414,
+      "head_sha": "e97f6f38bff6c600ccaea8a3b254d1ab2017fd39",
+      "group": "skeleton",
+      "job_conclusion": "cancelled",
+      "artifact_id": 13028213842,
+      "artifact_sha256": "fd3d12b09a085238be0a845949c5151968a17a60bb64e8d36552bb4bb8954b06",
+      "cancellation_reason": "Superseded by checkpoint7 while compiling; already emitted Lean diagnostics and individual successful modules are retained.",
+      "project_cache_saved": false,
+      "manifest_sha256": "17893c3d7d1a8f6eaf913a1a4c800cb6bc283db80cc0732c497a686f4dd5f9c8",
+      "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41161175643",
+      "job_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41161175643/job/124418947414",
+      "build_log_sha256": "093740e51112a87a5dbb3f2a102de0542b7ef657f123b167515f4f48553a13a7",
+      "failed_source_paths": [],
+      "full_declaration_audit": "not_executed_after_cancellation"
     }
   ],
   "latest_ci_observation": {
@@ -274,7 +318,7 @@
     {
       "module": "Expansion.ActualPrimeContour",
       "path": "Expansion/ActualPrimeContour.lean",
-      "sha256": "413bf1996f5681452c660d168ddfccc66176bd741d0b2c2a846d617259e085ac",
+      "sha256": "8e4c8e5f89c1476d8338fb7c412c1bc93383ca7ead3693f7fc385069ce434b05",
       "group": "actual",
       "ci_evidence": [],
       "current_source_validation": "unverified",
@@ -316,6 +360,16 @@
         },
         {
           "job": "checkpoint6-pure",
+          "source_sha256": "f0eb11f389868be04168875ad66e20042fcfd99d775d4a1b3fd65fb2cf9ec16d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "f0eb11f389868be04168875ad66e20042fcfd99d775d4a1b3fd65fb2cf9ec16d",
           "source_matches_current": true,
           "lake_events": [
@@ -450,6 +504,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "52bc85bc1bcf0baa8b4fc8234536aafe907171d16e4c6ad77f5384e2c18bfd2f",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -469,9 +533,20 @@
       "path": "Expansion/CanonicalDetectorCharacters.lean",
       "sha256": "c910ad4e1de67e49aeebc1a6c33796a55feb3f4bde8c40acae568cb2d5e522c0",
       "group": "actual",
-      "ci_evidence": [],
-      "current_source_validation": "unverified",
-      "fresh_ci_compile_observed": false
+      "ci_evidence": [
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "c910ad4e1de67e49aeebc1a6c33796a55feb3f4bde8c40acae568cb2d5e522c0",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
     },
     {
       "module": "Expansion.CanonicalRowSaturation",
@@ -609,6 +684,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "3886136ed9503b3ceb8199b1213ff994c8bd9e5fa6acfe9fe9e52822e3d5c0aa",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -671,6 +756,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "28892e04de8b2d6c38b30b9575c2683370ec753c24b6c37f60c829fdc00b9270",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -714,6 +809,14 @@
         },
         {
           "job": "checkpoint6-pure",
+          "source_sha256": "381e65584e5925b2f233f2227e14327d4bf0bbd4a10a6f432625919677c2fe16",
+          "source_matches_current": false,
+          "lake_events": [],
+          "compiler_errors": true,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "381e65584e5925b2f233f2227e14327d4bf0bbd4a10a6f432625919677c2fe16",
           "source_matches_current": false,
           "lake_events": [],
@@ -916,6 +1019,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "45ddb881528db6a21eef9dcf7e41487c9dbafd2294e1fa56515b934ca18b49b1",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -1047,17 +1160,25 @@
     {
       "module": "Expansion.PhysicalRowSupport",
       "path": "Expansion/PhysicalRowSupport.lean",
-      "sha256": "aa89b66f938d5d7b2f30f3a64f70934f2783330d365c66179555ee7e79a757d6",
+      "sha256": "7c760942cfcd236df01f6388cdb2db9144e0f9662319d769abd904ed73455fa8",
       "group": "actual",
       "ci_evidence": [
         {
           "job": "checkpoint5-actual",
           "source_sha256": "aa89b66f938d5d7b2f30f3a64f70934f2783330d365c66179555ee7e79a757d6",
-          "source_matches_current": true,
+          "source_matches_current": false,
           "lake_events": [
             "Ran"
           ],
           "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "aa89b66f938d5d7b2f30f3a64f70934f2783330d365c66179555ee7e79a757d6",
+          "source_matches_current": false,
+          "lake_events": [],
+          "compiler_errors": true,
           "explicit_successful_build": false
         }
       ],
@@ -1226,6 +1347,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "64ea8254a1085ae37f1e76683c3baf082094a25f21bf07bcad839544322d05a3",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -1251,6 +1382,16 @@
       "ci_evidence": [
         {
           "job": "checkpoint2-pure",
+          "source_sha256": "899b83b2c0f2d6d93d31c239c934d84da54faf5c6262907fd8a839c51611b323",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "899b83b2c0f2d6d93d31c239c934d84da54faf5c6262907fd8a839c51611b323",
           "source_matches_current": true,
           "lake_events": [
@@ -1293,6 +1434,16 @@
         },
         {
           "job": "checkpoint6-pure",
+          "source_sha256": "070d38d0a670043b4a0185379c3c2969958dea6122bf24833c9f164c094d853e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "070d38d0a670043b4a0185379c3c2969958dea6122bf24833c9f164c094d853e",
           "source_matches_current": true,
           "lake_events": [
@@ -1350,6 +1501,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "7266f213cea6d6c48ea596fbdf63b9a2a314443ac12d011be357f16cbd5906b5",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -1385,6 +1546,16 @@
         },
         {
           "job": "checkpoint6-pure",
+          "source_sha256": "b51bd296e1b45eef5091a563f820e449ae03f6d0c9a14c4522b58309915dcbc9",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "b51bd296e1b45eef5091a563f820e449ae03f6d0c9a14c4522b58309915dcbc9",
           "source_matches_current": true,
           "lake_events": [
@@ -1429,6 +1600,16 @@
           "source_matches_current": true,
           "lake_events": [
             "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "24583d851cf7af982e51855d20526992bdaff87520f1e1f15d56d34242331eef",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
@@ -1584,6 +1765,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "ec0efe02f60a7227834a6768ae44da757162eca652010a003f92cc2bd4f63d45",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -1694,6 +1885,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "0f0cc5a020fb8e89a63362f8903df27a73dcfc7e5f05fb890dbe912f59626269",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -1774,6 +1975,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "2526f0b0ee101e267053e0415f7180e56b2d11e68bdc97284996d4b3d8f0eb30",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -1821,6 +2032,16 @@
           "source_matches_current": true,
           "lake_events": [
             "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "83c5e5946d783d01f6ef3ffa91f29d81bf1ca36bf42b7b351e31a504febbd8d0",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
@@ -1909,6 +2130,16 @@
         },
         {
           "job": "checkpoint6-pure",
+          "source_sha256": "77b151de0ceab7f4db6e278bbdbacecd615cf560c468892e8fdc23fd27bfff3d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "77b151de0ceab7f4db6e278bbdbacecd615cf560c468892e8fdc23fd27bfff3d",
           "source_matches_current": true,
           "lake_events": [
@@ -2020,6 +2251,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "f3a1198fc2cdb4dd130c3ddaa4a27a1171743564bb904b28fcc81af2ddceff29",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -2075,6 +2316,16 @@
         },
         {
           "job": "checkpoint6-pure",
+          "source_sha256": "34f0ee22a102596459abb47785037edaedd092a0438d17b729a81f99d04046ca",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "34f0ee22a102596459abb47785037edaedd092a0438d17b729a81f99d04046ca",
           "source_matches_current": true,
           "lake_events": [
@@ -2144,6 +2395,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "e6f5fb247267bdcfac2823b616a827c64ebf6f1c04f412e6b3b69523b1cb9334",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -2164,22 +2425,40 @@
     {
       "module": "ExpansionDetector.HeckeFixedTypeReflection",
       "path": "ExpansionDetector/HeckeFixedTypeReflection.lean",
-      "sha256": "806185fed0ca091525cbf6cecf7a9ec60b65e611a7ac50ddcef47b51b74222cb",
+      "sha256": "e2dbbcbc801fea47b2ee4c0c4b4209e41e641f92c34b8ce5a6a775af9f304c58",
       "group": "actual",
-      "ci_evidence": [],
+      "ci_evidence": [
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "806185fed0ca091525cbf6cecf7a9ec60b65e611a7ac50ddcef47b51b74222cb",
+          "source_matches_current": false,
+          "lake_events": [],
+          "compiler_errors": true,
+          "explicit_successful_build": false
+        }
+      ],
       "current_source_validation": "unverified",
       "fresh_ci_compile_observed": false
     },
     {
       "module": "ExpansionDetector.HeckeGammaDetector",
       "path": "ExpansionDetector/HeckeGammaDetector.lean",
-      "sha256": "538baec490a78c810f03784995ac3b36e1327957b71aa2a12eb850310af93a5d",
+      "sha256": "e086aa668e631c196b6c71ceffcbfcdb4bc82f26657d10dd0de750bd4d58c252",
       "group": "actual",
-      "ci_evidence": [],
+      "ci_evidence": [
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "538baec490a78c810f03784995ac3b36e1327957b71aa2a12eb850310af93a5d",
+          "source_matches_current": false,
+          "lake_events": [],
+          "compiler_errors": true,
+          "explicit_successful_build": false
+        }
+      ],
       "local_native": {
         "outcome": "cancelled",
         "source_sha256": "538baec490a78c810f03784995ac3b36e1327957b71aa2a12eb850310af93a5d",
-        "source_matches_current": true,
+        "source_matches_current": false,
         "exit_code": -15,
         "elapsed_seconds": 734.289,
         "completed_utc": "2026-10-31T02:21:17.037155+00:00",
@@ -2229,6 +2508,16 @@
         },
         {
           "job": "checkpoint6-pure",
+          "source_sha256": "9f66d176f0cff781eefcf2e71875bd5a017f4f044ca87e87c2db1bd9f82b3f61",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "9f66d176f0cff781eefcf2e71875bd5a017f4f044ca87e87c2db1bd9f82b3f61",
           "source_matches_current": true,
           "lake_events": [
@@ -2298,6 +2587,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "6da0bdd00db0e332cacd361b2687360cdf24dc526d58832a74c230d3110e4d87",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -2353,6 +2652,16 @@
         },
         {
           "job": "checkpoint6-pure",
+          "source_sha256": "2ee49a3adc9f74164ad934a034d5c37403368c73d0baea95d8f5e1328f31f32a",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "2ee49a3adc9f74164ad934a034d5c37403368c73d0baea95d8f5e1328f31f32a",
           "source_matches_current": true,
           "lake_events": [
@@ -2464,6 +2773,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "fb884ce445300c7450749bb98792c5b62bfd2a8a9dd1fa835e9ceae2824a7e6e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -2507,6 +2826,16 @@
         },
         {
           "job": "checkpoint6-pure",
+          "source_sha256": "3021ed2f4c72ca5ebba7623239505cfbe7b87d09bff8c82a8f8ffe0b14a54f62",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "3021ed2f4c72ca5ebba7623239505cfbe7b87d09bff8c82a8f8ffe0b14a54f62",
           "source_matches_current": true,
           "lake_events": [
@@ -2636,6 +2965,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "c6190f86cfaa38e4b1e869962d4cd4ddefaee36f4468917b41f79530772d2c61",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -2661,6 +3000,16 @@
       "ci_evidence": [
         {
           "job": "checkpoint2-pure",
+          "source_sha256": "c865ebcc2954afde38a2ed942b0bf44bfd758ba4819c7f37e287a2c65e3158a3",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "c865ebcc2954afde38a2ed942b0bf44bfd758ba4819c7f37e287a2c65e3158a3",
           "source_matches_current": true,
           "lake_events": [
@@ -2810,6 +3159,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "fb4ad718c2df49ae582608d40d45be2de4ce86a3457cb06f70dd8ecb00be02c5",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -2849,6 +3208,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "f48ae45e0b338b5ccf478147c94efe10175cd9bf5fe9f49e167494a383355ab0",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -2862,6 +3231,16 @@
       "ci_evidence": [
         {
           "job": "checkpoint6-pure",
+          "source_sha256": "3988372ad92c139223d3c1e3b997f56cd568b7339c8a192d91a94f34a88aac7d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "3988372ad92c139223d3c1e3b997f56cd568b7339c8a192d91a94f34a88aac7d",
           "source_matches_current": true,
           "lake_events": [
@@ -2919,6 +3298,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "f2c958f3b8af1c68a8648193bafe55c2b80a955df594281173b0d425ff1d22bb",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -2969,6 +3358,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "1a13bc6a1913b07c140362158e191e4651e339d2c690202c2727eae3b4be2fd6",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -3016,6 +3415,16 @@
           "source_matches_current": true,
           "lake_events": [
             "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "61627a285dbe597fc15b0f6efaad7b1bc5e3da1f469bec2dc6201039a21e148d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
@@ -3303,6 +3712,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "a52681bd30d1e18c7c20b32165ddf11136870f357a21f267502caffb13f95331",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -3365,6 +3784,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "a8330e7066ff7a3b3c53f9b4e8b6d6af137041a29cb6b0dab5d1bd31b3123610",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -3424,6 +3853,16 @@
           "source_matches_current": true,
           "lake_events": [
             "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "850472edc58e3fd80b9ea43cb9dd406549ab250be2e0d714404c43e51995d506",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
@@ -3524,16 +3963,25 @@
     {
       "module": "HeckeGeneral.Analysis.ExpansionBufferedPolynomials",
       "path": "HeckeGeneral/Analysis/ExpansionBufferedPolynomials.lean",
-      "sha256": "e62e0fd66087747c223abe7a9bbc46e192a59d335a60d0f2386573b48e32e3f5",
+      "sha256": "990393938a802a3687327112d1c3225a143beeaf07da2bb3965a38be9510540e",
       "group": "actual",
-      "ci_evidence": [],
+      "ci_evidence": [
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "e62e0fd66087747c223abe7a9bbc46e192a59d335a60d0f2386573b48e32e3f5",
+          "source_matches_current": false,
+          "lake_events": [],
+          "compiler_errors": true,
+          "explicit_successful_build": false
+        }
+      ],
       "current_source_validation": "unverified",
       "fresh_ci_compile_observed": false
     },
     {
       "module": "HeckeGeneral.Analysis.ExpansionCutoffPolynomials",
       "path": "HeckeGeneral/Analysis/ExpansionCutoffPolynomials.lean",
-      "sha256": "c6f26b97a38b3d86b5d96d96b200a47f8dfeba98014239886271a40b10b268d7",
+      "sha256": "1a18ed5f69cee208bfb69bc63b4a070458ef348953015855cae6688880f07bf9",
       "group": "actual",
       "ci_evidence": [],
       "current_source_validation": "unverified",
@@ -3544,9 +3992,20 @@
       "path": "HeckeGeneral/Analysis/ExpansionDeletedControl.lean",
       "sha256": "888aab27a88299ef4372e2955385d78d6bb31be5fc822926e1a3fc11847b8cf3",
       "group": "actual",
-      "ci_evidence": [],
-      "current_source_validation": "unverified",
-      "fresh_ci_compile_observed": false
+      "ci_evidence": [
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "888aab27a88299ef4372e2955385d78d6bb31be5fc822926e1a3fc11847b8cf3",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
     },
     {
       "module": "HeckeGeneral.Analysis.ExpansionDetectorInitial",
@@ -3561,10 +4020,20 @@
           "lake_events": [],
           "compiler_errors": true,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "cc56b060ccfa4ea41bd1341306baea84708417288bcae5cd28738a33c5ed8592",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
-      "current_source_validation": "unverified",
-      "fresh_ci_compile_observed": false
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
     },
     {
       "module": "HeckeGeneral.Analysis.ExpansionPolynomialSupport",
@@ -3578,7 +4047,7 @@
     {
       "module": "HeckeGeneral.Analysis.ExpansionReflectedPolynomials",
       "path": "HeckeGeneral/Analysis/ExpansionReflectedPolynomials.lean",
-      "sha256": "b9ca9160506e359fe8e0d9323872c998bb6516ae55c1dae6cd6a59833dfd383f",
+      "sha256": "5b995df09f1450510dfb5fd73113aa1d6accd3c953fc7e7fb6d163a45c4debcb",
       "group": "actual",
       "ci_evidence": [],
       "current_source_validation": "unverified",
@@ -3618,9 +4087,20 @@
       "path": "HeckeGeneral/Analysis/TInputRanges.lean",
       "sha256": "0d48b5cdfa5e1b69de4ed53c617ae616c98573d30139a9d6f55f031e65aca45e",
       "group": "actual",
-      "ci_evidence": [],
-      "current_source_validation": "unverified",
-      "fresh_ci_compile_observed": false
+      "ci_evidence": [
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "0d48b5cdfa5e1b69de4ed53c617ae616c98573d30139a9d6f55f031e65aca45e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
     },
     {
       "module": "HeckeSkeleton.Base",
@@ -3652,9 +4132,18 @@
     {
       "module": "HeckeSkeleton.ExpansionModels.CoefficientZeroCalibration",
       "path": "HeckeSkeleton/ExpansionModels/CoefficientZeroCalibration.lean",
-      "sha256": "f3897241628e9ac988e6b1c2b1c988281a5b789e7d425392a4576a73f3e2615c",
+      "sha256": "2633db99fcb1b67fd076d674763cde6826af572e2872c54d40345ac09c7640f3",
       "group": "actual",
-      "ci_evidence": [],
+      "ci_evidence": [
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "f3897241628e9ac988e6b1c2b1c988281a5b789e7d425392a4576a73f3e2615c",
+          "source_matches_current": false,
+          "lake_events": [],
+          "compiler_errors": true,
+          "explicit_successful_build": false
+        }
+      ],
       "current_source_validation": "unverified",
       "fresh_ci_compile_observed": false
     },
@@ -3735,6 +4224,16 @@
         },
         {
           "job": "checkpoint6-pure",
+          "source_sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
           "source_matches_current": true,
           "lake_events": [
@@ -3831,6 +4330,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -3913,6 +4422,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -3975,6 +4494,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -4010,6 +4539,16 @@
         },
         {
           "job": "checkpoint6-pure",
+          "source_sha256": "dad20d5d44d14a927614bfa325ddc65a9d6694323db470c2b541e1d053c37ace",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "dad20d5d44d14a927614bfa325ddc65a9d6694323db470c2b541e1d053c37ace",
           "source_matches_current": true,
           "lake_events": [
@@ -4071,6 +4610,14 @@
           "lake_events": [],
           "compiler_errors": true,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "78f5a169924cb2e09bb8c03b601620e5d03de5df92c13a148ed3c60232dabf60",
+          "source_matches_current": false,
+          "lake_events": [],
+          "compiler_errors": true,
+          "explicit_successful_build": false
         }
       ],
       "local_native": {
@@ -4121,6 +4668,16 @@
           "source_matches_current": true,
           "lake_events": [
             "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
@@ -4205,9 +4762,20 @@
       "path": "HeckeSkeleton/ExpansionModels/SharedWitnessRecipe.lean",
       "sha256": "78011ed1fb6076260b23abae7dc22ab40c34686ec032a9e5e39e2b7a83d9d611",
       "group": "actual",
-      "ci_evidence": [],
-      "current_source_validation": "unverified",
-      "fresh_ci_compile_observed": false
+      "ci_evidence": [
+        {
+          "job": "checkpoint6-actual",
+          "source_sha256": "78011ed1fb6076260b23abae7dc22ab40c34686ec032a9e5e39e2b7a83d9d611",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
     },
     {
       "module": "HeckeSkeleton.ExpansionModels.SourceMomentModels",
@@ -4264,6 +4832,16 @@
         },
         {
           "job": "checkpoint6-pure",
+          "source_sha256": "31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-actual",
           "source_sha256": "31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520",
           "source_matches_current": true,
           "lake_events": [
@@ -6932,6 +7510,435 @@
       "reporting_source_sha256": "31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520",
       "reporting_source_matches_current": true,
       "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.scaled_derivatives_of_decay",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.logSource_uniform_derivatives",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.logSource_uniform_seminorm",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.fourier_seminorm_le",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_fourier_moment",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_fourier_tail",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.logSource_cutoff_extension",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.CutoffLogProfile",
+      "reporting_source_sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_cutoff_fourier_moment",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.CutoffLogProfile",
+      "reporting_source_sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_cutoff_fourier_tail",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.CutoffLogProfile",
+      "reporting_source_sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.compact_exp_twist_uniform_seminorm",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogTwistedProfiles",
+      "reporting_source_sha256": "dad20d5d44d14a927614bfa325ddc65a9d6694323db470c2b541e1d053c37ace",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.compact_real_exp_twist_uniform_fourier_decay",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogTwistedProfiles",
+      "reporting_source_sha256": "dad20d5d44d14a927614bfa325ddc65a9d6694323db470c2b541e1d053c37ace",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_uniform_strip_decay",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AnnularCutoffFamily",
+      "reporting_source_sha256": "3988372ad92c139223d3c1e3b997f56cd568b7339c8a192d91a94f34a88aac7d",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_uniform_contour_data",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AnnularCutoffFamily",
+      "reporting_source_sha256": "3988372ad92c139223d3c1e3b997f56cd568b7339c8a192d91a94f34a88aac7d",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.annular_cutoff_polynomial_uniform_upper",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AnnularCutoffFamily",
+      "reporting_source_sha256": "3988372ad92c139223d3c1e3b997f56cd568b7339c8a192d91a94f34a88aac7d",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.sourceHeightVector_norm_eq",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.WitnessHeightNormalization",
+      "reporting_source_sha256": "31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.normalizedImaginaryParameters_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.WitnessHeightNormalization",
+      "reporting_source_sha256": "31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.cutoffProfile_smooth",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.CanonicalCutoff",
+      "reporting_source_sha256": "52bc85bc1bcf0baa8b4fc8234536aafe907171d16e4c6ad77f5384e2c18bfd2f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.cutoffProfile_complement_norm_le",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.CanonicalCutoff",
+      "reporting_source_sha256": "52bc85bc1bcf0baa8b4fc8234536aafe907171d16e4c6ad77f5384e2c18bfd2f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.SharedRecipe.calibration",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.ScaleRecipe.unmarked_coherence",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.SharedRecipe.row_local",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_row_parameters",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_bounded_witness_parameters",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.SharedRecipe.paired_integrand",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.FinitePolynomial.value_eq_of_eq_on_live_support",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.fixedSectorParameterMap_exact",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.fixedSectorParameterMap_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_fixed_sector_parameters",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_fixed_sector_witnesses",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Project.canonicalDetectorPresentation",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.CanonicalDetectorCharacters",
+      "reporting_source_sha256": "c910ad4e1de67e49aeebc1a6c33796a55feb3f4bde8c40acae568cb2d5e522c0",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Project.canonicalDetectorPresentation_characters",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.CanonicalDetectorCharacters",
+      "reporting_source_sha256": "c910ad4e1de67e49aeebc1a6c33796a55feb3f4bde8c40acae568cb2d5e522c0",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Project.exists_canonicalDetector_zero",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.CanonicalDetectorCharacters",
+      "reporting_source_sha256": "c910ad4e1de67e49aeebc1a6c33796a55feb3f4bde8c40acae568cb2d5e522c0",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Project.canonicalDetector_zero_upper",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.CanonicalDetectorCharacters",
+      "reporting_source_sha256": "c910ad4e1de67e49aeebc1a6c33796a55feb3f4bde8c40acae568cb2d5e522c0",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-actual",
       "kind": "successful_module_print_axioms"
     },
     {

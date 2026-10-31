@@ -41,7 +41,7 @@ theorem mem_frequencyRows_iff (U : ℝ) (hU : 0 ≤ U) (u : FrequencyRow K S) :
       linarith
     apply Finset.mem_image.mpr
     refine ⟨(⟨u.ideal.val, hI⟩, u.sector), ?_, ?_⟩
-    · simp
+    · exact Finset.mem_product.mpr ⟨Finset.mem_attach _ _, Finset.mem_univ _⟩
     · rfl
 
 end Expansion.Project

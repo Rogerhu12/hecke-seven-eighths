@@ -83,7 +83,7 @@ theorem exists_actual_primePower_bound_of_contour_data
     intro z hz
     calc
       |(s + z).im| = |ν + z.im| := by simp only [s, Complex.add_im, vertical_im]
-      _ ≤ |ν| + |z.im| := abs_add _ _
+      _ ≤ |ν| + |z.im| := abs_add_le _ _
       _ ≤ |ν| + H := add_le_add_left hz.2.2 _
   have hnonzero : ∀ z ∈ closedRectangle (β + δ) 2 H,
       heckeContinuation K χ (s + z) ≠ 0 := by
@@ -99,7 +99,7 @@ theorem exists_actual_primePower_bound_of_contour_data
     have ha := (differentiable_heckeContinuation_of_nonNorm K χ hχ).analyticAt (s + z)
     have hd : DifferentiableAt ℂ (actualPrimeLogFunction K χ) (s + z) :=
       (ha.deriv.neg.div ha (hnonzero z hz)).differentiableAt
-    exact (hd.comp z (differentiableAt_const.add differentiableAt_id)).differentiableWithinAt
+    exact (hd.comp z ((differentiableAt_const s).add differentiableAt_id)).differentiableWithinAt
   have hLrect : ∀ z ∈ closedRectangle (β + δ) 2 H,
       ‖actualPrimeLogFunction K χ (s + z)‖ ≤ M := by
     intro z hz

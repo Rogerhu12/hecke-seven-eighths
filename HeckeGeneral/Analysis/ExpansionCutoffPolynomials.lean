@@ -65,7 +65,7 @@ theorem exists_actual_buffered_cutoff_annular_upper
       linarith [hz.1]
     · simp only [Complex.add_re]
       linarith [hz.2.1]
-    · exact (abs_add s.im z.im).trans (add_le_add_left hz.2.2 _)
+    · exact (abs_add_le s.im z.im).trans (add_le_add_left hz.2.2 _)
   have hleft : ∀ t : ℝ, |t| ≤ H →
       ‖deletedFunction K reciprocal χ E (s + vertical (a + 6 * e - s.re) t)‖ ≤ B := by
     intro t ht
@@ -74,7 +74,8 @@ theorem exists_actual_buffered_cutoff_annular_upper
     exact ⟨le_rfl, by linarith, ht⟩
   have hsum : Summable (fun J => ‖deletedAnnularCoefficient K reciprocal χ E J‖ *
       idealNorm K J ^ (-(s.re + (2 - s.re)))) := by
-    convert deletedAnnularCoefficient_summable K reciprocal χ E (σ := 2) (by norm_num) using 1 <;> ring
+    simpa only [show s.re + (2 - s.re) = (2 : ℝ) by ring] using
+      (deletedAnnularCoefficient_summable K reciprocal χ E (σ := 2) (by norm_num))
   have hline : ∀ t : ℝ, deletedFunction K reciprocal χ E (s + vertical (2 - s.re) t) =
       ExpansionInterfaces.Mellin.dirichletSeries (deletedAnnularCoefficient K reciprocal χ E)
         (idealNorm K) (s + vertical (2 - s.re) t) := by
@@ -84,19 +85,22 @@ theorem exists_actual_buffered_cutoff_annular_upper
     linarith
   have hb := annular_cutoff_polynomial_uniform_upper W V hV hone hzero (-2) 2 order R hR
     (deletedAnnularCoefficient K reciprocal χ E) (idealNorm K) (idealNorm_pos K)
-    (deletedFunction K reciprocal χ E) s hX (by linarith) (by linarith) (by linarith) hH
+    (deletedFunction K reciprocal χ E) s (X := X) (a := a + 6 * e - s.re)
+    (b := 2 - s.re) (H := H) (Mleft := B) (M := B)
+    hX (by linarith) (by linarith) (by linarith) hH
     hB hB hsum hline
     (deletedFunction_rectangle_differentiable K reciprocal χ E hχ ha he s
       (by linarith) hupper) hrect hleft S hS
   have hmass : (∑' J, ‖deletedAnnularCoefficient K reciprocal χ E J‖ *
       idealNorm K J ^ (-(s.re + (2 - s.re)))) ≤ initialMass K := by
-    convert deleted_initial_mass_le K reciprocal χ E using 1 <;> ring
+    simpa only [show s.re + (2 - s.re) = (2 : ℝ) by ring] using
+      (deleted_initial_mass_le K reciprocal χ E)
   have hCW : 0 ≤ CW := (W.cutoffContourConstant_spec V hV hone hzero (-2) 2 order).1
   dsimp only at hb ⊢
   apply hb.trans
   apply mul_le_mul_of_nonneg_left _ (by positivity : 0 ≤ 1 / (2 * Real.pi))
   have htail := mul_le_mul_of_nonneg_right
-    (mul_le_mul_of_nonneg_right hmass (Real.rpow_nonneg (zero_le_one.trans hX) _))
+    (mul_le_mul_of_nonneg_right hmass (Real.rpow_nonneg (zero_le_one.trans hX) (2 - s.re)))
     (div_nonneg hCW (pow_nonneg hH.le order))
   have hwidth : (2 - s.re) - (a + 6 * e - s.re) = 2 - a - 6 * e := by ring
   rw [hwidth]

@@ -23,6 +23,8 @@ open NumberField IsDedekindDomain UniqueFactorizationMonoid
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open scoped Classical ComplexConjugate nonZeroDivisors
 
+section Coefficients
+
 variable (K : Type*) [Field K] [NumberField K]
 
 /-- The inverse of a ramified zero is again zero. -/
@@ -146,8 +148,12 @@ theorem unramified_at_divisors_of_coefficient_ne_zero
     primeCoefficient_of_ramified K χ p hram, zero_mul] at hI
   exact hI rfl
 
-open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
+end Coefficients
 
+open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
+open HeckeGeneral.ThetaSkeleton.Physical
+
+variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 variable (P : ProbeData K S) (R : RowCharacterInput K S P)
 
@@ -199,3 +205,6 @@ theorem masked_background_signed_coefficient
   · simp [completeIdealCommonMask, h]
 
 end HeckeGeneral.Analysis.ExpansionRecipe
+
+#print axioms HeckeGeneral.Analysis.ExpansionRecipe.rowCharacter_unramified_on_masked_divisors
+#print axioms HeckeGeneral.Analysis.ExpansionRecipe.masked_background_signed_coefficient

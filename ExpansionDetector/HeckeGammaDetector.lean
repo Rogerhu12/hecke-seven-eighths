@@ -83,13 +83,14 @@ lemma inverseCoefficient_norm (χ : HeckeCharacter K) (V : ℝ → ℂ)
     ‖inverseCoefficient K χ V D I‖ ≤ 1 := by
   unfold inverseCoefficient
   rw [norm_mul, norm_mul]
+  have hpair : ‖(moebius I.val : ℂ)‖ * ‖heckeIdealCoefficient K χ I‖ ≤ 1 := by
+    calc
+      _ ≤ 1 * 1 := mul_le_mul (IdealMobiusReciprocal.norm_moebius_le_one K I)
+        (norm_heckeIdealCoefficient_le_one K χ I) (norm_nonneg _) (by norm_num)
+      _ = 1 := one_mul 1
   calc
-    _ ≤ 1 * 1 * 1 := by
-      gcongr
-      · exact IdealMobiusReciprocal.norm_moebius_le_one K I
-      · exact norm_heckeIdealCoefficient_le_one K χ I
-      · exact hV _
-    _ = 1 := by ring
+    _ ≤ 1 * 1 := mul_le_mul hpair (hV _) (norm_nonneg _) (by norm_num)
+    _ = 1 := one_mul 1
 
 /-- A genuine family-uniform zero-to-small-integral theorem. The support S
 may be any finite subset below 2D; the later exact convolution uses the full
@@ -113,7 +114,9 @@ theorem exists_actual_gamma_detector_bound
   have hA : 0 ≤ heightDegree K := by dsimp [heightDegree]; positivity
   obtain ⟨G, hG, hGbound⟩ := ExpansionDetector.Analytic.gammaDetector_power_bound (heightDegree K) hA
   let CZ : ℝ := 1 + ∑' I : NonzeroIdeal K, idealNorm K I ^ (-2 : ℝ)
-  have hCZ : 0 < CZ := by dsimp [CZ]; positivity
+  have hZnonneg : 0 ≤ ∑' I : NonzeroIdeal K, idealNorm K I ^ (-2 : ℝ) :=
+    tsum_nonneg fun I => Real.rpow_nonneg (idealNorm_pos K I).le _
+  have hCZ : 0 < CZ := by dsimp [CZ]; linarith
   have hzeta := summable_nonzeroIdeal_norm_rpow K (σ := 2) (by norm_num)
   refine ⟨4 * G * CL * CZ, by positivity, ?_⟩
   intro χ U D hχ hτ hm hU hD hDU hQ V hV S hS ρ hβ hβ' hz
@@ -127,7 +130,6 @@ theorem exists_actual_gamma_detector_bound
     (fun I hI => ⟨one_le_idealNorm K I, hS I hI⟩)
     (fun I _ => inverseCoefficient_norm K χ V hV D I) hsum
     (hLbound χ U hχ hτ hm (by linarith) hQ)
-  norm_num only [show (5 / 8 - 7 : ℝ) = -51 / 8 by norm_num] at h
-  exact h
+  simpa only [show (5 / 8 - 7 : ℝ) = -51 / 8 by norm_num] using h
 
 end ExpansionDetector.Hecke
