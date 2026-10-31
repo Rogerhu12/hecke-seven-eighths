@@ -1,0 +1,67 @@
+{
+  "verification_kind": "Native per-module compilation of the unchanged original GlobalEmbedding source",
+  "scope": "One actual ThetaGlobal module; the five-target entry gate and downstream project interfaces are outside this result",
+  "compile_result": {
+    "target": "ThetaGlobal.GlobalEmbedding",
+    "source": "/workspace/scratch/33bdfea70edd/repo/ThetaGlobal/GlobalEmbedding.lean",
+    "source_sha256_before": "42d71b175d8208d4e4c072f5d6b3d098a16259ca5e932e0bcbb206ee091b246f",
+    "command": [
+      "/workspace/scratch/33bdfea70edd/runtime/bin/lean",
+      "-j1",
+      "-M2048",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false",
+      "-R",
+      "/workspace/scratch/33bdfea70edd/repo",
+      "-o",
+      "/workspace/scratch/33bdfea70edd/finite-shell-native-check/out/ThetaGlobal/GlobalEmbedding.olean",
+      "/workspace/scratch/33bdfea70edd/repo/ThetaGlobal/GlobalEmbedding.lean"
+    ],
+    "LEAN_PATH": "/workspace/scratch/33bdfea70edd/finite-shell-native-check/out:/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2:/tmp/prime_cancellation_runtime_435/lean-4.35.0-rc3-linux/lib/lean:/tmp/prime_cancellation_resume_native_out_049:/workspace/scratch/ade19eee59ac/low_energy/repo_build/.lake/build/lib/lean:/workspace/scratch/ecb249569875/verification/out:/tmp/prime_cancellation_cloud_native_984/.lake/build/lib/lean:/workspace/scratch/db66a2660cb2/repo:/workspace/scratch/db66a2660cb2/repo/.lake/build/lib/lean:/workspace/scratch/db66a2660cb2/verification/project_build:/tmp/prime_cancellation_runtime_435/mathlib4-0493595ecd5da8ef14742febab99728f98e948e8/.lake/build/lib/lean:/tmp/prime_cancellation_runtime_435/mathlib4-0493595ecd5da8ef14742febab99728f98e948e8/.lake/packages/plausible/.lake/build/lib/lean:/tmp/prime_cancellation_runtime_435/mathlib4-0493595ecd5da8ef14742febab99728f98e948e8/.lake/packages/aesop/.lake/build/lib/lean:/tmp/prime_cancellation_runtime_435/mathlib4-0493595ecd5da8ef14742febab99728f98e948e8/.lake/packages/Cli/.lake/build/lib/lean:/tmp/prime_cancellation_runtime_435/mathlib4-0493595ecd5da8ef14742febab99728f98e948e8/.lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/prime_cancellation_runtime_435/mathlib4-0493595ecd5da8ef14742febab99728f98e948e8/.lake/packages/importGraph/.lake/build/lib/lean:/tmp/prime_cancellation_runtime_435/mathlib4-0493595ecd5da8ef14742febab99728f98e948e8/.lake/packages/batteries/.lake/build/lib/lean:/tmp/prime_cancellation_runtime_435/mathlib4-0493595ecd5da8ef14742febab99728f98e948e8/.lake/packages/Qq/.lake/build/lib/lean:/tmp/prime_cancellation_runtime_435/mathlib4-0493595ecd5da8ef14742febab99728f98e948e8/.lake/packages/LeanSearchClient/.lake/build/lib/lean",
+    "started_utc": "2026-10-31T02:49:59.696843+00:00",
+    "compiler": "Lean 4.35.0-rc3, 470d5ce1400764999581fd26d5d72b00d990b0f4",
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "dependency_preflight": "interface-full-dependency-preflight.json",
+    "dependency_modules": 4942,
+    "required_artifacts_missing": 0,
+    "compiler_headers_verified": 4942,
+    "proof_audit_note": "Compile exact unchanged original module; this source does not include #print axioms commands, so native compilation success alone is not an axiom-list report.",
+    "pid": 348110,
+    "exit_code": 0,
+    "seconds": 676.277,
+    "finished_utc": "2026-10-31T03:01:15.974245+00:00",
+    "source_sha256_after": "42d71b175d8208d4e4c072f5d6b3d098a16259ca5e932e0bcbb206ee091b246f",
+    "source_unchanged": true,
+    "log_sha256": "bee5fe3500a25838d46ea18a22de0953bff9a75f1eac0603cc653745cd34164f",
+    "output_artifact_sha256": "fba6cf7c87758457635a918b5a187c3006775c27b4406ab3232a6df1b6340738"
+  },
+  "dependency_provenance": {
+    "dependency_modules": 4942,
+    "compiler_headers_verified": 4942,
+    "required_artifact_parts_missing_at_launch": 0,
+    "source_roots_pinned_to": {
+      "lean": "4.35.0-rc3",
+      "lean_commit": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+      "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8"
+    },
+    "cached_dependencies": "Existing native Mathlib and Lean artifacts, selected by the actual LEAN_PATH recorded in compile_result and successfully imported by this Lean invocation",
+    "limit": "This run did not rebuild cached dependencies or freshly compare every dependency source SHA to every artifact byte SHA. Header/required-companion preflight and successful native loading are the recorded dependency checks. The later mutable interface preflight is not an immutable description of this invocation."
+  },
+  "axiom_report": {
+    "performed": false,
+    "reason": "The original source contains no #print axioms commands; the native run compiled it unchanged without appending audit commands."
+  },
+  "warnings": [
+    {
+      "kind": "linter.unusedSectionVars",
+      "declaration": "ThetaGlobal.GlobalEmbedding.sixthRoot_exponent",
+      "variable": "[NumberField F]"
+    }
+  ],
+  "archive_validation": {
+    "current_source_matches_native_result": true,
+    "log_hash_matches": true,
+    "output_artifact_hash_matches": true
+  },
+  "archived_log": "verification/theta_global/native_global_embedding_20261031.log"
+}

@@ -1,0 +1,7 @@
+{
+  "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
+  "lean_commit_expected": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+  "mathlib_manifest_rev": "0493595ecd5da8ef14742febab99728f98e948e8",
+  "mathlib_config_rev": "0493595ecd5da8ef14742febab99728f98e948e8",
+  "errors": []
+}
