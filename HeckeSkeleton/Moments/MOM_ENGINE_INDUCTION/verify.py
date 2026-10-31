@@ -108,6 +108,9 @@ MODULES = (
     'MellinPreprocessing',
     'RankedAnnulus',
     'RankedAnnulusPrimitive',
+    'RankedAnnulusReflectionAssembly',
+    'RecipeRankedAnnulusReflection',
+    'MellinStrictTransfer',
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.

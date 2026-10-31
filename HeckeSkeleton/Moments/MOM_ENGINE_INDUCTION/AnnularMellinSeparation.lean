@@ -47,15 +47,17 @@ def annularPlateau (a b : ℝ) (ha : 0 < a) (hab : a ≤ b) : SmoothAnnularTest 
         have hd : 2 * y / a ≤ 1 :=
           (div_le_one ha).2 (by linarith)
         linarith
-      exact hy (by rw [Real.smoothTransition.zero_of_nonpos hz, zero_mul,
-        Complex.ofReal_zero])
+      exact hy (by
+        dsimp only
+        rw [Real.smoothTransition.zero_of_nonpos hz, zero_mul, Complex.ofReal_zero])
     · by_contra h
       have hz : 2 - y / b ≤ 0 := by
         have hd : 2 ≤ y / b :=
           (le_div_iff₀ hb).2 (by linarith)
         linarith
-      exact hy (by rw [Real.smoothTransition.zero_of_nonpos hz, mul_zero,
-        Complex.ofReal_zero])
+      exact hy (by
+        dsimp only
+        rw [Real.smoothTransition.zero_of_nonpos hz, mul_zero, Complex.ofReal_zero])
 
 theorem annularPlateau_eq_one (a b : ℝ) (ha : 0 < a) (hab : a ≤ b)
     {y : ℝ} (hy : y ∈ Icc a b) : (annularPlateau a b ha hab).toFun y = 1 := by
@@ -86,8 +88,12 @@ theorem annularMellinWindow_norm (B : SmoothAnnularTest) (frequency y : ℝ) :
 theorem annularMellinWindow_support (B : SmoothAnnularTest) (frequency : ℝ) :
     Function.support (annularMellinWindow B frequency) = Function.support B.toFun := by
   ext y
-  simp only [Function.mem_support, annularMellinWindow, mul_ne_zero_iff,
-    profilePower_ne_zero, and_true]
+  change (B.toFun y * profilePower (-idealVerticalPoint 0 frequency) y ≠ 0) ↔
+    B.toFun y ≠ 0
+  constructor
+  · exact left_ne_zero_of_mul
+  · intro hy
+    exact mul_ne_zero hy (profilePower_ne_zero _ _)
 
 theorem annularMellinWindow_smooth (B : SmoothAnnularTest) (frequency : ℝ) :
     ContDiff ℝ ∞ (annularMellinWindow B frequency) := by
@@ -190,7 +196,7 @@ theorem integrable_annularMellinCoefficient_window (B V : SmoothAnnularTest) (y 
     ((continuous_annularMellinCoefficient V).mul
       (continuous_annularMellinWindow B y)).aestronglyMeasurable
   exact Filter.Eventually.of_forall fun frequency => by
-    simpa only [norm_mul, annularMellinWindow_norm, mul_comm] using
+    simpa only [Pi.mul_apply, norm_mul, annularMellinWindow_norm, mul_comm] using
       (le_refl (‖B.toFun y‖ * ‖annularMellinCoefficient V frequency‖))
 
 /-- Pointwise inversion for all real arguments.  Only a real cutoff

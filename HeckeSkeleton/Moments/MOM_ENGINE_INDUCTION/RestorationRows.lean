@@ -121,7 +121,7 @@ private theorem rawRestorationBound_uniform
   let C : ℝ := ∑ i : Fin 3 × Bool, constant i
   have hc : 0 ≤ C := Finset.sum_nonneg (fun i _ => hconstant i)
   have hi (i : Fin 3 × Bool) : RawRestorationBound K (background i.1) i.2 δ A ε L C := by
-    apply (hbound i).mono (hconstant i)
+    apply RawRestorationBound.mono K (hbound i) (hconstant i)
     · exact Finset.single_le_sum (fun _ _ => Nat.zero_le _) (Finset.mem_univ i)
     · exact Finset.single_le_sum (fun k _ => hconstant k) (Finset.mem_univ i)
   refine ⟨L, C, hc, ?_⟩

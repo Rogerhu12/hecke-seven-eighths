@@ -74,7 +74,7 @@ theorem fixedLineCoefficient_integrable (μ : Measure Ω)
   by_cases h : line = selected
   · subst line
     simpa [fixedLineCoefficient] using hi
-  · simpa only [fixedLineCoefficient, if_neg h, zero_mul] using
+  · simpa only [fixedLineCoefficient, if_neg h, zero_mul] using!
       (integrable_zero Ω ℂ μ)
 
 /-- Sum over both fixed lines recovers the selected original integral

@@ -115,6 +115,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinSeparationMass
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinPreprocessing
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulus
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusPrimitive
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusReflectionAssembly
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRankedAnnulusReflection
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinStrictTransfer
 
 #print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt
 #print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.changeSchedule
@@ -382,10 +385,13 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusPrimitive
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.RecipeLocalCertificate.toRootCertificate
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.RecipeLocalInput
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.RecipeLocalInput.toParentReductionInput
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.RecipeRankedAnnulusReflectionFamilyData
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.RecipeRankedAnnulusReflectionRootData
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.RecipeReflectionFamilyData
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.RecipeReflectionRootData
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.RecipeReflectionRootData.label
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.RecipeReflectionRootData.label_eq
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.RecipeReflectionRootData.withRankedAnnulus
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentIndexFor
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentIndexFor.noSlots
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentModelsFor
@@ -416,6 +422,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusPrimitive
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeInductionSigma
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeInductionTerminalLoss
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeInduction_budget
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeRankedAnnulusReflectionFamily_preparation
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeRankedAnnulusReflectionPrimitive
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeRankedAnnulusReflectionSystem
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeReflectionFamily_preparation
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeReflectionPrimitive
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeReflectionRoot_preparation
@@ -618,6 +627,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusPrimitive
 #print axioms HeckeSkeleton.Moments.EngineInduction.differentiableAt_ordinaryGammaRatio
 #print axioms HeckeSkeleton.Moments.EngineInduction.dyadic_row_width_bounds
 #print axioms HeckeSkeleton.Moments.EngineInduction.engineOutputToBranchedAt
+#print axioms HeckeSkeleton.Moments.EngineInduction.engineOutput_bound_of_children
 #print axioms HeckeSkeleton.Moments.EngineInduction.engineOutput_linearized_terminals
 #print axioms HeckeSkeleton.Moments.EngineInduction.engineOutput_zero_parameters
 #print axioms HeckeSkeleton.Moments.EngineInduction.engineOutputsToBranchedStep
@@ -630,6 +640,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusPrimitive
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_annular_schwartz_finset_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_annular_schwartz_seminorm_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_centeredMellin_preprocessing
+#print axioms HeckeSkeleton.Moments.EngineInduction.exists_centeredMellin_strict_transfer
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_coarse_loss_parameters
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_fine_loss_parameters
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_normalizedMellinPlain_control
@@ -1188,6 +1199,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusPrimitive
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniform_ordinaryReflection_production
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniform_polynomial_height_base_branch
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniform_polynomial_height_base_components
+#print axioms HeckeSkeleton.Moments.EngineInduction.uniform_rankedAnnulusReflection_branches
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniform_rankedReflection_branches
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniform_ranked_profile_base_components
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniform_rowRestorationEnergy_terminal
