@@ -154,7 +154,10 @@ def main() -> None:
     if args.plan:
         print(json.dumps(manifest, indent=2))
         return
-    command(["lake", "--fail-fast", "build", *[f"+{m}:olean" for m in selected]],
+    # Finish independent modules after an error so a single proof failure
+    # does not discard unrelated diagnostics or reusable compilation work.
+    # Lake still exits nonzero on any required failure; the audit stays gated.
+    command(["lake", "build", *[f"+{m}:olean" for m in selected]],
             OUT / f"{args.group}-build.log")
     command(["lake", "env", "lean", str(audit.relative_to(ROOT))],
             OUT / f"{args.group}-axioms.log")

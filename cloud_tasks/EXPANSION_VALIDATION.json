@@ -1,0 +1,4747 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-31T02:41:17.954378+00:00",
+  "repository": "Rogerhu12/hecke-seven-eighths",
+  "pull_request_url": "https://github.com/Rogerhu12/hecke-seven-eighths/pull/5",
+  "scope": "Individual source-module validation evidence; not a complete project or EXPANSION theorem certificate.",
+  "environment": {
+    "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
+    "lean_commit": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+    "mathlib_commit": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "lean_toolchain_file_sha256": "bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47",
+    "lake_manifest_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "local_compiler_options": [
+      "-j2",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false"
+    ],
+    "ci_build_method": "lake build with repository Lake options and original source imports",
+    "allowed_standard_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "definitions": {
+    "Built": "Lake explicitly completed a fresh build action for this module.",
+    "Replayed_or_Reused": "Lake explicitly accepted a prior build action; this is not a fresh compiler execution.",
+    "Ran": "Unknown/auxiliary Lake job action. Import-header warnings can produce this status before compilation; it is not counted as a module compile pass.",
+    "silent_target": "No individual successful compile evidence is inferred from absence of an error.",
+    "source_match": "SHA-256 of exact Lean source bytes; this alone does not certify unchanged transitive dependencies.",
+    "local_strict_pass": "Compiler exit zero on current source, explicit strict implicit flags, and current artifact/direct dependency hashes match the recorded native run.",
+    "print_axioms": "Successful #print axioms for named declarations only; distinct from the generated exhaustive audit."
+  },
+  "summary": {
+    "selected_sources": 129,
+    "groups": {
+      "pure": 82,
+      "actual": 40,
+      "skeleton": 7
+    },
+    "validation_counts": {
+      "unverified": 57,
+      "ci_build_pass": 41,
+      "local_strict_pass": 2,
+      "local_strict_pass_and_ci_build": 29
+    },
+    "full_current_project_build_passed": false,
+    "full_current_declaration_audit_passed": false
+  },
+  "ci_jobs": [
+    {
+      "id": "checkpoint2-pure",
+      "run_id": 41156938468,
+      "job_id": 124406070209,
+      "head_sha": "8912a81da02c0a9f1c138f23f5a7d3378b4b9e51",
+      "group": "pure",
+      "job_conclusion": "failure",
+      "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41156938468",
+      "job_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41156938468/job/124406070209",
+      "build_log_sha256": "a26af42286f20f75e8761b6ea22b191f02214777f10a027428480553bca1f5e3",
+      "failed_source_paths": [
+        "ExpansionInterfaces/AnnularCutoffFamily.lean"
+      ],
+      "full_declaration_audit": "not_executed_after_build_failure"
+    },
+    {
+      "id": "checkpoint5-pure",
+      "run_id": 41158889277,
+      "job_id": 124411822493,
+      "head_sha": "7ce3b1a7a6a792180727c4b2141824ffaa280f87",
+      "group": "pure",
+      "job_conclusion": "failure",
+      "artifact_id": 13026590753,
+      "artifact_sha256": "2c7b736b7d5841dd3843d5f94c122998fe368ee00bb1d12a2229cdc9de38eb45",
+      "manifest_sha256": "1d8d2c617c8829b217b4af3d53910938cfe6d2e7077da7bf2242dbd164fa9622",
+      "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41158889277",
+      "job_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41158889277/job/124411822493",
+      "build_log_sha256": "15ebc0f7e8dc33a6cc25d8427e9ac2223fa40d6e374399bf1872f6632081c585",
+      "failed_source_paths": [
+        "Expansion/FiniteTerminalLabels.lean"
+      ],
+      "full_declaration_audit": "not_executed_after_build_failure"
+    },
+    {
+      "id": "checkpoint5-actual",
+      "run_id": 41158889277,
+      "job_id": 124411822152,
+      "head_sha": "7ce3b1a7a6a792180727c4b2141824ffaa280f87",
+      "group": "actual",
+      "job_conclusion": "failure",
+      "artifact_id": 13026383738,
+      "artifact_sha256": "8bbcabd1ff1a1f0c12264144846897f386384fcb12ecee6a6e5fe241b28bef69",
+      "manifest_sha256": "1202c60e8ebfb275c907d4bf3573b399c4f6383147e90c1b47581637e7ce1de1",
+      "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41158889277",
+      "job_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41158889277/job/124411822152",
+      "build_log_sha256": "4c5fe8b5c79ab8bfad85b98e4f124afffc580efc032619819f54c1453bd46994",
+      "failed_source_paths": [
+        "HeckeGeneral/Analysis/ExpansionDetectorInitial.lean"
+      ],
+      "full_declaration_audit": "not_executed_after_build_failure"
+    }
+  ],
+  "sources": [
+    {
+      "module": "Expansion.ActualAnnularIdentification",
+      "path": "Expansion/ActualAnnularIdentification.lean",
+      "sha256": "e64bdaadcbc34e504cbccb254725edb31094590770f4bc67a34d18a041e8d389",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.ActualCanonicalRecipe",
+      "path": "Expansion/ActualCanonicalRecipe.lean",
+      "sha256": "5202f512b642fe741e426d04c8e4074ada9e7756d3a70482d91758989cf8f1df",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.ActualDetectorSaturation",
+      "path": "Expansion/ActualDetectorSaturation.lean",
+      "sha256": "48bf5b5769e3efcff7018aa316edc78c6bf410e4bb97631a2d2dbf57e6c189fb",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.ActualHeckeSaturation",
+      "path": "Expansion/ActualHeckeSaturation.lean",
+      "sha256": "d553e60fbea083c1867d3371838dd4cd3a579e1cae10cf12a922909ed9e082f6",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.ActualHeckeWitness",
+      "path": "Expansion/ActualHeckeWitness.lean",
+      "sha256": "2864a5255b6aff8108f782422e41857ca5ebde4912c74b17a3876da0df3f8bc6",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.ActualRecipePolynomials",
+      "path": "Expansion/ActualRecipePolynomials.lean",
+      "sha256": "ef9af4e07d5b9a4829a4e39dc7f7e5420e78f79215bd83955ad7b0ec472d92d8",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.ActualTerminalFourier",
+      "path": "Expansion/ActualTerminalFourier.lean",
+      "sha256": "f0eb11f389868be04168875ad66e20042fcfd99d775d4a1b3fd65fb2cf9ec16d",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "f0eb11f389868be04168875ad66e20042fcfd99d775d4a1b3fd65fb2cf9ec16d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.ActualTerminalSaturation",
+      "path": "Expansion/ActualTerminalSaturation.lean",
+      "sha256": "e68d53a6ee661f083f43dc5a5f0419843bd814d7879a47a0a63c522e53aeea42",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.AuditSaturation",
+      "path": "Expansion/AuditSaturation.lean",
+      "sha256": "c48e90b71bbfda682f9033a3643872ff7fb9237d2f5ccdc488cfa4b898d6f192",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.AuditTerminalFourier",
+      "path": "Expansion/AuditTerminalFourier.lean",
+      "sha256": "b774b2e7bd7c1e02c768ce07e98733b700a176b1fbda2a27f15a38f854078253",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+          "source_matches_current": false,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.BufferedSelection",
+      "path": "Expansion/BufferedSelection.lean",
+      "sha256": "28e2fbcbcf6031e48e1e579dfb7eeace7f2dc5bebc628ae8fa0a175e8ec1ade3",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "28e2fbcbcf6031e48e1e579dfb7eeace7f2dc5bebc628ae8fa0a175e8ec1ade3",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "28e2fbcbcf6031e48e1e579dfb7eeace7f2dc5bebc628ae8fa0a175e8ec1ade3",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "28e2fbcbcf6031e48e1e579dfb7eeace7f2dc5bebc628ae8fa0a175e8ec1ade3",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.CanonicalAmplitudeCover",
+      "path": "Expansion/CanonicalAmplitudeCover.lean",
+      "sha256": "8cf76c2496f9dcebb36731776c9ea3ba9ba7c5a03ab243ef0081f7853a41d8e8",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.CanonicalCutoff",
+      "path": "Expansion/CanonicalCutoff.lean",
+      "sha256": "52bc85bc1bcf0baa8b4fc8234536aafe907171d16e4c6ad77f5384e2c18bfd2f",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "52bc85bc1bcf0baa8b4fc8234536aafe907171d16e4c6ad77f5384e2c18bfd2f",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.CanonicalDetectorBounds",
+      "path": "Expansion/CanonicalDetectorBounds.lean",
+      "sha256": "ae136ef3cefaf0d0f953d79f1c1e32d02e28920d5a8cb4b17b86a9189840cbb2",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.CanonicalDetectorCharacters",
+      "path": "Expansion/CanonicalDetectorCharacters.lean",
+      "sha256": "c910ad4e1de67e49aeebc1a6c33796a55feb3f4bde8c40acae568cb2d5e522c0",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.CanonicalRowSaturation",
+      "path": "Expansion/CanonicalRowSaturation.lean",
+      "sha256": "d9dd4e02f5dc0f3ce4d3b1102aa41abcab9c64243d6f8b77b7a809c0ef0f024c",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.CommonSampleTransport",
+      "path": "Expansion/CommonSampleTransport.lean",
+      "sha256": "7b32f92da0d22440144341883a306c75a0343b63515a79a6261e2ff57d97142e",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "7b32f92da0d22440144341883a306c75a0343b63515a79a6261e2ff57d97142e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "7b32f92da0d22440144341883a306c75a0343b63515a79a6261e2ff57d97142e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.DetectorHeightGeometry",
+      "path": "Expansion/DetectorHeightGeometry.lean",
+      "sha256": "df740825aa600ce9e1a7f616157eb096c88c6b6450a5d19e5864c33b81a5c6dd",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "7c3e146d16d7cca8279fcf5552de09ea1e844f70235ae7c9c70ad7ac99e492f5",
+          "source_matches_current": false,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "7c3e146d16d7cca8279fcf5552de09ea1e844f70235ae7c9c70ad7ac99e492f5",
+          "source_matches_current": false,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "df740825aa600ce9e1a7f616157eb096c88c6b6450a5d19e5864c33b81a5c6dd",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 245.443,
+        "completed_utc": "2026-10-31T02:30:53.773379+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "95934adf7bdb2f481f329fdda696db3bcc4a77094af854d1b921e0f4e7180973",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "d0cdd2cfc0d67e1439d29aa9f572523bd3dc66dcbe8a0b98cbdded3fcd6f548b"
+      },
+      "current_source_validation": "local_strict_pass",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.DetectorProductBudget",
+      "path": "Expansion/DetectorProductBudget.lean",
+      "sha256": "3886136ed9503b3ceb8199b1213ff994c8bd9e5fa6acfe9fe9e52822e3d5c0aa",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "3886136ed9503b3ceb8199b1213ff994c8bd9e5fa6acfe9fe9e52822e3d5c0aa",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "3886136ed9503b3ceb8199b1213ff994c8bd9e5fa6acfe9fe9e52822e3d5c0aa",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "3886136ed9503b3ceb8199b1213ff994c8bd9e5fa6acfe9fe9e52822e3d5c0aa",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 21.043,
+        "completed_utc": "2026-10-31T01:47:48.348610+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "65958dcd1c3b1993f8b2cb6cef89b9f7204a0b79083033ae94eceec3aea851e0",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "a0cf219aef5c20aab7020d48b681ba4e0693268adfd5b07a9cada94cdb849bd3"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.DyadicSupport",
+      "path": "Expansion/DyadicSupport.lean",
+      "sha256": "28892e04de8b2d6c38b30b9575c2683370ec753c24b6c37f60c829fdc00b9270",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "28892e04de8b2d6c38b30b9575c2683370ec753c24b6c37f60c829fdc00b9270",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "28892e04de8b2d6c38b30b9575c2683370ec753c24b6c37f60c829fdc00b9270",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "28892e04de8b2d6c38b30b9575c2683370ec753c24b6c37f60c829fdc00b9270",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "28892e04de8b2d6c38b30b9575c2683370ec753c24b6c37f60c829fdc00b9270",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 6.275,
+        "completed_utc": "2026-10-31T01:20:27.123803+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "b7ccbc0027be7a98778737571885f7b79ed0dd7be2027ba2593a55e28e7523c9",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.FiniteTerminalLabels",
+      "path": "Expansion/FiniteTerminalLabels.lean",
+      "sha256": "381e65584e5925b2f233f2227e14327d4bf0bbd4a10a6f432625919677c2fe16",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "7c6e04f655aa08157dbfaca6853d59b506e7fef0124668e82ed8ae2f3fa9a435",
+          "source_matches_current": false,
+          "lake_events": [],
+          "compiler_errors": true,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "7c6e04f655aa08157dbfaca6853d59b506e7fef0124668e82ed8ae2f3fa9a435",
+          "source_matches_current": false,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.IdealDyadicExtraction",
+      "path": "Expansion/IdealDyadicExtraction.lean",
+      "sha256": "9da8c97c60c875305dbdeebfe5ffffc9adc4ebc56911a70a4d694571fa9b4814",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "9da8c97c60c875305dbdeebfe5ffffc9adc4ebc56911a70a4d694571fa9b4814",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "9da8c97c60c875305dbdeebfe5ffffc9adc4ebc56911a70a4d694571fa9b4814",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "9da8c97c60c875305dbdeebfe5ffffc9adc4ebc56911a70a4d694571fa9b4814",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 146.057,
+        "completed_utc": "2026-10-31T01:47:27.335004+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "d66dda1506166cf68c4575df60ec1927753201ad69b29846bf3505e0e9a1a18c",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.LogDyadicBridge",
+      "path": "Expansion/LogDyadicBridge.lean",
+      "sha256": "eebb2d09cb1ee65ee1dd12dd9454dfa6b8e7398494992d2a620bb6cd4e7c789d",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "eebb2d09cb1ee65ee1dd12dd9454dfa6b8e7398494992d2a620bb6cd4e7c789d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "eebb2d09cb1ee65ee1dd12dd9454dfa6b8e7398494992d2a620bb6cd4e7c789d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "eebb2d09cb1ee65ee1dd12dd9454dfa6b8e7398494992d2a620bb6cd4e7c789d",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 96.865,
+        "completed_utc": "2026-10-31T01:24:56.513990+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "e140c65630212bf08e02c71ac7292887cfd88c4a6ad98068a379f451b0a6e257",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.MeromorphicZeros",
+      "path": "Expansion/MeromorphicZeros.lean",
+      "sha256": "fbef3321b0b35d0b7b6dec0d3498a4a96824c46ca2410efea2750ab9d26cb736",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "fbef3321b0b35d0b7b6dec0d3498a4a96824c46ca2410efea2750ab9d26cb736",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "fbef3321b0b35d0b7b6dec0d3498a4a96824c46ca2410efea2750ab9d26cb736",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "fbef3321b0b35d0b7b6dec0d3498a4a96824c46ca2410efea2750ab9d26cb736",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.NormalizedContourBudget",
+      "path": "Expansion/NormalizedContourBudget.lean",
+      "sha256": "45ddb881528db6a21eef9dcf7e41487c9dbafd2294e1fa56515b934ca18b49b1",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "45ddb881528db6a21eef9dcf7e41487c9dbafd2294e1fa56515b934ca18b49b1",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "45ddb881528db6a21eef9dcf7e41487c9dbafd2294e1fa56515b934ca18b49b1",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "45ddb881528db6a21eef9dcf7e41487c9dbafd2294e1fa56515b934ca18b49b1",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "45ddb881528db6a21eef9dcf7e41487c9dbafd2294e1fa56515b934ca18b49b1",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 9.606,
+        "completed_utc": "2026-10-31T01:34:53.825359+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "fb70e63dcb6d4a535eb3d6a19277aca2109552079f6b4100aacdcbec82309bd5",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "71caba18ef3892cfe2c4ec17bea7401060eb9bee71b14dac79ee3d17de90484c"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.NormalizedDyadicExtraction",
+      "path": "Expansion/NormalizedDyadicExtraction.lean",
+      "sha256": "19fd4f17d72f33571d22ada83588642ce5b7f5bc9d57e3251bbbea9882c6a760",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "19fd4f17d72f33571d22ada83588642ce5b7f5bc9d57e3251bbbea9882c6a760",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "19fd4f17d72f33571d22ada83588642ce5b7f5bc9d57e3251bbbea9882c6a760",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "19fd4f17d72f33571d22ada83588642ce5b7f5bc9d57e3251bbbea9882c6a760",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 63.79,
+        "completed_utc": "2026-10-31T01:26:00.305480+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "eb215b8163873477e343be17252f63686a7b30cb34d2f748ba15e49d145d9f6c",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.PhysicalDetectionParameters",
+      "path": "Expansion/PhysicalDetectionParameters.lean",
+      "sha256": "48f425f6ae01275a3062585fce44ab86222dd2ffb8afc98dacc2c4dda929edcd",
+      "group": "actual",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "34d4cfef7f33dce46bd078703c3c7940840a935295ebf6d8b3eb0daac1b7eea7",
+          "source_matches_current": false,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.PhysicalRowDetection",
+      "path": "Expansion/PhysicalRowDetection.lean",
+      "sha256": "d2eecac3344823b9a02c792952850951699ed0eb6b369f008e743a3c396800d4",
+      "group": "actual",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "1d35821c8313208ce67f6c979cde8a2f0423a83809788155617f6338f401df40",
+          "source_matches_current": false,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.PhysicalRowPoleExclusion",
+      "path": "Expansion/PhysicalRowPoleExclusion.lean",
+      "sha256": "2efcc2ada2757facaefdbf26d91d297b87a0fb04235c6db03b80b256e683ed06",
+      "group": "actual",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "2efcc2ada2757facaefdbf26d91d297b87a0fb04235c6db03b80b256e683ed06",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.PhysicalRowSupport",
+      "path": "Expansion/PhysicalRowSupport.lean",
+      "sha256": "aa89b66f938d5d7b2f30f3a64f70934f2783330d365c66179555ee7e79a757d6",
+      "group": "actual",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "aa89b66f938d5d7b2f30f3a64f70934f2783330d365c66179555ee7e79a757d6",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.PhysicalWitnessCover",
+      "path": "Expansion/PhysicalWitnessCover.lean",
+      "sha256": "b0cedb11184b2857bd0ad8d4fd92c64b330a8ad230549e30160379c9a1277655",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.PointwiseAssembly",
+      "path": "Expansion/PointwiseAssembly.lean",
+      "sha256": "b0937fc113623d1677150da52ae429ebf1bd15313142923d990e8a0bda28e964",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "b0937fc113623d1677150da52ae429ebf1bd15313142923d990e8a0bda28e964",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "b0937fc113623d1677150da52ae429ebf1bd15313142923d990e8a0bda28e964",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.ProjectMeromorphicDetector",
+      "path": "Expansion/ProjectMeromorphicDetector.lean",
+      "sha256": "4a6c117cc0f1a3a683f0ba16c17769c5e8de1e8e6340e4754e0fdbaf695061ef",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.ProjectSelectedPhysicalRows",
+      "path": "Expansion/ProjectSelectedPhysicalRows.lean",
+      "sha256": "84d2966e641f3cdb5683428a50126f12bc8c4ddeb639185158084f9750d3f55f",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.SelectedBufferedRows",
+      "path": "Expansion/SelectedBufferedRows.lean",
+      "sha256": "0ad3a3b34de88ec51c93da378d003349235a2ed383d31093e3a2ae7b73b06f5e",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "0ad3a3b34de88ec51c93da378d003349235a2ed383d31093e3a2ae7b73b06f5e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "0ad3a3b34de88ec51c93da378d003349235a2ed383d31093e3a2ae7b73b06f5e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "0ad3a3b34de88ec51c93da378d003349235a2ed383d31093e3a2ae7b73b06f5e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.SmoothDyadicPartition",
+      "path": "Expansion/SmoothDyadicPartition.lean",
+      "sha256": "64ea8254a1085ae37f1e76683c3baf082094a25f21bf07bcad839544322d05a3",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "64ea8254a1085ae37f1e76683c3baf082094a25f21bf07bcad839544322d05a3",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "64ea8254a1085ae37f1e76683c3baf082094a25f21bf07bcad839544322d05a3",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "64ea8254a1085ae37f1e76683c3baf082094a25f21bf07bcad839544322d05a3",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "64ea8254a1085ae37f1e76683c3baf082094a25f21bf07bcad839544322d05a3",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 17.807,
+        "completed_utc": "2026-10-31T01:20:20.845901+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "f4140283d4a98020066be0cda5d19015cc790473aa324fa82f2c8602782ef54c",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.TerminalCoefficientMass",
+      "path": "Expansion/TerminalCoefficientMass.lean",
+      "sha256": "899b83b2c0f2d6d93d31c239c934d84da54faf5c6262907fd8a839c51611b323",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "899b83b2c0f2d6d93d31c239c934d84da54faf5c6262907fd8a839c51611b323",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "899b83b2c0f2d6d93d31c239c934d84da54faf5c6262907fd8a839c51611b323",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 330.192,
+        "completed_utc": "2026-10-31T02:03:54.208575+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "20e50486d190ebb6a7862d4eb2c628769405afdbf135d50e4a890d202e617f69",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.TerminalFourierTail",
+      "path": "Expansion/TerminalFourierTail.lean",
+      "sha256": "070d38d0a670043b4a0185379c3c2969958dea6122bf24833c9f164c094d853e",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "070d38d0a670043b4a0185379c3c2969958dea6122bf24833c9f164c094d853e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.TerminalTailBudget",
+      "path": "Expansion/TerminalTailBudget.lean",
+      "sha256": "7266f213cea6d6c48ea596fbdf63b9a2a314443ac12d011be357f16cbd5906b5",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "7266f213cea6d6c48ea596fbdf63b9a2a314443ac12d011be357f16cbd5906b5",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "7266f213cea6d6c48ea596fbdf63b9a2a314443ac12d011be357f16cbd5906b5",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "7266f213cea6d6c48ea596fbdf63b9a2a314443ac12d011be357f16cbd5906b5",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "7266f213cea6d6c48ea596fbdf63b9a2a314443ac12d011be357f16cbd5906b5",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 7.553,
+        "completed_utc": "2026-10-31T01:34:44.202659+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "79c4756fe668275854c63d22a16226915a7b4aeec5fb7294caa29d1ef3dbf45e",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "2c9617dbead2c9fa050addbb24d6b0bbcaf4f604974db472b18dae75f1ea2920"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "Expansion.UniformTerminalFourier",
+      "path": "Expansion/UniformTerminalFourier.lean",
+      "sha256": "b51bd296e1b45eef5091a563f820e449ae03f6d0c9a14c4522b58309915dcbc9",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "b51bd296e1b45eef5091a563f820e449ae03f6d0c9a14c4522b58309915dcbc9",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.AnnularNormalization",
+      "path": "ExpansionDetector/AnnularNormalization.lean",
+      "sha256": "24583d851cf7af982e51855d20526992bdaff87520f1e1f15d56d34242331eef",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "24583d851cf7af982e51855d20526992bdaff87520f1e1f15d56d34242331eef",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "24583d851cf7af982e51855d20526992bdaff87520f1e1f15d56d34242331eef",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "24583d851cf7af982e51855d20526992bdaff87520f1e1f15d56d34242331eef",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 185.591,
+        "completed_utc": "2026-10-31T01:55:24.233789+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "6c3f3ee448362e2947ef3e3e5c28b1adffe48777e1ddc69ccd26cfd6c515db62",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "5fd9ccf9604ec9da37ae165122e7010375af05dba8fe7edba1af56f96d9123d8"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.AuditAnalytic",
+      "path": "ExpansionDetector/AuditAnalytic.lean",
+      "sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.AuditConstructed",
+      "path": "ExpansionDetector/AuditConstructed.lean",
+      "sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.DetectorPower",
+      "path": "ExpansionDetector/DetectorPower.lean",
+      "sha256": "108099a277612fbda6e10883c0c7d5efff73032dc3014ec585a6ae75eb22aa48",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "108099a277612fbda6e10883c0c7d5efff73032dc3014ec585a6ae75eb22aa48",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "108099a277612fbda6e10883c0c7d5efff73032dc3014ec585a6ae75eb22aa48",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.EulerDeletionBounds",
+      "path": "ExpansionDetector/EulerDeletionBounds.lean",
+      "sha256": "ec0efe02f60a7227834a6768ae44da757162eca652010a003f92cc2bd4f63d45",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "ec0efe02f60a7227834a6768ae44da757162eca652010a003f92cc2bd4f63d45",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "ec0efe02f60a7227834a6768ae44da757162eca652010a003f92cc2bd4f63d45",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "ec0efe02f60a7227834a6768ae44da757162eca652010a003f92cc2bd4f63d45",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.EulerDeletionNegative",
+      "path": "ExpansionDetector/EulerDeletionNegative.lean",
+      "sha256": "e438ea4cbf69210e10ef886b23a207d865e78f493aff2cfb8f6288f8e7e12015",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "e438ea4cbf69210e10ef886b23a207d865e78f493aff2cfb8f6288f8e7e12015",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "e438ea4cbf69210e10ef886b23a207d865e78f493aff2cfb8f6288f8e7e12015",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.EulerDeletionSpectrum",
+      "path": "ExpansionDetector/EulerDeletionSpectrum.lean",
+      "sha256": "15175170c5789a9f018096a5c0a50c18c6a3cdf0174f75357a86d20e149dfcf2",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "15175170c5789a9f018096a5c0a50c18c6a3cdf0174f75357a86d20e149dfcf2",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "15175170c5789a9f018096a5c0a50c18c6a3cdf0174f75357a86d20e149dfcf2",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.ExponentialMellin",
+      "path": "ExpansionDetector/ExponentialMellin.lean",
+      "sha256": "0f0cc5a020fb8e89a63362f8903df27a73dcfc7e5f05fb890dbe912f59626269",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "0f0cc5a020fb8e89a63362f8903df27a73dcfc7e5f05fb890dbe912f59626269",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "0f0cc5a020fb8e89a63362f8903df27a73dcfc7e5f05fb890dbe912f59626269",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "0f0cc5a020fb8e89a63362f8903df27a73dcfc7e5f05fb890dbe912f59626269",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.ExponentialSummability",
+      "path": "ExpansionDetector/ExponentialSummability.lean",
+      "sha256": "2dc92793705fe05a5f545ce1ff665317758a744eb195c1168c1d50720c58bcd4",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "2dc92793705fe05a5f545ce1ff665317758a744eb195c1168c1d50720c58bcd4",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "2dc92793705fe05a5f545ce1ff665317758a744eb195c1168c1d50720c58bcd4",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.ExponentialTail",
+      "path": "ExpansionDetector/ExponentialTail.lean",
+      "sha256": "2526f0b0ee101e267053e0415f7180e56b2d11e68bdc97284996d4b3d8f0eb30",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "2526f0b0ee101e267053e0415f7180e56b2d11e68bdc97284996d4b3d8f0eb30",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "2526f0b0ee101e267053e0415f7180e56b2d11e68bdc97284996d4b3d8f0eb30",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "2526f0b0ee101e267053e0415f7180e56b2d11e68bdc97284996d4b3d8f0eb30",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.FixedTypeGammaReflection",
+      "path": "ExpansionDetector/FixedTypeGammaReflection.lean",
+      "sha256": "83c5e5946d783d01f6ef3ffa91f29d81bf1ca36bf42b7b351e31a504febbd8d0",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "83c5e5946d783d01f6ef3ffa91f29d81bf1ca36bf42b7b351e31a504febbd8d0",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "83c5e5946d783d01f6ef3ffa91f29d81bf1ca36bf42b7b351e31a504febbd8d0",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "83c5e5946d783d01f6ef3ffa91f29d81bf1ca36bf42b7b351e31a504febbd8d0",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.FourierNormalized",
+      "path": "ExpansionDetector/FourierNormalized.lean",
+      "sha256": "c626fcf3dbb04c84160c6777ee1fb61a5996079e09a0ca42793d66ddf852d4e4",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "c626fcf3dbb04c84160c6777ee1fb61a5996079e09a0ca42793d66ddf852d4e4",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "c626fcf3dbb04c84160c6777ee1fb61a5996079e09a0ca42793d66ddf852d4e4",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "c626fcf3dbb04c84160c6777ee1fb61a5996079e09a0ca42793d66ddf852d4e4",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 136.607,
+        "completed_utc": "2026-10-31T01:23:19.644441+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "196f11193e0808d4339f768acb36acb3a831a4f8e8759fb973f919ba83120f1f",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.FourierSeparation",
+      "path": "ExpansionDetector/FourierSeparation.lean",
+      "sha256": "77b151de0ceab7f4db6e278bbdbacecd615cf560c468892e8fdc23fd27bfff3d",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "77b151de0ceab7f4db6e278bbdbacecd615cf560c468892e8fdc23fd27bfff3d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "77b151de0ceab7f4db6e278bbdbacecd615cf560c468892e8fdc23fd27bfff3d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "77b151de0ceab7f4db6e278bbdbacecd615cf560c468892e8fdc23fd27bfff3d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "77b151de0ceab7f4db6e278bbdbacecd615cf560c468892e8fdc23fd27bfff3d",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 24.049,
+        "completed_utc": "2026-10-31T01:20:51.175581+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "1158e96abaf4c70aeb57b42338810a890026d879d06b39312bd04c9ba486cccf",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.FourierWitness",
+      "path": "ExpansionDetector/FourierWitness.lean",
+      "sha256": "d70d35df15cf99bad0e3fa14b15d26f55ce6f6603f48aa03c40daa239df7830c",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "d70d35df15cf99bad0e3fa14b15d26f55ce6f6603f48aa03c40daa239df7830c",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "d70d35df15cf99bad0e3fa14b15d26f55ce6f6603f48aa03c40daa239df7830c",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "d70d35df15cf99bad0e3fa14b15d26f55ce6f6603f48aa03c40daa239df7830c",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 11.857,
+        "completed_utc": "2026-10-31T01:21:03.036094+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "c670fa525af03773b272a944fb590fe04a4d8bea1c0c37641662d27470466c2e",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.GammaDecay",
+      "path": "ExpansionDetector/GammaDecay.lean",
+      "sha256": "f3a1198fc2cdb4dd130c3ddaa4a27a1171743564bb904b28fcc81af2ddceff29",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "f3a1198fc2cdb4dd130c3ddaa4a27a1171743564bb904b28fcc81af2ddceff29",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "f3a1198fc2cdb4dd130c3ddaa4a27a1171743564bb904b28fcc81af2ddceff29",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "f3a1198fc2cdb4dd130c3ddaa4a27a1171743564bb904b28fcc81af2ddceff29",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "f3a1198fc2cdb4dd130c3ddaa4a27a1171743564bb904b28fcc81af2ddceff29",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 4.167,
+        "completed_utc": "2026-10-31T01:33:47.134712+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "e222c76b69582d4295180150147a61f6ed69489fb43e576b7ceccc3c705b9f5c",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.GammaVerticalMoments",
+      "path": "ExpansionDetector/GammaVerticalMoments.lean",
+      "sha256": "34f0ee22a102596459abb47785037edaedd092a0438d17b729a81f99d04046ca",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "34f0ee22a102596459abb47785037edaedd092a0438d17b729a81f99d04046ca",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "34f0ee22a102596459abb47785037edaedd092a0438d17b729a81f99d04046ca",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "34f0ee22a102596459abb47785037edaedd092a0438d17b729a81f99d04046ca",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "34f0ee22a102596459abb47785037edaedd092a0438d17b729a81f99d04046ca",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 4.739,
+        "completed_utc": "2026-10-31T01:33:51.877359+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "14bfa42533474523235d81a3237d399a4ab91d8adf434c8b5fe08dc209865423",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e5fb084dfed5206ea11304c8a13ec4a6d6da3b45db175628608aea16c6720af9"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.GammaWeightedZeroShift",
+      "path": "ExpansionDetector/GammaWeightedZeroShift.lean",
+      "sha256": "e6f5fb247267bdcfac2823b616a827c64ebf6f1c04f412e6b3b69523b1cb9334",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "e6f5fb247267bdcfac2823b616a827c64ebf6f1c04f412e6b3b69523b1cb9334",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "e6f5fb247267bdcfac2823b616a827c64ebf6f1c04f412e6b3b69523b1cb9334",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "e6f5fb247267bdcfac2823b616a827c64ebf6f1c04f412e6b3b69523b1cb9334",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "e6f5fb247267bdcfac2823b616a827c64ebf6f1c04f412e6b3b69523b1cb9334",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 3.99,
+        "completed_utc": "2026-10-31T01:33:55.884259+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "d7e5cbb898e2b8ae310d2fb588c3564d76da98fb0a09b94f49cbf1c511a51a29",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.HeckeFixedTypeReflection",
+      "path": "ExpansionDetector/HeckeFixedTypeReflection.lean",
+      "sha256": "806185fed0ca091525cbf6cecf7a9ec60b65e611a7ac50ddcef47b51b74222cb",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "ExpansionDetector.HeckeGammaDetector",
+      "path": "ExpansionDetector/HeckeGammaDetector.lean",
+      "sha256": "538baec490a78c810f03784995ac3b36e1327957b71aa2a12eb850310af93a5d",
+      "group": "actual",
+      "ci_evidence": [],
+      "local_native": {
+        "outcome": "cancelled",
+        "source_sha256": "538baec490a78c810f03784995ac3b36e1327957b71aa2a12eb850310af93a5d",
+        "source_matches_current": true,
+        "exit_code": -15,
+        "elapsed_seconds": 734.289,
+        "completed_utc": "2026-10-31T02:21:17.037155+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": null,
+        "artifact_and_direct_dependencies_match_current": false,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "ExpansionDetector.IdealConvolution",
+      "path": "ExpansionDetector/IdealConvolution.lean",
+      "sha256": "9f66d176f0cff781eefcf2e71875bd5a017f4f044ca87e87c2db1bd9f82b3f61",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "9f66d176f0cff781eefcf2e71875bd5a017f4f044ca87e87c2db1bd9f82b3f61",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "9f66d176f0cff781eefcf2e71875bd5a017f4f044ca87e87c2db1bd9f82b3f61",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "9f66d176f0cff781eefcf2e71875bd5a017f4f044ca87e87c2db1bd9f82b3f61",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "9f66d176f0cff781eefcf2e71875bd5a017f4f044ca87e87c2db1bd9f82b3f61",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 19.848,
+        "completed_utc": "2026-10-31T01:33:35.498627+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "45cdd04ff769ccece6e1d36ed4f8369b0b69063bd944f83fc76807d42e60e707",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "02f9d90fd6b045e2f8d1822d60a1d236ee95eba79f014d4e66b0c0cd8a7f6e85"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.IdealCutoff",
+      "path": "ExpansionDetector/IdealCutoff.lean",
+      "sha256": "6da0bdd00db0e332cacd361b2687360cdf24dc526d58832a74c230d3110e4d87",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "6da0bdd00db0e332cacd361b2687360cdf24dc526d58832a74c230d3110e4d87",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "6da0bdd00db0e332cacd361b2687360cdf24dc526d58832a74c230d3110e4d87",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "6da0bdd00db0e332cacd361b2687360cdf24dc526d58832a74c230d3110e4d87",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "6da0bdd00db0e332cacd361b2687360cdf24dc526d58832a74c230d3110e4d87",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 196.156,
+        "completed_utc": "2026-10-31T01:32:55.809040+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "1ab0bf7b699fbc6722bf51bfbbf04e2888e99a21593ef964629c4d306e249143",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "f21d8b5a64d96856e160a5c9d9b1773e64ce98609fbf1ab561ed022e3ea04614"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.IdealDirichletProduct",
+      "path": "ExpansionDetector/IdealDirichletProduct.lean",
+      "sha256": "2ee49a3adc9f74164ad934a034d5c37403368c73d0baea95d8f5e1328f31f32a",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "2ee49a3adc9f74164ad934a034d5c37403368c73d0baea95d8f5e1328f31f32a",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "2ee49a3adc9f74164ad934a034d5c37403368c73d0baea95d8f5e1328f31f32a",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "2ee49a3adc9f74164ad934a034d5c37403368c73d0baea95d8f5e1328f31f32a",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "2ee49a3adc9f74164ad934a034d5c37403368c73d0baea95d8f5e1328f31f32a",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 13.387,
+        "completed_utc": "2026-10-31T01:34:14.541667+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "1aa0f1574780689e575adf55a89fbbfe29c9a9f20a0d6890995eb929995a0396",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "b6e3cb4d1ec4b771303509daec290e37c54695f6f37e7ecebd2b399e158a8997"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.IdealFinitePair",
+      "path": "ExpansionDetector/IdealFinitePair.lean",
+      "sha256": "b53a18cb9bfb540e5b8c4e5d099d1f62e052bb028d5e729f4407bee2b14052f1",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "b53a18cb9bfb540e5b8c4e5d099d1f62e052bb028d5e729f4407bee2b14052f1",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "b53a18cb9bfb540e5b8c4e5d099d1f62e052bb028d5e729f4407bee2b14052f1",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "b53a18cb9bfb540e5b8c4e5d099d1f62e052bb028d5e729f4407bee2b14052f1",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 6.797,
+        "completed_utc": "2026-10-31T01:34:26.550124+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "092884e0ad5708cd57c1c222b0b1e8f72cb5f48e0886789f9672443ed9e68872",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.IdealMellinIdentity",
+      "path": "ExpansionDetector/IdealMellinIdentity.lean",
+      "sha256": "fb884ce445300c7450749bb98792c5b62bfd2a8a9dd1fa835e9ceae2824a7e6e",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "fb884ce445300c7450749bb98792c5b62bfd2a8a9dd1fa835e9ceae2824a7e6e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "fb884ce445300c7450749bb98792c5b62bfd2a8a9dd1fa835e9ceae2824a7e6e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "fb884ce445300c7450749bb98792c5b62bfd2a8a9dd1fa835e9ceae2824a7e6e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.IdealTail",
+      "path": "ExpansionDetector/IdealTail.lean",
+      "sha256": "3021ed2f4c72ca5ebba7623239505cfbe7b87d09bff8c82a8f8ffe0b14a54f62",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "3021ed2f4c72ca5ebba7623239505cfbe7b87d09bff8c82a8f8ffe0b14a54f62",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "3021ed2f4c72ca5ebba7623239505cfbe7b87d09bff8c82a8f8ffe0b14a54f62",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "3021ed2f4c72ca5ebba7623239505cfbe7b87d09bff8c82a8f8ffe0b14a54f62",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.IdealTerminal",
+      "path": "ExpansionDetector/IdealTerminal.lean",
+      "sha256": "14d901d648800ddeeed7962a8cd9e9e6898719bcd51400d4f1fe84d5ede2c4f3",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "14d901d648800ddeeed7962a8cd9e9e6898719bcd51400d4f1fe84d5ede2c4f3",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "14d901d648800ddeeed7962a8cd9e9e6898719bcd51400d4f1fe84d5ede2c4f3",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "14d901d648800ddeeed7962a8cd9e9e6898719bcd51400d4f1fe84d5ede2c4f3",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 5.201,
+        "completed_utc": "2026-10-31T01:34:19.747704+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "cbbaeb8433aa6b99f2677503d31b8f9cc75ba4629294adccdc5387f720479b5a",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.IdealZeroSource",
+      "path": "ExpansionDetector/IdealZeroSource.lean",
+      "sha256": "11288f1010d98b8b246a058527f09255894ac9ac493b44098dc0a8de3341af68",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "11288f1010d98b8b246a058527f09255894ac9ac493b44098dc0a8de3341af68",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "11288f1010d98b8b246a058527f09255894ac9ac493b44098dc0a8de3341af68",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.MellinPowerBudget",
+      "path": "ExpansionDetector/MellinPowerBudget.lean",
+      "sha256": "c6190f86cfaa38e4b1e869962d4cd4ddefaee36f4468917b41f79530772d2c61",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "c6190f86cfaa38e4b1e869962d4cd4ddefaee36f4468917b41f79530772d2c61",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "c6190f86cfaa38e4b1e869962d4cd4ddefaee36f4468917b41f79530772d2c61",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "c6190f86cfaa38e4b1e869962d4cd4ddefaee36f4468917b41f79530772d2c61",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "c6190f86cfaa38e4b1e869962d4cd4ddefaee36f4468917b41f79530772d2c61",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 15.36,
+        "completed_utc": "2026-10-31T01:33:11.172481+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "3af8abeada6b79533213c651c4b950ae0c82e830d3bce1b03b2f74dfb77feafc",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "df3eadbd7307be5578b13c2b21933b9e0a9a3ba7da0834ea9ff4a6bee25d217d"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.MellinScaleBounds",
+      "path": "ExpansionDetector/MellinScaleBounds.lean",
+      "sha256": "c865ebcc2954afde38a2ed942b0bf44bfd758ba4819c7f37e287a2c65e3158a3",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "c865ebcc2954afde38a2ed942b0bf44bfd758ba4819c7f37e287a2c65e3158a3",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionDetector.ZeroDetectorBound",
+      "path": "ExpansionDetector/ZeroDetectorBound.lean",
+      "sha256": "60818a49846beaf2ae8faf81b967bdfa80a7dae0028d1b16edc2947d859d9f4b",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "60818a49846beaf2ae8faf81b967bdfa80a7dae0028d1b16edc2947d859d9f4b",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "60818a49846beaf2ae8faf81b967bdfa80a7dae0028d1b16edc2947d859d9f4b",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "60818a49846beaf2ae8faf81b967bdfa80a7dae0028d1b16edc2947d859d9f4b",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 5.259,
+        "completed_utc": "2026-10-31T01:34:01.149493+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "684e32c4b7440859f090dd587bcc976d26f547bdb29cbeb29a233d1f1736bd52",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.AmplitudeMeasurability",
+      "path": "ExpansionInterfaces/AmplitudeMeasurability.lean",
+      "sha256": "15e99eff1eec5bb1f8462dfaec5892757abb25c3403b3a561a8fee69ad360cf2",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "15e99eff1eec5bb1f8462dfaec5892757abb25c3403b3a561a8fee69ad360cf2",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "15e99eff1eec5bb1f8462dfaec5892757abb25c3403b3a561a8fee69ad360cf2",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.AmplitudePartition",
+      "path": "ExpansionInterfaces/AmplitudePartition.lean",
+      "sha256": "3c4422dc184cb1bb8db2c0b66acf848382951da004be0f173f788b78c5612e76",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "3c4422dc184cb1bb8db2c0b66acf848382951da004be0f173f788b78c5612e76",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "3c4422dc184cb1bb8db2c0b66acf848382951da004be0f173f788b78c5612e76",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.AnnularContourBound",
+      "path": "ExpansionInterfaces/AnnularContourBound.lean",
+      "sha256": "fb4ad718c2df49ae582608d40d45be2de4ce86a3457cb06f70dd8ecb00be02c5",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "fb4ad718c2df49ae582608d40d45be2de4ce86a3457cb06f70dd8ecb00be02c5",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.AnnularContourUniform",
+      "path": "ExpansionInterfaces/AnnularContourUniform.lean",
+      "sha256": "f48ae45e0b338b5ccf478147c94efe10175cd9bf5fe9f49e167494a383355ab0",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "f48ae45e0b338b5ccf478147c94efe10175cd9bf5fe9f49e167494a383355ab0",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.AnnularCutoffFamily",
+      "path": "ExpansionInterfaces/AnnularCutoffFamily.lean",
+      "sha256": "3988372ad92c139223d3c1e3b997f56cd568b7339c8a192d91a94f34a88aac7d",
+      "group": "pure",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "ExpansionInterfaces.AnnularMellinDecay",
+      "path": "ExpansionInterfaces/AnnularMellinDecay.lean",
+      "sha256": "f2c958f3b8af1c68a8648193bafe55c2b80a955df594281173b0d425ff1d22bb",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "f2c958f3b8af1c68a8648193bafe55c2b80a955df594281173b0d425ff1d22bb",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "f2c958f3b8af1c68a8648193bafe55c2b80a955df594281173b0d425ff1d22bb",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "f2c958f3b8af1c68a8648193bafe55c2b80a955df594281173b0d425ff1d22bb",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.AnnularMellinIdentity",
+      "path": "ExpansionInterfaces/AnnularMellinIdentity.lean",
+      "sha256": "1a13bc6a1913b07c140362158e191e4651e339d2c690202c2727eae3b4be2fd6",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "1a13bc6a1913b07c140362158e191e4651e339d2c690202c2727eae3b4be2fd6",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "1a13bc6a1913b07c140362158e191e4651e339d2c690202c2727eae3b4be2fd6",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "1a13bc6a1913b07c140362158e191e4651e339d2c690202c2727eae3b4be2fd6",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.AnnularMellinProfile",
+      "path": "ExpansionInterfaces/AnnularMellinProfile.lean",
+      "sha256": "61627a285dbe597fc15b0f6efaad7b1bc5e3da1f469bec2dc6201039a21e148d",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "61627a285dbe597fc15b0f6efaad7b1bc5e3da1f469bec2dc6201039a21e148d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "61627a285dbe597fc15b0f6efaad7b1bc5e3da1f469bec2dc6201039a21e148d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "61627a285dbe597fc15b0f6efaad7b1bc5e3da1f469bec2dc6201039a21e148d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "61627a285dbe597fc15b0f6efaad7b1bc5e3da1f469bec2dc6201039a21e148d",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 591.906,
+        "completed_utc": "2026-10-31T02:40:45.695035+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "e11498858635690f7bab915b5fa3e1c69c060eb0ddbd0f566ab1820aa9358157",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.AuditInterfaces",
+      "path": "ExpansionInterfaces/AuditInterfaces.lean",
+      "sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "group": "pure",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "path": "ExpansionInterfaces/AuditMellinInterfaces.lean",
+      "sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "group": "pure",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "ExpansionInterfaces.BufferedBinOverlap",
+      "path": "ExpansionInterfaces/BufferedBinOverlap.lean",
+      "sha256": "bd460da2afcea6969cd274270eff0031064bd8b20e4cfa5f7bc3f369d0ded34b",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "bd460da2afcea6969cd274270eff0031064bd8b20e4cfa5f7bc3f369d0ded34b",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "bd460da2afcea6969cd274270eff0031064bd8b20e4cfa5f7bc3f369d0ded34b",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.BufferedBlockSchedule",
+      "path": "ExpansionInterfaces/BufferedBlockSchedule.lean",
+      "sha256": "ea6c5ce6480fb9bb17aa6349d8a79289f805451410f7da86eaef5a33c1f8753b",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "ea6c5ce6480fb9bb17aa6349d8a79289f805451410f7da86eaef5a33c1f8753b",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "ea6c5ce6480fb9bb17aa6349d8a79289f805451410f7da86eaef5a33c1f8753b",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.BufferedHeights",
+      "path": "ExpansionInterfaces/BufferedHeights.lean",
+      "sha256": "6f4c9763dbd499486234b510d7c3d287423c18537702da685ad668929642adfd",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "6f4c9763dbd499486234b510d7c3d287423c18537702da685ad668929642adfd",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "6f4c9763dbd499486234b510d7c3d287423c18537702da685ad668929642adfd",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "6f4c9763dbd499486234b510d7c3d287423c18537702da685ad668929642adfd",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "6f4c9763dbd499486234b510d7c3d287423c18537702da685ad668929642adfd",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 66.993,
+        "completed_utc": "2026-10-31T01:58:24.002220+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "d9c9a89d41cabdb2e5c5353d4daf32232660c440e0c5923d4c20c212ba453de9",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.CommonBudget",
+      "path": "ExpansionInterfaces/CommonBudget.lean",
+      "sha256": "1f4b08cc54cb2befa100919e637bd85106af673ff3b43421683e44f3be709705",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "1f4b08cc54cb2befa100919e637bd85106af673ff3b43421683e44f3be709705",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "1f4b08cc54cb2befa100919e637bd85106af673ff3b43421683e44f3be709705",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.DyadicCount",
+      "path": "ExpansionInterfaces/DyadicCount.lean",
+      "sha256": "a52681bd30d1e18c7c20b32165ddf11136870f357a21f267502caffb13f95331",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "a52681bd30d1e18c7c20b32165ddf11136870f357a21f267502caffb13f95331",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "a52681bd30d1e18c7c20b32165ddf11136870f357a21f267502caffb13f95331",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "a52681bd30d1e18c7c20b32165ddf11136870f357a21f267502caffb13f95331",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.DyadicShells",
+      "path": "ExpansionInterfaces/DyadicShells.lean",
+      "sha256": "a8330e7066ff7a3b3c53f9b4e8b6d6af137041a29cb6b0dab5d1bd31b3123610",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "a8330e7066ff7a3b3c53f9b4e8b6d6af137041a29cb6b0dab5d1bd31b3123610",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "a8330e7066ff7a3b3c53f9b4e8b6d6af137041a29cb6b0dab5d1bd31b3123610",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "a8330e7066ff7a3b3c53f9b4e8b6d6af137041a29cb6b0dab5d1bd31b3123610",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.FiniteMellinRectangle",
+      "path": "ExpansionInterfaces/FiniteMellinRectangle.lean",
+      "sha256": "850472edc58e3fd80b9ea43cb9dd406549ab250be2e0d714404c43e51995d506",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "850472edc58e3fd80b9ea43cb9dd406549ab250be2e0d714404c43e51995d506",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "850472edc58e3fd80b9ea43cb9dd406549ab250be2e0d714404c43e51995d506",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "850472edc58e3fd80b9ea43cb9dd406549ab250be2e0d714404c43e51995d506",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.IndexedBudget",
+      "path": "ExpansionInterfaces/IndexedBudget.lean",
+      "sha256": "be5692b29fdc6608a7fb4d4f3c418fd20c14bf35c355668aa0fac3fff26a3156",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "be5692b29fdc6608a7fb4d4f3c418fd20c14bf35c355668aa0fac3fff26a3156",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.MaskedAmplitudePartition",
+      "path": "ExpansionInterfaces/MaskedAmplitudePartition.lean",
+      "sha256": "79377ba852b34b00bdabda64145a213b0444f3dc3efef68965bf50798a8d6f9d",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "79377ba852b34b00bdabda64145a213b0444f3dc3efef68965bf50798a8d6f9d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.ParameterChoices",
+      "path": "ExpansionInterfaces/ParameterChoices.lean",
+      "sha256": "371926930bf1e35af484c711c2e2d0668f4dd978f466ca34009c8c425fc86d61",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "371926930bf1e35af484c711c2e2d0668f4dd978f466ca34009c8c425fc86d61",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "371926930bf1e35af484c711c2e2d0668f4dd978f466ca34009c8c425fc86d61",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "HeckeGeneral.Analysis.ExpansionBufferedPolynomials",
+      "path": "HeckeGeneral/Analysis/ExpansionBufferedPolynomials.lean",
+      "sha256": "e62e0fd66087747c223abe7a9bbc46e192a59d335a60d0f2386573b48e32e3f5",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeGeneral.Analysis.ExpansionCutoffPolynomials",
+      "path": "HeckeGeneral/Analysis/ExpansionCutoffPolynomials.lean",
+      "sha256": "ef989ee483a8c4c5796a17643e291e4d869380c69232a042e302ae949ad8797a",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeGeneral.Analysis.ExpansionDeletedControl",
+      "path": "HeckeGeneral/Analysis/ExpansionDeletedControl.lean",
+      "sha256": "888aab27a88299ef4372e2955385d78d6bb31be5fc822926e1a3fc11847b8cf3",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeGeneral.Analysis.ExpansionDetectorInitial",
+      "path": "HeckeGeneral/Analysis/ExpansionDetectorInitial.lean",
+      "sha256": "cc56b060ccfa4ea41bd1341306baea84708417288bcae5cd28738a33c5ed8592",
+      "group": "actual",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "be4c8e24f0cc65b3f072e13e2bb38693bbdc24028f9a6cb583e5ea99baaffc56",
+          "source_matches_current": false,
+          "lake_events": [],
+          "compiler_errors": true,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeGeneral.Analysis.ExpansionPolynomialSupport",
+      "path": "HeckeGeneral/Analysis/ExpansionPolynomialSupport.lean",
+      "sha256": "1e641952d50b5b2c7fe00c78d683b4223311c5060618fcbd46f2405a230f1b74",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeGeneral.Analysis.ExpansionReflectedPolynomials",
+      "path": "HeckeGeneral/Analysis/ExpansionReflectedPolynomials.lean",
+      "sha256": "b9ca9160506e359fe8e0d9323872c998bb6516ae55c1dae6cd6a59833dfd383f",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeGeneral.Analysis.ExpansionScaleBounds",
+      "path": "HeckeGeneral/Analysis/ExpansionScaleBounds.lean",
+      "sha256": "30028ee5faa10950b650a2a7a5c87bf48d179a0308453efc349fbc4736199c1e",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeGeneral.Analysis.TInputFixedBinTransfer",
+      "path": "HeckeGeneral/Analysis/TInputFixedBinTransfer.lean",
+      "sha256": "0ddc83ca56ed45bbe0cb9793b64e7fe9d165000410c1b04cfee2125bc3c9a015",
+      "group": "actual",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "0ddc83ca56ed45bbe0cb9793b64e7fe9d165000410c1b04cfee2125bc3c9a015",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeGeneral.Analysis.TInputRanges",
+      "path": "HeckeGeneral/Analysis/TInputRanges.lean",
+      "sha256": "0d48b5cdfa5e1b69de4ed53c617ae616c98573d30139a9d6f55f031e65aca45e",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.Base",
+      "path": "HeckeSkeleton/Base.lean",
+      "sha256": "fa480e94cbdc76a93ea1da49df13078ee07e28fd4a43f1ed5e5316668ab93266",
+      "group": "skeleton",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.Expansion",
+      "path": "HeckeSkeleton/Expansion.lean",
+      "sha256": "24b466fb1cb3a5ef39daead659af14c05a5fe0d81e5dae7aef19b1abd27b4571",
+      "group": "skeleton",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionDetectorBridge",
+      "path": "HeckeSkeleton/ExpansionDetectorBridge.lean",
+      "sha256": "2d98358d752dc7615cf3d117f9ccc4ac4e38325663b7167a23ab1d3ba4b3b163",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.CoefficientZeroCalibration",
+      "path": "HeckeSkeleton/ExpansionModels/CoefficientZeroCalibration.lean",
+      "sha256": "f3897241628e9ac988e6b1c2b1c988281a5b789e7d425392a4576a73f3e2615c",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.CommonPhysicalSample",
+      "path": "HeckeSkeleton/ExpansionModels/CommonPhysicalSample.lean",
+      "sha256": "97669340b5fcb0d721550a491cea5ecfcb88ec5fcabaf6ea3e7bd0154de89543",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "97669340b5fcb0d721550a491cea5ecfcb88ec5fcabaf6ea3e7bd0154de89543",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "97669340b5fcb0d721550a491cea5ecfcb88ec5fcabaf6ea3e7bd0154de89543",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.Core",
+      "path": "HeckeSkeleton/ExpansionModels/Core.lean",
+      "sha256": "2eff731e3834a6465aef0a42bda29d85386d42e4ca540bf3ff37d2fee625a6e0",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.CutoffLogProfile",
+      "path": "HeckeSkeleton/ExpansionModels/CutoffLogProfile.lean",
+      "sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
+          "source_matches_current": true,
+          "lake_events": [
+            "Canceled"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.DetectorProfiles",
+      "path": "HeckeSkeleton/ExpansionModels/DetectorProfiles.lean",
+      "sha256": "f54a0ca601ea7d7131f789a8968a0df1eba31835323a9a6fe19025dd8710bf01",
+      "group": "skeleton",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.DyadicMomentEnvelope",
+      "path": "HeckeSkeleton/ExpansionModels/DyadicMomentEnvelope.lean",
+      "sha256": "63bd533c5a5b4bd2be880ceeb22ef5880f0753e01a2139dfd051bf98f899fcea",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "63bd533c5a5b4bd2be880ceeb22ef5880f0753e01a2139dfd051bf98f899fcea",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "63bd533c5a5b4bd2be880ceeb22ef5880f0753e01a2139dfd051bf98f899fcea",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "path": "HeckeSkeleton/ExpansionModels/FixedSectorParameters.lean",
+      "sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 202.546,
+        "completed_utc": "2026-10-31T02:24:39.602083+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "ce4164ef403f224906aa2a7655448807324656c9110b51bb395ebe52f18f4dfa",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "c3ac0c49a9465d32507bf7579d9fef53ce3a34d0fa36b228036f27aebfdf22dc"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.IdealMaskedHom",
+      "path": "HeckeSkeleton/ExpansionModels/IdealMaskedHom.lean",
+      "sha256": "a6f152219207e58dadb6b23c42b7dc3330445c8a9d807f1caf7e5218ab1bbd42",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "a6f152219207e58dadb6b23c42b7dc3330445c8a9d807f1caf7e5218ab1bbd42",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "path": "HeckeSkeleton/ExpansionModels/LogProfileFourier.lean",
+      "sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 200.513,
+        "completed_utc": "2026-10-31T02:07:14.733045+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "183e8929602b772286207301ef88dc8bc4f6329ce90ebf3d4e7a078928ef113f",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "a47ac1930704507e628f067d5b4348054a2c9711b1fb34a1c3d18088c5bbcd70"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "path": "HeckeSkeleton/ExpansionModels/LogProfileUniform.lean",
+      "sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "a7c740b6f5730fef12595d65e29f9e819e082213c96ff9076ed7a7830079a9a7",
+          "source_matches_current": false,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 112.761,
+        "completed_utc": "2026-10-31T01:57:17.027684+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "4ba9838ae6130f26d40741ed52500fe5e0be938f3b1eaea42312d4f74959540b",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "8395005048f9bb17003f06abbd68aa42f0a3feeedf803092bc5a27fb8f28737d"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.LogTwistedProfiles",
+      "path": "HeckeSkeleton/ExpansionModels/LogTwistedProfiles.lean",
+      "sha256": "dad20d5d44d14a927614bfa325ddc65a9d6694323db470c2b541e1d053c37ace",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint2-pure",
+          "source_sha256": "dad20d5d44d14a927614bfa325ddc65a9d6694323db470c2b541e1d053c37ace",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.NormalizedRecipePolynomials",
+      "path": "HeckeSkeleton/ExpansionModels/NormalizedRecipePolynomials.lean",
+      "sha256": "8845041a2856feb244aab5cb6194c16af94445226c1d76f3735fb94d54c769ba",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.OriginalMask",
+      "path": "HeckeSkeleton/ExpansionModels/OriginalMask.lean",
+      "sha256": "5cf79ea1953ec448c79021f05c8b58e0ea0be1b4769f5ba3ebcc16bf3c1bed8b",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.OriginalMaskBounds",
+      "path": "HeckeSkeleton/ExpansionModels/OriginalMaskBounds.lean",
+      "sha256": "18cf5c61dc80d1b9f29462cc08e9862bd714632333c7310353d429563d3c5874",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.RecipeDetectorNormalization",
+      "path": "HeckeSkeleton/ExpansionModels/RecipeDetectorNormalization.lean",
+      "sha256": "f2122e09fde131e9b4f0f1ef69e701c0871caa1434e2f22bf3b338eba9c61ce4",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.RecipeSchedule",
+      "path": "HeckeSkeleton/ExpansionModels/RecipeSchedule.lean",
+      "sha256": "78f5a169924cb2e09bb8c03b601620e5d03de5df92c13a148ed3c60232dabf60",
+      "group": "pure",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "path": "HeckeSkeleton/ExpansionModels/RowLocalWitnessRecipe.lean",
+      "sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 28.59,
+        "completed_utc": "2026-10-31T02:07:43.313188+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "eea61a75e5122e89a4544cc2c39e059d0886ea94bce7c9839d12e9e93e01f5df",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "ece3951a4d8419487e97406f19896a35a5638dbcab726305096761e571117e64"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.ScaleCutoff",
+      "path": "HeckeSkeleton/ExpansionModels/ScaleCutoff.lean",
+      "sha256": "98a5345a361d159a7d17d02b7953cf7f9e562402cda8d3eec912321fd43cad65",
+      "group": "pure",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.ScheduleCompatibility",
+      "path": "HeckeSkeleton/ExpansionModels/ScheduleCompatibility.lean",
+      "sha256": "8d57483fd043ef46191af76c79600518f9bd6383ed2455234175ca180f76da92",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.SectorParameterPacking",
+      "path": "HeckeSkeleton/ExpansionModels/SectorParameterPacking.lean",
+      "sha256": "d08dfbde9e3953cd6bc9ef63dcedbaf19a8ff1a9dafa1f161bab83e739aeeade",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "d08dfbde9e3953cd6bc9ef63dcedbaf19a8ff1a9dafa1f161bab83e739aeeade",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.SharedWitnessRecipe",
+      "path": "HeckeSkeleton/ExpansionModels/SharedWitnessRecipe.lean",
+      "sha256": "78011ed1fb6076260b23abae7dc22ab40c34686ec032a9e5e39e2b7a83d9d611",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.SourceMomentModels",
+      "path": "HeckeSkeleton/ExpansionModels/SourceMomentModels.lean",
+      "sha256": "249bcaa1bb9718ab23e0b6ce7836ec9a2335c06208feca6fd13bab884efecb46",
+      "group": "skeleton",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.SourceRecipeNormalization",
+      "path": "HeckeSkeleton/ExpansionModels/SourceRecipeNormalization.lean",
+      "sha256": "27f1ab7a4cd8be2a85a2f7b282f2bc762e888779cf5c3517815bf6c7dd1cf307",
+      "group": "skeleton",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.WitnessAmplitude",
+      "path": "HeckeSkeleton/ExpansionModels/WitnessAmplitude.lean",
+      "sha256": "d818eb09a4311fb3d28854a75ae4454e82ccbc2274671273bf0853ab9f6d37b4",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.ExpansionModels.WitnessHeightNormalization",
+      "path": "HeckeSkeleton/ExpansionModels/WitnessHeightNormalization.lean",
+      "sha256": "31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520",
+      "group": "pure",
+      "ci_evidence": [
+        {
+          "job": "checkpoint5-pure",
+          "source_sha256": "31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint5-actual",
+          "source_sha256": "31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520",
+          "source_matches_current": true,
+          "lake_events": [
+            "Ran"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": false
+        }
+      ],
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 128.722,
+        "completed_utc": "2026-10-31T02:26:48.319337+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "81a9e0aa5c3bba07a9ec6a7b8b74c2b2bce6dec94681daaeb596f4a2b8b5ce2e",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "94862942ade127a25cabaeba0ac8e7549cb2ec39c5b89d027973f7b0beb54a7d"
+      },
+      "current_source_validation": "local_strict_pass",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.HighBin",
+      "path": "HeckeSkeleton/HighBin.lean",
+      "sha256": "0c3b99920c5b195509171e769b0dce8ef26d1afddd01a50efa48ed7ba6851253",
+      "group": "skeleton",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "HeckeSkeleton.Moments",
+      "path": "HeckeSkeleton/Moments.lean",
+      "sha256": "c322621f7c8b3316e9711d9d833ebf355cea7356e03f6026365635b62fbab0b1",
+      "group": "skeleton",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    }
+  ],
+  "successful_axiom_records": [
+    {
+      "declaration": "ExpansionRecipe.LogProfile.scaled_derivatives_of_decay",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "a7c740b6f5730fef12595d65e29f9e819e082213c96ff9076ed7a7830079a9a7",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.logSource_uniform_derivatives",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "a7c740b6f5730fef12595d65e29f9e819e082213c96ff9076ed7a7830079a9a7",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.logSource_uniform_seminorm",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "a7c740b6f5730fef12595d65e29f9e819e082213c96ff9076ed7a7830079a9a7",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.fourier_seminorm_le",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_fourier_moment",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_fourier_tail",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.logSource_cutoff_extension",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.CutoffLogProfile",
+      "reporting_source_sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_cutoff_fourier_moment",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.CutoffLogProfile",
+      "reporting_source_sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_cutoff_fourier_tail",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.CutoffLogProfile",
+      "reporting_source_sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.CommonPhysicalSample.exists_card_max_point",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.CommonPhysicalSample",
+      "reporting_source_sha256": "97669340b5fcb0d721550a491cea5ecfcb88ec5fcabaf6ea3e7bd0154de89543",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.CommonPhysicalSample.norm_integral_le_sampled_cards",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.CommonPhysicalSample",
+      "reporting_source_sha256": "97669340b5fcb0d721550a491cea5ecfcb88ec5fcabaf6ea3e7bd0154de89543",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.detector_gamma_decay",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditAnalytic",
+      "reporting_source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.detector_sz_gamma_moments",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditAnalytic",
+      "reporting_source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.gamma_zero_shift",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditAnalytic",
+      "reporting_source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.gammaDetector_bound_at_zero",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditAnalytic",
+      "reporting_source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.gammaDetector_power_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditAnalytic",
+      "reporting_source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.detector_height_power_five",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditAnalytic",
+      "reporting_source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.detector_uniform_small_numeric",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditAnalytic",
+      "reporting_source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.actual_terminal_pairBlock_scale_bounds",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.finitePairSource_terminal_enlarge",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.terminal_pair_coefficient_mem",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.actual_terminal_normalized_frequency_with_support",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.terminal_log_profile_eq",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.uniform_terminal_fourier_moment",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.uniform_terminal_fourier_mass",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.sourceCoefficient_mass_le",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.actual_terminal_coefficient_mass",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.actual_terminal_product_of_numeric_budget",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.actual_terminal_supported_product_of_numeric_budget",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.terminal_dyadic_count_le",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.exists_terminal_fourier_tail_budget",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.exists_terminal_fourier_tail_budget_scaled",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.terminal_ambient_covers_annular",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.actual_terminal_product_eventually",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.actual_zero_product_eventually",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Fourier.common_frequency_contour_padding",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.AuditTerminalFourier",
+      "reporting_source_sha256": "ee81e6e31098267d6229bb33d76f4890c9e92551cb681109e6b3c77f2b33aafd",
+      "reporting_source_matches_current": false,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.coefficient_small",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.coefficient_tail",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.norm_coefficient_le_norm",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.weighted_convolution_identity",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.initial_product_identity",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.actualIdeal_gamma_mellin_identity",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.actualIdeal_terminal_remainder_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.actualIdeal_terminal_lower_of_zero",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.finite_terminal_as_pair",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Fourier.finite_pair_separation",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Fourier.exists_bounded_frequency",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Fourier.pair_phase_norm",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.gammaC_fixedType_reflected_dynamic_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.EulerDeletion.primeSupport_localMajorant_subpower",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.EulerDeletion.primeSupport_card_subpower",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.EulerDeletion.primeSupport_negative_deletion_subpower",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.compact_exp_twist_uniform_seminorm",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogTwistedProfiles",
+      "reporting_source_sha256": "dad20d5d44d14a927614bfa325ddc65a9d6694323db470c2b541e1d053c37ace",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.compact_real_exp_twist_uniform_fourier_decay",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogTwistedProfiles",
+      "reporting_source_sha256": "dad20d5d44d14a927614bfa325ddc65a9d6694323db470c2b541e1d053c37ace",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.bufferedBlockSchedule_subpower",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.BufferedBlockSchedule",
+      "reporting_source_sha256": "ea6c5ce6480fb9bb17aa6349d8a79289f805451410f7da86eaef5a33c1f8753b",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.sum_clippedBufferedRows",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.BufferedBlockSchedule",
+      "reporting_source_sha256": "ea6c5ce6480fb9bb17aa6349d8a79289f805451410f7da86eaef5a33c1f8753b",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.clippedBufferedRows_disjoint",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.BufferedBlockSchedule",
+      "reporting_source_sha256": "ea6c5ce6480fb9bb17aa6349d8a79289f805451410f7da86eaef5a33c1f8753b",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint2-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.SharedRecipe.calibration",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.ScaleRecipe.unmarked_coherence",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.SharedRecipe.row_local",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_row_parameters",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_bounded_witness_parameters",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.SharedRecipe.paired_integrand",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.FinitePolynomial.value_eq_of_eq_on_live_support",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.fixedSectorParameterMap_exact",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.fixedSectorParameterMap_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_fixed_sector_parameters",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_fixed_sector_witnesses",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.scaled_derivatives_of_decay",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.logSource_uniform_derivatives",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.logSource_uniform_seminorm",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.fourier_seminorm_le",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_fourier_moment",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_fourier_tail",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.cutoffProfile_smooth",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.CanonicalCutoff",
+      "reporting_source_sha256": "52bc85bc1bcf0baa8b4fc8234536aafe907171d16e4c6ad77f5384e2c18bfd2f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.cutoffProfile_complement_norm_le",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.CanonicalCutoff",
+      "reporting_source_sha256": "52bc85bc1bcf0baa8b4fc8234536aafe907171d16e4c6ad77f5384e2c18bfd2f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint5-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Project.exists_detector_numerical_budget",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.DetectorHeightGeometry",
+      "reporting_source_sha256": "df740825aa600ce9e1a7f616157eb096c88c6b6450a5d19e5864c33b81a5c6dd",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Project.shell_height_powers",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.DetectorHeightGeometry",
+      "reporting_source_sha256": "df740825aa600ce9e1a7f616157eb096c88c6b6450a5d19e5864c33b81a5c6dd",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Project.physical_fourier_padding",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.DetectorHeightGeometry",
+      "reporting_source_sha256": "df740825aa600ce9e1a7f616157eb096c88c6b6450a5d19e5864c33b81a5c6dd",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.fixedSectorParameterMap_exact",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.fixedSectorParameterMap_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_fixed_sector_parameters",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_fixed_sector_witnesses",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.fourier_seminorm_le",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_fourier_moment",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_fourier_tail",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.scaled_derivatives_of_decay",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.logSource_uniform_derivatives",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.logSource_uniform_seminorm",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.SharedRecipe.calibration",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.ScaleRecipe.unmarked_coherence",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.SharedRecipe.row_local",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_row_parameters",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_bounded_witness_parameters",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.SharedRecipe.paired_integrand",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.FinitePolynomial.value_eq_of_eq_on_live_support",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.sourceHeightVector_norm_eq",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.WitnessHeightNormalization",
+      "reporting_source_sha256": "31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.normalizedImaginaryParameters_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.WitnessHeightNormalization",
+      "reporting_source_sha256": "31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520",
+      "reporting_source_matches_current": true,
+      "kind": "successful_local_module_print_axioms"
+    }
+  ],
+  "resource_cancellations": [
+    {
+      "module": "ExpansionDetector.HeckeGammaDetector",
+      "outcome": "cancelled",
+      "reason": "Local legacy import exceeded 200 GB physical reads without a proof diagnostic; the task stopped this process and used CI for the actual dependency graph.",
+      "mathematical_failure_claimed": false
+    }
+  ],
+  "cache_provenance_summary": {
+    "source_and_artifact_matched_dependency_modules": 1397,
+    "historical_exact_source_native_modules": 15,
+    "historical_relaxed_auto_implicit_option_explicitly_recorded": false,
+    "cache_reuse_is_not_counted_as_fresh_task_compilation": true,
+    "existing_same_branch_actual_cache": {
+      "branch": "codex/expansion-detector-20261030",
+      "key": "expansion-actual-Linux-eccaf09e22300b265806eb8ff07e7fffe50d130667dd1bc35c996faa94eda615-7ce3b1a7a6a792180727c4b2141824ffaa280f87",
+      "paths": [
+        ".lake/build",
+        "vendor/class-field-theory/.lake/build"
+      ],
+      "compressed_bytes": 134665872,
+      "saved_utc": "2026-10-31T02:30:36.0529984Z",
+      "evidence_job_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41158889277/job/124411822152",
+      "use": "Read-only restore-key fallback to an existing same-branch, same-environment project cache. Save and upload steps are unchanged.",
+      "validation_boundary": "Lake must still validate dependency traces and compile changed source. Cache presence alone is not a theorem certificate."
+    }
+  },
+  "limitations": [
+    "CI jobs listed as failed remain failed even when independent modules have explicit successful build events.",
+    "Source changes after a recorded run are unverified unless another exact-source successful record is present.",
+    "A successful interface or conditional theorem is not a construction of every premise or of the final global recipe.",
+    "The skeleton group inherits repository admissions; successful compilation cannot be described as admission-free closure.",
+    "Only completed successful print-axiom records from successfully built reporting modules are listed; diagnostics from failed elaborations are excluded."
+  ]
+}

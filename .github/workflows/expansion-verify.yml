@@ -48,6 +48,7 @@ jobs:
           key: expansion-${{ matrix.group }}-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
           restore-keys: |
             expansion-${{ matrix.group }}-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+            expansion-actual-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
       - name: Compile original imports and audit transitive axioms
         id: compile
         run: |

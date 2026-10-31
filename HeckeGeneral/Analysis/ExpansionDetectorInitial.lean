@@ -48,12 +48,15 @@ theorem heckeDeletedContinuation_eq_deleted_series
   unfold heckeDeletedContinuation
   rw [heckeContinuation_eq_series K χ hs]
   congr 1
-  simp only [heckeEulerDeletionPolynomial, finiteEulerPolynomial,
-    eulerPolynomial, primeIdealRatio, residueCard, Complex.ofReal_natCast]
 
 def deletedCoefficientHom (χ : HeckeCharacter K)
     (S : Finset (HeightOneSpectrum (𝓞 K))) : Ideal (𝓞 K) →*₀ ℂ :=
   idealCoefficientHom (deletePrimes K S (primeCoefficient K χ))
+
+@[simp] theorem deletedCoefficientHom_apply (χ : HeckeCharacter K)
+    (S : Finset (HeightOneSpectrum (𝓞 K))) (I : Ideal (𝓞 K)) :
+    deletedCoefficientHom K χ S I =
+      idealCoefficient (deletePrimes K S (primeCoefficient K χ)) I := rfl
 
 theorem deletedCoefficientHom_norm_le (χ : HeckeCharacter K)
     (S : Finset (HeightOneSpectrum (𝓞 K))) (I : Ideal (𝓞 K)) :
@@ -84,12 +87,13 @@ theorem heckeDeletedContinuation_eq_allIdeal_series
       ∑' I : Ideal (𝓞 K), idealDirichletWeight (deletedCoefficientHom K χ S) s I := by
   rw [heckeDeletedContinuation_eq_deleted_series K χ S hs]
   have ht := tsum_nonzeroIdeal_eq_tsum K
-    (f := fun I => idealDirichletWeight (deletedCoefficientHom K χ S) s I) (by simp)
+    (f := fun I => idealDirichletWeight (deletedCoefficientHom K χ S) s I)
+    (map_zero (idealDirichletWeight (deletedCoefficientHom K χ S) s))
   rw [← ht]
   apply tsum_congr
   intro I
   simp only [idealDirichletSeries, dirichletSeries, dirichletTerm,
-    idealDirichletWeight_apply, deletedCoefficientHom, idealCoefficientHom,
+    idealDirichletWeight_apply, deletedCoefficientHom_apply,
     nonzeroIdealCoefficient, idealNorm, Complex.ofReal_natCast]
 
 /-- Ordinary absolute convergence is inherited from the existing actual
@@ -106,12 +110,14 @@ theorem deletedCoefficient_initial_absolutelySummable
     apply mem_nonZeroDivisors_iff_ne_zero.mpr
     intro heq
     subst I
-    exact hI (by simp [f])
+    exact hI (by
+      change ‖idealDirichletWeight (deletedCoefficientHom K χ S) s (0 : Ideal (𝓞 K))‖ = 0
+      rw [map_zero, norm_zero])
   have h := absolutelySummable_idealEulerWeight K (deletePrimes K S (primeCoefficient K χ))
     (norm_deletePrimes_le_one K S (primeCoefficient K χ) (norm_primeCoefficient_le_one K χ)) hs
   have hNZ : Summable (fun I : NonzeroIdeal K => f I.val) := by
-    simpa only [f, idealDirichletWeight_apply, deletedCoefficientHom,
-      idealCoefficientHom, idealEulerWeight] using h
+    simpa only [f, idealDirichletWeight_apply, deletedCoefficientHom_apply,
+      idealEulerWeight] using h
   exact ((hasSum_subtype_iff_of_support_subset hsup).mp hNZ.hasSum).summable
 
 theorem heckeDeletedContinuation_entire

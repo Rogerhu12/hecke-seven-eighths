@@ -133,7 +133,19 @@ theorem exists_physical_detection_parameters
       · intro ht₁ ht₂
         exact (ht ⟨ht₁, ht₂⟩).elim
   choose choice β ν hβ hν hactual using hexists
-  exact ⟨choice, β, ν, hβ, hν, hactual⟩
+  refine ⟨(fun t u => if 1 ≤ t ∧ t ≤ 3 / 2 then choice t u else defaultTerminalLabel U),
+    (fun t I => if 1 ≤ t ∧ t ≤ 3 / 2 then β t I else 0),
+    (fun t I => if 1 ≤ t ∧ t ≤ 3 / 2 then ν t I else 0), ?_, ?_, ?_⟩
+  · intro t I
+    split_ifs with ht
+    · exact hβ t I
+    · norm_num
+  · intro t I
+    split_ifs with ht
+    · exact hν t I
+    · simpa only [abs_zero] using mul_nonneg hC.le hT
+  · intro t ht₁ ht₂ u hu
+    simpa only [if_pos (And.intro ht₁ ht₂)] using hactual t ht₁ ht₂ u hu
 
 end Expansion.Project
 

@@ -101,7 +101,7 @@ theorem physical_fourier_padding (i : ℕ) (U T τ : ℝ)
   have hpi : 0 ≤ 2 * Real.pi := by positivity
   have hfreq := mul_le_mul_of_nonneg_left hradius hpi
   have hquarter : 2 * Real.pi * (T / (8 * Real.pi + 8)) ≤ T / 4 := by
-    rw [mul_div_assoc]
+    rw [← mul_div_assoc]
     apply (div_le_iff₀ hden).mpr
     nlinarith
   unfold ExpansionInterfaces.selectedHeight ExpansionInterfaces.upperHeight

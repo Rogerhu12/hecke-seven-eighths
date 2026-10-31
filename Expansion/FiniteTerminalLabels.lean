@@ -30,7 +30,7 @@ def terminalLabelCount (U : ℝ) : ℕ := Fintype.card (TerminalLabel U)
 
 theorem terminalLabelCount_eq (U : ℝ) :
     terminalLabelCount U = 2 * (dyadicCap (3 * U ^ (21 : ℕ)) + 1) ^ 2 := by
-  simp [terminalLabelCount, TerminalLabel, pow_two, mul_assoc]
+  simp [terminalLabelCount, TerminalLabel, pow_two]
 
 theorem terminalLabelCount_pos (U : ℝ) : 0 < terminalLabelCount U := by
   rw [terminalLabelCount_eq]
@@ -61,7 +61,8 @@ theorem terminalLabel_lengths (U t lam : ℝ) (ht : 0 ≤ t) (hlam : 0 ≤ lam)
     terminalLabelInverseLength U t lam l ≤ t + lam ∧
     t - lam ≤ terminalLabelInverseLength U t lam l + terminalLabelPlainLength U t lam l := by
   by_cases hl : terminalLabelValid U t lam l
-  · simpa only [terminalLabelInverseLength, terminalLabelPlainLength, if_pos hl] using hl
+  · simpa only [terminalLabelInverseLength, terminalLabelPlainLength, if_pos hl,
+      terminalLabelValid] using hl
   · simp only [terminalLabelInverseLength, terminalLabelPlainLength, if_neg hl, add_zero]
     exact ⟨ht, le_rfl, by linarith, by linarith⟩
 
@@ -112,6 +113,7 @@ theorem terminalLabelCount_subpower (lam : ℝ) (hlam : 0 < lam) :
   have hUpos : 0 < U := zero_lt_one.trans_le hU
   have hcount := terminal_dyadic_count_subpower hU (show 0 < lam / 2 by positivity)
   have hsq := pow_le_pow_left₀ (Nat.cast_nonneg _) hcount 2
+  push_cast at hsq
   have hp : (U ^ (lam / 2)) ^ 2 = U ^ lam := by
     rw [← Real.rpow_mul_natCast hUpos.le]
     congr 1
@@ -121,7 +123,7 @@ theorem terminalLabelCount_subpower (lam : ℝ) (hlam : 0 < lam) :
   calc
     _ ≤ 2 * (A * U ^ (lam / 2)) ^ 2 :=
       mul_le_mul_of_nonneg_left hsq (by norm_num)
-    _ = _ := by rw [mul_pow, hp]; ring
+    _ = _ := by simp only [mul_pow, hp, mul_assoc]
 
 variable {Row : Type*}
 
@@ -159,7 +161,7 @@ theorem terminalLabelFiber_empty_of_invalid (U t lam : ℝ) (rows : Finset Row)
     (hchoice : ∀ u ∈ rows, terminalLabelValid U t lam (choice u))
     (l : TerminalLabel U) (hl : ¬terminalLabelValid U t lam l) :
     terminalLabelFiber U rows choice l = ∅ := by
-  apply Finset.eq_empty_iff_forall_not_mem.mpr
+  apply Finset.eq_empty_iff_forall_notMem.mpr
   intro u hu
   obtain ⟨hu, heq⟩ := (mem_terminalLabelFiber U rows choice l u).mp hu
   exact hl (heq ▸ hchoice u hu)

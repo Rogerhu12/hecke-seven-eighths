@@ -70,10 +70,10 @@ structure CanonicalDyadicDetection (u : FrequencyRow K S)
 one fixed choice of all internal parameters. The source cutoff remains
 exactly U^t throughout the construction. -/
 theorem exists_physical_row_detection
-    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex) (N : ℕ) (η : ℝ) (hη : 0 < η) :
+    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex) (η : ℝ) (hη : 0 < η) :
     ∃ e ε ceiling : ℝ,
       0 < e ∧ e < 1 / 1000 ∧ 0 < ε ∧ 0 < ceiling ∧
-      ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
+      ∀ N : ℕ, ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
         ∃ Z₀ : ℝ, 2 ≤ Z₀ ∧ ∀ Z : ℝ, Z₀ ≤ Z →
           ∀ d t a : ℝ, 1 / 16 ≤ d → d ≤ 1 → 1 ≤ t → t ≤ 3 / 2 → 51 / 100 ≤ a →
           ∀ h : ℕ, h ≤ N → ∀ u : FrequencyRow K S,
@@ -85,7 +85,7 @@ theorem exists_physical_row_detection
   obtain ⟨e, ε, ceiling, he, heSmall, hε, hceiling, hbudget⟩ :=
     exists_detector_numerical_budget (heightDegree K) η hdegree hη
   refine ⟨e, ε, ceiling, he, heSmall, hε, hceiling, ?_⟩
-  intro τ hτ hτc
+  intro N τ hτ hτc
   obtain ⟨hzbudget, hforward, hreflected⟩ := hbudget τ hτ hτc
   obtain ⟨U₀, hU₀, hdetect⟩ := exists_canonical_row_saturation K S P E ψ hcomplex
     he heSmall hε cutoffProfile cutoffProfile_smooth cutoffProfile_one cutoffProfile_zero
