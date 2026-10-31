@@ -83,7 +83,7 @@ def main() -> int:
     }, indent=2) + '\n')
 
     # '+' disambiguates genuine module targets; :olean avoids unrelated binaries.
-    run('build', ['lake', 'build', *('+' + module + ':olean' for module in args.modules)])
+    run('build', ['lake', '--fail-fast', 'build', *('+' + module + ':olean' for module in args.modules)])
     audit = '\n'.join('import ' + module for module in args.modules) + '''
 import Lean.Elab.Command
 import Lean.Util.CollectAxioms

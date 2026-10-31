@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
 import Mathlib.NumberTheory.NumberField.Basic
 import Mathlib.RingTheory.Ideal.Norm.AbsNorm
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Tactic.Tauto
 
 /-!
 # Prime-ideal pool multiplicities over an arbitrary number field
@@ -135,5 +136,93 @@ theorem ideal_pool_pushforward (rows pool : Finset (Ideal (𝓞 K)))
     exact hpl y.2 (Finset.mem_product.mp
       (Finset.mem_filter.mp (Finset.mem_filter.mp hy).1).1).2
   · exact idealAmplify_norm x Z M L (zero_lt_one.trans hZ) (hhu x.1 hxm.1) (hpu x.2 hxm.2)
+
+/-- The admissible labels exclude the original row and every frozen
+support at once. The fixed support is their product ideal. -/
+def idealPoolEligible (frozen h p : Ideal (𝓞 K)) : Prop :=
+  ¬ p ∣ h ∧ ¬ p ∣ frozen
+
+/-- The norm-product argument gives a uniform bound on all deleted
+labels. At positive pool length this is stronger than an `O(log Z)` bound. -/
+theorem ideal_pool_eligible_count (pool : Finset (Ideal (𝓞 K)))
+    (hp : ∀ p ∈ pool, Prime p) (frozen h : Ideal (𝓞 K))
+    (hfrozen : frozen ≠ 0) (hh : h ≠ 0)
+    (Z ell B M density : ℝ) (hZ : 1 < Z) (hell : 0 < ell)
+    (hlower : ∀ p ∈ pool, Z ^ ell ≤ (Ideal.absNorm p : ℝ))
+    (hfrozenNorm : (Ideal.absNorm frozen : ℝ) ≤ Z ^ B)
+    (hrowNorm : (Ideal.absNorm h : ℝ) ≤ Z ^ M)
+    (hpool : density + M / ell + B / ell ≤ (pool.card : ℝ)) :
+    density ≤ ((pool.filter (idealPoolEligible frozen h)).card : ℝ) := by
+  let rowBad := pool.filter (fun p => p ∣ h)
+  let frozenBad := pool.filter (fun p => p ∣ frozen)
+  have hrow : (rowBad.card : ℝ) ≤ M / ell :=
+    large_prime_ideal_count rowBad
+      (fun p hp' => hp p (Finset.mem_filter.mp hp').1) h hh
+      (fun p hp' => (Finset.mem_filter.mp hp').2) Z ell M hZ hell
+      (fun p hp' => hlower p (Finset.mem_filter.mp hp').1) hrowNorm
+  have hfroz : (frozenBad.card : ℝ) ≤ B / ell :=
+    large_prime_ideal_count frozenBad
+      (fun p hp' => hp p (Finset.mem_filter.mp hp').1) frozen hfrozen
+      (fun p hp' => (Finset.mem_filter.mp hp').2) Z ell B hZ hell
+      (fun p hp' => hlower p (Finset.mem_filter.mp hp').1) hfrozenNorm
+  have he : pool.filter (idealPoolEligible frozen h) = pool \ (rowBad ∪ frozenBad) := by
+    ext p
+    simp only [Finset.mem_filter, idealPoolEligible, Finset.mem_sdiff,
+      Finset.mem_union, rowBad, frozenBad]
+    tauto
+  rw [he]
+  exact eligible_count_after_deletions pool rowBad frozenBad (M / ell) (B / ell)
+    density hrow hfroz hpool
+
+/-- The complete one-pool inequality with eligibility and output
+multiplicity proved on actual prime ideals. Only the raw prime-pool size
+and the local column identity remain to be supplied. -/
+theorem ideal_whole_polynomial_pool_energy {ι : Type*}
+    (columns : Finset ι) (c : ι → ℂ)
+    (G : ι → Ideal (𝓞 K) → ℂ) (valuation : Ideal (𝓞 K) → ι → ℕ)
+    (rows pool : Finset (Ideal (𝓞 K))) (frozen : Ideal (𝓞 K))
+    (hrows : ∀ h ∈ rows, h ≠ 0) (hp : ∀ p ∈ pool, Prime p)
+    (hfrozen : frozen ≠ 0)
+    (Z ell M L B density : ℝ) (hZ : 1 < Z) (hell : 0 < ell) (hdensity : 0 < density)
+    (hpl : ∀ p ∈ pool, Z ^ ell ≤ (Ideal.absNorm p : ℝ))
+    (hpu : ∀ p ∈ pool, (Ideal.absNorm p : ℝ) ≤ Z ^ L)
+    (hhu : ∀ h ∈ rows, (Ideal.absNorm h : ℝ) ≤ Z ^ M)
+    (hfrozenNorm : (Ideal.absNorm frozen : ℝ) ≤ Z ^ B)
+    (hpool : density + M / ell + B / ell ≤ (pool.card : ℝ))
+    (hlocal : ∀ h ∈ rows, ∀ p ∈ pool, idealPoolEligible frozen h p → ∀ i ∈ columns,
+      valuation p i ≠ 1 → valuation p i ≠ 6 → valuation p i ≠ 7 →
+        G i (idealAmplify (h, p)) = G i h) :
+    let eligible := eligiblePairs rows pool (idealPoolEligible frozen)
+    (∑ h ∈ rows, ‖wholePolynomial columns c G h‖ ^ 2) ≤ (4 / density) *
+      (((M + 6 * L) / ell) * ∑ y ∈ eligible.image idealAmplify,
+          ‖wholePolynomial columns c G y‖ ^ 2 +
+       ∑ x ∈ eligible,
+         (‖valuationError columns c G (valuation x.2) 1 x.1 (idealAmplify x)‖ ^ 2 +
+          ‖valuationError columns c G (valuation x.2) 6 x.1 (idealAmplify x)‖ ^ 2 +
+          ‖valuationError columns c G (valuation x.2) 7 x.1 (idealAmplify x)‖ ^ 2)) := by
+  dsimp only
+  apply whole_polynomial_pool_energy columns c G valuation rows pool
+    (idealPoolEligible frozen) idealAmplify density ((M + 6 * L) / ell) hdensity
+  · intro h hh
+    exact ideal_pool_eligible_count pool hp frozen h hfrozen (hrows h hh)
+      Z ell B M density hZ hell hpl hfrozenNorm (hhu h hh) hpool
+  · exact hlocal
+  · intro I hI
+    obtain ⟨x, hx, rfl⟩ := Finset.mem_image.mp hI
+    have hxm := Finset.mem_product.mp (Finset.mem_filter.mp hx).1
+    apply idealAmplify_fiber_count _ _
+      (mul_ne_zero (pow_ne_zero _ (hp x.2 hxm.2).ne_zero) (hrows x.1 hxm.1))
+    · intro y hy
+      exact hp y.2 (Finset.mem_product.mp
+        (Finset.mem_filter.mp (Finset.mem_filter.mp hy).1).1).2
+    · intro y hy
+      exact (Finset.mem_filter.mp hy).2
+    · exact hZ
+    · exact hell
+    · intro y hy
+      exact hpl y.2 (Finset.mem_product.mp
+        (Finset.mem_filter.mp (Finset.mem_filter.mp hy).1).1).2
+    · exact idealAmplify_norm x Z M L (zero_lt_one.trans hZ)
+        (hhu x.1 hxm.1) (hpu x.2 hxm.2)
 
 end HeckeSkeleton.Moments.EngineStep

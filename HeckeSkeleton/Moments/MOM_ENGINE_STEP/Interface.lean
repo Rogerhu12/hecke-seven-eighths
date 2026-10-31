@@ -1,9 +1,16 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Coefficient
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Ledger
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualPool
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.IdealPool
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimePool
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WholeTransform
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrbitalTransform
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MomentDataAdapter
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DerivedCapacity
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildAssembly
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalRows
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalAmplitude
 
 /-!
 # The unified child step of the paired fourth-moment engine
@@ -53,8 +60,10 @@ theorem paired_child_step (dChild : MomentData K ω ψ) (a : RealParameters)
       (2 * (A - c - w) - Krow - g - g₂ - V) +
       (q + R + E + wo + t₂ + V) + δ)
     (hδ : δ ≤ σ / 2) (hbp : p₂ ≤ b₂) (hB : 0 ≤ B)
-    (hdefect : max (a.n₁ + a.n₂ + 6 * a.κ * a.z - (a.m + a.q)) 0 ≤
-      6 * (w + ell) + err) :
+    (hcharge : 0 ≤ (b₂ - p₂ + w + B + ell) + err / 6 + a.κ * mesh)
+    (hdefect : dChild.geometry.slotCount = 0 ∨
+      max (a.n₁ + a.n₂ + 6 * a.κ * a.z - (a.m + a.q)) 0 ≤
+        6 * (w + ell) + err) :
     a.m + a.q ≤ m + q - σ / 2 ∧ a.m + a.q < m + q ∧
     ∃ removed : Finset (Fin dChild.geometry.slotCount),
       let keep := Finset.univ \ removed
@@ -73,10 +82,12 @@ theorem paired_child_step (dChild : MomentData K ω ψ) (a : RealParameters)
   dsimp only at hid
   have hdrop : a.m + a.q ≤ m + q - σ / 2 := by linarith
   refine ⟨hdrop, by linarith, ?_⟩
-  apply actual_paired_capacity_step dChild a mesh (b₂ - p₂ + w + B + ell) err
-    hκ hmesh hfit hz hprincipal
+  apply actual_paired_capacity_step_or_zero dChild a mesh (b₂ - p₂ + w + B + ell) err
+    hκ hmesh hfit hz hprincipal hcharge
   have hallow := child_allowance_lower b₂ p₂ w B ell hbp hB
-  linarith
+  rcases hdefect with hzero | hdefect
+  · exact Or.inl hzero
+  · exact Or.inr (by linarith)
 
 end HeckeSkeleton.Moments.EngineStep
 

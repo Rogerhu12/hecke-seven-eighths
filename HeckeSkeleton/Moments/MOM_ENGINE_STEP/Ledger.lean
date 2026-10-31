@@ -1,4 +1,5 @@
-import Mathlib.Data.Real.Basic
+import Mathlib.Basic.Real.Basic
+import Mathlib.Algebra.BigOperators.Field
 import Mathlib.Algebra.Order.BigOperators.Group.Finset
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
@@ -85,7 +86,7 @@ theorem weighted_firstAllowance_le {ι : Type*} (S : Finset ι)
   apply max_le
   · calc
       _ = ∑ i ∈ S, (3 * (w i * c i) - 5 * (w i * d i) - w i * r i) / 6 := by
-        simp only [Finset.sum_div, Finset.sum_sub_distrib, ← Finset.mul_sum]
+        simp only [← Finset.sum_div, Finset.sum_sub_distrib, ← Finset.mul_sum]
       _ = ∑ i ∈ S, w i * ((3 * c i - 5 * d i - r i) / 6) := by
         apply Finset.sum_congr rfl
         intro i hi
@@ -159,7 +160,7 @@ theorem weighted_radical_le_half {ι : Type*} (S : Finset ι)
       have hcr : (1 : ℝ) ≤ c i := by exact_mod_cast hc i hi
       have hdr : (1 : ℝ) ≤ d i := by exact_mod_cast hd i hi
       nlinarith [hw i hi]
-    _ = _ := by simp only [Finset.sum_div, Finset.sum_add_distrib]
+    _ = _ := by simp only [← Finset.sum_div, Finset.sum_add_distrib]
 
 /-- The unit radical lies inside the genuine common gcd. -/
 theorem weighted_unit_le_gcd {ι : Type*} (S U : Finset ι) (hU : U ⊆ S)
@@ -454,7 +455,7 @@ theorem weighted_secondSaving_lower {ι : Type*} (S : Finset ι)
       ∑ i ∈ S, w i * secondLocalSaving (c i) (d i) (nonunit i) := by
   calc
     _ = ∑ i ∈ S, w i * (((c i : ℝ) + d i) / 3) := by
-      simp only [mul_div_assoc, mul_add, Finset.sum_div, Finset.sum_add_distrib]
+      simp only [mul_div_assoc, mul_add, ← Finset.sum_div, Finset.sum_add_distrib]
     _ ≤ _ := by
       apply Finset.sum_le_sum
       intro i hi

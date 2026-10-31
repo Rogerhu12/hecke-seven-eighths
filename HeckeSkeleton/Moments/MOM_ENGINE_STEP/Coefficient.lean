@@ -47,9 +47,7 @@ theorem wholeCoefficient_centered (d : MaskedCharacter M R)
     wholeCoefficient true d N t slots a p W₁ W₂ X₁ X₂ Y₁ Y₂ b₁ b₂ l₁ l₂ =
       wholeCoefficient false d N t slots a p W₁ W₂ X₁ X₂ Y₁ Y₂ b₁ b₂ l₁ l₂ -
       wholeCoefficient false d N t slots a p W₁ W₂ Y₁ Y₂ X₁ X₂ b₁ b₂ l₁ l₂ := by
-  simp only [wholeCoefficient, stageRectangle, Bool.true_eq, ite_true, Bool.false_eq_true,
-    ite_false, rectangle]
-  ring
+  simp [wholeCoefficient, stageRectangle, rectangle] <;> ring
 
 theorem wholeCoefficient_zero_of_mask (centered : Bool) (d : MaskedCharacter M R)
     (N : M →* ℝ≥0) (t : ℝ) (slots : Finset ι) (a : ι → ℂ) (p : ι → M)
@@ -81,9 +79,7 @@ theorem stageRectangle_extract (centered : Bool) (N : M →* ℝ≥0)
       stageRectangle centered N W₁ W₂
         (X₁ / (N b₁ : ℝ)) (X₂ / (N b₂ : ℝ))
         (Y₁ / (N b₁ : ℝ)) (Y₂ / (N b₂ : ℝ)) l₁ l₂ := by
-  cases centered <;>
-    simp only [stageRectangle, Bool.true_eq, Bool.false_eq_true, ite_true, ite_false,
-      rectangle, extracted_scale_argument]
+  cases centered <;> simp [stageRectangle, rectangle, extracted_scale_argument]
 
 theorem balanced_scales_extract (X₁ X₂ Y₁ Y₂ B₁ B₂ : ℝ)
     (hbalance : X₁ * X₂ = Y₁ * Y₂) :

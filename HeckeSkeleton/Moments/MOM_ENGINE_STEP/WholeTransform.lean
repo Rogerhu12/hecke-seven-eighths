@@ -3,7 +3,7 @@ import Mathlib.Topology.Algebra.InfiniteSum.Ring
 import Mathlib.Tactic.Ring
 
 /-!
-# Exact Poisson transform of a whole finite Gauss polynomial
+# Whole finite Gauss polynomials: exact expansion and the optional radial transform
 
 The coefficient `c` is arbitrary.  It may therefore contain a centered
 rectangle difference, all frozen extraction factors, the common mask and
@@ -14,9 +14,12 @@ centered rectangles separately.
 Every pair uses `fullModulusCorrelation`, including nonprimitive and
 noncoprime pairs.  The two analytic inputs are explicit: summability of
 the actual weighted pair rows and the repository's `RadialPoissonData`.
-Constructing that data from the general-number-field sector/orbital
-Poisson formula remains an input of the theta layer; this module does
-not assert a two-dimensional radial Poisson provider for every field.
+The radial specialization is an optional formal lemma.  The repository
+already provides general-number-field orbital summation in
+`HeckeGeneral.Analysis.SIntegerPeriodicOrbitalPoisson`,
+`SIntegerMaskedOrbitalPoisson`, and `SIntegerMaskedTruncation`.  Their native
+sector and common-kernel interfaces are the route for the general-field
+engine; they are not replaced by an assertion of radial data for every field.
 -/
 
 noncomputable section
