@@ -174,8 +174,9 @@ theorem source_markedIdeal :
 theorem source_coefficient (θ : HeckeCharacter K) :
     fullCubeCoefficient K S D _ (sourceIndex K S f s k P hk hP hkP cb hPb) θ =
       commonDualCoefficient K S D θ (baseDatum K S f) s cb := by
-  rw [fullCubeCoefficient_fromCoordinates]
-  rfl
+  exact fullCubeCoefficient_fromCoordinates K S D θ
+    (sourceDatum K S f k P hk hP hkP)
+    (sourceCoordinates K S f s k P hk hP hkP cb hPb)
 
 theorem source_frequency (hD : AllowedGeneratorInput K S D) :
     frequencyClass K S D _ (sourceIndex K S f s k P hk hP hkP cb hPb) =
@@ -226,6 +227,8 @@ theorem source_reflectedTerm (hD : AllowedGeneratorInput K S D)
     source_coefficient K S D f s k P hk hP hkP cb hPb θ,
     source_frequency K S D f s k P hk hP hkP cb hPb hD,
     source_allmarks_norm K S f k P hk hP hkP]
+  dsimp only [sourceDatum, sourceIndex, sourceCoordinates, fromCoordinates,
+    activeFrozenIdeal, frequencyUnit, baseDatum]
   have harg := CommonMellin.physical_argument_cancel_mark
     (X := Z * exteriorNorm K S (primeSetIdeal K S f.inactive))
     (A := exteriorNorm K S s.minimum) (F := exteriorNorm K S (primeSetIdeal K S s.active))
@@ -611,7 +614,8 @@ theorem slicedPhysicalBlock_eq_integral [Finite (SixthLocalClasses K S)]
   repeat rw [← integral_const_mul]
   apply integral_congr_ae
   filter_upwards [] with t
-  dsimp only [rho, κ, Y, modeRow, modeMark, modeColumn]
+  delta modeMark modeColumn
+  dsimp only [rho, κ, Y, modeRow]
   ring
 
 #print axioms source_reflectedTerm

@@ -12,6 +12,15 @@
 
 最终签名未增加 completed-energy、分离块能量或行主项估计。局部范数、窗口与导子比较是实际适配层证明的几何条件。目标字典只导入原行定义所在模块，未反向使用待证的主端点来证明自身。
 
+固定 Lean 版本的[公理收集器](https://github.com/leanprover/lean4/blob/470d5ce1400764999581fd26d5d72b00d990b0f4/src/Lean/Util/CollectAxioms.lean) 同时遍历声明类型和证明项。因此本轮还检查了条件端点类型中的直接构造路径，而不假设结构体投影会自动排除其他字段：
+
+- [Base.probeData](../../HeckeSkeleton/Base.lean) 的五个字段来自 `arithmeticData`、两个 `signalCharacters` 投影和两个 `probeTests` 投影。算术路径为 `axiomChoice.thetaData → thetaArithmeticData`，使用已证明的存在性与生成元性质；信号字符和测试函数的直接构造中也没有 admitted 字段。
+- `thetaPeriod` 是 `conjugate P.Lambda * conjugate P.G * targetCharacter`；代表字符的直接构造使用已证明的零点集恒等式。原行继续使用 `completedThetaSum → completedTerm` 的显式求和。
+- [Gram.Orbit](../../HeckeSkeleton/Gram.lean) 只是 `SIntegerOrbits K S (sixthPowerUnits K S)`，没有捆绑 Gram 估计。轨道范数使用带有已证不变性的商提升。
+- `Base.targetData` 确实捆绑尚未证明的 `highExpansion` 和 `rows_in_norm_envelope`，但上述条件端点及其直接构造路径没有引用它。
+
+这项检查止于直接构造及其存在性证明，未发现需要改动的源码问题；它不是传递公理闭包的编译证明。最终端点的实际 `#print axioms` 仍是必需验收。
+
 ## 原始行、掩码和完整单位扇区
 
 [TargetDictionary.completedMarkedRow_eq、completedMarkedRow_energy_eq](../../HeckeSkeleton/LowEnergy/TargetDictionary.lean) 连接原始行、截断和理想—扇区索引。[ActualTupleReconstruction.completedMarkedRow_reflection_identity](../../HeckeSkeleton/LowEnergy/ActualTupleReconstruction.lean) 还原同一行；活动标记（active）之和始终留在每行绝对值平方内部，完整立方变量也留在双列和内。活动标记与行、与立方列的两道移动互素掩码没有被删去；非活动碰撞通过明确的零项处理。

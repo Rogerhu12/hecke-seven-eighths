@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
 public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character
 
 @[expose] public section

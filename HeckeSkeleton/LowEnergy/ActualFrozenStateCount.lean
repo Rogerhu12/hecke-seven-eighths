@@ -143,17 +143,23 @@ theorem frozenState_count_small_power (eps : ℝ) (heps : 0 < eps) :
   intro frozen puncture
   have hc : (Nat.card (FrozenState K S frozen puncture) : ℝ) ≤
       (8 : ℝ) ^ (primeExponents (frozen.val * puncture.val)).support.card * U := by
-    exact_mod_cast (fixedSupport_card K S frozen puncture) ▸
-      frozenState_card K S frozen puncture
+    dsimp only [U]
+    have hcard := frozenState_card K S frozen puncture
+    rw [fixedSupport_card K S frozen puncture] at hcard
+    exact_mod_cast hcard
   calc
     _ ≤ (8 : ℝ) ^ (primeExponents (frozen.val * puncture.val)).support.card * U := hc
     _ ≤ (C0 * (((frozen.val * puncture.val).val.absNorm : ℝ) ^ eps)) * U :=
       mul_le_mul_of_nonneg_right (hbound (frozen.val * puncture.val)) hU
     _ ≤ C * (((frozen.val * puncture.val).val.absNorm : ℝ) ^ eps) := by
-      dsimp [C]
       have hp : 0 ≤ (((frozen.val * puncture.val).val.absNorm : ℝ) ^ eps) :=
         Real.rpow_nonneg (Nat.cast_nonneg _) _
-      nlinarith
+      have hcoeff : C0 * U ≤ C := by
+        dsimp only [C]
+        exact le_add_of_nonneg_left zero_le_one
+      calc
+        _ = (C0 * U) * (((frozen.val * puncture.val).val.absNorm : ℝ) ^ eps) := by ring
+        _ ≤ _ := mul_le_mul_of_nonneg_right hcoeff hp
 
 theorem squared_frozenState_count_small_power (eps : ℝ) (heps : 0 < eps) :
     ∃ C : ℝ, 0 < C ∧ ∀ frozen puncture : ExteriorIdeal K S,

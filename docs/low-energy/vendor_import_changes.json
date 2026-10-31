@@ -348,5 +348,56 @@
       ],
       "proofs_and_definitions_unchanged": true
     }
+  },
+  {
+    "path": "DedekindZetaZeroFree/Arithmetic/RayClasses/Conductors/PrimitiveCharactersByCRT.lean",
+    "original_sha256": "cd61013fac2e70d4246db5c73761bc157d0400752b8852e2aacb4be6b3d4b5d1",
+    "modified_sha256": "a4e71a0c82598378bdbc5256f7905a1eb7f1a2a4f1bbf358cc02dec59c95c7ae",
+    "latest_import_only_check": {
+      "prior_git_blob": "d3674b513e4b6fe3b9ed9a399af8eddf11a7f8e7",
+      "added_imports": [
+        "public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace"
+      ],
+      "proofs_and_definitions_unchanged": true
+    }
+  },
+  {
+    "path": "DedekindZetaZeroFree/Arithmetic/Ideals/Counting/NormSeries.lean",
+    "original_sha256": "6589582847e9b302c37aafee6b84614a9afd1b7e51ac9dfa6f91d162b4fb1e73",
+    "modified_sha256": "56a49f1a5e37fcff849f241da1521e181aede3cdb1cd04be80a288e606a3ddf8",
+    "latest_import_only_check": {
+      "prior_git_blob": "233452b4068271f6c95166c31c9848fe2bdb3f0f",
+      "added_imports": [
+        "public import Mathlib.NumberTheory.NumberField.Ideal.Asymptotics",
+        "public import Mathlib.Algebra.Order.Chebyshev",
+        "public import Mathlib.Analysis.PSeries",
+        "public import Mathlib.NumberTheory.Harmonic.Bounds"
+      ],
+      "proofs_and_definitions_unchanged": true
+    }
+  },
+  {
+    "path": "DedekindZetaZeroFree/HarmonicAnalysis/Fourier/Archimedean/TraceNormalization.lean",
+    "original_sha256": "54a3564136370d447567194d3d1aa2f268710434c155500e4ab67ec5d1a88cde",
+    "modified_sha256": "247d4937a788733a74bfbe3f1a084d75275e8d6630430b57524b8509a18426c3",
+    "latest_import_only_check": {
+      "prior_git_blob": "95e2345711983e22549845237c6f67212d411c0d",
+      "added_imports": [
+        "public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier"
+      ],
+      "proofs_and_definitions_unchanged": true
+    }
+  },
+  {
+    "path": "DedekindZetaZeroFree/Adeles/Characters/CompactCoordinateAnnihilators.lean",
+    "original_sha256": "3c556ec47dea03b1c94392bcf453c6c1d914dfec064bcd8650f592db719ae4d2",
+    "modified_sha256": "146f0f55f92810e4872fecf9adb4c26e08bcc13b34ed51322b6e226bf79f512d",
+    "latest_import_only_check": {
+      "prior_git_blob": "da6cfdb63040f90b256df1c4cd858f716c3c485d",
+      "added_imports": [
+        "public import Mathlib.Analysis.SpecialFunctions.Complex.Circle"
+      ],
+      "proofs_and_definitions_unchanged": true
+    }
   }
 ]

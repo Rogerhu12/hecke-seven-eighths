@@ -1,372 +1,127 @@
 # Low reflected energy: source and verification ledger
 
-This ledger is generated from exact SHA-256 matches between current source files and successful
-Lean build records. It does not certify the target theorem or an end-to-end repository build.
+Prepared from verified CI artifacts at 2026-10-31T05:28:26.296169+00:00.
 
-Base: `dtests-handoff` at `503ad9895e5f8affef55b22fea082e251bf33aa7`.
+The latest completed actual run is `41171430364`, source head `58986fd9264c59427e71268b1c5e00eb1a2e5964`, checkout merge `9cc743c032a2424252e64aa8c8933e505387d446`. Current source hashes include the subsequent two proof repairs; those repairs, and four imports-only dependency repairs, await the next CI run. The current repair commit will be identified through the PR.
 
-62 new modules have matching successful build records; 32 do not.
+The subsequent upstream baseline `a217322c47d13ea08c02d50eaa270e2b7ca09852` is outside this completed run's evidence. Matching task-source bytes do not establish verification of that later dependency graph or configuration.
 
-| Module | Current source SHA-256 | Status |
-|---|---|---|
-| `HeckeSkeleton.LowEnergy.AnnularEnergy` | `5d1592104712b988144dd32b0783c3daa735c0f74545654345362f50fbd24748` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.MellinEnergy` | `3246452a28eba477a0534613895cb331e8dfecb6e25f3570c85f726b042b30dc` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.KeepOriginalRow` | `011da9dcf746e4ab6a9a9ff029f23c94ea46adec50aae916e45d1f9d082d05e1` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.OriginalRowNormalForm` | `707f797038f6b9c115711c3701b4229d5faf8edf6c8984be19310051b32e49a5` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.SmallPowers` | `45c6abcb4dd50f7bc21c1595cea816e7adec9fb6de30150563f3b45e2633daa1` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.IdealMajorant` | `dcd161483c67bfc4e61dd8dd2a2bc9f1cb3f4e74cb9c7c99116a27c7ccea76fc` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.IdealMass` | `de311d9dfa1cf265a511380ab659698997673f10b43ae3038fa677aea5866c4f` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.OriginalRowSupport` | `d0d075ae5841cd64b2ddc8b4c428f0d8c87f666e9385517a8f75ff341eb654c3` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.SquarefreeFibers` | `8b71a2ee70b724c141d3257656c5107a771ce0de9e634b8c146cc7735b549185` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowHybrid.SieveComposition` | `b59601851cb677b730d0927d1b423140a98c601167cd580813662c778b11bbb9` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowHybrid.Assembly` | `bfbc0a1cb47dbde64240f318bcc9cfacdc12d43336b42ace31b6717a18cdb456` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowHybrid.Weighted` | `30e1f4a7ced3a7a12109d5f9b634267975a64105953638e0fd21903c9cb8091f` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowHybrid.Global` | `4fee86656221c1abf7dfac6b151edff0d2fc0e342b58b4ecbaa8dc4d3d67b4d7` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowHybrid.SieveBounds` | `2798478ee031d9112d5ed8fa6ce2d1f2be193b9b431158231b2f727b5744d36b` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowHybrid.Transpose` | `cf53f11bfabb6ae2d84784a8cf0e38b24708994bed3c77db017de5495538cad5` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowHybrid.WeightedSieveBounds` | `508aaef817c8aba5b7f9ad33fb9e32b93e326c9b6a5b0dd18d5a6f1b5c94709f` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ConcreteIdealBlock` | `ee207c9801cc72577d68b2686f24c2ab2ee057f0231b15fa9e3e3d5fd9001389` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.UniformIdealHybrid` | `afc3f55d580a4d0f24d5120b800c4071f7729f3bdeb94f5c503fb85324681266` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.IdealDivisorMasks` | `c88c5268423399b65030a5dd7aee714709bb8a0b64cdd655ffecb35c582ce33d` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.IdealCanonicalColumns` | `bdfeb5349871965e8093a8ed6ec4c7e6bb699c7740d392b34591844e0e6b2206` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.RawIdealHybrid` | `5b6a2cf8503baaadf803f24ffa340d6757eb48db92ec500fe514f71ba170d8e0` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.HybridScaling` | `b44f5bbb0ea15675d53b24debe7cef9a477957ed4e9234391437beab616cb96b` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.MellinHybrid` | `964f08a630601c28580ee304f6fb0d182858cce70239830cf4ce5929ee74ea46` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.Exponent` | `6e2a5c32f5913e62a31d287a54dfcc345e11df9cf78aa8fb30a1e569b73e5ab4` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ExponentTail` | `690fafe1df46d84c203a29388941e54de411cde053ef6a8fcfdf8c18039fb9ee` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.CommonMellin` | `2b88696cd22a8b361094766c78ea1a1b9cc2d2ab192c81a45597c963bf8895af` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.CommonMellinTail` | `7d47587515bcd1822f67fba469870029bc4d3dbbb257ee740db3d0fb3fb84b91` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.BlockPolynomial` | `531de8ea0d05afd26e99191d2337777be07d757597955445eb36c5f4aef8c739` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.DyadicTail` | `4af86f5e7cb309b18faa901fd5999080bcb47d13e98c3559d930836493e6da2f` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.EulerLog` | `17846e1fc90894d2e17e53194a370990928bc45a40df4b9e984168eb2a9f36c0` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.GaussianReconstruction` | `19199329a679c99ad32a731a8e47c296545df5f0593ee5d68118d6aabaec6730` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.GaussianSeminorm` | `87f07e913c0edf9f7304a9b12ca6c5ae7237fad78eca7d6bb2f31a8e2dbb8581` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.GaussianDyadicBudget` | `2004a772930e5cafe9c536ad58864793365f11d4663cfe43314394d2a06026eb` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.GaussianEnergyAssembly` | `3450d85543b3125e297d517fe4829c57cf2299cfc94c17d3f2478d22d56d5c91` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.IdealRows` | `7ab30fac83247540d6ab663d1929375ccc1dca1c3bad4d80e74d556d31889a44` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.Rankin` | `cf609b3271aa6a31af843413fa89128dd637faab760c223cc2d1199e4e05983a` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.IdealRankin` | `81b3cc328aadb5242be6f4630678fb4ff8272aa76e70c8b92471f47195406134` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.FiniteFiberEnergy` | `33dc88a2b8e15c184eb1fe8612111161d8df1847d33286a96d01f27c95981ae1` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.PowerfulRowAssembly` | `7ea7481216763975d13109dcac748c285d8f0eacb2e7cdebe3c2f37e47e7dc19` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.PhysicalDyadicBudget` | `89552bd5eed7a7491c4f18dfa1019c247b1726d9f309ea76c4ef35ecbb93fa6d` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.LogGeometry` | `8d27cd3ef66f28e93190a711195513f18fbb75e40a3098d42885e19ef93fa1bc` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.FiniteHybridIntegral` | `ada046f6c2773e29d4a32cd3b1aae23f5eac5eea07c1b42aceb1e1c9e9ae552c` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.TupleCore` | `97bda35566a1ee9e0ea32ab48a1d30144f21b53611f3da6ce2b795c28692c843` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.InactiveCore` | `c34b54792916fb39205e6770487cf10f4f4ad25f8f907394cdf3efaacb9cbfb4` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.DyadicReindex` | `219709977718b91fd49038da3d6112a185c89f428818c7d0a3bad179c4f8760d` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.LocalWeylTableCore` | `feca761900a6068ab4fb2fd482906d5691f084458c1efac0e4c211ecb2c51aed` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.FrozenChargeCore` | `7341f3fbf0ac735466382af63aea40b3379408b205950813a62b4364098349be` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.SupportPowers` | `e985c4857fc79f114080f3b0cad770729247f6af598b2b66811eb93391387566` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.IdealSupportPowers` | `57e3cef5f6de2c9aa68892bc62361c228d1b16fdbbca9b1668182842d0f43ed7` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualRows` | `1984654b60ee1e534b91818036ffe0d57ed025f2cfccc729b1f4830cb24e6930` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualSymbols` | `de486fd4e59862eb9b1de7d4aa9b5b39bb9d98ea190d632fe384d0dfa9b908de` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualReflection` | `e308dce568976555c99081e8261b11e690b6cc37cbe479cbb2011b4f2fe698c1` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualSymbolProducts` | `8bdb80e4d76c8452730b6afe3dbb15873ba62ba0d6b286efb8248cf39e60fe71` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowFrozenCube.Exponents` | `85c9a0b5694c870bb37eaa309acbf33deaba03cc34fe600a60a58f7cfb8e55f3` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.FrozenIdealRows` | `5366d207da63509df2a337d7618c06858e1130dea74d9c1e23ff5006729c9c79` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualFrozenCube` | `7e6e9967d4b50c14dbdde0cbe33e8ff8948c637b0c3b37da71ce3858fd7b37d3` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualLocalWeylTable` | `f42c55bacc813dfcad740ddc5bc7e021dfd9ccc0151543e3b54b60cbcee2d2fe` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualFrozenMajorant` | `a65fd7aa11e18be762e28b1857191482b210556c531a459608ea902addf11e87` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualFrozenIndependence` | `e7e738d019eefe080e1f52680838774211744deb50f66f6ad93d6e74fa2e609b` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualReflectionReindex` | `7b64a56adb5c77dd1860798a44e598f3d6b8641b993e29b74c0dbb586d0fa4ab` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualCommonMellinTail` | `1e17a8197abe8ee47a796245bcf4db82e53c092d9de47310832b7e949ef70b5b` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualFrozenCharges` | `bc60ee44c2669ab7257441afdbee05b2f29bddb0f8aa9be710783348921dd880` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualFrozenStateCount` | `c84b2294d874618fe1b0c68e629192d9032cc9bd10f01ed5938ee509b9e307ba` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualSieveDictionary` | `f58fd9887be68209382570e91ebe3c8c4856bcf3bf8b74b514cbd1a24b5218c8` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualRawHybrid` | `094374bb2150f3c85e7cc7e1a5c1684a7222403a3b425e80410326de0388c5d1` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualHybridEntry` | `c9fd521dd15c122cf9d527b3675dbe92cea9cd67490ecbabfd1a6e6d1e2fab01` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ClassSlices` | `e6d8d177a719024e0258d2a2373e0d1c930b84f588e0c44e5f9f6809a0e595c1` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualClassSlices` | `0f8ee961e8baea6d0c9bb7f97afb684216c67cbdf88b8041321ce83d6009ad9b` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualGeneratorClasses` | `a137ece1cbe57e1f11e31d242e05c526e6e989a51309a94057e330fb3ce97251` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualSeparatedBlock` | `2eed8ceb2cb5f8e139ce08603f41137843b1bf236774871bd8acc8afdbd6d096` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualBlockEnergy` | `b85e09a25c886496b7f966781ab5c4c4cad6e1765a39d350e4611c68f5785479` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.SlotTuples` | `6bf40582c293fce717b909cbd8783c9a6d70b685771b0b75afffffea4416c1b9` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.WindowTuples` | `c8ce8280dc4e6164ed75ab79447e5fa1101473a1c94a478c8b0f824a2951d36f` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.InactiveWindows` | `9278a82089e84d999a85b223feace80ffdac10bdb819a814f9e607d0b9f05485` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.TargetDictionary` | `89c7e7faef5340f13530d8c4d8a3c0e603254008d58e409b6b79a2d8536727ed` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.GaussianTheta` | `9b4b613f3db37039dd4fa21714455c44494d56174596b8a249500f6a4855efea` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.TargetGaussian` | `95391295545a8035dc44c73eb7e0bfd3100d106ce76daa31fba6f705e251dc04` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.TargetSieveDictionary` | `76ba1619c063dba496ec891841cd1d61f92d93d1f39c605e6a26ed8f5c0a6929` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualBlockReindex` | `cdf784bdc265a7eb75ee21a3e87ecd917c1c9cc53723c3fa1efe658aaf0b6e5c` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualSourceReindex` | `c0acedfdf1431832d1042228dcb9a7e0c6046f6addf86d54b8ea7cca2e2d914b` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualRowFibres` | `1759c44a943601c80a103da42945620c346fb7608d47df0cb02491b56a8742bb` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualDyadicReflection` | `c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial` | `bb5e86bb0bee0b24dc02e21993f90c896a32cbb096f4fbd0dfce68feebe3c409` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy` | `66559059e3e32ec55dba8fd635ed3fc1d2f52fabdb39b1751dda0d2054a9a2c8` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy` | `20cbd04ebaacfd5fbfe6f532f9edc30305a4b1e08998691912acbbe88ad96277` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualFrozenAggregation` | `47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualFrozenReconstruction` | `5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy` | `763cd3d13594e3caead07b43da22c3d0b1e49130f57ee42f3a3e6d1bf0076cdb` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualTupleReconstruction` | `fddcae0c3187ba1097e93970803a7e3583b06abe14c023a5a0dd7c1df578d22f` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy` | `e3643acb6ed48c2510c739099cbfbca58f4ffb79137801f09d6bb9f072f5ca49` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy` | `aff5da5ca4eb82f4d6a43b284159354b3bb85220959cee5d46ad4967131de103` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy` | `6b17122916d248f46bf750637b7de135dbaacd7662e97ce43ab280ee59481b84` | NOT_CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowFrozenCube.Valuations` | `5249d242539316a45ea01cfe73af5ac6dd607b1ddf6b3b9033ca850ef980a1c7` | CHECKED_EXACT_SOURCE |
-| `HeckeSkeleton.LowFrozenCube.LocalCoefficients` | `480a326fa64d1ab714ab9e751e3c32a88a248c7938b1c398bbed187a8fba4a17` | CHECKED_EXACT_SOURCE |
+76 of 94 new modules have matching successful source evidence; 18 do not.
 
-## Remote records, distinct from local object files
+Direct compilations, exact-cache reuse, preserved historical evidence, native dependency reuse, failures, skips, and changed sources remain distinct.
 
-Run 41131932184 at f544c0ade113a88152ec97316c1d57e5f94cd00e: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41131932184.
-This core job passed all 66 real modules. This does not establish the actual-adapter or Principal gates.
-Accepted module records match current source, toolchain, package lock, log digest,
-and all recursively checked local dependency sources and output-artifact digests.
-Earlier raw records retain the previous failure. No remote record is represented as a local olean.
+Native old-dependency reuse never certifies a new proof module. Python regression tests are excluded from proof evidence.
 
+Latest supplied actual final gate: `not_run_due_to_failed_or_skipped_modules`.
 
-## Actual-adapter run: successful modules in a failed job
+The latest actual records 634 direct successes (575 exact caches, 59 new compilations), separately from 1,794 native old-dependency reuses. It records six compiler failures, one diagnostic timeout with no proof result, and 1,123 skips.
 
-Run 41133600333 at 4d8ce5b336f59cc84b495346fed4ff88a0c214bf: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41133600333.
-285 modules passed; 3 source errors and 1 diagnostic timeout prevented the final gate.
-Only exact current-source records with recursively verified source and artifact dependencies are accepted.
-The raw records for accepted new modules are included; the complete ancestor record set is in the linked artifact.
+The three newly compiled task modules are `ActualReflectionReindex` (eight clean public axiom reports), `ActualFrozenCharges` (three), and `ActualHybridEntry` (no printed public theorem report). Compilation evidence alone does not establish an unprinted public axiom audit.
 
+Exact source evidence alone does not certify the final theorem or a modified full dependency graph.
 
-## Legacy build records excluded pending dependency recheck
+Full new-module records and original compiler output are in [aggregate_evidence.json](aggregate_evidence.json). Existing historical evidence paths remain preserved in the manifest.
 
+| Module | Current source SHA-256 | Source evidence | Latest supplied attempt |
+|---|---|---|---|
+| `HeckeSkeleton.LowEnergy.AnnularEnergy` | `5d1592104712b988144dd32b0783c3daa735c0f74545654345362f50fbd24748` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.MellinEnergy` | `3246452a28eba477a0534613895cb331e8dfecb6e25f3570c85f726b042b30dc` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.KeepOriginalRow` | `011da9dcf746e4ab6a9a9ff029f23c94ea46adec50aae916e45d1f9d082d05e1` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.OriginalRowNormalForm` | `707f797038f6b9c115711c3701b4229d5faf8edf6c8984be19310051b32e49a5` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.SmallPowers` | `45c6abcb4dd50f7bc21c1595cea816e7adec9fb6de30150563f3b45e2633daa1` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.IdealMajorant` | `dcd161483c67bfc4e61dd8dd2a2bc9f1cb3f4e74cb9c7c99116a27c7ccea76fc` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.IdealMass` | `de311d9dfa1cf265a511380ab659698997673f10b43ae3038fa677aea5866c4f` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.OriginalRowSupport` | `d0d075ae5841cd64b2ddc8b4c428f0d8c87f666e9385517a8f75ff341eb654c3` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.SquarefreeFibers` | `8b71a2ee70b724c141d3257656c5107a771ce0de9e634b8c146cc7735b549185` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowHybrid.SieveComposition` | `b59601851cb677b730d0927d1b423140a98c601167cd580813662c778b11bbb9` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowHybrid.Assembly` | `bfbc0a1cb47dbde64240f318bcc9cfacdc12d43336b42ace31b6717a18cdb456` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowHybrid.Weighted` | `30e1f4a7ced3a7a12109d5f9b634267975a64105953638e0fd21903c9cb8091f` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowHybrid.Global` | `4fee86656221c1abf7dfac6b151edff0d2fc0e342b58b4ecbaa8dc4d3d67b4d7` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowHybrid.SieveBounds` | `2798478ee031d9112d5ed8fa6ce2d1f2be193b9b431158231b2f727b5744d36b` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowHybrid.Transpose` | `cf53f11bfabb6ae2d84784a8cf0e38b24708994bed3c77db017de5495538cad5` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowHybrid.WeightedSieveBounds` | `508aaef817c8aba5b7f9ad33fb9e32b93e326c9b6a5b0dd18d5a6f1b5c94709f` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ConcreteIdealBlock` | `ee207c9801cc72577d68b2686f24c2ab2ee057f0231b15fa9e3e3d5fd9001389` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.UniformIdealHybrid` | `afc3f55d580a4d0f24d5120b800c4071f7729f3bdeb94f5c503fb85324681266` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.IdealDivisorMasks` | `c88c5268423399b65030a5dd7aee714709bb8a0b64cdd655ffecb35c582ce33d` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.IdealCanonicalColumns` | `bdfeb5349871965e8093a8ed6ec4c7e6bb699c7740d392b34591844e0e6b2206` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.RawIdealHybrid` | `5b6a2cf8503baaadf803f24ffa340d6757eb48db92ec500fe514f71ba170d8e0` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.HybridScaling` | `b44f5bbb0ea15675d53b24debe7cef9a477957ed4e9234391437beab616cb96b` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.MellinHybrid` | `964f08a630601c28580ee304f6fb0d182858cce70239830cf4ce5929ee74ea46` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.Exponent` | `6e2a5c32f5913e62a31d287a54dfcc345e11df9cf78aa8fb30a1e569b73e5ab4` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ExponentTail` | `690fafe1df46d84c203a29388941e54de411cde053ef6a8fcfdf8c18039fb9ee` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.CommonMellin` | `2b88696cd22a8b361094766c78ea1a1b9cc2d2ab192c81a45597c963bf8895af` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.CommonMellinTail` | `7d47587515bcd1822f67fba469870029bc4d3dbbb257ee740db3d0fb3fb84b91` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.BlockPolynomial` | `531de8ea0d05afd26e99191d2337777be07d757597955445eb36c5f4aef8c739` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.DyadicTail` | `4af86f5e7cb309b18faa901fd5999080bcb47d13e98c3559d930836493e6da2f` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.EulerLog` | `17846e1fc90894d2e17e53194a370990928bc45a40df4b9e984168eb2a9f36c0` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.GaussianReconstruction` | `19199329a679c99ad32a731a8e47c296545df5f0593ee5d68118d6aabaec6730` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.GaussianSeminorm` | `87f07e913c0edf9f7304a9b12ca6c5ae7237fad78eca7d6bb2f31a8e2dbb8581` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.GaussianDyadicBudget` | `2004a772930e5cafe9c536ad58864793365f11d4663cfe43314394d2a06026eb` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.GaussianEnergyAssembly` | `3450d85543b3125e297d517fe4829c57cf2299cfc94c17d3f2478d22d56d5c91` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.IdealRows` | `7ab30fac83247540d6ab663d1929375ccc1dca1c3bad4d80e74d556d31889a44` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.Rankin` | `cf609b3271aa6a31af843413fa89128dd637faab760c223cc2d1199e4e05983a` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.IdealRankin` | `81b3cc328aadb5242be6f4630678fb4ff8272aa76e70c8b92471f47195406134` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.FiniteFiberEnergy` | `33dc88a2b8e15c184eb1fe8612111161d8df1847d33286a96d01f27c95981ae1` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.PowerfulRowAssembly` | `7ea7481216763975d13109dcac748c285d8f0eacb2e7cdebe3c2f37e47e7dc19` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.PhysicalDyadicBudget` | `89552bd5eed7a7491c4f18dfa1019c247b1726d9f309ea76c4ef35ecbb93fa6d` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.LogGeometry` | `8d27cd3ef66f28e93190a711195513f18fbb75e40a3098d42885e19ef93fa1bc` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.FiniteHybridIntegral` | `ada046f6c2773e29d4a32cd3b1aae23f5eac5eea07c1b42aceb1e1c9e9ae552c` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.TupleCore` | `97bda35566a1ee9e0ea32ab48a1d30144f21b53611f3da6ce2b795c28692c843` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.InactiveCore` | `c34b54792916fb39205e6770487cf10f4f4ad25f8f907394cdf3efaacb9cbfb4` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.DyadicReindex` | `219709977718b91fd49038da3d6112a185c89f428818c7d0a3bad179c4f8760d` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.LocalWeylTableCore` | `feca761900a6068ab4fb2fd482906d5691f084458c1efac0e4c211ecb2c51aed` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.FrozenChargeCore` | `7341f3fbf0ac735466382af63aea40b3379408b205950813a62b4364098349be` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.SupportPowers` | `e985c4857fc79f114080f3b0cad770729247f6af598b2b66811eb93391387566` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.IdealSupportPowers` | `57e3cef5f6de2c9aa68892bc62361c228d1b16fdbbca9b1668182842d0f43ed7` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualRows` | `1984654b60ee1e534b91818036ffe0d57ed025f2cfccc729b1f4830cb24e6930` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualSymbols` | `de486fd4e59862eb9b1de7d4aa9b5b39bb9d98ea190d632fe384d0dfa9b908de` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualReflection` | `e308dce568976555c99081e8261b11e690b6cc37cbe479cbb2011b4f2fe698c1` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualSymbolProducts` | `2a12162291d545368c226a2c88619cf5036e90ff157acaa6f4874efc616671b1` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowFrozenCube.Exponents` | `85c9a0b5694c870bb37eaa309acbf33deaba03cc34fe600a60a58f7cfb8e55f3` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.FrozenIdealRows` | `5366d207da63509df2a337d7618c06858e1130dea74d9c1e23ff5006729c9c79` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualFrozenCube` | `993d2b1e17853dcf44b4ec7452c2e97c81efb2c70fd904a89793c653c8dca70c` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualLocalWeylTable` | `756607d8af9886598e7344653f8284d7f0f34c4c907cc173db67f86ad99427f2` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualFrozenMajorant` | `9d778e91996a11a240e4e2ca3a560f92e39c5fcf5b31fe08a9ac37ac7bfceb61` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualFrozenIndependence` | `e8e85cd0a5a9febb7cafb46e2136ae25f84d1401ee7b9031767ae1f644d76062` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualReflectionReindex` | `36c0d10a68e2dc30628e1a621e9638e338dde7c37f129dbe77aee11bee970862` | direct_compiled_success | direct_compiled_success |
+| `HeckeSkeleton.LowEnergy.ActualCommonMellinTail` | `1e17a8197abe8ee47a796245bcf4db82e53c092d9de47310832b7e949ef70b5b` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualFrozenCharges` | `bc60ee44c2669ab7257441afdbee05b2f29bddb0f8aa9be710783348921dd880` | direct_compiled_success | direct_compiled_success |
+| `HeckeSkeleton.LowEnergy.ActualFrozenStateCount` | `a877d86f448e5ad8e3c78a87c228389a4a3fe6ca1b47c5167c8d368ad8df7858` | changed_since_recorded_source | failed; source changed |
+| `HeckeSkeleton.LowEnergy.ActualSieveDictionary` | `f58fd9887be68209382570e91ebe3c8c4856bcf3bf8b74b514cbd1a24b5218c8` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualRawHybrid` | `094374bb2150f3c85e7cc7e1a5c1684a7222403a3b425e80410326de0388c5d1` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualHybridEntry` | `f3bdb01ca452f7116cf1b754203c94dcfb80459427ff65146b47b5de8e5005fe` | direct_compiled_success | direct_compiled_success |
+| `HeckeSkeleton.LowEnergy.ClassSlices` | `e6d8d177a719024e0258d2a2373e0d1c930b84f588e0c44e5f9f6809a0e595c1` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualClassSlices` | `f4e8a37f474aa408bfb5c20dbb06ee8f77aaf32a8b4f730417ee8d69afa72896` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualGeneratorClasses` | `94f309c0127dcbd7e293013c0dd6bb410d9980b4a78b5ea5b8275f092dfb8cc5` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualSeparatedBlock` | `df34c2583706ea16e9ab9978882cd514c165d6888bc4619db1f49a138072410e` | changed_since_recorded_source | failed; source changed |
+| `HeckeSkeleton.LowEnergy.ActualBlockEnergy` | `2e5ec17d6844ab9b474014c6b0b0233d8f3197262226baaa0e7539ec0c5182fb` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.SlotTuples` | `6bf40582c293fce717b909cbd8783c9a6d70b685771b0b75afffffea4416c1b9` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.WindowTuples` | `c8ce8280dc4e6164ed75ab79447e5fa1101473a1c94a478c8b0f824a2951d36f` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.InactiveWindows` | `9278a82089e84d999a85b223feace80ffdac10bdb819a814f9e607d0b9f05485` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.TargetDictionary` | `89c7e7faef5340f13530d8c4d8a3c0e603254008d58e409b6b79a2d8536727ed` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.GaussianTheta` | `9b4b613f3db37039dd4fa21714455c44494d56174596b8a249500f6a4855efea` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.TargetGaussian` | `9c36836c6aa54d5e4093a70bd241debc39c9a983d32ee1e9671fc61a6cdc9461` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.TargetSieveDictionary` | `76ba1619c063dba496ec891841cd1d61f92d93d1f39c605e6a26ed8f5c0a6929` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.ActualBlockReindex` | `cdf784bdc265a7eb75ee21a3e87ecd917c1c9cc53723c3fa1efe658aaf0b6e5c` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.ActualSourceReindex` | `c0acedfdf1431832d1042228dcb9a7e0c6046f6addf86d54b8ea7cca2e2d914b` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.ActualRowFibres` | `1759c44a943601c80a103da42945620c346fb7608d47df0cb02491b56a8742bb` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualDyadicReflection` | `c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial` | `bb5e86bb0bee0b24dc02e21993f90c896a32cbb096f4fbd0dfce68feebe3c409` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy` | `66559059e3e32ec55dba8fd635ed3fc1d2f52fabdb39b1751dda0d2054a9a2c8` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy` | `b367a9debe758ffd2aed265e13983f5c940fa8c565a6a4460545425fef9b7ddc` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.ActualFrozenAggregation` | `47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.ActualFrozenReconstruction` | `5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy` | `763cd3d13594e3caead07b43da22c3d0b1e49130f57ee42f3a3e6d1bf0076cdb` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.ActualTupleReconstruction` | `fddcae0c3187ba1097e93970803a7e3583b06abe14c023a5a0dd7c1df578d22f` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy` | `e3643acb6ed48c2510c739099cbfbca58f4ffb79137801f09d6bb9f072f5ca49` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy` | `aff5da5ca4eb82f4d6a43b284159354b3bb85220959cee5d46ad4967131de103` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy` | `6b17122916d248f46bf750637b7de135dbaacd7662e97ce43ab280ee59481b84` | skipped | skipped |
+| `HeckeSkeleton.LowFrozenCube.Valuations` | `5249d242539316a45ea01cfe73af5ac6dd607b1ddf6b3b9033ca850ef980a1c7` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowFrozenCube.LocalCoefficients` | `480a326fa64d1ab714ab9e751e3c32a88a248c7938b1c398bbed187a8fba4a17` | direct_exact_cache_success | direct_exact_cache_success |
 
-## Missing source dependencies
+## Supplied run evidence
 
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.SPlaces` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/SPlaces.lean`)
-- `DedekindZetaZeroFree.Arithmetic.Ideals.SIntegerLocalization.IdealCorrespondence` (`DedekindZetaZeroFree/Arithmetic/Ideals/SIntegerLocalization/IdealCorrespondence.lean`)
-- `DedekindZetaZeroFree.CharacterSums.Gauss.SexticFourierMasks` (`DedekindZetaZeroFree/CharacterSums/Gauss/SexticFourierMasks.lean`)
-- `DedekindZetaZeroFree.Moments.Comparison.FarDyadSummability` (`DedekindZetaZeroFree/Moments/Comparison/FarDyadSummability.lean`)
-- `DedekindZetaZeroFree.LFunctions.Hecke.RayContinuationData` (`DedekindZetaZeroFree/LFunctions/Hecke/RayContinuationData.lean`)
-- `DedekindZetaZeroFree.CharacterSums.Gauss.ResidueRowFourierTransform` (`DedekindZetaZeroFree/CharacterSums/Gauss/ResidueRowFourierTransform.lean`)
-- `DedekindZetaZeroFree.ZeroDetection.Conductors.FrequencyDyadCounts` (`DedekindZetaZeroFree/ZeroDetection/Conductors/FrequencyDyadCounts.lean`)
-- `DedekindZetaZeroFree.HarmonicAnalysis.Fourier.SchwartzProductFrequencySupport` (`DedekindZetaZeroFree/HarmonicAnalysis/Fourier/SchwartzProductFrequencySupport.lean`)
-- `DedekindZetaZeroFree.LargeSieve.CharacterBounds.CodifferentDualAliasPacking` (`DedekindZetaZeroFree/LargeSieve/CharacterBounds/CodifferentDualAliasPacking.lean`)
-- `DedekindZetaZeroFree.LFunctions.Tate.ComplexLocalMellinIdentity` (`DedekindZetaZeroFree/LFunctions/Tate/ComplexLocalMellinIdentity.lean`)
-- `DedekindZetaZeroFree.HarmonicAnalysis.Fourier.TensorTransformsAndLatticeSummability` (`DedekindZetaZeroFree/HarmonicAnalysis/Fourier/TensorTransformsAndLatticeSummability.lean`)
-- `DedekindZetaZeroFree.Adeles.Characters.ArchimedeanAdditiveCharacters` (`DedekindZetaZeroFree/Adeles/Characters/ArchimedeanAdditiveCharacters.lean`)
-- `DedekindZetaZeroFree.LFunctions.Tate.UnitShellFourierIntegrability` (`DedekindZetaZeroFree/LFunctions/Tate/UnitShellFourierIntegrability.lean`)
-- `DedekindZetaZeroFree.LFunctions.Tate.UnitShellFourierNonvanishing` (`DedekindZetaZeroFree/LFunctions/Tate/UnitShellFourierNonvanishing.lean`)
-- `DedekindZetaZeroFree.HarmonicAnalysis.Poisson.SIntegerTensorCosets` (`DedekindZetaZeroFree/HarmonicAnalysis/Poisson/SIntegerTensorCosets.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.Topology` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/Topology.lean`)
-- `DedekindZetaZeroFree.Adeles.Lattices.ArchimedeanIdealCovolume` (`DedekindZetaZeroFree/Adeles/Lattices/ArchimedeanIdealCovolume.lean`)
-- `DedekindZetaZeroFree.HarmonicAnalysis.Schwartz.LocalBallsAndCosetIndicators` (`DedekindZetaZeroFree/HarmonicAnalysis/Schwartz/LocalBallsAndCosetIndicators.lean`)
-- `DedekindZetaZeroFree.Arithmetic.LocalFields.TraceBaseChange.CompletionTraceComparison` (`DedekindZetaZeroFree/Arithmetic/LocalFields/TraceBaseChange/CompletionTraceComparison.lean`)
-- `DedekindZetaZeroFree.Adeles.Characters.RationalPadicCharacter` (`DedekindZetaZeroFree/Adeles/Characters/RationalPadicCharacter.lean`)
-- `DedekindZetaZeroFree.Adeles.Characters.FiniteTraceCharacterContinuity` (`DedekindZetaZeroFree/Adeles/Characters/FiniteTraceCharacterContinuity.lean`)
-- `DedekindZetaZeroFree.Moments.Principal.MellinContourDecomposition` (`DedekindZetaZeroFree/Moments/Principal/MellinContourDecomposition.lean`)
-- `DedekindZetaZeroFree.CharacterSums.Cubic.JacobiNormAndPrimaryCongruence` (`DedekindZetaZeroFree/CharacterSums/Cubic/JacobiNormAndPrimaryCongruence.lean`)
-- `DedekindZetaZeroFree.CharacterSums.Cubic.JacobiPrimeReduction` (`DedekindZetaZeroFree/CharacterSums/Cubic/JacobiPrimeReduction.lean`)
-- `DedekindZetaZeroFree.Arithmetic.Ideals.EisensteinIntegers.PrimaryGenerators` (`DedekindZetaZeroFree/Arithmetic/Ideals/EisensteinIntegers/PrimaryGenerators.lean`)
-- `DedekindZetaZeroFree.CharacterSums.DavenportHasse.IrreduciblePolynomialSum` (`DedekindZetaZeroFree/CharacterSums/DavenportHasse/IrreduciblePolynomialSum.lean`)
-- `DedekindZetaZeroFree.CharacterSums.DavenportHasse.ExtensionFieldCharacterSum` (`DedekindZetaZeroFree/CharacterSums/DavenportHasse/ExtensionFieldCharacterSum.lean`)
-- `DedekindZetaZeroFree.Adeles.Approximation.SupportedPrincipalFactorization` (`DedekindZetaZeroFree/Adeles/Approximation/SupportedPrincipalFactorization.lean`)
-- `DedekindZetaZeroFree.Adeles.Quotients.SupportedIdeleNormSurjectivity` (`DedekindZetaZeroFree/Adeles/Quotients/SupportedIdeleNormSurjectivity.lean`)
-- `ClassFieldTheory.Algebra.AbelianGaloisEquiv` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Algebra/AbelianGaloisEquiv.lean`)
-- `ClassFieldTheory.Algebra.FiniteAbelianIntermediateFieldAlgEquiv` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Algebra/FiniteAbelianIntermediateFieldAlgEquiv.lean`)
-- `ClassFieldTheory.Algebra.IntermediateFieldAlgEquivOrderIso` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Algebra/IntermediateFieldAlgEquivOrderIso.lean`)
-- `ClassFieldTheory.AbstractClassFieldTheory.Degree.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AbstractClassFieldTheory/Degree/All.lean`)
-- `ClassFieldTheory.AbstractClassFieldTheory.Reciprocity.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AbstractClassFieldTheory/Reciprocity/All.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Adele.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Adele/All.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.AdeleBaseChange` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/AdeleBaseChange.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Completion.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Completion/All.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.CompositumEmbedding` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/CompositumEmbedding.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.FiniteAbelianCompositum` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/FiniteAbelianCompositum.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Galois.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Galois/All.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/All.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Completion.FinitePlaceAdicCompletionCongrEquiv` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Completion/FinitePlaceAdicCompletionCongrEquiv.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.ClassGroup.AlgEquivTopology` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/ClassGroup/AlgEquivTopology.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.NormalClosure` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/NormalClosure.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.NumberField.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/NumberField/All.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.PowerResidueSymbols.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/PowerResidueSymbols/All.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.QuadraticReciprocity` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/QuadraticReciprocity.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Ramification.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Ramification/All.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.RayClass.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/RayClass/All.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.SUnit.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/SUnit/All.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.SeparableClosureEmbedding` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/SeparableClosureEmbedding.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.TensorProduct` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/TensorProduct.lean`)
-- `ClassFieldTheory.Definitions.ConductorsAndRayClassFields.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/ConductorsAndRayClassFields/All.lean`)
-- `ClassFieldTheory.Definitions.FrobeniusAndHilbertClassFields.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/FrobeniusAndHilbertClassFields/All.lean`)
-- `ClassFieldTheory.Definitions.GlobalClassFieldTheory.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/GlobalClassFieldTheory/All.lean`)
-- `ClassFieldTheory.Definitions.HasseArf.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/HasseArf/All.lean`)
-- `ClassFieldTheory.Definitions.HilbertSymbols.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/HilbertSymbols/All.lean`)
-- `ClassFieldTheory.Definitions.LocalClassFieldTheory.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/LocalClassFieldTheory/All.lean`)
-- `ClassFieldTheory.Definitions.NormTheorems.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/NormTheorems/All.lean`)
-- `ClassFieldTheory.GlobalClassFieldTheory.ClassFieldAxiom.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/GlobalClassFieldTheory/ClassFieldAxiom/All.lean`)
-- `ClassFieldTheory.GlobalClassFieldTheory.Cohomology.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/GlobalClassFieldTheory/Cohomology/All.lean`)
-- `ClassFieldTheory.GlobalClassFieldTheory.GlobalClassFields.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/GlobalClassFieldTheory/GlobalClassFields/All.lean`)
-- `ClassFieldTheory.GlobalClassFieldTheory.IdealClassFieldTheory.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/GlobalClassFieldTheory/IdealClassFieldTheory/All.lean`)
-- `ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/All.lean`)
-- `ClassFieldTheory.Definitions.HasseArf.HerbrandFunctionAtLowerIndex` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/HasseArf/HerbrandFunctionAtLowerIndex.lean`)
-- `ClassFieldTheory.Definitions.HasseArf.HerbrandFunction` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/HasseArf/HerbrandFunction.lean`)
-- `ClassFieldTheory.Definitions.HasseArf.InverseHerbrandFunction` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/HasseArf/InverseHerbrandFunction.lean`)
-- `ClassFieldTheory.Definitions.HasseArf.IsUpperRamificationJump` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/HasseArf/IsUpperRamificationJump.lean`)
-- `ClassFieldTheory.Definitions.HasseArf.IsLowerRamificationJump` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/HasseArf/IsLowerRamificationJump.lean`)
-- `ClassFieldTheory.Definitions.HasseArf.RealLowerRamificationGroup` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/HasseArf/RealLowerRamificationGroup.lean`)
-- `ClassFieldTheory.Definitions.HasseArf.UpperRamificationGroup` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/HasseArf/UpperRamificationGroup.lean`)
-- `ValuedFieldTheory.LocalField.NonarchimedeanLocalField.NormalizedIntegerValuation` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/LocalField/NonarchimedeanLocalField/NormalizedIntegerValuation.lean`)
-- `ValuedFieldTheory.LocalField.NonarchimedeanLocalField.ShrinkTransport` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/LocalField/NonarchimedeanLocalField/ShrinkTransport.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Finite.LocalReciprocity.Filtered.Core` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/Core.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Finite.LocalReciprocity.Filtered.AbstractUnramified` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/AbstractUnramified.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Finite.LocalReciprocity.Filtered.Compositum` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/Compositum.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Finite.LocalReciprocity.Filtered.EqualCharacteristic` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/EqualCharacteristic.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Finite.LocalReciprocity.Filtered.EqualCharacteristicStandardCompositum` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/EqualCharacteristicStandardCompositum.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Finite.LocalReciprocity.Filtered.FiniteAbelian` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/FiniteAbelian.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Finite.LocalReciprocity.Filtered.StandardCompositum` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/StandardCompositum.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Finite.LocalReciprocity.Filtered.Unramified` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/LocalReciprocity/Filtered/Unramified.lean`)
-- `ValuedFieldTheory.Ramification.LocalField.Core` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/Ramification/LocalField/Core.lean`)
-- `ValuedFieldTheory.Ramification.LocalField.BaseChange` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/Ramification/LocalField/BaseChange.lean`)
-- `ValuedFieldTheory.Ramification.LocalField.Unramified` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/Ramification/LocalField/Unramified.lean`)
-- `ClassFieldTheory.KroneckerWeber.Core` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/Core.lean`)
-- `ClassFieldTheory.KroneckerWeber.Final` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/Final.lean`)
-- `ClassFieldTheory.KroneckerWeber.GlobalCompositumCyclotomicTarget` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/GlobalCompositumCyclotomicTarget.lean`)
-- `ClassFieldTheory.KroneckerWeber.GlobalCompositumGlobalEmbedding` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/GlobalCompositumGlobalEmbedding.lean`)
-- `ClassFieldTheory.KroneckerWeber.GlobalCompositumLeftFactors` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/GlobalCompositumLeftFactors.lean`)
-- `ClassFieldTheory.KroneckerWeber.GlobalCompositumLocalizationEmbedding` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/GlobalCompositumLocalizationEmbedding.lean`)
-- `ClassFieldTheory.KroneckerWeber.GlobalCompositumValuationInertiaBound` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/GlobalCompositumValuationInertiaBound.lean`)
-- `ClassFieldTheory.KroneckerWeber.GlobalCompositumValuedEmbedding` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/GlobalCompositumValuedEmbedding.lean`)
-- `ClassFieldTheory.KroneckerWeber.GlobalPadicPrimePowInertiaBound` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/GlobalPadicPrimePowInertiaBound.lean`)
-- `ClassFieldTheory.KroneckerWeber.LocalCyclotomicEmbedding` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/LocalCyclotomicEmbedding.lean`)
-- `ClassFieldTheory.KroneckerWeber.RationalCyclotomicArithmeticReciprocity` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/RationalCyclotomicArithmeticReciprocity.lean`)
-- `ClassFieldTheory.KroneckerWeber.RationalRayClassFieldCyclotomic` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/RationalRayClassFieldCyclotomic.lean`)
-- `ClassFieldTheory.KroneckerWeber.RayClassComparison` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/RayClassComparison.lean`)
-- `ClassFieldTheory.KroneckerWeber.Setup` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/Setup.lean`)
-- `ClassFieldTheory.KroneckerWeber.UnramifiedCompositumSupport` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KroneckerWeber/UnramifiedCompositumSupport.lean`)
-- `ClassFieldTheory.KummerTheory.Concrete.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KummerTheory/Concrete/All.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.ClassFormation.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/ClassFormation/All.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Finite.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/All.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Infinite.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Infinite/All.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Kummer.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Kummer/All.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.LubinTateApplication.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/LubinTateApplication/All.lean`)
-- `ClassFieldTheory.LocalFieldTheory.Padic.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalFieldTheory/Padic/All.lean`)
-- `ClassFieldTheory.LubinTate.EqualCharacteristic.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LubinTate/EqualCharacteristic/All.lean`)
-- `ClassFieldTheory.LubinTate.FiniteLevel.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LubinTate/FiniteLevel/All.lean`)
-- `ClassFieldTheory.LubinTate.FormalModule.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LubinTate/FormalModule/All.lean`)
-- `ClassFieldTheory.LubinTate.Padic.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LubinTate/Padic/All.lean`)
-- `ClassFieldTheory.RamificationTheory.HilbertRamification.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/RamificationTheory/HilbertRamification/All.lean`)
-- `ClassFieldTheory.RamificationTheory.RamificationIndexComparison` (`vendor/class-field-theory/Lean4/ClassFieldTheory/RamificationTheory/RamificationIndexComparison.lean`)
-- `ClassFieldTheory.Theorems.ConductorsAndRayClassFields.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Theorems/ConductorsAndRayClassFields/All.lean`)
-- `ClassFieldTheory.Theorems.FrobeniusAndHilbertClassFields.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Theorems/FrobeniusAndHilbertClassFields/All.lean`)
-- `ClassFieldTheory.Theorems.GlobalClassFieldTheory.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Theorems/GlobalClassFieldTheory/All.lean`)
-- `ClassFieldTheory.Theorems.HasseArf.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Theorems/HasseArf/All.lean`)
-- `ClassFieldTheory.Theorems.HilbertSymbols.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Theorems/HilbertSymbols/All.lean`)
-- `ClassFieldTheory.Theorems.KroneckerWeber` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Theorems/KroneckerWeber.lean`)
-- `ClassFieldTheory.Theorems.LocalClassFieldTheory.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Theorems/LocalClassFieldTheory/All.lean`)
-- `ClassFieldTheory.Theorems.NormTheorems.All` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Theorems/NormTheorems/All.lean`)
-- `DedekindZetaZeroFree.Arithmetic.RayClasses.Characters.FiniteCharacters` (`DedekindZetaZeroFree/Arithmetic/RayClasses/Characters/FiniteCharacters.lean`)
-- `ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.FinitePlaceAdicHilbertComparison` (`vendor/class-field-theory/Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/FinitePlaceAdicHilbertComparison.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Kummer.KummerExponentTower` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Kummer/KummerExponentTower.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Kummer.LocalHilbertPairing` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Kummer/LocalHilbertPairing.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Finite.LocalReciprocity.NormResidueNaturality` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/LocalReciprocity/NormResidueNaturality.lean`)
-- `ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.GlobalHilbertSymbol.FinitePlaceCharacterComparison` (`vendor/class-field-theory/Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/GlobalHilbertSymbol/FinitePlaceCharacterComparison.lean`)
-- `ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.FiniteIdeleArtin` (`vendor/class-field-theory/Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/FiniteIdeleArtin.lean`)
-- `ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.HilbertProductFormula` (`vendor/class-field-theory/Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/HilbertProductFormula.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.NormApproximation.FinitePlaces` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/NormApproximation/FinitePlaces.lean`)
-- `ValuedFieldTheory.LocalField.DiscreteValuationField.PadicField` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/LocalField/DiscreteValuationField/PadicField.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.RayClass.Rational` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/RayClass/Rational.lean`)
-- `GaloisCohomology.Kummer.Concrete.FiniteDualSeparation` (`vendor/class-field-theory/Lean4/GaloisCohomology/Kummer/Concrete/FiniteDualSeparation.lean`)
-- `GaloisCohomology.Kummer.Concrete.LocalUnitKummerUnramified` (`vendor/class-field-theory/Lean4/GaloisCohomology/Kummer/Concrete/LocalUnitKummerUnramified.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Finite.LocalReciprocity.UnramifiedNormalization` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/LocalReciprocity/UnramifiedNormalization.lean`)
-- `ValuedFieldTheory.LocalField.NonarchimedeanLocalField.ResidueUnits` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/LocalField/NonarchimedeanLocalField/ResidueUnits.lean`)
-- `ValuedFieldTheory.LocalField.NonarchimedeanLocalField.FiniteExtensionTopology` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/LocalField/NonarchimedeanLocalField/FiniteExtensionTopology.lean`)
-- `ValuedFieldTheory.LocalField.NonarchimedeanLocalField.UnramifiedFrobenius` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/LocalField/NonarchimedeanLocalField/UnramifiedFrobenius.lean`)
-- `ValuedFieldTheory.LocalField.NonarchimedeanLocalField.ValuationExactSequence` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/LocalField/NonarchimedeanLocalField/ValuationExactSequence.lean`)
-- `ValuedFieldTheory.LocalField.NonarchimedeanLocalField.IdealQuotients` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/LocalField/NonarchimedeanLocalField/IdealQuotients.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Completion.UnramifiedComparison.IdealToCompletion` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Completion/UnramifiedComparison/IdealToCompletion.lean`)
-- `ValuedFieldTheory.Valuation.Completion.ExtensionInvariants` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/Valuation/Completion/ExtensionInvariants.lean`)
-- `GaloisCohomology.Kummer.Concrete.SimpleExtension` (`vendor/class-field-theory/Lean4/GaloisCohomology/Kummer/Concrete/SimpleExtension.lean`)
-- `ClassFieldTheory.KummerTheory.Concrete.FinitePlaceDecomposition` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KummerTheory/Concrete/FinitePlaceDecomposition.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.NormApproximation.InfinitePlaces` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/NormApproximation/InfinitePlaces.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Adele.InfinitePlaceTensorBlock` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Adele/InfinitePlaceTensorBlock.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.ClassFormation.LocalizedCompletionCohomology.CompMulEquiv` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/ClassFormation/LocalizedCompletionCohomology/CompMulEquiv.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.ClassFormation.LocalizedCompletionCohomology.Algebra` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/ClassFormation/LocalizedCompletionCohomology/Algebra.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.ClassFormation.LocalizedCompletionCohomology.Generator` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/ClassFormation/LocalizedCompletionCohomology/Generator.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.ClassFormation.LocalizedCompletionCohomology.HerbrandEquiv` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/ClassFormation/LocalizedCompletionCohomology/HerbrandEquiv.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.ClassFormation.LocalizedCompletionCohomology.Finite` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/ClassFormation/LocalizedCompletionCohomology/Finite.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.ClassFormation.LocalizedCompletionCohomology.Cardinality.H0` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/ClassFormation/LocalizedCompletionCohomology/Cardinality/H0.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.ClassFormation.LocalizedCompletionCohomology.Cardinality.HMinusOne` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/ClassFormation/LocalizedCompletionCohomology/Cardinality/HMinusOne.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.ClassFormation.LocalizedCompletionCohomology.Cardinality.Trivial` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/ClassFormation/LocalizedCompletionCohomology/Cardinality/Trivial.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.ClassFormation.LocalizedCompletionCohomology.Cardinality.Quotient` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/ClassFormation/LocalizedCompletionCohomology/Cardinality/Quotient.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SPlaces.OutsideIntegralInduced.ChosenPlace` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/Cohomology/SPlaces/OutsideIntegralInduced/ChosenPlace.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SPlaces.OutsideIntegralInduced.ChosenPlaceAction` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/Cohomology/SPlaces/OutsideIntegralInduced/ChosenPlaceAction.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SPlaces.OutsideIntegralInduced.ChosenPlaceIntegralBlock` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/Cohomology/SPlaces/OutsideIntegralInduced/ChosenPlaceIntegralBlock.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SPlaces.OutsideIntegralInduced.ChosenPlaceIntegralBlockEquiv` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/Cohomology/SPlaces/OutsideIntegralInduced/ChosenPlaceIntegralBlockEquiv.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SPlaces.OutsideIntegralInduced.ChosenPlaceIntegralBlockEquivApply` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/Cohomology/SPlaces/OutsideIntegralInduced/ChosenPlaceIntegralBlockEquivApply.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SPlaces.OutsideIntegralInduced.ChosenPlaceIntegralBlockInclusion` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/Cohomology/SPlaces/OutsideIntegralInduced/ChosenPlaceIntegralBlockInclusion.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SPlaces.OutsideIntegralInduced.ChosenPlaceIntegralBlockInducedSmul` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/Cohomology/SPlaces/OutsideIntegralInduced/ChosenPlaceIntegralBlockInducedSmul.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SPlaces.OutsideIntegralInduced.ChosenPlaceIntegralBlockTensorSmul` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/Cohomology/SPlaces/OutsideIntegralInduced/ChosenPlaceIntegralBlockTensorSmul.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SPlaces.OutsideIntegralInduced.CompletionTransport` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/Cohomology/SPlaces/OutsideIntegralInduced/CompletionTransport.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SPlaces.OutsideIntegralInduced.LocalInduction.Spine` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/Cohomology/SPlaces/OutsideIntegralInduced/LocalInduction/Spine.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SPlaces.OutsideIntegralInduced.LocalInduction.Action` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/Cohomology/SPlaces/OutsideIntegralInduced/LocalInduction/Action.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SPlaces.OutsideIntegralInduced.LocalInduction.Equiv` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/Cohomology/SPlaces/OutsideIntegralInduced/LocalInduction/Equiv.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SPlaces.OutsideIntegralInduced.LocalInduction.Inclusion` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Idele/Cohomology/SPlaces/OutsideIntegralInduced/LocalInduction/Inclusion.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Completion.UnramifiedComparison.CompletionToIdeal` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Completion/UnramifiedComparison/CompletionToIdeal.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Completion.UnramifiedComparison.LocalNorm` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Completion/UnramifiedComparison/LocalNorm.lean`)
-- `ClassFieldTheory.KummerTheory.Concrete.SUnitPreparation.FiniteRadicalSupport` (`vendor/class-field-theory/Lean4/ClassFieldTheory/KummerTheory/Concrete/SUnitPreparation/FiniteRadicalSupport.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Finite.CyclotomicNorm.PrincipalUnits` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/CyclotomicNorm/PrincipalUnits.lean`)
-- `DedekindZetaZeroFree.Arithmetic.LocalFields.PowerDefectProduct` (`DedekindZetaZeroFree/Arithmetic/LocalFields/PowerDefectProduct.lean`)
-- `DedekindZetaZeroFree.Arithmetic.Units.SUnitPowerQuotientCoordinates` (`DedekindZetaZeroFree/Arithmetic/Units/SUnitPowerQuotientCoordinates.lean`)
-- `DedekindZetaZeroFree.Adeles.Characters.FractionalIdealOpenKernels` (`DedekindZetaZeroFree/Adeles/Characters/FractionalIdealOpenKernels.lean`)
-- `DedekindZetaZeroFree.HarmonicAnalysis.Haar.CompletionBallMass` (`DedekindZetaZeroFree/HarmonicAnalysis/Haar/CompletionBallMass.lean`)
-- `DedekindZetaZeroFree.Metaplectic.Weil.CubicCorrection.PhaseCharacters` (`DedekindZetaZeroFree/Metaplectic/Weil/CubicCorrection/PhaseCharacters.lean`)
-- `DedekindZetaZeroFree.Metaplectic.Weil.NormalizedLocalIndicesAndProductFormula` (`DedekindZetaZeroFree/Metaplectic/Weil/NormalizedLocalIndicesAndProductFormula.lean`)
-- `DedekindZetaZeroFree.Metaplectic.Weil.GlobalPhaseExtension` (`DedekindZetaZeroFree/Metaplectic/Weil/GlobalPhaseExtension.lean`)
-- `DedekindZetaZeroFree.Metaplectic.Weil.IsotropicComplementSignCharacter` (`DedekindZetaZeroFree/Metaplectic/Weil/IsotropicComplementSignCharacter.lean`)
-- `DedekindZetaZeroFree.Arithmetic.Ideals.SIntegerResidueQuotientInjectivity` (`DedekindZetaZeroFree/Arithmetic/Ideals/SIntegerResidueQuotientInjectivity.lean`)
-- `DedekindZetaZeroFree.Arithmetic.Ideals.SIntegerResidueQuotientSurjectivity` (`DedekindZetaZeroFree/Arithmetic/Ideals/SIntegerResidueQuotientSurjectivity.lean`)
-- `DedekindZetaZeroFree.Adeles.Quotients.SupportedNormOneCoordinates` (`DedekindZetaZeroFree/Adeles/Quotients/SupportedNormOneCoordinates.lean`)
-- `DedekindZetaZeroFree.Arithmetic.ResidueSymbols.Sextic.PrincipalExteriorCharacter` (`DedekindZetaZeroFree/Arithmetic/ResidueSymbols/Sextic/PrincipalExteriorCharacter.lean`)
-- `DedekindZetaZeroFree.HarmonicAnalysis.Fourier.TensorLogarithmicDerivativeEnvelopes` (`DedekindZetaZeroFree/HarmonicAnalysis/Fourier/TensorLogarithmicDerivativeEnvelopes.lean`)
-- `DedekindZetaZeroFree.HarmonicAnalysis.Schwartz.TensorSheetBounds` (`DedekindZetaZeroFree/HarmonicAnalysis/Schwartz/TensorSheetBounds.lean`)
-- `DedekindZetaZeroFree.HarmonicAnalysis.Mellin.NormSheetLogarithmicOperators` (`DedekindZetaZeroFree/HarmonicAnalysis/Mellin/NormSheetLogarithmicOperators.lean`)
-- `DedekindZetaZeroFree.HarmonicAnalysis.Fourier.TraceSchwartzTensors` (`DedekindZetaZeroFree/HarmonicAnalysis/Fourier/TraceSchwartzTensors.lean`)
-- `DedekindZetaZeroFree.HarmonicAnalysis.Mellin.SmoothLogPushforwardDensities` (`DedekindZetaZeroFree/HarmonicAnalysis/Mellin/SmoothLogPushforwardDensities.lean`)
-- `DedekindZetaZeroFree.Arithmetic.LocalFields.ArchimedeanTraceDecomposition` (`DedekindZetaZeroFree/Arithmetic/LocalFields/ArchimedeanTraceDecomposition.lean`)
-- `DedekindZetaZeroFree.Arithmetic.LocalFields.CompletionTraceDecomposition` (`DedekindZetaZeroFree/Arithmetic/LocalFields/CompletionTraceDecomposition.lean`)
-- `DedekindZetaZeroFree.Moments.Principal.TripleMellin.ShearedKernelInversion` (`DedekindZetaZeroFree/Moments/Principal/TripleMellin/ShearedKernelInversion.lean`)
-- `DedekindZetaZeroFree.Metaplectic.Weil.Finite.PerfectQuadraticQuotients` (`DedekindZetaZeroFree/Metaplectic/Weil/Finite/PerfectQuadraticQuotients.lean`)
-- `DedekindZetaZeroFree.Metaplectic.Weil.LocalQuadraticCosetIntegrals` (`DedekindZetaZeroFree/Metaplectic/Weil/LocalQuadraticCosetIntegrals.lean`)
-- `DedekindZetaZeroFree.HarmonicAnalysis.Haar.SIntegers.FundamentalDomainScaling` (`DedekindZetaZeroFree/HarmonicAnalysis/Haar/SIntegers/FundamentalDomainScaling.lean`)
-- `DedekindZetaZeroFree.HarmonicAnalysis.Haar.FiniteAdelicCoordinateCharts` (`DedekindZetaZeroFree/HarmonicAnalysis/Haar/FiniteAdelicCoordinateCharts.lean`)
-- `DedekindZetaZeroFree.Metaplectic.Weil.QuadraticFourierOperatorsAndPhases` (`DedekindZetaZeroFree/Metaplectic/Weil/QuadraticFourierOperatorsAndPhases.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Completion.AdicCompletionComparison` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Completion/AdicCompletionComparison.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Completion.ChosenLocalization` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Completion/ChosenLocalization.lean`)
-- `ValuedFieldTheory.LocalField.NonarchimedeanLocalField.GaloisIntegerRing` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/LocalField/NonarchimedeanLocalField/GaloisIntegerRing.lean`)
-- `ValuedFieldTheory.LocalField.NonarchimedeanLocalField.ResidueGalois` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/LocalField/NonarchimedeanLocalField/ResidueGalois.lean`)
-- `ValuedFieldTheory.Ramification.HilbertRamification.AlgebraicLocalization` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/Ramification/HilbertRamification/AlgebraicLocalization.lean`)
-- `DedekindZetaZeroFree.CharacterSums.Gauss.GeneratorInvariance` (`DedekindZetaZeroFree/CharacterSums/Gauss/GeneratorInvariance.lean`)
-- `DedekindZetaZeroFree.Arithmetic.ResidueSymbols.Sextic.LocalCharacterCompatibility` (`DedekindZetaZeroFree/Arithmetic/ResidueSymbols/Sextic/LocalCharacterCompatibility.lean`)
-- `DedekindZetaZeroFree.CharacterSums.Gauss.TracePhaseChineseRemainder` (`DedekindZetaZeroFree/CharacterSums/Gauss/TracePhaseChineseRemainder.lean`)
-- `DedekindZetaZeroFree.CharacterSums.Gauss.LocalQuotientSums` (`DedekindZetaZeroFree/CharacterSums/Gauss/LocalQuotientSums.lean`)
-- `FiniteMixedCorrelationFourier` (`GramCoreInputs/FiniteMixedCorrelationFourier.lean`)
-- `FiniteAffineCorrelationBound` (`GramCoreInputs/FiniteAffineCorrelationBound.lean`)
-- `SIntegerSexticFiniteCorrelation` (`GramCoreInputs/SIntegerSexticFiniteCorrelation.lean`)
-- `ActualProbePairPointwisePoisson` (`GramCoreInputs/ActualProbePairPointwisePoisson.lean`)
-- `ActualAdditiveGramPoissonAssembly` (`GramCoreInputs/ActualAdditiveGramPoissonAssembly.lean`)
-- `FLTReuse.Mbf3d750f6e1abdab` (`vendor/flt/FLTReuse/Mbf3d750f6e1abdab.lean`)
-- `RowCharacterGlobalUniqueness` (`SkeletonInputs/RowCharacterGlobalUniqueness.lean`)
-- `ArithmeticSexticKummerLocalComponent` (`SkeletonInputs/ArithmeticSexticKummerLocalComponent.lean`)
-- `ArithmeticSexticKummerCharacter` (`SkeletonInputs/ArithmeticSexticKummerCharacter.lean`)
-- `DedekindZetaZeroFree.Arithmetic.Kummer.QuotientRadicalPrimeValues` (`DedekindZetaZeroFree/Arithmetic/Kummer/QuotientRadicalPrimeValues.lean`)
-- `DedekindZetaZeroFree.Arithmetic.Kummer.SquareRadicalCharacterInvariance` (`DedekindZetaZeroFree/Arithmetic/Kummer/SquareRadicalCharacterInvariance.lean`)
-- `DedekindZetaZeroFree.Arithmetic.LocalFields.UniformSquareUnitModulus` (`DedekindZetaZeroFree/Arithmetic/LocalFields/UniformSquareUnitModulus.lean`)
-- `DedekindZetaZeroFree.Arithmetic.LocalFields.SquareClassImages` (`DedekindZetaZeroFree/Arithmetic/LocalFields/SquareClassImages.lean`)
-- `DedekindZetaZeroFree.LargeSieve.Exponents.ConductorControlledTransfer` (`DedekindZetaZeroFree/LargeSieve/Exponents/ConductorControlledTransfer.lean`)
-- `DedekindZetaZeroFree.LargeSieve.Bilinear.DyadicUnitBlockBounds` (`DedekindZetaZeroFree/LargeSieve/Bilinear/DyadicUnitBlockBounds.lean`)
-- `DedekindZetaZeroFree.Analysis.PartitionedQuadraticForms` (`DedekindZetaZeroFree/Analysis/PartitionedQuadraticForms.lean`)
-- `DedekindZetaZeroFree.Arithmetic.Ideals.DyadicNormPartition` (`DedekindZetaZeroFree/Arithmetic/Ideals/DyadicNormPartition.lean`)
-- `DedekindZetaZeroFree.LargeSieve.CharacterBounds.AdmissibleIdealRanges` (`DedekindZetaZeroFree/LargeSieve/CharacterBounds/AdmissibleIdealRanges.lean`)
-- `DedekindZetaZeroFree.Adeles.Lattices.TraceIdealDuality` (`DedekindZetaZeroFree/Adeles/Lattices/TraceIdealDuality.lean`)
-- `DedekindZetaZeroFree.Arithmetic.RayClasses.Representatives.IntegralIdealClasses` (`DedekindZetaZeroFree/Arithmetic/RayClasses/Representatives/IntegralIdealClasses.lean`)
-- `DedekindZetaZeroFree.Moments.Probes.Poisson.Scales` (`DedekindZetaZeroFree/Moments/Probes/Poisson/Scales.lean`)
-- `DedekindZetaZeroFree.Moments.Reflected.RankOneExpansion` (`DedekindZetaZeroFree/Moments/Reflected/RankOneExpansion.lean`)
-- `DedekindZetaZeroFree.Nonvanishing.Mellin.TripleMellinInitialEstimates` (`DedekindZetaZeroFree/Nonvanishing/Mellin/TripleMellinInitialEstimates.lean`)
-- `DedekindZetaZeroFree.Adeles.Quotients.ExteriorNormRadialSection` (`DedekindZetaZeroFree/Adeles/Quotients/ExteriorNormRadialSection.lean`)
-- `DedekindZetaZeroFree.Arithmetic.RayClasses.Characters.SIntegerResidueCharacters` (`DedekindZetaZeroFree/Arithmetic/RayClasses/Characters/SIntegerResidueCharacters.lean`)
-- `DedekindZetaZeroFree.Arithmetic.Ideals.SIntegerPrincipalIdealIndex` (`DedekindZetaZeroFree/Arithmetic/Ideals/SIntegerPrincipalIdealIndex.lean`)
-- `DedekindZetaZeroFree.Arithmetic.RayClasses.Moduli.ExteriorCRTIdelicCongruence` (`DedekindZetaZeroFree/Arithmetic/RayClasses/Moduli/ExteriorCRTIdelicCongruence.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Ramification.Splitting.NormalClosure` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Ramification/Splitting/NormalClosure.lean`)
-- `ClassFieldTheory.AlgebraicNumberTheory.Ramification.Splitting.PrimeOrderFixedField` (`vendor/class-field-theory/Lean4/ClassFieldTheory/AlgebraicNumberTheory/Ramification/Splitting/PrimeOrderFixedField.lean`)
-- `ClassFieldTheory.GlobalClassFieldTheory.Cohomology.CyclicPrimePowerFullDecomposition` (`vendor/class-field-theory/Lean4/ClassFieldTheory/GlobalClassFieldTheory/Cohomology/CyclicPrimePowerFullDecomposition.lean`)
-- `ClassFieldTheory.Definitions.HilbertSymbols.GlobalHilbertPairingFiniteFactor` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/HilbertSymbols/GlobalHilbertPairingFiniteFactor.lean`)
-- `ClassFieldTheory.Definitions.HilbertSymbols.GlobalHilbertPairingProperties` (`vendor/class-field-theory/Lean4/ClassFieldTheory/Definitions/HilbertSymbols/GlobalHilbertPairingProperties.lean`)
-- `ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.FinitePlaceArtin.Construction` (`vendor/class-field-theory/Lean4/ClassFieldTheory/GlobalClassFieldTheory/Reciprocity/FinitePlaceArtin/Construction.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Finite.LocalReciprocity.SemilinearNaturality` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Finite/LocalReciprocity/SemilinearNaturality.lean`)
-- `ClassFieldTheory.LocalClassFieldTheory.Kummer.SmallHilbertPairingTransport` (`vendor/class-field-theory/Lean4/ClassFieldTheory/LocalClassFieldTheory/Kummer/SmallHilbertPairingTransport.lean`)
-- `ValuedFieldTheory.LocalField.NonarchimedeanLocalField.ValuedTopology` (`vendor/class-field-theory/Lean4/ValuedFieldTheory/LocalField/NonarchimedeanLocalField/ValuedTopology.lean`)
-- `DedekindZetaZeroFree.Arithmetic.Kummer.Sextic.ArtinCharacter` (`DedekindZetaZeroFree/Arithmetic/Kummer/Sextic/ArtinCharacter.lean`)
-- `DedekindZetaZeroFree.Arithmetic.RayClasses.Conductors.ConductorKernel` (`DedekindZetaZeroFree/Arithmetic/RayClasses/Conductors/ConductorKernel.lean`)
-- `DedekindZetaZeroFree.Arithmetic.RayClasses.Conductors.PrimitiveLocalMinimality` (`DedekindZetaZeroFree/Arithmetic/RayClasses/Conductors/PrimitiveLocalMinimality.lean`)
+- Run `41167618537`, actual, artifact `13030181239`: 534 direct successes; kinds `{"diagnostic_timeout": 1, "direct_compiled_success": 73, "direct_exact_cache_success": 461, "failed": 2, "skipped": 3015}`; final gate `not_run_due_to_failed_or_skipped_modules`.
+- Run `41169613835`, core, artifact `13030830729`: 66 direct successes; kinds `{"direct_exact_cache_success": 66}`; final gate `not_applicable_core_phase`.
+- Run `41169613835`, actual, artifact `13030109450`: 575 direct successes; kinds `{"diagnostic_timeout": 1, "direct_compiled_success": 41, "direct_exact_cache_success": 534, "failed": 7, "native_old_dependency_reuse": 1794, "skipped": 1181}`; final gate `not_run_due_to_failed_or_skipped_modules`.
+- Run `41171430364`, actual, artifact `13031561006`: 634 direct successes; kinds `{"diagnostic_timeout": 1, "direct_compiled_success": 59, "direct_exact_cache_success": 575, "failed": 6, "native_old_dependency_reuse": 1794, "skipped": 1123}`; final gate `not_run_due_to_failed_or_skipped_modules`.

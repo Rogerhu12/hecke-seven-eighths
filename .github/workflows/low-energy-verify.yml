@@ -45,6 +45,9 @@ jobs:
       LEAN_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Audit the published proof source; integration follows an explicit base merge.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Check verification gates and cache scheduling
         if: matrix.phase == 'core'
         run: python3 -m unittest discover -s tests -p 'test_low_energy_*.py'
@@ -99,6 +102,13 @@ jobs:
           +Mathlib.Analysis.Complex.RemovableSingularity:olean
           +Mathlib.Analysis.SpecialFunctions.Gamma.Deligne:olean
           +Mathlib.NumberTheory.MulChar.Lemmas:olean
+          +Mathlib.NumberTheory.NumberField.Completion.FinitePlace:olean
+          +Mathlib.NumberTheory.NumberField.Ideal.Asymptotics:olean
+          +Mathlib.Algebra.Order.Chebyshev:olean
+          +Mathlib.Analysis.PSeries:olean
+          +Mathlib.NumberTheory.Harmonic.Bounds:olean
+          +Mathlib.Analysis.Distribution.SchwartzSpace.Fourier:olean
+          +Mathlib.Analysis.SpecialFunctions.Complex.Circle:olean
           +TauCeti.NumberTheory.ArithmeticDirichletSeries.Prime.PrimeIdealTheorem:olean
       - name: Revalidate pinned native dependency traces
         if: matrix.phase == 'actual'
