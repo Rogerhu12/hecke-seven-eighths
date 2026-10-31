@@ -214,7 +214,7 @@ theorem exists_actual_moderate_sweep_kernel_rapid
         (heckeDeletedContinuation K
           (psi * conjugate ((arithmeticHighEulerData K Sset P psi).rows.character u))
           (exceptionalPrimes K Sset) s)]
-    simp only [mul_inv, norm_mul]
+    simp only [mul_inv, norm_mul, arithmeticHighEulerData_character]
     calc
       _ ≤ Cp * (Cg * Real.exp (-((s.im + z.im) ^ 2))) *
           ‖additiveMellin K Sset muS P.additive z‖ * ‖mellin P.denominator.toFun w‖ *

@@ -84,16 +84,20 @@ theorem exists_actual_large_fullCorrection_all_scales_bound
     rw [Finset.sum_mul]
     apply Finset.sum_le_sum
     intro J _
+    have hselpos : 0 < exteriorNorm K S (subsetPrimeIdeal K S p J) :=
+      idealNorm_pos K _
+    have hmarkpos : 0 < exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) :=
+      idealNorm_pos K _
     have hsel : ‖(exteriorNorm K S (subsetPrimeIdeal K S p J) : ℂ) ^ (z - w - 1)‖ =
         exteriorNorm K S (subsetPrimeIdeal K S p J) ^ (sigma - 3) := by
-      rw [Complex.norm_cpow_eq_rpow_re_of_pos (idealNorm_pos K _)]
+      rw [Complex.norm_cpow_eq_rpow_re_of_pos hselpos]
       congr 1
       simp only [Complex.sub_re, Complex.one_re, hz, hw]
       ring
     have hmark : ‖(exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) : ℂ) ^
         (s + z - 1)‖ =
         exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ (sigma + 1) := by
-      rw [Complex.norm_cpow_eq_rpow_re_of_pos (idealNorm_pos K _)]
+      rw [Complex.norm_cpow_eq_rpow_re_of_pos hmarkpos]
       congr 1
       simp only [Complex.sub_re, Complex.add_re, Complex.one_re, hs, hz]
       ring
@@ -107,7 +111,12 @@ theorem exists_actual_large_fullCorrection_all_scales_bound
       _ ≤ (exteriorNorm K S (subsetPrimeIdeal K S p J) ^ (sigma - 3) * 1) *
           exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ (sigma + 1) *
           (C * frequencyRowNorm K S u ^ eta * markedBound ^ ((Finset.univ \ J).image p).card) := by
-        gcongr
+        have hsel0 := Real.rpow_nonneg hselpos.le (sigma - 3)
+        have hmark0 := Real.rpow_nonneg hmarkpos.le (sigma + 1)
+        exact mul_le_mul
+          (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hc hsel0) hmark0)
+          he (norm_nonneg _)
+          (mul_nonneg (mul_nonneg hsel0 zero_le_one) hmark0)
       _ = _ := by ring
   unfold compensatedRowFullCorrection
   dsimp only

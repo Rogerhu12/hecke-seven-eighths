@@ -60,17 +60,24 @@ theorem exists_actual_moderate_fullCorrection_mass_bound
     rw [Finset.sum_mul]
     apply Finset.sum_le_sum
     intro J _
+    have hselpos : 0 < exteriorNorm K S (subsetPrimeIdeal K S p J) :=
+      idealNorm_pos K _
+    have hmarkpos : 0 < exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) :=
+      idealNorm_pos K _
     have hsel : ‖(exteriorNorm K S (subsetPrimeIdeal K S p J) : ℂ) ^ (z - w - 1)‖ ≤
         exteriorNorm K S (subsetPrimeIdeal K S p J) ^ ((10 : ℝ) - 3) := by
-      rw [Complex.norm_cpow_eq_rpow_re_of_pos (idealNorm_pos K _)]
-      apply Real.rpow_le_rpow_of_exponent_le (one_le_idealNorm K _)
+      rw [Complex.norm_cpow_eq_rpow_re_of_pos hselpos]
+      apply Real.rpow_le_rpow_of_exponent_le
+        (show 1 ≤ exteriorNorm K S (subsetPrimeIdeal K S p J) from one_le_idealNorm K _)
       simp only [Complex.sub_re, Complex.one_re]
       linarith
     have hmark : ‖(exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) : ℂ) ^
         (s + z - 1)‖ ≤
         exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ ((10 : ℝ) + 1) := by
-      rw [Complex.norm_cpow_eq_rpow_re_of_pos (idealNorm_pos K _)]
-      apply Real.rpow_le_rpow_of_exponent_le (one_le_idealNorm K _)
+      rw [Complex.norm_cpow_eq_rpow_re_of_pos hmarkpos]
+      apply Real.rpow_le_rpow_of_exponent_le
+        (show 1 ≤ exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) from
+          one_le_idealNorm K _)
       simp only [Complex.sub_re, Complex.add_re, Complex.one_re]
       linarith
     have hc := norm_heckeIdealCoefficient_le_one K psi
@@ -82,7 +89,13 @@ theorem exists_actual_moderate_fullCorrection_mass_bound
       _ ≤ (exteriorNorm K S (subsetPrimeIdeal K S p J) ^ ((10 : ℝ) - 3) * 1) *
           exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ ((10 : ℝ) + 1) *
           (C * frequencyRowNorm K S u ^ eta * markedBound ^ ((Finset.univ \ J).image p).card) := by
-        gcongr
+        have hsel0 := Real.rpow_nonneg hselpos.le ((10 : ℝ) - 3)
+        have hmark0 := Real.rpow_nonneg hmarkpos.le ((10 : ℝ) + 1)
+        exact mul_le_mul
+          (mul_le_mul (mul_le_mul hsel hc (norm_nonneg _) hsel0)
+            hmark (norm_nonneg _) (mul_nonneg hsel0 zero_le_one))
+          he (norm_nonneg _)
+          (mul_nonneg (mul_nonneg hsel0 zero_le_one) hmark0)
       _ = _ := by ring
   unfold compensatedRowFullCorrection
   dsimp only

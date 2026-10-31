@@ -1,5 +1,5 @@
 import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalAnnularTerminal
-import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalBackgrounds
+import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalNormReduction
 
 /-!
 # Actual exceptional cancellation for the original finite polynomials

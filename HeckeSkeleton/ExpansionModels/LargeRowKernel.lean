@@ -81,7 +81,7 @@ theorem exists_actual_large_kernel_scalar_bound
   have hgauss : ‖Complex.exp ((s + z - 1) ^ 2)‖ ≤ Cg := by
     rw [Complex.norm_exp]
     apply Real.exp_le_exp.mpr
-    dsimp only [Cg]
+    change ((s + z - 1) ^ 2).re ≤ (sigma + 1) ^ 2
     simp only [pow_two, Complex.mul_re, Complex.sub_re, Complex.add_re, Complex.one_re,
       Complex.sub_im, Complex.add_im, Complex.one_im, sub_zero, hs, hz]
     nlinarith [sq_nonneg (s.im + z.im)]

@@ -60,11 +60,14 @@ error bound through a translated fixed integrable envelope.
 
 The analytic statements use a totally complex field and the alternative
 `chi = 1` or `chi` is not a global norm twist. The original source supplies
-these facts: `isComplex_of_family` follows from its primitive twelfth root;
-`ExceptionalBackgrounds.lean` derives norm reduction from
-`targetCharacter_radial_zero`, the permitted plain backgrounds, and the
-finite order of the original row characters. It also treats a normalized
-generator multiplied by a finite-order background.
+these facts: `isComplex_of_family` follows from its primitive twelfth root.
+`ExceptionalNormReduction.lean` proves norm reduction for a radially
+normalized generator, its finite-order backgrounds, and the permitted
+plain backgrounds with finite-order row characters. It uses the generic
+`MomentData` interface without the physical source construction.
+`ExceptionalBackgrounds.lean` retains the actual paired-model specialization
+from `targetCharacter_radial_zero` and re-exports all these generic results,
+so existing imports remain compatible.
 
 ## Lemma 4.11 with the original seminorm
 
@@ -105,6 +108,9 @@ including the empty family.
 result to the original finite `plainPolynomial`. Its hypotheses identify
 the actual character, common mask, and phase-carrying tests pointwise.
 The two equal products preserve the same total phase during normalization.
+This bridge imports `ExceptionalNormReduction` directly; the source-specific
+specialization and its `SourceData` dependency remain in
+`ExceptionalBackgrounds` and the full audit.
 
 `ActualExceptionalFiniteFamilyBridge.lean` chooses the constants before
 every family member and original model or row. Its canonical specialization
@@ -131,13 +137,20 @@ They replace the former admitted source/model objects with the same
 constructed recipe. Shared profile control is the owner's
 `MOM_UNIFORM_AMPLIFY/ProfileControl` interface.
 
-Eight imported proof files needed native API/elaboration repairs:
+Imported source proofs needed native API/elaboration repairs:
 `PhysicalCompletedPoisson`, `PhysicalRecipeAssembly`,
 `ActualRowKernelHolomorphy`, `ActualNormFormFullCorrection`,
 `SmallRowCorrection`, `PhysicalInitialMellinTerm`,
-`ActualPrincipalInitialTransport`, and `ActualModerateSweepHolomorphy`.
+`ActualPrincipalInitialTransport`, `ActualModerateSweepHolomorphy`,
+`ActualOuterKernelDecay`, `PhysicalInitialMellinAbsolute`,
+`LargeRowAllScales`, `SmallRowKernel`, `PrincipalRowLocal`,
+`ActualModerateCorrectionBound`, `LargeRowKernel`,
+`ActualPrincipalKernelBound`, `ActualModerateKernelDecay`, and
+`PhysicalInitialRowSum`.
 The joint-analytic repairs consume the source owner's proof fixes from
 PR #5 commit `496aee9914912e54feac9fced688ce6e61bc7f6f`.
+The initial-row-sum proof matches the owner's blob
+`9a57bd1f04916c1ad4f0b40c42315ef6067f3cbe` exactly.
 Their existing statements and mathematical definitions are preserved.
 The top-level zero-free theorem's statement is unchanged.
 
