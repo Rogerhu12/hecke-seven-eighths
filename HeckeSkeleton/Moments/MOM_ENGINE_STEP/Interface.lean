@@ -471,6 +471,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualTerminalPower
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstSecondSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstSecondCoveredSource
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectSecondStages
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectCoveredStage
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolTerminalMass
 
 /-!
 # The unified child step of the paired fourth-moment engine
