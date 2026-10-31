@@ -145,7 +145,53 @@ theorem ideal_mass_eq (R : Finset (Ideal (𝓞 K))) (I : Ideal (𝓞 K)) (hI : I
   rw [he]
   exact (Real.finsetProd_rpow _ _ (fun _ _ => pow_nonneg (Nat.cast_nonneg _) _) _).symm
 
-set_option maxHeartbeats 800000 in
+def codeMass (R : Finset (Ideal (𝓞 K))) (δ : ℝ) (v : R → ℕ) : ℝ :=
+  ∏ P : R, ((Ideal.absNorm (P : Ideal (𝓞 K)) : ℝ) ^ (v P + 1)) ^ (-δ)
+
+theorem codeMass_nonneg (R : Finset (Ideal (𝓞 K))) (δ : ℝ) (v : R → ℕ) :
+    0 ≤ codeMass R δ v :=
+  Finset.prod_nonneg (fun _ _ => Real.rpow_nonneg (pow_nonneg (Nat.cast_nonneg _) _) _)
+
+def codeBound (R S : Finset (Ideal (𝓞 K))) : ℕ :=
+  S.sup (fun I => Finset.univ.sup (powerCode R I)) + 1
+
+theorem powerCode_mem_box (R S : Finset (Ideal (𝓞 K))) :
+    S.image (powerCode R) ⊆
+      Fintype.piFinset (fun _P : R => Finset.range (codeBound R S)) := by
+  intro v hv
+  obtain ⟨I, hI, rfl⟩ := Finset.mem_image.mp hv
+  apply Fintype.mem_piFinset.mpr
+  intro P
+  apply Finset.mem_range.mpr
+  exact Nat.lt_succ_of_le ((Finset.le_sup (f := powerCode R I) (Finset.mem_univ P)).trans
+    (Finset.le_sup (f := fun I => Finset.univ.sup (powerCode R I)) hI))
+
+theorem sum_ideal_mass_eq_codeMass (R S : Finset (Ideal (𝓞 K))) (δ : ℝ)
+    (hS : ∀ I ∈ S, I ≠ 0) (hsupport : ∀ I ∈ S, primeSupport I = R) :
+    (∑ I ∈ S, (Ideal.absNorm I : ℝ) ^ (-δ)) =
+      ∑ v ∈ S.image (powerCode R), codeMass R δ v := by
+  rw [Finset.sum_image (f := codeMass R δ) (powerCode_injOn R S hS hsupport)]
+  apply Finset.sum_congr rfl
+  intro I hI
+  exact ideal_mass_eq R I (hS I hI) (hsupport I hI) δ
+
+theorem box_codeMass_eq (R : Finset (Ideal (𝓞 K))) (δ : ℝ) (bound : ℕ) :
+    (∑ v ∈ Fintype.piFinset (fun _P : R => Finset.range bound), codeMass R δ v) =
+      ∏ P : R, ∑ n ∈ Finset.range bound,
+        ((Ideal.absNorm (P : Ideal (𝓞 K)) : ℝ) ^ (n + 1)) ^ (-δ) := by
+  exact (Finset.prod_univ_sum (fun _P : R => Finset.range bound)
+    (fun P n => ((Ideal.absNorm (P : Ideal (𝓞 K)) : ℝ) ^ (n + 1)) ^ (-δ))).symm
+
+theorem box_codeMass_le (R : Finset (Ideal (𝓞 K))) (δ : ℝ) (hδ : 0 < δ)
+    (hR : ∀ P ∈ R, Prime P) (bound : ℕ) :
+    (∑ v ∈ Fintype.piFinset (fun _P : R => Finset.range bound), codeMass R δ v) ≤
+      ∏ P : R, primeMass P δ := by
+  rw [box_codeMass_eq]
+  exact Finset.prod_le_prod₀
+    (fun _ _ => Finset.sum_nonneg (fun _ _ => Real.rpow_nonneg
+      (pow_nonneg (Nat.cast_nonneg _) _) _))
+    (fun P _ => local_power_sum P (hR P P.property) δ hδ bound)
+
 theorem fixed_support_mass (K : Type*) [Field K] [NumberField K] (δ : ℝ) (hδ : 0 < δ) :
     ∃ C : ℝ, 0 < C ∧ ∀ (R S : Finset (Ideal (𝓞 K))),
       (∀ P ∈ R,Prime P) → (∀ I ∈ S,I ≠ 0) → (∀ I ∈ S,primeSupport I=R) →
@@ -153,32 +199,14 @@ theorem fixed_support_mass (K : Type*) [Field K] [NumberField K] (δ : ℝ) (hδ
   obtain ⟨C,hC,hprod⟩ := uniform_primeMass_product K δ hδ
   refine ⟨C,hC,?_⟩
   intro R S hR hS hsupport
-  let bound : ℕ := S.sup (fun I => Finset.univ.sup (powerCode R I))+1
-  let mass : (R → ℕ) → ℝ := fun v => ∏ P : R,((Ideal.absNorm (P:Ideal (𝓞 K)):ℝ)^(v P+1))^(-δ)
-  have hm (v : R → ℕ) : 0 ≤ mass v := Finset.prod_nonneg
-    (fun _ _ => Real.rpow_nonneg (pow_nonneg (Nat.cast_nonneg _) _) _)
-  have hsub : S.image (powerCode R) ⊆ Fintype.piFinset (fun _P : R => Finset.range bound) := by
-    intro v hv
-    obtain ⟨I,hI,rfl⟩ := Finset.mem_image.mp hv
-    apply Fintype.mem_piFinset.mpr
-    intro P
-    apply Finset.mem_range.mpr
-    exact Nat.lt_succ_of_le ((Finset.le_sup (f := powerCode R I) (Finset.mem_univ P)).trans
-      (Finset.le_sup (f := fun I => Finset.univ.sup (powerCode R I)) hI))
   calc
-    _ = ∑ v ∈ S.image (powerCode R),mass v := by
-      rw [Finset.sum_image (powerCode_injOn R S hS hsupport)]
-      apply Finset.sum_congr rfl
-      intro I hI
-      exact ideal_mass_eq R I (hS I hI) (hsupport I hI) δ
-    _ ≤ ∑ v ∈ Fintype.piFinset (fun _P : R => Finset.range bound),mass v :=
-      Finset.sum_le_sum_of_subset_of_nonneg hsub (fun v _ _ => hm v)
-    _ = ∏ P : R,∑ n ∈ Finset.range bound,((Ideal.absNorm (P:Ideal (𝓞 K)):ℝ)^(n+1))^(-δ) := by
-      exact (Finset.prod_univ_sum (fun _P : R => Finset.range bound)
-        (fun P n => ((Ideal.absNorm (P:Ideal (𝓞 K)):ℝ)^(n+1))^(-δ))).symm
-    _ ≤ ∏ P : R,primeMass P δ := Finset.prod_le_prod₀
-      (fun _ _ => Finset.sum_nonneg (fun _ _ => Real.rpow_nonneg (pow_nonneg (Nat.cast_nonneg _) _) _))
-      (fun P _ => local_power_sum P (hR P P.property) δ hδ bound)
+    _ = ∑ v ∈ S.image (powerCode R), codeMass R δ v :=
+      sum_ideal_mass_eq_codeMass R S δ hS hsupport
+    _ ≤ ∑ v ∈ Fintype.piFinset (fun _P : R => Finset.range (codeBound R S)),
+        codeMass R δ v :=
+      Finset.sum_le_sum_of_subset_of_nonneg (powerCode_mem_box R S)
+        (fun v _ _ => codeMass_nonneg R δ v)
+    _ ≤ ∏ P : R, primeMass P δ := box_codeMass_le R δ hδ hR (codeBound R S)
     _ ≤ C := by
       have he := Finset.prod_coe_sort R (fun P => primeMass P δ)
       rw [he]

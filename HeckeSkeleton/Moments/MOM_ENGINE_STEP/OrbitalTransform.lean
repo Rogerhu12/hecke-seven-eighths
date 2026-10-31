@@ -44,6 +44,18 @@ theorem wholeResidueEnergy_re_nonneg {ι R : Type*}
   rw [wholeResidueEnergy_re]
   exact sq_nonneg _
 
+/-- Pointwise equality of every original column preserves the whole norm. -/
+theorem wholeResidueEnergy_congr {ι R : Type*}
+    (columns : Finset ι) (c : ι → ℂ) (G : ι → R → ℂ) (x y : R)
+    (he : ∀ i ∈ columns, G i x = G i y) :
+    wholeResidueEnergy columns c G x = wholeResidueEnergy columns c G y := by
+  have hp : wholePolynomial columns c G x = wholePolynomial columns c G y := by
+    unfold wholePolynomial
+    apply Finset.sum_congr rfl
+    intro i hi
+    rw [he i hi]
+  simp only [wholeResidueEnergy, hp]
+
 /-- Exact sesquilinear expansion; both coefficient arrays are the original one. -/
 theorem wholeResidueEnergy_expand {ι R : Type*} (columns : Finset ι) (c : ι → ℂ)
     (G : ι → R → ℂ) (x : R) :
@@ -92,27 +104,6 @@ local notation "Q" => SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ
 variable (modulus : OS)
 local notation "R" => OS ⧸ Ideal.span (Set.singleton modulus)
 
-/-- Literal column invariance proves whole-coefficient invariance. -/
-theorem wholeResidueEnergy_literal_invariant {ι : Type*}
-    (columns : Finset ι) (c : ι → ℂ) (G : ι → R → ℂ)
-    (hinv : ∀ i ∈ columns, ∀ u : Γ, ∀ a : OS,
-      G i (Ideal.Quotient.mk _
-        (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a)) =
-          G i (Ideal.Quotient.mk _ a)) :
-    ∀ u : Γ, ∀ a : OS,
-      wholeResidueEnergy columns c G (Ideal.Quotient.mk _
-        (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a)) =
-          wholeResidueEnergy columns c G (Ideal.Quotient.mk _ a) := by
-  intro u a
-  have he : wholePolynomial columns c G (Ideal.Quotient.mk _
-      (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a)) =
-        wholePolynomial columns c G (Ideal.Quotient.mk _ a) := by
-    unfold wholePolynomial
-    apply Finset.sum_congr rfl
-    intro i hi
-    rw [hinv i hi u a]
-  simp only [wholeResidueEnergy, he]
-
 variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
   [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
   (ν : Measure (FiniteAdeleRing (𝓞 K) K)) [ν.IsAddHaarMeasure]
@@ -139,7 +130,8 @@ theorem whole_masked_orbital_poisson {ι : Type*}
     (hcs : ∀ v ∈ S, HasCompactSupport (h v))
     (M : Finset (HeightOneSpectrum OS)) (r : {r : ℝ // 0 < r}) :
     let f := wholeResidueEnergy columns c G
-    let hf := wholeResidueEnergy_literal_invariant K S Γ modulus columns c G hinv
+    let hf := fun (u : Γ) (a : OS) =>
+      wholeResidueEnergy_congr columns c G _ _ (fun i hi => hinv i hi u a)
     sIntegerWeightedOrbitalSeries K S Γ φ (sIntegerFiniteTestFunction K S h) r
         (fun q => sIntegerOrbitAvoidanceMask K _ Γ M q *
           sIntegerPeriodicOrbitWeight K _ Γ modulus f hf q) =
@@ -159,7 +151,7 @@ theorem whole_masked_orbital_poisson {ι : Type*}
   dsimp only
   exact sIntegerMaskedPeriodicOrbitalPoisson K S Γ modulus hmodulus hS ν μv μ
     φ h hlc hcs M (wholeResidueEnergy columns c G)
-    (wholeResidueEnergy_literal_invariant K S Γ modulus columns c G hinv) r
+    (fun u a => wholeResidueEnergy_congr columns c G _ _ (fun i hi => hinv i hi u a)) r
 
 include ν μ in
 /-- A common dual cutoff for the entire squared polynomial, with actual
@@ -183,7 +175,8 @@ theorem exists_whole_masked_orbital_truncation
             G i (Ideal.Quotient.mk _ a),
       ∀ r : {r : ℝ // 0 < r}, ∀ φ : SchwartzMap V ℂ, ∀ X : ℝ, 1 ≤ X →
         let f := wholeResidueEnergy columns c G
-        let hf := wholeResidueEnergy_literal_invariant K S Γ modulus columns c G hinv
+        let hf := fun (u : Γ) (a : OS) =>
+          wholeResidueEnergy_congr columns c G _ _ (fun i hi => hinv i hi u a)
         ‖sIntegerWeightedOrbitalSeries K S Γ φ (sIntegerFiniteTestFunction K S h) r
             (fun q => sIntegerOrbitAvoidanceMask K _ Γ M q *
               sIntegerPeriodicOrbitWeight K _ Γ modulus f hf q) -
@@ -196,7 +189,8 @@ theorem exists_whole_masked_orbital_truncation
   refine ⟨seminorms, C, hC, ?_⟩
   intro M modulus hmodulus ι columns c G hinv r φ X hX
   exact (hbound M modulus hmodulus (wholeResidueEnergy columns c G)
-    (wholeResidueEnergy_literal_invariant K S Γ modulus columns c G hinv) r φ X hX).2
+    (fun u a => wholeResidueEnergy_congr columns c G _ _ (fun i hi => hinv i hi u a))
+    r φ X hX).2
 
 end HeckeSkeleton.Moments.EngineStep
 

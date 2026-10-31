@@ -150,17 +150,23 @@ def main() -> int:
             command = ['lake', *(['--fail-fast'] if fail_fast else []), 'build']
             run(name, [*command, *('+' + module + ':olean' for module in modules)])
 
-    # Collect independent, smaller proof failures in one pass before starting
-    # the full arithmetic closure. Lake reuses these exact compiled artifacts
-    # for the interface build; this does not alter the final audit's scope.
-    if MODULE_ROOT + '.Interface' in args.modules:
-        build('core-build', CORE_MODULES, fail_fast=False)
-    # '+' disambiguates genuine module targets; :olean avoids unrelated binaries.
-    if args.serial_build:
-        for index, module in enumerate(args.modules, 1):
-            build(f'build-{index}-{module.rsplit(".", 1)[-1]}', [module])
+    interface_target = MODULE_ROOT + '.Interface' in args.modules
+    if args.checked_project_cache and interface_target and not args.serial_build:
+        # Keep small roots first in the real dependency order, but let the
+        # strict verifier continue every independent branch after a failure.
+        # A failed core theorem must not hide unrelated kernel diagnostics.
+        # The verifier still exits nonzero if any requested module fails.
+        targets = list(dict.fromkeys([*CORE_MODULES, *args.modules]))
+        build('build', targets, fail_fast=False)
     else:
-        build('build', args.modules)
+        if interface_target:
+            build('core-build', CORE_MODULES, fail_fast=False)
+        # '+' disambiguates genuine module targets; :olean avoids unrelated binaries.
+        if args.serial_build:
+            for index, module in enumerate(args.modules, 1):
+                build(f'build-{index}-{module.rsplit(".", 1)[-1]}', [module])
+        else:
+            build('build', args.modules)
     audit = '\n'.join('import ' + module for module in args.modules) + '''
 import Lean.Elab.Command
 import Lean.Util.CollectAxioms

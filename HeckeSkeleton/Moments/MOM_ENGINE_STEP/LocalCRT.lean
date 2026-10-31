@@ -293,6 +293,9 @@ theorem generatedIdealCharacter_mul (I J IJ : A.Exterior)
       generatedIdealCharacter (σ := σ) I a ha (Ideal.Quotient.mk _ x) *
         generatedIdealCharacter (σ := σ) J b hb (Ideal.Quotient.mk _ x) := by
   simp only [generatedIdealCharacter_mk]
+  change σ (A.residueValue A.sexticResidueFamily IJ x) =
+    σ (A.residueValue A.sexticResidueFamily I x) *
+      σ (A.residueValue A.sexticResidueFamily J x)
   rw [A.sexticResidueFamily_normalized.2.2 I J IJ hIJ x, map_mul]
 
 /-- Ideal coprimality of genuine extracted pieces implies the exact
@@ -472,6 +475,7 @@ theorem finiteCoefficient_unit_modulus (R : Subring F) (a h : R) (ha : a ≠ 0)
     χ₁ χa e he ds (FiniteTransform.canonicalLifts R a)]
   simp [FiniteTransform.finiteCoefficientWithLifts, FiniteTransform.gaussSum,
     FiniteTransform.gaussSumWithLifts, ds, hχ, hcond]
+  exact fun hn => (hn (hcond default)).elim
 
 /-- The unit ideal, retained as an exterior ideal. -/
 def unitExterior (A : SArithmeticData F) : A.Exterior :=
@@ -480,7 +484,7 @@ def unitExterior (A : SArithmeticData F) : A.Exterior :=
 theorem unitExterior_generates (A : SArithmeticData F) :
     A.Generates (unitExterior A) (1 : A.R) := by
   refine ⟨one_ne_zero, ?_⟩
-  simp [unitExterior, SArithmeticData.extendIdeal]
+  simp [unitExterior, SArithmeticData.extendIdeal, Ideal.map_top]
 
 /-- Allowed presentations of the same complete ideals give the same
 actual finite column at every frequency.  Compatibility is derived from
@@ -658,7 +662,8 @@ theorem localUnitPart_amplifiedExterior (C : A.GeneralArithmeticContext σ η hS
           localUnitPart C q (primeIdeal p) (generator C p) (generator_generates C p) ^ 6 := by
   change localUnitPart C q (ExteriorIdealEuler.mul I (powerIdeal p 6))
     (h * generator C p ^ 6) _ = _
-  rw [localUnitPart_exterior_mul, localUnitPart_generator_power]
+  rw [localUnitPart_exterior_mul C q I (powerIdeal p 6) h (generator C p ^ 6)
+    hh (generator_power_generates C p 6), localUnitPart_generator_power]
 
 /-- The three valuation rows now refer to multiplication of the original
 frequency by the sixth power of the original allowed prime generator.
@@ -706,8 +711,18 @@ theorem actual_frequency_insertion_support
       s a (h * generator C p ^ 6) hs ha (amplifiedExterior_generates C Ih p h hh)
       hsAllowed haAllowed P hSupportS hSupportA hSupportH' whole]
   congr 1
-  simpa only [localUnitPart_amplifiedExterior] using he
+  refine he.trans ?_
+  apply Finset.prod_congr rfl
+  intro q hq
+  exact congrArg (fun u => centralRawLocalFactor C q (primeExponent q Ia)
+    (primeExponent q Is) (primeExponent q (amplifiedExterior Ih p))
+    (localUnitPart C q Is s hs) (localUnitPart C q Ia a ha) u)
+    (localUnitPart_amplifiedExterior C Ih p q h hh).symm
 
 end ActualFrequencyInsertion
 
 end HeckeSkeleton.Moments.EngineStep
+
+#print axioms HeckeSkeleton.Moments.EngineStep.actual_complete_common_support
+#print axioms HeckeSkeleton.Moments.EngineStep.actual_finite_column_generator_replacement
+#print axioms HeckeSkeleton.Moments.EngineStep.actual_frequency_insertion_support
