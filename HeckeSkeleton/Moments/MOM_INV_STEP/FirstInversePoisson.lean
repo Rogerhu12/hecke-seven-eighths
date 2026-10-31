@@ -126,7 +126,9 @@ theorem weightedEnergy_eq_sector_sum (C : ColumnFamily K Sset σ Θ ψ) (γ : Ou
   rw [CanonicalSectors.tsum_eq_ideal_sectors K Sset Γ D]
   apply tsum_congr
   intro x
-  rw [orbitColumn_rowOrbit K S Γ D hΓ C γ j x.1 x.2]
+  rcases x with ⟨I, ξ⟩
+  dsimp only
+  rw [orbitColumn_rowOrbit K S Γ D hΓ C γ j I ξ]
 
 theorem weightedEnergy_eq_inverseSquared (C : ColumnFamily K Sset σ Θ ψ)
     (γ : OuterTriple K) (j : Ideal (𝓞 K)) (φ : SchwartzMap V ℂ)

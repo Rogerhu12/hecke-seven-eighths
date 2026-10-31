@@ -47,7 +47,7 @@ theorem divisorMark_norm_le_divisorPower {σ : Type*}
   rw [divisorMark, norm_prod]
   calc
     _ ≤ ∏ _i ∈ slots, ((idealDivisors I).card : ℝ) :=
-      Finset.prod_le_prod (fun i _ => norm_nonneg _) hslot
+      Finset.prod_le_prod₀ (fun i _ => norm_nonneg _) hslot
     _ = _ := by simp
 
 /-- Constants are selected before every original mark list and weight. -/
@@ -103,6 +103,47 @@ theorem canonicalColumn_norm_le {σ : Type*} (C : ColumnData K S σ)
           ‖C.cutoff ((n.val.val.absNorm : ℝ) / C.base ^ C.length)‖ := by
       gcongr <;> assumption
     _ = _ := by ring
+
+/-- Uniform pointwise bound for the literal original canonical column.
+The constant precedes the coefficient data, lists, norm windows and tests. -/
+theorem exists_uniform_column_bound (slotCap : ℕ) (ε : ℝ) (hε : 0 < ε) :
+    ∃ A : ℝ, 1 ≤ A ∧ ∀ {σ : Type*} (C : ColumnData K S σ)
+      (G : HeckeCharacter K) (hcal : ThetaCalibrationInput K Sset D C.lambda G)
+      (f b n : Ext) (X H β W : ℝ),
+      Squarefree n.val.val → C.slots.card ≤ slotCap →
+      0 ≤ X → 0 ≤ H → 0 ≤ β → 0 ≤ W →
+      (n.val.val.absNorm : ℝ) ≤ X → (b.val.val.absNorm : ℝ) ≤ H →
+      ‖C.labelWeight b f‖ ≤ β →
+      ‖C.cutoff ((n.val.val.absNorm : ℝ) / C.base ^ C.length)‖ ≤ W →
+      (∀ i ∈ C.slots, ∀ P ∈ C.primeLists i, ‖C.primeWeights i P‖ ≤ 1) →
+      ‖canonicalColumn K S D C f b n‖ ≤ A * β * W * (X * H ^ 3) ^ ε := by
+  obtain ⟨A, hA, hb⟩ := exists_divisor_power_bound (K := K)
+    (slotCap + 1) (by omega) ε hε
+  refine ⟨A, hA, ?_⟩
+  intro σ C G hcal f b n X H β W hsf hcap hX hH hβ hW hn hbNorm hβb hWn ha
+  have hI : n.val.val * b.val.val ^ 3 ≠ 0 :=
+    mul_ne_zero (nonZeroDivisors.coe_ne_zero n.val)
+      (pow_ne_zero 3 (nonZeroDivisors.coe_ne_zero b.val))
+  have hdiv : ((idealDivisors (n.val.val * b.val.val ^ 3)).card : ℝ) ^ C.slots.card ≤
+      A * (Ideal.absNorm (n.val.val * b.val.val ^ 3) : ℝ) ^ ε := by
+    apply le_trans _ (hb _)
+    apply pow_le_pow_right₀
+    · exact_mod_cast divisor_card_pos _ hI
+    · omega
+  have hnorm : (Ideal.absNorm (n.val.val * b.val.val ^ 3) : ℝ) ≤ X * H ^ 3 := by
+    simp only [map_mul, map_pow, Nat.cast_mul, Nat.cast_pow]
+    gcongr
+  have hdiv' : ((idealDivisors (n.val.val * b.val.val ^ 3)).card : ℝ) ^ C.slots.card ≤
+      A * (X * H ^ 3) ^ ε := hdiv.trans
+    (mul_le_mul_of_nonneg_left (Real.rpow_le_rpow (Nat.cast_nonneg _) hnorm hε.le)
+      (le_trans zero_le_one hA))
+  calc
+    ‖canonicalColumn K S D C f b n‖ ≤ ‖C.labelWeight b f‖ *
+        ((idealDivisors (n.val.val * b.val.val ^ 3)).card : ℝ) ^ C.slots.card *
+        ‖C.cutoff ((n.val.val.absNorm : ℝ) / C.base ^ C.length)‖ :=
+      canonicalColumn_norm_le K S D C G hcal f b n hsf ha
+    _ ≤ β * (A * (X * H ^ 3) ^ ε) * W := by gcongr
+    _ = A * β * W * (X * H ^ 3) ^ ε := by ring
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
 

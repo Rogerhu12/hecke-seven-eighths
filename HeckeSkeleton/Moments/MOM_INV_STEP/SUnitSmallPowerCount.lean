@@ -61,7 +61,9 @@ theorem exists_local_height_small_power_count (F : ℝ) (hF : 1 ≤ F)
     apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg _)
     change 2 * Real.log H + Real.log F ≤ (2 / δ + Real.log F) * P
     dsimp only [P] at hl hf ⊢
-    nlinarith
+    calc
+      _ ≤ 2 * (H ^ δ / δ) + Real.log F * H ^ δ := by nlinarith
+      _ = (2 / δ + Real.log F) * H ^ δ := by ring
   have hceil : (⌈B * T⌉₊ : ℝ) ≤ B * T + 1 :=
     (Nat.ceil_lt_add_one (mul_nonneg hB hT)).le
   have hN : ((2 * ⌈B * T⌉₊ + 1 : ℕ) : ℝ) ≤ A * P := by

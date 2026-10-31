@@ -64,6 +64,49 @@ theorem zeroEnvelope_nonneg (φ : SchwartzMap V ℂ)
     (add_nonneg (mul_nonneg (div_nonneg (fieldConstant_nonneg K) r.property.le)
       (norm_nonneg _)) (norm_nonneg _))
 
+/-- Test dependence of both additive zero terms, independent of the
+physical row scale and every original coefficient and mark list. -/
+def zeroProfileSize (φ : SchwartzMap V ℂ)
+    (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) : ℝ :=
+  (sUnitHaarCovolume K Sset Γ).toReal *
+    (fieldConstant K *
+        ‖sIntegerDualTensorTerm K μv S (traceSchwartzToMixed K φ) h 0‖ +
+      ‖sIntegerTensorTerm K S (traceSchwartzToMixed K φ) h 0‖)
+
+theorem zeroProfileSize_nonneg (φ : SchwartzMap V ℂ)
+    (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) :
+    0 ≤ zeroProfileSize K S Γ μv φ h := by
+  unfold zeroProfileSize
+  positivity
+
+theorem zeroEnvelope_le_scale (φ : SchwartzMap V ℂ)
+    (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
+    (r : {r : ℝ // 0 < r}) (Y : ℝ) (hY : 1 ≤ Y) (hr : r.val⁻¹ ≤ Y) :
+    zeroEnvelope K S Γ μv φ h r ≤ zeroProfileSize K S Γ μv φ h * Y := by
+  unfold zeroEnvelope zeroProfileSize
+  calc
+    _ ≤ (sUnitHaarCovolume K Sset Γ).toReal *
+        (fieldConstant K * Y *
+          ‖sIntegerDualTensorTerm K μv S (traceSchwartzToMixed K φ) h 0‖ +
+          ‖sIntegerTensorTerm K S (traceSchwartzToMixed K φ) h 0‖ * Y) := by
+      apply mul_le_mul_of_nonneg_left _ ENNReal.toReal_nonneg
+      apply add_le_add
+      · apply mul_le_mul_of_nonneg_right _ (norm_nonneg _)
+        simpa only [div_eq_mul_inv] using
+          mul_le_mul_of_nonneg_left hr (fieldConstant_nonneg K)
+      · exact le_mul_of_one_le_right (norm_nonneg _) hY
+    _ = _ := by ring
+
+theorem zeroEnvelope_physical_scale (φ : SchwartzMap V ℂ)
+    (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
+    (Z M : ℝ) (hZ : 1 ≤ Z) (hM : 0 ≤ M) :
+    zeroEnvelope K S Γ μv φ h
+      ⟨Z ^ (-M), Real.rpow_pos_of_pos (lt_of_lt_of_le zero_lt_one hZ) _⟩ ≤
+        zeroProfileSize K S Γ μv φ h * Z ^ M := by
+  apply zeroEnvelope_le_scale K S Γ μv
+  · exact Real.one_le_rpow hZ hM
+  · simp only [Real.rpow_neg (le_trans zero_le_one hZ), inv_inv, le_refl]
+
 /-- Both terms vanish together off the principal locus. -/
 theorem zeroContribution_eq (B : PrimeBlock K Sset)
     (t : HeightOneSpectrum (𝓞 K) → ZMod 6) (φ : SchwartzMap V ℂ)

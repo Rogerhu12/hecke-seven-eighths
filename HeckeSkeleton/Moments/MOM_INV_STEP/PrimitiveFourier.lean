@@ -180,9 +180,10 @@ theorem finite_fourier (B : PrimeBlock K Sset)
       change (∑ x : (p : activeSupport B.support t) → Residue p.val,
         ProductGauss.tensorCoefficient (activeCharacter K S D B t) x *
           productPhase K S D B t (actualCRT K S D B t k * x)) = _
-      simpa only [primitiveCoefficient_eq_tensor, primitiveGauss] using
-        ProductGauss.finite_fourier (activeCharacter K S D B t)
-          (activeCharacter_ne_one K S D B t) (productPhase K S D B t) (actualCRT K S D B t k)
+      have hf := ProductGauss.finite_fourier (activeCharacter K S D B t)
+        (activeCharacter_ne_one K S D B t) (productPhase K S D B t) (actualCRT K S D B t k)
+      rw [primitiveCoefficient_eq_tensor, primitiveGauss]
+      convert hf using 1 <;> congr 1 <;> ext x <;> simp
 
 @[simp] theorem primitiveCoefficient_one (B : PrimeBlock K Sset)
     (t : HeightOneSpectrum (𝓞 K) → ZMod 6) :
@@ -244,10 +245,10 @@ theorem primitiveGauss_norm (B : PrimeBlock K Sset)
     ‖primitiveGauss K S D B t‖ = Real.sqrt ((primitiveIdeal B.support t).absNorm : ℝ) := by
   rw [primitiveGauss, ProductGauss.gaussProduct_norm _
     (activeCharacter_ne_one K S D B t) _ (productPhase_isPrimitive K S D B t)]
-  have hcard : Fintype.card ((p : activeSupport B.support t) → Residue p.val) =
-      Nat.card (PrincipalQuotient K S D B t) := by
-    rw [← Nat.card_eq_fintype_card]
-    exact Nat.card_congr (actualCRT K S D B t).symm.toEquiv
+  simp only [← Nat.card_eq_fintype_card]
+  have hcard : Nat.card (ResidueProduct K S B t) =
+      Nat.card (PrincipalQuotient K S D B t) :=
+    Nat.card_congr (actualCRT K S D B t).symm.toEquiv
   rw [hcard]
   change Real.sqrt (Nat.card (OS ⧸ Ideal.span
     ({primitiveModulus K S D B t} : Set OS)) : ℝ) = _

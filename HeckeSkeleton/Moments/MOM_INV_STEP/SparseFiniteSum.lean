@@ -47,7 +47,13 @@ theorem schwartz_dilated_equiv_weighted_bound
     nlinarith
   have hφ : (1 + ‖α • e z‖) ^ 3 * ‖φ (α • e z)‖ ≤
       8 * (Finset.Iic (3, 0)).sup (schwartzSeminormFamily ℝ E ℂ) φ := by
-    simpa only [norm_iteratedFDeriv_zero, schwartzSeminormFamily, show (2 : ℝ) ^ 3 = 8 by norm_num] using
+    have hfamily : (fun m : ℕ × ℕ => SchwartzMap.seminorm ℝ m.1 m.2) =
+        schwartzSeminormFamily ℝ E ℂ := by
+      funext m
+      rcases m with ⟨k, n⟩
+      simp only [SchwartzMap.schwartzSeminormFamily_apply]
+    rw [← hfamily]
+    simpa only [norm_iteratedFDeriv_zero, show (2 : ℝ) ^ 3 = 8 by norm_num] using
       SchwartzMap.one_add_le_sup_seminorm_apply (𝕜 := ℝ) (m := (3, 0))
         (k := 3) (n := 0) le_rfl le_rfl φ (α • e z)
   calc

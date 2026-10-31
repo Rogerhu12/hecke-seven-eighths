@@ -137,6 +137,41 @@ theorem physical_principal_budget (Z : ℝ) (hZ : 1 ≤ Z)
   rw [physical_principal_count_identity Z (lt_of_lt_of_le zero_lt_one hZ)]
   exact Real.rpow_le_rpow_of_exponent_le hZ (by linarith)
 
+/-- Exact ledger including the two original mark factors and every
+actual localized mask, before a numerical allowance is imposed. -/
+theorem physical_marked_principal_identity (Z : ℝ) (hZ : 0 < Z)
+    (M r ell V eta eps Qexp betaLoss : ℝ) :
+    Z ^ (-r - 2 * ell - V) * (Z ^ betaLoss) ^ 2 * Z ^ M * Z ^ (r + eta) *
+      (Z ^ (ell + eta)) ^ (1 + eps) * (Z ^ (V + eta)) ^ (1 + eps) *
+      (Z ^ Qexp * (Z ^ (r + eta)) ^ 4 * (Z ^ (ell + eta)) ^ 8) ^ eps =
+      Z ^ (M - ell + 3 * eta + eps * (Qexp + 4 * r + 9 * ell + V + 14 * eta) +
+        2 * betaLoss) := by
+  have hp (a : ℝ) (n : ℕ) : (Z ^ a) ^ n = Z ^ (a * n) := by
+    rw [← Real.rpow_natCast, ← Real.rpow_mul hZ.le]
+  have hi : Z ^ Qexp * (Z ^ (r + eta)) ^ 4 * (Z ^ (ell + eta)) ^ 8 =
+      Z ^ (Qexp + 4 * (r + eta) + 8 * (ell + eta)) := by
+    rw [hp, hp, ← Real.rpow_add hZ, ← Real.rpow_add hZ]
+    congr 1
+    norm_num
+    ring
+  rw [hi, hp, ← Real.rpow_mul hZ.le, ← Real.rpow_mul hZ.le,
+    ← Real.rpow_mul hZ.le]
+  repeat rw [← Real.rpow_add hZ]
+  congr 1
+  norm_num
+  ring
+
+theorem physical_marked_principal_budget (Z : ℝ) (hZ : 1 ≤ Z)
+    (M r ell V eta eps Qexp betaLoss allowance : ℝ)
+    (hallow : 3 * eta + eps * (Qexp + 4 * r + 9 * ell + V + 14 * eta) +
+      2 * betaLoss ≤ ell + allowance) :
+    Z ^ (-r - 2 * ell - V) * (Z ^ betaLoss) ^ 2 * Z ^ M * Z ^ (r + eta) *
+      (Z ^ (ell + eta)) ^ (1 + eps) * (Z ^ (V + eta)) ^ (1 + eps) *
+      (Z ^ Qexp * (Z ^ (r + eta)) ^ 4 * (Z ^ (ell + eta)) ^ 8) ^ eps ≤
+      Z ^ (M + allowance) := by
+  rw [physical_marked_principal_identity Z (lt_of_lt_of_le zero_lt_one hZ)]
+  exact Real.rpow_le_rpow_of_exponent_le hZ (by linarith)
+
 end HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalBudget
 
 end
