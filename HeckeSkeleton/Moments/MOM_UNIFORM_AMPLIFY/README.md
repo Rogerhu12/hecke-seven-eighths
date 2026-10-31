@@ -12,7 +12,7 @@
 | `FiniteSectorReindex.lean` | 仓库真实 `inverseEnergy`、`pairedEnergy` 和 unmarked ball 的三个适配器；输入为原始逐行多项式等式、行资格和注入性。 |
 | `ProfileControl.lean` | 同一 `ModelProfileIndex` 覆盖 inverse、两份 plain 和全部 prime window；共同 Euler 积分界推出仓库的 `testSeminorm` 界。统一控制可重索引、可合并索引族。 |
 | `FinitePropagation.lean` | 固定有限树中的加法、乘法、非负实幂、有限和/积，以及具有共同上界的归一化有限外层求和，传播明确的尺度、对数和高度次数。任意预先给定正损失吸收任意后来固定的有限对数次数。 |
-| `SharedFourierPropagation.lean` | 在任意测度空间上证明有限 Hilbert 空间 Minkowski 传播，把同一 Fourier majorant 及其 L¹ 质量界传入有限行能量；仅相加给定的尺度／对数／高度次数，没有额外行数损失。 |
+| `SharedFourierPropagation.lean` | 在任意测度空间上证明有限 Hilbert 空间 Minkowski 传播，把同一 Fourier majorant 及其 L¹ 质量界传入有限行能量的平方根（ℓ² 范数）；该层相加给定的尺度／对数／高度次数，没有额外行数损失。 |
 | `SourceGeometry.lean` | 从真实 `BlockSource`／`WitnessCover` 提取统一长度区间、正下尺度、选中槽长度非负和原始行包含；从任意 `TargetData` 传递其原有的 2U 范数截断。 |
 | `Eligibility.lean` | 严格逆矩区域、完整 κ≤1 配对区域、原行注入与六次方自由性；由实际算术字符的有限纤维构造统一底行范数阈值，同时处理 `pairedRows` 两个分支。 |
 | `SixthPowerMasks.lean` | 证明实际 `decomposedZeroSlotMomentData` 的全部三项六次方掩码身份；适用于与该算术构造逐字段一致的任意 `MomentData`。 |
@@ -26,6 +26,9 @@
 
 有限扇区重排针对任意真实 `MomentData` 族，保持全部扇区和原始行零掩码。
 其三个不等式只使用实际有限和、逐行等式和成员关系，不假设最终能量估计。
+
+共同 Fourier 积分传播控制的是能量平方根。若将其结论平方为能量界，
+则常数平方，尺度／对数／高度次数均乘以 2。
 
 完整理想行掩码定理证明：对外部理想乘子 a，若 u 是原模型允许的完整行，则
 
@@ -51,8 +54,11 @@
  E(U,U^r)\le C U^{\max\{1,(1+5r)/6\}+\mathrm{loss}}.
 \]
 
-保留外部高度的版本另明确使用 `U≥Z^d`（d>0）、有界见证长度和
-`height≤Cht(1+T)^B`，再选足够小的 τ ceiling。内部次数先于后续外部 tail order。
+保留外部高度的 `uniform_witness_calibration` 以已经建立的统一独立放大界
+`hamp` 为解析输入：其中 `C`、高度次数 `A` 和 admissibility 指数 `h`
+在全部源索引之前选定。再结合 `U≥Z^d`（d>0）、有界见证长度和
+`height≤Cht(1+T)^B`，选取足够小的 τ ceiling；高度次数与 ceiling 均先于 τ
+及后续源索引选定。固定紧谱种子加这些几何条件本身不能推出该统一高度输入。
 
 ## 原六个骨架义务所需的修正
 
@@ -73,10 +79,17 @@
 2. **FIBER-ELIGIBILITY。** `WitnessSubdivision` 的长度和 `ModerateBlock.shell`
    是裸实数；原 hcal 没有非负长度、正 shell 或 `BlockSource` 前提。
    已通过 `SourceGeometry` 从真实 `BlockSource` 证明了所需长度与下尺度界；
-   原目标必须接入这个源证书。实际 finite-character exclusion 还需要底行范数
-   大于一个固定阈值，不能仅给完整理想 `u*a^6` 的大范数。
+   原目标必须接入这个源证书并匹配其适用范围：长度桥接要求高 bin
+   `51/100 < b.bin`，范数包络桥接还要求 `Z,T≥1`，而原 `SourceMomentIndex`
+   没有高 bin 限定，`SourceRowEligibility` 又量化全部 `Z,T` 和所有块。
+   实际 finite-character exclusion 还需要底行范数大于一个固定阈值，
+   不能仅给完整理想 `u*a^6` 的大范数。统一阈值需要同一个有限字符族 `Θ`
+   包含整个变化模型族的 `d.theta`；每个模型各自的 `theta` 有限并不够。
    此外现有 `rows_in_norm_envelope` 只给范数 ≤2U，原 `inverse_rows` 要求 ≤U；
    需要明确统一截断或补真实更强支撑。母集的上界也不能提供趋大的底行下界。
+   原目标中的 `allowedRow` 成员关系、`geometry.totalLength=selectedLength`
+   以及槽字符 `slotCoefficient` 的有限阶性，仍须实际模型字段的证书；
+   逐行多项式等式不能反推出这些结构条件。
 
 3. **FINITE-SECTOR-REINDEX。** 三个参数化真实模型定理证明了有限和步骤；
    原名字的适配器使用同一组 hcal/hrows 调用这些定理。
