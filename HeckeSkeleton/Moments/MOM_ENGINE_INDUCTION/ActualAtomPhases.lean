@@ -115,4 +115,43 @@ theorem completeIdealRawAtoms_actual_phase_dictionary
   · intro i p _ q
     exact actualProbeOrbitSexticEvaluation_eq_actualIdealResidue c (momentPrimeIdeal K p) q
 
+/-- A fixed moving character remains in the arithmetic coefficients of
+the actual atoms. Their original orbital phases still satisfy the same
+all-quotient dictionary, without any membership premise on that character
+in the fixed exceptional set and without changing the complete row map. -/
+theorem completeIdealFixedTwistRawAtoms_actual_phase_dictionary
+    (c : TargetContext K) {omegaCharacter psiCharacter : HeckeCharacter K}
+    (R : RowCharacterInput K (places K c) (probeData K c))
+    (sector : NonzeroIdeal K → SixthUnitClasses K (places K c))
+    (d : MomentData K omegaCharacter psiCharacter) (remaining : NonzeroIdeal K)
+    (Γ : HeckeCharacter K)
+    (hallowed : ∀ u, d.allowedRow u → completeIdealIsExterior K (places K c) u)
+    (hrow : ∀ u, d.allowedRow u → d.rowCharacter u =
+      Γ * completeIdealRowCharacter K (places K c) (probeData K c) R (sector u) u)
+    (hmask : ∀ u I, d.commonMask u I =
+      (completeIdealCommonMask K (places K c) u I &&
+        decide (IsCoprime I remaining.val)))
+    (W : EngineStep.NormProfileRecipe (fun _ : PUnit => d))
+    (a : RealParameters) (U t Y₁ Y₂ : ℝ) :
+    let atoms := completeIdealFixedTwistArithmeticAtoms (places K c) (probeData K c) R
+      sector d remaining Γ hallowed hrow hmask
+    let raw := (atoms.constantAtoms W a U t).raw Y₁ Y₂
+    (∀ I ∈ raw.leftColumns, ∀ q : ActualSIntegerOrbit K (places K c),
+      raw.leftPhase q I = EngineStep.actualIdealResidue (A := (axiomChoice K c).A)
+        (σ := complexEmbedding K c) I.val q.out.val) ∧
+    (∀ I ∈ raw.rightColumns, ∀ q : ActualSIntegerOrbit K (places K c),
+      raw.rightPhase q I = EngineStep.actualIdealResidue (A := (axiomChoice K c).A)
+        (σ := complexEmbedding K c) I.val q.out.val) ∧
+    (∀ i, ∀ p ∈ raw.slotColumns i, ∀ q : ActualSIntegerOrbit K (places K c),
+      raw.primePhase q i p = EngineStep.actualIdealResidue (A := (axiomChoice K c).A)
+        (σ := complexEmbedding K c) p.asIdeal q.out.val) := by
+  dsimp only
+  refine ⟨?_, ?_, ?_⟩
+  · intro I _ q
+    exact actualProbeOrbitSexticEvaluation_eq_actualIdealResidue c I q
+  · intro I _ q
+    exact actualProbeOrbitSexticEvaluation_eq_actualIdealResidue c I q
+  · intro i p _ q
+    exact actualProbeOrbitSexticEvaluation_eq_actualIdealResidue c (momentPrimeIdeal K p) q
+
 end HeckeSkeleton.Moments.EngineInduction

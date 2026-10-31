@@ -140,6 +140,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulus
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusModel
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusArithmetic
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusActual
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRowConductor
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrunedConductorModulus
 
 #print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt
 #print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.bound_of_children
@@ -619,6 +621,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusActual
 #print axioms HeckeSkeleton.Moments.EngineInduction.UniversalNodeInvariant.withOriginalMesh
 #print axioms HeckeSkeleton.Moments.EngineInduction.actualConductor_remainingProduct_dvd
 #print axioms HeckeSkeleton.Moments.EngineInduction.actualConductor_remainingProduct_rpow_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.actualMovingConductor_remainingProduct_dvd
+#print axioms HeckeSkeleton.Moments.EngineInduction.actualMovingReflectionScale_remainingProduct_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.actualPlain_radial_zero
 #print axioms HeckeSkeleton.Moments.EngineInduction.actualProbeOrbitSexticEvaluation_eq_actualIdealResidue
 #print axioms HeckeSkeleton.Moments.EngineInduction.actualReflectionDensity
@@ -692,13 +696,20 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusActual
 #print axioms HeckeSkeleton.Moments.EngineInduction.comparisonCutoffReflectionChild
 #print axioms HeckeSkeleton.Moments.EngineInduction.comparisonCutoffReflectionChild_geometry
 #print axioms HeckeSkeleton.Moments.EngineInduction.comparisonCutoffReflectionData
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeArithmeticAtom_fixedTwist_identity
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeIdealArithmeticAtoms
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeIdealCommonMask_eq_deletion
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeIdealFixedTwistArithmeticAtoms
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeIdealFixedTwistRawAtoms_actual_phase_dictionary
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeIdealRawAtoms_actual_phase_dictionary
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeIdealSectorRowMap
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeIdealSectorRowMap_exterior
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeIdealSectorRowMap_principalExterior
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeMovingCharacter_conductor_dvd
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeMovingRowCharacter_conductor_dvd
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeMovingRowCharacter_scale_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeRowCharacter_conductor_dvd
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeRowCharacter_conductor_dvd_radical
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeRowDeletionPrimes
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeRowDeletionPrimes_outside_iff
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeRowDeletionPrimes_prime
@@ -707,6 +718,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusActual
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeRowRecipe_arithmeticAtoms
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeSourcePrimitive
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeSourcePrimitive_fixedLine
+#print axioms HeckeSkeleton.Moments.EngineInduction.conductorScale_mul_prunedDeletion_norm_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.conductor_prunedDeletion_dvd
 #print axioms HeckeSkeleton.Moments.EngineInduction.contDiffOn_ordinaryReflectedProfile
 #print axioms HeckeSkeleton.Moments.EngineInduction.continuous_annularMellinCoefficient
 #print axioms HeckeSkeleton.Moments.EngineInduction.continuous_annularMellinPlainColumn
@@ -770,6 +783,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusActual
 #print axioms HeckeSkeleton.Moments.EngineInduction.finiteBranchMeasure_finite
 #print axioms HeckeSkeleton.Moments.EngineInduction.finiteBranchMeasure_integrable
 #print axioms HeckeSkeleton.Moments.EngineInduction.finiteBranchMeasure_mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.finiteConductor_mul_dvd_common
+#print axioms HeckeSkeleton.Moments.EngineInduction.finiteConductor_prod_dvd_common
+#print axioms HeckeSkeleton.Moments.EngineInduction.finiteConductor_zpow_dvd
 #print axioms HeckeSkeleton.Moments.EngineInduction.finiteRowBranchKernel
 #print axioms HeckeSkeleton.Moments.EngineInduction.finiteRowBranchKernel_finite
 #print axioms HeckeSkeleton.Moments.EngineInduction.finiteRowBranchKernel_mass

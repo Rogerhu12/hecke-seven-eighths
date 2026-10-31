@@ -27,6 +27,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Physical HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.ThetaKernel HeckeSkeleton.HeckeConductorNorm
+open HeckeSkeleton.ExplicitHeckeFunctionalEquation
 open HeckePort.Moments HeckePort.Moments.ReflectionMass
 open scoped Classical BigOperators
 
@@ -525,6 +526,7 @@ def wholeReflectionCoreData
         (if first then parent.down.val.parameters.n₁ else parent.down.val.parameters.n₂)
         (if first then parent.down.val.parameters.n₂ else parent.down.val.parameters.n₁) cutoff :=
     (normalizedEnergy_eq_ordinary parent.down.val hordinary U 0).trans h
+  change parent.down.val.normalizedEnergy U 0 ≤ _
   simpa only [integral_zero_measure, add_zero] using he.le
 
 end HeckeSkeleton.Moments.EngineInduction

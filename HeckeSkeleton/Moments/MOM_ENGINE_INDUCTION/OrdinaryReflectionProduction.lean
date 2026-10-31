@@ -114,7 +114,8 @@ theorem uniform_ordinaryReflection_production
     ∃ decay : ℝ, 1 < decay ∧ δ ≤ decay ∧ ∀ childOrder : ℕ,
       ∃ E0 : ℝ, ∃ hE0 : 1 ≤ E0, ∃ L : ℕ, childOrder ≤ L ∧ 1 ≤ L ∧
         ∃ densityConstant : ℝ, 0 ≤ densityConstant ∧
-      ∀ Cp Hp lower : ℝ, 1 ≤ Cp → 0 ≤ Hp → 0 < lower → lower ≤ 1 / 2 →
+      ∀ (Cp Hp lower : ℝ) (_hCp : 1 ≤ Cp) (_hHp : 0 ≤ Hp)
+        (hlower : 0 < lower) (hlowerSmall : lower ≤ 1 / 2),
       ∃ C H : ℝ, 0 ≤ C ∧ 0 ≤ H ∧
       ∀ T : ℝ, 0 ≤ T →
       ∀ (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
@@ -139,7 +140,7 @@ theorem uniform_ordinaryReflection_production
       ∃ hPE : 1 ≤ P * E0,
       let V := selectedPlainAnnularTest
         (modelProfileControl_fixed_budget hprofiles (le_refl P)) first
-        (by assumption) (by linarith)
+        hlower (by linarith)
       let child := (Node.ordinary d a).fixedLineReflectionChild first U (P * E0) hPE childOrder
       let weight := ordinaryReflectionEnvelope densityConstant (P ^ (cap + 3)) (U ^ loss)
       ((a.m + a.q + overhead + gap ≤ (if first then a.n₁ else a.n₂)) →
@@ -254,7 +255,8 @@ theorem uniform_ordinaryReflection_production
     have ht := (htail T hT S probe rows (Node.ordinary d a) extra V Wshort
       U overhead long short false 0 hU hwidth hwidthBound hoverhead hoverheadBound
       hlong horder hslots hcount cal hfixed hlongProfiles hshortProfiles hslotProfiles
-      (by simpa only [Bool.false_eq_true, if_false] using hwhole)).1
+      (by simpa only [Node.width, Node.ordinary, long, Bool.false_eq_true, if_false]
+        using hwhole)).1
     have heq := pairedEnergy_wholeRestoration_eq hcomplex S d a first extra V
       hδ hδsmall hU0 0 hmask hcharacter (fun _ _ => rfl)
     rw [heq]
@@ -322,6 +324,7 @@ theorem uniform_ordinaryReflection_production
       refine ⟨hnchild.1, hnchild.2, hgchild.2.1, hgchild.1,
         hgchild.2.2.1, hgchild.2.2.2.1, ?_⟩
       rw [hgchild.2.2.2.2]
-      linarith
+      simpa only [Node.ordinary, long, short, add_assoc] using
+        (add_le_add_right (add_le_add_left hlength short) a.z)
 
 end HeckeSkeleton.Moments.EngineInduction

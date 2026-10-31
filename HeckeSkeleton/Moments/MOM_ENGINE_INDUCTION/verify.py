@@ -133,6 +133,8 @@ MODULES = (
     'PrimeAnnulusModel',
     'PrimeAnnulusArithmetic',
     'PrimeAnnulusActual',
+    'MovingRowConductor',
+    'PrunedConductorModulus',
 )
 # Exact canonical single-step imports, including the complete-row atoms
 # and genuine original positive source. These remain in the owner namespace.

@@ -25,6 +25,14 @@ on the row is not silently treated as fixed. To use this construction,
 its mask must equal the displayed fixed mask after intersection with the
 original row mask. Otherwise a further genuine periodic-column
 calibration is required; no free replacement of u by u * R(u)^6 occurs.
+
+A fixed moving character can be kept in the arithmetic coefficients,
+while the original complete row and its orbital phase stay unchanged.
+The new constructor requires its exact character identity; it does not
+claim that the moving character belongs to the fixed exceptional set.
+The character must be fixed before the row. A correction that varies
+with the row needs a genuine finite partition before this constructor
+can be applied to each resulting row sum.
 -/
 
 set_option autoImplicit false
@@ -203,5 +211,83 @@ def completeRowRecipe_arithmeticAtoms
       (ActualSIntegerOrbit K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) (data ξ) :=
   completeIdealArithmeticAtoms (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P R recipe.sector
     (data ξ) (remaining ξ) (recipe.exterior ξ) (recipe.character ξ) (hmask ξ)
+
+/-- Extract a fixed moving character into the actual arithmetic atom.
+Its possible ramification is retained: only the original complete row
+character is factored using its proved unramified live support. No
+multiplicativity assertion for two ramified ideal coefficients is used. -/
+theorem completeArithmeticAtom_fixedTwist_identity
+    {omegaCharacter psiCharacter : HeckeCharacter K}
+    (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S] (P : ProbeData K S)
+    (R : RowCharacterInput K S P) (sector : NonzeroIdeal K → SixthUnitClasses K S)
+    (d : MomentData K omegaCharacter psiCharacter) (remaining : NonzeroIdeal K)
+    (Γ : HeckeCharacter K)
+    (hallowed : ∀ u, d.allowedRow u → completeIdealIsExterior K S u)
+    (hrow : ∀ u, d.allowedRow u → d.rowCharacter u =
+      Γ * completeIdealRowCharacter K S P R (sector u) u)
+    (hmask : ∀ u I, d.commonMask u I =
+      (completeIdealCommonMask K S u I && decide (IsCoprime I remaining.val)))
+    (background : HeckeCharacter K) (u : NonzeroIdeal K) (hu : d.allowedRow u)
+    (I : NonzeroIdeal K) :
+    heckeIdealCoefficient K (background * d.rowCharacter u) I * maskValue d u I.val =
+      (heckeIdealCoefficient K (background * Γ) I *
+        (if IsCoprime I.val remaining.val then (1 : ℂ) else 0)) *
+        actualOrbitSexticEvaluation K S P.arithmetic.root6 P.arithmetic.primitive6
+          P.arithmetic.embedding I (completeIdealSectorRowMap S P sector u) := by
+  let v : ExteriorIdeal K S := ⟨u, hallowed u hu⟩
+  rw [hrow u hu, ← mul_assoc background Γ
+    (completeIdealRowCharacter K S P R (sector u) u)]
+  change _ * maskValue d v.val I.val =
+    _ * actualOrbitSexticEvaluation K S P.arithmetic.root6 P.arithmetic.primitive6
+      P.arithmetic.embedding I (completeIdealSectorRowMap S P sector v.val)
+  rw [completeMask_eq_orbitMask S d remaining hmask v I, completeIdealSectorRowMap_exterior]
+  have hfactor := completeArithmeticAtom_factorization S P R (sector u) v (background * Γ) I
+  calc
+    _ = (heckeIdealCoefficient K
+        ((background * Γ) * completeIdealRowCharacter K S P R (sector u) u) I *
+        decomposedIdealRowMask K S v I) *
+          (if IsCoprime I.val remaining.val then (1 : ℂ) else 0) := by ring
+    _ = _ := by rw [hfactor]; ring
+
+/-- The genuine fixed moving factor changes only the computed arithmetic
+coefficients. In particular the row map is still the complete original
+u, not the ideal product obtained by multiplying its moving factors.
+The fixed remaining mask is retained in both plain atoms and every slot. -/
+def completeIdealFixedTwistArithmeticAtoms
+    {omegaCharacter psiCharacter : HeckeCharacter K}
+    (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S] (P : ProbeData K S)
+    (R : RowCharacterInput K S P) (sector : NonzeroIdeal K → SixthUnitClasses K S)
+    (d : MomentData K omegaCharacter psiCharacter) (remaining : NonzeroIdeal K)
+    (Γ : HeckeCharacter K)
+    (hallowed : ∀ u, d.allowedRow u → completeIdealIsExterior K S u)
+    (hrow : ∀ u, d.allowedRow u → d.rowCharacter u =
+      Γ * completeIdealRowCharacter K S P R (sector u) u)
+    (hmask : ∀ u I, d.commonMask u I =
+      (completeIdealCommonMask K S u I && decide (IsCoprime I remaining.val))) :
+    EngineStep.ParentArithmeticAtoms (ActualSIntegerOrbit K S) d where
+  rowMap := completeIdealSectorRowMap S P sector
+  leftArithmetic I := heckeIdealCoefficient K (d.plainBackground * Γ) I *
+    (if IsCoprime I.val remaining.val then 1 else 0)
+  rightArithmetic I := heckeIdealCoefficient K (d.plainBackground * Γ) I *
+    (if IsCoprime I.val remaining.val then 1 else 0)
+  primeArithmetic i p := primeCoefficient K (d.slotCoefficient i * Γ) p *
+    (if IsCoprime p.asIdeal remaining.val then 1 else 0)
+  leftPhase q I := actualOrbitSexticEvaluation K S P.arithmetic.root6
+    P.arithmetic.primitive6 P.arithmetic.embedding I q
+  rightPhase q I := actualOrbitSexticEvaluation K S P.arithmetic.root6
+    P.arithmetic.primitive6 P.arithmetic.embedding I q
+  primePhase q _ p := actualOrbitSexticEvaluation K S P.arithmetic.root6
+    P.arithmetic.primitive6 P.arithmetic.embedding (momentPrimeIdeal K p) q
+  left u hu I := completeArithmeticAtom_fixedTwist_identity S P R sector d remaining Γ
+    hallowed hrow hmask d.plainBackground u hu I
+  right u hu I := completeArithmeticAtom_fixedTwist_identity S P R sector d remaining Γ
+    hallowed hrow hmask d.plainBackground u hu I
+  prime u hu i p := by
+    have h := completeArithmeticAtom_fixedTwist_identity S P R sector d remaining Γ
+      hallowed hrow hmask (d.slotCoefficient i) u hu (momentPrimeIdeal K p)
+    simp only [heckeIdealCoefficient, nonzeroIdealCoefficient, momentPrimeIdeal,
+      idealCoefficient_prime] at h
+    rw [mul_comm (d.rowCharacter u) (d.slotCoefficient i)]
+    exact h
 
 end HeckeSkeleton.Moments.EngineInduction

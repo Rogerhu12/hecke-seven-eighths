@@ -81,7 +81,8 @@ theorem Node.energy_le_normalizedMellinPlain_kernel
     (mellinNormalizationAmplitude n.data.geometry.slotCount P E J frequency : ℂ) *
       mellinPairCoefficient (V₁ u) (V₂ u) frequency
   let row := normalizedMellinPlainRow n B₁ B₂ P E J U time
-  have hw := mellinPairEnvelope_nonneg cap J (zero_le_one.trans hP)
+  have hw : ∀ frequency, 0 ≤ weight frequency :=
+    mellinPairEnvelope_nonneg cap J (P := P) (E := E) (zero_le_one.trans hP)
   have hi := integrable_mellinPairEnvelope cap J P E
   letI : IsFiniteMeasure (kernelWeightedMeasure μ weight) :=
     kernelWeightedMeasure_finite μ hw hi
@@ -169,8 +170,10 @@ theorem exists_centeredMellin_preprocessing (cap J : ℕ) (A a b : ℝ)
   have hB₂ (u : NonzeroIdeal K) (y : ℝ) (hy : (V₂ u).toFun y ≠ 0) : B.toFun y = 1 :=
     annularPlateau_eq_one a b ha hab ((modelProfileControl_plain₂ hz u).2.1 y hy)
   have hS₁ (u : NonzeroIdeal K) : testSeminorm (V₁ u).toFun (J + 2) 0 ≤ 2 * P := by
+    change testSeminorm (nf.data.plainTest₁.profile u 0) (J + 2) 0 ≤ 2 * P
     simpa only [Real.rpow_zero, mul_one] using (modelProfileControl_plain₁ hz u).2.2
   have hS₂ (u : NonzeroIdeal K) : testSeminorm (V₂ u).toFun (J + 2) 0 ≤ 2 * P := by
+    change testSeminorm (nf.data.plainTest₂.profile u 0) (J + 2) 0 ≤ 2 * P
     simpa only [Real.rpow_zero, mul_one] using (modelProfileControl_plain₂ hz u).2.2
   have hparent : ModelProfileControl nf.data J A (2 * P) 0 (a / 2) (2 * b) 0 := by
     have hj := modelProfileControl_mono_order hf (show J ≤ J + 2 by omega)
