@@ -17,7 +17,7 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentErrorBudget
 
-open NumberField IsDedekindDomain MeasureTheory
+open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree.LargeSieve
 open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Characters
   HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.MOMInvStep

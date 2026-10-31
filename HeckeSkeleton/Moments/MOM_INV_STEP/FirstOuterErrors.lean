@@ -243,7 +243,6 @@ theorem exists_total_tail_bound
         dsimp only [B]
         rw [mul_assoc, ← Real.rpow_add hz]
         congr 2
-        ring
   have hmass := hm T hmask I side hprime hweights hslots Xq Xe Xf hq he hf hnorm
   change (∑ i ∈ I, ∑ J ∈ T.columns.slots.powerset,
     markSquare K S D Γ T hmask side i J) ≤ _ at hmass
