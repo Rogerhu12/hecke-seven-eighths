@@ -117,7 +117,7 @@ def leftEnergy (G : HeckeCharacter K) (T : Data K S (σ := σ)) (i : Index K S D
       (selectedAnchor K S D Γ T i).2 i.1.val i.2.1.val)
     (leftDomain K S (columnPool K S T) (selectedAnchor K S D Γ T i).1
       (selectedAnchor K S D Γ T i).2 i.1.val i.2.1.val)
-    (selectedProfile K S D Γ μv ν T i).leftScale Prod.fst
+    (selectedProfile K S D Γ μv ν T i).leftScale (fun η : LogPlane => η.fst)
     (movingColumn K S D Γ T.columns G (selectedAnchor K S D Γ T i).1
       (selectedAnchor K S D Γ T i).2 i.1.val i.2.1.val false
       (CanonicalIdealRow.ofExterior K S T.label) (CanonicalIdealRow.ofExterior K S i.2.2.2.2.val.1)
@@ -129,7 +129,7 @@ def rightEnergy (G : HeckeCharacter K) (T : Data K S (σ := σ)) (i : Index K S 
       (selectedAnchor K S D Γ T i).2 i.1.val i.2.1.val)
     (rightDomain K S (columnPool K S T) (selectedAnchor K S D Γ T i).1
       (selectedAnchor K S D Γ T i).2 i.1.val i.2.1.val)
-    (selectedProfile K S D Γ μv ν T i).rightScale Prod.snd
+    (selectedProfile K S D Γ μv ν T i).rightScale (fun η : LogPlane => η.snd)
     (fun u => conj (movingColumn K S D Γ T.columns G (selectedAnchor K S D Γ T i).1
       (selectedAnchor K S D Γ T i).2 i.1.val i.2.1.val true
       (CanonicalIdealRow.ofExterior K S T.label) (CanonicalIdealRow.ofExterior K S i.2.2.2.2.val.1)

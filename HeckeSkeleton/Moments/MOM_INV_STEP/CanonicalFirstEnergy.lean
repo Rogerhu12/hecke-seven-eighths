@@ -230,10 +230,10 @@ theorem literal_first_source_energy (hallowed : AllowedGeneratorInput K Sset D)
     ‖originalSource K S D Γ C N₁ N₂ r₁ r₂ b₁ b₂ f₁ f₂ z d ξ P‖ ≤
       ‖outerScalar K S D Γ C r₁ r₂ b₁ b₂ f₁ f₂ z d ξ‖ *
       (Real.sqrt (positiveEnergy K S Γ P (leftDomain K S N₁ r₁ r₂ b₁ b₂)
-        (leftDomain K S N₁ r₁ r₂ b₁ b₂) P.leftScale Prod.fst
+        (leftDomain K S N₁ r₁ r₂ b₁ b₂) P.leftScale (fun η : LogPlane => η.fst)
         (movingColumn K S D Γ C G r₁ r₂ b₁ b₂ false f₁ z d ξ)) *
        Real.sqrt (positiveEnergy K S Γ P (leftDomain K S N₁ r₁ r₂ b₁ b₂)
-        (rightDomain K S N₂ r₁ r₂ b₁ b₂) P.rightScale Prod.snd
+        (rightDomain K S N₂ r₁ r₂ b₁ b₂) P.rightScale (fun η : LogPlane => η.snd)
         (fun u => conj (movingColumn K S D Γ C G r₁ r₂ b₁ b₂ true f₂ z d ξ u)))) := by
   have hcut : ∀ U ∈ leftDomain K S N₁ r₁ r₂ b₁ b₂,
       ∀ W ∈ rightDomain K S N₂ r₁ r₂ b₁ b₂,

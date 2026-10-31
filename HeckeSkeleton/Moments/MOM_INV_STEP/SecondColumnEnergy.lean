@@ -51,9 +51,11 @@ theorem forwardCoefficient_norm_le_one (Λ ν G : HeckeCharacter K)
   unfold forwardCoefficient CanonicalSectorRows.sectorCharacter
   simp only [norm_mul, norm_pow, CoefficientCycle.canonicalCoefficient_norm hcal v hv,
     one_mul]
-  calc
-    _ ≤ 1 * (1 ^ 4 * 1) := by gcongr
-    _ = 1 := by norm_num
+  have hf4 : ‖idealSymbol K Sset D v (D.generator f)‖ ^ 4 ≤ 1 := by
+    simpa only [one_pow] using pow_le_pow_left₀ (norm_nonneg _) hf 4
+  exact mul_le_one₀ hν
+    (mul_nonneg (pow_nonneg (norm_nonneg _) 4) (norm_nonneg _))
+    (mul_le_one₀ hf4 (norm_nonneg _) hI)
 
 theorem extractedScalar_norm_le_one (Λ ν G : HeckeCharacter K)
     (hcal : ThetaCalibrationInput K Sset D Λ G)
@@ -87,7 +89,8 @@ theorem extractedScalar_overlap_coprime (Λ ν : HeckeCharacter K)
       zero_pow (by decide : (4 : ℕ) ≠ 0), zero_mul, mul_zero])
   have hcon : sIntegerModulusContraction K Sset
       (D.generator (exteriorMul K Sset j d₂)) = j.val.val * d₂.val.val := by
-    simpa only [CanonicalIdealRow.generator_ofExterior, CanonicalIdealRow.ofExterior_val] using
+    simpa only [CanonicalIdealRow.generator_ofExterior, CanonicalIdealRow.ofExterior_val,
+      exteriorMul, Submonoid.coe_mul] using
       CanonicalIdealRow.generator_contraction K S D
         (CanonicalIdealRow.ofExterior K S (exteriorMul K Sset j d₂))
   have hmask : idealCoprimeMask (j.val.val * d₂.val.val) v.val.val ≠ 0 := by
@@ -192,7 +195,19 @@ theorem sourceColumn_eq_branches (C : ColumnFamily K Sset σ Θ ψ) (γ₀ : Out
     rw [branch, Finset.mul_sum]
     apply Finset.sum_congr rfl
     intro u hu
-    rw [childTerm_eq K S D Γ C γ₀ G J g j d₂ v I u ξ W (X / height K Sset g),
+    have hdec : (inferInstance : DecidableEq σ) = Classical.typeDecidableEq σ :=
+      Subsingleton.elim _ _
+    have hterm :
+        childTerm K S Γ D C.lambda (C.background γ₀ * G⁻¹) g j d₂ v I ξ
+          (childPuncture C.originalPuncture γ₀) (C.survivors γ₀) J
+          C.primeLists C.primeWeights W (X / height K Sset g) u =
+        bareCoefficient K S D Γ C γ₀ G J
+          (appendResidual K γ₀ (residual K S g d₂).val.val)
+          (finalLabel K S j d₂ v).val.val (I.val.val,ξ) u *
+            W (height K Sset v * height K Sset u / (X / height K Sset g)) := by
+      simpa only [hdec, Classical.typeDecidableEq] using
+        (childTerm_eq K S D Γ C γ₀ G J g j d₂ v I u ξ W (X / height K Sset g))
+    rw [hterm,
       phase_at_product K S τ (X / height K Sset g) hY v u]
     have he : height K Sset v * height K Sset u / (X / height K Sset g) =
         productHeight K S g v * height K Sset u / X := by

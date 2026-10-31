@@ -17,7 +17,7 @@ namespace HeckeSkeleton.Moments.MOM_INV_STEP.UniformSecondPrincipal
 
 open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
   HeckeGeneral.Analysis HeckeGeneral.Bridge HeckeGeneral.ThetaSkeleton MeasureTheory
-open HeckeSkeleton.Moments.MOMInvStep CanonicalChildren PrincipalOrbitalMass PrincipalZero
+open HeckeSkeleton.Moments.MOMInvStep FixedTripleFibers CanonicalChildren PrincipalOrbitalMass PrincipalZero
 open scoped Classical BigOperators nonZeroDivisors
 
 private theorem physical_power (Z H U eps rowEps : ℝ) (hZ : 0 < Z) :
