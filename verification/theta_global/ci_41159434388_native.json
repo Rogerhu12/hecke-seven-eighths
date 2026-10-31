@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-31T03:42:26Z",
+  "repository": "Rogerhu12/hecke-seven-eighths",
+  "run": {
+    "id": 41159434388,
+    "url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41159434388",
+    "head_sha": "42deaca4ef14b01566a13588ba78feb079cd7e09",
+    "status": "completed",
+    "conclusion": "failure",
+    "updated_at": "2026-10-31T03:38:35Z"
+  },
+  "job": {
+    "id": 124413821240,
+    "url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41159434388/job/124413821240",
+    "name": "Actual Theta entry and strict five-target axiom gate",
+    "status": "completed",
+    "conclusion": "failure",
+    "started_at": "2026-10-31T02:20:29Z",
+    "completed_at": "2026-10-31T03:38:35Z"
+  },
+  "foundation": {
+    "result": "timed_out",
+    "timeout_minutes": 75,
+    "step": {
+      "name": "Build the shared arithmetic dependency closure",
+      "status": "completed",
+      "conclusion": "failure",
+      "number": 8,
+      "started_at": "2026-10-31T02:22:52Z",
+      "completed_at": "2026-10-31T03:38:04Z"
+    },
+    "error_line": "2026-10-31T03:38:04.6508993Z ##[error]The action 'Build the shared arithmetic dependency closure' has timed out after 75 minutes.",
+    "last_completed_build": "2026-10-31T03:38:03.8770619Z \u2714 [10409/10422] Built ClassFieldTheory.LubinTate.EqualCharacteristic.CompletedLevel.CompletedFrobeniusBaseEquiv (2.1s)",
+    "lean_compiler_error_lines": [],
+    "private_artifact_or_mmap_error_lines": []
+  },
+  "skipped_gates": [
+    {
+      "name": "Build only the actual Theta entry and its dependencies",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Audit the actual five declarations for inherited admissions",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Compile the modified Principal, Moments and Main consumers",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "Check the seven consumer signatures and report their existing admissions",
+      "conclusion": "skipped"
+    }
+  ],
+  "cache_saves": [
+    {
+      "saved_at": "2026-10-31T03:38:18.7511562Z",
+      "key": "theta-entry-Linux-X64-177bd14229ed792fc6a675516bae61452a962aacb554afbaafb0b299bdb430be-b971ab014b2f2a4dc4964e3dda7b6b320e15d0eb-41159434388-1-foundation",
+      "evidence_line": "2026-10-31T03:38:18.7511562Z Cache saved with key: theta-entry-Linux-X64-177bd14229ed792fc6a675516bae61452a962aacb554afbaafb0b299bdb430be-b971ab014b2f2a4dc4964e3dda7b6b320e15d0eb-41159434388-1-foundation"
+    },
+    {
+      "saved_at": "2026-10-31T03:38:32.7088692Z",
+      "key": "theta-entry-Linux-X64-177bd14229ed792fc6a675516bae61452a962aacb554afbaafb0b299bdb430be-b971ab014b2f2a4dc4964e3dda7b6b320e15d0eb-41159434388-1",
+      "evidence_line": "2026-10-31T03:38:32.7088692Z Cache saved with key: theta-entry-Linux-X64-177bd14229ed792fc6a675516bae61452a962aacb554afbaafb0b299bdb430be-b971ab014b2f2a4dc4964e3dda7b6b320e15d0eb-41159434388-1"
+    }
+  ],
+  "actual_artifact": {
+    "id": 13028277149,
+    "name": "theta-global-actual-entry-41159434388",
+    "url": "https://api.github.com/repos/Rogerhu12/hecke-seven-eighths/actions/artifacts/13028277149",
+    "download_url": "https://api.github.com/repos/Rogerhu12/hecke-seven-eighths/actions/artifacts/13028277149/zip",
+    "size_in_bytes": 35680,
+    "digest": "sha256:9b0dbf2aefc33eb652641c1a4aac587b9e3b0ca3344a55154d831318fc1877db",
+    "expired": false,
+    "created_at": "2026-10-31T03:38:33Z",
+    "expires_at": "2026-11-14T03:38:32Z"
+  },
+  "certification_scope": "Foundation timeout with partial dependency cache saved. No Lean compiler errors observed in this completed job log. Actual Theta compilation, strict five-declaration EntryAudit, Main consumer compilation, and seven-consumer signature audit were skipped; this run does not certify those gates.",
+  "log": {
+    "filename": "native-job-124413821240.log",
+    "source": "GitHub decoded workflow job log",
+    "source_url": "https://api.github.com/repos/Rogerhu12/hecke-seven-eighths/actions/jobs/124413821240/logs",
+    "sha256": "efa84d637949176c76b8ab0d5ecfac292d33a5227c308c09567e349002e34038",
+    "size_in_bytes": 465957,
+    "line_count": 4151
+  },
+  "archived_log": "verification/theta_global/ci_41159434388_native.log"
+}

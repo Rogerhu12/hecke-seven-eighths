@@ -1,0 +1,23 @@
+import ExpansionDetector.FourierNormalized
+import ExpansionDetector.IdealZeroSource
+import ExpansionDetector.IdealFinitePair
+import ExpansionDetector.FixedTypeGammaReflection
+import ExpansionDetector.EulerDeletionBounds
+import ExpansionDetector.EulerDeletionNegative
+
+#print axioms ExpansionDetector.IdealCutoff.coefficient_small
+#print axioms ExpansionDetector.IdealCutoff.coefficient_tail
+#print axioms ExpansionDetector.IdealCutoff.norm_coefficient_le_norm
+#print axioms ExpansionDetector.IdealCutoff.weighted_convolution_identity
+#print axioms ExpansionDetector.IdealCutoff.initial_product_identity
+#print axioms ExpansionDetector.IdealCutoff.actualIdeal_gamma_mellin_identity
+#print axioms ExpansionDetector.IdealCutoff.actualIdeal_terminal_remainder_bound
+#print axioms ExpansionDetector.IdealCutoff.actualIdeal_terminal_lower_of_zero
+#print axioms ExpansionDetector.IdealCutoff.finite_terminal_as_pair
+#print axioms ExpansionDetector.Fourier.finite_pair_separation
+#print axioms ExpansionDetector.Fourier.exists_bounded_frequency
+#print axioms ExpansionDetector.Fourier.pair_phase_norm
+#print axioms ExpansionDetector.Analytic.gammaC_fixedType_reflected_dynamic_bound
+#print axioms ExpansionDetector.EulerDeletion.primeSupport_localMajorant_subpower
+#print axioms ExpansionDetector.EulerDeletion.primeSupport_card_subpower
+#print axioms ExpansionDetector.EulerDeletion.primeSupport_negative_deletion_subpower

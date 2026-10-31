@@ -6,6 +6,8 @@ on:
     paths:
       - HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/**
       - HeckeSkeleton/Moments.lean
+      - HeckeSkeleton/SourceData.lean
+      - HeckeSkeleton/ExpansionModels/**
       - .github/workflows/mom-uniform-amplify.yml
   workflow_dispatch:
 
@@ -35,6 +37,8 @@ jobs:
           lint: 'false'
           use-mathlib-cache: 'true'
           use-github-cache: 'true'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
       - name: Compile and audit the independent numerical proofs
         shell: bash
         run: |
@@ -99,53 +103,8 @@ jobs:
             df -h /
             df -i /
           } | tee "$RUNNER_TEMP/mom-uniform-amplify/environment.log"
-      - name: Restore previously checked task build products
-        id: project_cache
-        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
-        with:
-          path: |
-            .lake/build
-            vendor/class-field-theory/.lake/build
-          key: mom-uniform-amplify-native-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: |
-            mom-uniform-amplify-native-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
-      - name: Record space after the project cache restore
-        shell: bash
-        run: |
-          set -euo pipefail
-          {
-            df -h /
-            df -i /
-          } 2>&1 | tee "$RUNNER_TEMP/mom-uniform-amplify/disk-after-cache.log"
-      - name: Check out the pinned dependency-cache source
-        if: steps.project_cache.outputs.cache-matched-key == ''
-        id: foundation_source
-        continue-on-error: true
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-        with:
-          repository: Rogerhu12/hecke-seven-eighths
-          ref: 984b0de3ddf8bd9ea8051e0325765532c7c6550f
-          path: .mom-foundation-baseline
-          persist-credentials: false
-      - name: Download successful dependency-export groups
-        if: steps.foundation_source.outcome == 'success'
-        id: foundation_download
-        continue-on-error: true
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
-        with:
-          github-token: ${{ github.token }}
-          repository: Rogerhu12/hecke-seven-eighths
-          run-id: 41126752041
-          artifact-ids: 13012376359,13011719707,13011754956,13013018508,13017749400,13018611868,13018074066,13015618946,13021712535,13021514563,13021895900,13022623396
-          path: ${{ runner.temp }}/mom-foundation-downloads
-      - name: Validate and restore the dependency prefix
-        if: steps.foundation_download.outcome == 'success'
-        continue-on-error: true
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/restore_foundation.py             "$GITHUB_WORKSPACE/.mom-foundation-baseline"             "$RUNNER_TEMP/mom-foundation-downloads" 2>&1 |
-            tee "$RUNNER_TEMP/mom-uniform-amplify/foundation-restore.log"
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
       - name: Compile every new proof and reject nonstandard axioms
         id: compile
         shell: bash
@@ -215,28 +174,6 @@ jobs:
               raise SystemExit(1)
           print('All six original targets passed the axiom allowlist.')
           PY
-      - name: Stop this runner's compilers before a cancelled cache save
-        if: cancelled()
-        shell: bash
-        run: |
-          pkill -TERM -x lake || true
-          pkill -TERM -x lean || true
-          for MOM_POLL in {1..10}; do
-            if ! pgrep -x lake > /dev/null && ! pgrep -x lean > /dev/null; then
-              exit 0
-            fi
-            sleep 1
-          done
-          pkill -KILL -x lake || true
-          pkill -KILL -x lean || true
-      - name: Preserve checked dependency progress for the next revision
-        if: ${{ always() && steps.compile.outcome != '' && steps.compile.outcome != 'skipped' }}
-        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
-        with:
-          path: |
-            .lake/build
-            vendor/class-field-theory/.lake/build
-          key: mom-uniform-amplify-native-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Preserve complete compilation and axiom evidence
         if: always()
         uses: actions/upload-artifact@v4

@@ -51,6 +51,11 @@ name = "HeckeAxiom"
 name = "HeckeSkeleton"
 globs = ["HeckeSkeleton.+"]
 
+# Fixed-choice marked theta construction and its standalone analytic lemmas.
+[[lean_lib]]
+name = "ThetaGlobal"
+globs = ["ThetaGlobal.+"]
+
 # The audited arithmetic input modules imported by the default skeleton,
 # from `skeleton/*Inputs/src`. Their three `ClassFieldTheory.*` reciprocity
 # modules are provided by the vendored class-field-theory package instead.
@@ -110,3 +115,16 @@ roots = ["Zeta23.Defs", "Zeta23.GammaFacts", "Zeta23.GammaFacts.Series", "Zeta23
 name = "TauCetiReuse"
 srcDir = "vendor/tauceti"
 roots = ["TauCetiReuse.GroupTheory.Finiteness", "TauCetiReuse.Algebra.Algebra.Subalgebra.Lattice", "TauCetiReuse.RingTheory.DedekindDomain.ValuationOfNeZero", "TauCetiReuse.RingTheory.DedekindDomain.SInteger.Unit"]
+
+
+[[lean_lib]]
+name = "Expansion"
+globs = ["Expansion.+"]
+
+[[lean_lib]]
+name = "ExpansionDetector"
+globs = ["ExpansionDetector.+"]
+
+[[lean_lib]]
+name = "ExpansionInterfaces"
+globs = ["ExpansionInterfaces.+"]

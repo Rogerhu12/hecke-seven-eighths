@@ -185,7 +185,8 @@ theorem low_of_gram_and_completedEnergy
       normalizedProbe K S μ P ψ g T =O[atTop] (fun Z : ℝ => Z ^ (3 / 16 + ε)) :=
   LowCauchy.low_of_gram_and_completedEnergy K c hgram henergy hnorm
 
-theorem principalSource : (probeMeasures K c).principalInput P ψ g T := by
+theorem principalSource :
+    (probeMeasures K c).principalInput P ψ g T := by
   change TPrincipalInput K S μ P ψ g T
   exact {
     arithmetic_calibration := arithmeticCalibration K c
