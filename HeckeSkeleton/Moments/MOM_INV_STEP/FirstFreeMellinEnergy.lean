@@ -167,6 +167,8 @@ theorem weighted_freeMellinEnergy_integrable (W : SchwartzMap ℝ ℂ)
     ((freeMellinEnergy_continuous K S Γ D C Θ ψ G hν hG J U a γ j d W hW H).comp
       hc).aestronglyMeasurable
   filter_upwards [] with ξ
+  change ‖freeMellinEnergy K S Γ D C Θ ψ G hν hG J U a γ j d W hW H (coordinate ξ)‖ ≤
+    freeEnergyBound K S Γ D C Θ ψ G hν hG J U a γ j d H * ∫ t : ℝ, ‖density W hW t‖
   rw [Real.norm_of_nonneg
     (freeMellinEnergy_nonneg K S Γ D C Θ ψ G hν hG J U a γ j d W hW H (coordinate ξ))]
   exact freeMellinEnergy_bound K S Γ D C Θ ψ G hν hG J U a γ j d W hW H (coordinate ξ)
