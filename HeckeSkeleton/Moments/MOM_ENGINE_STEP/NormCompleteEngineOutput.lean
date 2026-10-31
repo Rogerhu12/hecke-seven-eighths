@@ -66,7 +66,7 @@ def withPlainTests (next : RealParameters) (base time : ℝ)
     (W₁ W₂ : IdealTest K) (f₁ f₂ : ℝ → ℂ)
     (hW₁ : ∀ u ∈ pairedRows d next base, ∀ y, W₁.profile u time y = f₁ y)
     (hW₂ : ∀ u ∈ pairedRows d next base, ∀ y, W₂.profile u time y = f₂ y) :
-    ParentConstantAtoms Q { d with plainTest₁ := W₁, plainTest₂ := W₂ } next base time :=
+    ParentConstantAtoms (ω := ω) (ψ := ψ) Q { d with plainTest₁ := W₁, plainTest₂ := W₂ } next base time :=
   (h.constantAtoms next base time).withPlainTests W₁ W₂ f₁ f₂ hW₁ hW₂
 
 end NormCompleteEngineChildAdmissible
