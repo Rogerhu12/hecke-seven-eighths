@@ -2,10 +2,57 @@
 
 ## 主定理与假设
 
-新增模块 `HeckeSkeleton/PrimeCancellationWiring.lean` 给出：
+主结果位于 `HeckeSkeleton/PrimeCancellationExplicit.lean`：
 
-上下文为数域 `K` 与仓库现有的 `c : TargetContext K`；角色族的其余条件由
-该上下文保留。
+```lean
+theorem paired_primes_below_one_of_explicit_models
+    (F : ExplicitModelFamily c ι) (hB : c.family.B < 1)
+    (control : ExplicitModelControl F) :
+    ExplicitPairedPrimeProductBound F (2 * c.family.B - 1)
+```
+
+上下文是数域 `K`、仓库现有的 `c : TargetContext K`，以及独立的索引族
+`ι : ℝ → ℝ → Type u`。`ExplicitModelFamily` 的每个元素仍是原有的实际
+`MomentData`，使用原 `pairedRows`、`slotProduct`、`primePolynomial` 和完整
+`originalMomentMask`。索引不经 `SourceMomentIndex`、`targetData` 或
+`highExpansion` 定义。这个分离使新增主定理可以独立审计，同时保留到旧模型接口
+的明确适配。
+
+模型族记录模型底数 `X > 0`、配对参数满足 `m + q = 1`、参数长度与几何总长度
+同为 `z`、原公共掩码的精确等式，以及槽系数的有限阶性。这些都是结构条件；
+所有求和行的 `idealNorm u ≤ X` 从原 `rows_spec` 推出，线性行数界则从实际
+数域理想计数定理证明，没有把两条估计增加为模型假设。
+
+`ExplicitModelControl` 要求：
+
+1. 槽数不超过固定的 `c.geometry.slots`。
+2. 每个槽系数的逆元属于模型的有限例外角色集 `theta`。
+3. 每个实际素数窗口是支撑在 `[1,2]` 的 Schwartz 函数，并与该槽的
+   `profile 0` 完全相等。
+4. 每个有限组 Schwartz 半范数都有统一的 `C * (1 + T)^A` 界；常数在尺度
+   `Z`、高度 `T`、模型索引、扇区和槽之前选定。
+5. **每个实际求和行**的槽角色导子满足
+   `log Q ≤ D * (1 + log X) * (1 + T)^q`，其中 `D ≥ 1`、`q ≥ 0` 统一。
+
+结论在 `ExplicitPairedCapacity F i`，即 `z ≤ J * mesh` 下成立。这里
+`J = c.geometry.slots`；原 `pairedCapacity` 已蕴含这个长度上界。
+主证明先给出独立的 `Z ≥ 1`、`T ≥ 1` 下的统一界：
+
+```text
+∑ sector ∑ u ∈ pairedRows, ‖slotProduct u X 0‖²
+  ≤ C * X^(1 + (2B - 1) * z + lamA) * (1 + T)^A.
+```
+
+`A,C` 先于所有 `Z,T` 和索引选取。最终定理代入 `T = Z^τ`，保持原来的
+`∃ A, ∃ ceiling > 0, ∀ τ, ∃ Z₀, ∃ C, ∀ Z, ∀ i` 量词顺序；
+可以取 `ceiling = 1`、`Z₀ = 1`。原结论中的 bin 限制不为证明所需。
+
+控制记录没有把素数和、配对矩、Euler 恒等式、无零性、解析增长或理想计数界
+作为假设。后文说明窗口、取逆条件与全行导子控制在实际构造中的来源。
+
+### 原接口的兼容定理
+
+`HeckeSkeleton/PrimeCancellationWiring.lean` 仍给出精确的原有结论：
 
 ```lean
 theorem paired_primes_below_one_of_models
@@ -15,24 +62,12 @@ theorem paired_primes_below_one_of_models
     PairedPrimeProductBound K c M (2 * c.family.B - 1)
 ```
 
-结论使用原有 `PairedPrimeProductBound`，未重新定义或弱化它；模型 `M` 是任意参数，
-证明不调用 `momentModels` 或原先尚未完成的 `paired_primes_below_one`。
-所有修改均为新文件，原有证明、定义及任务说明保持原样。
-
-`PrimeSlotModelControl` 只增加模型结构、窗口和导子的条件：
-
-1. 槽数不超过固定的 `c.geometry.slots`。
-2. 每个槽系数的逆元属于模型的有限例外角色集 `theta`。
-3. 每个实际素数窗口都是一个支撑在 `[1,2]` 的 Schwartz 函数，并与该槽的
-   `profile 0` 完全相等。
-4. 每个有限组 Schwartz 半范数都有统一的 `C * (1 + T)^A` 界；常数在外部尺度
-   `Z`、高度 `T`、行和槽之前选定。
-5. **每个实际求和行**的槽角色导子满足
-   `log Q ≤ D * (1 + log X) * (1 + T)^q`，其中 `X = momentBase i`，
-   `D ≥ 1`、`q ≥ 0` 在所有这些参数之前选定。
-
-其中没有把素数和估计、配对矩估计、Euler 恒等式、无零性或解析增长界作为模型条件。
-现有校准和行资格记录仍为单独的假设，不改变它们的含义。
+`explicitModelFamilyOfSource` 与 `explicitModelControlOfSource` 逐字段适配原模型
+及修正条件，然后直接调用上述独立主定理。`PairedPrimeProductBound` 没有重定义，
+证明不调用 `momentModels` 或尚未完成的原 `paired_primes_below_one`。
+旧接口类型自身经 `SourceMomentIndex` 继承的公理依赖，单独列在审计表中；
+不会将该包装接口误报为独立主定理的公理清单。所有 PR 差异均为新增文件，
+原有证明、定义及任务说明保留目标分支原样。
 
 ## 旧陈述的缺口及修正
 
@@ -119,8 +154,9 @@ theorem paired_primes_below_one_of_models
 没有假定这一消零事实。
 
 设固定槽数上界为 `J`，总选中长度为 `z`。证明先固定轮廓宽度 `δ > 0`，使
-`2 * δ * z ≤ lamA/2`。所需的长度上界仅由 `pairedCapacity` 的第一部分得出：
-`z ≤ J * mesh`；不使用裸细分数据没有保证的 `plainLength ≥ 0`。
+`2 * δ * z ≤ lamA/2`。显式模型接口以 `z ≤ J * mesh` 为容量条件；在旧接口中，
+这条长度上界仅由 `pairedCapacity` 的第一部分得出，
+不使用裸细分数据没有保证的 `plainLength ≥ 0`。
 
 每个槽的归一化平方界具有指数 `(2B - 1) * length + 2δ * length`。
 相乘、使用线性行数界和有限扇区数后，剩余对数损失最多为
@@ -136,89 +172,135 @@ X^(1 + (2B - 1) * z + lamA) * (1 + T)^A.
 
 ## 还差什么
 
-原仓库的 MI-M-MODELS 仍需构造具体的 `momentModels`，并验证其原有校准、行资格
-与本报告列出的修正结构条件。这是任务说明允许保留的模型构造工作。
-本次结果覆盖任意满足这些明确条件的模型，不声称完成整个七八定理。
+原仓库的 MI-M-MODELS 仍需构造具体 `momentModels`，并验证其原有校准、行资格
+与本报告列出的修正结构条件，尤其是随参数变化时覆盖全部模型行的导子界。
+这是任务说明允许保留的具体模型构造工作。本次主结果覆盖任意满足这些明确条件
+的实际模型族，不声称完成整个七八定理。
+
+原骨架的 D-EXPANSION（`highExpansion`）与 D-SUPPORT
+（`rows_in_norm_envelope`）也仍是既有未完成项。旧 `SourceMomentIndex`
+经 `targetData` 引用它们，因而旧接口的兼容定理仍继承 `sorryAx`。
+新增独立索引主定理不使用该索引类型，其依赖由严格递归白名单独立核查。
+本 PR 没有改写这些既有上游定义或证明。
 
 ## 编译与公理核查
 
-### 已实际通过的五个模块
+### 本轮实际验证
 
-以下结果均来自 GitHub Actions 中真实的 Lake 编译成功日志。统一环境为
-Lean `4.35.0-rc3`（编译器 commit
-`470d5ce1400764999581fd26d5d72b00d990b0f4`）、Mathlib
-`0493595ecd5da8ef14742febab99728f98e948e8`，与任务指定环境一致。
-五个当前源文件均与对应成功构建所使用的源码一致。下表的模块名均带有
-`HeckeSkeleton.` 前缀；链接指向对应提交的实际构建日志。
+2026-10-31 UTC，提交
+[`1998acb78ba9bf0a82114aa6fb4d8fa01ee2b35e`](https://github.com/Rogerhu12/hecke-seven-eighths/commit/1998acb78ba9bf0a82114aa6fb4d8fa01ee2b35e)
+的[主运行 41172711766](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41172711766)
+已整体 `success`。[proofs job 124453912879](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41172711766/job/124453912879)
+在 05:36:02 完成实际 Lake 构建，在 05:36:09 完成独立公理审计。
+[解析输入运行 41172711746](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41172711746)
+也已成功，5 个输入 job 全部通过。
 
-| 已通过模块 | 已验证源码提交 | 成功构建日志 |
-| --- | --- | --- |
-| `PrimeCancellationBounds` | `cb28ed029b1f` | [job 124280728197](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41119051510/job/124280728197) |
-| `PrimeCancellationCounting` | `4b5717c0a804` | [job 124291471905](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41122341018/job/124291471905) |
-| `PrimeCancellationHecke` | `28eb6e63413a` | [job 124300338501](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41124606697/job/124300338501) |
-| `PrimeCancellationPolynomials` | `7cca3e66bbe40` | [job 124305154358](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41126168054/job/124305154358) |
-| `PrimeCancellationWindows` | `7cca3e66bbe40` | [job 124305153743](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41126168054/job/124305153743) |
+环境为 Lean `4.35.0-rc3`，编译器 commit
+`470d5ce1400764999581fd26d5d72b00d990b0f4`，Mathlib
+`0493595ecd5da8ef14742febab99728f98e948e8`。实际日志同时记录了编译器版本与
+Mathlib revision 的检出。
 
-各项日志均有相应模块的 `Built` 记录和 `Build completed successfully`。
-这些结果分别覆盖该模块及其实际依赖闭包。
+| 模块 | 本轮真实结果 |
+| --- | --- |
+| `HeckeSkeleton.PrimeCancellationCounting` | Lake 日志为 `Replayed`；源码与此前成功构建相同 |
+| `HeckeSkeleton.PrimeCancellationBounds` | Lake 日志为 `Replayed`；源码与此前成功构建相同 |
+| `HeckeSkeleton.PrimeCancellationHecke` | Lake 日志为 `Replayed`；源码与此前成功构建相同 |
+| `HeckeSkeleton.PrimeCancellationPolynomials` | Lake 日志为 `Replayed`；源码与此前成功构建相同 |
+| `HeckeSkeleton.PrimeCancellationWindows` | Lake 日志为 `Replayed`；源码与此前成功构建相同 |
+| `HeckeSkeleton.PrimeCancellationMoment` | Lake 日志为 `Replayed`；源码与此前成功构建相同 |
+| `HeckeSkeleton.PrimeCancellationExplicit` | 实际 `Built`，41 秒 |
+| `HeckeSkeleton.PrimeCancellationWiring` | 实际 `Built`，4.5 秒 |
+| `HeckeSkeleton.PrimeCancellationAudit` | 独立 Lean 命令成功，严格守卫与全部 24 项输出完成 |
 
-### 已取得的逐声明公理输出
-
-以下十一项新声明已在成功编译日志中实际执行 `#print axioms`，每一项的精确
-公理清单均为：
-
-```text
-[propext, Classical.choice, Quot.sound]
-```
-
-- `PrimeCancellationCounting`：`exists_ideal_count_bound`、`actualPrimeArithmetic`。
-- `PrimeCancellationHecke`：`deletedContinuation_eq_series`、
-  `absolute_primePowerSeries`、`deleted_euler`、`deletedSlotData`、
-  `exists_uniform_finiteOrder_polynomial`、`exists_uniform_deleted_finiteOrder_polynomial`。
-- `PrimeCancellationPolynomials`：`logQ_le_of_norm_polynomial`、
-  `primePolynomial_bound_of_analytic_data`。
-- `PrimeCancellationWindows`：`actualPrimeWindowSchwartz_uniform_seminorm`。
-
-上述十一项输出均不含 `sorryAx`。`PrimeCancellationBounds` 已实际编译通过，
-但该独立 job 没有打印本模块新声明的公理清单；其
-`absorb_slot_logarithms` 已列入统一审计文件，逐声明公理状态仍待该审计实际运行。
-
-### 完整矩模型接线仍待核验
-
-`HeckeSkeleton.PrimeCancellationMoment`、`HeckeSkeleton.PrimeCancellationWiring`
-和 `HeckeSkeleton.PrimeCancellationAudit` 的完整构建／审计状态仍为**待核验**。
-最终主定理尚未登记为编译通过，也尚未登记完整公理清单。
-
-工作分支同步目标分支 `6e67559f` 中已合并的 import 优化：
-`AllIdealTransfer.lean` 的定义和证明正文保持一致，`Moments` 的项目依赖由
-6,028 个减为 3,347 个，最大深度由 364 减为 191。
-新增 CI 按真实依赖图的深度上界 `40`、`100`、`180` 分三阶段构建基础依赖，
-每阶段分四片，剩余依赖由最终 Lake 构建检查。基础阶段可复用相同工具链和
-包配置下已保存的较高阶段编译进度；恢复之后仍由 Lake 检查真实构建记录。各片调用原始 Lake 配置，只有成功的真实
-编译才生成供后续阶段使用的完整原生产物包；恢复时核对源码／配置指纹及包的
-SHA-256，随后仍由 Lake 检查原有构建记录。阶段拆分只调整构建调度，不替换
-任何模块或证明。已有定义、证明保持原样，新增 Lean 源码没有使用 `sorry`、
-`axiom` 或 `native_decide`。
-
-基础依赖完成后，最终检查执行：
+实际执行命令：
 
 ```sh
 lake --fail-fast build +HeckeSkeleton.PrimeCancellationWiring:olean
 lake env lean HeckeSkeleton/PrimeCancellationAudit.lean
 ```
 
-工作流使用 `set -euo pipefail`，保留真实退出码和完整构建、公理日志。
-三个工作流均启用 `concurrency.cancel-in-progress: true`。主验证与解析输入
-按分支分组；可复用的基础编译 job 另含阶段上下界及分片编号，因此新提交会取消
-同分支的过时编译，同时保留当前构建各分片的独立并行。取消后的缓存保存只接收
-已实际开始编译的任务，并先停止该独占 runner 中的编译进程。
-`PrimeCancellationAudit.lean` 分别打印实际解析输入、窗口／数值预算、行能量转移
-和最终两个定理的公理依赖；本节将在取得这些实际结果后补全。
+构建日志为 `Build completed successfully (12345 jobs).`；
+12345 统计全部构建任务，本轮两份修改的证明模块都被实际重新编译。
+命令使用 `set -euo pipefail`，保留真实退出结果。
+完整日志已保存为
+[`prime-cancellation-verification` 产物](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41172711766/artifacts/13032012116)，
+大小 156699 bytes，SHA-256 为
+`a9cc050509e647342f0a63b0da277f9fd1873d00b0d739547ea73ef6fb9dc7e8`。
 
-还需区分原骨架中已经存在的 admitted 数据：原 `SourceMomentIndex` 的类型经
-`targetData` 引用 `highExpansion`；`targetData` 同时携带
-`rows_in_norm_envelope`。后两项在原 `HeckeSkeleton/Base.lean` 中仍为既有的
-`sorry` 数据／证明。本次没有修改它们，也没有以新占位证明替代它们。因此，
-仅凭新证明未调用 `momentModels`，不能预先断言完整主定理只依赖标准三公理。
-`Moment`、`Wiring` 及最终定理是否继承、具体继承哪些上游公理依赖，正式清单
-以待完成的 `PrimeCancellationAudit.lean` 实际输出为准。
+工作分支已合并目标分支 `182769d49e5c184547c0949ddc328b9e7a87e6f7`。
+本轮 9 个 Lean 文件的 Git blob 均与验证提交逐一核对一致。
+最终报告提交仅补齐本说明，不改变已验证的 Lean 源码。
+
+### 严格主定理守卫与全部 24 项实际输出
+
+`PrimeCancellationAudit.lean` 使用 `Lean.collectAxioms` 递归检查以下两个独立主定理；
+只要出现白名单以外的依赖，CI 就失败。声明缺失也会失败。
+
+- `PrimeCancellationExplicit.exists_uniform_paired_prime_bound`
+- `PrimeCancellationExplicit.paired_primes_below_one_of_explicit_models`
+
+本轮日志明确输出两条 `PRIME_CANCELLATION_CLEAN_AXIOMS`，其公理均为
+`[propext, Classical.choice, Quot.sound]`，随后输出
+`PRIME_CANCELLATION_CLEAN_AUDIT_CHECKED|2`。这与下表两项对应的实际
+`#print axioms` 完全一致。
+
+下表是独立 Audit 的全部 24 项，顺序与源码逐一核对。16 项仅含标准三公理，
+4 项旧源模型适配声明和 4 项既有骨架声明仍含 `sorryAx`。
+
+| 声明（省略共同前缀 `HeckeSkeleton.`） | 实际公理清单 |
+| --- | --- |
+| `PrimeCancellationExplicit.exists_uniform_paired_prime_bound` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationExplicit.paired_primes_below_one_of_explicit_models` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationExplicit.ExplicitModelFamily` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationExplicit.exists_paired_linear_count` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationMoment.canonicalFixedBadPrimeSupport` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationHecke.exists_ideal_count_bound` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationHecke.actualPrimeArithmetic` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationHecke.deletedSlotData` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationHecke.emptySlotData` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationHecke.exists_uniform_finiteOrder_polynomial` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationWindows.actualPrimeWindowSchwartz_uniform_seminorm` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationBounds.absorb_slot_logarithms` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationMoment.logQ_le_of_norm_polynomial` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationMoment.source_paired_energy_le_of_slot_bounds` | `[propext, sorryAx, Classical.choice, Quot.sound]` |
+| `PrimeCancellationMoment.source_conductor_control_of_polynomial` | `[propext, sorryAx, Classical.choice, Quot.sound]` |
+| `PrimeCancellationMoment.decomposedMomentDataWithSlots_inverse_mem` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationMoment.inverse_mem_restrictSlots` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationWiring.primePolynomial_bound_of_analytic_data` | `[propext, Classical.choice, Quot.sound]` |
+| `PrimeCancellationWiring.exists_uniform_paired_prime_bound` | `[propext, sorryAx, Classical.choice, Quot.sound]` |
+| `PrimeCancellationWiring.paired_primes_below_one_of_models` | `[propext, sorryAx, Classical.choice, Quot.sound]` |
+| `highExpansion` | `[propext, sorryAx, Classical.choice, Quot.sound]` |
+| `rows_in_norm_envelope` | `[propext, sorryAx, Classical.choice, Quot.sound]` |
+| `targetData` | `[propext, sorryAx, Classical.choice, Quot.sound]` |
+| `SourceMomentIndex` | `[propext, sorryAx, Classical.choice, Quot.sound]` |
+
+新增独立模型族类型、真实全行计数、固定坏素数支持及两条主定理均通过三公理检查。
+这项检查针对在明确模型条件和现有 `c.family.boundary` 前提下的证明依赖；
+具体模型和零点边界仍是定理陈述中的前提。
+
+旧 `SourceMomentIndex` 经 `targetData` 引用原 `highExpansion` 与
+`rows_in_norm_envelope`，因此旧 Source 包装定理保留同一项 `sorryAx` 依赖。
+独立主定理的类型和证明不引用该索引；兼容包装的公理清单单独保留。
+全部新增 Lean 文件未引入 `sorry`、`axiom`、`native_decide` 或 `admit`，
+原有定义与证明保持目标分支原样。
+
+### 构建调度与并发取消
+
+基础依赖按真实深度上界 `40`、`100`、`180` 分为三个阶段，每阶段四片。
+完整包只在真实 Lake 构建成功后生成，恢复时检查源码／配置指纹及归档 SHA-256；
+最终仍由 Lake 检查构建记录。本轮命中完整依赖前缀缓存，prepare 与 proofs 成功，
+三个 foundation 阶段按设计跳过。此前成功生成的原生产物得到复用。
+
+远端全部五个 workflow 均已核对为 `concurrency.cancel-in-progress: true`：
+
+- `prime-cancellation-verify.yml`
+- `prime-cancellation-inputs.yml`
+- `prime-cancellation-foundation.yml`
+- `theta-local-wiring.yml`
+- `low-hybrid-exterior.yml`
+
+主验证和解析输入按分支分组；基础编译 job 的分组另含调用工作流、阶段上下界和
+分片编号，保留当前分片的并行并取消对应分组的过时编译。
+[旧运行 41158923531](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41158923531)
+已实测以 `cancelled` 结束。取消后的进度缓存仅对实际开始编译的任务保存，
+并先停止该独占 runner 内的编译进程。
