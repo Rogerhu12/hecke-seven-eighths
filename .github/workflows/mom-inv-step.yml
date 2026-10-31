@@ -10,7 +10,6 @@ on:
 
 permissions:
   contents: read
-  actions: read
 
 concurrency:
   group: mom-inv-step-${{ github.head_ref || github.ref_name }}
@@ -21,8 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 180
     env:
-      LEAN_NUM_THREADS: "1"
-      WIRE_BUILD_WORKERS: "2"
+      LEAN_NUM_THREADS: "2"
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -37,32 +35,10 @@ jobs:
           lint: "false"
           use-mathlib-cache: "true"
           use-github-cache: "false"
-      - name: Restore source-validated project objects
-        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
-        with:
-          path: .lake/build
-          key: mom-inv-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}-${{ github.run_id }}
-          restore-keys: |
-            mom-inv-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
-            low-hybrid-exterior-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
-      - name: Compile all single-step modules and check recursive axioms
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the single-step modules with Lake and check recursive axioms
         run: python3 -u HeckeSkeleton/Moments/MOM_INV_STEP/verify.py
-      - name: Preserve validated compilation progress
-        if: ${{ !cancelled() }}
-        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
-        with:
-          path: .lake/build
-          key: mom-inv-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}-${{ github.run_id }}
-      - name: Preserve validated project objects as an artifact backup
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: mom-inv-step-objects-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .lake/build
-          if-no-files-found: warn
-          include-hidden-files: true
-          retention-days: 14
-          compression-level: 6
       - name: Upload compiler logs, environment and axiom evidence
         if: always()
         uses: actions/upload-artifact@v4
