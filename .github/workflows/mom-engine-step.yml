@@ -22,6 +22,14 @@ jobs:
   proofs:
     runs-on: ubuntu-latest
     timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        lane: [interface, arithmetic]
+    concurrency:
+      group: mom-engine-step-job-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}-${{ matrix.lane }}-${{ matrix.lane == 'arithmetic' && 'serial' || (github.event.pull_request.head.sha || github.sha) }}
+      cancel-in-progress: false
     env:
       LEAN_NUM_THREADS: '2'
     steps:
@@ -55,21 +63,34 @@ jobs:
           path: |
             .lake/build
             vendor/class-field-theory/.lake/build
-          key: mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          key: mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}-${{ matrix.lane }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
             mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.event.pull_request.head.sha || github.sha }}-
             mom-engine-step-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
-      - name: Compile the single-step interface and audit its complete namespace
+      - name: Compile assigned modules and audit their complete task namespace
+        env:
+          MOM_PROOF_LANE: ${{ matrix.lane }}
         run: |
-          python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
-            HeckeSkeleton.Moments.MOM_ENGINE_STEP.Interface \
-            --namespace HeckeSkeleton.Moments.EngineStep \
-            --evidence mom-engine-step-verification
+          if [ "$MOM_PROOF_LANE" = arithmetic ]; then
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalAmplifier \
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCorrelation \
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT \
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualPool \
+              --serial-build \
+              --namespace HeckeSkeleton.Moments.EngineStep \
+              --evidence mom-engine-step-verification
+          else
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.Interface \
+              --namespace HeckeSkeleton.Moments.EngineStep \
+              --evidence mom-engine-step-verification
+          fi
       - name: Preserve compiler logs and recursive axiom reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mom-engine-step-verification-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
+          name: mom-engine-step-verification-${{ matrix.lane }}-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
           path: mom-engine-step-verification/
           if-no-files-found: error
           retention-days: 14

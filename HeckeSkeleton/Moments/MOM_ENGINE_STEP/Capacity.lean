@@ -39,7 +39,7 @@ theorem remaining_capacity {ι : Type*} [DecidableEq ι]
     have hs := Finset.sum_sdiff hR (f := length)
     have hm := le_max_left (n₁ + n₂ + 6 * κ * (∑ i ∈ live, length i) - width) (0 : ℝ)
     change max _ _ - _ ≤ _ at h
-    rw [← hs] at hm
+    rw [← hs] at hm h
     nlinarith
 
 /-- A single choice of removed slots works simultaneously for every row. -/
@@ -61,7 +61,7 @@ theorem capacity_removal_step {ι : Type*} [DecidableEq ι]
   refine ⟨removed, hR, remaining_capacity live removed hR length n₁ n₂ width κ hpay, ?_⟩
   intro Z hZ C hC Q hQ
   apply (hbound Z hZ C hC Q hQ).trans
-  apply mul_le_mul_of_nonneg_right _ (sq_nonneg _)
+  apply mul_le_mul_of_nonneg_right _ (sq_nonneg (‖∏ i ∈ live \ removed, Q i‖))
   apply mul_le_mul_of_nonneg_left _
     (Finset.prod_nonneg (fun i hi => hC i (hR hi)))
   exact Real.rpow_le_rpow_of_exponent_le hZ (by linarith)

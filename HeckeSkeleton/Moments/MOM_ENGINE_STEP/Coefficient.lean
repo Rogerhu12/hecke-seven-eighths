@@ -65,7 +65,8 @@ theorem wholeCoefficient_zero_of_impossible_rectangle (centered : Bool)
     (hY : W₁ ((N (b₁ * l₁) : ℝ) / Y₁) *
       W₂ ((N (b₂ * l₂) : ℝ) / Y₂) = 0) :
     wholeCoefficient centered d N t slots a p W₁ W₂ X₁ X₂ Y₁ Y₂ b₁ b₂ l₁ l₂ = 0 := by
-  cases centered <;> simp [wholeCoefficient, stageRectangle, rectangle, hX, hY]
+  cases centered <;> simp only [wholeCoefficient, stageRectangle, rectangle,
+    Bool.false_eq_true, ↓reduceIte, hX, hY, sub_self, mul_zero, zero_mul]
 
 theorem extracted_scale_argument (N : M →* ℝ≥0) (b l : M) (X : ℝ) :
     (N (b * l) : ℝ) / X = (N l : ℝ) / (X / (N b : ℝ)) := by
@@ -79,7 +80,8 @@ theorem stageRectangle_extract (centered : Bool) (N : M →* ℝ≥0)
       stageRectangle centered N W₁ W₂
         (X₁ / (N b₁ : ℝ)) (X₂ / (N b₂ : ℝ))
         (Y₁ / (N b₁ : ℝ)) (Y₂ / (N b₂ : ℝ)) l₁ l₂ := by
-  cases centered <;> simp [stageRectangle, rectangle, extracted_scale_argument]
+  cases centered <;> simp only [stageRectangle, rectangle, Bool.false_eq_true,
+    ↓reduceIte, extracted_scale_argument]
 
 theorem balanced_scales_extract (X₁ X₂ Y₁ Y₂ B₁ B₂ : ℝ)
     (hbalance : X₁ * X₂ = Y₁ * Y₂) :

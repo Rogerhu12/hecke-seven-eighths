@@ -43,6 +43,7 @@ theorem whole_bilinear_tsum {ι κ ρ : Type*} (S : Finset ι) (U : Finset κ)
         ∑ a ∈ S, ∑ b ∈ U, (c a * star (d b)) *
           (F a z * star (G b z) * W z) := by
     simp only [star_sum, star_mul, Finset.sum_mul, Finset.mul_sum]
+    rw [Finset.sum_comm (s := U) (t := S)]
     apply Finset.sum_congr rfl
     intro a ha
     apply Finset.sum_congr rfl

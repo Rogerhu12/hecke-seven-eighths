@@ -2,6 +2,7 @@ module
 
 public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
 public import Mathlib.NumberTheory.NumberField.Basic
+public import Mathlib.Algebra.CharZero.Infinite
 public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
 public import Mathlib.Analysis.SpecialFunctions.Pow.Real
 public import Mathlib.Tactic.Tauto

@@ -23,7 +23,7 @@ MATHLIB_COMMIT = '0493595ecd5da8ef14742febab99728f98e948e8'
 PREFIX = 'HeckeSkeleton.Moments.EngineStep'
 MODULE_ROOT = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP'
 CORE_MODULES = [MODULE_ROOT + '.' + name for name in (
-    'Ledger', 'Pool', 'IdealPool', 'Coefficient', 'Capacity', 'WholeTransform',
+    'Ledger', 'Pool', 'IdealPool', 'ActualLengths', 'Coefficient', 'Capacity', 'WholeTransform',
 )]
 
 
@@ -34,6 +34,7 @@ def main() -> int:
     parser.add_argument('--repo', type=Path, default=Path.cwd())
     parser.add_argument('--evidence', type=Path, default=Path('mom-engine-step-verification'))
     parser.add_argument('--declaration', action='append', default=[], help='Also emit #print axioms for this declaration')
+    parser.add_argument('--serial-build', action='store_true', help='Build the requested modules in order before the combined axiom audit')
     args = parser.parse_args()
     repo = args.repo.resolve()
     evidence = args.evidence.resolve()
@@ -91,7 +92,12 @@ def main() -> int:
     if MODULE_ROOT + '.Interface' in args.modules:
         run('core-build', ['lake', 'build', *('+' + module + ':olean' for module in CORE_MODULES)])
     # '+' disambiguates genuine module targets; :olean avoids unrelated binaries.
-    run('build', ['lake', '--fail-fast', 'build', *('+' + module + ':olean' for module in args.modules)])
+    if args.serial_build:
+        for index, module in enumerate(args.modules, 1):
+            run(f'build-{index}-{module.rsplit(".", 1)[-1]}',
+                ['lake', '--fail-fast', 'build', '+' + module + ':olean'])
+    else:
+        run('build', ['lake', '--fail-fast', 'build', *('+' + module + ':olean' for module in args.modules)])
     audit = '\n'.join('import ' + module for module in args.modules) + '''
 import Lean.Elab.Command
 import Lean.Util.CollectAxioms
