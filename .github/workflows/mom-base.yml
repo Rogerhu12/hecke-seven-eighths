@@ -1,8 +1,7 @@
 name: MOM_BASE proofs and axioms
 
 on:
-  push:
-    branches: [cloud/mom-base]
+  # The PR event also covers task-branch updates; avoid a duplicate push job.
   pull_request:
     branches: [dtests-handoff]
     paths:
