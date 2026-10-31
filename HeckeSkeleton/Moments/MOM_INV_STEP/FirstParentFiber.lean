@@ -115,6 +115,7 @@ theorem sourceMellinEnergy_eq (E : Ext) (T : Finset (FirstCanonicalLabel.SourceP
   rw [Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro x hx
+  simp only [forget]
   ring
 
 include hΓ in

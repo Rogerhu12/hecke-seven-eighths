@@ -43,7 +43,7 @@ abbrev Index := Σ o : OuterIndex K S D T, FirstOuterCenters.Overlap K S D T o
 private theorem unit_mem_common :
     unitIdeal K S ∈ squarefreePool K Sset (2 * (1 : ℝ)) := by
   rw [mem_squarefreePool]
-  simp [height]
+  simp [height] <;> norm_num
 
 private theorem unit_mem_overlap :
     (unitIdeal K S).val.val ∈ SecondMobiusGeometry.overlapPool K S 1 (unitIdeal K S) := by
@@ -72,8 +72,8 @@ def bare (hmask : T.mask = ∅) (i : Index K S D T) :
   firstDivisor := i.1.2.2.2.val
   first_mem := by
     have h := Finset.mem_powerset.mp i.1.2.2.2.property
-    simpa only [FirstParentRetained.actualMask, FirstSourcePartition.actualMask, hmask]
-      using h
+    simp only [FirstParentRetained.actualMask, FirstSourcePartition.actualMask, hmask] at h ⊢
+    exact h
   secondDivisor := ∅
   second_mem := Finset.empty_subset _
   frequency := (unitIdeal K S,1)
@@ -111,7 +111,7 @@ theorem secondDivisor_val (hmask : T.mask = ∅) (i : Index K S D T) :
     (bare K S D Γ T hmask i).d₂.val.val = 1 := by
   have hd := (bare K S D Γ T hmask i).d₂_dvd
   change (bare K S D Γ T hmask i).d₂.val.val ∣ (1 : Ideal (𝓞 K)) at hd
-  change (bare K S D Γ T hmask i).d₂.val.val = ⊤
+  rw [Ideal.one_eq_top] at hd ⊢
   exact top_le_iff.mp (Ideal.dvd_iff_le.mp hd)
 
 theorem commonResidual_val (hmask : T.mask = ∅) (i : Index K S D T) :
@@ -147,6 +147,7 @@ theorem row_eq (hmask : T.mask = ∅) (i : Index K S D T) :
   rw [secondDivisor_val K S D Γ T hmask i]
   change (_ * 1 * 1, _) = (_, _)
   simp only [mul_one]
+  rfl
 
 theorem row_dvd (hmask : T.mask = ∅) (i : Index K S D T) :
     (bare K S D Γ T hmask i).newRow.1 ∣
@@ -176,7 +177,8 @@ theorem retainedZero_one (hmask : T.mask = ∅) (i : Index K S D T)
   change (_ * idealCoprimeMask _ (1 : Ideal (𝓞 K))) *
     idealCoprimeMask R (1 : Ideal (𝓞 K)) *
       idealCoprimeMask (1 * _) (1 : Ideal (𝓞 K)) = 1
-  simp [idealCoprimeMask]
+  have hc : (bare K S D Γ T hmask i).common.val.val = 1 := unitIdeal_val K S
+  simp [idealCoprimeMask, Ideal.isCoprime_iff_sup_eq, hc]
 
 def source (hmask : T.mask = ∅) (I : Finset (Index K S D T)) :
     Finset (BareSource (K := K) (S := S) (D := D) (Γ := Γ)
