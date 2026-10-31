@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildAssembly
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CorrelationKernel
 
 /-!
 # Actual complete correlations and their separated children
@@ -123,6 +124,71 @@ theorem actual_full_correlation_children {ι κ γ : Type*} [Fintype γ]
     (hIDA i) (hIEB j) d e (a i) (b j) hd he (ha i) (hb j) (hda i) (heb j)
     (hDa i) (hEa i) (hDb j) (hEb j) hcop z, hphase i j hcop]
 
+section Kernel
+
+open MeasureTheory
+open scoped FourierTransform SchwartzMap
+
+variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
+  [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
+
+/-- The full actual second correlation, including its coupled Schwartz
+kernel, is bounded by its genuine divisor/character children.  The common
+support identity is proved above, not supplied as an energy hypothesis. -/
+theorem actual_full_correlation_kernel_bound {ι κ γ : Type*} [Fintype γ]
+    (Φ : 𝓢(V, ℂ)) (rows : Finset A.R)
+    (leftColumns : Finset ι) (rightColumns : Finset κ)
+    (ID IE : A.Exterior) (IA : ι → A.Exterior) (IB : κ → A.Exterior)
+    (IDA : ι → A.Exterior) (IEB : κ → A.Exterior)
+    (hIDA : ∀ i, (IDA i).val = ID.val * (IA i).val)
+    (hIEB : ∀ j, (IEB j).val = IE.val * (IB j).val)
+    (d e : A.R) (a : ι → A.R) (b : κ → A.R)
+    (hd : A.Generates ID d) (he : A.Generates IE e)
+    (ha : ∀ i, A.Generates (IA i) (a i)) (hb : ∀ j, A.Generates (IB j) (b j))
+    (hda : ∀ i, A.Generates (IDA i) (d * a i))
+    (heb : ∀ j, A.Generates (IEB j) (e * b j))
+    (hDa : ∀ i, IsCoprime ID.val (IA i).val)
+    (hEa : ∀ i, IsCoprime IE.val (IA i).val)
+    (hDb : ∀ j, IsCoprime ID.val (IB j).val)
+    (hEb : ∀ j, IsCoprime IE.val (IB j).val)
+    (phaseCoefficient : γ → ℂ) (leftPhase : γ → ι → ℂ) (rightPhase : γ → κ → ℂ)
+    (hphase : ∀ i j, IsCoprime (IA i).val (IB j).val →
+      actualCommonPhase (σ := σ) ID IE (IA i) (IB j) d e (a i) (b j) =
+        ∑ χ : γ, phaseCoefficient χ * leftPhase χ i * star (rightPhase χ j))
+    (c : ι → ℂ) (f : κ → ℂ) (q : A.R → ℂ)
+    (x : A.R → ι → V) (y : A.R → κ → V) :
+    ‖∑ h ∈ rows, q h * ∑ i ∈ leftColumns, ∑ j ∈ rightColumns,
+      (if IsCoprime (IA i).val (IB j).val then
+        generatedIdealCorrelation (σ := σ) (IDA i) (IEB j)
+          (d * a i) (e * b j) (hda i) (heb j) h else 0) *
+        (c i * star (f j)) * Φ (x h i + y h j)‖ ≤
+      ∑ L ∈ divisorPool rightColumns (fun j => (IB j).val), ‖(moebius L : ℂ)‖ *
+        ∑ χ : γ, ‖phaseCoefficient χ‖ * ∫ ξ : V, ‖(𝓕 Φ) ξ‖ *
+          (Real.sqrt (jointColumnEnergy rows leftColumns
+            (fun h => q h * generatedIdealCorrelation (σ := σ) ID IE d e hd he h)
+            (kernelDivisorCoefficient (fun i => (IA i).val) L c (leftPhase χ)
+              (fun i h => σ (A.sexticResidue (IA i) h))) x ξ) *
+          Real.sqrt (jointColumnEnergy rows rightColumns
+            (fun h => q h * generatedIdealCorrelation (σ := σ) ID IE d e hd he h)
+            (fun h j => star (kernelDivisorCoefficient (fun j => (IB j).val) L f
+              (rightPhase χ) (fun j h => σ (A.sexticResidue (IB j) (-h))) h j)) y ξ)) := by
+  apply full_correlation_kernel_bound Φ rows leftColumns rightColumns
+    (fun i => (IA i).val) (fun j => (IB j).val)
+    (fun j _ => (IB j).property.1)
+    (fun i j h => generatedIdealCorrelation (σ := σ) (IDA i) (IEB j)
+      (d * a i) (e * b j) (hda i) (heb j) h)
+    (generatedIdealCorrelation (σ := σ) ID IE d e hd he) q
+    phaseCoefficient leftPhase rightPhase
+    (fun i h => σ (A.sexticResidue (IA i) h))
+    (fun j h => σ (A.sexticResidue (IB j) (-h)))
+  intro i j h hcop
+  rw [generated_correlation_common_support ID IE (IA i) (IB j) (IDA i) (IEB j)
+    (hIDA i) (hIEB j) d e (a i) (b j) hd he (ha i) (hb j) (hda i) (heb j)
+    (hDa i) (hEa i) (hDb j) (hEb j) hcop h, hphase i j hcop]
+
+end Kernel
+
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.actual_full_correlation_children
+#print axioms HeckeSkeleton.Moments.EngineStep.actual_full_correlation_kernel_bound
