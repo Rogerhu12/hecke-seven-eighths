@@ -158,27 +158,27 @@ is the literal repository target row, with its original complete-ideal
 cutoff and its original residual ideal in both hybrid masks. -/
 theorem completedMarkedRow_residual_shell_energy [Finite (SixthLocalClasses K Sc)]
     (F : FiniteMellinData K Sc)
-    (hreflection : MarkedCoefficientReflectionInput K Sc Pc.arithmetic F θc)
-    (hquadratic : ExteriorQuadraticBound K Sc Pc.arithmetic)
-    (hcubic : ExteriorCubicBound K Sc Pc.arithmetic)
+    (hreflection : MarkedCoefficientReflectionInput K Sc (Pc).arithmetic F θc)
+    (hquadratic : ExteriorQuadraticBound K Sc (Pc).arithmetic)
+    (hcubic : ExteriorCubicBound K Sc (Pc).arithmetic)
     (delta eps C0 rho : ℝ)
     (hdelta : 0 < delta) (hdelta' : delta ≤ 1) (heps : 0 < eps)
     (hC0 : 0 ≤ C0) (hrho : 0 < rho) :
     ∃ C : ℝ, 0 < C ∧ ∀ (Z Ccut : ℝ),
       1 < Z → 0 < Ccut → Real.log Ccut ≤ C0 →
-      Real.log ((2 : ℝ) ^ gc.slots) ≤ C0 →
+      Real.log ((2 : ℝ) ^ (gc).slots) ≤ C0 →
       ∀ p ∈ Fintype.piFinset (fun i => primeWindow K Sc gc Tc Z i),
-      ∀ (J : Finset (Fin gc.slots)) (ξ : SixthUnitClasses K Sc)
+      ∀ (J : Finset (Fin (gc).slots)) (ξ : SixthUnitClasses K Sc)
         (R : Finset (ExteriorIdeal K Sc)) (frozen : ExteriorIdeal K Sc) (j : ℕ),
       (∀ I ∈ R, exteriorNorm K Sc I ≤
         Ccut * Z ^ (5 / 6 : ℝ) / exteriorNorm K Sc (subsetPrimeIdeal K Sc p J) ^ 2) →
       (∑ I ∈ fibreShell K Sc R frozen j,
         ‖HeckeSkeleton.LowCauchy.completedMarkedRow K c Z p J
-          (idealSectorElement K Sc Pc.arithmetic (I, ξ))‖ ^ 2) ≤
+          (idealSectorElement K Sc (Pc).arithmetic (I, ξ))‖ ^ 2) ≤
         C * exteriorNorm K Sc frozen ^ (-(1 / 2 : ℝ) + rho) *
-          Z ^ ((5 / 6 : ℝ) - 2 * ((J.card : ℝ) / (6 * gc.slots)) +
+          Z ^ ((5 / 6 : ℝ) - 2 * ((J.card : ℝ) / (6 * (gc).slots)) +
             23 * delta + 2 * eps) := by
-  obtain ⟨C, hC, hbound⟩ := actual_residual_shell_energy K Sc Pc.arithmetic F
+  obtain ⟨C, hC, hbound⟩ := actual_residual_shell_energy K Sc (Pc).arithmetic F
     hreflection.kernel.finite_admissible θc hreflection.kernel hreflection.exterior_unramified
     hreflection.allowed_generators hquadratic hcubic gc delta eps C0 rho
     hdelta hdelta' heps hC0 hrho
@@ -192,9 +192,9 @@ theorem completedMarkedRow_residual_shell_energy [Finite (SixthLocalClasses K Sc
     fun I hI => (Finset.mem_filter.mp hI).1
   have heq : (∑ I ∈ fibreShell K Sc R frozen j,
       ‖HeckeSkeleton.LowCauchy.completedMarkedRow K c Z p J
-        (idealSectorElement K Sc Pc.arithmetic (I, ξ))‖ ^ 2) =
+        (idealSectorElement K Sc (Pc).arithmetic (I, ξ))‖ ^ 2) =
       ∑ I ∈ fibreShell K Sc R frozen j,
-        ‖markedFrozenRow K Sc Pc.arithmetic frozen (Quotient.out ξ) F θc ψc gc Tc Z J
+        ‖markedFrozenRow K Sc (Pc).arithmetic frozen (Quotient.out ξ) F θc ψc gc Tc Z J
           (exteriorResidualPart K Sc I).val.val‖ ^ 2 := by
     apply Finset.sum_congr rfl
     intro I hI

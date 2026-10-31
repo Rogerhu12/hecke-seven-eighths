@@ -574,12 +574,12 @@ local notation "gc" => c.geometry
 local notation "Tc" => HeckeSkeleton.rayFilter K c
 
 theorem target_annularMarkedRow_eq_weightedThetaRow
-    (Z : ℝ) (p : Fin gc.slots → ExteriorPrime K Sc)
-    (J : Finset (Fin gc.slots)) (shift : ℤ)
+    (Z : ℝ) (p : Fin (gc).slots → ExteriorPrime K Sc)
+    (J : Finset (Fin (gc).slots)) (shift : ℤ)
     (x : ExteriorIdeal K Sc × SixthUnitClasses K Sc) :
     TargetGaussian.annularMarkedRow K c Z p J shift
-        (idealSectorElement K Sc Pc.arithmetic x).val =
-      weightedThetaRow K Sc Pc.arithmetic θc ψc gc Tc Z p J
+        (idealSectorElement K Sc (Pc).arithmetic x).val =
+      weightedThetaRow K Sc (Pc).arithmetic θc ψc gc Tc Z p J
         (GaussianTheta.annulusTest shift).toFun (Z * Real.exp (shift : ℝ)) x := by
   unfold TargetGaussian.annularMarkedRow weightedThetaRow
   apply Finset.sum_congr rfl
@@ -597,20 +597,20 @@ theorem completedMarkedRow_eq_markedFrozenRow [Finite (SixthLocalClasses K Sc)]
     (F : FiniteMellinData K Sc) (hF : FiniteMellinAdmissible K Sc F)
     (hKernel : MellinKernelInput K Sc F θc)
     (hθ : ∀ p : HeightOneSpectrum (𝓞 K), p ∉ Sc → UnramifiedAt K θc p)
-    (hD : AllowedGeneratorInput K Sc Pc.arithmetic)
-    (hquadratic : ExteriorQuadraticBound K Sc Pc.arithmetic)
-    (hcubic : ExteriorCubicBound K Sc Pc.arithmetic)
-    (hreflection : MarkedCoefficientReflectionInput K Sc Pc.arithmetic F θc)
+    (hD : AllowedGeneratorInput K Sc (Pc).arithmetic)
+    (hquadratic : ExteriorQuadraticBound K Sc (Pc).arithmetic)
+    (hcubic : ExteriorCubicBound K Sc (Pc).arithmetic)
+    (hreflection : MarkedCoefficientReflectionInput K Sc (Pc).arithmetic F θc)
     (Z Ccut : ℝ) (hZ : 1 < Z) (hCut : 0 < Ccut)
-    (p : Fin gc.slots → ExteriorPrime K Sc)
+    (p : Fin (gc).slots → ExteriorPrime K Sc)
     (hp : p ∈ Fintype.piFinset (fun i => primeWindow K Sc gc Tc Z i))
-    (J : Finset (Fin gc.slots))
+    (J : Finset (Fin (gc).slots))
     (x : ExteriorIdeal K Sc × SixthUnitClasses K Sc)
     (hcut : exteriorNorm K Sc x.1 ≤
       Ccut * Z ^ (5 / 6 : ℝ) / exteriorNorm K Sc (subsetPrimeIdeal K Sc p J) ^ 2) :
     HeckeSkeleton.LowCauchy.completedMarkedRow K c Z p J
-        (idealSectorElement K Sc Pc.arithmetic x) =
-      markedFrozenRow K Sc Pc.arithmetic (exteriorPowerfulPart K Sc x.1)
+        (idealSectorElement K Sc (Pc).arithmetic x) =
+      markedFrozenRow K Sc (Pc).arithmetic (exteriorPowerfulPart K Sc x.1)
         (Quotient.out x.2) F θc ψc gc Tc Z J (exteriorResidualPart K Sc x.1).val.val := by
   let Klo := exteriorNorm K Sc (exteriorResidualPart K Sc x.1)
   let q := exteriorNorm K Sc (subsetPrimeIdeal K Sc p J)
@@ -625,7 +625,7 @@ theorem completedMarkedRow_eq_markedFrozenRow [Finite (SixthLocalClasses K Sc)]
   have hkr : Klo ≤ exteriorNorm K Sc (exteriorResidualPart K Sc x.1) ∧
       exteriorNorm K Sc (exteriorResidualPart K Sc x.1) ≤ 2 * Klo :=
     ⟨le_rfl, by dsimp [Klo]; nlinarith [exteriorNorm_pos K Sc (exteriorResidualPart K Sc x.1)]⟩
-  have hrec := weightedThetaRow_gaussian_reconstruction K Sc Pc.arithmetic F hF θc ψc
+  have hrec := weightedThetaRow_gaussian_reconstruction K Sc (Pc).arithmetic F hF θc ψc
     hKernel hθ hD hquadratic hcubic hreflection gc Tc Z Klo q Ccut hZ hK
     (exteriorNorm_pos K Sc _) hCut p hp x J
     (selected_norm_bounds K Sc gc Tc (zero_lt_one.trans hZ) p hp J).1 hrow hkr
@@ -642,19 +642,19 @@ and the two actual sieves. Every kernel, unramifiedness, and admissibility
 fact above is extracted from that original reflection input. -/
 theorem completedMarkedRow_reflection_identity [Finite (SixthLocalClasses K Sc)]
     (F : FiniteMellinData K Sc)
-    (hreflection : MarkedCoefficientReflectionInput K Sc Pc.arithmetic F θc)
-    (hquadratic : ExteriorQuadraticBound K Sc Pc.arithmetic)
-    (hcubic : ExteriorCubicBound K Sc Pc.arithmetic)
+    (hreflection : MarkedCoefficientReflectionInput K Sc (Pc).arithmetic F θc)
+    (hquadratic : ExteriorQuadraticBound K Sc (Pc).arithmetic)
+    (hcubic : ExteriorCubicBound K Sc (Pc).arithmetic)
     (Z Ccut : ℝ) (hZ : 1 < Z) (hCut : 0 < Ccut)
-    (p : Fin gc.slots → ExteriorPrime K Sc)
+    (p : Fin (gc).slots → ExteriorPrime K Sc)
     (hp : p ∈ Fintype.piFinset (fun i => primeWindow K Sc gc Tc Z i))
-    (J : Finset (Fin gc.slots))
+    (J : Finset (Fin (gc).slots))
     (x : ExteriorIdeal K Sc × SixthUnitClasses K Sc)
     (hcut : exteriorNorm K Sc x.1 ≤
       Ccut * Z ^ (5 / 6 : ℝ) / exteriorNorm K Sc (subsetPrimeIdeal K Sc p J) ^ 2) :
     HeckeSkeleton.LowCauchy.completedMarkedRow K c Z p J
-        (idealSectorElement K Sc Pc.arithmetic x) =
-      markedFrozenRow K Sc Pc.arithmetic (exteriorPowerfulPart K Sc x.1)
+        (idealSectorElement K Sc (Pc).arithmetic x) =
+      markedFrozenRow K Sc (Pc).arithmetic (exteriorPowerfulPart K Sc x.1)
         (Quotient.out x.2) F θc ψc gc Tc Z J (exteriorResidualPart K Sc x.1).val.val :=
   completedMarkedRow_eq_markedFrozenRow K c F hreflection.kernel.finite_admissible
     hreflection.kernel hreflection.exterior_unramified hreflection.allowed_generators

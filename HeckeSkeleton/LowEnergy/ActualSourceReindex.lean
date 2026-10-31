@@ -208,9 +208,9 @@ theorem reflectionSummand_eq_physicalAtom (D : ThetaArithmeticData K S)
   have h := literalTerm_eq_physicalAtom K S D f s hD F θ (fun _ => 1) V Z
     d.moving (primeSetIdeal K S A.val) cb.val.val.1 cb.val.val.2 hk hp
   unfold literalTerm at h
-  rw [dif_pos hkp, dif_pos cb.val.property, dif_pos cb.property, one_mul] at h
+  erw [dif_pos hkp, dif_pos cb.val.property, dif_pos cb.property, one_mul] at h
   have hm := congrArg (fun e : MarkedDatum K S => e.marks) (split_sourceDatum K S d A)
-  rw [hm] at h
+  erw [hm] at h
   exact h
 
 /-- The rectangular column coefficients inherit summability from the
@@ -310,7 +310,8 @@ theorem physicalAtom_columns_summable_fixed (D : ThetaArithmeticData K S)
     rw [hf] at h
     have hA : primeSetIdeal K S A.val = P := by
       exact primeSetIdeal_support K S P hP.squarefree
-    simpa only [hA] using h s
+    have hmoving : d.moving = k := rfl
+    simpa only [hA, hmoving] using h s
   · have hz : (fun cb : ExteriorIdeal K S × ExteriorIdeal K S =>
         physicalAtom K S D f s F θ (fun _ => 1) V.toFun Z k P cb.1 cb.2) = 0 := by
       funext cb

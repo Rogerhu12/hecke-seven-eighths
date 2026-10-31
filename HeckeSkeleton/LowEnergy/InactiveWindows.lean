@@ -71,7 +71,7 @@ theorem exists_window_inverse_mass_bound (g : PrimeWindowGeometry) :
     _ ≤ (Clin * (2 * primeScale g Z)) * (W / primeScale g Z) :=
       mul_le_mul_of_nonneg_right (window_card_le hZ i hcount)
         (div_nonneg hW.le hx.le)
-    _ = 2 * Clin * W := by field_simp [hx.ne']; ring
+    _ = 2 * Clin * W := by field_simp [hx.ne']
     _ ≤ max 1 (2 * Clin * W) := le_max_right _ _
 
 /-- The same physical bound works for nested selected/active subtypes.
@@ -235,6 +235,7 @@ theorem subset_coefficient_split (ψ : HeckeCharacter K)
     rw [← Finset.image_union, Finset.union_sdiff_of_subset hA]
   change heckeIdealCoefficient K ψ (primeSetIdeal K S (M.image p)).val = _
   rw [← hu, primeSetIdeal_val_union K S _ _ hd, heckeIdealCoefficient_mul]
+  rfl
 
 /-- Literal prime-set prefactor equals the product over inactive slots. -/
 theorem inactive_prime_prefactor_eq_slots (g : PrimeWindowGeometry)
@@ -261,7 +262,8 @@ theorem weights_prefactor_split (g : PrimeWindowGeometry)
         inactiveWeight K S g Z (M \ A) (fun i => p i) := by
   rw [inactive_prime_prefactor_eq_slots K S g T Z p hp,
     inactiveWeight_eq_weight_mul_prefactor]
-  simp only [Finset.prod_coe_sort]
+  rw [Finset.prod_coe_sort (M \ A) (fun i => windowWeight K S g Z i (p i)),
+    Finset.prod_coe_sort (M \ A) (fun i => ((p i).val.asIdeal.absNorm : ℂ)⁻¹)]
   rw [← Finset.prod_sdiff hA (f := fun i => windowWeight K S g Z i (p i))]
   ring
 
@@ -281,7 +283,7 @@ theorem target_weights_prefactor_split (ψ : HeckeCharacter K)
   rw [subset_coefficient_split K S ψ g T Z p hp M A hA, map_mul]
   unfold activeWeight inactiveTwistedWeight
   rw [activeIdeal_restrict, activeIdeal_restrict]
-  simp only [Finset.prod_coe_sort]
+  rw [Finset.prod_coe_sort A (fun i => windowWeight K S g Z i (p i))]
   calc
     _ = ((∏ i ∈ M, windowWeight K S g Z i (p i)) *
         (∏ q ∈ M.image p \ A.image p, (q.val.asIdeal.absNorm : ℂ)⁻¹)) *

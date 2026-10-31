@@ -2,66 +2,63 @@
 
 ## 当前结论
 
-**94 个新增 Lean 模块中，78 个有与当前源文件 SHA-256 匹配的历史直接成功证据；
-当前合并后的完整依赖图及最终目标仍未验证通过。** 原始
-`HeckeSkeleton.completedMarkedEnergy` 已在源码中接入证明链，
-但最终目标公理门尚未运行，不能据此宣布任务完成。
+**94 个新增 Lean 模块中，80 个当前源文件与已完成 round 9 的原生 Lake
+`Built` 事件匹配；当前修改后的完整依赖图与两个最终目标仍未验证通过。**
+这些是固定源码上下文中的真实编译观察。整次 Lake 构建失败，
+最终公理门未启动，不能据此宣布任务完成。
 
-最近完成并纳入证据的 [run 41188282678](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41188282678)
-的 actual 阶段有 **786 个直接成功记录**（634 个精确缓存、152 个新编译），
-另有 **1,794 个原生 Lake 旧依赖复用记录**。原生记录属于原配置下的历史验证，
-不计为新增证明模块通过，也不授权在新配置下直接复用。结合已保存的 core 证据并按模块去重，
-当前 94 个新增模块的源码证据分类为：
+最近完成并纳入证据的 [run 41191387620](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41191387620)
+的 actual job 为 `124509013422`，实际 checkout 为
+`6dc98c6993b60edf5ecd8c449fb697ccfe711176`，不是 GitHub PR 事件的 merge SHA。
+它请求构建全部 94 个清单模块以及 `HeckeSkeleton.Principal`。
+原生 Lake 进程运行 1,155.833 秒后以 **exit 1** 结束，没有触发进程墙钟超时。
 
-| 当前源码证据 | 模块数 |
+| round 9 的实际观察 | 新增模块数 |
 |---|---:|
-| 最近选用的成功证据为精确缓存 | 76 |
-| 最近选用的成功证据为新编译 | 2 |
-| 已修改，旧失败或跳过记录不验证当前源码 | 4 |
-| 最新归档实际阶段跳过，尚无当前源码成功证据 | 12 |
+| 真实 `Built` 事件，当前源文件 SHA-256 仍匹配 | 80 |
+| 失败构建事件 | 4 |
+| 没有终结构建事件 | 10 |
 
-本轮新增通过的是 `ActualSeparatedBlock` 与 `ActualFrozenStateCount`，
-分别打印五项、四项公开公理报告，均只含
-`propext`、`Classical.choice`、`Quot.sound`。
-actual 阶段共有 76 个成功新增模块、294 项公开公理打印；
-其余两个源码成功记录来自保存的 core 证据。
-`ActualHybridEntry` 有真实编译成功记录，但没有打印公开定理公理，
-因此这里只记录编译成功。
+`Principal` 不在上述 94 个新增模块内，也没有完成构建事件。
+80 个成功构建块包含 **302 项公开声明公理打印**，均在
+`propext`、`Classical.choice`、`Quot.sound` 的允许集合内。
+`ActualBlockReindex` 与 `ActualBlockEnergy` 都已真实新编译成功，
+分别打印三项、两项标准三公理报告。
+`ActualReflection`、`ActualSymbolProducts`、`IdealMajorant`、
+`ActualHybridEntry`、`GaussianTheta` 与 `LowFrozenCube.Valuations`
+六个成功模块没有打印公开声明报告；这里只记录它们的构建成功。
 
-该次 actual 阶段记录 **20 个编译错误、一个诊断预算中断、957 个跳过模块**
-（821 个受依赖阻塞、136 个因预算耗尽），最终公理门未运行。
-两个新增模块错误来自 `ActualBlockEnergy` 与 `ActualBlockReindex`；
-它们失败输出中的 `sorryAx` 是编译错误产生的占位结果，未计为成功证明。
-`ArchimedeanGaussianMellin` 的预算中断没有形成证明结果。
+四个失败模块是 `ActualSourceReindex`（五处诊断）、`InactiveWindows`（四处）、
+`TargetDictionary`（三处）与 `TargetSieveDictionary`（八处），合计 20 条源码错误诊断。
+最后一个模块包含 Lean elaboration heartbeat 限制错误，不能改记成旧调度器的诊断预算中断。
+失败模块输出中的编译器占位 `sorryAx` 只保留为失败证据。
+完整原生日志未观察到旧依赖文件的编译错误，但该次完整 build 仍失败。
+两项严格最终审计均为 **`not_started`**，没有最终审计文件或完成后的输出清单。
 
-当前修复保留上述两个模块的原陈述及假设。对其余 18 个已有文件的编译错误，
-已选择恢复全部 66 个 import 调整文件到精确上游源码：
-机械比较确认每个文件的所有非 import 字节均与上游相同。
-其中 56 个原改动收窄了 `Mathlib` 导入，另外 10 个补入官方 leaf imports。
-恢复后的静态导入图让 18 个旧文件重新经 `RayClasses.Character` 取得
-原有 `Mathlib` 路径；这支持缺失传递导入的诊断，但不是编译成功证据。
-**恢复后的完整依赖图及新配置仍等待完整 Lake 验证。**
+当前已修复九个源码文件，均不在上述 80 个 `Built` 源文件内：
+`ActualSourceReindex`、`InactiveWindows`、`TargetDictionary`、`TargetSieveDictionary`、
+`TargetGaussian`、`ActualTupleReconstruction`、`ActualResidualDyadicEnergy`、
+`ActualCompleteIdealEnergy`、`ActualCompletedMarkedEnergy`。
+修复保留原数学陈述、假设、权重和支持条件；当前版本仍待下一次完整 CI。
+另有五个未出现终结事件的模块保留 round 9 的源码字节。
+后续已发布的 `41716e030cc1d159122a742308adaa9744ed97e4` 及其后修复
+不属于 round 9 的执行范围；round 10 的局部诊断也不在本报告中作为完成运行计入。
 
-进行中的 [第九轮 CI](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41191387620)
-检出精确提交 `6dc98c6993b60edf5ecd8c449fb697ccfe711176`。
-实时日志已记录 `ActualBlockReindex` 与 `ActualBlockEnergy` 的真实新编译成功，
-三项、两项公开公理报告分别只含三条标准公理。
-这两项原生构建观察独立于上表的历史逐模块 receipt，尚不构成完整依赖图通过。
-该轮还报告 `ActualSourceReindex` 的五处编译错误；当前源码修复了显式记录端点、
-字面项展开、不可能列条件和依赖冻结状态的传递，并在 `ActualTupleReconstruction`
-采用相同的显式端点写法。所有陈述、假设和常数保持不变，新修复仍待下一轮编译。
-
-最近完成 actual 运行的 source head 与实际 checkout 均为
-`245e1de501287489868916f4a7e4b4df0b060e2f`。
-工作分支 `codex/low-reflected-energy-ade19eee` 的本次源码快照已合并
-`dtests-handoff` 的 `5f3c782680be2c74365b4d8e5760fc16f1f222c5` 基线，
-默认 actual CI 已切换为固定官方缓存与原生 Lake，新入口正在执行，尚无完整成功结果。
-这批基线、导入恢复及 workflow 改动不在 round 8 的执行证据范围内。
-当前修复提交由 PR 链接标识，不把待运行状态记为通过。
+工作分支 `codex/low-reflected-energy-ade19eee` 已合并
+`dtests-handoff` 的 `5f3c782680be2c74365b4d8e5760fc16f1f222c5` 基线。
+默认 actual CI 使用固定官方缓存与原生 Lake，拒绝恢复的 `HeckeSkeleton` 输出，
+并要求完整 build 后执行两项最终公理门。
+66 个旧文件的 import 调整已恢复为精确上游版本，机械比较确认其所有非 import
+字节保持不变；完整比较记录继续保留。这些调整不改变数学证明体。
 
 逐模块当前状态见 [VERIFICATION_LEDGER.md](VERIFICATION_LEDGER.md)，
-当前源码哈希、历史记录与失效说明见 [source_manifest.json](source_manifest.json)，
-原始记录及完整公开公理输出集中于 [aggregate_evidence.json](aggregate_evidence.json)。
+当前源码哈希及历史记录见 [source_manifest.json](source_manifest.json)。
+新的 [native_lake_round9.json](native_lake_round9.json) 和
+[原始验证 ZIP](evidence/native_lake_round9.zip) 保存本轮原生证据。
+此前五个阶段的逐模块记录与完整公开输出仍原样保存在
+[aggregate_evidence.json](aggregate_evidence.json)，只另加本轮原生证据的引用。
+历史的 **786 个直接成功记录**与 **1,794 个旧配置原生依赖验证**不与本轮 80 个
+新增模块相加，也不能授权新配置或当前修复版本直接通过。
 
 ## 目标、假设与调用方
 
@@ -137,69 +134,79 @@ actual 阶段共有 76 个成功新增模块、294 项公开公理打印；
 
 固定环境为 Lean `4.35.0-rc3` 与 Mathlib
 `0493595ecd5da8ef14742febab99728f98e948e8`。
-本次证据以以下已完成运行及真实 job 日志为依据；历史原始记录与引用继续保留，
-不把恢复的旧汇总重新标成新运行结果。
+本报告保留历史实际执行记录，并单独加入原生 Lake 的批次来源；
+不把旧汇总重新标成新运行结果，不从 `Built` 文本伪造逐模块退出码或 schema-2 receipt。
 
 | 已纳入阶段 | run / job | 验证 artifact | 结果范围 |
 |---|---|---|---|
 | actual 历史记录 | `41167618537` / `124438820042` | `13030181239` | 534 个直接成功记录 |
-| core | `41169613835` / `124444524127` | `13030830729` | 66 个真实源模块均为精确缓存成功 |
+| core 历史记录 | `41169613835` / `124444524127` | `13030830729` | 66 个源模块均为精确缓存成功 |
 | actual 历史记录 | `41169613835` / `124444524100` | `13030109450` | 575 个直接成功、1,794 个原生依赖复用 |
 | actual 历史记录 | `41171430364` / `124450025149` | `13031561006` | 634 个直接成功、1,794 个原生依赖复用 |
-| 最新 actual | `41188282678` / `124499578347` | `13038675514` | 786 个直接成功、1,794 个原生依赖复用；最终门未运行 |
+| actual 历史记录 | `41188282678` / `124499578347` | `13038675514` | 786 个直接成功、1,794 个原生依赖复用；最终门未运行 |
+| 最新原生 actual | `41191387620` / `124509013422` | `13039132601` | 80 个新增模块 Built、4 个失败、10 个无终结事件；进程 exit 1，最终门未启动 |
 
-最新 actual 检出的是精确 PR head
-`245e1de501287489868916f4a7e4b4df0b060e2f`。
-验证 ZIP 大小为 10,593,799 字节，SHA-256 为
-`cdf6ade2dbf3223f8157ea5ed735b77ee6767094115f5ecebd99ccb65ea559b4`；
-完整 job 日志 SHA-256 为
-`b31da83fbb79041851515eaf1e5a649a9bd08435391824f609178fbbda9e7603`。
-每个已执行模块均与该次 job 日志的实际执行事件对应。
-完整来源、日志哈希、编译选项与依赖指纹保存在 aggregate 中。
+最新原生验证 ZIP 大小为 **206,809 字节**，SHA-256 为
+`f67514c4bf82fbfc1713dbe848e338ed43f5f471a6215e8e363cae9b546bae15`，
+按原字节保存于 [evidence/native_lake_round9.zip](evidence/native_lake_round9.zip)。
+完整原生 `lake-build.log` 的 SHA-256 为
+`29e4f67041d6f8b0efe2108bbd1d1833156b662291086ba18f64a3b9f1b90147`；
+完整 GitHub job 日志 SHA-256 为
+`5cca52e93d7888af60df9384f8add301e952f557f1fb48c227f4d45380744a45`。
+源码预检使用的清单 SHA-256 为
+`1841bf82424afdb1306636977bb3eb4d996286835fb017f580e53145626cc705`。
+全部 94 个预检源码哈希与该精确 head 的保存清单一致，
+预检与最终失败报告中的源码、配置快照一致，实际命令包含全部 95 个构建目标。
+本次当前文件核对再次确认 80 个成功构建模块的源码 SHA-256 未改变。
 
-下载后、下一轮修改前的审计核对了全部 3,558 个源文件哈希、
-1,764 个非原生模块日志、7,616 条依赖指纹边及 1,794 个原生 receipt 引用，
-没有记录一致性错误。随后的两个证明修复、66 个导入恢复和基线合并
-改变了当前源码或依赖上下文；原运行记录按其实际 checkout 保留，
-不能当作修改后的执行结果。423 组新增模块原始记录与完整输出
-分布于五个已纳入阶段；这些组跨阶段重复同一模块，不能当作互不重复的证明数。
-源文件成功证据只适用于记录中的上下文，单个模块通过不验证完整目标。
+ZIP 内的五个原始文件为 `SHA256SUMS`、`lake-cache-manifest.json`、
+`lake-build.log`、`prepared.json`、`report.json`。
+独立 JSON 保留原始 preparation/report 内容、原生来源哈希、
+80 个成功及四个失败模块的完整编译输出块和打印报告。
+它记录真实的进程级退出与失败状态，不声称单个模块有独立编译进程退出码，
+也不补造未生成的最终审计或输出 artifact 清单。
+原始日志保留于精确 ZIP；便于阅读的模块输出块只去除 ANSI 转义并统一换行。
 
-历史原生记录使用独立的 `native-lake-foundation-v1` 来源，
-保留原 foundation run、artifact 哈希、catalog 哈希以及
+此前 423 组新增模块原始记录与完整输出仍分布于五个历史阶段，保持不变；
+这些组跨阶段重复同一模块，不能视为不同证明的数量。
+历史 round 8 的 786 个直接成功记录由 634 个精确缓存和 152 个新编译组成。
+其后基线合并、导入恢复和证明修复改变了源码或依赖上下文，
+旧记录只适用于其实际 checkout。源文件匹配成功证据不验证当前完整依赖图。
+
+历史原生记录采用独立的 `native-lake-foundation-v1` 来源，
+保留原 foundation run、artifact/catalog 哈希及
 Lake `--rehash --no-cache --no-build` 验证日志。
 round 8 的 receipt 与 round 7 字节相同，SHA-256 为
 `8068f22f97aa984f78412e459dbe8fc2e163ef8a0ce598a347e01bde85fb95a0`。
-其 1,794 个旧依赖只在 receipt 记录的源码、配置、输出及依赖哈希上下文内有效；
-当前基线合并改变了 `lakefile.toml`，不得把旧 receipt 当作新配置的验收。
-它不用于新增模块或 `Principal`。本次文档审计只下载并核对小型验证 ZIP，
-没有下载或重新哈希大型编译缓存；原始编译 artifact 的哈希仅作为来源记录保存。
+其 1,794 个旧依赖只在 receipt 记录的源码、配置、输出和依赖哈希上下文内有效；
+基线合并已改变 `lakefile.toml`，旧 receipt 不构成新配置的验收。
+它们不用于新增模块或 `Principal`，也没有进入新的 actual 成功判定。
+本文档审计只下载小型验证 ZIP；没有下载或重新哈希大型编译缓存。
 
-新的默认 actual 路径固定使用官方
+默认 actual 路径固定使用官方
 [`lake-cache-76c696e`](https://github.com/Rogerhu12/hecke-seven-eighths/releases/tag/lake-cache-76c696e)
-发布（源提交 `76c696e20ee1f201a6507dde8b1d832a928ac71a`），
-并由原生 Lake 验证当前精确源码与完整依赖。
+发布，源提交为 `76c696e20ee1f201a6507dde8b1d832a928ac71a`。
 缓存 manifest 排除 `HeckeSkeleton`、`ThetaGlobal`、
-`DedekindZetaChallenge`、`DedekindZetaSolution`，同时列明三个跳过的 stale 模块；
-未把发布 manifest 的模块总数解释为本次目标已经通过。
-actual 路径不得使用恢复的 `HeckeSkeleton` 输出作为新增证明证据。
-在完整 build 之后仍须运行
+`DedekindZetaChallenge`、`DedekindZetaSolution`，并列明三个跳过的 stale 模块。
+原生验证记录检查了固定 cache metadata 哈希及构建前为空的证明输出目录。
+发布 manifest 的模块数不是本次目标的通过数，恢复的 `HeckeSkeleton` 输出不能供给本轮证明。
+完整 build 成功后仍必须审计
 `ActualCompletedMarkedEnergy.completedMarkedEnergy` 与
-`HeckeSkeleton.completedMarkedEnergy` 的严格公理门，
-检查成功退出、所需声明实际打印及允许公理集合。
-这些门的实际结果尚未取得。
+`HeckeSkeleton.completedMarkedEnergy`：
+编译成功退出、所需声明实际打印、所有打印公理均属于标准三公理集合。
+round 9 未到达这两项审计。
 
-复现时先使用仓库固定的 toolchain、`lake-manifest.json` 与当前基线配置，
+复现时使用仓库固定的 toolchain、`lake-manifest.json` 和基线配置，
 按 [workflow](../../.github/workflows/low-energy-verify.yml)
-固定的 manifest/part 哈希恢复官方缓存，并执行其中的原生 Lake 构建及最终审计命令。
+固定的 manifest/part 哈希恢复官方缓存，再执行原生 Lake 构建与最终审计。
 core 的既有源码验证命令为：
 
 ```sh
 python3 scripts/low_energy_verify.py core
 ```
 
-actual 的新入口先在工具链/缓存恢复前检查精确 checkout 并保存源码快照；
-固定 restore action 完成后再构建和审计。CI 中对应命令为：
+actual 入口在工具链及缓存恢复前检查精确 checkout 并保存源码快照；
+固定 restore action 完成后构建和审计：
 
 ```sh
 python3 scripts/low_energy_lake_verify.py prepare \
@@ -210,21 +217,21 @@ python3 scripts/low_energy_lake_verify.py verify \
   --cache-metadata-dir "$RUNNER_TEMP/lake-cache-download"
 ```
 
-`EXPECTED_SOURCE_HEAD` 为 workflow 选定的精确 PR head；本地复现需提供相同提交
-及缓存 metadata 所在目录。新入口要求所有新增源码模块和 `Principal`
-通过原生 Lake 构建，再用固定隐式参数选项执行两项所需声明的公理审计。
-新路径保存自己的来源记录和完整日志，不伪造旧调度器的逐模块退出记录。
+`EXPECTED_SOURCE_HEAD` 为 workflow 选定的精确 PR head；本地复现需提供同一提交
+及缓存 metadata 目录。入口要求全部新增模块和 `Principal` 通过原生 Lake 构建，
+再用固定隐式参数选项执行两项所需声明的公理审计。
+来源、原始日志和成功条件独立于旧逐模块调度器保存。
 
 旧的 `python3 scripts/low_energy_verify.py actual` 调度器及
-`--diagnostic-seconds 600` 记录本报告中的历史分模块运行。
-它与新默认 Lake 路径的证据来源、输出及成功条件分别保存。
-旧调度器在启动时重置阶段汇总；只有来源完全匹配的精确缓存和已验证原生依赖
+`--diagnostic-seconds 600` 属于本文保留的历史分模块运行。
+它在启动时重置阶段汇总；只有来源完全匹配的精确缓存和已验证原生依赖
 可在诊断截止后保留，未验证的编译任务明确跳过。
 正在运行、被中断或未返回的任务都不算通过。
 
-此前 106 个 Python 回归测试已通过，覆盖解析、缓存调度、
-原生 receipt 与导入器边界；这组历史测试及后续 Lake 路径测试
-均不构成 Lean 证明证据。可用以下命令复现当前测试集：
+同一 round 9 的 core job `124509013480` 成功：66 个精确缓存记录、
+209 项允许公理打印，118 个 Python 回归测试通过。
+Python fixture 覆盖解析、缓存调度、原生 receipt、导入器和 Lake 入口边界，
+不构成 Lean 证明证据，也不代替实际最终门。测试命令为：
 
 ```sh
 python3 -B -m unittest discover -s tests -p 'test_low_energy_*.py'

@@ -30,7 +30,7 @@ Sc := places K c; Pc := probeData K c; ψc := targetCharacter K c; θc := thetaP
 ```lean
 theorem completedMarkedEnergy
     (F : FiniteMellinData K Sc)
-    (hreflection : MarkedCoefficientReflectionInput K Sc Pc.arithmetic F θc)
+    (hreflection : MarkedCoefficientReflectionInput K Sc (Pc).arithmetic F θc)
     (hquadratic : HeckeSkeleton.QuadraticSieveBound K c)
     (hcubic : HeckeSkeleton.CubicSieveBound K c) :
     HeckeSkeleton.LowCauchy.CompletedMarkedEnergy K c
@@ -45,19 +45,19 @@ theorem completedMarkedEnergy
 ```lean
 theorem actual_finite_complete_ideal_energy [Finite (SixthLocalClasses K Sc)]
     (F : FiniteMellinData K Sc)
-    (hreflection : MarkedCoefficientReflectionInput K Sc Pc.arithmetic F θc)
-    (hquadratic : ExteriorQuadraticBound K Sc Pc.arithmetic)
-    (hcubic : ExteriorCubicBound K Sc Pc.arithmetic)
+    (hreflection : MarkedCoefficientReflectionInput K Sc (Pc).arithmetic F θc)
+    (hquadratic : ExteriorQuadraticBound K Sc (Pc).arithmetic)
+    (hcubic : ExteriorCubicBound K Sc (Pc).arithmetic)
     (B eps : ℝ) (hB : 0 < B) (heps : 0 < eps) :
     ∃ C Z0 : ℝ, 0 < C ∧ 1 ≤ Z0 ∧
       ∀ Z : ℝ, Z0 ≤ Z →
       ∀ p ∈ Fintype.piFinset (fun i => primeWindow K Sc gc Tc Z i),
-      ∀ (J : Finset (Fin gc.slots)) (ξ : SixthUnitClasses K Sc)
+      ∀ (J : Finset (Fin (gc).slots)) (ξ : SixthUnitClasses K Sc)
         (R : Finset (ExteriorIdeal K Sc)),
       (∀ I ∈ R, exteriorNorm K Sc I ≤
         B * Z ^ (5 / 6 : ℝ) / exteriorNorm K Sc (subsetPrimeIdeal K Sc p J) ^ 2) →
       (∑ I ∈ R, ‖HeckeSkeleton.LowCauchy.completedMarkedRow K c Z p J
-        (idealSectorElement K Sc Pc.arithmetic (I, ξ))‖ ^ 2) ≤
+        (idealSectorElement K Sc (Pc).arithmetic (I, ξ))‖ ^ 2) ≤
         C * Z ^ ((5 / 6 : ℝ) + eps) /
           exteriorNorm K Sc (subsetPrimeIdeal K Sc p J) ^ 2
 ```

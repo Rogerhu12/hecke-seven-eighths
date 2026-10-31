@@ -92,19 +92,19 @@ local notation "Tc" => HeckeSkeleton.rayFilter K c
 It has no reflected-block energy premise and no auxiliary counting premise. -/
 theorem actual_finite_complete_ideal_energy [Finite (SixthLocalClasses K Sc)]
     (F : FiniteMellinData K Sc)
-    (hreflection : MarkedCoefficientReflectionInput K Sc Pc.arithmetic F θc)
-    (hquadratic : ExteriorQuadraticBound K Sc Pc.arithmetic)
-    (hcubic : ExteriorCubicBound K Sc Pc.arithmetic)
+    (hreflection : MarkedCoefficientReflectionInput K Sc (Pc).arithmetic F θc)
+    (hquadratic : ExteriorQuadraticBound K Sc (Pc).arithmetic)
+    (hcubic : ExteriorCubicBound K Sc (Pc).arithmetic)
     (B eps : ℝ) (hB : 0 < B) (heps : 0 < eps) :
     ∃ C Z0 : ℝ, 0 < C ∧ 1 ≤ Z0 ∧
       ∀ Z : ℝ, Z0 ≤ Z →
       ∀ p ∈ Fintype.piFinset (fun i => primeWindow K Sc gc Tc Z i),
-      ∀ (J : Finset (Fin gc.slots)) (ξ : SixthUnitClasses K Sc)
+      ∀ (J : Finset (Fin (gc).slots)) (ξ : SixthUnitClasses K Sc)
         (R : Finset (ExteriorIdeal K Sc)),
       (∀ I ∈ R, exteriorNorm K Sc I ≤
         B * Z ^ (5 / 6 : ℝ) / exteriorNorm K Sc (subsetPrimeIdeal K Sc p J) ^ 2) →
       (∑ I ∈ R, ‖HeckeSkeleton.LowCauchy.completedMarkedRow K c Z p J
-        (idealSectorElement K Sc Pc.arithmetic (I, ξ))‖ ^ 2) ≤
+        (idealSectorElement K Sc (Pc).arithmetic (I, ξ))‖ ^ 2) ≤
         C * Z ^ ((5 / 6 : ℝ) + eps) /
           exteriorNorm K Sc (subsetPrimeIdeal K Sc p J) ^ 2 := by
   let delta : ℝ := min 1 (eps / 100)
@@ -112,8 +112,8 @@ theorem actual_finite_complete_ideal_energy [Finite (SixthLocalClasses K Sc)]
   let epsOuter : ℝ := eps / 2
   let rho : ℝ := epsOuter / (4 * ((2 : ℝ) + 1))
   let Clog : ℝ := 1 + 2 / Real.log 2
-  let C0 : ℝ := max 0 (max (Real.log B) (Real.log ((2 : ℝ) ^ gc.slots)))
-  let D : ℝ := (2 : ℝ) ^ gc.slots
+  let C0 : ℝ := max 0 (max (Real.log B) (Real.log ((2 : ℝ) ^ (gc).slots)))
+  let D : ℝ := (2 : ℝ) ^ (gc).slots
   have hdelta : 0 < delta := lt_min (by norm_num) (by positivity)
   have hdelta' : delta ≤ 1 := min_le_left _ _
   have hdeltaEps : delta ≤ eps / 100 := min_le_right _ _
@@ -127,7 +127,7 @@ theorem actual_finite_complete_ideal_energy [Finite (SixthLocalClasses K Sc)]
   have hC0 : 0 ≤ C0 := le_max_left _ _
   have hlogB : Real.log B ≤ C0 :=
     (le_max_left _ _).trans (le_max_right _ _)
-  have hlogWin : Real.log ((2 : ℝ) ^ gc.slots) ≤ C0 :=
+  have hlogWin : Real.log ((2 : ℝ) ^ (gc).slots) ≤ C0 :=
     (le_max_right _ _).trans (le_max_right _ _)
   obtain ⟨Cb, hCb, hblock⟩ :=
     completedMarkedRow_residual_shell_energy K c F hreflection hquadratic hcubic
@@ -143,12 +143,12 @@ theorem actual_finite_complete_ideal_energy [Finite (SixthLocalClasses K Sc)]
   have hZpos : 0 < Z := zero_lt_one.trans hZ
   have hBZ : B ≤ Z := (le_max_right _ _).trans hthreshold
   let q : ℝ := exteriorNorm K Sc (subsetPrimeIdeal K Sc p J)
-  let d : ℝ := (J.card : ℝ) / (6 * gc.slots)
+  let d : ℝ := (J.card : ℝ) / (6 * (gc).slots)
   let a : ℝ := (5 / 6 : ℝ) - 2 * d + 23 * delta + 2 * epsInner
   let N : ℕ := DyadicReindex.shellCount (Z ^ (2 : ℝ))
   let E : ExteriorIdeal K Sc → ℝ := fun I =>
     ‖HeckeSkeleton.LowCauchy.completedMarkedRow K c Z p J
-      (idealSectorElement K Sc Pc.arithmetic (I, ξ))‖ ^ 2
+      (idealSectorElement K Sc (Pc).arithmetic (I, ξ))‖ ^ 2
   have hq : 0 < q := exteriorNorm_pos K Sc _
   have hq1 : 1 ≤ q := exteriorNorm_one_le K Sc _
   have hambient : ∀ I ∈ R, idealNorm K I.val ≤ Z ^ (2 : ℝ) := by

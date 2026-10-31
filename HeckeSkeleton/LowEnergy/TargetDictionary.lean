@@ -38,7 +38,7 @@ local notation "T" => HeckeSkeleton.rayFilter K c
 /-- The generalized-test row specializes definitionally to the exact target row. -/
 theorem completedMarkedRow_eq (Z : ℝ)
     (p : Fin c.geometry.slots → ExteriorPrime K S)
-    (J : Finset (Fin c.geometry.slots)) (m : NonzeroRingElements (S.integer K)) :
+    (J : Finset (Fin c.geometry.slots)) (m : NonzeroRingElements ((S).integer K)) :
     HeckeSkeleton.LowCauchy.completedMarkedRow K c Z p J m =
       markedRowWithTest K S P ψ g T Z p J logGaussianProfile m.val := rfl
 
@@ -52,7 +52,7 @@ theorem completedMarkedRow_energy_eq (Z R : ℝ)
       ∑' x : ExteriorIdeal K S × SixthUnitClasses K S,
         if exteriorNorm K S x.1 ≤ R then
           ‖markedRowWithTest K S P ψ g T Z p J logGaussianProfile
-            (idealSectorElement K S P.arithmetic x).val‖ ^ 2 else 0 :=
+            (idealSectorElement K S (P).arithmetic x).val‖ ^ 2 else 0 :=
   marked_energy_eq_ideal_sector_energy K S P ψ g T Z p J logGaussianProfile R
 
 /-- Exact equivalence with the complete-ideal/sector form.  It is a dictionary,
@@ -67,7 +67,7 @@ theorem completedMarkedEnergy_iff_ideal_sector :
           (∑' x : ExteriorIdeal K S × SixthUnitClasses K S,
             if exteriorNorm K S x.1 ≤ B * Z ^ (5 / 6 : ℝ) / q ^ 2 then
               ‖markedRowWithTest K S P ψ g T Z p J logGaussianProfile
-                (idealSectorElement K S P.arithmetic x).val‖ ^ 2 else 0) ≤
+                (idealSectorElement K S (P).arithmetic x).val‖ ^ 2 else 0) ≤
             C * Z ^ (5 / 6 + ε) / q ^ 2) := by
   unfold HeckeSkeleton.LowCauchy.CompletedMarkedEnergy
   simp_rw [completedMarkedRow_energy_eq K c]

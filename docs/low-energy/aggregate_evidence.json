@@ -46562,5 +46562,26 @@
       "sha256": "8d0216aa610d8918f95b69b4c6c57cf2598f70927159da035f08dc3ad2e946d8"
     },
     "cache_policy": "Pinned official cache for old dependencies; no restored HeckeSkeleton outputs. Native Lake must validate the merged graph and both strict final theorem audits must pass."
+  },
+  "native_run_observations": {
+    "41191387620:native-lake:13039132601": {
+      "file": "docs/low-energy/native_lake_round9.json",
+      "sha256": "090d2dd08910623f29bce99abdfbc3e4a0f026b83b1b561ce439ee8785f357cd",
+      "archive": {
+        "path": "docs/low-energy/evidence/native_lake_round9.zip",
+        "bytes": 206809,
+        "sha256": "f67514c4bf82fbfc1713dbe848e338ed43f5f471a6215e8e363cae9b546bae15",
+        "git_blob_sha": "39d5b154e3c2559a10f786541f2c75c769e867b4"
+      },
+      "source_head": "6dc98c6993b60edf5ecd8c449fb697ccfe711176",
+      "job_id": 124509013422,
+      "observed_task_built": 80,
+      "observed_task_failed": 4,
+      "task_no_terminal_event": 10,
+      "printed_reports_in_built_tasks": 302,
+      "whole_process_exit_code": 1,
+      "final_axiom_gate": "not_started",
+      "scope": "Separate native event observations. Existing runs remain historical direct records and are not rewritten into the native schema."
+    }
   }
 }

@@ -68,7 +68,7 @@ local notation "Tc" => HeckeSkeleton.rayFilter K c
 row, cutoff, selected ideal, and full sixth-unit quotient. -/
 theorem completedMarkedEnergy
     (F : FiniteMellinData K Sc)
-    (hreflection : MarkedCoefficientReflectionInput K Sc Pc.arithmetic F θc)
+    (hreflection : MarkedCoefficientReflectionInput K Sc (Pc).arithmetic F θc)
     (hquadratic : HeckeSkeleton.QuadraticSieveBound K c)
     (hcubic : HeckeSkeleton.CubicSieveBound K c) :
     HeckeSkeleton.LowCauchy.CompletedMarkedEnergy K c := by
@@ -94,7 +94,7 @@ theorem completedMarkedEnergy
       intro ξ _
       change (∑ I ∈ exteriorNormBall K Sc (B * Z ^ (5 / 6 : ℝ) / q ^ 2),
         ‖HeckeSkeleton.LowCauchy.completedMarkedRow K c Z p J
-          (idealSectorElement K Sc Pc.arithmetic (I, ξ))‖ ^ 2) ≤ _
+          (idealSectorElement K Sc (Pc).arithmetic (I, ξ))‖ ^ 2) ≤ _
       exact hfinite Z hZ p hp J ξ
         (exteriorNormBall K Sc (B * Z ^ (5 / 6 : ℝ) / q ^ 2))
         (fun I hI => (mem_exteriorNormBall K Sc _ I).mp hI)
