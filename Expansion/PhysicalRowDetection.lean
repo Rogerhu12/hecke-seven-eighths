@@ -126,7 +126,7 @@ theorem exists_physical_row_detection
       2 * Real.pi * ((Z ^ d) ^ τ / (8 * Real.pi + 8)) := by
     rw [abs_mul, abs_of_nonneg (by positivity : 0 ≤ 2 * Real.pi)]
     exact mul_le_mul_of_nonneg_left hξabs (by positivity)
-  have htriangle := abs_sub_le (2 * Real.pi * ξ) ρ.im
+  have htriangle := abs_sub (2 * Real.pi * ξ) ρ.im
   have hiT := mul_le_mul_of_nonneg_right
     (show (h : ℝ) ≤ N by exact_mod_cast hh) (by positivity : 0 ≤ Z ^ τ)
   have hfrequency : |2 * Real.pi * ξ - ρ.im| ≤ 3 * ((N : ℝ) + 1) * Z ^ τ := by

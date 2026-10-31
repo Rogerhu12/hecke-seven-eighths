@@ -1,4 +1,5 @@
 import Mathlib.Analysis.Normed.Group.Constructions
+import Mathlib.Analysis.Normed.Group.Real
 import Mathlib.Data.Fin.VecNotation
 import Mathlib.Tactic.FieldSimp
 import Mathlib.Tactic.FinCases

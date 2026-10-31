@@ -52,7 +52,8 @@ theorem scaled_cutoff_reflected_derivatives (V : ℝ → ℂ)
   rw [heq, norm_iteratedFDeriv_eq_norm_iteratedDeriv]
   change ‖iteratedDeriv j
     (fun z => (fun u => cutoffSchwartz V hV hzero (R * Real.exp u)) (-z)) y‖ ≤ C
-  rw [iteratedDeriv_comp_neg, norm_smul]
+  rw [iteratedDeriv_comp_neg j
+    (fun u : ℝ => cutoffSchwartz V hV hzero (R * Real.exp u)) y, norm_smul]
   simp only [norm_pow, norm_neg, norm_one, one_pow, one_mul]
   rw [← norm_iteratedFDeriv_eq_norm_iteratedDeriv]
   exact hb R hR j hj (-y)
@@ -73,8 +74,13 @@ theorem cutoffFamily_baseLog_uniform_derivatives (W : AnnularProfile)
   have hp := product_derivative_bound (W.logProfileFun 0)
     (fun z => V (R * Real.exp (-z))) (W.logProfile_smooth 0) hv
     CW CV hCW hCV K j hj y (fun i hi => hbW i hi y) (fun i hi => hbV R hR i hi y)
-  simpa only [AnnularProfile.logProfileFun, cutoffFamily_apply, neg_zero,
-    zero_mul, Real.exp_zero, one_smul] using hp
+  have heq : (W.cutoffFamily V hV R).logProfileFun 0 =
+      fun z => W.logProfileFun 0 z * V (R * Real.exp (-z)) := by
+    funext z
+    simp only [AnnularProfile.logProfileFun, cutoffFamily_apply, neg_zero,
+      zero_mul, Real.exp_zero, one_smul]
+  rw [heq]
+  exact hp
 
 /-- Every logarithmic Schwartz seminorm has a single bound for the whole
 scaled cutoff family and all real exponential twists in a fixed interval. -/
@@ -89,6 +95,7 @@ theorem cutoffFamily_uniform_seminorm (W : AnnularProfile)
           W.logRadius ^ k * C := by
   obtain ⟨CΩ, hCΩ, hbΩ⟩ := W.cutoffFamily_baseLog_uniform_derivatives
     V hV hone hzero K
+  have hlogRadius : 0 ≤ W.logRadius := W.logRadius_nonneg
   let CE := (1 + H) ^ K * Real.exp (H * W.logRadius)
   refine ⟨(2 : ℝ) ^ K * CΩ * CE, by dsimp [CE]; positivity, ?_⟩
   intro R hR σ hσ k j hj
@@ -127,6 +134,7 @@ theorem cutoffFamily_uniform_fourier_decay (W : AnnularProfile)
     ∃ C : ℝ, 0 ≤ C ∧ ∀ R : ℝ, 0 ≤ R → ∀ σ : ℝ, |σ| ≤ H → ∀ t : ℝ,
       (1 + ‖t‖) ^ J * ‖𝓕 ((W.cutoffFamily V hV R).logProfile σ) t‖ ≤ C := by
   obtain ⟨C, hC, hb⟩ := W.cutoffFamily_uniform_seminorm V hV hone hzero H hH J
+  have hlogRadius : 0 ≤ W.logRadius := W.logRadius_nonneg
   let C' := (1 + W.logRadius ^ integrationPower) * C
   have hC' : 0 ≤ C' := by dsimp [C']; positivity
   refine ⟨(2 : ℝ) ^ J * (fourierSeminormConstant 0 C' + fourierSeminormConstant J C'),

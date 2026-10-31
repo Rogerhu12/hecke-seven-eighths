@@ -259,7 +259,7 @@ theorem scaledCanonicalRecipeWitness_imagShifts_bound
     let w := scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν
     ∀ u, ‖w.imagShifts u‖ ≤ 1 + ‖w.heights p t T‖ := by
   let w := scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν
-  exact _root_.ExpansionRecipe.normalizedImaginaryParameters_bound ν C hC (w.heights p t T)
+  exact _root_.ExpansionRecipe.normalizedImaginaryParameters_bound ν C T hC (w.heights p t T)
     hT (by rfl) hν
 
 /-- A coordinate-zero real-part map satisfies the original uniform real
