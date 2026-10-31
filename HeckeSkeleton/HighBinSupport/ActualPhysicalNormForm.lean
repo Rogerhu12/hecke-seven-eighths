@@ -20,6 +20,7 @@ namespace HeckeSkeleton.HighBinPhysicalNorm
 open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ExpansionRecipe
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeGeneral.ThetaSkeleton.TIP
 open Expansion.Project ExpansionInterfaces

@@ -17,7 +17,7 @@ namespace HighBinVerified.NormFormSlotCap
 
 open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
-open HeckeGeneral.ThetaSkeleton.Physical
+open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.HighBinActualEuler
 open NormFormActual NormFormFullCorrection
 open scoped Classical BigOperators
@@ -65,6 +65,7 @@ theorem exists_actualFullCorrectionSlot_power_cap
   have hN1 : 1 ≤ frequencyRowNorm K S u := one_le_idealNorm K u.ideal.val
   have hN0 : 0 < frequencyRowNorm K S u := zero_lt_one.trans_le hN1
   have hRle : (u.ideal.val.val.radical.absNorm : ℝ) ≤ frequencyRowNorm K S u := by
+    change (u.ideal.val.val.radical.absNorm : ℝ) ≤ idealNorm K u.ideal.val
     simpa only [Finset.prod_empty, one_mul] using
       actual_selected_repeated_product_mul_radicalNorm_le K u.ideal.val ∅ (by simp)
   have hheight0 : 0 ≤ NormForm.internalHeight Z T kappa :=
@@ -114,7 +115,7 @@ theorem exists_actualFullCorrectionSlot_power_cap
       _ = D * (frequencyRowNorm K S u ^ eta *
           (primeScale g Z) ^ (a - 33 / 50 + 6 * e)) := by
         rw [show a - 33 / 50 + 6 * e = -(4 / 25 : ℝ) + (a - 1 / 2 + 6 * e) by ring,
-          Real.rpow_add hP0]
+          Real.rpow_add hP0 (-(4 / 25 : ℝ)) (a - 1 / 2 + 6 * e)]
         ring
       _ ≤ _ := mul_le_mul_of_nonneg_left
         (mul_le_mul hNB (Real.rpow_le_rpow_of_exponent_le hP1 (by dsimp only [b]; linarith))

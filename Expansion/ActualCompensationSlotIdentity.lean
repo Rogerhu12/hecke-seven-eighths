@@ -60,8 +60,8 @@ theorem actualOriginalMaskedPrimeSum_eq_physicalWindow
   let A := (analyticMomentPrimeWindow K g i).support 0 (primeScale g Z)
   have hmem (p : ExteriorPrime K S) :
       p ∈ primeWindow K S g ∅ Z i ↔ p.val ∈ A := by
-    simp only [mem_physicalPrimeWindow_iff_analytic, Finset.not_mem_empty,
-      false_implies, implies_true, and_true, A]
+    simp only [mem_physicalPrimeWindow_iff_analytic, Finset.forall_mem_empty_iff,
+      and_true, A]
   have hext :
       (∑ p ∈ primeWindow K S g ∅ Z i,
         primeCoefficient K (R.character u) p.val *
@@ -97,7 +97,7 @@ theorem actualOriginalMaskedPrimeSum_eq_physicalWindow
 theorem conj_profilePower_conj_sub_one (z : ℂ) {y : ℝ} (hy : 0 < y) :
     conj (profilePower (conj z - 1) y) = (y : ℂ) ^ (z - 1) := by
   rw [profilePower, ← Complex.exp_conj]
-  simp only [map_mul, Complex.conj_ofReal, map_sub, map_one, conj_conj]
+  simp only [map_mul, Complex.conj_ofReal, map_sub, map_one, Complex.conj_conj]
   exact profilePower_eq_cpow (z - 1) hy
 
 /-- On the actual physical line the real profile is fixed before every
@@ -184,8 +184,26 @@ theorem actualCompensationMainSlot_eq_shared_primePolynomial
         conj (primePolynomial
           (sharedMomentData K S P R omega ψ a (compensationPrimeGeometry K g z)
             (fun _ => 1) u.sector V W) i u.ideal.val Z 0) := by
-  rw [shared_primePolynomial_eq_actualOriginalMaskedPrimeSum K S P R omega ψ, mul_one]
-  exact actualCompensationMainSlot_eq_normalized_masked K S P R g u Z hZ z i
+  have hslot :
+      primePolynomial
+        (sharedMomentData K S P R omega ψ a (compensationPrimeGeometry K g z)
+          (fun _ => 1) u.sector V W) i u.ideal.val Z 0 =
+        (Real.sqrt (primeScale g Z) : ℂ)⁻¹ *
+          actualOriginalMaskedPrimeSum K S (R.character u) u.ideal.val
+            (fun y => (g.weight i).toFun y * profilePower (conj z - 1) y)
+            (primeScale g Z)
+            ((analyticMomentPrimeWindow K g i).support 0 (primeScale g Z)) := by
+    calc
+      _ = (Real.sqrt (primeScale g Z) : ℂ)⁻¹ *
+          actualOriginalMaskedPrimeSum K S (R.character u * 1) u.ideal.val
+            (fun y => (g.weight i).toFun y * profilePower (conj z - 1) y)
+            (primeScale g Z)
+            ((analyticMomentPrimeWindow K g i).support 0 (primeScale g Z)) :=
+        shared_primePolynomial_eq_actualOriginalMaskedPrimeSum K S P R omega ψ a
+          (compensationPrimeGeometry K g z) (fun _ => 1) V W u i Z 0
+      _ = _ := by rw [mul_one]
+  exact (actualCompensationMainSlot_eq_normalized_masked K S P R g u Z hZ z i).trans
+    (congrArg (fun v : ℂ => (primeScale g Z : ℂ) ^ (z - 1 / 2) * conj v) hslot.symm)
 
 /-- The normalization retained by the moment interface contributes exactly
 one half of a prime-window exponent, with no loss in the identity. -/
@@ -197,10 +215,19 @@ theorem norm_actualCompensationMainSlot_eq_shared_primePolynomial
         ‖primePolynomial
           (sharedMomentData K S P R omega ψ a (compensationPrimeGeometry K g z)
             (fun _ => 1) u.sector V W) i u.ideal.val Z 0‖ := by
-  rw [actualCompensationMainSlot_eq_shared_primePolynomial K S P R omega ψ a g V W
-    u Z hZ z i, norm_mul, Complex.norm_conj,
-    Complex.norm_cpow_eq_rpow_re_of_pos (Real.rpow_pos_of_pos hZ _)]
-  congr 2 <;> simp
+  let v : ℂ := primePolynomial
+    (sharedMomentData K S P R omega ψ a (compensationPrimeGeometry K g z)
+      (fun _ => 1) u.sector V W) i u.ideal.val Z 0
+  have hP : 0 < primeScale g Z := Real.rpow_pos_of_pos hZ _
+  have hscale : ‖(primeScale g Z : ℂ) ^ (z - 1 / 2)‖ =
+      primeScale g Z ^ (z.re - 1 / 2) := by
+    simpa using Complex.norm_cpow_eq_rpow_re_of_pos hP (z - 1 / 2)
+  calc
+    _ = ‖(primeScale g Z : ℂ) ^ (z - 1 / 2) * conj v‖ :=
+      congrArg norm (actualCompensationMainSlot_eq_shared_primePolynomial
+        K S P R omega ψ a g V W u Z hZ z i)
+    _ = ‖(primeScale g Z : ℂ) ^ (z - 1 / 2)‖ * ‖conj v‖ := norm_mul _ _
+    _ = _ := congrArg₂ (fun x y : ℝ => x * y) hscale (Complex.norm_conj v)
 
 end Expansion.Project
 

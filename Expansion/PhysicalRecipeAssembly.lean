@@ -305,10 +305,8 @@ theorem exists_physical_recipe_parameters
         Z (Z ^ τ) d B lam k width value hZone hT hd.1 hdUpper hB0 hw c.2 rows
         (fun u hu => (hrows u hu).2.1) (fun u hu => (hrows u hu).2.2.1)
     refine ⟨b, hbin.trans hfloor.symm, hvalue, hblock, hgeometry, ?_, ?_⟩
-    · simp only [← hcapFloor] at horigin
-      exact horigin
-    · simp only [← hcapFloor] at horiginAll
-      exact horiginAll
+    · simpa only [hcapFloor] using horigin
+    · simpa only [hcapFloor] using horiginAll
 
 /-- The same parameter choice supplies the geometry for every choice of
 the four literal analytic components; it does not depend on those values. -/

@@ -20,6 +20,7 @@ namespace HeckeSkeleton.HighBinPhysicalNorm
 
 open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HighBinVerified.NormFormActual HighBinVerified.NormFormFullCorrection
 open scoped Classical BigOperators
@@ -80,7 +81,7 @@ theorem repeatedSlotMass_selected_conductor_bound
       (Nat.cast_nonneg _), ← Real.finsetProd_rpow _ _ (fun i _ => Nat.cast_nonneg _) lam]
       at hpow
     simpa only [term, mul_comm] using hpow
-  have hN := idealNorm_pos K u.ideal.val
+  have hN : 0 < frequencyRowNorm K S u := idealNorm_pos K u.ideal.val
   calc
     _ = ∑ p ∈ F, (u.ideal.val.val.radical.absNorm : ℝ) ^ lam * term p := by
       rw [hprod, Finset.mul_sum]
@@ -93,7 +94,7 @@ theorem repeatedSlotMass_selected_conductor_bound
         (repeatedPrimeTuples_card_subpower K S u g ray Z A heta)
         (Real.rpow_nonneg hN.le _)
     _ = _ := by
-      rw [Real.rpow_add hN]
+      rw [Real.rpow_add hN lam eta]
       ring
 
 /-- The complete repeated-slot product retains all ordinary/repeated
@@ -130,14 +131,17 @@ theorem fullSlot_product_of_physical_bounds
       (C ^ g.slots * repeatedProductConstant g.slots eta) *
         frequencyRowNorm K S u ^ (lam + (g.slots + 1) * eta) *
         Z ^ (-2 / 75 + ((∑ i, amplitude i) / g.slots) / 6 + width / 6) := by
-  have hN := idealNorm_pos K u.ideal.val
+  have hN : 0 < frequencyRowNorm K S u := idealNorm_pos K u.ideal.val
   let scale := Z ^ (-2 / 75 + ((∑ i, amplitude i) / g.slots) / 6 + width / 6)
   have hp := HighBinVerified.NormForm.weighted_slot_product_bound
     (Finset.univ : Finset (Fin g.slots)) Z width
     (fun _ => (1 / 6 : ℝ) / g.slots) amplitude
     (fun i => C * frequencyRowNorm K S u ^ eta *
       (1 + repeatedSlotMass K S u g ray Z lam i)) slot hZ
-    (fun i _ => by simpa only [primeScale] using (hslot i).trans_eq (by ring))
+    (fun i _ => by
+      refine (hslot i).trans_eq ?_
+      dsimp only [primeScale]
+      ring)
   have hJ : (g.slots : ℝ) ≠ 0 := by exact_mod_cast Nat.ne_of_gt g.slots_pos
   have hlength : (∑ _i : Fin g.slots, (1 / 6 : ℝ) / g.slots) = 1 / 6 := by
     simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
@@ -149,7 +153,8 @@ theorem fullSlot_product_of_physical_bounds
       -2 / 75 + ((∑ i, amplitude i) / g.slots) / 6 + width / 6 := by ring
   have hNpow : (frequencyRowNorm K S u ^ eta) ^ g.slots =
       frequencyRowNorm K S u ^ (eta * g.slots) := by
-    rw [← Real.rpow_natCast, ← Real.rpow_mul hN.le]
+    exact (Real.rpow_natCast (frequencyRowNorm K S u ^ eta) g.slots).symm.trans
+      (Real.rpow_mul hN.le eta (g.slots : ℝ)).symm
   rw [he, Finset.prod_mul_distrib, Finset.prod_const, Finset.card_univ,
     Fintype.card_fin, mul_pow, hNpow] at hp
   have hmass := repeatedSlotMass_product_conductor_bound K S u g ray Z hlam heta

@@ -17,6 +17,7 @@ namespace HighBinVerified.NormFormAmplitudeGrid
 
 open NumberField IsDedekindDomain Set Filter
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.HighBinActualEuler
 open HighBinBoundary.ActualIntegrability

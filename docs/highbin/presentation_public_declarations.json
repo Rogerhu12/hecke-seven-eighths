@@ -165,77 +165,77 @@
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryIntegrability.lean",
     "line": 37,
-    "source_sha256": "ac0b28524fe5f8ed21932d62fd4f26cee4d34330b0ba70af5aeb40a7ccf1c04d"
+    "source_sha256": "420de7560dfb238537f299437929d0055c386c5bbce20b438765cfa803f5aa71"
   },
   {
     "name": "HighBinBoundary.ActualIntegrability.sLine",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryIntegrability.lean",
     "line": 40,
-    "source_sha256": "ac0b28524fe5f8ed21932d62fd4f26cee4d34330b0ba70af5aeb40a7ccf1c04d"
+    "source_sha256": "420de7560dfb238537f299437929d0055c386c5bbce20b438765cfa803f5aa71"
   },
   {
     "name": "HighBinBoundary.ActualIntegrability.wLine",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryIntegrability.lean",
     "line": 41,
-    "source_sha256": "ac0b28524fe5f8ed21932d62fd4f26cee4d34330b0ba70af5aeb40a7ccf1c04d"
+    "source_sha256": "420de7560dfb238537f299437929d0055c386c5bbce20b438765cfa803f5aa71"
   },
   {
     "name": "HighBinBoundary.ActualIntegrability.zLine",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryIntegrability.lean",
     "line": 42,
-    "source_sha256": "ac0b28524fe5f8ed21932d62fd4f26cee4d34330b0ba70af5aeb40a7ccf1c04d"
+    "source_sha256": "420de7560dfb238537f299437929d0055c386c5bbce20b438765cfa803f5aa71"
   },
   {
     "name": "HighBinBoundary.ActualIntegrability.continuous_sLine",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryIntegrability.lean",
     "line": 44,
-    "source_sha256": "ac0b28524fe5f8ed21932d62fd4f26cee4d34330b0ba70af5aeb40a7ccf1c04d"
+    "source_sha256": "420de7560dfb238537f299437929d0055c386c5bbce20b438765cfa803f5aa71"
   },
   {
     "name": "HighBinBoundary.ActualIntegrability.continuous_wLine",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryIntegrability.lean",
     "line": 47,
-    "source_sha256": "ac0b28524fe5f8ed21932d62fd4f26cee4d34330b0ba70af5aeb40a7ccf1c04d"
+    "source_sha256": "420de7560dfb238537f299437929d0055c386c5bbce20b438765cfa803f5aa71"
   },
   {
     "name": "HighBinBoundary.ActualIntegrability.continuous_zLine",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryIntegrability.lean",
     "line": 51,
-    "source_sha256": "ac0b28524fe5f8ed21932d62fd4f26cee4d34330b0ba70af5aeb40a7ccf1c04d"
+    "source_sha256": "420de7560dfb238537f299437929d0055c386c5bbce20b438765cfa803f5aa71"
   },
   {
     "name": "HighBinBoundary.ActualIntegrability.heightBox_isCompact",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryIntegrability.lean",
     "line": 55,
-    "source_sha256": "ac0b28524fe5f8ed21932d62fd4f26cee4d34330b0ba70af5aeb40a7ccf1c04d"
+    "source_sha256": "420de7560dfb238537f299437929d0055c386c5bbce20b438765cfa803f5aa71"
   },
   {
     "name": "HighBinBoundary.ActualIntegrability.compensatedRowMellinKernel_continuousOn_heightBox",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryIntegrability.lean",
     "line": 61,
-    "source_sha256": "ac0b28524fe5f8ed21932d62fd4f26cee4d34330b0ba70af5aeb40a7ccf1c04d"
+    "source_sha256": "420de7560dfb238537f299437929d0055c386c5bbce20b438765cfa803f5aa71"
   },
   {
     "name": "HighBinBoundary.ActualIntegrability.compensatedRowMellinKernel_integrable_heightBox",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryIntegrability.lean",
-    "line": 186,
-    "source_sha256": "ac0b28524fe5f8ed21932d62fd4f26cee4d34330b0ba70af5aeb40a7ccf1c04d"
+    "line": 187,
+    "source_sha256": "420de7560dfb238537f299437929d0055c386c5bbce20b438765cfa803f5aa71"
   },
   {
     "name": "HighBinBoundary.ActualIntegrability.eventually_compensatedRowMellinKernel_integrable_heightBox",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryIntegrability.lean",
-    "line": 214,
-    "source_sha256": "ac0b28524fe5f8ed21932d62fd4f26cee4d34330b0ba70af5aeb40a7ccf1c04d"
+    "line": 215,
+    "source_sha256": "420de7560dfb238537f299437929d0055c386c5bbce20b438765cfa803f5aa71"
   },
   {
     "name": "HeckeSkeleton.HighBinBoundaryPresentation.highFixedRowBin_member_data",
@@ -417,49 +417,49 @@
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualContourTransport.lean",
     "line": 37,
-    "source_sha256": "c376077c0c5710d4e8e2a50bdda777dd56449fef692b36c02a62c8ec2610a9f7"
+    "source_sha256": "080802c9f5746b4253f906e3b4f951209ae68e125aa7452f8e774a82d075fc92"
   },
   {
     "name": "HighBinBoundary.ActualContour.twoHeightMeasure_ae_mem",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualContourTransport.lean",
     "line": 44,
-    "source_sha256": "c376077c0c5710d4e8e2a50bdda777dd56449fef692b36c02a62c8ec2610a9f7"
+    "source_sha256": "080802c9f5746b4253f906e3b4f951209ae68e125aa7452f8e774a82d075fc92"
   },
   {
     "name": "HighBinBoundary.ActualContour.rowContourBox_eq_parameterBox",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualContourTransport.lean",
     "line": 52,
-    "source_sha256": "c376077c0c5710d4e8e2a50bdda777dd56449fef692b36c02a62c8ec2610a9f7"
+    "source_sha256": "080802c9f5746b4253f906e3b4f951209ae68e125aa7452f8e774a82d075fc92"
   },
   {
     "name": "HighBinBoundary.ActualContour.rowKernel_integrable_heightBox",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualContourTransport.lean",
     "line": 67,
-    "source_sha256": "c376077c0c5710d4e8e2a50bdda777dd56449fef692b36c02a62c8ec2610a9f7"
+    "source_sha256": "080802c9f5746b4253f906e3b4f951209ae68e125aa7452f8e774a82d075fc92"
   },
   {
     "name": "HighBinBoundary.ActualContour.rowKernel_differentiableOn_rectangle",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualContourTransport.lean",
     "line": 90,
-    "source_sha256": "c376077c0c5710d4e8e2a50bdda777dd56449fef692b36c02a62c8ec2610a9f7"
+    "source_sha256": "080802c9f5746b4253f906e3b4f951209ae68e125aa7452f8e774a82d075fc92"
   },
   {
     "name": "HighBinBoundary.ActualContour.rowContourBox_rectangle_identity",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualContourTransport.lean",
     "line": 116,
-    "source_sha256": "c376077c0c5710d4e8e2a50bdda777dd56449fef692b36c02a62c8ec2610a9f7"
+    "source_sha256": "080802c9f5746b4253f906e3b4f951209ae68e125aa7452f8e774a82d075fc92"
   },
   {
     "name": "HighBinBoundary.ActualContour.exists_rowContourBox_external_tail",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualContourTransport.lean",
     "line": 168,
-    "source_sha256": "c376077c0c5710d4e8e2a50bdda777dd56449fef692b36c02a62c8ec2610a9f7"
+    "source_sha256": "080802c9f5746b4253f906e3b4f951209ae68e125aa7452f8e774a82d075fc92"
   },
   {
     "name": "HeckeSkeleton.HighBinActualEuler.mem_exceptionalPrimes_iff",
@@ -1179,22 +1179,22 @@
     "name": "HeckeSkeleton.HighBinContinuation.localRowCorrection_norm_initial",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerRegularNonvanishing.lean",
-    "line": 30,
-    "source_sha256": "344ff3e2632ea970eeab5720f0ef3e22de38affdf72b790cd69354aa26cf49bb"
+    "line": 31,
+    "source_sha256": "429bec92aac368c5c0f1601e51a7c23a3d154ebd4f35c2508d24e75a34c058b3"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.summable_localRowCorrection_norm_initial",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerRegularNonvanishing.lean",
-    "line": 42,
-    "source_sha256": "344ff3e2632ea970eeab5720f0ef3e22de38affdf72b790cd69354aa26cf49bb"
+    "line": 43,
+    "source_sha256": "429bec92aac368c5c0f1601e51a7c23a3d154ebd4f35c2508d24e75a34c058b3"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.localRowCorrection_tprod_compl_ne_zero_initial",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerRegularNonvanishing.lean",
-    "line": 54,
-    "source_sha256": "344ff3e2632ea970eeab5720f0ef3e22de38affdf72b790cd69354aa26cf49bb"
+    "line": 55,
+    "source_sha256": "429bec92aac368c5c0f1601e51a7c23a3d154ebd4f35c2508d24e75a34c058b3"
   },
   {
     "name": "HeckeSkeleton.HighBinEulerUniqueness.physicalRowFamily_eq_of_calibrated",
@@ -2370,28 +2370,28 @@
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualKernelEnvelope.lean",
     "line": 31,
-    "source_sha256": "0d16755bee9c791f5cb7062f663852ce8a2ef34510b29c39419b194fc41d0164"
+    "source_sha256": "b096490d1df7bc8de249211f42db014975dcf7a746acdb3d485cab0a6bb17ff2"
   },
   {
     "name": "HighBinBoundary.ActualKernel.frequencyRow_power_bound",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualKernelEnvelope.lean",
     "line": 51,
-    "source_sha256": "0d16755bee9c791f5cb7062f663852ce8a2ef34510b29c39419b194fc41d0164"
+    "source_sha256": "b096490d1df7bc8de249211f42db014975dcf7a746acdb3d485cab0a6bb17ff2"
   },
   {
     "name": "HighBinBoundary.ActualKernel.exists_compensated_kernel_envelope",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualKernelEnvelope.lean",
-    "line": 69,
-    "source_sha256": "0d16755bee9c791f5cb7062f663852ce8a2ef34510b29c39419b194fc41d0164"
+    "line": 70,
+    "source_sha256": "b096490d1df7bc8de249211f42db014975dcf7a746acdb3d485cab0a6bb17ff2"
   },
   {
     "name": "HighBinBoundary.ActualKernelHorizontal.exists_compensated_kernel_horizontal_decay",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualKernelEnvelope.lean",
-    "line": 186,
-    "source_sha256": "0d16755bee9c791f5cb7062f663852ce8a2ef34510b29c39419b194fc41d0164"
+    "line": 187,
+    "source_sha256": "b096490d1df7bc8de249211f42db014975dcf7a746acdb3d485cab0a6bb17ff2"
   },
   {
     "name": "HighBinBoundary.ActualLRatioStrip.exists_uniform_high_row_LRatio_strip_bound",
@@ -2453,71 +2453,71 @@
     "name": "HighBinVerified.NormFormAmplitudeGrid.ActualFullSlotAmplitude",
     "kind": "structure",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormAmplitudeGrid.lean",
-    "line": 32,
-    "source_sha256": "57810d7064fa8d26c7dbede4c67bb301b9fe03560f836d77a85e6efac4edb446"
+    "line": 33,
+    "source_sha256": "bae264d42597798804f7f24fa505494316025ef7bf59b7aba1ab104f073d972e"
   },
   {
     "name": "HighBinVerified.NormFormAmplitudeGrid.ActualFullSlotAmplitude.amplitude",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormAmplitudeGrid.lean",
-    "line": 49,
-    "source_sha256": "57810d7064fa8d26c7dbede4c67bb301b9fe03560f836d77a85e6efac4edb446"
+    "line": 50,
+    "source_sha256": "bae264d42597798804f7f24fa505494316025ef7bf59b7aba1ab104f073d972e"
   },
   {
     "name": "HighBinVerified.NormFormAmplitudeGrid.ActualFullSlotAmplitude.mean",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormAmplitudeGrid.lean",
-    "line": 55,
-    "source_sha256": "57810d7064fa8d26c7dbede4c67bb301b9fe03560f836d77a85e6efac4edb446"
+    "line": 56,
+    "source_sha256": "bae264d42597798804f7f24fa505494316025ef7bf59b7aba1ab104f073d972e"
   },
   {
     "name": "HighBinVerified.NormFormAmplitudeGrid.exists_actual_fullSlot_amplitude_grid",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormAmplitudeGrid.lean",
-    "line": 65,
-    "source_sha256": "57810d7064fa8d26c7dbede4c67bb301b9fe03560f836d77a85e6efac4edb446"
+    "line": 66,
+    "source_sha256": "bae264d42597798804f7f24fa505494316025ef7bf59b7aba1ab104f073d972e"
   },
   {
     "name": "HighBinVerified.NormFormAmplitudeGrid.exists_actualFullSlotAmplitude",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormAmplitudeGrid.lean",
-    "line": 212,
-    "source_sha256": "57810d7064fa8d26c7dbede4c67bb301b9fe03560f836d77a85e6efac4edb446"
+    "line": 213,
+    "source_sha256": "bae264d42597798804f7f24fa505494316025ef7bf59b7aba1ab104f073d972e"
   },
   {
     "name": "HighBinVerified.NormFormAmplitudes.actualSlotHeightProfile",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormAmplitudes.lean",
-    "line": 30,
-    "source_sha256": "ee4d102744364670b2b67580350c5c5148c84d976a012f73f6b5a6e695f752ca"
+    "line": 31,
+    "source_sha256": "18ee132ee6f7596cc1c755649848e21437f129fda8177a6937fb8bb78ca28b30"
   },
   {
     "name": "HighBinVerified.NormFormAmplitudes.actual_localFactor_continuousOn",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormAmplitudes.lean",
-    "line": 37,
-    "source_sha256": "ee4d102744364670b2b67580350c5c5148c84d976a012f73f6b5a6e695f752ca"
+    "line": 38,
+    "source_sha256": "18ee132ee6f7596cc1c755649848e21437f129fda8177a6937fb8bb78ca28b30"
   },
   {
     "name": "HighBinVerified.NormFormAmplitudes.exists_actualSlotHeightProfile_continuous",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormAmplitudes.lean",
-    "line": 53,
-    "source_sha256": "ee4d102744364670b2b67580350c5c5148c84d976a012f73f6b5a6e695f752ca"
+    "line": 54,
+    "source_sha256": "18ee132ee6f7596cc1c755649848e21437f129fda8177a6937fb8bb78ca28b30"
   },
   {
     "name": "HighBinVerified.NormFormAmplitudes.exists_actual_fullSlot_maximizers",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormAmplitudes.lean",
-    "line": 105,
-    "source_sha256": "ee4d102744364670b2b67580350c5c5148c84d976a012f73f6b5a6e695f752ca"
+    "line": 106,
+    "source_sha256": "18ee132ee6f7596cc1c755649848e21437f129fda8177a6937fb8bb78ca28b30"
   },
   {
     "name": "HighBinVerified.NormFormAmplitudes.exists_actual_fullSlot_maximizers_with_cap",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormAmplitudes.lean",
-    "line": 135,
-    "source_sha256": "ee4d102744364670b2b67580350c5c5148c84d976a012f73f6b5a6e695f752ca"
+    "line": 136,
+    "source_sha256": "18ee132ee6f7596cc1c755649848e21437f129fda8177a6937fb8bb78ca28b30"
   },
   {
     "name": "HighBinVerified.NormFormFullCorrection.actualLocalUnmarked",
@@ -2992,78 +2992,78 @@
     "name": "HighBinVerified.NormFormIntegral.heightBoxMeasure_eq",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormIntegral.lean",
-    "line": 39,
-    "source_sha256": "be0ec19c02f32b516baec644b1aba9bd18b0f65f155ad1f6c0036b037acc5238"
+    "line": 40,
+    "source_sha256": "6f02ca19db33e998666707d143cafd82e3e90c5f7a3c6cca5e5f43dac832ca48"
   },
   {
     "name": "HighBinVerified.NormFormIntegral.heightBox_volume_real",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormIntegral.lean",
-    "line": 44,
-    "source_sha256": "be0ec19c02f32b516baec644b1aba9bd18b0f65f155ad1f6c0036b037acc5238"
+    "line": 45,
+    "source_sha256": "6f02ca19db33e998666707d143cafd82e3e90c5f7a3c6cca5e5f43dac832ca48"
   },
   {
     "name": "HighBinVerified.NormFormIntegral.rowContourBox_eq_heightBox_integral",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormIntegral.lean",
-    "line": 55,
-    "source_sha256": "be0ec19c02f32b516baec644b1aba9bd18b0f65f155ad1f6c0036b037acc5238"
+    "line": 56,
+    "source_sha256": "6f02ca19db33e998666707d143cafd82e3e90c5f7a3c6cca5e5f43dac832ca48"
   },
   {
     "name": "HighBinVerified.NormFormIntegral.exists_actual_rowContour_normForm",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormIntegral.lean",
-    "line": 87,
-    "source_sha256": "be0ec19c02f32b516baec644b1aba9bd18b0f65f155ad1f6c0036b037acc5238"
+    "line": 88,
+    "source_sha256": "6f02ca19db33e998666707d143cafd82e3e90c5f7a3c6cca5e5f43dac832ca48"
   },
   {
     "name": "HighBinVerified.NormFormIntegral.exists_actual_rowContour_normForm_quarter_loss",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormIntegral.lean",
-    "line": 213,
-    "source_sha256": "be0ec19c02f32b516baec644b1aba9bd18b0f65f155ad1f6c0036b037acc5238"
+    "line": 214,
+    "source_sha256": "6f02ca19db33e998666707d143cafd82e3e90c5f7a3c6cca5e5f43dac832ca48"
   },
   {
     "name": "HighBinVerified.NormFormKernel.exists_actual_profile_bound",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormKernel.lean",
-    "line": 43,
-    "source_sha256": "b71406631e4b1b8f5906cd1bec16f625cf4c8416f7475f709dfd12e2805cf6ea"
+    "line": 44,
+    "source_sha256": "a671bbfbeeecbdf186d656984816a147cfbf36afe8653113e3e5310bb9297d28"
   },
   {
     "name": "HighBinVerified.NormFormKernel.exists_actual_kernel_normForm_of_slot_bounds",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormKernel.lean",
-    "line": 90,
-    "source_sha256": "b71406631e4b1b8f5906cd1bec16f625cf4c8416f7475f709dfd12e2805cf6ea"
+    "line": 91,
+    "source_sha256": "a671bbfbeeecbdf186d656984816a147cfbf36afe8653113e3e5310bb9297d28"
   },
   {
     "name": "HighBinVerified.NormFormKernel.exists_actual_kernel_normForm",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormKernel.lean",
-    "line": 230,
-    "source_sha256": "b71406631e4b1b8f5906cd1bec16f625cf4c8416f7475f709dfd12e2805cf6ea"
+    "line": 232,
+    "source_sha256": "a671bbfbeeecbdf186d656984816a147cfbf36afe8653113e3e5310bb9297d28"
   },
   {
     "name": "HighBinVerified.NormFormLabels.actualFullSlotLabelMean",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormLabels.lean",
-    "line": 31,
-    "source_sha256": "d5178ebb00ecfae8cd800f88bc117233469112c95656d360a0a4436d06c40bcd"
+    "line": 32,
+    "source_sha256": "0876390f5da1cf6ef4160ae90fff8564e998c920f2e5f46d7e29de1513be5490"
   },
   {
     "name": "HighBinVerified.NormFormLabels.actualFullSlotLabel_card",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormLabels.lean",
-    "line": 36,
-    "source_sha256": "d5178ebb00ecfae8cd800f88bc117233469112c95656d360a0a4436d06c40bcd"
+    "line": 37,
+    "source_sha256": "0876390f5da1cf6ef4160ae90fff8564e998c920f2e5f46d7e29de1513be5490"
   },
   {
     "name": "HighBinVerified.NormFormLabels.exists_actual_labelled_rowContour_normForm",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormLabels.lean",
-    "line": 54,
-    "source_sha256": "d5178ebb00ecfae8cd800f88bc117233469112c95656d360a0a4436d06c40bcd"
+    "line": 55,
+    "source_sha256": "0876390f5da1cf6ef4160ae90fff8564e998c920f2e5f46d7e29de1513be5490"
   },
   {
     "name": "HighBinVerified.NormFormMellin.verticalIntegrable_mellin",
@@ -3552,141 +3552,141 @@
     "name": "HighBinVerified.NormFormRegionIntegral.actualRegionKernel",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean",
-    "line": 39,
-    "source_sha256": "d15c339dd2843a1497fd9ed9620265c7dab8ef9a73ab33e24017a06b3fa2ea68"
+    "line": 40,
+    "source_sha256": "5cc01d143249a13abec20c9fcc2b81b2b8b6e3bd0dd10ba2d68704488edf9606"
   },
   {
     "name": "HighBinVerified.NormFormRegionIntegral.actualRegionPiece",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean",
-    "line": 46,
-    "source_sha256": "d15c339dd2843a1497fd9ed9620265c7dab8ef9a73ab33e24017a06b3fa2ea68"
+    "line": 47,
+    "source_sha256": "5cc01d143249a13abec20c9fcc2b81b2b8b6e3bd0dd10ba2d68704488edf9606"
   },
   {
     "name": "HighBinVerified.NormFormRegionIntegral.sum_actualRegionPiece_eq_rowContourBox",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean",
-    "line": 57,
-    "source_sha256": "d15c339dd2843a1497fd9ed9620265c7dab8ef9a73ab33e24017a06b3fa2ea68"
+    "line": 58,
+    "source_sha256": "5cc01d143249a13abec20c9fcc2b81b2b8b6e3bd0dd10ba2d68704488edf9606"
   },
   {
     "name": "HighBinVerified.NormFormRegionIntegral.exists_actual_region_normForm",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean",
-    "line": 89,
-    "source_sha256": "d15c339dd2843a1497fd9ed9620265c7dab8ef9a73ab33e24017a06b3fa2ea68"
+    "line": 90,
+    "source_sha256": "5cc01d143249a13abec20c9fcc2b81b2b8b6e3bd0dd10ba2d68704488edf9606"
   },
   {
     "name": "HighBinVerified.NormFormRegionIntegral.exists_actual_region_normForm_quarter_loss",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean",
-    "line": 202,
-    "source_sha256": "d15c339dd2843a1497fd9ed9620265c7dab8ef9a73ab33e24017a06b3fa2ea68"
+    "line": 203,
+    "source_sha256": "5cc01d143249a13abec20c9fcc2b81b2b8b6e3bd0dd10ba2d68704488edf9606"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.actualRegionRows",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 33,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 34,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.mem_actualRegionRows_iff",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 39,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 40,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.actualRegionRows_subset",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 47,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 48,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.exists_mem_actualRegionRows",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 56,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 57,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.actualRegionPoint",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 74,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 75,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.actualRegionPoint_mem",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 81,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 82,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.actualRegionSlotValue",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 90,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 91,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.actualRegionAmplitudeSet",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 100,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 101,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.actualRegionAmplitudeSet_mean",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 112,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 113,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.actualRegionAmplitude_range",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 122,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 123,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.actualRegionSlotValue_lower",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 134,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 135,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.actualRegionModerateBlock",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 156,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 157,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.actualRegionPiece_eq_zero_of_empty",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 171,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 172,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.sum_actualRegionRows_eq_sum",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 180,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 181,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.exists_actual_region_packet_normForm_quarter_loss",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean",
-    "line": 197,
-    "source_sha256": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+    "line": 198,
+    "source_sha256": "8c21b360886b16fadf5e742c6f327dd11344f7f6e42f3f67db1fa74923303dc4"
   },
   {
     "name": "HeckeSkeleton.HighBinNormFormRegionTarget.PresentationRegionLabels",
@@ -3706,85 +3706,85 @@
     "name": "HighBinVerified.NormFormRegions.actualNormalizedSlotProfile",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean",
-    "line": 32,
-    "source_sha256": "42d1afd04b71595c30a401da544f286bc7b88863313814e1d3e50611218896d3"
+    "line": 33,
+    "source_sha256": "f870d1a76501e77a598833fe3a6b3c56e145daa4af04baa73d4dbd4806ecf049"
   },
   {
     "name": "HighBinVerified.NormFormRegions.actualSlotRegion",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean",
-    "line": 39,
-    "source_sha256": "42d1afd04b71595c30a401da544f286bc7b88863313814e1d3e50611218896d3"
+    "line": 40,
+    "source_sha256": "f870d1a76501e77a598833fe3a6b3c56e145daa4af04baa73d4dbd4806ecf049"
   },
   {
     "name": "HighBinVerified.NormFormRegions.actualRegionAmplitude",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean",
-    "line": 46,
-    "source_sha256": "42d1afd04b71595c30a401da544f286bc7b88863313814e1d3e50611218896d3"
+    "line": 47,
+    "source_sha256": "f870d1a76501e77a598833fe3a6b3c56e145daa4af04baa73d4dbd4806ecf049"
   },
   {
     "name": "HighBinVerified.NormFormRegions.actualRegionMean",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean",
-    "line": 50,
-    "source_sha256": "42d1afd04b71595c30a401da544f286bc7b88863313814e1d3e50611218896d3"
+    "line": 51,
+    "source_sha256": "f870d1a76501e77a598833fe3a6b3c56e145daa4af04baa73d4dbd4806ecf049"
   },
   {
     "name": "HighBinVerified.NormFormRegions.ActualRegionSlotBounds",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean",
-    "line": 57,
-    "source_sha256": "42d1afd04b71595c30a401da544f286bc7b88863313814e1d3e50611218896d3"
+    "line": 58,
+    "source_sha256": "f870d1a76501e77a598833fe3a6b3c56e145daa4af04baa73d4dbd4806ecf049"
   },
   {
     "name": "HighBinVerified.NormFormRegions.actualSlotRegion_subset",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean",
-    "line": 70,
-    "source_sha256": "42d1afd04b71595c30a401da544f286bc7b88863313814e1d3e50611218896d3"
+    "line": 71,
+    "source_sha256": "f870d1a76501e77a598833fe3a6b3c56e145daa4af04baa73d4dbd4806ecf049"
   },
   {
     "name": "HighBinVerified.NormFormRegions.actualSlotRegion_disjoint",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean",
-    "line": 76,
-    "source_sha256": "42d1afd04b71595c30a401da544f286bc7b88863313814e1d3e50611218896d3"
+    "line": 77,
+    "source_sha256": "f870d1a76501e77a598833fe3a6b3c56e145daa4af04baa73d4dbd4806ecf049"
   },
   {
     "name": "HighBinVerified.NormFormRegions.iUnion_actualSlotRegion",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean",
-    "line": 83,
-    "source_sha256": "42d1afd04b71595c30a401da544f286bc7b88863313814e1d3e50611218896d3"
+    "line": 84,
+    "source_sha256": "f870d1a76501e77a598833fe3a6b3c56e145daa4af04baa73d4dbd4806ecf049"
   },
   {
     "name": "HighBinVerified.NormFormRegions.actualSlotHeightProfile_measurable",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean",
-    "line": 91,
-    "source_sha256": "42d1afd04b71595c30a401da544f286bc7b88863313814e1d3e50611218896d3"
+    "line": 92,
+    "source_sha256": "f870d1a76501e77a598833fe3a6b3c56e145daa4af04baa73d4dbd4806ecf049"
   },
   {
     "name": "HighBinVerified.NormFormRegions.actualSlotRegion_measurable",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean",
-    "line": 133,
-    "source_sha256": "42d1afd04b71595c30a401da544f286bc7b88863313814e1d3e50611218896d3"
+    "line": 134,
+    "source_sha256": "f870d1a76501e77a598833fe3a6b3c56e145daa4af04baa73d4dbd4806ecf049"
   },
   {
     "name": "HighBinVerified.NormFormRegions.exists_actualSlotRegion_measurable",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean",
-    "line": 144,
-    "source_sha256": "42d1afd04b71595c30a401da544f286bc7b88863313814e1d3e50611218896d3"
+    "line": 145,
+    "source_sha256": "f870d1a76501e77a598833fe3a6b3c56e145daa4af04baa73d4dbd4806ecf049"
   },
   {
     "name": "HighBinVerified.NormFormRegions.exists_actualSlotRegion_bounds",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegions.lean",
-    "line": 157,
-    "source_sha256": "42d1afd04b71595c30a401da544f286bc7b88863313814e1d3e50611218896d3"
+    "line": 158,
+    "source_sha256": "f870d1a76501e77a598833fe3a6b3c56e145daa4af04baa73d4dbd4806ecf049"
   },
   {
     "name": "HighBinVerified.NormFormActual.actual_primeSupport_card_growth",
@@ -3917,7 +3917,7 @@
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormSlotCap.lean",
     "line": 32,
-    "source_sha256": "e53c4fa528baea1a9e7b5c5ff7c898e147eb96f7b7cc0624ae66a5efbe1d0640"
+    "source_sha256": "7ab553f7253f3e6616d6708e408c38a3bb5dc7354d4e11a50bdfc8f305d00f7a"
   },
   {
     "name": "HeckeSkeleton.HighBinNormFormTarget.targetData_rayFilter_eq_empty",

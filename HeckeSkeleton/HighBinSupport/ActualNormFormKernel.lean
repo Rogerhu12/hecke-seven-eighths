@@ -21,6 +21,7 @@ namespace HighBinVerified.NormFormKernel
 
 open NumberField IsDedekindDomain MeasureTheory Set
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Physical HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.HighBinContinuation HeckeSkeleton.HighBinActualEuler
 open HighBinBoundary.ActualIntegrability
@@ -160,6 +161,7 @@ theorem exists_actual_kernel_normForm_of_slot_bounds
   have hRpos : 0 < (u.ideal.val.val.radical.absNorm : ℝ) :=
     zero_lt_one.trans_le (NormFormSharpFactors.one_le_actual_radicalNorm K S₀ u)
   have hRle : (u.ideal.val.val.radical.absNorm : ℝ) ≤ frequencyRowNorm K S₀ u := by
+    change (u.ideal.val.val.radical.absNorm : ℝ) ≤ idealNorm K u.ideal.val
     simpa only [Finset.prod_empty, one_mul] using
       actual_selected_repeated_product_mul_radicalNorm_le K u.ideal.val ∅ (by simp)
   have hprof : ‖profile‖ ≤ CP * (1 : ℝ) := by

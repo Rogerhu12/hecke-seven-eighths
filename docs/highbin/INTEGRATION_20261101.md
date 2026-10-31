@@ -147,8 +147,28 @@ run `41219280369`。该轮不包含后续原名接线，不能作为最终完成
 该轮 core、mellin、fourier 通过；normform 实际失败日志已下载并核对 artifact
 SHA256，原 tuple 重排超时、continuity composition、SharpFactors 和 scalar
 未解目标分别修复，共享四处错误按上述 #5 最新修复对齐。
-完整原名接线已发布为 `a63e791f87d5a3ddadfce2cc3f2fef3146d2e59f`，
-run `41220839679` 正在运行；本轮后续修复仍须重新验证。
-最终验证结果另在完成时更新。
+完整原名接线已发布为 `a63e791f87d5a3ddadfce2cc3f2fef3146d2e59f`。
+该轮 run `41220839679` 的 core、mellin、fourier 通过，六个主体组由后续修复取代。
+随后 `525f1c4fc34271043a27bcf4f5c23990e0bd9e7c` 的 run `41222277026`
+再次通过这三个 scope；80 个 module 源与该提交逐文件匹配，完整声明审计仅三标准公理。
+
+从 #5 run `41221403216` 的 artifacts 取得与 `525f1c4` 同源的进一步原生诊断，
+下一批只修 `SmallRowCorrection` 的常数化简/非负性、moderate joint analytic
+helper 的命名空间、floor provenance 的 cap 重写以及 `ActualCompensationSlotIdentity`
+的名称和索引透明性。另采用 #10 `fc87b44` 的 `PhysicalInitialMellinTerm` 三处
+证明修复。共享定义与声明不变，已在 #5 评论 6546575780、6546605675 提前协调。
+同一 #5 日志实际编译了与当前源码匹配的 `PhysicalCompletedPoisson`、
+`ActualRowKernelHolomorphy`、`JointAnalyticLimit` 和 `ActualNormFormFullCorrection`，
+其打印的22项声明仅三标准公理；这不替代本分支原名目标的最终审计。
+
+run `41222277026` 的 normform 随后自然结束：51模块源清单全部对上 `525f1c4`，
+其中29模块本轮 fresh Built。旧 tuple、L-ratio、SharpFactors、完整 correction 与
+`PhysicalNormScalar` 的首因已经消失；这些模块打印的相关声明均仅三标准公理。
+本轮新诊断推进到 `ActualKernelEnvelope`、boundary integrability、旧 slot cap、
+新 conductor product，以及前述共享 slot identity / floor assembly。下一批同时修正
+这些具体行范数透明性、实/复常数、连续函数参数推断和根命名空间问题，并修复其
+直接消费者的同型问题。失败声明的 Lean 错误恢复输出不作为公理审计通过的证据。
+
+以上修复仍须由下一轮普通 Lake 完整验证。最终验证结果另在完成时更新。
 
 AI-assisted：ChatGPT / GPT-6 Astra Pro，2026-11-01。

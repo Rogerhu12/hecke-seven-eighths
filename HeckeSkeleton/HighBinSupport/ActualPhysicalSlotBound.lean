@@ -18,6 +18,7 @@ namespace HeckeSkeleton.HighBinPhysicalNorm
 open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ExpansionRecipe HeckeGeneral.Analysis.ConditionalMoments
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HighBinVerified.NormFormActual HighBinVerified.NormFormFullCorrection
 open Expansion.Project ExpansionInterfaces
@@ -55,14 +56,18 @@ theorem norm_actualCompensationMainSlot_eq_physicalRecipeSlot
       (primeScale g Z) ^ (-(4 / 25 : ℝ)) *
         ‖recipePhysicalSlots K S P R omega psi g
           (physicalRecipeFamily K psi g B e) Z p i u‖ := by
-  rw [physicalRecipeSlot_eq_compensationPrimePolynomial]
+  let z : ℂ := (17 / 50 : ℂ) + (p 2 : ℂ) * Complex.I
+  have hslot := physicalRecipeSlot_eq_compensationPrimePolynomial
+    K S P R omega psi g B e Z p i u
   have h := norm_actualCompensationMainSlot_eq_shared_primePolynomial
     K S P R omega psi ((physicalRecipeFamily K psi g B e).presentation
       ⟨0, (physicalRecipeFamily K psi g B e).presentationCount_pos⟩) g
       (zeroIdealTest K) (zeroIdealTest K)
-      u Z hZ ((17 / 50 : ℂ) + (p 2 : ℂ) * Complex.I) i
-  norm_num at h ⊢
-  exact h
+      u Z hZ z i
+  have hz : z.re - 1 / 2 = -(4 / 25 : ℝ) := by norm_num [z]
+  exact h.trans (congrArg₂ (fun x y : ℝ => x * y)
+    (congrArg (fun t : ℝ => primeScale g Z ^ t) hz)
+    (congrArg norm hslot.symm))
 
 /-- A common constant for every original full slot.  The only pointwise
 input is a bound for the main prime polynomial; the actual local tables

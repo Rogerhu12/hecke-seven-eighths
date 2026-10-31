@@ -22,6 +22,7 @@ namespace HeckeSkeleton.HighBinPhysicalNorm
 
 open NumberField IsDedekindDomain MeasureTheory Set
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HighBinVerified HighBinVerified.NormFormActual
 open HighBinVerified.NormFormFullCorrection
@@ -164,7 +165,7 @@ theorem exists_actual_physical_kernel_normForm_of_main
       _ ≤ ((3 * ((heightCount : ℝ) + 2) + 2) * (1 + T)) ^ A := by
         apply Real.rpow_le_rpow hU0 _ hA
         dsimp only [U]
-        nlinarith [Nat.cast_nonneg heightCount]
+        nlinarith [(Nat.cast_nonneg heightCount : (0 : ℝ) ≤ heightCount)]
       _ = _ := Real.mul_rpow (by positivity) (by positivity)
   have hprof : ‖profile‖ ≤ CP := hprofile s w z (by linarith) (by linarith)
     (by linarith) (by linarith) hz
@@ -190,6 +191,7 @@ theorem exists_actual_physical_kernel_normForm_of_main
   have hR : 0 < (u.ideal.val.val.radical.absNorm : ℝ) :=
     zero_lt_one.trans_le (NormFormSharpFactors.one_le_actual_radicalNorm K S₀ u)
   have hRN : (u.ideal.val.val.radical.absNorm : ℝ) ≤ frequencyRowNorm K S₀ u := by
+    change (u.ideal.val.val.radical.absNorm : ℝ) ≤ idealNorm K u.ideal.val
     simpa only [Finset.prod_empty, one_mul] using
       actual_selected_repeated_product_mul_radicalNorm_le K u.ideal.val ∅ (by simp)
   have hnorm := joint_pointwise_normForm_of_factors Z (frequencyRowNorm K S₀ u)

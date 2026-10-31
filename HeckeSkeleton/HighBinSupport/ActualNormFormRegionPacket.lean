@@ -20,6 +20,7 @@ namespace HighBinVerified.NormFormRegionPacket
 
 open NumberField IsDedekindDomain MeasureTheory Set
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Physical HeckeGeneral.ThetaSkeleton.TIP
 open HeckeSkeleton.HighBinContinuation HeckeSkeleton.HighBinActualEuler
 open HighBinBoundary.ActualIntegrability

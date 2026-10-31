@@ -51,6 +51,7 @@ variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 theorem frequencyRow_power_bound (u : FrequencyRow K S) (z : ℂ)
     (hz : z.re = 17 / 50) :
     ‖(frequencyRowNorm K S u : ℂ) ^ (-z)‖ ≤ 1 := by
+  change ‖(idealNorm K u.ideal.val : ℂ) ^ (-z)‖ ≤ 1
   rw [Complex.norm_cpow_eq_rpow_re_of_pos (idealNorm_pos K u.ideal.val)]
   simp only [Complex.neg_re, hz]
   exact Real.rpow_le_one_of_one_le_of_nonpos (one_le_idealNorm K u.ideal.val)
@@ -212,7 +213,7 @@ theorem exists_compensated_kernel_horizontal_decay
     simpa [hz] using Complex.re_add_im z
   have hcoupled := coupled_gaussian_profile_bound
     (fun t : ℝ => additiveMellin K S₀ μ P.additive ((17 / 50 : ℂ) + t * Complex.I))
-    n D hprof s.im z.im
+    n D (by simpa only [Complex.ofReal_div, Complex.ofReal_ofNat] using hprof) s.im z.im
   rw [hzline] at hcoupled
   calc
     _ ≤ (1 + |s.im|) ^ n *

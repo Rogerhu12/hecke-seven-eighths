@@ -172,7 +172,8 @@ theorem compensatedRowMellinKernel_continuousOn_heightBox
     have hmark : 0 < exteriorNorm K S₀ (subsetPrimeIdeal K S₀ p (Finset.univ \ J)) :=
       idealNorm_pos K _
     have h1 := hpow (Z ^ (17 / 48 : ℝ) / exteriorNorm K S₀ (subsetPrimeIdeal K S₀ p J))
-      (div_pos (Real.rpow_pos_of_pos hZ _) hsel) _ (continuous_const.sub hz)
+      (div_pos (Real.rpow_pos_of_pos hZ _) hsel) (fun q => (1 / 2 : ℂ) - zLine q)
+      ((continuous_const (y := (1 / 2 : ℂ))).sub hz)
     have h2 := hpow (Z * exteriorNorm K S₀ (subsetPrimeIdeal K S₀ p (Finset.univ \ J)))
       (mul_pos hZ hmark) _ ((hs.add hz).sub (continuous_const (y := (1 : ℂ))))
     have h3 := hpow (Z ^ (23 / 48 : ℝ) / exteriorNorm K S₀ (subsetPrimeIdeal K S₀ p J))

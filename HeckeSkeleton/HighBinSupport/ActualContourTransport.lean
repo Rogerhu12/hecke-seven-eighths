@@ -241,7 +241,8 @@ theorem exists_rowContourBox_external_tail
     (fun t => additiveMellin K S₀ μ P.additive ((17 / 50 : ℂ) + t * I))
     N l r H Text (C₀ * Z ^ 5 * M) D hT hTH (by positivity)
     (by simpa only [restrict_Ioc_eq_restrict_Icc] using hli)
-    (by simpa only [restrict_Ioc_eq_restrict_Icc] using hri) hF hprof hkernel
+    (by simpa only [restrict_Ioc_eq_restrict_Icc] using hri) hF
+    (by simpa only [Complex.ofReal_div, Complex.ofReal_ofNat] using hprof) hkernel
   rw [rowContourBox_eq_parameterBox K S μ P ψ E g T u Z H r ν hH hri,
     rowContourBox_eq_parameterBox K S μ P ψ E g T u Z H l ν hH hli,
     ← mul_sub, norm_mul]

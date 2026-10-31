@@ -182,16 +182,32 @@ theorem exists_actual_physical_primeSlot_bound
   have hfinal := hb.trans ((mul_le_mul_of_nonneg_left
     (Real.rpow_le_rpow_of_exponent_le hZone hexponent) (hCi i)).trans
       (mul_le_mul_of_nonneg_right hCiC (Real.rpow_nonneg hZpos.le _)))
-  rw [shared_primePolynomial_eq_actualOriginalMaskedPrimeSum K S P E.rows omega ψ,
-    mul_one]
-  change ‖(Real.sqrt (Z ^ ell) : ℂ)⁻¹ *
-      actualOriginalMaskedPrimeSum K S (E.rows.character u) u.ideal.val
-        (fun y => (g.weight i).toFun y * profilePower (conj z - 1) y) (Z ^ ell)
-        ((analyticMomentPrimeWindow K g i).support 0 (Z ^ ell))‖ ≤ _
-  rw [show (fun y => (g.weight i).toFun y * profilePower (conj z - 1) y) =
-      (fun y => actualCompensationPrimeProfile g i y * profilePower (-vertical 0 z.im) y) from
-    funext (actualCompensationPrimeProfile_frequency g i z (vertical_re _ _))]
-  exact hfinal
+  have hslot :
+      primePolynomial
+        (sharedMomentData K S P E.rows omega ψ presentation
+          (compensationPrimeGeometry K g z) (fun _ => 1) u.sector V W) i u.ideal.val Z 0 =
+        (Real.sqrt (Z ^ ell) : ℂ)⁻¹ *
+          actualOriginalMaskedPrimeSum K S (E.rows.character u) u.ideal.val
+            (fun y => (g.weight i).toFun y * profilePower (conj z - 1) y) (Z ^ ell)
+            ((analyticMomentPrimeWindow K g i).support 0 (Z ^ ell)) := by
+    calc
+      _ = (Real.sqrt (Z ^ ell) : ℂ)⁻¹ *
+          actualOriginalMaskedPrimeSum K S (E.rows.character u * 1) u.ideal.val
+            (fun y => (g.weight i).toFun y * profilePower (conj z - 1) y) (Z ^ ell)
+            ((analyticMomentPrimeWindow K g i).support 0 (Z ^ ell)) :=
+        shared_primePolynomial_eq_actualOriginalMaskedPrimeSum K S P E.rows omega ψ
+          presentation (compensationPrimeGeometry K g z) (fun _ => 1) V W u i Z 0
+      _ = _ := by rw [mul_one]
+  calc
+    _ = ‖(Real.sqrt (Z ^ ell) : ℂ)⁻¹ *
+        actualOriginalMaskedPrimeSum K S (E.rows.character u) u.ideal.val
+          (fun y => (g.weight i).toFun y * profilePower (conj z - 1) y) (Z ^ ell)
+          ((analyticMomentPrimeWindow K g i).support 0 (Z ^ ell))‖ := congrArg norm hslot
+    _ ≤ _ := by
+      rw [show (fun y => (g.weight i).toFun y * profilePower (conj z - 1) y) =
+          (fun y => actualCompensationPrimeProfile g i y * profilePower (-vertical 0 z.im) y) from
+        funext (actualCompensationPrimeProfile_frequency g i z (vertical_re _ _))]
+      exact hfinal
 
 /-- A positive, explicit width reserve absorbs the common constant after
 one more cutoff. The reserve is chosen before all physical bins and rows. -/

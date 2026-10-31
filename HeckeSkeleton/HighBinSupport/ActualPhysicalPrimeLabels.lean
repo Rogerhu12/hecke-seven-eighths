@@ -79,9 +79,18 @@ theorem exists_physicalRecipe_prime_cap
   have hZpos : 0 < Z := (by norm_num : (0 : ℝ) < 2).trans_le
     ((le_max_left _ _).trans hZ)
   have hbound := hb hfin Z hZhZ d hd hd1 u hu hu1 a ha ha1 p hp hbelow i
-  rw [physicalRecipeSlot_eq_compensationPrimePolynomial]
-  simpa only [F, physicalSlotBase, ExpansionInterfaces.Mellin.vertical,
-    Complex.ofReal_div, Complex.ofReal_ofNat, ← Real.rpow_mul hZpos.le] using hbound
+  let poly : ℂ → ℂ := fun z => primePolynomial
+    (sharedMomentData K S P E.rows omega psi (F.presentation ⟨0, F.presentationCount_pos⟩)
+      (compensationPrimeGeometry K g z) (fun _ => 1) u.sector
+      (zeroIdealTest K) (zeroIdealTest K)) i u.ideal.val Z 0
+  have hvertical : ExpansionInterfaces.Mellin.vertical (17 / 50) (p 2) =
+      (17 / 50 : ℂ) + (p 2 : ℂ) * Complex.I := by
+    norm_num [ExpansionInterfaces.Mellin.vertical]
+  have hslot := congrArg norm (physicalRecipeSlot_eq_compensationPrimePolynomial
+    K S P E.rows omega psi g B e Z p i u)
+  have hpoly := congrArg norm (congrArg poly hvertical)
+  exact (hslot.le.trans (hpoly.symm.le.trans hbound)).trans_eq
+    (Real.rpow_mul hZpos.le ell (a - 1 / 2 + width))
 
 /-- A row in a moving label fiber satisfies the main-slot estimate with
 that label's amplitude.  The cap is supplied uniformly on the original
@@ -111,7 +120,7 @@ theorem physicalRecipe_mainSlot_bound_on_fiber
     _ ≤ (primeScale g Z) ^ (-(4 / 25 : ℝ)) *
         (primeScale g Z) ^ (decodeAmplitude width cap (label i) + width) := by
       apply mul_le_mul_of_nonneg_left _ (Real.rpow_nonneg hXpos.le _)
-      simpa only [primeScale, ← Real.rpow_mul hZpos.le] using hh
+      simpa only [primeScale, physicalSlotBase] using hh
     _ = _ := by
       rw [← Real.rpow_add hXpos]
       congr 1
