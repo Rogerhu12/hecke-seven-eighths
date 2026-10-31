@@ -68,7 +68,7 @@ theorem card_primePoolExteriorLift (A : SArithmeticData F)
     intro p q hpq
     apply Subtype.ext
     exact congrArg (fun v : ExteriorPrime A => v.val.asIdeal) hpq)]
-  exact Finset.card_attach _
+  exact Finset.card_attach
 
 theorem image_primePoolExteriorLift (A : SArithmeticData F)
     (pool : Finset (Ideal (𝓞 F))) (hprime : ∀ p ∈ pool, Prime p)

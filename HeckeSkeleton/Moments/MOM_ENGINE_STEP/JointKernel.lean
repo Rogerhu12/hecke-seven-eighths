@@ -94,7 +94,8 @@ variable [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
 theorem joint_kernel_mode_integrable (F : 𝓢(V, ℂ)) (z : V) :
     Integrable (fun ξ : V => (𝓕 F) ξ * jointPhase ξ z) := by
   have h := (Real.fourierIntegral_convergent_iff
-    (f := (𝓕 F : 𝓢(V, ℂ))) (-z)).mpr (𝓕 F).integrable
+    (μ := (volume : Measure V)) (f := (𝓕 F : 𝓢(V, ℂ))) (-z)).mpr
+      ((𝓕 F).integrable (μ := (volume : Measure V)))
   simpa only [inner_neg_right, neg_neg, Circle.smul_def, smul_eq_mul,
     jointPhase, mul_comm] using h
 
@@ -102,9 +103,14 @@ theorem joint_kernel_mode_integrable (F : 𝓢(V, ℂ)) (z : V) :
 theorem joint_kernel_inversion (F : 𝓢(V, ℂ)) (z : V) :
     F z = ∫ ξ : V, (𝓕 F) ξ * jointPhase ξ z := by
   have h := congrFun
-    (F.continuous.fourierInv_fourier_eq F.integrable (𝓕 F).integrable) z
+    (F.continuous.fourierInv_fourier_eq
+      (F.integrable (μ := (volume : Measure V)))
+      ((𝓕 F).integrable (μ := (volume : Measure V)))) z
   rw [Real.fourierInv_eq] at h
-  simpa only [Circle.smul_def, smul_eq_mul, jointPhase, mul_comm] using h.symm
+  calc
+    F z = ∫ ξ : V, jointPhase ξ z * (𝓕 F) ξ := by
+      simpa only [Circle.smul_def, smul_eq_mul, jointPhase] using h.symm
+    _ = _ := integral_congr_ae (Filter.Eventually.of_forall fun ξ => mul_comm _ _)
 
 /-- The literal finite bilinear kernel form, including every row and column. -/
 def jointKernelPairing {H ι κ : Type*} (F : 𝓢(V, ℂ))
@@ -177,7 +183,8 @@ theorem joint_kernel_energy_integrable {H ι κ : Type*} (F : 𝓢(V, ℂ))
   have hc := (Real.continuous_sqrt.comp
     (continuous_jointColumnEnergy rows leftColumns q c x)).mul
     (Real.continuous_sqrt.comp (continuous_jointColumnEnergy rows rightColumns q d y))
-  apply (𝓕 F).integrable.norm.mul_bdd hc.aestronglyMeasurable
+  apply ((𝓕 F).integrable (μ := (volume : Measure V))).norm.mul_bdd
+    hc.aestronglyMeasurable
   exact Filter.Eventually.of_forall fun ξ => by
     rw [Real.norm_eq_abs, abs_of_nonneg (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))]
     exact mul_le_mul

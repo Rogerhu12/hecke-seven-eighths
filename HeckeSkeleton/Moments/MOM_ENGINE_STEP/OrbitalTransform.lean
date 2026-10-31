@@ -102,7 +102,6 @@ variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K)
 local notation "Q" => SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ
 
 variable (modulus : OS)
-local notation "R" => OS ⧸ Ideal.span (Set.singleton modulus)
 
 variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
   [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
@@ -115,11 +114,13 @@ variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
   (μ : Measure (AdeleRing (𝓞 K) K)) [μ.IsAddHaarMeasure]
 
 include ν μ in
+set_option Elab.async false in
 /-- Either engine transform, on the actual whole nonnegative row norm. -/
 theorem whole_masked_orbital_poisson {ι : Type*}
     (hmodulus : modulus ≠ 0)
     (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
-    (columns : Finset ι) (c : ι → ℂ) (G : ι → R → ℂ)
+    (columns : Finset ι) (c : ι → ℂ)
+    (G : ι → (OS ⧸ Ideal.span ({modulus} : Set OS)) → ℂ)
     (hinv : ∀ i ∈ columns, ∀ u : Γ, ∀ a : OS,
       G i (Ideal.Quotient.mk _
         (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a)) =

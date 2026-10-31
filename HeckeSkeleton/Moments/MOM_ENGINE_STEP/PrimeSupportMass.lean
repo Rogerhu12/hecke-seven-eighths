@@ -185,7 +185,7 @@ theorem box_codeMass_eq (R : Finset (Ideal (𝓞 K))) (δ : ℝ) (bound : ℕ) :
 theorem box_codeMass_le (R : Finset (Ideal (𝓞 K))) (δ : ℝ) (hδ : 0 < δ)
     (hR : ∀ P ∈ R, Prime P) (bound : ℕ) :
     (∑ v ∈ Fintype.piFinset (fun _P : R => Finset.range bound), codeMass R δ v) ≤
-      ∏ P : R, primeMass P δ := by
+      ∏ P : R, primeMass (P : Ideal (𝓞 K)) δ := by
   rw [box_codeMass_eq]
   exact Finset.prod_le_prod₀
     (fun _ _ => Finset.sum_nonneg (fun _ _ => Real.rpow_nonneg
@@ -206,7 +206,8 @@ theorem fixed_support_mass (K : Type*) [Field K] [NumberField K] (δ : ℝ) (hδ
         codeMass R δ v :=
       Finset.sum_le_sum_of_subset_of_nonneg (powerCode_mem_box R S)
         (fun v _ _ => codeMass_nonneg R δ v)
-    _ ≤ ∏ P : R, primeMass P δ := box_codeMass_le R δ hδ hR (codeBound R S)
+    _ ≤ ∏ P : R, primeMass (P : Ideal (𝓞 K)) δ :=
+      box_codeMass_le R δ hδ hR (codeBound R S)
     _ ≤ C := by
       have he := Finset.prod_coe_sort R (fun P => primeMass P δ)
       rw [he]

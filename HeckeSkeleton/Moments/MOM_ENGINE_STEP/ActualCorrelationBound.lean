@@ -109,7 +109,8 @@ theorem generatedIdealCharacter_prime_power
     (n : ℕ) (hn : n ≠ 0) :
     generatedIdealCharacter (σ := σ) (powerIdeal p n) (generator C p ^ n)
       (generator_power_generates C p n) = localMaskedCharacter C p n hn := by
-  ext z
+  apply MulChar.ext'
+  intro z
   obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective z
   rw [generatedIdealCharacter_mk, actual_sextic_prime_power,
     localMaskedCharacter_mk, MulChar.pow_apply' _ hn]
@@ -168,9 +169,12 @@ theorem actualPrimePowerCorrelation_unit_norm
   have hunit : reduction C p n hn.ne'
       (Ideal.Quotient.mk (Ideal.span {generator C p ^ n}) k) ≠ 0 := by
     change Ideal.Quotient.mk (A.extendIdeal (primeIdeal p)) k ≠ 0
-    rw [Ideal.Quotient.eq_zero_iff_mem, ← (generator_generates C p).2,
-      Ideal.mem_span_singleton]
-    exact hk
+    intro hz
+    apply hk
+    apply Ideal.mem_span_singleton.mp
+    have hmem : k ∈ A.extendIdeal (primeIdeal p) := Ideal.Quotient.eq_zero_iff_mem.mp hz
+    rw [← (generator_generates C p).2] at hmem
+    exact hmem
   unfold actualPrimePowerCorrelation generatedIdealCorrelation
   rw [generatedIdealCharacter_prime_power C p n hn.ne',
     HeckePort.Moments.Local.fullCorrelation_equal_divided _ _
@@ -247,7 +251,8 @@ theorem generatedIdealCharacter_product
       (∏ i, a i) (actual_product_generates I a ha Finset.univ) =
       crtCharacter (productCRT a hcop)
         (fun i => generatedIdealCharacter (σ := σ) (I i) (a i) (ha i)) := by
-  ext z
+  apply MulChar.ext'
+  intro z
   obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective z
   simp only [generatedIdealCharacter_mk, crtCharacter_apply, productCRT_mk]
   exact actual_sextic_product I Finset.univ x
@@ -298,15 +303,31 @@ theorem actual_prime_power_product_correlation_norm
     simpa only [a, b, ← pow_add] using
       primePowerGenerator_pairwise C p hp (fun i => m i + n i)
   letI : Finite (A.R ⧸ Ideal.span {∏ i, a i}) := by
+    change Finite (A.R ⧸ Ideal.span {primePowerProductGenerator C p m})
     rw [(primePowerProduct_generates C p m).2]
     exact A.exteriorResidue_finite _
   letI : Finite (A.R ⧸ Ideal.span {∏ i, b i}) := by
+    change Finite (A.R ⧸ Ideal.span {primePowerProductGenerator C p n})
     rw [(primePowerProduct_generates C p n).2]
     exact A.exteriorResidue_finite _
   letI : Fintype (A.R ⧸ Ideal.span {∏ i, a i}) := Fintype.ofFinite _
   letI : Fintype (A.R ⧸ Ideal.span {∏ i, b i}) := Fintype.ofFinite _
+  have hcm : generatedIdealCharacter (σ := σ) (primePowerProduct p m)
+      (primePowerProductGenerator C p m) (primePowerProduct_generates C p m) =
+      crtCharacter (productCRT a ha)
+        (fun i => generatedIdealCharacter (σ := σ) (powerIdeal (p i) (m i)) (a i)
+          (generator_power_generates C (p i) (m i))) :=
+    generatedIdealCharacter_product (fun i => powerIdeal (p i) (m i)) a
+      (fun i => generator_power_generates C (p i) (m i)) ha
+  have hcn : generatedIdealCharacter (σ := σ) (primePowerProduct p n)
+      (primePowerProductGenerator C p n) (primePowerProduct_generates C p n) =
+      crtCharacter (productCRT b hb)
+        (fun i => generatedIdealCharacter (σ := σ) (powerIdeal (p i) (n i)) (b i)
+          (generator_power_generates C (p i) (n i))) :=
+    generatedIdealCharacter_product (fun i => powerIdeal (p i) (n i)) b
+      (fun i => generator_power_generates C (p i) (n i)) hb
   unfold generatedIdealCorrelation
-  rw [generatedIdealCharacter_product _ _ _ ha, generatedIdealCharacter_product _ _ _ hb]
+  rw [hcm, hcn]
   exact fullModulusCorrelation_product_norm a b ha hb hab
     (fun i => generatedIdealCharacter (σ := σ) (powerIdeal (p i) (m i)) (a i)
       (generator_power_generates C (p i) (m i)))
@@ -357,6 +378,7 @@ theorem unitFrequencyRadical_dvd_gcd (C : A.GeneralArithmeticContext σ η hS)
   · apply Finset.prod_dvd_prod_of_dvd
     intro i _
     apply pow_dvd_pow
+    change (if unitFrequencySaving C (p i) (m i) (n i) h then 1 else 0) ≤ min (m i) (n i)
     split_ifs with hs
     · rw [hs.1, min_self]
       simpa only [hs.1] using hm i

@@ -103,6 +103,8 @@ jobs:
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT \
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualPool \
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.ArithmeticPrimePool \
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCorrelationBound \
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFrequencyPartition \
               --serial-build \
               --checked-project-cache \
               --namespace HeckeSkeleton.Moments.EngineStep \
