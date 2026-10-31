@@ -1,0 +1,66 @@
+name: Paired moment induction
+
+on:
+  push:
+    branches: [cloud/mom-engine-induction]
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - HeckeSkeleton/Moments/MOM_ENGINE_INDUCTION/**
+      - .github/workflows/mom-engine-induction.yml
+      - lean-toolchain
+      - lake-manifest.json
+      - lakefile.toml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Push and PR events for the same source branch share one group. Both check
+# that branch's exact head, so the surviving run performs the same verification.
+concurrency:
+  group: mom-engine-induction-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      LEAN_NUM_THREADS: "1"
+      EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Install the pinned Lean environment and Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "true"
+      - name: Build the exact head and check every clean task declaration
+        shell: bash
+        run: |
+          set -euo pipefail
+          task_dir=HeckeSkeleton/Moments/MOM_ENGINE_INDUCTION
+          proof_logs="$RUNNER_TEMP/mom-engine-induction"
+          mkdir -p "$proof_logs"
+          python3 "$task_dir/verify.py" preflight --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/preflight.log"
+          lake build HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Audit 2>&1 | tee "$proof_logs/build.log"
+          printf '\nMOM_ENGINE_INDUCTION_BUILD_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/build.log"
+          lake env lean "$task_dir/Audit.lean" 2>&1 | tee "$proof_logs/axioms.log"
+          printf '\nMOM_ENGINE_INDUCTION_AUDIT_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/axioms.log"
+          python3 "$task_dir/verify.py" check --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/verification.log"
+      - name: Upload compilation and axiom evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-engine-induction-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mom-engine-induction/
+          if-no-files-found: warn
+          retention-days: 14
