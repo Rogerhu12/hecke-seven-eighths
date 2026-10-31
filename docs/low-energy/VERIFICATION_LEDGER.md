@@ -4,7 +4,7 @@ Prepared at 2026-10-31T11:13:17.782302+00:00 from the completed round 11 native 
 
 **84 of 94 new modules have current source bytes matching successful native Built observations in the recorded 0c47 context. The current repaired full graph and both final targets remain unverified.**
 
-The latest completed actual run is [41194215379](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41194215379), job 124517149642, exact checkout `0c47c707eeb3e05caa1934d3da6cf0f4d6e1ce52`. Its real Lake process exited 1 after 760.616 seconds, without a process timeout. All 94 manifest sources plus `HeckeSkeleton.Principal` were requested.
+The latest completed actual run archived in this ledger is [41194215379](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41194215379), job 124517149642, exact checkout `0c47c707eeb3e05caa1934d3da6cf0f4d6e1ce52`. Its real Lake process exited 1 after 760.616 seconds, without a process timeout. All 94 manifest sources plus `HeckeSkeleton.Principal` were requested.
 
 The native log records 84 distinct task Built events, two failed task modules, and eight task modules without a terminal event. Principal has no completed build event. The 84 built blocks contain 319 printed declaration reports within the standard-three allowlist. Seven built modules print no reports: ActualReflection, ActualSymbolProducts, IdealMajorant, ActualHybridEntry, GaussianTheta, TargetDictionary, and LowFrozenCube.Valuations.
 
@@ -16,12 +16,14 @@ The completed native observations remain unchanged. Current source assessments a
 
 The separate [round 11 native evidence](native_lake_round11.json) contains the original report/preparation records and complete observed compiler blocks. Its [exact 205,075-byte ZIP](evidence/native_lake_round11.zip) preserves the raw build log and cache metadata, SHA-256 `f14065da37fc7ae0b515b34491e73644276af7e215e8e9c6bde75d5b96d70d14`. The [round 9 native bundle](native_lake_round9.json) and [exact archive](evidence/native_lake_round9.zip) are unchanged. All five historical direct-record runs remain unchanged in [aggregate_evidence.json](aggregate_evidence.json); the old 1,794 native-foundation validations remain limited to their recorded old configuration.
 
+The current branch also integrates upstream `e66f7384bc08d1124d1a9a4e7dcc21e4facffab0` through merge checkpoint `7629f9852b725d5f0f93ec47fb39796585bd5c16`. All 94 task source blobs and both energy endpoint signatures are preserved by the clean merge. Base/Theta implementations and the root library configuration have changed, so historical source matches do not validate this merged dependency graph. The original two sieve inputs and implicit fixed Mellin datum remain part of the conditional energy interface.
+
 Python fixtures, cancelled runs, and incomplete local diagnostics are not proof evidence. No restored HeckeSkeleton output may supply a new native build. Both required final endpoint audits remain mandatory.
 
 <!-- pending-source-refresh:ledger:start -->
 ### Current pending-source assessment
 
-The completed batch retains 84/94 Built observations. Current source assessments: 84 matching Built sources, 4 changed sources, 6 source-matching modules without terminal events. Later diagnostics do not create completed successes or verify the current full graph/final targets.
+The completed batch retains 84/94 Built observations. Current source assessments: 84 matching Built sources, 5 changed sources, 5 source-matching modules without terminal events. Later diagnostics do not create completed successes or verify the current full graph/final targets.
 <!-- pending-source-refresh:ledger:end -->
 
 **Pending source update — 2026-10-31T11:31:07.249463+00:00** (run 41196034806; job 124522578454; source_head 2850c225f246ebf9d535ef0bf1031debd8fe360a).
@@ -35,6 +37,18 @@ The completed batch retains 84/94 Built observations. Current source assessments
 > The identical opaque exterior-norm factors in ActualFrozenAggregation's hE and hcard proofs are also replaced with explicit Real.rpow_nonneg arguments. This is a preventive repair of the same proof pattern, not a claimed compiler failure in that module.
 > 
 > Statements, hypotheses, coefficients, cutoffs and constants are unchanged. These repairs still require compilation. The latest archived complete native evidence remains round 11; both final target audits remain unverified.
+
+**Pending source update — 2026-10-31T13:30:16.139166+00:00** (run 41204593530; job 124547337675; source_head 9f5c25feee565ba605034fb6a80ede4b21cd7c4f).
+
+`ActualFrozenAggregation`, `ActualTupleReconstruction`: current hashes updated; repairs await compilation. This note is diagnostic context only, with no completed-run or final-audit claim.
+
+> Round 13 partial diagnostics belong to exact checkout 9f5c25feee565ba605034fb6a80ede4b21cd7c4f, run 41204593530, actual job 124547337675. ActualAnnularBlockEnergy has a fresh Built event (7.9 seconds); this is a partial observation, not a completed batch or final audit result.
+> 
+> ActualFrozenAggregation reported an unavailable tsum_eq_zero identifier (and a no-goals consequence) plus a finite-sum normalization mismatch at the executed source's lines 87, 88 and 207. The zero-row proof now uses a typed pointwise zero identity and tsum_zero. The energy proof explicitly unfolds its local Classes alias before the unchanged product-sum/cardinality normalization.
+> 
+> ActualTupleReconstruction contained two further calls to the same unavailable identifier. Its zero-row proof now directly simplifies the already established coprimality-zero atom and tsum_zero. This is a preventive same-pattern repair, not an observed compiler failure in that module.
+> 
+> Statements, hypotheses, coefficients, cutoffs and constants are unchanged. Both repairs await compilation in the newly integrated e66f7384 dependency context. The latest archived complete native evidence remains round 11; both final energy audits remain unverified.
 
 | Module | Current source SHA-256 | Current source evidence | Round 11 native observation |
 |---|---|---|---|
@@ -123,10 +137,10 @@ The completed batch retains 84/94 Built observations. Current source assessments
 | `HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial` | `bb5e86bb0bee0b24dc02e21993f90c896a32cbb096f4fbd0dfce68feebe3c409` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy` | `66559059e3e32ec55dba8fd635ed3fc1d2f52fabdb39b1751dda0d2054a9a2c8` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy` | `b1dd7b6e8ef6f20165d47d3216f57c4f370817abc3f33ae1f3918eea762a210e` | changed_since_recorded_source | no_terminal_event |
-| `HeckeSkeleton.LowEnergy.ActualFrozenAggregation` | `57460542c3a0905caf2ffacdf7a2789a432c2a6ccc516d1fc6498abbf28a9e1d` | changed_since_recorded_source | no_terminal_event |
+| `HeckeSkeleton.LowEnergy.ActualFrozenAggregation` | `c9d2d736cb4ee3648e3978c78396714e4278278612329f0cbf609231de9b863f` | changed_since_recorded_source | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualFrozenReconstruction` | `5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7` | native_lake_no_terminal_event | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy` | `763cd3d13594e3caead07b43da22c3d0b1e49130f57ee42f3a3e6d1bf0076cdb` | native_lake_no_terminal_event | no_terminal_event |
-| `HeckeSkeleton.LowEnergy.ActualTupleReconstruction` | `9b6936640549aa01a807481159d296da64ef81c95a4a79c5e2d6da89db053f22` | native_lake_no_terminal_event | no_terminal_event |
+| `HeckeSkeleton.LowEnergy.ActualTupleReconstruction` | `6fcc7c6a311047986ab4768c128ce88a6d73d49b8abe0d55fc8735c2ee4d7628` | changed_since_recorded_source | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy` | `001887112b5907e1c7bb94d554053c22acd26a656670b04f9eb7ccb06e2b7901` | native_lake_no_terminal_event | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy` | `71dbbfa8c77ed1adef2041985ce38e9e5b36bcdee74934eae85f39aa0080003a` | native_lake_no_terminal_event | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy` | `8cdabc4e7694086af7fed2fc28be6a1799945229c838e831e9300fa0ca3fba3c` | native_lake_no_terminal_event | no_terminal_event |

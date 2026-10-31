@@ -68,11 +68,8 @@ theorem fixedPhysicalRow_zero_of_not_coprime (f : FixedData K S)
   have hz : (∑' s : FrozenState K S f.frozen f.puncture,
       ∑' cb : ExteriorIdeal K S × ExteriorIdeal K S,
         physicalAtom K S D f s F θ (fun _ => 1) V Y k P cb.1 cb.2) = 0 := by
-    apply tsum_eq_zero
-    intro s
-    apply tsum_eq_zero
-    intro cb
-    simp [physicalAtom, ActualHybridEntry.hybridAtom, hbad]
+    simp only [physicalAtom, ActualHybridEntry.hybridAtom, if_neg hbad,
+      mul_zero, zero_mul, tsum_zero]
   rw [hz, mul_zero]
 
 /-- Reorder the two finite reflection choices, keeping both complete dual

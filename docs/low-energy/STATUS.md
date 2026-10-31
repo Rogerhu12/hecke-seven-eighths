@@ -52,12 +52,16 @@
 失败输出中的编译器占位 `sorryAx` 只保留为失败证据。
 两项最终公理门均为 **`not_started`**；没有最终审计文件或完整构建后的输出清单。
 
-工作分支 `codex/low-reflected-energy-ade19eee` 已合并
-`dtests-handoff` 的 `5f3c782680be2c74365b4d8e5760fc16f1f222c5` 基线。
-本轮 actual 使用固定官方缓存与原生 Lake，构建前检查没有恢复的 `HeckeSkeleton` 输出。
-66 个旧文件的 import 调整已恢复为精确上游版本，
-所有非 import 字节的机械比较记录继续保留；数学证明体未改动。
-后续源码修复不属于本轮实际 checkout 的执行证据范围。
+工作分支 `codex/low-reflected-energy-ade19eee` 已纳入
+`dtests-handoff` 的 `e66f7384bc08d1124d1a9a4e7dcc21e4facffab0` 基线，
+包括 MOM_BASE 与 THETA_GLOBAL 的新构造。合并检查点为
+`7629f9852b725d5f0f93ec47fb39796585bd5c16`，父提交分别是
+原能量 head `9f5c25feee565ba605034fb6a80ede4b21cd7c4f` 与该上游基线。
+干净合并保留全部 94 个任务模块源码；两项能量终点仍保留固定 `F` 和两个原筛输入。
+上游 `Base`、`Theta` 和库配置已变化，因此旧上下文的 Built 观察只说明对应源文件曾编译，
+不能验证当前合并后的完整依赖图。此前 66 个旧文件的 import 恢复记录继续作为历史保存。
+本报告所归档 actual 使用固定官方缓存与原生 Lake，构建前检查没有恢复的 `HeckeSkeleton` 输出。
+后续源码修复与新上游构造不属于该历史 checkout 的执行证据范围。
 
 逐模块状态见 [VERIFICATION_LEDGER.md](VERIFICATION_LEDGER.md)，
 当前源码哈希与完整历史见 [source_manifest.json](source_manifest.json)。
@@ -71,7 +75,7 @@
 <!-- pending-source-refresh:status:start -->
 ### 当前源码待验证分类
 
-已归档批次仍记录 84/94 个 Built 观察；当前源码匹配数为 84/94，已修改待验证 4 个，源码匹配但无终结事件 6 个。后续诊断不增加已完成构建数；当前完整依赖图和最终目标仍未验证。
+已归档批次仍记录 84/94 个 Built 观察；当前源码匹配数为 84/94，已修改待验证 5 个，源码匹配但无终结事件 5 个。后续诊断不增加已完成构建数；当前完整依赖图和最终目标仍未验证。
 <!-- pending-source-refresh:status:end -->
 
 **Pending source update — 2026-10-31T11:31:07.249463+00:00** (run 41196034806; job 124522578454; source_head 2850c225f246ebf9d535ef0bf1031debd8fe360a).
@@ -85,6 +89,18 @@
 > The identical opaque exterior-norm factors in ActualFrozenAggregation's hE and hcard proofs are also replaced with explicit Real.rpow_nonneg arguments. This is a preventive repair of the same proof pattern, not a claimed compiler failure in that module.
 > 
 > Statements, hypotheses, coefficients, cutoffs and constants are unchanged. These repairs still require compilation. The latest archived complete native evidence remains round 11; both final target audits remain unverified.
+
+**Pending source update — 2026-10-31T13:30:16.139166+00:00** (run 41204593530; job 124547337675; source_head 9f5c25feee565ba605034fb6a80ede4b21cd7c4f).
+
+`ActualFrozenAggregation`, `ActualTupleReconstruction`: current hashes updated; repairs await compilation. This note is diagnostic context only, with no completed-run or final-audit claim.
+
+> Round 13 partial diagnostics belong to exact checkout 9f5c25feee565ba605034fb6a80ede4b21cd7c4f, run 41204593530, actual job 124547337675. ActualAnnularBlockEnergy has a fresh Built event (7.9 seconds); this is a partial observation, not a completed batch or final audit result.
+> 
+> ActualFrozenAggregation reported an unavailable tsum_eq_zero identifier (and a no-goals consequence) plus a finite-sum normalization mismatch at the executed source's lines 87, 88 and 207. The zero-row proof now uses a typed pointwise zero identity and tsum_zero. The energy proof explicitly unfolds its local Classes alias before the unchanged product-sum/cardinality normalization.
+> 
+> ActualTupleReconstruction contained two further calls to the same unavailable identifier. Its zero-row proof now directly simplifies the already established coprimality-zero atom and tsum_zero. This is a preventive same-pattern repair, not an observed compiler failure in that module.
+> 
+> Statements, hypotheses, coefficients, cutoffs and constants are unchanged. Both repairs await compilation in the newly integrated e66f7384 dependency context. The latest archived complete native evidence remains round 11; both final energy audits remain unverified.
 
 ## 目标、假设与调用方
 
@@ -110,9 +126,10 @@
 `{F : FiniteMellinData K S}`，可由 `hreflection` 的类型自动推断。
 这是对原数据参数的泛化，能量结论及其窗口和轨道定义不变。
 常数可依赖固定的 `F` 及其反射/核数据；未声称同一个常数对所有 `F` 统一。
-这样条件能量定理不必实例化原 `Theta.lean` 中尚未实现的 `finiteMellinData` 定义。
-原 `principalSource` 仍显式取 `(F := finiteMellinData K c)`；这保留原流程，
-不把上游数据构造的缺口包装为本次已经完成的证明。
+这样条件能量定理独立于特定 `finiteMellinData` 提供者的实现。此前归档快照中的该提供者
+尚未实现；新上游 `Theta.lean` 已给出 `FiniteSkeletonSource.data K c (localHighKMellinInput K c)`
+的构造。原 `principalSource` 仍显式取 `(F := finiteMellinData K c)`，保留原流程。
+合并后的上游构造与完整调用链仍须由真实编译和公理检查确认，不能由源码存在推断已经通过。
 
 固定版本 Lean 的[公理收集器](https://github.com/leanprover/lean4/blob/470d5ce1400764999581fd26d5d72b00d990b0f4/src/Lean/Util/CollectAxioms.lean)
 会递归检查声明类型及证明项；未实现的数据即使只出现在参数类型中，也不能避开公理审计。
@@ -276,8 +293,9 @@ ZIP 未包含的 `ClassFieldTheory`、`FLTReuse`、`TauCetiReuse`、`OAI`、
 本次合并基线及最近完成验证的源码快照列在本报告开头。
 当前修复提交以 PR 中的链接为准。
 
-66 个已有文件恢复为精确上游 imports；所有非 import 字节，包括定义、
-证明体及注释，都由机械比较确认未改动。
+在先前 `5f3c782680be2c74365b4d8e5760fc16f1f222c5` 基线上，66 个已有文件曾恢复为
+精确上游 imports；当时所有非 import 字节，包括定义、证明体及注释，
+由机械比较确认未改动。该结论限于当时的恢复操作；当前接受新基线的相应源码变化。
 完整历史导入调整、比较结果及恢复哈希保留于
 [IMPORT_RESTORATION_20261031.json](IMPORT_RESTORATION_20261031.json)；
 [vendor_import_changes.json](vendor_import_changes.json) 现为空列表，表示没有保留这些旧文件的导入改动。
@@ -285,12 +303,12 @@ ZIP 未包含的 `ClassFieldTheory`、`FLTReuse`、`TauCetiReuse`、`OAI`、
 该恢复是依赖和缓存兼容性修复，不是数学证明改动；
 恢复后的完整构建仍须取得真实结果。
 
-确认的上游缺口是 `HeckeSkeleton/Theta.lean` 中标记为 `TH-KP-DATA` 的
-`finiteMellinData` 仍为 admitted 定义。`finite_valuation_cutoff`、
-`finite_valuation_decay`、`marked_reflected_absolute`、`marked_reflection`
-也保留原 admissions。本任务的条件能量定理取给定反射输入，不调用这些未证提供者；
-全局 `principalSource` 仍依赖它们。最终公理门审计条件目标本身，
-不能据此宣称全局 principal source 已无 admissions。
+较早归档快照中的 `finiteMellinData`、`finite_valuation_cutoff`、
+`finite_valuation_decay`、`marked_reflected_absolute` 和 `marked_reflection`
+包含上游 admissions。当前 `e66f7384` 基线已为这五项提供构造和证明体；
+它们在合并后依赖图中的编译及递归公理状态仍须实际检查。
+本任务的条件能量定理取给定反射输入，保留固定 `F` 的接口。
+两项最终能量公理门只审计条件目标本身，不能据此宣称全局 `principalSource` 已无 admissions。
 
 新增证明文件未加入 `sorry`、`axiom`、`admit` 或 `native_decide`。
 已有 admissions 不能作为本次目标获证的依据；编译错误产生的占位项或

@@ -83,14 +83,11 @@ theorem frozenReflectedRow_zero_of_markWeight (f : FixedData K S)
     (a : Ideal (𝓞 K) → ℂ) (Z : ℝ) (ps : Finset (Ideal (𝓞 K)))
     (k : Ideal (𝓞 K)) (ha : ∀ P ∈ ps, a P = 0) :
     frozenReflectedRow K S D f F θ a Z ps k = 0 := by
-  unfold frozenReflectedRow
-  apply tsum_eq_zero
-  intro s
-  apply tsum_eq_zero
-  intro classes
-  apply tsum_eq_zero
-  intro i
-  exact reducedAnnularDualRow_zero_of_markWeight K S D f s F θ classes a Z ps i k ha
+  have hzero (s : FrozenState K S f.frozen f.puncture)
+      (classes : FourClasses (SixthLocalClasses K S)) (i : GaussianEnergyAssembly.Index) :
+      reducedAnnularDualRow K S D f s F θ classes a Z ps i k = 0 :=
+    reducedAnnularDualRow_zero_of_markWeight K S D f s F θ classes a Z ps i k ha
+  simp only [frozenReflectedRow, hzero, tsum_zero]
 
 theorem actual_reduced_annuli_dual_energy [Finite (SixthLocalClasses K S)]
     (F : FiniteMellinData K S) (hF : FiniteMellinAdmissible K S F)
@@ -204,7 +201,7 @@ theorem actual_frozen_row_energy [Finite (SixthLocalClasses K S)]
     (fun sc _ => (hs sc.1 sc.2).2)
   have hcomb : (∑ k ∈ rows, ‖frozenReflectedRow K S D f F θ a Z ps k‖ ^ 2) ≤
       (Fintype.card States : ℝ) ^ 2 * Q ^ 2 * E := by
-    simpa only [row, frozenReflectedRow, tsum_fintype, one_mul, Fintype.sum_prod_type,
+    simpa only [Classes, row, frozenReflectedRow, tsum_fintype, one_mul, Fintype.sum_prod_type,
       norm_one, Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_one,
       Fintype.card_prod, Nat.cast_mul, mul_pow, Q, E] using hfinite
   have hnorm : (((f.frozen.val * f.puncture.val).val.absNorm : ℝ)) = exteriorNorm K S f.frozen := by
