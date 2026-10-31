@@ -23,6 +23,7 @@ open FixedTripleFibers CanonicalChildren CanonicalNormPools FirstColumnAssembly
   FirstParentRows FirstOuterCenters FirstMobiusGeometry FirstPositiveSource
   FirstCenteredPositiveEnergy FirstCenteredMellinEnergy FirstCommonEnvelope
   FirstParentFiber FirstFreeMellinEnergy FirstBranchIntegration InverseRowMajorant CommonKernel
+  FirstOverlapColumns
 open scoped Classical BigOperators nonZeroDivisors
 
 variable (K : Type) [Field K] [NumberField K]
@@ -149,8 +150,14 @@ theorem rowIntegral_eq (o : OuterIndex K S D T) (e : FirstOuterCenters.Overlap K
     (retainedLabel K S (outerAnchor K S D T o).1 (outerAnchor K S D T o).2
       o.1.val o.2.1.val).val.val
     (sourceRows K S D Γ L (H o).val) (pairWeight K S T.columns o.1.val o.2.1.val w) m
-  simpa only [rowIntegral, rowValue, sourceRows, Finset.sum_product,
-    Finset.mul_sum, Finset.sum_coe_sort] using he.symm
+  unfold rowIntegral
+  rw [← he, sourceRows, Finset.sum_product]
+  apply Finset.sum_congr rfl
+  intro f hf
+  rw [Finset.mul_sum]
+  exact (Finset.sum_coe_sort (FirstDualTruncation.sectorCutoff K S D Γ (H o).val)
+    (fun z => pairWeight K S T.columns o.1.val o.2.1.val w f *
+      rowValue K S D Γ T Θ ψ G hν hG grid W hW m side o e k J f z)).symm
 
 include hΓ in
 theorem centeredEnergy_eq_rows (o : OuterIndex K S D T) (f : Ext)
@@ -179,6 +186,49 @@ theorem centeredEnergy_eq_rows (o : OuterIndex K S D T) (f : Ext)
     ring
   · simp only [FirstOuterCenters.Centering.at, ha, if_false]
 
+private theorem reorder_rows_finset {α ζ κ ε ι' ρ : Type*} [CommSemiring ρ]
+    (L : Finset α) (Zs : Finset ζ) (Is : Finset κ) (Es : Finset ε) (P : Finset ι')
+    (g : α → ζ → κ → ε → ι' → ρ) :
+    (∑ x ∈ L, ∑ z ∈ Zs, ∑ i ∈ Is, ∑ e ∈ Es, ∑ j ∈ P, g x z i e j) =
+      ∑ i ∈ Is, ∑ e ∈ Es, ∑ j ∈ P, ∑ x ∈ L, ∑ z ∈ Zs, g x z i e j := by
+  have h : (∑ x ∈ L ×ˢ Zs, ∑ y ∈ Is ×ˢ (Es ×ˢ P), g x.1 x.2 y.1 y.2.1 y.2.2) =
+      ∑ y ∈ Is ×ˢ (Es ×ˢ P), ∑ x ∈ L ×ˢ Zs, g x.1 x.2 y.1 y.2.1 y.2.2 :=
+    Finset.sum_comm
+  simpa only [Finset.sum_product] using h
+
+private theorem collect_rows_finset {α ζ κ ε ι' ρ : Type*} [CommSemiring ρ]
+    (L : Finset α) (Zs : Finset ζ) (Is : Finset κ) (Es : Finset ε) (P : Finset ι')
+    (assignment : ε → κ) (c : κ → ε → ι' → ρ) (wt : α → ρ)
+    (v : κ → ε → ι' → α → ζ → ρ) :
+    (∑ x ∈ L, wt x * ∑ z ∈ Zs, ∑ i ∈ Is, ∑ e ∈ Es,
+      if assignment e = i then ∑ j ∈ P, c i e j * v i e j x z else 0) =
+      ∑ i ∈ Is, ∑ e ∈ Es, if assignment e = i then
+        ∑ j ∈ P, c i e j * ∑ x ∈ L, wt x * ∑ z ∈ Zs, v i e j x z else 0 := by
+  calc
+    _ = ∑ x ∈ L, ∑ z ∈ Zs, ∑ i ∈ Is, ∑ e ∈ Es, ∑ j ∈ P,
+        if assignment e = i then c i e j * (wt x * v i e j x z) else 0 := by
+      refine Finset.sum_congr rfl fun x _ => ?_
+      rw [Finset.mul_sum]
+      refine Finset.sum_congr rfl fun z _ => ?_
+      rw [Finset.mul_sum]
+      refine Finset.sum_congr rfl fun i _ => ?_
+      rw [Finset.mul_sum]
+      refine Finset.sum_congr rfl fun e _ => ?_
+      by_cases ha : assignment e = i
+      · simp only [ha, if_true, Finset.mul_sum]
+        refine Finset.sum_congr rfl fun j _ => ?_
+        ring
+      · simp only [ha, if_false, mul_zero, Finset.sum_const_zero]
+    _ = ∑ i ∈ Is, ∑ e ∈ Es, ∑ j ∈ P, ∑ x ∈ L, ∑ z ∈ Zs,
+        if assignment e = i then c i e j * (wt x * v i e j x z) else 0 :=
+      reorder_rows_finset L Zs Is Es P _
+    _ = _ := by
+      refine Finset.sum_congr rfl fun i _ => ?_
+      refine Finset.sum_congr rfl fun e _ => ?_
+      by_cases ha : assignment e = i
+      · simp only [ha, if_true, Finset.mul_sum]
+      · simp only [ha, if_false, Finset.sum_const_zero]
+
 include hΓ in
 /-- The complete original label and frequency sums are regrouped under
 the same spectral measure before applying the fiber estimate. -/
@@ -188,38 +238,20 @@ theorem centeredTotal_eq_rowTotal (ε : ℝ) :
   unfold FirstLocalizedEnergy.centeredTotal rowTotal
   apply Finset.sum_congr rfl
   intro o ho
-  congr 1
-  simp_rw [centeredEnergy_eq_rows K S D Γ T Θ ψ G hν hG grid centers W hW m side hΓ]
-  rw [← Finset.sum_coe_sort L]
-  have hc := FirstFiniteAggregation.collect_rows
-    (F := L) (Z := FirstDualTruncation.sectorCutoff K S D Γ (H o).val)
-    (I := ι) (E := FirstOuterCenters.Overlap K S D T o) (J := T.columns.slots.powerset)
-    (fun _ e => centers.assignment side o e)
-    (fun k e J => branchCoefficient K S D T grid centers W hW side o e k J.val)
-    (fun f => pairWeight K S T.columns o.1.val o.2.1.val w f.val)
-    (fun k e J f z => rowValue K S D Γ T Θ ψ G hν hG grid W hW m side o e k J.val f.val z.val)
-  simp only [Finset.sum_coe_sort, Finset.mul_sum] at hc
-  calc
-    _ = ∑ k : ι, ∑ e : FirstOuterCenters.Overlap K S D T o,
-        ∑ J ∈ T.columns.slots.powerset,
-          branchCoefficient K S D T grid centers W hW side o e k J *
-            ∑ f ∈ L, ∑ z : FirstDualTruncation.sectorCutoff K S D Γ (H o).val,
-              if centers.assignment side o e = k then
-                pairWeight K S T.columns o.1.val o.2.1.val w f *
-                  rowValue K S D Γ T Θ ψ G hν hG grid W hW m side o e k J f z.val
-              else 0 := by simpa only [Finset.sum_coe_sort, Finset.mul_sum] using hc
-    _ = _ := by
-      apply Finset.sum_congr rfl
-      intro k hk
-      apply Finset.sum_congr rfl
-      intro e he
-      by_cases ha : centers.assignment side o e = k
-      · simp only [ha, if_true]
-        apply Finset.sum_congr rfl
-        intro J hJ
-        rw [rowIntegral_eq K S D Γ T Θ ψ G hν hG H L w grid W hW m side hΓ]
-        simp only [Finset.mul_sum]
-      · simp only [ha, if_false, Finset.sum_const_zero, mul_zero]
+  refine congrArg ((FirstLocalizedEnergy.maskWeight K S D T o *
+    FirstLocalizedEnergy.radialScale K S D T o ^ ε) * ·) ?_
+  simp_rw [centeredEnergy_eq_rows K S D Γ T Θ ψ G hν hG grid centers W hW m side hΓ,
+    rowIntegral_eq K S D Γ T Θ ψ G hν hG H L w grid W hW m side hΓ]
+  have hc := collect_rows_finset L
+    (Finset.univ : Finset (FirstDualTruncation.sectorCutoff K S D Γ (H o).val))
+    (Finset.univ : Finset ι) (Finset.univ : Finset (FirstOuterCenters.Overlap K S D T o))
+    T.columns.slots.powerset
+    (fun e => centers.assignment side o e)
+    (fun k e J => branchCoefficient K S D T grid centers W hW side o e k J)
+    (fun f => pairWeight K S T.columns o.1.val o.2.1.val w f)
+    (fun k e J f (z : FirstDualTruncation.sectorCutoff K S D Γ (H o).val) =>
+      rowValue K S D Γ T Θ ψ G hν hG grid W hW m side o e k J f z.val)
+  convert hc using 3
 
 variable (hallowed : AllowedGeneratorInput K (S : Set (HeightOneSpectrum (𝓞 K))) D)
 
