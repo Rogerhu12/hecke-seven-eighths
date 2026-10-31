@@ -25,6 +25,7 @@ namespace Expansion.Project
 open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Bridge
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ActualSIntegerMoments
+open HeckeGeneral.Analysis.SquarefreeAmplification
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical
 open HeckeGeneral.ThetaSkeleton.Physical.ActualThetaAbsoluteDraft
@@ -92,7 +93,13 @@ theorem physicalCompletedOrbitWeight_mk (P : ProbeData K Sset) (ψ : HeckeCharac
       probeGauss K Sset P den (-m.val) *
         completedThetaSum K Sset P.arithmetic (thetaPeriod K Sset P ψ) m.val
           (primeSetIdeal K Sset ∅) Q logGaussianProfile Z := by
-  unfold physicalCompletedOrbitWeight completedThetaSum
+  change (∑' cn : CN, physicalCompletedWeight K S P ψ Q Z cn *
+      gaussSymbolOrbitWeight K Sset P den (completedIdeal K Sset cn.1 cn.2)
+        (Quotient.mk _ m : SIntegerOrbits K Sset Γ)) =
+    probeGauss K Sset P den (-m.val) *
+      completedThetaSum K Sset P.arithmetic (thetaPeriod K Sset P ψ) m.val
+        (primeSetIdeal K Sset ∅) Q logGaussianProfile Z
+  unfold completedThetaSum
   simp_rw [gaussSymbolOrbitWeight_mk, completedTerm_eq_physicalCompletedWeight]
   rw [← tsum_mul_left]
   apply tsum_congr
@@ -142,7 +149,8 @@ theorem summable_norm_physicalPrimalProfile (test : AdditiveProbeTest K Sset)
   have h := (hasSum_sIntegerOrbitalProfile_weighted K Sset Γ test.infiniteTest
     (sIntegerFiniteTestFunction K S (finiteExtension K S test)) hc hs ρ (fun _ => 1)
     1 (fun _ => by simp)).summable.norm
-  simpa only [one_mul, ← additiveTest_eq_tensor] using h
+  simp only [one_mul, ← additiveTest_eq_tensor] at h
+  exact h
 
 /-- The two infinite primal indices commute only after the absolute
 product majorant has been established from genuine theta and orbit sums. -/
@@ -212,8 +220,8 @@ theorem probeDenominatorTerm_eq_completedOrbitWeight (P : ProbeData K Sset)
     (Real.sqrt (exteriorNorm K Sset den * X) : ℂ)⁻¹
   change L * (∑' m : N, probeRowTerm K Sset P ψ Q X Z t den m) =
     (L * (Real.sqrt (exteriorNorm K Sset den) : ℂ)⁻¹) * _
-  rw [mul_assoc]
-  congr 1
+  rw [mul_assoc L]
+  apply congrArg (fun value : ℂ => L * value)
   rw [← tsum_mul_left]
   apply tsum_congr
   intro m
@@ -246,7 +254,7 @@ theorem physicalDenominatorIntegral_eq_completedGauss (P : ProbeData K Sset)
   calc
     _ = weightedPhysicalOrbitalSeries K S Γ (additiveTest K Sset P.additive)
         (physicalPrimalRadius K S den X hX) (physicalCompletedOrbitWeight K S P ψ Q Z den) := by
-      rw [weightedPhysicalOrbitalSeries, he]
+      refine Eq.trans ?_ he.symm
       apply integral_congr_ae
       exact Filter.Eventually.of_forall (fun t => tsum_congr (fun m => by
         rw [physicalPrimalSchwartzTerm]))

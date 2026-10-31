@@ -158,6 +158,7 @@ variable (μ : (p : S) → Measure (p.val.adicCompletion K))
 variable [∀ p : S, (μ p).IsAddHaarMeasure]
 variable (windowCharacters : Finset (HeckeCharacter K))
 
+include hB0 hB he in
 theorem physicalRecipeChoice_cap (c : PhysicalRecipeChoice K S B e) :
     (2 * c.1.center - 1) / 2 ≤ 1 / 2 := by
   have ha := (rowBufferIndex_center_range hB0 he c.1).2.trans hB
@@ -268,7 +269,7 @@ theorem exists_physical_recipe_parameters
   let value := physicalRecipeBlockValue K S P E ω ψ hψ hB0 hB he₁ hbound
     μ g windowCharacters ζ Z (Z ^ τ) j c
   have hd := actualShell_range hZone j
-  have hdUpper : d ≤ 13 / 16 + lam := hd.2.le.trans (add_le_add_left hζ _)
+  have hdUpper : d ≤ 13 / 16 + lam := hd.2.le.trans (by linarith)
   have hdOne : d ≤ 1 := by linarith
   have ha := rowBufferIndex_center_range hB0 he₁ c.1
   have hrows (u : FrequencyRow K S) (hu : u ∈ rows) :=

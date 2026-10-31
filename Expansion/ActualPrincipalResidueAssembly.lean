@@ -147,8 +147,9 @@ theorem continuous_actualPrincipal_core_heights [IsTotallyComplex K]
       simp [z, vertical] at hr
       apply hzPole
       linarith
-    exact (actual_deletedZeta_analyticAt K Sset _ hne).continuousAt.comp
+    have hline : ContinuousAt (fun q : ℝ × ℝ × ℝ => (6 : ℂ) * z q) p :=
       (continuous_const.mul hzc).continuousAt
+    exact (actual_deletedZeta_analyticAt K Sset _ hne).continuousAt.comp_of_eq hline rfl
   have hM : Continuous (fun p => additiveMellin K Sset muS P.additive (z p)) := by
     apply continuous_iff_continuousAt.mpr
     intro p
@@ -163,9 +164,10 @@ theorem continuous_actualPrincipal_core_heights [IsTotallyComplex K]
   have hzc0 : (Z : ℂ) ≠ 0 := Complex.ofReal_ne_zero.mpr hZ.ne'
   have hxp : Continuous (fun p => ((Z ^ (17 / 48 : ℝ) : ℝ) : ℂ) ^ (1 / 2 - z p)) :=
     (continuous_const.sub hzc).const_cpow (Or.inl hx)
-  have hzp := ((hs.add hzc).sub_const 1).const_cpow (Or.inl hzc0)
-  have hyp := (hwc.sub_const 1).const_cpow (Or.inl hy)
-  have hg := (((hs.add hzc).sub_const 1).pow 2).cexp
+  have hzp := ((hs.add hzc).sub (continuous_const (y := (1 : ℂ)))).const_cpow
+    (Or.inl hzc0)
+  have hyp := (hwc.sub (continuous_const (y := (1 : ℂ)))).const_cpow (Or.inl hy)
+  have hg := (((hs.add hzc).sub (continuous_const (y := (1 : ℂ)))).pow 2).cexp
   have hcorr := continuous_actual_fullCorrection_comp K S P psi g ∅
     (physicalPrincipalRow K Sset) Z s w z hs hwc hzc (by
       intro p
@@ -216,8 +218,8 @@ private theorem continuous_actualPrincipal_double_residue
       · simp [s, vertical]; linarith
       · norm_num
       · norm_num)
-  have hg := (((hs.add_const (1 / 6 : ℂ)).sub_const 1).pow 2).cexp
-  have hp := ((hs.add_const (1 / 6 : ℂ)).sub_const 1).const_cpow
+  have hg := (((hs.add_const (1 / 6 : ℂ)).sub (continuous_const (y := (1 : ℂ)))).pow 2).cexp
+  have hp := ((hs.add_const (1 / 6 : ℂ)).sub (continuous_const (y := (1 : ℂ)))).const_cpow
     (Or.inl (Complex.ofReal_ne_zero.mpr hZ.ne'))
   unfold actualPrincipalZRegularPart
   simp only [div_eq_mul_inv]

@@ -84,7 +84,7 @@ theorem actual_E_eq_ratio (P : ProbeData K S) (ψ : HeckeCharacter K)
   have hq : (p.val.asIdeal.absNorm : ℂ) ≠ 0 := by
     exact_mod_cast (Nat.ne_of_gt (lt_trans Nat.zero_lt_one (one_lt_primeIdeal_absNorm K p.val)))
   have he : (4 : ℂ) - 6 * s = 4 + (6 : ℕ) * (-s) := by push_cast; ring
-  rw [he, Complex.cpow_add _ _ hq, Complex.cpow_natCast, Complex.cpow_nat_mul]
+  rw [he, Complex.cpow_add _ _ hq, Complex.cpow_ofNat _ 4, Complex.cpow_nat_mul]
   unfold rowE ratio
   ring
 
@@ -148,7 +148,8 @@ theorem actual_finiteTable_eq_ramifiedTable (P : ProbeData K S) (ψ : HeckeChara
     intro h
     have h' : (p.val.asIdeal.absNorm : ℂ) ^ (-6 * z) = 1 := by
       simpa only [coordV, Complex.ofReal_natCast] using (sub_eq_zero.mp h).symm
-    simpa [h'] using hn
+    rw [h', norm_one] at hn
+    exact (lt_irrefl (1 : ℝ)) hn
   have hR : 1 - coordR (rowPhaseData K S P ψ u p)
       (p.val.asIdeal.absNorm : ℝ) s z ≠ 0 := by
     have hn := actual_ratio_norm_lt_one K S P ψ u p hs hz
@@ -198,6 +199,7 @@ theorem actualValuationSeries_eq_localEuler (P : ProbeData K S) (ψ : HeckeChara
   change (if p ∈ Q then 0 else 1 / (1 - V) +
     (if j = 0 then (ρ * Y) / (1 - ρ * Y) else 0)) + markedSeries q θ G ρ X Y V j = _
   have hq : q ≠ 0 := by
+    change (p.val.asIdeal.absNorm : ℂ) ≠ 0
     exact_mod_cast (Nat.ne_of_gt (lt_trans Nat.zero_lt_one (one_lt_primeIdeal_absNorm K p.val)))
   have hq1 : 1 < (p.val.asIdeal.absNorm : ℝ) := by
     have h := exteriorPrime_norm_two_le K S p

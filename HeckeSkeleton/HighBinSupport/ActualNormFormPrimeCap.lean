@@ -468,7 +468,7 @@ theorem exists_actual_compensation_main_cap
         Complex.mul_re, Complex.mul_im, hz]
   have hexp : -(4 / 25 : ℝ) + a - 1 / 2 + 8 * e = a - 33 / 50 + 8 * e := by ring
   rw [hzexpr]
-  simpa only [hexp] using h
+  simpa only [hexp, Complex.ofReal_neg] using h
 
 end HighBinVerified.NormFormPrimeCap
 

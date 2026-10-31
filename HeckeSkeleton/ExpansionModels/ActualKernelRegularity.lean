@@ -59,8 +59,10 @@ theorem continuous_actual_fullCorrection_comp
       (exteriorNorm K Sset (subsetPrimeIdeal K Sset p (Finset.univ \ J)) : ℂ) ≠ 0 :=
     Complex.ofReal_ne_zero.mpr
       (idealNorm_pos K (subsetPrimeIdeal K Sset p (Finset.univ \ J)).val).ne'
-  have hspow := ((hz.sub hw).sub_const 1).const_cpow (Or.inl hsel)
-  have hmpow := ((hs.add hz).sub_const 1).const_cpow (Or.inl hmark)
+  have hspow := ((hz.sub hw).sub (continuous_const (y := (1 : ℂ)))).const_cpow
+    (Or.inl hsel)
+  have hmpow := ((hs.add hz).sub (continuous_const (y := (1 : ℂ)))).const_cpow
+    (Or.inl hmark)
   have hcor := (rowCorrection_continuousOn_rowEulerRegion K Sset P psi
     ((Finset.univ \ J).image p) u).comp_continuous
       (hs.prodMk (hw.prodMk hz)) hregion
@@ -136,9 +138,11 @@ theorem continuous_actual_rowVerticalKernel_absolute [IsTotallyComplex K]
   have hxPower : Continuous (fun t =>
       ((Z ^ (17 / 48 : ℝ) : ℝ) : ℂ) ^ (1 / 2 - z t)) :=
     (continuous_const.sub hz).const_cpow (Or.inl hX)
-  have hzPower := ((hs.add hz).sub_const 1).const_cpow (Or.inl hZc)
-  have hyPower := (hw.sub_const 1).const_cpow (Or.inl hY)
-  have hexp := Complex.continuous_exp.comp (((hs.add hz).sub_const 1).pow 2)
+  have hzPower := ((hs.add hz).sub (continuous_const (y := (1 : ℂ)))).const_cpow
+    (Or.inl hZc)
+  have hyPower := (hw.sub (continuous_const (y := (1 : ℂ)))).const_cpow (Or.inl hY)
+  have hexp := Complex.continuous_exp.comp
+    (((hs.add hz).sub (continuous_const (y := (1 : ℂ)))).pow 2)
   have hLz := continuous_deletedContinuation_comp_right K 1 (exceptionalPrimes K Sset)
     (fun t => 6 * z t) (continuous_const.mul hz) (fun t => by
       simp only [Complex.mul_re, Complex.re_ofNat, Complex.im_ofNat, zero_mul, sub_zero, hzre]
@@ -172,6 +176,7 @@ theorem integrableOn_actual_rowVerticalKernel_absolute_box [IsTotallyComplex K]
       (rowRetainedHeightBox H) rowHeightVolume := by
   have hc := continuous_actual_rowVerticalKernel_absolute K S mu nu P psi g T u Z hZ
     sLine wLine zLine hsLine hwLine hzLine
+  unfold rowHeightVolume
   exact hc.continuousOn.integrableOn_compact (isCompact_Icc.prod (isCompact_Icc.prod isCompact_Icc))
 
 /-- All three original sequential integrals are integrable on every finite
