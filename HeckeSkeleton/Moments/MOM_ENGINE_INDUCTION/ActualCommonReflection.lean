@@ -112,8 +112,8 @@ theorem pairedEnergy_reflection_commonKernel
       2 * rowRestorationEnergy true S (Node.ordinary d a) extra V
         (if first then d.plainTest₂ else d.plainTest₁) δ U
         (if first then a.n₁ else a.n₂) (if first then a.n₂ else a.n₁) cutoff +
-      ∫ x, ((Node.ordinary d a).fixedLineReflectionChild first U E0 hE0 childOrder x).
-        normalizedEnergy U 0 ∂reflectionCommonKernel volume weight cutoff := by
+      ∫ x, ((Node.ordinary d a).fixedLineReflectionChild first U E0 hE0 childOrder x).normalizedEnergy
+        U 0 ∂reflectionCommonKernel volume weight cutoff := by
   have hU0 : 0 < U := zero_lt_one.trans hU
   let rows := pairedRows d a U
   let selected := actualReflectionSelectedLine d a first U
@@ -214,8 +214,8 @@ theorem pairedEnergy_reflection_commonKernel
   have hnormalized := div_le_div_of_nonneg_right hmain
     (Real.rpow_pos_of_pos hU0 (a.m + a.q)).le
   have hnormalizedValue (x : (ℕ × Bool) × ℝ) :
-      ((Node.ordinary d a).fixedLineReflectionChild first U E0 hE0 childOrder x).
-          normalizedEnergy U 0 = value x / U ^ (a.m + a.q) := rfl
+      ((Node.ordinary d a).fixedLineReflectionChild first U E0 hE0 childOrder x).normalizedEnergy
+          U 0 = value x / U ^ (a.m + a.q) := rfl
   simp_rw [hnormalizedValue]
   rw [integral_div]
   simpa only [Node.normalizedEnergy, Node.ordinary_energy, Node.width, Node.ordinary,

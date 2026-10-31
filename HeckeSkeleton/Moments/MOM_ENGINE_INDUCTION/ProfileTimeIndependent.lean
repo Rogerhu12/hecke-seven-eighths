@@ -81,7 +81,7 @@ private theorem idealTest_freeze_zero_eq (W : IdealTest K)
 private theorem primeWindow_freeze_zero_eq (W : PrimeWindow K)
     (h : ∀ t, W.profile t = W.profile 0) (time : ℝ) :
     W.freezeTwist time 0 = W := by
-  apply primeWindow_eq_of_length_profile _ _ rfl
+  apply primeWindow_eq_of_length_profile (W.freezeTwist time 0) W rfl
   funext t y
   change W.profile time y * profilePower 0 y = W.profile t y
   rw [profilePower_zero, mul_one, h time, h t]
@@ -177,7 +177,11 @@ theorem freezeMomentTime_eq (h : ProfileTimeIndependent d) (time : ℝ) :
   have hs : (fun j => (d.geometry.slots j).freezeTwist time 0) = d.geometry.slots :=
     funext (fun j => primeWindow_freeze_zero_eq (d.geometry.slots j) (h.prime j) time)
   simp only [freezeMomentTime, MomentData.separatedProfiles, SlotGeometry.freezeTwists,
-    hi, h₁, h₂, hs]
+    hi, h₁, h₂]
+  exact congrArg
+    (fun slots : Fin d.geometry.slotCount → PrimeWindow K =>
+      ({ d with geometry := { slotCount := d.geometry.slotCount, slots := slots } } :
+        MomentData K ω ψ)) hs
 
 /-- Equality of every profile used by source/base/budget seminorms.
 No uniformity in the original, unabsorbed time family is postulated. -/

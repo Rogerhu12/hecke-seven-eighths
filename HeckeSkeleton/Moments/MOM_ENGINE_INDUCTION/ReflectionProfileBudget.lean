@@ -88,7 +88,9 @@ theorem exists_normalizedOrdinaryPowerChild_budget_control (J : ℕ) (A : ℝ) :
     | prime j => exact raise (modelProfileControl_prime hparent j)
   exact normalizedMomentProfiles_unit_control hc
     (zero_lt_one.trans_le (one_le_ordinaryProfileEnvelope hPE J frequency))
-      (by simp only [ordinaryProfileEnvelope, Real.rpow_natCast])
+      (by
+        simpa only [ordinaryProfileEnvelope, Real.rpow_natCast] using
+          (le_refl (P * E0 * (1 + |frequency|) ^ J)))
 
 variable (K)
 

@@ -48,7 +48,7 @@ theorem reflectionBranches_card (cutoff : ℕ) :
 
 theorem mem_reflectionBranches (cutoff : ℕ) (b : ℕ × Bool) :
     b ∈ reflectionBranches cutoff ↔ b.1 ≤ cutoff := by
-  simp only [reflectionBranches, Finset.mem_product, Finset.mem_range,
+  simp only [reflectionBranches, Finset.product_eq_sprod, Finset.mem_product, Finset.mem_range,
     Finset.mem_univ, and_true, Nat.lt_succ_iff]
 
 /-- The row-dependent choice occurs only in the scalar coefficient. -/
@@ -63,7 +63,7 @@ theorem fixedLineCoefficient_bound (selected : Bool) (coefficient : Bool → Ω 
     ‖fixedLineCoefficient selected coefficient line ξ‖ ≤ weight ξ := by
   by_cases h : line = selected
   · subst line
-    simpa only [fixedLineCoefficient, if_pos rfl] using hc ξ
+    simpa [fixedLineCoefficient] using hc ξ
   · simpa only [fixedLineCoefficient, if_neg h, norm_zero] using hw ξ
 
 theorem fixedLineCoefficient_integrable (μ : Measure Ω)
@@ -73,9 +73,9 @@ theorem fixedLineCoefficient_integrable (μ : Measure Ω)
     Integrable (fun ξ => fixedLineCoefficient selected coefficient line ξ * f line ξ) μ := by
   by_cases h : line = selected
   · subst line
-    simpa only [fixedLineCoefficient, if_pos rfl] using hi
+    simpa [fixedLineCoefficient] using hi
   · simpa only [fixedLineCoefficient, if_neg h, zero_mul] using
-      (integrable_zero : Integrable (fun _ : Ω => (0 : ℂ)) μ)
+      (integrable_zero Ω ℂ μ)
 
 /-- Sum over both fixed lines recovers the selected original integral
 exactly, including the case of a line chosen separately for each row. -/
@@ -84,7 +84,7 @@ theorem fixedLineCoefficient_integral_sum (μ : Measure Ω)
     (∑ line : Bool, ∫ ξ, fixedLineCoefficient selected coefficient line ξ * f line ξ ∂μ) =
       ∫ ξ, coefficient selected ξ * f selected ξ ∂μ := by
   rw [Finset.sum_eq_single selected]
-  · simp only [fixedLineCoefficient, if_pos rfl]
+  · simp [fixedLineCoefficient]
   · intro line _hline hline
     simp only [fixedLineCoefficient, if_neg hline, zero_mul, integral_zero]
   · simp
@@ -95,7 +95,7 @@ theorem reflectionBranches_integral_sum (μ : Measure Ω) (cutoff : ℕ)
       ∫ ξ, fixedLineCoefficient (selected b.1) (coefficient b.1) b.2 ξ * f b.1 b.2 ξ ∂μ) =
       ∑ j ∈ Finset.range (cutoff + 1),
         ∫ ξ, coefficient j (selected j) ξ * f j (selected j) ξ ∂μ := by
-  rw [reflectionBranches, Finset.sum_product]
+  rw [reflectionBranches, Finset.product_eq_sprod, Finset.sum_product]
   apply Finset.sum_congr rfl
   intro j _hj
   exact fixedLineCoefficient_integral_sum μ (selected j) (coefficient j) (f j)
@@ -171,7 +171,8 @@ theorem reflectionCommonKernel_mass (μ : Measure Ω) (weight : Ω → ℝ) (cut
     fun b => finiteRowBranchKernel_finite (reflectionBranches cutoff)
       (fun _ => μ) (fun _ => weight) b hw hi
   rw [reflectionCommonKernel, finiteBranchMeasure_mass]
-  simp_rw [finiteRowBranchKernel_mass _ _ _ _ hm hw]
+  simp_rw [finiteRowBranchKernel_mass (reflectionBranches cutoff)
+    (fun _ => μ) (fun _ => weight) _ hm hw]
   simp [reflectionBranches_card, pow_two]
   <;> ring
 
@@ -202,7 +203,8 @@ theorem ae_reflectionCommonKernel (μ : Measure Ω) (weight : Ω → ℝ)
     ∀ᵐ x ∂reflectionCommonKernel μ weight cutoff, p x := by
   apply ae_finiteBranchMeasure
   intro b hb
-  exact Measure.ae_smul_measure (hp b hb)
+  exact Measure.ae_smul_measure
+    (c := (2 * ((reflectionBranches cutoff).card : ℝ≥0))) (hp b hb)
 
 end CommonKernel
 

@@ -62,8 +62,8 @@ private theorem coefficient_sum_bound
     exact mul_le_mul_of_nonneg_left (hF D hD H) (norm_nonneg _)
   have hs (D : Finset (Ideal (𝓞 K))) (hD : D ∈ S.powerset) :
       Summable (fun H : SmoothIdeal S => ‖coefficient a ai S D H * F D H‖) :=
-    ((coefficient_summable_norm ha hai S hS D (Finset.mem_powerset.mp hD)).mul_right B).
-      of_nonneg_of_le (fun _ => norm_nonneg _) (hpoint D hD)
+    ((coefficient_summable_norm ha hai S hS D (Finset.mem_powerset.mp hD)).mul_right B).of_nonneg_of_le
+      (fun _ => norm_nonneg _) (hpoint D hD)
   refine ⟨hs, (norm_sum_le _ _).trans ?_⟩
   calc
     _ ≤ ∑ D ∈ S.powerset, (∑' H : SmoothIdeal S, ‖coefficient a ai S D H‖) * B := by
@@ -71,8 +71,8 @@ private theorem coefficient_sum_bound
       intro D hD
       apply (norm_tsum_le_tsum_norm (hs D hD)).trans
       exact ((hs D hD).tsum_le_tsum (hpoint D hD)
-        ((coefficient_summable_norm ha hai S hS D (Finset.mem_powerset.mp hD)).mul_right B)).
-          trans_eq (by rw [tsum_mul_right])
+        ((coefficient_summable_norm ha hai S hS D (Finset.mem_powerset.mp hD)).mul_right B)).trans_eq
+          (by rw [tsum_mul_right])
     _ = _ := (Finset.sum_mul _ _ _).symm
 
 /-- A common tail estimate for the true restoration expansion.  The

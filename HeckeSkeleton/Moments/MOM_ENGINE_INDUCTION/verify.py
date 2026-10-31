@@ -99,6 +99,15 @@ MODULES = (
     'AnnularSchwartzControl',
     'RecipeReflectionFamily',
     'SchwartzEulerControl',
+    'AnnularMellinSeparation',
+    'PlainMellinProfiles',
+    'CenteredMellinKernel',
+    'AnnularMellinWindowControl',
+    'MellinProfileNormalization',
+    'MellinSeparationMass',
+    'MellinPreprocessing',
+    'RankedAnnulus',
+    'RankedAnnulusPrimitive',
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.
@@ -243,6 +252,11 @@ REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.annularHeckeSum_reflection",
     "HeckeSkeleton.Moments.EngineInduction.ordinaryGammaRatio_strip_bound",
     "HeckeSkeleton.Moments.EngineInduction.ordinaryReflectedProfile_decay_seminorm",
+    'HeckeSkeleton.Moments.EngineInduction.exists_centeredMellin_preprocessing',
+    'HeckeSkeleton.Moments.EngineInduction.Node.mellinPlain_row_identity',
+    'HeckeSkeleton.Moments.EngineInduction.Node.energy_le_normalizedMellinPlain_kernel',
+    'HeckeSkeleton.Moments.EngineInduction.mellinPairEnvelope_kernel_mass',
+    'HeckeSkeleton.Moments.EngineInduction.rankedAnnulus_child_enlargement_subset',
 }
 
 

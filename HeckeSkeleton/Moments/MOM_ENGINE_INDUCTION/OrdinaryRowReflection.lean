@@ -161,8 +161,8 @@ theorem deletedHeckePlainPoly_commonFrequency
   have hsP (j : ℕ) (D : Finset (Ideal (𝓞 K))) (hD : D ∈ S.powerset) :
       Summable (fun H : SmoothIdeal S => coefficient a ai S D H * P j D H) := by
     apply Summable.of_norm
-    apply ((coefficient_summable_norm ha hai S hS D (Finset.mem_powerset.mp hD)).mul_right B).
-      of_nonneg_of_le (fun _ => norm_nonneg _) (fun H => ?_)
+    apply ((coefficient_summable_norm ha hai S hS D (Finset.mem_powerset.mp hD)).mul_right B).of_nonneg_of_le
+      (fun _ => norm_nonneg _) (fun H => ?_)
     rw [norm_mul]
     exact mul_le_mul_of_nonneg_left (hpieceBound j D hD H) (norm_nonneg _)
   obtain ⟨Lt, Ct, hCt, ht⟩ := ordinaryRestorationRemainder_bound K hcomplex χ hδ

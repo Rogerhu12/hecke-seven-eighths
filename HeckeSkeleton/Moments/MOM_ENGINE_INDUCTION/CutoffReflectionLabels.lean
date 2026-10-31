@@ -104,10 +104,10 @@ theorem cutoffReflectionChild_energy_ae
       UniversalNodeInvariant primitive W padding cap
         (parent.down.val.fixedLineReflectionChild first U E0 hE0 childOrder x))
     (weight : ℝ → ℝ) :
-    (fun x => (cutoffReflectionChild parent first U E0 hE0 childOrder cutoff hvalid x).
-      down.val.normalizedEnergy U 0) =ᵐ[reflectionCommonKernel volume weight cutoff]
-      (fun x => (parent.down.val.fixedLineReflectionChild first U E0 hE0 childOrder x).
-        normalizedEnergy U 0) := by
+    (fun x => (cutoffReflectionChild parent first U E0 hE0 childOrder cutoff hvalid x).down.val.normalizedEnergy
+      U 0) =ᵐ[reflectionCommonKernel volume weight cutoff]
+      (fun x => (parent.down.val.fixedLineReflectionChild first U E0 hE0 childOrder x).normalizedEnergy
+        U 0) := by
   filter_upwards [cutoffReflectionChild_ae parent first U E0 hE0 childOrder cutoff
     hvalid weight] with x hx
   exact congrArg (fun n : Node K ω ψ => n.normalizedEnergy U 0) hx
@@ -120,8 +120,8 @@ theorem cutoffReflectionChild_integrable
         (parent.down.val.fixedLineReflectionChild first U E0 hE0 childOrder x))
     (weight : ℝ → ℝ) (hw : ∀ t, 0 ≤ weight t) (hi : Integrable weight) :
     Integrable (fun x =>
-      (cutoffReflectionChild parent first U E0 hE0 childOrder cutoff hvalid x).
-        down.val.normalizedEnergy U 0) (reflectionCommonKernel volume weight cutoff) :=
+      (cutoffReflectionChild parent first U E0 hE0 childOrder cutoff hvalid x).down.val.normalizedEnergy
+        U 0) (reflectionCommonKernel volume weight cutoff) :=
   (parent.down.val.fixedLineReflectionChild_integrable first U E0 hU hE0 childOrder
     cutoff weight hw hi).congr
     (cutoffReflectionChild_energy_ae parent first U E0 hE0 childOrder cutoff hvalid weight).symm
@@ -133,10 +133,10 @@ theorem cutoffReflectionChild_integral
       UniversalNodeInvariant primitive W padding cap
         (parent.down.val.fixedLineReflectionChild first U E0 hE0 childOrder x))
     (weight : ℝ → ℝ) :
-    (∫ x, (cutoffReflectionChild parent first U E0 hE0 childOrder cutoff hvalid x).
-      down.val.normalizedEnergy U 0 ∂reflectionCommonKernel volume weight cutoff) =
-      ∫ x, (parent.down.val.fixedLineReflectionChild first U E0 hE0 childOrder x).
-        normalizedEnergy U 0 ∂reflectionCommonKernel volume weight cutoff :=
+    (∫ x, (cutoffReflectionChild parent first U E0 hE0 childOrder cutoff hvalid x).down.val.normalizedEnergy
+      U 0 ∂reflectionCommonKernel volume weight cutoff) =
+      ∫ x, (parent.down.val.fixedLineReflectionChild first U E0 hE0 childOrder x).normalizedEnergy
+        U 0 ∂reflectionCommonKernel volume weight cutoff :=
   integral_congr_ae
     (cutoffReflectionChild_energy_ae parent first U E0 hE0 childOrder cutoff hvalid weight)
 
@@ -293,8 +293,8 @@ theorem cutoffReflectionChild_estimate
         heckeNormTwist K t)
     (hprofile : ∀ u ∈ pairedRows parent.down.val.data parent.down.val.parameters U,
       (V u).toFun =
-        (if first then parent.down.val.data.plainTest₁ else parent.down.val.data.plainTest₂).
-          profile u 0)
+        (if first then parent.down.val.data.plainTest₁ else parent.down.val.data.plainTest₂).profile
+          u 0)
     (hscale : ∀ u ∈ pairedRows parent.down.val.data parent.down.val.parameters U,
       ∀ D ∈ (rowRestorationDeletion S parent.down.val.data extra u).powerset,
       ∀ H : SmoothIdeal (rowRestorationDeletion S parent.down.val.data extra u),
@@ -316,8 +316,8 @@ theorem cutoffReflectionChild_estimate
         (if first then parent.down.val.data.plainTest₂ else parent.down.val.data.plainTest₁) δ U
         (if first then parent.down.val.parameters.n₁ else parent.down.val.parameters.n₂)
         (if first then parent.down.val.parameters.n₂ else parent.down.val.parameters.n₁) cutoff +
-      ∫ x, (cutoffReflectionChild parent first U E0 hE0 childOrder cutoff hvalid x).
-        down.val.normalizedEnergy U 0 ∂reflectionCommonKernel volume weight cutoff := by
+      ∫ x, (cutoffReflectionChild parent first U E0 hE0 childOrder cutoff hvalid x).down.val.normalizedEnergy
+        U 0 ∂reflectionCommonKernel volume weight cutoff := by
   have he := pairedEnergy_reflection_commonKernel hcomplex S parent.down.val.data
     parent.down.val.parameters first extra V hδ hδsmall hU hE0 hYmax childOrder cutoff
     hmask hcharacter hprofile hscale weight hm hw hi hdensity
@@ -500,8 +500,8 @@ def wholeReflectionCoreData
         heckeNormTwist K t)
     (hprofile : ∀ u ∈ pairedRows parent.down.val.data parent.down.val.parameters U,
       (V u).toFun =
-        (if first then parent.down.val.data.plainTest₁ else parent.down.val.data.plainTest₂).
-          profile u 0) :
+        (if first then parent.down.val.data.plainTest₁ else parent.down.val.data.plainTest₂).profile
+          u 0) :
     CoreReflectionData (Ω := (ℕ × Bool) × ℝ)
       (universalPolynomialSystem.{u} primitive σ W padding cap hσ) parent U 0 padding := by
   refine {
