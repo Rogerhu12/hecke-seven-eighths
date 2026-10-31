@@ -1,0 +1,23 @@
+{
+  "purpose": "Narrow broad imports and add explicit providers required by the actual exterior-ideal dependency closure; all existing declaration bodies remain byte-for-byte unchanged.",
+  "lean": "4.35.0-rc3",
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+  "files": [
+    {
+      "path": "DedekindZetaZeroFree/LargeSieve/CharacterBounds/AllIdealTransfer.lean",
+      "before": [
+        "public import DedekindZetaZeroFree.ZeroDetection.Conductors.Poisson.DenominatorExistence"
+      ],
+      "after": [
+        "public import DedekindZetaZeroFree.LargeSieve.CharacterBounds.ExteriorDyadicConductorBounds",
+        "public import DedekindZetaZeroFree.Nonvanishing.Mellin.InitialFrequencyDecomposition",
+        "public import DedekindZetaZeroFree.Adeles.Quotients.SixthPowerCompactCover",
+        "public import DedekindZetaZeroFree.Arithmetic.RayClasses.Conductors.PrimitiveCharacterCofiniteRigidity"
+      ],
+      "body_after_imports_sha256": "3baad3fef4af28117d067a98388460a2ae64744f1be900de37745eb12381385f",
+      "body_after_imports_unchanged": true
+    }
+  ],
+  "upstream_base_commit": "5e4c85f172c101fd0c201219c13aa28f8b520d42",
+  "local_snapshot_commit": "f0438a4cdf607cb3a0ccbd9a4089cb4fa66fb6ed"
+}
