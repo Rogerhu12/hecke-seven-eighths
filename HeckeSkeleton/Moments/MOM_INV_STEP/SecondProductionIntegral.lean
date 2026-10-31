@@ -156,7 +156,9 @@ theorem branchAt_eq (b : Bin) (i : Idx) (τ : ℝ) :
         cauchyMass K S T J₁ s) *
       ∑ J₂ ∈ (T.columns.slots \ J₁).powerset,
         ‖secondMark K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ J₂ i‖ ^ 2 *
-          columnEnergyAt K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ b J₂ i τ := rfl
+          columnEnergyAt K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ b J₂ i τ := by
+  cases Subsingleton.elim ‹DecidableEq σ› (Classical.typeDecidableEq σ)
+  rfl
 
 def nodeIntegral (m : ℕ) (side : Bool) (b : Bin) (i : Idx) : ℝ :=
   ∫ ξ : LogPlane, FirstCommonEnvelope.frequencyEnvelope m ξ *

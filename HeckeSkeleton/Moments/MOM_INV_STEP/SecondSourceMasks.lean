@@ -149,10 +149,10 @@ theorem sum_masks_frequencies_by_common {κ : Type*}
       intro z₁ hz₁
       apply Finset.sum_congr rfl
       intro z₂ hz₂
-      by_cases hc : IsCoprime g.val.val z₁.val.val ∧ IsCoprime g.val.val z₂.val.val ∧
-          IsCoprime z₁.val.val z₂.val.val
-      · simp only [compatible, if_pos hc]
-      · simp only [compatible, if_neg hc]
+      exact congrArg (fun decision : Decidable (compatible K Sset g z₁ z₂) =>
+        @ite ℂ (compatible K Sset g z₁ z₂) decision
+          (F (exteriorMul K Sset g z₁) (exteriorMul K Sset g z₂) δ k) 0)
+        (Subsingleton.elim _ _)
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceMasks
 

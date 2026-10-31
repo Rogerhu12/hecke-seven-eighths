@@ -76,8 +76,8 @@ theorem domain_height_window (X : {r : ℝ // 0 < r})
     (fun n hn => dyadicPool_squarefree K Sset hn) r₁ r₂ b₁ b₂ side U hU
   obtain ⟨hsf, hlo, hhi⟩ := (mem_dyadicPool K Sset X.val n).mp hn
   have hE : 0 < ((extractedFactor K S r₁ r₂ b₁ b₂ side).val.val.absNorm : ℝ) := by
-    exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors
-      (extractedFactor K S r₁ r₂ b₁ b₂ side).val
+    exact_mod_cast (Ideal.absNorm_pos_of_nonZeroDivisors
+      (extractedFactor K S r₁ r₂ b₁ b₂ side).val)
   have hnorm : height K Sset n =
       ((extractedFactor K S r₁ r₂ b₁ b₂ side).val.val.absNorm : ℝ) *
         ((IdealMobiusMask.primeProduct U).absNorm : ℝ) := by

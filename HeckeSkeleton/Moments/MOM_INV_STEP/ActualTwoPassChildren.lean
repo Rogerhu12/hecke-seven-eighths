@@ -67,6 +67,7 @@ theorem background_cycle (G : HeckeCharacter K) (hG : G ∈ Θ)
         G hG J₂ U₂ t) (CanonicalSectors.sectorUnit K Sset Γ) γ f y =
       column K Sset D (family K S C Θ ψ hν J₁ J₂ U₂ t)
         (CanonicalSectors.sectorUnit K Sset Γ) γ f y := by
+  cases Subsingleton.elim ‹DecidableEq σ› (Classical.typeDecidableEq σ)
   unfold column
   apply Finset.sum_congr rfl
   intro n hn
