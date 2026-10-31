@@ -92,7 +92,8 @@ theorem ParentPeriodicPair.gated_fourierWeight (p : ParentPeriodicPair K S Γ)
     intro x
     rw [sIntegerPeriodicFourierOrbitWeight_mk]
     simp only [ParentPeriodicPair.gated, if_neg hP, sIntegerPeriodicDivisorFourier,
-      PeriodicFourier.divisorTransform_apply, zero_mul, Finset.sum_const_zero]
+      PeriodicFourier.divisorTransform, PeriodicFourier.fourier, PeriodicFourier.dilate,
+      zero_mul, Finset.sum_const_zero]
 
 variable [Γ.FiniteIndex]
 variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
@@ -203,6 +204,7 @@ theorem FirstCommonCharacterBlock.right_reconstruct (b : FirstCommonCharacterBlo
   rw [← b.right_residual j, (Finset.mem_filter.mp hj).2, ← b.common_right] at he
   exact he.symm
 
+set_option maxHeartbeats 2000000 in
 theorem firstActiveIdeal_dvd_common {τ : Type*} [Fintype τ] [DecidableEq τ]
     (p : τ → ExteriorPrime A) (m n : τ → ℕ) (hm : ∀ t, 0 < m t) :
     (firstActiveIdeal p m n).val ∣ (primePowerProduct p m).val := by

@@ -53,8 +53,8 @@ theorem paired_width_nonneg_of_row (d : MomentData F ω ψ) (a : RealParameters)
 theorem pairedRows_empty_of_width_neg (d : MomentData F ω ψ) (a : RealParameters)
     (Z : ℝ) (hZ : 1 < Z) (hwidth : a.m + a.q < 0) :
     pairedRows d a Z = ∅ := by
-  apply Finset.eq_empty_iff_forall_not_mem.mpr
-  intro u hu
+  apply Finset.not_nonempty_iff_eq_empty.mp
+  rintro ⟨u, hu⟩
   exact (not_le_of_gt hwidth) (paired_width_nonneg_of_row d a Z hZ u hu)
 
 theorem pairedEnergy_zero_of_width_neg (d : MomentData F ω ψ) (a : RealParameters)
@@ -141,8 +141,9 @@ theorem parameters_width (B : ActualColumnAllocation F k) (a : RealParameters)
     (B.parameters a L).m + (B.parameters a L).q = a.m + a.q := rfl
 
 theorem parameters_z_nonneg (B : ActualColumnAllocation F k) (a : RealParameters)
-    (L : Fin k → ℝ) (hL : ∀ i, 0 ≤ L i) : 0 ≤ (B.parameters a L).z :=
-  Finset.sum_nonneg (fun i _ => hL i)
+    (L : Fin k → ℝ) (hL : ∀ i, 0 ≤ L i) : 0 ≤ (B.parameters a L).z := by
+  change 0 ≤ ∑ i ∈ B.keep, L i
+  exact Finset.sum_nonneg (fun i _ => hL i)
 
 theorem parameters_z_le (B : ActualColumnAllocation F k) (a : RealParameters)
     (L : Fin k → ℝ) (hL : ∀ i, 0 ≤ L i) (hz : a.z = ∑ i, L i) :

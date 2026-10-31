@@ -312,6 +312,13 @@ end ActualFiniteFamilyControl
 
 end RawFamily
 
+/-- The generic density identity keeps elaboration independent of the
+large original Schwartz expression supplied by an application. -/
+theorem density_univ_eq_lintegral {X : Type*} [MeasurableSpace X]
+    (μ : Measure X) (f : X → ℝ≥0∞) :
+    (μ.withDensity f) Set.univ = ∫⁻ x, f x ∂μ := by
+  rw [withDensity_apply f MeasurableSet.univ, Measure.restrict_univ]
+
 section Family
 
 variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
@@ -335,9 +342,8 @@ theorem actualFourierMeasure_mass_eq (F : 𝓢(V, ℂ)) :
     (actualFourierMeasure F).real Set.univ = ∫ ξ : V, ‖(𝓕 F) ξ‖ := by
   have hmeasure : (actualFourierMeasure F) Set.univ =
       ∫⁻ ξ : V, ENNReal.ofReal ‖(𝓕 F) ξ‖ ∂(volume : Measure V) := by
-    simpa only [actualFourierMeasure, Measure.restrict_univ] using
-      (withDensity_apply (μ := (volume : Measure V))
-        (fun ξ : V => ENNReal.ofReal ‖(𝓕 F) ξ‖) MeasurableSet.univ)
+    exact density_univ_eq_lintegral (volume : Measure V)
+      (fun ξ : V => ENNReal.ofReal ‖(𝓕 F) ξ‖)
   calc
     _ = (∫⁻ ξ : V, ENNReal.ofReal ‖(𝓕 F) ξ‖ ∂(volume : Measure V)).toReal :=
       congrArg ENNReal.toReal hmeasure

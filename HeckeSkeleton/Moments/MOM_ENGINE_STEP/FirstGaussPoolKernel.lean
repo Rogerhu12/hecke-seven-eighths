@@ -116,10 +116,15 @@ theorem first_gauss_pool_kernel_integrable {ι κ : Type*}
     Integrable (fun ξ : V => ‖(𝓕 F) ξ‖ *
       (Real.sqrt (W * left.energy (FirstGaussPoolData.twistedCoefficient c x ξ)) *
         Real.sqrt (W * right.energy (FirstGaussPoolData.twistedCoefficient d y ξ)))) := by
-  have hc := (Real.continuous_sqrt.comp
-    (continuous_const.mul (left.continuous_energy_twisted c x))).mul
+  have hc : Continuous (fun ξ : V =>
+      Real.sqrt (W * left.energy (FirstGaussPoolData.twistedCoefficient c x ξ)) *
+        Real.sqrt (W * right.energy (FirstGaussPoolData.twistedCoefficient d y ξ))) :=
     (Real.continuous_sqrt.comp
-      (continuous_const.mul (right.continuous_energy_twisted d y)))
+      ((continuous_const : Continuous (fun _ : V => W)).mul
+        (left.continuous_energy_twisted c x))).mul
+      (Real.continuous_sqrt.comp
+        ((continuous_const : Continuous (fun _ : V => W)).mul
+          (right.continuous_energy_twisted d y)))
   apply ((𝓕 F).integrable (μ := (volume : Measure V))).norm.mul_bdd
     hc.aestronglyMeasurable
   exact Filter.Eventually.of_forall fun ξ => by

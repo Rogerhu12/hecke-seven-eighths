@@ -26,7 +26,8 @@ variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {htrace : A.ContainsTraceBadPlaces}
 variable {Γ : Subgroup A.U}
 variable (hΓ : ∀ u : Γ, ∃ v : A.U, u.val = v ^ 6)
-variable (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+variable (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
+  HeckeGeneral.Characters.localDifferentExponent K v = 0)
 local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 

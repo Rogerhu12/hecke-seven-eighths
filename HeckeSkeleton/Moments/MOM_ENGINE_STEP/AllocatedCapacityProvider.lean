@@ -80,8 +80,9 @@ theorem restricted_z (keep : Finset (Fin s.allocation.keep.card)) (ξ : V) :
     (D.clipped_lengths ξ) keep).symm
 
 theorem restricted_z_nonneg (keep : Finset (Fin s.allocation.keep.card)) :
-    0 ≤ (D.restrictedParameters keep).z :=
-  Finset.sum_nonneg fun i _ => (s.length_pos _).le
+    0 ≤ (D.restrictedParameters keep).z := by
+  change 0 ≤ ∑ i ∈ keep, s.childLength i
+  exact Finset.sum_nonneg fun i _ => (s.length_pos _).le
 
 theorem restricted_z_le (keep : Finset (Fin s.allocation.keep.card)) :
     (D.restrictedParameters keep).z ≤ D.parameters.z := by

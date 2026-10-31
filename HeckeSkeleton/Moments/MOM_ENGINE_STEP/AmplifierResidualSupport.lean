@@ -48,7 +48,6 @@ theorem norm_residual (R : AmplifierResidualPresentation C p n I) :
     A.exteriorNorm R.residual = A.exteriorNorm I / Q p ^ n := by
   rw [R.norm_reconstructed]
   field_simp [(pow_pos (primeNorm_pos p) n).ne']
-  ring
 
 theorem columnPhase_norm (R : AmplifierResidualPresentation C p n I) :
     ‖R.columnPhase‖ = 1 := by

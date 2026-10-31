@@ -214,7 +214,26 @@ theorem scalar_norm_sq_le_divisor
     (ideal_norm_le_of_dvd B.frozenIdeal_ne_zero hdiv)
 
 end ActualColumnAllocation
+
+/-- Apply the proved squared scalar bounds on the two sides of the
+same second divisor.  The square roots pay one full inverse norm. -/
+theorem paired_scalar_inverse_norm (left right : ℂ) (NL EL ER : ℝ)
+    (hNL : 0 < NL) (hEL : 0 ≤ EL) (hER : 0 ≤ ER)
+    (hleft : ‖left‖ ^ 2 ≤ EL / NL) (hright : ‖right‖ ^ 2 ≤ ER / NL) :
+    ‖left‖ * ‖right‖ ≤ Real.sqrt EL * Real.sqrt ER / NL := by
+  have hl := (le_div_iff₀ hNL).mp hleft
+  have hr := (le_div_iff₀ hNL).mp hright
+  have hp := mul_le_mul hl hr (mul_nonneg (sq_nonneg _) hNL.le) hEL
+  have hs : (Real.sqrt EL * Real.sqrt ER) ^ 2 = EL * ER := by
+    rw [mul_pow, Real.sq_sqrt hEL, Real.sq_sqrt hER]
+  have hsquare : (‖left‖ * ‖right‖ * NL) ^ 2 ≤ (Real.sqrt EL * Real.sqrt ER) ^ 2 := by
+    rw [hs]
+    convert hp using 1 <;> ring
+  exact (le_div_iff₀ hNL).mpr
+    ((sq_le_sq₀ (by positivity) (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))).mp hsquare)
+
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualColumnAllocation.divisor_dvd_frozenIdeal
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualColumnAllocation.scalar_norm_sq_le_divisor
+#print axioms HeckeSkeleton.Moments.EngineStep.paired_scalar_inverse_norm

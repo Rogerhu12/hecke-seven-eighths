@@ -226,9 +226,43 @@ theorem FirstCommonCharacterBlock.secondSourceWeight_le
         hD hE (b.secondUnitRadical C h).property.1]
       ring
 
+/-- Before the single outer pool average, the source has density one.
+The main pool allowance and the error's moving norm remain explicit;
+the pool denominator is not inserted for a second time. -/
+theorem FirstCommonCharacterBlock.secondSourceWeight_without_density_le
+    (b : FirstCommonCharacterBlock fullI fullJ DE)
+    (C : A.GeneralArithmeticContext σ η hS)
+    (Z : ℝ) (hZ : 1 < Z) (a₀ q wo w B krow g ell NL NR : ℝ)
+    (r : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum A.R))
+    (hrow : Z ^ (-krow - g) ≤
+      r.val * (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D)).val)
+    (hcentral : Z ^ a₀ ≤ Real.sqrt NL * Real.sqrt NR)
+    (a d : A.R)
+    (ha : A.Generates (primePowerProduct b.primes b.leftMultiplicity) a)
+    (hd : A.Generates (primePowerProduct b.primes b.rightMultiplicity) d)
+    (h : A.R) :
+    b.secondSourceWeight C Z a₀ q wo w B krow g ell 1 NL NR r D a d ha hd h ≤
+      orbitalFieldFactor K * Z ^ (a₀ + q + w + B) * Z ^ wo * Z ^ ell /
+        (Ideal.absNorm (commonRadical DE.1 DE.2) : ℝ) := by
+  have hz : 0 < Z := zero_lt_one.trans hZ
+  have hdensity : (1 : ℝ) ≤ Z ^ ell * Z ^ (-ell) := by
+    rw [← Real.rpow_add hz]
+    simp
+  calc
+    _ ≤ Z ^ ell * orbitalFieldFactor K * Z ^ (a₀ + q + wo + w + B) /
+        (Ideal.absNorm (commonRadical DE.1 DE.2) : ℝ) :=
+      b.secondSourceWeight_le C Z hZ a₀ q wo w B krow g ell 1 (Z ^ ell)
+        NL NR (Real.rpow_nonneg hz.le _) hdensity r D hrow hcentral a d ha hd h
+    _ = _ := by
+      rw [show a₀ + q + wo + w + B = (a₀ + q + w + B) + wo by ring,
+        Real.rpow_add hz]
+      ring
+
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.second_source_normalized_pair_norm
 #print axioms HeckeSkeleton.Moments.EngineStep.second_source_actual_coefficients_bound
 #print axioms HeckeSkeleton.Moments.EngineStep.FirstCommonCharacterBlock.secondSourceWeight_le
+#print axioms HeckeSkeleton.Moments.EngineStep.FirstCommonCharacterBlock.secondSourceWeight_without_density_le
 

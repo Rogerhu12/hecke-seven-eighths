@@ -109,9 +109,8 @@ theorem weightedNestedFourierMeasure_mass_eq
       ∫ z, envelope z ∂nestedFourierMeasure F₁ F₂ := by
   have he : (weightedNestedFourierMeasure F₁ F₂ envelope) Set.univ =
       ∫⁻ z, ENNReal.ofReal (envelope z) ∂nestedFourierMeasure F₁ F₂ := by
-    simpa only [weightedNestedFourierMeasure, Measure.restrict_univ] using
-      (withDensity_apply (μ := nestedFourierMeasure F₁ F₂)
-        (fun z => ENNReal.ofReal (envelope z)) MeasurableSet.univ)
+    exact density_univ_eq_lintegral (nestedFourierMeasure F₁ F₂)
+      (fun z => ENNReal.ofReal (envelope z))
   calc
     _ = (∫⁻ z, ENNReal.ofReal (envelope z) ∂nestedFourierMeasure F₁ F₂).toReal :=
       congrArg ENNReal.toReal he

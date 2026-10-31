@@ -1,20 +1,19 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedCommonMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondDivisorMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolMass
 
 /-!
-# Shared-divisor finite carriers and their one pool average
+# Two independent divisor carriers and their one pool average
 
-This counting lemma retains both complete common-support labels and
-allocations of their shared first divisor S. It does not yet represent
-the independent second residual divisor L in SecondAllocationKernel.
-That additional divisor requires its own harmonic sum with the literal
-1 / N(L) density from the frozen factors; allocation counts of S cannot
-replace it. Consequently the bound below is a restricted carrier lemma,
-not a complete mass bound for the actual two-stage branch family.
+The carrier keeps first common labels, their shared first divisor S,
+second common labels and the independent second residual divisor L.
+Both full occurrence-allocation families are attached to L and paid by
+its own literal inverse norm. The old mask, first S and second L each
+retain the harmonic factor proved in SecondDivisorMass.
 
-Within this stated carrier, main branches pay one pool-length allowance.
-The 1/6/7 errors have no pool-length allowance: their genuine local squared
-factors pay their moving norm before the single pool average is taken.
+Main branches pay their one pool-length allowance. The 1/6/7 errors
+have no pool-length allowance: their genuine local squared factors pay
+their moving norm before the single pool average is taken. Constants
+and the scale threshold precede every moving finite carrier and pool.
 -/
 
 noncomputable section
@@ -27,51 +26,7 @@ open CommonSupportMass HeckePort.CenteredMomentCounting
 
 variable {K : Type} [Field K] [NumberField K]
 
-structure CommonSupportBranch where
-  first : Finset (Label K)
-  divisors : Label K → Finset (Ideal (𝓞 K))
-  second : Label K → Ideal (𝓞 K) → Finset (Label K)
-  leftOccurrences : Label K → Ideal (𝓞 K) → ℕ
-  rightOccurrences : Label K → Ideal (𝓞 K) → ℕ
 
-namespace CommonSupportBranch
-
-def mass (b : CommonSupportBranch (K := K)) : ℝ :=
-  ∑ v ∈ b.first, (1 / (Ideal.absNorm (commonRadical v.1.1 v.1.2) : ℝ)) *
-    ∑ D ∈ b.divisors v,
-      allocatedRadicalMass D (b.leftOccurrences v D) (b.rightOccurrences v D) (b.second v D)
-
-theorem mass_nonneg (b : CommonSupportBranch (K := K)) : 0 ≤ b.mass :=
-  Finset.sum_nonneg fun v _ => mul_nonneg (one_div_nonneg.mpr (Nat.cast_nonneg _))
-    (Finset.sum_nonneg fun D _ => allocatedRadicalMass_nonneg D _ _ _)
-
-/-- Only original finite carriers, literal norm windows and counts. -/
-structure Admissible (b : CommonSupportBranch (K := K))
-    (N : ℕ) (B Z : ℝ) (s : Ideal (𝓞 K)) : Prop where
-  first_valid : ∀ v ∈ b.first, Valid s v
-  first_norm : ∀ v ∈ b.first,
-    (Ideal.absNorm v.1.1 : ℝ) ≤ Z ^ B ∧ (Ideal.absNorm v.1.2 : ℝ) ≤ Z ^ B
-  divisor_valid : ∀ v ∈ b.first, ∀ D ∈ b.divisors v, Squarefree D ∧ D ≠ 0
-  divisor_norm : ∀ v ∈ b.first, ∀ D ∈ b.divisors v, (Ideal.absNorm D : ℝ) ≤ Z ^ B
-  second_valid : ∀ v ∈ b.first, ∀ D ∈ b.divisors v, ∀ w ∈ b.second v D, Valid D w
-  second_norm : ∀ v ∈ b.first, ∀ D ∈ b.divisors v, ∀ w ∈ b.second v D,
-    (Ideal.absNorm w.1.1 : ℝ) ≤ Z ^ B ∧ (Ideal.absNorm w.1.2 : ℝ) ≤ Z ^ B
-  occurrences : ∀ v ∈ b.first, ∀ D ∈ b.divisors v,
-    b.leftOccurrences v D ≤ N ∧ b.rightOccurrences v D ≤ N
-
-theorem uniform_mass (N : ℕ) (B ε : ℝ) (hB : 0 ≤ B) (hε : 0 < ε) :
-    ∃ C : ℝ, 0 < C ∧ ∀ Z : ℝ, 1 ≤ Z →
-      ∀ s : Ideal (𝓞 K), Squarefree s → s ≠ 0 →
-      ∀ b : CommonSupportBranch (K := K), b.Admissible N B Z s →
-        b.mass ≤ C * Z ^ ε / (Ideal.absNorm s : ℝ) := by
-  obtain ⟨C, hC, hmass⟩ := nested_common_support_mass (K := K) N B ε hB hε
-  refine ⟨C, hC, ?_⟩
-  intro Z hZ s hs hs0 b hb
-  exact hmass Z hZ s hs hs0 b.first hb.first_valid hb.first_norm
-    b.divisors hb.divisor_valid hb.divisor_norm b.second hb.second_valid hb.second_norm
-    b.leftOccurrences b.rightOccurrences hb.occurrences
-
-end CommonSupportBranch
 
 variable {A : SArithmeticData K}
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
@@ -80,8 +35,8 @@ variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
 local error weights, with all finite labels retained. -/
 def amplifiedCommonBranchMass
     (P : PowerScaleExteriorPool A bad Z ell eps) (M B : ℝ)
-    (main : CommonSupportBranch (K := K))
-    (error : ℕ → ExteriorPrime A → CommonSupportBranch (K := K)) : ℝ :=
+    (main : TwoDivisorCommonBranch (K := K))
+    (error : ℕ → ExteriorPrime A → TwoDivisorCommonBranch (K := K)) : ℝ :=
   (4 / P.rowDensity M B) *
     (((M + 6 * ell) / (ell / 2)) * Z ^ ell * main.mass +
       (∑ p ∈ P.primes, FirstGaussPoolData.localErrorWeight p 1 *
@@ -103,13 +58,13 @@ theorem actual_amplified_common_branch_mass
     ∀ P : PowerScaleExteriorPool A bad Z ell eps,
     ∀ M B : ℝ, 0 ≤ M → M ≤ Mmax → B ≤ Bmax →
     ∀ s : Ideal (𝓞 K), Squarefree s → s ≠ 0 →
-    ∀ main : CommonSupportBranch (K := K), main.Admissible N normBox Z s →
-    ∀ error : ℕ → ExteriorPrime A → CommonSupportBranch (K := K),
+    ∀ main : TwoDivisorCommonBranch (K := K), main.Admissible N normBox Z s →
+    ∀ error : ℕ → ExteriorPrime A → TwoDivisorCommonBranch (K := K),
       (∀ n ∈ ({1, 6, 7} : Finset ℕ), ∀ p ∈ P.primes,
         (error n p).Admissible N normBox Z s) →
       amplifiedCommonBranchMass P M B main error ≤
         C * Z ^ (δ + eps) / (Ideal.absNorm s : ℝ) := by
-  obtain ⟨C₀, hC₀, hmass⟩ := CommonSupportBranch.uniform_mass (K := K)
+  obtain ⟨C₀, hC₀, hmass⟩ := TwoDivisorCommonBranch.uniform_mass (K := K)
     N normBox δ hbox hδ
   obtain ⟨Z₀, hZ₀, hpool⟩ := uniform_pool_density_and_mass (A := A)
     ell eps Mmax Bmax hell heps hepsell hMmax hBmax
@@ -198,6 +153,6 @@ theorem actual_amplified_common_branch_mass
 
 end HeckeSkeleton.Moments.EngineStep
 
-#print axioms HeckeSkeleton.Moments.EngineStep.CommonSupportBranch.uniform_mass
+#print axioms HeckeSkeleton.Moments.EngineStep.CommonSupportMass.TwoDivisorCommonBranch.uniform_mass
 #print axioms HeckeSkeleton.Moments.EngineStep.actual_amplified_common_branch_mass
 
