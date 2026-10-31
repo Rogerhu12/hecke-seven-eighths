@@ -12,6 +12,7 @@ import HeckeSkeleton.ExpansionModels.Core
 import ExpansionInterfaces.ParameterChoices
 import Expansion.ActualProbeContext
 import Expansion.ActualRecipeData
+import ThetaGlobal.GlobalChoice
 
 /-! Exploratory, intentionally incomplete proof skeleton. This library is
 separate from HeckeGeneral and its verified declaration count. Every admitted
@@ -105,17 +106,34 @@ def targetRamifiedPlaces (c : TargetContext K) :
     Finset (IsDedekindDomain.HeightOneSpectrum (𝓞 K)) :=
   (finite_ramifiedPlaces K (untwisted K c).val).toFinset
 
-/-- A complex embedding of `K`; the arithmetic choice below is made for it. -/
-def complexEmbedding : K →+* ℂ := Classical.arbitrary (K →+* ℂ)
+/-- Align the family's root before making the one shared arithmetic choice. -/
+def complexEmbedding (c : TargetContext K) : K →+* ℂ :=
+  ThetaGlobal.GlobalEmbedding.alignedEmbedding c.family.root12 c.family.primitive12
 
 /-- ONE Axiom arithmetic choice for the target: it contains the target's
 ramified primes, uses the family's twelfth root, and is shared by every
 base datum below, so no second independent choice is made. -/
 def axiomChoice (c : TargetContext K) :
     HeckeAxiom.ArithmeticChoice K (targetRamifiedPlaces K c) c.family.root12
-      (complexEmbedding K) :=
-  Classical.choice (HeckeAxiom.exists_arithmeticChoice K _ c.family.root12
-    c.family.primitive12 _)
+      (complexEmbedding K c) :=
+  ThetaGlobal.GlobalChoice.alignedChoice (targetRamifiedPlaces K c)
+    c.family.root12 c.family.primitive12
+
+theorem axiomChoice_modulus_top (c : TargetContext K) :
+    (axiomChoice K c).A.modulus = ⊤ :=
+  ThetaGlobal.GlobalChoice.alignedChoice_modulus (targetRamifiedPlaces K c)
+    c.family.root12 c.family.primitive12
+
+theorem axiomChoice_rootAligned (c : TargetContext K) :
+    complexEmbedding K c (axiomChoice K c).A.zeta12 =
+      ThetaGlobal.GlobalEmbedding.canonicalTwelfthRoot :=
+  ThetaGlobal.GlobalProjectEmbedding.choice_root12 (axiomChoice K c)
+
+theorem axiomChoice_coefficientEmbedding (c : TargetContext K) (z : rootsOfUnity 6 K) :
+    complexEmbedding K c ((z : Kˣ) : K) =
+      (DedekindZetaZeroFree.KPLocalCover.coefficientEmbedding K
+        (axiomChoice K c).A.zeta12 (axiomChoice K c).A.primitive_zeta12 z : ℂ) :=
+  ThetaGlobal.GlobalProjectEmbedding.choice_coefficientEmbedding (axiomChoice K c) z
 
 -- OBLIGATION D-S | revised Proposition 3.1, §6.1 (pp.3–4,35–36).
 -- The final set of the Axiom choice: target ramification, the different,

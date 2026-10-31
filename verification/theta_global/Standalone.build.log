@@ -1,0 +1,435 @@
+UTC: 2026-10-30T20:18:44.370259+00:00
+LEAN: 4.35.0-rc3 (470d5ce1400764999581fd26d5d72b00d990b0f4)
+MATHLIB: 0493595ecd5da8ef14742febab99728f98e948e8
+SOURCE SHA256: 076e5a154df8572bfacfe3cc36f21375733a9c456b30c468e6b3b5d112818179
+SOURCE UNCHANGED: True
+COMMAND: ['/workspace/scratch/692d5e1ba19b/low_hybrid_work/verification435/lean-4.35.0-rc3-linux/bin/lean', '-j2', '-R', '/workspace/scratch/db66a2660cb2/repo', '-o', '/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.olean', '/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean']
+
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:136:8: warning: automatically included section variable(s) unused in theorem `_private.verification.theta_global.Standalone.0.ThetaGlobal.FiniteShell.q_pos`:
+  [MeasurableSpace U]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [MeasurableSpace U] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:139:8: warning: automatically included section variable(s) unused in theorem `_private.verification.theta_global.Standalone.0.ThetaGlobal.FiniteShell.q_one_lt`:
+  [MeasurableSpace U]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [MeasurableSpace U] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+'ThetaGlobal.FiniteShell.uniform_cutoff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.FiniteShell.uniform_decay' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.FiniteShell.shell_mellin_summable' depends on axioms: [propext, Classical.choice, Quot.sound]
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:410:8: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:417:51: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:403:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteClass.prod_delta`:
+  [(p : P) → Fintype (C p)]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [(p : P) → Fintype (C p)] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:426:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteClass.localMaskFactor_norm_le_one`:
+  [Fintype P]
+  [(p : P) → Fintype (C p)]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype P] [(p : P) → Fintype (C p)] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:525:8: warning: `mul_le_one₀` has been deprecated: No replacement, use constituent lemmas from proof.
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:519:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteClass.masked_period_norm_le_one`:
+  [(p : P) → MeasurableSpace (U p)]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [(p : P) → MeasurableSpace (U p)] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+'ThetaGlobal.FiniteClass.theta_tensor_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.FiniteClass.tensor_shell_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:586:10: warning: `mul_le_one₀` has been deprecated: No replacement, use constituent lemmas from proof.
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:593:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteTensor.withClassMask_bounds`:
+  [(p : P) → MeasurableSpace (U p)]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [(p : P) → MeasurableSpace (U p)] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:656:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteTensor.uniform_cutoff`:
+  [∀ (p : P), IsFiniteMeasure (μ p)]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [∀ (p : P), IsFiniteMeasure (μ p)] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+'ThetaGlobal.FiniteTensor.coefficient_tensor_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.FiniteTensor.uniform_cutoff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.FiniteTensor.uniform_decay' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.FinitePowerQuotient.finitePartEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.FinitePowerQuotient.changeDivisibleFactor_mk' depends on axioms: [propext, Classical.choice, Quot.sound]
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:830:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteHaarShells.unitMeasure_finite`:
+  [CommGroup G]
+  [MeasurableMul G]
+  [MeasurableInv G]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [CommGroup G] [MeasurableMul G] [MeasurableInv G] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:838:8: warning: automatically included section variable(s) unused in theorem `_private.verification.theta_global.Standalone.0.ThetaGlobal.FiniteHaarShells.order_uniformizer_zpow`:
+  [MeasurableSpace G]
+  [MeasurableMul G]
+  [MeasurableInv G]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [MeasurableSpace G] [MeasurableMul G] [MeasurableInv G] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:876:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteHaarShells.sum_restrict_valuationFiber`:
+  [MeasurableMul G]
+  [MeasurableInv G]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [MeasurableMul G] [MeasurableInv G] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+'ThetaGlobal.FiniteHaarShells.map_unitMeasure_shell' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.FiniteHaarShells.haar_eq_sum_shells' depends on axioms: [propext, Classical.choice, Quot.sound]
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:961:33: warning: `simp` already closes the goal
+
+Hint: Use `simp` instead of `simpa`:
+  [apply] simp [absoluteData, hlarge x hx]
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:957:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteMellinIntegration.absoluteData_bounds`:
+  [MeasurableSpace U]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [MeasurableSpace U] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+'ThetaGlobal.FiniteMellinIntegration.summable_integral_norm' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.FiniteMellinIntegration.integrable_and_integral_shellMeasure' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.FiniteTensorMellin.finite_tensor_mellin_integral' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:1242:39: warning: This simp argument is unused:
+  zero_mul
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [hg, mul_zero, div_zero]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:1244:8: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:1244:8: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+'ThetaGlobal.FiniteMellinRatio.same_vector_ratio' depends on axioms: [propext, Classical.choice, Quot.sound]
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:1761:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:1759:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientModel.localWeylBound_nonneg`:
+  [CommMonoid A]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [CommMonoid A] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:1766:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:1764:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientModel.norm_localWeyl_le`:
+  [CommMonoid A]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [CommMonoid A] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:1881:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientModel.frozenUnitFactor_zeroOrUnit`:
+  [CommMonoid A]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [CommMonoid A] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:1917:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientModel.rowUnitFactor_zeroOrUnit`:
+  [CommMonoid A]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [CommMonoid A] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:1950:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientModel.reflectedMarkFactor_zeroOrUnit`:
+  [CommMonoid A]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [CommMonoid A] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:1969:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientModel.reflectedColumnFactor_zeroOrUnit`:
+  [CommMonoid A]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [CommMonoid A] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2059:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientSummability.encode_injective`:
+  [Finite U]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Finite U] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2089:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientSummability.scale_pos`:
+  [CommMonoid A]
+  [Finite U]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [CommMonoid A] [Finite U] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2101:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientSummability.arithmeticBound_nonneg`:
+  [Finite U]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Finite U] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2222:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedDominatedLimit.argument_pos`:
+  [CommMonoid A]
+  [Finite U]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [CommMonoid A] [Finite U] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2599:2: warning: `simp` already closes the goal
+
+Hint: Use `simp` instead of `simpa`:
+  [apply] simp [hz] at h
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2632:21: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2774:32: warning: `if_false` has been deprecated: Use `ite_false` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵f̵a̵l̵s̵e̵i̲t̲e̲_̲f̲a̲l̲s̲e̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2791:37: warning: `if_true` has been deprecated: Use `ite_true` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵t̵r̵u̵e̵i̲t̲e̲_̲t̲r̲u̲e̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2799:37: warning: `if_false` has been deprecated: Use `ite_false` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵f̵a̵l̵s̵e̵i̲t̲e̲_̲f̲a̲l̲s̲e̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2928:10: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2930:10: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2932:10: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2935:30: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2943:30: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2947:30: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2953:30: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2961:8: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2974:15: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:2982:15: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+'ThetaGlobal.GlobalFrequencyReconstruction.reconstructed_supports_finite' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.GlobalFrequencyReconstruction.existsUnique_supported_coordinates' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.GlobalSupportReindex.tsum_eq_of_supported_coordinates' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.GlobalSupportReindex.tsum_norm_eq_of_supported_coordinates' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.GlobalSupportReindex.summable_iff_of_supported_coordinates' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:3214:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalEmbedding.sixthRoot_exponent`:
+  [NumberField F]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [NumberField F] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:3269:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalCharacterSums.fourth_power_ne_one_of_order_six`:
+  [IsDomain C]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [IsDomain C] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:3315:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalDigitSupport.character_sixth_power`:
+  [Fintype k]
+  [Fintype kˣ]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype k] [Fintype kˣ] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:3334:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalDigitSupport.positive_digit_character_ne_one`:
+  [Fintype k]
+  [Fintype kˣ]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype k] [Fintype kˣ] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+'ThetaGlobal.GlobalDigitSupport.ordinary_positive_digit_sum_zero' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.WeightedUnfolding.weighted_orbit_unfolding' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.SheetMellin.sheet_mellin_factorization' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.GaussianRegularization.regularized_integral_tendsto' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:4152:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GaussianTransfer.remove_regularizer`:
+  [Countable I]
+  [Countable J]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Countable I] [Countable J] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+'ThetaGlobal.GaussianTransfer.reflection_from_regularized_convolution' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.ConvolutionMass.absolute_mass_of_separable_majorant' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.ConvolutionMass.reflected_convolution_absolute_mass' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.VerticalContour.verticalIntegral_regularized_eq_of_poly_strip' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.VerticalInverseBounds.uniform_tail' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.VerticalInverseBounds.regularizedInverseLine_tendsto' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.TestMellinLimit.inverseLine_mellin_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.TestMellinLimit.regularized_test_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:5403:4: warning: This simp argument is unused:
+  Complex.ofReal_div
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Complex.ofReal_zero, zero_add, Complex.real_smul, smul_eq_mul, Complex.ofReal_one,
+    Complex.ofReal_inv, Complex.ofReal_mul, Complex.ofReal_ofNat, one_div]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:5403:24: warning: This simp argument is unused:
+  Complex.ofReal_one
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Complex.ofReal_zero, zero_add, Complex.real_smul, smul_eq_mul, Complex.ofReal_div,
+    Complex.ofReal_inv, Complex.ofReal_mul, Complex.ofReal_ofNat, one_div]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:5882:2: warning: `simp` already closes the goal
+
+Hint: Use `simp` instead of `simpa`:
+  [apply] simp only [hn, neg_im, natCast_im, neg_zero]
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:5959:28: warning: This simp argument is unused:
+  zero_sub
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [z, sub_re, add_re, ofReal_re, mul_re, ofReal_im, I_re, I_im, mul_zero, zero_mul, sub_zero,
+    natCast_re, one_re]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:5973:25: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+'ThetaGlobal.GammaReciprocalGrowth.inverse_Gamma_strip_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean:6075:34: warning: This simp argument is unused:
+  zero_sub
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Complex.neg_re, Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, Complex.add_re, Complex.I_re,
+    Complex.I_im, mul_zero, zero_mul, sub_zero, add_zero, pow_zero, zero_mul, Real.exp_zero, mul_one]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+'ThetaGlobal.GammaProfileGrowth.reciprocalGamma_growth' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.GammaProfileGrowth.canonicalDeconvolver_all_power_moments' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.GlobalProjectOrbitAbsolute.weighted_unfold_of_pieces' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.ReflectedAbsolute.ZeroOrUnitNorm.zpow' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.ReflectedAbsolute.cubic_scale_inverse_square_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.ReflectedAbsolute.summable_reflected_of_quadratic_tail' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.ReflectedLocalBounds.norm_finiteWeylCoefficient_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.ReflectedIdealMajorant.summable_positiveIdealNorm_inverseSquare' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.ReflectedIdealMajorant.summable_numberField_reflected_of_quadratic_tail' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.ReflectedCoefficientModel.norm_reflectedCoefficient_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.ReflectedCoefficientSummability.summable_numberField_subtype_reflectedTerm' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.ReflectedDominatedLimit.tendsto_tsum_numberField_subtype_reflectedTerm' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.ScalarMellinConvolution.deconvolver_direct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.ScalarMellinConvolution.deconvolver_reflected' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.DeconvolverMoments.integrable_multiplicative_power_moment' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.AnnularTransfer.arbitrary_test_reflection' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.ScalarGaussianLimits.regularizedTest_tendsto_actual_test' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.GaussianStripDecay.quadraticStripDecay_regularized' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.GammaDeconvolver.reciprocalGamma_entire' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.GammaDeconvolver.directGamma_imaginary_ne_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ThetaGlobal.GammaDeconvolver.gammaDeconvolver_all_power_moments' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.GammaAnnularTransfer.arbitrary_test_from_seed' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+ELAPSED SECONDS: 73.689
+EXIT CODE: 0

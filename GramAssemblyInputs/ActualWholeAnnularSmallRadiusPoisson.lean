@@ -1,7 +1,7 @@
 import ActualWholeAnnularAllScalePoisson
 import ActualAnnularDivisorUnitReindex
-import SmallRadiusAnnularMellinSchwartz
-import SmallRadiusPolynomialLoss
+import HeckeSkeleton.SmallRadius.SmallRadiusAnnularMellinSchwartz
+import HeckeSkeleton.SmallRadius.SmallRadiusPolynomialLoss
 
 /-!
 UNCOMPILED / native 0. The actual fixed-box joint seminorm sum is bounded
@@ -88,6 +88,7 @@ theorem exists_fixedBoxJointSeminormSum_allRadius_bound
 
 variable (ζ : K) (hζ : IsPrimitiveRoot ζ 6) (ρ : K →+* ℂ)
 variable (hS6 : integerPrimeSupport (6 : 𝓞 K) ⊆ S)
+include ha a0 b0 ha0 haSupport hψ hψsupport in
 /-- The whole literal annular sum now has a bound in finitely many
 seminorms of the original one-column input. Constants precede the divisor,
 and all frequency/profile/scale data; the divisor is the original d. -/
@@ -142,6 +143,7 @@ theorem exists_whole_annular_fixedDepth_allRadius_min_bound
             (sq_nonneg _)) hmin
     _ = _ := by ring
 
+include ha a0 b0 ha0 haSupport hψ hψsupport in
 /-- Choose the small positive exponent before the moving height. On the
 literal polynomial lower radius range this gives an arbitrary Z^epsilon
 loss, with the original divisor and the same ordinary arch R. -/

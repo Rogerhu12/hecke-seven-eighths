@@ -1,4 +1,5 @@
 import HeckeGeneral.Analysis.PhysicalProbePrincipal
+import HeckeSkeleton.WindowPIT
 
 /-!
 # The prime normalizer
@@ -40,8 +41,8 @@ theorem window_prime_lower (w : SmoothAnnularTest)
     (hne : ∃ y, w.toFun y ≠ 0) (hsupp : Function.support w.toFun ⊆ Set.Ioo 1 2) :
     ∃ c X₀ : ℝ, 0 < c ∧ 1 < X₀ ∧ ∀ X : ℝ, X₀ ≤ X →
       c * X / Real.log X ≤
-        ∑ p ∈ windowPrimes K S X, (w.toFun ((p.asIdeal.absNorm : ℝ) / X)).re := by
-  sorry
+        ∑ p ∈ windowPrimes K S X, (w.toFun ((p.asIdeal.absNorm : ℝ) / X)).re :=
+  HeckeSkeleton.WindowPIT.window_prime_lower K S w hre hnn hne hsupp
 
 section Derivation
 

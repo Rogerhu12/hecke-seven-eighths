@@ -1,0 +1,84 @@
+{
+  "purpose": "Explicit distinction between historical transformed-QA commands and the strengthened portable compiler options. Historical reports and logs are retained unchanged. No strict replay result is claimed by this notes file.",
+  "native_lake_options": {
+    "autoImplicit": false,
+    "relaxedAutoImplicit": false
+  },
+  "historical_runs": [
+    {
+      "manifest": "actual_reflected_manifest.json",
+      "manifest_sha256": "b53df0b848b9ea1e6f437b64fd39a1dc2f1bc55a60bf7fcc3e750225c6a6c30c",
+      "bundle_sha256": "ca7bc30fa84a775939c7974b4f5361e8993522698bfa9fd118d4e73b5bf943a3",
+      "actual_command": [
+        "/workspace/scratch/692d5e1ba19b/low_hybrid_work/verification435/lean-4.35.0-rc3-linux/bin/lean",
+        "-j2",
+        "-R",
+        "/workspace/scratch/db66a2660cb2/repo",
+        "-o",
+        "/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.olean",
+        "/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean"
+      ],
+      "native_package_options_applied_by_cli": false,
+      "source_options_preserved": true
+    },
+    {
+      "manifest": "index_support_manifest.json",
+      "manifest_sha256": "0041f3cc763e5729af44ddf63ef229fc6aa647ee2da2f5c33552afed88505221",
+      "bundle_sha256": "7a0fc3da65508c3aa6ce7beb897234058dfaaeddedae6813ebc369cefee92e90",
+      "actual_command": [
+        "/workspace/scratch/692d5e1ba19b/low_hybrid_work/verification435/lean-4.35.0-rc3-linux/bin/lean",
+        "-j2",
+        "-R",
+        "/workspace/scratch/db66a2660cb2/repo",
+        "-o",
+        "/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.olean",
+        "/workspace/scratch/db66a2660cb2/repo/verification/theta_global/IndexSupportVerification.lean"
+      ],
+      "native_package_options_applied_by_cli": false,
+      "source_options_preserved": true
+    },
+    {
+      "manifest": "actual_frequency_manifest.json",
+      "manifest_sha256": "6e3996b217b94a139ddaf5c4687eae8c8a70f8728355a742b6d1e4fe127985a5",
+      "bundle_sha256": "2db0f5ae399a28897f4266f2b52e4bebf94d6869187c9e935957b32e7b71d4b3",
+      "actual_command": [
+        "/workspace/scratch/692d5e1ba19b/low_hybrid_work/verification435/lean-4.35.0-rc3-linux/bin/lean",
+        "-j2",
+        "-R",
+        "/workspace/scratch/db66a2660cb2/repo",
+        "-o",
+        "/workspace/scratch/db66a2660cb2/repo/verification/theta_global/ActualFrequencyVerification.olean",
+        "/workspace/scratch/db66a2660cb2/repo/verification/theta_global/ActualFrequencyVerification.lean"
+      ],
+      "native_package_options_applied_by_cli": false,
+      "source_options_preserved": true
+    },
+    {
+      "manifest": "manifest.json",
+      "label": "Standalone 45 auxiliary QA",
+      "manifest_sha256": "92371b621997c3a40a9e05826eef11e4565ff65c023a1d3f68665b38b63f7378",
+      "bundle_sha256": "076e5a154df8572bfacfe3cc36f21375733a9c456b30c468e6b3b5d112818179",
+      "actual_command": [
+        "/workspace/scratch/692d5e1ba19b/low_hybrid_work/verification435/lean-4.35.0-rc3-linux/bin/lean",
+        "-j2",
+        "-R",
+        "/workspace/scratch/db66a2660cb2/repo",
+        "-o",
+        "/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.olean",
+        "/workspace/scratch/db66a2660cb2/repo/verification/theta_global/Standalone.lean"
+      ],
+      "native_package_options_applied_by_cli": false,
+      "source_options_preserved": true,
+      "note": "The historical standalone45 helper also did not explicitly pass the two package -D flags; the updated standalone builder/queued CI will check them separately."
+    }
+  ],
+  "previous_portable_builder_sha256": "a1320ef09c0b4057e594d0d3154baf29574968dde62c32a55bdb1e2499004d99",
+  "current_portable_builder_sha256": "cdb483c025a2048491e800133b8fdc3ea8c98ff207d7aa7ab253e95ac1c98420",
+  "portable_cli_added": [
+    "-DautoImplicit=false",
+    "-DrelaxedAutoImplicit=false"
+  ],
+  "generated_lean_source_changed": false,
+  "strict_replay_result_policy": "Each successful replay gets a separately named strict manifest and raw log, with exact command, all source hashes, strict axiom gates, and the newly checked foundation artifact hashes.",
+  "additional_direct_cli_scope_note": "The same distinction applies to the historical per-file checks in native_manifest.json unless their raw command explicitly records the package -D flags: those records certify their direct per-file import compilation, not a Lake build with package options. The GammaReciprocalGrowth source is also included in the separately recorded strict 54-module extension."
+}

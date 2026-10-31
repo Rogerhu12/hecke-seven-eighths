@@ -1,0 +1,896 @@
+﻿2026-10-31T04:03:40.8240141Z Current runner version: '2.338.2'
+2026-10-31T04:03:40.8289874Z ##[group]Runner Image Provisioner
+2026-10-31T04:03:40.8290681Z Hosted Compute Agent
+2026-10-31T04:03:40.8291201Z Version: 20261021.618
+2026-10-31T04:03:40.8291872Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-31T04:03:40.8292576Z Build Date: 2026-10-21T00:45:21Z
+2026-10-31T04:03:40.8293221Z Worker ID: {317a2f43-7080-432e-950f-c6d6e0420870}
+2026-10-31T04:03:40.8293927Z Region: westus3
+2026-10-31T04:03:40.8294415Z Cloud: Azure
+2026-10-31T04:03:40.8294974Z ##[endgroup]
+2026-10-31T04:03:40.8296383Z ##[group]Operating System
+2026-10-31T04:03:40.8297001Z Ubuntu
+2026-10-31T04:03:40.8297886Z 24.04.5
+2026-10-31T04:03:40.8298363Z LTS
+2026-10-31T04:03:40.8298984Z ##[endgroup]
+2026-10-31T04:03:40.8299538Z ##[group]Runner Image
+2026-10-31T04:03:40.8300111Z Image: ubuntu-24.04
+2026-10-31T04:03:40.8300643Z Version: 20261025.353.1
+2026-10-31T04:03:40.8301857Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-31T04:03:40.8303273Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+2026-10-31T04:03:40.8304151Z ##[endgroup]
+2026-10-31T04:03:40.8305179Z ##[group]GITHUB_TOKEN Permissions
+2026-10-31T04:03:40.8307696Z Contents: read
+2026-10-31T04:03:40.8308273Z Metadata: read
+2026-10-31T04:03:40.8308792Z ##[endgroup]
+2026-10-31T04:03:40.8310896Z Secret source: Actions
+2026-10-31T04:03:40.8311784Z Cache mode: write
+2026-10-31T04:03:40.8312811Z Prepare workflow directory
+2026-10-31T04:03:40.8700682Z Prepare all required actions
+2026-10-31T04:03:40.8750236Z Getting action download info
+2026-10-31T04:03:41.1742478Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-31T04:03:41.2504910Z Download action repository 'leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64' (SHA:fe408643ea7367d8c0404a8be3975bb145f5fb64)
+2026-10-31T04:03:41.5518900Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-31T04:03:41.7458209Z Getting action download info
+2026-10-31T04:03:41.8501184Z Download action repository 'actions/cache@caa296126883cff596d87d8935842f9db880ef25' (SHA:caa296126883cff596d87d8935842f9db880ef25)
+2026-10-31T04:03:42.0610685Z Complete job name: Standalone 45-module proof check
+2026-10-31T04:03:42.1492295Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-10-31T04:03:42.1493381Z with:
+2026-10-31T04:03:42.1493904Z   repository: Rogerhu12/hecke-seven-eighths
+2026-10-31T04:03:42.1498117Z   token: ***
+2026-10-31T04:03:42.1498592Z   ssh-strict: true
+2026-10-31T04:03:42.1499088Z   ssh-user: git
+2026-10-31T04:03:42.1499582Z   persist-credentials: true
+2026-10-31T04:03:42.1500117Z   clean: true
+2026-10-31T04:03:42.1500609Z   sparse-checkout-cone-mode: true
+2026-10-31T04:03:42.1501169Z   fetch-depth: 1
+2026-10-31T04:03:42.1501654Z   fetch-tags: false
+2026-10-31T04:03:42.1502172Z   show-progress: true
+2026-10-31T04:03:42.1502661Z   lfs: false
+2026-10-31T04:03:42.1503130Z   submodules: false
+2026-10-31T04:03:42.1503653Z   set-safe-directory: true
+2026-10-31T04:03:42.1504202Z   allow-unsafe-pr-checkout: false
+2026-10-31T04:03:42.1505162Z env:
+2026-10-31T04:03:42.1505633Z   LEAN_NUM_THREADS: 2
+2026-10-31T04:03:42.1506153Z ##[endgroup]
+2026-10-31T04:03:42.4204510Z Syncing repository: Rogerhu12/hecke-seven-eighths
+2026-10-31T04:03:42.4207176Z ##[group]Getting Git version info
+2026-10-31T04:03:42.4208451Z Working directory is '/home/runner/work/hecke-seven-eighths/hecke-seven-eighths'
+2026-10-31T04:03:42.4209703Z [command]/usr/bin/git version
+2026-10-31T04:03:42.4279037Z git version 2.56.0
+2026-10-31T04:03:42.4298408Z ##[endgroup]
+2026-10-31T04:03:42.4311876Z Temporarily overriding HOME='/home/runner/work/_temp/0ec72841-7212-4594-9ad9-93cdfe25e1e5' before making global git config changes
+2026-10-31T04:03:42.4313258Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-31T04:03:42.4317039Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hecke-seven-eighths/hecke-seven-eighths
+2026-10-31T04:03:42.4365620Z Deleting the contents of '/home/runner/work/hecke-seven-eighths/hecke-seven-eighths'
+2026-10-31T04:03:42.4370507Z ##[group]Initializing the repository
+2026-10-31T04:03:42.4375534Z [command]/usr/bin/git init /home/runner/work/hecke-seven-eighths/hecke-seven-eighths
+2026-10-31T04:03:42.4473652Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-31T04:03:42.4474723Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-31T04:03:42.4475664Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-31T04:03:42.4476435Z hint: call:
+2026-10-31T04:03:42.4476883Z hint:
+2026-10-31T04:03:42.4477683Z hint: 	git config --global init.defaultBranch <name>
+2026-10-31T04:03:42.4478334Z hint:
+2026-10-31T04:03:42.4479001Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-31T04:03:42.4479940Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-31T04:03:42.4480703Z hint:
+2026-10-31T04:03:42.4486375Z hint: 	git branch -m <name>
+2026-10-31T04:03:42.4487450Z hint:
+2026-10-31T04:03:42.4488665Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-31T04:03:42.4490637Z Initialized empty Git repository in /home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.git/
+2026-10-31T04:03:42.4498175Z [command]/usr/bin/git remote add origin https://github.com/Rogerhu12/hecke-seven-eighths
+2026-10-31T04:03:42.4540876Z ##[endgroup]
+2026-10-31T04:03:42.4542329Z ##[group]Disabling automatic garbage collection
+2026-10-31T04:03:42.4545351Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-31T04:03:42.4572943Z ##[endgroup]
+2026-10-31T04:03:42.4574258Z ##[group]Setting up auth
+2026-10-31T04:03:42.4580431Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-31T04:03:42.4613343Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-31T04:03:42.4925429Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-31T04:03:42.4955921Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-31T04:03:42.5134218Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-31T04:03:42.5161841Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-31T04:03:42.5342582Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-31T04:03:42.5375857Z ##[endgroup]
+2026-10-31T04:03:42.5376999Z ##[group]Fetching the repository
+2026-10-31T04:03:42.5388281Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +36ec3d5fed4764f3d784ffdbb55bd321e75b68b4:refs/remotes/pull/2/merge
+2026-10-31T04:03:44.2158612Z From https://github.com/Rogerhu12/hecke-seven-eighths
+2026-10-31T04:03:44.2160314Z  * [new ref]         36ec3d5fed4764f3d784ffdbb55bd321e75b68b4 -> pull/2/merge
+2026-10-31T04:03:44.2170399Z ##[endgroup]
+2026-10-31T04:03:44.2171200Z ##[group]Determining the checkout info
+2026-10-31T04:03:44.2171800Z ##[endgroup]
+2026-10-31T04:03:44.2172145Z [command]/usr/bin/git sparse-checkout disable
+2026-10-31T04:03:44.2212378Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-31T04:03:44.2236415Z ##[group]Checking out the ref
+2026-10-31T04:03:44.2240101Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/2/merge
+2026-10-31T04:03:44.6413382Z Note: switching to 'refs/remotes/pull/2/merge'.
+2026-10-31T04:03:44.6414072Z 
+2026-10-31T04:03:44.6414486Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-31T04:03:44.6415368Z changes and commit them, and you can discard any commits you make in this
+2026-10-31T04:03:44.6416266Z state without impacting any branches by switching back to a branch.
+2026-10-31T04:03:44.6416828Z 
+2026-10-31T04:03:44.6417480Z If you want to create a new branch to retain commits you create, you may
+2026-10-31T04:03:44.6418348Z do so (now or later) by using -c with the switch command. Example:
+2026-10-31T04:03:44.6418800Z 
+2026-10-31T04:03:44.6419046Z   git switch -c <new-branch-name>
+2026-10-31T04:03:44.6419406Z 
+2026-10-31T04:03:44.6419638Z Or undo this operation with:
+2026-10-31T04:03:44.6419970Z 
+2026-10-31T04:03:44.6420161Z   git switch -
+2026-10-31T04:03:44.6420437Z 
+2026-10-31T04:03:44.6420851Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-31T04:03:44.6421519Z 
+2026-10-31T04:03:44.6422182Z HEAD is now at 36ec3d5 Merge b45484e24f3d4e28cc8092ff6b296f38f4a0f94f into 6e67559f4285ab833a746db021a0d73200e47590
+2026-10-31T04:03:44.6431139Z ##[endgroup]
+2026-10-31T04:03:44.6478823Z [command]/usr/bin/git log -1 --format=%H
+2026-10-31T04:03:44.6500200Z 36ec3d5fed4764f3d784ffdbb55bd321e75b68b4
+2026-10-31T04:03:44.6731116Z ##[group]Run python3 scripts/check_theta_global_pins.py
+2026-10-31T04:03:44.6731712Z [36;1mpython3 scripts/check_theta_global_pins.py[0m
+2026-10-31T04:03:44.6749754Z shell: /usr/bin/bash -e {0}
+2026-10-31T04:03:44.6750061Z env:
+2026-10-31T04:03:44.6750278Z   LEAN_NUM_THREADS: 2
+2026-10-31T04:03:44.6750512Z ##[endgroup]
+2026-10-31T04:03:44.7196001Z {
+2026-10-31T04:03:44.7196817Z   "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
+2026-10-31T04:03:44.7197767Z   "lean_commit_expected": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+2026-10-31T04:03:44.7198509Z   "mathlib_manifest_rev": "0493595ecd5da8ef14742febab99728f98e948e8",
+2026-10-31T04:03:44.7199271Z   "mathlib_config_rev": "0493595ecd5da8ef14742febab99728f98e948e8",
+2026-10-31T04:03:44.7199793Z   "errors": []
+2026-10-31T04:03:44.7200099Z }
+2026-10-31T04:03:44.7596900Z ##[group]Run leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+2026-10-31T04:03:44.7597490Z with:
+2026-10-31T04:03:44.7597723Z   auto-config: false
+2026-10-31T04:03:44.7597947Z   build: false
+2026-10-31T04:03:44.7598154Z   test: false
+2026-10-31T04:03:44.7598351Z   lint: false
+2026-10-31T04:03:44.7598567Z   use-mathlib-cache: true
+2026-10-31T04:03:44.7598820Z   use-github-cache: false
+2026-10-31T04:03:44.7599057Z   mk_all-check: false
+2026-10-31T04:03:44.7599314Z   check-reservoir-eligibility: false
+2026-10-31T04:03:44.7599582Z   leanchecker: false
+2026-10-31T04:03:44.7599802Z   lean4checker: false
+2026-10-31T04:03:44.7600014Z   nanoda: false
+2026-10-31T04:03:44.7600230Z   nanoda-allow-sorry: true
+2026-10-31T04:03:44.7600465Z   axiom-audit: false
+2026-10-31T04:03:44.7600749Z   axiom-audit-allow: propext,Classical.choice,Quot.sound
+2026-10-31T04:03:44.7601118Z   lake-package-directory: .
+2026-10-31T04:03:44.7601388Z   reinstall-transient-toolchain: false
+2026-10-31T04:03:44.7601706Z env:
+2026-10-31T04:03:44.7601898Z   LEAN_NUM_THREADS: 2
+2026-10-31T04:03:44.7602113Z ##[endgroup]
+2026-10-31T04:03:44.7671336Z ##[start-action display=install elan;id=__leanprover_lean-action.__run]
+2026-10-31T04:03:44.7711837Z ##[group]Run : Install Elan
+2026-10-31T04:03:44.7712152Z [36;1m: Install Elan[0m
+2026-10-31T04:03:44.7712456Z [36;1m${GITHUB_ACTION_PATH}/scripts/install_elan.sh[0m
+2026-10-31T04:03:44.7728503Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-31T04:03:44.7728905Z env:
+2026-10-31T04:03:44.7729128Z   LEAN_NUM_THREADS: 2
+2026-10-31T04:03:44.7729354Z ##[endgroup]
+2026-10-31T04:03:44.7786062Z ##[group]Elan Installation Output
+2026-10-31T04:03:44.8208476Z info: downloading installer
+2026-10-31T04:03:46.2469454Z info: downloading https://releases.lean-lang.org/lean4/v4.35.0-rc3/lean-4.35.0-rc3-linux.tar.zst
+2026-10-31T04:03:50.7004987Z info: installing /home/runner/.elan/toolchains/leanprover--lean4---v4.35.0-rc3
+2026-10-31T04:03:56.8300281Z Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)
+2026-10-31T04:03:56.8731934Z Lake version 5.0.0-src+470d5ce (Lean version 4.35.0-rc3)
+2026-10-31T04:03:56.8773118Z ##[endgroup]
+2026-10-31T04:03:56.8773527Z 
+2026-10-31T04:03:56.8791400Z ##[end-action id=__leanprover_lean-action.__run;outcome=success;conclusion=success;duration_ms=12111]
+2026-10-31T04:03:56.8796010Z ##[start-action display=configure `lean-action`;id=__leanprover_lean-action.config]
+2026-10-31T04:03:56.9532078Z ##[group]Run : Configure Lean Action
+2026-10-31T04:03:56.9532455Z [36;1m: Configure Lean Action[0m
+2026-10-31T04:03:56.9532802Z [36;1m${GITHUB_ACTION_PATH}/scripts/config.sh[0m
+2026-10-31T04:03:56.9551671Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-31T04:03:56.9552078Z env:
+2026-10-31T04:03:56.9552323Z   LEAN_NUM_THREADS: 2
+2026-10-31T04:03:56.9552609Z   AUTO_CONFIG: false
+2026-10-31T04:03:56.9552864Z   BUILD: false
+2026-10-31T04:03:56.9553104Z   TEST: false
+2026-10-31T04:03:56.9553345Z   LINT: false
+2026-10-31T04:03:56.9553579Z ##[endgroup]
+2026-10-31T04:03:57.0472573Z ##[group]Configure lean-action
+2026-10-31T04:03:57.0527080Z ##[end-action id=__leanprover_lean-action.config;outcome=success;conclusion=success;duration_ms=172]
+2026-10-31T04:03:57.0532536Z ##[start-action display=reinstall transient toolchain;id=__leanprover_lean-action.__run_2]
+2026-10-31T04:03:57.0550283Z ##[end-action id=__leanprover_lean-action.__run_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-31T04:03:57.0553202Z ##[start-action display=ensure all files are imported;id=__leanprover_lean-action.mk_all]
+2026-10-31T04:03:57.0556947Z ##[end-action id=__leanprover_lean-action.mk_all;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-31T04:03:57.0559390Z ##[start-action display=Run actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25;id=__leanprover_lean-action.cache-restore]
+2026-10-31T04:03:57.0563107Z ##[end-action id=__leanprover_lean-action.cache-restore;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-31T04:03:57.0564921Z ##[start-action display=detect mathlib;id=__leanprover_lean-action.detect-mathlib]
+2026-10-31T04:03:57.0568437Z ##[end-action id=__leanprover_lean-action.detect-mathlib;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-31T04:03:57.0570175Z ##[start-action display=get mathlib cache;id=__leanprover_lean-action.__run_3]
+2026-10-31T04:03:57.2039545Z ##[group]Run : Get Mathlib Cache
+2026-10-31T04:03:57.2039911Z [36;1m: Get Mathlib Cache[0m
+2026-10-31T04:03:57.2040224Z [36;1mecho "::group::Mathlib Cache"[0m
+2026-10-31T04:03:57.2040703Z [36;1m# Use cache.mathlib.org unless the workflow sets `MATHLIB_CACHE_GET_URL`.[0m
+2026-10-31T04:03:57.2041769Z [36;1m# The cache client reads an empty value as a URL, so unset it to get the client's default.[0m
+2026-10-31T04:03:57.2042776Z [36;1mif [ -z "${MATHLIB_CACHE_GET_URL+x}" ]; then[0m
+2026-10-31T04:03:57.2043593Z [36;1m  export MATHLIB_CACHE_GET_URL="https://cache.mathlib.org/mathlib4"[0m
+2026-10-31T04:03:57.2044084Z [36;1melif [ -z "$MATHLIB_CACHE_GET_URL" ]; then[0m
+2026-10-31T04:03:57.2044442Z [36;1m  unset MATHLIB_CACHE_GET_URL[0m
+2026-10-31T04:03:57.2044743Z [36;1mfi[0m
+2026-10-31T04:03:57.2044983Z [36;1mlake exe cache get[0m
+2026-10-31T04:03:57.2045272Z [36;1mecho "::endgroup::"[0m
+2026-10-31T04:03:57.2045548Z [36;1mecho[0m
+2026-10-31T04:03:57.2060265Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-31T04:03:57.2060668Z env:
+2026-10-31T04:03:57.2060907Z   LEAN_NUM_THREADS: 2
+2026-10-31T04:03:57.2061162Z ##[endgroup]
+2026-10-31T04:03:57.2485559Z ##[group]Mathlib Cache
+2026-10-31T04:03:57.2932990Z info: mathlib: materializing new dependency
+2026-10-31T04:03:57.6467160Z info: mathlib: fetching revision '0493595ecd5da8ef14742febab99728f98e948e8' from https://github.com/leanprover-community/mathlib4
+2026-10-31T04:03:59.4597252Z info: mathlib: checking out revision '0493595ecd5da8ef14742febab99728f98e948e8'
+2026-10-31T04:04:10.5725540Z info: TauCeti: materializing new dependency
+2026-10-31T04:04:10.5902404Z info: TauCeti: fetching revision 'c197d7bdbae257e85d23443c89aa7cd34c13410b' from https://github.com/TauCetiProject/TauCeti.git
+2026-10-31T04:04:11.9902686Z info: TauCeti: checking out revision 'c197d7bdbae257e85d23443c89aa7cd34c13410b'
+2026-10-31T04:04:22.9741642Z info: plausible: materializing new dependency
+2026-10-31T04:04:22.9893517Z info: plausible: fetching revision 'fb13df72ecefd8ddbf9291021d7f33a8673eb57b' from https://github.com/leanprover-community/plausible
+2026-10-31T04:04:23.4756267Z info: plausible: checking out revision 'fb13df72ecefd8ddbf9291021d7f33a8673eb57b'
+2026-10-31T04:04:24.5040591Z info: LeanSearchClient: materializing new dependency
+2026-10-31T04:04:24.5170371Z info: LeanSearchClient: fetching revision '29ff470276c725ae01505d55b17148c18fc7dfd3' from https://github.com/leanprover-community/LeanSearchClient
+2026-10-31T04:04:24.9774323Z info: LeanSearchClient: checking out revision '29ff470276c725ae01505d55b17148c18fc7dfd3'
+2026-10-31T04:04:25.8892045Z info: importGraph: materializing new dependency
+2026-10-31T04:04:25.9062868Z info: importGraph: fetching revision '10a2cfff285e1c7c2ebc49c0ba22cab0f3c58ee5' from https://github.com/leanprover-community/import-graph
+2026-10-31T04:04:26.4436771Z info: importGraph: checking out revision '10a2cfff285e1c7c2ebc49c0ba22cab0f3c58ee5'
+2026-10-31T04:04:27.5439215Z info: proofwidgets: materializing new dependency
+2026-10-31T04:04:27.5575411Z info: proofwidgets: fetching revision 'c643bbb3c24f8a25f9c14e3a6b1ceb13d01f3de1' from https://github.com/leanprover-community/ProofWidgets4
+2026-10-31T04:04:28.1145469Z info: proofwidgets: checking out revision 'c643bbb3c24f8a25f9c14e3a6b1ceb13d01f3de1'
+2026-10-31T04:04:30.0713510Z info: aesop: materializing new dependency
+2026-10-31T04:04:30.0883475Z info: aesop: fetching revision 'a90fbf7b02ff06a0deebf74088dff9e5fe02c9ea' from https://github.com/leanprover-community/aesop
+2026-10-31T04:04:30.9782391Z info: aesop: checking out revision 'a90fbf7b02ff06a0deebf74088dff9e5fe02c9ea'
+2026-10-31T04:04:32.1383444Z info: Qq: materializing new dependency
+2026-10-31T04:04:32.1528953Z info: Qq: fetching revision '37b0ba0b26109cf9f9c541f0f9557e50cfa1a3b9' from https://github.com/leanprover-community/quote4
+2026-10-31T04:04:32.6733690Z info: Qq: checking out revision '37b0ba0b26109cf9f9c541f0f9557e50cfa1a3b9'
+2026-10-31T04:04:33.6526195Z info: batteries: materializing new dependency
+2026-10-31T04:04:33.6698005Z info: batteries: fetching revision '33131f4fb10067cb3009bf4db615d9680c1ccd6b' from https://github.com/leanprover-community/batteries
+2026-10-31T04:04:34.5592235Z info: batteries: checking out revision '33131f4fb10067cb3009bf4db615d9680c1ccd6b'
+2026-10-31T04:04:35.9965304Z info: Cli: materializing new dependency
+2026-10-31T04:04:36.0103983Z info: Cli: fetching revision '843844fa601dd56767b1eb22b7ada5b64d5e567a' from https://github.com/leanprover/lean4-cli
+2026-10-31T04:04:36.4868537Z info: Cli: checking out revision '843844fa601dd56767b1eb22b7ada5b64d5e567a'
+2026-10-31T04:04:37.7549557Z ✔ [1/5] Built Cache.Cli (237ms)
+2026-10-31T04:04:38.0553554Z ✔ [2/5] Built Cache.Lean (285ms)
+2026-10-31T04:04:38.3558664Z ✔ [5/12] Built Cache.Env (249ms)
+2026-10-31T04:04:38.7566781Z ✔ [7/42] Built Cache.Infra (354ms)
+2026-10-31T04:04:38.8568339Z ✔ [8/42] Built Cache.Cli:c.o (127ms)
+2026-10-31T04:04:38.9570173Z ✔ [9/42] Built Batteries.Tactic.OpenPrivate (777ms)
+2026-10-31T04:04:39.0572769Z ✔ [10/42] Built Cache.Lean:c.o (150ms)
+2026-10-31T04:04:39.0574001Z ✔ [11/42] Built Cache.Env:c.o (142ms)
+2026-10-31T04:04:39.2574580Z ✔ [12/42] Built Cache.Infra:c.o (189ms)
+2026-10-31T04:04:40.0574805Z ✔ [13/42] Built Batteries.Tactic.OpenPrivate:c.o (1.0s)
+2026-10-31T04:04:40.3580707Z ✔ [14/42] Built Cache.IO (1.2s)
+2026-10-31T04:04:40.9583632Z ✔ [15/42] Built Cache.Hashing (551ms)
+2026-10-31T04:04:41.4590417Z ✔ [16/42] Built Cache.Hashing:c.o (529ms)
+2026-10-31T04:04:41.9600750Z ✔ [17/42] Built Cache.IO:c.o (1.6s)
+2026-10-31T04:04:42.9613148Z ✔ [18/42] Built Cache.Requests (1.5s)
+2026-10-31T04:04:43.1615660Z ✔ [19/42] Built Cache.Marker (285ms)
+2026-10-31T04:04:43.2621303Z ✔ [20/42] Built Cache.Marker:c.o (108ms)
+2026-10-31T04:04:43.7618234Z ✔ [21/42] Built Cache.Query (409ms)
+2026-10-31T04:04:44.0612548Z ✔ [22/42] Built Cache.Upload.Dest (305ms)
+2026-10-31T04:04:44.2615667Z ✔ [23/42] Built Cache.Query:c.o (266ms)
+2026-10-31T04:04:44.3617436Z ✔ [24/42] Built Cache.Upload.Dest:c.o (107ms)
+2026-10-31T04:04:44.7622774Z ✔ [25/42] Built Cache.Warning (388ms)
+2026-10-31T04:04:45.1628369Z ✔ [26/42] Built Cache.Upload.Rclone (334ms)
+2026-10-31T04:04:45.4639048Z ✔ [27/42] Built Cache.Upload.Curl (316ms)
+2026-10-31T04:04:45.4642487Z ✔ [28/42] Built Cache.Requests:c.o (2.6s)
+2026-10-31T04:04:45.6636229Z ✔ [29/42] Built Cache.Upload.Rclone:c.o (174ms)
+2026-10-31T04:04:45.6637136Z ✔ [30/42] Built Cache.Warning:c.o (252ms)
+2026-10-31T04:04:45.8639724Z ✔ [31/42] Built Cache.Upload.Curl:c.o (180ms)
+2026-10-31T04:04:45.9631162Z ✔ [32/42] Built Cache.Upload.Azure (291ms)
+2026-10-31T04:04:46.0632456Z ✔ [33/42] Built Cache.Upload.Azure:c.o (131ms)
+2026-10-31T04:04:46.2634913Z ✔ [34/42] Built Cache.Upload.S3 (406ms)
+2026-10-31T04:04:46.5656997Z ✔ [35/42] Built Cache.Upload.Defs (316ms)
+2026-10-31T04:04:46.7660241Z ✔ [36/42] Built Cache.Upload.S3:c.o (323ms)
+2026-10-31T04:04:46.7660726Z ✔ [37/42] Built Cache.Upload.Defs:c.o (145ms)
+2026-10-31T04:04:46.8651422Z ✔ [38/42] Built Cache.Upload (265ms)
+2026-10-31T04:04:46.9653079Z ✔ [39/42] Built Cache.Upload:c.o (102ms)
+2026-10-31T04:04:47.6651165Z ✔ [40/42] Built Cache.Main (777ms)
+2026-10-31T04:04:48.5662130Z ✔ [41/42] Built Cache.Main:c.o (954ms)
+2026-10-31T04:04:49.1684542Z ✔ [42/42] Built cache:exe (561ms)
+2026-10-31T04:04:51.1467632Z Current branch: HEAD
+2026-10-31T04:04:51.1468242Z Using cache from origin: (some leanprover-community/mathlib4)
+2026-10-31T04:04:51.1469326Z Attempting to download 8939 file(s) from leanprover-community/mathlib4 cache at https://cache.mathlib.org/mathlib4
+2026-10-31T04:04:51.2528035Z 
+2026-10-31T04:04:51.3602613Z Downloaded: 1 file(s) [attempted 1/8939 = 0%, 703 KB/s]
+2026-10-31T04:04:51.4610793Z Downloaded: 127 file(s) [attempted 127/8939 = 1%, 1082 KB/s]
+2026-10-31T04:04:51.5598821Z Downloaded: 236 file(s) [attempted 236/8939 = 2%, 369 KB/s]
+2026-10-31T04:04:51.6628557Z Downloaded: 372 file(s) [attempted 372/8939 = 4%, 2133 KB/s]
+2026-10-31T04:04:51.7599823Z Downloaded: 465 file(s) [attempted 465/8939 = 5%, 2747 KB/s]
+2026-10-31T04:04:51.8605201Z Downloaded: 591 file(s) [attempted 591/8939 = 6%, 860 KB/s]
+2026-10-31T04:04:51.9709323Z Downloaded: 703 file(s) [attempted 703/8939 = 7%, 580 KB/s]
+2026-10-31T04:04:52.0798420Z Downloaded: 825 file(s) [attempted 825/8939 = 9%, 2471 KB/s]
+2026-10-31T04:04:52.1818596Z Downloaded: 983 file(s) [attempted 983/8939 = 10%, 351 KB/s]
+2026-10-31T04:04:52.2799153Z Downloaded: 1088 file(s) [attempted 1088/8939 = 12%, 467 KB/s]
+2026-10-31T04:04:52.3799462Z Downloaded: 1209 file(s) [attempted 1209/8939 = 13%, 315 KB/s]
+2026-10-31T04:04:52.4801867Z Downloaded: 1337 file(s) [attempted 1337/8939 = 14%, 945 KB/s]
+2026-10-31T04:04:52.5838904Z Downloaded: 1450 file(s) [attempted 1450/8939 = 16%, 3803 KB/s]
+2026-10-31T04:04:52.6826715Z Downloaded: 1535 file(s) [attempted 1535/8939 = 17%, 649 KB/s]
+2026-10-31T04:04:52.7881167Z Downloaded: 1622 file(s) [attempted 1622/8939 = 18%, 1469 KB/s]
+2026-10-31T04:04:52.8914279Z Downloaded: 1751 file(s) [attempted 1751/8939 = 19%, 7894 KB/s]
+2026-10-31T04:04:52.9898605Z Downloaded: 1887 file(s) [attempted 1887/8939 = 21%, 886 KB/s]
+2026-10-31T04:04:53.0901889Z Downloaded: 2013 file(s) [attempted 2013/8939 = 22%, 16670 KB/s]
+2026-10-31T04:04:53.1890461Z Downloaded: 2135 file(s) [attempted 2135/8939 = 23%, 183 KB/s]
+2026-10-31T04:04:53.2916153Z Downloaded: 2249 file(s) [attempted 2249/8939 = 25%, 529 KB/s]
+2026-10-31T04:04:53.3945755Z Downloaded: 2364 file(s) [attempted 2364/8939 = 26%, 747 KB/s]
+2026-10-31T04:04:53.4948520Z Downloaded: 2495 file(s) [attempted 2495/8939 = 27%, 507 KB/s]
+2026-10-31T04:04:53.6081187Z Downloaded: 2627 file(s) [attempted 2627/8939 = 29%, 930 KB/s]
+2026-10-31T04:04:53.7158653Z Downloaded: 2735 file(s) [attempted 2735/8939 = 30%, 640 KB/s]
+2026-10-31T04:04:53.8191648Z Downloaded: 2840 file(s) [attempted 2840/8939 = 31%, 995 KB/s]
+2026-10-31T04:04:53.9385928Z Downloaded: 2927 file(s) [attempted 2927/8939 = 32%, 450 KB/s]
+2026-10-31T04:04:54.0404541Z Downloaded: 2986 file(s) [attempted 2986/8939 = 33%, 517 KB/s]
+2026-10-31T04:04:54.1425003Z Downloaded: 3098 file(s) [attempted 3098/8939 = 34%, 2630 KB/s]
+2026-10-31T04:04:54.2438374Z Downloaded: 3234 file(s) [attempted 3234/8939 = 36%, 355 KB/s]
+2026-10-31T04:04:54.3443985Z Downloaded: 3347 file(s) [attempted 3347/8939 = 37%, 326 KB/s]
+2026-10-31T04:04:54.4468530Z Downloaded: 3452 file(s) [attempted 3452/8939 = 38%, 585 KB/s]
+2026-10-31T04:04:54.5439907Z Downloaded: 3550 file(s) [attempted 3550/8939 = 39%, 1814 KB/s]
+2026-10-31T04:04:54.6496885Z Downloaded: 3679 file(s) [attempted 3679/8939 = 41%, 900 KB/s]
+2026-10-31T04:04:54.7504874Z Downloaded: 3776 file(s) [attempted 3776/8939 = 42%, 481 KB/s]
+2026-10-31T04:04:54.8558831Z Downloaded: 3873 file(s) [attempted 3873/8939 = 43%, 1458 KB/s]
+2026-10-31T04:04:54.9539096Z Downloaded: 4011 file(s) [attempted 4011/8939 = 44%, 1048 KB/s]
+2026-10-31T04:04:55.0615203Z Downloaded: 4128 file(s) [attempted 4128/8939 = 46%, 528 KB/s]
+2026-10-31T04:04:55.1642319Z Downloaded: 4254 file(s) [attempted 4254/8939 = 47%, 3703 KB/s]
+2026-10-31T04:04:55.2669022Z Downloaded: 4376 file(s) [attempted 4376/8939 = 48%, 317 KB/s]
+2026-10-31T04:04:55.3669124Z Downloaded: 4434 file(s) [attempted 4434/8939 = 49%, 366 KB/s]
+2026-10-31T04:04:55.4725454Z Downloaded: 4544 file(s) [attempted 4544/8939 = 50%, 2643 KB/s]
+2026-10-31T04:04:55.5725517Z Downloaded: 4655 file(s) [attempted 4655/8939 = 52%, 330 KB/s]
+2026-10-31T04:04:55.6808557Z Downloaded: 4788 file(s) [attempted 4788/8939 = 53%, 1554 KB/s]
+2026-10-31T04:04:55.7841368Z Downloaded: 4896 file(s) [attempted 4896/8939 = 54%, 218 KB/s]
+2026-10-31T04:04:55.8906797Z Downloaded: 5022 file(s) [attempted 5022/8939 = 56%, 262 KB/s]
+2026-10-31T04:04:55.9915959Z Downloaded: 5129 file(s) [attempted 5129/8939 = 57%, 299 KB/s]
+2026-10-31T04:04:56.0968298Z Downloaded: 5246 file(s) [attempted 5246/8939 = 58%, 467 KB/s]
+2026-10-31T04:04:56.1959046Z Downloaded: 5355 file(s) [attempted 5355/8939 = 59%, 2037 KB/s]
+2026-10-31T04:04:56.3068499Z Downloaded: 5468 file(s) [attempted 5468/8939 = 61%, 3392 KB/s]
+2026-10-31T04:04:56.4119036Z Downloaded: 5538 file(s) [attempted 5538/8939 = 61%, 509 KB/s]
+2026-10-31T04:04:56.5106303Z Downloaded: 5671 file(s) [attempted 5671/8939 = 63%, 2148 KB/s]
+2026-10-31T04:04:56.6132954Z Downloaded: 5783 file(s) [attempted 5783/8939 = 64%, 769 KB/s]
+2026-10-31T04:04:56.7158514Z Downloaded: 5846 file(s) [attempted 5846/8939 = 65%, 391 KB/s]
+2026-10-31T04:04:56.8338024Z Downloaded: 5924 file(s) [attempted 5924/8939 = 66%, 417 KB/s]
+2026-10-31T04:04:56.9483532Z Downloaded: 6034 file(s) [attempted 6034/8939 = 67%, 3475 KB/s]
+2026-10-31T04:04:57.0535289Z Downloaded: 6138 file(s) [attempted 6138/8939 = 68%, 1631 KB/s]
+2026-10-31T04:04:57.1593645Z Downloaded: 6250 file(s) [attempted 6250/8939 = 69%, 214 KB/s]
+2026-10-31T04:04:57.3016102Z Downloaded: 6308 file(s) [attempted 6308/8939 = 70%, 5090 KB/s]
+2026-10-31T04:04:57.4038874Z Downloaded: 6401 file(s) [attempted 6401/8939 = 71%, 473 KB/s]
+2026-10-31T04:04:57.5093604Z Downloaded: 6522 file(s) [attempted 6522/8939 = 72%, 554 KB/s]
+2026-10-31T04:04:57.6108969Z Downloaded: 6636 file(s) [attempted 6636/8939 = 74%, 624 KB/s]
+2026-10-31T04:04:57.7161596Z Downloaded: 6758 file(s) [attempted 6758/8939 = 75%, 1135 KB/s]
+2026-10-31T04:04:57.8173187Z Downloaded: 6879 file(s) [attempted 6879/8939 = 76%, 138 KB/s]
+2026-10-31T04:04:57.9528562Z Downloaded: 6991 file(s) [attempted 6991/8939 = 78%, 1120 KB/s]
+2026-10-31T04:04:58.0548554Z Downloaded: 7079 file(s) [attempted 7079/8939 = 79%, 235 KB/s]
+2026-10-31T04:04:58.1548711Z Downloaded: 7234 file(s) [attempted 7234/8939 = 80%, 223 KB/s]
+2026-10-31T04:04:58.2589644Z Downloaded: 7322 file(s) [attempted 7322/8939 = 81%, 957 KB/s]
+2026-10-31T04:04:58.3898716Z Downloaded: 7450 file(s) [attempted 7450/8939 = 83%, 833 KB/s]
+2026-10-31T04:04:58.5095863Z Downloaded: 7484 file(s) [attempted 7484/8939 = 83%, 3273 KB/s]
+2026-10-31T04:04:58.6118561Z Downloaded: 7589 file(s) [attempted 7589/8939 = 84%, 383 KB/s]
+2026-10-31T04:04:58.7258667Z Downloaded: 7707 file(s) [attempted 7707/8939 = 86%, 939 KB/s]
+2026-10-31T04:04:58.8581600Z Downloaded: 7825 file(s) [attempted 7825/8939 = 87%, 4240 KB/s]
+2026-10-31T04:04:58.9629634Z Downloaded: 7956 file(s) [attempted 7956/8939 = 89%, 770 KB/s]
+2026-10-31T04:04:59.0620233Z Downloaded: 8053 file(s) [attempted 8053/8939 = 90%, 423 KB/s]
+2026-10-31T04:04:59.1807209Z Downloaded: 8182 file(s) [attempted 8182/8939 = 91%, 483 KB/s]
+2026-10-31T04:04:59.2938370Z Downloaded: 8245 file(s) [attempted 8245/8939 = 92%, 2853 KB/s]
+2026-10-31T04:04:59.3898499Z Downloaded: 8338 file(s) [attempted 8338/8939 = 93%, 1430 KB/s]
+2026-10-31T04:04:59.4918543Z Downloaded: 8428 file(s) [attempted 8428/8939 = 94%, 313 KB/s]
+2026-10-31T04:04:59.6227887Z Downloaded: 8500 file(s) [attempted 8500/8939 = 95%, 1128 KB/s]
+2026-10-31T04:04:59.7238274Z Downloaded: 8588 file(s) [attempted 8588/8939 = 96%, 730 KB/s]
+2026-10-31T04:04:59.8235564Z Downloaded: 8651 file(s) [attempted 8651/8939 = 96%, 220 KB/s]
+2026-10-31T04:04:59.9238729Z Downloaded: 8743 file(s) [attempted 8743/8939 = 97%, 1548 KB/s]
+2026-10-31T04:05:00.0237990Z Downloaded: 8850 file(s) [attempted 8850/8939 = 99%, 984 KB/s]
+2026-10-31T04:05:00.0253720Z Downloaded: 8939 file(s) [attempted 8939/8939 = 100%, 984 KB/s]
+2026-10-31T04:05:00.0273787Z Still decompressing downloaded files...
+2026-10-31T04:05:18.4134820Z Decompressed 8939 file(s)
+2026-10-31T04:05:18.4135280Z Already decompressed 8939 file(s)
+2026-10-31T04:05:18.4567541Z ##[endgroup]
+2026-10-31T04:05:18.4567780Z 
+2026-10-31T04:05:18.4572507Z ##[end-action id=__leanprover_lean-action.__run_3;outcome=success;conclusion=success;duration_ms=81400]
+2026-10-31T04:05:18.4602569Z ##[start-action display=build Rogerhu12/hecke-seven-eighths;id=__leanprover_lean-action.build]
+2026-10-31T04:05:18.4608178Z ##[end-action id=__leanprover_lean-action.build;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-31T04:05:18.4611823Z ##[start-action display=test Rogerhu12/hecke-seven-eighths;id=__leanprover_lean-action.test]
+2026-10-31T04:05:18.4616154Z ##[end-action id=__leanprover_lean-action.test;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-31T04:05:18.4618957Z ##[start-action display=lint Rogerhu12/hecke-seven-eighths;id=__leanprover_lean-action.lint]
+2026-10-31T04:05:18.4623096Z ##[end-action id=__leanprover_lean-action.lint;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-31T04:05:18.4625111Z ##[start-action display=Run actions/cache/save@caa296126883cff596d87d8935842f9db880ef25;id=__leanprover_lean-action.__actions_cache]
+2026-10-31T04:05:18.4635813Z ##[end-action id=__leanprover_lean-action.__actions_cache;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-31T04:05:18.4638004Z ##[start-action display=check reservoir eligibility;id=__leanprover_lean-action.__run_4]
+2026-10-31T04:05:18.4641325Z ##[end-action id=__leanprover_lean-action.__run_4;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-31T04:05:18.4643969Z ##[start-action display=check environment with leanchecker;id=__leanprover_lean-action.__run_5]
+2026-10-31T04:05:18.4648713Z ##[end-action id=__leanprover_lean-action.__run_5;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-31T04:05:18.4650842Z ##[start-action display=check environment with nanoda;id=__leanprover_lean-action.nanoda]
+2026-10-31T04:05:18.4653839Z ##[end-action id=__leanprover_lean-action.nanoda;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-31T04:05:18.4656031Z ##[start-action display=audit axioms with axiom-audit;id=__leanprover_lean-action.axiom-audit]
+2026-10-31T04:05:18.4659484Z ##[end-action id=__leanprover_lean-action.axiom-audit;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-31T04:05:18.4939670Z ##[group]Run python3 scripts/check_theta_global_pins.py --runtime
+2026-10-31T04:05:18.4940225Z [36;1mpython3 scripts/check_theta_global_pins.py --runtime[0m
+2026-10-31T04:05:18.4955198Z shell: /usr/bin/bash -e {0}
+2026-10-31T04:05:18.4955449Z env:
+2026-10-31T04:05:18.4955766Z   LEAN_NUM_THREADS: 2
+2026-10-31T04:05:18.4956057Z ##[endgroup]
+2026-10-31T04:05:19.3512456Z {
+2026-10-31T04:05:19.3512779Z   "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
+2026-10-31T04:05:19.3513188Z   "lean_commit_expected": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+2026-10-31T04:05:19.3513859Z   "mathlib_manifest_rev": "0493595ecd5da8ef14742febab99728f98e948e8",
+2026-10-31T04:05:19.3515245Z   "mathlib_config_rev": "0493595ecd5da8ef14742febab99728f98e948e8",
+2026-10-31T04:05:19.3519673Z   "lean_version": "Lean (version 4.35.0-rc3, x86_64-unknown-linux-gnu, commit 470d5ce1400764999581fd26d5d72b00d990b0f4, Release)",
+2026-10-31T04:05:19.3520716Z   "mathlib_runtime_rev": "0493595ecd5da8ef14742febab99728f98e948e8",
+2026-10-31T04:05:19.3521198Z   "errors": []
+2026-10-31T04:05:19.3521475Z }
+2026-10-31T04:05:19.3998795Z ##[group]Run python3 scripts/build_theta_global_bundle.py --check
+2026-10-31T04:05:19.3999281Z [36;1mpython3 scripts/build_theta_global_bundle.py --check[0m
+2026-10-31T04:05:19.4011712Z shell: /usr/bin/bash -e {0}
+2026-10-31T04:05:19.4011966Z env:
+2026-10-31T04:05:19.4012171Z   LEAN_NUM_THREADS: 2
+2026-10-31T04:05:19.4012389Z ##[endgroup]
+2026-10-31T04:05:34.2696005Z Generated 45 modules with 58 imports: /home/runner/work/hecke-seven-eighths/hecke-seven-eighths/verification/theta_global/Standalone.lean
+2026-10-31T04:05:34.2697833Z verification/theta_global/Standalone.lean:136:8: warning: automatically included section variable(s) unused in theorem `_private.verification.theta_global.Standalone.0.ThetaGlobal.FiniteShell.q_pos`:
+2026-10-31T04:05:34.2698644Z   [MeasurableSpace U]
+2026-10-31T04:05:34.2699112Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2699717Z   omit [MeasurableSpace U] in theorem ...
+2026-10-31T04:05:34.2699904Z 
+2026-10-31T04:05:34.2700212Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2701131Z verification/theta_global/Standalone.lean:139:8: warning: automatically included section variable(s) unused in theorem `_private.verification.theta_global.Standalone.0.ThetaGlobal.FiniteShell.q_one_lt`:
+2026-10-31T04:05:34.2702049Z   [MeasurableSpace U]
+2026-10-31T04:05:34.2702595Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2703103Z   omit [MeasurableSpace U] in theorem ...
+2026-10-31T04:05:34.2703289Z 
+2026-10-31T04:05:34.2703504Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2704089Z 'ThetaGlobal.FiniteShell.uniform_cutoff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2704739Z 'ThetaGlobal.FiniteShell.uniform_decay' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2705390Z 'ThetaGlobal.FiniteShell.shell_mellin_summable' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2706078Z verification/theta_global/Standalone.lean:410:8: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+2026-10-31T04:05:34.2706476Z 
+2026-10-31T04:05:34.2706580Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2707221Z   i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+2026-10-31T04:05:34.2708204Z verification/theta_global/Standalone.lean:417:51: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+2026-10-31T04:05:34.2708805Z 
+2026-10-31T04:05:34.2708960Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2709454Z   i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+2026-10-31T04:05:34.2710521Z verification/theta_global/Standalone.lean:403:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteClass.prod_delta`:
+2026-10-31T04:05:34.2711558Z   [(p : P) → Fintype (C p)]
+2026-10-31T04:05:34.2712040Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2712609Z   omit [(p : P) → Fintype (C p)] in theorem ...
+2026-10-31T04:05:34.2712814Z 
+2026-10-31T04:05:34.2713027Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2713833Z verification/theta_global/Standalone.lean:426:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteClass.localMaskFactor_norm_le_one`:
+2026-10-31T04:05:34.2714510Z   [Fintype P]
+2026-10-31T04:05:34.2714755Z   [(p : P) → Fintype (C p)]
+2026-10-31T04:05:34.2715223Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2715813Z   omit [Fintype P] [(p : P) → Fintype (C p)] in theorem ...
+2026-10-31T04:05:34.2716053Z 
+2026-10-31T04:05:34.2716426Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2717250Z verification/theta_global/Standalone.lean:525:8: warning: `mul_le_one₀` has been deprecated: No replacement, use constituent lemmas from proof.
+2026-10-31T04:05:34.2718630Z verification/theta_global/Standalone.lean:519:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteClass.masked_period_norm_le_one`:
+2026-10-31T04:05:34.2719349Z   [(p : P) → MeasurableSpace (U p)]
+2026-10-31T04:05:34.2719837Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2720420Z   omit [(p : P) → MeasurableSpace (U p)] in theorem ...
+2026-10-31T04:05:34.2720669Z 
+2026-10-31T04:05:34.2720879Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2721478Z 'ThetaGlobal.FiniteClass.theta_tensor_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2722186Z 'ThetaGlobal.FiniteClass.tensor_shell_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2723071Z verification/theta_global/Standalone.lean:586:10: warning: `mul_le_one₀` has been deprecated: No replacement, use constituent lemmas from proof.
+2026-10-31T04:05:34.2724028Z verification/theta_global/Standalone.lean:593:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteTensor.withClassMask_bounds`:
+2026-10-31T04:05:34.2724727Z   [(p : P) → MeasurableSpace (U p)]
+2026-10-31T04:05:34.2725204Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2725770Z   omit [(p : P) → MeasurableSpace (U p)] in theorem ...
+2026-10-31T04:05:34.2725984Z 
+2026-10-31T04:05:34.2726192Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2726953Z verification/theta_global/Standalone.lean:656:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteTensor.uniform_cutoff`:
+2026-10-31T04:05:34.2728006Z   [∀ (p : P), IsFiniteMeasure (μ p)]
+2026-10-31T04:05:34.2728644Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2729230Z   omit [∀ (p : P), IsFiniteMeasure (μ p)] in theorem ...
+2026-10-31T04:05:34.2729441Z 
+2026-10-31T04:05:34.2729651Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2730251Z 'ThetaGlobal.FiniteTensor.coefficient_tensor_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2730927Z 'ThetaGlobal.FiniteTensor.uniform_cutoff' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2731562Z 'ThetaGlobal.FiniteTensor.uniform_decay' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2732261Z 'ThetaGlobal.FinitePowerQuotient.finitePartEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2733209Z 'ThetaGlobal.FinitePowerQuotient.changeDivisibleFactor_mk' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2734156Z verification/theta_global/Standalone.lean:830:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteHaarShells.unitMeasure_finite`:
+2026-10-31T04:05:34.2734825Z   [CommGroup G]
+2026-10-31T04:05:34.2735035Z   [MeasurableMul G]
+2026-10-31T04:05:34.2735249Z   [MeasurableInv G]
+2026-10-31T04:05:34.2735752Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2736334Z   omit [CommGroup G] [MeasurableMul G] [MeasurableInv G] in theorem ...
+2026-10-31T04:05:34.2736603Z 
+2026-10-31T04:05:34.2736821Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2738108Z verification/theta_global/Standalone.lean:838:8: warning: automatically included section variable(s) unused in theorem `_private.verification.theta_global.Standalone.0.ThetaGlobal.FiniteHaarShells.order_uniformizer_zpow`:
+2026-10-31T04:05:34.2738965Z   [MeasurableSpace G]
+2026-10-31T04:05:34.2739188Z   [MeasurableMul G]
+2026-10-31T04:05:34.2739507Z   [MeasurableInv G]
+2026-10-31T04:05:34.2739977Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2740569Z   omit [MeasurableSpace G] [MeasurableMul G] [MeasurableInv G] in theorem ...
+2026-10-31T04:05:34.2740854Z 
+2026-10-31T04:05:34.2741072Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2741886Z verification/theta_global/Standalone.lean:876:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteHaarShells.sum_restrict_valuationFiber`:
+2026-10-31T04:05:34.2742578Z   [MeasurableMul G]
+2026-10-31T04:05:34.2742792Z   [MeasurableInv G]
+2026-10-31T04:05:34.2743225Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2743770Z   omit [MeasurableMul G] [MeasurableInv G] in theorem ...
+2026-10-31T04:05:34.2743986Z 
+2026-10-31T04:05:34.2744202Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2744819Z 'ThetaGlobal.FiniteHaarShells.map_unitMeasure_shell' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2745533Z 'ThetaGlobal.FiniteHaarShells.haar_eq_sum_shells' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2746162Z verification/theta_global/Standalone.lean:961:33: warning: `simp` already closes the goal
+2026-10-31T04:05:34.2746497Z 
+2026-10-31T04:05:34.2746595Z Hint: Use `simp` instead of `simpa`:
+2026-10-31T04:05:34.2746876Z   [apply] simp [absoluteData, hlarge x hx]
+2026-10-31T04:05:34.2747167Z 
+2026-10-31T04:05:34.2747552Z Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+2026-10-31T04:05:34.2748398Z verification/theta_global/Standalone.lean:957:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.FiniteMellinIntegration.absoluteData_bounds`:
+2026-10-31T04:05:34.2749098Z   [MeasurableSpace U]
+2026-10-31T04:05:34.2749542Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2750041Z   omit [MeasurableSpace U] in theorem ...
+2026-10-31T04:05:34.2750227Z 
+2026-10-31T04:05:34.2750430Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2751081Z 'ThetaGlobal.FiniteMellinIntegration.summable_integral_norm' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2751839Z 'ThetaGlobal.FiniteMellinIntegration.integrable_and_integral_shellMeasure' depends on axioms: [propext,
+2026-10-31T04:05:34.2752329Z  Classical.choice,
+2026-10-31T04:05:34.2752691Z  Quot.sound]
+2026-10-31T04:05:34.2753086Z 'ThetaGlobal.FiniteTensorMellin.finite_tensor_mellin_integral' depends on axioms: [propext,
+2026-10-31T04:05:34.2753528Z  Classical.choice,
+2026-10-31T04:05:34.2753732Z  Quot.sound]
+2026-10-31T04:05:34.2754082Z verification/theta_global/Standalone.lean:1242:39: warning: This simp argument is unused:
+2026-10-31T04:05:34.2754493Z   zero_mul
+2026-10-31T04:05:34.2754606Z 
+2026-10-31T04:05:34.2754711Z Hint: Omit it from the simp argument list.
+2026-10-31T04:05:34.2755012Z   [apply] simp only [hg, mul_zero, div_zero]
+2026-10-31T04:05:34.2755202Z 
+2026-10-31T04:05:34.2755409Z Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+2026-10-31T04:05:34.2755954Z verification/theta_global/Standalone.lean:1244:8: warning: Unused tactic linter: `ring` does nothing
+2026-10-31T04:05:34.2756307Z 
+2026-10-31T04:05:34.2756508Z Note: This linter can be disabled with `set_option linter.unusedTactic false`
+2026-10-31T04:05:34.2757018Z verification/theta_global/Standalone.lean:1244:8: warning: this tactic is never executed
+2026-10-31T04:05:34.2757589Z 
+2026-10-31T04:05:34.2757884Z Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+2026-10-31T04:05:34.2758542Z 'ThetaGlobal.FiniteMellinRatio.same_vector_ratio' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2759124Z verification/theta_global/Standalone.lean:1761:2: warning: Try this: 
+2026-10-31T04:05:34.2759620Z   letI̵
+2026-10-31T04:05:34.2759730Z 
+2026-10-31T04:05:34.2759896Z The goal is a proposition, so `let` is preferred over `letI`.
+2026-10-31T04:05:34.2760319Z The difference between `let` and `letI` is that `letI` inlines the value.
+2026-10-31T04:05:34.2760752Z But this is not relevant for proofs because of proof irrelevance.
+2026-10-31T04:05:34.2761005Z 
+2026-10-31T04:05:34.2761206Z Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+2026-10-31T04:05:34.2762059Z verification/theta_global/Standalone.lean:1759:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientModel.localWeylBound_nonneg`:
+2026-10-31T04:05:34.2762780Z   [CommMonoid A]
+2026-10-31T04:05:34.2763223Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2763716Z   omit [CommMonoid A] in theorem ...
+2026-10-31T04:05:34.2763882Z 
+2026-10-31T04:05:34.2764097Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2764569Z verification/theta_global/Standalone.lean:1766:2: warning: Try this: 
+2026-10-31T04:05:34.2764926Z   letI̵
+2026-10-31T04:05:34.2765037Z 
+2026-10-31T04:05:34.2765186Z The goal is a proposition, so `let` is preferred over `letI`.
+2026-10-31T04:05:34.2765627Z The difference between `let` and `letI` is that `letI` inlines the value.
+2026-10-31T04:05:34.2766066Z But this is not relevant for proofs because of proof irrelevance.
+2026-10-31T04:05:34.2766324Z 
+2026-10-31T04:05:34.2766535Z Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+2026-10-31T04:05:34.2767527Z verification/theta_global/Standalone.lean:1764:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientModel.norm_localWeyl_le`:
+2026-10-31T04:05:34.2768287Z   [CommMonoid A]
+2026-10-31T04:05:34.2768724Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2769223Z   omit [CommMonoid A] in theorem ...
+2026-10-31T04:05:34.2769402Z 
+2026-10-31T04:05:34.2769608Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2770470Z verification/theta_global/Standalone.lean:1881:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientModel.frozenUnitFactor_zeroOrUnit`:
+2026-10-31T04:05:34.2771217Z   [CommMonoid A]
+2026-10-31T04:05:34.2772004Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2772880Z   omit [CommMonoid A] in theorem ...
+2026-10-31T04:05:34.2773166Z 
+2026-10-31T04:05:34.2773525Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2774374Z verification/theta_global/Standalone.lean:1917:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientModel.rowUnitFactor_zeroOrUnit`:
+2026-10-31T04:05:34.2775096Z   [CommMonoid A]
+2026-10-31T04:05:34.2775523Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2776021Z   omit [CommMonoid A] in theorem ...
+2026-10-31T04:05:34.2776185Z 
+2026-10-31T04:05:34.2776407Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2777588Z verification/theta_global/Standalone.lean:1950:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientModel.reflectedMarkFactor_zeroOrUnit`:
+2026-10-31T04:05:34.2778365Z   [CommMonoid A]
+2026-10-31T04:05:34.2778798Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2779297Z   omit [CommMonoid A] in theorem ...
+2026-10-31T04:05:34.2779473Z 
+2026-10-31T04:05:34.2779680Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2780578Z verification/theta_global/Standalone.lean:1969:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientModel.reflectedColumnFactor_zeroOrUnit`:
+2026-10-31T04:05:34.2781346Z   [CommMonoid A]
+2026-10-31T04:05:34.2781768Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2782262Z   omit [CommMonoid A] in theorem ...
+2026-10-31T04:05:34.2782440Z 
+2026-10-31T04:05:34.2782649Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2783501Z verification/theta_global/Standalone.lean:2059:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientSummability.encode_injective`:
+2026-10-31T04:05:34.2784228Z   [Finite U]
+2026-10-31T04:05:34.2784665Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2785169Z   omit [Finite U] in theorem ...
+2026-10-31T04:05:34.2785329Z 
+2026-10-31T04:05:34.2785557Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2786397Z verification/theta_global/Standalone.lean:2089:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientSummability.scale_pos`:
+2026-10-31T04:05:34.2787206Z   [CommMonoid A]
+2026-10-31T04:05:34.2787527Z   [Finite U]
+2026-10-31T04:05:34.2788050Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2788582Z   omit [CommMonoid A] [Finite U] in theorem ...
+2026-10-31T04:05:34.2788789Z 
+2026-10-31T04:05:34.2789005Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2789893Z verification/theta_global/Standalone.lean:2101:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedCoefficientSummability.arithmeticBound_nonneg`:
+2026-10-31T04:05:34.2815684Z   [Finite U]
+2026-10-31T04:05:34.2816502Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2817160Z   omit [Finite U] in theorem ...
+2026-10-31T04:05:34.2817511Z 
+2026-10-31T04:05:34.2817777Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2818625Z verification/theta_global/Standalone.lean:2222:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedDominatedLimit.argument_pos`:
+2026-10-31T04:05:34.2819552Z   [CommMonoid A]
+2026-10-31T04:05:34.2819766Z   [Finite U]
+2026-10-31T04:05:34.2820201Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2820753Z   omit [CommMonoid A] [Finite U] in theorem ...
+2026-10-31T04:05:34.2820954Z 
+2026-10-31T04:05:34.2821174Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2821709Z verification/theta_global/Standalone.lean:2599:2: warning: `simp` already closes the goal
+2026-10-31T04:05:34.2822040Z 
+2026-10-31T04:05:34.2822140Z Hint: Use `simp` instead of `simpa`:
+2026-10-31T04:05:34.2822401Z   [apply] simp [hz] at h
+2026-10-31T04:05:34.2822547Z 
+2026-10-31T04:05:34.2822753Z Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+2026-10-31T04:05:34.2823446Z verification/theta_global/Standalone.lean:2632:21: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+2026-10-31T04:05:34.2823845Z 
+2026-10-31T04:05:34.2823956Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2824409Z   i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+2026-10-31T04:05:34.2824929Z verification/theta_global/Standalone.lean:2774:32: warning: `if_false` has been deprecated: Use `ite_false` instead
+2026-10-31T04:05:34.2825328Z 
+2026-10-31T04:05:34.2825430Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2825732Z   i̵f̵_̵f̵a̵l̵s̵e̵i̲t̲e̲_̲f̲a̲l̲s̲e̲
+2026-10-31T04:05:34.2826203Z verification/theta_global/Standalone.lean:2791:37: warning: `if_true` has been deprecated: Use `ite_true` instead
+2026-10-31T04:05:34.2826591Z 
+2026-10-31T04:05:34.2826698Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2826991Z   i̵f̵_̵t̵r̵u̵e̵i̲t̲e̲_̲t̲r̲u̲e̲
+2026-10-31T04:05:34.2827705Z verification/theta_global/Standalone.lean:2799:37: warning: `if_false` has been deprecated: Use `ite_false` instead
+2026-10-31T04:05:34.2828130Z 
+2026-10-31T04:05:34.2828254Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2828565Z   i̵f̵_̵f̵a̵l̵s̵e̵i̲t̲e̲_̲f̲a̲l̲s̲e̲
+2026-10-31T04:05:34.2829050Z verification/theta_global/Standalone.lean:2928:10: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+2026-10-31T04:05:34.2829447Z 
+2026-10-31T04:05:34.2829544Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2829843Z   i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+2026-10-31T04:05:34.2830318Z verification/theta_global/Standalone.lean:2930:10: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+2026-10-31T04:05:34.2830712Z 
+2026-10-31T04:05:34.2830821Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2831109Z   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+2026-10-31T04:05:34.2831587Z verification/theta_global/Standalone.lean:2932:10: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+2026-10-31T04:05:34.2831976Z 
+2026-10-31T04:05:34.2832072Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2832372Z   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+2026-10-31T04:05:34.2832839Z verification/theta_global/Standalone.lean:2935:30: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+2026-10-31T04:05:34.2833286Z 
+2026-10-31T04:05:34.2833387Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2833681Z   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+2026-10-31T04:05:34.2834142Z verification/theta_global/Standalone.lean:2943:30: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+2026-10-31T04:05:34.2834535Z 
+2026-10-31T04:05:34.2834629Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2834920Z   i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+2026-10-31T04:05:34.2835391Z verification/theta_global/Standalone.lean:2947:30: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+2026-10-31T04:05:34.2835770Z 
+2026-10-31T04:05:34.2835869Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2836151Z   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+2026-10-31T04:05:34.2836757Z verification/theta_global/Standalone.lean:2953:30: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+2026-10-31T04:05:34.2837148Z 
+2026-10-31T04:05:34.2837243Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2837716Z   i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+2026-10-31T04:05:34.2838182Z verification/theta_global/Standalone.lean:2961:8: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+2026-10-31T04:05:34.2838572Z 
+2026-10-31T04:05:34.2838677Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2838977Z   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+2026-10-31T04:05:34.2839437Z verification/theta_global/Standalone.lean:2974:15: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+2026-10-31T04:05:34.2839816Z 
+2026-10-31T04:05:34.2839919Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2840210Z   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+2026-10-31T04:05:34.2840678Z verification/theta_global/Standalone.lean:2982:15: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+2026-10-31T04:05:34.2841085Z 
+2026-10-31T04:05:34.2841264Z Hint: Replace the deprecated name:
+2026-10-31T04:05:34.2841562Z   i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+2026-10-31T04:05:34.2842069Z 'ThetaGlobal.GlobalFrequencyReconstruction.reconstructed_supports_finite' depends on axioms: [propext,
+2026-10-31T04:05:34.2842585Z  Classical.choice,
+2026-10-31T04:05:34.2842794Z  Quot.sound]
+2026-10-31T04:05:34.2843245Z 'ThetaGlobal.GlobalFrequencyReconstruction.existsUnique_supported_coordinates' depends on axioms: [propext,
+2026-10-31T04:05:34.2843767Z  Classical.choice,
+2026-10-31T04:05:34.2843981Z  Quot.sound]
+2026-10-31T04:05:34.2844375Z 'ThetaGlobal.GlobalSupportReindex.tsum_eq_of_supported_coordinates' depends on axioms: [propext,
+2026-10-31T04:05:34.2844821Z  Classical.choice,
+2026-10-31T04:05:34.2845021Z  Quot.sound]
+2026-10-31T04:05:34.2845422Z 'ThetaGlobal.GlobalSupportReindex.tsum_norm_eq_of_supported_coordinates' depends on axioms: [propext,
+2026-10-31T04:05:34.2845886Z  Classical.choice,
+2026-10-31T04:05:34.2846095Z  Quot.sound]
+2026-10-31T04:05:34.2846511Z 'ThetaGlobal.GlobalSupportReindex.summable_iff_of_supported_coordinates' depends on axioms: [propext,
+2026-10-31T04:05:34.2846975Z  Classical.choice,
+2026-10-31T04:05:34.2847174Z  Quot.sound]
+2026-10-31T04:05:34.2848034Z verification/theta_global/Standalone.lean:3214:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalEmbedding.sixthRoot_exponent`:
+2026-10-31T04:05:34.2848708Z   [NumberField F]
+2026-10-31T04:05:34.2849145Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2849649Z   omit [NumberField F] in theorem ...
+2026-10-31T04:05:34.2849827Z 
+2026-10-31T04:05:34.2850045Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2850894Z verification/theta_global/Standalone.lean:3269:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalCharacterSums.fourth_power_ne_one_of_order_six`:
+2026-10-31T04:05:34.2851623Z   [IsDomain C]
+2026-10-31T04:05:34.2852057Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2852543Z   omit [IsDomain C] in theorem ...
+2026-10-31T04:05:34.2852709Z 
+2026-10-31T04:05:34.2852915Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2853717Z verification/theta_global/Standalone.lean:3315:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalDigitSupport.character_sixth_power`:
+2026-10-31T04:05:34.2854396Z   [Fintype k]
+2026-10-31T04:05:34.2854627Z   [Fintype kˣ]
+2026-10-31T04:05:34.2855049Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2855603Z   omit [Fintype k] [Fintype kˣ] in theorem ...
+2026-10-31T04:05:34.2855801Z 
+2026-10-31T04:05:34.2856214Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2857069Z verification/theta_global/Standalone.lean:3334:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GlobalDigitSupport.positive_digit_character_ne_one`:
+2026-10-31T04:05:34.2857983Z   [Fintype k]
+2026-10-31T04:05:34.2858217Z   [Fintype kˣ]
+2026-10-31T04:05:34.2858647Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2859198Z   omit [Fintype k] [Fintype kˣ] in theorem ...
+2026-10-31T04:05:34.2859388Z 
+2026-10-31T04:05:34.2859606Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2860189Z 'ThetaGlobal.GlobalDigitSupport.ordinary_positive_digit_sum_zero' depends on axioms: [propext,
+2026-10-31T04:05:34.2860639Z  Classical.choice,
+2026-10-31T04:05:34.2860846Z  Quot.sound]
+2026-10-31T04:05:34.2861300Z 'ThetaGlobal.WeightedUnfolding.weighted_orbit_unfolding' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2862123Z 'ThetaGlobal.SheetMellin.sheet_mellin_factorization' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2862821Z 'ThetaGlobal.GaussianRegularization.regularized_integral_tendsto' depends on axioms: [propext,
+2026-10-31T04:05:34.2863280Z  Classical.choice,
+2026-10-31T04:05:34.2863485Z  Quot.sound]
+2026-10-31T04:05:34.2864101Z verification/theta_global/Standalone.lean:4152:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.GaussianTransfer.remove_regularizer`:
+2026-10-31T04:05:34.2864764Z   [Countable I]
+2026-10-31T04:05:34.2864968Z   [Countable J]
+2026-10-31T04:05:34.2865400Z consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+2026-10-31T04:05:34.2865921Z   omit [Countable I] [Countable J] in theorem ...
+2026-10-31T04:05:34.2866138Z 
+2026-10-31T04:05:34.2866358Z Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+2026-10-31T04:05:34.2866956Z 'ThetaGlobal.GaussianTransfer.reflection_from_regularized_convolution' depends on axioms: [propext,
+2026-10-31T04:05:34.2867584Z  Classical.choice,
+2026-10-31T04:05:34.2867797Z  Quot.sound]
+2026-10-31T04:05:34.2868179Z 'ThetaGlobal.ConvolutionMass.absolute_mass_of_separable_majorant' depends on axioms: [propext,
+2026-10-31T04:05:34.2868630Z  Classical.choice,
+2026-10-31T04:05:34.2868838Z  Quot.sound]
+2026-10-31T04:05:34.2869217Z 'ThetaGlobal.ConvolutionMass.reflected_convolution_absolute_mass' depends on axioms: [propext,
+2026-10-31T04:05:34.2869661Z  Classical.choice,
+2026-10-31T04:05:34.2869867Z  Quot.sound]
+2026-10-31T04:05:34.2870298Z 'ThetaGlobal.VerticalContour.verticalIntegral_regularized_eq_of_poly_strip' depends on axioms: [propext,
+2026-10-31T04:05:34.2870777Z  Classical.choice,
+2026-10-31T04:05:34.2870979Z  Quot.sound]
+2026-10-31T04:05:34.2871402Z 'ThetaGlobal.VerticalInverseBounds.uniform_tail' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2872105Z 'ThetaGlobal.VerticalInverseBounds.regularizedInverseLine_tendsto' depends on axioms: [propext,
+2026-10-31T04:05:34.2872569Z  Classical.choice,
+2026-10-31T04:05:34.2872769Z  Quot.sound]
+2026-10-31T04:05:34.2873197Z 'ThetaGlobal.TestMellinLimit.inverseLine_mellin_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2873920Z 'ThetaGlobal.TestMellinLimit.regularized_test_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2874573Z verification/theta_global/Standalone.lean:5403:4: warning: This simp argument is unused:
+2026-10-31T04:05:34.2874984Z   Complex.ofReal_div
+2026-10-31T04:05:34.2875113Z 
+2026-10-31T04:05:34.2875232Z Hint: Omit it from the simp argument list.
+2026-10-31T04:05:34.2875687Z   [apply] simp only [Complex.ofReal_zero, zero_add, Complex.real_smul, smul_eq_mul, Complex.ofReal_one,
+2026-10-31T04:05:34.2876229Z     Complex.ofReal_inv, Complex.ofReal_mul, Complex.ofReal_ofNat, one_div]
+2026-10-31T04:05:34.2876605Z 
+2026-10-31T04:05:34.2876812Z Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+2026-10-31T04:05:34.2877479Z verification/theta_global/Standalone.lean:5403:24: warning: This simp argument is unused:
+2026-10-31T04:05:34.2877931Z   Complex.ofReal_one
+2026-10-31T04:05:34.2878059Z 
+2026-10-31T04:05:34.2878173Z Hint: Omit it from the simp argument list.
+2026-10-31T04:05:34.2878623Z   [apply] simp only [Complex.ofReal_zero, zero_add, Complex.real_smul, smul_eq_mul, Complex.ofReal_div,
+2026-10-31T04:05:34.2879155Z     Complex.ofReal_inv, Complex.ofReal_mul, Complex.ofReal_ofNat, one_div]
+2026-10-31T04:05:34.2879430Z 
+2026-10-31T04:05:34.2879628Z Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+2026-10-31T04:05:34.2880151Z verification/theta_global/Standalone.lean:5882:2: warning: `simp` already closes the goal
+2026-10-31T04:05:34.2880483Z 
+2026-10-31T04:05:34.2880583Z Hint: Use `simp` instead of `simpa`:
+2026-10-31T04:05:34.2880887Z   [apply] simp only [hn, neg_im, natCast_im, neg_zero]
+2026-10-31T04:05:34.2881196Z 
+2026-10-31T04:05:34.2881411Z Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+2026-10-31T04:05:34.2881933Z verification/theta_global/Standalone.lean:5959:28: warning: This simp argument is unused:
+2026-10-31T04:05:34.2882339Z   zero_sub
+2026-10-31T04:05:34.2882442Z 
+2026-10-31T04:05:34.2882556Z Hint: Omit it from the simp argument list.
+2026-10-31T04:05:34.2883002Z   [apply] simp only [z, sub_re, add_re, ofReal_re, mul_re, ofReal_im, I_re, I_im, mul_zero, zero_mul, sub_zero,
+2026-10-31T04:05:34.2883447Z     natCast_re, one_re]
+2026-10-31T04:05:34.2883594Z 
+2026-10-31T04:05:34.2883792Z Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+2026-10-31T04:05:34.2884396Z verification/theta_global/Standalone.lean:5973:25: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+2026-10-31T04:05:34.2884783Z 
+2026-10-31T04:05:34.2885010Z Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+2026-10-31T04:05:34.2885689Z 'ThetaGlobal.GammaReciprocalGrowth.inverse_Gamma_strip_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2886370Z verification/theta_global/Standalone.lean:6073:34: warning: This simp argument is unused:
+2026-10-31T04:05:34.2886764Z   zero_sub
+2026-10-31T04:05:34.2886876Z 
+2026-10-31T04:05:34.2886978Z Hint: Omit it from the simp argument list.
+2026-10-31T04:05:34.2887612Z   [apply] simp only [Complex.neg_re, Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, Complex.add_re, Complex.I_re,
+2026-10-31T04:05:34.2888296Z     Complex.I_im, mul_zero, zero_mul, sub_zero, add_zero, pow_zero, zero_mul, Real.exp_zero, mul_one]
+2026-10-31T04:05:34.2888620Z 
+2026-10-31T04:05:34.2888824Z Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+2026-10-31T04:05:34.2889450Z 'ThetaGlobal.GammaProfileGrowth.reciprocalGamma_growth' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2890194Z 'ThetaGlobal.GammaProfileGrowth.canonicalDeconvolver_all_power_moments' depends on axioms: [propext,
+2026-10-31T04:05:34.2890674Z  Classical.choice,
+2026-10-31T04:05:34.2890879Z  Quot.sound]
+2026-10-31T04:05:34.2891277Z 'ThetaGlobal.GlobalProjectOrbitAbsolute.weighted_unfold_of_pieces' depends on axioms: [propext,
+2026-10-31T04:05:34.2891736Z  Classical.choice,
+2026-10-31T04:05:34.2891944Z  Quot.sound]
+2026-10-31T04:05:34.2892387Z 'ThetaGlobal.ReflectedAbsolute.ZeroOrUnitNorm.zpow' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2893150Z 'ThetaGlobal.ReflectedAbsolute.cubic_scale_inverse_square_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2893855Z 'ThetaGlobal.ReflectedAbsolute.summable_reflected_of_quadratic_tail' depends on axioms: [propext,
+2026-10-31T04:05:34.2894303Z  Classical.choice,
+2026-10-31T04:05:34.2894505Z  Quot.sound]
+2026-10-31T04:05:34.2895012Z 'ThetaGlobal.ReflectedLocalBounds.norm_finiteWeylCoefficient_le' depends on axioms: [propext,
+2026-10-31T04:05:34.2895462Z  Classical.choice,
+2026-10-31T04:05:34.2895670Z  Quot.sound]
+2026-10-31T04:05:34.2896111Z 'ThetaGlobal.ReflectedIdealMajorant.summable_positiveIdealNorm_inverseSquare' depends on axioms: [propext,
+2026-10-31T04:05:34.2896603Z  Classical.choice,
+2026-10-31T04:05:34.2896810Z  Quot.sound]
+2026-10-31T04:05:34.2897268Z 'ThetaGlobal.ReflectedIdealMajorant.summable_numberField_reflected_of_quadratic_tail' depends on axioms: [propext,
+2026-10-31T04:05:34.2898025Z  Classical.choice,
+2026-10-31T04:05:34.2898228Z  Quot.sound]
+2026-10-31T04:05:34.2898630Z 'ThetaGlobal.ReflectedCoefficientModel.norm_reflectedCoefficient_le' depends on axioms: [propext,
+2026-10-31T04:05:34.2899094Z  Classical.choice,
+2026-10-31T04:05:34.2899303Z  Quot.sound]
+2026-10-31T04:05:34.2899783Z 'ThetaGlobal.ReflectedCoefficientSummability.summable_numberField_subtype_reflectedTerm' depends on axioms: [propext,
+2026-10-31T04:05:34.2900334Z  Classical.choice,
+2026-10-31T04:05:34.2900534Z  Quot.sound]
+2026-10-31T04:05:34.2901069Z 'ThetaGlobal.ReflectedDominatedLimit.tendsto_tsum_numberField_subtype_reflectedTerm' depends on axioms: [propext,
+2026-10-31T04:05:34.2901577Z  Classical.choice,
+2026-10-31T04:05:34.2901781Z  Quot.sound]
+2026-10-31T04:05:34.2902231Z 'ThetaGlobal.ScalarMellinConvolution.deconvolver_direct' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2903022Z 'ThetaGlobal.ScalarMellinConvolution.deconvolver_reflected' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2903763Z 'ThetaGlobal.DeconvolverMoments.integrable_multiplicative_power_moment' depends on axioms: [propext,
+2026-10-31T04:05:34.2904248Z  Classical.choice,
+2026-10-31T04:05:34.2904466Z  Quot.sound]
+2026-10-31T04:05:34.2904916Z 'ThetaGlobal.AnnularTransfer.arbitrary_test_reflection' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2905639Z 'ThetaGlobal.ScalarGaussianLimits.regularizedTest_tendsto_actual_test' depends on axioms: [propext,
+2026-10-31T04:05:34.2906123Z  Classical.choice,
+2026-10-31T04:05:34.2906322Z  Quot.sound]
+2026-10-31T04:05:34.2906717Z 'ThetaGlobal.GaussianStripDecay.quadraticStripDecay_regularized' depends on axioms: [propext,
+2026-10-31T04:05:34.2907168Z  Classical.choice,
+2026-10-31T04:05:34.2907492Z  Quot.sound]
+2026-10-31T04:05:34.2907927Z 'ThetaGlobal.GammaDeconvolver.reciprocalGamma_entire' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2908701Z 'ThetaGlobal.GammaDeconvolver.directGamma_imaginary_ne_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2909420Z 'ThetaGlobal.GammaDeconvolver.gammaDeconvolver_all_power_moments' depends on axioms: [propext,
+2026-10-31T04:05:34.2909883Z  Classical.choice,
+2026-10-31T04:05:34.2910089Z  Quot.sound]
+2026-10-31T04:05:34.2910549Z 'ThetaGlobal.GammaAnnularTransfer.arbitrary_test_from_seed' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:05:34.2910987Z 
+2026-10-31T04:05:34.2911085Z Exit: 0 sources unchanged: True
+2026-10-31T04:05:34.2911351Z Axiom audit: passed (56/56 records)
+2026-10-31T04:05:34.2959079Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-10-31T04:05:34.2959474Z with:
+2026-10-31T04:05:34.2959712Z   name: theta-global-standalone-41166970094
+2026-10-31T04:05:34.2960409Z   path: verification/theta_global/Standalone.lean
+verification/theta_global/Standalone.log
+verification/theta_global/manifest.json
+verification/theta_global/pins.json
+
+2026-10-31T04:05:34.2961094Z   if-no-files-found: warn
+2026-10-31T04:05:34.2961325Z   retention-days: 14
+2026-10-31T04:05:34.2961548Z   compression-level: 6
+2026-10-31T04:05:34.2961765Z   overwrite: false
+2026-10-31T04:05:34.2961981Z   include-hidden-files: false
+2026-10-31T04:05:34.2962220Z env:
+2026-10-31T04:05:34.2962414Z   LEAN_NUM_THREADS: 2
+2026-10-31T04:05:34.2962622Z ##[endgroup]
+2026-10-31T04:05:34.4702155Z (node:3432) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-31T04:05:34.4703266Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-31T04:05:34.4741329Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-31T04:05:34.4744738Z The least common ancestor is /home/runner/work/hecke-seven-eighths/hecke-seven-eighths/verification/theta_global. This will be the root directory of the artifact
+2026-10-31T04:05:34.4745762Z With the provided path, there will be 4 files uploaded
+2026-10-31T04:05:34.4749802Z Artifact name is valid!
+2026-10-31T04:05:34.4750582Z Root directory input is valid!
+2026-10-31T04:05:34.8329944Z Beginning upload of artifact content to blob storage
+2026-10-31T04:05:34.8678194Z (node:3432) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-31T04:05:35.1632341Z Uploaded bytes 70831
+2026-10-31T04:05:35.2218870Z Finished uploading artifact content to blob storage!
+2026-10-31T04:05:35.2220189Z SHA256 digest of uploaded artifact zip is 7f3d0592a8f2ec9ea13582f711f061a4c614f2f439892733e1b7f8cd5c265f6e
+2026-10-31T04:05:35.2221983Z Finalizing artifact upload
+2026-10-31T04:05:35.6974608Z Artifact theta-global-standalone-41166970094.zip successfully finalized. Artifact ID 13029900190
+2026-10-31T04:05:35.6976207Z Artifact theta-global-standalone-41166970094 has been successfully uploaded! Final size is 70831 bytes. Artifact ID is 13029900190
+2026-10-31T04:05:35.6983435Z Artifact download URL: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41166970094/artifacts/13029900190
+2026-10-31T04:05:35.7165640Z Post job cleanup.
+2026-10-31T04:05:35.8000912Z [command]/usr/bin/git version
+2026-10-31T04:05:35.8036244Z git version 2.56.0
+2026-10-31T04:05:35.8071452Z Temporarily overriding HOME='/home/runner/work/_temp/b62f56bd-76ac-4ab9-ab71-3ecef1a4ed8a' before making global git config changes
+2026-10-31T04:05:35.8073142Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-31T04:05:35.8078137Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hecke-seven-eighths/hecke-seven-eighths
+2026-10-31T04:05:35.8114240Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-31T04:05:35.8146776Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-31T04:05:35.8344296Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-31T04:05:35.8368948Z http.https://github.com/.extraheader
+2026-10-31T04:05:35.8379166Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-31T04:05:35.8408064Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-31T04:05:35.8596640Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-31T04:05:35.8624253Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-31T04:05:35.8937581Z Cleaning up orphan processes
+2026-10-31T04:05:35.9221450Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

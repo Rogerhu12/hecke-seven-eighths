@@ -14,7 +14,7 @@
 
 | 簇 | 单位数 | 估计行数 | 状态 |
 |---|---|---|---|
-| Gram（GR-12） | 3 | 2.0 万 | GR-12-PORT 已关闭（133 模块，1.9 万行）；剩 MASK、ASSEMBLY |
+| Gram（GR-12） | 3 | 2.0 万 | 全部关闭 |
 | Principal（PR-WINDOW-PIT） | 1 | 0.7 万 | Codex 说明已就绪 |
 | Descent（DE-EULER） | 1 | 0.2 万 | Codex 说明已就绪 |
 | Theta 与 LOW-REFLECTED-ENERGY | 15 | 8.75 万 | TH-KERNEL 已关闭 |
@@ -25,17 +25,22 @@
 
 ## 进度（2026-10-31 07:50）
 
-总 68 单位（建账时 75，10-30 晚之前已关 7）。已完成约 7.7 个单位，**剩余约 60.3 个**。
+总 68 单位（建账时 75，10-30 晚之前已关 7）。已完成约 22.2 个单位，**剩余约 45.8 个**。
 
 | 单位 | 计入 | 说明 |
 |---|---|---|
+| GR-12-MASK | 1.0 | 已关闭：`AxiomGeneratorMaskWitness` 加 `HeckeSkeleton.GeneratorMask`（实际约 300 行，建账时高估） |
+| GR-12-ASSEMBLY | 1.0 | 已关闭：`gram_assembly` 只用三条标准公理；Gram 簇全部完成 |
 | GR-12-PORT | 1.0 | 133 模块编译通过，三条标准公理；6 个 SmallRadius 消费者待上游 |
 | TH-REFL-ARCH、TH-REFL-EXTERIOR-DIGITS | 2.0 | 已关闭：核心与接线（PR #4，d5cbc31）均已合并 |
-| LOW-HYBRID、LOW-FROZEN-CUBE | 1.5 | 82 模块本地编译通过；接线分支云端编译中 |
+| LOW-HYBRID、LOW-FROZEN-CUBE | 2.0 | 已关闭：核心与接线（PR #6，d6fd2cf）均已合并 |
+| THETA_GLOBAL（TH-KP-DATA-1/2、TH-FINITE-VALUATION、TH-MARKED-REFLECTED-ABSOLUTE、TH-REFL-AUTOMORPHIC/DIRECT/REFLECTED-UNFOLD/MELLIN） | 8.0 | 已关闭：PR #2 合并；Pro 写约 3 万行，本地子代理收口编译；五项义务只用三条标准公理 |
+| MOM_BASE（共享底座） | 2.5 | 已关闭：PR #15 合并，引理 4.3、4.4 与实际有限系数（约 4,000 行，建账时高估） |
 | Moments S0、S1 | 1.5 | ℤ[ω] 专用输入仍为显式假设 |
 | HB-EULER-INITIAL、HB-EULER-EXCEPTIONAL | 0.5 | 核心已并入；接线是 PR #1（草稿） |
-| 小义务 6（素数相消） | 0.4 | 核心已并入；接线分支云端编译中 |
-| PR-WINDOW-PIT | 0.8 | Codex 已写完，待 Lake 编译与接线 |
+| 小义务 6（素数相消） | 0.7 | 核心与接线（PR #14）已合并：`paired_primes_below_one_of_models` 对任意模型成立；剩为实际 `momentModels` 验证 `PrimeSlotModelControl` |
+| PR-WINDOW-PIT | 1.0 | 已关闭：Codex 的 `WindowPIT` 接入 `PrimeNormalizer`，编译通过 |
+| DE-EULER-FACTORIZATION | 1.0 | 已关闭：Codex，`descend` 只用三条标准公理 |
 
 比之前估计的 40 万多，主要是 Moments 的两条递推比预想的大（约 22 万行）。
 

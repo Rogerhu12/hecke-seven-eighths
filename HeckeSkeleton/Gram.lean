@@ -8,6 +8,9 @@ import HeckeSkeleton.GramMeanZero
 import HeckeSkeleton.GramRowBall
 import HeckeSkeleton.GramExceptionalCount
 import HeckeSkeleton.GramSmallRadius
+import GeneratorMaskWitness
+import HeckeSkeleton.GramAssembly
+import HeckeSkeleton.GramAssembly.Final
 
 /-!
 Top-down EXPLORATORY dependency skeleton for revised Proposition 3.8.
@@ -25,6 +28,7 @@ open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical
 open HeckeGeneral.Analysis.ActualSIntegerMoments
 open HeckeGeneral.Analysis.SquarefreeAmplification
+open HeckeGeneral.Arithmetic.AllowedGeneratorSectionDraft
 open AlgebraicNumberTheory.PowerResidueSymbols
 open scoped Classical BigOperators ComplexConjugate nonZeroDivisors
 variable (K : Type) [Field K] [NumberField K]
@@ -218,18 +222,18 @@ theorem large_radius_profile
 end Profiles
 
 -- OBLIGATION GR-12 | revised §3.5, pp.14–15; §6.5 (6.23), pp.40–41.
--- COARSE ASSEMBLY, NOT COMPLETED: exact free-majorant orbital PSF (both
--- zero terms, actual discriminant/covolume); finite gcd/Möbius reindex;
--- genuine-correlation -> chart only on coprime residuals; chosen-generator
--- ideal×unit enumeration; original-Γ choice mask on fixed depth 2H+J;
--- SAME d unit transport; nonexceptional mean-zero at the good exterior
--- prime; two-column Poisson min-saving; ordinary/exceptional shell sums.
--- Cache has concrete pieces for these arrows, but the exact full weighted
--- consumer is still missing. This one coarse obligation is intentionally
--- visible, and must be refined rather than counted as a proved assembly.
--- Exact leaf propositions are explicit parameters below and are applied
--- in the final theorem. No unused have is counted as a dependency.
+-- CLOSED. The assembly (HeckeSkeleton/GramAssembly*.lean) combines the core
+-- row-ball Poisson reduction (zero frequency C Q / Y), the exact residual
+-- expansion of the nonzero dual series (finite gcd/Mobius, chosen-generator
+-- mask, original full correlation), the good-prime / trivial scalar bounds,
+-- the exceptional weighted shell sums and the ideal double shell leaf09, and
+-- the bounded-Y case.  `S` is identified with the places of the generator
+-- mask witness `w`, and `P.arithmetic` with `w.D`.
+-- Exact leaf propositions are explicit parameters below (only `leaf06` and
+-- `leaf09` are used; the others are retained for the interface).
 theorem gram_assembly (P : ProbeData K S)
+    (w : GeneratorMaskWitness K) (hwS : S = (w.S : Set (HeightOneSpectrum (𝓞 K))))
+    (hwD : HEq P.arithmetic w.D)
     (hallowed : AllowedGeneratorInput K S P.arithmetic)
     (hcal : ThetaCalibrationInput K S P.arithmetic P.Lambda P.G)
     (leaf01 : ∀ (P : ProbeData K S) (W : SmoothAnnularTest)
@@ -298,16 +302,43 @@ theorem gram_assembly (P : ProbeData K S)
             ⟨Real.exp v, Real.exp_pos v⟩) t‖ ≤
           C * s.sup (schwartzSeminormFamily ℝ (mixedEmbedding.euclidean.mixedSpace K) ℂ) φ * Real.exp (-σ * t)) :
     GramBound K S P := by
-  sorry
+  subst hwS
+  obtain rfl : ‹Fintype ↑(↑w.S : Set (HeightOneSpectrum (𝓞 K)))› = FinsetCoe.fintype w.S :=
+    Subsingleton.elim _ _
+  -- canonical Borel structures and Haar measures (any choice serves)
+  letI : MeasurableSpace (sLocalNormOneGroup K (w.S : Set (HeightOneSpectrum (𝓞 K)))) := borel _
+  haveI : BorelSpace (sLocalNormOneGroup K (w.S : Set (HeightOneSpectrum (𝓞 K)))) := ⟨rfl⟩
+  letI : ∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K) := fun _ => borel _
+  haveI : ∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K) := fun _ => ⟨rfl⟩
+  letI : MeasurableSpace (FiniteAdeleRing (𝓞 K) K) := borel _
+  haveI : BorelSpace (FiniteAdeleRing (𝓞 K) K) := ⟨rfl⟩
+  letI : MeasurableSpace (AdeleRing (𝓞 K) K) := borel _
+  haveI : BorelSpace (AdeleRing (𝓞 K) K) := ⟨rfl⟩
+  let μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K) :=
+    fun _ => Measure.addHaar
+  haveI : ∀ v, (μv v).IsAddHaarMeasure := fun _ => inferInstance
+  let μf : Measure (FiniteAdeleRing (𝓞 K) K) := Measure.addHaar
+  haveI : μf.IsAddHaarMeasure := inferInstance
+  let μ : Measure (AdeleRing (𝓞 K) K) := Measure.addHaar
+  haveI : μ.IsAddHaarMeasure := inferInstance
+  have hfin : ∀ X : ℝ, 0 < X →
+      Finite (ordinaryCutoff K (w.S : Set (HeightOneSpectrum (𝓞 K))) X) := by
+    obtain ⟨C, _, hC⟩ := leaf06
+    exact fun X hX => (hC X hX).1
+  refine HeckeSkeleton.GramAssembly.gramBound_of_obligations K w.S μv μf μ hfin P ?_ ?_
+  · exact HeckeSkeleton.GramAssembly.Final.dualShell_core K w μf μv P (eq_of_heq hwD) leaf09
+  · exact HeckeSkeleton.GramAssembly.smallYBound K w.S hfin P
 
 /-- The final application explicitly supplies every mathematical leaf to
 GR-12. The coarse assembly is itself admitted; no completed Gram proof is
 claimed by this dependency skeleton. -/
 theorem gramBound_of_calibrated (P : ProbeData K S)
+    (w : GeneratorMaskWitness K) (hwS : S = (w.S : Set (HeightOneSpectrum (𝓞 K))))
+    (hwD : HEq P.arithmetic w.D)
     (hallowed : AllowedGeneratorInput K S P.arithmetic)
     (hcal : ThetaCalibrationInput K S P.arithmetic P.Lambda P.G) :
     GramBound K S P :=
-  gram_assembly K S P hallowed hcal
+  gram_assembly K S P w hwS hwD hallowed hcal
     (amplitude_finite_support K S)
     (amplitude_sixth_unit K S)
     (complete_pair_fourier K S)
@@ -323,6 +354,8 @@ theorem gramBound_of_calibrated (P : ProbeData K S)
 /-- Stable c=1 specialization for the actual physical denominator. Root's
 Principal.low bridge may consume this without changing the arithmetic data. -/
 theorem denominator_gram_bound (P : ProbeData K S)
+    (w : GeneratorMaskWitness K) (hwS : S = (w.S : Set (HeightOneSpectrum (𝓞 K))))
+    (hwD : HEq P.arithmetic w.D)
     (hallowed : AllowedGeneratorInput K S P.arithmetic)
     (hcal : ThetaCalibrationInput K S P.arithmetic P.Lambda P.G) :
     ∀ (B L : ℝ), 0 < B → 0 < L →
@@ -331,6 +364,6 @@ theorem denominator_gram_bound (P : ProbeData K S)
           Q ≤ Z ^ L → Y ≤ Z ^ L → 1 ≤ Pa Q Y →
           rowEnergy K S P P.denominator.toSmoothAnnularTest B Q Y ν ≤
             C * (1 + |ν|) ^ J * gramScale Q Y * Z ^ ε :=
-  gramBound_of_calibrated K S P hallowed hcal P.denominator.toSmoothAnnularTest
+  gramBound_of_calibrated K S P w hwS hwD hallowed hcal
 
 end HeckeSkeleton.Gram
