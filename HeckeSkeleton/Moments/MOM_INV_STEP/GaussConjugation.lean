@@ -109,7 +109,11 @@ theorem thetaGamma_five (I : ExteriorIdeal K S) :
       (nonZeroDivisors.coe_ne_zero I.val) I.property
   letI : Fintype (ThetaQuotient K S I) := Fintype.ofFinite _
   have hneg : quotientRow K S D I (-1) = idealSymbol K S D I (-1) := by
-    simpa only [map_neg, map_one] using quotientRow_mk K S D I (-1)
+    have hmk : Ideal.Quotient.mk (I.val.val.map (algebraMap (𝓞 K) (S.integer K))) (-1) =
+        (-1 : ThetaQuotient K S I) := by rw [map_neg, map_one]
+    have h := quotientRow_mk K S D I (-1)
+    rw [hmk] at h
+    exact h
   change (Real.sqrt (I.val.val.absNorm : ℝ) : ℂ)⁻¹ *
       (∑ q : ThetaQuotient K S I,
         quotientRow K S D I q ^ 5 * thetaPrincipalAddCharacter K S D I q) =

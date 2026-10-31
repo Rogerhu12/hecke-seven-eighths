@@ -79,7 +79,7 @@ theorem full_mobius_expansion (T : Finset ι) (U : Finset κ)
       exact Finset.sum_congr rfl (fun j _hj => hterm i hi j)
     _ = ∑ D ∈ divisorPool T A, ∑ i ∈ T, ∑ j ∈ U, (moebius D : ℂ) *
         (if D ∣ A i then if D ∣ B j then H i j else 0 else 0) := by
-      simp_rw [Finset.sum_comm U (divisorPool T A)]
+      simp_rw [Finset.sum_comm (s := U) (t := divisorPool T A)]
       exact Finset.sum_comm
     _ = _ := by
       apply Finset.sum_congr rfl
@@ -89,9 +89,6 @@ theorem full_mobius_expansion (T : Finset ι) (U : Finset κ)
       intro i _hi
       by_cases ha : D ∣ A i
       · simp only [ha, ite_true, Finset.mul_sum]
-        apply Finset.sum_congr rfl
-        intro j _hj
-        by_cases hb : D ∣ B j <;> simp [hb]
       · simp [ha]
 
 /-- Full Moebius extension followed by the actual logarithmic Fourier
@@ -153,18 +150,26 @@ theorem full_mobius_energy (T : Finset ι) (U : Finset κ)
         ∫ ξ : LogPlane, ‖(𝓕 F) ξ‖ *
           ‖∑ j ∈ U with D ∣ B j, b j * columnPhase ξ.snd (y j)‖ ^ 2) := by
   rw [full_mobius_expansion T U A B hA]
-  apply (norm_sum_le _ _).trans
-  apply (Finset.sum_le_sum (fun D hD => ?_)).trans
-  · rw [norm_mul]
+  let L : Ideal (𝓞 K) → ℝ := fun D =>
+    ∫ ξ : LogPlane, ‖(𝓕 F) ξ‖ *
+      ‖∑ i ∈ T with D ∣ A i, a i * columnPhase ξ.fst (x i)‖ ^ 2
+  let R : Ideal (𝓞 K) → ℝ := fun D =>
+    ∫ ξ : LogPlane, ‖(𝓕 F) ξ‖ *
+      ‖∑ j ∈ U with D ∣ B j, b j * columnPhase ξ.snd (y j)‖ ^ 2
+  have hb (D : Ideal (𝓞 K)) (_hD : D ∈ divisorPool T A) :
+      ‖(moebius D : ℂ) *
+        ∑ i ∈ T with D ∣ A i, ∑ j ∈ U with D ∣ B j,
+          a i * b j * F (logPoint (x i) (y j))‖ ≤
+        ‖(moebius D : ℂ)‖ * (Real.sqrt (L D) * Real.sqrt (R D)) := by
+    rw [norm_mul]
     exact mul_le_mul_of_nonneg_left
       (finite_bilinear_energy (T.filter fun i => D ∣ A i)
         (U.filter fun j => D ∣ B j) F x y a b) (norm_nonneg _)
-  · apply common_weighted_cauchy
-    · exact fun _ _ => norm_nonneg _
-    · intro D hD
-      exact integral_nonneg fun ξ => mul_nonneg (norm_nonneg _) (sq_nonneg _)
-    · intro D hD
-      exact integral_nonneg fun ξ => mul_nonneg (norm_nonneg _) (sq_nonneg _)
+  exact (norm_sum_le _ _).trans ((Finset.sum_le_sum hb).trans
+    (common_weighted_cauchy (divisorPool T A) (fun D => ‖(moebius D : ℂ)‖) L R
+      (fun _ _ => norm_nonneg _)
+      (fun _ _ => integral_nonneg fun ξ => mul_nonneg (norm_nonneg _) (sq_nonneg _))
+      (fun _ _ => integral_nonneg fun ξ => mul_nonneg (norm_nonneg _) (sq_nonneg _))))
 
 end HeckeSkeleton.Moments.MOMInvStep.FullMobius
 

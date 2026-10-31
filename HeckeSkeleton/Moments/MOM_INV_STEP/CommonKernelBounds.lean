@@ -219,9 +219,8 @@ theorem exists_orbitalKernel_seminorm_exact_bound
         mul_le_mul (hweight p hp) (hnorm p hp) (norm_nonneg _) (pow_nonneg hW _)
       _ = _ := by dsimp only [Q]; ring
   · have hz : iteratedFDeriv ℝ n (fun p => χ p * rawProfile K S ψ φ R p) p = 0 := by
-      apply notMem_support.mp
-      intro h
-      exact hp (tsupport_mul_subset_left (support_iteratedFDeriv_subset n h))
+      by_contra hne
+      exact hp (tsupport_mul_subset_left (support_iteratedFDeriv_subset n hne))
     rw [hz, norm_zero, mul_zero]
     exact hfinal
 
@@ -302,7 +301,12 @@ theorem exists_orbitalDensity_exact_common_envelope
     K S Γ ψ hψ hψsupport χ hχ hχsupport M hM q
   refine ⟨s, C, hC, fun φ R ξ => ?_⟩
   have hpow : 0 < (1 + ‖ξ‖) ^ q := pow_pos (by positivity) _
-  have hd := (le_div_iff₀ hpow).mpr (by simpa only [mul_comm] using hb φ R ξ)
+  have hd : ‖orbitalDensity K S Γ ψ hψ hψsupport χ hχ hχsupport φ R ξ‖ ≤
+      (C * s.sup (schwartzSeminormFamily ℝ V ℂ) φ * exactRadiusCost K M R) /
+        (1 + ‖ξ‖) ^ q := by
+    apply (le_div_iff₀ hpow).mpr
+    rw [mul_comm ‖orbitalDensity K S Γ ψ hψ hψsupport χ hχ hχsupport φ R ξ‖]
+    exact hb φ R ξ
   simpa only [fourierEnvelope, Real.rpow_neg (by positivity : (0 : ℝ) ≤ 1 + ‖ξ‖),
     Real.rpow_natCast, div_eq_mul_inv, q] using hd
 

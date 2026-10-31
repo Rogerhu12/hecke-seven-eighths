@@ -70,7 +70,7 @@ variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "OS" => Set.integer Sset K
 local notation "Ext" => ExteriorIdeal K Sset
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 /-- The principal locus is expressed in the actual manuscript labels,
 not in an independently supplied conductor. -/

@@ -42,12 +42,14 @@ def quotientCRT : QuotientRing R (c₁ * c₂) ≃+*
       Ideal.quotientMulEquivQuotientProd_fst, Ideal.quotientMulEquivQuotientProd_snd,
       Ideal.Quotient.factor_mk]
 
+include hcop in
 private theorem firstCofactor_isUnit :
     IsUnit (Ideal.Quotient.mk (Ideal.span ({c₁} : Set R)) c₂) := by
   have h := hcop.map (Ideal.Quotient.mk (Ideal.span ({c₁} : Set R)))
   rw [Ideal.Quotient.mk_singleton_self] at h
   exact isCoprime_zero_left.mp h
 
+include hcop in
 private theorem secondCofactor_isUnit :
     IsUnit (Ideal.Quotient.mk (Ideal.span ({c₂} : Set R)) c₁) :=
   firstCofactor_isUnit c₂ c₁ hcop.symm
@@ -103,7 +105,7 @@ variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 local notation "OS" => Set.integer S K
 variable (hS : ∀ p : HeightOneSpectrum (𝓞 K), p ∉ S → localDifferentExponent K p = 0)
-variable (c₁ c₂ : OS) (hc₁ : c₁ ≠ 0) (hc₂ : c₂ ≠ 0) (hcop : IsCoprime c₁ c₂)
+variable (c₁ c₂ : (Set.integer S K)) (hc₁ : c₁ ≠ 0) (hc₂ : c₂ ≠ 0) (hcop : IsCoprime c₁ c₂)
 
 /-- The actual product principal phase splits under the constructed
 cofactor CRT. This is a proved finite character identity. -/

@@ -33,7 +33,7 @@ local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "OS" => Set.integer Sset K
 local notation "Ext" => ExteriorIdeal K Sset
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 /-- Input coefficient data of one fixed class. In particular, the extra
 weight cannot depend on the moving squarefree column n. -/
@@ -157,8 +157,8 @@ theorem inverseColumn_second_cycle (C : ColumnData K S σ) (G : HeckeCharacter K
         (n.val.val * b.val.val ^ 3) *
       C.cutoff ((n.val.val.absNorm : ℝ) / C.base ^ C.length) * h
 
-variable (Γ : Subgroup ((Sset).unit K))
-variable (hΓ : Γ ≤ (powMonoidHom 6 : (Sset).unit K →* (Sset).unit K).range)
+variable (Γ : Subgroup (((S : Set (HeightOneSpectrum (𝓞 K)))).unit K))
+variable (hΓ : Γ ≤ (powMonoidHom 6 : ((S : Set (HeightOneSpectrum (𝓞 K)))).unit K →* ((S : Set (HeightOneSpectrum (𝓞 K)))).unit K).range)
 
 def primitivePairBlock (x y : Ext × Ext) (φ : SchwartzMap V ℂ)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
@@ -171,7 +171,7 @@ def primitivePairBlock (x y : Ext × Ext) (φ : SchwartzMap V ℂ)
     (PrimitivePoissonSource.pairExponent K S x.2 y.2 x.1 y.1)
     φ h hlc hcs M R
 
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K Sset)] [Γ.FiniteIndex]
   [IsPrincipalIdealRing OS]
 

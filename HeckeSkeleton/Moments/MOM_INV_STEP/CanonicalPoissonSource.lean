@@ -37,7 +37,7 @@ local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "OS" => Set.integer Sset K
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 local notation "Ext" => ExteriorIdeal K Sset
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 theorem idealSymbol_mul (I : Ext) (a b : OS) :
     idealSymbol K Sset D I (a * b) =
@@ -228,8 +228,8 @@ theorem pairCoefficient_zero_of_nontrivial
   · rw [idealSymbol_zero_of_ne_top K S D b₂ hb₂]
     simp
 
-variable (Γ : Subgroup ((Sset).unit K))
-variable (hΓ : Γ ≤ (powMonoidHom 6 : (Sset).unit K →* (Sset).unit K).range)
+variable (Γ : Subgroup (((S : Set (HeightOneSpectrum (𝓞 K)))).unit K))
+variable (hΓ : Γ ≤ (powMonoidHom 6 : ((S : Set (HeightOneSpectrum (𝓞 K)))).unit K →* ((S : Set (HeightOneSpectrum (𝓞 K)))).unit K).range)
 
 include hΓ in
 theorem idealSymbol_literal_invariant (I : Ext) (u : Γ) (a : OS) :
@@ -283,9 +283,9 @@ def block (n₁ n₂ b₁ b₂ : Ext) (φ : SchwartzMap V ℂ)
   invariant := pairCoefficient_literal_invariant K S D Γ hΓ n₁ n₂ b₁ b₂
   radius := r
 
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
-  [BorelSpace (sLocalNormOneGroup K Sset)] [Γ.FiniteIndex]
-  [IsPrincipalIdealRing OS]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] [Γ.FiniteIndex]
+  [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
   [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K)]
   [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)]
   (μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K))

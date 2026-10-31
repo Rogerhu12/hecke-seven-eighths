@@ -26,7 +26,7 @@ variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "OS" => Set.integer Sset K
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 abbrev PrincipalQuotient (B : PrimeBlock K Sset)
     (t : HeightOneSpectrum (𝓞 K) → ZMod 6) :=
@@ -272,8 +272,8 @@ theorem divisor_fourier_zero_of_active (B : PrimeBlock K Sset)
   rw [divisor_fourier, primitiveCoefficient_zero K S D B t hactive]
   simp only [star_zero, mul_zero, zero_mul]
 
-variable (Γ : Subgroup ((Sset).unit K))
-variable (hΓ : Γ ≤ (powMonoidHom 6 : (Sset).unit K →* (Sset).unit K).range)
+variable (Γ : Subgroup (((S : Set (HeightOneSpectrum (𝓞 K)))).unit K))
+variable (hΓ : Γ ≤ (powMonoidHom 6 : ((S : Set (HeightOneSpectrum (𝓞 K)))).unit K →* ((S : Set (HeightOneSpectrum (𝓞 K)))).unit K).range)
 
 /-- The actual primitive multiplicative row on the original Γ sectors. -/
 def primitiveOrbitCoefficient (B : PrimeBlock K Sset)
@@ -302,8 +302,8 @@ theorem primitiveFourierOrbitWeight_eq (B : PrimeBlock K Sset)
     divisor_fourier]
   ring
 
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
-  [BorelSpace (sLocalNormOneGroup K Sset)] [Γ.FiniteIndex]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] [Γ.FiniteIndex]
 
 /-- The complete Fourier orbital series has the actual inverse row.
 This identity is valid at every positive radius and every divisor,

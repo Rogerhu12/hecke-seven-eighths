@@ -23,7 +23,7 @@ open ActualFiniteSource PrimitivePoissonSource PrimitiveFourier
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 /-- The multiplicative hom already proved for the actual primitive packet. -/
 def primitiveCharacter (B : PrimeBlock K Sset)

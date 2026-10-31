@@ -32,6 +32,12 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalCubeLabels
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualReconstructionPacket
 import HeckeSkeleton.Moments.MOM_INV_STEP.BackgroundCycle
 import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
+import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPacketEnergy
+import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPoissonScale
+import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePacketCRT
+import HeckeSkeleton.Moments.MOM_INV_STEP.AssignedMarkSource
+import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectors
+import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGroupedGauss
 
 /-! Recursive kernel-axiom audit for the canonical inverse single-step work. -/
 
@@ -128,3 +134,22 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.BackgroundCycle.two_cycles_preserve_class
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren.child_puncture
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren.energy_restore
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualPacketEnergy.literal_child_expansion
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualPacketEnergy.literal_child_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualPoissonScale.primitive_prefactor_norm
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualPoissonScale.primitive_dual_radius_lower_of_annuli
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePacketCRT.normalizedPrimitiveGauss_union
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePacketCRT.normalizedPrimitiveGauss_uniform
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.AssignedMarkSource.divisorMark_norm_sq_eq_pairedChoices
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.AssignedMarkSource.pairedAssignment_source
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.AssignedMarkSource.pairedWeight_norm_le_one
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.AssignedMarkSource.first_cauchy_mark_expansion
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalIdealRow.fourth_label_absorb_row
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalIdealRow.common_factor_after_dual_dilation
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGaussCalibration.first_cube_coefficient_with_old_label_in_row
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectors.rowOrbit_injective
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectors.rowOrbit_surjective
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectors.rowOrbit_norm
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectors.tsum_eq_ideal_sectors
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGroupedGauss.pair_normalizedGauss_grouped
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGroupedGauss.pair_normalizedGauss_grouped_conjugate

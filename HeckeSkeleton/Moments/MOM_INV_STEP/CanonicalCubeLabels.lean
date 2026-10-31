@@ -161,8 +161,8 @@ theorem s_coprime_J2 (b₁ b₂ : Ext)
   rw [s_val, J2_val]
   exact CubeLabels.s_coprime_J2 b₁.val b₂.val ε₁ ε₂
 
-variable (D : ThetaArithmeticData K Sset)
-variable (hallowed : AllowedGeneratorInput K Sset D)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
+variable (hallowed : AllowedGeneratorInput K (S : Set (HeightOneSpectrum (𝓞 K))) D)
 
 include hallowed in
 /-- The actual cube product fixes every label in the first-pass row.

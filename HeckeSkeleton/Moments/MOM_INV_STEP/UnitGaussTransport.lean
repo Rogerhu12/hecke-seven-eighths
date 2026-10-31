@@ -70,7 +70,7 @@ variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 local notation "OS" => Set.integer S K
 variable (hS : ∀ p : HeightOneSpectrum (𝓞 K), p ∉ S → localDifferentExponent K p = 0)
-variable (c : OS) (hc : c ≠ 0) (u : OSˣ)
+variable (c : (Set.integer S K)) (hc : c ≠ 0) (u : OSˣ)
 
 /-- The literal e(a/c) phase is unchanged when both are multiplied by u. -/
 theorem principalCharacter_unitNumeratorEquiv (x : QuotientRing OS c) :

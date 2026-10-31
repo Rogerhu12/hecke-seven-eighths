@@ -29,7 +29,7 @@ variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "OS" => Set.integer Sset K
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 /-- The actual active squarefree conductor is an exterior nonzero ideal. -/
 def primitiveExterior (B : PrimeBlock K Sset)
@@ -124,8 +124,8 @@ def primitiveCoefficient (B : PrimeBlock K Sset)
           (sIntegerSexticResidueMap K Sset p.val (B.outside p.val p.property) a) := by
   simp only [primitiveCoefficient, Ideal.quotEquivOfEq_mk, primitiveQuotientFunction_mk]
 
-variable (Γ : Subgroup ((Sset).unit K))
-variable (hΓ : Γ ≤ (powMonoidHom 6 : (Sset).unit K →* (Sset).unit K).range)
+variable (Γ : Subgroup (((S : Set (HeightOneSpectrum (𝓞 K)))).unit K))
+variable (hΓ : Γ ≤ (powMonoidHom 6 : ((S : Set (HeightOneSpectrum (𝓞 K)))).unit K →* ((S : Set (HeightOneSpectrum (𝓞 K)))).unit K).range)
 
 include hΓ in
 theorem primitiveCoefficient_invariant (B : PrimeBlock K Sset)
@@ -269,9 +269,9 @@ theorem pair_source_factorization (n₁ n₂ b₁ b₂ : ExteriorIdeal K Sset)
     principalMask_mk, primitiveCoefficient_mk]
   simpa only [B, PrimeBlock.idealRow, idealSymbol, pairExponent, Complex.star_def] using hs
 
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
-  [BorelSpace (sLocalNormOneGroup K Sset)] [Γ.FiniteIndex]
-  [IsPrincipalIdealRing OS]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] [Γ.FiniteIndex]
+  [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 
 /-- The full-period canonical pair and the active-conductor pair are the
 same actual orbital series.  Principal zeros move into the mask before

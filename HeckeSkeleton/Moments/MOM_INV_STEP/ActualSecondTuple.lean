@@ -108,7 +108,8 @@ theorem A_dvd_cube_radical (B : Source K Sector) (n : (Ideal (𝓞 K))⁰) :
     A n B.b₁ B.b₂ ∣ (B.b₁.val * B.b₂.val).radical := by
   rw [show (B.b₁.val * B.b₂.val).radical = primeProduct (primeSupport (B.b₁ * B.b₂)) from
     radical_eq_primeProduct (B.b₁ * B.b₂)]
-  exact Finset.prod_dvd_prod_of_subset Finset.inter_subset_right
+  exact Finset.prod_dvd_prod_of_subset _ _
+    (fun p : HeightOneSpectrum (𝓞 K) => p.asIdeal) Finset.inter_subset_right
 
 end Source
 
@@ -156,7 +157,8 @@ theorem dk_dvd_original_mask (a : Choices B oldLists newLists) :
     exact (Finset.mem_sdiff.mp hp).2 hq
   have hh : a.dk ∣ primeProduct
       (commonSupport B.n₁ B.n₂ B.b₁ B.b₂ ∪ primeSupport (B.b₁ * B.b₂)) :=
-    Finset.prod_dvd_prod_of_subset hsub
+    Finset.prod_dvd_prod_of_subset _ _
+      (fun p : HeightOneSpectrum (𝓞 K) => p.asIdeal) hsub
   have he : primeProduct
       (commonSupport B.n₁ B.n₂ B.b₁ B.b₂ ∪ primeSupport (B.b₁ * B.b₂)) =
       B.firstCommon * (B.b₁.val * B.b₂.val).radical := by
@@ -192,7 +194,7 @@ theorem oldExtracted_dvd (a : Choices B oldLists newLists) :
     B.oldExtracted ∣ a.outer.q0 * a.newLabel * a.outer.quotient := by
   calc
     _ ∣ (B.firstCommon * (B.cubeQ * B.cubeJ)) * B.quotient.val :=
-      mul_dvd_mul_right _ (mul_dvd_mul_left _ B.cube_radical_dvd)
+      mul_dvd_mul_right (mul_dvd_mul_left B.firstCommon B.cube_radical_dvd) B.quotient.val
     _ ∣ _ := by
       refine ⟨a.d2 * B.overlapIdeal, ?_⟩
       change B.cubeQ * (B.cubeJ * B.firstCommon * a.d2 * B.overlapIdeal) * B.quotient.val = _

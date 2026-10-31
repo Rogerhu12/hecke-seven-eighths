@@ -33,7 +33,7 @@ variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 local notation "E" => CanonicalIdealRow.exteriorMonoid K S
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 local instance principalQuotientFinite (B : PrimeBlock K Sset)
     (t : HeightOneSpectrum (𝓞 K) → ZMod 6) :
@@ -76,6 +76,8 @@ structure FiniteGaussCRTInput : Prop where
 
 variable (hcrt : FiniteGaussCRTInput K S D)
 
+include hcrt
+
 /-- The mixed-digit input can be read literally as a sum over the actual
 principal quotient. This is the finite sum used in the proved Poisson
 packet, with its own generator-dependent additive phase. -/
@@ -89,7 +91,9 @@ theorem primitive_finite_sum (B : PrimeBlock K Sset)
   simpa only [normalizedPrimitiveGauss, primitiveGauss_eq_sum, div_eq_mul_inv, mul_comm]
     using hcrt.primitive_crt B t
 
-variable (hallowed : AllowedGeneratorInput K Sset D)
+variable (hallowed : AllowedGeneratorInput K (S : Set (HeightOneSpectrum (𝓞 K))) D)
+
+include hallowed
 
 /-- Reciprocity combines the two genuine finite cross-symbols into
 the doubled power of the same actual ideal row. -/
@@ -248,6 +252,100 @@ theorem first_cube_coefficient_with_frozen_label {Λ G : HeckeCharacter K}
       p B v ε₁ ε₂ hv side hcop z)
   rw [CanonicalIdealRow.fourth_label_mul K S D hallowed] 
   convert h using 1 <;> ring
+
+/-- The complete first-column extraction n=A·C·u. The common factor C
+is frozen with A in the outer coefficient and stays in the new label C·J.
+The original f is removed from that label and enters the row as f². -/
+theorem first_cube_coefficient_with_common_factor {Λ G : HeckeCharacter K}
+    (hcal : ThetaCalibrationInput K Sset D Λ G) (ν : HeckeCharacter K)
+    (u : Ext) (hu : Squarefree u.val.val) {ι : Type*}
+    (p : ι → E) (B : Finset ι) (v : ι → ℕ) (ε₁ ε₂ : ι → Bool)
+    (hv : ∀ i ∈ B, 0 < v i) (side : Bool) (C f z : E)
+    (hcop : IsCoprime (aLabel p B (if side then ε₂ else ε₁) * C).val.val u.val.val) :
+    (if IsCoprime u.val.val (cubeRadical p B).val.val then 1 else 0) *
+      CoefficientCycle.canonicalCoefficient K Sset D Λ
+        (exteriorMul K Sset (CanonicalIdealRow.toExterior K S
+          (aLabel p B (if side then ε₂ else ε₁) * C)) u) *
+      heckeIdealCoefficient K ν
+        (exteriorMul K Sset (CanonicalIdealRow.toExterior K S
+          (aLabel p B (if side then ε₂ else ε₁) * C)) u).val *
+      thetaGamma K Sset D u 1 *
+      idealSymbol K Sset D u (CanonicalIdealRow.generator K S D f) ^ 4 *
+      idealSymbol K Sset D u (CanonicalIdealRow.generator K S D (crtLabel p B v ε₁ ε₂ side)) *
+      conj (idealSymbol K Sset D u (CanonicalIdealRow.generator K S D z)) =
+    (CoefficientCycle.canonicalCoefficient K Sset D Λ
+        (CanonicalIdealRow.toExterior K S (aLabel p B (if side then ε₂ else ε₁) * C)) *
+      heckeIdealCoefficient K ν (aLabel p B (if side then ε₂ else ε₁) * C).val *
+      ((UniqueFactorizationMonoid.moebius u.val.val : ℂ) *
+        heckeIdealCoefficient K ν u.val * heckeIdealCoefficient K G u.val)) *
+      (idealSymbol K Sset D u (CanonicalIdealRow.generator K S D (C * jLabel p B v ε₁ ε₂)) ^ 4 *
+        (if IsCoprime u.val.val (b0Label p B v ε₁ ε₂).val.val then 1 else 0)) *
+      conj (idealSymbol K Sset D u
+        (CanonicalIdealRow.generator K S D (z * f ^ 2 * dilationLabel p B v ε₁ ε₂))) := by
+  let L := aLabel p B (if side then ε₂ else ε₁) * C
+  let c := CoefficientCycle.canonicalCoefficient K Sset D Λ (CanonicalIdealRow.toExterior K S L) *
+    heckeIdealCoefficient K ν L.val *
+    ((UniqueFactorizationMonoid.moebius u.val.val : ℂ) *
+      heckeIdealCoefficient K ν u.val * heckeIdealCoefficient K G u.val)
+  have hc := first_source_coefficient K S D hcrt hallowed hcal ν
+    (CanonicalIdealRow.toExterior K S L) u hcop hu
+  have hd := CanonicalIdealRow.common_factor_after_dual_dilation K S D hallowed
+    u p B v ε₁ ε₂ hv side C f z
+  change _ = c * _ * _
+  calc
+    _ = (CoefficientCycle.canonicalCoefficient K Sset D Λ
+          (exteriorMul K Sset (CanonicalIdealRow.toExterior K S L) u) *
+        heckeIdealCoefficient K ν (exteriorMul K Sset (CanonicalIdealRow.toExterior K S L) u).val *
+        thetaGamma K Sset D u 1) *
+      ((if IsCoprime u.val.val (cubeRadical p B).val.val then 1 else 0) *
+        idealSymbol K Sset D u (CanonicalIdealRow.generator K S D (crtLabel p B v ε₁ ε₂ side)) *
+        idealSymbol K Sset D u (CanonicalIdealRow.generator K S D f) ^ 4 *
+        conj (idealSymbol K Sset D u (CanonicalIdealRow.generator K S D z))) := by
+      dsimp only [L]
+      ring
+    _ = c *
+      ((if IsCoprime u.val.val (cubeRadical p B).val.val then 1 else 0) *
+        idealSymbol K Sset D u (CanonicalIdealRow.generator K S D L) ^ 4 *
+        idealSymbol K Sset D u (CanonicalIdealRow.generator K S D (crtLabel p B v ε₁ ε₂ side)) *
+        idealSymbol K Sset D u (CanonicalIdealRow.generator K S D f) ^ 4 *
+        conj (idealSymbol K Sset D u (CanonicalIdealRow.generator K S D z))) := by
+      rw [hc]
+      dsimp only [c, CanonicalIdealRow.generator]
+      ring
+    _ = _ := by rw [hd]; ring
+
+/-- When the common source factor is the unit, J is the sole remaining
+averaged label. The old f is entirely in the actual new row z·f²·E. -/
+theorem first_cube_coefficient_with_old_label_in_row {Λ G : HeckeCharacter K}
+    (hcal : ThetaCalibrationInput K Sset D Λ G) (ν : HeckeCharacter K)
+    (u : Ext) (hu : Squarefree u.val.val) {ι : Type*}
+    (p : ι → E) (B : Finset ι) (v : ι → ℕ) (ε₁ ε₂ : ι → Bool)
+    (hv : ∀ i ∈ B, 0 < v i) (side : Bool)
+    (hcop : IsCoprime (aLabel p B (if side then ε₂ else ε₁)).val.val u.val.val)
+    (f z : E) :
+    (if IsCoprime u.val.val (cubeRadical p B).val.val then 1 else 0) *
+      CoefficientCycle.canonicalCoefficient K Sset D Λ
+        (exteriorMul K Sset
+          (CanonicalIdealRow.toExterior K S (aLabel p B (if side then ε₂ else ε₁))) u) *
+      heckeIdealCoefficient K ν
+        (exteriorMul K Sset
+          (CanonicalIdealRow.toExterior K S (aLabel p B (if side then ε₂ else ε₁))) u).val *
+      thetaGamma K Sset D u 1 *
+      idealSymbol K Sset D u (CanonicalIdealRow.generator K S D f) ^ 4 *
+      idealSymbol K Sset D u (CanonicalIdealRow.generator K S D (crtLabel p B v ε₁ ε₂ side)) *
+      conj (idealSymbol K Sset D u (CanonicalIdealRow.generator K S D z)) =
+    (CoefficientCycle.canonicalCoefficient K Sset D Λ
+        (CanonicalIdealRow.toExterior K S (aLabel p B (if side then ε₂ else ε₁))) *
+      heckeIdealCoefficient K ν (aLabel p B (if side then ε₂ else ε₁)).val *
+      ((UniqueFactorizationMonoid.moebius u.val.val : ℂ) *
+        heckeIdealCoefficient K ν u.val * heckeIdealCoefficient K G u.val)) *
+      (idealSymbol K Sset D u (CanonicalIdealRow.generator K S D (jLabel p B v ε₁ ε₂)) ^ 4 *
+        (if IsCoprime u.val.val (b0Label p B v ε₁ ε₂).val.val then 1 else 0)) *
+      conj (idealSymbol K Sset D u
+        (CanonicalIdealRow.generator K S D (z * f ^ 2 * dilationLabel p B v ε₁ ε₂))) := by
+  simpa only [mul_one, one_mul] using
+    first_cube_coefficient_with_common_factor K S D hcrt hallowed hcal ν u hu
+      p B v ε₁ ε₂ hv side 1 f z (by simpa only [mul_one] using hcop)
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGaussCalibration
 

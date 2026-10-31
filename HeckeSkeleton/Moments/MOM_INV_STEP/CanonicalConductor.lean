@@ -26,7 +26,7 @@ open scoped Classical BigOperators nonZeroDivisors
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 def squarefreeBit (n : ExteriorIdeal K Sset) (p : HeightOneSpectrum (𝓞 K)) : Bool :=
   decide (p.asIdeal ∣ n.val.val)
