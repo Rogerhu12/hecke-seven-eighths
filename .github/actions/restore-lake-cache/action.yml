@@ -1,0 +1,66 @@
+name: Restore precompiled project Lake artifacts
+description: >
+  Downloads the newest `lake-cache-*` release of this repository (built by
+  scripts/build_lake_cache.py) and unpacks the precompiled Lake outputs of the
+  project libraries, vendor/class-field-theory and TauCeti into the checkout.
+  Run it after `lake exe cache get` (for example after leanprover/lean-action
+  with use-mathlib-cache), so that .lake/packages/TauCeti already exists.
+
+inputs:
+  tag:
+    description: Release tag to restore; empty selects the newest lake-cache-* release.
+    required: false
+    default: ""
+  repository:
+    description: Repository that holds the releases.
+    required: false
+    default: ${{ github.repository }}
+  token:
+    description: Token for the GitHub CLI.
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  tag:
+    description: The restored release tag (empty if nothing was restored).
+    value: ${{ steps.restore.outputs.tag }}
+
+runs:
+  using: composite
+  steps:
+    - id: restore
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        CACHE_REPO: ${{ inputs.repository }}
+        CACHE_TAG: ${{ inputs.tag }}
+      run: |
+        set -euo pipefail
+        tag="$CACHE_TAG"
+        if [ -z "$tag" ]; then
+          tag="$(gh release list -R "$CACHE_REPO" --limit 100 --json tagName,createdAt \
+            --jq '[.[] | select(.tagName | startswith("lake-cache-"))] | sort_by(.createdAt) | last | .tagName // ""')"
+        fi
+        if [ -z "$tag" ]; then
+          echo "::warning::No lake-cache-* release found in $CACHE_REPO; building from scratch."
+          echo "tag=" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+        if [ ! -d .lake/packages/TauCeti ]; then
+          echo "::warning::.lake/packages/TauCeti is missing; run this action after 'lake exe cache get'."
+        fi
+        command -v zstd >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq zstd; }
+        dl="$RUNNER_TEMP/lake-cache-download"
+        rm -rf "$dl" && mkdir -p "$dl"
+        echo "Restoring $tag from $CACHE_REPO"
+        start=$SECONDS
+        gh release download "$tag" -R "$CACHE_REPO" -D "$dl" \
+          -p 'lake-cache.tar.zst.part-*' -p SHA256SUMS -p lake-cache-manifest.json
+        (cd "$dl" && sha256sum -c SHA256SUMS)
+        echo "Downloaded $(du -sh "$dl" | cut -f1) in $((SECONDS - start))s"
+        cat "$dl"/lake-cache.tar.zst.part-* | zstd -d -T0 | tar -xf - --no-same-owner
+        rm -f "$dl"/lake-cache.tar.zst.part-*
+        jq -r '"Commit \(.commit); " + (.build_roots | to_entries | map("\(.key): \(.value.modules) modules") | join(", "))' \
+          "$dl/lake-cache-manifest.json" || true
+        echo "Restored $tag in $((SECONDS - start))s"
+        echo "tag=$tag" >> "$GITHUB_OUTPUT"

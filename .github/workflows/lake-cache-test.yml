@@ -1,0 +1,103 @@
+name: Lake cache restore test
+
+# Checks that the precompiled lake-cache-* release is accepted by Lake on a
+# fresh runner: after restoring it, building HeckeSkeleton.Principal should
+# replay every module below HeckeSkeleton instead of compiling it.
+on:
+  push:
+    branches: [ci/lake-cache-test]
+    paths:
+      - ".github/actions/restore-lake-cache/**"
+      - ".github/workflows/lake-cache-test.yml"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to restore (empty = newest lake-cache-*)
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lake-cache-test-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LEAN_NUM_THREADS: "2"
+
+jobs:
+  principal:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Prepare runner resources
+        shell: bash
+        run: |
+          df -h /
+          sudo rm -rf -- /usr/local/lib/android/sdk /usr/share/dotnet
+          lean_map_limit="$(sysctl -n vm.max_map_count)"
+          if [ "$lean_map_limit" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          df -h /
+      - name: Install the pinned Lean toolchain and Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
+        timeout-minutes: 20
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "false"
+      - name: Restore precompiled project artifacts
+        id: lake-cache
+        uses: ./.github/actions/restore-lake-cache
+        with:
+          tag: ${{ inputs.tag }}
+      - name: Build HeckeSkeleton.Principal
+        timeout-minutes: 150
+        shell: bash
+        run: |
+          set -o pipefail
+          df -h /
+          start=$SECONDS
+          lake build HeckeSkeleton.Principal 2>&1 | tee lake-cache-test.log
+          echo "BUILD_SECONDS=$((SECONDS - start))" | tee -a lake-cache-test.log
+      - name: Summarise replayed and rebuilt modules
+        if: always()
+        shell: bash
+        run: |
+          log=lake-cache-test.log
+          [ -f "$log" ] || exit 0
+          {
+            echo "## Lake cache test (${{ steps.lake-cache.outputs.tag }})"
+            echo
+            echo "| action | jobs |"
+            echo "|---|---|"
+            grep -oE '\] (Built|Replayed|Fetched|Unpacked|Ran|Checked|Downloaded|Computed|Cloned)[^ ]* ' "$log" \
+              | awk '{print $2}' | sort | uniq -c | awk '{print "| " $2 " | " $1 " |"}'
+            echo
+            echo "Built modules by top-level namespace:"
+            echo
+            echo '```'
+            grep -E '\] Built ' "$log" | awk '{print $4}' | cut -d. -f1 | sort | uniq -c | sort -rn
+            echo '```'
+            echo
+            echo "Built modules outside HeckeSkeleton:"
+            echo
+            echo '```'
+            grep -E '\] Built ' "$log" | awk '{print $4}' | grep -v '^HeckeSkeleton\.' | head -200
+            echo '```'
+            grep BUILD_SECONDS "$log" || true
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: lake-cache-test-${{ github.run_id }}
+          path: lake-cache-test.log
+          if-no-files-found: warn
+          retention-days: 14
