@@ -79,7 +79,8 @@ theorem compensatedRowMellinKernel_factorization
     (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K))
     (u : FrequencyRow K S) (Z : ℝ) (hZ : 0 < Z) (s w z : ℂ) :
     compensatedRowMellinKernel K S μ P ψ E g T u Z s w z =
-      Complex.exp ((s + z - 1) ^ 2) * additiveMellin K S μ P.additive z *
+      (physicalPoissonScalar K : ℂ) *
+        Complex.exp ((s + z - 1) ^ 2) * additiveMellin K S μ P.additive z *
         mellin P.denominator.toFun w * (frequencyRowNorm K S u : ℂ) ^ (-z) *
         ((Z ^ (17 / 48 : ℝ) : ℝ) : ℂ) ^ (1 / 2 - z) *
         (Z : ℂ) ^ (s + z - 1) *
