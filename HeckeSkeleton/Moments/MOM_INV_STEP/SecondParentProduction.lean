@@ -174,9 +174,12 @@ theorem retained_eq_sum (T : Data K S σ Θ ψ) (G : HeckeCharacter K)
   rw [T.fullPool]
   erw [retainedSource_eq_fixed_common K S D Γ hΓ μv ν hallowed T.columns T.triple G hcal hbg
     (scale_pos K S T) T.cutoffSupport T.label T.divisor (2 * scale K S T)
-    (by positivity) T.archTest T.localTest T.locallyConstant T.compactSupport T.radius
+    (mul_nonneg (by norm_num : (0 : ℝ) ≤ 2) (scale_pos K S T).le)
+    T.archTest T.localTest T.locallyConstant T.compactSupport T.radius
     T.frequencyBound]
-  simp only [Index, Fintype.sum_sigma, term, selectedDivisor, selectedRow, selectedSector,
+  dsimp only [Index]
+  conv_rhs => rw (transparency := .default) [Fintype.sum_sigma]
+  simp only [term, selectedDivisor, selectedRow, selectedSector,
     selectedProfile, SecondPhysicalEnergy.source, SecondPhysicalEnergy.sourcePool,
     SecondPhysicalEnergy.sourceCoefficient, forwardColumn, poweredFamily,
     SecondSourceAssembly.slicedColumn, test, scale, neg_div]
@@ -184,6 +187,7 @@ theorem retained_eq_sum (T : Data K S σ Θ ψ) (G : HeckeCharacter K)
     (squarefreePool K Sset (2 * T.columns.base ^ T.columns.columnLength T.triple))]
   apply Finset.sum_congr rfl
   intro g hg
+  conv_rhs => rw (transparency := .default) [Fintype.sum_sigma]
   rw [← Finset.sum_coe_sort (SecondSourceMasks.commonMask K S D g.val).powerset]
   apply Finset.sum_congr rfl
   intro δ hδ

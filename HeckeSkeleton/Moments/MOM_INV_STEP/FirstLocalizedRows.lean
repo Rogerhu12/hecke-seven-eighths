@@ -100,7 +100,16 @@ theorem fine_row_bound (r X F : {r : ℝ // 0 < r}) (Z tau : ℝ) (hZ : 0 < Z)
   have hb : E * R * J ≤ B ^ 2 * A₁ * A₂ :=
     FirstCubeDilationGeometry.norm_bound K S D r₁ r₂ b₁ b₂
   have hratio := ratio_bound E R J B A₁ A₂ C hA₁ hA₂ hC hJ hb
-  have hfactor : 0 ≤ 4 * F.val ^ 2 * r.val * d * X.val ^ 2 * Z ^ tau := by positivity
+  have hfactor : 0 ≤ 4 * F.val ^ 2 * r.val * d * X.val ^ 2 * Z ^ tau :=
+    mul_nonneg
+      (mul_nonneg
+        (mul_nonneg
+          (mul_nonneg
+            (mul_nonneg (by norm_num : (0 : ℝ) ≤ 4) (sq_nonneg F.val))
+            r.property.le)
+          hd.le)
+        (sq_nonneg X.val))
+      (Real.rpow_nonneg hZ.le tau)
   calc
     _ = (4 * F.val ^ 2 * r.val * d * X.val ^ 2 * Z ^ tau) *
         (E * R / ((A₁ * C) * (A₂ * C))) := by

@@ -79,7 +79,13 @@ theorem selectedRow_rpow_bound (T : Data K S σ Θ ψ) (i : Index K S D Γ T)
     i.2.2.property
   rw [selectedRow_norm]
   calc
-    _ ≤ Z ^ d₁ * Z ^ d₂ * Z ^ H := by gcongr; exact hk.trans hH
+    _ ≤ Z ^ d₁ * Z ^ d₂ * Z ^ H :=
+      mul_le_mul
+        (mul_le_mul hd₁ hd₂
+          (sIntegerElementNorm K Sset (selectedDivisor K S D Γ T i)).property.le
+          (Real.rpow_nonneg hZ.le d₁))
+        (hk.trans hH) (height_pos K Sset i.2.2.val.1).le
+        (mul_nonneg (Real.rpow_nonneg hZ.le d₁) (Real.rpow_nonneg hZ.le d₂))
     _ = _ := by rw [← Real.rpow_add hZ, ← Real.rpow_add hZ]
 
 /-- Cancellation of both first-divisor and extracted-common lengths.

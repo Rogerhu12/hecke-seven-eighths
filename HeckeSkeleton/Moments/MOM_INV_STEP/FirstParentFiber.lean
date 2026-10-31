@@ -58,7 +58,8 @@ private theorem source_free_energy_of_divisor_bound
         (DivisorInverseColumn.weightedEnergy K S Γ D C γ j d
           (Physical.ActualGramMajorantDraft.rowBallArchTest K S 1)
           (Physical.ActualGramMajorantDraft.rowBallFiniteFamily K S 1) ∅ (rowRadius H)).re) := by
-  have hcost : 0 ≤ A * B * H.val ^ ε := by positivity
+  have hcost : 0 ≤ A * B * H.val ^ ε :=
+    mul_nonneg (mul_nonneg hA hB) (Real.rpow_nonneg H.property.le ε)
   calc
     _ ≤ ∑ y ∈ T.image (row K S Γ E),
         (A * ((idealDivisors y.1.val.val).card : ℝ) ^ (a + 1)) *

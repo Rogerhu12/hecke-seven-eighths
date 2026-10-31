@@ -102,9 +102,12 @@ theorem retained_eq_sum_at (T : SecondParentProduction.Data K S σ Θ ψ)
   rw [T.fullPool]
   erw [retainedSourceAt_eq_fixed_common K S D Γ hΓ μv ν hallowed T.columns T.triple G hcal hbg
     (SecondParentProduction.scale_pos K S T) T.cutoffSupport T.label T.divisor
-    (2 * SecondParentProduction.scale K S T) (by positivity)
+    (2 * SecondParentProduction.scale K S T)
+    (mul_nonneg (by norm_num : (0 : ℝ) ≤ 2) (SecondParentProduction.scale_pos K S T).le)
     T.archTest T.localTest T.locallyConstant T.compactSupport T.radius H]
-  simp only [IndexAt, Fintype.sum_sigma, termAt, dataAt, oldIndexAt,
+  dsimp only [IndexAt]
+  conv_rhs => rw (transparency := .default) [Fintype.sum_sigma]
+  simp only [termAt, dataAt, oldIndexAt,
     SecondParentProduction.term, SecondParentProduction.selectedDivisor,
     SecondParentProduction.selectedRow, SecondParentProduction.selectedSector,
     SecondParentProduction.selectedProfile, SecondPhysicalEnergy.source,
@@ -115,6 +118,7 @@ theorem retained_eq_sum_at (T : SecondParentProduction.Data K S σ Θ ψ)
     (squarefreePool K Sset (2 * T.columns.base ^ T.columns.columnLength T.triple))]
   apply Finset.sum_congr rfl
   intro g hg
+  conv_rhs => rw (transparency := .default) [Fintype.sum_sigma]
   rw [← Finset.sum_coe_sort (SecondSourceMasks.commonMask K S D g.val).powerset]
   apply Finset.sum_congr rfl
   intro δ hδ

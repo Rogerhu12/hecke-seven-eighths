@@ -109,8 +109,8 @@ theorem fineCutoff_argument (r X : {r : ℝ // 0 < r}) (Z tau : ℝ) (hZ : 0 < Z
       (mul_pos (by norm_num) (residualScale K S X r₁ r₂ b₁ b₂ false).property).le
   have hR : 0 < R := cubeNorm_pos K S D r₁ r₂ b₁ b₂
   have hd := (sIntegerElementNorm K Sset d).property
-  have hq : 0 < r.val * (sIntegerElementNorm K Sset d).val * (u * v * R) := by
-    positivity
+  have hq : 0 < r.val * (sIntegerElementNorm K Sset d).val * (u * v * R) :=
+    mul_pos (mul_pos r.property hd) (mul_pos (mul_pos hu hv) hR)
   have hb : r.val * (sIntegerElementNorm K Sset d).val * (u * v * R) ≤
       4 * (r.val * (sIntegerElementNorm K Sset d).val * R * XL * XR) := by
     have hh := mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_right hprod hR.le)

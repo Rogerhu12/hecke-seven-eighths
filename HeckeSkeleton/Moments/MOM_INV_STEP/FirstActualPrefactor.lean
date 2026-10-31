@@ -91,7 +91,9 @@ theorem normalizedScalar_le (Z M r ell V delta A B R eta : ℝ)
     rw [hradius]
     exact mul_le_mul
       (mul_le_mul_of_nonneg_left hd (Real.rpow_nonneg hZpos.le _))
-      hsqrt (Real.rpow_nonneg hZpos.le _) (by positivity)
+      hsqrt (Real.rpow_nonneg hZpos.le _)
+      (mul_nonneg (Real.rpow_nonneg hZpos.le _)
+        (sIntegerElementNorm K Sset d).property.le)
   have hout : outerFactor K S D radius d r₁ r₂ b₁ b₂ ≤
       ActualPoissonScale.fieldConstant K /
         (Z ^ (-M) * Z ^ (delta - eta) * Z ^ ((R - eta) / 2)) :=

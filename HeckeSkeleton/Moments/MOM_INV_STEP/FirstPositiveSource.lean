@@ -120,7 +120,8 @@ theorem sourceEnergy_eq (C : ColumnData K S σ) (G : HeckeCharacter K)
   have hcolumn := actual_column_norm K S D Γ C G X r₁ r₂ b₁ b₂ side f z d ξ
     (overlapIdeal K S D X r₁ r₂ b₁ b₂ false e) η
   simp only [overlapIdeal_val] at hcolumn
-  rw [hcolumn]
+  simpa only [FirstSourceReindexing.nonzeroProduct] using!
+    congrArg (fun x : ℝ => ‖P.density K S Γ η‖ * x ^ 2) hcolumn
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstPositiveSource
 

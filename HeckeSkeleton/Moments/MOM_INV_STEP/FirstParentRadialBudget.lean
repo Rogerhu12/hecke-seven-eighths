@@ -67,6 +67,8 @@ theorem radialScale_le_source (Q r₁ r₂ b₁ b₂ : Ext)
     ((mem_dyadicPool K Sset X.val r₁).mp hr₁).2.2
   have hn₂ : (r₂.val.val.absNorm : ℝ) ≤ 2 * X.val :=
     ((mem_dyadicPool K Sset X.val r₂).mp hr₂).2.2
+  have htwoX : (0 : ℝ) ≤ 2 * X.val :=
+    mul_nonneg (by norm_num) X.property.le
   have hsrc : (Q.val.val.absNorm : ℝ) * (b₁.val.val.absNorm : ℝ) *
       (b₂.val.val.absNorm : ℝ) * (r₁.val.val.absNorm : ℝ) *
       (r₂.val.val.absNorm : ℝ) ≤
@@ -91,7 +93,12 @@ theorem radialScale_le_source (Q r₁ r₂ b₁ b₂ : Ext)
         (b₂.val.val.absNorm : ℝ) * (2 * X.val) * (2 * X.val)) * X.val ^ 2 :=
       mul_le_mul (mul_le_mul_of_nonneg_left hmask r.property.le) hscales
         (mul_nonneg (residualScale K S X r₁ r₂ b₁ b₂ false).property.le
-          (residualScale K S X r₁ r₂ b₁ b₂ true).property.le) (by positivity)
+          (residualScale K S X r₁ r₂ b₁ b₂ true).property.le)
+        (mul_nonneg r.property.le
+          (mul_nonneg
+            (mul_nonneg
+              (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) (Nat.cast_nonneg _))
+                (Nat.cast_nonneg _)) htwoX) htwoX))
     _ = _ := by ring
 
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
