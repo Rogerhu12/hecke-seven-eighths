@@ -257,7 +257,9 @@ theorem physicalDenominatorIntegral_eq_completedGauss (P : ProbeData K Sset)
       refine Eq.trans ?_ he.symm
       apply integral_congr_ae
       exact Filter.Eventually.of_forall (fun t => tsum_congr (fun m => by
-        rw [physicalPrimalSchwartzTerm]))
+        exact congrArg
+          (fun value : ℂ => physicalCompletedOrbitWeight K S P ψ Q Z den (Quotient.mk _ m) * value)
+          (physicalPrimalSchwartzTerm K S P.additive den X hX m t).symm))
     _ = _ := by
       rw [physicalCompletedOrbitalSeries_eq_ideal_sum K S P ψ Q hZ]
       apply tsum_congr

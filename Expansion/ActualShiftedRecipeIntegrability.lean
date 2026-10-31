@@ -164,8 +164,9 @@ theorem integrableOn_actual_shifted_rowVerticalKernel_box [IsTotallyComplex K]
     IntegrableOn (rowVerticalKernel K Sset muS P psi
       (arithmeticHighEulerData K Sset P psi) g ray u Z
       (a + 16 * e) (1 - a - 6 * e) (17 / 50))
-      (rowRetainedHeightBox T) rowHeightVolume :=
-  (continuousOn_actual_shifted_rowVerticalKernel_box K S mu nu P psi hAllowed g ray u hu
+      (rowRetainedHeightBox T) rowHeightVolume := by
+  unfold rowHeightVolume
+  exact (continuousOn_actual_shifted_rowVerticalKernel_box K S mu nu P psi hAllowed g ray u hu
     hZ ha ha1 he he1 hTH hbelow).integrableOn_compact
       (isCompact_Icc.prod (isCompact_Icc.prod isCompact_Icc))
 
