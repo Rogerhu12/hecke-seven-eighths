@@ -191,7 +191,7 @@ theorem retained_eq_sum (T : Data K S σ Θ ψ) (G : HeckeCharacter K)
   rw [← Finset.sum_coe_sort (SecondSourceMasks.commonMask K S D g.val).powerset]
   apply Finset.sum_congr rfl
   intro δ hδ
-  rw [← Finset.sum_coe_sort (FirstDualTruncation.sectorCutoff K S D Γ T.frequencyBound)]; rfl
+  rw [← Finset.sum_coe_sort (FirstDualTruncation.sectorCutoff K S D Γ T.frequencyBound)]
 
 include hallowed in
 theorem term_bound (T : Data K S σ Θ ψ) (G : HeckeCharacter K) (hG : G ∈ Θ)

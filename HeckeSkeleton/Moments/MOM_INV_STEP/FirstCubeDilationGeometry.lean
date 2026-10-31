@@ -17,6 +17,7 @@ namespace HeckeSkeleton.Moments.MOM_INV_STEP.FirstCubeDilationGeometry
 open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
   HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open CubeAlgebra CanonicalNormPools FirstPoissonNormalization ConductorMasks
+open CanonicalConductor (squarefreeBit)
 open scoped Classical BigOperators nonZeroDivisors
 
 theorem digit_budget (parityBit ε₁ ε₂ : Bool) :

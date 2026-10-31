@@ -136,6 +136,7 @@ theorem parent_radialScale_power_le (T : FirstParentEnergy.Data K S (σ := σ)) 
       4 ^ ε * Z ^ ((R + E + 2 * B + 4 * L) * ε) := by
   have h₁ := hb i.1.val i.1.property
   have h₂ := hb i.2.1.val i.2.1.property
+  have hscale : 0 ≤ T.scale.val := T.scale.property.le
   have hbase : 4 * T.radius.val * (Q.val.val.absNorm : ℝ) *
       (i.1.val.val.val.absNorm : ℝ) * (i.2.1.val.val.val.absNorm : ℝ) * T.scale.val ^ 4 ≤
       4 * Z ^ (R + E + 2 * B + 4 * L) := by
