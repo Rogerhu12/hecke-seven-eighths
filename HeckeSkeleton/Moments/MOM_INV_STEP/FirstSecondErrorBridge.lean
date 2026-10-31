@@ -70,6 +70,8 @@ def cutoff (R : OuterIndex K S D T → {r : ℝ // 0 < r})
     Ext → Finset (HeightOneSpectrum OS) → ℝ :=
   SecondAdaptiveCutoff.fineCutoff K S (InverseRowMajorant.rowRadius (R o)) U.val Z tau
 
+omit [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K)]
+  [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)] in
 theorem cutoff_eq_production (hbase : 1 < T.columns.base)
     (R : OuterIndex K S D T → {r : ℝ // 0 < r})
     (U : {r : ℝ // 0 < r}) (Z tau : ℝ) :
