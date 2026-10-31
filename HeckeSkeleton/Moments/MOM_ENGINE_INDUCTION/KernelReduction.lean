@@ -349,9 +349,13 @@ theorem linearized_estimate (d : CommonKernelReduction S U t Ω) (hU : 0 < U)
   rw [childrenMeasure, integral_halfPushforward _ (d.left_measurable x)
     (d.right_measurable x) d.value_measurable
     (d.left_integrable_weighted hU x) (d.right_integrable_weighted hU x)]
-  rw [weightedKernel, integral_kernelWeightedMeasure _ (d.weight_measurable x)
-    (d.weight_nonneg hU x), integral_kernelWeightedMeasure _ (d.weight_measurable x)
-    (d.weight_nonneg hU x)]
+  rw [weightedKernel,
+    integral_kernelWeightedMeasure (d.kernel x) (weight := d.weight x)
+      (d.weight_measurable x) (d.weight_nonneg hU x)
+      (fun ξ => (S.node (d.left x ξ)).normalizedEnergy U t),
+    integral_kernelWeightedMeasure (d.kernel x) (weight := d.weight x)
+      (d.weight_measurable x) (d.weight_nonneg hU x)
+      (fun ξ => (S.node (d.right x ξ)).normalizedEnergy U t)]
 
 /-- Construct the continuous recursion on the unchanged, actual polynomial
 system.  The raw source remainder is normalized by the actual parent width. -/

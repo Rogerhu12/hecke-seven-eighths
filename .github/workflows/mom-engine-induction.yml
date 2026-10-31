@@ -112,11 +112,17 @@ jobs:
           printf '\nMOM_ENGINE_INDUCTION_SKELETON_UPSTREAM_BUILD_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/upstream-build.log"
           lake env lean "$proof_logs/UpstreamAudit.lean" 2>&1 | tee "$proof_logs/upstream-axioms.log"
           printf '\nMOM_ENGINE_INDUCTION_SKELETON_UPSTREAM_AUDIT_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/upstream-axioms.log"
-          lake build HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SkeletonFamily 2>&1 | tee "$proof_logs/build.log"
+          lake build HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SkeletonFamily HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SkeletonSource 2>&1 | tee "$proof_logs/build.log"
           printf '\nMOM_ENGINE_INDUCTION_SKELETON_BUILD_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/build.log"
           lake env lean "$proof_logs/SkeletonAudit.lean" 2>&1 | tee "$proof_logs/axioms.log"
           printf '\nMOM_ENGINE_INDUCTION_SKELETON_AUDIT_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/axioms.log"
           python3 "$task_dir/verify.py" skeleton-check --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/verification.log"
+      - name: Enforce the original three target axiom requirements
+        shell: bash
+        run: |
+          set -euo pipefail
+          proof_logs="$RUNNER_TEMP/mom-engine-induction-skeleton"
+          python3 HeckeSkeleton/Moments/MOM_ENGINE_INDUCTION/verify.py original-check --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/original-targets.log"
       - name: Upload separate source integration evidence
         if: always()
         uses: actions/upload-artifact@v4

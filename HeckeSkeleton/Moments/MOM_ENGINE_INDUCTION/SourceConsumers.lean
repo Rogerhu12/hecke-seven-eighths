@@ -36,6 +36,16 @@ def physicalPlainEnergy {Z T : ℝ} (i : SourceMomentIndexFor K c S Z T) : ℝ :
     ‖(momentWitness i).plainValue u ^ 2 *
       ∏ j ∈ i.selected, (momentAmplitude i).slotValue j u‖ ^ 2
 
+/-- Transport only the expansion's row type along the equality of the
+actual excluded-place sets.  The complete expansion itself is unchanged. -/
+def expansionAtPlaces (D : TargetData K c.geometry)
+    (hplaces : D.S = excludedPlaces K c) :
+    ℝ → ℝ → HighExpansion (FrequencyRow K (places K c)) c.geometry.slots :=
+  Eq.ndrec (motive := fun P : Finset (HeightOneSpectrum (𝓞 K)) =>
+    ℝ → ℝ → HighExpansion
+      (FrequencyRow K (P : Set (HeightOneSpectrum (𝓞 K)))) c.geometry.slots)
+    D.expansion hplaces
+
 /-- Common constants for two fixed actual energy families.  The height
 degree and ceiling still precede the moving exponent `τ`. -/
 theorem uniformMomentBound_join
@@ -87,7 +97,7 @@ between models at distinct selected-slot indices is assumed. -/
 theorem plainSource_of_model_bounds
     (M : SourceMomentModelsFor K c S) (D : TargetData K c.geometry)
     (hplaces : D.S = excludedPlaces K c)
-    (hexpansion : (hplaces ▸ D.expansion) = S.expansion)
+    (hexpansion : expansionAtPlaces D hplaces = S.expansion)
     (hpositive : UniformMomentBound
       (fun _ _ i => pairedModelEnergy M i) (fun _ _ _ => 1)
       (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty))
@@ -100,9 +110,9 @@ theorem plainSource_of_model_bounds
       (momentMesh K c.family).val := by
   rcases D with ⟨targetPlaces, targetProbe, targetMeasures, targetRay,
     targetExpansion, targetRows⟩
-  dsimp only at hplaces
+  change targetPlaces = excludedPlaces K c at hplaces
   subst targetPlaces
-  dsimp only at hexpansion
+  change targetExpansion = S.expansion at hexpansion
   subst targetExpansion
   obtain ⟨A, H, hA, hH, hb⟩ := uniformMomentBound_join
     (fun _ _ i => pairedModelEnergy M i)
@@ -137,7 +147,7 @@ threshold change; the index, model, capacity and finite sectors do not. -/
 theorem plainSource_of_row_bounds
     (M : SourceMomentModelsFor K c S) (D : TargetData K c.geometry)
     (hplaces : D.S = excludedPlaces K c)
-    (hexpansion : (hplaces ▸ D.expansion) = S.expansion)
+    (hexpansion : expansionAtPlaces D hplaces = S.expansion)
     {rowFactor : ℝ} (hrowFactor : 0 ≤ rowFactor) (Zrow : ℝ)
     (hscale : ∀ Z T (i : SourceMomentIndexFor K c S Z T), Zrow ≤ Z →
       51 / 100 < (momentBlock i).bin →
@@ -167,7 +177,7 @@ retained-bin indices where the source geometry supplies `U > 1`. -/
 theorem plainSource_of_dyadic_model_bounds
     (M : SourceMomentModelsFor K c S) (D : TargetData K c.geometry)
     (hplaces : D.S = excludedPlaces K c)
-    (hexpansion : (hplaces ▸ D.expansion) = S.expansion)
+    (hexpansion : expansionAtPlaces D hplaces = S.expansion)
     (Zrow : ℝ)
     (hbase : ∀ Z T (i : SourceMomentIndexFor K c S Z T), Zrow ≤ Z →
       51 / 100 < (momentBlock i).bin → 1 < momentBase i)

@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
 import HeckePort.CenteredMoment.Counting
 import HeckeGeneral.Analysis.PrimePolynomialAbsoluteBound
+import HeckeGeneral.Analysis.SelectedMomentSlots
 
 /-!
 # Absolute terminal estimates at the actual width floor
@@ -46,9 +47,10 @@ theorem finite_ideal_rows_count (rows : Finset (NonzeroIdeal K)) (H : ℝ)
     have hinj : Function.Injective (fun J : NonzeroIdeal K => J.val) :=
       fun _ _ h => Subtype.ext h
     have hc := card_le_idealCountConstant K (rows.image fun J => J.val) H hHone (by
-      intro J hJ
-      obtain ⟨J, hJ, rfl⟩ := Finset.mem_image.mp hJ
-      exact hnorm J hJ)
+      intro J hJimage
+      obtain ⟨J₀, hJ₀, hval⟩ := Finset.mem_image.mp hJimage
+      rw [← hval]
+      exact hnorm J₀ hJ₀)
     simpa only [Finset.card_image_of_injective rows hinj] using hc
   · rw [Finset.not_nonempty_iff_eq_empty.mp hne]
     simp only [Finset.card_empty, Nat.cast_zero]
@@ -61,8 +63,8 @@ theorem idealTest_support_empty_of_subunit (W : IdealTest K)
     (u : NonzeroIdeal K) (t N : ℝ) (hN : 0 < N) (hsmall : 2 * N < 1)
     (hann : Function.support (W.profile u t) ⊆ Set.Iic (2 : ℝ)) :
     W.support u t N = ∅ := by
-  apply Finset.eq_empty_iff_forall_not_mem.mpr
-  intro I hI
+  apply Finset.not_nonempty_iff_eq_empty.mp
+  rintro ⟨I, hI⟩
   have hratio : idealNorm K I / N ≤ 2 := hann ((W.support_spec u t N I).1 hI)
   have hnorm := (div_le_iff₀ hN).1 hratio
   linarith [one_le_idealNorm K I]
@@ -342,5 +344,109 @@ theorem Node.positive_slot_base_exponent (n : Node K ω ψ) (ρ padding : ℝ)
   rw [hslots]
   have h := positive_capacity_total_length hz hκ hcapacity
   linarith
+
+/-- The proved prime-count constant is fixed by the number field before
+any character, row, geometry, scale or height is selected. -/
+def primeAbsoluteCountConstant (K : Type) [Field K] [NumberField K] : ℝ :=
+  Classical.choose (HeckeGeneral.ThetaSkeleton.Physical.exists_norm_primePolynomial_absolute_bound K)
+
+theorem primeAbsoluteCountConstant_pos : 0 < primeAbsoluteCountConstant K :=
+  (Classical.choose_spec
+    (HeckeGeneral.ThetaSkeleton.Physical.exists_norm_primePolynomial_absolute_bound K)).1
+
+/-- A single envelope for every geometry with at most `cap` live slots.
+The maximum with one makes the envelope monotone under slot removal. -/
+def uniformSlotAbsoluteConstant (K : Type) [Field K] [NumberField K]
+    (cap : ℕ) (B : ℝ) : ℝ :=
+  (max 1 (primeAbsoluteCountConstant K * B)) ^ (2 * cap)
+
+theorem uniformSlotAbsoluteConstant_nonneg (cap : ℕ) (B : ℝ) :
+    0 ≤ uniformSlotAbsoluteConstant K cap B :=
+  pow_nonneg (zero_le_one.trans (le_max_left _ _)) _
+
+/-- The actual capacity-repair operation preserves every fixed slot-count
+cap.  A width bound or an upper mesh bound alone would not imply such a cap. -/
+theorem restrictedSlots_slotCount_le (d : MomentData K ω ψ)
+    (keep : Finset (Fin d.geometry.slotCount)) :
+    (d.restrictSlots keep).geometry.slotCount ≤ d.geometry.slotCount := by
+  change keep.card ≤ d.geometry.slotCount
+  simpa only [Fintype.card_fin] using Finset.card_le_univ keep
+
+/-- The absolute exponent remains `totalLength`.  Its coefficient is
+uniform over the whole bounded-slot family, including all characters,
+common masks, frozen norm phases and choices of surviving slots. -/
+theorem slotProduct_sq_uniform_absolute_bound (cap : ℕ) (B : ℝ) (hB : 0 ≤ B)
+    (d : MomentData K ω ψ) (hcount : d.geometry.slotCount ≤ cap)
+    (u : NonzeroIdeal K) (U t : ℝ) (hU : 1 ≤ U)
+    (hann : ∀ i, Function.support ((d.geometry.slots i).profile t) ⊆ Set.Ioo (1 : ℝ) 2)
+    (hprof : ∀ i y, ‖(d.geometry.slots i).profile t y‖ ≤ B) :
+    ‖slotProduct d u U t‖ ^ 2 ≤ uniformSlotAbsoluteConstant K cap B *
+      U ^ d.geometry.totalLength := by
+  let D := max 1 (primeAbsoluteCountConstant K * B)
+  have hD : 1 ≤ D := le_max_left _ _
+  have hp := (Classical.choose_spec
+    (HeckeGeneral.ThetaSkeleton.Physical.exists_norm_primePolynomial_absolute_bound K)).2
+  have hi (i : Fin d.geometry.slotCount) :
+      ‖primePolynomial d i u U t‖ ^ 2 ≤ D ^ 2 * U ^ (d.geometry.slots i).length := by
+    have hprime : ‖primePolynomial d i u U t‖ ≤ D * Real.sqrt (U ^ (d.geometry.slots i).length) :=
+      (hp d i u U t B hU hB (hann i) (hprof i)).trans
+        (mul_le_mul_of_nonneg_right (le_max_right _ _) (Real.sqrt_nonneg _))
+    have hs := (sq_le_sq₀ (norm_nonneg _) (by positivity :
+      0 ≤ D * Real.sqrt (U ^ (d.geometry.slots i).length))).2 hprime
+    simpa only [mul_pow, Real.sq_sqrt (Real.rpow_nonneg (zero_le_one.trans hU) _)] using hs
+  have hpower : D ^ (2 * d.geometry.slotCount) ≤ D ^ (2 * cap) :=
+    pow_le_pow_right₀ hD (Nat.mul_le_mul_left 2 hcount)
+  calc
+    _ = ∏ i, ‖primePolynomial d i u U t‖ ^ 2 := by
+      rw [slotProduct, norm_prod, Finset.prod_pow]
+    _ ≤ ∏ i, D ^ 2 * U ^ (d.geometry.slots i).length :=
+      Finset.prod_le_prod₀ (fun _ _ => sq_nonneg _) (fun i _ => hi i)
+    _ = D ^ (2 * d.geometry.slotCount) * U ^ d.geometry.totalLength := by
+      rw [Finset.prod_mul_distrib, ← Real.rpow_sum_of_pos (zero_lt_one.trans_le hU)]
+      simp only [Finset.prod_const, Finset.card_univ, Fintype.card_fin, ← pow_mul,
+        SlotGeometry.totalLength]
+    _ ≤ uniformSlotAbsoluteConstant K cap B * U ^ d.geometry.totalLength :=
+      mul_le_mul_of_nonneg_right hpower (Real.rpow_nonneg (zero_le_one.trans hU) _)
+
+/-- One explicit base coefficient for the entire recursive profile family. -/
+def uniformBaseConstant (K : Type) [Field K] [NumberField K]
+    (cap : ℕ) (B₁ B₂ Bslots : ℝ) : ℝ :=
+  nodeAbsoluteConstant K B₁ B₂ (uniformSlotAbsoluteConstant K cap Bslots)
+
+theorem uniformBaseConstant_nonneg (cap : ℕ) (B₁ B₂ Bslots : ℝ) :
+    0 ≤ uniformBaseConstant K cap B₁ B₂ Bslots :=
+  nodeAbsoluteConstant_nonneg (K := K) B₁ B₂ _
+    (uniformSlotAbsoluteConstant_nonneg (K := K) cap Bslots)
+
+/-- The coefficient is chosen before every node in the recursive family.
+Only a common slot-count cap and actual profile support/supremum bounds
+enter it.  In particular there is no separate constant choice per node. -/
+theorem uniform_absolute_base_components (cap : ℕ)
+    (B₁ B₂ Bslots ρ padding σ boundary : ℝ)
+    (hB₁ : 0 ≤ B₁) (hB₂ : 0 ≤ B₂) (hBslots : 0 ≤ Bslots) :
+    ∃ C : ℝ, C = uniformBaseConstant K cap B₁ B₂ Bslots ∧ 0 ≤ C ∧
+      ∀ {ω ψ : HeckeCharacter K} (n : Node K ω ψ), n.data.geometry.slotCount ≤ cap →
+        (∀ u t, Function.support (n.data.plainTest₁.profile u t) ⊆ Set.Iic (2 : ℝ)) →
+        (∀ u t, Function.support (n.data.plainTest₂.profile u t) ⊆ Set.Iic (2 : ℝ)) →
+        (∀ u t y, ‖n.data.plainTest₁.profile u t y‖ ≤ B₁) →
+        (∀ u t y, ‖n.data.plainTest₂.profile u t y‖ ≤ B₂) →
+        (∀ i t, Function.support ((n.data.geometry.slots i).profile t) ⊆ Set.Ioo (1 : ℝ) 2) →
+        (∀ i t y, ‖(n.data.geometry.slots i).profile t y‖ ≤ Bslots) →
+        n.parameters.n₁ + n.parameters.n₂ + n.data.geometry.totalLength ≤ ρ + padding + ρ / 6 →
+        ∀ U T t : ℝ, 1 ≤ U →
+          Nonempty (TerminalComponents.{v} (n.normalizedEnergy U t) U T C 0
+            ρ padding σ boundary) := by
+  refine ⟨uniformBaseConstant K cap B₁ B₂ Bslots, rfl,
+    uniformBaseConstant_nonneg (K := K) cap B₁ B₂ Bslots, ?_⟩
+  intro ω ψ n hcount hann₁ hann₂ hprof₁ hprof₂ hannSlots hprofSlots hbase U T t hU
+  exact ⟨n.absoluteBaseComponents U t T B₁ B₂ (uniformSlotAbsoluteConstant K cap Bslots)
+    n.data.geometry.totalLength (uniformBaseConstant K cap B₁ B₂ Bslots) 0
+    ρ padding σ boundary (zero_lt_one.trans_le hU) hB₁ hB₂
+    (uniformSlotAbsoluteConstant_nonneg (K := K) cap Bslots)
+    (fun u _ => hann₁ u t) (fun u _ => hann₂ u t)
+    (fun u _ => hprof₁ u t) (fun u _ => hprof₂ u t)
+    (fun u _ => slotProduct_sq_uniform_absolute_bound cap Bslots hBslots n.data hcount u U t hU
+      (fun i => hannSlots i t) (fun i => hprofSlots i t))
+    hbase (by simp only [Real.rpow_zero, mul_one, uniformBaseConstant, le_refl])⟩
 
 end HeckeSkeleton.Moments.EngineInduction

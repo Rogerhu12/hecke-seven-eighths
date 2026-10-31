@@ -28,8 +28,10 @@ MODULES = (
     "RootNormalization", "KernelReduction", "LogNormProfiles",
     "SourceData", "SourceAdapter", "ScheduleCompatibility",
     "BaseTerminal", "SourceConsumers",
+    "LengthStages",
 )
-EXCLUDED = {"SkeletonFamily.lean"}
+SOURCE_MODULES = ("SkeletonFamily", "SkeletonSource")
+EXCLUDED = {name + ".lean" for name in SOURCE_MODULES}
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}
 TOOLCHAIN = "leanprover/lean4:v4.35.0-rc3"
 COMPILER_COMMIT = "470d5ce1400764999581fd26d5d72b00d990b0f4"
@@ -45,6 +47,9 @@ REQUIRED_SKELETON_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_models_of_parent_reduction",
     "HeckeSkeleton.Moments.EngineInduction.paired_positive_below_one_of_parent_reduction",
     "HeckeSkeleton.Moments.EngineInduction.paired_positive_endpoint_of_parent_reduction",
+    "HeckeSkeleton.Moments.EngineInduction.skeletonSourceIndexEquiv",
+    "HeckeSkeleton.Moments.EngineInduction.skeleton_uniformMomentBound_iff",
+    "HeckeSkeleton.Moments.EngineInduction.skeleton_plainSource_of_generic_model_bounds",
 }
 REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_models",
@@ -76,6 +81,10 @@ REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.Node.exists_absolute_base_components",
     "HeckeSkeleton.Moments.EngineInduction.Source.plainSource_of_dyadic_model_bounds",
     "HeckeSkeleton.Moments.EngineInduction.SourceFamily.uniformBound_of_rowWidth_le_from",
+    "HeckeSkeleton.Moments.EngineInduction.slotProduct_sq_uniform_absolute_bound",
+    "HeckeSkeleton.Moments.EngineInduction.uniform_absolute_base_components",
+    "HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_earlier_of_lengths",
+    "HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.positive_comparison_earlier",
 }
 
 
@@ -227,7 +236,7 @@ def inventory() -> tuple[dict[str, str], list[str]]:
         require(not forbidden, f"Forbidden proof shortcut in {path.name}: {forbidden}")
         require(not re.search(r"^import\s+HeckeSkeleton\.Moments(?:\s|$)", code, re.M),
                 f"{path.name} imports the admitted skeleton")
-        require("MOM_ENGINE_INDUCTION.SkeletonFamily" not in code,
+        require(all("MOM_ENGINE_INDUCTION." + source not in code for source in SOURCE_MODULES),
                 f"{path.name} imports the separate skeleton adapter")
         declared.update(declarations(path))
         hashes[str(path.relative_to(ROOT))] = digest(path)
@@ -319,18 +328,23 @@ def check(expected: str, output: Path) -> None:
           f"all axioms belong to {sorted(ALLOWED)}")
 
 
-def skeleton_inventory() -> tuple[str, list[str]]:
-    path = TASK / "SkeletonFamily.lean"
-    subprocess.run(["git", "ls-files", "--error-unmatch", "--",
-                    str(path.relative_to(ROOT))], cwd=ROOT, check=True,
-                   stdout=subprocess.DEVNULL)
-    forbidden = re.findall(r"\b(?:sorry|admit|axiom|sorryAx|native_decide)\b",
-                           lean_code(path.read_text()))
-    require(not forbidden, f"New proof shortcut in skeleton adapter: {forbidden}")
-    names = sorted(declarations(path))
+def skeleton_inventory() -> tuple[dict[str, str], list[str]]:
+    hashes: dict[str, str] = {}
+    declared: set[str] = set()
+    for module in SOURCE_MODULES:
+        path = TASK / (module + ".lean")
+        subprocess.run(["git", "ls-files", "--error-unmatch", "--",
+                        str(path.relative_to(ROOT))], cwd=ROOT, check=True,
+                       stdout=subprocess.DEVNULL)
+        forbidden = re.findall(r"\b(?:sorry|admit|axiom|sorryAx|native_decide)\b",
+                               lean_code(path.read_text()))
+        require(not forbidden, f"New proof shortcut in {path.name}: {forbidden}")
+        hashes[str(path.relative_to(ROOT))] = digest(path)
+        declared.update(declarations(path))
+    names = sorted(declared)
     require(REQUIRED_SKELETON_TARGETS <= set(names),
             f"Missing source adapter targets: {sorted(REQUIRED_SKELETON_TARGETS - set(names))}")
-    return digest(path), names
+    return hashes, names
 
 
 def skeleton_preflight(expected: str, output: Path) -> None:
@@ -341,7 +355,7 @@ def skeleton_preflight(expected: str, output: Path) -> None:
                   integration_declarations=names, upstream_probes=list(UPSTREAM_PROBES))
     (output / "preflight.json").write_text(json.dumps(record, indent=2) + "\n")
     # Generated audit commands and evidence stay outside the source checkout.
-    audit = "import " + PREFIX + ".SkeletonFamily\n\n"
+    audit = "\n".join("import " + PREFIX + "." + module for module in SOURCE_MODULES) + "\n\n"
     audit += "\n".join("#print axioms " + name for name in names) + "\n"
     (output / "SkeletonAudit.lean").write_text(audit)
     upstream = "import HeckeSkeleton.Moments\n\n"
@@ -368,7 +382,7 @@ def skeleton_check(expected: str, output: Path) -> None:
     require(before["upstream_probes"] == list(UPSTREAM_PROBES),
             "Upstream probe inventory changed")
     imports, printed = audit_commands((output / "SkeletonAudit.lean").read_text())
-    require(imports == [PREFIX + ".SkeletonFamily"]
+    require(imports == [PREFIX + "." + module for module in SOURCE_MODULES]
             and printed == integration_names,
             "Generated integration audit commands changed")
     imports, printed = audit_commands((output / "UpstreamAudit.lean").read_text())
@@ -406,10 +420,39 @@ def skeleton_check(expected: str, output: Path) -> None:
     print("Existing upstream probes depending on sorryAx: " + json.dumps(upstream_inherited))
 
 
+def original_check(expected: str, output: Path) -> None:
+    """Enforce the task's original-name acceptance gate after source compilation."""
+    verify_checkout(expected)
+    integration = json.loads((output / "verification.json").read_text())
+    require(integration.get("head_sha") == expected
+            and integration.get("status") == "integration-compiled",
+            "Original targets require successful exact-head source integration")
+    log = output / "upstream-axioms.log"
+    require(digest(log) == integration["upstream_axiom_log_sha256"],
+            "Original target axiom log changed after integration verification")
+    records = axiom_records(log.read_text(), set(UPSTREAM_PROBES), ALLOWED | {"sorryAx"})
+    targets = UPSTREAM_PROBES[:3]
+    unexpected = {name: sorted(set(records[name]) - ALLOWED) for name in targets
+                  if set(records[name]) - ALLOWED}
+    result = dict(head_sha=expected, status="passed" if not unexpected else "blocked",
+                  targets=list(targets), axioms={name: records[name] for name in targets},
+                  allowed_axioms=sorted(ALLOWED), unexpected_axioms=unexpected,
+                  upstream_axiom_log_sha256=digest(log))
+    (output / "original-targets.json").write_text(json.dumps(result, indent=2) + "\n")
+    for name in targets:
+        print(name + ": " + json.dumps(records[name]))
+    require(not unexpected,
+            "Original target axiom gate failed: " + json.dumps(unexpected)
+            + ". Conditional clean theorems do not satisfy this acceptance gate.")
+    print(f"PASS original targets: {len(targets)} declarations at {expected}; "
+          f"all axioms belong to {sorted(ALLOWED)}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     phases = {"preflight": preflight, "check": check,
-              "skeleton-preflight": skeleton_preflight, "skeleton-check": skeleton_check}
+              "skeleton-preflight": skeleton_preflight, "skeleton-check": skeleton_check,
+              "original-check": original_check}
     parser.add_argument("phase", choices=tuple(phases))
     parser.add_argument("--expected-sha", required=True)
     parser.add_argument("--output", type=Path, required=True)

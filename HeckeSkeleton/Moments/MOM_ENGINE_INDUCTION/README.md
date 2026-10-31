@@ -120,6 +120,13 @@ analytic producer obligations. A same-band comparison edge therefore needs
 explicit earlier-stage evidence. Strict-width children may use either proof
 stage.
 
+`LengthStages.lean` constructs the proof stage directly from the actual
+geometric range `n1+n2+z ≤ 5*(m+q)/6`. It preserves the original nodes and
+labels and derives an earlier comparison edge from the actual reflected
+length inequalities. The unchanged equal-product rectangle before reflection
+is not claimed to be earlier. The same fixed mesh reserve fits both comparison
+margins above the chosen width floor.
+
 The local reduction has nonnegative weights or a finite positive child measure.
 Its terminal remainder
 has bound `C (1+T)^H U^β`, and its total normalized weight mass has bound
@@ -217,6 +224,10 @@ The profile/count constant is explicit, and the resulting base certificate
 does not assume a terminal moment estimate. The log-norm Fourier twists
 preserve the exact profile supremum and support used by this base proof;
 higher derivative seminorms still incur their actual frequency costs.
+The uniform version chooses one explicit coefficient before every node,
+character, scale and phase, using a common profile supremum and slot-count
+cap. The actual `restrictSlots` operation preserves that cap. A width or
+upper mesh bound alone is not used to infer a bound on the number of slots.
 
 `ExceptionalCounting.lean` uses actual nonzero ideals and a finite sector
 coordinate. An exact classification `u = h₀ * a^6`, injective in
@@ -277,6 +288,15 @@ retained bins; the output threshold is the maximum of the two thresholds,
 with only the fixed factor two in the scalar. Thus completing the original
 three model estimates feeds the unchanged physical source conclusion.
 
+`SkeletonSource.lean` separately verifies the complete old-to-explicit index
+equivalence, all seven model fields, actual polynomial energies, prime-product
+premise and uniform quantifiers. Its last theorem reaches the literal original
+`PSource` through the clean consumer. It is an integration adapter, not part of
+the clean source core: the old global source types retain their inherited
+admissions. The shared source-definition migration is owned by EXPANSION
+under the coordinator's assignment of 2026-10-31; the task-local source data
+are a checked adapter prototype to be replaced by that authoritative interface.
+
 At the task base `182769d49e5c184547c0949ddc328b9e7a87e6f7`, the original
 theorem types already refer to admitted constructions:
 
@@ -332,5 +352,10 @@ different inherited-axiom boundary and is checked by a separate integration
 job. That job also prints the axioms of the original three targets and their
 upstream data definitions. An inherited `sorryAx` is recorded there as a
 remaining obstruction; it is never admitted by the clean proof audit.
+After source compilation, a separate acceptance step checks the three
+original theorem names against only the three standard axioms. It writes
+`original-targets.json` and fails while any original target still depends on
+an extra axiom. Thus successful conditional-core and source-adapter builds
+cannot make the original-goal acceptance gate pass.
 
 AI-assisted implementation and review: ChatGPT, GPT-6 Astra Pro and collaborating agents.
