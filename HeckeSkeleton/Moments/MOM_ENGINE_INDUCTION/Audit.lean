@@ -130,6 +130,12 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinUniversalLabels
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.DataPrimitiveExtension
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedDataReflectionAssembly
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeDataReflectionFamily
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteRowAtoms
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualRecipeAtoms
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualAtomPhases
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OriginalAtomConsumers
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourcePrimitive
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteParentSource
 
 #print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt
 #print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.bound_of_children
@@ -163,6 +169,17 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeDataReflectionFamily
 #print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.weight_nonneg
 #print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.weightedKernel
 #print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.weightedKernel_finite
+#print axioms HeckeSkeleton.Moments.EngineInduction.CompleteSourceData
+#print axioms HeckeSkeleton.Moments.EngineInduction.CompleteSourceData.arithmeticAtoms
+#print axioms HeckeSkeleton.Moments.EngineInduction.CompleteSourceData.canonicalParentSource
+#print axioms HeckeSkeleton.Moments.EngineInduction.CompleteSourceData.fixedLineArithmeticAtoms
+#print axioms HeckeSkeleton.Moments.EngineInduction.CompleteSourceData.fixedLineReflectionChild
+#print axioms HeckeSkeleton.Moments.EngineInduction.CompleteSourceData.freezeMomentTime
+#print axioms HeckeSkeleton.Moments.EngineInduction.CompleteSourceData.mellinStrictModel
+#print axioms HeckeSkeleton.Moments.EngineInduction.CompleteSourceData.mellinStrictParentSource
+#print axioms HeckeSkeleton.Moments.EngineInduction.CompleteSourceData.normalizedMellinPlainData
+#print axioms HeckeSkeleton.Moments.EngineInduction.CompleteSourceData.phase_dictionary
+#print axioms HeckeSkeleton.Moments.EngineInduction.CompleteSourceData.transport
 #print axioms HeckeSkeleton.Moments.EngineInduction.CoreLocalResult
 #print axioms HeckeSkeleton.Moments.EngineInduction.CoreLocalResult.enlarge
 #print axioms HeckeSkeleton.Moments.EngineInduction.CoreNodeGeometry
@@ -266,6 +283,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeDataReflectionFamily
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.mellinPlain_row_identity
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.mellinStrictModel
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.mellinStrictModel_fitsMesh
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.mellinStrictModel_normProfileRecipe
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.norm_sq_le_two_sub_sq_add_two_sq
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizeProfiles
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizeProfiles_reflectionArithmetic
@@ -483,6 +501,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeDataReflectionFamily
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeReflectionRoot_preparation
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeReflectionSystem
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeRoot
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeRootArithmeticAtoms
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeRootCompleteSourceData
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeRoot_capacity
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeRoot_complete_mask
 #print axioms HeckeSkeleton.Moments.EngineInduction.Source.recipeRoot_complete_rowCharacter
@@ -584,6 +604,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeDataReflectionFamily
 #print axioms HeckeSkeleton.Moments.EngineInduction.actualConductor_remainingProduct_dvd
 #print axioms HeckeSkeleton.Moments.EngineInduction.actualConductor_remainingProduct_rpow_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.actualPlain_radial_zero
+#print axioms HeckeSkeleton.Moments.EngineInduction.actualProbeOrbitSexticEvaluation_eq_actualIdealResidue
 #print axioms HeckeSkeleton.Moments.EngineInduction.actualReflectionDensity
 #print axioms HeckeSkeleton.Moments.EngineInduction.actualReflectionScale_remainingProduct_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.actualReflectionSelectedLine
@@ -629,6 +650,10 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeDataReflectionFamily
 #print axioms HeckeSkeleton.Moments.EngineInduction.annularReflectedWindow_operator
 #print axioms HeckeSkeleton.Moments.EngineInduction.annularSchwartz
 #print axioms HeckeSkeleton.Moments.EngineInduction.annularSchwartz_apply
+#print axioms HeckeSkeleton.Moments.EngineInduction.arithmeticAtoms_fixedLineReflectionChild
+#print axioms HeckeSkeleton.Moments.EngineInduction.arithmeticAtoms_freezeMomentTime
+#print axioms HeckeSkeleton.Moments.EngineInduction.arithmeticAtoms_normalizedMellinPlainData
+#print axioms HeckeSkeleton.Moments.EngineInduction.arithmeticAtoms_normalizedOrdinaryPowerChild
 #print axioms HeckeSkeleton.Moments.EngineInduction.backwardProfileOrder
 #print axioms HeckeSkeleton.Moments.EngineInduction.backwardProfileOrder_child_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.backwardProfileOrder_ground_le
@@ -651,13 +676,21 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeDataReflectionFamily
 #print axioms HeckeSkeleton.Moments.EngineInduction.comparisonCutoffReflectionChild
 #print axioms HeckeSkeleton.Moments.EngineInduction.comparisonCutoffReflectionChild_geometry
 #print axioms HeckeSkeleton.Moments.EngineInduction.comparisonCutoffReflectionData
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeIdealArithmeticAtoms
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeIdealCommonMask_eq_deletion
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeIdealRawAtoms_actual_phase_dictionary
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeIdealSectorRowMap
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeIdealSectorRowMap_exterior
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeIdealSectorRowMap_principalExterior
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeRowCharacter_conductor_dvd
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeRowDeletionPrimes
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeRowDeletionPrimes_outside_iff
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeRowDeletionPrimes_prime
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeRowDeletionProduct_dvd
 #print axioms HeckeSkeleton.Moments.EngineInduction.completeRowDeletionProduct_norm_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeRowRecipe_arithmeticAtoms
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeSourcePrimitive
+#print axioms HeckeSkeleton.Moments.EngineInduction.completeSourcePrimitive_fixedLine
 #print axioms HeckeSkeleton.Moments.EngineInduction.contDiffOn_ordinaryReflectedProfile
 #print axioms HeckeSkeleton.Moments.EngineInduction.continuous_annularMellinCoefficient
 #print axioms HeckeSkeleton.Moments.EngineInduction.continuous_annularMellinPlainColumn
@@ -868,6 +901,11 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeDataReflectionFamily
 #print axioms HeckeSkeleton.Moments.EngineInduction.nodeAbsoluteConstant
 #print axioms HeckeSkeleton.Moments.EngineInduction.nodeAbsoluteConstant_nonneg
 #print axioms HeckeSkeleton.Moments.EngineInduction.nonzeroIdealDeletionEquiv
+#print axioms HeckeSkeleton.Moments.EngineInduction.normProfileRecipe_fixedLineReflectionChild
+#print axioms HeckeSkeleton.Moments.EngineInduction.normProfileRecipe_freezeMomentTime
+#print axioms HeckeSkeleton.Moments.EngineInduction.normProfileRecipe_normalizedMellinPlainData
+#print axioms HeckeSkeleton.Moments.EngineInduction.normProfileRecipe_normalizedOrdinaryPowerChild
+#print axioms HeckeSkeleton.Moments.EngineInduction.normProfileRecipe_ordinaryPowerChild
 #print axioms HeckeSkeleton.Moments.EngineInduction.norm_deletedHeckePlainPoly_inv
 #print axioms HeckeSkeleton.Moments.EngineInduction.normalizedKernelWeight
 #print axioms HeckeSkeleton.Moments.EngineInduction.normalizedKernelWeight_nonneg
@@ -1070,6 +1108,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeDataReflectionFamily
 #print axioms HeckeSkeleton.Moments.EngineInduction.primeWindow_logNorm_calibration
 #print axioms HeckeSkeleton.Moments.EngineInduction.primeWindow_logNorm_profile_norm
 #print axioms HeckeSkeleton.Moments.EngineInduction.primeWindow_logNorm_profile_support
+#print axioms HeckeSkeleton.Moments.EngineInduction.principalExterior_eq_actualOrbitIdeal
 #print axioms HeckeSkeleton.Moments.EngineInduction.profileFamilyBudget
 #print axioms HeckeSkeleton.Moments.EngineInduction.profileFamilyBudget_dominates
 #print axioms HeckeSkeleton.Moments.EngineInduction.profileFamilyBudget_one_le
