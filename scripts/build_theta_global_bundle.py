@@ -4,11 +4,44 @@ Run from any directory. This does not replace native project import checks.
 The required Lean and Mathlib versions are the repository's pinned versions.
 """
 from pathlib import Path
+from collections import Counter
 import argparse
 import hashlib
 import json
 import re
 import subprocess
+
+
+def audit_reported_axioms(expected, output):
+    """Check every requested #print record, including wrapped Lean output."""
+    allowed = {'propext', 'Classical.choice', 'Quot.sound'}
+    pattern = re.compile(
+        r"^'([^'\r\n]+)' (?:depends on axioms:\s*\[([^\]]*)\]|"
+        r"does not depend on any axioms)[ \t]*$", re.M)
+    matches = list(pattern.finditer(output))
+    matched_starts = {match.start() for match in matches}
+    headers = re.finditer(
+        r"^'[^'\r\n]+' (?:depends on axioms:|does not depend on any axioms)",
+        output, re.M)
+    malformed = [output[header.start():].splitlines()[0] for header in headers
+                 if header.start() not in matched_starts]
+    records = []
+    for match in matches:
+        axioms = [name.strip() for name in (match.group(2) or '').split(',')
+                  if name.strip()]
+        records.append({'declaration': match.group(1), 'axioms': axioms})
+    requested = Counter(expected)
+    reported = Counter(record['declaration'] for record in records)
+    missing = list((requested - reported).elements())
+    unexpected = list((reported - requested).elements())
+    forbidden = [record for record in records
+                 if set(record['axioms']) - allowed]
+    return {'passed': bool(expected) and not (missing or unexpected or forbidden or malformed),
+            'expected_record_count': len(expected),
+            'reported_record_count': len(records),
+            'missing': missing, 'unexpected': unexpected,
+            'forbidden': forbidden, 'malformed': malformed, 'records': records}
+
 
 root = Path(__file__).resolve().parents[1]
 base = root / 'ThetaGlobal'
@@ -38,9 +71,11 @@ outdir.mkdir(parents=True, exist_ok=True)
 imports = set()
 blocks = []
 manifest = []
+expected_axioms = []
 for index, name in enumerate(names):
     path = base / (name + '.lean')
     source = path.read_text()
+    expected_axioms.extend(re.findall(r'^#print axioms\s+(\S+)\s*$', source, re.M))
     body = []
     for line in source.splitlines():
         match = re.fullmatch(r'(?:public\s+)?import\s+([A-Za-z0-9_.]+)', line)
@@ -79,6 +114,7 @@ report = {'lean': '4.35.0-rc3',
         'isolate each original file in a named section',
         'close the original end-of-file noncomputable section'],
     'bundle_sha256': hashlib.sha256(output.encode()).hexdigest(),
+    'expected_axiom_declarations': expected_axioms,
     'modules': manifest}
 print(f'Generated {len(names)} modules with {len(imports)} imports: {source_path}')
 if args.check:
@@ -93,11 +129,18 @@ if args.check:
         m['sha256'] for m in manifest)
     unchanged = unchanged and hashlib.sha256(source_path.read_bytes()).hexdigest() == report['bundle_sha256']
     reported_sorry = 'sorryAx' in result.stdout
+    axiom_audit = audit_reported_axioms(expected_axioms, result.stdout)
     report.update({'command': command, 'exit_code': result.returncode,
         'source_unchanged': unchanged,
-        'reported_sorryAx': reported_sorry})
+        'reported_sorryAx': reported_sorry, 'axiom_audit': axiom_audit})
     print(result.stdout)
     print('Exit:',result.returncode,'sources unchanged:',unchanged)
+    print('Axiom audit:', 'passed' if axiom_audit['passed'] else 'FAILED',
+          f"({axiom_audit['reported_record_count']}/{len(expected_axioms)} records)")
+    for issue in ('missing', 'unexpected', 'forbidden', 'malformed'):
+        if axiom_audit[issue]:
+            print(f'Axiom audit {issue}:', axiom_audit[issue])
 (outdir/'manifest.json').write_text(json.dumps(report,indent=2)+'\n')
 if args.check:
-    raise SystemExit(2 if not unchanged else 3 if reported_sorry else result.returncode)
+    raise SystemExit(2 if not unchanged else
+        3 if reported_sorry or not axiom_audit['passed'] else result.returncode)

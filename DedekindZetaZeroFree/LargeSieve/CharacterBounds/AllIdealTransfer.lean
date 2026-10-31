@@ -1,6 +1,9 @@
 module
 
-public import DedekindZetaZeroFree.ZeroDetection.Conductors.Poisson.DenominatorExistence
+public import DedekindZetaZeroFree.LargeSieve.CharacterBounds.ExteriorDyadicConductorBounds
+public import DedekindZetaZeroFree.Nonvanishing.Mellin.InitialFrequencyDecomposition
+public import DedekindZetaZeroFree.Adeles.Quotients.SixthPowerCompactCover
+public import DedekindZetaZeroFree.Arithmetic.RayClasses.Conductors.PrimitiveCharacterCofiniteRigidity
 
 @[expose] public section
 

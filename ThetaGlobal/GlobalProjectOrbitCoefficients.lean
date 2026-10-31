@@ -1,7 +1,7 @@
 import ThetaGlobal.GlobalProjectWeightedDigits
-
 import ThetaGlobal.GlobalProjectSignedExtraction
 import DedekindZetaZeroFree.Theta.Digits.Exterior.GammaInvariantCoefficients
+import DedekindZetaZeroFree.Theta.Digits.SphericalValueBounds
 import DedekindZetaZeroFree.Theta.Unfolding.ForwardFiberSupport
 
 /-!

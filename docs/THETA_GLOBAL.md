@@ -13,6 +13,10 @@ not discharge.
 The continuation restores every file of PR head
 `4988fbd89fde953539b77c9930ebe9fd206fb0ea` by its Git blob hash and incorporates
 the upstream changes through `556fd33068f5914887e850ed2dce9e9272d9b8c2`.
+It subsequently incorporates the low-hybrid merge through
+`6e67559f4285ab833a746db021a0d73200e47590`, preserving its 20 changed
+files by their exact Git blob hashes. All three workflows, including the
+new upstream low-hybrid workflow, use `cancel-in-progress: true`.
 The original task is preserved in `docs/THETA_GLOBAL_TASK.md`; it explicitly
 permits the archimedean high K-type/Mellin and exterior-prime digit results
 as local assumptions. Their actual input types remain explicit below.
@@ -45,9 +49,13 @@ The before/after source hashes and equal normalized-body hashes are in
 `verification/theta_global/native_header_compatibility.json`.
 
 `GlobalProjectOrbitCoefficients` also now imports its actual
-`GlobalProjectWeightedDigits` dependency directly. Those two files were
-outside the historical consolidated-body verification lists; inspection
-of the larger native source closure exposed the missing edge.
+`GlobalProjectWeightedDigits` dependency directly. It also imports
+`Digits.SphericalValueBounds`, which defines the actual
+`OrbitFrequencies.exteriorDigitValue_eq_slot` lemma used by the proof.
+These files were outside the historical consolidated-body verification
+lists; inspection of the larger native source closure exposed the missing
+edges. The header hash certificate records the preceding header-only
+transition; subsequent import corrections remain visible in commit history.
 
 The complete statements and local-input fields are recorded in
 [`THETA_GLOBAL_STATEMENTS.md`](THETA_GLOBAL_STATEMENTS.md).
@@ -59,7 +67,7 @@ The task targets five declarations in `HeckeSkeleton/Theta.lean`:
 | `finiteMellinData` | Constructed from the actual fixed projected source; an explicit local high K-type input supplies the archimedean vectors and Mellin pairs. | Project dependency build pending. |
 | `finite_valuation_cutoff` | Derived from the actual local rotated shell bounds. | Project dependency build pending. |
 | `finite_valuation_decay` | Derived from the actual local rotated shell bounds. | Project dependency build pending. |
-| `marked_reflected_absolute` | Replaced by the three-ideal arithmetic majorant proof. | Actual project theorem passes the 188-module transformed source-body check and strict axiom gate; native entry build pending. |
+| `marked_reflected_absolute` | Replaced by the three-ideal arithmetic majorant proof. | `ThetaGlobal.ReflectedAbsoluteProject.marked_reflected_absolute` passed the 188-module transformed source-body check and strict axiom gate. The `HeckeSkeleton.marked_reflected_absolute` entry and its actual-source dependency closure remain pending native validation. |
 | `marked_reflection` | The actual frequency seed is converted to the literal marked seed using the direct/reflected coefficient dictionaries and support reindexing, then transferred to arbitrary annular tests. Connected to the original entry point with explicit local inputs. | Project dependency build pending. |
 
 No new `sorry`, `axiom`, or `native_decide` is introduced in `ThetaGlobal`.
@@ -67,8 +75,8 @@ This syntactic check does not replace elaboration or an axiom audit.
 
 ## Arithmetic choice and normalization
 
-`Base.complexEmbedding` aligns the family's primitive twelfth root before
-`Base.axiomChoice` is made. `GlobalSameChoice` constructs the theta recipe
+`HeckeSkeleton.complexEmbedding` aligns the family's primitive twelfth root
+before `HeckeSkeleton.axiomChoice` is made. `GlobalSameChoice` constructs the theta recipe
 with exactly that choice's arithmetic set, complement, correction data,
 embedding and allowed-generator section. It does not independently
 enlarge or reselect the arithmetic data when switching to the target
@@ -134,8 +142,9 @@ GeneralHeckeSevenEighths
 ```
 
 It also retains the other tasks' original admissions. The five Theta
-targets prove the global construction under the permitted local input
-boundary; they do not provide those local inputs for every number field.
+source implementations express the global construction under the permitted
+local input boundary; their complete native validation remains pending.
+They do not provide those local inputs for every number field.
 
 The arithmetic embedding is refined before making the shared choice:
 `complexEmbedding K c` sends the family's selected primitive twelfth root
@@ -152,11 +161,14 @@ a claim that all their transitive dependencies have passed an axiom audit.
 
 ## Actual reflected index and convergence
 
-`ReflectionIndex` has three independent infinite ideal coordinates:
-the frozen numerator, the squarefree column and the cube coordinate.
-The absolute-convergence proof retains all three. A quadratic kernel tail
-and the actual number-field inverse-square ideal sum give a product of
-three summable factors for each of finitely many active/unit branches.
+`ReflectionIndex` retains three separate ideal coordinates:
+`numeratorFrozen`, the squarefree column `c`, and the cube coordinate `n`.
+They satisfy the structure's support conditions, congruence conditions
+on valuations, squarefreeness and coprimality conditions. The convergence
+proof injects this constrained index into a product of three ideal
+indices and retains all three. A quadratic kernel tail and the actual
+number-field inverse-square ideal sum give a product of three summable
+factors for each of finitely many active/unit branches.
 
 The enlarged raw index has genuine duplicate valuations. For example,
 an inactive column exponent one and an active numerator exponent three
@@ -181,11 +193,13 @@ domain. Full-sheet integrability is derived from compact Fourier masses;
 it is not a new input. Orbit grouping then cancels the same common scalar
 on the two sides.
 
-`GlobalProjectLiteralSeed.thetaRecipe_literal_seed` discharges the literal
-seed using the actual source and the separate arithmetic dictionaries.
-`GlobalProjectMarkedReflection.thetaRecipe_marked_reflection` supplies
-that theorem to the analytic assembly in `ActualAnnularTransfer`; no
-global seed is left as an input to the final theorem. The assembly
+`HeckeSkeleton.thetaRecipe_literal_seed`, defined in
+`ThetaGlobal/GlobalProjectLiteralSeed.lean`, discharges the literal seed
+using the actual source and the separate arithmetic dictionaries.
+`HeckeSkeleton.thetaRecipe_marked_reflection`, defined in
+`ThetaGlobal/GlobalProjectMarkedReflection.lean`, supplies that theorem
+to the analytic assembly in `ActualAnnularTransfer`; no global seed is
+left as an input to the final theorem. The assembly
 constructs a Gaussian deconvolver from the actual Gamma
 profile, proves the necessary power moments and absolute sum/integral
 interchanges, derives positive-regularizer identities, and uses the
@@ -215,6 +229,15 @@ preserved. The reproduction scripts now pass the native options explicitly.
 Historical logs retain their actual commands, and any stricter replay is
 recorded separately rather than relabeling an earlier result.
 
+`build_theta_global_bundle.py --check` also requires every requested
+`#print axioms` record to appear with the expected multiplicity. It accepts
+only `propext`, `Classical.choice`, and `Quot.sound`, rejects missing or
+unexpected records, and stores the complete audit in the generated manifest.
+The parser handles wrapped output and declarations with no axioms. It was
+checked against the saved 56-record successful log and failure fixtures for
+missing, duplicate, truncated and forbidden-axiom records. A compiler error
+or changed source still fails the check independently of that audit.
+
 The reflected-project combined-body check contains 188 actual source
 bodies. The ten original FLT vendor umbrella imports are preserved: an early attempt
 to narrow umbrella imports removed transitive names needed by downstream
@@ -229,7 +252,102 @@ attempts to fail before theorem elaboration. A single exact-version union
 cache was constructed from matching artifact sets. Such infrastructure
 failures are not counted as successful proof checks.
 
-### Successful standalone check
+### Native finite-shell module on 2026-10-31
+
+The actual `ThetaGlobal.FiniteLocalShellProject` source compiled as its own
+native module at 02:45:09 UTC with exit code 0 and unchanged source hash
+`179eabf85cc5f7fbf80af0dc0aef08a1ef6a75ab48c19a928c8d8d9c2152711d`.
+Both `ProjectLocalShell.shellPoint_norm` and `shellData_bounds` report only
+the three standard axioms. The command disables both implicit-parameter
+options and uses the exact pinned compiler.
+
+This check reused existing dependency artifacts. The recorded Hecke
+dependency manifests match their current source and artifact hashes, and
+the required import artifacts are present. The historical native
+`FiniteShellCoefficients` dependency was compiled without the two global
+implicit-parameter flags; its own source disables `autoImplicit`. This
+boundary is recorded without relabeling that historical dependency run.
+The native command, dependency provenance, source/artifact hashes and raw
+compiler log are in `verification/theta_global/native_finite_shell_20261031.json`
+and `verification/theta_global/native_finite_shell_20261031.log`.
+This is a native check of one module, not the complete five-target entry.
+
+### Native aligned-embedding module on 2026-10-31
+
+The unchanged `ThetaGlobal.GlobalEmbedding` source compiled as its own
+native module at 03:01:15 UTC with exit code 0. Its source SHA-256 is
+`42d71b175d8208d4e4c072f5d6b3d098a16259ca5e932e0bcbb206ee091b246f`.
+The command uses the pinned compiler and disables both implicit-parameter
+options. The import check covers 4,942 existing dependency modules.
+
+This original source has no `#print axioms` commands, so this invocation
+adds a native compilation result, not an independent axiom-list report.
+It reused cached dependencies; it did not rebuild them or freshly hash
+every cached artifact. The command, source/output hashes, dependency-check
+scope and raw log are preserved in
+`verification/theta_global/native_global_embedding_20261031.json` and
+`verification/theta_global/native_global_embedding_20261031.log`.
+The downstream arithmetic interfaces and the complete entry gate remain
+separate checks.
+
+### Arithmetic checkpoint from run 41159434388
+
+The actual-entry job at continuation head `42deaca4` stopped at the
+75-minute arithmetic-foundation limit on 2026-10-31 at 03:38:04 UTC.
+Its complete log contains no Lean compilation error. The last completed
+target was `ClassFieldTheory.LubinTate.EqualCharacteristic.CompletedLevel.CompletedFrobeniusBaseEquiv`
+at progress counter `[10409/10422]`; that counter is Lake's scheduling
+progress, not a guarantee about the number of remaining source files.
+
+Both the foundation checkpoint and final project cache were saved before
+the job completed. The actual Theta build, strict entry audit, Main build
+and consumer checks were all skipped. The next revision can reuse the
+saved dependency work, but this run does not validate those skipped gates.
+The exact cache keys, timestamps and artifact metadata are in
+`verification/theta_global/ci_41159434388_native.json`; the unfiltered job
+log is `verification/theta_global/ci_41159434388_native.log`.
+
+### Native import resource diagnostic on 2026-10-31
+
+A local native attempt at `GlobalProjectEmbedding` failed while importing
+`HilbertSymbolCompletionNaturality.olean.private`, before elaborating the
+target. The file and its companion parts match their prior native cache
+hashes and sizes. A sampled replay reached 65,531 memory mappings against
+the host's `vm.max_map_count` of 65,530; peak resident memory was 592,804 KiB.
+The pinned loader falls back to allocation and reading after a failed
+mapping. The observed ceiling is consistent with allocation failure in
+that path, which reports a generic file-read error.
+
+The failed command, exact source hashes, mapping samples, cache-part checks
+and raw log are retained as
+`verification/theta_global/native_import_map_limit_20261031.json`,
+`verification/theta_global/native_import_map_limit_20261031.jsonl`, and
+`verification/theta_global/native_import_map_limit_20261031.log`.
+This is a failed import diagnostic, not a proof check. The workflow now
+ensures at least 262,144 mappings on its dedicated ephemeral runner,
+preserving any larger existing setting. The shared local host setting
+has not been changed.
+
+### Standalone replay on 2026-10-31
+
+At continuation commit `42deaca4ef14b01566a13588ba78feb079cd7e09`,
+[job 124413821059](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41159434388/job/124413821059)
+completed the 45-module standalone check successfully. The downloaded
+artifact was checked against every source hash in the continuation checkout.
+All 56 expected axiom records are present and use only `propext`,
+`Classical.choice`, and `Quot.sound`. The runtime pin check has no errors,
+both implicit-parameter options were disabled, and Lean exited with code 0.
+
+The bundle SHA-256 is
+`4a2886504c0010bf861085a4809fcaa9442f1f713f8afcaba598b31999a2f667`.
+The complete compiler log and artifact manifest, runtime pins, source hashes
+and per-declaration axiom records are preserved in
+`verification/theta_global/ci_41159434388_standalone.log` and
+`verification/theta_global/ci_41159434388_standalone.json`.
+This replay checks consolidated source bodies; it does not certify the
+native five-target entry or the downstream consumers.
+
+### Historical standalone check
 
 The 45-module combined-body bundle passed the pinned compiler with exit
 code 0. All original source hashes match the manifest, the checked bundle

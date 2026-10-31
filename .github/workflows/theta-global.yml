@@ -75,13 +75,21 @@ jobs:
       # leaves free. These two preinstalled SDKs are unused by Lean and Python.
       # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md
       # https://github.com/actions/runner-images/blob/main/images/ubuntu/scripts/build/install-dotnetcore-sdk.sh
-      - name: Reserve disk space for the actual dependency build
+      - name: Prepare resources for the actual dependency build
         timeout-minutes: 3
         shell: bash
         run: |
           df -h /
           sudo rm -rf -- /usr/local/lib/android/sdk /usr/share/dotnet
           df -h /
+          # Legacy imports load private/IR parts of the complete dependency
+          # closure. The pinned loader can exceed the stock 65,530-map limit.
+          # Keep a larger existing limit; change only this ephemeral runner.
+          lean_map_limit="$(sysctl -n vm.max_map_count)"
+          if [ "$lean_map_limit" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count
       - name: Install the pinned Lean toolchain and Mathlib cache
         uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
         timeout-minutes: 20
@@ -137,7 +145,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          lake --fail-fast build +HeckeSkeleton.Theta:olean +ThetaGlobal.LocalGammaOrientation:olean 2>&1 | tee verification/theta_global/entry-build.log
+          lake build +HeckeSkeleton.Theta:olean +ThetaGlobal.LocalGammaOrientation:olean 2>&1 | tee verification/theta_global/entry-build.log
       - name: Audit the actual five declarations for inherited admissions
         timeout-minutes: 4
         shell: bash

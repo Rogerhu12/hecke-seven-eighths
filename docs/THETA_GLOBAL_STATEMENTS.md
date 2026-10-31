@@ -174,7 +174,7 @@ theorem markedReflection (H : LocalExteriorDigitInput K c) :
 
 ## 3. 同一次 source 与 RootAligned 的嵌入调整
 
-原附件中的 `Base.complexEmbedding` 由 `Classical.arbitrary` 选择。任意复嵌入并不保证把给定的十二次单位根送到 KP 的固定复根。本实现把顺序写成：**先对齐 `c.family.root12` 的复嵌入，再对该嵌入选择一次算术上下文；后续 recipe、source、有限表和系数识别均使用这一次选择。**
+原附件 `HeckeSkeleton/Base.lean` 中的 `HeckeSkeleton.complexEmbedding` 由 `Classical.arbitrary` 选择。任意复嵌入并不保证把给定的十二次单位根送到 KP 的固定复根。本实现把顺序写成：**先对齐 `c.family.root12` 的复嵌入，再对该嵌入选择一次算术上下文；后续 recipe、source、有限表和系数识别均使用这一次选择。**
 
 这是本任务对已有 `Base` 选择方式的明确调整，不是把任意嵌入自动视为已对齐。当前源码为：
 
@@ -684,7 +684,7 @@ def GeneralHeckeSevenEighths : Prop :=
 
 原 TASK 允许上述单处假设。因此，完整的 THETA_GLOBAL 任务验收是：五个指定目标在实际项目中完成接线；有限表保有壳层积分规格；全局 seed、测度/积分装配、实际系数识别、支持集重排和 annular transfer 在这条局部边界内推出；固定版本 native 编译与五目标递归公理门实际成功。
 
-`verification/theta_global/EntryAudit.lean` 对五目标拒绝 `sorryAx` 及任何非标准公理。允许的公理仅为 `propext`、`Classical.choice`、`Quot.sound`。新的方向桥若纳入同一门，也应受相同白名单约束。
+`verification/theta_global/EntryAudit.lean` 对五目标拒绝 `sorryAx` 及任何非标准公理。允许的公理仅为 `propext`、`Classical.choice`、`Quot.sound`。同一审计还检查实际固定源、壳层积分规格、两个归一化常数、返回的反射包及七条方向恒等式，使用相同白名单。
 
 `verification/theta_global/ConsumerSignatures.lean` 具有不同的核查目的：检查七个下游调用的精确类型，记录包括原有 `sorryAx` 在内的依赖。它不能替代五目标的严格门，也不构成整个 seven-eighths endpoint 的无 admission 证明。
 
