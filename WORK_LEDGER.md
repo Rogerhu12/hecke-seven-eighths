@@ -25,10 +25,12 @@
 
 ## 进度（2026-10-31 07:50）
 
-总 68 单位（建账时 75，10-30 晚之前已关 7）。已完成约 9.4 个单位，**剩余约 58.6 个**。
+总 68 单位（建账时 75，10-30 晚之前已关 7）。已完成约 10.9 个单位，**剩余约 57.1 个**。
 
 | 单位 | 计入 | 说明 |
 |---|---|---|
+| GR-12-MASK | 1.0 | 已关闭：`AxiomGeneratorMaskWitness` 加 `HeckeSkeleton.GeneratorMask`（实际约 300 行，建账时高估） |
+| GR-12-ASSEMBLY | 0.5 | 零频率约化、残差 majorant、小 Y 界已证；剩 `DualShellBound`（非零对偶频率的加权壳和） |
 | GR-12-PORT | 1.0 | 133 模块编译通过，三条标准公理；6 个 SmallRadius 消费者待上游 |
 | TH-REFL-ARCH、TH-REFL-EXTERIOR-DIGITS | 2.0 | 已关闭：核心与接线（PR #4，d5cbc31）均已合并 |
 | LOW-HYBRID、LOW-FROZEN-CUBE | 2.0 | 已关闭：核心与接线（PR #6，d6fd2cf）均已合并 |
