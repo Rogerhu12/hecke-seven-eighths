@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectGaussSource
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectOriginalData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstLinearizedSource
 
 /-!
@@ -23,16 +23,14 @@ open HeckePort.Moments HeckePort.Moments.MobiusRegroup UniqueFactorizationMonoid
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
-variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
 variable {C : A.GeneralArithmeticContext σ η hS}
-variable {P : PowerScaleExteriorPool A bad Z ell eps}
 variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
   [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
 
 /-- Actual Cauchy rows are enlarged directly, then the two positive
 normalizations are applied before integration. -/
 theorem first_gauss_direct_integral_bound {H ι κ : Type*}
-    (F : 𝓢(V, ℂ)) (left : FirstGaussPoolData C P ι) (right : FirstGaussPoolData C P κ)
+    (F : 𝓢(V, ℂ)) (left : DirectGaussData C ι) (right : DirectGaussData C κ)
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
     (rows : Finset H) (frequencyLeft frequencyRight : H → A.R)
     (hleft_inj : Set.InjOn frequencyLeft (rows : Set H))
@@ -117,7 +115,7 @@ local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 /-- Exact first Möbius and phase labels, now with the direct original
 Gauss energies and their original positive normalizations. -/
 def firstDirectLinearizedCost {ι κ : Type*}
-    (F : 𝓢(V, ℂ)) (left : FirstGaussPoolData C P ι) (right : FirstGaussPoolData C P κ)
+    (F : 𝓢(V, ℂ)) (left : DirectGaussData C ι) (right : DirectGaussData C κ)
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
     (rayLeft : ι → Ray) (rayRight : κ → Ray) (phaseTable : Ray × Ray → Circle)
     (W : ℝ)
@@ -144,7 +142,7 @@ variable {Γ : Subgroup A.U}
 sources. The result is derived from the literal first residual kernel. -/
 theorem first_residual_cost_le_direct_linearized {H ι κ : Type*}
     (hΓ : ∀ u : Γ, ∃ v : A.U, u.val = v ^ 6)
-    (F : 𝓢(V, ℂ)) (left : FirstGaussPoolData C P ι) (right : FirstGaussPoolData C P κ)
+    (F : 𝓢(V, ℂ)) (left : DirectGaussData C ι) (right : DirectGaussData C κ)
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
     (rows : Finset H) (frequency : H → A.R)
     (hinj : Set.InjOn frequency (rows : Set H))
@@ -182,7 +180,7 @@ theorem first_residual_cost_le_direct_linearized {H ι κ : Type*}
       c i * (fixedLeftPhase Ray χ (rayLeft i) : ℂ) else 0)
     (fun j => if S.val ∣ (right.ideal j).val then
       d j * (fixedRightPhase Ray χ (rayRight j) : ℂ) else 0) x y
-  dsimp only [wholePolynomial, FirstGaussPoolData.gaussColumn,
+  dsimp only [wholePolynomial, DirectGaussData.gaussColumn,
     generatedOriginalColumn] at he ⊢
   exact (mul_le_mul_of_nonneg_left he (norm_nonneg _)).trans_eq (by ring)
 

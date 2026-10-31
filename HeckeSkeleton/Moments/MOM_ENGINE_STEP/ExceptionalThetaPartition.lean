@@ -62,7 +62,7 @@ theorem sum_exceptional_eq_theta_classes (rows : Finset H) (term : H → ℝ) :
             exact hclass.2.symm
         · intro hnot
           exact False.elim (hnot (Finset.mem_univ χ))
-      _ = term h := by simp only [thetaClass, χ, and_self, if_true]
+      _ = term h := by simp [thetaClass, χ]
   · rw [if_neg he]
     symm
     apply Finset.sum_eq_zero
@@ -145,13 +145,40 @@ theorem exceptionalCost_eq_theta_sum (hpredicate : B.exceptional = Q.exceptional
   unfold exceptionalCost
   simp_rw [B.exceptionalIntegrand_eq_theta_sum Q hpredicate]
   rw [integral_finsetSum]
-  · rw [Finset.mul_sum]
-    rfl
+  · rw [Finset.mul_sum] <;> rfl
   · intro χ hχ
     exact (B.thetaClassLeaf Q χ).exceptionalIntegrand_integrable
 
 end ActualHybridLeaf
 end Leaves
+
+namespace ActualSecondCorrelationRows
+
+variable {A : SArithmeticData K} {σ : K →+* ℂ}
+variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
+variable {ι : Type*} [Fintype ι] [DecidableEq ι]
+variable (R : ActualSecondCorrelationRows A σ H ι) (p : H → Prop)
+
+/-- Restriction includes the original correlation-zero test. -/
+def restrictLive (h : (R.restrictRows p).live) : R.live :=
+  ⟨h.val, Finset.mem_filter.mpr
+    ⟨(Finset.mem_filter.mp (Finset.mem_filter.mp h.property).1).1,
+      (Finset.mem_filter.mp h.property).2⟩⟩
+
+@[simp] theorem restrictLive_val (h : (R.restrictRows p).live) :
+    (R.restrictLive p h).val = h.val := rfl
+
+/-- The chosen residual element and its generating ideal are literally
+the same after a finite-character restriction; only proof fields differ. -/
+theorem restrictRows_extractedRow (C : A.GeneralArithmeticContext σ η hS)
+    (h : (R.restrictRows p).live) :
+    (R.restrictRows p).extractedRow C h = R.extractedRow C (R.restrictLive p h) := rfl
+
+theorem restrictRows_exceptionalRow (C : A.GeneralArithmeticContext σ η hS)
+    (h : (R.restrictRows p).live) :
+    (R.restrictRows p).exceptionalRow C h = R.exceptionalRow C (R.restrictLive p h) := rfl
+
+end ActualSecondCorrelationRows
 
 /-- One order can be chosen from the original finite family before
 any scale, row or Fourier variable. -/
