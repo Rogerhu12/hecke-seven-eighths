@@ -74,7 +74,7 @@ theorem abs_le_card_mul_of_sum_zero {ι : Type*} [Fintype ι]
     (fun j _ => sub_nonneg.mpr (hupper j)) (Finset.mem_univ i)
   rw [hsum'] at hi
   have hcard : (1 : ℝ) ≤ Fintype.card ι := by
-    exact_mod_cast Fintype.card_pos_iff.mpr ⟨i⟩
+    exact_mod_cast Nat.succ_le_iff.mpr (Fintype.card_pos_iff.mpr ⟨i⟩)
   apply abs_le.mpr
   constructor
   · linarith
@@ -155,7 +155,7 @@ theorem valuation_abs_le (u : S.unit K) (F H : ℝ) (hF : 1 ≤ F) (hH : 1 ≤ H
   calc
     _ = (Real.log (v.val.asIdeal.absNorm : ℝ))⁻¹ *
         (|(valuationVector K S u v : ℝ)| * Real.log (v.val.asIdeal.absNorm : ℝ)) := by
-      field_simp
+      field_simp [(primeLog_pos K S v).ne']
     _ ≤ (Real.log (v.val.asIdeal.absNorm : ℝ))⁻¹ * logBoxRadius K S F H :=
       mul_le_mul_of_nonneg_left hb (inv_nonneg.mpr (primeLog_pos K S v).le)
     _ ≤ _ := mul_le_mul_of_nonneg_right (inv_primeLog_le K S v)

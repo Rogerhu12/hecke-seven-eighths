@@ -214,8 +214,16 @@ def compile_module(module: str) -> tuple[dict, str, Path]:
     flags = option_flags(node["options"])
     command = [lean, "-j1", *flags, "-R", str(node["root"]), "-o", str(output), str(node["path"])]
     started = time.monotonic()
-    result = subprocess.run(command, cwd=node["root"], env=env, text=True,
-                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    try:
+        result = subprocess.run(command, cwd=node["root"], env=env, text=True,
+                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                timeout=900)
+    except subprocess.TimeoutExpired as timeout:
+        partial = timeout.stdout or ""
+        if isinstance(partial, bytes):
+            partial = partial.decode(errors="replace")
+        result = subprocess.CompletedProcess(command, 124,
+            partial + "\nFormal compilation timed out after 900 seconds.\n")
     unchanged = hashlib.sha256(node["path"].read_bytes()).hexdigest() == node["source_sha256"]
     record = {
         "module": module, "source": str(node["path"].relative_to(ROOT)),
@@ -320,5 +328,35 @@ for target in TARGETS:
 if failed:
     print(f"FAIL: {len(errors)} compilation failures; {len(failed) - len(errors)} blocked modules", flush=True)
     print("\n".join(errors), flush=True)
+    # A temporary aggregate reveals independent diagnostics farther down
+    # the new analytic chain. It is never emitted as an object, cached,
+    # audited, or used by a formal module, and cannot change this failure.
+    analytic_names = {"LogLatticeCounting", "SUnitLogCounting", "SUnitHeightCounting",
+                      "SUnitSmallPowerCount", "SparseFiniteSum", "SUnitSmallRadius",
+                      "SharpCommonKernelBounds"}
+    if any(module.rsplit(".", 1)[-1] in analytic_names for module in failed):
+        probe = LOGS / "CountingAggregate.lean"
+        generator = ROOT / "HeckeSkeleton/Moments/MOM_INV_STEP/make-counting-probe.py"
+        generated = subprocess.run([sys.executable, str(generator), str(ROOT), str(probe)],
+                                   cwd=ROOT, text=True, stdout=subprocess.PIPE,
+                                   stderr=subprocess.STDOUT)
+        if generated.returncode == 0:
+            command = [lean, "-j1", *option_flags(config.get("leanOptions", {})),
+                       "-R", str(LOGS), str(probe)]
+            try:
+                diagnostic = subprocess.run(command, cwd=ROOT, env=env, text=True,
+                                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                            timeout=240)
+                diagnostic_text = diagnostic.stdout
+            except subprocess.TimeoutExpired as timeout:
+                partial = timeout.stdout or ""
+                if isinstance(partial, bytes):
+                    partial = partial.decode(errors="replace")
+                diagnostic_text = partial + "\nDiagnostic-only probe timed out after 240 seconds.\n"
+            (LOGS / "CountingAggregate.log").write_text(diagnostic_text)
+            print("Diagnostic-only analytic aggregate (not an acceptance gate):", flush=True)
+            print(diagnostic_text, flush=True)
+        else:
+            (LOGS / "CountingAggregate.log").write_text(generated.stdout)
     raise SystemExit(1)
 print(f"PASS: verified actual project import closure for {', '.join(TARGETS)}", flush=True)

@@ -22,7 +22,7 @@ noncomputable section
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss
 
 open NumberField IsDedekindDomain UniqueFactorizationMonoid
-open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.ThetaSkeleton
+open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis HeckeGeneral.ThetaSkeleton
   HeckeGeneral.ThetaSkeleton.Global
 open IdealMobiusMask FirstSourceDecomposition FirstInversePoisson
 open ConductorMasks PrimitivePoissonSource PrimitiveFourier PrimitivePacketCRT

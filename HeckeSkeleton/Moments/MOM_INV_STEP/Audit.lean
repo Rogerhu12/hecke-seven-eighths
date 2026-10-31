@@ -57,6 +57,17 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
 import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalZero
 import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitSmallPowerCount
 import HeckeSkeleton.Moments.MOM_INV_STEP.SparseFiniteSum
+import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitSmallRadius
+import HeckeSkeleton.Moments.MOM_INV_STEP.SharpCommonKernelBounds
+import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn
+import HeckeSkeleton.Moments.MOM_INV_STEP.ActualDivisorSectors
+import HeckeSkeleton.Moments.MOM_INV_STEP.MaskDivisorTransport
+import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceCharacters
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceReindexing
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceEnergy
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceFrozen
+import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalSource
+import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalBudget
 
 /-! Recursive kernel-axiom audit for the canonical inverse single-step work. -/
 
@@ -214,3 +225,26 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.SparseFiniteSum
 #print axioms HeckeSkeleton.Moments.MOMInvStep.PrincipalCounting.exists_principal_sum_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SUnitSmallPowerCount.exists_trace_height_small_power_count
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SparseFiniteSum.finite_sum_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SUnitSmallRadius.exists_sLocalSchwartzProfile_smallPower_global_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SparseFiniteSum.schwartz_dilated_equiv_weighted_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel.exists_orbitalKernel_finite_seminorm_smallPower_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel.exists_orbitalDensity_mass_smallPower_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel.exists_orbitalDensity_weighted_smallPower_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel.exists_orbitalDensity_smallPower_common_envelope
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn.oldAmplitude_eq
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn.first_source_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn.genuine_second_poisson
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualDivisorSectors.divisorIdeal_norm
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualDivisorSectors.sectorCharacter_translate
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualDivisorSectors.actual_two_divisors
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.MaskDivisorTransport.reconstructionTransport_actual
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceCharacters.primitive_character
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceCharacters.divisor_fourier_split
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceCharacters.actual_pair_decorations
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceCharacters.second_label_squarefree
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceReindexing.actual_residual_slice_sum
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceEnergy.actual_first_orbital_source_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceFrozen.first_source_pair_frozen
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalSource.exists_principalPairs_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalBudget.exists_weighted_principal_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalBudget.physical_principal_budget

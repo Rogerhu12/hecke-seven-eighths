@@ -2,6 +2,7 @@ module
 
 public import Mathlib.Analysis.PSeries
 public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
 public import Mathlib.Algebra.Order.Floor.Semiring
 public import Mathlib.Tactic
 
@@ -26,6 +27,35 @@ def inverseSquareMass : ℝ := ∑' n : ℕ, ((n : ℝ) ^ 2)⁻¹
 
 theorem inverseSquareMass_nonneg : 0 ≤ inverseSquareMass :=
   tsum_nonneg (fun _ => by positivity)
+
+/-- Cubic decay in the original Euclidean height is uniform for a compact
+family of invertible multipliers. The seminorm family is explicit. -/
+theorem schwartz_dilated_equiv_weighted_bound
+    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    (φ : SchwartzMap E ℂ) (e : E ≃L[ℝ] E) (B α : ℝ)
+    (hB : 1 ≤ B) (hinv : ‖e.symm.toContinuousLinearMap‖ ≤ B)
+    (hα : 0 < α) (z : E) :
+    (1 + α * ‖z‖) ^ 3 * ‖φ (α • e z)‖ ≤
+      B ^ 3 * (8 * (Finset.Iic (3, 0)).sup (schwartzSeminormFamily ℝ E ℂ) φ) := by
+  have hz : ‖z‖ ≤ B * ‖e z‖ := by
+    have h := e.symm.toContinuousLinearMap.le_opNorm (e z)
+    simp only [ContinuousLinearEquiv.coe_coe, ContinuousLinearEquiv.symm_apply_apply] at h
+    exact h.trans (mul_le_mul_of_nonneg_right hinv (norm_nonneg _))
+  have hpoint : 1 + α * ‖z‖ ≤ B * (1 + ‖α • e z‖) := by
+    rw [norm_smul, Real.norm_eq_abs, abs_of_pos hα]
+    have hm := mul_le_mul_of_nonneg_left hz hα.le
+    nlinarith
+  have hφ : (1 + ‖α • e z‖) ^ 3 * ‖φ (α • e z)‖ ≤
+      8 * (Finset.Iic (3, 0)).sup (schwartzSeminormFamily ℝ E ℂ) φ := by
+    simpa only [norm_iteratedFDeriv_zero, schwartzSeminormFamily_apply, show (2 : ℝ) ^ 3 = 8 by norm_num] using
+      SchwartzMap.one_add_le_sup_seminorm_apply (𝕜 := ℝ) (m := (3, 0))
+        (k := 3) (n := 0) le_rfl le_rfl φ (α • e z)
+  calc
+    _ ≤ (B * (1 + ‖α • e z‖)) ^ 3 * ‖φ (α • e z)‖ :=
+      mul_le_mul_of_nonneg_right
+        (pow_le_pow_left₀ (by positivity) hpoint 3) (norm_nonneg _)
+    _ = B ^ 3 * ((1 + ‖α • e z‖) ^ 3 * ‖φ (α • e z)‖) := by rw [mul_pow, mul_assoc]
+    _ ≤ _ := mul_le_mul_of_nonneg_left hφ (pow_nonneg (zero_le_one.trans hB) _)
 
 /-- A finite sparse source with a cubic weighted pointwise estimate.
 All constants precede the source, and the scale is genuinely variable. -/
@@ -91,7 +121,7 @@ theorem finite_sum_le {ι : Type*} (s : Finset ι) (height f : ι → ℝ)
       _ ≤ (C * (2 * (n : ℝ) * α ^ (-δ))) * (Q / (n : ℝ) ^ 3) :=
         mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hpow hC)
           (div_nonneg hQ (pow_nonneg hnpos.le _))
-      _ = _ := by field_simp; ring
+      _ = _ := by field_simp [hnpos.ne']; ring
   have hfactor : 0 ≤ 2 * C * Q * α ^ (-δ) := by positivity
   have hmass := (Real.summable_nat_pow_inv.mpr (by norm_num : 1 < (2 : ℕ))).sum_le_tsum
     (s.image k) (fun _ _ => by positivity)
