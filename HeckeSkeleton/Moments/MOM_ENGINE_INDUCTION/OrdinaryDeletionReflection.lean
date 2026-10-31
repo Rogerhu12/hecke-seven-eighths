@@ -36,11 +36,14 @@ theorem plainPoly_hecke_eq_nonzeroSum (χ : HeckeCharacter K) (F : ℝ → ℂ) 
   unfold HeckePort.Moments.plainPoly
   congr 1
   symm
-  simpa only [nonzeroIdealDeletionEquiv, HeckePort.Moments.inorm,
-    heckeIdealCoefficient, nonzeroIdealCoefficient, idealNorm] using
-    (nonzeroIdealDeletionEquiv (K := K)).tsum_eq
-      (fun I : HeckePort.Moments.NI K =>
-        idealCoefficient (primeCoefficient K χ) I.val * F (HeckePort.Moments.inorm I / X))
+  have h := (nonzeroIdealDeletionEquiv (K := K)).tsum_eq
+    (fun I : HeckePort.Moments.NI K =>
+      idealCoefficient (primeCoefficient K χ) I.val * F (HeckePort.Moments.inorm I / X))
+  change (∑' I : NonzeroIdeal K,
+      heckeIdealCoefficient K χ I * F (idealNorm K I / X)) =
+    ∑' I : HeckePort.Moments.NI K,
+      idealCoefficient (primeCoefficient K χ) I.val * F (HeckePort.Moments.inorm I / X) at h
+  exact h
 
 /-- Compact support identifies the normalized port polynomial with the
 actual finite annular Hecke polynomial used in Mellin inversion. -/

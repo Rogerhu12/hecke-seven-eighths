@@ -74,7 +74,7 @@ private theorem ordinaryShortMultiplier_strip_bound
   have hS : 0 ≤ S := (Iint_nonneg V 0 (-1 / 4)).trans
     (Iint_left_le V 0 J (Nat.zero_le _) δ)
   have hi (j : ℕ) (hj : j ≤ J) : Iint V j (-σ) ≤ D * S := by
-    have h := Iint_strip_le V j (σ1 := -3 / 4) (σ2 := δ)
+    have h := Iint_strip_le V j (σ := -σ) (σ1 := -3 / 4) (σ2 := δ)
       (by linarith [hσ.2]) (by linarith [hσ.1])
     have hl := (Iint_three_quarters_le V hB hupper j).trans
       (mul_le_mul_of_nonneg_left (Iint_left_le V j J hj δ)
@@ -197,7 +197,8 @@ theorem ordinaryReflectedProfile_small_seminorm
   have hσ : (3 / 4 : ℝ) ∈ Icc (-δ) (3 / 4) := ⟨by linarith, le_rfl⟩
   have hint : (∫ t : ℝ, ‖ordinaryShortMultiplier K χ V (idealVerticalPoint (3 / 4) t)‖) ≤
       C * testSeminorm V.toFun J δ * I := by
-    rw [I, ← integral_const_mul]
+    dsimp only [I]
+    rw [← integral_const_mul]
     apply integral_mono
       (integrable_ordinaryShortMultiplier K hcomplex χ V hδ hB hupper hσ).norm
       ((integrable_one_add_abs_rpow_neg (e := 2) (by norm_num)).const_mul _)
@@ -281,7 +282,7 @@ theorem ordinaryMellinGamma_weighted_uniform
   have hS : 0 ≤ S := (Iint_nonneg V 0 (-1 / 4)).trans
     (Iint_left_le V 0 J (Nat.zero_le _) δ)
   have hi (j : ℕ) (hj : j ≤ J) : Iint V j (-σ) ≤ D * S := by
-    have h := Iint_strip_le V j (σ1 := -3 / 4) (σ2 := δ)
+    have h := Iint_strip_le V j (σ := -σ) (σ1 := -3 / 4) (σ2 := δ)
       (by linarith [hσ.2]) (by linarith [hσ.1])
     have hl := (Iint_three_quarters_le V hB hupper j).trans
       (mul_le_mul_of_nonneg_left (Iint_left_le V j J hj δ)

@@ -69,6 +69,13 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryRowReflection
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionTailLedger
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowSeminorm
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteBranchMeasure
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteRowKernel
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionGeometry
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileOrderSchedule
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryProfileNormalization
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.NormalizedReflectionDensity
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RestorationRows
 
 #print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt
 #print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.changeSchedule
@@ -175,6 +182,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.ordinary
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.ordinary_energy
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.pairedEnergy_le_centered_add_comparison
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.paired_row_norm_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.plainPair
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.plainPair_scaleProfiles
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.plainPair_sq_absolute_bound
@@ -190,6 +198,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.quarterCentered_scale_product
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.quarterCentered_totalLength
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.quarterCentered_width
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.row_remaining_product_budget
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.scaleProfiles
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.scaleProfiles_invariants
 #print axioms HeckeSkeleton.Moments.EngineInduction.Node.slot_nonneg
@@ -214,6 +223,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_same_band
 #print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_same_length_schedule
 #print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_same_slots
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.core_profile_order_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.core_rank_parameters
 #print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.core_reflection_earlier
 #print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.core_schedule_eq_length_schedule
 #print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.earlier_core_of_length
@@ -247,6 +258,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.ReflectedRootCertificate.energy_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.ReflectedRootInput
 #print axioms HeckeSkeleton.Moments.EngineInduction.ReflectedRootInput.sectorBound
+#print axioms HeckeSkeleton.Moments.EngineInduction.ReflectionRowCalibration
+#print axioms HeckeSkeleton.Moments.EngineInduction.ReflectionRowCalibration.scalar_bounds
 #print axioms HeckeSkeleton.Moments.EngineInduction.RootCertificate
 #print axioms HeckeSkeleton.Moments.EngineInduction.ShortReflectionBranchAt
 #print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification
@@ -357,10 +370,15 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.TerminalLedger
 #print axioms HeckeSkeleton.Moments.EngineInduction.TerminalLedger.exponent_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.actualConductor_remainingProduct_dvd
+#print axioms HeckeSkeleton.Moments.EngineInduction.actualConductor_remainingProduct_rpow_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.actualPlain_radial_zero
 #print axioms HeckeSkeleton.Moments.EngineInduction.actualReflectionScale_remainingProduct_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.actual_child_width_drop
 #print axioms HeckeSkeleton.Moments.EngineInduction.actual_reflectedScale_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.actual_reflectedScale_rpow_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.actual_reflectedScale_rpow_le_of_row_product
+#print axioms HeckeSkeleton.Moments.EngineInduction.actual_remainingProduct_rpow_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.ae_finiteBranchMeasure
 #print axioms HeckeSkeleton.Moments.EngineInduction.ae_halfPushforward
 #print axioms HeckeSkeleton.Moments.EngineInduction.ae_kernelWeightedMeasure
 #print axioms HeckeSkeleton.Moments.EngineInduction.annularHeckeContour
@@ -375,6 +393,12 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.annularIdealSupport
 #print axioms HeckeSkeleton.Moments.EngineInduction.annularPowerWindowSupport_eq
 #print axioms HeckeSkeleton.Moments.EngineInduction.annularReflectedWindow_operator
+#print axioms HeckeSkeleton.Moments.EngineInduction.backwardProfileOrder
+#print axioms HeckeSkeleton.Moments.EngineInduction.backwardProfileOrder_child_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.backwardProfileOrder_ground_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.backwardProfileOrder_monotone
+#print axioms HeckeSkeleton.Moments.EngineInduction.backwardProfileOrder_parent_orders
+#print axioms HeckeSkeleton.Moments.EngineInduction.backwardProfileOrder_succ
 #print axioms HeckeSkeleton.Moments.EngineInduction.baseHeightDegree
 #print axioms HeckeSkeleton.Moments.EngineInduction.baseHeightDegree_nonneg
 #print axioms HeckeSkeleton.Moments.EngineInduction.boundedBand
@@ -417,10 +441,24 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.excl_heckeCoefficient_conductor_sdiff
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_coarse_loss_parameters
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_fine_loss_parameters
+#print axioms HeckeSkeleton.Moments.EngineInduction.exists_normalizedOrdinaryPowerChild_control
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_ordered_coarse_loss_parameters
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_ordered_induction_loss_parameters
+#print axioms HeckeSkeleton.Moments.EngineInduction.exists_reflection_dyadic_cutoff
+#print axioms HeckeSkeleton.Moments.EngineInduction.exists_reflection_dyadic_geometry
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_reflection_tail_decay_order
+#print axioms HeckeSkeleton.Moments.EngineInduction.finiteBranchMeasure
+#print axioms HeckeSkeleton.Moments.EngineInduction.finiteBranchMeasure_apply
+#print axioms HeckeSkeleton.Moments.EngineInduction.finiteBranchMeasure_finite
+#print axioms HeckeSkeleton.Moments.EngineInduction.finiteBranchMeasure_integrable
+#print axioms HeckeSkeleton.Moments.EngineInduction.finiteBranchMeasure_mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.finiteRowBranchKernel
+#print axioms HeckeSkeleton.Moments.EngineInduction.finiteRowBranchKernel_finite
+#print axioms HeckeSkeleton.Moments.EngineInduction.finiteRowBranchKernel_mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.finiteRowBranchKernel_mass_sum_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.finite_branch_sum_norm_sq_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.finite_ideal_rows_count
+#print axioms HeckeSkeleton.Moments.EngineInduction.finite_rows_branch_integrals_energy_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.finite_rows_energy_le_rowEnergyKernel
 #print axioms HeckeSkeleton.Moments.EngineInduction.finite_rows_energy_with_tail
 #print axioms HeckeSkeleton.Moments.EngineInduction.finite_rows_integral_energy_le
@@ -456,6 +494,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.integrable_annularHeckeContour
 #print axioms HeckeSkeleton.Moments.EngineInduction.integrable_annularMellin_idealSeries
 #print axioms HeckeSkeleton.Moments.EngineInduction.integrable_kernelWeightedMeasure
+#print axioms HeckeSkeleton.Moments.EngineInduction.integrable_normalizedOrdinaryReflectionDensity
 #print axioms HeckeSkeleton.Moments.EngineInduction.integrable_ordinaryMellinGamma
 #print axioms HeckeSkeleton.Moments.EngineInduction.integrable_ordinaryMellinGamma_ratio
 #print axioms HeckeSkeleton.Moments.EngineInduction.integrable_ordinaryReflectedProfile
@@ -465,6 +504,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.integrable_weight_mul_norm
 #print axioms HeckeSkeleton.Moments.EngineInduction.integralStep_power_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.integral_annularMellin_idealTerm
+#print axioms HeckeSkeleton.Moments.EngineInduction.integral_finiteBranchMeasure
+#print axioms HeckeSkeleton.Moments.EngineInduction.integral_finiteRowBranchKernel
 #print axioms HeckeSkeleton.Moments.EngineInduction.integral_halfPushforward
 #print axioms HeckeSkeleton.Moments.EngineInduction.integral_kernelWeightedMeasure
 #print axioms HeckeSkeleton.Moments.EngineInduction.integral_norm_sq_le_mass
@@ -474,6 +515,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.kernelWeightedMeasure
 #print axioms HeckeSkeleton.Moments.EngineInduction.kernelWeightedMeasure_finite
 #print axioms HeckeSkeleton.Moments.EngineInduction.kernelWeightedMeasure_mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.le_reflectionDyadicExponent
 #print axioms HeckeSkeleton.Moments.EngineInduction.localStep_power_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormPhase
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormPhase_norm
@@ -494,10 +536,12 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormSeparatedProfiles_totalLength
 #print axioms HeckeSkeleton.Moments.EngineInduction.maskValue_eq_complete_deletion
 #print axioms HeckeSkeleton.Moments.EngineInduction.maskValue_eq_remaining_deletion
+#print axioms HeckeSkeleton.Moments.EngineInduction.measurableEmbedding_finiteBranch
 #print axioms HeckeSkeleton.Moments.EngineInduction.mem_annularIdealSupport
 #print axioms HeckeSkeleton.Moments.EngineInduction.mem_ordinaryPowerWindowSupport
 #print axioms HeckeSkeleton.Moments.EngineInduction.mem_ordinaryReflectedIdealCutoff
 #print axioms HeckeSkeleton.Moments.EngineInduction.mixedReflectionWeight_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.modelProfileControl_mono_order
 #print axioms HeckeSkeleton.Moments.EngineInduction.moment_mesh_comparison_margins
 #print axioms HeckeSkeleton.Moments.EngineInduction.moment_mesh_engine_bounds
 #print axioms HeckeSkeleton.Moments.EngineInduction.moment_mesh_loss_budget_with_outer_reflection
@@ -509,9 +553,15 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.normalizedKernelWeight
 #print axioms HeckeSkeleton.Moments.EngineInduction.normalizedKernelWeight_nonneg
 #print axioms HeckeSkeleton.Moments.EngineInduction.normalizedMomentProfiles_unit_control
+#print axioms HeckeSkeleton.Moments.EngineInduction.normalizedOrdinaryPowerChild
+#print axioms HeckeSkeleton.Moments.EngineInduction.normalizedOrdinaryReflectionDensity
+#print axioms HeckeSkeleton.Moments.EngineInduction.normalizedOrdinaryReflectionDensity_L1_uniform
+#print axioms HeckeSkeleton.Moments.EngineInduction.normalizedOrdinaryReflectionDensity_uniform
+#print axioms HeckeSkeleton.Moments.EngineInduction.normalized_child_rank_profile_control
 #print axioms HeckeSkeleton.Moments.EngineInduction.normalized_child_transfer
 #print axioms HeckeSkeleton.Moments.EngineInduction.normalized_column_cauchy_le_half
 #print axioms HeckeSkeleton.Moments.EngineInduction.normalized_node_cauchy_le_half
+#print axioms HeckeSkeleton.Moments.EngineInduction.one_le_ordinaryProfileEnvelope
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryDualPowerColumn
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryDualPowerColumn_norm
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryDualRow
@@ -530,6 +580,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryMellinGamma_weighted_uniform
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryPowerChild
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryPowerChild_energy_integrable
+#print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryPowerChild_energy_normalization
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryPowerChild_plain_left
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryPowerChild_plain_right
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryPowerChild_preserves
@@ -555,6 +606,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryPowerWindow_smooth
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryPowerWindow_support
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryPowerWindow_testSeminorm_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryProfileEnvelope
+#print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryProfileEnvelope_amplitude_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryProfileEnvelope_neg
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryReflectedDyadicSum
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryReflectedDyadicSum_eq_tsum
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryReflectedDyadicSum_tail_seminorm
@@ -589,6 +643,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryReflectionDensity
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryReflectionDensity_finiteRows_uniform
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryReflectionDensity_weighted_uniform
+#print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryReflectionEnvelope
+#print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryReflectionEnvelope_data
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryReflectionKernel
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryReflectionKernel_weighted_integrable
 #print axioms HeckeSkeleton.Moments.EngineInduction.ordinaryReflectionLine
@@ -615,6 +671,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.paired_positive_endpoint
 #print axioms HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_models
 #print axioms HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_of_reflected_core
+#print axioms HeckeSkeleton.Moments.EngineInduction.parameterCoreRank
 #print axioms HeckeSkeleton.Moments.EngineInduction.plainAbsoluteConstant
 #print axioms HeckeSkeleton.Moments.EngineInduction.plainAbsoluteConstant_height
 #print axioms HeckeSkeleton.Moments.EngineInduction.plainAbsoluteConstant_nonneg
@@ -651,14 +708,23 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflectionConductorConstant
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflectionConductorConstant_le_uniform
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflectionConductorConstant_pos
+#print axioms HeckeSkeleton.Moments.EngineInduction.reflectionDyadicExponent
+#print axioms HeckeSkeleton.Moments.EngineInduction.reflectionDyadicExponent_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.reflectionDyadicExponent_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.reflectionDyadicExponent_scale
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflectionPowerWeight
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflectionPowerWeight_nonneg
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflection_coefficient_phase_mass_subpower
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflection_coefficient_phase_norm_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflection_coefficient_phase_summable
+#print axioms HeckeSkeleton.Moments.EngineInduction.reflection_comparison_child_length
+#print axioms HeckeSkeleton.Moments.EngineInduction.reflection_constant_threshold
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflection_dyadic_tail_exponent
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflection_dyadic_tail_uniform_exponent
+#print axioms HeckeSkeleton.Moments.EngineInduction.reflection_outer_child_core
+#print axioms HeckeSkeleton.Moments.EngineInduction.reflection_quarter_comparison_length
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflection_ratio_weight
+#print axioms HeckeSkeleton.Moments.EngineInduction.reflection_whole_scale_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflection_whole_tail_exponent
 #print axioms HeckeSkeleton.Moments.EngineInduction.reflection_whole_tail_uniform_exponent
 #print axioms HeckeSkeleton.Moments.EngineInduction.remainingCommonMask_eq_deletion
@@ -673,11 +739,16 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.remainingRowDeletionProduct_dvd
 #print axioms HeckeSkeleton.Moments.EngineInduction.remainingRowDeletionProduct_norm_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.repaired_child_for_recursion
+#print axioms HeckeSkeleton.Moments.EngineInduction.restorationPiece
+#print axioms HeckeSkeleton.Moments.EngineInduction.restorationWholeSeries
 #print axioms HeckeSkeleton.Moments.EngineInduction.restrictedSlots_slotCount_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.restricted_child_width
 #print axioms HeckeSkeleton.Moments.EngineInduction.rowEnergyKernel
 #print axioms HeckeSkeleton.Moments.EngineInduction.rowEnergyKernel_finite
 #print axioms HeckeSkeleton.Moments.EngineInduction.rowEnergyKernel_mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.rowRestorationDeletion
+#print axioms HeckeSkeleton.Moments.EngineInduction.rowRestorationDeletion_prime
+#print axioms HeckeSkeleton.Moments.EngineInduction.rowRestorationPiece
 #print axioms HeckeSkeleton.Moments.EngineInduction.row_integral_energy_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.rpow_add_le_of_row_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.rpow_log_row_width
@@ -707,6 +778,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.smoothAnnular_mellin_vertical_decay
 #print axioms HeckeSkeleton.Moments.EngineInduction.smoothAnnular_norm_le_testIntegral
 #print axioms HeckeSkeleton.Moments.EngineInduction.smoothAnnular_norm_le_testSeminorm
+#print axioms HeckeSkeleton.Moments.EngineInduction.smoothAnnular_testSeminorm_weight_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily
 #print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_base
 #print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_capacity
@@ -742,6 +814,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniform_modelProfileControl_base_components
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniform_polynomial_height_base_branch
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniform_polynomial_height_base_components
+#print axioms HeckeSkeleton.Moments.EngineInduction.uniform_rowRestorationPiece_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.weightedDeletionMass_eq_euler
 #print axioms HeckeSkeleton.Moments.EngineInduction.weightedDoubleMass_le_euler
 #print axioms HeckeSkeleton.Moments.EngineInduction.weightedDoubleMass_subpower

@@ -43,7 +43,7 @@ private theorem ordinaryMultiplier_strip_seminorm_bound
   have hS : 0 ≤ S := (Iint_nonneg V 0 (-1 / 4)).trans
     (Iint_left_le V 0 J (Nat.zero_le _) A)
   have hi (j : ℕ) (hj : j ≤ J) : Iint V j (-σ) ≤ 2 * S := by
-    have h := Iint_strip_le V j (σ1 := -1 / 4) (σ2 := A)
+    have h := Iint_strip_le V j (σ := -σ) (σ1 := -1 / 4) (σ2 := A)
       (by linarith [hσ.2]) (by linarith [hσ.1])
     have hl := Iint_left_le V j J hj A
     have hr := Iint_right_le V j J hj A
@@ -214,7 +214,8 @@ theorem ordinaryReflectedProfile_decay_seminorm
     (Iint_nonneg V 0 (-1 / 4)).trans (Iint_left_le V 0 J (Nat.zero_le _) A)
   have hint : (∫ t : ℝ, ‖ordinaryMellinMultiplier K χ V (idealVerticalPoint (-A) t)‖) ≤
       C * testSeminorm V.toFun J A * I := by
-    rw [I, ← integral_const_mul]
+    dsimp only [I]
+    rw [← integral_const_mul]
     apply integral_mono
       (integrable_ordinaryMellinMultiplier K hcomplex χ V hA ⟨le_rfl, by linarith⟩).norm
       ((integrable_one_add_abs_rpow_neg (e := 2) (by norm_num)).const_mul _)

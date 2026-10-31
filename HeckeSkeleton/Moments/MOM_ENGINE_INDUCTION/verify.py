@@ -62,6 +62,13 @@ MODULES = (
     'ReflectionTailLedger',
     'PowerWindowSeminorm',
     'PowerWindowEnergy',
+    'FiniteBranchMeasure',
+    'FiniteRowKernel',
+    'ReflectionGeometry',
+    'ProfileOrderSchedule',
+    'OrdinaryProfileNormalization',
+    'NormalizedReflectionDensity',
+    'RestorationRows',
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.

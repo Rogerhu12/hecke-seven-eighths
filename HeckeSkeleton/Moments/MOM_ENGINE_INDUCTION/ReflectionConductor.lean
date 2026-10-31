@@ -26,6 +26,7 @@ namespace HeckeSkeleton.Moments.EngineInduction
 open NumberField IsDedekindDomain UniqueFactorizationMonoid
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.ThetaSkeleton.Physical
+open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.Arithmetic.ConductorNormDraft
 open HeckePort.Moments HeckePort.IdealMobiusDivisorSum
 open HeckeSkeleton.HeckeConductorNorm HeckeSkeleton.ExplicitHeckeFunctionalEquation
@@ -314,6 +315,7 @@ theorem actual_reflectedScale_le
     (mul_le_mul_of_nonneg_left hnorm hQ.le).trans
       (actualReflectionScale_remainingProduct_le S P R β ξ u extra)
   have hH : 1 ≤ inorm H := by
+    change (1 : ℝ) ≤ (Ideal.absNorm H.val : ℝ)
     exact_mod_cast Nat.succ_le_iff.mpr (Nat.pos_of_ne_zero
       (fun hz => H.property (Ideal.absNorm_eq_zero_iff.mp hz)))
   calc

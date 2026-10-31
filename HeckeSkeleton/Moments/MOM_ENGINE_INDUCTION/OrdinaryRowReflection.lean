@@ -39,9 +39,11 @@ theorem plainPoly_eq_nonzeroSeries (a : Ideal (𝓞 K) → ℂ) (F : ℝ → ℂ
   unfold plainPoly
   congr 1
   symm
-  simpa only [nonzeroIdealDeletionEquiv, inorm, idealNorm] using
-    (nonzeroIdealDeletionEquiv (K := K)).tsum_eq
-      (fun I : HeckePort.Moments.NI K => a I.val * F (inorm I / Y))
+  have h := (nonzeroIdealDeletionEquiv (K := K)).tsum_eq
+    (fun I : HeckePort.Moments.NI K => a I.val * F (inorm I / Y))
+  change (∑' I : NonzeroIdeal K, a I.val * F (idealNorm K I / Y)) =
+    ∑' I : HeckePort.Moments.NI K, a I.val * F (inorm I / Y) at h
+  exact h
 
 private theorem cutoff_tsum_eq_finite
     (f : NonzeroIdeal K → ℂ) {N : ℝ} (hN : 0 < N) :
