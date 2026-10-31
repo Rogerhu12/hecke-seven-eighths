@@ -33,14 +33,25 @@ def frozenFrequencyClass (d : MarkedDatum K S) (i : ReflectionIndex K S d) :
 def blockFrequency {G : Type*} [CommGroup G] (frozen row mark squarefree cube : G) : G :=
   frozen * squarefree * cube ^ (3 : ℕ) * row ^ (-2 : ℤ) * mark ^ (-2 : ℤ)
 
+private theorem move_frozen_factor {G : Type*} [CommGroup G]
+    (a b c d e f g : G) :
+    a * b * c * d * e * f * g = a * b * f * c * d * e * g := by
+  ac_rfl
+
 theorem frequencyClass_eq_block (d : MarkedDatum K S) (i : ReflectionIndex K S d) :
     frequencyClass K S D d i =
       blockFrequency (frozenFrequencyClass K S D d i)
         (generatorLocalClass K S D d.moving)
         (generatorLocalClass K S D (activeMarkedIdeal K S d i))
         (generatorLocalClass K S D i.c) (generatorLocalClass K S D i.n) := by
-  simp only [frequencyClass, blockFrequency, frozenFrequencyClass, zpow_natCast]
-  simp only [mul_assoc, mul_left_comm, mul_comm]
+  exact move_frozen_factor
+    (unitLocalClass K S (frequencyUnit K S d i))
+    (generatorLocalClass K S D i.numeratorFrozen)
+    (generatorLocalClass K S D i.c)
+    (generatorLocalClass K S D i.n ^ (3 : ℕ))
+    (generatorLocalClass K S D d.moving ^ (-2 : ℤ))
+    (generatorLocalClass K S D (activeFrozenIdeal K S d i) ^ (-2 : ℤ))
+    (generatorLocalClass K S D (activeMarkedIdeal K S d i) ^ (-2 : ℤ))
 
 /-- Every function of the actual local-frequency class has an exact
 componentwise expansion.  The masks are respectively row-only, mark-only

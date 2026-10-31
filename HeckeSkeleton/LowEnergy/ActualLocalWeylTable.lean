@@ -11,6 +11,7 @@ namespace HeckeSkeleton.LowEnergy.ActualLocalWeylTable
 open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Arithmetic.ResidueTraceCharacters
+open AlgebraicNumberTheory.PowerResidueSymbols
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.LowFrozenCube
 open HeckeSkeleton.LowEnergy.ActualFrozenCube
@@ -61,7 +62,7 @@ theorem localWeylScalar_eq_core (p : ExteriorPrime K S) (j : Fin 6) (e : ℕ) :
       (thetaPrimeCharacter K S D p) (residueAddChar K S D p) j u := by
     unfold digitMask LocalWeylTableCore.mask
     rw [hcard, ht]
-    by_cases hj : j.val = 0 <;> simp only [hj, if_pos, if_neg, Units.ne_zero]
+    by_cases hj : j.val = 0 <;> simp [hj, Units.ne_zero]
   rw [hm]
   rfl
 
@@ -72,7 +73,8 @@ theorem localWeylScalar_zero_norm (p : ExteriorPrime K S) (j : Fin 6) :
   simpa only [card_primeIdealResidueField K p.val] using
     LocalWeylTableCore.localScalar_zero_norm (thetaPrimeCharacter K S D p)
       (residueAddChar K S D p) (thetaPrimeCharacter_order K S D p)
-      (residueAddChar_primitive K S D p) _ j
+      (residueAddChar_primitive K S D p)
+      (thetaGamma K S D (exteriorPrimeIdeal K S p) 2) j
 
 theorem localWeylScalar_positive_eq_zero (p : ExteriorPrime K S)
     (j : Fin 6) (e : ℕ) (he : 0 < e) (hj : j.val ≠ 4) :
@@ -94,7 +96,8 @@ theorem localWeylScalar_three_norm_le (p : ExteriorPrime K S) (j : Fin 6) :
   simpa only [card_primeIdealResidueField K p.val] using
     LocalWeylTableCore.localScalar_three_norm_le (thetaPrimeCharacter K S D p)
       (residueAddChar K S D p) (thetaPrimeCharacter_order K S D p)
-      (residueAddChar_primitive K S D p) _ j
+      (residueAddChar_primitive K S D p)
+      (thetaGamma K S D (exteriorPrimeIdeal K S p) 2) j
 
 /-- All local support and inverse-square-root charges are explicit. -/
 def minimumMajorant (p : ExteriorPrime K S) (j : Fin 6) (m : ℕ) : ℝ :=
@@ -114,17 +117,15 @@ theorem localWeylScalar_minimum_norm_le (p : ExteriorPrime K S) (j : Fin 6) (e :
       minimumMajorant K S p j (frozenMin e) := by
   rcases frozenMin_cases e with hm | hm | hm
   · rw [hm, localWeylScalar_zero_norm]
-    simp only [minimumMajorant, if_pos rfl]
+    simp [minimumMajorant]
   · rw [hm]
     by_cases hj : j.val = 4
-    · simpa only [minimumMajorant, if_neg (by decide : ¬(1 : ℕ) = 0), if_pos hj,
-        if_pos rfl] using localWeylScalar_one_norm_le K S D p j
+    · simpa [minimumMajorant, hj] using localWeylScalar_one_norm_le K S D p j
     · rw [localWeylScalar_positive_eq_zero K S D p j 1 (by decide) hj]
       simp [minimumMajorant, hj]
   · rw [hm]
     by_cases hj : j.val = 4
-    · simpa only [minimumMajorant, if_neg (by decide : ¬(3 : ℕ) = 0), if_pos hj,
-        if_neg (by decide : ¬(3 : ℕ) = 1), if_pos rfl] using
+    · simpa [minimumMajorant, hj] using
         localWeylScalar_three_norm_le K S D p j
     · rw [localWeylScalar_positive_eq_zero K S D p j 3 (by decide) hj]
       simp [minimumMajorant, hj]
@@ -139,5 +140,8 @@ theorem localWeylScalar_norm_frozen (p : ExteriorPrime K S) (j : Fin 6)
     Complex.norm_natCast]
   exact mul_le_mul_of_nonneg_left (localWeylScalar_minimum_norm_le K S D p j e)
     (pow_nonneg (inv_nonneg.mpr (Nat.cast_nonneg _)) _)
+
+#print axioms localWeylScalar_eq_core
+#print axioms localWeylScalar_norm_frozen
 
 end HeckeSkeleton.LowEnergy.ActualLocalWeylTable
