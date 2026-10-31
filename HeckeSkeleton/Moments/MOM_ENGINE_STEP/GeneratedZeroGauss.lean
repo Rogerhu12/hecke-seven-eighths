@@ -45,7 +45,8 @@ theorem exterior_support_primePowerProduct (I : A.Exterior) :
       (fun P : primeSupport I.val => (normalizedFactors I.val).count P.val) = I := by
   apply Subtype.ext
   change (∏ P : primeSupport I.val, P.val ^ (normalizedFactors I.val).count P.val) = I.val
-  rw [Finset.prod_coe_sort]
+  rw [Finset.prod_coe_sort (s := primeSupport I.val)
+    (f := fun P => P ^ (normalizedFactors I.val).count P)]
   change (∏ P ∈ (normalizedFactors I.val).toFinset,
     P ^ (normalizedFactors I.val).count P) = I.val
   rw [← Finset.prod_multiset_count]
@@ -80,7 +81,7 @@ theorem actual_zero_gauss_nonzero_powerful_of_generates
   have hbzero' : completeResidueGauss T (primePowerProductGenerator C p n)
       (generatedIdealCharacter (σ := σ) (primePowerProduct p n)
         (primePowerProductGenerator C p n) (primePowerProduct_generates C p n)) 0 ≠ 0 := by
-    simpa only [hrecipe] using hbzero
+    simpa only [b, hrecipe] using hbzero
   simpa only [hrecipe] using actual_zero_gauss_nonzero_powerful C T p hp n hn hbzero'
 
 theorem actual_sInteger_zero_gauss_nonzero_powerful

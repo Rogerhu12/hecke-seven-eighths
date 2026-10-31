@@ -63,7 +63,10 @@ theorem coordinatePhase_primitive (ψ : AddChar (∀ i, K i) ℂ)
       simp
     · simp [Pi.single_eq_of_ne hji]
   have hv := congrArg (fun φ : AddChar (K i) ℂ => φ (x i)) htriv
-  simpa only [AddChar.mulShift_apply, AddChar.one_apply, hm, coordinatePhase] using hv
+  change ψ (Pi.single i (x i)) = 1 at hv
+  change ψ ((Pi.single i 1 : ∀ i, K i) * x) = 1
+  rw [hm]
+  exact hv
 
 theorem field_gauss_norm_sq {L : Type*} [Field L] [Fintype L]
     (ψ : AddChar L ℂ) (hψ : ψ.IsPrimitive)
@@ -106,6 +109,7 @@ theorem pulledPhase_primitive (e : R ≃+* ∀ i, K i)
   ext b
   have hv := congrArg (fun φ : AddChar (∀ i, K i) ℂ => φ (e b)) hh
   change ψ (e.symm (a * e b)) = 1 at hv
+  change ψ (e.symm a * b) = 1
   simpa only [map_mul, e.symm_apply_apply] using hv
 
 theorem crt_gauss_factorization (e : R ≃+* ∀ i, K i)
@@ -128,7 +132,8 @@ theorem crt_gauss_factorization (e : R ≃+* ∀ i, K i)
     _ = ∑ x : ∀ i, K i, ∏ i, χ i (x i) *
         coordinatePhase (pulledPhase e ψ) i (e h i * x i) :=
       e.toEquiv.sum_comp _
-    _ = _ := (Fintype.prod_sum _).symm
+    _ = _ := (Fintype.prod_sum (fun (i : ι) (y : K i) =>
+      χ i y * coordinatePhase (pulledPhase e ψ) i (e h i * y))).symm
 
 theorem crt_gauss_norm_sq_le (e : R ≃+* ∀ i, K i)
     (ψ : AddChar R ℂ) (hψ : ψ.IsPrimitive)

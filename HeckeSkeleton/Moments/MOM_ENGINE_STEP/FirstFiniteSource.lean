@@ -151,10 +151,12 @@ theorem one_le_sIntegerOrbitNorm (q : Q) :
 theorem FirstFiniteSource.rows_empty_of_subunit {ι κ : Type*}
     (s : FirstFiniteSource K S Γ ι κ) (hH : s.physicalCutoff < 1) : s.rows = ∅ := by
   ext q
-  simp only [Finset.mem_empty, iff_false]
-  intro hq
-  exact (not_lt_of_ge
-    ((one_le_sIntegerOrbitNorm q).trans ((s.mem_rows q).mp hq))) hH
+  constructor
+  · intro hq
+    exact False.elim ((not_lt_of_ge
+      ((one_le_sIntegerOrbitNorm q).trans ((s.mem_rows q).mp hq))) hH)
+  · intro hq
+    simp at hq
 
 theorem orbitCutoff_mul_radius (ρ : {r : ℝ // 0 < r}) (H : ℝ) :
     sIntegerOrbitCutoff K S Γ ρ (ρ.val * H) =

@@ -81,8 +81,10 @@ theorem actual_field_phase_eq_orbital (A : SArithmeticData K) (x : K) :
     map_mul, map_prod]
   unfold HeckeGeneral.Characters.sLocalPrincipalPhase
   congr 1
-  · congr 1
+  · change (Circle.exp _ : ℂ) = _
+    rw [Circle.coe_exp]
     push_cast
+    congr 1
     ring
   · apply Finset.prod_congr rfl
     intro v _

@@ -53,9 +53,9 @@ theorem full_correlation_norm_generator_change
       eM (scaledResidue a b (a * b) rfl ((vA : CommonSupport.Residue a) * x)) =
         scaledResidue a' b' (a' * b') rfl (eA x) := by
     obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
-    simp only [vA, Units.coe_map, ← map_mul, scaledResidue_mk,
-      eM, eA, Ideal.quotEquivOfEq_mk]
-    congr 1
+    change Ideal.Quotient.mk (Ideal.span {a' * b'}) (b * ((v : R) * x)) =
+      Ideal.Quotient.mk (Ideal.span {a' * b'}) (b' * x)
+    apply congrArg (Ideal.Quotient.mk (Ideal.span {a' * b'}))
     rw [← hv]
     ring
   have hright (y : CommonSupport.Residue b) :
@@ -63,9 +63,9 @@ theorem full_correlation_norm_generator_change
         ((uB : CommonSupport.Residue b) * y)) =
         scaledResidue b' a' (a' * b') (mul_comm a' b') (eB y) := by
     obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective y
-    simp only [uB, Units.coe_map, ← map_mul, scaledResidue_mk,
-      eM, eB, Ideal.quotEquivOfEq_mk]
-    congr 1
+    change Ideal.Quotient.mk (Ideal.span {a' * b'}) (a * ((u : R) * y)) =
+      Ideal.Quotient.mk (Ideal.span {a' * b'}) (a' * y)
+    apply congrArg (Ideal.Quotient.mk (Ideal.span {a' * b'}))
     rw [← hu]
     ring
   have hca (x : CommonSupport.Residue a) : χ' (eA x) = χ x := by
@@ -181,7 +181,7 @@ theorem actual_product_correlation_frequency_ideal_extract_of_generates
       A.exteriorNorm Ih =
         (Ideal.absNorm (gcd (primePowerProduct p m).val (primePowerProduct p n).val) : ℝ) *
           A.exteriorNorm (nonunitFrequencyRadical C p m n h) * A.exteriorNorm Ih' := by
-  have hnorm := generated_correlation_norm_generator_change
+  have hnorm := generated_correlation_norm_generator_change (σ := σ)
     (primePowerProduct p m) (primePowerProduct p n)
     (primePowerProductGenerator C p m) (primePowerProductGenerator C p n) a b
     (primePowerProduct_generates C p m) (primePowerProduct_generates C p n) ha hb h
