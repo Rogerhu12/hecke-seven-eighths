@@ -153,8 +153,10 @@ the current snapshot. The arithmetic adapters and their all-public axiom
 audit remain unverified. The later `a2ea9121` arithmetic job also reported
 only those same two orbital errors and stopped; the fixed orbital module has
 since passed its separate native audit above. Its whole-`.lake` cache save
-also ran out of disk space. The current workflow preserves running arithmetic/Mellin checks while
-new revisions queue, checks the small core prerequisites first, and
+also ran out of disk space. At the user's request, all repository workflows
+now set `concurrency.cancel-in-progress: true`; a new commit cancels obsolete
+checks in the same branch/scope group. The HIGHBIN workflow checks the small
+core prerequisites first and
 preserves the smaller completed project-build caches after a proof failure
 or the build subprocess timeout.
 
@@ -248,9 +250,11 @@ source hashes, object hashes and artifact provenance. Of its 4433 modules,
 source hashes and the already-fetched remote Git tree. Ten source differences
 are excluded from reuse and are scheduled for recompilation. Borrowed
 objects are checked before use and accessed through read-only links; outputs
-go to a separate task directory. The actual Gauss import closure also has
-all 3724 required pinned Mathlib objects available. These checks establish
-usable dependency provenance, not success of any uncompiled HIGHBIN source.
+go to a separate task directory. The explicit Mathlib submodule imports have
+a 3724-module cached closure. A further preflight found ten FLT reuse files
+that import the entire `Mathlib` umbrella; resolving that larger dependency
+remains part of the actual native setup. These checks establish dependency
+provenance, not success of any uncompiled HIGHBIN source.
 
 The merged upstream updates add GramAssemblyInputs and the Theta local wiring,
 and update WORK_LEDGER. Their changes do not alter the HIGHBIN, expansion,
