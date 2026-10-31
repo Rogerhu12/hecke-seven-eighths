@@ -2,6 +2,8 @@ import HeckeGeneral.Analysis.MomentInputs
 import HeckeGeneral.Analysis.SixthPowerFreeFactorization
 import ArithmeticFrequencyRowCharacterFibers
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceGeometry
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.SplitIfs
 
 /-!
 # Numerical regions and eventual eligibility of the actual frequency rows

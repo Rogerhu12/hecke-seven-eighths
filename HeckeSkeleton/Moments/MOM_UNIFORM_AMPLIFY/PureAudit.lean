@@ -13,9 +13,9 @@ public import Lean.Util.CollectAxioms
 open Lean Elab Command in
 run_cmd do
   let env ← getEnv
-  let prefix := `HeckeSkeleton.Moments.UniformAmplify
+  let namespacePrefix := `HeckeSkeleton.Moments.UniformAmplify
   let names := (env.constants.fold (init := (#[] : Array Name)) fun acc name _ =>
-    if prefix.isPrefixOf (privateToUserName name) then acc.push name else acc).qsort Name.lt
+    if namespacePrefix.isPrefixOf (privateToUserName name) then acc.push name else acc).qsort Name.lt
   let required : Array Name := #[
     `HeckeSkeleton.Moments.UniformAmplify.finite_sector_sum_le,
     `HeckeSkeleton.Moments.UniformAmplify.ReductionTree.propagate,
