@@ -141,6 +141,7 @@ jobs:
             vendor/class-field-theory/.lake/build
           key: prime-foundation-complete-300-v1-${{ runner.os }}-${{ needs.prepare.outputs.fingerprint }}
       - name: Compile the actual Hecke and moment wiring
+        id: compile
         run: |
           set -euo pipefail
           mkdir -p prime-verification
@@ -165,7 +166,7 @@ jobs:
           pkill -KILL -x lake || true
           pkill -KILL -x lean || true
       - name: Save checked project artifacts for the next revision
-        if: always()
+        if: ${{ always() && steps.compile.outcome != '' && steps.compile.outcome != 'skipped' }}
         uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
         with:
           path: |
@@ -178,4 +179,5 @@ jobs:
         with:
           name: prime-cancellation-verification
           path: prime-verification/
+          overwrite: true
           if-no-files-found: ignore

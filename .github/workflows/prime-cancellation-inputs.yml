@@ -49,6 +49,7 @@ jobs:
           use-mathlib-cache: 'true'
           use-github-cache: 'false'
       - name: Restore shared project dependencies
+        id: shared_cache
         uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
         with:
           path: |
@@ -68,6 +69,7 @@ jobs:
             prime-cancellation-input-${{ matrix.target }}-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
             prime-cancellation-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
       - name: Compile the input module
+        id: compile
         env:
           PRIME_MODULE: ${{ matrix.target }}
         run: |
@@ -88,8 +90,8 @@ jobs:
           done
           pkill -KILL -x lake || true
           pkill -KILL -x lean || true
-      - name: Save checked inputs
-        if: always()
+      - name: Save checked inputs when no shared project cache exists
+        if: ${{ always() && steps.compile.outcome != '' && steps.compile.outcome != 'skipped' && steps.shared_cache.outputs.cache-matched-key == '' }}
         uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25
         with:
           path: |
@@ -102,4 +104,5 @@ jobs:
         with:
           name: prime-cancellation-${{ matrix.target }}
           path: prime-verification/
+          overwrite: true
           if-no-files-found: ignore
