@@ -172,7 +172,7 @@ coefficients. The physical complex exponent belongs to the profile. -/
 def compensationPrimeGeometry (g : PrimeWindowGeometry) (z : ℂ) : SlotGeometry K :=
   (momentPrimeGeometry K g).freezeTwists (fun _ => 0) (fun _ => conj z - 1)
 
-variable (ω ψ : HeckeCharacter K)
+variable (omega ψ : HeckeCharacter K)
 
 /-- Exact identity with the existing shared moment-model primePolynomial. -/
 theorem actualCompensationMainSlot_eq_shared_primePolynomial
@@ -181,9 +181,9 @@ theorem actualCompensationMainSlot_eq_shared_primePolynomial
     actualCompensationMainSlot K S P g ∅ u Z z i =
       (primeScale g Z : ℂ) ^ (z - 1 / 2) *
         conj (primePolynomial
-          (sharedMomentData K S P R ω ψ a (compensationPrimeGeometry K g z)
+          (sharedMomentData K S P R omega ψ a (compensationPrimeGeometry K g z)
             (fun _ => 1) u.sector V W) i u.ideal.val Z 0) := by
-  rw [shared_primePolynomial_eq_actualOriginalMaskedPrimeSum K S P R ω ψ, mul_one]
+  rw [shared_primePolynomial_eq_actualOriginalMaskedPrimeSum K S P R omega ψ, mul_one]
   exact actualCompensationMainSlot_eq_normalized_masked K S P R g u Z hZ z i
 
 /-- The normalization retained by the moment interface contributes exactly
@@ -194,9 +194,9 @@ theorem norm_actualCompensationMainSlot_eq_shared_primePolynomial
     ‖actualCompensationMainSlot K S P g ∅ u Z z i‖ =
       primeScale g Z ^ (z.re - 1 / 2) *
         ‖primePolynomial
-          (sharedMomentData K S P R ω ψ a (compensationPrimeGeometry K g z)
+          (sharedMomentData K S P R omega ψ a (compensationPrimeGeometry K g z)
             (fun _ => 1) u.sector V W) i u.ideal.val Z 0‖ := by
-  rw [actualCompensationMainSlot_eq_shared_primePolynomial K S P R ω ψ a g V W
+  rw [actualCompensationMainSlot_eq_shared_primePolynomial K S P R omega ψ a g V W
     u Z hZ z i, norm_mul, Complex.norm_conj,
     Complex.norm_cpow_eq_rpow_re_of_pos (Real.rpow_pos_of_pos hZ _)]
   congr 2 <;> simp

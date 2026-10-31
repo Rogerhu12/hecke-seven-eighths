@@ -103,6 +103,8 @@ theorem actual_plain_normalized_eq_test
       (deletedAnnularCoefficient K false χ E) (idealNorm K)
       ((dyadicAnnularIdealTest K).profile u 0) X β ν := by
   rw [actual_plain_normalized_eq_mellin K χ E (6 * H) X β ν]
+  rw [show (dyadicAnnularIdealTest K).profile u 0 =
+    Expansion.Dyadic.annularProfile from rfl]
   simpa only [dyadicMellinProfile, dyadicAnnularIdealTest_profile, mul_one] using
     normalized_ambient_eq_dyadicTest K u (deletedAnnularCoefficient K false χ E)
       (fun _ => 1) H X β ν hX hXcap

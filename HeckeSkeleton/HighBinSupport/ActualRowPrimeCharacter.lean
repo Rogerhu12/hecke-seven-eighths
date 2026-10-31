@@ -127,7 +127,7 @@ theorem row_residueCharacter_eq_masked_primeCoefficient
       if p.val.asIdeal ∣ u.ideal.val.val then 0 else primeCoefficient K (R.character u) p.val := by
   by_cases hp : p.val.asIdeal ∣ u.ideal.val.val
   · rw [ite_eq_left hp, (row_residue_eq_zero_iff_dvd K S P u p).mpr hp]
-    exact map_zero _
+    exact (thetaPrimeCharacter K S P.arithmetic p).map_zero
   · rw [ite_eq_right hp]
     exact (row_primeCoefficient_eq_residueCharacter K S P R u p hp).symm
 

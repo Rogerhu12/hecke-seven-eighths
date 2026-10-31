@@ -509,6 +509,8 @@ theorem plainSource :
       SourceMomentIndex.noSlots, SourceMomentIndexFor.noSlots,
       momentWitness, momentWitnessFor, momentAmplitude, momentAmplitudeFor,
       momentBlock, momentBlockFor, momentBase, momentBaseFor,
+      actualMomentSourceData, recipeMomentSourceData, targetData, highExpansion,
+      momentRowCharacters,
       Finset.prod_empty, mul_one] using hh
 
 end HeckeSkeleton

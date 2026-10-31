@@ -157,7 +157,7 @@ theorem ramified_small_error (P : PhaseData) {q : ℝ} (hq : 2 ≤ q)
   have hq1 : 1 ≤ q := by linarith
   have h := ramified_small_weighted_error P hq s w z hs hw hz j
   rw [norm_mul, Complex.norm_cpow_eq_rpow_re_of_pos hq0] at h
-  apply (mul_le_mul_left (Real.rpow_pos_of_pos hq0 s.re)).mp
+  apply (mul_le_mul_iff_right₀ (Real.rpow_pos_of_pos hq0 s.re)).mp
   apply h.trans
   calc
     9 * q ^ (1 / 2 : ℝ) ≤ 9 * q ^ (s.re - 3 / 8) :=

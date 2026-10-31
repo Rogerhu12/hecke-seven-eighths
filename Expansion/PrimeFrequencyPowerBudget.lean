@@ -69,7 +69,10 @@ theorem logDerivative_le_power {degree C A L δ ε Z U τ ν : ℝ}
   have hab : a + b * Real.log Z ≤ (a + b / ε) * Z ^ ε := by
     have hc := mul_le_mul_of_nonneg_left hpow ha
     have hl := mul_le_mul_of_nonneg_left hlog hb
-    nlinarith only [hc, hl]
+    calc
+      _ ≤ a * Z ^ ε + b * (Z ^ ε / ε) :=
+        add_le_add (by simpa only [mul_one] using hc) hl
+      _ = _ := by ring
   calc
     _ = (48 / δ ^ 2) * (1 + Real.log C + (5 / 8) * Real.log U +
         degree * Real.log (4 + |ν| + Z ^ τ) + A) := by ring
@@ -157,7 +160,11 @@ theorem deletion_log_le_power {Z D N M ε : ℝ}
   have hl := Real.log_le_rpow_div hZpos.le hε
   have hm := mul_le_mul_of_nonneg_left hp hc
   have hn : Real.log (D * N) ≤ (Real.log D + Real.log 2 + 1 / ε) * Z ^ ε := by
-    nlinarith only [hlog, hm, hl]
+    calc
+      _ ≤ Real.log D + Real.log 2 + Real.log Z := hlog
+      _ ≤ (Real.log D + Real.log 2) * Z ^ ε + Z ^ ε / ε :=
+        add_le_add (by simpa only [mul_one] using hm) hl
+      _ = _ := by ring
   have hh := mul_le_mul_of_nonneg_right
     (div_le_div_of_nonneg_right hn hlogtwo.le) hM
   exact hh.trans_eq (by unfold deletionPowerConstant; ring)

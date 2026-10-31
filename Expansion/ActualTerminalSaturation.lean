@@ -26,6 +26,7 @@ open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Character
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ExpansionBufferedPolynomials
 open HeckeGeneral.Analysis.IdealMobiusReciprocal
 open HeckeGeneral.Analysis.ExpansionScaleBounds
+open HeckeGeneral.Bridge
 open HeckeSkeleton.HeckeConductorNorm HeckeSkeleton.ExplicitHeckeFunctionalEquation
 open HeckeSkeleton.HeckeBufferedReciprocal
 open ExpansionDetector.Fourier ExpansionDetector.IdealCutoff

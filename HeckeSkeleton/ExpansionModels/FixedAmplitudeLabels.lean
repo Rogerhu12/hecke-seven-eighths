@@ -51,7 +51,12 @@ def fixedLabelProjection (hn : 0 < n) (j : Fin N) : Fin n :=
 
 theorem fixedLabelProjection_embed (hn : 0 < n) (h : n ≤ N) (j : Fin n) :
     fixedLabelProjection hn (Fin.castLEEmb h j) = j := by
-  simp only [fixedLabelProjection, Fin.coe_castLEEmb, Fin.coe_castLE, dif_pos j.isLt]
+  unfold fixedLabelProjection
+  split
+  · apply Fin.ext
+    rfl
+  · rename_i hnot
+    exact False.elim (hnot j.isLt)
 
 def retainedFixedLabels (h : n ≤ N) : Finset (Fin N) :=
   Finset.univ.map (Fin.castLEEmb h)
@@ -103,7 +108,11 @@ def fixedLabelPiece {Row : Type*} (f : Fin n → Row → ℂ) (j : Fin N) (u : R
 theorem fixedLabelPiece_embed {Row : Type*} (f : Fin n → Row → ℂ)
     (h : n ≤ N) (j : Fin n) (u : Row) :
     fixedLabelPiece f (Fin.castLEEmb h j) u = f j u := by
-  simp only [fixedLabelPiece, Fin.coe_castLEEmb, Fin.coe_castLE, dif_pos j.isLt]
+  unfold fixedLabelPiece
+  split
+  · rfl
+  · rename_i hnot
+    exact False.elim (hnot j.isLt)
 
 theorem fixedLabelPiece_zero_of_not_retained {Row : Type*} (f : Fin n → Row → ℂ)
     (h : n ≤ N) (j : Fin N) (hj : j ∉ retainedFixedLabels h) (u : Row) :

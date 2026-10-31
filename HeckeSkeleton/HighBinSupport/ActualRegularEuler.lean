@@ -21,7 +21,7 @@ namespace HeckeSkeleton.HighBinContinuation
 
 open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
-open HeckeGeneral.ThetaSkeleton.Physical
+open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open Set Filter
 open scoped Topology BigOperators ComplexConjugate nonZeroDivisors
 

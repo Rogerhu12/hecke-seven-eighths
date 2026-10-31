@@ -25,14 +25,14 @@ open scoped Classical BigOperators ContDiff
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 variable (P : ProbeData K S) (R : RowCharacterInput K S P)
-variable (ω ψ : HeckeCharacter K)
+variable (omega ψ : HeckeCharacter K)
 
 /-- The exact slot formula, including all original ramified and row zeros. -/
 theorem shared_primePolynomial_eq_actualOriginalMaskedPrimeSum
     (a : PolynomialPresentation K ψ) (g : SlotGeometry K)
     (c : Fin g.slotCount → HeckeCharacter K) (V W : IdealTest K)
     (u : FrequencyRow K S) (j : Fin g.slotCount) (Z t : ℝ) :
-    primePolynomial (sharedMomentData K S P R ω ψ a g c u.sector V W)
+    primePolynomial (sharedMomentData K S P R omega ψ a g c u.sector V W)
       j u.ideal.val Z t =
       (Real.sqrt (Z ^ (g.slots j).length) : ℂ)⁻¹ *
         actualOriginalMaskedPrimeSum K S (R.character u * c j) u.ideal.val
@@ -67,7 +67,7 @@ theorem exists_shared_primePolynomial_finite_height_bound
         1 / 2 ≤ β → β ≤ 1 → 0 < δ → δ ≤ 1 / 4 →
         0 < H → P₀ ≤ Z ^ (g.slots j).length → H + 3 / 2 ≤ Hupper →
         ZeroUpperBound K (R.character u * c j) Hupper β →
-        ‖primePolynomial (sharedMomentData K S P R ω ψ a g c u.sector V W)
+        ‖primePolynomial (sharedMomentData K S P R omega ψ a g c u.sector V W)
           j u.ideal.val Z t‖ ≤
           (Real.sqrt (Z ^ (g.slots j).length))⁻¹ *
             (actualPrimeCancellationEnvelope K C A CW order U β δ H
@@ -84,7 +84,7 @@ theorem exists_shared_primePolynomial_finite_height_bound
     (Z ^ (g.slots j).length) Hupper ((g.slots j).support t (Z ^ (g.slots j).length))
     hχ harch hweight hU hQ hβ hβ' hδ hδ' hH hP hpadding hupper
     (fun p hp => ((g.slots j).support_spec t (Z ^ (g.slots j).length) p).mpr hp)
-  rw [shared_primePolynomial_eq_actualOriginalMaskedPrimeSum K S P R ω ψ,
+  rw [shared_primePolynomial_eq_actualOriginalMaskedPrimeSum K S P R omega ψ,
     norm_mul, norm_inv, Complex.norm_real, Real.norm_eq_abs,
     abs_of_nonneg (Real.sqrt_nonneg _)]
   exact mul_le_mul_of_nonneg_left h (inv_nonneg.mpr (Real.sqrt_nonneg _))

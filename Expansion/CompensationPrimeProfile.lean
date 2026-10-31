@@ -24,7 +24,8 @@ open scoped ContDiff Topology
 theorem support_mul_profilePower (W : ℝ → ℂ) (a : ℂ) :
     Function.support (fun y => W y * profilePower a y) = Function.support W := by
   ext y
-  simp only [Function.mem_support, mul_ne_zero_iff, profilePower_ne_zero, and_true]
+  change W y * profilePower a y ≠ 0 ↔ W y ≠ 0
+  exact ⟨left_ne_zero_of_mul, fun h => mul_ne_zero h (profilePower_ne_zero a y)⟩
 
 /-- The zero-neighborhood argument proves global smoothness without
 assuming a globally smooth logarithm or changing the physical profile. -/
@@ -44,7 +45,9 @@ theorem contDiff_mul_profilePower_annular (W : ℝ → ℂ)
     exact contDiffAt_const.congr_of_eventuallyEq hz
   · have hl : ContDiffAt ℝ ∞ (fun y : ℝ => (Real.log y : ℂ)) x :=
       Complex.ofRealCLM.contDiff.contDiffAt.comp x (Real.contDiffAt_log.mpr hx)
-    simpa only [profilePower] using hW.contDiffAt.mul ((hl.mul_const a).cexp)
+    have ha : ContDiffAt ℝ ∞ (fun y : ℝ => (Real.log y : ℂ) * a) x :=
+      hl.mul contDiffAt_const
+    simpa only [profilePower] using hW.contDiffAt.mul ha.cexp
 
 /-- The actual z.re=17/50 line fixes the real prime profile exponent. -/
 def actualCompensationPrimeProfile (g : PrimeWindowGeometry) (i : Fin g.slots)

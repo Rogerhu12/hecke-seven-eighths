@@ -43,6 +43,7 @@ theorem actualOriginalMaskedPrimeSum_profilePower (χ : HeckeCharacter K)
       primeCoefficient K χ p * (actualPrimeNorm K p : ℂ) ^ (-vertical 0 ν) := by
     rw [primeCoefficient_normTwist, he]
     simp only [actualPrimeNorm, residueCard, Complex.ofReal_natCast]
+  dsimp only
   rw [hc, profilePower_eq_cpow _ (div_pos hq hP), Complex.ofReal_div,
     Complex.div_cpow_ofReal_nonneg hq.le hP.le]
   simp only [div_eq_mul_inv]

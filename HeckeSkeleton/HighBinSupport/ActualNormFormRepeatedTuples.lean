@@ -19,7 +19,7 @@ namespace HighBinVerified.NormFormActual
 
 open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
-open HeckeGeneral.ThetaSkeleton.Physical
+open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open scoped Classical BigOperators nonZeroDivisors
 
 variable (K : Type) [Field K] [NumberField K]
@@ -98,7 +98,9 @@ theorem repeatedPrimeTuples_card_subpower
     {eps : ℝ} (heps : 0 < eps) :
     ((repeatedPrimeTuples K S u g T Z J).card : ℝ) ≤
       repeatedTupleConstant J.card eps * frequencyRowNorm K S u ^ eps := by
-  have hcard := Nat.cast_le.mpr (repeatedPrimeTuples_card_le K S u g T Z J)
+  have hcard : ((repeatedPrimeTuples K S u g T Z J).card : ℝ) ≤
+      ((((primeExponents u.ideal.val).support.card + 1) ^ J.card : ℕ) : ℝ) := by
+    exact_mod_cast repeatedPrimeTuples_card_le K S u g T Z J
   have hnorm := actual_support_tuple_count_subpower K u.ideal.val J.card heps
   exact (by simpa only [Nat.cast_pow, Nat.cast_add, Nat.cast_one] using hcard).trans hnorm
 
