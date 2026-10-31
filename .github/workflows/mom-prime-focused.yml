@@ -1,0 +1,56 @@
+name: MOM_PRIME focused exceptional diagnostics
+
+on:
+  push:
+    branches: [cloud/mom-prime-diagnostics]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-prime-focused-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  exceptional:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      LEAN_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Set up the pinned Lean and Mathlib environment
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "false"
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
+      - name: Compile the actual exceptional finite-family terminal
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/mom-prime-focused
+          lean --version | tee /tmp/mom-prime-focused/environment.log
+          git rev-parse HEAD >> /tmp/mom-prime-focused/environment.log
+          lake --rehash build HeckeSkeleton.Moments.MOM_PRIME.ExceptionalAnnularFiniteFamily 2>&1 |
+            tee /tmp/mom-prime-focused/build.log |
+            awk '/^error:|^✖/ { remaining = 160 }
+              /MOM_PRIME|Build completed|Some required targets logged failures|error: build failed/ || remaining > 0 {
+                print; fflush(); if (remaining > 0) remaining--
+              }'
+      - name: Preserve diagnostic logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-prime-focused-${{ github.sha }}
+          path: /tmp/mom-prime-focused
+          if-no-files-found: warn
+          retention-days: 30
