@@ -4,10 +4,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Terminal
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.TerminalCertificate
 
 /-!
-# The single-step contract used by MOM_ENGINE_INDUCTION
+# The parent reduction required by the finite induction
 
-This is the explicit assumption permitted by `cloud_tasks/MOMENTS_README.md`.
-It concerns the actual `MomentData` polynomials.  A state contains both
+This assembly contract concerns the actual `MomentData` polynomials.  A state contains both
 rectangles, the common original row set, both profiles, the whole slot
 product and the common mask.  The same data are used in a centered
 difference, and its comparison lengths have the same sum.
@@ -18,11 +17,19 @@ with the normalized terminal remainder and weight mass.  It contains no
 estimate as an assumed field.  Uniform constants are chosen before the
 moving scale, source index and sector.
 
+The published `EngineStep.paired_child_step` at commit
+`2b04a3b039c12f019628959267fac2e4e7a73d21` supplies a narrower conclusion:
+strict child width, capacity repair and the actual slot-removal inequality.
+`ChildStepCompatibility.lean` records that precise interface.  It leaves
+the parent's finite norm decomposition, terminal component masses and
+common-kernel tails to be assembled.  Those additional obligations are
+explicit here and require more than the published child theorem alone.
+
 The producer must prove this contract for its actual two-transform output.
 In particular, it must supply the recursively masked prime-subproduct
 removal inequality; an average for only the original prime product does
-not suffice.  The present task proves the finite induction consuming this
-contract.  The endpoint uses exactly the same contract with `kappa = 1`.
+not suffice.  The finite induction consumes this assembly contract.
+The endpoint uses exactly the same contract with `kappa = 1`.
 -/
 
 set_option autoImplicit false
@@ -124,7 +131,7 @@ end PolynomialSystem
 /-- A normalized local inequality at fixed scales.  Its weights already
 include the one amplifier use, all divisor allocations, paired Cauchy and
 the one slot-removal overshoot. -/
-structure SingleStep {ω ψ : HeckeCharacter K} {σ W : ℝ}
+structure ClosedParentReduction {ω ψ : HeckeCharacter K} {σ W : ℝ}
     (S : PolynomialSystem.{u} K ω ψ σ W)
     (U T t C H β δ : ℝ) where
   reduction : LocalStep (fun x => (S.node x).normalizedEnergy U t) S.schedule
@@ -135,7 +142,7 @@ structure SingleStep {ω ψ : HeckeCharacter K} {σ W : ℝ}
 /-- The producer-facing contract keeps the raw terminal components.  The
 exceptional exponent and the aggregate terminal bound are proved by this
 task, rather than assumed as the final bound for a remainder. -/
-structure RawSingleStep {ω ψ : HeckeCharacter K} {σ W : ℝ}
+structure RawParentReduction {ω ψ : HeckeCharacter K} {σ W : ℝ}
     (S : PolynomialSystem.{u} K ω ψ σ W)
     (U T t C H β δ : ℝ) where
   reduction : LocalStep (fun x => (S.node x).normalizedEnergy U t) S.schedule
@@ -152,10 +159,10 @@ structure RawSingleStep {ω ψ : HeckeCharacter K} {σ W : ℝ}
     C * (1 + T) ^ H * U ^ δ
 
 /-- Close the raw terminal ledgers before running the recursion. -/
-def RawSingleStep.toSingleStep {ω ψ : HeckeCharacter K} {σ W : ℝ}
+def RawParentReduction.closeTerminals {ω ψ : HeckeCharacter K} {σ W : ℝ}
     {S : PolynomialSystem.{u} K ω ψ σ W} {U T t C H β δ : ℝ}
-    (raw : RawSingleStep K S U T t C H β δ) (hU : 1 ≤ U) :
-    SingleStep K S U T t C H β δ where
+    (raw : RawParentReduction K S U T t C H β δ) (hU : 1 ≤ U) :
+    ClosedParentReduction K S U T t C H β δ where
   reduction := raw.reduction
   terminal := fun x => (raw.components x).bound hU raw.floor_nonneg
     raw.padding_nonneg S.sigma_pos.le raw.boundary_nonneg raw.terminal_budget
@@ -176,12 +183,12 @@ structure RootCertificate {ω ψ : HeckeCharacter K}
   root_eq : system.node root =
     Node.ordinary (F.model Z T (at Z T i) s) (F.parameters (at Z T i))
   base_one_le : 1 ≤ F.base i
-  step : RawSingleStep K system (F.base i) T 0 C H β δ
+  step : RawParentReduction K system (F.base i) T 0 C H β δ
 
-/-- The uniform single-step hypothesis.  All four numerical controls and
+/-- The uniform parent-assembly hypothesis.  All four numerical controls and
 the height ceiling precede `tau`.  A common scalar and threshold precede
 all source indices, sectors and recursively generated nodes. -/
-structure SingleStepInput {ω ψ : HeckeCharacter K}
+structure ParentReductionInput {ω ψ : HeckeCharacter K}
     {Index : ℝ → ℝ → Type v} {Sector : Type w}
     (F : SourceFamily K ω ψ Index Sector)
     (at : ∀ Z T, Index Z T → Index Z T)

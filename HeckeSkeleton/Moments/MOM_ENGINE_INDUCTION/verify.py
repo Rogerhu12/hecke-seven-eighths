@@ -11,7 +11,10 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
+import platform
 import re
+import resource
 import subprocess
 from pathlib import Path
 
@@ -20,7 +23,7 @@ ROOT = TASK.parents[2]
 PREFIX = "HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION"
 MODULES = (
     "Order", "Recursion", "Family", "Terminal", "ExceptionalCounting",
-    "TerminalCertificate", "Interface", "Induction",
+    "TerminalCertificate", "Interface", "Induction", "ChildStepCompatibility",
 )
 EXCLUDED = {"SkeletonFamily.lean"}
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}
@@ -31,11 +34,13 @@ REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_models",
     "HeckeSkeleton.Moments.EngineInduction.paired_positive_below_one",
     "HeckeSkeleton.Moments.EngineInduction.paired_positive_endpoint",
-    "HeckeSkeleton.Moments.EngineInduction.SingleStep.energy_bound",
-    "HeckeSkeleton.Moments.EngineInduction.SingleStepInput.sectorBound",
-    "HeckeSkeleton.Moments.EngineInduction.RawSingleStep.toSingleStep",
+    "HeckeSkeleton.Moments.EngineInduction.ClosedParentReduction.energy_bound",
+    "HeckeSkeleton.Moments.EngineInduction.ParentReductionInput.sectorBound",
+    "HeckeSkeleton.Moments.EngineInduction.RawParentReduction.closeTerminals",
     "HeckeSkeleton.Moments.EngineInduction.LocalStep.bound",
     "HeckeSkeleton.Moments.EngineInduction.LocalStep.uniform_rank_bound",
+    "HeckeSkeleton.Moments.EngineInduction.normalized_child_transfer",
+    "HeckeSkeleton.Moments.EngineInduction.repaired_child_for_recursion",
 }
 
 
@@ -46,6 +51,22 @@ def require(condition: bool, message: str) -> None:
 
 def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def runner_resources() -> dict:
+    result = dict(system=platform.system(), kernel=platform.release(), cpu_count=os.cpu_count(),
+                  address_space_limit=list(resource.getrlimit(resource.RLIMIT_AS)),
+                  open_file_limit=list(resource.getrlimit(resource.RLIMIT_NOFILE)))
+    mapping_limit = Path("/proc/sys/vm/max_map_count")
+    if mapping_limit.is_file():
+        result["vm_max_map_count"] = int(mapping_limit.read_text())
+    memory = Path("/proc/meminfo")
+    if memory.is_file():
+        for line in memory.read_text().splitlines():
+            name, _, value = line.partition(":")
+            if name in {"MemTotal", "MemAvailable", "SwapTotal"}:
+                result[name + "_kB"] = int(value.split()[0])
+    return result
 
 
 def command(*args: str) -> str:
@@ -156,7 +177,7 @@ def inventory() -> tuple[dict[str, str], list[str]]:
     imports, printed = audit_commands((TASK / "Audit.lean").read_text())
     require(len(imports) == len(MODULES)
             and set(imports) == {PREFIX + "." + module for module in MODULES},
-            "Audit.lean must import exactly the eight clean task modules")
+            "Audit.lean must import exactly the clean task modules listed in MODULES")
     require(len(printed) == len(set(printed)), "Duplicate #print axioms declarations")
     declared: set[str] = set()
     hashes = {}
@@ -211,9 +232,11 @@ def preflight(expected: str, output: Path) -> None:
     record = dict(head_sha=expected, toolchain=TOOLCHAIN, compiler=version, mathlib=MATHLIB,
                   source_sha256=hashes, declarations=names,
                   modules=[PREFIX + "." + name for name in MODULES],
-                  excluded_integration_modules=sorted(EXCLUDED))
+                  excluded_integration_modules=sorted(EXCLUDED),
+                  runner_resources=runner_resources())
     (output / "preflight.json").write_text(json.dumps(record, indent=2) + "\n")
     print(f"Preflight: exact head {expected}, {len(MODULES)} modules, {len(names)} declarations")
+    print("Runner resources: " + json.dumps(record["runner_resources"], sort_keys=True))
 
 
 def axiom_records(text: str, expected: set[str]) -> dict[str, list[str]]:

@@ -1,5 +1,5 @@
 import Mathlib.Algebra.Order.Floor.Ring
-import Mathlib.Data.Real.Archimedean
+import Mathlib.Algebra.Order.Archimedean.Real.Basic
 import Mathlib.Tactic.Linarith
 import Lean.Elab.Tactic.Omega
 
@@ -58,7 +58,7 @@ theorem earlier_rank_lt {child parent : State bands}
   rcases h with hm | ⟨hm, hb | ⟨hb, hs⟩⟩
   · have hcz : child.slots.val = 0 := by omega
     have hpz : parent.slots.val ≠ 0 := by omega
-    simp only [rank, hcz, hpz, if_true, if_false]
+    simp only [rank, hcz, hpz, ite_true, ite_false]
     omega
   · unfold rank
     rw [hm]
@@ -73,8 +73,9 @@ theorem earlier_wellFounded : WellFounded (Earlier (bands := bands)) :=
 /-- Strong induction on the actual ordered state, including comparison
 and the switch from positive to zero slots. -/
 theorem induction {P : State bands → Prop}
-    (step : ∀ s, (∀ child, child.Earlier s → P child) → P s) : ∀ s, P s :=
-  earlier_wellFounded.induction · step
+    (step : ∀ s, (∀ child, child.Earlier s → P child) → P s) : ∀ s, P s := by
+  intro s
+  exact earlier_wellFounded.induction s step
 
 theorem zero_before_positive {child parent : State bands}
     (hc : child.slots.val = 0) (hp : parent.slots.val = 1) :

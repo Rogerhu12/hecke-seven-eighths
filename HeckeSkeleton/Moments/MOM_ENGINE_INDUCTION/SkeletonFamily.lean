@@ -11,6 +11,11 @@ unfinished expansion or moment models.  At the task's base revision,
 is admitted.  Therefore the declarations in this specialization inherit
 that upstream axiom dependency; the general induction and `Family.lean`
 are deliberately independent of it.
+
+The conditional wrappers below also require a finite parent-decomposition
+assembly.  That hypothesis is stronger than the published
+`EngineStep.paired_child_step`, which controls an already produced child.
+This file does not construct the missing parent assembly.
 -/
 
 noncomputable section
@@ -91,25 +96,27 @@ variable {K c}
     (actualSourceFamily K c M).PrimeProductBound κ ↔
       PairedPrimeProductBound K c M κ := Iff.rfl
 
-/-- Corrected source zero-slot statement with the single-step contract
-explicit.  Its conclusion is the original unrestricted uniform bound.
-The original skeleton declaration has no argument for this contract. -/
-theorem paired_zero_slot_models_of_step (M : SourceMomentModels K c)
-    (hstep : SingleStepInput.{u} (actualSourceFamily K c M)
+/-- Conditional source zero-slot statement with the finite parent
+reduction explicit.  Its conclusion is the original unrestricted uniform
+bound.  The original skeleton declaration has no argument for this
+additional assembly hypothesis. -/
+theorem paired_zero_slot_models_of_parent_reduction (M : SourceMomentModels K c)
+    (hassembly : ParentReductionInput.{u} (actualSourceFamily K c M)
       (fun _ _ i => i.noSlots) (fun _ _ _ => True)) :
     UniformMomentBound (fun _ _ i => pairedModelEnergy M i.noSlots)
       (fun _ _ _ => 1) (fun _ _ _ => True) := by
   exact (actualSourceFamily_zeroSlotBound M).mp
-    (paired_zero_slot_models (actualSourceFamily K c M) hstep)
+    (paired_zero_slot_models (actualSourceFamily K c M) hassembly)
 
-/-- Corrected positive-slot source statement below the endpoint, retaining
-the original prime-product premise and the exact source capacity. -/
-theorem paired_positive_below_one_of_step (M : SourceMomentModels K c)
+/-- Conditional positive-slot source statement below the endpoint,
+retaining the original prime-product premise and exact source capacity,
+and displaying the additional finite parent-assembly hypothesis. -/
+theorem paired_positive_below_one_of_parent_reduction (M : SourceMomentModels K c)
     (hB : c.family.B < 1)
     (hprime : PairedPrimeProductBound K c M (2 * c.family.B - 1))
-    (hstep : c.family.B < 1 →
+    (hassembly : c.family.B < 1 →
       PairedPrimeProductBound K c M (2 * c.family.B - 1) →
-        Nonempty (SingleStepInput.{u} (actualSourceFamily K c M)
+        Nonempty (ParentReductionInput.{u} (actualSourceFamily K c M)
           (fun _ _ i => i)
           (fun _ _ i => (actualSourceFamily K c M).positiveEligible i))) :
     UniformMomentBound (fun _ _ i => pairedModelEnergy M i)
@@ -120,15 +127,15 @@ theorem paired_positive_below_one_of_step (M : SourceMomentModels K c)
   exact (actualSourceFamily_positiveSlotBound M).mp
     (paired_positive_below_one (actualSourceFamily K c M) hκ
       ((actualSourceFamily_primeProductBound M (2 * c.family.B - 1)).mpr hprime)
-      (fun _ _ => hstep hB hprime))
+      (fun _ _ => hassembly hB hprime))
 
-/-- Corrected exact endpoint statement.  The single-step producer takes
-the absolute endpoint prime-product bound, with no zero-free premise. -/
-theorem paired_positive_endpoint_of_step (M : SourceMomentModels K c)
+/-- Conditional exact endpoint statement.  The parent assembly takes the
+absolute endpoint prime-product bound, with no zero-free premise. -/
+theorem paired_positive_endpoint_of_parent_reduction (M : SourceMomentModels K c)
     (hB : c.family.B = 1)
     (hprime : PairedPrimeProductBound K c M 1)
-    (hstep : c.family.B = 1 → PairedPrimeProductBound K c M 1 →
-      Nonempty (SingleStepInput.{u} (actualSourceFamily K c M)
+    (hassembly : c.family.B = 1 → PairedPrimeProductBound K c M 1 →
+      Nonempty (ParentReductionInput.{u} (actualSourceFamily K c M)
         (fun _ _ i => i)
         (fun _ _ i => (actualSourceFamily K c M).positiveEligible i))) :
     UniformMomentBound (fun _ _ i => pairedModelEnergy M i)
@@ -139,6 +146,6 @@ theorem paired_positive_endpoint_of_step (M : SourceMomentModels K c)
   exact (actualSourceFamily_positiveSlotBound M).mp
     (paired_positive_endpoint (actualSourceFamily K c M) hκ
       ((actualSourceFamily_primeProductBound M 1).mpr hprime)
-      (fun _ _ => hstep hB hprime))
+      (fun _ _ => hassembly hB hprime))
 
 end HeckeSkeleton.Moments.EngineInduction

@@ -5,11 +5,15 @@ import Mathlib.Algebra.Order.BigOperators.Group.Finset
 /-!
 # Terminal certificates from the raw local ledgers
 
-The two-transform step supplies finite terminal components, their original
-nonnegative coefficients, and the appropriate local ledger for each
-component.  This module proves the common terminal exponent and sums the
-components.  In particular, the exceptional saving and the final terminal
-bound are deductions, not fields of the single-step input.
+An assembly of the parent norm decomposition must supply finite terminal
+components, their original nonnegative coefficients, and the appropriate
+local ledger for each component.  This module proves the common terminal
+exponent and sums the components.  The exceptional saving and the final
+terminal bound are deductions from these inputs.
+
+The published `EngineStep.paired_child_step` controls a child after it has
+been produced; it does not supply the parent decomposition or these
+terminal components.  Those are additional explicit assembly inputs.
 
 The coefficient-mass hypotheses are the analytic inputs: the genuine row
 classification and sixth-power fibers, the whole centered cancellation,
@@ -83,15 +87,12 @@ theorem exponent_le {ρ padding σ boundary e : ℝ}
       have h := uncentered_exceptional_excess_le hcore hc hw hb₂ hF₁ hF₂
       unfold terminalBudget
       linarith
-  | @centeredPositive _ A M _ _ _ _ _ _ he hcapacity hF₁ hF₂ =>
-      have h := centered_exceptional_terminal (A := A) (M := M) hF₁ hF₂
-      have hm : max (A - M) 0 = 0 := max_eq_right (sub_nonpos.mpr hcapacity)
-      rw [hm] at h
+  | centeredPositive he hcapacity hF₁ hF₂ =>
+      have h := centered_positive_terminal hcapacity hF₁ hF₂
       unfold terminalBudget
       linarith
-  | @centeredZero _ A M _ _ _ _ _ _ he hpadded hF₁ hF₂ =>
-      have h := centered_exceptional_terminal (A := A) (M := M) hF₁ hF₂
-      have hm : max (A - M) 0 ≤ padding := max_le (by linarith) hp
+  | centeredZero he hpadded hF₁ hF₂ =>
+      have h := centered_zero_slot_terminal hp hpadded hF₁ hF₂
       unfold terminalBudget
       linarith
   | diagonal he =>

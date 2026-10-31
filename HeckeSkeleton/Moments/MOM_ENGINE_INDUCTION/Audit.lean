@@ -6,11 +6,12 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ExceptionalCounting
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.TerminalCertificate
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Induction
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ChildStepCompatibility
 
 /-!
 # Recursive axiom audit for the paired-moment induction
 
-This target covers the eight clean proof modules and the three conditional
+This target covers the nine clean proof modules and the three conditional
 paired-moment projections. The existing skeleton adapter has a separate
 integration boundary because its upstream model definitions are admitted.
 -/
@@ -120,15 +121,28 @@ integration boundary because its upstream model definitions are admitted.
 #print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem
 #print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.schedule
 #print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.strict_child_earlier
-#print axioms HeckeSkeleton.Moments.EngineInduction.RawSingleStep
-#print axioms HeckeSkeleton.Moments.EngineInduction.RawSingleStep.toSingleStep
+#print axioms HeckeSkeleton.Moments.EngineInduction.RawParentReduction
+#print axioms HeckeSkeleton.Moments.EngineInduction.RawParentReduction.closeTerminals
 #print axioms HeckeSkeleton.Moments.EngineInduction.RootCertificate
-#print axioms HeckeSkeleton.Moments.EngineInduction.SingleStep
-#print axioms HeckeSkeleton.Moments.EngineInduction.SingleStepInput
+#print axioms HeckeSkeleton.Moments.EngineInduction.ClosedParentReduction
+#print axioms HeckeSkeleton.Moments.EngineInduction.ParentReductionInput
 
 -- Induction
-#print axioms HeckeSkeleton.Moments.EngineInduction.SingleStep.energy_bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.SingleStepInput.sectorBound
+#print axioms HeckeSkeleton.Moments.EngineInduction.ClosedParentReduction.energy_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.ParentReductionInput.sectorBound
 #print axioms HeckeSkeleton.Moments.EngineInduction.paired_positive_below_one
 #print axioms HeckeSkeleton.Moments.EngineInduction.paired_positive_endpoint
 #print axioms HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_models
+
+-- ChildStepCompatibility
+#print axioms HeckeSkeleton.Moments.EngineInduction.ChildStepConclusion
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.earlier_of_width_drop
+#print axioms HeckeSkeleton.Moments.EngineInduction.child_repair_weight_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.normalized_child_transfer
+#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters
+#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters_width
+#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters_z_eq_zero
+#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters_z_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters_z_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.repaired_child_for_recursion
+#print axioms HeckeSkeleton.Moments.EngineInduction.restricted_child_width

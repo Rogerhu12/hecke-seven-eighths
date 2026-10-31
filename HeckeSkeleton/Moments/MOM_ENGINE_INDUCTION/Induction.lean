@@ -4,8 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
 # Three projections of the paired fourth-moment induction
 
 The same finite weighted induction proves the zero-slot, positive below-one,
-and positive endpoint conclusions.  The provider hypotheses below are
-single-step contracts.  The zero-slot result has no plain-length capacity
+and positive endpoint conclusions.  The provider hypotheses below include the additional parent norm assembly.  The zero-slot result has no plain-length capacity
 hypothesis; the endpoint has no zero-free hypothesis.
 
 `SourceFamily` is the axiom-clean generalization of the exploratory source
@@ -27,9 +26,9 @@ universe u v w
 variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
 
 /-- Undo central normalization after the finite recursive bound. -/
-theorem SingleStep.energy_bound {σ W : ℝ}
+theorem ClosedParentReduction.energy_bound {σ W : ℝ}
     {S : PolynomialSystem.{u} K ω ψ σ W} {U T t C H β δ : ℝ}
-    (step : SingleStep K S U T t C H β δ)
+    (step : ClosedParentReduction K S U T t C H β δ)
     (hC : 0 ≤ C) (hU : 1 ≤ U) (hT : 0 ≤ T) (hH : 0 ≤ H) (hδ : 0 ≤ δ)
     (x : S.Label) :
     (S.node x).energy U t ≤
@@ -49,12 +48,12 @@ theorem SingleStep.energy_bound {σ W : ℝ}
 
 /-- Uniformity is proved before summing sectors.  The output constants
 depend only on the common local constants and the finite state count. -/
-theorem SingleStepInput.sectorBound
+theorem ParentReductionInput.sectorBound
     {Index : ℝ → ℝ → Type v} {Sector : Type w}
     {F : SourceFamily K ω ψ Index Sector}
     {at : ∀ Z T, Index Z T → Index Z T}
     {eligible : ∀ Z T, Index Z T → Prop}
-    (input : SingleStepInput.{u} F at eligible) : F.SectorBound at eligible := by
+    (input : ParentReductionInput.{u} F at eligible) : F.SectorBound at eligible := by
   let N : ℕ := 4 * (widthBand input.sigma input.widthLimit + 1)
   refine ⟨input.heightDegree * ((N : ℝ) + 1), input.ceiling,
     mul_nonneg input.heightDegree_nonneg (by positivity), input.ceiling_pos, ?_⟩
@@ -65,7 +64,7 @@ theorem SingleStepInput.sectorBound
   obtain ⟨cert⟩ := hcert Z hZ i hbin helig s
   have hZn : 0 ≤ Z := zero_le_one.trans (hZ₀.trans hZ)
   have hT : 0 ≤ Z ^ τ := Real.rpow_nonneg hZn τ
-  have hb := (RawSingleStep.toSingleStep K cert.step cert.base_one_le).energy_bound
+  have hb := (RawParentReduction.closeTerminals K cert.step cert.base_one_le).energy_bound
     hC cert.base_one_le hT
     input.heightDegree_nonneg input.edgeLoss_nonneg cert.root
   have hw : (cert.system.node cert.root).width = 1 := by
@@ -88,22 +87,22 @@ variable {Index : ℝ → ℝ → Type v} {Sector : Type w} [Fintype Sector]
 There is no hypothesis bounding the sum of the two plain lengths. -/
 theorem paired_zero_slot_models
     (F : SourceFamily K ω ψ Index Sector)
-    (hstep : SingleStepInput.{u} F F.noSlots (fun _ _ _ => True)) :
+    (hassembly : ParentReductionInput.{u} F F.noSlots (fun _ _ _ => True)) :
     F.ZeroSlotBound :=
-  F.zeroSlotBound_of_sectorBound hstep.sectorBound
+  F.zeroSlotBound_of_sectorBound hassembly.sectorBound
 
-/-- The below-one positive-slot projection.  The single-step producer
+/-- The below-one positive-slot projection.  The parent-assembly producer
 receives the existing prime-product premise and is responsible for all
 recursive masks and slot-removal estimates. -/
 theorem paired_positive_below_one
     (F : SourceFamily K ω ψ Index Sector)
     (hκ : F.kappa < 1)
     (hprime : F.PrimeProductBound F.kappa)
-    (hstep : F.kappa < 1 → F.PrimeProductBound F.kappa →
-      Nonempty (SingleStepInput.{u} F (fun _ _ i => i)
+    (hassembly : F.kappa < 1 → F.PrimeProductBound F.kappa →
+      Nonempty (ParentReductionInput.{u} F (fun _ _ i => i)
         (fun _ _ i => F.positiveEligible i))) :
     F.PositiveSlotBound := by
-  obtain ⟨input⟩ := hstep hκ hprime
+  obtain ⟨input⟩ := hassembly hκ hprime
   exact F.positiveSlotBound_of_sectorBound input.sectorBound
 
 /-- The exact endpoint projection.  Its assumptions mention no zero-free
@@ -112,11 +111,11 @@ theorem paired_positive_endpoint
     (F : SourceFamily K ω ψ Index Sector)
     (hκ : F.kappa = 1)
     (hprime : F.PrimeProductBound 1)
-    (hstep : F.kappa = 1 → F.PrimeProductBound 1 →
-      Nonempty (SingleStepInput.{u} F (fun _ _ i => i)
+    (hassembly : F.kappa = 1 → F.PrimeProductBound 1 →
+      Nonempty (ParentReductionInput.{u} F (fun _ _ i => i)
         (fun _ _ i => F.positiveEligible i))) :
     F.PositiveSlotBound := by
-  obtain ⟨input⟩ := hstep hκ hprime
+  obtain ⟨input⟩ := hassembly hκ hprime
   exact F.positiveSlotBound_of_sectorBound input.sectorBound
 
 end HeckeSkeleton.Moments.EngineInduction
