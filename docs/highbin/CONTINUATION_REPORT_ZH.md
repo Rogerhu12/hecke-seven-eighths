@@ -167,6 +167,14 @@ exists Z0≥1, forall N:Nat, exists C>0,
 
 ## 6. 旧命名接口仍须协调的部分
 
+本轮将 `ActualHighPresentation.euler` 改为固定算术数据的派生 accessor，原结构中
+其余数据及身份字段保留。`euler_eq_arithmetic` 是 `rfl`；不再假设一条待证明的
+provider 相等式。原 `highInitialEulerControl` 直接调用 `targetTRowEulerInput`，
+`highExceptionalEulerControl` 调用实际有限表估计，常数为 `9`、cutoff 为 `2`。
+这两处源码中的 `sorry` 已替换，命名模块的完整原生复验仍待完成。
+命名例外定理仍使用 `HB-PRESENT` 提供的正 buffer 与 bin 范围，必须披露这项
+继承依赖；对任意 presentation 参数的对应定理不自行调用 admitted 构造。
+
 旧 `ActualHighPresentation` 的两条精确身份只约束聚合和。
 `FinitePieceGauge` / `ActualPresentationGauge` 证明：若某标签含两个不同的行，可以对
 两个贡献加上互相抵消的量，保留每个标签的和、总块值及其他已有字段，同时令分片范数和
@@ -184,7 +192,7 @@ exists Z0≥1, forall N:Nat, exists C>0,
 完整槽有 `-M + E_regular + E_valuation1 + E_repeated` 四项；不能仅用主项 prime polynomial
 的身份替代完整槽与 moment 数据之间的校准。
 
-因此旧文件中的命名 admitted obligations 没有因为这些新端点而自动消失。
+因此旧文件中的其余命名 admitted obligations 没有因为这些新端点而自动消失。
 剩余接口是具体数据构造及其身份，不允许把范数形、例外 Euler 界或边界衰减改为输入字段。
 
 ## 7. 验证记录（持续更新）
@@ -193,6 +201,9 @@ exists Z0≥1, forall N:Nat, exists C>0,
   66 个模块、533 个公开声明，仅允许 `propext`、`Classical.choice`、`Quot.sound`。
   新 detector、有限分片 gauge 和三个 dyadic 模块均在内。
 - 三个 dyadic 模块、有限 gauge 和 detector geometry 另有本地原生、源码未变的成功记录。
+- `011125ed` 的 Mellin 分组完整通过：6 个实际模块、67 个公开声明的类型及公理
+  全部检查完成，额外公理集合为空。精确源哈希与下载证据见
+  `verified_mellin_axioms.json`；这一结果不替代后续 Euler、范数形与边界模块的验证。
 - `f1dd2fc` 的 CI 已实际编译 `ActualGeneratorPowers`、`ActualPrimePowerSymbols`、
   `ActualGaussData`、`ActualInitialAbsolute` 四个模块；这次输出中的 12 项公理检查
   仅含三项标准公理。该 Fourier job 整体仍失败，不能把它记作完整 Fourier 审计通过。
@@ -203,11 +214,15 @@ exists Z0≥1, forall N:Nat, exists C>0,
   不作为通过记录；源码清单、静态依赖检查也不作为 Lean 编译通过。
 - 对实际模块必须记录传递公理依赖，尤其项目现存的上游输入。原有上游 admission 与
   本轮新声明自身是否包含 admission 分开报告。
-- 新增独立的 `euler`、`normform`、`boundary`、`canonical` CI 分组，各自编译实际
+- 新增独立的 `euler`、`normform`、`boundary`、`canonical`、`presentation` CI 分组，各自编译实际
   模块并检查整个 HIGHBIN 支持依赖闭包的公开类型与公理，不取消原四项检查。
   `euler` 与 `boundary` 拒绝标准三公理以外的依赖。范数链已知使用原
   `PrimeNormalizer.normalizer_smallPower`，它继承 `window_prime_lower` 的
   `PR-WINDOW-PIT` admission；`normform` 与 `canonical` 完整披露这项 `sorryAx`
   传递依赖，并拒绝其他新增公理。通过这两个分组不代表该上游素数分布输入已证明。
+  `presentation` 同时检查固定 Euler 数据后的旧命名消费者，披露现存骨架的
+  `sorryAx` 依赖。独立分组合并覆盖全部 79 个实际支持模块，完整 `actual` 检查保留。
 
-本报告不宣称旧 HIGHBIN 的六个 `sorry` 已清除，也不把待编译源码列为最终验证成功。
+旧 HIGHBIN 原有六处 `sorry`，目前源码剩四处：`HB-PRESENT`、`HB-LABELS`、
+`HB-NORMFORM`、`HB-MOVE-BOUNDARY`。两条 Euler 命名证明及其他待编译源码，
+均须在完整原生复验后才能列为验证成功。

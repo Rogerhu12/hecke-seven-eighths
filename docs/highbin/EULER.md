@@ -1,12 +1,15 @@
 # Actual Euler construction, calibration and analytic continuation
 
 This document records the Euler chain on
-`codex/highbin-euler-norm-boundary-20261030`. The main source endpoint is
+`codex/highbin-canonical-partitions-20261031`, continuing the original
+HIGHBIN branch. The main construction endpoint is
 `HeckeSkeleton.HighBinActualInitial.targetTRowEulerInput`, which constructs
 the repository's original `TRowEulerInput` for the arithmetic Euler provider.
 Its arithmetic dependency chain has **not yet passed a complete native build**.
-The existing named obligations in `HeckeSkeleton.HighBin` remain separate:
-`actualHighPresentation` has not been constructed with an identified Euler field.
+The presentation's Euler accessor is now fixed to this data by definition.
+The two original named Euler admissions have been replaced with direct
+consumers of the arithmetic construction, pending complete native verification.
+The remaining presentation choices and identities are still an admitted input.
 
 AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-30.
 
@@ -31,7 +34,7 @@ lemmas and `EulerRegionUniqueness`. It does not verify the actual arithmetic ada
 | `EulerRegionAnalytic` and the original `rowEulerRegion` definition | The local 12-declaration check passed in 16.139 seconds; the complete native core build and public audit passed at `45b507f`. | The actual ideal-norm summability and number-field normal-product consumers remain pending. |
 | `EulerRegionUniqueness` | All three public declarations passed the native core build and audit at `45b507f`: convexity, preconnectedness, and the joint analytic identity principle on the original region. | Its actual arithmetic consumers are separate modules; the theorem does not extend the region to nonpositive real part of `w`. |
 | Actual prime-power Gauss/Poisson formulas, CRT, exponent indexing, initial calibration, corrected-region normal product and original `TRowEulerInput` constructor | Complete source candidates with static interface review | Native build and transitive axiom audit of the actual chain |
-| Original `highInitialEulerControl` and `highExceptionalEulerControl` for `actualHighPresentation` | Existing obligations retained | Construction/identification of the named presentation, followed by the relevant native checks |
+| Original `highInitialEulerControl` and `highExceptionalEulerControl` for `actualHighPresentation` | Source proofs use the definitionally fixed arithmetic provider | Complete native checks; report the named exceptional theorem's inherited presentation choices |
 
 [REPORT.md](REPORT.md) records the toolchain, exact CI commits, run links and
 verification protocol. The first complete arithmetic job timed out while
@@ -386,21 +389,22 @@ P.euler = arithmeticHighEulerData K _
   (targetData K c).probe (targetCharacter K c)
 ```
 
-The named `actualHighPresentation K c` remains an admitted construction.
-Its type permits an arbitrary `RowEulerData`; no equality of its `euler`
-field with the constructed arithmetic tables follows from the fields
-currently provided. Consequently `targetTRowEulerInput` is not, by itself,
-a proof of the original `highInitialEulerControl`, and the exceptional
-consumer does not close `highExceptionalEulerControl` for the named
-presentation. Analytic uniqueness can compare correction functions when
-both providers already satisfy the original Euler input, but it does not
-identify each individual stored finite table. This comparison is on the
-original region, which requires `Re(w) > 0`; some high-bin contours also
-have negative `Re(w)`. It therefore does not by itself supply the actual
-negative-`w` continuation or its finite-table regularity. The
-constructor/identification work and the complete native arithmetic
-verification must remain explicit before these original obligations are
-reported as discharged.
+The named `actualHighPresentation K c` retains its admitted choices and
+identities, but no longer chooses an arbitrary `RowEulerData`. Its accessor
+is `fixedHighEulerData`, which is the constructed arithmetic provider.
+`ActualHighPresentation.euler_eq_arithmetic` is proved by `rfl`.
+`targetTRowEulerInput` now directly supplies `highInitialEulerControl`;
+the finite-table estimate supplies `highExceptionalEulerControl` through a
+generic presentation theorem. These source proofs still require their
+complete native recheck. The named exceptional theorem uses the admitted
+presentation's positive buffer and bin-range choices; its transitive axiom
+report must distinguish that inherited dependency from the generic theorem.
+
+Analytic uniqueness still compares arbitrary calibrated providers only on
+its stated domain. It does not identify arbitrary stored finite tables or
+provide pointwise equality at removable poles. The concrete construction
+supplies the necessary finite tables and negative-w continuation directly.
+The remaining non-Euler presentation construction is explicit in the report.
 
 ## Corrected-region normal product: separate pure verification
 
@@ -498,20 +502,18 @@ points and no unresolved project import. This permits a genuine shared
 expansion construction to depend on the common primitive data without an
 import cycle; the source split does not itself construct that expansion.
 
-To discharge the two named HIGHBIN Euler obligations, the genuine
-`actualHighPresentation` construction must set
+The original HIGHBIN presentation now fixes its provider through
+`fixedHighEulerData` and the derived `ActualHighPresentation.euler` accessor.
+The two provider-dependent structural fields use this same data directly.
+`euler_eq_arithmetic` is `rfl`; no additional provider-identification axiom
+is introduced. `highInitialEulerControl` uses `targetTRowEulerInput`, and
+`highExceptionalEulerControl_for_presentation` supplies the finite-table
+statement with constant 9 and cutoff 2 before specializing to the named
+presentation. The old compatibility consumers retain their equality
+arguments, which are now witnessed by `rfl`.
 
-```lean
-euler := HighBinActualEuler.arithmeticHighEulerData K _
-  (targetData K c).probe (targetCharacter K c)
-```
-
-and prove its remaining row, label, and contour fields for the **same**
-`Base.highExpansion` data. The arithmetic identity is then definitional;
-`highInitialEulerControl_of_arithmetic` and
-`highExceptionalEulerControl_of_arithmetic` supply the two required
-conclusions with no extra analytic assumption. A separately postulated
-identity for the existing admitted presentation is not such a construction.
-The current `RowEulerData` type contains arbitrary exceptional rational
-tables, so its type alone cannot identify those tables with the constructed
-five-row tables.
+The remaining row, label and contour fields must still be constructed for
+the same `Base.highExpansion`. Fixing the Euler data does not identify
+individual shifted pieces or prove that the old whole buffered bin equals
+the canonical assigned fiber. The source change and its native verification
+status are recorded in `fixed_euler_provider_change.json`.

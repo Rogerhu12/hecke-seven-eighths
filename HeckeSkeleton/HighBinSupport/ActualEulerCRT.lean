@@ -184,7 +184,8 @@ theorem generator_isUnit_mod (D : ThetaArithmeticData K S)
   let ρ : S.integer K →+* ThetaQuotient K S I := Ideal.Quotient.mk _
   have hzρ : ρ (D.generator I) = 0 := hz
   have hh : ρ r * ρ (D.generator I) + ρ s * ρ (D.generator J) = 1 := by
-    simpa only [map_add ρ, map_mul ρ, map_one ρ] using congrArg ρ hrs
+    change ρ (r * D.generator I + s * D.generator J) = ρ 1
+    exact congrArg ρ hrs
   rw [hzρ, mul_zero, zero_add] at hh
   apply IsUnit.of_mul_eq_one (ρ s)
   simpa only [mul_comm] using hh

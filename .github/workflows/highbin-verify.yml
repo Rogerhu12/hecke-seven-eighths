@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scope: [core, mellin, fourier, euler, normform, boundary, canonical, actual]
+        scope: [core, mellin, fourier, euler, normform, boundary, canonical, presentation, actual]
     env:
       LEAN_NUM_THREADS: '1'
     steps:

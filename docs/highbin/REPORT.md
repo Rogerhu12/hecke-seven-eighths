@@ -1,25 +1,29 @@
 # HIGHBIN implementation and verification report
 
-Working branch: `codex/highbin-euler-norm-boundary-20261030`.
+Working branch: `codex/highbin-canonical-partitions-20261031`.
 Original base: `503ad9895e5f8affef55b22fea082e251bf33aa7`.
-Merged current base: `556fd33068f5914887e850ed2dce9e9272d9b8c2` (`dtests-handoff`).
-PR: https://github.com/Rogerhu12/hecke-seven-eighths/pull/1.
+Current PR base: `6e67559f4285ab833a746db021a0d73200e47590` (`dtests-handoff`).
+PR: https://github.com/Rogerhu12/hecke-seven-eighths/pull/7.
+The earlier checkpoints below belong to the original HIGHBIN branch and PR 1.
 Toolchain: Lean `4.35.0-rc3`; Mathlib `0493595ecd5da8ef14742febab99728f98e948e8`.
 
 AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-30–31.
 
 ## Current task status
 
-This is a draft implementation. The four original obligations have not yet
-been discharged in `HighBin.lean`. Their existing admissions are retained,
-and the new support files contain no `sorry`, `axiom`, or `native_decide`.
+This is a draft implementation undergoing native verification. The original
+presentation now has its actual arithmetic Euler provider by definition.
+The two named Euler admissions have been replaced with proofs using the
+constructed initial calibration and finite tables; their complete native
+recheck is pending. The presentation, label, norm-form and boundary admissions
+remain explicit. New support files contain no `sorry`, `axiom`, or `native_decide`.
 Verification claims below are tied to their exact source commits and
 downloaded CI artifacts.
 
 | Original obligation | Implemented connection | Remaining work |
 |---|---|---|
-| HB-EULER-INITIAL | Actual prime-power quotient Fourier formula, finite Poisson/CRT, absolutely convergent four-ideal prime product, local-to-global calibration and complete original `TRowEulerInput` constructor candidates | Native verification of the arithmetic chain and named presentation identification |
-| HB-EULER-EXCEPTIONAL | Arithmetic `RowEulerData`, actual finite Laurent tables, uniform `9 q^(-10e)` estimate and a consumer of the original `HighExceptionalEulerControl` type | Native verification and the named `actualHighPresentation.euler` identification |
+| HB-EULER-INITIAL | The original named theorem directly uses the actual `TRowEulerInput` constructor; the presentation's Euler accessor is definitionally fixed | Complete native verification of the arithmetic chain and named consumer |
+| HB-EULER-EXCEPTIONAL | The original named theorem uses actual finite tables with constant 9 and cutoff 2; its provider identity is definitional | Native verification; disclose its use of the existing presentation's buffer and bin-range choices |
 | HB-NORMFORM | Actual repeated-prime conductor deficit, Mellin prime detector, exact full-correction factors, measurable amplitude regions, literal restricted integrals and original `HighShiftedNormForm` consumers with calibrated provider transport | Native verification, inherited prime-normalizer dependency and identification with the named labelled presentation |
 | HB-MOVE-BOUNDARY | Actual row-contour rectangle, arbitrary-order external tails with the entire height cost absorbed, calibrated Euler-provider transport and original whole-bin consumer | Native verification, original initial calibration, companion membership, lower-height/buffer conditions and retained-block count |
 
@@ -455,7 +459,9 @@ quantifier order, are in [EULER.md](EULER.md), [NORMFORM.md](NORMFORM.md),
 [BOUNDARY.md](BOUNDARY.md), and [UNIQUENESS.md](UNIQUENESS.md). Their unelaborated arithmetic candidates are
 explicitly distinguished from native verified modules.
 
-The six existing admissions in `HighBin.lean` are retained. No new support
+Four of the six original admissions in `HighBin.lean` are retained; the two
+Euler proofs are connected to the fixed arithmetic provider and await their
+complete native recheck. No new support
 file introduces `sorry`, `admit`, `axiom`, or `native_decide`. A declaration
 that inherits an upstream admission is still reported as such by the
 transitive axiom audit; absence of a local `sorry` is not a substitute for

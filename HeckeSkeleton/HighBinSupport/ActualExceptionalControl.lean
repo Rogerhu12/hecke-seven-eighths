@@ -5,13 +5,11 @@ import HeckeSkeleton.HighBinSupport.ActualEulerData
 # The original exceptional-Euler interface for the arithmetic provider
 
 The estimate is proved for the repository's `HighExceptionalEulerControl`,
-with the explicit constants 9 and 2. The sole provider-identification
-hypothesis says that the presentation uses the constructed arithmetic
-Euler tables. It is an equality of data, not the requested estimate.
-
-The existing named `actualHighPresentation` is still an admitted
-construction, so this theorem does not assert that its Euler field has
-already been identified with these tables.
+with the explicit constants 9 and 2. The provider-identification argument
+is retained for API compatibility and is now witnessed by `rfl`: every
+actual presentation uses the constructed arithmetic Euler tables by
+definition. The remaining named presentation choices are still admitted;
+no norm-form or boundary estimate is assumed here.
 
 AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-31.
 -/

@@ -361,10 +361,12 @@ of the named expansion.
 ## Preserving an existing presentation
 
 [ActualBoundaryCalibration.lean](../../HeckeSkeleton/HighBinSupport/ActualBoundaryCalibration.lean)
-defines `arithmeticPresentationOfCalibration`. This replaces the Euler field
-of an existing calibrated `ActualHighPresentation` and proves its two dependent
-fields again. The `e` and `zeta` parameters, companions, all three heights,
-labels, shifted pieces, and both numerical block-range fields are unchanged.
+defines `arithmeticPresentationOfCalibration`. Since the presentation now
+has its arithmetic Euler provider by definition, this compatibility API
+is the identity function. The `e` and `zeta` parameters, companions, all
+three heights, labels, shifted pieces, and numerical block-range fields
+are unchanged. Its initial-block and boundary identities are now `rfl`;
+the generic provider comparison remains a separate theorem.
 
 The already-calibrated character identifies both branches of the original
 `highFixedRowBin`, including the floor bin. The new contour equality then

@@ -117,6 +117,9 @@ move hashes and import-graph checks are in the accompanying JSON files.
 ## What must not be inferred
 
 The previous `actualHighPresentation` is still an admitted named value.
+Its Euler accessor is now fixed by definition to the actual arithmetic
+provider, and its two named Euler estimates have source proofs pending
+native recheck. The remaining presentation data is still opaque.
 Its fields constrain sums but do not identify each shifted piece.
 `FinitePieceGauge` proves that two pieces can be changed with cancelling
 increments while preserving the displayed finite sum; one individual

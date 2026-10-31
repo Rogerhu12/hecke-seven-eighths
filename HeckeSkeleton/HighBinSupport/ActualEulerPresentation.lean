@@ -3,13 +3,12 @@ import HeckeSkeleton.HighBinSupport.ActualEulerInput
 import HeckeSkeleton.HighBinSupport.ActualExceptionalControl
 
 /-!
-Consumers of the original high-bin presentation with the canonical
-arithmetic Euler data. The only presentation-identification premise is
-an equality of data; the original Euler calibration, joint analyticity
-and all exceptional estimates are supplied by the proved constructors.
-
-The named `actualHighPresentation` remains an upstream construction.
-This module does not assume or assert its missing data identification.
+Compatibility consumers of the original high-bin presentation. Its Euler
+provider is now the canonical arithmetic data by definition, so the
+provider-equality arguments retained in these APIs are witnessed by `rfl`.
+The original Euler calibration, joint analyticity and all exceptional
+estimates are supplied by the proved constructors. The remaining named
+presentation choices and identities are still an upstream construction.
 -/
 
 set_option autoImplicit false

@@ -4,15 +4,15 @@ AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-31.
 
 ## Exact result
 
-`ActualPresentationGauge.lean` works with the repository's original
+`ActualPresentationGauge.lean` works with the repository's current
 `ActualHighPresentation K c`. For an arbitrary family of complex values
 
 ```lean
 z : ∀ Z T : ℝ, (b : HighBlockIndex K c Z T) → HighLabel K c Z T b → ℂ
 ```
 
-the constructor `withPrescribedPieces K c P z` keeps the original Euler
-provider, companions, all three heights, labels, amplitude sets, means,
+the constructor `withPrescribedPieces K c P z` keeps the fixed arithmetic
+Euler provider, companions, all three heights, labels, amplitude sets, means,
 row membership and block values. At a label containing at least two
 actual rows, it changes two contributions while preserving their sum.
 If the chosen distinct rows are `u` and `v`, the replacement is
@@ -50,6 +50,34 @@ type. The named `actualHighPresentation` can still have the desired
 estimate after its concrete construction has been supplied. The audit
 identifies why its aggregate identities alone do not provide the missing
 individual-piece identification.
+
+## The named Euler provider is now fixed
+
+The continuation has replaced the freely chosen Euler field of
+`ActualHighPresentation` with a derived accessor for the constructed
+`arithmeticHighEulerData`. Its `rows_in_bin` and
+`shifted_identification` fields use that same provider. The other
+presentation fields and their required identities are retained. This
+implements the task's explicit requirement that the still-admitted
+HB-PRESENT construction use the actual arithmetic Euler data.
+
+The original named `highInitialEulerControl` and
+`highExceptionalEulerControl` now have source proofs using the genuine
+initial calibration and finite exceptional-table bound. Their two
+original `sorry` bodies have been removed; native checking of this
+integration is still pending. The source change adds no equality
+hypothesis identifying an unspecified provider and no field containing
+either Euler conclusion. The exceptional estimate for a named
+presentation still uses its recorded positive buffer and bin range;
+the inherited HB-PRESENT dependency must be reported by the final
+transitive axiom audit.
+
+This provider binding does not construct `Base.highExpansion` or the
+remaining fields of `actualHighPresentation`. It also does not identify
+the original label pieces with the computed regions, or close the
+original label-uniformity, norm-form and boundary obligations. The
+gauge construction does not update an Euler field, so its finite
+rebalancing argument continues to apply to the fixed-provider type.
 
 ## The construction needed by HB-NORMFORM
 
@@ -223,13 +251,18 @@ and the shared witness recipe.
 
 ## Verification
 
-The source modules add no admitted declaration and do not alter
-`Base.highExpansion`, `actualHighPresentation`, or the four original
-HIGHBIN obligations. Native build records are maintained with the
+These support modules add no admitted declaration. The coordinated
+`HighBin.lean` integration fixes the Euler provider and supplies source
+proofs for the two original Euler obligations, as described above;
+native verification of those named endpoints is not yet claimed.
+`Base.highExpansion` and the remaining HB-PRESENT construction are
+still admitted, and the original label-uniformity, HB-NORMFORM and
+HB-MOVE-BOUNDARY obligations are not closed by the new canonical
+constructors. Native build records are maintained with the
 continuation's verification artifacts. The finite module has an
-independent Mathlib-only import closure; the actual adapter imports the
-original `HighBin.lean` and therefore shares that module's upstream
-dependency boundary.
+independent Mathlib-only import closure; the actual gauge adapter
+imports `HighBin.lean` and therefore shares its upstream dependency
+boundary.
 
 The finite gauge module passed an unchanged-source native build with
 Lean 4.35.0-rc3 and Mathlib
@@ -238,3 +271,15 @@ printed main declarations use only `propext`, `Classical.choice` and
 `Quot.sound`; hashes and the exact scope are recorded in
 `verified_piece_gauge.json`. This independent finite result does not
 certify the actual packet or canonical-block dependency chains.
+
+The actual packet, canonical-block and target-family implementations
+remain source proofs awaiting their complete native dependency checks.
+Their eventual norm bounds also inherit the existing
+`PrimeNormalizer.window_prime_lower` admission (PR-WINDOW-PIT), through
+`normalizer_smallPower` and
+`exists_actual_primeNormalizer_inverse_subpower`. This is a distinct
+upstream dependency, not a new assumption introduced by the packet.
+Those analytic endpoints must therefore record their actual transitive
+axioms rather than be described as using only the three standard Lean
+axioms. The finite-label identities and cardinality statements are
+audited separately.

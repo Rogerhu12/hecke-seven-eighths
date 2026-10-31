@@ -525,14 +525,17 @@ theorem finitePoisson_power_zero_eq_symbol (P : ProbeData K S)
     calc
       _ = (Fintype.card R : ℂ)⁻¹ * ∑ x : R,
           HighBin.FiniteResidueFourier.fourier ψ f (-x) *
-            ψ ((V : R) ^ 6 * (Ideal.Quotient.mk _ h * x)) := by
+            ψ (((V : R) ^ 6 * Ideal.Quotient.mk (powerIdeal π k) h) * x) := by
         apply congrArg (fun z : ℂ => (Fintype.card R : ℂ)⁻¹ * z)
-        exact Finset.sum_congr rfl (fun x _ => hkernel x)
-      _ = _ := by
-        simpa only [mul_assoc] using
-          HighBin.FourierInversion.normalized_finite_fourier_inversion ψ
-            (principalPowerAddCharacter_isPrimitive K S D p k) f
-            ((V : R) ^ 6 * Ideal.Quotient.mk _ h)
+        apply Finset.sum_congr rfl
+        intro x _
+        exact (hkernel x).trans
+          (congrArg (fun y : R => HighBin.FiniteResidueFourier.fourier ψ f (-x) * ψ y)
+            (mul_assoc ((V : R) ^ 6) (Ideal.Quotient.mk (powerIdeal π k) h) x).symm)
+      _ = _ :=
+        HighBin.FourierInversion.normalized_finite_fourier_inversion (R := R) ψ
+          (principalPowerAddCharacter_isPrimitive K S D p k) f
+          ((V : R) ^ 6 * Ideal.Quotient.mk (powerIdeal π k) h)
   rw [heq]
   change (principalPrimeCharacter K S D p ^ k)
       (residueMap π k hk ((V : R) ^ 6 * Ideal.Quotient.mk _ h)) = _
@@ -604,9 +607,10 @@ theorem principalPower_mk_isUnit (D : ThetaArithmeticData K S)
     simpa only [powerIdeal, pow_one, Ideal.mem_span_singleton] using ha
   have h := Ideal.Quotient.isUnit_mk_pow_of_notMem
     (powerIdeal (primeGenerator K S D p) 1) (n := n) hnot
-  simp only [powerIdeal, pow_one] at h ⊢
-  rw [Ideal.span_singleton_pow] at h
-  exact h
+  have hpow : powerIdeal (primeGenerator K S D p) 1 ^ n =
+      powerIdeal (primeGenerator K S D p) n := by
+    simp only [powerIdeal, pow_one, Ideal.span_singleton_pow]
+  exact h.map (Ideal.quotEquivOfEq hpow)
 
 theorem principalPower_fourier_frequency_sixth_unit (D : ThetaArithmeticData K S)
     (p : ExteriorPrime K S) (n : ℕ) (hn : 1 ≤ n) (r : ℕ)

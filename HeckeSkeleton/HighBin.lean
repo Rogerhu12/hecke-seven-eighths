@@ -4,6 +4,7 @@ import HeckeSkeleton.HighArithmeticInputs
 import HeckeGeneral.Analysis.BufferedPhysicalRowBin
 import HeckeGeneral.Analysis.RowEulerNegativeStrip
 import HeckeSkeleton.HighBinSupport.ActualRegularEuler
+import HeckeSkeleton.HighBinSupport.ActualTargetEuler
 import HeckeGeneral.Characters.LocalConductor
 
 /-!
@@ -81,6 +82,13 @@ def highFixedRowBin (c : TargetContext K)
   else bufferedPhysicalRowBin K _ (targetCharacter K c) Θ P E
     selectedHeight upperHeight normLower normUpper a e
 
+/-- The Euler provider of every actual presentation is the constructed
+arithmetic data. It is not an independently chosen presentation field. -/
+def fixedHighEulerData (c : TargetContext K) : RowEulerData K
+    ((targetData K c).S : Set (HeightOneSpectrum (𝓞 K))) (targetData K c).probe :=
+  HighBinActualEuler.arithmeticHighEulerData K _
+    (targetData K c).probe (targetCharacter K c)
+
 /-- Choices/identifications for the named actual expansion D-TARGET.
 The contour, selected-zero and upper-zero heights are independent choices.
 The labels may overlap as row sets; their actual row contributions, rather
@@ -92,8 +100,6 @@ structure ActualHighPresentation (c : TargetContext K) : Type 1 where
   zeta : ℝ
   zeta_pos : 0 < zeta
   zeta_small : zeta < 1 / 48
-  euler : RowEulerData K
-    ((targetData K c).S : Set (HeightOneSpectrum (𝓞 K))) (targetData K c).probe
   companions : Finset (HeckeCharacter K)
   contourHeight : ∀ Z T : ℝ, HighBlockIndex K c Z T → ℝ
   selectedHeight : ∀ Z T : ℝ, HighBlockIndex K c Z T → ℝ
@@ -110,7 +116,7 @@ structure ActualHighPresentation (c : TargetContext K) : Type 1 where
   rows_in_bin : ∀ Z T : ℝ, 1 ≤ Z → 1 ≤ T → ∀ b : HighBlockIndex K c Z T,
     ∀ ℓ ∈ labels Z T b,
       ((((targetData K c).expansion Z T).block b).amplitudeSet ℓ).rows ⊆
-        highFixedRowBin K c (targetData K c).probe euler companions
+        highFixedRowBin K c (targetData K c).probe (fixedHighEulerData K c) companions
           (selectedHeight Z T b) (upperHeight Z T b)
           (Z ^ (((targetData K c).expansion Z T).block b).shell)
           (2 * Z ^ (((targetData K c).expansion Z T).block b).shell)
@@ -126,16 +132,28 @@ structure ActualHighPresentation (c : TargetContext K) : Type 1 where
       (∑ ℓ ∈ labels Z T b,
         ∑ u ∈ ((((targetData K c).expansion Z T).block b).amplitudeSet ℓ).rows,
           shiftedPiece Z T b ℓ u) =
-        ∑ u ∈ highFixedRowBin K c (targetData K c).probe euler companions
+        ∑ u ∈ highFixedRowBin K c (targetData K c).probe (fixedHighEulerData K c) companions
           (selectedHeight Z T b) (upperHeight Z T b)
           (Z ^ (((targetData K c).expansion Z T).block b).shell)
           (2 * Z ^ (((targetData K c).expansion Z T).block b).shell)
           (((targetData K c).expansion Z T).block b).bin e,
           rowContourBox K _ (targetData K c).measures.haar (targetData K c).probe
-            (targetCharacter K c) euler c.geometry (targetData K c).rayFilter u
+            (targetCharacter K c) (fixedHighEulerData K c) c.geometry (targetData K c).rayFilter u
             Z (contourHeight Z T b)
             ((((targetData K c).expansion Z T).block b).bin + 16 * e)
             (1 - (((targetData K c).expansion Z T).block b).bin - 6 * e) (17 / 50)
+
+/-- Preserve the presentation's dot-notation API while fixing its Euler
+data by definition, independently of the remaining presentation choices. -/
+abbrev ActualHighPresentation.euler {c : TargetContext K}
+    (_P : ActualHighPresentation K c) : RowEulerData K
+      ((targetData K c).S : Set (HeightOneSpectrum (𝓞 K))) (targetData K c).probe :=
+  fixedHighEulerData K c
+
+@[simp] theorem ActualHighPresentation.euler_eq_arithmetic {c : TargetContext K}
+    (P : ActualHighPresentation K c) :
+    P.euler = HighBinActualEuler.arithmeticHighEulerData K _
+      (targetData K c).probe (targetCharacter K c) := rfl
 
 -- OBLIGATION HB-PRESENT | revised Prop.6.3, pp.41–42; §7.1 pp.43–44.
 -- Refine D-EXPANSION with the FINAL fixed-bin integral, actual full-correction
@@ -162,7 +180,7 @@ def highEulerFactor (c : TargetContext K) (P : ActualHighPresentation K c)
 
 /-- The actual nonexceptional branch has uniform Euler decay throughout
 the bin range, including zero and negative real parts of w. The finite
-exceptional tables and the open-domain calibration remain separate work. -/
+exceptional tables and the open-domain calibration are supplied below. -/
 theorem highEulerFactor_regular_bound (c : TargetContext K)
     (P : ActualHighPresentation K c) (Z T : ℝ) (hZ : 1 ≤ Z) (hT : 1 ≤ T)
     (b : HighBlockIndex K c Z T)
@@ -285,17 +303,34 @@ def HighExceptionalEulerControl (c : TargetContext K)
 theorem highInitialEulerControl (c : TargetContext K) :
     TRowEulerInput K _ (targetData K c).probe (targetCharacter K c)
       (actualHighPresentation K c).euler := by
-  sorry
+  exact HighBinActualInitial.targetTRowEulerInput K c
 
 -- OBLIGATION HB-EULER-EXCEPTIONAL | revised (6.13), Prop.6.3 pp.38–42.
 -- Prove a uniform constant and cutoff for the actual finite rational tables
 -- at exceptional row primes outside Q. No regular-prime error is assumed.
+/-- The actual finite tables satisfy the original exceptional-prime
+statement for every presentation with the fixed arithmetic provider. -/
+theorem highExceptionalEulerControl_for_presentation
+    (c : TargetContext K) (P : ActualHighPresentation K c) :
+    HighExceptionalEulerControl K c P := by
+  refine ⟨9, 2, by norm_num, by norm_num, ?_⟩
+  intro Z T hZ hT b Q u _hu p hp hpQ _hcutoff s w z hs hw hz
+  have hmem := HighBinActualEuler.exceptional_unmarked_mem_row K _ Q u p hp hpQ
+  have hdvd : p.val.asIdeal ∣ u.ideal.val.val :=
+    (HighBinActualEuler.mem_exteriorSupport_iff K _ u.ideal p).mp hmem
+  have ha : (1 / 2 : ℝ) ≤ (((targetData K c).expansion Z T).block b).bin := by
+    linarith [(P.bin_range Z T hZ hT b).1]
+  have h := HighBinActualEuler.exceptional_unmarked_dynamic_bound K _
+    (targetData K c).probe (targetCharacter K c) Q u p hp hpQ
+    ha P.e_pos.le s w z hs hw hz
+  simpa only [ActualHighPresentation.euler, fixedHighEulerData, if_pos hdvd] using h
+
 theorem highExceptionalEulerControl (c : TargetContext K) :
-    HighExceptionalEulerControl K c (actualHighPresentation K c) := by
-  sorry
+    HighExceptionalEulerControl K c (actualHighPresentation K c) :=
+  highExceptionalEulerControl_for_presentation K c (actualHighPresentation K c)
 
 /-- The full Euler interface is assembled from its initial calibration,
-the remaining exceptional-table estimate, and the proved regular estimate.
+the proved exceptional-table estimate and the regular estimate.
 The maximum chooses one uniform constant for both kinds of primes. -/
 theorem fullHighEulerControl_of_initial_exceptional (c : TargetContext K)
     (P : ActualHighPresentation K c)
@@ -332,9 +367,9 @@ theorem fullHighEulerControl_of_initial_exceptional (c : TargetContext K)
       _ ≤ max C C₀ * q ^ β := mul_le_mul_of_nonneg_right (le_max_right C C₀) hpow
 
 -- OBLIGATION HB-EULER | revised (6.10),(6.13), Prop.6.3 pp.38–42.
--- The full statement is unchanged. The two remaining Euler-specific
--- obligations are the initial calibration and exceptional finite-table
--- estimate above; upstream actual-presentation obligations still remain.
+-- The initial calibration and exceptional finite-table estimate above
+-- now use the constructed arithmetic provider. The remaining presentation,
+-- label, norm-form and boundary obligations are separate.
 theorem fullHighEulerControl (c : TargetContext K) :
     FullHighEulerControl K c (actualHighPresentation K c) := by
   exact fullHighEulerControl_of_initial_exceptional K c (actualHighPresentation K c)
@@ -666,3 +701,15 @@ theorem highBin_field_adapter (c : TargetContext K)
   hT.highBin
 
 end HeckeSkeleton
+
+#check @HeckeSkeleton.ActualHighPresentation.euler_eq_arithmetic
+#check @HeckeSkeleton.highInitialEulerControl
+#check @HeckeSkeleton.highExceptionalEulerControl_for_presentation
+#check @HeckeSkeleton.highExceptionalEulerControl
+#check @HeckeSkeleton.fullHighEulerControl
+
+#print axioms HeckeSkeleton.ActualHighPresentation.euler_eq_arithmetic
+#print axioms HeckeSkeleton.highInitialEulerControl
+#print axioms HeckeSkeleton.highExceptionalEulerControl_for_presentation
+#print axioms HeckeSkeleton.highExceptionalEulerControl
+#print axioms HeckeSkeleton.fullHighEulerControl

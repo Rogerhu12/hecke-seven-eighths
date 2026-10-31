@@ -427,13 +427,13 @@ three nested integrals and `(2π)^(-3)`; it does not assume integrability for th
 old provider or pointwise equality at its possible removable denominator zeros.
 Both the final line `s=a+16e` and the initial line `s=B+20e` lie in this tube.
 
-`arithmeticPresentationOfCalibration` then replaces only the Euler provider.
-Character uniqueness preserves the exact fixed row sets. The new contour
-identity proves the provider-dependent `shifted_identification` field again;
-all companions, heights, labels, shifted pieces and numerical range data remain
-unchanged. The main-block identity preserves the same `wholeBinBoundary`, with
-its original initial-minus-final sign. Applying the arithmetic consumer to this
-transported presentation and rewriting the boundary gives the new consumer.
+The presentation's Euler accessor is now fixed to the arithmetic provider
+by definition. `arithmeticPresentationOfCalibration` retains its earlier API
+as the identity function, and its initial-block and whole-boundary identities
+are `rfl`. All companions, heights, labels, shifted pieces and numerical
+range data remain unchanged. The generic calibrated-provider contour
+comparison above remains available independently. Applying the arithmetic
+consumer preserves the original initial-minus-final boundary sign.
 Its degrees remain `A=AB`, `R=13+RB`, and its thresholds and constants have the
 original `τ,N` quantifier order.
 

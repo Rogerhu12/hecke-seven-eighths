@@ -151,6 +151,9 @@ def main():
                      'ActualFinalContourIntegrability', 'ActualDyadicRows',
                      'ActualDyadicBoundary'],
         'canonical': ['ActualTargetFamily', 'ActualCanonicalEuler'],
+        'presentation': ['ActualEulerPresentation', 'ActualBoundaryCalibration',
+                         'ActualNormFormRegionCalibration', 'ActualNormFormLabels',
+                         'ActualPresentationGauge'],
     }
     for group, leaves in frontiers.items():
         modules = support_closure(leaves)
