@@ -3,6 +3,7 @@ import HeckeGeneral.Analysis.TInputParameterUniformMoments
 import HeckeSkeleton.HighArithmeticInputs
 import HeckeAxiom.QuadraticSieve
 import CubicSieve.Complete
+import HeckeSkeleton.ExpansionModels.ScaleCutoff
 
 /-! Exploratory actual I/P pipeline, revised §§4–5 and §7.
 This file intentionally contains named admissions. None is native verified.
@@ -54,10 +55,16 @@ def selectedLength (i : SourceMomentIndex K c Z T) : ℝ :=
 def SourceMomentIndex.noSlots (i : SourceMomentIndex K c Z T) :
     SourceMomentIndex K c Z T := { i with selected := ∅ }
 
+/-- The physical shell extends to 2U.  Only the row-enumeration exponent
+changes; the actual inverse, plain and prime polynomial scales remain U. -/
+def momentRowExponent (U : ℝ) : ℝ :=
+  if 1 < U then _root_.ExpansionRecipe.dyadicMassExponent U else 1
+
 def inverseParameters (i : SourceMomentIndex K c Z T) : RealParameters :=
-  ⟨1, (momentWitness i).inverseLength, selectedLength i, 0, 0, 0, 2 * c.family.B - 1⟩
+  ⟨momentRowExponent (momentBase i), (momentWitness i).inverseLength,
+    selectedLength i, 0, 0, 0, 2 * c.family.B - 1⟩
 def pairedParameters (i : SourceMomentIndex K c Z T) : RealParameters :=
-  ⟨1, 0, selectedLength i, 0, (momentWitness i).plainLength,
+  ⟨momentRowExponent (momentBase i), 0, selectedLength i, 0, (momentWitness i).plainLength,
     (momentWitness i).plainLength, 2 * c.family.B - 1⟩
 
 /-- Revised full range, with the genuine unrestricted zero-slot alternative. -/
@@ -106,11 +113,43 @@ structure SourceMomentModels (c : TargetContext K) where
 def momentRowCharacters (c : TargetContext K) : RowCharacterInput K (places K c) (probeData K c) :=
   arithmeticRowCharacterInput K (places K c) (probeData K c)
 
--- OBLIGATION MI-M-MODELS | §4.1–4.2,§7.1,pp16–20,43.
--- Construct actual finite ideal tests, sector slices, backgrounds and
--- row-independent slot coefficients, not arbitrary admissibility predicates.
-def momentModels (c : TargetContext K) : SourceMomentModels K c := by
-  sorry
+variable {K}
+
+abbrev sourceRecipeBlock (i : SourceMomentIndex K c Z T) :=
+  (expansionRecipeRaw K c).blocks Z T ((expansionRecipeRaw K c).rawBlockIndex Z T i.block)
+
+abbrev sourceRecipeAmplitude (i : SourceMomentIndex K c Z T) :=
+  (sourceRecipeBlock i).amplitude i.label
+
+abbrev sourceRecipeWitness (i : SourceMomentIndex K c Z T) :=
+  (sourceRecipeAmplitude i).witness i.t i.subdivision
+
+def sourceSelectedMomentModel (i : SourceMomentIndex K c Z T)
+    (s : SixthUnitClasses K (places K c))
+    (ξ : ExpansionRecipe.RecipeVector)
+    (σ τ : NonzeroIdeal K → ExpansionRecipe.RecipeVector) :
+    MomentData K c.family.omega (targetCharacter K c) :=
+  (((expansionRecipeRaw K c).family.fullModel K (places K c) (probeData K c)
+    (momentRowCharacters K c) c.family.omega (targetCharacter K c) c.geometry
+    (momentBase i) ((momentBase i) ^ (momentWitness i).inverseLength) s ξ σ τ).
+      changeSlotBase (momentBlock i).shell (highExpansion_shell_pos K c Z T i.block)).
+        restrictSlots i.selected
+
+variable (K)
+
+-- MI-M-MODELS | §4.1–4.2,§7.1,pp16–20,43.
+-- Both marked models and the independent U,D family are generated from
+-- the SAME D-EXPANSION recipe.  No independent model choice remains.
+def momentModels (c : TargetContext K) : SourceMomentModels K c where
+  dimension := 6
+  inverse _Z _T i := sourceSelectedMomentModel i
+  paired _Z _T i := sourceSelectedMomentModel i
+  unmarked := (expansionRecipeRaw K c).family.inverseFamily K (places K c)
+    (probeData K c) (momentRowCharacters K c) c.family.omega
+    (targetCharacter K c) c.geometry
+  heights _Z T i := (sourceRecipeWitness i).heights (sourceRecipeAmplitude i).physical i.t T
+  realShifts _Z _T i := (sourceRecipeWitness i).realShifts
+  imagShifts _Z _T i := (sourceRecipeWitness i).imagShifts
 
 variable {K}
 abbrev inverseModel (M : SourceMomentModels K c) (i : SourceMomentIndex K c Z T)
@@ -183,7 +222,8 @@ structure SourceRowEligibility (M : SourceMomentModels K c) : Prop where
     pairedCapacity i → ExtendedPRegion (pairedParameters i)
   inverse_rows : ∀ Z T (i : SourceMomentIndex K c Z T) u,
     u ∈ (momentWitness i).rows →
-      u.ideal.val ∈ (inverseModel M i u.sector).rows (momentBase i)
+      u.ideal.val ∈ (inverseModel M i u.sector).rows
+        ((momentBase i) ^ (inverseParameters i).m)
   paired_rows : ∀ Z T (i : SourceMomentIndex K c Z T) u,
     u ∈ (momentWitness i).rows →
       u.ideal.val ∈ pairedRows (pairedModel M i u.sector) (pairedParameters i) (momentBase i)
@@ -215,12 +255,65 @@ def WholeMomentProfileControl (M : SourceMomentModels K c) : Prop :=
           (∀ y, W.profile u 0 y ≠ 0 → a ≤ y ∧ y ≤ b) ∧
           testSeminorm (W.profile u 0) J A ≤ C * (1 + T) ^ H
 
+/-- Every actual source index lies in the retained physical range. -/
+theorem momentBase_ge_two (i : SourceMomentIndex K c Z T) : 2 ≤ momentBase i :=
+  _root_.ExpansionRecipe.shell_base_ge_two
+    (highExpansion_scale_of_block K c Z T i.block).1
+    (highExpansion_shell_lower K c Z T i.block)
+
+theorem momentRowExponent_spec (i : SourceMomentIndex K c Z T) :
+    1 < momentRowExponent (momentBase i) ∧ momentRowExponent (momentBase i) ≤ 2 ∧
+      (momentBase i) ^ momentRowExponent (momentBase i) = 2 * momentBase i := by
+  have hU2 := momentBase_ge_two i
+  have hU : 1 < momentBase i := by linarith
+  rw [momentRowExponent, if_pos hU]
+  exact ⟨_root_.ExpansionRecipe.dyadicMassExponent_gt_one hU,
+    _root_.ExpansionRecipe.dyadicMassExponent_le_two hU2,
+    _root_.ExpansionRecipe.rpow_dyadicMassExponent hU⟩
+
+theorem sourceSelectedMomentModel_slots (i : SourceMomentIndex K c Z T)
+    (u : FrequencyRow K (places K c)) :
+    (∏ j ∈ i.selected, (momentAmplitude i).slotValue j u) =
+      slotProduct (inverseModel (momentModels K c) i u.sector)
+        u.ideal.val (momentBase i) 0 := by
+  have hZ : 0 < Z := (by norm_num : (0 : ℝ) < 2 ^ (16 : ℕ)).trans_le
+    (highExpansion_scale_of_block K c Z T i.block).1
+  exact ((sourceRecipeWitness i).selectedSlotProduct
+    (P := probeData K c) (R := momentRowCharacters K c) (ω := c.family.omega)
+    (sourceRecipeAmplitude i).physical i.t T u.sector
+    (momentBlock i).shell (highExpansion_shell_pos K c Z T i.block)
+    i.selected u.ideal.val hZ).symm
+
 variable (K) (c : TargetContext K)
 
--- OBLIGATION MI-M-POLYNOMIAL-CALIBRATION | §4.2,§6.2,§7.1,pp18–20,38,43.
+-- MI-M-POLYNOMIAL-CALIBRATION | §4.2,§6.2,§7.1,pp18–20,38,43.
+-- Literal identities from the one raw data recipe.  The analytic
+-- construction of that recipe remains the original D-EXPANSION obligation.
 theorem moment_polynomial_calibration :
     SourcePolynomialCalibration (momentRowCharacters K c) (momentModels K c) := by
-  sorry
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · intro Z T i u _hu
+    constructor <;>
+      exact ExpansionRecipe.completeIdealRowCharacter_of_frequencyRow
+        (P := probeData K c) (R := momentRowCharacters K c) u
+  · intro Z T i s u I
+    change completeIdealCommonMask K (places K c) u I = originalMomentMask (c := c) u I ∧
+      completeIdealCommonMask K (places K c) u I = originalMomentMask (c := c) u I
+    by_cases h : (∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ I →
+      p ∉ places K c ∧ (6 : 𝓞 K) ∉ p.asIdeal) ∧ IsCoprime I u.val
+    <;> simp [completeIdealCommonMask, originalMomentMask, h]
+  · intro Z T i u _hu
+    rfl
+  · intro Z T i u _hu
+    rfl
+  · intro Z T i u _hu
+    rfl
+  · intro Z T i u _hu
+    exact sourceSelectedMomentModel_slots i u
+  · intro Z T i u _hu
+    exact sourceSelectedMomentModel_slots i u
+  · intro Z T i u _hu
+    rfl
 
 -- OBLIGATION MI-M-FIBER-ELIGIBILITY | §4.9,§7.1,pp35,43–44.
 -- MIGRATION: ArithmeticFrequencyRowCharacterFibers/EventualExclusion.
@@ -313,6 +406,28 @@ def UniformMomentBound
           E Z (Z ^ τ) i ≤
             k * (momentBase i) ^ (power Z (Z ^ τ) i + c.family.lamA) * (1 + Z ^ τ) ^ A
 
+/-- Transport from the correct dyadic row exponent to the source exponent
+costs exactly the constant 2.  Height order and ceiling stay unchanged. -/
+theorem uniformMomentBound_repaired_power
+    (E : ∀ Z T, SourceMomentIndex K c Z T → ℝ)
+    (eligible : ∀ Z T, SourceMomentIndex K c Z T → Prop)
+    (h : UniformMomentBound E
+      (fun _ _ i => momentRowExponent (momentBase i)) eligible) :
+    UniformMomentBound E (fun _ _ _ => 1) eligible := by
+  obtain ⟨A, ceiling, hA, hc, hb⟩ := h
+  refine ⟨A, ceiling, hA, hc, ?_⟩
+  intro τ hτ hτc
+  obtain ⟨Z₀, k, hZ₀, hk, hbound⟩ := hb τ hτ hτc
+  refine ⟨Z₀, 2 * k, hZ₀, mul_nonneg (by norm_num) hk, ?_⟩
+  intro Z hZ i hlive heligible
+  have hU : 1 < momentBase i := lt_of_lt_of_le (by norm_num) (momentBase_ge_two i)
+  have hh := hbound Z hZ i hlive heligible
+  change E Z (Z ^ τ) i ≤ k *
+    (momentBase i) ^ (momentRowExponent (momentBase i) + c.family.lamA) *
+      (1 + Z ^ τ) ^ A at hh
+  rw [momentRowExponent, if_pos hU] at hh
+  exact _root_.ExpansionRecipe.repaired_moment_bound hU hh
+
 def StrictUnmarkedMomentBound (M : SourceMomentModels K c) : Prop :=
   ∀ a ε : ℝ, 0 < a → 0 < ε →
     ∃ C A h : ℝ, 0 < C ∧ 0 ≤ A ∧ 0 < h ∧
@@ -326,7 +441,8 @@ def StrictUnmarkedMomentBound (M : SourceMomentModels K c) : Prop :=
 
 structure CanonicalInverseModelBounds (M : SourceMomentModels K c) : Prop where
   marked : UniformMomentBound
-    (fun _ _ i => markedModelEnergy M i) (fun _ _ _ => 1)
+    (fun _ _ i => markedModelEnergy M i)
+    (fun _ _ i => momentRowExponent (momentBase i))
     (fun _ _ i => inverseCapacity i)
   unmarked_strict : StrictUnmarkedMomentBound M
 
@@ -440,7 +556,7 @@ theorem paired_zero_slot_models
     (hquadratic : QuadraticSieveBound K c) :
     UniformMomentBound
       (fun _ _ i => pairedModelEnergy (momentModels K c) i.noSlots)
-      (fun _ _ _ => 1) (fun _ _ _ => True) := by
+      (fun _ _ i => momentRowExponent (momentBase i)) (fun _ _ _ => True) := by
   sorry
 
 -- OBLIGATION MI-P-POSITIVE-SLOTS-BELOW-ONE | Thm4.2,§4.8,pp17–18,30–33.
@@ -456,7 +572,8 @@ theorem paired_positive_below_one
     (hprime : PairedPrimeProductBound K c (momentModels K c) (2 * c.family.B - 1)) :
     UniformMomentBound
       (fun _ _ i => pairedModelEnergy (momentModels K c) i)
-      (fun _ _ _ => 1) (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
+      (fun _ _ i => momentRowExponent (momentBase i))
+      (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
   sorry
 
 -- OBLIGATION MI-P-POSITIVE-SLOTS-ENDPOINT | Thm4.2,§4.8,pp17–18,30–33.
@@ -470,7 +587,8 @@ theorem paired_positive_endpoint
     (hprime : PairedPrimeProductBound K c (momentModels K c) 1) :
     UniformMomentBound
       (fun _ _ i => pairedModelEnergy (momentModels K c) i)
-      (fun _ _ _ => 1) (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
+      (fun _ _ i => momentRowExponent (momentBase i))
+      (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
   sorry
 
 variable {K c}
@@ -558,12 +676,15 @@ theorem inverseSource :
     (inverse_sixth_power_masks K c hcal) hprofiles
   have hw := inverse_amplified_witness_models K c hamp hcal hrows hprofiles
   have hreindex := moment_finite_sector_reindex K c hcal hrows
+  have hmarked := uniformMomentBound_repaired_power
+    (fun _ _ i => markedModelEnergy (momentModels K c) i)
+    (fun _ _ i => inverseCapacity i) hmi.marked
   obtain ⟨A, H, hA, hH, hb⟩ := uniformMomentBound_join
     (fun _ _ i => markedModelEnergy (momentModels K c) i)
     (fun _ _ i => amplifiedModelEnergy (momentModels K c) i)
     (fun _ _ _ => 1)
     (fun _ _ i => amplifiedInverseExponent (momentWitness i).inverseLength)
-    (fun _ _ i => inverseCapacity i) (fun _ _ _ => True) hmi.marked hw
+    (fun _ _ i => inverseCapacity i) (fun _ _ _ => True) hmarked hw
   refine ⟨A, H, hA, hH, ?_⟩
   intro τ hτ hτH
   obtain ⟨Z₀, k, hZ₀, hk, hbound⟩ := hb τ hτ hτH
@@ -587,15 +708,21 @@ theorem plainSource :
   have hrows := moment_row_eligibility K c hcal
   have hprofiles := moment_profile_control K c hcal
   have hquad := moment_quadratic_sieve K c
-  have hpositive : UniformMomentBound
+  have hpositive_raw : UniformMomentBound
       (fun _ _ i => pairedModelEnergy (momentModels K c) i)
-      (fun _ _ _ => 1) (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
+      (fun _ _ i => momentRowExponent (momentBase i))
+      (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
     rcases lt_or_eq_of_le c.family.B_upper with hB | hB
     · exact paired_positive_below_one K c hB hcal hrows hprofiles hquad
         (paired_primes_below_one K c hB hcal hrows hprofiles)
     · exact paired_positive_endpoint K c hB hcal hrows hprofiles hquad
         (paired_primes_endpoint K c hB hcal hrows hprofiles)
-  have hzero := paired_zero_slot_models K c hcal hrows hprofiles hquad
+  have hpositive := uniformMomentBound_repaired_power
+    (fun _ _ i => pairedModelEnergy (momentModels K c) i)
+    (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) hpositive_raw
+  have hzero := uniformMomentBound_repaired_power
+    (fun _ _ i => pairedModelEnergy (momentModels K c) i.noSlots)
+    (fun _ _ _ => True) (paired_zero_slot_models K c hcal hrows hprofiles hquad)
   have hreindex := moment_finite_sector_reindex K c hcal hrows
   obtain ⟨A, H, hA, hH, hb⟩ := uniformMomentBound_join
     (fun _ _ i => pairedModelEnergy (momentModels K c) i)

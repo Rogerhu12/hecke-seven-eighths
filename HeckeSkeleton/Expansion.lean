@@ -16,8 +16,63 @@ def expansionBudget (c : TargetContext K) : {b : ℝ × ℝ // 0 ≤ b.1 ∧ 0 <
 
 -- OBLIGATION EX-CUTOFFS | revised Proposition 6.3, §8 (pp.41–42,49–51).
 -- One constant/threshold for the complete moving label and contour family.
-def expansionCutoffs (c : TargetContext K) (τ : ℝ) : {b : ℝ × ℝ // 2 ≤ b.1 ∧ 0 ≤ b.2} := by
+-- The remaining analytic choice is kept explicit. Its deterministic envelope
+-- below is the only public cutoff pair used by every expansion component.
+def expansionCutoffsRaw (c : TargetContext K) (τ : ℝ) :
+    {b : ℝ × ℝ // 2 ≤ b.1 ∧ 0 ≤ b.2} := by
   sorry
+
+/-- The literal retained shell schedule has one fixed buffered multiplicity.
+Amplitude labels and witness subdivisions are counted separately. -/
+def expansionBlockCountConstant (c : TargetContext K) : ℝ :=
+  ((expansionRecipeRaw K c).bufferMultiplicity : ℝ) *
+    (2 + (((13 / 16 + expansionShellAllowance K c) - 1 / 16) / Real.log 2) / c.lamB)
+
+/-- One common pair for all five bounds. The small-scale guard and the
+height-free block count require these explicit lower envelopes. -/
+def expansionCutoffs (c : TargetContext K) (τ : ℝ) :
+    {b : ℝ × ℝ // 2 ≤ b.1 ∧ 0 ≤ b.2} :=
+  ⟨(max (expansionCutoffsRaw K c τ).val.1 ((2 : ℝ) ^ 16),
+      max (expansionCutoffsRaw K c τ).val.2 (expansionBlockCountConstant K c)),
+    (expansionCutoffsRaw K c τ).property.1.trans (le_max_left _ _),
+    (expansionCutoffsRaw K c τ).property.2.trans (le_max_left _ _)⟩
+
+theorem expansionCutoffs_threshold_guard (c : TargetContext K) (τ : ℝ) :
+    (2 : ℝ) ^ 16 ≤ (expansionCutoffs K c τ).val.1 := le_max_right _ _
+
+theorem expansionCutoffs_count_constant (c : TargetContext K) (τ : ℝ) :
+    expansionBlockCountConstant K c ≤ (expansionCutoffs K c τ).val.2 := le_max_right _ _
+
+theorem expansionCutoffs_dominates_raw (c : TargetContext K) (τ : ℝ) :
+    (expansionCutoffsRaw K c τ).val.1 ≤ (expansionCutoffs K c τ).val.1 ∧
+      (expansionCutoffsRaw K c τ).val.2 ≤ (expansionCutoffs K c τ).val.2 :=
+  ⟨le_max_left _ _, le_max_left _ _⟩
+
+/-- D-EXPANSION's actual block count satisfies the required bound with no
+height factor. This statement is independent of every analytic estimate. -/
+theorem highExpansion_blockCount_bound (c : TargetContext K) (Z T : ℝ)
+    (hZ : 1 ≤ Z) :
+    ((highExpansion K c Z T).blockCount : ℝ) ≤
+      expansionBlockCountConstant K c * Z ^ c.lamB := by
+  have hzeta : 0 < expansionShellAllowance K c :=
+    (ExpansionInterfaces.shellAllowance_spec c.family.lamA_pos).1
+  have hcount := highExpansion_blockCount_le_schedule K c Z T
+  change (highExpansion K c Z T).blockCount ≤
+    ExpansionInterfaces.shellCount Z (1 / 16) (13 / 16 + expansionShellAllowance K c) *
+      (expansionRecipeRaw K c).bufferMultiplicity at hcount
+  have hcount' : ((highExpansion K c Z T).blockCount : ℝ) ≤
+      (ExpansionInterfaces.shellCount Z (1 / 16) (13 / 16 + expansionShellAllowance K c) : ℝ) *
+        (expansionRecipeRaw K c).bufferMultiplicity := by
+    exact_mod_cast hcount
+  have hshell := ExpansionInterfaces.shellCount_subpower hZ
+    (show (1 / 16 : ℝ) ≤ 13 / 16 + expansionShellAllowance K c by linarith) c.lamB_pos
+  calc
+    _ ≤ (ExpansionInterfaces.shellCount Z (1 / 16) (13 / 16 + expansionShellAllowance K c) : ℝ) *
+        (expansionRecipeRaw K c).bufferMultiplicity := hcount'
+    _ ≤ (2 + (((13 / 16 + expansionShellAllowance K c) - 1 / 16) / Real.log 2) / c.lamB) *
+        Z ^ c.lamB * (expansionRecipeRaw K c).bufferMultiplicity :=
+      mul_le_mul_of_nonneg_right hshell (Nat.cast_nonneg _)
+    _ = _ := by unfold expansionBlockCountConstant; ring
 
 -- OBLIGATION EX-IDENTITY | revised Proposition 6.3, §7 (pp.41–49).
 -- Blocks are the shifted fixed-bin contributions. The whole-bin contour
@@ -69,7 +124,10 @@ theorem expansion_blockCount (τ Z : ℝ)
     (hZ : (expansionCutoffs K c τ).val.1 ≤ Z) :
     ((highExpansion K c Z (Z ^ τ)).blockCount : ℝ) ≤
     (expansionCutoffs K c τ).val.2 * Z ^ c.lamB := by
-  sorry
+  have hZtwo : 2 ≤ Z := (expansionCutoffs K c τ).property.1.trans hZ
+  exact (highExpansion_blockCount_bound K c Z (Z ^ τ) (by linarith)).trans
+    (mul_le_mul_of_nonneg_right (expansionCutoffs_count_constant K c τ)
+      (Real.rpow_nonneg (by linarith) _))
 
 -- OBLIGATION EX-DETECTOR-WITNESSES | revised Proposition 6.3, §7 (pp.41–49).
 theorem expansion_blocks (τ Z : ℝ)
