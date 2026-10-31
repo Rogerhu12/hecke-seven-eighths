@@ -35,14 +35,21 @@
 完整原生日志未观察到旧依赖文件的编译错误，但该次完整 build 仍失败。
 两项严格最终审计均为 **`not_started`**，没有最终审计文件或完成后的输出清单。
 
-当前已修复九个源码文件，均不在上述 80 个 `Built` 源文件内：
+当前已有十个修复后的源码文件不同于 round 9，均不在上述 80 个 `Built` 源文件内：
 `ActualSourceReindex`、`InactiveWindows`、`TargetDictionary`、`TargetSieveDictionary`、
 `TargetGaussian`、`ActualTupleReconstruction`、`ActualResidualDyadicEnergy`、
-`ActualCompleteIdealEnergy`、`ActualCompletedMarkedEnergy`。
-修复保留原数学陈述、假设、权重和支持条件；当前版本仍待下一次完整 CI。
-另有五个未出现终结事件的模块保留 round 9 的源码字节。
+`ActualCompleteIdealEnergy`、`ActualCompletedMarkedEnergy`、`ActualDyadicReflection`。
+修复保留原数学陈述、假设、权重和支持条件；当前完整适配链仍待完整 CI。
+另有四个未出现终结事件的模块保留 round 9 的源码字节。
 后续已发布的 `41716e030cc1d159122a742308adaa9744ed97e4` 及其后修复
 不属于 round 9 的执行范围；round 10 的局部诊断也不在本报告中作为完成运行计入。
+
+进行中的 [round 11](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41194215379)
+检出 `0c47c707eeb3e05caa1934d3da6cf0f4d6e1ce52`；actual job 为 `124517149642`。
+实时日志已记录 `ActualSourceReindex` 的真实 `Built`（4.4 秒），并报告
+`ActualDyadicReflection` 在第 53 行的范数定义化简错误和第 162 行的多余 `rfl`。
+当前仅修复该文件这两处，修复版本尚未编译确认。
+这些是局部运行观察，不提升上述 80/94 已归档证据计数，不代表完整运行或最终公理门通过。
 
 工作分支 `codex/low-reflected-energy-ade19eee` 已合并
 `dtests-handoff` 的 `5f3c782680be2c74365b4d8e5760fc16f1f222c5` 基线。

@@ -50,7 +50,7 @@ theorem idealShell_bounds {j : ℕ} {I : ExteriorIdeal K S}
     (2 : ℝ) ^ j ≤ exteriorNorm K S I ∧ exteriorNorm K S I < 2 * (2 : ℝ) ^ j := by
   have hj := (DyadicReindex.mem_shell (idealNatNorm K S)
     (finite_idealNatNorm_le K S) j I).mp hI
-  simpa only [hj, pow_succ, mul_comm] using
+  simpa only [hj, idealNatNorm, exteriorNorm, pow_succ, mul_comm] using
     DyadicReindex.index_bounds_real (idealNatNorm K S) (idealNatNorm_pos K S I)
 
 theorem squarefreeShell_bounds {j : ℕ} {I : ExteriorIdeal K S}
@@ -159,7 +159,6 @@ theorem physicalBlock_dual_summable (hD : AllowedGeneratorInput K S D)
   rw [DyadicReindex.pairShell_product, Finset.sum_product]
   change (∑ c ∈ idealShell K S p.1, ∑ b ∈ idealShell K S p.2, G (c, b)) = _
   rw [← physicalBlock_filter_squarefree, physicalBlock_commute_columns]
-  rfl
 
 /-- The whole finite active-mark row is reconstructed from the genuine
 dual dyads.  The equality precedes the row norm. -/

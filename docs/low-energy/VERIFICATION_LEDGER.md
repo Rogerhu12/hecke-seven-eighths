@@ -12,7 +12,9 @@ The native log records 80 distinct task `Built` events, four failed task modules
 
 The four failed modules are `ActualSourceReindex` (five diagnostics), `InactiveWindows` (four), `TargetDictionary` (three), and `TargetSieveDictionary` (eight). The last includes a Lean elaboration heartbeat diagnostic; it is not an external process timeout. Failed-module reports containing `sorryAx` are failure evidence. The strict final gate is `not_started`, and the archive contains no final-audit files.
 
-All 80 built source hashes still match the current files. Nine other sources differ from the round 9 snapshot; five retain their snapshot bytes without a completed native event. The pending source repairs preserve the mathematical statements and require subsequent CI. Neither the later published 417 snapshot nor further edits are attributed to round 9.
+All 80 built source hashes still match the current files. Ten other sources differ from the round 9 snapshot; four retain their snapshot bytes without a completed native event. The pending source repairs preserve the mathematical statements and require subsequent CI. Neither the later published 417 snapshot nor further edits are attributed to round 9.
+
+Pending round 11 ([run 41194215379](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41194215379), actual job 124517149642) checks out exact `0c47c707eeb3e05caa1934d3da6cf0f4d6e1ce52`. Its partial log records a genuine `ActualSourceReindex` Built event (4.4 seconds) and two `ActualDyadicReflection` errors: norm-definition simplification at line 53 and a redundant `rfl` at line 162. Only those two source locations have now been repaired; that repair awaits compilation. These partial observations do not promote the completed 80/94 count or establish a full-run/final-audit result.
 
 The separate [native evidence](native_lake_round9.json) contains the original report/preparation records and observed compiler blocks. Its [exact 206,809-byte ZIP](evidence/native_lake_round9.zip) preserves the full native build log and cache metadata, SHA-256 `f67514c4bf82fbfc1713dbe848e338ed43f5f471a6215e8e363cae9b546bae15`. Earlier direct records and native-foundation reuse stay unchanged in [aggregate_evidence.json](aggregate_evidence.json). The old 1,794 native-foundation validations are historical and do not imply success in the new configuration.
 
@@ -101,7 +103,7 @@ Python regression fixtures and incomplete local diagnostic processes are exclude
 | `HeckeSkeleton.LowEnergy.ActualBlockReindex` | `03b246ca9d5136a7ca69fd47f3820dea993a6b8a5a70411c5228e6406a51fc4a` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.ActualSourceReindex` | `7c3d5f6df58f481b4243865f48ac3078e568e1a17e9d49c5e8115cea28bec264` | changed_since_recorded_source | failed_build_event |
 | `HeckeSkeleton.LowEnergy.ActualRowFibres` | `1759c44a943601c80a103da42945620c346fb7608d47df0cb02491b56a8742bb` | native_lake_built_source_match | Built |
-| `HeckeSkeleton.LowEnergy.ActualDyadicReflection` | `c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574` | native_lake_no_terminal_event | no_terminal_event |
+| `HeckeSkeleton.LowEnergy.ActualDyadicReflection` | `407d2c085691973553239577a74fb4c1ce87cdf25a0fb4202cff452afaa47370` | changed_since_recorded_source | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial` | `bb5e86bb0bee0b24dc02e21993f90c896a32cbb096f4fbd0dfce68feebe3c409` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy` | `66559059e3e32ec55dba8fd635ed3fc1d2f52fabdb39b1751dda0d2054a9a2c8` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy` | `b367a9debe758ffd2aed265e13983f5c940fa8c565a6a4460545425fef9b7ddc` | native_lake_no_terminal_event | no_terminal_event |

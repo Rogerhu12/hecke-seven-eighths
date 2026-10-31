@@ -30567,8 +30567,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualDyadicReflection",
       "path": "HeckeSkeleton/LowEnergy/ActualDyadicReflection.lean",
-      "source_sha256": "c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574",
-      "bytes": 11160,
+      "source_sha256": "407d2c085691973553239577a74fb4c1ce87cdf25a0fb4202cff452afaa47370",
+      "bytes": 11182,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": [],
@@ -30650,15 +30650,15 @@
         }
       ],
       "current_verification": {
-        "assessment": "native_lake_no_terminal_event",
+        "assessment": "changed_since_recorded_source",
         "checked_exact_source": false,
         "latest_supplied_attempt": {
           "run_key": "41191387620:native-lake:13039132601",
           "evidence_kind": "native_lake_observation",
           "observed_lake_event": "no_terminal_event",
           "recorded_source_sha256": "c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574",
-          "current_source_sha256": "c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574",
-          "source_matches": true,
+          "current_source_sha256": "407d2c085691973553239577a74fb4c1ce87cdf25a0fb4202cff452afaa47370",
+          "source_matches": false,
           "evidence": {
             "file": "docs/low-energy/native_lake_round9.json",
             "run_key": "41191387620:native-lake:13039132601",
@@ -30672,7 +30672,7 @@
         "matching_preserved_historical_successes": [],
         "unresolved_historical_invalidation": null,
         "current_full_dependency_graph_verified": false,
-        "scope": "Current source bytes matching a Built observation in the recorded native 6dc context. The batch failed; current repaired graph and both final targets remain unverified. Printed reports cover only the declarations actually printed."
+        "scope": "The current repaired source differs from the round 9 snapshot, where no terminal event was observed for this module. Round 11 partial diagnostics concern its prior source bytes; the new repair, current full dependency graph, and both final targets remain unverified."
       },
       "verification_assessment_history": [
         {
@@ -30700,6 +30700,34 @@
             "unresolved_historical_invalidation": null,
             "current_full_dependency_graph_verified": false,
             "scope": "Matching source bytes in a successful recorded CI context. Restored upstream imports, the merged base/configuration, and the new Lake lane await a fresh full run; this is not a current graph or final-target pass."
+          }
+        },
+        {
+          "generated_at": "2026-10-31T10:45:34.121377+00:00",
+          "assessment": {
+            "assessment": "native_lake_no_terminal_event",
+            "checked_exact_source": false,
+            "latest_supplied_attempt": {
+              "run_key": "41191387620:native-lake:13039132601",
+              "evidence_kind": "native_lake_observation",
+              "observed_lake_event": "no_terminal_event",
+              "recorded_source_sha256": "c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574",
+              "current_source_sha256": "c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574",
+              "source_matches": true,
+              "evidence": {
+                "file": "docs/low-energy/native_lake_round9.json",
+                "run_key": "41191387620:native-lake:13039132601",
+                "collection": "original_native_report.source_snapshot.sources",
+                "module": "HeckeSkeleton.LowEnergy.ActualDyadicReflection"
+              },
+              "scope": "Observed native event in a batch whose real process exit was 1; no per-module compiler exit or schema-2 receipt is inferred."
+            },
+            "matching_native_lake_built_observations": [],
+            "matching_supplied_successes": [],
+            "matching_preserved_historical_successes": [],
+            "unresolved_historical_invalidation": null,
+            "current_full_dependency_graph_verified": false,
+            "scope": "Current source bytes matching a Built observation in the recorded native 6dc context. The batch failed; current repaired graph and both final targets remain unverified. Printed reports cover only the declarations actually printed."
           }
         }
       ],
@@ -33184,8 +33212,8 @@
     "not_checked_exact_source": 14,
     "assessments": {
       "native_lake_built_source_match": 80,
-      "changed_since_recorded_source": 9,
-      "native_lake_no_terminal_event": 5
+      "changed_since_recorded_source": 10,
+      "native_lake_no_terminal_event": 4
     },
     "current_full_dependency_graph_verified": false,
     "latest_completed_actual_head": "6dc98c6993b60edf5ecd8c449fb697ccfe711176",
@@ -33266,6 +33294,13 @@
           "previous_source_sha256": "6b17122916d248f46bf750637b7de135dbaacd7662e97ce43ab280ee59481b84",
           "source_sha256": "8cdabc4e7694086af7fed2fc28be6a1799945229c838e831e9300fa0ca3fba3c",
           "bytes": 4941
+        },
+        {
+          "module": "HeckeSkeleton.LowEnergy.ActualDyadicReflection",
+          "path": "HeckeSkeleton/LowEnergy/ActualDyadicReflection.lean",
+          "previous_source_sha256": "c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574",
+          "source_sha256": "407d2c085691973553239577a74fb4c1ce87cdf25a0fb4202cff452afaa47370",
+          "bytes": 11182
         }
       ],
       "current_differences_from_round9_snapshot": [
@@ -33313,9 +33348,24 @@
           "module": "HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy",
           "recorded_source_sha256": "6b17122916d248f46bf750637b7de135dbaacd7662e97ce43ab280ee59481b84",
           "current_source_sha256": "8cdabc4e7694086af7fed2fc28be6a1799945229c838e831e9300fa0ca3fba3c"
+        },
+        {
+          "module": "HeckeSkeleton.LowEnergy.ActualDyadicReflection",
+          "recorded_source_sha256": "c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574",
+          "current_source_sha256": "407d2c085691973553239577a74fb4c1ce87cdf25a0fb4202cff452afaa47370"
         }
       ],
       "scope": "Current source repairs need subsequent CI; no pending, interrupted, or diagnostic-only local process counts as proof success."
+    },
+    "pending_source_refresh": {
+      "generated_at": "2026-10-31T11:00:23.396767+00:00",
+      "module": "HeckeSkeleton.LowEnergy.ActualDyadicReflection",
+      "source_sha256": "407d2c085691973553239577a74fb4c1ce87cdf25a0fb4202cff452afaa47370",
+      "prior_source_sha256": "c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574",
+      "partial_ci_run": 41194215379,
+      "partial_ci_job": 124517149642,
+      "partial_ci_source_head": "0c47c707eeb3e05caa1934d3da6cf0f4d6e1ce52",
+      "scope": "Source-only repair refresh. Partial round 11 observations do not change the completed evidence count, native round 9 records, or final-target status."
     }
   },
   "verification_refresh_history": [
