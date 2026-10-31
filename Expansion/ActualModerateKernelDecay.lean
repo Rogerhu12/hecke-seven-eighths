@@ -87,6 +87,7 @@ theorem exists_actual_moderate_sweep_kernel_rapid
           (exceptionalPrimes K Sset) w‖ ≤
           Cnum * frequencyRowNorm K Sset u ^ pnum * (1 + |w.im|) ^ kn := by
     intro u hu w hw _hw'
+    have hNpos : 0 < frequencyRowNorm K Sset u := idealNorm_pos K u.ideal.val
     have hb := hn P (arithmeticRowCharacterInput K Sset P) hAllowed u hu w hw
     have hp : (2 + |w.im|) ^ kn ≤ (2 : ℝ) ^ kn * (1 + |w.im|) ^ kn := by
       simpa only [Real.rpow_natCast] using shifted_height_rpow_le_nat 2 (kn : ℝ) kn
@@ -99,6 +100,7 @@ theorem exists_actual_moderate_sweep_kernel_rapid
           (exceptionalPrimes K Sset) s)⁻¹‖ ≤
           Crec * frequencyRowNorm K Sset u ^ prec * (1 + |s.im|) ^ kr := by
     intro u _hu s hs _hs'
+    have hNpos : 0 < frequencyRowNorm K Sset u := idealNorm_pos K u.ideal.val
     have hb := hr P (arithmeticRowCharacterInput K Sset P) u s hs
     have hp := shifted_height_rpow_le_nat 4 k kr (by norm_num) hk hkr s.im
     exact hb.trans ((mul_le_mul_of_nonneg_left hp (by positivity)).trans_eq
@@ -214,7 +216,7 @@ theorem exists_actual_moderate_sweep_kernel_rapid
         (heckeDeletedContinuation K
           (psi * conjugate ((arithmeticHighEulerData K Sset P psi).rows.character u))
           (exceptionalPrimes K Sset) s)]
-    simp only [mul_inv, norm_mul]
+    simp only [mul_inv, norm_mul, arithmeticHighEulerData_character]
     calc
       _ ≤ Cp * (Cg * Real.exp (-((s.im + z.im) ^ 2))) *
           ‖additiveMellin K Sset muS P.additive z‖ * ‖mellin P.denominator.toFun w‖ *

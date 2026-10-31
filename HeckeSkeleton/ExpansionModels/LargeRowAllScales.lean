@@ -84,16 +84,20 @@ theorem exists_actual_large_fullCorrection_all_scales_bound
     rw [Finset.sum_mul]
     apply Finset.sum_le_sum
     intro J _
+    have hselPos : 0 < exteriorNorm K S (subsetPrimeIdeal K S p J) :=
+      idealNorm_pos K _
+    have hmarkPos : 0 < exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) :=
+      idealNorm_pos K _
     have hsel : ‖(exteriorNorm K S (subsetPrimeIdeal K S p J) : ℂ) ^ (z - w - 1)‖ =
         exteriorNorm K S (subsetPrimeIdeal K S p J) ^ (sigma - 3) := by
-      rw [Complex.norm_cpow_eq_rpow_re_of_pos (idealNorm_pos K _)]
+      rw [Complex.norm_cpow_eq_rpow_re_of_pos hselPos]
       congr 1
       simp only [Complex.sub_re, Complex.one_re, hz, hw]
       ring
     have hmark : ‖(exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) : ℂ) ^
         (s + z - 1)‖ =
         exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ (sigma + 1) := by
-      rw [Complex.norm_cpow_eq_rpow_re_of_pos (idealNorm_pos K _)]
+      rw [Complex.norm_cpow_eq_rpow_re_of_pos hmarkPos]
       congr 1
       simp only [Complex.sub_re, Complex.add_re, Complex.one_re, hs, hz]
       ring
@@ -101,13 +105,20 @@ theorem exists_actual_large_fullCorrection_all_scales_bound
       (subsetPrimeIdeal K S p (Finset.univ \ J)).val
     have he := hrow P psi ((Finset.univ \ J).image p) u (3 / 4)
       (by norm_num) (by norm_num) (s, w, z) hv
+    have hselNonneg : 0 ≤ exteriorNorm K S (subsetPrimeIdeal K S p J) ^ (sigma - 3) :=
+      Real.rpow_nonneg hselPos.le _
+    have hmarkNonneg :
+        0 ≤ exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ (sigma + 1) :=
+      Real.rpow_nonneg hmarkPos.le _
     simp only [norm_mul, norm_pow, norm_neg, norm_one, one_pow, one_mul,
       Complex.norm_conj, hsel, hmark]
     calc
       _ ≤ (exteriorNorm K S (subsetPrimeIdeal K S p J) ^ (sigma - 3) * 1) *
           exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ (sigma + 1) *
           (C * frequencyRowNorm K S u ^ eta * markedBound ^ ((Finset.univ \ J).image p).card) := by
-        gcongr
+        exact mul_le_mul
+          (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hc hselNonneg) hmarkNonneg)
+          he (norm_nonneg _) (mul_nonneg (mul_nonneg hselNonneg zero_le_one) hmarkNonneg)
       _ = _ := by ring
   unfold compensatedRowFullCorrection
   dsimp only
