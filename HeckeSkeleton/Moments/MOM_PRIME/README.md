@@ -146,7 +146,7 @@ Imported source proofs needed native API/elaboration repairs:
 `LargeRowAllScales`, `SmallRowKernel`, `PrincipalRowLocal`,
 `ActualModerateCorrectionBound`, `LargeRowKernel`,
 `ActualPrincipalKernelBound`, `ActualModerateKernelDecay`, and
-`PhysicalInitialRowSum`.
+`PhysicalInitialRowSum`, and `PhysicalInitialMellinIdentity`.
 The joint-analytic repairs consume the source owner's proof fixes from
 PR #5 commit `496aee9914912e54feac9fced688ce6e61bc7f6f`.
 The initial-row-sum proof matches the owner's blob
