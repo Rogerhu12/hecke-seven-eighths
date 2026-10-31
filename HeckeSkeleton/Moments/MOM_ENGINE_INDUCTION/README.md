@@ -133,8 +133,20 @@ The coarse terminal loss `β` is charged once. Only the local edge loss is
 multiplied by the finite depth. The number of finite child labels may vary
 with the scale, and integral children may have continuous frequency labels;
 their total weight mass is the controlled quantity. Undoing
-the normalization restores `U^(m+q)`. At an original source root this width
-is exactly one, and `β + N*δ ≤ loss` gives the requested exponent.
+the normalization restores `U^(m+q)`. At a source root this is its actual
+`rowWidth`, and `β + N*δ ≤ loss` gives the corresponding row-width exponent.
+The row width is allowed to depend on the original base, which is preserved
+by the no-slot map. Physical capacity remains bounded by one, and the
+prime-product power remains `1 + kappa * selectedLength`.
+
+`RootNormalization.lean` proves the return to physical power one when
+`U^rowWidth ≤ D*U`, by multiplying only the scalar constant by `D`. In the
+actual dyadic row window `U < N(u) ≤ 2*U`, the exponent
+`1 + log(2)/log(U)` satisfies `U^rowWidth = 2*U`, and is at most two for
+`U ≥ 2`. This costs a factor of two without consuming a new power loss or
+altering the height degree, ceiling, or threshold. This agrees with the
+EXPANSION correction in PR #5 and the physical row window at paper lines
+3756–3828; the final seven-eighths conclusion is unchanged.
 
 All constants precede the moving index and sector. The height degree and
 ceiling precede `τ`; the scalar and threshold may depend on fixed `τ`, exactly
@@ -147,9 +159,25 @@ everywhere. The proof uses pointwise strong induction followed by monotonicity
 of the Bochner integral and the exact integral of a constant. No finite
 representative or supremum is substituted for the genuine Fourier integral.
 `Reduction.lean` exposes one interface with explicit finite-sum and integral
-constructors; both feed the same three source projections. Constructing the
-measure and proving its uniform mass bound remain producer obligations,
-including any frequency growth from the recursive profile bounds.
+constructors; both feed the same three source projections.
+
+`KernelReduction.lean` now constructs the required positive measure from
+a genuine common Cauchy kernel. For child-column factors `aL, aR`, its density
+is `sqrt(aL*U^widthL) * sqrt(aR*U^widthR) / U^widthParent`. Each child receives
+one half of the pushforward of that same weighted kernel. The module proves
+the exact mass identity, weighted integrability, almost-everywhere earlier
+children, and AM–GM after each child's own width normalization. It produces
+both `IntegralStep` and `RawParentReduction`; no final child moment bound is
+an input. Actual source/column calibration, the integral bound on this
+explicit density, and raw terminal components still come from the producer.
+
+`LogNormProfiles.lean` realizes scalar log-norm Fourier columns with the
+existing `freezeTwist` and `separatedProfiles` constructors. It proves the
+termwise and complete plain/prime polynomial identities while preserving
+the original mask, rows, characters, slots, lengths and mesh. The Fourier
+frequency of each prime slot is fixed independently of the arithmetic row.
+Identifying an orbital kernel's chart with these log-norm coordinates and
+controlling the resulting profile family remain explicit source obligations.
 
 ## Terminal and exceptional-row proofs
 
@@ -221,8 +249,11 @@ Lean's recursive axiom collector visits declaration types as well as proof
 bodies. Thus even a completed proof body at those original signatures
 inherits `sorryAx` until the upstream constructions are completed. Their
 signatures also lack the permitted single-step argument and the additional
-parent-assembly input. This directory leaves those existing declarations
-unchanged and records corrected, explicit sufficient statements.
+parent-assembly input. The updated task rules allow correcting these source
+types and require continuing past relative statements. Work is proceeding on
+an explicit common expansion/model core and an acyclic source adapter, with
+ownership coordinated in PR #5; the current source wrappers are a verified
+intermediate boundary, not completion of the original obligations.
 
 The original averaged `PairedPrimeProductBound` concerns the original row
 family. The published child step requires pointwise prime-factor bounds on
@@ -250,7 +281,12 @@ lake env lean HeckeSkeleton/Moments/MOM_ENGINE_INDUCTION/Audit.lean
 
 The dedicated Actions workflow checks the exact PR head, inventories all
 explicit public declarations in the clean modules, and enforces the allowlist
-`propext`, `Classical.choice`, `Quot.sound`. Compilation and axiom evidence are
+`propext`, `Classical.choice`, `Quot.sound`. Both jobs restore the repository's
+precompiled project artifacts with
+`Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff`
+after the pinned Lean setup and Mathlib cache. There is no task-specific
+cache/bootstrap or checkpoint restoration. Standard Lake still checks the
+sources and dependencies before reuse. Compilation and axiom evidence are
 stored in Actions artifacts. The source specialization has an explicitly
 different inherited-axiom boundary and is checked by a separate integration
 job. That job also prints the axioms of the original three targets and their

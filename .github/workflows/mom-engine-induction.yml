@@ -15,9 +15,8 @@ on:
 permissions:
   contents: read
 
-# PR checks keep using the same PR cache scope across source heads. A manual
-# request for the same exact source head shares its concurrency group. Earlier
-# heads may finish and save dependency progress; only the final head's own
+# PR and manual checks for the same exact source head share a concurrency
+# group. Different heads finish independently; only the final head's own
 # build and axiom evidence establish its verification result.
 concurrency:
   group: mom-engine-induction-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}-${{ github.event.pull_request.head.sha || github.sha }}
@@ -46,37 +45,8 @@ jobs:
           lint: "false"
           use-mathlib-cache: "true"
           use-github-cache: "true"
-      # The setup action saves its cache before our explicit proof build.
-      # Preserve that build separately, including native Lake traces. Lake
-      # checks source and dependency hashes before reusing restored objects.
-      - name: Restore project dependency build progress
-        id: project-cache
-        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
-        with:
-          path: |
-            .lake/build
-            vendor/class-field-theory/.lake/build
-          key: mom-engine-induction-project-v3-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-clean-${{ env.EXPECTED_SHA }}-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: |
-            mom-engine-induction-project-v3-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-clean-${{ env.EXPECTED_SHA }}-
-            mom-engine-induction-project-v3-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-skeleton-${{ env.EXPECTED_SHA }}-
-            mom-engine-induction-project-v3-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-skeleton-
-            mom-engine-induction-project-v3-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-clean-
-      # Cache versions include paths. A separate one-path restore is needed
-      # to recover genuine v2/v1 progress when no two-path v3 cache exists.
-      - name: Restore legacy single-directory build progress
-        if: steps.project-cache.outputs.cache-matched-key == ''
-        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
-        with:
-          path: .lake/build
-          key: mom-engine-induction-legacy-clean-${{ env.EXPECTED_SHA }}-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: |
-            mom-engine-induction-project-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-clean-${{ env.EXPECTED_SHA }}-
-            mom-engine-induction-project-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-skeleton-${{ env.EXPECTED_SHA }}-
-            mom-engine-induction-project-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-skeleton-
-            mom-engine-induction-project-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-clean-
-            mom-engine-induction-project-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-${{ env.EXPECTED_SHA }}-
-            mom-engine-induction-project-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
       - name: Build the exact head and check every clean task declaration
         shell: bash
         run: |
@@ -85,20 +55,12 @@ jobs:
           proof_logs="$RUNNER_TEMP/mom-engine-induction"
           mkdir -p "$proof_logs"
           python3 "$task_dir/verify.py" preflight --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/preflight.log"
-          # Preserve completed dependency work before the 180-minute job cap.
+          # Leave time to upload diagnostics before the 180-minute job cap.
           timeout --signal=TERM --kill-after=30s 140m lake build HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Audit 2>&1 | tee "$proof_logs/build.log"
           printf '\nMOM_ENGINE_INDUCTION_BUILD_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/build.log"
           lake env lean "$task_dir/Audit.lean" 2>&1 | tee "$proof_logs/axioms.log"
           printf '\nMOM_ENGINE_INDUCTION_AUDIT_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/axioms.log"
           python3 "$task_dir/verify.py" check --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/verification.log"
-      - name: Save completed dependency work even after a proof failure
-        if: ${{ !cancelled() && steps.project-cache.outcome == 'success' }}
-        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
-        with:
-          path: |
-            .lake/build
-            vendor/class-field-theory/.lake/build
-          key: ${{ steps.project-cache.outputs.cache-primary-key }}
       - name: Upload compilation and axiom evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -115,9 +77,6 @@ jobs:
   # A skipped integration job after a clean failure is not integration evidence.
   skeleton-integration:
     needs: verify
-    permissions:
-      contents: read
-      actions: read
     runs-on: ubuntu-latest
     timeout-minutes: 360
     env:
@@ -137,62 +96,8 @@ jobs:
           lint: "false"
           use-mathlib-cache: "true"
           use-github-cache: "true"
-      - name: Restore project dependency build progress
-        id: project-cache
-        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
-        with:
-          path: |
-            .lake/build
-            vendor/class-field-theory/.lake/build
-          key: mom-engine-induction-project-v3-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-skeleton-${{ env.EXPECTED_SHA }}-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: |
-            mom-engine-induction-project-v3-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-skeleton-${{ env.EXPECTED_SHA }}-
-            mom-engine-induction-project-v3-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-skeleton-
-            mom-engine-induction-project-v3-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-clean-${{ env.EXPECTED_SHA }}-
-            mom-engine-induction-project-v3-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml', 'vendor/class-field-theory/lakefile.toml') }}-clean-
-      # Cache versions include paths. A separate one-path restore is needed
-      # to recover genuine v2/v1 progress when no two-path v3 cache exists.
-      - name: Restore legacy single-directory build progress
-        if: steps.project-cache.outputs.cache-matched-key == ''
-        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
-        with:
-          path: .lake/build
-          key: mom-engine-induction-legacy-skeleton-${{ env.EXPECTED_SHA }}-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: |
-            mom-engine-induction-project-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-skeleton-${{ env.EXPECTED_SHA }}-
-            mom-engine-induction-project-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-skeleton-
-            mom-engine-induction-project-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-clean-${{ env.EXPECTED_SHA }}-
-            mom-engine-induction-project-v2-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-clean-
-            mom-engine-induction-project-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-${{ env.EXPECTED_SHA }}-
-            mom-engine-induction-project-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-
-      - name: Plan verified native foundation restoration
-        id: foundation-plan
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          proof_logs="$RUNNER_TEMP/mom-engine-induction-skeleton"
-          mkdir -p "$proof_logs"
-          python3 HeckeSkeleton/Moments/MOM_ENGINE_INDUCTION/verify.py foundation-plan --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/foundation-plan.log"
-      - name: Download immutable native foundation artifacts
-        if: steps.foundation-plan.outputs.restore_needed == 'true'
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v4
-        with:
-          repository: Rogerhu12/hecke-seven-eighths
-          run-id: 41126752041
-          artifact-ids: 13012376359,13011719707,13011754956,13013018508,13017749400,13018611868,13018074066,13015618946,13021712535,13021514563,13021895900,13022623396
-          github-token: ${{ github.token }}
-          path: ${{ runner.temp }}/mom-engine-induction-foundation
-      - name: Verify and restore original native outputs and Lake traces
-        if: steps.foundation-plan.outputs.restore_needed == 'true'
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          proof_logs="$RUNNER_TEMP/mom-engine-induction-skeleton"
-          python3 HeckeSkeleton/Moments/MOM_ENGINE_INDUCTION/verify.py foundation-restore --expected-sha "$EXPECTED_SHA" --output "$proof_logs" --downloads "$RUNNER_TEMP/mom-engine-induction-foundation" 2>&1 | tee "$proof_logs/foundation-restore.log"
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
       - name: Compile the exact source adapter and report inherited axioms
         shell: bash
         run: |
@@ -202,7 +107,7 @@ jobs:
           mkdir -p "$proof_logs"
           python3 "$task_dir/verify.py" skeleton-preflight --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/preflight.log"
           # A command timeout is a real failed build (exit 124), while the job
-          # remains alive to save completed Lake artifacts and diagnostic logs.
+          # remains alive to upload the complete diagnostic logs.
           timeout --signal=TERM --kill-after=30s 140m lake build HeckeSkeleton.Moments 2>&1 | tee "$proof_logs/upstream-build.log"
           printf '\nMOM_ENGINE_INDUCTION_SKELETON_UPSTREAM_BUILD_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/upstream-build.log"
           lake env lean "$proof_logs/UpstreamAudit.lean" 2>&1 | tee "$proof_logs/upstream-axioms.log"
@@ -212,14 +117,6 @@ jobs:
           lake env lean "$proof_logs/SkeletonAudit.lean" 2>&1 | tee "$proof_logs/axioms.log"
           printf '\nMOM_ENGINE_INDUCTION_SKELETON_AUDIT_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/axioms.log"
           python3 "$task_dir/verify.py" skeleton-check --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/verification.log"
-      - name: Save completed dependency work even after an integration failure
-        if: ${{ !cancelled() && steps.project-cache.outcome == 'success' }}
-        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
-        with:
-          path: |
-            .lake/build
-            vendor/class-field-theory/.lake/build
-          key: ${{ steps.project-cache.outputs.cache-primary-key }}
       - name: Upload separate source integration evidence
         if: always()
         uses: actions/upload-artifact@v4

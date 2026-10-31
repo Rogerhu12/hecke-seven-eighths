@@ -43,6 +43,7 @@ def actualSourceFamily (M : SourceMomentModels K c) :
   kappa := 2 * c.family.B - 1
   mesh := (momentMesh K c.family).val
   loss := c.family.lamA
+  rowExponent := fun _ => 1
   shell := fun _ _ i => (momentBlock i).shell
   bin := fun _ _ i => (momentBlock i).bin
   plainLength := fun _ _ i => (momentWitness i).plainLength

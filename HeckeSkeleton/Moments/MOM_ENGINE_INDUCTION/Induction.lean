@@ -69,9 +69,11 @@ theorem ParentReductionInput.sectorBound
   have hb := (RawParentReduction.closeTerminals K cert.step cert.base_one_le).energy_bound
     hC cert.base_one_le hT
     input.heightDegree_nonneg input.edgeLoss_nonneg cert.root
-  have hw : (cert.system.node cert.root).width = 1 := by
+  have hw : (cert.system.node cert.root).width = F.rowWidth i := by
     rw [cert.root_eq]
     simp only [Node.width, Node.ordinary, SourceFamily.parameters, add_zero]
+    change F.rowWidth (indexMap Z (Z ^ τ) i) = F.rowWidth i
+    simp only [SourceFamily.rowWidth, input.base_at Z (Z ^ τ) i]
   rw [hw, cert.root_eq, Node.ordinary_energy] at hb
   rw [input.base_at Z (Z ^ τ) i]
   apply hb.trans

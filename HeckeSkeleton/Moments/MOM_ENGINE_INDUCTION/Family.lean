@@ -34,6 +34,9 @@ structure SourceFamily (ω ψ : HeckeCharacter K)
   kappa : ℝ
   mesh : ℝ
   loss : ℝ
+  /-- The row cutoff is `U ^ rowExponent U`; witness and slot scales stay at `U`.
+  A physical dyadic envelope may therefore use `1 + log 2 / log U`. -/
+  rowExponent : ℝ → ℝ := fun _ => 1
   shell : ∀ Z T, Index Z T → ℝ
   bin : ∀ Z T, Index Z T → ℝ
   plainLength : ∀ Z T, Index Z T → ℝ
@@ -54,6 +57,9 @@ variable (F : SourceFamily K ω ψ Index Sector)
 
 def base {Z T : ℝ} (i : Index Z T) : ℝ := Z ^ F.shell Z T i
 
+/-- The actual row-enumeration width at this source base. -/
+def rowWidth {Z T : ℝ} (i : Index Z T) : ℝ := F.rowExponent (F.base i)
+
 /-- The source slot length `(1/6)/(J₀ d)`, at base `Z^d`. -/
 def slotWidth {Z T : ℝ} (i : Index Z T) : ℝ :=
   (1 / 6) / (F.slots * F.shell Z T i)
@@ -63,11 +69,12 @@ def selectedLength {Z T : ℝ} (i : Index Z T) : ℝ :=
 
 /-- The exact seven source parameters, including the full dynamic kappa. -/
 def parameters {Z T : ℝ} (i : Index Z T) : RealParameters :=
-  ⟨1, 0, F.selectedLength i, 0,
+  ⟨F.rowWidth i, 0, F.selectedLength i, 0,
     F.plainLength Z T i, F.plainLength Z T i, F.kappa⟩
 
 /-- Source capacity, without imposing a restriction on the zero-slot
-projection.  Its two conjuncts match `pairedCapacity` exactly. -/
+projection.  Its two conjuncts match `pairedCapacity` exactly, including
+the physical right-hand side `1` when a larger dyadic row cutoff is used. -/
 def capacity {Z T : ℝ} (i : Index Z T) : Prop :=
   (∀ j ∈ F.selected Z T i, F.slotWidth i ≤ F.mesh) ∧
     2 * F.plainLength Z T i + 6 * F.kappa * F.selectedLength i ≤ 1
@@ -75,9 +82,26 @@ def capacity {Z T : ℝ} (i : Index Z T) : Prop :=
 def positiveEligible {Z T : ℝ} (i : Index Z T) : Prop :=
   F.capacity i ∧ (F.selected Z T i).Nonempty
 
+/-- The original physical capacity remains valid for an enlarged row
+envelope.  No witness length or selected slot is changed. -/
+theorem capacity_parameters {Z T : ℝ} (i : Index Z T)
+    (hcapacity : F.capacity i) (hwidth : 1 ≤ F.rowWidth i) :
+    (F.parameters i).n₁ + (F.parameters i).n₂ +
+        6 * (F.parameters i).κ * (F.parameters i).z ≤
+      (F.parameters i).m + (F.parameters i).q := by
+  simpa only [parameters, two_mul, add_zero] using hcapacity.2.trans hwidth
+
 @[simp] theorem base_noSlots {Z T : ℝ} (i : Index Z T) :
     F.base (F.noSlots Z T i) = F.base i := by
   simp only [base, F.noSlots_shell]
+
+@[simp] theorem rowWidth_noSlots {Z T : ℝ} (i : Index Z T) :
+    F.rowWidth (F.noSlots Z T i) = F.rowWidth i := by
+  simp only [rowWidth, F.base_noSlots]
+
+@[simp] theorem parameters_width {Z T : ℝ} (i : Index Z T) :
+    (F.parameters i).m + (F.parameters i).q = F.rowWidth i := by
+  simp only [parameters, add_zero]
 
 @[simp] theorem selectedLength_noSlots {Z T : ℝ} (i : Index Z T) :
     F.selectedLength (F.noSlots Z T i) = 0 := by
@@ -129,12 +153,14 @@ def UniformBound
 
 def ZeroSlotBound : Prop :=
   F.UniformBound (fun Z T i => F.energy (F.noSlots Z T i))
-    (fun _ _ _ => 1) (fun _ _ _ => True)
+    (fun _ _ i => F.rowWidth i) (fun _ _ _ => True)
 
 def PositiveSlotBound : Prop :=
   F.UniformBound (fun _ _ i => F.energy i)
-    (fun _ _ _ => 1) (fun _ _ i => F.positiveEligible i)
+    (fun _ _ i => F.rowWidth i) (fun _ _ i => F.positiveEligible i)
 
+/-- The physical prime-product premise retains its source exponent `1`.
+Changing the enumeration cutoff does not change this input statement. -/
 def PrimeProductBound (κ : ℝ) : Prop :=
   F.UniformBound (fun _ _ i => F.primeEnergy i)
     (fun _ _ i => 1 + κ * F.selectedLength i) (fun _ _ i => F.capacity i)
@@ -151,7 +177,7 @@ def SectorBound (indexMap : ∀ Z T, Index Z T → Index Z T)
           pairedEnergy (F.model Z (Z ^ τ) (indexMap Z (Z ^ τ) i) s)
             (F.parameters (indexMap Z (Z ^ τ) i))
             (F.base (indexMap Z (Z ^ τ) i)) 0 ≤
-            C * F.base i ^ (1 + F.loss) * (1 + Z ^ τ) ^ A
+            C * F.base i ^ (F.rowWidth i + F.loss) * (1 + Z ^ τ) ^ A
 
 /-- Summing a common per-sector estimate introduces exactly the fixed
 sector cardinality.  No index, height or tau dependence enters that factor. -/
@@ -160,7 +186,7 @@ theorem uniformBound_of_sectorBound
     (eligible : ∀ Z T, Index Z T → Prop)
     (h : F.SectorBound indexMap eligible) :
     F.UniformBound (fun Z T i => F.energy (indexMap Z T i))
-      (fun _ _ _ => 1) eligible := by
+      (fun _ _ i => F.rowWidth i) eligible := by
   obtain ⟨A, ceiling, hA, hc, hb⟩ := h
   refine ⟨A, ceiling, hA, hc, ?_⟩
   intro τ hτ hτc
@@ -169,9 +195,9 @@ theorem uniformBound_of_sectorBound
   intro Z hZ i hbin helig
   calc
     F.energy (indexMap Z (Z ^ τ) i) ≤
-        ∑ _s : Sector, C * F.base i ^ (1 + F.loss) * (1 + Z ^ τ) ^ A :=
+        ∑ _s : Sector, C * F.base i ^ (F.rowWidth i + F.loss) * (1 + Z ^ τ) ^ A :=
       Finset.sum_le_sum fun s _ => hh Z hZ i hbin helig s
-    _ = (Fintype.card Sector : ℝ) * C * F.base i ^ (1 + F.loss) *
+    _ = (Fintype.card Sector : ℝ) * C * F.base i ^ (F.rowWidth i + F.loss) *
         (1 + Z ^ τ) ^ A := by
       simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_assoc]
 
