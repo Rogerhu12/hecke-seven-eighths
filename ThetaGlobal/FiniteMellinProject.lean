@@ -66,19 +66,22 @@ is the actual local period including its unit-sector Hilbert correction.
 The allowed-class indicator and κ Hilbert square are explicit. -/
 theorem coefficient_shell_spec
     (u : SixthUnitClasses K S) (κ : SixthLocalClasses K S)
-    (l : Fin F.terms) (p : S) (k : ℤ) :
-    F.coefficient u κ l p k =
+    (l : Fin (F).terms) (p : S) (k : ℤ) :
+    (F).coefficient u κ l p k =
       let tσ := (Fintype.equivFin (Tensor × (∀ p, Class p))).symm l
       ∫ z, (if p = pivot then powerClassMask B H κ (assemble tσ.2) else 1) *
         (if classOf p ((d u tσ.1 p).shell k z) = tσ.2 p then 1 else 0) *
         (d u tσ.1 p).multiplier PUnit.unit k z *
-        (d u tσ.1 p).value ((d u tσ.1 p).shell k z) ∂μ p := rfl
+        (d u tσ.1 p).value ((d u tσ.1 p).shell k z) ∂μ p := by
+  show FiniteShell.coefficient _ _ _ _ = _
+  rw [FiniteShell.coefficient_spec]
+  simp only [withClassMask, localMaskFactor]
 
 /-- TH-FINITE-VALUATION-CUTOFF for the constructed table, from pointwise
 large-norm support of the finite family of actual local Whittaker vectors. -/
 theorem valuation_cutoff
     (hd : ∀ u t p, LocalWhittakerBounds (d u t p)) :
-    ∃ k₀ : ℤ, ∀ u κ l p k, k < k₀ → F.coefficient u κ l p k = 0 := by
+    ∃ k₀ : ℤ, ∀ u κ l p k, k < k₀ → (F).coefficient u κ l p k = 0 := by
   obtain ⟨k₀, hk₀⟩ := FiniteTensor.uniform_cutoff B H hH assemble pivot classOf d μ hd
   refine ⟨k₀, ?_⟩
   intro u κ l p k hk
@@ -93,7 +96,7 @@ theorem valuation_decay
     (hd : ∀ u t p, LocalWhittakerBounds (d u t p)) :
     ∀ δ : ℝ, δ < 1 / 3 → ∃ C : ℝ, 0 ≤ C ∧
       ∀ u κ l p k, 0 ≤ k →
-        ‖F.coefficient u κ l p k‖ ≤ C *
+        ‖(F).coefficient u κ l p k‖ ≤ C *
           (p.val.asIdeal.absNorm : ℝ) ^ (-(k : ℝ) * δ) := by
   intro δ hδ
   obtain ⟨C, hC, hc⟩ := FiniteTensor.uniform_decay B H hH assemble pivot classOf d μ hd δ hδ
@@ -115,7 +118,7 @@ theorem finiteAdmissible
   refine ⟨hcut, hdecay, ?_⟩
   intro u κ l p s hs
   apply FiniteShell.summable_mellin_of_bounds p.val.asIdeal.absNorm
-    (NumberField.HeightOneSpectrum.one_lt_absNorm p.val) (F.coefficient u κ l p) ?_ ?_ s hs
+    (NumberField.HeightOneSpectrum.one_lt_absNorm p.val) ((F).coefficient u κ l p) ?_ ?_ s hs
   · obtain ⟨k₀, hk₀⟩ := hcut
     exact ⟨k₀, fun k hk => hk₀ u κ l p k hk⟩
   · intro δ hδ

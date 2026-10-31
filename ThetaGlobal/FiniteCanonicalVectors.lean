@@ -97,8 +97,9 @@ theorem weylValue_support (p : R.A.Sf) (φ : Vector R D p) :
       (action R D p (SheetRescaling.finiteRoot R p.val t) b) =
       (localFiniteCharacter F p.val t : ℂ) * D.ell (Sum.inr p.val) b := by
     intro t b
-    simpa only [CodifferentResidueSieve.localTraceCharacter_eq_localFiniteCharacter] using
-      ell_finite_root R D p.val t b
+    have h := ell_finite_root R D p.val t b
+    simp only [CodifferentResidueSieve.localTraceCharacter_eq_localFiniteCharacter] at h
+    exact h
   exact KPFiniteLocal.generic_fixed_vector_support p.val (action R D p) hsmooth
     (SheetRescaling.finiteRoot R p.val) hn
     (KPPGLLocalCover.A F R.A.zeta12 R.A.primitive_zeta12 (Sum.inr p.val))

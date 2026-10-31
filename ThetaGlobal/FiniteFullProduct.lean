@@ -35,6 +35,11 @@ open ThetaGlobal.FiniteCoreProduct
 open scoped Classical NumberField BigOperators
 
 variable {F : Type} [Field F] [NumberField F]
+
+instance localHaar_isAddHaarMeasure (q : KPFinitePlace F) :
+    (FiniteCanonicalSource.localHaar (F := F) q).IsAddHaarMeasure := by
+  dsimp only [FiniteCanonicalSource.localHaar]
+  infer_instance
 variable {S : SArithmeticData F} {η : RayClassCharacter F S.modulus}
 variable (R : PrincipalMellin.ActualRecipe S η)
 variable {Q : AdmissibleFlatSources R} {T : Realization R Q}
@@ -108,7 +113,8 @@ theorem local_value_nonzero_of_whittaker
   change L = (L (harmonicInclusion v) / M (harmonicInclusion v)) • M at hcompare
   intro hzero
   apply hLne
-  simpa only [hrestriction v, hzero, zero_div, zero_smul] using hcompare
+  simp only [hrestriction v, hzero, zero_div] at hcompare
+  exact hcompare.trans (zero_smul ℂ M)
 
 /-- The property follows from the existing arbitrary-vector completed
 period theorem for the literal canonical residue source. -/
@@ -131,7 +137,8 @@ theorem canonical_localArchRatio
     s x (projectiveSlot R w a) /
       actualStagePeriod R B.model B.fibers
         FiniteCanonicalSource.localHaar FiniteCanonicalSource.localHaar_integer N s x 1 = _
-  rw [h, mul_div_cancel_right₀ _ hx]
+  rw [h]
+  exact mul_div_cancel_right₀ _ hx
 
 theorem normalized_full_matrix_product (hfull : FullArchProduct R D)
     (s : RestrictedTensorSimple.Level D.bad) (hs : s.val = D.bad)

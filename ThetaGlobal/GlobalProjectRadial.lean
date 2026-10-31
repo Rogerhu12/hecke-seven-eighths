@@ -97,7 +97,7 @@ theorem hcHeckeSpan_rational {Q : AdmissibleFlatSources R} (T : Realization R Q)
       AdelicRightLieWords.actualRightWord F R.A.zeta12 R.A.primitive_zeta12 word
         (T.theta v) (g * a)
     simpa only [← actualRightWord_eq_adelic, mul_assoc] using
-      actualRightWord_rational R _ (T.automorphic v).2.1 word γ (g * a)
+      actualRightWord_rational R (T.theta v) (T.automorphic v).2.1 word γ (g * a)
   | zero => intros; rfl
   | add f g hf hg ihf ihg =>
     intro γ x
@@ -177,6 +177,7 @@ theorem upper_nativeCurve_hasDeriv
   convert hi using 1
   · funext t
     simp only [upper, P, mul_assoc]
+    rfl
   · simp only [upper, P', flow, RootDerivatives.nativeCurve_zero, mul_one]
 
 theorem upper_actualRight
@@ -207,7 +208,9 @@ theorem upper_rightAction (dq : Measure (KPAdditiveQuotient F))
     (f : Functions R) (a : Group R) :
     upper R dq (ρ a f) = fun g => upper R dq f (g * a) := by
   funext g
-  simp only [upper, KPLiteralRaw.rightAction, mul_assoc]
+  simp only [upper, KPLiteralRaw.rightAction]
+  refine integral_congr_ae (Filter.Eventually.of_forall fun q => ?_)
+  exact congrArg f (mul_assoc _ _ _)
 
 theorem hcHeckeSpan_upper_integrable {Q : AdmissibleFlatSources R} (T : Realization R Q)
     {f : Functions R} (hf : f ∈ hcHeckeSpan T) (g : Group R) :
@@ -229,12 +232,13 @@ theorem hcHeckeSpan_upper_covariant {Q : AdmissibleFlatSources R} (T : Realizati
   | mem f hf =>
     obtain ⟨v, r, word, rfl⟩ := hf
     rw [upper_rightAction, ← actualRightWord_eq_adelic,
-      upper_actualRightWord R Q.dq _ (T.automorphic v).1 (T.automorphic v).2.1]
+      upper_actualRightWord R Q.dq (T.theta v) (T.automorphic v).1 (T.automorphic v).2.1]
     exact GlobalAngular.rightTranslate_covariant a r c _
       (actualRightWord_covariant R a c _ (hselected v) word)
   | zero =>
     change (fun _ => ∫ _, (0 : ℂ) ∂Q.dq) ∈ GlobalAngular.covariantFunctions a c
-    simpa using (GlobalAngular.covariantFunctions a c).zero_mem
+    simp only [integral_zero]
+    exact (GlobalAngular.covariantFunctions a c).zero_mem
   | add f g hf hg ihf ihg =>
     have he : upper R Q.dq (f + g) = upper R Q.dq f + upper R Q.dq g := by
       funext x

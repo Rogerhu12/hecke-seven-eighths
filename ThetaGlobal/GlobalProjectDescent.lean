@@ -75,6 +75,7 @@ theorem actual_rational_fourier_descent
         (fun d x =>
           KPRationalAdelicSplitting.pglW F R.A.zeta12 R.A.primitive_zeta12 * g d x) a := by
   letI : Countable F := (Module.finBasis ℚ F).repr.injective.countable
+  letI : Countable Fˣ := Function.Injective.countable (f := ((↑) : Fˣ → F)) fun _ _ h => Units.ext h
   exact GlobalFourierDescent.integrated_finite_average_weyl
     μ weight f.val
     (KPRationalAdelicSplitting.pglW F R.A.zeta12 R.A.primitive_zeta12)
@@ -82,8 +83,8 @@ theorem actual_rational_fourier_descent
     (fun d x => upper R Q.dq f.val (g d x))
     (fun d x => upper R Q.dq f.val
       (KPRationalAdelicSplitting.pglW F R.A.zeta12 R.A.primitive_zeta12 * g d x))
-    (fun d a x => GlobalCoreSource.rationalPeriod T f (a : F) (g d x))
-    (fun d a x => GlobalCoreSource.rationalPeriod T f (a : F)
+    (fun d (a : Fˣ) x => GlobalCoreSource.rationalPeriod T f (a : F) (g d x))
+    (fun d (a : Fˣ) x => GlobalCoreSource.rationalPeriod T f (a : F)
       (KPRationalAdelicSplitting.pglW F R.A.zeta12 R.A.primitive_zeta12 * g d x))
     (fun d x => GlobalCoreSource.nonzero_rationalPeriod_hasSum T f (g d x) (hs₀ d x))
     (fun d x => GlobalCoreSource.nonzero_rationalPeriod_hasSum T f

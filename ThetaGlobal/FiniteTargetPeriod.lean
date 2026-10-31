@@ -34,8 +34,9 @@ def finiteSlot (p : R.A.Sf) : (p.val.adicCompletion F)ˣ →* R.A.G :=
 theorem finiteSlot_prod (z : ∀ p : R.A.Sf, (p.val.adicCompletion F)ˣ) :
     (∏ p, finiteSlot R p (z p)) = (1, z) := by
   apply Prod.ext
-  · simp [finiteSlot]
-  · simpa [finiteSlot] using Finset.univ_prod_mulSingle z
+  · simp only [finiteSlot_apply, Prod.fst_prod, Finset.prod_const_one]
+  · simp only [finiteSlot_apply, Prod.snd_prod]
+    exact Finset.univ_prod_mulSingle z
 
 def sectorPhaseHom (u : R.A.UnitQuotient) : R.A.G →* ℂ :=
   R.σ.toMonoidHom.comp ((Units.coeHom F).comp ((rootsOfUnity 6 F).subtype.comp

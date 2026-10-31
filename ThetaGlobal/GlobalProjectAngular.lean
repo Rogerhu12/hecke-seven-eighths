@@ -80,7 +80,11 @@ theorem sheetWeight_rotation (L : R.A.G →* ℂ) (B : Subgroup R.A.V)
     sheetWeight R L B (IdeleInsertion.infiniteInsertion R.A w z * y) =
       -sheetWeight R L B y := by
   unfold sheetWeight
-  rw [map_mul, IdeleInsertion.insertion_class_eq_one R, one_mul, map_mul, hL]
+  have h1 : QuotientGroup.mk' R.A.sixthPowers (IdeleInsertion.infiniteInsertion R.A w z * y) =
+      QuotientGroup.mk' R.A.sixthPowers y := by
+    rw [map_mul, IdeleInsertion.insertion_class_eq_one R]
+    exact one_mul (QuotientGroup.mk' R.A.sixthPowers y)
+  rw [h1, map_mul, hL]
   simp only [neg_one_mul, inv_neg]
   ring
 

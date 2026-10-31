@@ -20,6 +20,7 @@ is used as an input.
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false
+set_option synthInstance.maxHeartbeats 400000
 noncomputable section
 
 namespace ThetaGlobal.GlobalProjectUnfolding
@@ -41,6 +42,10 @@ theorem gamma_class (γ : R.A.Gamma1) : k γ.val.val = 1 := by
   obtain ⟨q, ⟨u, hu, rfl⟩, hq⟩ := δ.property
   apply (QuotientGroup.eq_one_iff _).mpr
   exact ⟨R.A.diagonal u, by simpa only [powMonoidHom_apply, map_pow] using hq⟩
+
+theorem k_gamma_mul (γ : R.A.Gamma1) (y : R.A.G) : k (γ.val.val * y) = k y := by
+  rw [map_mul, gamma_class]
+  exact one_mul (k y)
 
 theorem character_ne_zero (L : R.A.G →* ℂ) (y : R.A.G) : L y ≠ 0 := by
   have h : L y * L y⁻¹ = 1 := by rw [← map_mul, mul_inv_cancel, map_one]
@@ -67,14 +72,16 @@ def reverseWeight (L : R.A.G →* ℂ) (B : Subgroup R.A.V)
 theorem weight_gamma (L : R.A.G →* ℂ) (B : Subgroup R.A.V)
     (hL : ∀ γ : R.A.Gamma1, L γ.val.val = 1) (γ : R.A.Gamma1) (y : R.A.G) :
     weight R L B (γ.val.val * y) = weight R L B y := by
-  simp only [weight, map_mul, gamma_class, hL, one_mul]
+  rw [weight, weight, k_gamma_mul, map_mul, hL, one_mul]
 
 theorem reverseWeight_gamma (L : R.A.G →* ℂ) (B : Subgroup R.A.V)
     (hL : ∀ γ : R.A.Gamma1, L γ.val.val = 1)
     (κ : R.A.V) (γ : R.A.Gamma1) (y : R.A.G) :
     reverseWeight R L B κ (γ.val.val * y) = reverseWeight R L B κ y := by
-  rw [reverseWeight, weight_gamma R L B hL]
-  simp only [map_inv, map_mul, gamma_class, one_mul, reverseWeight]
+  have hk : k (γ.val.val * y)⁻¹ = k y⁻¹ := by
+    rw [map_inv, map_inv, k_gamma_mul]
+  rw [reverseWeight, weight_gamma R L B hL, hk]
+  rfl
 
 theorem weight_mul_transport (L : R.A.G →* ℂ) (B : Subgroup R.A.V)
     (a y : R.A.G) :
@@ -87,9 +94,10 @@ theorem reverseWeight_div_transport (L : R.A.G →* ℂ) (B : Subgroup R.A.V)
     reverseWeight R L B (k a) y =
       (L a)⁻¹ * reflectedWeight R L B (k a) (a / y) := by
   have hclass : k a * (k (a / y))⁻¹ = k y := by
-    rw [map_div, inv_div]
-    simp only [div_eq_mul_inv]
-    rw [mul_left_comm, mul_inv_cancel, mul_one]
+    have hG : a * (a / y)⁻¹ = y := by rw [inv_div, mul_div_cancel]
+    have h := congrArg k hG
+    rw [map_mul, map_inv] at h
+    exact h
   have hpair : GlobalProjectConvention.paperHilbert R (k a) (k (a / y)) =
       GlobalProjectConvention.paperHilbert R (k a) (k y⁻¹) := by
     unfold GlobalProjectConvention.paperHilbert

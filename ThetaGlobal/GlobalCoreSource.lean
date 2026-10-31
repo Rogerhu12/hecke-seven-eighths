@@ -46,7 +46,6 @@ theorem fiber_mk (f : sameResidueModule T) (g : Group R) (x : KPAdeles F) :
     (Quotient.out (QuotientAddGroup.mk x : KPAdditiveQuotient F)) * g) = _
   rw [he, ← ht, add_comm, KPGlobalTorusFunctionData.N_add, mul_assoc,
     ← KPLiteralExceptionalResidue.rationalLift_unipotent, f.property.2.2.1]
-  rfl
 
 theorem fiber_zero (f : sameResidueModule T) (g : Group R) :
     fiber T f g 0 = f.val g := by

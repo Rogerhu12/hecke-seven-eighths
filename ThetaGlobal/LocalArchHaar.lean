@@ -39,10 +39,14 @@ theorem normSq_polarUnit (A : SArithmeticData F) (w : InfinitePlace F)
   rw [← polarEquiv_eq]
   change ‖(InfinitePlace.Completion.ringEquivComplexOfIsComplex
     (A.complex_place w)).symm (complexPolar p).val‖ ^ 2 = _
-  rw [(InfinitePlace.Completion.isometryEquivComplexOfIsComplex
+  have hiso := (InfinitePlace.Completion.isometryEquivComplexOfIsComplex
     (A.complex_place w)).symm.isometry.norm_map_of_map_zero
       ((InfinitePlace.Completion.ringEquivComplexOfIsComplex
-        (A.complex_place w)).symm.map_zero) (complexPolar p).val]
+        (A.complex_place w)).symm.map_zero) (complexPolar p).val
+  rw [show ‖(InfinitePlace.Completion.ringEquivComplexOfIsComplex
+      (A.complex_place w)).symm (complexPolar p).val‖ =
+      ‖(InfinitePlace.Completion.isometryEquivComplexOfIsComplex
+      (A.complex_place w)).symm (complexPolar p).val‖ from rfl, hiso]
   exact congrArg (fun q : PositiveAxis × Circle => q.1.val) (complexPolar_left_inv p)
 
 theorem polarUnit_continuous (A : SArithmeticData F) (w : InfinitePlace F) :
@@ -130,9 +134,9 @@ theorem positive_integral_eq_mellin (f : ℝ → ℂ) (s : ℂ) :
     (∫ t : PositiveAxis, f t.val * (t.val : ℂ) ^ s ∂positiveHaar) = mellin f s := by
   have he : MeasurableEmbedding (Subtype.val : PositiveAxis → ℝ) :=
     MeasurableEmbedding.subtype_coe measurableSet_Ioi
-  change (∫ t : PositiveAxis, (fun r : ℝ => f r * (r : ℂ) ^ s) t.val
-    ∂positiveHaar) = _
-  rw [← he.integral_map, positiveHaar_map_val,
+  refine (he.integral_map (μ := positiveHaar)
+    (fun r : ℝ => f r * (r : ℂ) ^ s)).symm.trans ?_
+  rw [positiveHaar_map_val,
     restrict_withDensity measurableSet_Ioi,
     integral_withDensity_eq_integral_toReal_smul (by fun_prop)
       (Filter.Eventually.of_forall fun _ => ENNReal.ofReal_lt_top)]

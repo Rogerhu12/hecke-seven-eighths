@@ -38,7 +38,7 @@ theorem exists_arithmeticChoice_top
     (hζ : IsPrimitiveRoot ζ 12) (σ : F →+* ℂ) :
     ∃ X : HeckeAxiom.ArithmeticChoice F S₀ ζ σ, X.A.modulus = ⊤ := by
   obtain ⟨T, hT₀, hT⟩ := exists_finiteS_localDifferentExponent_eq_zero F S₀
-  obtain ⟨S, hST, hroot, hmod, -, -⟩ := SArithmeticData.exists_generalArithmeticContext F T
+  obtain ⟨S, hST, hroot, hmod, -, -⟩ := exists_generalArithmeticContext F T
     ⊤ top_ne_bot ζ hζ σ (AbelianQuotient.trivialRayCharacter F)
   have hη := principal_cast hmod _
     (HeckeAxiom.trivialRayCharacter_isPrincipal (F := F))

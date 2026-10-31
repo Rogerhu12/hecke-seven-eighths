@@ -97,6 +97,9 @@ theorem signed_term_reindex (f : Functions R)
         (DigitMasks.digitRightTuple_mem R m u y d w)
     have hh := hext (DigitMasks.digitRightTuple R m u y d)⁻¹ hk g
     simpa only [DigitMasks.digitRight, map_inv] using hh
+  have hre : ThetaExpansion.QuotientDescent.digitReindex R m u d =
+      DigitMasks.digitReindex R m u d := rfl
+  rw [hre]
   cases b
   · rw [DigitMasks.signedArgument_reindex_false, hright]
     simpa only [map_inv] using hr ((u.val ^ 6)⁻¹) (signedArgument R m false y d)

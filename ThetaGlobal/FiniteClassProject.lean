@@ -81,7 +81,8 @@ theorem skeletonAxiomClassEquiv_mk
     skeletonAxiomClassEquiv A (QuotientGroup.mk x) =
       QuotientGroup.mk' A.sixthPowers (a, x.2) := by
   apply (axiomFiniteClassEquiv A).injective
-  simp [skeletonAxiomClassEquiv]
+  simp only [skeletonAxiomClassEquiv, MulEquiv.trans_apply, MulEquiv.apply_symm_apply]
+  rfl
 
 /-- Exact class dictionary on rational diagonal elements. -/
 theorem skeletonAxiomClassEquiv_diagonal (a : Fˣ) :
@@ -101,7 +102,8 @@ def assemble : (∀ p : A.Sf, LocalClass A p) →
     assemble A (fun p => (QuotientGroup.mk (x p) : LocalClass A p)) =
       QuotientGroup.mk ((1 : (mixedEmbedding.mixedSpace F)ˣ), x) := by
   apply (skeletonFiniteClassEquiv A).injective
-  simp [assemble]
+  simp only [assemble, MulEquiv.apply_symm_apply]
+  rfl
 
 /-- Pull back the actual chosen allowed complement along the canonical
 class dictionary.  Taking `B = X.C.correction.B` keeps the same choice. -/
@@ -153,7 +155,7 @@ theorem reflectedClassMask_spec (B : Subgroup A.V) (σ : F →+* ℂ)
           (skeletonAxiomClassEquiv A c) : Fˣ) : F) ^ 2)⁻¹
       else 0 := by
   simp only [reflectedClassMask, powerClassMask, allowedClasses,
-    Set.mem_preimage, map_mul, map_inv, reflectedHilbert, hilbert, inv_pow]
+    Set.mem_preimage, SetLike.mem_coe, map_mul, map_inv, reflectedHilbert, hilbert, inv_pow]
 
 variable {S₀ : Finset (HeightOneSpectrum (𝓞 F))} {root12 : F} {σ : F →+* ℂ}
 

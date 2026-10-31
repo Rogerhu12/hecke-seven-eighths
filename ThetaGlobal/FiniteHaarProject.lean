@@ -54,7 +54,8 @@ theorem integralUnits_range :
 theorem measurable_valuationFiber (k : ℤ) :
     MeasurableSet (valuationFiber (localOrderHom K p) k) := by
   change MeasurableSet ((localOrder K p) ⁻¹' {Multiplicative.ofAdd k})
-  exact (localOrder K p).continuous.measurable measurableSet_singleton
+  exact ((isOpen_discrete ({Multiplicative.ofAdd k} : Set (Multiplicative ℤ))).preimage
+    (localOrder K p).continuous).measurableSet
 
 theorem integralUnits_compact_range : IsCompact (Set.range (localIntegerUnitsEmbedding K p)) := by
   letI : CompactSpace (LocalIntegerRing K p) :=

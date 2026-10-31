@@ -47,8 +47,10 @@ theorem period_spec (θ : HeckeCharacter F) (u : R.A.UnitQuotient) (y : R.A.G) :
       ((∏ w : InfinitePlace F, (infiniteComponent F w θ (y.1 w) : ℂ)) *
         ∏ p : R.A.Sf, (localComponent F p.val θ (y.2 p) : ℂ))⁻¹ *
       TargetFinitePeriod.sectorPhaseHom R u y := by
-  simp only [period, MonoidHom.mul_apply, MonoidHom.comp_apply,
-    MonoidHom.inv_apply, Circle.coe_inv, sHeckeHom, Circle.coe_mul, map_prod]
+  change ((sHeckeHom R θ y : Circle) : ℂ)⁻¹ * TargetFinitePeriod.sectorPhaseHom R u y = _
+  congr 2
+  change Circle.coeHom (sHeckeHom R θ y) = _
+  simp only [sHeckeHom, MonoidHom.coe_mk, OneHom.coe_mk, map_mul, map_prod] <;> rfl
 
 theorem period_norm (θ : HeckeCharacter F) (u : R.A.UnitQuotient) (y : R.A.G) :
     ‖period R θ u y‖ = 1 := by
@@ -61,7 +63,8 @@ theorem period_ne_zero (θ : HeckeCharacter F) (u : R.A.UnitQuotient) (y : R.A.G
     period R θ u y ≠ 0 := by
   intro hz
   have h := period_norm R θ u y
-  simpa only [hz, norm_zero] using h
+  rw [hz, norm_zero] at h
+  exact zero_ne_one h
 
 theorem sHeckeHom_continuous (θ : HeckeCharacter F) : Continuous (sHeckeHom R θ) := by
   apply Continuous.mul
@@ -88,21 +91,22 @@ theorem sHeckeHom_diagonal_unit (θ : HeckeCharacter F)
     sHeckeHom R θ (R.A.diagonal u.val) = 1 := by
   have hfinite : (∏ p : R.A.Sf,
       localComponent F p.val θ ((R.A.diagonal u.val).2 p)) =
-      sUnitFiniteCharacter F (R.A.Sf : Set _) θ u := by
+      sUnitFiniteCharacter F (R.A.Sf : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F))) θ u := by
     rw [HeckeAxiom.sUnitFiniteCharacter_eq_prod F R.A.Sf θ hS u]
     exact Finset.prod_coe_sort R.A.Sf
-      (fun p => localComponent F p θ (sUnitLocal F (R.A.Sf : Set _) p u))
-  change (sUnitInfinityCharacter F (R.A.Sf : Set _) θ u) *
+      (fun p => localComponent F p θ (sUnitLocal F (R.A.Sf : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F))) p u))
+  change (sUnitInfinityCharacter F (R.A.Sf : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F))) θ u) *
     (∏ p : R.A.Sf, localComponent F p.val θ ((R.A.diagonal u.val).2 p)) = 1
   rw [hfinite, mul_comm]
-  exact sUnitFinite_mul_infinity_eq_one F (R.A.Sf : Set _) θ u
+  exact sUnitFinite_mul_infinity_eq_one F (R.A.Sf : Set (IsDedekindDomain.HeightOneSpectrum (𝓞 F))) θ u
 
 theorem period_diagonal_unit_sixth (θ : HeckeCharacter F)
     (hS : conductorPlaces F θ ⊆ R.A.Sf)
     (u : R.A.UnitQuotient) (ε : R.A.U) :
     period R θ u (R.A.diagonal (ε.val ^ 6)) = 1 := by
-  have hθ : sHeckeHom R θ (R.A.diagonal (ε.val ^ 6)) = 1 :=
-    sHeckeHom_diagonal_unit R θ hS (ε ^ 6)
+  have hθ : sHeckeHom R θ (R.A.diagonal (ε.val ^ 6)) = 1 := by
+    have h6 := sHeckeHom_diagonal_unit R θ hS (ε ^ 6)
+    rwa [SubgroupClass.coe_pow] at h6
   have hk : QuotientGroup.mk' R.A.sixthPowers (R.A.diagonal (ε.val ^ 6)) = 1 := by
     apply (QuotientGroup.eq_one_iff _).mpr
     exact ⟨R.A.diagonal ε.val, (map_pow R.A.diagonal ε.val 6).symm⟩

@@ -104,7 +104,7 @@ private theorem weighted_bessel_bound (c : ℝ) (hc : 0 < c)
     setIntegral_mono_set hi hnonneg (Filter.Eventually.of_forall (fun _ hu => hu.1))
   have hpow : (∫ u : ℝ in Ioc 0 t, u ^ (a - 1)) = t ^ a / a := by
     rw [← intervalIntegral.integral_of_le ht.le,
-      intervalIntegral.integral_rpow (Or.inl (by linarith : -1 < a - 1))]
+      _root_.integral_rpow (Or.inl (by linarith : -1 < a - 1))]
     simp only [sub_add_cancel, Real.zero_rpow ha.ne', sub_zero]
   have hdiv : (t ^ a * KThird (c * Real.sqrt t)) / a ≤
       ∫ u : ℝ in Ioi 0, u ^ (a - 1) * KThird (c * Real.sqrt u) := by

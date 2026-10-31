@@ -104,10 +104,10 @@ local instance (p : R.A.Sf) : IsFiniteMeasure (unitHaar R N p) :=
 
 variable (L : R.A.UnitQuotient → ∀ p : R.A.Sf, (p.val.adicCompletion F)ˣ → Circle)
 
-def projectedShellData (u : R.A.UnitQuotient) (_t : PUnit) (p : R.A.Sf) :=
+def projectedShellData (u : R.A.UnitQuotient) (_t : PUnit.{1}) (p : R.A.Sf) :=
   vectorShellData R D p (normalizedSelectedVector R D u p) (L u p)
 
-theorem projectedShellData_bounds (u : R.A.UnitQuotient) (t : PUnit) (p : R.A.Sf) :
+theorem projectedShellData_bounds (u : R.A.UnitQuotient) (t : PUnit.{1}) (p : R.A.Sf) :
     FiniteShell.LocalWhittakerBounds (projectedShellData R D L u t p) :=
   vectorShellData_bounds R D p (normalizedSelectedVector R D u p) (L u p)
 
@@ -117,27 +117,27 @@ variable (C₀ : ℂ) (hC₀ : C₀ ≠ 0) (A₀ : ℝ) (hA₀ : 0 < A₀)
 tuple of genuine sixth-power classes: each source sector already has one
 stored pure tensor.  The pivot is the source's actual scalar slot. -/
 def finiteMellinData : FiniteMellinData F (R.A.Sf : Set (HeightOneSpectrum (𝓞 F))) :=
-  ProjectFiniteMellin.finiteMellinDataOfClassShells F (R.A.Sf : Set _)
+  ProjectFiniteMellin.finiteMellinDataOfClassShells F (R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))
     (ProjectFiniteClass.allowedClasses R.A R.probe.correction.B)
     (ProjectFiniteClass.reflectedHilbert R.A R.σ)
     (fun x y => (ProjectFiniteClass.reflectedHilbert_norm_one R.A R.σ x y).le)
     (ProjectFiniteClass.assemble R.A) D.scalarSlot
     (fun p z => (QuotientGroup.mk z : ProjectFiniteClass.LocalClass R.A p))
-    (projectedShellData R D L) (unitHaar R N) C₀ hC₀ A₀ hA₀
+    (projectedShellData.{0} R D L) (unitHaar R N) C₀ hC₀ A₀ hA₀
 
 /-- Cutoff, all decay exponents, and absolute local Mellin convergence
 are proved for this actual source-specific table. -/
 theorem finiteMellinData_admissible :
     FiniteMellinAdmissible F (R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))
       (finiteMellinData R D N L C₀ hC₀ A₀ hA₀) :=
-  ProjectFiniteMellin.finiteAdmissible F (R.A.Sf : Set _)
+  ProjectFiniteMellin.finiteAdmissible F (R.A.Sf : Set (HeightOneSpectrum (𝓞 F)))
     (ProjectFiniteClass.allowedClasses R.A R.probe.correction.B)
     (ProjectFiniteClass.reflectedHilbert R.A R.σ)
     (fun x y => (ProjectFiniteClass.reflectedHilbert_norm_one R.A R.σ x y).le)
     (ProjectFiniteClass.assemble R.A) D.scalarSlot
     (fun p z => (QuotientGroup.mk z : ProjectFiniteClass.LocalClass R.A p))
-    (projectedShellData R D L) (unitHaar R N) C₀ hC₀ A₀ hA₀
-    (fun _ _ _ => rfl) (projectedShellData_bounds R D L)
+    (projectedShellData.{0} R D L) (unitHaar R N) C₀ hC₀ A₀ hA₀
+    (fun _ _ _ => rfl) (projectedShellData_bounds.{0} R D L)
 
 /-- The actual target Hecke character now supplies every local period;
 there is no remaining arbitrary local phase in this constructor. -/
@@ -153,7 +153,8 @@ def termClassEquiv (θ : HeckeCharacter F) :
     Fin (targetFiniteMellinData R D N C₀ hC₀ A₀ hA₀ θ).terms ≃
       (∀ p : R.A.Sf, ProjectFiniteClass.LocalClass R.A p) :=
   (Fintype.equivFin
-    (PUnit × (∀ p : R.A.Sf, ProjectFiniteClass.LocalClass R.A p))).symm.trans
+    (PUnit.{1} × (∀ p : ↑(R.A.Sf : Set (HeightOneSpectrum (𝓞 F))),
+      ProjectFiniteClass.LocalClass R.A p))).symm.trans
       (Equiv.punitProd (∀ p : R.A.Sf, ProjectFiniteClass.LocalClass R.A p))
 
 theorem targetFiniteMellinData_admissible (θ : HeckeCharacter F) :
@@ -197,7 +198,8 @@ theorem targetCoefficient_shell_spec (θ : HeckeCharacter F)
     (p : R.A.Sf) (k : ℤ) :
     (targetFiniteMellinData R D N C₀ hC₀ A₀ hA₀ θ).coefficient u κ l p k =
       let tσ := (Fintype.equivFin
-        (PUnit × (∀ q : R.A.Sf, ProjectFiniteClass.LocalClass R.A q))).symm l
+        (PUnit.{1} × (∀ q : ↑(R.A.Sf : Set (HeightOneSpectrum (𝓞 F))),
+          ProjectFiniteClass.LocalClass R.A q))).symm l
       ∫ z,
         (if p = D.scalarSlot then ProjectFiniteClass.reflectedClassMask R.A
           R.probe.correction.B R.σ κ (ProjectFiniteClass.assemble R.A tσ.2) else 1) *
@@ -205,7 +207,18 @@ theorem targetCoefficient_shell_spec (θ : HeckeCharacter F)
             ProjectFiniteClass.LocalClass R.A p) = tσ.2 p then 1 else 0) *
         (TargetFinitePeriod.localPeriod R θ u p (ProjectLocalShell.shellPoint F p.val k z) : ℂ) *
         weylValue R D p (normalizedSelectedVector R D u p)
-          (ProjectLocalShell.shellPoint F p.val k z) ∂unitHaar R N p := rfl
+          (ProjectLocalShell.shellPoint F p.val k z) ∂unitHaar R N p := by
+  first
+  | rfl
+  | (simp only [targetFiniteMellinData, finiteMellinData,
+      ProjectFiniteMellin.coefficient_shell_spec]; done)
+  | (simp only [targetFiniteMellinData, finiteMellinData,
+      ProjectFiniteMellin.coefficient_shell_spec]; rfl)
+  | (simp only [targetFiniteMellinData, finiteMellinData,
+      ProjectFiniteMellin.coefficient_shell_spec]
+     refine integral_congr_ae (Filter.Eventually.of_forall fun z => ?_)
+     simp only [projectedShellData, vectorShellData, ProjectLocalShell.shellData]
+     split_ifs <;> rfl)
 
 /-- The same coefficient specification expressed through the table's
 stored enumeration.  In particular the `Fin terms` index is in bijection
@@ -226,7 +239,17 @@ theorem targetCoefficient_enumerated_spec (θ : HeckeCharacter F)
             termClassEquiv R D N C₀ hC₀ A₀ hA₀ θ l p then 1 else 0) *
         (TargetFinitePeriod.localPeriod R θ u p (ProjectLocalShell.shellPoint F p.val k z) : ℂ) *
         weylValue R D p (normalizedSelectedVector R D u p)
-          (ProjectLocalShell.shellPoint F p.val k z) ∂unitHaar R N p := rfl
+          (ProjectLocalShell.shellPoint F p.val k z) ∂unitHaar R N p := by
+  first
+  | rfl
+  | (rw [targetCoefficient_shell_spec]; rfl)
+  | (rw [targetCoefficient_shell_spec]; simp only [termClassEquiv, Equiv.trans_apply,
+      Equiv.punitProd_apply]; done)
+  | (rw [targetCoefficient_shell_spec]; simp only [termClassEquiv, Equiv.trans_apply,
+      Equiv.punitProd_apply]; rfl)
+  | (rw [targetCoefficient_shell_spec]; simp only [termClassEquiv, Equiv.trans_apply,
+      Equiv.punitProd_apply]; congr)
+  | (rw [targetCoefficient_shell_spec]; congr 1; funext z; split_ifs <;> rfl)
 
 section TargetProjectedSource
 

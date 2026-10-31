@@ -149,8 +149,8 @@ theorem fiber_arch_lift_contDiff (f : sameResidueModule T) (g : Group R) :
   convert hs using 1
   funext x
   rw [smoothArchInclusion, fiber_mk, OrbitExpansion.upperArch_eq_leftChart]
-  congr 2
-  congr 1
+  refine congrArg (fun y => f.val (KPGlobalTorusBorelTwistCompatibility.groupArchChart F
+    R.A.zeta12 R.A.primitive_zeta12 y * g)) ?_
   funext w i
   dsimp only [c]
   split_ifs <;> try rfl

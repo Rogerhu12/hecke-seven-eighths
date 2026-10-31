@@ -52,13 +52,13 @@ projected global source by the established finite root-translation words;
 the target-kernel conclusion follows from the proved cutoff inclusion. -/
 theorem target_projected_source_exists (hR : RootAligned R)
     (N : TraceHaarTransport R) (A : FirstRootSphericalSeed R N)
-    (B : FirstRootCutoffs R) (hNative : SourceNativeLie R A.base.factorization)
+    (B : FirstRootCutoffs R) (hNative : RootDerivatives.SourceNativeLie R A.base.factorization)
     (θ : HeckeCharacter F) :
     ∃ (B' : FirstRootCutoffs R) (J : FirstRootProjected R N A B'),
       B'.exponent = B.exponent ∧
       (∀ p, J.cutoffs.cutoff p ≤ B.cutoff p) ∧
       (∀ p z, z ∈ J.cutoffs.cutoff p → localComponent F p.val θ z = 1) ∧
-      SourceNativeLie R J.base.factorization := by
+      RootDerivatives.SourceNativeLie R J.base.factorization := by
   obtain ⟨B', he, hle, hker⟩ := target_cutoffs_exist R θ B
   obtain ⟨J, hJ⟩ := RootDerivatives.finite_projector_native R hR N A B' hNative
   exact ⟨B', J, he, fun p => (J.cutoff_le p).trans (hle p),

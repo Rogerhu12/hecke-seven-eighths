@@ -140,7 +140,7 @@ theorem fullExteriorInvariant_of_local (f : Functions R) (hf : Continuous f)
         intro a ha h
         have he := ha (h * H a⁻¹)
         simpa only [map_inv, mul_assoc, inv_mul_cancel, mul_one] using he.symm }
-  have hclosed : IsClosed (J : Set _) := by
+  have hclosed : IsClosed (SetLike.coe J) := by
     change IsClosed {a | ∀ h : Group R, f (h * H a) = f h}
     simp only [Set.setOf_forall]
     apply isClosed_iInter
@@ -149,7 +149,7 @@ theorem fullExteriorInvariant_of_local (f : Functions R) (hf : Continuous f)
       (continuous_const.mul (QuotientGroup.continuous_mk.comp QuotientGroup.continuous_mk)))
       continuous_const
   have hsingle : RestrictedProductDensity.singleSet C (DigitMasks.exteriorFactor R) ⊆
-      (J : Set _) := by
+      (SetLike.coe J) := by
     rintro a ⟨w, b, hb, rfl⟩ h
     cases w with
     | inl w =>
