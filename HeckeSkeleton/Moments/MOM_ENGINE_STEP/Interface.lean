@@ -400,6 +400,12 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstParent
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfiles
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
 
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteMovingRowRecipe
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalChildData
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingEngineOutput
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstRowWindows
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualSourceMass
+
 /-!
 # The unified child step of the paired fourth-moment engine
 
