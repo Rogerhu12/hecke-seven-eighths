@@ -5,6 +5,7 @@ import HeckeSkeleton.ActualHeckeNormPullback
 import HeckeSkeleton.Descent.ArtinFactors
 import HeckeSkeleton.Descent.PoleMatching
 import HeckeGeneral.Analysis.HeckeEulerDeletion
+import HeckeSkeleton.Descent.DeletedEuler
 
 set_option autoImplicit false
 noncomputable section
@@ -61,7 +62,12 @@ theorem deletedEulerFactorization (χ : HeckeCharacter F) :
       ∀ s : ℂ, 1 < s.re →
         heckeDeletedContinuation (Extension F) (normPullback F χ) T' s =
           ∏ ψ ∈ factors F χ, heckeDeletedContinuation F ψ T s := by
-  sorry
+  refine ⟨DeletedEuler.badPlaces F (Extension F) χ,
+    DeletedEuler.badPlacesUp F (Extension F) χ, ?_⟩
+  simpa only [normPullback, normOnClasses,
+    HeckeGeneral.Characters.NormPullbackDraft.heckeNormPullback,
+    factors, artinCharacters, Artin.artinFactors_eq_image] using
+    (DeletedEuler.artinDeletedEulerProduct F (Extension F) χ)
 
 -- OBLIGATION DE-CONTINUATION | revised Lemma 2.1, p.2.
 -- Meromorphic identity transfer; no zero-free input.
