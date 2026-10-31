@@ -1,7 +1,5 @@
-module
-
-public import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobius
-public import HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel
+import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobius
+import HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel
 
 /-!
 # The genuine coprime orbital source produces two positive columns
@@ -13,8 +11,6 @@ the right side uses its actual common Fourier density. In particular,
 neither a separated-source identity nor an energy bound is assumed.
 -/
 
-@[expose] public section
-
 noncomputable section
 
 namespace HeckeSkeleton.Moments.MOMInvStep.FullMobius
@@ -22,7 +18,7 @@ namespace HeckeSkeleton.Moments.MOMInvStep.FullMobius
 open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Analysis
   HeckeGeneral.Bridge MeasureTheory
 open HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel
-open scoped Classical BigOperators FourierTransform
+open scoped Classical BigOperators FourierTransform ContDiff
 
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]

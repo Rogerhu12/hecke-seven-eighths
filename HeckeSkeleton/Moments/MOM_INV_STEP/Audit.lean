@@ -24,6 +24,14 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.OuterFrequencyTail
 import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobiusOrbital
 import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalGaussCRT
 import HeckeSkeleton.Moments.MOM_INV_STEP.GaussConjugation
+import HeckeSkeleton.Moments.MOM_INV_STEP.UnitGaussTransport
+import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveUnitGauss
+import HeckeSkeleton.Moments.MOM_INV_STEP.ThetaGaussCRT
+import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGaussCalibration
+import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalCubeLabels
+import HeckeSkeleton.Moments.MOM_INV_STEP.ActualReconstructionPacket
+import HeckeSkeleton.Moments.MOM_INV_STEP.BackgroundCycle
+import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
 
 /-! Recursive kernel-axiom audit for the canonical inverse single-step work. -/
 
@@ -106,3 +114,17 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.GaussConjugation
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalGaussCRT.principalGauss_mul
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.GaussConjugation.thetaGamma_five
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.GaussConjugation.second_cycle_five
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.UnitGaussTransport.principalGauss_unit
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.UnitGaussTransport.primitiveGauss_sixth_unit_generator
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ThetaGaussCRT.thetaGamma_eq_principalGauss
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ThetaGaussCRT.idealCharacterAt_product
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ThetaGaussCRT.thetaGamma_mul
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGaussCalibration.first_source_coefficient
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGaussCalibration.first_cube_coefficient_with_frozen_label
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalCubeLabels.cube_decomposition
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalCubeLabels.first_pass_after_dual_dilation
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualReconstructionPacket.live_label_squarefree
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualReconstructionPacket.packet_signedValue_eq_tuple_sum
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.BackgroundCycle.two_cycles_preserve_class
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren.child_puncture
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren.energy_restore

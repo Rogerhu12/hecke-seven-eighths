@@ -25,7 +25,8 @@ ROOT = Path(__file__).resolve().parents[3]
 LOGS = Path(os.environ.get("RUNNER_TEMP", "/tmp")) / "mom-inv-step-verification"
 OUT = ROOT / ".lake/build/lib/lean"
 STATE = ROOT / ".lake/build/mom-inv-step-state.json"
-TARGETS = sys.argv[1:] or ["HeckeSkeleton.Moments.MOM_INV_STEP.Audit"]
+TARGETS = sys.argv[1:] or ["HeckeSkeleton.Moments.MOM_INV_STEP.CoreAudit",
+                         "HeckeSkeleton.Moments.MOM_INV_STEP.Audit"]
 EXPECTED_LEAN = "4.35.0-rc3"
 EXPECTED_LEAN_COMMIT = "470d5ce1400764999581fd26d5d72b00d990b0f4"
 EXPECTED_MATHLIB = "0493595ecd5da8ef14742febab99728f98e948e8"
@@ -289,16 +290,13 @@ with ThreadPoolExecutor(max_workers=workers) as executor:
                   f"{record['seconds']}s {module}", flush=True)
             if stdout:
                 print(stdout, flush=True)
-if failed:
-    print(f"FAIL: {len(errors)} compilation failures; {len(failed) - len(errors)} blocked modules", flush=True)
-    print("\n".join(errors), flush=True)
-    raise SystemExit(1)
-print(f"PASS: verified actual project import closure for {', '.join(TARGETS)}", flush=True)
-
 # Every requested declaration is audited recursively by the kernel command.
+# Record each successful audit even when another target failed. Compilation
+# failures below still make the complete workflow fail.
 allowed = {"propext", "Classical.choice", "Quot.sound"}
+all_axioms = {}
 for target in TARGETS:
-    if not target.endswith("Audit"):
+    if not target.endswith("Audit") or target in failed:
         continue
     source = nodes[target]["path"].read_text()
     expected = set(re.findall(r"^#print axioms (\S+)", source, re.M))
@@ -316,5 +314,11 @@ for target in TARGETS:
         if axioms - allowed:
             raise SystemExit(f"{name}: unexpected axioms {sorted(axioms - allowed)}")
         audit[name] = sorted(axioms)
-    (LOGS / "axioms.json").write_text(json.dumps(audit, indent=2) + "\n")
+    all_axioms.update(audit)
+    (LOGS / "axioms.json").write_text(json.dumps(all_axioms, indent=2) + "\n")
     print(f"PASS: {len(expected)} declarations; recursive axioms within {sorted(allowed)}")
+if failed:
+    print(f"FAIL: {len(errors)} compilation failures; {len(failed) - len(errors)} blocked modules", flush=True)
+    print("\n".join(errors), flush=True)
+    raise SystemExit(1)
+print(f"PASS: verified actual project import closure for {', '.join(TARGETS)}", flush=True)

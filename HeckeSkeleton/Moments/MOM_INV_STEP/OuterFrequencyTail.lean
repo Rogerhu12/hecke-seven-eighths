@@ -1,8 +1,6 @@
-module
-
-public import HeckeGeneral.Analysis.SIntegerProfileTail
-public import Mathlib.Analysis.SpecialFunctions.Pow.Real
-public import Mathlib.Tactic
+import HeckeGeneral.Analysis.SIntegerProfileTail
+import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Tactic
 
 /-!
 # A fixed outer frequency ball and its genuine orbital tail
@@ -13,8 +11,6 @@ complement in the large-argument profile tail for every supported pair.
 The theorem uses the proved orbit count and Schwartz decay, and retains
 all original subgroup sectors. No bound for the tail itself is an input.
 -/
-
-@[expose] public section
 
 noncomputable section
 

@@ -94,7 +94,8 @@ theorem integrable_fourier_column_energy {ι : Type*} (T : Finset ι) (a : ι �
     (coordinate : LogPlane →L[ℝ] ℝ) :
     Integrable (fun ξ : LogPlane => ‖(𝓕 F) ξ‖ *
       ‖∑ i ∈ T, a i * columnPhase (coordinate ξ) (x i)‖ ^ 2) := by
-  apply (𝓕 F).integrable.norm.mul_bdd
+  have hd : Integrable (fun ξ : LogPlane => ‖(𝓕 F) ξ‖) volume := (𝓕 F).integrable.norm
+  apply hd.mul_bdd
     (c := (∑ i ∈ T, ‖a i‖) ^ 2)
   · exact (((finite_column_continuous T a x).comp coordinate.continuous).norm.pow 2).aestronglyMeasurable
   · exact Filter.Eventually.of_forall fun ξ => by
@@ -115,10 +116,15 @@ theorem finite_bilinear_energy {ι κ : Type*} (T : Finset ι) (U : Finset κ)
   rw [finite_bilinear_separated]
   let fstL : LogPlane →L[ℝ] ℝ := (ContinuousLinearMap.fst ℝ ℝ ℝ).comp logCoordinates.toContinuousLinearMap
   let sndL : LogPlane →L[ℝ] ℝ := (ContinuousLinearMap.snd ℝ ℝ ℝ).comp logCoordinates.toContinuousLinearMap
-  apply weighted_integral_cauchy volume (fun ξ => ‖(𝓕 F) ξ‖)
-    (fun ξ => ‖∑ i ∈ T, a i * columnPhase ξ.fst (x i)‖ ^ 2)
-    (fun ξ => ‖∑ j ∈ U, b j * columnPhase ξ.snd (y j)‖ ^ 2)
-    _ (fun _ => norm_nonneg _) (fun _ => sq_nonneg _) (fun _ => sq_nonneg _)
+  refine weighted_integral_cauchy (Ω := LogPlane) (volume : Measure LogPlane)
+    (fun ξ : LogPlane => ‖(𝓕 F) ξ‖)
+    (fun ξ : LogPlane => ‖∑ i ∈ T, a i * columnPhase ξ.fst (x i)‖ ^ 2)
+    (fun ξ : LogPlane => ‖∑ j ∈ U, b j * columnPhase ξ.snd (y j)‖ ^ 2)
+    (fun ξ : LogPlane => (𝓕 F) ξ *
+      (∑ i ∈ T, a i * columnPhase ξ.fst (x i)) *
+      (∑ j ∈ U, b j * columnPhase ξ.snd (y j)))
+    (fun _ => norm_nonneg _) (fun _ => sq_nonneg _) (fun _ => sq_nonneg _)
+    ?_ ?_ ?_ ?_ ?_ ?_
   · exact (𝓕 F).continuous.norm
   · exact (((finite_column_continuous T a x).comp fstL.continuous).norm.pow 2)
   · exact (((finite_column_continuous U b y).comp sndL.continuous).norm.pow 2)

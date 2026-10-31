@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_INV_STEP.LocalSource
 import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientCycle
+import HeckeGeneral.Analysis.GlobalThetaData
 import Mathlib.NumberTheory.GaussSum
 
 /-!
@@ -52,7 +53,7 @@ theorem finite_gauss_five {R : Type*} [CommRing R] [Fintype R]
     _ = ∑ x : R, χ (-1) * conj (χ (-x)) * ψ x := by
       apply Finset.sum_congr rfl
       intro x _hx
-      rw [hneg, map_mul]
+      rw [hneg x, map_mul]
       calc
         _ = (χ (-1) * conj (χ (-1))) * conj (χ x) * ψ x := by
           rw [hminus, one_mul]

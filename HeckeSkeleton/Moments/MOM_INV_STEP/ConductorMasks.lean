@@ -163,8 +163,26 @@ theorem principal_source_mask_eq_coprime
     · rintro ⟨p, hz⟩
       obtain ⟨hp, ht⟩ := Finset.mem_filter.mp p.property
       exact ⟨⟨p.val, hp⟩, ht, hz⟩
-  simpa only [hbad, principalIdeal] using
-    finite_residue_mask_eq_coprime K S (principalSupport B t) hpS a
+  have hcop : IsCoprime (principalIdeal B t) (sIntegerModulusContraction K S a) ↔
+      ∀ p : principalSupport B t,
+        sIntegerSexticResidueMap K S p.val (hpS p.val p.property) a ≠ 0 := by
+    rw [principalIdeal, IdealMobiusMask.primeProduct, IsCoprime.prod_left_iff]
+    constructor
+    · intro h p
+      exact (prime_coprime_contraction_iff K S p.val (hpS p.val p.property) a).mp
+        (h p.val p.property)
+    · intro h p hp
+      exact (prime_coprime_contraction_iff K S p (hpS p hp) a).mpr (h ⟨p, hp⟩)
+  by_cases hb : ∃ p : B, t p.val = 0 ∧
+      sIntegerSexticResidueMap K S p.val (hBS p.val p.property) a = 0
+  · rw [if_pos hb, if_neg]
+    intro hc
+    obtain ⟨p, hp⟩ := hbad.mp hb
+    exact hcop.mp hc p hp
+  · rw [if_neg hb, if_pos]
+    apply hcop.mpr
+    intro p hp
+    exact hb (hbad.mpr ⟨p, hp⟩)
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.ConductorMasks
 

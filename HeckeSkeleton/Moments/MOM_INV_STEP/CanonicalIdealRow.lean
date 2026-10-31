@@ -46,7 +46,25 @@ abbrev exteriorMonoid : Submonoid (NonzeroIdeal K) where
 
 local notation "E" => exteriorMonoid K S
 
-def primeIdeal (p : ExteriorPrime K Sset) : E := exteriorPrimeIdeal K Sset p
+/-- Explicit packaging avoids relying on elaborator coercion search
+between the existing subtype and the carrier of its submonoid. -/
+def toExterior (I : E) : Ext := ⟨I.val, I.property⟩
+
+def ofExterior (I : Ext) : E := ⟨I.val, I.property⟩
+
+@[simp] theorem toExterior_val (I : E) : (toExterior K S I).val = I.val := rfl
+
+@[simp] theorem ofExterior_val (I : Ext) : (ofExterior K S I).val = I.val := rfl
+
+@[simp] theorem toExterior_ofExterior (I : Ext) :
+    toExterior K S (ofExterior K S I) = I := rfl
+
+@[simp] theorem toExterior_mul (I J : E) :
+    toExterior K S (I * J) =
+      exteriorMul K Sset (toExterior K S I) (toExterior K S J) := rfl
+
+def primeIdeal (p : ExteriorPrime K Sset) : E :=
+  ofExterior K S (exteriorPrimeIdeal K Sset p)
 
 @[simp] theorem primeIdeal_val (p : ExteriorPrime K Sset) :
     (primeIdeal K S p).val.val = p.val.asIdeal := rfl
@@ -65,8 +83,14 @@ theorem product_idealValue {ι : Type*} (p : ι → E) (B : Finset ι) (e : ι �
 variable (D : ThetaArithmeticData K Sset)
 variable (hallowed : AllowedGeneratorInput K Sset D)
 
+def generator (I : E) : OS := D.generator (toExterior K S I)
+
+@[simp] theorem generator_ofExterior (I : Ext) :
+    generator K S D (ofExterior K S I) = D.generator I := rfl
+
 theorem generator_contraction (I : E) :
-    sIntegerModulusContraction K Sset (D.generator I) = I.val.val := by
+    sIntegerModulusContraction K Sset (generator K S D I) = I.val.val := by
+  unfold generator
   unfold sIntegerModulusContraction
   rw [D.generator_span]
   exact under_map_coprime_sIntegerIdeal K Sset I.val.val
@@ -75,19 +99,21 @@ theorem generator_contraction (I : E) :
 /-- The literal canonical numerator-ideal row. Multiplicativity is
 proved from the supplied allowed section and actual sixth-unit invariance. -/
 def row (n : Ext) : E →* ℂ where
-  toFun I := idealSymbol K Sset D n (D.generator I)
+  toFun I := idealSymbol K Sset D n (generator K S D I)
   map_one' := by
-    rw [hallowed.reciprocity n (1 : E)]
+    change idealSymbol K Sset D n (D.generator (toExterior K S 1)) = 1
+    rw [hallowed.reciprocity n (toExterior K S 1)]
     exact sIntegerSexticIdealEvaluation_top K Sset
       D.root6 D.primitive6 D.embedding (1 : E).property
       (fun p hp => D.away_six p ((1 : E).property p hp)) (D.generator n)
   map_mul' := by
     intro I J
-    obtain ⟨u, hu⟩ := hallowed.multiplicative I J
-    change idealSymbol K Sset D n (D.generator (exteriorMul K Sset I J)) = _
+    obtain ⟨u, hu⟩ := hallowed.multiplicative (toExterior K S I) (toExterior K S J)
+    change idealSymbol K Sset D n
+      (D.generator (exteriorMul K Sset (toExterior K S I) (toExterior K S J))) = _
     rw [hu, mul_assoc]
     calc
-      _ = idealSymbol K Sset D n (D.generator I * D.generator J) :=
+      _ = idealSymbol K Sset D n (generator K S D I * generator K S D J) :=
         sIntegerSexticIdealEvaluation_mul_sixth_power_unit K Sset
           D.root6 D.primitive6 D.embedding n.val.val
           (nonZeroDivisors.coe_ne_zero n.val) n.property
@@ -98,27 +124,36 @@ def row (n : Ext) : E →* ℂ where
         (fun p hp => D.away_six p (n.property p hp)) _ _
 
 @[simp] theorem row_apply (n : Ext) (I : E) :
-    row K S D hallowed n I = idealSymbol K Sset D n (D.generator I) := rfl
+    row K S D hallowed n I = idealSymbol K Sset D n (generator K S D I) := rfl
+
+include hallowed in
+theorem fourth_label_mul (n : Ext) (I J : E) :
+    idealSymbol K Sset D n (generator K S D (I * J)) ^ 4 =
+      idealSymbol K Sset D n (generator K S D I) ^ 4 *
+        idealSymbol K Sset D n (generator K S D J) ^ 4 := by
+  change row K S D hallowed n (I * J) ^ 4 =
+    row K S D hallowed n I ^ 4 * row K S D hallowed n J ^ 4
+  rw [map_mul, mul_pow]
 
 include hallowed in
 /-- Canonical generators of products and products of prime generators
 give exactly the same scalar row, with no nonvanishing assumption. -/
 theorem generator_product_row (n : Ext) {ι : Type*}
     (p : ι → E) (B : Finset ι) (e : ι → ℕ) :
-    idealSymbol K Sset D n (D.generator (primeProduct p B e)) =
-      idealSymbol K Sset D n (∏ i ∈ B, D.generator (p i) ^ e i) := by
+    idealSymbol K Sset D n (generator K S D (primeProduct p B e)) =
+      idealSymbol K Sset D n (∏ i ∈ B, generator K S D (p i) ^ e i) := by
   change row K S D hallowed n (∏ i ∈ B, p i ^ e i) =
     LocalSource.actualRow K Sset D.root6 D.primitive6 D.embedding n.val.val
       (nonZeroDivisors.coe_ne_zero n.val) n.property
       (fun p hp => D.away_six p (n.property p hp))
-        (∏ i ∈ B, D.generator (p i) ^ e i)
+        (∏ i ∈ B, generator K S D (p i) ^ e i)
   simp only [map_prod, map_pow, row_apply, LocalSource.actualRow_apply, idealSymbol]
 
 include hallowed in
 theorem prime_generator_product_row (n : Ext) {ι : Type*}
     (p : ι → ExteriorPrime K Sset) (B : Finset ι) (e : ι → ℕ) :
     idealSymbol K Sset D n
-      (D.generator (primeProduct (fun i => primeIdeal K S (p i)) B e)) =
+      (generator K S D (primeProduct (fun i => primeIdeal K S (p i)) B e)) =
       idealSymbol K Sset D n
         (∏ i ∈ B, D.generator (exteriorPrimeIdeal K Sset (p i)) ^ e i) :=
   generator_product_row K S D hallowed n (fun i => primeIdeal K S (p i)) B e
@@ -128,7 +163,7 @@ theorem row_mask (n : Ext) (I : E) :
       if IsCoprime n.val.val I.val.val then 1 else 0 := by
   have h := LocalSource.actualRow_mask K Sset D.root6 D.primitive6 D.embedding n.val.val
     (nonZeroDivisors.coe_ne_zero n.val) n.property
-    (fun p hp => D.away_six p (n.property p hp)) (D.generator I)
+      (fun p hp => D.away_six p (n.property p hp)) (generator K S D I)
   rw [generator_contraction] at h
   exact h
 
@@ -148,10 +183,10 @@ theorem first_pass_label_identity (n : Ext) {ι : Type*}
     (p : ι → E) (B : Finset ι) (v : ι → ℕ) (ε₁ ε₂ : ι → Bool)
     (hv : ∀ i ∈ B, 0 < v i) (side : Bool) :
     (if IsCoprime n.val.val (cubeRadical p B).val.val then 1 else 0) *
-      idealSymbol K Sset D n (D.generator (aLabel p B (if side then ε₂ else ε₁))) ^ 4 *
-      idealSymbol K Sset D n (D.generator (crtLabel p B v ε₁ ε₂ side)) *
-      idealSymbol K Sset D n (D.generator (dilationLabel p B v ε₁ ε₂)) =
-    idealSymbol K Sset D n (D.generator (jLabel p B v ε₁ ε₂)) ^ 4 *
+      idealSymbol K Sset D n (generator K S D (aLabel p B (if side then ε₂ else ε₁))) ^ 4 *
+      idealSymbol K Sset D n (generator K S D (crtLabel p B v ε₁ ε₂ side)) *
+      idealSymbol K Sset D n (generator K S D (dilationLabel p B v ε₁ ε₂)) =
+    idealSymbol K Sset D n (generator K S D (jLabel p B v ε₁ ε₂)) ^ 4 *
       (if IsCoprime n.val.val (b0Label p B v ε₁ ε₂).val.val then 1 else 0) := by
   have h := CubeAlgebra.first_pass_label_identity (row K S D hallowed n)
     (row_zero_or_one K S D hallowed n) p B v ε₁ ε₂ hv side
@@ -165,12 +200,12 @@ theorem first_pass_after_dual_dilation (n : Ext) {ι : Type*}
     (p : ι → E) (B : Finset ι) (v : ι → ℕ) (ε₁ ε₂ : ι → Bool)
     (hv : ∀ i ∈ B, 0 < v i) (side : Bool) (z : E) :
     ((if IsCoprime n.val.val (cubeRadical p B).val.val then 1 else 0) *
-      idealSymbol K Sset D n (D.generator (aLabel p B (if side then ε₂ else ε₁))) ^ 4 *
-      idealSymbol K Sset D n (D.generator (crtLabel p B v ε₁ ε₂ side))) *
-      star (idealSymbol K Sset D n (D.generator z)) =
-    (idealSymbol K Sset D n (D.generator (jLabel p B v ε₁ ε₂)) ^ 4 *
+      idealSymbol K Sset D n (generator K S D (aLabel p B (if side then ε₂ else ε₁))) ^ 4 *
+      idealSymbol K Sset D n (generator K S D (crtLabel p B v ε₁ ε₂ side))) *
+      star (idealSymbol K Sset D n (generator K S D z)) =
+    (idealSymbol K Sset D n (generator K S D (jLabel p B v ε₁ ε₂)) ^ 4 *
       (if IsCoprime n.val.val (b0Label p B v ε₁ ε₂).val.val then 1 else 0)) *
-      star (idealSymbol K Sset D n (D.generator (z * dilationLabel p B v ε₁ ε₂))) := by
+      star (idealSymbol K Sset D n (generator K S D (z * dilationLabel p B v ε₁ ε₂))) := by
   have h := CubeAlgebra.first_pass_after_dual_dilation (row K S D hallowed n)
     (row_zero_or_one K S D hallowed n) p B v ε₁ ε₂ hv side z
   rw [row_mask, row_mask] at h

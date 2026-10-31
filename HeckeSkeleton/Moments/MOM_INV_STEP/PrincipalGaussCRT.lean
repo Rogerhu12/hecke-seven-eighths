@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier
+import HeckeGeneral.Characters.SIntegerModulusPhaseUnit
 import Mathlib.RingTheory.Ideal.Quotient.Operations
 import Mathlib.Algebra.Group.Units.Equiv
 

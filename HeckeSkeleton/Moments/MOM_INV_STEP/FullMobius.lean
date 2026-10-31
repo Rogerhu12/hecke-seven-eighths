@@ -1,7 +1,5 @@
-module
-
-public import HeckePort.CenteredMoment.Mask
-public import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
+import HeckePort.CenteredMoment.Mask
+import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
 
 /-!
 # Full mutual-gcd extension before the positive energy step
@@ -13,8 +11,6 @@ the left source; it is not an extra hypothetical range. After this exact
 extension, the same Fourier density separates both columns. The signed
 Moebius factor becomes one common positive weight only at Cauchy.
 -/
-
-@[expose] public section
 
 noncomputable section
 

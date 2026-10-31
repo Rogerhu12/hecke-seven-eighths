@@ -18,7 +18,7 @@ namespace HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel
 
 open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Analysis
   HeckeGeneral.Bridge MeasureTheory
-open scoped Classical BigOperators FourierTransform
+open scoped Classical ContDiff BigOperators FourierTransform
 
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
@@ -55,6 +55,7 @@ theorem orbitalDensity_integrable (φ : SchwartzMap V ℂ)
     (R : {r : ℝ // 0 < r}) :
     Integrable (orbitalDensity K S Γ ψ hψ hψsupport χ hχ hχsupport φ R) :=
   (orbitalDensity K S Γ ψ hψ hψsupport χ hχ hχsupport φ R).integrable
+    (μ := (volume : Measure LogPlane))
 
 /-- The exact dual radial packet at two positive column norms.  The
 cutoff-one condition concerns the fixed admissible column range only. -/

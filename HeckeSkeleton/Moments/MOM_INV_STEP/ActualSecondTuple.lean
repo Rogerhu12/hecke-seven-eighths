@@ -29,7 +29,13 @@ open scoped Classical BigOperators NumberField nonZeroDivisors
 variable (K : Type*) [Field K] [NumberField K]
 
 @[ext] structure Source (Sector : Type*) where
-  b₁ b₂ n₁ n₂ x₁ x₂ quotient : (Ideal (𝓞 K))⁰
+  b₁ : (Ideal (𝓞 K))⁰
+  b₂ : (Ideal (𝓞 K))⁰
+  n₁ : (Ideal (𝓞 K))⁰
+  n₂ : (Ideal (𝓞 K))⁰
+  x₁ : (Ideal (𝓞 K))⁰
+  x₂ : (Ideal (𝓞 K))⁰
+  quotient : (Ideal (𝓞 K))⁰
   n₁_squarefree : Squarefree n₁.val
   n₂_squarefree : Squarefree n₂.val
   x₁_squarefree : Squarefree x₁.val
