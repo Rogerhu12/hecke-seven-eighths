@@ -1,12 +1,14 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildProvider
+import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
 
 /-!
 # Actual source rows retain their joint row and moving-mask budget
 
-The moving support is a squarefree exterior ideal, tied to the original
-Boolean mask at every individual ideal.  The only fixed mask is the
-original arithmetic ambient ideal A.cS.  Thus a moving deletion cannot
-be hidden in a newly chosen background mask.
+The extra moving support is a squarefree exterior ideal, tied to the
+original Boolean mask at every individual ideal. The complete original
+S/6 mask and coprimality to the full row ideal are retained literally.
+Only the additional deletion ideal enters the moving-support budget;
+the row's own radical is not charged a second time.
 
 The child row predicate is filtered by the product of the actual row
 norm and this same moving-support norm.  A source row survives because
@@ -24,20 +26,23 @@ namespace HeckeSkeleton.Moments.EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
+open HeckeGeneral.ThetaSkeleton.Physical
 
 variable {F : Type} [Field F] [NumberField F]
 variable {A : SArithmeticData F} {σ : F →+* ℂ}
 variable {ω ψ : HeckeCharacter F}
 
-/-- The moving mask is bound to the original individual-ideal mask.
-It is fixed before the Fourier parameters and disjoint from the fixed
-ambient bad support by its actual exterior-ideal type. -/
+/-- The extra deletion is bound to the original individual-ideal mask.
+The complete row mask already includes coprimality to the row ideal.
+The support here is only the remaining deletion, fixed before the
+Fourier parameters and exterior to the original fixed arithmetic set. -/
 structure ActualMovingMaskRecipe (A : SArithmeticData F)
     {X : Type*} (data : X → MomentData F ω ψ) where
   support : HeckeGeneral.Analysis.NonzeroIdeal F → A.Exterior
   squarefree : ∀ u, Squarefree (support u).val
   mask : ∀ ξ u I, (data ξ).commonMask u I =
-    (decide (IsCoprime I A.cS) && decide (IsCoprime I (support u).val))
+    (completeIdealCommonMask F (A.Sf : Set (HeightOneSpectrum (𝓞 F))) u I &&
+      decide (IsCoprime I (support u).val))
 
 /-- The finite row enumeration remains exhaustive for its explicitly
 filtered arithmetic predicate.  No polynomial factor is altered. -/
@@ -111,6 +116,37 @@ theorem ActualChildRow.joint_norm_le
 namespace ActualMovingMaskRecipe
 
 variable {X : Type*} {data : X → MomentData F ω ψ}
+
+/-- An original complete-row mask has no extra deletion. In particular
+its row coprimality does not contribute another ideal norm. -/
+def ofCompleteMask
+    (hmask : ∀ ξ u I, (data ξ).commonMask u I =
+      completeIdealCommonMask F (A.Sf : Set (HeightOneSpectrum (𝓞 F))) u I) :
+    ActualMovingMaskRecipe A data where
+  support _ := unitExterior A
+  squarefree _ := by
+    simpa only [unitExterior, Ideal.one_eq_top] using
+      (squarefree_one : Squarefree (1 : Ideal (𝓞 F)))
+  mask ξ u I := by
+    rw [hmask ξ u I]
+    change _ = _ && decide (IsCoprime I (⊤ : Ideal (𝓞 F)))
+    simp only [← Ideal.one_eq_top, isCoprime_one_right, decide_true, Bool.and_true]
+
+@[simp] theorem ofCompleteMask_support
+    (hmask : ∀ ξ u I, (data ξ).commonMask u I =
+      completeIdealCommonMask F (A.Sf : Set (HeightOneSpectrum (𝓞 F))) u I)
+    (u : NonzeroIdeal F) :
+    (ofCompleteMask hmask).support u = unitExterior A := rfl
+
+/-- The extra-deletion norm of the complete original row is one. -/
+@[simp] theorem ofCompleteMask_support_norm
+    (hmask : ∀ ξ u I, (data ξ).commonMask u I =
+      completeIdealCommonMask F (A.Sf : Set (HeightOneSpectrum (𝓞 F))) u I)
+    (u : NonzeroIdeal F) :
+    A.exteriorNorm ((ofCompleteMask hmask).support u) = 1 := by
+  change (Ideal.absNorm (⊤ : Ideal (𝓞 F)) : ℝ) = 1
+  simp only [← Ideal.one_eq_top, map_one, Nat.cast_one]
+
 variable (M : ActualMovingMaskRecipe A data)
 
 /-- Row restriction retains the identical actual moving-support
@@ -212,6 +248,7 @@ end ActualAllocatedSource.Calibration
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualChildRow.joint_norm_le
+#print axioms HeckeSkeleton.Moments.EngineStep.ActualMovingMaskRecipe.ofCompleteMask
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualAllocatedSource.Calibration.withJointRowBudget
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualAllocatedSource.Calibration.energy_le_withJointRowBudget
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualAllocatedSource.Calibration.withJointRowBudget_all_rows

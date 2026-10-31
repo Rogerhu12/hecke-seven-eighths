@@ -72,7 +72,9 @@ theorem actual_capacity_pair_relative_allowance_le
         (1 / (Ideal.absNorm (commonRadical W.leftIdeal W.rightIdeal) : ℝ)) /
           (Ideal.absNorm left.source.allocation.divisor : ℝ) := by
   have hz : 0 < Z := zero_lt_one.trans hZ
-  have hNpos : 0 < N := hN ▸ Real.rpow_pos_of_pos hz _
+  have hNpos : 0 < N := by
+    rw [hN]
+    exact Real.rpow_pos_of_pos hz _
   have hcancel :
       Z ^ (a₀ + q + w + (LL.slack + LR.slack) / 2) / N =
         Z ^ ((LL.slack + LR.slack) / 2 - B) := by

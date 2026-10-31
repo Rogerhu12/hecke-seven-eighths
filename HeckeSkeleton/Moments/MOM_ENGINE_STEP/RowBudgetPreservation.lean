@@ -4,9 +4,10 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
 /-!
 # The real moving deletion budget in the final admissible family
 
-The moving ideal is tied to every value of the original Boolean mask.
-Its norm is multiplied by the actual row norm before comparison with
-the single child width. The fixed arithmetic bad ideal is A.cS.
+The extra deletion ideal is tied to every value of the original Boolean
+mask. The original complete S/6 and full-row mask is retained literally.
+Only the extra ideal's norm is multiplied by the actual row norm before
+comparison with the single child width.
 
 Normalization, clipping, slot deletion and freezing preserve the mask
 and allowed-row predicate. The budget therefore survives every actual
@@ -23,6 +24,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
+open HeckeGeneral.ThetaSkeleton.Physical
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -35,7 +37,8 @@ def ActualRowMaskAdmissible (A : SArithmeticData K)
   ∃ support : NonzeroIdeal K → A.Exterior,
     (∀ u, Squarefree (support u).val) ∧
     (∀ u I, d.commonMask u I =
-      (decide (IsCoprime I A.cS) && decide (IsCoprime I (support u).val))) ∧
+      (completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&
+        decide (IsCoprime I (support u).val))) ∧
     ∀ u, d.allowedRow u →
       idealNorm K u * A.exteriorNorm (support u) ≤ Z ^ (a.m + a.q)
 
@@ -51,6 +54,22 @@ def EngineChildAdmissible (A : SArithmeticData K)
 namespace ActualRowMaskAdmissible
 
 variable {d e : MomentData K ω ψ} {a b : RealParameters} {Z : ℝ}
+
+/-- The original complete-row recipe uses extra ideal one. Its original
+row norm bound supplies the joint budget without charging the row again. -/
+theorem of_completeMask
+    (hmask : ∀ u I, d.commonMask u I =
+      completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I)
+    (hbudget : ∀ u, d.allowedRow u → idealNorm K u ≤ Z ^ (a.m + a.q)) :
+    ActualRowMaskAdmissible A d a Z := by
+  let M : ActualMovingMaskRecipe A (fun _ : Unit => d) :=
+    ActualMovingMaskRecipe.ofCompleteMask (fun _ u I => hmask u I)
+  refine ⟨M.support, M.squarefree, M.mask (), ?_⟩
+  intro u hu
+  have hone : A.exteriorNorm (M.support u) = 1 :=
+    ActualMovingMaskRecipe.ofCompleteMask_support_norm
+      (fun _ : Unit => hmask) u
+  simpa only [hone, mul_one] using hbudget u hu
 
 theorem of_mask_allowed_width (h : ActualRowMaskAdmissible A d a Z)
     (hmask : e.commonMask = d.commonMask)
@@ -89,7 +108,8 @@ theorem rows (h : ActualRowMaskAdmissible A d a Z) :
     ∃ support : NonzeroIdeal K → A.Exterior,
       (∀ u, Squarefree (support u).val) ∧
       (∀ u I, d.commonMask u I =
-        (decide (IsCoprime I A.cS) && decide (IsCoprime I (support u).val))) ∧
+        (completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&
+          decide (IsCoprime I (support u).val))) ∧
       ∀ X u, u ∈ d.rows X →
         idealNorm K u * A.exteriorNorm (support u) ≤ Z ^ (a.m + a.q) := by
   obtain ⟨support, hs, hm, hb⟩ := h
@@ -152,4 +172,5 @@ end ActualAllocatedSource.Calibration
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualRowMaskAdmissible.rows
+#print axioms HeckeSkeleton.Moments.EngineStep.ActualRowMaskAdmissible.of_completeMask
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualAllocatedSource.Calibration.filtered_normalized_child_admissible

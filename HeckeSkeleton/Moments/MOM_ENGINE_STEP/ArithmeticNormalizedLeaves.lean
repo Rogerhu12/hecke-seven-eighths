@@ -73,6 +73,12 @@ def withArithmetic : leaf.NormalizationData (ι := ι) C Ray ω ψ Z
     (N.withArithmetic arithmetic).family.sourcePair parentWidth b ξ =
       N.family.sourcePair parentWidth b ξ := rfl
 
+/-- The local raw-input record and the canonical cost constructor are
+the same normalization data before any child is chosen. -/
+theorem withArithmetic_eq_withArithmeticCosts :
+    N.withArithmetic arithmetic =
+      N.withArithmeticCosts arithmetic.rowMass arithmetic.leftAtoms arithmetic.rightAtoms := rfl
+
 /-- Original nominal widths, gaps, characters and slot caps survive the
 cost choice. No property of a produced child is assumed. -/
 def ParentGeometry.withArithmetic
@@ -115,23 +121,17 @@ theorem withArithmetic_withJointRows (J : N.JointRowInput) :
     (N.withArithmetic arithmetic).withJointRows (J.withArithmetic N arithmetic) =
       (N.withJointRows J).withArithmetic (arithmetic.withJointRows N J) := rfl
 
-/-- The raw presentation is reconstructed from this exact normalized
-choice. In particular its deletion is not chosen again. -/
+/-- The raw presentation is obtained from the canonical projection of
+this exact normalized choice. Its deletion is never chosen again. -/
 def leftRawChild (b : (N.withArithmetic arithmetic).family.active Finset.univ) :
     ((N.withArithmetic arithmetic).left b.val.1).calibration.CapacityChild
       ((N.withArithmetic arithmetic).left b.val.1).capacity :=
-  ((N.withArithmetic arithmetic).left b.val.1).capacity.rawChild
-    (N.left b.val.1).amplitude (N.left b.val.1).amplitude_pos
-    (N.left b.val.1).bounds (N.left b.val.1).bounds_nonneg (N.left b.val.1).factor
-    ((N.withArithmetic arithmetic).family.leftChild Finset.univ b)
+  N.arithmeticCosts_leftRawChild arithmetic.rowMass arithmetic.leftAtoms arithmetic.rightAtoms b
 
 def rightRawChild (b : (N.withArithmetic arithmetic).family.active Finset.univ) :
     ((N.withArithmetic arithmetic).right b.val.2).calibration.CapacityChild
       ((N.withArithmetic arithmetic).right b.val.2).capacity :=
-  ((N.withArithmetic arithmetic).right b.val.2).capacity.rawChild
-    (N.right b.val.2).amplitude (N.right b.val.2).amplitude_pos
-    (N.right b.val.2).bounds (N.right b.val.2).bounds_nonneg (N.right b.val.2).factor
-    ((N.withArithmetic arithmetic).family.rightChild Finset.univ b)
+  N.arithmeticCosts_rightRawChild arithmetic.rowMass arithmetic.leftAtoms arithmetic.rightAtoms b
 
 @[simp] theorem leftRawChild_removed
     (b : (N.withArithmetic arithmetic).family.active Finset.univ) :
@@ -154,19 +154,8 @@ theorem arithmetic_family_weight (parentWidth : ℝ) (hZ : 0 < Z)
         (arithmetic.leftAtoms b.val.1) (arithmetic.rightAtoms b.val.2)
         (N.leftRawChild arithmetic b) (N.rightRawChild arithmetic b)
         (N.left b.val.1).bounds (N.right b.val.2).bounds Z parentWidth :=
-  CanonicalCapacityKernelMass.chosen_weight_eq
-    (N.rectangles.leftFrame C b.val.1) (N.rectangles.rightFrame C b.val.2)
-    (N.left b.val.1).calibration (N.right b.val.2).calibration arithmetic.rowMass
-    (arithmetic.leftAtoms b.val.1) (arithmetic.rightAtoms b.val.2)
-    ((N.withArithmetic arithmetic).left b.val.1).capacity
-    ((N.withArithmetic arithmetic).right b.val.2).capacity
-    (N.left b.val.1).amplitude (N.right b.val.2).amplitude
-    (N.left b.val.1).amplitude_pos (N.right b.val.2).amplitude_pos
-    (N.left b.val.1).bounds (N.right b.val.2).bounds
-    (N.left b.val.1).bounds_nonneg (N.right b.val.2).bounds_nonneg
-    (N.left b.val.1).factor (N.right b.val.2).factor
-    ((N.withArithmetic arithmetic).family.leftChild Finset.univ b)
-    ((N.withArithmetic arithmetic).family.rightChild Finset.univ b) Z parentWidth hZ
+  N.arithmeticCosts_family_weight arithmetic.rowMass arithmetic.leftAtoms arithmetic.rightAtoms
+    parentWidth hZ b
 
 variable [MeasurableSpace (WithLp 2 (U × E))] [BorelSpace (WithLp 2 (U × E))]
 
@@ -189,25 +178,9 @@ theorem arithmetic_family_kernel_mass
       (arithmetic.leftAtoms b.val.1) (arithmetic.rightAtoms b.val.2)
       (N.leftRawChild arithmetic b) (N.rightRawChild arithmetic b)
       (N.left b.val.1).bounds (N.right b.val.2).bounds
-      leaf.weight Z parentWidth leaf.firstKernel leaf.secondKernel B₁ B₂ J₁ J₂).real Set.univ := by
-  rw [(N.withArithmetic arithmetic).family.kernel_actualNestedLabelMeasure Finset.univ
-    (fun _ => leaf.firstKernel) (fun _ => leaf.secondKernel) (fun _ => leaf.weight)
-    parentWidth b]
-  exact CanonicalCapacityKernelMass.chosen_kernel_mass_eq
-    (N.rectangles.leftFrame C b.val.1) (N.rectangles.rightFrame C b.val.2)
-    (N.left b.val.1).calibration (N.right b.val.2).calibration arithmetic.rowMass
-    (arithmetic.leftAtoms b.val.1) (arithmetic.rightAtoms b.val.2)
-    ((N.withArithmetic arithmetic).left b.val.1).capacity
-    ((N.withArithmetic arithmetic).right b.val.2).capacity
-    (N.left b.val.1).amplitude (N.right b.val.2).amplitude
-    (N.left b.val.1).amplitude_pos (N.right b.val.2).amplitude_pos
-    (N.left b.val.1).bounds (N.right b.val.2).bounds
-    (N.left b.val.1).bounds_nonneg (N.right b.val.2).bounds_nonneg
-    (N.left b.val.1).factor (N.right b.val.2).factor
-    ((N.withArithmetic arithmetic).family.leftChild Finset.univ b)
-    ((N.withArithmetic arithmetic).family.rightChild Finset.univ b)
-    leaf.weight Z parentWidth leaf.weight_nonneg hZ
-    leaf.firstKernel leaf.secondKernel B₁ B₂ hB₁ hB₂ J₁ J₂ hleftRadius hrightRadius
+      leaf.weight Z parentWidth leaf.firstKernel leaf.secondKernel B₁ B₂ J₁ J₂).real Set.univ :=
+  N.arithmeticCosts_family_kernel_mass arithmetic.rowMass arithmetic.leftAtoms arithmetic.rightAtoms
+    parentWidth hZ b B₁ B₂ hB₁ hB₂ J₁ J₂ hleftRadius hrightRadius
 
 end ActualHybridLeaf.NormalizationData
 

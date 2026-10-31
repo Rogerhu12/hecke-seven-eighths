@@ -47,7 +47,9 @@ theorem FirstCommonCharacterBlock.secondSourceWeight_relative_allowance_le
       orbitalFieldFactor K * Z ^ wo * Z ^ ell /
         (Ideal.absNorm (commonRadical DE.1 DE.2) : ℝ) := by
   have hz : 0 < Z := zero_lt_one.trans hZ
-  have hNpos : 0 < N := hN ▸ Real.rpow_pos_of_pos hz _
+  have hNpos : 0 < N := by
+    rw [hN]
+    exact Real.rpow_pos_of_pos hz _
   apply (div_le_div_of_nonneg_right
     (b.secondSourceWeight_without_density_le C Z hZ a₀ q wo w B krow g ell
       NL NR r D hrow hcentral a d ha hd h) hNpos.le).trans_eq

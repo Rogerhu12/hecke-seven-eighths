@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalAllocatedCosts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedActualCapacityChild
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileNormalizationInput
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondClassProduction
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
 
 /-!
 # The two actual capacity presentations use the same chosen child
@@ -33,58 +34,6 @@ variable {D : s.Calibration (σ := σ) ω ψ} (I : D.CapacityInput)
 variable (amplitude : V → ℝ) (hpos : ∀ ξ, 0 < amplitude ξ)
 variable (bounds : Fin s.allocation.keep.card → ℝ) (hbounds : ∀ i, 0 ≤ bounds i)
 variable (hfactor : ∀ ξ i, I.primeBound ξ i = amplitude ξ ^ 2 * bounds i)
-
-/-- Factoring the raw single-prime bound proves the bound for the
-concretely normalized polynomial. -/
-def normalized : D.NormalizedCapacityData where
-  geometry := I.skeleton
-  b₂ := I.b₂
-  p₂ := I.p₂
-  boundary := I.boundary
-  ell := I.ell
-  gap := I.gap
-  δ := I.delta
-  mesh := I.mesh
-  supportError := I.supportError
-  rawClipError := I.rawClipError
-  widthError := I.widthError
-  leftAnnulus := I.leftAnnulus
-  rightAnnulus := I.rightAnnulus
-  leftAnnulus_one := I.leftAnnulus_one
-  rightAnnulus_one := I.rightAnnulus_one
-  left_annulus := I.left_window
-  right_annulus := I.right_window
-  gap_pos := I.gap_pos
-  kappa_pos := I.kappa_pos
-  mesh_nonneg := I.mesh_nonneg
-  fits_mesh := I.mesh_bound
-  enlargement := I.enlargement
-  unit_length := I.unit_part
-  actual_width := I.actual_width
-  boundary_width := I.delta_bound
-  radical_length := I.principal_part
-  boundary_nonneg := I.boundary_nonneg
-  parent_capacity := I.parent_capacity
-  common_length := I.common_part
-  paid_shift := I.paid_shift
-  raw_length := I.raw_degree
-  width_error := I.width_error
-  budget_nonneg := I.budget_nonneg
-  charge_nonneg := I.charge_nonneg
-  radius := amplitude
-  radius_pos := hpos
-  primeBound := bounds
-  primeBound_nonneg := hbounds
-  prime_bound := by
-    intro ξ u hu i
-    have hp := I.prime_bound ξ u hu i
-    rw [hfactor ξ i, primePolynomial_profile_factor (D.data ξ)
-      (amplitude ξ) (hpos ξ)] at hp
-    apply (mul_le_mul_left (pow_pos (hpos ξ) 2)).mp
-    simpa only [mul_assoc] using hp
-
-theorem normalized_exponent :
-    (I.normalized amplitude hpos bounds hbounds hfactor).exponent = I.exponent := rfl
 
 theorem normalized_childData (keep : Finset (Fin s.allocation.keep.card)) (ξ : V) :
     (I.normalized amplitude hpos bounds hbounds hfactor).childData keep ξ =

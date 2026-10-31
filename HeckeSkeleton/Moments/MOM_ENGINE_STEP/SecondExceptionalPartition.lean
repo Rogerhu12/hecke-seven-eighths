@@ -2,14 +2,16 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedCapacityProvider
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondRowPartition
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchPartition
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteThetaAction
 
 /-!
 # One arithmetic exceptional partition for both actual child sides
 
-The original theta family is supplied as a finite subgroup, together
-with the individual finite inducing-character ratio.  Membership is then
-proved to agree for both sides.  Finite order of each member of a bare
-Finset would not imply this fact.  The smooth phases stay in profiles.
+The original theta family is retained as a finite set. A subgroup of
+actual corrections acts on that set, and the individual inducing-character
+ratios belong to this correction subgroup. Membership is then proved to
+agree for both sides without assuming theta itself is a subgroup.
+The smooth phases stay in profiles.
 
 Raw arithmetic/profile calibration is made on all rows.  Only after this
 one arithmetic partition do we construct the actual nonexceptional
@@ -24,15 +26,6 @@ namespace HeckeSkeleton.Moments.EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Characters HeckeGeneral.Analysis.ConditionalMoments
 
-private theorem subgroup_mem_iff_of_ratio {G : Type*} [CommGroup G]
-    (Θ : Subgroup G) (x y : G) (h : x / y ∈ Θ) : x ∈ Θ ↔ y ∈ Θ := by
-  constructor
-  · intro hx
-    have hp := Θ.mul_mem (Θ.inv_mem h) hx
-    convert hp using 1 <;> group
-  · intro hy
-    simpa only [div_mul_cancel] using Θ.mul_mem h hy
-
 variable {F : Type} [Field F] [NumberField F]
 variable {A : SArithmeticData F} {σ : F →+* ℂ}
 variable {H V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
@@ -43,21 +36,33 @@ the same original theta family and a pointwise character ratio; no row
 count, polynomial estimate or exceptional energy appears here. -/
 structure PairedFiniteCharacters (theta : Finset (HeckeCharacter F)) (H : Type*) where
   subgroup : Subgroup (HeckeCharacter F)
-  mem_subgroup : ∀ χ, χ ∈ theta ↔ χ ∈ subgroup
+  action : ∀ χ ∈ subgroup, ActualThetaAction theta χ
   left : H → HeckeCharacter F
   right : H → HeckeCharacter F
   ratio_mem : ∀ h, left h / right h ∈ subgroup
 
 namespace PairedFiniteCharacters
 
-variable {theta : Finset (HeckeCharacter F)} (T : PairedFiniteCharacters theta H)
+variable {theta : Finset (HeckeCharacter F)}
+
+/-- Older genuine subgroup data still give the weaker action interface. -/
+def ofSubgroup (Θ : Subgroup (HeckeCharacter F))
+    (hmem : ∀ χ, χ ∈ theta ↔ χ ∈ Θ)
+    (left right : H → HeckeCharacter F)
+    (hratio : ∀ h, left h / right h ∈ Θ) : PairedFiniteCharacters theta H where
+  subgroup := Θ
+  action χ hχ := ActualThetaAction.of_subgroup Θ hmem χ hχ
+  left := left
+  right := right
+  ratio_mem := hratio
+
+variable (T : PairedFiniteCharacters theta H)
 
 def exceptional (h : H) : Prop := T.left h ∈ theta
 
 theorem right_exceptional (h : H) : T.right h ∈ theta ↔ T.exceptional h := by
   unfold exceptional
-  rw [T.mem_subgroup, T.mem_subgroup]
-  exact (subgroup_mem_iff_of_ratio T.subgroup (T.left h) (T.right h) (T.ratio_mem h)).symm
+  exact (ActualThetaAction.mem_iff_of_ratio (T.action _ (T.ratio_mem h))).symm
 
 theorem nonexceptional_left (h : H) (hh : ¬ T.exceptional h) : T.left h ∉ theta := hh
 
@@ -69,7 +74,7 @@ theorem nonexceptional_right (h : H) (hh : ¬ T.exceptional h) : T.right h ∉ t
 correlation rows without making a second character choice. -/
 def comap {J : Type*} (f : J → H) : PairedFiniteCharacters theta J where
   subgroup := T.subgroup
-  mem_subgroup := T.mem_subgroup
+  action := T.action
   left := T.left ∘ f
   right := T.right ∘ f
   ratio_mem h := T.ratio_mem (f h)
@@ -77,15 +82,13 @@ def comap {J : Type*} (f : J → H) : PairedFiniteCharacters theta J where
 theorem exceptional_iff_of_left_ratio (h : H) (χ : HeckeCharacter F)
     (hχ : χ / T.left h ∈ T.subgroup) : χ ∈ theta ↔ T.exceptional h := by
   unfold exceptional
-  rw [T.mem_subgroup, T.mem_subgroup]
-  exact subgroup_mem_iff_of_ratio T.subgroup χ (T.left h) hχ
+  exact ActualThetaAction.mem_iff_of_ratio (T.action _ hχ)
 
 theorem exceptional_iff_of_right_ratio (h : H) (χ : HeckeCharacter F)
     (hχ : χ / T.right h ∈ T.subgroup) : χ ∈ theta ↔ T.exceptional h := by
   calc
-    χ ∈ theta ↔ T.right h ∈ theta := by
-      rw [T.mem_subgroup, T.mem_subgroup]
-      exact subgroup_mem_iff_of_ratio T.subgroup χ (T.right h) hχ
+    χ ∈ theta ↔ T.right h ∈ theta :=
+      ActualThetaAction.mem_iff_of_ratio (T.action _ hχ)
     _ ↔ T.exceptional h := T.right_exceptional h
 
 /-- The same predicate works when either side has no live slots.
@@ -269,7 +272,7 @@ variable (T : PairedFiniteCharacters theta H)
 variable {sL : ActualAllocatedSource A V H k} {sR : ActualAllocatedSource A V H l}
 
 /-- The two actual nonexceptional child calibrations are constructed
-from the original full-row dictionaries and one subgroup/ratio input.
+from the original full-row dictionaries and one correction-action/ratio input.
 Their row predicate is identical and precedes every Fourier parameter. -/
 def nonexceptionalCalibrations
     (DL : ActualAllocatedSource.FullCalibration sL (σ := σ) ω ψ)
@@ -292,7 +295,7 @@ def nonexceptionalCalibrations
       DL.principal_in_theta DR.principal_in_theta ξ h hh).2)⟩
 
 /-- Finite phase characters and allocation factors may change the
-inducing character.  Membership of their ratios in the original finite
+inducing character. Membership of their ratios in the correction
 subgroup proves that every such label uses the same original partition.
 The inputs are character identities, not selected row subsets. -/
 def nonexceptionalCalibrationsOfFiniteTwists
@@ -445,6 +448,7 @@ end ActualSecondCorrelationRows
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.PairedFiniteCharacters.actual_nonexceptional
+#print axioms HeckeSkeleton.Moments.EngineStep.PairedFiniteCharacters.ofSubgroup
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualAllocatedSource.energy_partition
 #print axioms HeckeSkeleton.Moments.EngineStep.PairedFiniteCharacters.nonexceptionalCalibrations
 #print axioms HeckeSkeleton.Moments.EngineStep.PairedFiniteCharacters.nonexceptionalCalibrationsOfFiniteTwists
