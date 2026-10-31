@@ -91,7 +91,25 @@ multiple of the same child energy; it cannot by itself initialize induction.
 
 The conclusion of `paired_child_step` is unchanged from the earlier pin;
 its nonnegative charge and zero-slot defect premises remain producer inputs.
-The new modules are not imported or counted in this branch's clean audit.
+Those analytic construction modules are not imported or counted in this
+branch's clean audit; only the canonical public output and its minimal
+definition dependencies are imported below.
+
+At the newer producer commit `fabcb58e4e75073a8942f6b08a51da6131de77ae`,
+`ReductionOutput.lean` defines the authoritative `PairedEngineConclusion`.
+Its complete producing theorem belongs to MOM_ENGINE_STEP and may be assumed
+by the induction under parallel-task rule 3. The output record itself is not
+a completed producer. We import the producer's unchanged `ReductionOutput`,
+`ParentMoment` and `Pool` files; `verify.py` pins their exact source hashes.
+There is no duplicate local definition of the shared conclusion.
+
+`StepOutputAdapter.lean` consumes this canonical output. Actual varying child
+times are frozen through `separatedProfiles`, with complete polynomial energy
+identities at time zero. The four true terminal terms stay separate in the
+output and their sum remains the local remainder. The already proved output
+terminal bound gives a `ClosedParentReduction`; it is not misrepresented as
+an instance of the finer raw terminal ledger. A source root can therefore
+use either this bound or `RawParentReduction.closeTerminals`.
 
 ## The finite order and quantitative conclusion
 
@@ -174,6 +192,15 @@ representative or supremum is substituted for the genuine Fourier integral.
 `Reduction.lean` exposes one interface with explicit finite-sum and integral
 constructors; both feed the same three source projections.
 
+`BranchedIntegralRecursion.lean` also handles the authoritative output directly:
+each finite branch retains the original continuous kernel and its two actual
+child maps. Pointwise strong induction is followed by integration on that
+parameter space. Only the two numerical child energies need be integrable;
+neither the type of polynomial models nor the child-model maps need a
+measurable structure. The two half weights charge each branch's common
+kernel mass once. Its local-node constructor permits actual base, reflection
+and two-transform cases to be assembled without changing their meanings.
+
 `KernelReduction.lean` now constructs the required positive measure from
 a genuine common Cauchy kernel. For child-column factors `aL, aR`, its density
 is `sqrt(aL*U^widthL) * sqrt(aR*U^widthR) / U^widthParent`. Each child receives
@@ -235,6 +262,12 @@ degree is `2*H1 + 2*H2 + 2*cap*Hslots`, with one coefficient chosen before
 the height, all nodes, characters, scales and phases. It constructs the
 same actual base terminal components, without assuming a moment estimate
 or replacing the recursive profile controls owned by MOM_UNIFORM.
+
+`BaseBranch.lean` installs that actual base certificate as a true recursion
+leaf: zero children, exact zero kernel mass, and the original normalized
+energy as remainder. The common height constants are still chosen before
+the height, polynomial system and node. A base contribution is not renamed
+as one of the engine's two Poisson zero terms or as a truncation tail.
 
 `ExceptionalCounting.lean` uses actual nonzero ideals and a finite sector
 coordinate. An exact classification `u = h₀ * a^6`, injective in

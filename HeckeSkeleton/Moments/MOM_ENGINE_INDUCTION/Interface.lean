@@ -190,7 +190,9 @@ structure RootCertificate {ω ψ : HeckeCharacter K}
   root_eq : system.node root =
     Node.ordinary (F.model Z T (indexMap Z T i) s) (F.parameters (indexMap Z T i))
   base_one_le : 1 ≤ F.base i
-  step : RawParentReduction K system (F.base i) T 0 C H β δ
+  /-- This is obtained either by closing our raw terminal ledgers or from
+  the authoritative engine output's already proved local terminal budget. -/
+  step : ClosedParentReduction K system (F.base i) T 0 C H β δ
 
 /-- The uniform parent-assembly hypothesis.  All numerical controls and
 the height ceiling precede `tau`.  A common scalar and threshold precede

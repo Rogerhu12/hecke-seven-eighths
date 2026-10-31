@@ -28,8 +28,20 @@ MODULES = (
     "RootNormalization", "KernelReduction", "LogNormProfiles",
     "SourceData", "SourceAdapter", "ScheduleCompatibility",
     "BaseTerminal", "SourceConsumers",
-    "LengthStages", "BaseUniformity",
+    "LengthStages", "BaseUniformity", "BranchedIntegralRecursion", "BaseBranch",
+    "StepOutputAdapter",
 )
+# Exact published interface files, kept under the producer's own namespace.
+# These are imports of its canonical type, not competing local definitions.
+PRODUCER_COMMIT = "fabcb58e4e75073a8942f6b08a51da6131de77ae"
+PRODUCER_SOURCES = {
+    "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ReductionOutput.lean":
+        "effc8eeca3cdf7ea319e3da5162ed87c4cd4d650c91e014e86b972c0e1aa4fba",
+    "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ParentMoment.lean":
+        "2ad71b4fcede7f07ec9fd898dc154aa37597d94ac0ea1a0e40f4d25f9612e391",
+    "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Pool.lean":
+        "98a8f2bc36a6c8095bf7a169cd66ad763875ddd0d27236bcf879804daf525601",
+}
 SOURCE_MODULES = ("SkeletonFamily", "SkeletonSource")
 EXCLUDED = {name + ".lean" for name in SOURCE_MODULES}
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}
@@ -87,6 +99,13 @@ REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.positive_comparison_earlier",
     "HeckeSkeleton.Moments.EngineInduction.uniformBaseConstant_height_le",
     "HeckeSkeleton.Moments.EngineInduction.uniform_polynomial_height_base_components",
+    "HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.uniform_rank_bound",
+    "HeckeSkeleton.Moments.EngineInduction.branchedIntegralStep_power_bound",
+    "HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.baseBranch_mass",
+    "HeckeSkeleton.Moments.EngineInduction.uniform_polynomial_height_base_branch",
+    "HeckeSkeleton.Moments.EngineInduction.engineOutputToBranchedAt",
+    "HeckeSkeleton.Moments.EngineInduction.engineOutputsToBranchedStep",
+    "HeckeSkeleton.Moments.EngineInduction.engineOutputsToClosedParentReduction",
 }
 
 
@@ -247,6 +266,13 @@ def inventory() -> tuple[dict[str, str], list[str]]:
             f"extra={sorted(set(printed) - declared)}")
     require(REQUIRED_TARGETS <= declared,
             f"Missing target declarations: {sorted(REQUIRED_TARGETS - declared)}")
+    for relative, pinned in PRODUCER_SOURCES.items():
+        path = ROOT / relative
+        require(path.is_file(), f"Missing canonical producer interface: {relative}")
+        actual = digest(path)
+        require(actual == pinned,
+                f"Canonical interface differs from {PRODUCER_COMMIT}: {relative}")
+        hashes[relative] = actual
     for path in (TASK / "Audit.lean", TASK / "verify.py", ROOT / "lean-toolchain",
                  ROOT / "lake-manifest.json", ROOT / "lakefile.toml"):
         hashes[str(path.relative_to(ROOT))] = digest(path)
@@ -260,6 +286,7 @@ def verify_checkout(expected: str) -> None:
     paths = [str((TASK / (module + ".lean")).relative_to(ROOT)) for module in MODULES]
     paths += [str((TASK / name).relative_to(ROOT)) for name in ("Audit.lean", "verify.py")]
     paths += [".github/workflows/mom-engine-induction.yml"]
+    paths += list(PRODUCER_SOURCES)
     subprocess.run(["git", "ls-files", "--error-unmatch", "--"] + paths, cwd=ROOT,
                    check=True, stdout=subprocess.DEVNULL)
     subprocess.run(["git", "diff", "--exit-code", "HEAD", "--"], cwd=ROOT, check=True,
@@ -282,6 +309,8 @@ def preflight(expected: str, output: Path) -> None:
     record = dict(head_sha=expected, toolchain=TOOLCHAIN, compiler=version, mathlib=MATHLIB,
                   source_sha256=hashes, declarations=names,
                   modules=[PREFIX + "." + name for name in MODULES],
+                  producer_interface_commit=PRODUCER_COMMIT,
+                  producer_interface_sha256=PRODUCER_SOURCES,
                   excluded_integration_modules=sorted(EXCLUDED),
                   runner_resources=runner_resources())
     (output / "preflight.json").write_text(json.dumps(record, indent=2) + "\n")

@@ -20,6 +20,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceConsumers
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.LengthStages
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseUniformity
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchedIntegralRecursion
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseBranch
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
 
 -- Order
 #print axioms HeckeSkeleton.Moments.EngineInduction.State
@@ -353,3 +356,45 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseUniformity
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniformBaseConstant_height_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniformSlotAbsoluteConstant_height_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniform_polynomial_height_base_components
+
+-- BranchedIntegralRecursion
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.terminal
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.mass_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.ofLocal
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.uniform_rank_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.branchedIntegralStep_power_bound
+
+-- BaseBranch
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.baseBranch
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.baseBranch_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.baseBranch_mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.baseBranch_remainder
+#print axioms HeckeSkeleton.Moments.EngineInduction.uniform_polynomial_height_base_branch
+
+-- StepOutputAdapter
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.EngineOutput
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.energy_eq_pairedStageEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime_energy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime_normalizedEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime_plainPair
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime_width
+#print axioms HeckeSkeleton.Moments.EngineInduction.engineOutputToBranchedAt
+#print axioms HeckeSkeleton.Moments.EngineInduction.engineOutput_linearized_terminals
+#print axioms HeckeSkeleton.Moments.EngineInduction.engineOutputsToBranchedStep
+#print axioms HeckeSkeleton.Moments.EngineInduction.engineOutputsToClosedParentReduction
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_fitsMesh
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_pairedEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_plainPolynomial₁
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_plainPolynomial₂
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_primePolynomial
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_rows
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_slotCount
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_slotProduct
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_totalLength
+#print axioms HeckeSkeleton.Moments.EngineInduction.ordinary_freezeMomentTime_normalizedEnergy

@@ -1,7 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.IntegralRecursion
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchedIntegralRecursion
 
 /-!
-# Finite or integral parent reductions
+# Finite and continuous parent reductions
 
 A parent may have a finite family of children or a continuously parametrized
 family coming from a common transform kernel.  The two constructors retain
@@ -23,13 +24,15 @@ namespace HeckeSkeleton.Moments.EngineInduction
 
 universe u
 
-/-- The two genuine forms of the parent reduction.  A measurable structure
-is stored with the integral case rather than imposed on every label type. -/
+/-- Three genuine forms of the parent reduction. The direct branched form
+needs a measurable structure only on its original parameter space. -/
 inductive Reduction {X : Type u} {bands : ℕ}
     (value : X → ℝ) (schedule : X → State bands) where
   | finite (step : LocalStep value schedule)
   | integral (measurableSpace : MeasurableSpace X)
       (step : @IntegralStep X bands measurableSpace value schedule)
+  | branched (Ω : Type u) (measurableSpace : MeasurableSpace Ω)
+      (step : @BranchedIntegralStep X Ω bands measurableSpace value schedule)
 
 namespace Reduction
 
@@ -42,12 +45,18 @@ def remainder : Reduction value schedule → X → ℝ
   | .integral measurableSpace step =>
       letI : MeasurableSpace X := measurableSpace
       step.remainder
+  | .branched Ω measurableSpace step =>
+      letI : MeasurableSpace Ω := measurableSpace
+      step.remainder
 
 /-- Finite weight mass or the total mass of the positive kernel measure. -/
 def mass : Reduction value schedule → X → ℝ
   | .finite step => fun x => ∑ y ∈ step.children x, step.weight x y
   | .integral measurableSpace step =>
       letI : MeasurableSpace X := measurableSpace
+      step.mass
+  | .branched Ω measurableSpace step =>
+      letI : MeasurableSpace Ω := measurableSpace
       step.mass
 
 theorem mass_nonneg (reduction : Reduction value schedule) (x : X) :
@@ -60,8 +69,12 @@ theorem mass_nonneg (reduction : Reduction value schedule) (x : X) :
       letI : MeasurableSpace X := measurableSpace
       change 0 ≤ step.mass x
       exact step.mass_nonneg x
+  | branched Ω measurableSpace step =>
+      letI : MeasurableSpace Ω := measurableSpace
+      change 0 ≤ step.mass x
+      exact step.mass_nonneg x
 
-/-- One quantitative conclusion for both genuine reduction structures.
+/-- One quantitative conclusion for all three genuine reduction structures.
 Only the local mass loss is multiplied by the finite state depth. -/
 theorem power_bound (reduction : Reduction value schedule)
     (C U T H β δ : ℝ)
@@ -78,6 +91,9 @@ theorem power_bound (reduction : Reduction value schedule)
   | integral measurableSpace step =>
       letI : MeasurableSpace X := measurableSpace
       exact integralStep_power_bound step C U T H β δ hC hU hT hH hδ hterminal hmass
+  | branched Ω measurableSpace step =>
+      letI : MeasurableSpace Ω := measurableSpace
+      exact branchedIntegralStep_power_bound step C U T H β δ hC hU hT hH hδ hterminal hmass
 
 end Reduction
 

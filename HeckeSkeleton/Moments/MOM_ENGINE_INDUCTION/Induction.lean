@@ -66,7 +66,7 @@ theorem ParentReductionInput.sectorBound
   obtain ⟨cert⟩ := hcert Z hZ i hbin helig s
   have hZn : 0 ≤ Z := zero_le_one.trans (hZ₀.trans hZ)
   have hT : 0 ≤ Z ^ τ := Real.rpow_nonneg hZn τ
-  have hb := (RawParentReduction.closeTerminals K cert.step cert.base_one_le).energy_bound
+  have hb := cert.step.energy_bound
     hC cert.base_one_le hT
     input.heightDegree_nonneg input.edgeLoss_nonneg cert.root
   have hw : (cert.system.node cert.root).width = F.rowWidth i := by

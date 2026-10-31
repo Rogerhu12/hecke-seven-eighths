@@ -205,7 +205,7 @@ theorem skeleton_primeProductBound_iff (M : SourceMomentModels K c) (κ : ℝ) :
     Source.PairedPrimeProductBound (sourceModelsOfSkeleton M) κ ↔
       PairedPrimeProductBound K c M κ := by
   unfold Source.PairedPrimeProductBound PairedPrimeProductBound
-  exact skeleton_uniformMomentBound_iff _ _ _
+  exact skeleton_uniformMomentBound_iff (K := K) (c := c) _ _ _
 
 /-- The clean source consumer reaches the original `PSource` statement
 after exact reindexing.  The hypotheses are the proved model estimates and
