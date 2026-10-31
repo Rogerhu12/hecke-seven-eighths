@@ -3,6 +3,8 @@ import FLTReuse.M5960be08a50663ff
 import FLTReuse.Mceaf851096604c8a
 import FLTReuse.M255459499690ff8e
 import FLTReuse.M1d838ff8bf72f37a
+import Mathlib.Topology.Algebra.Module.FiniteDimension
+import Mathlib.Algebra.Lie.OfAssociative
 
 set_option backward.isDefEq.respectTransparency false
 
