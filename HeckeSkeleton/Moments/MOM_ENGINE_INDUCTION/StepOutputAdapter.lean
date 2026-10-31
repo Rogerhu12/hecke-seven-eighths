@@ -7,15 +7,16 @@ import HeckeGeneral.Analysis.TInputSeparatedProfiles
 # Consuming the canonical complete engine output
 
 `EngineStep.PairedEngineConclusion` is imported from the provider's exact
-`76caaeb` source, including all four actual plain-length nonnegativity
-fields. Its production remains the engine theorem's obligation;
+`f2e6c722` source, including all four actual plain-length nonnegativity
+fields and the two actual child-twist-zero equations. Its production remains the engine theorem's obligation;
 this module does not assert that the record is inhabited.
 
-The provider permits a different twist at each continuous child parameter.
-We freeze that time into the actual test profiles, with no additional
-complex power.  This preserves both plain polynomials, the entire slot
-product, all original row and mask data, and every geometric length.  All
-nodes can consequently be evaluated at the common interface time zero.
+The provider has already frozen the actual continuous child heights into
+its normalized profiles and proves that both child twists are zero. We
+therefore label the actual output data directly, and its published
+admissibility applies to precisely the data used in the next recursive
+call. The independent freeze identities below remain useful for literal
+source and reflection constructions.
 
 The AM--GM adapter retains the four actual terminal contributions and the
 provider's full positive kernels.  It assumes no child moment estimate.
@@ -126,6 +127,17 @@ theorem ordinary_freezeMomentTime_normalizedEnergy (d : MomentData K ω ψ)
   rw [Node.ordinary_energy, freezeMomentTime_pairedEnergy]
   rfl
 
+/-- The already frozen data in the canonical output need no additional
+data transformation. The public twist-zero equations align their actual
+energy with this literal time-zero node. -/
+theorem ordinary_normalizedEnergy (d : MomentData K ω ψ)
+    (a : RealParameters) (U t : ℝ) :
+    (Node.ordinary d a).normalizedEnergy U t =
+      EngineStep.normalizedPairedEnergy d a U t := by
+  unfold Node.normalizedEnergy EngineStep.normalizedPairedEnergy
+  rw [Node.ordinary_energy]
+  rfl
+
 /-- Only an abbreviation of the provider's canonical output type, for
 the literal node at the common interface time zero. -/
 abbrev Node.EngineOutput {Ω : Type v} [MeasurableSpace Ω]
@@ -213,7 +225,7 @@ theorem engineOutput_zero_parameters {Ω : Type v} [MeasurableSpace Ω]
     exact (slotGeometry_totalLength_eq_zero_iff _).mpr hr
 
 /-- Put one literal engine output in the induction schedule. The child
-labels must denote the actual frozen models. The canonical slot-count
+labels denote the already frozen actual output data. The canonical slot-count
 and total-length conclusions prove that a zero-slot parent has zero-slot
 children. No measurable structure on labels or child map is required. Width decrease comes from the canonical output itself. -/
 def engineOutputToBranchedAt {Ω : Type v} [MeasurableSpace Ω]
@@ -225,10 +237,10 @@ def engineOutputToBranchedAt {Ω : Type v} [MeasurableSpace Ω]
     (hU : 0 < U)
     (left right : Fin out.branches → Ω → S.Label)
     (hleft : ∀ b ξ, S.node (left b ξ) =
-      Node.ordinary (freezeMomentTime (out.leftData b ξ) (out.leftTwist b ξ))
+      Node.ordinary (out.leftData b ξ)
         (out.leftParameters b))
     (hright : ∀ b ξ, S.node (right b ξ) =
-      Node.ordinary (freezeMomentTime (out.rightData b ξ) (out.rightTwist b ξ))
+      Node.ordinary (out.rightData b ξ)
         (out.rightParameters b))
     (hlength : (S.node x).parameters.z = (S.node x).data.geometry.totalLength) :
     BranchedIntegralAt (Ω := Ω)
@@ -240,9 +252,9 @@ def engineOutputToBranchedAt {Ω : Type v} [MeasurableSpace Ω]
   right := right
   remainder := out.firstZero + out.secondZero + out.exceptional + out.tail
   left_integrable b := by
-    simpa only [hleft, ordinary_freezeMomentTime_normalizedEnergy] using out.left_integrable b
+    simpa only [hleft, ordinary_normalizedEnergy, out.leftTwist_zero] using out.left_integrable b
   right_integrable b := by
-    simpa only [hright, ordinary_freezeMomentTime_normalizedEnergy] using out.right_integrable b
+    simpa only [hright, ordinary_normalizedEnergy, out.rightTwist_zero] using out.right_integrable b
   left_earlier b := Filter.Eventually.of_forall fun ξ => by
     apply S.earlier_of_width_drop (left b ξ) x
     · rw [hleft b ξ]
@@ -262,7 +274,8 @@ def engineOutputToBranchedAt {Ω : Type v} [MeasurableSpace Ω]
       rw [hright b ξ]
       exact (engineOutput_zero_parameters out hlength hz b ξ).2
   estimate := by
-    simpa only [hleft, hright, ordinary_freezeMomentTime_normalizedEnergy] using
+    simpa only [hleft, hright, ordinary_normalizedEnergy, out.leftTwist_zero,
+      out.rightTwist_zero] using
       engineOutput_linearized_terminals out hU
 
 /-- Assemble engine outputs only on a family where each node has such an
@@ -277,10 +290,10 @@ def engineOutputsToBranchedStep {Ω : Type v} [MeasurableSpace Ω]
     (hU : 0 < U)
     (left right : ∀ x, Fin (outputs x).branches → Ω → S.Label)
     (hleft : ∀ x b ξ, S.node (left x b ξ) =
-      Node.ordinary (freezeMomentTime ((outputs x).leftData b ξ) ((outputs x).leftTwist b ξ))
+      Node.ordinary ((outputs x).leftData b ξ)
         ((outputs x).leftParameters b))
     (hright : ∀ x b ξ, S.node (right x b ξ) =
-      Node.ordinary (freezeMomentTime ((outputs x).rightData b ξ) ((outputs x).rightTwist b ξ))
+      Node.ordinary ((outputs x).rightData b ξ)
         ((outputs x).rightParameters b))
     (hlength : ∀ x, (S.node x).parameters.z = (S.node x).data.geometry.totalLength) :
     BranchedIntegralStep (Ω := Ω)
@@ -302,10 +315,10 @@ def engineOutputsToClosedParentReduction {Ω : Type u} [MeasurableSpace Ω]
     (hcontrol : ∀ x, control x ≤ (1 + T) ^ H)
     (left right : ∀ x, Fin (outputs x).branches → Ω → S.Label)
     (hleft : ∀ x b ξ, S.node (left x b ξ) =
-      Node.ordinary (freezeMomentTime ((outputs x).leftData b ξ) ((outputs x).leftTwist b ξ))
+      Node.ordinary ((outputs x).leftData b ξ)
         ((outputs x).leftParameters b))
     (hright : ∀ x b ξ, S.node (right x b ξ) =
-      Node.ordinary (freezeMomentTime ((outputs x).rightData b ξ) ((outputs x).rightTwist b ξ))
+      Node.ordinary ((outputs x).rightData b ξ)
         ((outputs x).rightParameters b))
     (hlength : ∀ x, (S.node x).parameters.z = (S.node x).data.geometry.totalLength) :
     ClosedParentReduction K S U T 0 C H β δ where

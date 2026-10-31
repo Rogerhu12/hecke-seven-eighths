@@ -76,6 +76,11 @@ structure PairedEngineConclusion {Ω : Type*} [MeasurableSpace Ω]
   rightParameters : Fin branches → RealParameters
   leftTwist : Fin branches → Ω → ℝ
   rightTwist : Fin branches → Ω → ℝ
+  /-- The actual evaluation heights have already been frozen into the
+  normalized profiles. Thus admissibility below controls the profiles
+  at precisely the point used in the child energy. -/
+  leftTwist_zero : ∀ b ξ, leftTwist b ξ = 0
+  rightTwist_zero : ∀ b ξ, rightTwist b ξ = 0
   kernel : Fin branches → Measure Ω
   finite_kernel : ∀ b, IsFiniteMeasure (kernel b)
   left_width : ∀ b, (leftParameters b).m + (leftParameters b).q ≤ a.m + a.q - σ / 2

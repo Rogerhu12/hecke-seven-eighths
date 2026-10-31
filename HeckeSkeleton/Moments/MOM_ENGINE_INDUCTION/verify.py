@@ -83,13 +83,18 @@ MODULES = (
     'SourceProfileAnnulus',
     'UniformOrdinaryReflection',
     'ReflectionChildGeometry',
+    'RankedProfileControl',
+    'CutoffReflectionLabels',
+    'OrdinaryReflectionProduction',
+    'RankedBaseBranch',
+    'FiniteProfileConstants',
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.
-PRODUCER_COMMIT = "76caaeb556d9d3a4edb7fb624e5670f6a1bdf990"
+PRODUCER_COMMIT = "f2e6c722f2e3cefdc2c36bb8ff6abfd1f40df0fd"
 PRODUCER_SOURCES = {
     "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ReductionOutput.lean":
-        "64349c79968876d4c28fd8b9d68861f2acd52770c43e5426c161a48da60d6558",
+        "d575b59236c84b4cdb76f67930d4b5dc15e671f47811a18818afd9a9882f1b5f",
     "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ParentMoment.lean":
         "2ad71b4fcede7f07ec9fd898dc154aa37597d94ac0ea1a0e40f4d25f9612e391",
     "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Pool.lean":

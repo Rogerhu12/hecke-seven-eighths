@@ -105,7 +105,8 @@ theorem ordinaryReflectedProfile_eq_line
           (le_add_of_nonneg_left (Real.rpow_nonneg hy.le _))
       · exact (Real.rpow_le_rpow_of_exponent_ge hy h.le (by linarith [ha'.1])).trans
           (le_add_of_nonneg_right (Real.rpow_nonneg hy.le _))
-    rw [F, norm_mul, Complex.norm_cpow_eq_rpow_re_of_pos hy,
+    dsimp only [F]
+    rw [norm_mul, Complex.norm_cpow_eq_rpow_re_of_pos hy,
       Complex.sub_re, Complex.one_re, idealVerticalPoint_re]
     exact (mul_le_mul hm hp (Real.rpow_nonneg hy.le _) (by positivity)).trans_eq (by ring)
   have hM : Differentiable ℂ (mellin V.toFun) := by

@@ -114,7 +114,7 @@ def engineDomain (g : CoreNodeGeometry S padding) (x : S.Label)
 end CoreNodeGeometry
 
 /-- The exact public engine output and labels for its genuine children.
-Freezing the profiles preserves each actual child energy at time zero. -/
+The provider has already frozen heights and proves both child twists zero. -/
 structure EngineBranchAt (S : PolynomialSystem.{u} K ω ψ σ W) (x : S.Label)
     (U δ β C originalControl : ℝ)
     (admissible : MomentData K ω ψ → RealParameters → Prop) where
@@ -122,10 +122,10 @@ structure EngineBranchAt (S : PolynomialSystem.{u} K ω ψ σ W) (x : S.Label)
   left : Fin output.branches → Ω → S.Label
   right : Fin output.branches → Ω → S.Label
   left_eq : ∀ b ξ, S.node (left b ξ) =
-    Node.ordinary (freezeMomentTime (output.leftData b ξ) (output.leftTwist b ξ))
+    Node.ordinary (output.leftData b ξ)
       (output.leftParameters b)
   right_eq : ∀ b ξ, S.node (right b ξ) =
-    Node.ordinary (freezeMomentTime (output.rightData b ξ) (output.rightTwist b ξ))
+    Node.ordinary (output.rightData b ξ)
       (output.rightParameters b)
 
 /-- Only the legal centering case asks that these two intermediate

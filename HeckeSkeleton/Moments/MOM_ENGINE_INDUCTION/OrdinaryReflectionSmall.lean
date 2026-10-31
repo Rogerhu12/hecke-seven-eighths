@@ -47,7 +47,7 @@ private theorem Iint_three_quarters_le (V : SmoothAnnularTest)
         ring
       _ ≤ _ := mul_le_mul_of_nonneg_right hpow (by positivity)
   · rw [(good_eul V j).zero y hmem, norm_zero]
-    simp only [zero_mul, mul_zero]
+    simp only [zero_mul, mul_zero, le_refl]
 
 private def ordinaryShortMultiplier (χ : HeckeCharacter K)
     (V : SmoothAnnularTest) (s : ℂ) : ℂ :=
@@ -167,7 +167,8 @@ theorem ordinaryReflectedProfile_eq_quarter_line
           (le_add_of_nonneg_left (Real.rpow_nonneg hy.le _))
       · exact (Real.rpow_le_rpow_of_exponent_ge hy h.le (by linarith [hσ.1])).trans
           (le_add_of_nonneg_right (Real.rpow_nonneg hy.le _))
-    rw [F, norm_mul, Complex.norm_cpow_eq_rpow_re_of_pos hy,
+    dsimp only [F]
+    rw [norm_mul, Complex.norm_cpow_eq_rpow_re_of_pos hy,
       Complex.sub_re, Complex.one_re, idealVerticalPoint_re]
     exact (mul_le_mul hm hp (Real.rpow_nonneg hy.le _) (by positivity)).trans_eq (by ring)
   have hshift := verticalIntegral_eq_of_poly_strip
@@ -339,6 +340,9 @@ theorem ordinaryMellinGamma_weighted_uniform
     apply ((integrable_one_add_abs_rpow_neg (e := 2) (by norm_num)).const_mul (C * S)).mono'
       (((continuous_const.add continuous_abs).pow n).mul hc.norm).aestronglyMeasurable
     filter_upwards [] with t
+    change ‖(1 + |t|) ^ n *
+      ‖ordinaryShortMultiplier K χ V (idealVerticalPoint σ t)‖‖ ≤
+        C * S * (1 + |t|) ^ (-(2 : ℝ))
     rw [Real.norm_eq_abs, abs_of_nonneg (mul_nonneg (by positivity) (norm_nonneg _))]
     exact hpoint t
   refine ⟨hpoint, hint, ?_⟩

@@ -51,7 +51,7 @@ theorem pairedInvariantParameters_coreRank (σ W padding : ℝ) (a : RealParamet
     parameterCoreRank σ W padding (pairedInvariantParameters a).parameters =
       parameterCoreRank σ W padding a := by
   simp only [parameterCoreRank, PairedInvariantParameters.parameters,
-    pairedInvariantParameters, add_zero]
+    pairedInvariantParameters, add_zero] <;> rfl
 
 /-- The producer's admissible predicate is a primitive predicate on
 actual data and the invariant numerical quantities, not an energy bound. -/
@@ -264,27 +264,22 @@ def universalQuarterLabels
   comparison_eq := rfl
 
 /-- Canonical outputs acquire actual subtype labels from their proved
-geometry. The only profile premises concern the literal frozen child
-data; freezing arbitrary profile-dependent admissibility is not assumed
-by definitional equality. A producer may supply its genuine freeze
-stability theorem to these two primitive premises. -/
+geometry and the published admissibility of their actual already frozen
+child data. The public zero-twist equations justify evaluation at zero;
+no additional freeze-stability or child-membership premise is needed. -/
 def universalEngineBranchAt {Ω : Type u} [MeasurableSpace Ω]
     (primitive : MomentData K ω ψ → PairedInvariantParameters → Prop)
     (σ W padding : ℝ) (cap : ℕ) (hσ : 0 < σ)
     (x : (universalPolynomialSystem.{u} primitive σ W padding cap hσ).Label)
     (U δ β C control : ℝ)
     (out : x.down.val.EngineOutput (Ω := Ω) U σ δ β C control
-      (admissibleOfInvariant primitive))
-    (hleft : ∀ b ξ, admissibleOfInvariant primitive
-      (freezeMomentTime (out.leftData b ξ) (out.leftTwist b ξ)) (out.leftParameters b))
-    (hright : ∀ b ξ, admissibleOfInvariant primitive
-      (freezeMomentTime (out.rightData b ξ) (out.rightTwist b ξ)) (out.rightParameters b)) :
+      (admissibleOfInvariant primitive)) :
     EngineBranchAt (Ω := Ω) (universalPolynomialSystem.{u} primitive σ W padding cap hσ)
       x U δ β C control (admissibleOfInvariant primitive) := by
   let left (b : Fin out.branches) (ξ : Ω) :
       UniversalNode primitive W padding cap :=
     UniversalNode.ordinary primitive W padding cap
-      (freezeMomentTime (out.leftData b ξ) (out.leftTwist b ξ)) (out.leftParameters b)
+      (out.leftData b ξ) (out.leftParameters b)
       (out.left_length b ξ) (out.left_plain_left_nonneg b) (out.left_plain_right_nonneg b)
       (by rw [out.left_kappa]; exact x.down.property.kappa_lower)
       (by rw [out.left_kappa]; exact x.down.property.kappa_upper)
@@ -294,11 +289,11 @@ def universalEngineBranchAt {Ω : Type u} [MeasurableSpace Ω]
           x.down.property.width_le
         have hc := out.left_width b
         linarith)
-      ((out.left_slots b ξ).trans x.down.property.slot_count) (hleft b ξ)
+      ((out.left_slots b ξ).trans x.down.property.slot_count) (out.left_admissible b ξ)
   let right (b : Fin out.branches) (ξ : Ω) :
       UniversalNode primitive W padding cap :=
     UniversalNode.ordinary primitive W padding cap
-      (freezeMomentTime (out.rightData b ξ) (out.rightTwist b ξ)) (out.rightParameters b)
+      (out.rightData b ξ) (out.rightParameters b)
       (out.right_length b ξ) (out.right_plain_left_nonneg b) (out.right_plain_right_nonneg b)
       (by rw [out.right_kappa]; exact x.down.property.kappa_lower)
       (by rw [out.right_kappa]; exact x.down.property.kappa_upper)
@@ -308,7 +303,7 @@ def universalEngineBranchAt {Ω : Type u} [MeasurableSpace Ω]
           x.down.property.width_le
         have hc := out.right_width b
         linarith)
-      ((out.right_slots b ξ).trans x.down.property.slot_count) (hright b ξ)
+      ((out.right_slots b ξ).trans x.down.property.slot_count) (out.right_admissible b ξ)
   exact {
     output := out
     left := fun b ξ => ⟨left b ξ⟩

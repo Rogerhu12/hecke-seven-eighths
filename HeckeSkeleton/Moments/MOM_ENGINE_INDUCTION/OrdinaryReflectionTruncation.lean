@@ -93,7 +93,8 @@ theorem ordinaryReflectedFiniteSum_tail_seminorm
         rw [← Real.rpow_add (idealNorm_pos K I)]
         congr 1
         ring
-      rw [tail, if_pos hI]
+      dsimp only [tail]
+      rw [if_pos hI]
       calc
         _ ≤ (C * S * Y ^ (1 + A)) * idealNorm K I ^ (-(1 + A)) := hfbound I
         _ = ((C * S * Y ^ (1 + A)) * idealNorm K I ^ (-(2 : ℝ))) *
@@ -101,7 +102,8 @@ theorem ordinaryReflectedFiniteSum_tail_seminorm
         _ ≤ ((C * S * Y ^ (1 + A)) * idealNorm K I ^ (-(2 : ℝ))) *
             (Y * R) ^ (1 - A) := mul_le_mul_of_nonneg_left hp (by positivity)
         _ = _ := by dsimp [D]; ring
-    · rw [tail, if_neg hI, norm_zero]
+    · dsimp only [tail]
+      rw [if_neg hI, norm_zero]
       exact mul_nonneg hD (Real.rpow_nonneg (idealNorm_pos K I).le _)
   have htn : Summable (fun I : NonzeroIdeal K => ‖tail I‖) :=
     Summable.of_nonneg_of_le (fun I => norm_nonneg _) htailbound
@@ -111,9 +113,9 @@ theorem ordinaryReflectedFiniteSum_tail_seminorm
     rw [← hf.tsum_sub ht, tsum_eq_sum (s := F)]
     · apply Finset.sum_congr rfl
       intro I hI
-      simp only [tail, not_not, hI, not_true_eq_false, if_false, sub_zero]
+      simp [tail, hI]
     · intro I hI
-      simp only [tail, hI, if_true, sub_self]
+      simp [tail, hI]
   have heq : (∑' I, f I) - (∑ I ∈ F, f I) = ∑' I, tail I := by
     rw [← hsplit]
     ring
