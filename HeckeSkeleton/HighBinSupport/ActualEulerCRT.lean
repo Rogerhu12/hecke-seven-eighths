@@ -122,9 +122,12 @@ theorem probeGaussOnQuotient_unit_scale (P : ProbeData K S)
   rw [Finset.mul_sum]
   apply Fintype.sum_equiv (Units.mulLeft v)
   intro x
-  change χ (v : ThetaQuotient K S I) * (χ x * _) =
-    χ ((v : ThetaQuotient K S I) * x) * _
-  rw [map_mul]
+  change χ (v : ThetaQuotient K S I) *
+    (χ x * thetaPrincipalAddCharacter K S P.arithmetic I
+      (((v : ThetaQuotient K S I) * h) * x)) =
+    χ ((v : ThetaQuotient K S I) * x) * thetaPrincipalAddCharacter K S P.arithmetic I
+      (h * ((v : ThetaQuotient K S I) * x))
+  rw [map_mul χ]
   have he : ((v : ThetaQuotient K S I) * h) * x =
       h * ((v : ThetaQuotient K S I) * x) := by ring
   rw [he]

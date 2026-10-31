@@ -148,6 +148,52 @@ theorem chosenTargetFamily_normForm (Z T : ℝ)
     linarith
   · exact mul_nonneg (targetCanonicalParameters_positive K c).2.2.1.le (Nat.cast_nonneg _)
 
+/-- The whole boundary is the initial contour minus the computed block
+for every member of this same retained family. Recipes may vary by block;
+no row is added or removed between the two contour sums. -/
+theorem chosenTargetFamily_boundary_eq_initial_sub_blocks
+    (Z T : ℝ) (hZ : 0 < Z) (hT : 1 ≤ T)
+    (sc : ChosenTargetFamilyIndex K c Z T →
+      (Fin c.geometry.slots → Fin ((targetCanonicalParameters K c).N + 1)) → ℝ → ℕ)
+    (sub : (b : ChosenTargetFamilyIndex K c Z T) →
+      (label : Fin c.geometry.slots → Fin ((targetCanonicalParameters K c).N + 1)) →
+      (t : ℝ) → Fin (sc b label t) → WitnessSubdivision (FrequencyRow K (places K c))) :
+    targetDyadicBoundary K c (fun Z _T => targetModerateSource K c Z)
+      (targetCanonicalParameters K c).kappa (targetUpper K c) Z T =
+      ∑ b : ChosenTargetFamilyIndex K c Z T,
+        let block := chosenTargetFamilyBlock K c Z T b (sc b) (sub b)
+        (∑ u ∈ chosenTargetFamilyRows K c Z T b,
+          rowContourBox K (places K c) (probeMeasures K c).haar (probeData K c)
+            (targetCharacter K c) (targetEuler K c) c.geometry (rayFilter K c) u Z
+            (NormForm.internalHeight Z T (targetCanonicalParameters K c).kappa)
+            (c.family.B + 20 * targetBuffer K c)
+            (1 - block.bin - 6 * targetBuffer K c) (17 / 50)) - block.value := by
+  unfold targetDyadicBoundary HighBinDyadicBoundary.dyadicBoundary
+  rw [Fintype.sum_sigma]
+  apply Finset.sum_congr rfl
+  intro j _
+  change (∑ k ∈ canonicalChoices K (places K c) (probeData K c) (targetCharacter K c)
+    (targetCompanions K c) (targetModerateSource K c Z) c.family.B (targetBuffer K c)
+    (targetBuffer_pos K c) (targetBoundary_lower K c) (targetCommonBoundary K c)
+    Z T (targetCanonicalParameters K c).kappa (shellExponent Z (1 / 16) j.val),
+    HighBinCanonicalBoundary.maskedBoundaryPiece K (excludedPlaces K c)
+      (probeMeasures K c).haar (probeData K c) (targetCharacter K c) (targetCompanions K c)
+      c.geometry c.family.B (targetBuffer K c) (targetBuffer_pos K c)
+      (targetBoundary_lower K c) (targetCommonBoundary K c) (rayFilter K c)
+      (targetModerateSource K c Z) Z T (targetCanonicalParameters K c).kappa
+      (shellExponent Z (1 / 16) j.val) k) = _
+  rw [← Finset.sum_coe_sort]
+  apply Finset.sum_congr rfl
+  intro k _
+  exact maskedBoundaryPiece_eq_initial_sub_block K (excludedPlaces K c)
+    (probeMeasures K c).haar (probeData K c) (targetCharacter K c) (targetCompanions K c)
+    (targetModerateSource K c Z) c.family.B (targetBuffer K c) (targetBuffer_pos K c)
+    (targetBoundary_lower K c) (targetCommonBoundary K c) (one_mem_targetCompanions K c)
+    c.geometry (targetBuffer_small K c) c.family.B_upper Z T
+    (targetCanonicalParameters K c).kappa (shellExponent Z (1 / 16) j.val)
+    (targetCanonicalParameters K c).theta (targetCanonicalParameters K c).N hZ hT k
+    (sc ⟨j, k⟩) (sub ⟨j, k⟩)
+
 /-- The whole boundary attached to exactly this source and internal
 height exponent satisfies the original power-height-tail proposition. -/
 theorem chosenTargetFamily_boundary :
@@ -164,4 +210,5 @@ end HeckeSkeleton.HighBinCanonicalTarget
 #print axioms HeckeSkeleton.HighBinCanonicalTarget.chosenTargetFamily_count
 #print axioms HeckeSkeleton.HighBinCanonicalTarget.chosenTargetFamily_value_eq_final
 #print axioms HeckeSkeleton.HighBinCanonicalTarget.chosenTargetFamily_normForm
+#print axioms HeckeSkeleton.HighBinCanonicalTarget.chosenTargetFamily_boundary_eq_initial_sub_blocks
 #print axioms HeckeSkeleton.HighBinCanonicalTarget.chosenTargetFamily_boundary

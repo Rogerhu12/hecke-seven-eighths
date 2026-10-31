@@ -306,7 +306,8 @@ theorem probeGauss_primePower_zero (P : ProbeData K S) (p : ExteriorPrime K S)
     change (p.val.asIdeal ^ 0).map (algebraMap (𝓞 K) (S.integer K)) = ⊤
     rw [pow_zero, Ideal.one_eq_top, Ideal.map_top]
   letI : Subsingleton (ThetaQuotient K S I) := Ideal.Quotient.subsingleton_iff.mpr htop
-  letI : Unique (ThetaQuotient K S I) := ⟨⟨0⟩, fun x => Subsingleton.elim x 0⟩
+  letI : Unique (ThetaQuotient K S I) :=
+    { default := 0, uniq := fun x => Subsingleton.elim x 0 }
   change (∑ x : ThetaQuotient K S I, symbolOnQuotient K S P.arithmetic I x *
     thetaPrincipalAddCharacter K S P.arithmetic I (Ideal.Quotient.mk _ m * x)) = 1
   calc
@@ -476,6 +477,7 @@ def primePowerTimesZeroQuotientEquiv (D : ThetaArithmeticData K S)
       Ideal.Quotient.mk _ a := by
   rfl
 
+set_option maxHeartbeats 800000 in
 /-- At completed index one, exact finite Fourier inversion recovers the
 original denominator symbol, with its nonunit zeros. The original chosen
 unit-ideal generator is accounted for by the sixth-unit frequency shift. -/
@@ -518,11 +520,20 @@ theorem finitePoisson_power_zero_eq_symbol (P : ProbeData K S)
       map_pow, Nat.cast_pow, Complex.ofReal_pow, Complex.ofReal_natCast]
   have heq : finitePoissonFactor K S P den A h = f ((V : R) ^ 6 * Ideal.Quotient.mk _ h) := by
     rw [finitePoissonFactor_eq_sum_kernel, hN, ← e.toEquiv.sum_comp]
-    simp_rw [hkernel]
-    simpa only [mul_assoc] using
-      HighBin.FourierInversion.normalized_finite_fourier_inversion ψ
-        (principalPowerAddCharacter_isPrimitive K S D p k) f
-        ((V : R) ^ 6 * Ideal.Quotient.mk _ h)
+    change (Fintype.card R : ℂ)⁻¹ *
+      (∑ x : R, poissonKernelOnQuotient K S P den A h (e x)) =
+        f ((V : R) ^ 6 * Ideal.Quotient.mk _ h)
+    calc
+      _ = (Fintype.card R : ℂ)⁻¹ * ∑ x : R,
+          HighBin.FiniteResidueFourier.fourier ψ f (-x) *
+            ψ ((V : R) ^ 6 * (Ideal.Quotient.mk _ h * x)) := by
+        apply congrArg (fun z : ℂ => (Fintype.card R : ℂ)⁻¹ * z)
+        exact Finset.sum_congr rfl (fun x _ => hkernel x)
+      _ = _ := by
+        simpa only [mul_assoc] using
+          HighBin.FourierInversion.normalized_finite_fourier_inversion ψ
+            (principalPowerAddCharacter_isPrimitive K S D p k) f
+            ((V : R) ^ 6 * Ideal.Quotient.mk _ h)
   rw [heq]
   change (principalPrimeCharacter K S D p ^ k)
       (residueMap π k hk ((V : R) ^ 6 * Ideal.Quotient.mk _ h)) = _
@@ -542,7 +553,8 @@ theorem finitePoisson_zero_zero (P : ProbeData K S) (p : ExteriorPrime K S)
       (algebraMap (𝓞 K) (S.integer K)) = ⊤
     rw [pow_zero, one_mul, Ideal.one_eq_top, Ideal.map_top]
   letI : Subsingleton (ThetaQuotient K S B) := Ideal.Quotient.subsingleton_iff.mpr htop
-  letI : Unique (ThetaQuotient K S B) := ⟨⟨0⟩, fun x => Subsingleton.elim x 0⟩
+  letI : Unique (ThetaQuotient K S B) :=
+    { default := 0, uniq := fun x => Subsingleton.elim x 0 }
   have hg (x : ThetaQuotient K S A) : probeGaussOnQuotient K S P A x = 1 := by
     obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
     exact probeGauss_primePower_zero K S P p a
@@ -554,9 +566,10 @@ theorem finitePoisson_zero_zero (P : ProbeData K S) (p : ExteriorPrime K S)
       Subsingleton.elim (Ideal.Quotient.mk _ h * x) 0, AddChar.map_zero_eq_one]
   rw [finitePoissonFactor_eq_sum_kernel]
   have hN : exteriorNorm K S A = 1 := by simp [A, exteriorNorm, exteriorPower]
-  rw [hN]
-  simp only [hkernel, Complex.ofReal_one, inv_one, one_mul]
-  simp
+  change (exteriorNorm K S A : ℂ)⁻¹ *
+    (∑ x : ThetaQuotient K S B, poissonKernelOnQuotient K S P A A h x) = 1
+  rw [hN, Complex.ofReal_one, inv_one, one_mul, Fintype.sum_unique]
+  exact hkernel default
 
 /-- The completed-unit row used by the Euler sum, with its exact zero
 mask for every positive denominator and positive frequency valuation. -/
