@@ -2,7 +2,8 @@ name: Lake cache restore test
 
 # Checks that the precompiled lake-cache-* release is accepted by Lake on a
 # fresh runner: after restoring it, building HeckeSkeleton.Principal should
-# replay every module below HeckeSkeleton instead of compiling it.
+# replay every packed module and only compile HeckeSkeleton.* and the modules
+# the manifest lists as skipped.
 on:
   push:
     branches: [ci/lake-cache-test]
@@ -12,7 +13,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Release tag to restore (empty = newest lake-cache-*)
+        description: Release tag to restore, may be a draft (empty = newest published lake-cache-*)
         required: false
         default: ""
 
@@ -27,8 +28,6 @@ concurrency:
 
 env:
   LEAN_NUM_THREADS: "2"
-  # Release under test when no tag is given (may still be a draft).
-  LAKE_CACHE_TEST_TAG: lake-cache-76c696e
 
 jobs:
   principal:
@@ -60,7 +59,7 @@ jobs:
         id: lake-cache
         uses: ./.github/actions/restore-lake-cache
         with:
-          tag: ${{ inputs.tag || env.LAKE_CACHE_TEST_TAG }}
+          tag: ${{ inputs.tag }}
       - name: Build HeckeSkeleton.Principal
         timeout-minutes: 150
         shell: bash
