@@ -140,13 +140,13 @@ theorem exists_uniform_parent_reduction
   let tail : Ext → ℝ := fun f =>
     ‖sourceSubsetTail K S D Γ hΓ μv C f ((B ×ˢ N) ×ˢ (B ×ˢ N))
       φ h hlc hcs mask rad (Z ^ (R + tau))‖
-  let P := primeSupport Q.val
+  let P := FirstSourceDecomposition.primeSupport Q.val
   have hP : ∀ v ∈ P, v ∉ Sset := fun v hv =>
-    Q.property v ((mem_primeSupport Q.val v).mp hv)
+    Q.property v ((FirstSourceDecomposition.mem_primeSupport Q.val v).mp hv)
   have hp' := hp C G hcal B N L w Z M r ell Vlabel eta E betaLoss W Aweight
     P hP Q.val.val φ hZ hM0 hM hr0 hr hell0 hell hV0 hV hE heta heta1 hbeta
     hW hAw (nonZeroDivisors.coe_ne_zero Q.val) hQ
-    (fun v hv => (mem_primeSupport Q.val v).mp hv)
+    (fun v hv => (FirstSourceDecomposition.mem_primeSupport Q.val v).mp hv)
     hcap ha hsf hn hb hf hlabel hcut hw0 hw
   have ht' := ht C G hcal B N L (fun _ => (B ×ˢ N) ×ˢ (B ×ˢ N)) Q w
     φ Z M r ell Vlabel eta E betaLoss R tau W Aweight hZ

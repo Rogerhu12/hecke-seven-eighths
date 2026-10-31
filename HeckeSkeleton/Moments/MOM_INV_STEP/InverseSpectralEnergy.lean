@@ -86,6 +86,8 @@ theorem weighted_energy_integrable (H : {r : ℝ // 0 < r})
   apply (hw.norm.mul_const (B ^ 2 * ∑' q, fixedProfile K S Γ H q)).mono'
     (hw.aestronglyMeasurable.mul hc.aestronglyMeasurable)
   filter_upwards [] with t
+  change ‖w t * energy K S Γ D N (a t) H‖ ≤
+    ‖w t‖ * (B ^ 2 * ∑' q, fixedProfile K S Γ H q)
   rw [norm_mul, Real.norm_of_nonneg (energy_nonneg K S Γ D N (a t) H)]
   exact mul_le_mul_of_nonneg_left (energy_bound K S Γ D N a B hbound H t)
     (norm_nonneg _)
@@ -109,6 +111,8 @@ theorem weighted_finite_rows_integrable (H : {r : ℝ // 0 < r}) (T : Finset Orb
   · exact Filter.Eventually.of_forall (fun t =>
       mul_nonneg (hw0 t) (Finset.sum_nonneg (fun q hq => sq_nonneg _)))
   · filter_upwards [] with t
+    change w t * (∑ q ∈ T, ‖amplitude K S Γ D N (a t) q‖ ^ 2) ≤
+      (rowCovolume K S)⁻¹ * (w t * energy K S Γ D N (a t) H)
     have h := mul_le_mul_of_nonneg_left
       (finite_rows_le_energy K S Γ D N (a t) H T hT) (hw0 t)
     simpa only [mul_left_comm (rowCovolume K S)⁻¹] using h

@@ -181,7 +181,10 @@ theorem total_le_of_production (slotCap : ℕ) (hslots : T.columns.slots.card �
   change mellinMass W hW * spectralAverage ρ (degree m₂) (firstCoordinate side) P ≤
     integralConstant m₂ * B * coordinateMoment (degree m₂) (firstCoordinate side) *
       ((testSeminorm m₂).sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 at hint
-  simp only [firstCoordinate_apply] at hint
+  have hcoord : (firstCoordinate side : LogPlane → ℝ) = signedCoordinate side := by
+    funext ξ
+    exact firstCoordinate_apply side ξ
+  rw [hcoord] at hint
   have hmaskcard : (T.columns.slots.powerset.card : ℝ) ≤ (2 : ℝ) ^ slotCap := by
     simpa only [Finset.sdiff_empty] using remaining_masks_bound K S T slotCap hslots ∅
   have hprodterm : FirstNormalizedErrorBudget.outerCoefficient K S T W hW *

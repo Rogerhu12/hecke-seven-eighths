@@ -205,9 +205,9 @@ theorem originalSource_eq (hallowed : AllowedGeneratorInput K Sset D)
 
 def positiveEnergy (P : Profile K S) (T U : Finset (Finset (HeightOneSpectrum (𝓞 K))))
     (X : {r : ℝ // 0 < r}) (coordinate : LogPlane → ℝ) (a : NI → ℂ) : ℝ :=
-  ∑ E ∈ divisorPool T primeProduct, ‖(moebius E : ℂ)‖ *
+  ∑ e ∈ divisorPool T primeProduct, ‖(moebius e : ℂ)‖ *
     ∫ ξ : LogPlane, ‖P.density K S Γ ξ‖ *
-      ‖∑ W ∈ U with E ∣ primeProduct W,
+      ‖∑ W ∈ U with e ∣ primeProduct W,
         a (nonzeroProduct W) * columnPhase (coordinate ξ)
           (Real.log (normScale K X (nonzeroProduct W)).val)‖ ^ 2
 

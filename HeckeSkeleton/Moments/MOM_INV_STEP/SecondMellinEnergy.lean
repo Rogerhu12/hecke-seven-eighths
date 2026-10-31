@@ -33,12 +33,14 @@ private theorem phase_integral_sq_le (ρ : SchwartzMap ℝ ℂ) (p c : ℝ → �
   have hi : Integrable (fun t => ‖ρ t‖ * ‖c t‖ ^ 2) := by
     apply ρ.integrable.norm.mul_bdd (c := B ^ 2) (cc.norm.pow 2).aestronglyMeasurable
     filter_upwards [] with t
+    change ‖(‖c t‖ ^ 2)‖ ≤ B ^ 2
     rw [Real.norm_of_nonneg (sq_nonneg _)]
     exact pow_le_pow_left₀ (norm_nonneg _) (hc t) 2
   have hiz : Integrable (fun t => ρ t * p t * c t) := by
     apply (ρ.integrable.norm.mul_const B).mono'
       ((ρ.continuous.mul cp).mul cc).aestronglyMeasurable
     filter_upwards [] with t
+    change ‖ρ t * p t * c t‖ ≤ ‖ρ t‖ * B
     rw [norm_mul, norm_mul, hp, mul_one]
     exact mul_le_mul_of_nonneg_left (hc t) (norm_nonneg _)
   refine ⟨hiz, ?_⟩
@@ -130,6 +132,9 @@ theorem column_energy_integrable (W : SchwartzMap ℝ ℂ)
     (c := (coefficientMass K S D Γ C γ₀ G J U γ f y) ^ 2)
     ((column_continuous K S D Γ C γ₀ G hG J U γ f y hZ hU τ).norm.pow 2).aestronglyMeasurable
   filter_upwards [] with t
+  change ‖(‖column K Sset D (family K S C γ₀ G hG J U (t + τ))
+    (CanonicalSectors.sectorUnit K Sset Γ) γ f y‖ ^ 2)‖ ≤
+      (coefficientMass K S D Γ C γ₀ G J U γ f y) ^ 2
   rw [Real.norm_of_nonneg (sq_nonneg _)]
   exact pow_le_pow_left₀ (norm_nonneg _)
     (column_bound K S D Γ C γ₀ G hG J U γ f y hZ hU (t + τ)) 2
@@ -190,10 +195,16 @@ theorem joint_column_integrable (W : SchwartzMap ℝ ℂ)
     simpa only [add_zero] using
       column_continuous K S D Γ C γ₀ G hG J U γ f y hZ hU 0
   have hj := hc.comp (continuous_snd.add (coordinate.continuous.comp continuous_fst))
-  have hbase := hd.mul_prod (mellinDensity W hW).integrable.norm
+  have hρ : Integrable (fun t : ℝ => ‖mellinDensity W hW t‖)
+      (volume : Measure ℝ) := (mellinDensity W hW).integrable.norm
+  have hbase : Integrable (fun p : LogPlane × ℝ => d p.1 * ‖mellinDensity W hW p.2‖)
+      ((volume : Measure LogPlane).prod (volume : Measure ℝ)) := hd.mul_prod hρ
   apply hbase.mul_bdd (c := (coefficientMass K S D Γ C γ₀ G J U γ f y) ^ 2)
     (hj.norm.pow 2).aestronglyMeasurable
   filter_upwards [] with p
+  change ‖(‖column K Sset D (family K S C γ₀ G hG J U (p.2 + coordinate p.1))
+    (CanonicalSectors.sectorUnit K Sset Γ) γ f y‖ ^ 2)‖ ≤
+      (coefficientMass K S D Γ C γ₀ G J U γ f y) ^ 2
   rw [Real.norm_of_nonneg (sq_nonneg _)]
   exact pow_le_pow_left₀ (norm_nonneg _)
     (column_bound K S D Γ C γ₀ G hG J U γ f y hZ hU (p.2 + coordinate p.1)) 2
@@ -226,7 +237,12 @@ theorem energy_fubini (W : SchwartzMap ℝ ℂ)
             (CanonicalSectors.sectorUnit K Sset Γ) γ f y‖ ^ 2 := by
   have hi := joint_column_integrable K S D Γ C γ₀ G hG J U γ f y
     W hW hZ hU d hd cd coordinate
-  have he := integral_integral_swap hi
+  have he := integral_integral_swap
+    (μ := (volume : Measure LogPlane)) (ν := (volume : Measure ℝ))
+    (f := fun τ : LogPlane => fun t : ℝ =>
+      (d τ * ‖mellinDensity W hW t‖) *
+        ‖column K Sset D (family K S C γ₀ G hG J U (t + coordinate τ))
+          (CanonicalSectors.sectorUnit K Sset Γ) γ f y‖ ^ 2) hi
   calc
     _ = ∫ τ : LogPlane, ∫ t : ℝ,
         (d τ * ‖mellinDensity W hW t‖) *
