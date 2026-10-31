@@ -13,9 +13,9 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalProfileBounds
 
-open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Bridge
+open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Analysis
   HeckeGeneral.ThetaSkeleton MeasureTheory
-open PrincipalZero
+open PrincipalZero ActualPoissonScale
 open scoped Classical BigOperators nonZeroDivisors
 
 variable (K : Type) [Field K] [NumberField K]
@@ -40,7 +40,10 @@ theorem dual_tensor_zero (φ : SchwartzMap V ℂ)
       traceSchwartzFourier K φ 0 * sIntegerLocalFourierProduct K μv S h 0 := by
   have hf := fourierIntegral_traceSchwartzToMixed_traceToMixed K φ 0
   simp only [map_zero] at hf
-  simpa only [sIntegerDualTensorTerm, map_zero, Prod.fst_zero, Prod.snd_zero, hf]
+  change AdelicFourier.fourierIntegral (standardMixedAddCharacter K) volume
+    (traceSchwartzToMixed K φ) ((InfiniteAdeleRing.ringEquiv_mixedSpace K) 0) *
+      sIntegerLocalFourierProduct K μv S h 0 = _
+  rw [map_zero, hf]
 
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
@@ -63,7 +66,10 @@ theorem exists_zeroProfileSize_bound
     (fieldConstant K * (C : ℝ) * a + b)
   refine ⟨s, A, ?_, ?_⟩
   · dsimp only [A, a, b]
-    positivity
+    exact mul_nonneg ENNReal.toReal_nonneg
+      (add_nonneg
+        (mul_nonneg (mul_nonneg (fieldConstant_nonneg K) C.property) (norm_nonneg _))
+        (norm_nonneg _))
   intro φ
   have hsup : F.sup (schwartzSeminormFamily ℝ V ℂ) φ ≤
       s.sup (schwartzSeminormFamily ℝ V ℂ) φ := by
@@ -72,8 +78,10 @@ theorem exists_zeroProfileSize_bound
     exact Seminorm.le_finset_sup_apply (Finset.mem_union_left _ hi)
   have hzero : SchwartzMap.seminorm ℝ 0 0 φ ≤
       s.sup (schwartzSeminormFamily ℝ V ℂ) φ := by
-    exact Seminorm.le_finset_sup_apply
+    have hz : (schwartzSeminormFamily ℝ V ℂ (0, 0)) φ ≤
+        s.sup (schwartzSeminormFamily ℝ V ℂ) φ := Seminorm.le_finset_sup_apply
       (show (0, 0) ∈ s by simp only [s, Finset.mem_union, Finset.mem_singleton, or_true])
+    simpa only [SchwartzMap.schwartzSeminormFamily_apply] using hz
   have hphysical : ‖φ 0‖ ≤ s.sup (schwartzSeminormFamily ℝ V ℂ) φ :=
     (SchwartzMap.norm_le_seminorm ℝ φ 0).trans hzero
   have hfourier : ‖traceSchwartzFourier K φ 0‖ ≤

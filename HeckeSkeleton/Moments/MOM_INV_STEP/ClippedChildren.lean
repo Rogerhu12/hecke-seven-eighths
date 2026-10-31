@@ -94,8 +94,17 @@ theorem column_eq_clipped (C : ColumnFamily K S σ Θ ψ) (hZ : 1 < C.base)
   change (∑ n ∈ C.columns γ, F n * C.cutoff γ (height K S n / U)) =
     ∑ n ∈ squarefreePool K S (2 * max 1 U),
       F n * dilate a ha (C.cutoff γ) (height K S n / C.base ^ max 0 (C.columnLength γ))
-  rw [clipped_scale C.base (C.columnLength γ) hZ.le]
-  simp_rw [htest]
+  have hsum :
+      (∑ n ∈ squarefreePool K S (2 * max 1 U),
+        F n * dilate a ha (C.cutoff γ)
+          (height K S n / C.base ^ max 0 (C.columnLength γ))) =
+      ∑ n ∈ squarefreePool K S (2 * max 1 U),
+        F n * C.cutoff γ (height K S n / U) := by
+    apply Finset.sum_congr rfl
+    intro n hn
+    apply congrArg (fun z : ℂ => F n * z)
+    simpa only [clipped_scale C.base (C.columnLength γ) hZ.le] using htest (height K S n)
+  rw [hsum]
   apply Finset.sum_subset (original_pool_subset K S C hZ γ hpool)
   intro n hn hnold
   have hsf := (mem_squarefreePool K S (2 * max 1 U) n).mp hn

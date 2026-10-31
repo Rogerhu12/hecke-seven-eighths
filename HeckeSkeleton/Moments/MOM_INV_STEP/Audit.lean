@@ -11,6 +11,7 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPrincipalEstimate
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualReconstructionPacket
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualSecondTuple
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualSourceReindexing
+import HeckeSkeleton.Moments.MOM_INV_STEP.ActualTwoPassChildren
 import HeckeSkeleton.Moments.MOM_INV_STEP.AdaptiveFrequencyTail
 import HeckeSkeleton.Moments.MOM_INV_STEP.AssignedMarkSource
 import HeckeSkeleton.Moments.MOM_INV_STEP.BackgroundCycle
@@ -48,6 +49,8 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.FirstActualPrefactor
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstAdaptiveTruncation
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstBranchIntegration
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCanonicalLabel
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedFreeEnergy
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedNormalization
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredColumnEnergy
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredFamily
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy
@@ -58,6 +61,7 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.FirstColumnEnergy
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCommonEnvelope
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompleteFamily
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompletePools
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCubeDilationGeometry
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstDualTruncation
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstExtractedGeometry
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstFiniteAggregation
@@ -67,7 +71,13 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLabelFibers
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedCutoff
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedEnergy
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedFreeEnergy
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedNormalization
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedProduction
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRadialBudget
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedReduction
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRetained
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRows
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedTail
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMaskGeometry
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMellinEnergy
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMobiusGeometry
@@ -82,8 +92,12 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRadialBudget
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentReduction
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRetained
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRows
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstPhysicalCaps
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstPoissonNormalization
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstPositiveSource
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstProductionChildren
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstProductionPoisson
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstProductionWeight
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstRowGeometry
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceColumns
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
@@ -92,6 +106,7 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceFrozen
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourcePartition
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceReindexing
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSpectralFiber
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstToSecondData
 import HeckeSkeleton.Moments.MOM_INV_STEP.FixedDyadicCutoff
 import HeckeSkeleton.Moments.MOM_INV_STEP.FixedSecondCutoff
 import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleEnergy
@@ -153,7 +168,10 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitSmallRadius
 import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzDilation
 import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzTestPartition
 import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveCutoff
+import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveProduction
 import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveRetained
+import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveRows
+import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveTail
 import HeckeSkeleton.Moments.MOM_INV_STEP.SecondCanonicalEnergy
 import HeckeSkeleton.Moments.MOM_INV_STEP.SecondCenteredFamily
 import HeckeSkeleton.Moments.MOM_INV_STEP.SecondColumnEnergy
@@ -497,3 +515,22 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.WideMellinTests
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedFreeEnergy.centeredTotal_eq_rowTotal
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedFreeEnergy.exists_centeredTotal_free_bound
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PositiveAssignedSource.actual_source_energy_le_packet
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRetained.retained_eq_sum
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRetained.weighted_retained_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRows.fine_row_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRows.fine_row_rpow_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstCubeDilationGeometry.ideal_dvd
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstCubeDilationGeometry.norm_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedTail.exists_normalized_source_tail_bound_uniform
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedReduction.exists_uniform_parent_reduction
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedFreeEnergy.exists_rawTotal_free_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedNormalization.normalized_freeTotal_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstPhysicalCaps.actual_rows_le_physicalCap
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstProductionChildren.production_energy_le_children_on
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveCutoff.genuine_second_split_at
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveCutoff.fineCutoff_scaled_lower
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveRetained.retainedSourceAt_eq_fixed_common
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveProduction.exists_retained_centered_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveTail.exists_normalized_inverse_tail_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveRows.actual_child_row_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRadialBudget.exists_uniform_small_power

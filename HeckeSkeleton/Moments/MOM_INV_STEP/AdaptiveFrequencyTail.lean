@@ -96,7 +96,8 @@ theorem exists_tail_bound
   change ‖∑' q, f (e q)‖ ≤ _
   rw [e.tsum_eq f]
   have hcurrent : Rmax + tau * (1 - A) ≤ -saving :=
-    (add_le_add_left (mul_le_mul_of_nonpos_right htau (by linarith)) Rmax).trans
+    (add_le_add_left (mul_le_mul_of_nonpos_right htau
+      (show 1 - A ≤ 0 by linarith)) Rmax).trans
       (horder.trans (neg_le_neg hsave))
   apply hb.trans
   calc

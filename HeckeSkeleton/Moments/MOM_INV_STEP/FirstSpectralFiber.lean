@@ -109,7 +109,9 @@ theorem exists_source_free_energy_bound (a : ℕ) (ε : ℝ) (hε : 0 < ε) :
 variable (C : CanonicalBlock.ColumnData K S σ)
 variable (Θ₀ : Subgroup (HeckeCharacter K)) (ψ₀ G : HeckeCharacter K)
 variable (hν : BackgroundCycle.Admissible K Θ₀ ψ₀ C.background) (hG : G ∈ Θ₀)
-variable (J : Finset σ) (U α : ℝ) (γ : OuterTriple K) (j : Ideal (𝓞 K)) (d : OS)
+variable (J : Finset σ) (U α : ℝ) (γ : OuterTriple K) (j : Ideal (𝓞 K))
+variable (d : Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)
+include d
 
 include hallowed hΓ in
 theorem oldAmplitude_energy_integrable (W : SchwartzMap ℝ ℂ)

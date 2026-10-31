@@ -182,7 +182,7 @@ theorem retained_eq_sum (T : Data K S σ Θ ψ) (G : HeckeCharacter K)
     SecondSourceAssembly.slicedColumn, test, scale, Finset.sum_coe_sort]
 
 include hallowed in
-private theorem term_bound (T : Data K S σ Θ ψ) (G : HeckeCharacter K) (hG : G ∈ Θ)
+theorem term_bound (T : Data K S σ Θ ψ) (G : HeckeCharacter K) (hG : G ∈ Θ)
     (hcal : ThetaCalibrationInput K Sset D T.columns.lambda G)
     (hprime : ∀ i ∈ T.columns.survivors T.triple,
       ∀ p ∈ T.columns.primeLists i, Prime p)

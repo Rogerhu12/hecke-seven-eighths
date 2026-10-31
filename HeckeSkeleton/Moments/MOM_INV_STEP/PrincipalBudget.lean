@@ -32,7 +32,9 @@ theorem exterior_card_le_norm_count (L : Finset Ext) (Y : ℝ)
     ⟨f.val.val.val, mem_boundedNormIdeals.mpr (hL f.val f.property)⟩
   have hinj : Function.Injective encode := by
     intro f g he
-    exact Subtype.ext (exterior_value_injective K S (congrArg Subtype.val he))
+    have hv := congrArg (fun q : boundedNormIdeals K Y => q.val) he
+    change f.val.val.val = g.val.val.val at hv
+    exact Subtype.ext (exterior_value_injective K S hv)
   simpa only [Fintype.card_coe] using Fintype.card_le_of_injective encode hinj
 
 theorem exists_label_mass_bound (p : ℕ) (ε : ℝ) (hε : 0 < ε) :
@@ -111,7 +113,7 @@ theorem exists_weighted_principal_bound (p : ℕ) (ε : ℝ) (hε : 0 < ε) :
       apply Finset.sum_le_sum
       intro f hf
       exact mul_le_mul_of_nonneg_left (hinner f hf) (hw0 f hf)
-    _ = (∑ f ∈ L, w f) * (C₁ * X * H ^ (1 + ε) * U) := (Finset.sum_mul).symm
+    _ = (∑ f ∈ L, w f) * (C₁ * X * H ^ (1 + ε) * U) := (Finset.sum_mul ..).symm
     _ ≤ (C₂ * A * Y ^ (1 + ε)) * (C₁ * X * H ^ (1 + ε) * U) :=
       mul_le_mul_of_nonneg_right (hlabel L w A Y hA hY hL hw) hweight
     _ = (C₁ * C₂) * A * U * X * H ^ (1 + ε) * Y ^ (1 + ε) := by ring

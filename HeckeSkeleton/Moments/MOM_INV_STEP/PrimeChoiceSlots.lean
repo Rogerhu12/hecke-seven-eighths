@@ -81,7 +81,8 @@ theorem divisorMark_selected (J : Finset σ) (P : σ → Finset (Ideal (𝓞 K))
   calc
     _ = ∏ i : J, ∑ p ∈ P i.val, if p ∣ E then a i.val p else 0 :=
       Fintype.prod_equiv J.equivFin.symm _ _ (fun _ => rfl)
-    _ = _ := Finset.prod_coe_sort J _
+    _ = _ := Finset.prod_coe_sort J
+      (fun i : σ => ∑ p ∈ P i, if p ∣ E then a i p else 0)
 
 /-- The square of the actual selected mark, with its two independent
 copies of each unchanged original prime coefficient. -/

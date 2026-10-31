@@ -157,7 +157,7 @@ theorem inverse_pair_returns_canonical (hallowed : AllowedGeneratorInput K Sset 
           thetaGamma K Sset D (ActualInverseFactors.residual K Sset x₂ x₁) 5) *
         conj ((moebius x₁.val.val : ℂ) * heckeIdealCoefficient K ν x₁.val *
           thetaGamma K Sset D (ActualInverseFactors.residual K Sset x₁ x₂) 5) := by
-      rw [map_mul, hconj]
+      simp only [map_mul, hconj]
       ring
     _ = _ := by
       rw [ActualInverseFactors.actual_pair_coefficient K Sset D hcal ν hν x₂ x₁ hx₂ hx₁]

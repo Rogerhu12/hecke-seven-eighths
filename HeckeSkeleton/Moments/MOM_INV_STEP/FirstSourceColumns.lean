@@ -17,7 +17,7 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceColumns
 
-open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
+open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
   HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open PrimitivePoissonSource PrimitiveFourier CanonicalGroupedGauss CanonicalConductor
   ActualCrossLabels
@@ -62,6 +62,7 @@ theorem extractedFactor_val (n₁ n₂ b₁ b₂ : Ext) (side : Bool) :
   change (CanonicalCubeLabels.A K S b₁ b₂
     (squarefreeBit K S (sourceIdeal K S n₁ n₂ side))).val.val *
       (commonIdeal K S n₁ n₂ b₁ b₂).val.val = _
+  dsimp only [squarefreeBit]
   rw [CanonicalCubeLabels.A_val_eq_extracted, commonIdeal_val, commonResidualIdeal_eq_C]
 
 theorem source_factorization (n₁ n₂ b₁ b₂ : Ext)
@@ -130,6 +131,7 @@ theorem extracted_coprime_residual (n₁ n₂ b₁ b₂ : Ext)
   have hd : (CanonicalCubeLabels.A K S b₁ b₂
       (squarefreeBit K S (sourceIdeal K S n₁ n₂ side))).val.val ∣
       (b₁.val.val * b₂.val.val).radical := by
+    dsimp only [squarefreeBit]
     rw [CanonicalCubeLabels.A_val_eq_gcd K S (sourceIdeal K S n₁ n₂ side) b₁ b₂ hn]
     exact gcd_dvd_right _ _
   exact ((residual_coprime_cube K S D n₁ n₂ b₁ b₂ side).symm.of_isCoprime_of_dvd_left hd).mul_left
@@ -290,6 +292,10 @@ theorem primitive_pair_coefficient (n₁ n₂ b₁ b₂ : Ext) (a : OS) :
       (nonZeroDivisors.coe_ne_zero (rightIdeal K S D n₁ n₂ b₁ b₂).val)
       (rightIdeal K S D n₁ n₂ b₁ b₂).property
       (fun p hp => D.away_six p ((rightIdeal K S D n₁ n₂ b₁ b₂).property p hp)) a
+  change idealSymbol K Sset D (leftIdeal K S D n₁ n₂ b₁ b₂) a *
+    idealSymbol K Sset D (rightIdeal K S D n₁ n₂ b₁ b₂) a ^ 5 *
+    primitiveCoefficient K S D (cubeBlock K S D n₁ n₂ b₁ b₂)
+      (pairExponent K S n₁ n₂ b₁ b₂) (Ideal.Quotient.mk _ a) = _
   rw [GaussConjugation.pow_five_eq_conj _ hz]
 
 /-- The actual finite divisor Fourier coefficient with its conductor
@@ -311,6 +317,7 @@ theorem pairFourier_eq (n₁ n₂ b₁ b₂ : Ext) (d a : OS) :
         normalizedPrimitiveGauss K S D (pairSupport K S D n₁ n₂ b₁ b₂)
           (pairExponent K S n₁ n₂ b₁ b₂) := by
   unfold pairFourier
+  dsimp only
   rw [divisor_fourier]
   simp only [normalizedPrimitiveGauss, Complex.star_def, div_eq_mul_inv]
   ring
