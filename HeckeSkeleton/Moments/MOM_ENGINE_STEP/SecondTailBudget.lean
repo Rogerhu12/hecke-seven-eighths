@@ -306,7 +306,7 @@ theorem secondBlockTailMass_bound
       apply mul_le_mul hN
       · exact mul_le_mul
           (mul_le_mul_of_nonneg_left hmask firstTailFieldConstant_nonneg)
-          (add_le_add_left hN _)
+          (add_le_add le_rfl hN)
           (add_nonneg (inv_nonneg.mpr radius.property.le) N.property.le)
           (mul_nonneg firstTailFieldConstant_nonneg hmaskBound)
       · exact mul_nonneg
@@ -524,7 +524,7 @@ theorem firstTailCutoffExponent_le_width
   apply (div_le_iff₀ hden).mpr
   calc
     max 0 (L + N) ≤ max 0 (Lmax + N) :=
-      max_le_max le_rfl (add_le_add_right hL N)
+      max_le_max le_rfl (add_le_add hL le_rfl)
     _ ≤ 1 + max 0 (Lmax + N) := by linarith
     _ = ξ * (tailDecayForWidth Lmax N ξ - 1) := by
       unfold tailDecayForWidth

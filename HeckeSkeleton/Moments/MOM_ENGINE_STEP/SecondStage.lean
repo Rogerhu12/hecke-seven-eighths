@@ -230,7 +230,7 @@ theorem canonical_second_block_transform_bound
   change ‖source.transform μv hDiff finiteTest‖ ≤ _
   rw [source.transform_eq_common_rows μv hDiff finiteTest]
   apply (norm_add_le _ _).trans
-  apply add_le_add_left
+  apply add_le_add le_rfl
   calc
     _ ≤ ∑ D ∈ M.powerset,
         ‖∑ t ∈ source.rows, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
@@ -333,7 +333,7 @@ theorem gauss_second_stage_bound
   change (series DE).re ≤ _
   change ‖series DE - (sources DE).transform μv hDiff finiteTest‖ ≤ _ at ht
   exact ((sub_le_iff_le_add.mp (hre.trans ht)).trans
-    (add_le_add_left (hfinite.trans hk) _)).trans_eq (add_comm _ _)
+    (add_le_add le_rfl (hfinite.trans hk))).trans_eq (add_comm _ _)
 
 end HeckeSkeleton.Moments.EngineStep
 

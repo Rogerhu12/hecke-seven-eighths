@@ -60,7 +60,7 @@ theorem canonicalProfileAmplitude_le (B : ℝ) (J₁ J₂ : ℕ) (z : V × E) :
       (1 + B) * profilePolynomialWindow J₁ J₂ z := by
   calc
     _ ≤ profilePolynomialWindow J₁ J₂ z + B * profilePolynomialWindow J₁ J₂ z :=
-      add_le_add_right (profilePolynomialWindow_one_le J₁ J₂ z) _
+      add_le_add (profilePolynomialWindow_one_le J₁ J₂ z) le_rfl
     _ = _ := by ring
 
 /-- This is the exact square-root energy envelope, not its square. -/

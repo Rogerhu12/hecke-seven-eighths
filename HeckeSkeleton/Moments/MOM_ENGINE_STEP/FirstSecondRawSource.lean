@@ -197,8 +197,8 @@ theorem actual_parent_two_stage_raw_bound
   intro Z ell eps bad P ω ψ centered d a t Y₁ Y₂ X hX s N R T
   apply (hparent Z ell eps bad P centered d a t Y₁ Y₂ X hX s N).trans
   apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg s.fiber)
-  apply add_le_add_right
-  apply add_le_add_left
+  refine add_le_add ?_ le_rfl
+  apply add_le_add le_rfl
   unfold ActualFirstSource.linearizedCost ActualFirstSource.SecondStages.rawCost
   apply Finset.sum_le_sum
   intro v hv

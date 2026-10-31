@@ -125,7 +125,7 @@ theorem parent_first_stage_zero_bound
   apply hp.trans
   apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg _)
   rw [Finset.sum_add_distrib, Finset.sum_add_distrib, ← Finset.mul_sum]
-  exact add_le_add_right (add_le_add_right hz _) _
+  exact add_le_add (add_le_add hz le_rfl) le_rfl
 
 include ν μ in
 /-- The complete second stage with the actual equal-original-ideal zero
@@ -209,7 +209,8 @@ theorem gauss_second_stage_zero_bound
   apply hp.trans
   apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg _)
   rw [Finset.sum_add_distrib, Finset.sum_add_distrib, ← Finset.mul_sum]
-  simpa only [mul_assoc] using add_le_add_right (add_le_add_right hz _) _
+  refine add_le_add (add_le_add ?_ le_rfl) le_rfl
+  simpa only [mul_assoc] using hz
 
 end HeckeSkeleton.Moments.EngineStep
 

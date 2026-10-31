@@ -30,6 +30,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussCoverHybridTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussHybridTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussRawTerminal
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualJointRowWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLengths
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualPool
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualScaleClipping
@@ -48,6 +49,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierPoolReindex
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierResidualSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierSupportDictionary
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierValuationSupport
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ArithmeticChildProduction
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ArithmeticNormalizedLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ArithmeticPrimePool
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalAllocatedCosts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalCapacityKernelMass
@@ -70,6 +73,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonRadical
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonScalarReweight
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonSupportPartition
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonTerminalCalibration
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantCommonLeaf
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CoprimeCoefficient
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CorrelationKernel
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CoverHybridPhaseIntegral
@@ -77,6 +81,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DerivedCapacity
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectCoveredStage
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstReduction
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectGaussSource
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectNormalizedChildren
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalAmplitude
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalAtomEnvelope
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalFrequency
@@ -143,8 +148,12 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.IdealPool
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernel
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernelBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernelExceptionalSplit
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointNormalizedLeaves
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointRowBudget
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointRowBudgetProduction
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.KernelMomentDescent
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Ledger
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LiveSourceConditions
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalAmplifier
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCorrelation
@@ -159,15 +168,23 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedSecondResidual
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NonzeroQuotientSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedActualCapacityChild
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedCapacityChild
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedCapacityMassBridge
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedChildKernel
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedEngineOutput
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFourierChildren
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedHybridGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedHybridLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedMomentProfiles
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedOutputConditions
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedParentProduction
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedSlotRemoval
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedSourceBudgets
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrbitalCorrelation
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrbitalTransform
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLabelKernelMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfilePowerControl
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentMoment
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentTruncation
@@ -199,6 +216,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualTerminalCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualTupleCount
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualZeroBudget
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RowBudgetPreservation
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SIntegerFirstFourier
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SameCarrierTerminalBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
@@ -268,8 +286,9 @@ with a bound on the actual energy.  Its cost is paid by
 
 The other modules expose the exact whole-coefficient identities, full
 nonprimitive correlation transform, actual local amplifier table and
-prime-ideal pool pushforward.  The induction task can use
-`paired_child_step` without splitting its proof by slot count.
+prime-ideal pool pushforward. This local capacity lemma is an internal
+component of the full `paired_engine_step` producer. The induction
+consumer requires that producer's `PairedEngineConclusion`.
 
 This child theorem does not assert that the parent moment has already
 been decomposed into a finite collection of these children.  That analytic

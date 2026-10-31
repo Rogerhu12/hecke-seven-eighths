@@ -251,7 +251,7 @@ theorem actual_parent_two_stage_covered_terminal_bound
   obtain ⟨hcutoff, hp⟩ := hb Z ell eps bad P centered d a t Y₁ Y₂ X hX s N R T F
   refine ⟨hcutoff, hp.trans ?_⟩
   exact mul_le_mul_of_nonneg_left
-    (add_le_add_left (R.rawCost_le_covered T L exceptional N ε Cerror Czero) _)
+    (add_le_add le_rfl (R.rawCost_le_covered T L exceptional N ε Cerror Czero))
     (Nat.cast_nonneg s.fiber)
 
 end HeckeSkeleton.Moments.EngineStep

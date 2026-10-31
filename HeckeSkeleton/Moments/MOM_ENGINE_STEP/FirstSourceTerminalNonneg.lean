@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSourceFiniteLeaves
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalTerminalBudget
 
 /-!
 # Nonnegativity of the four literal terminal budgets
@@ -71,39 +72,6 @@ end ActualGaussStage.TerminalCalibration
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
 variable {P : PowerScaleExteriorPool A bad Z ell eps}
 
-namespace ActualPoolStages.TerminalCalibration
-
-variable {ι : Type*} {dpool : FirstGaussPoolData C P ι} {c : ι → ℂ}
-variable {s : ActualPoolStages (E := E) hΓ μv hDiff dpool c finiteTest}
-variable (T : s.TerminalCalibration sTail sZero k Lmax Nsave decay)
-
-theorem zeroBudget_nonneg (ε Czero : ℝ) (hC : 0 ≤ Czero) :
-    0 ≤ T.zeroBudget ε Czero := by
-  unfold zeroBudget
-  apply mul_nonneg (div_nonneg (by norm_num) dpool.density_pos.le)
-  refine add_nonneg (add_nonneg (add_nonneg ?_ ?_) ?_) ?_
-  · exact mul_nonneg dpool.multiplicity_nonneg (T.main.zeroBudget_nonneg ε Czero hC)
-  · exact Finset.sum_nonneg fun p _ => mul_nonneg
-      (FirstGaussPoolData.localErrorWeight_nonneg p.val 1) ((T.one p).zeroBudget_nonneg ε Czero hC)
-  · exact Finset.sum_nonneg fun p _ => mul_nonneg
-      (FirstGaussPoolData.localErrorWeight_nonneg p.val 6) ((T.six p).zeroBudget_nonneg ε Czero hC)
-  · exact Finset.sum_nonneg fun p _ => mul_nonneg
-      (FirstGaussPoolData.localErrorWeight_nonneg p.val 7) ((T.seven p).zeroBudget_nonneg ε Czero hC)
-
-theorem tailBudget_nonneg (Cerror : ℝ) (hC : 0 ≤ Cerror) :
-    0 ≤ T.tailBudget Cerror := by
-  unfold tailBudget
-  apply mul_nonneg (div_nonneg (by norm_num) dpool.density_pos.le)
-  refine add_nonneg (add_nonneg (add_nonneg ?_ ?_) ?_) ?_
-  · exact mul_nonneg dpool.multiplicity_nonneg (T.main.tailBudget_nonneg Cerror hC)
-  · exact Finset.sum_nonneg fun p _ => mul_nonneg
-      (FirstGaussPoolData.localErrorWeight_nonneg p.val 1) ((T.one p).tailBudget_nonneg Cerror hC)
-  · exact Finset.sum_nonneg fun p _ => mul_nonneg
-      (FirstGaussPoolData.localErrorWeight_nonneg p.val 6) ((T.six p).tailBudget_nonneg Cerror hC)
-  · exact Finset.sum_nonneg fun p _ => mul_nonneg
-      (FirstGaussPoolData.localErrorWeight_nonneg p.val 7) ((T.seven p).tailBudget_nonneg Cerror hC)
-
-end ActualPoolStages.TerminalCalibration
 
 namespace FirstBlockPoolData.SecondStages.TerminalCalibration
 

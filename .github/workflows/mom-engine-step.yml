@@ -55,6 +55,7 @@ jobs:
           python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
             HeckeSkeleton.Moments.MOM_ENGINE_STEP.Interface \
             --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.paired_engine_step \
             --evidence mom-engine-step-verification
       - name: Preserve compiler logs and recursive axiom reports
         if: always()

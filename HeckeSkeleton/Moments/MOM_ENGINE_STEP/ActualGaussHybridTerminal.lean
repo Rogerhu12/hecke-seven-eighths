@@ -97,8 +97,8 @@ theorem rawCost_le_hybrid
     (exceptional : s.HybridPredicates LA RA) (ε Cerror Czero : ℝ) :
     T.rawCost ε Cerror Czero ≤ T.hybridCost LA RA exceptional ε Cerror Czero := by
   apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg s.fiber)
-  exact add_le_add_right
-    (add_le_add_left (s.rawNonzeroCost_le_hybrid LA RA exceptional) _) _
+  exact add_le_add
+    (add_le_add le_rfl (s.rawNonzeroCost_le_hybrid LA RA exceptional)) le_rfl
 
 end TerminalCalibration
 end ActualGaussStage

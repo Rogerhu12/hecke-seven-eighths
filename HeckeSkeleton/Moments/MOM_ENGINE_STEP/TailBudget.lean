@@ -164,7 +164,7 @@ theorem ParentPeriodicPair.truncationMass_le_mask_norm
         field_simp [ne_of_gt ρ.property]
         <;> ring
       _ ≤ firstTailFieldConstant K * (radius.val⁻¹ + N.val) :=
-        mul_le_mul_of_nonneg_left (add_le_add_right hinv N.val)
+        mul_le_mul_of_nonneg_left (add_le_add hinv le_rfl)
           firstTailFieldConstant_nonneg
   calc
     _ ≤ ∑ _D ∈ M.powerset, firstTailFieldConstant K * (radius.val⁻¹ + N.val) :=
@@ -392,7 +392,7 @@ theorem firstBlockTailMass_bound
       apply hm.trans
       exact mul_le_mul
         (mul_le_mul_of_nonneg_left (hmask v hv) firstTailFieldConstant_nonneg)
-        (add_le_add_left (hmodulus v hv) _)
+        (add_le_add le_rfl (hmodulus v hv))
         (add_nonneg (inv_nonneg.mpr radius.property.le)
           (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
             ⟨((blocks v.1).pair hΓ₀ C profiles v.2.1 v.2.2).modulus,

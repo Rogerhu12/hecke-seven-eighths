@@ -88,7 +88,7 @@ theorem transform_norm_le_raw_rows
                 μv hDiff finiteTest s.radius D.val t‖ := by
   rw [(s.sources DE).transform_eq_common_rows μv hDiff finiteTest]
   apply (norm_add_le _ _).trans
-  apply add_le_add_left
+  apply add_le_add le_rfl
   calc
     _ ≤ ∑ D ∈ s.mask.powerset,
       ‖∑ t ∈ (s.sources DE).rows,
@@ -178,7 +178,7 @@ theorem actual_gauss_raw_finite_bound
       (s.transform_norm_le_raw_rows DE)
     change ‖series DE - (s.sources DE).transform μv hDiff finiteTest‖ ≤ _ at ht
     exact ((sub_le_iff_le_add.mp (hre.trans ht)).trans
-      (add_le_add_left hfinite _)).trans_eq (add_comm _ _)
+      (add_le_add le_rfl hfinite)).trans_eq (add_comm _ _)
   simpa only [ActualGaussStage.rawZeroCost, ActualGaussStage.rawNonzeroCost,
     ActualGaussStage.rawTailMass, Finset.sum_add_distrib, Finset.mul_sum] using
       Finset.sum_le_sum (s := Finset.univ) (fun DE _ => hpoint DE)
@@ -261,7 +261,7 @@ theorem actual_gauss_raw_terminal_bound
     exact Real.rpow_le_rpow_of_exponent_le T.windows.base_ge_one hq
   · apply (hraw G s).trans
     apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg s.fiber)
-    exact add_le_add (add_le_add_right hz' s.rawNonzeroCost) ht
+    exact add_le_add (add_le_add hz' le_rfl) ht
 
 end HeckeSkeleton.Moments.EngineStep
 

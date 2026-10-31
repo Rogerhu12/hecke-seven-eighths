@@ -225,8 +225,8 @@ theorem parent_first_stage_pool_bound
   apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg _)
   apply Finset.sum_le_sum
   intro DE _
-  apply add_le_add_right
-  apply add_le_add_left
+  refine add_le_add ?_ le_rfl
+  apply add_le_add le_rfl
   apply Finset.sum_le_sum
   intro D _
   exact (pools DE D).kernelCost_le_pool hDiff

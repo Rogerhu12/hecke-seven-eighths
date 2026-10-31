@@ -34,7 +34,7 @@ private theorem norm_sum_partition_singletons {H : Type*}
     intro h _
     by_cases hh : exceptional h <;> simp [hh]
   rw [he]
-  exact (norm_add_le _ _).trans (add_le_add_left (norm_sum_le _ _) _)
+  exact (norm_add_le _ _).trans (add_le_add le_rfl (norm_sum_le _ _))
 
 variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 
@@ -222,7 +222,7 @@ theorem canonical_second_block_transform_partitioned_bound
   change ‖source.transform μv hDiff finiteTest‖ ≤ _
   rw [source.transform_eq_common_rows μv hDiff finiteTest]
   apply (norm_add_le _ _).trans
-  apply add_le_add_left
+  apply add_le_add le_rfl
   calc
     _ ≤ ∑ D ∈ M.powerset,
         ‖∑ t ∈ source.rows, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
@@ -328,7 +328,7 @@ theorem gauss_second_stage_partitioned_bound
   change (series DE).re ≤ _
   change ‖series DE - (sources DE).transform μv hDiff finiteTest‖ ≤ _ at ht
   exact ((sub_le_iff_le_add.mp (hre.trans ht)).trans
-    (add_le_add_left (hfinite.trans hk) _)).trans_eq (add_comm _ _)
+    (add_le_add le_rfl (hfinite.trans hk))).trans_eq (add_comm _ _)
 
 end HeckeSkeleton.Moments.EngineStep
 

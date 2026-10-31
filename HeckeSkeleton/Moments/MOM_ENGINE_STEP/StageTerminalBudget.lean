@@ -170,7 +170,7 @@ theorem parent_first_stage_terminal_bound
     Lmax Nsave Ctail decay W.base_ge_one hdecay hL hCtail hCnum W.amplitude_nonneg W.power_bound
   refine ⟨Real.rpow_le_rpow_of_exponent_le W.base_ge_one hq, ?_⟩
   rw [← Real.rpow_mul (zero_le_one.trans W.base_ge_one)] at hp
-  exact hp.trans (mul_le_mul_of_nonneg_left (add_le_add_left htail _)
+  exact hp.trans (mul_le_mul_of_nonneg_left (add_le_add le_rfl htail)
     (Nat.cast_nonneg B))
 
 include ν μ in
@@ -272,7 +272,7 @@ theorem gauss_second_stage_terminal_bound
     Lmax Nsave Ctail decay W.base_ge_one hdecay hL hCtail hCnum (mul_nonneg (Nat.cast_nonneg _) W.amplitude_nonneg) W.power_bound
   refine ⟨Real.rpow_le_rpow_of_exponent_le W.base_ge_one hq, ?_⟩
   rw [← Real.rpow_mul (zero_le_one.trans W.base_ge_one)] at hp
-  exact hp.trans (mul_le_mul_of_nonneg_left (add_le_add_left htail _)
+  exact hp.trans (mul_le_mul_of_nonneg_left (add_le_add le_rfl htail)
     (Nat.cast_nonneg B))
 
 end HeckeSkeleton.Moments.EngineStep
