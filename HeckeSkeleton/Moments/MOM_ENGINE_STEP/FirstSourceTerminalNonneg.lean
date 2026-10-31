@@ -88,6 +88,8 @@ variable (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal 
   ((PUnit × PUnit) →* Circle) → ℝ)
 variable (hNL : ∀ S χ, 0 < NL S χ) (hNR : ∀ S χ, 0 < NR S χ)
 
+include hNL hNR
+
 theorem zeroBudget_nonneg (ε Czero : ℝ) (hC : 0 ≤ Czero) :
     0 ≤ T.zeroBudget NL NR ε Czero := by
   apply Finset.sum_nonneg
