@@ -129,6 +129,8 @@ MODULES = (
     'OriginalAtomConsumers',
     'CompleteSourcePrimitive',
     'CompleteParentSource',
+    'PrimeAnnulus',
+    'PrimeAnnulusModel',
 )
 # Exact canonical single-step imports, including the complete-row atoms
 # and genuine original positive source. These remain in the owner namespace.

@@ -25,7 +25,8 @@ private theorem mellinDecay_nonneg (frequency : ℝ) : 0 ≤ mellinDecay frequen
   Real.rpow_nonneg (by positivity) _
 
 private theorem continuous_mellinDecay : Continuous mellinDecay :=
-  (continuous_const.add continuous_abs).rpow_const (fun t => Or.inl (by positivity))
+  (continuous_const.add continuous_abs).rpow_const
+    (fun t => Or.inl (ne_of_gt (by positivity : 0 < (1 : ℝ) + |t|)))
 
 private theorem integrable_mellinDecay : Integrable mellinDecay :=
   integrable_one_add_abs_rpow_neg (e := 2) (by norm_num)
@@ -87,7 +88,7 @@ private theorem mellinCoefficient_windowEnvelope_bound (V : SmoothAnnularTest)
       (Real.rpow_nonneg ht.le _))
   apply (mul_le_mul_of_nonneg_left hcoefficient
     (mul_nonneg hE (pow_nonneg ht.le _))).trans_eq
-  unfold ordinaryProfileEnvelope mellinDecay
+  unfold mellinDecay
   calc
     _ = (mellinSeparationConstant (J + 2) * E * P) *
       ((1 + |frequency|) ^ J * (1 + |frequency|) ^ (-((J + 2 : ℕ) : ℝ))) := by ring

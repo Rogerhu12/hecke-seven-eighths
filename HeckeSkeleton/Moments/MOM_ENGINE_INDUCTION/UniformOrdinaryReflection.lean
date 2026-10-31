@@ -53,8 +53,12 @@ theorem selectedPlainAnnularTest_seminorm
     (hlower : 0 < lower) (hinterval : lower ≤ upper) (u : NonzeroIdeal K) :
     testSeminorm (selectedPlainAnnularTest h first hlower hinterval u).toFun L A ≤ P := by
   cases first with
-  | false => simpa only [Real.rpow_zero, mul_one] using (modelProfileControl_plain₂ h u).2.2
-  | true => simpa only [Real.rpow_zero, mul_one] using (modelProfileControl_plain₁ h u).2.2
+  | false =>
+    change testSeminorm (d.plainTest₂.profile u 0) L A ≤ P
+    simpa only [Real.rpow_zero, mul_one] using (modelProfileControl_plain₂ h u).2.2
+  | true =>
+    change testSeminorm (d.plainTest₁.profile u 0) L A ≤ P
+    simpa only [Real.rpow_zero, mul_one] using (modelProfileControl_plain₁ h u).2.2
 
 /-- The actual reflection theorem with every analytic constant selected
 before the full moving family. The only remaining premises are original
@@ -65,7 +69,8 @@ theorem uniform_ordinaryReflection_output
     {δ A upper ε : ℝ} (hδ : 0 < δ) (hδsmall : δ < 1 / 4) (hδA : δ ≤ A)
     (hupper : 0 < upper) (hε : 0 < ε) (childOrder cap : ℕ) :
     ∃ E0 : ℝ, ∃ hE0 : 1 ≤ E0, ∃ L : ℕ, childOrder ≤ L ∧ ∃ C : ℝ, 0 ≤ C ∧
-      ∀ (P lower : ℝ), 1 ≤ P → 0 < lower → lower ≤ 1 / 2 → 2 ≤ upper →
+      ∀ (P lower : ℝ) (_hP : 1 ≤ P) (hlower : 0 < lower),
+      lower ≤ 1 / 2 → 2 ≤ upper →
       ∀ (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
       (probe : ProbeData K S) (rows : RowCharacterInput K S probe)
       (d : MomentData K omegaCharacter psiCharacter)
@@ -81,7 +86,7 @@ theorem uniform_ordinaryReflection_output
         d.plainBackground * d.rowCharacter u ≠ heckeNormTwist K t) →
       ∀ (hprofiles : ModelProfileControl d L A P 0 lower upper 0)
       (hinterval : lower ≤ upper) (hPE : 1 ≤ P * E0) (cutoff : ℕ),
-      let V := selectedPlainAnnularTest hprofiles first (by assumption) hinterval
+      let V := selectedPlainAnnularTest hprofiles first hlower hinterval
       let weight := ordinaryReflectionEnvelope C (P ^ (cap + 3)) (U ^ loss)
       let child := (Node.ordinary d a).fixedLineReflectionChild first U (P * E0) hPE childOrder
       (Node.ordinary d a).normalizedEnergy U 0 ≤

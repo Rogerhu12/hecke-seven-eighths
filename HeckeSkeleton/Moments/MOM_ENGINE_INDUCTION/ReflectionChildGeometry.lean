@@ -147,7 +147,7 @@ theorem fixedLongReflectionChild_comparison_length (node : Node K ω ψ)
       rw [min_add_max]
       exact hcore) hpadding hnext
   rw [fixedLongReflectionChild_totalLength]
-  simpa only [min_add_max] using h
+  simpa only [min_add_max, Node.totalLength] using h
 
 /-- Capacity is proved with the original kappa, including its endpoint.
 No absolute-slot estimate silently substitutes kappa*z for z. -/

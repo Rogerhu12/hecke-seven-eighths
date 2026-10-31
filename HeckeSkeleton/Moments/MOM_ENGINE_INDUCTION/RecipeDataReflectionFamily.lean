@@ -11,7 +11,9 @@ prove its preservation by the literal fixed-line child constructor.
 Neither input is an energy or completed local-output assertion.
 
 The same analytic reflection factory then creates all child labels in
-this stronger subtype. Original mesh, ranked profile support, actual
+this stronger subtype. The exponent is the original fixed
+`2 * c.family.B - 1`, both at the literal root and every recursive node.
+Original mesh, ranked profile support, actual
 arithmetic calibration and all source quantifiers remain present. The
 analytic orders and uniform constants do not depend on a moving root,
 sector, row, height, or later strict output.
@@ -32,15 +34,17 @@ variable {K : Type} [Field K] [NumberField K] {c : TargetContext K}
 variable [MeasurableSpace (ℕ × Bool)] [MeasurableSingletonClass (ℕ × Bool)]
 
 /-- The source uses its actual rank's annulus with the same height
-budget, full arithmetic mask and joint remaining-ideal calibration. -/
+budget, full arithmetic mask and joint remaining-ideal calibration.
+Its kappa remains the exponent of this one fixed source family. -/
 def recipeDataReflectionPrimitive (c : TargetContext K)
     (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
     (ground : ℕ) (engine reflection : ℕ → ℕ)
     (sigma padding A C H lower upper U T : ℝ) :
     MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop :=
-  withDataPrimitive Q
-    (recipeMeshReflectionPrimitive c ground engine reflection sigma padding
-      A C H lower upper U T)
+  withKappa (2 * c.family.B - 1)
+    (withDataPrimitive Q
+      (recipeMeshReflectionPrimitive c ground engine reflection sigma padding
+        A C H lower upper U T))
 
 def recipeDataReflectionSystem (c : TargetContext K)
     (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
@@ -63,7 +67,7 @@ theorem recipeDataReflectionSystem_fitsMesh
       A Cp Hp lower upper U T).Label) :
     ((recipeDataReflectionSystem c Q ground engine reflection
       A Cp Hp lower upper U T).node x).data.geometry.fitsMesh (momentMesh K c.family).val :=
-  x.down.property.admissible.2.1
+  x.down.property.admissible.2.2.1
 
 theorem recipeDataReflectionSystem_data
     (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
@@ -73,6 +77,18 @@ theorem recipeDataReflectionSystem_data
       A Cp Hp lower upper U T).Label) :
     Q ((recipeDataReflectionSystem c Q ground engine reflection
       A Cp Hp lower upper U T).node x).data :=
+  x.down.property.admissible.2.1
+
+/-- The strict callback receives only the cancellation exponent of the
+original family. It is not quantified over unrelated values in [3/4,1]. -/
+theorem recipeDataReflectionSystem_kappa
+    (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
+    (ground : ℕ) (engine reflection : ℕ → ℕ)
+    (A Cp Hp lower upper U T : ℝ)
+    (x : (recipeDataReflectionSystem c Q ground engine reflection
+      A Cp Hp lower upper U T).Label) :
+    ((recipeDataReflectionSystem c Q ground engine reflection
+      A Cp Hp lower upper U T).node x).parameters.κ = 2 * c.family.B - 1 :=
   x.down.property.admissible.1
 
 /-- The unchanged source node, now with its proved scheduled support.
@@ -111,8 +127,12 @@ def RecipeMeshReflectionRootData.withDataPrimitive
       sigma padding A C H lower upper i s := by
   have hactual : Q prepared.root.down.val.data := by
     simpa only [prepared.root_eq] using hQ
+  have hkappa : prepared.root.down.val.parameters.κ = 2 * c.family.B - 1 := by
+    rw [prepared.root_eq]
+    rfl
   exact {
-    root := ⟨⟨prepared.root.down.val, prepared.root.down.property.withDataPrimitive hactual⟩⟩
+    root := ⟨⟨prepared.root.down.val,
+      (prepared.root.down.property.withDataPrimitive hactual).withKappa hkappa⟩⟩
     root_eq := prepared.root_eq
     budget_one_le := prepared.budget_one_le
     source_top_profile := prepared.source_top_profile }
@@ -262,7 +282,7 @@ theorem recipeDataReflectionFamily_preparation
     have nodes := produce (recipeInductionEdgeLoss c) (recipeInductionTerminalLoss c)
       hmassLoss hterminalLoss T hT (places K c) (probeData K c) (momentRowCharacters K c)
       (momentBaseFor i) (sourceReserve c.family.lamA / 8) (momentMesh K c.family).val
-      Q hQpreserved hU (by positivity) le_rfl hfixed hround
+      (2 * c.family.B - 1) Q hQpreserved hU (by positivity) le_rfl hfixed hround
     refine ⟨{ source := RecipeMeshReflectionRootData.withDataPrimitive R Q
         (RecipeRankedAnnulusReflectionRootData.withOriginalMesh R
           (RecipeReflectionRootData.withRankedAnnulus R prepared hσ

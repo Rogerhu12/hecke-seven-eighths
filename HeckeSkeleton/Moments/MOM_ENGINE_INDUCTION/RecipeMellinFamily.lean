@@ -20,7 +20,11 @@ Its genuine reflection factory proves that primitive for each literal
 child before creating the child label. An additional data-only dictionary
 Q is retained in every source and child label, using its literal
 constructor-preservation proof. The strict callback therefore receives
-Q, the original mesh, actual arithmetic and ranked profile invariants. It must still construct the canonical output for the
+Q, the original mesh, the fixed exponent `2 * c.family.B - 1`, actual
+arithmetic and ranked profile invariants. The exponent is preserved by
+Mellin preprocessing and equal-product comparison, and canonical strict
+outputs retain it through their actual left/right kappa identities.
+It must still construct the canonical output for the
 literal Mellin input. This module does not claim that this remaining
 producer or the original three targets have already been completed.
 -/
@@ -120,8 +124,9 @@ abbrev RecipeMellinParameter := (ℝ × ℝ) ⊕ ((ℕ × Bool) × ℝ)
 family. It supplies actual per-frequency canonical outputs with their
 literal child labels and pure profile/coefficient budgets.
 
-The concrete data predicate Q and original per-slot mesh are already
-primitive invariants of every node in this family. Supplying its canonical producing theorem remains
+The concrete data predicate Q, original per-slot mesh and original
+fixed cancellation exponent are already primitive invariants of every
+node in this family. Supplying its canonical producing theorem remains
 a separate obligation; no finished energy estimate is a field here. -/
 structure RecipeMellinStrictFamily
     (R : ExpansionRecipe.RecipeExpansion K (places K c) (targetCharacter K c)
