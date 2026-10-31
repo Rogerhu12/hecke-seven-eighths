@@ -75,7 +75,7 @@
 <!-- pending-source-refresh:status:start -->
 ### 当前源码待验证分类
 
-已归档批次仍记录 84/94 个 Built 观察；当前源码匹配数为 84/94，已修改待验证 6 个，源码匹配但无终结事件 4 个。后续诊断不增加已完成构建数；当前完整依赖图和最终目标仍未验证。
+已归档批次仍记录 84/94 个 Built 观察；当前源码匹配数为 84/94，已修改待验证 7 个，源码匹配但无终结事件 3 个。后续诊断不增加已完成构建数；当前完整依赖图和最终目标仍未验证。
 <!-- pending-source-refresh:status:end -->
 
 **Pending source update — 2026-10-31T11:31:07.249463+00:00** (run 41196034806; job 124522578454; source_head 2850c225f246ebf9d535ef0bf1031debd8fe360a).
@@ -113,6 +113,26 @@
 > ActualTupleReconstruction also receives three localized rw-to-erw changes where ordinary actualMarkedDatum record fields must reduce to the empty puncture and M.image t. This is a preventive application of the previously confirmed dependent-field rewrite pattern, not an observed compiler failure in that module.
 > 
 > All statements, hypotheses, factors, cutoffs and constant quantifiers are unchanged. These repaired source versions await native compilation. The latest archived complete native evidence remains round 11, and both final energy audits remain unverified.
+
+**Pending source update — 2026-10-31T13:54:31.348673+00:00** (run 41205984586; job 124551256989; source_head d6f5ce52bc4aee5578233b779871412ff027f1bd).
+
+`ActualMarkedTupleEnergy`: current hashes updated; repairs await compilation. This note is diagnostic context only, with no completed-run or final-audit claim.
+
+> The complete native archive from cancelled round 14 (run 41205984586, actual job 124551256989, exact checkout d6f5ce52bc4aee5578233b779871412ff027f1bd) contains five ActualMarkedTupleEnergy diagnostics not present in the earlier partial job-log snapshot. Its Lake process was interrupted before recording an exit result; the archive is diagnostic evidence, not a completed successful run.
+> 
+> The executed source failed at lines 115 and 134 because tupleDatum.puncture remained opaque to emptyPrimeIdeal_val; each proof now explicitly reduces tupleDatum before the existing rewrite. Line 322 now unfolds the local real constant L before casting the established natural cardinality inequality. At lines 334 and 340 the restricted simplifier had left 0 squared unresolved; pow_two and zero_mul now normalize that concrete scalar before the existing nonnegativity and finite-zero-sum proofs.
+> 
+> Every theorem statement, hypothesis, coefficient, cutoff, scalar factor, and heartbeat setting is unchanged. This module's new source awaits native compilation. The published round15 run is still validating the separate frozen-reconstruction repair; no result from that run is inferred for this pending marked-tuple patch. Both final energy audits remain unverified.
+
+**Pending source update — 2026-10-31T13:56:59.048129+00:00** (run 41207139641; job 124554654875; source_head 1d40e4275c82a259015e362220a2a0925caee056).
+
+`ActualTupleReconstruction`: current hashes updated; repairs await compilation. This note is diagnostic context only, with no completed-run or final-audit claim.
+
+> Round 15 partial evidence belongs to exact checkout 1d40e4275c82a259015e362220a2a0925caee056, run 41207139641, actual job 124554654875. ActualFrozenReconstruction now has a fresh Built event (6.3 seconds at 13:55:29 UTC), confirming the bounded scalar cancellation repair with the unchanged default heartbeat limit. This partial observation is not a completed full-graph or final-audit result.
+> 
+> The third localized erw in ActualTupleReconstruction is now composed with the following reflexivity step using &lt;;> rfl. Any remaining goals must still close by reflexivity, while an already closed goal does not trigger a redundant-tactic error. This is a preventive elaboration adjustment; no compiler failure at this site has been observed.
+> 
+> The separately staged ActualMarkedTupleEnergy patch addresses five real diagnostics from the complete cancelled round14 native archive. Both pending source versions require a new native run. All theorem statements, inputs, mathematical factors and strict verification gates remain unchanged.
 
 ## 目标、假设与调用方
 

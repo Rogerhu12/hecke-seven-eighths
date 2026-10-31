@@ -112,7 +112,10 @@ theorem tupleDatum_row_admissible (x : ExteriorIdeal K S × SixthUnitClasses K S
       (exteriorResidualPart K S x.1) where
   squarefree := IdealRows.residualPart_squarefree x.1.val
   frozen_coprime := (IdealRows.powerful_residual_coprime x.1.val).symm
-  puncture_coprime := by rw [emptyPrimeIdeal_val]; exact isCoprime_one_right
+  puncture_coprime := by
+    dsimp only [tupleDatum]
+    rw [emptyPrimeIdeal_val]
+    exact isCoprime_one_right
   inactive_away := by
     intro p hp
     obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp hp
@@ -131,6 +134,7 @@ theorem tupleDatum_mark_admissible (frozen : ExteriorIdeal K S) (u : S.unit K)
   refine ⟨activeIdeal_squarefree K S A a, ?_, ?_⟩
   · intro p hp
     refine ⟨hPgood p hp, ?_⟩
+    dsimp only [tupleDatum]
     rw [emptyPrimeIdeal_val]
     exact p.val.prime.not_dvd_one
   · change Disjoint (Finset.univ.image b)
@@ -319,6 +323,7 @@ theorem actual_marked_tuple_energy [Finite (SixthLocalClasses K S)]
         (fun j k => frozenReflectedRow K S D f F θ
           (ordinaryActiveWeight K S frozen ψ g T Z A) Z (ordinaryMarkDyad K S g T Z A j) k) hblock
       have hcard : ((markDyadIndices K S g T Z A).card : ℝ) ≤ L := by
+        dsimp only [L]
         exact_mod_cast markDyadIndices_card_le K S g T hZ.le A
       simp only [one_mul, norm_one, Finset.sum_const, nsmul_eq_mul, mul_one] at hs
       have hcontract :
@@ -331,13 +336,14 @@ theorem actual_marked_tuple_energy [Finite (SixthLocalClasses K S)]
         simp only [frozenTupleRow, dif_pos hgood]
         split_ifs
         · exact le_rfl
-        · simpa only [norm_zero, zero_pow] using sq_nonneg
+        · simpa only [norm_zero, pow_two, zero_mul] using sq_nonneg
             ‖∑ j ∈ markDyadIndices K S g T Z A,
               frozenReflectedRow K S D f F θ (ordinaryActiveWeight K S frozen ψ g T Z A)
                 Z (ordinaryMarkDyad K S g T Z A j) k‖
       exact hcontract.trans (hs.trans (mul_le_mul_of_nonneg_right
         (pow_le_pow_left₀ (Nat.cast_nonneg _) hcard 2) hE))
-    · simpa only [frozenTupleRow, dif_neg hgood, norm_zero, zero_pow, Finset.sum_const_zero]
+    · simpa only [frozenTupleRow, dif_neg hgood, norm_zero, pow_two, zero_mul,
+        Finset.sum_const_zero]
         using mul_nonneg (sq_nonneg L) hE
   have hsubset (A : Finset (Fin g.slots)) (hA : A ∈ (Finset.univ \ J).powerset) :
       (∑ k ∈ rows, ‖activeSubsetRow K S D frozen u F θ ψ g T Z J A k‖ ^ 2) ≤ Ci * (L ^ 2 * E) := by

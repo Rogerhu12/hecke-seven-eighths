@@ -255,8 +255,7 @@ theorem completedThetaSum_eq_slotPhysicalRows
     have hAM := Finset.mem_powerset.mp hA
     erw [dif_pos (Finset.image_subset_image hAM),
       tuplePhysicalRow_eq_splitFixed K S D x F θ g M A hAM t
-        (HeckeSkeleton.LowCauchy.lc_injective_of_mem_piFinset ht) hQ V.toFun Y]
-    rfl
+        (HeckeSkeleton.LowCauchy.lc_injective_of_mem_piFinset ht) hQ V.toFun Y] <;> rfl
   · push_neg at hQ
     obtain ⟨p, hp, hpi⟩ := hQ
     have hz := completedThetaSum_eq_zero_of_mark_overlap K S D θ
