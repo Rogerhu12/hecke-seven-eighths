@@ -99,7 +99,44 @@ theorem sum_indexWeight (b : TwoDivisorCommonBranch (K := K)) :
   simp only [Index, Fintype.sum_sigma, Fintype.sum_prod_type, ← Finset.mul_sum]
   simp_rw [hL]
   unfold mass
-  simp only [Finset.sum_coe_sort]
+  have hW (v : Label K) (S : Ideal (𝓞 K)) :
+      (∑ w : b.second v S,
+        (1 / (Ideal.absNorm (commonRadical w.val.1.1 w.val.1.2) : ℝ)) *
+          secondDivisorAllocationMass (b.secondDivisors v S w.val)
+            (b.leftOccurrences v S w.val) (b.rightOccurrences v S w.val)) =
+      ∑ w ∈ b.second v S,
+        (1 / (Ideal.absNorm (commonRadical w.1.1 w.1.2) : ℝ)) *
+          secondDivisorAllocationMass (b.secondDivisors v S w)
+            (b.leftOccurrences v S w) (b.rightOccurrences v S w) :=
+    Finset.sum_coe_sort (b.second v S) (fun w : Label K =>
+      (1 / (Ideal.absNorm (commonRadical w.1.1 w.1.2) : ℝ)) *
+        secondDivisorAllocationMass (b.secondDivisors v S w)
+          (b.leftOccurrences v S w) (b.rightOccurrences v S w))
+  simp_rw [hW]
+  have hS (v : Label K) :
+      (∑ S : b.firstDivisors v, ‖(moebius S.val : ℂ)‖ *
+        ∑ w ∈ b.second v S.val,
+          (1 / (Ideal.absNorm (commonRadical w.1.1 w.1.2) : ℝ)) *
+            secondDivisorAllocationMass (b.secondDivisors v S.val w)
+              (b.leftOccurrences v S.val w) (b.rightOccurrences v S.val w)) =
+      ∑ S ∈ b.firstDivisors v, ‖(moebius S : ℂ)‖ *
+        ∑ w ∈ b.second v S,
+          (1 / (Ideal.absNorm (commonRadical w.1.1 w.1.2) : ℝ)) *
+            secondDivisorAllocationMass (b.secondDivisors v S w)
+              (b.leftOccurrences v S w) (b.rightOccurrences v S w) :=
+    Finset.sum_coe_sort (b.firstDivisors v) (fun S : Ideal (𝓞 K) =>
+      ‖(moebius S : ℂ)‖ * ∑ w ∈ b.second v S,
+        (1 / (Ideal.absNorm (commonRadical w.1.1 w.1.2) : ℝ)) *
+          secondDivisorAllocationMass (b.secondDivisors v S w)
+            (b.leftOccurrences v S w) (b.rightOccurrences v S w))
+  simp_rw [hS]
+  exact Finset.sum_coe_sort b.first (fun v : Label K =>
+    (1 / (Ideal.absNorm (commonRadical v.1.1 v.1.2) : ℝ)) *
+      ∑ S ∈ b.firstDivisors v, ‖(moebius S : ℂ)‖ *
+        ∑ w ∈ b.second v S,
+          (1 / (Ideal.absNorm (commonRadical w.1.1 w.1.2) : ℝ)) *
+            secondDivisorAllocationMass (b.secondDivisors v S w)
+              (b.leftOccurrences v S w) (b.rightOccurrences v S w))
 
 /-- Raw support/fibre conditions suffice to bound the mass of a true
 decorated source carrier. All arithmetic constants precede its data. -/

@@ -64,8 +64,7 @@ theorem residualCoefficient_eq (d : FirstGaussPoolData C P ι)
     exact_mod_cast (A.exteriorNorm_pos (d.residualPresentation p n i).residual).ne'
   unfold residualCoefficient adjustedCoefficient
   rw [hn']
-  field_simp
-  ring
+  field_simp <;> ring
 
 def residualGaussPolynomial (d : FirstGaussPoolData C P ι)
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
@@ -84,6 +83,7 @@ def localErrorWeight (p : ExteriorPrime A) (n : ℕ) : ℝ :=
 
 theorem localErrorWeight_nonneg (p : ExteriorPrime A) (n : ℕ) :
     0 ≤ localErrorWeight p n := by
+  have hQ : 0 < Q p := primeNorm_pos p
   unfold localErrorWeight
   split_ifs <;> positivity
 
@@ -92,7 +92,9 @@ theorem whole_error_eq_valuation_sum (d : FirstGaussPoolData C P ι)
     wholePolynomial d.columns (d.adjustedCoefficient c) (d.errorColumn n) (h, p) =
       ∑ i : d.valuationColumns p n, d.adjustedCoefficient c i.val *
         (d.finiteColumn i.val h - d.finiteColumn i.val (actualFrequencyAmplify C (h, p))) := by
-  rw [Finset.sum_coe_sort]
+  rw [Finset.sum_coe_sort (d.valuationColumns p n) (fun i =>
+    d.adjustedCoefficient c i *
+      (d.finiteColumn i h - d.finiteColumn i (actualFrequencyAmplify C (h, p))))]
   unfold wholePolynomial valuationColumns
   rw [Finset.sum_filter]
   apply Finset.sum_congr rfl
@@ -134,6 +136,7 @@ theorem whole_error_norm_sq (d : FirstGaussPoolData C P ι)
           (d.residualPresentation p n i).generates h‖ ^ 2 at hx
   rw [hx]
   congr 2
+  apply congrArg (fun z : ℂ => ‖z‖)
   unfold residualGaussPolynomial
   apply Finset.sum_congr rfl
   intro i _
@@ -158,7 +161,14 @@ theorem errorEnergy_eq_residual (d : FirstGaussPoolData C P ι)
     d.errorEnergy c n = ∑ p ∈ P.primes,
       localErrorWeight p n * d.residualEnergy hDiff p n c := by
   unfold errorEnergy eligible
-  rw [← sum_eligiblePairs]
+  change (∑ hp ∈ eligiblePairs d.rows P.primes
+    (fun h p => actualPrimeEligible d.frozen (d.rowIdeal h) p),
+      (fun h p => ‖wholePolynomial d.columns (d.adjustedCoefficient c)
+        (d.errorColumn n) (h, p)‖ ^ 2) hp.1 hp.2) = _
+  rw [← sum_eligiblePairs d.rows P.primes
+    (fun h p => actualPrimeEligible d.frozen (d.rowIdeal h) p)
+    (fun h p => ‖wholePolynomial d.columns (d.adjustedCoefficient c)
+      (d.errorColumn n) (h, p)‖ ^ 2)]
   simp only [Finset.sum_filter]
   rw [Finset.sum_comm]
   apply Finset.sum_congr rfl

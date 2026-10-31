@@ -92,7 +92,7 @@ theorem actual_second_residual_kernel_bound {H ι κ : Type*}
         generatedIdealCorrelation (σ := σ) (IDA i) (IEB j)
           (d * a i) (e * b j) (hda i) (heb j) (frequency h) else 0) *
         (c i * star (f j)) * F (x h i + y h j)‖ ≤
-      secondResidualKernelCost Ray F rows frequency leftColumns rightColumns
+      secondResidualKernelCost (σ := σ) Ray F rows frequency leftColumns rightColumns
         ID IE IA IB d e hd he rayLeft rayRight phaseTable q c f x y := by
   apply full_correlation_kernel_bound F rows leftColumns rightColumns
     (fun i => (IA i).val) (fun j => (IB j).val) (fun j _ => (IB j).property.1)
@@ -159,7 +159,7 @@ theorem actual_second_source_kernel_bound {ι κ : Type*}
     ‖∑ t ∈ rows, ∑ i ∈ leftColumns, ∑ j ∈ rightColumns,
       (((L i).pair hS (R j) (profiles i j)).gated
         (IsCoprime (IA i).val (IB j).val)).transformedRow μv hS finiteTest radius D t‖ ≤
-      secondResidualKernelCost Ray F rows (fun t => -t.out.val)
+      secondResidualKernelCost (σ := σ) Ray F rows (fun t => -t.out.val)
         leftColumns rightColumns ID IE IA IB d e hd he rayLeft rayRight phaseTable
         (fun t => secondOrbitalScalar radius D * q t)
         (fun i => c i * (L i).divisorPhase δ) (fun j => f j * (R j).divisorPhase δ) x y := by

@@ -118,7 +118,8 @@ theorem actual_first_normalized_gauss_mass
     _ ≤ ∑ v : labels, firstCommonWeight Z v.val.1.1 v.val.1.2 :=
       Finset.sum_le_sum (fun v _ =>
         (blocks v).normalizedActiveGauss_le_weight C hDiff Z hZ (δ v) (h v))
-    _ = ∑ v ∈ labels, firstCommonWeight Z v.1.1 v.1.2 := Finset.sum_coe_sort _ _
+    _ = ∑ v ∈ labels, firstCommonWeight Z v.1.1 v.1.2 :=
+      Finset.sum_coe_sort labels (fun v : Label K => firstCommonWeight Z v.1.1 v.1.2)
     _ ≤ _ := hmass Z hZ s hs hs0 labels hvalid hnorm
 
 end HeckeSkeleton.Moments.EngineStep

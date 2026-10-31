@@ -386,7 +386,7 @@ theorem actual_amplifier_error_moving_density
       e.squaredCentral (Ideal.absNorm (primeIdeal p).val : ℝ) := by
     rw [centralPrimePower_difference_norm_sq]
     cases e <;> norm_num [AmplifierValuation.multiplicity, AmplifierValuation.squaredCentral,
-      Q, SArithmeticData.exteriorNorm, idealNorm]
+      Q, SArithmeticData.exteriorNorm, DedekindZetaZeroFree.idealNorm]
   rw [he]
   exact amplifier_squaredCentral_moving_density e Z hZ (primeIdeal p).val
     (primeIdeal p).property.1

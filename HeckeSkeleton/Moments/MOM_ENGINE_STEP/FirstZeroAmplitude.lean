@@ -89,6 +89,10 @@ theorem dual_tensor_zero_seminorm_bound
     unfold sIntegerDualTensorTerm
     simp only [map_zero, Prod.fst_zero, Prod.snd_zero]
     congr 1
+    change AdelicFourier.fourierIntegral (standardMixedAddCharacter K) volume
+      (traceSchwartzToMixed K φ)
+      ((InfiniteAdeleRing.ringEquiv_mixedSpace K) (0 : InfiniteAdeleRing K)) =
+        traceSchwartzFourier K φ 0
     simpa only [map_zero] using fourierIntegral_traceSchwartzToMixed_traceToMixed K φ 0
   rw [hz, norm_mul]
   have hp := (SchwartzMap.norm_le_seminorm ℂ (traceSchwartzFourier K φ) 0).trans (hbound φ)

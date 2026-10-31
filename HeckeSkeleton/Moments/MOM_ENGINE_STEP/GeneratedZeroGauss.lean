@@ -37,6 +37,8 @@ theorem generated_zero_gauss_generator_change
   apply Fintype.sum_equiv e.toEquiv
   intro x
   obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective x
+  change generatedIdealCharacter (σ := σ) I a ha (Ideal.Quotient.mk _ x) =
+    generatedIdealCharacter (σ := σ) I b hb (e (Ideal.Quotient.mk _ x))
   simp only [e, Ideal.quotEquivOfEq_mk, generatedIdealCharacter_mk]
 
 /-- Every original exterior ideal has its exact positive prime-power recipe. -/
@@ -129,7 +131,7 @@ theorem originalTriple_zero_powerful_residuals
   · apply actual_sInteger_zero_gauss_nonzero_powerful C hDiff J b hb
     intro hz
     apply (mul_ne_zero_iff.mp hpair).2
-    rw [hz, star_zero]
+    exact (congrArg star hz).trans star_zero
 
 end HeckeSkeleton.Moments.EngineStep
 

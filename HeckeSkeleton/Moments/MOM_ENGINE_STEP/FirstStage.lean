@@ -92,7 +92,7 @@ def FirstBlockProfileChart.kernelCost {ι κ : Type*}
   let r := actualActiveColumn hΓ C b.primes b.primes_injective
     b.leftMultiplicity b.rightMultiplicity
   let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
-  firstResidualKernelCost hDiff PUnit chart.kernel source.rows (fun t => t.out.val)
+  firstResidualKernelCost hDiff (PUnit : Type) chart.kernel source.rows (fun t => t.out.val)
     source.leftColumns source.rightColumns
     (fun i => (b.leftResidual i).val) (fun j => (b.rightResidual j).val)
     a a' (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle))
@@ -157,7 +157,7 @@ theorem canonical_first_block_transform_bound
   change ‖source.transform μv hDiff finiteTest‖ ≤ _
   rw [source.transform_eq_common_rows μv hDiff finiteTest]
   apply (norm_add_le _ _).trans
-  apply add_le_add_left
+  apply add_le_add le_rfl
   calc
     _ ≤ ∑ D ∈ source.mask.powerset,
         ‖∑ t ∈ source.rows, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
@@ -166,7 +166,9 @@ theorem canonical_first_block_transform_bound
     _ = ∑ D : (b.mask M).powerset,
         ‖∑ t ∈ source.rows, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
           (source.pairs i j).transformedRow μv hDiff finiteTest source.radius D.val t‖ :=
-      (Finset.sum_coe_sort _ _).symm
+       (Finset.sum_coe_sort (b.mask M).powerset (fun D =>
+         ‖∑ t ∈ source.rows, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
+           (source.pairs i j).transformedRow μv hDiff finiteTest source.radius D t‖)).symm
     _ ≤ _ := by
       apply Finset.sum_le_sum
       intro D _
@@ -251,7 +253,7 @@ theorem parent_first_stage_bound
   change (series DE).re ≤ _
   change ‖series DE - (sources DE).transform μv hDiff finiteTest‖ ≤ _ at ht
   exact ((sub_le_iff_le_add.mp (hre.trans ht)).trans
-    (add_le_add_left (hfinite.trans hk) _)).trans_eq (add_comm _ _)
+     (add_le_add le_rfl (hfinite.trans hk))).trans_eq (add_comm _ _)
 
 end HeckeSkeleton.Moments.EngineStep
 

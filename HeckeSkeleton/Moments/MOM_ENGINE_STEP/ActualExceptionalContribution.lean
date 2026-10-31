@@ -231,7 +231,7 @@ theorem rawMass_le_prime_windows
       (mul_nonneg hcount (zero_le_one.trans (hcutoff j))) (hbound j))
   have hm := mul_le_mul (mul_le_mul hscalar hp s.slotMass_nonneg hfrozen)
     hproduct (Real.sqrt_nonneg _) (mul_nonneg hfrozen hp0)
-  convert hm using 1 <;> dsimp only [rawMass] <;> ring
+  convert hm using 1 <;> first | rfl | (dsimp only [rawMass]; ring) | ring
 
 theorem identity (s : AllocatedExceptionalSource (V := V) (σ := σ) Ψ W₁ W₂ g h' k)
     (hΨ0 : Ψ ⊥ = 0) :
@@ -261,7 +261,7 @@ theorem absolute (H : ExceptionalVolumeControl Ψ W₁ W₂)
     (s.Y₂ / idealNorm F (s.allocation.plainDivisor (Fin.succ 0))) s.product
     (s.lower_pos.trans_le s.X₁_lower) (s.lower_pos.trans_le s.X₂_lower)
     (s.lower_pos.trans_le s.Y₁_lower) (s.lower_pos.trans_le s.Y₂_lower) s.productX s.productY
-  have hs := norm_actualSourceSlotPolynomial_le (s.characters.restrictSlots s.allocation.keep)
+  have hs := norm_actualSourceSlotPolynomial_le (σ := σ) (s.characters.restrictSlots s.allocation.keep)
     g h' s.Zslot (fun j => s.length (SlotRestriction.index s.allocation.keep j))
     s.allocation.childSlots (fun j => s.w (SlotRestriction.index s.allocation.keep j))
     (fun j => s.x (SlotRestriction.index s.allocation.keep j)) s.ξ
@@ -306,7 +306,7 @@ theorem centered_or_absolute_uniform (H : ExceptionalVolumeControl Ψ W₁ W₂)
       s.mask ≠ ⊥ → (Ideal.absNorm s.mask : ℝ) ≤ Z ^ maskExponent →
       ∀ L : ℝ, Z ^ L ≤ s.lower →
       ‖s.value‖ ≤ Cbound * Z ^ ε * (1 + ‖s.time‖) ^ J * s.rawMass * Z ^ (-max L 0) := by
-  obtain ⟨J, Ccenter, hCcenter, hc⟩ := H.centered_uniform (V := V) (σ := σ)
+  obtain ⟨J, Ccenter, hCcenter, hc⟩ := centered_uniform (V := V) (σ := σ) H
     ε maskExponent hε hmask
   let Cabs := 1 + 2 * H.absoluteConstant
   have hCabs : 0 < Cabs := by
