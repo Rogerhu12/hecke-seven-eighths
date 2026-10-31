@@ -58,7 +58,7 @@ def groups(all_sources: dict[str, Path]) -> dict[str, list[str]]:
         "HeckeSkeleton.Expansion", "HeckeSkeleton.Moments",
     }
     cache: dict[str, int] = {}
-    source_roots = (ROOT, ROOT / "SkeletonInputs", ROOT / "GramCoreInputs",
+    source_roots = (ROOT, ROOT / "PrimeCancellation", ROOT / "SkeletonInputs", ROOT / "GramCoreInputs",
                     ROOT / "GramAssemblyInputs", ROOT / "vendor/openai",
                     ROOT / "vendor/flt", ROOT / "vendor/zeta23",
                     ROOT / "vendor/tauceti", ROOT / "vendor/class-field-theory/Lean4")

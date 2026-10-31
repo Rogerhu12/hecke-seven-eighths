@@ -61,8 +61,8 @@ theorem terminalLabel_lengths (U t lam : ℝ) (ht : 0 ≤ t) (hlam : 0 ≤ lam)
     terminalLabelInverseLength U t lam l ≤ t + lam ∧
     t - lam ≤ terminalLabelInverseLength U t lam l + terminalLabelPlainLength U t lam l := by
   by_cases hl : terminalLabelValid U t lam l
-  · simpa only [terminalLabelInverseLength, terminalLabelPlainLength, if_pos hl,
-      terminalLabelValid] using hl
+  · simp only [terminalLabelInverseLength, terminalLabelPlainLength, if_pos hl]
+    exact hl
   · simp only [terminalLabelInverseLength, terminalLabelPlainLength, if_neg hl, add_zero]
     exact ⟨ht, le_rfl, by linarith, by linarith⟩
 

@@ -72,7 +72,7 @@ exactly U^t throughout the construction. -/
 theorem exists_physical_row_detection
     (hcomplex : ∀ v : InfinitePlace K, v.IsComplex) (η : ℝ) (hη : 0 < η) :
     ∃ e ε ceiling : ℝ,
-      0 < e ∧ e < 1 / 1000 ∧ 0 < ε ∧ 0 < ceiling ∧
+      0 < e ∧ e < 1 / 1000 ∧ e ≤ η ∧ 0 < ε ∧ 0 < ceiling ∧
       ∀ N : ℕ, ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
         ∃ Z₀ : ℝ, 2 ≤ Z₀ ∧ ∀ Z : ℝ, Z₀ ≤ Z →
           ∀ d t a : ℝ, 1 / 16 ≤ d → d ≤ 1 → 1 ≤ t → t ≤ 3 / 2 → 51 / 100 ≤ a →
@@ -84,7 +84,11 @@ theorem exists_physical_row_detection
   have hdegree : 0 ≤ heightDegree K := by unfold heightDegree; positivity
   obtain ⟨e, ε, ceiling, he, heSmall, hε, hceiling, hbudget⟩ :=
     exists_detector_numerical_budget (heightDegree K) η hdegree hη
-  refine ⟨e, ε, ceiling, he, heSmall, hε, hceiling, ?_⟩
+  have heη : e ≤ η := by
+    have hforward := (hbudget ceiling hceiling le_rfl).2.1
+    have hterm : 0 ≤ heightDegree K * ε * (32 * ceiling) := by positivity
+    nlinarith
+  refine ⟨e, ε, ceiling, he, heSmall, heη, hε, hceiling, ?_⟩
   intro N τ hτ hτc
   obtain ⟨hzbudget, hforward, hreflected⟩ := hbudget τ hτ hτc
   obtain ⟨U₀, hU₀, hdetect⟩ := exists_canonical_row_saturation K S P E ψ hcomplex

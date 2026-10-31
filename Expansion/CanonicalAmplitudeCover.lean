@@ -163,7 +163,30 @@ theorem canonicalAmplitudeRecipe_witnessCover
           (β t) (ν t) u hU (Nat.le_of_lt_succ l.2.2.isLt)]
       simpa only [terminalLabelPlainLength, if_pos hlvalid] using hplain
 
+/-- A cover constructed with a smaller loss remains a cover for the same
+actual data at a larger loss. This permits one detector budget chosen from
+`min lamA lamB` to feed the existing `lamA` witness-cover interface. -/
+theorem witnessCover_weaken_loss {Row : Type} {J₀ : ℕ}
+    {A : AmplitudeSet Row J₀} {t δ U lam lam' k : ℝ}
+    (hU : 1 ≤ U) (hk : 0 ≤ k) (hlam : lam ≤ lam')
+    (h : WitnessCover A t δ U lam k) : WitnessCover A t δ U lam' k := by
+  obtain ⟨hcount, hcover, hw⟩ := h
+  refine ⟨hcount.trans ?_, hcover, ?_⟩
+  · exact mul_le_mul_of_nonneg_left
+      (Real.rpow_le_rpow_of_exponent_le hU hlam) hk
+  · intro j
+    obtain ⟨hrows, hr, hm, hrt, hrm, hM, hP⟩ := hw j
+    refine ⟨hrows, hr, hm, by linarith, by linarith, ?_, ?_⟩
+    · intro u hu
+      exact (Real.rpow_le_rpow_of_exponent_le hU
+        (sub_le_sub_left hlam _)).trans (hM u hu)
+    · intro u hu
+      exact (Real.rpow_le_rpow_of_exponent_le hU
+        (sub_le_sub_left hlam _)).trans (hP u hu)
+
 end Expansion.Project
 
 #print axioms Expansion.Project.terminalRecipeWitness_eq_scaled
 #print axioms Expansion.Project.canonicalAmplitudeRecipe_witnessCover
+
+#print axioms Expansion.Project.witnessCover_weaken_loss

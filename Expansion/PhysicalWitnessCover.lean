@@ -45,7 +45,7 @@ theorem exists_physical_witness_cover
     (hcomplex : ∀ v : InfinitePlace K, v.IsComplex)
     (lam : ℝ) (hlam : 0 < lam) :
     ∃ e ε ceiling k : ℝ,
-      0 < e ∧ e < 1 / 1000 ∧ 0 < ε ∧ 0 < ceiling ∧ 0 < k ∧
+      0 < e ∧ e < 1 / 1000 ∧ e ≤ lam / 1000 ∧ 0 < ε ∧ 0 < ceiling ∧ 0 < k ∧
       ∀ N : ℕ, ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
         ∃ Z₀ : ℝ, 2 ≤ Z₀ ∧ ∀ Z : ℝ, Z₀ ≤ Z →
           ∀ d a : ℝ, 1 / 16 ≤ d → d ≤ 1 → 51 / 100 ≤ a →
@@ -75,13 +75,13 @@ theorem exists_physical_witness_cover
   let η : ℝ := lam / 1000
   have hη : 0 < η := by dsimp [η]; positivity
   have hloss : 2 * η ≤ lam := by dsimp [η]; linarith
-  obtain ⟨e, ε, ceiling, he, heSmall, hε, hceiling, hphysical⟩ :=
+  obtain ⟨e, ε, ceiling, he, heSmall, heη, hε, hceiling, hphysical⟩ :=
     exists_physical_row_detection K S P E ψ hcomplex η hη
   obtain ⟨k, hk, hcount⟩ := terminalLabelCount_subpower lam hlam
   obtain ⟨Ulabel, hUlabel, hlabel⟩ := exists_terminal_label_support lam hlam
   obtain ⟨Zlabel, hZlabel⟩ := (tendsto_atTop_atTop.mp
     (tendsto_rpow_atTop (by norm_num : (0 : ℝ) < 1 / 16))) Ulabel
-  refine ⟨e, ε, ceiling, k, he, heSmall, hε, hceiling, hk, ?_⟩
+  refine ⟨e, ε, ceiling, k, he, heSmall, heη, hε, hceiling, hk, ?_⟩
   intro N τ hτ hτc
   obtain ⟨Zphysical, hZphysical, hdetect⟩ := hphysical N τ hτ hτc
   refine ⟨max Zphysical Zlabel, hZphysical.trans (le_max_left _ _), ?_⟩

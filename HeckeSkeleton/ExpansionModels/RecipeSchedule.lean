@@ -30,15 +30,17 @@ theorem activeBlockGuard (multiplicity : ℕ) (ζ Z T : ℝ)
 def rawBlockIndex (multiplicity : ℕ) (ζ Z T : ℝ)
     (b : Fin (activeBlockCount multiplicity ζ Z T)) :
     Fin (scheduledBlockCount multiplicity ζ Z) :=
-  ⟨b.val, by simpa only [activeBlockCount, activeBlockGuard multiplicity ζ Z T b, ite_true]
-    using b.isLt⟩
+  ⟨b.val, by
+    have hguard := activeBlockGuard multiplicity ζ Z T b
+    simpa only [activeBlockCount, if_pos hguard] using b.isLt⟩
 
 theorem multiplicity_pos_of_block (multiplicity : ℕ) (ζ Z T : ℝ)
     (b : Fin (activeBlockCount multiplicity ζ Z T)) : 0 < multiplicity := by
   by_contra h
   have hz : multiplicity = 0 := by omega
   have hb := (rawBlockIndex multiplicity ζ Z T b).isLt
-  have hb0 : b.val < 0 := by simpa only [scheduledBlockCount, hz, Nat.mul_zero] using hb
+  have hb0 : (rawBlockIndex multiplicity ζ Z T b).val < 0 := by
+    simpa only [scheduledBlockCount, hz, Nat.mul_zero] using hb
   exact Nat.not_lt_zero _ hb0
 
 def blockShellIndex (multiplicity : ℕ) (ζ Z T : ℝ)

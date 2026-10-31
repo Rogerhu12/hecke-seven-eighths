@@ -1,21 +1,49 @@
 {
   "schema_version": 1,
-  "generated_utc": "2026-10-31T02:41:17.954378+00:00",
+  "generated_utc": "2026-10-31T03:21:47.241619+00:00",
   "repository": "Rogerhu12/hecke-seven-eighths",
   "pull_request_url": "https://github.com/Rogerhu12/hecke-seven-eighths/pull/5",
   "scope": "Individual source-module validation evidence; not a complete project or EXPANSION theorem certificate.",
+  "original_expansion_obligations_closed": false,
+  "remaining_original_obligations": [
+    {
+      "declaration": "HeckeSkeleton.expansionRecipeRaw",
+      "path": "HeckeSkeleton/Base.lean",
+      "obligation_id": "D-EXPANSION",
+      "status": "admitted"
+    },
+    {
+      "declaration": "HeckeSkeleton.actualHighPresentation",
+      "path": "HeckeSkeleton/HighBin.lean",
+      "obligation_id": "HB-PRESENT",
+      "status": "admitted"
+    },
+    {
+      "description": "Global analytic and moment budgets",
+      "paths": [
+        "HeckeSkeleton/Expansion.lean",
+        "HeckeSkeleton/Moments.lean"
+      ],
+      "status": "admitted"
+    }
+  ],
   "environment": {
     "lean_toolchain": "leanprover/lean4:v4.35.0-rc3",
     "lean_commit": "470d5ce1400764999581fd26d5d72b00d990b0f4",
     "mathlib_commit": "0493595ecd5da8ef14742febab99728f98e948e8",
     "lean_toolchain_file_sha256": "bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47",
     "lake_manifest_sha256": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "lakefile_toml_sha256": "e3cec2fe7dd91f5d84903ece25f7dbc37c9f82dfe728a95c376e9bbec4ca3cac",
     "local_compiler_options": [
       "-j2",
       "-DautoImplicit=false",
       "-DrelaxedAutoImplicit=false"
     ],
     "ci_build_method": "lake build with repository Lake options and original source imports",
+    "repository_lean_options": {
+      "autoImplicit": false,
+      "relaxedAutoImplicit": false
+    },
     "allowed_standard_axioms": [
       "Classical.choice",
       "Quot.sound",
@@ -32,18 +60,20 @@
     "print_axioms": "Successful #print axioms for named declarations only; distinct from the generated exhaustive audit."
   },
   "summary": {
-    "selected_sources": 129,
+    "selected_sources": 137,
     "groups": {
-      "pure": 82,
-      "actual": 40,
+      "pure": 83,
+      "actual": 47,
       "skeleton": 7
     },
     "validation_counts": {
-      "unverified": 57,
-      "ci_build_pass": 41,
-      "local_strict_pass": 2,
-      "local_strict_pass_and_ci_build": 29
+      "unverified": 58,
+      "ci_build_pass": 46,
+      "local_strict_pass_and_ci_build": 33
     },
+    "successful_axiom_record_count": 224,
+    "distinct_printed_axiom_declarations": 141,
+    "distinct_printed_axiom_declarations_with_current_reporting_source": 123,
     "full_current_project_build_passed": false,
     "full_current_declaration_audit_passed": false
   },
@@ -98,8 +128,76 @@
         "HeckeGeneral/Analysis/ExpansionDetectorInitial.lean"
       ],
       "full_declaration_audit": "not_executed_after_build_failure"
+    },
+    {
+      "id": "checkpoint5-skeleton",
+      "run_id": 41158889277,
+      "job_id": 124411822340,
+      "head_sha": "7ce3b1a7a6a792180727c4b2141824ffaa280f87",
+      "group": "skeleton",
+      "job_conclusion": "cancelled",
+      "artifact_id": 13026784224,
+      "artifact_sha256": "8282f326ee7d0574de457fd5f708779a6c2b51711c02ed6e6f88782625a01f35",
+      "cancellation_reason": "Superseded by checkpoint6 under the existing workflow concurrency setting; no Lean error was emitted before cancellation.",
+      "project_cache_saved": false,
+      "manifest_sha256": "17893c3d7d1a8f6eaf913a1a4c800cb6bc283db80cc0732c497a686f4dd5f9c8",
+      "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41158889277",
+      "job_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41158889277/job/124411822340",
+      "build_log_sha256": "536ee2814e89e24dcdd551fd694e4219de79d5be0cbf3e144f90de4f11d920a0",
+      "failed_source_paths": [],
+      "full_declaration_audit": "not_executed_after_cancellation"
+    },
+    {
+      "id": "checkpoint6-pure",
+      "run_id": 41161175643,
+      "job_id": 124418947565,
+      "head_sha": "e97f6f38bff6c600ccaea8a3b254d1ab2017fd39",
+      "group": "pure",
+      "job_conclusion": "failure",
+      "artifact_id": 13027640541,
+      "artifact_sha256": "794162a0c72cbcdca6cbf9dadc46e72d9ba79dda85949f67529eefcb2d1c79e9",
+      "manifest_sha256": "6eb7508c1ae248fa5e2e6e2e5717af38a4c371b59515799944111ddaa1122d34",
+      "run_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41161175643",
+      "job_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41161175643/job/124418947565",
+      "build_log_sha256": "d1ed6f13839522f55d815384b8e00c3b0f73004a96ed4163d3cc9f9b87d85007",
+      "failed_source_paths": [
+        "Expansion/FiniteTerminalLabels.lean",
+        "HeckeSkeleton/ExpansionModels/RecipeSchedule.lean"
+      ],
+      "full_declaration_audit": "not_executed_after_build_failure"
     }
   ],
+  "latest_ci_observation": {
+    "run_id": 41161175643,
+    "head_sha": "e97f6f38bff6c600ccaea8a3b254d1ab2017fd39",
+    "observed_utc": "2026-10-31T03:01:07Z",
+    "jobs": [
+      {
+        "group": "skeleton",
+        "job_id": 124418947414,
+        "status": "in_progress",
+        "conclusion": null,
+        "current_step": "Compile original imports and audit transitive axioms",
+        "job_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41161175643/job/124418947414"
+      },
+      {
+        "group": "pure",
+        "job_id": 124418947565,
+        "status": "completed",
+        "conclusion": "failure",
+        "current_step": null,
+        "job_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41161175643/job/124418947565"
+      },
+      {
+        "group": "actual",
+        "job_id": 124418947636,
+        "status": "in_progress",
+        "conclusion": null,
+        "current_step": "Compile original imports and audit transitive axioms",
+        "job_url": "https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41161175643/job/124418947636"
+      }
+    ]
+  },
   "sources": [
     {
       "module": "Expansion.ActualAnnularIdentification",
@@ -147,6 +245,51 @@
       "fresh_ci_compile_observed": false
     },
     {
+      "module": "Expansion.ActualLogDividedContour",
+      "path": "Expansion/ActualLogDividedContour.lean",
+      "sha256": "d9ecd70038ea8d2f87133e65afd1f09ca6a61a5d5ff37eea849e51df0bcf6fd6",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.ActualPrimeArithmetic",
+      "path": "Expansion/ActualPrimeArithmetic.lean",
+      "sha256": "e8a63261ed581fcff293ab9af4afe10e510eda42d96de011f25ac83041166fb0",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.ActualPrimeCancellation",
+      "path": "Expansion/ActualPrimeCancellation.lean",
+      "sha256": "d07d6d8401ca54d89d0c57af6d1a78626b1f42a86114ccd8818a7d8e9f6f72c9",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.ActualPrimeContour",
+      "path": "Expansion/ActualPrimeContour.lean",
+      "sha256": "413bf1996f5681452c660d168ddfccc66176bd741d0b2c2a846d617259e085ac",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
+      "module": "Expansion.ActualPrimeLogSeries",
+      "path": "Expansion/ActualPrimeLogSeries.lean",
+      "sha256": "4e3f342b106ccf626ac5d7725527344f7ef93d26634dcaa99a9976d395bc4669",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
       "module": "Expansion.ActualRecipePolynomials",
       "path": "Expansion/ActualRecipePolynomials.lean",
       "sha256": "ef9af4e07d5b9a4829a4e39dc7f7e5420e78f79215bd83955ad7b0ec472d92d8",
@@ -163,6 +306,16 @@
       "ci_evidence": [
         {
           "job": "checkpoint2-pure",
+          "source_sha256": "f0eb11f389868be04168875ad66e20042fcfd99d775d4a1b3fd65fb2cf9ec16d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
           "source_sha256": "f0eb11f389868be04168875ad66e20042fcfd99d775d4a1b3fd65fb2cf9ec16d",
           "source_matches_current": true,
           "lake_events": [
@@ -248,6 +401,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "28e2fbcbcf6031e48e1e579dfb7eeace7f2dc5bebc628ae8fa0a175e8ec1ade3",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -256,7 +419,7 @@
     {
       "module": "Expansion.CanonicalAmplitudeCover",
       "path": "Expansion/CanonicalAmplitudeCover.lean",
-      "sha256": "8cf76c2496f9dcebb36731776c9ea3ba9ba7c5a03ab243ef0081f7853a41d8e8",
+      "sha256": "2caaef575f51d194ee5ed63bfdb6ca95ff99927164213993c4c16a4ffeb44af0",
       "group": "actual",
       "ci_evidence": [],
       "current_source_validation": "unverified",
@@ -274,6 +437,16 @@
           "source_matches_current": true,
           "lake_events": [
             "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "52bc85bc1bcf0baa8b4fc8234536aafe907171d16e4c6ad77f5384e2c18bfd2f",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
@@ -334,6 +507,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "7b32f92da0d22440144341883a306c75a0343b63515a79a6261e2ff57d97142e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -364,6 +547,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "df740825aa600ce9e1a7f616157eb096c88c6b6450a5d19e5864c33b81a5c6dd",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -378,8 +571,8 @@
         "artifact_and_direct_dependencies_match_current": true,
         "compiler_log_sha256": "d0cdd2cfc0d67e1439d29aa9f572523bd3dc66dcbe8a0b98cbdded3fcd6f548b"
       },
-      "current_source_validation": "local_strict_pass",
-      "fresh_ci_compile_observed": false
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
     },
     {
       "module": "Expansion.DetectorProductBudget",
@@ -399,6 +592,16 @@
         },
         {
           "job": "checkpoint5-pure",
+          "source_sha256": "3886136ed9503b3ceb8199b1213ff994c8bd9e5fa6acfe9fe9e52822e3d5c0aa",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
           "source_sha256": "3886136ed9503b3ceb8199b1213ff994c8bd9e5fa6acfe9fe9e52822e3d5c0aa",
           "source_matches_current": true,
           "lake_events": [
@@ -458,6 +661,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "28892e04de8b2d6c38b30b9575c2683370ec753c24b6c37f60c829fdc00b9270",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -478,7 +691,7 @@
     {
       "module": "Expansion.FiniteTerminalLabels",
       "path": "Expansion/FiniteTerminalLabels.lean",
-      "sha256": "381e65584e5925b2f233f2227e14327d4bf0bbd4a10a6f432625919677c2fe16",
+      "sha256": "a42626ed2d5c6347f12724d23638b3e01ca254e90f283905809c5e9ff336f8aa",
       "group": "pure",
       "ci_evidence": [
         {
@@ -498,8 +711,29 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "381e65584e5925b2f233f2227e14327d4bf0bbd4a10a6f432625919677c2fe16",
+          "source_matches_current": false,
+          "lake_events": [],
+          "compiler_errors": true,
+          "explicit_successful_build": false
         }
       ],
+      "local_native": {
+        "outcome": "failed",
+        "source_sha256": "381e65584e5925b2f233f2227e14327d4bf0bbd4a10a6f432625919677c2fe16",
+        "source_matches_current": false,
+        "exit_code": 1,
+        "elapsed_seconds": 448.867,
+        "completed_utc": "2026-10-31T02:48:14.579022+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": null,
+        "artifact_and_direct_dependencies_match_current": false,
+        "compiler_log_sha256": "64e674d079f297cffa3a891884017144ee72e225ce1c0d489331766f1c39273d",
+        "failure_kind": "compiler_diagnostic"
+      },
       "current_source_validation": "unverified",
       "fresh_ci_compile_observed": false
     },
@@ -622,6 +856,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "fbef3321b0b35d0b7b6dec0d3498a4a96824c46ca2410efea2750ab9d26cb736",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -662,6 +906,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "45ddb881528db6a21eef9dcf7e41487c9dbafd2294e1fa56515b934ca18b49b1",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -742,9 +996,18 @@
       "fresh_ci_compile_observed": false
     },
     {
+      "module": "Expansion.PhysicalLogDerivative",
+      "path": "Expansion/PhysicalLogDerivative.lean",
+      "sha256": "3984b3e3561db1d663c5eaa87a610dfb12e2b1fd3769f319dc7c219126f51d66",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
       "module": "Expansion.PhysicalRowDetection",
       "path": "Expansion/PhysicalRowDetection.lean",
-      "sha256": "d2eecac3344823b9a02c792952850951699ed0eb6b369f008e743a3c396800d4",
+      "sha256": "ce61d1bbf14ca633957f9f1c8708be7a03991aee1fddcce81b5a8a8e7b938071",
       "group": "actual",
       "ci_evidence": [
         {
@@ -804,7 +1067,7 @@
     {
       "module": "Expansion.PhysicalWitnessCover",
       "path": "Expansion/PhysicalWitnessCover.lean",
-      "sha256": "b0cedb11184b2857bd0ad8d4fd92c64b330a8ad230549e30160379c9a1277655",
+      "sha256": "6eb47979c2769c37df878bc86ec18edb63e6f6722609f275edc2607d856fd227",
       "group": "actual",
       "ci_evidence": [],
       "current_source_validation": "unverified",
@@ -835,6 +1098,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "b0937fc113623d1677150da52ae429ebf1bd15313142923d990e8a0bda28e964",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -893,6 +1166,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "0ad3a3b34de88ec51c93da378d003349235a2ed383d31093e3a2ae7b73b06f5e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -930,6 +1213,16 @@
           "source_matches_current": true,
           "lake_events": [
             "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "64ea8254a1085ae37f1e76683c3baf082094a25f21bf07bcad839544322d05a3",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
@@ -997,6 +1290,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "070d38d0a670043b4a0185379c3c2969958dea6122bf24833c9f164c094d853e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -1037,6 +1340,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "7266f213cea6d6c48ea596fbdf63b9a2a314443ac12d011be357f16cbd5906b5",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -1069,6 +1382,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "b51bd296e1b45eef5091a563f820e449ae03f6d0c9a14c4522b58309915dcbc9",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -1092,6 +1415,16 @@
         },
         {
           "job": "checkpoint5-pure",
+          "source_sha256": "24583d851cf7af982e51855d20526992bdaff87520f1e1f15d56d34242331eef",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
           "source_sha256": "24583d851cf7af982e51855d20526992bdaff87520f1e1f15d56d34242331eef",
           "source_matches_current": true,
           "lake_events": [
@@ -1131,6 +1464,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -1148,6 +1491,16 @@
           "source_matches_current": true,
           "lake_events": [
             "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
@@ -1218,6 +1571,16 @@
           "source_matches_current": true,
           "lake_events": [
             "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "ec0efe02f60a7227834a6768ae44da757162eca652010a003f92cc2bd4f63d45",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
@@ -1321,6 +1684,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "0f0cc5a020fb8e89a63362f8903df27a73dcfc7e5f05fb890dbe912f59626269",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -1391,6 +1764,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "2526f0b0ee101e267053e0415f7180e56b2d11e68bdc97284996d4b3d8f0eb30",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -1431,6 +1814,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "83c5e5946d783d01f6ef3ffa91f29d81bf1ca36bf42b7b351e31a504febbd8d0",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -1510,6 +1903,16 @@
           "source_matches_current": true,
           "lake_events": [
             "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "77b151de0ceab7f4db6e278bbdbacecd615cf560c468892e8fdc23fd27bfff3d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
@@ -1607,6 +2010,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "f3a1198fc2cdb4dd130c3ddaa4a27a1171743564bb904b28fcc81af2ddceff29",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -1659,6 +2072,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "34f0ee22a102596459abb47785037edaedd092a0438d17b729a81f99d04046ca",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -1708,6 +2131,16 @@
           "source_matches_current": true,
           "lake_events": [
             "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "e6f5fb247267bdcfac2823b616a827c64ebf6f1c04f412e6b3b69523b1cb9334",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
@@ -1793,6 +2226,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "9f66d176f0cff781eefcf2e71875bd5a017f4f044ca87e87c2db1bd9f82b3f61",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -1845,6 +2288,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "6da0bdd00db0e332cacd361b2687360cdf24dc526d58832a74c230d3110e4d87",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -1894,6 +2347,16 @@
           "source_matches_current": true,
           "lake_events": [
             "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "2ee49a3adc9f74164ad934a034d5c37403368c73d0baea95d8f5e1328f31f32a",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
@@ -1991,6 +2454,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "fb884ce445300c7450749bb98792c5b62bfd2a8a9dd1fa835e9ceae2824a7e6e",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -2028,6 +2501,16 @@
           "source_matches_current": true,
           "lake_events": [
             "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "3021ed2f4c72ca5ebba7623239505cfbe7b87d09bff8c82a8f8ffe0b14a54f62",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
@@ -2143,6 +2626,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "c6190f86cfaa38e4b1e869962d4cd4ddefaee36f4468917b41f79530772d2c61",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -2247,6 +2740,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "15e99eff1eec5bb1f8462dfaec5892757abb25c3403b3a561a8fee69ad360cf2",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -2277,6 +2780,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "3c4422dc184cb1bb8db2c0b66acf848382951da004be0f173f788b78c5612e76",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -2303,6 +2816,15 @@
       "fresh_ci_compile_observed": true
     },
     {
+      "module": "ExpansionInterfaces.AnnularContourDataBound",
+      "path": "ExpansionInterfaces/AnnularContourDataBound.lean",
+      "sha256": "b41d94d9fd50f785dccae6ca37671d87b53f121d6023daa51f9ce74e83c833a9",
+      "group": "pure",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
+    },
+    {
       "module": "ExpansionInterfaces.AnnularContourUniform",
       "path": "ExpansionInterfaces/AnnularContourUniform.lean",
       "sha256": "f48ae45e0b338b5ccf478147c94efe10175cd9bf5fe9f49e167494a383355ab0",
@@ -2310,6 +2832,16 @@
       "ci_evidence": [
         {
           "job": "checkpoint2-pure",
+          "source_sha256": "f48ae45e0b338b5ccf478147c94efe10175cd9bf5fe9f49e167494a383355ab0",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
           "source_sha256": "f48ae45e0b338b5ccf478147c94efe10175cd9bf5fe9f49e167494a383355ab0",
           "source_matches_current": true,
           "lake_events": [
@@ -2327,9 +2859,20 @@
       "path": "ExpansionInterfaces/AnnularCutoffFamily.lean",
       "sha256": "3988372ad92c139223d3c1e3b997f56cd568b7339c8a192d91a94f34a88aac7d",
       "group": "pure",
-      "ci_evidence": [],
-      "current_source_validation": "unverified",
-      "fresh_ci_compile_observed": false
+      "ci_evidence": [
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "3988372ad92c139223d3c1e3b997f56cd568b7339c8a192d91a94f34a88aac7d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
     },
     {
       "module": "ExpansionInterfaces.AnnularMellinDecay",
@@ -2366,6 +2909,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "f2c958f3b8af1c68a8648193bafe55c2b80a955df594281173b0d425ff1d22bb",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -2406,6 +2959,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "1a13bc6a1913b07c140362158e191e4651e339d2c690202c2727eae3b4be2fd6",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -2446,6 +3009,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "61627a285dbe597fc15b0f6efaad7b1bc5e3da1f469bec2dc6201039a21e148d",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -2468,18 +3041,40 @@
       "path": "ExpansionInterfaces/AuditInterfaces.lean",
       "sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
       "group": "pure",
-      "ci_evidence": [],
-      "current_source_validation": "unverified",
-      "fresh_ci_compile_observed": false
+      "ci_evidence": [
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
     },
     {
       "module": "ExpansionInterfaces.AuditMellinInterfaces",
       "path": "ExpansionInterfaces/AuditMellinInterfaces.lean",
       "sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
       "group": "pure",
-      "ci_evidence": [],
-      "current_source_validation": "unverified",
-      "fresh_ci_compile_observed": false
+      "ci_evidence": [
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
     },
     {
       "module": "ExpansionInterfaces.BufferedBinOverlap",
@@ -2506,6 +3101,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "bd460da2afcea6969cd274270eff0031064bd8b20e4cfa5f7bc3f369d0ded34b",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -2536,6 +3141,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "ea6c5ce6480fb9bb17aa6349d8a79289f805451410f7da86eaef5a33c1f8753b",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -2576,6 +3191,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "6f4c9763dbd499486234b510d7c3d287423c18537702da685ad668929642adfd",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -2618,6 +3243,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "1f4b08cc54cb2befa100919e637bd85106af673ff3b43421683e44f3be709705",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -2658,9 +3293,31 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "a52681bd30d1e18c7c20b32165ddf11136870f357a21f267502caffb13f95331",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
-      "current_source_validation": "ci_build_pass",
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "a52681bd30d1e18c7c20b32165ddf11136870f357a21f267502caffb13f95331",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 393.65,
+        "completed_utc": "2026-10-31T02:56:17.131240+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "845d369aa42066ea19a1c2a1e08a92d0219ee9b4a3c4cbb889978ad4d49f166d",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
       "fresh_ci_compile_observed": true
     },
     {
@@ -2698,9 +3355,31 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "a8330e7066ff7a3b3c53f9b4e8b6d6af137041a29cb6b0dab5d1bd31b3123610",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
-      "current_source_validation": "ci_build_pass",
+      "local_native": {
+        "outcome": "passed",
+        "source_sha256": "a8330e7066ff7a3b3c53f9b4e8b6d6af137041a29cb6b0dab5d1bd31b3123610",
+        "source_matches_current": true,
+        "exit_code": 0,
+        "elapsed_seconds": 457.798,
+        "completed_utc": "2026-10-31T03:03:55.045977+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": "8711ee7cb20c40dabefe65dab1e0828d2d561567cf14b4e9c94249934fb1229b",
+        "artifact_and_direct_dependencies_match_current": true,
+        "compiler_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "current_source_validation": "local_strict_pass_and_ci_build",
       "fresh_ci_compile_observed": true
     },
     {
@@ -2738,6 +3417,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "850472edc58e3fd80b9ea43cb9dd406549ab250be2e0d714404c43e51995d506",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -2762,6 +3451,15 @@
       ],
       "current_source_validation": "ci_build_pass",
       "fresh_ci_compile_observed": true
+    },
+    {
+      "module": "ExpansionInterfaces.LogDividedAnnularProfile",
+      "path": "ExpansionInterfaces/LogDividedAnnularProfile.lean",
+      "sha256": "4156f263db3f8b7bb9b191754561e548fbacdd96060c7c9840f9caa0d893221e",
+      "group": "actual",
+      "ci_evidence": [],
+      "current_source_validation": "unverified",
+      "fresh_ci_compile_observed": false
     },
     {
       "module": "ExpansionInterfaces.MaskedAmplitudePartition",
@@ -2808,6 +3506,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "371926930bf1e35af484c711c2e2d0668f4dd978f466ca34009c8c425fc86d61",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -2825,7 +3533,7 @@
     {
       "module": "HeckeGeneral.Analysis.ExpansionCutoffPolynomials",
       "path": "HeckeGeneral/Analysis/ExpansionCutoffPolynomials.lean",
-      "sha256": "ef989ee483a8c4c5796a17643e291e4d869380c69232a042e302ae949ad8797a",
+      "sha256": "c6f26b97a38b3d86b5d96d96b200a47f8dfeba98014239886271a40b10b268d7",
       "group": "actual",
       "ci_evidence": [],
       "current_source_validation": "unverified",
@@ -2975,6 +3683,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "97669340b5fcb0d721550a491cea5ecfcb88ec5fcabaf6ea3e7bd0154de89543",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -3014,6 +3732,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "current_source_validation": "ci_build_pass",
@@ -3053,10 +3781,20 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "63bd533c5a5b4bd2be880ceeb22ef5880f0753e01a2139dfd051bf98f899fcea",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
-      "current_source_validation": "unverified",
-      "fresh_ci_compile_observed": false
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
     },
     {
       "module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
@@ -3083,6 +3821,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -3115,10 +3863,20 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "a6f152219207e58dadb6b23c42b7dc3330445c8a9d807f1caf7e5218ab1bbd42",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
-      "current_source_validation": "unverified",
-      "fresh_ci_compile_observed": false
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
     },
     {
       "module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
@@ -3142,6 +3900,16 @@
           "source_matches_current": true,
           "lake_events": [
             "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
           ],
           "compiler_errors": false,
           "explicit_successful_build": true
@@ -3197,6 +3965,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -3222,6 +4000,16 @@
       "ci_evidence": [
         {
           "job": "checkpoint2-pure",
+          "source_sha256": "dad20d5d44d14a927614bfa325ddc65a9d6694323db470c2b541e1d053c37ace",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        },
+        {
+          "job": "checkpoint6-pure",
           "source_sha256": "dad20d5d44d14a927614bfa325ddc65a9d6694323db470c2b541e1d053c37ace",
           "source_matches_current": true,
           "lake_events": [
@@ -3273,9 +4061,31 @@
     {
       "module": "HeckeSkeleton.ExpansionModels.RecipeSchedule",
       "path": "HeckeSkeleton/ExpansionModels/RecipeSchedule.lean",
-      "sha256": "78f5a169924cb2e09bb8c03b601620e5d03de5df92c13a148ed3c60232dabf60",
+      "sha256": "48b1838bd6aa0a1c7229424653ca47c8ca8ebba1abe850592c968964e41a3b48",
       "group": "pure",
-      "ci_evidence": [],
+      "ci_evidence": [
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "78f5a169924cb2e09bb8c03b601620e5d03de5df92c13a148ed3c60232dabf60",
+          "source_matches_current": false,
+          "lake_events": [],
+          "compiler_errors": true,
+          "explicit_successful_build": false
+        }
+      ],
+      "local_native": {
+        "outcome": "failed",
+        "source_sha256": "9d095f3b9f1dee463d7fcef5d5936e13e5cb3273a2f7ee3040ebc111adfce89e",
+        "source_matches_current": false,
+        "exit_code": 1,
+        "elapsed_seconds": 504.639,
+        "completed_utc": "2026-10-31T03:12:19.712570+00:00",
+        "strict_implicit_options": true,
+        "artifact_sha256": null,
+        "artifact_and_direct_dependencies_match_current": false,
+        "compiler_log_sha256": "b756bc889f3b1a5904b9bddc1ce951c7a16a37ea63df34261471b8ec39b17d39",
+        "failure_kind": "compiler_diagnostic"
+      },
       "current_source_validation": "unverified",
       "fresh_ci_compile_observed": false
     },
@@ -3304,6 +4114,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+          "source_matches_current": true,
+          "lake_events": [
+            "Replayed"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -3326,9 +4146,20 @@
       "path": "HeckeSkeleton/ExpansionModels/ScaleCutoff.lean",
       "sha256": "98a5345a361d159a7d17d02b7953cf7f9e562402cda8d3eec912321fd43cad65",
       "group": "pure",
-      "ci_evidence": [],
-      "current_source_validation": "unverified",
-      "fresh_ci_compile_observed": false
+      "ci_evidence": [
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "98a5345a361d159a7d17d02b7953cf7f9e562402cda8d3eec912321fd43cad65",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
+        }
+      ],
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
     },
     {
       "module": "HeckeSkeleton.ExpansionModels.ScheduleCompatibility",
@@ -3354,10 +4185,20 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "d08dfbde9e3953cd6bc9ef63dcedbaf19a8ff1a9dafa1f161bab83e739aeeade",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
-      "current_source_validation": "unverified",
-      "fresh_ci_compile_observed": false
+      "current_source_validation": "ci_build_pass",
+      "fresh_ci_compile_observed": true
     },
     {
       "module": "HeckeSkeleton.ExpansionModels.SharedWitnessRecipe",
@@ -3420,6 +4261,16 @@
           ],
           "compiler_errors": false,
           "explicit_successful_build": false
+        },
+        {
+          "job": "checkpoint6-pure",
+          "source_sha256": "31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520",
+          "source_matches_current": true,
+          "lake_events": [
+            "Built"
+          ],
+          "compiler_errors": false,
+          "explicit_successful_build": true
         }
       ],
       "local_native": {
@@ -3434,8 +4285,8 @@
         "artifact_and_direct_dependencies_match_current": true,
         "compiler_log_sha256": "94862942ade127a25cabaeba0ac8e7549cb2ec39c5b89d027973f7b0beb54a7d"
       },
-      "current_source_validation": "local_strict_pass",
-      "fresh_ci_compile_observed": false
+      "current_source_validation": "local_strict_pass_and_ci_build",
+      "fresh_ci_compile_observed": true
     },
     {
       "module": "HeckeSkeleton.HighBin",
@@ -4446,6 +5297,1644 @@
       "kind": "successful_module_print_axioms"
     },
     {
+      "declaration": "ExpansionRecipe.LogProfile.scaled_derivatives_of_decay",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.logSource_uniform_derivatives",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.logSource_uniform_seminorm",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileUniform",
+      "reporting_source_sha256": "8c5a6f18d612cf822500da52e8f0b98b5ab3906636d8178cecc402568d4d62db",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.fourier_seminorm_le",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_fourier_moment",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_fourier_tail",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogProfileFourier",
+      "reporting_source_sha256": "ea3b5334076360ceeec751684e6b3fcafa55de018a3179bbccc9b3d0d0f341be",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.SharedRecipe.calibration",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.ScaleRecipe.unmarked_coherence",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.SharedRecipe.row_local",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_row_parameters",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_bounded_witness_parameters",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.SharedRecipe.paired_integrand",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.FinitePolynomial.value_eq_of_eq_on_live_support",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe",
+      "reporting_source_sha256": "55cb49edfde46cc947520c2dd44aa57eb2c3d1708ece03b7e377aeaabc487075",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.fixedSectorParameterMap_exact",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.fixedSectorParameterMap_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_fixed_sector_parameters",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.assemble_fixed_sector_witnesses",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.FixedSectorParameters",
+      "reporting_source_sha256": "ac941e5e713cdd29ac0fbbce8a35039d737877e3bb27c338f92141bd2a07d05f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.logSource_cutoff_extension",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.CutoffLogProfile",
+      "reporting_source_sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_cutoff_fourier_moment",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.CutoffLogProfile",
+      "reporting_source_sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.uniform_cutoff_fourier_tail",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.CutoffLogProfile",
+      "reporting_source_sha256": "a5a7140b2b608ae21d9224c8539a1df33412d8e0a6c32886617f39f6b2df1d23",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.cutoffProfile_smooth",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.CanonicalCutoff",
+      "reporting_source_sha256": "52bc85bc1bcf0baa8b4fc8234536aafe907171d16e4c6ad77f5384e2c18bfd2f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Dyadic.cutoffProfile_complement_norm_le",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.CanonicalCutoff",
+      "reporting_source_sha256": "52bc85bc1bcf0baa8b4fc8234536aafe907171d16e4c6ad77f5384e2c18bfd2f",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.CommonPhysicalSample.exists_card_max_point",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.CommonPhysicalSample",
+      "reporting_source_sha256": "97669340b5fcb0d721550a491cea5ecfcb88ec5fcabaf6ea3e7bd0154de89543",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.CommonPhysicalSample.norm_integral_le_sampled_cards",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.CommonPhysicalSample",
+      "reporting_source_sha256": "97669340b5fcb0d721550a491cea5ecfcb88ec5fcabaf6ea3e7bd0154de89543",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Project.exists_detector_numerical_budget",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.DetectorHeightGeometry",
+      "reporting_source_sha256": "df740825aa600ce9e1a7f616157eb096c88c6b6450a5d19e5864c33b81a5c6dd",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Project.shell_height_powers",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.DetectorHeightGeometry",
+      "reporting_source_sha256": "df740825aa600ce9e1a7f616157eb096c88c6b6450a5d19e5864c33b81a5c6dd",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "Expansion.Project.physical_fourier_padding",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "Expansion.DetectorHeightGeometry",
+      "reporting_source_sha256": "df740825aa600ce9e1a7f616157eb096c88c6b6450a5d19e5864c33b81a5c6dd",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.detector_gamma_decay",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditAnalytic",
+      "reporting_source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.detector_sz_gamma_moments",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditAnalytic",
+      "reporting_source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.gamma_zero_shift",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditAnalytic",
+      "reporting_source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.gammaDetector_bound_at_zero",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditAnalytic",
+      "reporting_source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.gammaDetector_power_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditAnalytic",
+      "reporting_source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.detector_height_power_five",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditAnalytic",
+      "reporting_source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.detector_uniform_small_numeric",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditAnalytic",
+      "reporting_source_sha256": "ab3fe327d7f31e75ae7abaaef94adf505663ea124a3b893cf425c96d9a13ba5e",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.coefficient_small",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.coefficient_tail",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.norm_coefficient_le_norm",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.weighted_convolution_identity",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.initial_product_identity",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.actualIdeal_gamma_mellin_identity",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.actualIdeal_terminal_remainder_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.actualIdeal_terminal_lower_of_zero",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.IdealCutoff.finite_terminal_as_pair",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Fourier.finite_pair_separation",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Fourier.exists_bounded_frequency",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Fourier.pair_phase_norm",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.Analytic.gammaC_fixedType_reflected_dynamic_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.EulerDeletion.primeSupport_localMajorant_subpower",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.EulerDeletion.primeSupport_card_subpower",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionDetector.EulerDeletion.primeSupport_negative_deletion_subpower",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionDetector.AuditConstructed",
+      "reporting_source_sha256": "886eb4b27801b8fafa484af96e6127651157e00345ea0f7f38262731e6115548",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.compact_exp_twist_uniform_seminorm",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogTwistedProfiles",
+      "reporting_source_sha256": "dad20d5d44d14a927614bfa325ddc65a9d6694323db470c2b541e1d053c37ace",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.LogProfile.compact_real_exp_twist_uniform_fourier_decay",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.LogTwistedProfiles",
+      "reporting_source_sha256": "dad20d5d44d14a927614bfa325ddc65a9d6694323db470c2b541e1d053c37ace",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.bufferedBlockSchedule_subpower",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.BufferedBlockSchedule",
+      "reporting_source_sha256": "ea6c5ce6480fb9bb17aa6349d8a79289f805451410f7da86eaef5a33c1f8753b",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.sum_clippedBufferedRows",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.BufferedBlockSchedule",
+      "reporting_source_sha256": "ea6c5ce6480fb9bb17aa6349d8a79289f805451410f7da86eaef5a33c1f8753b",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.clippedBufferedRows_disjoint",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.BufferedBlockSchedule",
+      "reporting_source_sha256": "ea6c5ce6480fb9bb17aa6349d8a79289f805451410f7da86eaef5a33c1f8753b",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.decode_amplitudeCode",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.slotAmplitude_bounds",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.slotAmplitude_lower",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.slotAmplitude_upper",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.rowPiece_support",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.sum_rowPiece",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.amplitudeLabels_uniform_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.physical_amplitudePiece_spec",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.meanAmplitude_bounds",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.refinedRowPiece_eq",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.sectorParameter_eq_on_refinedPiece",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.card_sectorAmplitudeLabels",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.measurable_natFloor_real",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.measurableSet_amplitudeLabel_eq",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.finite_simultaneous_package",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.finite_simultaneous_mixed_package",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.finite_simultaneous_indexed_package",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.buffered_heights_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.binWidth_spec",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.shellAllowance_spec",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.dyadicWitnessLabels_subpower",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.numerical_buffer_overlap",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.actualShellIndex_spec",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.actualShell_range",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.shellCount_subpower",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.retainedBlockSchedule_subpower",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.completeAmplitudeLabels_uniform_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.dyadicShell_unique",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.height_degree_absorption",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.masked_amplitudePiece_spec",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.measurableSet_maskedAmplitudeLabel_eq",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.card_completeAmplitudeLabels",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditInterfaces",
+      "reporting_source_sha256": "af7dfe31bbd961fff53712bf366bcbe221c8e5de1f5b2463730ae0d70db3e41c",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.no_row_both_above_and_below_cutoff",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.DyadicMomentEnvelope",
+      "reporting_source_sha256": "63bd533c5a5b4bd2be880ceeb22ef5880f0753e01a2139dfd051bf98f899fcea",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.dyadic_witness_empty_of_wrong_cutoff",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.DyadicMomentEnvelope",
+      "reporting_source_sha256": "63bd533c5a5b4bd2be880ceeb22ef5880f0753e01a2139dfd051bf98f899fcea",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.rpow_dyadicMassExponent",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.DyadicMomentEnvelope",
+      "reporting_source_sha256": "63bd533c5a5b4bd2be880ceeb22ef5880f0753e01a2139dfd051bf98f899fcea",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.dyadicMassExponent_le_two",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.DyadicMomentEnvelope",
+      "reporting_source_sha256": "63bd533c5a5b4bd2be880ceeb22ef5880f0753e01a2139dfd051bf98f899fcea",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.inverse_capacity_preserved",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.DyadicMomentEnvelope",
+      "reporting_source_sha256": "63bd533c5a5b4bd2be880ceeb22ef5880f0753e01a2139dfd051bf98f899fcea",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.repaired_moment_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.DyadicMomentEnvelope",
+      "reporting_source_sha256": "63bd533c5a5b4bd2be880ceeb22ef5880f0753e01a2139dfd051bf98f899fcea",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.IdealMask.allowed_mul_iff",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.IdealMaskedHom",
+      "reporting_source_sha256": "a6f152219207e58dadb6b23c42b7dc3330445c8a9d807f1caf7e5218ab1bbd42",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.IdealMask.maskedHom",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.IdealMaskedHom",
+      "reporting_source_sha256": "a6f152219207e58dadb6b23c42b7dc3330445c8a9d807f1caf7e5218ab1bbd42",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.IdealMask.allowed_pow_iff",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.IdealMaskedHom",
+      "reporting_source_sha256": "a6f152219207e58dadb6b23c42b7dc3330445c8a9d807f1caf7e5218ab1bbd42",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_uniform_strip_decay",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AnnularCutoffFamily",
+      "reporting_source_sha256": "3988372ad92c139223d3c1e3b997f56cd568b7339c8a192d91a94f34a88aac7d",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_uniform_contour_data",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AnnularCutoffFamily",
+      "reporting_source_sha256": "3988372ad92c139223d3c1e3b997f56cd568b7339c8a192d91a94f34a88aac7d",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.annular_cutoff_polynomial_uniform_upper",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AnnularCutoffFamily",
+      "reporting_source_sha256": "3988372ad92c139223d3c1e3b997f56cd568b7339c8a192d91a94f34a88aac7d",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.shell_base_ge_of_physical_cutoff",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.ScaleCutoff",
+      "reporting_source_sha256": "98a5345a361d159a7d17d02b7953cf7f9e562402cda8d3eec912321fd43cad65",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.repaired_exponent_in_box_at_physical_cutoff",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.ScaleCutoff",
+      "reporting_source_sha256": "98a5345a361d159a7d17d02b7953cf7f9e562402cda8d3eec912321fd43cad65",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.norm_packSectors",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.SectorParameterPacking",
+      "reporting_source_sha256": "d08dfbde9e3953cd6bc9ef63dcedbaf19a8ff1a9dafa1f161bab83e739aeeade",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.packedRowParameters_exact",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.SectorParameterPacking",
+      "reporting_source_sha256": "d08dfbde9e3953cd6bc9ef63dcedbaf19a8ff1a9dafa1f161bab83e739aeeade",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.packedRowParameters_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.SectorParameterPacking",
+      "reporting_source_sha256": "d08dfbde9e3953cd6bc9ef63dcedbaf19a8ff1a9dafa1f161bab83e739aeeade",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.convergent",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.mellin_differentiable",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.inversion",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.hasSum_annular_mellin",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.annular_mellin_finite_of_initial_line",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.rectangle_identity",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.full_line_from_rectangle",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.annular_polynomial_upper_from_dirichlet_rectangle",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.uniform_strip_decay",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.uniform_weighted_moment",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.uniform_tail",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.annular_polynomial_uniform_upper",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.scaled_cutoff_reflected_derivatives",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_baseLog_uniform_derivatives",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_uniform_seminorm",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_uniform_strip_decay",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_uniform_weighted_moment",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_uniform_tail",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_uniform_contour_data",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionInterfaces.Mellin.annular_cutoff_polynomial_uniform_upper",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "ExpansionInterfaces.AuditMellinInterfaces",
+      "reporting_source_sha256": "5cfe4c1ed17701a6d63df4ab10b2dea26509e964b007a5f1ca70fe4a47204472",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.sourceHeightVector_norm_eq",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.WitnessHeightNormalization",
+      "reporting_source_sha256": "31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
+      "declaration": "ExpansionRecipe.normalizedImaginaryParameters_bound",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "reporting_module": "HeckeSkeleton.ExpansionModels.WitnessHeightNormalization",
+      "reporting_source_sha256": "31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520",
+      "reporting_source_matches_current": true,
+      "evidence_job": "checkpoint6-pure",
+      "kind": "successful_module_print_axioms"
+    },
+    {
       "declaration": "Expansion.Project.exists_detector_numerical_budget",
       "axioms": [
         "propext",
@@ -4741,6 +7230,7 @@
     "CI jobs listed as failed remain failed even when independent modules have explicit successful build events.",
     "Source changes after a recorded run are unverified unless another exact-source successful record is present.",
     "A successful interface or conditional theorem is not a construction of every premise or of the final global recipe.",
+    "The original expansionRecipeRaw, actualHighPresentation, and global budget obligations remain admitted, independently of any eventual successful build or conditional-theorem audit.",
     "The skeleton group inherits repository admissions; successful compilation cannot be described as admission-free closure.",
     "Only completed successful print-axiom records from successfully built reporting modules are listed; diagnostics from failed elaborations are excluded."
   ]

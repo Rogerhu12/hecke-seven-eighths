@@ -57,6 +57,8 @@ ceiling = min (1/(64*(A+1))) (η/(2048*(A+1)))
 
 最终端点先选 `e, ε, ceiling`（覆盖定理还先选计数常数），再允许选择有限高度数 `N`，再选 `τ` 和共同 `Z₀`，最后才选择壳层、bin、行、源指数、零点及频率。因此以后按 `N=ceil(C/e)` 选择缓冲层数不会循环。
 
+覆盖端点还显式输出 `e ≤ lam/1000`。`witnessCover_weaken_loss` 证明在同一 `RecipeAmplitudeData` 上放宽损失参数会保留计数、长度、覆盖与两个 spike 下界，因此可先以 `lam = min lamA lamB` 选检测预算，再接入原有 `lamA` 的见证接口；原始 bin 宽度要求不会被遗漏。
+
 ## 3. 同一个实际配方生成见证与矩模型
 
 `ActualCanonicalRecipe` 的两个 presentation 直接使用既有 `PolynomialPresentation`。两个 annular test 都是实际 dyadic profile；cutoff 是同一显式 `cutoffProfile`；源截断保持字面上的 `D=U^t`。归一化后的 inverse/plain 值与原始检测有限和逐项相等，所有原始掩码保持不变。
@@ -90,6 +92,14 @@ ceiling = min (1/(64*(A+1))) (η/(2048*(A+1)))
 
 原有 expansion identity、principal/small/large 界及最终 moving-tail 义务仍保留其原始开放状态。没有用空展开、零 amplitude、预设 spike 或新增公理来宣称完成。
 
+还有一个具体的同源等式尚未构造：`PhysicalProbeContours.compensatedRowMellinKernel` 使用原始 marked corrections 与物理权重，而 `RecipeFamily.slotCoefficient` 是配方中的独立字段；`MomentInputs.primePolynomial` 则使用 row character 乘该字段。目前缺少把物理 kernel 的每个素数槽逐项识别成这一配方系数的定理。现有 L-ratio/detector 的分子、分母角色已由 identity companions `{1}` 覆盖，不能把这项系数校准缺口误写成必须扩大 companion 集合。
+
+素数槽估计还存在一个具体接口差异：`PrimeCancellation.Analytic.ZeroFreeData.zeroFree` 要求整个右半平面的无零点结论，而实际 `rowZeroBelow` 只有给定缓冲高度内的控制。因此 `PrimeCancellation.exists_uniform_fixed_window_prime_bound` 不能直接用来完成此处的 bin 振幅上界。新增 `PhysicalLogDerivative` 已写出实际有限高度的对数导数界：由原 Hecke strip growth、右半平面 Euler 上界和中心 Euler 对数界，在半径 `2−β−δ/2` 的圆盘上使用 `|t|+3/2≤Hupper` 证明局部非零，给出 `48*(1+log C+(5/8)log U+heightDegree(K)*log(4+|t|)+A)/δ²` 的界。它还证明同一有限高度的 `ZeroUpperBound H a` 可收紧到 `min a 1`，没有增加全高度控制。`ActualPrimeLogSeries` 进一步使用真实 prime-power ideal 定义 `(n,p)` 索引、`log(Np)*χ(p)^(n+1)` 系数及其范数，并由原导数 Euler 级数证明初始直线校准和绝对收敛；统一质量由只依赖数域与初始横坐标的理想对数 majorant 给出，有限支持由实际理想范数窗口拉回。`ActualPrimeContour` 将这套数据接入已有有限矩形 Mellin 定理，在 `|ν|+H+3/2≤Hupper` 下保留左边主项、两条横边和右线补尾三项，所有 Dirichlet/解析假设都由实际 Hecke 定义供应。这条新增链尚待编译核验。
+
+去对数权也已有实际源码端点。`LogDividedAnnularProfile` 从已证明的紧参数 profile 家族推导任意阶点界、全直线积分和有限高度尾项，常数在素数尺度 `P` 之前选择，阈值为 `exp(4)`。`ActualLogDividedContour` 因而使用同一常数控制所有足够大的 `W(y)/log(P*y)` 窗口，而不为每个 `P` 重新选择一个无法控制的 profile 常数。`ActualPrimeArithmetic` 用真实素理想到真实理想窗口的单射证明线性计数，保留角色的分歧零系数，再由逐项去对数权恒等式拆成真实素数和与高次素数幂尾项。
+
+`ActualPrimeCancellation.exists_actual_finite_height_prime_bound` 将二者接合，给出原始平滑窗口的实际素数和上界：左线主项为 `M*P^(β+δ)*CW`，两条横边合计为 `2*CW*M*P²*(2−β−δ)/(1+H)^order`，右线补尾为 `mass(K,2)*P²*CW/H^order`，三者乘 `1/(2π)`，再加一个统一的 `B*sqrt(P)` 高次幂尾项。`M` 是实际有限零点缓冲推导的对数导数 envelope；全部常数先于角色、尺度和高度。该新端点仍待编译，且尚未把完整原始删除掩码误差、归一化后的统一幂次预算与物理 slot/kernel 校准接入全局 `BlockSource`。
+
 ## 5. 已识别并修正的定义/陈述问题
 
 1. 原 Fourier 环境集没有覆盖全部 annular 支持；扩大到 `6H` 并证明源不变。
@@ -113,9 +123,12 @@ ceiling = min (1/(64*(A+1))) (η/(2048*(A+1)))
 - run `41158889277` 的 pure job `124411822493` 又验证了固定 sector 组装、更新后的 log-profile 层与 `CanonicalCutoff`；它因新 `FiniteTerminalLabels` 的三类 Lean 接口错误失败，修复已在当前源码中。
 - run `41158889277` 的 actual job `124411822152` 因 `ExpansionDetectorInitial` 的五处 Lean 化简错误失败；已补删除系数同态的应用引理、用 `map_zero` 处理零理想并移去冗余 tactic，原定理陈述未改，当前修复尚待 CI 重验。
 - 本机已验证当前源码的 `DetectorHeightGeometry`、`WitnessHeightNormalization` 和 `FixedSectorParameters`；对应打印公理只有标准三项，固定 sector 的理想嵌入本身不依赖公理。
+- run `41161175643` 的 pure job `124418947565` 明确重新编译通过当前 `AnnularCutoffFamily`，三项打印公理都为标准依赖；该组仍因 `FiniteTerminalLabels` 一处 guard 化简和 `RecipeSchedule` 两处依赖索引化简失败；当前源码已修复，等待重新核验。
 - 实际 Hecke/Mellin/最终 recipe 接线仍以完成的当前-source native/CI 记录为准，不预先宣称通过。
 - 本地大型 legacy Hecke 导入曾发生持续换页：一次导入约 12 分钟、物理读取超过 200GB 而无 proof 诊断，已停止该重复检查并记录为资源取消。它既不是定理失败，也不是编译通过。实际项目链继续由真实 GitHub runner 检查。
 
 按照用户本轮指示，已核对分支全部两个 workflow 的 `concurrency.cancel-in-progress` 均为 `true`，并保留各自的同分支分组键。旧运行已经取消。核验工作流增加了只读恢复后备项，允许尚无自己缓存的组复用本分支已有、同一 toolchain/manifest 的 actual 组依赖缓存；Lake 仍按源及依赖 trace 判定是否重编译。既有保存与上传步骤未变，没有添加额外 native 编译产物上传。
+
+新增 `scripts/expansion_native_verify.py` 为 actual/skeleton 组只读恢复同仓库既有成功 foundation run `41126752041` 的 12 个固定原生产物。它重新下载固定提交 `984b0de3…` 的源码，复算 6,028 模块及配置 fingerprint，检查原 job 成功、外层 ZIP 与内层归档哈希、原编译器签名和模块伴随文件，并仅复用当前源码与所有传递项目依赖均完全相同的模块。其余模块在隔离路径按原 package 选项重新编译；不生成或修改 Lake trace，不将新 native 输出放入既有 cache-save 或日志上传路径。根仓库证明继续使用两项 implicit=false；vendor 依赖保持原 package 的真实选项。完成全部必需编译后，仍执行同一个逐声明递归公理审计，任一失败会阻止该审计。离线源码/配置 plan 与一个真实 ZIP 恢复烟测已经通过；这只验证恢复机制，不表示目标 Lean 证明已经编译成功。
 
 本报告在最终交付前还会用最新完成的源匹配记录更新。只有明确完成的编译和对应公理结果才计为验证成功。

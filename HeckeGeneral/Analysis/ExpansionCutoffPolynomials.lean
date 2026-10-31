@@ -12,7 +12,7 @@ open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Character
 open HeckeGeneral.Bridge IdealMobiusReciprocal ExpansionDetectorInitial ExpansionDeletedControl
 open HeckeSkeleton.HeckeBufferedReciprocal HeckeSkeleton.HeckeConductorNorm
 open ExpansionInterfaces.Mellin
-open scoped Classical BigOperators
+open scoped Classical BigOperators ContDiff
 
 variable (K : Type) [Field K] [NumberField K]
 

@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: expansion-${{ github.ref }}
@@ -51,11 +52,17 @@ jobs:
             expansion-actual-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
       - name: Compile original imports and audit transitive axioms
         id: compile
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           mkdir -p expansion-verification
           lean --version | tee expansion-verification/environment.log
-          python3 scripts/expansion_verify.py --group '${{ matrix.group }}'
+          if [ '${{ matrix.group }}' = pure ]; then
+            python3 scripts/expansion_verify.py --group pure
+          else
+            python3 scripts/expansion_native_verify.py --group '${{ matrix.group }}' --jobs 2
+          fi
       - name: Preserve project compilation progress
         if: ${{ always() && !cancelled() && steps.compile.outcome != '' && steps.compile.outcome != 'skipped' }}
         uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25

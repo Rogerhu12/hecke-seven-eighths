@@ -318,7 +318,7 @@ variable (P : ProbeData K S) (E : RowEulerData K S P) (ψ : HeckeCharacter K)
 theorem exists_physical_row_detection
     (hcomplex : ∀ v : InfinitePlace K, v.IsComplex) (η : ℝ) (hη : 0 < η) :
     ∃ e ε ceiling : ℝ,
-      0 < e ∧ e < 1 / 1000 ∧ 0 < ε ∧ 0 < ceiling ∧
+      0 < e ∧ e < 1 / 1000 ∧ e ≤ η ∧ 0 < ε ∧ 0 < ceiling ∧
       ∀ N : ℕ, ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
         ∃ Z₀ : ℝ, 2 ≤ Z₀ ∧ ∀ Z : ℝ, Z₀ ≤ Z →
           ∀ d t a : ℝ, 1 / 16 ≤ d → d ≤ 1 → 1 ≤ t → t ≤ 3 / 2 → 51 / 100 ≤ a →
@@ -354,7 +354,7 @@ theorem exists_physical_witness_cover
     (hcomplex : ∀ v : InfinitePlace K, v.IsComplex)
     (lam : ℝ) (hlam : 0 < lam) :
     ∃ e ε ceiling k : ℝ,
-      0 < e ∧ e < 1 / 1000 ∧ 0 < ε ∧ 0 < ceiling ∧ 0 < k ∧
+      0 < e ∧ e < 1 / 1000 ∧ e ≤ lam / 1000 ∧ 0 < ε ∧ 0 < ceiling ∧ 0 < k ∧
       ∀ N : ℕ, ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
         ∃ Z₀ : ℝ, 2 ≤ Z₀ ∧ ∀ Z : ℝ, Z₀ ≤ Z →
           ∀ d a : ℝ, 1 / 16 ≤ d → d ≤ 1 → 51 / 100 ≤ a →
@@ -381,4 +381,152 @@ theorem exists_physical_witness_cover
                   (∀ I : NonzeroIdeal K, ‖(A.witness t j).realShifts I‖ ≤ 8) ∧
                   (∀ I : NonzeroIdeal K, ‖(A.witness t j).imagShifts I‖ ≤
                     1 + ‖(A.witness t j).heights p t (Z ^ τ)‖)
+```
+
+## `exists_actual_finite_height_logDeriv_bound`
+
+真实 Hecke 函数在有限零点缓冲内的对数导数界。常数先于字符、尺度、零点边界和评价点选择；没有全高度无零点假设或待证对数导数界作为前提。当前源码待实际项目编译核验；素数窗口的有限矩形积分与尾项仍需另外完成。
+
+源码：[Expansion/PhysicalLogDerivative.lean](../Expansion/PhysicalLogDerivative.lean)。命名空间：`Expansion.Project`。
+
+Section 参数：
+
+```lean
+variable (K : Type) [Field K] [NumberField K]
+```
+
+定理陈述：
+
+```lean
+theorem exists_actual_finite_height_logDeriv_bound
+    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex)
+    (arch : InfinitePlace K → ℝ) (weight : InfinitePlace K → ℤ)
+    (R : ℝ) (hR : 0 ≤ R) :
+    ∃ C A : ℝ, 1 ≤ C ∧ 1 ≤ A ∧
+      ∀ (χ : HeckeCharacter K) (U β δ σ t Hupper : ℝ),
+        (∀ v : ℝ, χ ≠ heckeNormTwist K v) →
+        (fun v => heckeRadialParameter K v χ) = arch →
+        heckeArchWeight K χ = weight → 1 ≤ U →
+        heckeConductorScale K χ ≤ R * U →
+        1 / 2 ≤ β → β ≤ 1 → 0 < δ → δ ≤ 1 / 4 →
+        β + δ ≤ σ → σ ≤ 2 → |t| + 3 / 2 ≤ Hupper →
+        ZeroUpperBound K χ Hupper β →
+        ‖deriv (heckeContinuation K χ) (verticalPoint σ t) /
+          heckeContinuation K χ (verticalPoint σ t)‖ ≤
+          48 * (1 + Real.log C + (5 / 8) * Real.log U +
+            heightDegree K * Real.log (4 + |t|) + A) / δ ^ 2
+```
+
+## `exists_actual_annular_primePower_bound`
+
+实际有限素数幂和的有限矩形估计，保留左右直线与横边尾项；当前版本尚待编译核验。
+
+源码：[Expansion/ActualPrimeContour.lean](../Expansion/ActualPrimeContour.lean)。命名空间：`Expansion.Project`。
+
+Section 参数：
+
+```lean
+variable (K : Type) [Field K] [NumberField K]
+```
+
+定理陈述：
+
+```lean
+theorem exists_actual_annular_primePower_bound
+    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex)
+    (arch : InfinitePlace K → ℝ) (weight : InfinitePlace K → ℤ)
+    (R : ℝ) (hR : 0 ≤ R) :
+    ∃ C A : ℝ, 1 ≤ C ∧ 1 ≤ A ∧
+      ∀ (χ : HeckeCharacter K) (W : AnnularProfile) (order : ℕ)
+        (U β δ ν H X Hupper : ℝ),
+        (∀ v : ℝ, χ ≠ heckeNormTwist K v) →
+        (fun v => heckeRadialParameter K v χ) = arch →
+        heckeArchWeight K χ = weight → 1 ≤ U →
+        heckeConductorScale K χ ≤ R * U →
+        1 / 2 ≤ β → β ≤ 1 → 0 < δ → δ ≤ 1 / 4 →
+        0 < H → 1 ≤ X → |ν| + H + 3 / 2 ≤ Hupper →
+        ZeroUpperBound K χ Hupper β →
+        let CW := W.contourConstant (1 / 2) 2 order
+        let M := actualPrimeLogRectangleBound K C A U δ ν H
+        ‖actualAnnularPrimePowerSum K χ W X ν‖ ≤ (1 / (2 * Real.pi)) *
+          ((M * X ^ (β + δ)) * CW +
+            2 * (CW / (1 + H) ^ order) * M * X ^ (2 : ℝ) * (2 - (β + δ)) +
+            (actualPrimeLogMass K 2 * X ^ (2 : ℝ)) * (CW / H ^ order))
+```
+
+## `exists_actual_logDivided_primePower_bound`
+
+原始固定窗口的实际去对数权素数幂有限矩形估计，常数先于尺度选择；当前版本尚待编译核验。
+
+源码：[Expansion/ActualLogDividedContour.lean](../Expansion/ActualLogDividedContour.lean)。命名空间：`Expansion.Project`。
+
+Section 参数：
+
+```lean
+variable (K : Type) [Field K] [NumberField K]
+```
+
+定理陈述：
+
+```lean
+theorem exists_actual_logDivided_primePower_bound
+    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex)
+    (arch : InfinitePlace K → ℝ) (weight : InfinitePlace K → ℤ)
+    (R : ℝ) (hR : 0 ≤ R) (W : ℝ → ℂ) (hW : ContDiff ℝ ∞ W)
+    (hs : Function.support W ⊆ Icc (1 : ℝ) 2) (order : ℕ) :
+    ∃ C A P₀ CW : ℝ, 1 ≤ C ∧ 1 ≤ A ∧ 2 ≤ P₀ ∧ 0 ≤ CW ∧
+      ∀ (χ : HeckeCharacter K) (U β δ H P Hupper : ℝ),
+        (∀ v : ℝ, χ ≠ heckeNormTwist K v) →
+        (fun v => heckeRadialParameter K v χ) = arch →
+        heckeArchWeight K χ = weight → 1 ≤ U →
+        heckeConductorScale K χ ≤ R * U →
+        1 / 2 ≤ β → β ≤ 1 → 0 < δ → δ ≤ 1 / 4 →
+        0 < H → P₀ ≤ P → H + 3 / 2 ≤ Hupper →
+        ZeroUpperBound K χ Hupper β →
+        let M := actualPrimeLogRectangleBound K C A U δ 0 H
+        ‖actualLogDividedPrimePowerSum K χ W P‖ ≤ (1 / (2 * Real.pi)) *
+          ((M * P ^ (β + δ)) * CW +
+            2 * (CW / (1 + H) ^ order) * M * P ^ (2 : ℝ) * (2 - (β + δ)) +
+            (actualPrimeLogMass K 2 * P ^ (2 : ℝ)) * (CW / H ^ order))
+```
+
+## `exists_actual_finite_height_prime_bound`
+
+真实去对数权素数和的有限缓冲估计，加统一平方根素数幂尾项；当前版本尚待编译核验。
+
+源码：[Expansion/ActualPrimeCancellation.lean](../Expansion/ActualPrimeCancellation.lean)。命名空间：`Expansion.Project`。
+
+Section 参数与显式三项 envelope：
+
+```lean
+variable (K : Type) [Field K] [NumberField K]
+
+def actualPrimeCancellationEnvelope (C A CW : ℝ) (order : ℕ)
+    (U β δ H P : ℝ) : ℝ :=
+  let M := actualPrimeLogRectangleBound K C A U δ 0 H
+  (1 / (2 * Real.pi)) *
+    ((M * P ^ (β + δ)) * CW +
+      2 * (CW / (1 + H) ^ order) * M * P ^ (2 : ℝ) * (2 - (β + δ)) +
+      (actualPrimeLogMass K 2 * P ^ (2 : ℝ)) * (CW / H ^ order))
+```
+
+定理陈述：
+
+```lean
+theorem exists_actual_finite_height_prime_bound
+    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex)
+    (arch : InfinitePlace K → ℝ) (weight : InfinitePlace K → ℤ)
+    (R : ℝ) (hR : 0 ≤ R) (W : ℝ → ℂ) (hW : ContDiff ℝ ∞ W)
+    (hs : Function.support W ⊆ Icc (1 : ℝ) 2) (order : ℕ) :
+    ∃ C A P₀ CW B : ℝ, 1 ≤ C ∧ 1 ≤ A ∧ 2 ≤ P₀ ∧ 0 ≤ CW ∧ 0 < B ∧
+      ∀ (χ : HeckeCharacter K) (U β δ H P Hupper : ℝ),
+        (∀ v : ℝ, χ ≠ heckeNormTwist K v) →
+        (fun v => heckeRadialParameter K v χ) = arch →
+        heckeArchWeight K χ = weight → 1 ≤ U →
+        heckeConductorScale K χ ≤ R * U →
+        1 / 2 ≤ β → β ≤ 1 → 0 < δ → δ ≤ 1 / 4 →
+        0 < H → P₀ ≤ P → H + 3 / 2 ≤ Hupper →
+        ZeroUpperBound K χ Hupper β →
+        ‖primeSum (actualPrimeNorm K) (primeCoefficient K χ) W P‖ ≤
+          actualPrimeCancellationEnvelope K C A CW order U β δ H P + B * Real.sqrt P
 ```
