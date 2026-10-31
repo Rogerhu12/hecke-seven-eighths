@@ -1,8 +1,10 @@
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Algebra.Order.BigOperators.Group.Finset
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Algebra.Order.BigOperators.Group.Finset
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Positivity
+public import Mathlib.Tactic.Ring
 
 /-!
 # One use of a prime pool on the whole coefficient
@@ -21,6 +23,8 @@ The finite averaging and pushforward arguments generalize the corresponding
 arguments in openai/math, `Moments/AmplificationGlobal.lean` and
 `Moments/AmplificationCount.lean` (the task's reference implementation).
 -/
+
+@[expose] public section
 
 noncomputable section
 open scoped BigOperators Classical

@@ -35,6 +35,13 @@ jobs:
         run: |
           mkdir -p mom-engine-step-verification
           git show --no-patch --format=fuller HEAD > mom-engine-step-verification/checkout.txt
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > mom-engine-step-verification/memory-mapping.txt
       - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
         with:
           auto-config: 'false'

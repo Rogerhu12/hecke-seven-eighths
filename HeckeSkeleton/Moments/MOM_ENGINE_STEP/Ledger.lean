@@ -1,10 +1,14 @@
-import Mathlib.Basic.Real.Basic
-import Mathlib.Algebra.BigOperators.Field
-import Mathlib.Algebra.Order.BigOperators.Group.Finset
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.Positivity
+module
+
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Algebra.BigOperators.Field
+public import Mathlib.Algebra.Order.BigOperators.Group.Finset
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.Positivity
+
+@[expose] public section
 
 /-!
 # The arithmetic ledger of one paired fourth-moment descent
@@ -455,7 +459,10 @@ theorem weighted_secondSaving_lower {ι : Type*} (S : Finset ι)
       ∑ i ∈ S, w i * secondLocalSaving (c i) (d i) (nonunit i) := by
   calc
     _ = ∑ i ∈ S, w i * (((c i : ℝ) + d i) / 3) := by
-      simp only [mul_div_assoc, mul_add, ← Finset.sum_div, Finset.sum_add_distrib]
+      rw [← Finset.sum_add_distrib, Finset.sum_div]
+      apply Finset.sum_congr rfl
+      intro i hi
+      ring
     _ ≤ _ := by
       apply Finset.sum_le_sum
       intro i hi

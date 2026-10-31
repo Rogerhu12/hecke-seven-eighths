@@ -1,8 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
-import Mathlib.NumberTheory.NumberField.Basic
-import Mathlib.RingTheory.Ideal.Norm.AbsNorm
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Tactic.Tauto
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
+public import Mathlib.NumberTheory.NumberField.Basic
+public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Tactic.Tauto
 
 /-!
 # Prime-ideal pool multiplicities over an arbitrary number field
@@ -13,6 +15,8 @@ this file proves the arithmetic multiplicity and size assertions used by
 the single pool average.  The argument is the prime-ideal generalization
 of openai/math `Moments/AmplificationCount.lean`.
 -/
+
+@[expose] public section
 
 noncomputable section
 open scoped NumberField Classical BigOperators
