@@ -23,13 +23,20 @@ ROOT = TASK.parents[2]
 PREFIX = "HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION"
 MODULES = (
     "Order", "Recursion", "Family", "Terminal", "ExceptionalCounting",
-    "TerminalCertificate", "Interface", "Induction", "ChildStepCompatibility",
+    "TerminalCertificate", "Interface", "Centering", "Induction", "ChildStepCompatibility",
 )
 EXCLUDED = {"SkeletonFamily.lean"}
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}
 TOOLCHAIN = "leanprover/lean4:v4.35.0-rc3"
 COMPILER_COMMIT = "470d5ce1400764999581fd26d5d72b00d990b0f4"
 MATHLIB = "0493595ecd5da8ef14742febab99728f98e948e8"
+UPSTREAM_PROBES = (
+    "HeckeSkeleton.paired_zero_slot_models",
+    "HeckeSkeleton.paired_positive_below_one",
+    "HeckeSkeleton.paired_positive_endpoint",
+    "HeckeSkeleton.targetData",
+    "HeckeSkeleton.momentModels",
+)
 REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_models",
     "HeckeSkeleton.Moments.EngineInduction.paired_positive_below_one",
@@ -239,7 +246,8 @@ def preflight(expected: str, output: Path) -> None:
     print("Runner resources: " + json.dumps(record["runner_resources"], sort_keys=True))
 
 
-def axiom_records(text: str, expected: set[str]) -> dict[str, list[str]]:
+def axiom_records(text: str, expected: set[str],
+                  allowed: set[str] = ALLOWED) -> dict[str, list[str]]:
     pattern = r"'([^']+)' (?:depends on axioms: \[([^\]]*)\]|does not depend on any axioms)"
     pairs = re.findall(pattern, text, re.S)
     names = [name for name, _ in pairs]
@@ -250,7 +258,8 @@ def axiom_records(text: str, expected: set[str]) -> dict[str, list[str]]:
             f"Incomplete axiom output: missing={sorted(expected - records.keys())}, "
             f"unexpected={sorted(records.keys() - expected)}")
     for name, axioms in records.items():
-        require(set(axioms) <= ALLOWED, f"{name}: disallowed axioms {sorted(set(axioms) - ALLOWED)}")
+        require(set(axioms) <= allowed,
+                f"{name}: disallowed axioms {sorted(set(axioms) - allowed)}")
     return records
 
 
@@ -278,15 +287,103 @@ def check(expected: str, output: Path) -> None:
           f"all axioms belong to {sorted(ALLOWED)}")
 
 
+def skeleton_inventory() -> tuple[str, list[str]]:
+    path = TASK / "SkeletonFamily.lean"
+    subprocess.run(["git", "ls-files", "--error-unmatch", "--",
+                    str(path.relative_to(ROOT))], cwd=ROOT, check=True,
+                   stdout=subprocess.DEVNULL)
+    forbidden = re.findall(r"\b(?:sorry|admit|axiom|sorryAx|native_decide)\b",
+                           lean_code(path.read_text()))
+    require(not forbidden, f"New proof shortcut in skeleton adapter: {forbidden}")
+    names = sorted(declarations(path))
+    require(bool(names), "Skeleton adapter has no public declarations to audit")
+    return digest(path), names
+
+
+def skeleton_preflight(expected: str, output: Path) -> None:
+    preflight(expected, output)
+    source_hash, names = skeleton_inventory()
+    record = json.loads((output / "preflight.json").read_text())
+    record.update(kind="skeleton-integration", skeleton_source_sha256=source_hash,
+                  integration_declarations=names, upstream_probes=list(UPSTREAM_PROBES))
+    (output / "preflight.json").write_text(json.dumps(record, indent=2) + "\n")
+    # Generated audit commands and evidence stay outside the source checkout.
+    audit = "import " + PREFIX + ".SkeletonFamily\n\n"
+    audit += "\n".join("#print axioms " + name for name in names) + "\n"
+    (output / "SkeletonAudit.lean").write_text(audit)
+    upstream = "import HeckeSkeleton.Moments\n\n"
+    upstream += "-- Existing declarations; excluded from the new declaration inventory.\n"
+    upstream += "\n".join("#print axioms " + name for name in UPSTREAM_PROBES) + "\n"
+    (output / "UpstreamAudit.lean").write_text(upstream)
+    print(f"Separate skeleton integration: {len(names)} declarations; "
+          "inherited sorryAx is recorded, not accepted by the clean audit")
+    print(f"Separate upstream probes: {len(UPSTREAM_PROBES)} existing declarations")
+
+
+def skeleton_check(expected: str, output: Path) -> None:
+    verify_checkout(expected)
+    hashes, names = inventory()
+    source_hash, integration_names = skeleton_inventory()
+    before = json.loads((output / "preflight.json").read_text())
+    require(before.get("kind") == "skeleton-integration", "Wrong preflight kind")
+    require(before["head_sha"] == expected, "Preflight belongs to another commit")
+    require(before["source_sha256"] == hashes and before["declarations"] == names,
+            "Clean sources changed during integration verification")
+    require(before["skeleton_source_sha256"] == source_hash
+            and before["integration_declarations"] == integration_names,
+            "Skeleton adapter changed during integration verification")
+    require(before["upstream_probes"] == list(UPSTREAM_PROBES),
+            "Upstream probe inventory changed")
+    imports, printed = audit_commands((output / "SkeletonAudit.lean").read_text())
+    require(imports == [PREFIX + ".SkeletonFamily"]
+            and printed == integration_names,
+            "Generated integration audit commands changed")
+    imports, printed = audit_commands((output / "UpstreamAudit.lean").read_text())
+    require(imports == ["HeckeSkeleton.Moments"] and printed == list(UPSTREAM_PROBES),
+            "Generated upstream audit commands changed")
+    for kind, filename in (("BUILD", "build.log"), ("AUDIT", "axioms.log"),
+                           ("UPSTREAM_BUILD", "upstream-build.log"),
+                           ("UPSTREAM_AUDIT", "upstream-axioms.log")):
+        log = (output / filename).read_text()
+        require(f"MOM_ENGINE_INDUCTION_SKELETON_{kind}_OK {expected}" in log,
+                f"Missing successful skeleton {kind.lower()} completion marker")
+        require(re.search(r"(?:^|\n)(?:[^\n]*?:\d+:\d+: )?error:", log) is None,
+                f"Error diagnostic in skeleton {kind.lower()} log")
+    integration_allowed = ALLOWED | {"sorryAx"}
+    records = axiom_records((output / "axioms.log").read_text(),
+                            set(integration_names), integration_allowed)
+    upstream_records = axiom_records((output / "upstream-axioms.log").read_text(),
+                                     set(UPSTREAM_PROBES), integration_allowed)
+    inherited = sorted(name for name in integration_names if "sorryAx" in records[name])
+    upstream_inherited = sorted(name for name in UPSTREAM_PROBES
+                                if "sorryAx" in upstream_records[name])
+    record = dict(before, status="integration-compiled",
+                  axioms={name: records[name] for name in integration_names},
+                  upstream_probe_axioms=upstream_records,
+                  integration_allowed_axioms=sorted(integration_allowed),
+                  declarations_with_inherited_sorryAx=inherited,
+                  upstream_probes_with_sorryAx=upstream_inherited,
+                  build_log_sha256=digest(output / "build.log"),
+                  axiom_log_sha256=digest(output / "axioms.log"),
+                  upstream_build_log_sha256=digest(output / "upstream-build.log"),
+                  upstream_axiom_log_sha256=digest(output / "upstream-axioms.log"))
+    (output / "verification.json").write_text(json.dumps(record, indent=2) + "\n")
+    print(f"PASS integration compilation: {len(integration_names)} declarations at {expected}; "
+          f"{len(inherited)} inherit sorryAx. This is separate from the clean axiom gate.")
+    print("Existing upstream probes depending on sorryAx: " + json.dumps(upstream_inherited))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("phase", choices=("preflight", "check"))
+    phases = {"preflight": preflight, "check": check,
+              "skeleton-preflight": skeleton_preflight, "skeleton-check": skeleton_check}
+    parser.add_argument("phase", choices=tuple(phases))
     parser.add_argument("--expected-sha", required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     output = args.output.resolve()
     require(not output.is_relative_to(ROOT), "Place verification logs outside the repository")
-    (preflight if args.phase == "preflight" else check)(args.expected_sha, output)
+    phases[args.phase](args.expected_sha, output)
 
 
 if __name__ == "__main__":

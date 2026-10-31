@@ -138,9 +138,9 @@ theorem PolynomialSystem.earlier_of_width_drop
   · by_cases hc : (S.node child).parameters.z = 0
     · apply State.zero_before_positive
       · change (if (S.node child).parameters.z = 0 then (0 : Fin 2) else 1).val = 0
-        simp only [hc, ite_true]
+        simp only [hc, ite_true, Fin.val_zero]
       · change (if (S.node parent).parameters.z = 0 then (0 : Fin 2) else 1).val = 1
-        simp only [hp, ite_false]
+        simp only [hp, ite_false, Fin.val_one]
     · apply S.strict_child_earlier child parent ?_ hdrop
       change (if (S.node child).parameters.z = 0 then (0 : Fin 2) else 1) =
         (if (S.node parent).parameters.z = 0 then (0 : Fin 2) else 1)

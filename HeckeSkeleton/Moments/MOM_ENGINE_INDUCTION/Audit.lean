@@ -5,13 +5,14 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Terminal
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ExceptionalCounting
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.TerminalCertificate
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Centering
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Induction
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ChildStepCompatibility
 
 /-!
 # Recursive axiom audit for the paired-moment induction
 
-This target covers the nine clean proof modules and the three conditional
+This target covers the ten clean proof modules and the three conditional
 paired-moment projections. The existing skeleton adapter has a separate
 integration boundary because its upstream model definitions are admitted.
 -/
@@ -79,6 +80,7 @@ integration boundary because its upstream model definitions are admitted.
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_coarse_loss_parameters
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_fine_loss_parameters
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_ordered_coarse_loss_parameters
+#print axioms HeckeSkeleton.Moments.EngineInduction.exists_ordered_induction_loss_parameters
 #print axioms HeckeSkeleton.Moments.EngineInduction.finite_strict_call_count
 #print axioms HeckeSkeleton.Moments.EngineInduction.positive_capacity_total_length
 #print axioms HeckeSkeleton.Moments.EngineInduction.positive_slot_comparison_margin
@@ -133,6 +135,19 @@ integration boundary because its upstream model definitions are admitted.
 #print axioms HeckeSkeleton.Moments.EngineInduction.paired_positive_below_one
 #print axioms HeckeSkeleton.Moments.EngineInduction.paired_positive_endpoint
 #print axioms HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_models
+
+-- Centering
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparisonOrdinary
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparisonParameters
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparison_centered
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparison_rows
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparison_slots
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparison_width
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.norm_sq_le_two_sub_sq_add_two_sq
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.pairedEnergy_le_centered_add_comparison
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_earlier
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_same_band
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_same_slots
 
 -- ChildStepCompatibility
 #print axioms HeckeSkeleton.Moments.EngineInduction.ChildStepConclusion

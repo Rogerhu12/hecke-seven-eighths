@@ -84,6 +84,10 @@ A - 5*M/6 - 2*v/3 - max(M/4-v, 0) ≤ A-M.
 ```
 
 It also proves the paper's strict-call count and ordered coarse/fine choices.
+The complete parameter-selection theorem chooses the coarse width drop first,
+evaluates the resulting finite depth, and only then chooses the fine errors.
+Its total budget includes both the unmultiplied terminal boundary error and
+every accumulated edge loss.
 `TerminalCertificate.lean` applies these calculations to the original finite
 terminal components. Its raw cases are the width floor, uncentered exceptional,
 centered positive, centered zero-slot, diagonal, and tail contributions. The
@@ -114,6 +118,13 @@ input. The actual row cutoff `m` is kept separate from effective width `m+q`.
 every original finite sector. `Node.energy` retains the whole centered pair,
 the same two profiles, character, common mask, and complete live slot product.
 The comparison scales have equal product before absolute values are taken.
+
+`Centering.lean` proves the actual energy decomposition
+`pairedEnergy ≤ 2 * centeredEnergy + 2 * comparisonEnergy` on this unchanged
+row set. It also proves that the ordinary comparison has the same slot regime
+and width band, and precedes the centered node in the finite stage order.
+This supplies the algebraic centering part of the parent assembly; analytic
+bounds for its two terms still require the parent reduction.
 
 `SkeletonFamily.lean` identifies the base, selected length, parameters,
 capacity, energy and uniform-bound quantifiers definitionally with
@@ -155,6 +166,9 @@ The dedicated Actions workflow checks the exact PR head, inventories all
 explicit public declarations in the clean modules, and enforces the allowlist
 `propext`, `Classical.choice`, `Quot.sound`. Compilation and axiom evidence are
 stored in Actions artifacts. The source specialization has an explicitly
-different inherited-axiom boundary and is checked separately.
+different inherited-axiom boundary and is checked by a separate integration
+job. That job also prints the axioms of the original three targets and their
+upstream data definitions. An inherited `sorryAx` is recorded there as a
+remaining obstruction; it is never admitted by the clean proof audit.
 
 AI-assisted implementation and review: ChatGPT, GPT-6 Astra Pro and collaborating agents.

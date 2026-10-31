@@ -8,9 +8,11 @@ import Mathlib.Tactic.Ring
 # Counting newly exceptional rows after the second transform
 
 The arithmetic classification of a row as `h₀ * a^6` is explicit input from
-the single step.  This file derives the counting consequence using the actual
-absolute norm on ideals of the number field.  A finite sector coordinate is
-retained, and injectivity is required for the pair (sector, row ideal), so
+the exceptional-row assembly; the published paired child theorem does not
+supply that classification.  This file derives its counting consequence
+using the actual absolute norm on ideals of the number field.  A finite
+sector coordinate is retained, and injectivity is required for the pair
+(sector, row ideal), so
 element-row multiplicities are never silently discarded.
 
 The norm calculation gives the stronger exponent `(m - 2*f)/6` from the

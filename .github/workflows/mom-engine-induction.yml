@@ -16,10 +16,11 @@ on:
 permissions:
   contents: read
 
-# Push and PR events for the same source branch share one group. Both check
-# that branch's exact head, so the surviving run performs the same verification.
+# Push and PR events for the same exact source head share one group. Runs for
+# earlier heads may finish and save dependency progress. Only the final head's
+# own build and axiom evidence establish its verification result.
 concurrency:
-  group: mom-engine-induction-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}
+  group: mom-engine-induction-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}-${{ github.event.pull_request.head.sha || github.sha }}
   cancel-in-progress: true
 
 jobs:
@@ -43,6 +44,18 @@ jobs:
           lint: "false"
           use-mathlib-cache: "true"
           use-github-cache: "true"
+      # The setup action saves its cache before our explicit proof build.
+      # Preserve that build separately, including native Lake traces. Lake
+      # checks source and dependency hashes before reusing restored objects.
+      - name: Restore project dependency build progress
+        id: project-cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: .lake/build
+          key: mom-engine-induction-project-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-${{ env.EXPECTED_SHA }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            mom-engine-induction-project-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-${{ env.EXPECTED_SHA }}-
+            mom-engine-induction-project-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-
       - name: Build the exact head and check every clean task declaration
         shell: bash
         run: |
@@ -56,11 +69,81 @@ jobs:
           lake env lean "$task_dir/Audit.lean" 2>&1 | tee "$proof_logs/axioms.log"
           printf '\nMOM_ENGINE_INDUCTION_AUDIT_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/axioms.log"
           python3 "$task_dir/verify.py" check --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/verification.log"
+      - name: Save completed dependency work even after a proof failure
+        if: ${{ !cancelled() && steps.project-cache.outcome == 'success' }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: .lake/build
+          key: ${{ steps.project-cache.outputs.cache-primary-key }}
       - name: Upload compilation and axiom evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: mom-engine-induction-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/mom-engine-induction/
+          if-no-files-found: warn
+          retention-days: 14
+
+  # This source adapter imports admitted upstream definitions. Its native
+  # compilation and inherited axiom report are a separate, visible result;
+  # they do not weaken the allowlist of the clean induction job above.
+  skeleton-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      LEAN_NUM_THREADS: "1"
+      EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Install the pinned Lean environment and Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "true"
+      - name: Restore project dependency build progress
+        id: project-cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: .lake/build
+          key: mom-engine-induction-project-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-${{ env.EXPECTED_SHA }}-${{ github.run_id }}-${{ github.run_attempt }}-skeleton
+          restore-keys: |
+            mom-engine-induction-project-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-${{ env.EXPECTED_SHA }}-
+            mom-engine-induction-project-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-
+      - name: Compile the exact source adapter and report inherited axioms
+        shell: bash
+        run: |
+          set -euo pipefail
+          task_dir=HeckeSkeleton/Moments/MOM_ENGINE_INDUCTION
+          proof_logs="$RUNNER_TEMP/mom-engine-induction-skeleton"
+          mkdir -p "$proof_logs"
+          python3 "$task_dir/verify.py" skeleton-preflight --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/preflight.log"
+          lake build HeckeSkeleton.Moments 2>&1 | tee "$proof_logs/upstream-build.log"
+          printf '\nMOM_ENGINE_INDUCTION_SKELETON_UPSTREAM_BUILD_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/upstream-build.log"
+          lake env lean "$proof_logs/UpstreamAudit.lean" 2>&1 | tee "$proof_logs/upstream-axioms.log"
+          printf '\nMOM_ENGINE_INDUCTION_SKELETON_UPSTREAM_AUDIT_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/upstream-axioms.log"
+          lake build HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SkeletonFamily 2>&1 | tee "$proof_logs/build.log"
+          printf '\nMOM_ENGINE_INDUCTION_SKELETON_BUILD_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/build.log"
+          lake env lean "$proof_logs/SkeletonAudit.lean" 2>&1 | tee "$proof_logs/axioms.log"
+          printf '\nMOM_ENGINE_INDUCTION_SKELETON_AUDIT_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/axioms.log"
+          python3 "$task_dir/verify.py" skeleton-check --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/verification.log"
+      - name: Save completed dependency work even after an integration failure
+        if: ${{ !cancelled() && steps.project-cache.outcome == 'success' }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: .lake/build
+          key: ${{ steps.project-cache.outputs.cache-primary-key }}
+      - name: Upload separate source integration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-engine-induction-skeleton-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mom-engine-induction-skeleton/
           if-no-files-found: warn
           retention-days: 14

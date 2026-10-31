@@ -185,7 +185,7 @@ structure RootCertificate {ω ψ : HeckeCharacter K}
   base_one_le : 1 ≤ F.base i
   step : RawParentReduction K system (F.base i) T 0 C H β δ
 
-/-- The uniform parent-assembly hypothesis.  All four numerical controls and
+/-- The uniform parent-assembly hypothesis.  All numerical controls and
 the height ceiling precede `tau`.  A common scalar and threshold precede
 all source indices, sectors and recursively generated nodes. -/
 structure ParentReductionInput {ω ψ : HeckeCharacter K}

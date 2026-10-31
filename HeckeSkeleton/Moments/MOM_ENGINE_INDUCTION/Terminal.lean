@@ -219,4 +219,37 @@ theorem exists_fine_loss_parameters {ε σ : ℝ} (hε : 0 < ε) (hσ : 0 < σ) 
   · linarith
   · nlinarith
 
+/-- Choose the coarse geometry before evaluating its finite recursion depth,
+then choose the precision, mesh and local loss.  The single unmultiplied
+terminal boundary error is included in the final budget as well.  Taking
+`depth σ = 4 * (widthBand σ W + 1)` instantiates the ordered engine. -/
+theorem exists_ordered_induction_loss_parameters {ε : ℝ} (hε : 0 < ε)
+    (depth : ℝ → ℕ) :
+    ∃ ρ padding σ ξ η localLoss : ℝ,
+      0 < ρ ∧ 0 < padding ∧ 0 < σ ∧
+      16 * σ ≤ ρ ∧ 16 * padding ≤ σ ∧
+      0 < ξ ∧ 0 < η ∧ 0 < localLoss ∧
+      ξ ≤ σ / 2 ∧ η < σ / 6 ∧
+      ρ + padding + ρ / 6 + 3 * σ + 5 * σ / 3 + ξ +
+        (depth σ : ℝ) * (ξ + η + localLoss) < ε := by
+  obtain ⟨ρ, padding, σ, hρ, hp, hσ, hstep, hpadding, hcoarse⟩ :=
+    exists_ordered_coarse_loss_parameters hε
+  let D : ℕ := depth σ
+  let δ : ℝ := min (σ / 12) (ε / (12 * ((D : ℝ) + 1)))
+  have hD : 0 ≤ (D : ℝ) := Nat.cast_nonneg D
+  have hden : 0 < 12 * ((D : ℝ) + 1) := by positivity
+  have hδ : 0 < δ := lt_min (by positivity) (div_pos hε hden)
+  have hσδ : δ ≤ σ / 12 := min_le_left _ _
+  have hεδ : δ * (12 * ((D : ℝ) + 1)) ≤ ε :=
+    (le_div_iff₀ hden).mp (min_le_right _ _)
+  have hacc : δ + (D : ℝ) * (δ + δ + δ) < ε / 2 := by
+    nlinarith
+  refine ⟨ρ, padding, σ, δ, δ, δ, hρ, hp, hσ, hstep, hpadding,
+    hδ, hδ, hδ, ?_, ?_, ?_⟩
+  · linarith
+  · linarith
+  · change ρ + padding + ρ / 6 + 3 * σ + 5 * σ / 3 + δ +
+      (D : ℝ) * (δ + δ + δ) < ε
+    linarith
+
 end HeckeSkeleton.Moments.EngineInduction
