@@ -495,6 +495,11 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDualZeroSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingCoefficientBound
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalActiveColumnNorm
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalUnionColumnNorm
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDualOriginalExponent
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalJointFirstSource
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.UnrestrictedSixthCapacity
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPatternChildWindows
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalFirstWindows
 
 /-!
 # The unified child step of the paired fourth-moment engine
