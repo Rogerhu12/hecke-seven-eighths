@@ -95,7 +95,7 @@ Those analytic construction modules are not imported or counted in this
 branch's clean audit; only the canonical public output and its minimal
 definition dependencies are imported below.
 
-At the newer producer commit `fabcb58e4e75073a8942f6b08a51da6131de77ae`,
+At the newer producer commit `6aeadaaeb5f69585c36604853c52cdadc3d2d926`,
 `ReductionOutput.lean` defines the authoritative `PairedEngineConclusion`.
 Its complete producing theorem belongs to MOM_ENGINE_STEP and may be assumed
 by the induction under parallel-task rule 3. The output record itself is not
@@ -110,6 +110,13 @@ output and their sum remains the local remainder. The already proved output
 terminal bound gives a `ClosedParentReduction`; it is not misrepresented as
 an instance of the finer raw terminal ledger. A source root can therefore
 use either this bound or `RawParentReduction.closeTerminals`.
+The canonical output now also retains actual total lengths, nonnegative child
+widths, the parent kappa, slot-count bounds, and an explicit admissibility
+predicate. Zero-slot preservation follows from these fields and the positive
+slot lengths, rather than an extra assumed energy or parameter invariant.
+The producer's separate domain currently imposes `kappa <= 5/6`; this does
+not cover the required endpoint and has been reported to its owner. The
+output consumer does not silently assume a producing theorem for that range.
 
 ## The finite order and quantitative conclusion
 
@@ -317,7 +324,7 @@ capacity, energy and uniform-bound quantifiers definitionally with
 
 `SourceData.lean` now consists only of transparent compatibility names for
 the shared `HeckeSkeleton.SourceData` interface published by EXPANSION at
-`dc3dee7ec16ec75c1ea219259f25389561523048`. It fixes one explicit expansion
+`02a49e0d49c25b5c162a99bf3e18cb5cd4e3a5ba`. It fixes one explicit expansion
 and row exponent before all indices, models and uniform constants; there
 is no duplicate local source structure. The canonical `For` types contain
 no globally selected unfinished expansion, default argument or desired
@@ -335,6 +342,13 @@ The row-envelope transfer only needs its fixed large-scale threshold on
 retained bins; the output threshold is the maximum of the two thresholds,
 with only the fixed factor two in the scalar. Thus completing the original
 three model estimates feeds the unchanged physical source conclusion.
+`SourceReindex.lean` derives that energy comparison directly from the original
+polynomial calibration and row eligibility. It applies the canonical finite
+sector lemmas from MOM_UNIFORM_AMPLIFY at
+`778b4220d3d4bc8538549bf74998a78e570d01d9`; only their two pure finite-sum
+modules are imported, unchanged and hash-pinned. The source consumer therefore
+takes the primitive calibration and row facts, without a new final-energy
+comparison premise.
 
 `SkeletonSource.lean` now verifies the identity between the producer's actual
 aliases and their canonical explicit source, all seven model fields, actual
@@ -370,12 +384,17 @@ its recursively generated rows. The parent producer must supply those
 masked estimates and source calibration. `RootCertificate.base_one_le`
 also records the source condition needed to increase power exponents.
 
-The original `WholeMomentProfileControl` controls the listed one-variable
-inverse and plain profiles. Prime-window bounds and the mixed-parameter,
-locality, and recursive profile estimates needed for the uniform Fourier
-mass remain separate obligations. The corrected statements expose the
-resulting uniform local estimates in their parent certificates; they do not
-assert that the original profile hypothesis constructs those certificates.
+The shared `WholeMomentProfileControlFor` includes the prime windows and
+evaluates the source profiles in their actual parameter box. Its external
+height bound does not automatically control the unbounded Fourier frequencies
+of every descendant. `ProfileScaling.lean` proves homogeneity for the actual
+tests, windows, complete centered coefficient, and full slot product. Scaling
+all profiles by a positive `a` scales energy by `a^(2*(slotCount+2))`; dividing
+by a positive normalization `A` gives the exact inverse identity. All rows,
+masks, characters, slot geometry and supports are retained. The resulting
+factors can be put into the original common kernel. Their measurable choice
+and weighted Fourier integrability still belong to the producer and profile
+uniformity assembly; the scaling identities do not assert those bounds.
 
 ## Verification
 

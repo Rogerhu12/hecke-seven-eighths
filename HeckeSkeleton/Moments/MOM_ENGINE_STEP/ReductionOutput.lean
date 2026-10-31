@@ -38,13 +38,37 @@ theorem normalizedPairedEnergy_nonneg (d : MomentData K ω ψ)
   div_nonneg (Finset.sum_nonneg (fun _ _ => sq_nonneg _))
     (Real.rpow_pos_of_pos hZ _).le
 
+/-- The domain of the strict two-transform call in §4.8. Ordinary
+reflection, the width-floor estimate, and the same-band reflected
+comparison are separate calls owned by the induction consumer. -/
+structure PairedEngineDomain (centered : Bool) (d : MomentData K ω ψ)
+    (a : RealParameters) (Z Y₁ Y₂ floor padding : ℝ) : Prop where
+  scale : 1 < Z
+  width_floor : floor < a.m + a.q
+  width_nonneg : 0 ≤ a.m + a.q
+  plain_left_nonneg : 0 ≤ a.n₁
+  plain_right_nonneg : 0 ≤ a.n₂
+  total_length : a.z = d.geometry.totalLength
+  kappa_lower : 3 / 4 ≤ a.κ
+  kappa_upper : a.κ ≤ 5 / 6
+  capacity : a.z = 0 ∨ a.n₁ + a.n₂ + 6 * a.κ * a.z ≤ a.m + a.q
+  padded_core : a.n₁ + a.n₂ + a.z ≤ a.m + a.q + padding
+  ordinary : centered = false →
+    a.n₁ + a.n₂ + a.z ≤ 5 * (a.m + a.q) / 6
+  centered_left : centered = true → (a.m + a.q) / 4 ≤ a.n₁
+  centered_right : centered = true → (a.m + a.q) / 4 ≤ a.n₂
+  comparison_left : centered = true → Y₁ = Z ^ ((a.m + a.q) / 4)
+  comparison_right : centered = true →
+    Y₂ = Z ^ (a.n₁ + a.n₂ - (a.m + a.q) / 4)
+
 /-- A complete engine conclusion. The constants and original-profile
 control are parameters chosen by the provider before the moving data.
 The `parent` and `mass` fields are conclusions the provider must prove,
 not primitive calibration fields it may request. -/
 structure PairedEngineConclusion {Ω : Type*} [MeasurableSpace Ω]
     (centered : Bool) (d : MomentData K ω ψ) (a : RealParameters)
-    (Z t Y₁ Y₂ σ ε terminalExponent C control : ℝ) where
+    (Z t Y₁ Y₂ σ ε terminalExponent C control : ℝ)
+    (admissible : MomentData K ω ψ → RealParameters → Prop) where
   branches : ℕ
   leftData : Fin branches → Ω → MomentData K ω ψ
   rightData : Fin branches → Ω → MomentData K ω ψ
@@ -56,6 +80,20 @@ structure PairedEngineConclusion {Ω : Type*} [MeasurableSpace Ω]
   finite_kernel : ∀ b, IsFiniteMeasure (kernel b)
   left_width : ∀ b, (leftParameters b).m + (leftParameters b).q ≤ a.m + a.q - σ / 2
   right_width : ∀ b, (rightParameters b).m + (rightParameters b).q ≤ a.m + a.q - σ / 2
+  left_width_nonneg : ∀ b, 0 ≤ (leftParameters b).m + (leftParameters b).q
+  right_width_nonneg : ∀ b, 0 ≤ (rightParameters b).m + (rightParameters b).q
+  left_length : ∀ b ξ, (leftParameters b).z = (leftData b ξ).geometry.totalLength
+  right_length : ∀ b ξ, (rightParameters b).z = (rightData b ξ).geometry.totalLength
+  left_kappa : ∀ b, (leftParameters b).κ = a.κ
+  right_kappa : ∀ b, (rightParameters b).κ = a.κ
+  left_slots : ∀ b ξ, (leftData b ξ).geometry.slotCount ≤ d.geometry.slotCount
+  right_slots : ∀ b ξ, (rightData b ξ).geometry.slotCount ≤ d.geometry.slotCount
+  left_theta : ∀ b ξ, (leftData b ξ).theta = d.theta
+  right_theta : ∀ b ξ, (rightData b ξ).theta = d.theta
+  left_slot_characters : ∀ b ξ i, (leftData b ξ).slotCoefficient i ∈ d.theta
+  right_slot_characters : ∀ b ξ i, (rightData b ξ).slotCoefficient i ∈ d.theta
+  left_admissible : ∀ b ξ, admissible (leftData b ξ) (leftParameters b)
+  right_admissible : ∀ b ξ, admissible (rightData b ξ) (rightParameters b)
   left_capacity : ∀ b, (leftParameters b).z = 0 ∨
     (leftParameters b).n₁ + (leftParameters b).n₂ +
       6 * (leftParameters b).κ * (leftParameters b).z ≤
@@ -95,13 +133,14 @@ namespace PairedEngineConclusion
 variable {Ω : Type*} [MeasurableSpace Ω]
 variable {centered : Bool} {d : MomentData K ω ψ} {a : RealParameters}
 variable {Z t Y₁ Y₂ σ ε terminalExponent C control : ℝ}
+variable {admissible : MomentData K ω ψ → RealParameters → Prop}
 
 /-- The complete output gives the positive, normalized recursion directly.
 The same kernel is retained for both children and the terminal budget is
 paid once. No final estimate for either child is used. -/
 theorem linearized
     (out : PairedEngineConclusion (Ω := Ω) centered d a
-      Z t Y₁ Y₂ σ ε terminalExponent C control) (hZ : 0 < Z) :
+      Z t Y₁ Y₂ σ ε terminalExponent C control admissible) (hZ : 0 < Z) :
     pairedStageEnergy centered d a Z t Y₁ Y₂ / Z ^ (a.m + a.q) ≤
       C * control * Z ^ terminalExponent +
         ∑ b, ((∫ ξ, normalizedPairedEnergy
@@ -137,10 +176,22 @@ theorem linearized
 
 theorem strict_width
     (out : PairedEngineConclusion (Ω := Ω) centered d a
-      Z t Y₁ Y₂ σ ε terminalExponent C control) (hσ : 0 < σ) (b : Fin out.branches) :
+      Z t Y₁ Y₂ σ ε terminalExponent C control admissible) (hσ : 0 < σ) (b : Fin out.branches) :
     (out.leftParameters b).m + (out.leftParameters b).q < a.m + a.q ∧
       (out.rightParameters b).m + (out.rightParameters b).q < a.m + a.q := by
   constructor <;> linarith [out.left_width b, out.right_width b]
+
+/-- The strict step never leaves the zero-slot regime. This follows from
+the actual subset of retained slots, not from the width inequality. -/
+theorem zero_slots
+    (out : PairedEngineConclusion (Ω := Ω) centered d a
+      Z t Y₁ Y₂ σ ε terminalExponent C control admissible)
+    (hzero : d.geometry.slotCount = 0) (b : Fin out.branches) (ξ : Ω) :
+    (out.leftData b ξ).geometry.slotCount = 0 ∧
+      (out.rightData b ξ).geometry.slotCount = 0 := by
+  constructor
+  · exact Nat.eq_zero_of_le_zero (hzero ▸ out.left_slots b ξ)
+  · exact Nat.eq_zero_of_le_zero (hzero ▸ out.right_slots b ξ)
 
 end PairedEngineConclusion
 end HeckeSkeleton.Moments.EngineStep

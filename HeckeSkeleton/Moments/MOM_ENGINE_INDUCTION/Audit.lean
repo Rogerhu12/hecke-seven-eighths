@@ -24,47 +24,156 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchedIntegralRecursion
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseBranch
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchAssembly
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileScaling
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceReindex
 
--- Order
-#print axioms HeckeSkeleton.Moments.EngineInduction.State
-#print axioms HeckeSkeleton.Moments.EngineInduction.State.Earlier
-#print axioms HeckeSkeleton.Moments.EngineInduction.State.comparison
-#print axioms HeckeSkeleton.Moments.EngineInduction.State.earlier_rank_lt
-#print axioms HeckeSkeleton.Moments.EngineInduction.State.earlier_wellFounded
-#print axioms HeckeSkeleton.Moments.EngineInduction.State.induction
-#print axioms HeckeSkeleton.Moments.EngineInduction.State.rank
-#print axioms HeckeSkeleton.Moments.EngineInduction.State.rank_lt_bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.State.smaller_band
-#print axioms HeckeSkeleton.Moments.EngineInduction.State.zero_before_positive
-#print axioms HeckeSkeleton.Moments.EngineInduction.boundedBand
-#print axioms HeckeSkeleton.Moments.EngineInduction.strict_child_earlier
-#print axioms HeckeSkeleton.Moments.EngineInduction.widthBand
-#print axioms HeckeSkeleton.Moments.EngineInduction.widthBand_mono
-#print axioms HeckeSkeleton.Moments.EngineInduction.widthBand_strict
-
--- Recursion
-#print axioms HeckeSkeleton.Moments.EngineInduction.LocalStep
-#print axioms HeckeSkeleton.Moments.EngineInduction.LocalStep.bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.LocalStep.uniform_rank_bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.localStep_power_bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.propagated_majorant
-
--- IntegralRecursion
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.combine
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.combine_mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.combine_remainder
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.terminal
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.mass_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.ofLocal
+#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.uniform_rank_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.ChildStepConclusion
+#print axioms HeckeSkeleton.Moments.EngineInduction.ClosedParentReduction
+#print axioms HeckeSkeleton.Moments.EngineInduction.ClosedParentReduction.energy_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.childrenMeasure
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.childrenMeasure_earlier
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.childrenMeasure_finite
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.childrenMeasure_integrable
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.childrenMeasure_mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.left_integrable_weighted
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.linearized_estimate
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.right_integrable_weighted
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.toIntegralStep
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.toIntegralStep_mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.toRawParentReduction
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.weight
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.weight_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.weightedKernel
+#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.weightedKernel_finite
 #print axioms HeckeSkeleton.Moments.EngineInduction.IntegralStep
 #print axioms HeckeSkeleton.Moments.EngineInduction.IntegralStep.bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.IntegralStep.mass
 #print axioms HeckeSkeleton.Moments.EngineInduction.IntegralStep.mass_nonneg
 #print axioms HeckeSkeleton.Moments.EngineInduction.IntegralStep.uniform_rank_bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.integralStep_power_bound
-
--- Reduction
+#print axioms HeckeSkeleton.Moments.EngineInduction.LocalStep
+#print axioms HeckeSkeleton.Moments.EngineInduction.LocalStep.bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.LocalStep.uniform_rank_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.EngineOutput
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.absoluteBaseComponents
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparisonOrdinary
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparisonParameters
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparison_centered
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparison_product
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparison_rows
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparison_slots
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparison_width
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.energy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.energy_eq_pairedStageEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.energy_eq_scale_normalizedEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.energy_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.energy_normalizeProfiles
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.energy_scaleProfiles
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.exists_absolute_base_components
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime_energy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime_normalizedEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime_plainPair
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime_width
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.lengthStage
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.lengthStage_one
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.lengthStage_zero
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.norm_sq_le_two_sub_sq_add_two_sq
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizeProfiles
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy_absolute_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy_le_centered_add_comparison
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy_normalizeProfiles
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy_scaleProfiles
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.ordinary
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.ordinary_energy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.pairedEnergy_le_centered_add_comparison
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.plainPair
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.plainPair_scaleProfiles
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.plainPair_sq_absolute_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.positive_slot_base_exponent
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.scaleProfiles
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.scaleProfiles_invariants
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.sqrt_scaled_energy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.totalLength
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.width
+#print axioms HeckeSkeleton.Moments.EngineInduction.Node.zero_slot_base_exponent
+#print axioms HeckeSkeleton.Moments.EngineInduction.ParentReductionInput
+#print axioms HeckeSkeleton.Moments.EngineInduction.ParentReductionInput.sectorBound
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.baseBranch
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.baseBranch_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.baseBranch_mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.baseBranch_remainder
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.centeredComparisonBranch
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_earlier
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_earlier_of_lengths
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_same_band
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_same_slots
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.earlier_of_width_drop
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.positive_comparison_earlier
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.schedule
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.strict_child_earlier
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.withLengthStages
+#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.zero_comparison_earlier
+#print axioms HeckeSkeleton.Moments.EngineInduction.RawParentReduction
+#print axioms HeckeSkeleton.Moments.EngineInduction.RawParentReduction.closeTerminals
 #print axioms HeckeSkeleton.Moments.EngineInduction.Reduction
 #print axioms HeckeSkeleton.Moments.EngineInduction.Reduction.mass
 #print axioms HeckeSkeleton.Moments.EngineInduction.Reduction.mass_nonneg
 #print axioms HeckeSkeleton.Moments.EngineInduction.Reduction.power_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.Reduction.remainder
-
--- Family
+#print axioms HeckeSkeleton.Moments.EngineInduction.RootCertificate
+#print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification
+#print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification.card_le_root_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification.norm_factorization
+#print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification.root_encoding_injective
+#print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification.root_nonzero
+#print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification.root_norm_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification.root_norm_le_power
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.MomentSourceData
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.PairedPrimeProductBound
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentIndexFor
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentIndexFor.noSlots
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentModelsFor
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.UniformMomentBound
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.amplifiedModelEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.expansionAtPlaces
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.inverseCapacity
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.inverseModel
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.inverseParameters
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.markedModelEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.momentAmplitude
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.momentBase
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.momentBlock
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.momentWitness
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.pairedCapacity
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.pairedModel
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.pairedModelEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.pairedParameters
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.paired_source_reindex
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.physicalPlainEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.plainSource_of_dyadic_model_bounds
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.plainSource_of_model_bounds
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.plainSource_of_row_bounds
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.rowWidth
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.selectedLength
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.uniformMomentBound_join
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.unmarkedBallEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.unmarkedModel
 #print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily
 #print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.PositiveSlotBound
 #print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.PrimeProductBound
@@ -91,11 +200,32 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchAssembly
 #print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.selectedLength
 #print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.selectedLength_noSlots
 #print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.slotWidth
+#print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.uniformBound_of_dyadic_rowWidth
+#print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.uniformBound_of_rowWidth_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.uniformBound_of_rowWidth_le_from
 #print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.uniformBound_of_sectorBound
 #print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.zeroSlotBound_of_sectorBound
-
--- Terminal
+#print axioms HeckeSkeleton.Moments.EngineInduction.State
+#print axioms HeckeSkeleton.Moments.EngineInduction.State.Earlier
+#print axioms HeckeSkeleton.Moments.EngineInduction.State.comparison
+#print axioms HeckeSkeleton.Moments.EngineInduction.State.earlier_rank_lt
+#print axioms HeckeSkeleton.Moments.EngineInduction.State.earlier_wellFounded
+#print axioms HeckeSkeleton.Moments.EngineInduction.State.induction
+#print axioms HeckeSkeleton.Moments.EngineInduction.State.rank
+#print axioms HeckeSkeleton.Moments.EngineInduction.State.rank_lt_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.State.smaller_band
+#print axioms HeckeSkeleton.Moments.EngineInduction.State.zero_before_positive
+#print axioms HeckeSkeleton.Moments.EngineInduction.TerminalComponents
+#print axioms HeckeSkeleton.Moments.EngineInduction.TerminalComponents.bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.TerminalLedger
+#print axioms HeckeSkeleton.Moments.EngineInduction.TerminalLedger.exponent_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.actual_child_width_drop
+#print axioms HeckeSkeleton.Moments.EngineInduction.ae_halfPushforward
+#print axioms HeckeSkeleton.Moments.EngineInduction.ae_kernelWeightedMeasure
+#print axioms HeckeSkeleton.Moments.EngineInduction.baseHeightDegree
+#print axioms HeckeSkeleton.Moments.EngineInduction.baseHeightDegree_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.boundedBand
+#print axioms HeckeSkeleton.Moments.EngineInduction.branchedIntegralStep_power_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.centered_divisor_saving
 #print axioms HeckeSkeleton.Moments.EngineInduction.centered_exceptional_excess_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.centered_exceptional_excess_le_sub
@@ -103,142 +233,49 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchAssembly
 #print axioms HeckeSkeleton.Moments.EngineInduction.centered_positive_slot_length
 #print axioms HeckeSkeleton.Moments.EngineInduction.centered_positive_terminal
 #print axioms HeckeSkeleton.Moments.EngineInduction.centered_zero_slot_terminal
+#print axioms HeckeSkeleton.Moments.EngineInduction.child_repair_weight_nonneg
 #print axioms HeckeSkeleton.Moments.EngineInduction.child_width_drop
+#print axioms HeckeSkeleton.Moments.EngineInduction.dyadic_row_width_bounds
+#print axioms HeckeSkeleton.Moments.EngineInduction.engineOutputToBranchedAt
+#print axioms HeckeSkeleton.Moments.EngineInduction.engineOutput_linearized_terminals
+#print axioms HeckeSkeleton.Moments.EngineInduction.engineOutput_zero_parameters
+#print axioms HeckeSkeleton.Moments.EngineInduction.engineOutputsToBranchedStep
+#print axioms HeckeSkeleton.Moments.EngineInduction.engineOutputsToClosedParentReduction
+#print axioms HeckeSkeleton.Moments.EngineInduction.engine_rank_bound_le_schedule_depth
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_coarse_loss_parameters
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_fine_loss_parameters
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_ordered_coarse_loss_parameters
 #print axioms HeckeSkeleton.Moments.EngineInduction.exists_ordered_induction_loss_parameters
+#print axioms HeckeSkeleton.Moments.EngineInduction.finite_ideal_rows_count
 #print axioms HeckeSkeleton.Moments.EngineInduction.finite_strict_call_count
-#print axioms HeckeSkeleton.Moments.EngineInduction.positive_capacity_total_length
-#print axioms HeckeSkeleton.Moments.EngineInduction.positive_slot_comparison_margin
-#print axioms HeckeSkeleton.Moments.EngineInduction.slot_removal_budget
-#print axioms HeckeSkeleton.Moments.EngineInduction.small_width_slot_cost
-#print axioms HeckeSkeleton.Moments.EngineInduction.smaller_extraction_le_mean
-#print axioms HeckeSkeleton.Moments.EngineInduction.uncentered_exceptional_excess_le
-#print axioms HeckeSkeleton.Moments.EngineInduction.width_chain_drop
-#print axioms HeckeSkeleton.Moments.EngineInduction.zero_slot_comparison_margin
-
--- ExceptionalCounting
-#print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification
-#print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification.card_le_root_bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification.norm_factorization
-#print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification.root_encoding_injective
-#print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification.root_nonzero
-#print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification.root_norm_le
-#print axioms HeckeSkeleton.Moments.EngineInduction.SixthPowerClassification.root_norm_le_power
-#print axioms HeckeSkeleton.Moments.EngineInduction.sixth_power_exceptional_count
-#print axioms HeckeSkeleton.Moments.EngineInduction.sixth_power_exceptional_count_strong
-
--- TerminalCertificate
-#print axioms HeckeSkeleton.Moments.EngineInduction.TerminalComponents
-#print axioms HeckeSkeleton.Moments.EngineInduction.TerminalComponents.bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.TerminalLedger
-#print axioms HeckeSkeleton.Moments.EngineInduction.TerminalLedger.exponent_le
-#print axioms HeckeSkeleton.Moments.EngineInduction.terminalBudget
-#print axioms HeckeSkeleton.Moments.EngineInduction.terminalBudget_nonneg
-
--- Interface
-#print axioms HeckeSkeleton.Moments.EngineInduction.ClosedParentReduction
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparison_product
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.energy
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.energy_nonneg
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.ordinary
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.ordinary_energy
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.plainPair
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.width
-#print axioms HeckeSkeleton.Moments.EngineInduction.ParentReductionInput
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.schedule
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.strict_child_earlier
-#print axioms HeckeSkeleton.Moments.EngineInduction.RawParentReduction
-#print axioms HeckeSkeleton.Moments.EngineInduction.RawParentReduction.closeTerminals
-#print axioms HeckeSkeleton.Moments.EngineInduction.RootCertificate
-
--- Centering
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparisonOrdinary
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparisonParameters
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparison_centered
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparison_rows
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparison_slots
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.comparison_width
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.norm_sq_le_two_sub_sq_add_two_sq
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.pairedEnergy_le_centered_add_comparison
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_earlier
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_same_band
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_same_slots
-
--- Induction
-#print axioms HeckeSkeleton.Moments.EngineInduction.ClosedParentReduction.energy_bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.ParentReductionInput.sectorBound
-#print axioms HeckeSkeleton.Moments.EngineInduction.paired_positive_below_one
-#print axioms HeckeSkeleton.Moments.EngineInduction.paired_positive_endpoint
-#print axioms HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_models
-
--- ChildStepCompatibility
-#print axioms HeckeSkeleton.Moments.EngineInduction.ChildStepConclusion
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.earlier_of_width_drop
-#print axioms HeckeSkeleton.Moments.EngineInduction.child_repair_weight_nonneg
-#print axioms HeckeSkeleton.Moments.EngineInduction.normalized_child_transfer
-#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters
-#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters_width
-#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters_z_eq_zero
-#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters_z_le
-#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters_z_nonneg
-#print axioms HeckeSkeleton.Moments.EngineInduction.repaired_child_for_recursion
-#print axioms HeckeSkeleton.Moments.EngineInduction.restricted_child_width
-
--- RootNormalization
-#print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.uniformBound_of_dyadic_rowWidth
-#print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.uniformBound_of_rowWidth_le
-#print axioms HeckeSkeleton.Moments.EngineInduction.SourceFamily.uniformBound_of_rowWidth_le_from
-#print axioms HeckeSkeleton.Moments.EngineInduction.dyadic_row_width_bounds
-#print axioms HeckeSkeleton.Moments.EngineInduction.rpow_add_le_of_row_bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.rpow_log_row_width
-
--- KernelReduction
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.childrenMeasure
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.childrenMeasure_earlier
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.childrenMeasure_finite
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.childrenMeasure_integrable
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.childrenMeasure_mass
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.left_integrable_weighted
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.linearized_estimate
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.right_integrable_weighted
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.toIntegralStep
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.toIntegralStep_mass
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.toRawParentReduction
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.weight
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.weight_nonneg
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.weightedKernel
-#print axioms HeckeSkeleton.Moments.EngineInduction.CommonKernelReduction.weightedKernel_finite
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.energy_eq_scale_normalizedEnergy
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy_nonneg
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.sqrt_scaled_energy
-#print axioms HeckeSkeleton.Moments.EngineInduction.ae_halfPushforward
-#print axioms HeckeSkeleton.Moments.EngineInduction.ae_kernelWeightedMeasure
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_fitsMesh
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_pairedEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_plainPolynomial₁
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_plainPolynomial₂
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_primePolynomial
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_rows
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_slotCount
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_slotProduct
+#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_totalLength
 #print axioms HeckeSkeleton.Moments.EngineInduction.halfPushforward
 #print axioms HeckeSkeleton.Moments.EngineInduction.halfPushforward_finite
 #print axioms HeckeSkeleton.Moments.EngineInduction.halfPushforward_integrable
 #print axioms HeckeSkeleton.Moments.EngineInduction.halfPushforward_mass
-#print axioms HeckeSkeleton.Moments.EngineInduction.integrable_kernelWeightedMeasure
-#print axioms HeckeSkeleton.Moments.EngineInduction.integral_halfPushforward
-#print axioms HeckeSkeleton.Moments.EngineInduction.integral_kernelWeightedMeasure
-#print axioms HeckeSkeleton.Moments.EngineInduction.kernelWeightedMeasure
-#print axioms HeckeSkeleton.Moments.EngineInduction.kernelWeightedMeasure_finite
-#print axioms HeckeSkeleton.Moments.EngineInduction.kernelWeightedMeasure_mass
-#print axioms HeckeSkeleton.Moments.EngineInduction.normalizedKernelWeight
-#print axioms HeckeSkeleton.Moments.EngineInduction.normalizedKernelWeight_nonneg
-#print axioms HeckeSkeleton.Moments.EngineInduction.normalized_column_cauchy_le_half
-#print axioms HeckeSkeleton.Moments.EngineInduction.normalized_node_cauchy_le_half
-#print axioms HeckeSkeleton.Moments.EngineInduction.sqrt_product_le_half_sum
-
--- LogNormProfiles
 #print axioms HeckeSkeleton.Moments.EngineInduction.idealTest_logNorm_calibration
 #print axioms HeckeSkeleton.Moments.EngineInduction.idealTest_logNorm_profile_norm
 #print axioms HeckeSkeleton.Moments.EngineInduction.idealTest_logNorm_profile_support
+#print axioms HeckeSkeleton.Moments.EngineInduction.idealTest_support_count
+#print axioms HeckeSkeleton.Moments.EngineInduction.idealTest_support_empty_of_subunit
+#print axioms HeckeSkeleton.Moments.EngineInduction.integrable_kernelWeightedMeasure
+#print axioms HeckeSkeleton.Moments.EngineInduction.integralStep_power_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.integral_halfPushforward
+#print axioms HeckeSkeleton.Moments.EngineInduction.integral_kernelWeightedMeasure
+#print axioms HeckeSkeleton.Moments.EngineInduction.inversePolynomial_scaledMomentProfiles
+#print axioms HeckeSkeleton.Moments.EngineInduction.kernelWeightedMeasure
+#print axioms HeckeSkeleton.Moments.EngineInduction.kernelWeightedMeasure_finite
+#print axioms HeckeSkeleton.Moments.EngineInduction.kernelWeightedMeasure_mass
+#print axioms HeckeSkeleton.Moments.EngineInduction.localStep_power_bound
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormPhase
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormPhase_norm
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormPower
@@ -256,37 +293,63 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchAssembly
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormSeparatedProfiles_slotCount
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormSeparatedProfiles_slotLength
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormSeparatedProfiles_totalLength
+#print axioms HeckeSkeleton.Moments.EngineInduction.moment_mesh_comparison_margins
+#print axioms HeckeSkeleton.Moments.EngineInduction.moment_mesh_engine_bounds
+#print axioms HeckeSkeleton.Moments.EngineInduction.moment_mesh_total_loss_budget
+#print axioms HeckeSkeleton.Moments.EngineInduction.nodeAbsoluteConstant
+#print axioms HeckeSkeleton.Moments.EngineInduction.nodeAbsoluteConstant_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.normalizedKernelWeight
+#print axioms HeckeSkeleton.Moments.EngineInduction.normalizedKernelWeight_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.normalized_child_transfer
+#print axioms HeckeSkeleton.Moments.EngineInduction.normalized_column_cauchy_le_half
+#print axioms HeckeSkeleton.Moments.EngineInduction.normalized_node_cauchy_le_half
+#print axioms HeckeSkeleton.Moments.EngineInduction.ordinary_freezeMomentTime_normalizedEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.pairedEnergy_scaledMomentProfiles
+#print axioms HeckeSkeleton.Moments.EngineInduction.pairedRows_scaledMomentProfiles
+#print axioms HeckeSkeleton.Moments.EngineInduction.paired_positive_below_one
+#print axioms HeckeSkeleton.Moments.EngineInduction.paired_positive_endpoint
+#print axioms HeckeSkeleton.Moments.EngineInduction.paired_zero_slot_models
+#print axioms HeckeSkeleton.Moments.EngineInduction.plainAbsoluteConstant
+#print axioms HeckeSkeleton.Moments.EngineInduction.plainAbsoluteConstant_height
+#print axioms HeckeSkeleton.Moments.EngineInduction.plainAbsoluteConstant_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.plainPolynomial_absolute_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.plainPolynomial_scaledMomentProfiles
+#print axioms HeckeSkeleton.Moments.EngineInduction.plainRectangle_absolute_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.positive_capacity_total_length
+#print axioms HeckeSkeleton.Moments.EngineInduction.positive_slot_comparison_margin
+#print axioms HeckeSkeleton.Moments.EngineInduction.primeAbsoluteCountConstant
+#print axioms HeckeSkeleton.Moments.EngineInduction.primeAbsoluteCountConstant_pos
+#print axioms HeckeSkeleton.Moments.EngineInduction.primePolynomial_scaledMomentProfiles
 #print axioms HeckeSkeleton.Moments.EngineInduction.primeWindow_logNorm_calibration
 #print axioms HeckeSkeleton.Moments.EngineInduction.primeWindow_logNorm_profile_norm
 #print axioms HeckeSkeleton.Moments.EngineInduction.primeWindow_logNorm_profile_support
 #print axioms HeckeSkeleton.Moments.EngineInduction.profilePower_logNorm
-
--- SourceData
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.MomentSourceData
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.PairedPrimeProductBound
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentIndexFor
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentIndexFor.noSlots
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentModelsFor
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.UniformMomentBound
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.amplifiedModelEnergy
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.inverseCapacity
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.inverseModel
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.inverseParameters
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.markedModelEnergy
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.momentAmplitude
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.momentBase
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.momentBlock
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.momentWitness
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.pairedCapacity
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.pairedModel
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.pairedModelEnergy
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.pairedParameters
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.rowWidth
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.selectedLength
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.unmarkedBallEnergy
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.unmarkedModel
-
--- SourceAdapter
+#print axioms HeckeSkeleton.Moments.EngineInduction.propagated_majorant
+#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters
+#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters_width
+#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters_z_eq_zero
+#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters_z_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.remainingParameters_z_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.repaired_child_for_recursion
+#print axioms HeckeSkeleton.Moments.EngineInduction.restrictedSlots_slotCount_le
+#print axioms HeckeSkeleton.Moments.EngineInduction.restricted_child_width
+#print axioms HeckeSkeleton.Moments.EngineInduction.rpow_add_le_of_row_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.rpow_log_row_width
+#print axioms HeckeSkeleton.Moments.EngineInduction.scaledGeometry
+#print axioms HeckeSkeleton.Moments.EngineInduction.scaledIdealTest
+#print axioms HeckeSkeleton.Moments.EngineInduction.scaledIdealTest_profile_support
+#print axioms HeckeSkeleton.Moments.EngineInduction.scaledMomentProfiles
+#print axioms HeckeSkeleton.Moments.EngineInduction.scaledMomentProfiles_invariants
+#print axioms HeckeSkeleton.Moments.EngineInduction.scaledPrimeWindow
+#print axioms HeckeSkeleton.Moments.EngineInduction.scaledPrimeWindow_profile_support
+#print axioms HeckeSkeleton.Moments.EngineInduction.sixth_power_exceptional_count
+#print axioms HeckeSkeleton.Moments.EngineInduction.sixth_power_exceptional_count_strong
+#print axioms HeckeSkeleton.Moments.EngineInduction.slotGeometry_totalLength_eq_zero_iff
+#print axioms HeckeSkeleton.Moments.EngineInduction.slotProduct_scaledMomentProfiles
+#print axioms HeckeSkeleton.Moments.EngineInduction.slotProduct_sq_uniform_absolute_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.slot_removal_budget
+#print axioms HeckeSkeleton.Moments.EngineInduction.small_width_slot_cost
+#print axioms HeckeSkeleton.Moments.EngineInduction.smaller_extraction_le_mean
 #print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily
 #print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_base
 #print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_capacity
@@ -298,111 +361,23 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchAssembly
 #print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_selectedLength
 #print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_uniformBound
 #print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_zeroSlotBound
-
--- ScheduleCompatibility
-#print axioms HeckeSkeleton.Moments.EngineInduction.engine_rank_bound_le_schedule_depth
-#print axioms HeckeSkeleton.Moments.EngineInduction.moment_mesh_engine_bounds
-#print axioms HeckeSkeleton.Moments.EngineInduction.moment_mesh_total_loss_budget
 #print axioms HeckeSkeleton.Moments.EngineInduction.sourceReserve
-
--- BaseTerminal
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.absoluteBaseComponents
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.exists_absolute_base_components
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy_absolute_bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.plainPair_sq_absolute_bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.positive_slot_base_exponent
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.zero_slot_base_exponent
-#print axioms HeckeSkeleton.Moments.EngineInduction.finite_ideal_rows_count
-#print axioms HeckeSkeleton.Moments.EngineInduction.idealTest_support_count
-#print axioms HeckeSkeleton.Moments.EngineInduction.idealTest_support_empty_of_subunit
-#print axioms HeckeSkeleton.Moments.EngineInduction.nodeAbsoluteConstant
-#print axioms HeckeSkeleton.Moments.EngineInduction.nodeAbsoluteConstant_nonneg
-#print axioms HeckeSkeleton.Moments.EngineInduction.plainAbsoluteConstant
-#print axioms HeckeSkeleton.Moments.EngineInduction.plainAbsoluteConstant_nonneg
-#print axioms HeckeSkeleton.Moments.EngineInduction.plainPolynomial_absolute_bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.plainRectangle_absolute_bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.primeAbsoluteCountConstant
-#print axioms HeckeSkeleton.Moments.EngineInduction.primeAbsoluteCountConstant_pos
-#print axioms HeckeSkeleton.Moments.EngineInduction.restrictedSlots_slotCount_le
-#print axioms HeckeSkeleton.Moments.EngineInduction.slotProduct_sq_uniform_absolute_bound
+#print axioms HeckeSkeleton.Moments.EngineInduction.sqrt_product_le_half_sum
+#print axioms HeckeSkeleton.Moments.EngineInduction.strict_child_earlier
+#print axioms HeckeSkeleton.Moments.EngineInduction.terminalBudget
+#print axioms HeckeSkeleton.Moments.EngineInduction.terminalBudget_nonneg
+#print axioms HeckeSkeleton.Moments.EngineInduction.uncentered_exceptional_excess_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniformBaseConstant
+#print axioms HeckeSkeleton.Moments.EngineInduction.uniformBaseConstant_height_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniformBaseConstant_nonneg
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniformSlotAbsoluteConstant
+#print axioms HeckeSkeleton.Moments.EngineInduction.uniformSlotAbsoluteConstant_height_le
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniformSlotAbsoluteConstant_nonneg
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniform_absolute_base_components
-
--- SourceConsumers
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.expansionAtPlaces
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.physicalPlainEnergy
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.plainSource_of_dyadic_model_bounds
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.plainSource_of_model_bounds
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.plainSource_of_row_bounds
-#print axioms HeckeSkeleton.Moments.EngineInduction.Source.uniformMomentBound_join
-
--- LengthStages
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.lengthStage
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.lengthStage_one
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.lengthStage_zero
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.totalLength
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.comparison_earlier_of_lengths
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.positive_comparison_earlier
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.withLengthStages
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.zero_comparison_earlier
-#print axioms HeckeSkeleton.Moments.EngineInduction.moment_mesh_comparison_margins
-
--- BaseUniformity
-#print axioms HeckeSkeleton.Moments.EngineInduction.baseHeightDegree
-#print axioms HeckeSkeleton.Moments.EngineInduction.baseHeightDegree_nonneg
-#print axioms HeckeSkeleton.Moments.EngineInduction.plainAbsoluteConstant_height
-#print axioms HeckeSkeleton.Moments.EngineInduction.uniformBaseConstant_height_le
-#print axioms HeckeSkeleton.Moments.EngineInduction.uniformSlotAbsoluteConstant_height_le
-#print axioms HeckeSkeleton.Moments.EngineInduction.uniform_polynomial_height_base_components
-
--- BranchedIntegralRecursion
-#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt
-#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.terminal
-#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep
-#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.mass
-#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.mass_nonneg
-#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.ofLocal
-#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralStep.uniform_rank_bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.branchedIntegralStep_power_bound
-
--- BaseBranch
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.baseBranch
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.baseBranch_bound
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.baseBranch_mass
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.baseBranch_remainder
 #print axioms HeckeSkeleton.Moments.EngineInduction.uniform_polynomial_height_base_branch
-
--- StepOutputAdapter
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.EngineOutput
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.energy_eq_pairedStageEnergy
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime_energy
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime_normalizedEnergy
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime_plainPair
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.freezeTime_width
-#print axioms HeckeSkeleton.Moments.EngineInduction.engineOutputToBranchedAt
-#print axioms HeckeSkeleton.Moments.EngineInduction.engineOutput_linearized_terminals
-#print axioms HeckeSkeleton.Moments.EngineInduction.engineOutputsToBranchedStep
-#print axioms HeckeSkeleton.Moments.EngineInduction.engineOutputsToClosedParentReduction
-#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime
-#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_fitsMesh
-#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_pairedEnergy
-#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_plainPolynomial₁
-#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_plainPolynomial₂
-#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_primePolynomial
-#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_rows
-#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_slotCount
-#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_slotProduct
-#print axioms HeckeSkeleton.Moments.EngineInduction.freezeMomentTime_totalLength
-#print axioms HeckeSkeleton.Moments.EngineInduction.ordinary_freezeMomentTime_normalizedEnergy
-
--- BranchAssembly
-#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.combine
-#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.combine_mass
-#print axioms HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.combine_remainder
-#print axioms HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy_le_centered_add_comparison
-#print axioms HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.centeredComparisonBranch
+#print axioms HeckeSkeleton.Moments.EngineInduction.uniform_polynomial_height_base_components
+#print axioms HeckeSkeleton.Moments.EngineInduction.widthBand
+#print axioms HeckeSkeleton.Moments.EngineInduction.widthBand_mono
+#print axioms HeckeSkeleton.Moments.EngineInduction.widthBand_strict
+#print axioms HeckeSkeleton.Moments.EngineInduction.width_chain_drop
+#print axioms HeckeSkeleton.Moments.EngineInduction.zero_slot_comparison_margin

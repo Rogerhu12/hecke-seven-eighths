@@ -138,7 +138,11 @@ theorem combine_mass
       hdecomposition).kernel b).real Set.univ) =
       2 * (∑ b, (centerStep.kernel b).real Set.univ) +
         2 * (∑ b, (comparisonStep.kernel b).real Set.univ) := by
-  simp [combine, Fin.sum_univ_add, Finset.mul_sum]
+  change (∑ b : Fin (centerStep.branches + comparisonStep.branches),
+    (Fin.addCases (fun i => (2 : ℝ≥0) • centerStep.kernel i)
+      (fun i => (2 : ℝ≥0) • comparisonStep.kernel i) b).real Set.univ) = _
+  rw [Fin.sum_univ_add]
+  simp [Finset.mul_sum]
 
 end BranchedIntegralAt
 
@@ -156,8 +160,9 @@ theorem Node.normalizedEnergy_le_centered_add_comparison (n : Node K ω ψ)
   have h := div_le_div_of_nonneg_right
     (n.pairedEnergy_le_centered_add_comparison hcentered U t)
     (Real.rpow_pos_of_pos hU n.width).le
+  have hwidth : (Node.ordinary n.data n.parameters).width = n.width := rfl
   unfold Node.normalizedEnergy
-  rw [Node.ordinary_energy, Node.comparison_width]
+  rw [Node.ordinary_energy, Node.comparison_width, hwidth]
   simpa only [add_div, mul_div_assoc] using h
 
 /-- A complete ordinary-parent reduction from the centered and actual

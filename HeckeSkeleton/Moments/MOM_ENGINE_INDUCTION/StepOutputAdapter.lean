@@ -7,7 +7,7 @@ import HeckeGeneral.Analysis.TInputSeparatedProfiles
 # Consuming the canonical complete engine output
 
 `EngineStep.PairedEngineConclusion` is imported from the provider's exact
-`fabcb58e` source.  Its production remains the engine theorem's obligation;
+`6aeadaa` source.  Its production remains the engine theorem's obligation;
 this module does not assert that the record is inhabited.
 
 The provider permits a different twist at each continuous child parameter.
@@ -128,15 +128,17 @@ theorem ordinary_freezeMomentTime_normalizedEnergy (d : MomentData K ω ψ)
 /-- Only an abbreviation of the provider's canonical output type, for
 the literal node at the common interface time zero. -/
 abbrev Node.EngineOutput {Ω : Type v} [MeasurableSpace Ω]
-    (n : Node K ω ψ) (U σ δ β C control : ℝ) :=
+    (n : Node K ω ψ) (U σ δ β C control : ℝ)
+    (admissible : MomentData K ω ψ → RealParameters → Prop) :=
   EngineStep.PairedEngineConclusion (Ω := Ω) n.centered n.data n.parameters
-    U 0 (U ^ n.comparison₁) (U ^ n.comparison₂) σ δ β C control
+    U 0 (U ^ n.comparison₁) (U ^ n.comparison₂) σ δ β C control admissible
 
 /-- Linearize the actual output while retaining the four original
 terminal contributions rather than renaming them as a base case. -/
 theorem engineOutput_linearized_terminals {Ω : Type v} [MeasurableSpace Ω]
     {n : Node K ω ψ} {U σ δ β C control : ℝ}
-    (out : n.EngineOutput (Ω := Ω) U σ δ β C control) (hU : 0 < U) :
+    {admissible : MomentData K ω ψ → RealParameters → Prop}
+    (out : n.EngineOutput (Ω := Ω) U σ δ β C control admissible) (hU : 0 < U) :
     n.normalizedEnergy U 0 ≤ out.firstZero + out.secondZero + out.exceptional + out.tail +
       ∑ b, ((∫ ξ, EngineStep.normalizedPairedEnergy
         (out.leftData b ξ) (out.leftParameters b) U (out.leftTwist b ξ) ∂out.kernel b) +
@@ -171,14 +173,54 @@ theorem engineOutput_linearized_terminals {Ω : Type v} [MeasurableSpace Ω]
   rw [integral_add (out.left_integrable b) (out.right_integrable b)] at hi
   exact hi
 
+/-- Strictly positive geometric slot lengths make zero total length
+identical to having no slots. This uses the actual geometry, not capacity. -/
+theorem slotGeometry_totalLength_eq_zero_iff (g : SlotGeometry K) :
+    g.totalLength = 0 ↔ g.slotCount = 0 := by
+  constructor
+  · intro hzero
+    by_contra hcount
+    let i : Fin g.slotCount := ⟨0, Nat.pos_of_ne_zero hcount⟩
+    have hi : (g.slots i).length ≤ g.totalLength :=
+      Finset.single_le_sum (fun j _ => (g.slots j).length_pos.le) (Finset.mem_univ i)
+    rw [hzero] at hi
+    exact (not_le_of_gt (g.slots i).length_pos) hi
+  · intro hcount
+    unfold SlotGeometry.totalLength
+    apply Finset.sum_eq_zero
+    intro i _
+    have hi : i.val < 0 := by simpa only [hcount] using i.isLt
+    exact False.elim ((Nat.not_lt_zero _) hi)
+
+/-- Zero-slot closure is derived from the canonical successor invariants
+and the parent's actual length identity. No separate zero-child premise
+is added to the published engine output. -/
+theorem engineOutput_zero_parameters {Ω : Type v} [MeasurableSpace Ω]
+    {n : Node K ω ψ} {U σ δ β C control : ℝ}
+    {admissible : MomentData K ω ψ → RealParameters → Prop}
+    (out : n.EngineOutput (Ω := Ω) U σ δ β C control admissible)
+    (hlength : n.parameters.z = n.data.geometry.totalLength)
+    (hzero : n.parameters.z = 0) (b : Fin out.branches) (ξ : Ω) :
+    (out.leftParameters b).z = 0 ∧ (out.rightParameters b).z = 0 := by
+  have hcount : n.data.geometry.slotCount = 0 :=
+    (slotGeometry_totalLength_eq_zero_iff n.data.geometry).mp (hlength.symm.trans hzero)
+  obtain ⟨hl, hr⟩ := out.zero_slots hcount b ξ
+  constructor
+  · rw [out.left_length b ξ]
+    exact (slotGeometry_totalLength_eq_zero_iff _).mpr hl
+  · rw [out.right_length b ξ]
+    exact (slotGeometry_totalLength_eq_zero_iff _).mpr hr
+
 /-- Put one literal engine output in the induction schedule. The child
-labels must denote the actual frozen models, and a zero-slot parent must
-have zero-slot children. No measurable structure on labels or child map
-is required. Width decrease comes from the canonical output itself. -/
+labels must denote the actual frozen models. The canonical slot-count
+and total-length conclusions prove that a zero-slot parent has zero-slot
+children. No measurable structure on labels or child map is required. Width decrease comes from the canonical output itself. -/
 def engineOutputToBranchedAt {Ω : Type v} [MeasurableSpace Ω]
-    {σ W U δ β C control : ℝ} (S : PolynomialSystem.{u} K ω ψ σ W)
+    {σ W U δ β C control : ℝ}
+    {admissible : MomentData K ω ψ → RealParameters → Prop}
+    (S : PolynomialSystem.{u} K ω ψ σ W)
     (x : S.Label)
-    (out : (S.node x).EngineOutput (Ω := Ω) U σ δ β C control)
+    (out : (S.node x).EngineOutput (Ω := Ω) U σ δ β C control admissible)
     (hU : 0 < U)
     (left right : Fin out.branches → Ω → S.Label)
     (hleft : ∀ b ξ, S.node (left b ξ) =
@@ -187,8 +229,7 @@ def engineOutputToBranchedAt {Ω : Type v} [MeasurableSpace Ω]
     (hright : ∀ b ξ, S.node (right b ξ) =
       Node.ordinary (freezeMomentTime (out.rightData b ξ) (out.rightTwist b ξ))
         (out.rightParameters b))
-    (hzeroLeft : ∀ b, (S.node x).parameters.z = 0 → (out.leftParameters b).z = 0)
-    (hzeroRight : ∀ b, (S.node x).parameters.z = 0 → (out.rightParameters b).z = 0) :
+    (hlength : (S.node x).parameters.z = (S.node x).data.geometry.totalLength) :
     BranchedIntegralAt (Ω := Ω)
       (fun y => (S.node y).normalizedEnergy U 0) S.schedule x where
   branches := out.branches
@@ -209,7 +250,7 @@ def engineOutputToBranchedAt {Ω : Type v} [MeasurableSpace Ω]
       linarith [out.left_width b]
     · intro hz
       rw [hleft b ξ]
-      exact hzeroLeft b hz
+      exact (engineOutput_zero_parameters out hlength hz b ξ).1
   right_earlier b := Filter.Eventually.of_forall fun ξ => by
     apply S.earlier_of_width_drop (right b ξ) x
     · rw [hright b ξ]
@@ -218,7 +259,7 @@ def engineOutputToBranchedAt {Ω : Type v} [MeasurableSpace Ω]
       linarith [out.right_width b]
     · intro hz
       rw [hright b ξ]
-      exact hzeroRight b hz
+      exact (engineOutput_zero_parameters out hlength hz b ξ).2
   estimate := by
     simpa only [hleft, hright, ordinary_freezeMomentTime_normalizedEnergy] using
       engineOutput_linearized_terminals out hU
@@ -227,9 +268,11 @@ def engineOutputToBranchedAt {Ω : Type v} [MeasurableSpace Ω]
 output. For a system with base or reflection cases, use the local adapter
 above together with `BranchedIntegralStep.ofLocal`. -/
 def engineOutputsToBranchedStep {Ω : Type v} [MeasurableSpace Ω]
-    {σ W U δ β C : ℝ} (S : PolynomialSystem.{u} K ω ψ σ W)
+    {σ W U δ β C : ℝ}
+    {admissible : MomentData K ω ψ → RealParameters → Prop}
+    (S : PolynomialSystem.{u} K ω ψ σ W)
     (control : S.Label → ℝ)
-    (outputs : ∀ x, (S.node x).EngineOutput (Ω := Ω) U σ δ β C (control x))
+    (outputs : ∀ x, (S.node x).EngineOutput (Ω := Ω) U σ δ β C (control x) admissible)
     (hU : 0 < U)
     (left right : ∀ x, Fin (outputs x).branches → Ω → S.Label)
     (hleft : ∀ x b ξ, S.node (left x b ξ) =
@@ -238,23 +281,22 @@ def engineOutputsToBranchedStep {Ω : Type v} [MeasurableSpace Ω]
     (hright : ∀ x b ξ, S.node (right x b ξ) =
       Node.ordinary (freezeMomentTime ((outputs x).rightData b ξ) ((outputs x).rightTwist b ξ))
         ((outputs x).rightParameters b))
-    (hzeroLeft : ∀ x b,
-      (S.node x).parameters.z = 0 → ((outputs x).leftParameters b).z = 0)
-    (hzeroRight : ∀ x b,
-      (S.node x).parameters.z = 0 → ((outputs x).rightParameters b).z = 0) :
+    (hlength : ∀ x, (S.node x).parameters.z = (S.node x).data.geometry.totalLength) :
     BranchedIntegralStep (Ω := Ω)
       (fun y => (S.node y).normalizedEnergy U 0) S.schedule :=
   BranchedIntegralStep.ofLocal fun x =>
     engineOutputToBranchedAt S x (outputs x) hU (left x) (right x)
-      (hleft x) (hright x) (hzeroLeft x) (hzeroRight x)
+      (hleft x) (hright x) (hlength x)
 
 /-- The canonical terminal and complete kernel-mass conclusions give the
 closed recurrence once their original-profile control is uniform. This
 assumes no bound for a recursive child or for the final parent moment. -/
 def engineOutputsToClosedParentReduction {Ω : Type u} [MeasurableSpace Ω]
-    {σ W U T δ β C H : ℝ} (S : PolynomialSystem.{u} K ω ψ σ W)
+    {σ W U T δ β C H : ℝ}
+    {admissible : MomentData K ω ψ → RealParameters → Prop}
+    (S : PolynomialSystem.{u} K ω ψ σ W)
     (control : S.Label → ℝ)
-    (outputs : ∀ x, (S.node x).EngineOutput (Ω := Ω) U σ δ β C (control x))
+    (outputs : ∀ x, (S.node x).EngineOutput (Ω := Ω) U σ δ β C (control x) admissible)
     (hU : 0 < U) (hC : 0 ≤ C)
     (hcontrol : ∀ x, control x ≤ (1 + T) ^ H)
     (left right : ∀ x, Fin (outputs x).branches → Ω → S.Label)
@@ -264,14 +306,11 @@ def engineOutputsToClosedParentReduction {Ω : Type u} [MeasurableSpace Ω]
     (hright : ∀ x b ξ, S.node (right x b ξ) =
       Node.ordinary (freezeMomentTime ((outputs x).rightData b ξ) ((outputs x).rightTwist b ξ))
         ((outputs x).rightParameters b))
-    (hzeroLeft : ∀ x b,
-      (S.node x).parameters.z = 0 → ((outputs x).leftParameters b).z = 0)
-    (hzeroRight : ∀ x b,
-      (S.node x).parameters.z = 0 → ((outputs x).rightParameters b).z = 0) :
+    (hlength : ∀ x, (S.node x).parameters.z = (S.node x).data.geometry.totalLength) :
     ClosedParentReduction K S U T 0 C H β δ where
   reduction := .branched Ω inferInstance
     (engineOutputsToBranchedStep S control outputs hU left right hleft hright
-      hzeroLeft hzeroRight)
+      hlength)
   terminal x := by
     change (outputs x).firstZero + (outputs x).secondZero + (outputs x).exceptional +
       (outputs x).tail ≤ C * (1 + T) ^ H * U ^ β

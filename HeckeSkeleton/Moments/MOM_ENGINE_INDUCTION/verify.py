@@ -29,20 +29,20 @@ MODULES = (
     "SourceData", "SourceAdapter", "ScheduleCompatibility",
     "BaseTerminal", "SourceConsumers",
     "LengthStages", "BaseUniformity", "BranchedIntegralRecursion", "BaseBranch",
-    "StepOutputAdapter", "BranchAssembly",
+    "StepOutputAdapter", "BranchAssembly", "ProfileScaling", "SourceReindex",
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.
-PRODUCER_COMMIT = "fabcb58e4e75073a8942f6b08a51da6131de77ae"
+PRODUCER_COMMIT = "6aeadaaeb5f69585c36604853c52cdadc3d2d926"
 PRODUCER_SOURCES = {
     "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ReductionOutput.lean":
-        "effc8eeca3cdf7ea319e3da5162ed87c4cd4d650c91e014e86b972c0e1aa4fba",
+        "9a7f650e9381861ee23b9c2f6f891f3dd3be01e6a8d073e0a8e2ca2eee3147fa",
     "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ParentMoment.lean":
         "2ad71b4fcede7f07ec9fd898dc154aa37597d94ac0ea1a0e40f4d25f9612e391",
     "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Pool.lean":
         "98a8f2bc36a6c8095bf7a169cd66ad763875ddd0d27236bcf879804daf525601",
 }
-SOURCE_COMMIT = 'dc3dee7ec16ec75c1ea219259f25389561523048'
+SOURCE_COMMIT = '02a49e0d49c25b5c162a99bf3e18cb5cd4e3a5ba'
 SOURCE_SOURCES = {'ExpansionInterfaces/DyadicCount.lean': 'a52681bd30d1e18c7c20b32165ddf11136870f357a21f267502caffb13f95331',
  'ExpansionInterfaces/DyadicShells.lean': 'a8330e7066ff7a3b3c53f9b4e8b6d6af137041a29cb6b0dab5d1bd31b3123610',
  'ExpansionInterfaces/ParameterChoices.lean': '371926930bf1e35af484c711c2e2d0668f4dd978f466ca34009c8c425fc86d61',
@@ -57,8 +57,11 @@ SOURCE_SOURCES = {'ExpansionInterfaces/DyadicCount.lean': 'a52681bd30d1e18c7c20b
  'HeckeSkeleton/ExpansionModels/WitnessHeightNormalization.lean': '31c92678b8e973f1c1ff65ae9e0ff3d43c17c2d440c2a90d5fea63204ed58520',
  'HeckeSkeleton/Moments.lean': 'de5f7344e843539c5777748f0c697e33977f415d09fbac949ce29a48243732b3',
  'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/ProfileControl.lean': '328a45dd8b9bea367aea65f9fd837482d3342c515550d3d1307c60bfe28c8ad1',
- 'HeckeSkeleton/SourceData.lean': 'd4e6205d54c6efb9153da389deb6ac980d7597cff7af11d74ea6cef9c983ab08',
+ 'HeckeSkeleton/SourceData.lean': 'f8956f17c60594f51eb17349d0d94f55a9c412a54d764d1f5588d51f670f9345',
  'lakefile.toml': 'e3cec2fe7dd91f5d84903ece25f7dbc37c9f82dfe728a95c376e9bbec4ca3cac'}
+REINDEX_COMMIT = '778b4220d3d4bc8538549bf74998a78e570d01d9'
+REINDEX_SOURCES = {'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/FiniteSectorCore.lean': 'aec890cdfe84c6a6bb97fa3d48ac88117ced794a5ead2b5aded1b469d1d636eb', 'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/FiniteSectorReindex.lean': 'c9cc4fb6c7156db541c69b1e50dd709cd198d9ab791572ffcb72e4857178de9b'}
+CANONICAL_SOURCES = PRODUCER_SOURCES | SOURCE_SOURCES | REINDEX_SOURCES
 SOURCE_MODULES = ("SkeletonFamily", "SkeletonSource")
 EXCLUDED = {name + ".lean" for name in SOURCE_MODULES}
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}
@@ -124,6 +127,11 @@ REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.engineOutputsToBranchedStep",
     "HeckeSkeleton.Moments.EngineInduction.engineOutputsToClosedParentReduction",
     "HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.combine_mass",
+    "HeckeSkeleton.Moments.EngineInduction.Node.plainPair_scaleProfiles",
+    "HeckeSkeleton.Moments.EngineInduction.Node.energy_scaleProfiles",
+    "HeckeSkeleton.Moments.EngineInduction.Node.normalizedEnergy_normalizeProfiles",
+    "HeckeSkeleton.Moments.EngineInduction.Source.paired_source_reindex",
+    "HeckeSkeleton.Moments.EngineInduction.engineOutput_zero_parameters",
     "HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.centeredComparisonBranch",
 }
 
@@ -285,7 +293,7 @@ def inventory() -> tuple[dict[str, str], list[str]]:
             f"extra={sorted(set(printed) - declared)}")
     require(REQUIRED_TARGETS <= declared,
             f"Missing target declarations: {sorted(REQUIRED_TARGETS - declared)}")
-    for relative, pinned in (PRODUCER_SOURCES | SOURCE_SOURCES).items():
+    for relative, pinned in CANONICAL_SOURCES.items():
         path = ROOT / relative
         require(path.is_file(), f"Missing canonical producer interface: {relative}")
         actual = digest(path)
@@ -305,7 +313,7 @@ def verify_checkout(expected: str) -> None:
     paths = [str((TASK / (module + ".lean")).relative_to(ROOT)) for module in MODULES]
     paths += [str((TASK / name).relative_to(ROOT)) for name in ("Audit.lean", "verify.py")]
     paths += [".github/workflows/mom-engine-induction.yml"]
-    paths += list(PRODUCER_SOURCES | SOURCE_SOURCES)
+    paths += list(CANONICAL_SOURCES)
     subprocess.run(["git", "ls-files", "--error-unmatch", "--"] + paths, cwd=ROOT,
                    check=True, stdout=subprocess.DEVNULL)
     subprocess.run(["git", "diff", "--exit-code", "HEAD", "--"], cwd=ROOT, check=True,
@@ -331,6 +339,7 @@ def preflight(expected: str, output: Path) -> None:
                   producer_interface_commit=PRODUCER_COMMIT,
                   producer_interface_sha256=PRODUCER_SOURCES,
                   canonical_source_commit=SOURCE_COMMIT, canonical_source_sha256=SOURCE_SOURCES,
+                  finite_reindex_commit=REINDEX_COMMIT, finite_reindex_sha256=REINDEX_SOURCES,
                   excluded_integration_modules=sorted(EXCLUDED),
                   runner_resources=runner_resources())
     (output / "preflight.json").write_text(json.dumps(record, indent=2) + "\n")

@@ -180,7 +180,7 @@ theorem skeleton_primeProductBound_iff (M : SourceMomentModels K c) (κ : ℝ) :
 
 /-- The clean source consumer reaches the original `PSource` statement
 after exact reindexing.  The hypotheses are the proved model estimates and
-the original finite-sector comparison, not an assumed physical source. -/
+the original source calibration and row eligibility. -/
 theorem skeleton_plainSource_of_generic_model_bounds (M : SourceMomentModels K c)
     (hpositive : Source.UniformMomentBound
       (fun _ _ i => Source.pairedModelEnergy (sourceModelsOfSkeleton M) i)
@@ -189,14 +189,12 @@ theorem skeleton_plainSource_of_generic_model_bounds (M : SourceMomentModels K c
     (hzero : Source.UniformMomentBound
       (fun _ _ i => Source.pairedModelEnergy (sourceModelsOfSkeleton M) i.noSlots)
       (fun _ _ _ => 1) (fun _ _ _ => True))
-    (hreindex : ∀ Z T (i : SourceMomentIndex K c Z T),
-      physicalPlainEnergy i ≤ pairedModelEnergy M i) :
+    (hcal : SourcePolynomialCalibration (momentRowCharacters K c) M)
+    (hrows : SourceRowEligibility M) :
     PSource c.geometry (targetData K c) c.family.B c.family.lamA
       (momentMesh K c.family).val := by
-  apply Source.plainSource_of_model_bounds (sourceModelsOfSkeleton M)
-    (targetData K c) rfl rfl hpositive hzero
-  intro Z T i
-  exact hreindex Z T (sourceIndexToSkeleton i)
+  exact Source.plainSource_of_model_bounds (sourceModelsOfSkeleton M)
+    (targetData K c) rfl rfl hpositive hzero hcal hrows
 
 /-- The proved actual dyadic row geometry closes the source transfer
 from raw row-width bounds with the fixed scalar factor two. No geometric
@@ -209,17 +207,15 @@ theorem skeleton_plainSource_of_generic_row_bounds (M : SourceMomentModels K c)
     (hzero : Source.UniformMomentBound
       (fun _ _ i => Source.pairedModelEnergy (sourceModelsOfSkeleton M) i.noSlots)
       (fun _ _ i => Source.rowWidth i) (fun _ _ _ => True))
-    (hreindex : ∀ Z T (i : SourceMomentIndex K c Z T),
-      physicalPlainEnergy i ≤ pairedModelEnergy M i) :
+    (hcal : SourcePolynomialCalibration (momentRowCharacters K c) M)
+    (hrows : SourceRowEligibility M) :
     PSource c.geometry (targetData K c) c.family.B c.family.lamA
       (momentMesh K c.family).val := by
   apply Source.plainSource_of_row_bounds (sourceModelsOfSkeleton M)
-    (targetData K c) rfl rfl (rowFactor := 2) (by norm_num) 1 ?_ hpositive hzero
-  · intro Z T i _hZ _hbin
-    have hU := momentBase_ge_two (sourceIndexToSkeleton i)
-    have hrow := (momentRowExponent_spec (sourceIndexToSkeleton i)).2.2
-    exact ⟨lt_of_lt_of_le (by norm_num : (0 : ℝ) < 2) hU, hrow.le⟩
-  · intro Z T i
-    exact hreindex Z T (sourceIndexToSkeleton i)
+    (targetData K c) rfl rfl (rowFactor := 2) (by norm_num) 1 ?_ hpositive hzero hcal hrows
+  intro Z T i _hZ _hbin
+  have hU := momentBase_ge_two (sourceIndexToSkeleton i)
+  have hrow := (momentRowExponent_spec (sourceIndexToSkeleton i)).2.2
+  exact ⟨lt_of_lt_of_le (by norm_num : (0 : ℝ) < 2) hU, hrow.le⟩
 
 end HeckeSkeleton.Moments.EngineInduction

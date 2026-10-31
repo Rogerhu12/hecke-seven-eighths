@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceAdapter
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceReindex
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RootNormalization
 
 /-!
@@ -6,8 +7,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RootNormalization
 
 The source index, finite sectors and no-slot projection are those of one
 fixed expansion.  The physical energy below is the literal witness sum.
-The only reindexing input compares that finite sum with the complete
-paired model sum; it supplies no scale or height estimate.
+Pointwise source calibration and row eligibility give the comparison
+with the complete paired model sum through the owner's finite-sector
+reindexing theorem; no completed energy comparison is assumed.
 
 The two proved model bounds have their constants joined before producing
 `PSource`.  An explicit equality identifies the expansion with the one in
@@ -28,6 +30,7 @@ open scoped Classical BigOperators
 
 variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {S : MomentSourceData K c}
+variable {R : RowCharacterInput K (places K c) (probeData K c)}
 
 /-- The actual selected-slot fourth moment on the witness rows, before
 the finite-sector reindexing. -/
@@ -89,7 +92,7 @@ theorem uniformMomentBound_join
     exact raise k₂ A₂ _ _ hk₂ (le_max_right _ _) (le_max_right _ _) (hf Z hZ₂' i hbin hi)
 
 /-- The exact physical `PSource`, from the proved positive- and zero-slot
-model bounds and the finite-sector comparison for the same expansion.
+model bounds and the original calibration and row data for the same expansion.
 The unrestricted zero-slot model is evaluated at `i.noSlots`; no equality
 between models at distinct selected-slot indices is assumed. -/
 theorem plainSource_of_model_bounds
@@ -102,10 +105,13 @@ theorem plainSource_of_model_bounds
     (hzero : UniformMomentBound
       (fun _ _ i => pairedModelEnergy M i.noSlots) (fun _ _ _ => 1)
       (fun _ _ _ => True))
-    (hreindex : ∀ Z T (i : SourceMomentIndexFor K c S Z T),
-      physicalPlainEnergy i ≤ pairedModelEnergy M i) :
+    (hcal : SourcePolynomialCalibrationFor R M)
+    (hrows : SourceRowEligibilityFor M) :
     PSource c.geometry D c.family.B c.family.lamA
       (momentMesh K c.family).val := by
+  have hreindex : ∀ Z T (i : SourceMomentIndexFor K c S Z T),
+      physicalPlainEnergy i ≤ pairedModelEnergy M i :=
+    paired_source_reindex M hcal hrows
   rcases D with ⟨targetPlaces, targetProbe, targetMeasures, targetRay,
     targetExpansion, targetRows⟩
   change targetPlaces = excludedPlaces K c at hplaces
@@ -159,8 +165,8 @@ theorem plainSource_of_row_bounds
     (hzero : UniformMomentBound
       (fun _ _ i => pairedModelEnergy M i.noSlots) (fun _ _ i => rowWidth i)
       (fun _ _ _ => True))
-    (hreindex : ∀ Z T (i : SourceMomentIndexFor K c S Z T),
-      physicalPlainEnergy i ≤ pairedModelEnergy M i) :
+    (hcal : SourcePolynomialCalibrationFor R M)
+    (hrows : SourceRowEligibilityFor M) :
     PSource c.geometry D c.family.B c.family.lamA
       (momentMesh K c.family).val := by
   have normalize (E : ∀ Z T, SourceMomentIndexFor K c S Z T → ℝ)
@@ -170,7 +176,7 @@ theorem plainSource_of_row_bounds
     exact (sourceFamily K c S M).uniformBound_of_rowWidth_le_from
       E eligible hrowFactor Zrow hscale h
   exact plainSource_of_model_bounds M D hplaces hexpansion
-    (normalize _ _ hpositive) (normalize _ _ hzero) hreindex
+    (normalize _ _ hpositive) (normalize _ _ hzero) hcal hrows
 
 /-- The actual dyadic envelope `2 * U` costs precisely the fixed scalar
 factor two.  Its logarithmic row exponent is used only at the large-base,
@@ -189,12 +195,12 @@ theorem plainSource_of_dyadic_model_bounds
     (hzero : UniformMomentBound
       (fun _ _ i => pairedModelEnergy M i.noSlots) (fun _ _ i => rowWidth i)
       (fun _ _ _ => True))
-    (hreindex : ∀ Z T (i : SourceMomentIndexFor K c S Z T),
-      physicalPlainEnergy i ≤ pairedModelEnergy M i) :
+    (hcal : SourcePolynomialCalibrationFor R M)
+    (hrows : SourceRowEligibilityFor M) :
     PSource c.geometry D c.family.B c.family.lamA
       (momentMesh K c.family).val := by
   apply plainSource_of_row_bounds M D hplaces hexpansion
-    (rowFactor := 2) (by norm_num) Zrow ?_ hpositive hzero hreindex
+    (rowFactor := 2) (by norm_num) Zrow ?_ hpositive hzero hcal hrows
   intro Z T i hZ hbin
   have hU := hbase Z T i hZ hbin
   refine ⟨zero_lt_one.trans hU, ?_⟩

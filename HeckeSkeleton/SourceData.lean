@@ -264,8 +264,6 @@ theorem WholeMomentProfileControlFor.evaluated
     (hp Z T i).1 (hp Z T i).2.1 (hp Z T i).2.2 d hd
 
 
-variable {K c}
-
 def markedModelEnergyFor (M : SourceMomentModelsFor K c E) {Z T}
     (i : SourceMomentIndexFor K c E Z T) : ℝ :=
   ∑ s : SixthUnitClasses K (places K c),
@@ -352,7 +350,6 @@ def PairedPrimeProductBoundFor (M : SourceMomentModelsFor K c E) (κ : ℝ) : Pr
     (fun _ _ i => pairedCapacityFor i)
 
 
-variable {K c}
 def physicalInverseEnergyFor {Z T} (i : SourceMomentIndexFor K c E Z T) : ℝ :=
   ∑ u ∈ (momentWitnessFor i).rows,
     ‖(momentWitnessFor i).inverseValue u *
