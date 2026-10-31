@@ -4,6 +4,7 @@ import HeckeSkeleton.HighArithmeticInputs
 import HeckeAxiom.QuadraticSieve
 import CubicSieve.Complete
 import HeckeSkeleton.ExpansionModels.SourceData
+import HeckeSkeleton.ExpansionModels.ActualRowEligibility
 
 /-! Exploratory actual I/P pipeline, revised §§4–5 and §7.
 This file intentionally contains named admissions. None is native verified.
@@ -123,21 +124,20 @@ theorem sourceSelectedMomentModel_slots (i : SourceMomentIndex K c Z T)
 variable (K) (c : TargetContext K)
 
 -- MI-M-POLYNOMIAL-CALIBRATION | §4.2,§6.2,§7.1,pp18–20,38,43.
--- Literal identities from the one raw data recipe.  The analytic
--- construction of that recipe remains the original D-EXPANSION obligation.
+-- Literal identities from the one actual raw data recipe, shared with
+-- the physical expansion and its all-label geometry.
 theorem moment_polynomial_calibration :
     SourcePolynomialCalibration (momentRowCharacters K c) (momentModels K c) :=
   recipeMoment_polynomial_calibration K c (expansionRecipeRaw K c)
 
--- OBLIGATION MI-M-FIBER-ELIGIBILITY | §4.9,§7.1,pp35,43–44.
--- MIGRATION: ArithmeticFrequencyRowCharacterFibers/EventualExclusion.
--- Their cutoff is on the sixth-free BASE, not a complete ideal A^6.
--- Coarse remaining consumer: original row map, finite theta family and
--- both actual pairedRows branches, with all zero masks unchanged.
+-- MI-M-FIBER-ELIGIBILITY | §4.9,§7.1,pp35,43–44.
+-- The actual strict shell excludes the unit base ideal for every label.
+-- Ramification then excludes the same finite theta family on all scales;
+-- both original pairedRows branches retain every original zero mask.
 theorem moment_row_eligibility
     (hcal : SourcePolynomialCalibration (momentRowCharacters K c) (momentModels K c)) :
     SourceRowEligibility (momentModels K c) := by
-  sorry
+  exact actualRecipeRowEligibility K c
 
 -- OBLIGATION MI-M-PROFILE-UNIFORMITY | Lemma4.12,Prop4.14,pp33–35.
 -- COARSE: must further split mixed Sobolev derivatives/locality/backward

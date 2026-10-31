@@ -5,8 +5,8 @@ import HeckeSkeleton.Moments
 # Named source witness projections
 
 The data-level detector identities live in RecipeDetectorNormalization.
-This compatibility module applies them to the named moment source, whose
-actual expansion recipe still has a separate construction obligation.
+This compatibility module applies them to the named moment source, using
+the same actual physical expansion recipe constructed in Base.
 -/
 
 set_option autoImplicit false

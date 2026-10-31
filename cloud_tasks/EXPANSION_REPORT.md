@@ -83,4 +83,12 @@
 
 `1c9f422` / run `41194677568` 的五组均完成失败，原始编译日志和 artifact SHA-256 已读取验证。这一批按原生日志修复 Fourier 的实际零值与变量捕获、有限三变量轮廓映射、detector 的原 filter 实例、删除 Euler region、Mellin product measure、实际 zeta residue/log derivative 和 radial normalization 等根错误。没有从失败 elaboration 的 `#print axioms` 推断成功。
 
-验证脚本现在除全量 pure/actual 严格审计及共享 SourceData 严格审计外，还对 **15 个原名目标**单独调用 `collectAxioms`，包含类型依赖；任何非标准公理都会让任务失败。新原名证明尚未通过这一 gate。剩余完成标准是：修复全部真实编译错误，让所有组及原名/SourceData 严格 gate 通过，记录精确源码与公理证据，然后将 PR 标为可审查。
+验证脚本现在除全量 pure/actual 严格审计及共享 SourceData 严格审计外，还对 **19 个原名及共享实际接口目标**单独调用 `collectAxioms`，包含类型依赖；任何非标准公理都会让任务失败。新原名证明尚未通过这一 gate。剩余完成标准是：修复全部真实编译错误，让所有组及原名/SourceData 严格 gate 通过，记录精确源码与公理证据，然后将 PR 标为可审查。
+
+## 全标签实际行资格与最新已验证组
+
+`ActualRowEligibility` 从同一个 raw 的每个 amplitude origin（含默认和padding标签）取得严格 U<rowNorm，结合 U≥2 排除单位基理想，再通过真实行字符分歧证明排除同一个固定 Θ。它给出全部尺度、标签、细分下的完整 `SourceRowEligibilityFor`，没有新增 calibration、资格或能量前提。原 `Moments.moment_row_eligibility` 保留 hcal 原签名并接到这个实际证明；其他矩归纳及 profile 结论未改。`actualRecipeSourceGeometry` 同时导出长度22与原参数盒 admissibility。该 leaf 与原名均加入严格 gate，新增源码仍待下一轮 CI。
+
+head `63fb331` 的 run `41204649328` / pure job `124547158378` 已完整成功：112 个源模块、2,042 个声明、0 个非标准公理依赖。artifact `13043873689` 的 SHA-256 为 `5bebd9ef9fae0778754445bb3af575e210cea2bec6e25d2ac8cdc8a0d36c5c9e`，已校验；112个源文件的SHA-256与本批相同。其余四组仍在运行，这个成功不替代实际原名的最终核验。
+
+已在本地合入最新基线 `e66f738`；Base 的唯一 import 冲突取双方并集，保留新的 aligned arithmetic choice 及本 PR 的唯一实际 recipe。修正 MOM_BASE/LocalGauss 四处 complexEmbedding 调用补齐原上下文参数 c；最终主定理陈述未变。合并后的完整原生检查仍待后续CI。

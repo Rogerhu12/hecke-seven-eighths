@@ -37,6 +37,7 @@ SKELETON = (
 STRICT_SOURCE_MODULES = (
     "HeckeSkeleton.SourceData",
     "HeckeSkeleton.ExpansionModels.SourceData",
+    "HeckeSkeleton.ExpansionModels.ActualRowEligibility",
 )
 NAMED_EXPANSION_TARGETS = (
     "HeckeSkeleton.expansionPhysicalParameters",
@@ -54,6 +55,10 @@ NAMED_EXPANSION_TARGETS = (
     "HeckeSkeleton.expansion_blocks",
     "HeckeSkeleton.expansion_tail",
     "HeckeSkeleton.expansionSource",
+    "HeckeSkeleton.actualRecipeRowEligibility",
+    "HeckeSkeleton.actualRecipeSourceGeometry",
+    "HeckeSkeleton.moment_polynomial_calibration",
+    "HeckeSkeleton.moment_row_eligibility",
 )
 ACTUAL_SHARDS = ("actual-arithmetic", "actual-physical", "actual-contours")
 
@@ -180,6 +185,7 @@ def named_target_audit_source() -> str:
     """The original targets, including axioms inherited through their types."""
     return "\n".join([
         "import HeckeSkeleton.Expansion",
+        "import HeckeSkeleton.Moments",
         "import Lean.Util.CollectAxioms",
         "open Lean in",
         "run_cmd do",
