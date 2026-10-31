@@ -108,7 +108,10 @@ theorem split_sourceDatum (d : MarkedDatum K S) (A : MarkChoice K S d) :
     sourceDatum K S (splitFixed K S d A) d.moving (primeSetIdeal K S A.val)
       (splitRow_admissible K S d A) (splitMark_admissible K S d A)
       (split_row_mark_coprime K S d A) = d := by
-  apply markedDatum_ext K S rfl rfl rfl rfl
+  apply markedDatum_ext K S
+    (d := sourceDatum K S (splitFixed K S d A) d.moving (primeSetIdeal K S A.val)
+      (splitRow_admissible K S d A) (splitMark_admissible K S d A)
+      (split_row_mark_coprime K S d A)) (e := d) rfl rfl rfl rfl
   change (d.marks \ A.val) ∪ exteriorSupport K S (primeSetIdeal K S A.val) = d.marks
   rw [exteriorSupport_primeSetIdeal]
   exact Finset.sdiff_union_of_subset A.property
@@ -204,7 +207,8 @@ theorem reflectionSummand_eq_physicalAtom (D : ThetaArithmeticData K S)
   rw [← hterm]
   have h := literalTerm_eq_physicalAtom K S D f s hD F θ (fun _ => 1) V Z
     d.moving (primeSetIdeal K S A.val) cb.val.val.1 cb.val.val.2 hk hp
-  rw [literalTerm, dif_pos hkp, dif_pos cb.val.property, dif_pos cb.property, one_mul] at h
+  unfold literalTerm at h
+  rw [dif_pos hkp, dif_pos cb.val.property, dif_pos cb.property, one_mul] at h
   have hm := congrArg (fun e : MarkedDatum K S => e.marks) (split_sourceDatum K S d A)
   rw [hm] at h
   exact h
@@ -232,6 +236,8 @@ theorem extended_reflectionSummand_eq_physicalAtom (D : ThetaArithmeticData K S)
     · simp [extendMarkedColumn, hPb, physicalAtom, ActualHybridEntry.hybridAtom]
   · simp [extendColumn, hcb, physicalAtom, columnCoefficient,
       ActualReflectionReindex.extendColumn, ActualHybridEntry.hybridAtom]
+    intro _ hc
+    exact (hcb hc).elim
 
 /-- The supplied reflection is exactly the sum of the fixed-data atoms over
 every frozen state, every active subset and the full common column pair.
@@ -293,12 +299,18 @@ theorem physicalAtom_columns_summable_fixed (D : ThetaArithmeticData K S)
   · let d := sourceDatum K S f k P hk hP hcop
     let A : MarkChoice K S d := ⟨exteriorSupport K S P, Finset.subset_union_right⟩
     have hf : splitFixed K S d A = f := by
-      apply fixedData_ext K S rfl rfl rfl
+      apply fixedData_ext K S (f := splitFixed K S d A) (g := f) rfl rfl rfl
       change (f.inactive ∪ exteriorSupport K S P) \ exteriorSupport K S P = f.inactive
       rw [Finset.union_sdiff_distrib, Finset.sdiff_self, Finset.union_empty]
       exact hP.inactive_disjoint.sdiff_eq_left
-    have h := physicalAtom_columns_summable K S D hD F θ hreflection d s A V Z hZ
-    simpa only [hf, primeSetIdeal_support K S P hP.squarefree] using h
+    have h :=
+      fun t : FrozenState K S (splitFixed K S d A).frozen
+          (splitFixed K S d A).puncture =>
+        physicalAtom_columns_summable K S D hD F θ hreflection d t A V Z hZ
+    rw [hf] at h
+    have hA : primeSetIdeal K S A.val = P := by
+      exact primeSetIdeal_support K S P hP.squarefree
+    simpa only [hA] using h s
   · have hz : (fun cb : ExteriorIdeal K S × ExteriorIdeal K S =>
         physicalAtom K S D f s F θ (fun _ => 1) V.toFun Z k P cb.1 cb.2) = 0 := by
       funext cb

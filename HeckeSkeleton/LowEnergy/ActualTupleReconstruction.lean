@@ -188,7 +188,11 @@ theorem splitFixed_eq_tupleDatum
         ⟨A.image t, Finset.image_subset_image hA⟩ =
       tupleDatum K S (exteriorPowerfulPart K S x.1) (Quotient.out x.2)
         (M \ A) (fun i => t i) hb := by
-  apply fixedData_ext K S rfl rfl rfl
+  apply fixedData_ext K S
+    (f := splitFixed K S (actualMarkedDatum K S x (M.image t) hQ)
+      ⟨A.image t, Finset.image_subset_image hA⟩)
+    (g := tupleDatum K S (exteriorPowerfulPart K S x.1) (Quotient.out x.2)
+      (M \ A) (fun i => t i) hb) rfl rfl rfl
   change M.image t \ A.image t = Finset.univ.image (fun i : ↥(M \ A) => t i)
   rw [← Finset.image_sdiff M A ht]
   exact (primeSetIdeal_injective K S (activeIdeal_restrict K S t (M \ A))).symm
