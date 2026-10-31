@@ -21,6 +21,19 @@ open scoped Classical BigOperators ComplexConjugate Topology
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 
+/-- The lattice factor for mixed Lebesgue measure and local Fourier
+transforms divided by the masses of their integer rings.  The genuine
+S-integer Poisson formula retains this factor. -/
+def physicalPoissonScalar : ℝ :=
+  (2 : ℝ) ^ InfinitePlace.nrComplexPlaces K / Real.sqrt |(discr K : ℝ)|
+
+theorem physicalPoissonScalar_pos : 0 < physicalPoissonScalar K := by
+  apply div_pos (pow_pos (by norm_num) _)
+  exact Real.sqrt_pos_of_pos (abs_pos.mpr (Int.cast_ne_zero.mpr (discr_ne_zero K)))
+
+theorem physicalPoissonScalar_ne_zero : (physicalPoissonScalar K : ℂ) ≠ 0 :=
+  Complex.ofReal_ne_zero.mpr (physicalPoissonScalar_pos K).ne'
+
 def exceptionalPrimes : Finset (HeightOneSpectrum (𝓞 K)) :=
   Finset.univ.image (fun p : S => p.val)
 
@@ -139,14 +152,43 @@ def additiveMellin (W : AdditiveProbeTest K S) (z : ℂ) : ℂ :=
           ∂(sUnitHaarMeasure K S)) * (u : ℂ) ^ z / (u : ℂ)
     else 0
 
+/-- The actual principal residue includes the lattice factor of our fixed
+Fourier normalization.  It cancels the same factor in every Poisson row. -/
 def physicalResidueNormalizer (P : ProbeData K S) : ℂ :=
-  (1 / 6 : ℂ) * deletedZetaResidue K S ^ 2 *
-    additiveMellin K S μ P.additive (1 / 6) * mellin P.denominator.toFun 1
+  (physicalPoissonScalar K : ℂ) *
+    ((1 / 6 : ℂ) * deletedZetaResidue K S ^ 2 *
+      additiveMellin K S μ P.additive (1 / 6) * mellin P.denominator.toFun 1)
+
+/-- Cancellation of the fixed Poisson scalar needs no nonvanishing
+assumption on the Mellin values or the prime normalizer. -/
+theorem physicalResidueNormalizer_cancel (P : ProbeData K S) (a b : ℂ) :
+    (physicalPoissonScalar K : ℂ) * a /
+        (physicalResidueNormalizer K S μ P * b) =
+      a / (((1 / 6 : ℂ) * deletedZetaResidue K S ^ 2 *
+        additiveMellin K S μ P.additive (1 / 6) * mellin P.denominator.toFun 1) * b) := by
+  simpa only [physicalResidueNormalizer, mul_assoc] using
+    (mul_div_mul_left a
+      (((1 / 6 : ℂ) * deletedZetaResidue K S ^ 2 *
+        additiveMellin K S μ P.additive (1 / 6) * mellin P.denominator.toFun 1) * b)
+      (physicalPoissonScalar_ne_zero K))
 
 def normalizedProbe (P : ProbeData K S) (ψ : HeckeCharacter K)
     (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K)) (Z : ℝ) : ℂ :=
   compensatedProbe K S P ψ g T Z /
     (physicalResidueNormalizer K S μ P * primeNormalizer K S g T Z)
+
+/-- The normalization correction rescales the literal compensated probe
+by the reciprocal fixed lattice factor. -/
+theorem normalizedProbe_eq_unscaled (P : ProbeData K S) (ψ : HeckeCharacter K)
+    (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K)) (Z : ℝ) :
+    normalizedProbe K S μ P ψ g T Z =
+      (physicalPoissonScalar K : ℂ)⁻¹ *
+        (compensatedProbe K S P ψ g T Z /
+          (((1 / 6 : ℂ) * deletedZetaResidue K S ^ 2 *
+            additiveMellin K S μ P.additive (1 / 6) * mellin P.denominator.toFun 1) *
+            primeNormalizer K S g T Z)) := by
+  simp only [normalizedProbe, physicalResidueNormalizer, div_eq_mul_inv, mul_inv]
+  ring
 
 /-- M's f has no target-dependent height cutoff. Parametrizing s=2+it
 cancels the i in ds/(2 pi i). The numerator and denominator are actual. -/
