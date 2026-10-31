@@ -3,7 +3,10 @@
 This record concerns `cloud_tasks/WIRE_LOW_HYBRID.md` and the actual-object
 entry point `HeckeSkeleton.LowHybridExterior`. The tested implementation commit
 is [`e76cda656fe7ab7d73d4681ac7502d45889a7b18`](https://github.com/Rogerhu12/hecke-seven-eighths/commit/e76cda656fe7ab7d73d4681ac7502d45889a7b18).
-The subsequent commit adding this record changes documentation only.
+This record was first added in documentation-only commit
+[`c5ecfb47743a9fea9819744790284612b56751d3`](https://github.com/Rogerhu12/hecke-seven-eighths/commit/c5ecfb47743a9fea9819744790284612b56751d3).
+The later workflow refinement described below leaves all Lean sources and the
+verification driver unchanged.
 
 ## Environment and actual commands
 
@@ -45,6 +48,24 @@ to save additional validated objects. The full compilation step has a
 300-minute limit within the 360-minute job limit, leaving time to save successful
 objects and verification evidence if the step times out. An incomplete or failed
 compilation remains a failing run; these checkpoints do not satisfy the proof gate.
+
+## Pull-request checkpoint transport
+
+After the implementation validation recorded below, the workflow was refined
+so push and pull-request runs use distinct concurrency groups. A pull-request
+run therefore does not cancel the branch build supplying its checkpoints.
+
+If the normal project cache is completely absent, a same-repository pull
+request can restore the project objects from a successful push run of this same
+workflow at the exact pull-request head commit and branch. That push exports only `.lake/build`, and only
+after both proof commands have succeeded. The lookup is bounded; when no such
+artifact is available, the original compilation path still runs.
+
+This transfer supplies candidate compiled objects, not a proof result. The
+unchanged driver revalidates their source and transitive dependency fingerprints
+against the actual pull-request checkout, checks all companion object hashes,
+and always recompiles the recursive axiom audit. Neither missing checkpoints
+nor a failed verification can make the proof gate pass.
 
 ## Observed result
 
