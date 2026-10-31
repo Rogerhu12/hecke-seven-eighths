@@ -329,3 +329,6 @@ theorem centralPrimePowerAt_seven_unit_norm_sq (C : A.GeneralArithmeticContext Ï
     centralPrimePower_seven_norm_sq]
 
 end HeckeSkeleton.Moments.EngineStep
+
+#print axioms HeckeSkeleton.Moments.EngineStep.centralPrimePower_difference_norm_sq
+#print axioms HeckeSkeleton.Moments.EngineStep.centralPrimePowerAt_sixth_unit

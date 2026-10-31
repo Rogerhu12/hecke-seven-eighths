@@ -26,6 +26,19 @@ variable {F : Type} [Field F] [NumberField F]
 variable {A : SArithmeticData F} {σ : F →+* ℂ}
 variable {η : RayClassCharacter F A.modulus} {hS : A.ContainsTraceBadPlaces}
 
+/-- The actual quotient presentation used by the generic full-correlation
+API has the source's finite structure.  These instances also make the
+S-integer/subring presentation change explicit to instance search. -/
+local instance actualPrimePowerResidueFinite (C : A.GeneralArithmeticContext σ η hS)
+    (p : ExteriorPrime A) (n : ℕ) :
+    Finite (A.R ⧸ Ideal.span {generator C p ^ n}) :=
+  LocalFiniteSums.residueFinite C p n
+
+local instance actualPrimePowerResidueFintype (C : A.GeneralArithmeticContext σ η hS)
+    (p : ExteriorPrime A) (n : ℕ) :
+    Fintype (A.R ⧸ Ideal.span {generator C p ^ n}) :=
+  LocalFiniteSums.residueFintype C p n
+
 local instance localPrimeResidueField (p : ExteriorPrime A) :
     Field (A.R ⧸ A.extendIdeal (primeIdeal p)) := Ideal.Quotient.field _
 
@@ -134,7 +147,8 @@ theorem equalDepthCorrelation_units (C : A.GeneralArithmeticContext σ η hS)
   have hpow : chi (σ := σ) p ^ n = 1 ↔ 6 ∣ n := by
     rw [← orderOf_dvd_iff_pow_eq_one, chi_exact_order]
   rw [equalDepthCorrelation_reduction C p n hn,
-    localCorrelation_units _ hu hv, localPrimeResidue_card, hpow, mul_assoc]
+    localCorrelation_units _ hu hv, localPrimeResidue_card, hpow, mul_assoc] <;>
+    (split_ifs <;> rfl)
 
 /-- A nonunit divided side vanishes unless the depth is divisible by six. -/
 theorem equalDepthCorrelation_nonunit (C : A.GeneralArithmeticContext σ η hS)
@@ -149,7 +163,8 @@ theorem equalDepthCorrelation_nonunit (C : A.GeneralArithmeticContext σ η hS)
   have hpow : chi (σ := σ) p ^ n = 1 ↔ 6 ∣ n := by
     rw [← orderOf_dvd_iff_pow_eq_one, chi_exact_order]
   rw [equalDepthCorrelation_reduction C p n hn, hv,
-    localCorrelation_second_zero _ hu, localPrimeResidue_card, hpow]
+    localCorrelation_second_zero _ hu, localPrimeResidue_card, hpow] <;>
+    (split_ifs <;> rfl)
 
 /-- The norm saving attached to the `t₂` unit-frequency radical is exactly one
 prime norm; all `Q^(n-1)` nonprimitive lifts are still present. -/
@@ -226,7 +241,7 @@ local instance productPowerResidueFinite (C : A.GeneralArithmeticContext σ η h
     (p : ExteriorPrime A) (j d : ℕ) :
     Finite (A.R ⧸ Ideal.span {generator C p ^ j * generator C p ^ d}) := by
   rw [← pow_add]
-  infer_instance
+  exact actualPrimePowerResidueFinite C p (j + d)
 
 local instance productPowerResidueFintype (C : A.GeneralArithmeticContext σ η hS)
     (p : ExteriorPrime A) (j d : ℕ) :
@@ -252,7 +267,8 @@ theorem productPowerCharacter_mk (C : A.GeneralArithmeticContext σ η hS)
     (p : ExteriorPrime A) (j d : ℕ) (hn : j + d ≠ 0) (x : A.R) :
     productPowerCharacter C p j d hn (Ideal.Quotient.mk _ x) =
       (chi (σ := σ) p ^ (j + d)) (Ideal.Quotient.mk (A.extendIdeal (primeIdeal p)) x) := by
-  rw [productPowerCharacter, transportCharacter_mk, localMaskedCharacter_mk]
+  rw [productPowerCharacter, transportCharacter_mk]
+  exact localMaskedCharacter_mk C p (j + d) hn x
 
 theorem productPowerCharacter_lift_constant (C : A.GeneralArithmeticContext σ η hS)
     (p : ExteriorPrime A) (j d : ℕ) (hj : 0 < j) (hd : 0 < d) (k : A.R) :
@@ -267,7 +283,10 @@ theorem productPowerCharacter_lift_constant (C : A.GeneralArithmeticContext σ �
     apply Ideal.Quotient.eq_zero_iff_mem.mpr
     rw [← (generator_generates C p).2]
     exact Ideal.subset_span (Set.mem_singleton _)
-  rw [scaledResidue_mk, ← map_add, productPowerCharacter_mk, productPowerCharacter_mk,
+  change productPowerCharacter C p j d _
+      (Ideal.Quotient.mk _ (generator C p ^ d * y) + Ideal.Quotient.mk _ k) =
+    productPowerCharacter C p j d _ (Ideal.Quotient.mk _ k)
+  rw [← map_add, productPowerCharacter_mk, productPowerCharacter_mk,
     map_add, map_mul, map_pow, hg, zero_pow hd.ne', zero_mul, zero_add]
 
 theorem localMaskedCharacter_sum_zero (C : A.GeneralArithmeticContext σ η hS)
@@ -319,7 +338,7 @@ theorem finiteCharacter_norm_le_one {T : Type*} [CommRing T] [Fintype T]
     (χ : MulChar T ℂ) (x : T) : ‖χ x‖ ≤ 1 := by
   by_cases hx : IsUnit x
   · have he := Complex.norm_eq_one_of_mem_rootsOfUnity (χ.apply_mem_rootsOfUnity hx.unit)
-    exact le_of_eq (by simpa only [hx.unit_spec] using he)
+    exact le_of_eq (by simpa only [MulChar.coe_equivToUnitHom, hx.unit_spec] using he)
   · rw [χ.map_nonunit hx, norm_zero]
     exact zero_le_one
 
@@ -388,3 +407,6 @@ theorem actual_unequal_prime_power_all_frequency_norm_le
 end UnequalDepth
 
 end HeckeSkeleton.Moments.EngineStep
+
+#print axioms HeckeSkeleton.Moments.EngineStep.equalDepthCorrelation_nonprincipal_unit_norm
+#print axioms HeckeSkeleton.Moments.EngineStep.actual_unequal_prime_power_support
