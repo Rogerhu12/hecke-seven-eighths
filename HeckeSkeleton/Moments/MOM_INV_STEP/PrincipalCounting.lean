@@ -77,8 +77,11 @@ theorem squarePairs_card_le (B : Finset (Ideal (𝓞 K))) (H : ℝ)
       x.val.1 * x.val.2 = squareRoot K B x ^ 2 := (squareRoot_sq K B x).symm
       _ = squareRoot K B y ^ 2 := congrArg (fun I => I ^ 2) hq
       _ = x.val.1 * y.val.2 := by rw [squareRoot_sq, hleft]
-  simpa only [T, Fintype.card_sigma, Fintype.card_coe, Finset.sum_coe_sort] using
-    Fintype.card_le_of_injective encode hinj
+  have hc := Fintype.card_le_of_injective encode hinj
+  simp only [T, Fintype.card_sigma, Fintype.card_coe] at hc
+  rw [Finset.sum_coe_sort (boundedNormIdeals K H)
+    (fun q : Ideal (𝓞 K) => (idealDivisors (q ^ 2)).card)] at hc
+  exact hc
 
 /-- The principal cube-pair count has one norm exponent, not two. -/
 theorem exists_squarePairs_bound (ε : ℝ) (hε : 0 < ε) :
@@ -89,7 +92,7 @@ theorem exists_squarePairs_bound (ε : ℝ) (hε : 0 < ε) :
   obtain ⟨A, hA, hcount⟩ := exists_ideal_count_bound K
   obtain ⟨D, hD, hdiv⟩ := exists_divisor_power_bound (K := K) 1 (by decide)
     (ε / 2) (by positivity)
-  refine ⟨A * D, one_le_mul₀ hA hD, ?_⟩
+  refine ⟨A * D, one_le_mul_of_one_le_of_one_le hA hD, ?_⟩
   intro B H hH hB0 hB
   have hHpos : 0 < H := lt_of_lt_of_le zero_lt_one hH
   have hD0 : 0 ≤ D := le_trans zero_le_one hD
@@ -116,6 +119,45 @@ theorem exists_squarePairs_bound (ε : ℝ) (hε : 0 < ε) :
     _ = (A * D) * H ^ (1 + ε) := by
       rw [Real.rpow_add hHpos, Real.rpow_one]
       ring
+
+/-- The surviving first principal sum has one column count and one
+cube-root count. The pointwise coefficient bound can contain the actual
+test values and original divisor/mark losses. -/
+theorem exists_principal_sum_bound (ε : ℝ) (hε : 0 < ε) :
+    ∃ C : ℝ, 1 ≤ C ∧ ∀ (B N : Finset (Ideal (𝓞 K))) (H X U : ℝ)
+      (a : Ideal (𝓞 K) → Ideal (𝓞 K) × Ideal (𝓞 K) → ℂ),
+      1 ≤ H → 1 ≤ X → 0 ≤ U →
+      (∀ I ∈ B, I ≠ 0) →
+      (∀ I ∈ B, (Ideal.absNorm I : ℝ) ≤ H) →
+      (∀ I ∈ N, (Ideal.absNorm I : ℝ) ≤ X) →
+      (∀ n ∈ N, ∀ b ∈ squarePairs K B, ‖a n b‖ ≤ U) →
+      ‖∑ n ∈ N, ∑ b ∈ squarePairs K B, a n b‖ ≤ C * X * H ^ (1 + ε) * U := by
+  obtain ⟨A, hA, hcount⟩ := exists_ideal_count_bound K
+  obtain ⟨D, hD, hpairs⟩ := exists_squarePairs_bound K ε hε
+  refine ⟨A * D, one_le_mul_of_one_le_of_one_le hA hD, ?_⟩
+  intro B N H X U a hH hX hU hB0 hB hN ha
+  have hNcard : (N.card : ℝ) ≤ A * X := by
+    apply le_trans _ (hcount X hX)
+    exact_mod_cast Finset.card_le_card (show N ⊆ boundedNormIdeals K X from by
+      intro I hI
+      exact mem_boundedNormIdeals.mpr (hN I hI))
+  have hsum (n : Ideal (𝓞 K)) (hn : n ∈ N) :
+      ‖∑ b ∈ squarePairs K B, a n b‖ ≤ ((squarePairs K B).card : ℝ) * U := by
+    apply (norm_sum_le _ _).trans
+    calc
+      _ ≤ ∑ _b ∈ squarePairs K B, U := Finset.sum_le_sum (ha n hn)
+      _ = _ := by simp
+  have hX0 : 0 ≤ X := le_trans zero_le_one hX
+  have hD0 : 0 ≤ D := le_trans zero_le_one hD
+  calc
+    _ ≤ ∑ n ∈ N, ‖∑ b ∈ squarePairs K B, a n b‖ := norm_sum_le _ _
+    _ ≤ ∑ _n ∈ N, ((squarePairs K B).card : ℝ) * U := Finset.sum_le_sum hsum
+    _ = (N.card : ℝ) * ((squarePairs K B).card : ℝ) * U := by simp [mul_assoc]
+    _ ≤ (A * X) * (D * H ^ (1 + ε)) * U := by
+      apply mul_le_mul_of_nonneg_right _ hU
+      exact mul_le_mul hNcard (hpairs B H hH hB0 hB) (Nat.cast_nonneg _)
+        (mul_nonneg (le_trans zero_le_one hA) hX0)
+    _ = (A * D) * X * H ^ (1 + ε) * U := by ring
 
 end HeckeSkeleton.Moments.MOMInvStep.PrincipalCounting
 

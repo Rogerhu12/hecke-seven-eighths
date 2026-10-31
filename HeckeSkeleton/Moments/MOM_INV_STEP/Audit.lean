@@ -51,6 +51,12 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.LogLatticeCounting
 import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitLogCounting
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstInversePoisson
 import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceColumns
+import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitHeightCounting
+import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
+import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalZero
+import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitSmallPowerCount
+import HeckeSkeleton.Moments.MOM_INV_STEP.SparseFiniteSum
 
 /-! Recursive kernel-axiom audit for the canonical inverse single-step work. -/
 
@@ -195,3 +201,16 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss.principal_mask
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss.genuine_second_gauss
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss.inverse_pair_returns_canonical
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceColumns.first_source_pair
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceColumns.cubeFourierScalar_norm_le_one
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceColumns.absorb_common_divisor
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceColumns.absorb_arbitrary_divisor
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SUnitHeightCounting.local_height_count
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SUnitHeightCounting.exists_finiteNorm_bound_on_radial_domain
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds.exists_divisorMark_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds.canonicalColumn_norm_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalZero.zeroContribution_eq
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalZero.principalContribution_norm_le
+#print axioms HeckeSkeleton.Moments.MOMInvStep.PrincipalCounting.exists_principal_sum_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SUnitSmallPowerCount.exists_trace_height_small_power_count
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SparseFiniteSum.finite_sum_le

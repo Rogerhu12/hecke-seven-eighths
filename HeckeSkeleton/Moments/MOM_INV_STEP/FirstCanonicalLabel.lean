@@ -23,7 +23,7 @@ noncomputable section
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.FirstCanonicalLabel
 
 open NumberField IsDedekindDomain UniqueFactorizationMonoid
-open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.ThetaSkeleton
+open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global
 open DedekindZetaZeroFree.LargeSieve
 open HeckeSkeleton.Moments.MOMInvStep
@@ -154,13 +154,19 @@ theorem first_source_energy (C : ColumnFamily K Sset σ Θ ψ)
     intro x hx
     rw [oldAmplitude_eq K S Γ D hallowed]
     rfl
-  have hrows : T'.image (FirstLabelFibers.newRow (unchangedSector K S Γ) E.val.val) =
-      T.image (newRow K S Γ E) := by
-    dsimp only [T']
-    rw [Finset.image_image]
-    rfl
-  rw [hsum, hrows] at hb
-  exact hb
+  rw [hsum] at hb
+  refine hb.trans_eq ?_
+  apply Finset.sum_congr ?_ (fun _ _ => rfl)
+  ext y
+  constructor
+  · intro hy
+    obtain ⟨x, hx, he⟩ := Finset.mem_image.mp hy
+    obtain ⟨z, hz, rfl⟩ := Finset.mem_image.mp hx
+    exact Finset.mem_image.mpr ⟨z, hz, he⟩
+  · intro hy
+    obtain ⟨z, hz, he⟩ := Finset.mem_image.mp hy
+    exact Finset.mem_image.mpr ⟨encode K S Γ z,
+      Finset.mem_image.mpr ⟨z, hz, rfl⟩, he⟩
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstCanonicalLabel
 

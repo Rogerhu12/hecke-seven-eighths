@@ -64,14 +64,14 @@ theorem lattice_card_le (M : ℕ) (hM : Module.finrank ℤ L < M)
     rw [hcard]
     by_cases hzero : (0 : L) ∈ s
     · exact (Finset.card_erase_add_one hzero).ge
-    · rw [Finset.erase_eq_of_not_mem hzero]
+    · rw [Finset.erase_eq_of_notMem hzero]
       omega
   have hbound := nonzero_lattice_card_le L M hM T hT t
     (fun z hz => hs z.val (Finset.mem_subtype.mp hz))
   have hleR : (s.card : ℝ) ≤ (t.card : ℝ) + 1 := by exact_mod_cast hle
   calc
     _ ≤ (t.card : ℝ) + 1 := hleR
-    _ ≤ T ^ M * latticeInversePowerMass L M + 1 := add_le_add_right hbound 1
+    _ ≤ T ^ M * latticeInversePowerMass L M + 1 := by linarith
     _ = _ := add_comm _ _
 
 end Lattice
@@ -120,7 +120,7 @@ theorem unit_card_le_log_image (s : Finset (𝓞 K)ˣ) :
       Finset.card_eq_sum_card_image (unitLogPoint K) s
     _ ≤ ∑ _z ∈ s.image (unitLogPoint K), Nat.card (NumberField.Units.torsion K) :=
       Finset.sum_le_sum (fun z _ => unit_log_fiber_card_le K s z)
-    _ = _ := by rw [Finset.sum_const, nsmul_eq_mul]
+    _ = _ := by simp only [Finset.sum_const, nsmul_eq_mul, Nat.cast_id]
 
 /-- A concrete polynomial bound for any actual finite set of ordinary
 units whose logarithmic embeddings lie in the displayed ball. -/

@@ -144,7 +144,8 @@ theorem actual_marks_expansion (aold : Fin Jo → Ideal (𝓞 K) → ℂ)
   intro d₂ hd₂
   rw [divisorMark_norm_sq_eq_pairedChoices oldLists aold B.oldExtracted,
     divisorMark_norm_sq_eq_pairedChoices newLists anew B.newExtracted,
-    Finset.mul_sum, Finset.sum_mul]
+    Finset.mul_sum (pairedChoices oldLists B.oldExtracted) (pairedWeight aold) (v d₁ d₂),
+    Finset.sum_mul]
   apply Finset.sum_congr rfl
   intro p hp
   rw [Finset.mul_sum]

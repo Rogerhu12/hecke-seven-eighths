@@ -32,7 +32,7 @@ local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 /-- The actual active squarefree conductor is an exterior nonzero ideal. -/
-def primitiveExterior (B : PrimeBlock K Sset)
+abbrev primitiveExterior (B : PrimeBlock K Sset)
     (t : HeightOneSpectrum (𝓞 K) → ZMod 6) : ExteriorIdeal K Sset :=
   ⟨⟨primitiveIdeal B.support t,
       mem_nonZeroDivisors_of_ne_zero (IdealMobiusMask.primeProduct_ne_bot _)⟩, by
@@ -44,7 +44,7 @@ def primitiveExterior (B : PrimeBlock K Sset)
     subst q
     exact B.outside p (Finset.mem_filter.mp hq).1⟩
 
-def primitiveModulus (B : PrimeBlock K Sset)
+abbrev primitiveModulus (B : PrimeBlock K Sset)
     (t : HeightOneSpectrum (𝓞 K) → ZMod 6) : OS :=
   D.generator (primitiveExterior K S B t)
 
