@@ -164,7 +164,7 @@ theorem integrable_annularMellin_idealSeries (a : NonzeroIdeal K → ℂ)
     Integrable (fun t : ℝ => (mellin V.toFun (idealVerticalPoint σ t) *
       (X : ℂ) ^ idealVerticalPoint σ t) *
         idealDirichletSeries K a (idealVerticalPoint σ t)) := by
-  simpa only [idealLogSeries_zero] using
+  simpa only [idealLogSeries_zero, idealVerticalPoint] using
     integrable_kernel_mul_idealLogSeries K a ha 0 hσ
       (integrable_kernel_mul_vertical_cpow (smoothAnnular_mellin_verticalIntegrable V σ) hX σ)
 
@@ -177,9 +177,16 @@ theorem annularIdealSum_mellin (a : NonzeroIdeal K → ℂ)
       (∫ t : ℝ, (mellin V.toFun (idealVerticalPoint σ t) *
         (X : ℂ) ^ idealVerticalPoint σ t) *
           idealDirichletSeries K a (idealVerticalPoint σ t)) := by
-  have hexchange := integral_mellin_kernel_mul_idealLogSeries K a ha 0 hσ
-    (smoothAnnular_mellin_verticalIntegrable V σ) hX
-  simp only [idealLogSeries_zero, idealLogTerm_zero] at hexchange
+  have hexchange :
+      (∫ t : ℝ, (mellin V.toFun (idealVerticalPoint σ t) *
+        (X : ℂ) ^ idealVerticalPoint σ t) *
+          idealDirichletSeries K a (idealVerticalPoint σ t)) =
+      ∑' I, ∫ t : ℝ, (mellin V.toFun (idealVerticalPoint σ t) *
+        (X : ℂ) ^ idealVerticalPoint σ t) *
+          dirichletTerm (idealNorm K) a (idealVerticalPoint σ t) I := by
+    simpa only [idealLogSeries_zero, idealLogTerm_zero, idealVerticalPoint] using
+      integral_mellin_kernel_mul_idealLogSeries K a ha 0 hσ
+        (smoothAnnular_mellin_verticalIntegrable V σ) hX
   rw [annularIdealSum_eq_tsum K a V hX, hexchange, ← tsum_mul_left]
   apply tsum_congr
   intro I

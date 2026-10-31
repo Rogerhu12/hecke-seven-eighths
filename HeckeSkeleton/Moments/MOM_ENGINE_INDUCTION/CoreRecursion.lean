@@ -262,8 +262,8 @@ def baseBranch
   refine ⟨(S.withCoreStages padding).baseBranch (Ω := Ω) U 0 x, ?_, ?_⟩
   · exact components.bound input.scale.le input.floor_nonneg input.padding_nonneg
       S.sigma_pos.le input.boundary_nonneg input.terminal_budget
-  · rw [PolynomialSystem.baseBranch_mass]
-    exact input.bound_nonneg δ
+  · exact ((S.withCoreStages padding).baseBranch_mass (Ω := Ω) U 0 x).le.trans
+      (input.bound_nonneg δ)
 
 /-- Call the canonical two-transform theorem on its proved domain. -/
 def engineBranch
@@ -410,10 +410,9 @@ def centeredBranch
   · change 2 * centerResult.step.remainder + 2 * comparisonResult.step.remainder ≤
       (4 * C) * (1 + T) ^ H * U ^ β
     nlinarith [centerResult.terminal, comparisonResult.terminal]
-  · change (∑ b, ((centerResult.step.combine comparisonResult.step hcstate hqstate
-      hdecomposition).kernel b).real Set.univ) ≤ (4 * C) * (1 + T) ^ H * U ^ δ
-    rw [BranchedIntegralAt.combine_mass]
-    nlinarith [centerResult.mass, comparisonResult.mass]
+  · have hmass := BranchedIntegralAt.combine_mass centerResult.step comparisonResult.step
+      hcstate hqstate hdecomposition
+    exact hmass.le.trans (by nlinarith [centerResult.mass, comparisonResult.mass])
 
 /-- The complete per-node case split. The noncore reflection is handled
 before the width-floor base case, so no zero-slot core condition is added

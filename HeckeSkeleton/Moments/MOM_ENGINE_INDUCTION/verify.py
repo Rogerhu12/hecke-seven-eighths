@@ -29,10 +29,12 @@ MODULES = (
     "SourceData", "SourceAdapter", "ScheduleCompatibility",
     "BaseTerminal", "SourceConsumers",
     "LengthStages", "BaseUniformity", "BranchedIntegralRecursion", "BaseBranch",
-    "StepOutputAdapter", "BranchAssembly", "ProfileScaling", "SourceReindex",
+    "StepOutputAdapter", "BranchAssembly", "MomentProfileScaling", "ProfileControlScaling",
+    "ProfileScaling", "SourceReindex",
     "CoreGeometry", "ReflectionBranch", "ReflectedRoot",
     "CoreStages", "GeneralBaseTerminal", "RecipeRoot", "ProfileSupremum",
     "CoreRecursion", "RecipeInduction", "AnnularMellin", "AnnularReflection",
+    "OrdinaryReflection", "OrdinaryGamma", "OrdinaryReflectionDecay",
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.
@@ -167,6 +169,12 @@ REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.annularHeckeSum_mellin",
     "HeckeSkeleton.Moments.EngineInduction.annularHeckeSum_shift",
     "HeckeSkeleton.Moments.EngineInduction.annularHeckeSum_reflectedContour",
+    "HeckeSkeleton.Moments.EngineInduction.pairedEnergy_normalizedMomentProfiles",
+    "HeckeSkeleton.Moments.EngineInduction.sqrt_pairedEnergy_normalizedMomentProfiles",
+    "HeckeSkeleton.Moments.EngineInduction.normalizedMomentProfiles_unit_control",
+    "HeckeSkeleton.Moments.EngineInduction.annularHeckeSum_reflection",
+    "HeckeSkeleton.Moments.EngineInduction.ordinaryGammaRatio_strip_bound",
+    "HeckeSkeleton.Moments.EngineInduction.ordinaryReflectedProfile_decay_seminorm",
 }
 
 

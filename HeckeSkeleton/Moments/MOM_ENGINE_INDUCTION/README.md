@@ -504,3 +504,25 @@ functional equation there. Actual reflected norm profiles, finite Euler
 masks, uniform profile transport and a quantitative truncation still have
 to be calibrated to the recursive polynomial family. The contour identity
 is not itself claimed to provide the required positive moment kernel.
+
+
+`MomentProfileScaling.lean` now contains the literal polynomial and
+ordinary-energy scaling API without importing the induction interface or
+any engine-step module. `ProfileScaling.lean` retains the node wrappers.
+`ProfileControlScaling.lean` proves constant homogeneity for actual Euler
+integrals, the resulting finite seminorm bound, and simultaneous unit-ball
+normalization of every ideal and prime profile by a genuine envelope.
+The two sides of the original Cauchy kernel contribute exactly their own
+half-degree envelope factors. The full weighted Fourier mass still has to
+be proved for the actual producing kernel.
+
+`OrdinaryReflection.lean` expands the genuine dual series into its actual
+reflected norm profile, proves absolute summability, and derives the full
+ideal-sum reflection identity with scale Q=|disc|*N(conductor).
+`OrdinaryGamma.lean` supplies the ordinary Gamma ratio bound on arbitrary
+negative strips. `OrdinaryReflectionDecay.lean` proves line independence
+and arbitrary-power large-argument decay from those true contour bounds,
+with finite original Euler seminorm control. These are explicit analytic
+proofs awaiting their own native verification; finite Euler masks, uniform
+row-type calibration and the recursive positive-kernel assembly remain
+separate steps.

@@ -116,7 +116,8 @@ theorem uniform_modelProfileControl_base_components (cap : ℕ)
     (hC : 0 ≤ C) (hH : 0 ≤ H) (ha : 0 < a) (hab : a ≤ b) :
     ∃ D A : ℝ, D = generalBaseConstant K cap b C C C ∧
       A = baseHeightDegree cap H H H ∧ 0 ≤ D ∧ 0 ≤ A ∧
-      ∀ T : ℝ, 0 ≤ T → ∀ {ω ψ : HeckeCharacter K} (n : Node K ω ψ)
+      ∀ T : ℝ, 0 ≤ T → ∀ {omegaCharacter psiCharacter : HeckeCharacter K}
+        (n : Node K omegaCharacter psiCharacter)
         (U : ℝ), 1 ≤ U → n.data.geometry.slotCount ≤ cap →
         ModelProfileControl n.data 1 0 C H a b T →
         n.parameters.n₁ + n.parameters.n₂ + n.data.geometry.totalLength ≤
@@ -128,7 +129,7 @@ theorem uniform_modelProfileControl_base_components (cap : ℕ)
       b C C C H H H ρ padding σ boundary (ha.trans_le hab)
       hC hC hC hH hH hH
   refine ⟨D, A, hD, hA, hDn, hAn, ?_⟩
-  intro T hT ω ψ n U hU hcount hprofiles hlength
+  intro T hT omegaCharacter psiCharacter n U hU hcount hprofiles hlength
   apply hbase T hT n U 0 hU hcount
   · intro u _ y hy
     exact ((modelProfileControl_plain₁ hprofiles u).2.1 y hy).2
