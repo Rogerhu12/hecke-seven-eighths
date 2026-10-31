@@ -1,6 +1,12 @@
 name: Low reflected energy verification
 
 on:
+  workflow_dispatch:
+    inputs:
+      export_replay:
+        description: Export the pinned compiler and libraries for local replay
+        type: boolean
+        default: false
   push:
     branches: [codex/low-reflected-energy-ade19eee]
   pull_request:
@@ -9,6 +15,8 @@ on:
       - 'HeckeSkeleton/LowFrozenCube/**'
       - 'HeckeSkeleton/Principal.lean'
       - 'scripts/low_energy_verify.py'
+      - 'scripts/low_energy_axioms.py'
+      - 'tests/test_low_energy_axioms.py'
       - 'scripts/low_energy_restore_ci.py'
       - 'scripts/low_energy_export_ci.py'
       - 'scripts/lean_imports.py'
@@ -44,11 +52,11 @@ jobs:
           use-mathlib-cache: 'true'
           use-github-cache: 'false'
       - name: Export pinned compiler, library, and tracked-source replay
-        if: matrix.phase == 'actual'
+        if: matrix.phase == 'actual' && github.event_name == 'workflow_dispatch' && inputs.export_replay
         continue-on-error: true
         run: python3 scripts/low_energy_export_ci.py
       - name: Preserve local replay environment
-        if: matrix.phase == 'actual'
+        if: matrix.phase == 'actual' && github.event_name == 'workflow_dispatch' && inputs.export_replay
         uses: actions/upload-artifact@v4
         with:
           name: low-energy-replay
