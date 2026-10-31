@@ -82,7 +82,9 @@ theorem differentiableAt_actual_detected_kernel_comp [IsTotallyComplex K]
       (analyticAt_heckeContinuation K 1 hzeta).differentiableAt).comp x
         ((differentiableAt_const _).fun_mul hz)
   have hM := (analyticOnNhd_actual_additiveMellin K S mu nu P.additive (z x)
-    (by linarith)).differentiableAt.comp x hz
+    (by
+      change 0 < (z x).re
+      linarith only [hzre])).differentiableAt.comp x hz
   have hden := (HighBinBoundary.ActualDenominator.differentiable_mellin
     P.denominator.toSmoothAnnularTest (w x)).comp x hw
   have hN : (frequencyRowNorm K Sset u : ℂ) ≠ 0 :=
