@@ -33,14 +33,14 @@ jobs:
           use-github-cache: "false"
       - name: Restore precompiled project artifacts
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
-      - name: Compile the actual exceptional finite-family terminal
+      - name: Compile the original-polynomial exceptional terminal
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p /tmp/mom-prime-focused
           lean --version | tee /tmp/mom-prime-focused/environment.log
           git rev-parse HEAD >> /tmp/mom-prime-focused/environment.log
-          lake --rehash build HeckeSkeleton.Moments.MOM_PRIME.ExceptionalAnnularFiniteFamily 2>&1 |
+          lake --rehash build HeckeSkeleton.Moments.MOM_PRIME.ActualExceptionalFiniteFamilyBridge 2>&1 |
             tee /tmp/mom-prime-focused/build.log |
             awk '/^error:|^✖/ { remaining = 160 }
               /MOM_PRIME|Build completed|Some required targets logged failures|error: build failed/ || remaining > 0 {
