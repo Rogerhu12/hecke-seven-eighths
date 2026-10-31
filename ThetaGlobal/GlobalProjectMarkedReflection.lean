@@ -42,9 +42,9 @@ theorem thetaRecipe_marked_reflection
     (L : FiniteLocalHighK.Input R θ C)
     (H : GlobalProjectLocalDigitTables.Input R C.projected.base.factorization Adata)
     (hA : AllowedGeneratorInput K Sf Adata)
-    (hS : conductorPlaces K θ ⊆ R.A.Sf)
+    (hS : conductorPlaces K θ ⊆ (R).A.Sf)
     (w : InfinitePlace K)
-    (hk : heckeComplexWeight K w (R.A.complex_place w) θ ≠ 0)
+    (hk : heckeComplexWeight K w ((R).A.complex_place w) θ ≠ 0)
     (d : MarkedDatum K Sf) (V : SmoothAnnularTest) {X : ℝ} (hX : 0 < X) :
     completedThetaSum K Sf Adata θ (rowElement K Sf Adata d)
       d.puncture d.marks V.toFun X =
@@ -64,19 +64,19 @@ theorem thetaFiniteSource_marked_reflection
     (L : LocalHighKMellinInput K c)
     (hA : AllowedGeneratorInput K Sf Adata)
     (hS : conductorPlaces K
-      (thetaPeriod K Sf (probeData K c) (targetCharacter K c)) ⊆ R.A.Sf)
+      (HeckeGeneral.ThetaSkeleton.Physical.thetaPeriod K Sf (probeData K c) (targetCharacter K c)) ⊆ (R).A.Sf)
     (w : InfinitePlace K)
-    (hk : heckeComplexWeight K w (R.A.complex_place w)
-      (thetaPeriod K Sf (probeData K c) (targetCharacter K c)) ≠ 0)
+    (hk : heckeComplexWeight K w ((R).A.complex_place w)
+      (HeckeGeneral.ThetaSkeleton.Physical.thetaPeriod K Sf (probeData K c) (targetCharacter K c)) ≠ 0)
     (d : MarkedDatum K Sf) (V : SmoothAnnularTest) {X : ℝ} (hX : 0 < X) :
     completedThetaSum K Sf Adata
-      (thetaPeriod K Sf (probeData K c) (targetCharacter K c))
+      (HeckeGeneral.ThetaSkeleton.Physical.thetaPeriod K Sf (probeData K c) (targetCharacter K c))
       (rowElement K Sf Adata d) d.puncture d.marks V.toFun X =
       ∑' i : ReflectionIndex K Sf d,
         reflectedTerm K Sf Adata d i (FiniteSkeletonSource.data K c L)
-          (thetaPeriod K Sf (probeData K c) (targetCharacter K c)) V.toFun X :=
+          (HeckeGeneral.ThetaSkeleton.Physical.thetaPeriod K Sf (probeData K c) (targetCharacter K c)) V.toFun X :=
   thetaRecipe_marked_reflection K c
-    (thetaPeriod K Sf (probeData K c) (targetCharacter K c))
+    (HeckeGeneral.ThetaSkeleton.Physical.thetaPeriod K Sf (probeData K c) (targetCharacter K c))
     (thetaFiniteSource K c) L (localExteriorDigitInput K c) hA hS w hk d V hX
 
 end HeckeSkeleton
