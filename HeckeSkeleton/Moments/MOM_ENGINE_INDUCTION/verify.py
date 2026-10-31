@@ -35,6 +35,27 @@ MODULES = (
     "CoreStages", "GeneralBaseTerminal", "RecipeRoot", "ProfileSupremum",
     "CoreRecursion", "RecipeInduction", "AnnularMellin", "AnnularReflection",
     "OrdinaryReflection", "OrdinaryGamma", "OrdinaryReflectionDecay",
+    'OrdinaryReflectionUniformity',
+    'OrdinaryReflectionTruncation',
+    'OrdinaryReflectionSmooth',
+    'OrdinaryGammaRight',
+    'OrdinaryReflectionSmall',
+    'OrdinaryReflectionDyadic',
+    'OrdinaryDeletionReflection',
+    'OrdinaryDyadicMass',
+    'OrdinaryReflectionLines',
+    'OrdinaryPowerWindows',
+    'OrdinaryReflectionOperator',
+    'OrdinaryRestorationOperator',
+    'OrdinaryReflectionDensity',
+    'RowNonNorm',
+    'MaskDeletion',
+    'MaskNorm',
+    'WeightedReflectionMass',
+    'ReflectionWeights',
+    'ReflectionMask',
+    'ReflectionConductor',
+    'RowIntegralKernel',
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.
@@ -64,11 +85,12 @@ SOURCE_SOURCES = {'ExpansionInterfaces/DyadicCount.lean': 'a52681bd30d1e18c7c20b
  'HeckeSkeleton/SourceData.lean': 'f8956f17c60594f51eb17349d0d94f55a9c412a54d764d1f5588d51f670f9345'}
 REINDEX_COMMIT = '778b4220d3d4bc8538549bf74998a78e570d01d9'
 REINDEX_SOURCES = {'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/FiniteSectorCore.lean': 'aec890cdfe84c6a6bb97fa3d48ac88117ced794a5ead2b5aded1b469d1d636eb', 'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/FiniteSectorReindex.lean': 'c9cc4fb6c7156db541c69b1e50dd709cd198d9ab791572ffcb72e4857178de9b'}
-# These two files preserve both the canonical source and the already merged
+# These integrated files preserve the canonical source and the already merged
 # ThetaGlobal aligned choice / library configuration. They are deliberately
 # audited separately from byte-for-byte canonical imports.
 INTEGRATED_SOURCE_PARENTS = (SOURCE_COMMIT, "e66f7384bc08d1124d1a9a4e7dcc21e4facffab0")
 INTEGRATED_SOURCES = {'HeckeSkeleton/Base.lean': '16cd8ba7fec2cc47da61f2d7310a49fe87acf53992885ac2377d4eaeb146586c', 'lakefile.toml': '2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0'}
+INTEGRATED_SOURCES['HeckeSkeleton/Moments/MOM_BASE/LocalGauss.lean'] = 'fd1552537104f93fb975803605bd53ab800861ba6162e1300476c40e3dd94567'
 CANONICAL_SOURCES = PRODUCER_SOURCES | SOURCE_SOURCES | REINDEX_SOURCES | INTEGRATED_SOURCES
 SOURCE_MODULES = ("SkeletonFamily", "SkeletonSource")
 EXCLUDED = {name + ".lean" for name in SOURCE_MODULES}

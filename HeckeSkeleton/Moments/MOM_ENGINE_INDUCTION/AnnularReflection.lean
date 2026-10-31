@@ -103,7 +103,7 @@ theorem annularHeckeContour_strip_bound
   have hhecke : ‖heckeContinuation K χ (idealVerticalPoint σ t)‖ ≤ L * (2 + |t|) ^ k := by
     simpa only [idealVerticalPoint_re, idealVerticalPoint_im, L, k] using
       hE χ hχ rfl rfl (idealVerticalPoint σ t)
-        (by simpa only [idealVerticalPoint_re] using hσ)
+        (by simpa only [Set.mem_Icc, idealVerticalPoint_re] using hσ)
   have hpower : (2 + |t|) ^ k ≤ 2 ^ k * T ^ k := by
     calc
       _ ≤ (2 * T) ^ k := pow_le_pow_left₀ (by positivity)

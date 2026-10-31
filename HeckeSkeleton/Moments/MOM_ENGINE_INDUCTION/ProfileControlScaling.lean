@@ -69,10 +69,10 @@ theorem sliceControl_const_mul {f : ℝ → ℂ} {J : ℕ} {A C H a b T : ℝ}
     _ ≤ ‖c‖ * (C * (1 + T) ^ H) := mul_le_mul_of_nonneg_left hbound (norm_nonneg c)
     _ = (‖c‖ * C) * (1 + T) ^ H := by ring
 
-variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
+variable {K : Type} [Field K] [NumberField K] {omegaChar psiChar : HeckeCharacter K}
 
 /-- The common bound covers all three ideal slices and every prime slice. -/
-theorem scaledMomentProfiles_control {d : MomentData K ω ψ}
+theorem scaledMomentProfiles_control {d : MomentData K omegaChar psiChar}
     {J : ℕ} {A C H a b T : ℝ}
     (h : ModelProfileControl d J A C H a b T) (r : ℝ) (hr : 0 < r) :
     ModelProfileControl (scaledMomentProfiles d r hr) J A (r * C) H a b T := by
@@ -98,7 +98,7 @@ theorem scaledMomentProfiles_control {d : MomentData K ω ψ}
 /-- A true envelope produces the same literal unit ball for every child
 profile. It may depend on a Fourier parameter; the energy factor must then
 be included in the common weighted kernel before estimating its mass. -/
-theorem normalizedMomentProfiles_unit_control {d : MomentData K ω ψ}
+theorem normalizedMomentProfiles_unit_control {d : MomentData K omegaChar psiChar}
     {J : ℕ} {A C H a b T E : ℝ}
     (h : ModelProfileControl d J A C H a b T) (hE : 0 < E)
     (henvelope : C * (1 + T) ^ H ≤ E) :

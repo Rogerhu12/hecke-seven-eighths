@@ -105,7 +105,9 @@ def RecipeLocalCertificate.toRootCertificate
   root := cert.root
   root_eq := cert.root_eq
   base_one_le := (by norm_num : (1 : ℝ) ≤ 2).trans (recipeMomentBase_ge_two i)
-  step := cert.localInputs.toClosedParentReduction
+  step := by
+    letI := cert.parameterMeasurable
+    exact cert.localInputs.toClosedParentReduction
 
 variable (R)
 

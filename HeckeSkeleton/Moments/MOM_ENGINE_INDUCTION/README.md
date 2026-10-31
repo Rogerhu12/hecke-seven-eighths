@@ -1,5 +1,33 @@
 # Paired fourth-moment induction
 
+## Current native verification batch
+
+The registered source inventory now contains 65 clean modules and 651
+explicit public declarations. These are source counts, not a claim of a
+completed native audit. The preceding exact head `cb5e48f` built 38 of its
+44 task modules; eight diagnostics in four files prevented the complete
+503-declaration audit. The corresponding parser, instance and expression
+unfolding fixes are included in this batch. Its actual source and original
+three theorem gates remain separate and mandatory.
+
+The new reflection chain proves the literal deleted Hecke polynomial's
+ordinary functional equation, smooth finite dyadic decomposition, genuine
+Euler restoration weights, and common-frequency power-window operator.
+`ReflectionConductor` prunes conductor primes from the deletion set before
+bounding the conductor times the remaining radical, preserving a linear
+full-row norm bound. `RowIntegralKernel` applies weighted Cauchy to each
+original row and then interchanges the finite row sum with the same
+positive measure. Its mass is exactly the square of the common envelope's
+L1 mass; no row-cardinality factor or row-dependent measure supremum is
+introduced. The power-window Euler bounds, actual restoration tails and
+recursive family calibration are still being assembled.
+
+Integration with `dtests-handoff` commit `e66f738` preserves its aligned
+ThetaGlobal embedding and choice, the existing canonical recipe source,
+and both library configurations. The four `MOM_BASE.LocalGauss` calls
+pass the now-required target context to `complexEmbedding`. Integrated
+source hashes are recorded separately from canonical byte-for-byte pins.
+
 This directory contains the finite-rank induction from revised §4.8, its terminal
 arithmetic and exceptional-row counting, and exact adapters for the original
 finite `MomentData` polynomials. The three public projections are:

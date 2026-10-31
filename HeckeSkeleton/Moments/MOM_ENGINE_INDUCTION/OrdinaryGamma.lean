@@ -104,6 +104,8 @@ theorem differentiableAt_ordinaryGammaRatio (χ : HeckeCharacter K) {s : ℂ}
       (inv_ne_zero (canonicalHeckeGammaProfile_ne_zero_of_re_pos K χ⁻¹ (by
         simp only [Complex.sub_re, Complex.one_re]
         linarith)))
+    change DifferentiableAt ℂ
+      (fun z => ((canonicalHeckeGammaProfile K χ⁻¹ z)⁻¹)⁻¹) (1 - s) at h
     simpa only [inv_inv] using h
   exact (differentiable_canonicalHeckeGammaReciprocal K χ s).mul
     (hg.comp s (by fun_prop : DifferentiableAt ℂ (fun z : ℂ => 1 - z) s))
