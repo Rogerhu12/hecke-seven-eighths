@@ -19,7 +19,8 @@ body is not, by itself, an elaborated theorem or an exact-type audit.
 | `ActualOrbitalRapidDecay` and the four preceding Mellin modules | Native five-module / 59-public-declaration audit passed at `c71511a569ed8b98c243b66ead8d8ec8c83d59b9` | All axiom sets contain only the three standard axioms; [verified_mellin_axioms.json](verified_mellin_axioms.json) preserves the full mapping. |
 | The same Mellin dependency chain, combined locally | 40 source files and 577 public declarations passed | This is additional combined-source evidence, distinct from separate-module verification. |
 | `HighNormFormScalar`, including `exists_full_normForm_parameter_budget` | The native core run at `a2ea91210ece94f7969fb6bd060d4b95e7cd4ed0` compiled the file successfully; the subsequent run at `45b507f4995fe107e2e98041f91971c8c78d5860` passed all 57 modules and 442 public declaration audits | Its printed parameter-budget axiom set is the same three standard axioms. The current core run references are maintained in `REPORT.md`; this core success does not verify the deep actual norm-form chain. |
-| Actual window detector, zero-free prime contour/cap, complete-slot correction, sharp factors, amplitude construction, kernel, integral, label grouping, computed height regions and target presentation consumer | Source implementation and static interface review only | The complete actual build had not reached these declarations. Their displayed source signatures and their transitive axiom sets have **not** been confirmed by Lean. |
+| `HighNormFormPointwisePartition` | Native separate-module build passed on 2026-10-31 with the original imports, in 117.609 seconds; source SHA-256 `0f7dfba42ccb069d843cd585cc557dd5d7e626fbdb4cd22f617c469c808d5023` | The four printed main declarations—measurable bucket index, bucket bounds, measurable regions and exact integral decomposition—contain only the three standard axioms. This does not verify the actual arithmetic instantiation. |
+| Actual window detector, zero-free prime contour/cap, complete-slot correction, sharp factors, amplitude construction, kernel, integral, label grouping, computed height regions, calibrated-provider transport and target presentation consumers | Source implementation and static interface review only | These actual norm-form declarations have not yet passed their individual native builds. Their displayed source signatures and their transitive axiom sets have **not** been confirmed by Lean. |
 | Original `HighShiftedNormForm K c (actualHighPresentation K c)` | Not discharged | The original `HB-NORMFORM`, `HB-PRESENT` and `D-EXPANSION` admissions are not replaced by this chain. |
 
 The reproducible module lists and audit machinery are
@@ -79,7 +80,7 @@ provides `HeckeSkeleton.arithmeticCalibration` in
 The generic norm-form statements do not silently manufacture either
 hypothesis.
 
-Throughout, the Euler provider is the concrete
+The analytic estimate chain uses the concrete Euler provider
 
 ```lean
 arithmeticHighEulerData K S P psi
@@ -88,6 +89,10 @@ arithmeticHighEulerData K S P psi
 and its character is the actual `arithmeticRowCharacter K S P u`. A free
 Euler provider, a proposed prime-sum estimate, a conductor estimate, or a
 row-integral estimate is not an input to the main kernel/label theorems.
+Section 9 separately transports the literal restricted integral from
+an original provider using its original `RowEulerCalibrationInput`.
+That transport assumes no equality of provider records and no analytic
+estimate for the original provider.
 The cap and norm-form statements use the empty ray filter `∅`. This is
 the original target choice: `Base.rayFilter` is defined to be `∅`.
 The new
@@ -119,6 +124,10 @@ The arithmetic inputs above are then taken over `S₀`. Finiteness of
 `S₀` is inferred from the finite set. Total complexity of the number
 field is derived from `P.arithmetic.primitive12` where the actual
 additive Mellin theorem needs it; it is not an extra caller hypothesis.
+The code now spells out the set coercion in each `variable` declaration.
+This avoids the captured `K`/`S` parameter mismatch found by the native
+build in the analogous Borel adapter; `S₀` remains notation in theorem
+statements, as in this display.
 
 For the formulas below, write:
 
@@ -560,6 +569,46 @@ complete theorem supplies them from the constructed regions and the
 actual arithmetic cap. The deep actual extension remains unelaborated
 until its separate native build succeeds.
 
+### The original TIP data types receive concrete fields
+
+[ActualNormFormRegionPacket.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean)
+uses the existing `TIP.AmplitudeSet` and `TIP.ModerateBlock` types. It
+does not introduce substitute block or amplitude-set types. For a retained
+finite row family `F`, it defines a label's row set by
+
+\[
+F_\ell=\{u\in F:\operatorname{actualSlotRegion}(u,\ell)\ne\varnothing\}.
+\]
+
+Every original row belongs to at least one such label when `H ≥ 0`.
+One actual height point is chosen in each nonempty region, and every slot
+value of that row and label is evaluated at this same point, with the
+original factor `pScale^(4/25)`. The constructor's amplitude vector is
+`actualRegionAmplitude`; its original `.mean` is definitionally
+`actualRegionMean`. Its positive slot values satisfy the exact
+`BlockSource` lower-witness expression
+`Z^(((1/6)/g.slots)*amplitude_i) ≤ ‖slotValue i u‖`.
+
+The moderate-block constructor sets `.value` to the complete original
+fixed-bin row contour sum and uses the finite grid as its label type.
+The packet theorem proves both the individual finite-row norm bound
+
+\[
+\sum_{u\in F_\ell}\lVert\operatorname{actualRegionPiece}(u,\ell)\rVert
+\le C\,\#F_\ell\,Z^{\operatorname{rowExponent}(d,a,q_\ell)+\lambda/4}
+\]
+
+and the exact sum of all its literal pieces. Removing rows with empty
+regions does not change that sum because their restricted integrals are
+zero. No bound on `#F` or on `#F_ell` is supplied.
+
+The constructors take `subdivisionCount` and `subdivision` as explicit
+recipe arguments. They neither choose empty subdivisions nor assert
+`WitnessCover`. The actual inverse/plain detector witnesses and their
+uniform subdivision count remain separate obligations. Likewise, these
+constructed `ModerateBlock` values have not yet been identified with the
+opaque blocks of `Base.highExpansion`.
+
 ## 7. Actual finite labels and exact sum identity
 
 Source:
@@ -749,6 +798,91 @@ identities for `actualHighPresentation`: those remain part of the genuine
 expansion construction. As with the rest of the deep actual chain, the
 target consumer has not yet been elaborated by Lean.
 
+### A restricted-piece consumer of the same original proposition
+
+[ActualNormFormRegionTarget.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegionTarget.lean)
+adds `exists_target_highShiftedNormForm_region_connection`. Its conclusion
+is again the literal `HighShiftedNormForm K c P`, using the original
+block types, label types, row sets, means and `P.shiftedPiece`.
+
+It first fixes `c`, `P` and `1 ∈ P.companions`, then chooses
+`kappa,theta,N,C,Z0`. After the same contour-height and upper-detector-height
+conditions, it takes a grid code for each original label. The code depends
+on `Z,T,b,label`, and is independent of the row and integration point.
+Its two remaining identities require the original `.mean` to equal
+`actualRegionMean` of that code and the original `shiftedPiece` to equal
+`actualRegionPiece` at `P.contourHeight`. The real arithmetic theorem
+supplies the individual piece estimate internally, and summing it proves
+the original bound with external height exponent zero.
+
+This consumer does **not** assume equality of Euler-provider records.
+The existing `rowZeroBelow_iff_of_calibrated` transfers the presentation's
+detector to the arithmetic provider using the calibrated row-character
+uniqueness theorem. The piece identity is explicitly with the arithmetic
+provider's computed restricted integral. Equality of an arbitrary
+provider's kernel with that integral is not inferred from character
+uniqueness. The following module supplies the separate analytic
+transport from the original initial-series calibration.
+
+No norm-form conclusion, slot estimate, row count or amplitude-family
+analytic field is a premise of this consumer. Its structural label and
+piece identities still have to be proved for `actualHighPresentation`.
+The declaration and its deep dependencies remain source candidates until
+their actual native build and axiom audit succeed.
+
+### Calibrated original providers on the same restricted regions
+
+[ActualNormFormRegionCalibration.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegionCalibration.lean)
+adds the literal definition `actualRegionPieceWithEuler`. It integrates
+`compensatedRowMellinKernel ... E` over the **same** computed
+`actualSlotRegion`, with the original `(2*pi)^(-3)` normalization and
+the three final contour lines. The region's arithmetic slot functions,
+its code, and its mean are unchanged.
+
+The source theorem `actualRegionPieceWithEuler_eq_of_calibrated` takes
+the original `RowEulerCalibrationInput` for `E` and for
+`arithmeticHighEulerData`, together with `51/100 ≤ a ≤ 1` and
+`0 < e ≤ 1/10000`. Its conclusion is the exact equality
+
+```lean
+actualRegionPieceWithEuler K S μ P psi E g u Z a e H theta N label =
+  actualRegionPiece K S μ P psi g u Z a e H theta N label
+```
+
+It applies
+`HighBinEulerUniqueness.compensatedRowMellinKernel_ae_eq_vertical_of_calibrated`
+from
+[ActualEulerVerticalAE.lean](../../HeckeSkeleton/HighBinSupport/ActualEulerVerticalAE.lean),
+restricts that almost-everywhere identity to the actual label region,
+and uses `integral_congr_ae`. The strict swept-tube margins are `e`,
+`e`, and `e` on the three final real coordinates. Thus the closed
+`a = 1` endpoint and its negative `w` line remain covered. The theorem
+does not ask for a separate measurability or integrability proof for
+the original provider, and does not assume that a finite exceptional
+table or its denominator is nonzero.
+
+The final source consumer is
+`HeckeSkeleton.HighBinNormFormRegionTarget.exists_target_highShiftedNormForm_calibrated_region_connection`.
+It fixes `c`, the original presentation `P`, its original initial
+calibration `hinit`, and `1 ∈ P.companions`; it then chooses
+`kappa,theta,N,C,Z0` in precisely the same order as the preceding region
+consumer. All height, grid-code, and original mean identities remain
+unchanged. The required original shifted-piece identity now uses
+`actualRegionPieceWithEuler ... P.euler`. Its equality with the arithmetic
+piece is a conclusion of the transport theorem, rather than another
+identity supplied by the caller. The arithmetic calibration is supplied
+by the actual target's `targetRowEulerCalibrationInput`; the original
+`FullHighEulerControl` already contains the presentation's initial
+calibration through its `TRowEulerInput` component.
+
+This removes the provider identity from the required per-label integral
+identification. It does **not** construct that identification for an
+arbitrary `P.shiftedPiece`, identify the original `.mean`, choose the
+original expansion's labels or witness subdivisions, or discharge the
+named `HB-NORMFORM`. Both new theorems and their deep actual dependencies
+remain **unverified by native Lean** at this source snapshot. The
+PR-WINDOW-PIT dependence of the transported norm bound is unchanged.
+
 ### Identities still required of the named expansion
 
 To construct the named presentation itself and use the finite-label
@@ -757,18 +891,18 @@ remain relevant:
 
 | Required original field or fact | Concrete object needed from this chain |
 |---|---|
-| `.euler` | `arithmeticHighEulerData` for the target probe and character |
+| `.euler` / detector | Calibrated-character uniqueness transfers the detector. The new calibrated-region consumer uses the original `RowEulerCalibrationInput` to transport the original provider's literal integral; no record equality is needed. The older whole-row consumer still has its original record-equality premise. |
 | `.companions` | A fixed original family containing `1` |
 | `.e` | Positive, at most `1/10000`, and at most the original lambda margins divided by `100` |
 | `.contourHeight` | The selected `internalHeight Z T kappa` |
 | `.upperHeight` | A height sufficient for the detector at `2*internalHeight Z T kappa+2` |
 | `.labels` | The fixed finite complete-slot grid, or a proved identified refinement |
-| `.amplitudeSet.rows` | The actual selector fibers of the retained fixed-bin row set |
+| `.amplitudeSet.rows` | The nonempty computed height-region fibers of the retained fixed-bin row set, permitting overlapping rows |
 | `.amplitudeSet.amplitude` | The values `min (label_i*theta) (a-1/2)` of that same label |
-| `.amplitudeSet.mean` | `actualFullSlotLabelMean` of that same grid label |
-| `.shiftedPiece` | The literal `rowContourBox` used above, with all original tests and normalizers |
+| `.amplitudeSet.mean` | `actualRegionMean` of that same grid label |
+| `.shiftedPiece` | The literal `actualRegionPieceWithEuler ... P.euler` over the computed height region, with all original tests and normalizers; original initial calibration then identifies it with `actualRegionPiece` |
 | `.block_identification` | The original expansion block value equals the sum of these actual pieces |
-| `.shifted_identification` | The selected fibers exhaust the intended fixed-bin rows and preserve their original contour sum |
+| `.shifted_identification` | The computed regions partition each retained row's box and preserve the original fixed-bin contour sum |
 
 The selected-zero height and the upper-zero height are distinct choices
 in the original presentation. Their required arithmetic/bin support
@@ -778,8 +912,9 @@ choose them by changing an existing definition.
 The wider expansion also contains `AmplitudeSet.slotValue` and genuine
 inverse/plain witness subdivisions, defined in
 [TIPSources.lean](../../HeckeGeneral/Analysis/TIPSources.lean). The actual
-normalized values `pScale^(4/25) * S_i(point_i)` provide the intended
-slot witnesses. Their transfer to the named expansion, and the
+normalized values `pScale^(4/25) * S_i(point(u,label))` now populate the
+constructed amplitude sets' slot values, using the same actual point
+for all slots. Their transfer to the named expansion, and the
 `WitnessCover` required by `BlockSource` above the floor bin, remain
 separate construction obligations. This norm-form chain does not fill
 those fields with empty or dummy subdivisions.
@@ -858,7 +993,9 @@ The integral above uses the ordinary product Lebesgue measure on
 the original `P.shiftedPiece` is still a **missing identification**.
 Measurability, the subset property and the integral formula for the new
 `actualRegionPiece` itself are now supplied by the concrete region chain;
-they do not force an equality with the opaque original presentation.
+the calibrated-provider transport also identifies its integral with the
+literal integral using `P.euler`. Neither fact forces equality with the
+opaque original presentation's `shiftedPiece`.
 
 If the total decomposition is to be recovered from these regions, it
 also needs the almost-everywhere finite indicator identity: for each
@@ -1250,4 +1387,148 @@ theorem exists_actual_region_normForm_quarter_loss
           (NormForm.internalHeight Z T kappa) theta N label) =
         rowContourBox K S₀ μ P psi (arithmeticHighEulerData K S₀ P psi) g ∅ u Z
           (NormForm.internalHeight Z T kappa) (a + 16 * e) (1 - a - 6 * e) (17 / 50)
+```
+
+
+### `HighBinVerified.NormFormRegionPacket.exists_actual_region_packet_normForm_quarter_loss`
+
+Source: [ActualNormFormRegionPacket.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegionPacket.lean). SHA-256: `2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3`.
+
+This uses the finite-set/Borel/Haar context in Section 2. The row sets are the nonempty computed regions, and the original TIP amplitude-set and block constructors are described in Section 6. Their subdivision recipes are not inputs to this norm estimate. This is an unelaborated source signature.
+
+```lean
+theorem exists_actual_region_packet_normForm_quarter_loss
+    (psi : HeckeCharacter K) (companions : Finset (HeckeCharacter K))
+    (hcomp : (1 : HeckeCharacter K) ∈ companions)
+    (P : ProbeData K S₀) (g : PrimeWindowGeometry)
+    (hcal : ThetaCalibrationInput K S₀ P.arithmetic P.Lambda P.G)
+    (hpsi : ∀ p : ExteriorPrime K S₀, UnramifiedAt K psi p.val)
+    {e lam : ℝ} (he : 0 < e) (he1 : e ≤ 1 / 10000)
+    (hlam : 0 < lam) (heLam : e ≤ lam / 100) :
+    ∃ kappa theta : ℝ, ∃ N : ℕ, ∃ C Z0 : ℝ,
+      0 < kappa ∧ 0 < theta ∧ 0 < C ∧ 1 ≤ Z0 ∧
+      ∀ Z T : ℝ, Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+      ∀ d : ℝ, (1 / 16 : ℝ) ≤ d → d ≤ 1 →
+      ∀ a : ℝ, 51 / 100 ≤ a → a ≤ 1 →
+      ∀ F : Finset (FrequencyRow K S₀),
+      (∀ u ∈ F, Z ^ d ≤ frequencyRowNorm K S₀ u ∧
+        frequencyRowNorm K S₀ u ≤ 2 * Z ^ d ∧
+        rowZeroBelow K S₀ psi companions P (arithmeticHighEulerData K S₀ P psi) u
+          (2 * NormForm.internalHeight Z T kappa + 2) (a + 2 * e)) →
+      (∀ label : Fin g.slots → Fin (N + 1),
+        (∀ u ∈ actualRegionRows K S P psi g F Z a e
+            (NormForm.internalHeight Z T kappa) theta N label,
+          ActualRegionSlotBounds K S₀ P psi g u Z a e
+            (NormForm.internalHeight Z T kappa) theta N label) ∧
+        (∑ u ∈ actualRegionRows K S P psi g F Z a e
+            (NormForm.internalHeight Z T kappa) theta N label,
+          ‖actualRegionPiece K S μ P psi g u Z a e
+            (NormForm.internalHeight Z T kappa) theta N label‖) ≤
+          C * ((actualRegionRows K S P psi g F Z a e
+            (NormForm.internalHeight Z T kappa) theta N label).card : ℝ) *
+            Z ^ (NormForm.rowExponent d a (actualRegionMean g a theta N label) + lam / 4)) ∧
+      (∑ label : Fin g.slots → Fin (N + 1),
+        ∑ u ∈ actualRegionRows K S P psi g F Z a e
+          (NormForm.internalHeight Z T kappa) theta N label,
+        actualRegionPiece K S μ P psi g u Z a e
+          (NormForm.internalHeight Z T kappa) theta N label) =
+        ∑ u ∈ F, rowContourBox K S₀ μ P psi (arithmeticHighEulerData K S₀ P psi) g ∅ u Z
+          (NormForm.internalHeight Z T kappa) (a + 16 * e) (1 - a - 6 * e) (17 / 50)
+```
+
+
+### `HeckeSkeleton.HighBinNormFormRegionTarget.exists_target_highShiftedNormForm_region_connection`
+
+Source: [ActualNormFormRegionTarget.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegionTarget.lean). SHA-256: `d24c33ede39588c65cf39c4251105accf092260eeca608c4ee23d507271f6f23`.
+
+The target supplies its original Borel and Haar instances. PresentationRegionLabels is a code depending only on Z,T,b,label. The statement has no Euler-record equality premise; calibrated-character uniqueness transfers the detector. The original named mean and piece identities remain explicit. This is an unelaborated source signature.
+
+```lean
+theorem exists_target_highShiftedNormForm_region_connection
+    (c : TargetContext K) (P : ActualHighPresentation K c)
+    (hcomp : (1 : HeckeCharacter K) ∈ P.companions) :
+    ∃ kappa theta : ℝ, ∃ N : ℕ, ∃ C Z0 : ℝ,
+      0 < kappa ∧ 0 < theta ∧ 0 < C ∧ 1 ≤ Z0 ∧
+      ((∀ Z T : ℝ, Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+        ∀ b : HighBlockIndex K c Z T,
+          P.contourHeight Z T b = NormForm.internalHeight Z T kappa) →
+      (∀ Z T : ℝ, Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+        ∀ b : HighBlockIndex K c Z T,
+          2 * NormForm.internalHeight Z T kappa + 2 ≤ P.upperHeight Z T b) →
+      ∀ code : PresentationRegionLabels K c N,
+        (∀ (Z T : ℝ), Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+          ∀ (b : HighBlockIndex K c Z T) (label : HighLabel K c Z T b),
+          label ∈ P.labels Z T b →
+          ((((targetData K c).expansion Z T).block b).amplitudeSet label).mean =
+            actualRegionMean c.geometry (((targetData K c).expansion Z T).block b).bin
+              theta N (code Z T b label)) →
+        (∀ (Z T : ℝ), Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+          ∀ (b : HighBlockIndex K c Z T) (label : HighLabel K c Z T b),
+          label ∈ P.labels Z T b → ∀ u : HighRow K c,
+          u ∈ ((((targetData K c).expansion Z T).block b).amplitudeSet label).rows →
+          P.shiftedPiece Z T b label u =
+            actualRegionPiece K (targetData K c).S (targetData K c).measures.haar
+              (targetData K c).probe (targetCharacter K c) c.geometry u Z
+              (((targetData K c).expansion Z T).block b).bin P.e
+              (P.contourHeight Z T b) theta N (code Z T b label)) →
+        HighShiftedNormForm K c P)
+```
+
+
+### `HighBinVerified.NormFormRegionCalibration.actualRegionPieceWithEuler_eq_of_calibrated`
+
+Source: [ActualNormFormRegionCalibration.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegionCalibration.lean). SHA-256: `5e50743ac1fd8574cbce4cd8a41041a245d9c83ff109359587f2c35a8cbaf996`.
+
+The section context is the finite-S Borel/Haar context in Section 2. Both calibration hypotheses are the original RowEulerCalibrationInput. No measurability, integrability, nonvanishing or norm estimate for the arbitrary provider is supplied. This is an unelaborated source signature.
+
+```lean
+theorem actualRegionPieceWithEuler_eq_of_calibrated
+    (P : ProbeData K S₀) (psi : HeckeCharacter K) (E : RowEulerData K S₀ P)
+    (hE : RowEulerCalibrationInput K S₀ P psi E)
+    (hA : RowEulerCalibrationInput K S₀ P psi (arithmeticHighEulerData K S₀ P psi))
+    (g : PrimeWindowGeometry) (u : FrequencyRow K S₀)
+    (Z a e H theta : ℝ) (N : ℕ) (label : Fin g.slots → Fin (N + 1))
+    (ha : 51 / 100 ≤ a) (ha1 : a ≤ 1) (he : 0 < e) (he1 : e ≤ 1 / 10000) :
+    actualRegionPieceWithEuler K S μ P psi E g u Z a e H theta N label =
+      actualRegionPiece K S μ P psi g u Z a e H theta N label
+```
+
+
+### `HeckeSkeleton.HighBinNormFormRegionTarget.exists_target_highShiftedNormForm_calibrated_region_connection`
+
+Source: [ActualNormFormRegionCalibration.lean](../../HeckeSkeleton/HighBinSupport/ActualNormFormRegionCalibration.lean). SHA-256: `5e50743ac1fd8574cbce4cd8a41041a245d9c83ff109359587f2c35a8cbaf996`.
+
+The target supplies its original Borel and Haar instances. The constants precede every scale, block, label and row. The structural shifted-piece identity uses the original P.euler; the theorem transports its literal restricted integral using the original initial calibration. This is an unelaborated source signature.
+
+```lean
+theorem exists_target_highShiftedNormForm_calibrated_region_connection
+    (c : TargetContext K) (P : ActualHighPresentation K c)
+    (hinit : RowEulerCalibrationInput K _ (targetData K c).probe
+      (targetCharacter K c) P.euler)
+    (hcomp : (1 : HeckeCharacter K) ∈ P.companions) :
+    ∃ kappa theta : ℝ, ∃ N : ℕ, ∃ C Z0 : ℝ,
+      0 < kappa ∧ 0 < theta ∧ 0 < C ∧ 1 ≤ Z0 ∧
+      ((∀ Z T : ℝ, Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+        ∀ b : HighBlockIndex K c Z T,
+          P.contourHeight Z T b = NormForm.internalHeight Z T kappa) →
+      (∀ Z T : ℝ, Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+        ∀ b : HighBlockIndex K c Z T,
+          2 * NormForm.internalHeight Z T kappa + 2 ≤ P.upperHeight Z T b) →
+      ∀ code : PresentationRegionLabels K c N,
+        (∀ (Z T : ℝ), Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+          ∀ (b : HighBlockIndex K c Z T) (label : HighLabel K c Z T b),
+          label ∈ P.labels Z T b →
+          ((((targetData K c).expansion Z T).block b).amplitudeSet label).mean =
+            actualRegionMean c.geometry (((targetData K c).expansion Z T).block b).bin
+              theta N (code Z T b label)) →
+        (∀ (Z T : ℝ), Z0 ≤ Z → 1 ≤ T → T ≤ Z ^ kappa →
+          ∀ (b : HighBlockIndex K c Z T) (label : HighLabel K c Z T b),
+          label ∈ P.labels Z T b → ∀ u : HighRow K c,
+          u ∈ ((((targetData K c).expansion Z T).block b).amplitudeSet label).rows →
+          P.shiftedPiece Z T b label u =
+            actualRegionPieceWithEuler K (targetData K c).S (targetData K c).measures.haar
+              (targetData K c).probe (targetCharacter K c) P.euler c.geometry u Z
+              (((targetData K c).expansion Z T).block b).bin P.e
+              (P.contourHeight Z T b) theta N (code Z T b label)) →
+        HighShiftedNormForm K c P)
 ```

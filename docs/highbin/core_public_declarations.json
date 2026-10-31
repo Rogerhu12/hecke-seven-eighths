@@ -3169,5 +3169,47 @@
     "source": "HeckeSkeleton/HighBinSupport/HighNormFormPointwisePartition.lean",
     "line": 148,
     "source_sha256": "0f7dfba42ccb069d843cd585cc557dd5d7e626fbdb4cd22f617c469c808d5023"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinContinuation.entire_zero_set_countable",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/EntireVerticalZeros.lean",
+    "line": 37,
+    "source_sha256": "4e17c7c55858f3646088d278c9d05ce1d3fdb769e6c891bb6bd7b8bebdc5a265"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinContinuation.entire_ne_zero_ae_vertical",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/EntireVerticalZeros.lean",
+    "line": 49,
+    "source_sha256": "4e17c7c55858f3646088d278c9d05ce1d3fdb769e6c891bb6bd7b8bebdc5a265"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinContinuation.entire_triple_ne_zero_ae_vertical",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/EntireVerticalZeros.lean",
+    "line": 64,
+    "source_sha256": "4e17c7c55858f3646088d278c9d05ce1d3fdb769e6c891bb6bd7b8bebdc5a265"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinContinuation.entire_triple_vertical_zero_measure",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/EntireVerticalZeros.lean",
+    "line": 124,
+    "source_sha256": "4e17c7c55858f3646088d278c9d05ce1d3fdb769e6c891bb6bd7b8bebdc5a265"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinContinuation.finiteEulerPolynomialValue_entire",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/EntireVerticalZeros.lean",
+    "line": 137,
+    "source_sha256": "4e17c7c55858f3646088d278c9d05ce1d3fdb769e6c891bb6bd7b8bebdc5a265"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinContinuation.entire_quotients_ae_eq_vertical",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/EntireQuotientVerticalAE.lean",
+    "line": 72,
+    "source_sha256": "3e87cd7dbf1100c1cd8bd22598015cd48860310bfb2f1ddb81c204dca98d5348"
   }
 ]

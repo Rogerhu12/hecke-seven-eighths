@@ -1,10 +1,16 @@
 # Uniqueness of the actual row Euler continuation
 
-This addition proves uniqueness on the repository's original `rowEulerRegion`
-without requiring two `RowEulerData` structures to be equal. It does not identify
-arbitrary exceptional tables pointwise outside that region. In particular, it
-does not remove the provider condition from the full high-bin boundary consumer,
-whose contours include nonpositive real parts of the second coordinate.
+The continuation comparison has two levels. The first proves pointwise
+uniqueness on the repository's original `rowEulerRegion`. The second uses the
+actual finite rational tables to prove almost-everywhere equality on vertical
+real parameter spaces, and hence equality of the literal contour integrals
+throughout the larger high-bin swept tube. Neither level requires equality of
+two `RowEulerData` records. The second level includes the nonpositive real parts
+of the `w` coordinate needed at the high-bin endpoint.
+
+The actual arithmetic and presentation applications described here remain
+source candidates pending a complete native build. They do not construct the
+named admitted presentation, its heights, companions, or retained-block count.
 
 The implementation is split between
 [EulerRegionUniqueness.lean](../../HeckeSkeleton/HighBinSupport/EulerRegionUniqueness.lean)
@@ -171,7 +177,7 @@ coordinates preserves all eight domain inequalities. The proof rewrites the
 integrands pointwise and retains the original normalization, with no added
 integrability assumption. It does not remove that real-part domain condition.
 
-## Why this does not close the full boundary provider obligation
+## Why pointwise equality on the original region is insufficient
 
 The high-bin contour uses
 
@@ -189,14 +195,193 @@ and denominator. Multiplying both by a factor which has no zeros on the
 original region but vanishes outside it can preserve values on the original
 region while changing the totalized quotient at its exterior zero. Equality on
 the original region therefore does not establish pointwise equality of every
-such presentation outside it. The present theorem makes no assertion about
-that exterior set or its contour integrals.
+such presentation outside it. The pointwise theorem consequently makes no
+assertion about those exterior denominator zeros. The new argument below
+proves that the exceptional sets relevant to the contour integrals are null,
+without asserting pointwise equality there.
 
-The arithmetic provider has separately proved candidates for the larger swept
-tube needed by the boundary argument. To transfer those facts to the named
-`actualHighPresentation`, that presentation must be constructed with the actual
-provider, or an appropriately justified equality on the required larger domain
-must be established from additional genuine information about its tables. The
-original `TRowEulerInput` alone does not provide this larger-domain statement.
-The companion, height-choice, block-count, and actual expansion obligations in
-[BOUNDARY.md](BOUNDARY.md) also remain.
+## Entire finite tables and vertical null sets
+
+[EntireVerticalZeros.lean](../../HeckeSkeleton/HighBinSupport/EntireVerticalZeros.lean)
+uses the literal volume measure on `ℝ × (ℝ × ℝ)`. Its main statement is:
+
+```lean
+theorem entire_triple_ne_zero_ae_vertical {f : (ℂ × ℂ × ℂ) → ℂ}
+    (hf : AnalyticOnNhd ℂ f univ) {v : ℂ × ℂ × ℂ} (hv : f v ≠ 0)
+    (σ : ℝ × ℝ × ℝ) :
+    ∀ᵐ t : ℝ × (ℝ × ℝ),
+      f ((σ.1 : ℂ) + (t.1 : ℂ) * Complex.I,
+        (σ.2.1 : ℂ) + (t.2.1 : ℂ) * Complex.I,
+        (σ.2.2 : ℂ) + (t.2.2 : ℂ) * Complex.I) ≠ 0
+```
+
+A nonzero entire function of one complex variable has a countable zero set.
+The proof starts at the single supplied nonzero complex point, varies the first
+coordinate on its vertical line, and then varies the second and third
+coordinates successively. At each step the preceding nonzero value supplies
+the base point for the next entire slice. The nonzero sets are measurable;
+two applications of the actual product-measure almost-everywhere equivalence
+assemble the three statements. No nonzero slice or vertical-line condition is
+assumed separately.
+
+`finiteEulerPolynomialValue_entire` applies this framework to the repository's
+original finite Laurent polynomial definition. For a positive norm base `q`,
+each monomial is a constant times
+
+$$
+\exp\!\left(\log(q)\,[-(e_1s+e_2w+e_3z)]\right),
+$$
+
+with the original integer exponents. Hence the numerator and denominator of
+every finite rational table are jointly entire. This does not make its
+quotient entire at a zero of its denominator.
+
+[EntireQuotientVerticalAE.lean](../../HeckeSkeleton/HighBinSupport/EntireQuotientVerticalAE.lean)
+proves `entire_quotients_ae_eq_vertical`: if two quotients of entire functions
+agree on a nonempty complex open set, they agree almost everywhere on every
+three-dimensional vertical real parameter space. The theorem supplies no
+nonvanishing hypothesis for either denominator.
+
+The proof handles identically-zero denominators explicitly, using Lean's
+actual `x / 0 = 0` convention. If an entire quotient vanishes on the initial
+open set, then either its denominator is identically zero or its numerator
+vanishes on a smaller nonempty open set where that denominator is nonzero.
+The entire identity principle gives the required global zero quotient in both
+cases. When both denominators are nonzero entire functions, the proof first
+finds a nonempty open set where both are nonzero, establishes the cross-product
+identity there, extends that entire identity, and divides only away from their
+proved vertical null zero sets.
+
+`EntireVerticalZeros` passed its exact standalone native Lean build in
+263.990 seconds. All five public theorem reports contain only `propext`,
+`Classical.choice`, and `Quot.sound`; none contains `sorryAx`. The source SHA-256
+is `4e17c7c55858f3646088d278c9d05ce1d3fdb769e6c891bb6bd7b8bebdc5a265`.
+`EntireQuotientVerticalAE` also passed its exact native build in 91.902 seconds;
+its public comparison theorem uses only the same three standard axioms. Its
+source SHA-256 is
+`3e87cd7dbf1100c1cd8bd22598015cd48860310bfb2f1ddb81c204dca98d5348`.
+Together the two modules verify six public declarations. These pure checks
+are separate from the arithmetic instantiation below.
+
+## Cancelling only the common regular product
+
+[ActualEulerRegularNonvanishing.lean](../../HeckeSkeleton/HighBinSupport/ActualEulerRegularNonvanishing.lean)
+and
+[ActualEulerVerticalAE.lean](../../HeckeSkeleton/HighBinSupport/ActualEulerVerticalAE.lean)
+connect the preceding lemmas to the original Euler product. For each actual
+finite exceptional set `F = rowExceptionalPrimes K S Q u`, the correction is
+split as
+
+$$
+\operatorname{rowCorrection}
+ = \left(\prod_{p\in F}\operatorname{finiteEulerRationalValue}_p\right)
+   \left(\prod_{p\notin F}^{\prime}\operatorname{localRowCorrection}_p\right).
+$$
+
+This is the original product, including every marked or ramified exceptional
+factor. Finite exceptional factors may be zero; the product-splitting theorem
+does not divide them out.
+
+On the original open domain `Re(s)>4`, `Re(w)>4`, `Re(z)>2`, the actual regular
+factor satisfies
+
+$$
+\lVert f_p-1\rVert\le 88\,(Np)^{-7}<1.
+$$
+
+The bound uses the existing five-face Euler estimate at margin `6`, with the
+proved fixed denominator margin at least `1/8`. Ideal counting proves
+summability of the norm errors. Each factor is nonzero, so the regular product
+over the complement of any finite set is nonzero. This gives
+`localRowCorrection_tprod_compl_ne_zero_initial` without an exceptional-factor
+nonvanishing premise.
+
+Character calibration identifies the two row characters. The original
+initial-series identities then identify their corrections, as in the original
+region argument. Cancelling only the common nonzero regular product proves
+`finiteExceptionalProduct_eq_initial_of_calibrated`. The finite product itself
+is the quotient of the actual product numerator and actual product denominator,
+including zero denominators, by `Finset.prod_div_distrib`. The entire-quotient
+lemma therefore gives
+`finiteExceptionalProduct_ae_eq_vertical_of_calibrated` for every vertical real
+parameter space.
+
+To return from the finite product to `rowCorrection`, the proof uses genuine
+regular-product convergence throughout `sweptTube a e`. This convergence is
+proved from `summable_exteriorPrime_swept_error` and the actual local bound,
+under `51/100 ≤ a ≤ 1` and `0 < e ≤ 1/10000`. It is not assumed for the arbitrary
+provider. Multiplying by the common regular product and the identical deleted
+L-ratio yields `rowEulerContinuation_ae_eq_vertical_of_calibrated`.
+
+## Literal contour equality, including negative w
+
+The finite prime-tuple and subset sums in `compensatedRowMellinKernel` use only
+finitely many mark sets. Intersecting their full-measure equality sets retains
+every original slot factor, subset, Hecke coefficient, and norm power. Thus
+`compensatedRowMellinKernel_ae_eq_vertical_of_calibrated` compares the full
+original kernels. Its conclusion is with respect to volume on
+`ℝ × (ℝ × ℝ)`, not a new measure on the kernel values.
+
+The final contour statement is:
+
+```lean
+theorem rowContourBox_eq_of_calibrated_sweptTube
+    (P : ProbeData K S) (ψ : HeckeCharacter K) (E₁ E₂ : RowEulerData K S P)
+    (h₁ : RowEulerCalibrationInput K S P ψ E₁)
+    (h₂ : RowEulerCalibrationInput K S P ψ E₂)
+    (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K))
+    (u : FrequencyRow K S) (Z height σ ν zLine : ℝ)
+    {a e : ℝ} (ha : 51 / 100 ≤ a) (ha1 : a ≤ 1)
+    (he : 0 < e) (he1 : e ≤ 1 / 10000)
+    (hσ : ((σ : ℂ), (ν : ℂ), (zLine : ℂ)) ∈ sweptTube a e) :
+    rowContourBox K S μ P ψ E₁ g T u Z height σ ν zLine =
+      rowContourBox K S μ P ψ E₂ g T u Z height σ ν zLine
+```
+
+The ambient `K,S,μ` parameters and their measurable/Borel/Haar instances are
+exactly those required by the original contour definition. Two applications of
+`Measure.ae_ae_of_ae_prod`, restriction to each actual interval `Icc (-height)
+height`, and three applications of `integral_congr_ae` prove this equality.
+The factor `(2π)^(-3)` remains unchanged. No integrability assumption for the
+arbitrary old provider is needed to compare the literal Bochner integrals.
+The same full-volume kernel equality also restricts to any original measurable
+height region.
+
+Only the original `RowEulerCalibrationInput` is consumed on either side; the
+comparison does not assume a stronger continuation or an almost-everywhere
+identity. In particular, the original `FullHighEulerControl` hypothesis supplies
+this calibration through `hEuler.1.initial`. The arithmetic side is supplied by
+`targetRowEulerCalibrationInput` at the actual target data.
+
+This remains an equality of contour integrals and almost-everywhere kernels.
+It is not pointwise equality at every exterior denominator zero, a new
+holomorphy claim for an arbitrary provider on the swept tube, or a construction
+of the named expansion.
+
+## Preserving an existing presentation
+
+[ActualBoundaryCalibration.lean](../../HeckeSkeleton/HighBinSupport/ActualBoundaryCalibration.lean)
+defines `arithmeticPresentationOfCalibration`. This replaces the Euler field
+of an existing calibrated `ActualHighPresentation` and proves its two dependent
+fields again. The `e` and `zeta` parameters, companions, all three heights,
+labels, shifted pieces, and both numerical block-range fields are unchanged.
+
+The already-calibrated character identifies both branches of the original
+`highFixedRowBin`, including the floor bin. The new contour equality then
+transports `shifted_identification` at `s=a+16e`, `w=1-a-6e`, `z=17/50`.
+The initial line `s=B+20e` is in the same swept tube. Consequently
+`presentationInitialBlock_eq_arithmeticPresentation` and
+`wholeBinBoundary_eq_arithmeticPresentation` preserve the actual initial
+blocks and the actual whole boundary. The latter is proved through the existing
+identity “initial retained-block sum minus actual block values”; the sign is
+unchanged.
+
+`highBoundaryControl_of_calibrated_lower_geometry` therefore removes the
+provider-record equality from the strongest boundary consumer. It uses the
+same actual companion membership, lower contour-height and upper-detector gap,
+and retained-block count as before, and produces exactly the same original
+`HighBoundaryControl` proposition. No estimate is added to the presentation.
+The named companion, height-choice, block-count, and actual expansion
+obligations in [BOUNDARY.md](BOUNDARY.md) remain. All arithmetic declarations
+in this new chain still await their complete native build and transitive
+axiom audit.

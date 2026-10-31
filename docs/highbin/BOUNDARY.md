@@ -6,8 +6,10 @@ The new boundary chain is connected to the repository's literal
 tail whose polynomial height cost can be absorbed completely by increasing
 the internal decay order. The original named
 `HeckeSkeleton.highBoundaryControl` is **not closed by this checkpoint**: its
-specific presentation still needs an arithmetic-provider identity, companion
-membership, actual height choices, and a retained-block count.
+specific presentation still needs companion membership, actual height choices,
+and a retained-block count. A new almost-everywhere contour comparison removes
+the former provider-record equality requirement using the original initial
+Euler calibration. That arithmetic transport remains pending native verification.
 
 ## Verification status
 
@@ -22,6 +24,14 @@ not establish the actual arithmetic instantiations below. The new
 check in 34.736 seconds, with both public axiom reports using only those
 three standard axioms; its separate-module build and public audit have now also passed in the
 57-module core CI at `45b507f`.
+
+The new pure `EntireVerticalZeros` bridge separately passed its exact native
+check in 263.990 seconds, with all five public declarations using only the
+same three standard axioms. `EntireQuotientVerticalAE` subsequently passed in
+91.902 seconds, with its public theorem using only those standard axioms.
+The two modules verify six public declarations. These facts do not verify the
+actual provider comparison or the presentation transport; their distinct
+status and exact source hashes are recorded in [UNIQUENESS.md](UNIQUENESS.md).
 
 The actual boundary chain has **not yet passed a complete native build or its
 transitive axiom audit**. The first full actual build reached
@@ -383,6 +393,54 @@ threshold is `max (max Zb Zg) ((1/δ)^(1/τ))`, and the final constant is
 `C_N*Cb`. Neither `κ` nor the detector index contributes to either degree.
 This new actual instantiation is pending native verification.
 
+### Transporting the original calibrated provider
+
+[ActualBoundaryCalibration.lean](../../HeckeSkeleton/HighBinSupport/ActualBoundaryCalibration.lean)
+removes the `hEuler : P.euler = arithmeticHighEulerData ...` premise from the
+strongest consumer above. Its replacement is the original initial input:
+
+```lean
+hinit : RowEulerCalibrationInput K _ (targetData K c).probe
+  (targetCharacter K c) P.euler
+```
+
+The full signature of `highBoundaryControl_of_calibrated_lower_geometry` is the
+signature of `highBoundaryControl_of_arithmetic_lower_geometry` above with this
+`hinit` parameter in place of `hEuler`; all companion, height and block-count
+parameters and its exact `HighBoundaryControl K c P` conclusion are unchanged.
+For the original named boundary theorem, `FullHighEulerControl` already supplies
+this input as `hEuler.1.initial`; it is not an additional boundary assumption.
+
+The transport uses the actual finite rational tables. After cancellation of
+the common nonzero regular product on the initial open domain, the finite
+exceptional products agree there. Their numerators and denominators are entire;
+the proved vertical zero-set lemma and the entire identity principle extend
+the quotients' equality almost everywhere to every three-dimensional vertical
+real parameter space. An identically-zero denominator is handled separately,
+with the original totalized division. No finite Gauss polynomial or exceptional
+product is assumed nonzero. The proof and exact contour signature are detailed
+in [UNIQUENESS.md](UNIQUENESS.md).
+
+The resulting literal `rowContourBox` equality holds throughout the larger
+`sweptTube a e`, including `w=1-a-6e` when `a=1`. Its proof retains the original
+three nested integrals and `(2π)^(-3)`; it does not assume integrability for the
+old provider or pointwise equality at its possible removable denominator zeros.
+Both the final line `s=a+16e` and the initial line `s=B+20e` lie in this tube.
+
+`arithmeticPresentationOfCalibration` then replaces only the Euler provider.
+Character uniqueness preserves the exact fixed row sets. The new contour
+identity proves the provider-dependent `shifted_identification` field again;
+all companions, heights, labels, shifted pieces and numerical range data remain
+unchanged. The main-block identity preserves the same `wholeBinBoundary`, with
+its original initial-minus-final sign. Applying the arithmetic consumer to this
+transported presentation and rewriting the boundary gives the new consumer.
+Its degrees remain `A=AB`, `R=13+RB`, and its thresholds and constants have the
+original `τ,N` quantifier order.
+
+These are source candidates pending native validation. They remove a provider
+comparison obstacle; they do not supply a named presentation, change its height
+choices, prove a block count from label counts, or identify its expansion tail.
+
 ### The main-block and boundary identity already follows from the fields
 
 `P.block_identification` identifies a block value with the sum of its original
@@ -587,7 +645,6 @@ obligations are not supplied by the new consumer:
 
 | Named-presentation obligation | Why it is still needed |
 | --- | --- |
-| `P.euler = arithmeticHighEulerData ...` | `ActualHighPresentation.euler` is an arbitrary `RowEulerData` field; the structure does not identify it with the constructed finite-table provider. |
 | `1 ∈ P.companions` | The companion field is a finite set with no membership field. The actual upper-zero argument needs the trivial companion. |
 | Contour height and detector coverage | The three height functions are arbitrary fields. No field gives `δ*T ≤ contourHeight` or the `3/2` upper-detector gap. The strongest consumer needs no polynomial upper-growth bound on any height, after absorbing its height cost with the decay order. |
 | Retained-block count | `TargetData.rows_in_norm_envelope` bounds which rows can occur; it does not bound how many blocks the expansion repeats or retains. `Expansion.expansion_blockCount` remains an upstream admitted obligation. |
@@ -609,12 +666,15 @@ No repository theorem identifies those choices with `actualHighPresentation`.
 The source count/schedule search therefore does not supply the missing named
 construction.
 
-The new continuation-uniqueness candidates in [UNIQUENESS.md](UNIQUENESS.md)
-remove the need for provider structure equality **on the original
-`rowEulerRegion`**. They use the existing character calibration and the actual
-analytic identity principle. That region requires `0 < Re(w)`; the high-bin
-endpoint `a = 1` has `Re(w) = -6e < 0`. Thus this uniqueness result does not
-remove the provider obligation from the full boundary theorem above.
+The original pointwise continuation-uniqueness theorem is limited to
+`rowEulerRegion`, which requires `0 < Re(w)`. The new almost-everywhere argument
+in [UNIQUENESS.md](UNIQUENESS.md) overcomes that domain restriction for the actual
+contour integrals. The original boundary theorem's `FullHighEulerControl`
+parameter supplies the needed initial calibration, so provider-record equality
+is no longer a remaining geometric premise of the stronger consumer. This does
+not construct the named `highInitialEulerControl` input used upstream to prove
+`FullHighEulerControl`, and the new actual transport itself is still pending
+native verification.
 
 The presentation's `shell_range`, `bin_range`, `rows_in_bin`,
 `block_identification`, and `shifted_identification` are retained. No empty

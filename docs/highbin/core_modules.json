@@ -56,5 +56,7 @@
   "HeckeSkeleton.HighBinSupport.EulerRegionUniqueness",
   "HeckeSkeleton.HighBinSupport.EulerRegionProduct",
   "HeckeSkeleton.HighBinSupport.BoundaryHeightAbsorption",
-  "HeckeSkeleton.HighBinSupport.HighNormFormPointwisePartition"
+  "HeckeSkeleton.HighBinSupport.HighNormFormPointwisePartition",
+  "HeckeSkeleton.HighBinSupport.EntireVerticalZeros",
+  "HeckeSkeleton.HighBinSupport.EntireQuotientVerticalAE"
 ]

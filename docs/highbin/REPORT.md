@@ -2,7 +2,7 @@
 
 Working branch: `codex/highbin-euler-norm-boundary-20261030`.
 Original base: `503ad9895e5f8affef55b22fea082e251bf33aa7`.
-Merged current base: `245e38879fecf3d4a52655c027ac14eb3bf178f2` (`dtests-handoff`).
+Merged current base: `556fd33068f5914887e850ed2dce9e9272d9b8c2` (`dtests-handoff`).
 PR: https://github.com/Rogerhu12/hecke-seven-eighths/pull/1.
 Toolchain: Lean `4.35.0-rc3`; Mathlib `0493595ecd5da8ef14742febab99728f98e948e8`.
 
@@ -20,8 +20,8 @@ downloaded CI artifacts.
 |---|---|---|
 | HB-EULER-INITIAL | Actual prime-power quotient Fourier formula, finite Poisson/CRT, absolutely convergent four-ideal prime product, local-to-global calibration and complete original `TRowEulerInput` constructor candidates | Native verification of the arithmetic chain and named presentation identification |
 | HB-EULER-EXCEPTIONAL | Arithmetic `RowEulerData`, actual finite Laurent tables, uniform `9 q^(-10e)` estimate and a consumer of the original `HighExceptionalEulerControl` type | Native verification and the named `actualHighPresentation.euler` identification |
-| HB-NORMFORM | Actual repeated-prime conductor deficit, Mellin prime detector, exact full-correction factors, normalized slots, compact-box amplitude labels, actual contour-integral norm-form candidates and a consumer of the original `HighShiftedNormForm` type | Native verification, inherited prime-normalizer dependency and identification with the named labelled presentation |
-| HB-MOVE-BOUNDARY | Actual row-contour rectangle, arbitrary-order external tails with the entire height cost absorbed, original whole-bin consumer and main-term/boundary identity | Native verification, actual Euler provider, companion membership, lower-height/buffer conditions and retained-block count |
+| HB-NORMFORM | Actual repeated-prime conductor deficit, Mellin prime detector, exact full-correction factors, measurable amplitude regions, literal restricted integrals and original `HighShiftedNormForm` consumers with calibrated provider transport | Native verification, inherited prime-normalizer dependency and identification with the named labelled presentation |
+| HB-MOVE-BOUNDARY | Actual row-contour rectangle, arbitrary-order external tails with the entire height cost absorbed, calibrated Euler-provider transport and original whole-bin consumer | Native verification, original initial calibration, companion membership, lower-height/buffer conditions and retained-block count |
 
 ## Repository changes
 
@@ -175,11 +175,18 @@ view was checked locally. Restored native project objects are uploaded before
 the expensive actual build so an interrupted runner cannot lose that checkpoint.
 Neither scheduling nor cache preservation substitutes for proof verification.
 
+The next run at `1ce7b23c`, run `41155873176`, failed in all four scopes
+before any build step started. The unrelated Theta workflow at the same
+commit also failed before its steps started. There is no compiler diagnostic
+from this run and its precise runner-startup failure is not established.
+It is not counted as a proof failure or as a completed verification.
+Local native verification continues independently of this runner failure.
+
 ## Continuation: concrete regions and finite arithmetic compilation
 
 The renewed work window is 2026-10-31 09:15:12–12:15:12 (UTC+8).
-The current source inventory contains **58 core modules / 453 declarations**,
-**58 actual modules / 657 declarations**, **6 Mellin modules / 67 declarations**,
+The current source inventory contains **60 core modules / 459 declarations**,
+**64 actual modules / 701 declarations**, **6 Mellin modules / 67 declarations**,
 and **8 Fourier modules / 160 declarations**. Mellin and Fourier are subsets
 of the actual inventory; their counts must not be added to it. These are source
 inventories, not new native success claims.
@@ -193,7 +200,7 @@ remain separate, deeper verification obligations.
 
 `HighNormFormPointwisePartition` passed its exact separate-module local check
 in 117.609 seconds; the four printed main-theorem axiom reports contain only
-the standard three axioms. Its complete 58-module core audit is pending.
+the standard three axioms. Its complete expanded core audit is pending.
 It constructs measurable first-threshold fibers,
 with a clipped final bucket, strict positive-amplitude witnesses, disjointness,
 exhaustion and an exact restricted-integral sum. `ActualNormFormRegions` uses
@@ -205,9 +212,50 @@ These actual constructions still need native verification and identification
 with the original opaque presentation's labelled means and `shiftedPiece`.
 They do not provide an arbitrary whole-row identity for each existing label.
 
-The two new upstream base commits add GramAssemblyInputs and update WORK_LEDGER;
-they do not alter the HIGHBIN, expansion, source or height definitions used here.
-The merged tree preserves those upstream changes.
+`ActualNormFormRegionPacket` turns the nonempty regions into the repository's
+actual amplitude-set and moderate-block objects. Its positive-amplitude
+witnesses use one point of the same region, its finite label sum preserves
+the original contour sum, and its subdivision data remain explicit inputs;
+no empty or dummy `WitnessCover` is manufactured. `ActualNormFormRegionTarget`
+uses these literal pieces and their computed means in the original target
+type. `ActualNormFormRegionCalibration` additionally transports each restricted
+integral from the original provider using its actual initial calibration.
+The named presentation's grid-code, mean and individual piece identities
+are still construction obligations.
+
+The separate modules `EntireVerticalZeros` and `EntireQuotientVerticalAE`
+passed native Lean in 263.990 and 91.902 seconds, respectively. All six public
+declarations were printed with only the three standard axioms. The first
+proves that a nonzero entire function on three complex variables has a null
+zero set on every product of three vertical lines. The second obtains
+almost-everywhere equality of two entire quotients from their equality on
+a nonempty complex open set, treating identically-zero denominators explicitly.
+It assumes neither nonvanishing on a particular slice nor the desired
+vertical equality. Exact source and log hashes are recorded in
+[verified_continuation_axioms.json](verified_continuation_axioms.json).
+
+The actual adapters use this result to compare the finite exceptional
+products after cancelling only the genuine common regular product. Its
+nonvanishing is proved on the original initial domain from the quantitative
+bound `88*q^(-7) <= 11/16`. The final actual contour comparison preserves
+the three nested Bochner integrals and requires no extra integrability
+premise for the older provider. These actual adapters are source candidates
+pending native verification; the two pure analytic checks do not verify them.
+
+A genuine same-repository CI cache was found locally with exact module-level
+source hashes, object hashes and artifact provenance. Of its 4433 modules,
+1509 match the current local sources and 2914 more match both their recorded
+source hashes and the already-fetched remote Git tree. Ten source differences
+are excluded from reuse and are scheduled for recompilation. Borrowed
+objects are checked before use and accessed through read-only links; outputs
+go to a separate task directory. The actual Gauss import closure also has
+all 3724 required pinned Mathlib objects available. These checks establish
+usable dependency provenance, not success of any uncompiled HIGHBIN source.
+
+The merged upstream updates add GramAssemblyInputs and the Theta local wiring,
+and update WORK_LEDGER. Their changes do not alter the HIGHBIN, expansion,
+source or height definitions used here. The merged tree preserves these
+upstream changes, including the Theta workflow and its project audit.
 
 Local checks provide additional, separately identified evidence:
 
@@ -218,6 +266,8 @@ Local checks provide additional, separately identified evidence:
 | `EulerRegionUniqueness` | Passed, 22.756 seconds; three public declarations | Exact current source in a combined dependency wrapper; now also covered by native CI |
 | `EulerRegionProduct` | Passed, 18.706 seconds; two public declarations and standard axioms only | Exact current body in a combined dependency wrapper; now also covered by native separate-module CI |
 | `BoundaryHeightAbsorption` | Passed, 34.736 seconds; both public axiom reports use only the standard three axioms | Exact native separate module with its original Mathlib imports; now also covered by core CI |
+| `EntireVerticalZeros` | Passed, 263.990 seconds; all five public axiom reports use only the standard three axioms | Exact separate module and original imports |
+| `EntireQuotientVerticalAE` | Passed, 91.902 seconds; its public axiom report uses only the standard three axioms | Exact separate module importing the natively compiled zero-set module |
 | Combined actual Mellin unit | Passed, 499.327 seconds; 40 source bodies and 577 public declarations, standard axioms only | Imports hoisted; not 40 separate native modules |
 
 The combined Mellin source SHA-256 is
@@ -294,6 +344,14 @@ the CI artifact `*-public-types-and-axioms.log`.
   follows with fixed degrees `A=AB`, `R=13+RB`, selected before `tau` and `N`.
   No upper growth bound on either height is required. The buffered schedule
   specialization therefore no longer requires a bounded detector index.
+* `highBoundaryControl_of_calibrated_lower_geometry` replaces the preceding
+  Euler-record equality input by the original `RowEulerCalibrationInput`.
+  That input is already the `.initial` field of the original Euler control.
+  Almost-everywhere contour transport rebuilds the two provider-dependent
+  presentation proofs while preserving its companions, heights, labels,
+  shifted pieces and block identities. The resulting original boundary
+  proposition retains the same quantifier order and the same geometric and
+  block-count inputs, including the endpoint with negative real part of w.
 * `presentationInitialSum_eq_blocks_add_boundary` follows directly from the
   original presentation's two identification fields. It proves that the
   complete initial fixed-bin sum equals the sum of actual block values plus
