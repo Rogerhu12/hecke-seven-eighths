@@ -82,7 +82,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: python3 scripts/low_energy_restore_ci.py ${{ matrix.phase }}
       - name: Compile real sources and preserve axiom output
-        run: python3 scripts/low_energy_verify.py ${{ matrix.phase }}
+        run: python3 scripts/low_energy_verify.py ${{ matrix.phase }} --diagnostic-seconds 600
       - name: Save verified module checkpoints
         if: always() && steps.proof-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4

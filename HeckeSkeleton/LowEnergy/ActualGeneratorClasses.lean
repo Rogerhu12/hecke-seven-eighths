@@ -18,6 +18,25 @@ open HeckeSkeleton.LowEnergy.ActualClassSlices
 open HeckeSkeleton.LowEnergy.ClassSlices
 open scoped BigOperators NumberField
 
+-- Normalize group identities before specializing to the concrete local quotient.
+private theorem remove_unit_prefix {G : Type*} [CommGroup G]
+    (x a b : G) (h : x = 1 * a * b) : x = a * b := by
+  simpa only [one_mul] using h
+
+private theorem eq_pow_zero_of_eq_mul_self {G : Type*} [CommGroup G]
+    (x y : G) (h : x = x * x) : x = y ^ (0 : ℕ) := by
+  have hx : x = 1 := mul_eq_left.mp h.symm
+  simpa only [pow_zero] using hx
+
+private theorem regroup_full_cube {G : Type*} [CommGroup G]
+    (u a x c n r f p : G) :
+    u * (a * x ^ (3 : ℕ)) * c * n ^ (3 : ℕ) * r ^ (-2 : ℤ) *
+        f ^ (-2 : ℤ) * p ^ (-2 : ℤ) =
+      (u * a * f ^ (-2 : ℤ)) * c * (x * n) ^ (3 : ℕ) *
+        r ^ (-2 : ℤ) * p ^ (-2 : ℤ) := by
+  rw [mul_pow]
+  ac_rfl
+
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 variable (D : ThetaArithmeticData K S)
@@ -49,7 +68,10 @@ theorem generatorLocalClass_mul (hD : AllowedGeneratorInput K S D)
     exact ⟨sLocalDiagonal K S u, rfl⟩
   have hclass := congrArg
     (fun x : sLocalMultiplicativeGroup K S => (QuotientGroup.mk x : SixthLocalClasses K S)) hdiag
-  simpa only [generatorLocalClass, QuotientGroup.mk_mul, h6, one_mul] using hclass
+  have hclass_unit : generatorLocalClass K S D (exteriorMul K S I J) =
+      1 * generatorLocalClass K S D I * generatorLocalClass K S D J := by
+    simpa only [generatorLocalClass, QuotientGroup.mk_mul, h6] using hclass
+  exact remove_unit_prefix _ _ _ hclass_unit
 
 /-- The actual exterior power; its underlying ideal is the usual ideal power. -/
 def exteriorPow (I : ExteriorIdeal K S) (n : ℕ) : ExteriorIdeal K S :=
@@ -71,10 +93,9 @@ theorem generatorLocalClass_pow (hD : AllowedGeneratorInput K S D)
       simp [exteriorMul, exteriorPow]
     have hm := generatorLocalClass_mul K S D hD (exteriorPow K S I 0) (exteriorPow K S I 0)
     rw [he] at hm
-    have hx : generatorLocalClass K S D (exteriorPow K S I 0) * 1 =
-        generatorLocalClass K S D (exteriorPow K S I 0) *
-          generatorLocalClass K S D (exteriorPow K S I 0) := by simpa using hm
-    simpa only [pow_zero] using (mul_left_cancel hx).symm
+    exact eq_pow_zero_of_eq_mul_self
+      (generatorLocalClass K S D (exteriorPow K S I 0))
+      (generatorLocalClass K S D I) hm
   | succ n ih =>
     rw [exteriorPow_succ, generatorLocalClass_mul K S D hD, ih, pow_succ]
 
@@ -103,8 +124,16 @@ theorem frequencyClass_full_cube (hD : AllowedGeneratorInput K S D)
   unfold frequencyClass blockFrequency
   rw [← hnum, generatorLocalClass_mul K S D hD,
     generatorLocalClass_pow K S D hD,
-    generatorLocalClass_mul K S D hD, mul_pow]
-  ac_rfl
+    generatorLocalClass_mul K S D hD]
+  exact regroup_full_cube
+    (unitLocalClass K S (frequencyUnit K S d i))
+    (generatorLocalClass K S D minimum)
+    (generatorLocalClass K S D cube)
+    (generatorLocalClass K S D i.c)
+    (generatorLocalClass K S D i.n)
+    (generatorLocalClass K S D d.moving)
+    (generatorLocalClass K S D (activeFrozenIdeal K S d i))
+    (generatorLocalClass K S D (activeMarkedIdeal K S d i))
 
 /-- The actual kernel's class can now be sliced with a fixed minimum and a
 joint column mask on `(c, x*n)`. -/

@@ -217,9 +217,6 @@ def main():
         if blocked_dependencies:
             record_skip(module, source, 'failed_or_skipped_dependency', blocked_dependencies)
             continue
-        if diagnostic_deadline is not None and time.monotonic() >= diagnostic_deadline:
-            record_skip(module, source, 'diagnostic_budget_exhausted', [])
-            continue
         target = OUT / Path(*module.split('.')).with_suffix('.olean')
         target.parent.mkdir(parents=True, exist_ok=True)
         relative_source = str(source.relative_to(ROOT))
@@ -259,6 +256,12 @@ def main():
             records.append({**previous, 'reused_exact_cache': True,
                 'printed_axiom_audit': cached_axiom_audit})
             (LOG / (args.phase + '.json')).write_text(json.dumps(records, indent=2) + '\n')
+            continue
+        # The budget limits new compiler work.  An independent, exact cache
+        # remains valid after it expires and must not be erased merely because
+        # another module failed.  Failed dependencies were rejected above.
+        if diagnostic_deadline is not None and time.monotonic() >= diagnostic_deadline:
+            record_skip(module, source, 'diagnostic_budget_exhausted', [])
             continue
         if module == 'HeckeSkeleton.Principal':
             print('INTEGRATION GATE HeckeSkeleton.Principal', flush=True)

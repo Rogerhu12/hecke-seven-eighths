@@ -487,4 +487,15 @@ theorem fullCubeSplit_actual :
           (primeSetIdeal K S i.activeMarks)).val.val := dvd_mul_of_dvd_left hf _
     exact ep.val.prime.not_unit (i.n_coprime.isUnit_of_dvd' hn hprod)
 
+#print axioms numerator_minimum_cube
+#print axioms numeratorCube_support
+#print axioms mark_not_dvd_numeratorCube
+#print axioms column_prime_not_dvd_numeratorCube
+#print axioms reflectedMarkFactor_minimum
+#print axioms reflectedColumnFactor_minimum
+#print axioms reflectedRowFactor_minimum
+#print axioms kernel_argument_fullCube
+#print axioms reflectedTerm_eq_fullCube
+#print axioms fullCubeSplit_actual
+
 end HeckeSkeleton.LowEnergy.ActualFrozenCube

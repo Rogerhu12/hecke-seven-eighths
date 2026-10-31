@@ -47,7 +47,10 @@ theorem primeEvaluation_zpow_norm_le_one (p : ExteriorPrime K S) (a : S.integer 
   rw [norm_zpow]
   rcases primeEvaluation_norm_zero_or_one K S D p a with h | h
   · rw [h]
-    by_cases hn : n = 0 <;> simp [hn]
+    by_cases hn : n = 0
+    · simp [hn]
+    · rw [zero_zpow _ hn]
+      exact zero_le_one
   · simp [h]
 
 theorem primeEvaluation_pow_norm_le_one (p : ExteriorPrime K S) (a : S.integer K)
@@ -77,7 +80,7 @@ theorem heckeIdealCoefficient_exterior_norm (θ : HeckeCharacter K)
     change idealCoefficient (primeCoefficient K θ) I.val.val =
       (primeExponents I.val).prod (fun p e =>
         idealCoefficient (primeCoefficient K θ) p.asIdeal ^ e) at h
-    simpa only [idealCoefficient_prime] using h
+    simpa only [heckeIdealCoefficient, nonzeroIdealCoefficient, idealCoefficient_prime] using h
   rw [he, Finsupp.prod, norm_prod]
   apply Finset.prod_eq_one
   intro p hp
@@ -88,6 +91,7 @@ theorem heckeIdealCoefficient_exterior_norm (θ : HeckeCharacter K)
 theorem idealSymbol_unit_norm (I : ExteriorIdeal K S) (u : S.unit K) :
     ‖idealSymbol K S D I (S.unitEquivUnitsInteger K u).val‖ = 1 := by
   have h6 : idealSymbol K S D I (S.unitEquivUnitsInteger K u).val ^ 6 = 1 := by
+    change (elementSymbolHom K S D I) (S.unitEquivUnitsInteger K u).val ^ 6 = 1
     rw [← (elementSymbolHom K S D I).map_pow]
     exact sIntegerSexticIdealEvaluation_sixth_power_unit K S D.root6 D.primitive6
       D.embedding _ _ _ _ u
@@ -134,8 +138,8 @@ theorem frozenOmega_norm_le_local_product (θ : HeckeCharacter K)
       ∏ p ∈ i.activeFrozen,
         ‖localWeylScalar K S D p (rowDigit K S d p)
           (primeExponents i.numeratorFrozen.val p.val)‖ := by
-  have hinactive : ‖∏ p ∈ frozenPrimes K S d \ i.activeFrozen,
-      1 - (p.val.asIdeal.absNorm : ℂ)⁻¹‖ ≤ 1 :=
+  have hinactive : ‖Finset.prod (frozenPrimes K S d \ i.activeFrozen)
+      (fun (p : ExteriorPrime K S) => 1 - (p.val.asIdeal.absNorm : ℂ)⁻¹)‖ ≤ 1 :=
     prod_norm_le_one _ _ (fun p _ => norm_one_sub_prime_inv_le_one K S p)
   have hlocal :
       ‖∏ p ∈ i.activeFrozen,
@@ -162,8 +166,8 @@ theorem frozenOmega_norm_le_local_product (θ : HeckeCharacter K)
   unfold frozenOmega
   simp only [norm_mul, norm_inv, norm_zpow, norm_pow,
     periodValue_norm K S D d θ hθ, inv_one, one_zpow, one_pow, mul_one]
-  exact (mul_le_mul hinactive hlocal (norm_nonneg _) (by norm_num : (0 : ℝ) ≤ 1)).trans
-    (by simp)
+  simpa only [one_mul] using
+    mul_le_mul hinactive hlocal (norm_nonneg _) (by norm_num : (0 : ℝ) ≤ 1)
 
 /-- The cube's norm is the actual prime product over the active frozen support. -/
 theorem numeratorCubeNorm_prime_product :
@@ -195,8 +199,8 @@ theorem localScalar_product_frozen :
     (rowDigit K S d p) (primeExponents i.numeratorFrozen.val p.val)
       (numerator_admissible K S d i p.val)
   simp_rw [hlocal]
-  rw [Finset.prod_mul_distrib, numeratorCubeNorm_prime_product, Finset.prod_inv_distrib]
-  simp only [inv_pow]
+  rw [Finset.prod_mul_distrib, numeratorCubeNorm_prime_product]
+  simp only [inv_pow, Finset.prod_inv_distrib]
 
 def frozenMajorant : ℝ :=
   ∏ p ∈ i.activeFrozen, minimumMajorant K S p (rowDigit K S d p)
@@ -322,8 +326,21 @@ theorem fullCubeCoefficient_norm_le (θ : HeckeCharacter K)
       (normalizedFrozenOmega_norm_le K S D d i θ hθ)
       (reflectedColumnFactor_norm_le_one K S D d (minimumIndex K S d i) θ hθ)
       (norm_nonneg _) (frozenMajorant_nonneg K S d i)
-  rw [fullCubeCoefficient, norm_div, norm_mul, Complex.norm_real, Complex.norm_real,
-    Real.norm_eq_abs, Real.norm_eq_abs, abs_of_nonneg hc, abs_of_pos hb]
+  have hden : ‖(Real.sqrt (exteriorNorm K S i.c) : ℂ) *
+      (exteriorNorm K S (fullCubeIdeal K S d i) : ℂ)‖ =
+      Real.sqrt (exteriorNorm K S i.c) * exteriorNorm K S (fullCubeIdeal K S d i) := by
+    simp only [norm_mul, Complex.norm_real, Real.norm_eq_abs,
+      abs_of_nonneg hc, abs_of_pos hb]
+  rw [fullCubeCoefficient, norm_div, hden]
   exact div_le_div_of_nonneg_right hnum (mul_nonneg hc hb.le)
+
+#print axioms heckeIdealCoefficient_exterior_norm
+#print axioms periodValue_norm
+#print axioms localScalar_product_frozen
+#print axioms normalizedFrozenOmega_norm_le
+#print axioms reflectedMarkFactor_norm_le_one
+#print axioms reflectedColumnFactor_norm_le_one
+#print axioms reflectedRowFactor_norm_le_one
+#print axioms fullCubeCoefficient_norm_le
 
 end HeckeSkeleton.LowEnergy.ActualFrozenMajorant
