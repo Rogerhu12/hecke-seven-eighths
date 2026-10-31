@@ -37,18 +37,19 @@ def singletonBlock (p : ExteriorPrime K Sset) : PrimeBlock K Sset where
 
 theorem primeScalar_eq_idealSymbol (p : ExteriorPrime K Sset) (a : OS) :
     primeScalar K S D p.val a = idealSymbol K Sset D (exteriorPrimeIdeal K Sset p) a := by
+  have hone : (1 : ZMod 6) ≠ 0 := by decide
   have hE : primitiveExterior K S (singletonBlock K S D p) (fun _ => (1 : ZMod 6)) =
       exteriorPrimeIdeal K Sset p := by
     apply Subtype.ext
     apply Subtype.ext
     change IdealMobiusMask.primeProduct
       (activeSupport {p.val} (fun _ => (1 : ZMod 6))) = p.val.asIdeal
-    simp only [activeSupport, one_ne_zero, ne_eq, not_false_eq_true,
+    simp only [activeSupport, hone, ne_eq, not_false_eq_true,
       Finset.filter_true, IdealMobiusMask.primeProduct, Finset.prod_singleton]
   have h := primitiveIdeal_symbol_eq_product K S D
     (singletonBlock K S D p) (fun _ => (1 : ZMod 6)) a
   rw [hE] at h
-  simpa only [singletonBlock, activeSupport, one_ne_zero, ne_eq, not_false_eq_true,
+  simpa only [singletonBlock, activeSupport, hone, ne_eq, not_false_eq_true,
     Finset.filter_true, Finset.prod_singleton] using h.symm
 
 theorem primeScalar_generator_eq_row (hallowed : AllowedGeneratorInput K Sset D)
@@ -132,7 +133,7 @@ theorem crossFactor_one_five_eq_one (hallowed : AllowedGeneratorInput K Sset D)
   change idealSymbol K Sset D I₁ (D.generator I₂) *
     idealSymbol K Sset D I₂ (D.generator I₁) ^ 5 = 1
   rw [hallowed.reciprocity I₂ I₁, ← pow_succ']
-  exact hmask
+  simpa only [if_pos hcop] using hmask
 
 theorem residual_cross_eq_one (hallowed : AllowedGeneratorInput K Sset D)
     (n₁ n₂ b₁ b₂ : Ext) :
@@ -152,10 +153,11 @@ private theorem left_active_factor (z : ℂ) (hz : z ^ 6 = 1)
     (ht : CubeAlgebra.conductorExponent parityBit ε₁ ε₂ ≠ 0) :
     z * z ^ (CubeAlgebra.conductorExponent parityBit ε₁ ε₂).val =
       z ^ CubeAlgebra.crtExponent false parityBit ε₁ ε₂ := by
-  rw [← pow_succ', pow_eq_pow_mod _ hz]
-  congr 1
-  cases parityBit <;> cases ε₁ <;> cases ε₂ <;>
-    norm_num [CubeAlgebra.conductorExponent, CubeAlgebra.crtExponent, CubeAlgebra.bit] at ht ⊢
+  have he : ((CubeAlgebra.conductorExponent parityBit ε₁ ε₂).val + 1) % 6 =
+      CubeAlgebra.crtExponent false parityBit ε₁ ε₂ := by
+    revert ht
+    cases parityBit <;> cases ε₁ <;> cases ε₂ <;> decide
+  rw [← pow_succ', pow_eq_pow_mod _ hz, he]
 
 private theorem right_active_factor (z : ℂ) (hz : z ^ 6 = 1)
     (parityBit ε₁ ε₂ : Bool)
@@ -164,11 +166,12 @@ private theorem right_active_factor (z : ℂ) (hz : z ^ 6 = 1)
       (star z) ^ CubeAlgebra.crtExponent true parityBit ε₁ ε₂ := by
   have hstar : z ^ 5 = star z := GaussConjugation.pow_five_eq_conj z (Or.inr hz)
   rw [← hstar, ← pow_mul, ← pow_add]
+  have he : (5 + (CubeAlgebra.conductorExponent parityBit ε₁ ε₂).val) % 6 =
+      (5 * CubeAlgebra.crtExponent true parityBit ε₁ ε₂) % 6 := by
+    revert ht
+    cases parityBit <;> cases ε₁ <;> cases ε₂ <;> decide
   rw [pow_eq_pow_mod (5 + (CubeAlgebra.conductorExponent parityBit ε₁ ε₂).val) hz,
-    pow_eq_pow_mod (5 * CubeAlgebra.crtExponent true parityBit ε₁ ε₂) hz]
-  congr 1
-  cases parityBit <;> cases ε₁ <;> cases ε₂ <;>
-    norm_num [CubeAlgebra.conductorExponent, CubeAlgebra.crtExponent, CubeAlgebra.bit] at ht ⊢
+    pow_eq_pow_mod (5 * CubeAlgebra.crtExponent true parityBit ε₁ ε₂) hz, he]
 
 private theorem row_crt_left {R ι : Type*} [CommMonoid R] (χ : R →* ℂ)
     (p : ι → R) (B : Finset ι) (v : ι → ℕ) (ε₁ ε₂ : ι → Bool)
@@ -183,8 +186,7 @@ private theorem row_crt_left {R ι : Type*} [CommMonoid R] (χ : R →* ℂ)
   apply Finset.prod_congr rfl
   intro i hi
   by_cases ht : CubeAlgebra.conductorExponent (CubeAlgebra.parity (v i)) (ε₁ i) (ε₂ i) = 0
-  · simp only [ht, ne_eq, not_true_eq_false, if_false, CubeAlgebra.crtExponent,
-      if_pos rfl, pow_zero]
+  · simp [CubeAlgebra.crtExponent, ht]
   · rw [if_pos ht]
     exact left_active_factor (χ (p i)) (hχ i hi) _ _ _ ht
 
@@ -201,8 +203,7 @@ private theorem row_crt_right {R ι : Type*} [CommMonoid R] (χ : R →* ℂ)
   apply Finset.prod_congr rfl
   intro i hi
   by_cases ht : CubeAlgebra.conductorExponent (CubeAlgebra.parity (v i)) (ε₁ i) (ε₂ i) = 0
-  · simp only [ht, ne_eq, not_true_eq_false, if_false, CubeAlgebra.crtExponent,
-      if_pos rfl, pow_zero]
+  · simp [CubeAlgebra.crtExponent, ht]
   · rw [if_pos ht]
     exact right_active_factor (χ (p i)) (hχ i hi) _ _ _ ht
 
@@ -211,6 +212,7 @@ theorem cube_prime_row_sixth (hallowed : AllowedGeneratorInput K Sset D)
     (p : HeightOneSpectrum (𝓞 K)) (hp : p ∈ CubeLabels.cubePrimeSupport b₁.val b₂.val) :
     CanonicalIdealRow.row K S D hallowed u (CanonicalCubeLabels.prime K S p) ^ 6 = 1 := by
   have hd : p.asIdeal ∣ (b₁.val.val * b₂.val.val).radical := by
+    change p.asIdeal ∣ (b₁.val * b₂.val).val.radical
     rw [FirstSourceDecomposition.radical_eq_primeProduct (b₁.val * b₂.val)]
     exact Finset.dvd_prod_of_mem (fun q : HeightOneSpectrum (𝓞 K) => q.asIdeal) hp
   have hcop' : IsCoprime u.val.val (CanonicalCubeLabels.prime K S p).val.val := by

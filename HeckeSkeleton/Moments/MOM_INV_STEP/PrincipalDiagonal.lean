@@ -39,7 +39,7 @@ theorem exponent_zero_of_principal (n₁ n₂ b₁ b₂ : Ext)
   have hmem : p ∈ activeSupport (pairSupport K S D n₁ n₂ b₁ b₂).support
       (pairExponent K S n₁ n₂ b₁ b₂) := Finset.mem_filter.mpr ⟨hp, hne⟩
   rw [hprincipal] at hmem
-  exact Finset.not_mem_empty p hmem
+  exact Finset.notMem_empty p hmem
 
 theorem column_bits_eq_of_principal (n₁ n₂ b₁ b₂ : Ext)
     (hprincipal : activeSupport (pairSupport K S D n₁ n₂ b₁ b₂).support
@@ -96,6 +96,7 @@ theorem cube_product_square_of_principal (n₁ n₂ b₁ b₂ : Ext)
     (squarefreeBit K S n₁) (squarefreeBit K S n₂)
   rw [hR] at hsd
   have hs : CubeLabels.s b₁.val b₂.val = 1 := by
+    rw [Ideal.one_eq_top] at hsd ⊢
     apply le_antisymm le_top
     exact Ideal.dvd_iff_le.mp hsd
   rw [CubeLabels.actual_cube_decomposition b₁.val b₂.val

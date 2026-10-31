@@ -138,7 +138,7 @@ theorem decoration_priority (C : CanonicalBlock.ColumnData K S σ)
     rw [IsCoprime.mul_left_iff]
     split_ifs <;> simp_all
   unfold decoration
-  rw [hn, hp, Ideal.absNorm_mul, Nat.cast_mul]
+  rw [hn, hp, map_mul, Nat.cast_mul]
   change _ * divisorMark C.slots C.primeLists C.primeWeights
     ((extractedFactor K S r₁ r₂ b₁ b₂ side).val.val * u.val.val * b ^ 3) * _ = _
   rw [hm, primeMark_priority_list _ _ _ _ _ hL]

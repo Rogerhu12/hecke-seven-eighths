@@ -121,7 +121,7 @@ theorem first_residual_branch_centered (C : ColumnData K S σ)
   have hAU : A ≤ U := by
     have hh := mul_le_mul_of_nonneg_right hvlo hA.le
     rw [← hactual, hcenter] at hh
-    exact (mul_le_mul_left hc).mp hh
+    nlinarith
   rw [residualBranch_eq_centered_pool K S D Γ C G J γ j d y W hW
     a τ v X A U hv hA hU hAU hactual]
   have hm := CenteredMellin.finite_source_centered 1 2 (by norm_num) (by norm_num)

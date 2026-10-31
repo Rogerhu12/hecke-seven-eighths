@@ -40,7 +40,8 @@ variable (G : HeckeCharacter K) (hG : G ∈ Θ) (g j d₂ I : Ext) (ξ : Sector)
 variable (W : SchwartzMap ℝ ℂ) (hW : tsupport W ⊆ Set.Icc (1 / 8 : ℝ) (21 / 8)) (X : ℝ)
 
 def branchEnergy (i : Index X) (v : overlapPool K S X g) (τ : ℝ) : ℝ :=
-  (((C.survivors γ₀).powerset.card : ℝ) * mellinMass W hW) *
+  (‖overlapZero K S g j (overlapIdeal K S X g v)‖ *
+    (((C.survivors γ₀).powerset.card : ℝ) * mellinMass W hW)) *
     ∑ J ∈ (C.survivors γ₀).powerset,
       ‖assignedMark K S g (overlapIdeal K S X g v) C.primeLists C.primeWeights J‖ ^ 2 *
         columnEnergy K S D Γ C γ₀ G hG J (childScale X i)
@@ -49,7 +50,8 @@ def branchEnergy (i : Index X) (v : overlapPool K S X g) (τ : ℝ) : ℝ :=
 
 theorem branchEnergy_nonneg (i : Index X) (v : overlapPool K S X g) (τ : ℝ) :
     0 ≤ branchEnergy K S D Γ C γ₀ G hG g j d₂ I ξ W hW X i v τ := by
-  apply mul_nonneg (mul_nonneg (Nat.cast_nonneg _) (mellinMass_nonneg W hW))
+  apply mul_nonneg (mul_nonneg (norm_nonneg _)
+    (mul_nonneg (Nat.cast_nonneg _) (mellinMass_nonneg W hW)))
   apply Finset.sum_nonneg
   intro J hJ
   exact mul_nonneg (sq_nonneg _)
@@ -106,7 +108,8 @@ theorem branchEnergy_integrable (hX : 0 < X) (hZ : 1 < C.base)
     (finalLabel K S j d₂ (overlapIdeal K S X g v)).val.val (I.val.val,ξ)
     W hW hZ (childScale_pos X hX i) w hw cw coordinate
   convert hi.const_mul
-    ((((C.survivors γ₀).powerset.card : ℝ) * mellinMass W hW) *
+    ((‖overlapZero K S g j (overlapIdeal K S X g v)‖ *
+      (((C.survivors γ₀).powerset.card : ℝ) * mellinMass W hW)) *
       ‖assignedMark K S g (overlapIdeal K S X g v) C.primeLists C.primeWeights J‖ ^ 2) using 1
   funext τ
   ring
@@ -124,7 +127,7 @@ theorem sourceColumn_le_branchEnergy
       branchEnergy K S D Γ C γ₀ G hG g j d₂ I ξ W hW X
         (centerIndex K S X g v) v τ := by
   obtain ⟨hlo,hhi⟩ := centerIndex_bounds K S X g v
-  exact sourceColumn_sq_le_mellin K S D Γ hallowed C γ₀ G hG hcal
+  exact sourceColumn_sq_le_mellin_with_zero K S D Γ hallowed C γ₀ G hG hcal
     g j d₂ (overlapIdeal K S X g v) I ξ hg hd₂ (overlapIdeal_squarefree K S X g v)
     W hW X τ (DyadicSourcePartition.center (centerIndex K S X g v).val)
     (childScale X (centerIndex K S X g v)) hX hZ

@@ -65,6 +65,44 @@ theorem extractedScalar_norm_le_one (Λ ν G : HeckeCharacter K)
     (forwardCoefficient_norm_le_one K S D Γ Λ ν G hcal v _ I ξ hv)
     (norm_nonneg _) (norm_idealCoprimeMask_le_one _ _)
 
+/-- The original extracted scalar still annihilates overlaps meeting
+either the frozen common ideal or the retained first label. Keeping
+this zero is necessary before the new label range is made squarefree. -/
+def overlapZero (g j v : Ext) : ℂ :=
+  idealCoprimeMask (g.val.val * j.val.val) v.val.val
+
+theorem extractedScalar_overlap_coprime (Λ ν : HeckeCharacter K)
+    (g j d₂ v I : Ext) (ξ : Sector) (R : Ideal (𝓞 K))
+    (hlive : extractedScalar K S Γ D Λ ν g j d₂ v I ξ R ≠ 0) :
+    IsCoprime v.val.val (g.val.val * j.val.val) := by
+  have hm : idealCoprimeMask (R * g.val.val) v.val.val ≠ 0 :=
+    (mul_ne_zero_iff.mp hlive).2
+  have hg : IsCoprime v.val.val g.val.val :=
+    (IsCoprime.mul_right_iff.mp ((idealCoprimeMask_ne_zero _ _).mp hm)).2
+  have hf : forwardCoefficient K S Γ D Λ ν v (exteriorMul K Sset j d₂) I ξ ≠ 0 :=
+    (mul_ne_zero_iff.mp hlive).1
+  have hsymbol : idealSymbol K Sset D v (D.generator (exteriorMul K Sset j d₂)) ≠ 0 := by
+    intro hz
+    exact hf (by simp only [forwardCoefficient, hz,
+      zero_pow (by decide : (4 : ℕ) ≠ 0), zero_mul, mul_zero])
+  have hcon : sIntegerModulusContraction K Sset
+      (D.generator (exteriorMul K Sset j d₂)) = j.val.val * d₂.val.val := by
+    simpa only [CanonicalIdealRow.generator_ofExterior, CanonicalIdealRow.ofExterior_val] using
+      CanonicalIdealRow.generator_contraction K S D
+        (CanonicalIdealRow.ofExterior K S (exteriorMul K Sset j d₂))
+  have hmask : idealCoprimeMask (j.val.val * d₂.val.val) v.val.val ≠ 0 := by
+    rw [← hcon, ← SecondSourceCharacters.symbol_self_pair]
+    exact mul_ne_zero (star_ne_zero.mpr hsymbol) hsymbol
+  exact hg.mul_right
+    (IsCoprime.mul_right_iff.mp ((idealCoprimeMask_ne_zero _ _).mp hmask)).1
+
+theorem extractedScalar_zero_of_overlap (Λ ν : HeckeCharacter K)
+    (g j d₂ v I : Ext) (ξ : Sector) (R : Ideal (𝓞 K))
+    (h : ¬ IsCoprime v.val.val (g.val.val * j.val.val)) :
+    extractedScalar K S Γ D Λ ν g j d₂ v I ξ R = 0 := by
+  by_contra hn
+  exact h (extractedScalar_overlap_coprime K S D Γ Λ ν g j d₂ v I ξ R hn)
+
 def productHeight (g v : Ext) : ℝ := height K Sset g * height K Sset v
 
 theorem productHeight_pos (g v : Ext) : 0 < productHeight K S g v :=
@@ -248,6 +286,38 @@ theorem sourceColumn_sq_le_mellin (C : ColumnFamily K Sset σ Θ ψ) (γ₀ : Ou
       apply Finset.sum_congr rfl
       intro J hJ
       ring
+
+include hallowed in
+/-- The production bound retains the exact original overlap zero.
+It therefore supplies squarefree child labels when combined with the
+unchanged common-slice scalar, without deleting a positive source term. -/
+theorem sourceColumn_sq_le_mellin_with_zero (C : ColumnFamily K Sset σ Θ ψ)
+    (γ₀ : OuterTriple K) (G : HeckeCharacter K) (hG : G ∈ Θ)
+    (hcal : ThetaCalibrationInput K Sset D C.lambda G)
+    (g j d₂ v I : Ext) (ξ : Sector)
+    (hg : Squarefree g.val.val) (hd₂ : d₂.val.val ∣ g.val.val) (hv : Squarefree v.val.val)
+    (W : SchwartzMap ℝ ℂ) (hW : tsupport W ⊆ Set.Icc (1 / 8 : ℝ) (21 / 8))
+    (X τ center U : ℝ) (hX : 0 < X) (hZ : 1 < C.base) (hcenter : 0 < center) (hU : 0 < U)
+    (hlo : center ≤ productHeight K S g v) (hhi : productHeight K S g v ≤ 4 * center)
+    (hscale : X = center * U)
+    (hprime : ∀ i ∈ C.survivors γ₀, ∀ p ∈ C.primeLists i, Prime p) :
+    ‖sourceColumn K S D Γ C γ₀ G g j d₂ v I ξ W X τ‖ ^ 2 ≤
+      (‖overlapZero K S g j v‖ *
+        (((C.survivors γ₀).powerset.card : ℝ) * mellinMass W hW)) *
+        ∑ J ∈ (C.survivors γ₀).powerset,
+          ‖assignedMark K S g v C.primeLists C.primeWeights J‖ ^ 2 *
+            columnEnergy K S D Γ C γ₀ G hG J U
+              (appendResidual K γ₀ (residual K S g d₂).val.val)
+              (finalLabel K S j d₂ v).val.val (I.val.val,ξ) W hW τ := by
+  by_cases hc : IsCoprime v.val.val (g.val.val * j.val.val)
+  · simpa only [overlapZero, idealCoprimeMask, if_pos hc, norm_one, one_mul] using
+      sourceColumn_sq_le_mellin K S D Γ hallowed C γ₀ G hG hcal
+        g j d₂ v I ξ hg hd₂ hv W hW X τ center U hX hZ hcenter hU hlo hhi hscale hprime
+  · have hz := extractedScalar_zero_of_overlap K S D Γ C.lambda
+      (C.background γ₀ * G⁻¹) g j d₂ v I ξ (childPuncture C.originalPuncture γ₀) hc
+    rw [sourceColumn_eq_branches K S D Γ hallowed C γ₀ G g j d₂ v I ξ
+      hg hd₂ hv W X τ hX hprime, hz]
+    simp [overlapZero, idealCoprimeMask, hc]
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.SecondColumnEnergy
 

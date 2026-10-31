@@ -16,7 +16,7 @@ noncomputable section
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.ClippedChildren
 
 open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
-  HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
+  HeckeGeneral.Analysis HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.MOMInvStep
 open FixedTripleFibers CanonicalChildren CanonicalNormPools SchwartzDilation
 open scoped Classical BigOperators nonZeroDivisors
@@ -133,7 +133,8 @@ theorem exists_clipped_test_seminorm_bound (s : Finset (ℕ × ℕ)) :
   intro C hZ γ hpool hlive
   have hU := Real.rpow_pos_of_pos (zero_lt_one.trans hZ) (C.columnLength γ)
   have ha := clip_dilation_bounds _ hU (live_scale_bound K S C γ hpool hlive)
-  exact hb _ _ ha.1 ha.2 (C.cutoff γ)
+  exact hb _ (div_pos (lt_of_lt_of_le zero_lt_one (le_max_left _ _)) hU)
+    ha.1 ha.2 (C.cutoff γ)
 
 /-- A nonempty genuine norm pool bounds the negative formal length.
 The only size threshold is the fixed scalar four absorbed into eta. -/

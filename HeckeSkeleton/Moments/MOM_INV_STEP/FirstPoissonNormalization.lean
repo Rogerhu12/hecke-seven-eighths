@@ -48,7 +48,7 @@ theorem conductorNorm (n₁ n₂ b₁ b₂ : Ext) :
         ((residualIdeal K S D n₁ n₂ b₁ b₂ true).val.val.absNorm : ℝ) *
           cubeNorm K S D n₁ n₂ b₁ b₂ := by
   rw [primitiveIdeal_eq_u₁_mul_u₂_mul_R1]
-  simp only [Ideal.absNorm_mul, Nat.cast_mul, residualIdeal, Bool.false_eq_true,
+  simp only [map_mul, Nat.cast_mul, residualIdeal, Bool.false_eq_true,
     if_false, if_true, leftIdeal_val, rightIdeal_val, cubeNorm, cubeIdeal_val]
 
 def outerFactor (r : {r : ℝ // 0 < r}) (d : NonzeroRingElements OS)

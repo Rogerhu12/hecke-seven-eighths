@@ -48,10 +48,16 @@ def rhoSchwartz : SchwartzMap ℝ ℂ :=
 def dilation (a : ℝ) (ha : 0 < a) : ℝ ≃L[ℝ] ℝ where
   toFun x := a * x
   invFun x := a⁻¹ * x
-  left_inv x := by rw [← mul_assoc, inv_mul_cancel₀ ha.ne', one_mul]
-  right_inv x := by rw [← mul_assoc, mul_inv_cancel₀ ha.ne', one_mul]
+  left_inv x := by
+    change a⁻¹ * (a * x) = x
+    rw [← mul_assoc, inv_mul_cancel₀ ha.ne', one_mul]
+  right_inv x := by
+    change a * (a⁻¹ * x) = x
+    rw [← mul_assoc, mul_inv_cancel₀ ha.ne', one_mul]
   map_add' x y := mul_add _ _ _
-  map_smul' c x := by simp only [smul_eq_mul]; ring
+  map_smul' c x := by
+    change a * (c * x) = c * (a * x)
+    ring
   continuous_toFun := continuous_const.mul continuous_id
   continuous_invFun := continuous_const.mul continuous_id
 
@@ -133,7 +139,6 @@ theorem successive_argument (x : ℝ) (j : ℤ) :
     (2 / 3 : ℝ) * (x / scale j) = x / scale (j + 1) := by
   rw [scale_add_one]
   field_simp [(scale_pos j).ne']
-  ring
 
 /-- The exact finite telescoping identity, before using the source support. -/
 theorem sum_windows (x : ℝ) :
@@ -149,7 +154,9 @@ theorem sum_windows (x : ℝ) :
       simp only [Nat.cast_add, Nat.cast_one]
       rw [show (i.val : ℤ) + 1 - 18 = (i.val : ℤ) - 18 + 1 by ring]
     _ = f 24 - f 0 := by
-      rw [Fin.sum_univ_eq_sum_range, Finset.sum_range_sub]
+      change (∑ i : Fin 24, (fun n : ℕ => f (n + 1) - f n) i.val) = _
+      exact (Fin.sum_univ_eq_sum_range (fun n : ℕ => f (n + 1) - f n) 24).trans
+        (Finset.sum_range_sub f 24)
     _ = _ := by norm_num [f]
 
 theorem lower_endpoint : (4 / 3 : ℝ) * scale (-18) ≤ 1 / 512 := by

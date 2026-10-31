@@ -87,6 +87,27 @@ def assignment (Z lengthCap eta : ℝ) (T : FirstParentEnergy.Data K S (σ := σ
   DyadicSourcePartition.label Z (2 * lengthCap) (2 * eta)
     (extractedNorm K S D Γ T side i e)
 
+/-- Neither the old label, the selected frequency nor its unit sector
+occurs in the center assignment after the actual extraction is fixed. -/
+@[simp] theorem assignment_def (Z lengthCap eta : ℝ)
+    (T : FirstParentEnergy.Data K S (σ := σ)) (side : Bool)
+    (i : FirstParentEnergy.Index K S D Γ T) (e : Overlap K S D Γ T i) :
+    assignment K S D Γ Z lengthCap eta T side i e =
+      DyadicSourcePartition.label Z (2 * lengthCap) (2 * eta)
+        (extractedHeight K S (selectedAnchor K S D Γ T i).1
+          (selectedAnchor K S D Γ T i).2 i.1.val i.2.1.val side
+          (overlapIdeal K S D T.scale (selectedAnchor K S D Γ T i).1
+            (selectedAnchor K S D Γ T i).2 i.1.val i.2.1.val false e)) := rfl
+
+theorem assignment_congr (Z lengthCap eta : ℝ)
+    (T T' : FirstParentEnergy.Data K S (σ := σ)) (side side' : Bool)
+    (i : FirstParentEnergy.Index K S D Γ T) (e : Overlap K S D Γ T i)
+    (i' : FirstParentEnergy.Index K S D Γ T') (e' : Overlap K S D Γ T' i')
+    (h : extractedNorm K S D Γ T side i e = extractedNorm K S D Γ T' side' i' e') :
+    assignment K S D Γ Z lengthCap eta T side i e =
+      assignment K S D Γ Z lengthCap eta T' side' i' e' :=
+  congrArg (DyadicSourcePartition.label Z (2 * lengthCap) (2 * eta)) h
+
 theorem assignment_bounds (Z lengthCap eta : ℝ) (hZ : 0 < Z)
     (hwidth : 2 ≤ Z ^ eta) (T : FirstParentEnergy.Data K S (σ := σ))
     (hscale : T.scale.val ≤ Z ^ lengthCap) (side : Bool)

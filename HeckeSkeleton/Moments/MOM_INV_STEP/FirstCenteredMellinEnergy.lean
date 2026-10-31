@@ -33,12 +33,14 @@ private theorem phase_cauchy (ρ : SchwartzMap ℝ ℂ) (p c : ℝ → ℂ)
   have hi : Integrable (fun t => ‖ρ t‖ * ‖c t‖ ^ 2) := by
     apply ρ.integrable.norm.mul_bdd (c := B ^ 2) (cc.norm.pow 2).aestronglyMeasurable
     filter_upwards [] with t
+    change ‖‖c t‖ ^ 2‖ ≤ B ^ 2
     rw [Real.norm_of_nonneg (sq_nonneg _)]
     exact pow_le_pow_left₀ (norm_nonneg _) (hc t) 2
   have hiz : Integrable (fun t => ρ t * p t * c t) := by
     apply (ρ.integrable.norm.mul_const B).mono'
       ((ρ.continuous.mul cp).mul cc).aestronglyMeasurable
     filter_upwards [] with t
+    change ‖ρ t * p t * c t‖ ≤ ‖ρ t‖ * B
     rw [norm_mul, norm_mul, hp, mul_one]
     exact mul_le_mul_of_nonneg_left (hc t) (norm_nonneg _)
   refine ⟨hiz, ?_⟩
@@ -72,18 +74,19 @@ variable {σ : Type*}
 variable (C : ColumnData K S σ)
 variable (Θ : Subgroup (HeckeCharacter K)) (ψ G : HeckeCharacter K)
 variable (hν : BackgroundCycle.Admissible K Θ ψ C.background) (hG : G ∈ Θ)
-variable (J : Finset σ) (U a : ℝ) (γ : OuterTriple K) (j : Ideal (𝓞 K)) (d : OS)
+variable (J : Finset σ) (U a : ℝ) (γ : OuterTriple K) (j : Ideal (𝓞 K))
+variable (d : Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)
+include d
 
 theorem coefficient_continuous (n : Ext) (τ : ℝ) :
     Continuous (fun t => DivisorInverseColumn.coefficient K S D
       (family K S C Θ ψ G hν hG J U a (t + τ)) γ j d n) := by
   unfold DivisorInverseColumn.coefficient FirstCanonicalLabel.inverseCoefficient
   dsimp only [family, FirstCompleteFamily.family]
-  apply Continuous.mul
-  · apply Continuous.mul
-    · exact continuous_const
-    · exact (WideMellinTests.continuous_weightedTest a _).comp (continuous_id.add continuous_const)
-  · exact continuous_const
+  have hc : Continuous (fun t : ℝ => WideMellinTests.weightedTest a (t + τ)
+      ((n.val.val.absNorm : ℝ) / C.base ^ (Real.log U / Real.log C.base))) :=
+    (WideMellinTests.continuous_weightedTest a _).comp (continuous_id.add continuous_const)
+  exact (continuous_const.mul hc).mul continuous_const
 
 theorem coefficient_norm_eq_zero (n : Ext) (t : ℝ) :
     ‖DivisorInverseColumn.coefficient K S D
@@ -150,6 +153,8 @@ theorem column_energy_integrable (W : SchwartzMap ℝ ℂ)
     ((column_continuous K S Γ D C Θ ψ G hν hG J U a γ j d
       (y.1.val.val,y.2) τ).norm.pow 2).aestronglyMeasurable
   filter_upwards [] with t
+  change ‖‖DivisorInverseColumn.column K S Γ D
+    (family K S C Θ ψ G hν hG J U a (t + τ)) γ j d (y.1.val.val,y.2)‖ ^ 2‖ ≤ _
   rw [Real.norm_of_nonneg (sq_nonneg _)]
   exact pow_le_pow_left₀ (norm_nonneg _)
     (column_bound K S Γ D C Θ ψ G hν hG J U a γ j d hΓ y τ t) 2
