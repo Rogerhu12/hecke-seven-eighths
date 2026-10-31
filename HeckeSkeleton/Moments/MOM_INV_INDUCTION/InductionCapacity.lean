@@ -70,7 +70,8 @@ theorem independent_scale_parameters {a U D : ℝ}
       U ^ Real.logb U D = D ∧
       MarkedMargins 1 (Real.logb U D) 0 (a / (1 + a)) := by
   by_cases hUeq : U = 1
-  · have hD1 : D = 1 := independent_scale_at_one hD (by simpa [hUeq] using hcap)
+  · have hD1 : D = 1 :=
+      independent_scale_at_one (a := a) hD (by simpa [hUeq] using hcap)
     have hr : Real.logb U D = 0 := by simp [hUeq, hD1]
     have hcap0 : (0 : ℝ) ≤ 1 / (1 + a) := by positivity
     refine ⟨by simpa [hr], by simpa [hr] using hcap0, ?_, ?_⟩
