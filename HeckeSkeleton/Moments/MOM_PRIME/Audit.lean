@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_PRIME.Endpoint
 import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalTerminal
 import HeckeSkeleton.Moments.MOM_PRIME.AbsoluteMasks
+import HeckeSkeleton.Moments.MOM_PRIME.OrdinaryMasks
+import HeckeSkeleton.Moments.MOM_PRIME.OrdinaryMaskMass
 import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalHecke
 import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalSmooth
 import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalFiniteFamily
@@ -46,3 +48,10 @@ The conditional analytic inputs remain ordinary theorem parameters. -/
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.plainPolynomial_exceptional_rectangle_norm
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.plainPolynomial_exceptional_fallback
 #print axioms HeckeSkeleton.Moments.MOM_PRIME.plainPolynomial_exceptional_equal_product
+
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.normalizedHeckeSum_mask_deletion
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.normalizedHeckeSum_mask_deletion_zero
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.plainPolynomial_divisor_mask_deletion
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.ordinaryMaskCoefficient_norm_le_one
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.ordinaryMaskMass_le_card
+#print axioms HeckeSkeleton.Moments.MOM_PRIME.exists_ordinaryMaskMass_bound

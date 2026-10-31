@@ -106,7 +106,7 @@ theorem exists_slotProductAbsoluteBound (N : ℕ) (B : ℝ) (hB : 0 ≤ B) :
     _ = ((D * V ^ H) ^ 2) ^ d.geometry.slotCount * Z ^ d.geometry.totalLength := by
       rw [Finset.prod_mul_distrib]
       simp only [Finset.prod_const, Finset.card_univ, Fintype.card_fin]
-      rw [← Real.rpow_sum_of_pos hZ0]
+      rw [SlotGeometry.totalLength, ← Real.rpow_sum_of_pos hZ0]
     _ ≤ ((D * V ^ H) ^ 2) ^ N * Z ^ d.geometry.totalLength :=
       mul_le_mul_of_nonneg_right (pow_le_pow_right₀ hbase hN)
         (Real.rpow_nonneg hZ0.le _)

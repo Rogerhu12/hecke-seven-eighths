@@ -51,9 +51,10 @@ theorem paired_primes_endpoint (g : PrimeWindowGeometry) (Sector : Type*)
       simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
       ring
     _ ≤ ((Fintype.card Sector : ℝ) + 1) * C₀ *
-        F.base i ^ (1 + F.selectedLength i) := by
-      gcongr
-      linarith
+        F.base i ^ (1 + F.selectedLength i) :=
+      mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_right (by linarith) hC₀.le)
+        (Real.rpow_nonneg (zero_le_one.trans hbase) _)
 
 /-- The source's exact uniform quantifier order, with zero height loss and
 threshold one.  Any nonnegative loss `δ` and any eligibility predicate may

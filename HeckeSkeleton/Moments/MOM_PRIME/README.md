@@ -15,7 +15,8 @@ support in `(1, 2)` and profile norm at most `B * V ^ H`, it proves
 ‖slotProduct d u Z t‖² ≤ C * Z^(d.geometry.totalLength) * V^(2*N*H).
 ```
 
-Here `Z,V ≥ 1` and `H ≥ 0`. The constant is chosen before the actual data,
+Here `Z,V ≥ 1`, `B ≥ 0`, and `H ≥ 0`; the row-sum estimate also assumes
+`0 ≤ a.m + a.q`. The constant is chosen before the actual data,
 rows, masks, characters, lengths, scales, and heights. Linear ideal counting
 then gives `exists_pairedPrimeAbsoluteBound`:
 
@@ -25,8 +26,8 @@ then gives `exists_pairedPrimeAbsoluteBound`:
 ```
 
 The two branches of `pairedRows` and all original zero masks are retained.
-These estimates require no zero-free premise, capacity condition, or
-finite-order condition.
+These estimates require no additional zero-free premise, capacity condition, or
+finite-order condition beyond the existing `MomentData` structure.
 
 `AbsoluteGeometry.lean` derives the profile bound from the actual fixed
 `PrimeWindowGeometry`. The one required identification is
@@ -56,6 +57,13 @@ nonnegative exponent loss is permitted.
 `AbsoluteMasks.lean` also proves the exact subtraction of the original
 prime terms at primes dividing an additional mask, for each slot and
 simultaneously for the full product. The row filters remain unchanged.
+`OrdinaryMasks.lean` proves the actual
+normalized divisor identity for the Hecke ideal sums and the original
+`plainPolynomial`, with the exact coefficient `μ(D) χ(D) / sqrt(N D)` and
+the shortened scale `X / N D`. `OrdinaryMaskMass.lean` bounds the absolute
+coefficient mass, including an independent norm phase, by `C * Z^ε` when
+the mask norm is at most `Z^B`. This constant precedes the character,
+mask, height, and scale.
 
 ## Equal-product terminal
 
@@ -64,11 +72,11 @@ phase. It proves exact finite Möbius deletion, exact extraction of the
 scale/height-independent residue coefficient, direct absolute bounds for
 all positive scales, and equal-product cancellation before absolute values.
 
-For a whole profile family with common support, seminorm control, and the
-explicit `IdealVolumeInput` error estimate, one constant works for all
-profiles, masks of norm at most `Z^B`, heights, and four scales. If
-`X₁*X₂ = Y₁*Y₂ = T` and every scale is at least `Z^a`, the normalized
-rectangle is bounded by
+For `ε > 0`, `B ≥ 0`, `Z ≥ 1`, a nonzero mask, and a whole profile family
+with common support, seminorm control, and the explicit `IdealVolumeInput`
+error estimate, one constant works for all profiles, masks of norm at most
+`Z^B`, heights, and four scales. If `X₁*X₂ = Y₁*Y₂ = T`, `a ≥ 0`, and every
+scale is at least `Z^a`, the normalized rectangle is bounded by
 
 ```text
 C * Z^ε * sqrt(T) * Z^(-a) * (p(W₁)+p(W₂))² * (1+‖t‖)^n.
@@ -140,7 +148,7 @@ The required environment is Lean `4.35.0-rc3` and Mathlib
 `0493595ecd5da8ef14742febab99728f98e948e8`, exactly as pinned by the repository.
 
 ```sh
-lake build HeckeSkeleton.Moments.MOM_PRIME.Audit
+lake --rehash build HeckeSkeleton.Moments.MOM_PRIME.Audit
 lake env lean HeckeSkeleton/Moments/MOM_PRIME/Audit.lean
 ```
 
@@ -149,3 +157,9 @@ records against `{propext, Classical.choice, Quot.sound}` and rejects
 missing records. Environment, build, and audit logs are uploaded as an
 Actions artifact and are not committed to the repository. The PR records
 the observed verification status and links to its exact commit/run.
+
+The workflow may seed dependency artifacts from pinned archive digests.
+Only facets in the current source import closure are restored; ordinary
+Lake checking with `--rehash` then validates their original traces against
+the current sources, options, and artifacts. This cache is optional, and
+missing artifacts are rebuilt from source.

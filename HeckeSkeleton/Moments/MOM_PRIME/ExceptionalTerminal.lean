@@ -169,7 +169,8 @@ the terminal constant will be chosen before the two profile indices. -/
 structure ExceptionalProfiles {Ψ : Ideal (𝓞 K) → ℂ}
     (V : IdealVolumeInput K Ψ) (ι : Type*) where
   weight : ι → ℝ → ℂ
-  lower upper : ℝ
+  lower : ℝ
+  upper : ℝ
   lower_pos : 0 < lower
   upper_nonneg : 0 ≤ upper
   seminorm : ι → ℝ
@@ -270,7 +271,7 @@ theorem exceptional_equal_product_cancellation (hΨ : ∀ I, ‖Ψ I‖ ≤ 1)
     (ε B : ℝ) (hε : 0 < ε) (hB : 0 ≤ B) :
     ∃ C : ℝ, 0 < C ∧ ∀ Z : ℝ, 1 ≤ Z →
       ∀ R : Ideal (𝓞 K), R ≠ ⊥ → (Ideal.absNorm R : ℝ) ≤ Z ^ B →
-      ∀ i j t X₁ X₂ Y₁ Y₂ T a, 0 ≤ a →
+      ∀ (i j : ι) (t X₁ X₂ Y₁ Y₂ T a : ℝ), 0 ≤ a →
       Z ^ a ≤ X₁ → Z ^ a ≤ X₂ → Z ^ a ≤ Y₁ → Z ^ a ≤ Y₂ →
       X₁ * X₂ = T → Y₁ * Y₂ = T →
       ‖(Real.sqrt T : ℂ)⁻¹ *

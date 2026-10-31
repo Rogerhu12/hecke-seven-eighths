@@ -153,7 +153,7 @@ theorem hecke_exceptional_equal_product {ι : Type*} (χ : HeckeCharacter K)
     (F : ExceptionalProfiles V ι) (ε B : ℝ) (hε : 0 < ε) (hB : 0 ≤ B) :
     ∃ C : ℝ, 0 < C ∧ ∀ Z : ℝ, 1 ≤ Z →
       ∀ R : Ideal (𝓞 K), R ≠ ⊥ → (Ideal.absNorm R : ℝ) ≤ Z ^ B →
-      ∀ i j t X₁ X₂ Y₁ Y₂ T a, 0 ≤ a →
+      ∀ (i j : ι) (t X₁ X₂ Y₁ Y₂ T a : ℝ), 0 ≤ a →
       Z ^ a ≤ X₁ → Z ^ a ≤ X₂ → Z ^ a ≤ Y₁ → Z ^ a ≤ Y₂ →
       X₁ * X₂ = T → Y₁ * Y₂ = T →
       ‖(Real.sqrt T : ℂ)⁻¹ *

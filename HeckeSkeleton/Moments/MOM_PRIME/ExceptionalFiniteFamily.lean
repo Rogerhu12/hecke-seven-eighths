@@ -28,7 +28,7 @@ theorem hecke_exceptional_finite_family {β ι : Type*} [Fintype β]
     (ε B : ℝ) (hε : 0 < ε) (hB : 0 ≤ B) :
     ∃ N : ℕ, ∃ C : ℝ, 0 < C ∧ ∀ Z : ℝ, 1 ≤ Z →
       ∀ R : Ideal (𝓞 K), R ≠ ⊥ → (Ideal.absNorm R : ℝ) ≤ Z ^ B →
-      ∀ k i j t X₁ X₂ Y₁ Y₂ T a, 0 ≤ a →
+      ∀ (k : β) (i j : ι) (t X₁ X₂ Y₁ Y₂ T a : ℝ), 0 ≤ a →
       Z ^ a ≤ X₁ → Z ^ a ≤ X₂ → Z ^ a ≤ Y₁ → Z ^ a ≤ Y₂ →
       X₁ * X₂ = T → Y₁ * Y₂ = T →
       ‖(Real.sqrt T : ℂ)⁻¹ *
