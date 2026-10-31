@@ -194,9 +194,12 @@ theorem primeProduct_addCharacter_unitShift (D : ThetaArithmeticData K S)
   have huK : ((U : S.integer K) : K) ≠ 0 := by
     intro h
     exact U.ne_zero (Subtype.ext h)
+  have huinv : (((U⁻¹ : (S.integer K)ˣ) : S.integer K) : K) =
+      (((U : S.integer K) : K)⁻¹) :=
+    map_units_inv (S.integer K).val U
   rw [hgen]
   change _ / ((primeGenerator K S D p : K) * _) = _
-  simp only [map_mul, map_pow, map_units_inv, pow_succ]
+  simp only [Subalgebra.coe_mul, Subalgebra.coe_pow, huinv, pow_succ]
   field_simp [hπK, huK] <;> ring
 
 /-- The normalized k=1 branch, before its prime-power Fourier evaluation. -/
@@ -232,7 +235,7 @@ theorem finitePoisson_prime_power_eq_fourier (P : ProbeData K S)
     congr 1
     have hh := primeProduct_addCharacter_unitShift K S D p t U hv (Ideal.Quotient.mk _ (h * a))
     rw [primeTimesPowerQuotientEquiv_mk, productPrincipalCharacter_mk] at hh
-    simpa only [map_mul] using hh
+    simpa only [Subalgebra.coe_mul, map_mul] using hh
   have hconv : finitePoissonFactor K S P (exteriorPrimeIdeal K S p) A h =
       HighBin.FourierInversion.liftedConvolution ρ χ (χ ^ t) φ
         (ψ.mulShift ((V : R) ^ 6)) (Ideal.Quotient.mk _ h) := by
@@ -337,8 +340,11 @@ theorem productPrincipalCharacter_unitShift_of_generators (D : ThetaArithmeticDa
   have huK : ((U : S.integer K) : K) ≠ 0 := by
     intro h
     exact U.ne_zero (Subtype.ext h)
-  rw [← map_mul, hgen]
-  simp only [map_mul, map_pow, map_units_inv]
+  have huinv : (((U⁻¹ : (S.integer K)ˣ) : S.integer K) : K) =
+      (((U : S.integer K) : K)⁻¹) :=
+    map_units_inv (S.integer K).val U
+  rw [← Subalgebra.coe_mul, hgen]
+  simp only [Subalgebra.coe_mul, Subalgebra.coe_pow, huinv]
   field_simp [hπK, huK] <;> ring
 
 def primeZeroTimesPowerQuotientEquiv (D : ThetaArithmeticData K S)
@@ -397,7 +403,7 @@ theorem finitePoisson_zero_power_eq_fourier (P : ProbeData K S)
     have hh := productPrincipalCharacter_unitShift_of_generators K S D p t den A e
       (primeZeroTimesPowerQuotientEquiv_mk K S D p t) U hgen (Ideal.Quotient.mk _ (h * a))
     rw [primeZeroTimesPowerQuotientEquiv_mk, productPrincipalCharacter_mk] at hh
-    simpa only [map_mul] using hh
+    simpa only [Subalgebra.coe_mul, map_mul] using hh
   have heq : finitePoissonFactor K S P den A h =
       fourier (ψ.mulShift ((V : R) ^ 6)) (fun x => (χ ^ t) (ρ x)) (Ideal.Quotient.mk _ h) := by
     rw [finitePoissonFactor_eq_sum_kernel]
@@ -502,10 +508,10 @@ theorem finitePoisson_power_zero_eq_symbol (P : ProbeData K S)
     have hh := productPrincipalCharacter_unitShift_of_generators K S D p k den A e
       (primePowerTimesZeroQuotientEquiv_mk K S D p k) U hgen (Ideal.Quotient.mk _ (h * a))
     rw [primePowerTimesZeroQuotientEquiv_mk, productPrincipalCharacter_mk] at hh
-    simpa only [map_mul] using hh
+    simpa only [Subalgebra.coe_mul, map_mul] using hh
   have hN : (exteriorNorm K S den : ℂ) = (Fintype.card R : ℂ) := by
     rw [principalPower_card]
-    simp only [den, exteriorNorm, exteriorPower, exteriorPrimeIdeal, Submonoid.coe_pow,
+    simp only [den, exteriorNorm, exteriorPower, exteriorPrimeIdeal, SubmonoidClass.coe_pow,
       map_pow, Nat.cast_pow, Complex.ofReal_pow, Complex.ofReal_natCast]
   have heq : finitePoissonFactor K S P den A h = f ((V : R) ^ 6 * Ideal.Quotient.mk _ h) := by
     rw [finitePoissonFactor_eq_sum_kernel, hN, ← e.toEquiv.sum_comp]

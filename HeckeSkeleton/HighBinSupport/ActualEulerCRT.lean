@@ -269,7 +269,7 @@ theorem productPrincipalCharacter_scaledCRT (D : ThetaArithmeticData K S)
     D.generator_ne_zero I (Subtype.ext hz)
   have hJ : (D.generator J : K) ≠ 0 := fun hz =>
     D.generator_ne_zero J (Subtype.ext hz)
-  simp only [map_mul, map_add]
+  simp only [Subalgebra.coe_mul, Subalgebra.coe_add]
   field_simp [hI, hJ] <;> ring
 
 /-- Exact character transport for a specified allowed-generator correction. -/
@@ -290,7 +290,7 @@ theorem product_character_sixth_shift (D : ThetaArithmeticData K S)
   have hI : (D.generator I : K) ≠ 0 := fun hz => D.generator_ne_zero I (Subtype.ext hz)
   have hJ : (D.generator J : K) ≠ 0 := fun hz => D.generator_ne_zero J (Subtype.ext hz)
   rw [hu]
-  simp only [map_mul, map_pow]
+  simp only [Subalgebra.coe_mul, Subalgebra.coe_pow]
   field_simp [huK, hI, hJ] <;> ring
 
 /-- An invariant actual quotient function sees the same Fourier transform

@@ -83,6 +83,20 @@ jobs:
             highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-actual-
             highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-mellin-
             highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-core-
+      # A cancelled deep job cannot save its new dependency builds. Merge the
+      # latest finite-Fourier checkpoint into its existing deeper cache; Lake
+      # still validates source/import/toolchain traces before reusing objects.
+      - name: Restore completed finite Fourier dependencies
+        if: matrix.scope == 'actual' || matrix.scope == 'mellin'
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+            .lake/packages/TauCeti/.lake/build
+          key: highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-fourier-${{ github.sha }}
+          restore-keys: |
+            highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-fourier-
       # Preserve a reusable native dependency checkpoint before starting the
       # expensive arithmetic build, including when a runner later disappears.
       - name: Export restored project objects

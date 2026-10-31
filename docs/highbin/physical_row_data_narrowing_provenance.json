@@ -23,13 +23,13 @@
   "actual_initial_absolute": {
     "path": "HeckeSkeleton/HighBinSupport/ActualInitialAbsolute.lean",
     "old_source_sha256": "6df4d57cd501666b9b3ddb689ebe0d3fa795cd9632d86c366a4c34434085c646",
-    "new_source_sha256": "844b971a29b34bb2132e4b8caa1cc7adc0bbe89e5784d2a12c25d6e4e5181aeb",
-    "declaration_region_sha256": "53720d834f3ad51787c175a783b9bbc551409d4a8dbcfd2cbe64c475d2a17f9c",
+    "new_source_sha256": "5d6634e0d78e5acb422de023326f38365c04bdfe20ba41716ce83bc3a69fe594",
+    "declaration_region_sha256": "ff03102f0f4ecf1c0c6c24c1e475326e9c26971e6ab6e7d78a529b1736dc6614",
     "declaration_region_byte_identical": false,
     "import_only_source_sha256": "591403e856ead4b75f510c094a245e954b52dec3e215811097c7752bf5968dc9",
     "import_only_declaration_region_sha256": "5b12739d777e307dfdac2cba97bf6e6be5639e04619355bcea3f9c493c085f80",
     "import_only_declaration_region_byte_identical": true,
-    "subsequent_native_repairs": "dfa2b35 native diagnostics: use actual Subalgebra coercion lemmas, specify the completed ideal in the coefficient bound, and prove product-majorant equality pointwise. All 29 declaration headers are unchanged. The earlier import-only extraction remains recorded separately; these proof repairs await the next native check."
+    "subsequent_native_repairs": "dfa2b35 native diagnostics: use actual Subalgebra coercion lemmas, specify the completed ideal in the coefficient bound, and prove product-majorant equality pointwise. All 29 declaration headers are unchanged. The earlier import-only extraction remains recorded separately; these proof repairs await the next native check. The3023ebc follow-up gives all four real exponents explicitly in the pointwise majorant."
   },
   "validation": "pending native check; source-level identity and import closure are checked separately",
   "mathlib_revision": "0493595ecd5da8ef14742febab99728f98e948e8",
@@ -48,7 +48,7 @@
     "project_module_count": 223,
     "direct_Mathlib_umbrella_modules": [],
     "unresolved_project_imports": [],
-    "source_tree_sha256": "7cc8efb435ad5a8f79845b65a5fd82d0ca5a5c5eb181952a4e4b925a5679bdac",
+    "source_tree_sha256": "44e3da63549272ef83091c77ee81cbc8314610baf0e826be4521033ef91404f0",
     "source_tree_hash_method": "SHA256 of UTF-8 lines sorted by module name, each line: module name, one ASCII space, source SHA256, newline; current repository sources only."
   }
 }

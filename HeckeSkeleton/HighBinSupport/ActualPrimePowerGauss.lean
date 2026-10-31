@@ -371,8 +371,11 @@ theorem primePower_addCharacter_unitShift (D : ThetaArithmeticData K S)
   have huK : ((u : S.integer K) : K) ≠ 0 := by
     intro h
     exact u.ne_zero (Subtype.ext h)
+  have huinv : (((u⁻¹ : (S.integer K)ˣ) : S.integer K) : K) =
+      (((u : S.integer K) : K)⁻¹) :=
+    map_units_inv (S.integer K).val u
   rw [hgen]
-  simp only [map_mul, map_pow, map_units_inv]
+  simp only [Subalgebra.coe_mul, Subalgebra.coe_pow, huinv]
   field_simp [hπK, huK] <;> ring
 
 /-- The original probe Gauss sum on the actual p^n quotient is exactly

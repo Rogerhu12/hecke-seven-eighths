@@ -87,6 +87,13 @@ using the pinned `SubmonoidClass`/`Subalgebra` APIs and an explicit summability
 congruence. All 34 declaration headers in the two files are unchanged. This
 latest source repair still awaits its native check; diagnostics from a failed
 build, including Lean's recovery `sorryAx`, are not verification evidence.
+At `3023ebc`, `ActualGeneratorPowers` passed, and the earlier coercion and
+summability errors were absent. The native run then identified the remaining
+four unspecified real exponents in the pointwise majorant and a residue-map
+rewrite that exposed inconsistent quotient aliases. These now use explicit
+exponents and one fully expanded, type-correct residue expression. The same
+confirmed S-integer coercion rules are applied to the downstream finite-Poisson,
+prime-power Gauss and CRT phase identities; their statements are unchanged.
 The comparisons are recorded in
 [physical_row_data_narrowing_provenance.json](physical_row_data_narrowing_provenance.json)
 and [flt_import_narrowing_provenance.json](flt_import_narrowing_provenance.json).
@@ -209,6 +216,12 @@ checks in the same branch/scope group. The HIGHBIN workflow checks the small
 core prerequisites first and
 preserves the smaller completed project-build caches after a proof failure
 or the build subprocess timeout.
+The deeper Mellin/actual jobs additionally restore the most recent completed
+Fourier checkpoint over their existing deeper checkpoint, with the identical
+toolchain/manifest cache key. Complete build directories, including traces and
+sidecars, are restored. Lake still checks source and import hashes, and every
+scope still executes its build and axiom audit. This allows progress from a
+completed Fourier job to survive cancellation of a superseded deeper job.
 
 
 The arithmetic run at `61699e94` reached the 60-minute subprocess timeout.
@@ -264,8 +277,9 @@ initial-domain scalar declarations now move verbatim from
 are unchanged; the new separate module passed the native core audit at `8e45885`.
 The remaining expanded counts are source inventories.
 
-`ActualGaussData` moves the existing prime Gauss definitions and proofs out of
-`ActualEulerData` without changing their names, statements or bodies. The latter
+`ActualGaussData` originally moved the existing prime Gauss definitions and proofs out of
+`ActualEulerData` without changing their names, statements or bodies. Subsequent
+native-reported proof repairs preserve those names and statements. The latter
 imports and reexports them. Finite prime-power, Poisson and CRT modules therefore
 avoid the unrelated global row-character construction during their independent
 native check. The actual initial calibration and complete `TRowEulerInput`

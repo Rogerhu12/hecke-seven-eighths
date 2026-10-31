@@ -66,8 +66,14 @@ theorem primeQuotientSymbol_equiv (D : ThetaArithmeticData K S)
     symbolOnQuotient K S D (exteriorPrimeIdeal K S p) (thetaPrimeResidueEquiv K S p x) =
       thetaPrimeCharacter K S D p x := by
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
-  rw [thetaPrimeResidueEquiv, sIntegerResidueEquiv_mk,
-    symbolOnQuotient, sIntegerSexticIdealQuotientFunction_mk]
+  let hS : ∀ q : HeightOneSpectrum (𝓞 K), q.asIdeal ∣ p.val.asIdeal → q ∉ S :=
+    (exteriorPrimeIdeal K S p).property
+  change sIntegerSexticIdealQuotientFunction K S D.root6 D.primitive6 D.embedding
+      p.val.asIdeal p.val.ne_bot hS
+      (fun q hq => D.away_six q (hS q hq))
+      (sIntegerResidueEquiv K S p.val.asIdeal
+        (sIntegerSexticResidue_coprime K S p.val p.property) (Ideal.Quotient.mk _ a)) = _
+  rw [sIntegerResidueEquiv_mk, sIntegerSexticIdealQuotientFunction_mk]
   change idealSymbol K S D (exteriorPrimeIdeal K S p)
     (algebraMap (𝓞 K) (S.integer K) a) = _
   rw [idealSymbol_eq_idealCoefficient]

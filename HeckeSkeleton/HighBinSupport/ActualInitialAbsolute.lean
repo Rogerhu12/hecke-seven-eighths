@@ -391,8 +391,10 @@ theorem norm_initialRowEulerTerm_le (P : ProbeData K S) (ψ : HeckeCharacter K)
     have hb := mul_le_mul_of_nonneg_right
       (mul_le_mul_of_nonneg_right
         (mul_le_mul_of_nonneg_right
-          (mul_le_mul_of_nonneg_right hcoef (Real.rpow_nonneg hc.le _))
-          (Real.rpow_nonneg hn.le _)) (Real.rpow_nonneg hd.le _)) (Real.rpow_nonneg hr.le _)
+          (mul_le_mul_of_nonneg_right hcoef
+            (Real.rpow_nonneg hc.le (-(1 / 2 : ℝ) - s.re)))
+          (Real.rpow_nonneg hn.le (-1 - 3 * s.re)))
+        (Real.rpow_nonneg hd.le (-w.re))) (Real.rpow_nonneg hr.le (-6 * z.re))
     apply hb.trans_eq
     calc
       _ = (Real.sqrt (exteriorNorm K S c) * exteriorNorm K S c *
