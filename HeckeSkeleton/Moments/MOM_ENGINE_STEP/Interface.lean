@@ -487,6 +487,10 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstDualTerminalWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualSupportedStages
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalDualProfileWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalCentralCoefficientBound
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalParentTuples
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionScalarMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionFamilyMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSixthSourceMass
 
 /-!
 # The unified child step of the paired fourth-moment engine
