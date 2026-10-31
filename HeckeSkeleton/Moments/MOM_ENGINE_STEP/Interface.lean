@@ -493,6 +493,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionFamilyMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSixthSourceMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDualZeroSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingCoefficientBound
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalActiveColumnNorm
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalUnionColumnNorm
 
 /-!
 # The unified child step of the paired fourth-moment engine
