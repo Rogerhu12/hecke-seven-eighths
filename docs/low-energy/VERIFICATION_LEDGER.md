@@ -23,7 +23,7 @@ Python fixtures, cancelled runs, and incomplete local diagnostics are not proof 
 <!-- pending-source-refresh:ledger:start -->
 ### Current pending-source assessment
 
-The completed batch retains 84/94 Built observations. Current source assessments: 84 matching Built sources, 5 changed sources, 5 source-matching modules without terminal events. Later diagnostics do not create completed successes or verify the current full graph/final targets.
+The completed batch retains 84/94 Built observations. Current source assessments: 84 matching Built sources, 6 changed sources, 4 source-matching modules without terminal events. Later diagnostics do not create completed successes or verify the current full graph/final targets.
 <!-- pending-source-refresh:ledger:end -->
 
 **Pending source update — 2026-10-31T11:31:07.249463+00:00** (run 41196034806; job 124522578454; source_head 2850c225f246ebf9d535ef0bf1031debd8fe360a).
@@ -49,6 +49,18 @@ The completed batch retains 84/94 Built observations. Current source assessments
 > ActualTupleReconstruction contained two further calls to the same unavailable identifier. Its zero-row proof now directly simplifies the already established coprimality-zero atom and tsum_zero. This is a preventive same-pattern repair, not an observed compiler failure in that module.
 > 
 > Statements, hypotheses, coefficients, cutoffs and constants are unchanged. Both repairs await compilation in the newly integrated e66f7384 dependency context. The latest archived complete native evidence remains round 11; both final energy audits remain unverified.
+
+**Pending source update — 2026-10-31T13:45:00.313727+00:00** (run 41205984586; job 124551256989; source_head d6f5ce52bc4aee5578233b779871412ff027f1bd).
+
+`ActualFrozenReconstruction`, `ActualTupleReconstruction`: current hashes updated; repairs await compilation. This note is diagnostic context only, with no completed-run or final-audit claim.
+
+> Round 14 partial diagnostics belong to exact checkout d6f5ce52bc4aee5578233b779871412ff027f1bd, run 41205984586, actual job 124551256989. ActualAnnularBlockEnergy and ActualFrozenAggregation have fresh Built events (8.6 and 5.0 seconds). These partial observations do not certify the completed batch or final energy audits.
+> 
+> ActualFrozenReconstruction reached the default 200000-heartbeat limit while elaborating the hB summability transport at executed line 106. The missing theorem reported at line 190 is downstream fallout. The repair cancels the known nonzero inactive weight with its inverse through a bounded simp-only list, avoiding higher-order congruence elaboration and leaving annularDualRow opaque. The heartbeat limit is unchanged.
+> 
+> ActualTupleReconstruction also receives three localized rw-to-erw changes where ordinary actualMarkedDatum record fields must reduce to the empty puncture and M.image t. This is a preventive application of the previously confirmed dependent-field rewrite pattern, not an observed compiler failure in that module.
+> 
+> All statements, hypotheses, factors, cutoffs and constant quantifiers are unchanged. These repaired source versions await native compilation. The latest archived complete native evidence remains round 11, and both final energy audits remain unverified.
 
 | Module | Current source SHA-256 | Current source evidence | Round 11 native observation |
 |---|---|---|---|
@@ -138,9 +150,9 @@ The completed batch retains 84/94 Built observations. Current source assessments
 | `HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy` | `66559059e3e32ec55dba8fd635ed3fc1d2f52fabdb39b1751dda0d2054a9a2c8` | native_lake_built_source_match | Built |
 | `HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy` | `b1dd7b6e8ef6f20165d47d3216f57c4f370817abc3f33ae1f3918eea762a210e` | changed_since_recorded_source | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualFrozenAggregation` | `c9d2d736cb4ee3648e3978c78396714e4278278612329f0cbf609231de9b863f` | changed_since_recorded_source | no_terminal_event |
-| `HeckeSkeleton.LowEnergy.ActualFrozenReconstruction` | `5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7` | native_lake_no_terminal_event | no_terminal_event |
+| `HeckeSkeleton.LowEnergy.ActualFrozenReconstruction` | `e75d895808f14994b5778a2322df09e2d202a6c40c3c890ec89c34fae80c5bb0` | changed_since_recorded_source | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy` | `763cd3d13594e3caead07b43da22c3d0b1e49130f57ee42f3a3e6d1bf0076cdb` | native_lake_no_terminal_event | no_terminal_event |
-| `HeckeSkeleton.LowEnergy.ActualTupleReconstruction` | `6fcc7c6a311047986ab4768c128ce88a6d73d49b8abe0d55fc8735c2ee4d7628` | changed_since_recorded_source | no_terminal_event |
+| `HeckeSkeleton.LowEnergy.ActualTupleReconstruction` | `45c15eea1cf481c806970e6aaa6f658e897b21b0b2abbacb0d9c500d622752ec` | changed_since_recorded_source | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy` | `001887112b5907e1c7bb94d554053c22acd26a656670b04f9eb7ccb06e2b7901` | native_lake_no_terminal_event | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy` | `71dbbfa8c77ed1adef2041985ce38e9e5b36bcdee74934eae85f39aa0080003a` | native_lake_no_terminal_event | no_terminal_event |
 | `HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy` | `8cdabc4e7694086af7fed2fc28be6a1799945229c838e831e9300fa0ca3fba3c` | native_lake_no_terminal_event | no_terminal_event |

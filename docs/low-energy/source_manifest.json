@@ -40991,8 +40991,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualFrozenReconstruction",
       "path": "HeckeSkeleton/LowEnergy/ActualFrozenReconstruction.lean",
-      "source_sha256": "5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7",
-      "bytes": 16196,
+      "source_sha256": "e75d895808f14994b5778a2322df09e2d202a6c40c3c890ec89c34fae80c5bb0",
+      "bytes": 16182,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": [],
@@ -41074,15 +41074,15 @@
         }
       ],
       "current_verification": {
-        "assessment": "native_lake_no_terminal_event",
+        "assessment": "changed_since_recorded_source",
         "checked_exact_source": false,
         "latest_supplied_attempt": {
           "run_key": "41194215379:native-lake:13040671465",
           "evidence_kind": "native_lake_observation",
           "observed_lake_event": "no_terminal_event",
           "recorded_source_sha256": "5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7",
-          "current_source_sha256": "5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7",
-          "source_matches": true,
+          "current_source_sha256": "e75d895808f14994b5778a2322df09e2d202a6c40c3c890ec89c34fae80c5bb0",
+          "source_matches": false,
           "evidence": {
             "file": "docs/low-energy/native_lake_round11.json",
             "run_key": "41194215379:native-lake:13040671465",
@@ -41096,7 +41096,7 @@
         "matching_preserved_historical_successes": [],
         "unresolved_historical_invalidation": null,
         "current_full_dependency_graph_verified": false,
-        "scope": "Current source bytes match the round 11 snapshot, but no terminal build event was observed for this module. No successful compilation or skip receipt is inferred."
+        "scope": "Current source changed after the recorded completed snapshot. The old native observation is retained as history; no success, process exit, or final-audit result is inferred for this repair."
       },
       "verification_assessment_history": [
         {
@@ -41152,6 +41152,36 @@
             "unresolved_historical_invalidation": null,
             "current_full_dependency_graph_verified": false,
             "scope": "Current source bytes matching a Built observation in the recorded native 6dc context. The batch failed; current repaired graph and both final targets remain unverified. Printed reports cover only the declarations actually printed."
+          }
+        },
+        {
+          "archived_at": "2026-10-31T13:45:00.313727+00:00",
+          "current_source_sha256": "5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7",
+          "reason": "Pending source repair; diagnostic note is not proof evidence.",
+          "assessment": {
+            "assessment": "native_lake_no_terminal_event",
+            "checked_exact_source": false,
+            "latest_supplied_attempt": {
+              "run_key": "41194215379:native-lake:13040671465",
+              "evidence_kind": "native_lake_observation",
+              "observed_lake_event": "no_terminal_event",
+              "recorded_source_sha256": "5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7",
+              "current_source_sha256": "5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7",
+              "source_matches": true,
+              "evidence": {
+                "file": "docs/low-energy/native_lake_round11.json",
+                "run_key": "41194215379:native-lake:13040671465",
+                "collection": "original_native_report.source_snapshot.sources",
+                "module": "HeckeSkeleton.LowEnergy.ActualFrozenReconstruction"
+              },
+              "scope": "Observed native event in the recorded round 11 batch, whose whole process exited 1. No per-module compiler exit or schema-2 receipt is inferred."
+            },
+            "matching_native_lake_built_observations": [],
+            "matching_supplied_successes": [],
+            "matching_preserved_historical_successes": [],
+            "unresolved_historical_invalidation": null,
+            "current_full_dependency_graph_verified": false,
+            "scope": "Current source bytes match the round 11 snapshot, but no terminal build event was observed for this module. No successful compilation or skip receipt is inferred."
           }
         }
       ],
@@ -41391,8 +41421,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction",
       "path": "HeckeSkeleton/LowEnergy/ActualTupleReconstruction.lean",
-      "source_sha256": "6fcc7c6a311047986ab4768c128ce88a6d73d49b8abe0d55fc8735c2ee4d7628",
-      "bytes": 34896,
+      "source_sha256": "45c15eea1cf481c806970e6aaa6f658e897b21b0b2abbacb0d9c500d622752ec",
+      "bytes": 34899,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": [],
@@ -41481,7 +41511,7 @@
           "evidence_kind": "native_lake_observation",
           "observed_lake_event": "no_terminal_event",
           "recorded_source_sha256": "9b6936640549aa01a807481159d296da64ef81c95a4a79c5e2d6da89db053f22",
-          "current_source_sha256": "6fcc7c6a311047986ab4768c128ce88a6d73d49b8abe0d55fc8735c2ee4d7628",
+          "current_source_sha256": "45c15eea1cf481c806970e6aaa6f658e897b21b0b2abbacb0d9c500d622752ec",
           "source_matches": false,
           "evidence": {
             "file": "docs/low-energy/native_lake_round11.json",
@@ -41582,6 +41612,36 @@
             "unresolved_historical_invalidation": null,
             "current_full_dependency_graph_verified": false,
             "scope": "Current source bytes match the round 11 snapshot, but no terminal build event was observed for this module. No successful compilation or skip receipt is inferred."
+          }
+        },
+        {
+          "archived_at": "2026-10-31T13:45:00.313727+00:00",
+          "current_source_sha256": "6fcc7c6a311047986ab4768c128ce88a6d73d49b8abe0d55fc8735c2ee4d7628",
+          "reason": "Pending source repair; diagnostic note is not proof evidence.",
+          "assessment": {
+            "assessment": "changed_since_recorded_source",
+            "checked_exact_source": false,
+            "latest_supplied_attempt": {
+              "run_key": "41194215379:native-lake:13040671465",
+              "evidence_kind": "native_lake_observation",
+              "observed_lake_event": "no_terminal_event",
+              "recorded_source_sha256": "9b6936640549aa01a807481159d296da64ef81c95a4a79c5e2d6da89db053f22",
+              "current_source_sha256": "6fcc7c6a311047986ab4768c128ce88a6d73d49b8abe0d55fc8735c2ee4d7628",
+              "source_matches": false,
+              "evidence": {
+                "file": "docs/low-energy/native_lake_round11.json",
+                "run_key": "41194215379:native-lake:13040671465",
+                "collection": "original_native_report.source_snapshot.sources",
+                "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction"
+              },
+              "scope": "Observed native event in the recorded round 11 batch, whose whole process exited 1. No per-module compiler exit or schema-2 receipt is inferred."
+            },
+            "matching_native_lake_built_observations": [],
+            "matching_supplied_successes": [],
+            "matching_preserved_historical_successes": [],
+            "unresolved_historical_invalidation": null,
+            "current_full_dependency_graph_verified": false,
+            "scope": "Current source changed after the recorded completed snapshot. The old native observation is retained as history; no success, process exit, or final-audit result is inferred for this repair."
           }
         }
       ],
@@ -42810,8 +42870,8 @@
     "not_checked_exact_source": 10,
     "assessments": {
       "native_lake_built_source_match": 84,
-      "changed_since_recorded_source": 5,
-      "native_lake_no_terminal_event": 5
+      "changed_since_recorded_source": 6,
+      "native_lake_no_terminal_event": 4
     },
     "current_full_dependency_graph_verified": false,
     "latest_completed_actual_head": "0c47c707eeb3e05caa1934d3da6cf0f4d6e1ce52",
@@ -42858,38 +42918,45 @@
           "bytes": 13656
         },
         {
+          "module": "HeckeSkeleton.LowEnergy.ActualFrozenReconstruction",
+          "path": "HeckeSkeleton/LowEnergy/ActualFrozenReconstruction.lean",
+          "recorded_source_sha256": "5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7",
+          "current_source_sha256": "e75d895808f14994b5778a2322df09e2d202a6c40c3c890ec89c34fae80c5bb0",
+          "bytes": 16182
+        },
+        {
           "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction",
           "path": "HeckeSkeleton/LowEnergy/ActualTupleReconstruction.lean",
           "recorded_source_sha256": "9b6936640549aa01a807481159d296da64ef81c95a4a79c5e2d6da89db053f22",
-          "current_source_sha256": "6fcc7c6a311047986ab4768c128ce88a6d73d49b8abe0d55fc8735c2ee4d7628",
-          "bytes": 34896
+          "current_source_sha256": "45c15eea1cf481c806970e6aaa6f658e897b21b0b2abbacb0d9c500d622752ec",
+          "bytes": 34899
         }
       ],
       "scope": "Current source differences require subsequent CI. Partial diagnostics do not add completed successes or verify final targets."
     },
     "pending_source_refresh": {
-      "generated_at": "2026-10-31T13:30:16.139166+00:00",
+      "generated_at": "2026-10-31T13:45:00.313727+00:00",
       "changed_sources": [
         {
-          "module": "HeckeSkeleton.LowEnergy.ActualFrozenAggregation",
-          "path": "HeckeSkeleton/LowEnergy/ActualFrozenAggregation.lean",
-          "previous_source_sha256": "57460542c3a0905caf2ffacdf7a2789a432c2a6ccc516d1fc6498abbf28a9e1d",
-          "source_sha256": "c9d2d736cb4ee3648e3978c78396714e4278278612329f0cbf609231de9b863f",
-          "bytes": 13656
+          "module": "HeckeSkeleton.LowEnergy.ActualFrozenReconstruction",
+          "path": "HeckeSkeleton/LowEnergy/ActualFrozenReconstruction.lean",
+          "previous_source_sha256": "5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7",
+          "source_sha256": "e75d895808f14994b5778a2322df09e2d202a6c40c3c890ec89c34fae80c5bb0",
+          "bytes": 16182
         },
         {
           "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction",
           "path": "HeckeSkeleton/LowEnergy/ActualTupleReconstruction.lean",
-          "previous_source_sha256": "9b6936640549aa01a807481159d296da64ef81c95a4a79c5e2d6da89db053f22",
-          "source_sha256": "6fcc7c6a311047986ab4768c128ce88a6d73d49b8abe0d55fc8735c2ee4d7628",
-          "bytes": 34896
+          "previous_source_sha256": "6fcc7c6a311047986ab4768c128ce88a6d73d49b8abe0d55fc8735c2ee4d7628",
+          "source_sha256": "45c15eea1cf481c806970e6aaa6f658e897b21b0b2abbacb0d9c500d622752ec",
+          "bytes": 34899
         }
       ],
-      "diagnostic_note": "Round 13 partial diagnostics belong to exact checkout 9f5c25feee565ba605034fb6a80ede4b21cd7c4f, run 41204593530, actual job 124547337675. ActualAnnularBlockEnergy has a fresh Built event (7.9 seconds); this is a partial observation, not a completed batch or final audit result.\n\nActualFrozenAggregation reported an unavailable tsum_eq_zero identifier (and a no-goals consequence) plus a finite-sum normalization mismatch at the executed source's lines 87, 88 and 207. The zero-row proof now uses a typed pointwise zero identity and tsum_zero. The energy proof explicitly unfolds its local Classes alias before the unchanged product-sum/cardinality normalization.\n\nActualTupleReconstruction contained two further calls to the same unavailable identifier. Its zero-row proof now directly simplifies the already established coprimality-zero atom and tsum_zero. This is a preventive same-pattern repair, not an observed compiler failure in that module.\n\nStatements, hypotheses, coefficients, cutoffs and constants are unchanged. Both repairs await compilation in the newly integrated e66f7384 dependency context. The latest archived complete native evidence remains round 11; both final energy audits remain unverified.\n",
+      "diagnostic_note": "Round 14 partial diagnostics belong to exact checkout d6f5ce52bc4aee5578233b779871412ff027f1bd, run 41205984586, actual job 124551256989. ActualAnnularBlockEnergy and ActualFrozenAggregation have fresh Built events (8.6 and 5.0 seconds). These partial observations do not certify the completed batch or final energy audits.\n\nActualFrozenReconstruction reached the default 200000-heartbeat limit while elaborating the hB summability transport at executed line 106. The missing theorem reported at line 190 is downstream fallout. The repair cancels the known nonzero inactive weight with its inverse through a bounded simp-only list, avoiding higher-order congruence elaboration and leaving annularDualRow opaque. The heartbeat limit is unchanged.\n\nActualTupleReconstruction also receives three localized rw-to-erw changes where ordinary actualMarkedDatum record fields must reduce to the empty puncture and M.image t. This is a preventive application of the previously confirmed dependent-field rewrite pattern, not an observed compiler failure in that module.\n\nAll statements, hypotheses, factors, cutoffs and constant quantifiers are unchanged. These repaired source versions await native compilation. The latest archived complete native evidence remains round 11, and both final energy audits remain unverified.\n",
       "diagnostic_context": {
-        "run": 41204593530,
-        "job": 124547337675,
-        "source_head": "9f5c25feee565ba605034fb6a80ede4b21cd7c4f"
+        "run": 41205984586,
+        "job": 124551256989,
+        "source_head": "d6f5ce52bc4aee5578233b779871412ff027f1bd"
       },
       "scope": "Caller-supplied diagnostic context only; no proof result or new completed run."
     }
@@ -43208,6 +43275,32 @@
         "run": 41204593530,
         "job": 124547337675,
         "source_head": "9f5c25feee565ba605034fb6a80ede4b21cd7c4f"
+      },
+      "scope": "Caller-supplied diagnostic context only; no proof result or new completed run."
+    },
+    {
+      "generated_at": "2026-10-31T13:45:00.313727+00:00",
+      "changed_sources": [
+        {
+          "module": "HeckeSkeleton.LowEnergy.ActualFrozenReconstruction",
+          "path": "HeckeSkeleton/LowEnergy/ActualFrozenReconstruction.lean",
+          "previous_source_sha256": "5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7",
+          "source_sha256": "e75d895808f14994b5778a2322df09e2d202a6c40c3c890ec89c34fae80c5bb0",
+          "bytes": 16182
+        },
+        {
+          "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction",
+          "path": "HeckeSkeleton/LowEnergy/ActualTupleReconstruction.lean",
+          "previous_source_sha256": "6fcc7c6a311047986ab4768c128ce88a6d73d49b8abe0d55fc8735c2ee4d7628",
+          "source_sha256": "45c15eea1cf481c806970e6aaa6f658e897b21b0b2abbacb0d9c500d622752ec",
+          "bytes": 34899
+        }
+      ],
+      "diagnostic_note": "Round 14 partial diagnostics belong to exact checkout d6f5ce52bc4aee5578233b779871412ff027f1bd, run 41205984586, actual job 124551256989. ActualAnnularBlockEnergy and ActualFrozenAggregation have fresh Built events (8.6 and 5.0 seconds). These partial observations do not certify the completed batch or final energy audits.\n\nActualFrozenReconstruction reached the default 200000-heartbeat limit while elaborating the hB summability transport at executed line 106. The missing theorem reported at line 190 is downstream fallout. The repair cancels the known nonzero inactive weight with its inverse through a bounded simp-only list, avoiding higher-order congruence elaboration and leaving annularDualRow opaque. The heartbeat limit is unchanged.\n\nActualTupleReconstruction also receives three localized rw-to-erw changes where ordinary actualMarkedDatum record fields must reduce to the empty puncture and M.image t. This is a preventive application of the previously confirmed dependent-field rewrite pattern, not an observed compiler failure in that module.\n\nAll statements, hypotheses, factors, cutoffs and constant quantifiers are unchanged. These repaired source versions await native compilation. The latest archived complete native evidence remains round 11, and both final energy audits remain unverified.\n",
+      "diagnostic_context": {
+        "run": 41205984586,
+        "job": 124551256989,
+        "source_head": "d6f5ce52bc4aee5578233b779871412ff027f1bd"
       },
       "scope": "Caller-supplied diagnostic context only; no proof result or new completed run."
     }

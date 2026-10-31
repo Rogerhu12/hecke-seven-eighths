@@ -75,7 +75,7 @@
 <!-- pending-source-refresh:status:start -->
 ### 当前源码待验证分类
 
-已归档批次仍记录 84/94 个 Built 观察；当前源码匹配数为 84/94，已修改待验证 5 个，源码匹配但无终结事件 5 个。后续诊断不增加已完成构建数；当前完整依赖图和最终目标仍未验证。
+已归档批次仍记录 84/94 个 Built 观察；当前源码匹配数为 84/94，已修改待验证 6 个，源码匹配但无终结事件 4 个。后续诊断不增加已完成构建数；当前完整依赖图和最终目标仍未验证。
 <!-- pending-source-refresh:status:end -->
 
 **Pending source update — 2026-10-31T11:31:07.249463+00:00** (run 41196034806; job 124522578454; source_head 2850c225f246ebf9d535ef0bf1031debd8fe360a).
@@ -101,6 +101,18 @@
 > ActualTupleReconstruction contained two further calls to the same unavailable identifier. Its zero-row proof now directly simplifies the already established coprimality-zero atom and tsum_zero. This is a preventive same-pattern repair, not an observed compiler failure in that module.
 > 
 > Statements, hypotheses, coefficients, cutoffs and constants are unchanged. Both repairs await compilation in the newly integrated e66f7384 dependency context. The latest archived complete native evidence remains round 11; both final energy audits remain unverified.
+
+**Pending source update — 2026-10-31T13:45:00.313727+00:00** (run 41205984586; job 124551256989; source_head d6f5ce52bc4aee5578233b779871412ff027f1bd).
+
+`ActualFrozenReconstruction`, `ActualTupleReconstruction`: current hashes updated; repairs await compilation. This note is diagnostic context only, with no completed-run or final-audit claim.
+
+> Round 14 partial diagnostics belong to exact checkout d6f5ce52bc4aee5578233b779871412ff027f1bd, run 41205984586, actual job 124551256989. ActualAnnularBlockEnergy and ActualFrozenAggregation have fresh Built events (8.6 and 5.0 seconds). These partial observations do not certify the completed batch or final energy audits.
+> 
+> ActualFrozenReconstruction reached the default 200000-heartbeat limit while elaborating the hB summability transport at executed line 106. The missing theorem reported at line 190 is downstream fallout. The repair cancels the known nonzero inactive weight with its inverse through a bounded simp-only list, avoiding higher-order congruence elaboration and leaving annularDualRow opaque. The heartbeat limit is unchanged.
+> 
+> ActualTupleReconstruction also receives three localized rw-to-erw changes where ordinary actualMarkedDatum record fields must reduce to the empty puncture and M.image t. This is a preventive application of the previously confirmed dependent-field rewrite pattern, not an observed compiler failure in that module.
+> 
+> All statements, hypotheses, factors, cutoffs and constant quantifiers are unchanged. These repaired source versions await native compilation. The latest archived complete native evidence remains round 11, and both final energy audits remain unverified.
 
 ## 目标、假设与调用方
 

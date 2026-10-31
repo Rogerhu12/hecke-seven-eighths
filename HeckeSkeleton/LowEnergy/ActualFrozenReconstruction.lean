@@ -103,8 +103,8 @@ theorem frozenReflectedRow_eq_physical_atoms [Finite (SixthLocalClasses K S)]
     annularDualRow K S D f s F θ classes a Z (ps.image (fun P => P.val.val)) i k.val.val
   have hB (s : States) (classes : Classes) : Summable (B s classes) := by
     have h := (hpoint s classes).mul_left (inactiveWeight K S f)
-    exact h.congr (fun i => (annularDualRow_eq_inactive_mul K S D f s F θ classes a Z
-      (ps.image (fun P => P.val.val)) i k.val.val).symm)
+    simpa only [B, reducedAnnularDualRow, ← mul_assoc,
+      mul_inv_cancel₀ (inactiveWeight_ne_zero K S f), one_mul] using h
   let H : States → Classes → ℤ → ℂ := fun s classes shift =>
     ∑' p : ℕ × ℕ, B s classes (shift, p)
   have hH (s : States) (classes : Classes) : Summable (H s classes) :=

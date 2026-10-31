@@ -248,12 +248,12 @@ theorem completedThetaSum_eq_slotPhysicalRows
   by_cases hQ : ∀ p ∈ M.image t, ¬p.val.asIdeal ∣ x.1.val.val
   · let d := actualMarkedDatum K S x (M.image t) hQ
     rw [← actualMarkedDatum_rowElement K S D x (M.image t) hQ]
-    rw [completedThetaSum_eq_fixedPhysicalRows K S D hD F θ hreflection d V Y hY]
-    rw [active_prime_subsets_eq_slot_subsets K S g T Z t ht M]
+    erw [completedThetaSum_eq_fixedPhysicalRows K S D hD F θ hreflection d V Y hY]
+    erw [active_prime_subsets_eq_slot_subsets K S g T Z t ht M]
     apply Finset.sum_congr rfl
     intro A hA
     have hAM := Finset.mem_powerset.mp hA
-    rw [dif_pos (Finset.image_subset_image hAM),
+    erw [dif_pos (Finset.image_subset_image hAM),
       tuplePhysicalRow_eq_splitFixed K S D x F θ g M A hAM t
         (HeckeSkeleton.LowCauchy.lc_injective_of_mem_piFinset ht) hQ V.toFun Y]
     rfl
