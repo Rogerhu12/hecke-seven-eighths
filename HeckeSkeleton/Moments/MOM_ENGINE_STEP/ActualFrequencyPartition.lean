@@ -165,7 +165,9 @@ theorem actual_product_correlation_frequency_dvd
   apply Fintype.prod_dvd_of_coprime
   · intro i j hij
     exact (Ideal.isCoprime_span_singleton_iff _ _).mp
-      (primePowerGenerator_pairwise C p hp _ hij)
+      (primePowerGenerator_pairwise C p hp
+        (fun i => min (m i) (n i) +
+          if nonunitFrequencySaving C (p i) (m i) (n i) h then 1 else 0) hij)
   · intro i
     by_cases hv : nonunitFrequencySaving C (p i) (m i) (n i) h
     · rw [if_pos hv]

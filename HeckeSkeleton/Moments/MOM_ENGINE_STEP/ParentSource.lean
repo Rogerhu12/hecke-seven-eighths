@@ -148,8 +148,10 @@ theorem parent_orbital_source_bound {ω ψ₀ : HeckeCharacter K}
   have hre (q : Q) : (T q).re =
       (sIntegerOrbitAvoidanceMask K _ Γ M q).re * cal.weight q * ‖P q‖ ^ 2 := by
     rw [hgram, Complex.star_def, Complex.mul_conj', ← Complex.ofReal_pow]
-    rcases sIntegerOrbitAvoidanceMask_zero_or_one K _ Γ M q with h | h <;>
-      simp [h]
+    rcases sIntegerOrbitAvoidanceMask_zero_or_one K _ Γ M q with h | h
+    · simp only [h, zero_mul, Complex.zero_re]
+    · rw [h, one_mul, Complex.one_re, one_mul,
+        ← Complex.ofReal_mul, Complex.ofReal_re]
   have hnonneg (q : Q) : 0 ≤ (T q).re := by
     rw [hre]
     have hm : 0 ≤ (sIntegerOrbitAvoidanceMask K _ Γ M q).re := by
@@ -198,7 +200,7 @@ theorem parent_orbital_source_bound {ω ψ₀ : HeckeCharacter K}
         (hsumre.sum_le_tsum imageRows (fun q hq => hnonneg q)) (Nat.cast_nonneg _)
     _ = _ := by rw [← Complex.re_tsum hsum, htotal]
 
-variable [IsPrincipalIdealRing OS]
+variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
   [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
   (ν : Measure (FiniteAdeleRing (𝓞 K) K)) [ν.IsAddHaarMeasure]

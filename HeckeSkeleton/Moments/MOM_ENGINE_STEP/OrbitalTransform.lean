@@ -131,8 +131,13 @@ theorem whole_masked_orbital_poisson {ι : Type*}
     (hlc : ∀ v ∈ S, IsLocallyConstant (h v))
     (hcs : ∀ v ∈ S, HasCompactSupport (h v))
     (M : Finset (HeightOneSpectrum OS)) (r : {r : ℝ // 0 < r}) :
-    let f := wholeResidueEnergy columns c G
-    let hf := fun (u : Γ) (a : OS) =>
+    let f : (OS ⧸ Ideal.span ({modulus} : Set OS)) → ℂ :=
+      wholeResidueEnergy columns c G
+    let hf : ∀ u : Γ, ∀ a : OS,
+        f (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS))
+          (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a)) =
+        f (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS)) a) :=
+      fun (u : Γ) (a : OS) =>
       wholeResidueEnergy_congr columns c G
         (Ideal.Quotient.mk (Ideal.span ({modulus} : Set OS))
           (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a))
@@ -140,17 +145,17 @@ theorem whole_masked_orbital_poisson {ι : Type*}
         (fun i hi => hinv i hi u a)
     sIntegerWeightedOrbitalSeries K S Γ φ (sIntegerFiniteTestFunction K S h) r
         (fun q => sIntegerOrbitAvoidanceMask K _ Γ M q *
-          sIntegerPeriodicOrbitWeight K _ Γ modulus f hf q) =
+          sIntegerPeriodicOrbitWeight K (S : Set (HeightOneSpectrum (𝓞 K))) Γ modulus f hf q) =
       ∑ D ∈ M.powerset, (moebius (IdealMobiusMask.primeProduct D) : ℂ) *
         (sIntegerMaskPoissonFactor K S modulus hmodulus r (sIntegerMaskGenerator K _ D) *
           sIntegerWeightedOrbitalSeries K S Γ (traceSchwartzFourier K φ)
             (sIntegerFiniteFourierTestFunction K S μv h)
             (sIntegerMaskDualRadius K S modulus hmodulus r (sIntegerMaskGenerator K _ D))
-            (sIntegerPeriodicFourierOrbitWeight K _ hS Γ modulus hmodulus f hf
+            (sIntegerPeriodicFourierOrbitWeight K (S : Set (HeightOneSpectrum (𝓞 K))) hS Γ modulus hmodulus f hf
               (sIntegerMaskGenerator K _ D).val) +
           ((sUnitHaarCovolume K (S : Set (HeightOneSpectrum (𝓞 K))) Γ).toReal : ℂ) *
             (sIntegerMaskPoissonFactor K S modulus hmodulus r (sIntegerMaskGenerator K _ D) *
-                (sIntegerPeriodicDivisorFourier K _ hS modulus hmodulus f
+                (sIntegerPeriodicDivisorFourier K (S : Set (HeightOneSpectrum (𝓞 K))) hS modulus hmodulus f
                     (sIntegerMaskGenerator K _ D).val 0 *
                   sIntegerDualTensorTerm K μv S (traceSchwartzToMixed K φ) h 0) -
               f 0 * sIntegerTensorTerm K S (traceSchwartzToMixed K φ) h 0)) := by
@@ -193,7 +198,7 @@ theorem exists_whole_masked_orbital_truncation
             (fun i hi => hinv i hi u a)
         ‖sIntegerWeightedOrbitalSeries K S Γ φ (sIntegerFiniteTestFunction K S h) r
             (fun q => sIntegerOrbitAvoidanceMask K _ Γ M q *
-              sIntegerPeriodicOrbitWeight K _ Γ modulus f hf q) -
+              sIntegerPeriodicOrbitWeight K (S : Set (HeightOneSpectrum (𝓞 K))) Γ modulus f hf q) -
           sIntegerMaskedPeriodicApproximation K S Γ μv modulus hmodulus hS
             φ h M f hf r X‖ ≤
           C * seminorms.sup (schwartzSeminormFamily ℂ V ℂ) φ * X ^ (1 - decay) *

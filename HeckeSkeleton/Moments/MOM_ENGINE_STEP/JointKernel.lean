@@ -107,12 +107,8 @@ theorem joint_kernel_inversion (F : 𝓢(V, ℂ)) (z : V) :
       (F.integrable (μ := (volume : Measure V)))
       ((𝓕 F).integrable (μ := (volume : Measure V)))) z
   rw [Real.fourierInv_eq] at h
-  calc
-    F z = ∫ ξ : V, jointPhase ξ z * (𝓕 F) ξ := by
-      simpa only [SchwartzMap.fourier_coe, Circle.smul_def, smul_eq_mul, jointPhase] using h.symm
-    _ = ∫ ξ : V, (𝓕 F) ξ * jointPhase ξ z := by
-      apply integral_congr_ae
-      exact Filter.Eventually.of_forall fun ξ => mul_comm (jointPhase ξ z) ((𝓕 F) ξ)
+  simpa only [SchwartzMap.fourier_coe, Circle.smul_def, smul_eq_mul,
+    jointPhase, mul_comm] using h.symm
 
 /-- The literal finite bilinear kernel form, including every row and column. -/
 def jointKernelPairing {H ι κ : Type*} (F : 𝓢(V, ℂ))

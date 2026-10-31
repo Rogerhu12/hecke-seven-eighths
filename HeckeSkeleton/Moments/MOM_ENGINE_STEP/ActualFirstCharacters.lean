@@ -92,10 +92,11 @@ def actualFirstActiveCharacter (C : A.GeneralArithmeticContext σ η hS)
     (p : ι → ExteriorPrime A) (hp : Function.Injective p) (m n : ι → ℕ) :
     MulChar (A.R ⧸ Ideal.span {firstActiveGenerator C p m n}) ℂ :=
   crtCharacter (productCRT
-    (fun i : activeSupport Finset.univ m n => generator C (p i.val) ^ 1)
+    (fun i : activeSupport Finset.univ m n => generator C (firstActivePrimes p m n i) ^ 1)
     (primePowerGenerator_pairwise C (firstActivePrimes p m n)
       (firstActivePrimes_injective p hp m n) (fun _ => 1)))
-    (fun i => localMaskedCharacter C (p i.val) 1 one_ne_zero ^ netExponent (m i.val) (n i.val))
+    (fun i => localMaskedCharacter C (firstActivePrimes p m n i) 1 one_ne_zero ^
+      netExponent (m i.val) (n i.val))
 
 theorem actualFirstActiveCharacter_mk (C : A.GeneralArithmeticContext σ η hS)
     (p : ι → ExteriorPrime A) (hp : Function.Injective p) (m n : ι → ℕ) (x : A.R) :
@@ -103,11 +104,14 @@ theorem actualFirstActiveCharacter_mk (C : A.GeneralArithmeticContext σ η hS)
       ∏ i : activeSupport Finset.univ m n,
         (chi (σ := σ) (p i.val) ^ netExponent (m i.val) (n i.val))
           (Ideal.Quotient.mk (A.extendIdeal (primeIdeal (p i.val))) x) := by
-  rw [actualFirstActiveCharacter, crtCharacter_apply]
+  unfold actualFirstActiveCharacter
+  rw [crtCharacter_apply]
   simp only [productCRT_mk]
   apply Finset.prod_congr rfl
   intro i _
   have hn := netExponent_ne_zero Finset.univ m n i
+  change (localMaskedCharacter C (p i.val) 1 one_ne_zero ^
+      netExponent (m i.val) (n i.val)) (Ideal.Quotient.mk _ x) = _
   rw [MulChar.pow_apply' _ hn, MulChar.pow_apply' _ hn]
   have hl : localMaskedCharacter C (p i.val) 1 one_ne_zero (Ideal.Quotient.mk _ x) =
       chi (σ := σ) (p i.val) (Ideal.Quotient.mk (A.extendIdeal (primeIdeal (p i.val))) x) := by
@@ -189,10 +193,12 @@ theorem actual_full_pair_active (C : A.GeneralArithmeticContext σ η hS)
       σ (A.sexticResidue (primePowerProduct p m) x) * σ (A.sexticResidue IA x) := by
     change σ (A.residueValue A.sexticResidueFamily IFull x) = _
     rw [A.sexticResidueFamily_normalized.2.2 (primePowerProduct p m) IA IFull hI x, map_mul]
+    rfl
   have hright : σ (A.sexticResidue JFull x) =
       σ (A.sexticResidue (primePowerProduct p n) x) * σ (A.sexticResidue IB x) := by
     change σ (A.residueValue A.sexticResidueFamily JFull x) = _
     rw [A.sexticResidueFamily_normalized.2.2 (primePowerProduct p n) IB JFull hJ x, map_mul]
+    rfl
   rw [hleft, hright, star_mul]
   calc
     _ = (σ (A.sexticResidue IA x) * star (σ (A.sexticResidue IB x))) *
