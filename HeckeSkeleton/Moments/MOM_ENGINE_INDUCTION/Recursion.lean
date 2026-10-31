@@ -81,8 +81,8 @@ theorem bound (step : LocalStep value schedule) (terminal mass : ℝ)
         _ ≤ terminal + mass * (terminal * (1 + mass) ^ n) :=
           add_le_add_left (mul_le_mul_of_nonneg_right (hmass x) hnonneg) _
         _ ≤ terminal * (1 + mass) ^ n + mass * (terminal * (1 + mass) ^ n) :=
-          add_le_add_right
-            (by simpa only [mul_one] using mul_le_mul_of_nonneg_left hpower ht) _
+          add_le_add
+            (by simpa only [mul_one] using mul_le_mul_of_nonneg_left hpower ht) le_rfl
         _ = terminal * (1 + mass) ^ (n + 1) := by rw [pow_succ]; ring
   intro x
   exact hmain _ x rfl

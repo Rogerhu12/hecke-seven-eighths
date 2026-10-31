@@ -172,8 +172,8 @@ theorem uniformBound_of_sectorBound
         ∑ _s : Sector, C * F.base i ^ (1 + F.loss) * (1 + Z ^ τ) ^ A :=
       Finset.sum_le_sum fun s _ => hh Z hZ i hbin helig s
     _ = (Fintype.card Sector : ℝ) * C * F.base i ^ (1 + F.loss) *
-        (1 + Z ^ τ) ^ A := by simp only [Finset.sum_const, Finset.card_univ,
-          nsmul_eq_mul]; ring
+        (1 + Z ^ τ) ^ A := by
+      simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_assoc]
 
 theorem zeroSlotBound_of_sectorBound
     (h : F.SectorBound F.noSlots (fun _ _ _ => True)) : F.ZeroSlotBound :=

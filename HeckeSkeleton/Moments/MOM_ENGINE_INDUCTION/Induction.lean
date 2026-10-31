@@ -45,7 +45,7 @@ theorem ClosedParentReduction.energy_bound {σ W : ℝ}
   apply hraw.trans_eq
   rw [show (S.node x).width + β + (4 * (widthBand σ W + 1) : ℕ) * δ =
       (S.node x).width + (β + (4 * (widthBand σ W + 1) : ℕ) * δ) by ring,
-    Real.rpow_add hUpos]
+    Real.rpow_add hUpos (S.node x).width (β + (4 * (widthBand σ W + 1) : ℕ) * δ)]
   ring
 
 /-- Uniformity is proved before summing sectors.  The output constants

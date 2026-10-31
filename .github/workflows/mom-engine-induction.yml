@@ -1,8 +1,6 @@
 name: Paired moment induction
 
 on:
-  push:
-    branches: [cloud/mom-engine-induction]
   pull_request:
     branches: [dtests-handoff]
     paths:
@@ -16,9 +14,10 @@ on:
 permissions:
   contents: read
 
-# Push and PR events for the same exact source head share one group. Runs for
-# earlier heads may finish and save dependency progress. Only the final head's
-# own build and axiom evidence establish its verification result.
+# PR checks keep using the same PR cache scope across source heads. A manual
+# request for the same exact source head shares its concurrency group. Earlier
+# heads may finish and save dependency progress; only the final head's own
+# build and axiom evidence establish its verification result.
 concurrency:
   group: mom-engine-induction-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}-${{ github.event.pull_request.head.sha || github.sha }}
   cancel-in-progress: true
