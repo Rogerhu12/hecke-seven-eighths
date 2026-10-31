@@ -40,12 +40,14 @@ theorem radial_le_height (θ : HeckeCharacter K)
     (v : {v : InfinitePlace K // v.IsComplex}) :
     1 + |archRadial K θ v| ≤ radialHeight K θ := by
   unfold radialHeight
-  exact add_le_add_left (Finset.single_le_sum (fun w _ => abs_nonneg (archRadial K θ w))
-    (Finset.mem_univ v)) 1
+  exact add_le_add (le_refl (1 : ℝ))
+    (Finset.single_le_sum (fun w _ => abs_nonneg (archRadial K θ w))
+      (Finset.mem_univ v))
 
 theorem placeFactor_shift (α ρ : ℝ) (s : ℂ) :
     placeFactor α ρ s = placeFactor α 0 (s + Complex.I * ρ) := by
   unfold placeFactor
+  simp only [Complex.ofReal_zero, mul_zero, add_zero, sub_zero]
   congr 3 <;> ring
 
 /-- The gamma constant precedes the radial parameter. -/
@@ -117,8 +119,18 @@ theorem gammaPart_fixedAngular_bound (θ₀ : HeckeCharacter K)
       rw [Finset.prod_mul_distrib, Finset.prod_const, Finset.card_univ, mul_pow]
     _ = _ := by
       rw [← Real.rpow_mul_natCast hH.le, ← Real.rpow_mul_natCast hT.le]
-      dsimp only [ncx]
-      congr 2 <;> congr 1 <;> ring
+      have heH : (4 * (|σlo| + |Λ|)) *
+          (Fintype.card {v : InfinitePlace K // v.IsComplex} : ℝ) =
+          4 * ncx K * (|σlo| + |Λ|) := by
+        dsimp only [ncx]
+        ring
+      have heT : (4 * s.re) *
+          (Fintype.card {v : InfinitePlace K // v.IsComplex} : ℝ) =
+          4 * ncx K * s.re := by
+        dsimp only [ncx]
+        ring
+      rw [heH, heT]
+      ring
 
 variable {K}
 variable {S : Set (HeightOneSpectrum (𝓞 K))} [Fintype S]
@@ -210,7 +222,9 @@ theorem amplitude_fixedAngular_decay
   refine ⟨cπ * Cbase * 2 ^ (order K p) * 2, by dsimp [cπ]; positivity, ?_⟩
   intro θ hang V u κ Y t
   let CM := Cbase * radialHeight K θ ^ (9 * ncx K)
-  have hCM : 0 ≤ CM := by dsimp [CM]; positivity
+  have hHeight : 0 ≤ radialHeight K θ := zero_le_one.trans (radialHeight_ge_one K θ)
+  have hCM : 0 ≤ CM := by
+    exact mul_nonneg hCbase (Real.rpow_nonneg hHeight (9 * ncx K))
   have hM (u : SixthUnitClasses K S) (κ : SixthLocalClasses K S) (s : ℂ)
       (hs0 : -(1 / 4 : ℝ) ≤ s.re) (hs1 : s.re ≤ 2) :
       ‖reflectionMultiplier K S F θ u κ s‖ ≤ CM * (1 + |s.im|) ^ (4 * ncx K * s.re) := by
@@ -287,9 +301,10 @@ theorem profile_fixedAngular_weighted_L1
   intro θ hang V u κ Y hY
   have hsemi : 0 ≤ testSeminorm V.toFun (order K p) 2 :=
     (Iint_nonneg V 0 2).trans (Iint_right_le V 0 (order K p) (by omega) 2)
+  have hHeight : 0 ≤ radialHeight K θ := zero_le_one.trans (radialHeight_ge_one K θ)
   obtain ⟨hint, hle⟩ := weighted_density_integrable_and_bound
     (amplitude F θ u κ V Y) (continuous_amplitude hF θ u κ V Y) hY
-    (mul_nonneg (mul_nonneg hC (by positivity)) hsemi) p
+    (mul_nonneg (mul_nonneg hC (Real.rpow_nonneg hHeight (9 * ncx K))) hsemi) p
     (fun t => hbound θ hang V u κ Y t)
   refine ⟨hint, hle.trans_eq ?_⟩
   change C * radialHeight K θ ^ (9 * ncx K) * testSeminorm V.toFun (order K p) 2 * L =
@@ -321,8 +336,11 @@ theorem profile_child_weighted_L1 [Finite (SixthLocalClasses K S)]
   refine ⟨hi, he.trans ?_⟩
   have hsemi : 0 ≤ testSeminorm V.toFun (order K p) 2 :=
     (Iint_nonneg V 0 2).trans (Iint_right_le V 0 (order K p) (by omega) 2)
-  have hp := Real.rpow_le_rpow (zero_le_one.trans (radialHeight_ge_one K _))
-    (radialHeight_child_le θ₀ ν hν t) (mul_nonneg (by norm_num) (ncx_nonneg (K := K)))
+  have hp : radialHeight K (ν * θ₀ * heckeNormTwist K t) ^ (9 * ncx K) ≤
+      ((radialHeight K θ₀ + ncx K) * (1 + |t|)) ^ (9 * ncx K) :=
+    Real.rpow_le_rpow (zero_le_one.trans (radialHeight_ge_one K _))
+      (radialHeight_child_le θ₀ ν hν t)
+      (mul_nonneg (by norm_num : (0 : ℝ) ≤ 9) (ncx_nonneg (K := K)))
   rw [Real.mul_rpow hbase (by positivity)] at hp
   exact (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hp hC) hsemi).trans_eq
     (by ring)

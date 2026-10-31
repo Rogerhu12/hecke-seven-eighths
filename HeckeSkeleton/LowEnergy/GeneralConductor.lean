@@ -117,10 +117,10 @@ theorem conductor_charge_dvd (R label puncture : ExteriorIdeal K S)
           Finsupp.add_apply, exponent_pow, ep]
       have hNmem : ep ∈ minimumLinearPrimes K S s ↔ primeExponents s.minimum.val p = 1 := by
         simp only [minimumLinearPrimes, FrozenChargeCore.linearPrimes,
-          Finset.mem_filter, hp, true_and]
+          Finset.mem_filter, hp, true_and, ep]
       have hBmem : ep ∈ minimumCubePrimes K S s ↔ primeExponents s.minimum.val p = 3 := by
         simp only [minimumCubePrimes, FrozenChargeCore.cubePrimes,
-          Finset.mem_filter, hp, true_and]
+          Finset.mem_filter, hp, true_and, ep]
       have hSmem : ep ∈ minimumSmallPrimes K S s ↔ primeExponents s.minimum.val p = 0 ∧
           ((primeExponents R.val p + 4 * primeExponents label.val p) % 6 = 0 ∨
             (primeExponents R.val p + 4 * primeExponents label.val p) % 6 = 4) := by

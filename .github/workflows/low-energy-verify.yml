@@ -107,6 +107,7 @@ jobs:
               'Expansion.PhysicalFourierNormalization',
               'HeckeGeneral.Analysis.PhysicalProbePrincipal',
               'HeckeGeneral.Analysis.PhysicalProbeContours',
+              'HeckeGeneral.Analysis.CompensatedRowKernelFactorization',
               'HeckeAxiom.ProbeNormalization',
           }
           native = root / '.lake/build/lib/lean'

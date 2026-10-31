@@ -30,11 +30,15 @@ EVIDENCE = ROOT / '.low-energy-lake-verification'
 SCHEMA = 'low-energy-native-lake-verification-v1'
 SOURCE_MANIFEST = 'docs/low-energy/source_manifest.json'
 PRINCIPAL = 'HeckeSkeleton.Principal'
-CALIBRATION_MODULES = ('Expansion.PhysicalFourierNormalization',)
+CALIBRATION_MODULES = (
+    'Expansion.PhysicalFourierNormalization',
+    'HeckeGeneral.Analysis.CompensatedRowKernelFactorization',
+)
 REQUIRED_AXIOMS = (
     'HeckeSkeleton.completedMarkedEnergy',
     'HeckeSkeleton.physicalCompletedMarkedEnergy',
     'HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy.completedMarkedEnergy',
+    'HeckeGeneral.ThetaSkeleton.Physical.compensatedRowMellinKernel_factorization',
 )
 EXPECTED_AXIOMS = frozenset({'propext', 'Classical.choice', 'Quot.sound'})
 TOOLCHAIN = 'leanprover/lean4:v4.35.0-rc3'
@@ -331,7 +335,8 @@ def verify(expected_head: str, metadata_dir: Path, build_timeout: float) -> None
         report['output_inventory_sha256'] = sha256((EVIDENCE / 'outputs.json').read_bytes())
         report.update(stage='final_axiom_audit', final_axiom_gate='running')
         save(report)
-        audit_source = 'import HeckeSkeleton.Principal\n' + ''.join(
+        audit_source = ('import HeckeSkeleton.Principal\n'
+                        'import HeckeGeneral.Analysis.CompensatedRowKernelFactorization\n') + ''.join(
             '#print axioms ' + name + '\n' for name in REQUIRED_AXIOMS)
         audit_file = EVIDENCE / 'final-audit.lean'
         audit_file.write_text(audit_source)
@@ -344,7 +349,7 @@ def verify(expected_head: str, metadata_dir: Path, build_timeout: float) -> None
         if (report['final_audit']['exit_code'] != 0 or report['final_audit']['timed_out']
                 or not audit['ok']):
             report['final_axiom_gate'] = 'failed'
-            raise RuntimeError('The general and physical energy declarations failed the strict axiom gate.')
+            raise RuntimeError('The energy and calibration declarations failed the strict axiom gate.')
         checkout_identity(expected_head)
         if source_snapshot(ROOT) != prepared['source_snapshot']:
             raise RuntimeError('Sources or configuration changed during the final audit.')

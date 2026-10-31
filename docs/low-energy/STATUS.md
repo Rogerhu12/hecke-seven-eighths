@@ -19,20 +19,22 @@ inputs and the original marked reflection input remain explicit.
 
 **Verification is pending for the current general source.** Source completion is
 not a native Lean build result. PR #3 remains draft until the current exact commit
-passes the complete build and the three public/physical axiom audits.
+passes the complete build, the three energy axiom audits, and the changed
+normalization consumer's axiom audit.
 
 ## Latest completed full build
 
-[Run 41220627816](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41220627816)
-built commit `46ac7a70064c83cf1a7cea7ed275d5fd39346cc3` with the official pinned
-native dependency release. Its native Lake process exited 1 after 1650.518
-seconds, without a timeout. It reported twelve diagnostics in four source
-modules: a Boolean conditional in `GeneralSeparatedEnergy`, a beta-reduction
-rewrite in `GeneralRows`, finite prime-exponent/cast simplification in
-`GeneralConductor`, and the dyadic-support namespace in `GeneralInactiveMass`.
-Those failures prevented the downstream terminal and final axiom audit from
-running. The current source addresses those diagnostics and extends the literal
-product/cutoff and uniform-height interfaces; it requires a new complete build.
+[Run 41223690903](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41223690903)
+built commit `bcb308443216fb32e60d3f5be03cc832ffd2461d` with the official pinned
+native dependency release. Its native Lake process exited 1 after 1598.445
+seconds, without a timeout. It reported nine diagnostics in two source modules:
+coercion, association and nonnegativity proofs in `GeneralHeight`, and two local
+subtype reductions in `GeneralConductor`. `GeneralRows` and
+`GeneralInactiveMass` were genuinely rebuilt, with their printed declarations
+using only the three standard axioms. The run built 496 modules, including 90
+of its 119 explicit targets. The failed dependencies prevented the general and
+physical endpoints and the final audit from running. The current source repairs
+these diagnostics and still requires a complete build.
 
 The earlier `ActualTupleReconstruction` backward powerset-rewrite problem is
 replaced by an explicit motive, a finite-sum swap, and the forward subset
@@ -66,9 +68,11 @@ Environment: Lean `leanprover/lean4:v4.35.0-rc3`, Lean commit
 The single workflow `.github/workflows/low-energy-verify.yml` restores the official
 `lake-cache-76c696e` dependency release through the pinned repository action. It
 checks that the proof build roots are empty, rehashes the native Lake graph, and
-requests every source in `source_manifest.json`, `HeckeSkeleton.Principal`, and
-`Expansion.PhysicalFourierNormalization`. It then starts a fresh Lean process for
-all three required endpoint audits. Allowed axioms are exactly `propext`,
+requests every source in `source_manifest.json`, `HeckeSkeleton.Principal`,
+`Expansion.PhysicalFourierNormalization`, and the changed normalization consumer
+`HeckeGeneral.Analysis.CompensatedRowKernelFactorization`. It then starts a fresh Lean process for
+the three energy endpoint audits and the normalization factorization audit.
+Allowed axioms are exactly `propext`,
 `Classical.choice`, and `Quot.sound`.
 
 The manifest contains only current reviewed source paths and hashes. Compilation
