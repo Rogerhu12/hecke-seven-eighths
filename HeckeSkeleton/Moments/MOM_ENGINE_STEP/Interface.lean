@@ -417,6 +417,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalClippedProfileBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualMovingFrequencyFactors
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildSectors
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalSourceMassInputs
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileScaleBudget
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualSourceMassProfileAbsorption
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalUnmaskedSecondStage
 
 /-!
 # The unified child step of the paired fourth-moment engine
