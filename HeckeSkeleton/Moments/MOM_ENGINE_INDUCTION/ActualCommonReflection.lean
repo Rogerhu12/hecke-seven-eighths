@@ -79,7 +79,7 @@ theorem Node.fixedLineReflectionChild_integrable
     (reflectionFixedLine b.2) (reflectionDyadicExponent U b.1) U 0 E0 hE0 childOrder
     hU (rowEnergyKernel volume weight)
   simpa only [Node.fixedLineReflectionChild, Node.normalizedOrdinaryPowerChildNode,
-    Node.normalizedEnergy, Node.ordinary_energy, Node.width, Node.ordinary,
+    Node.normalizedEnergy, Node.ordinary_energy, Node.width,
     ordinaryPowerParameters] using h.div_const (U ^ node.width)
 
 /-- Genuine reflection of the original ordinary moment. Every premise
@@ -173,9 +173,15 @@ theorem pairedEnergy_reflection_commonKernel
     have h := integrable_normalizedOrdinaryDualRow_integrand hcomplex d a first
       (reflectionFixedLine (selected u j)) (reflectionDyadicExponent U j) U 0 E0 hE0 childOrder
       hU0 u (d.plainBackground * d.rowCharacter u) (V u)
-      (heckeIdealCoeff_for_deletion _) (heckeIdealCoeff_for_deletion _)
+      (b := idealCoefficient (primeCoefficient K (d.plainBackground * d.rowCharacter u)))
+      (bi := idealCoefficient (primeCoefficient K (d.plainBackground * d.rowCharacter u)⁻¹))
+      (heckeIdealCoeff_for_deletion (d.plainBackground * d.rowCharacter u))
+      (heckeIdealCoeff_for_deletion (d.plainBackground * d.rowCharacter u)⁻¹)
       (rowRestorationDeletion S d extra u) (rowRestorationDeletion_prime S d extra u)
-      hδ (conductorScale_pos K _) (Real.rpow_pos_of_pos hU0 long)
+      (δ := δ) (Q := heckeConductorScale K (d.plainBackground * d.rowCharacter u))
+      (X := U ^ long) (N := (2 : ℝ) ^ j)
+      hδ (conductorScale_pos K (d.plainBackground * d.rowCharacter u))
+      (Real.rpow_pos_of_pos hU0 long)
       (pow_pos (by norm_num : (0 : ℝ) < 2) j)
       (reflectionFixedLine_bounds (selected u j)).1
       (reflectionFixedLine_bounds (selected u j)).2
@@ -199,7 +205,7 @@ theorem pairedEnergy_reflection_commonKernel
   have hvalue (b : ℕ × Bool) (t : ℝ) :
       (∑ u ∈ rows, ‖f b.1 b.2 u t‖ ^ 2) = value (b, t) := by
     simpa only [value, Node.fixedLineReflectionChild, Node.normalizedOrdinaryPowerChildNode,
-      Node.ordinary_energy, Node.ordinary, rows, f] using
+      Node.ordinary_energy, rows, f] using
       normalizedOrdinaryDualRow_energy d a first (reflectionFixedLine b.2)
         (reflectionDyadicExponent U b.1) U 0 E0 hE0 childOrder t
   simp_rw [hvalue] at hmain
@@ -207,7 +213,7 @@ theorem pairedEnergy_reflection_commonKernel
   have hv (b : ℕ × Bool) (_hb : b ∈ reflectionBranches cutoff) :
       Integrable (fun t => value (b, t)) (rowEnergyKernel volume weight) := by
     simpa only [value, Node.fixedLineReflectionChild, Node.normalizedOrdinaryPowerChildNode,
-      Node.ordinary_energy, Node.ordinary] using
+      Node.ordinary_energy] using
       normalizedOrdinaryPowerChild_energy_integrable d a first (reflectionFixedLine b.2)
         (reflectionDyadicExponent U b.1) U 0 E0 hE0 childOrder hU0 (rowEnergyKernel volume weight)
   rw [← integral_reflectionCommonKernel volume weight cutoff value hv] at hmain
@@ -218,7 +224,7 @@ theorem pairedEnergy_reflection_commonKernel
           U 0 = value x / U ^ (a.m + a.q) := rfl
   simp_rw [hnormalizedValue]
   rw [integral_div]
-  simpa only [Node.normalizedEnergy, Node.ordinary_energy, Node.width, Node.ordinary,
+  simpa only [Node.normalizedEnergy, Node.ordinary_energy, Node.width,
     pairedEnergy, parent, rowRestorationEnergy, rest, rows, long, short, Wshort,
     add_div, mul_div_assoc] using hnormalized
 
@@ -249,6 +255,7 @@ theorem pairedEnergy_wholeRestoration_eq
     (hmask u hu) (hcharacter u hu) (hprofile u hu) hδ hδsmall hU cutoff
   change ‖_‖ ^ 2 = ‖_‖ ^ 2
   rw [h]
-  cases first <;> simp only [Bool.false_eq_true, if_false, if_true, norm_mul, hG, one_mul]
+  cases first <;>
+    simp only [Bool.false_eq_true, if_false, if_true, norm_mul, hG, one_mul, Node.ordinary]
 
 end HeckeSkeleton.Moments.EngineInduction

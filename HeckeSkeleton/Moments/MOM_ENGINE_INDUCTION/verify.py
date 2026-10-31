@@ -116,6 +116,13 @@ MODULES = (
     'MellinCoreRecursion',
     'RecipeMellinInduction',
     'OriginalMesh',
+    'RankedMeshReflectionAssembly',
+    'RecipeMeshReflectionFamily',
+    'RecipeMellinFamily',
+    'MellinUniversalLabels',
+    'DataPrimitiveExtension',
+    'RankedDataReflectionAssembly',
+    'RecipeDataReflectionFamily',
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.
@@ -272,6 +279,8 @@ REQUIRED_TARGETS = {
     'HeckeSkeleton.Moments.EngineInduction.Source.paired_zero_slot_recipe_mellin',
     'HeckeSkeleton.Moments.EngineInduction.Source.paired_positive_recipe_mellin_below_one',
     'HeckeSkeleton.Moments.EngineInduction.Source.paired_positive_recipe_mellin_endpoint',
+    'HeckeSkeleton.Moments.EngineInduction.universalMellinStrictBranch',
+    'HeckeSkeleton.Moments.EngineInduction.Source.recipeMellinFamily_preparation',
 }
 
 

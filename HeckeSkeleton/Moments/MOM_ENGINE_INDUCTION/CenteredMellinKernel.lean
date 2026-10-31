@@ -109,9 +109,14 @@ theorem continuous_mellinPlainRow (n : Node K omegaCharacter psiCharacter)
     (U ^ n.comparison₁)).comp continuous_fst).mul
       ((continuous_annularMellinPlainColumn n.data B₂ u
         (U ^ n.comparison₂)).comp continuous_snd)
+  have hconstant : Continuous (fun _ : ℝ × ℝ => slotProduct n.data u U time) :=
+    continuous_const
   by_cases hc : n.centered = true
-  · simpa only [hc, ite_true] using (hprimary.sub hcomparison).mul continuous_const
-  · simpa only [hc, ite_false, sub_zero] using hprimary.mul continuous_const
+  · simp only [if_pos hc]
+    simpa only [Pi.mul_apply, Pi.sub_apply, Function.comp_apply] using!
+      (hprimary.sub hcomparison).mul hconstant
+  · simp only [if_neg hc, sub_zero]
+    simpa only [Pi.mul_apply, Function.comp_apply] using! hprimary.mul hconstant
 
 theorem mellinPlainRow_bounded (n : Node K omegaCharacter psiCharacter)
     (B₁ B₂ : SmoothAnnularTest) (U time : ℝ) (u : NonzeroIdeal K) :
@@ -233,12 +238,14 @@ theorem Node.mellinPlain_row_identity (n : Node K omegaCharacter psiCharacter)
   · rw [if_pos hc, hp, hq, ← integral_sub hprimary hcomparison, ← integral_mul_const]
     apply integral_congr_ae
     exact Filter.Eventually.of_forall fun frequency => by
+      dsimp only
       rw [mellinPlainRow_eq, if_pos hc]
       dsimp only [primary, comparison, mellinPairCoefficient]
       ring
   · rw [if_neg hc, sub_zero, hp, ← integral_mul_const]
     apply integral_congr_ae
     exact Filter.Eventually.of_forall fun frequency => by
+      dsimp only
       rw [mellinPlainRow_eq, if_neg hc, sub_zero]
       dsimp only [primary, mellinPairCoefficient]
       ring
