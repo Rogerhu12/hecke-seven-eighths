@@ -78,9 +78,10 @@ theorem Node.fixedLineReflectionChild_integrable
   have h := normalizedOrdinaryPowerChild_energy_integrable node.data node.parameters first
     (reflectionFixedLine b.2) (reflectionDyadicExponent U b.1) U 0 E0 hE0 childOrder
     hU (rowEnergyKernel volume weight)
-  simpa only [Node.fixedLineReflectionChild, Node.normalizedOrdinaryPowerChildNode,
-    Node.normalizedEnergy, Node.ordinary_energy, Node.width,
-    ordinaryPowerParameters] using h.div_const (U ^ node.width)
+  simp only [Node.fixedLineReflectionChild, Node.normalizedOrdinaryPowerChildNode,
+    Node.normalizedEnergy, Node.ordinary_energy]
+  simpa only [Node.width, Node.ordinary, ordinaryPowerParameters]
+    using h.div_const (U ^ node.width)
 
 /-- Genuine reflection of the original ordinary moment. Every premise
 is a primitive row/profile/scale fact or the actual scalar Mellin-density
@@ -204,16 +205,18 @@ theorem pairedEnergy_reflection_commonKernel
     ((Node.ordinary d a).fixedLineReflectionChild first U E0 hE0 childOrder x).energy U 0
   have hvalue (b : ℕ × Bool) (t : ℝ) :
       (∑ u ∈ rows, ‖f b.1 b.2 u t‖ ^ 2) = value (b, t) := by
-    simpa only [value, Node.fixedLineReflectionChild, Node.normalizedOrdinaryPowerChildNode,
-      Node.ordinary_energy, rows, f] using
+    simp only [value, Node.fixedLineReflectionChild, Node.normalizedOrdinaryPowerChildNode,
+      Node.ordinary_energy]
+    simpa only [Node.ordinary, rows, f] using
       normalizedOrdinaryDualRow_energy d a first (reflectionFixedLine b.2)
         (reflectionDyadicExponent U b.1) U 0 E0 hE0 childOrder t
   simp_rw [hvalue] at hmain
   letI := rowEnergyKernel_finite volume hw hi
   have hv (b : ℕ × Bool) (_hb : b ∈ reflectionBranches cutoff) :
       Integrable (fun t => value (b, t)) (rowEnergyKernel volume weight) := by
-    simpa only [value, Node.fixedLineReflectionChild, Node.normalizedOrdinaryPowerChildNode,
-      Node.ordinary_energy] using
+    simp only [value, Node.fixedLineReflectionChild, Node.normalizedOrdinaryPowerChildNode,
+      Node.ordinary_energy]
+    simpa only [Node.ordinary] using
       normalizedOrdinaryPowerChild_energy_integrable d a first (reflectionFixedLine b.2)
         (reflectionDyadicExponent U b.1) U 0 E0 hE0 childOrder hU0 (rowEnergyKernel volume weight)
   rw [← integral_reflectionCommonKernel volume weight cutoff value hv] at hmain
@@ -224,7 +227,8 @@ theorem pairedEnergy_reflection_commonKernel
           U 0 = value x / U ^ (a.m + a.q) := rfl
   simp_rw [hnormalizedValue]
   rw [integral_div]
-  simpa only [Node.normalizedEnergy, Node.ordinary_energy, Node.width,
+  simp only [Node.normalizedEnergy, Node.ordinary_energy]
+  simpa only [Node.width, Node.ordinary,
     pairedEnergy, parent, rowRestorationEnergy, rest, rows, long, short, Wshort,
     add_div, mul_div_assoc] using hnormalized
 

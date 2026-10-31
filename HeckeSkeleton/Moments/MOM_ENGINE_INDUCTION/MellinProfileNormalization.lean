@@ -94,8 +94,9 @@ def mellinNormalizationAmplitude (slots : ℕ) (P E : ℝ) (J : ℕ)
 theorem one_le_mellinNormalizationAmplitude (slots : ℕ) {P E : ℝ}
     (hP : 1 ≤ P) (hE : 1 ≤ E) (J : ℕ) (frequency : ℝ × ℝ) :
     1 ≤ mellinNormalizationAmplitude slots P E J frequency :=
-  one_le_mul (one_le_mul (one_le_ordinaryProfileEnvelope hE J frequency.1)
-    (one_le_ordinaryProfileEnvelope hE J frequency.2)) (one_le_pow₀ hP)
+  one_le_mul_of_one_le_of_one_le
+    (one_le_mul_of_one_le_of_one_le (one_le_ordinaryProfileEnvelope hE J frequency.1)
+      (one_le_ordinaryProfileEnvelope hE J frequency.2)) (one_le_pow₀ hP)
 
 /-- The numerical normalized row is defined by the exact scalar, before
 the identity with the actual normalized moment data is proved. -/
@@ -143,9 +144,12 @@ theorem normalizedMellinPlainRow_eq (n : Node K omegaCharacter psiCharacter)
     Node.normalizedMellinPlain
   rw [hleft, hright, hleft, hright, hslots]
   change ((e₁ * e₂ * P ^ n.data.geometry.slotCount : ℝ) : ℂ)⁻¹ * _ = _
-  by_cases hc : n.centered = true <;>
-    simp only [hc, ite_true, ite_false, sub_zero, Complex.ofReal_mul,
-      Complex.ofReal_pow, Complex.ofReal_inv] <;>
+  by_cases hc : n.centered = true
+  · simp only [if_pos hc, Complex.ofReal_mul, Complex.ofReal_pow,
+      Complex.ofReal_inv, inv_pow]
+    field_simp [hPn, he₁n, he₂n] <;> ring
+  · simp only [if_neg hc, sub_zero, Complex.ofReal_mul, Complex.ofReal_pow,
+      Complex.ofReal_inv, inv_pow]
     field_simp [hPn, he₁n, he₂n] <;> ring
 
 theorem continuous_normalizedMellinPlainRow (n : Node K omegaCharacter psiCharacter)
