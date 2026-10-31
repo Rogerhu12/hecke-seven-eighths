@@ -89,61 +89,61 @@ local notation "d'" => logNormSeparatedProfiles d inverseTime plainTime₁ plain
     pairedRows d' a Z = pairedRows d a Z := rfl
 
 @[simp] theorem logNormSeparatedProfiles_rowCharacter (u : NonzeroIdeal K) :
-    d'.rowCharacter u = d.rowCharacter u := rfl
+    (d').rowCharacter u = d.rowCharacter u := rfl
 
 @[simp] theorem logNormSeparatedProfiles_slotCount :
-    d'.geometry.slotCount = d.geometry.slotCount := rfl
+    (d').geometry.slotCount = d.geometry.slotCount := rfl
 
 @[simp] theorem logNormSeparatedProfiles_slotLength (i : Fin d.geometry.slotCount) :
-    (d'.geometry.slots i).length = (d.geometry.slots i).length := rfl
+    ((d').geometry.slots i).length = (d.geometry.slots i).length := rfl
 
 @[simp] theorem logNormSeparatedProfiles_totalLength :
-    d'.geometry.totalLength = d.geometry.totalLength := rfl
+    (d').geometry.totalLength = d.geometry.totalLength := rfl
 
 @[simp] theorem logNormSeparatedProfiles_fitsMesh (mesh : ℝ) :
-    d'.geometry.fitsMesh mesh ↔ d.geometry.fitsMesh mesh := Iff.rfl
+    (d').geometry.fitsMesh mesh ↔ d.geometry.fitsMesh mesh := Iff.rfl
 
 theorem logNormSeparatedProfiles_plain₁ (u I : NonzeroIdeal K) (N t : ℝ) :
     d.plainTest₁.profile u (plainTime₁ u) (idealNorm K I / N) *
         logNormPhase (plainFrequency₁ u) (idealNorm K I / N) =
-      d'.plainTest₁.profile u t (idealNorm K I / N) := by
+      (d').plainTest₁.profile u t (idealNorm K I / N) := by
   exact idealTest_logNorm_calibration d.plainTest₁ plainTime₁ plainFrequency₁ u I N t
 
 theorem logNormSeparatedProfiles_plain₂ (u I : NonzeroIdeal K) (N t : ℝ) :
     d.plainTest₂.profile u (plainTime₂ u) (idealNorm K I / N) *
         logNormPhase (plainFrequency₂ u) (idealNorm K I / N) =
-      d'.plainTest₂.profile u t (idealNorm K I / N) := by
+      (d').plainTest₂.profile u t (idealNorm K I / N) := by
   exact idealTest_logNorm_calibration d.plainTest₂ plainTime₂ plainFrequency₂ u I N t
 
 theorem logNormSeparatedProfiles_prime (i : Fin d.geometry.slotCount)
     (p : HeightOneSpectrum (𝓞 K)) (P t : ℝ) :
     (d.geometry.slots i).profile (slotTime i) ((Ideal.absNorm p.asIdeal : ℝ) / P) *
         logNormPhase (slotFrequency i) ((Ideal.absNorm p.asIdeal : ℝ) / P) =
-      (d'.geometry.slots i).profile t ((Ideal.absNorm p.asIdeal : ℝ) / P) := by
+      ((d').geometry.slots i).profile t ((Ideal.absNorm p.asIdeal : ℝ) / P) := by
   exact primeWindow_logNorm_calibration (d.geometry.slots i)
     (slotTime i) (slotFrequency i) P t p
 
 /-- The complete first plain polynomial, including the original common
 mask and literal Hecke coefficient, is the separated Fourier column. -/
 theorem logNormSeparatedProfiles_plainPolynomial₁ (u : NonzeroIdeal K) (N : ℝ) :
-    plainPolynomial d' d'.plainTest₁ u N 0 =
+    plainPolynomial d' (d').plainTest₁ u N 0 =
       (Real.sqrt N : ℂ)⁻¹ * ∑ I ∈ d.plainTest₁.support u (plainTime₁ u) N,
         heckeIdealCoefficient K (d.plainBackground * d.rowCharacter u) I *
           (d.plainTest₁.profile u (plainTime₁ u) (idealNorm K I / N) *
             logNormPhase (plainFrequency₁ u) (idealNorm K I / N)) *
           maskValue d u I.val := by
   simp only [plainPolynomial, logNormSeparatedProfiles, MomentData.separatedProfiles,
-    IdealTest.freezeTwist, profilePower_logNorm, maskValue]
+    IdealTest.freezeTwist, profilePower_logNorm, maskValue] <;> rfl
 
 theorem logNormSeparatedProfiles_plainPolynomial₂ (u : NonzeroIdeal K) (N : ℝ) :
-    plainPolynomial d' d'.plainTest₂ u N 0 =
+    plainPolynomial d' (d').plainTest₂ u N 0 =
       (Real.sqrt N : ℂ)⁻¹ * ∑ I ∈ d.plainTest₂.support u (plainTime₂ u) N,
         heckeIdealCoefficient K (d.plainBackground * d.rowCharacter u) I *
           (d.plainTest₂.profile u (plainTime₂ u) (idealNorm K I / N) *
             logNormPhase (plainFrequency₂ u) (idealNorm K I / N)) *
           maskValue d u I.val := by
   simp only [plainPolynomial, logNormSeparatedProfiles, MomentData.separatedProfiles,
-    IdealTest.freezeTwist, profilePower_logNorm, maskValue]
+    IdealTest.freezeTwist, profilePower_logNorm, maskValue] <;> rfl
 
 /-- The slot polynomial retains its slot coefficient and common mask. -/
 theorem logNormSeparatedProfiles_primePolynomial (i : Fin d.geometry.slotCount)
@@ -156,6 +156,6 @@ theorem logNormSeparatedProfiles_primePolynomial (i : Fin d.geometry.slotCount)
             logNormPhase (slotFrequency i) ((Ideal.absNorm p.asIdeal : ℝ) / P)) *
           maskValue d u p.asIdeal := by
   simp only [primePolynomial, logNormSeparatedProfiles, MomentData.separatedProfiles,
-    SlotGeometry.freezeTwists, PrimeWindow.freezeTwist, profilePower_logNorm, maskValue]
+    SlotGeometry.freezeTwists, PrimeWindow.freezeTwist, profilePower_logNorm, maskValue] <;> rfl
 
 end HeckeSkeleton.Moments.EngineInduction

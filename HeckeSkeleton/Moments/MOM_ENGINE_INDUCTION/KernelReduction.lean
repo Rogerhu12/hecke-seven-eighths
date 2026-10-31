@@ -337,8 +337,9 @@ theorem linearized_estimate (d : CommonKernelReduction S U t Ω) (hU : 0 < U)
   have hint := integral_mono_ae
     ((d.source_integrable x).div_const (U ^ (S.node x).width))
     (((d.left_integrable x).add (d.right_integrable x)).div_const 2) hpoint
-  rw [integral_div, integral_div, integral_add (d.left_integrable x) (d.right_integrable x)]
-    at hint
+  rw [integral_div, integral_div] at hint
+  simp only [Pi.add_apply] at hint
+  rw [integral_add (d.left_integrable x) (d.right_integrable x)] at hint
   have hsource := div_le_div_of_nonneg_right (d.source x)
     (Real.rpow_pos_of_pos hU (S.node x).width).le
   rw [add_div] at hsource

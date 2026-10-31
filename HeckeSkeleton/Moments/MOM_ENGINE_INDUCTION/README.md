@@ -153,6 +153,12 @@ ceiling precede `τ`; the scalar and threshold may depend on fixed `τ`, exactly
 as in the original `UniformMomentBound`. Summing sectors introduces the
 fixed sector cardinality once.
 
+`ScheduleCompatibility.lean` uses the skeleton's original `momentMeshValue`,
+fixed before the geometry. It bounds the full rank count by eight times the
+existing strict-width schedule depth. At width limit two, the existing
+reserve pays for the terminal error and every boundary, mesh and local edge
+loss. No smaller replacement mesh is selected after the source is fixed.
+
 `IntegralRecursion.lean` proves the same estimate for finite positive measures.
 The actual child energy is integrable and the child is earlier almost
 everywhere. The proof uses pointwise strong induction followed by monotonicity
@@ -236,6 +242,17 @@ parent producer.
 `SkeletonFamily.lean` identifies the base, selected length, parameters,
 capacity, energy and uniform-bound quantifiers definitionally with
 `HeckeSkeleton.Moments`. It provides the three `_of_parent_reduction` wrappers.
+
+`SourceData.lean` fixes a single explicit expansion and row exponent before
+defining its block/amplitude/witness indices and actual inverse, paired and
+unmarked models. Its data types contain no globally selected unfinished
+expansion, default argument, energy estimate or analytic admissibility
+field. `SourceAdapter.lean` maps this same datum and model to `SourceFamily`,
+with definitional identities for rows, parameters, capacities, energies and
+all uniform quantifiers. Neither module imports `Moments.lean`; they can
+therefore be consumed by the source declarations without a circular import.
+The shared-source aliases are being coordinated with EXPANSION before the
+original source types are migrated.
 
 At the task base `182769d49e5c184547c0949ddc328b9e7a87e6f7`, the original
 theorem types already refer to admitted constructions:

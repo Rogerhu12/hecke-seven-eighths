@@ -13,6 +13,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ChildStepCompatibility
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RootNormalization
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.KernelReduction
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.LogNormProfiles
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceData
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceAdapter
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ScheduleCompatibility
 
 /-!
 # Recursive axiom audit for paired-moment induction
@@ -251,3 +254,47 @@ separately by the source-integration gate.
 #print axioms HeckeSkeleton.Moments.EngineInduction.logNormSeparatedProfiles_totalLength
 #print axioms HeckeSkeleton.Moments.EngineInduction.primeWindow_logNorm_calibration
 #print axioms HeckeSkeleton.Moments.EngineInduction.profilePower_logNorm
+
+-- SourceData
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.MomentSourceData
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.PairedPrimeProductBound
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentIndexFor
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentIndexFor.noSlots
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentModelsFor
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.UniformMomentBound
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.amplifiedModelEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.inverseCapacity
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.inverseModel
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.inverseParameters
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.markedModelEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.momentAmplitude
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.momentBase
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.momentBlock
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.momentWitness
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.pairedCapacity
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.pairedModel
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.pairedModelEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.pairedParameters
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.rowWidth
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.selectedLength
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.unmarkedBallEnergy
+#print axioms HeckeSkeleton.Moments.EngineInduction.Source.unmarkedModel
+
+-- SourceAdapter
+#print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily
+#print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_base
+#print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_capacity
+#print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_energy
+#print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_parameters
+#print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_positiveSlotBound
+#print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_primeProductBound
+#print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_rowWidth
+#print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_selectedLength
+#print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_uniformBound
+#print axioms HeckeSkeleton.Moments.EngineInduction.sourceFamily_zeroSlotBound
+
+-- ScheduleCompatibility
+#print axioms HeckeSkeleton.Moments.EngineInduction.engine_rank_bound_le_schedule_depth
+#print axioms HeckeSkeleton.Moments.EngineInduction.moment_mesh_engine_bounds
+#print axioms HeckeSkeleton.Moments.EngineInduction.moment_mesh_total_loss_budget
+#print axioms HeckeSkeleton.Moments.EngineInduction.sourceReserve

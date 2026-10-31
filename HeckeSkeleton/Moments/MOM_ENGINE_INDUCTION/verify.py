@@ -26,6 +26,7 @@ MODULES = (
     "Order", "Recursion", "IntegralRecursion", "Reduction", "Family", "Terminal", "ExceptionalCounting",
     "TerminalCertificate", "Interface", "Centering", "Induction", "ChildStepCompatibility",
     "RootNormalization", "KernelReduction", "LogNormProfiles",
+    "SourceData", "SourceAdapter", "ScheduleCompatibility",
 )
 EXCLUDED = {"SkeletonFamily.lean"}
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}
@@ -65,6 +66,10 @@ REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.logNormSeparatedProfiles_plainPolynomial₁",
     "HeckeSkeleton.Moments.EngineInduction.logNormSeparatedProfiles_plainPolynomial₂",
     "HeckeSkeleton.Moments.EngineInduction.logNormSeparatedProfiles_primePolynomial",
+    "HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentIndexFor",
+    "HeckeSkeleton.Moments.EngineInduction.Source.SourceMomentModelsFor",
+    "HeckeSkeleton.Moments.EngineInduction.sourceFamily",
+    "HeckeSkeleton.Moments.EngineInduction.moment_mesh_total_loss_budget",
 }
 
 
