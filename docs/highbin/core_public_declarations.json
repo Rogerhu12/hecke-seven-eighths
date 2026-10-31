@@ -3211,5 +3211,26 @@
     "source": "HeckeSkeleton/HighBinSupport/EntireQuotientVerticalAE.lean",
     "line": 72,
     "source_sha256": "3e87cd7dbf1100c1cd8bd22598015cd48860310bfb2f1ddb81c204dca98d5348"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinContinuation.sweptTubeEulerMargin_ge_one_eighth",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/RegularEulerInitial.lean",
+    "line": 21,
+    "source_sha256": "a977b49207c6c005cc87edbf9a5afa222da5d0ed5c5ffe925ce98f3d013ad3d8"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinContinuation.phaseRowEuler_norm_initial",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/RegularEulerInitial.lean",
+    "line": 32,
+    "source_sha256": "a977b49207c6c005cc87edbf9a5afa222da5d0ed5c5ffe925ce98f3d013ad3d8"
+  },
+  {
+    "name": "HeckeSkeleton.HighBinContinuation.phaseRowEuler_ne_zero_initial",
+    "kind": "theorem",
+    "source": "HeckeSkeleton/HighBinSupport/RegularEulerInitial.lean",
+    "line": 50,
+    "source_sha256": "a977b49207c6c005cc87edbf9a5afa222da5d0ed5c5ffe925ce98f3d013ad3d8"
   }
 ]

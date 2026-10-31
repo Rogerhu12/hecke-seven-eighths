@@ -58,5 +58,6 @@
   "HeckeSkeleton.HighBinSupport.BoundaryHeightAbsorption",
   "HeckeSkeleton.HighBinSupport.HighNormFormPointwisePartition",
   "HeckeSkeleton.HighBinSupport.EntireVerticalZeros",
-  "HeckeSkeleton.HighBinSupport.EntireQuotientVerticalAE"
+  "HeckeSkeleton.HighBinSupport.EntireQuotientVerticalAE",
+  "HeckeSkeleton.HighBinSupport.RegularEulerInitial"
 ]

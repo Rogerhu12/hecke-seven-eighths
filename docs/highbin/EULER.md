@@ -51,6 +51,24 @@ The generated module contains the one source module plus its two public
 type/axiom checks. This is distinct from a combined check with imports
 hoisted from multiple source files.
 
+### Pending isolated regular-factor check
+
+[RegularEulerInitial.lean](../../HeckeSkeleton/HighBinSupport/RegularEulerInitial.lean)
+now contains the three original scalar declarations
+`sweptTubeEulerMargin_ge_one_eighth`, `phaseRowEuler_norm_initial`, and
+`phaseRowEuler_ne_zero_initial`, under their unchanged namespace and names.
+It imports only `EulerRegionAnalytic`; the actual module imports and reexports
+these declarations. The extraction adds no assumptions and is **pending native
+verification**. The number-field product statement remains a separate actual check.
+
+The complete moved declaration block, including its original proofs, is
+byte-identical before and after extraction: SHA-256 `bca1f6c7858d1019d11862bda4e7014ce775dd9169b0a9cd7819c522cbc857b7`.
+The source hashes are:
+
+* Original actual module: `d00a4ff43d803993dd6eb15c147d7c39b456088859df4e3d5fd20829a97d4089`.
+* New scalar module: `a977b49207c6c005cc87edbf9a5afa222da5d0ed5c5ffe925ce98f3d013ad3d8`.
+* Updated actual module: `344ff3e2632ea970eeab5720f0ef3e22de38affdf72b790cd69354aa26cf49bb`.
+
 ## 2. Ambient data and the original objects
 
 The arithmetic Euler declarations use the following ambient parameters:

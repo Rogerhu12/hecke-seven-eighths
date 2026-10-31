@@ -1176,46 +1176,25 @@
     "source_sha256": "63304edf472c21c0fe385e00c3604ae821f51751beb5d5c67767663023a2073e"
   },
   {
-    "name": "HeckeSkeleton.HighBinContinuation.sweptTubeEulerMargin_ge_one_eighth",
-    "kind": "theorem",
-    "source": "HeckeSkeleton/HighBinSupport/ActualEulerRegularNonvanishing.lean",
-    "line": 28,
-    "source_sha256": "d00a4ff43d803993dd6eb15c147d7c39b456088859df4e3d5fd20829a97d4089"
-  },
-  {
-    "name": "HeckeSkeleton.HighBinContinuation.phaseRowEuler_norm_initial",
-    "kind": "theorem",
-    "source": "HeckeSkeleton/HighBinSupport/ActualEulerRegularNonvanishing.lean",
-    "line": 39,
-    "source_sha256": "d00a4ff43d803993dd6eb15c147d7c39b456088859df4e3d5fd20829a97d4089"
-  },
-  {
-    "name": "HeckeSkeleton.HighBinContinuation.phaseRowEuler_ne_zero_initial",
-    "kind": "theorem",
-    "source": "HeckeSkeleton/HighBinSupport/ActualEulerRegularNonvanishing.lean",
-    "line": 57,
-    "source_sha256": "d00a4ff43d803993dd6eb15c147d7c39b456088859df4e3d5fd20829a97d4089"
-  },
-  {
     "name": "HeckeSkeleton.HighBinContinuation.localRowCorrection_norm_initial",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerRegularNonvanishing.lean",
-    "line": 76,
-    "source_sha256": "d00a4ff43d803993dd6eb15c147d7c39b456088859df4e3d5fd20829a97d4089"
+    "line": 30,
+    "source_sha256": "344ff3e2632ea970eeab5720f0ef3e22de38affdf72b790cd69354aa26cf49bb"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.summable_localRowCorrection_norm_initial",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerRegularNonvanishing.lean",
-    "line": 88,
-    "source_sha256": "d00a4ff43d803993dd6eb15c147d7c39b456088859df4e3d5fd20829a97d4089"
+    "line": 42,
+    "source_sha256": "344ff3e2632ea970eeab5720f0ef3e22de38affdf72b790cd69354aa26cf49bb"
   },
   {
     "name": "HeckeSkeleton.HighBinContinuation.localRowCorrection_tprod_compl_ne_zero_initial",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualEulerRegularNonvanishing.lean",
-    "line": 100,
-    "source_sha256": "d00a4ff43d803993dd6eb15c147d7c39b456088859df4e3d5fd20829a97d4089"
+    "line": 54,
+    "source_sha256": "344ff3e2632ea970eeab5720f0ef3e22de38affdf72b790cd69354aa26cf49bb"
   },
   {
     "name": "HeckeSkeleton.HighBinEulerUniqueness.physicalRowFamily_eq_of_calibrated",

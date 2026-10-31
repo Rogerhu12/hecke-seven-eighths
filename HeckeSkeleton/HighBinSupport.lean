@@ -68,6 +68,7 @@ import HeckeSkeleton.HighBinSupport.EulerPhase
 import HeckeSkeleton.HighBinSupport.EulerProductBounds
 import HeckeSkeleton.HighBinSupport.EulerProducts
 import HeckeSkeleton.HighBinSupport.EulerRegionAnalytic
+import HeckeSkeleton.HighBinSupport.RegularEulerInitial
 import HeckeSkeleton.HighBinSupport.EulerRegionUniqueness
 import HeckeSkeleton.HighBinSupport.EulerSweptTube
 import HeckeSkeleton.HighBinSupport.EulerUniformSubpower

@@ -52,8 +52,8 @@ the row definitions. Their complete declaration region is byte-identical;
 `ActualInitialAbsolute` changes only its import to the lighter module. Ten
 FLT reuse sources also replace the whole `Mathlib` import with explicit
 submodules while retaining their declaration/proof bodies byte-for-byte.
-Four dependent FLT modules now state their required direct imports explicitly.
-All fourteen files preserve every non-import source byte.
+Five dependent FLT modules now state their required direct imports explicitly.
+All fifteen files preserve every non-import source byte.
 The eight Fourier targets now have a resolved 223-project-module source
 closure with no `import Mathlib` umbrella. This is a dependency check, not
 a compilation-success claim. The first narrowed native run at `04751b0`
@@ -62,7 +62,13 @@ Its Fourier peak resident memory was 4436708 KiB; Mellin reported 7641012 KiB.
 The direct modules for Circle exponentiation, continuous algebra equivalences,
 tensor-product maps/finiteness, integer type tags, Haar characters, the number
 field product formula and the modular domain are now included. Their original
-proof bodies are unchanged; the next run must validate the corrections.
+proof bodies are unchanged. The next run at `551ae66` passed core again and
+its Fourier build reported only the dependent `Ma6dd0c4d713fb96a` module's
+missing finite-dimensional topology and associative Lie imports. Its peak
+resident memory was 4481772 KiB, without a memory exception. Commit `b25a38a`
+adds those two direct imports and is preserved as the parent of this update.
+The superseded Mellin and actual logs report the same missing imports; those
+jobs were cancelled before their complete audits and are not counted as passes.
 The comparisons are recorded in
 [physical_row_data_narrowing_provenance.json](physical_row_data_narrowing_provenance.json)
 and [flt_import_narrowing_provenance.json](flt_import_narrowing_provenance.json).
@@ -228,11 +234,16 @@ independently.
 ## Continuation: concrete regions and finite arithmetic compilation
 
 The renewed work window is 2026-10-31 09:15:12–12:15:12 (UTC+8).
-The current source inventory contains **60 core modules / 459 declarations**,
-**64 actual modules / 704 declarations**, **6 Mellin modules / 67 declarations**,
+The current source inventory contains **61 core modules / 462 declarations**,
+**64 actual modules / 701 declarations**, **6 Mellin modules / 67 declarations**,
 and **8 Fourier modules / 160 declarations**. Mellin and Fourier are subsets
-of the actual inventory; their counts must not be added to it. Core has passed
-the native audit above; the other expanded counts remain source inventories.
+of the actual inventory; their counts must not be added to it. The recorded
+native core audit above covers 60 modules / 459 declarations. The three pure
+initial-domain scalar declarations now move verbatim from
+`ActualEulerRegularNonvanishing` into `RegularEulerInitial`, which imports only
+`EulerRegionAnalytic`. Their names, statements and 2307-byte declaration block
+are unchanged; the new separate module still requires native verification.
+The remaining expanded counts are source inventories.
 
 `ActualGaussData` moves the existing prime Gauss definitions and proofs out of
 `ActualEulerData` without changing their names, statements or bodies. The latter

@@ -280,6 +280,28 @@
       ],
       "kind": "native_missing_import_repair",
       "validation": "pending native recheck after a concrete missing-import diagnostic; declarations and proofs unchanged"
+    },
+    {
+      "module": "FLTReuse.Ma6dd0c4d713fb96a",
+      "path": "vendor/flt/FLTReuse/Ma6dd0c4d713fb96a.lean",
+      "old_source_sha256": "0af6d58a4e7815b86454642aa937a4f3f6cb3dc2acef038ff36573dcb4be1a8f",
+      "new_source_sha256": "1e07164a1b004aaf5c2de10236c3318b660691a591f0112889d7945a9198b00e",
+      "declaration_region_sha256": "f0ba8b60319b8fae166c6398764f826ad4f14349a0966975905b4c38c3bff677",
+      "declaration_region_unchanged": true,
+      "removed_imports": [],
+      "added_imports": [
+        "Mathlib.Topology.Algebra.Module.FiniteDimension",
+        "Mathlib.Algebra.Lie.OfAssociative"
+      ],
+      "retained_imports": [
+        "FLTReuse.M387d45cde57b612d",
+        "FLTReuse.M5960be08a50663ff",
+        "FLTReuse.Mceaf851096604c8a",
+        "FLTReuse.M255459499690ff8e",
+        "FLTReuse.M1d838ff8bf72f37a"
+      ],
+      "kind": "native_missing_import_repair",
+      "validation": "pending native recheck after a concrete missing-import diagnostic; declarations and proofs unchanged"
     }
   ],
   "declaration_region_hash_method": "SHA256 of all original source bytes except complete lines beginning with import followed by a space; every other byte, including blank lines, is retained."
