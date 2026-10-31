@@ -77,8 +77,7 @@ def denominatorSymbolHom (hD : AllowedGeneratorInput K S D) (J : ExteriorIdeal K
       exact False.elim (p.prime.not_unit (isUnit_of_dvd_one hp))
     rw [sexticSymbol_of_exterior K S D _ _ h1
       ⟨nonZeroDivisors.coe_ne_zero J.val, J.property⟩]
-    change sIntegerSexticIdealEvaluation K S D.root6 D.primitive6 D.embedding
-      ⊤ _ _ _ (D.generator J) = 1
+    simp only [idealSymbol, toExterior, Ideal.one_eq_top]
     exact sIntegerSexticIdealEvaluation_top K S D.root6 D.primitive6 D.embedding _ _ _
   map_mul' := by
     intro I L
