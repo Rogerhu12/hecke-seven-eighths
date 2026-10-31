@@ -31,6 +31,7 @@ MODULES = (
     "LengthStages", "BaseUniformity", "BranchedIntegralRecursion", "BaseBranch",
     "StepOutputAdapter", "BranchAssembly", "ProfileScaling", "SourceReindex",
     "CoreGeometry", "ReflectionBranch", "ReflectedRoot",
+    "CoreStages", "GeneralBaseTerminal", "RecipeRoot", "ProfileSupremum",
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.
@@ -128,6 +129,17 @@ REQUIRED_TARGETS = {
     "HeckeSkeleton.Moments.EngineInduction.engineOutputsToBranchedStep",
     "HeckeSkeleton.Moments.EngineInduction.engineOutputsToClosedParentReduction",
     "HeckeSkeleton.Moments.EngineInduction.BranchedIntegralAt.combine_mass",
+    "HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.core_reflection_earlier",
+    "HeckeSkeleton.Moments.EngineInduction.PolynomialSystem.earlier_core_of_length",
+    "HeckeSkeleton.Moments.EngineInduction.CoreReflectionData.toAt",
+    "HeckeSkeleton.Moments.EngineInduction.CoreReflectionData.toAt_mass",
+    "HeckeSkeleton.Moments.EngineInduction.general_uniform_polynomial_height_base_components",
+    "HeckeSkeleton.Moments.EngineInduction.uniform_modelProfileControl_base_components",
+    "HeckeSkeleton.Moments.EngineInduction.sliceControl_norm_le",
+    "HeckeSkeleton.Moments.EngineInduction.Source.recipeRoot_slotCount_le",
+    "HeckeSkeleton.Moments.EngineInduction.Source.recipeRoot_length",
+    "HeckeSkeleton.Moments.EngineInduction.Source.recipeRoot_fitsMesh",
+    "HeckeSkeleton.Moments.EngineInduction.Source.recipeRoot_uniform_profiles",
     "HeckeSkeleton.Moments.EngineInduction.Node.base_length_of_zero_padded_core",
     "HeckeSkeleton.Moments.EngineInduction.Node.base_length_of_positive_capacity",
     "HeckeSkeleton.Moments.EngineInduction.Node.quarterCentered_energy_decomposition",

@@ -185,7 +185,7 @@ theorem same_length_schedule (S : PolynomialSystem.{u} K ω ψ σ W)
   have hstage : (S.node child).lengthStage = (S.node parent).lengthStage := by
     unfold Node.lengthStage
     rw [htotal, hwidth]
-  change State.mk _ _ _ = State.mk _ _ _
+  dsimp only [PolynomialSystem.schedule, PolynomialSystem.withLengthStages]
   rw [hslot, hband, hstage]
 
 theorem quarterCentered_same_schedule (S : PolynomialSystem.{u} K ω ψ σ W)

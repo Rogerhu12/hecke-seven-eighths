@@ -131,12 +131,12 @@ theorem ReflectedRootCertificate.energy_bound
     (hC : 0 ≤ C) (hT : 0 ≤ T) (hH : 0 ≤ H) (hδ : 0 ≤ δ) (hδouter : 0 ≤ δouter) :
     pairedEnergy (F.model Z T (indexMap Z T i) s) (F.parameters (indexMap Z T i))
       (F.base i) 0 ≤
-      (C * (1 + C * (1 + C) ^ (4 * (widthBand σ W + 1)))) *
+      (C * (1 + C * (1 + C) ^ (6 * (widthBand σ W + 1)))) *
         F.base i ^ (F.rowWidth (indexMap Z T i) +
-          (β + (4 * (widthBand σ W + 1) : ℕ) * δ + δouter)) *
-        (1 + T) ^ (H * ((4 * (widthBand σ W + 1) : ℕ) + 1) + Houter) := by
+          (β + (6 * (widthBand σ W + 1) : ℕ) * δ + δouter)) *
+        (1 + T) ^ (H * ((6 * (widthBand σ W + 1) : ℕ) + 1) + Houter) := by
   letI : MeasurableSpace cert.parameterSpace := cert.parameterMeasurable
-  let N : ℕ := 4 * (widthBand σ W + 1)
+  let N : ℕ := 6 * (widthBand σ W + 1)
   have hcore := cert.core.reduction.power_bound C (F.base i) T H β δ
     hC cert.base_one_le hT hH hδ cert.core.terminal cert.core.mass
   have hterminal := cert.components.bound cert.base_one_le cert.floor_nonneg
@@ -179,7 +179,7 @@ structure ReflectedRootInput
   edgeLoss_nonneg : 0 ≤ edgeLoss
   outerLoss_nonneg : 0 ≤ outerLoss
   ceiling_pos : 0 < ceiling
-  loss_budget : terminalLoss + (4 * (widthBand σ W + 1) : ℕ) * edgeLoss +
+  loss_budget : terminalLoss + (6 * (widthBand σ W + 1) : ℕ) * edgeLoss +
     outerLoss ≤ F.loss
   base_at : ∀ Z T (i : Index Z T), F.base (indexMap Z T i) = F.base i
   certificates : ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
@@ -197,7 +197,7 @@ theorem ReflectedRootInput.sectorBound
     {eligible : ∀ Z T, Index Z T → Prop} {σ W : ℝ}
     (input : ReflectedRootInput.{u} F indexMap eligible σ W) :
     F.SectorBound indexMap eligible := by
-  let N : ℕ := 4 * (widthBand σ W + 1)
+  let N : ℕ := 6 * (widthBand σ W + 1)
   refine ⟨input.heightDegree * ((N : ℝ) + 1) + input.outerHeightDegree, input.ceiling,
     add_nonneg (mul_nonneg input.heightDegree_nonneg (by positivity))
       input.outerHeightDegree_nonneg, input.ceiling_pos, ?_⟩

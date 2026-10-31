@@ -93,7 +93,7 @@ theorem uniform_rank_bound (step : LocalStep value schedule)
     (terminal mass : ℝ) (ht : 0 ≤ terminal) (hm : 0 ≤ mass)
     (hterminal : ∀ x, step.remainder x ≤ terminal)
     (hmass : ∀ x, (∑ y ∈ step.children x, step.weight x y) ≤ mass) :
-    ∀ x, value x ≤ terminal * (1 + mass) ^ (4 * (bands + 1)) := by
+    ∀ x, value x ≤ terminal * (1 + mass) ^ (6 * (bands + 1)) := by
   intro x
   exact (step.bound terminal mass ht hm hterminal hmass x).trans
     (mul_le_mul_of_nonneg_left
@@ -133,16 +133,16 @@ theorem localStep_power_bound {X : Type u} {bands : ℕ}
     (hmass : ∀ x, (∑ y ∈ step.children x, step.weight x y) ≤
       C * (1 + T) ^ H * U ^ δ) :
     ∀ x, value x ≤
-      (C * (1 + C) ^ (4 * (bands + 1))) *
-        U ^ (β + (4 * (bands + 1) : ℕ) * δ) *
-        (1 + T) ^ (H * ((4 * (bands + 1) : ℕ) + 1)) := by
+      (C * (1 + C) ^ (6 * (bands + 1))) *
+        U ^ (β + (6 * (bands + 1) : ℕ) * δ) *
+        (1 + T) ^ (H * ((6 * (bands + 1) : ℕ) + 1)) := by
   intro x
   have hp : 1 ≤ (1 + T) ^ H := Real.one_le_rpow (by linarith) hH
   have h₁ := step.uniform_rank_bound
     (C * (1 + T) ^ H * U ^ β) (C * (1 + T) ^ H * U ^ δ)
     (by positivity) (by positivity) hterminal hmass x
   apply h₁.trans
-  convert propagated_majorant C U ((1 + T) ^ H) β δ (4 * (bands + 1))
+  convert propagated_majorant C U ((1 + T) ^ H) β δ (6 * (bands + 1))
     hC hU hp hδ using 1
   rw [← Real.rpow_mul_natCast (by linarith : 0 ≤ 1 + T)]
   norm_num

@@ -124,7 +124,8 @@ The order is lexicographic:
 
 1. zero-slot states precede every positive-slot state;
 2. within a slot regime, width bands have length `σ / 4`;
-3. the first proof stage precedes the second proof stage in each band.
+3. the core first stage precedes the core second stage; an ordinary node
+   outside the padded core occupies a third stage for its actual reflection.
 
 The actual post-clipping drop `σ / 2` crosses a band. A comparison call uses
 the earlier proof stage, while removing the last slot may return to any
@@ -132,18 +133,23 @@ already completed zero-slot band. With widths bounded by `W`, the explicit
 natural rank is less than
 
 ```text
-N = 4 * (floor(4 * W / σ) + 1).
+N = 6 * (floor(4 * W / σ) + 1).
 ```
 
-The third coordinate is an explicit proof stage, supplied by
+The third coordinate is an explicit proof stage with three values, supplied by
 `PolynomialSystem.proofStage`. It is independent of `Node.centered`, which
 changes the actual coefficient. In particular, an ordinary target with
 `A > 5*M/6` may occupy the later proof stage. The algebraic comparison
 rectangle preserves the original scale product; reflecting its longer factor
 and identifying the result with an admissible shorter ordinary model remain
 analytic producer obligations. A same-band comparison edge therefore needs
-explicit earlier-stage evidence. Strict-width children may use either proof
-stage.
+explicit earlier-stage evidence. Strict-width children may use any proof
+stage. In particular, a zero-slot child need not already satisfy the padded
+core inequality. `CoreStages.lean` assigns every such ordinary node stage
+two and proves that an actual same-width reflection into the core reaches
+stage zero or one. No stronger padded-core conclusion is demanded from the
+canonical strict engine output. The resulting rank is at most twelve times
+the original strict-width schedule depth; the fixed reserve still pays for it.
 
 `LengthStages.lean` constructs the proof stage directly from the actual
 geometric range `n1+n2+z ≤ 5*(m+q)/6`. It preserves the original nodes and
@@ -320,6 +326,16 @@ below one force the row family to be empty. This is a fixed-core counting
 result; outer sums over varying frozen cores remain in the coefficient-mass
 input. The actual row cutoff `m` is kept separate from effective width `m+q`.
 
+`GeneralBaseTerminal.lean` extends the actual counting proof to the fixed
+support endpoint `b` returned by the source profile interface. It does not
+assume that an arbitrary source profile has support in `(1,2)`. The endpoint
+changes only the common coefficient, and the slot exponent remains its actual
+total length. `ProfileSupremum.lean` derives the needed pointwise profile bound
+from the original order-one Euler integral by the fundamental theorem of
+calculus. Thus the actual base components consume the canonical
+`ModelProfileControl` directly, with their coefficient and height degree
+chosen before every moving node and height.
+
 ## Actual source data and integration boundary
 
 `SourceFamily.energy` is a sum of the repository's actual `pairedEnergy` over
@@ -350,7 +366,12 @@ energy estimate. `SourceAdapter.lean` maps that same datum and model to
 `SourceFamily`, with definitional identities for parameters, capacities,
 energies and uniform quantifiers. Neither module imports `Moments.lean`.
 The producer's actual aliases and minimal recipe dependency files are
-imported unchanged at the same pin, with their hashes checked in CI.
+imported unchanged at the same pin, with their hashes checked in CI. `RecipeRoot.lean`
+then extracts the actual selected slot-count cap, every shell-rescaled slot
+length, the original mesh, full kappa range and positive capacity directly
+from that same explicit recipe. Its profile theorem uses the real selected
+parameters and fixes the common annulus before all source indices; it does
+not select the unfinished named actual recipe.
 
 `SourceConsumers.lean` proves the corresponding physical `PSource` consumer
 for an explicitly identified `TargetData` and the same expansion. It joins

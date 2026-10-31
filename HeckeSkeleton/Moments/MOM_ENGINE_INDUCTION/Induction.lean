@@ -34,18 +34,18 @@ theorem ClosedParentReduction.energy_bound {σ W : ℝ}
     (hC : 0 ≤ C) (hU : 1 ≤ U) (hT : 0 ≤ T) (hH : 0 ≤ H) (hδ : 0 ≤ δ)
     (x : S.Label) :
     (S.node x).energy U t ≤
-      (C * (1 + C) ^ (4 * (widthBand σ W + 1))) *
-        U ^ ((S.node x).width + β + (4 * (widthBand σ W + 1) : ℕ) * δ) *
-        (1 + T) ^ (H * ((4 * (widthBand σ W + 1) : ℕ) + 1)) := by
+      (C * (1 + C) ^ (6 * (widthBand σ W + 1))) *
+        U ^ ((S.node x).width + β + (6 * (widthBand σ W + 1) : ℕ) * δ) *
+        (1 + T) ^ (H * ((6 * (widthBand σ W + 1) : ℕ) + 1)) := by
   have hUpos : 0 < U := zero_lt_one.trans_le hU
   have hnorm := step.reduction.power_bound C U T H β δ
     hC hU hT hH hδ step.terminal step.mass x
   change (S.node x).energy U t / U ^ (S.node x).width ≤ _ at hnorm
   have hraw := (div_le_iff₀ (Real.rpow_pos_of_pos hUpos _)).mp hnorm
   apply hraw.trans_eq
-  rw [show (S.node x).width + β + (4 * (widthBand σ W + 1) : ℕ) * δ =
-      (S.node x).width + (β + (4 * (widthBand σ W + 1) : ℕ) * δ) by ring,
-    Real.rpow_add hUpos (S.node x).width (β + (4 * (widthBand σ W + 1) : ℕ) * δ)]
+  rw [show (S.node x).width + β + (6 * (widthBand σ W + 1) : ℕ) * δ =
+      (S.node x).width + (β + (6 * (widthBand σ W + 1) : ℕ) * δ) by ring,
+    Real.rpow_add hUpos (S.node x).width (β + (6 * (widthBand σ W + 1) : ℕ) * δ)]
   ring
 
 /-- Uniformity is proved before summing sectors.  The output constants
@@ -56,7 +56,7 @@ theorem ParentReductionInput.sectorBound
     {indexMap : ∀ Z T, Index Z T → Index Z T}
     {eligible : ∀ Z T, Index Z T → Prop}
     (input : ParentReductionInput.{u} F indexMap eligible) : F.SectorBound indexMap eligible := by
-  let N : ℕ := 4 * (widthBand input.sigma input.widthLimit + 1)
+  let N : ℕ := 6 * (widthBand input.sigma input.widthLimit + 1)
   refine ⟨input.heightDegree * ((N : ℝ) + 1), input.ceiling,
     mul_nonneg input.heightDegree_nonneg (by positivity), input.ceiling_pos, ?_⟩
   intro τ hτ hτc

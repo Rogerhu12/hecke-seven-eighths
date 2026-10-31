@@ -7,7 +7,7 @@ import Lean.Elab.Tactic.Omega
 # The finite order of the paired fourth-moment induction
 
 The order in revised §4.8 is (zero/positive slots, width band,
-first/second proof stage).  In particular, comparison is an earlier-stage
+core first/second stage and ordinary-reflection stage).  In particular, comparison is an earlier-stage
 call, not a strict-width call.  Removing every slot may return to any of
 the already completed zero-slot bands.
 
@@ -24,15 +24,15 @@ There are `bands + 1` width bands in each slot regime. -/
 structure State (bands : ℕ) where
   slots : Fin 2
   band : Fin (bands + 1)
-  stage : Fin 2
+  stage : Fin 3
 
 namespace State
 
 variable {bands : ℕ}
 
 def rank (s : State bands) : ℕ :=
-  (if s.slots.val = 0 then 0 else 2 * (bands + 1)) +
-    2 * s.band.val + s.stage.val
+  (if s.slots.val = 0 then 0 else 3 * (bands + 1)) +
+    3 * s.band.val + s.stage.val
 
 /-- The three strictly earlier kinds of call permitted by §4.8. -/
 def Earlier (child parent : State bands) : Prop :=
@@ -41,7 +41,7 @@ def Earlier (child parent : State bands) : Prop :=
       (child.band.val < parent.band.val ∨
         (child.band = parent.band ∧ child.stage.val < parent.stage.val)))
 
-theorem rank_lt_bound (s : State bands) : s.rank < 4 * (bands + 1) := by
+theorem rank_lt_bound (s : State bands) : s.rank < 6 * (bands + 1) := by
   have hb := s.band.isLt
   have hs := s.stage.isLt
   unfold rank
@@ -126,7 +126,7 @@ def boundedBand (σ M W : ℝ) (hσ : 0 < σ) (hM : M ≤ W) :
   ⟨widthBand σ M, Nat.lt_succ_of_le (widthBand_mono hσ hM)⟩
 
 /-- A strict child with the same slot regime is earlier, regardless of
-which of the two stages it needs. -/
+which of the three stages it needs. -/
 theorem strict_child_earlier {bands : ℕ} {σ Mc Mp : ℝ}
     {child parent : State bands} (hσ : 0 < σ) (hMc : 0 ≤ Mc)
     (hdrop : Mc + σ / 2 ≤ Mp) (hmode : child.slots = parent.slots)

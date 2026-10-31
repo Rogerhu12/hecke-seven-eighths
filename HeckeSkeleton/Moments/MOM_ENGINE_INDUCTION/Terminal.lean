@@ -222,7 +222,7 @@ theorem exists_fine_loss_parameters {ε σ : ℝ} (hε : 0 < ε) (hσ : 0 < σ) 
 /-- Choose the coarse geometry before evaluating its finite recursion depth,
 then choose the precision, mesh and local loss.  The single unmultiplied
 terminal boundary error is included in the final budget as well.  Taking
-`depth σ = 4 * (widthBand σ W + 1)` instantiates the ordered engine. -/
+`depth σ = 6 * (widthBand σ W + 1)` instantiates the ordered engine. -/
 theorem exists_ordered_induction_loss_parameters {ε : ℝ} (hε : 0 < ε)
     (depth : ℝ → ℕ) :
     ∃ ρ padding σ ξ η localLoss : ℝ,

@@ -82,9 +82,9 @@ theorem power_bound (reduction : Reduction value schedule)
     (hterminal : ∀ x, reduction.remainder x ≤ C * (1 + T) ^ H * U ^ β)
     (hmass : ∀ x, reduction.mass x ≤ C * (1 + T) ^ H * U ^ δ) :
     ∀ x, value x ≤
-      (C * (1 + C) ^ (4 * (bands + 1))) *
-        U ^ (β + (4 * (bands + 1) : ℕ) * δ) *
-        (1 + T) ^ (H * ((4 * (bands + 1) : ℕ) + 1)) := by
+      (C * (1 + C) ^ (6 * (bands + 1))) *
+        U ^ (β + (6 * (bands + 1) : ℕ) * δ) *
+        (1 + T) ^ (H * ((6 * (bands + 1) : ℕ) + 1)) := by
   cases reduction with
   | finite step =>
       exact localStep_power_bound step C U T H β δ hC hU hT hH hδ hterminal hmass

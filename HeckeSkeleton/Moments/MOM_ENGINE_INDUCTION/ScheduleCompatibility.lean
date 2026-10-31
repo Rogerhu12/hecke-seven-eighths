@@ -11,7 +11,7 @@ This module uses that same mesh.  It does not replace it by a fresh smaller
 parameter after the source has been chosen.
 
 The complete rank includes both slot regimes and both proof stages.  Its
-depth is at most eight times the strict-width schedule depth.  The reserve
+depth is at most twelve times the strict-width schedule depth.  The reserve
 already built into `momentMeshValue` pays for this larger count together
 with the terminal loss, at width limit two.  This limit includes the actual
 dyadic source row exponent proved in `RootNormalization`.
@@ -26,7 +26,7 @@ namespace HeckeSkeleton.Moments.EngineInduction
 as well as the strict-width calls counted by the preselected schedule. -/
 theorem engine_rank_bound_le_schedule_depth {M σ : ℝ}
     (hM : 0 ≤ M) (hσ : 0 < σ) :
-    4 * (widthBand σ M + 1) ≤ 8 * HeckePort.Schedule.depth M σ := by
+    6 * (widthBand σ M + 1) ≤ 12 * HeckePort.Schedule.depth M σ := by
   have hd := HeckePort.Schedule.depth_covers M σ hσ
   have hband : widthBand σ M < 2 * HeckePort.Schedule.depth M σ := by
     unfold widthBand
@@ -67,13 +67,13 @@ theorem moment_mesh_total_loss_budget {ε : ℝ} (hε : 0 < ε) :
     let r := sourceReserve ε
     let η := HeckePort.Schedule.momentMeshValue ε
     terminalBudget (16 * σ) (σ / 16) σ r +
-      (4 * (widthBand σ 2 + 1) : ℕ) * (r + η + r) < ε := by
+      (6 * (widthBand σ 2 + 1) : ℕ) * (r + η + r) < ε := by
   dsimp only
   let σ := HeckePort.Schedule.amplification ε
   let r := sourceReserve ε
   let η := HeckePort.Schedule.momentMeshValue ε
   let D := HeckePort.Schedule.count 2 ε
-  let N := 4 * (widthBand σ 2 + 1)
+  let N := 6 * (widthBand σ 2 + 1)
   change terminalBudget (16 * σ) (σ / 16) σ r + (N : ℝ) * (r + η + r) < ε
   obtain ⟨hσ, _, hσε, hr, _, hmr, _, _, _, hloss⟩ :=
     HeckePort.Schedule.bounds 2 (HeckePort.Schedule.finalSourceCap 2 0 1 ε) 1 ε
@@ -83,18 +83,18 @@ theorem moment_mesh_total_loss_budget {ε : ℝ} (hε : 0 < ε) :
   change 0 < r at hr
   change η ≤ r at hmr
   change r + 64 * (D : ℝ) * r ≤ ε / 1000 at hloss
-  have hNnat : N ≤ 8 * D :=
+  have hNnat : N ≤ 12 * D :=
     engine_rank_bound_le_schedule_depth (by norm_num) hσ
-  have hN : (N : ℝ) ≤ 8 * (D : ℝ) := by exact_mod_cast hNnat
+  have hN : (N : ℝ) ≤ 12 * (D : ℝ) := by exact_mod_cast hNnat
   have hcoarse : terminalBudget (16 * σ) (σ / 16) σ r ≤ 24 * σ + r := by
     unfold terminalBudget
     change 0 < σ at hσ
     linarith
-  have hedge : (N : ℝ) * (r + η + r) ≤ 24 * (D : ℝ) * r := by
+  have hedge : (N : ℝ) * (r + η + r) ≤ 36 * (D : ℝ) * r := by
     calc
       _ ≤ (N : ℝ) * (3 * r) :=
         mul_le_mul_of_nonneg_left (by linarith) (Nat.cast_nonneg _)
-      _ ≤ (8 * (D : ℝ)) * (3 * r) :=
+      _ ≤ (12 * (D : ℝ)) * (3 * r) :=
         mul_le_mul_of_nonneg_right hN (by positivity)
       _ = _ := by ring
   have hDr : 0 ≤ (D : ℝ) * r := mul_nonneg (Nat.cast_nonneg _) hr.le
@@ -113,13 +113,13 @@ theorem moment_mesh_loss_budget_with_outer_reflection {ε : ℝ} (hε : 0 < ε) 
     let r := sourceReserve ε
     let η := HeckePort.Schedule.momentMeshValue ε
     terminalBudget (16 * σ) (σ / 16) σ r +
-      (4 * (widthBand σ 2 + 1) : ℕ) * (r + η + r) + r < ε := by
+      (6 * (widthBand σ 2 + 1) : ℕ) * (r + η + r) + r < ε := by
   dsimp only
   let σ := HeckePort.Schedule.amplification ε
   let r := sourceReserve ε
   let η := HeckePort.Schedule.momentMeshValue ε
   let D := HeckePort.Schedule.count 2 ε
-  let N := 4 * (widthBand σ 2 + 1)
+  let N := 6 * (widthBand σ 2 + 1)
   change terminalBudget (16 * σ) (σ / 16) σ r + (N : ℝ) * (r + η + r) + r < ε
   obtain ⟨hσ, _, hσε, hr, _, hmr, _, _, _, hloss⟩ :=
     HeckePort.Schedule.bounds 2 (HeckePort.Schedule.finalSourceCap 2 0 1 ε) 1 ε
@@ -129,18 +129,18 @@ theorem moment_mesh_loss_budget_with_outer_reflection {ε : ℝ} (hε : 0 < ε) 
   change 0 < r at hr
   change η ≤ r at hmr
   change r + 64 * (D : ℝ) * r ≤ ε / 1000 at hloss
-  have hNnat : N ≤ 8 * D :=
+  have hNnat : N ≤ 12 * D :=
     engine_rank_bound_le_schedule_depth (by norm_num) hσ
-  have hN : (N : ℝ) ≤ 8 * (D : ℝ) := by exact_mod_cast hNnat
+  have hN : (N : ℝ) ≤ 12 * (D : ℝ) := by exact_mod_cast hNnat
   have hcoarse : terminalBudget (16 * σ) (σ / 16) σ r ≤ 24 * σ + r := by
     unfold terminalBudget
     change 0 < σ at hσ
     linarith
-  have hedge : (N : ℝ) * (r + η + r) ≤ 24 * (D : ℝ) * r := by
+  have hedge : (N : ℝ) * (r + η + r) ≤ 36 * (D : ℝ) * r := by
     calc
       _ ≤ (N : ℝ) * (3 * r) :=
         mul_le_mul_of_nonneg_left (by linarith) (Nat.cast_nonneg _)
-      _ ≤ (8 * (D : ℝ)) * (3 * r) :=
+      _ ≤ (12 * (D : ℝ)) * (3 * r) :=
         mul_le_mul_of_nonneg_right hN (by positivity)
       _ = _ := by ring
   have hDr : 0 ≤ (D : ℝ) * r := mul_nonneg (Nat.cast_nonneg _) hr.le

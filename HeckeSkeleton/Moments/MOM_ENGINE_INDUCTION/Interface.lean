@@ -110,7 +110,7 @@ structure PolynomialSystem (ω ψ : HeckeCharacter K) (σ W : ℝ) where
   node : Label → Node K ω ψ
   /-- The proof stage is independent of whether a coefficient is centered.
   In particular, an ordinary large-parameter root can occupy the later stage. -/
-  proofStage : Label → Fin 2
+  proofStage : Label → Fin 3
   sigma_pos : 0 < σ
   width_nonneg : ∀ x, 0 ≤ (node x).width
   width_le : ∀ x, (node x).width ≤ W
@@ -212,7 +212,7 @@ structure ParentReductionInput {ω ψ : HeckeCharacter K}
   heightDegree_nonneg : 0 ≤ heightDegree
   edgeLoss_nonneg : 0 ≤ edgeLoss
   ceiling_pos : 0 < ceiling
-  loss_budget : terminalLoss + (4 * (widthBand sigma widthLimit + 1) : ℕ) *
+  loss_budget : terminalLoss + (6 * (widthBand sigma widthLimit + 1) : ℕ) *
     edgeLoss ≤ F.loss
   base_at : ∀ Z T (i : Index Z T), F.base (indexMap Z T i) = F.base i
   certificates : ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →

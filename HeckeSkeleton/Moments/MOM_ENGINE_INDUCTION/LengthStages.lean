@@ -32,7 +32,7 @@ def Node.totalLength (n : Node K ω ψ) : ℝ :=
 
 /-- The proof range is determined by the actual lengths, independently
 of the centering operation on the whole polynomial. -/
-def Node.lengthStage (n : Node K ω ψ) : Fin 2 :=
+def Node.lengthStage (n : Node K ω ψ) : Fin 3 :=
   if n.totalLength ≤ 5 * n.width / 6 then 0 else 1
 
 theorem Node.lengthStage_zero (n : Node K ω ψ)
