@@ -1,8 +1,8 @@
 # THETA_GLOBAL：精确声明、局部输入与下游接口
 
-本报告对照本轮仓库真实源码，列出五个原始目标、全部新增局部输入、同一次算术选择和七个下游接口。代码块中的声明与字段从所列源文件逐字提取；若只展示声明头，会明确标为“声明头”，并省略证明体而不改动参数。
+本报告对照本轮仓库真实源码，列出五个原始目标、保留的阿基米德局部输入、已构造的有限位数字证书、同一次算术选择和七个下游接口。代码块中的声明与字段从所列源文件逐字提取；若只展示声明头，会明确标为“声明头”，并省略证明体而不改动参数。
 
-原任务明确允许将阿基米德高 K-型向量、Mellin 对、乘子恒等式及外部素位数字表写成显式假设。以下 `L`、`H` 就是这条允许的局部边界。它们的存在性不是本报告新增的结论。
+原任务明确允许将阿基米德高 K-型向量、Mellin 对、乘子恒等式及外部素位数字表写成显式假设。本轮进一步接入仓库已有局部定理，给出同一实际固定源的四字段数字证书 `H` 的构造；`H/localDigits` 已从公开 Theta 与 Main 接口移除。仍由调用者提供的局部包是 `L`。原 `marked_reflection` 的显式 `hkernel` 参数保留。五个新增局部桥模块尚待完整原生编译和递归公理检查；源码构造不等于已通过验证。
 
 目标环境：Lean `4.35.0-rc3`，Mathlib `0493595ecd5da8ef14742febab99728f98e948e8`。本报告记录声明与依赖边界；本轮原生编译、公理检查的结果须以单独保存的实际日志为准。这里不预先宣称未完成的检查通过。
 
@@ -146,22 +146,21 @@ theorem marked_reflected_absolute : ∀ (d : MarkedDatum K S) (V : SmoothAnnular
 ### 2.5 TH-MARKED-REFLECTION
 
 ```lean
-theorem marked_reflection (H : LocalExteriorDigitInput K c)
-    (hkernel : MellinKernelInput K S F θ) : ∀ (d : MarkedDatum K S) (V : SmoothAnnularTest) X, 0 < X →
+theorem marked_reflection (hkernel : MellinKernelInput K S F θ) : ∀ (d : MarkedDatum K S) (V : SmoothAnnularTest) X, 0 < X →
     completedThetaSum K S D θ (rowElement K S D d) d.puncture d.marks V.toFun X =
       ∑' i : ReflectionIndex K S d, reflectedTerm K S D d i F θ V.toFun X := by
   intro d V X hX
   obtain ⟨w, hw, hk⟩ := marked_angular_nonzero K c
-  exact thetaFiniteSource_marked_reflection K c L H (allowedGenerators K c)
+  exact thetaFiniteSource_marked_reflection K c L (allowedGenerators K c)
     (marked_conductor_subset K c) w hk d V hX
 ```
 
 截断与衰减中隐式推断的索引类型为：`u : SixthUnitClasses K S`，`κ : SixthLocalClasses K S`，`l : Fin F.terms`，`p : S`，`k : ℤ`；衰减指数 `δ` 与常数 `C` 为实数。两条级数声明中的 `X` 是正实数，测试 `V` 是原 `SmoothAnnularTest`，反向求和索引保持原 `ReflectionIndex K S d`。
 
-`marked_reflection` 保留显式参数 `hkernel : MellinKernelInput K S F θ`。当前证明体从 `L` 构造核输入，未使用传入的 `hkernel`；公共打包入口用已证明的 `mellinKernel K c L` 填充它。故打包入口只新增 `L`、`H` 两个独立局部输入：
+`marked_reflection` 保留显式参数 `hkernel : MellinKernelInput K S F θ`。当前证明体从 `L` 构造核输入，未使用传入的 `hkernel`；公共打包入口用已实现的 `mellinKernel K c L` 填充它。有限位数字证书在固定源入口内部由 `localExteriorDigitInput K c` 构造，因此公共打包入口只保留一个新增局部输入 `L`：
 
 ```lean
-theorem markedReflection (H : LocalExteriorDigitInput K c) :
+theorem markedReflection :
     MarkedCoefficientReflectionInput K S D F θ where
   allowed_generators := allowedGenerators K c
   exterior_unramified := marked_exterior_unramified K c
@@ -169,7 +168,7 @@ theorem markedReflection (H : LocalExteriorDigitInput K c) :
   kernel := mellinKernel K c L
   completed_absolute := marked_completed_absolute K c
   reflected_absolute := marked_reflected_absolute K c L
-  reflection := marked_reflection K c L H (mellinKernel K c L)
+  reflection := marked_reflection K c L (mellinKernel K c L)
 ```
 
 ## 3. 同一次 source 与 RootAligned 的嵌入调整
@@ -403,17 +402,15 @@ structure Input where
 
 若接入一个“direct profile 乘逆字符”的局部接口，应把该接口实例化于 `θ⁻¹`。这解释了局部分支不同 direct 命名与本分支原乘子的关系；不需要改动 `GlobalThetaData.reflectionMultiplier`。本段的符号桥原生编译状态仍以实际审计日志为准。
 
-## 5. H：全部单处 exterior digit 输入
+## 5. 已构造的 H：实际有限位数字证书
 
-准确类型是 `ThetaGlobal.GlobalProjectLocalDigitTables.Input R D Adata`；这里 `D` 是 **实际 source factorization**，不是第 1 节中 theta arithmetic datum 的记号。固定入口中的对应关系完整为：
+准确类型是 `ThetaGlobal.GlobalProjectLocalDigitTables.Input R D Adata`；这里 `D` 是 **实际 source factorization**，不是第 1 节中 theta arithmetic datum 的记号。该四字段命题仍作为通用证明接口存在，固定入口已经给出它的构造，不再要求调用者提供 `H`。保留的类型别名及其固定源对应关系如下，命名空间为 `HeckeSkeleton`：
 
 ```lean
 local notation "R" => thetaRecipe K c
 local notation "Sf" => places K c
 local notation "Adata" => arithmeticData K c
 
-/-- The permitted exterior table is evaluated on the source selected
-before the local high K-type vector is supplied. -/
 abbrev LocalExteriorDigitInput :=
   GlobalProjectLocalDigitTables.Input R
     (thetaFiniteSource K c).projected.base.factorization Adata
@@ -509,7 +506,131 @@ def psi (p : ThetaBranch.ExteriorPrime R.A) : AddChar (DHCubic.Residue F p.val) 
   (PrincipalMellinSource.exists_primitive_source_characters R).choose p
 ```
 
-`nonzero_digits` 中名为 `L` 的量是一个任意满足 residue-lift 条件的函数，和第 4 节的高 K-型数据 `L` 是不同的局部绑定变量。每条字段只涉及一个 exterior prime。零 residue 由 compact invariance 推出；marked average 由 `q⁻¹ = δ₀ - digitMask₀` 推出；有限乘积、active-set 展开和最终频率重排均在输入之外证明。
+`nonzero_digits` 中名为 `L` 的量是一个任意满足 residue-lift 条件的函数，和第 4 节的高 K-型数据 `L` 是不同的局部绑定变量。每条字段只涉及一个 exterior prime。下面的构造填充这四个字段。零 residue 由 compact invariance 推出；marked average 由 `q⁻¹ = δ₀ - digitMask₀` 推出；有限乘积、active-set 展开和最终频率重排再由这些局部事实推出。
+
+### 5.1 五个局部桥模块与四字段来源
+
+这条链复用同一 recipe 的生成元、复嵌入、实际参考向量、表示作用与 Whittaker functional。`LocalDigitEvaluation` 的参数是 `JointExteriorCoefficientSources`：它只使用已有 factorization、exterior spherical values 和 `RootAligned`，没有要求 `JointUpperVanishingSources` 所附带的 packet、全局 Mellin、全局求和性或反射恒等式。
+
+| 新模块 | 实际连接 |
+| --- | --- |
+| [`ThetaGlobal.LocalDigitArithmetic`](../ThetaGlobal/LocalDigitArithmetic.lean) | 将 recipe 的 `ThetaBranch.residueCharacter`、`Characters.psi` 识别为同一 `thetaArithmeticData` 的 `thetaPrimeCharacter`、`primePhase`；连接球面数字表、`zeroth_weyl` 与 `forward_mask`。 |
+| [`ThetaGlobal.LocalDigitEvaluation`](../ThetaGlobal/LocalDigitEvaluation.lean) | 对实际 `A(x) W N(-s/g_p)` 作用于同一参考向量的局部系数，复用 Bruhat、compact invariance 与局部 Whittaker 协变性计算非零数字值。 |
+| [`ThetaGlobal.LocalDigitAverage`](../ThetaGlobal/LocalDigitAverage.lean) | 对任意合法 residue lifts 求和；负的 `order + 2` 给零，非负部分转成有限域单位群之和并应用已实现的 `localWeyl_phase_separation`。 |
+| [`ThetaGlobal.LocalDigitInput`](../ThetaGlobal/LocalDigitInput.lean) | 证明两处实际局部系数定义相等，填充现有 `Input` 的全部四字段。 |
+| [`ThetaGlobal.LocalDigitSource`](../ThetaGlobal/LocalDigitSource.lean) | 对齐同一 `axiomChoice` 的 arithmetic datum，并在已经选定的 `thetaFiniteSource` 上构造 `localExteriorDigitInput`。 |
+
+`diagonal` 来自 `C.exterior.rational_exact` 与 `LocalDigitArithmetic.sphericalFactor_eq`；`nonzero_digits` 来自上述实际表示计算与有限域相位分离；`zeroth_weyl` 和 `forward_mask` 连接已合并局部交付的 `HeckeSkeleton.ThetaLocal.ProjectFinite`。数字表的平方根/Gauss 归一化和 residue-zero 分支按原定义保留，没有另设可自由选择的数字函数。
+
+### 5.2 泛型实际 source 的完整构造
+
+以下为 `LocalDigitInput.lean` 中的实际上下文、定义识别和四字段构造。`hdiff` 是明确的有限位算术条件；在固定入口它由已有 `axiomChoice.different` 填充，不成为新的外部假设。各代码块的 namespace/局部绑定作用域分别读取。
+
+```lean
+namespace ThetaGlobal.LocalDigitInput
+
+open NumberField IsDedekindDomain DedekindZetaZeroFree
+open DedekindZetaZeroFree.MomentSources
+open HeckeGeneral.Characters HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
+open ThetaGlobal.GlobalProjectDigitProduct
+open ThetaGlobal.GlobalProjectLocalDigitTables
+open scoped NumberField Classical BigOperators
+
+variable {F : Type} [Field F] [NumberField F]
+variable {S : SArithmeticData F} {η : RayClassCharacter F S.modulus}
+variable (R : PrincipalMellin.ActualRecipe S η)
+variable {N : TraceHaarTransport R} (C : JointExteriorCoefficientSources R N)
+
+/-- Both definitions evaluate the same actual reference vector at the
+same canonical local representation of `A(x) W N(-s/g_p)`. -/
+theorem localDigit_eq (p : ThetaBranch.ExteriorPrime R.A) (x : Fˣ) (s : 𝓞 F) :
+    localDigit R C.factorization p x s =
+      LocalDigitEvaluation.localDigitValue R C p x s := by
+  simp only [GlobalProjectDigitProduct.localDigit, OrbitExpansion.exteriorSlotValue,
+    LocalDigitEvaluation.localDigitValue, map_mul]
+
+variable (hdiff : ∀ p : HeightOneSpectrum (𝓞 F),
+  p ∉ (R.A.Sf : Set (HeightOneSpectrum (𝓞 F))) → localDifferentExponent F p = 0)
+
+local notation "Adata" => HeckeAxiom.thetaArithmeticData R.A R.probe.allowed R.σ hdiff
+
+/-- The local digit package of the same actual exterior source, with no
+remaining local-table hypothesis. -/
+theorem input : GlobalProjectLocalDigitTables.Input R C.factorization Adata where
+  diagonal p x := by
+    rw [C.exterior.rational_exact]
+    exact LocalDigitArithmetic.sphericalFactor_eq R hdiff p x
+  nonzero_digits p j x L hL := by
+    simp_rw [localDigit_eq R C]
+    exact LocalDigitAverage.nonzero_digits R C hdiff p j x L hL
+  zeroth_weyl p := LocalDigitArithmetic.zeroth_weyl R hdiff p
+  forward_mask p j t := LocalDigitArithmetic.forward_mask R hdiff p j t
+
+end ThetaGlobal.LocalDigitInput
+```
+
+### 5.3 同一固定选择上的 canonical H
+
+以下是 `LocalDigitSource.lean` 的完整接口及构造体。`thetaRecipe_arithmeticData` 只改写同一选择已经保留的 allowed-generator 等式，没有重新选择 source、素位集、生成元或字符。
+
+```lean
+namespace HeckeSkeleton
+
+open NumberField IsDedekindDomain DedekindZetaZeroFree
+open DedekindZetaZeroFree.MomentSources
+open HeckeGeneral.Characters HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
+open scoped NumberField Classical
+
+variable (K : Type) [Field K] [NumberField K] (c : TargetContext K)
+
+theorem thetaRecipe_arithmeticData :
+    HeckeAxiom.thetaArithmeticData (thetaRecipe K c).A
+      (thetaRecipe K c).probe.allowed (thetaRecipe K c).σ
+      (axiomChoice K c).different = arithmeticData K c := by
+  change HeckeAxiom.thetaArithmeticData (axiomChoice K c).A
+    (ThetaGlobal.GlobalSameChoice.recipe (axiomChoice K c)
+      (axiomChoice_modulus_top K c)).probe.allowed
+    (complexEmbedding K c) (axiomChoice K c).different = (axiomChoice K c).thetaData
+  rw [ThetaGlobal.GlobalSameChoice.recipe_allowed]
+  rfl
+
+/-- The actual fixed source supplies its exterior digit table without an
+additional local-table hypothesis. -/
+theorem localExteriorDigitInput :
+    ThetaGlobal.GlobalProjectLocalDigitTables.Input (thetaRecipe K c)
+      (thetaFiniteSource K c).projected.base.factorization (arithmeticData K c) := by
+  have h := ThetaGlobal.LocalDigitInput.input (thetaRecipe K c)
+    (thetaFiniteSource K c).projected.base (axiomChoice K c).different
+  rw [thetaRecipe_arithmeticData K c] at h
+  exact h
+
+end HeckeSkeleton
+```
+
+通用中间定理 `HeckeSkeleton.thetaRecipe_marked_reflection` 仍显式接收 `H : GlobalProjectLocalDigitTables.Input R C.projected.base.factorization Adata`。固定源适配器完整地把上述构造传入该参数；这一层不再接收 `H`：
+
+```lean
+theorem thetaFiniteSource_marked_reflection
+    (L : LocalHighKMellinInput K c)
+    (hA : AllowedGeneratorInput K Sf Adata)
+    (hS : conductorPlaces K
+      (thetaPeriod K Sf (probeData K c) (targetCharacter K c)) ⊆ R.A.Sf)
+    (w : InfinitePlace K)
+    (hk : heckeComplexWeight K w (R.A.complex_place w)
+      (thetaPeriod K Sf (probeData K c) (targetCharacter K c)) ≠ 0)
+    (d : MarkedDatum K Sf) (V : SmoothAnnularTest) {X : ℝ} (hX : 0 < X) :
+    completedThetaSum K Sf Adata
+      (thetaPeriod K Sf (probeData K c) (targetCharacter K c))
+      (rowElement K Sf Adata d) d.puncture d.marks V.toFun X =
+      ∑' i : ReflectionIndex K Sf d,
+        reflectedTerm K Sf Adata d i (FiniteSkeletonSource.data K c L)
+          (thetaPeriod K Sf (probeData K c) (targetCharacter K c)) V.toFun X :=
+  thetaRecipe_marked_reflection K c
+    (thetaPeriod K Sf (probeData K c) (targetCharacter K c))
+    (thetaFiniteSource K c) L (localExteriorDigitInput K c) hA hS w hk d V hX
+```
+
+这五个新模块的原生编译及 `LocalDigitAudit` 尚未完成。这里记录的是已经接入公开声明的真实源码证明链；不把静态核对、原任务允许该输入，或其他模块的历史成功记录当作新链的原生成功。
 
 ## 6. 实际有限表的归一化与壳层积分规格
 
@@ -575,13 +696,13 @@ theorem coefficient_shell_spec
 
 | 消费者 | 本次局部输入及依赖类型变化 | 实际调用/传递 |
 | --- | --- | --- |
-| `completedMarkedEnergy` | 新增 `L`；已有 `hreflection` 改用同一 `finiteMellinData K c L` | `completedMarkedEnergy K c L (markedReflection K c L H)` |
-| `principalSource` | 新增 `L`、`H` | 将上述 reflection package 传给 completed-energy 接口 |
-| `canonical_inverse_models` | 新增 `L`；保留 `hcal`、`hrows`、`hprofiles`、`hquadratic`、`hcubic`；已有 `hreflection` 改用同一 `finiteMellinData K c L` | `canonical_inverse_models K c L hcal hrows hprofiles (moment_quadratic_sieve K c) (moment_cubic_sieve K c) (markedReflection K c L H)` |
-| `inverseSource` | 新增 `L`、`H` | 用上述 canonical inverse-model 调用构造 `ISource` |
-| `sourceT` | 新增 `L`、`H` | `principal := principalSource K c L H` |
-| `familyInputs` | 新增逐 `TargetContext K` 的 `localData` 和 `localDigits` | 对每个 `c` 同时传给 `sourceT`、`inverseSource` |
-| `generalHeckeSevenEighths_skeleton` | 新增对每个数域和每个 `c` 的 `Nonempty (LocalHighKMellinInput F c)` 与 `LocalExteriorDigitInput F c` | 在 descent extension 上用 `Classical.choice` 取得局部数据，传给 `familyInputs` |
+| `completedMarkedEnergy` | 新增 `L`；已有 `hreflection` 改用同一 `finiteMellinData K c L` | `completedMarkedEnergy K c L (markedReflection K c L)` |
+| `principalSource` | 仅保留新增局部参数 `L` | 将内部构造的 `markedReflection K c L` 传给 completed-energy 接口 |
+| `canonical_inverse_models` | 新增 `L`；保留 `hcal`、`hrows`、`hprofiles`、`hquadratic`、`hcubic`；已有 `hreflection` 改用同一 `finiteMellinData K c L` | `canonical_inverse_models K c L hcal hrows hprofiles (moment_quadratic_sieve K c) (moment_cubic_sieve K c) (markedReflection K c L)` |
+| `inverseSource` | 仅保留新增局部参数 `L` | 用上述 canonical inverse-model 调用构造 `ISource` |
+| `sourceT` | 仅保留新增局部参数 `L` | `principal := principalSource K c L` |
+| `familyInputs` | 逐 `TargetContext K` 的 `localData`；已移除 `localDigits` | 对每个 `c` 将 `localData c` 传给 `sourceT`、`inverseSource` |
+| `generalHeckeSevenEighths_skeleton` | 只保留对每个数域和每个 `c` 的 `Nonempty (LocalHighKMellinInput F c)` | 在 descent extension 上用 `Classical.choice` 取得 `L`，传给 `familyInputs`；有限位证书由固定源构造 |
 
 前六项的完整声明头如下；证明体不重印。Principal 的源文件局部记号是：
 
@@ -608,8 +729,7 @@ theorem completedMarkedEnergy (L : LocalHighKMellinInput K c)
 ```
 
 ```lean
-theorem principalSource (L : LocalHighKMellinInput K c)
-    (H : LocalExteriorDigitInput K c) :
+theorem principalSource (L : LocalHighKMellinInput K c) :
     (probeMeasures K c).principalInput P ψ g T
 ```
 
@@ -626,14 +746,12 @@ theorem canonical_inverse_models (L : LocalHighKMellinInput K c)
 ```
 
 ```lean
-theorem inverseSource (L : LocalHighKMellinInput K c)
-    (H : LocalExteriorDigitInput K c) :
+theorem inverseSource (L : LocalHighKMellinInput K c) :
     ISource c.geometry (targetData K c) c.family.lamA
 ```
 
 ```lean
-theorem sourceT (c : TargetContext K) (L : LocalHighKMellinInput K c)
-    (H : LocalExteriorDigitInput K c) :
+theorem sourceT (c : TargetContext K) (L : LocalHighKMellinInput K c) :
     TSource c.geometry (targetCharacter K c) (targetData K c)
       c.family.B c.family.lamA c.lamB
 ```
@@ -641,8 +759,7 @@ theorem sourceT (c : TargetContext K) (L : LocalHighKMellinInput K c)
 ```lean
 theorem familyInputs (zeta : K) (hzeta : IsPrimitiveRoot zeta 12)
     (ω : HeckeCharacter K)
-    (localData : ∀ c : TargetContext K, LocalHighKMellinInput K c)
-    (localDigits : ∀ c : TargetContext K, LocalExteriorDigitInput K c) : TIPInput K ω
+    (localData : ∀ c : TargetContext K, LocalHighKMellinInput K c) : TIPInput K ω
 ```
 
 `canonical_inverse_models` 与 `inverseSource` 继承 `variable (K c)`；`sourceT` 与 `familyInputs` 继承 Main 的 `variable (K : Type) [Field K] [NumberField K]`。对应完整参数顺序和返回类型还由 `verification/theta_global/ConsumerSignatures.lean` 的 typed examples 检查；该文件的消费者公理报告允许原有 `sorryAx`，所以其意义是接口兼容性。
@@ -654,15 +771,12 @@ theorem familyInputs (zeta : K) (hzeta : IsPrimitiveRoot zeta 12)
 ```lean
 theorem generalHeckeSevenEighths_skeleton
     (localData : ∀ (F : Type) [Field F] [NumberField F] (c : TargetContext F),
-      Nonempty (LocalHighKMellinInput F c))
-    (localDigits : ∀ (F : Type) [Field F] [NumberField F] (c : TargetContext F),
-      LocalExteriorDigitInput F c) : GeneralHeckeSevenEighths := by
+      Nonempty (LocalHighKMellinInput F c)) : GeneralHeckeSevenEighths := by
   intro F _ _
   apply Descent.descend F
   intro ω
   exact familyInputs (Descent.Extension F) (Descent.root12 F)
     (Descent.primitive_root12 F) ω (fun c => Classical.choice (localData _ c))
-    (fun c => localDigits _ c)
 ```
 
 结论名 `GeneralHeckeSevenEighths` 的准确展开位于 `HeckeGeneral.Analysis`：
@@ -678,17 +792,19 @@ def GeneralHeckeSevenEighths : Prop :=
   ∀ (F : Type) [Field F] [NumberField F], HeckeSevenEighths F
 ```
 
-`GeneralHeckeSevenEighths` 的含义是所有数域、所有实际连续酉 Hecke 字符的 `heckeContinuation` 在 `Re(s) > 7/8` 无 meromorphic zero；其定义仍允许纯 norm 字符导致的极点。Main 的 theorem 当前仍通过其他任务的既有 admissions 依赖 `sorryAx`。本次 THETA_GLOBAL 交付只清除五个指定 theta 目标的对应缺口，并显式传播允许的局部输入。
+`GeneralHeckeSevenEighths` 的含义是所有数域、所有实际连续酉 Hecke 字符的 `heckeContinuation` 在 `Re(s) > 7/8` 无 meromorphic zero；其定义仍允许纯 norm 字符导致的极点。Main 的 theorem 当前仍通过其他任务的既有 admissions 依赖 `sorryAx`。本次 THETA_GLOBAL 源码针对五个指定 theta 目标完成实现与接线，并显式传播仍保留的阿基米德局部输入；这些目标的完整原生验证仍待完成。
 
 ## 8. 本任务的完成边界与验证记录的解释
 
-原 TASK 允许上述单处假设。因此，完整的 THETA_GLOBAL 任务验收是：五个指定目标在实际项目中完成接线；有限表保有壳层积分规格；全局 seed、测度/积分装配、实际系数识别、支持集重排和 annular transfer 在这条局部边界内推出；固定版本 native 编译与五目标递归公理门实际成功。
+原 TASK 允许单处假设；当前源码又将有限位数字证书从该边界中移除，公开构造只保留第 4 节的 `L`。完整的 THETA_GLOBAL 任务验收仍要求：五个指定目标在实际项目中完成接线；有限表保有壳层积分规格；全局 seed、测度/积分装配、实际系数识别、支持集重排和 annular transfer 在这条局部边界内推出；固定版本 native 编译与五目标递归公理门实际成功。
 
-`verification/theta_global/EntryAudit.lean` 对五目标拒绝 `sorryAx` 及任何非标准公理。允许的公理仅为 `propext`、`Classical.choice`、`Quot.sound`。同一审计还检查实际固定源、壳层积分规格、两个归一化常数、返回的反射包及七条方向恒等式，使用相同白名单。
+`verification/theta_global/EntryAudit.lean` 对五目标拒绝 `sorryAx` 及任何非标准公理。允许的公理仅为 `propext`、`Classical.choice`、`Quot.sound`。同一审计另检查 16 项接口声明：实际固定源、壳层积分规格、两个归一化常数、返回的反射包、四项 canonical-digit 接线声明及七条方向恒等式，共 21 项严格检查。
+
+新增 `verification/theta_global/LocalDigitAudit.lean` 先对 arithmetic/evaluation/average 链的 12 项局部声明使用同一严格白名单；完整固定源适配仍由 `EntryAudit` 检查。实际入口 CI 作业的总上限为 330 分钟，顺序为算术 foundation/cache checkpoint、局部数字构造与审计、Theta 入口与严格门、Main 消费者与七签名检查。配置这些阶段不代表它们已通过。
 
 `verification/theta_global/ConsumerSignatures.lean` 具有不同的核查目的：检查七个下游调用的精确类型，记录包括原有 `sorryAx` 在内的依赖。它不能替代五目标的严格门，也不构成整个 seven-eighths endpoint 的无 admission 证明。
 
-具体通过/失败结果、源码提交与日志链接由最终验证记录补充。本文件不将排队、运行中、旧提交的成功结果或 transformed combined-body 检查转记为本轮 native 成功。
+当前独立原生通过项包括 `FiniteLocalShellProject` 与 `GlobalEmbedding`；`GlobalProjectEmbedding` 的本地尝试在导入阶段达到内存映射数量上限后失败，未完成目标证明检查。CI `41159434388` 的实际入口作业在 arithmetic foundation 时间上限处停止，两个项目缓存均已保存，后续 Theta/Main 门未运行。新局部数字链和完整入口仍待原生验证。对应提交、日志和精确验证范围见 [`THETA_GLOBAL.md`](THETA_GLOBAL.md)；本报告及历史 QA/manifests 不把排队、运行中、旧提交成功或 transformed combined-body 检查转记为本轮 native 成功。
 
 ## 9. 声明摘录的源码指纹
 
@@ -700,16 +816,27 @@ def GeneralHeckeSevenEighths : Prop :=
 | `HeckeGeneral/Analysis/HeckeEndpointTarget.lean` | `df13b15c2eadef1564e7270174f11e435a0dd0f2dac4d8f52c58faa3fa5a19c7` |
 | `HeckeGeneral/Analysis/PhysicalProbeData.lean` | `eed80b7917e82014bc94ca60fa34a9eef12bd162ae91adfbe5fe60bacebe13d9` |
 | `HeckeSkeleton/Base.lean` | `f39648a385520d311a2f7dc38d396920dd1d68a6fdf8eb92cd80204acccc7150` |
-| `HeckeSkeleton/Main.lean` | `d4c8400b3f6d897ac95c2481ebf8206b84ef811ef9a22137dea0d9d842ab5b12` |
-| `HeckeSkeleton/Moments.lean` | `0ba968c92f96713eb42fcd6fd5eedba348cc9db1520d11caa3cf99c7ef2f346d` |
-| `HeckeSkeleton/Principal.lean` | `7e18f6240a662f5e91629f9802621586b2d402f922a9352c487b6d2595472854` |
-| `HeckeSkeleton/Theta.lean` | `499f65b078e1b83373c961b4dd31691f6ff04bf8c76fe67a06cecdbf29772497` |
+| `HeckeSkeleton/Main.lean` | `d0ba597684b86fa061c20d5fa4a72c90331639fb099812c362d6f31664ba5f8e` |
+| `HeckeSkeleton/Moments.lean` | `564824d119a122fbb431605eec4c53153c3e4b6a4c005b241d675e41bc94b379` |
+| `HeckeSkeleton/Principal.lean` | `084216a3b251b02de3cf8ef0ddf2c47859aa5d4871a9f49c0fa4fdbed7ca5ad7` |
+| `HeckeSkeleton/Theta.lean` | `ae2d53f120642e931e8d60cf1b2733a7ad103a0f3cd5686525430d2a5a4daef9` |
+| `HeckeSkeleton/ThetaLocal/ProjectFinite.lean` | `e46a90f9bfa13f9dc19f9dd28f9b5254f79166394eaa646a9f9e67a13f333e95` |
 | `ThetaGlobal/FiniteFixedSource.lean` | `f263975dca7807d0dfdec7bcc76f7a19e53c172d57c371e2a73663e763fc6add` |
 | `ThetaGlobal/FiniteLocalHighK.lean` | `136457582ad8ee7cf005e36e8954b5ebc5a2917ef06a11d674c362ade713e16a` |
 | `ThetaGlobal/FiniteSkeletonSource.lean` | `a375fb500f836b4245ba992f3e57d00d184f2f9cfee34234416cecbaa6334929` |
 | `ThetaGlobal/GlobalEmbedding.lean` | `42d71b175d8208d4e4c072f5d6b3d098a16259ca5e932e0bcbb206ee091b246f` |
 | `ThetaGlobal/GlobalProjectDigitProduct.lean` | `811cae13cd2f93d3bf02ed4ccfc79c1ae1d0f789cfaad0f7ef134c8e4fd680b4` |
-| `ThetaGlobal/GlobalProjectLocalDigitTables.lean` | `a471c2a5df2cd066fd9d1bc92b2dc72543f369930b612a4a6bedcb377948db17` |
-| `ThetaGlobal/GlobalProjectMarkedReflection.lean` | `f5b710c7578f6715bef090f1aba88f29e44a06a292f36f0560c1911dc128f160` |
+| `ThetaGlobal/GlobalProjectLocalDigitTables.lean` | `9527446ae4f7acd4d5af4bfd5d0d1f3ddb5a812788401dd2dabc8a0b5cc5d1db` |
+| `ThetaGlobal/GlobalProjectMarkedReflection.lean` | `09b7130fa17e4e708472b9463888f12506ef78d710999be26617fbc98e35fffd` |
+| `ThetaGlobal/GlobalSameChoice.lean` | `d699611e1c5357e866ad0a722f5b7083b69e2bc2b17a8fadba3447c43022aad5` |
+| `ThetaGlobal/LocalDigitArithmetic.lean` | `1464df23e54d81fa75155d54c29905c7b00ee7307570ec6d32a76ac3b5e7fef9` |
+| `ThetaGlobal/LocalDigitAverage.lean` | `c6ea37aba5300c9f3017f946f37130fa95ab773c3969c390d9b87ccbee4b7bed` |
+| `ThetaGlobal/LocalDigitEvaluation.lean` | `e2745823d85284461f96ee1c874084d098057119c1f3859a9e54530f912f0d93` |
+| `ThetaGlobal/LocalDigitInput.lean` | `c99f638c29b7d9dff6eb12b406f6b3032dbe646130edf6f7d0e6fe8f28981fa6` |
+| `ThetaGlobal/LocalDigitSource.lean` | `219ff4ea7eaf32cd12fd74370a4bcce4923c8f37cd81bfded988fc29f8ea3a83` |
+| `ThetaGlobal/LocalGammaOrientation.lean` | `ad9306b508904ca4a27d29065b4d55b476c123e19f9c5f379b7240b6f21813f0` |
+| `verification/theta_global/ConsumerSignatures.lean` | `400327963ab57815de4c9a499e5790ad2388fa51cbdcd3e2f205499063a7d9d9` |
+| `verification/theta_global/EntryAudit.lean` | `9d5333eb7285dea7f2e17ddfc2ded14e0976ab27c3a50c0be02c355c9ff72ab2` |
+| `verification/theta_global/LocalDigitAudit.lean` | `970991b499c597961ed1669490e9f0781c79ab76de7352514be266a08f5e21c6` |
 
 AI-assisted：OpenAI ChatGPT / GPT-6 Astra Pro，2026-10-31。

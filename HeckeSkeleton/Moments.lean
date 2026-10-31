@@ -547,14 +547,13 @@ theorem uniformMomentBound_join
 variable (K c)
 
 /-- Actual ISource assembled from literal marked and amplified ideal energies. -/
-theorem inverseSource (L : LocalHighKMellinInput K c)
-    (H : LocalExteriorDigitInput K c) :
+theorem inverseSource (L : LocalHighKMellinInput K c) :
     ISource c.geometry (targetData K c) c.family.lamA := by
   have hcal := moment_polynomial_calibration K c
   have hrows := moment_row_eligibility K c hcal
   have hprofiles := moment_profile_control K c hcal
   have hmi := canonical_inverse_models K c L hcal hrows hprofiles
-    (moment_quadratic_sieve K c) (moment_cubic_sieve K c) (markedReflection K c L H)
+    (moment_quadratic_sieve K c) (moment_cubic_sieve K c) (markedReflection K c L)
   have hamp := inverse_independent_amplification K c hmi
     (inverse_sixth_power_masks K c hcal) hprofiles
   have hw := inverse_amplified_witness_models K c hamp hcal hrows hprofiles

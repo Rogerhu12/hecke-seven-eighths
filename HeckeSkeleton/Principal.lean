@@ -184,8 +184,7 @@ theorem low_of_gram_and_completedEnergy
       normalizedProbe K S μ P ψ g T =O[atTop] (fun Z : ℝ => Z ^ (3 / 16 + ε)) :=
   LowCauchy.low_of_gram_and_completedEnergy K c hgram henergy hnorm
 
-theorem principalSource (L : LocalHighKMellinInput K c)
-    (H : LocalExteriorDigitInput K c) :
+theorem principalSource (L : LocalHighKMellinInput K c) :
     (probeMeasures K c).principalInput P ψ g T := by
   change TPrincipalInput K S μ P ψ g T
   exact {
@@ -203,7 +202,7 @@ theorem principalSource (L : LocalHighKMellinInput K c)
     principal_window_error := principal_principal_window_error K c
     low := low_of_gram_and_completedEnergy K c
       (Gram.gramBound_of_calibrated K S P (allowedGenerators K c) (arithmeticCalibration K c))
-      (completedMarkedEnergy K c L (markedReflection K c L H))
+      (completedMarkedEnergy K c L (markedReflection K c L))
       (principal_normalizer_smallPower K c)
   }
 

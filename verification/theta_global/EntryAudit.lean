@@ -8,7 +8,8 @@ import Lean.Util.CollectAxioms
 This audit uses the actual skeleton declarations after their complete
 dependency closure has been built. It deliberately rejects `sorryAx` and
 every nonstandard axiom, including any inherited through a source
-constructor. The two local input packages remain explicit parameters.
+constructor. The local high K-type input remains explicit; the exterior
+digit table is constructed from the actual fixed source.
 
 The presence of this file is not a compilation certificate. A successful
 run must print all five `THETA_GLOBAL_AXIOMS` records and exit with code 0.
@@ -39,6 +40,10 @@ run_cmd do
       `HeckeSkeleton.FiniteSkeletonSource.data_C₀,
       `HeckeSkeleton.FiniteSkeletonSource.data_A₀,
       `HeckeSkeleton.markedReflection,
+      `HeckeSkeleton.thetaRecipe_arithmeticData,
+      `HeckeSkeleton.localExteriorDigitInput,
+      `ThetaGlobal.LocalDigitInput.input,
+      `ThetaGlobal.LocalDigitAverage.nonzero_digits,
       `ThetaGlobal.LocalGammaOrientation.archShift_inv,
       `ThetaGlobal.LocalGammaOrientation.archRadial_inv,
       `ThetaGlobal.LocalGammaOrientation.directGammaProduct_eq_archGammaProduct_inv,

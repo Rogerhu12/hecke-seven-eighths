@@ -4,7 +4,7 @@ import Lean.Util.CollectAxioms
 /-!
 # THETA_GLOBAL consumer signatures
 
-These checks retain the explicit local inputs through Principal, Moments,
+These checks retain the explicit archimedean input through Principal, Moments,
 and Main. They check the actual consumer types and calls after the native
 Main dependency closure has been built.
 
@@ -40,10 +40,10 @@ example (L : LocalHighKMellinInput K c)
     CompletedMarkedEnergy K c :=
   HeckeSkeleton.completedMarkedEnergy K c L hreflection
 
-example (L : LocalHighKMellinInput K c) (H : LocalExteriorDigitInput K c) :
+example (L : LocalHighKMellinInput K c) :
     (probeMeasures K c).principalInput (probeData K c) (targetCharacter K c)
       c.geometry (rayFilter K c) :=
-  HeckeSkeleton.principalSource K c L H
+  HeckeSkeleton.principalSource K c L
 
 example (L : LocalHighKMellinInput K c)
     (hcal : SourcePolynomialCalibration (momentRowCharacters K c) (momentModels K c))
@@ -57,31 +57,28 @@ example (L : LocalHighKMellinInput K c)
   HeckeSkeleton.canonical_inverse_models K c L hcal hrows hprofiles
     hquadratic hcubic hreflection
 
-example (L : LocalHighKMellinInput K c) (H : LocalExteriorDigitInput K c) :
+example (L : LocalHighKMellinInput K c) :
     ISource c.geometry (targetData K c) c.family.lamA :=
-  HeckeSkeleton.inverseSource K c L H
+  HeckeSkeleton.inverseSource K c L
 
-example (L : LocalHighKMellinInput K c) (H : LocalExteriorDigitInput K c) :
+example (L : LocalHighKMellinInput K c) :
     TSource c.geometry (targetCharacter K c) (targetData K c)
       c.family.B c.family.lamA c.lamB :=
-  HeckeSkeleton.sourceT K c L H
+  HeckeSkeleton.sourceT K c L
 
 end FixedContext
 
 example (K : Type) [Field K] [NumberField K]
     (zeta : K) (hzeta : IsPrimitiveRoot zeta 12) (omega : HeckeCharacter K)
-    (localData : ∀ c : TargetContext K, LocalHighKMellinInput K c)
-    (localDigits : ∀ c : TargetContext K, LocalExteriorDigitInput K c) :
+    (localData : ∀ c : TargetContext K, LocalHighKMellinInput K c) :
     TIPInput K omega :=
-  HeckeSkeleton.familyInputs K zeta hzeta omega localData localDigits
+  HeckeSkeleton.familyInputs K zeta hzeta omega localData
 
--- The endpoint is explicitly conditional on both local input packages.
+-- The endpoint retains only the explicit archimedean local package.
 -- Checking the complete function type also detects an extra premise.
 example :
     (∀ (F : Type) [Field F] [NumberField F] (c : TargetContext F),
       Nonempty (LocalHighKMellinInput F c)) →
-    (∀ (F : Type) [Field F] [NumberField F] (c : TargetContext F),
-      LocalExteriorDigitInput F c) →
     GeneralHeckeSevenEighths :=
   @HeckeSkeleton.generalHeckeSevenEighths_skeleton
 

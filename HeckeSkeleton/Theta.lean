@@ -12,9 +12,9 @@ import ThetaGlobal.FiniteSkeletonSource
 import ThetaGlobal.GlobalProjectMarkedReflection
 
 /-! Arithmetic and marked theta reflection for the named actual construction.
-The two explicit local inputs are the one-place high K-type Mellin pairs and
-the one-place exterior digit tables.  The global reflection is constructed
-from the shared source; neither input assumes a global identity. -/
+The explicit local input supplies the one-place high K-type Mellin pairs.
+The shared source supplies its exterior digit tables, and the global
+reflection is constructed from that source without a global identity input. -/
 set_option autoImplicit false
 set_option quotPrecheck false
 noncomputable section
@@ -204,16 +204,15 @@ theorem marked_reflected_absolute : ∀ (d : MarkedDatum K S) (V : SmoothAnnular
     (mellinKernel K c L) V hX
 
 -- OBLIGATION TH-MARKED-REFLECTION | revised §3.2–3.4, Theorem 3.5, pp.10–13.
-theorem marked_reflection (H : LocalExteriorDigitInput K c)
-    (hkernel : MellinKernelInput K S F θ) : ∀ (d : MarkedDatum K S) (V : SmoothAnnularTest) X, 0 < X →
+theorem marked_reflection (hkernel : MellinKernelInput K S F θ) : ∀ (d : MarkedDatum K S) (V : SmoothAnnularTest) X, 0 < X →
     completedThetaSum K S D θ (rowElement K S D d) d.puncture d.marks V.toFun X =
       ∑' i : ReflectionIndex K S d, reflectedTerm K S D d i F θ V.toFun X := by
   intro d V X hX
   obtain ⟨w, hw, hk⟩ := marked_angular_nonzero K c
-  exact thetaFiniteSource_marked_reflection K c L H (allowedGenerators K c)
+  exact thetaFiniteSource_marked_reflection K c L (allowedGenerators K c)
     (marked_conductor_subset K c) w hk d V hX
 
-theorem markedReflection (H : LocalExteriorDigitInput K c) :
+theorem markedReflection :
     MarkedCoefficientReflectionInput K S D F θ where
   allowed_generators := allowedGenerators K c
   exterior_unramified := marked_exterior_unramified K c
@@ -221,6 +220,6 @@ theorem markedReflection (H : LocalExteriorDigitInput K c) :
   kernel := mellinKernel K c L
   completed_absolute := marked_completed_absolute K c
   reflected_absolute := marked_reflected_absolute K c L
-  reflection := marked_reflection K c L H (mellinKernel K c L)
+  reflection := marked_reflection K c L (mellinKernel K c L)
 
 end HeckeSkeleton

@@ -19,12 +19,18 @@ files by their exact Git blob hashes. All three workflows, including the
 new upstream low-hybrid workflow, use `cancel-in-progress: true`.
 The original task is preserved in `docs/THETA_GLOBAL_TASK.md`; it explicitly
 permits the archimedean high K-type/Mellin and exterior-prime digit results
-as local assumptions. Their actual input types remain explicit below.
+as local assumptions. The continuation now constructs the exterior-prime
+digit certificate from the same actual fixed source and the merged local
+theorems. The archimedean high K-type/Mellin package remains an explicit
+input. The new local chain still awaits native compilation and axiom checks.
 
 `LocalGammaOrientation` records the character inversion convention at the
 level of the actual Hecke parameters. The expanded native gate also checks
 the coefficient-shell specification, its two normalization constants,
-the fixed source, and the returned `markedReflection` package.
+the fixed source, and the returned `markedReflection` package. It contains
+five target checks plus 16 interface checks, all with the strict standard-axiom
+allowlist. A separate early `LocalDigitAudit.lean` checks 12 declarations
+in the new arithmetic/evaluation/average chain.
 
 The modified `Principal`, `Moments`, and `Main` consumers receive a separate
 native build followed by `ConsumerSignatures.lean`. That file checks all
@@ -68,7 +74,7 @@ The task targets five declarations in `HeckeSkeleton/Theta.lean`:
 | `finite_valuation_cutoff` | Derived from the actual local rotated shell bounds. | Project dependency build pending. |
 | `finite_valuation_decay` | Derived from the actual local rotated shell bounds. | Project dependency build pending. |
 | `marked_reflected_absolute` | Replaced by the three-ideal arithmetic majorant proof. | `ThetaGlobal.ReflectedAbsoluteProject.marked_reflected_absolute` passed the 188-module transformed source-body check and strict axiom gate. The `HeckeSkeleton.marked_reflected_absolute` entry and its actual-source dependency closure remain pending native validation. |
-| `marked_reflection` | The actual frequency seed is converted to the literal marked seed using the direct/reflected coefficient dictionaries and support reindexing, then transferred to arbitrary annular tests. Connected to the original entry point with explicit local inputs. | Project dependency build pending. |
+| `marked_reflection` | The actual frequency seed is converted to the literal marked seed using the direct/reflected coefficient dictionaries and support reindexing, then transferred to arbitrary annular tests. Connected to the original entry point with the explicit archimedean input and a constructed finite-place digit certificate. | Project dependency build pending. |
 
 No new `sorry`, `axiom`, or `native_decide` is introduced in `ThetaGlobal`.
 This syntactic check does not replace elaboration or an axiom audit.
@@ -106,7 +112,7 @@ C₀ = actual finite cutoff volume * product(direct constants)
      / product(reflected constants).
 ```
 
-## Explicit local inputs
+## Remaining archimedean input and constructed exterior digits
 
 `FiniteLocalHighK.Input R θ C` specifies, at each actual infinite place:
 
@@ -121,14 +127,29 @@ C₀ = actual finite cutoff volume * product(direct constants)
 exterior place at a time. It states the spherical diagonal formula, the
 nonzero-residue digit average of the actual matrix `A(x) W N(-s/g_p)`, the
 zeroth Weyl/Gauss normalization and the finite forward Fourier mask.
-The zero digit and the marked average are then derived, using the actual
-compact invariance and `q⁻¹ = δ₀ - digitMask₀`.
+The continuation fills all four fields from repository theorems on the same
+source. The zero digit and the marked average are then derived, using the
+actual compact invariance and `q⁻¹ = δ₀ - digitMask₀`.
 
-Neither input contains the global reflected sum, an arbitrary-test
-identity, a global seed, a frequency parametrization, or a convergence
-assertion about the final ideal series. Existence of the local high
-K-type input is exposed explicitly to callers; it is not silently
-obtained by an admitted choice.
+| New module | Actual connection |
+| --- | --- |
+| `ThetaGlobal.LocalDigitArithmetic` | Identifies the recipe’s residue character and additive phase with its own arithmetic datum, then connects the spherical table, zeroth Weyl scalar and forward mask to `ThetaLocal.ProjectFinite`. |
+| `ThetaGlobal.LocalDigitEvaluation` | Computes the actual reference coefficient at `A(x) W N(-s/g_p)` using only `JointExteriorCoefficientSources`, including its factorization, spherical values and root alignment. |
+| `ThetaGlobal.LocalDigitAverage` | Sums the nonzero residue lifts and applies the proved finite-field phase-separation formula. |
+| `ThetaGlobal.LocalDigitInput` | Identifies that actual matrix coefficient with `GlobalProjectDigitProduct.localDigit` and fills all four existing fields. |
+| `ThetaGlobal.LocalDigitSource` | Proves `thetaRecipe_arithmeticData` for the same allowed-generator choice and constructs `HeckeSkeleton.localExteriorDigitInput` on `thetaFiniteSource`. |
+
+The construction uses the existing `C.exterior.rational_exact` certificate
+for the diagonal values. Its nonzero-digit calculation requires no packet,
+global Mellin formula, global summability assumption or global reflection
+identity. These five modules have source proofs and wiring in the current
+revision; their complete native check remains pending.
+
+The remaining `L` input contains no global reflected sum, arbitrary-test
+identity, global seed, frequency parametrization or convergence assertion
+about the final ideal series. Its existence remains explicit to callers.
+The finite-place proposition is now supplied by `localExteriorDigitInput`,
+which is constructed after the fixed source and independently of `L`.
 
 The endpoint `generalHeckeSevenEighths_skeleton` now has the explicit
 conditional type
@@ -136,28 +157,30 @@ conditional type
 ```lean
 (∀ (F : Type) [Field F] [NumberField F] (c : TargetContext F),
   Nonempty (LocalHighKMellinInput F c)) →
-(∀ (F : Type) [Field F] [NumberField F] (c : TargetContext F),
-  LocalExteriorDigitInput F c) →
 GeneralHeckeSevenEighths
 ```
 
 It also retains the other tasks' original admissions. The five Theta
 source implementations express the global construction under the permitted
 local input boundary; their complete native validation remains pending.
-They do not provide those local inputs for every number field.
+They do not construct the remaining archimedean input for every number field.
 
 The arithmetic embedding is refined before making the shared choice:
 `complexEmbedding K c` sends the family's selected primitive twelfth root
 to the prescribed complex root, and `axiomChoice` uses this aligned
 embedding. Every finite table, allowed generator and global source then
-uses that same choice. The new `c` argument and the explicit local inputs
+uses that same choice. The new `c` argument and explicit archimedean input
 are API changes; the consumer signature checks record their propagation.
 
-The original `Theta` entry point receives `LocalHighKMellinInput` and
-`LocalExteriorDigitInput`. These are propagated through the actual
-`Principal`, `Moments`, and `Main` constructors. The five target
-declarations contain no direct admission. That is a source check, not
-a claim that all their transitive dependencies have passed an axiom audit.
+The public `Theta` entry receives `LocalHighKMellinInput`; `H/localDigits`
+have been removed from `Theta`, `Principal`, `Moments`, and `Main`. The
+original explicit `hkernel` parameter of `marked_reflection` is retained;
+`markedReflection` fills it using `mellinKernel K c L`. The generic
+`thetaRecipe_marked_reflection` helper still accepts a local digit
+certificate, and `thetaFiniteSource_marked_reflection` fills that parameter
+with the canonical construction. The five target declarations contain no
+direct admission. This source check does not replace the pending recursive
+native axiom audit.
 
 ## Actual reflected index and convergence
 
@@ -524,22 +547,29 @@ reflected-convergence bundle checks a smaller closure and must not be
 interpreted as validation of the entire global reflection construction.
 The draft PR remains reviewable source work until this boundary is closed.
 
-The PR workflow `.github/workflows/theta-global.yml` runs two independent
-checks: the standalone bundle and the actual module target
-`+HeckeSkeleton.Theta:olean`. After the latter builds, it runs
-`verification/theta_global/EntryAudit.lean`, which rejects `sorryAx` or any
-axiom other than `propext`, `Classical.choice`, and `Quot.sound` for each of
-the five actual entry points. Workflow configuration is not itself a
-successful result; the run must exit successfully and print all five
-`THETA_GLOBAL_AXIOMS` records. Both jobs check the repository and runtime
-version pins and retain the raw diagnostics as artifacts.
+The PR workflow `.github/workflows/theta-global.yml` has two independent
+jobs: the standalone bundle and the actual-entry job. The latter has a
+330-minute total limit. After its arithmetic foundation checkpoint, it
+builds `+ThetaGlobal.LocalDigitAverage:olean` and runs the 12-declaration
+`LocalDigitAudit.lean` before building `+HeckeSkeleton.Theta:olean` and
+`+ThetaGlobal.LocalGammaOrientation:olean`. `EntryAudit.lean` then checks
+the five targets and 16 supporting interfaces, including the constructed
+fixed-source digit input. Both audits reject `sorryAx` and every axiom
+other than `propext`, `Classical.choice`, and `Quot.sound`. Main is built
+separately, followed by the seven consumer signature checks.
+
+Workflow configuration is not itself a successful result. The runs must
+exit successfully and produce all expected records, including the five
+`THETA_GLOBAL_AXIOMS`, 16 `THETA_GLOBAL_INTERFACE_AXIOMS`, and 12
+`THETA_GLOBAL_LOCAL_DIGIT_AXIOMS` records. Both jobs check repository and
+runtime pins and retain raw diagnostics as artifacts.
 
 The workflow retains only the project's own dependency build artifacts
 in its incremental GitHub cache. Official Mathlib cache downloads remain
 enabled. Whole-project setup-cache packaging is disabled because native
 CI recorded a disk-space failure while duplicating the large Mathlib
 artifacts into a second archive.
-Both workflows set `concurrency.cancel-in-progress: true`: a new commit
+All three workflows set `concurrency.cancel-in-progress: true`: a new commit
 cancels an obsolete build for the same PR or branch. The actual-entry job
 first builds the shared `HeckeAxiom.ArithmeticChoice` dependency closure
 and saves a separate foundation cache checkpoint. This preserves completed

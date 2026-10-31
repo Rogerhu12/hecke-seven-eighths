@@ -66,7 +66,7 @@ jobs:
   actual-entry:
     name: Actual Theta entry and strict five-target axiom gate
     runs-on: ubuntu-24.04
-    timeout-minutes: 270
+    timeout-minutes: 330
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Check repository version pins
@@ -137,6 +137,20 @@ jobs:
             .lake/build
             vendor/class-field-theory/.lake/build
           key: ${{ steps.entry-cache.outputs.cache-primary-key }}-foundation
+      # This actual one-place construction has a smaller dependency closure
+      # than the global source. Diagnose its native proofs before the full entry.
+      - name: Build the actual one-place exterior digit construction
+        timeout-minutes: 35
+        shell: bash
+        run: |
+          set -o pipefail
+          lake --fail-fast build +ThetaGlobal.LocalDigitAverage:olean 2>&1 | tee verification/theta_global/local-digit-build.log
+      - name: Audit the actual local digit construction
+        timeout-minutes: 4
+        shell: bash
+        run: |
+          set -o pipefail
+          lake env lean -j2 -DautoImplicit=false -DrelaxedAutoImplicit=false verification/theta_global/LocalDigitAudit.lean 2>&1 | tee verification/theta_global/local-digit-audit.log
       # + selects one module, and :olean requests its importable Lean artifact.
       # This builds its real dependency closure, without the library's all-module glob.
       # https://github.com/leanprover/lean4/blob/v4.35.0-rc3/src/lake/README.md#specifying-targets
@@ -181,6 +195,9 @@ jobs:
           name: theta-global-actual-entry-${{ github.run_id }}
           path: |
             verification/theta_global/EntryAudit.lean
+            verification/theta_global/LocalDigitAudit.lean
+            verification/theta_global/local-digit-build.log
+            verification/theta_global/local-digit-audit.log
             verification/theta_global/foundation-build.log
             verification/theta_global/entry-build.log
             verification/theta_global/entry-audit.log

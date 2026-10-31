@@ -2,8 +2,8 @@ import ThetaGlobal.GlobalDigitSupport
 import ThetaGlobal.GlobalProjectFrequency
 
 /-! Exact scalar support rules for the project's literal Weyl digit sum.
-The representation-theoretic equality with a local Whittaker digit remains
-a permitted local input; no global reflection is used here. -/
+The representation-theoretic equality with the actual local Whittaker
+digit is supplied by `LocalDigitInput`; no global reflection is used here. -/
 
 set_option autoImplicit false
 noncomputable section

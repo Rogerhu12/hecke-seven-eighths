@@ -5,7 +5,7 @@ definitions in `HeckeGeneral`, `HeckeAxiom`, `HeckeSkeleton`, and
 `DedekindZetaZeroFree`. The base is commit
 `503ad9895e5f8affef55b22fea082e251bf33aa7` on `dtests-handoff`; publication
 preserves the subsequent changes through
-`556fd33068f5914887e850ed2dce9e9272d9b8c2`.
+`6e67559f4285ab833a746db021a0d73200e47590`.
 
 **Work in progress: the project-facing source is not yet certified by a
 successful dependency-complete Lean build.** All five target entry points
@@ -28,14 +28,20 @@ scripts are distinguished from successful compiler results there.
 | Derived frequency seed | `GlobalProjectFrequencySeed` |
 | Literal direct/reflected coefficient dictionaries and seed | `GlobalSkeletonDirect`, `GlobalProjectReflectedDictionary`, `GlobalProjectReflectedReindex`, `GlobalProjectLiteralSeed` |
 | Final source entry point | `GlobalProjectMarkedReflection`, `HeckeSkeleton.marked_reflection` |
-| Explicit local exterior digit boundary | `GlobalProjectLocalDigitTables` |
+| Actual exterior digit calculation and fixed-source certificate | `LocalDigitArithmetic`, `LocalDigitEvaluation`, `LocalDigitAverage`, `LocalDigitInput`, `LocalDigitSource` |
 | Actual index support, uniqueness and coverage | `GlobalIndexSupport`, `GlobalActualReindex`, `GlobalActualCoordinates`, `GlobalProjectMarkedSupport` |
 | Scalar deconvolution and actual annular transfer | `GammaReciprocalGrowth`, `GammaDeconvolverProject`, `ActualAnnularProfiles`, `ActualAnnularTransfer` |
 
-The two local boundary types contain local representation vectors,
-Whittaker/Mellin formulas, local integrability and local digit formulas.
-They contain no theta reflection equality, global frequency bijection,
-global coefficient formula, or global summability assertion.
+The remaining external local input contains actual archimedean vectors,
+Whittaker/Mellin formulas, nonvanishing, local integrability and bounds.
+It contains no theta reflection equality, global frequency bijection,
+global coefficient formula, or global summability assertion. The four-field
+`GlobalProjectLocalDigitTables.Input` is now constructed from the fixed
+source: its actual local Bruhat coefficient is evaluated and averaged
+using the proved residue-field tables, with the same characters and phase.
+The public Theta, Principal, Moments and Main constructors no longer take
+an exterior-digit premise. This new native proof chain is awaiting its
+separate build and twelve-declaration strict axiom check.
 
 The original task explicitly permits these local inputs; its complete text
 is preserved in [`../docs/THETA_GLOBAL_TASK.md`](../docs/THETA_GLOBAL_TASK.md).

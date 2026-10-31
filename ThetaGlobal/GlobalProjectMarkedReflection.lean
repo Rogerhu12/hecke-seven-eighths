@@ -1,13 +1,14 @@
 import ThetaGlobal.GlobalProjectLiteralSeed
+import ThetaGlobal.LocalDigitSource
 
 /-!
-# Marked reflection from the actual source and the permitted local inputs
+# Marked reflection from the actual fixed source
 
 The literal fixed-profile seed and the actual annular transfer now meet
 in one theorem. Finite Mellin admissibility is constructed from the same
 source, cutoff vectors and Haar transport, so it is not an additional
 hypothesis. The only local boundary is the one-place archimedean Mellin
-package and the one-place exterior digit table.
+package. The fixed source supplies its exterior digit table constructively.
 -/
 
 set_option autoImplicit false
@@ -29,8 +30,8 @@ local notation "R" => thetaRecipe K c
 local notation "Sf" => places K c
 local notation "Adata" => arithmeticData K c
 
-/-- The permitted exterior table is evaluated on the source selected
-before the local high K-type vector is supplied. -/
+/-- The exterior-table certificate for the source selected before the
+local high K-type vector. `localExteriorDigitInput` constructs it. -/
 abbrev LocalExteriorDigitInput :=
   GlobalProjectLocalDigitTables.Input R
     (thetaFiniteSource K c).projected.base.factorization Adata
@@ -59,7 +60,7 @@ theorem thetaRecipe_marked_reflection
 /-- The same result at the skeleton's fixed source, with its actual
 coefficient table and the exact local-input types used by the entry point. -/
 theorem thetaFiniteSource_marked_reflection
-    (L : LocalHighKMellinInput K c) (H : LocalExteriorDigitInput K c)
+    (L : LocalHighKMellinInput K c)
     (hA : AllowedGeneratorInput K Sf Adata)
     (hS : conductorPlaces K
       (thetaPeriod K Sf (probeData K c) (targetCharacter K c)) ⊆ R.A.Sf)
@@ -75,7 +76,7 @@ theorem thetaFiniteSource_marked_reflection
           (thetaPeriod K Sf (probeData K c) (targetCharacter K c)) V.toFun X :=
   thetaRecipe_marked_reflection K c
     (thetaPeriod K Sf (probeData K c) (targetCharacter K c))
-    (thetaFiniteSource K c) L H hA hS w hk d V hX
+    (thetaFiniteSource K c) L (localExteriorDigitInput K c) hA hS w hk d V hX
 
 end HeckeSkeleton
 

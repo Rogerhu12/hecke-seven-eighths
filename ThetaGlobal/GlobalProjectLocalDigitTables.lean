@@ -10,6 +10,8 @@ the zeroth local Weyl scalar, and the finite forward Fourier mask.
 Its matrix argument is literally `A(x) W N(-s/g_p)` for the fixed allowed
 generator.  It contains no global period, theta identity, frequency
 reindexing, summability, or Mellin kernel identity.
+`LocalDigitInput` constructs this certificate for the actual exterior
+source; the fixed-source entry does not require it as an extra premise.
 
 The zero digit is proved from compact invariance.  Marked averages are
 then derived from the exact identity `q⁻¹ = delta₀ - digitMask₀`; they are
