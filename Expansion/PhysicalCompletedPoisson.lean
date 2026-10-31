@@ -127,7 +127,8 @@ theorem norm_physicalCompletedOrbitWeight_le (P : ProbeData K Sset)
   exact mul_le_mul_of_nonneg_left (norm_gaussSymbolOrbitWeight_le K S P den _ q)
     (norm_nonneg _)
 
-variable [MeasurableSpace T] [BorelSpace T]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 
 theorem summable_norm_physicalPrimalProfile (test : AdditiveProbeTest K Sset)
     (ρ : {r : ℝ // 0 < r}) :

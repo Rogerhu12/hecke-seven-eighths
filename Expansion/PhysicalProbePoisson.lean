@@ -39,7 +39,8 @@ local notation "N" => NonzeroRingElements (Set.integer (S : Set (HeightOneSpectr
 
 local instance : Γ.FiniteIndex := sUnit_power_range_finiteIndex K Sset 6 (by decide)
 
-variable [MeasurableSpace T] [BorelSpace T]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 
 def physicalPrimalRadius (den : ExteriorIdeal K Sset) (X : ℝ) (hX : 0 < X) :
     {r : ℝ // 0 < r} :=

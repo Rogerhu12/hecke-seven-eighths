@@ -8396,7 +8396,7 @@
     {
       "module": "Expansion.ActualFiniteRowHeightBudget",
       "path": "Expansion/ActualFiniteRowHeightBudget.lean",
-      "sha256": "801ffc66b9a59c6c5aa0668e2694ad7e39b9c5ced7432b7c32f4ea8380d6b243",
+      "sha256": "8335f50bb3fcdee89e1472b8571337cabc112c2664628983e2e76ad26d6e194a",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
@@ -8431,7 +8431,7 @@
     {
       "module": "Expansion.ActualLargeRowBound",
       "path": "Expansion/ActualLargeRowBound.lean",
-      "sha256": "b77d103427304da3d2dc59f91a43eb38f701a5a9bdf2571d8ecf9e223ef08411",
+      "sha256": "acc87c681448ac71d4267105d7a31f7f853cec8e83cacc16b79ab9d1f7317181",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
@@ -8452,7 +8452,7 @@
     {
       "module": "Expansion.ActualMellinStripDecay",
       "path": "Expansion/ActualMellinStripDecay.lean",
-      "sha256": "28344188833e9968216f5505df04a3ec73be6ad22683ebe6dd324f231eb740ae",
+      "sha256": "bb49df709fe01b7331bd00c61f7cb48f7657a18e15323656a49eb0d482496662",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
@@ -8466,28 +8466,28 @@
     {
       "module": "Expansion.ActualModerateKernelDecay",
       "path": "Expansion/ActualModerateKernelDecay.lean",
-      "sha256": "29185264454c04428922889404054a5a174d17f6eb973b1e71352a523c44267b",
+      "sha256": "b5d08b1799b693d762d34a6699dc2632fdd306a4e6447d74800e4fe94841a31a",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
     {
       "module": "Expansion.ActualModerateSweepHolomorphy",
       "path": "Expansion/ActualModerateSweepHolomorphy.lean",
-      "sha256": "20a1b5ef11fe23ebb93af04401db052570198ec3716ae16e4a018f7c78f1283f",
+      "sha256": "cadd901c3d344358643661b9c7cf57bdf522e12f3b5d9bc491cb7d7769f433e6",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
     {
       "module": "Expansion.ActualOuterComponents",
       "path": "Expansion/ActualOuterComponents.lean",
-      "sha256": "313f523e20cbe7907c5b856c3ab932f990fed1dd70b27e22640cc00e0cf018a1",
+      "sha256": "84e99b5530583555396a7afe7bd41aa706bd9bf6fcbb5370f274c2319afd2ae6",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
     {
       "module": "Expansion.ActualOuterContourTransport",
       "path": "Expansion/ActualOuterContourTransport.lean",
-      "sha256": "710da96d2a2015e7735d3a980be749f1d4e2c61e794d223bce55272e69a7af90",
+      "sha256": "75b351e1c59c65bbcdb49dd757ed04fd6c9bda6f5e79d063d14ba6a37267b492",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
@@ -8501,28 +8501,28 @@
     {
       "module": "Expansion.ActualOuterHeightBudget",
       "path": "Expansion/ActualOuterHeightBudget.lean",
-      "sha256": "a2a026bca7908005c6d5cd62287c33497250c4920df6e745d8e1257438433180",
+      "sha256": "836a3f93728aa97b28dff8220542ea9054d0da5fdfdd84f4a4b7061c32f15705",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
     {
       "module": "Expansion.ActualOuterInitialTransport",
       "path": "Expansion/ActualOuterInitialTransport.lean",
-      "sha256": "dcffe13fa7faf931adc87a269af9ffd926b9ace0baaa68ae91c3af21f70ed797",
+      "sha256": "a40d1f1cafb444a60d017c737c67e4cf694b75c8c3ba9b03bc86de21c1c87d90",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
     {
       "module": "Expansion.ActualOuterKernelDecay",
       "path": "Expansion/ActualOuterKernelDecay.lean",
-      "sha256": "05d6c2c04510218b7c982b9e080be8dc7987b77e5a63ec5b91332ce9b8e1b97f",
+      "sha256": "5d04f7348342b26bebf948d4e8390364ae3b86fe38f8d29fb1bf862455b89a3f",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
     {
       "module": "Expansion.ActualOuterTailSums",
       "path": "Expansion/ActualOuterTailSums.lean",
-      "sha256": "29b70cd75d373a371fde6a3fd17d01efc1d41b908da54eb4c179c9c900015c73",
+      "sha256": "9a8c9f70fa2a80e936faf1269095dd1e02ba4d9adc637e35800c7df5ca0da22b",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
@@ -8760,14 +8760,14 @@
     {
       "module": "Expansion.ActualRetainedComponents",
       "path": "Expansion/ActualRetainedComponents.lean",
-      "sha256": "ab363d65069bb6331811eb30b7adba9cf5df088ebbf3656ca904984282108207",
+      "sha256": "3241112b76ee2e70dd1884b0c8a9636c31ce096cc137b9595e582aef1dad9c54",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
     {
       "module": "Expansion.ActualRowKernelHolomorphy",
       "path": "Expansion/ActualRowKernelHolomorphy.lean",
-      "sha256": "1a1d87b7f4c92e743443f6335cbdaa2a502d3b93b990bde50edb20fd4ab37c1f",
+      "sha256": "f695380791e3be71d99b4962a96fb031e4549e2b90d860ffbdd91ab752d343eb",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
@@ -8788,7 +8788,7 @@
     {
       "module": "Expansion.ActualSmallRowBound",
       "path": "Expansion/ActualSmallRowBound.lean",
-      "sha256": "dadebf98765e805ba2dca701c2a5f36ef82a27a15c814463fea86927aa5782f5",
+      "sha256": "2e3f804625e957fc26a8086cecf5cb9c5f5ffae72ddcb5498136098a4b06c955",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
@@ -9005,14 +9005,14 @@
     {
       "module": "Expansion.PhysicalCompensatedInitial",
       "path": "Expansion/PhysicalCompensatedInitial.lean",
-      "sha256": "d40e103428a1d6254b1872fe988bc50cedab383be571a543c0375abe52c9ccae",
+      "sha256": "a5d6ed4644a51d28434f069976922334e135499c5928608a2e0c130954a5f392",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
     {
       "module": "Expansion.PhysicalCompletedPoisson",
       "path": "Expansion/PhysicalCompletedPoisson.lean",
-      "sha256": "2e9650317981dd3d22f77bff300547cd53b094432ea7584bbc77678830323d01",
+      "sha256": "41fb8be8dae5b36dca4c3a0f316290d67a563258f5cf101893d65c70b0ee1748",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
@@ -9040,7 +9040,7 @@
     {
       "module": "Expansion.PhysicalFinitePoisson",
       "path": "Expansion/PhysicalFinitePoisson.lean",
-      "sha256": "28736468481552069eb5568324616e5d4757dcfc520e47bc22baf3aa9dbf1e6a",
+      "sha256": "305e0d32eb324ecf5fd2c6f6f8c29feaa92f1ad973b1d8b49e8bc2fa0548ae35",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
@@ -9061,7 +9061,7 @@
     {
       "module": "Expansion.PhysicalFrequencyReindex",
       "path": "Expansion/PhysicalFrequencyReindex.lean",
-      "sha256": "61b61e676dc503c7e3edbb036fd3bc2ae6bf518d0d4cb26efb9c15c79fed95ad",
+      "sha256": "e7964a6a69aff825c39eaa42406a1001ee0d179adef0eb94849df2bf67036711",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
@@ -9075,28 +9075,28 @@
     {
       "module": "Expansion.PhysicalInitialMellinAbsolute",
       "path": "Expansion/PhysicalInitialMellinAbsolute.lean",
-      "sha256": "148260457acd0a33fa1f5264f1356db5adadfd0a2af97c3b47c241bdfc8adeba",
+      "sha256": "a14847924fce0c83e09cfe5bf3b7175828934cbe9f9b4ed88d2b8156ac10d93a",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
     {
       "module": "Expansion.PhysicalInitialMellinIdentity",
       "path": "Expansion/PhysicalInitialMellinIdentity.lean",
-      "sha256": "8c745700bd0a14c2050ddd1cb721aa69ae83591e66c9c86c65c31b9695a9f271",
+      "sha256": "4ca2f622dceb2ebc40c817c6166047023599fe4f897d455df18b2d1f1aba128c",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
     {
       "module": "Expansion.PhysicalInitialMellinTerm",
       "path": "Expansion/PhysicalInitialMellinTerm.lean",
-      "sha256": "21c64d4ac3494831dbc159a9e7db3aa067040a4e9e40c08d4be31775881bbfa9",
+      "sha256": "1836148ffad2ce59b08facfa5e88291f2e9495ad16dc603ef6b2768fdcd89c42",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
     {
       "module": "Expansion.PhysicalInitialMellinWeights",
       "path": "Expansion/PhysicalInitialMellinWeights.lean",
-      "sha256": "6f3c96616f102a12c1eb40e5808bf74eb2fbe3de07e7641ef853c2bcd415f561",
+      "sha256": "375a3e981429ec4d7eae960d042a06bf1af595a2c2dd1e49e577ec7fb766c049",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
@@ -9110,14 +9110,14 @@
     {
       "module": "Expansion.PhysicalInitialRowSum",
       "path": "Expansion/PhysicalInitialRowSum.lean",
-      "sha256": "8a6b27004d511e9d6cc5108157df92d19f27ee28ebaaad85923ebebd6becfe97",
+      "sha256": "0d48e6d6ce828dfe75fe5ab4f50b53f68ad59b2c1550df4002b06e4979206e84",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
     {
       "module": "Expansion.PhysicalInitialRowTruncation",
       "path": "Expansion/PhysicalInitialRowTruncation.lean",
-      "sha256": "2f69d465699f46f932f6df4af6144f0aa6ee70f32dbe9814f75c5aaee7873ca5",
+      "sha256": "33b3123b00d3b4926057c78c6b2b9226b84925ce80b525a4f87cec84ba741224",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
@@ -9145,14 +9145,14 @@
     {
       "module": "Expansion.PhysicalPositiveMellinInversion",
       "path": "Expansion/PhysicalPositiveMellinInversion.lean",
-      "sha256": "9f32d45528cf8bf799f971c674a690f502f05b40c1a0383ad9f1ab1fef685d74",
+      "sha256": "cea34be5b8def2a5cff312f61f3a45a6dd946e53d337a88a3a4ce3593878d6f7",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
     {
       "module": "Expansion.PhysicalProbePoisson",
       "path": "Expansion/PhysicalProbePoisson.lean",
-      "sha256": "c6aa060be104a09e6c336e311fbbef6390baa407f00a97d2c71878f308a708d7",
+      "sha256": "209fa6da183d1c78448ccd5a00b8462148b3c0748c259ce9ad44efbc17bac3f0",
       "group": "actual",
       "current_source_validation": "pending_native_build_and_audit"
     },
@@ -10689,5 +10689,6 @@
       "group": "skeleton",
       "current_source_validation": "pending_native_build_and_audit"
     }
-  ]
+  ],
+  "original_proof_wiring_commit": "d4a44ba135e8761deb4ae492bf6d7d7433d95617"
 }
