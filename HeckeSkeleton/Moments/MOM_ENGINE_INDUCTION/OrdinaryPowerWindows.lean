@@ -30,8 +30,7 @@ def ordinaryPowerWindow (σ t y : ℝ) : ℂ :=
 
 theorem ordinaryPowerWindow_ne_zero_iff (σ t y : ℝ) :
     ordinaryPowerWindow σ t y ≠ 0 ↔ fixedDyadicWeight y ≠ 0 := by
-  simp only [ordinaryPowerWindow, mul_ne_zero_iff, profilePower_ne_zero, and_true,
-    ne_eq, Complex.ofReal_eq_zero]
+  simp [ordinaryPowerWindow, profilePower_ne_zero]
 
 theorem ordinaryPowerWindow_eq_cpow (σ t : ℝ) {y : ℝ} (hy : 0 < y) :
     ordinaryPowerWindow σ t y =
@@ -46,7 +45,7 @@ theorem ordinaryPowerWindow_smooth (σ t : ℝ) :
     Real.contDiffOn_log.mono (fun y hy => ne_of_gt hy)
   have hpower : ContDiffOn ℝ ∞ (profilePower (idealVerticalPoint σ t - 1)) (Ioi 0) :=
     Complex.contDiff_exp.comp_contDiffOn
-      ((Complex.ofRealCLM.contDiff.comp_contDiffOn hlog).mul_const _)
+      ((Complex.ofRealCLM.contDiff.comp_contDiffOn hlog).mul contDiffOn_const)
   apply contDiff_iff_contDiffAt.mpr
   intro y
   by_cases hy : 0 < y
@@ -103,8 +102,7 @@ theorem mem_ordinaryPowerWindowSupport (σ t N : ℝ) (I : NonzeroIdeal K) :
       div_nonpos_of_nonneg_of_nonpos (idealNorm_pos K I).le (le_of_not_gt hN)
     have hz : fixedDyadicWeight (idealNorm K I / N) = 0 :=
       fixedDyadicWeight_zero_of_le (by linarith)
-    simp only [ordinaryPowerWindowSupport, if_neg hN, Finset.not_mem_empty,
-      ordinaryPowerWindow_ne_zero_iff, hz, ne_eq, not_true_eq_false]
+    simp [ordinaryPowerWindowSupport, hN, ordinaryPowerWindow_ne_zero_iff, hz]
 
 /-- The same genuine one-frequency family is represented by the existing
 moment data, including its exact all-real-scale support specification. -/
@@ -131,6 +129,7 @@ theorem ordinaryPowerColumn_eq_annular (a : NonzeroIdeal K → ℂ)
     ordinaryPowerColumn K a σ N t =
       (Real.sqrt N : ℂ)⁻¹ * annularIdealSum K a (ordinaryPowerWindowTest σ t) N := by
   rw [ordinaryPowerColumn, annularIdealSum, annularPowerWindowSupport_eq K σ t hN]
+  rfl
 
 theorem ordinaryPowerColumn_eq_plainPolynomial
     {omegaCharacter psiCharacter : HeckeCharacter K}

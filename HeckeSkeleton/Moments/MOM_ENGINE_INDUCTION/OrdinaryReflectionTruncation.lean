@@ -100,7 +100,9 @@ theorem ordinaryReflectedFiniteSum_tail_seminorm
         _ = ((C * S * Y ^ (1 + A)) * idealNorm K I ^ (-(2 : ℝ))) *
             idealNorm K I ^ (1 - A) := by rw [he]; ring
         _ ≤ ((C * S * Y ^ (1 + A)) * idealNorm K I ^ (-(2 : ℝ))) *
-            (Y * R) ^ (1 - A) := mul_le_mul_of_nonneg_left hp (by positivity)
+            (Y * R) ^ (1 - A) := mul_le_mul_of_nonneg_left hp
+          (mul_nonneg (mul_nonneg (mul_nonneg hC hS) (Real.rpow_nonneg hY.le _))
+            (Real.rpow_nonneg (idealNorm_pos K I).le _))
         _ = _ := by dsimp [D]; ring
     · dsimp only [tail]
       rw [if_neg hI, norm_zero]

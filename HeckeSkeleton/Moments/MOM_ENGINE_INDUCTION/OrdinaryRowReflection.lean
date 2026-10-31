@@ -140,7 +140,8 @@ theorem deletedHeckePlainPoly_commonFrequency
     let bj : NonzeroIdeal K → ℂ := fun I =>
       b I * (fixedDyadicWeight (idealNorm K I / (2 : ℝ) ^ j) : ℂ)
     have hbj (I : NonzeroIdeal K) : ‖bj I‖ ≤ 1 := by
-      rw [bj, norm_mul, Complex.norm_real, Real.norm_eq_abs,
+      dsimp only [bj]
+      rw [norm_mul, Complex.norm_real, Real.norm_eq_abs,
         abs_of_nonneg (fixedDyadicWeight_nonneg _)]
       exact (mul_le_of_le_one_right (norm_nonneg _) (fixedDyadicWeight_le_one _)).trans (hb I)
     have he : P j D H = (Real.sqrt (Y D H) : ℂ)⁻¹ * ∑' I : NonzeroIdeal K,
