@@ -2,6 +2,9 @@
 
 本轮从 PR #7 的 `d88663c8e2c9461cdd942267631e829d72d1f9b3` 继续，
 合入 PR #5 的实际共享源 `0263481ab8c8f2ef30d909f6a665ed22d64e5b8c`。
+随后核对 #5 的 `77dbe777f479823d0bc830f82a15e594a17191b7` 与 #10 的
+`5adae18b0928aa7b33afc1472b61ffc7408805d8`，采用 #5 最新的八个相关 Lean
+文件，统一共享参数与原核解析性、Poisson、floor-bin 和完整 correction 的原生修复。
 源码状态与原生验证状态分开记录；以下接线仍须通过本轮固定工具链的完整编译和严格公理门。
 
 ## 同一实际源
@@ -57,9 +60,11 @@ movingPiece 把当前物理样点的行单射搬运到同标签的最大基数�
 | `e_cap : e ≤ eCap`，width 与 cap 无关系 | 另有 `width_cap : width ≤ 4 * eCap` |
 | 从检测定理的 ε 取 width | 从同一已证 source 的 `∀ width > 0` 选择 `width = 4 * eCap` |
 
-原 `exists_physical_recipe_parameters` 公开陈述保持不变；它由新增的
-`exists_bounded_physical_recipe_parameters` 推出。`PhysicalRecipeParameters` 保存两个
-额外的已证数值约束，仍保留原全尺度 source 与全部标签 provenance。
+`PhysicalRecipeParameters` 保存两个额外的已证数值约束，仍保留原全尺度 source
+与全部标签 provenance。先前本方独立提交 `a9d412d` 用额外的 bounded constructor
+保留旧存在定理类型。共享源 owner 随后在 `7d598d9` 直接加强
+`exists_physical_recipe_parameters` 和 `exists_physical_recipe_expansion` 的结论，
+并同步唯一参数构造消费者；本轮统一采用 owner 的版本，不保留第二份共享定义。
 实际 `eCap = min(lamA,lamB)/1000`，故 `width ≤ lamB/100`。
 此项已在 PR #5 评论 6545961849 与 6546037523 中提前协调，变更单独提交以便共享源吸收。
 
@@ -97,12 +102,16 @@ movingPiece 把当前物理样点的行单射搬运到同标签的最大基数�
 
 ### 旧范数形支持接口的实际归一化
 
-`exists_actual_primeNormalizer_inverse_subpower` 保留原来的结论，新增显式条件
-`hcomplex : ∀ v : InfinitePlace K, v.IsComplex`。它现在由 PR #5 的
-`exists_actual_primeNormalizer_inverse_bound` 推出，可取系数一，替代旧的
-`PrimeNormalizer.normalizer_smallPower` 未完成输入。唯一已有消费者从
-`P.arithmetic.primitive12` 构造此条件；原目标定理不增加假设。
-对应论文4340–4347行固定非负、非零、互不相交的实际素数窗，以及原共同归一化。
+原 `exists_actual_primeNormalizer_inverse_subpower` 的类型保持不变。合入的当前
+基线已经用 `WindowPIT.window_prime_lower` 与
+`TauCeti.primeCount_univ_isEquivalent_div_log` 证明了实际素数窗下界；
+第一轮 run 41219280369 的 normform 日志实际编译该支持引理，并打印仅三标准公理。
+历史报告所称未完成 PIT 已不适用于当前基线。
+
+完整接线提交曾暂时切到 #5 的另一个实际 normalizer producer 并增加全复无限位参数；
+核对上述原生证据后，恢复原公开接口，新物理核也直接消费已证的同一个空 ray
+`primeNormalizer K S g ∅ Z` 上界。其固定常数吸入核常数，指数 `nu` 仅计算一次。
+对应论文4339–4347行固定非负、非零、互不相交的实际素数窗，以及原共同归一化。
 
 ## 边界常数的选择顺序
 
@@ -135,6 +144,11 @@ CI 使用仓库统一 `restore-lake-cache@ci/lake-cache-test`，普通 Lake 编�
 
 当前第一轮整合提交：`465122674ac926868d42be3874de3065fd5da0e5`，
 run `41219280369`。该轮不包含后续原名接线，不能作为最终完成证据。
-本轮全部原始证明体已填，正在原生编译和修复；最终验证结果另在完成时更新。
+该轮 core、mellin、fourier 通过；normform 实际失败日志已下载并核对 artifact
+SHA256，原 tuple 重排超时、continuity composition、SharpFactors 和 scalar
+未解目标分别修复，共享四处错误按上述 #5 最新修复对齐。
+完整原名接线已发布为 `a63e791f87d5a3ddadfce2cc3f2fef3146d2e59f`，
+run `41220839679` 正在运行；本轮后续修复仍须重新验证。
+最终验证结果另在完成时更新。
 
 AI-assisted：ChatGPT / GPT-6 Astra Pro，2026-11-01。

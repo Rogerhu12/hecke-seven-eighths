@@ -160,10 +160,18 @@ theorem exists_physicalBlock_normForm
       (hrows u hur).1 (hrows u hur).2 a ha ha1 h hh (hbelow u hur) amplitude hamp
       s w z (by simp [s]) (by simp [w]) (by norm_num [z])
       (by simpa [s] using hcoord 0) (by simpa [w] using hcoord 1) hmain
-    have hk' := hk.trans (mul_le_mul_of_nonneg_right
-      (mul_le_mul_of_nonneg_left
-        (Real.rpow_le_rpow_of_exponent_le hZ1 (by linarith only [hbudget])) hC.le)
-      (Real.rpow_nonneg (by linarith : 0 ≤ 1 + Z ^ tau) _))
+    have hk' : ‖compensatedRowMellinKernel K S₀ mu P psi
+        (arithmeticHighEulerData K S₀ P psi) g ∅ u Z s w z‖ ≤
+        C * Z ^ (NormForm.rowExponent d a q + lam / 4) * (1 + Z ^ tau) ^ A := by
+      apply hk.trans
+      apply mul_le_mul_of_nonneg_right _
+        (Real.rpow_nonneg (by linarith : 0 ≤ 1 + Z ^ tau) _)
+      apply mul_le_mul_of_nonneg_left _ hC.le
+      apply Real.rpow_le_rpow_of_exponent_le hZ1
+      change NormForm.rowExponent d a q + (105 / 8 + 6 * d) * e +
+        d * (2 * eps + (g.slots + 2) * eta) + ((width + eta) / 6 + eps) ≤
+          NormForm.rowExponent d a q + lam / 4
+      linarith only [hbudget]
     change ‖(2 * (Real.pi : ℂ)) ^ (-(3 : ℤ)) *
       compensatedRowMellinKernel K S₀ mu P psi (arithmeticHighEulerData K S₀ P psi)
         g ∅ u Z s w z‖ ≤ _
@@ -181,7 +189,9 @@ theorem exists_physicalBlock_normForm
         (physicalAmplitudeLabelEmbedding g.slots width ((2 * a - 1) / 2) hcard label) u‖ ≤
           Ctotal * Z ^ (NormForm.rowExponent d a q + lam / 4) * (1 + Z ^ tau) ^ (A + 3) := by
     have hh := physicalBlockShiftedPiece_norm_le width ((2 * a - 1) / 2) Z (Z ^ tau)
-      (Z ^ d) hT0 rows sector b hcard _ label (horigin label) (by positivity) hpoint u
+      (Z ^ d) hT0 rows sector b hcard _ label (horigin label)
+      (C := normalization * C * Z ^ (NormForm.rowExponent d a q + lam / 4) *
+        (1 + Z ^ tau) ^ A) (by positivity) hpoint u
     have hvol : (Z ^ tau) ^ 3 ≤ (1 + Z ^ tau) ^ (3 : ℝ) := by
       rw [Real.rpow_natCast]
       exact pow_le_pow_left₀ hT0 (by linarith) 3

@@ -1,11 +1,11 @@
-import Expansion.ActualPrimeNormalizer
+import HeckeSkeleton.PrimeNormalizer
 
 /-!
 The actual normalizer dependency of the sharp norm-form route.
 
-The physical original field supplies its complex-place hypothesis.  The
-proved actual prime-window lower theorem then bounds the unchanged
-normalizer inverse, with its constant absorbed into a common cutoff.
+The unconditional window prime ideal theorem is proved in `WindowPIT`
+from the prime-counting asymptotic.  The existing normalizer deduction
+therefore bounds the unchanged inverse with a fixed positive constant.
 No admitted prime-window estimate or normalizer-bound premise is used.
 -/
 
@@ -21,17 +21,20 @@ open scoped Classical Topology
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 
-/-- A concrete uniform cutoff from the actual prime-window theorem. -/
-theorem exists_actual_primeNormalizer_inverse_subpower
-    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex) (g : PrimeWindowGeometry)
+/-- A concrete uniform cutoff from the proved unconditional window theorem. -/
+theorem exists_actual_primeNormalizer_inverse_subpower (g : PrimeWindowGeometry)
     {nu : ℝ} (hnu : 0 < nu) :
     ∃ C Z0 : ℝ, 0 < C ∧ 1 ≤ Z0 ∧ ∀ Z : ℝ, Z0 ≤ Z →
       ‖(primeNormalizer K S g ∅ Z)⁻¹‖ ≤ C * Z ^ nu := by
-  obtain ⟨Z0, hZ0, hbound⟩ :=
-    Expansion.Project.exists_actual_primeNormalizer_inverse_bound K S hcomplex g nu hnu
-  refine ⟨1, Z0, by norm_num, hZ0, ?_⟩
+  obtain ⟨C, hC, hbound⟩ := isBigO_iff'.mp
+    (HeckeSkeleton.PrimeNormalizer.normalizer_smallPower K S g nu hnu)
+  obtain ⟨Z0, hZ0⟩ := eventually_atTop.mp hbound
+  refine ⟨C, max 1 Z0, hC, le_max_left _ _, ?_⟩
   intro Z hZ
-  simpa only [one_mul] using (hbound Z hZ).2
+  have hZ1 : 1 ≤ Z := (le_max_left _ _).trans hZ
+  have hb := hZ0 Z ((le_max_right _ _).trans hZ)
+  simpa only [Real.norm_eq_abs,
+    abs_of_nonneg (Real.rpow_nonneg (zero_le_one.trans hZ1) nu)] using hb
 
 end HighBinVerified.NormFormNormalization
 

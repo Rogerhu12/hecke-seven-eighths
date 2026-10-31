@@ -25,7 +25,7 @@ theorem physicalHeightBox_measure_lt_top (T : ℝ) (hT : 0 ≤ T) :
     physicalHeightVolume {p : Fin 3 → ℝ | ‖p‖ ≤ T} < ⊤ := by
   rw [physicalHeightVolume, physicalHeightEquiv.map_apply,
     physicalHeightEquiv_preimage_box T hT]
-  change (volume : Measure (ℝ × ℝ × ℝ))
+  change ((volume : Measure ℝ).prod ((volume : Measure ℝ).prod volume))
     (Icc (-T) T ×ˢ (Icc (-T) T ×ˢ Icc (-T) T)) < ⊤
   exact (isCompact_Icc.prod (isCompact_Icc.prod isCompact_Icc)).measure_lt_top
 

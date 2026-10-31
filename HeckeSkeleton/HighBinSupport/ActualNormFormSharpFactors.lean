@@ -22,6 +22,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.HighBinActualEuler
 open HeckeSkeleton.HeckeLRatioConductorBudget
+open HeckeSkeleton.ExplicitHeckeFunctionalEquation
 open scoped Classical BigOperators
 
 variable (K : Type) [Field K] [NumberField K]
@@ -30,7 +31,7 @@ variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 theorem one_le_actual_radicalNorm (u : FrequencyRow K S) :
     1 ≤ (u.ideal.val.val.radical.absNorm : ℝ) := by
   rw [NormFormActual.actual_radicalNorm_eq_primeSupport_product K u.ideal.val]
-  apply Finset.one_le_prod
+  apply Finset.one_le_prod₀
   intro p hp
   have h := one_lt_primeIdeal_absNorm K p
   exact_mod_cast h.le

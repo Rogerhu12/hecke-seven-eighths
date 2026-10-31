@@ -182,7 +182,9 @@ theorem compensatedRowMellinKernel_continuousOn_final_heightBox
     have hL := (analyticAt_heckeContinuation K (1 : HeckeCharacter K) hre).differentiableAt
     have hD := (heckeEulerDeletionPolynomial_analyticAt
       K (1 : HeckeCharacter K) (exceptionalPrimes K S₀) (6 * zLine q)).differentiableAt
-    exact (hD.mul hL).continuousAt.comp (hz.const_mul 6).continuousAt
+    exact (hD.mul hL).continuousAt.comp
+      (f := fun x : ℝ × (ℝ × ℝ) => 6 * zLine x) (x := q)
+      (hz.const_mul 6).continuousAt
   have hnum : Continuous (fun q : ℝ × (ℝ × ℝ) =>
       heckeDeletedContinuation K (E.rows.character u) (exceptionalPrimes K S₀)
         (wLine ν q)) := by

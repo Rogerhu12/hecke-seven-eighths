@@ -115,9 +115,7 @@ theorem exists_actual_kernel_normForm_of_slot_bounds
     K S₀ psi companions hcomp P he he1 heps
   obtain ⟨CE, hCE, heuler⟩ := exists_uniform_rowCorrection_subpower K S₀ he he1 heta
   obtain ⟨CN, ZN, hCN, hZN, hnormalizer⟩ :=
-    NormFormNormalization.exists_actual_primeNormalizer_inverse_subpower K S₀
-      (HeckeSkeleton.HeckeFiniteBackgroundControl.all_complex_of_primitive12
-        K P.arithmetic.primitive12) g hnu
+    NormFormNormalization.exists_actual_primeNormalizer_inverse_subpower K S₀ g hnu
   obtain ⟨ZF, hZF, hfactor⟩ := exists_actualFullCorrection_product_cutoff K S₀ g he he1
   obtain ⟨CP, hCP, hprofile⟩ := exists_actual_profile_bound K S μ P
   let deg : ℝ := ((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) +

@@ -164,7 +164,7 @@ theorem exists_actual_rowContour_normForm
       2 * ((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) * eps)
   have hmem : ∀ᵐ x ∂μH, x ∈ heightBox H := by
     simpa only [μH, heightBox, twoHeightMeasure, Measure.prod_restrict] using
-      (ae_restrict_mem (μ := (volume : Measure (ℝ × (ℝ × ℝ))))
+      (ae_restrict_mem (μ := (volume : Measure ℝ).prod ((volume : Measure ℝ).prod volume))
         (measurableSet_Icc.prod (measurableSet_Icc.prod measurableSet_Icc)))
   letI : IsFiniteMeasure μH := by dsimp only [μH]; infer_instance
   have hb : ‖∫ x, f x ∂μH‖ ≤ (C * Z ^ b) * μH.real univ :=

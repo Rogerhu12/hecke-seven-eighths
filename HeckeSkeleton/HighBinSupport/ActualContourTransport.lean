@@ -45,7 +45,7 @@ theorem twoHeightMeasure_ae_mem (H : ℝ) :
     ∀ᵐ q ∂twoHeightMeasure H,
       q ∈ Icc (-H) H ×ˢ Icc (-H) H := by
   simpa only [twoHeightMeasure, Measure.prod_restrict] using
-    (ae_restrict_mem (μ := (volume : Measure (ℝ × ℝ)))
+    (ae_restrict_mem (μ := (volume : Measure ℝ).prod (volume : Measure ℝ))
       (measurableSet_Icc.prod measurableSet_Icc))
 
 /-- Exact Fubini identification, including the (2π)^(-3) normalization. -/

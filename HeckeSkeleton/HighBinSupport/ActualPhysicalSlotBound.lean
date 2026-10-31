@@ -107,14 +107,23 @@ theorem exists_actualFullSlot_bound_of_main
   have hW : 0 ≤ W := by dsimp only [W]; positivity
   have hM : 0 ≤ M := repeatedSlotMass_nonneg K S u g ray Z _ i
   have hp0 : (primeScale g Z) ^ (-(4 / 25 : ℝ)) ≤ W := by
-    apply (Real.rpow_le_rpow_of_exponent_le hX1 (by linarith)).trans
+    have hp : (primeScale g Z) ^ (-(4 / 25 : ℝ)) ≤
+        (primeScale g Z) ^ (-(4 / 25 : ℝ) + amplitude + (width + eta)) :=
+      Real.rpow_le_rpow_of_exponent_le hX1 (by linarith)
+    apply hp.trans
     exact le_mul_of_one_le_left (Real.rpow_nonneg hX0.le _) hNeta
   have hpeta : (primeScale g Z) ^ (-(4 / 25 : ℝ) + eta) ≤ W := by
-    apply (Real.rpow_le_rpow_of_exponent_le hX1 (by linarith)).trans
+    have hp : (primeScale g Z) ^ (-(4 / 25 : ℝ) + eta) ≤
+        (primeScale g Z) ^ (-(4 / 25 : ℝ) + amplitude + (width + eta)) :=
+      Real.rpow_le_rpow_of_exponent_le hX1 (by linarith)
+    apply hp.trans
     exact le_mul_of_one_le_left (Real.rpow_nonneg hX0.le _) hNeta
   have hmain' : ‖actualCompensationMainSlot K S P g ray u Z z i‖ ≤ W := by
     apply hmain.trans
-    apply (Real.rpow_le_rpow_of_exponent_le hX1 (by linarith)).trans
+    have hp : (primeScale g Z) ^ (-(4 / 25 : ℝ) + amplitude + width) ≤
+        (primeScale g Z) ^ (-(4 / 25 : ℝ) + amplitude + (width + eta)) :=
+      Real.rpow_le_rpow_of_exponent_le hX1 (by linarith)
+    apply hp.trans
     exact le_mul_of_one_le_left (Real.rpow_nonneg hX0.le _) hNeta
   have hreg : ‖actualRegularErrorSlot K S P psi g ray u Z s w z i‖ ≤ CR * W :=
     (hregular Z hZZR P psi hpsi ray u a ha ha1 s w z hs hw hz i).trans

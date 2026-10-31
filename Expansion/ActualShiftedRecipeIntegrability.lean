@@ -82,7 +82,9 @@ theorem differentiableAt_actual_detected_kernel_comp [IsTotallyComplex K]
       (analyticAt_heckeContinuation K 1 hzeta).differentiableAt).comp x
         ((differentiableAt_const _).fun_mul hz)
   have hM := (analyticOnNhd_actual_additiveMellin K S mu nu P.additive (z x)
-    (by linarith)).differentiableAt.comp x hz
+    (by
+      change 0 < (z x).re
+      linarith only [hzre])).differentiableAt.comp x hz
   have hden := (HighBinBoundary.ActualDenominator.differentiable_mellin
     P.denominator.toSmoothAnnularTest (w x)).comp x hw
   have hN : (frequencyRowNorm K Sset u : ℂ) ≠ 0 :=
@@ -164,8 +166,9 @@ theorem integrableOn_actual_shifted_rowVerticalKernel_box [IsTotallyComplex K]
     IntegrableOn (rowVerticalKernel K Sset muS P psi
       (arithmeticHighEulerData K Sset P psi) g ray u Z
       (a + 16 * e) (1 - a - 6 * e) (17 / 50))
-      (rowRetainedHeightBox T) rowHeightVolume :=
-  (continuousOn_actual_shifted_rowVerticalKernel_box K S mu nu P psi hAllowed g ray u hu
+      (rowRetainedHeightBox T) rowHeightVolume := by
+  unfold rowHeightVolume
+  exact (continuousOn_actual_shifted_rowVerticalKernel_box K S mu nu P psi hAllowed g ray u hu
     hZ ha ha1 he he1 hTH hbelow).integrableOn_compact
       (isCompact_Icc.prod (isCompact_Icc.prod isCompact_Icc))
 

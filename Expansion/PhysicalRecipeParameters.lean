@@ -3,10 +3,11 @@ import Expansion.PhysicalRecipeAssembly
 /-!
 # One parameter choice before the analytic components and power height
 
-The internal width, finite alphabet and buffered height count are chosen
-from the actual detector theorem. The shell loss remains lam. The amplitude
-width is four times the prescribed positive cap; it exceeds twice the
-detector displacement and stays inside the requested analytic loss budget. The same choice is used for every scale, height and component.
+The internal displacement and buffered height count come from the actual
+detector theorem. A separately prescribed positive cap fixes an amplitude
+width larger than twice that displacement and its finite alphabet. The
+shell loss remains lam. The same choice is used for every scale, height
+and component.
 -/
 
 set_option autoImplicit false
@@ -41,11 +42,11 @@ structure PhysicalRecipeParameters (lam ζ eCap : ℝ) where
   k : ℝ
   e_pos : 0 < e
   width_pos : 0 < width
-  width_buffer : 2 * e < width
-  width_cap : width ≤ 4 * eCap
   e_small : e < 1 / 1000
   e_lam : e ≤ lam / 1000
   e_cap : e ≤ eCap
+  width_buffer : 2 * e < width
+  width_cap : width ≤ 4 * eCap
   ceiling_pos : 0 < ceiling
   k_pos : 0 < k
   source : ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
@@ -59,10 +60,12 @@ theorem physicalRecipeParameters_nonempty
     (hζ : ζ ≤ lam) (heCap : 0 < eCap) :
     Nonempty (PhysicalRecipeParameters K S P ω ψ g E hψ hB0 hB hbound
       μ windowCharacters lam ζ eCap) := by
-  obtain ⟨e, width, ceiling, k, he, hw, heSmall, heLam, heCap', hbuffer, hwcap, hc, hk, hsource⟩ :=
-    exists_bounded_physical_recipe_parameters K S P ω ψ g E hψ hB0 hB hbound
+  obtain ⟨e, width, ceiling, k, he, hw, heSmall, heLam, heCap', hbuffer, hwidthCap,
+      hc, hk, hsource⟩ :=
+    exists_physical_recipe_parameters K S P ω ψ g E hψ hB0 hB hbound
       μ windowCharacters hcomplex lam ζ hlam hlamSmall hζ eCap heCap
-  exact ⟨⟨e, width, ceiling, k, he, hw, hbuffer, hwcap, heSmall, heLam, heCap', hc, hk, hsource⟩⟩
+  exact ⟨⟨e, width, ceiling, k, he, hw, heSmall, heLam, heCap', hbuffer, hwidthCap,
+    hc, hk, hsource⟩⟩
 
 def choosePhysicalRecipeParameters
     (hcomplex : ∀ v : InfinitePlace K, v.IsComplex)

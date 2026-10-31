@@ -1,8 +1,8 @@
 import HeckeSkeleton.HighBinSupport.ActualPhysicalSlotBound
 import HeckeSkeleton.HighBinSupport.PhysicalNormScalar
 import HeckeSkeleton.HighBinSupport.ActualNormFormSharpFactors
+import HeckeSkeleton.HighBinSupport.ActualNormFormNormalization
 import HeckeSkeleton.HighBinSupport.ActualKernelEnvelope
-import Expansion.ActualPrimeNormalizer
 
 /-!
 # The full physical kernel at the original retained height
@@ -117,16 +117,14 @@ theorem exists_actual_physical_kernel_normForm_of_main
   obtain ⟨CE, hCE, heuler⟩ := exists_uniform_rowCorrection_subpower K S₀ he he1 heta
   obtain ⟨CS, ZS, hCS, hZS, hslot⟩ := exists_actualFullSlot_bound_of_main K S₀ g he he1 heta
   obtain ⟨ZF, hZF, hfactor⟩ := exists_actualFullCorrection_product_cutoff K S₀ g he he1
-  have hcomplex := HeckeSkeleton.HeckeFiniteBackgroundControl.all_complex_of_primitive12
-    K P.arithmetic.primitive12
-  obtain ⟨ZN, hZN, hnormalizer⟩ := Expansion.Project.exists_actual_primeNormalizer_inverse_bound
-    K S₀ hcomplex g nu hnu
+  obtain ⟨CN, ZN, hCN, hZN, hnormalizer⟩ :=
+    NormFormNormalization.exists_actual_primeNormalizer_inverse_subpower K S₀ g hnu
   let A : ℝ := ((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) +
     2 * ((2 * Fintype.card (InfinitePlace K) : ℕ) : ℝ) * eps
   let H : ℝ := (3 * ((heightCount : ℝ) + 2) + 2) ^ A
   let D : ℝ := 2 + 2 * eps + (g.slots + 2) * eta
   let CQ : ℝ := CS ^ g.slots * repeatedProductConstant g.slots eta
-  let C : ℝ := CP * (CL * H) * CE * CQ * (2 : ℝ) ^ D
+  let C : ℝ := CP * (CL * H) * CE * CQ * CN * (2 : ℝ) ^ D
   have hA : 0 ≤ A := by dsimp only [A]; positivity
   have hH : 0 < H := by dsimp only [H]; positivity
   have hCQ : 0 < CQ := mul_pos (pow_pos hCS _) (repeatedProductConstant_pos _ heta)
@@ -143,6 +141,7 @@ theorem exists_actual_physical_kernel_normForm_of_main
     ((le_max_right _ _).trans ((le_max_right _ _).trans hZ))
   have hZ1 : 1 ≤ Z := hZL.trans hZZL
   have hZ0 : 0 < Z := zero_lt_one.trans_le hZ1
+  have hT0 : 0 ≤ T := zero_le_one.trans hT
   let E := arithmeticHighEulerData K S₀ P psi
   let U : ℝ := 3 * ((h : ℝ) + 2) * T
   let profile : ℂ := (physicalPoissonScalar K : ℂ) * Complex.exp ((s + z - 1) ^ 2) *
@@ -155,14 +154,17 @@ theorem exists_actual_physical_kernel_normForm_of_main
   let euler : ℂ := rowCorrection K S₀ P psi E ∅ u s w z
   let slots : ℂ := ∏ i : Fin g.slots, actualFullCorrectionSlot K S₀ P psi g ∅ u Z s w z i
   have hU0 : 0 ≤ 2 + U := by dsimp only [U]; positivity
-  have hTU : T + 3 / 2 ≤ U := by dsimp only [U]; nlinarith [Nat.cast_nonneg h]
+  have hTU : T + 3 / 2 ≤ U := by
+    dsimp only [U]
+    nlinarith [mul_nonneg (Nat.cast_nonneg h : (0 : ℝ) ≤ h) hT0]
   have hheight : (2 + U) ^ A ≤ H * (1 + T) ^ A := by
     have hh' : (h : ℝ) ≤ heightCount := by exact_mod_cast hh
+    have hhT := mul_le_mul_of_nonneg_right hh' hT0
     calc
       _ ≤ ((3 * ((heightCount : ℝ) + 2) + 2) * (1 + T)) ^ A := by
         apply Real.rpow_le_rpow hU0 _ hA
         dsimp only [U]
-        nlinarith [Nat.cast_nonneg h, Nat.cast_nonneg heightCount]
+        nlinarith [Nat.cast_nonneg heightCount]
       _ = _ := Real.mul_rpow (by positivity) (by positivity)
   have hprof : ‖profile‖ ≤ CP := hprofile s w z (by linarith) (by linarith)
     (by linarith) (by linarith) hz
@@ -193,11 +195,11 @@ theorem exists_actual_physical_kernel_normForm_of_main
   have hnorm := joint_pointwise_normForm_of_factors Z (frequencyRowNorm K S₀ u)
     (u.ideal.val.val.radical.absNorm : ℝ) d a ((∑ i, amplitude i) / g.slots) e
     (2 * eps) eta ((g.slots + 1) * eta) (width + eta) nu D
-    CP (CL * H) CE CQ 1 ((1 + T) ^ A) s w z profile ratio euler slots
+    CP (CL * H) CE CQ CN ((1 + T) ^ A) s w z profile ratio euler slots
     (primeNormalizer K S₀ g ∅ Z)⁻¹ hZ0 hu hu1 hR hRN (by positivity) hD
     (by dsimp only [D]; nlinarith) hCP.le (mul_nonneg hCL.le hH.le) hCE.le hCQ.le
-    (by norm_num) (Real.rpow_nonneg (by linarith) _) hs hw hz hprof hrat heul hprod
-    (by simpa only [one_mul] using (hnormalizer Z hZZN).2)
+    hCN.le (Real.rpow_nonneg (by linarith) _) hs hw hz hprof hrat heul hprod
+    (hnormalizer Z hZZN)
   have hid : compensatedRowMellinKernel K S₀ mu P psi E g ∅ u Z s w z =
       NormForm.geometricFactor Z (frequencyRowNorm K S₀ u) s w z * profile * ratio *
         euler * slots * (primeNormalizer K S₀ g ∅ Z)⁻¹ := by
@@ -208,7 +210,10 @@ theorem exists_actual_physical_kernel_normForm_of_main
     simp only [div_eq_mul_inv, mul_inv]
     ring
   rw [hid]
-  convert hnorm using 1 <;> dsimp only [C] <;> congr 2 <;> ring
+  have hloss : 2 * eps + eta + (g.slots + 1) * eta =
+      2 * eps + (g.slots + 2) * eta := by ring
+  rw [hloss] at hnorm
+  simpa only [C, mul_one] using hnorm
 
 end HeckeSkeleton.HighBinPhysicalNorm
 

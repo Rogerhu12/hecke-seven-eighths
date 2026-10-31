@@ -40,6 +40,8 @@ theorem joint_pointwise_normForm_of_factors
           d * (etaL + etaE + etaS) + (mesh / 6 + nu)) * height := by
   have hN : 0 < N := (Real.rpow_pos_of_pos hZ d).trans_le hNlo
   have hgeo := NormForm.geometricFactor_norm Z N a e hZ hN s w z hs hw hz
+  have hgeometric : 0 ≤ NormForm.geometricMajorant Z a e :=
+    NormForm.geometricMajorant_nonneg Z a e hZ
   have hjoint : ‖ratio‖ * ‖slots‖ ≤
       (CL * CS * height) * N ^ (a - 1 / 2 + 6 * e + etaL + etaS) *
         Z ^ (-2 / 75 + q / 6 + mesh / 6) := by

@@ -77,6 +77,10 @@ theorem subsetPrimeIdeal_norm_range (g : PrimeWindowGeometry)
       rw [Finset.prod_const, Finset.card_univ, Fintype.card_fin, mul_pow,
         primeScale_power_slots g Z hZ]
 
+private theorem compensatedTerm_reorder (a b c d e f L : ℂ) :
+    (a * c) * (b * d * e * f) * L = a * b * c * d * e * f * L := by
+  ring
+
 /-- Every subset uses the actual whole-index-marked row continuation.
 Only their lower-level pointwise bound is assumed, and their finite sum
 costs 32^J Z^4, independent of every external tail derivative order. -/
@@ -118,7 +122,8 @@ theorem tupleMellinAmplitude_bound_of_rowEuler_bound
         conj (heckeIdealCoefficient K ψ (subsetPrimeIdeal K S p (Finset.univ \ J)).val))
       (rowEulerContinuation K S P ψ E ((Finset.univ \ J).image p) u s w z)
       hZ hA.1 hB.1 hA.2 hB.2 hs hw0 hw1 hz hc hL
-    simpa only [TupleScalar.compensationScalar, mul_assoc, mul_left_comm, mul_comm] using h
+    rw [TupleScalar.compensationScalar, compensatedTerm_reorder] at h
+    exact h
   have hsum : ‖ActualPrimeNormalizer.tupleMellinAmplitude K S P ψ E g u Z s w z p‖ ≤
       (2 : ℝ) ^ g.slots * (Z ^ 3 * R ^ 4 * M) := by
     unfold ActualPrimeNormalizer.tupleMellinAmplitude
