@@ -53,26 +53,42 @@ def imports(path: Path) -> list[str]:
 
 
 def groups(all_sources: dict[str, Path]) -> dict[str, list[str]]:
-    skeleton = {module_name(ROOT / p) for p in SKELETON}
-    cache: dict[str, bool] = {}
+    admitted_skeleton = {
+        "HeckeSkeleton.Base", "HeckeSkeleton.HighBin",
+        "HeckeSkeleton.Expansion", "HeckeSkeleton.Moments",
+    }
+    cache: dict[str, int] = {}
+    source_roots = (ROOT, ROOT / "SkeletonInputs", ROOT / "GramCoreInputs",
+                    ROOT / "GramAssemblyInputs", ROOT / "vendor/openai",
+                    ROOT / "vendor/flt", ROOT / "vendor/zeta23",
+                    ROOT / "vendor/tauceti", ROOT / "vendor/class-field-theory/Lean4")
 
-    def pure(mod: str, stack: frozenset[str] = frozenset()) -> bool:
+    def level(mod: str, stack: frozenset[str] = frozenset()) -> int:
         if mod.startswith(("Mathlib", "Lean", "Std", "Batteries")):
-            return True
+            return 0
+        if mod in admitted_skeleton:
+            return 2
         if mod in cache:
             return cache[mod]
-        if mod not in all_sources or mod in skeleton or mod in stack:
-            return False
-        result = all(pure(dep, stack | {mod}) for dep in imports(all_sources[mod]))
+        if mod in stack:
+            raise RuntimeError(f"Cyclic source imports involving {mod}")
+        relative = Path(*mod.split(".")).with_suffix(".lean")
+        path = all_sources.get(mod)
+        if path is None:
+            path = next((root / relative for root in source_roots
+                         if (root / relative).is_file()), None)
+        if path is None:
+            return 1
+        dependencies = [level(dep, stack | {mod}) for dep in imports(path)]
+        # An external project dependency is actual arithmetic even if its
+        # own imports happen to be Mathlib-only.  Skeleton inheritance is
+        # propagated through every intervening project module.
+        result = max([0 if mod in all_sources else 1, *dependencies])
         cache[mod] = result
         return result
 
-    pure_names = {mod for mod in all_sources if pure(mod)}
-    return {
-        "pure": sorted(pure_names),
-        "actual": sorted(set(all_sources) - pure_names - skeleton),
-        "skeleton": sorted(skeleton),
-    }
+    return {group: sorted(mod for mod in all_sources if level(mod) == rank)
+            for group, rank in (("pure", 0), ("actual", 1), ("skeleton", 2))}
 
 
 def command(args: list[str], log: Path) -> None:
@@ -97,8 +113,8 @@ def audit_source(modules: list[str], strict: bool) -> str:
         "  let env ← getEnv",
         "  let selected : Array Name := #[" + ", ".join("`" + m for m in modules) + "]",
         "  let allowed : Array Name := #[`propext, `Classical.choice, `Quot.sound]",
-        "  let mut count := 0",
-        "  let mut nonstandard := 0",
+        "  let mut count : Nat := 0",
+        "  let mut nonstandard : Nat := 0",
         "  for (name, _) in env.constants.toList do",
         "    if let some idx := env.getModuleIdxFor? name then",
         "      if selected.contains env.header.moduleNames[idx.toNat]! then",

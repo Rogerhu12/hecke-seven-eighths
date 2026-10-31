@@ -30,6 +30,8 @@ theorem terminal_dyadic_count_subpower {U η : ℝ} (hU : 1 ≤ U) (hη : 0 < η
     (show 0 ≤ 21 / Real.log 2 by positivity)
   have hlast := mul_le_mul_of_nonneg_left hp
     (show 0 ≤ Real.log 3 / Real.log 2 + 2 by positivity)
+  have heq : (21 / Real.log 2) * (U ^ η / η) = ((21 / Real.log 2) / η) * U ^ η := by ring
+  rw [heq] at hfirst
   push_cast
   nlinarith
 
@@ -102,8 +104,7 @@ theorem exists_terminal_product_power_spike (C η : ℝ) (hC : 0 ≤ C) (hη : 0
       _ = 1 := by
         rw [← Real.rpow_add hUpos]
         convert Real.rpow_zero U using 1 <;> ring
-      _ ≤ p * U ^ (η / 2 + (1 / 2 - β) * (r + m)) := by
-        simpa only [mul_comm] using hlarge
+      _ ≤ _ := hlarge
   have hsquare := pow_le_pow_left₀
     (Real.rpow_nonneg hUpos.le ((β - 1 / 2) * (r + m) - η / 2)) hlower 2
   have hsqpower : (U ^ ((β - 1 / 2) * (r + m) - η / 2)) ^ 2 =
@@ -157,5 +158,52 @@ theorem terminal_dyadicLength_le {U : ℝ} (hU : 6 ≤ U) {j : ℕ}
   unfold dyadicLength
   rw [Real.log_pow]
   exact (div_le_iff₀ hlogU).mpr hlen
+
+/-- The product support inequality gives the exact source-length lower
+bound, including its fixed factor eight. -/
+theorem source_length_le_dyadic_sum {U D : ℝ} {j k : ℕ}
+    (hU : 1 < U) (hD : 0 < D)
+    (hprod : D / 8 < (2 : ℝ) ^ j * (2 : ℝ) ^ k) :
+    Real.log D / Real.log U - Real.log 8 / Real.log U ≤
+      dyadicLength U j + dyadicLength U k := by
+  have hlog := Real.log_le_log (by positivity : 0 < D / 8) hprod.le
+  rw [Real.log_div hD.ne' (by norm_num : (8 : ℝ) ≠ 0),
+    Real.log_mul (by positivity : (2 : ℝ) ^ j ≠ 0)
+      (by positivity : (2 : ℝ) ^ k ≠ 0)] at hlog
+  unfold dyadicLength
+  rw [← sub_div, ← add_div]
+  exact div_le_div_of_nonneg_right hlog (Real.log_pos hU).le
+
+/-- Every fixed logarithmic endpoint loss is absorbed uniformly before
+choosing a row, source exponent, or dyadic pair. -/
+theorem exists_fixed_log_loss (C η : ℝ) (hη : 0 < η) :
+    ∃ U₀ : ℝ, 2 ≤ U₀ ∧ ∀ U : ℝ, U₀ ≤ U → Real.log C / Real.log U ≤ η := by
+  refine ⟨max 2 (Real.exp (Real.log C / η)), le_max_left _ _, ?_⟩
+  intro U hU
+  have hUtwo : 2 ≤ U := (le_max_left _ _).trans hU
+  have hlogU : 0 < Real.log U := Real.log_pos (by linarith)
+  have hexp : Real.exp (Real.log C / η) ≤ U := (le_max_right _ _).trans hU
+  have hlog := Real.log_le_log (Real.exp_pos _) hexp
+  rw [Real.log_exp] at hlog
+  have hmul := (div_le_iff₀ hη).mp hlog
+  exact (div_le_iff₀ hlogU).mpr (by nlinarith)
+
+/-- Reserving one small power in the source cutoff gives an actual inverse
+length below `t` and loses at most two small powers in the product length.
+The cap is common to every later source exponent and dyadic pair. -/
+theorem exists_dyadic_support_loss (η : ℝ) (hη : 0 < η) :
+    ∃ U₀ : ℝ, 2 ≤ U₀ ∧ ∀ U : ℝ, U₀ ≤ U → ∀ r m t : ℝ,
+      U ^ r < 4 * U ^ (t - η) → U ^ (t - η) / 8 < U ^ r * U ^ m →
+      r ≤ t ∧ t - 2 * η ≤ r + m := by
+  obtain ⟨U₀, hU₀, hsmall⟩ := exists_fixed_log_loss 8 η hη
+  refine ⟨U₀, hU₀, ?_⟩
+  intro U hU r m t hD hprod
+  have hUgt : 1 < U := by linarith [hU₀.trans hU]
+  obtain ⟨hr, hm⟩ := witness_length_bounds hUgt hD hprod
+  have h8 := hsmall U hU
+  have h4 : Real.log 4 / Real.log U ≤ η :=
+    (div_le_div_of_nonneg_right (Real.log_le_log (by norm_num) (by norm_num : (4 : ℝ) ≤ 8))
+      (Real.log_pos hUgt).le).trans h8
+  constructor <;> linarith
 
 end Expansion.Dyadic

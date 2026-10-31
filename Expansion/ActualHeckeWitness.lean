@@ -24,15 +24,32 @@ noncomputable section
 namespace Expansion.Project
 
 open NumberField IsDedekindDomain
+open Filter
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Bridge
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ExpansionRecipe
 open HeckeSkeleton.ExpansionDetectorBridge
 open ExpansionDetector.IdealCutoff ExpansionDetector.Hecke
 open ExpansionDetector.Fourier Expansion.Dyadic
-open scoped Classical BigOperators ContDiff
+open scoped Classical BigOperators ContDiff Topology
 
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
+
+/-- The physical detector records positive meromorphic order.  For the
+entire non-norm branch this is a zero of the actual continuation, so no
+totalized value at a pole is used as a detector zero. -/
+theorem heckeContinuation_zero_of_order_pos (χ : HeckeCharacter K)
+    (hχ : ∀ t : ℝ, χ ≠ heckeNormTwist K t) (ρ : ℂ)
+    (hρ : 0 < meromorphicOrderAt (heckeContinuation K χ) ρ) :
+    heckeContinuation K χ ρ = 0 := by
+  have hd := differentiable_heckeContinuation_of_nonNorm K χ hχ
+  have hzero : Tendsto (heckeContinuation K χ) (𝓝[≠] ρ) (𝓝 0) :=
+    (tendsto_zero_iff_meromorphicOrderAt_pos ((hd.analyticAt ρ).meromorphicAt)).mpr hρ
+  have hvalue : Tendsto (heckeContinuation K χ) (𝓝[≠] ρ)
+      (𝓝 (heckeContinuation K χ ρ)) :=
+    (hd.continuous.continuousAt : ContinuousAt (heckeContinuation K χ) ρ).tendsto.mono_left
+      nhdsWithin_le_nhds
+  exact tendsto_nhds_unique hvalue hzero
 
 /-- The complete source mask, rather than only the conductor primes, is
 passed through the zero detector and the bounded-frequency extraction. -/
@@ -66,11 +83,11 @@ theorem exists_original_masked_product
         (1 / 8 : ℝ) ≤ ((n + 1 : ℕ) : ℝ) * (n + 1 : ℕ) * C *
           ((2 : ℝ) ^ j) ^ (1 / 2 - ρ.re) *
           ((2 : ℝ) ^ k) ^ (1 / 2 - ρ.re) *
-          ‖normalizedPolynomial (nonzeroTerminalSet (U ^ (21 : ℕ)))
+          ‖normalizedPolynomial (nonzeroTerminalSet (6 * U ^ (21 : ℕ)))
               (inverseRawCoefficient (originalMaskedCoefficientHom K S χ u) V D)
               Expansion.Dyadic.idealNorm annularProfile
               ((2 : ℝ) ^ j) ρ.re (2 * Real.pi * t - ρ.im) *
-            normalizedPolynomial (nonzeroTerminalSet (U ^ (21 : ℕ)))
+            normalizedPolynomial (nonzeroTerminalSet (6 * U ^ (21 : ℕ)))
               (originalMaskedCoefficientHom K S χ u)
               Expansion.Dyadic.idealNorm annularProfile
               ((2 : ℝ) ^ k) ρ.re (2 * Real.pi * t - ρ.im)‖ := by

@@ -125,9 +125,9 @@ theorem contourMajorant_le_scale
     have h₂ : 6 * B ≤ A + 6 * B + mass := by linarith
     have h₃ : mass ≤ A + 6 * B + mass := by linarith
     have h := add_le_add (add_le_add
-      (mul_le_mul_of_nonneg_right h₁ (Real.rpow_nonneg hUpos.le _))
-      (mul_le_mul_of_nonneg_right h₂ (Real.rpow_nonneg hUpos.le _)))
-      (mul_le_mul_of_nonneg_right h₃ (Real.rpow_nonneg hUpos.le _))
+      (mul_le_mul_of_nonneg_right h₁ (Real.rpow_nonneg hUpos.le (bL + (σ - 1 / 2) * r)))
+      (mul_le_mul_of_nonneg_right h₂ (Real.rpow_nonneg hUpos.le (bR + 3 / 2 * r - τ * N))))
+      (mul_le_mul_of_nonneg_right h₃ (Real.rpow_nonneg hUpos.le (3 / 2 * r - τ * N)))
     nlinarith
   exact (mul_le_mul_of_nonneg_left (hsum.trans hsum')
     (show 0 ≤ (1 / (2 * Real.pi)) * CW by positivity)).trans_eq (by ring)

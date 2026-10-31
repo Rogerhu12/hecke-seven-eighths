@@ -96,16 +96,16 @@ theorem actual_terminal_supported_product_of_numeric_budget
       terminalTerm w V V D H (fun n => (n : ℂ) ^ (-s) * (Real.exp (-(n : ℝ) / Y) : ℂ)) I‖ →
     let n := dyadicCap (3 * H)
     ((n + 1 : ℕ) : ℝ) * (n + 1 : ℕ) *
-      ((((3 * H) ^ 2 * CZ) ^ 2) / R ^ order * Corder) ≤ q / 2 →
+      ((((18 * H) ^ 2 * CZ) ^ 2) / R ^ order * Corder) ≤ q / 2 →
     ∃ j ≤ n, ∃ k ≤ n,
       ((2 : ℝ) ^ j < 4 * D ∧ D / 8 < (2 : ℝ) ^ j * (2 : ℝ) ^ k ∧
         (2 : ℝ) ^ j * (2 : ℝ) ^ k < 8 * H) ∧
     ∃ t : ℝ, ‖t‖ ≤ R ∧
       q / 2 ≤ ((n + 1 : ℕ) : ℝ) * (n + 1 : ℕ) * C₀ *
         ((2 : ℝ) ^ j) ^ (1 / 2 - s.re) * ((2 : ℝ) ^ k) ^ (1 / 2 - s.re) *
-        ‖normalizedPolynomial (nonzeroTerminalSet H) (inverseRawCoefficient w V D)
+        ‖normalizedPolynomial (nonzeroTerminalSet (6 * H)) (inverseRawCoefficient w V D)
             idealNorm annularProfile ((2 : ℝ) ^ j) s.re (2 * Real.pi * t - s.im) *
-          normalizedPolynomial (nonzeroTerminalSet H) w
+          normalizedPolynomial (nonzeroTerminalSet (6 * H)) w
             idealNorm annularProfile ((2 : ℝ) ^ k) s.re (2 * Real.pi * t - s.im)‖ := by
   obtain ⟨C₀, hC₀, hmass⟩ := uniform_terminal_fourier_mass V hV hone hzero
   obtain ⟨Corder, hCorder, hmoment⟩ := uniform_terminal_fourier_moment V hV hone hzero order
@@ -117,16 +117,19 @@ theorem actual_terminal_supported_product_of_numeric_budget
     actual_terminal_normalized_frequency_with_support w V hV hone hzero
       D H Y hD hH s R hR order q hqpos hq
   refine ⟨j, hj, k, hk, hsupport, t, ht, ?_⟩
-  have hA := (actual_terminal_coefficient_mass w hw V hVnorm D H ((2 : ℝ) ^ j)
-    hH s hs CZ hzeta hCZsum).1
-  have hB := (actual_terminal_coefficient_mass w hw V hVnorm D H ((2 : ℝ) ^ k)
-    hH s hs CZ hzeta hCZsum).2
+  have hA₀ := (actual_terminal_coefficient_mass w hw V hVnorm D (6 * H) ((2 : ℝ) ^ j)
+    (by linarith) s hs CZ hzeta hCZsum).1
+  have hB₀ := (actual_terminal_coefficient_mass w hw V hVnorm D (6 * H) ((2 : ℝ) ^ k)
+    (by linarith) s hs CZ hzeta hCZsum).2
+  have hA := hA₀
+  have hB := hB₀
+  rw [show (3 : ℝ) * (6 * H) = 18 * H by ring] at hA hB
   have hpair :
-      (∑ I ∈ nonzeroTerminalSet H,
+      (∑ I ∈ nonzeroTerminalSet (6 * H),
         ‖sourceCoefficient (inverseRawCoefficient w V D) idealNorm annularProfile ((2 : ℝ) ^ j) s I‖) *
-      (∑ I ∈ nonzeroTerminalSet H,
+      (∑ I ∈ nonzeroTerminalSet (6 * H),
         ‖sourceCoefficient w idealNorm annularProfile ((2 : ℝ) ^ k) s I‖)
-        ≤ ((3 * H) ^ 2 * CZ) ^ 2 := by
+        ≤ ((18 * H) ^ 2 * CZ) ^ 2 := by
     simpa only [pow_two] using mul_le_mul hA hB (by positivity) (by positivity)
   have hF := hmoment D H Y ((2 : ℝ) ^ j) ((2 : ℝ) ^ k)
     hD.le (by linarith) hY (by positivity) (by positivity)
@@ -136,9 +139,9 @@ theorem actual_terminal_supported_product_of_numeric_budget
     hF (integral_nonneg fun u => by positivity) (by positivity)
   have hmain := mul_le_mul_of_nonneg_right hF₀
     (show 0 ≤ ((2 : ℝ) ^ j) ^ (1 / 2 - s.re) * ((2 : ℝ) ^ k) ^ (1 / 2 - s.re) *
-      ‖normalizedPolynomial (nonzeroTerminalSet H) (inverseRawCoefficient w V D)
+      ‖normalizedPolynomial (nonzeroTerminalSet (6 * H)) (inverseRawCoefficient w V D)
           idealNorm annularProfile ((2 : ℝ) ^ j) s.re (2 * Real.pi * t - s.im) *
-        normalizedPolynomial (nonzeroTerminalSet H) w
+        normalizedPolynomial (nonzeroTerminalSet (6 * H)) w
           idealNorm annularProfile ((2 : ℝ) ^ k) s.re (2 * Real.pi * t - s.im)‖ by positivity)
   have hb := hsource.trans (mul_le_mul_of_nonneg_left (add_le_add htail hmain) (by positivity))
   exact product_lower_of_fourier_budget _ _ _ _ _ _ _ _ hb hbudget

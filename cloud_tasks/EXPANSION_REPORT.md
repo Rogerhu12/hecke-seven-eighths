@@ -18,7 +18,7 @@ normalized polynomials. Uniform Fourier moments precede all varying scale
 parameters. With terminal height `H = U^21`, the product coefficient mass has
 power `U^84`; the squared dyadic count costs at most `U^2`. Choosing `N` with
 `τ*N ≥ 87` and radius `U^τ/(8π+8)` gives a tail of order at most `U^(-1)`.
-One explicit eventual threshold makes that tail at most `1/8`.
+One explicit eventual threshold makes that tail at most `1/8`. The ambient finite set is enlarged to `nonzeroTerminalSet (6H)` while the actual terminal cutoff remains `H`; the source is proved unchanged, the dyadic cap stays `dyadicCap (3H)`, and the complete annular supports now fit the ambient set. The two coefficient mass bounds are `(18H)^2 * CZ`, which changes only the fixed scalar.
 
 `Expansion.Project.exists_original_masked_product` connects an actual Hecke
 zero to this product with the original mask. Its hypotheses are: a totally
@@ -35,6 +35,23 @@ square upper bounds for the same deleted coefficients. Their remaining
 hypotheses are explicit buffered zero control, fixed infinity type,
 conductor/ideal norm bounds and height geometry. No polynomial upper bound is
 introduced as a premise of those estimates.
+
+`Expansion.Project.exists_original_masked_saturation` now composes the
+actual ordinary zero source with the complete Fourier/Mellin chain. Its
+inputs are positive meromorphic zero order, the same arithmetic and cutoff
+conditions, explicit buffered zero upper control, and the displayed numeric
+height/loss conditions. Terminal-source and polynomial-bound premises are
+both discharged internally. These newest actual endpoints remain under
+native verification.
+
+Two further actual-definition connections are explicit. The finite-fiber
+arithmetic theorem gives one norm threshold excluding pure norm twists
+for every fixed physical background. Choosing identity companions retains
+the four actual numerator/denominator characters. Reflecting inverse
+characters and their zeros before source extraction gives exactly two
+allowed presentations with background `1` or `ψ⁻¹`; inverse and plain use
+the same forward row character. No change to MomentData's permitted plain
+backgrounds is needed.
 
 ## Shared recipe and the remaining obligations
 
@@ -76,8 +93,18 @@ groups permit only `propext`, `Classical.choice`, and `Quot.sound`. The
 separate skeleton group reports all inherited admissions explicitly; success
 of that compilation is not an admission-free correctness claim.
 
-At this initial checkpoint, new terminal and saturation endpoints are still
+At this checkpoint, new terminal and saturation endpoints are still
 under native compilation. The workflow preserves complete logs, including
 failed builds. No whole-project success is claimed until the corresponding
 job has completed. Final per-module results and the exact remaining axiom
 dependencies will be recorded here.
+
+## Repository check status
+
+PR #5 is a draft. The first GitHub Actions run (41155570075) failed before any
+job steps ran; all three job step arrays are empty and job logs are unavailable.
+This is not a Lean compilation result. Pinned action commits were checked against
+the official action repositories. Local native verification continues with
+original module names, source/dependency hashes and recursive axiom checks.
+The native audit driver itself passed a 36-declaration smoke check with zero
+nonstandard dependencies.

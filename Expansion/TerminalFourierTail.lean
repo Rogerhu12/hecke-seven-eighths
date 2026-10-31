@@ -10,6 +10,10 @@ the Fourier constants. One scale threshold then absorbs the complete tail,
 including the two dyadic counts and both actual ideal coefficient masses.
 The terminal source and the two normalized polynomials use the same complete
 multiplicative ideal coefficient; no deleted Euler factor is restored.
+The terminal cutoff remains `H = U^21`, while the polynomial sums run over
+the enlarged ambient set `nonzeroTerminalSet (6*H)`. The same source support
+keeps the dyadic cap at `dyadicCap (3*H)`; every selected annular polynomial
+then has its full support inside the ambient set.
 -/
 
 set_option autoImplicit false
@@ -51,16 +55,16 @@ theorem actual_terminal_product_eventually
         (1 / 8 : ℝ) ≤ ((n + 1 : ℕ) : ℝ) * (n + 1 : ℕ) * C *
           ((2 : ℝ) ^ j) ^ (1 / 2 - s.re) *
           ((2 : ℝ) ^ k) ^ (1 / 2 - s.re) *
-          ‖normalizedPolynomial (nonzeroTerminalSet (U ^ (21 : ℕ)))
+          ‖normalizedPolynomial (nonzeroTerminalSet (6 * U ^ (21 : ℕ)))
               (inverseRawCoefficient w V D) idealNorm annularProfile
               ((2 : ℝ) ^ j) s.re (2 * Real.pi * t - s.im) *
-            normalizedPolynomial (nonzeroTerminalSet (U ^ (21 : ℕ))) w
+            normalizedPolynomial (nonzeroTerminalSet (6 * U ^ (21 : ℕ))) w
               idealNorm annularProfile ((2 : ℝ) ^ k) s.re
               (2 * Real.pi * t - s.im)‖ := by
-  obtain ⟨order, _, hbudget⟩ := exists_terminal_fourier_tail_budget τ hτ
+  obtain ⟨order, _, hbudget⟩ := exists_terminal_fourier_tail_budget_scaled τ hτ
   obtain ⟨C, Corder, hC, hCorder, hproduct⟩ :=
     actual_terminal_supported_product_of_numeric_budget (K := K) V hV hone hzero order
-  obtain ⟨U₀, hU₀, htail⟩ := hbudget CZ Corder hCorder
+  obtain ⟨U₀, hU₀, htail⟩ := hbudget 18 CZ Corder hCorder
   refine ⟨C + 1, U₀, by linarith, hU₀, ?_⟩
   intro U hU w hw hVnorm D hD s hs hsource
   have hUtwo : 2 ≤ U := hU₀.trans hU
@@ -72,7 +76,8 @@ theorem actual_terminal_product_eventually
   have hresult :=
     hproduct w hw hVnorm D (U ^ (21 : ℕ)) (U ^ (20 : ℕ))
       (U ^ τ / (8 * Real.pi + 8)) CZ (1 / 4) hD hH (by positivity) hR hCZ
-      hzeta hCZsum s hs (by norm_num) hsource (by simpa only [pow_two] using hn)
+      hzeta hCZsum s hs (by norm_num) hsource
+        (by simpa only [pow_two, show (1 / 4 : ℝ) / 2 = 1 / 8 by norm_num] using hn)
   obtain ⟨j, hj, k, hk, hsupport, t, ht, hbound⟩ := hresult
   refine ⟨j, hj, k, hk, hsupport, t, ht, ?_⟩
   norm_num only [show (1 / 4 : ℝ) / 2 = 1 / 8 by norm_num] at hbound
@@ -121,10 +126,10 @@ theorem actual_zero_product_eventually
         (1 / 8 : ℝ) ≤ ((n + 1 : ℕ) : ℝ) * (n + 1 : ℕ) * C *
           ((2 : ℝ) ^ j) ^ (1 / 2 - ρ.re) *
           ((2 : ℝ) ^ k) ^ (1 / 2 - ρ.re) *
-          ‖normalizedPolynomial (nonzeroTerminalSet (U ^ (21 : ℕ)))
+          ‖normalizedPolynomial (nonzeroTerminalSet (6 * U ^ (21 : ℕ)))
               (inverseRawCoefficient w V D) idealNorm annularProfile
               ((2 : ℝ) ^ j) ρ.re (2 * Real.pi * t - ρ.im) *
-            normalizedPolynomial (nonzeroTerminalSet (U ^ (21 : ℕ))) w
+            normalizedPolynomial (nonzeroTerminalSet (6 * U ^ (21 : ℕ))) w
               idealNorm annularProfile ((2 : ℝ) ^ k) ρ.re
               (2 * Real.pi * t - ρ.im)‖ := by
   obtain ⟨C, U₁, hC, hU₁, hproduct⟩ :=

@@ -49,6 +49,27 @@ theorem terminal_dyadic_count_le {U : ℝ} (hU : 1 ≤ U) :
   unfold terminalDyadicCountConstant
   nlinarith
 
+/-- Every terminal dyadic scale is at most 6H. Consequently its complete
+smooth annular support lies below 12H; an ambient ideal set with that norm
+cap contains the full polynomial required by Mellin inversion. -/
+theorem two_pow_terminal_dyadicCap_le {H : ℝ} (hH : 1 ≤ H) :
+    (2 : ℝ) ^ dyadicCap (3 * H) ≤ 6 * H := by
+  have hHpos : 0 < H := zero_lt_one.trans_le hH
+  have hlog2 : 0 < Real.log 2 := Real.log_pos (by norm_num)
+  have hquot : 0 ≤ Real.log (3 * H) / Real.log 2 :=
+    div_nonneg (Real.log_nonneg (by linarith)) hlog2.le
+  have hceil := (Nat.ceil_lt_add_one hquot).le
+  have hmul := mul_le_mul_of_nonneg_right hceil hlog2.le
+  have hcancel : (Real.log (3 * H) / Real.log 2 + 1) * Real.log 2 =
+      Real.log (3 * H) + Real.log 2 := by field_simp [hlog2.ne']
+  rw [hcancel] at hmul
+  have hlog : Real.log (3 * H) + Real.log 2 = Real.log (6 * H) := by
+    rw [← Real.log_mul (by positivity : (3 * H : ℝ) ≠ 0) (by norm_num : (2 : ℝ) ≠ 0)]
+    congr 1
+    ring
+  rw [hlog] at hmul
+  exact (Real.pow_le_iff_le_log (by norm_num : (0 : ℝ) < 2) (by positivity)).mpr hmul
+
 /-- The coefficient of the final inverse-power tail. -/
 def terminalFourierTailConstant (CZ Corder : ℝ) (N : ℕ) : ℝ :=
   terminalDyadicCountConstant ^ 2 * 81 * CZ ^ 2 *
@@ -127,5 +148,24 @@ theorem exists_terminal_fourier_tail_budget (θ : ℝ) (hθ : 0 < θ) :
   change C * U ^ (-1 : ℝ) ≤ 1 / 8
   rw [Real.rpow_neg_one, ← div_eq_mul_inv]
   exact (div_le_iff₀ hUpos).mpr (by linarith)
+
+/-- The same order works after enlarging the ambient ideal norm cutoff.
+Only the final constant and threshold change; the dyadic source count and
+the power 87 are retained. `scale=18` accommodates the complete support
+window used by the repaired actual terminal extraction. -/
+theorem exists_terminal_fourier_tail_budget_scaled (θ : ℝ) (hθ : 0 < θ) :
+    ∃ N : ℕ, (87 : ℝ) ≤ θ * N ∧
+      ∀ scale CZ Corder : ℝ, 0 ≤ Corder →
+      ∃ U₀ : ℝ, 2 ≤ U₀ ∧ ∀ U : ℝ, U₀ ≤ U →
+        (((dyadicCap (3 * U ^ (21 : ℕ)) + 1 : ℕ) : ℝ) ^ 2) *
+          ((((scale * U ^ (21 : ℕ)) ^ 2 * CZ) ^ 2) /
+            (U ^ θ / (8 * Real.pi + 8)) ^ N * Corder) ≤ (1 / 8 : ℝ) := by
+  obtain ⟨N, hN, hbudget⟩ := exists_terminal_fourier_tail_budget θ hθ
+  refine ⟨N, hN, ?_⟩
+  intro scale CZ Corder hCorder
+  obtain ⟨U₀, hU₀, htail⟩ := hbudget CZ ((scale / 3) ^ 4 * Corder) (by positivity)
+  refine ⟨U₀, hU₀, ?_⟩
+  intro U hU
+  convert htail U hU using 1 <;> ring
 
 end Expansion.Dyadic
