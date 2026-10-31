@@ -27,6 +27,8 @@ open CanonicalNormPools FirstParentRows FirstOuterCenters FirstCenteredErrorInte
   CommonKernel FirstNormalizedErrorBudget
 open scoped Classical BigOperators nonZeroDivisors
 
+universe uσ
+
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
@@ -34,7 +36,7 @@ variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 def firstDegree (A : ℝ) (hA : 1 ≤ A) (slotCap : ℕ) (pi : ℝ) (hpi : 0 < pi)
     (t : Finset (ℕ × ℕ)) : ℕ :=
   FirstIntegratedReduction.degree
-    (ActualUniformProduction.degree K S D A hA slotCap (pi / 8) (by positivity) t)
+    (ActualUniformProduction.degree.{uσ} K S D A hA slotCap (pi / 8) (by positivity) t)
 
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
@@ -62,10 +64,10 @@ normalized live first total. The only energy premise is the generated
 smaller-piece induction hypothesis. -/
 theorem exists_total_bound (slotCap : ℕ) (A pi tauMin : ℝ)
     (hA : 1 ≤ A) (hpi : 0 < pi) (htauMin : 0 < tauMin)
-    (choice : UniformFirstWeightChoice.Choice K S D (2 * A) (32 * (4 * A)) (pi / 8))
+    (choice : UniformFirstWeightChoice.Choice.{uσ} K S D (2 * A) (32 * (4 * A)) (pi / 8))
     (t : Finset (ℕ × ℕ)) :
     ∃ q : Finset (ℕ × ℕ), ∃ C : ℝ, 0 ≤ C ∧
-      ∀ {σ : Type*} [DecidableEq σ]
+      ∀ {σ : Type uσ} [DecidableEq σ]
         (T : FirstParentEnergy.Data K S (σ := σ)) (hmask : T.mask = ∅)
         (Θ : Subgroup (HeckeCharacter K)) (ψ G : HeckeCharacter K)
         (hν : BackgroundCycle.Admissible K Θ ψ T.columns.background) (hG : G ∈ Θ)
@@ -102,7 +104,7 @@ theorem exists_total_bound (slotCap : ℕ) (A pi tauMin : ℝ)
       ∀ (W : SchwartzMap ℝ ℂ) (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2) (side : Bool),
         FirstNormalizedSource.total K S D Γ T H labels (FirstParentCentering.grid Z A 1)
           centers side R choice.massExponent choice.epsilon Z r ell V Θ ψ G hν hG
-          W hW (firstDegree K S D A hA slotCap pi hpi t) ≤
+          W hW (firstDegree.{uσ} K S D A hA slotCap pi hpi t) ≤
         C * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 * (Cih + 1) *
           Z ^ (r + 3 * ell + V + 40 * eta + tau + pi + eps) := by
   let p0 := pi / 8
@@ -171,6 +173,7 @@ theorem exists_total_bound (slotCap : ℕ) (A pi tauMin : ℝ)
     side Θ ψ G hν hG hbase labels Z M r ell V h tau hZ
     hM.1 hr.2 hell.2 hV.2 hh.1 hh.2 htau.2 htauMin' hwidth hradius hscale hcube
     hlabels hprime hweights hslots W hW (FirstIntegratedReduction.degree m₂)
+  dsimp only at herr
   rw [FirstNormalizedErrorBudget.error_total_eq K S D Γ hΓ μv T H labels grid centers
     side R choice.massExponent choice.epsilon Z r ell V tau Θ ψ G hν hG hbase W hW
     (FirstIntegratedReduction.degree m₂) hz0.le] at herr
