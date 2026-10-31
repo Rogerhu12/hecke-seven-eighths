@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualBoxGeometry
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCenterGeometry
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCenteredGeometry
+import HeckeSkeleton.Moments.MOM_INV_STEP.ActualClosedBoxBudget
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCrossLabels
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualDivisorSectors
 import HeckeSkeleton.Moments.MOM_INV_STEP.ActualFiniteSource
@@ -106,9 +107,11 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMaskGeometry
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMellinEnergy
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMobiusGeometry
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormPoolEnergy
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedReduction
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedSource
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterCenters
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterErrors
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterPhysicalCap
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOverlapColumns
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentCentering
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentEnergy
@@ -236,6 +239,7 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceColumns
 import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss
 import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceMasks
 import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceReindexing
+import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSpectralCost
 import HeckeSkeleton.Moments.MOM_INV_STEP.SexticEvenness
 import HeckeSkeleton.Moments.MOM_INV_STEP.SharpCommonKernelBounds
 import HeckeSkeleton.Moments.MOM_INV_STEP.SmallScaleColumns
@@ -252,7 +256,6 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.UniformSecondPrincipal
 import HeckeSkeleton.Moments.MOM_INV_STEP.UniformSecondTail
 import HeckeSkeleton.Moments.MOM_INV_STEP.UnitGaussTransport
 import HeckeSkeleton.Moments.MOM_INV_STEP.WideMellinTests
-
 /-! Recursive axiom audit for all actual single-step modules. -/
 
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalPoissonSplit.canonicalCubeEnergy_eq_nonprincipal_add_principalSource

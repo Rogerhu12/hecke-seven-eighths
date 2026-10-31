@@ -323,6 +323,24 @@ theorem exists_closed_raw_bound (slotCap : ℕ) (Vcap pi : ℝ)
     hpool hlive hW).trans (mul_le_mul_of_nonneg_left hsum (by norm_num : (0 : ℝ) ≤ 24))
   exact hb.trans_eq (by dsimp only [E, H, exponent, N, Q]; ring)
 
+/-- Restoring the normalization after the proved class conversion
+uses one column and one label factor, with no extra counting cost. -/
+theorem normalized_bound_of_raw (Z N V eps A : ℝ) (hZ : 0 < Z)
+    (slotCap : ℕ) (labels : Finset (Ideal (𝓞 K)))
+    (rows : Finset (Ideal (𝓞 K) × Sector))
+    (F : SecondChild K Sector → ℂ) (γ : OuterTriple K)
+    (hraw : childEnergy slotCap labels rows F γ ≤ A * Z ^ (2 * (N + V) + eps)) :
+    normalizedChildEnergy Z N V slotCap labels rows F γ ≤ A * Z ^ (N + V + eps) := by
+  rw [normalizedChildEnergy_eq Z N V hZ]
+  apply (mul_le_mul_of_nonneg_left hraw (Real.rpow_nonneg hZ.le _)).trans_eq
+  calc
+    Z ^ (-(N + V)) * (A * Z ^ (2 * (N + V) + eps)) =
+        A * (Z ^ (-(N + V)) * Z ^ (2 * (N + V) + eps)) := by ring
+    _ = _ := by
+      rw [← Real.rpow_add hZ]
+      congr 2
+      ring
+
 /-- The complete class conversion, including its true unit-scale
 terminal allowance, fits inside the public physical loss. -/
 theorem closed_physical_power_budget

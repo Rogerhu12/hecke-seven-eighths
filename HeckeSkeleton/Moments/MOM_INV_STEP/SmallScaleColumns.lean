@@ -141,10 +141,8 @@ theorem column_eq_zero_of_surviving_prime (C : ColumnFamily K S σ Θ ψ)
     (hprime : ∀ i ∈ C.survivors γ, ∀ P ∈ C.primeLists i, Prime P) :
     column K S D C sectorUnit γ f k = 0 := by
   rw [column_eq_unit K S D C sectorUnit γ f k hW hU hsmall]
-  split_ifs
-  · rw [divisorMark_one_eq_zero K (C.survivors γ) C.primeLists C.primeWeights hslots hprime]
-    simp only [mul_zero, zero_mul]
-  · rfl
+  rw [divisorMark_one_eq_zero K (C.survivors γ) C.primeLists C.primeWeights hslots hprime]
+  split_ifs <;> simp only [mul_zero, zero_mul]
 
 
 private theorem idealSymbol_norm_le_one (n : Ext) (x : Set.integer S K) :
@@ -187,8 +185,9 @@ theorem column_norm_le_seminorm (C : ColumnFamily K S σ Θ ψ)
   · have hempty : C.survivors γ = ∅ :=
       Finset.eq_empty_iff_forall_notMem.mpr (fun i hi => hs ⟨i, hi⟩)
     rw [column_eq_unit K S D C sectorUnit γ f k hW hU hsmall]
-    split_ifs
-    · have ha := CoefficientCycle.canonicalCoefficient_norm hcal (unitIdeal K S)
+    by_cases hu : unitIdeal K S ∈ C.columns γ
+    · rw [if_pos hu]
+      have ha := CoefficientCycle.canonicalCoefficient_norm hcal (unitIdeal K S)
         (show Squarefree (unitIdeal K S).val.val from squarefree_one)
       have hν := norm_heckeIdealCoefficient_le_one K (C.background γ) (unitIdeal K S).val
       have hm : ‖(if IsCoprime (1 : Ideal (𝓞 K)) (childPuncture C.originalPuncture γ)
@@ -202,7 +201,7 @@ theorem column_norm_le_seminorm (C : ColumnFamily K S σ Θ ψ)
         _ ≤ 1 * 1 * 1 * 1 * 1 ^ 4 * 1 *
             SchwartzMap.seminorm ℝ 0 0 (C.cutoff γ) := by gcongr
         _ = _ := by ring
-    · simpa only [norm_zero] using
+    · simpa only [if_neg hu, norm_zero] using
         (apply_nonneg (SchwartzMap.seminorm ℝ 0 0) (C.cutoff γ))
 
 /-- The literal positive child energy is bounded by its actual row

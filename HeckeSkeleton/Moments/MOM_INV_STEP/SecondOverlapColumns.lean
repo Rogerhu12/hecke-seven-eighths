@@ -128,8 +128,9 @@ theorem actual_marked_overlap (Λ ν : HeckeCharacter K) (g z v f I : Ext) (ξ :
             W (((residual K S z v).val.val.absNorm : ℝ) / (X / (v.val.val.absNorm : ℝ)))) := by
   have he : g.val.val * z.val.val =
       (g.val.val * v.val.val) * (residual K S z v).val.val := by
-    rw [(FirstSourceDecomposition.squarefree_divisor_decomposition z.val v.val hz hv).1,
-      mul_assoc]
+    have hzv : z.val.val = v.val.val * (residual K S z v).val.val :=
+      (FirstSourceDecomposition.squarefree_divisor_decomposition z.val v.val hz hv).1
+    simpa only [mul_assoc] using congrArg (fun I : Ideal (𝓞 K) => g.val.val * I) hzv
   unfold markedColumnTerm
   rw [extract_overlap K S Γ D hallowed Λ ν z v f I ξ hz hv,
     residual_norm_argument K S z v hz hv X, he,

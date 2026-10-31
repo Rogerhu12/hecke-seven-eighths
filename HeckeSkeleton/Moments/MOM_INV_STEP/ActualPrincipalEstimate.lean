@@ -108,11 +108,15 @@ theorem exists_actual_principal_bound (slotCap p : ℕ) (ε : ℝ) (hε : 0 < ε
       (hn _ hn₂) (hb _ hb₂) (hlabel _ hb₂ f hfl) (hcut _ hn₂) ha
     have hpair : ‖pairWeight K S D C f x‖ ≤
         (Ac * β * W * (X * H ^ 3) ^ ε) ^ 2 := by
-      rw [pairWeight, norm_mul, norm_conj, pow_two]
+      rw [pairWeight, norm_mul, Complex.norm_conj, pow_two]
       exact mul_le_mul hcol₁ hcol₂ (norm_nonneg _) (by positivity)
     have hnorm : (Q.absNorm : ℝ) *
         ((x.1.1.val.val * x.2.1.val.val * x.1.2.val.val * x.2.2.val.val).absNorm : ℝ) ≤
         Qmax * H ^ 2 * X ^ 2 := by
+      have hb₁norm := hb _ hb₁
+      have hb₂norm := hb _ hb₂
+      have hn₁norm := hn _ hn₁
+      have hn₂norm := hn _ hn₂
       simp only [map_mul, Nat.cast_mul]
       calc
         _ ≤ Qmax * (H * H * X * X) := by gcongr <;> assumption
@@ -201,7 +205,8 @@ theorem exists_actual_physical_principal_bound
     (Real.rpow_nonneg hZpos.le _) (Real.rpow_nonneg hZpos.le _) hW hAweight
     hQ hQnorm hPQ hcap ha hsf hn hb hf hlabel hcut hw0 hw
   have hzero := zeroEnvelope_physical_scale K S Γ μv φ h Z M hZ hM
-  have hscaled := mul_le_mul_of_nonneg_left hbnd (Real.rpow_nonneg hZpos.le _)
+  have hscaled := mul_le_mul_of_nonneg_left hbnd
+    (Real.rpow_nonneg hZpos.le (-r - 2 * ell - Vlabel))
   have hbudget := physical_marked_principal_budget Z hZ M r ell Vlabel eta ε
     Qexp betaLoss allowance hallow
   have hconst : 0 ≤ A * Aweight * W ^ 2 * zeroProfileSize K S Γ μv φ h := by

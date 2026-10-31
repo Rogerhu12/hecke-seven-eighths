@@ -197,8 +197,8 @@ theorem canonicalNonprincipalRetained_eq_sub (C : ColumnData K S σ) (f : Ext)
   intro p hp
   by_cases he : activeSupport (pairSupport K S D p.1.2 p.2.2 p.1.1 p.2.1).support
       (pairExponent K S p.1.2 p.2.2 p.1.1 p.2.1) = ∅
-  · simp only [he, not_true_eq_false, if_false, if_true, zero_add]
-  · simp only [he, not_false_eq_true, if_true, if_false, add_zero]
+  · simp [he]
+  · simp [he]
 
 variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
   [BorelSpace (FiniteAdeleRing (𝓞 K) K)]

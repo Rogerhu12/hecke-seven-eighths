@@ -181,6 +181,55 @@ theorem normalized_branch_eq (o : OuterIndex K S D T)
     FirstToSecondData.triple FirstToSecondData.label
   ring
 
+private theorem reorder_centers_marks {α β κ : Type*} [Fintype κ] [Fintype β]
+    (P : Finset α) (F : κ → α → β → ℝ) :
+    (∑ k : κ, ∑ J ∈ P, ∑ i : β, F k J i) =
+      ∑ i : β, ∑ k : κ, ∑ J ∈ P, F k J i := by
+  calc
+    _ = ∑ k : κ, ∑ i : β, ∑ J ∈ P, F k J i := by
+      apply Finset.sum_congr rfl
+      intro k hk
+      exact Finset.sum_comm
+    _ = _ := Finset.sum_comm
+
+/-- Exact normalization and assembly of the full live first source.
+The physical weight is evaluated before any logarithmic norm estimate,
+and each center receives only its actual arithmetic source. -/
+theorem normalized_freeTotal_eq (hZ : 0 ≤ Z) :
+    Z ^ (-r - 2 * ell - V) *
+      FirstLiveCappedFreeEnergy.freeTotal K S D Γ T Θ ψ G hν hG
+        H L grid centers W hW m side R massEps ε =
+    ((T.columns.slots.powerset.card : ℝ) * (rowCovolume K S)⁻¹ * mellinMass W hW) *
+      ∑ k : ι, ∑ J ∈ T.columns.slots.powerset,
+        spectralAverage (MellinSeparation.density W hW) m (signedCoordinate side)
+          (sourceAt K S D Γ T H L grid centers side R massEps ε Z r ell V
+            Θ ψ G hν hG k J) := by
+  simp_rw [sourceAverage_eq K S D Γ T H L grid centers side R massEps ε
+    Z r ell V Θ ψ G hν hG W hW m hZ]
+  rw [reorder_centers_marks]
+  simp only [Fintype.sum_sigma]
+  unfold FirstLiveCappedFreeEnergy.freeTotal
+  rw [Finset.mul_sum, Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro o ho
+  rw [Finset.sum_comm (s := Finset.univ) (t := Finset.univ)]
+  by_cases halive : FirstLiveCappedFreeEnergy.alive K S D Γ T H L o
+  · simp only [if_pos halive, mul_assoc, Finset.mul_sum]
+    apply Finset.sum_congr rfl
+    intro k hk
+    apply Finset.sum_congr rfl
+    intro e he
+    by_cases hassigned : centers.assignment side o e = k
+    · simp only [if_pos hassigned, Finset.mul_sum]
+      apply Finset.sum_congr rfl
+      intro J hJ
+      have heq := normalized_branch_eq K S D Γ T grid centers side R massEps ε
+        Z r ell V Θ ψ G hν hG W hW m o e k J
+      simpa only [liveWeight, if_pos ⟨halive, hassigned⟩,
+        FirstLiveCappedFreeEnergy.freeRowIntegral_eq_capped, mul_assoc] using heq
+    · simp [hassigned, liveWeight]
+  · simp [halive, liveWeight]
+
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedSource
 
 end

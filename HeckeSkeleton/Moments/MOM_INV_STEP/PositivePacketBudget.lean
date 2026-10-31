@@ -105,7 +105,7 @@ theorem exists_centered_positive_budget
       (secondFormalLabel B theta v j + 4 * h) eps Cchild hz
       slotCap P.labels P.rows F γ
       (by simpa only [add_assoc] using hF γ hγ)
-    simpa only [E, add_assoc] using hb
+    simpa only [ReconstructionPacket.energy, E, add_assoc] using hb
   have hp := (positiveEnergy_le P F (Cchild * Z ^ E) hraw).trans
     (mul_le_mul_of_nonneg_left hmass' (by positivity))
   have hscaled := mul_le_mul_of_nonneg_left hp

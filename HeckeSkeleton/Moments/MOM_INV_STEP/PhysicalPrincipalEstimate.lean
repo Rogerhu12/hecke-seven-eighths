@@ -61,6 +61,10 @@ theorem exists_physical_principal_bound (slotCap p : ℕ) (ε : ℝ) (hε : 0 < 
         A * Aweight * (β * W) ^ 2 *
           absoluteRowMass K Sset Γ φ (sIntegerFiniteTestFunction K S h) R *
           X * H ^ (1 + ε) * Y ^ (1 + ε) * (X * H ^ 3) ^ (2 * ε) := by
+  letI : ∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K) :=
+    fun v => borel (v.adicCompletion K)
+  letI : ∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K) :=
+    fun _ => ⟨rfl⟩
   obtain ⟨Ac, hAc, hcolumn⟩ := exists_uniform_column_bound K S D slotCap ε hε
   obtain ⟨Ap, hAp, hprincipal⟩ := exists_weighted_principal_bound K S D p ε hε
   refine ⟨Ap * Ac ^ 2, one_le_mul_of_one_le_of_one_le hAp (one_le_pow₀ hAc), ?_⟩
@@ -86,7 +90,7 @@ theorem exists_physical_principal_bound (slotCap p : ℕ) (ε : ℝ) (hε : 0 < 
       (hn _ hn₂) (hb _ hb₂) (hlabel _ hb₂ f hfl) (hcut _ hn₂) ha
     have hpair : ‖pairWeight K S D C f x‖ ≤
         (Ac * β * W * (X * H ^ 3) ^ ε) ^ 2 := by
-      rw [pairWeight, norm_mul, norm_conj, pow_two]
+      rw [pairWeight, norm_mul, Complex.norm_conj, pow_two]
       exact mul_le_mul hcol₁ hcol₂ (norm_nonneg _) (by positivity)
     have hp : ‖(primitivePairBlock K S D Γ hΓ x.1 x.2 φ h hlc hcs M R).physical‖ ≤ z :=
       principal_physical_norm_le_profile_mass K S D Γ hΓ
@@ -194,7 +198,8 @@ theorem exists_actual_physical_principalSource_bound
     (Real.one_le_rpow hZ hr) (Real.one_le_rpow hZ hell) (Real.one_le_rpow hZ hV)
     (Real.rpow_nonneg hZpos.le _) hW hAweight hcap ha hsf hn hb hf hlabel hcut hw0 hw
   have hmass := hm φ Z M hZ hM
-  have hscaled := mul_le_mul_of_nonneg_left hbnd (Real.rpow_nonneg hZpos.le _)
+  have hscaled := mul_le_mul_of_nonneg_left hbnd
+    (Real.rpow_nonneg hZpos.le (-r - 2 * ell - Vlabel))
   have hbudget := physical_source_principal_budget Z hZ M r ell Vlabel eta ε
     rowEps betaLoss allowance hallow
   have hconst : 0 ≤ (Ap * Am) * Aweight * W ^ 2 *

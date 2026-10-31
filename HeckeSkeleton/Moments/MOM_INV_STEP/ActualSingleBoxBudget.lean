@@ -28,6 +28,42 @@ open FixedTripleFibers FixedTripleEnergy FirstParentRows FirstToSecondData Commo
   CanonicalNormPools ActualProductionBoxes ActualBoxGeometry
 open scoped Classical BigOperators nonZeroDivisors
 
+/-- The divisor-count exponent is chosen from the a priori bounded
+window, before any source ideal or norm-box coordinate is known. -/
+def countingExponent (L hcap pi : ℝ) : ℝ := pi / (9 * L + 6 * hcap + 1)
+
+theorem countingExponent_pos (L hcap pi : ℝ)
+    (hL : 0 ≤ L) (hhcap : 0 ≤ hcap) (hpi : 0 < pi) :
+    0 < countingExponent L hcap pi := by
+  unfold countingExponent
+  exact div_pos hpi (by linarith)
+
+theorem counting_loss_le (L hcap pi : ℝ)
+    (hL : 0 ≤ L) (hhcap : 0 ≤ hcap) (hpi : 0 < pi)
+    (Z : ℝ) (hZ : 1 < Z) (ell h : ℝ) (hell : ell ≤ L) (hh : h ≤ hcap)
+    (j : BoxIndex Z L) :
+    countingExponent L hcap pi *
+      (secondCount ell (length Z j .activeConductor) (length Z j .cubeLabel)
+        (length Z j .firstOverlap) (length Z j .secondCommon)
+        (length Z j .secondDivisor) + 11 * h / 2) ≤ pi := by
+  have he := countingExponent_pos L hcap pi hL hhcap hpi
+  have hbound : secondCount ell (length Z j .activeConductor) (length Z j .cubeLabel)
+      (length Z j .firstOverlap) (length Z j .secondCommon)
+      (length Z j .secondDivisor) + 11 * h / 2 ≤ 9 * L + 6 * hcap + 1 := by
+    have hR := (length_bounds Z L hZ hL j .activeConductor).2
+    have hJ := (length_bounds Z L hZ hL j .cubeLabel).1
+    have ht := (length_bounds Z L hZ hL j .firstOverlap).2
+    have hg := (length_bounds Z L hZ hL j .secondCommon).2
+    have htheta := (length_bounds Z L hZ hL j .secondDivisor).1
+    unfold secondCount
+    linarith
+  calc
+    _ ≤ countingExponent L hcap pi * (9 * L + 6 * hcap + 1) :=
+      mul_le_mul_of_nonneg_left hbound he.le
+    _ = pi := by
+      unfold countingExponent
+      field_simp [show 9 * L + 6 * hcap + 1 ≠ 0 by linarith]
+
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
@@ -65,7 +101,8 @@ theorem exists_uniform_radialWeight_bound (lengthCap pi : ℝ)
   let Q := data K S D T Θ ψ G hν hG hbase R U J s i.1 i.2.1
   let Q' := SecondAdaptiveRetained.dataAt K S D Γ Q (H₂ i.1) i.2.2.1
   exact hbound Q' Z Rexp Lexp hZ hRexp hLexp (hR i.1)
-    (by simpa only [Q', SecondAdaptiveRetained.dataAt, Q, data_scale_eq] using hU)
+    (by change sourceScale K S T U ≤ Z ^ Lexp
+        rwa [sourceScale_eq K S T hbase U])
     (SecondAdaptiveRetained.oldIndexAt K S D Γ Q (H₂ i.1) i.2.2.1)
 
 variable {σ : Type*} [DecidableEq σ]
@@ -411,6 +448,23 @@ theorem packet_puncture_bound (ell Q V : ℝ)
     (Pslice.image Eidx) Z L ell h hZ hh hwidth hb hfirst hsecond hcube j
     Rho hRho Q V hV hL hRhoNorm side₁ (Eidx i) hr
 
+include hZ in
+theorem packet_puncture_nonneg (Rho : Ideal (𝓞 K)) (hRho : Rho ≠ 0) :
+    ∀ γ ∈ packet.triples,
+      0 ≤ Real.logb Z (Ideal.absNorm (childPuncture Rho γ).radical : ℝ) := by
+  intro γ hγ
+  obtain ⟨B,hB,rfl⟩ := ActualPacketProvenance.triple_member K S T.columns D Γ
+    hprime hweights J₁ J₂ hJ₁ hJ₂
+    (FirstProductionChildren.sourceOn K S D Γ T Θ ψ G hν hG hbase
+      R U J₁ s H₂ hmask Pbox) side₁ slotCap hcap γ hγ
+  have hp : childPuncture Rho B.outer ≠ 0 :=
+    mul_ne_zero hRho (SourceLengths.radical_ne_zero _
+      (mul_ne_zero (mul_ne_zero B.outer_nonzero.1 B.outer_nonzero.2.1) B.outer_nonzero.2.2))
+  have hn : 0 < Ideal.absNorm (childPuncture Rho B.outer).radical :=
+    Nat.pos_of_ne_zero (fun he => SourceLengths.radical_ne_zero _ hp
+      (Ideal.absNorm_eq_zero_iff.mp he))
+  exact Real.logb_nonneg hZ (by exact_mod_cast hn)
+
 include hZ hh hwidth hb hfirst hsecond in
 /-- Every real frozen triple has the two canonical margins and strict
 row-length decrease. The center errors, lower live scale, common gap,
@@ -533,6 +587,62 @@ theorem sourceIntegral_le_smaller_children
         (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)
     · exact integral_nonneg (fun p =>
         mul_nonneg (SecondProductionIntegral.jointDensity_nonneg s m p) (hCchild p))
+
+/-- Exact full production assembly with the first activity and center
+indicator moved into every reconstructed box. No outer source count is
+introduced, and all second bin and mark choices are retained. -/
+theorem actualTotal_weightOn_eq_boxes (m : ℕ) (side₂ : Bool) :
+    SecondProductionIntegral.actualTotal K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂
+      (SecondProductionRestriction.weightOn K S D T w
+        (fun o e => alive o ∧ centers.assignment side₁ o e = k))
+      ε side₁ m side₂ =
+      SecondProductionIntegral.cauchyMass K S T J₁ s *
+        ∑ b : SecondMobiusGeometry.Index X, ∑ J₂ ∈ (T.columns.slots \ J₁).powerset,
+          ∑ j : BoxIndex Z L,
+            SecondProductionIntegral.sourceIntegral K S D Γ T Θ ψ G hν hG hbase
+              R U J₁ s H₂ w ε side₁ m side₂
+              (boxedSource K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
+                grid centers alive k side₁ Finset.univ b Z L j) b J₂ := by
+  rw [SecondProductionRestriction.actualTotal_weightOn]
+  apply congrArg (fun z : ℝ => SecondProductionIntegral.cauchyMass K S T J₁ s * z)
+  apply Finset.sum_congr rfl
+  intro b hb
+  apply Finset.sum_congr rfl
+  intro J₂ hJ₂
+  exact SecondProductionBoxes.sourceIntegral_eq_normBoxes K S D Γ T Θ ψ G hν hG hbase
+    R U J₁ s H₂ hmask w ε side₁ m side₂
+    (slice K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ grid centers alive k side₁ Finset.univ b)
+    b J₂ Z L
+
+/-- A numerical majorant may be summed over the actual boxes after the
+source theorem has supplied it. This finite aggregation retains each
+original second marked subset and each actual frequency bin. -/
+theorem actualTotal_weightOn_le_boxes (m : ℕ) (side₂ : Bool)
+    (B : SecondMobiusGeometry.Index X → Finset σ → BoxIndex Z L → ℝ)
+    (hB : ∀ b : SecondMobiusGeometry.Index X, ∀ J₂ ∈ (T.columns.slots \ J₁).powerset,
+      ∀ j : BoxIndex Z L,
+        SecondProductionIntegral.sourceIntegral K S D Γ T Θ ψ G hν hG hbase
+          R U J₁ s H₂ w ε side₁ m side₂
+          (boxedSource K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
+            grid centers alive k side₁ Finset.univ b Z L j) b J₂ ≤ B b J₂ j) :
+    SecondProductionIntegral.actualTotal K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂
+      (SecondProductionRestriction.weightOn K S D T w
+        (fun o e => alive o ∧ centers.assignment side₁ o e = k))
+      ε side₁ m side₂ ≤
+      SecondProductionIntegral.cauchyMass K S T J₁ s *
+        ∑ b : SecondMobiusGeometry.Index X, ∑ J₂ ∈ (T.columns.slots \ J₁).powerset,
+          ∑ j : BoxIndex Z L, B b J₂ j := by
+  rw [actualTotal_weightOn_eq_boxes K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
+    grid centers alive k side₁ Z L w ε m side₂]
+  apply mul_le_mul_of_nonneg_left _
+    (mul_nonneg (Nat.cast_nonneg _)
+      (SecondMellinEnergy.mellinMass_nonneg
+        (SecondProductionIntegral.mellinTest s) (SecondProductionIntegral.mellinTest_support s)))
+  apply Finset.sum_le_sum
+  intro b hb
+  apply Finset.sum_le_sum
+  intro J₂ hJ₂
+  exact Finset.sum_le_sum (fun j _ => hB b J₂ hJ₂ j)
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.ActualSingleBoxBudget
 
