@@ -100,7 +100,17 @@ theorem decomposedFrequencyRow_mul_sixth (u : NonzeroIdeal K)
       exteriorSixthPowerFreePart S (⟨u, hu⟩ : ExteriorIdeal K S) := by
     apply Subtype.ext
     exact sixthPowerFreePart_mul_sixth u a.val
-  simp only [decomposedFrequencyRow, hi]
+  have sameRow {x y : FrequencyRow K S}
+      (hideal : x.ideal = y.ideal) (hsector : x.sector = y.sector) : x = y := by
+    cases x with
+    | mk xi hx xs =>
+      cases y with
+      | mk yi hy ys =>
+        dsimp only at hideal hsector
+        cases hideal
+        cases hsector
+        rfl
+  exact sameRow hi rfl
 
 /-- Character invariance for the existing constructor, with all original
 sectors retained.  This is an equality of actual Hecke characters. -/

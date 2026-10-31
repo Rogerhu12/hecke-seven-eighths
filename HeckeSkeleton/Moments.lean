@@ -3,6 +3,8 @@ import HeckeGeneral.Analysis.TInputParameterUniformMoments
 import HeckeSkeleton.HighArithmeticInputs
 import HeckeAxiom.QuadraticSieve
 import CubicSieve.Complete
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorReindex
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
 
 /-! Exploratory actual I/P pipeline, revised §§4–5 and §7.
 This file intentionally contains named admissions. None is native verified.
@@ -199,7 +201,7 @@ structure SourceRowEligibility (M : SourceMomentModels K c) : Prop where
   paired_finite_slots : ∀ Z T (i : SourceMomentIndex K c Z T) s j,
     FiniteOrder ((pairedModel M i s).slotCoefficient j)
 
-/-- Uniform control of each one-variable slice at every finite order.
+/-- Uniform control of every ideal-test and prime-window slice at every finite order.
 This statement does NOT assert mixed parameter derivatives or locality.
 Those requirements of the full profile family remain to be split out of
 the coarse canonical-recursion obligations; slice bounds do not imply them. -/
@@ -210,10 +212,7 @@ def WholeMomentProfileControl (M : SourceMomentModels K c) : Prop :=
       ∀ s (ξ : Fin M.dimension → ℝ) σ τ,
         ‖ξ‖ ≤ T → (∀ u, ‖σ u‖ ≤ 8) → (∀ u, ‖τ u‖ ≤ 1 + ‖ξ‖) →
         ∀ d ∈ [M.inverse Z T i s ξ σ τ, M.paired Z T i s ξ σ τ],
-        ∀ W ∈ [d.inverseTest, d.plainTest₁, d.plainTest₂], ∀ u,
-          ContDiff ℝ ∞ (W.profile u 0) ∧
-          (∀ y, W.profile u 0 y ≠ 0 → a ≤ y ∧ y ≤ b) ∧
-          testSeminorm (W.profile u 0) J A ≤ C * (1 + T) ^ H
+          Moments.UniformAmplify.ModelProfileControl d J A C H a b T
 
 variable (K) (c : TargetContext K)
 
@@ -497,7 +496,29 @@ theorem moment_finite_sector_reindex
       physicalInverseEnergy i ≤ markedModelEnergy (momentModels K c) i ∧
       physicalPlainEnergy i ≤ pairedModelEnergy (momentModels K c) i ∧
       physicalUnmarkedEnergy i ≤ amplifiedModelEnergy (momentModels K c) i := by
-  sorry
+  intro Z T i
+  refine ⟨?_, ?_, ?_⟩
+  · exact Moments.UniformAmplify.inverse_finite_sector_reindex
+      (momentWitness i).rows (fun u => u.ideal.val) (fun u => u.sector)
+      (inverseModel (momentModels K c) i) (inverseParameters i) (momentBase i) 0
+      (momentWitness i).inverseValue
+      (fun u => ∏ j ∈ i.selected, (momentAmplitude i).slotValue j u)
+      hrows.fiber (fun u hu => by
+        simpa only [inverseParameters, Real.rpow_one] using hrows.inverse_rows Z T i u hu)
+      (hcal.inverse Z T i) (hcal.inverse_slots Z T i)
+  · exact Moments.UniformAmplify.paired_finite_sector_reindex
+      (momentWitness i).rows (fun u => u.ideal.val) (fun u => u.sector)
+      (pairedModel (momentModels K c) i) (pairedParameters i) (momentBase i) 0
+      (momentWitness i).plainValue
+      (fun u => ∏ j ∈ i.selected, (momentAmplitude i).slotValue j u)
+      hrows.fiber (hrows.paired_rows Z T i)
+      (hcal.plain₁ Z T i) (hcal.plain₂ Z T i) (hcal.paired_slots Z T i)
+  · exact Moments.UniformAmplify.unmarked_finite_sector_reindex
+      (momentWitness i).rows (fun u => u.ideal.val) (fun u => u.sector)
+      (unmarkedModel (momentModels K c) i) (momentBase i)
+      ((momentBase i) ^ (momentWitness i).inverseLength) 0
+      (momentWitness i).inverseValue hrows.fiber
+      (hrows.unmarked_rows Z T i) (hcal.unmarked Z T i)
 
 variable {K c}
 

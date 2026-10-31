@@ -19,6 +19,46 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  pure:
+    name: Pure numerical proofs and axiom audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      LEAN_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Install the pinned Lean environment and caches
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'true'
+      - name: Compile and audit the independent numerical proofs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/mom-uniform-amplify-pure"
+          {
+            git rev-parse HEAD
+            lake env lean --version
+            git -C .lake/packages/mathlib rev-parse HEAD
+          } | tee "$RUNNER_TEMP/mom-uniform-amplify-pure/environment.log"
+          lake build HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.PureAudit 2>&1 |
+            tee "$RUNNER_TEMP/mom-uniform-amplify-pure/build.log"
+          lake env lean HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/PureAudit.lean 2>&1 |
+            tee "$RUNNER_TEMP/mom-uniform-amplify-pure/axioms.log"
+      - name: Preserve independent numerical proof evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-uniform-amplify-pure-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mom-uniform-amplify-pure/
+          if-no-files-found: warn
+          retention-days: 14
+
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 360
@@ -54,12 +94,14 @@ jobs:
           lake env lean HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/Audit.lean 2>&1 |
             tee "$RUNNER_TEMP/mom-uniform-amplify/axioms.log"
       - name: Compile the original skeleton adapter
+        if: always()
         shell: bash
         run: |
           set -euo pipefail
           lake build HeckeSkeleton.Moments 2>&1 |
             tee "$RUNNER_TEMP/mom-uniform-amplify/skeleton-build.log"
       - name: Check the six original task names against the same axiom allowlist
+        if: always()
         shell: bash
         run: |
           set -euo pipefail
@@ -79,8 +121,14 @@ jobs:
               'HeckeSkeleton.inverse_amplified_witness_models',
           ]
           source = directory / 'OriginalTaskAxioms.lean'
+          source_dependencies = [
+              'HeckeSkeleton.SourceMomentIndex',
+              'HeckeSkeleton.SourceMomentModels',
+              'HeckeSkeleton.momentModels',
+          ]
           source.write_text('import HeckeSkeleton.Moments\n' +
-                            ''.join(f'#print axioms {name}\n' for name in names))
+                            ''.join(f'#print axioms {name}\n'
+                                    for name in source_dependencies + names))
           result = subprocess.run(['lake', 'env', 'lean', str(source)],
                                   text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
           (directory / 'original-target-axioms.log').write_text(result.stdout)

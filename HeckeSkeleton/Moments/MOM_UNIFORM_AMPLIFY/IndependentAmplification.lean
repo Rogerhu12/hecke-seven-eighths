@@ -13,6 +13,9 @@ that input.
 
 The resulting witness estimate is uniform over the whole bounded length
 interval: its preliminary losses and constant are chosen before `U` and `r`.
+Its spectral set is fixed before the constant.  Polynomial control for a
+spectral set growing with the physical scale requires a quantitative height
+version of the complete-row seed; it does not follow from compact uniformity.
 -/
 
 noncomputable section
@@ -28,8 +31,8 @@ variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 variable (τ : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
-/-- A correctly quantified replacement for the arithmetic core of
-`MI-I-AMPLIFIED-WITNESS-CALIBRATION`, on the actual ideal orbit polynomial.
+/-- Uniform witness-scale energy on actual ideal orbits, throughout one
+bounded interval of lengths and one fixed compact set of spectral parameters.
 The complete-row scale-supremum seed is an explicit dependency of the
 canonical inverse induction. -/
 theorem actual_witness_energy

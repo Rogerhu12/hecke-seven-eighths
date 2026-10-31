@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorReindex
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FinitePropagation
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.InterfaceObstructions
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceGeometry
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.Eligibility
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerMasks
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.IndependentAmplification
@@ -15,8 +16,8 @@ open Lean Elab Command in
 run_cmd do
   let env ← getEnv
   let prefix := `HeckeSkeleton.Moments.UniformAmplify
-  let names := (env.constants.toList.filterMap fun (name, _) =>
-    if prefix.isPrefixOf (privateToUserName name) then some name else none).toArray.qsort Name.lt
+  let names := (env.constants.fold (init := (#[] : Array Name)) fun acc name _ =>
+    if prefix.isPrefixOf (privateToUserName name) then acc.push name else acc).qsort Name.lt
   unless names.size > 0 do
     throwError "The MOM_UNIFORM_AMPLIFY namespace is missing"
   let required : Array Name := #[
@@ -24,10 +25,12 @@ run_cmd do
     `HeckeSkeleton.Moments.UniformAmplify.modelProfileControl_prime,
     `HeckeSkeleton.Moments.UniformAmplify.ReductionTree.propagate,
     `HeckeSkeleton.Moments.UniformAmplify.log_power_absorption,
+    `HeckeSkeleton.Moments.UniformAmplify.blockSource_witness_geometry,
     `HeckeSkeleton.Moments.UniformAmplify.paired_rows_eventual_eligibility,
     `HeckeSkeleton.Moments.UniformAmplify.decomposedZeroSlotMomentData_sixthPowerMasks,
     `HeckeSkeleton.Moments.UniformAmplify.actual_witness_energy,
-    `HeckeSkeleton.Moments.UniformAmplify.witness_bound_of_independent_bound]
+    `HeckeSkeleton.Moments.UniformAmplify.witness_bound_of_independent_bound,
+    `HeckeSkeleton.Moments.UniformAmplify.uniform_witness_calibration]
   for name in required do
     unless names.contains name do
       throwError "Missing task theorem: {name}"
@@ -51,3 +54,6 @@ run_cmd do
 #print axioms HeckeSkeleton.Moments.UniformAmplify.decomposedZeroSlotMomentData_sixthPowerMasks
 #print axioms HeckeSkeleton.Moments.UniformAmplify.actual_witness_energy
 #print axioms HeckeSkeleton.Moments.UniformAmplify.witness_bound_of_independent_bound
+
+#print axioms HeckeSkeleton.Moments.UniformAmplify.uniform_witness_calibration
+#print axioms HeckeSkeleton.Moments.UniformAmplify.blockSource_witness_geometry

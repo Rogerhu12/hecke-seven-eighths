@@ -1,6 +1,7 @@
 import HeckeGeneral.Analysis.MomentInputs
 import HeckeGeneral.Analysis.SixthPowerFreeFactorization
 import ArithmeticFrequencyRowCharacterFibers
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceGeometry
 
 /-!
 # Numerical regions and eventual eligibility of the actual frequency rows
@@ -23,6 +24,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.Analysis.SquarefreeAmplification
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
+open HeckeGeneral.ThetaSkeleton.TIP
 open scoped Classical BigOperators
 
 /-- The revised paired region retains the full interval up to one and the
@@ -33,9 +35,9 @@ def FullPRegion (a : RealParameters) : Prop :=
 
 /-- A positive loss supplies both strict inverse margins. -/
 theorem inverse_region_of_capacity
-    (r z λ κ : ℝ) (hr : 0 ≤ r) (hz : 0 ≤ z) (hλ : 0 < λ)
-    (hfirst : r + 2 * z ≤ 1 - 2 * λ)
-    (hsecond : 2 * r + 8 * z ≤ 3 - 2 * λ) :
+    (r z lam κ : ℝ) (hr : 0 ≤ r) (hz : 0 ≤ z) (hlam : 0 < lam)
+    (hfirst : r + 2 * z ≤ 1 - 2 * lam)
+    (hsecond : 2 * r + 8 * z ≤ 3 - 2 * lam) :
     MIRegion ⟨1, r, z, 0, 0, 0, κ⟩ := by
   refine ⟨zero_le_one, hr, hz, ?_, ?_⟩ <;> dsimp <;> linarith
 
@@ -59,6 +61,33 @@ theorem paired_region_zero_slot
     (B m r q n₁ n₂ : ℝ) (hB : 7 / 8 ≤ B) (hB' : B ≤ 1) :
     FullPRegion ⟨m, r, 0, q, n₁, n₂, 2 * B - 1⟩ := by
   refine ⟨by dsimp; linarith, by dsimp; linarith, Or.inl rfl⟩
+
+/-- A genuine high-bin witness supplies the nonnegative lengths used by
+both region tests.  The caller retains its exact inverse and paired
+capacity inequalities, including the full endpoint `B = 1`. -/
+theorem blockSource_moment_regions
+    {Row : Type} {g : PrimeWindowGeometry} {b : ModerateBlock Row g.slots}
+    {B lam k Z : ℝ} (hb : BlockSource g b B lam k Z)
+    (hB : 7 / 8 ≤ B) (hB' : B ≤ 1) (hlam : 0 < lam)
+    (hbin : 51 / 100 < b.bin) (ℓ : b.Label) (t : ℝ)
+    (ht : 1 ≤ t) (ht' : t ≤ 3 / 2)
+    (j : Fin ((b.amplitudeSet ℓ).subdivisionCount t))
+    (I : Finset (Fin g.slots)) :
+    let r := ((b.amplitudeSet ℓ).subdivision t j).inverseLength
+    let n := ((b.amplitudeSet ℓ).subdivision t j).plainLength
+    let z := ∑ _j ∈ I, HeckeGeneral.ThetaSkeleton.TIP.slotLength g.slots b.shell
+    (r + 2 * z ≤ 1 - 2 * lam ∧ 2 * r + 8 * z ≤ 3 - 2 * lam →
+      MIRegion ⟨1, r, z, 0, 0, 0, 2 * B - 1⟩) ∧
+    (2 * n + 6 * (2 * B - 1) * z ≤ 1 →
+      FullPRegion ⟨1, 0, z, 0, n, n, 2 * B - 1⟩) := by
+  dsimp only
+  have hr := (blockSource_witness_lengths hb hbin ℓ t ht ht' j).1
+  have hz := blockSource_selected_length_nonneg hb I
+  constructor
+  · rintro ⟨hfirst, hsecond⟩
+    exact inverse_region_of_capacity _ _ _ _ hr hz hlam hfirst hsecond
+  · intro hcapacity
+    exact paired_region_of_capacity _ _ _ hB hB' hz hcapacity
 
 variable {K : Type} [Field K] [NumberField K]
 variable {S : Set (HeightOneSpectrum (𝓞 K))} [Fintype S]
