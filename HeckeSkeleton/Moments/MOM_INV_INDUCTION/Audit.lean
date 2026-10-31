@@ -1,0 +1,37 @@
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.Uniform
+
+/-!
+Clean declarations only.  The original skeleton target is checked
+separately in `OriginalAudit.lean`, and is not certified by this list.
+-/
+
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.exists_descentBudget
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.branch_length_lt_depth
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.budget_margin
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.budget_initial_loss
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.budget_combined_loss
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.terminal_ledger_saving
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.finite_descent
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonical_finite_descent
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.normalized_prefactor_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.step_energy_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonical_energy_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonical_energy_polynomial_height
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.terminal_energy_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.normalized_label_energy_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.terminal_normalized_label_energy_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.initial_children_margins
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.initial_normalized_prefactor_le
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.initial_energy_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonical_energy_from_ledger
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CanonicalDatum.energy_nonneg
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CanonicalDatum.energy_eq_rpow_neg_totalLength
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CanonicalDatum.energy_le_of_terminal_labels
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.CanonicalInputs.energy_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.inverse_energy_of_reductions
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonical_inverse_models
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.independent_scale_parameters
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.all_scales_of_bounded_and_eventual
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonical_unmarked_inverse
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.uniform_canonical_inverse_models
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.uniform_canonical_unmarked_inverse
