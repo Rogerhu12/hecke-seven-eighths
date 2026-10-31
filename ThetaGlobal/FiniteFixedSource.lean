@@ -2,6 +2,7 @@ import ThetaGlobal.FiniteProjectedFullSource
 import DedekindZetaZeroFree.Theta.Profiles.CanonicalSphericalRealization
 import DedekindZetaZeroFree.Theta.Periods.SphericalRealizationAndCommonGerms
 import DedekindZetaZeroFree.Theta.Whittaker.FirstRootNondegeneracy
+import DedekindZetaZeroFree.RepresentationTheory.Jacquet.ComplexWhittakerLine
 import DedekindZetaZeroFree.HarmonicAnalysis.Haar.TraceCharactersAndGaussShifts
 
 /-!
@@ -51,7 +52,8 @@ theorem normalized_spherical_factorization_full
     (hLocal : FiniteFullProduct.LocalArchRatio R A.factorization) :
     ∃ B : JointExteriorCoefficientSources R N, SourceNativeLie R B.factorization ∧
       FiniteFullProduct.FullArchProduct R B.factorization ∧
-      FiniteFullProduct.LocalArchRatio R B.factorization ∧ B.sources.dq = A.sources.dq ∧
+      FiniteFullProduct.LocalArchRatio R B.factorization ∧
+      FiniteFullProduct.LocalWhittakerForms R B.factorization ∧ B.sources.dq = A.sources.dq ∧
       (∀ v, B.realization.theta v = tensorFunction R A.factorization D.tensor.stage P.entries) ∧
       (∀ v, (B.sources.flat v).val 0 ≠ 0) ∧
       (∀ v, B.realization.theta v ≠ 0) ∧
@@ -119,13 +121,31 @@ theorem normalized_spherical_factorization_full
   have hElocal : FiniteFullProduct.LocalArchRatio R E := by
     simpa only [FiniteFullProduct.LocalArchRatio, FiniteFullProduct.archRatio,
       FiniteCoreProduct.stageCoefficient, FiniteCoreProduct.stageFunction, E, L.dq_exact] using hLocal
+  have hEforms : FiniteFullProduct.LocalWhittakerForms R E := by
+    intro w
+    refine ⟨D.localForm w, ?_, D.restriction w⟩
+    intro t v
+    have hx := D.whittaker w (Multiplicative.ofAdd
+      ((KPReferenceChange.StandardComplexImage.coordinate R.A w).symm t)) v
+    change D.localForm w
+        (KPActualReflectionData.StandardLocalSource.complexRootAction R.A w
+          (Multiplicative.ofAdd
+            ((KPReferenceChange.StandardComplexImage.coordinate R.A w).symm t)) v) =
+      (KPActualReflectionData.StandardLocalSource.complexRawPsi w).toAddChar
+        ((KPReferenceChange.StandardComplexImage.coordinate R.A w).symm t) *
+          D.localForm w v at hx
+    rw [KPActualReflectionData.StandardLocalSource.complexRootAction_apply,
+      KPActualReflectionData.StandardLocalSource.complexRawPsi_trace,
+      KPReferenceChange.StandardComplexImage.trace_character R.A w,
+      (KPReferenceChange.StandardComplexImage.coordinate R.A w).apply_symm_apply t] at hx
+    exact hx
   let B : JointExteriorCoefficientSources R N := {
     toJointRootAlignedSources := B5
     realization := T
     factorization := E
     localHaarTransport := ?_
     exterior := ⟨A.exterior.rational_exact, A.exterior.crt_product, A.exterior.local_exact⟩ }
-  · refine ⟨B, hNative, hEfull, hElocal, L.dq_exact, hpin, L.source_nonzero, ?_, ?_⟩
+  · refine ⟨B, hNative, hEfull, hElocal, hEforms, L.dq_exact, hpin, L.source_nonzero, ?_, ?_⟩
     · intro v
       rw [hpin]
       exact P.realization_nonzero
@@ -148,10 +168,11 @@ theorem spherical_seed_full
     ∃ B : FirstRootSphericalSeed R N,
       SourceNativeLie R B.base.factorization ∧
       FiniteFullProduct.FullArchProduct R B.base.factorization ∧
-      FiniteFullProduct.LocalArchRatio R B.base.factorization := by
+      FiniteFullProduct.LocalArchRatio R B.base.factorization ∧
+      FiniteFullProduct.LocalWhittakerForms R B.base.factorization := by
   obtain ⟨P⟩ := normalizedSphericalTensor_nonempty R A D
   obtain ⟨L⟩ := sphericalFlatPreimages_nonempty R A D P
-  obtain ⟨B, hB, hF, hL, hdq, hpin, _, _, _⟩ :=
+  obtain ⟨B, hB, hF, hL, hForms, hdq, hpin, _, _, _⟩ :=
     normalized_spherical_factorization_full R A D P L hNative hFull hLocal
   let B' : FirstRootSphericalSeed R N := {
     base := B
@@ -162,7 +183,7 @@ theorem spherical_seed_full
       intro v y hy
       rw [hdq, hpin v]
       exact P.spherical_near y hy }
-  exact ⟨B', hB, hF, hL⟩
+  exact ⟨B', hB, hF, hL, hForms⟩
 
 theorem canonical_transport_full
     (R : PrincipalMellin.ActualRecipe S η) (hR : RootAligned R)
@@ -202,16 +223,17 @@ structure Source (R : PrincipalMellin.ActualRecipe S η)
   native : SourceNativeLie R projected.base.factorization
   fullArchProduct : FiniteFullProduct.FullArchProduct R projected.base.factorization
   localArchRatio : FiniteFullProduct.LocalArchRatio R projected.base.factorization
+  localWhittakerForms : FiniteFullProduct.LocalWhittakerForms R projected.base.factorization
 
 theorem source_nonempty (R : PrincipalMellin.ActualRecipe S η) (hR : RootAligned R)
     (θ : HeckeGeneral.Characters.HeckeCharacter F) : Nonempty (Source R θ) := by
   obtain ⟨N⟩ := trace_haar_transport_exists R hR
   obtain ⟨A, hNative, hFull, hLocal, ⟨D⟩⟩ := canonical_transport_full R hR N
-  obtain ⟨A', hNative', hFull', hLocal'⟩ := spherical_seed_full R N A D hNative hFull hLocal
+  obtain ⟨A', hNative', hFull', hLocal', hForms'⟩ := spherical_seed_full R N A D hNative hFull hLocal
   obtain ⟨B⟩ := first_root_cutoffs_exist R
-  obtain ⟨B', J, hker, hNative'', hFull'', hLocal''⟩ :=
-    FiniteProjectedFullSource.target_projector_full R hR N A' B hNative' hFull' hLocal' θ
-  exact ⟨⟨N, A', B', J, hker, hNative'', hFull'', hLocal''⟩⟩
+  obtain ⟨B', J, hker, hNative'', hFull'', hLocal'', hForms''⟩ :=
+    FiniteProjectedFullSource.target_projector_full R hR N A' B hNative' hFull' hLocal' hForms' θ
+  exact ⟨⟨N, A', B', J, hker, hNative'', hFull'', hLocal'', hForms''⟩⟩
 
 def source (R : PrincipalMellin.ActualRecipe S η) (hR : RootAligned R)
     (θ : HeckeGeneral.Characters.HeckeCharacter F) : Source R θ :=
@@ -224,6 +246,22 @@ theorem Source.period_nonzero (R : PrincipalMellin.ActualRecipe S η)
   rw [← ThetaExpansion.diagonal_one R, C.projected.radial]
   exact FiniteWhittakerProjectors.radialProfile_one_ne_zero R C.projected.cutoffs
 
+/-- A high K-type core vector detected by any actual Whittaker functional
+is also detected by this fixed source's stored archimedean functional. -/
+theorem Source.archimedean_nonzero (R : PrincipalMellin.ActualRecipe S η)
+    (θ : HeckeGeneral.Characters.HeckeCharacter F) (C : Source R θ)
+    (w : InfinitePlace F)
+    (M : KPCplxActualImage.Theta FourierContinuation.ComplexLines.traceFrequency →L[ℂ] ℂ)
+    (hM : M ∈ KPCplxWhittakerUnique.whittakerSpace
+      FourierContinuation.ComplexLines.traceFrequency FourierContinuation.ComplexLines.traceCharacter)
+    (v : KPGlobalResidualConstruction.complexCore)
+    (hv : M (FourierContinuation.ComplexLines.harmonicInclusion v) ≠ 0) :
+    C.projected.base.factorization.ell (Sum.inl w) v ≠ 0 :=
+  FiniteFullProduct.local_value_nonzero_of_whittaker R C.projected.base.factorization
+    C.localWhittakerForms w M hM v hv
+
 end ThetaGlobal.FiniteFixedSource
 
 #print axioms ThetaGlobal.FiniteFixedSource.source_nonempty
+
+#print axioms ThetaGlobal.FiniteFixedSource.Source.archimedean_nonzero

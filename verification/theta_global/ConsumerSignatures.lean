@@ -4,9 +4,9 @@ import Lean.Util.CollectAxioms
 /-!
 # THETA_GLOBAL consumer signatures
 
-These checks retain the explicit archimedean input through Principal, Moments,
-and Main. They check the actual consumer types and calls after the native
-Main dependency closure has been built.
+These checks use the canonical archimedean input selected inside Theta.
+They check Principal, Moments and Main without an extra local-data parameter
+after the native Main dependency closure has been built.
 
 The consumers still depend on unrelated, pre-existing skeleton admissions.
 Their axiom reports therefore allow `sorryAx` and are compatibility records,
@@ -33,53 +33,49 @@ section FixedContext
 
 variable (K : Type) [Field K] [NumberField K] (c : TargetContext K)
 
-example (L : LocalHighKMellinInput K c)
+example
     (hreflection : MarkedCoefficientReflectionInput K (places K c)
-      (probeData K c).arithmetic (HeckeSkeleton.finiteMellinData K c L)
+      (probeData K c).arithmetic (HeckeSkeleton.finiteMellinData K c)
       (thetaPeriod K (places K c) (probeData K c) (targetCharacter K c))) :
     CompletedMarkedEnergy K c :=
-  HeckeSkeleton.completedMarkedEnergy K c L hreflection
+  HeckeSkeleton.completedMarkedEnergy K c hreflection
 
-example (L : LocalHighKMellinInput K c) :
+example :
     (probeMeasures K c).principalInput (probeData K c) (targetCharacter K c)
       c.geometry (rayFilter K c) :=
-  HeckeSkeleton.principalSource K c L
+  HeckeSkeleton.principalSource K c
 
-example (L : LocalHighKMellinInput K c)
+example
     (hcal : SourcePolynomialCalibration (momentRowCharacters K c) (momentModels K c))
     (hrows : SourceRowEligibility (momentModels K c))
     (hprofiles : WholeMomentProfileControl (momentModels K c))
     (hquadratic : QuadraticSieveBound K c) (hcubic : CubicSieveBound K c)
     (hreflection : MarkedCoefficientReflectionInput K (places K c)
-      (probeData K c).arithmetic (HeckeSkeleton.finiteMellinData K c L)
+      (probeData K c).arithmetic (HeckeSkeleton.finiteMellinData K c)
       (thetaPeriod K (places K c) (probeData K c) (targetCharacter K c))) :
     CanonicalInverseModelBounds (momentModels K c) :=
-  HeckeSkeleton.canonical_inverse_models K c L hcal hrows hprofiles
+  HeckeSkeleton.canonical_inverse_models K c hcal hrows hprofiles
     hquadratic hcubic hreflection
 
-example (L : LocalHighKMellinInput K c) :
+example :
     ISource c.geometry (targetData K c) c.family.lamA :=
-  HeckeSkeleton.inverseSource K c L
+  HeckeSkeleton.inverseSource K c
 
-example (L : LocalHighKMellinInput K c) :
+example :
     TSource c.geometry (targetCharacter K c) (targetData K c)
       c.family.B c.family.lamA c.lamB :=
-  HeckeSkeleton.sourceT K c L
+  HeckeSkeleton.sourceT K c
 
 end FixedContext
 
 example (K : Type) [Field K] [NumberField K]
-    (zeta : K) (hzeta : IsPrimitiveRoot zeta 12) (omega : HeckeCharacter K)
-    (localData : ∀ c : TargetContext K, LocalHighKMellinInput K c) :
+    (zeta : K) (hzeta : IsPrimitiveRoot zeta 12) (omega : HeckeCharacter K) :
     TIPInput K omega :=
-  HeckeSkeleton.familyInputs K zeta hzeta omega localData
+  HeckeSkeleton.familyInputs K zeta hzeta omega
 
--- The endpoint retains only the explicit archimedean local package.
--- Checking the complete function type also detects an extra premise.
-example :
-    (∀ (F : Type) [Field F] [NumberField F] (c : TargetContext F),
-      Nonempty (LocalHighKMellinInput F c)) →
-    GeneralHeckeSevenEighths :=
+-- The complete endpoint type has no additional local-package premise.
+-- Its unrelated pre-existing admissions remain recorded below.
+example : GeneralHeckeSevenEighths :=
   @HeckeSkeleton.generalHeckeSevenEighths_skeleton
 
 open Lean Elab Command in

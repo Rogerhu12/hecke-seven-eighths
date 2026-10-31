@@ -7,8 +7,9 @@ import ThetaGlobal.LocalDigitSource
 The literal fixed-profile seed and the actual annular transfer now meet
 in one theorem. Finite Mellin admissibility is constructed from the same
 source, cutoff vectors and Haar transport, so it is not an additional
-hypothesis. The only local boundary is the one-place archimedean Mellin
-package. The fixed source supplies its exterior digit table constructively.
+hypothesis. These generic helpers accept the one-place archimedean Mellin
+package; the public Theta entry obtains it from `LocalArchSource`.
+The fixed source supplies its exterior digit table constructively.
 -/
 
 set_option autoImplicit false

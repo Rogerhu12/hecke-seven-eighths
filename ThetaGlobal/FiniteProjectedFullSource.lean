@@ -39,10 +39,12 @@ theorem projected_factorization_full
     (hn : ∀ v, fourier R Q'.dq (T'.theta v) 1 ≠ 0)
     (hNative : SourceNativeLie R A.factorization)
     (hFull : FiniteFullProduct.FullArchProduct R A.factorization)
-    (hLocal : FiniteFullProduct.LocalArchRatio R A.factorization) :
+    (hLocal : FiniteFullProduct.LocalArchRatio R A.factorization)
+    (hForms : FiniteFullProduct.LocalWhittakerForms R A.factorization) :
     ∃ D' : SourceFactorization R Q' T', SourceNativeLie R D' ∧
       FiniteFullProduct.FullArchProduct R D' ∧
       FiniteFullProduct.LocalArchRatio R D' ∧
+      FiniteFullProduct.LocalWhittakerForms R D' ∧
       (∀ q, D'.finiteData q = A.factorization.finiteData q) ∧
       (∀ q, (D'.finiteData q).haar = (A.factorization.finiteData q).haar) ∧
       ExteriorCoefficients R Q' T' D' := by
@@ -80,7 +82,7 @@ theorem projected_factorization_full
   have hLocal' : FiniteFullProduct.LocalArchRatio R D' := by
     simpa only [FiniteFullProduct.LocalArchRatio, FiniteFullProduct.archRatio,
       FiniteCoreProduct.stageCoefficient, FiniteCoreProduct.stageFunction, D', hdq] using hLocal
-  refine ⟨D',hNative,hFull',hLocal',fun _ => rfl,fun _ => rfl,?_⟩
+  refine ⟨D',hNative,hFull',hLocal',hForms,fun _ => rfl,fun _ => rfl,?_⟩
   exact ⟨A.exterior.rational_exact,A.exterior.crt_product,A.exterior.local_exact⟩
 
 end Projected
@@ -93,10 +95,12 @@ theorem finite_projector_full
     (N : TraceHaarTransport R) (A : FirstRootSphericalSeed R N) (B : FirstRootCutoffs R)
     (hNative : SourceNativeLie R A.base.factorization)
     (hFull : FiniteFullProduct.FullArchProduct R A.base.factorization)
-    (hLocal : FiniteFullProduct.LocalArchRatio R A.base.factorization) :
+    (hLocal : FiniteFullProduct.LocalArchRatio R A.base.factorization)
+    (hForms : FiniteFullProduct.LocalWhittakerForms R A.base.factorization) :
     ∃ J : FirstRootProjected R N A B, SourceNativeLie R J.base.factorization ∧
       FiniteFullProduct.FullArchProduct R J.base.factorization ∧
-      FiniteFullProduct.LocalArchRatio R J.base.factorization := by
+      FiniteFullProduct.LocalArchRatio R J.base.factorization ∧
+      FiniteFullProduct.LocalWhittakerForms R J.base.factorization := by
   obtain ⟨C,I,inst,c,t,he,hle,hsub,hcut⟩ := FiniteWhittakerProjectors.cutoff_word_exists R A B
   letI := inst
   obtain ⟨Q,T,hdq,hpin⟩ := projected_realization R  hR A.base I c t
@@ -129,7 +133,8 @@ theorem finite_projector_full
   have hn (v : R.A.UnitQuotient) : fourier R Q.dq (T.theta v) 1 ≠ 0 := by
     rw [← hd1,hrad]
     exact FiniteWhittakerProjectors.radialProfile_one_ne_zero R C
-  obtain ⟨D,hDN,hDF,hDL,hM,hH,E⟩ := projected_factorization_full R A.base I c t T hdq hpin hn hNative hFull hLocal
+  obtain ⟨D,hDN,hDF,hDL,hDForms,hM,hH,E⟩ :=
+    projected_factorization_full R A.base I c t T hdq hpin hn hNative hFull hLocal hForms
   let base : JointExteriorCoefficientSources R N := {
     aligned := hR
     transport := N
@@ -142,7 +147,7 @@ theorem finite_projector_full
       rw [A.base.transport_exact] at hh
       exact hh.trans (congrArg (fun μ => ENNReal.ofReal (PoissonS.integerVolume F q) • μ) (hH q).symm)
     exterior := E }
-  exact ⟨⟨C,he,hle,hsub,base,hrad⟩,hDN,hDF,hDL⟩
+  exact ⟨⟨C,he,hle,hsub,base,hrad⟩,hDN,hDF,hDL,hDForms⟩
 
 /-- Shrink inside the actual target character kernel, run the actual
 projector, and retain the full arbitrary-vector archimedean product. -/
@@ -152,16 +157,20 @@ theorem target_projector_full
     (hNative : SourceNativeLie R A.base.factorization)
     (hFull : FiniteFullProduct.FullArchProduct R A.base.factorization)
     (hLocal : FiniteFullProduct.LocalArchRatio R A.base.factorization)
+    (hForms : FiniteFullProduct.LocalWhittakerForms R A.base.factorization)
     (θ : HeckeGeneral.Characters.HeckeCharacter F) :
     ∃ (B' : FirstRootCutoffs R) (J : FirstRootProjected R N A B'),
       (∀ p z, z ∈ J.cutoffs.cutoff p →
         HeckeGeneral.Characters.localComponent F p.val θ z = 1) ∧
       SourceNativeLie R J.base.factorization ∧
       FiniteFullProduct.FullArchProduct R J.base.factorization ∧
-      FiniteFullProduct.LocalArchRatio R J.base.factorization := by
+      FiniteFullProduct.LocalArchRatio R J.base.factorization ∧
+      FiniteFullProduct.LocalWhittakerForms R J.base.factorization := by
   obtain ⟨B', he, hle, hker⟩ := TargetFiniteCutoff.target_cutoffs_exist R θ B
-  obtain ⟨J, hNative', hFull', hLocal'⟩ := finite_projector_full R hR N A B' hNative hFull hLocal
-  exact ⟨B', J, fun p z hz => hker p z (J.cutoff_le p hz), hNative', hFull', hLocal'⟩
+  obtain ⟨J, hNative', hFull', hLocal', hForms'⟩ :=
+    finite_projector_full R hR N A B' hNative hFull hLocal hForms
+  exact ⟨B', J, fun p z hz => hker p z (J.cutoff_le p hz),
+    hNative', hFull', hLocal', hForms'⟩
 
 end ThetaGlobal.FiniteProjectedFullSource
 

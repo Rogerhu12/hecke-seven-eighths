@@ -1,43 +1,45 @@
-# THETA_GLOBAL implementation and verification record
+# THETA_GLOBAL — actual fixed-source construction
 
-## Current status
+**Source implementation wired; complete native validation remains pending.**
+This revision constructs the canonical archimedean high K-type input L
+and finite-place digit certificate H on the same actual fixed source.
+The public Theta, Principal, Moments and Main interfaces require neither
+L/localData nor H/localDigits. Generic constructors retain their local
+parameters, and the original explicit `hkernel` on `marked_reflection`
+remains.
 
-This is a source implementation on `codex/theta-global-20261030`, with
-project dependency validation still in progress.
-It is not a claim that the repository's seven-eighths endpoint is proved.
-The upstream skeleton contains unrelated admissions that this work does
-not discharge.
+The five target source implementations are connected to the actual finite
+shell coefficients, coefficient dictionaries and analytic reflection
+assembly. Their native dependency build and recursive axiom checks have
+not completed. The unrelated admissions in the upstream seven-eighths
+skeleton remain; removing an added local premise from Main does not prove
+the full endpoint without admissions.
 
 ### Continuation on 2026-10-31
 
-The continuation restores every file of PR head
-`4988fbd89fde953539b77c9930ebe9fd206fb0ea` by its Git blob hash and incorporates
-the upstream changes through `556fd33068f5914887e850ed2dce9e9272d9b8c2`.
-It subsequently incorporates the low-hybrid merge through
-`6e67559f4285ab833a746db021a0d73200e47590`, preserving its 20 changed
-files by their exact Git blob hashes. All three workflows, including the
-new upstream low-hybrid workflow, use `cancel-in-progress: true`.
-The original task is preserved in `docs/THETA_GLOBAL_TASK.md`; it explicitly
-permits the archimedean high K-type/Mellin and exterior-prime digit results
-as local assumptions. The continuation now constructs the exterior-prime
-digit certificate from the same actual fixed source and the merged local
-theorems. The archimedean high K-type/Mellin package remains an explicit
-input. The new local chain still awaits native compilation and axiom checks.
+The continuation restores PR head
+`4988fbd89fde953539b77c9930ebe9fd206fb0ea` by its Git blob hashes and
+incorporates upstream changes through
+`556fd33068f5914887e850ed2dce9e9272d9b8c2`, then the low-hybrid merge
+`6e67559f4285ab833a746db021a0d73200e47590`, preserving the latter's 20
+changed files by exact Git blob hashes. All three workflows retain
+`cancel-in-progress: true`. The original task remains in
+`docs/THETA_GLOBAL_TASK.md` and explicitly permits local archimedean and
+exterior-digit inputs. Both local chains in this revision use actual repository definitions
+and proved local results to construct those inputs.
 
-`LocalGammaOrientation` records the character inversion convention at the
-level of the actual Hecke parameters. The expanded native gate also checks
-the coefficient-shell specification, its two normalization constants,
-the fixed source, and the returned `markedReflection` package. It contains
-five target checks plus 16 interface checks, all with the strict standard-axiom
-allowlist. A separate early `LocalDigitAudit.lean` checks 12 declarations
-in the new arithmetic/evaluation/average chain.
-
-The modified `Principal`, `Moments`, and `Main` consumers receive a separate
-native build followed by `ConsumerSignatures.lean`. That file checks all
-seven affected consumer declarations against their complete expected
-types and reports their existing axioms. Its allowlist includes the
-pre-existing `sorryAx`; the Theta entry gate continues to reject it.
-These added checks are pending until their exact native run succeeds.
+`EntryAudit.lean` retains the original 21 strict checks and
+adds 28, for **49 = 5 target + 44 interface checks**. The separate early
+`LocalDigitAudit.lean` remains a 12-declaration strict gate. The seven
+`ConsumerSignatures.lean` types are updated in this revision, with
+their existing `sorryAx` allowance retained for unrelated skeleton proofs.
+The existing 35-minute early `lake build`, without `--fail-fast`, builds
+`LocalArchHaar` and `LocalArchBounds` alongside `LocalDigitAverage`, followed
+by an additional
+4-minute `LocalArchAnalyticAudit` for eight declarations (six Haar and
+two bounds). The build-stage order and 330-minute actual-entry limit
+remain unchanged; explicit step timeouts total 309 minutes. These are
+configured checks, not recorded successes.
 
 ### Native module compatibility
 
@@ -66,121 +68,177 @@ transition; subsequent import corrections remain visible in commit history.
 The complete statements and local-input fields are recorded in
 [`THETA_GLOBAL_STATEMENTS.md`](THETA_GLOBAL_STATEMENTS.md).
 
-The task targets five declarations in `HeckeSkeleton/Theta.lean`:
+The five target declarations in `HeckeSkeleton/Theta.lean` are:
 
-| Target | Source implementation | Validation |
+| Target | Source implementation | Validation scope |
 | --- | --- | --- |
-| `finiteMellinData` | Constructed from the actual fixed projected source; an explicit local high K-type input supplies the archimedean vectors and Mellin pairs. | Project dependency build pending. |
-| `finite_valuation_cutoff` | Derived from the actual local rotated shell bounds. | Project dependency build pending. |
-| `finite_valuation_decay` | Derived from the actual local rotated shell bounds. | Project dependency build pending. |
-| `marked_reflected_absolute` | Replaced by the three-ideal arithmetic majorant proof. | `ThetaGlobal.ReflectedAbsoluteProject.marked_reflected_absolute` passed the 188-module transformed source-body check and strict axiom gate. The `HeckeSkeleton.marked_reflected_absolute` entry and its actual-source dependency closure remain pending native validation. |
-| `marked_reflection` | The actual frequency seed is converted to the literal marked seed using the direct/reflected coefficient dictionaries and support reindexing, then transferred to arbitrary annular tests. Connected to the original entry point with the explicit archimedean input and a constructed finite-place digit certificate. | Project dependency build pending. |
+| `finiteMellinData` | `FiniteSkeletonSource.data K c (localHighKMellinInput K c)`, on the same fixed projected source. | Canonical-L source wired; full native closure pending. |
+| `finite_valuation_cutoff` | The original actual local rotated-shell bound at the same canonical input. | Full native entry validation pending. |
+| `finite_valuation_decay` | The original actual local rotated-shell decay at the same canonical input. | Full native entry validation pending. |
+| `marked_reflected_absolute` | The existing three-ideal arithmetic majorant applied to the canonical finite table and constructed kernel. | The generic actual-project result passed its historical 188-module transformed check; the changed public entry and full closure remain pending. |
+| `marked_reflection` | Actual frequency seed, coefficient dictionaries and supported reindexing, followed by annular transfer; canonical L and H are selected internally. The original `hkernel` remains explicit. | Source wired; full native recursive axiom gate pending. |
 
-No new `sorry`, `axiom`, or `native_decide` is introduced in `ThetaGlobal`.
-This syntactic check does not replace elaboration or an axiom audit.
+The new local proof sources introduce no direct `sorry`, `axiom`, or `native_decide` in
+the new local proof chain. This source property does not certify elaboration
+or absence of inherited admissions; the native gate must establish that.
 
 ## Arithmetic choice and normalization
 
-`HeckeSkeleton.complexEmbedding` aligns the family's primitive twelfth root
-before `HeckeSkeleton.axiomChoice` is made. `GlobalSameChoice` constructs the theta recipe
-with exactly that choice's arithmetic set, complement, correction data,
-embedding and allowed-generator section. It does not independently
-enlarge or reselect the arithmetic data when switching to the target
-infinity type.
+The existing `HeckeSkeleton.complexEmbedding` aligns the family's
+primitive twelfth root before `axiomChoice`. `GlobalSameChoice` then uses
+that choice's arithmetic set, complement, correction, embedding and
+allowed-generator section throughout. `RootAligned` is derived at the
+fixed skeleton entry, not supplied as a new user premise.
 
-The source is selected before the local high K-type data. The finite
-target-character projector preserves the source factorization and its
-actual archimedean ratios. `FiniteSkeletonSource.coefficient_shell_spec`
-displays each returned table entry as the literal integral of the rotated
-KP vector, target local period, power-class mask and unit Haar measure.
+`thetaFiniteSource K c` is chosen before the canonical high K-type vector.
+The implementation keeps the source's actual factorization, projector and Haar
+data and retains an additional local certificate already proved by its
+spherical construction. The constructor does not select another source.
+`LocalHighKMellinInput K c` unfolds to `FiniteLocalHighK.Input` at exactly
+the recipe, period character and fixed source used by
+`LocalArchSource.localHighKMellinInput`; the adapter needs no cast or new
+type-equality hypothesis.
 
-The direct local profile uses the positive infinite component of the
-target character; the reflected profile uses its inverse and the Weyl
-action. Write `ρ = heckeComplexParameter`; the repository convention is
-`τ = archRadial = -ρ`. Their Gamma factors therefore have radial signs
-`-iτ = +iρ` and `+iτ = -iρ`, respectively. Evaluating the direct transform at `-s` yields the literal
-denominator Gamma factors of `reflectionMultiplier`.
+The actual direct coefficient multiplies the positive infinite component
+of θ; reflection multiplies its inverse and applies Weyl. The implementation
+root vector has the angular weight of θ⁻¹, and applies the merged local
+direct/reflected formulas at θ⁻¹. Write ρ = heckeComplexParameter and
+τ = archRadial = -ρ: the two Gamma factors have radial signs -iτ and +iτ.
+The direct product is `archGammaProduct θ⁻¹`; the reflected product is
+`archGammaProduct θ`. Evaluating the direct transform at -s gives the
+existing denominator of `reflectionMultiplier`; its definition is unchanged.
 
-Both global profiles are divided by the same actual `W_x(1)` and reflected
-Mellin constant. `W_x(1)` is retained throughout the two orbit evaluations
-and cancelled only after their common nonzero scalar has been identified.
-The constants of the finite Mellin datum are derived as
+At each place let ν be the source's actual angular Haar measure, let
+κ = besselKThird(4π) > 0, and use the weight and parameter of θ⁻¹. The
+source local constants are exactly
 
 ```
-A₀ = product of the local positive scales
+scale = archScale(4π) = 4 / (4π)^2
+directConstant = (ν(univ)).toReal * archDirectConstant(4π, weight, parameter) / κ
+reflectedConstant = (ν(univ)).toReal * archReflectedConstant(4π, weight, parameter) / κ.
+```
+
+No probability or 2π normalization is imposed on ν. Its finite positive
+mass is retained by the radial Haar pushforward and in both constants.
+The unchanged generic finite-table normalization therefore specializes to
+
+```
+A₀ = product of these local positive scales
 C₀ = actual finite cutoff volume * product(direct constants)
      / product(reflected constants).
 ```
 
-## Remaining archimedean input and constructed exterior digits
+`FiniteSkeletonSource.coefficient_shell_spec` still displays each table
+entry as the literal integral of the rotated KP vector, target local
+period, power-class mask and unit Haar measure. Both global profiles use
+the same actual W_x(1) and reflected Mellin constant. W_x(1) is cancelled
+only after the common nonzero scalar has been identified.
 
-`FiniteLocalHighK.Input R θ C` specifies, at each actual infinite place:
+## Canonical archimedean construction
 
-- a vector in the actual complex core and a continuous Whittaker functional
-  in the actual completed representation;
-- nonvanishing at that vector, including the stored source functional;
-- a positive scale and nonzero direct/reflected Mellin constants;
-- weighted local Haar integrability and pointwise bounds;
-- the two displayed one-place Mellin formulas.
+The seven new modules have the following concrete roles. Their source implementations are wired into the public entry; successful
+native validation of the complete chain remains pending.
 
-`GlobalProjectLocalDigitTables.Input R D Adata` is a proposition about one
-exterior place at a time. It states the spherical diagonal formula, the
-nonzero-residue digit average of the actual matrix `A(x) W N(-s/g_p)`, the
-zeroth Weyl/Gauss normalization and the finite forward Fourier mask.
-The continuation fills all four fields from repository theorems on the same
-source. The zero digit and the marked average are then derived, using the
-actual compact invariance and `q⁻¹ = δ₀ - digitMask₀`.
-
-| New module | Actual connection |
+| Module | Actual construction |
 | --- | --- |
-| `ThetaGlobal.LocalDigitArithmetic` | Identifies the recipe’s residue character and additive phase with its own arithmetic datum, then connects the spherical table, zeroth Weyl scalar and forward mask to `ThetaLocal.ProjectFinite`. |
-| `ThetaGlobal.LocalDigitEvaluation` | Computes the actual reference coefficient at `A(x) W N(-s/g_p)` using only `JointExteriorCoefficientSources`, including its factorization, spherical values and root alignment. |
-| `ThetaGlobal.LocalDigitAverage` | Sums the nonzero residue lifts and applies the proved finite-field phase-separation formula. |
-| `ThetaGlobal.LocalDigitInput` | Identifies that actual matrix coefficient with `GlobalProjectDigitProduct.localDigit` and fills all four existing fields. |
-| `ThetaGlobal.LocalDigitSource` | Proves `thetaRecipe_arithmeticData` for the same allowed-generator choice and constructs `HeckeSkeleton.localExteriorDigitInput` on `thetaFiniteSource`. |
+| `ThetaGlobal.LocalArchRootCore` | Lifts the actual root-string vector into `complexCore` using harmonic sections and Weyl invariance; proves its `harmonicInclusion` and actual continuous Jacquet value. |
+| `ThetaGlobal.LocalArchProfile` | Uses the inverse-character angular weight, actual completion-to-complex isometry and diagonal/Weyl action to identify both normalized local profiles. |
+| `ThetaGlobal.LocalArchHaar` | Pushes the literal completion-unit Haar measure along norm-squared, retaining angular mass, and transports the positive-axis `dt/t` Mellin integral. |
+| `ThetaGlobal.LocalArchMellin` | Combines the proved local Mellin pair with those exact profile and measure identities, with the correct direct/reflected Gamma signs. |
+| `ThetaGlobal.LocalArchBounds` | Proves actual Bessel monotonicity from the Schlafli integral and derives whole-positive-axis power bounds from Mellin integrability. |
+| `ThetaGlobal.LocalArchInput` | Divides the bounds by the actual nonzero Bessel value and fills all 17 existing input fields. |
+| `ThetaGlobal.LocalArchSource` | Instantiates that constructor at the same already selected `thetaFiniteSource K c`. |
 
-The construction uses the existing `C.exterior.rational_exact` certificate
-for the diagonal values. Its nonzero-digit calculation requires no packet,
-global Mellin formula, global summability assumption or global reflection
-identity. These five modules have source proofs and wiring in the current
-revision; their complete native check remains pending.
+Three source-record replacements accompany them: `FiniteFullProduct`,
+`FiniteProjectedFullSource`, and `FiniteFixedSource`. The strengthened
+record retains `LocalWhittakerForms`: each stored archimedean functional
+is the restriction of an actual continuous Whittaker functional. The
+existing `SphericalTransportData.localForm`, `restriction`, and `whittaker`
+are carried through the actual coordinate transport, then through the
+finite projector that changes the selected tensor. `source_nonempty`
+receives no new hypothesis.
 
-The remaining `L` input contains no global reflected sum, arbitrary-test
-identity, global seed, frequency parametrization or convergence assertion
-about the final ideal series. Its existence remains explicit to callers.
-The finite-place proposition is now supplied by `localExteriorDigitInput`,
-which is constructed after the fixed source and independently of `L`.
+`local_value_nonzero_of_whittaker` uses the stored functional's detected
+nonzero vector and the actual continuous Whittaker uniqueness theorem.
+Consequently a core vector detected by the canonical Jacquet functional
+is detected by the source functional as well. The proof does not use
+`LocalArchRatio` circularly, and does not assume a global nonzero period
+for the newly selected high K-type vector.
 
-The endpoint `generalHeckeSevenEighths_skeleton` now has the explicit
-conditional type
+For the pointwise bound, set a = archWeight(m) + σ > 0 with σ > -1/3.
+The norm of the actual profile is t^archWeight(m) KThird(c√t), and the
+proved Mellin convergence makes M = ∫₀∞ u^(a-1) KThird(c√u) du finite.
+Bessel monotonicity on 0 < u ≤ t and the exact power integral t^a/a give
+t^a KThird(c√t) ≤ aM. Thus B = aM ≥ 0 controls every t > 0; reflection
+changes only the radial twist. This is a derived local estimate without
+an additional asymptotic or global summability hypothesis.
+
+The complete field mapping is:
+
+| Existing `FiniteLocalHighK.Input` field | Source |
+| --- | --- |
+| `vector` | `LocalArchProfile.vector`: the actual core lift with the angular weight of `θ⁻¹`. |
+| `functional` | The actual continuous `thetaJacquetFunctional traceFrequency`. |
+| `whittaker` | `LocalArchRootCore.traceJacquet_whittaker`. |
+| `functional_nonzero` | `LocalArchProfile.functional_nonzero`, from the positive value `besselKThird (4 * Real.pi)`. |
+| `source_nonzero` | `FiniteFixedSource.Source.archimedean_nonzero`, using the retained local Whittaker form and uniqueness. |
+| `scale` | The existing `archScale (4 * Real.pi) = 4 / (4 * Real.pi) ^ 2`. |
+| `scale_pos` | The existing `archScale_pos`. |
+| `directConstant` | `LocalArchMellin.directConstant R θ C.transport`, including the actual angular mass and Bessel denominator. |
+| `directConstant_nonzero` | `LocalArchMellin.directConstant_nonzero`. |
+| `reflectedConstant` | `LocalArchMellin.reflectedConstant R θ C.transport`, with the same Haar and Bessel normalization. |
+| `reflectedConstant_nonzero` | `LocalArchMellin.reflectedConstant_nonzero`. |
+| `direct_integrable` | The first component of `LocalArchMellin.direct_mellin`. |
+| `reflected_integrable` | The first component of `LocalArchMellin.reflected_mellin`. |
+| `direct_bound` | `LocalArchInput.direct_bound`, from the actual Bessel power bound divided by the normalizing value. |
+| `reflected_bound` | `LocalArchInput.reflected_bound`. |
+| `direct_mellin` | The second component of `LocalArchMellin.direct_mellin`, with `directGammaPair R θ w s`. |
+| `reflected_mellin` | The second component of `LocalArchMellin.reflected_mellin`, with `gammaPair R θ w s`. |
+
+The constructor takes only the actual R, θ and C. No global seed,
+frequency bijection, reflected ideal summability assertion or arbitrary-test
+reflection identity is among its fields. Full signatures, literal source
+excerpts and source fingerprints are in
+[`THETA_GLOBAL_STATEMENTS.md`](THETA_GLOBAL_STATEMENTS.md).
+
+## Exterior-digit construction and public API
+
+`GlobalProjectLocalDigitTables.Input R D Adata` has four local fields:
+spherical diagonal values, the actual nonzero-residue digit average at
+`A(x) W N(-s/g_p)`, zeroth Weyl/Gauss normalization, and the finite forward
+Fourier mask. The source constructs all four on the same fixed
+source. The zero digit and marked average are derived afterward from
+compact invariance and `q⁻¹ = δ₀ - digitMask₀`.
+
+| Existing new local-digit module | Actual connection |
+| --- | --- |
+| `LocalDigitArithmetic` | Recipe residue character and additive phase are identified with the same arithmetic datum; spherical, zeroth Weyl and mask formulas use the actual `ThetaLocal.ProjectFinite` theorems. |
+| `LocalDigitEvaluation` | The actual matrix coefficient is computed using only `JointExteriorCoefficientSources`, its factorization, spherical values and root alignment. |
+| `LocalDigitAverage` | Nonzero residue lifts are summed using the proved finite-field phase-separation formula. |
+| `LocalDigitInput` | The computed matrix coefficient is identified with `GlobalProjectDigitProduct.localDigit`, filling all four fields. |
+| `LocalDigitSource` | `thetaRecipe_arithmeticData` preserves the same allowed-generator choice and constructs `localExteriorDigitInput` on `thetaFiniteSource`. |
+
+This H construction uses `C.exterior.rational_exact` and has no additional
+global Mellin, packet, convergence or reflection premise. Its full native
+chain remains pending; the historical standalone check is a separate scope.
+
+The canonical-L wiring removes L from public Theta, Principal,
+Moments and Main, and removes localData from familyInputs and the endpoint.
+It leaves the two explicit consumer `hreflection` parameters, the original
+`marked_reflection` parameter `hkernel`, and all unrelated admissions.
+The endpoint has declaration
 
 ```lean
-(∀ (F : Type) [Field F] [NumberField F] (c : TargetContext F),
-  Nonempty (LocalHighKMellinInput F c)) →
-GeneralHeckeSevenEighths
+theorem generalHeckeSevenEighths_skeleton : GeneralHeckeSevenEighths
 ```
 
-It also retains the other tasks' original admissions. The five Theta
-source implementations express the global construction under the permitted
-local input boundary; their complete native validation remains pending.
-They do not construct the remaining archimedean input for every number field.
-
-The arithmetic embedding is refined before making the shared choice:
-`complexEmbedding K c` sends the family's selected primitive twelfth root
-to the prescribed complex root, and `axiomChoice` uses this aligned
-embedding. Every finite table, allowed generator and global source then
-uses that same choice. The new `c` argument and explicit archimedean input
-are API changes; the consumer signature checks record their propagation.
-
-The public `Theta` entry receives `LocalHighKMellinInput`; `H/localDigits`
-have been removed from `Theta`, `Principal`, `Moments`, and `Main`. The
-original explicit `hkernel` parameter of `marked_reflection` is retained;
-`markedReflection` fills it using `mellinKernel K c L`. The generic
-`thetaRecipe_marked_reflection` helper still accepts a local digit
-certificate, and `thetaFiniteSource_marked_reflection` fills that parameter
-with the canonical construction. The five target declarations contain no
-direct admission. This source check does not replace the pending recursive
-native axiom audit.
+The generic helpers retain their reusable parameters:
+`FiniteSkeletonSource.data K c L`,
+`thetaFiniteSource_marked_reflection K c L …`, and
+`thetaRecipe_marked_reflection K c θ C L H …`.
+The public `markedReflection K c` chooses `mellinKernel K c`, canonical L,
+and the existing canonical H internally. Removing an added local premise
+does not discharge the original Principal/Moments/other upstream `sorryAx`.
 
 ## Actual reflected index and convergence
 
@@ -232,6 +290,44 @@ regularized test is never treated as an annular test.
 The reciprocal Gamma strip estimate is proved from Euler reflection,
 Gamma's integral bound, recurrence and compactness. A separate Stirling
 bound is no longer an input to `GammaDeconvolverProject.actualDeconvolver`.
+
+## Standalone checkpoint at b454 and outstanding native checks
+
+At commit `b45484e24f3d4e28cc8092ff6b296f38f4a0f94f`,
+[job 124436512226](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41166970094/job/124436512226)
+completed successfully at `2026-10-31T04:05:38Z`: 45 transformed source
+bodies and all 56 expected strict axiom records. Those 45 source hashes
+still match this revision. The downloaded
+[artifact](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41166970094/artifacts/13029900190)
+has SHA-256 `7f3d0592a8f2ec9ea13582f711f061a4c614f2f439892733e1b7f8cd5c265f6e`.
+The archived [evidence record](../verification/theta_global/ci_41166970094_standalone.json)
+and [compiler log](../verification/theta_global/ci_41166970094_standalone.log)
+preserve the exact commit and verification scope. The check does not
+include the canonical-L construction, certify the H chain, or close
+the full native entry boundary.
+
+### Native LocalArchHaar attempt: resource-inconclusive
+
+The exact `LocalArchHaar` source with SHA-256
+`04fcd6397486b8309beb1b0c7c18fd9551df6c795c17cc46b6e9e5e4edea5e3b`
+was stopped at its 20-minute resource budget on
+`2026-10-31T04:42:03Z`, after 1201.156 seconds, with exit code -15.
+Its compiler log has zero bytes and contains no axiom output. This is
+classified as `resource-inconclusive`: it establishes neither a native
+pass nor a Lean proof error. The measured peak was 44,911 mappings,
+below the host limit of 65,530. An interim snapshot at `04:32:48Z`
+recorded 159,596,322,816 read bytes (about 159.6 GB) and 699,776 major
+faults; those snapshot counters are not whole-run totals. The
+[exact-source run record](../verification/theta_global/native_local_arch_haar_20261031.json),
+[raw log](../verification/theta_global/native_local_arch_haar_20261031.log)
+and [mapping samples](../verification/theta_global/native_local_arch_haar_20261031.maps.jsonl)
+preserve the scope and diagnostics.
+
+The independent check of the actual `LocalArchBounds` source
+`1a0ebeb15576956ca65f09cc6526a1b9d0522081cd61820cd14761c67f43dd8f`
+is still running; no result is recorded here. The historical sections
+below retain their original commits, source transformations, compiler
+options and artifact provenance.
 
 ## Verification protocol
 
@@ -539,30 +635,40 @@ and found byte-for-byte identical to the artifacts actually used by the
 records the two timestamps, manifest hashes and five matching artifact
 hashes while preserving the historical order of the checks.
 
-### Remaining validation boundary
+### Remaining native validation boundary
 
-The project-facing construction and the final five entry points have not
-yet passed a dependency-complete Lean build. The separate actual
-reflected-convergence bundle checks a smaller closure and must not be
-interpreted as validation of the entire global reflection construction.
-The draft PR remains reviewable source work until this boundary is closed.
+The canonical-L construction and changed final five entry points have
+not passed a dependency-complete native Lean build. The standalone and
+transformed actual-project results certify only their recorded scopes.
+Source implementation and API wiring are complete in this revision;
+the recursive native gate remains outstanding.
 
-The PR workflow `.github/workflows/theta-global.yml` has two independent
-jobs: the standalone bundle and the actual-entry job. The latter has a
-330-minute total limit. After its arithmetic foundation checkpoint, it
-builds `+ThetaGlobal.LocalDigitAverage:olean` and runs the 12-declaration
-`LocalDigitAudit.lean` before building `+HeckeSkeleton.Theta:olean` and
-`+ThetaGlobal.LocalGammaOrientation:olean`. `EntryAudit.lean` then checks
-the five targets and 16 supporting interfaces, including the constructed
-fixed-source digit input. Both audits reject `sorryAx` and every axiom
-other than `propext`, `Classical.choice`, and `Quot.sound`. Main is built
-separately, followed by the seven consumer signature checks.
+The [workflow](../.github/workflows/theta-global.yml) has separate standalone
+and actual-entry jobs. The latter retains its 330-minute total limit;
+its explicit step timeouts sum to 309 minutes. After the arithmetic
+foundation checkpoint, the existing 35-minute early build runs one
+`lake build` without `--fail-fast` for
+`+ThetaGlobal.LocalDigitAverage:olean`, `+ThetaGlobal.LocalArchHaar:olean`
+and `+ThetaGlobal.LocalArchBounds:olean`. The original four-minute
+12-declaration LocalDigitAudit is followed by a four-minute
+LocalArchAnalyticAudit, checking six Haar and two Bessel-bound declarations.
+The later build order remains Theta/LocalGammaOrientation, EntryAudit,
+Main and the seven consumer signature checks.
 
-Workflow configuration is not itself a successful result. The runs must
-exit successfully and produce all expected records, including the five
-`THETA_GLOBAL_AXIOMS`, 16 `THETA_GLOBAL_INTERFACE_AXIOMS`, and 12
-`THETA_GLOBAL_LOCAL_DIGIT_AXIOMS` records. Both jobs check repository and
-runtime pins and retain raw diagnostics as artifacts.
+[EntryAudit.lean](../verification/theta_global/EntryAudit.lean) checks
+5 targets and 44 interfaces, or 49 declarations total: the previous 21
+plus 28 canonical-archimedean and source-certificate checks. A successful
+run must produce all five `THETA_GLOBAL_AXIOMS` and all 44
+`THETA_GLOBAL_INTERFACE_AXIOMS` records, then exit with code 0.
+[LocalDigitAudit.lean](../verification/theta_global/LocalDigitAudit.lean)
+retains 12 `THETA_GLOBAL_LOCAL_DIGIT_AXIOMS` records;
+[LocalArchAnalyticAudit.lean](../verification/theta_global/LocalArchAnalyticAudit.lean)
+requires eight `THETA_GLOBAL_LOCAL_ARCH_AXIOMS` records and successful exit.
+Every strict gate permits only `propext`, `Classical.choice`, and
+`Quot.sound`. The complete input and retained source certificate remain
+in the 49-declaration recursive gate. The seven consumer type checks retain
+their distinct legacy `sorryAx` allowance. None of these configured checks
+is recorded as successful before its actual run completes.
 
 The workflow retains only the project's own dependency build artifacts
 in its incremental GitHub cache. Official Mathlib cache downloads remain

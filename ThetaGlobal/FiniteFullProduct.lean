@@ -2,6 +2,8 @@ import ThetaGlobal.FiniteCanonicalSource
 import ThetaGlobal.FiniteCoreProduct
 import ThetaGlobal.GlobalProjectExterior
 import DedekindZetaZeroFree.Theta.Whittaker.TensorProduct.WeylGeometry
+import DedekindZetaZeroFree.Theta.Whittaker.LocalFunctionalsFromGlobalPeriods
+import DedekindZetaZeroFree.Theta.Whittaker.Uniqueness.ComplexTorusTranslates
 
 /-!
 # The full matrix product for the same frozen pure tensor
@@ -18,6 +20,7 @@ set_option backward.isDefEq.respectTransparency false
 set_option maxHeartbeats 2000000
 set_option maxRecDepth 4000
 noncomputable section
+attribute [local instance] ContinuousLinearMap.addCommGroup
 
 namespace ThetaGlobal.FiniteFullProduct
 
@@ -71,6 +74,41 @@ def LocalArchRatio : Prop :=
           M (KPCplxActualImage.imageAction traceFrequency a
             (harmonicInclusion (x ⟨Sum.inl w, hw⟩))) /
           M (harmonicInclusion (x ⟨Sum.inl w, hw⟩))
+
+/-- The stored archimedean linear functional is the restriction of an
+actual continuous Whittaker functional. The source construction proves
+this certificate and retains it when only the selected tensor changes. -/
+def LocalWhittakerForms : Prop :=
+  ∀ w : InfinitePlace F,
+    ∃ M : KPCplxActualImage.Theta traceFrequency →L[ℂ] ℂ,
+      M ∈ KPCplxWhittakerUnique.whittakerSpace traceFrequency traceCharacter ∧
+      ∀ v : KPGlobalResidualConstruction.complexCore,
+        M (harmonicInclusion v) = D.ell (Sum.inl w) v
+
+/-- Local Whittaker uniqueness transfers nonvanishing from any actual
+Whittaker functional to the stored source functional. The latter is
+nonzero by its detected tensor, before a high K-type vector is chosen. -/
+theorem local_value_nonzero_of_whittaker
+    (hForms : LocalWhittakerForms R D) (w : InfinitePlace F)
+    (M : KPCplxActualImage.Theta traceFrequency →L[ℂ] ℂ)
+    (hM : M ∈ KPCplxWhittakerUnique.whittakerSpace traceFrequency traceCharacter)
+    (v : KPGlobalResidualConstruction.complexCore)
+    (hv : M (harmonicInclusion v) ≠ 0) :
+    D.ell (Sum.inl w) v ≠ 0 := by
+  obtain ⟨L, hL, hrestriction⟩ := hForms w
+  obtain ⟨u, hu⟩ :=
+    ExteriorWhittakerValues.StoredWhittaker.exists_nonzero_value R D (Sum.inl w)
+  have hLne : L ≠ 0 := by
+    intro hzero
+    apply hu
+    simpa only [hzero, ContinuousLinearMap.zero_apply] using (hrestriction u).symm
+  have hcompare := KPWildComplexWhittakerDictionary.continuousWhittaker_comparison
+    traceFrequency traceCharacter traceCharacter_continuous traceCharacter_ne_one
+    L M hL hM v hv
+  change L = (L (harmonicInclusion v) / M (harmonicInclusion v)) • M at hcompare
+  intro hzero
+  apply hLne
+  simpa only [hrestriction v, hzero, zero_div, zero_smul] using hcompare
 
 /-- The property follows from the existing arbitrary-vector completed
 period theorem for the literal canonical residue source. -/
@@ -170,3 +208,5 @@ end ThetaGlobal.FiniteFullProduct
 
 #print axioms ThetaGlobal.FiniteFullProduct.canonical_fullArchProduct
 #print axioms ThetaGlobal.FiniteFullProduct.frozen_weyl_product
+
+#print axioms ThetaGlobal.FiniteFullProduct.local_value_nonzero_of_whittaker

@@ -5,11 +5,12 @@ import ThetaGlobal.FiniteDirectMellin
 /-!
 # Explicit local high K-type Mellin inputs and their normalization
 
-Every assumed formula below concerns one completed archimedean
+Every field below concerns one completed archimedean
 representation, one actual vector, and one local Haar integral.  The
 finite table, global tensor, Haar disintegration and reflection identity
 are not fields.  In particular C₀ is the ratio of the actual cutoff
-volume and the two products of local Mellin constants.
+volume and the two products of local Mellin constants. `LocalArchInput`
+constructs this generic record for the same actual fixed source.
 -/
 
 set_option autoImplicit false
@@ -112,8 +113,9 @@ def directGammaPair (w : InfinitePlace F) (s : ℂ) : ℂ :=
   Complex.Gamma ((archShift F θ ⟨w, R.A.complex_place w⟩ : ℂ) + s -
     Complex.I * archRadial F θ ⟨w, R.A.complex_place w⟩ - 1 / 6)
 
-/-- Permitted local archimedean inputs.  All functionals and actions are
-those of the actual completed exceptional representation. -/
+/-- Generic local archimedean data, constructed by `LocalArchInput` at the
+fixed source. All functionals and actions are those of the actual completed
+exceptional representation. -/
 structure Input where
   vector : InfinitePlace F → KPGlobalResidualConstruction.complexCore
   functional : InfinitePlace F → KPCplxActualImage.Theta traceFrequency →L[ℂ] ℂ

@@ -6,10 +6,10 @@ import ThetaGlobal.FiniteAssembly
 # Finite Mellin data on the skeleton's one actual arithmetic choice
 
 The recipe, Haar transport, source, finite projection, and coefficient
-table are selected constructively from `Base.axiomChoice`.  The only
-remaining input is the explicit per-place high K-type Mellin package.
-The source is selected before that local input, and every later theorem
-uses the same selection.
+table are selected constructively from `Base.axiomChoice`. This generic
+adapter accepts an explicit per-place high K-type Mellin package.
+`LocalArchSource` constructs that package for the public entry after the
+source is selected. Every later theorem uses the same selection.
 -/
 
 set_option autoImplicit false

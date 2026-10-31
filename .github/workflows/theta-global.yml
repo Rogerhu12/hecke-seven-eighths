@@ -137,20 +137,26 @@ jobs:
             .lake/build
             vendor/class-field-theory/.lake/build
           key: ${{ steps.entry-cache.outputs.cache-primary-key }}-foundation
-      # This actual one-place construction has a smaller dependency closure
-      # than the global source. Diagnose its native proofs before the full entry.
-      - name: Build the actual one-place exterior digit construction
+      # Check the actual local digit calculation and the independent Haar/
+      # Bessel lemmas before elaborating the complete fixed-source constructor.
+      - name: Build the actual local digit and archimedean analytic lemmas
         timeout-minutes: 35
         shell: bash
         run: |
           set -o pipefail
-          lake --fail-fast build +ThetaGlobal.LocalDigitAverage:olean 2>&1 | tee verification/theta_global/local-digit-build.log
+          lake build +ThetaGlobal.LocalDigitAverage:olean +ThetaGlobal.LocalArchHaar:olean +ThetaGlobal.LocalArchBounds:olean 2>&1 | tee verification/theta_global/local-digit-build.log
       - name: Audit the actual local digit construction
         timeout-minutes: 4
         shell: bash
         run: |
           set -o pipefail
           lake env lean -j2 -DautoImplicit=false -DrelaxedAutoImplicit=false verification/theta_global/LocalDigitAudit.lean 2>&1 | tee verification/theta_global/local-digit-audit.log
+      - name: Audit the actual archimedean analytic lemmas
+        timeout-minutes: 4
+        shell: bash
+        run: |
+          set -o pipefail
+          lake env lean -j2 -DautoImplicit=false -DrelaxedAutoImplicit=false verification/theta_global/LocalArchAnalyticAudit.lean 2>&1 | tee verification/theta_global/local-arch-analytic-audit.log
       # + selects one module, and :olean requests its importable Lean artifact.
       # This builds its real dependency closure, without the library's all-module glob.
       # https://github.com/leanprover/lean4/blob/v4.35.0-rc3/src/lake/README.md#specifying-targets
@@ -196,6 +202,8 @@ jobs:
           path: |
             verification/theta_global/EntryAudit.lean
             verification/theta_global/LocalDigitAudit.lean
+            verification/theta_global/LocalArchAnalyticAudit.lean
+            verification/theta_global/local-arch-analytic-audit.log
             verification/theta_global/local-digit-build.log
             verification/theta_global/local-digit-audit.log
             verification/theta_global/foundation-build.log

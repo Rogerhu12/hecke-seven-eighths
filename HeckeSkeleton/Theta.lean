@@ -9,12 +9,13 @@ import HeckeSkeleton.ThetaKernel
 import HeckeSkeleton.SixthLocalFinite
 import ThetaGlobal.ReflectedAbsoluteProject
 import ThetaGlobal.FiniteSkeletonSource
+import ThetaGlobal.LocalArchSource
 import ThetaGlobal.GlobalProjectMarkedReflection
 
 /-! Arithmetic and marked theta reflection for the named actual construction.
-The explicit local input supplies the one-place high K-type Mellin pairs.
-The shared source supplies its exterior digit tables, and the global
-reflection is constructed from that source without a global identity input. -/
+The same fixed source supplies the constructed high K-type Mellin pairs
+and exterior digit tables. The global reflection is constructed from that
+source without an additional local package or global identity input. -/
 set_option autoImplicit false
 set_option quotPrecheck false
 noncomputable section
@@ -106,45 +107,44 @@ theorem allowedGenerators : AllowedGeneratorInput K S D where
 
 -- OBLIGATION TH-KP-DATA | revised §3.2–3.4, pp.5–13.
 -- Actual rotated KP coefficient tables; NOT supplied by ordinary Poisson.
-def finiteMellinData (L : LocalHighKMellinInput K c) : FiniteMellinData K S :=
-  FiniteSkeletonSource.data K c L
+def finiteMellinData : FiniteMellinData K S :=
+  FiniteSkeletonSource.data K c (localHighKMellinInput K c)
 
-variable (L : LocalHighKMellinInput K c)
-local notation "F" => finiteMellinData K c L
+local notation "F" => finiteMellinData K c
 
 -- OBLIGATION TH-FINITE-VALUATION-CUTOFF | revised §3.2–3.4, pp.5–8.
-theorem finite_valuation_cutoff : ∃ k₀ : ℤ, ∀ u κ l p k, k < k₀ → (finiteMellinData K c L).coefficient u κ l p k = 0 :=
-  (FiniteSkeletonSource.admissible K c L).valuation_cutoff
+theorem finite_valuation_cutoff : ∃ k₀ : ℤ, ∀ u κ l p k, k < k₀ → (finiteMellinData K c).coefficient u κ l p k = 0 :=
+  (FiniteSkeletonSource.admissible K c (localHighKMellinInput K c)).valuation_cutoff
 
 -- OBLIGATION TH-FINITE-VALUATION-DECAY | revised §3.2–3.4, pp.5–8.
 theorem finite_valuation_decay : ∀ δ : ℝ, δ < 1 / 3 → ∃ C : ℝ, 0 ≤ C ∧
     ∀ u κ l p k, 0 ≤ k →
-      ‖(finiteMellinData K c L).coefficient u κ l p k‖ ≤ C * (p.val.asIdeal.absNorm : ℝ) ^ (-(k : ℝ) * δ) :=
-  (FiniteSkeletonSource.admissible K c L).valuation_decay
+      ‖(finiteMellinData K c).coefficient u κ l p k‖ ≤ C * (p.val.asIdeal.absNorm : ℝ) ^ (-(k : ℝ) * δ) :=
+  (FiniteSkeletonSource.admissible K c (localHighKMellinInput K c)).valuation_decay
 
 -- OBLIGATION TH-FINITE-ABSOLUTE-MELLIN | revised §3.2–3.4, pp.5–8.
 theorem finite_absolute_mellin : ∀ u κ l p s, -(1 / 3 : ℝ) < s.re →
-    Summable (fun k : ℤ => (finiteMellinData K c L).coefficient u κ l p k *
+    Summable (fun k : ℤ => (finiteMellinData K c).coefficient u κ l p k *
       (p.val.asIdeal.absNorm : ℂ) ^ (-(k : ℂ) * s)) := by
   exact HeckeSkeleton.FiniteMellin.finite_absolute_mellin_of_valuation_cutoff_decay K S
-    (finiteMellinData K c L) (finite_valuation_cutoff K c L) (finite_valuation_decay K c L)
+    (finiteMellinData K c) (finite_valuation_cutoff K c) (finite_valuation_decay K c)
 
 theorem finiteAdmissible : FiniteMellinAdmissible K S F where
-  valuation_cutoff := finite_valuation_cutoff K c L
-  valuation_decay := finite_valuation_decay K c L
-  absolute_mellin := finite_absolute_mellin K c L
+  valuation_cutoff := finite_valuation_cutoff K c
+  valuation_decay := finite_valuation_decay K c
+  absolute_mellin := finite_absolute_mellin K c
 
 -- TH-KERNEL-INTEGRABLE (proved in HeckeSkeleton.ThetaKernel) | revised §3.2–3.4, Lemma 3.3, pp.6–8.
 theorem kernel_integrable : ∀ (V : SmoothAnnularTest) u κ σ y, -(1 / 3 : ℝ) < σ → 0 < y →
     Integrable (kernelIntegrand K S F θ u κ V.toFun σ y) :=
-  HeckeSkeleton.ThetaKernel.kernel_integrable K S F θ (finiteAdmissible K c L)
+  HeckeSkeleton.ThetaKernel.kernel_integrable K S F θ (finiteAdmissible K c)
 
 -- TH-KERNEL-LINE-INDEPENDENT (proved in HeckeSkeleton.ThetaKernel) | revised §3.2–3.4, Lemma 3.3, pp.6–8.
 theorem kernel_line_independent : ∀ (V : SmoothAnnularTest) u κ σ σ' y,
     -(1 / 3 : ℝ) < σ → -(1 / 3 : ℝ) < σ' → 0 < y →
     mellinReflectionKernel K S F θ u κ V.toFun σ y =
       mellinReflectionKernel K S F θ u κ V.toFun σ' y :=
-  HeckeSkeleton.ThetaKernel.kernel_line_independent K S F θ (finiteAdmissible K c L)
+  HeckeSkeleton.ThetaKernel.kernel_line_independent K S F θ (finiteAdmissible K c)
 
 -- TH-SIXTH-LOCAL-FINITE | revised §3.2–3.4, pp.5–8 (HeckeSkeleton.SixthLocalFinite).
 -- K is totally complex since it contains a primitive twelfth root of unity.
@@ -159,13 +159,13 @@ theorem kernel_derivative_bound : ∀ (A : ℝ) (h J : ℕ), 0 ≤ A →
       ‖eulerDerivativeOrder h
         (mellinReflectionKernel K S F θ u κ V.toFun 0) y‖ ≤
       C * testSeminorm V.toFun J A * min (y ^ (1 / 4 : ℝ)) (y ^ (-A)) :=
-  HeckeSkeleton.ThetaKernel.kernel_derivative_bound K S F θ (finiteAdmissible K c L)
+  HeckeSkeleton.ThetaKernel.kernel_derivative_bound K S F θ (finiteAdmissible K c)
 
 theorem mellinKernel : MellinKernelInput K S F θ where
-  finite_admissible := finiteAdmissible K c L
-  integrable := kernel_integrable K c L
-  line_independent := kernel_line_independent K c L
-  derivative_bound := kernel_derivative_bound K c L
+  finite_admissible := finiteAdmissible K c
+  integrable := kernel_integrable K c
+  line_independent := kernel_line_independent K c
+  derivative_bound := kernel_derivative_bound K c
 
 -- OBLIGATION TH-MARKED-EXTERIOR-UNRAMIFIED | revised §3.2–3.4, Theorem 3.5, pp.10–13.
 -- The period is conj(Lambda) * conj(G) * psi; each factor is unramified outside S.
@@ -201,7 +201,7 @@ theorem marked_reflected_absolute : ∀ (d : MarkedDatum K S) (V : SmoothAnnular
     Summable (fun i : ReflectionIndex K S d => reflectedTerm K S D d i F θ V.toFun X) := by
   intro d V X hX
   exact ThetaGlobal.ReflectedAbsoluteProject.marked_reflected_absolute K S D d F θ
-    (mellinKernel K c L) V hX
+    (mellinKernel K c) V hX
 
 -- OBLIGATION TH-MARKED-REFLECTION | revised §3.2–3.4, Theorem 3.5, pp.10–13.
 theorem marked_reflection (hkernel : MellinKernelInput K S F θ) : ∀ (d : MarkedDatum K S) (V : SmoothAnnularTest) X, 0 < X →
@@ -209,7 +209,7 @@ theorem marked_reflection (hkernel : MellinKernelInput K S F θ) : ∀ (d : Mark
       ∑' i : ReflectionIndex K S d, reflectedTerm K S D d i F θ V.toFun X := by
   intro d V X hX
   obtain ⟨w, hw, hk⟩ := marked_angular_nonzero K c
-  exact thetaFiniteSource_marked_reflection K c L (allowedGenerators K c)
+  exact thetaFiniteSource_marked_reflection K c (localHighKMellinInput K c) (allowedGenerators K c)
     (marked_conductor_subset K c) w hk d V hX
 
 theorem markedReflection :
@@ -217,9 +217,9 @@ theorem markedReflection :
   allowed_generators := allowedGenerators K c
   exterior_unramified := marked_exterior_unramified K c
   angular_nonzero := marked_angular_nonzero K c
-  kernel := mellinKernel K c L
+  kernel := mellinKernel K c
   completed_absolute := marked_completed_absolute K c
-  reflected_absolute := marked_reflected_absolute K c L
-  reflection := marked_reflection K c L (mellinKernel K c L)
+  reflected_absolute := marked_reflected_absolute K c
+  reflection := marked_reflection K c (mellinKernel K c)
 
 end HeckeSkeleton

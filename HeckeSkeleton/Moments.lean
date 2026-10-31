@@ -358,13 +358,13 @@ variable (K c)
 -- COARSE analytic/arithmetic proof: two true Poisson transforms, child
 -- masks/labels/fixed-triple fibers, prefactor and strict margins, finite
 -- termination; must not be replaced by an assumed MIInput or row bound.
-theorem canonical_inverse_models (L : LocalHighKMellinInput K c)
+theorem canonical_inverse_models
     (hcal : SourcePolynomialCalibration (momentRowCharacters K c) (momentModels K c))
     (hrows : SourceRowEligibility (momentModels K c))
     (hprofiles : WholeMomentProfileControl (momentModels K c))
     (hquadratic : QuadraticSieveBound K c) (hcubic : CubicSieveBound K c)
     (hreflection : MarkedCoefficientReflectionInput K (places K c)
-      (probeData K c).arithmetic (finiteMellinData K c L)
+      (probeData K c).arithmetic (finiteMellinData K c)
       (thetaPeriod K (places K c) (probeData K c) (targetCharacter K c))) :
     CanonicalInverseModelBounds (momentModels K c) := by
   sorry
@@ -547,13 +547,13 @@ theorem uniformMomentBound_join
 variable (K c)
 
 /-- Actual ISource assembled from literal marked and amplified ideal energies. -/
-theorem inverseSource (L : LocalHighKMellinInput K c) :
+theorem inverseSource :
     ISource c.geometry (targetData K c) c.family.lamA := by
   have hcal := moment_polynomial_calibration K c
   have hrows := moment_row_eligibility K c hcal
   have hprofiles := moment_profile_control K c hcal
-  have hmi := canonical_inverse_models K c L hcal hrows hprofiles
-    (moment_quadratic_sieve K c) (moment_cubic_sieve K c) (markedReflection K c L)
+  have hmi := canonical_inverse_models K c hcal hrows hprofiles
+    (moment_quadratic_sieve K c) (moment_cubic_sieve K c) (markedReflection K c)
   have hamp := inverse_independent_amplification K c hmi
     (inverse_sixth_power_masks K c hcal) hprofiles
   have hw := inverse_amplified_witness_models K c hamp hcal hrows hprofiles

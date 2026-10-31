@@ -1,10 +1,10 @@
-# THETA_GLOBAL：精确声明、局部输入与下游接口
+# THETA_GLOBAL：精确声明、规范局部构造与下游接口
 
-本报告对照本轮仓库真实源码，列出五个原始目标、保留的阿基米德局部输入、已构造的有限位数字证书、同一次算术选择和七个下游接口。代码块中的声明与字段从所列源文件逐字提取；若只展示声明头，会明确标为“声明头”，并省略证明体而不改动参数。
+**本修订的源码实现已接线，完整原生验证尚未完成。** 五个原始目标使用同一固定 source 的规范阿基米德输入 `L` 和有限位数字证书 `H`；本修订的公开 Theta／Principal／Moments／Main 接口不再要求调用者提供 `L/localData` 或 `H/localDigits`。通用 helper 仍保留相应局部参数，原 `marked_reflection` 的显式 `hkernel` 也保留。
 
-原任务明确允许将阿基米德高 K-型向量、Mellin 对、乘子恒等式及外部素位数字表写成显式假设。本轮进一步接入仓库已有局部定理，给出同一实际固定源的四字段数字证书 `H` 的构造；`H/localDigits` 已从公开 Theta 与 Main 接口移除。仍由调用者提供的局部包是 `L`。原 `marked_reflection` 的显式 `hkernel` 参数保留。五个新增局部桥模块尚待完整原生编译和递归公理检查；源码构造不等于已通过验证。
+本报告对照仓库实际定义，记录五个原始目标、同一次算术选择、完整的规范局部构造及七个消费者。代码块中的声明与字段取自本修订源码；“声明头”只省略证明体，不改动参数。原 TASK 允许单处高 K-型、Mellin 对、乘子恒等式及外部数字表作为显式输入；本修订进一步用实际局部定理填满这些接口。Main 的其他任务 admissions 仍保留。
 
-目标环境：Lean `4.35.0-rc3`，Mathlib `0493595ecd5da8ef14742febab99728f98e948e8`。本报告记录声明与依赖边界；本轮原生编译、公理检查的结果须以单独保存的实际日志为准。这里不预先宣称未完成的检查通过。
+目标环境：Lean `4.35.0-rc3`，Mathlib `0493595ecd5da8ef14742febab99728f98e948e8`。历史提交 `b45484e24f3d4e28cc8092ff6b296f38f4a0f94f` 的 standalone 检查通过 45 个 transformed source bodies 与 56 条严格公理记录；该检查的 45 个源文件哈希仍与本修订匹配，但其范围不含规范 L 构造，也不能认证完整 native Theta/H 依赖链。证据已归档为 [核查记录](../verification/theta_global/ci_41166970094_standalone.json) 和 [编译日志](../verification/theta_global/ci_41166970094_standalone.log)。`LocalArchHaar` 的独立原生尝试已在 20 分钟预算处停止，结果为 `resource-inconclusive`，没有产生诊断或公理记录；这不是原生通过记录，也未确定 Lean 证明错误。详见 [运行记录](../verification/theta_global/native_local_arch_haar_20261031.json)。`LocalArchBounds` 的独立检查仍在运行。
 
 ## 1. 固定上下文与记号
 
@@ -102,26 +102,25 @@ def thetaPeriod (P : ProbeData K S) (ψ : HeckeCharacter K) : HeckeCharacter K :
 最后一段定义位于 `HeckeGeneral.ThetaSkeleton.Physical`，继承其原有 `K`、`S` 上下文。下面五目标中的 `F` 是 **finite Mellin 数据的局部记号**，不是新的数域参数：
 
 ```lean
-variable (L : LocalHighKMellinInput K c)
-local notation "F" => finiteMellinData K c L
+local notation "F" => finiteMellinData K c
 ```
 
 ## 2. 五个原始目标的完整源码声明
 
-本节保留声明的实际证明体。它们与上一节的 `K`、`c`、局部记号及 section 参数共同阅读。`finiteMellinData` 自己绑定 `L`；其余四项继承上文的 `L`。
+本节逐字取自 [HeckeSkeleton/Theta.lean](../HeckeSkeleton/Theta.lean)，保留完整证明体；与上一节的 `K`、`c` 和局部记号共同阅读。`finiteMellinData` 内部选择 `localHighKMellinInput K c`，五项均不再继承 `L`。
 
 ### 2.1 TH-KP-DATA
 
 ```lean
-def finiteMellinData (L : LocalHighKMellinInput K c) : FiniteMellinData K S :=
-  FiniteSkeletonSource.data K c L
+def finiteMellinData : FiniteMellinData K S :=
+  FiniteSkeletonSource.data K c (localHighKMellinInput K c)
 ```
 
 ### 2.2 TH-FINITE-VALUATION-CUTOFF
 
 ```lean
-theorem finite_valuation_cutoff : ∃ k₀ : ℤ, ∀ u κ l p k, k < k₀ → (finiteMellinData K c L).coefficient u κ l p k = 0 :=
-  (FiniteSkeletonSource.admissible K c L).valuation_cutoff
+theorem finite_valuation_cutoff : ∃ k₀ : ℤ, ∀ u κ l p k, k < k₀ → (finiteMellinData K c).coefficient u κ l p k = 0 :=
+  (FiniteSkeletonSource.admissible K c (localHighKMellinInput K c)).valuation_cutoff
 ```
 
 ### 2.3 TH-FINITE-VALUATION-DECAY
@@ -129,8 +128,8 @@ theorem finite_valuation_cutoff : ∃ k₀ : ℤ, ∀ u κ l p k, k < k₀ → (
 ```lean
 theorem finite_valuation_decay : ∀ δ : ℝ, δ < 1 / 3 → ∃ C : ℝ, 0 ≤ C ∧
     ∀ u κ l p k, 0 ≤ k →
-      ‖(finiteMellinData K c L).coefficient u κ l p k‖ ≤ C * (p.val.asIdeal.absNorm : ℝ) ^ (-(k : ℝ) * δ) :=
-  (FiniteSkeletonSource.admissible K c L).valuation_decay
+      ‖(finiteMellinData K c).coefficient u κ l p k‖ ≤ C * (p.val.asIdeal.absNorm : ℝ) ^ (-(k : ℝ) * δ) :=
+  (FiniteSkeletonSource.admissible K c (localHighKMellinInput K c)).valuation_decay
 ```
 
 ### 2.4 TH-MARKED-REFLECTED-ABSOLUTE
@@ -140,7 +139,7 @@ theorem marked_reflected_absolute : ∀ (d : MarkedDatum K S) (V : SmoothAnnular
     Summable (fun i : ReflectionIndex K S d => reflectedTerm K S D d i F θ V.toFun X) := by
   intro d V X hX
   exact ThetaGlobal.ReflectedAbsoluteProject.marked_reflected_absolute K S D d F θ
-    (mellinKernel K c L) V hX
+    (mellinKernel K c) V hX
 ```
 
 ### 2.5 TH-MARKED-REFLECTION
@@ -151,13 +150,13 @@ theorem marked_reflection (hkernel : MellinKernelInput K S F θ) : ∀ (d : Mark
       ∑' i : ReflectionIndex K S d, reflectedTerm K S D d i F θ V.toFun X := by
   intro d V X hX
   obtain ⟨w, hw, hk⟩ := marked_angular_nonzero K c
-  exact thetaFiniteSource_marked_reflection K c L (allowedGenerators K c)
+  exact thetaFiniteSource_marked_reflection K c (localHighKMellinInput K c) (allowedGenerators K c)
     (marked_conductor_subset K c) w hk d V hX
 ```
 
 截断与衰减中隐式推断的索引类型为：`u : SixthUnitClasses K S`，`κ : SixthLocalClasses K S`，`l : Fin F.terms`，`p : S`，`k : ℤ`；衰减指数 `δ` 与常数 `C` 为实数。两条级数声明中的 `X` 是正实数，测试 `V` 是原 `SmoothAnnularTest`，反向求和索引保持原 `ReflectionIndex K S d`。
 
-`marked_reflection` 保留显式参数 `hkernel : MellinKernelInput K S F θ`。当前证明体从 `L` 构造核输入，未使用传入的 `hkernel`；公共打包入口用已实现的 `mellinKernel K c L` 填充它。有限位数字证书在固定源入口内部由 `localExteriorDigitInput K c` 构造，因此公共打包入口只保留一个新增局部输入 `L`：
+`marked_reflection` 保留原显式参数 `hkernel : MellinKernelInput K S F θ`。证明体仍未使用传入的 `hkernel`，而是把同一规范 `localHighKMellinInput K c` 传入原固定源 helper；公共打包入口用 `mellinKernel K c` 填充该参数。有限位证书由已有 `localExteriorDigitInput K c` 构造。`markedReflection K c` 不再接收局部包：
 
 ```lean
 theorem markedReflection :
@@ -165,10 +164,10 @@ theorem markedReflection :
   allowed_generators := allowedGenerators K c
   exterior_unramified := marked_exterior_unramified K c
   angular_nonzero := marked_angular_nonzero K c
-  kernel := mellinKernel K c L
+  kernel := mellinKernel K c
   completed_absolute := marked_completed_absolute K c
-  reflected_absolute := marked_reflected_absolute K c L
-  reflection := marked_reflection K c L (mellinKernel K c L)
+  reflected_absolute := marked_reflected_absolute K c
+  reflection := marked_reflection K c (mellinKernel K c)
 ```
 
 ## 3. 同一次 source 与 RootAligned 的嵌入调整
@@ -255,14 +254,14 @@ abbrev LocalHighKMellinInput := ThetaGlobal.FiniteLocalHighK.Input (thetaRecipe 
   (thetaPeriod K (places K c) (probeData K c) (targetCharacter K c)) (thetaFiniteSource K c)
 ```
 
-`thetaFiniteSource` 的构造先于 `L`。其中 `Source` 确实记录全局 source 的 factorization/transport 性质，但它由 `source_nonempty` 构造，固定入口没有把任意 `Source` 当作用户输入。以下声明位于 `ThetaGlobal.FiniteFixedSource`，继承的泛型参数完整为：
+`thetaFiniteSource` 的选择先于任何高 K-型向量； `localHighKMellinInput K c` 只在该选择完成后构造 `L`。其中 `Source` 确实记录全局 source 的 factorization/transport 性质，但它由 `source_nonempty` 构造，固定入口没有把任意 `Source` 当作用户输入。以下声明位于 `ThetaGlobal.FiniteFixedSource`，继承的泛型参数完整为：
 
 ```lean
 variable {F : Type} [Field F] [NumberField F]
 variable {S : SArithmeticData F} {η : RayClassCharacter F S.modulus}
 ```
 
-其实际结构和选择定义为：
+以下 `Source` 结构取自 [ThetaGlobal/FiniteFixedSource.lean](../ThetaGlobal/FiniteFixedSource.lean)，新增的最后一个字段保存已在实际球形构造中得到的连续 Whittaker 限制证书。`source_nonempty` 与 `source` 的参数没有新增假设；后者仍只进行同一次选择：
 
 ```lean
 structure Source (R : PrincipalMellin.ActualRecipe S η)
@@ -276,6 +275,7 @@ structure Source (R : PrincipalMellin.ActualRecipe S η)
   native : SourceNativeLie R projected.base.factorization
   fullArchProduct : FiniteFullProduct.FullArchProduct R projected.base.factorization
   localArchRatio : FiniteFullProduct.LocalArchRatio R projected.base.factorization
+  localWhittakerForms : FiniteFullProduct.LocalWhittakerForms R projected.base.factorization
 ```
 
 ```lean
@@ -291,9 +291,9 @@ def source (R : PrincipalMellin.ActualRecipe S η) (hR : RootAligned R)
   Classical.choice (source_nonempty R hR θ)
 ```
 
-## 4. L：全部单处高 K-型与 Mellin 输入
+## 4. 已构造的规范 L：全部 17 个单处字段
 
-准确类型是 `ThetaGlobal.FiniteLocalHighK.Input R θ C`，skeleton 别名是 `HeckeSkeleton.LocalHighKMellinInput K c`。它是携带向量、functional、尺度、常数及性质的数据结构，不是只有存在性判断的命题。
+准确类型是 `ThetaGlobal.FiniteLocalHighK.Input R θ C`，skeleton 别名是 `HeckeSkeleton.LocalHighKMellinInput K c`。它是携带向量、functional、尺度、常数及性质的既有数据结构，字段定义保持不变；本修订为同一固定 source 构造它，而不是给公开入口添加该结构的存在性假设。
 
 源文件：[ThetaGlobal/FiniteLocalHighK.lean](../ThetaGlobal/FiniteLocalHighK.lean)。以下原文先列实际局部表示与 profile，使后面的所有字段可直接核查。这里的 `F` 是泛型数域，`S : SArithmeticData F`，与第 1 节的有限位集合记号有不同作用域。
 
@@ -396,11 +396,192 @@ structure Input where
 
 每个 integrability/bound/Mellin 字段只量化一个 infinite place 的 completed representation 和该处 Haar 积分。全局 sheet 积分、global seed、最终 marked reflection 与理想级数收敛均不是字段。`scale_pos`、两个常数的非零性和 `source_nonzero` 属于本次采用的完整局部高 K-型包，不能在报告中省略。
 
-### 4.1 正反字符方向
+### 4.1 实际采用的字符方向
 
-由上述真实定义，正向 profile 乘 `θ`，反向 profile 乘 `θ⁻¹`；同时 `archRadial = -heckeComplexParameter`。因此正向 Gamma product 是 `archGammaProduct θ⁻¹`，反向是 `archGammaProduct θ`。本轮新增 `ThetaGlobal.LocalGammaOrientation` 将其写成无额外 Mellin 假设的正式恒等式。
+由真实定义，正向 `localProfile` 乘 `θ`，反向乘 `θ⁻¹`；`archRadial = -heckeComplexParameter`。正向 Gamma product 因而是 `archGammaProduct θ⁻¹`，反向是 `archGammaProduct θ`。已有 `ThetaGlobal.LocalGammaOrientation` 给出无额外 Mellin 假设的正式恒等式。
 
-若接入一个“direct profile 乘逆字符”的局部接口，应把该接口实例化于 `θ⁻¹`。这解释了局部分支不同 direct 命名与本分支原乘子的关系；不需要改动 `GlobalThetaData.reflectionMultiplier`。本段的符号桥原生编译状态仍以实际审计日志为准。
+本修订实际把 THETA_LOCAL 的逆字符 direct 接口实例化于 `θ⁻¹`。`LocalArchProfile.vector` 的权是该逆字符的 `heckeComplexWeight`；因此原正字符因子消去其 angular weight。以下是定义及两个实际 profile 等式的完整声明头；这里继承 `LocalArchProfile` 的 `R`、`θ`、数域与 recipe 上下文：
+
+```lean
+def vector (w : InfinitePlace F) : KPGlobalResidualConstruction.complexCore :=
+  traceRootCore (heckeComplexWeight F w (R.A.complex_place w) θ⁻¹)
+```
+
+```lean
+theorem direct_profile (w : InfinitePlace F) (z : w.Completionˣ) :
+    FiniteLocalHighK.localProfile R θ (thetaJacquetFunctional traceFrequency)
+      (vector R θ w) w false z =
+      HeckeSkeleton.ThetaLocal.Project.directProfile F θ⁻¹
+        ⟨w, R.A.complex_place w⟩ (4 * Real.pi) (‖z.val‖ ^ 2) /
+          (besselKThird (4 * Real.pi) : ℂ)
+```
+
+```lean
+theorem reflected_profile (w : InfinitePlace F) (z : w.Completionˣ) :
+    FiniteLocalHighK.localProfile R θ (thetaJacquetFunctional traceFrequency)
+      (vector R θ w) w true z =
+      HeckeSkeleton.ThetaLocal.Project.reflectedProfile F θ⁻¹
+        ⟨w, R.A.complex_place w⟩ (4 * Real.pi) (‖z.val‖ ^ 2) /
+          (besselKThird (4 * Real.pi) : ℂ)
+```
+
+两侧使用同一 completion-to-complex 等距同构，实际 diagonal/Weyl 的 projective 作用，以及原连续 `thetaJacquetFunctional traceFrequency`。分母是该 functional 在实际向量上的值 `besselKThird (4 * Real.pi)`，不是人为另选的归一化。`GlobalThetaData.reflectionMultiplier` 的定义不变。
+
+### 4.2 七个新增模块的实质证明链
+
+| 新增模块 | 实际证明及接线 |
+| --- | --- |
+| `ThetaGlobal.LocalArchRootCore` | 用 `harmonicSection_harmonic` 将实际最高权向量放入 `complexCore`，用 Weyl 不变性构造最低权分支，再证明 `harmonicInclusion_traceRootCore` 等于 THETA_LOCAL 的 `archRootVector`。实际 Jacquet 值由 Whittaker 公式计算为正 Bessel 值。 |
+| `ThetaGlobal.LocalArchProfile` | 对 `θ⁻¹` 的权选上述 core 向量，沿实际 completion 等距同构和 image action 接到 direct/reflected profile；保留同一非零分母。 |
+| `ThetaGlobal.LocalArchHaar` | 推送真实 `archHaar` 的平方范数到 positive-axis Haar，证明它正好乘角向总质量，并用 `dt/t` 密度把原 Mellin 积分运输到 completion units。 |
+| `ThetaGlobal.LocalArchMellin` | 将局部 `HasMellin`、profile 恒等式及 Haar 运输组合，得到现有 `Input` 需要的两个可积性和 Mellin 等式，保留角向质量和正确的 Gamma 方向。 |
+| `ThetaGlobal.LocalArchBounds` | 从实际 Schlafli 表达式证明 Bessel 反单调性；用已证 Mellin 可积性及区间幂积分给出整个正半轴的逐点幂界。 |
+| `ThetaGlobal.LocalArchInput` | 将 profile 界除以实际 Bessel 归一化值，结合 source 保存的连续 Whittaker 证书，填满现有 `Input` 的 17 个字段。 |
+| `ThetaGlobal.LocalArchSource` | 在 `thetaFiniteSource K c` 选择完成后，定义 `HeckeSkeleton.localHighKMellinInput K c`；不重新选 source、字符、嵌入或 Haar。 |
+
+前三个 source-record 替换文件是 `FiniteFullProduct`、`FiniteProjectedFullSource`、`FiniteFixedSource`，不计入上述七个新模块。它们保留 `normalized_spherical_factorization_full` 已有的 `SphericalTransportData.localForm`／`restriction`／`whittaker` 信息，经实际坐标运输得到 trace-character functional，并在只改变所选 tensor 的有限位 projector 后保持该信息。证书的完整定义如下；它位于 `ThetaGlobal.FiniteFullProduct`，继承实际 recipe `R` 与实际 factorization `D`：
+
+```lean
+def LocalWhittakerForms : Prop :=
+  ∀ w : InfinitePlace F,
+    ∃ M : KPCplxActualImage.Theta traceFrequency →L[ℂ] ℂ,
+      M ∈ KPCplxWhittakerUnique.whittakerSpace traceFrequency traceCharacter ∧
+      ∀ v : KPGlobalResidualConstruction.complexCore,
+        M (harmonicInclusion v) = D.ell (Sum.inl w) v
+```
+
+`FiniteFullProduct.local_value_nonzero_of_whittaker` 先由 `ExteriorWhittakerValues.StoredWhittaker.exists_nonzero_value` 知道存储的 functional 非零，再用 `KPWildComplexWhittakerDictionary.continuousWhittaker_comparison` 把任一实际 Whittaker functional 在指定向量上的非零值传给它。证明不使用 `LocalArchRatio` 来反推自身的非零前提，也不要求所选高 K-型向量已给出一个全局非零 period。固定源的实际调用完整为：
+
+```lean
+theorem Source.archimedean_nonzero (R : PrincipalMellin.ActualRecipe S η)
+    (θ : HeckeGeneral.Characters.HeckeCharacter F) (C : Source R θ)
+    (w : InfinitePlace F)
+    (M : KPCplxActualImage.Theta FourierContinuation.ComplexLines.traceFrequency →L[ℂ] ℂ)
+    (hM : M ∈ KPCplxWhittakerUnique.whittakerSpace
+      FourierContinuation.ComplexLines.traceFrequency FourierContinuation.ComplexLines.traceCharacter)
+    (v : KPGlobalResidualConstruction.complexCore)
+    (hv : M (FourierContinuation.ComplexLines.harmonicInclusion v) ≠ 0) :
+    C.projected.base.factorization.ell (Sum.inl w) v ≠ 0 :=
+  FiniteFullProduct.local_value_nonzero_of_whittaker R C.projected.base.factorization
+    C.localWhittakerForms w M hM v hv
+```
+
+### 4.3 Haar、Mellin 常数和逐点界
+
+设 `ν = C.transport.angularHaar w`。此构造不把其总质量假定为 `1` 或 `2π`；紧群 Haar 的已有性质给出 `(ν Set.univ).toReal > 0`。`LocalArchHaar.radial_hasMellin` 的完整声明头为：
+
+```lean
+theorem radial_hasMellin (A : SArithmeticData F) (w : InfinitePlace F)
+    (ν : Measure Circle) [IsFiniteMeasure ν] (f : ℝ → ℂ) (s m : ℂ)
+    (hf : HasMellin f s m) :
+    Integrable (fun z : w.Completionˣ =>
+      f (normSq w z) * (normSq w z : ℂ) ^ s) (archHaar A w ν) ∧
+      (∫ z : w.Completionˣ, f (normSq w z) * (normSq w z : ℂ) ^ s
+        ∂archHaar A w ν) = ((ν Set.univ).toReal : ℂ) * m
+```
+
+以下两项是 `LocalArchMellin` 的实际定义，继承 `R`、`θ` 与 `N : TraceHaarTransport R`：
+
+```lean
+def directConstant (w : InfinitePlace F) : ℂ :=
+  ((N.angularHaar w Set.univ).toReal : ℂ) *
+    archDirectConstant (4 * Real.pi)
+      (heckeComplexWeight F w (R.A.complex_place w) θ⁻¹)
+      (heckeComplexParameter F w (R.A.complex_place w) θ⁻¹) /
+    (besselKThird (4 * Real.pi) : ℂ)
+```
+
+```lean
+def reflectedConstant (w : InfinitePlace F) : ℂ :=
+  ((N.angularHaar w Set.univ).toReal : ℂ) *
+    archReflectedConstant (4 * Real.pi)
+      (heckeComplexWeight F w (R.A.complex_place w) θ⁻¹)
+      (heckeComplexParameter F w (R.A.complex_place w) θ⁻¹) /
+    (besselKThird (4 * Real.pi) : ℂ)
+```
+
+每处尺度取 `archScale (4 * Real.pi)`，原 `archScale c = 4 / c ^ 2`。`direct_mellin` 在 `s.re > -1/3` 返回实际 Haar 可积性与正向等式，Gamma factor 是 `directGammaPair R θ w s`；`reflected_mellin` 返回反向等式，Gamma factor 是 `gammaPair R θ w s`。同一 `ν` 的质量、同一 Bessel 分母都进入常数。
+
+逐点界不是新增局部假设。令 `a = archWeight m + σ`，`σ > -1/3` 与 `archWeight m ≥ 1/2` 给出 `a > 0`。实际 profile 的范数是 `t ^ archWeight m * KThird (c * sqrt t)`；径向酉扭曲的范数为一。已证 Mellin 可积性给出有限积分 `M = ∫₀∞ u^(a-1) KThird(c√u) du`。Schlafli 积分给出 K 的反单调性，故对 `0 < u ≤ t` 可用 `KThird(c√t)` 作下界，再结合 `∫₀ᵗ u^(a-1) du = t^a/a`，推出 `t^a KThird(c√t) ≤ a*M`。此证明以 `B = a*M ≥ 0` 得到完整正半轴幂界；反向只是把径向参数换成负值。其声明头逐字为：
+
+```lean
+theorem archDirectProfile_bound (c : ℝ) (hc : 0 < c)
+    (m : ℤ) (τ σ : ℝ) (hσ : -(1 / 3 : ℝ) < σ) :
+    ∃ B : ℝ, 0 ≤ B ∧ ∀ t : ℝ, 0 < t →
+      ‖archDirectProfile c m τ t‖ ≤ B * t ^ (-σ)
+```
+
+```lean
+theorem archReflectedProfile_bound (c : ℝ) (hc : 0 < c)
+    (m : ℤ) (τ σ : ℝ) (hσ : -(1 / 3 : ℝ) < σ) :
+    ∃ B : ℝ, 0 ≤ B ∧ ∀ t : ℝ, 0 < t →
+      ‖archReflectedProfile c m τ t‖ ≤ B * t ^ (-σ)
+```
+
+### 4.4 全部 17 个字段的来源及规范构造
+
+下表中的 `C` 总是同一个 `FiniteFixedSource.Source R θ`。`LocalArch` 均指上述完整 `ThetaGlobal.LocalArch…` 命名空间。
+
+| `FiniteLocalHighK.Input` 字段 | 来源 |
+| --- | --- |
+| `vector` | `LocalArchProfile.vector R θ`；`traceRootCore` 的权为 `heckeComplexWeight … θ⁻¹`。 |
+| `functional` | 每处使用实际连续映射 `thetaJacquetFunctional traceFrequency`。 |
+| `whittaker` | `LocalArchRootCore.traceJacquet_whittaker`。 |
+| `functional_nonzero` | `LocalArchProfile.functional_nonzero`，由实际值 `besselKThird (4 * Real.pi) > 0`。 |
+| `source_nonzero` | `FiniteFixedSource.Source.archimedean_nonzero`；使用构造时保留的 `localWhittakerForms` 和真正的 Whittaker 唯一性。 |
+| `scale` | 每处 `archScale (4 * Real.pi)`，原定义是 `4 / c ^ 2`。 |
+| `scale_pos` | `archScale_pos (4 * Real.pi) (by positivity)`。 |
+| `directConstant` | `LocalArchMellin.directConstant R θ C.transport`，保留角向总质量并除以 Bessel 归一化值。 |
+| `directConstant_nonzero` | `LocalArchMellin.directConstant_nonzero`，来自正角向质量、原局部常数非零和正 Bessel 值。 |
+| `reflectedConstant` | `LocalArchMellin.reflectedConstant R θ C.transport`，使用相同 Haar 与 Bessel 归一化。 |
+| `reflectedConstant_nonzero` | `LocalArchMellin.reflectedConstant_nonzero`。 |
+| `direct_integrable` | `LocalArchMellin.direct_mellin … .1`，在原 completion-unit `archHaar` 上。 |
+| `reflected_integrable` | `LocalArchMellin.reflected_mellin … .1`。 |
+| `direct_bound` | `LocalArchInput.direct_bound`，把 `LocalArchBounds.archDirectProfile_bound` 除以固定 Bessel 值的范数。 |
+| `reflected_bound` | `LocalArchInput.reflected_bound`，使用 `archReflectedProfile_bound`。 |
+| `direct_mellin` | `LocalArchMellin.direct_mellin … .2`，Gamma pair 为 `FiniteLocalHighK.directGammaPair R θ w s`。 |
+| `reflected_mellin` | `LocalArchMellin.reflected_mellin … .2`，Gamma pair 为 `FiniteLocalHighK.gammaPair R θ w s`。 |
+
+填充结构的定义完整逐字为，继承 `LocalArchInput` 的 `R`、`θ` 上下文：
+
+```lean
+def input (C : FiniteFixedSource.Source R θ) : FiniteLocalHighK.Input R θ C where
+  vector := LocalArchProfile.vector R θ
+  functional := fun _ => thetaJacquetFunctional traceFrequency
+  whittaker := fun _ => LocalArchRootCore.traceJacquet_whittaker
+  functional_nonzero := LocalArchProfile.functional_nonzero R θ
+  source_nonzero := fun w =>
+    FiniteFixedSource.Source.archimedean_nonzero R θ C w
+      (thetaJacquetFunctional traceFrequency) LocalArchRootCore.traceJacquet_whittaker
+      (LocalArchProfile.vector R θ w) (LocalArchProfile.functional_nonzero R θ w)
+  scale := fun _ => archScale (4 * Real.pi)
+  scale_pos := fun _ => archScale_pos (4 * Real.pi) (by positivity)
+  directConstant := LocalArchMellin.directConstant R θ C.transport
+  directConstant_nonzero := LocalArchMellin.directConstant_nonzero R θ C.transport
+  reflectedConstant := LocalArchMellin.reflectedConstant R θ C.transport
+  reflectedConstant_nonzero := LocalArchMellin.reflectedConstant_nonzero R θ C.transport
+  direct_integrable := fun w s hs =>
+    (LocalArchMellin.direct_mellin R θ C.transport w s hs).1
+  reflected_integrable := fun w s hs =>
+    (LocalArchMellin.reflected_mellin R θ C.transport w s hs).1
+  direct_bound := direct_bound R θ
+  reflected_bound := reflected_bound R θ
+  direct_mellin := fun w s hs =>
+    (LocalArchMellin.direct_mellin R θ C.transport w s hs).2
+  reflected_mellin := fun w s hs =>
+    (LocalArchMellin.reflected_mellin R θ C.transport w s hs).2
+```
+
+最后的 skeleton 适配位于 `ThetaGlobal/LocalArchSource.lean`，命名空间是 `HeckeSkeleton`，继承 `variable (K : Type) [Field K] [NumberField K] (c : TargetContext K)`：
+
+```lean
+def localHighKMellinInput : LocalHighKMellinInput K c :=
+  ThetaGlobal.LocalArchInput.input (thetaRecipe K c)
+    (thetaPeriod K (places K c) (probeData K c) (targetCharacter K c))
+    (thetaFiniteSource K c)
+```
+
+右端三个实参逐字就是现有 `LocalHighKMellinInput K c` 别名中的 recipe、period 字符和固定 source，因此此适配只需定义展开，不加 type-equality 假设或另一次 `Classical.choice`。全局种子、sheet 积分、系数识别、支持集双射、反射级数收敛和任意 annular test 的反射恒等式都不在这 17 个字段中。
 
 ## 5. 已构造的 H：实际有限位数字证书
 
@@ -634,7 +815,7 @@ theorem thetaFiniteSource_marked_reflection
 
 ## 6. 实际有限表的归一化与壳层积分规格
 
-`HeckeSkeleton.FiniteSkeletonSource.data K c L` 就是 `HeckeSkeleton.finiteMellinData K c L` 的实现。其 `C₀`、`A₀` 来自同一 source 的 cutoff volume 和 `L` 的局部常数，而不是额外任选的参数。以下原文在 `HeckeSkeleton.FiniteSkeletonSource` 内，继承 `K`、`c`、`L`：
+通用 `HeckeSkeleton.FiniteSkeletonSource.data K c L` 保持原接口。公开表 `HeckeSkeleton.finiteMellinData K c` 精确取该构造在 `L := localHighKMellinInput K c` 的值。`C₀`、`A₀` 来自同一 source 的 cutoff volume 和这个规范输入的局部常数；其具体 Haar 总质量和 Bessel 因子见第 4.3 节。下面保留通用构造的真实源码，位于 `HeckeSkeleton.FiniteSkeletonSource`，继承 `K`、`c`、`L`：
 
 ```lean
 local notation "R" => thetaRecipe K c
@@ -690,19 +871,23 @@ theorem coefficient_shell_spec
 
 ## 7. 七个下游消费者的新参数映射
 
-这一节记录接线兼容性。它保留仓库其他任务的原有 obligations，不把整条 seven-eighths endpoint 的源码装配当作已无 admission 的数学证明。
+这一节记录本修订实际接线后的完整参数变化。它保留仓库其他任务的原有 obligations，不把整条 seven-eighths endpoint 的源码装配当作已无 admission 的数学证明。
 
 下表的全部名称都在 `HeckeSkeleton` 命名空间。`K`、`c` 参数按源文件 section 自动纳入；最终全域 endpoint 不额外带外层 `K` 参数，因为它的签名直接量化 `F`。
 
-| 消费者 | 本次局部输入及依赖类型变化 | 实际调用/传递 |
-| --- | --- | --- |
-| `completedMarkedEnergy` | 新增 `L`；已有 `hreflection` 改用同一 `finiteMellinData K c L` | `completedMarkedEnergy K c L (markedReflection K c L)` |
-| `principalSource` | 仅保留新增局部参数 `L` | 将内部构造的 `markedReflection K c L` 传给 completed-energy 接口 |
-| `canonical_inverse_models` | 新增 `L`；保留 `hcal`、`hrows`、`hprofiles`、`hquadratic`、`hcubic`；已有 `hreflection` 改用同一 `finiteMellinData K c L` | `canonical_inverse_models K c L hcal hrows hprofiles (moment_quadratic_sieve K c) (moment_cubic_sieve K c) (markedReflection K c L)` |
-| `inverseSource` | 仅保留新增局部参数 `L` | 用上述 canonical inverse-model 调用构造 `ISource` |
-| `sourceT` | 仅保留新增局部参数 `L` | `principal := principalSource K c L` |
-| `familyInputs` | 逐 `TargetContext K` 的 `localData`；已移除 `localDigits` | 对每个 `c` 将 `localData c` 传给 `sourceT`、`inverseSource` |
-| `generalHeckeSevenEighths_skeleton` | 只保留对每个数域和每个 `c` 的 `Nonempty (LocalHighKMellinInput F c)` | 在 descent extension 上用 `Classical.choice` 取得 `L`，传给 `familyInputs`；有限位证书由固定源构造 |
+| 消费者 | 接入规范 L 前的显式前缀 | 本修订显式前缀 | 前缀参数个数 |
+| --- | --- | --- | --- |
+| `completedMarkedEnergy` | `K c L hreflection` | `K c hreflection` | 4 → 3 |
+| `principalSource` | `K c L` | `K c` | 3 → 2 |
+| `canonical_inverse_models` | `K c L hcal hrows hprofiles hquadratic hcubic hreflection` | `K c hcal hrows hprofiles hquadratic hcubic hreflection` | 9 → 8 |
+| `inverseSource` | `K c L` | `K c` | 3 → 2 |
+| `sourceT` | `K c L` | `K c` | 3 → 2 |
+| `familyInputs` | `K zeta hzeta omega localData` | `K zeta hzeta omega` | 5 → 4 |
+| `generalHeckeSevenEighths_skeleton` | `localData` | 无新增局部参数 | 1 → 0 |
+
+计数不含 typeclass 实参和结论内部保持不变的量词。两个 `hreflection` 仍保留，其有限表改为规范 `finiteMellinData K c`。此前已移除 `H/localDigits`；本修订进一步移除 `L/localData`。
+
+通用接口保持原显式调用顺序：`FiniteSkeletonSource.data K c L`、`FiniteSkeletonSource.admissible K c L`、`thetaFiniteSource_marked_reflection K c L hA hS w hk d V hX`，以及 `thetaRecipe_marked_reflection K c θ C L H hA hS w hk d V hX`。最后两个 helper 的 `{X : ℝ}` 仍为隐式；公共 `marked_reflection K c hkernel d V X hX` 的 `X` 则在结论中显式量化。
 
 前六项的完整声明头如下；证明体不重印。Principal 的源文件局部记号是：
 
@@ -723,60 +908,57 @@ local instance (p : S) : (μ p).IsAddHaarMeasure := (probeMeasures K c).haar_isA
 ```
 
 ```lean
-theorem completedMarkedEnergy (L : LocalHighKMellinInput K c)
+theorem completedMarkedEnergy
     (hreflection : MarkedCoefficientReflectionInput K S (probeData K c).arithmetic
-      (finiteMellinData K c L) (thetaPeriod K S P ψ)) : CompletedMarkedEnergy K c
+      (finiteMellinData K c) (thetaPeriod K S P ψ)) : CompletedMarkedEnergy K c
 ```
 
 ```lean
-theorem principalSource (L : LocalHighKMellinInput K c) :
+theorem principalSource :
     (probeMeasures K c).principalInput P ψ g T
 ```
 
 ```lean
-theorem canonical_inverse_models (L : LocalHighKMellinInput K c)
+theorem canonical_inverse_models
     (hcal : SourcePolynomialCalibration (momentRowCharacters K c) (momentModels K c))
     (hrows : SourceRowEligibility (momentModels K c))
     (hprofiles : WholeMomentProfileControl (momentModels K c))
     (hquadratic : QuadraticSieveBound K c) (hcubic : CubicSieveBound K c)
     (hreflection : MarkedCoefficientReflectionInput K (places K c)
-      (probeData K c).arithmetic (finiteMellinData K c L)
+      (probeData K c).arithmetic (finiteMellinData K c)
       (thetaPeriod K (places K c) (probeData K c) (targetCharacter K c))) :
     CanonicalInverseModelBounds (momentModels K c)
 ```
 
 ```lean
-theorem inverseSource (L : LocalHighKMellinInput K c) :
+theorem inverseSource :
     ISource c.geometry (targetData K c) c.family.lamA
 ```
 
 ```lean
-theorem sourceT (c : TargetContext K) (L : LocalHighKMellinInput K c) :
+theorem sourceT (c : TargetContext K) :
     TSource c.geometry (targetCharacter K c) (targetData K c)
       c.family.B c.family.lamA c.lamB
 ```
 
 ```lean
 theorem familyInputs (zeta : K) (hzeta : IsPrimitiveRoot zeta 12)
-    (ω : HeckeCharacter K)
-    (localData : ∀ c : TargetContext K, LocalHighKMellinInput K c) : TIPInput K ω
+    (ω : HeckeCharacter K) : TIPInput K ω
 ```
 
 `canonical_inverse_models` 与 `inverseSource` 继承 `variable (K c)`；`sourceT` 与 `familyInputs` 继承 Main 的 `variable (K : Type) [Field K] [NumberField K]`。对应完整参数顺序和返回类型还由 `verification/theta_global/ConsumerSignatures.lean` 的 typed examples 检查；该文件的消费者公理报告允许原有 `sorryAx`，所以其意义是接口兼容性。
 
-### 7.1 最终 Main 条件 endpoint 的完整声明
+### 7.1  Main endpoint 的完整声明：无新增局部参数，仍有其他 admissions
 
-源码：[HeckeSkeleton/Main.lean](../HeckeSkeleton/Main.lean)。以下包括完整签名及实际装配证明：
+以下逐字取自 [HeckeSkeleton/Main.lean](../HeckeSkeleton/Main.lean)，包括完整签名和装配证明：
 
 ```lean
-theorem generalHeckeSevenEighths_skeleton
-    (localData : ∀ (F : Type) [Field F] [NumberField F] (c : TargetContext F),
-      Nonempty (LocalHighKMellinInput F c)) : GeneralHeckeSevenEighths := by
+theorem generalHeckeSevenEighths_skeleton : GeneralHeckeSevenEighths := by
   intro F _ _
   apply Descent.descend F
   intro ω
   exact familyInputs (Descent.Extension F) (Descent.root12 F)
-    (Descent.primitive_root12 F) ω (fun c => Classical.choice (localData _ c))
+    (Descent.primitive_root12 F) ω
 ```
 
 结论名 `GeneralHeckeSevenEighths` 的准确展开位于 `HeckeGeneral.Analysis`：
@@ -792,51 +974,68 @@ def GeneralHeckeSevenEighths : Prop :=
   ∀ (F : Type) [Field F] [NumberField F], HeckeSevenEighths F
 ```
 
-`GeneralHeckeSevenEighths` 的含义是所有数域、所有实际连续酉 Hecke 字符的 `heckeContinuation` 在 `Re(s) > 7/8` 无 meromorphic zero；其定义仍允许纯 norm 字符导致的极点。Main 的 theorem 当前仍通过其他任务的既有 admissions 依赖 `sorryAx`。本次 THETA_GLOBAL 源码针对五个指定 theta 目标完成实现与接线，并显式传播仍保留的阿基米德局部输入；这些目标的完整原生验证仍待完成。
+`GeneralHeckeSevenEighths` 的含义是所有数域、所有实际连续酉 Hecke 字符的 `heckeContinuation` 在 `Re(s) > 7/8` 无 meromorphic zero；其定义仍允许纯 norm 字符导致的极点。Main 的 theorem 当前仍通过其他任务的既有 admissions 依赖 `sorryAx`。本修订为五个 theta 目标接入规范 `L`，使 Main 不再添加局部包前提，但没有消除 Principal／Moments 及其他既有上游 admissions。五个 theta 目标、规范局部构造及其完整依赖的原生验证仍待完成。
 
-## 8. 本任务的完成边界与验证记录的解释
+## 8. 源码完成边界与验证记录的解释
 
-原 TASK 允许单处假设；当前源码又将有限位数字证书从该边界中移除，公开构造只保留第 4 节的 `L`。完整的 THETA_GLOBAL 任务验收仍要求：五个指定目标在实际项目中完成接线；有限表保有壳层积分规格；全局 seed、测度/积分装配、实际系数识别、支持集重排和 annular transfer 在这条局部边界内推出；固定版本 native 编译与五目标递归公理门实际成功。
+原 TASK 允许单处输入；本修订已经接线完整 `L` 和 `H` 的源码构造及其公开接口。完整 native 验收仍未完成：五目标、规范局部构造及实际依赖闭包必须通过固定版本编译和递归公理门，有限表必须保有原局部壳层积分规格。源码实现和静态接口核对不能代替这些原生检查。
 
-`verification/theta_global/EntryAudit.lean` 对五目标拒绝 `sorryAx` 及任何非标准公理。允许的公理仅为 `propext`、`Classical.choice`、`Quot.sound`。同一审计另检查 16 项接口声明：实际固定源、壳层积分规格、两个归一化常数、返回的反射包、四项 canonical-digit 接线声明及七条方向恒等式，共 21 项严格检查。
+[EntryAudit.lean](../verification/theta_global/EntryAudit.lean) 在原 21 项检查上新增 28 项，共 **49 = 5 个目标 + 44 个接口**。新增部分分别是 RootCore 5、Profile 4、Haar 6、Mellin 4、Bounds 2、Input 3、规范 skeleton constructor 1，以及保留 source certificate 的接口 3。允许的公理仅为 `propext`、`Classical.choice`、`Quot.sound`；检查必须成功退出并实际产生 5 条 `THETA_GLOBAL_AXIOMS` 与 44 条 `THETA_GLOBAL_INTERFACE_AXIOMS`，才构成该门的成功结果。
 
-新增 `verification/theta_global/LocalDigitAudit.lean` 先对 arithmetic/evaluation/average 链的 12 项局部声明使用同一严格白名单；完整固定源适配仍由 `EntryAudit` 检查。实际入口 CI 作业的总上限为 330 分钟，顺序为算术 foundation/cache checkpoint、局部数字构造与审计、Theta 入口与严格门、Main 消费者与七签名检查。配置这些阶段不代表它们已通过。
+[LocalDigitAudit.lean](../verification/theta_global/LocalDigitAudit.lean) 保留 12 条 `THETA_GLOBAL_LOCAL_DIGIT_AXIOMS` 检查。[LocalArchAnalyticAudit.lean](../verification/theta_global/LocalArchAnalyticAudit.lean) 新增 8 条严格检查（6 Haar + 2 Bessel bounds），产生 `THETA_GLOBAL_LOCAL_ARCH_AXIOMS`；完整 input 和固定 source 仍由上述 49 条 EntryAudit 递归检查。
 
-`verification/theta_global/ConsumerSignatures.lean` 具有不同的核查目的：检查七个下游调用的精确类型，记录包括原有 `sorryAx` 在内的依赖。它不能替代五目标的严格门，也不构成整个 seven-eighths endpoint 的无 admission 证明。
+实际入口 [workflow](../.github/workflows/theta-global.yml) 的 job 总上限为 **330 分钟**，各显式 step timeout 合计 **309 分钟**。算术 foundation/cache checkpoint 后，原 35 分钟早期 build 用一个不带 `--fail-fast` 的 `lake build` 同时构建 `LocalDigitAverage`、`LocalArchHaar`、`LocalArchBounds`，然后运行原 4 分钟数字审计与新增 4 分钟解析审计。其后 Theta／方向模块、Main 与七个消费者检查的 build 顺序保持。此处记录验证配置，不将配置或运行中状态当作成功结果。
 
-当前独立原生通过项包括 `FiniteLocalShellProject` 与 `GlobalEmbedding`；`GlobalProjectEmbedding` 的本地尝试在导入阶段达到内存映射数量上限后失败，未完成目标证明检查。CI `41159434388` 的实际入口作业在 arithmetic foundation 时间上限处停止，两个项目缓存均已保存，后续 Theta/Main 门未运行。新局部数字链和完整入口仍待原生验证。对应提交、日志和精确验证范围见 [`THETA_GLOBAL.md`](THETA_GLOBAL.md)；本报告及历史 QA/manifests 不把排队、运行中、旧提交成功或 transformed combined-body 检查转记为本轮 native 成功。
+[ConsumerSignatures.lean](../verification/theta_global/ConsumerSignatures.lean) 的七项类型检查已接到第 7 节签名，但仍允许既有 `sorryAx`。它检查下游接口兼容性，不能用于宣称整个 seven-eighths endpoint 已无 admission。
 
-## 9. 声明摘录的源码指纹
+历史提交 `b45484e24f3d4e28cc8092ff6b296f38f4a0f94f` 的 [standalone job](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41166970094/job/124436512226) 于 `2026-10-31T04:05:38Z` 成功，检查 45 个 transformed source bodies 和全部 56 条严格记录；artifact SHA-256 为 `7f3d0592a8f2ec9ea13582f711f061a4c614f2f439892733e1b7f8cd5c265f6e`。该检查的 45 个源文件哈希仍全部匹配本修订。仓库中的 [核查记录](../verification/theta_global/ci_41166970094_standalone.json) 和 [原始编译日志](../verification/theta_global/ci_41166970094_standalone.log) 保留其提交、变换与验证范围。它没有检查规范 L 构造，也未认证 H 或完整 native entry closure。实际 `LocalArchHaar` 源码（指纹见第 9 节）的独立原生尝试于 `2026-10-31T04:42:03Z` 在 20 分钟预算处停止：耗时 `1201.156` 秒，退出码 `-15`，日志为 0 字节，没有公理输出，归类为 `resource-inconclusive`。该结果既不认证通过，也不确定 Lean 证明错误；[运行记录](../verification/theta_global/native_local_arch_haar_20261031.json)、[原始日志](../verification/theta_global/native_local_arch_haar_20261031.log) 与 [映射采样](../verification/theta_global/native_local_arch_haar_20261031.maps.jsonl) 已归档。`LocalArchBounds` 的实际源码检查仍在运行，不预填结果。
 
-下列 SHA-256 标识本报告抽取时读取的源码。它们用于核查逐字声明的来源，不是编译证书。报告若随之后的源文件变动更新，应同步重新核对受影响的声明。
+历史事实保持其原范围：`FiniteLocalShellProject` 与 `GlobalEmbedding` 独立原生通过；`GlobalProjectEmbedding` 本地尝试在导入时达到映射数量上限而失败；CI `41159434388` 在算术 foundation 的时间上限停止并保存两个缓存，Theta/Main 门未运行。旧 standalone／188-module／9-module／54-module 等 transformed 验证仍只认证其记录的源码、变换和选项。详见 [`THETA_GLOBAL.md`](THETA_GLOBAL.md) 原有历史段落；历史 QA 和 manifests 保持原样。
+
+## 9. 声明来源与源码指纹
+
+下列 SHA-256 标识本报告核对时读取的实际仓库原文，用于核查逐字声明和验证配置的来源，不是编译证书。若源文件的证明、注释或 import header 后续改变，应同步重算受影响指纹并核对摘录；历史验证 manifests 保留各自当时的源哈希，不应被本表替换。
 
 | 源文件 | SHA-256 |
 | --- | --- |
+| `.github/workflows/theta-global.yml` | `f491763b377dded54aa51ef63f4e99d9e513dca61e291966d9d045e1a2118477` |
 | `DedekindZetaZeroFree/Arithmetic/ResidueSymbols/SixthRootAlignment.lean` | `8c04cacf75ff71f02a41d190cea7b3b33d6e04e525a6a5f528d7508ce80e576f` |
 | `HeckeGeneral/Analysis/HeckeEndpointTarget.lean` | `df13b15c2eadef1564e7270174f11e435a0dd0f2dac4d8f52c58faa3fa5a19c7` |
 | `HeckeGeneral/Analysis/PhysicalProbeData.lean` | `eed80b7917e82014bc94ca60fa34a9eef12bd162ae91adfbe5fe60bacebe13d9` |
 | `HeckeSkeleton/Base.lean` | `f39648a385520d311a2f7dc38d396920dd1d68a6fdf8eb92cd80204acccc7150` |
-| `HeckeSkeleton/Main.lean` | `d0ba597684b86fa061c20d5fa4a72c90331639fb099812c362d6f31664ba5f8e` |
-| `HeckeSkeleton/Moments.lean` | `564824d119a122fbb431605eec4c53153c3e4b6a4c005b241d675e41bc94b379` |
-| `HeckeSkeleton/Principal.lean` | `084216a3b251b02de3cf8ef0ddf2c47859aa5d4871a9f49c0fa4fdbed7ca5ad7` |
-| `HeckeSkeleton/Theta.lean` | `ae2d53f120642e931e8d60cf1b2733a7ad103a0f3cd5686525430d2a5a4daef9` |
+| `HeckeSkeleton/Main.lean` | `87bde25e9460f096079f9f46b7e9e12305ac25769189ffbb9e83189cd28a087f` |
+| `HeckeSkeleton/Moments.lean` | `5257b528ead4bfbc85947715010ad37eeb1a06fce8c8fb41ef7c24fb3e262455` |
+| `HeckeSkeleton/Principal.lean` | `adc012766fb5fa2a5da257019d5660aae1e745fe7e8b40311a4a6c3fb91a81f9` |
+| `HeckeSkeleton/Theta.lean` | `30c54c50ec99568ff48f469e7b1d16019abaf61211897a5e020c07ca0ae99684` |
+| `HeckeSkeleton/ThetaLocal/ArchimedeanMellin.lean` | `fc82ad1ce42ba9ac98e50b267c71d20d38612a62f961265c9c2215716a125030` |
+| `HeckeSkeleton/ThetaLocal/ProjectArchimedeanWhittaker.lean` | `5dd1b809f18c2bce1ae3c0143392e542fa8675de0b78a37b96311a5962a4fd15` |
 | `HeckeSkeleton/ThetaLocal/ProjectFinite.lean` | `e46a90f9bfa13f9dc19f9dd28f9b5254f79166394eaa646a9f9e67a13f333e95` |
-| `ThetaGlobal/FiniteFixedSource.lean` | `f263975dca7807d0dfdec7bcc76f7a19e53c172d57c371e2a73663e763fc6add` |
-| `ThetaGlobal/FiniteLocalHighK.lean` | `136457582ad8ee7cf005e36e8954b5ebc5a2917ef06a11d674c362ade713e16a` |
-| `ThetaGlobal/FiniteSkeletonSource.lean` | `a375fb500f836b4245ba992f3e57d00d184f2f9cfee34234416cecbaa6334929` |
+| `ThetaGlobal/FiniteFixedSource.lean` | `091f49b430564ae0c29c82eb01c6807767ed9a1379cd458ea11082c115bd316b` |
+| `ThetaGlobal/FiniteFullProduct.lean` | `d66a9041f8cd20c363d8ba95f8da13024865f1e7f1a450d7df1f7b31efabd353` |
+| `ThetaGlobal/FiniteLocalHighK.lean` | `1aacf87b81d21bddac6aa99b4af1bf9d7c184d3ce9ed1cde4727cf15b5f14463` |
+| `ThetaGlobal/FiniteProjectedFullSource.lean` | `a722083034a213afd941ef9622840efc624415706b733a18dcd8655269d15c28` |
+| `ThetaGlobal/FiniteSkeletonSource.lean` | `d0856effdcec8ff51e3aaf8caa5359fd67570c01bdc45b3d06bce4066c7c756f` |
 | `ThetaGlobal/GlobalEmbedding.lean` | `42d71b175d8208d4e4c072f5d6b3d098a16259ca5e932e0bcbb206ee091b246f` |
 | `ThetaGlobal/GlobalProjectDigitProduct.lean` | `811cae13cd2f93d3bf02ed4ccfc79c1ae1d0f789cfaad0f7ef134c8e4fd680b4` |
 | `ThetaGlobal/GlobalProjectLocalDigitTables.lean` | `9527446ae4f7acd4d5af4bfd5d0d1f3ddb5a812788401dd2dabc8a0b5cc5d1db` |
-| `ThetaGlobal/GlobalProjectMarkedReflection.lean` | `09b7130fa17e4e708472b9463888f12506ef78d710999be26617fbc98e35fffd` |
+| `ThetaGlobal/GlobalProjectMarkedReflection.lean` | `a091fab6852b6d060a6311f5b0df9607029d516c2d8076f8adc6347674199277` |
 | `ThetaGlobal/GlobalSameChoice.lean` | `d699611e1c5357e866ad0a722f5b7083b69e2bc2b17a8fadba3447c43022aad5` |
+| `ThetaGlobal/LocalArchBounds.lean` | `1a0ebeb15576956ca65f09cc6526a1b9d0522081cd61820cd14761c67f43dd8f` |
+| `ThetaGlobal/LocalArchHaar.lean` | `04fcd6397486b8309beb1b0c7c18fd9551df6c795c17cc46b6e9e5e4edea5e3b` |
+| `ThetaGlobal/LocalArchInput.lean` | `5def37212adc79c9a9d181efd7b982de38101e663e8d64583782c3176fcbc04d` |
+| `ThetaGlobal/LocalArchMellin.lean` | `193a8c9b06d7daedd8dd7997a4bfcb77161ad1a57d752121681e53c66f64e965` |
+| `ThetaGlobal/LocalArchProfile.lean` | `002d162e1001e9927ca95cc0f29093eb7811df8e71be3a9a22174a744d438f84` |
+| `ThetaGlobal/LocalArchRootCore.lean` | `487dd632507ea032c3f832e53c94f3756e8db66335844263fad0b1f8a069e11a` |
+| `ThetaGlobal/LocalArchSource.lean` | `553c96489c7b1bcc31925da658ef2b256229e4192b3e46210f4885ab65f9fad2` |
 | `ThetaGlobal/LocalDigitArithmetic.lean` | `1464df23e54d81fa75155d54c29905c7b00ee7307570ec6d32a76ac3b5e7fef9` |
 | `ThetaGlobal/LocalDigitAverage.lean` | `c6ea37aba5300c9f3017f946f37130fa95ab773c3969c390d9b87ccbee4b7bed` |
 | `ThetaGlobal/LocalDigitEvaluation.lean` | `e2745823d85284461f96ee1c874084d098057119c1f3859a9e54530f912f0d93` |
 | `ThetaGlobal/LocalDigitInput.lean` | `c99f638c29b7d9dff6eb12b406f6b3032dbe646130edf6f7d0e6fe8f28981fa6` |
 | `ThetaGlobal/LocalDigitSource.lean` | `219ff4ea7eaf32cd12fd74370a4bcce4923c8f37cd81bfded988fc29f8ea3a83` |
 | `ThetaGlobal/LocalGammaOrientation.lean` | `ad9306b508904ca4a27d29065b4d55b476c123e19f9c5f379b7240b6f21813f0` |
-| `verification/theta_global/ConsumerSignatures.lean` | `400327963ab57815de4c9a499e5790ad2388fa51cbdcd3e2f205499063a7d9d9` |
-| `verification/theta_global/EntryAudit.lean` | `9d5333eb7285dea7f2e17ddfc2ded14e0976ab27c3a50c0be02c355c9ff72ab2` |
+| `verification/theta_global/ConsumerSignatures.lean` | `6c4c89e6d5370ddad6a4c7462935b91154b894cf329ed5e5161abaa7875dbf00` |
+| `verification/theta_global/EntryAudit.lean` | `94f3f850adffedfdceebf828f1519c2f53c17a26f42d571220ee28267837d250` |
+| `verification/theta_global/LocalArchAnalyticAudit.lean` | `25f3fbd667b7bb58e3e7c093d5cab015f6a9d9e9d1433312a471ec41fa09c6e2` |
 | `verification/theta_global/LocalDigitAudit.lean` | `970991b499c597961ed1669490e9f0781c79ab76de7352514be266a08f5e21c6` |
 
 AI-assisted：OpenAI ChatGPT / GPT-6 Astra Pro，2026-10-31。

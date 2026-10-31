@@ -1,59 +1,116 @@
 # Fixed-choice marked theta construction
 
-This directory implements the `THETA_GLOBAL` work against the actual
-definitions in `HeckeGeneral`, `HeckeAxiom`, `HeckeSkeleton`, and
-`DedekindZetaZeroFree`. The base is commit
-`503ad9895e5f8affef55b22fea082e251bf33aa7` on `dtests-handoff`; publication
-preserves the subsequent changes through
-`6e67559f4285ab833a746db021a0d73200e47590`.
+**The source implementation is wired; complete native validation remains
+pending.** This revision constructs both the archimedean high K-type input
+and finite-place digit certificate on the same actual fixed source.
+Public Theta, Principal, Moments and Main require neither L/localData
+nor H/localDigits. Their generic helpers retain local input parameters;
+the original `marked_reflection` argument `hkernel` is preserved.
 
-**Work in progress: the project-facing source is not yet certified by a
-successful dependency-complete Lean build.** All five target entry points
-now have source implementations, including the literal marked coefficient
-assembly. Validation status is tracked in
-[`../docs/THETA_GLOBAL.md`](../docs/THETA_GLOBAL.md). Source-level proof
-scripts are distinguished from successful compiler results there.
+This work uses actual definitions in `HeckeGeneral`, `HeckeAxiom`,
+`HeckeSkeleton`, and `DedekindZetaZeroFree`. Its original base is
+`503ad9895e5f8affef55b22fea082e251bf33aa7` on `dtests-handoff`, with upstream
+changes preserved through `6e67559f4285ab833a746db021a0d73200e47590`.
+Detailed statements and validation scope are in
+[`../docs/THETA_GLOBAL_STATEMENTS.md`](../docs/THETA_GLOBAL_STATEMENTS.md)
+and [`../docs/THETA_GLOBAL.md`](../docs/THETA_GLOBAL.md).
 
 ## Principal paths
 
 | Part | Modules |
 | --- | --- |
-| One arithmetic choice, embedding and allowed generators | `GlobalChoice`, `GlobalSameChoice`, `GlobalSkeletonChoice` |
-| Actual finite source and target-character projection | `FiniteFixedSource`, `FiniteTargetCutoff`, `FiniteProjectedFullSource` |
+| One arithmetic choice, aligned embedding and allowed generators | `GlobalChoice`, `GlobalSameChoice`, `GlobalSkeletonChoice` |
+| Actual source, target projector and retained continuous Whittaker certificate | `FiniteFullProduct`, `FiniteFixedSource`, `FiniteTargetCutoff`, `FiniteProjectedFullSource` |
 | Literal rotated shell integrals, cutoff and decay | `FiniteProjectedMellin`, `FiniteProjectedIntegral`, `FiniteSkeletonSource` |
-| Explicit local archimedean boundary | `FiniteLocalHighK` |
-| Normalized direct/reflected Mellin transforms | `FiniteNormalizedMellin`, `FiniteActualProfiles`, `LocalGammaOrientation` |
+| Existing 17-field generic archimedean interface | `FiniteLocalHighK` |
+| Actual inverse-character root-core vector and profile | `LocalArchRootCore`, `LocalArchProfile` |
+| Actual Haar transport, Mellin pair and Bessel power bounds | `LocalArchHaar`, `LocalArchMellin`, `LocalArchBounds` |
+| Complete local input and same-source skeleton adapter | `LocalArchInput`, `LocalArchSource` |
+| Normalized global Mellin transforms and character orientation | `FiniteNormalizedMellin`, `FiniteActualProfiles`, `LocalGammaOrientation` |
 | Full three-ideal absolute convergence | `ReflectedArithmetic`, `ReflectedAbsoluteProject` |
 | All-core Fourier summability and orbit integration | `GlobalProjectFourierSmooth`, `GlobalProjectWeightedSheet`, `GlobalProjectOrbitEvaluation` |
 | Derived frequency seed | `GlobalProjectFrequencySeed` |
 | Literal direct/reflected coefficient dictionaries and seed | `GlobalSkeletonDirect`, `GlobalProjectReflectedDictionary`, `GlobalProjectReflectedReindex`, `GlobalProjectLiteralSeed` |
 | Final source entry point | `GlobalProjectMarkedReflection`, `HeckeSkeleton.marked_reflection` |
 | Actual exterior digit calculation and fixed-source certificate | `LocalDigitArithmetic`, `LocalDigitEvaluation`, `LocalDigitAverage`, `LocalDigitInput`, `LocalDigitSource` |
-| Actual index support, uniqueness and coverage | `GlobalIndexSupport`, `GlobalActualReindex`, `GlobalActualCoordinates`, `GlobalProjectMarkedSupport` |
-| Scalar deconvolution and actual annular transfer | `GammaReciprocalGrowth`, `GammaDeconvolverProject`, `ActualAnnularProfiles`, `ActualAnnularTransfer` |
+| Actual supported-index uniqueness and coverage | `GlobalIndexSupport`, `GlobalActualReindex`, `GlobalActualCoordinates`, `GlobalProjectMarkedSupport` |
+| Scalar deconvolution and actual annular transfer | `GammaReciprocalGrowth`, `GammaDeconvolverProject`, `ActualAnnularTransfer` |
 
-The remaining external local input contains actual archimedean vectors,
-Whittaker/Mellin formulas, nonvanishing, local integrability and bounds.
-It contains no theta reflection equality, global frequency bijection,
-global coefficient formula, or global summability assertion. The four-field
-`GlobalProjectLocalDigitTables.Input` is now constructed from the fixed
-source: its actual local Bruhat coefficient is evaluated and averaged
-using the proved residue-field tables, with the same characters and phase.
-The public Theta, Principal, Moments and Main constructors no longer take
-an exterior-digit premise. This new native proof chain is awaiting its
-separate build and twelve-declaration strict axiom check.
+The seven new `LocalArch` modules lift the actual THETA_LOCAL vector
+at the angular weight of θ⁻¹ into `complexCore`, evaluate it by the actual
+continuous Jacquet functional, transport the exact completion-unit Haar
+measure, and prove Mellin formulas and whole-positive-axis power bounds.
+The source's continuous Whittaker restriction certificate is retained
+through the spherical construction and finite projector. Whittaker
+uniqueness then transfers nonvanishing to the stored functional without
+adding a premise to `source_nonempty` or using a global ratio circularly.
 
-The original task explicitly permits these local inputs; its complete text
-is preserved in [`../docs/THETA_GLOBAL_TASK.md`](../docs/THETA_GLOBAL_TASK.md).
+The actual angular Haar mass is retained in each local Mellin constant;
+both constants also divide by the same positive `besselKThird (4 * Real.pi)`.
+The bound uses the Schlafli integral's Bessel monotonicity and the exact
+power integral to convert local Mellin integrability into a pointwise
+estimate. The 17 fields and their precise sources are listed in the
+statement report. No global seed, frequency bijection, reflected-series
+convergence or final reflection identity is a field of the local package.
+
+The four-field `GlobalProjectLocalDigitTables.Input` is already constructed
+in the source using the actual local Bruhat coefficient and
+proved residue-field tables with the same character and phase. Its full
+native proof chain and 12-declaration strict audit remain pending.
+
+The construction defines `localHighKMellinInput K c` on the already selected
+`thetaFiniteSource K c`, then uses it inside `finiteMellinData K c`.
+Public Theta, Principal, Moments and Main take neither L/localData
+nor H/localDigits. Generic `FiniteSkeletonSource.data` and fixed-source
+reflection helpers retain L; `thetaRecipe_marked_reflection` retains L
+and H. The original explicit `hkernel` on `marked_reflection` is retained.
+Main's unrelated admissions remain, even though its signature
+has no added local premise.
+
+The original task explicitly permits these local inputs and is preserved
+in [`../docs/THETA_GLOBAL_TASK.md`](../docs/THETA_GLOBAL_TASK.md).
 `LocalGammaOrientation` identifies the direct Gamma product with
 `archGammaProduct θ⁻¹` and the reflected product with `archGammaProduct θ`.
-Thus local formulas whose direct profile uses an inverse character are
-applied at `θ⁻¹` for this fixed source, whose direct profile uses `θ`.
+The implementation applies the local inverse-character convention at θ⁻¹,
+matching the fixed source's direct positive character.
 
-The raw reflected index deliberately retains zero coefficients. Its map
-to frequencies is not injective. The support-level reindexing proves
-uniqueness only after the actual local zero conditions have been used,
-then restores the full original index.
+The raw reflected index retains three independent ideal coordinates and
+genuine zero coefficients, so its frequency map is not injective. The
+support-level reindexing proves uniqueness after applying the actual
+local zero conditions, then restores the original full index. The
+convergence argument retains all three ideal factors.
+
+## Verification scope
+
+At commit `b45484e24f3d4e28cc8092ff6b296f38f4a0f94f`, the
+[standalone job](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41166970094/job/124436512226)
+passed 45 transformed source bodies and all 56 strict records. Those
+45 source hashes still match this revision. The archived
+[evidence record](../verification/theta_global/ci_41166970094_standalone.json)
+and [compiler log](../verification/theta_global/ci_41166970094_standalone.log)
+preserve the exact checked scope. This check does not include the canonical
+archimedean construction or certify the full native H/Theta chain. The
+independent Haar attempt ended at its 20-minute budget with exit -15,
+an empty log and no axiom output. Its
+[resource-inconclusive record](../verification/theta_global/native_local_arch_haar_20261031.json)
+and [raw log](../verification/theta_global/native_local_arch_haar_20261031.log)
+establish neither a native pass nor a Lean proof error. The independent
+Bounds check remains in progress.
+
+EntryAudit checks **49 = 5 targets + 44 interfaces**, extending the previous
+21 checks by 28. LocalDigitAudit has 12 checks and consumer signatures have
+seven. The strict gates reject `sorryAx`; consumer compatibility checks
+retain the legacy allowance. The existing 35-minute early `lake build`
+checks LocalDigitAverage, LocalArchHaar and LocalArchBounds together without
+`--fail-fast`, followed by the local-digit and new four-minute
+LocalArchAnalyticAudit steps. The latter checks eight strict records
+(six Haar and two bounds). Input and fixed-source construction are checked
+by the complete 49-declaration EntryAudit. The actual-entry job limit is
+330 minutes, with 309 minutes of explicit step timeouts. These configuration
+facts do not imply that the native runs have passed.
+
+The historical paragraphs below retain their original verification scope
+and provenance.
 
 The checked standalone bundle is in `verification/theta_global`, outside
 the `ThetaGlobal` library glob. Its 45 source bodies compile with the
