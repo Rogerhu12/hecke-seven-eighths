@@ -288,15 +288,16 @@ theorem exists_physical_recipe_parameters
         (fun u hu => (hrows u hu).2.2.2.2) width hw value
     exact ⟨b, hbin, hvalue, hblock, hgeometry, horigin, horiginAll⟩
   · have hfloor : c.1.center = 51 / 100 := le_antisymm (le_of_not_gt hlive) ha.1
+    have hdelta : (2 * c.1.center - 1) / 2 = (1 / 100 : ℝ) := by
+      rw [hfloor]
+      norm_num
     obtain ⟨hcard, b, hbin, hvalue, hblock, hgeometry, horigin, horiginAll⟩ :=
       exists_physical_floor_block_source_with_provenance K S P E.rows ω ψ g F
         Z (Z ^ τ) d B lam k width value hZone hT hd.1 hdUpper hB0 hw c.2 rows
         (fun u hu => (hrows u hu).2.1) (fun u hu => (hrows u hu).2.2.1)
     refine ⟨b, hbin.trans hfloor.symm, hvalue, hblock, hgeometry, ?_, ?_⟩
-    · simpa only [hfloor, show (2 * (51 / 100 : ℝ) - 1) / 2 = 1 / 100 by norm_num]
-        using horigin
-    · simpa only [hfloor, show (2 * (51 / 100 : ℝ) - 1) / 2 = 1 / 100 by norm_num]
-        using horiginAll
+    · simpa only [hdelta] using horigin
+    · simpa only [hdelta] using horiginAll
 
 /-- The same parameter choice supplies the geometry for every choice of
 the four literal analytic components; it does not depend on those values. -/

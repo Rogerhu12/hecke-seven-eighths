@@ -76,6 +76,47 @@ theorem differentiableAt_actual_fullCorrection_comp
       (hs.prodMk (hw.prodMk hz))
   exact ((((differentiableAt_const _).mul hspow).mul (differentiableAt_const _)).mul hmpow).mul hcor
 
+private theorem analyticAt_fixed_cpow_comp
+    {X : Type*} [NormedAddCommGroup X] [NormedSpace ℂ X]
+    {f : X → ℂ} {x : X} {a : ℂ}
+    (hf : AnalyticAt ℂ f x) (ha : a ≠ 0) :
+    AnalyticAt ℂ (fun y => a ^ f y) x := by
+  simpa only [Complex.cpow_def_of_ne_zero ha] using
+    ((analyticAt_const (v := Complex.log a)).mul hf).cexp
+
+/-- The finite actual correction is jointly analytic by its literal
+finite sums and products, before restricting to any complex line. -/
+private theorem analyticAt_actual_fullCorrection_comp
+    {X : Type*} [NormedAddCommGroup X] [NormedSpace ℂ X]
+    (P : ProbeData K Sset) (psi : HeckeCharacter K)
+    (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K))
+    (u : FrequencyRow K Sset) (Z : ℝ) (s w z : X → ℂ) (x : X)
+    (hs : AnalyticAt ℂ s x) (hw : AnalyticAt ℂ w x)
+    (hz : AnalyticAt ℂ z x) (hregion : (s x, w x, z x) ∈ rowEulerRegion) :
+    AnalyticAt ℂ (fun y => compensatedRowFullCorrection K Sset P psi
+      (arithmeticHighEulerData K Sset P psi) g T u Z (s y) (w y) (z y)) x := by
+  unfold compensatedRowFullCorrection
+  apply Finset.analyticAt_fun_sum
+  intro p _
+  apply analyticAt_const.mul
+  apply Finset.analyticAt_fun_sum
+  intro J _
+  dsimp only
+  have hsel : (exteriorNorm K Sset (subsetPrimeIdeal K Sset p J) : ℂ) ≠ 0 :=
+    Complex.ofReal_ne_zero.mpr (idealNorm_pos K (subsetPrimeIdeal K Sset p J).val).ne'
+  have hmark :
+      (exteriorNorm K Sset (subsetPrimeIdeal K Sset p (Finset.univ \ J)) : ℂ) ≠ 0 :=
+    Complex.ofReal_ne_zero.mpr
+      (idealNorm_pos K (subsetPrimeIdeal K Sset p (Finset.univ \ J)).val).ne'
+  have hspow := analyticAt_fixed_cpow_comp
+    ((hz.sub hw).sub (analyticAt_const (v := (1 : ℂ)))) hsel
+  have hmpow := analyticAt_fixed_cpow_comp
+    ((hs.add hz).sub (analyticAt_const (v := (1 : ℂ)))) hmark
+  have hcor := (rowCorrection_analyticOnNhd_rowEulerRegion K Sset P psi
+    ((Finset.univ \ J).image p) u (s x, w x, z x) hregion).comp
+      (hs.prod (hw.prod hz))
+  exact ((((analyticAt_const.mul hspow).mul analyticAt_const).mul hmpow).mul hcor)
+
 variable [∀ p : HeightOneSpectrum (𝓞 K), MeasurableSpace (p.adicCompletion K)]
 variable [∀ p : HeightOneSpectrum (𝓞 K), BorelSpace (p.adicCompletion K)]
 variable (mu : ∀ p : HeightOneSpectrum (𝓞 K), Measure (p.adicCompletion K))
@@ -124,8 +165,11 @@ theorem differentiableAt_actual_nonprincipal_kernel_comp [IsTotallyComplex K]
     (exceptionalPrimes K Sset) (6 * z x)).differentiableAt.mul
       (analyticAt_heckeContinuation K 1 hzeta).differentiableAt).comp x
         ((differentiableAt_const _).mul hz)
+  have hzpos : 0 < (z x).re := by
+    have hzr : (1 / 6 : ℝ) < (z x).re := hregion.2.1
+    linarith
   have hM := (analyticOnNhd_actual_additiveMellin K S mu nu P.additive (z x)
-    (by have := hregion.2.1; linarith)).differentiableAt.comp x hz
+    hzpos).differentiableAt.comp x hz
   have hden := (HighBinBoundary.ActualDenominator.differentiable_mellin
     P.denominator.toSmoothAnnularTest (w x)).comp x hw
   have hN : (frequencyRowNorm K Sset u : ℂ) ≠ 0 :=
@@ -165,18 +209,60 @@ theorem analyticOnNhd_actual_nonprincipal_kernel [IsTotallyComplex K]
     AnalyticOnNhd ℂ (fun v : ℂ × ℂ × ℂ => compensatedRowMellinKernel K Sset muS
       P psi (arithmeticHighEulerData K Sset P psi) g T u Z v.1 v.2.1 v.2.2)
       (actualNonprincipalRowRegion B) := by
-  have hopen : IsOpen (actualNonprincipalRowRegion B) :=
-    ((isOpen_lt continuous_const (Complex.continuous_re.comp continuous_fst)).inter
-      ((isOpen_lt continuous_const
-        (Complex.continuous_re.comp (continuous_snd.comp continuous_snd))).inter
-          rowEulerRegion_isOpen))
-  apply DifferentiableOn.analyticOnNhd _ hopen
   intro v hv
-  exact (differentiableAt_actual_nonprincipal_kernel_comp K S mu nu P omega psi hpsi hAllowed
-    g T u hu hB hZ hboundary Prod.fst (fun v : ℂ × ℂ × ℂ => v.2.1)
-      (fun v : ℂ × ℂ × ℂ => v.2.2) v
-      differentiableAt_fst (differentiableAt_fst.comp _ differentiableAt_snd)
-      (differentiableAt_snd.comp _ differentiableAt_snd) hv).differentiableWithinAt
+  let s : ℂ × ℂ × ℂ → ℂ := Prod.fst
+  let w : ℂ × ℂ × ℂ → ℂ := fun y => y.2.1
+  let z : ℂ × ℂ × ℂ → ℂ := fun y => y.2.2
+  have hs : AnalyticAt ℂ s v := analyticAt_fst
+  have hw : AnalyticAt ℂ w v := analyticAt_fst.comp analyticAt_snd
+  have hz : AnalyticAt ℂ z v := analyticAt_snd.comp analyticAt_snd
+  let R := (arithmeticHighEulerData K Sset P psi).rows
+  have hpacket : psi * conjugate (R.character u) ∈ HeckePacket K omega :=
+    packet_mul_finiteOrder (heckeLogNorm K) omega hpsi (R.finite_order u).inv
+  have hnon := rowCharacterInput_ne_normTwist_of_not_principal K Sset P R hAllowed u hu
+  have hrec := (differentiableOn_actual_target_reciprocal K Sset omega
+    (psi * conjugate (R.character u)) hpacket hB hboundary).analyticAt
+      ((isOpen_rightHalfPlane B).mem_nhds hv.1)
+  have hrec' := hrec.comp hs
+  have hLw := ((heckeEulerDeletionPolynomial_analyticAt K (R.character u)
+    (exceptionalPrimes K Sset) (w v)).mul
+      ((differentiable_heckeContinuation_of_nonNorm K (R.character u) hnon).analyticAt
+        (w v))).comp hw
+  have hzr : (1 / 6 : ℝ) < (z v).re := hv.2.1
+  have hzeta : 1 < (6 * z v).re := by
+    simp only [Complex.mul_re, Complex.re_ofNat, Complex.im_ofNat, zero_mul, sub_zero]
+    linarith
+  have hLz := ((heckeEulerDeletionPolynomial_analyticAt K 1
+    (exceptionalPrimes K Sset) (6 * z v)).mul
+      (analyticAt_heckeContinuation K 1 hzeta)).comp
+        ((analyticAt_const (v := (6 : ℂ))).mul hz)
+  have hM := (analyticOnNhd_actual_additiveMellin K S mu nu P.additive (z v)
+    (by change 0 < (z v).re; linarith)).comp hz
+  have hden := ((HighBinBoundary.ActualDenominator.differentiable_mellin
+    P.denominator.toSmoothAnnularTest).analyticAt (w v)).comp hw
+  have hN : (frequencyRowNorm K Sset u : ℂ) ≠ 0 :=
+    Complex.ofReal_ne_zero.mpr (idealNorm_pos K u.ideal.val).ne'
+  have hX : ((Z ^ (17 / 48 : ℝ) : ℝ) : ℂ) ≠ 0 :=
+    Complex.ofReal_ne_zero.mpr (Real.rpow_pos_of_pos hZ _).ne'
+  have hY : ((Z ^ (23 / 48 : ℝ) : ℝ) : ℂ) ≠ 0 :=
+    Complex.ofReal_ne_zero.mpr (Real.rpow_pos_of_pos hZ _).ne'
+  have hZc : (Z : ℂ) ≠ 0 := Complex.ofReal_ne_zero.mpr hZ.ne'
+  have hnPower := analyticAt_fixed_cpow_comp hz.neg hN
+  have hxPower := analyticAt_fixed_cpow_comp
+    ((analyticAt_const (v := (1 / 2 : ℂ))).sub hz) hX
+  have hzPower := analyticAt_fixed_cpow_comp
+    ((hs.add hz).sub (analyticAt_const (v := (1 : ℂ)))) hZc
+  have hyPower := analyticAt_fixed_cpow_comp
+    (hw.sub (analyticAt_const (v := (1 : ℂ)))) hY
+  have hexp := (((hs.add hz).sub (analyticAt_const (v := (1 : ℂ)))).pow 2).cexp
+  have hcorr := analyticAt_actual_fullCorrection_comp K S P psi g T u Z
+    s w z v hs hw hz hv.2.2
+  simp_rw [compensatedRowMellinKernel_factorization K Sset muS P psi
+    (arithmeticHighEulerData K Sset P psi) g T u Z hZ]
+  simp only [div_eq_mul_inv]
+  have hL := (hLz.mul hLw).mul hrec'
+  exact ((((((((((analyticAt_const.mul hexp).mul hM).mul hden).mul hnPower).mul hxPower).mul
+    hzPower).mul hyPower).mul hL).mul hcorr).mul analyticAt_const)
 
 end Expansion.Project
 

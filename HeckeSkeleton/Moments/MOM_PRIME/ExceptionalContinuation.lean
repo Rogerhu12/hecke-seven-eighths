@@ -117,8 +117,8 @@ theorem actualExceptionalContinuation_residue
       (𝓝[≠] (1 : ℂ)) (𝓝 (actualExceptionalResidue K χ)) := by
   rcases hχ with rfl | hχ
   · rw [actualExceptionalResidue_principal]
-    apply ((normPoleNumerator_differentiable K 0).continuous.tendsto 1).mono_left
-      nhdsWithin_le_nhds |>.congr'
+    refine (((normPoleNumerator_differentiable K 0).continuous.tendsto 1).mono_left
+      nhdsWithin_le_nhds).congr' ?_
     filter_upwards [self_mem_nhdsWithin] with s hs
     rw [actualPrincipalContinuation_eq]
     field_simp [sub_ne_zero.mpr hs]
@@ -127,8 +127,10 @@ theorem actualExceptionalContinuation_residue
       apply hχ 0
       simpa [heckeNormTwist] using h
     rw [actualExceptionalResidue_eq_zero K χ hne]
-    have ht := ((continuous_id.sub continuous_const).mul
-      (differentiable_heckeContinuation_of_nonNorm K χ hχ).continuous).tendsto (1 : ℂ)
+    have hc : Continuous (fun s : ℂ => (s - 1) * heckeContinuation K χ s) :=
+      (continuous_id.sub continuous_const).mul
+        (differentiable_heckeContinuation_of_nonNorm K χ hχ).continuous
+    have ht := hc.tendsto (1 : ℂ)
     simpa only [sub_self, zero_mul] using ht.mono_left nhdsWithin_le_nhds
 
 /-- One polynomial degree controls both the entire zero line and the
