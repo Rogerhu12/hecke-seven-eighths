@@ -1,3 +1,4 @@
+import Mathlib.RingTheory.TensorProduct.Finite
 import Mathlib.RingTheory.TensorProduct.Basic
 import Mathlib.RingTheory.TensorProduct.Free
 import Mathlib.LinearAlgebra.TensorProduct.Basis

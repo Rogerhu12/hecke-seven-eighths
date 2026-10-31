@@ -3,6 +3,7 @@ import FLTReuse.Md2cadaa4525e04a6
 import FLTReuse.Mb875502fbb65df3e
 import Mathlib.NumberTheory.NumberField.Discriminant.Different
 import Mathlib.Algebra.Module.ZLattice.Covolume
+import Mathlib.Analysis.SpecialFunctions.Complex.Circle
 import FLTReuse.M65cb97bf9eaf069f
 import FLTReuse.M3bf8e30844acd054
 import FLTReuse.M1868db956c866c8d

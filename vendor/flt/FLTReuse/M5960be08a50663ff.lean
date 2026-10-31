@@ -1,6 +1,7 @@
 import Mathlib.NumberTheory.RamificationInertia.Basic
 import Mathlib.RingTheory.DedekindDomain.AdicValuation
 import Mathlib.RingTheory.IntegralClosure.IntegralRestrict
+import Mathlib.Algebra.Group.Int.TypeTags
 import Mathlib.Tactic.Ring
 import FLTReuse.Mca976093a3e9d9d7
 

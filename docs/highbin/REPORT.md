@@ -52,9 +52,18 @@ the row definitions. Their complete declaration region is byte-identical;
 `ActualInitialAbsolute` changes only its import to the lighter module. Ten
 FLT reuse sources also replace the whole `Mathlib` import with explicit
 submodules while retaining their declaration/proof bodies byte-for-byte.
+Four dependent FLT modules now state their required direct imports explicitly.
+All fourteen files preserve every non-import source byte.
 The eight Fourier targets now have a resolved 223-project-module source
 closure with no `import Mathlib` umbrella. This is a dependency check, not
-a compilation-success claim. The comparisons are recorded in
+a compilation-success claim. The first narrowed native run at `04751b0`
+reported missing direct imports in seven FLT modules, with no memory exception.
+Its Fourier peak resident memory was 4436708 KiB; Mellin reported 7641012 KiB.
+The direct modules for Circle exponentiation, continuous algebra equivalences,
+tensor-product maps/finiteness, integer type tags, Haar characters, the number
+field product formula and the modular domain are now included. Their original
+proof bodies are unchanged; the next run must validate the corrections.
+The comparisons are recorded in
 [physical_row_data_narrowing_provenance.json](physical_row_data_narrowing_provenance.json)
 and [flt_import_narrowing_provenance.json](flt_import_narrowing_provenance.json).
 

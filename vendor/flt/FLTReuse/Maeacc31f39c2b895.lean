@@ -1,5 +1,8 @@
 import FLTReuse.M03caed6eb03298ae
 import FLTReuse.M019e33ff0c031ad2
+import Mathlib.NumberTheory.Modular
+import Mathlib.NumberTheory.NumberField.Completion.InfinitePlace
+import Mathlib.NumberTheory.NumberField.AdeleRing
 
 open Matrix NumberField UpperHalfPlane
 open scoped MatrixGroups Modular
