@@ -52,6 +52,7 @@ theorem product_value (b₁ b₂ : Ext) (e : HeightOneSpectrum (𝓞 K) → ℕ)
   unfold primeProduct
   apply Finset.prod_congr rfl
   intro p hp
+  change (prime K S p).val.val ^ e p = p.asIdeal ^ e p
   rw [prime_val K S p (cubeSupport_outside K S b₁ b₂ p hp)]
 
 def radical (b₁ b₂ : Ext) : E :=
@@ -126,6 +127,7 @@ theorem A_val_eq_gcd (n b₁ b₂ : Ext) (hn : Squarefree n.val.val) :
 
 theorem radical_val (b₁ b₂ : Ext) :
     (radical K S b₁ b₂).val.val = (b₁.val.val * b₂.val.val).radical := by
+  change (radical K S b₁ b₂).val.val = (b₁.val * b₂.val).val.radical
   rw [FirstSourceDecomposition.radical_eq_primeProduct (b₁.val * b₂.val)]
   simpa only [radical, cubeRadical, primeProduct, pow_one,
     IdealMobiusMask.primeProduct] using product_value K S b₁ b₂ (fun _ => 1)

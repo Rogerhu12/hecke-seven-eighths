@@ -52,13 +52,12 @@ theorem mem_liveTuples
     (scalar : SecondTuple K Sector Jo Jn → ℂ) (t : SecondTuple K Sector Jo Jn) :
     t ∈ liveTuples oldLists newLists T scalar ↔
       ∃ x ∈ T, x.2.tuple = t ∧ scalar t * labelZero t ≠ 0 := by
+  simp only [liveTuples, originalSource, Finset.mem_filter]
   constructor
-  · intro ht
-    obtain ⟨ht, hslots⟩ := Finset.mem_filter.mp ht
+  · rintro ⟨ht, hslots⟩
     obtain ⟨x, hx, he⟩ := Finset.mem_image.mp ht
     exact ⟨x, hx, he, hslots.2.2⟩
   · rintro ⟨x, hx, rfl, hlive⟩
-    apply Finset.mem_filter.mpr
     exact ⟨Finset.mem_image.mpr ⟨x, hx, rfl⟩,
       x.2.original_slot_lists.1, x.2.original_slot_lists.2, hlive⟩
 

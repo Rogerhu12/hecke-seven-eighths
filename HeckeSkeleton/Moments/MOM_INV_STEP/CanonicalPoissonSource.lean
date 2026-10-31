@@ -193,9 +193,8 @@ theorem row_norm_sq_expansion {ι : Type*} (T : Finset ι)
         (idealSymbol K Sset D (b i) a ^ 3 * idealSymbol K Sset D (n i) a)‖ ^ 2 : ℝ) : ℂ) =
     ∑ i ∈ T, ∑ j ∈ T, A i * conj (A j) *
       pairCoefficient K S D (n i) (n j) (b i) (b j) (Ideal.Quotient.mk _ a) := by
-  rw [Complex.ofReal_pow]
-  simpa only [RCLike.mul_conj] using
-    row_mul_conj_expansion K S D T n b A a
+  rw [Complex.ofReal_pow, ← Complex.mul_conj']
+  exact row_mul_conj_expansion K S D T n b A a
 
 /-- A nonunit denominator has an actual bad prime at the zero numerator. -/
 theorem idealSymbol_zero_of_ne_top (I : Ext) (hI : I.val.val ≠ ⊤) :
@@ -328,12 +327,13 @@ theorem squaredRowOrbitalSeries_eq_pair_sum {ι : Type*} (T : Finset ι)
   dsimp only
   rw [row_norm_sq_expansion]
   simp only [Finset.sum_product, ActualMaskedPoissonBlock.orbitalTerm, block,
-    pairOrbitWeight_eq, pairCoefficient_mk]
+    pairCoefficient_mk]
   simp_rw [Finset.mul_sum, Finset.sum_mul]
   apply Finset.sum_congr rfl
   intro i _hi
   apply Finset.sum_congr rfl
   intro j _hj
+  rw [pairOrbitWeight_eq K S D Γ hΓ (n i) (n j) (b i) (b j) q]
   ring
 
 include ν μ in

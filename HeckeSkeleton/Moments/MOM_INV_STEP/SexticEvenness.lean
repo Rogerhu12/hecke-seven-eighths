@@ -43,6 +43,7 @@ def dodecicIntegerUnit : (𝓞 K)ˣ :=
     (dodecicIntegerUnit K S D : 𝓞 K) = dodecicIntegerRoot K S D :=
   IsUnit.unit_spec _
 
+include D in
 /-- A witness in the actual S-unit group, obtained by mapping the
 specified integral twelfth root. -/
 theorem exists_sixth_unit_neg_one :

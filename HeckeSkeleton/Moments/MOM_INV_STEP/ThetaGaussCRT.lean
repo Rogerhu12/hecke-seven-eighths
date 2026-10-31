@@ -191,7 +191,7 @@ theorem idealGaussAt_product (I J : ExteriorIdeal K S)
       idealGaussAt K S D I (D.generator I) (D.generator_ne_zero I) (D.generator_span I) j *
       idealGaussAt K S D J (D.generator J) (D.generator_ne_zero J) (D.generator_span J) j := by
   unfold idealGaussAt
-  rw [idealCharacterAt_product,
+  rw [idealCharacterAt_product K S D I J hcop j,
     principalGauss_mul K S D.different_outside (D.generator I) (D.generator J)
       (D.generator_ne_zero I) (D.generator_ne_zero J)
       (generators_coprime K S D I J hcop), idealCharacterAt_mk, idealCharacterAt_mk]

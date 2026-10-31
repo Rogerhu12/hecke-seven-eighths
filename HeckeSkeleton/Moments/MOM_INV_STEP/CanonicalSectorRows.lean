@@ -19,6 +19,7 @@ namespace HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectorRows
 
 open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
 open HeckeGeneral.ThetaSkeleton
+open HeckeGeneral.ThetaSkeleton.Global
 open scoped Classical nonZeroDivisors
 
 variable (K : Type) [Field K] [NumberField K]

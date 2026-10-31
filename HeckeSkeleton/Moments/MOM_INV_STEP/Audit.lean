@@ -41,6 +41,10 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGroupedGauss
 import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectorRows
 import HeckeSkeleton.Moments.MOM_INV_STEP.SexticEvenness
 import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalInverseCalibration
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCanonicalLabel
+import HeckeSkeleton.Moments.MOM_INV_STEP.ActualInverseFactors
+import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCrossLabels
+import HeckeSkeleton.Moments.MOM_INV_STEP.ActualMarkChoices
 
 /-! Recursive kernel-axiom audit for the canonical inverse single-step work. -/
 
@@ -162,3 +166,13 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalInverseCalibration
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SexticEvenness.thetaGamma_five_eq_conj
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalInverseCalibration.second_source_coefficient
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalInverseCalibration.inverseColumn_eq_child
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstCanonicalLabel.oldAmplitude_eq
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstCanonicalLabel.first_source_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualInverseFactors.actual_source_coefficient
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualInverseFactors.actual_pair_coefficient
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualCrossLabels.sourceCross_eq_crt_rows
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualCrossLabels.pair_normalizedGauss_eq_column_factors
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualMarkChoices.reconstruction_injective
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualMarkChoices.signed_source_reindex
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualMarkChoices.scalar_norm_le_one
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.ActualMarkChoices.actual_marks_expansion

@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_INV_STEP.BackgroundCycle
 import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleEnergy
 import HeckeSkeleton.Moments.MOM_INV_STEP.MarkPriority
+import HeckeGeneral.Analysis.GlobalThetaData
 
 /-!
 # Literal canonical child columns at a fixed puncture triple
@@ -21,6 +22,7 @@ namespace HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
 
 open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.ThetaSkeleton
+open HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.MOMInvStep
 open FixedTripleFibers FixedTripleEnergy
 open scoped Classical BigOperators nonZeroDivisors
