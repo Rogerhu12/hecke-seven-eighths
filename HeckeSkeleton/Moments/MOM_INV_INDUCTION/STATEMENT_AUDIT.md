@@ -198,12 +198,16 @@ The provider has published
 `HeckeSkeleton.Moments.MOMInvStep.fixed_triple_energy_step` in
 `HeckeSkeleton/Moments/MOM_INV_STEP/Interface.lean` on
 `cloud/mom-inv-step` (reviewed interface blob
-`ef81d921d241be38b2d3ab8d3c1c156eaaa5644b`). It bounds the actual
+`92e1f0ded5bbf2df6ed6714dd94b57368327d38a`). It bounds the actual
 `physicalStepScalar * ‖ReconstructionPacket.signedValue F G‖` of a fixed
-reconstructed block. Its two induction premises are bounds on
-`ReconstructionPacket.energy F γ` and `ReconstructionPacket.energy G γ`
-for every frozen triple. Those energies are **unnormalized**: their target
-power is `2 * Fchild + eps`. The conclusion has power
+reconstructed block. Its two induction premises now bound
+`normalizedChildEnergy Z Nchild Vchild slotCap P.labels P.rows F γ`
+and the corresponding expression for `G`, for every frozen triple.
+Their target is `Cchild * Z^(Fchild + eps)`, where
+`Fchild = Nchild + Vchild` and the column length is clipped at zero.
+The provider restores the unnormalized bounds with power
+`2 * Fchild + eps` internally, using `childEnergy_bound_of_normalized`.
+The conclusion has power
 `Fparent + 40 * eta + tau + pi + eps` and uses the distinct-triple mass once.
 The provider explicitly leaves construction of the packet from every
 original parent, including its common kernel and coefficient reindexing,
@@ -216,8 +220,11 @@ the exact numerical normalization bridge:
 
 Consequently `rawEnergy_le_of_energy_le` turns a canonical child bound
 `energy Z ≤ B * Z^(F + eps)` into `rawEnergy Z ≤ B * Z^(2F + eps)` without
-another label-mass estimate. To apply this to the provider's actual
-packet still requires the following identifications:
+another label-mass estimate. This agrees with the normalization conversion
+now performed inside the provider theorem; the provider no longer asks
+its caller for raw-energy induction hypotheses. Identifying our literal
+canonical energy with its normalized packet energy still requires the
+following identities and uniform bounds:
 
 - The packet's squarefree ideal labels correspond to the datum's nonzero
   ideal labels, and the datum's weights equal the packet's explicit
@@ -237,13 +244,24 @@ parent's energy, with all outer scalar and localization losses accounted
 for. The physical ray factor and the count's small-power parameter must
 have common bounds for the whole tree.
 
+`PairedMeasure.lean` supplies the finite-measure linearization between the
+provider's two Cauchy roots and a linear child sum. It bounds their product
+by one half of the sum of the two positive energies, indexes the children
+by the original triple times `Bool`, and assigns weights `wγ / (2D)`.
+When the original triple mass is at most `D > 0`, the paired mass is at
+most one. `paired_constant_rescale` proves the exact identity
+`D * sum_paired(weight * H) = H * sum_triples(wγ)`, so passing to two
+children does not charge the frozen-triple mass twice. This calculation
+does not supply any of the source identifications listed above.
+
 The consumer's `StepEnergy` is a whole-parent linear reduction. It is not
 the statement of `fixed_triple_energy_step`, and the provider's theorem
 does not by itself instantiate it. Until the listed identities and
 outer aggregation are proved, `StepEnergy` remains an additional
 explicit source-reduction obligation in the relative closure. The
-normalization theorem resolves the exponent convention, not this
-reconstruction gap.
+normalization theorem agrees with the provider's current exponent
+convention and supports an exact polynomial identification. It does not
+resolve the parent reconstruction gap.
 
 Existing useful arithmetic is already proved in
 `HeckePort/Moments/Descent/Basic.lean`:

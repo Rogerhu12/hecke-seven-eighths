@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.Uniform
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.UniformOuter
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.PairedMeasure
 
 /-!
@@ -43,6 +43,7 @@ separately in `OriginalAudit.lean`, and is not certified by this list.
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.uniform_canonical_unmarked_inverse
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.uniform_canonical_inverse_sector_models
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.uniform_canonical_unmarked_sector_models
+#print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.uniform_outer_canonical_inverse_sector_models
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.weighted_two_roots_le_half_sum
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.paired_weighted_sum_eq
 #print axioms HeckeSkeleton.Moments.MOM_INV_INDUCTION.pairedWeight_mass_eq

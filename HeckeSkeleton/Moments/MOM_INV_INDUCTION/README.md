@@ -7,7 +7,8 @@ unresolved declaration; see [STATEMENT_AUDIT.md](STATEMENT_AUDIT.md).
 
 ## Main statements and assumptions
 
-`ActualMoments.canonical_inverse_models` bounds the repository's literal
+`HeckeSkeleton.Moments.MOM_INV_INDUCTION.canonical_inverse_models`,
+declared in `ActualMoments.lean`, bounds the repository's literal
 `HeckeGeneral.Analysis.ConditionalMoments.inverseEnergy` for an explicitly
 supplied `MomentData`. `CanonicalDatum.energy` is the actual normalized
 finite ideal sum with the canonical coefficient, squarefree labels,
@@ -50,6 +51,10 @@ estimate; the corresponding gluing lemma is explicit.
 The uniform sector versions sum the actual fixed finite sector family;
 the common scalar acquires a factor of at most the number of sectors plus
 one, while the height order stays unchanged.
+`UniformOuter` also preserves the marked source's outer-parameter choice
+order: the height order is chosen before the outer parameter, while the
+scalar constant may depend on it. A parameter-dependent scale threshold
+can be included in the dependent admissible index family.
 
 `CompletedEnergyTransport` supplies a separate bridge from the exact
 general-data physical hypothesis `LowCauchy.MarkedEnergy`. It proves the
@@ -77,6 +82,7 @@ still an explicit unresolved obligation.
 | `InductionCapacity` | Marked capacity, independent scales and bounded-scale gluing |
 | `ActualMoments` | Corrected relative endpoints on the actual ideal polynomials |
 | `Uniform` | Common constants for an entire parameter family and its finite sector sum |
+| `UniformOuter` | Height order fixed before the outer parameter, with a varying scalar |
 | `Audit` | Clean declarations and their axiom lists |
 | `CompletedEnergyTransportAudit` | Independent audit of the physical-energy adapter |
 | `OriginalAudit` | Separate audit of the original skeleton target |

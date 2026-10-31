@@ -9,8 +9,9 @@ This is an explicit full-parent reduction obligation for the consumer.
 It is stronger than the published fixed reconstructed-block theorem
 `MOMInvStep.fixed_triple_energy_step` in `cloud/mom-inv-step`, file
 `HeckeSkeleton/Moments/MOM_INV_STEP/Interface.lean` (reviewed interface blob
-`ef81d921d241be38b2d3ab8d3c1c156eaaa5644b`).  That theorem consumes two raw
-child-energy bounds and does not construct every parent's reconstruction
+`92e1f0ded5bbf2df6ed6714dd94b57368327d38a`).  That theorem consumes two
+normalized child-energy bounds, restores the raw normalization internally,
+and does not construct every parent's reconstruction
 packet or its outer aggregation.  Instantiating `StepEnergy` therefore
 still requires those source identities for the literal canonical energies,
 with the original masks, squarefree labels and frozen triples.  No final
