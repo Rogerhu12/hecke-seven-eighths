@@ -165,7 +165,8 @@ theorem exists_actual_fullSlot_amplitude_grid
           (Real.rpow_nonneg hP0.le _)
       _ = A * Z ^ E * (primeScale g Z) ^ (a - 1 / 2 + 8 * e + eta) := by
         rw [show a - 1 / 2 + 8 * e + eta =
-          (4 / 25 : ℝ) + (a - 33 / 50 + 8 * e + eta) by ring, Real.rpow_add hP0]
+          (4 / 25 : ℝ) + (a - 33 / 50 + 8 * e + eta) by ring,
+          Real.rpow_add hP0 (4 / 25 : ℝ) (a - 33 / 50 + 8 * e + eta)]
         ring
       _ = A * Z ^ (E + ell * (a - 1 / 2 + 8 * e + eta)) := by
         rw [hPscale, mul_assoc, ← Real.rpow_add hZ0]

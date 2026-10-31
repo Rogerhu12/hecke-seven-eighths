@@ -33,11 +33,9 @@ variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 variable (P : ProbeData K S) (E : RowEulerData K S P)
 
-theorem all_complex_of_original_probe : ∀ v : InfinitePlace K, v.IsComplex := by
-  have hz : InfinitePlace.nrRealPlaces K = 0 :=
-    InfinitePlace.IsPrimitiveRoot.nrRealPlaces_eq_zero_of_two_lt
-      (by norm_num : 2 < (6 : ℕ)) P.arithmetic.primitive6
-  exact (NumberField.nrRealPlaces_eq_zero_iff.mp hz).isComplex
+include P in
+theorem all_complex_of_original_probe : ∀ v : InfinitePlace K, v.IsComplex :=
+  all_complex_of_primitive12 K P.arithmetic.primitive12
 
 /-- The original row conductor fits a fixed multiple of the complete row
 norm. The underlying radical bound itself is an actual arithmetic theorem. -/
@@ -70,7 +68,9 @@ theorem original_row_mem_physical_family (ψ : HeckeCharacter K)
 theorem physical_prime_frequency_le (p : Fin 3 → ℝ) {T : ℝ} (hp : ‖p‖ ≤ T) :
     |(vertical (17 / 50) (p 2)).im| ≤ T := by
   rw [vertical_im]
-  exact (by simpa only [Real.norm_eq_abs] using norm_le_pi_norm p 2).trans hp
+  have hcoord : |p 2| ≤ ‖p‖ := by
+    simpa only [Real.norm_eq_abs] using norm_le_pi_norm p 2
+  exact hcoord.trans hp
 
 variable (omega ψ : HeckeCharacter K) (Θ : Finset (HeckeCharacter K))
 

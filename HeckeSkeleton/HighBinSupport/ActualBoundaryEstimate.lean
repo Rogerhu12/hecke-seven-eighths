@@ -59,15 +59,22 @@ theorem correction_continuousOn_heightBox
         (ActualIntegrability.sLine σ q)
         (ActualIntegrability.wLine (1 - a - 6 * e) q)
         (ActualIntegrability.zLine q)) (ActualIntegrability.heightBox H) := by
-  apply (rowCorrection_continuousOn_sweptTube K S P ψ Q u ha ha1 he he1).comp
-  · exact ((ActualIntegrability.continuous_sLine σ).prodMk
+  let φ : ℝ × (ℝ × ℝ) → ℂ × (ℂ × ℂ) := fun q =>
+    (ActualIntegrability.sLine σ q,
+      ActualIntegrability.wLine (1 - a - 6 * e) q, ActualIntegrability.zLine q)
+  have hφ : Continuous φ :=
+    (ActualIntegrability.continuous_sLine σ).prodMk
       ((ActualIntegrability.continuous_wLine (1 - a - 6 * e)).prodMk
-        ActualIntegrability.continuous_zLine)).continuousOn
-  · intro q _
-    exact swept_contour_mem_tube he hs _ _ _
+        ActualIntegrability.continuous_zLine)
+  have hmap : MapsTo φ (ActualIntegrability.heightBox H) (sweptTube a e) := by
+    intro q _
+    exact swept_contour_mem_tube he hs (ActualIntegrability.sLine σ q)
+      (ActualIntegrability.wLine (1 - a - 6 * e) q) (ActualIntegrability.zLine q)
       (by simp [ActualIntegrability.sLine])
       (by simp [ActualIntegrability.wLine])
       (by norm_num [ActualIntegrability.zLine])
+  exact (rowCorrection_continuousOn_sweptTube K S P ψ Q u ha ha1 he he1).comp
+    (f := φ) hφ.continuousOn hmap
 
 /-- Every s-slice through the actual horizontal faces is holomorphic. -/
 theorem correction_differentiableAt_s
@@ -82,8 +89,9 @@ theorem correction_differentiableAt_s
   have hsw : 1 - a - 7 * e < w.re := by rw [hw]; linarith
   have hsz : 17 / 50 - e < z.re := by rw [hz]; linarith
   have h := rowCorrection_differentiableOn_s K S P ψ Q u ha ha1 he he1 w z hsw hsz
+  have hs' : a + 15 * e < s.re := by linarith
   exact h.differentiableAt
-    ((isOpen_lt continuous_const Complex.continuous_re).mem_nhds (by linarith))
+    ((isOpen_lt (continuous_const (y := a + 15 * e)) Complex.continuous_re).mem_nhds hs')
 
 /-- A fixed polynomial envelope for the literal arithmetic marked Euler
 continuation. Every prime mark is retained, and the finite table is allowed
@@ -112,6 +120,7 @@ theorem exists_uniform_arithmetic_rowEuler_bound
   have hM : 0 < markedBound ^ J := pow_pos (zero_lt_one.trans_le one_le_markedBound) _
   refine ⟨D * C * A * markedBound ^ J, Z₀, by positivity, hZ₀, ?_⟩
   intro Z hZ d hd u hu a H U ha ha1 hH hHU hbelow Q hQ s w z hs hs2 hw hz hsi hwi
+  have hnorm : 0 ≤ frequencyRowNorm K S u := (idealNorm_pos K u.ideal.val).le
   have hL := hratio Z hZ d hd u hu a H U ha ha1 hH hHU hbelow s w hs hs2 hw hsi hwi
   have hv : (s, w, z) ∈ sweptTube a e :=
     swept_contour_mem_tube he hs s w z rfl hw hz
@@ -140,7 +149,8 @@ theorem exists_uniform_arithmetic_rowEuler_bound
         ((frequencyRowNorm K S u ^ 4 * markedBound ^ J) * A) := by
       exact mul_le_mul
         (mul_le_mul hζ hL (mul_nonneg (norm_nonneg _) (norm_nonneg _)) hD.le)
-        hEc (norm_nonneg _) (by positivity)
+        hEc (norm_nonneg _)
+        (mul_nonneg hD.le (mul_nonneg (mul_nonneg hC.le (pow_nonneg hnorm 3)) hheight))
     _ = _ := by ring
 
 end HighBinBoundary.ActualEstimate
@@ -232,7 +242,11 @@ theorem exists_arithmetic_rowContourBox_external_tail
       (by simp) (by norm_num)
   let M : ℝ := D * frequencyRowNorm K S₀ u ^ 7 *
     (2 + U) ^ ActualLRatioStrip.boundaryHeightDegree K
-  have hM : 0 ≤ M := by dsimp [M]; positivity
+  have hnorm : 0 ≤ frequencyRowNorm K S₀ u := (idealNorm_pos K u.ideal.val).le
+  have hM : 0 ≤ M := by
+    dsimp only [M]
+    exact mul_nonneg (mul_nonneg hD.le (pow_nonneg hnorm 7))
+      (pow_nonneg (add_nonneg (by norm_num) hU) _)
   have hmarks : ∀ p : Fin g.slots → ExteriorPrime K S₀,
       ∀ Q : Finset (ExteriorPrime K S₀), Q ⊆ Finset.univ.image p → Q.card ≤ g.slots := by
     intro p Q hQ

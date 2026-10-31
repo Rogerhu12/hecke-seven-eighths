@@ -152,7 +152,6 @@ theorem exists_actualFullSlot_bound_of_main
         (add_le_add ((norm_add_le _ _).trans
           (add_le_add (by simpa only [norm_neg] using hmain') hreg)) hval)) hrep)
   apply htriangle.trans
-  change _ ≤ C * W * (1 + M)
   have h1 : 1 + CR + CV ≤ C := by dsimp only [C]; linarith
   have h2 : CQ ≤ C := by dsimp only [C]; linarith
   calc
@@ -160,7 +159,7 @@ theorem exists_actualFullSlot_bound_of_main
     _ ≤ C * W + C * (W * M) := add_le_add
       (mul_le_mul_of_nonneg_right h1 hW)
       (mul_le_mul_of_nonneg_right h2 (mul_nonneg hW hM))
-    _ = _ := by ring
+    _ = _ := by dsimp only [W, M]; ring
 
 end HeckeSkeleton.HighBinPhysicalNorm
 

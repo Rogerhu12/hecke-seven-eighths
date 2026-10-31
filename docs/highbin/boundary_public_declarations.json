@@ -60,42 +60,42 @@
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryEstimate.lean",
     "line": 39,
-    "source_sha256": "03be71549923784892c1e538ad56fa4441c69bd9cc0a3102aa0d972c5efcf488"
+    "source_sha256": "eb74c9e2f3cae09be9aad2dd19b4afdd852cda3f6ef9fa76e5d8062706672ac4"
   },
   {
     "name": "HighBinBoundary.ActualEstimate.correction_continuousOn_heightBox",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryEstimate.lean",
     "line": 52,
-    "source_sha256": "03be71549923784892c1e538ad56fa4441c69bd9cc0a3102aa0d972c5efcf488"
+    "source_sha256": "eb74c9e2f3cae09be9aad2dd19b4afdd852cda3f6ef9fa76e5d8062706672ac4"
   },
   {
     "name": "HighBinBoundary.ActualEstimate.correction_differentiableAt_s",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryEstimate.lean",
-    "line": 73,
-    "source_sha256": "03be71549923784892c1e538ad56fa4441c69bd9cc0a3102aa0d972c5efcf488"
+    "line": 80,
+    "source_sha256": "eb74c9e2f3cae09be9aad2dd19b4afdd852cda3f6ef9fa76e5d8062706672ac4"
   },
   {
     "name": "HighBinBoundary.ActualEstimate.exists_uniform_arithmetic_rowEuler_bound",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryEstimate.lean",
-    "line": 91,
-    "source_sha256": "03be71549923784892c1e538ad56fa4441c69bd9cc0a3102aa0d972c5efcf488"
+    "line": 99,
+    "source_sha256": "eb74c9e2f3cae09be9aad2dd19b4afdd852cda3f6ef9fa76e5d8062706672ac4"
   },
   {
     "name": "HighBinBoundary.ActualEstimate.exists_arithmetic_rowContourBox_external_tail",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryEstimate.lean",
-    "line": 172,
-    "source_sha256": "03be71549923784892c1e538ad56fa4441c69bd9cc0a3102aa0d972c5efcf488"
+    "line": 182,
+    "source_sha256": "eb74c9e2f3cae09be9aad2dd19b4afdd852cda3f6ef9fa76e5d8062706672ac4"
   },
   {
     "name": "HighBinBoundary.ActualEstimate.exists_arithmetic_fixedRows_external_tail",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualBoundaryEstimate.lean",
-    "line": 275,
-    "source_sha256": "03be71549923784892c1e538ad56fa4441c69bd9cc0a3102aa0d972c5efcf488"
+    "line": 289,
+    "source_sha256": "eb74c9e2f3cae09be9aad2dd19b4afdd852cda3f6ef9fa76e5d8062706672ac4"
   },
   {
     "name": "HeckeSkeleton.HighBinActualBoundaryGeometry.augmentedCompanions",

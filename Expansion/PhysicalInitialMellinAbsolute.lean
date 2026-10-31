@@ -19,6 +19,7 @@ namespace Expansion.PhysicalInitialMellin
 
 open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.HighBinActualAbsolute HeckeSkeleton.Expansion.LargeRows
 open Expansion.PhysicalInitialHeight HighBinVerified.NormFormMellin
@@ -38,8 +39,10 @@ instance countable_physicalFrequencyRow : Countable (FrequencyRow K Sset) := by
     | mk ui up us =>
       cases v with
       | mk vi vp vs =>
-        have h : ui = vi ∧ us = vs := Prod.mk.inj_iff.mp huv
-        rcases h with ⟨rfl, rfl⟩
+        have hideal : ui = vi := congrArg Prod.fst huv
+        have hsector : us = vs := congrArg Prod.snd huv
+        cases hideal
+        cases hsector
         rfl
   exact hi.countable
 
@@ -78,7 +81,8 @@ theorem norm_physicalInitialMellinTerm_le (P : ProbeData K Sset) (ψ : HeckeChar
   simp only [idealVerticalPoint_re] at hI
   have hu : ‖(frequencyRowNorm K Sset i.1 : ℂ) ^ (-idealVerticalPoint 3 (t 2))‖ =
       frequencyRowNorm K Sset i.1 ^ (-3 : ℝ) := by
-    rw [Complex.norm_cpow_eq_rpow_re_of_pos (idealNorm_pos K _),
+    have hnorm : 0 < frequencyRowNorm K Sset i.1 := idealNorm_pos K _
+    rw [Complex.norm_cpow_eq_rpow_re_of_pos hnorm,
       Complex.neg_re, idealVerticalPoint_re]
   unfold physicalInitialMellinTerm
   rw [norm_mul, norm_mul, hu]
@@ -128,8 +132,10 @@ theorem integrable_physicalInitialScalarAt (P : ProbeData K Sset)
         mellin P.denominator.toFun (idealVerticalPoint 5 ((heightShear t) 1)) *
         additiveMellin K Sset (fun v => μv v.val) P.additive
           (idealVerticalPoint 3 ((heightShear t) 2))) at hs
-    simpa only [initial_shear_line, heightShear, MeasurableEquiv.coe_mk, Equiv.coe_fn_mk,
-      Matrix.cons_val_one, Matrix.cons_val_fin_one] using hs
+    refine hs.congr (Filter.Eventually.of_forall (fun t => ?_))
+    dsimp only [F]
+    rw [initial_shear_line, show (heightShear t) 1 = t 1 from rfl,
+      show (heightShear t) 2 = t 2 from rfl]
   let H : (Fin 3 → ℝ) → ℂ := fun t =>
     (physicalPoissonScalar K : ℂ) * (X : ℂ) ^ (1 / 2 - idealVerticalPoint 3 (t 2)) *
       (Z : ℂ) ^ (idealVerticalPoint 5 (t 0) + idealVerticalPoint 3 (t 2) - 1) *
@@ -218,7 +224,10 @@ theorem summable_norm_physicalPoissonTerm (P : ProbeData K Sset)
   have hs := summable_integral_norm_physicalInitialMellinTerm K S μv ν P ψ Q X Y Z hX hY hZ
   apply (hs.mul_left ‖tripleMellinConstant‖).of_nonneg_of_le (fun _ => norm_nonneg _)
   intro i
-  rw [physicalPoissonTerm_eq_initial_integral K S μv ν P ψ Q X Y Z hX hY hZ, norm_mul]
+  have hterm := physicalPoissonTerm_eq_initial_integral K S μv ν P ψ Q
+    X Y Z hX hY hZ i.1 i.2
+  refine (congrArg norm hterm).trans_le ?_
+  rw [norm_mul]
   exact mul_le_mul_of_nonneg_left (norm_integral_le_integral_norm _) (norm_nonneg _)
 
 end Expansion.PhysicalInitialMellin

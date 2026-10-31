@@ -5,7 +5,11 @@
 随后核对 #5 的 `77dbe777f479823d0bc830f82a15e594a17191b7` 与 #10 的
 `5adae18b0928aa7b33afc1472b61ffc7408805d8`，采用 #5 最新的八个相关 Lean
 文件，统一共享参数与原核解析性、Poisson、floor-bin 和完整 correction 的原生修复。
-源码状态与原生验证状态分开记录；以下接线仍须通过本轮固定工具链的完整编译和严格公理门。
+再按 owner 的 `2a8298882530d5c4c3212cda05db8c92017b915a` 恢复原参数存在接口的
+兼容签名，采用独立 bounded constructor，并同步初始行和的函数等式修复。
+源码构造与原生验收分开记录：完成声明以固定工具链的完整编译和严格公理门为准。
+最新提交、验收运行、剩余工作及最终状态统一记录在
+[PR #7](https://github.com/Rogerhu12/hecke-seven-eighths/pull/7) 的说明中。
 
 ## 同一实际源
 
@@ -62,9 +66,11 @@ movingPiece 把当前物理样点的行单射搬运到同标签的最大基数�
 
 `PhysicalRecipeParameters` 保存两个额外的已证数值约束，仍保留原全尺度 source
 与全部标签 provenance。先前本方独立提交 `a9d412d` 用额外的 bounded constructor
-保留旧存在定理类型。共享源 owner 随后在 `7d598d9` 直接加强
-`exists_physical_recipe_parameters` 和 `exists_physical_recipe_expansion` 的结论，
-并同步唯一参数构造消费者；本轮统一采用 owner 的版本，不保留第二份共享定义。
+保留旧存在定理类型。共享源 owner 在 `7d598d9` 一度直接加强两个原存在结论，
+随后于 `2a829888` 恢复 `exists_physical_recipe_parameters` 和
+`exists_physical_recipe_expansion` 的原公开类型，另由
+`exists_bounded_physical_recipe_parameters` 提供两个预算证明给参数构造消费者。
+本轮统一采用 owner 的最新兼容接口、cap transport 和参数构造，不保留第二份共享定义。
 实际 `eCap = min(lamA,lamB)/1000`，故 `width ≤ lamB/100`。
 此项已在 PR #5 评论 6545961849 与 6546037523 中提前协调，变更单独提交以便共享源吸收。
 
@@ -112,6 +118,18 @@ movingPiece 把当前物理样点的行单射搬运到同标签的最大基数�
 核对上述原生证据后，恢复原公开接口，新物理核也直接消费已证的同一个空 ray
 `primeNormalizer K S g ∅ Z` 上界。其固定常数吸入核常数，指数 `nu` 仅计算一次。
 对应论文4339–4347行固定非负、非零、互不相交的实际素数窗，以及原共同归一化。
+
+### 全复性辅助引理的实际 probe 输入
+
+`ActualPhysicalPrimeSlotBound.all_complex_of_original_probe` 的旧源码只在证明中引用
+节变量 `P`，结论本身只出现 K。Lean 因此未保留 S/P，既无法绑定证明中的 `P`，
+也无法接受其消费者已有的 `K S P` 调用。修正版用 `include P in` 明确保留
+同一份 `ProbeData K S`，从其中的 `primitive12` 调用已证的全复性引理。
+这是局部工具引理由错误的 `K → ∀v, v.IsComplex` 恢复为原意的
+`K S (P : ProbeData K S) → ∀v, v.IsComplex`，不增加主 prime-slot、HIGHBIN
+或最终一般数域定理的假设。此项已在 #5 评论6546921509提前协调。
+论文377–378行先取 `K = F(ζ₁₂)`；420–424行的物理分析固定该含十二次单位根的域，
+因此全复性正应从已有实际 probe 的算术数据读取。
 
 ## 边界常数的选择顺序
 
@@ -169,6 +187,18 @@ run `41222277026` 的 normform 随后自然结束：51模块源清单全部对�
 这些具体行范数透明性、实/复常数、连续函数参数推断和根命名空间问题，并修复其
 直接消费者的同型问题。失败声明的 Lean 错误恢复输出不作为公理审计通过的证据。
 
-以上修复仍须由下一轮普通 Lake 完整验证。最终验证结果另在完成时更新。
+修复提交 `b517766e0c724b17deccf6d196c423e3e2cf648b` 的 run `41224364578`
+再次通过 core/mellin/fourier。normform 与 boundary 的源码清单和 artifacts 已核验；
+该轮实际编译了 `ActualKernelEnvelope`、`ActualBoundaryIntegrability`、
+`ActualNormFormSlotCap`、`ActualPhysicalConductorProduct` 和共享 slot identity，
+相关已打印声明仅三标准公理。`ActualContourTransport` 也 fresh Built，五条
+实际 Fubini/矩形身份/外部 tail 声明打印仅三标准公理。
+下一层失败推进到 `ActualBoundaryEstimate`、旧 amplitude 连续性、物理 prime-slot
+消费者，以及共享 outer kernel、Mellin absolute 与 large-row all-scales 证明。
+本轮按实际诊断补齐显式范数基底、常数非负性、函数等式/连续性组合及上述局部 probe
+输入，并采用 owner 的 cap transport。尚未到达的高层仍须完整原生验证。
+
+上述每一批源码修复均须经普通 Lake 和完整严格公理门验证。这里的历史失败日志
+用于说明修复依据，不代表最终验收；最终运行与逐 scope 结果集中记录在 PR #7 说明中。
 
 AI-assisted：ChatGPT / GPT-6 Astra Pro，2026-11-01。

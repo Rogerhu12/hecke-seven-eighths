@@ -227,7 +227,7 @@ theorem exists_actual_outer_kernel_rapid_of_L_bounds
         (heckeDeletedContinuation K
           (psi * conjugate ((arithmeticHighEulerData K Sset P psi).rows.character u))
           (exceptionalPrimes K Sset) s)]
-    simp only [mul_inv, norm_mul]
+    simp only [mul_inv, norm_mul, arithmeticHighEulerData_character]
     calc
       _ ≤ Cp * (Cg * Real.exp (-((s.im + z.im) ^ 2))) *
           ‖additiveMellin K Sset muS P.additive z‖ * ‖mellin P.denominator.toFun w‖ *
@@ -317,11 +317,14 @@ theorem exists_actual_small_sweep_kernel_rapid
             (1 + |w.im|) ^ kn := by
     intro u hu w hw _hw'
     have hb := hn P (arithmeticRowCharacterInput K Sset P) hAllowed u hu w hw
+    have hN0 : 0 ≤ frequencyRowNorm K Sset u := (idealNorm_pos K u.ideal.val).le
+    have hcoeff : 0 ≤ Cn * frequencyRowNorm K Sset u ^ (3 / 5 : ℝ) :=
+      mul_nonneg hCn.le (Real.rpow_nonneg hN0 _)
     have hp : (2 + |w.im|) ^ kn ≤ (2 : ℝ) ^ kn * (1 + |w.im|) ^ kn := by
       simpa only [Real.rpow_natCast] using
         shifted_height_rpow_le_nat 2 (kn : ℝ) kn (by norm_num)
           (Nat.cast_nonneg _) le_rfl w.im
-    exact hb.trans ((mul_le_mul_of_nonneg_left hp (by positivity)).trans_eq (by ring))
+    exact hb.trans ((mul_le_mul_of_nonneg_left hp hcoeff).trans_eq (by ring))
   have hrec : ∀ u : FrequencyRow K Sset, ¬principalFrequencyRow K Sset u →
       ∀ s : ℂ, B + e ≤ s.re → s.re ≤ 5 →
         ‖(heckeDeletedContinuation K (psi * conjugate (arithmeticRowCharacter K Sset P u))
@@ -330,8 +333,11 @@ theorem exists_actual_small_sweep_kernel_rapid
             (1 + |s.im|) ^ kr := by
     intro u _hu s hs _hs'
     have hb := hr P (arithmeticRowCharacterInput K Sset P) u s hs
+    have hN0 : 0 ≤ frequencyRowNorm K Sset u := (idealNorm_pos K u.ideal.val).le
+    have hcoeff : 0 ≤ Cr * frequencyRowNorm K Sset u ^ (1 : ℝ) :=
+      mul_nonneg hCr.le (Real.rpow_nonneg hN0 _)
     have hp := shifted_height_rpow_le_nat 4 k kr (by norm_num) hk hkr s.im
-    exact hb.trans ((mul_le_mul_of_nonneg_left hp (by positivity)).trans_eq (by ring))
+    exact hb.trans ((mul_le_mul_of_nonneg_left hp hcoeff).trans_eq (by ring))
   obtain ⟨C, Z0, hC, hZ0, hb⟩ := exists_actual_outer_kernel_rapid_of_L_bounds
     K S mu nu hcomplex P psi hcal hunram g (B + e) 5 (1 / 2) 5 (17 / 50) 3
     (by linarith) (by linarith) le_rfl (by norm_num) le_rfl (by norm_num) (by norm_num)
