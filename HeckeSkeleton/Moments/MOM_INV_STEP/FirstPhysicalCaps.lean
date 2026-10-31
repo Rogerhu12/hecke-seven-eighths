@@ -57,6 +57,8 @@ theorem rowCap_le_physicalCap (F : {r : ℝ // 0 < r})
     o.2.2.2.val (hd o) (hb o.1.val o.1.property) (hb o.2.1.val o.2.1.property) (hC o) (hJ o)
 
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)) [Γ.FiniteIndex]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 
 theorem actual_rows_le_physicalCap (L : Finset Ext) (F : {r : ℝ // 0 < r})
     (hL : ∀ f ∈ L, height K Sset f ≤ F.val)
