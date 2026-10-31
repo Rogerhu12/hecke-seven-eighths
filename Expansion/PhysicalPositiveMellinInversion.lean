@@ -46,6 +46,8 @@ local instance : MeasurableSpace (mixedEmbedding.mixedSpace K)ˣ := borel _
 local instance : BorelSpace (mixedEmbedding.mixedSpace K)ˣ := ⟨rfl⟩
 local instance (v : S) : MeasurableSpace (v.val.adicCompletion K)ˣ := borel _
 local instance (v : S) : BorelSpace (v.val.adicCompletion K)ˣ := ⟨rfl⟩
+local instance (v : S) : SecondCountableTopology (v.val.adicCompletion K)ˣ :=
+  Units.isEmbedding_val₀.secondCountableTopology
 
 variable [MeasurableSpace (sLocalNormOneGroup K S)] [BorelSpace (sLocalNormOneGroup K S)]
 variable (Γ : Subgroup (S.unit K)) [Γ.FiniteIndex]
@@ -178,7 +180,10 @@ theorem mellin_radialProfile_eq (φ : SchwartzMap V ℂ) (ψ : A → ℂ) (z : �
   rw [mellin_eq_log_integral]
   unfold ActualOrbital.orbitalMellin
   apply integral_congr_ae
-  exact Filter.Eventually.of_forall (fun v => by rw [radialProfile_exp, mul_comm z]; ring)
+  exact Filter.Eventually.of_forall (fun v => by
+    dsimp only
+    rw [radialProfile_exp, mul_comm z]
+    ring)
 
 include Γ in
 theorem mellinConvergent_radialProfile_positive (φ : SchwartzMap V ℂ)

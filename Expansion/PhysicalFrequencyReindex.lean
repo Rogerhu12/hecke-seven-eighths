@@ -1,5 +1,6 @@
 import Expansion.PhysicalFinitePoisson
 import HeckeGeneral.Analysis.SIntegerSixthPowerDecomposition
+import HeckeGeneral.Characters.UnramifiedPrimeCoefficientAlgebra
 import RowCharacterNormTwistExclusion
 
 /-!
@@ -25,6 +26,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Bridge
 open HeckeGeneral.Characters.ArithmeticKummerDraft
 open HeckeGeneral.Characters.RowUniquenessDraft
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ActualSIntegerMoments
+open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.Analysis.SquarefreeAmplification
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical
@@ -42,6 +44,8 @@ variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 def physicalPrincipalRow : FrequencyRow K S where
   ideal := ⟨1, by
     intro p hp
+    change p.asIdeal ∣ (1 : Ideal (𝓞 K)) at hp
+    rw [Ideal.one_eq_top] at hp
     exact False.elim (p.isPrime.ne_top
       (eq_top_iff.mpr (Ideal.dvd_iff_le.mp hp)))⟩
   sixthPowerFree := by
@@ -124,6 +128,8 @@ theorem arithmeticRowCharacter_eq_one_of_principal (P : ProbeData K S)
     rw [frequencyRowElement_contraction]
     intro hd
     rw [hu.1] at hd
+    change p.asIdeal ∣ (1 : Ideal (𝓞 K)) at hd
+    rw [Ideal.one_eq_top] at hd
     exact p.isPrime.ne_top (eq_top_iff.mpr (Ideal.dvd_iff_le.mp hd))
   have hcal := arithmeticSexticKummerCharacter_primeCoefficient_sInteger K S
     P.arithmetic (frequencyRowElement K S P u) (frequencyRowElement_ne_zero K S P u)
@@ -206,7 +212,9 @@ theorem finitePoissonOrbitWeight_frequency (P : ProbeData K S)
     (den A : ExteriorIdeal K S) (u : FrequencyRow K S) (r : ExteriorIdeal K S) :
     finitePoissonOrbitWeight K S P den A (physicalFrequencyEquiv K S P (u, r)) =
       finitePoissonFactor K S P den A (poissonFrequency K S P u r) := by
-  rw [physicalFrequencyEquiv_eq_mk, finitePoissonOrbitWeight_mk]
+  rw [physicalFrequencyEquiv_eq_mk]
+  exact finitePoissonOrbitWeight_mk K S P den A
+    ⟨poissonFrequency K S P u r, poissonFrequency_ne_zero K S P u r⟩
 
 end Arithmetic
 

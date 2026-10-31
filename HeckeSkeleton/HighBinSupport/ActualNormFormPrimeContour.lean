@@ -444,6 +444,9 @@ theorem exists_actual_primeWindow_cap
         heckeLogDerivative K chi (idealVerticalPoint (3 / 2) r - (t : ℂ) * I) := by
       apply integral_congr_ae
       exact Eventually.of_forall (fun r => by
+        change primeDetectorIntegrand K Vp chi P t (idealVerticalPoint (3 / 2) r) =
+          annularMellinKernel Vp P (1 / 2) (3 / 2) r *
+            heckeLogDerivative K chi (idealVerticalPoint (3 / 2) r - (t : ℂ) * I)
         rw [primeDetectorIntegrand_vertical,
           continuedLogDerivative_eq_heckeLogDerivative K chi (by norm_num [idealVerticalPoint])])
     rw [hi]

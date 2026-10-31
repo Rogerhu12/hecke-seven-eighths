@@ -138,9 +138,11 @@ theorem actualPrincipal_w_truncated_shift
     have hne : (a : ℂ) + (t : ℂ) * Complex.I ≠ 1 := by
       intro h
       exact ha1 (by simpa using congrArg Complex.re h)
+    have hline : ContinuousAt (fun r : ℝ => (a : ℂ) + (r : ℂ) * Complex.I) t := by
+      fun_prop
     exact (differentiableAt_actualPrincipal_w_kernel K S mu P psi g Z hZpos s z _ hne
       (principal_rectangle_mem_rowEulerRegion s _ z hs (by simpa using hlo) hz)).continuousAt.comp
-        (by fun_prop)
+        hline
   refine ⟨2 * D + 1, by linarith, ?_⟩
   intro H hH
   have hleft := principal_vertical_tail_bound f (19 / 20) M hM.le N
@@ -200,10 +202,12 @@ theorem actualPrincipal_z_truncated_shift
     have hne : (a : ℂ) + (t : ℂ) * Complex.I ≠ 1 / 6 := by
       intro h
       exact ha1 (by simpa using congrArg Complex.re h)
+    have hline : ContinuousAt (fun r : ℝ => (a : ℂ) + (r : ℂ) * Complex.I) t := by
+      fun_prop
     exact (differentiableAt_actualPrincipal_z_kernel K S mu nu P psi g Z hZpos s _
       (by simp; linarith) hne
       (principal_rectangle_mem_rowEulerRegion s 1 _ hs (by norm_num) (by simpa using hlo))).continuousAt.comp
-        (by fun_prop)
+        hline
   refine ⟨2 * D + 1, by linarith, ?_⟩
   intro H hH
   have hleft := principal_vertical_tail_bound f (33 / 200) M hM.le N

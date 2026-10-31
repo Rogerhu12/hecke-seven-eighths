@@ -271,7 +271,8 @@ theorem norm_actualPrincipalWeightedTerm_le
       (vertical sigma t))⁻¹‖ ≤ C * (4 : ℝ) ^ k * (1 + H) ^ k := by
     exact hrec.trans ((mul_le_mul_of_nonneg_left hheight hC).trans_eq (by ring))
   have hre : (vertical sigma t - (11 / 16 : ℂ)).re = sigma - 11 / 16 := by simp
-  simp only [actualPrincipalWeightedTerm, div_eq_mul_inv, norm_mul,
+  rw [actualPrincipalWeightedTerm, div_eq_mul_inv]
+  simp only [norm_mul,
     Complex.norm_cpow_eq_rpow_re_of_pos hZ, hre]
   exact mul_le_mul
     (mul_le_mul (mul_le_mul_of_nonneg_left (norm_actual_principalGaussian_le sigma t)
@@ -403,7 +404,7 @@ theorem exists_actual_principalSlot_remainder_bound
     ring
   have hint : ‖∫ t : ℝ in Icc (-H) H, d t‖ ≤
       (Cpoint * Z ^ r * (1 + H) ^ k) * (2 * H) := by
-    simpa only [hvol] using norm_setIntegral_le_of_norm_le_const
+    simpa only [hvol] using norm_setIntegral_le_of_norm_le_const (μ := (volume : Measure ℝ))
       isCompact_Icc.measure_lt_top hpoint
   have hheight : H * (1 + H) ^ k ≤ (1 + H) ^ (k + 1) := by
     rw [Real.rpow_add_one (by linarith : 1 + H ≠ 0)]

@@ -150,9 +150,11 @@ theorem actualPrincipal_w_shift_error_tail
       have hne : (a : ℂ) + (t : ℂ) * Complex.I ≠ 1 := by
         intro hh
         exact ha1 (by simpa using congrArg Complex.re hh)
+      have hline : ContinuousAt (fun r : ℝ => (a : ℂ) + (r : ℂ) * Complex.I) t :=
+        by fun_prop
       exact (differentiableAt_actualPrincipal_w_kernel K S mu P psi g Z hZpos s z _ hne
         (principal_rectangle_mem_rowEulerRegion s _ z (by rw [hs]; linarith)
-          (by simpa using hlo) (by rw [hz]; linarith))).continuousAt.comp (by fun_prop)
+          (by simpa using hlo) (by rw [hz]; linarith))).continuousAt.comp hline
     have hdec (a : ℝ) (hlo : 19 / 20 ≤ a) (hhi : a ≤ 1 + e)
         (t : ℝ) (ht : 1 ≤ |t|) :
         ‖f ((a : ℂ) + (t : ℂ) * Complex.I)‖ ≤
@@ -246,10 +248,12 @@ theorem actualPrincipal_z_shift_error_tail
       have hne : (a : ℂ) + (t : ℂ) * Complex.I ≠ 1 / 6 := by
         intro hh
         exact ha1 (by simpa using congrArg Complex.re hh)
+      have hline : ContinuousAt (fun r : ℝ => (a : ℂ) + (r : ℂ) * Complex.I) t :=
+        by fun_prop
       exact (differentiableAt_actualPrincipal_z_kernel K S mu nu P psi g Z hZpos s _
         (by simp; linarith) hne
         (principal_rectangle_mem_rowEulerRegion s 1 _ (by rw [hs]; linarith)
-          (by norm_num) (by simpa using hlo))).continuousAt.comp (by fun_prop)
+          (by norm_num) (by simpa using hlo))).continuousAt.comp hline
     have hdec (a : ℝ) (hlo : 33 / 200 ≤ a) (hhi : a ≤ 1 / 6 + e)
         (t : ℝ) (ht : 1 ≤ |t|) :
         ‖f ((a : ℂ) + (t : ℂ) * Complex.I)‖ ≤
@@ -274,7 +278,8 @@ theorem actualPrincipal_z_shift_error_tail
     nlinarith [mul_le_mul_of_nonneg_left hheight
       (show 0 ≤ (2 * ‖(2 * (Real.pi : ℂ))⁻¹‖ * C * principalTailEnvelopeMass) *
         Z ^ (5 : ℝ) * H ^ (-(N : ℝ)) by positivity)]
-  have hi := norm_setIntegral_le_of_norm_le_const isCompact_Icc.measure_lt_top hpoint
+  have hi := norm_setIntegral_le_of_norm_le_const
+    (μ := (volume : Measure ℝ)) isCompact_Icc.measure_lt_top hpoint
   have hvol : volume.real (Icc (-H) H) = 2 * H := by
     rw [Real.volume_real_Icc_of_le (by linarith : -H ≤ H)]
     ring

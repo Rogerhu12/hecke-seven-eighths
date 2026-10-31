@@ -86,7 +86,7 @@ theorem measurableSet_recipeAmplitudeRows_mem (F : RecipeFamily K ψ g)
         (measurable_slotCode width cap (physicalSlotBase g.slots Z)).comp
           (measurable_recipePhysicalSlots K S P R ω ψ g F hF Z j u)
     simpa only [recipeAmplitudeRows, rowPiece, Finset.mem_filter, hu, true_and]
-      using measurableSet_eq_fun hcode (measurable_const (c := label))
+      using measurableSet_eq_fun hcode (measurable_const (a := label))
   · simp only [recipeAmplitudeRows, rowPiece, Finset.mem_filter, hu, false_and,
       Set.setOf_false, MeasurableSet.empty]
 

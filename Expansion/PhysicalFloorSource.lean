@@ -68,7 +68,8 @@ theorem floorRecipeAmplitude_geometry (F : RecipeFamily K ψ g)
     (floorRecipeAmplitude K S ψ g F rows sector p amplitude).MomentGeometry T 22 := by
   let A := floorRecipeAmplitude K S ψ g F rows sector p amplitude
   intro t ht ht' j
-  refine ⟨show 0 ≤ t from zero_le_one.trans ht, le_rfl, by norm_num, ?_, ?_, ?_⟩
+  refine ⟨show 0 ≤ t from zero_le_one.trans ht, le_rfl,
+    show (0 : ℝ) ≤ 22 by norm_num, ?_, ?_, ?_⟩
   · exact ((A.witness t j).heights_norm_eq p t T hT hp ⟨ht, ht'⟩).le
   · intro I
     change ‖(0 : RecipeVector)‖ ≤ 8

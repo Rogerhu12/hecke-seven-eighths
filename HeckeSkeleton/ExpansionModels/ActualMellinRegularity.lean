@@ -51,8 +51,8 @@ private theorem rpow_mul_abs_log_le
   · have hq1' : q ≤ 1 := le_of_not_ge hq1
     rw [abs_of_nonpos (Real.log_nonpos hq.le hq1')]
     have hlog : -Real.log q ≤ q ^ (-delta) / delta := by
-      have hh := Real.neg_rpow_div_le_log hq.le hdelta
-      linarith
+      simpa only [neg_div, neg_neg] using
+        (neg_le_neg (Real.neg_rpow_div_le_log hq.le hdelta))
     calc
       q ^ a * -Real.log q ≤ q ^ a * (q ^ (-delta) / delta) :=
         mul_le_mul_of_nonneg_left hlog (Real.rpow_nonneg hq.le _)
@@ -168,8 +168,11 @@ theorem hasDerivAt_actual_additiveMellin [IsTotallyComplex K]
   have hlog : Continuous (fun x : G => Complex.log (sLocalProductNorm K Sset x : ℂ)) :=
     hbase.clog (fun x => Complex.ofReal_mem_slitPlane.mpr (sLocalProductNorm_pos K Sset x))
   have hF'_meas : AEStronglyMeasurable (F' z0) (sLocalRadialMeasure K Sset) := by
-    have hc := (continuous_actual_weightedFourier K S mu nu test z0).mul hlog
-    simpa only [F', mul_assoc] using hc.aestronglyMeasurable
+    have hc : Continuous (F' z0) := by
+      convert (continuous_actual_weightedFourier K S mu nu test z0).mul hlog using 1
+      funext x
+      simp only [F', Pi.mul_apply, mul_assoc]
+    exact hc.aestronglyMeasurable
   have hbound : ∀ᵐ x ∂sLocalRadialMeasure K Sset,
       ∀ z ∈ Metric.ball z0 delta, ‖F' z x‖ ≤ bound x := by
     filter_upwards [] with x
@@ -227,7 +230,9 @@ theorem continuous_actual_additiveMellin_line [IsTotallyComplex K]
   intro t
   have ha := analyticOnNhd_actual_additiveMellin K S mu nu test
     ((sigma : ℂ) + (t : ℂ) * Complex.I) (by simpa using hsigma)
-  exact ha.continuousAt.comp (by fun_prop)
+  have hline : ContinuousAt (fun r : ℝ =>
+      (sigma : ℂ) + (r : ℂ) * Complex.I) t := by fun_prop
+  exact ha.continuousAt.comp hline
 
 end HeckeSkeleton.Expansion.MellinRegularity
 

@@ -4,6 +4,8 @@
 
 **任务仍在进行，原始目标尚未全部通过。** 下文把实际成功的编译与已经写成但尚待编译的源码分开列出。辅助模块通过不替代 `expansionRecipeRaw`、原始 EX 定理及其类型依赖的严格验收；达到全部标准后才将 PR 标为可审查。
 
+最新完整原生证据为 `e28f926` / run `41208791356`：pure 通过 112 个模块、2,042 个声明、0 个非标准公理依赖；其余四组失败，共定位八个根模块。本批十个 Lean 文件的修复已经写成并冻结，仍待下一轮原生验证。19 个原名目标和三个共享实际源模块的严格公理 gate 尚未执行成功；详见文末本轮记录及 `EXPANSION_VALIDATION.json`。
+
 ## 原始目标与实际对象
 
 最终展开必须作用于原 `normalizedProbe - principalLineProbe`。它由主行三项余量、小行、绝对大行、固定缓冲壳层块及真实高度尾组成。物理字符、完整理想掩码、有限素数窗口、全部 selected/unselected compensation 和原 primeNormalizer 都留在同一核中。族参数始终允许 `7/8 < B ≤ 1`，没有新增 `B ≤ 11/12` 或 `delta ≤ 5/6`。
@@ -104,3 +106,25 @@ head `63fb331` 的 run `41204649328` / pure job `124547158378` 已完整成功�
 本批修复七根的名称解析、原积分/求和类型、自然数/实数/复数转换、有限 Poisson 原轨道权重、局部域原点的 punctured-neighborhood 实例，以及实际素数窗口有限删除等式的代数方向。另补实际 presentation 边界与两个后继 amplitude/schedule 模块缺失的命名空间；四个后继 Mellin/retained/height/full-correction 模块中的同型加法单调证明改为明确的 `add_le_add` 组合。原声明、假设、实际物理对象及公理白名单保持不变；这些新修复仍待下一轮原生编译。MOM_BASE 的测试 merge commit `794d9a5` 也返回相同七根与41条诊断；该失败运行尚未构建到 Base/LocalGauss，不能将其计为兼容验证通过。
 
 该 arithmetic 原始日志为126,068行、7,503,795字节，其中大量为缓存重放的警告。验证脚本现仅压缩 `lake build` 的控制台显示，保留实际 Built/失败头、完整错误上下文和最终状态；每一行仍原样写入同一个 artifact 日志，所有 axiom audit 的控制台输出也保持完整。Lake 命令、全部 imports、清单、公理白名单及非零退出 gate 均未改。独立的失败子进程检查确认完整日志逐字保存且退出码7原样传播；未据此断言日志是构建时长的瓶颈。
+
+## `e28f926` 的原生复验与当前冻结修复
+
+head `e28f926b30be095d97a798b665551824dc40be8b` 的 [run `41208791356`](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41208791356) 已全部结束。五份 artifact 的压缩包 SHA-256、解包后的原始成员及各组源码清单均已独立核验；335 个源码哈希逐一对应该原生 head。pure job `124559247053` 成功审计 112 个模块、2,042 个声明，非标准公理依赖为零，112 个源码也与当前冻结工作树完全相同。其 artifact `13045816355` 的 SHA-256 为 `537c32ec15877d1e0bdf6a01411b1ba6837cb453d9cdfb404bc50e0480c80675`。
+
+| 分组 | 原生结果 | 清单模块数 | 根模块／诊断数 | Artifact |
+| --- | --- | ---: | ---: | ---: |
+| pure | success；完整严格审计通过 | 112 | 0／0 | 13045816355 |
+| actual-arithmetic | failure；未进入完整公理审计 | 116 | 8／19 | 13046026810 |
+| actual-physical | failure；未进入完整公理审计 | 39 | 8／19 | 13045648643 |
+| actual-contours | failure；未进入完整公理审计 | 56 | 7／18 | 13045709453 |
+| skeleton | failure；原名及共享源严格 gate 被前置构建阻挡 | 12 | 8／19 | 13045813589 |
+
+arithmetic、physical 与 skeleton 的八个根模块、19 条诊断及完整上下文逐字一致；contours 仅少 `PhysicalFloorSource` 的一条诊断，其余七根、18 条完整上下文一致。没有把分片未报告的错误视为该模块通过。全部 artifact、日志及清单摘要均保存在 validation JSON。
+
+相较 `dd22356` 的七根、41 条诊断，六个旧根已在本轮原生日志明确 **Built**：`LargeRowMellin`（11 秒）、`PhysicalFinitePoisson`（7.3 秒）、`PhysicalAdditiveOrigin`（4.9 秒）、`ActualPrimeIdealWindow`（5.9 秒）、`ActualInitialLocal`（5.4 秒）及 `PhysicalAmplitudeSource`（4.8 秒）。`ActualNormFormPrimeContour` 从13条诊断推进到一处积分函数的 rewrite；其余错误来自进一步编译到的后继模块。这些单模块成功记录不替代整组公理审计。
+
+本批已按日志修复八个根模块：`ActualNormFormPrimeContour` 的逐点函数表示；`ActualMellinRegularity` 的负幂符号归一化、导数乘法结合与真实竖线连续映射；`PhysicalPositiveMellinInversion` 的有限乘法 Haar 可积实例及逐点轨道核等式；`PhysicalFrequencyReindex` 的单位理想 coercion、实际字符/放大子命名空间与原轨道权重转换；`ActualLocalBlockSummation` 的空 Finset API 和负复数虚部化简；`ActualPrincipalSlotRemainder` 的竖线实部及积分测度；`PhysicalAmplitudeIntegral` 的常量可测 API；`PhysicalFloorSource` 的原零长度投影。另在 `ActualPrincipalResidueTails` 与 `ActualPrincipalTruncatedShifts` 补齐同形的显式竖线连续映射和测度参数。十个文件均保持原实际函数、声明与假设；当前修复仅为源码状态，尚未编译验证。
+
+MOM_BASE 的 [run `41208797442`](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41208797442) / job `124559263969` 也完成失败，exit code 为 1。它测试的是 `e28f926` 合入 `e66f738` 的 merge checkout `4a39962d3b6765a26c30a025ef8b9ea5667a1e7d`；artifact `13045219208` 的 SHA-256 `2ef25fa5bd68a3d1a5055ceb8c1b7cd692d3519dbd8b112a8b3551a3f357c4a0` 已核验。其八根、19 条完整诊断与 arithmetic 相同，没有 Base/LocalGauss 的 Built 或 Replayed 记录，不能据此认定兼容检查成功。
+
+当前清单固定335个源模块，保留19个原名目标、三个共享源模块及原三条标准公理白名单。验证脚本未再改变，本轮原生运行已经使用压缩控制台输出并保留完整 artifact 日志。先前证据和原清单保存在历史快照中；最新清单对十个冻结修复重新计算 SHA-256，不沿用修改前的通过状态。原始 EXPANSION 完成标准、完整类型依赖审计及 PR 可审查状态仍待后续原生验证全部通过。
