@@ -327,7 +327,141 @@ theorem general_marked_powerful_energy [Finite (SixthLocalClasses K S)]
             (Z ^ (O / 2 + eps / 2) * Z ^ (E0 + eps / 2)) := by ring
         _ = _ := by rw [hpow]
 
+/-- Explicit fixed polynomial height for the same genuine block. -/
+theorem general_marked_block_energy_height [Finite (SixthLocalClasses K S)]
+    (F : FiniteMellinData K S) (hF : FiniteMellinAdmissible K S F)
+    (θ₀ : HeckeCharacter K)
+    (hD : AllowedGeneratorInput K S D)
+    (hquadratic : ExteriorQuadraticBound K S D) (hcubic : ExteriorCubicBound K S D)
+    (delta : ℝ) (hdelta : 0 < delta) (hdelta' : delta ≤ 1) :
+    ∃ C : ℝ, 0 < C ∧ ∀ (ν : HeckeCharacter K), FiniteOrder ν → ∀ (t : ℝ),
+      MellinKernelInput K S F (ν * θ₀ * heckeNormTwist K t) →
+      (∀ p : HeightOneSpectrum (𝓞 K), p ∉ S → UnramifiedAt K (ν * θ₀ * heckeNormTwist K t) p) →
+      ∀ (f : FixedData K S) (s : FrozenState K S f.frozen f.puncture)
+        (q : FourClasses (SixthLocalClasses K S)) (V : SmoothAnnularTest)
+        (Z X Klo Plo Clo Blo : ℝ),
+      1 < Z → 0 < X → 1 ≤ Klo → 1 ≤ Plo → 1 ≤ Clo → 1 ≤ Blo →
+      ∀ rows ps cs bs : Finset (Ideal (𝓞 K)),
+      (∀ k ∈ rows, IsExterior K S k ∧ Squarefree k ∧ (k.absNorm : ℝ) ≤ 2 * Klo) →
+      (∀ P ∈ ps, IsExterior K S P ∧ Squarefree P ∧ (P.absNorm : ℝ) ≤ 2 * Plo) →
+      (∀ c ∈ cs, IsExterior K S c ∧ Squarefree c ∧ (c.absNorm : ℝ) ≤ 2 * Clo) →
+      (∀ b ∈ bs, IsExterior K S b ∧ (b.absNorm : ℝ) ≤ 2 * Blo) →
+      (∀ k ∈ rows, 1 ≤ safeNorm k / Klo ∧ safeNorm k / Klo ≤ 2) →
+      (∀ P ∈ ps, 1 ≤ safeNorm P / Plo ∧ safeNorm P / Plo ≤ 2) →
+      (∀ c ∈ cs, 1 ≤ safeNorm c / Clo ∧ safeNorm c / Clo ≤ 2) →
+      (∀ b ∈ bs, 1 ≤ safeNorm b / Blo ∧ safeNorm b / Blo ≤ 2) →
+      ∀ (markWeight : Ideal (𝓞 K) → ℂ) (A : ℝ), 0 < A →
+      (∀ P ∈ ps, ‖markWeight P‖ ≤ A) →
+      (∑ k ∈ rows, ‖slicedBlock K S D f s F (ν * θ₀ * heckeNormTwist K t) q markWeight V.toFun X ps cs bs k‖ ^ 2) ≤
+        C * (1 + |t|) ^ (18 * HeckeSkeleton.ThetaKernel.ncx K) * A ^ 2 * testSeminorm V.toFun (ActualCommonMellinTail.order K 0) 2 ^ 2 *
+        ‖inactiveWeight K S f‖ ^ 2 *
+        Z ^ (fixedExponent K S f s Z X Klo Plo Clo Blo -
+          4 * max (scale Z Clo + 3 * scale Z Blo - dualThreshold K S f s Z X Klo Plo) 0 +
+          delta * (scale Z Klo + scale Z Clo + scale Z Blo + scale Z Plo)) := by
+  obtain ⟨Ce, hCe, he⟩ := general_block_energy_height K S D F hF θ₀ hD
+    hquadratic hcubic delta hdelta
+  refine ⟨3072 * Ce, by positivity, ?_⟩
+  intro ν hν t hKernel hθ f s q V Z X Klo Plo Clo Blo hZ hX hK hP hC hB rows ps cs bs
+    hrows hps hcs hbs hd hp hc hb markWeight A hA hw
+  have hK0 := zero_lt_one.trans_le hK
+  have hP0 := zero_lt_one.trans_le hP
+  have hC0 := zero_lt_one.trans_le hC
+  have hB0 := zero_lt_one.trans_le hB
+  have hb0 := he ν hν t hKernel hθ f s q V X Klo Plo Clo Blo (2 * Klo) (2 * Plo) (2 * Clo) (2 * Blo)
+    hX hK0 hP0 hC0 hB0 (by linarith) (by linarith) (by linarith) (by linarith)
+    rows ps cs bs hrows hps hcs hbs hd hp hc hb markWeight A hA hw
+  rw [normalizedScale_eq_kernelScale K S f s] at hb0
+  have hpoly := general_exponent_le hZ hX
+    (exteriorNorm_pos K S (primeSetIdeal K S s.active))
+    (exteriorNorm_pos K S (minimumLinearIdeal K S s))
+    (exteriorNorm_pos K S (minimumCubeIdeal K S s))
+    (exteriorNorm_pos K S (minimumSmallIdeal K S s))
+    hK0 hP0 hC0 hB0 hdelta' (stateMajorant_sq_le_inverse_charge K S s)
+  have hmul := mul_le_mul_of_nonneg_left hpoly
+    (mul_nonneg (mul_nonneg (mul_nonneg
+      (mul_nonneg hCe.le (by positivity : 0 ≤ (1 + |t|) ^ (18 * HeckeSkeleton.ThetaKernel.ncx K))) (sq_nonneg A))
+      (sq_nonneg (testSeminorm V.toFun (ActualCommonMellinTail.order K 0) 2)))
+      (sq_nonneg ‖inactiveWeight K S f‖))
+  apply hb0.trans
+  convert hmul using 1 <;>
+    simp only [PhysicalBlockPolynomial.sievePolynomial, fixedExponent,
+      dualThreshold, fullPaperExponent] <;> ring
+
+/-- Explicit fixed polynomial height for the same genuine block. -/
+theorem general_marked_block_energy_eps_height [Finite (SixthLocalClasses K S)]
+    (F : FiniteMellinData K S) (hF : FiniteMellinAdmissible K S F)
+    (θ₀ : HeckeCharacter K)
+    (hD : AllowedGeneratorInput K S D)
+    (hquadratic : ExteriorQuadraticBound K S D) (hcubic : ExteriorCubicBound K S D)
+    (W eps : ℝ) (hW : 0 ≤ W) (heps : 0 < eps) :
+    ∃ C : ℝ, 0 < C ∧ ∀ (ν : HeckeCharacter K), FiniteOrder ν → ∀ (t : ℝ),
+      MellinKernelInput K S F (ν * θ₀ * heckeNormTwist K t) →
+      (∀ p : HeightOneSpectrum (𝓞 K), p ∉ S → UnramifiedAt K (ν * θ₀ * heckeNormTwist K t) p) →
+      ∀ (f : FixedData K S) (s : FrozenState K S f.frozen f.puncture)
+        (q : FourClasses (SixthLocalClasses K S)) (V : SmoothAnnularTest)
+        (Z X Klo Plo Clo Blo : ℝ),
+      1 < Z → 0 < X → 1 ≤ Klo → 1 ≤ Plo → 1 ≤ Clo → 1 ≤ Blo →
+      scale Z Klo + scale Z Clo + scale Z Blo + scale Z Plo ≤ W →
+      ∀ rows ps cs bs : Finset (Ideal (𝓞 K)),
+      (∀ k ∈ rows, IsExterior K S k ∧ Squarefree k ∧ (k.absNorm : ℝ) ≤ 2 * Klo) →
+      (∀ P ∈ ps, IsExterior K S P ∧ Squarefree P ∧ (P.absNorm : ℝ) ≤ 2 * Plo) →
+      (∀ c ∈ cs, IsExterior K S c ∧ Squarefree c ∧ (c.absNorm : ℝ) ≤ 2 * Clo) →
+      (∀ b ∈ bs, IsExterior K S b ∧ (b.absNorm : ℝ) ≤ 2 * Blo) →
+      (∀ k ∈ rows, 1 ≤ safeNorm k / Klo ∧ safeNorm k / Klo ≤ 2) →
+      (∀ P ∈ ps, 1 ≤ safeNorm P / Plo ∧ safeNorm P / Plo ≤ 2) →
+      (∀ c ∈ cs, 1 ≤ safeNorm c / Clo ∧ safeNorm c / Clo ≤ 2) →
+      (∀ b ∈ bs, 1 ≤ safeNorm b / Blo ∧ safeNorm b / Blo ≤ 2) →
+      ∀ (markWeight : Ideal (𝓞 K) → ℂ) (A : ℝ), 0 < A →
+      (∀ P ∈ ps, ‖markWeight P‖ ≤ A) →
+      (∑ k ∈ rows, ‖slicedBlock K S D f s F (ν * θ₀ * heckeNormTwist K t) q markWeight V.toFun X ps cs bs k‖ ^ 2) ≤
+        C * (1 + |t|) ^ (18 * HeckeSkeleton.ThetaKernel.ncx K) * A ^ 2 * testSeminorm V.toFun (ActualCommonMellinTail.order K 0) 2 ^ 2 *
+        ‖inactiveWeight K S f‖ ^ 2 *
+        Z ^ (fixedExponent K S f s Z X Klo Plo Clo Blo + eps) := by
+  obtain ⟨delta, hd, hd', hbudget⟩ := exists_sieve_loss W eps hW heps
+  obtain ⟨C, hC, hbound⟩ := general_marked_block_energy_height K S D F hF θ₀ hD
+    hquadratic hcubic delta hd hd'
+  refine ⟨C, hC, ?_⟩
+  intro ν hν t hKernel hθ f s q V Z X Klo Plo Clo Blo hZ hX hK hP hClo hB hWsum
+    rows ps cs bs hrows hps hcs hbs hd hp hc hb markWeight A hA hw
+  have hlocal := hbound ν hν t hKernel hθ f s q V Z X Klo Plo Clo Blo hZ hX hK hP hClo hB
+    rows ps cs bs hrows hps hcs hbs hd hp hc hb markWeight A hA hw
+  apply hlocal.trans
+  apply mul_le_mul_of_nonneg_left
+  · apply Real.rpow_le_rpow_of_exponent_le hZ.le
+    have hsmall := hbudget (scale Z Klo) (scale Z Clo) (scale Z Blo) (scale Z Plo) hWsum
+    have htail := le_max_right
+      (scale Z Clo + 3 * scale Z Blo - dualThreshold K S f s Z X Klo Plo) 0
+    linarith
+  · positivity
+
+/-- Uniform finite-order/norm-twist version of the actual data-bundle endpoint. -/
+theorem general_marked_block_family_height [Finite (SixthLocalClasses K S)]
+    (F : FiniteMellinData K S) (hF : FiniteMellinAdmissible K S F)
+    (θ₀ : HeckeCharacter K)
+    (hD : AllowedGeneratorInput K S D)
+    (hquadratic : ExteriorQuadraticBound K S D) (hcubic : ExteriorCubicBound K S D)
+    (W eps : ℝ) (hW : 0 ≤ W) (heps : 0 < eps) :
+    ∃ C : ℝ, 0 < C ∧ ∀ (ν : HeckeCharacter K), FiniteOrder ν → ∀ (t : ℝ),
+      MellinKernelInput K S F (ν * θ₀ * heckeNormTwist K t) →
+      (∀ p : HeightOneSpectrum (𝓞 K), p ∉ S → UnramifiedAt K (ν * θ₀ * heckeNormTwist K t) p) →
+      ∀ (Z A : ℝ), 1 < Z → 0 < A →
+      ∀ (V : SmoothAnnularTest) (b : ReflectedBlock K S), b.Admissible Z W A →
+      b.energy D F (ν * θ₀ * heckeNormTwist K t) V ≤
+        C * (1 + |t|) ^ (18 * HeckeSkeleton.ThetaKernel.ncx K) * A ^ 2 * testSeminorm V.toFun (ActualCommonMellinTail.order K 0) 2 ^ 2 *
+          ‖inactiveWeight K S b.fixed‖ ^ 2 * Z ^ (b.exponent Z + eps) := by
+  obtain ⟨C, hC, hb⟩ := general_marked_block_energy_eps_height K S D F hF θ₀ hD
+    hquadratic hcubic W eps hW heps
+  refine ⟨C, hC, ?_⟩
+  intro ν hν t hKernel hθ Z A hZ hA V b h
+  exact hb ν hν t hKernel hθ b.fixed b.state b.classes V Z b.X b.rowScale b.markScale b.squarefreeScale
+    b.cubeScale hZ h.scale_pos h.rowScale_ge h.markScale_ge h.squarefreeScale_ge h.cubeScale_ge
+    h.width_bound b.rows b.marks b.squarefreeColumns b.cubeColumns h.rows_bound h.marks_bound
+    h.squarefree_bound h.cube_bound h.rows_ratio h.marks_ratio h.squarefree_ratio h.cube_ratio
+    b.markWeight A hA h.markWeight_bound
+
+
 #print axioms general_marked_block_family
+#print axioms general_marked_block_family_height
 #print axioms powerful_count_at_scale
 #print axioms general_marked_powerful_energy
 

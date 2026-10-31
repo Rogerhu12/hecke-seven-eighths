@@ -58,7 +58,16 @@ theorem local_conductor (e l r m : ℕ) (hl : l ≤ 1) (hr : r ≤ 1)
       (if m = 1 then 1 else 0) +
       (if m = 0 ∧ ((e + 4 * l) % 6 = 0 ∨ (e + 4 * l) % 6 = 4) then 1 else 0) +
       4 * (if m = 3 then 1 else 0) + 2 * e + l + r := by
-  rcases hm with rfl | rfl | rfl <;> split_ifs <;> omega
+  by_cases he : 2 ≤ e
+  · rw [if_pos he]
+    omega
+  · have he' : e = 0 ∨ e = 1 := by omega
+    have hl' : l = 0 ∨ l = 1 := by omega
+    have hr' : r = 0 ∨ r = 1 := by omega
+    rcases he' with rfl | rfl <;>
+      rcases hl' with rfl | rfl <;>
+      rcases hr' with rfl | rfl <;>
+      rcases hm with rfl | rfl | rfl <;> norm_num at *
 
 /-- An exact divisibility statement for the actual local charge ideals. -/
 theorem conductor_charge_dvd (R label puncture : ExteriorIdeal K S)
@@ -105,10 +114,24 @@ theorem conductor_charge_dvd (R label puncture : ExteriorIdeal K S)
       have hdigit : (frozenDigit K S (exteriorMul K S R (exteriorPower K S label 4)) ep).val =
           (primeExponents R.val p + 4 * primeExponents label.val p) % 6 := by
         simp only [frozenDigit, exteriorMul, exteriorPower, primeExponents_mul,
-          Finsupp.add_apply, exponent_pow]
-      simpa only [hp, if_true, minimumLinearPrimes, minimumSmallPrimes, minimumCubePrimes,
-        FrozenChargeCore.linearPrimes, FrozenChargeCore.smallPrimes, FrozenChargeCore.cubePrimes,
-        Finset.mem_filter, true_and, FrozenChargeCore.smallCharge, hdigit, ep, mul_one] using
+          Finsupp.add_apply, exponent_pow, ep]
+      have hNmem : ep ∈ minimumLinearPrimes K S s ↔ primeExponents s.minimum.val p = 1 := by
+        simp only [minimumLinearPrimes, FrozenChargeCore.linearPrimes,
+          Finset.mem_filter, hp, true_and]
+      have hBmem : ep ∈ minimumCubePrimes K S s ↔ primeExponents s.minimum.val p = 3 := by
+        simp only [minimumCubePrimes, FrozenChargeCore.cubePrimes,
+          Finset.mem_filter, hp, true_and]
+      have hSmem : ep ∈ minimumSmallPrimes K S s ↔ primeExponents s.minimum.val p = 0 ∧
+          ((primeExponents R.val p + 4 * primeExponents label.val p) % 6 = 0 ∨
+            (primeExponents R.val p + 4 * primeExponents label.val p) % 6 = 4) := by
+        unfold minimumSmallPrimes FrozenChargeCore.smallPrimes
+        rw [Finset.mem_filter]
+        change (ep ∈ s.active ∧ (primeExponents s.minimum.val p = 0 ∧
+          ((frozenDigit K S (exteriorMul K S R (exteriorPower K S label 4)) ep).val = 0 ∨
+            (frozenDigit K S (exteriorMul K S R (exteriorPower K S label 4)) ep).val = 4))) ↔ _
+        rw [hdigit]
+        simp only [hp, true_and]
+      simpa only [hp, if_true, hNmem, hSmem, hBmem, mul_one] using
         local_conductor (primeExponents R.val p) (primeExponents label.val p)
           (primeExponents puncture.val p) (primeExponents s.minimum.val p)
           (exponent_le_one_of_squarefree label.val hlabel p)
@@ -149,7 +172,7 @@ theorem conductor_charge_norm (R label puncture : ExteriorIdeal K S)
     have hP := Ideal.absNorm_pos_of_nonZeroDivisors puncture.val
     positivity
   have hle := Nat.le_of_dvd hpos hn
-  have hreal := (Nat.cast_le (R := ℝ)).mpr hle
+  have hreal := (Nat.cast_le (α := ℝ)).mpr hle
   simpa only [map_mul, map_pow, Nat.cast_mul, Nat.cast_pow,
     exteriorNorm, exteriorPowerfulPart] using hreal
 

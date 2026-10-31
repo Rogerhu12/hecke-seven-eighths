@@ -5,10 +5,21 @@
 本文件描述正在原生编译核对的源码，不构成编译完成声明。
 
 公开名称现在为 `HeckeSkeleton.completedMarkedEnergy K S D hreflection hquadratic hcubic`，
-结论 `CompletedCanonicalMarkedEnergy K S D F theta` 有 `block_energy`、
-`reconstruct`、`reconstruct_product`、`power_tails`、`annular_conductors` 五个字段。
+结论 `CompletedCanonicalMarkedEnergy K S D F theta` 包含以下具体结论。
 原物理结论 `HeckeSkeleton.CompletedMarkedEnergy K c` 未改，证明改名为
 `HeckeSkeleton.physicalCompletedMarkedEnergy`，`principalSource` 已同步使用此名称。
+
+| 字段 | 结论 |
+| --- | --- |
+| `product_block_energy` | 原 tuple/prime-choice 有限投影的统一行能量；具体 block family 和 source support 自动构造。 |
+| `block_energy`、`uniform_block_energy` | 一般 source family 的能量，以及常数先于有限阶子背景和实范数扭曲的版本。 |
+| `reconstruct`、`reconstruct_product` | 原 canonical completed sum 与完整反射级数相等，包含 product-form mark 的碰撞零项。 |
+| `reconstruct_product_block` | 具体 product factory 的投影就是原 reflection sigma index 的有限投影及实际活动理想环带。 |
+| `reconstruct_original_product` | 同一具体 source family 等于原行、标签和穿孔下非碰撞 tuples 的完整有限原索引投影；碰撞零项由实际掩码证明。 |
+| `project_columns`、`discarded_columns` | 全列和等于有限保留块加真实补集；补集由其实际 sourceTailPiece 控制。 |
+| `power_tails`、`uniform_power_tails` | 任意幂尾界及显式多项式高度版本。 |
+| `uniform_discarded_tails` | 同一任意幂界直接作用于所保留完整环带的真实补集。 |
+| `annular_conductors` | 原行、原 powerful part 和实际 residual annulus 的两个导子比较。 |
 
 ## 原陈述与一般陈述
 
@@ -63,9 +74,18 @@ fibre 常数。允许窗口重叠和 tuple 内素理想重复；重复素理想�
 进入 active 或 inactive，一次 reciprocal norm 只按 distinct support 计。
 活动理想环带按实际 N(P) 分段，不假设重复 tuple 的范数等于各槽范数积。
 
-反射背景 theta 与有限 Mellin 数据 F 固定在统一常数之前。源码显示的是
-这一确切量词和测试函数的有限 seminorm；尚未将任意依赖 theta 的常数
-宣称为所有角型或高度变化下的统一多项式界。
+基础背景 theta 与有限 Mellin 数据 F 固定在统一常数之前。
+`uniform_block_energy` 进一步在选取常数之后允许任意有限阶字符 nu 和
+任意实参数 t，应用于 `nu * theta * heckeNormTwist K t`，显式乘上
+`(1 + |t|)^(18 * ncx K)`。子背景原有的 reflection/unramified 输入仍显式
+给出，但该能量常数不能依赖子背景或 t。此结论固定基础角型；没有声称
+任意无界角型都由同一常数控制。
+
+任意幂尾项的统一版本同样先选取核移线阶数 J、常数 C 和阈值 Z0，再选
+nu、t 和有限尾项族。大参数阶数为
+`A = 1 + 2*(B_tail + L)/tau`，高度因子为
+`(1 + |t|)^(8 * ncx K * A)`。`B_tail` 由真实有限项数、外部系数和理想
+范数长度上界计算；没有把多项式核界作为新的假设。
 
 ## 与原 completed sum 的等式
 
@@ -82,8 +102,22 @@ mark；不存在替换系数后再假定能量的步骤。
 `GeneralProductReconstruction` 对论文 product-form mark 证明有限线性展开，
 以原 canonicalTau（包含 label 的四次幂）处理全部 row、label、puncture
 碰撞零项。`GeneralCanonicalBlock.sourceTerm` 直接使用原 `reflectedTerm`
-及其真实 source index；其全 tuple/source-family energy 与估计中的行和
-在取范数前相等。`SourceSupported` 只有原理想支持与互素条件。
+及其真实 source index；source-family energy 与估计中的行和在取范数前
+相等。`SourceSupported` 只有原理想支持与互素条件。
+
+`GeneralTupleBlocks` 负责从原 tuple 和 prime MarkChoice 到饱和槽模式、
+非活动 tuple 与真实活动理想 fibre 的有限重排。活动与非活动 distinct
+support 必须不交，所以重复素理想不能被拆到两侧。这一步把原 product
+mark 的反射展开接到能量定理使用的具体 source family。
+`GeneralProductEnergy` 因而直接估计原有限投影的平方行范数，consumer
+无需补一个 source identity、系数独立性或 source support 假设。
+
+`GeneralColumnCutoff` 保留完整的实际 dyadic rectangles，并在取范数前
+证明全列和等于有限保留和加真实补集。补集中的核参数由同一个实际
+row/mark 比值盒推出下界，因而由 `GeneralKernelTail` 的任意幂尾项控制。
+`GeneralSourceCutoff` 把这些列项重新乘上真实 inactive/row/mark 系数并
+汇总有限局部类，得到未切类的原 `generalAtom` 与其实际补集。
+新接线与高度传播均须由完整原生构建核验；此处是源码接口说明。
 
 ## 一般指数
 

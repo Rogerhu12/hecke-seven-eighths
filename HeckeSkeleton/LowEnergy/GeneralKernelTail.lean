@@ -1,6 +1,7 @@
 import HeckeSkeleton.LowEnergy.GeneralReflectedBlock
 import HeckeSkeleton.LowEnergy.GeneralMarkedEnergy
 import HeckeSkeleton.LowEnergy.GeneralTailNumerics
+import HeckeSkeleton.LowEnergy.GeneralHeightTail
 import HeckeSkeleton.LowEnergy.IdealMajorant
 import Mathlib.Analysis.Normed.Ring.InfiniteSum
 
@@ -574,6 +575,164 @@ theorem actual_total_power_tail (F : FiniteMellinData K S) (θ : HeckeCharacter 
     _ = _ := by
       rw [mul_assoc, polynomial_tail_eq htau (zero_lt_one.trans hZ)]
 
+/-- The original positive-line kernel estimate with its proved,
+uniform polynomial loss for all finite-order children and norm twists. -/
+theorem kernel_tail_bound_height [Finite (SixthLocalClasses K S)]
+    (F : FiniteMellinData K S) (hF : FiniteMellinAdmissible K S F)
+    (θ₀ : HeckeCharacter K) (A : ℝ) (hA : 1 ≤ A) :
+    ∃ (J : ℕ) (C : ℝ), 0 ≤ C ∧ ∀ (ν : HeckeCharacter K), FiniteOrder ν →
+      ∀ (t : ℝ) (V : SmoothAnnularTest) (u : SixthUnitClasses K S)
+        (κ : SixthLocalClasses K S) (y T : ℝ),
+      0 < y → 0 < T → T ≤ y →
+      ‖mellinReflectionKernel K S F (ν * θ₀ * heckeNormTwist K t) u κ V.toFun 0 y‖ ≤
+        C * (1 + |t|) ^ (8 * HeckeSkeleton.ThetaKernel.ncx K * A) *
+          testSeminorm V.toFun J A * y ^ (-1 : ℝ) * T ^ (-(A - 1)) := by
+  let J := Nat.ceil (4 * HeckeSkeleton.ThetaKernel.ncx K * A + 1) + 1
+  have hJ : 4 * HeckeSkeleton.ThetaKernel.ncx K * A + 1 < J := by
+    have h := Nat.le_ceil (4 * HeckeSkeleton.ThetaKernel.ncx K * A + 1)
+    dsimp [J]
+    push_cast
+    linarith
+  obtain ⟨C, hC, hb⟩ := GeneralHeightTail.kernel_child_decay hF θ₀ A J (by linarith) hJ
+  refine ⟨J, C, hC, ?_⟩
+  intro ν hν t V u κ y T hy hT hTy
+  have h := hb ν hν t V u κ y hy
+  have hCS : 0 ≤ C * (1 + |t|) ^ (8 * HeckeSkeleton.ThetaKernel.ncx K * A) *
+      testSeminorm V.toFun J A :=
+    mul_nonneg (mul_nonneg hC (by positivity)) (seminorm_nonneg V.toFun J A)
+  exact h.trans ((mul_le_mul_of_nonneg_left (power_tail hy hT hTy hA) hCS).trans_eq (by ring))
+
+theorem actual_column_tail_height [Finite (SixthLocalClasses K S)]
+    (F : FiniteMellinData K S) (hF : FiniteMellinAdmissible K S F) (θ₀ : HeckeCharacter K)
+    (hD : AllowedGeneratorInput K S D) (A : ℝ) (hA : 1 ≤ A) :
+    ∃ (J : ℕ) (C : ℝ), 0 ≤ C ∧ ∀ (ν : HeckeCharacter K), FiniteOrder ν → ∀ (t : ℝ),
+      (∀ p : HeightOneSpectrum (𝓞 K), p ∉ S → UnramifiedAt K (ν * θ₀ * heckeNormTwist K t) p) →
+      ∀ (V : SmoothAnnularTest) (q : FourClasses (SixthLocalClasses K S))
+        (f : FixedData K S) (s : FrozenState K S f.frozen f.puncture)
+        (X T : ℝ) (k P : ExteriorIdeal K S),
+      0 < X → 0 < T →
+      Summable (fun cb => ‖tailColumnAtom K S D f s F (ν * θ₀ * heckeNormTwist K t) q V.toFun X T k P cb‖) ∧
+      (∑' cb, ‖tailColumnAtom K S D f s F (ν * θ₀ * heckeNormTwist K t) q V.toFun X T k P cb‖) ≤
+        C * (1 + |t|) ^ (8 * HeckeSkeleton.ThetaKernel.ncx K * A) * testSeminorm V.toFun J A * stateMajorant K S s *
+          (exteriorNorm K S k ^ 2 * exteriorNorm K S P ^ 2 / baseScale K S f s X) *
+          T ^ (-(A - 1)) := by
+  obtain ⟨J, C, hC, hb⟩ := kernel_tail_bound_height K S F hF θ₀ A hA
+  refine ⟨J, C * columnMass K S, mul_nonneg hC (columnMass_nonneg K S), ?_⟩
+  intro ν hν t hθ V q f s X T k P hX hT
+  have hbase : 0 < baseScale K S f s X := by
+    unfold baseScale
+    exact div_pos (mul_pos hX (exteriorNorm_pos K S s.minimum))
+      (sq_pos_of_pos (exteriorNorm_pos K S (primeSetIdeal K S s.active)))
+  let L := C * (1 + |t|) ^ (8 * HeckeSkeleton.ThetaKernel.ncx K * A) * testSeminorm V.toFun J A * stateMajorant K S s *
+    (exteriorNorm K S k ^ 2 * exteriorNorm K S P ^ 2 / baseScale K S f s X) *
+    T ^ (-(A - 1))
+  have hL : 0 ≤ L := by
+    dsimp [L]
+    exact mul_nonneg
+      (mul_nonneg (mul_nonneg (mul_nonneg (mul_nonneg hC (by positivity : 0 ≤ (1 + |t|) ^ (8 * HeckeSkeleton.ThetaKernel.ncx K * A))) (seminorm_nonneg V.toFun J A))
+        (stateMajorant_nonneg K S s)) (by positivity)) (by positivity)
+  have hpoint (cb : ExteriorIdeal K S × ExteriorIdeal K S) :
+      ‖tailColumnAtom K S D f s F (ν * θ₀ * heckeNormTwist K t) q V.toFun X T k P cb‖ ≤ L * columnWeight K S cb := by
+    unfold tailColumnAtom
+    split_ifs with htail
+    · have hc := exteriorNorm_pos K S cb.1
+      have hbb := exteriorNorm_pos K S cb.2
+      have hk := exteriorNorm_pos K S k
+      have hp := exteriorNorm_pos K S P
+      have harg := CommonMellin.argument_pos hbase hk hp hc hbb
+      have hker := hb ν hν t V (QuotientGroup.mk f.rowUnit)
+        (blockFrequency (frozenClass K S D f s) q.1.1 q.1.2 q.2.1 q.2.2)
+        _ T harg hT htail
+      have hcol := ordinaryColumn_norm_le K S D f s (ν * θ₀ * heckeNormTwist K t) hθ q cb.1.val.val cb.2.val.val
+        ⟨nonZeroDivisors.coe_ne_zero cb.1.val, cb.1.property⟩
+        ⟨nonZeroDivisors.coe_ne_zero cb.2.val, cb.2.property⟩
+      have hhyb := hybridKernel_norm_le_one K S D hD k.val.val P cb.1.val.val cb.2.val.val
+      have hcoef : ‖ordinaryColumn K S D f s (ν * θ₀ * heckeNormTwist K t) q cb.1.val.val cb.2.val.val *
+          FiniteHybridIntegral.hybridKernel (cubicKernel K S D) (quadraticKernel K S D)
+            k.val.val P.val.val cb.1.val.val cb.2.val.val‖ ≤
+          stateMajorant K S s / (Real.sqrt (exteriorNorm K S cb.1) * exteriorNorm K S cb.2) := by
+        rw [norm_mul]
+        simpa only [mul_one] using mul_le_mul hcol hhyb (norm_nonneg _)
+          (div_nonneg (stateMajorant_nonneg K S s) (by positivity))
+      have h := mul_le_mul hcoef hker (norm_nonneg _)
+        (div_nonneg (stateMajorant_nonneg K S s) (by positivity))
+      rw [columnAtom, norm_mul]
+      apply h.trans_eq
+      have hid := column_kernel_identity hbase hk hp hc hbb
+      dsimp [L, columnWeight]
+      calc
+        _ = (C * (1 + |t|) ^ (8 * HeckeSkeleton.ThetaKernel.ncx K * A) * testSeminorm V.toFun J A * stateMajorant K S s * T ^ (-(A - 1))) *
+            ((Real.sqrt (exteriorNorm K S cb.1) * exteriorNorm K S cb.2)⁻¹ *
+              (CommonMellin.argument (baseScale K S f s X)
+                (exteriorNorm K S k) (exteriorNorm K S P)
+                (exteriorNorm K S cb.1) (exteriorNorm K S cb.2)) ^ (-1 : ℝ)) := by ring
+        _ = _ := by rw [hid]; ring
+    · rw [norm_zero]
+      exact mul_nonneg hL (columnWeight_nonneg K S cb)
+  have hm : Summable (fun cb => L * columnWeight K S cb) :=
+    (columnWeight_summable K S).mul_left L
+  have ht := hm.of_nonneg_of_le (fun cb => norm_nonneg _) hpoint
+  refine ⟨ht, (ht.tsum_le_tsum hpoint hm).trans_eq ?_⟩
+  rw [tsum_mul_left]
+  dsimp [L, columnMass]
+  ring
+
+theorem actual_total_power_tail_height [Finite (SixthLocalClasses K S)]
+    (F : FiniteMellinData K S) (hF : FiniteMellinAdmissible K S F) (θ₀ : HeckeCharacter K)
+    (hD : AllowedGeneratorInput K S D) (B tau L : ℝ)
+    (hB : 0 ≤ B) (htau : 0 < tau) (hL : 0 < L) :
+    ∃ (J : ℕ) (C Z0 : ℝ), 0 ≤ C ∧ 1 < Z0 ∧
+      ∀ (ν : HeckeCharacter K), FiniteOrder ν → ∀ (t : ℝ),
+      (∀ p : HeightOneSpectrum (𝓞 K), p ∉ S → UnramifiedAt K (ν * θ₀ * heckeNormTwist K t) p) →
+      ∀ Z : ℝ, Z0 ≤ Z → 16 ≤ Z ^ (tau / 2) ∧
+      ∀ (V : SmoothAnnularTest) {ι : Type*} (I : Finset ι) (p : ι → TailPiece K S),
+      (∀ i ∈ I, 0 < (p i).X) → (∑ i ∈ I, (p i).prefactor) ≤ Z ^ B →
+      (∀ i ∈ I, Summable (fun cb => ‖(p i).weight *
+        tailColumnAtom K S D (p i).fixed (p i).state F (ν * θ₀ * heckeNormTwist K t) (p i).classes V.toFun (p i).X
+          (Z ^ (tau / 2)) (p i).row (p i).mark cb‖)) ∧
+      (∑ i ∈ I, (p i).tailMass D F (ν * θ₀ * heckeNormTwist K t) V (Z ^ (tau / 2))) ≤
+        C * (1 + |t|) ^ (8 * HeckeSkeleton.ThetaKernel.ncx K * tailOrder B tau L) * testSeminorm V.toFun J (tailOrder B tau L) * Z ^ (-L) := by
+  obtain ⟨J, C, hC, hb⟩ := actual_column_tail_height K S D F hF θ₀ hD
+    (tailOrder B tau L) (tailOrder_ge_one hB htau hL.le)
+  obtain ⟨Z1, hZ1, hz1⟩ := exists_ratio_threshold tau htau
+  refine ⟨J, C, max 2 Z1, hC, lt_of_lt_of_le (by norm_num) (le_max_left _ _), ?_⟩
+  intro ν hν t hθ Z hZ0
+  have hZ : 1 < Z := lt_of_lt_of_le (by norm_num) ((le_max_left _ _).trans hZ0)
+  refine ⟨hz1 Z ((le_max_right _ _).trans hZ0), ?_⟩
+  intro V ι I p hX hpref
+  have hCS := mul_nonneg (mul_nonneg hC (by positivity : 0 ≤ (1 + |t|) ^ (8 * HeckeSkeleton.ThetaKernel.ncx K * tailOrder B tau L)))
+    (seminorm_nonneg V.toFun J (tailOrder B tau L))
+  have hpiece (i : ι) (hi : i ∈ I) := hb ν hν t hθ V (p i).classes (p i).fixed (p i).state
+    (p i).X (Z ^ (tau / 2)) (p i).row (p i).mark (hX i hi) (by positivity)
+  have hsum (i : ι) (hi : i ∈ I) : Summable (fun cb => ‖(p i).weight *
+      tailColumnAtom K S D (p i).fixed (p i).state F (ν * θ₀ * heckeNormTwist K t) (p i).classes V.toFun (p i).X
+        (Z ^ (tau / 2)) (p i).row (p i).mark cb‖) := by
+    simpa only [norm_mul] using (hpiece i hi).1.mul_left ‖(p i).weight‖
+  refine ⟨hsum, ?_⟩
+  have hlocal (i : ι) (hi : i ∈ I) :
+      (p i).tailMass D F (ν * θ₀ * heckeNormTwist K t) V (Z ^ (tau / 2)) ≤
+      C * (1 + |t|) ^ (8 * HeckeSkeleton.ThetaKernel.ncx K * tailOrder B tau L) * testSeminorm V.toFun J (tailOrder B tau L) * (p i).prefactor *
+        (Z ^ (tau / 2)) ^ (-(tailOrder B tau L - 1)) := by
+    unfold TailPiece.tailMass
+    simp_rw [norm_mul]
+    rw [tsum_mul_left]
+    have h := mul_le_mul_of_nonneg_left (hpiece i hi).2 (norm_nonneg (p i).weight)
+    apply h.trans_eq
+    unfold TailPiece.prefactor
+    ring
+  calc
+    _ ≤ ∑ i ∈ I, C * (1 + |t|) ^ (8 * HeckeSkeleton.ThetaKernel.ncx K * tailOrder B tau L) * testSeminorm V.toFun J (tailOrder B tau L) * (p i).prefactor *
+        (Z ^ (tau / 2)) ^ (-(tailOrder B tau L - 1)) := Finset.sum_le_sum hlocal
+    _ = C * (1 + |t|) ^ (8 * HeckeSkeleton.ThetaKernel.ncx K * tailOrder B tau L) * testSeminorm V.toFun J (tailOrder B tau L) *
+        (∑ i ∈ I, (p i).prefactor) * (Z ^ (tau / 2)) ^ (-(tailOrder B tau L - 1)) := by
+      rw [← Finset.sum_mul, ← Finset.mul_sum]
+    _ ≤ C * (1 + |t|) ^ (8 * HeckeSkeleton.ThetaKernel.ncx K * tailOrder B tau L) * testSeminorm V.toFun J (tailOrder B tau L) * Z ^ B *
+        (Z ^ (tau / 2)) ^ (-(tailOrder B tau L - 1)) :=
+      mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hpref hCS) (by positivity)
+    _ = _ := by
+      rw [mul_assoc, polynomial_tail_eq htau (zero_lt_one.trans hZ)]
+
+
 #print axioms columnWeight_summable
 #print axioms kernel_tail_bound
 #print axioms actual_column_tail
@@ -583,5 +742,7 @@ theorem actual_total_power_tail (F : FiniteMellinData K S) (θ : HeckeCharacter 
 #print axioms prefactor_le_from_lengths
 #print axioms total_prefactor_le_from_lengths
 #print axioms actual_total_power_tail
+#print axioms actual_column_tail_height
+#print axioms actual_total_power_tail_height
 
 end HeckeSkeleton.LowEnergy.GeneralKernelTail

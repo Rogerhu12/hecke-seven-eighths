@@ -329,9 +329,69 @@ theorem general_block_energy [Finite (SixthLocalClasses K S)]
     _ ≤ _ := he
 
 
+/-- Arbitrary fixed completed scales, uniformly in finite-order children
+and norm twists of one fixed angular background. -/
+theorem general_block_energy_height [Finite (SixthLocalClasses K S)]
+    (F : FiniteMellinData K S) (hF : FiniteMellinAdmissible K S F)
+    (θ₀ : HeckeCharacter K)
+    (hD : AllowedGeneratorInput K S D)
+    (hquadratic : ExteriorQuadraticBound K S D) (hcubic : ExteriorCubicBound K S D)
+    (eps : ℝ) (heps : 0 < eps) :
+    ∃ C : ℝ, 0 < C ∧ ∀ (ν : HeckeCharacter K), FiniteOrder ν → ∀ (t : ℝ),
+      MellinKernelInput K S F (ν * θ₀ * heckeNormTwist K t) →
+      (∀ p : HeightOneSpectrum (𝓞 K), p ∉ S → UnramifiedAt K (ν * θ₀ * heckeNormTwist K t) p) →
+      ∀ (f : FixedData K S) (s : FrozenState K S f.frozen f.puncture)
+        (q : FourClasses (SixthLocalClasses K S)) (V : SmoothAnnularTest)
+        (Z Klo Plo Clo Blo Kup Pup Cup Bup : ℝ),
+      0 < Z → 0 < Klo → 0 < Plo → 0 < Clo → 0 < Blo →
+      1 ≤ Kup → 1 ≤ Pup → 1 ≤ Cup → 1 ≤ Bup →
+      ∀ rows ps cs bs : Finset (Ideal (𝓞 K)),
+      (∀ k ∈ rows, IsExterior K S k ∧ Squarefree k ∧ (k.absNorm : ℝ) ≤ Kup) →
+      (∀ P ∈ ps, IsExterior K S P ∧ Squarefree P ∧ (P.absNorm : ℝ) ≤ Pup) →
+      (∀ c ∈ cs, IsExterior K S c ∧ Squarefree c ∧ (c.absNorm : ℝ) ≤ Cup) →
+      (∀ b ∈ bs, IsExterior K S b ∧ (b.absNorm : ℝ) ≤ Bup) →
+      (∀ k ∈ rows, 1 ≤ safeNorm k / Klo ∧ safeNorm k / Klo ≤ 2) →
+      (∀ P ∈ ps, 1 ≤ safeNorm P / Plo ∧ safeNorm P / Plo ≤ 2) →
+      (∀ c ∈ cs, 1 ≤ safeNorm c / Clo ∧ safeNorm c / Clo ≤ 2) →
+      (∀ b ∈ bs, 1 ≤ safeNorm b / Blo ∧ safeNorm b / Blo ≤ 2) →
+      ∀ (markWeight : Ideal (𝓞 K) → ℂ) (A : ℝ), 0 < A →
+      (∀ P ∈ ps, ‖markWeight P‖ ≤ A) →
+      (∑ k ∈ rows, ‖slicedBlock K S D f s F (ν * θ₀ * heckeNormTwist K t) q markWeight V.toFun Z ps cs bs k‖ ^ 2) ≤
+        C * (1 + |t|) ^ (18 * HeckeSkeleton.ThetaKernel.ncx K) * A ^ 2 * testSeminorm V.toFun (ActualCommonMellinTail.order K 0) 2 ^ 2 *
+        ‖inactiveWeight K S f‖ ^ 2 *
+        CommonMellinTail.scalar (normalizedScale K S f s Z Klo Plo Clo Blo) ^ 2 *
+        (stateMajorant K S s ^ 2 / (Clo * Blo ^ 2)) *
+        (Kup * Cup * Bup * Pup) ^ eps * (Kup + Cup * Bup) * Bup *
+        (Cup + Pup + (Cup * Pup) ^ (2 / 3 : ℝ)) := by
+  obtain ⟨C, hC, hb⟩ := GeneralSeparatedEnergy.general_separated_energy_height K S D F hF θ₀ hD
+    hquadratic hcubic eps heps
+  refine ⟨C, hC, ?_⟩
+  intro ν hν t hKernel hθ f s q V Z Klo Plo Clo Blo Kup Pup Cup Bup hZ hK hP hC hB
+    hKu hPu hCu hBu rows ps cs bs hrows hps hcs hbs hd hp hc hbsRatio markWeight A hA hw
+  let Y := normalizedScale K S f s Z Klo Plo Clo Blo
+  have hY : 0 < Y := normalizedScale_pos K S f s hZ hK hP hC hB
+  have he := hb ν hν t hθ false f s q V Y Klo Plo Clo Blo Kup Pup Cup Bup hY hK hP hC hB
+    hKu hPu hCu hBu rows ps cs bs hrows hps hcs hbs hd hp hc hbsRatio markWeight A hA hw
+  have hrow (k : Ideal (𝓞 K)) (hk : k ∈ rows) :
+      slicedBlock K S D f s F (ν * θ₀ * heckeNormTwist K t) q markWeight V.toFun Z ps cs bs k =
+      GeneralSeparatedEnergy.separatedRow K S D false f s F (ν * θ₀ * heckeNormTwist K t) q markWeight V
+        Y Klo Plo Clo Blo ps cs bs k := by
+    exact slicedBlock_eq_integral K S D f s F hF (ν * θ₀ * heckeNormTwist K t) hKernel q markWeight V
+      Z Klo Plo Clo Blo hZ hK hP hC hB ps cs bs k
+      (hd k hk).1 (hd k hk).2 hp hc hbsRatio
+  calc
+    _ = ∑ k ∈ rows, ‖GeneralSeparatedEnergy.separatedRow K S D false f s F (ν * θ₀ * heckeNormTwist K t) q markWeight V
+          Y Klo Plo Clo Blo ps cs bs k‖ ^ 2 := by
+      apply Finset.sum_congr rfl
+      intro k hk
+      rw [hrow k hk]
+    _ ≤ _ := he
+
+
 #print axioms kernel_separation_at_zero
 #print axioms source_reflectedTerm
 #print axioms slicedBlock_eq_integral
 #print axioms general_block_energy
+#print axioms general_block_energy_height
 
 end HeckeSkeleton.LowEnergy.GeneralReflectedBlock

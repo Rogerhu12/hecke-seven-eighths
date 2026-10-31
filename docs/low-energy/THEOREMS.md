@@ -6,6 +6,7 @@ claim; see [VERIFICATION_LEDGER.md](VERIFICATION_LEDGER.md) for actual run resul
 | Source | Main role |
 | --- | --- |
 | `GeneralSeparatedEnergy.lean` | One common separated kernel bound, with both independent completed scale and the physical mark-dependent scale as instances. |
+| `GeneralHeight.lean`, `GeneralHeightTail.lean`, `GeneralUniformEnergy.lean` | Explicit polynomial height factors, with constants chosen before finite-order children and real norm twists, propagated through the complete source energy and tails. |
 | `GeneralReflectedBlock.lean` | Exact source reflection at arbitrary X; original masks; common Mellin separation with both active-mark norm powers. |
 | `GeneralBlockPolynomial.lean` | Exact general threshold and (can-Eref), with the actual four norm scales and common kernel saving. |
 | `GeneralMarkedEnergy.lean` | Uniform finite block energy from the original two sieves; one epsilon selected before every block. |
@@ -14,8 +15,12 @@ claim; see [VERIFICATION_LEDGER.md](VERIFICATION_LEDGER.md) for actual run resul
 | `GeneralInactiveMass.lean` | Repeated-prime-safe inactive mass, true active ideal fibres, original slot coefficients and saturated activity patterns. |
 | `GeneralAggregation.lean`, `GeneralInactiveEnergy.lean` | All frozen states, local classes, activity patterns and inactive tuples inside each row; actual powerful/support/unit sums outside its norm. |
 | `GeneralReconstruction.lean`, `GeneralProductReconstruction.lean` | Exact original canonical completion, collision removal and full reflected column series, including arbitrary product marks. |
+| `GeneralTupleBlocks.lean` | Finite saturated-slot reindexing and actual ideal fibres connecting original prime choices to concrete source families. |
+| `GeneralProductEnergy.lean` | The original tuple/prime-choice projection receives the complete uniform source-energy bound without a reconstruction or source-support hypothesis. |
 | `GeneralCanonicalBlock.lean` | Source-indexed block energy equalities before norms; full canonical source-family bound. |
 | `GeneralKernelTail.lean`, `GeneralTailNumerics.lean` | Genuine absolutely summable column tails, actual threshold comparison, and explicit order selection for every prescribed power saving. |
+| `GeneralColumnCutoff.lean` | Exact finite dual-annulus projection and the genuine discarded complement, with the original full cube retained. |
+| `GeneralSourceCutoff.lean` | Reattaches the actual row/mark/inactive coefficient, proves unsliced source-series reconstruction, and constructs its literal tail pieces. |
 | `GeneralCompletedEnergy.lean` | Public general terminal: energy, reconstruction, tails and conductor conclusions. |
 | `ActualTupleReconstruction.lean` through `ActualCompletedMarkedEnergy.lean` | Physical Gaussian completion, actual ideal rows, all annuli and all original unit sectors. |
 | `HeckeSkeleton/Principal.lean` | General `completedMarkedEnergy`, physical compatibility theorem and unchanged final consumer. |

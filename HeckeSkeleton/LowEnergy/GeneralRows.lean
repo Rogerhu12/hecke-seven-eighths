@@ -97,6 +97,7 @@ theorem movingRow_injective_on_fibre (label puncture R : ExteriorIdeal K S) :
     Set.InjOn (fun k => movingRow K S k label puncture)
       {k | frozenRow K S k label puncture = R} := by
   intro k hk l hl hmoving
+  change movingRow K S k label puncture = movingRow K S l label puncture at hmoving
   calc
     k = exteriorMul K S (movingRow K S k label puncture)
         (frozenRow K S k label puncture) := (moving_frozenRow_eq K S k label puncture).symm

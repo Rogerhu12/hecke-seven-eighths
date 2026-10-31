@@ -1,6 +1,7 @@
 import HeckeSkeleton.LowEnergy.ActualSeparatedBlock
 import HeckeSkeleton.LowEnergy.ActualRawHybrid
 import HeckeSkeleton.LowEnergy.MellinHybrid
+import HeckeSkeleton.LowEnergy.GeneralHeight
 
 /-!
 # One energy theorem for fixed and mark-dependent completed scales
@@ -67,7 +68,7 @@ theorem fixed_argument (X d P c b : ℝ) :
 theorem physical_argument (X d P c b : ℝ) (hP : 0 < P) :
     CommonMellin.argument (completedScale true X P) d P c b =
       CommonMellin.physicalArgument X d P c b := by
-  dsimp only [completedScale]
+  rw [show completedScale true X P = X * P by simp [completedScale]]
   unfold CommonMellin.argument CommonMellin.physicalArgument
   by_cases hd : d = 0
   · simp [hd]
@@ -127,14 +128,22 @@ def separatedRow (markDependent : Bool) (f : FixedData K S)
           (markMode K S D markDependent f s θ q markWeight Y Plo t)
           (modeColumn K S D f s θ q Y Clo Blo t) k)
 
-theorem general_separated_energy [Finite (SixthLocalClasses K S)]
+/-- Internal analytic assembly with the explicit L1 budget of the
+actual common profile.  Public specializations below derive that budget
+from the original gamma and finite Mellin proofs. -/
+theorem separated_energy_from_profile [Finite (SixthLocalClasses K S)]
     (F : FiniteMellinData K S) (hF : FiniteMellinAdmissible K S F)
-    (θ : HeckeCharacter K)
-    (hθ : ∀ p : HeightOneSpectrum (𝓞 K), p ∉ S → UnramifiedAt K θ p)
     (hD : AllowedGeneratorInput K S D)
     (hquadratic : ExteriorQuadraticBound K S D) (hcubic : ExteriorCubicBound K S D)
     (eps : ℝ) (heps : 0 < eps) :
-    ∃ C : ℝ, 0 < C ∧
+    ∃ C : ℝ, 0 < C ∧ ∀ (θ : HeckeCharacter K),
+      (∀ p : HeightOneSpectrum (𝓞 K), p ∉ S → UnramifiedAt K θ p) →
+      ∀ (Cm : ℝ), 0 ≤ Cm →
+      (∀ (V : SmoothAnnularTest) (u : SixthUnitClasses K S)
+          (κ : SixthLocalClasses K S) (Y : ℝ), 0 < Y →
+        Integrable (fun t : ℝ => ‖ActualCommonMellinTail.profile F θ u κ V Y t‖) ∧
+          (∫ t : ℝ, ‖ActualCommonMellinTail.profile F θ u κ V Y t‖) ≤
+            Cm * testSeminorm V.toFun (ActualCommonMellinTail.order K 0) 2) →
       ∀ (markDependent : Bool) (f : FixedData K S) (s : FrozenState K S f.frozen f.puncture)
         (q : FourClasses (SixthLocalClasses K S)) (V : SmoothAnnularTest)
         (Y Klo Plo Clo Blo Kup Pup Cup Bup : ℝ),
@@ -152,7 +161,7 @@ theorem general_separated_energy [Finite (SixthLocalClasses K S)]
       ∀ (markWeight : Ideal (𝓞 K) → ℂ) (A : ℝ), 0 < A →
       (∀ P ∈ ps, ‖markWeight P‖ ≤ A) →
       (∑ k ∈ rows, ‖separatedRow K S D markDependent f s F θ q markWeight V Y Klo Plo Clo Blo ps cs bs k‖ ^ 2) ≤
-        C * A ^ 2 * testSeminorm V.toFun (ActualCommonMellinTail.order K 0) 2 ^ 2 *
+        C * (Cm + 1) ^ 2 * A ^ 2 * testSeminorm V.toFun (ActualCommonMellinTail.order K 0) 2 ^ 2 *
         ‖inactiveWeight K S f‖ ^ 2 *
         CommonMellinTail.scalar Y ^ 2 *
         (stateMajorant K S s ^ 2 / (Clo * Blo ^ 2)) *
@@ -168,9 +177,8 @@ theorem general_separated_energy [Finite (SixthLocalClasses K S)]
     (fun k c m h t hk hc ht => original_quadratic_square_mask K S D hD k c m h t hk hc ht)
     (ordinaryQuadratic_of_exterior K S D hD hquadratic)
     (ordinaryCubic_of_exterior K S D hcubic) eps heps
-  obtain ⟨Cm, hCm, hm⟩ := ActualCommonMellinTail.profile_uniform_weighted_L1_of_finite hF θ 0
-  refine ⟨1048576 * Ce * (Cm + 1) ^ 2, by positivity, ?_⟩
-  intro markDependent f s q V Y Klo Plo Clo Blo Kup Pup Cup Bup hY hK hP hC hB
+  refine ⟨1048576 * Ce, by positivity, ?_⟩
+  intro θ hθ Cm hCm hm markDependent f s q V Y Klo Plo Clo Blo Kup Pup Cup Bup hY hK hP hC hB
     hKu hPu hCu hBu rows ps cs bs hrows hps hcs hbs hd hp hc hb markWeight A hA hw
   by_cases hzero : stateMajorant K S s = 0
   · have hz : ∀ c b, ordinaryColumn K S D f s θ q c b = 0 := by
@@ -268,7 +276,132 @@ theorem general_separated_energy [Finite (SixthLocalClasses K S)]
   convert hright using 1 <;> ring
 
 
+theorem general_separated_energy [Finite (SixthLocalClasses K S)]
+    (F : FiniteMellinData K S) (hF : FiniteMellinAdmissible K S F)
+    (θ : HeckeCharacter K)
+    (hθ : ∀ p : HeightOneSpectrum (𝓞 K), p ∉ S → UnramifiedAt K θ p)
+    (hD : AllowedGeneratorInput K S D)
+    (hquadratic : ExteriorQuadraticBound K S D) (hcubic : ExteriorCubicBound K S D)
+    (eps : ℝ) (heps : 0 < eps) :
+    ∃ C : ℝ, 0 < C ∧
+      ∀ (markDependent : Bool) (f : FixedData K S) (s : FrozenState K S f.frozen f.puncture)
+        (q : FourClasses (SixthLocalClasses K S)) (V : SmoothAnnularTest)
+        (Y Klo Plo Clo Blo Kup Pup Cup Bup : ℝ),
+      0 < Y → 0 < Klo → 0 < Plo → 0 < Clo → 0 < Blo →
+      1 ≤ Kup → 1 ≤ Pup → 1 ≤ Cup → 1 ≤ Bup →
+      ∀ rows ps cs bs : Finset (Ideal (𝓞 K)),
+      (∀ k ∈ rows, IsExterior K S k ∧ Squarefree k ∧ (k.absNorm : ℝ) ≤ Kup) →
+      (∀ P ∈ ps, IsExterior K S P ∧ Squarefree P ∧ (P.absNorm : ℝ) ≤ Pup) →
+      (∀ c ∈ cs, IsExterior K S c ∧ Squarefree c ∧ (c.absNorm : ℝ) ≤ Cup) →
+      (∀ b ∈ bs, IsExterior K S b ∧ (b.absNorm : ℝ) ≤ Bup) →
+      (∀ k ∈ rows, 1 ≤ safeNorm k / Klo ∧ safeNorm k / Klo ≤ 2) →
+      (∀ P ∈ ps, 1 ≤ safeNorm P / Plo ∧ safeNorm P / Plo ≤ 2) →
+      (∀ c ∈ cs, 1 ≤ safeNorm c / Clo ∧ safeNorm c / Clo ≤ 2) →
+      (∀ b ∈ bs, 1 ≤ safeNorm b / Blo ∧ safeNorm b / Blo ≤ 2) →
+      ∀ (markWeight : Ideal (𝓞 K) → ℂ) (A : ℝ), 0 < A →
+      (∀ P ∈ ps, ‖markWeight P‖ ≤ A) →
+      (∑ k ∈ rows, ‖separatedRow K S D markDependent f s F θ q markWeight V Y Klo Plo Clo Blo ps cs bs k‖ ^ 2) ≤
+        C * A ^ 2 * testSeminorm V.toFun (ActualCommonMellinTail.order K 0) 2 ^ 2 *
+        ‖inactiveWeight K S f‖ ^ 2 *
+        CommonMellinTail.scalar Y ^ 2 *
+        (stateMajorant K S s ^ 2 / (Clo * Blo ^ 2)) *
+        (Kup * Cup * Bup * Pup) ^ eps * (Kup + Cup * Bup) * Bup *
+        (Cup + Pup + (Cup * Pup) ^ (2 / 3 : ℝ)) := by
+  obtain ⟨C, hC, hb⟩ := separated_energy_from_profile K S D F hF hD
+    hquadratic hcubic eps heps
+  obtain ⟨Cm, hCm, hm⟩ := ActualCommonMellinTail.profile_uniform_weighted_L1_of_finite hF θ 0
+  refine ⟨C * (Cm + 1) ^ 2, by positivity, hb θ hθ Cm hCm ?_⟩
+  intro V u κ Y hY
+  simpa only [pow_zero, one_mul] using hm V u κ Y hY
+
+
+/-- Both completed-scale laws have a uniform fixed polynomial loss in
+the norm-twist height.  The profile estimate here is proved, not assumed. -/
+theorem general_separated_energy_height [Finite (SixthLocalClasses K S)]
+    (F : FiniteMellinData K S) (hF : FiniteMellinAdmissible K S F)
+    (θ₀ : HeckeCharacter K)
+    (hD : AllowedGeneratorInput K S D)
+    (hquadratic : ExteriorQuadraticBound K S D) (hcubic : ExteriorCubicBound K S D)
+    (eps : ℝ) (heps : 0 < eps) :
+    ∃ C : ℝ, 0 < C ∧ ∀ (ν : HeckeCharacter K), FiniteOrder ν → ∀ (t : ℝ),
+      (∀ p : HeightOneSpectrum (𝓞 K), p ∉ S →
+        UnramifiedAt K (ν * θ₀ * heckeNormTwist K t) p) →
+      ∀ (markDependent : Bool) (f : FixedData K S) (s : FrozenState K S f.frozen f.puncture)
+        (q : FourClasses (SixthLocalClasses K S)) (V : SmoothAnnularTest)
+        (Y Klo Plo Clo Blo Kup Pup Cup Bup : ℝ),
+      0 < Y → 0 < Klo → 0 < Plo → 0 < Clo → 0 < Blo →
+      1 ≤ Kup → 1 ≤ Pup → 1 ≤ Cup → 1 ≤ Bup →
+      ∀ rows ps cs bs : Finset (Ideal (𝓞 K)),
+      (∀ k ∈ rows, IsExterior K S k ∧ Squarefree k ∧ (k.absNorm : ℝ) ≤ Kup) →
+      (∀ P ∈ ps, IsExterior K S P ∧ Squarefree P ∧ (P.absNorm : ℝ) ≤ Pup) →
+      (∀ c ∈ cs, IsExterior K S c ∧ Squarefree c ∧ (c.absNorm : ℝ) ≤ Cup) →
+      (∀ b ∈ bs, IsExterior K S b ∧ (b.absNorm : ℝ) ≤ Bup) →
+      (∀ k ∈ rows, 1 ≤ safeNorm k / Klo ∧ safeNorm k / Klo ≤ 2) →
+      (∀ P ∈ ps, 1 ≤ safeNorm P / Plo ∧ safeNorm P / Plo ≤ 2) →
+      (∀ c ∈ cs, 1 ≤ safeNorm c / Clo ∧ safeNorm c / Clo ≤ 2) →
+      (∀ b ∈ bs, 1 ≤ safeNorm b / Blo ∧ safeNorm b / Blo ≤ 2) →
+      ∀ (markWeight : Ideal (𝓞 K) → ℂ) (A : ℝ), 0 < A →
+      (∀ P ∈ ps, ‖markWeight P‖ ≤ A) →
+      (∑ k ∈ rows, ‖separatedRow K S D markDependent f s F (ν * θ₀ * heckeNormTwist K t) q markWeight V Y Klo Plo Clo Blo ps cs bs k‖ ^ 2) ≤
+        C * (1 + |t|) ^ (18 * HeckeSkeleton.ThetaKernel.ncx K) *
+        A ^ 2 * testSeminorm V.toFun (ActualCommonMellinTail.order K 0) 2 ^ 2 *
+        ‖inactiveWeight K S f‖ ^ 2 *
+        CommonMellinTail.scalar Y ^ 2 *
+        (stateMajorant K S s ^ 2 / (Clo * Blo ^ 2)) *
+        (Kup * Cup * Bup * Pup) ^ eps * (Kup + Cup * Bup) * Bup *
+        (Cup + Pup + (Cup * Pup) ^ (2 / 3 : ℝ)) := by
+  obtain ⟨Ce, hCe, he⟩ := separated_energy_from_profile K S D F hF hD
+    hquadratic hcubic eps heps
+  obtain ⟨M, hM, hm⟩ := GeneralHeight.profile_child_weighted_L1 hF θ₀ 0
+  refine ⟨Ce * (M + 1) ^ 2, by positivity, ?_⟩
+  intro ν hν t hθ markDependent f s q V Y Klo Plo Clo Blo Kup Pup Cup Bup hY hK hP hC hB
+    hKu hPu hCu hBu rows ps cs bs hrows hps hcs hbs hd hp hc hb markWeight A hA hw
+  let H := (1 + |t|) ^ (9 * HeckeSkeleton.ThetaKernel.ncx K)
+  have hH : 1 ≤ H := by
+    apply Real.one_le_rpow (by linarith [abs_nonneg t])
+    exact mul_nonneg (by norm_num) HeckeSkeleton.ThetaKernel.ncx_nonneg
+  have hprofile : ∀ (V : SmoothAnnularTest) (u : SixthUnitClasses K S)
+      (κ : SixthLocalClasses K S) (Y : ℝ), 0 < Y →
+      Integrable (fun s : ℝ => ‖ActualCommonMellinTail.profile F
+        (ν * θ₀ * heckeNormTwist K t) u κ V Y s‖) ∧
+      (∫ s : ℝ, ‖ActualCommonMellinTail.profile F
+        (ν * θ₀ * heckeNormTwist K t) u κ V Y s‖) ≤
+        (M * H) * testSeminorm V.toFun (ActualCommonMellinTail.order K 0) 2 := by
+    intro V u κ Y hY
+    simpa only [pow_zero, one_mul] using hm ν hν t V u κ Y hY
+  have hlocal := he (ν * θ₀ * heckeNormTwist K t) hθ (M * H) (by positivity)
+    hprofile markDependent f s q V Y Klo Plo Clo Blo Kup Pup Cup Bup hY hK hP hC hB
+    hKu hPu hCu hBu rows ps cs bs hrows hps hcs hbs hd hp hc hb markWeight A hA hw
+  have hcoef : Ce * (M * H + 1) ^ 2 ≤
+      (Ce * (M + 1) ^ 2) * (1 + |t|) ^ (18 * HeckeSkeleton.ThetaKernel.ncx K) := by
+    have hh : M * H + 1 ≤ (M + 1) * H := by nlinarith
+    have hh2 := pow_le_pow_left₀ (by positivity : 0 ≤ M * H + 1) hh 2
+    have hHp : H ^ 2 = (1 + |t|) ^ (18 * HeckeSkeleton.ThetaKernel.ncx K) := by
+      dsimp only [H]
+      rw [← Real.rpow_mul_natCast (by positivity)]
+      congr 1
+      ring
+    apply (mul_le_mul_of_nonneg_left hh2 hCe.le).trans_eq
+    rw [mul_pow, hHp]
+    ring
+  let R := A ^ 2 * testSeminorm V.toFun (ActualCommonMellinTail.order K 0) 2 ^ 2 *
+    ‖inactiveWeight K S f‖ ^ 2 * CommonMellinTail.scalar Y ^ 2 *
+    (stateMajorant K S s ^ 2 / (Clo * Blo ^ 2)) *
+    (Kup * Cup * Bup * Pup) ^ eps * (Kup + Cup * Bup) * Bup *
+    (Cup + Pup + (Cup * Pup) ^ (2 / 3 : ℝ))
+  have hR : 0 ≤ R := by
+    have hKu0 := zero_le_one.trans hKu
+    have hPu0 := zero_le_one.trans hPu
+    have hCu0 := zero_le_one.trans hCu
+    have hBu0 := zero_le_one.trans hBu
+    dsimp [R]
+    positivity
+  apply hlocal.trans
+  convert mul_le_mul_of_nonneg_right hcoef hR using 1 <;> dsimp [R] <;> ring
+
+
 #print axioms physical_argument
 #print axioms general_separated_energy
+#print axioms general_separated_energy_height
 
 end HeckeSkeleton.LowEnergy.GeneralSeparatedEnergy

@@ -7,6 +7,7 @@ compiled checkpoint, reusable success receipt, or inferred process exit code.
 | --- | --- | --- |
 | `8f75a240f4ae820cf93594a5c1415330df70dbd4` | [41211296149](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41211296149) | Failed at the dependent powerset rewrite in `ActualTupleReconstruction`; downstream terminal and final audit not reached. |
 | `da1cd936b24ede2c6b9d352cf9d1e8adb8c37d40` | [41218050060](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41218050060) | One source error at the same backward rewrite after exposing the frozen-state projections. Current source instead supplies the motive and applies the finite-subset identity forwards. |
+| `46ac7a70064c83cf1a7cea7ed275d5fd39346cc3` | [41220627816](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41220627816) | Lake exit 1 after 1650.518 seconds, not a timeout. Twelve diagnostics in `GeneralSeparatedEnergy`, `GeneralRows`, `GeneralConductor`, and `GeneralInactiveMass`. Downstream terminal and final axiom audit not reached. |
 | Current general source | Next complete workflow run | Pending. No current acceptance claim. |
 
 Each run preserves `.low-energy-lake-verification` as an Actions artifact,

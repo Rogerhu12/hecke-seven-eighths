@@ -335,16 +335,34 @@
       "bytes": 15473
     },
     {
+      "module": "HeckeSkeleton.LowEnergy.GeneralColumnCutoff",
+      "path": "HeckeSkeleton/LowEnergy/GeneralColumnCutoff.lean",
+      "source_sha256": "3332e21a085fc5a2971f9fe0235ca76c6889c749c16bb1c31f63453c341dcb1d",
+      "bytes": 31642
+    },
+    {
       "module": "HeckeSkeleton.LowEnergy.GeneralCompletedEnergy",
       "path": "HeckeSkeleton/LowEnergy/GeneralCompletedEnergy.lean",
-      "source_sha256": "4d213c37c5bb22466a5d88cca509ccc47035a9e32db26073f5c5705d2db129f7",
-      "bytes": 10258
+      "source_sha256": "98417126d4dcb2489fda39d02e9c0657a8b3dad593e74e2859d0f4452b0722c4",
+      "bytes": 24430
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralConductor",
       "path": "HeckeSkeleton/LowEnergy/GeneralConductor.lean",
-      "source_sha256": "78a34d480cf702b1c86f00497cb0056295429441b0ac907f590e14a963074a3e",
-      "bytes": 10888
+      "source_sha256": "b781e21d852d860769869765c373cb50e4089ef34f1ada0ca6f1fdb7f91f32e0",
+      "bytes": 12054
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralHeight",
+      "path": "HeckeSkeleton/LowEnergy/GeneralHeight.lean",
+      "source_sha256": "013e7027f8c717b2ff7e49b10bbfd9a0da1fdbff7db356d6a4622509e1f40a90",
+      "bytes": 16585
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralHeightTail",
+      "path": "HeckeSkeleton/LowEnergy/GeneralHeightTail.lean",
+      "source_sha256": "718270100e0f6d79a824380057519ec88840dbe350e8e499f8d2c6dfd0ee9689",
+      "bytes": 5133
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralInactiveEnergy",
@@ -355,20 +373,26 @@
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralInactiveMass",
       "path": "HeckeSkeleton/LowEnergy/GeneralInactiveMass.lean",
-      "source_sha256": "6370bdac46be4c6a0fd0508d91deef92979db156c99c6efde3eb933a776b3cd1",
-      "bytes": 25469
+      "source_sha256": "1844092a01c37c4208324df0e4f0d67a80f7245b8c916cb87d321adaefe19695",
+      "bytes": 25536
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralKernelTail",
       "path": "HeckeSkeleton/LowEnergy/GeneralKernelTail.lean",
-      "source_sha256": "cefd96ee8f0ef443bfe0d431b578340cb516fc462667f8971ea236399db75f0c",
-      "bytes": 29545
+      "source_sha256": "94a2bf79978d5f68919470c4c085a9ec2c174693acc4735560194b11f2c79da0",
+      "bytes": 39691
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralMarkedEnergy",
       "path": "HeckeSkeleton/LowEnergy/GeneralMarkedEnergy.lean",
-      "source_sha256": "efd04a6d38aab096ca37159a1be8fd355867d9d56df49601dae3329b6424da76",
-      "bytes": 17709
+      "source_sha256": "1b070304d46a1ba9aecbe80546096d0ffec07e4c36a66a9068537d5ba8f14579",
+      "bytes": 26504
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralProductEnergy",
+      "path": "HeckeSkeleton/LowEnergy/GeneralProductEnergy.lean",
+      "source_sha256": "ec9d33780540251dd90989e21f87a0ad08ff94e56a919d1ecdbcff2c13f11258",
+      "bytes": 4745
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralProductReconstruction",
@@ -385,26 +409,44 @@
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralReflectedBlock",
       "path": "HeckeSkeleton/LowEnergy/GeneralReflectedBlock.lean",
-      "source_sha256": "49676761f187cf5775e64f2007ee74bce74d462c8c355d4110ac1c930319cdea",
-      "bytes": 18105
+      "source_sha256": "c3e592ab4829bd2615aa20c4990523d03a576ffbbf9b2638a00ed239b1be0cf3",
+      "bytes": 21995
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralRows",
       "path": "HeckeSkeleton/LowEnergy/GeneralRows.lean",
-      "source_sha256": "280b27a37d0eefe955e9870a580d1d8107d31bb6814cd8e23e19aa0e68b3efeb",
-      "bytes": 15660
+      "source_sha256": "ab84d7be6b6937e8d64080e6898898d43e14cd56e9426de85368466331fb1549",
+      "bytes": 15744
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralSeparatedEnergy",
       "path": "HeckeSkeleton/LowEnergy/GeneralSeparatedEnergy.lean",
-      "source_sha256": "8eaf4a4b08ce79a5165ff1ec110ecda5903c1d1a1efa0ffd426bec945e8e6125",
-      "bytes": 15259
+      "source_sha256": "f27ae8be544afb2d33b5b2922fe5a4c63ca9c1bc937ccaef3dbff4db20279fe4",
+      "bytes": 23293
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralSourceCutoff",
+      "path": "HeckeSkeleton/LowEnergy/GeneralSourceCutoff.lean",
+      "source_sha256": "571ae1a13bace8e1d213053e8ddcf69bb5f397873de139fb35716a6e68ad4c23",
+      "bytes": 13500
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralTailNumerics",
       "path": "HeckeSkeleton/LowEnergy/GeneralTailNumerics.lean",
       "source_sha256": "f358e1e22790a0a9bddd86ed19a0131a728272ac1e2f7395d6a086d97776c0fe",
       "bytes": 2623
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralTupleBlocks",
+      "path": "HeckeSkeleton/LowEnergy/GeneralTupleBlocks.lean",
+      "source_sha256": "51c9511732b12e871ceb6f91934dd9969c46faa39dd886c987a0bb503443c1b3",
+      "bytes": 41606
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralUniformEnergy",
+      "path": "HeckeSkeleton/LowEnergy/GeneralUniformEnergy.lean",
+      "source_sha256": "05a0daa856ac5c66b1850f08952ce53ad2392a723c0afc7551a8f3a88ea84c24",
+      "bytes": 23334
     },
     {
       "module": "HeckeSkeleton.LowEnergy.HybridScaling",

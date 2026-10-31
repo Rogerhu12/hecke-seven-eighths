@@ -8,9 +8,12 @@ canonical terminal requested in PR #3. The public general statement is
 `HeckeSkeleton.CompletedMarkedEnergy`, with proof
 `HeckeSkeleton.physicalCompletedMarkedEnergy`.
 
-The general result includes the literal source-block energy, exact reconstruction
-of canonical product marks, arbitrary-power tails from bounded length data, and
-both conductor comparisons on the actual row annuli. The finite support and
+The general source includes the original product-mark projection's energy, exact
+reconstruction of canonical product marks and their original reflection indices,
+finite retained-column decompositions, arbitrary-power bounds for their actual
+discarded complements, and both conductor comparisons on the actual row annuli.
+The height versions choose constants before finite-order children and real norm
+twists, with explicit polynomial factors. The finite support and
 coefficient records contain no energy or tail hypothesis. The two analytic sieve
 inputs and the original marked reflection input remain explicit.
 
@@ -20,14 +23,21 @@ passes the complete build and the three public/physical axiom audits.
 
 ## Latest completed full build
 
-[Run 41218050060](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41218050060)
-built commit `da1cd936b24ede2c6b9d352cf9d1e8adb8c37d40` with the official pinned
-native dependency release. It reported one source error in
-`ActualTupleReconstruction.completedThetaSum_eq_fixedPhysicalRows`: Lean could
-not infer the dependent motive when rewriting a powerset sum backwards.
-The current source supplies that motive explicitly, swaps the two finite sums,
-and applies the powerset identity forwards. This correction still needs the next
-native build. The failed run did not reach the final energy audit.
+[Run 41220627816](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41220627816)
+built commit `46ac7a70064c83cf1a7cea7ed275d5fd39346cc3` with the official pinned
+native dependency release. Its native Lake process exited 1 after 1650.518
+seconds, without a timeout. It reported twelve diagnostics in four source
+modules: a Boolean conditional in `GeneralSeparatedEnergy`, a beta-reduction
+rewrite in `GeneralRows`, finite prime-exponent/cast simplification in
+`GeneralConductor`, and the dyadic-support namespace in `GeneralInactiveMass`.
+Those failures prevented the downstream terminal and final axiom audit from
+running. The current source addresses those diagnostics and extends the literal
+product/cutoff and uniform-height interfaces; it requires a new complete build.
+
+The earlier `ActualTupleReconstruction` backward powerset-rewrite problem is
+replaced by an explicit motive, a finite-sum swap, and the forward subset
+identity. The latest completed run could not check that correction because its
+changed common-kernel dependency failed first.
 
 The completed run's logs and native outputs are Actions artifacts. They are not
 source verification for subsequent changes, and the CI never restores its own

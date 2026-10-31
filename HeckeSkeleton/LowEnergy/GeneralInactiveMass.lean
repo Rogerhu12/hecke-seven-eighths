@@ -22,8 +22,11 @@ set_option autoImplicit false
 noncomputable section
 namespace HeckeSkeleton.LowEnergy.GeneralInactiveMass
 
+universe u
+
 open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.Analysis.SquarefreeAmplification
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.LowEnergy.ActualFrozenCharges
@@ -449,7 +452,7 @@ The constant precedes S, the slot type, every window and every scale. -/
 theorem exists_uniform_mass_constant (rmax : ℕ) :
     ∃ C : ℝ, 1 ≤ C ∧
       ∀ (T : Set (HeightOneSpectrum (𝓞 K))) [Fintype T]
-        {ι : Type} [Fintype ι] [DecidableEq ι], Fintype.card ι ≤ rmax →
+        {ι : Type u} [Fintype ι] [DecidableEq ι], Fintype.card ι ≤ rmax →
       ∀ (W : ι → Finset (ExteriorPrime K T)) (X : ι → ℝ),
         (∀ i, 1 ≤ X i) →
         (∀ i, ∀ p ∈ W i,
@@ -485,7 +488,7 @@ contraction without modifying the distinct-prime prefactor. -/
 theorem exists_uniform_contracted_mass_constant (rmax : ℕ) :
     ∃ C : ℝ, 1 ≤ C ∧
       ∀ (T : Set (HeightOneSpectrum (𝓞 K))) [Fintype T]
-        {ι : Type} [Fintype ι] [DecidableEq ι], Fintype.card ι ≤ rmax →
+        {ι : Type u} [Fintype ι] [DecidableEq ι], Fintype.card ι ≤ rmax →
       ∀ (W : ι → Finset (ExteriorPrime K T)) (X : ι → ℝ),
         (∀ i, 1 ≤ X i) →
         (∀ i, ∀ p ∈ W i,
