@@ -160,7 +160,8 @@ theorem sourceAverage_eq (hZ : 0 ≤ Z) (k : ι) (J : Finset σ) :
     (fun i _ s => mul_nonneg (hc i) (hf0 i s))
     (fun i => c i * B i)
     (fun i _ s => mul_le_mul_of_nonneg_left (hb i s) (hc i))
-  simpa only [sourceAt, spectralAverage_const_mul, c] using he
+  delta sourceAt
+  simpa only [spectralAverage_const_mul, c] using he
 
 /-- One original branch, with the actual normalized Poisson scalar,
 is the literal source weight times the original spectral average. -/
@@ -180,8 +181,9 @@ theorem normalized_branch_eq (o : OuterIndex K S D T)
   rw [FirstCappedNormalization.normalized_summand_eq K S D Γ T Θ ψ G hν hG
     grid centers W hW m side R massEps ε Z r ell V o e k J]
   unfold FirstCappedNormalization.remainder FirstCappedFreeEnergy.freeRowIntegral
-    freeMellinEnergy spectralAverage firstScalar weight mark mobiusWeight mellinMass freeAt
-    FirstToSecondData.triple FirstToSecondData.label
+    freeMellinEnergy spectralAverage weight firstScalar mark mobiusWeight mellinMass freeAt
+    FirstToSecondData.triple FirstToSecondData.label FirstToSecondData.quotient
+  simp only [CanonicalIdealRow.toExterior_val]
   ring
 
 private theorem reorder_centers_marks {α β κ : Type*} [Fintype κ] [Fintype β]
