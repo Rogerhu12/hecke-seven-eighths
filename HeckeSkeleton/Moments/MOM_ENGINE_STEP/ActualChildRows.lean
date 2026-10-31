@@ -36,7 +36,8 @@ def exteriorMomentIdeal (I : A.Exterior) : HeckeGeneral.Analysis.NonzeroIdeal F 
 
 theorem exteriorMomentIdeal_injective : Function.Injective (exteriorMomentIdeal (A := A)) := by
   intro I J h
-  exact Subtype.ext (congrArg Subtype.val h)
+  apply Subtype.ext
+  exact congrArg (fun x : HeckeGeneral.Analysis.NonzeroIdeal F => x.val) h
 
 @[simp] theorem idealNorm_exteriorMomentIdeal (I : A.Exterior) :
     HeckeGeneral.Analysis.idealNorm F (exteriorMomentIdeal I) = A.exteriorNorm I := rfl
@@ -205,7 +206,6 @@ theorem actual_child_energy_from_terms {H : Type*}
     apply Finset.sum_congr rfl
     intro k hk
     rw [hpoly k hk]
-    rfl
   rw [he]
   simpa only [weightedEnergy, pairedEnergy, Finset.mul_sum, P, Function.comp_apply] using hb
 

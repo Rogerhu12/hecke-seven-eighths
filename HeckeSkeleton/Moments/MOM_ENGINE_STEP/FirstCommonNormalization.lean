@@ -25,20 +25,20 @@ variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 
 theorem actual_sInteger_active_divisor_gauss_norm_le_sqrt
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     {ι : Type*} [Fintype ι] [DecidableEq ι]
     (p : ι → ExteriorPrime A) (hp : Function.Injective p) (m n : ι → ℕ)
     (δ h : A.R) :
     ‖actualFirstActiveCharacter C p hp m n (Ideal.Quotient.mk _ δ) *
-      actualSIntegerGauss K (A.Sf : Set _) hDiff (firstActiveGenerator C p m n)
+      actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff (firstActiveGenerator C p m n)
         (firstActiveGenerator_generates C p m n).1
         (actualFirstActiveCharacter C p hp m n) h‖ ≤
       Real.sqrt (A.exteriorNorm (firstActiveIdeal p m n)) := by
-  letI := finite_sIntegerPrincipalResidue K (A.Sf : Set _)
+  letI := finite_sIntegerPrincipalResidue K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
     (firstActiveGenerator C p m n) (firstActiveGenerator_generates C p m n).1
   letI := Fintype.ofFinite (A.R ⧸ Ideal.span {firstActiveGenerator C p m n})
   exact actual_active_divisor_gauss_norm_le_sqrt C
-    (actualSIntegerTrace K (A.Sf : Set _) hDiff) p hp m n δ (Ideal.Quotient.mk _ h)
+    (actualSIntegerTrace K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff) p hp m n δ (Ideal.Quotient.mk _ h)
 
 section Blocks
 
@@ -48,12 +48,12 @@ variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 def FirstCommonCharacterBlock.normalizedActiveGauss
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (Z : ℝ) (δ h : A.R) : ℝ :=
   let R := firstActiveIdeal b.primes b.leftMultiplicity b.rightMultiplicity
   ‖actualFirstActiveCharacter C b.primes b.primes_injective
       b.leftMultiplicity b.rightMultiplicity (Ideal.Quotient.mk _ δ) *
-    actualSIntegerGauss K (A.Sf : Set _) hDiff
+    actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff
       (firstActiveGenerator C b.primes b.leftMultiplicity b.rightMultiplicity)
       (firstActiveGenerator_generates C b.primes b.leftMultiplicity b.rightMultiplicity).1
       (actualFirstActiveCharacter C b.primes b.primes_injective
@@ -67,7 +67,7 @@ def FirstCommonCharacterBlock.normalizedActiveGauss
 theorem FirstCommonCharacterBlock.normalizedActiveGauss_le_weight
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (Z : ℝ) (hZ : 1 < Z) (δ h : A.R) :
     b.normalizedActiveGauss C hDiff Z δ h ≤ firstCommonWeight Z DE.1 DE.2 := by
   rw [b.commonWeight_sqrt_formula Z hZ]
@@ -82,7 +82,7 @@ theorem FirstCommonCharacterBlock.normalizedActiveGauss_le_weight
 theorem FirstCommonCharacterBlock.normalizedActiveGauss_le_radical
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (Z : ℝ) (hZ : 1 < Z) (δ h : A.R) :
     b.normalizedActiveGauss C hDiff Z δ h ≤
       1 / (Ideal.absNorm (commonRadical DE.1 DE.2) : ℝ) := by
@@ -99,7 +99,7 @@ end Blocks
 
 theorem actual_first_normalized_gauss_mass
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (B ε : ℝ) (hB : 0 ≤ B) (hε : 0 < ε) :
     ∃ Cbound : ℝ, 0 < Cbound ∧ ∀ Z : ℝ, 1 < Z →
     ∀ s : Ideal (𝓞 K), Squarefree s → s ≠ 0 → ∀ labels : Finset (Label K),

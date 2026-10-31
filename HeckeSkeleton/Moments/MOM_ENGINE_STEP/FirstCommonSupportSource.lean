@@ -79,12 +79,12 @@ theorem ParentPeriodicPair.gated_maskedSeries (p : ParentPeriodicPair K S Γ)
 
 theorem ParentPeriodicPair.gated_fourierWeight (p : ParentPeriodicPair K S Γ)
     (P : Prop) [Decidable P]
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (δ : OS) (q : Q) :
-    sIntegerPeriodicFourierOrbitWeight K (S : Set _) hDiff Γ
+    sIntegerPeriodicFourierOrbitWeight K (S : Set (HeightOneSpectrum (𝓞 K))) hDiff Γ
         (p.gated P).modulus (p.gated P).modulus_ne_zero
         (p.gated P).residue (p.gated P).invariant δ q =
-      if P then sIntegerPeriodicFourierOrbitWeight K (S : Set _) hDiff Γ
+      if P then sIntegerPeriodicFourierOrbitWeight K (S : Set (HeightOneSpectrum (𝓞 K))) hDiff Γ
         p.modulus p.modulus_ne_zero p.residue p.invariant δ q else 0 := by
   by_cases hP : P
   · rw [p.gated_of_true P hP, if_pos hP]
@@ -103,7 +103,7 @@ variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion 
 
 theorem ParentPeriodicPair.gated_transformedRow (p : ParentPeriodicPair K S Γ)
     (P : Prop) [Decidable P]
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum OS)) (q : Q) :
     (p.gated P).transformedRow μv hDiff finiteTest radius D q =
@@ -309,7 +309,7 @@ variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
 theorem FirstCommonCharacterBlock.kernel_bound
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (left : Finset ι) (right : Finset κ) (profiles : ι → κ → SchwartzMap V ℂ)
     (M : Finset (HeightOneSpectrum A.R)) (radius : {r : ℝ // 0 < r}) (X : ℝ) (hX : 1 ≤ X)
@@ -338,10 +338,10 @@ theorem FirstCommonCharacterBlock.kernel_bound
       (b.rightResidual j) (b.rightGenerator j) (b.right_generates j)
     let r := actualActiveColumn hΓ C b.primes b.primes_injective
       b.leftMultiplicity b.rightMultiplicity
-    let δ := (sIntegerMaskGenerator K (A.Sf : Set _) D).val
+    let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
     let common := fun t : Q => (moebius (IdealMobiusMask.primeProduct D) : ℂ) *
       (r.character (Ideal.Quotient.mk _ δ) *
-        actualSIntegerGauss K (A.Sf : Set _) hDiff r.modulus r.nonzero r.character t.out.val)
+        actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff r.modulus r.nonzero r.character t.out.val)
     ‖∑ t ∈ source.rows, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
       (source.pairs i j).transformedRow μv hDiff finiteTest radius D t‖ ≤
       firstResidualKernelCost hDiff Ray F source.rows (fun t => t.out.val)

@@ -131,7 +131,8 @@ theorem crt_gauss_factorization (e : R ≃+* ∀ i, K i)
       rw [hphase, ← Finset.prod_mul_distrib]
     _ = ∑ x : ∀ i, K i, ∏ i, χ i (x i) *
         coordinatePhase (pulledPhase e ψ) i (e h i * x i) :=
-      e.toEquiv.sum_comp _
+      e.toEquiv.sum_comp (fun x : ∀ i, K i => ∏ i,
+        χ i (x i) * coordinatePhase (pulledPhase e ψ) i (e h i * x i))
     _ = _ := (Fintype.prod_sum (fun (i : ι) (y : K i) =>
       χ i y * coordinatePhase (pulledPhase e ψ) i (e h i * y))).symm
 

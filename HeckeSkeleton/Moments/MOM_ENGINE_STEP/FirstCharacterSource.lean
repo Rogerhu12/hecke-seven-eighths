@@ -54,7 +54,7 @@ theorem firstReciprocalPhase_allowed (C : A.GeneralArithmeticContext σ η hS)
     (hallowed_b : A.IsAllowed C.correction.B ub) (hcop : IsCoprime I.val J.val) :
     firstReciprocalPhase (generatedOriginalColumn (σ := σ) hΓ I a ha)
       (generatedOriginalColumn (σ := σ) hΓ J b hb) = 1 := by
-  letI := finite_sIntegerPrincipalResidue K (A.Sf : Set _) b hb.1
+  letI := finite_sIntegerPrincipalResidue K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) b hb.1
   have hrec := congrArg σ
     (C.reciprocity.1 I J a b ua ub ha hb hua hub hallowed_a hallowed_b hcop.sup_eq)
   have he : generatedIdealCharacter (σ := σ) I a ha (Ideal.Quotient.mk _ b) =
@@ -105,7 +105,7 @@ def OrbitalGaussColumn.originalPair {S : Finset (HeightOneSpectrum (𝓞 K))}
       a.character (Ideal.Quotient.mk _ x.val) *
         star (b.character (Ideal.Quotient.mk _ x.val)) *
           r.character (Ideal.Quotient.mk _ x.val) := by
-  letI := finite_sIntegerPrincipalResidue K (S : Set _) b.modulus b.nonzero
+  letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) b.modulus b.nonzero
   simp only [ParentPeriodicPair.orbitWeight, OrbitalGaussColumn.originalTriple,
     sIntegerPeriodicOrbitWeight_mk, completeFrequencyReduction_mk, MulChar.star_apply']
 
@@ -167,9 +167,9 @@ theorem sIntegerOrbitAvoidanceMask_union
     (M N : Finset (HeightOneSpectrum
       (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)))
     (q : SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ₀) :
-    sIntegerOrbitAvoidanceMask K (S : Set _) Γ₀ (M ∪ N) q =
-      sIntegerOrbitAvoidanceMask K (S : Set _) Γ₀ M q *
-        sIntegerOrbitAvoidanceMask K (S : Set _) Γ₀ N q := by
+    sIntegerOrbitAvoidanceMask K (S : Set (HeightOneSpectrum (𝓞 K))) Γ₀ (M ∪ N) q =
+      sIntegerOrbitAvoidanceMask K (S : Set (HeightOneSpectrum (𝓞 K))) Γ₀ M q *
+        sIntegerOrbitAvoidanceMask K (S : Set (HeightOneSpectrum (𝓞 K))) Γ₀ N q := by
   refine Quotient.inductionOn q ?_
   intro x
   simp only [sIntegerOrbitAvoidanceMask, sIntegerOrbitIdealMembership_mk,
@@ -207,8 +207,8 @@ theorem actual_first_character_source_term
     sIntegerOrbitAvoidanceMask_union, ← firstPrincipalMask_eq_orbit_mask C p m n x]
   simp only [generatedOriginalColumn, generatedIdealCharacter_mk, actualActiveColumn]
   rw [he]
-  change _ * _ * sUnitOrbitalProfile K (A.Sf : Set _) _ _ =
-    _ * _ * sUnitOrbitalProfile K (A.Sf : Set _) _ _
+  change _ * _ * sUnitOrbitalProfile K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) _ _ =
+    _ * _ * sUnitOrbitalProfile K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) _ _
   ring
 
 theorem actual_first_character_source_series

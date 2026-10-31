@@ -86,15 +86,15 @@ theorem actual_zero_gauss_nonzero_powerful_of_generates
 
 theorem actual_sInteger_zero_gauss_nonzero_powerful
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (I : A.Exterior) (a : A.R) (ha : A.Generates I a)
-    (hzero : actualSIntegerGauss K (A.Sf : Set _) hDiff a ha.1
+    (hzero : actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff a ha.1
       (generatedIdealCharacter (σ := σ) I a ha) 0 ≠ 0) :
     Powerful I.val := by
-  letI := finite_sIntegerPrincipalResidue K (A.Sf : Set _) a ha.1
+  letI := finite_sIntegerPrincipalResidue K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) a ha.1
   letI := Fintype.ofFinite (A.R ⧸ Ideal.span {a})
   apply actual_zero_gauss_nonzero_powerful_of_generates C
-    (actualSIntegerTrace K (A.Sf : Set _) hDiff) I a ha
+    (actualSIntegerTrace K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff) I a ha
   simpa only [actualSIntegerGauss, map_zero] using hzero
 
 variable {Γ : Subgroup A.U}
@@ -104,12 +104,12 @@ variable (hΓ : ∀ u : Γ, ∃ v : A.U, u.val = v ^ 6)
 residual ideals to be powerful, for arbitrary actual generators. -/
 theorem originalTriple_zero_powerful_residuals
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (I J : A.Exterior) (a b : A.R) (ha : A.Generates I a) (hb : A.Generates J b)
     (r : OrbitalGaussColumn K A.Sf Γ)
     (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (habr : IsCoprime a (b * r.modulus)) (hbr : IsCoprime b r.modulus) (δ : A.R)
-    (hzero : sIntegerPeriodicDivisorFourier K (A.Sf : Set _) hDiff
+    (hzero : sIntegerPeriodicDivisorFourier K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff
       ((generatedOriginalColumn (σ := σ) hΓ I a ha).originalTriple
         (generatedOriginalColumn (σ := σ) hΓ J b hb) r φ).modulus
       ((generatedOriginalColumn (σ := σ) hΓ I a ha).originalTriple

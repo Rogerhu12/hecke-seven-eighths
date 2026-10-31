@@ -138,7 +138,7 @@ def firstZeroPairAmplitude
     (blocks : ∀ DE : FirstZeroLabel left right fullI fullJ,
       FirstCommonCharacterBlock fullI fullJ DE.val)
     (profiles : ι → κ → SchwartzMap V ℂ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (radius : {r : ℝ // 0 < r}) (M : Finset (HeightOneSpectrum A.R))
     (v : FirstZeroLabel left right fullI fullJ × (ι × κ)) : ℝ :=
@@ -153,7 +153,7 @@ theorem first_zero_blocks_le_pair_sum
     (blocks : ∀ DE : FirstZeroLabel left right fullI fullJ,
       FirstCommonCharacterBlock fullI fullJ DE.val)
     (profiles : ι → κ → SchwartzMap V ℂ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (radius : {r : ℝ // 0 < r}) (M : Finset (HeightOneSpectrum A.R))
     (cutoff : ℝ) (hcutoff : 1 ≤ cutoff) :
@@ -225,7 +225,7 @@ theorem first_zero_diagonal_normalized
     ∀ blocks : ∀ DE : FirstZeroLabel left right fullI fullJ,
       FirstCommonCharacterBlock fullI fullJ DE.val,
     ∀ (profiles : ι → κ → SchwartzMap V ℂ)
-      (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+      (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
       (radius : {r : ℝ // 0 < r}) (M : Finset (HeightOneSpectrum A.R))
       (cutoff : ℝ) (hcutoff : 1 ≤ cutoff)
       (factors : ι × κ → Fin k → Ideal (𝓞 K)),

@@ -21,10 +21,12 @@ not the two-Gauss source used for the second Poisson operation.
 noncomputable section
 open scoped Classical BigOperators FourierTransform SchwartzMap
 
+set_option maxHeartbeats 4000000
+
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
-open HeckeGeneral.Analysis MeasureTheory HeckePort.Moments
+open HeckeGeneral.Analysis HeckeGeneral.Bridge MeasureTheory HeckePort.Moments
 open HeckePort.Moments.MobiusRegroup UniqueFactorizationMonoid
 
 variable {K : Type} [Field K] [NumberField K]
@@ -68,7 +70,7 @@ def firstReciprocalPhase (a b : OrbitalGaussColumn K S Γ) : ℂ :=
   a.character (Ideal.Quotient.mk _ b.modulus) *
     star (b.character (Ideal.Quotient.mk _ a.modulus))
 
-variable (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+variable (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
 
 /-- Complete finite first transform, with the nonunit divisor retained.
 No character or Fourier-coefficient factorization is an input. -/
@@ -82,15 +84,15 @@ theorem originalTriple_divisor_fourier (a b r : OrbitalGaussColumn K S Γ)
       (firstLeftDivisorFactor a r δ * star (firstRightDivisorFactor b r δ)) *
         firstReciprocalPhase a b *
         (r.character (Ideal.Quotient.mk _ δ) *
-          actualSIntegerGauss K (S : Set _) hS r.modulus r.nonzero r.character h) *
-        (actualSIntegerGauss K (S : Set _) hS a.modulus a.nonzero a.character h *
-          star (actualSIntegerGauss K (S : Set _) hS b.modulus b.nonzero b.character (-h))) := by
-  letI := finite_sIntegerPrincipalResidue K (S : Set _) a.modulus a.nonzero
-  letI := finite_sIntegerPrincipalResidue K (S : Set _) b.modulus b.nonzero
-  letI := finite_sIntegerPrincipalResidue K (S : Set _) r.modulus r.nonzero
-  letI := finite_sIntegerPrincipalResidue K (S : Set _)
+          actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS r.modulus r.nonzero r.character h) *
+        (actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS a.modulus a.nonzero a.character h *
+          star (actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS b.modulus b.nonzero b.character (-h))) := by
+  letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) a.modulus a.nonzero
+  letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) b.modulus b.nonzero
+  letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) r.modulus r.nonzero
+  letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K)))
     (b.modulus * r.modulus) (mul_ne_zero b.nonzero r.nonzero)
-  letI := finite_sIntegerPrincipalResidue K (S : Set _)
+  letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K)))
     (a.modulus * (b.modulus * r.modulus))
     (mul_ne_zero a.nonzero (mul_ne_zero b.nonzero r.nonzero))
   letI := Fintype.ofFinite (OS ⧸ Ideal.span ({a.modulus} : Set OS))
@@ -99,25 +101,25 @@ theorem originalTriple_divisor_fourier (a b r : OrbitalGaussColumn K S Γ)
   letI := Fintype.ofFinite (OS ⧸ Ideal.span ({b.modulus * r.modulus} : Set OS))
   letI := Fintype.ofFinite
     (OS ⧸ Ideal.span ({a.modulus * (b.modulus * r.modulus)} : Set OS))
-  have he := actual_sInteger_three_factor_divisor_fourier K (S : Set _) hS
+  have he := actual_sInteger_three_factor_divisor_fourier K (S : Set (HeightOneSpectrum (𝓞 K))) hS
     a.modulus b.modulus r.modulus a.nonzero b.nonzero r.nonzero habr hbr
     a.character b.character⁻¹ r.character δ (Ideal.Quotient.mk _ h)
   have hcommon :
       (∑ y : OS ⧸ Ideal.span ({r.modulus} : Set OS),
         r.character (Ideal.Quotient.mk _ δ *
           (Ideal.Quotient.mk _ (a.modulus * b.modulus) * y)) *
-          sIntegerActualModulusAddCharacter K (S : Set _) hS r.modulus r.nonzero
+          sIntegerActualModulusAddCharacter K (S : Set (HeightOneSpectrum (𝓞 K))) hS r.modulus r.nonzero
             (Ideal.Quotient.mk _ h * y)) =
         r.character (Ideal.Quotient.mk _ δ) *
           r.character (Ideal.Quotient.mk _ a.modulus) *
           r.character (Ideal.Quotient.mk _ b.modulus) *
-          completeResidueGauss (actualSIntegerTrace K (S : Set _) hS)
+          completeResidueGauss (actualSIntegerTrace K (S : Set (HeightOneSpectrum (𝓞 K))) hS)
             r.modulus r.character (Ideal.Quotient.mk _ h) := by
     unfold completeResidueGauss
     rw [Finset.mul_sum]
     apply Finset.sum_congr rfl
     intro y _
-    rw [actualSIntegerTrace_psi K (S : Set _) hS r.modulus r.nonzero]
+    rw [actualSIntegerTrace_psi K (S : Set (HeightOneSpectrum (𝓞 K))) hS r.modulus r.nonzero]
     simp only [map_mul]
     ring
   simp only [completeFrequencyReduction_mk] at he
@@ -142,9 +144,9 @@ theorem originalTriple_fourier_orbit (a b r : OrbitalGaussColumn K S Γ)
       (firstLeftDivisorFactor a r δ * star (firstRightDivisorFactor b r δ)) *
         firstReciprocalPhase a b *
         (r.character (Ideal.Quotient.mk _ δ) *
-          actualSIntegerGauss K (S : Set _) hS r.modulus r.nonzero r.character q.out.val) *
-        (actualSIntegerGauss K (S : Set _) hS a.modulus a.nonzero a.character q.out.val *
-          star (actualSIntegerGauss K (S : Set _) hS b.modulus b.nonzero b.character (-q.out.val))) := by
+          actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS r.modulus r.nonzero r.character q.out.val) *
+        (actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS a.modulus a.nonzero a.character q.out.val *
+          star (actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS b.modulus b.nonzero b.character (-q.out.val))) := by
   conv_lhs => rw [← Quotient.out_eq q]
   rw [sIntegerPeriodicFourierOrbitWeight_mk]
   exact originalTriple_divisor_fourier hS a b r φ habr hbr δ q.out.val
@@ -168,9 +170,9 @@ theorem first_residual_gauss_kernel_bound_on {H ι κ : Type*}
       firstReciprocalPhase (a i) (b j) = (phaseTable (rayLeft i, rayRight j) : ℂ))
     (common q : H → ℂ) (c : ι → ℂ) (d : κ → ℂ)
     (x : ι → E) (y : κ → E) (z : H → E) :
-    let G₁ := fun i h => actualSIntegerGauss K (S : Set _) hS
+    let G₁ := fun i h => actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS
       (a i).modulus (a i).nonzero (a i).character (frequency h)
-    let G₂ := fun j h => actualSIntegerGauss K (S : Set _) hS
+    let G₂ := fun j h => actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS
       (b j).modulus (b j).nonzero (b j).character (-frequency h)
     let c₁ := fun D χ i => if D ∣ leftIdeals i then
       c i * (fixedLeftPhase Ray χ (rayLeft i) : ℂ) else 0
@@ -189,9 +191,9 @@ theorem first_residual_gauss_kernel_bound_on {H ι κ : Type*}
               (wholePolynomial rightColumns
                 (fun j => c₂ D χ j * star (jointPhase ξ (y j))) G₂))) := by
   dsimp only
-  let G₁ := fun i h => actualSIntegerGauss K (S : Set _) hS
+  let G₁ := fun i h => actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS
     (a i).modulus (a i).nonzero (a i).character (frequency h)
-  let G₂ := fun j h => actualSIntegerGauss K (S : Set _) hS
+  let G₂ := fun j h => actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS
     (b j).modulus (b j).nonzero (b j).character (-frequency h)
   have hbnd := full_correlation_kernel_bound F rows leftColumns rightColumns
     leftIdeals rightIdeals hRight
@@ -213,9 +215,9 @@ def firstResidualKernelCost {H ι κ : Type*}
     (a : ι → OrbitalGaussColumn K S Γ) (b : κ → OrbitalGaussColumn K S Γ)
     (rayLeft : ι → Ray) (rayRight : κ → Ray) (phaseTable : Ray × Ray → Circle)
     (common q : H → ℂ) (c : ι → ℂ) (d : κ → ℂ) (x : ι → E) (y : κ → E) : ℝ :=
-  let G₁ := fun i h => actualSIntegerGauss K (S : Set _) hS
+  let G₁ := fun i h => actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS
     (a i).modulus (a i).nonzero (a i).character (frequency h)
-  let G₂ := fun j h => actualSIntegerGauss K (S : Set _) hS
+  let G₂ := fun j h => actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS
     (b j).modulus (b j).nonzero (b j).character (-frequency h)
   let c₁ := fun D χ i => if D ∣ leftIdeals i then
     c i * (fixedLeftPhase Ray χ (rayLeft i) : ℂ) else 0
@@ -265,9 +267,9 @@ theorem originalTriple_transformedRow (a b r : OrbitalGaussColumn K S Γ)
       ((firstLeftDivisorFactor a r δ * star (firstRightDivisorFactor b r δ)) *
         firstReciprocalPhase a b *
         (r.character (Ideal.Quotient.mk _ δ) *
-          actualSIntegerGauss K (S : Set _) hS r.modulus r.nonzero r.character q.out.val) *
-        (actualSIntegerGauss K (S : Set _) hS a.modulus a.nonzero a.character q.out.val *
-          star (actualSIntegerGauss K (S : Set _) hS b.modulus b.nonzero b.character (-q.out.val)))) *
+          actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS r.modulus r.nonzero r.character q.out.val) *
+        (actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS a.modulus a.nonzero a.character q.out.val *
+          star (actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS b.modulus b.nonzero b.character (-q.out.val)))) *
         (a.originalTriple b r φ).transformedProfile μv finiteTest radius D q := by
   dsimp only
   unfold ParentPeriodicPair.transformedRow sIntegerPeriodicFourierProfileTerm
@@ -306,7 +308,7 @@ theorem first_source_kernel_bound {ι κ : Type*}
     let δ := (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D).val
     let common := fun t : Q => (moebius (IdealMobiusMask.primeProduct D) : ℂ) *
       (r.character (Ideal.Quotient.mk _ δ) *
-        actualSIntegerGauss K (S : Set _) hS r.modulus r.nonzero r.character t.out.val)
+        actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS r.modulus r.nonzero r.character t.out.val)
     ‖∑ t ∈ rows, ∑ i ∈ leftColumns, ∑ j ∈ rightColumns,
       if IsCoprime (leftIdeals i) (rightIdeals j) then
         ((a i).originalTriple (b j) r (profiles i j)).transformedRow μv hS finiteTest radius D t
@@ -319,7 +321,7 @@ theorem first_source_kernel_bound {ι κ : Type*}
   let δ := (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D).val
   let common := fun t : Q => (moebius (IdealMobiusMask.primeProduct D) : ℂ) *
     (r.character (Ideal.Quotient.mk _ δ) *
-      actualSIntegerGauss K (S : Set _) hS r.modulus r.nonzero r.character t.out.val)
+      actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS r.modulus r.nonzero r.character t.out.val)
   have hbound := first_residual_gauss_kernel_bound_on hS Ray F rows (fun t => t.out.val)
     leftColumns rightColumns leftIdeals rightIdeals hRight a b rayLeft rayRight phaseTable hphase
     common q (fun i => c i * firstLeftDivisorFactor (a i) r δ)
@@ -333,8 +335,8 @@ theorem first_source_kernel_bound {ι κ : Type*}
       ∑ t ∈ rows, q t * ∑ i ∈ leftColumns, ∑ j ∈ rightColumns,
         (if IsCoprime (leftIdeals i) (rightIdeals j) then
           common t * firstReciprocalPhase (a i) (b j) *
-            (actualSIntegerGauss K (S : Set _) hS (a i).modulus (a i).nonzero (a i).character t.out.val *
-              star (actualSIntegerGauss K (S : Set _) hS
+            (actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS (a i).modulus (a i).nonzero (a i).character t.out.val *
+              star (actualSIntegerGauss K (S : Set (HeightOneSpectrum (𝓞 K))) hS
                 (b j).modulus (b j).nonzero (b j).character (-t.out.val))) else 0) *
         ((c i * firstLeftDivisorFactor (a i) r δ) *
           star (d j * firstRightDivisorFactor (b j) r δ)) * F (z t + x i + y j) := by

@@ -36,9 +36,9 @@ theorem OrbitalGaussColumn.originalTriple_residue_norm_le_one
     (a b r : OrbitalGaussColumn K S Γ) (φ : SchwartzMap V ℂ)
     (x : OS ⧸ Ideal.span {(a.originalTriple b r φ).modulus}) :
     ‖(a.originalTriple b r φ).residue x‖ ≤ 1 := by
-  letI := finite_sIntegerPrincipalResidue K (S : Set _) a.modulus a.nonzero
-  letI := finite_sIntegerPrincipalResidue K (S : Set _) b.modulus b.nonzero
-  letI := finite_sIntegerPrincipalResidue K (S : Set _) r.modulus r.nonzero
+  letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) a.modulus a.nonzero
+  letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) b.modulus b.nonzero
+  letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) r.modulus r.nonzero
   letI := Fintype.ofFinite (OS ⧸ Ideal.span {a.modulus})
   letI := Fintype.ofFinite (OS ⧸ Ideal.span {b.modulus})
   letI := Fintype.ofFinite (OS ⧸ Ideal.span {r.modulus})
@@ -52,14 +52,14 @@ theorem OrbitalGaussColumn.originalTriple_residue_norm_le_one
 
 theorem ParentPeriodicPair.divisorFourier_norm_le_card
     (p : ParentPeriodicPair K S Γ) (hres : ∀ x, ‖p.residue x‖ ≤ 1)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (δ : OS) (h : OS ⧸ Ideal.span {p.modulus}) :
-    ‖sIntegerPeriodicDivisorFourier K (S : Set _) hDiff
+    ‖sIntegerPeriodicDivisorFourier K (S : Set (HeightOneSpectrum (𝓞 K))) hDiff
       p.modulus p.modulus_ne_zero p.residue δ h‖ ≤
       (Nat.card (OS ⧸ Ideal.span {p.modulus}) : ℝ) := by
-  letI := finite_sIntegerPrincipalResidue K (S : Set _) p.modulus p.modulus_ne_zero
+  letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) p.modulus p.modulus_ne_zero
   letI := Fintype.ofFinite (OS ⧸ Ideal.span {p.modulus})
-  apply (norm_sIntegerPeriodicDivisorFourier_le_pullback_L1 K (S : Set _)
+  apply (norm_sIntegerPeriodicDivisorFourier_le_pullback_L1 K (S : Set (HeightOneSpectrum (𝓞 K)))
     hDiff p.modulus p.modulus_ne_zero p.residue δ h).trans
   change (∑ x : OS ⧸ Ideal.span {p.modulus}, ‖p.residue (Ideal.Quotient.mk _ δ * x)‖) ≤ _
   calc
@@ -105,13 +105,13 @@ theorem ParentPeriodicPair.poissonFactor_mul_card
     (p : ParentPeriodicPair K S Γ) (radius : {r : ℝ // 0 < r})
     (D : Finset (HeightOneSpectrum OS)) :
     ‖sIntegerMaskPoissonFactor K S p.modulus p.modulus_ne_zero radius
-        (sIntegerMaskGenerator K (S : Set _) D)‖ *
+        (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)‖ *
       (Nat.card (OS ⧸ Ideal.span {p.modulus}) : ℝ) =
-      (sIntegerMaskDilationRadius K S radius (sIntegerMaskGenerator K (S : Set _) D)).val⁻¹ *
+      (sIntegerMaskDilationRadius K S radius (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)).val⁻¹ *
         ‖(((2 : ℝ) ^ InfinitePlace.nrComplexPlaces K /
           Real.sqrt |(discr K : ℝ)| : ℝ) : ℂ)‖ := by
-  let N := sIntegerElementNorm K (S : Set _) ⟨p.modulus, p.modulus_ne_zero⟩
-  let r := sIntegerMaskDilationRadius K S radius (sIntegerMaskGenerator K (S : Set _) D)
+  let N := sIntegerElementNorm K (S : Set (HeightOneSpectrum (𝓞 K))) ⟨p.modulus, p.modulus_ne_zero⟩
+  let r := sIntegerMaskDilationRadius K S radius (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)
   rw [natCard_sIntegerPrincipalResidue_eq_productNorm]
   change ‖(r.val : ℂ)⁻¹ *
       (((2 : ℝ) ^ InfinitePlace.nrComplexPlaces K /
@@ -124,13 +124,13 @@ theorem ParentPeriodicPair.poissonFactor_mul_card
 def firstZeroDivisorWeight (radius : {r : ℝ // 0 < r})
     (D : Finset (HeightOneSpectrum OS)) : ℝ :=
   ‖(moebius (IdealMobiusMask.primeProduct D) : ℂ)‖ *
-    (sIntegerMaskDilationRadius K S radius (sIntegerMaskGenerator K (S : Set _) D)).val⁻¹
+    (sIntegerMaskDilationRadius K S radius (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)).val⁻¹
 
 theorem firstZeroDivisorWeight_nonneg (radius : {r : ℝ // 0 < r})
     (D : Finset (HeightOneSpectrum OS)) :
     0 ≤ firstZeroDivisorWeight radius D :=
   mul_nonneg (norm_nonneg _) (inv_nonneg.mpr
-    (sIntegerMaskDilationRadius K S radius (sIntegerMaskGenerator K (S : Set _) D)).property.le)
+    (sIntegerMaskDilationRadius K S radius (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)).property.le)
 
 /-- A uniform actual first-zero amplitude, before any counting of columns.
 The annular condition is on the original profile value, and the arithmetic
@@ -140,13 +140,14 @@ theorem first_zero_amplitude_uniform
     ∃ s : Finset (ℕ × ℕ), ∃ C : ℝ, 0 ≤ C ∧
     ∀ p : ParentPeriodicPair K S Γ,
       (∀ x, ‖p.residue x‖ ≤ 1) → p.profile 0 = 0 →
-    ∀ hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0,
+    ∀ hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0,
     ∀ (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum OS)),
       ‖p.transformedZero μv hDiff finiteTest radius D‖ ≤
         C * s.sup (schwartzSeminormFamily ℂ V ℂ) p.profile *
           firstZeroDivisorWeight radius D := by
-  obtain ⟨s, C₀, hC₀, hzero⟩ := dual_tensor_zero_seminorm_bound μv finiteTest
-  let H : ℝ := ‖((sUnitHaarCovolume K (S : Set _) Γ).toReal : ℂ)‖
+  obtain ⟨s, C₀, hC₀, hzero⟩ :=
+    dual_tensor_zero_seminorm_bound (K := K) (S := S) μv finiteTest
+  let H : ℝ := ‖((sUnitHaarCovolume K (S : Set (HeightOneSpectrum (𝓞 K))) Γ).toReal : ℂ)‖
   let J : ℝ := ‖(((2 : ℝ) ^ InfinitePlace.nrComplexPlaces K /
     Real.sqrt |(discr K : ℝ)| : ℝ) : ℂ)‖
   refine ⟨s, H * J * C₀, mul_nonneg (mul_nonneg (norm_nonneg _) (norm_nonneg _)) hC₀.le, ?_⟩
@@ -154,7 +155,7 @@ theorem first_zero_amplitude_uniform
   have hprimal : sIntegerTensorTerm K S (traceSchwartzToMixed K p.profile) finiteTest 0 = 0 := by
     simp only [sIntegerTensorTerm, map_zero, traceSchwartzToMixed_apply, hannular, zero_mul]
   have hfourier := p.divisorFourier_norm_le_card hres hDiff
-    (sIntegerMaskGenerator K (S : Set _) D).val 0
+    (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D).val 0
   have hdual := hzero p.profile
   unfold ParentPeriodicPair.transformedZero
   rw [hprimal, mul_zero, sub_zero]
@@ -162,7 +163,7 @@ theorem first_zero_amplitude_uniform
   calc
     _ ≤ ‖(moebius (IdealMobiusMask.primeProduct D) : ℂ)‖ * H *
         (‖sIntegerMaskPoissonFactor K S p.modulus p.modulus_ne_zero radius
-            (sIntegerMaskGenerator K (S : Set _) D)‖ *
+            (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)‖ *
           ((Nat.card (OS ⧸ Ideal.span {p.modulus}) : ℝ) *
             (C₀ * s.sup (schwartzSeminormFamily ℂ V ℂ) p.profile))) := by
       apply mul_le_mul_of_nonneg_left _ (mul_nonneg (norm_nonneg _) (norm_nonneg _))
@@ -170,7 +171,7 @@ theorem first_zero_amplitude_uniform
       exact mul_le_mul hfourier hdual (norm_nonneg _) (Nat.cast_nonneg _)
     _ = ‖(moebius (IdealMobiusMask.primeProduct D) : ℂ)‖ * H *
         ((‖sIntegerMaskPoissonFactor K S p.modulus p.modulus_ne_zero radius
-            (sIntegerMaskGenerator K (S : Set _) D)‖ *
+            (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)‖ *
           (Nat.card (OS ⧸ Ideal.span {p.modulus}) : ℝ)) *
           (C₀ * s.sup (schwartzSeminormFamily ℂ V ℂ) p.profile)) := by ring
     _ = _ := by

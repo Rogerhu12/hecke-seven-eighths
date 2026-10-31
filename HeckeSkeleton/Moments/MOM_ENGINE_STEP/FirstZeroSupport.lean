@@ -29,11 +29,11 @@ local notation "OS" => Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K
 
 theorem ParentPeriodicPair.gated_divisorFourier (p : ParentPeriodicPair K S Γ)
     (P : Prop) [Decidable P]
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (δ : OS) (h : OS ⧸ Ideal.span {p.modulus}) :
-    sIntegerPeriodicDivisorFourier K (S : Set _) hDiff
+    sIntegerPeriodicDivisorFourier K (S : Set (HeightOneSpectrum (𝓞 K))) hDiff
         (p.gated P).modulus (p.gated P).modulus_ne_zero (p.gated P).residue δ h =
-      if P then sIntegerPeriodicDivisorFourier K (S : Set _) hDiff
+      if P then sIntegerPeriodicDivisorFourier K (S : Set (HeightOneSpectrum (𝓞 K))) hDiff
         p.modulus p.modulus_ne_zero p.residue δ h else 0 := by
   by_cases hP : P
   · rw [p.gated_of_true P hP, if_pos hP]
@@ -41,10 +41,10 @@ theorem ParentPeriodicPair.gated_divisorFourier (p : ParentPeriodicPair K S Γ)
       PeriodicFourier.divisorTransform_apply, zero_mul, Finset.sum_const_zero]
 
 theorem ParentPeriodicPair.divisorFourier_zero_dilation (p : ParentPeriodicPair K S Γ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0) :
-    sIntegerPeriodicDivisorFourier K (S : Set _) hDiff p.modulus p.modulus_ne_zero
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0) :
+    sIntegerPeriodicDivisorFourier K (S : Set (HeightOneSpectrum (𝓞 K))) hDiff p.modulus p.modulus_ne_zero
       p.residue 0 0 = (Nat.card (OS ⧸ Ideal.span {p.modulus}) : ℂ) * p.residue 0 := by
-  letI := finite_sIntegerPrincipalResidue K (S : Set _) p.modulus p.modulus_ne_zero
+  letI := finite_sIntegerPrincipalResidue K (S : Set (HeightOneSpectrum (𝓞 K))) p.modulus p.modulus_ne_zero
   letI := Fintype.ofFinite (OS ⧸ Ideal.span {p.modulus})
   simp [sIntegerPeriodicDivisorFourier, PeriodicFourier.divisorTransform_apply,
     Nat.card_eq_fintype_card]
@@ -62,11 +62,11 @@ local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 theorem FirstCommonCharacterBlock.zeroFourier_nonzero_powerful
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (left : Finset ι) (right : Finset κ) (profiles : ι → κ → SchwartzMap V ℂ)
     (i : ι) (hi : i ∈ b.leftColumns left) (j : κ) (hj : j ∈ b.rightColumns right)
     (δ : A.R)
-    (hzero : sIntegerPeriodicDivisorFourier K (A.Sf : Set _) hDiff
+    (hzero : sIntegerPeriodicDivisorFourier K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff
       (b.pair hΓ C profiles i j).modulus (b.pair hΓ C profiles i j).modulus_ne_zero
       (b.pair hΓ C profiles i j).residue δ 0 ≠ 0) :
     Powerful ((fullI i).val * (fullJ j).val) := by
@@ -95,11 +95,11 @@ theorem FirstCommonCharacterBlock.zeroFourier_nonzero_powerful
 theorem FirstCommonCharacterBlock.zeroFourier_eq_zero_of_not_powerful
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (left : Finset ι) (right : Finset κ) (profiles : ι → κ → SchwartzMap V ℂ)
     (i : ι) (hi : i ∈ b.leftColumns left) (j : κ) (hj : j ∈ b.rightColumns right)
     (δ : A.R) (hbad : ¬ Powerful ((fullI i).val * (fullJ j).val)) :
-    sIntegerPeriodicDivisorFourier K (A.Sf : Set _) hDiff
+    sIntegerPeriodicDivisorFourier K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff
       (b.pair hΓ C profiles i j).modulus (b.pair hΓ C profiles i j).modulus_ne_zero
       (b.pair hΓ C profiles i j).residue δ 0 = 0 := by
   by_contra hzero
@@ -108,13 +108,13 @@ theorem FirstCommonCharacterBlock.zeroFourier_eq_zero_of_not_powerful
 theorem FirstCommonCharacterBlock.residue_zero_of_not_powerful
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (left : Finset ι) (right : Finset κ) (profiles : ι → κ → SchwartzMap V ℂ)
     (i : ι) (hi : i ∈ b.leftColumns left) (j : κ) (hj : j ∈ b.rightColumns right)
     (hbad : ¬ Powerful ((fullI i).val * (fullJ j).val)) :
     (b.pair hΓ C profiles i j).residue 0 = 0 := by
   let p := b.pair hΓ C profiles i j
-  letI := finite_sIntegerPrincipalResidue K (A.Sf : Set _) p.modulus p.modulus_ne_zero
+  letI := finite_sIntegerPrincipalResidue K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) p.modulus p.modulus_ne_zero
   have hc : (Nat.card (A.R ⧸ Ideal.span {p.modulus}) : ℂ) ≠ 0 := by
     exact_mod_cast (Nat.card_pos (α := A.R ⧸ Ideal.span {p.modulus})).ne'
   have hz := b.zeroFourier_eq_zero_of_not_powerful hΓ C hDiff left right profiles
@@ -132,7 +132,7 @@ variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion 
 
 theorem ParentPeriodicPair.gated_transformedZero
     (p : ParentPeriodicPair K A.Sf Γ) (P : Prop) [Decidable P]
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum A.R)) :
     (p.gated P).transformedZero μv hDiff finiteTest radius D =
@@ -146,7 +146,7 @@ theorem ParentPeriodicPair.gated_transformedZero
 theorem FirstCommonCharacterBlock.transformedZero_eq_zero_of_not_coprime
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (profiles : ι → κ → SchwartzMap V ℂ) (i : ι) (j : κ)
     (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum A.R))
@@ -158,7 +158,7 @@ theorem FirstCommonCharacterBlock.transformedZero_eq_zero_of_not_coprime
 theorem FirstCommonCharacterBlock.transformedZero_eq_zero_of_not_powerful
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (left : Finset ι) (right : Finset κ) (profiles : ι → κ → SchwartzMap V ℂ)
     (i : ι) (hi : i ∈ b.leftColumns left) (j : κ) (hj : j ∈ b.rightColumns right)
@@ -167,7 +167,7 @@ theorem FirstCommonCharacterBlock.transformedZero_eq_zero_of_not_powerful
     (b.pair hΓ C profiles i j).transformedZero μv hDiff finiteTest radius D = 0 := by
   unfold ParentPeriodicPair.transformedZero
   rw [b.zeroFourier_eq_zero_of_not_powerful hΓ C hDiff left right profiles i hi j hj
-      (sIntegerMaskGenerator K (A.Sf : Set _) D).val hbad,
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val hbad,
     b.residue_zero_of_not_powerful hΓ C hDiff left right profiles i hi j hj hbad]
   simp only [zero_mul, mul_zero, sub_zero]
 

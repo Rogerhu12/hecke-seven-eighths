@@ -179,7 +179,7 @@ variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
 The mask divisor, full finite Fourier coefficient, and two zero terms are
 the literal terms of the orbital Poisson provider. -/
 def ParentPeriodicPair.physicalTransform (p : ParentPeriodicPair K S Γ)
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (M : Finset (HeightOneSpectrum OS)) (r : {r : ℝ // 0 < r}) (H : ℝ) : ℂ :=
   ∑ D ∈ M.powerset, (moebius (IdealMobiusMask.primeProduct D) : ℂ) *
@@ -198,7 +198,7 @@ def ParentPeriodicPair.physicalTransform (p : ParentPeriodicPair K S Γ)
 /-- The literal nonzero row of a mask-divisor branch, including its actual
 Möbius and Poisson factors. -/
 def ParentPeriodicPair.transformedRow (p : ParentPeriodicPair K S Γ)
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (r : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum OS)) (q : Q) : ℂ :=
   (moebius (IdealMobiusMask.primeProduct D) : ℂ) *
@@ -209,7 +209,7 @@ def ParentPeriodicPair.transformedRow (p : ParentPeriodicPair K S Γ)
 
 /-- Both actual additive zero terms, before any estimate or deletion. -/
 def ParentPeriodicPair.transformedZero (p : ParentPeriodicPair K S Γ)
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (r : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum OS)) : ℂ :=
   (moebius (IdealMobiusMask.primeProduct D) : ℂ) *
@@ -221,7 +221,7 @@ def ParentPeriodicPair.transformedZero (p : ParentPeriodicPair K S Γ)
       p.residue 0 * sIntegerTensorTerm K S (traceSchwartzToMixed K p.profile) h 0)
 
 theorem ParentPeriodicPair.physicalTransform_eq (p : ParentPeriodicPair K S Γ)
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (M : Finset (HeightOneSpectrum OS)) (r : {r : ℝ // 0 < r}) (H : ℝ) :
     p.physicalTransform μv hS h M r H =
@@ -238,7 +238,7 @@ theorem ParentPeriodicPair.physicalTransform_eq (p : ParentPeriodicPair K S Γ)
 
 include ν μ in
 theorem ParentPeriodicPair.physicalTransform_error (p : ParentPeriodicPair K S Γ)
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (hlc : ∀ v ∈ S, IsLocallyConstant (h v))
     (hcs : ∀ v ∈ S, HasCompactSupport (h v))
@@ -269,7 +269,7 @@ include ν μ in
 the actual radius inequalities.  The constants precede both cutoff scales
 and every original profile, residue coefficient, modulus, and mask. -/
 theorem physical_transform_uniform_bound
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (hlc : ∀ v ∈ S, IsLocallyConstant (h v))
     (hcs : ∀ v ∈ S, HasCompactSupport (h v))
@@ -355,13 +355,13 @@ theorem physical_transform_uniform_bound
 
 /-- Actual finite first-transform expression of a rectangular source. -/
 def FirstFiniteSource.transform {ι κ : Type*} (s : FirstFiniteSource K S Γ ι κ)
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) : ℂ :=
   ∑ i ∈ s.leftColumns, ∑ j ∈ s.rightColumns,
     (s.pairs i j).physicalTransform μv hS h s.mask s.radius s.physicalCutoff
 
 def FirstFiniteSource.zeroTerm {ι κ : Type*} (s : FirstFiniteSource K S Γ ι κ)
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) : ℂ :=
   ∑ i ∈ s.leftColumns, ∑ j ∈ s.rightColumns, ∑ D ∈ s.mask.powerset,
     (s.pairs i j).transformedZero μv hS h s.radius D
@@ -370,7 +370,7 @@ def FirstFiniteSource.zeroTerm {ι κ : Type*} (s : FirstFiniteSource K S Γ ι 
 whole column pair sum.  No row-dependent column indicator is introduced. -/
 theorem FirstFiniteSource.transform_eq_common_rows {ι κ : Type*}
     (s : FirstFiniteSource K S Γ ι κ)
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) :
     s.transform μv hS h = s.zeroTerm μv hS h +
       ∑ D ∈ s.mask.powerset, ∑ q ∈ s.rows,
@@ -408,7 +408,7 @@ include ν μ in
 /-- The actual finite rectangular source has a common row set and a
 uniformly certified tail.  There is no whole-source comparison hypothesis. -/
 theorem finite_source_uniform_bound
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (hlc : ∀ v ∈ S, IsLocallyConstant (h v))
     (hcs : ∀ v ∈ S, HasCompactSupport (h v))

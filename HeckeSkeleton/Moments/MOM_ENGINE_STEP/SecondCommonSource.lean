@@ -138,7 +138,7 @@ theorem FirstCommonCharacterBlock.second_coprimalities
 
 variable {Γ : Subgroup A.U}
 variable (hΓ : ∀ u : Γ, ∃ v : A.U, u.val = v ^ 6)
-variable (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+variable (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 
 include hΓ in

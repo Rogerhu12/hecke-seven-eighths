@@ -82,7 +82,7 @@ def FirstBlockProfileChart.kernelCost {ι κ : Type*}
     {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
     {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
     (chart : FirstBlockProfileChart (E := E) hΓ μv b C left right profiles finiteTest radius D)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X) : ℝ :=
   let source := b.finiteSource hΓ C left right profiles M radius X hX
   let a := fun i => generatedOriginalColumn (σ := σ) hΓ
@@ -91,14 +91,14 @@ def FirstBlockProfileChart.kernelCost {ι κ : Type*}
     (b.rightResidual j) (b.rightGenerator j) (b.right_generates j)
   let r := actualActiveColumn hΓ C b.primes b.primes_injective
     b.leftMultiplicity b.rightMultiplicity
-  let δ := (sIntegerMaskGenerator K (A.Sf : Set _) D).val
+  let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
   firstResidualKernelCost hDiff PUnit chart.kernel source.rows (fun t => t.out.val)
     source.leftColumns source.rightColumns
     (fun i => (b.leftResidual i).val) (fun j => (b.rightResidual j).val)
     a a' (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle))
     (fun t : Q => (moebius (IdealMobiusMask.primeProduct D) : ℂ) *
       (r.character (Ideal.Quotient.mk _ δ) *
-        actualSIntegerGauss K (A.Sf : Set _) hDiff r.modulus r.nonzero r.character t.out.val))
+        actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff r.modulus r.nonzero r.character t.out.val))
     chart.weight
     (fun i => chart.leftCoefficient i * firstLeftDivisorFactor (a i) r δ)
     (fun j => chart.rightCoefficient j * firstRightDivisorFactor (a' j) r δ)
@@ -113,7 +113,7 @@ theorem FirstBlockProfileChart.kernel_bound_of_phase_one {ι κ : Type*}
     {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
     {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
     (chart : FirstBlockProfileChart (E := E) hΓ μv b C left right profiles finiteTest radius D)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
     (hphase : ∀ i j, IsCoprime (b.leftResidual i).val (b.rightResidual j).val →
       firstReciprocalPhase
@@ -140,7 +140,7 @@ theorem canonical_first_block_transform_bound
     (fullI : ι → A.Exterior) (fullJ : κ → A.Exterior)
     (DE : commonSupportPool left right (fun i => (fullI i).val) (fun j => (fullJ j).val))
     (profiles : ι → κ → SchwartzMap V ℂ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (M : Finset (HeightOneSpectrum A.R)) (radius : {r : ℝ // 0 < r}) (X : ℝ) (hX : 1 ≤ X) :
     let b := canonicalFirstCommonBlock C left right fullI fullJ DE.val DE.property
@@ -182,7 +182,7 @@ variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
 include ν μ in
 theorem parent_first_stage_bound
     (C : A.GeneralArithmeticContext σ η hS)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (hlc : ∀ v ∈ A.Sf, IsLocallyConstant (finiteTest v))
     (hcs : ∀ v ∈ A.Sf, HasCompactSupport (finiteTest v))

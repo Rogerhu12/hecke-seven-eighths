@@ -128,6 +128,7 @@ theorem gauss_energy_orbital_source_bound
     · simp only [hz, zero_mul, Complex.zero_re]
     · rw [ho, one_mul, Complex.one_re, one_mul,
         ← Complex.ofReal_mul, Complex.ofReal_re]
+      simp only [Complex.ofReal_re]
   have hnonneg (q : Q) : 0 ≤ (T q).re := by
     rw [hre]
     have hm : 0 ≤

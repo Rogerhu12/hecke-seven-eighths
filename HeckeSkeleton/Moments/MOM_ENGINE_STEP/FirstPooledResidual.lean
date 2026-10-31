@@ -18,7 +18,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters MeasureTheory
-open HeckePort.Moments HeckePort.Moments.MobiusRegroup
+open HeckePort.Moments HeckePort.Moments.MobiusRegroup UniqueFactorizationMonoid
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -33,7 +33,7 @@ variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 Injectivity is required only on the actual finite row set. -/
 theorem first_gauss_pool_integral_bound {H ι κ : Type*}
     (F : 𝓢(V, ℂ)) (left : FirstGaussPoolData C P ι) (right : FirstGaussPoolData C P κ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (rows : Finset H) (frequencyLeft frequencyRight : H → A.R)
     (hleft_inj : Set.InjOn frequencyLeft (rows : Set H))
     (hright_inj : Set.InjOn frequencyRight (rows : Set H))
@@ -101,7 +101,7 @@ source. All Möbius terms, including nonunit divisors, and all fixed finite
 phase coefficients remain in the output. -/
 theorem first_residual_cost_le_pool {H ι κ : Type*}
     (F : 𝓢(V, ℂ)) (left : FirstGaussPoolData C P ι) (right : FirstGaussPoolData C P κ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (rows : Finset H) (frequency : H → A.R)
     (hinj : Set.InjOn frequency (rows : Set H))
     (hleft_rows : rows.image frequency ⊆ left.rows)

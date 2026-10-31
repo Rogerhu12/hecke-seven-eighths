@@ -19,6 +19,7 @@ open scoped Classical BigOperators NumberField
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
+open HeckeGeneral.Bridge
 open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.CommonSupport
 open UniqueFactorizationMonoid MeasureTheory
 
@@ -70,9 +71,17 @@ theorem OrbitalGaussColumn.pair_divisor_fourier
   letI := Fintype.ofFinite (OS ⧸ Ideal.span ({c.modulus} : Set OS))
   letI := Fintype.ofFinite (OS ⧸ Ideal.span ({d.modulus} : Set OS))
   letI := Fintype.ofFinite (OS ⧸ Ideal.span ({c.modulus * d.modulus} : Set OS))
-  simpa only [OrbitalGaussColumn.pair, OrbitalGaussColumn.residue,
-    OrbitalGaussColumn.divisorPhase, OrbitalGaussColumn.correlation,
-    completeGaussPair, Nat.card_eq_fintype_card] using h
+  have hresidue : (c.pair hS d φ).residue =
+      completeGaussPair (R := OS) (actualSIntegerTrace K (S : Set (HeightOneSpectrum (𝓞 K))) hS)
+        c.modulus d.modulus c.character d.character := by
+    funext x
+    rfl
+  change sIntegerPeriodicDivisorFourier K (S : Set (HeightOneSpectrum (𝓞 K))) hS
+      (c.modulus * d.modulus) (mul_ne_zero c.nonzero d.nonzero)
+      (c.pair hS d φ).residue δ (Ideal.Quotient.mk _ j) = _
+  rw [hresidue]
+  simpa only [OrbitalGaussColumn.divisorPhase, OrbitalGaussColumn.correlation,
+    Nat.card_eq_fintype_card] using h
 
 variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 

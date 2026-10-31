@@ -106,7 +106,7 @@ theorem paired_columns_eq_filter (p : HeightOneSpectrum (𝓞 K)) (n : Fin (k + 
   ext x
   simp only [pairedColumns, childCartesianColumns, Finset.product_eq_sprod,
     Finset.mem_product, Finset.mem_filter, Fintype.mem_piFinset,
-    pairedOccurrences, Fin.forall_fin_succ, Fin.cons_zero, Fin.cons_succ]
+    pairedOccurrences, Fin.forall_fin_succ, Fin.cons_zero, Fin.cons_succ, forall_and]
   tauto
 
 theorem whole_error_polynomial (p : HeightOneSpectrum (𝓞 K)) (j : ℕ)

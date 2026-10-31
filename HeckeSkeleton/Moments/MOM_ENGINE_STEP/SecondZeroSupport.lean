@@ -91,7 +91,7 @@ variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion 
 /-- The literal second orbital zero term, after exact cardinality
 cancellation and the original annular profile's primal zero subtraction. -/
 theorem OrbitalGaussColumn.transformedZero_pair
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c d : OrbitalGaussColumn K S Γ) (φ : SchwartzMap V ℂ) (hφ : φ 0 = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum OS))
@@ -150,7 +150,7 @@ variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion 
 /-- The actual second source has only the genuine equal-ideal diagonal
 at frequency zero.  The original annular profile is retained. -/
 theorem generated_second_zero_of_ne
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (I J : A.Exterior) (a b : A.R) (ha : A.Generates I a) (hb : A.Generates J b)
     (hIJ : I ≠ J) (φ : SchwartzMap V ℂ) (hφ : φ 0 = 0)
     (finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)

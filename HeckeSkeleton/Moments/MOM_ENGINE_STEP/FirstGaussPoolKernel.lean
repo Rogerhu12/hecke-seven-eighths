@@ -136,7 +136,7 @@ whole Cauchy polynomial. The pool `P`, both arithmetic row charts, and
 all finite carriers are fixed before the common Fourier variable. -/
 theorem first_gauss_pool_kernel_bound {H ι κ : Type*}
     (F : 𝓢(V, ℂ)) (left : FirstGaussPoolData C P ι) (right : FirstGaussPoolData C P κ)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (rows : Finset H) (frequencyLeft frequencyRight : H → A.R)
     (hleft_inj : Set.InjOn frequencyLeft (rows : Set H))
     (hright_inj : Set.InjOn frequencyRight (rows : Set H))

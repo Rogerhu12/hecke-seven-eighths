@@ -63,9 +63,9 @@ def finiteColumn (d : FirstGaussPoolData C P ι) (i : ι) (h : A.R) : ℂ :=
     (unitExterior_generates A) (d.generates i) h
 
 def gaussColumn (d : FirstGaussPoolData C P ι)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (i : ι) (h : A.R) : ℂ :=
-  actualSIntegerGauss K (A.Sf : Set _) hDiff (d.generator i) (d.generates i).1
+  actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff (d.generator i) (d.generates i).1
     (generatedIdealCharacter (σ := σ) (d.ideal i) (d.generator i) (d.generates i)) h
 
 /-- The exact central norm is put into the entire original coefficient. -/
@@ -124,14 +124,14 @@ theorem whole_error_eq (d : FirstGaussPoolData C P ι) (c : ι → ℂ)
   by_cases h : MaskedQuotientCRT.primeExponent hp.2 (d.ideal i) = t <;> simp [h]
 
 theorem whole_gauss_eq (d : FirstGaussPoolData C P ι)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c : ι → ℂ) (h : A.R) :
     wholePolynomial d.columns c (d.gaussColumn hDiff) h =
       wholePolynomial d.columns (d.adjustedCoefficient c) d.finiteColumn h :=
   whole_gauss_eq_actual_unit_columns hDiff C d.columns c d.ideal d.generator d.generates h
 
 theorem coefficient_mul_finite_eq_gauss (d : FirstGaussPoolData C P ι)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c : ι → ℂ) (i : ι) (h : A.R) :
     d.adjustedCoefficient c i * d.finiteColumn i h = c i * d.gaussColumn hDiff i h := by
   unfold adjustedCoefficient finiteColumn gaussColumn
@@ -143,7 +143,7 @@ theorem coefficient_mul_finite_eq_gauss (d : FirstGaussPoolData C P ι)
 /-- Each complete valuation error is the literal difference of the
 original Gauss columns with the original whole coefficient. -/
 theorem whole_error_eq_gauss (d : FirstGaussPoolData C P ι)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c : ι → ℂ) (t : ℕ) (hp : A.R × ExteriorPrime A) :
     wholePolynomial d.columns (d.adjustedCoefficient c) (d.errorColumn t) hp =
       valuationError d.columns c (d.gaussColumn hDiff)
@@ -161,7 +161,7 @@ theorem whole_error_eq_gauss (d : FirstGaussPoolData C P ι)
 /-- Exact source dictionary for the second transform: the amplified
 main term and all errors are whole genuine Gauss polynomials. -/
 theorem energy_eq_gauss_outputs (d : FirstGaussPoolData C P ι)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c : ι → ℂ) :
     d.energy c = (4 / d.density) *
       (d.multiplicity * ∑ h ∈ d.mainRows,
@@ -180,7 +180,7 @@ theorem energy_eq_gauss_outputs (d : FirstGaussPoolData C P ι)
 
 /-- One fixed actual prime pool bounds every whole Gauss coefficient. -/
 theorem energy_bound (d : FirstGaussPoolData C P ι)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c : ι → ℂ) :
     (∑ h ∈ d.rows, ‖wholePolynomial d.columns c (d.gaussColumn hDiff) h‖ ^ 2) ≤
       d.energy c := by
@@ -205,7 +205,7 @@ theorem energy_bound (d : FirstGaussPoolData C P ι)
 orbital source. Its bounded row multiplier is retained explicitly. -/
 theorem weighted_energy_bound {H : Type*}
     (d : FirstGaussPoolData C P ι)
-    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (rows : Finset H) (frequency : H → A.R)
     (hinj : Set.InjOn frequency (rows : Set H))
     (hrows : rows.image frequency ⊆ d.rows)

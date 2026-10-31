@@ -32,7 +32,7 @@ set_option maxHeartbeats 1600000 in
 /-- The actual arithmetic coefficient with unit first modulus is exactly
 the complete Gauss column of the genuine orbital phase. -/
 theorem actual_unit_coefficient_eq_gauss
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (C : A.GeneralArithmeticContext σ η htrace)
     (I : A.Exterior) (a h : A.R) (ha : A.Generates I a) :
     MaskedQuotientCRT.coefficient C (unitExterior A) I 1 a h
@@ -60,7 +60,7 @@ theorem actual_unit_coefficient_eq_gauss
 /-- The central norm has not disappeared: it is exactly the denominator
 of the actual amplifier column. -/
 theorem actual_unit_column_eq_gauss_div_norm
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (C : A.GeneralArithmeticContext σ η htrace)
     (I : A.Exterior) (a h : A.R) (ha : A.Generates I a) :
     actualFiniteColumn C (unitExterior A) I 1 a (unitExterior_generates A) ha h =
@@ -72,7 +72,7 @@ theorem actual_unit_column_eq_gauss_div_norm
 /-- The entire original polynomial is transferred to the pool, without
 splitting any centered difference or live-slot coefficient. -/
 theorem whole_gauss_eq_actual_unit_columns {ι : Type*}
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (C : A.GeneralArithmeticContext σ η htrace)
     (columns : Finset ι) (c : ι → ℂ)
     (I : ι → A.Exterior) (a : ι → A.R) (ha : ∀ i, A.Generates (I i) (a i)) (h : A.R) :
@@ -94,7 +94,7 @@ theorem whole_gauss_eq_actual_unit_columns {ι : Type*}
 actual Gauss column.  This uses the existing arithmetic recipe, rather
 than identifying two independently selected generators. -/
 theorem actual_gauss_generator_replacement
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (C : A.GeneralArithmeticContext σ η htrace)
     (D : ComparisonPoissonCoefficientData K A)
     (hD : GlobalPairCancel.HasArithmeticRecipes A σ htrace C.correction.B D)

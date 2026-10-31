@@ -66,7 +66,7 @@ theorem second_zero_amplitude_uniform
     ∃ s : Finset (ℕ × ℕ), ∃ C : ℝ, 0 ≤ C ∧
     ∀ (I J : A.Exterior) (a b : A.R) (ha : A.Generates I a) (hb : A.Generates J b),
     ∀ (φ : SchwartzMap V ℂ), φ 0 = 0 →
-    ∀ hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0,
+    ∀ hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent K v = 0,
     ∀ (radius : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum A.R)),
     IsCoprime a (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val →
     IsCoprime b (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val →

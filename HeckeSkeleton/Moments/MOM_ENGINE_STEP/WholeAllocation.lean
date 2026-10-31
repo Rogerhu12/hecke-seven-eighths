@@ -72,9 +72,8 @@ theorem occurrenceDivisor_dvd_iff {k : ℕ} (D : Ideal (𝓞 K))
     have he : occurrenceDivisor D v i = ∏ P ∈ T, P := by
       dsimp only [T, occurrenceDivisor]
       rw [Finset.prod_image]
-      · rfl
-      · intro p _ q _ hpq
-        exact Subtype.ext hpq
+      intro p _ q _ hpq
+      exact Subtype.ext hpq
     rw [he]
     exact support_product_dvd hI hT
 
@@ -181,7 +180,7 @@ theorem paired_allocated_columns_eq_filter (D : Ideal (𝓞 K))
   ext x
   simp only [pairedAllocatedColumns, childCartesianColumns, Finset.product_eq_sprod,
     Finset.mem_product, Finset.mem_filter, Fintype.mem_piFinset,
-    pairedOccurrences, Fin.forall_fin_succ, Fin.cons_zero, Fin.cons_succ]
+    pairedOccurrences, Fin.forall_fin_succ, Fin.cons_zero, Fin.cons_succ, forall_and]
   tauto
 
 theorem whole_paired_divisor_allocation (D : Ideal (𝓞 K)) (hD : Squarefree D)
