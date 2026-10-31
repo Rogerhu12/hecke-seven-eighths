@@ -33,7 +33,7 @@ theorem primitive_sqrt_inverse (x₁ x₂ : Ext) :
       (pairExponent K S x₁ x₂ e e)).absNorm : ℝ) : ℂ)⁻¹ =
       normWeight K (ActualInverseFactors.residual K Sset x₁ x₂).val *
         normWeight K (ActualInverseFactors.residual K Sset x₂ x₁).val := by
-  rw [primitive_conductor, Ideal.absNorm_mul, Nat.cast_mul,
+  rw [primitive_conductor, map_mul, Nat.cast_mul,
     Real.sqrt_mul (by positivity)]
   simp only [normWeight, Complex.ofReal_mul, mul_inv]
 

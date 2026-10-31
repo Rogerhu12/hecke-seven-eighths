@@ -219,7 +219,7 @@ theorem actual_new_row_norm (dk d₂ k : NonzeroRingElements OS) :
     ((newRowIdeal K S (divisorIdeal K S k) dk d₂).val.val.absNorm : ℝ) =
       (sIntegerElementNorm K Sset dk).val * (sIntegerElementNorm K Sset d₂).val *
         (sIntegerElementNorm K Sset k).val := by
-  rw [newRowIdeal_val, Ideal.absNorm_mul, Ideal.absNorm_mul, Nat.cast_mul, Nat.cast_mul,
+  rw [newRowIdeal_val, map_mul, map_mul, Nat.cast_mul, Nat.cast_mul,
     divisorIdeal_norm, divisorIdeal_norm, divisorIdeal_norm]
 
 theorem child_label_squarefree (x₁ x₂ j : Ext) (hj : Squarefree j.val.val)

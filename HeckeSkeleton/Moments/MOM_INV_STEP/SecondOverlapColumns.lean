@@ -96,7 +96,7 @@ theorem residual_norm_argument (z v : Ext) (hz : Squarefree z.val.val)
       ((residual K S z v).val.val.absNorm : ℝ) / (X / (v.val.val.absNorm : ℝ)) := by
   have he : z.val.val = v.val.val * (residual K S z v).val.val :=
     (FirstSourceDecomposition.squarefree_divisor_decomposition z.val v.val hz hv).1
-  rw [he, Ideal.absNorm_mul, Nat.cast_mul, div_div_eq_mul_div]
+  rw [he, map_mul, Nat.cast_mul, div_div_eq_mul_div]
   ring
 
 variable {σ : Type*} [DecidableEq σ]

@@ -77,7 +77,8 @@ theorem zeroProfileSize_nonneg (φ : SchwartzMap V ℂ)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ) :
     0 ≤ zeroProfileSize K S Γ μv φ h := by
   unfold zeroProfileSize
-  positivity
+  exact mul_nonneg ENNReal.toReal_nonneg
+    (add_nonneg (mul_nonneg (fieldConstant_nonneg K) (norm_nonneg _)) (norm_nonneg _))
 
 theorem zeroEnvelope_le_scale (φ : SchwartzMap V ℂ)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
@@ -121,8 +122,15 @@ theorem zeroContribution_eq (B : PrimeBlock K Sset)
               sIntegerDualTensorTerm K μv S (traceSchwartzToMixed K φ) h 0 -
             sIntegerTensorTerm K S (traceSchwartzToMixed K φ) h 0)
       else 0 := by
-  simp only [ActualMaskedPoissonBlock.zeroContribution, block,
-    divisor_fourier_zero, primitiveCoefficient_zero_eq_indicator]
+  change ((sUnitHaarCovolume K Sset Γ).toReal : ℂ) *
+    ((block K S D Γ hΓ B t φ h hlc hcs M r).prefactor d *
+      (sIntegerPeriodicDivisorFourier K Sset D.different_outside
+        (primitiveModulus K S D B t) (primitiveModulus_ne_zero K S D B t)
+        (primitiveCoefficient K S D B t) (sIntegerMaskGenerator K Sset d).val 0 *
+          sIntegerDualTensorTerm K μv S (traceSchwartzToMixed K φ) h 0) -
+      primitiveCoefficient K S D B t 0 *
+        sIntegerTensorTerm K S (traceSchwartzToMixed K φ) h 0) = _
+  rw [divisor_fourier_zero, primitiveCoefficient_zero_eq_indicator]
   split_ifs <;> simp only [one_mul, zero_mul, sub_self, mul_zero]
 
 theorem principal_prefactor_norm_le (B : PrimeBlock K Sset)
@@ -154,7 +162,7 @@ theorem zeroContribution_norm_le (B : PrimeBlock K Sset)
     apply mul_le_mul_of_nonneg_left _ ENNReal.toReal_nonneg
     apply (norm_sub_le _ _).trans
     rw [norm_mul]
-    apply add_le_add_right
+    apply add_le_add _ le_rfl
     apply mul_le_mul_of_nonneg_right _ (norm_nonneg _)
     exact principal_prefactor_norm_le K S D B t he r (sIntegerMaskGenerator K Sset d)
   · simp only [norm_zero, le_refl]
@@ -197,7 +205,7 @@ theorem principalContribution_norm_le (B : PrimeBlock K Sset)
   apply (Finset.sum_le_sum (fun d _ => hp d)).trans
   split_ifs <;>
     simp only [Finset.sum_const, Finset.card_powerset, nsmul_eq_mul,
-      Nat.cast_pow, Nat.cast_ofNat, b, block, Finset.sum_const_zero, le_refl]
+      Nat.cast_pow, Nat.cast_ofNat, b, block, Finset.sum_const_zero, mul_zero, le_refl]
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalZero
 

@@ -86,7 +86,12 @@ theorem coefficient_continuous (n : Ext) (τ : ℝ) :
   have hc : Continuous (fun t : ℝ => WideMellinTests.weightedTest a (t + τ)
       ((n.val.val.absNorm : ℝ) / C.base ^ (Real.log U / Real.log C.base))) :=
     (WideMellinTests.continuous_weightedTest a _).comp (continuous_id.add continuous_const)
-  exact (continuous_const.mul hc).mul continuous_const
+  exact (hc.const_mul (((UniqueFactorizationMonoid.moebius n.val.val : ℂ) *
+    heckeIdealCoefficient K (C.background * G) n.val *
+    (if IsCoprime n.val.val (childPuncture C.puncture γ) then 1 else 0)) *
+    labelRow K Sset D n j ^ 4 *
+    divisorMark (C.slots \ J) C.primeLists C.primeWeights n.val.val)).mul_const
+      (idealSymbol K Sset D n d)
 
 theorem coefficient_norm_eq_zero (n : Ext) (t : ℝ) :
     ‖DivisorInverseColumn.coefficient K S D
@@ -95,6 +100,7 @@ theorem coefficient_norm_eq_zero (n : Ext) (t : ℝ) :
       (family K S C Θ ψ G hν hG J U a 0) γ j d n‖ := by
   simp only [DivisorInverseColumn.coefficient, FirstCanonicalLabel.inverseCoefficient,
     family, FirstCompleteFamily.family, norm_mul, WideMellinTests.norm_weightedTest]
+  rfl
 
 def coefficientMass : ℝ :=
   ∑ n ∈ squarefreePool K Sset (2 * U),
@@ -273,7 +279,29 @@ theorem residual_rows_le_free_energy (W : SchwartzMap ℝ ℂ)
         (Physical.ActualGramMajorantDraft.rowBallFiniteFamily K S 1) ∅ (rowRadius H)).re :=
     (free_weightedEnergy_re K S Γ D
       (family K S C Θ ψ G hν hG J U a (t + τ)) γ j d H).symm
-  simp only [hleft, hright] at hi
+  have hi' : (∫ t : ℝ, ‖density W hW t‖ *
+      (∑ y ∈ T, ‖DivisorInverseColumn.column K S Γ D
+        (family K S C Θ ψ G hν hG J U a (t + τ)) γ j d (y.1.val.val,y.2)‖ ^ 2)) ≤
+      (rowCovolume K S)⁻¹ * ∫ t : ℝ, ‖density W hW t‖ *
+        (DivisorInverseColumn.weightedEnergy K S Γ D
+          (family K S C Θ ψ G hν hG J U a (t + τ)) γ j d
+          (Physical.ActualGramMajorantDraft.rowBallArchTest K S 1)
+          (Physical.ActualGramMajorantDraft.rowBallFiniteFamily K S 1) ∅
+          (rowRadius H)).re := by
+    calc
+      _ = ∫ t : ℝ, ‖density W hW t‖ *
+          (∑ q ∈ rows, ‖amplitude K S Γ D
+            (squarefreePool K Sset (2 * U)) (coeff t) q‖ ^ 2) := by
+        apply integral_congr_ae
+        exact Filter.Eventually.of_forall (fun t =>
+          congrArg (fun x : ℝ => ‖density W hW t‖ * x) (hleft t).symm)
+      _ ≤ (rowCovolume K S)⁻¹ * ∫ t : ℝ, ‖density W hW t‖ *
+          energy K S Γ D (squarefreePool K Sset (2 * U)) (coeff t) H := hi
+      _ = _ := by
+        congr 1
+        apply integral_congr_ae
+        exact Filter.Eventually.of_forall (fun t =>
+          congrArg (fun x : ℝ => ‖density W hW t‖ * x) (hright t))
   calc
     _ ≤ ∑ y ∈ T, energyCost * (∫ t : ℝ, ‖density W hW t‖ *
         ‖DivisorInverseColumn.column K S Γ D
@@ -292,7 +320,7 @@ theorem residual_rows_le_free_energy (W : SchwartzMap ℝ ℂ)
       congr 1
       apply integral_congr_ae
       exact Filter.Eventually.of_forall (fun t => (Finset.mul_sum _ _ _).symm)
-    _ ≤ _ := mul_le_mul_of_nonneg_left hi hcost
+    _ ≤ _ := mul_le_mul_of_nonneg_left hi' hcost
 
 
 def mellinEnergy (W : SchwartzMap ℝ ℂ)
@@ -362,6 +390,8 @@ theorem fourier_mellinEnergy_integrable (W : SchwartzMap ℝ ℂ)
     ((mellinEnergy_continuous K S Γ D C Θ ψ G hν hG J U a γ j d hΓ W hW y).comp
       hc).aestronglyMeasurable
   filter_upwards [] with ξ
+  change ‖mellinEnergy K S Γ D C Θ ψ G hν hG J U a γ j d W hW y
+    (coordinate ξ)‖ ≤ _
   rw [Real.norm_of_nonneg (mellinEnergy_nonneg K S Γ D C Θ ψ G hν hG J U a γ j d
     W hW y (coordinate ξ))]
   exact mellinEnergy_bound K S Γ D C Θ ψ G hν hG J U a γ j d hΓ W hW y (coordinate ξ)

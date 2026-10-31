@@ -122,18 +122,22 @@ theorem crossFactor_one_five_eq_one (hallowed : AllowedGeneratorInput K Sset D)
   let I₂ := primitiveExterior K S B₂ t
   have hcop : IsCoprime I₁.val.val I₂.val.val :=
     primitiveIdeals_coprime K S B₁ B₂ hdisj t
-  have hmask := CanonicalIdealRow.row_mask K S D hallowed I₁
-    (CanonicalIdealRow.ofExterior K S I₂)
-  simp only [CubeAlgebra.sixthMask, CanonicalIdealRow.row_apply,
-    CanonicalIdealRow.generator_ofExterior, CanonicalIdealRow.ofExterior_val,
-    if_pos hcop] at hmask
+  have hmask : idealSymbol K Sset D I₁ (D.generator I₂) ^ 6 = 1 := by
+    calc
+      _ = CubeAlgebra.sixthMask (CanonicalIdealRow.row K S D hallowed I₁)
+          (CanonicalIdealRow.ofExterior K S I₂) := by
+        simp only [CubeAlgebra.sixthMask, CanonicalIdealRow.row_apply,
+          CanonicalIdealRow.generator_ofExterior]
+      _ = if IsCoprime I₁.val.val I₂.val.val then 1 else 0 :=
+        CanonicalIdealRow.row_mask K S D hallowed I₁ (CanonicalIdealRow.ofExterior K S I₂)
+      _ = 1 := if_pos hcop
   unfold crossFactor
   rw [primitiveCoefficient_uniform K S D B₁ t 1 h₁,
     primitiveCoefficient_uniform K S D B₂ t 5 h₂, pow_one]
   change idealSymbol K Sset D I₁ (D.generator I₂) *
     idealSymbol K Sset D I₂ (D.generator I₁) ^ 5 = 1
   rw [hallowed.reciprocity I₂ I₁, ← pow_succ']
-  simpa only [if_pos hcop] using hmask
+  exact hmask
 
 theorem residual_cross_eq_one (hallowed : AllowedGeneratorInput K Sset D)
     (n₁ n₂ b₁ b₂ : Ext) :

@@ -82,6 +82,9 @@ theorem column_eq_clipped (C : ColumnFamily K S σ Θ ψ) (hZ : 1 < C.base)
   have hU : 0 < U := Real.rpow_pos_of_pos (zero_lt_one.trans hZ) _
   let a := max 1 U / U
   have ha : 0 < a := div_pos (lt_of_lt_of_le zero_lt_one (le_max_left _ _)) hU
+  have htest (q : ℝ) :
+      dilate a ha (C.cutoff γ) (q / max 1 U) = C.cutoff γ (q / U) :=
+    clip_test_identity U hU (C.cutoff γ) q
   let F : Ext → ℂ := fun n =>
     CoefficientCycle.canonicalCoefficient K S D C.lambda n *
       heckeIdealCoefficient K (C.background γ) n.val *
@@ -92,7 +95,7 @@ theorem column_eq_clipped (C : ColumnFamily K S σ Θ ψ) (hZ : 1 < C.base)
     ∑ n ∈ squarefreePool K S (2 * max 1 U),
       F n * dilate a ha (C.cutoff γ) (height K S n / C.base ^ max 0 (C.columnLength γ))
   rw [clipped_scale C.base (C.columnLength γ) hZ.le]
-  simp_rw [clip_test_identity U hU]
+  simp_rw [htest]
   apply Finset.sum_subset (original_pool_subset K S C hZ γ hpool)
   intro n hn hnold
   have hsf := (mem_squarefreePool K S (2 * max 1 U) n).mp hn

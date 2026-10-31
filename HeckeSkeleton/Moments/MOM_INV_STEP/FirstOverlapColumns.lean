@@ -37,7 +37,7 @@ theorem normWeight_mul (e u : Ext) :
     normWeight K (exteriorMul K Sset e u).val =
       normWeight K e.val * normWeight K u.val := by
   change (Real.sqrt (((e.val.val * u.val.val).absNorm : ℕ) : ℝ) : ℂ)⁻¹ = _
-  rw [Ideal.absNorm_mul, Nat.cast_mul, Real.sqrt_mul (by positivity)]
+  rw [map_mul, Nat.cast_mul, Real.sqrt_mul (by positivity)]
   simp only [normWeight, Complex.ofReal_mul, mul_inv]
 
 theorem mask_mul (R A B : Ideal (𝓞 K)) :
@@ -134,7 +134,7 @@ theorem movingColumn_mul (C : CanonicalBlock.ColumnData K S σ) (G : HeckeCharac
       C.cutoff (((extractedFactor K S r₁ r₂ b₁ b₂ side).val.val *
         (e.val.val * u.val.val)).absNorm / C.base ^ C.length))) = _
   rw [hp, hm, mark_priority _ _ _ _ _ hprime]
-  simp only [Ideal.absNorm_mul, Nat.cast_mul]
+  simp only [map_mul, Nat.cast_mul]
   unfold extractedScalar assignedMark residualTerm
   simp only [Finset.mul_sum, Finset.sum_mul]
   apply Finset.sum_congr rfl

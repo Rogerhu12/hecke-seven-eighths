@@ -91,7 +91,9 @@ theorem exists_principalPairs_bound (ε : ℝ) (hε : 0 < ε) :
       ⟨n.val.val.val, mem_boundedNormIdeals.mpr (hN n.val n.property)⟩
     have hinj : Function.Injective encode := by
       intro n m he
-      exact Subtype.ext (exterior_value_injective K S (congrArg Subtype.val he))
+      have hv := congrArg (fun q : boundedNormIdeals K X => q.val) he
+      change n.val.val.val = m.val.val.val at hv
+      exact Subtype.ext (exterior_value_injective K S hv)
     have hc : N.card ≤ (boundedNormIdeals K X).card := by
       simpa only [Fintype.card_coe] using Fintype.card_le_of_injective encode hinj
     have hcR : (N.card : ℝ) ≤ ((boundedNormIdeals K X).card : ℝ) := by
