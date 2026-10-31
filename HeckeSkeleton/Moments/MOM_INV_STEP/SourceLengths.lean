@@ -179,7 +179,9 @@ theorem cube_quotient_sharp_bound {Jo Jn : ℕ} {x : SecondTuple K Sector Jo Jn}
 
 theorem radical_ne_zero (I : Ideal (𝓞 K)) (hI : I ≠ 0) : I.radical ≠ 0 := by
   intro hz
-  exact hI (le_bot_iff.mp (hz ▸ (Ideal.le_radical : I ≤ I.radical)))
+  have hle : I ≤ I.radical := Ideal.le_radical
+  rw [hz] at hle
+  exact hI (le_bot_iff.mp hle)
 
 /-- The common puncture uses only the old puncture and the frozen triple.
 Every original source norm is charged once, with total error `4 eta`. -/

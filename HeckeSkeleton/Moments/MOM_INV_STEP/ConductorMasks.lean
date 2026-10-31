@@ -163,8 +163,8 @@ theorem principal_source_mask_eq_coprime
     · rintro ⟨p, hz⟩
       obtain ⟨hp, ht⟩ := Finset.mem_filter.mp p.property
       exact ⟨⟨p.val, hp⟩, ht, hz⟩
-  rw [hbad]
-  exact finite_residue_mask_eq_coprime K S (principalSupport B t) hpS a
+  simpa only [hbad] using
+    finite_residue_mask_eq_coprime K S (principalSupport B t) hpS a
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.ConductorMasks
 

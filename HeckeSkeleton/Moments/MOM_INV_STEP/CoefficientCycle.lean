@@ -32,7 +32,9 @@ theorem exterior_heckeCoefficient_norm (χ : HeckeCharacter K)
     (hχ : ∀ p : HeightOneSpectrum (𝓞 K), p ∉ S → UnramifiedAt K χ p)
     (I : ExteriorIdeal K S) : ‖heckeIdealCoefficient K χ I.val‖ = 1 := by
   unfold heckeIdealCoefficient nonzeroIdealCoefficient idealCoefficient
-  rw [if_neg (nonZeroDivisors.coe_ne_zero I.val), Multiset.norm_prod_map]
+  have hI : I.val.val ≠ ⊥ := by
+    simpa only [Ideal.zero_eq_bot] using nonZeroDivisors.coe_ne_zero I.val
+  rw [if_neg hI, Multiset.norm_prod_map]
   apply Multiset.prod_eq_one
   intro r hr
   obtain ⟨P, hP, rfl⟩ := Multiset.mem_map.mp hr

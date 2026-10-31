@@ -149,8 +149,6 @@ theorem avoidanceMask_union (M P : Finset (HeightOneSpectrum OS))
     sIntegerOrbitAvoidanceMask K S Γ (M ∪ P) q =
       sIntegerOrbitAvoidanceMask K S Γ M q * sIntegerOrbitAvoidanceMask K S Γ P q := by
   simp only [sIntegerOrbitAvoidanceMask, Finset.forall_mem_union]
-  by_cases hM : ∀ p ∈ M, ¬ sIntegerOrbitIdealMembership K S Γ p.asIdeal q <;>
-    by_cases hP : ∀ p ∈ P, ¬ sIntegerOrbitIdealMembership K S Γ p.asIdeal q <;>
-      simp [hM, hP]
+  split_ifs <;> simp_all
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.LocalizedMasks

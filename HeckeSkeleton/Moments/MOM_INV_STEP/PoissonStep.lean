@@ -49,14 +49,17 @@ structure ActualMaskedPoissonBlock where
         coefficient (Ideal.Quotient.mk _ a)
   radius : {r : ℝ // 0 < r}
 
+namespace ActualMaskedPoissonBlock
+
+variable {K S Γ}
+
+local notation "OS" => Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K
+local notation "V" => mixedEmbedding.euclidean.mixedSpace K
+
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [Γ.FiniteIndex]
   [IsPrincipalIdealRing OS]
-
-namespace ActualMaskedPoissonBlock
-
-variable {K S Γ}
 
 /-- The literal masked physical sum. -/
 def physical (b : ActualMaskedPoissonBlock K S Γ) : ℂ :=

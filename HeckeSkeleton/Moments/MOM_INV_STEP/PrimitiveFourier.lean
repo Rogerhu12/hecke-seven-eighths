@@ -175,6 +175,23 @@ theorem finite_fourier (B : PrimeBlock K Sset)
       rw [← primitiveCoefficient_eq_tensor]
       rfl
 
+@[simp] theorem primitiveCoefficient_one (B : PrimeBlock K Sset)
+    (t : HeightOneSpectrum (𝓞 K) → ZMod 6) :
+    primitiveCoefficient K S D B t 1 = 1 := by
+  rw [primitiveCoefficient_eq_tensor]
+  simp only [ProductGauss.tensorCoefficient, map_one, Pi.one_apply, Finset.prod_const_one]
+
+/-- The CRT Gauss product is exactly the finite principal-phase sum on
+the actual primitive quotient, including the unit conductor. -/
+theorem primitiveGauss_eq_sum (B : PrimeBlock K Sset)
+    (t : HeightOneSpectrum (𝓞 K) → ZMod 6) :
+    primitiveGauss K S D B t =
+      ∑ q : PrincipalQuotient K S D B t, primitiveCoefficient K S D B t q *
+        sIntegerActualModulusAddCharacter K Sset D.different_outside
+          (primitiveModulus K S D B t) (primitiveModulus_ne_zero K S D B t) q := by
+  have h := finite_fourier K S D B t 1
+  simpa only [one_mul, primitiveCoefficient_one, star_one] using h.symm
+
 /-- Arbitrary divisor dilation is retained, including divisors that meet
 the active conductor.  No coprimality is silently required. -/
 theorem divisor_fourier (B : PrimeBlock K Sset)
@@ -231,5 +248,57 @@ theorem divisor_fourier_zero_of_active (B : PrimeBlock K Sset)
       (primitiveCoefficient K S D B t) d 0 = 0 := by
   rw [divisor_fourier, primitiveCoefficient_zero K S D B t hactive]
   simp only [star_zero, mul_zero, zero_mul]
+
+variable (Γ : Subgroup ((Sset).unit K))
+variable (hΓ : Γ ≤ (powMonoidHom 6 : (Sset).unit K →* (Sset).unit K).range)
+
+/-- The actual primitive multiplicative row on the original Γ sectors. -/
+def primitiveOrbitCoefficient (B : PrimeBlock K Sset)
+    (t : HeightOneSpectrum (𝓞 K) → ZMod 6) : SIntegerOrbits K Sset Γ → ℂ :=
+  sIntegerPeriodicOrbitWeight K Sset Γ (primitiveModulus K S D B t)
+    (primitiveCoefficient K S D B t) (primitiveCoefficient_invariant K S D Γ hΓ B t)
+
+@[simp] theorem primitiveOrbitCoefficient_mk (B : PrimeBlock K Sset)
+    (t : HeightOneSpectrum (𝓞 K) → ZMod 6) (a : NonzeroRingElements OS) :
+    primitiveOrbitCoefficient K S D Γ hΓ B t (Quotient.mk _ a) =
+      primitiveCoefficient K S D B t (Ideal.Quotient.mk _ a.val) := rfl
+
+/-- The actual transformed row is the conjugate primitive row, with the
+literal divisor character and the actual CRT Gauss factor retained. -/
+theorem primitiveFourierOrbitWeight_eq (B : PrimeBlock K Sset)
+    (t : HeightOneSpectrum (𝓞 K) → ZMod 6) (d : OS)
+    (q : SIntegerOrbits K Sset Γ) :
+    sIntegerPeriodicFourierOrbitWeight K Sset D.different_outside Γ
+      (primitiveModulus K S D B t) (primitiveModulus_ne_zero K S D B t)
+      (primitiveCoefficient K S D B t) (primitiveCoefficient_invariant K S D Γ hΓ B t)
+      d q =
+    primitiveCoefficient K S D B t (Ideal.Quotient.mk _ d) * primitiveGauss K S D B t *
+      star (primitiveOrbitCoefficient K S D Γ hΓ B t q) := by
+  refine Quotient.inductionOn q (fun a => ?_)
+  rw [sIntegerPeriodicFourierOrbitWeight_mk, primitiveOrbitCoefficient_mk,
+    divisor_fourier]
+  ring
+
+variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
+  [BorelSpace (sLocalNormOneGroup K Sset)] [Γ.FiniteIndex]
+
+/-- The complete Fourier orbital series has the actual inverse row.
+This identity is valid at every positive radius and every divisor,
+including those meeting the active conductor. -/
+theorem fourier_orbital_series_eq_inverse (B : PrimeBlock K Sset)
+    (t : HeightOneSpectrum (𝓞 K) → ZMod 6) (d : OS)
+    (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ)
+    (ψ : ((v : Sset) → v.val.adicCompletion K) → ℂ)
+    (r : {r : ℝ // 0 < r}) :
+    HeckeGeneral.Analysis.sIntegerWeightedOrbitalSeries K S Γ φ ψ r
+      (sIntegerPeriodicFourierOrbitWeight K Sset D.different_outside Γ
+        (primitiveModulus K S D B t) (primitiveModulus_ne_zero K S D B t)
+        (primitiveCoefficient K S D B t) (primitiveCoefficient_invariant K S D Γ hΓ B t) d) =
+    primitiveCoefficient K S D B t (Ideal.Quotient.mk _ d) * primitiveGauss K S D B t *
+      HeckeGeneral.Analysis.sIntegerWeightedOrbitalSeries K S Γ φ ψ r
+        (fun q => star (primitiveOrbitCoefficient K S D Γ hΓ B t q)) := by
+  unfold HeckeGeneral.Analysis.sIntegerWeightedOrbitalSeries
+  simp_rw [primitiveFourierOrbitWeight_eq, mul_assoc]
+  rw [tsum_mul_left, tsum_mul_left]
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier

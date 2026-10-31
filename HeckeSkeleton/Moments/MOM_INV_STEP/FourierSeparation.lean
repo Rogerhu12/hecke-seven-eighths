@@ -19,7 +19,7 @@ noncomputable section
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel
 
 open MeasureTheory
-open scoped Classical BigOperators FourierTransform
+open scoped Classical BigOperators FourierTransform NNReal
 
 abbrev LogPlane := WithLp 2 (ℝ × ℝ)
 
@@ -40,18 +40,24 @@ theorem phase_product (ξ p : LogPlane) :
   rw [WithLp.prod_inner_apply, AddChar.map_add_eq_mul]
   rfl
 
+theorem continuous_columnPhase (x : ℝ) : Continuous (fun ξ : ℝ => columnPhase ξ x) := by
+  simp only [columnPhase, Real.fourierChar_apply]
+  fun_prop
+
 /-- The separated Fourier integrand is integrable, not merely a
-totalized integral.  Its absolute value is the Fourier coefficient's
-absolute value at every frequency. -/
+ totalized integral. Its norm is the Fourier density norm. -/
 theorem integrable_separated (F : SchwartzMap LogPlane ℂ) (p : LogPlane) :
     Integrable (fun ξ : LogPlane =>
       (𝓕 F) ξ * columnPhase ξ.fst p.fst * columnPhase ξ.snd p.snd) := by
-  have hi : Integrable (fun ξ : LogPlane =>
-      (Real.fourierChar (inner ℝ ξ p) : ℂ) * (𝓕 F) ξ) := by
-    simpa only [inner_neg_right, neg_neg, Circle.smul_def, smul_eq_mul] using
-      (Real.fourierIntegral_convergent_iff (-p)).mpr (𝓕 F).integrable
-  apply hi.congr
-  exact Filter.Eventually.of_forall fun ξ => by rw [phase_product]; ring
+  have hleft : Continuous (fun ξ : LogPlane => columnPhase ξ.fst p.fst) :=
+    (continuous_columnPhase p.fst).comp logCoordinates.continuous.fst
+  have hright : Continuous (fun ξ : LogPlane => columnPhase ξ.snd p.snd) :=
+    (continuous_columnPhase p.snd).comp logCoordinates.continuous.snd
+  have hd : Integrable (fun ξ : LogPlane => ‖(𝓕 F) ξ‖) :=
+    ((𝓕 F).integrable (μ := (volume : Measure LogPlane))).norm
+  apply hd.mono' (((𝓕 F).continuous.mul hleft).mul hright).aestronglyMeasurable
+  exact Filter.Eventually.of_forall fun ξ => by
+    simp only [norm_mul, norm_columnPhase, mul_one]
 
 theorem norm_separated_integrand (F : SchwartzMap LogPlane ℂ) (ξ p : LogPlane) :
     ‖(𝓕 F) ξ * columnPhase ξ.fst p.fst * columnPhase ξ.snd p.snd‖ = ‖(𝓕 F) ξ‖ := by
@@ -94,14 +100,10 @@ theorem exists_spectralMass_seminorm_bound :
   simpa only [SchwartzMap.norm_toLp_one, spectralMass] using hF
 
 private theorem continuous_finite_seminorm (s : Finset (ℕ × ℕ)) :
-    Continuous (s.sup (schwartzSeminormFamily ℝ LogPlane ℂ)) := by
-  induction s using Finset.induction_on with
-  | empty =>
-      change Continuous (fun _ : SchwartzMap LogPlane ℂ => (0 : ℝ))
-      exact continuous_const
-  | @insert i s hi ih =>
-      simpa only [Finset.sup_insert, Seminorm.sup_apply] using
-        ((schwartz_withSeminorms ℝ LogPlane ℂ).continuous_seminorm i).max ih
+    Continuous (fun F : SchwartzMap LogPlane ℂ =>
+      s.sup (schwartzSeminormFamily ℝ LogPlane ℂ) F) :=
+  Seminorm.continuous_finsetSup (fun i _hi =>
+    (schwartz_withSeminorms ℝ LogPlane ℂ).continuous_seminorm i)
 
 /-- A common inverse-power Fourier envelope, with finite input
 seminorms chosen before the Schwartz function and the frequency. -/
@@ -131,16 +133,32 @@ theorem schwartz_separated (F : SchwartzMap LogPlane ℂ) (p : LogPlane) :
     F p = ∫ ξ : LogPlane,
       (𝓕 F) ξ * columnPhase ξ.fst p.fst * columnPhase ξ.snd p.snd := by
   have hinv := congrArg (fun g : SchwartzMap LogPlane ℂ => g p)
-    (FourierTransform.fourierInv_fourier_eq F)
+    (FourierTransform.fourierInv_fourier_eq (F := SchwartzMap LogPlane ℂ) F)
   symm
   calc
     _ = ∫ ξ : LogPlane, (Real.fourierChar (inner ℝ ξ p) : ℂ) * (𝓕 F) ξ := by
       apply integral_congr_ae
       exact Filter.Eventually.of_forall fun ξ => by rw [phase_product]; ring
     _ = (𝓕⁻ (𝓕 F) : SchwartzMap LogPlane ℂ) p := by
-      rw [SchwartzMap.fourierInv_coe, Real.fourierInv_eq]
-      simp only [Circle.smul_def, smul_eq_mul]
+      rw [SchwartzMap.fourierInv_coe, Real.fourierInv_eq']
+      simp only [Real.fourierChar_apply, smul_eq_mul]
     _ = F p := hinv
+
+private theorem finite_bilinear_factor {ι κ : Type*} (T : Finset ι) (U : Finset κ)
+    (a p : ι → ℂ) (b q : κ → ℂ) (c : ℂ) :
+    (∑ i ∈ T, ∑ j ∈ U, a i * b j * (c * p i * q j)) =
+      c * (∑ i ∈ T, a i * p i) * (∑ j ∈ U, b j * q j) := by
+  calc
+    _ = ∑ i ∈ T, (a i * p i) * (∑ j ∈ U, b j * q j) * c := by
+      apply Finset.sum_congr rfl
+      intro i _hi
+      simp only [Finset.mul_sum, Finset.sum_mul]
+      apply Finset.sum_congr rfl
+      intro j _hj
+      ring
+    _ = (∑ i ∈ T, a i * p i) * (∑ j ∈ U, b j * q j) * c := by
+      rw [Finset.sum_mul, Finset.sum_mul]
+    _ = _ := by ring
 
 /-- Exact finite bilinear separation.  Both finite sums remain inside
 the same Fourier integral, so the kernel is shared before Cauchy--Schwarz. -/
@@ -159,13 +177,8 @@ theorem finite_bilinear_separated {ι κ : Type*} (T : Finset ι) (U : Finset κ
       (∑ i ∈ T, ∑ j ∈ U, g i j ξ) =
         (𝓕 F) ξ * (∑ i ∈ T, a i * columnPhase ξ.fst (x i)) *
           (∑ j ∈ U, b j * columnPhase ξ.snd (y j)) := by
-    simp only [Finset.mul_sum, Finset.sum_mul]
-    apply Finset.sum_congr rfl
-    intro i _hi
-    apply Finset.sum_congr rfl
-    intro j _hj
-    dsimp only [g]
-    ring
+    exact finite_bilinear_factor T U a (fun i => columnPhase ξ.fst (x i))
+      b (fun j => columnPhase ξ.snd (y j)) ((𝓕 F) ξ)
   calc
     _ = ∑ i ∈ T, ∑ j ∈ U, ∫ ξ : LogPlane, g i j ξ := by
       apply Finset.sum_congr rfl
@@ -193,12 +206,8 @@ theorem integrable_finite_bilinear {ι κ : Type*} (T : Finset ι) (U : Finset �
       (integrable_separated F (logPoint (x i) (y j))).const_mul (a i * b j)))
   apply hi.congr
   exact Filter.Eventually.of_forall fun ξ => by
-    simp only [Finset.mul_sum, Finset.sum_mul]
-    apply Finset.sum_congr rfl
-    intro i _hi
-    apply Finset.sum_congr rfl
-    intro j _hj
-    ring
+    exact finite_bilinear_factor T U a (fun i => columnPhase ξ.fst (x i))
+      b (fun j => columnPhase ξ.snd (y j)) ((𝓕 F) ξ)
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel
 

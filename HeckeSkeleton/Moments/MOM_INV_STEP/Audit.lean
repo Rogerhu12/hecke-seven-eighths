@@ -12,6 +12,11 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernelBounds
 import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientCycle
 import HeckeSkeleton.Moments.MOM_INV_STEP.SourceLengths
 import HeckeSkeleton.Moments.MOM_INV_STEP.Interface
+import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
+import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalBlock
+import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalIdealRow
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
+import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobius
 
 /-! Recursive kernel-axiom audit for the canonical inverse single-step work. -/
 
@@ -59,3 +64,22 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.Interface
 #print axioms HeckeSkeleton.Moments.MOMInvStep.FixedTripleEnergy.common_mass_after_cauchy
 #print axioms HeckeSkeleton.Moments.MOMInvStep.fixed_triple_energy_step
 #print axioms HeckeSkeleton.Moments.MOMInvStep.canonical_child_geometry
+#print axioms HeckeSkeleton.Moments.MOMInvStep.IntegralEnergy.finite_bilinear_energy
+#print axioms HeckeSkeleton.Moments.MOMInvStep.IntegralEnergy.integral_packet_child_bound
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FixedTripleEnergy.normalizedChildEnergy_eq
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FixedTripleEnergy.childEnergy_bound_of_normalized
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition.first_decomposition
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition.second_decomposition
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition.squarefree_divisor_decomposition
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalBlock.canonicalCubeEnergy_primitive_poisson
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalBlock.inverseCubeEnergy_primitive_poisson
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalBlock.canonicalColumn_first_cycle
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalBlock.inverseColumn_second_cycle
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalIdealRow.prime_generator_product_row
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalIdealRow.row_mask
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalIdealRow.first_pass_after_dual_dilation
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier.primitiveFourierOrbitWeight_eq
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier.fourier_orbital_series_eq_inverse
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FullMobius.full_mobius_expansion
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FullMobius.full_mobius_separated
+#print axioms HeckeSkeleton.Moments.MOMInvStep.FullMobius.full_mobius_energy

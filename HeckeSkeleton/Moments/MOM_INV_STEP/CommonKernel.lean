@@ -74,4 +74,49 @@ theorem orbitalProfile_separated (φ : SchwartzMap V ℂ)
   rw [traceSchwartzEulerIterCLM_zero] at hp
   exact hp.symm.trans he
 
+/-- The literal finite two-column orbital source is separated using
+one common actual Fourier density before either Cauchy--Schwarz step. -/
+theorem finite_orbitalProfile_separated {ι κ : Type*} (T : Finset ι) (U : Finset κ)
+    (φ : SchwartzMap V ℂ) (R : {r : ℝ // 0 < r})
+    (x : ι → {r : ℝ // 0 < r}) (y : κ → {r : ℝ // 0 < r})
+    (a : ι → ℂ) (b : κ → ℂ)
+    (hcut : ∀ i ∈ T, ∀ j ∈ U,
+      χ (logPoint (Real.log (x i).val) (Real.log (y j).val)) = 1) :
+    (∑ i ∈ T, ∑ j ∈ U, a i * b j *
+      sUnitOrbitalProfile K S
+        (sLocalTensorTestFunction K S (traceSchwartzFourier K φ) ψ)
+        ⟨R.val / ((x i).val * (y j).val),
+          div_pos R.property (mul_pos (x i).property (y j).property)⟩) =
+    ∫ ξ : LogPlane, orbitalDensity K S Γ ψ hψ hψsupport χ hχ hχsupport φ R ξ *
+      (∑ i ∈ T, a i * columnPhase ξ.fst (Real.log (x i).val)) *
+      (∑ j ∈ U, b j * columnPhase ξ.snd (Real.log (y j).val)) := by
+  calc
+    _ = ∑ i ∈ T, ∑ j ∈ U, a i * b j *
+        orbitalKernel K S Γ ψ hψ hψsupport χ hχ hχsupport φ R
+          (logPoint (Real.log (x i).val) (Real.log (y j).val)) := by
+      apply Finset.sum_congr rfl
+      intro i hi
+      apply Finset.sum_congr rfl
+      intro j hj
+      rw [orbitalKernel_apply, hcut i hi j hj, one_mul]
+      have hp := sUnitJointRadialProfile_at_logs K S φ ψ R (x i) (y j) 0
+      rw [traceSchwartzEulerIterCLM_zero] at hp
+      exact congrArg (fun z : ℂ => a i * b j * z) hp.symm
+    _ = _ := finite_bilinear_separated T U
+      (orbitalKernel K S Γ ψ hψ hψsupport χ hχ hχsupport φ R)
+      (fun i => Real.log (x i).val) (fun j => Real.log (y j).val) a b
+
+/-- The separated finite source is an honest integrable expression. -/
+theorem integrable_finite_orbitalProfile {ι κ : Type*} (T : Finset ι) (U : Finset κ)
+    (φ : SchwartzMap V ℂ) (R : {r : ℝ // 0 < r})
+    (x : ι → {r : ℝ // 0 < r}) (y : κ → {r : ℝ // 0 < r})
+    (a : ι → ℂ) (b : κ → ℂ) :
+    Integrable (fun ξ : LogPlane =>
+      orbitalDensity K S Γ ψ hψ hψsupport χ hχ hχsupport φ R ξ *
+        (∑ i ∈ T, a i * columnPhase ξ.fst (Real.log (x i).val)) *
+        (∑ j ∈ U, b j * columnPhase ξ.snd (Real.log (y j).val))) :=
+  integrable_finite_bilinear T U
+    (orbitalKernel K S Γ ψ hψ hψsupport χ hχ hχsupport φ R)
+    (fun i => Real.log (x i).val) (fun j => Real.log (y j).val) a b
+
 end HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel

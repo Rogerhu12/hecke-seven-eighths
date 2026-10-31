@@ -797,12 +797,14 @@ theorem childPuncture_radical_norm_le (R : Ideal (𝓞 K)) (γ : OuterTriple K)
   have hrad : R.radical ≠ 0 := by
     intro hz
     apply hR
-    exact le_bot_iff.mp (hz ▸ (Ideal.le_radical : R ≤ R.radical))
+    have hle : R ≤ R.radical := Ideal.le_radical
+    rw [hz] at hle
+    exact le_bot_iff.mp hle
   have hprod : R.radical * (γ.q0 * γ.quotient * γ.residual) ≠ 0 :=
     mul_ne_zero hrad (mul_ne_zero (mul_ne_zero hq ht) hr)
   have heq : (childPuncture R γ).radical =
       (R.radical * (γ.q0 * γ.quotient * γ.residual)).radical := by
-    simp only [childPuncture, Ideal.radical_mul, Ideal.radical_idem]
+    simp only [childPuncture, Ideal.radical_mul, Ideal.radical_inf, Ideal.radical_idem]
   have hd : (childPuncture R γ).radical ∣
       R.radical * (γ.q0 * γ.quotient * γ.residual) := by
     rw [heq]

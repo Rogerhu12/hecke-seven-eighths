@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
 import HeckeSkeleton.Moments.MOM_INV_STEP.CubeLabels
 import HeckeSkeleton.Moments.MOM_INV_STEP.SupportPartition
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
 
 /-!
 # The actual first conductor and the manuscript's ideal labels
@@ -29,6 +30,28 @@ variable (D : ThetaArithmeticData K Sset)
 
 def squarefreeBit (n : ExteriorIdeal K Sset) (p : HeightOneSpectrum (𝓞 K)) : Bool :=
   decide (p.asIdeal ∣ n.val.val)
+
+/-- The local zero/one extraction label is the actual cube-supported
+part of the original ideal, with no separate label-identification input. -/
+theorem aLabel_eq_extracted (n b₁ b₂ : ExteriorIdeal K Sset) :
+    aLabel HeightOneSpectrum.asIdeal (CubeLabels.cubePrimeSupport b₁.val b₂.val)
+      (squarefreeBit K S n) = FirstSourceDecomposition.A n.val b₁.val b₂.val := by
+  rw [CubeLabels.ideal_bit_product]
+  apply congrArg IdealMobiusMask.primeProduct
+  ext p
+  change (p ∈ (FirstSourceDecomposition.primeSupport (b₁.val * b₂.val)).filter
+      (fun p => squarefreeBit K S n p)) ↔
+    p ∈ FirstSourceDecomposition.primeSupport n.val ∩
+      FirstSourceDecomposition.primeSupport (b₁.val * b₂.val)
+  simp only [Finset.mem_filter, Finset.mem_inter, FirstSourceDecomposition.mem_primeSupport,
+    squarefreeBit, decide_eq_true_eq, and_comm]
+
+theorem aLabel_eq_gcd (n b₁ b₂ : ExteriorIdeal K Sset)
+    (hn : Squarefree n.val.val) :
+    aLabel HeightOneSpectrum.asIdeal (CubeLabels.cubePrimeSupport b₁.val b₂.val)
+      (squarefreeBit K S n) = gcd n.val.val (b₁.val.val * b₂.val.val).radical :=
+  (aLabel_eq_extracted K S n b₁ b₂).trans
+    (FirstSourceDecomposition.A_eq_gcd n.val b₁.val b₂.val hn)
 
 /-- The local digit and the actual ideal-product valuation use the same
 exponent, including primes outside the cube support. -/
@@ -161,6 +184,71 @@ theorem cubeRadical_eq_R1_mul_principal (n₁ n₂ b₁ b₂ : ExteriorIdeal K S
     (pairExponent K S n₁ n₂ b₁ b₂)
   simpa only [primitiveIdeal, activeSupport, principalIdeal, principalSupport,
     CubeLabels.R1, cubePrincipalIdeal, pairExponent_eq_cubeMultiplicity] using h
+
+/-- The conductor's left factor is the actual residual obtained by the
+successive gcd extractions from the original source columns. -/
+theorem u₁_eq_residual (n₁ n₂ b₁ b₂ : ExteriorIdeal K Sset) :
+    u₁ K S D n₁ n₂ b₁ b₂ =
+      FirstSourceDecomposition.u n₁.val n₂.val b₁.val b₂.val := by
+  have hs : FirstSourceDecomposition.primeSupport n₁.val ⊆
+      (pairSupport K S D n₁ n₂ b₁ b₂).support := by
+    intro p hp
+    apply (mem_pairSupport K S D n₁ n₂ b₁ b₂ p).mpr
+    exact Or.inr (Or.inr (Or.inl
+      ((FirstSourceDecomposition.mem_primeSupport n₁.val p).mp hp)))
+  have h := FirstSourceDecomposition.residualSupport_eq_leftResidual
+    n₁.val n₂.val b₁.val b₂.val (pairSupport K S D n₁ n₂ b₁ b₂).support hs
+  simpa only [u₁, FirstSourceDecomposition.u, squarefreeBit, CubeLabels.cubeMultiplicity]
+    using congrArg IdealMobiusMask.primeProduct h.symm
+
+theorem u₂_eq_residual (n₁ n₂ b₁ b₂ : ExteriorIdeal K Sset) :
+    u₂ K S D n₁ n₂ b₁ b₂ =
+      FirstSourceDecomposition.u n₂.val n₁.val b₁.val b₂.val := by
+  have hs : FirstSourceDecomposition.primeSupport n₂.val ⊆
+      (pairSupport K S D n₁ n₂ b₁ b₂).support := by
+    intro p hp
+    apply (mem_pairSupport K S D n₁ n₂ b₁ b₂ p).mpr
+    exact Or.inr (Or.inr (Or.inr
+      ((FirstSourceDecomposition.mem_primeSupport n₂.val p).mp hp)))
+  have h := FirstSourceDecomposition.residualSupport_eq_rightResidual
+    n₁.val n₂.val b₁.val b₂.val (pairSupport K S D n₁ n₂ b₁ b₂).support hs
+  simpa only [u₂, FirstSourceDecomposition.u, squarefreeBit, CubeLabels.cubeMultiplicity]
+    using congrArg IdealMobiusMask.primeProduct h.symm
+
+theorem commonResidualIdeal_eq_C (n₁ n₂ b₁ b₂ : ExteriorIdeal K Sset) :
+    commonResidualIdeal K S D n₁ n₂ b₁ b₂ =
+      FirstSourceDecomposition.C n₁.val n₂.val b₁.val b₂.val := by
+  have hs : FirstSourceDecomposition.primeSupport n₁.val ⊆
+      (pairSupport K S D n₁ n₂ b₁ b₂).support := by
+    intro p hp
+    apply (mem_pairSupport K S D n₁ n₂ b₁ b₂ p).mpr
+    exact Or.inr (Or.inr (Or.inl
+      ((FirstSourceDecomposition.mem_primeSupport n₁.val p).mp hp)))
+  have h := FirstSourceDecomposition.commonSupport_eq_commonResidual
+    n₁.val n₂.val b₁.val b₂.val (pairSupport K S D n₁ n₂ b₁ b₂).support hs
+  simpa only [commonResidualIdeal, FirstSourceDecomposition.C, squarefreeBit,
+    CubeLabels.cubeMultiplicity] using congrArg IdealMobiusMask.primeProduct h.symm
+
+/-- The source decomposition and the conductor use exactly the same
+residual and common ideals. Both actual original columns are recovered. -/
+theorem first_source_decomposition (n₁ n₂ b₁ b₂ : ExteriorIdeal K Sset)
+    (hn₁ : Squarefree n₁.val.val) (hn₂ : Squarefree n₂.val.val) :
+    n₁.val.val = FirstSourceDecomposition.A n₁.val b₁.val b₂.val *
+        commonResidualIdeal K S D n₁ n₂ b₁ b₂ * u₁ K S D n₁ n₂ b₁ b₂ ∧
+      n₂.val.val = FirstSourceDecomposition.A n₂.val b₁.val b₂.val *
+        commonResidualIdeal K S D n₁ n₂ b₁ b₂ * u₂ K S D n₁ n₂ b₁ b₂ := by
+  rw [u₁_eq_residual, u₂_eq_residual, commonResidualIdeal_eq_C]
+  exact FirstSourceDecomposition.first_decomposition n₁.val n₂.val b₁.val b₂.val hn₁ hn₂
+
+theorem first_source_coprime (n₁ n₂ b₁ b₂ : ExteriorIdeal K Sset) :
+    IsCoprime (u₁ K S D n₁ n₂ b₁ b₂) (u₂ K S D n₁ n₂ b₁ b₂) ∧
+      IsCoprime (commonResidualIdeal K S D n₁ n₂ b₁ b₂)
+        (u₁ K S D n₁ n₂ b₁ b₂ * u₂ K S D n₁ n₂ b₁ b₂) ∧
+      IsCoprime (commonResidualIdeal K S D n₁ n₂ b₁ b₂ *
+        u₁ K S D n₁ n₂ b₁ b₂ * u₂ K S D n₁ n₂ b₁ b₂)
+        (b₁.val.val * b₂.val.val).radical := by
+  rw [u₁_eq_residual, u₂_eq_residual, commonResidualIdeal_eq_C]
+  exact FirstSourceDecomposition.first_factors_coprime n₁.val n₂.val b₁.val b₂.val
 
 /-- The radius normalization in the actual primitive Poisson block uses
 the norm of precisely the named conductor `u₁u₂R₁`. -/

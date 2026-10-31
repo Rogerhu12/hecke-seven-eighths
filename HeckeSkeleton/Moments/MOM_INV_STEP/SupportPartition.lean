@@ -40,10 +40,11 @@ def cubePrincipal (Q : Finset ι) (v : ι → ℕ) (ε₁ ε₂ : ι → Bool) :
 theorem active_partition (Q : Finset ι) (v : ι → ℕ) (ε₁ ε₂ : ι → Bool) :
     Q.filter (fun p => conductorExponent (parity (v p)) (ε₁ p) (ε₂ p) ≠ 0) =
       (leftResidual Q v ε₁ ε₂ ∪ rightResidual Q v ε₁ ε₂) ∪ cubeActive Q v ε₁ ε₂ := by
+  have hone : (1 : ZMod 6) ≠ 0 := by decide
   ext p
   by_cases hv : v p = 0
   · cases h₁ : ε₁ p <;> cases h₂ : ε₂ p <;>
-      norm_num [leftResidual, rightResidual, cubeActive, hv, h₁, h₂,
+      simp_all [leftResidual, rightResidual, cubeActive,
         conductorExponent, parity, bit]
   · have hp : 0 < v p := Nat.pos_of_ne_zero hv
     simp [leftResidual, rightResidual, cubeActive, hv, hp]
@@ -52,13 +53,13 @@ theorem principal_partition (Q : Finset ι) (v : ι → ℕ) (ε₁ ε₂ : ι �
     (hsupport : ∀ p ∈ Q, 0 < bit (ε₁ p) + bit (ε₂ p) + v p) :
     Q.filter (fun p => conductorExponent (parity (v p)) (ε₁ p) (ε₂ p) = 0) =
       commonResidual Q v ε₁ ε₂ ∪ cubePrincipal Q v ε₁ ε₂ := by
+  have hone : (1 : ZMod 6) ≠ 0 := by decide
   ext p
   by_cases hq : p ∈ Q
   · have hpositive := hsupport p hq
     by_cases hv : v p = 0
     · cases h₁ : ε₁ p <;> cases h₂ : ε₂ p <;>
-        norm_num [commonResidual, cubePrincipal, hv, h₁, h₂,
-          conductorExponent, parity, bit, hq] at hpositive ⊢
+        simp_all [commonResidual, cubePrincipal, conductorExponent, parity, bit]
     · have hp : 0 < v p := Nat.pos_of_ne_zero hv
       simp [commonResidual, cubePrincipal, hv, hp]
   · simp [commonResidual, cubePrincipal, hq]

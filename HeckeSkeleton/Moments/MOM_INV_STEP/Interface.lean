@@ -83,12 +83,16 @@ theorem fixed_triple_energy_step (slotCap : ℕ) (massEps : ℝ) (hmassEps : 0 <
         (Ideal.absNorm x.outer.quotient : ℝ) ≤ tripleNormT Z t eta ∧
         (Ideal.absNorm x.outer.residual : ℝ) ≤ tripleNormR Z g theta eta) →
       ∀ (F G : SecondChild K Sector → ℂ),
-      (∀ γ ∈ P.triples, P.energy F γ ≤
-        Cchild * Z ^ (2 * (max 0 (secondFormalColumn r A B t g v) +
-          secondFormalLabel B theta v j) + eps)) →
-      (∀ γ ∈ P.triples, P.energy G γ ≤
-        Cchild * Z ^ (2 * (max 0 (secondFormalColumn r A B t g v) +
-          secondFormalLabel B theta v j) + eps)) →
+      (∀ γ ∈ P.triples,
+        normalizedChildEnergy Z (max 0 (secondFormalColumn r A B t g v))
+          (secondFormalLabel B theta v j) slotCap P.labels P.rows F γ ≤
+        Cchild * Z ^ (max 0 (secondFormalColumn r A B t g v) +
+          secondFormalLabel B theta v j + eps)) →
+      (∀ γ ∈ P.triples,
+        normalizedChildEnergy Z (max 0 (secondFormalColumn r A B t g v))
+          (secondFormalLabel B theta v j) slotCap P.labels P.rows G γ ≤
+        Cchild * Z ^ (max 0 (secondFormalColumn r A B t g v) +
+          secondFormalLabel B theta v j + eps)) →
       physicalStepScalar Z M r ell V delta A B R j t g theta v eta tau ray *
           ‖P.signedValue F G‖ ≤
         C * Cchild * ‖ray‖ * Z ^ (r + 3 * ell + V + 40 * eta + tau + pi + eps) := by
@@ -110,7 +114,15 @@ theorem fixed_triple_energy_step (slotCap : ℕ) (massEps : ℝ) (hmassEps : 0 <
   let H := Cchild * Z ^ (2 * (max 0 (secondFormalColumn r A B t g v) +
     secondFormalLabel B theta v j) + eps)
   have hH : 0 ≤ H := mul_nonneg hCchild (Real.rpow_nonneg hZpos.le _)
-  have hs := P.signedValue_le F G H hH hF hG
+  have hFraw : ∀ γ ∈ P.triples, P.energy F γ ≤ H := by
+    intro γ hγ
+    exact childEnergy_bound_of_normalized Z _ _ eps Cchild hZpos
+      slotCap P.labels P.rows F γ (hF γ hγ)
+  have hGraw : ∀ γ ∈ P.triples, P.energy G γ ≤ H := by
+    intro γ hγ
+    exact childEnergy_bound_of_normalized Z _ _ eps Cchild hZpos
+      slotCap P.labels P.rows G γ (hG γ hγ)
+  have hs := P.signedValue_le F G H hH hFraw hGraw
   have hscaled := mul_le_mul_of_nonneg_left
     (hs.trans (mul_le_mul_of_nonneg_left hmass' hH))
     (physicalStepScalar_nonneg Z M r ell V delta A B R j t g theta v eta tau hZpos.le ray)

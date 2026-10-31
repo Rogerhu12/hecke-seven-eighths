@@ -67,6 +67,60 @@ theorem childEnergy_nonneg (slotCap : ℕ) (labels : Finset (Ideal (𝓞 K)))
   exact mul_nonneg (labelDivisorWeight_nonneg slotCap f)
     (Finset.sum_nonneg fun _ _ => sq_nonneg _)
 
+/-- The actual column normalization and the one averaged-label
+normalization in the canonical family. -/
+def normalizedChildEnergy (Z N V : ℝ) (slotCap : ℕ)
+    (labels : Finset (Ideal (𝓞 K))) (rows : Finset (Ideal (𝓞 K) × Sector))
+    (F : SecondChild K Sector → ℂ) (γ : OuterTriple K) : ℝ :=
+  Z ^ (-V) * ∑ f ∈ labels, labelDivisorWeight slotCap f *
+    ∑ k ∈ rows, ‖((Z ^ (-N / 2) : ℝ) : ℂ) * F (γ, f, k)‖ ^ 2
+
+theorem normalizedChildEnergy_eq (Z N V : ℝ) (hZ : 0 < Z) (slotCap : ℕ)
+    (labels : Finset (Ideal (𝓞 K))) (rows : Finset (Ideal (𝓞 K) × Sector))
+    (F : SecondChild K Sector → ℂ) (γ : OuterTriple K) :
+    normalizedChildEnergy Z N V slotCap labels rows F γ =
+      Z ^ (-(N + V)) * childEnergy slotCap labels rows F γ := by
+  have hs : ‖((Z ^ (-N / 2) : ℝ) : ℂ)‖ ^ 2 = Z ^ (-N) := by
+    rw [Complex.norm_real, Real.norm_eq_abs, abs_of_pos (Real.rpow_pos_of_pos hZ _),
+      ← Real.rpow_natCast, ← Real.rpow_mul hZ.le]
+    congr 1
+    norm_num
+  have he : (∑ f ∈ labels, labelDivisorWeight slotCap f *
+      ∑ k ∈ rows, ‖((Z ^ (-N / 2) : ℝ) : ℂ) * F (γ, f, k)‖ ^ 2) =
+      Z ^ (-N) * childEnergy slotCap labels rows F γ := by
+    simp only [norm_mul, mul_pow, hs, childEnergy, Finset.mul_sum]
+    apply Finset.sum_congr rfl
+    intro f hf
+    apply Finset.sum_congr rfl
+    intro k hk
+    ring
+  rw [normalizedChildEnergy, he, ← mul_assoc, ← Real.rpow_add hZ]
+  congr 2
+  ring
+
+/-- Restoring the child normalization contributes exactly N+V. -/
+theorem childEnergy_restore (Z N V : ℝ) (hZ : 0 < Z) (slotCap : ℕ)
+    (labels : Finset (Ideal (𝓞 K))) (rows : Finset (Ideal (𝓞 K) × Sector))
+    (F : SecondChild K Sector → ℂ) (γ : OuterTriple K) :
+    childEnergy slotCap labels rows F γ =
+      Z ^ (N + V) * normalizedChildEnergy Z N V slotCap labels rows F γ := by
+  rw [normalizedChildEnergy_eq Z N V hZ, ← mul_assoc, ← Real.rpow_add hZ,
+    add_neg_cancel, Real.rpow_zero, one_mul]
+
+/-- The induction hypothesis is on the normalized canonical energy.
+The raw positive reconstruction therefore has exponent 2(N+V)+ε. -/
+theorem childEnergy_bound_of_normalized (Z N V eps C : ℝ) (hZ : 0 < Z)
+    (slotCap : ℕ) (labels : Finset (Ideal (𝓞 K)))
+    (rows : Finset (Ideal (𝓞 K) × Sector))
+    (F : SecondChild K Sector → ℂ) (γ : OuterTriple K)
+    (h : normalizedChildEnergy Z N V slotCap labels rows F γ ≤ C * Z ^ (N + V + eps)) :
+    childEnergy slotCap labels rows F γ ≤ C * Z ^ (2 * (N + V) + eps) := by
+  rw [childEnergy_restore Z N V hZ]
+  apply (mul_le_mul_of_nonneg_left h (Real.rpow_nonneg hZ.le _)).trans_eq
+  calc
+    Z ^ (N + V) * (C * Z ^ (N + V + eps)) = C * (Z ^ (N + V) * Z ^ (N + V + eps)) := by ring
+    _ = _ := rw [← Real.rpow_add hZ]; congr 2 <;> ring
+
 variable (sectorTransport : Ideal (𝓞 K) → Ideal (𝓞 K) → (Sector ≃ Sector))
 
 theorem secondChild_eq_iff_valid {Jo Jn : ℕ} (x : SecondTuple K Sector Jo Jn)

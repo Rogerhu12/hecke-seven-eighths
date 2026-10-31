@@ -149,7 +149,8 @@ theorem idealRow_eq_product (B : PrimeBlock K S) (I : Ideal (𝓞 K)) (hI : I �
     fun p => ⟨p.val, hcover p.val p.property⟩
   have he : Function.Injective e := by
     intro p q hpq
-    exact Subtype.ext (congrArg Subtype.val hpq)
+    apply Subtype.ext
+    exact congrArg (fun x : B.support => x.val) hpq
   unfold idealRow sIntegerSexticIdealEvaluation
   apply Fintype.prod_of_injective e he
   · intro p hp
@@ -180,12 +181,12 @@ theorem actual_ideal_mul_denominator (I J : Ideal (𝓞 K)) (hI : I ≠ 0) (hJ :
       intro p hp
       apply hS p
       apply p.prime.dvd_mul.mp
-      exact (Set.Finite.mem_toFinset _).mp hp
+      simpa only [Set.Finite.mem_toFinset, mem_idealPrimeDivisors] using hp
     awaySix := by
       intro p hp
       apply h6 p
       apply p.prime.dvd_mul.mp
-      exact (Set.Finite.mem_toFinset _).mp hp }
+      simpa only [Set.Finite.mem_toFinset, mem_idealPrimeDivisors] using hp }
   have hc : Covers K S B (I * J) := by
     intro p hp
     exact (Set.Finite.mem_toFinset _).mpr hp
@@ -258,7 +259,8 @@ theorem actual_pair_source_split
       sexticResidueCharacter K ζ hζ σ p.val (B.awaySix p.val p.property) ^ 6 = 1 := by
     rw [← sexticResidueCharacter_order K ζ hζ σ p.val (B.awaySix p.val p.property)]
     exact pow_orderOf_eq_one _
-  simpa only [Finset.mem_univ, true_and] using finite_source_split Finset.univ
+  simpa only [row, sIntegerSexticEvaluation, Finset.mem_univ, true_and] using
+    finite_source_split Finset.univ
     (fun p : B.support => sexticResidueCharacter K ζ hζ σ p.val (B.awaySix p.val p.property))
     h6 ε₁ ε₂ (fun p => idealPrimeMultiplicity K p.val b₁)
     (fun p => idealPrimeMultiplicity K p.val b₂) (fun p _ => hsupport p)
