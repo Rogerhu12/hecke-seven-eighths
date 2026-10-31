@@ -140,10 +140,12 @@ theorem FiniteWitnessChoice.cover_of_local_spikes (F : FiniteWitnessChoice K S �
   · intro u hu
     obtain ⟨hu', hj⟩ := (F.subdivision_mem rows g amp a₀ c U Z t j u).mp hu
     have h := (hspike u hu').1
-    simpa only [hj] using h
+    simpa only [hj, FiniteWitnessChoice.amplitudeSet, FiniteWitnessChoice.recipeOn,
+      WitnessRecipe.toWitness, WitnessRecipe.data] using h
   · intro u hu
     obtain ⟨hu', hj⟩ := (F.subdivision_mem rows g amp a₀ c U Z t j u).mp hu
     have h := (hspike u hu').2
-    simpa only [hj] using h
+    simpa only [hj, FiniteWitnessChoice.amplitudeSet, FiniteWitnessChoice.recipeOn,
+      WitnessRecipe.toWitness, WitnessRecipe.data] using h
 
 end HeckeGeneral.Analysis.ExpansionRecipe

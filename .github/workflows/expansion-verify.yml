@@ -57,6 +57,11 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p expansion-verification
+          if [ '${{ matrix.group }}' = actual ]; then
+            git rev-parse HEAD > expansion-verification/source-commit.txt
+            git archive --format=tar HEAD Expansion ExpansionDetector ExpansionInterfaces HeckeGeneral HeckeSkeleton SkeletonInputs PrimeCancellation cloud_tasks scripts lean-toolchain lakefile.toml lake-manifest.json | gzip -n > expansion-verification/sources.tar.gz
+            sha256sum expansion-verification/sources.tar.gz > expansion-verification/sources.sha256
+          fi
           lean --version | tee expansion-verification/environment.log
           if [ '${{ matrix.group }}' = pure ]; then
             python3 scripts/expansion_verify.py --group pure

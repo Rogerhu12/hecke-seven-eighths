@@ -17,7 +17,7 @@ noncomputable section
 namespace Expansion.Project
 
 open NumberField IsDedekindDomain Set Metric
-open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis HeckeGeneral.Bridge
 open HeckeSkeleton.HeckeUniformStripGrowth HeckeSkeleton.HeckeBufferedReciprocal
 open HeckeSkeleton.ExplicitHeckeFunctionalEquation
 open HeckeSkeleton.ActualEulerLogarithm ExpansionDetector.Hecke

@@ -83,7 +83,11 @@ theorem canonicalDetector_conductor (i : Fin 2) (u : FrequencyRow K S)
   have hM : 0 ≤ M := by dsimp [M]; positivity
   have hA : 0 ≤ A := by dsimp [A]; positivity
   have hb : 0 ≤ b := Nat.cast_nonneg _
-  have hbM : b ≤ M := Finset.single_le_sum (fun _ _ => Nat.cast_nonneg _) (Finset.mem_univ i)
+  have hbM : b ≤ M := by
+    dsimp only [b, M]
+    apply Finset.single_le_sum _ (Finset.mem_univ i)
+    intro j _hj
+    exact Nat.cast_nonneg _
   have hrow : heckeConductorScale K (E.rows.character u) ≤ A * (2 * U) :=
     (row_conductorScale_le_original_norm K S P E u).trans
       (mul_le_mul_of_nonneg_left hu hA)

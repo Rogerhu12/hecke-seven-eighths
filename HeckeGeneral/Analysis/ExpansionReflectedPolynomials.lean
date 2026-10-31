@@ -214,7 +214,7 @@ theorem exists_actual_reflected_annular_upper
     · simp only [Complex.add_re, vertical_re]
       ring
     · simp only [Complex.add_im, vertical_im]
-      exact (abs_add_le _ _).trans (add_le_add_left ht _)
+      exact (abs_add_le _ _).trans (add_le_add le_rfl ht)
   have hsum : Summable (fun J => ‖deletedAnnularCoefficient K false χ E J‖ *
       idealNorm K J ^ (-(s.re + (2 - s.re)))) := by
     simpa only [show s.re + (2 - s.re) = (2 : ℝ) by ring] using
@@ -249,6 +249,6 @@ theorem exists_actual_reflected_annular_upper
     (div_nonneg hCW (pow_nonneg hH.le order))
   have hwidth : (2 - s.re) - (1 - a - 6 * e - s.re) = 1 + a + 6 * e := by ring
   rw [hwidth]
-  exact add_le_add_left htail _
+  exact add_le_add le_rfl htail
 
 end HeckeGeneral.Analysis.ExpansionReflectedPolynomials

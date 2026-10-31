@@ -22,8 +22,10 @@ def finiteIdealNormWindow (B : ℝ) : Finset (NonzeroIdeal K) :=
 
 theorem mem_finiteIdealNormWindow_of_le (B : ℝ) (I : NonzeroIdeal K)
     (hI : idealNorm K I ≤ B) : I ∈ finiteIdealNormWindow K B := by
-  simp only [finiteIdealNormWindow, Finset.mem_preimage, Set.Finite.mem_toFinset,
-    Set.mem_setOf_eq]
+  unfold finiteIdealNormWindow
+  apply Finset.mem_preimage.mpr
+  apply (Set.Finite.mem_toFinset _).mpr
+  change Ideal.absNorm I.val ≤ ⌈B⌉₊
   have h : (Ideal.absNorm I.val : ℝ) ≤ (⌈B⌉₊ : ℝ) := hI.trans (Nat.le_ceil B)
   exact_mod_cast h
 

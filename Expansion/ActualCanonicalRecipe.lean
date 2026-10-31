@@ -78,8 +78,8 @@ theorem canonicalRecipeWitness_inverseDetectorPolynomial
     (hV : ContDiff ℝ ∞ V) (U t : ℝ) (j k : ℕ) (i : Fin 2)
     (β ν : NonzeroIdeal K → ℝ) (u : FrequencyRow K S)
     (hU : 1 < U) (hj : j ≤ dyadicCap (3 * U ^ (21 : ℕ))) :
-    (canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν).
-        inverseDetectorPolynomial (R := E.rows) t U u =
+    (canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν).inverseDetectorPolynomial
+        (R := E.rows) t U u =
       inverseDetectorValue K (canonicalDetectorCharacter K ψ S P E i u)
         (originalDeletedPrimes K S u.ideal.val) V (U ^ t) U j (β u.ideal.val) (ν u.ideal.val) := by
   have hscale : (2 : ℝ) ^ j ≤ 6 * U ^ (21 : ℕ) :=
@@ -99,8 +99,8 @@ frequency as the inverse factor, with its own dyadic length. -/
 theorem canonicalRecipeWitness_plainDetectorPolynomial
     (U : ℝ) (j k : ℕ) (i : Fin 2) (β ν : NonzeroIdeal K → ℝ)
     (u : FrequencyRow K S) (hU : 1 < U) (hk : k ≤ dyadicCap (3 * U ^ (21 : ℕ))) :
-    (canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν).
-        plainDetectorPolynomial (R := E.rows) U u =
+    (canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν).plainDetectorPolynomial
+        (R := E.rows) U u =
       plainDetectorValue K (canonicalDetectorCharacter K ψ S P E i u)
         (originalDeletedPrimes K S u.ideal.val) U k (β u.ideal.val) (ν u.ideal.val) := by
   have hscale : (2 : ℝ) ^ k ≤ 6 * U ^ (21 : ℕ) :=
@@ -122,8 +122,8 @@ theorem canonicalRecipeWitness_inverseValue
     (rows : Finset (FrequencyRow K S)) (p : Fin 3 → ℝ)
     (U t T : ℝ) (j k : ℕ) (i : Fin 2) (β ν : NonzeroIdeal K → ℝ)
     (u : FrequencyRow K S) (hU : 1 < U) (hj : j ≤ dyadicCap (3 * U ^ (21 : ℕ))) :
-    ((canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν).
-        toWitness (P := P) (R := E.rows) (ω := ω) rows p t T U).inverseValue u =
+    ((canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν).toWitness
+        (P := P) (R := E.rows) (ω := ω) rows p t T U).inverseValue u =
       inverseDetectorValue K (canonicalDetectorCharacter K ψ S P E i u)
         (originalDeletedPrimes K S u.ideal.val) V (U ^ t) U j (β u.ideal.val) (ν u.ideal.val) := by
   let w := canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν
@@ -139,8 +139,8 @@ theorem canonicalRecipeWitness_plainValue
     (ω : HeckeCharacter K) (rows : Finset (FrequencyRow K S)) (p : Fin 3 → ℝ)
     (U t T : ℝ) (j k : ℕ) (i : Fin 2) (β ν : NonzeroIdeal K → ℝ)
     (u : FrequencyRow K S) (hU : 1 < U) (hk : k ≤ dyadicCap (3 * U ^ (21 : ℕ))) :
-    ((canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν).
-        toWitness (P := P) (R := E.rows) (ω := ω) rows p t T U).plainValue u =
+    ((canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν).toWitness
+        (P := P) (R := E.rows) (ω := ω) rows p t T U).plainValue u =
       plainDetectorValue K (canonicalDetectorCharacter K ψ S P E i u)
         (originalDeletedPrimes K S u.ideal.val) U k (β u.ideal.val) (ν u.ideal.val) := by
   let w := canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν
@@ -176,15 +176,15 @@ theorem scaledCanonicalRecipeWitness_inverseDetectorPolynomial
     (C : ℝ) (hC : 0 < C) (hV : ContDiff ℝ ∞ V)
     (U t : ℝ) (j k : ℕ) (i : Fin 2) (β ν : NonzeroIdeal K → ℝ)
     (u : FrequencyRow K S) (hU : 1 < U) (hj : j ≤ dyadicCap (3 * U ^ (21 : ℕ))) :
-    (scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν).
-        inverseDetectorPolynomial (R := E.rows) t U u =
+    (scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν).inverseDetectorPolynomial
+        (R := E.rows) t U u =
       inverseDetectorValue K (canonicalDetectorCharacter K ψ S P E i u)
         (originalDeletedPrimes K S u.ideal.val) V (U ^ t) U j (β u.ideal.val) (ν u.ideal.val) := by
   have heq :
-      (scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν).
-          inverseDetectorPolynomial (R := E.rows) t U u =
-      (canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν).
-          inverseDetectorPolynomial (R := E.rows) t U u := by
+      (scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν).inverseDetectorPolynomial
+          (R := E.rows) t U u =
+      (canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν).inverseDetectorPolynomial
+          (R := E.rows) t U u := by
     simp only [RecipeWitnessData.inverseDetectorPolynomial, scaledCanonicalRecipeWitness,
       scaledCanonicalRecipeFamily, canonicalRecipeWitness, canonicalRecipeFamily,
       coordinateZeroParameters_zero,
@@ -197,15 +197,15 @@ theorem scaledCanonicalRecipeWitness_plainDetectorPolynomial
     (C : ℝ) (hC : 0 < C) (U : ℝ) (j k : ℕ) (i : Fin 2)
     (β ν : NonzeroIdeal K → ℝ) (u : FrequencyRow K S)
     (hU : 1 < U) (hk : k ≤ dyadicCap (3 * U ^ (21 : ℕ))) :
-    (scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν).
-        plainDetectorPolynomial (R := E.rows) U u =
+    (scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν).plainDetectorPolynomial
+        (R := E.rows) U u =
       plainDetectorValue K (canonicalDetectorCharacter K ψ S P E i u)
         (originalDeletedPrimes K S u.ideal.val) U k (β u.ideal.val) (ν u.ideal.val) := by
   have heq :
-      (scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν).
-          plainDetectorPolynomial (R := E.rows) U u =
-      (canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν).
-          plainDetectorPolynomial (R := E.rows) U u := by
+      (scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν).plainDetectorPolynomial
+          (R := E.rows) U u =
+      (canonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient U j k i β ν).plainDetectorPolynomial
+          (R := E.rows) U u := by
     simp only [RecipeWitnessData.plainDetectorPolynomial, scaledCanonicalRecipeWitness,
       scaledCanonicalRecipeFamily, canonicalRecipeWitness, canonicalRecipeFamily,
       coordinateZeroParameters_zero,
@@ -219,8 +219,8 @@ theorem scaledCanonicalRecipeWitness_inverseValue
     (rows : Finset (FrequencyRow K S)) (p : Fin 3 → ℝ)
     (U t T : ℝ) (j k : ℕ) (i : Fin 2) (β ν : NonzeroIdeal K → ℝ)
     (u : FrequencyRow K S) (hU : 1 < U) (hj : j ≤ dyadicCap (3 * U ^ (21 : ℕ))) :
-    ((scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν).
-        toWitness (P := P) (R := E.rows) (ω := ω) rows p t T U).inverseValue u =
+    ((scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν).toWitness
+        (P := P) (R := E.rows) (ω := ω) rows p t T U).inverseValue u =
       inverseDetectorValue K (canonicalDetectorCharacter K ψ S P E i u)
         (originalDeletedPrimes K S u.ideal.val) V (U ^ t) U j (β u.ideal.val) (ν u.ideal.val) := by
   let w := scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν
@@ -237,8 +237,8 @@ theorem scaledCanonicalRecipeWitness_plainValue
     (rows : Finset (FrequencyRow K S)) (p : Fin 3 → ℝ)
     (U t T : ℝ) (j k : ℕ) (i : Fin 2) (β ν : NonzeroIdeal K → ℝ)
     (u : FrequencyRow K S) (hU : 1 < U) (hk : k ≤ dyadicCap (3 * U ^ (21 : ℕ))) :
-    ((scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν).
-        toWitness (P := P) (R := E.rows) (ω := ω) rows p t T U).plainValue u =
+    ((scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν).toWitness
+        (P := P) (R := E.rows) (ω := ω) rows p t T U).plainValue u =
       plainDetectorValue K (canonicalDetectorCharacter K ψ S P E i u)
         (originalDeletedPrimes K S u.ideal.val) U k (β u.ideal.val) (ν u.ideal.val) := by
   let w := scaledCanonicalRecipeWitness K ψ g V slotTime slotPower slotCoefficient C U j k i β ν

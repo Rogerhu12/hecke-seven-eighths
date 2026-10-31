@@ -198,10 +198,15 @@ theorem RecipeWitnessData.selectedSlotProduct {F : RecipeFamily K ψ g}
     slotProduct (((w.model (P := P) (R := R) (ω := ω) p t T (Z ^ d) s).changeSlotBase
       d hd).restrictSlots J) u (Z ^ d) 0 =
         ∏ j ∈ J, primePolynomial (F.slotModel K S P R ω ψ g p s) j u Z 0 := by
-  rw [selectedSlotProduct_changeSlotBase _ d hd J u hZ 0]
-  apply Finset.prod_congr rfl
-  intro j _hj
-  exact w.primePolynomial_model (P := P) (R := R) (ω := ω) p t T (Z ^ d) s j u Z 0
+  calc
+    _ = ∏ j ∈ J,
+        primePolynomial (w.model (P := P) (R := R) (ω := ω) p t T (Z ^ d) s) j u Z 0 :=
+      selectedSlotProduct_changeSlotBase
+        (w.model (P := P) (R := R) (ω := ω) p t T (Z ^ d) s) d hd J u hZ 0
+    _ = _ := by
+      apply Finset.prod_congr rfl
+      intro j _hj
+      exact w.primePolynomial_model (P := P) (R := R) (ω := ω) p t T (Z ^ d) s j u Z 0
 
 def RecipeWitnessData.toWitness {F : RecipeFamily K ψ g}
     (w : RecipeWitnessData K ψ g F) (rows : Finset (FrequencyRow K S))

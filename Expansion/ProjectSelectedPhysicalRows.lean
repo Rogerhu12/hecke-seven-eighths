@@ -40,7 +40,8 @@ variable {B e : ℝ} (hB0 : (51 / 100 : ℝ) ≤ B) (hB : B ≤ 1) (he : 0 < e)
 variable (hbound : ∀ χ r, r ∈ heckePacketZeros K ω χ →
   1 / 2 ≤ r → r ≤ 1 → r ≤ B)
 
-theorem exists_rowBufferIndex (T : ℝ) (u : FrequencyRow K S) :
+include ω hψ hΘ hB0 hB he hbound in
+ theorem exists_rowBufferIndex (T : ℝ) (u : FrequencyRow K S) :
     ∃ b : RowBufferIndex B e, RowBufferGood K S ψ Θ P E B e T u b := by
   obtain ⟨i, k, hi, hi', hk, ha, ha', hz, hb⟩ :=
     exists_actual_row_buffer_of_packet K S ψ Θ P E hψ hΘ hB0 hB he hbound u
