@@ -148,7 +148,7 @@ theorem actualInitialProductRows_absolute (P : ProbeData K Sset)
   constructor
   · intro u
     apply (heightEquiv_preserving.integrable_comp_emb heightEquiv.measurableEmbedding).mp
-    simpa only [actualInitialProductKernel_heightEquiv] using hi u
+    simpa only [Function.comp_def, actualInitialProductKernel_heightEquiv] using hi u
   · apply hs.congr
     intro u
     simpa only [actualInitialProductKernel_heightEquiv] using
