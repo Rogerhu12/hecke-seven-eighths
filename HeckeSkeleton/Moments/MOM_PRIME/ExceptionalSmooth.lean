@@ -27,7 +27,10 @@ theorem contDiff_normPowerWeight (W : ℝ → ℂ) (a b : ℝ)
   by_cases hx : 0 < x
   · have hlog : ContDiffAt ℝ ∞ (fun y : ℝ => (Real.log y : ℂ)) x :=
       Complex.ofRealCLM.contDiff.contDiffAt.comp x (Real.contDiffAt_log.mpr hx.ne')
-    have hexp := ((hlog.mul_const (Complex.I * t)).cexp).mul hW.contDiffAt
+    have hproduct : ContDiffAt ℝ ∞
+        (fun y : ℝ => (Real.log y : ℂ) * (Complex.I * t)) x :=
+      hlog.mul contDiffAt_const
+    have hexp := hproduct.cexp.mul hW.contDiffAt
     apply hexp.congr_of_eventuallyEq
     filter_upwards [isOpen_Ioi.mem_nhds hx] with y hy
     rw [Complex.cpow_def_of_ne_zero (Complex.ofReal_ne_zero.mpr (ne_of_gt hy)),
