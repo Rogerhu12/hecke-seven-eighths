@@ -157,6 +157,13 @@ Euler provider is `HeckeSkeleton.HighBinActualEuler.arithmeticHighEulerData`.
 Finite tables are built in the repository's `FiniteEulerRational` type;
 their Gauss coefficients retain ramified zeros and whole-index markings.
 
+## Completed native Fourier verification
+
+At `3ad1caba21b7b403f3d5b2bc469445a96a4847b0`, all **8 actual Fourier modules and 160 public declarations passed** their separate-module native build and complete public axiom audit. The exact source hashes match the current unchanged Lean sources. The downloaded artifact has SHA256 `6cd07e0ae2d19af4946f20cca42f79d324a0e630d63a7a7be0683ce739038fbd`; its beyond-standard-axiom map is empty. Every declaration uses only `propext`, `Classical.choice`, and `Quot.sound` or a subset. The complete map and source bindings are in [verified_fourier_axioms.json](verified_fourier_axioms.json).
+
+Run: https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41167448380
+Job: `124437967704`; artifact: `13029696752`. Core passed again in the same run. This completed result supersedes the earlier pending Fourier checkpoints above. The expanded Mellin and complete actual audits, and the four original HIGHBIN obligations, remain incomplete.
+
 ## Verification protocol
 
 Run:

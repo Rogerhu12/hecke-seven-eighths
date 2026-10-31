@@ -1,0 +1,825 @@
+{
+  "group": "fourier",
+  "declarations": {
+    "HeckeSkeleton.HighBinActualGenerators.exteriorPower": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualGenerators.exteriorPower_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualGenerators.exteriorPower_succ": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualGenerators.generator_power_eq_sixth_unit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualGenerators.idealSymbol_sixth_power_of_coprime": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualGenerators.idealSymbol_local_sixth_invariant": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualSymbols.primeValue": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualSymbols.idealSymbol_eq_idealCoefficient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualSymbols.idealSymbol_exteriorMul": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualSymbols.idealSymbol_primePower": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualSymbols.idealSymbol_primePower_mulChar": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualSymbols.primePowerResidue": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualSymbols.primePowerResidue_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualSymbols.symbolOnQuotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualSymbols.symbolOnQuotient_primePower": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualEuler.primeAddCharacter": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualEuler.primeAddCharacter_isPrimitive": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualEuler.thetaPrimeCharacter_order": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualEuler.primeQuotientSymbol_equiv": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualEuler.normalizedFamily_eq_thetaGamma": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.pullbackMulChar": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.pullbackMulChar_pow": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.pullbackMulChar_order": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primeGenerator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primeGenerator_ne_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primeGenerator_powerIdeal": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primeGeneratorQuotientEquiv": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primeGeneratorQuotientEquiv_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPower_card": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPrimeResidueEquiv": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPrimeResidueEquiv_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPrime_isMaximal": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primeGenerator_prime": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPrimeCharacter": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPrimeCharacter_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPrimeCharacter_order": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPowerAddCharacter": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPowerAddCharacter_isPrimitive": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPowerAddCharacter_compatible": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPrime_addCharacter": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPrime_gaussSum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.actualPrimePowerFourier_eq_valuationGauss": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.actualPrimePowerFourier_eq_tableGauss": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primePower_symbol_transport": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPower_symbol_sixth_unit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primePower_addCharacter_unitShift": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.probeGauss_primePower_eq_principal_fourier": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.probeGauss_primePower_eq_valuationGauss": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.probeGauss_primePower_unit_frequency_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.idealSymbol_primePower_zero_of_dvd": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_primePowers_zero_of_two_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualEuler.exists_residue_sixth_root_neg_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualEuler.thetaPrimeCharacter_neg_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualEuler.primeGauss_one_mul_five": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.finitePoissonFactor_eq_sum_kernel": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.probeGauss_prime_eq_gaussAt": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalResidue": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalResidue_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalCharacter_power_residue": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalResidue_fourier_sixth_shift": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primeTimesPowerQuotientEquiv": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primeTimesPowerQuotientEquiv_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primeProduct_addCharacter_unitShift": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_prime_power_eq_fourier": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_prime_power_eq_valuationGauss": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.symbolOnQuotient_primePower_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.probeGauss_primePower_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.productPrincipalCharacter_unitShift_of_generators": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primeZeroTimesPowerQuotientEquiv": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primeZeroTimesPowerQuotientEquiv_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_zero_power_eq_fourier": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_zero_power_eq_valuationGauss": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_primePowers_eq_positiveConvolution": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primePowerTimesZeroQuotientEquiv": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.primePowerTimesZeroQuotientEquiv_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_power_zero_eq_symbol": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_zero_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_primePowers_completedUnit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPower_mk_isUnit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.principalPower_fourier_frequency_sixth_unit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.idealSymbol_primePower_sixth_invariant": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualPrimeGauss.finitePoisson_primePowers_frequency_sixth_invariant": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.quotientSymbol_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.quotientSymbol_mul": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.quotientSymbol_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.quotientSymbol_sixth_global_unit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.quotientSymbolHom": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.quotientSymbol_unit_sixth": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.probeGaussOnQuotient_unit_scale": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.probeGaussOnQuotient_sixth_unit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.quotientSymbol_product": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.principalPhase_add": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.generator_isUnit_mod": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.quotientCRT": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.quotientCRT_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.scaledCRT": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.scaledCRT_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.quotientSymbol_scaledCRT": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.productPrincipalCharacter_scaledCRT": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.product_character_sixth_shift": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.fourier_chosen_product_character": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.thetaGamma_product_character": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.thetaGamma_coprime_product": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.probeGauss_product_character": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.probeGauss_coprime_product": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.poissonCore": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.poissonCore_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.poissonCore_sixth_unit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.finitePoissonFactor_eq_fourier": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.finitePoissonFactor_eq_theta_fourier": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.poissonCoreOn": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.poissonCoreOn_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.poissonCoreOn_sixth_unit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.finitePoissonFactor_eq_theta_fourier_on": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.exteriorMul_exchange": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.generator_zero_mod_of_dvd": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.probeGauss_scaled_sum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.idealSymbol_scaled_sum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.idealSymbol_generator_product": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.idealSymbol_generator_ne_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.idealSymbol_generator_sixth": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.rawPoissonCrossPhase": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.rawPoissonCrossPhase_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.poissonCoreOn_scaledCRT": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.finitePoissonFactor_coprime_product": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.completedIdeal_mul": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.completedIdeal_cross_symbol": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.completedIdeal_cross_phase_cancel": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.thetaGamma_finitePoisson_coprime_product": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.finitePoissonFactor_frequency_sixth_unit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.finitePoissonFactor_poissonFrequency_mul_right": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualCRT.fourIdeal_finite_coefficient_coprime_product": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.quotientSymbol": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.norm_quotientSymbol_le_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.quotient_card": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.norm_probeGauss_le_norm": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.norm_principal_fraction": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.exteriorNorm_mul": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.exteriorNorm_completed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.norm_finitePoissonFactor_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.norm_thetaGamma_two_le_sqrt": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.product_generator_span": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.productPrincipalCharacter": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.productPrincipalCharacter_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.productPrincipalCharacter_isPrimitive": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.productQuotientLeft": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.productQuotientRight": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.probeGaussOnQuotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.probeGaussOnQuotient_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.poissonKernelOnQuotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.poissonKernelOnQuotient_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.finitePoisson_summand_representative_independent": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.generator_power_span": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.principalPower_character_compatible": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.initialMajorant": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.initialMajorant_nonneg": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.norm_initialRowEulerTerm_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.summable_exterior_power": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.summable_initialMajorant": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualAbsolute.initial_absolute": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "beyond_standard_axioms": {},
+  "provenance": {
+    "tested_commit": "3ad1caba21b7b403f3d5b2bc469445a96a4847b0",
+    "workflow_run_id": 41167448380,
+    "job_id": 124437967704,
+    "artifact_id": 13029696752,
+    "artifact_sha256": "6cd07e0ae2d19af4946f20cca42f79d324a0e630d63a7a7be0683ce739038fbd",
+    "module_count": 8,
+    "public_declaration_count": 160,
+    "source_sha256": {
+      "HeckeSkeleton/HighBinSupport/ActualGeneratorPowers.lean": "2a753173c9a29a9e31bf4c91b7cdddd11561f77305b93e34bf4e01e428d3e188",
+      "HeckeSkeleton/HighBinSupport/ActualPrimePowerSymbols.lean": "4f82201183017cce36e90447bfb0340fc7aa048cb6f2256c9d506eda9ae9697f",
+      "HeckeSkeleton/HighBinSupport/ActualGaussData.lean": "efff91c3d757e9c975d7ac71b2ca7efb24514095b62a7ff9333867bc980e4c6b",
+      "HeckeSkeleton/HighBinSupport/ActualPrimePowerGauss.lean": "29d06e7da32766687dd66bb92081d6ab36ad3af2680c0d1134c64a12e9ea55f6",
+      "HeckeSkeleton/HighBinSupport/ActualGaussSigns.lean": "f880ad91d2271c379e66ba3d9731da5bb79b3089242b2a0893313bbba117c951",
+      "HeckeSkeleton/HighBinSupport/ActualFinitePoisson.lean": "beddc1257265f92a9c27317d3117282bce8e097cbf6452e66f801bed682de639",
+      "HeckeSkeleton/HighBinSupport/ActualEulerCRT.lean": "37a1c2973df8fd47ffcdadcddb9caff59ed3501147e5fceed1d6d189cfeaa9d5",
+      "HeckeSkeleton/HighBinSupport/ActualInitialAbsolute.lean": "5d6634e0d78e5acb422de023326f38365c04bdfe20ba41716ce83bc3a69fe594"
+    }
+  }
+}
