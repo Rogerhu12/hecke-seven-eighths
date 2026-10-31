@@ -192,7 +192,8 @@ theorem actual_block_energy [Finite (SixthLocalClasses K S)]
     (mul_nonneg (mul_nonneg (mul_nonneg (sq_nonneg ‖inactiveWeight K S f‖)
       (sq_nonneg (CommonMellinTail.scalar Y)))
       (mul_nonneg (mul_nonneg (by norm_num : (0 : ℝ) ≤ 65536) (sq_nonneg A))
-        (div_nonneg (sq_nonneg (stateMajorant K S s)) (by positivity))))
+        (div_nonneg (sq_nonneg (stateMajorant K S s))
+          (by positivity : (0 : ℝ) ≤ Clo * Blo ^ 2))))
       (mul_nonneg hCe.le hW))
   convert hright using 1 <;> (try dsimp [Y]) <;> ring
 

@@ -194,11 +194,9 @@ theorem slicedPhysicalBlock_eq_exterior_sum
   apply Finset.sum_congr rfl
   intro P _
   rw [Finset.sum_image (fun I _ J _ h => exterior_val_injective K S h)]
-  simp only [Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro c _
   rw [Finset.sum_image (fun I _ J _ h => exterior_val_injective K S h)]
-  simp only [Finset.mul_sum]
   rfl
 
 /-- Finite active-mark and dual-column regrouping, before taking row norms. -/

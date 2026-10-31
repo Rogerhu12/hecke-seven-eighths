@@ -1,26 +1,22 @@
 # Low reflected energy: source and verification ledger
 
-Prepared from verified CI artifacts at 2026-10-31T05:28:26.296169+00:00.
+Prepared from verified CI artifacts at 2026-10-31T09:58:22.369493+00:00.
 
-The latest completed actual run is `41171430364`, source head `58986fd9264c59427e71268b1c5e00eb1a2e5964`, checkout merge `9cc743c032a2424252e64aa8c8933e505387d446`. Current source hashes include the subsequent two proof repairs; those repairs, and four imports-only dependency repairs, await the next CI run. The current repair commit will be identified through the PR.
+**78 of 94 new modules have successful evidence for their current source bytes; 16 do not. The current full dependency graph and final target remain unverified.**
 
-The subsequent upstream baseline `a217322c47d13ea08c02d50eaa270e2b7ca09852` is outside this completed run's evidence. Matching task-source bytes do not establish verification of that later dependency graph or configuration.
+The latest completed actual run is `41188282678`, job `124499578347`. It checked out the exact published head `245e1de501287489868916f4a7e4b4df0b060e2f`. It records 786 direct successes (634 exact-cache reuses and 152 new compilations), separately from 1,794 native old-dependency reuses, with 20 compiler failures, one diagnostic timeout, and 957 skips (821 dependency-blocked and 136 budget skips).
 
-76 of 94 new modules have matching successful source evidence; 18 do not.
+The two newly successful task modules are `ActualSeparatedBlock` (five clean public axiom reports) and `ActualFrozenStateCount` (four). Their reports contain only `propext`, `Classical.choice`, and `Quot.sound`. The actual phase has 76 successful task modules and 294 printed public reports; the source-matching union reaches 78 using preserved core evidence. `ActualHybridEntry` remains compilation evidence without a printed public theorem report.
 
-Direct compilations, exact-cache reuse, preserved historical evidence, native dependency reuse, failures, skips, and changed sources remain distinct.
+`ActualBlockEnergy` and `ActualBlockReindex` failed in that run. Their compiler-generated `sorryAx` reports are not successful proofs. Their subsequent proof repairs await the next run. The timeout in `ArchimedeanGaussianMellin` is a diagnostic budget interruption with no proof result.
 
-Native old-dependency reuse never certifies a new proof module. Python regression tests are excluded from proof evidence.
+The current source snapshot includes upstream base `5f3c782680be2c74365b4d8e5760fc16f1f222c5` and all 66 import-adjusted old files restored to exact upstream bytes. The [restoration audit](IMPORT_RESTORATION_20261031.json) confirms that every non-import byte is unchanged. The unused `FLTReuse.ExplicitMathlibImports` helper was removed. Restoring the broad import paths implicated in the 18 old-file failures is not compilation evidence. The new default actual lane uses the pinned official `lake-cache-76c696e` release and native Lake. No restored `HeckeSkeleton` output may supply task verification; both final theorem audits remain required.
 
-Latest supplied actual final gate: `not_run_due_to_failed_or_skipped_modules`.
+The 1,794 native validations retain their original `native-lake-foundation-v1` receipt, catalog, configuration, artifact hashes, and validation log. They are historical evidence for the recorded context; they do not authorize reuse under the changed configuration and never certify a new proof module. Python regression fixtures are excluded from proof evidence.
 
-The latest actual records 634 direct successes (575 exact caches, 59 new compilations), separately from 1,794 native old-dependency reuses. It records six compiler failures, one diagnostic timeout with no proof result, and 1,123 skips.
+Latest completed actual final gate: `not_run_due_to_failed_or_skipped_modules`.
 
-The three newly compiled task modules are `ActualReflectionReindex` (eight clean public axiom reports), `ActualFrozenCharges` (three), and `ActualHybridEntry` (no printed public theorem report). Compilation evidence alone does not establish an unprinted public axiom audit.
-
-Exact source evidence alone does not certify the final theorem or a modified full dependency graph.
-
-Full new-module records and original compiler output are in [aggregate_evidence.json](aggregate_evidence.json). Existing historical evidence paths remain preserved in the manifest.
+All source classifications below refer to successful recorded contexts. A matching source hash alone does not validate a changed dependency graph. Earlier raw records and full compiler output remain in [aggregate_evidence.json](aggregate_evidence.json); prior evidence references remain in [source_manifest.json](source_manifest.json).
 
 | Module | Current source SHA-256 | Source evidence | Latest supplied attempt |
 |---|---|---|---|
@@ -83,18 +79,18 @@ Full new-module records and original compiler output are in [aggregate_evidence.
 | `HeckeSkeleton.LowEnergy.ActualLocalWeylTable` | `756607d8af9886598e7344653f8284d7f0f34c4c907cc173db67f86ad99427f2` | direct_exact_cache_success | direct_exact_cache_success |
 | `HeckeSkeleton.LowEnergy.ActualFrozenMajorant` | `9d778e91996a11a240e4e2ca3a560f92e39c5fcf5b31fe08a9ac37ac7bfceb61` | direct_exact_cache_success | direct_exact_cache_success |
 | `HeckeSkeleton.LowEnergy.ActualFrozenIndependence` | `e8e85cd0a5a9febb7cafb46e2136ae25f84d1401ee7b9031767ae1f644d76062` | direct_exact_cache_success | direct_exact_cache_success |
-| `HeckeSkeleton.LowEnergy.ActualReflectionReindex` | `36c0d10a68e2dc30628e1a621e9638e338dde7c37f129dbe77aee11bee970862` | direct_compiled_success | direct_compiled_success |
+| `HeckeSkeleton.LowEnergy.ActualReflectionReindex` | `36c0d10a68e2dc30628e1a621e9638e338dde7c37f129dbe77aee11bee970862` | direct_exact_cache_success | direct_exact_cache_success |
 | `HeckeSkeleton.LowEnergy.ActualCommonMellinTail` | `1e17a8197abe8ee47a796245bcf4db82e53c092d9de47310832b7e949ef70b5b` | direct_exact_cache_success | direct_exact_cache_success |
-| `HeckeSkeleton.LowEnergy.ActualFrozenCharges` | `bc60ee44c2669ab7257441afdbee05b2f29bddb0f8aa9be710783348921dd880` | direct_compiled_success | direct_compiled_success |
-| `HeckeSkeleton.LowEnergy.ActualFrozenStateCount` | `a877d86f448e5ad8e3c78a87c228389a4a3fe6ca1b47c5167c8d368ad8df7858` | changed_since_recorded_source | failed; source changed |
+| `HeckeSkeleton.LowEnergy.ActualFrozenCharges` | `bc60ee44c2669ab7257441afdbee05b2f29bddb0f8aa9be710783348921dd880` | direct_exact_cache_success | direct_exact_cache_success |
+| `HeckeSkeleton.LowEnergy.ActualFrozenStateCount` | `a877d86f448e5ad8e3c78a87c228389a4a3fe6ca1b47c5167c8d368ad8df7858` | direct_compiled_success | direct_compiled_success |
 | `HeckeSkeleton.LowEnergy.ActualSieveDictionary` | `f58fd9887be68209382570e91ebe3c8c4856bcf3bf8b74b514cbd1a24b5218c8` | direct_exact_cache_success | direct_exact_cache_success |
 | `HeckeSkeleton.LowEnergy.ActualRawHybrid` | `094374bb2150f3c85e7cc7e1a5c1684a7222403a3b425e80410326de0388c5d1` | direct_exact_cache_success | direct_exact_cache_success |
-| `HeckeSkeleton.LowEnergy.ActualHybridEntry` | `f3bdb01ca452f7116cf1b754203c94dcfb80459427ff65146b47b5de8e5005fe` | direct_compiled_success | direct_compiled_success |
+| `HeckeSkeleton.LowEnergy.ActualHybridEntry` | `f3bdb01ca452f7116cf1b754203c94dcfb80459427ff65146b47b5de8e5005fe` | direct_exact_cache_success | direct_exact_cache_success |
 | `HeckeSkeleton.LowEnergy.ClassSlices` | `e6d8d177a719024e0258d2a2373e0d1c930b84f588e0c44e5f9f6809a0e595c1` | direct_exact_cache_success | direct_exact_cache_success |
 | `HeckeSkeleton.LowEnergy.ActualClassSlices` | `f4e8a37f474aa408bfb5c20dbb06ee8f77aaf32a8b4f730417ee8d69afa72896` | direct_exact_cache_success | direct_exact_cache_success |
 | `HeckeSkeleton.LowEnergy.ActualGeneratorClasses` | `94f309c0127dcbd7e293013c0dd6bb410d9980b4a78b5ea5b8275f092dfb8cc5` | direct_exact_cache_success | direct_exact_cache_success |
-| `HeckeSkeleton.LowEnergy.ActualSeparatedBlock` | `df34c2583706ea16e9ab9978882cd514c165d6888bc4619db1f49a138072410e` | changed_since_recorded_source | failed; source changed |
-| `HeckeSkeleton.LowEnergy.ActualBlockEnergy` | `2e5ec17d6844ab9b474014c6b0b0233d8f3197262226baaa0e7539ec0c5182fb` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.ActualSeparatedBlock` | `df34c2583706ea16e9ab9978882cd514c165d6888bc4619db1f49a138072410e` | direct_compiled_success | direct_compiled_success |
+| `HeckeSkeleton.LowEnergy.ActualBlockEnergy` | `eee0dd9a7cc01951dc550b9f3f92430cd3fa79e8ba6e80d60300f917e2bd1bdb` | changed_since_recorded_source | failed |
 | `HeckeSkeleton.LowEnergy.SlotTuples` | `6bf40582c293fce717b909cbd8783c9a6d70b685771b0b75afffffea4416c1b9` | direct_exact_cache_success | direct_exact_cache_success |
 | `HeckeSkeleton.LowEnergy.WindowTuples` | `c8ce8280dc4e6164ed75ab79447e5fa1101473a1c94a478c8b0f824a2951d36f` | direct_exact_cache_success | direct_exact_cache_success |
 | `HeckeSkeleton.LowEnergy.InactiveWindows` | `9278a82089e84d999a85b223feace80ffdac10bdb819a814f9e607d0b9f05485` | skipped | skipped |
@@ -102,7 +98,7 @@ Full new-module records and original compiler output are in [aggregate_evidence.
 | `HeckeSkeleton.LowEnergy.GaussianTheta` | `9b4b613f3db37039dd4fa21714455c44494d56174596b8a249500f6a4855efea` | direct_exact_cache_success | direct_exact_cache_success |
 | `HeckeSkeleton.LowEnergy.TargetGaussian` | `9c36836c6aa54d5e4093a70bd241debc39c9a983d32ee1e9671fc61a6cdc9461` | skipped | skipped |
 | `HeckeSkeleton.LowEnergy.TargetSieveDictionary` | `76ba1619c063dba496ec891841cd1d61f92d93d1f39c605e6a26ed8f5c0a6929` | skipped | skipped |
-| `HeckeSkeleton.LowEnergy.ActualBlockReindex` | `cdf784bdc265a7eb75ee21a3e87ecd917c1c9cc53723c3fa1efe658aaf0b6e5c` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.ActualBlockReindex` | `03b246ca9d5136a7ca69fd47f3820dea993a6b8a5a70411c5228e6406a51fc4a` | changed_since_recorded_source | failed |
 | `HeckeSkeleton.LowEnergy.ActualSourceReindex` | `c0acedfdf1431832d1042228dcb9a7e0c6046f6addf86d54b8ea7cca2e2d914b` | skipped | skipped |
 | `HeckeSkeleton.LowEnergy.ActualRowFibres` | `1759c44a943601c80a103da42945620c346fb7608d47df0cb02491b56a8742bb` | direct_exact_cache_success | direct_exact_cache_success |
 | `HeckeSkeleton.LowEnergy.ActualDyadicReflection` | `c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574` | skipped | skipped |
@@ -119,9 +115,10 @@ Full new-module records and original compiler output are in [aggregate_evidence.
 | `HeckeSkeleton.LowFrozenCube.Valuations` | `5249d242539316a45ea01cfe73af5ac6dd607b1ddf6b3b9033ca850ef980a1c7` | direct_exact_cache_success | direct_exact_cache_success |
 | `HeckeSkeleton.LowFrozenCube.LocalCoefficients` | `480a326fa64d1ab714ab9e751e3c32a88a248c7938b1c398bbed187a8fba4a17` | direct_exact_cache_success | direct_exact_cache_success |
 
-## Supplied run evidence
+## Preserved evidence runs
 
-- Run `41167618537`, actual, artifact `13030181239`: 534 direct successes; kinds `{"diagnostic_timeout": 1, "direct_compiled_success": 73, "direct_exact_cache_success": 461, "failed": 2, "skipped": 3015}`; final gate `not_run_due_to_failed_or_skipped_modules`.
-- Run `41169613835`, core, artifact `13030830729`: 66 direct successes; kinds `{"direct_exact_cache_success": 66}`; final gate `not_applicable_core_phase`.
-- Run `41169613835`, actual, artifact `13030109450`: 575 direct successes; kinds `{"diagnostic_timeout": 1, "direct_compiled_success": 41, "direct_exact_cache_success": 534, "failed": 7, "native_old_dependency_reuse": 1794, "skipped": 1181}`; final gate `not_run_due_to_failed_or_skipped_modules`.
-- Run `41171430364`, actual, artifact `13031561006`: 634 direct successes; kinds `{"diagnostic_timeout": 1, "direct_compiled_success": 59, "direct_exact_cache_success": 575, "failed": 6, "native_old_dependency_reuse": 1794, "skipped": 1123}`; final gate `not_run_due_to_failed_or_skipped_modules`.
+- `41167618537:actual:13030181239`: 534 direct successes; kinds `{"diagnostic_timeout": 1, "direct_compiled_success": 73, "direct_exact_cache_success": 461, "failed": 2, "skipped": 3015}`; final gate `not_run_due_to_failed_or_skipped_modules`.
+- `41169613835:core:13030830729`: 66 direct successes; kinds `{"direct_exact_cache_success": 66}`; final gate `not_applicable_core_phase`.
+- `41169613835:actual:13030109450`: 575 direct successes; kinds `{"diagnostic_timeout": 1, "direct_compiled_success": 41, "direct_exact_cache_success": 534, "failed": 7, "native_old_dependency_reuse": 1794, "skipped": 1181}`; final gate `not_run_due_to_failed_or_skipped_modules`.
+- `41171430364:actual:13031561006`: 634 direct successes; kinds `{"diagnostic_timeout": 1, "direct_compiled_success": 59, "direct_exact_cache_success": 575, "failed": 6, "native_old_dependency_reuse": 1794, "skipped": 1123}`; final gate `not_run_due_to_failed_or_skipped_modules`.
+- `41188282678:actual:13038675514`: 786 direct successes; kinds `{"diagnostic_timeout": 1, "direct_compiled_success": 152, "direct_exact_cache_success": 634, "failed": 20, "native_old_dependency_reuse": 1794, "skipped": 957}`; final gate `not_run_due_to_failed_or_skipped_modules`.
