@@ -72,10 +72,19 @@ theorem exists_frequencyRowNorm_power_tail_bound {p : ℝ} (hp : p < -1) :
     (finite_frequencyRowNorm_cutoff K S) D hcount (-p) 1 U hA (by norm_num) hU
   have hbound := tsum_neg_rpow_tail_le_of_linear_count (frequencyRowNorm K S)
     (finite_frequencyRowNorm_cutoff K S) D hcount (-p) 1 U hA (by norm_num) hU
+  let e : {u : FrequencyRow K S // U < frequencyRowNorm K S u} ≃
+      {u : FrequencyRow K S // U < 1 * frequencyRowNorm K S u} :=
+    { toFun := fun u => ⟨u.val, by simpa only [one_mul] using u.property⟩
+      invFun := fun u => ⟨u.val, by simpa only [one_mul] using u.property⟩
+      left_inv := fun _ => rfl
+      right_inv := fun _ => rfl }
+  have he (u : {u : FrequencyRow K S // U < frequencyRowNorm K S u}) :
+      (e u).val = u.val := rfl
   constructor
-  · simpa only [one_mul, neg_neg] using hsum
+  · simpa only [Function.comp_def, he, one_mul, neg_neg] using hsum.comp_injective e.injective
   · have hexp : 1 - -p = p + 1 := by ring
-    simpa only [one_mul, neg_neg, inv_one, hexp, show (1 : ℝ) + 1 = 2 by norm_num,
+    rw [← e.tsum_eq (fun u => (1 * frequencyRowNorm K S u.val) ^ (- -p))] at hbound
+    simpa only [he, one_mul, neg_neg, inv_one, hexp, show (1 : ℝ) + 1 = 2 by norm_num,
       mul_assoc, mul_left_comm, mul_comm] using hbound
 
 /-- The entire original row power is summable too, including the bounded

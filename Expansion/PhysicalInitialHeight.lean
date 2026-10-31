@@ -78,13 +78,11 @@ theorem integral_three_product (f g h : ℝ → ℂ) :
 theorem integrable_three_product {f g h : ℝ → ℂ}
     (hf : Integrable f) (hg : Integrable g) (hh : Integrable h) :
     Integrable (fun t : Fin 3 → ℝ => f (t 0) * g (t 1) * h (t 2)) := by
-  have hi : ∀ i : Fin 3, Integrable ((![f, g, h] : Fin 3 → ℝ → ℂ) i) := by
-    intro i
-    fin_cases i
-    · exact hf
-    · exact hg
-    · exact hh
-  simpa [Fin.prod_univ_succ, mul_assoc] using Integrable.fintype_prod hi
+  have hi : Integrable (fun t : ℝ × ℝ × ℝ => f t.1 * (g t.2.1 * h t.2.2)) := by
+    simpa only [Measure.volume_eq_prod] using hf.mul_prod (hg.mul_prod hh)
+  have hp := heightEquiv_preserving.integrable_comp_emb
+    heightEquiv.measurableEmbedding |>.mpr hi
+  simpa only [heightEquiv_apply, mul_assoc] using hp
 
 theorem integral_eq_initial_order (f : (Fin 3 → ℝ) → ℂ) (hf : Integrable f) :
     (∫ t, f t) = ∫ ts : ℝ, ∫ tw : ℝ, ∫ tz : ℝ, f ![ts, tw, tz] := by

@@ -2,6 +2,7 @@ import Expansion.PhysicalWitnessCover
 import HeckeSkeleton.ExpansionModels.FixedAmplitudeLabels
 import ExpansionInterfaces.AmplitudePartition
 import HeckeSkeleton.ExpansionModels.CommonPhysicalSample
+import Expansion.WitnessLoss
 
 /-!
 # Actual prime amplitudes and the physical witness source
@@ -111,9 +112,11 @@ variable (slotCoefficient : Fin g.slots → HeckeCharacter K)
 physical sample.  Constants and detector losses precede the height
 multiplicity, scale, bin, amplitude label, and every witness choice. -/
 theorem exists_physical_amplitude_source
-    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex) (lam : ℝ) (hlam : 0 < lam) :
+    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex) (lam : ℝ) (hlam : 0 < lam)
+    (eCap : ℝ) (heCap : 0 < eCap) :
     ∃ e ε ceiling k : ℝ,
-      0 < e ∧ e < 1 / 1000 ∧ e ≤ lam / 1000 ∧ 0 < ε ∧ 0 < ceiling ∧ 0 < k ∧
+      0 < e ∧ e < 1 / 1000 ∧ e ≤ lam / 1000 ∧ e ≤ eCap ∧
+      0 < ε ∧ 0 < ceiling ∧ 0 < k ∧
       ∀ N : ℕ, ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
         let F := scaledCanonicalRecipeFamily K ψ g cutoffProfile slotTime slotPower
           slotCoefficient (3 * ((N : ℝ) + 1))
@@ -148,10 +151,15 @@ theorem exists_physical_amplitude_source
               (∀ t : ℝ, 1 ≤ t → t ≤ 3 / 2 →
                 WitnessCover (A.toAmplitude (P := P) (R := E.rows) (ω := ω)
                   Z (Z ^ τ) (Z ^ d)) t (2 * a - 1) (Z ^ d) lam k) := by
-  obtain ⟨e, ε, ceiling, k, he, heSmall, heLam, hε, hceiling, hk, hcover⟩ :=
+  let innerLoss := min lam (1000 * eCap)
+  have hinner : 0 < innerLoss := lt_min hlam (mul_pos (by norm_num) heCap)
+  have hinnerLam : innerLoss ≤ lam := min_le_left _ _
+  have hinnerCap : innerLoss ≤ 1000 * eCap := min_le_right _ _
+  obtain ⟨e, ε, ceiling, k, he, heSmall, heInner, hε, hceiling, hk, hcover⟩ :=
     exists_physical_witness_cover_with_geometry K S P E ω ψ g slotTime slotPower
-      slotCoefficient hcomplex lam hlam
-  refine ⟨e, ε, ceiling, k, he, heSmall, heLam, hε, hceiling, hk, ?_⟩
+      slotCoefficient hcomplex innerLoss hinner
+  refine ⟨e, ε, ceiling, k, he, heSmall, by linarith, by linarith,
+    hε, hceiling, hk, ?_⟩
   intro N τ hτ hτc
   dsimp only
   let F := scaledCanonicalRecipeFamily K ψ g cutoffProfile slotTime slotPower
@@ -191,7 +199,8 @@ theorem exists_physical_amplitude_source
     rw [hphysical]
     exact hamp.2 j hj u hu
   · intro t ht ht'
-    exact (hwitness t ht ht').1
+    exact ((hwitness t ht ht').1).mono_loss
+      (Real.one_le_rpow hZone (by linarith)) hk.le hinnerLam
 
 
 /-- Assemble every actual amplitude label into one live-bin block.  The
@@ -223,9 +232,9 @@ theorem exists_physical_live_block_source
                 d Z (Z ^ τ)) B lam k Z ∧
               (∀ l, (b.amplitude l).MomentGeometry (Z ^ τ) 22) ∧
               (∀ l, (b.amplitude l).rows (Z ^ d) ⊆ rows) := by
-  obtain ⟨e, ε, ceiling, k, he, heSmall, heLam, hε, hceiling, hk, hsource⟩ :=
+  obtain ⟨e, ε, ceiling, k, he, heSmall, heLam, _, hε, hceiling, hk, hsource⟩ :=
     exists_physical_amplitude_source K S P ω ψ g E slotTime slotPower
-      slotCoefficient hcomplex lam hlam
+      slotCoefficient hcomplex lam hlam lam hlam
   refine ⟨e, ε, ceiling, k, he, heSmall, heLam, hε, hceiling, hk, ?_⟩
   intro N τ hτ hτc
   dsimp only

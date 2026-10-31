@@ -39,6 +39,7 @@ theorem normPoleRatio_re_pos (t : ℝ) (s : ℂ) (hs : 1 < s.re) :
     ring
   rw [heq, Complex.div_re]
   simp only [Complex.sub_re, Complex.one_re, Complex.sub_im, Complex.one_im, sub_zero]
+  rw [← add_div]
   apply div_pos _ (Complex.normSq_pos.mpr hz)
   have hp : 0 < (z.re - 1) * z.re := mul_pos (sub_pos.mpr hzr) (by linarith)
   nlinarith [sq_nonneg z.im]
@@ -86,6 +87,7 @@ theorem normRegularizedEulerLog_differentiableOn (t : ℝ) :
     DifferentiableOn ℂ (normRegularizedEulerLog K t) {s : ℂ | 1 < s.re} := by
   apply (heckeEulerLog_differentiableOn K (heckeNormTwist K t)).add
   intro s hs
+  change 1 < s.re at hs
   have hratio : DifferentiableAt ℂ (normPoleRatio t) s := by
     apply (differentiableAt_id.sub_const _).div (differentiableAt_id.sub_const _)
     exact Complex.ne_zero_of_re_pos (by simpa using (show 0 < s.re by linarith))
@@ -142,7 +144,7 @@ theorem exists_normPoleRegularization_rightStrip_bound
     have hh := mul_le_mul (normPoleRatio_norm_le_one t s hs)
       (hright (heckeNormTwist K t) s (by linarith)) (norm_nonneg _) zero_le_one
     have hcoef : D ≤ 2 * A + D := by linarith
-    exact (by simpa only [one_mul] using hh).trans
+    exact (hh.trans_eq (one_mul D)).trans
       ((le_mul_of_one_le_right hD.le hheight).trans
         (mul_le_mul_of_nonneg_right hcoef (by positivity)))
 
@@ -187,6 +189,7 @@ theorem exists_common_line_normTwist_reciprocal_bound
     (show {z : ℂ | a + 2 * kappa < z.re ∧ |z.im| ≤ HU} ⊆ {z : ℂ | 0 < z.re} from by
       intro z hz
       rw [hab] at hz
+      change 0 < z.re
       linarith [hz.1])
   have hz : ∀ z : ℂ, a + 2 * kappa < z.re → |z.im| ≤ HU →
       normPoleRegularization K t z ≠ 0 := by

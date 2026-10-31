@@ -79,8 +79,8 @@ theorem additiveFourierFiniteProfile_locallyConstant_compactSupport
   · intro p hp
     simpa only [probeFiniteExtension, dif_pos hp] using W.finite_compactSupport ⟨p, hp⟩
 
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
-variable [BorelSpace (sLocalNormOneGroup K Sset)]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 
 /-- Exact tensor identity for the original Fourier transform. -/
 theorem additiveFourier_eq_actual_tensor (W : AdditiveProbeTest K Sset) (x : G) :

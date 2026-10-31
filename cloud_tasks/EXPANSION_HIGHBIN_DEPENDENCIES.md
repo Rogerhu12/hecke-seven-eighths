@@ -39,3 +39,9 @@ repeated 三类误差；共享 recipe 的 `primePolynomial` 是用于幅度和�
 以及 `ActualRegularEuler` 等模块的 `HeckeGeneral.ThetaSkeleton` 父命名空间。
 这些是来源整合所需的 elaboration 修复，不改变数学定义或定理假设。
 新增 31 个模块的来源文件列表由该批提交的 diff 精确记录。
+
+`2cba624` 的 actual CI 还确认并修复三处原生 elaboration 错误：
+`ActualPrimeExponentIndex` 显式化 submonoid 的单位 coercion 与四分量 ext；
+`ActualEulerProduct` 的非 exceptional 分支完整消去 `¬False`；
+`ActualNormFormRepeatedTuples` 在 cast 不等式的传递之前提供预期类型。
+定义与数学陈述保持不变，这些修复仍以本分支下一轮 CI 为验证依据。

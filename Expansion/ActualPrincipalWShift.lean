@@ -94,7 +94,7 @@ theorem exists_actualPrincipal_w_strip_decay
     simpa only [Complex.re_add_im] using hm w.re w.im hw hw1
   have hL := hzet w (by linarith) (by linarith) hwh
   have hML := rapid_mul_polynomial_bound
-    (by positivity : 1 ≤ 1 + |w.im|) hDm.le hCz.le hn hM hL
+    (by have := abs_nonneg w.im; linarith : 1 ≤ 1 + |w.im|) hDm.le hCz.le hn hM hL
   have hYPow : ‖(Y : ℂ) ^ (w - 1)‖ ≤ Y ^ e := by
     rw [Complex.norm_cpow_eq_rpow_re_of_pos hYpos, Complex.sub_re, Complex.one_re]
     exact Real.rpow_le_rpow_of_exponent_le hY1 (by linarith)

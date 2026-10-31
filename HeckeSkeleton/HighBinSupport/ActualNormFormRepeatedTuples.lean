@@ -103,7 +103,8 @@ theorem repeatedPrimeTuples_card_subpower
       ((((primeExponents u.ideal.val).support.card + 1) ^ J.card : ℕ) : ℝ) := by
     exact_mod_cast repeatedPrimeTuples_card_le K S u g T Z J
   have hnorm := actual_support_tuple_count_subpower K u.ideal.val J.card heps
-  exact (by simpa only [Nat.cast_pow, Nat.cast_add, Nat.cast_one] using hcard).trans hnorm
+  apply le_trans ?_ hnorm
+  simpa only [Nat.cast_pow, Nat.cast_add, Nat.cast_one] using hcard
 
 /-- A single repeated slot has the same prime-scale cap as the regular
 character term, up to an arbitrarily small row-norm factor. This bound is

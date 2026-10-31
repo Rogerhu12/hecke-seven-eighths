@@ -35,7 +35,7 @@ local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Γ" => sixthPowerUnits K Sset
 local notation "G" => sLocalMultiplicativeGroup K Sset
 local notation "T" => sLocalNormOneGroup K Sset
-local notation "N" => NonzeroRingElements (Sset.integer K)
+local notation "N" => NonzeroRingElements (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)
 
 local instance : Γ.FiniteIndex := sUnit_power_range_finiteIndex K Sset 6 (by decide)
 

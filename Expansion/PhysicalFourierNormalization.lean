@@ -30,7 +30,7 @@ variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
-local notation "OS" => Sset.integer K
+local notation "OS" => Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K
 local notation "G" => sLocalMultiplicativeGroup K Sset
 
 /-- Extend the actual finite test to the ambient set of places.  Only
@@ -41,17 +41,18 @@ def finiteExtension (W : AdditiveProbeTest K Sset)
 
 @[simp] theorem finiteExtension_subtype (W : AdditiveProbeTest K Sset) (v : Sset) :
     finiteExtension K S W v.val = W.finiteTest v := by
-  simp only [finiteExtension, dite_eq_left v.property]
+  unfold finiteExtension
+  rw [dif_pos v.property]
 
 theorem finiteExtension_locallyConstant (W : AdditiveProbeTest K Sset)
     (v : HeightOneSpectrum (𝓞 K)) (hv : v ∈ S) :
     IsLocallyConstant (finiteExtension K S W v) := by
-  simpa only [finiteExtension, dite_eq_left hv] using W.finite_locallyConstant ⟨v, hv⟩
+  simpa only [finiteExtension, dif_pos hv] using W.finite_locallyConstant ⟨v, hv⟩
 
 theorem finiteExtension_compactSupport (W : AdditiveProbeTest K Sset)
     (v : HeightOneSpectrum (𝓞 K)) (hv : v ∈ S) :
     HasCompactSupport (finiteExtension K S W v) := by
-  simpa only [finiteExtension, dite_eq_left hv] using W.finite_compactSupport ⟨v, hv⟩
+  simpa only [finiteExtension, dif_pos hv] using W.finite_compactSupport ⟨v, hv⟩
 
 /-- The original physical tensor is the original Poisson tensor, pointwise. -/
 theorem additiveTest_eq_tensor (W : AdditiveProbeTest K Sset) :
@@ -97,14 +98,20 @@ theorem dualTensor_zero (W : AdditiveProbeTest K Sset) :
     sIntegerDualTensorTerm K μv S (traceSchwartzToMixed K W.infiniteTest)
         (finiteExtension K S W) 0 =
       additiveFourierAtZero K Sset (fun v => μv v.val) W := by
-  simp only [sIntegerDualTensorTerm, map_zero,
-    sIntegerLocalFourierProduct_eq_finiteFourierTestFunction]
-  simp only [sIntegerFiniteFourierTestFunction, finiteAdeleLocalProjection,
-    Pi.zero_apply, finiteExtension_subtype, additiveFourierAtZero]
+  unfold sIntegerDualTensorTerm
+  simp only [map_zero, Prod.fst_zero, Prod.snd_zero]
+  change fourierIntegral (standardMixedAddCharacter K) volume
+      (fun y => W.infiniteTest ((traceToMixed K).symm y)) 0 *
+      (∏ v ∈ S,
+        (((μv v).real (v.adicCompletionIntegers K : Set (v.adicCompletion K)) : ℂ))⁻¹ *
+          fourierIntegral (StandardAddChar.psiLocal K v) (μv v)
+            (finiteExtension K S W v) 0) = _
+  rw [← Finset.prod_finset_coe]
+  simp only [finiteExtension_subtype, additiveFourierAtZero]
 
 variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
   [BorelSpace (sLocalNormOneGroup K Sset)]
-  (Γ : Subgroup (Sset.unit K)) [Γ.FiniteIndex]
+  (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)) [Γ.FiniteIndex]
 
 local notation "Q" => SIntegerOrbits K Sset Γ
 
@@ -130,7 +137,8 @@ subgroup; no Poisson equality or analytic interchange is an input. -/
 theorem probePeriodicOrbitalPoisson (P : ProbeData K Sset)
     (c : OS) (hc : c ≠ 0) (f : (OS ⧸ Ideal.span ({c} : Set OS)) → ℂ)
     (hinv : ∀ u : Γ, ∀ a : OS,
-      f (Ideal.Quotient.mk _ ((Sset.unitEquivUnitsInteger K u.val).val * a)) =
+      f (Ideal.Quotient.mk _
+        (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a)) =
         f (Ideal.Quotient.mk _ a)) (d : OS) (r : {r : ℝ // 0 < r}) :
     let g : (OS ⧸ Ideal.span ({c} : Set OS)) → ℂ :=
       fun z => f (Ideal.Quotient.mk _ d * z)

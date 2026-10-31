@@ -39,7 +39,7 @@ local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Γ" => sixthPowerUnits K Sset
 local notation "G" => sLocalMultiplicativeGroup K Sset
 local notation "T" => sLocalNormOneGroup K Sset
-local notation "N" => NonzeroRingElements (Sset.integer K)
+local notation "N" => NonzeroRingElements (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)
 local notation "CN" => ExteriorIdeal K Sset × ExteriorIdeal K Sset
 local notation "O" => ActualSIntegerOrbit K Sset
 
@@ -53,7 +53,8 @@ def physicalCompletedWeight (P : ProbeData K Sset) (ψ : HeckeCharacter K)
     (primeSetIdeal K Sset ∅) Q logGaussianProfile Z cn
 
 theorem completedTerm_eq_physicalCompletedWeight (P : ProbeData K Sset)
-    (ψ : HeckeCharacter K) (Q : Finset (ExteriorPrime K Sset)) (Z : ℝ) (m : Sset.integer K)
+    (ψ : HeckeCharacter K) (Q : Finset (ExteriorPrime K Sset)) (Z : ℝ)
+    (m : Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)
     (cn : CN) :
     completedTerm K Sset P.arithmetic (thetaPeriod K Sset P ψ) m
         (primeSetIdeal K Sset ∅) Q logGaussianProfile Z cn =
@@ -183,7 +184,7 @@ theorem physicalCompletedOrbitalSeries_eq_ideal_sum (P : ProbeData K Sset)
       rw [tsum_mul_right]
     _ = ∑' cn : CN, ∑' q : O, physicalCompletedWeight K S P ψ Q Z cn *
         gaussSymbolOrbitWeight K Sset P den (completedIdeal K Sset cn.1 cn.2) q * profile q :=
-      hprod.tsum_comm.symm
+      hprod.tsum_comm
     _ = _ := by
       apply tsum_congr
       intro cn

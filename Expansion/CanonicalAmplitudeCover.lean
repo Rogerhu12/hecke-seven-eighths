@@ -74,8 +74,11 @@ theorem canonicalAmplitudeRecipe_rows (rows : Finset (FrequencyRow K S))
     (hsector : ∀ u ∈ rows, u.sector = sector) :
     (canonicalAmplitudeRecipe K ψ g slotTime slotPower slotCoefficient S
       rows sector p amplitude C U lam choice β ν).rows U = rows := by
-  ext u
-  simp only [RecipeAmplitudeData.rows, canonicalAmplitudeRecipe, Finset.mem_filter]
+  apply Finset.ext
+  intro u
+  change u ∈ (frequencyRows K S (2 * U)).filter
+    (fun v => v ∈ rows ∧ v.sector = sector) ↔ u ∈ rows
+  rw [Finset.mem_filter]
   constructor
   · exact fun h => h.2.1
   · intro hu
@@ -151,7 +154,7 @@ theorem canonicalAmplitudeRecipe_inverseLength_range
       (A.witness t j).inverseLength ≤ 3 / 2 + lam := by
   have hlens := terminalLabel_lengths U t lam (by linarith) hlam
     ((encodeTerminalLabel U).symm j)
-  exact ⟨hlens.1, hlens.2.2.1, hlens.2.2.1.trans (add_le_add_right ht' lam)⟩
+  exact ⟨hlens.1, hlens.2.2.1, hlens.2.2.1.trans (by linarith)⟩
 
 /-- All finite-cover conclusions are proved against the actual repository
 WitnessCover definition and its actual polynomial projections. The local
@@ -179,8 +182,8 @@ theorem canonicalAmplitudeRecipe_witnessCover
           U l.2.2 (β t u.ideal.val) (ν t u.ideal.val)‖ ^ 2) :
     WitnessCover
       ((canonicalAmplitudeRecipe K ψ g slotTime slotPower slotCoefficient S
-        rows sector p amplitude C U lam choice β ν).
-          toAmplitude (P := P) (R := E.rows) (ω := ω) Z T U)
+        rows sector p amplitude C U lam choice β ν).toAmplitude
+          (P := P) (R := E.rows) (ω := ω) Z T U)
       t (2 * a - 1) U lam k := by
   let A := canonicalAmplitudeRecipe K ψ g slotTime slotPower slotCoefficient S
     rows sector p amplitude C U lam choice β ν
@@ -206,8 +209,8 @@ theorem canonicalAmplitudeRecipe_witnessCover
       have hinverse := (hspikes u hur').1
       rw [hl] at hinverse
       change U ^ ((2 * a - 1) * terminalLabelInverseLength U t lam l - lam) ≤
-        ‖((terminalRecipeWitness K ψ g slotTime slotPower slotCoefficient C U t lam l (β t) (ν t)).
-          toWitness (P := P) (R := E.rows) (ω := ω)
+        ‖((terminalRecipeWitness K ψ g slotTime slotPower slotCoefficient C U t lam l (β t) (ν t)).toWitness
+          (P := P) (R := E.rows) (ω := ω)
             ((A.rows U).filter fun v => A.witnessChoice t v = j) p t T U).inverseValue u‖ ^ 2
       rw [terminalRecipeWitness_eq_scaled K ψ g slotTime slotPower slotCoefficient
         C U t lam l (β t) (ν t) hlvalid,
@@ -225,8 +228,8 @@ theorem canonicalAmplitudeRecipe_witnessCover
       have hplain := (hspikes u hur').2
       rw [hl] at hplain
       change U ^ ((2 * a - 1) * terminalLabelPlainLength U t lam l - lam) ≤
-        ‖((terminalRecipeWitness K ψ g slotTime slotPower slotCoefficient C U t lam l (β t) (ν t)).
-          toWitness (P := P) (R := E.rows) (ω := ω)
+        ‖((terminalRecipeWitness K ψ g slotTime slotPower slotCoefficient C U t lam l (β t) (ν t)).toWitness
+          (P := P) (R := E.rows) (ω := ω)
             ((A.rows U).filter fun v => A.witnessChoice t v = j) p t T U).plainValue u‖ ^ 2
       rw [terminalRecipeWitness_eq_scaled K ψ g slotTime slotPower slotCoefficient
         C U t lam l (β t) (ν t) hlvalid,

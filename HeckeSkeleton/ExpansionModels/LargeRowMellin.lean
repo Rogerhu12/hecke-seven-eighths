@@ -158,8 +158,8 @@ variable [∀ p, (mu p).IsAddHaarMeasure]
 variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
 variable [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
 variable (nu : Measure (FiniteAdeleRing (𝓞 K) K)) [nu.IsAddHaarMeasure]
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
-variable [BorelSpace (sLocalNormOneGroup K Sset)]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 
 include nu in
 /-- The literal additive Mellin integral is bounded on any fixed positive

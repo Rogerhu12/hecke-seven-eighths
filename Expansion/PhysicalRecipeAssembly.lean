@@ -238,25 +238,21 @@ theorem physicalRecipeSourceAtScale_block (lam ζ width k : ℝ) (hw : 0 < width
 /-- One fixed all-scale physical recipe is an actual source at all
 sufficiently large scales of every admissible small height exponent. The
 choice of recipe, family, labels and multiplicity precedes that exponent. -/
-theorem exists_physical_recipe_expansion
+theorem exists_physical_recipe_parameters
     (hcomplex : ∀ v : InfinitePlace K, v.IsComplex)
     (lam ζ : ℝ) (hlam : 0 < lam) (hlamSmall : lam < 1 / 48) (hζ : ζ ≤ lam)
-    (principal small large tail : ℝ → ℝ → ℂ) :
+    (eCap : ℝ) (heCap : 0 < eCap) :
     ∃ e₁ width ceiling k : ℝ, ∃ he₁ : 0 < e₁, ∃ hw : 0 < width,
-      e₁ < 1 / 1000 ∧ e₁ ≤ lam / 1000 ∧ 0 < ceiling ∧ 0 < k ∧
-      (physicalRecipeExpansion K S P ω ψ g E hψ hB0 hB he₁ hbound
-        μ windowCharacters lam ζ width k hw principal small large tail).MomentGeometry 22 ∧
+      e₁ < 1 / 1000 ∧ e₁ ≤ lam / 1000 ∧ e₁ ≤ eCap ∧ 0 < ceiling ∧ 0 < k ∧
       ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
         ∃ Z₀ : ℝ, 2 ≤ Z₀ ∧ ∀ Z : ℝ, Z₀ ≤ Z →
           PhysicalRecipeSourceAtScale K S P ω ψ g E hψ hB0 hB he₁ hbound
             μ windowCharacters lam ζ width k hw Z (Z ^ τ) := by
-  obtain ⟨e₁, width, ceiling, k, he₁, heSmall, heLam, hw, hceiling, hk, hsource⟩ :=
+  obtain ⟨e₁, width, ceiling, k, he₁, heSmall, heLam, heCap', hw, hceiling, hk, hsource⟩ :=
     exists_physical_live_block_source_with_provenance K S P ω ψ g E
       (physicalRecipeSlotTime g) (physicalRecipeSlotPower g)
-      (physicalRecipeSlotCoefficient K g) hcomplex lam hlam
-  refine ⟨e₁, width, ceiling, k, he₁, hw, heSmall, heLam, hceiling, hk,
-    physicalRecipeExpansion_geometry K S P ω ψ g E hψ hB0 hB he₁ hbound
-      μ windowCharacters lam ζ width k hw principal small large tail, ?_⟩
+      (physicalRecipeSlotCoefficient K g) hcomplex lam hlam eCap heCap
+  refine ⟨e₁, width, ceiling, k, he₁, hw, heSmall, heLam, heCap', hceiling, hk, ?_⟩
   intro τ hτ hτc
   obtain ⟨Z₀, hZ₀, hdata⟩ := hsource (physicalRecipeHeightBound B e₁) τ hτ hτc
   refine ⟨Z₀, hZ₀, ?_⟩
@@ -296,9 +292,32 @@ theorem exists_physical_recipe_expansion
     simpa only [hfloor, show (2 * (51 / 100 : ℝ) - 1) / 2 = 1 / 100 by norm_num]
       using horigin
 
+/-- The same parameter choice supplies the geometry for every choice of
+the four literal analytic components; it does not depend on those values. -/
+theorem exists_physical_recipe_expansion
+    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex)
+    (lam ζ : ℝ) (hlam : 0 < lam) (hlamSmall : lam < 1 / 48) (hζ : ζ ≤ lam)
+    (eCap : ℝ) (heCap : 0 < eCap)
+    (principal small large tail : ℝ → ℝ → ℂ) :
+    ∃ e₁ width ceiling k : ℝ, ∃ he₁ : 0 < e₁, ∃ hw : 0 < width,
+      e₁ < 1 / 1000 ∧ e₁ ≤ lam / 1000 ∧ e₁ ≤ eCap ∧ 0 < ceiling ∧ 0 < k ∧
+      (physicalRecipeExpansion K S P ω ψ g E hψ hB0 hB he₁ hbound
+        μ windowCharacters lam ζ width k hw principal small large tail).MomentGeometry 22 ∧
+      ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
+        ∃ Z₀ : ℝ, 2 ≤ Z₀ ∧ ∀ Z : ℝ, Z₀ ≤ Z →
+          PhysicalRecipeSourceAtScale K S P ω ψ g E hψ hB0 hB he₁ hbound
+            μ windowCharacters lam ζ width k hw Z (Z ^ τ) := by
+  obtain ⟨e₁, width, ceiling, k, he₁, hw, heSmall, heLam, heCap', hceiling, hk, hsource⟩ :=
+    exists_physical_recipe_parameters K S P ω ψ g E hψ hB0 hB hbound
+      μ windowCharacters hcomplex lam ζ hlam hlamSmall hζ eCap heCap
+  exact ⟨e₁, width, ceiling, k, he₁, hw, heSmall, heLam, heCap', hceiling, hk,
+    physicalRecipeExpansion_geometry K S P ω ψ g E hψ hB0 hB he₁ hbound
+      μ windowCharacters lam ζ width k hw principal small large tail, hsource⟩
+
 end Expansion.Project
 
 #print axioms Expansion.Project.physicalRecipeExpansion_block_value
 #print axioms Expansion.Project.physicalRecipeExpansion_geometry
 #print axioms Expansion.Project.physicalRecipeSourceAtScale_block
+#print axioms Expansion.Project.exists_physical_recipe_parameters
 #print axioms Expansion.Project.exists_physical_recipe_expansion

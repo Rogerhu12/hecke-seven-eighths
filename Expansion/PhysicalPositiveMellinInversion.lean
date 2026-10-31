@@ -263,7 +263,8 @@ theorem exists_additiveMellin_rapid_bound_positive (W : AdditiveProbeTest K Sset
     (finiteExtension K S W) (finiteExtension_locallyConstant K S W)
     (finiteExtension_compactSupport K S W)
   simp_rw [physical_additiveMellin_eq_orbital]
-  exact exists_orbitalMellin_rapid_bound_positive K Sset (⊤ : Subgroup (Sset.unit K))
+  exact exists_orbitalMellin_rapid_bound_positive K Sset
+    (⊤ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
     (traceSchwartzFourier K W.infiniteTest)
     (sIntegerFiniteFourierTestFunction K S μv (finiteExtension K S W))
     hft.1.continuous hft.2 σ hσ n
@@ -283,7 +284,8 @@ theorem physical_additiveMellin_inversion (W : AdditiveProbeTest K Sset)
         (sIntegerFiniteFourierTestFunction K S μv (finiteExtension K S W)) :=
     funext (physical_additiveMellin_eq_orbital K S μv W)
   rw [hM, additiveFourier_eq_tensor]
-  exact orbitalProfile_mellin_inversion K Sset (⊤ : Subgroup (Sset.unit K))
+  exact orbitalProfile_mellin_inversion K Sset
+    (⊤ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
     (traceSchwartzFourier K W.infiniteTest)
     (sIntegerFiniteFourierTestFunction K S μv (finiteExtension K S W))
     hft.1.continuous hft.2 σ hσ hr

@@ -27,12 +27,13 @@ namespace HeckeSkeleton.ExpansionRecipe
 open NumberField HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Physical HeckeGeneral.ThetaSkeleton.TIP
+open HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.Analysis.ExpansionRecipe
 open scoped Classical BigOperators
 
 variable (K : Type) [Field K] [NumberField K]
 
-def detectorParameterDimension : ℕ := 6
+abbrev detectorParameterDimension : ℕ := 6
 
 abbrev DetectorVector := Fin detectorParameterDimension → ℝ
 
@@ -56,8 +57,13 @@ def cutoffTwistTest (W : IdealTest K) (V : ℝ → ℂ) (R : ℝ)
   support u _ D := (W.support u 0 D).filter
     (fun I => V (R * (idealNorm K I / D)) ≠ 0)
   support_spec u _ D I := by
-    simp only [Finset.mem_filter, W.support_spec, mul_ne_zero_iff,
-      profilePower_ne_zero, and_true]
+    rw [Finset.mem_filter, W.support_spec]
+    constructor
+    · rintro ⟨hW, hV⟩
+      exact mul_ne_zero (mul_ne_zero hW hV) (profilePower_ne_zero _ _)
+    · intro h
+      exact ⟨left_ne_zero_of_mul (left_ne_zero_of_mul h),
+        right_ne_zero_of_mul (left_ne_zero_of_mul h)⟩
 
 def plainTwistTest (W : IdealTest K) (β ν : NonzeroIdeal K → ℝ) : IdealTest K :=
   W.freezeTwist (fun _ => 0) (fun u => -(β u : ℂ) + (ν u : ℂ) * Complex.I)

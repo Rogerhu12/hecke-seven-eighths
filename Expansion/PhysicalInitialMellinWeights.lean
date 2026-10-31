@@ -84,7 +84,8 @@ theorem continuous_physical_additiveMellin_line (W : AdditiveProbeTest K Sset)
     (Expansion.PhysicalFourierNormalization.finiteExtension_locallyConstant K S W)
     (Expansion.PhysicalFourierNormalization.finiteExtension_compactSupport K S W)
   simp_rw [physical_additiveMellin_eq_orbital K S μv W]
-  exact continuous_orbitalMellin_positive_line K Sset (⊤ : Subgroup (Sset.unit K))
+  exact continuous_orbitalMellin_positive_line K Sset
+    (⊤ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
     (traceSchwartzFourier K W.infiniteTest)
     (sIntegerFiniteFourierTestFunction K S μv
       (Expansion.PhysicalFourierNormalization.finiteExtension K S W))
@@ -105,7 +106,8 @@ theorem verticalIntegrable_physical_additiveMellin (W : AdditiveProbeTest K Sset
           (Expansion.PhysicalFourierNormalization.finiteExtension K S W)) :=
     funext (physical_additiveMellin_eq_orbital K S μv W)
   rw [heq]
-  exact verticalIntegrable_orbitalMellin_positive K Sset (⊤ : Subgroup (Sset.unit K))
+  exact verticalIntegrable_orbitalMellin_positive K Sset
+    (⊤ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
     (traceSchwartzFourier K W.infiniteTest)
     (sIntegerFiniteFourierTestFunction K S μv
       (Expansion.PhysicalFourierNormalization.finiteExtension K S W))

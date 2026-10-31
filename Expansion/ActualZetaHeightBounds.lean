@@ -52,7 +52,7 @@ theorem exists_actual_deletedZeta_midStrip_height_bound
   rw [heckeDeletedContinuation, norm_mul]
   calc
     _ ≤ D * (C * (2 + |s.im|) ^ k) :=
-      mul_le_mul (norm_heckeEulerDeletionPolynomial_le K (exceptionalPrimes K S) 1 s hs)
+      mul_le_mul (norm_heckeEulerDeletionPolynomial_le K (exceptionalPrimes K S) 1 s (by linarith))
         hfull (norm_nonneg _) hD.le
     _ ≤ D * (C * ((2 : ℝ) ^ k * (1 + |s.im|) ^ k)) := by
       gcongr

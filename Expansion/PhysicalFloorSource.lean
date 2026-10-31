@@ -50,8 +50,11 @@ theorem floorRecipeAmplitude_rows (F : RecipeFamily K ψ g)
     (hnorm : ∀ u ∈ rows, frequencyRowNorm K S u ≤ 2 * U)
     (hsector : ∀ u ∈ rows, u.sector = sector) :
     (floorRecipeAmplitude K S ψ g F rows sector p amplitude).rows U = rows := by
-  ext u
-  simp only [RecipeAmplitudeData.rows, floorRecipeAmplitude, Finset.mem_filter]
+  apply Finset.ext
+  intro u
+  change u ∈ (frequencyRows K S (2 * U)).filter
+    (fun v => v ∈ rows ∧ v.sector = sector) ↔ u ∈ rows
+  rw [Finset.mem_filter]
   constructor
   · exact fun h => h.2.1
   · intro hu

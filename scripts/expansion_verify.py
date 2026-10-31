@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the EXPANSION source manifest and audit every imported declaration.
 
-The three groups are reported separately.  The skeleton group deliberately
+The source groups and disjoint actual shards are reported separately.  The skeleton group deliberately
 records inherited admissions; it is not counted as an admission-free proof.
 No dependency source or compiled artifact is changed by this script.
 """
@@ -38,6 +38,27 @@ STRICT_SOURCE_MODULES = (
     "HeckeSkeleton.SourceData",
     "HeckeSkeleton.ExpansionModels.SourceData",
 )
+ACTUAL_SHARDS = ("actual-arithmetic", "actual-physical", "actual-contours")
+
+
+def actual_shard(module: str) -> str:
+    """Partition audit ownership; Lake still builds every original import."""
+    if module.startswith("Expansion.Physical") or module in (
+        "Expansion.FiniteTripleContourTransport", "Expansion.PowerHeightTailAlgebra",
+    ):
+        return "actual-physical"
+    if module.startswith((
+        "Expansion.ActualPrincipal", "Expansion.ActualDeletedZeta",
+        "Expansion.ActualZeta", "Expansion.ActualTargetReciprocal",
+        "Expansion.ActualRow", "Expansion.ActualOuter", "Expansion.ActualModerate",
+        "Expansion.ActualFiniteRow", "Expansion.ActualMellin",
+        "Expansion.ActualSmallRow", "Expansion.ActualLargeRow",
+        "Expansion.ActualRetained", "HeckeSkeleton.ExpansionModels.SmallRow",
+        "HeckeSkeleton.ExpansionModels.LargeRow", "HeckeSkeleton.ExpansionModels.PrincipalRow",
+        "HeckeSkeleton.ExpansionModels.ActualKernel", "HeckeSkeleton.ExpansionModels.ActualMellin",
+    )):
+        return "actual-contours"
+    return "actual-arithmetic"
 
 
 def module_name(path: Path) -> str:
@@ -140,11 +161,20 @@ def audit_source(modules: list[str], strict: bool) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--group", choices=("pure", "actual", "skeleton"), required=True)
+    parser.add_argument("--group", choices=("pure", "actual", "skeleton", *ACTUAL_SHARDS), required=True)
     parser.add_argument("--plan", action="store_true")
     args = parser.parse_args()
     all_sources = sources()
-    selected = groups(all_sources)[args.group]
+    grouped = groups(all_sources)
+    if args.group in ACTUAL_SHARDS:
+        partition = {name: [m for m in grouped["actual"] if actual_shard(m) == name]
+                     for name in ACTUAL_SHARDS}
+        flattened = [m for members in partition.values() for m in members]
+        if len(flattened) != len(set(flattened)) or set(flattened) != set(grouped["actual"]):
+            raise RuntimeError("Actual audit partition does not cover each source exactly once")
+        selected = partition[args.group]
+    else:
+        selected = grouped[args.group]
     if not selected:
         raise SystemExit("No source modules selected")
     OUT.mkdir(exist_ok=True)

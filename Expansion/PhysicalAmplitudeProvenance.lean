@@ -91,9 +91,11 @@ variable (slotCoefficient : Fin g.slots → HeckeCharacter K)
 The first label assertion covers every actual amplitude code through the
 canonical embedding; the second also identifies every padded label. -/
 theorem exists_physical_live_block_source_with_provenance
-    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex) (lam : ℝ) (hlam : 0 < lam) :
+    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex) (lam : ℝ) (hlam : 0 < lam)
+    (eCap : ℝ) (heCap : 0 < eCap) :
     ∃ e ε ceiling k : ℝ,
-      0 < e ∧ e < 1 / 1000 ∧ e ≤ lam / 1000 ∧ 0 < ε ∧ 0 < ceiling ∧ 0 < k ∧
+      0 < e ∧ e < 1 / 1000 ∧ e ≤ lam / 1000 ∧ e ≤ eCap ∧
+      0 < ε ∧ 0 < ceiling ∧ 0 < k ∧
       ∀ N : ℕ, ∀ τ : ℝ, 0 < τ → τ ≤ ceiling →
         let F := scaledCanonicalRecipeFamily K ψ g cutoffProfile slotTime slotPower
           slotCoefficient (3 * ((N : ℝ) + 1))
@@ -124,10 +126,10 @@ theorem exists_physical_live_block_source_with_provenance
               (∀ l, ∃ label : AmplitudeLabels g.slots width ((2 * a - 1) / 2),
                 PhysicalAmplitudeOrigin K S P E.rows ω ψ g F width ((2 * a - 1) / 2)
                   Z (Z ^ τ) (Z ^ d) rows sector label (b.amplitude l)) := by
-  obtain ⟨e, ε, ceiling, k, he, heSmall, heLam, hε, hceiling, hk, hsource⟩ :=
+  obtain ⟨e, ε, ceiling, k, he, heSmall, heLam, heCap', hε, hceiling, hk, hsource⟩ :=
     exists_physical_amplitude_source K S P ω ψ g E slotTime slotPower
-      slotCoefficient hcomplex lam hlam
-  refine ⟨e, ε, ceiling, k, he, heSmall, heLam, hε, hceiling, hk, ?_⟩
+      slotCoefficient hcomplex lam hlam eCap heCap
+  refine ⟨e, ε, ceiling, k, he, heSmall, heLam, heCap', hε, hceiling, hk, ?_⟩
   intro N τ hτ hτc
   dsimp only
   let F := scaledCanonicalRecipeFamily K ψ g cutoffProfile slotTime slotPower

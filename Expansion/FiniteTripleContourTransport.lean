@@ -67,8 +67,12 @@ theorem continuous_vertical_kernel_of_analytic
       F (vertical sigma p.1) (vertical nu p.2.1) (vertical zeta p.2.2)) := by
   apply continuous_iff_continuousAt.mpr
   intro p
+  have hmap : Continuous (fun q : ℝ × ℝ × ℝ =>
+      (vertical sigma q.1, vertical nu q.2.1, vertical zeta q.2.2)) := by
+    unfold vertical
+    fun_prop
   exact (hF _ (hmem p.1 p.2.1 p.2.2)).continuousAt.comp
-    (by unfold vertical; fun_prop)
+    hmap.continuousAt
 
 theorem continuous_vertical_kernel
     (F : ℂ → ℂ → ℂ → ℂ) (s0 s1 w0 w1 z0 z1 : ℝ)
@@ -120,12 +124,22 @@ theorem integral_sub_integral_twice
     continuous_parametric_integral_of_continuous hf isCompact_Icc
   have hgc : Continuous (fun x => ∫ y in heightBox H, g x y) :=
     continuous_parametric_integral_of_continuous hg isCompact_Icc
-  rw [← integral_sub hfc.continuousOn.integrableOn_Icc hgc.continuousOn.integrableOn_Icc]
+  have hfi : Integrable (fun x : ℝ => ∫ y in heightBox H, f x y)
+      (volume.restrict (heightBox H)) :=
+    hfc.continuousOn.integrableOn_compact (show IsCompact (heightBox H) from isCompact_Icc)
+  have hgi : Integrable (fun x : ℝ => ∫ y in heightBox H, g x y)
+      (volume.restrict (heightBox H)) :=
+    hgc.continuousOn.integrableOn_compact (show IsCompact (heightBox H) from isCompact_Icc)
+  rw [← integral_sub hfi hgi]
   apply integral_congr_ae
   filter_upwards [] with x
-  exact (integral_sub
-    ((hf.comp (show Continuous (fun y : ℝ => (x, y)) by fun_prop)).continuousOn.integrableOn_Icc)
-    ((hg.comp (show Continuous (fun y : ℝ => (x, y)) by fun_prop)).continuousOn.integrableOn_Icc)).symm
+  have hfx : Integrable (fun y : ℝ => f x y) (volume.restrict (heightBox H)) :=
+    (hf.comp (show Continuous (fun y : ℝ => (x, y)) by fun_prop)).continuousOn.integrableOn_compact
+      (show IsCompact (heightBox H) from isCompact_Icc)
+  have hgx : Integrable (fun y : ℝ => g x y) (volume.restrict (heightBox H)) :=
+    (hg.comp (show Continuous (fun y : ℝ => (x, y)) by fun_prop)).continuousOn.integrableOn_compact
+      (show IsCompact (heightBox H) from isCompact_Icc)
+  exact (integral_sub hfx hgx).symm
 
 /-- Moving the innermost z line keeps both genuine horizontal z faces. -/
 theorem boxIntegral_sub_z
@@ -145,7 +159,11 @@ theorem boxIntegral_sub_z
     apply continuous_parametric_integral_of_continuous (s := heightBox H) _ isCompact_Icc
     exact hc.comp (by fun_prop : Continuous (fun p : (ℝ × ℝ) × ℝ => (p.1.1, p.1.2, p.2)))
   unfold boxIntegral
-  rw [integral_sub_integral_twice _ _ (hinner z0 hcont0) (hinner z1 hcont1) H]
+  rw [integral_sub_integral_twice
+    (fun ts tw => ∫ tz in heightBox H, F (vertical sigma ts) (vertical nu tw) (vertical z0 tz))
+    (fun ts tw => ∫ tz in heightBox H, F (vertical sigma ts) (vertical nu tw) (vertical z1 tz))
+    (hinner z0 hcont0) (hinner z1 hcont1) H]
+  unfold zFaces
   apply integral_congr_ae
   filter_upwards [] with ts
   apply integral_congr_ae
@@ -155,8 +173,10 @@ theorem boxIntegral_sub_z
   have hmem : (vertical sigma ts, vertical nu tw, z) ∈ sweptTube sigma sigma nu nu z0 z1 := by
     have hzr : z.re ∈ uIcc z0 z1 := by simpa only [uIcc_comm] using hz.1
     simpa [sweptTube, vertical] using hzr
-  exact ((hF _ hmem).differentiableAt.comp z
-    (differentiableAt_const.prodMk (differentiableAt_const.prodMk differentiableAt_id))).differentiableWithinAt
+  have hmap : DifferentiableAt ℂ
+      (fun zz : ℂ => (vertical sigma ts, vertical nu tw, zz)) z :=
+    differentiableAt_const.prodMk (differentiableAt_const.prodMk differentiableAt_id)
+  exact ((hF _ hmem).differentiableAt.comp z hmap).differentiableWithinAt
 
 /-- The middle-coordinate move is a proved Fubini permutation followed
 by the same finite rectangle theorem. -/
@@ -172,8 +192,12 @@ theorem boxIntegral_sub_w
     intro v hv
     have hv' : (v.1, v.2.2, v.2.1) ∈ sweptTube sigma sigma w0 w1 zeta zeta :=
       ⟨hv.1, hv.2.2, hv.2.1⟩
-    exact (hF _ hv').comp (analyticAt_fst.prodMk
-      ((analyticAt_snd.comp analyticAt_snd).prodMk (analyticAt_fst.comp analyticAt_snd)))
+    have hs : AnalyticAt ℂ (fun x : ℂ × ℂ × ℂ => x.1) v := analyticAt_fst
+    have hw : AnalyticAt ℂ (fun x : ℂ × ℂ × ℂ => x.2.1) v :=
+      analyticAt_fst.comp analyticAt_snd
+    have hz : AnalyticAt ℂ (fun x : ℂ × ℂ × ℂ => x.2.2) v :=
+      analyticAt_snd.comp analyticAt_snd
+    exact (hF _ hv').comp (hs.prod (hz.prod hw))
   have hswap (wline : ℝ) (hw : wline ∈ uIcc w0 w1) :
       boxIntegral F H sigma wline zeta = boxIntegral G H sigma zeta wline := by
     have hc := continuous_vertical_kernel F sigma sigma w0 w1 zeta zeta hF
@@ -199,8 +223,12 @@ theorem boxIntegral_sub_s
     intro v hv
     have hv' : (v.2.2, v.1, v.2.1) ∈ sweptTube s0 s1 nu nu zeta zeta :=
       ⟨hv.2.2, hv.1, hv.2.1⟩
-    exact (hF _ hv').comp ((analyticAt_snd.comp analyticAt_snd).prodMk
-      (analyticAt_fst.prodMk (analyticAt_fst.comp analyticAt_snd)))
+    have hs : AnalyticAt ℂ (fun x : ℂ × ℂ × ℂ => x.1) v := analyticAt_fst
+    have hw : AnalyticAt ℂ (fun x : ℂ × ℂ × ℂ => x.2.1) v :=
+      analyticAt_fst.comp analyticAt_snd
+    have hz : AnalyticAt ℂ (fun x : ℂ × ℂ × ℂ => x.2.2) v :=
+      analyticAt_snd.comp analyticAt_snd
+    exact (hF _ hv').comp (hz.prod (hs.prod hw))
   have hcycle (sline : ℝ) (hs : sline ∈ uIcc s0 s1) :
       boxIntegral F H sline nu zeta = boxIntegral G H nu zeta sline := by
     exact tripleIntegral_cycle
@@ -253,11 +281,14 @@ theorem norm_double_setIntegral_le (f : ℝ → ℝ → ℂ) (H M : ℝ) (hH : 0
   have hvol : volume.real (heightBox H) = 2 * H := by
     rw [heightBox, Real.volume_real_Icc_of_le (by linarith : -H ≤ H)]
     ring
+  have hfinite : (volume : Measure ℝ) (heightBox H) < ⊤ :=
+    isCompact_Icc.measure_lt_top
   have hinner (x : ℝ) (hx : x ∈ heightBox H) :
       ‖∫ y in heightBox H, f x y‖ ≤ M * (2 * H) := by
     simpa only [hvol] using norm_setIntegral_le_of_norm_le_const
-      isCompact_Icc.measure_lt_top (hf x hx)
-  have houter := norm_setIntegral_le_of_norm_le_const isCompact_Icc.measure_lt_top hinner
+      (μ := (volume : Measure ℝ)) (s := heightBox H) hfinite (hf x hx)
+  have houter := norm_setIntegral_le_of_norm_le_const
+    (μ := (volume : Measure ℝ)) (s := heightBox H) hfinite hinner
   simpa only [hvol, pow_two, mul_assoc] using houter
 
 theorem norm_zFaces_le (F : ℂ → ℂ → ℂ → ℂ) (H sigma nu z0 z1 M : ℝ) (hH : 0 ≤ H)

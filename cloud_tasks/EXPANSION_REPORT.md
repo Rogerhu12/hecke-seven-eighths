@@ -1,137 +1,80 @@
-# EXPANSION：真实检测源、同源见证配方与验证报告
+# EXPANSION：实际展开、同源检测配方与验证状态
 
-分支：`codex/expansion-detector-20261030`；基线：`dtests-handoff`；交付：PR #5。
+分支 `codex/expansion-detector-20261030`，PR #5，基线 `dtests-handoff`。
 
-**整个 EXPANSION 任务尚未闭合。** 本报告严格区分已经由 Lean 检查的定理、已经写完但尚待核验的实际项目接线，以及仍然开放的顶层数据构造。保留 Draft 状态，不把接口校准或部分编译成功当成全项目完成。
+**任务仍在进行，原始目标尚未全部通过。** 下文把实际成功的编译与已经写成但尚待编译的源码分开列出。辅助模块通过不替代 `expansionRecipeRaw`、原始 EX 定理及其类型依赖的严格验收；达到全部标准后才将 PR 标为可审查。
 
-主定理的逐字源码陈述另列于 [EXPANSION_CONTRACTS.md](EXPANSION_CONTRACTS.md)，包含全部定理假设；完整 section 上下文和证明在链接的 `.lean` 文件中。
+## 原始目标与实际对象
 
-## 1. 已核验的真实终端源与 Fourier 尾项
+最终展开必须作用于原 `normalizedProbe - principalLineProbe`。它由主行三项余量、小行、绝对大行、固定缓冲壳层块及真实高度尾组成。物理字符、完整理想掩码、有限素数窗口、全部 selected/unselected compensation 和原 primeNormalizer 都留在同一核中。族参数始终允许 `7/8 < B ≤ 1`，没有新增 `B ≤ 11/12` 或 `delta ≤ 5/6`。
 
-`Expansion/TerminalFourierTail.lean` 的核心结论直接作用于真实非零整理想有限和。它保留原始 Möbius 系数和所有 Euler 删除零掩码，先作有限 dyadic 分解，再在一个共同的有界 Fourier 频率上提取 inverse/plain 乘积。
+原小行界的 saving 为 `1/50`；主行两条竖线保留 `23/960` 与 `13/9600`，第三项保留原 `principalSlotSaving`；大行目标保留 `63/800`。顶层 `GeneralHeckeSevenEighths` 的声明未改。
 
-这里的三个截断必须区分：终端卷积截断是 `H = U^21`；dyadic 上限是 `dyadicCap (3H)`；用于 Fourier 与完整 annular profile 接合的理想环境集是 `nonzeroTerminalSet (6H)`。源码证明扩大环境集后原始终端源不变。旧的 `nonzeroTerminalSet H` 不足以容纳所有保留 dyadic 尺度的完整 annular 支持。
+## 同一真实源生成见证与矩模型
 
-在扩大后的环境集上，每个系数质量至多为 `(18H)^2 * CZ`。两因子合计保留 `U^84` 的幂次，粗 dyadic 双计数损失至多 `U^2`。对于任何固定 `τ > 0`，取自然数阶数 `N` 满足 `τ*N ≥ 87`，使用半径
+共享 `HeckeSkeleton.SourceData` 固定显式全尺度 E，`SourceMomentIndexFor / ModelsFor / PolynomialCalibrationFor / RowEligibilityFor / WholeMomentProfileControlFor / UniformMomentBoundFor` 全部使用它。`recipeMomentSourceData` 使用同一 `RecipeExpansion R`；actual aliases 最后选择 `expansionRecipeRaw`。模型行宽是 `1+log 2/log U`，精确覆盖原 `U<N(u)≤2U`，多项式长度基数仍为 U，capacity 上端仍为 1。
 
-```text
-R = U^τ / (8π + 8)
-```
+实际 detector 端点从原 Hecke 零点、有限高度 buffered zero bounds、原删除系数和固定 cutoff 推出 terminal source、同频率 inverse/plain 乘积、两因子饱和及长度条件。它们不接受最终多项式上下界。Fourier 环境集取 `6H`，源本身不变；真实 `2pi` 频率消耗已纳入高度缓冲。有限背景取消行的纯范数极点由实际算术角色的有限纤维阈值排除。
 
-便得到至多 `K/U` 的尾项，显式阈值 `U ≥ max 2 (8K)` 令它不超过 `1/8`。常数、导数阶数与共同 Fourier 质量都在逐行、逐零点、逐 dyadic 选择之前确定。
+`PhysicalAmplitudeSource / Provenance` 从原素数多项式数值构造有限 amplitude fibers，在同一物理高度盒中选择最大行数样本，并保留所有原标签及其精确来源。`PhysicalRecipeSchedule / Assembly` 固定壳层、互斥 buffered selector、sector 与标签族；每个块的值在所有尺度上都是原 shifted rowContourBox 的真实有限和。小尺度默认见证也不改这个值。
 
-GitHub Actions run `41156938468`、pure job `124406070209` 在提交 `8912a81da02c0a9f1c138f23f5a7d3378b4b9e51` 实际完成了这条链的 Lake 编译。日志明确列出 `actual_terminal_product_eventually`、`actual_zero_product_eventually` 及其支持、尾项和频率连接定理，公理均只有 `propext`、`Classical.choice`、`Quot.sound`。该 pure **job 整体仍失败**，原因是另一个 `AnnularCutoffFamily` 模块的证明错误；不能把此部分验证称作整个 job 成功。
+`physicalRecipeExpansion_geometry` 给统一 `MomentGeometry 22`，包括无选中行的标签；实参数范围为 8，虚参数为 `1+||heights||`，原高度锚不变。`exists_physical_recipe_parameters` 先选检测宽度、标签宽度、ceiling 与计数常数，再允许选择 tau 和尺度。新增独立正 cap 令内部 e 同时服从两项外部损失；通过同一 WitnessCover 的 loss 单调性放宽到 lamA，原壳层上端仍由 lamA 控制。没有因 lamB 很小而错误缩短壳层。
 
-## 2. 实际 Hecke 零点到两个饱和因子
+这些 actual 配方源码还须通过当前 native build，并与原 `expansionRecipeRaw` 项最终识别。
 
-下列实际项目端点已写入真实仓库定义，正在逐层核验：
+## 物理 Poisson 与初始 Mellin 链
 
-| 端点 | 供应的连接 | 仍作为输入的真实数学条件 |
-|---|---|---|
-| `exists_original_masked_product` | 普通 Hecke 零点 → 原始终端源 → 同频率乘积 | 固定无穷型、非范数角色、导子与行范数界、零点条带和幂次高度、平滑 cutoff |
-| `exists_original_masked_saturation` | 再使用真实有限 Mellin 上界，推出两个单独下界及长度饱和 | 同一角色的缓冲上零点界及明确数值预算；不假设终端源或多项式上、下界 |
-| `exists_canonical_row_saturation` | 从原始物理行自动提供无穷型、导子、非范数角色，并统一两个背景的阈值 | 真实 `rowZeroAbove` / `rowZeroBelow`、物理壳层范数和高度几何 |
-| `exists_physical_row_detection` | 固定真实 cutoff 和显式损失预算，代入 `U=Z^d`、`T=Z^τ`、相邻物理高度 | `d∈[1/16,1]`、`t∈[1,3/2]`、真实物理零点 bin；无逐行算术或检测结论假设 |
-| `exists_physical_witness_cover` | 构造真实 `RecipeAmplitudeData`，证明原有 `WitnessCover` 与六维矩参数盒 | 同一 sector 的有限真实行、上述物理 bin、同一物理点及原始 slot/amplitude 数据 |
+已写成的完整源码链保留真实 Haar/Fourier、Gauss 系数、六次剩余符号和原理想轨道：
 
-完整删除集始终包含固定异常集 `S`、六以上的素理想，以及完整原始行理想的全部素因子。没有将它替换为角色导子支持。
+1. `PhysicalFourierNormalization / FinitePoisson / ProbePoisson` 从原归一化 Poisson 公式推导真实有限系数变换与物理探针公式。
+2. `PhysicalFrequencyReindex` 证明原频率到六次幂自由行/sector 的真实满射与可和重排，识别唯一主行。`PhysicalAdditiveOrigin` 从原 annular 支持证明实际原点值为零，Fourier 零值使用实际 test 假设。
+3. `PhysicalCompletedPoisson` 完成真实 completed-theta、denominator 与频率和的交换。
+4. `PhysicalPositiveMellinInversion / InitialHeight / InitialPowers / InitialMellinTerm / Absolute / Identity` 给正线 Mellin 反演、真实 height shear、三变量绝对交换与初始线 `(5,5,3)`。
+5. `PhysicalCompensatedInitial` 由 PR #7 的实际 Euler calibration 接到完整原 compensatedRowMellinKernel；`PhysicalInitialRowSum / Truncation` 给逐行 norm-integral 可和、唯一主行拆分，以及原有限盒加真实盒外积分。
 
-### 实际字符与范数角色的处理
+上述源码不以目标积分恒等式、收敛结论或最终范数界为输入。正在用原 Lean 环境逐层编译；不能把写成状态计为验证通过。
 
-固定背景乘上非主行字符仍可能成为范数角色；因此“行自身非范数角色”不足以处理全部背景。`PhysicalRowPoleExclusion` 使用实际算术角色有限纤维定理构造有限例外行集，再取一个共同范数阈值。它不假设角色映射单射，也不要求背景在原始 `S` 外不分歧。
+## 原主行、外部行及移线尾
 
-现有 `MomentData` 的 plain 背景只允许 `1, ψ, ψ⁻¹`。因此不任意扩大背景集合，而取 identity companions `{1}`，仍保留物理族的四个实际字符。对逆向字符先反射零点，再运行检测，得到两个规范方向：背景 `1` 或 `ψ⁻¹` 乘同一个正向算术行字符。inverse 与 plain 由此使用完全同一个角色和频率。
+实际素数计数链直接从原 prime logarithmic derivative、有限高度 contour 与去对数窗口得到 primeNormalizer 的正性及任意小幂 reciprocal 界，不调用旧 admitted 的 `PR-WINDOW-PIT`。
 
-`CanonicalDetectorBounds` 由有限阶行的实际无穷型和原始理想导子定理给出统一参数。导子常数显式包含固定 `S` 的导子预算、域判别式以及两个固定背景的有限导子。
+`ActualSmallRowBound` 合并真实 common-packet reciprocal、有限删除多项式、原局部 Euler 表、Mellin 权重与行求和，得到 `(B+e,1/2,17/50)` 的小行界。`ActualLargeRowBound` 保留所有真正大行，在 `(2,2,1+3/zeta)` 得绝对可和尾及半幂节省，足以给原目标。
 
-### 预算与选择顺序
+主行的实际 pole-cleared zeta、两项 residue limits、w/z 全线移线、双留数与 `compensatedPrincipalCorrection` 的精确识别已经写成。原 w 余项取 `19/20`，z 余项取 `33/200`；主要 residue line 才移回原 `Re(s)=2`。`ActualPrincipalUniformDecay / ResidueTails` 固定粗尺度幂与高度次数，再选择任意外部衰减阶，保留真实有限积分差和高斯尾。
 
-令 `A` 为固定 Hecke 高度次数、`η>0`。`DetectorHeightGeometry` 使用
+`FiniteTripleContourTransport` 保留六个字面横面。small/large 使用正区；moderate 的真实起点是 `(B+20e,1-a-6e,17/50)`，其 w 可为负，不能塞进要求 w>0 的 rowEulerRegion。`ActualModerateSweepHolomorphy / CorrectionBound` 使用 PR #7 较大的真实 sweptTube 和正常收敛 Euler product，保持原 hmove 的起终点与原 mask。粗有限 tuple/subset 求和只用于横边尾预算，不冒充最终 slot cancellation 界。
 
-```text
-e = ε = min (η/4096) (1/2000)
-ceiling = min (1/(64*(A+1))) (η/(2048*(A+1)))
-```
+`PowerHeightTailAlgebra` 合并已经证明的尾，保持 A、R、ceiling 在 tau 与外部 N 之前。
 
-该模块当前源码已通过严格选项的本机 Lean 编译，打印公理仅有标准三项。它证明对于所有 `0<τ≤ceiling`，零点高度预算和正、反射两种 Mellin 损失同时成立。Fourier 半径使用 `τ`，零点/上矩形的幂次包络使用 `32τ`，二者不混用。
+## 独立可审查的定义修正
 
-最终端点先选 `e, ε, ceiling`（覆盖定理还先选计数常数），再允许选择有限高度数 `N`，再选 `τ` 和共同 `Z₀`，最后才选择壳层、bin、行、源指数、零点及频率。因此以后按 `N=ceil(C/e)` 选择缓冲层数不会循环。
+| 问题 | 修正及依据 |
+| --- | --- |
+| 实际 Fourier normalization 的 Poisson 标量遗漏 | `physicalResidueNormalizer` 与 row numerator 同时加入 `c_K=2^r2/sqrt(abs(discr K))`。逐点证明原数值 row kernel 不变；物理 normalizedProbe 明确乘固定 `c_K^-1`。论文 3529–3531 允许固定 Haar convention 改变 residue scalar。独立提交 `7e44ea4`，详见 EXPANSION_POISSON_NORMALIZATION.md。 |
+| 旧 packet 表示未去掉 omega 自身的范数分量 | 固定一个无限位，令 target 乘 NormTwist(radial target)，使该径向分量为零。正确的 untwisted_eq 使用 normalized omega。原 packet、零实部和 permitted inverse 不变。 |
+| 正槽 theta={1} 不能排除有限 plain background 的取消行 | canonical theta 在 psi 有限阶时取 `{1,psi,psi^-1}`，否则 `{1}`；对全模型证明 plain 非主，再由径向零分量排除所有 normTwist。另从真实有限纤维证明物理行的 eventual eligibility。 |
 
-覆盖端点还显式输出 `e ≤ lam/1000`。`witnessCover_weaken_loss` 证明在同一 `RecipeAmplitudeData` 上放宽损失参数会保留计数、长度、覆盖与两个 spike 下界，因此可先以 `lam = min lamA lamB` 选检测预算，再接入原有 `lamA` 的见证接口；原始 bin 宽度要求不会被遗漏。
+后两项按 #12 评论协调由共享源 owner 修正。新旧陈述、论文1537–1548及3818–3825的依据、影响的调用者和验证状态详见 `EXPANSION_CHARACTER_NORMALIZATION.md`。未新增最终矩界或无零点假设。
 
-## 3. 同一个实际配方生成见证与矩模型
+## 已完成的验证与当前阻塞
 
-`ActualCanonicalRecipe` 的两个 presentation 直接使用既有 `PolynomialPresentation`。两个 annular test 都是实际 dyadic profile；cutoff 是同一显式 `cutoffProfile`；源截断保持字面上的 `D=U^t`。归一化后的 inverse/plain 值与原始检测有限和逐项相等，所有原始掩码保持不变。
+环境：Lean `4.35.0-rc3`，compiler `470d5ce1400764999581fd26d5d72b00d990b0f4`；Mathlib `0493595ecd5da8ef14742febab99728f98e948e8`；项目原 implicit 选项不变。所有当前 CI 使用维护者最新 README 指定的官方 `restore-lake-cache@ci/lake-cache-test`。自定义恢复/重编译驱动已移除；编译日志、源码清单和公理输出只放 Actions artifacts。
 
-频率 `ν=2πξ−Im ρ` 可能达到固定倍数的 `T`。配方存储 `ν/C`，在 profile 中恢复 `C*(ν/C)=ν`，其中 `C=3(N+1)`。全局六维参数向量仍以原始 `T` 为锚，没有改成新的物理高度。实际模型满足实部参数范数至多 `8`，虚部参数范数至多 `1+‖heights‖`，并有 `‖heights‖=T`。
+- `5bf0cbc` 的 EXPANSION pure job `124511697073` 完整成功：穷尽审计 **1,996 个声明，0 个非标准公理依赖**。actual/skeleton 当时均被同一 physical residue cancellation 化简超时阻挡。
+- `2cba624` 修复该消去证明后，skeleton 日志明确新编译 `PhysicalProbePrincipal`（14秒）、`HeckeAxiom.ProbeNormalization`（6.1秒）、`HeckeSkeleton.Base`（6.3秒）。这三项成功不表示骨架无 admissions。
+- `2cba624` 的 Theta run `41193234078` 完整成功。
+- `2cba624` 的 pure 新失败是 PhysicalInitialHeight 的 pi volume 实例不匹配，已改为真实 product measure-preserving 等价；skeleton 新失败集中于旧 DetectorProfiles 的 namespace、Fin6 数值实例与支持集证明，修复已写入。两组均尚须重验，未执行最终穷尽审计。
+- `2cba624` 的 actual job `124514098386` 已完成失败。原始日志逐项定位到有限轮廓 transport、物理 Fourier、主行 punctured limits、小行 reciprocal/Mellin、大行 subtype 重排、实际 Euler/cast 以及 canonical amplitude 的 elaboration 根错误；本批按这些日志修复，并处理相同记号在未编译后继模块中的同形错误。尚须 CI 重验，不据静态检查宣称通过。
+- 共享 SourceData 的7个公开接口已在 #12 run `41190828198` 实际 Built 并逐项验证仅三条标准公理；本分支也加入逐声明严格 gate，类型依赖同样接受检查。
 
-`FiniteTerminalLabels` 的离散标签是两个 presentation 与两份真实 dyadic 指数。标签数为
+历史逐模块记录保留在 `EXPANSION_VALIDATION.json`；历史 pass 不自动覆盖改动后的源码。allowed axioms 仅 `propext`、`Classical.choice`、`Quot.sound`。failed、cancelled、仅打印 Ran 或尚未编译的声明不计通过。
 
-```text
-2 * (dyadicCap (3*U^21) + 1)^2 ≤ k * U^lam.
-```
+下一轮保留完整 source manifest 与传递公理检查，将原 actual 审计任务按 arithmetic、physical、contours 三组分配；每个模块恰归一组，所有原 imports 仍由 Lake 构建。pure 与 skeleton 各保留独立任务，skeleton 中的共享 SourceData 严格 gate 不变。拆组仅用于缩短反馈时间，未删除声明、放宽公理白名单或改变验收标准。
 
-连续零点/频率信息由固定 sector 的实际理想嵌入组装成一对理想索引参数映射。无效离散标签使用长度 `(t,0)`，其选中行纤维为空；它们不会被赋予虚假的 spike。
+## 完成标准尚需接通的部分
 
-`PhysicalWitnessCover` 构造同一 `RecipeAmplitudeData`，保留输入的候选行、sector、物理点与 amplitude 数据。对每个 `t∈[1,3/2]` 证明原有 `WitnessCover`：有限覆盖、subpower 计数、所有标签的长度条件，以及两种实际模型多项式的下界。其最终陈述没有把这些下界作为假设。
-
-通用配方归一化已经从依赖 named `Moments` 的文件中拆出为 `RecipeDetectorNormalization`。原 `SourceRecipeNormalization` 是兼容包装并保留 named 投影定理；具体检测配方不再通过该包装导入 admitted 的全局数据。
-
-## 4. 与原任务之间仍缺的内容
-
-| 原始目标 | 本次状态和剩余边界 |
-|---|---|
-| D-EXPANSION / `expansionRecipeRaw` | 仍开放。需将实际全局 buffered row selector、完整物理积分和 amplitude 采样/输运填入一个全局配方。当前实际检测覆盖提供了 witness 子构造，但尚不是该全局配方。 |
-| D-SUPPORT | 现有高层支持结论由配方的实际行枚举推出；named 结论仍继承未构造 `expansionRecipeRaw` 的依赖。 |
-| EX-HEIGHT-BUDGET / EX-CUTOFFS | 检测子链已有显式共同预算与阈值；五个实际展开估计的联合预算和 `expansionCutoffsRaw` 仍开放。不能用任意正数替代应有的解析预算。 |
-| EX-BLOCK-COUNT | 通用实际 shell schedule 的计数已写出，公共 envelope 覆盖 `2^16` guard 与计数常数；named 版本仍依赖 raw recipe。 |
-| EX-DETECTOR-WITNESSES | 已构造真实物理零点 bin → 同源 `WitnessCover` 的端点，待最终 native 核验和全局 recipe 接入。完整 `BlockSource` 还需实际 amplitude 与 prime-slot 下界连接。 |
-| HB-PRESENT | `actualHighPresentation` 仍开放。必须识别完整 shifted `rowContourBox` 与保留零掩码的实际 label pieces，不能仅挑选任意可加分块。 |
-| HB-LABEL-HEIGHT | 高度/label 范围由同一 schedule 与 finite data 推出；named 对象仍依赖前述数据构造。 |
-| MI-M-MODELS / calibration | inverse、paired、unmarked 模型现由同一 raw family 定义，具体检测配方也给出真实值等式。generic 等式不等于 raw recipe 已构造；named 校准的 inherited admission 会单独报告。 |
-
-原有 expansion identity、principal/small/large 界及最终 moving-tail 义务仍保留其原始开放状态。没有用空展开、零 amplitude、预设 spike 或新增公理来宣称完成。
-
-还有一个具体的同源等式尚未构造：`PhysicalProbeContours.compensatedRowMellinKernel` 使用原始 marked corrections 与物理权重，而 `RecipeFamily.slotCoefficient` 是配方中的独立字段；`MomentInputs.primePolynomial` 则使用 row character 乘该字段。目前缺少把物理 kernel 的每个素数槽逐项识别成这一配方系数的定理。现有 L-ratio/detector 的分子、分母角色已由 identity companions `{1}` 覆盖，不能把这项系数校准缺口误写成必须扩大 companion 集合。
-
-素数槽估计还存在一个具体接口差异：`PrimeCancellation.Analytic.ZeroFreeData.zeroFree` 要求整个右半平面的无零点结论，而实际 `rowZeroBelow` 只有给定缓冲高度内的控制。因此 `PrimeCancellation.exists_uniform_fixed_window_prime_bound` 不能直接用来完成此处的 bin 振幅上界。新增 `PhysicalLogDerivative` 已写出实际有限高度的对数导数界：由原 Hecke strip growth、右半平面 Euler 上界和中心 Euler 对数界，在半径 `2−β−δ/2` 的圆盘上使用 `|t|+3/2≤Hupper` 证明局部非零，给出 `48*(1+log C+(5/8)log U+heightDegree(K)*log(4+|t|)+A)/δ²` 的界。它还证明同一有限高度的 `ZeroUpperBound H a` 可收紧到 `min a 1`，没有增加全高度控制。`ActualPrimeLogSeries` 进一步使用真实 prime-power ideal 定义 `(n,p)` 索引、`log(Np)*χ(p)^(n+1)` 系数及其范数，并由原导数 Euler 级数证明初始直线校准和绝对收敛；统一质量由只依赖数域与初始横坐标的理想对数 majorant 给出，有限支持由实际理想范数窗口拉回。`ActualPrimeContour` 将这套数据接入已有有限矩形 Mellin 定理，在 `|ν|+H+3/2≤Hupper` 下保留左边主项、两条横边和右线补尾三项，所有 Dirichlet/解析假设都由实际 Hecke 定义供应。这条新增链尚待编译核验。
-
-去对数权也已有实际源码端点。`LogDividedAnnularProfile` 从已证明的紧参数 profile 家族推导任意阶点界、全直线积分和有限高度尾项，常数在素数尺度 `P` 之前选择，阈值为 `exp(4)`。`ActualLogDividedContour` 因而使用同一常数控制所有足够大的 `W(y)/log(P*y)` 窗口，而不为每个 `P` 重新选择一个无法控制的 profile 常数。`ActualPrimeArithmetic` 用真实素理想到真实理想窗口的单射证明线性计数，保留角色的分歧零系数，再由逐项去对数权恒等式拆成真实素数和与高次素数幂尾项。
-
-`ActualPrimeCancellation.exists_actual_finite_height_prime_bound` 将二者接合，给出原始平滑窗口的实际素数和上界：左线主项为 `M*P^(β+δ)*CW`，两条横边合计为 `2*CW*M*P²*(2−β−δ)/(1+H)^order`，右线补尾为 `mass(K,2)*P²*CW/H^order`，三者乘 `1/(2π)`，再加一个统一的 `B*sqrt(P)` 高次幂尾项。`M` 是实际有限零点缓冲推导的对数导数 envelope；全部常数先于角色、尺度和高度。该新端点仍待编译，且尚未把完整原始删除掩码误差、归一化后的统一幂次预算与物理 slot/kernel 校准接入全局 `BlockSource`。
-
-## 5. 已识别并修正的定义/陈述问题
-
-1. 原 Fourier 环境集没有覆盖全部 annular 支持；扩大到 `6H` 并证明源不变。
-2. `2π` 的真实 Fourier 频率会消耗高度缓冲；半径改为 `U^τ/(8π+8)`，并保留 `3/2` 余量。
-3. 一般固定背景与行的乘积可能有范数角色极点；必须使用实际有限纤维阈值。
-4. 任意 companion 不能直接当成 permitted plain background；采用实际允许的两个规范 presentation 并先反射零点。
-5. 物理壳层为 `U<N(u)≤2U`，不能送入模型的原 `rows U`。named 模型的 row-enumeration exponent 已使用 `1+log 2/log U`；多项式长度尺度仍为 `U`。
-6. wide zero-control bins 重叠，不可视作互不相交。实际 row selector 必须先于 Mellin 积分固定；移动 amplitude 标签与其零掩码保留在积分内部。
-7. 小行边界修正为 `1/16`，小行 saving 为 `1/50`；大行自身的 `63/800` saving 没有误改。全局族上界保留真实 `B≤1`。
-
-## 6. 验证与交付状态
-
-固定环境：Lean `4.35.0-rc3`，提交 `470d5ce1400764999581fd26d5d72b00d990b0f4`；Mathlib `0493595ecd5da8ef14742febab99728f98e948e8`。原项目选项为 `autoImplicit=false`、`relaxedAutoImplicit=false`。
-
-逐模块源哈希、编译证据、已完成模块的打印公理和取消记录列于 [EXPANSION_VALIDATION.json](EXPANSION_VALIDATION.json)。这份清单记录各版本的具体证据，并单独标出与当前源码是否一致；它不是最新整棵依赖图已经成功构建的证书。仅出现 `Ran` 的日志不计入成功。
-
-`scripts/expansion_verify.py` 记录实际源 SHA-256，在原模块路径构建，再递归检查选中模块中每个声明的公理。构建会继续收集其他独立模块的诊断；任一必需模块失败仍返回失败，并阻止最终公理审计。pure 和 actual 组仅允许 `propext`、`Classical.choice`、`Quot.sound`；skeleton 组单独保留、报告 inherited admissions。审计驱动本身已有 36 声明的 native smoke 检查，未发现非标准依赖。
-
-- 首个 run `41155570075` 在执行 job steps 前失败；它不是 Lean 结果。
-- run `41156938468` 的 pure job 实际编译了 68 个任务模块；当时独立复核其中 66 个与当前源码一致。实际终端 Fourier 端点和 57 份有效打印公理记录只包含标准三项。三个来自失败 annular 模块的记录明确排除。
-- run `41158889277` 的 pure job `124411822493` 又验证了固定 sector 组装、更新后的 log-profile 层与 `CanonicalCutoff`；它因新 `FiniteTerminalLabels` 的三类 Lean 接口错误失败，修复已在当前源码中。
-- run `41158889277` 的 actual job `124411822152` 因 `ExpansionDetectorInitial` 的五处 Lean 化简错误失败；已补删除系数同态的应用引理、用 `map_zero` 处理零理想并移去冗余 tactic，原定理陈述未改，修复已在 run `41161175643` 明确重新编译通过（3.9 秒），对应当前源 SHA `cc56b060…`。
-- 本机已验证当前源码的 `DetectorHeightGeometry`、`WitnessHeightNormalization` 和 `FixedSectorParameters`；对应打印公理只有标准三项，固定 sector 的理想嵌入本身不依赖公理。
-- run `41161175643` 的 pure job `124418947565` 明确重新编译通过当前 `AnnularCutoffFamily`，三项打印公理都为标准依赖；该组当时因 `FiniteTerminalLabels` 一处 guard 化简和 `RecipeSchedule` 两处依赖索引化简失败；修复已由下列 checkpoint7 的完整 pure 结果重新核验。
-- run `41161175643` 的 actual 日志还明确编译通过 `CanonicalDetectorCharacters`；四个字符归约/零点转换端点的打印公理只有标准三项。该 run 整体被后续提交取消，不能报告 actual 全组通过。
-- run `41164162713` 的 pure job `124428231293` **完整成功**。`FiniteTerminalLabels`、`RecipeSchedule`、`AnnularContourDataBound` 分别明确重新编译（2.6 / 1.7 / 2.5 秒）；随后对 **1,329 个声明**执行穷尽公理审计，**非标准依赖为 0**。这是提交 `10e70e1` 的完整 pure 组结果，相关源在后续适配修复中保持相同。
-- 旧 actual 完整日志暴露的下一层错误已修复：Möbius 范数乘积的显式比较、zeta majorant 的非负性、反射定理的冗余 tactic、有限和/积分接口的 Countable 实例与平移参数、物理字符适配器的 universe/namespace，以及实际行枚举的 attach/product 成员证明。当前修复尚待实际组重验。
-- 实际 Hecke/Mellin/最终 recipe 接线仍以完成的当前-source native/CI 记录为准，不预先宣称通过。
-- 本地大型 legacy Hecke 导入曾发生持续换页：一次导入约 12 分钟、物理读取超过 200GB 而无 proof 诊断，已停止该重复检查并记录为资源取消。它既不是定理失败，也不是编译通过。实际项目链继续由真实 GitHub runner 检查。
-
-按照用户本轮指示，已核对分支全部两个 workflow 的 `concurrency.cancel-in-progress` 均为 `true`，并保留各自的同分支分组键。旧运行已经取消。核验工作流增加了只读恢复后备项，允许尚无自己缓存的组复用本分支已有、同一 toolchain/manifest 的 actual 组依赖缓存；Lake 仍按源及依赖 trace 判定是否重编译。既有保存与上传步骤未变，没有添加额外 native 编译产物上传。
-
-新增 `scripts/expansion_native_verify.py` 为 actual/skeleton 组只读恢复同仓库既有成功 foundation run `41126752041` 的 12 个固定原生产物。它重新下载固定提交 `984b0de3…` 的源码，复算 6,028 模块及配置 fingerprint，检查原 job 成功、外层 ZIP 与内层归档哈希、原编译器签名和模块伴随文件，并仅复用当前源码与所有传递项目依赖均完全相同的模块。其余模块在隔离路径按原 package 选项重新编译；不生成或修改 Lake trace，不将新 native 输出放入既有 cache-save 或日志上传路径。根仓库证明继续使用两项 implicit=false；vendor 依赖保持原 package 的真实选项。完成全部必需编译后，仍执行同一个逐声明递归公理审计，任一失败会阻止该审计。离线源码/配置 plan 与一个真实 ZIP 恢复烟测已经通过；这只验证恢复机制，不表示目标 Lean 证明已经编译成功。
-
-本报告在最终交付前还会用最新完成的源匹配记录更新。只有明确完成的编译和对应公理结果才计为验证成功。
+1. 把同一真实参数选择、原四分量和上述真实尾填回 `Base.expansionRecipeRaw`，并提供该项的 `MomentGeometry 22`。
+2. 接通原物理 probe 恒等式、主行/小行/大行三项目标，以及由同一 schedule 得出的 blocks 和 count；统一 A、ceiling、k、Z0。
+3. 将原 hmove 的 whole-bin boundary 作为同一 tail 的一项，完成真实原始 EX-TAIL，不改变它的量词。
+4. 与 #7 识别同一 raw recipe 的 actualHighPresentation 与每个实际标签 piece；不以任意可加分块替代。
+5. 全部原名编译、公理检查连同类型依赖只含标准三条，更新精确验证记录与 PR 说明，再标为 ready for review。

@@ -90,14 +90,16 @@ theorem actual_deletedZeta_residue_one :
     Tendsto (fun w : ℂ => (w - 1) *
       heckeDeletedContinuation K 1 (exceptionalPrimes K S) w)
       (𝓝[≠] (1 : ℂ)) (𝓝 (deletedZetaResidue K S)) := by
-  have hlim := ((actualDeletedZetaNumerator_differentiable K S).continuous.tendsto 1).mono_left
-    nhdsWithin_le_nhds
+  have hlim : Tendsto (actualDeletedZetaNumerator K S) (𝓝[≠] (1 : ℂ))
+      (𝓝 (actualDeletedZetaNumerator K S 1)) :=
+    ((actualDeletedZetaNumerator_differentiable K S).continuous.tendsto 1).mono_left
+      nhdsWithin_le_nhds
   rw [actualDeletedZetaNumerator_one] at hlim
   apply hlim.congr'
   filter_upwards [self_mem_nhdsWithin] with w hw
   have hw' : w - 1 ≠ 0 := sub_ne_zero.mpr hw
   rw [actual_deletedZeta_eq_numerator_div K S w]
-  field_simp [hw']
+  field_simp [hw'] <;> ring
 
 /-- The factor six in z has its original Jacobian at the zeta pole. -/
 theorem actual_deletedZeta_six_eq (z : ℂ) :
@@ -115,14 +117,16 @@ theorem actual_deletedZeta_residue_one_sixth :
   have hc : Continuous (fun z : ℂ => actualDeletedZetaNumerator K S (6 * z) / 6) :=
     ((actualDeletedZetaNumerator_differentiable K S).continuous.comp
       (continuous_const.mul continuous_id)).div_const 6
-  have hlim := (hc.tendsto (1 / 6)).mono_left nhdsWithin_le_nhds
+  have hlim : Tendsto (fun z : ℂ => actualDeletedZetaNumerator K S (6 * z) / 6)
+      (𝓝[≠] (1 / 6 : ℂ)) (𝓝 (actualDeletedZetaNumerator K S (6 * (1 / 6)) / 6)) :=
+    (hc.tendsto (1 / 6)).mono_left nhdsWithin_le_nhds
   norm_num only [show (6 : ℂ) * (1 / 6) = 1 by norm_num,
     actualDeletedZetaNumerator_one] at hlim
   apply hlim.congr'
   filter_upwards [self_mem_nhdsWithin] with z hz
   have hz' : z - 1 / 6 ≠ 0 := sub_ne_zero.mpr hz
   rw [actual_deletedZeta_six_eq K S z]
-  field_simp [hz']
+  field_simp [hz'] <;> ring
 
 end Expansion.Project
 
