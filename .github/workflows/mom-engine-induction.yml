@@ -93,7 +93,10 @@ jobs:
   # This source adapter imports admitted upstream definitions. Its native
   # compilation and inherited axiom report are a separate, visible result;
   # they do not weaken the allowlist of the clean induction job above.
+  # Run the expensive source integration only after the clean gate succeeds.
+  # A skipped integration job after a clean failure is not integration evidence.
   skeleton-integration:
+    needs: verify
     runs-on: ubuntu-latest
     timeout-minutes: 360
     env:

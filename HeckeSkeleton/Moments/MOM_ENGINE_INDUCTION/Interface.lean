@@ -70,7 +70,7 @@ def ordinary (d : MomentData K ω ψ) (a : RealParameters) : Node K ω ψ :=
 
 /-- Both rectangles use the identical two tests, character, norm phase,
 and original common mask through the same `MomentData`. -/
-def plainPair (n : Node K ω ψ) (u : NonzeroIdeal K) (U t : ℝ) : ℂ :=
+def plainPair (n : Node K ω ψ) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (U t : ℝ) : ℂ :=
   plainPolynomial n.data n.data.plainTest₁ u (U ^ n.parameters.n₁) t *
     plainPolynomial n.data n.data.plainTest₂ u (U ^ n.parameters.n₂) t -
       if n.centered then
