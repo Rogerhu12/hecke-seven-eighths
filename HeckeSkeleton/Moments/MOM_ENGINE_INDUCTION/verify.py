@@ -69,6 +69,20 @@ MODULES = (
     'OrdinaryProfileNormalization',
     'NormalizedReflectionDensity',
     'RestorationRows',
+    'NormalizedPowerWindowEnergy',
+    'ActualReflectionRows',
+    'ReflectionProfileBudget',
+    'ActualReflectionDensity',
+    'ReflectionTerminal',
+    'PrimitiveReflectionCalibration',
+    'UniversalNodeFamily',
+    'ProfileTimeIndependent',
+    'FixedLineKernel',
+    'CommonKernelMass',
+    'ActualCommonReflection',
+    'SourceProfileAnnulus',
+    'UniformOrdinaryReflection',
+    'ReflectionChildGeometry',
 )
 # Exact published interface files, kept under the producer's own namespace.
 # These are imports of its canonical type, not competing local definitions.

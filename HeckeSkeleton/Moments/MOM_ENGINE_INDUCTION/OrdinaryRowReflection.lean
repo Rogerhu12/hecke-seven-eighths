@@ -25,7 +25,7 @@ namespace HeckeSkeleton.Moments.EngineInduction
 open NumberField MeasureTheory Set Filter
 open HeckeGeneral.Analysis HeckeGeneral.Characters HeckeGeneral.Arithmetic HeckeGeneral.Bridge
 open HeckeGeneral.ThetaSkeleton.Global HeckeSkeleton.ThetaKernel
-open HeckeSkeleton.HeckeConductorNorm
+open HeckeSkeleton.ExplicitHeckeFunctionalEquation HeckeSkeleton.HeckeConductorNorm
 open HeckePort.Moments HeckePort.Moments.ReflectionMass
 open scoped Classical BigOperators
 

@@ -83,7 +83,7 @@ theorem PolynomialSystem.core_rank_parameters {sigma widthLimit : ℝ}
       parameterCoreRank sigma widthLimit padding (S.node x).parameters := by
   unfold PolynomialSystem.schedule PolynomialSystem.withCoreStages State.rank
     parameterCoreRank Node.coreStage Node.lengthStage Node.totalLength Node.width boundedBand
-  split_ifs <;> simp_all
+  split_ifs <;> simp_all <;> split_ifs <;> simp_all <;> linarith
 
 /-- The one preselected maximal order covers every actual node, including
 strict-step zero-slot children outside the padded core. -/

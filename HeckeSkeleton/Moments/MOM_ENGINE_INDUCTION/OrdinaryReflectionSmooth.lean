@@ -55,7 +55,7 @@ theorem ordinaryReflectionKernel_weighted_integrable
     simpa only [s, idealVerticalPoint_im, abs_neg, T, k] using
       hGb s (by simp [s]) (by simp [s]; linarith)
   have hn : ‖t‖ ^ n ≤ T ^ n :=
-    pow_le_pow_left₀ (norm_nonneg _) (by dsimp [T]; rw [Real.norm_eq_abs]; linarith) n
+    pow_le_pow_left₀ (norm_nonneg _) (by dsimp [T]; linarith) n
   have hp : T ^ n * T ^ (-(J : ℝ)) * T ^ k = T ^ (-(2 : ℝ)) := by
     rw [← Real.rpow_natCast T n, ← Real.rpow_natCast T k,
       ← Real.rpow_add hT, ← Real.rpow_add hT]

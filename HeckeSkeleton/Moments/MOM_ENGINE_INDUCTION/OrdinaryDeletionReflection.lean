@@ -19,7 +19,7 @@ noncomputable section
 namespace HeckeSkeleton.Moments.EngineInduction
 
 open NumberField MeasureTheory Set Filter
-open HeckeGeneral.Analysis HeckeGeneral.Characters HeckeGeneral.Bridge
+open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Characters HeckeGeneral.Bridge
 open HeckeGeneral.ThetaSkeleton.Global HeckeSkeleton.ThetaKernel
 open HeckeSkeleton.ExplicitHeckeFunctionalEquation HeckeSkeleton.HeckeGammaReciprocal
 open HeckeSkeleton.HeckeUniformStripGrowth

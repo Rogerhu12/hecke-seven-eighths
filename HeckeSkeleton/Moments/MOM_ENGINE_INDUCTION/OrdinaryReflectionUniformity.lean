@@ -29,8 +29,10 @@ theorem ordinaryGammaRatio_eq_of_type (χ η : HeckeCharacter K)
     (hτ : (fun v => heckeRadialParameter K v χ) = (fun v => heckeRadialParameter K v η))
     (hm : heckeArchWeight K χ = heckeArchWeight K η) (s : ℂ) :
     ordinaryGammaRatio K χ s = ordinaryGammaRatio K η s := by
-  simp only [ordinaryGammaRatio, canonicalHeckeGammaProfile_inv,
-    canonicalHeckeGammaProfile, hτ, hm]
+  unfold ordinaryGammaRatio
+  rw [canonicalHeckeGammaProfile_inv K χ (1 - s),
+    canonicalHeckeGammaProfile_inv K η (1 - s)]
+  simp only [canonicalHeckeGammaProfile, hτ, hm]
 
 theorem ordinaryReflectedProfile_eq_of_type (χ η : HeckeCharacter K)
     (hτ : (fun v => heckeRadialParameter K v χ) = (fun v => heckeRadialParameter K v η))
