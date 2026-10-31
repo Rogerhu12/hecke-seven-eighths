@@ -1,16 +1,17 @@
 import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalIdealRow
 import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier
 import HeckeSkeleton.Moments.MOM_INV_STEP.GaussConjugation
+import HeckeSkeleton.Moments.MOM_INV_STEP.ThetaGaussCRT
 
 /-!
 # Explicit finite MOM_BASE calibration and the actual residual columns
 
-The input below contains only identities of actual finite Gauss sums.
-Its mixed-digit formula specifies every local character, prime generator
-and cross-symbol. Its homogeneous specialization uses the repository's
-literal `thetaGamma`. It contains no Poisson formula, kernel identity or
-energy estimate. This is the finite coefficient boundary supplied by
-MOM_BASE under the task group's parallel-dependency rule.
+The optional mixed-digit input below specifies every local character,
+prime generator and cross-symbol of one actual finite Gauss sum. It is
+used only by `primitive_finite_sum`. The coefficient and cube identities
+use the proved `ThetaGaussCRT.thetaGamma_mul`; they require no finite
+CRT input. Their only arithmetic hypotheses are the explicit allowed
+generator section and the original theta coefficient calibration.
 
 The consequences retain the exact selected generators and the zeros of
 the character row. They prove the fourth-power label in multiplication
@@ -60,24 +61,17 @@ def canonicalPrimeGaussProduct (B : PrimeBlock K Sset)
         idealSymbol K Sset D (activePrimeExterior K S B t p)
           (D.generator (activePrimeExterior K S B t q)) ^ (t p.val).val
 
-/-- An explicit finite-arithmetic MOM_BASE dependency. Both sides of
-each field are actual normalized finite Gauss sums or their displayed
-canonical CRT factors; no analytic or energy conclusion is a field. -/
+/-- An optional explicit finite-arithmetic MOM_BASE dependency for the
+fully prime-expanded mixed-digit sum. It is not a premise of the source
+coefficient or cube identities below. -/
 structure FiniteGaussCRTInput : Prop where
   primitive_crt : ∀ (B : PrimeBlock K Sset)
       (t : HeightOneSpectrum (𝓞 K) → ZMod 6),
     normalizedPrimitiveGauss K S D B t = canonicalPrimeGaussProduct K S D B t
-  homogeneous_product : ∀ (I J : Ext), IsCoprime I.val.val J.val.val →
-    ∀ j : ℕ, 0 < j → j < 6 →
-      thetaGamma K Sset D (exteriorMul K Sset I J) j =
-        thetaGamma K Sset D I j * thetaGamma K Sset D J j *
-          idealSymbol K Sset D I (D.generator J) ^ j *
-          idealSymbol K Sset D J (D.generator I) ^ j
 
 variable (hcrt : FiniteGaussCRTInput K S D)
 
-include hcrt
-
+include hcrt in
 /-- The mixed-digit input can be read literally as a sum over the actual
 principal quotient. This is the finite sum used in the proved Poisson
 packet, with its own generator-dependent additive phase. -/
@@ -102,18 +96,20 @@ theorem thetaGamma_mul (I J : Ext) (hcop : IsCoprime I.val.val J.val.val)
     thetaGamma K Sset D (exteriorMul K Sset I J) j =
       thetaGamma K Sset D I j * thetaGamma K Sset D J j *
         idealSymbol K Sset D I (D.generator J) ^ (2 * j) := by
-  have h := hcrt.homogeneous_product I J hcop j hj hj6
+  have h := ThetaGaussCRT.thetaGamma_mul K Sset D hallowed I J hcop j
   rw [hallowed.reciprocity J I] at h
-  simpa only [Nat.two_mul, pow_add, mul_assoc] using h
+  rw [h]
+  simp only [Nat.two_mul, pow_add]
+  ring
 
 theorem thetaGamma_two_mul (I J : Ext) (hcop : IsCoprime I.val.val J.val.val) :
     thetaGamma K Sset D (exteriorMul K Sset I J) 2 =
       thetaGamma K Sset D I 2 * thetaGamma K Sset D J 2 *
         idealSymbol K Sset D I (D.generator J) ^ 4 :=
-  thetaGamma_mul K S D hcrt hallowed I J hcop 2 (by decide) (by decide)
+  thetaGamma_mul K S D hallowed I J hcop 2 (by decide) (by decide)
 
 /-- The fourth-power label is derived from the literal a₀ and the finite
-Gauss CRT input. The Hecke character is not defined from this identity. -/
+Gauss CRT theorem. The Hecke character is not defined from this identity. -/
 theorem canonicalCoefficient_mul (Λ : HeckeCharacter K)
     (I J : Ext) (hcop : IsCoprime I.val.val J.val.val) :
     CoefficientCycle.canonicalCoefficient K Sset D Λ (exteriorMul K Sset I J) =
@@ -124,7 +120,7 @@ theorem canonicalCoefficient_mul (Λ : HeckeCharacter K)
   change conj (heckeIdealCoefficient K Λ (I.val * J.val)) *
       thetaGamma K Sset D (exteriorMul K Sset I J) 2 = _
   rw [heckeIdealCoefficient_mul, map_mul,
-    thetaGamma_two_mul K S D hcrt hallowed I J hcop]
+    thetaGamma_two_mul K S D hallowed I J hcop]
   ring
 
 /-- The extracted actual source column returns μ(u) with its genuine
@@ -142,7 +138,7 @@ theorem first_source_coefficient {Λ G : HeckeCharacter K}
         ((UniqueFactorizationMonoid.moebius u.val.val : ℂ) *
           heckeIdealCoefficient K ν u.val * heckeIdealCoefficient K G u.val) *
         idealSymbol K Sset D u (D.generator L) ^ 4 := by
-  have ha := canonicalCoefficient_mul K S D hcrt hallowed Λ L u hcop
+  have ha := canonicalCoefficient_mul K S D hallowed Λ L u hcop
   rw [hallowed.reciprocity L u] at ha
   rw [ha]
   change _ * heckeIdealCoefficient K ν (L.val * u.val) * _ = _
@@ -188,7 +184,7 @@ theorem first_cube_coefficient_after_dilation {Λ G : HeckeCharacter K}
     heckeIdealCoefficient K ν L.val *
     ((UniqueFactorizationMonoid.moebius u.val.val : ℂ) *
       heckeIdealCoefficient K ν u.val * heckeIdealCoefficient K G u.val)
-  have hc := first_source_coefficient K S D hcrt hallowed hcal ν (CanonicalIdealRow.toExterior K S L) u hcop hu
+  have hc := first_source_coefficient K S D hallowed hcal ν (CanonicalIdealRow.toExterior K S L) u hcop hu
   have hd := CanonicalIdealRow.first_pass_after_dual_dilation K S D hallowed
     u p B v ε₁ ε₂ hv side z
   change _ = c * _ * _
@@ -248,7 +244,7 @@ theorem first_cube_coefficient_with_frozen_label {Λ G : HeckeCharacter K}
         (if IsCoprime u.val.val (b0Label p B v ε₁ ε₂).val.val then 1 else 0)) *
       conj (idealSymbol K Sset D u (CanonicalIdealRow.generator K S D (z * dilationLabel p B v ε₁ ε₂))) := by
   have h := congrArg (fun w : ℂ => idealSymbol K Sset D u (CanonicalIdealRow.generator K S D f) ^ 4 * w)
-    (first_cube_coefficient_after_dilation K S D hcrt hallowed hcal ν u hu
+    (first_cube_coefficient_after_dilation K S D hallowed hcal ν u hu
       p B v ε₁ ε₂ hv side hcop z)
   rw [CanonicalIdealRow.fourth_label_mul K S D hallowed] 
   convert h using 1 <;> ring
@@ -287,7 +283,7 @@ theorem first_cube_coefficient_with_common_factor {Λ G : HeckeCharacter K}
     heckeIdealCoefficient K ν L.val *
     ((UniqueFactorizationMonoid.moebius u.val.val : ℂ) *
       heckeIdealCoefficient K ν u.val * heckeIdealCoefficient K G u.val)
-  have hc := first_source_coefficient K S D hcrt hallowed hcal ν
+  have hc := first_source_coefficient K S D hallowed hcal ν
     (CanonicalIdealRow.toExterior K S L) u hcop hu
   have hd := CanonicalIdealRow.common_factor_after_dual_dilation K S D hallowed
     u p B v ε₁ ε₂ hv side C f z
@@ -344,7 +340,7 @@ theorem first_cube_coefficient_with_old_label_in_row {Λ G : HeckeCharacter K}
       conj (idealSymbol K Sset D u
         (CanonicalIdealRow.generator K S D (z * f ^ 2 * dilationLabel p B v ε₁ ε₂))) := by
   simpa only [mul_one, one_mul] using
-    first_cube_coefficient_with_common_factor K S D hcrt hallowed hcal ν u hu
+    first_cube_coefficient_with_common_factor K S D hallowed hcal ν u hu
       p B v ε₁ ε₂ hv side 1 f z (by simpa only [mul_one] using hcop)
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGaussCalibration

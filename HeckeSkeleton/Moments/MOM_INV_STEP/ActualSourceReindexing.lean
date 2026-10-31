@@ -44,7 +44,7 @@ abbrev ExpandedSource := Σ B : Source K Sector, Choices B oldLists newLists
 
 abbrev ReconstructionKey := SecondTuple K Sector Jo Jn × (Fin 4 → Ideal (𝓞 K))
 
-def key (x : ExpandedSource oldLists newLists) : ReconstructionKey (K := K) (Sector := Sector)
+def key (x : ExpandedSource oldLists newLists (Sector := Sector)) : ReconstructionKey (K := K) (Sector := Sector)
     (Jo := Jo) (Jn := Jn) :=
   (x.2.tuple, columns x.1)
 

@@ -38,6 +38,9 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePacketCRT
 import HeckeSkeleton.Moments.MOM_INV_STEP.AssignedMarkSource
 import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectors
 import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGroupedGauss
+import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectorRows
+import HeckeSkeleton.Moments.MOM_INV_STEP.SexticEvenness
+import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalInverseCalibration
 
 /-! Recursive kernel-axiom audit for the canonical inverse single-step work. -/
 
@@ -153,3 +156,9 @@ import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGroupedGauss
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectors.tsum_eq_ideal_sectors
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGroupedGauss.pair_normalizedGauss_grouped
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGroupedGauss.pair_normalizedGauss_grouped_conjugate
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectorRows.first_label_absorb
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectorRows.child_sectorRow
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SexticEvenness.idealSymbol_neg_one
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.SexticEvenness.thetaGamma_five_eq_conj
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalInverseCalibration.second_source_coefficient
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalInverseCalibration.inverseColumn_eq_child

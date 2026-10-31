@@ -105,9 +105,13 @@ def row (_compatibility : AllowedGeneratorInput K Sset D) (n : Ext) : E →* ℂ
     I.val.val (nonZeroDivisors.coe_ne_zero I.val) I.property
     (fun p hp => D.away_six p (I.property p hp)) (D.generator n)
   map_one' := by
-    exact sIntegerSexticIdealEvaluation_top K Sset
-      D.root6 D.primitive6 D.embedding (1 : E).property
-      (fun p hp => D.away_six p ((1 : E).property p hp)) (D.generator n)
+    have hStop : ∀ p : HeightOneSpectrum (𝓞 K),
+        p.asIdeal ∣ (⊤ : Ideal (𝓞 K)) → p ∉ Sset := by
+      intro p hp
+      exact (p.isPrime.ne_top (top_le_iff.mp (Ideal.dvd_iff_le.mp hp))).elim
+    simpa only [Submonoid.coe_one, Ideal.one_eq_top] using
+      sIntegerSexticIdealEvaluation_top K Sset D.root6 D.primitive6 D.embedding
+        hStop (fun p hp => D.away_six p (hStop p hp)) (D.generator n)
   map_mul' := by
     intro I J
     exact ActualFiniteSource.PrimeBlock.actual_ideal_mul_denominator K Sset
@@ -194,7 +198,6 @@ theorem fourth_label_absorb_row (n : Ext) (f z : E) :
       exact (eq_inv_of_mul_eq_one_left hm).trans (Complex.inv_eq_conj hn)
   have h : χ f ^ 4 * star (χ z) = star (χ (z * f ^ 2)) := by
     rw [map_mul, map_pow, star_mul, hfour]
-    exact mul_comm _ _
   simpa only [χ, row_apply] using h
 
 include hallowed in

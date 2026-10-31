@@ -357,7 +357,7 @@ theorem primitiveCoefficient_uniform (B : PrimeBlock K Sset)
     (ht : ∀ p ∈ activeSupport B.support t, (t p).val = j) (a : OS) :
     primitiveCoefficient K S D B t (Ideal.Quotient.mk _ a) =
       idealSymbol K Sset D (primitiveExterior K S B t) a ^ j := by
-  rw [primitiveCoefficient_mk_eq_product, primitiveIdeal_symbol_eq_product, Finset.prod_pow]
+  rw [primitiveCoefficient_mk_eq_product, primitiveIdeal_symbol_eq_product, ← Finset.prod_pow]
   apply Finset.prod_congr rfl
   intro p hp
   rw [ht p hp]

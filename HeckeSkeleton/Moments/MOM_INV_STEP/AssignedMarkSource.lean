@@ -110,7 +110,8 @@ theorem pairedAssignment_source
     (lists : Fin J → Finset (HeightOneSpectrum (𝓞 K))) (E : Ideal (𝓞 K))
     (q : (Fin J → HeightOneSpectrum (𝓞 K)) × (Fin J → HeightOneSpectrum (𝓞 K)))
     (hq : q ∈ pairedChoices lists E) (i : Fin (J + J)) :
-    pairedAssignment q i ∈ Fin.addCases lists lists i ∧
+    pairedAssignment q i ∈
+        (Fin.addCases lists lists i : Finset (HeightOneSpectrum (𝓞 K))) ∧
       (pairedAssignment q i).asIdeal ∣ E := by
   obtain ⟨hl, hr⟩ := Finset.mem_product.mp hq
   refine Fin.addCases (fun j => ?_) (fun j => ?_) i

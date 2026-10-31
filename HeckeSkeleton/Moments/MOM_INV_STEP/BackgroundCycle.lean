@@ -73,9 +73,9 @@ theorem admissible_unramified (Θ : Subgroup (HeckeCharacter K)) (ψ ν : HeckeC
 variable (D : ThetaArithmeticData K S) {Λ G : HeckeCharacter K}
 variable (hcal : ThetaCalibrationInput K S D Λ G)
 
+include hcal in
 /-- The first transform retains precisely one genuine live character
 νG, with its finite calibration twist absorbed in the same class. -/
-include hcal in
 theorem first_cycle_single_background (ν : HeckeCharacter K)
     (I : ExteriorIdeal K S) (hI : Squarefree I.val.val) :
     CoefficientCycle.canonicalCoefficient K S D Λ I *
@@ -85,9 +85,9 @@ theorem first_cycle_single_background (ν : HeckeCharacter K)
     exterior_coefficient_mul K S ν G hcal.G_unramified I]
   ring
 
+include hcal in
 /-- The second transform returns a₀ with a genuine background νG⁻¹.
 The original ν is not conjugated or discarded in this operation. -/
-include hcal in
 theorem second_cycle_single_background (ν : HeckeCharacter K)
     (I : ExteriorIdeal K S) (hI : Squarefree I.val.val) :
     (moebius I.val.val : ℂ) * heckeIdealCoefficient K ν I.val *
