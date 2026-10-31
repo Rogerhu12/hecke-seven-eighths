@@ -2,6 +2,7 @@ import Expansion.ActualCanonicalRecipe
 import Expansion.CanonicalCutoff
 import Expansion.FiniteTerminalLabels
 import Expansion.PhysicalRowSupport
+import HeckeSkeleton.ExpansionModels.SourceGeometry
 
 /-!
 # A literal canonical amplitude recipe and its finite witness cover
@@ -80,6 +81,77 @@ theorem canonicalAmplitudeRecipe_rows (rows : Finset (FrequencyRow K S))
   · intro hu
     exact ⟨(mem_frequencyRows_iff K S (2 * U) (by positivity) u).mpr (hnorm u hu),
       hu, hsector u hu⟩
+
+/-- The concrete canonical amplitude has one common plain-length range
+and lies in the exact original moment parameter box.  These conclusions
+hold for every label, independently of whether its row fiber is occupied. -/
+theorem canonicalAmplitudeRecipe_momentGeometry
+    (rows : Finset (FrequencyRow K S)) (sector : SixthUnitClasses K S)
+    (p : Fin 3 → ℝ) (amplitude : Fin g.slots → ℝ)
+    (C U lam T : ℝ) (hC : 0 < C) (hU : 6 ≤ U) (hlam : 0 ≤ lam)
+    (hT : 1 ≤ T) (hp : ‖p‖ ≤ T)
+    (choice : ℝ → FrequencyRow K S → TerminalLabel U)
+    (β ν : ℝ → NonzeroIdeal K → ℝ)
+    (hβ : ∀ t I, |β t I| ≤ 8) (hν : ∀ t I, |ν t I| ≤ C * T) :
+    (canonicalAmplitudeRecipe K ψ g slotTime slotPower slotCoefficient S
+      rows sector p amplitude C U lam choice β ν).MomentGeometry T 22 := by
+  intro t ht ht' j
+  let l := (encodeTerminalLabel U).symm j
+  let w := terminalRecipeWitness K ψ g slotTime slotPower slotCoefficient C U t lam l
+    (β t) (ν t)
+  have hlens := terminalLabel_lengths U t lam (by linarith) hlam l
+  have hm := terminalLabel_plainLength_range hU t lam l
+  refine ⟨hlens.1, hm.1, hm.2, ?_, ?_, ?_⟩
+  · exact (w.heights_norm_eq p t T hT hp ⟨ht, ht'⟩).le
+  · exact scaledCanonicalRecipeWitness_realShifts_bound K ψ g cutoffProfile
+      slotTime slotPower slotCoefficient C U l.2.1 l.2.2 l.1 (β t) (ν t) (hβ t)
+  · exact scaledCanonicalRecipeWitness_imagShifts_bound K ψ g cutoffProfile
+      slotTime slotPower slotCoefficient C hC U l.2.1 l.2.2 l.1 (β t) (ν t)
+      p t T (zero_le_one.trans hT) (hν t)
+
+/-- The same moment geometry throughout the entire retained shell range
+`U ≥ 2`, with the uniform plain-length bound 24. -/
+theorem canonicalAmplitudeRecipe_momentGeometry_two
+    (rows : Finset (FrequencyRow K S)) (sector : SixthUnitClasses K S)
+    (p : Fin 3 → ℝ) (amplitude : Fin g.slots → ℝ)
+    (C U lam T : ℝ) (hC : 0 < C) (hU : 2 ≤ U) (hlam : 0 ≤ lam)
+    (hT : 1 ≤ T) (hp : ‖p‖ ≤ T)
+    (choice : ℝ → FrequencyRow K S → TerminalLabel U)
+    (β ν : ℝ → NonzeroIdeal K → ℝ)
+    (hβ : ∀ t I, |β t I| ≤ 8) (hν : ∀ t I, |ν t I| ≤ C * T) :
+    (canonicalAmplitudeRecipe K ψ g slotTime slotPower slotCoefficient S
+      rows sector p amplitude C U lam choice β ν).MomentGeometry T 24 := by
+  intro t ht ht' j
+  let l := (encodeTerminalLabel U).symm j
+  let w := terminalRecipeWitness K ψ g slotTime slotPower slotCoefficient C U t lam l
+    (β t) (ν t)
+  have hlens := terminalLabel_lengths U t lam (by linarith) hlam l
+  have hm := terminalLabel_plainLength_range_two hU t lam l
+  refine ⟨hlens.1, hm.1, hm.2, ?_, ?_, ?_⟩
+  · exact (w.heights_norm_eq p t T hT hp ⟨ht, ht'⟩).le
+  · exact scaledCanonicalRecipeWitness_realShifts_bound K ψ g cutoffProfile
+      slotTime slotPower slotCoefficient C U l.2.1 l.2.2 l.1 (β t) (ν t) (hβ t)
+  · exact scaledCanonicalRecipeWitness_imagShifts_bound K ψ g cutoffProfile
+      slotTime slotPower slotCoefficient C hC U l.2.1 l.2.2 l.1 (β t) (ν t)
+      p t T (zero_le_one.trans hT) (hν t)
+
+/-- The uniform inverse-length bound retains the dyadic endpoint loss
+`r ≤ t + lam` at every source exponent. -/
+theorem canonicalAmplitudeRecipe_inverseLength_range
+    (rows : Finset (FrequencyRow K S)) (sector : SixthUnitClasses K S)
+    (p : Fin 3 → ℝ) (amplitude : Fin g.slots → ℝ)
+    (C U lam : ℝ) (hlam : 0 ≤ lam)
+    (choice : ℝ → FrequencyRow K S → TerminalLabel U)
+    (β ν : ℝ → NonzeroIdeal K → ℝ) (t : ℝ) (ht : 1 ≤ t) (ht' : t ≤ 3 / 2)
+    (j : Fin (terminalLabelCount U)) :
+    let A := canonicalAmplitudeRecipe K ψ g slotTime slotPower slotCoefficient S
+      rows sector p amplitude C U lam choice β ν
+    0 ≤ (A.witness t j).inverseLength ∧
+      (A.witness t j).inverseLength ≤ t + lam ∧
+      (A.witness t j).inverseLength ≤ 3 / 2 + lam := by
+  have hlens := terminalLabel_lengths U t lam (by linarith) hlam
+    ((encodeTerminalLabel U).symm j)
+  exact ⟨hlens.1, hlens.2.2.1, hlens.2.2.1.trans (add_le_add_right ht' lam)⟩
 
 /-- All finite-cover conclusions are proved against the actual repository
 WitnessCover definition and its actual polynomial projections. The local
@@ -188,5 +260,8 @@ end Expansion.Project
 
 #print axioms Expansion.Project.terminalRecipeWitness_eq_scaled
 #print axioms Expansion.Project.canonicalAmplitudeRecipe_witnessCover
+#print axioms Expansion.Project.canonicalAmplitudeRecipe_momentGeometry
+#print axioms Expansion.Project.canonicalAmplitudeRecipe_momentGeometry_two
+#print axioms Expansion.Project.canonicalAmplitudeRecipe_inverseLength_range
 
 #print axioms Expansion.Project.witnessCover_weaken_loss

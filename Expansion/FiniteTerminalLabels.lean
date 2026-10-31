@@ -72,6 +72,64 @@ theorem terminalLabel_lengths_of_valid {U t lam : ℝ} {l : TerminalLabel U}
       terminalLabelPlainLength U t lam l = dyadicLength U l.2.2 := by
   simp only [terminalLabelInverseLength, terminalLabelPlainLength, if_pos hl, and_self]
 
+/-- Every terminal label has a uniformly bounded nonnegative plain length.
+This includes unused labels, whose plain length is zero.  The bound is
+fixed before the source exponent, row, zero, and dyadic label are chosen. -/
+theorem terminalLabel_plainLength_range {U : ℝ} (hU : 6 ≤ U)
+    (t lam : ℝ) (l : TerminalLabel U) :
+    0 ≤ terminalLabelPlainLength U t lam l ∧
+      terminalLabelPlainLength U t lam l ≤ 22 := by
+  by_cases hl : terminalLabelValid U t lam l
+  · simp only [terminalLabelPlainLength, if_pos hl]
+    exact ⟨hl.2.1, terminal_dyadicLength_le hU (Nat.le_of_lt_succ l.2.2.isLt)⟩
+  · simp only [terminalLabelPlainLength, if_neg hl]
+    norm_num
+
+/-- The full retained shell range only guarantees `U ≥ 2`.  Its complete
+terminal dyadic list still has the fixed length bound 24. -/
+theorem terminal_dyadicLength_le_twenty_four {U : ℝ} (hU : 2 ≤ U) {j : ℕ}
+    (hj : j ≤ dyadicCap (3 * U ^ (21 : ℕ))) : dyadicLength U j ≤ 24 := by
+  have hUone : 1 < U := by linarith
+  have hlogU : 0 < Real.log U := Real.log_pos hUone
+  have hlog2 : 0 < Real.log 2 := Real.log_pos (by norm_num)
+  have hlog3 : Real.log 3 + Real.log 2 ≤ 3 * Real.log U := by
+    calc
+      _ = Real.log 6 := by
+        rw [← Real.log_mul (by norm_num : (3 : ℝ) ≠ 0)
+          (by norm_num : (2 : ℝ) ≠ 0)]
+        norm_num
+      _ ≤ Real.log ((2 : ℝ) ^ (3 : ℕ)) :=
+        Real.log_le_log (by norm_num) (by norm_num)
+      _ = 3 * Real.log 2 := by rw [Real.log_pow]; norm_num
+      _ ≤ 3 * Real.log U := mul_le_mul_of_nonneg_left
+        (Real.log_le_log (by norm_num) hU) (by norm_num)
+  have hcap := dyadicCap_terminal_le hUone.le
+  rw [Real.rpow_ofNat] at hcap
+  have hj' : (j : ℝ) ≤ (dyadicCap (3 * U ^ (21 : ℕ)) : ℝ) := by exact_mod_cast hj
+  have hlen : (j : ℝ) * Real.log 2 ≤ 24 * Real.log U := by
+    have hh := mul_le_mul_of_nonneg_right (hj'.trans hcap) hlog2.le
+    have heq : ((21 / Real.log 2) * Real.log U +
+        (Real.log 3 / Real.log 2 + 1)) * Real.log 2 =
+          21 * Real.log U + Real.log 3 + Real.log 2 := by field_simp [hlog2.ne']; ring
+    rw [heq] at hh
+    linarith
+  unfold dyadicLength
+  rw [Real.log_pow]
+  exact (div_le_iff₀ hlogU).mpr hlen
+
+/-- A common plain-length range valid on every retained physical shell,
+before any asymptotic threshold is imposed. -/
+theorem terminalLabel_plainLength_range_two {U : ℝ} (hU : 2 ≤ U)
+    (t lam : ℝ) (l : TerminalLabel U) :
+    0 ≤ terminalLabelPlainLength U t lam l ∧
+      terminalLabelPlainLength U t lam l ≤ 24 := by
+  by_cases hl : terminalLabelValid U t lam l
+  · simp only [terminalLabelPlainLength, if_pos hl]
+    exact ⟨hl.2.1,
+      terminal_dyadicLength_le_twenty_four hU (Nat.le_of_lt_succ l.2.2.isLt)⟩
+  · simp only [terminalLabelPlainLength, if_neg hl]
+    norm_num
+
 /-- One threshold handles all source exponents and selected dyadic pairs.
 The original cutoff stays `D = U^t`, exactly as in `RecipeWitnessData.model`. -/
 theorem exists_terminal_label_support (lam : ℝ) (hlam : 0 < lam) :
@@ -229,5 +287,7 @@ end Expansion.Dyadic
 #print axioms Expansion.Dyadic.exists_terminal_label_support
 #print axioms Expansion.Dyadic.terminalLabelCount_subpower
 #print axioms Expansion.Dyadic.terminalLabel_lengths
+#print axioms Expansion.Dyadic.terminalLabel_plainLength_range
+#print axioms Expansion.Dyadic.terminalLabel_plainLength_range_two
 #print axioms Expansion.Dyadic.assemble_terminal_raw_parameters_on_sector
 #print axioms Expansion.Dyadic.assemble_terminal_parameters_on_sector

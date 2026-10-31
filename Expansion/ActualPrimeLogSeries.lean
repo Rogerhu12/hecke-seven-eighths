@@ -81,6 +81,29 @@ theorem actualPrimeLogTerm_eq (χ : HeckeCharacter K) (s : ℂ)
     nonzeroIdealCoefficient, primePowerIdeal_val, idealCoefficient_prime_pow,
     Prod.swap, mul_assoc]
 
+/-- Logarithmic coefficients use the same whole prime-power ideal as the
+Hecke coefficient, so norm twists preserve every ramified zero. -/
+theorem actualPrimeLogCoefficient_eq_idealCoefficient (χ : HeckeCharacter K)
+    (np : ActualPrimeLogIndex K) :
+    actualPrimeLogCoefficient K χ np =
+      (Real.log (Ideal.absNorm np.2.asIdeal : ℝ) : ℂ) *
+        heckeIdealCoefficient K χ (primePowerIdeal K (Prod.swap np)) := by
+  simp only [actualPrimeLogCoefficient, heckeIdealCoefficient, nonzeroIdealCoefficient,
+    primePowerIdeal_val, idealCoefficient_prime_pow, Prod.swap]
+
+/-- Centering the contour at frequency ν is exactly an arithmetic norm
+twist by −ν; the analytic zero buffer still belongs to the original χ. -/
+theorem actualPrimeLogCoefficient_normTwist (χ : HeckeCharacter K)
+    (ν : ℝ) (np : ActualPrimeLogIndex K) :
+    actualPrimeLogCoefficient K (χ * heckeNormTwist K (-ν)) np =
+      actualPrimeLogCoefficient K χ np *
+        (actualPrimePowerNorm K np : ℂ) ^ (-ExpansionInterfaces.Mellin.vertical 0 ν) := by
+  rw [actualPrimeLogCoefficient_eq_idealCoefficient,
+    heckeIdealCoefficient_normTwist, actualPrimeLogCoefficient_eq_idealCoefficient]
+  simp only [normTwistedCoefficients, actualPrimePowerNorm,
+    ExpansionInterfaces.Mellin.vertical, Complex.ofReal_zero, zero_add,
+    Complex.ofReal_neg, neg_mul, mul_assoc]
+
 theorem actualPrimeLogTerm_norm (χ : HeckeCharacter K) (s : ℂ)
     (np : ActualPrimeLogIndex K) :
     ‖primePowerLogTerm K (primeCoefficient K χ) 1 s (Prod.swap np)‖ =
@@ -181,6 +204,7 @@ end Expansion.Project
 
 #print axioms Expansion.Project.mem_actualPrimeLogWindow_of_le
 #print axioms Expansion.Project.actualPrimeLogTerm_eq
+#print axioms Expansion.Project.actualPrimeLogCoefficient_normTwist
 #print axioms Expansion.Project.actualPrimeLogFunction_eq_dirichletSeries
 #print axioms Expansion.Project.actualPrimeLog_absolutelySummable
 #print axioms Expansion.Project.actualPrimeLog_absMass_le
