@@ -63,8 +63,10 @@ theorem uniform_outer_canonical_inverse_sector_models
     finite_sector_energy_bound Finset.univ
       (fun s => inverseEnergy (source t i s) (a t i) (Z t i) 0) hconst.le hW
       (fun s _ => by
-        simpa only [hscalar, mul_assoc] using
+        have hpoint :=
           canonical_inverse_models (source t i s) (a t i) b (p t i s) (q t i s)
-            hMmax hc (hZ t i) (hC t) (hL t) (hH t i) hA (h₁ t i) (h₂ t i))
+            hMmax hc (hZ t i) (hC t) (hL t) (hH t i) hA (h₁ t i) (h₂ t i)
+        rw [hscalar] at hpoint
+        simpa only [mul_assoc] using hpoint)
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION
