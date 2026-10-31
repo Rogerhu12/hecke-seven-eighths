@@ -481,6 +481,7 @@ def primePowerTimesZeroQuotientEquiv (D : ThetaArithmeticData K S)
     primePowerTimesZeroQuotientEquiv K S D p k (Ideal.Quotient.mk _ a) =
       Ideal.Quotient.mk _ a := rfl
 
+set_option maxHeartbeats 800000 in
 /-- At completed index one, exact finite Fourier inversion recovers the
 original denominator symbol, with its nonunit zeros. The original chosen
 unit-ideal generator is accounted for by the sixth-unit frequency shift. -/
@@ -527,10 +528,14 @@ theorem finitePoisson_power_zero_eq_symbol (P : ProbeData K S)
       (∑ x : R, poissonKernelOnQuotient K S P den A h (e x)) =
         f ((V : R) ^ 6 * Ideal.Quotient.mk _ h)
     simp_rw [hkernel]
-    simpa only [mul_assoc] using
-      HighBin.FourierInversion.normalized_finite_fourier_inversion ψ
-        (principalPowerAddCharacter_isPrimitive K S D p k) f
-        ((V : R) ^ 6 * Ideal.Quotient.mk _ h)
+    have hphase (x : R) :
+        ψ ((V : R) ^ 6 * (Ideal.Quotient.mk _ h * x)) =
+          ψ (((V : R) ^ 6 * Ideal.Quotient.mk _ h) * x) := by
+      rw [mul_assoc]
+    simp_rw [hphase]
+    exact HighBin.FourierInversion.normalized_finite_fourier_inversion ψ
+      (principalPowerAddCharacter_isPrimitive K S D p k) f
+      ((V : R) ^ 6 * Ideal.Quotient.mk _ h)
   rw [heq]
   change (principalPrimeCharacter K S D p ^ k)
       (residueMap π k hk ((V : R) ^ 6 * Ideal.Quotient.mk _ h)) = _

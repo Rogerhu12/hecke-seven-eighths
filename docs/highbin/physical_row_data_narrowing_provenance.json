@@ -48,7 +48,7 @@
     "project_module_count": 223,
     "direct_Mathlib_umbrella_modules": [],
     "unresolved_project_imports": [],
-    "source_tree_sha256": "987ba23096b69a7e7c56076bc2213708742e9af8f6ff795724c6fa08c723f58b",
+    "source_tree_sha256": "01cb017fb997be5727fa5902132cc1c2a1c270cee1f8ee8e410bc50b3c3b7c4e",
     "source_tree_hash_method": "SHA256 of UTF-8 lines sorted by module name, each line: module name, one ASCII space, source SHA256, newline; current repository sources only."
   }
 }

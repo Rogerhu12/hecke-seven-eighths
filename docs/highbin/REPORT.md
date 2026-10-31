@@ -119,6 +119,24 @@ All 78 public declaration headers in these two modules are unchanged.
 Their full native recheck and the eight-module axiom audit remain pending.
 Artifact `13029277888` was downloaded and verified against SHA256
 `5657cb2c722449379ae6078126d2ad021e646586d8238fa41d1567e25ce3f998`.
+The `8bc1e92` Mellin job also reached its final module before cancellation.
+`ActualOrbitalRapidDecay` compiled again; the only source errors were three
+in `ActualAdditiveMellinRapidDecay`: a dependent finite-place case split and
+two local-notation field lookups. The current repair specifies the actual
+Finset-membership proof and the literal set's unit subgroup. Its eight public
+declaration headers are unchanged. The six-module/67-declaration Mellin audit
+still requires a completed native recheck. Artifact `13028728686` was
+downloaded and verified against SHA256
+`b7e0b3f43751178d6d1863d77ba7d69efa002b0ac24d5f2770f7cb4416e4aa6d`.
+At `26504ae`, core passed again. Fourier's remaining errors were confined
+to the unit-covariance proof's unqualified multiplicative-hom rewrite and
+the normalization of one finite-inversion proof. The current source selects
+the actual symbol homomorphism explicitly, proves the phase reassociation
+pointwise, and applies the already proved normalized inversion directly.
+Only that inversion lemma receives an 800000-heartbeat elaboration budget;
+its statement, hypotheses and proof obligations are unchanged. These repairs
+and the three Mellin repairs await the next native result. No failed-build
+recovery terms are counted as verified declarations.
 
 The current base also includes the separately merged low-hybrid/exterior
 wiring. Its 20 changed files were transferred from `6e67559` and checked

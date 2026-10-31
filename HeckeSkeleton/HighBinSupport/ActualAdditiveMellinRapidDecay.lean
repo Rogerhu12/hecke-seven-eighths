@@ -73,7 +73,9 @@ theorem finiteFourierProfile_locallyConstant_compactSupport
     unfold sIntegerFiniteFourierTestFunction finiteFourierProfile
     apply Finset.prod_congr rfl
     intro p _
-    simp only [μv, h, dif_pos p.property]
+    have hp : p.val ∈ S := p.property
+    dsimp only [μv, h]
+    simp only [dif_pos hp] <;> rfl
   rwa [heq] at hf
 
 /-- The physical Fourier integrand is exactly the transformed Schwartz tensor. -/
@@ -185,7 +187,7 @@ theorem exists_additiveMellin_rapid_bound_actualBorel
   subst m
   letI (p : S₀) : (μ p).IsAddHaarMeasure := hμ p
   exact ActualAdditive.exists_additiveMellin_rapid_bound K S μ
-    (⊤ : Subgroup (S₀.unit K)) W σ hσ hσ1 n
+    (⊤ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)) W σ hσ hσ1 n
 
 /-- Continuity with the original arbitrary probe Borel structures. -/
 theorem additiveMellin_continuous_line_actualBorel
@@ -205,7 +207,7 @@ theorem additiveMellin_continuous_line_actualBorel
   subst m
   letI (p : S₀) : (μ p).IsAddHaarMeasure := hμ p
   exact ActualAdditive.additiveMellin_continuous_line K S μ
-    (⊤ : Subgroup (S₀.unit K)) W σ hσ hσ1
+    (⊤ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)) W σ hσ hσ1
 
 #print axioms exists_additiveMellin_rapid_bound_actualBorel
 #print axioms additiveMellin_continuous_line_actualBorel

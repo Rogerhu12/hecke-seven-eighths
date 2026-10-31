@@ -417,55 +417,55 @@
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualAdditiveMellinRapidDecay.lean",
     "line": 40,
-    "source_sha256": "a23546126bc53ba33871831b846d9acd1683393be8352e0ba376e5f5550b2058"
+    "source_sha256": "40f5d79e65d76892336f82976c540271e75f0a46c3bf870651f83158eb721eb4"
   },
   {
     "name": "HighBinBoundary.ActualAdditive.finiteFourierProfile_locallyConstant_compactSupport",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualAdditiveMellinRapidDecay.lean",
     "line": 48,
-    "source_sha256": "a23546126bc53ba33871831b846d9acd1683393be8352e0ba376e5f5550b2058"
+    "source_sha256": "40f5d79e65d76892336f82976c540271e75f0a46c3bf870651f83158eb721eb4"
   },
   {
     "name": "HighBinBoundary.ActualAdditive.additiveFourier_eq_tensor",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualAdditiveMellinRapidDecay.lean",
-    "line": 80,
-    "source_sha256": "a23546126bc53ba33871831b846d9acd1683393be8352e0ba376e5f5550b2058"
+    "line": 82,
+    "source_sha256": "40f5d79e65d76892336f82976c540271e75f0a46c3bf870651f83158eb721eb4"
   },
   {
     "name": "HighBinBoundary.ActualAdditive.additiveMellin_eq_orbitalMellin",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualAdditiveMellinRapidDecay.lean",
-    "line": 94,
-    "source_sha256": "a23546126bc53ba33871831b846d9acd1683393be8352e0ba376e5f5550b2058"
+    "line": 96,
+    "source_sha256": "40f5d79e65d76892336f82976c540271e75f0a46c3bf870651f83158eb721eb4"
   },
   {
     "name": "HighBinBoundary.ActualAdditive.exists_additiveMellin_rapid_bound",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualAdditiveMellinRapidDecay.lean",
-    "line": 121,
-    "source_sha256": "a23546126bc53ba33871831b846d9acd1683393be8352e0ba376e5f5550b2058"
+    "line": 123,
+    "source_sha256": "40f5d79e65d76892336f82976c540271e75f0a46c3bf870651f83158eb721eb4"
   },
   {
     "name": "HighBinBoundary.ActualAdditive.additiveMellin_continuous_line",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualAdditiveMellinRapidDecay.lean",
-    "line": 133,
-    "source_sha256": "a23546126bc53ba33871831b846d9acd1683393be8352e0ba376e5f5550b2058"
+    "line": 135,
+    "source_sha256": "40f5d79e65d76892336f82976c540271e75f0a46c3bf870651f83158eb721eb4"
   },
   {
     "name": "HighBinBoundary.ActualAdditiveBorel.exists_additiveMellin_rapid_bound_actualBorel",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualAdditiveMellinRapidDecay.lean",
-    "line": 170,
-    "source_sha256": "a23546126bc53ba33871831b846d9acd1683393be8352e0ba376e5f5550b2058"
+    "line": 172,
+    "source_sha256": "40f5d79e65d76892336f82976c540271e75f0a46c3bf870651f83158eb721eb4"
   },
   {
     "name": "HighBinBoundary.ActualAdditiveBorel.additiveMellin_continuous_line_actualBorel",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualAdditiveMellinRapidDecay.lean",
-    "line": 191,
-    "source_sha256": "a23546126bc53ba33871831b846d9acd1683393be8352e0ba376e5f5550b2058"
+    "line": 193,
+    "source_sha256": "40f5d79e65d76892336f82976c540271e75f0a46c3bf870651f83158eb721eb4"
   }
 ]
