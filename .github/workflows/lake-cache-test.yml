@@ -16,8 +16,10 @@ on:
         required: false
         default: ""
 
+# `contents: write` only so that a still-draft release can be restored by
+# name while it is being verified; consumers only need `contents: read`.
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: lake-cache-test-${{ github.ref }}
@@ -25,6 +27,8 @@ concurrency:
 
 env:
   LEAN_NUM_THREADS: "2"
+  # Release under test when no tag is given (may still be a draft).
+  LAKE_CACHE_TEST_TAG: lake-cache-76c696e
 
 jobs:
   principal:
@@ -56,7 +60,7 @@ jobs:
         id: lake-cache
         uses: ./.github/actions/restore-lake-cache
         with:
-          tag: ${{ inputs.tag }}
+          tag: ${{ inputs.tag || env.LAKE_CACHE_TEST_TAG }}
       - name: Build HeckeSkeleton.Principal
         timeout-minutes: 150
         shell: bash
@@ -91,6 +95,7 @@ jobs:
             echo '```'
             grep -E '\] Built ' "$log" | awk '{print $4}' | grep -v '^HeckeSkeleton\.' | head -200
             echo '```'
+            grep -E 'Build completed|error:' "$log" | tail -3 || true
             grep BUILD_SECONDS "$log" || true
           } | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Upload build log

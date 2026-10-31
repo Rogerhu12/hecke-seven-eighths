@@ -8,7 +8,10 @@ description: >
 
 inputs:
   tag:
-    description: Release tag to restore; empty selects the newest lake-cache-* release.
+    description: >
+      Release tag to restore; empty selects the newest published lake-cache-*
+      release. A draft can be named explicitly, but then the token needs
+      `contents: write`.
     required: false
     default: ""
   repository:
@@ -38,7 +41,8 @@ runs:
         set -euo pipefail
         tag="$CACHE_TAG"
         if [ -z "$tag" ]; then
-          tag="$(gh release list -R "$CACHE_REPO" --limit 100 --json tagName,createdAt \
+          # Drafts are skipped: a release is only published once all parts are uploaded.
+          tag="$(gh release list -R "$CACHE_REPO" --limit 100 --exclude-drafts --json tagName,createdAt \
             --jq '[.[] | select(.tagName | startswith("lake-cache-"))] | sort_by(.createdAt) | last | .tagName // ""')"
         fi
         if [ -z "$tag" ]; then
