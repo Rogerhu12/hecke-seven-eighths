@@ -198,11 +198,14 @@ theorem exists_actual_moderate_correctionMass_bound (g : PrimeWindowGeometry) :
           · exact mul_le_mul
               (pow_le_pow_left₀ (idealNorm_pos K _).le (hsubset p hp J) 7)
               (pow_le_pow_left₀ (idealNorm_pos K _).le (hsubset p hp (Finset.univ \ J)) 11)
-              (by positivity) (by positivity)
+              (pow_nonneg (show (0 : ℝ) ≤
+                exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) from
+                  (idealNorm_pos K _).le) 11)
+              (pow_nonneg (le_trans zero_le_one hQ) 7)
           · exact hmarked p J
           · positivity
           · positivity
-        _ = _ := by rw [← pow_add]; norm_num
+        _ = _ := by rw [← pow_add]
     calc
       _ ≤ ∑ _J ∈ (Finset.univ : Finset (Fin g.slots)).powerset,
           Q ^ 18 * markedBound ^ g.slots := Finset.sum_le_sum (fun J _ => hterm J)
@@ -269,9 +272,10 @@ theorem exists_actual_moderate_fullCorrection_bound (g : PrimeWindowGeometry)
   obtain ⟨Cm, Z0, hCm, hZ0, hm⟩ := exists_actual_moderate_correctionMass_bound K S g
   refine ⟨Cr * Cm, Z0, mul_pos hCr hCm, hZ0, ?_⟩
   intro Z hZ P psi T u a ha ha1 s w z hv hs hw hz
+  have hNpos : 0 < frequencyRowNorm K S u := idealNorm_pos K u.ideal.val
   exact (hr g T Z a ha ha1 P psi u s w z hv hs hw hz).trans
     ((mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left (hm Z hZ T) hCr.le)
-      (Real.rpow_nonneg (idealNorm_pos K u.ideal.val).le _)).trans_eq (by ring))
+      (Real.rpow_nonneg hNpos.le eta)).trans_eq (by ring))
 
 /-- The actual finite-order nonprincipal numerator is controlled across
 the small negative-w part of every moderate starting contour. -/

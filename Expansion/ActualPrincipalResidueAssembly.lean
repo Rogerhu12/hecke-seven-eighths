@@ -196,7 +196,7 @@ theorem continuous_actualPrincipal_w_residue_heights [IsTotallyComplex K]
     hB he hZ (wLine := 1) (by norm_num) hz hzPole hboundary
     (fun _ => deletedZetaResidue K Sset) continuous_const
   simpa only [actualPrincipalWResidueKernel, vertical, Complex.ofReal_zero, zero_mul, add_zero,
-    Complex.ofReal_one] using hc.comp
+    Complex.ofReal_one] using hc.comp'
       (by fun_prop : Continuous (fun p : ℝ × ℝ => (p.1, (0 : ℝ), p.2)))
 
 private theorem continuous_actualPrincipal_double_residue
