@@ -18,9 +18,8 @@ permissions:
 
 concurrency:
   group: theta-global-${{ github.event.pull_request.number || github.ref }}
-  # Let an active dependency build finish and save its cache before checking
-  # the latest correction; cancelling it would discard that useful work.
-  cancel-in-progress: false
+  # A new commit replaces the obsolete build for the same PR or branch.
+  cancel-in-progress: true
 
 env:
   LEAN_NUM_THREADS: "2"
