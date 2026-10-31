@@ -1,0 +1,224 @@
+2026-10-31T04:57:31.0684746Z ✖ [11742/11750] Building ThetaGlobal.LocalDigitArithmetic (5.3s)
+2026-10-31T04:57:31.0696328Z trace: .> LEAN_PATH=/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/packages/Cli/.lake/build/lib/lean:/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/packages/batteries/.lake/build/lib/lean:/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/packages/Qq/.lake/build/lib/lean:/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/packages/aesop/.lake/build/lib/lean:/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/packages/importGraph/.lake/build/lib/lean:/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/packages/plausible/.lake/build/lib/lean:/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/packages/TauCeti/.lake/build/lib/lean:/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/vendor/class-field-theory/.lake/build/lib/lean:/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/packages/mathlib/.lake/build/lib/lean:/home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/build/lib/lean /home/runner/.elan/toolchains/leanprover--lean4---v4.35.0-rc3/bin/lean -j2 /home/runner/work/hecke-seven-eighths/hecke-seven-eighths/ThetaGlobal/LocalDigitArithmetic.lean -o /home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/build/lib/lean/ThetaGlobal/LocalDigitArithmetic.olean -i /home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/build/lib/lean/ThetaGlobal/LocalDigitArithmetic.ilean -c /home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/build/ir/ThetaGlobal/LocalDigitArithmetic.c --setup /home/runner/work/hecke-seven-eighths/hecke-seven-eighths/.lake/build/ir/ThetaGlobal/LocalDigitArithmetic.setup.json --json
+2026-10-31T04:57:31.0705817Z error: ThetaGlobal/LocalDigitArithmetic.lean:31:68: unsolved goals
+2026-10-31T04:57:31.0706514Z k : Type u_1
+2026-10-31T04:57:31.0706904Z inst✝¹ : Field k
+2026-10-31T04:57:31.0707191Z inst✝ : Fintype k
+2026-10-31T04:57:31.0707460Z χ : MulChar k ℂ
+2026-10-31T04:57:31.0707728Z ψ : AddChar k ℂ
+2026-10-31T04:57:31.0707982Z e : ℕ
+2026-10-31T04:57:31.0708266Z ⊢ (if ↑e < 0 then 0
+2026-10-31T04:57:31.0708538Z     else
+2026-10-31T04:57:31.0708909Z       if 3 ∣ ↑e then (↑(Fintype.card k) ^ (↑e / 3))⁻¹
+2026-10-31T04:57:31.0709289Z       else
+2026-10-31T04:57:31.0709555Z         if ↑e % 3 = 1 then
+2026-10-31T04:57:31.0710155Z           (↑(Fintype.card k) ^ (↑e / 3))⁻¹ * (↑√↑(Fintype.card k))⁻¹ * ((↑√↑(Fintype.card k))⁻¹ * gaussSum (χ ^ 2) ψ)
+2026-10-31T04:57:31.0710674Z         else 0) =
+2026-10-31T04:57:31.0711349Z     if e % 3 = 0 then (↑(Fintype.card k) ^ (e / 3))⁻¹
+2026-10-31T04:57:31.0711726Z     else
+2026-10-31T04:57:31.0711949Z       if e % 3 = 1 then
+2026-10-31T04:57:31.0712553Z         (↑(Fintype.card k) ^ (e / 3))⁻¹ * (↑√↑(Fintype.card k))⁻¹ * ((↑√↑(Fintype.card k))⁻¹ * gaussSum (χ ^ 2) ψ)
+2026-10-31T04:57:31.0713101Z       else 0
+2026-10-31T04:57:31.0713514Z warning: ThetaGlobal/LocalDigitArithmetic.lean:35:4: This simp argument is unused:
+2026-10-31T04:57:31.0714055Z   ← Int.natCast_ediv
+2026-10-31T04:57:31.0714204Z 
+2026-10-31T04:57:31.0714344Z Hint: Omit it from the simp argument list.
+2026-10-31T04:57:31.0714932Z   [apply] simp [sexticSphericalCoefficient, HeckeSkeleton.ThetaLocal.ResidueField.sphericalDigit,
+2026-10-31T04:57:31.0715824Z     HeckeSkeleton.ThetaLocal.ResidueField.gammaTwo, ← Int.natCast_emod, zpow_neg]
+2026-10-31T04:57:31.0716248Z 
+2026-10-31T04:57:31.0717368Z Note: Simp arguments with `←` have the additional effect of removing the other direction from the simp set, even if the simp argument itself is unused. If the hint above does not work, try replacing `←` with `-` to only get that effect and silence this warning.
+2026-10-31T04:57:31.0718607Z 
+2026-10-31T04:57:31.0718889Z Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+2026-10-31T04:57:31.0719568Z warning: ThetaGlobal/LocalDigitArithmetic.lean:35:24: This simp argument is unused:
+2026-10-31T04:57:31.0720174Z   ← Int.natCast_emod
+2026-10-31T04:57:31.0720332Z 
+2026-10-31T04:57:31.0720452Z Hint: Omit it from the simp argument list.
+2026-10-31T04:57:31.0721175Z   [apply] simp [sexticSphericalCoefficient, HeckeSkeleton.ThetaLocal.ResidueField.sphericalDigit,
+2026-10-31T04:57:31.0722020Z     HeckeSkeleton.ThetaLocal.ResidueField.gammaTwo, ← Int.natCast_ediv, zpow_neg]
+2026-10-31T04:57:31.0722448Z 
+2026-10-31T04:57:31.0723558Z Note: Simp arguments with `←` have the additional effect of removing the other direction from the simp set, even if the simp argument itself is unused. If the hint above does not work, try replacing `←` with `-` to only get that effect and silence this warning.
+2026-10-31T04:57:31.0724610Z 
+2026-10-31T04:57:31.0724882Z Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+2026-10-31T04:57:31.0725475Z error: ThetaGlobal/LocalDigitArithmetic.lean:45:49: Ambiguous term
+2026-10-31T04:57:31.0725904Z   localDifferentExponent
+2026-10-31T04:57:31.0726193Z Possible interpretations:
+2026-10-31T04:57:31.0726626Z   HeckeGeneral.Characters.localDifferentExponent F p : ℤ
+2026-10-31T04:57:31.0727041Z   
+2026-10-31T04:57:31.0727511Z   DedekindZetaZeroFree.localDifferentExponent F p : ℕ
+2026-10-31T04:57:31.0728163Z error: ThetaGlobal/LocalDigitArithmetic.lean:53:50: Application type mismatch: The argument
+2026-10-31T04:57:31.0728674Z   y
+2026-10-31T04:57:31.0728889Z has type
+2026-10-31T04:57:31.0729198Z   (𝓞 F ⧸ (↑(prime A p)).asIdeal)ˣ
+2026-10-31T04:57:31.0729501Z but is expected to have type
+2026-10-31T04:57:31.0729804Z   ?m.60 ⧸ ?m.62
+2026-10-31T04:57:31.0730032Z in the application
+2026-10-31T04:57:31.0730324Z   Ideal.Quotient.mk_surjective y
+2026-10-31T04:57:31.0730759Z error: ThetaGlobal/LocalDigitArithmetic.lean:73:51: Ambiguous term
+2026-10-31T04:57:31.0731476Z   localDifferentExponent
+2026-10-31T04:57:31.0731783Z Possible interpretations:
+2026-10-31T04:57:31.0732198Z   HeckeGeneral.Characters.localDifferentExponent F p : ℤ
+2026-10-31T04:57:31.0732588Z   
+2026-10-31T04:57:31.0732916Z   DedekindZetaZeroFree.localDifferentExponent F p : ℕ
+2026-10-31T04:57:31.0733498Z error: ThetaGlobal/LocalDigitArithmetic.lean:89:32: unknown free variable `_fvar.13493`
+2026-10-31T04:57:31.0734213Z error: ThetaGlobal/LocalDigitArithmetic.lean:102:24: Unknown identifier `hdiff`
+2026-10-31T04:57:31.0734877Z warning: ThetaGlobal/LocalDigitArithmetic.lean:104:8: declaration uses `sorry`
+2026-10-31T04:57:31.0735583Z error: ThetaGlobal/LocalDigitArithmetic.lean:125:30: unknown free variable `_fvar.16907`
+2026-10-31T04:57:31.0736298Z error: ThetaGlobal/LocalDigitArithmetic.lean:127:33: Unknown identifier `hdiff`
+2026-10-31T04:57:31.0737127Z warning: ThetaGlobal/LocalDigitArithmetic.lean:128:37: `if_neg` has been deprecated: Use `ite_eq_right` instead
+2026-10-31T04:57:31.0737632Z 
+2026-10-31T04:57:31.0737755Z Hint: Replace the deprecated name:
+2026-10-31T04:57:31.0738135Z   i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+2026-10-31T04:57:31.0738633Z error: ThetaGlobal/LocalDigitArithmetic.lean:129:55: Unknown identifier `hdiff`
+2026-10-31T04:57:31.0739338Z error: ThetaGlobal/LocalDigitArithmetic.lean:139:29: Unknown identifier `hdiff`
+2026-10-31T04:57:31.0739947Z info: ThetaGlobal/LocalDigitArithmetic.lean:152:2: Try this:
+2026-10-31T04:57:31.0740347Z   [apply] ring_nf
+2026-10-31T04:57:31.0740567Z   
+2026-10-31T04:57:31.0741039Z   The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+2026-10-31T04:57:31.0741496Z     
+2026-10-31T04:57:31.0742208Z   Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+2026-10-31T04:57:31.0743308Z error: ThetaGlobal/LocalDigitArithmetic.lean:150:71: unsolved goals
+2026-10-31T04:57:31.0743742Z F : Type
+2026-10-31T04:57:31.0744013Z inst✝¹ : Field F
+2026-10-31T04:57:31.0744339Z inst✝ : NumberField F
+2026-10-31T04:57:31.0744601Z S : SArithmeticData F
+2026-10-31T04:57:31.0744916Z η : RayClassCharacter F S.modulus
+2026-10-31T04:57:31.0745265Z R : PrincipalMellin.ActualRecipe S η
+2026-10-31T04:57:31.0745590Z p : ThetaBranch.ExteriorPrime R.A
+2026-10-31T04:57:31.0746015Z ⊢ (↑√↑(Ideal.absNorm (↑(prime R.A p)).asIdeal))⁻¹ *
+2026-10-31T04:57:31.0746638Z       thetaGamma F (↑R.A.Sf) (HeckeAxiom.thetaArithmeticData R.A R.probe.allowed R.σ ⋯)
+2026-10-31T04:57:31.0747293Z         (exteriorPrimeIdeal F (↑R.A.Sf) (prime R.A p)) 2 =
+2026-10-31T04:57:31.0747957Z     thetaGamma F (↑R.A.Sf) (HeckeAxiom.thetaArithmeticData R.A R.probe.allowed R.σ ⋯)
+2026-10-31T04:57:31.0748598Z         (exteriorPrimeIdeal F (↑R.A.Sf) (prime R.A p)) 2 *
+2026-10-31T04:57:31.0749030Z       (↑√↑(Ideal.absNorm (↑p).asIdeal))⁻¹
+2026-10-31T04:57:31.0749794Z info: ThetaGlobal/LocalDigitArithmetic.lean:158:0: 'ThetaGlobal.LocalDigitArithmetic.thetaPrimeCharacter_eq' depends on axioms: [propext,
+2026-10-31T04:57:31.0750683Z  sorryAx,
+2026-10-31T04:57:31.0751031Z  Classical.choice,
+2026-10-31T04:57:31.0751281Z  Quot.sound]
+2026-10-31T04:57:31.0752106Z info: ThetaGlobal/LocalDigitArithmetic.lean:159:0: 'ThetaGlobal.LocalDigitArithmetic.probe_additive_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-10-31T04:57:31.0753548Z info: ThetaGlobal/LocalDigitArithmetic.lean:160:0: 'ThetaGlobal.LocalDigitArithmetic.primePhase_eq' depends on axioms: [propext, sorryAx, Classical.choice, Quot.sound]
+2026-10-31T04:57:31.0754968Z info: ThetaGlobal/LocalDigitArithmetic.lean:161:0: 'ThetaGlobal.LocalDigitArithmetic.sphericalDigit_eq' depends on axioms: [propext, sorryAx, Classical.choice, Quot.sound]
+2026-10-31T04:57:31.0756297Z info: ThetaGlobal/LocalDigitArithmetic.lean:162:0: 'ThetaGlobal.LocalDigitArithmetic.sphericalFactor_eq' depends on axioms: [propext,
+2026-10-31T04:57:31.0756999Z  sorryAx,
+2026-10-31T04:57:31.0757225Z  Classical.choice,
+2026-10-31T04:57:31.0757470Z  Quot.sound]
+2026-10-31T04:57:31.0758227Z info: ThetaGlobal/LocalDigitArithmetic.lean:163:0: 'ThetaGlobal.LocalDigitArithmetic.forward_mask' depends on axioms: [propext, sorryAx, Classical.choice, Quot.sound]
+2026-10-31T04:57:31.0759653Z info: ThetaGlobal/LocalDigitArithmetic.lean:164:0: 'ThetaGlobal.LocalDigitArithmetic.zeroth_weyl' depends on axioms: [propext, sorryAx, Classical.choice, Quot.sound]
+2026-10-31T04:57:31.3689051Z ⚠ [11743/11956] Built DedekindZetaZeroFree.Metaplectic.Kubota.TameCompact.CorrectionAndDeterminantTwist (9.6s)
+2026-10-31T04:57:31.3689818Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/TameCompact/CorrectionAndDeterminantTwist.lean:79:2: Try this: 
+2026-10-31T04:57:31.3690276Z   letI̵
+2026-10-31T04:57:31.3690377Z 
+2026-10-31T04:57:31.3690528Z The goal is a proposition, so `let` is preferred over `letI`.
+2026-10-31T04:57:31.3691241Z The difference between `let` and `letI` is that `letI` inlines the value.
+2026-10-31T04:57:31.3691645Z But this is not relevant for proofs because of proof irrelevance.
+2026-10-31T04:57:31.3691866Z 
+2026-10-31T04:57:31.3692048Z Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+2026-10-31T04:57:31.3692573Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/TameCompact/CorrectionAndDeterminantTwist.lean:80:2: Try this: 
+2026-10-31T04:57:31.3693018Z   letI̵
+2026-10-31T04:57:31.3693107Z 
+2026-10-31T04:57:31.3693259Z The goal is a proposition, so `let` is preferred over `letI`.
+2026-10-31T04:57:31.3693621Z The difference between `let` and `letI` is that `letI` inlines the value.
+2026-10-31T04:57:31.3693986Z But this is not relevant for proofs because of proof irrelevance.
+2026-10-31T04:57:31.3694189Z 
+2026-10-31T04:57:31.3694360Z Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+2026-10-31T04:57:31.3694882Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/TameCompact/CorrectionAndDeterminantTwist.lean:82:2: Try this: 
+2026-10-31T04:57:31.3695413Z   letI̵
+2026-10-31T04:57:31.3695503Z 
+2026-10-31T04:57:31.3695637Z The goal is a proposition, so `let` is preferred over `letI`.
+2026-10-31T04:57:31.3695993Z The difference between `let` and `letI` is that `letI` inlines the value.
+2026-10-31T04:57:31.3696340Z But this is not relevant for proofs because of proof irrelevance.
+2026-10-31T04:57:31.3696538Z 
+2026-10-31T04:57:31.3696707Z Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+2026-10-31T04:57:31.3697207Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/TameCompact/CorrectionAndDeterminantTwist.lean:84:2: Try this: 
+2026-10-31T04:57:31.3697639Z   letI̵
+2026-10-31T04:57:31.3697724Z 
+2026-10-31T04:57:31.3697850Z The goal is a proposition, so `let` is preferred over `letI`.
+2026-10-31T04:57:31.3698182Z The difference between `let` and `letI` is that `letI` inlines the value.
+2026-10-31T04:57:31.3698533Z But this is not relevant for proofs because of proof irrelevance.
+2026-10-31T04:57:31.3698727Z 
+2026-10-31T04:57:31.3698889Z Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+2026-10-31T04:57:31.3699488Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/TameCompact/CorrectionAndDeterminantTwist.lean:102:4: Try this: 
+2026-10-31T04:57:31.3699927Z   letI̵
+2026-10-31T04:57:31.3700017Z 
+2026-10-31T04:57:31.3700143Z The goal is a proposition, so `let` is preferred over `letI`.
+2026-10-31T04:57:31.3700547Z The difference between `let` and `letI` is that `letI` inlines the value.
+2026-10-31T04:57:31.3701072Z But this is not relevant for proofs because of proof irrelevance.
+2026-10-31T04:57:31.3701288Z 
+2026-10-31T04:57:31.3701464Z Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+2026-10-31T04:57:31.3701976Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/TameCompact/CorrectionAndDeterminantTwist.lean:128:2: Try this: 
+2026-10-31T04:57:31.3702407Z   letI̵
+2026-10-31T04:57:31.3702498Z 
+2026-10-31T04:57:31.3702633Z The goal is a proposition, so `let` is preferred over `letI`.
+2026-10-31T04:57:31.3702964Z The difference between `let` and `letI` is that `letI` inlines the value.
+2026-10-31T04:57:31.3703316Z But this is not relevant for proofs because of proof irrelevance.
+2026-10-31T04:57:31.3703505Z 
+2026-10-31T04:57:31.3703672Z Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+2026-10-31T04:57:31.3704179Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/TameCompact/CorrectionAndDeterminantTwist.lean:228:2: Try this: 
+2026-10-31T04:57:31.3704599Z   letI̵
+2026-10-31T04:57:31.3704687Z 
+2026-10-31T04:57:31.3704809Z The goal is a proposition, so `let` is preferred over `letI`.
+2026-10-31T04:57:31.3705140Z The difference between `let` and `letI` is that `letI` inlines the value.
+2026-10-31T04:57:31.3705476Z But this is not relevant for proofs because of proof irrelevance.
+2026-10-31T04:57:31.3705667Z 
+2026-10-31T04:57:31.3705901Z Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+2026-10-31T04:57:31.3706413Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/TameCompact/CorrectionAndDeterminantTwist.lean:230:2: Try this: 
+2026-10-31T04:57:31.3706840Z   letI̵
+2026-10-31T04:57:31.3706926Z 
+2026-10-31T04:57:31.3707051Z The goal is a proposition, so `let` is preferred over `letI`.
+2026-10-31T04:57:31.3707383Z The difference between `let` and `letI` is that `letI` inlines the value.
+2026-10-31T04:57:31.3707734Z But this is not relevant for proofs because of proof irrelevance.
+2026-10-31T04:57:31.3707926Z 
+2026-10-31T04:57:31.3708091Z Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+2026-10-31T04:57:31.3708770Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/TameCompact/CorrectionAndDeterminantTwist.lean:267:56: `MonoidHom.coe_coe` has been deprecated: Use `MonoidHom.coe_ofClass` instead
+2026-10-31T04:57:31.3709278Z 
+2026-10-31T04:57:31.3709372Z Hint: Replace the deprecated name:
+2026-10-31T04:57:31.3709724Z   M̵o̵n̵o̵i̵d̵H̵o̵m̵.̵c̵o̵e̵_̵c̵o̵e̵M̲o̲n̲o̲i̲d̲H̲o̲m̲.̲c̲o̲e̲_̲o̲f̲C̲l̲a̲s̲s̲
+2026-10-31T04:57:31.3710377Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/TameCompact/CorrectionAndDeterminantTwist.lean:267:56: This simp argument is unused:
+2026-10-31T04:57:31.3711920Z   MonoidHom.coe_coe
+2026-10-31T04:57:31.3712089Z 
+2026-10-31T04:57:31.3712197Z Hint: Omit it from the simp argument list.
+2026-10-31T04:57:31.3712496Z   [apply] simp only [Units.val_inv_eq_inv_val, Units.coe_map]
+2026-10-31T04:57:31.3712693Z 
+2026-10-31T04:57:31.3712873Z Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+2026-10-31T04:57:31.3713624Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/TameCompact/CorrectionAndDeterminantTwist.lean:280:28: This simp argument is unused:
+2026-10-31T04:57:31.3714469Z   mul_comm
+2026-10-31T04:57:31.3714636Z 
+2026-10-31T04:57:31.3714777Z Hint: Omit it from the simp argument list.
+2026-10-31T04:57:31.3715145Z   [apply] simp [div_eq_mul_inv]
+2026-10-31T04:57:31.3715361Z 
+2026-10-31T04:57:31.3715605Z Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+2026-10-31T04:57:31.3716254Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/TameCompact/CorrectionAndDeterminantTwist.lean:294:20: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+2026-10-31T04:57:31.3716947Z 
+2026-10-31T04:57:31.3717041Z Hint: Replace the deprecated name:
+2026-10-31T04:57:31.3717485Z   d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+2026-10-31T04:57:31.3718188Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/TameCompact/CorrectionAndDeterminantTwist.lean:294:32: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+2026-10-31T04:57:31.3718672Z 
+2026-10-31T04:57:31.3718764Z Hint: Replace the deprecated name:
+2026-10-31T04:57:31.3719028Z   d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+2026-10-31T04:57:31.3719977Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/TameCompact/CorrectionAndDeterminantTwist.lean:294:44: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+2026-10-31T04:57:31.3721038Z 
+2026-10-31T04:57:31.3721179Z Hint: Replace the deprecated name:
+2026-10-31T04:57:31.3721477Z   d̵i̵f̵_̵p̵o̵s̵d̲i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+2026-10-31T04:57:31.3722056Z ⊘ [11744/11956] Canceled DedekindZetaZeroFree.Metaplectic.Kubota.TameCompact.SmallZeroEntryCocycle
+2026-10-31T04:57:31.3722960Z ⊘ [11745/11956] Canceled DedekindZetaZeroFree.Metaplectic.Kubota.TameCompact.SmallNonzeroEntryCocycle
+2026-10-31T04:57:36.7740100Z ⚠ [12515/12518] Built DedekindZetaZeroFree.Metaplectic.Kubota.DeepCongruenceConjugationCompatibility (5.7s)
+2026-10-31T04:57:36.7742010Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/DeepCongruenceConjugationCompatibility.lean:89:14: This simp argument is unused:
+2026-10-31T04:57:36.7742789Z   KPLocalCover.rawMul
+2026-10-31T04:57:36.7743585Z 
+2026-10-31T04:57:36.7743991Z Hint: Omit it from the simp argument list.
+2026-10-31T04:57:36.7744544Z   [apply] simp [mul_assoc]
+2026-10-31T04:57:36.7744870Z 
+2026-10-31T04:57:36.7745274Z Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+2026-10-31T04:57:36.7746288Z warning: DedekindZetaZeroFree/Metaplectic/Kubota/DeepCongruenceConjugationCompatibility.lean:295:14: This simp argument is unused:
+2026-10-31T04:57:36.7747096Z   KPLocalCover.rawMul
+2026-10-31T04:57:36.7747278Z 
+2026-10-31T04:57:36.7747417Z Hint: Omit it from the simp argument list.
+2026-10-31T04:57:36.7747659Z   [apply] simp [mul_assoc]
+2026-10-31T04:57:36.7747785Z 
+2026-10-31T04:57:36.7747959Z Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+2026-10-31T04:57:36.7748555Z ⊘ [12516/12518] Canceled DedekindZetaZeroFree.Metaplectic.Kubota.LocalCoverChartTopology
+2026-10-31T04:57:36.7749137Z ⊘ [12517/12518] Canceled DedekindZetaZeroFree.Metaplectic.Kubota.CentralScalarSplitting
+2026-10-31T04:57:36.7749656Z ⊘ [12518/12518] Canceled DedekindZetaZeroFree.Metaplectic.Kubota.LocalRootLifts
+2026-10-31T04:57:36.7750002Z Some required targets logged failures:
+2026-10-31T04:57:36.7750245Z - ThetaGlobal.LocalDigitArithmetic
+2026-10-31T04:57:36.7750471Z error: build failed
+2026-10-31T04:57:37.0147464Z ##[error]Process completed with exit code 1.

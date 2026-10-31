@@ -1,0 +1,10 @@
+*.olean
+*.olean.*
+*.ilean
+*.ilean.*
+*.ir
+*.ir.*
+*.build.log
+VerificationBundle.lean
+ActualReflectedVerification.lean
+GammaGrowthVerification.lean

@@ -30,10 +30,12 @@ theorem familyInputs (zeta : K) (hzeta : IsPrimitiveRoot zeta 12)
   intro g hg lamB hlamB χ
   let c : TargetContext K := ⟨f, g, hg, lamB, hlamB, χ⟩
   refine ⟨(representative K c).val, (representative K c).property,
-    targetData K c, sourceT K c, inverseSource K c, plainSource K c⟩
+    targetData K c, sourceT K c,
+    inverseSource K c, plainSource K c⟩
 
-/-- EXPLORATORY endpoint. It has sorryAx dependencies, listed by Audit.
-The result is the literal original target, with no T/I/P or descent premise. -/
+/-- EXPLORATORY endpoint. It retains the pre-existing sorryAx dependencies
+listed by Audit. The actual fixed source supplies its high K-type Mellin
+input and exterior digit tables, so this assembly has no added local premise. -/
 theorem generalHeckeSevenEighths_skeleton : GeneralHeckeSevenEighths := by
   intro F _ _
   apply Descent.descend F

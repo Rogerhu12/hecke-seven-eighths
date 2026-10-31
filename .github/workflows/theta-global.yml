@@ -1,0 +1,217 @@
+name: THETA_GLOBAL verification
+
+on:
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - "**/*.lean"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - "scripts/build_theta_global_bundle.py"
+      - "scripts/check_theta_global_pins.py"
+      - ".github/workflows/theta-global.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: theta-global-${{ github.event.pull_request.number || github.ref }}
+  # A new commit replaces the obsolete build for the same PR or branch.
+  cancel-in-progress: true
+
+env:
+  LEAN_NUM_THREADS: "2"
+
+jobs:
+  standalone:
+    name: Standalone 45-module proof check
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Check repository version pins
+        run: python3 scripts/check_theta_global_pins.py
+      # Official inputs are pinned with the action implementation:
+      # https://github.com/leanprover/lean-action/blob/fe408643ea7367d8c0404a8be3975bb145f5fb64/action.yml
+      - name: Install the pinned Lean toolchain and Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
+        timeout-minutes: 20
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "false"
+      - name: Check installed version pins
+        run: python3 scripts/check_theta_global_pins.py --runtime
+      - name: Compile the exact standalone source bodies and audit reported axioms
+        timeout-minutes: 55
+        run: python3 scripts/build_theta_global_bundle.py --check
+      - name: Upload standalone diagnostics and source manifest
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: theta-global-standalone-${{ github.run_id }}
+          path: |
+            verification/theta_global/Standalone.lean
+            verification/theta_global/Standalone.log
+            verification/theta_global/manifest.json
+            verification/theta_global/pins.json
+          if-no-files-found: warn
+          retention-days: 14
+
+  actual-entry:
+    name: Actual Theta entry and strict five-target axiom gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Check repository version pins
+        run: python3 scripts/check_theta_global_pins.py
+      # The actual dependency closure needs more space than the stock image
+      # leaves free. These two preinstalled SDKs are unused by Lean and Python.
+      # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md
+      # https://github.com/actions/runner-images/blob/main/images/ubuntu/scripts/build/install-dotnetcore-sdk.sh
+      - name: Prepare resources for the actual dependency build
+        timeout-minutes: 3
+        shell: bash
+        run: |
+          df -h /
+          sudo rm -rf -- /usr/local/lib/android/sdk /usr/share/dotnet
+          df -h /
+          # Legacy imports load private/IR parts of the complete dependency
+          # closure. The pinned loader can exceed the stock 65,530-map limit.
+          # Keep a larger existing limit; change only this ephemeral runner.
+          lean_map_limit="$(sysctl -n vm.max_map_count)"
+          if [ "$lean_map_limit" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count
+      - name: Install the pinned Lean toolchain and Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
+        timeout-minutes: 20
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "false"
+      - name: Check installed version pins
+        run: python3 scripts/check_theta_global_pins.py --runtime
+      # Cache only project artifacts: packing all of .lake duplicates the
+      # downloaded Mathlib artifacts and can exhaust the runner's disk space.
+      # Preserve successful dependency artifacts after a later
+      # module fails, so the next correction can resume the actual entry build.
+      - name: Restore actual-entry dependency artifacts
+        id: entry-cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+        timeout-minutes: 3
+        continue-on-error: true
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: theta-entry-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            theta-entry-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json', 'lakefile.toml') }}-
+      # This shared arithmetic closure contains the expensive class-field-theory
+      # dependencies. Save it before elaborating the task's modules so a later
+      # superseding commit can reuse it even when this run is cancelled.
+      - name: Build the shared arithmetic dependency closure
+        timeout-minutes: 75
+        shell: bash
+        run: |
+          set -o pipefail
+          lake --fail-fast build +HeckeAxiom.ArithmeticChoice:olean 2>&1 | tee verification/theta_global/foundation-build.log
+      - name: Checkpoint the shared arithmetic dependency artifacts
+        if: ${{ !cancelled() && steps.entry-cache.outcome == 'success' }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        timeout-minutes: 3
+        continue-on-error: true
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: ${{ steps.entry-cache.outputs.cache-primary-key }}-foundation
+      # Check the actual local digit calculation and the independent Haar/
+      # Bessel lemmas before elaborating the complete fixed-source constructor.
+      - name: Build the actual local digit and archimedean analytic lemmas
+        timeout-minutes: 35
+        shell: bash
+        run: |
+          set -o pipefail
+          lake build +ThetaGlobal.LocalDigitAverage:olean +ThetaGlobal.LocalArchHaar:olean +ThetaGlobal.LocalArchBounds:olean 2>&1 | tee verification/theta_global/local-digit-build.log
+      - name: Audit the actual local digit construction
+        timeout-minutes: 4
+        shell: bash
+        run: |
+          set -o pipefail
+          lake env lean -j2 -DautoImplicit=false -DrelaxedAutoImplicit=false verification/theta_global/LocalDigitAudit.lean 2>&1 | tee verification/theta_global/local-digit-audit.log
+      - name: Audit the actual archimedean analytic lemmas
+        timeout-minutes: 4
+        shell: bash
+        run: |
+          set -o pipefail
+          lake env lean -j2 -DautoImplicit=false -DrelaxedAutoImplicit=false verification/theta_global/LocalArchAnalyticAudit.lean 2>&1 | tee verification/theta_global/local-arch-analytic-audit.log
+      # + selects one module, and :olean requests its importable Lean artifact.
+      # This builds its real dependency closure, without the library's all-module glob.
+      # https://github.com/leanprover/lean4/blob/v4.35.0-rc3/src/lake/README.md#specifying-targets
+      - name: Build only the actual Theta entry and its dependencies
+        timeout-minutes: 90
+        shell: bash
+        run: |
+          set -o pipefail
+          lake build +HeckeSkeleton.Theta:olean +ThetaGlobal.LocalGammaOrientation:olean 2>&1 | tee verification/theta_global/entry-build.log
+      - name: Audit the actual five declarations for inherited admissions
+        timeout-minutes: 4
+        shell: bash
+        run: |
+          set -o pipefail
+          lake env lean -j2 -DautoImplicit=false -DrelaxedAutoImplicit=false verification/theta_global/EntryAudit.lean 2>&1 | tee verification/theta_global/entry-audit.log
+      - name: Compile the modified Principal, Moments and Main consumers
+        timeout-minutes: 60
+        shell: bash
+        run: |
+          set -o pipefail
+          lake --fail-fast build +HeckeSkeleton.Main:olean 2>&1 | tee verification/theta_global/consumer-build.log
+      - name: Check the seven consumer signatures and report their existing admissions
+        timeout-minutes: 5
+        shell: bash
+        run: |
+          set -o pipefail
+          lake env lean -j2 -DautoImplicit=false -DrelaxedAutoImplicit=false verification/theta_global/ConsumerSignatures.lean 2>&1 | tee verification/theta_global/consumer-signatures.log
+      - name: Save actual-entry dependency artifacts
+        if: ${{ !cancelled() && steps.entry-cache.outcome == 'success' && steps.entry-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        timeout-minutes: 3
+        continue-on-error: true
+        with:
+          path: |
+            .lake/build
+            vendor/class-field-theory/.lake/build
+          key: ${{ steps.entry-cache.outputs.cache-primary-key }}
+      - name: Upload actual-entry diagnostics
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: theta-global-actual-entry-${{ github.run_id }}
+          path: |
+            verification/theta_global/EntryAudit.lean
+            verification/theta_global/LocalDigitAudit.lean
+            verification/theta_global/LocalArchAnalyticAudit.lean
+            verification/theta_global/local-arch-analytic-audit.log
+            verification/theta_global/local-digit-build.log
+            verification/theta_global/local-digit-audit.log
+            verification/theta_global/foundation-build.log
+            verification/theta_global/entry-build.log
+            verification/theta_global/entry-audit.log
+            verification/theta_global/ConsumerSignatures.lean
+            verification/theta_global/consumer-build.log
+            verification/theta_global/consumer-signatures.log
+            verification/theta_global/pins.json
+          if-no-files-found: warn
+          retention-days: 14

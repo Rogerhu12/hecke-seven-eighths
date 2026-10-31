@@ -1,0 +1,7 @@
+*.olean*
+*.ilean*
+*.ir*
+ActualReflectedVerification.lean
+IndexSupportVerification.lean
+ActualFrequencyVerification.lean
+RegularizerProjectVerification.lean

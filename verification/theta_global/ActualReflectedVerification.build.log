@@ -1,0 +1,1325 @@
+UTC: 2026-10-30T21:17:01.605682+00:00
+LEAN: 4.35.0-rc3 (470d5ce1400764999581fd26d5d72b00d990b0f4)
+MATHLIB: 0493595ecd5da8ef14742febab99728f98e948e8
+SOURCE SHA256: ca7bc30fa84a775939c7974b4f5361e8993522698bfa9fd118d4e73b5bf943a3
+SOURCE UNCHANGED: True
+COMMAND: ['/workspace/scratch/692d5e1ba19b/low_hybrid_work/verification435/lean-4.35.0-rc3-linux/bin/lean', '-j2', '-R', '/workspace/scratch/db66a2660cb2/repo', '-o', '/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.olean', '/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean']
+
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:558:0: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Arithmetic.isEmpty_principalGenerators_of_not_principal`:
+  [IsDomain R]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [IsDomain R] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:970:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:1513:50: warning: Private declaration `FiniteAdeles` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:1515:48: warning: Private declaration `FiniteAdeles` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:1516:50: warning: Private declaration `FiniteAdeles` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:1536:36: warning: Private declaration `FiniteAdeles` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:1536:36: warning: Private declaration `FiniteAdeles` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:1545:34: warning: Private declaration `FiniteAdeles` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:1636:32: warning: Private declaration `FiniteAdelesForNorm` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:1646:32: warning: Private declaration `FiniteAdelesForNorm` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:1648:14: warning: Private declaration `FiniteAdelesForNorm` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:1648:49: warning: Private declaration `FiniteAdelesForNorm` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:1655:45: warning: Private declaration `FiniteAdelesForNorm` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:1658:49: warning: Private declaration `FiniteAdelesForNorm` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:1678:58: warning: Private declaration `FiniteAdelesForNorm` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:2642:14: warning: Private declaration `integralFiniteUnit` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:2643:14: warning: Private declaration `integralFiniteUnit` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:2644:35: warning: Private declaration `integralFiniteUnit` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:2645:35: warning: Private declaration `integralFiniteUnit` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:3516:8: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Arithmetic.sIntegerToLocalResidue_algebraMap`:
+  [Finite ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Finite ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:3558:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:3570:0: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Arithmetic.exteriorPrimePowerProduct_coprime`:
+  [Finite ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Finite ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:3619:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:3668:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:3691:17: warning: This simp argument is unused:
+  idealOfPrimeExponents_single
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [hps, Ideal.map_pow, map_sInteger_prime_eq_top K S p hps, Ideal.one_eq_top, Ideal.map_top, Ideal.top_pow]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:3694:17: warning: This simp argument is unused:
+  idealOfPrimeExponents_single
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [hps]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:3703:0: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Arithmetic.outsideSIdeal_coprime`:
+  [Finite ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Finite ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:3714:36: warning: This simp argument is unused:
+  Finsupp.filter_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [outsideSPrimeExponents, h]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:3788:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:3818:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:3847:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:9097:6: warning: Private declaration `representative_difference_mem` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:9101:12: warning: Private declaration `quotientMap_representative_add` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:9104:10: warning: Private declaration `quotientMap_representative_add` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:9104:10: warning: Private declaration `quotientMap_representative_add` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:11001:0: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Arithmetic.continuous_realScaleMixedUnit`:
+  [NumberField K]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [NumberField K] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:11604:0: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Arithmetic.sLocalNonzeroIntegerDiagonal_eq_of_unit_mul`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:11683:8: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Arithmetic.nonzeroIntegralPrincipalIdeal_val`:
+  [NumberField K]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [NumberField K] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:11688:8: warning: automatically included section variable(s) unused in theorem `_private.ThetaGlobal.ActualReflectedVerification.0.HeckeGeneral.Arithmetic.finsupp_prod_filter_mem_eq_prod_subtype`:
+  [NumberField K]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [NumberField K] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:11817:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:11834:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:11840:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:11905:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:11953:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:11949:17: warning: Variable name `hd` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hd
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:12012:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:12598:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:12630:20: warning: Private declaration `unipotent_mul_unipotent` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:12630:20: warning: Private declaration `unipotent_mul_unipotent` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:12631:20: warning: Private declaration `unipotent_mul_unipotent` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:12631:20: warning: Private declaration `unipotent_mul_unipotent` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:12725:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:12733:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:12823:10: warning: `PadicInt.padic_norm_e_of_padicInt` has been deprecated: Use `PadicInt.norm_coe` instead
+
+Hint: Replace the deprecated name:
+  P̵a̵d̵i̵c̵I̵n̵t̵.̵p̵a̵d̵i̵c̵_̵n̵o̵r̵m̵_̵e̵_̵o̵f̵_̵p̵a̵d̵i̵c̵I̵n̵t̵P̲a̲d̲i̲c̲I̲n̲t̲.̲n̲o̲r̲m̲_̲c̲o̲e̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:12983:6: warning: `PadicInt.padic_norm_e_of_padicInt` has been deprecated: Use `PadicInt.norm_coe` instead
+
+Hint: Replace the deprecated name:
+  P̵a̵d̵i̵c̵I̵n̵t̵.̵p̵a̵d̵i̵c̵_̵n̵o̵r̵m̵_̵e̵_̵o̵f̵_̵p̵a̵d̵i̵c̵I̵n̵t̵P̲a̲d̲i̲c̲I̲n̲t̲.̲n̲o̲r̲m̲_̲c̲o̲e̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:13012:4: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:13056:13: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:13099:43: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:13132:28: warning: `PadicInt.padic_norm_e_of_padicInt` has been deprecated: Use `PadicInt.norm_coe` instead
+
+Hint: Replace the deprecated name:
+  P̵a̵d̵i̵c̵I̵n̵t̵.̵p̵a̵d̵i̵c̵_̵n̵o̵r̵m̵_̵e̵_̵o̵f̵_̵p̵a̵d̵i̵c̵I̵n̵t̵P̲a̲d̲i̲c̲I̲n̲t̲.̲n̲o̲r̲m̲_̲c̲o̲e̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:13405:15: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:13409:8: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:13427:34: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:13431:30: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:13867:20: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:13885:22: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14174:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14175:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14180:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14181:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14182:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14183:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14212:80: warning: `Isometry.antilipschitz` has been deprecated: Use `Isometry.antilipschitzWith` instead
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14216:86: warning: `Isometry.antilipschitz` has been deprecated: Use `Isometry.antilipschitzWith` instead
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14261:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14272:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14411:61: warning: `zero_le'` has been deprecated: Use `zero_le` instead
+
+Hint: Replace the deprecated name:
+  zero_le'̵
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14487:14: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14496:32: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14497:66: warning: `not_lt_zero'` has been deprecated: Use `not_lt_zero` instead
+
+Hint: Replace the deprecated name:
+  not_lt_zero'̵
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14499:13: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14500:32: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14510:30: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14542:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14641:8: warning: automatically included section variable(s) unused in theorem `NumberField.AdelicTrace.traceDiag_apply`:
+  [NumberField F]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [NumberField F] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14704:12: warning: Private declaration `di` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14704:26: warning: Private declaration `f₀` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14706:13: warning: Private declaration `di` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14706:30: warning: Private declaration `continuous_f₀` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14706:52: warning: Private declaration `S` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14709:27: warning: Private declaration `di` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14709:41: warning: Private declaration `f₀` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14709:52: warning: Private declaration `di` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14709:77: warning: Private declaration `tendsto_f₀` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14711:54: warning: Private declaration `di` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14711:68: warning: Private declaration `f₀` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14712:11: warning: Private declaration `di` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14712:25: warning: Private declaration `f₀` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14712:36: warning: Private declaration `di` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14712:50: warning: Private declaration `f₀` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14712:60: warning: Private declaration `dense_S` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14716:34: warning: Private declaration `di` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14716:51: warning: Private declaration `continuous_f₀` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14716:70: warning: Private declaration `di` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14716:87: warning: Private declaration `continuous_f₀` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14717:9: warning: Private declaration `di` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14717:26: warning: Private declaration `continuous_f₀` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14783:32: warning: Variable name `v` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _v
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14785:70: warning: Variable name `v` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _v
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14809:59: warning: Variable name `v` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _v
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14812:50: warning: Variable name `v` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _v
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14816:64: warning: Variable name `v` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _v
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14870:29: warning: Private declaration `traceFinAux` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14881:9: warning: Private declaration `traceFinAux` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14881:37: warning: Private declaration `traceFinAux` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14881:62: warning: Private declaration `traceFinAux` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14882:8: warning: Private declaration `traceFinAux_eq` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14883:11: warning: Private declaration `traceFinAux` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14884:16: warning: Private declaration `pre` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14884:31: warning: Private declaration `pre` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14884:45: warning: Private declaration `pre` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14890:36: warning: Private declaration `sm_add` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:14890:36: warning: Private declaration `sm_add` accessed publicly; this is allowed only because the `backward.privateInPublic` option is enabled. 
+
+Disable `backward.privateInPublic.warn` to silence this warning.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:15139:75: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:15145:8: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:15153:35: warning: `zero_le'` has been deprecated: Use `zero_le` instead
+
+Hint: Replace the deprecated name:
+  zero_le'̵
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:15200:13: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:15366:51: warning: `zero_le'` has been deprecated: Use `zero_le` instead
+
+Hint: Replace the deprecated name:
+  zero_le'̵
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:15397:68: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:15410:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:15577:15: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:15589:15: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:15602:15: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:15615:15: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:15674:15: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:16042:22: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:16046:22: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:16649:15: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:16692:39: warning: `zero_le'` has been deprecated: Use `zero_le` instead
+
+Hint: Replace the deprecated name:
+  zero_le'̵
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:16693:45: warning: `zero_le'` has been deprecated: Use `zero_le` instead
+
+Hint: Replace the deprecated name:
+  zero_le'̵
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:17278:26: warning: `SetLike.not_le_iff_exists` has been deprecated: Use `IsConcreteLE.not_le_iff_exists` instead
+
+Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.not_le_iff_exists` to `IsConcreteLE.not_le_iff_exists x`).
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵L̵i̵k̵e̵.̵n̵o̵t̵_̵l̵e̵_̵i̵f̵f̵_̵e̵x̵i̵s̵t̵s̵I̲s̲C̲o̲n̲c̲r̲e̲t̲e̲L̲E̲.̲n̲o̲t̲_̲l̲e̲_̲i̲f̲f̲_̲e̲x̲i̲s̲t̲s̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:17335:15: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:17456:33: warning: `count_associates_factors_eq` has been deprecated: Use `Ideal.count_associates_factors_eq` instead
+
+Hint: Replace the deprecated name:
+  I̲d̲e̲a̲l̲.̲count_associates_factors_eq
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:17556:4: warning: `count_associates_factors_eq` has been deprecated: Use `Ideal.count_associates_factors_eq` instead
+
+Hint: Replace the deprecated name:
+  I̲d̲e̲a̲l̲.̲count_associates_factors_eq
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:17577:7: warning: `ENat.coe_le_coe` has been deprecated: Use `ENat.natCast_le_natCast` instead
+
+Hint: Replace the deprecated name:
+  E̵N̵a̵t̵.̵c̵o̵e̵_̵l̵e̵_̵c̵o̵e̵E̲N̲a̲t̲.̲n̲a̲t̲C̲a̲s̲t̲_̲l̲e̲_̲n̲a̲t̲C̲a̲s̲t̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:17581:8: warning: `irreducible_pow_sup_of_ge` has been deprecated: Use `Ideal.irreducible_pow_sup_of_ge` instead
+
+Hint: Replace the deprecated name:
+  I̲d̲e̲a̲l̲.̲irreducible_pow_sup_of_ge
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:17629:45: warning: This simp argument is unused:
+  WithVal.equiv_symm_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [WithVal.algebraMap_right_apply, ← WithVal.toVal_mul, ← WithVal.toVal_sub, WithVal.valued_toVal,
+    ← map_mul, ← map_sub] at hγu ⊢
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:17680:53: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:17680:27: warning: This simp argument is unused:
+  WithVal.equiv_symm_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [sub_zero, Set.mem_setOf_eq]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:17769:4: warning: `Ideal.inertiaDeg'` has been deprecated: Use `Ideal.inertiaDeg` instead.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:17770:6: warning: `Ideal.inertiaDeg'_algebraMap` has been deprecated: Use `Ideal.inertiaDeg_eq_of_isMaximal` instead.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:18735:22: warning: `TensorProduct.induction_on` has been deprecated: Use `TensorProduction.inductionOn` instead
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:18816:10: warning: `count_associates_factors_eq` has been deprecated: Use `Ideal.count_associates_factors_eq` instead
+
+Hint: Replace the deprecated name:
+  I̲d̲e̲a̲l̲.̲count_associates_factors_eq
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:18846:29: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:18846:40: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:18874:19: warning: `Set.coe_setOf` has been deprecated: Use `Set.coe_ofPred` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵c̵o̵e̵_̵s̵e̵t̵O̵f̵S̲e̲t̲.̲c̲o̲e̲_̲o̲f̲P̲r̲e̲d̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:18879:46: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:18882:33: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:18909:20: warning: `Ideal.inertiaDeg'` has been deprecated: Use `Ideal.inertiaDeg` instead.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:18913:8: warning: `Ideal.sum_ramification_inertia` has been deprecated: Use results of RingTheory.RamificationInertia.Basic
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:18967:34: warning: This simp argument is unused:
+  this
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [LinearEquivTensorProduct, IsLocalizedModule.iso_mk_one]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:18999:24: warning: `TensorProduct.induction_on` has been deprecated: Use `TensorProduction.inductionOn` instead
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19140:24: warning: `AlgHom.restrictDomain` has been deprecated: Use `AlgHom.domRestrict` instead
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19142:20: warning: `AlgHom.restrictDomain` has been deprecated: Use `AlgHom.domRestrict` instead
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19271:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19272:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19316:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19317:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19329:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19330:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19331:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19389:8: warning: `IsTopologicalRing.to_topologicalAddGroup` has been deprecated: Use `IsTopologicalRing.isTopologicalAddGroup` instead
+
+Hint: Replace the deprecated name:
+  IsTopologicalRing.t̵i̲s̲T̲o_̵t̵o̵pologicalAddGroup
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19391:7: warning: `IsModuleTopology.topologicalAddGroup` has been deprecated: Use `IsModuleTopology.isTopologicalAddGroup` instead
+
+Hint: Replace the deprecated name:
+  I̵s̵M̵o̵d̵u̵l̵e̵T̵o̵p̵o̵l̵o̵g̵y̵.̵t̵o̵p̵o̵l̵o̵g̵i̵c̵a̵l̵A̵d̵d̵G̵r̵o̵u̵p̵i̲s̲T̲o̲p̲o̲l̲o̲g̲i̲c̲a̲l̲A̲d̲d̲G̲r̲o̲u̲p̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19454:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19458:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19472:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19476:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19505:10: warning: `IsModuleTopology.topologicalAddGroup` has been deprecated: Use `IsModuleTopology.isTopologicalAddGroup` instead
+
+Hint: Replace the deprecated name:
+  I̵s̵M̵o̵d̵u̵l̵e̵T̵o̵p̵o̵l̵o̵g̵y̵.̵t̵o̵p̵o̵l̵o̵g̵i̵c̵a̵l̵A̵d̵d̵G̵r̵o̵u̵p̵i̲s̲T̲o̲p̲o̲l̲o̲g̲i̲c̲a̲l̲A̲d̲d̲G̲r̲o̲u̲p̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19571:8: warning: `Topology.IsQuotientMap.secondCountableTopology` has been deprecated: Use `Topology.IsOpenQuotientMap.secondCountableTopology` instead
+
+Note: The updated constant has a different type:
+  ∀ {X : Type u_1} [inst : TopologicalSpace X] {Y : Type u_2} [inst_1 : TopologicalSpace Y] {π : X → Y}
+    [SecondCountableTopology X], IsOpenQuotientMap π → SecondCountableTopology Y
+instead of
+  ∀ {X : Type u_1} [inst : TopologicalSpace X] {Y : Type u_2} [inst_1 : TopologicalSpace Y] {π : X → Y}
+    [SecondCountableTopology X], Topology.IsQuotientMap π → IsOpenMap π → SecondCountableTopology Y
+
+Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.secondCountableTopology` to `Topology.IsOpenQuotientMap.secondCountableTopology x`).
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19752:6: warning: `MonoidHom.coe_coe` has been deprecated: Use `MonoidHom.coe_ofClass` instead
+
+Hint: Replace the deprecated name:
+  M̵o̵n̵o̵i̵d̵H̵o̵m̵.̵c̵o̵e̵_̵c̵o̵e̵M̲o̲n̲o̲i̲d̲H̲o̲m̲.̲c̲o̲e̲_̲o̲f̲C̲l̲a̲s̲s̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19857:23: warning: `TensorProduct.induction_on` has been deprecated: Use `TensorProduction.inductionOn` instead
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19868:23: warning: `TensorProduct.induction_on` has been deprecated: Use `TensorProduction.inductionOn` instead
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19882:4: warning: The namespace `TensorProduct` is duplicated in the declaration `TensorProduct.RightActions.Algebra.TensorProduct.comm`.
+
+Note: This linter can be disabled with `set_option linter.dupNamespace false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19887:14: warning: The namespace `TensorProduct` is duplicated in the declaration `TensorProduct.RightActions.Algebra.TensorProduct.comm_apply_tmul`.
+
+Note: This linter can be disabled with `set_option linter.dupNamespace false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19891:14: warning: The namespace `TensorProduct` is duplicated in the declaration `TensorProduct.RightActions.Algebra.TensorProduct.comm_symm_apply_tmul`.
+
+Note: This linter can be disabled with `set_option linter.dupNamespace false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19897:23: warning: `TensorProduct.induction_on` has been deprecated: Use `TensorProduction.inductionOn` instead
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19894:4: warning: The namespace `TensorProduct` is duplicated in the declaration `TensorProduct.RightActions.Module.TensorProduct.comm`.
+
+Note: This linter can be disabled with `set_option linter.dupNamespace false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19908:14: warning: The namespace `TensorProduct` is duplicated in the declaration `TensorProduct.RightActions.Module.TensorProduct.comm_apply_tmul`.
+
+Note: This linter can be disabled with `set_option linter.dupNamespace false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19911:14: warning: The namespace `TensorProduct` is duplicated in the declaration `TensorProduct.RightActions.Module.TensorProduct.comm_symm_apply_tmul`.
+
+Note: This linter can be disabled with `set_option linter.dupNamespace false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19983:4: warning: The namespace `TensorProduct` is duplicated in the declaration `TensorProduct.RightActions.Algebra.TensorProduct.basis`.
+
+Note: This linter can be disabled with `set_option linter.dupNamespace false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:19999:40: warning: `IsModuleTopology.topologicalAddGroup` has been deprecated: Use `IsModuleTopology.isTopologicalAddGroup` instead
+
+Hint: Replace the deprecated name:
+  IsModuleTopology.t̵i̲s̲T̲opologicalAddGroup
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:23483:22: warning: `TensorProduct.induction_on` has been deprecated: Use `TensorProduction.inductionOn` instead
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:23650:10: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:23759:28: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:23800:57: warning: This simp argument is unused:
+  adicCompletion.toCompletion_ofCompletion
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [adicCompletion.toCompletion_add, map_add]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:23806:59: warning: This simp argument is unused:
+  adicCompletion.toCompletion_ofCompletion
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [adicCompletion.toCompletion_zero, map_zero]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:23809:57: warning: This simp argument is unused:
+  adicCompletion.toCompletion_ofCompletion
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [adicCompletion.toCompletion_one, map_one]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:23812:57: warning: This simp argument is unused:
+  adicCompletion.toCompletion_ofCompletion
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [adicCompletion.toCompletion_mul, map_mul]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:23843:2: warning: Unused tactic linter: `change
+  Valued.v (a : v.adicCompletion K) ^ _ = Valued.v (w.adicCompletionSemialgHom K L a)` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:23845:2: warning: Unused tactic linter: `change
+  v.valuation K a.ofVal ^ (w.1.under A).asIdeal.ramificationIdx' w.1.asIdeal =
+    Valued.v ((algebraMap K L a.ofVal : L) : w.1.adicCompletion L)` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24042:9: warning: `TensorProduct.induction_on` has been deprecated: Use `TensorProduction.inductionOn` instead
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24329:8: warning: `Ideal.ramificationIdx_spec` has been deprecated: Use `Ideal.ramificationIdx'_spec` instead
+
+Hint: Replace the deprecated name:
+  Ideal.ramificationIdx'̲_spec
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24350:14: warning: `Ideal.inertiaDeg'` has been deprecated: Use `Ideal.inertiaDeg` instead.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24350:62: warning: `Ideal.inertiaDeg'` has been deprecated: Use `Ideal.inertiaDeg` instead.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24374:17: warning: `Ideal.inertiaDeg'` has been deprecated: Use `Ideal.inertiaDeg` instead.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24375:18: warning: `Ideal.inertiaDeg'` has been deprecated: Use `Ideal.inertiaDeg` instead.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24378:30: warning: `Ideal.inertiaDeg'` has been deprecated: Use `Ideal.inertiaDeg` instead.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24376:12: warning: `Ideal.inertiaDeg_algebra_tower` has been deprecated: Use `Ideal.inertiaDeg'_algebra_tower` instead
+
+Hint: Replace the deprecated name:
+  Ideal.inertiaDeg'̲_algebra_tower
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24379:12: warning: `Ideal.inertiaDeg_algebra_tower` has been deprecated: Use `Ideal.inertiaDeg'_algebra_tower` instead
+
+Hint: Replace the deprecated name:
+  Ideal.inertiaDeg'̲_algebra_tower
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24386:55: warning: `Ideal.inertiaDeg'` has been deprecated: Use `Ideal.inertiaDeg` instead.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24392:8: warning: `Ideal.ramificationIdx_mul_inertiaDeg_of_isLocalRing` has been deprecated: Use results of RingTheory.RamificationInertia.Basic
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24413:8: warning: `Ideal.inertiaDeg'` has been deprecated: Use `Ideal.inertiaDeg` instead.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24447:9: warning: `TensorProduct.induction_on` has been deprecated: Use `TensorProduction.inductionOn` instead
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24611:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24612:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24615:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24663:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24693:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24694:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24705:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24710:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24728:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24778:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24877:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24885:4: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24964:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24965:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24966:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24967:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:24968:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:25137:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:26429:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:26441:8: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Characters.coe_sexticIntegerRoot`:
+  [NumberField K]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [NumberField K] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:26443:0: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Characters.isPrimitiveRoot_sexticIntegerRoot`:
+  [NumberField K]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [NumberField K] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:26471:0: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Characters.residue_six_ne_zero`:
+  [NumberField K]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [NumberField K] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:26479:0: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Characters.residue_characteristic_not_dvd_six_iff`:
+  [NumberField K]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [NumberField K] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:26501:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:26574:0: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Arithmetic.FiniteFieldSexticCharacter.rootPair_pow`:
+  [Fintype F]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype F] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:26585:0: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Arithmetic.FiniteFieldSexticCharacter.residueExponent_mul_six`:
+  [Field F]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Field F] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:26872:0: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Characters.sIntegerSexticResidue_coprime`:
+  [Finite ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Finite ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:27740:0: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.Characters.sexticIdeal_coprime_S`:
+  [Finite ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Finite ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:27821:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:27840:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:27863:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:27879:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:27922:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:31481:8: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:31483:8: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:31509:8: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:31512:8: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:31994:0: warning: automatically included section variable(s) unused in theorem `HeckeGeneral.ThetaSkeleton.thetaPrimeCharacter_sq_ne_one`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:32012:8: warning: automatically included section variable(s) unused in theorem `_private.ThetaGlobal.ActualReflectedVerification.0.HeckeGeneral.ThetaSkeleton.thetaPrimeExterior`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:32029:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:32071:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:32072:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:32073:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:32075:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:32147:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedArithmetic.exteriorNorm_ge_one`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:32150:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedArithmetic.exteriorNorm_pos`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:32153:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedArithmetic.primeNorm_ge_one`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:32172:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedArithmetic.thetaPrimeCharacter_zeroOrUnit`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:32182:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:32239:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:32490:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedAbsoluteProject.reflectionEncode_injective`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/ActualReflectedVerification.lean:32530:0: warning: automatically included section variable(s) unused in theorem `ThetaGlobal.ReflectedAbsoluteProject.summable_exterior_inverseSquare`:
+  [Fintype ↑S]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype ↑S] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+'ThetaGlobal.ReflectedAbsoluteProject.marked_reflected_absolute' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ThetaGlobal.ReflectedArithmetic.norm_reflectedCoefficient_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+THETA_GLOBAL_PROJECT_QA_AXIOMS|ThetaGlobal.ReflectedAbsoluteProject.marked_reflected_absolute|propext,Classical.choice,Quot.sound
+THETA_GLOBAL_PROJECT_QA_AXIOMS|ThetaGlobal.ReflectedArithmetic.norm_reflectedCoefficient_le|propext,Classical.choice,Quot.sound
+
+ELAPSED SECONDS: 778.568
+EXIT CODE: 0

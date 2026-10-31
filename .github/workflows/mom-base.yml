@@ -1,0 +1,78 @@
+name: MOM_BASE proofs and axioms
+
+on:
+  # The PR event also covers task-branch updates; avoid a duplicate push job.
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - HeckeSkeleton/Moments/MOM_BASE/**
+      - scripts/verify_mom_base.py
+      - .github/workflows/mom-base.yml
+      - lean-toolchain
+      - lake-manifest.json
+      - lakefile.toml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-base-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  proofs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      LEAN_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Initialize verification evidence
+        run: |
+          mkdir -p mom-base-verification
+          git rev-parse HEAD > mom-base-verification/commit.txt
+          cp lean-toolchain lake-manifest.json mom-base-verification/
+          df -h / > mom-base-verification/disk-before.txt
+      - name: Free hosted runner storage for Lean and the project cache
+        run: sudo rm -rf -- /usr/local/lib/android/sdk /usr/share/dotnet
+      - name: Install pinned Lean and restore official Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        id: lake-cache
+        uses: ./.github/actions/restore-lake-cache
+      - name: Record restored cache provenance
+        env:
+          CACHE_TAG: ${{ steps.lake-cache.outputs.tag }}
+        run: |
+          printf '%s\n' "$CACHE_TAG" > mom-base-verification/lake-cache-tag.txt
+          if [ -n "$CACHE_TAG" ]; then
+            cp "$RUNNER_TEMP/lake-cache-download/lake-cache-manifest.json" mom-base-verification/
+            cp "$RUNNER_TEMP/lake-cache-download/SHA256SUMS" mom-base-verification/
+          fi
+      - name: Compile actual dependency closure and audit target axioms
+        id: verify
+        env:
+          RESTORED_LAKE_CACHE: ${{ steps.lake-cache.outputs.tag }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -u scripts/verify_mom_base.py 2>&1 | tee mom-base-verification/build.log
+      - name: Upload full compilation and axiom evidence
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: mom-base-verification-${{ github.sha }}-${{ github.run_attempt }}
+          path: mom-base-verification/
+          retention-days: 30
+          if-no-files-found: error
+          overwrite: true

@@ -7,9 +7,15 @@ import HeckeAxiom.SexticSymbolDictionary
 import HeckeAxiom.GaussCalibration
 import HeckeSkeleton.ThetaKernel
 import HeckeSkeleton.SixthLocalFinite
+import ThetaGlobal.ReflectedAbsoluteProject
+import ThetaGlobal.FiniteSkeletonSource
+import ThetaGlobal.LocalArchSource
+import ThetaGlobal.GlobalProjectMarkedReflection
 
-/-! Explicit arithmetic and KP/theta frontiers for the named actual construction.
-The statements are admitted only in this exploratory branch. -/
+/-! Arithmetic and marked theta reflection for the named actual construction.
+The same fixed source supplies the constructed high K-type Mellin pairs
+and exterior digit tables. The global reflection is constructed from that
+source without an additional local package or global identity input. -/
 set_option autoImplicit false
 set_option quotPrecheck false
 noncomputable section
@@ -101,19 +107,20 @@ theorem allowedGenerators : AllowedGeneratorInput K S D where
 
 -- OBLIGATION TH-KP-DATA | revised §3.2–3.4, pp.5–13.
 -- Actual rotated KP coefficient tables; NOT supplied by ordinary Poisson.
-def finiteMellinData : FiniteMellinData K S := by
-  sorry
+def finiteMellinData : FiniteMellinData K S :=
+  FiniteSkeletonSource.data K c (localHighKMellinInput K c)
+
 local notation "F" => finiteMellinData K c
 
 -- OBLIGATION TH-FINITE-VALUATION-CUTOFF | revised §3.2–3.4, pp.5–8.
-theorem finite_valuation_cutoff : ∃ k₀ : ℤ, ∀ u κ l p k, k < k₀ → (finiteMellinData K c).coefficient u κ l p k = 0 := by
-  sorry
+theorem finite_valuation_cutoff : ∃ k₀ : ℤ, ∀ u κ l p k, k < k₀ → (finiteMellinData K c).coefficient u κ l p k = 0 :=
+  (FiniteSkeletonSource.admissible K c (localHighKMellinInput K c)).valuation_cutoff
 
 -- OBLIGATION TH-FINITE-VALUATION-DECAY | revised §3.2–3.4, pp.5–8.
 theorem finite_valuation_decay : ∀ δ : ℝ, δ < 1 / 3 → ∃ C : ℝ, 0 ≤ C ∧
     ∀ u κ l p k, 0 ≤ k →
-      ‖(finiteMellinData K c).coefficient u κ l p k‖ ≤ C * (p.val.asIdeal.absNorm : ℝ) ^ (-(k : ℝ) * δ) := by
-  sorry
+      ‖(finiteMellinData K c).coefficient u κ l p k‖ ≤ C * (p.val.asIdeal.absNorm : ℝ) ^ (-(k : ℝ) * δ) :=
+  (FiniteSkeletonSource.admissible K c (localHighKMellinInput K c)).valuation_decay
 
 -- OBLIGATION TH-FINITE-ABSOLUTE-MELLIN | revised §3.2–3.4, pp.5–8.
 theorem finite_absolute_mellin : ∀ u κ l p s, -(1 / 3 : ℝ) < s.re →
@@ -168,6 +175,14 @@ theorem marked_exterior_unramified : ∀ p : HeightOneSpectrum (𝓞 K), p ∉ S
       (UnramifiedAt.inv K (calibration_G_unramified K c p hp)))
     (target_unramified_outside K c p hp)
 
+/-- The actual period character has no conductor prime outside the one
+arithmetic choice already used by the source. -/
+theorem marked_conductor_subset : conductorPlaces K θ ⊆ (thetaRecipe K c).A.Sf := by
+  intro p hp
+  by_contra hnot
+  exact ((mem_conductorPlaces K θ p).mp hp)
+    (marked_exterior_unramified K c p hnot)
+
 -- OBLIGATION TH-MARKED-ANGULAR-NONZERO | revised §3.2–3.4, Theorem 3.5, pp.10–13.
 -- The representative's orientation (revised §3, before Proposition 3.2).
 theorem marked_angular_nonzero : ∃ (v : InfinitePlace K) (hv : v.IsComplex),
@@ -184,15 +199,21 @@ theorem marked_completed_absolute : ∀ (d : MarkedDatum K S) (V : SmoothAnnular
 -- OBLIGATION TH-MARKED-REFLECTED-ABSOLUTE | revised §3.2–3.4, Theorem 3.5, pp.10–13.
 theorem marked_reflected_absolute : ∀ (d : MarkedDatum K S) (V : SmoothAnnularTest) X, 0 < X →
     Summable (fun i : ReflectionIndex K S d => reflectedTerm K S D d i F θ V.toFun X) := by
-  sorry
+  intro d V X hX
+  exact ThetaGlobal.ReflectedAbsoluteProject.marked_reflected_absolute K S D d F θ
+    (mellinKernel K c) V hX
 
 -- OBLIGATION TH-MARKED-REFLECTION | revised §3.2–3.4, Theorem 3.5, pp.10–13.
 theorem marked_reflection (hkernel : MellinKernelInput K S F θ) : ∀ (d : MarkedDatum K S) (V : SmoothAnnularTest) X, 0 < X →
     completedThetaSum K S D θ (rowElement K S D d) d.puncture d.marks V.toFun X =
       ∑' i : ReflectionIndex K S d, reflectedTerm K S D d i F θ V.toFun X := by
-  sorry
+  intro d V X hX
+  obtain ⟨w, hw, hk⟩ := marked_angular_nonzero K c
+  exact thetaFiniteSource_marked_reflection K c (localHighKMellinInput K c) (allowedGenerators K c)
+    (marked_conductor_subset K c) w hk d V hX
 
-theorem markedReflection : MarkedCoefficientReflectionInput K S D F θ where
+theorem markedReflection :
+    MarkedCoefficientReflectionInput K S D F θ where
   allowed_generators := allowedGenerators K c
   exterior_unramified := marked_exterior_unramified K c
   angular_nonzero := marked_angular_nonzero K c

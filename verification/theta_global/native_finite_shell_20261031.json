@@ -1,0 +1,615 @@
+{
+  "verification_kind": "Native per-module compilation of the actual FiniteLocalShellProject source",
+  "scope": "One actual project module with existing cached dependencies; not the five-target entry gate",
+  "compile_result": {
+    "target": "ThetaGlobal.FiniteLocalShellProject",
+    "source": "/workspace/scratch/33bdfea70edd/repo/ThetaGlobal/FiniteLocalShellProject.lean",
+    "source_sha256_before": "179eabf85cc5f7fbf80af0dc0aef08a1ef6a75ab48c19a928c8d8d9c2152711d",
+    "command": [
+      "/workspace/scratch/33bdfea70edd/runtime/bin/lean",
+      "-j1",
+      "-M2048",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false",
+      "-R",
+      "/workspace/scratch/33bdfea70edd/repo",
+      "-o",
+      "/workspace/scratch/33bdfea70edd/finite-shell-native-check/out/ThetaGlobal/FiniteLocalShellProject.olean",
+      "/workspace/scratch/33bdfea70edd/repo/ThetaGlobal/FiniteLocalShellProject.lean"
+    ],
+    "LEAN_PATH": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/.lake/build/lib/lean:/workspace/scratch/db66a2660cb2/repo:/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2:/tmp/prime_cancellation_runtime_435/lean-4.35.0-rc3-linux/lib/lean",
+    "started_utc": "2026-10-31T02:32:59.412800+00:00",
+    "project_transitive_provenance": "provenance-preflight.json",
+    "dependency_artifact_completeness": "dependency-preflight.json",
+    "FiniteShellCoefficients": {
+      "source_sha256": "b707107a6593a7cd257c0944e59217e2ee57d5b8b64a363a865eed7e543ab945",
+      "artifact_sha256": "2519c1d50d02efaaf30815ee959433785ccb6da2c3c358f1a285242444870fbf",
+      "log": "/workspace/scratch/db66a2660cb2/repo/ThetaGlobal/FiniteShellCoefficients.build.log",
+      "logged_output_artifact": "/workspace/scratch/db66a2660cb2/deliverable/ThetaGlobal/FiniteShellCoefficients.olean",
+      "historical_flags_note": "Historical dependency compile did not pass global implicit flags; its source disables autoImplicit. This target compile passes both strict options."
+    },
+    "pid": 343399,
+    "exit_code": 0,
+    "seconds": 729.948,
+    "finished_utc": "2026-10-31T02:45:09.361698+00:00",
+    "source_sha256_after": "179eabf85cc5f7fbf80af0dc0aef08a1ef6a75ab48c19a928c8d8d9c2152711d",
+    "source_unchanged": true,
+    "log_sha256": "7d3f7dd785735aeb47b5950f299750ff196e1fff55cfadc6087658aa656b80d7",
+    "output_artifact_sha256": "034e49801613dab17eac31627a1b4ea2d3e081af75f8f23f62fde403e842331f"
+  },
+  "dependency_provenance": {
+    "target": "ThetaGlobal.FiniteLocalShellProject",
+    "compiler": "Lean 4.35.0-rc3, 470d5ce1400764999581fd26d5d72b00d990b0f4",
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "project_transitive_checks": [
+      {
+        "module": "HeckeGeneral.Characters.LocalResidueCharacter",
+        "source_sha256": "3f782370f963bbbdc62bfadb729f82630e23adbde69130b27ee0c5cfebbb967a",
+        "artifact_sha256": "d12b57ba3ca2dbb711be63c226c17d788977d15c5ea9dcc7f97478ad7c5ef814",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.LocalResidueCharacter.json",
+        "verified": true,
+        "dependencies": [
+          {
+            "module": "HeckeGeneral.Characters.LocalResidueFinite",
+            "match": true
+          },
+          {
+            "module": "HeckeGeneral.Characters.ConductorArithmetic",
+            "match": true
+          }
+        ]
+      },
+      {
+        "module": "HeckeGeneral.Characters.ConductorArithmetic",
+        "source_sha256": "176520c9a07bd5f48048600cb40d43ae0531ebb14dc30cdc0640e851c23b2e25",
+        "artifact_sha256": "eb2d55e07e327fb40db7454cec7cae9e9c5219bb96c0921527493b9174978777",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.ConductorArithmetic.json",
+        "verified": true,
+        "dependencies": [
+          {
+            "module": "HeckeGeneral.Characters.LocalConductor",
+            "match": true
+          }
+        ]
+      },
+      {
+        "module": "HeckeGeneral.Characters.LocalConductor",
+        "source_sha256": "2843ea74f1bf49cd94287e3c50aaee4cc7af131cd7c21a5e216a2f584c2a3bac",
+        "artifact_sha256": "610c482e8e15706caeb5fcdea381c5818fa9f6fd255d5123961158d14f48cac7",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.LocalConductor.json",
+        "verified": true,
+        "dependencies": [
+          {
+            "module": "HeckeGeneral.Characters.FiniteRamification",
+            "match": true
+          },
+          {
+            "module": "HeckeGeneral.Characters.LocalUniformizer",
+            "match": true
+          },
+          {
+            "module": "HeckeGeneral.Characters.PrincipalUnitFiltration",
+            "match": true
+          },
+          {
+            "module": "HeckeGeneral.Arithmetic.IdealFactorization",
+            "match": true
+          }
+        ]
+      },
+      {
+        "module": "HeckeGeneral.Arithmetic.IdealFactorization",
+        "source_sha256": "bb3b6f02228ea85e92fc0ff587995956d87ffd6d09cc97c4df4cf4c31d1f5ba5",
+        "artifact_sha256": "1f46fd343bf78c62d92daa4f7d06928844ce624bdf4a5348c54267ef96ce4671",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Arithmetic.IdealFactorization.json",
+        "verified": true,
+        "dependencies": []
+      },
+      {
+        "module": "HeckeGeneral.Characters.PrincipalUnitFiltration",
+        "source_sha256": "bb5ad005132299a2188e585aca9db6b3ce4b7e548d42fb545497b1b08d370610",
+        "artifact_sha256": "244364d2ea5f3b66b479c18449a147d66c79127cafacd529d29c8ab227b0a28e",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.PrincipalUnitFiltration.json",
+        "verified": true,
+        "dependencies": [
+          {
+            "module": "HeckeGeneral.Characters.LocalUniformizer",
+            "match": true
+          },
+          {
+            "module": "HeckeGeneral.Characters.Unramified",
+            "match": true
+          }
+        ]
+      },
+      {
+        "module": "HeckeGeneral.Characters.Unramified",
+        "source_sha256": "ec02f51b1b5454f1f1b22a74a0c5ec240fa7776263e423ba77b030f87db867ce",
+        "artifact_sha256": "9a7da987c8674143c343b2dfc9ae2ec2ef892902842fc5600775a4d1c585bbe7",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.Unramified.json",
+        "verified": true,
+        "dependencies": [
+          {
+            "module": "HeckeGeneral.Characters.LocalComponent",
+            "match": true
+          }
+        ]
+      },
+      {
+        "module": "HeckeGeneral.Characters.LocalComponent",
+        "source_sha256": "93abb45fdf46774505b03c157bd385e9123c6e21a90296df31f51bdb8dab4e27",
+        "artifact_sha256": "2447a0c95375d46f684433238ca5955fbcccbfdab22b97e27673eb05a2534798",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.LocalComponent.json",
+        "verified": true,
+        "dependencies": [
+          {
+            "module": "HeckeGeneral.Characters.IdeleNormContinuity",
+            "match": true
+          }
+        ]
+      },
+      {
+        "module": "HeckeGeneral.Characters.IdeleNormContinuity",
+        "source_sha256": "50f5faaf848ac7af2529d6f65f340015b2970b5898301b2f2619807114618737",
+        "artifact_sha256": "5f48758feb749d3deac79ad45367305579f3c9d3594706d3596315e6bed3cc42",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.IdeleNormContinuity.json",
+        "verified": true,
+        "dependencies": [
+          {
+            "module": "HeckeGeneral.Characters.IdeleNorm",
+            "match": true
+          }
+        ]
+      },
+      {
+        "module": "HeckeGeneral.Characters.IdeleNorm",
+        "source_sha256": "f0df3e588cc6ba071503e4abf0ca18bbffad608a61e90cdc1f1992c495027e60",
+        "artifact_sha256": "b48358567da094c75142053ffe2472a86424901f8cb662d8653c6b5261e7a09f",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.IdeleNorm.json",
+        "verified": true,
+        "dependencies": [
+          {
+            "module": "HeckeGeneral.Characters.HeckeCharacter",
+            "match": true
+          }
+        ]
+      },
+      {
+        "module": "HeckeGeneral.Characters.HeckeCharacter",
+        "source_sha256": "151500aa5d56ef88a892253b2253717fe235c57cadfad31de96d51535fd45b55",
+        "artifact_sha256": "61f2adfd10eb5def03f221ef81c6cf11ed8b70861a82a9250ee4591a6c82a911",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.HeckeCharacter.json",
+        "verified": true,
+        "dependencies": [
+          {
+            "module": "HeckeGeneral.Characters.Packet",
+            "match": true
+          }
+        ]
+      },
+      {
+        "module": "HeckeGeneral.Characters.Packet",
+        "source_sha256": "68ab3e27f869d05576f07ff055be313ca1621c74508bb88a3b0c5e605104d626",
+        "artifact_sha256": "fa509c6dd645838475fb3d6c4a70dafd93f208419551bae77e6941f5cc4f4f1f",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.Packet.json",
+        "verified": true,
+        "dependencies": []
+      },
+      {
+        "module": "HeckeGeneral.Characters.LocalUniformizer",
+        "source_sha256": "caad21301c0a66b943c495833241700eaa5d4f4df0da0dbc10c1239e715c8665",
+        "artifact_sha256": "e5d0e8990bc296a92634b86f39e5bd32ff77ad09f0578b4e5e4fed5d9dbf8708",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.LocalUniformizer.json",
+        "verified": true,
+        "dependencies": [
+          {
+            "module": "HeckeGeneral.Characters.LocalComponent",
+            "match": true
+          }
+        ]
+      },
+      {
+        "module": "HeckeGeneral.Characters.FiniteRamification",
+        "source_sha256": "09186c045c9ebbf90741a654748b7470626c340df202ed8eb44682a7b937a53f",
+        "artifact_sha256": "ac5985d262dda09ad822796056b3dfa6ca11a9c1775eeff4d5b8722c28274c6b",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.FiniteRamification.json",
+        "verified": true,
+        "dependencies": [
+          {
+            "module": "HeckeGeneral.Characters.Unramified",
+            "match": true
+          },
+          {
+            "module": "HeckeGeneral.Characters.SmallSubgroups",
+            "match": true
+          }
+        ]
+      },
+      {
+        "module": "HeckeGeneral.Characters.SmallSubgroups",
+        "source_sha256": "f21f27ec2e56792623cb50017bc15b3ee7fba0d7cce0a3d0664b98943d4f0ba7",
+        "artifact_sha256": "a2edeeff2b0dc3ab040d239be9e892478d02fbff3ba05944f20f4a3b7a0e9027",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.SmallSubgroups.json",
+        "verified": true,
+        "dependencies": []
+      },
+      {
+        "module": "HeckeGeneral.Characters.LocalResidueFinite",
+        "source_sha256": "b999d1fac38f6a9946b688c26b06464d3042e11698e7b07b227e452122aec57d",
+        "artifact_sha256": "e2f9cf8e56a9930ae4cbff491cb3b63852cd64c0806d40f9f4731af035ed6153",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.LocalResidueFinite.json",
+        "verified": true,
+        "dependencies": [
+          {
+            "module": "HeckeGeneral.Characters.PrincipalUnits",
+            "match": true
+          }
+        ]
+      },
+      {
+        "module": "HeckeGeneral.Characters.PrincipalUnits",
+        "source_sha256": "9e3cd322a4fa6928af16383b2f0fa3333c919b43949bd9646f9571b2e3e3d2b6",
+        "artifact_sha256": "581e2d3fb05659c1176eaa93071361750386b3a6fe6633308750be26035240b8",
+        "manifest": "/workspace/scratch/ade19eee59ac/low_energy/repo_build/build_logs/HeckeGeneral.Characters.PrincipalUnits.json",
+        "verified": true,
+        "dependencies": [
+          {
+            "module": "HeckeGeneral.Characters.PrincipalUnitFiltration",
+            "match": true
+          }
+        ]
+      }
+    ],
+    "failed_checks": [],
+    "artifact_compiler_header_mismatches": [],
+    "optional_ir_sig_missing_count": 65,
+    "required_missing": [],
+    "ir_sig_optional_evidence": "Pinned Lean Environment.lean readIRPartsOfMod returns #[] when ir.sig absent; ImportedModule.irData? falls back to mainModule."
+  },
+  "dependency_presence_check": {
+    "modules_including_target": 5305,
+    "missing_sources": [],
+    "missing_artifact_parts": [
+      {
+        "module": "Mathlib.NumberTheory.NumberField.Cyclotomic.Ideal",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/NumberTheory/NumberField/Cyclotomic/Ideal.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Unramified.LocalRing",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Unramified/LocalRing.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Unramified.Field",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Unramified/Field.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Localization.Finiteness",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Localization/Finiteness.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.LocalRing.ResidueField.Fiber",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/LocalRing/ResidueField/Fiber.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Etale.Kaehler",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Etale/Kaehler.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Flat.Basic",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Flat/Basic.olean"
+      },
+      {
+        "module": "Mathlib.Algebra.Colimit.Module",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/Algebra/Colimit/Module.olean"
+      },
+      {
+        "module": "Mathlib.Algebra.Colimit.DirectLimit",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/Algebra/Colimit/DirectLimit.olean"
+      },
+      {
+        "module": "Mathlib.Order.DirectedInverseSystem",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/Order/DirectedInverseSystem.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Kaehler.JacobiZariski",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Kaehler/JacobiZariski.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Extension.Cotangent.Basic",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Extension/Cotangent/Basic.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Extension.Presentation.Basic",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Extension/Presentation/Basic.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Extension.Generators",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Extension/Generators.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Extension.Basic",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Extension/Basic.olean"
+      },
+      {
+        "module": "Mathlib.Algebra.Module.FinitePresentation",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/Algebra/Module/FinitePresentation.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Kaehler.Basic",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Kaehler/Basic.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Smooth.Basic",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Smooth/Basic.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Idempotents",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Idempotents.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Smooth.Kaehler",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Smooth/Kaehler.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Unramified.Finite",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Unramified/Finite.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.LocalRing.Module",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/LocalRing/Module.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Flat.EquationalCriterion",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Flat/EquationalCriterion.olean"
+      },
+      {
+        "module": "Mathlib.CategoryTheory.Preadditive.Biproducts",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/CategoryTheory/Preadditive/Biproducts.olean"
+      },
+      {
+        "module": "Mathlib.CategoryTheory.Limits.Shapes.BinaryBiproducts",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/CategoryTheory/Limits/Shapes/BinaryBiproducts.olean"
+      },
+      {
+        "module": "Mathlib.CategoryTheory.Limits.Shapes.Biproducts",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/CategoryTheory/Limits/Shapes/Biproducts.olean"
+      },
+      {
+        "module": "Mathlib.Algebra.Group.Ext",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/Algebra/Group/Ext.olean"
+      },
+      {
+        "module": "Mathlib.Algebra.Module.Injective",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/Algebra/Module/Injective.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.QuasiFinite.Basic",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/QuasiFinite/Basic.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Flat.FaithfullyFlat.Basic",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Flat/FaithfullyFlat/Basic.olean"
+      },
+      {
+        "module": "Mathlib.NumberTheory.RamificationInertia.Ramification",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/NumberTheory/RamificationInertia/Ramification.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Ideal.Norm.AbsNorm",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Ideal/Norm/AbsNorm.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.IsAdjoinRoot",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/IsAdjoinRoot.olean"
+      },
+      {
+        "module": "Mathlib.NumberTheory.NumberField.Cyclotomic.Basic",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/NumberTheory/NumberField/Cyclotomic/Basic.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Polynomial.Eisenstein.IsIntegral",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Polynomial/Eisenstein/IsIntegral.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Ideal.Norm.RelNorm",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Ideal/Norm/RelNorm.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.DedekindDomain.Instances",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/DedekindDomain/Instances.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.DedekindDomain.Factorization",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/DedekindDomain/Factorization.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Spectrum.Prime.FreeLocus",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Spectrum/Prime/FreeLocus.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.LocalProperties.Projective",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/LocalProperties/Projective.olean"
+      },
+      {
+        "module": "Mathlib.FieldTheory.Galois.IsGaloisGroup",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/FieldTheory/Galois/IsGaloisGroup.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Invariant.Basic",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Invariant/Basic.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.IntegralClosure.IntegralRestrict",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/IntegralClosure/IntegralRestrict.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.Discriminant",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/Discriminant.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.DedekindDomain.LinearDisjoint",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/DedekindDomain/LinearDisjoint.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.DedekindDomain.Different",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/DedekindDomain/Different.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.FractionalIdeal.Extended",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/FractionalIdeal/Extended.olean"
+      },
+      {
+        "module": "Mathlib.FieldTheory.LinearDisjoint",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/FieldTheory/LinearDisjoint.olean"
+      },
+      {
+        "module": "Mathlib.RingTheory.LinearDisjoint",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/RingTheory/LinearDisjoint.olean"
+      },
+      {
+        "module": "Mathlib.LinearAlgebra.LinearDisjoint",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/LinearAlgebra/LinearDisjoint.olean"
+      },
+      {
+        "module": "Mathlib.NumberTheory.NumberField.Discriminant.Basic",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/NumberTheory/NumberField/Discriminant/Basic.olean"
+      },
+      {
+        "module": "Mathlib.NumberTheory.NumberField.InfinitePlace.Ramification",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/NumberTheory/NumberField/InfinitePlace/Ramification.olean"
+      },
+      {
+        "module": "Mathlib.Analysis.AbsoluteValue.Equivalence",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/Analysis/AbsoluteValue/Equivalence.olean"
+      },
+      {
+        "module": "Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/NumberTheory/NumberField/CanonicalEmbedding/Basic.olean"
+      },
+      {
+        "module": "Mathlib.Algebra.Module.ZLattice.Basic",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/Algebra/Module/ZLattice/Basic.olean"
+      },
+      {
+        "module": "Mathlib.NumberTheory.NumberField.CanonicalEmbedding.ConvexBody",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/NumberTheory/NumberField/CanonicalEmbedding/ConvexBody.olean"
+      },
+      {
+        "module": "Mathlib.Analysis.SpecialFunctions.Gamma.BohrMollerup",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/Analysis/SpecialFunctions/Gamma/BohrMollerup.olean"
+      },
+      {
+        "module": "Mathlib.MeasureTheory.Measure.Lebesgue.VolumeOfBalls",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/MeasureTheory/Measure/Lebesgue/VolumeOfBalls.olean"
+      },
+      {
+        "module": "Mathlib.LinearAlgebra.AffineSpace.FiniteDimensional",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/LinearAlgebra/AffineSpace/FiniteDimensional.olean"
+      },
+      {
+        "module": "Mathlib.LinearAlgebra.AffineSpace.Simplex.Centroid",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/LinearAlgebra/AffineSpace/Simplex/Centroid.olean"
+      },
+      {
+        "module": "Mathlib.Analysis.Real.Pi.Bounds",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/Analysis/Real/Pi/Bounds.olean"
+      },
+      {
+        "module": "Mathlib.Algebra.Module.ZLattice.Covolume",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/Algebra/Module/ZLattice/Covolume.olean"
+      },
+      {
+        "module": "Mathlib.Analysis.BoxIntegral.UnitPartition",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/Analysis/BoxIntegral/UnitPartition.olean"
+      },
+      {
+        "module": "Mathlib.NumberTheory.NumberField.Completion.FinitePlace",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/NumberTheory/NumberField/Completion/FinitePlace.olean"
+      },
+      {
+        "module": "Mathlib.GroupTheory.ArchimedeanDensely",
+        "missing": ".ir.sig",
+        "base": "/workspace/scratch/db66a2660cb2/verification/lean_cache_union_v2/Mathlib/GroupTheory/ArchimedeanDensely.olean"
+      }
+    ],
+    "inventory_sha256": "443acf7fbb37c0e4b3684e619ff519809a4e3c8a9bf34831702fd491db3f8fc4"
+  },
+  "axioms_by_declaration": {
+    "ThetaGlobal.ProjectLocalShell.shellPoint_norm": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ThetaGlobal.ProjectLocalShell.shellData_bounds": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "compiler_log": "verification/theta_global/native_finite_shell_20261031.log",
+  "reproduce_after_lake_dependencies_built": "lake env lean -j1 -M2048 -DautoImplicit=false -DrelaxedAutoImplicit=false ThetaGlobal/FiniteLocalShellProject.lean"
+}
