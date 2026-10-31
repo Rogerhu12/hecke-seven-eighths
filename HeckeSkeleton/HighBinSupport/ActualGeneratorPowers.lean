@@ -27,7 +27,7 @@ def exteriorPower (I : ExteriorIdeal K S) (n : ℕ) : ExteriorIdeal K S :=
     intro p hp
     apply I.property p
     apply p.prime.dvd_of_dvd_pow
-    simpa only [Submonoid.coe_pow] using hp⟩
+    simpa only [SubmonoidClass.coe_pow] using hp⟩
 
 @[simp] theorem exteriorPower_one (I : ExteriorIdeal K S) : exteriorPower K S I 1 = I := by
   apply Subtype.ext

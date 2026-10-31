@@ -109,7 +109,7 @@ theorem norm_finitePoissonFactor_le (P : ProbeData K S)
   have hphase (m : S.integer K) :
       ‖sLocalPrincipalPhase K S (((h : K) * (m : K)) /
         ((P.arithmetic.generator den : K) * (P.arithmetic.generator A : K)))‖ = 1 := by
-    simpa only [map_mul] using norm_principal_fraction K S P.arithmetic
+    simpa only [Subalgebra.coe_mul] using norm_principal_fraction K S P.arithmetic
       (P.arithmetic.generator den * P.arithmetic.generator A)
       (mul_ne_zero (P.arithmetic.generator_ne_zero den) (P.arithmetic.generator_ne_zero A))
       (h * m)
@@ -195,7 +195,7 @@ theorem productPrincipalCharacter_mk (D : ThetaArithmeticData K S)
   unfold productPrincipalCharacter
   rw [HeckeGeneral.Arithmetic.ResidueTraceCharacters.transportCharacter_apply,
     Ideal.quotEquivOfEq_mk, sIntegerActualModulusAddCharacter_mk]
-  simp only [map_mul]
+  simp only [Subalgebra.coe_mul]
 
 theorem productPrincipalCharacter_isPrimitive (D : ThetaArithmeticData K S)
     (den A : ExteriorIdeal K S) : (productPrincipalCharacter K S D den A).IsPrimitive :=
@@ -249,7 +249,7 @@ def poissonKernelOnQuotient (P : ProbeData K S) (den A : ExteriorIdeal K S)
   simp only [RingHom.id_apply, ← map_neg, probeGaussOnQuotient_mk,
     quotientSymbol, sIntegerSexticIdealQuotientFunction_mk]
   rw [← map_mul, productPrincipalCharacter_mk]
-  simp only [map_mul, idealSymbol]
+  simp only [Subalgebra.coe_mul, idealSymbol]
 
 /-- Any two representatives of a product-ideal residue give the same
 literal finite Poisson summand, with no coprimality assumption. -/
@@ -291,7 +291,7 @@ theorem principalPower_character_compatible (D : ThetaArithmeticData K S)
     intro h
     apply hπ
     exact Subtype.ext h
-  simp only [map_mul, map_pow]
+  simp only [Subalgebra.coe_mul, Subalgebra.coe_pow]
   have hp : (π : K) ^ n = (π : K) ^ (n - 1) * (π : K) := by
     rw [← pow_succ, Nat.sub_add_cancel hn]
   rw [hp]
@@ -329,7 +329,7 @@ private lemma one_mul_rpow (x ν : ℝ) (hx : 0 < x) :
   calc
     _ = x ^ (1 : ℝ) * x ^ (-ν) := by rw [Real.rpow_one]
     _ = x ^ ((1 : ℝ) + -ν) := by rw [← Real.rpow_add hx]
-    _ = _ := by congr 1; ring
+    _ = _ := by congr 1 <;> ring
 
 /-- A pointwise estimate for the literal original coefficient, before any
 local calibration, CRT factorization, or Euler product theorem. -/
@@ -357,7 +357,8 @@ theorem norm_initialRowEulerTerm_le (P : ProbeData K S) (ψ : HeckeCharacter K)
     rw [exteriorNorm_completed] at hF
     have hh := mul_le_mul
       (mul_le_mul (norm_thetaGamma_two_le_sqrt K S P.arithmetic c)
-        (norm_heckeIdealCoefficient_le_one K (thetaPeriod K S P ψ) _)
+        (norm_heckeIdealCoefficient_le_one K (thetaPeriod K S P ψ)
+          (completedIdeal K S c n).val)
         (norm_nonneg _) (Real.sqrt_nonneg _)) hF (norm_nonneg _)
       (mul_nonneg (Real.sqrt_nonneg _) zero_le_one)
     simpa only [mul_one] using hh
@@ -431,7 +432,9 @@ theorem summable_initialMajorant (σ ν ζ : ℝ)
       (Real.rpow_nonneg (idealNorm_pos K I.2.val).le _))
     (fun I => mul_nonneg (Real.rpow_nonneg (idealNorm_pos K I.1.val).le _)
       (Real.rpow_nonneg (idealNorm_pos K I.2.val).le _))
-  simpa only [initialMajorant, mul_assoc] using hh
+  refine hh.congr ?_
+  intro I
+  simp only [initialMajorant, mul_assoc]
 
 /-- The exact absolute convergence assertion required in
 RowEulerCalibrationInput, proved from the two literal finite sums. -/

@@ -49,7 +49,9 @@ The result is recorded in [definition_moves.json](definition_moves.json).
 The eleven original row definitions now live in `PhysicalProbeRowData`.
 `PhysicalProbeRows` retains its original principal dependency and reexports
 the row definitions. Their complete declaration region is byte-identical;
-`ActualInitialAbsolute` changes only its import to the lighter module. Ten
+`ActualInitialAbsolute` initially changed only its import to the lighter module;
+the original import-only snapshot is recorded separately from subsequent native
+proof repairs. Ten
 FLT reuse sources also replace the whole `Mathlib` import with explicit
 submodules while retaining their declaration/proof bodies byte-for-byte.
 Five dependent FLT modules now state their required direct imports explicitly.
@@ -74,7 +76,17 @@ finite-dimensional topology type mismatches (peak 3503380 KiB). Its existing
 rank-one valuation and `Valued` scope require the official
 `Mathlib.Topology.Algebra.Valued.NormedValued` import, which registers the
 compatible nontrivially normed field instance. That import is now explicit;
-no mathematical body was changed. Its next native build remains required.
+no mathematical body was changed. The module then passed its native build
+at `dfa2b35` in 25 seconds.
+The `dfa2b35` Fourier build passed the FLT dependency chain and reached actual
+support proofs. Its remaining errors were `ActualGeneratorPowers`' use of an
+obsolete submonoid coercion name and `ActualInitialAbsolute`'s S-integer coercion
+simplifications, one implicit ideal argument, a tactic after an already closed
+goal, and pointwise reassociation of the four-ideal majorant. These are repaired
+using the pinned `SubmonoidClass`/`Subalgebra` APIs and an explicit summability
+congruence. All 34 declaration headers in the two files are unchanged. This
+latest source repair still awaits its native check; diagnostics from a failed
+build, including Lean's recovery `sorryAx`, are not verification evidence.
 The comparisons are recorded in
 [physical_row_data_narrowing_provenance.json](physical_row_data_narrowing_provenance.json)
 and [flt_import_narrowing_provenance.json](flt_import_narrowing_provenance.json).
