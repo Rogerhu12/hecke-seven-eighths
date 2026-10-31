@@ -5,6 +5,10 @@ Run from a checkout with the pinned toolchain and Mathlib cache installed:
     python scripts/highbin_verify.py core
     python scripts/highbin_verify.py mellin
     python scripts/highbin_verify.py fourier
+    python scripts/highbin_verify.py euler
+    python scripts/highbin_verify.py normform
+    python scripts/highbin_verify.py boundary
+    python scripts/highbin_verify.py canonical
     python scripts/highbin_verify.py actual
 """
 import argparse
@@ -61,17 +65,29 @@ def audit(group, modules, declarations):
              if not set(axioms) <= allowed}
     (OUT / f'{group}-axioms.json').write_text(json.dumps(
         {'group': group, 'declarations': rows, 'beyond_standard_axioms': extra}, indent=2) + '\n')
-    if group != 'actual' and extra:
+    # These scopes expose the pre-existing upstream prime-window admission
+    # used by PrimeNormalizer.normalizer_smallPower. Every transitive axiom
+    # is recorded; a successful job does not mean admission-free norm bounds.
+    # The source inventory separately rejects any admission in HIGHBIN files.
+    reports_upstream_admissions = group in {'actual', 'normform', 'canonical'}
+    if not reports_upstream_admissions and extra:
         raise SystemExit(f'Unexpected transitive {group} axioms: ' + repr(extra))
+    if group in {'normform', 'canonical'}:
+        unexpected = {name: sorted(set(axioms) - {'sorryAx'})
+                      for name, axioms in extra.items() if set(axioms) - {'sorryAx'}}
+        if unexpected:
+            raise SystemExit(f'Unexpected {group} axioms beyond the recorded upstream admission: '
+                             + repr(unexpected))
     print(f'Checked {len(modules)} individual {group} modules and {len(declarations)} public declarations.')
     if extra:
-        print(f'{len(extra)} actual declarations depend on additional upstream axioms/admissions; '
+        print(f'{len(extra)} {group} declarations depend on additional upstream axioms/admissions; '
               f'see {group}-axioms.json. They are not admission-free proofs.')
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('group', choices=['core', 'mellin', 'fourier', 'actual'])
+    parser.add_argument('group', choices=[
+        'core', 'mellin', 'fourier', 'euler', 'normform', 'boundary', 'canonical', 'actual'])
     args = parser.parse_args()
     OUT.mkdir(exist_ok=True)
     modules = json.loads((ROOT / f'docs/highbin/{args.group}_modules.json').read_text())

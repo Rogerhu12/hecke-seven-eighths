@@ -381,8 +381,7 @@ theorem primePower_addCharacter_unitShift (D : ThetaArithmeticData K S)
       (Ideal.Quotient.mk _ ((u⁻¹ : (S.integer K)ˣ) : S.integer K) ^ 6 *
         Ideal.Quotient.mk _ a)
   rw [primeGeneratorQuotientEquiv_mk, ← map_pow, ← map_mul,
-    thetaPrincipalAddCharacter_mk, principalPowerAddCharacter,
-    sIntegerActualModulusAddCharacter_mk]
+    thetaPrincipalAddCharacter_mk, principalPowerAddCharacter_mk]
   apply congrArg (sLocalPrincipalPhase K S)
   have hπK : (primeGenerator K S D p : K) ≠ 0 := by
     intro h

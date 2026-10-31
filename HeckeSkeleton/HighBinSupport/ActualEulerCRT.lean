@@ -181,11 +181,13 @@ theorem generator_isUnit_mod (D : ThetaArithmeticData K S)
     apply Ideal.Quotient.eq_zero_iff_mem.mpr
     rw [← D.generator_span]
     exact Ideal.subset_span (Set.mem_singleton _)
-  apply IsUnit.of_mul_eq_one
-    (Ideal.Quotient.mk (I.val.val.map (algebraMap (𝓞 K) (S.integer K))) s)
-  have hh := congrArg
-    (Ideal.Quotient.mk (I.val.val.map (algebraMap (𝓞 K) (S.integer K)))) hrs
-  simpa only [map_add, map_mul, map_one, hz, zero_mul, zero_add, mul_comm] using hh
+  let ρ : S.integer K →+* ThetaQuotient K S I := Ideal.Quotient.mk _
+  have hzρ : ρ (D.generator I) = 0 := hz
+  have hh : ρ r * ρ (D.generator I) + ρ s * ρ (D.generator J) = 1 := by
+    simpa only [map_add ρ, map_mul ρ, map_one ρ] using congrArg ρ hrs
+  rw [hzρ, mul_zero, zero_add] at hh
+  apply IsUnit.of_mul_eq_one (ρ s)
+  simpa only [mul_comm] using hh
 
 /-- Ordinary CRT, before scaling each component by the complementary generator. -/
 def quotientCRT (I J : ExteriorIdeal K S) (hIJ : IsCoprime I.val.val J.val.val) :

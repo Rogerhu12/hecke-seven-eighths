@@ -38,13 +38,12 @@ local instance signPrimeResidueFintype (p : ExteriorPrime K S) :
 theorem exists_residue_sixth_root_neg_one (D : ThetaArithmeticData K S)
     (p : ExteriorPrime K S) : ∃ ξ : 𝓞 K ⧸ p.val.asIdeal, ξ ^ 6 = -1 := by
   let ξ : 𝓞 K := ⟨D.root12, D.primitive12.isIntegral (by norm_num)⟩
-  have hξmap : algebraMap (𝓞 K) K ξ = D.root12 := by
-    simp only [ξ, NumberField.RingOfIntegers.map_mk]
   have htwo : IsPrimitiveRoot (D.root12 ^ 6) 2 := by
     simpa using D.primitive12.pow_div_gcd 6 (by norm_num)
   have hξ : ξ ^ 6 = (-1 : 𝓞 K) := by
     apply NumberField.RingOfIntegers.ext
-    simpa only [map_pow, map_neg, map_one, hξmap] using htwo.eq_neg_one_of_two_right
+    change D.root12 ^ 6 = (-1 : K)
+    exact htwo.eq_neg_one_of_two_right
   refine ⟨Ideal.Quotient.mk p.val.asIdeal ξ, ?_⟩
   rw [← map_pow, hξ, map_neg, map_one]
 

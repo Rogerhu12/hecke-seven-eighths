@@ -193,11 +193,21 @@ exists Z0≥1, forall N:Nat, exists C>0,
   66 个模块、533 个公开声明，仅允许 `propext`、`Classical.choice`、`Quot.sound`。
   新 detector、有限分片 gauge 和三个 dyadic 模块均在内。
 - 三个 dyadic 模块、有限 gauge 和 detector geometry 另有本地原生、源码未变的成功记录。
+- `f1dd2fc` 的 CI 已实际编译 `ActualGeneratorPowers`、`ActualPrimePowerSymbols`、
+  `ActualGaussData`、`ActualInitialAbsolute` 四个模块；这次输出中的 12 项公理检查
+  仅含三项标准公理。该 Fourier job 整体仍失败，不能把它记作完整 Fourier 审计通过。
+  精确源码绑定见 `verified_arithmetic_foundation_ci.json`。
 - 固定 Lean 为 `4.35.0-rc3`，Mathlib 为 `0493595ecd5da8ef14742febab99728f98e948e8`。
   完整 Mathlib 入口已原生编译成功；复用的依赖按源码、编译器及所需 sidecars 核验。
 - 实际算术、积分及本轮新目标端点仍在原生验证和修复中。失败编译的 recovery `sorryAx`
   不作为通过记录；源码清单、静态依赖检查也不作为 Lean 编译通过。
 - 对实际模块必须记录传递公理依赖，尤其项目现存的上游输入。原有上游 admission 与
   本轮新声明自身是否包含 admission 分开报告。
+- 新增独立的 `euler`、`normform`、`boundary`、`canonical` CI 分组，各自编译实际
+  模块并检查整个 HIGHBIN 支持依赖闭包的公开类型与公理，不取消原四项检查。
+  `euler` 与 `boundary` 拒绝标准三公理以外的依赖。范数链已知使用原
+  `PrimeNormalizer.normalizer_smallPower`，它继承 `window_prime_lower` 的
+  `PR-WINDOW-PIT` admission；`normform` 与 `canonical` 完整披露这项 `sorryAx`
+  传递依赖，并拒绝其他新增公理。通过这两个分组不代表该上游素数分布输入已证明。
 
 本报告不宣称旧 HIGHBIN 的六个 `sorry` 已清除，也不把待编译源码列为最终验证成功。

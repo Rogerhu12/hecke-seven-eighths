@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scope: [core, mellin, fourier, actual]
+        scope: [core, mellin, fourier, euler, normform, boundary, canonical, actual]
     env:
       LEAN_NUM_THREADS: '1'
     steps:
@@ -84,14 +84,18 @@ jobs:
           key: highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.scope }}-${{ github.sha }}
           restore-keys: |
             highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ matrix.scope }}-
+            highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-canonical-
             highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-actual-
+            highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-normform-
+            highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-boundary-
+            highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-euler-
             highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-mellin-
             highbin-v3-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-core-
       # A cancelled deep job cannot save its new dependency builds. Merge the
       # latest finite-Fourier checkpoint into its existing deeper cache; Lake
       # still validates source/import/toolchain traces before reusing objects.
       - name: Restore completed finite Fourier dependencies
-        if: matrix.scope == 'actual' || matrix.scope == 'mellin'
+        if: matrix.scope != 'core' && matrix.scope != 'fourier'
         uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
         with:
           path: |

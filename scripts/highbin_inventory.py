@@ -123,6 +123,42 @@ def main():
     (DOC / 'fourier_public_declarations.json').write_text(
         json.dumps(items, ensure_ascii=False, indent=2) + '\n')
     print(f'fourier: {len(fourier)} actual modules, {len(items)} public source declarations')
+    # Independent arithmetic/analytic frontiers retain their full public
+    # HIGHBIN import closure. They can finish while the old named aggregate
+    # interface is still building in the complete actual job.
+    support_set = set(support)
+    core_set = set(core)
+
+    def support_closure(leaves):
+        visited = set()
+
+        def visit(module):
+            if module in visited or module not in support_set:
+                return
+            visited.add(module)
+            path = ROOT.joinpath(*module.split('.')).with_suffix('.lean')
+            for dependency in re.findall(r'^import\s+(\S+)', path.read_text(), re.M):
+                visit(dependency)
+
+        for leaf in leaves:
+            visit('HeckeSkeleton.HighBinSupport.' + leaf)
+        return sorted(visited - core_set)
+
+    frontiers = {
+        'euler': ['ActualCanonicalEuler'],
+        'normform': ['ActualNormFormComputedPacket', 'ActualCanonicalHighBin'],
+        'boundary': ['ActualBoundaryGeometry', 'ActualDetectorBoundary',
+                     'ActualFinalContourIntegrability', 'ActualDyadicRows',
+                     'ActualDyadicBoundary'],
+        'canonical': ['ActualTargetFamily', 'ActualCanonicalEuler'],
+    }
+    for group, leaves in frontiers.items():
+        modules = support_closure(leaves)
+        items = [item for module in modules for item in declarations(module)]
+        (DOC / f'{group}_modules.json').write_text(json.dumps(modules, indent=2) + '\n')
+        (DOC / f'{group}_public_declarations.json').write_text(
+            json.dumps(items, ensure_ascii=False, indent=2) + '\n')
+        print(f'{group}: {len(modules)} actual modules, {len(items)} public source declarations')
 
 
 if __name__ == '__main__':
