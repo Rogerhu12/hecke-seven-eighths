@@ -113,7 +113,9 @@ theorem joint_polynomial_integral_eq (s : ℝ) (k : ℕ) (B : ℝ)
       unfold polynomialCost
       ring
     _ = _ := by
-      rw [integral_const_mul, integral_prod_mul]
+      rw [integral_const_mul,
+        integral_prod_mul (fun ξ : LogPlane => frequencyEnvelope k ξ * (1 + |L ξ|) ^ k)
+          (fun t : ℝ => (1 + |t|) ^ k * ‖secondDensity (-(1 / 2 : ℝ)) s t‖)]
       unfold coordinateMoment moment
       ring
 
