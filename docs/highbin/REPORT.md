@@ -94,6 +94,19 @@ rewrite that exposed inconsistent quotient aliases. These now use explicit
 exponents and one fully expanded, type-correct residue expression. The same
 confirmed S-integer coercion rules are applied to the downstream finite-Poisson,
 prime-power Gauss and CRT phase identities; their statements are unchanged.
+At `6025f63`, native compilation passed `ActualGaussData` (5.4 seconds) and
+`ActualInitialAbsolute` (9.6 seconds), confirming those repairs. The remaining
+Fourier errors then reached `ActualGaussSigns`, `ActualPrimePowerGauss` and
+`ActualEulerCRT`: integer-ring and quotient aliases, an uncoerced unit inverse,
+ambiguous `fourier` names, and redundant implicit transport of equal ideals.
+The current repairs use literal quotient representatives, the actual principal
+phase evaluation, explicit bottom-ring coercions and the finite Fourier name.
+The Gauss product-character proof now reuses the existing proved sixth-unit
+Fourier change of variable. The same confirmed unit-coercion and finite-Fourier
+name repairs are also applied to the downstream `ActualFinitePoisson` module. Public conclusions and hypotheses are preserved;
+these latest repairs still require a new native build. The failed run's artifact
+`13028526379` was downloaded and verified against SHA256
+`893a5a386e5f7448f269de67770fee57707de50d2855df3c6957969c4f78efd8`.
 The comparisons are recorded in
 [physical_row_data_narrowing_provenance.json](physical_row_data_narrowing_provenance.json)
 and [flt_import_narrowing_provenance.json](flt_import_narrowing_provenance.json).
@@ -348,7 +361,9 @@ also invalidate their dependent parents. The stricter local native plan for
 `ActualGaussData` now schedules 64 recompilations and checks 124 unchanged cloud
 records, binding reuse to recursive source/object fingerprints and every native
 sidecar. Old records containing only a module's source and main object hash are
-not promoted to full verified-cache records. The new plan is still running.
+not promoted to full verified-cache records. The last recorded local state
+contains seven completed dependency rebuilds and no completed target; it is
+not a completed native verification result.
 These checks establish dependency provenance, not success of uncompiled source.
 
 The merged upstream updates add GramAssemblyInputs and the Theta local wiring,

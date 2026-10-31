@@ -51,6 +51,15 @@ local instance poissonThetaFintype (I : ExteriorIdeal K S) : Fintype (ThetaQuoti
     (nonZeroDivisors.coe_ne_zero I.val) I.property
   exact Fintype.ofFinite _
 
+private theorem poissonPrincipalPowerAddCharacter_mk (D : ThetaArithmeticData K S)
+    (p : ExteriorPrime K S) (n : ℕ) (a : S.integer K) :
+    principalPowerAddCharacter K S D p n
+        (Ideal.Quotient.mk (powerIdeal (primeGenerator K S D p) n) a) =
+      sLocalPrincipalPhase K S
+        ((a : K) / ((primeGenerator K S D p ^ n : S.integer K) : K)) := by
+  exact sIntegerActualModulusAddCharacter_mk K S D.different_outside
+    (primeGenerator K S D p ^ n) (pow_ne_zero n (primeGenerator_ne_zero K S D p)) a
+
 /-- Replacing Quotient.out by the well-defined kernel changes no summand
 of the original finite Poisson factor. -/
 theorem finitePoissonFactor_eq_sum_kernel (P : ProbeData K S)
@@ -143,7 +152,8 @@ theorem principalResidue_fourier_sixth_shift (D : ThetaArithmeticData K S)
     rw [Units.val_pow_eq_pow_val, map_mul, map_pow]
     exact HighBin.GeneratorUnitInvariance.character_sixth_unit _ hr6
       (Units.map (principalResidue K S D p n hn).toMonoidHom U) _
-  simpa only [fourier, AddChar.mulShift_apply, Units.val_pow_eq_pow_val, mul_assoc] using
+  simpa only [HighBin.FiniteResidueFourier.fourier, AddChar.mulShift_apply,
+    Units.val_pow_eq_pow_val, mul_assoc] using
     HighBin.GeneratorUnitInvariance.fourier_unit_invariant
       (principalPowerAddCharacter K S D p n)
       (fun x => (thetaPrimeCharacter K S D p ^ r) (principalResidue K S D p n hn x))
@@ -163,9 +173,7 @@ def primeTimesPowerQuotientEquiv (D : ThetaArithmeticData K S)
 @[simp] theorem primeTimesPowerQuotientEquiv_mk (D : ThetaArithmeticData K S)
     (p : ExteriorPrime K S) (t : ℕ) (a : S.integer K) :
     primeTimesPowerQuotientEquiv K S D p t (Ideal.Quotient.mk _ a) =
-      Ideal.Quotient.mk _ a := by
-  unfold primeTimesPowerQuotientEquiv
-  rw [Ideal.quotEquivOfEq_mk]
+      Ideal.Quotient.mk _ a := rfl
 
 theorem primeProduct_addCharacter_unitShift (D : ThetaArithmeticData K S)
     (p : ExteriorPrime K S) (t : ℕ) (U : (S.integer K)ˣ)
@@ -183,10 +191,10 @@ theorem primeProduct_addCharacter_unitShift (D : ThetaArithmeticData K S)
       (exteriorPower K S (exteriorPrimeIdeal K S p) t)
       (primeTimesPowerQuotientEquiv K S D p t (Ideal.Quotient.mk _ a)) =
     principalPowerAddCharacter K S D p (t + 1)
-      (Ideal.Quotient.mk _ (U⁻¹ : (S.integer K)ˣ) ^ 6 * Ideal.Quotient.mk _ a)
+      (Ideal.Quotient.mk _ ((U⁻¹ : (S.integer K)ˣ) : S.integer K) ^ 6 *
+        Ideal.Quotient.mk _ a)
   rw [primeTimesPowerQuotientEquiv_mk, ← map_pow, ← map_mul,
-    productPrincipalCharacter_mk, principalPowerAddCharacter,
-    sIntegerActualModulusAddCharacter_mk]
+    productPrincipalCharacter_mk, poissonPrincipalPowerAddCharacter_mk]
   apply congrArg (sLocalPrincipalPhase K S)
   have hπK : (primeGenerator K S D p : K) ≠ 0 := by
     intro h
@@ -330,9 +338,10 @@ theorem productPrincipalCharacter_unitShift_of_generators (D : ThetaArithmeticDa
   obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective x
   change productPrincipalCharacter K S D den A (e (Ideal.Quotient.mk _ a)) =
     principalPowerAddCharacter K S D p n
-      (Ideal.Quotient.mk _ (U⁻¹ : (S.integer K)ˣ) ^ 6 * Ideal.Quotient.mk _ a)
+      (Ideal.Quotient.mk _ ((U⁻¹ : (S.integer K)ˣ) : S.integer K) ^ 6 *
+        Ideal.Quotient.mk _ a)
   rw [he, ← map_pow, ← map_mul, productPrincipalCharacter_mk,
-    principalPowerAddCharacter, sIntegerActualModulusAddCharacter_mk]
+    poissonPrincipalPowerAddCharacter_mk]
   apply congrArg (sLocalPrincipalPhase K S)
   have hπK : (primeGenerator K S D p : K) ≠ 0 := by
     intro h
@@ -362,9 +371,7 @@ def primeZeroTimesPowerQuotientEquiv (D : ThetaArithmeticData K S)
 @[simp] theorem primeZeroTimesPowerQuotientEquiv_mk (D : ThetaArithmeticData K S)
     (p : ExteriorPrime K S) (t : ℕ) (a : S.integer K) :
     primeZeroTimesPowerQuotientEquiv K S D p t (Ideal.Quotient.mk _ a) =
-      Ideal.Quotient.mk _ a := by
-  unfold primeZeroTimesPowerQuotientEquiv
-  rw [Ideal.quotEquivOfEq_mk]
+      Ideal.Quotient.mk _ a := rfl
 
 /-- The actual k=0 branch, with the chosen unit-ideal generator's sixth
 unit phase removed by a finite variable bijection. -/
@@ -469,9 +476,7 @@ def primePowerTimesZeroQuotientEquiv (D : ThetaArithmeticData K S)
 @[simp] theorem primePowerTimesZeroQuotientEquiv_mk (D : ThetaArithmeticData K S)
     (p : ExteriorPrime K S) (k : ℕ) (a : S.integer K) :
     primePowerTimesZeroQuotientEquiv K S D p k (Ideal.Quotient.mk _ a) =
-      Ideal.Quotient.mk _ a := by
-  unfold primePowerTimesZeroQuotientEquiv
-  rw [Ideal.quotEquivOfEq_mk]
+      Ideal.Quotient.mk _ a := rfl
 
 /-- At completed index one, exact finite Fourier inversion recovers the
 original denominator symbol, with its nonunit zeros. The original chosen
@@ -601,7 +606,7 @@ theorem principalPower_fourier_frequency_sixth_unit (D : ThetaArithmeticData K S
         (fun x => (principalPrimeCharacter K S D p ^ r)
           (residueMap (primeGenerator K S D p) n hn x)) h := by
   simp_rw [principalCharacter_power_residue]
-  simpa only [fourier, AddChar.mulShift_apply, mul_assoc] using
+  simpa only [HighBin.FiniteResidueFourier.fourier, AddChar.mulShift_apply, mul_assoc] using
     principalResidue_fourier_sixth_shift K S D p n hn r U h
 
 theorem idealSymbol_primePower_sixth_invariant (D : ThetaArithmeticData K S)

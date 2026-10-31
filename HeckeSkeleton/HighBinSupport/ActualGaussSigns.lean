@@ -42,7 +42,8 @@ theorem exists_residue_sixth_root_neg_one (D : ThetaArithmeticData K S)
     simpa using D.primitive12.pow_div_gcd 6 (by norm_num)
   have hξ : ξ ^ 6 = (-1 : 𝓞 K) := by
     apply NumberField.RingOfIntegers.ext
-    simpa only [map_pow, map_neg, map_one] using htwo.eq_neg_one_of_two_right
+    change D.root12 ^ 6 = (-1 : K)
+    exact htwo.eq_neg_one_of_two_right
   refine ⟨Ideal.Quotient.mk p.val.asIdeal ξ, ?_⟩
   rw [← map_pow, hξ, map_neg, map_one]
 

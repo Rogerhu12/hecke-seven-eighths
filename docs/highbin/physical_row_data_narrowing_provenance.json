@@ -29,9 +29,9 @@
     "import_only_source_sha256": "591403e856ead4b75f510c094a245e954b52dec3e215811097c7752bf5968dc9",
     "import_only_declaration_region_sha256": "5b12739d777e307dfdac2cba97bf6e6be5639e04619355bcea3f9c493c085f80",
     "import_only_declaration_region_byte_identical": true,
-    "subsequent_native_repairs": "dfa2b35 native diagnostics: use actual Subalgebra coercion lemmas, specify the completed ideal in the coefficient bound, and prove product-majorant equality pointwise. All 29 declaration headers are unchanged. The earlier import-only extraction remains recorded separately; these proof repairs await the next native check. The3023ebc follow-up gives all four real exponents explicitly in the pointwise majorant."
+    "subsequent_native_repairs": "dfa2b35 native diagnostics: use actual Subalgebra coercion lemmas, specify the completed ideal in the coefficient bound, and prove product-majorant equality pointwise. All 29 declaration headers are unchanged. The earlier import-only extraction remains recorded separately. The 3023ebc follow-up gives all four real exponents explicitly in the pointwise majorant. ActualInitialAbsolute passed native compilation at6025f636deac2d9a57ccd425fe27c7d2332dae2a in9.6 seconds; the complete eight-module Fourier audit remains pending."
   },
-  "validation": "pending native check; source-level identity and import closure are checked separately",
+  "validation": "Source-level definition identity and the current 223-module source closure are checked separately. ActualInitialAbsolute native compilation passed at6025f63; this is not a complete Fourier declaration/axiom audit.",
   "mathlib_revision": "0493595ecd5da8ef14742febab99728f98e948e8",
   "toolchain": "leanprover/lean4:v4.35.0-rc3",
   "fourier_source_closure_check": {
@@ -48,7 +48,7 @@
     "project_module_count": 223,
     "direct_Mathlib_umbrella_modules": [],
     "unresolved_project_imports": [],
-    "source_tree_sha256": "44e3da63549272ef83091c77ee81cbc8314610baf0e826be4521033ef91404f0",
+    "source_tree_sha256": "49e7899af217faba81d575bb5ce43a5b4a856e037138a434a5c57bb1bc3ce735",
     "source_tree_hash_method": "SHA256 of UTF-8 lines sorted by module name, each line: module name, one ASCII space, source SHA256, newline; current repository sources only."
   }
 }
