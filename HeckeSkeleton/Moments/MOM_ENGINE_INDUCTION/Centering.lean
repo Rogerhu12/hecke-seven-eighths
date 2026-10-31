@@ -10,9 +10,10 @@ not the two plain lengths.  The comparison node below retains the entire
 
 The triangle inequality therefore supplies an actual finite-energy
 decomposition.  The ordinary comparison is at the same width and slot
-regime as the centered node, and is earlier in the finite stage order.
-These are algebraic parts of parent assembly; no analytic estimate for
-either summand is assumed here.
+regime as the centered node.  Its earlier proof stage is supplied by the
+producer's explicit stage calibration, separately from the Boolean that
+selects an actual centered coefficient.  These are algebraic parts of
+parent assembly; no analytic estimate for either summand is assumed here.
 -/
 
 set_option autoImplicit false
@@ -108,20 +109,21 @@ theorem comparison_same_band (S : PolynomialSystem.{u} K ω ψ σ W)
   change widthBand σ (S.node child).width = widthBand σ (S.node parent).width
   rw [hchild, Node.comparison_width]
 
-/-- Comparison is an earlier-stage call at identical width and slot
-regime; no strict-width decrease is claimed for this edge. -/
+/-- With the explicit proof-stage calibration, comparison is an earlier
+call at identical width and slot regime.  The coefficient's `centered`
+flag is not used to assign either proof stage. -/
 theorem comparison_earlier (S : PolynomialSystem.{u} K ω ψ σ W)
     (child parent : S.Label)
     (hchild : S.node child = (S.node parent).comparisonOrdinary)
-    (hcentered : (S.node parent).centered = true) :
+    (hchild_stage : S.proofStage child = 0)
+    (hparent_stage : S.proofStage parent = 1) :
     (S.schedule child).Earlier (S.schedule parent) := by
   apply State.comparison (S.comparison_same_slots child parent hchild)
     (S.comparison_same_band child parent hchild)
-  · change (if (S.node child).centered then (1 : Fin 2) else 0).val = 0
-    simp only [hchild, Node.comparison_centered, Bool.false_eq_true, ite_false,
-      Fin.val_zero]
-  · change (if (S.node parent).centered then (1 : Fin 2) else 0).val = 1
-    simp only [hcentered, ite_true, Fin.val_one]
+  · change (S.proofStage child).val = 0
+    simp only [hchild_stage, Fin.val_zero]
+  · change (S.proofStage parent).val = 1
+    simp only [hparent_stage, Fin.val_one]
 
 end PolynomialSystem
 

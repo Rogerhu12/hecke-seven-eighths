@@ -85,7 +85,7 @@ theorem bound (step : IntegralStep value schedule) (terminal mass : ℝ)
         _ = terminal + step.mass x * (terminal * (1 + mass) ^ n) := by
           simp only [integral_const, smul_eq_mul, IntegralStep.mass]
         _ ≤ terminal + mass * (terminal * (1 + mass) ^ n) :=
-          add_le_add_left (mul_le_mul_of_nonneg_right (hmass x) hnonneg) _
+          add_le_add le_rfl (mul_le_mul_of_nonneg_right (hmass x) hnonneg)
         _ ≤ terminal * (1 + mass) ^ n + mass * (terminal * (1 + mass) ^ n) :=
           add_le_add
             (by simpa only [mul_one] using mul_le_mul_of_nonneg_left hpower ht) le_rfl

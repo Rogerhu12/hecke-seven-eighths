@@ -107,6 +107,9 @@ acts, at one fixed base and height.  Only width bounds enter its order. -/
 structure PolynomialSystem (ω ψ : HeckeCharacter K) (σ W : ℝ) where
   Label : Type u
   node : Label → Node K ω ψ
+  /-- The proof stage is independent of whether a coefficient is centered.
+  In particular, an ordinary large-parameter root can occupy the later stage. -/
+  proofStage : Label → Fin 2
   sigma_pos : 0 < σ
   width_nonneg : ∀ x, 0 ≤ (node x).width
   width_le : ∀ x, (node x).width ≤ W
@@ -119,7 +122,7 @@ def schedule (S : PolynomialSystem.{u} K ω ψ σ W) (x : S.Label) :
     State (widthBand σ W) where
   slots := if (S.node x).parameters.z = 0 then 0 else 1
   band := boundedBand σ (S.node x).width W S.sigma_pos (S.width_le x)
-  stage := if (S.node x).centered then 1 else 0
+  stage := S.proofStage x
 
 /-- The decrease guaranteed after all actual boundary errors is sufficient
 for the smaller-width recursive call. -/

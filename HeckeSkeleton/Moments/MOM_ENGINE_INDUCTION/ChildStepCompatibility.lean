@@ -26,6 +26,13 @@ inequality used by either form of `Reduction`.  The unrepaired child remains
 the left side of this inequality.  Constructing the parent's complete positive reduction,
 its exceptional terminal components, and its common-kernel tails is a
 separate analytic assembly obligation, recorded by `RawParentReduction`.
+
+The proof stage is supplied independently by `PolynomialSystem.proofStage`;
+`Node.centered` controls only the actual coefficient.  The strict-width
+bridge below therefore accepts either child proof stage.  An ordinary root
+in the centered range can occupy the later proof stage.  Identifying a
+reflected comparison with an admissible shorter ordinary model, and placing
+that model in the earlier stage, remain analytic producer obligations.
 -/
 
 set_option autoImplicit false

@@ -79,7 +79,7 @@ theorem bound (step : LocalStep value schedule) (terminal mass : ℝ)
         _ = terminal + (∑ y ∈ step.children x, step.weight x y) *
             (terminal * (1 + mass) ^ n) := by rw [Finset.sum_mul]
         _ ≤ terminal + mass * (terminal * (1 + mass) ^ n) :=
-          add_le_add_left (mul_le_mul_of_nonneg_right (hmass x) hnonneg) _
+          add_le_add le_rfl (mul_le_mul_of_nonneg_right (hmass x) hnonneg)
         _ ≤ terminal * (1 + mass) ^ n + mass * (terminal * (1 + mass) ^ n) :=
           add_le_add
             (by simpa only [mul_one] using mul_le_mul_of_nonneg_left hpower ht) le_rfl

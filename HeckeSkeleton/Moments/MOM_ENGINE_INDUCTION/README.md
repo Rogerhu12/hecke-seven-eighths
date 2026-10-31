@@ -58,16 +58,26 @@ The order is lexicographic:
 
 1. zero-slot states precede every positive-slot state;
 2. within a slot regime, width bands have length `σ / 4`;
-3. the uncentered stage precedes the centered stage in each band.
+3. the first proof stage precedes the second proof stage in each band.
 
 The actual post-clipping drop `σ / 2` crosses a band. A comparison call uses
-the earlier uncentered stage, while removing the last slot may return to any
+the earlier proof stage, while removing the last slot may return to any
 already completed zero-slot band. With widths bounded by `W`, the explicit
 natural rank is less than
 
 ```text
 N = 4 * (floor(4 * W / σ) + 1).
 ```
+
+The third coordinate is an explicit proof stage, supplied by
+`PolynomialSystem.proofStage`. It is independent of `Node.centered`, which
+changes the actual coefficient. In particular, an ordinary target with
+`A > 5*M/6` may occupy the later proof stage. The algebraic comparison
+rectangle preserves the original scale product; reflecting its longer factor
+and identifying the result with an admissible shorter ordinary model remain
+analytic producer obligations. A same-band comparison edge therefore needs
+explicit earlier-stage evidence. Strict-width children may use either proof
+stage.
 
 The local reduction has nonnegative weights or a finite positive child measure.
 Its terminal remainder
@@ -148,9 +158,11 @@ The comparison scales have equal product before absolute values are taken.
 `Centering.lean` proves the actual energy decomposition
 `pairedEnergy ≤ 2 * centeredEnergy + 2 * comparisonEnergy` on this unchanged
 row set. It also proves that the ordinary comparison has the same slot regime
-and width band, and precedes the centered node in the finite stage order.
-This supplies the algebraic centering part of the parent assembly; analytic
-bounds for its two terms still require the parent reduction.
+and width band, and is earlier when the explicit stage-0/stage-1 evidence
+is supplied. The raw `comparisonOrdinary` has not yet undergone reflection.
+This supplies the algebraic centering part of the parent assembly; identifying
+a reflected shorter model and bounding both terms still require the analytic
+parent producer.
 
 `SkeletonFamily.lean` identifies the base, selected length, parameters,
 capacity, energy and uniform-bound quantifiers definitionally with

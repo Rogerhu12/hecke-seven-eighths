@@ -7,7 +7,7 @@ import Lean.Elab.Tactic.Omega
 # The finite order of the paired fourth-moment induction
 
 The order in revised §4.8 is (zero/positive slots, width band,
-uncentered/centered stage).  In particular, comparison is an earlier-stage
+first/second proof stage).  In particular, comparison is an earlier-stage
 call, not a strict-width call.  Removing every slot may return to any of
 the already completed zero-slot bands.
 
@@ -19,7 +19,7 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.EngineInduction
 
-/-- `slots = 0` means zero slots; `stage = 0` means uncentered.
+/-- `slots = 0` means zero slots; `stage = 0` is the first proof stage.
 There are `bands + 1` width bands in each slot regime. -/
 structure State (bands : ℕ) where
   slots : Fin 2
