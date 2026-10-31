@@ -256,9 +256,10 @@ theorem actualFullCorrelation_unequal_common_formula
   have hcard : Nat.card (𝓞 K ⧸ p.val.asIdeal) = p.val.asIdeal.absNorm := rfl
   rw [actualFullCorrelation_factorization K S D C N₁ N₂ hcop]
   change actualResidualPhase K S D C N₁ N₂ k * _ = _
+  -- The final quotient comparison needs default transparency (`using!`).
   exact congrArg (fun z => actualResidualPhase K S D C N₁ N₂ k * z)
     (by simpa only [C, Q, n₁, n₂, x, y, actualPrimePowerIdeal,
-      sIntegerPrimePowerReduction_mk, hcard] using hf)
+      sIntegerPrimePowerReduction_mk, hcard] using! hf)
 
 /-- Pure prime powers a>b, with the chosen generators of both full ideals.
 No multiplicativity of the generator section is imposed. -/
@@ -411,13 +412,13 @@ theorem actualFullCorrelation_equal_prime_power_formula
       (D.away_six p.val p.property) x x (Ideal.Quotient.mk _ k) hn hx hx
       (by simpa only [sIntegerPrimePowerReduction_mk] using hk)
     simp only [hcard, hratio, map_one, one_mul] at hz
-    simpa only [C, U, Q, n, x, actualPrimePowerIdeal, if_pos hk] using hz
+    simpa only [C, U, Q, n, x, actualPrimePowerIdeal, if_pos hk] using! hz
   · have hz := sIntegerSexticPrimePowerCorrelation_nonzero
       K S p.val p.property a ha D.root6 D.primitive6 D.embedding
       (D.away_six p.val p.property) x x (Ideal.Quotient.mk _ k) hn hx hx
       (by simpa only [sIntegerPrimePowerReduction_mk] using hk)
     simp only [hcard, hratio, map_one] at hz
-    simpa only [C, U, Q, n, x, actualPrimePowerIdeal, if_neg hk] using hz
+    simpa only [C, U, Q, n, x, actualPrimePowerIdeal, if_neg hk] using! hz
 
 /-- The improved equal-multiplicity bound at a unit divided frequency. -/
 theorem actualFullCorrelation_equal_unit_frequency_norm_le
