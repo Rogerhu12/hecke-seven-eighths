@@ -31,6 +31,8 @@ local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 local notation "Orbit" => SIntegerOrbits K Sset Γ
 
+-- Keep K and S explicit: the pinned Lean version can lose section dependencies
+-- hidden by local notation when re-elaborating included variables.
 variable (N : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))))
 variable (a : ℝ → ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K))) → ℂ)
 variable (ha : ∀ n ∈ N, Continuous (fun t => a t n))

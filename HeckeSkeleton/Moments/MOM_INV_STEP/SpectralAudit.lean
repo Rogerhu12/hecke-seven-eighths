@@ -1,7 +1,6 @@
 import HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMellinEnergy
 import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy
-import Mathlib.Util.PrintSorries
 
 /-!
 # Independent audit of the intermediate spectral estimates
@@ -24,10 +23,3 @@ axiom checks remain available while a downstream module is being repaired.
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstMellinEnergy.residual_rows_le_free_energy
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy.free_energy_integrable
 #print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy.residual_rows_le_free_energy
-
-set_option pp.sorrySource true
-
-#print sorries HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy.amplitude_continuous
-#print sorries HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy.amplitude_bound
-#print sorries HeckeSkeleton.Moments.MOM_INV_STEP.FirstMellinEnergy.residual_rows_le_free_energy
-#print sorries HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy.residual_rows_le_free_energy

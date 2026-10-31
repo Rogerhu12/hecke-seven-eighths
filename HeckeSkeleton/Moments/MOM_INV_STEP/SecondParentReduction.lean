@@ -15,7 +15,7 @@ namespace HeckeSkeleton.Moments.MOM_INV_STEP.SecondParentReduction
 
 open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Characters
   HeckeGeneral.Analysis HeckeGeneral.Bridge HeckeGeneral.ThetaSkeleton MeasureTheory
-open HeckeSkeleton.Moments.MOMInvStep CanonicalChildren SecondPoissonSplit
+open HeckeSkeleton.Moments.MOMInvStep FixedTripleFibers CanonicalChildren SecondPoissonSplit
 open scoped Classical BigOperators nonZeroDivisors
 
 variable (K : Type) [Field K] [NumberField K]

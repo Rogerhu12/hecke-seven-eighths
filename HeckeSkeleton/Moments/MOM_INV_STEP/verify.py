@@ -69,8 +69,14 @@ if EXPECTED_LEAN not in version or EXPECTED_COMMIT not in version:
 if configured_mathlib != EXPECTED_MATHLIB or actual_mathlib != EXPECTED_MATHLIB:
     raise SystemExit("Unexpected Mathlib revision")
 
-build_code, _ = run_logged(["lake", "build", *TARGETS], "lake-build.log")
+build_code, build_output = run_logged(["lake", "build", *TARGETS], "lake-build.log")
 errors = [] if build_code == 0 else [f"lake build exited {build_code}"]
+errors.extend(
+    line.strip()
+    for line in build_output.splitlines()
+    if "warning: HeckeSkeleton/Moments/MOM_INV_STEP/" in line
+    and "declaration uses `sorry`" in line
+)
 all_axioms = {}
 for target in TARGETS:
     if not target.endswith("Audit"):
