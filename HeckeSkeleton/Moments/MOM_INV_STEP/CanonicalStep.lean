@@ -26,7 +26,7 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalStep
 
-open NumberField IsDedekindDomain MeasureTheory
+open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree.LargeSieve
 open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Characters
   HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.MOMInvStep
@@ -238,7 +238,8 @@ theorem exists_uniform_step
       _ = _ := by ring
   constructor
   · have hmain := mul_le_mul_of_nonneg_left hroots
-      (mul_nonneg (mul_nonneg hCFirst (apply_nonneg _ _)) hAw)
+      (mul_nonneg (mul_nonneg hCFirst
+        (apply_nonneg (sFirst.sup (schwartzSeminormFamily ℝ Varch ℂ)) T.archTest)) hAw)
     have hmain' :
         (CFirst * sFirst.sup (schwartzSeminormFamily ℝ Varch ℂ) T.archTest * Aw) * B ≤
         (CFirst * CTotal) * Aw * qa * qw ^ 2 * ((Cih + 1) * Emain) := by
