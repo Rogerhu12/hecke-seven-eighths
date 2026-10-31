@@ -17,8 +17,8 @@
 |---|---:|
 | 最近选用的成功证据为精确缓存 | 76 |
 | 最近选用的成功证据为新编译 | 2 |
-| 已修改，旧失败记录不验证当前源码 | 2 |
-| 最新实际阶段跳过，尚无当前源码成功证据 | 14 |
+| 已修改，旧失败或跳过记录不验证当前源码 | 4 |
+| 最新归档实际阶段跳过，尚无当前源码成功证据 | 12 |
 
 本轮新增通过的是 `ActualSeparatedBlock` 与 `ActualFrozenStateCount`，
 分别打印五项、四项公开公理报告，均只含
@@ -40,13 +40,22 @@ actual 阶段共有 76 个成功新增模块、294 项公开公理打印；
 其中 56 个原改动收窄了 `Mathlib` 导入，另外 10 个补入官方 leaf imports。
 恢复后的静态导入图让 18 个旧文件重新经 `RayClasses.Character` 取得
 原有 `Mathlib` 路径；这支持缺失传递导入的诊断，但不是编译成功证据。
-**两个证明修复、恢复后的依赖及新配置仍等待下一轮完整 Lake 验证。**
+**恢复后的完整依赖图及新配置仍等待完整 Lake 验证。**
+
+进行中的 [第九轮 CI](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41191387620)
+检出精确提交 `6dc98c6993b60edf5ecd8c449fb697ccfe711176`。
+实时日志已记录 `ActualBlockReindex` 与 `ActualBlockEnergy` 的真实新编译成功，
+三项、两项公开公理报告分别只含三条标准公理。
+这两项原生构建观察独立于上表的历史逐模块 receipt，尚不构成完整依赖图通过。
+该轮还报告 `ActualSourceReindex` 的五处编译错误；当前源码修复了显式记录端点、
+字面项展开、不可能列条件和依赖冻结状态的传递，并在 `ActualTupleReconstruction`
+采用相同的显式端点写法。所有陈述、假设和常数保持不变，新修复仍待下一轮编译。
 
 最近完成 actual 运行的 source head 与实际 checkout 均为
 `245e1de501287489868916f4a7e4b4df0b060e2f`。
 工作分支 `codex/low-reflected-energy-ade19eee` 的本次源码快照已合并
 `dtests-handoff` 的 `5f3c782680be2c74365b4d8e5760fc16f1f222c5` 基线，
-默认 actual CI 已切换为固定官方缓存与原生 Lake，新入口仍等待完整执行。
+默认 actual CI 已切换为固定官方缓存与原生 Lake，新入口正在执行，尚无完整成功结果。
 这批基线、导入恢复及 workflow 改动不在 round 8 的执行证据范围内。
 当前修复提交由 PR 链接标识，不把待运行状态记为通过。
 

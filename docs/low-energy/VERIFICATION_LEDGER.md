@@ -8,7 +8,9 @@ The latest completed actual run is `41188282678`, job `124499578347`. It checked
 
 The two newly successful task modules are `ActualSeparatedBlock` (five clean public axiom reports) and `ActualFrozenStateCount` (four). Their reports contain only `propext`, `Classical.choice`, and `Quot.sound`. The actual phase has 76 successful task modules and 294 printed public reports; the source-matching union reaches 78 using preserved core evidence. `ActualHybridEntry` remains compilation evidence without a printed public theorem report.
 
-`ActualBlockEnergy` and `ActualBlockReindex` failed in that run. Their compiler-generated `sorryAx` reports are not successful proofs. Their subsequent proof repairs await the next run. The timeout in `ArchimedeanGaussianMellin` is a diagnostic budget interruption with no proof result.
+`ActualBlockEnergy` and `ActualBlockReindex` failed in that run. Their compiler-generated `sorryAx` reports are not successful proofs. The timeout in `ArchimedeanGaussianMellin` is a diagnostic budget interruption with no proof result.
+
+The ongoing native Lake run `41191387620`, job `124509013422`, checks exact head `6dc98c6993b60edf5ecd8c449fb697ccfe711176`. Its partial log records fresh `Built` results for `ActualBlockReindex` and `ActualBlockEnergy`, followed by three and two public reports containing only the standard three axioms. These observations are separate from the 78 archived per-module receipt successes above; no schema-2 receipt or full-graph success is inferred. The same log reports five errors in `ActualSourceReindex`. The current source repairs those applications and dependent transport, and explicitly names the record endpoints in the corresponding `ActualTupleReconstruction` proof. Both changed files still require a new compilation. The first partial log SHA-256 is `2af5bca0c61cefb0974d8403ee671ae71bde603288dcbbe7088a3d495979eb77`; the job and final audits remain unfinished at this update.
 
 The current source snapshot includes upstream base `5f3c782680be2c74365b4d8e5760fc16f1f222c5` and all 66 import-adjusted old files restored to exact upstream bytes. The [restoration audit](IMPORT_RESTORATION_20261031.json) confirms that every non-import byte is unchanged. The unused `FLTReuse.ExplicitMathlibImports` helper was removed. Restoring the broad import paths implicated in the 18 old-file failures is not compilation evidence. The new default actual lane uses the pinned official `lake-cache-76c696e` release and native Lake. No restored `HeckeSkeleton` output may supply task verification; both final theorem audits remain required.
 
@@ -99,7 +101,7 @@ All source classifications below refer to successful recorded contexts. A matchi
 | `HeckeSkeleton.LowEnergy.TargetGaussian` | `9c36836c6aa54d5e4093a70bd241debc39c9a983d32ee1e9671fc61a6cdc9461` | skipped | skipped |
 | `HeckeSkeleton.LowEnergy.TargetSieveDictionary` | `76ba1619c063dba496ec891841cd1d61f92d93d1f39c605e6a26ed8f5c0a6929` | skipped | skipped |
 | `HeckeSkeleton.LowEnergy.ActualBlockReindex` | `03b246ca9d5136a7ca69fd47f3820dea993a6b8a5a70411c5228e6406a51fc4a` | changed_since_recorded_source | failed |
-| `HeckeSkeleton.LowEnergy.ActualSourceReindex` | `c0acedfdf1431832d1042228dcb9a7e0c6046f6addf86d54b8ea7cca2e2d914b` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.ActualSourceReindex` | `1944833b583c5d51bdc5cbff4f8831c22463440b34064c82e825a21db7be3101` | skipped | changed_since_recorded_source |
 | `HeckeSkeleton.LowEnergy.ActualRowFibres` | `1759c44a943601c80a103da42945620c346fb7608d47df0cb02491b56a8742bb` | direct_exact_cache_success | direct_exact_cache_success |
 | `HeckeSkeleton.LowEnergy.ActualDyadicReflection` | `c3383936674728438f52c8024610b47e47d752059ec71f08cf378bd3715ef574` | skipped | skipped |
 | `HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial` | `bb5e86bb0bee0b24dc02e21993f90c896a32cbb096f4fbd0dfce68feebe3c409` | direct_exact_cache_success | direct_exact_cache_success |
@@ -108,7 +110,7 @@ All source classifications below refer to successful recorded contexts. A matchi
 | `HeckeSkeleton.LowEnergy.ActualFrozenAggregation` | `47370edda622bf773f41ef966a874b1dc94bc0764a9ffe44dbe28b33b3399131` | skipped | skipped |
 | `HeckeSkeleton.LowEnergy.ActualFrozenReconstruction` | `5456398c7ef6a18c4a64afaf3c1d0c9271fc1d2cdc8ffb1f928737bc105c18b7` | skipped | skipped |
 | `HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy` | `763cd3d13594e3caead07b43da22c3d0b1e49130f57ee42f3a3e6d1bf0076cdb` | skipped | skipped |
-| `HeckeSkeleton.LowEnergy.ActualTupleReconstruction` | `fddcae0c3187ba1097e93970803a7e3583b06abe14c023a5a0dd7c1df578d22f` | skipped | skipped |
+| `HeckeSkeleton.LowEnergy.ActualTupleReconstruction` | `eeda038e03c75b9eaf55c6f551b19bf8fae424b0ffaf49d2782c5378188643eb` | skipped | changed_since_recorded_source |
 | `HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy` | `e3643acb6ed48c2510c739099cbfbca58f4ffb79137801f09d6bb9f072f5ca49` | skipped | skipped |
 | `HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy` | `aff5da5ca4eb82f4d6a43b284159354b3bb85220959cee5d46ad4967131de103` | skipped | skipped |
 | `HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy` | `6b17122916d248f46bf750637b7de135dbaacd7662e97ce43ab280ee59481b84` | skipped | skipped |

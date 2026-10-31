@@ -21776,8 +21776,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualSourceReindex",
       "path": "HeckeSkeleton/LowEnergy/ActualSourceReindex.lean",
-      "source_sha256": "c0acedfdf1431832d1042228dcb9a7e0c6046f6addf86d54b8ea7cca2e2d914b",
-      "bytes": 15060,
+      "source_sha256": "1944833b583c5d51bdc5cbff4f8831c22463440b34064c82e825a21db7be3101",
+      "bytes": 15532,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": [],
@@ -21859,14 +21859,14 @@
         }
       ],
       "current_verification": {
-        "assessment": "skipped",
+        "assessment": "changed_since_recorded_source",
         "checked_exact_source": false,
         "latest_supplied_attempt": {
           "run_key": "41188282678:actual:13038675514",
           "record_kind": "skipped",
           "recorded_source_sha256": "c0acedfdf1431832d1042228dcb9a7e0c6046f6addf86d54b8ea7cca2e2d914b",
-          "current_source_sha256": "c0acedfdf1431832d1042228dcb9a7e0c6046f6addf86d54b8ea7cca2e2d914b",
-          "source_matches": true,
+          "current_source_sha256": "1944833b583c5d51bdc5cbff4f8831c22463440b34064c82e825a21db7be3101",
+          "source_matches": false,
           "log_hash_matches": true,
           "direct_context_matches": null,
           "native_reference_matches": null,
@@ -23131,8 +23131,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction",
       "path": "HeckeSkeleton/LowEnergy/ActualTupleReconstruction.lean",
-      "source_sha256": "fddcae0c3187ba1097e93970803a7e3583b06abe14c023a5a0dd7c1df578d22f",
-      "bytes": 34651,
+      "source_sha256": "eeda038e03c75b9eaf55c6f551b19bf8fae424b0ffaf49d2782c5378188643eb",
+      "bytes": 34878,
       "status": "NOT_CHECKED_EXACT_SOURCE",
       "forbidden_tokens": [],
       "builds": [],
@@ -23214,14 +23214,14 @@
         }
       ],
       "current_verification": {
-        "assessment": "skipped",
+        "assessment": "changed_since_recorded_source",
         "checked_exact_source": false,
         "latest_supplied_attempt": {
           "run_key": "41188282678:actual:13038675514",
           "record_kind": "skipped",
           "recorded_source_sha256": "fddcae0c3187ba1097e93970803a7e3583b06abe14c023a5a0dd7c1df578d22f",
-          "current_source_sha256": "fddcae0c3187ba1097e93970803a7e3583b06abe14c023a5a0dd7c1df578d22f",
-          "source_matches": true,
+          "current_source_sha256": "eeda038e03c75b9eaf55c6f551b19bf8fae424b0ffaf49d2782c5378188643eb",
+          "source_matches": false,
           "log_hash_matches": true,
           "direct_context_matches": null,
           "native_reference_matches": null,
@@ -23830,7 +23830,7 @@
     }
   ],
   "verification_refresh": {
-    "generated_at": "2026-10-31T09:58:22.369493+00:00",
+    "generated_at": "2026-10-31T10:26:19.090021+00:00",
     "aggregate_evidence": "docs/low-energy/aggregate_evidence.json",
     "supplied_run_keys": [
       "41167618537:actual:13030181239",
@@ -23844,13 +23844,36 @@
     "assessments": {
       "direct_exact_cache_success": 76,
       "direct_compiled_success": 2,
-      "changed_since_recorded_source": 2,
-      "skipped": 14
+      "changed_since_recorded_source": 4,
+      "skipped": 12
     },
     "current_full_dependency_graph_verified": false,
     "latest_completed_actual_head": "245e1de501287489868916f4a7e4b4df0b060e2f",
     "integrated_base_pending_validation": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
-    "policy": "Preserve historical builds, raw records/logs, invalidations, and original native provenance. Source matching is scoped to recorded contexts; native reuse never counts as a new-source pass. The new merged Lake configuration has no completed final-gate evidence."
+    "policy": "Preserve historical builds, raw records/logs, invalidations, and original native provenance. Source matching is scoped to recorded contexts; native reuse never counts as a new-source pass. The new merged Lake configuration has no completed final-gate evidence.",
+    "pending_proof_repairs": {
+      "source_ci_head": "6dc98c6993b60edf5ecd8c449fb697ccfe711176",
+      "run_id": 41191387620,
+      "job_id": 124509013422,
+      "current_ci_status": "running_with_reported_SourceReindex_errors",
+      "source_changes": [
+        {
+          "module": "HeckeSkeleton.LowEnergy.ActualSourceReindex",
+          "path": "HeckeSkeleton/LowEnergy/ActualSourceReindex.lean",
+          "previous_source_sha256": "c0acedfdf1431832d1042228dcb9a7e0c6046f6addf86d54b8ea7cca2e2d914b",
+          "source_sha256": "1944833b583c5d51bdc5cbff4f8831c22463440b34064c82e825a21db7be3101",
+          "bytes": 15532
+        },
+        {
+          "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction",
+          "path": "HeckeSkeleton/LowEnergy/ActualTupleReconstruction.lean",
+          "previous_source_sha256": "fddcae0c3187ba1097e93970803a7e3583b06abe14c023a5a0dd7c1df578d22f",
+          "source_sha256": "eeda038e03c75b9eaf55c6f551b19bf8fae424b0ffaf49d2782c5378188643eb",
+          "bytes": 34878
+        }
+      ],
+      "scope": "No new successful module receipt is created. Prior raw records and historical refreshes are preserved. Full native Lake build and final target audits remain pending."
+    }
   },
   "verification_refresh_history": [
     {
@@ -23871,6 +23894,29 @@
         "skipped": 16
       },
       "policy": "Existing builds, remote_evidence, invalidation notes, and prior run entries are preserved. Native old-dependency records never count as new-source successes."
+    },
+    {
+      "generated_at": "2026-10-31T09:58:22.369493+00:00",
+      "aggregate_evidence": "docs/low-energy/aggregate_evidence.json",
+      "supplied_run_keys": [
+        "41167618537:actual:13030181239",
+        "41169613835:core:13030830729",
+        "41169613835:actual:13030109450",
+        "41171430364:actual:13031561006",
+        "41188282678:actual:13038675514"
+      ],
+      "checked_exact_source": 78,
+      "not_checked_exact_source": 16,
+      "assessments": {
+        "direct_exact_cache_success": 76,
+        "direct_compiled_success": 2,
+        "changed_since_recorded_source": 2,
+        "skipped": 14
+      },
+      "current_full_dependency_graph_verified": false,
+      "latest_completed_actual_head": "245e1de501287489868916f4a7e4b4df0b060e2f",
+      "integrated_base_pending_validation": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+      "policy": "Preserve historical builds, raw records/logs, invalidations, and original native provenance. Source matching is scoped to recorded contexts; native reuse never counts as a new-source pass. The new merged Lake configuration has no completed final-gate evidence."
     }
   ]
 }
