@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalRelativeBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityRelativeScalar
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationPadding
 
 /-!
 # Both original divisor and finite-phase weights on an exceptional leaf
@@ -167,14 +168,23 @@ theorem exceptional_original_label_from_atoms
         (q + R₀ + E₀ + wo + t₂ + V₀) + (b₂ - p₂ + w + Bcommon + ell)) -
       (secondCommonChildWidth Z (Aexp - c - w) (q + R₀ + E₀) wo K g
           W.leftIdeal W.rightIdeal W.unitIdeal.val W.nonunitIdeal.val +
-        secondCommonChildAllowance Z w Bcommon ell W.leftIdeal W.rightIdeal) ≤ widthError)    {branch : TwoDivisorCommonBranch (K := F)} (j : branch.Index)
+        secondCommonChildAllowance Z w Bcommon ell W.leftIdeal W.rightIdeal) ≤ widthError)
+    {branch : TwoDivisorCommonBranch (K := F)} (j : branch.Index)
     (S : Ideal (𝓞 F)) (hSindex : S = j.2.1.val)
     (hleftIdeal : W.leftIdeal = j.2.2.1.val.1.1)
     (hrightIdeal : W.rightIdeal = j.2.2.1.val.1.2)
     (hleftDivisor : left.allocation.divisor = j.2.2.2.1.val)
     (hrightDivisor : right.allocation.divisor = j.2.2.2.1.val)
-    (hleftAllocation : HEq left.allocation.selection j.2.2.2.2.1.val)
-    (hrightAllocation : HEq right.allocation.selection j.2.2.2.2.2.val)
+    (hleftOccurrences : k + 2 ≤ branch.leftOccurrences
+      j.1.val j.2.1.val j.2.2.1.val j.2.2.2.1.val)
+    (hrightOccurrences : l + 2 ≤ branch.rightOccurrences
+      j.1.val j.2.1.val j.2.2.1.val j.2.2.2.1.val)
+    (hleftAllocation : HEq
+      (AllocationMass.padSelection hleftOccurrences left.allocation.selection)
+      j.2.2.2.2.1.val)
+    (hrightAllocation : HEq
+      (AllocationMass.padSelection hrightOccurrences right.allocation.selection)
+      j.2.2.2.2.2.val)
     {Ray₁ : Type*} [CommGroup Ray₁] [Fintype Ray₁]
     (phase₁ : Ray₁ × Ray₁ → Circle) (χ₁ : (Ray₁ × Ray₁) →* Circle)
     (phase₂ : Ray × Ray → Circle)

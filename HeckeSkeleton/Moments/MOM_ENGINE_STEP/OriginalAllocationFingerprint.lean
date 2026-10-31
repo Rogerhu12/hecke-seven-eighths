@@ -43,6 +43,16 @@ def hybridAllocationFingerprint (hk : k ≤ cap) (hl : l ≤ cap)
     AllocationMass.idealPad b.1.val (Nat.add_le_add_right hk 2) b.2.2.1,
     AllocationMass.idealPad b.1.val (Nat.add_le_add_right hl 2) b.2.2.2⟩
 
+@[simp] theorem hybridAllocationFingerprint_left_selection (hk : k ≤ cap) (hl : l ≤ cap)
+    (b : HybridAllocationLabel T₁ T₂ T rightIdeals k γ) :
+    AllocationMass.padSelection (Nat.add_le_add_right hk 2) b.2.2.1.val =
+      (hybridAllocationFingerprint hk hl b).2.1.val := rfl
+
+@[simp] theorem hybridAllocationFingerprint_right_selection (hk : k ≤ cap) (hl : l ≤ cap)
+    (b : HybridAllocationLabel T₁ T₂ T rightIdeals k γ) :
+    AllocationMass.padSelection (Nat.add_le_add_right hl 2) b.2.2.2.val =
+      (hybridAllocationFingerprint hk hl b).2.2.val := rfl
+
 /-- This is an injection of the actual finite divisor/phase/allocation
 carrier, including empty prime supports and the two plain occurrences. -/
 theorem hybridAllocationFingerprint_injective (hk : k ≤ cap) (hl : l ≤ cap) :

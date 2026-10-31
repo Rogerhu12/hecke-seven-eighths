@@ -24,6 +24,12 @@ def finInclusion {m n : ℕ} (h : m ≤ n) : Fin m ↪ Fin n where
     intro i j hij
     exact Fin.ext (congrArg (fun z : Fin n => z.val) hij)
 
+/-- The literal occurrence map, also available before a nonempty
+allocation is packaged as a subtype. -/
+def padSelection {ι : Type*} {m n : ℕ} (h : m ≤ n)
+    (a : ι → Finset (Fin m)) : ι → Finset (Fin n) :=
+  fun p => (a p).map (finInclusion h)
+
 def pad {ι : Type*} (P : Finset ι) {m n : ℕ} (h : m ≤ n)
     (a : allocations P m) : allocations P n :=
   ⟨fun p => (a.val p).map (finInclusion h), by
@@ -59,6 +65,10 @@ variable {K : Type} [Field K] [NumberField K]
 is embedded into the earlier fixed cap. -/
 def idealPad (D : Ideal (𝓞 K)) {m n : ℕ} (h : m ≤ n) :
     idealAllocations D m → idealAllocations D n := pad (primeSupport D) h
+
+@[simp] theorem idealPad_selection (D : Ideal (𝓞 K)) {m n : ℕ} (h : m ≤ n)
+    (a : idealAllocations D m) :
+    (idealPad D h a).val = padSelection h a.val := rfl
 
 theorem idealPad_injective (D : Ideal (𝓞 K)) {m n : ℕ} (h : m ≤ n) :
     Function.Injective (idealPad D h) := pad_injective (primeSupport D) h
