@@ -20,7 +20,7 @@
 
 `physicalRecipeExpansion_geometry` 给统一 `MomentGeometry 22`，包括无选中行的标签；实参数范围为 8，虚参数为 `1+||heights||`，原高度锚不变。`exists_physical_recipe_parameters` 先选检测宽度、标签宽度、ceiling 与计数常数，再允许选择 tau 和尺度。新增独立正 cap 令内部 e 同时服从两项外部损失；通过同一 WitnessCover 的 loss 单调性放宽到 lamA，原壳层上端仍由 lamA 控制。没有因 lamB 很小而错误缩短壳层。
 
-这些 actual 配方源码还须通过当前 native build，并与原 `expansionRecipeRaw` 项最终识别。
+同一参数项现已填入原 `expansionRecipeRaw`，其 `MomentGeometry 22` 也已在原名上给出；这些新源码仍须通过 native build 和传递公理检查。
 
 ## 物理 Poisson 与初始 Mellin 链
 
@@ -71,10 +71,16 @@
 
 下一轮保留完整 source manifest 与传递公理检查，将原 actual 审计任务按 arithmetic、physical、contours 三组分配；每个模块恰归一组，所有原 imports 仍由 Lake 构建。pure 与 skeleton 各保留独立任务，skeleton 中的共享 SourceData 严格 gate 不变。拆组仅用于缩短反馈时间，未删除声明、放宽公理白名单或改变验收标准。
 
-## 完成标准尚需接通的部分
+## 原始接口已经写成，完整验证仍未完成
 
-1. 把同一真实参数选择、原四分量和上述真实尾填回 `Base.expansionRecipeRaw`，并提供该项的 `MomentGeometry 22`。
-2. 接通原物理 probe 恒等式、主行/小行/大行三项目标，以及由同一 schedule 得出的 blocks 和 count；统一 A、ceiling、k、Z0。
-3. 将原 hmove 的 whole-bin boundary 作为同一 tail 的一项，完成真实原始 EX-TAIL，不改变它的量词。
-4. 与 #7 识别同一 raw recipe 的 actualHighPresentation 与每个实际标签 piece；不以任意可加分块替代。
-5. 全部原名编译、公理检查连同类型依赖只含标准三条，更新精确验证记录与 PR 说明，再标为 ready for review。
+`Base.expansionRecipeRaw` 已由 `actualPhysicalRecipe` 实例化，选用同一 arithmetic choice、原 self-dual measure、同一 probe test 与实际 Euler provider。`expansionPhysicalParameters` 先于 tau 选定 e、width、ceiling、k；`expansionRecipeRaw_geometry` 给该原名对象的 `MomentGeometry 22`。`expansionBudget / CutoffsRaw / Cutoffs` 由已经写出的实际保留项界和 detector threshold 选择。
+
+原 `expansion_identity / principal / small / large / blockCount / blocks / tail / expansionSource` 的证明体均已补齐。`ActualRecipeIdentity` 从实际初始三变量积分、唯一主行、small/moderate/large 精确分拆及 active/raw 有限重索引给原恒等式。保留项使用同一共同常数和次数，未引入目标估计作为假设。
+
+尾是六个字面项：principal tail、nonprincipal initial complement、small horizontal faces、large horizontal faces、moderate initial horizontal faces、whole-bin boundary。主行盒外补项只计一次；`ActualPresentationBoundary` 证明原 actual presentation 的 whole-bin difference 与第六项在原 guard 下逐项相等，EXTAIL 只消费原有 `HighBoundaryControl`。
+
+原 `actualHighPresentation` 的数据构造来自同一 raw recipe，包括每个实际 fixedRows、bin、height 和标签 piece。piece 是原 movingPiece 在实际物理高度盒上的积分；已使用实际有限高度 reciprocal 和完整核可积性推出分片求和恒等式。其他 HB 分析义务仍属于 #7。
+
+`1c9f422` / run `41194677568` 的五组均完成失败，原始编译日志和 artifact SHA-256 已读取验证。这一批按原生日志修复 Fourier 的实际零值与变量捕获、有限三变量轮廓映射、detector 的原 filter 实例、删除 Euler region、Mellin product measure、实际 zeta residue/log derivative 和 radial normalization 等根错误。没有从失败 elaboration 的 `#print axioms` 推断成功。
+
+验证脚本现在除全量 pure/actual 严格审计及共享 SourceData 严格审计外，还对 **15 个原名目标**单独调用 `collectAxioms`，包含类型依赖；任何非标准公理都会让任务失败。新原名证明尚未通过这一 gate。剩余完成标准是：修复全部真实编译错误，让所有组及原名/SourceData 严格 gate 通过，记录精确源码与公理证据，然后将 PR 标为可审查。

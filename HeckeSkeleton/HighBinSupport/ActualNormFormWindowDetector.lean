@@ -18,6 +18,7 @@ namespace HighBinVerified.NormFormActual
 
 open NumberField IsDedekindDomain MeasureTheory Complex Set
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open NormFormMellin NormFormPrimeDetector
 open scoped Classical BigOperators
@@ -147,8 +148,10 @@ theorem exists_actual_primeWindow_detector_error (g : PrimeWindowGeometry)
       rw [Real.mul_rpow (by norm_num : (0 : ℝ) ≤ 2) hP0.le]
       dsimp only [A]
       ring
-    _ ≤ A * (primeScale g Z) ^ delta + D * (primeScale g Z) ^ delta :=
-      add_le_add_left (by simpa only [mul_one] using mul_le_mul_of_nonneg_left hpow hD) _
+    _ ≤ A * (primeScale g Z) ^ delta + D * (primeScale g Z) ^ delta := by
+      have hDpow : D ≤ D * (primeScale g Z) ^ delta := by
+        simpa only [mul_one] using mul_le_mul_of_nonneg_left hpow hD
+      exact add_le_add le_rfl hDpow
     _ ≤ (A + D + 1) * (primeScale g Z) ^ delta := by
       nlinarith
 

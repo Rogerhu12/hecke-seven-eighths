@@ -102,8 +102,8 @@ variable (hbound : ∀ χ r, r ∈ heckePacketZeros K ω χ →
 def physicalRecipeRows (ζ Z T : ℝ) (j : Fin (shellCount Z (1 / 16) (13 / 16 + ζ)))
     (c : PhysicalRecipeChoice K S B e) : Finset (FrequencyRow K S) :=
   (clippedSelectedPhysicalRows K S ω ψ {1} P E hψ (physicalRecipe_trivial_twists K)
-    hB0 hB he hbound (Z ^ shellExponent Z (1 / 16) j.val) (Z ^ (13 / 16 + ζ)) T c.1).
-      filter fun u => u.sector = c.2
+    hB0 hB he hbound (Z ^ shellExponent Z (1 / 16) j.val) (Z ^ (13 / 16 + ζ)) T c.1).filter
+      fun u => u.sector = c.2
 
 /-- The selector supplies the original zero predicates on exactly these
 rows; the height index is the first buffer coordinate plus one. -/

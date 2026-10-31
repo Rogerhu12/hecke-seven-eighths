@@ -190,17 +190,23 @@ theorem canonicalAmplitudeRecipe_witnessCover
   have hrows : A.rows U = rows := canonicalAmplitudeRecipe_rows K ψ g slotTime slotPower
     slotCoefficient S rows sector p amplitude C U lam choice β ν
     (zero_lt_one.trans hU).le hnorm hsector
+  have hmem (j : Fin (A.witnessCount t)) (u : FrequencyRow K S) :
+      u ∈ (((A.toAmplitude (P := P) (R := E.rows) (ω := ω) Z T U).subdivision t j).rows) ↔
+        u ∈ A.rows U ∧ A.witnessChoice t u = j := by
+    simp only [RecipeAmplitudeData.toAmplitude, RecipeWitnessData.toWitness, Finset.mem_filter]
   refine ⟨hcount, ?_, ?_⟩
   · intro u hu
     refine ⟨encodeTerminalLabel U (choice t u), ?_⟩
-    exact Finset.mem_filter.mpr ⟨hu, rfl⟩
+    exact (hmem _ u).mpr ⟨hu, rfl⟩
   · intro j
     let l := (encodeTerminalLabel U).symm j
     have hlens := terminalLabel_lengths U t lam ht hlam l
-    refine ⟨Finset.filter_subset _ _, hlens.1, hlens.2.1, hlens.2.2.1,
+    refine ⟨?_, hlens.1, hlens.2.1, hlens.2.2.1,
       hlens.2.2.2, ?_, ?_⟩
     · intro u hu
-      obtain ⟨hur, heq⟩ := Finset.mem_filter.mp hu
+      exact ((hmem j u).mp hu).1
+    · intro u hu
+      obtain ⟨hur, heq⟩ := (hmem j u).mp hu
       have hur' : u ∈ rows := hrows ▸ hur
       have hl : choice t u = l := by
         apply (encodeTerminalLabel U).injective
@@ -219,7 +225,7 @@ theorem canonicalAmplitudeRecipe_witnessCover
           (β t) (ν t) u hU (Nat.le_of_lt_succ l.2.1.isLt)]
       simpa only [terminalLabelInverseLength, if_pos hlvalid] using hinverse
     · intro u hu
-      obtain ⟨hur, heq⟩ := Finset.mem_filter.mp hu
+      obtain ⟨hur, heq⟩ := (hmem j u).mp hu
       have hur' : u ∈ rows := hrows ▸ hur
       have hl : choice t u = l := by
         apply (encodeTerminalLabel U).injective

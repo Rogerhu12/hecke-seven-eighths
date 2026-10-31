@@ -93,7 +93,7 @@ theorem initialRowEulerTerm_finite_product (P : ProbeData K S)
       (∀ p ∈ Q, 0 < (e p).1.1 + 3 * (e p).1.2) := by
     simp only [fourIdealOfPrimeExponents, primeExponents_exteriorIdealOfPrimeExponents,
       Finsupp.mapRange_apply]
-  rw [hmask]
+  simp only [hmask]
   by_cases hQ : ∀ p ∈ Q, 0 < (e p).1.1 + 3 * (e p).1.2
   · rw [if_pos hQ, initialRowEulerTerm_empty_finite_product K S P hP]
     unfold HighBin.PrimeBlockEuler.weight HighBin.PrimeBlockEuler.finiteWeight

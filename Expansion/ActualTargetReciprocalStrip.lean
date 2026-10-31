@@ -17,6 +17,7 @@ namespace Expansion.Project
 
 open NumberField IsDedekindDomain Set
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.Bridge
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.ExplicitHeckeFunctionalEquation
@@ -75,7 +76,7 @@ theorem differentiableOn_actual_target_reciprocal
         have : B < s.re := hs
         linarith))
   simpa only [heckeDeletedContinuation, mul_inv] using
-    (hdel.mul hfull).differentiableWithinAt
+    (hdel.fun_mul hfull).differentiableWithinAt
 
 /-- The pole-cleared norm branch is controlled on the complete principal
 strip, including every bounded exceptional point. -/
@@ -117,7 +118,8 @@ theorem exists_actual_normTwist_strip_reciprocal_bound
     (show {z : ℂ | a + 2 * kappa < z.re ∧ |z.im| ≤ HU} ⊆ {z : ℂ | 0 < z.re} from by
       intro z hz
       rw [hab] at hz
-      linarith [hz.1])
+      change 0 < z.re
+      exact (show 0 < B by linarith).trans hz.1)
   have hz : ∀ z : ℂ, a + 2 * kappa < z.re → |z.im| ≤ HU →
       normPoleRegularization K t z ≠ 0 := by
     intro z hz hh

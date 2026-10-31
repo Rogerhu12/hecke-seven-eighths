@@ -99,6 +99,11 @@ private theorem complex_large_moment_envelope_le
 local instance : MeasurableSpace Wˣ := borel _
 local instance : BorelSpace Wˣ := ⟨rfl⟩
 
+local instance : SecondCountableTopology (mixedEmbedding.mixedSpace K)ˣ := by
+  letI : SecondCountableTopology (mixedEmbedding.mixedSpace K)ᵐᵒᵖ :=
+    MulOpposite.opHomeomorph.symm.secondCountableTopology
+  exact Units.isEmbedding_embedProduct.secondCountableTopology
+
 /-- Integrability for an arbitrary actual archimedean Schwartz test on
 every real line at least one.  The norm weight is the original mixed norm. -/
 theorem integrable_mixed_large_positive_moment [IsTotallyComplex K]
@@ -150,6 +155,9 @@ local notation "G" => sLocalMultiplicativeGroup K Sset
 
 local instance (p : Sset) : MeasurableSpace (p.val.adicCompletion K)ˣ := borel _
 local instance (p : Sset) : BorelSpace (p.val.adicCompletion K)ˣ := ⟨rfl⟩
+
+local instance (p : Sset) : SecondCountableTopology (p.val.adicCompletion K)ˣ :=
+  Units.isEmbedding_val₀.secondCountableTopology
 
 variable [∀ p : HeightOneSpectrum (𝓞 K), MeasurableSpace (p.adicCompletion K)]
 variable [∀ p : HeightOneSpectrum (𝓞 K), BorelSpace (p.adicCompletion K)]

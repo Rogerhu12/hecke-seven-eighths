@@ -5,6 +5,7 @@ import HeckeGeneral.Analysis.BufferedPhysicalRowBin
 import HeckeGeneral.Analysis.RowEulerNegativeStrip
 import HeckeGeneral.Characters.LocalConductor
 import ExpansionInterfaces.BufferedHeights
+import Expansion.ActualPhysicalRecipePresentation
 
 /-!
 Top-down obligations for revised Proposition 6.3(ii), printed pp.41–42,
@@ -201,15 +202,154 @@ theorem rows_in_bin (P : ActualHighPresentation K c)
 
 end ActualHighPresentation
 
--- OBLIGATION HB-PRESENT | revised Prop.6.3, pp.41–42; §7.1 pp.43–44.
--- Refine D-EXPANSION with the FINAL fixed-bin integral, actual full-correction
--- label pieces and actual amplitude means. No estimate may be supplied here.
--- Original-minus-final fixed-bin differences belong to the expansion tail,
--- before amplitude labels are introduced; they are not shifted labelwise.
--- Existing verified work: BufferedPhysicalRowBin:24–87 and PhysicalProbeContours:
--- 76–108 define the right objects, but do not construct these identifications.
-def actualHighPresentation (c : TargetContext K) : ActualHighPresentation K c := by
-  sorry
+section PhysicalPresentationConstructor
+
+open Expansion.Project ExpansionInterfaces
+open HeckeGeneral.ThetaSkeleton.Global
+
+attribute [local instance] Expansion.ActualProbeContext.localCompletionSpace
+  Expansion.ActualProbeContext.localCompletionBorel
+  Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
+  Expansion.ActualProbeContext.finiteAdeleSpace
+  Expansion.ActualProbeContext.finiteAdeleBorel
+  Expansion.ActualProbeContext.finiteAdeleMeasure_isAddHaar
+
+variable (c : TargetContext K)
+
+local instance actualPresentation_sectorFintype :
+    Fintype (SixthUnitClasses K (places K c)) := Fintype.ofFinite _
+
+local notation "q" => expansionPhysicalParameters K c
+local notation "Eactual" => HighBinActualEuler.arithmeticHighEulerData K (places K c)
+  (probeData K c) (targetCharacter K c)
+
+/-- Decode the original raw block index; no second shell choice is made. -/
+def expansionScheduledShell (Z T : ℝ) (b : HighBlockIndex K c Z T) :
+    Fin (shellCount Z (1 / 16) (13 / 16 + expansionShellAllowance K c)) :=
+  physicalRecipeShellIndex K (places K c) c.family.B q.e (expansionShellAllowance K c) Z
+    ((expansionRecipeRaw K c).rawBlockIndex Z T b)
+
+/-- The buffered height/bin and sector of that same raw block. -/
+def expansionScheduledChoice (Z T : ℝ) (b : HighBlockIndex K c Z T) :
+    PhysicalRecipeChoice K (places K c) c.family.B q.e :=
+  physicalRecipeChoice K (places K c) c.family.B q.e (expansionShellAllowance K c) Z
+    ((expansionRecipeRaw K c).rawBlockIndex Z T b)
+
+/-- The actual clipped, selected arithmetic rows of the original block. -/
+def expansionFixedRows (Z T : ℝ) (b : HighBlockIndex K c Z T) : Finset (HighRow K c) :=
+  physicalRecipeRows K (places K c) (probeData K c) Eactual c.family.omega
+    (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
+    c.family.B_upper q.e_pos c.family.boundary (expansionShellAllowance K c) Z T
+    (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
+
+/-- Exactly the original amplitude alphabet inside the fixed finite one. -/
+def expansionRetainedLabels (Z T : ℝ) (b : HighBlockIndex K c Z T) :
+    Finset (HighLabel K c Z T b) :=
+  physicalRecipeRetainedLabels K (places K c) (expansionBoundary_lower K c)
+    c.family.B_upper q.e_pos c.geometry q.width q.width_pos
+    (expansionScheduledChoice K c Z T b)
+
+/-- The genuine finite-pattern transport of the original compensated kernel. -/
+def expansionShiftedPiece (Z T : ℝ) (b : HighBlockIndex K c Z T)
+    (l : HighLabel K c Z T b) (u : HighRow K c) : ℂ :=
+  physicalRecipeShiftedPiece K (places K c) (probeData K c) Eactual c.family.omega
+    (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
+    c.family.B_upper q.e_pos c.family.boundary c.geometry (probeMeasures K c).haar ∅
+    c.family.lamA (expansionShellAllowance K c) q.width q.k q.width_pos Z T
+    (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b) l u
+
+theorem expansionScheduled_scale (Z T : ℝ) (b : HighBlockIndex K c Z T) :
+    1 < Z ∧ 0 ≤ T := by
+  have hs := highExpansion_scale_of_block K c Z T b
+  exact ⟨(by norm_num : (1 : ℝ) < 2 ^ (16 : ℕ)).trans_le hs.1,
+    zero_le_one.trans hs.2⟩
+
+theorem expansionScheduled_bin (Z T : ℝ) (b : HighBlockIndex K c Z T) :
+    (((targetData K c).expansion Z T).block b).bin =
+      (expansionScheduledChoice K c Z T b).1.center :=
+  physicalRecipeScheduledBlock_bin K (places K c) (probeData K c) Eactual c.family.omega
+    (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
+    c.family.B_upper q.e_pos c.family.boundary c.geometry (probeMeasures K c).haar ∅
+    c.family.lamA (expansionShellAllowance K c) q.width q.k q.width_pos Z T
+    (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
+
+theorem expansionScheduled_shell (Z T : ℝ) (b : HighBlockIndex K c Z T) :
+    (((targetData K c).expansion Z T).block b).shell =
+      shellExponent Z (1 / 16) (expansionScheduledShell K c Z T b).val := rfl
+
+-- HB-PRESENT | revised Prop.6.3, pp.41–42; §7.1 pp.43–44.
+-- Every field is read from the original physical recipe.  Its transported
+-- pieces integrate the actual kernel, including on the default source
+-- branch.  Original-minus-final fixed-bin boundaries are handled before
+-- the amplitude partition, in the actual expansion tail.
+def actualHighPresentation : ActualHighPresentation K c := by
+  letI : IsTotallyComplex K := Expansion.ActualProbeContext.totallyComplex K (axiomChoice K c)
+  have hAllowed : AllowedGeneratorInput K (places K c) (probeData K c).arithmetic :=
+    Expansion.ActualProbeContext.allowedGenerators K (axiomChoice K c)
+  refine
+    { e := q.e
+      e_pos := q.e_pos
+      e_small := expansionPhysicalParameters_e_losses K c
+      euler := Eactual
+      companions := {1}
+      heightCount := physicalRecipeHeightBound c.family.B q.e
+      heightIndex := fun Z T b => physicalRecipePresentationHeightIndex K (places K c)
+        c.family.B q.e (expansionScheduledChoice K c Z T b)
+      fixedRows := expansionFixedRows K c
+      labels := expansionRetainedLabels K c
+      shiftedPiece := expansionShiftedPiece K c
+      bin_range := ?_
+      fixedRows_in_bin := ?_
+      rows_in_fixedRows := ?_
+      block_identification := ?_
+      shifted_identification := ?_ }
+  · intro Z T _hZ _hT b
+    exact physicalRecipeScheduledBlock_bin_range K (places K c) (probeData K c) Eactual
+      c.family.omega (targetCharacter K c) (representative K c).val.property
+      (expansionBoundary_lower K c) c.family.B_upper q.e_pos c.family.boundary
+      c.geometry (probeMeasures K c).haar ∅ c.family.lamA (expansionShellAllowance K c)
+      q.width q.k q.width_pos Z T
+      (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
+  · intro Z T _hZ _hT b
+    rw [expansionScheduled_bin, expansionScheduled_shell]
+    exact physicalRecipeRows_in_bin K (places K c) (probeData K c) Eactual c.family.omega
+      (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
+      c.family.B_upper q.e_pos c.family.boundary (expansionShellAllowance K c) Z T
+      (expansionScheduled_scale K c Z T b).1
+      (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
+  · intro Z T _hZ _hT b l
+    exact physicalRecipeScheduledBlock_rows_subset K (places K c) (probeData K c)
+      c.family.omega (targetCharacter K c) c.geometry Eactual
+      (representative K c).val.property (expansionBoundary_lower K c) c.family.B_upper
+      q.e_pos c.family.boundary (probeMeasures K c).haar ∅ c.family.lamA
+      (expansionShellAllowance K c) q.width q.k q.width_pos Z T
+      (expansionScheduled_scale K c Z T b).1 (expansionScheduled_scale K c Z T b).2
+      (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b) l
+  · intro Z T _hZ _hT b
+    exact actual_physicalRecipeScheduledBlock_identification K (excludedPlaces K c)
+      (Expansion.ActualProbeContext.allLocalMeasures K)
+      (Expansion.ActualProbeContext.finiteAdeleMeasure K) (probeData K c) c.family.omega
+      (targetCharacter K c) hAllowed c.geometry ∅ (representative K c).val.property
+      (expansionBoundary_lower K c) c.family.B_upper q.e_pos
+      (expansionPhysicalParameters_e_sweep K c) c.family.boundary c.family.lamA
+      (expansionShellAllowance K c) q.width q.k q.width_pos Z T
+      (expansionScheduled_scale K c Z T b).1 (expansionScheduled_scale K c Z T b).2
+      (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
+  · intro Z T _hZ _hT b
+    rw [expansionScheduled_bin]
+    exact actual_physicalRecipeShiftedPiece_sum K (excludedPlaces K c)
+      (Expansion.ActualProbeContext.allLocalMeasures K)
+      (Expansion.ActualProbeContext.finiteAdeleMeasure K) (probeData K c) c.family.omega
+      (targetCharacter K c) hAllowed c.geometry ∅ (representative K c).val.property
+      (expansionBoundary_lower K c) c.family.B_upper q.e_pos
+      (expansionPhysicalParameters_e_sweep K c) c.family.boundary c.family.lamA
+      (expansionShellAllowance K c) q.width q.k q.width_pos Z T
+      (expansionScheduled_scale K c Z T b).1 (expansionScheduled_scale K c Z T b).2
+      (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
+
+end PhysicalPresentationConstructor
+
+#print axioms actualHighPresentation
 
 /-- The full factor at an exceptional prime uses its finite rational table;
 there is no division by a possibly zero Gauss polynomial. -/

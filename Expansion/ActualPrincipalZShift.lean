@@ -32,8 +32,8 @@ variable [∀ p : HeightOneSpectrum (𝓞 K), MeasurableSpace (p.adicCompletion 
 variable [∀ p : HeightOneSpectrum (𝓞 K), BorelSpace (p.adicCompletion K)]
 variable (mu : ∀ p : HeightOneSpectrum (𝓞 K), Measure (p.adicCompletion K))
 variable [∀ p, (mu p).IsAddHaarMeasure]
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
-variable [BorelSpace (sLocalNormOneGroup K Sset)]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 local notation "muS" => (fun p : Sset => mu p.val)
 
 def actualPrincipalZFixedScalar (P : ProbeData K Sset) (psi : HeckeCharacter K)

@@ -157,7 +157,7 @@ theorem exists_actual_outer_kernel_rapid_of_L_bounds
     simpa only [Complex.re_add_im] using hd w.re w.im hw hw'
   have hzet : ‖heckeDeletedContinuation K 1 (exceptionalPrimes K Sset) (6 * z)‖ ≤ Fz * Cl := by
     have hz2 : 2 ≤ (6 * z).re := by
-      simp only [Complex.mul_re, Complex.ofNat_re, Complex.ofNat_im, zero_mul, sub_zero]
+      simp only [Complex.mul_re, Complex.re_ofNat, Complex.im_ofNat, zero_mul, sub_zero]
       linarith
     rw [heckeDeletedContinuation, norm_mul]
     exact mul_le_mul

@@ -10,6 +10,8 @@ import HeckePort.Schedule.MomentMesh
 import ArithmeticRowCharacterInput
 import HeckeSkeleton.ExpansionModels.Core
 import ExpansionInterfaces.ParameterChoices
+import Expansion.ActualProbeContext
+import Expansion.ActualRecipeData
 
 /-! Exploratory, intentionally incomplete proof skeleton. This library is
 separate from HeckeGeneral and its verified declaration count. Every admitted
@@ -266,16 +268,90 @@ theorem targetCharacter_ne_normTwist (c : TargetContext K)
 def expansionShellAllowance (c : TargetContext K) : ℝ :=
   ExpansionInterfaces.shellAllowance c.family.lamA
 
--- OBLIGATION D-EXPANSION | revised Proposition 6.3, §7.1–7.2 (pp.41–44).
--- This is the original unfinished data construction.  Its ONE raw recipe
--- generates the expansion and every moment model.  It has no calibration,
--- spike, admissibility or energy fields.  A finite global label family and
--- the explicit shell/buffer schedule must be constructed here; downstream
--- identities do not establish this outstanding analytic construction.
+attribute [local instance] Expansion.ActualProbeContext.localCompletionSpace
+  Expansion.ActualProbeContext.localCompletionBorel
+  Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
+
+local instance expansionNormOneSpace (c : TargetContext K) :
+    MeasurableSpace (sLocalNormOneGroup K (places K c)) :=
+  (probeMeasures K c).normOneSpace
+
+local instance expansionNormOneBorel (c : TargetContext K) :
+    BorelSpace (sLocalNormOneGroup K (places K c)) :=
+  (probeMeasures K c).normOneBorel
+
+local instance expansionLocalHaar (c : TargetContext K) (p : places K c) :
+    ((probeMeasures K c).haar p).IsAddHaarMeasure :=
+  (probeMeasures K c).haar_isAddHaar p
+
+theorem expansionBoundary_lower (c : TargetContext K) : 51 / 100 ≤ c.family.B := by
+  linarith [c.family.B_lower]
+
+/-- One positive cap controls the internal displacement for both external
+losses. The retained shell allowance still depends only on lamA. -/
+def expansionInternalCap (c : TargetContext K) : ℝ :=
+  min c.family.lamA c.lamB / 1000
+
+theorem expansionInternalCap_pos (c : TargetContext K) : 0 < expansionInternalCap K c :=
+  div_pos (lt_min c.family.lamA_pos c.lamB_pos) (by norm_num)
+
+/-- The actual detector chooses its width, alphabet and height ceiling
+once, before any analytic height exponent or original scale. -/
+def expansionPhysicalParameters (c : TargetContext K) :
+    Expansion.Project.PhysicalRecipeParameters K (places K c) (probeData K c)
+      c.family.omega (targetCharacter K c) c.geometry
+      (HighBinActualEuler.arithmeticHighEulerData K (places K c) (probeData K c)
+        (targetCharacter K c))
+      (representative K c).val.property (expansionBoundary_lower K c) c.family.B_upper
+      c.family.boundary (probeMeasures K c).haar ∅ c.family.lamA
+      (expansionShellAllowance K c) (expansionInternalCap K c) :=
+  Expansion.Project.choosePhysicalRecipeParameters K (places K c) (probeData K c)
+    c.family.omega (targetCharacter K c) c.geometry
+    (HighBinActualEuler.arithmeticHighEulerData K (places K c) (probeData K c)
+      (targetCharacter K c))
+    (representative K c).val.property (expansionBoundary_lower K c) c.family.B_upper
+    c.family.boundary (probeMeasures K c).haar ∅ (isComplex_of_family K c)
+    c.family.lamA (expansionShellAllowance K c) (expansionInternalCap K c)
+    c.family.lamA_pos (by linarith [c.family.lamA_small])
+    (ExpansionInterfaces.shellAllowance_spec c.family.lamA_pos).2.2
+    (expansionInternalCap_pos K c)
+
+theorem expansionPhysicalParameters_e_losses (c : TargetContext K) :
+    (expansionPhysicalParameters K c).e ≤ min c.family.lamA c.lamB / 100 := by
+  have hcap := (expansionPhysicalParameters K c).e_cap
+  have hmin : 0 < min c.family.lamA c.lamB :=
+    lt_min c.family.lamA_pos c.lamB_pos
+  dsimp only [expansionInternalCap] at hcap
+  linarith
+
+theorem expansionPhysicalParameters_e_sweep (c : TargetContext K) :
+    (expansionPhysicalParameters K c).e ≤ 1 / 10000 := by
+  have hcap := (expansionPhysicalParameters K c).e_cap
+  dsimp only [expansionInternalCap] at hcap
+  linarith [min_le_left c.family.lamA c.lamB, c.family.lamA_small]
+
+-- D-EXPANSION | revised Proposition 6.3, §7.1–7.2 (pp.41–44).
+-- The literal four components and all scheduled shifted blocks share the
+-- same actual detector parameters. The constructor has no target estimate
+-- or assumed expansion identity as an input.
 def expansionRecipeRaw (c : TargetContext K) :
     ExpansionRecipe.RecipeExpansion K (places K c) (targetCharacter K c)
-      c.geometry (expansionShellAllowance K c) := by
-  sorry
+      c.geometry (expansionShellAllowance K c) :=
+  Expansion.Project.actualPhysicalRecipe K (excludedPlaces K c)
+    (Expansion.ActualProbeContext.allLocalMeasures K) (probeData K c)
+    c.family.omega (targetCharacter K c) c.geometry (representative K c).val.property
+    (expansionBoundary_lower K c) c.family.B_upper c.family.boundary c.family.lamA
+    (expansionShellAllowance K c) (expansionInternalCap K c) (expansionPhysicalParameters K c)
+
+/-- The original raw item itself has uniform geometry, including every
+inactive amplitude label and every empty row fiber. -/
+theorem expansionRecipeRaw_geometry (c : TargetContext K) :
+    (expansionRecipeRaw K c).MomentGeometry 22 :=
+  Expansion.Project.actualPhysicalRecipe_geometry K (excludedPlaces K c)
+    (Expansion.ActualProbeContext.allLocalMeasures K) (probeData K c)
+    c.family.omega (targetCharacter K c) c.geometry (representative K c).val.property
+    (expansionBoundary_lower K c) c.family.B_upper c.family.boundary c.family.lamA
+    (expansionShellAllowance K c) (expansionInternalCap K c) (expansionPhysicalParameters K c)
 
 /-- Actual finite-polynomial values are projections of the one raw recipe. -/
 def highExpansion (c : TargetContext K) : ℝ → ℝ →

@@ -126,7 +126,7 @@ theorem actual_deletedZeta_residue_one_sixth :
   filter_upwards [self_mem_nhdsWithin] with z hz
   have hz' : z - 1 / 6 ≠ 0 := sub_ne_zero.mpr hz
   rw [actual_deletedZeta_six_eq K S z]
-  field_simp [hz'] <;> ring
+  rw [← mul_div_assoc, mul_div_cancel_left₀ _ hz']
 
 end Expansion.Project
 

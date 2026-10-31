@@ -38,6 +38,23 @@ STRICT_SOURCE_MODULES = (
     "HeckeSkeleton.SourceData",
     "HeckeSkeleton.ExpansionModels.SourceData",
 )
+NAMED_EXPANSION_TARGETS = (
+    "HeckeSkeleton.expansionPhysicalParameters",
+    "HeckeSkeleton.expansionRecipeRaw",
+    "HeckeSkeleton.expansionRecipeRaw_geometry",
+    "HeckeSkeleton.actualHighPresentation",
+    "HeckeSkeleton.expansionBudget",
+    "HeckeSkeleton.expansionCutoffsRaw",
+    "HeckeSkeleton.expansionCutoffs",
+    "HeckeSkeleton.expansion_identity",
+    "HeckeSkeleton.expansion_principal",
+    "HeckeSkeleton.expansion_small",
+    "HeckeSkeleton.expansion_large",
+    "HeckeSkeleton.expansion_blockCount",
+    "HeckeSkeleton.expansion_blocks",
+    "HeckeSkeleton.expansion_tail",
+    "HeckeSkeleton.expansionSource",
+)
 ACTUAL_SHARDS = ("actual-arithmetic", "actual-physical", "actual-contours")
 
 
@@ -159,6 +176,27 @@ def audit_source(modules: list[str], strict: bool) -> str:
     ])
 
 
+def named_target_audit_source() -> str:
+    """The original targets, including axioms inherited through their types."""
+    return "\n".join([
+        "import HeckeSkeleton.Expansion",
+        "import Lean.Util.CollectAxioms",
+        "open Lean in",
+        "run_cmd do",
+        "  let targets : Array Name := #[" + ", ".join("`" + n for n in NAMED_EXPANSION_TARGETS) + "]",
+        "  let allowed : Array Name := #[`propext, `Classical.choice, `Quot.sound]",
+        "  for name in targets do",
+        "    let _ ← getConstInfo name",
+        "    let axioms ← collectAxioms name",
+        "    let extra := axioms.filter fun ax => !allowed.contains ax",
+        "    if !extra.isEmpty then",
+        '      throwError "EXPANSION original target has unexpected axioms: {name}: {extra}"',
+        '    logInfo m!"EXPANSION original target passed: {name}: {axioms}"',
+        '  logInfo m!"EXPANSION original target audit: {targets.size} declarations; 0 nonstandard dependencies"',
+        "",
+    ])
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--group", choices=("pure", "actual", "skeleton", *ACTUAL_SHARDS), required=True)
@@ -206,6 +244,10 @@ def main() -> None:
         strict_audit.write_text(audit_source(list(STRICT_SOURCE_MODULES), True))
         command(["lake", "env", "lean", str(strict_audit.relative_to(ROOT))],
                 OUT / "source-data-axioms.log")
+        named_audit = OUT / "original_targets_audit.lean"
+        named_audit.write_text(named_target_audit_source())
+        command(["lake", "env", "lean", str(named_audit.relative_to(ROOT))],
+                OUT / "original-targets-axioms.log")
 
 
 if __name__ == "__main__":

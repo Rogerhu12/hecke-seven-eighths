@@ -67,7 +67,7 @@ theorem primeBlockTerm_tsum_eq_markedSeries (P : ProbeData K S)
   have hV : ‖(p.val.asIdeal.absNorm : ℂ) ^ (-6 * z)‖ < 1 := by
     rw [hnorm]
     apply Real.rpow_lt_one_of_one_lt_of_neg hq
-    simp only [Complex.mul_re, Complex.neg_re, Complex.ofNat_re, Complex.ofNat_im,
+    simp only [Complex.mul_re, Complex.neg_re, Complex.re_ofNat, Complex.im_ofNat,
       neg_zero, zero_mul, sub_zero]
     linarith
   have hρ : ‖thetaPrimeCharacter K S P.arithmetic p (rowPrimeUnit K S P u p)‖ = 1 :=

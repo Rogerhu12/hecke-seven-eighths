@@ -50,7 +50,7 @@ theorem one_le_heightWeight (n : ℕ) (t : Heights) : 1 ≤ heightWeight n t := 
   have h1 : 1 ≤ (1 + |t.1|) ^ n := one_le_pow₀ (by linarith [abs_nonneg t.1])
   have h2 : 1 ≤ (1 + |t.2.1|) ^ n := one_le_pow₀ (by linarith [abs_nonneg t.2.1])
   have h3 : 1 ≤ (1 + |t.2.2|) ^ n := one_le_pow₀ (by linarith [abs_nonneg t.2.2])
-  exact one_le_mul (one_le_mul h1 h2) h3
+  exact one_le_mul_of_one_le_of_one_le (one_le_mul_of_one_le_of_one_le h1 h2) h3
 
 theorem heightWeight_add (m n : ℕ) (t : Heights) :
     heightWeight (m + n) t = heightWeight m t * heightWeight n t := by
@@ -70,7 +70,9 @@ theorem integrable_heightEnvelope : Integrable heightEnvelope := by
     convert hi using 1
     funext t
     rw [Real.norm_eq_abs, Real.rpow_neg (by positivity : 0 ≤ 1 + |t|), Real.rpow_two]
-  simpa only [heightEnvelope, Measure.volume_eq_prod, mul_assoc] using h.mul_prod (h.mul_prod h)
+  change Integrable (fun t : Heights =>
+    ((1 + |t.1|) ^ 2)⁻¹ * ((1 + |t.2.1|) ^ 2)⁻¹ * ((1 + |t.2.2|) ^ 2)⁻¹)
+  simpa only [Measure.volume_eq_prod, mul_assoc] using h.mul_prod (h.mul_prod h)
 
 theorem heightMass_nonneg : 0 ≤ heightMass := integral_nonneg heightEnvelope_nonneg
 
@@ -134,7 +136,9 @@ theorem norm_tail_integral_le {f : Heights → ℂ} (hf : AEStronglyMeasurable f
   have hM : 0 ≤ M :=
     (mul_nonneg (heightWeight_pos (n + 2) (0, 0, 0)).le (norm_nonneg _)).trans (hb (0, 0, 0))
   have hp : 0 < (1 + H) ^ n := pow_pos (by linarith) n
-  have hdom := (integrable_heightEnvelope.const_mul (M / (1 + H) ^ n)).integrableOn
+  have hdom : IntegrableOn (fun t : Heights => (M / (1 + H) ^ n) * heightEnvelope t)
+      (heightCube H)ᶜ :=
+    (integrable_heightEnvelope.const_mul (M / (1 + H) ^ n)).integrableOn
   calc
     _ ≤ ∫ t in (heightCube H)ᶜ, ‖f t‖ := norm_integral_le_integral_norm _
     _ ≤ ∫ t in (heightCube H)ᶜ, (M / (1 + H) ^ n) * heightEnvelope t :=

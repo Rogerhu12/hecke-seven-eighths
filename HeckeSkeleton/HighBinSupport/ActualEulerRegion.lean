@@ -29,6 +29,7 @@ namespace HeckeSkeleton.HighBinContinuation
 open NumberField IsDedekindDomain Set Filter
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton
+open HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical
 open HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds
 open HeckeSkeleton.HighBinActualEuler
@@ -66,6 +67,11 @@ theorem rowCorrection_multipliable_rowEulerRegion
     apply hmajor.of_norm_bounded_eventually
     filter_upwards [(rowExceptionalPrimes K S Q u).finite_toSet.compl_mem_cofinite]
       with p hp
+    have hp' : p ∉ rowExceptionalPrimes K S Q u := hp
+    have hf : f p = localRowCorrection K S P ψ (E.rows.character u) p
+        v.1 v.2.1 v.2.2 := by
+      dsimp only [f]
+      exact dif_neg hp'
     have hb := phaseRowEuler_region_bound (exteriorPrime_norm_two_le K S p) hδ.le
       (primeCoefficient K (E.rows.character u) p.val)
       (primeCoefficient K ψ p.val * conj (primeCoefficient K (E.rows.character u) p.val))
@@ -74,7 +80,7 @@ theorem rowCorrection_multipliable_rowEulerRegion
       (actualEuler_D_phase_norm K S ψ (E.rows.character u) p)
       (actualEuler_E_phase_norm K S P ψ p) hv.1.le hv.2.1.le hv.2.2.1.le
       h1 h2 h3 h4 h5
-    simpa only [f, dif_neg hp, norm_norm, localRowCorrection_eq_phase] using hb
+    simpa only [hf, norm_norm, localRowCorrection_eq_phase] using hb
   have hm := multipliable_one_add_of_summable hnorm
   have hident : (fun p => (1 : ℂ) + (f p - 1)) = f := by
     funext p

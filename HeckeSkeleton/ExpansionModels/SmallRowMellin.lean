@@ -93,7 +93,12 @@ theorem additiveFourier_eq_actual_tensor (W : AdditiveProbeTest K Sset) (x : G) 
         (x.1 : mixedEmbedding.mixedSpace K) =
           traceSchwartzFourier K W.infiniteTest
             ((traceToMixed K).symm (x.1 : mixedEmbedding.mixedSpace K)) := by
-    simpa only [ContinuousLinearEquiv.apply_symm_apply] using
+    have hfunction :
+        (traceSchwartzToMixed K W.infiniteTest : mixedEmbedding.mixedSpace K → ℂ) =
+          fun y => W.infiniteTest ((traceToMixed K).symm y) := by
+      funext y
+      exact traceSchwartzToMixed_apply K W.infiniteTest y
+    simpa only [hfunction, ContinuousLinearEquiv.apply_symm_apply] using
       fourierIntegral_traceSchwartzToMixed_traceToMixed K W.infiniteTest
         ((traceToMixed K).symm (x.1 : mixedEmbedding.mixedSpace K))
   unfold additiveFourier sLocalTensorTestFunction additiveFourierFiniteProfile
@@ -107,6 +112,14 @@ local instance : MeasurableSpace (mixedEmbedding.mixedSpace K)ˣ := borel _
 local instance : BorelSpace (mixedEmbedding.mixedSpace K)ˣ := ⟨rfl⟩
 local instance (p : Sset) : MeasurableSpace (p.val.adicCompletion K)ˣ := borel _
 local instance (p : Sset) : BorelSpace (p.val.adicCompletion K)ˣ := ⟨rfl⟩
+
+local instance : SecondCountableTopology (mixedEmbedding.mixedSpace K)ˣ := by
+  letI : SecondCountableTopology (mixedEmbedding.mixedSpace K)ᵐᵒᵖ :=
+    MulOpposite.opHomeomorph.symm.secondCountableTopology
+  exact Units.isEmbedding_embedProduct.secondCountableTopology
+
+local instance (p : Sset) : SecondCountableTopology (p.val.adicCompletion K)ˣ :=
+  Units.isEmbedding_val₀.secondCountableTopology
 
 include nu in
 /-- Both the actual weighted Fourier function and its additive Mellin

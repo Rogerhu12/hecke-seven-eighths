@@ -21,6 +21,29 @@ theorem PowerHeightTailBound.of_uniform_decay {E : ℝ → ℝ → ℂ}
   exact ⟨C, Z₀, hC, hZ₀, fun Z hZ =>
     hb Z (Z ^ τ) hZ (Real.one_le_rpow (hZ₀.trans hZ) hτ.le)⟩
 
+/-- A fixed scale power with arbitrary decay in the original height
+cutoff gives the same external contract. The scale power precedes N. -/
+theorem PowerHeightTailBound.of_uniform_one_add_decay {E : ℝ → ℝ → ℂ}
+    {R : ℝ}
+    (h : ∀ N : ℕ, ∃ C Z₀ : ℝ, 0 < C ∧ 1 ≤ Z₀ ∧
+      ∀ Z H : ℝ, Z₀ ≤ Z → 0 ≤ H →
+        ‖E Z H‖ ≤ C * Z ^ R / (1 + H) ^ N) :
+    PowerHeightTailBound E := by
+  apply PowerHeightTailBound.of_uniform_decay (A := 0) (R := R) le_rfl
+  intro N
+  obtain ⟨C, Z₀, hC, hZ₀, hb⟩ := h N
+  refine ⟨C, Z₀, hC, hZ₀, ?_⟩
+  intro Z H hZ hH
+  have hHpos : 0 < H := zero_lt_one.trans_le hH
+  have hinv : ((1 + H) ^ N)⁻¹ ≤ H ^ (-(N : ℝ)) := by
+    rw [← Real.rpow_natCast, ← Real.rpow_neg (by linarith : 0 ≤ 1 + H)]
+    exact Real.rpow_le_rpow_of_nonpos hHpos (by linarith)
+      (neg_nonpos.mpr (Nat.cast_nonneg N))
+  apply (hb Z H hZ hHpos.le).trans
+  simpa only [div_eq_mul_inv, Real.rpow_zero, mul_one] using
+    mul_le_mul_of_nonneg_left hinv
+      (mul_nonneg hC.le (Real.rpow_nonneg (zero_le_one.trans (hZ₀.trans hZ)) R))
+
 theorem PowerHeightTailBound.add {E F : ℝ → ℝ → ℂ}
     (hE : PowerHeightTailBound E) (hF : PowerHeightTailBound F) :
     PowerHeightTailBound (fun Z H => E Z H + F Z H) := by
@@ -87,6 +110,7 @@ theorem PowerHeightTailBound.of_eventuallyEq {E F : ℝ → ℝ → ℂ}
 end HeckeGeneral.Analysis
 
 #print axioms HeckeGeneral.Analysis.PowerHeightTailBound.of_uniform_decay
+#print axioms HeckeGeneral.Analysis.PowerHeightTailBound.of_uniform_one_add_decay
 #print axioms HeckeGeneral.Analysis.PowerHeightTailBound.add
 #print axioms HeckeGeneral.Analysis.PowerHeightTailBound.sub
 #print axioms HeckeGeneral.Analysis.PowerHeightTailBound.of_eventuallyEq

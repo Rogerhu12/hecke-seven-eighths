@@ -50,11 +50,11 @@ def physicalDefaultAmplitude (F : RecipeFamily K ψ g) (width cap Z T : ℝ)
 theorem physicalDefaultAmplitude_geometry (F : RecipeFamily K ψ g)
     (width cap Z T : ℝ) (hT : 1 ≤ T) (rows : Finset (FrequencyRow K S))
     (sector : SixthUnitClasses K S) (label : AmplitudeLabels g.slots width cap) :
-    (physicalDefaultAmplitude K S P R ω ψ g F width cap Z T rows sector label).
-      MomentGeometry T 22 := by
+    (physicalDefaultAmplitude K S P R ω ψ g F width cap Z T rows sector label).MomentGeometry
+      T 22 := by
   apply floorRecipeAmplitude_geometry K S ψ g F _ sector _ _ T hT
-  exact (physicalDefaultSample_norm K S P R ω ψ g F width cap Z T rows label).
-    trans_eq (max_eq_left (zero_le_one.trans hT))
+  exact (physicalDefaultSample_norm K S P R ω ψ g F width cap Z T rows label).trans_eq
+    (max_eq_left (zero_le_one.trans hT))
 
 def physicalDefaultBlock (F : RecipeFamily K ψ g) (width Z T a : ℝ)
     (hw : 0 < width) (hcap : (2 * a - 1) / 2 ≤ 1 / 2)
@@ -72,8 +72,8 @@ def physicalDefaultBlock (F : RecipeFamily K ψ g) (width Z T a : ℝ)
 theorem physicalDefaultBlock_geometry (F : RecipeFamily K ψ g) (width Z T a : ℝ)
     (hw : 0 < width) (hcap : (2 * a - 1) / 2 ≤ 1 / 2) (hT : 1 ≤ T)
     (rows : Finset (FrequencyRow K S)) (sector : SixthUnitClasses K S) (value : ℂ) :
-    ∀ l, ((physicalDefaultBlock K S P R ω ψ g F width Z T a hw hcap rows sector value).
-      amplitude l).MomentGeometry T 22 := by
+    ∀ l, ((physicalDefaultBlock K S P R ω ψ g F width Z T a hw hcap rows sector value).amplitude
+      l).MomentGeometry T 22 := by
   intro l
   exact physicalDefaultAmplitude_geometry K S P R ω ψ g F width ((2 * a - 1) / 2)
     Z T hT rows sector _
@@ -87,10 +87,13 @@ def PhysicalRecipeBlockSource (F : RecipeFamily K ψ g) (width Z T d a B lam k :
   b.bin = a ∧ b.value = value ∧
     BlockSource g (b.toBlock (P := P) (R := R) (ω := ω) d Z T) B lam k Z ∧
     (∀ l, (b.amplitude l).MomentGeometry T 22) ∧
-    ∀ label : AmplitudeLabels g.slots width ((2 * a - 1) / 2),
+    (∀ label : AmplitudeLabels g.slots width ((2 * a - 1) / 2),
       PhysicalAmplitudeOrigin K S P R ω ψ g F width ((2 * a - 1) / 2) Z T (Z ^ d)
         rows sector label (b.amplitude (physicalAmplitudeLabelEmbedding g.slots width
-          ((2 * a - 1) / 2) (amplitudeLabels_card_le_fixed g.slots hw hcap) label))
+          ((2 * a - 1) / 2) (amplitudeLabels_card_le_fixed g.slots hw hcap) label))) ∧
+    (∀ l, ∃ label : AmplitudeLabels g.slots width ((2 * a - 1) / 2),
+      PhysicalAmplitudeOrigin K S P R ω ψ g F width ((2 * a - 1) / 2) Z T (Z ^ d)
+        rows sector label (b.amplitude l))
 
 def physicalSourceOrDefault (F : RecipeFamily K ψ g) (width Z T d a B lam k : ℝ)
     (hw : 0 < width) (hcap : (2 * a - 1) / 2 ≤ 1 / 2)
@@ -227,8 +230,8 @@ theorem physicalRecipeSourceAtScale_block (lam ζ width k : ℝ) (hw : 0 < width
     (b : Fin ((physicalRecipeExpansion K S P ω ψ g E hψ hB0 hB he hbound
       μ windowCharacters lam ζ width k hw principal small large tail).activeCount Z T)) :
     BlockSource g (((physicalRecipeExpansion K S P ω ψ g E hψ hB0 hB he hbound
-      μ windowCharacters lam ζ width k hw principal small large tail).
-        toHigh (P := P) (R := E.rows) (ω := ω) Z T).block b) B lam k Z := by
+      μ windowCharacters lam ζ width k hw principal small large tail).toHigh
+        (P := P) (R := E.rows) (ω := ω) Z T).block b) B lam k Z := by
   let X := physicalRecipeExpansion K S P ω ψ g E hψ hB0 hB he hbound
     μ windowCharacters lam ζ width k hw principal small large tail
   have hs := h (physicalRecipeShellIndex K S B e ζ Z (X.rawBlockIndex Z T b))
@@ -275,22 +278,24 @@ theorem exists_physical_recipe_parameters
     width Z (Z ^ τ) d c.1.center B lam k hw
     (physicalRecipeChoice_cap K S hB0 hB he₁ c) rows c.2 value
   by_cases hlive : 51 / 100 < c.1.center
-  · obtain ⟨hcard, b, hbin, hvalue, hblock, hgeometry, horigin, _⟩ :=
+  · obtain ⟨hcard, b, hbin, hvalue, hblock, hgeometry, horigin, horiginAll⟩ :=
       hdata Z hZ d c.1.center B hd.1 hdUpper hdOne ha.1 ha.2 hB
         (c.1.1.val + 1) (physicalRecipeChoice_height_le K S B e₁ c) c.2 rows
         (fun u hu => (hrows u hu).1) (fun u hu => (hrows u hu).2.1)
         (fun u hu => (hrows u hu).2.2.1)
         (fun u hu => (hrows u hu).2.2.2.1 hlive)
         (fun u hu => (hrows u hu).2.2.2.2) width hw value
-    exact ⟨b, hbin, hvalue, hblock, hgeometry, horigin⟩
+    exact ⟨b, hbin, hvalue, hblock, hgeometry, horigin, horiginAll⟩
   · have hfloor : c.1.center = 51 / 100 := le_antisymm (le_of_not_gt hlive) ha.1
-    obtain ⟨hcard, b, hbin, hvalue, hblock, hgeometry, horigin, _⟩ :=
+    obtain ⟨hcard, b, hbin, hvalue, hblock, hgeometry, horigin, horiginAll⟩ :=
       exists_physical_floor_block_source_with_provenance K S P E.rows ω ψ g F
         Z (Z ^ τ) d B lam k width value hZone hT hd.1 hdUpper hB0 hw c.2 rows
         (fun u hu => (hrows u hu).2.1) (fun u hu => (hrows u hu).2.2.1)
-    refine ⟨b, hbin.trans hfloor.symm, hvalue, hblock, hgeometry, ?_⟩
-    simpa only [hfloor, show (2 * (51 / 100 : ℝ) - 1) / 2 = 1 / 100 by norm_num]
-      using horigin
+    refine ⟨b, hbin.trans hfloor.symm, hvalue, hblock, hgeometry, ?_, ?_⟩
+    · simpa only [hfloor, show (2 * (51 / 100 : ℝ) - 1) / 2 = 1 / 100 by norm_num]
+        using horigin
+    · simpa only [hfloor, show (2 * (51 / 100 : ℝ) - 1) / 2 = 1 / 100 by norm_num]
+        using horiginAll
 
 /-- The same parameter choice supplies the geometry for every choice of
 the four literal analytic components; it does not depend on those values. -/

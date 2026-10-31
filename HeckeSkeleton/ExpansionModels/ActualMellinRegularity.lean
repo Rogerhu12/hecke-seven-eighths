@@ -75,6 +75,14 @@ local instance : BorelSpace (mixedEmbedding.mixedSpace K)ˣ := ⟨rfl⟩
 local instance (p : Sset) : MeasurableSpace (p.val.adicCompletion K)ˣ := borel _
 local instance (p : Sset) : BorelSpace (p.val.adicCompletion K)ˣ := ⟨rfl⟩
 
+local instance : SecondCountableTopology (mixedEmbedding.mixedSpace K)ˣ := by
+  letI : SecondCountableTopology (mixedEmbedding.mixedSpace K)ᵐᵒᵖ :=
+    MulOpposite.opHomeomorph.symm.secondCountableTopology
+  exact Units.isEmbedding_embedProduct.secondCountableTopology
+
+local instance (p : Sset) : SecondCountableTopology (p.val.adicCompletion K)ˣ :=
+  Units.isEmbedding_val₀.secondCountableTopology
+
 variable [∀ p : HeightOneSpectrum (𝓞 K), MeasurableSpace (p.adicCompletion K)]
 variable [∀ p : HeightOneSpectrum (𝓞 K), BorelSpace (p.adicCompletion K)]
 variable (mu : ∀ p : HeightOneSpectrum (𝓞 K), Measure (p.adicCompletion K))

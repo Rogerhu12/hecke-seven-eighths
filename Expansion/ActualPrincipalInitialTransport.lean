@@ -35,8 +35,8 @@ variable [∀ p : HeightOneSpectrum (𝓞 K), MeasurableSpace (p.adicCompletion 
 variable [∀ p : HeightOneSpectrum (𝓞 K), BorelSpace (p.adicCompletion K)]
 variable (mu : ∀ p : HeightOneSpectrum (𝓞 K), Measure (p.adicCompletion K))
 variable [∀ p, (mu p).IsAddHaarMeasure]
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
-variable [BorelSpace (sLocalNormOneGroup K Sset)]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 local notation "muS" => (fun p : Sset => mu p.val)
 variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
 variable [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
@@ -62,16 +62,16 @@ theorem differentiableAt_actual_principal_kernel_comp [IsTotallyComplex K]
       ((isOpen_rightHalfPlane B).mem_nhds hregion.1)
   have hrec' := hrec.comp x hs
   have hLw := ((heckeEulerDeletionPolynomial_analyticAt K 1
-    (exceptionalPrimes K Sset) (w x)).differentiableAt.mul
+    (exceptionalPrimes K Sset) (w x)).differentiableAt.fun_mul
       (analyticAt_heckeContinuation K 1 hregion.2.1).differentiableAt).comp x hw
   have hzeta : 1 < (6 * z x).re := by
     have hzr := hregion.2.2
-    simp only [Complex.mul_re, Complex.ofNat_re, Complex.ofNat_im, zero_mul, sub_zero]
+    simp only [Complex.mul_re, Complex.re_ofNat, Complex.im_ofNat, zero_mul, sub_zero]
     linarith
   have hLz := ((heckeEulerDeletionPolynomial_analyticAt K 1
-    (exceptionalPrimes K Sset) (6 * z x)).differentiableAt.mul
+    (exceptionalPrimes K Sset) (6 * z x)).differentiableAt.fun_mul
       (analyticAt_heckeContinuation K 1 hzeta).differentiableAt).comp x
-        (differentiableAt_const.mul hz)
+        ((differentiableAt_const _).fun_mul hz)
   have hM := (analyticOnNhd_actual_additiveMellin K S mu nu P.additive (z x)
     (by have := hregion.2.2; linarith)).differentiableAt.comp x hz
   have hden := (HighBinBoundary.ActualDenominator.differentiable_mellin
@@ -83,7 +83,7 @@ theorem differentiableAt_actual_principal_kernel_comp [IsTotallyComplex K]
   have hZc : (Z : ℂ) ≠ 0 := Complex.ofReal_ne_zero.mpr hZ.ne'
   have hxPower : DifferentiableAt ℂ
       (fun y => ((Z ^ (17 / 48 : ℝ) : ℝ) : ℂ) ^ (1 / 2 - z y)) x :=
-    (differentiableAt_const.sub hz).const_cpow (Or.inl hX)
+    ((differentiableAt_const _).sub hz).const_cpow (Or.inl hX)
   have hzPower := ((hs.add hz).sub_const 1).const_cpow (Or.inl hZc)
   have hyPower := (hw.sub_const 1).const_cpow (Or.inl hY)
   have hexp := (((hs.add hz).sub_const 1).pow 2).cexp
@@ -96,9 +96,9 @@ theorem differentiableAt_actual_principal_kernel_comp [IsTotallyComplex K]
   simp_rw [actualPrincipalKernel_eq_core K S mu P psi hAllowed g Z hZ]
   unfold actualPrincipalKernelCore
   simp only [div_eq_mul_inv]
-  have hL := (hLz.mul hLw).mul hrec'
-  exact ((((((((differentiableAt_const.mul hexp).mul hM).mul hden).mul hxPower).mul
-    hzPower).mul hyPower).mul hL).mul hcorr).mul differentiableAt_const
+  have hL := (hLz.fun_mul hLw).fun_mul hrec'
+  exact (((((((((differentiableAt_const _).fun_mul hexp).fun_mul hM).fun_mul hden).fun_mul hxPower).fun_mul
+    hzPower).fun_mul hyPower).fun_mul hL).fun_mul hcorr).fun_mul (differentiableAt_const _)
 
 include nu in
 theorem analyticOnNhd_actual_principal_kernel [IsTotallyComplex K]

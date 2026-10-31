@@ -141,7 +141,7 @@ theorem continuous_actual_rowVerticalKernel_absolute [IsTotallyComplex K]
   have hexp := Complex.continuous_exp.comp (((hs.add hz).sub_const 1).pow 2)
   have hLz := continuous_deletedContinuation_comp_right K 1 (exceptionalPrimes K Sset)
     (fun t => 6 * z t) (continuous_const.mul hz) (fun t => by
-      simp only [Complex.mul_re, Complex.ofNat_re, Complex.ofNat_im, zero_mul, sub_zero, hzre]
+      simp only [Complex.mul_re, Complex.re_ofNat, Complex.im_ofNat, zero_mul, sub_zero, hzre]
       linarith)
   have hLw := continuous_deletedContinuation_comp_right K
     ((arithmeticHighEulerData K Sset P psi).rows.character u) (exceptionalPrimes K Sset)

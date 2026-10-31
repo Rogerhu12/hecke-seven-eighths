@@ -92,8 +92,8 @@ variable [∀ p, (mu p).IsAddHaarMeasure]
 variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
 variable [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
 variable (nu : Measure (FiniteAdeleRing (𝓞 K) K)) [nu.IsAddHaarMeasure]
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
-variable [BorelSpace (sLocalNormOneGroup K Sset)]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 local notation "muS" => (fun p : Sset => mu p.val)
 
 private theorem continuous_actual_target_reciprocal_comp

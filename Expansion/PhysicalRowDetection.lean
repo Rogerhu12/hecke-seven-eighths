@@ -19,6 +19,7 @@ namespace Expansion.Project
 open NumberField IsDedekindDomain Filter
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Bridge
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ExpansionRecipe
+open HeckeGeneral.Analysis.ExpansionScaleBounds
 open HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.ExpansionDetectorBridge HeckeSkeleton.HeckeBufferedReciprocal
 open Expansion.ActualTerminalSaturation Expansion.Dyadic

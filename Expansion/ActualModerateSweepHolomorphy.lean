@@ -84,7 +84,7 @@ theorem differentiableAt_actual_swept_fullCorrection_comp
   unfold compensatedRowFullCorrection
   apply DifferentiableAt.fun_sum
   intro p _
-  apply differentiableAt_const.mul
+  apply (differentiableAt_const _).mul
   apply DifferentiableAt.fun_sum
   intro J _
   dsimp only
@@ -97,9 +97,10 @@ theorem differentiableAt_actual_swept_fullCorrection_comp
   have hspow := ((hz.sub hw).sub_const 1).const_cpow (Or.inl hsel)
   have hmpow := ((hs.add hz).sub_const 1).const_cpow (Or.inl hmark)
   have hcor := (analyticOnNhd_actual_rowCorrection_sweptTube K S P psi
-    ((Finset.univ \ J).image p) u ha ha1 he he1 (s x, w x, z x) hregion).differentiableAt.comp x
+    ((Finset.univ \ J).image p) u ha ha1 he he1 (s x, w x, z x) hregion).differentiableAt.comp
+      (f := fun y => (s y, w y, z y)) x
       (hs.prodMk (hw.prodMk hz))
-  exact (((differentiableAt_const.mul hspow).mul differentiableAt_const).mul hmpow).mul hcor
+  exact ((((differentiableAt_const _).mul hspow).mul (differentiableAt_const _)).mul hmpow).mul hcor
 
 variable [∀ p : HeightOneSpectrum (𝓞 K), MeasurableSpace (p.adicCompletion K)]
 variable [∀ p : HeightOneSpectrum (𝓞 K), BorelSpace (p.adicCompletion K)]
@@ -144,12 +145,12 @@ theorem differentiableAt_actual_moderate_kernel_comp [IsTotallyComplex K]
       (differentiable_heckeContinuation_of_nonNorm K (R.character u) hnon (w x))).comp x hw
   have hzeta : 1 < (6 * z x).re := by
     have hzr := hregion.2.1
-    simp only [Complex.mul_re, Complex.ofNat_re, Complex.ofNat_im, zero_mul, sub_zero]
+    simp only [Complex.mul_re, Complex.re_ofNat, Complex.im_ofNat, zero_mul, sub_zero]
     linarith
   have hLz := ((heckeEulerDeletionPolynomial_analyticAt K 1
     (exceptionalPrimes K Sset) (6 * z x)).differentiableAt.mul
       (analyticAt_heckeContinuation K 1 hzeta).differentiableAt).comp x
-        (differentiableAt_const.mul hz)
+        ((differentiableAt_const _).mul hz)
   have hM := (analyticOnNhd_actual_additiveMellin K S mu nu P.additive (z x)
     (by have := hregion.2.1; linarith)).differentiableAt.comp x hz
   have hden := (HighBinBoundary.ActualDenominator.differentiable_mellin
@@ -164,7 +165,7 @@ theorem differentiableAt_actual_moderate_kernel_comp [IsTotallyComplex K]
   have hnPower := hz.neg.const_cpow (Or.inl hN)
   have hxPower : DifferentiableAt ℂ
       (fun y => ((Z ^ (17 / 48 : ℝ) : ℝ) : ℂ) ^ (1 / 2 - z y)) x :=
-    (differentiableAt_const.sub hz).const_cpow (Or.inl hX)
+    ((differentiableAt_const _).sub hz).const_cpow (Or.inl hX)
   have hzPower := ((hs.add hz).sub_const 1).const_cpow (Or.inl hZc)
   have hyPower := (hw.sub_const 1).const_cpow (Or.inl hY)
   have hexp := (((hs.add hz).sub_const 1).pow 2).cexp
@@ -174,8 +175,8 @@ theorem differentiableAt_actual_moderate_kernel_comp [IsTotallyComplex K]
     (arithmeticHighEulerData K Sset P psi) g T u Z hZ]
   simp only [div_eq_mul_inv]
   have hL := (hLz.mul hLw).mul hrec'
-  exact (((((((((differentiableAt_const.mul hexp).mul hM).mul hden).mul hnPower).mul hxPower).mul
-    hzPower).mul hyPower).mul hL).mul hcorr).mul differentiableAt_const
+  exact ((((((((((differentiableAt_const _).mul hexp).mul hM).mul hden).mul hnPower).mul hxPower).mul
+    hzPower).mul hyPower).mul hL).mul hcorr).mul (differentiableAt_const _)
 
 include nu in
 /-- Joint holomorphy on the actual nonprincipal region, with no separate

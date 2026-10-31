@@ -31,8 +31,8 @@ variable [∀ p : HeightOneSpectrum (𝓞 K), MeasurableSpace (p.adicCompletion 
 variable [∀ p : HeightOneSpectrum (𝓞 K), BorelSpace (p.adicCompletion K)]
 variable (mu : ∀ p : HeightOneSpectrum (𝓞 K), Measure (p.adicCompletion K))
 variable [∀ p, (mu p).IsAddHaarMeasure]
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
-variable [BorelSpace (sLocalNormOneGroup K Sset)]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 local notation "muS" => (fun p : Sset => mu p.val)
 
 /-- The exposed w-zeta factor is the only possible w-pole on the original
@@ -51,9 +51,9 @@ theorem differentiableAt_actualPrincipal_w_regular
     (differentiableAt_id.sub_const 1).const_cpow (Or.inl hY)
   have hcorr := differentiableAt_actual_fullCorrection_comp K S P psi g ∅
     (physicalPrincipalRow K Sset) Z (fun _ : ℂ => s) id (fun _ : ℂ => z) w0
-    differentiableAt_const differentiableAt_id differentiableAt_const hregion
+    (differentiableAt_const _) differentiableAt_id (differentiableAt_const _) hregion
   unfold actualPrincipalKernelCore
-  exact ((((((hden.const_mul _).mul_const _).mul_const _).mul hpow).mul_const _).mul
+  exact ((((((hden.const_mul _).mul_const _).mul_const _).fun_mul hpow).mul_const _).fun_mul
     hcorr).div_const _
 
 theorem differentiableAt_actualPrincipal_w_kernel
@@ -69,7 +69,7 @@ theorem differentiableAt_actualPrincipal_w_kernel
     funext w
     exact actualPrincipalKernelCore_linear K S mu P psi g Z s w z _
   rw [heq]
-  exact (differentiableAt_actualPrincipal_w_regular K S mu P psi g Z hZ s z w0 hregion).mul
+  exact (differentiableAt_actualPrincipal_w_regular K S mu P psi g Z hZ s z w0 hregion).fun_mul
     (actual_deletedZeta_analyticAt K Sset w0 hw0).differentiableAt
 
 /-- The residue at w=1 is exactly the original w-residue kernel. -/
@@ -122,17 +122,17 @@ theorem differentiableAt_actualPrincipal_z_regular [IsTotallyComplex K]
   have hZc : (Z : ℂ) ≠ 0 := Complex.ofReal_ne_zero.mpr hZ.ne'
   have hxPower : DifferentiableAt ℂ
       (fun z : ℂ => ((Z ^ (17 / 48 : ℝ) : ℝ) : ℂ) ^ (1 / 2 - z)) z0 :=
-    (differentiableAt_const.sub differentiableAt_id).const_cpow (Or.inl hX)
+    ((differentiableAt_const _).sub differentiableAt_id).const_cpow (Or.inl hX)
   have hzPower : DifferentiableAt ℂ (fun z : ℂ => (Z : ℂ) ^ (s + z - 1)) z0 :=
-    ((differentiableAt_const.add differentiableAt_id).sub_const 1).const_cpow (Or.inl hZc)
+    (((differentiableAt_const _).add differentiableAt_id).sub_const 1).const_cpow (Or.inl hZc)
   have hexp : DifferentiableAt ℂ (fun z : ℂ => Complex.exp ((s + z - 1) ^ 2)) z0 := by
     fun_prop
   have hcorr := differentiableAt_actual_fullCorrection_comp K S P psi g ∅
     (physicalPrincipalRow K Sset) Z (fun _ : ℂ => s) (fun _ : ℂ => 1) id z0
-    differentiableAt_const differentiableAt_const differentiableAt_id hregion
+    (differentiableAt_const _) (differentiableAt_const _) differentiableAt_id hregion
   unfold actualPrincipalZRegularPart
-  exact (((((((differentiableAt_const.mul hexp).mul hM).mul_const _).mul hxPower).mul
-    hzPower).mul_const _).mul hcorr).div_const _
+  exact ((((((((differentiableAt_const _).fun_mul hexp).fun_mul hM).mul_const _).fun_mul hxPower).fun_mul
+    hzPower).mul_const _).fun_mul hcorr).div_const _
 
 theorem differentiableAt_actualPrincipal_z_kernel [IsTotallyComplex K]
     (P : ProbeData K Sset) (psi : HeckeCharacter K)
@@ -145,9 +145,9 @@ theorem differentiableAt_actualPrincipal_z_kernel [IsTotallyComplex K]
         heckeDeletedContinuation K 1 (exceptionalPrimes K Sset) (6 * z) :=
     funext (actualPrincipalWResidueKernel_factorization K S mu P psi g Z s)
   rw [heq]
-  apply (differentiableAt_actualPrincipal_z_regular K S mu nu P psi g Z hZ s z0 hz0 hregion).mul
+  apply (differentiableAt_actualPrincipal_z_regular K S mu nu P psi g Z hZ s z0 hz0 hregion).fun_mul
   apply (actual_deletedZeta_analyticAt K Sset (6 * z0) _).differentiableAt.comp z0
-    (differentiableAt_const.mul differentiableAt_id)
+    ((differentiableAt_const _).fun_mul differentiableAt_id)
   intro h
   apply hpole
   linear_combination h / 6

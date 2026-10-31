@@ -16,7 +16,7 @@ theorem WitnessCover.mono_loss {Row : Type} {J : ℕ} {A : AmplitudeSet Row J}
     (Real.rpow_le_rpow_of_exponent_le hU hlam) hk), h.2.1, ?_⟩
   intro j
   obtain ⟨hsub, hr, hn, hupper, hlower, hinv, hplain⟩ := h.2.2 j
-  refine ⟨hsub, hr, hn, hupper.trans (add_le_add_left hlam t),
+  refine ⟨hsub, hr, hn, hupper.trans (by linarith),
     (sub_le_sub_left hlam t).trans hlower, ?_, ?_⟩
   · intro u hu
     exact (Real.rpow_le_rpow_of_exponent_le hU

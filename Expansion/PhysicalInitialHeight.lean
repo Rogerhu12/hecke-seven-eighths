@@ -82,7 +82,7 @@ theorem integrable_three_product {f g h : ℝ → ℂ}
     simpa only [Measure.volume_eq_prod] using hf.mul_prod (hg.mul_prod hh)
   have hp := heightEquiv_preserving.integrable_comp_emb
     heightEquiv.measurableEmbedding |>.mpr hi
-  simpa only [heightEquiv_apply, mul_assoc] using hp
+  simpa only [Function.comp_def, heightEquiv_apply, mul_assoc] using hp
 
 theorem integral_eq_initial_order (f : (Fin 3 → ℝ) → ℂ) (hf : Integrable f) :
     (∫ t, f t) = ∫ ts : ℝ, ∫ tw : ℝ, ∫ tz : ℝ, f ![ts, tw, tz] := by

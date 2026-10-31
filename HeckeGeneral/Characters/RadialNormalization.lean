@@ -29,7 +29,6 @@ def radialNormalization (w : InfinitePlace K) :
   toFun χ := χ * heckeNormTwist K (heckeRadialParameter K w χ)
   map_one' := by simp [heckeNormTwist]
   map_mul' χ ψ := by
-    dsimp only
     rw [heckeRadialParameter_mul]
     change (χ * ψ) * normTwist (heckeLogNorm K)
         (heckeRadialParameter K w χ + heckeRadialParameter K w ψ) = _
@@ -52,7 +51,8 @@ theorem radialNormalization_finiteOrder (w : InfinitePlace K)
 
 @[simp] theorem radialNormalization_normTwist (w : InfinitePlace K) (t : ℝ) :
     radialNormalization K w (heckeNormTwist K t) = 1 := by
-  simp [radialNormalization_apply, heckeRadialParameter_normTwist, heckeNormTwist]
+  rw [radialNormalization_apply, heckeRadialParameter_normTwist]
+  simp [heckeNormTwist]
 
 theorem radialNormalization_mem_packet (w : InfinitePlace K)
     (ω χ : HeckeCharacter K) (hχ : χ ∈ HeckePacket K ω) :

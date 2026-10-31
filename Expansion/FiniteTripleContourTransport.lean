@@ -71,8 +71,9 @@ theorem continuous_vertical_kernel_of_analytic
       (vertical sigma q.1, vertical nu q.2.1, vertical zeta q.2.2)) := by
     unfold vertical
     fun_prop
-  exact (hF _ (hmem p.1 p.2.1 p.2.2)).continuousAt.comp
-    hmap.continuousAt
+  have hmapAt : ContinuousAt (fun q : ℝ × ℝ × ℝ =>
+      (vertical sigma q.1, vertical nu q.2.1, vertical zeta q.2.2)) p := hmap.continuousAt
+  exact (hF _ (hmem p.1 p.2.1 p.2.2)).continuousAt.comp_of_eq hmapAt rfl
 
 theorem continuous_vertical_kernel
     (F : ℂ → ℂ → ℂ → ℂ) (s0 s1 w0 w1 z0 z1 : ℝ)
@@ -171,12 +172,19 @@ theorem boxIntegral_sub_z
   apply rectangle_setIntegral_identity _ z1 z0 H hH
   intro z hz
   have hmem : (vertical sigma ts, vertical nu tw, z) ∈ sweptTube sigma sigma nu nu z0 z1 := by
-    have hzr : z.re ∈ uIcc z0 z1 := by simpa only [uIcc_comm] using hz.1
+    have hzr : z.re ∈ uIcc z0 z1 := by
+      rw [uIcc_comm]
+      exact hz.1
     simpa [sweptTube, vertical] using hzr
+  have hs : DifferentiableAt ℂ (fun _zz : ℂ => vertical sigma ts) z :=
+    differentiableAt_const _
+  have hw : DifferentiableAt ℂ (fun _zz : ℂ => vertical nu tw) z :=
+    differentiableAt_const _
+  have hzid : DifferentiableAt ℂ (fun zz : ℂ => zz) z := differentiableAt_id
   have hmap : DifferentiableAt ℂ
-      (fun zz : ℂ => (vertical sigma ts, vertical nu tw, zz)) z :=
-    differentiableAt_const.prodMk (differentiableAt_const.prodMk differentiableAt_id)
-  exact ((hF _ hmem).differentiableAt.comp z hmap).differentiableWithinAt
+      (fun zz : ℂ => (vertical sigma ts, vertical nu tw, zz)) z := hs.prodMk (hw.prodMk hzid)
+  exact ((hF _ hmem).differentiableAt.comp
+    (f := fun zz : ℂ => (vertical sigma ts, vertical nu tw, zz)) z hmap).differentiableWithinAt
 
 /-- The middle-coordinate move is a proved Fubini permutation followed
 by the same finite rectangle theorem. -/
@@ -197,7 +205,7 @@ theorem boxIntegral_sub_w
       analyticAt_fst.comp analyticAt_snd
     have hz : AnalyticAt ℂ (fun x : ℂ × ℂ × ℂ => x.2.2) v :=
       analyticAt_snd.comp analyticAt_snd
-    exact (hF _ hv').comp (hs.prod (hz.prod hw))
+    exact (hF _ hv').comp_of_eq (hs.prod (hz.prod hw)) rfl
   have hswap (wline : ℝ) (hw : wline ∈ uIcc w0 w1) :
       boxIntegral F H sigma wline zeta = boxIntegral G H sigma zeta wline := by
     have hc := continuous_vertical_kernel F sigma sigma w0 w1 zeta zeta hF
@@ -228,7 +236,7 @@ theorem boxIntegral_sub_s
       analyticAt_fst.comp analyticAt_snd
     have hz : AnalyticAt ℂ (fun x : ℂ × ℂ × ℂ => x.2.2) v :=
       analyticAt_snd.comp analyticAt_snd
-    exact (hF _ hv').comp (hz.prod (hs.prod hw))
+    exact (hF _ hv').comp_of_eq (hz.prod (hs.prod hw)) rfl
   have hcycle (sline : ℝ) (hs : sline ∈ uIcc s0 s1) :
       boxIntegral F H sline nu zeta = boxIntegral G H nu zeta sline := by
     exact tripleIntegral_cycle

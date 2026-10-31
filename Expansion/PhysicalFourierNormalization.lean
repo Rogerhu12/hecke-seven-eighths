@@ -41,8 +41,9 @@ def finiteExtension (W : AdditiveProbeTest K Sset)
 
 @[simp] theorem finiteExtension_subtype (W : AdditiveProbeTest K Sset) (v : Sset) :
     finiteExtension K S W v.val = W.finiteTest v := by
+  have hv : v.val ∈ S := Finset.mem_coe.mp v.property
   unfold finiteExtension
-  rw [dif_pos v.property]
+  rw [dif_pos hv]
 
 theorem finiteExtension_locallyConstant (W : AdditiveProbeTest K Sset)
     (v : HeightOneSpectrum (𝓞 K)) (hv : v ∈ S) :
@@ -98,20 +99,20 @@ theorem dualTensor_zero (W : AdditiveProbeTest K Sset) :
     sIntegerDualTensorTerm K μv S (traceSchwartzToMixed K W.infiniteTest)
         (finiteExtension K S W) 0 =
       additiveFourierAtZero K Sset (fun v => μv v.val) W := by
+  have hfst : (0 : AdeleRing (𝓞 K) K).1 = 0 := rfl
+  have hsnd : (0 : AdeleRing (𝓞 K) K).2 = 0 := rfl
+  have hlocal (v : HeightOneSpectrum (𝓞 K)) :
+      (0 : FiniteAdeleRing (𝓞 K) K) v = 0 := rfl
   unfold sIntegerDualTensorTerm
-  simp only [map_zero, Prod.fst_zero, Prod.snd_zero]
-  change fourierIntegral (standardMixedAddCharacter K) volume
-      (fun y => W.infiniteTest ((traceToMixed K).symm y)) 0 *
-      (∏ v ∈ S,
-        (((μv v).real (v.adicCompletionIntegers K : Set (v.adicCompletion K)) : ℂ))⁻¹ *
-          fourierIntegral (StandardAddChar.psiLocal K v) (μv v)
-            (finiteExtension K S W v) 0) = _
+  simp only [map_zero, hfst, hsnd]
+  unfold sIntegerLocalFourierProduct
+  simp only [hlocal]
   rw [← Finset.prod_finset_coe]
   simp only [finiteExtension_subtype, additiveFourierAtZero]
 
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
-  [BorelSpace (sLocalNormOneGroup K Sset)]
-  (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)) [Γ.FiniteIndex]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  (Γ : Subgroup (Set.unit (S : Set (HeightOneSpectrum (𝓞 K))) K)) [Γ.FiniteIndex]
 
 local notation "Q" => SIntegerOrbits K Sset Γ
 
@@ -138,7 +139,7 @@ theorem probePeriodicOrbitalPoisson (P : ProbeData K Sset)
     (c : OS) (hc : c ≠ 0) (f : (OS ⧸ Ideal.span ({c} : Set OS)) → ℂ)
     (hinv : ∀ u : Γ, ∀ a : OS,
       f (Ideal.Quotient.mk _
-        (((S : Set (HeightOneSpectrum (𝓞 K))).unitEquivUnitsInteger K u.val).val * a)) =
+        ((Set.unitEquivUnitsInteger (S : Set (HeightOneSpectrum (𝓞 K))) K u.val).val * a)) =
         f (Ideal.Quotient.mk _ a)) (d : OS) (r : {r : ℝ // 0 < r}) :
     let g : (OS ⧸ Ideal.span ({c} : Set OS)) → ℂ :=
       fun z => f (Ideal.Quotient.mk _ d * z)

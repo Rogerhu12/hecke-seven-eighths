@@ -143,7 +143,7 @@ theorem rowEulerContinuation_hasProd_initial (P : ProbeData K S) (ψ : HeckeChar
       rowLocalLRatio K S P ψ u s w z p * localFactor K S P ψ Q u p (s, w, z))
       (rowEulerContinuation K S P ψ (arithmeticHighEulerData K S P ψ) Q u s w z) := by
   have hz6 : 1 < (6 * z).re := by
-    simp only [Complex.mul_re, Complex.ofNat_re, Complex.ofNat_im, zero_mul, sub_zero]
+    simp only [Complex.mul_re, Complex.re_ofNat, Complex.im_ofNat, zero_mul, sub_zero]
     linarith
   have hL := rowLocalLRatio_hasProd K S P ψ u (by linarith) (by linarith) hz6
   have hE := rowCorrection_hasProd_sweptTube K S P ψ Q u

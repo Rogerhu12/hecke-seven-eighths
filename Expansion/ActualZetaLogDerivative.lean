@@ -61,8 +61,9 @@ theorem actualZetaNumerator_ne_zero {s : ℂ} (hs : 31 / 32 < s.re) :
       normPoleNumerator_at_pole K 0
   · intro hzero
     have h := actualZeta_ne_zero K hs hs1
-    rw [heckeContinuation_trivial_eq_normNumerator, hzero, zero_div] at h
-    exact h rfl
+    rw [heckeContinuation_trivial_eq_normNumerator] at h
+    change normPoleNumerator K 0 s / (s - 1) ≠ 0 at h
+    exact h (by rw [hzero, zero_div])
 
 theorem actualZetaLog_differentiableOn :
     DifferentiableOn ℂ (actualPrimeLogFunction K 1)
@@ -79,8 +80,9 @@ theorem actualZetaLog_eq {s : ℂ} (hs : 31 / 32 < s.re) (hs1 : s ≠ 1) :
   have hd : HasDerivAt (fun z : ℂ => normPoleNumerator K 0 z / (z - 1))
       ((deriv (normPoleNumerator K 0) s * (s - 1) - normPoleNumerator K 0 s) /
         (s - 1) ^ 2) s := by
-    convert ((normPoleNumerator_differentiable K 0 s).hasDerivAt.div
-      ((hasDerivAt_id s).sub_const 1) (sub_ne_zero.mpr hs1)) using 1 <;> simp
+    simpa only [mul_one] using
+      ((normPoleNumerator_differentiable K 0 s).hasDerivAt.fun_div
+        ((hasDerivAt_id s).sub_const 1) (sub_ne_zero.mpr hs1))
   rw [actualPrimeLogFunction, heckeContinuation_trivial_eq_normNumerator, hd.deriv]
   field_simp [actualZetaNumerator_ne_zero K hs, sub_ne_zero.mpr hs1]
   <;> ring
@@ -124,8 +126,9 @@ theorem actualZetaLog_eq_regularized {s : ℂ} (hs : 31 / 32 < s.re) (hs1 : s �
     simp only [normPoleRegularization, Complex.ofReal_zero, zero_mul, sub_zero]
   have hd : HasDerivAt (fun z : ℂ => normPoleNumerator K 0 z / z)
       ((deriv (normPoleNumerator K 0) s * s - normPoleNumerator K 0 s) / s ^ 2) s := by
-    convert ((normPoleNumerator_differentiable K 0 s).hasDerivAt.div
-      (hasDerivAt_id s) hs0) using 1 <;> simp
+    simpa only [mul_one] using
+      ((normPoleNumerator_differentiable K 0 s).hasDerivAt.fun_div
+        (hasDerivAt_id s) hs0)
   rw [actualZetaLog_eq K hs hs1, heq, hd.deriv]
   field_simp [actualZetaNumerator_ne_zero K hs, hs0]
   <;> ring
@@ -212,9 +215,11 @@ theorem exists_actualZetaLog_poleCleared_bound
   have hn : ‖s - 1‖ ≤ 1 + |t| := by
     have hh := Complex.norm_le_abs_re_add_abs_im (s - 1)
     have hr : |σ - 1| ≤ 1 := abs_le.mpr ⟨by linarith [hσ.1], by linarith [hσ.2]⟩
-    simpa only [s, Complex.sub_re, Complex.sub_im, Complex.one_re, Complex.one_im,
-      sub_zero, ExpansionInterfaces.Mellin.vertical_re, ExpansionInterfaces.Mellin.vertical_im]
-      using hh.trans (add_le_add hr le_rfl)
+    have hh' : ‖s - 1‖ ≤ |σ - 1| + |t| := by
+      simpa only [s, Complex.sub_re, Complex.sub_im, Complex.one_re, Complex.one_im,
+        sub_zero, ExpansionInterfaces.Mellin.vertical_re,
+        ExpansionInterfaces.Mellin.vertical_im] using hh
+    linarith
   have hratio : ‖(s - 1) * s⁻¹‖ ≤ 1 := by
     simpa only [normPoleRatio, heckeNormPole, Complex.ofReal_zero, zero_mul,
       add_zero, sub_zero, div_eq_mul_inv] using
@@ -232,10 +237,12 @@ theorem exists_actualZetaLog_poleCleared_bound
     rw [heq]
     apply (norm_sub_le _ _).trans
     have hfirst : ‖1 - (s - 1) * s⁻¹‖ ≤ 2 := by
-      exact (norm_sub_le _ _).trans (by simpa only [norm_one] using add_le_add le_rfl hratio)
+      have hh := norm_sub_le (1 : ℂ) ((s - 1) * s⁻¹)
+      rw [norm_one] at hh
+      linarith
     rw [norm_mul]
     exact add_le_add hfirst (mul_le_mul hn hlog (norm_nonneg _) (by positivity))
-  have hy : 1 ≤ 1 + |t| := by positivity
+  have hy : 1 ≤ 1 + |t| := by linarith [abs_nonneg t]
   have hy0 : 0 < 1 + |t| := by positivity
   have hpow : (4 + |t|) ^ k ≤ (4 : ℝ) ^ k * (1 + |t|) ^ k := by
     rw [← Real.mul_rpow (by norm_num) hy0.le]
