@@ -75,7 +75,9 @@ def withColumnConstants (a b : ℂ) :
     exact mul_le_mul_of_nonneg_right
       (mul_le_mul_of_nonneg_right (W.profile_bound h hh) (norm_nonneg _)) (norm_nonneg _)
   weight_eq h hh := by
-    change R.weight h * a * star b = _
+    change R.weight h * a * star b =
+      secondOrbitalScalar (K := K) (S := A.Sf) W.radius W.mask *
+        (W.rowProfile h * a * star b) * W.leftAtoms.value h * star (W.rightAtoms.value h)
     rw [W.weight_eq h hh]
     ring
   unitIdeal := W.unitIdeal
@@ -91,8 +93,10 @@ def withColumnConstants (a b : ℂ) :
 
 theorem withColumnConstants_commonEnvelope (a b : ℂ) :
     (W.withColumnConstants a b).commonEnvelope = (‖a‖ * ‖b‖) * W.commonEnvelope := by
-  unfold commonEnvelope withColumnConstants
-  dsimp only
+  change W.profileBound * ‖a‖ * ‖b‖ * Real.sqrt W.leftAtoms.envelope *
+      Real.sqrt W.rightAtoms.envelope =
+    (‖a‖ * ‖b‖) *
+      (W.profileBound * Real.sqrt W.leftAtoms.envelope * Real.sqrt W.rightAtoms.envelope)
   ring
 
 theorem withColumnConstants_rowBound (a b : ℂ) :

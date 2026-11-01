@@ -284,8 +284,8 @@ def OriginalPairAllowanceWindow.ofOriginalWindows
     (hradicalL : IL.p₂ = idealLogLength Z (commonRadical W.leftIdeal W.rightIdeal))
     (hradicalR : IR.p₂ = idealLogLength Z (commonRadical W.leftIdeal W.rightIdeal))
     (hpoolL : IL.ell = ell) (hpoolR : IR.ell = ell)
-    (hboundaryL : IL.boundary = boundary side Z firstD firstE)
-    (hboundaryR : IR.boundary = boundary side Z firstD firstE)
+    (hboundaryL : IL.boundary = OriginalPairAllowanceProduction.boundary side Z firstD firstE)
+    (hboundaryR : IR.boundary = OriginalPairAllowanceProduction.boundary side Z firstD firstE)
     (errorsL : IL.OriginalErrorWindows annulus error mesh)
     (errorsR : IR.OriginalErrorWindows annulus error mesh)
     (hdivisor : left.source.allocation.divisor = right.source.allocation.divisor)
@@ -295,7 +295,7 @@ def OriginalPairAllowanceWindow.ofOriginalWindows
       W.radius.val * (sIntegerElementNorm F (A.Sf : Set (HeightOneSpectrum (𝓞 F)))
         (sIntegerMaskGenerator F (A.Sf : Set (HeightOneSpectrum (𝓞 F))) W.mask)).val) :
     OriginalPairAllowanceWindow left right calL calR W BL BR IL IR Z
-      (normalization side Z (geometry.A + (geometry.q + geometry.R + geometry.E)) firstD firstE)
+      (OriginalPairAllowanceProduction.normalization side Z (geometry.A + (geometry.q + geometry.R + geometry.E)) firstD firstE)
       (geometry.wo + ell + 5 * error / 3 + mesh) := by
   have hZ1 : 1 < Z := (annulusThreshold_gt_one annulus error).trans_le hZ
   let LL := ActualCapacityNormLengths.ofOriginalLabels IL geometry
@@ -307,9 +307,9 @@ def OriginalPairAllowanceWindow.ofOriginalWindows
     W.unitIdeal.val W.nonunitIdeal.val hbaseR hgeometryR hgcd hunit hnonunit
     hcommonR hradicalR hpoolR
   have hl := LL.slack_le_of_original_windows annulus error mesh
-    (boundary side Z firstD firstE) herror hZ errorsL hboundaryL
+    (OriginalPairAllowanceProduction.boundary side Z firstD firstE) herror hZ errorsL hboundaryL
   have hr := LR.slack_le_of_original_windows annulus error mesh
-    (boundary side Z firstD firstE) herror hZ errorsR hboundaryR
+    (OriginalPairAllowanceProduction.boundary side Z firstD firstE) herror hZ errorsR hboundaryR
   refine {
     a₀ := geometry.A - geometry.c - geometry.w
     q := geometry.q + geometry.R + geometry.E
@@ -318,7 +318,7 @@ def OriginalPairAllowanceWindow.ofOriginalWindows
     krow := geometry.Krow
     g := geometry.g
     ell := ell
-    boundary := boundary side Z firstD firstE
+    boundary := OriginalPairAllowanceProduction.boundary side Z firstD firstE
     normalization := ?_
     divisor := hdivisor
     leftLengths := LL
