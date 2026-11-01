@@ -309,6 +309,7 @@ private theorem exceptionalLabel_actual_atom_bound
     base hclass hfactor hwindow hcutoff hF₁ hF₂ hvsum hmask0 hmasknorm htime hminimum
     hradius hcentral hdyad hremaining hwidth
 
+set_option linter.unusedSectionVars false in
 /-- The public source estimate has no per-leaf exceptional inequality
 as a hypothesis.  It is produced from actual atom and valuation data,
 then multiplied by the literal first/second divisor and phase factors.

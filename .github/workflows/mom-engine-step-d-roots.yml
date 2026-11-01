@@ -42,6 +42,11 @@ jobs:
               - HeckeSkeleton.Moments.EngineStep.OriginalPairAllowanceWindow.ofOriginalWindows
               - HeckeSkeleton.Moments.EngineStep.ActualCapacityNormLengths.ofOriginalLabels
               - HeckeSkeleton.Moments.EngineStep.ActualCapacityNormLengths.slack_le_of_original_windows
+          - target: ExceptionalOriginalIntegral
+            downstream: HybridLeafExceptionalBinding ActualExceptionalColumnOrientation
+            declarations:
+              - HeckeSkeleton.Moments.EngineStep.exceptionalFourierControl
+              - HeckeSkeleton.Moments.EngineStep.SecondSideFrame.exceptional_original_label_integral_from_atoms
     env:
       LEAN_NUM_THREADS: '2'
       D_ROOT_TARGET: ${{ matrix.target }}
@@ -122,11 +127,16 @@ jobs:
         shell: bash
         run: |
           mkdir -p "$D_ROOT_EVIDENCE/downstream"
+          read -r -a D_DOWNSTREAM_NAMES <<< "$D_ROOT_DOWNSTREAM"
+          D_DOWNSTREAM_TARGETS=()
+          for D_DOWNSTREAM_NAME in "${D_DOWNSTREAM_NAMES[@]}"; do
+            D_DOWNSTREAM_TARGETS+=("HeckeSkeleton.Moments.MOM_ENGINE_STEP.$D_DOWNSTREAM_NAME")
+          done
           D_DOWNSTREAM_STARTED=$(date +%s)
           set +e
           timeout --signal=TERM --kill-after=30s 10m \
             python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
-              "HeckeSkeleton.Moments.MOM_ENGINE_STEP.$D_ROOT_DOWNSTREAM" \
+              "${D_DOWNSTREAM_TARGETS[@]}" \
               --namespace HeckeSkeleton.Moments.EngineStep \
               --evidence "$D_ROOT_EVIDENCE/downstream" 2>&1 |
             tee "$D_ROOT_EVIDENCE/downstream/verification.log"
