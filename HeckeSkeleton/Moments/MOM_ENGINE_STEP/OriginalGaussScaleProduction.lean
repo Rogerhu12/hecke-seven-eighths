@@ -53,9 +53,9 @@ variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain 
 variable {seminorms : Finset (ℕ × ℕ)} {amplitude : ℝ}
 variable (profiles : RawProfileWindow rowDomain heightDomain window seminorms d amplitude)
 
+include profiles in
 /-- This lower norm window follows from membership in the original
 literal prime support, using its own profile representative. -/
-include profiles in
 theorem primeScale_le_annulus_mul_norm (B Z t : ℝ)
     (hB : 0 < B) (hZ : 0 < Z) (ht : t ∈ heightDomain)
     (hwindow : window ⊆ Set.Ici B⁻¹)
@@ -227,7 +227,13 @@ theorem original_branch_gaussScale_lower
     b.frozenSourceIdeal_eq.trans (raw.originalAtlas.branch_product P D label)
   change Z ^ (total + d.geometry.totalLength - idealLogLength Z D) ≤
     B ^ cap * b.residualGaussScale Z (fun i => (d.geometry.slots i).length) X₁ X₂
-  simpa only [hD, SlotGeometry.totalLength] using h
+  calc
+    _ = Z ^ (total + d.geometry.totalLength -
+        idealLogLength Z (frozenSourceIdeal b.plainDivisor₁ b.plainDivisor₂
+          b.keep b.witness.2)) :=
+      congrArg (fun I : Ideal (𝓞 K) =>
+        Z ^ (total + d.geometry.totalLength - idealLogLength Z I)) hD.symm
+    _ ≤ _ := h
 
 end ParentRawAtoms
 end HeckeSkeleton.Moments.EngineStep

@@ -20,6 +20,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckePort.Moments HeckePort.Moments.MobiusRegroup
+open HeckePort.IdealMobiusDivisorSum UniqueFactorizationMonoid
 open WholeAllocation
 
 variable {K : Type} [Field K] [NumberField K]
@@ -96,12 +97,12 @@ theorem ordinaryIntegrand_nonneg (z : U × V) : 0 ≤ B.ordinaryIntegrand z :=
 
 theorem exceptionalIntegrand_integrable :
     Integrable B.exceptionalIntegrand B.measure := by
-  letI := nestedFourierMeasure_finite B.firstKernel B.secondKernel
+  letI : IsFiniteMeasure B.measure := nestedFourierMeasure_finite B.firstKernel B.secondKernel
   exact nested_joint_magnitude_integrable _ _ _ _ _ _ _ _ _
 
 theorem ordinaryIntegrand_integrable :
     Integrable B.ordinaryIntegrand B.measure := by
-  letI := nestedFourierMeasure_finite B.firstKernel B.secondKernel
+  letI : IsFiniteMeasure B.measure := nestedFourierMeasure_finite B.firstKernel B.secondKernel
   exact nested_joint_cauchy_integrable _ _ _ _ _ _ _ _ _
 
 theorem exceptionalCost_nonneg : 0 ≤ B.exceptionalCost :=

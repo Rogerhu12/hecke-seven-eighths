@@ -68,7 +68,7 @@ theorem withInverseNorm_residualCoefficient
 /-- Exact seminorm homogeneity with both actual norm denominators.
 No raw coefficient is replaced by a better bounded coefficient. -/
 theorem withInverseNorm_gram_seminorm
-    {V : Type*} [NormedAddCommGroup V] [NormedSpace ℂ V]
+    {V : Type*} [AddCommGroup V] [Module ℂ V]
     (ideal : ι → A.Exterior) (coefficient : ι → ℂ)
     (hcoefficient : ∀ i ∈ columns,
       coefficient i = raw i / (A.exteriorNorm (ideal i) : ℂ))
@@ -86,7 +86,7 @@ theorem withInverseNorm_gram_seminorm
 /-- Lower norm windows pay the two inverse norms separately.  The raw
 profile window on the right is exactly the original one. -/
 theorem withInverseNorm_gram_le
-    {V : Type*} [NormedAddCommGroup V] [NormedSpace ℂ V]
+    {V : Type*} [AddCommGroup V] [Module ℂ V]
     (ideal : ι → A.Exterior) (coefficient : ι → ℂ)
     (hcoefficient : ∀ i ∈ columns,
       coefficient i = raw i / (A.exteriorNorm (ideal i) : ℂ))

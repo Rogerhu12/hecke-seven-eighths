@@ -105,7 +105,7 @@ theorem left_energy_eq (C : A.GeneralArithmeticContext σ η hS) (r : Bool) (ξ 
         (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 (B.leftTerms r)) x ξ := by
   simpa only [leftFrame, SecondColumnSide.actualCoefficient,
     ActualSecondCorrelationRows.restrictRows, ActualSecondCorrelationRows.correlation,
-    SecondAllocationLabel.leftColumns] using
+    SecondAllocationBranch.leftColumns] using
     (B.leftFactors r).frame_energy C b.val.1.val b.val.2.2.1.val
       (Finset.mem_filter.mp b.property).2.2.1 ξ
 
@@ -116,7 +116,7 @@ theorem right_energy_eq (C : A.GeneralArithmeticContext σ η hS) (r : Bool) (ξ
         (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 (B.rightTerms r)) y ξ := by
   simpa only [rightFrame, SecondColumnSide.actualCoefficient,
     ActualSecondCorrelationRows.restrictRows, ActualSecondCorrelationRows.correlation,
-    SecondAllocationLabel.rightColumns] using
+    SecondAllocationBranch.rightColumns] using
     (B.rightFactors r).frame_energy C b.val.1.val b.val.2.2.2.val
       (Finset.mem_filter.mp b.property).2.2.2 ξ
 

@@ -27,6 +27,20 @@ variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 variable {ΨL ΨR : Ideal (𝓞 F) →* ℂ} {WL₁ WL₂ WR₁ WR₂ : ℝ → ℂ}
 variable (HL : ExceptionalVolumeControl ΨL WL₁ WL₂) (HR : ExceptionalVolumeControl ΨR WR₁ WR₂)
 
+private theorem ordinaryExceptionalTerminal_weighted_bound
+    {normalization rowFactor pairValue sourceValue coefficient scaleFactor : ℝ}
+    (hnormalization : 0 ≤ normalization) (hrowFactor : 0 ≤ rowFactor)
+    (hpair : pairValue ≤ rowFactor * sourceValue)
+    (hsource : normalization * sourceValue ≤ coefficient * scaleFactor) :
+    normalization * pairValue ≤ rowFactor * coefficient * scaleFactor := by
+  calc
+    normalization * pairValue ≤ normalization * (rowFactor * sourceValue) :=
+      mul_le_mul_of_nonneg_left hpair hnormalization
+    _ = rowFactor * (normalization * sourceValue) := by ring
+    _ ≤ rowFactor * (coefficient * scaleFactor) :=
+      mul_le_mul_of_nonneg_left hsource hrowFactor
+    _ = rowFactor * coefficient * scaleFactor := by ring
+
 namespace SecondSideFrame
 
 variable {H ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -96,10 +110,14 @@ theorem ordinary_exceptional_magnitude_terminal_from_atoms
         (UL.constant * UR.constant) * Z ^ (Aexp - c - w - b₂ - r₁ - r₂) := by
     have hl := (TL h).source.rawMass_le_atomic_power C Z hZ UL (hleftAtoms h)
     have hr := (TR h).source.rawMass_le_atomic_power C Z hZ UR (hrightAtoms h)
-    apply (mul_le_mul hl hr (TR h).source.rawMass_nonneg
-      (mul_nonneg UL.constant_nonneg (Real.rpow_nonneg hz.le _))).trans_eq
-    rw [← hexponent, Real.rpow_add hz]
-    ring
+    calc
+      _ ≤ (UL.constant * Z ^ UL.exponent) * (UR.constant * Z ^ UR.exponent) :=
+        mul_le_mul hl hr (TR h).source.rawMass_nonneg
+          (mul_nonneg UL.constant_nonneg (Real.rpow_nonneg hz.le _))
+      _ = (UL.constant * UR.constant) * Z ^ (UL.exponent + UR.exponent) := by
+        rw [Real.rpow_add hz UL.exponent UR.exponent]
+        ac_rfl
+      _ = _ := by rw [hexponent]
   have hp := actual_ordinary_exceptional_contribution (V := V) (σ := σ) HL HR
     C R.primes R.primes_injective R.leftMultiplicity R.rightMultiplicity
     (Finset.univ : Finset (R.exceptionalRows Q))
@@ -122,9 +140,8 @@ theorem ordinary_exceptional_magnitude_terminal_from_atoms
   have hrow0 : 0 ≤ rowAmplitude * Z ^ (g₂ - t₂) /
       (Real.sqrt left.normalizationScale * Real.sqrt right.normalizationScale) := by
     positivity
-  have hmul := mul_le_mul_of_nonneg_left hp hrow0
-  apply (mul_le_mul_of_nonneg_left hs (Real.rpow_nonneg hz.le _)).trans
-  convert hmul using 1 <;> ring
+  exact ordinaryExceptionalTerminal_weighted_bound
+    (Real.rpow_nonneg hz.le _) hrow0 hs hp
 
 end SecondSideFrame
 end HeckeSkeleton.Moments.EngineStep
