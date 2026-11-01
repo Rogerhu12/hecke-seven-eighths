@@ -2,7 +2,7 @@ name: Expansion actual definitions and axiom audit
 
 on:
   push:
-    branches: [codex/expansion-detector-20261030]
+    branches: [codex/expansion-detector-20261030, integrate/expansion-highbin-prime]
   workflow_dispatch:
 
 permissions:
