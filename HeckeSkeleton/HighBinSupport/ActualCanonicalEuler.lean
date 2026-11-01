@@ -135,6 +135,7 @@ theorem targetEuler_factor_bound
     have hregular := targetEuler_regular_bound K c a ha haB Q u p hp s w z hs hw hz
     have hq1 : 1 ≤ q := by
       have hqN : 1 < p.val.asIdeal.absNorm := one_lt_primeIdeal_absNorm K p.val
+      change (1 : ℝ) ≤ (p.val.asIdeal.absNorm : ℝ)
       exact_mod_cast hqN.le
     have hexponent : -1 - 10 * targetBuffer K c ≤ beta := by
       dsimp only [beta]

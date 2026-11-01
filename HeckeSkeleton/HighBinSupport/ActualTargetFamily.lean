@@ -145,7 +145,8 @@ theorem chosenTargetFamily_normForm (Z T : ℝ)
   apply mul_le_mul_of_nonneg_left
   · apply Real.rpow_le_rpow_of_exponent_le hZ1
     have hm : targetLoss K c ≤ c.lamB := min_le_right _ _
-    linarith
+    exact add_le_add le_rfl
+      (div_le_div_of_nonneg_right hm (by norm_num : (0 : ℝ) ≤ 4))
   · exact mul_nonneg (targetCanonicalParameters_positive K c).2.2.1.le (Nat.cast_nonneg _)
 
 /-- The whole boundary is the initial contour minus the computed block

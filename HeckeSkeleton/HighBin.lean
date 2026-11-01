@@ -224,6 +224,8 @@ theorem rows_in_bin (P : ActualHighPresentation K c)
 
 end ActualHighPresentation
 
+attribute [local instance] expansionNormOneSpace expansionNormOneBorel
+
 section PhysicalPresentationConstructor
 
 open Expansion.Project ExpansionInterfaces
@@ -665,6 +667,7 @@ theorem highShiftedNormForm (c : TargetContext K)
     dsimp only [expansionInternalCap] at hc
     linarith [min_le_right c.family.lamA c.lamB, c.lamB_pos]
   have hzeta : 13 / 16 + expansionShellAllowance K c ≤ 1 := by
+    dsimp only [expansionShellAllowance]
     linarith [(ExpansionInterfaces.shellAllowance_spec c.family.lamA_pos).2.1]
   obtain ⟨A, C, hA, hC, hb⟩ := HighBinPhysicalNorm.exists_physicalRecipe_normForm
     K (excludedPlaces K c) (probeMeasures K c).haar (probeData K c)
