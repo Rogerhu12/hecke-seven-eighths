@@ -257,12 +257,16 @@ theorem phase_class_eq_leaf_sum (exceptional : s.CoverHybridPredicates LC RC)
   change cost
       (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources v.1).rows.filter
         (fun h => v.chart.rowLabel h = v.rowLabel)) multipliedLeft multipliedRight = _
-  calc
-    _ = cost rows.rows multipliedLeft multipliedRight :=
-      congrArg (fun carrier : Finset Q => cost carrier multipliedLeft multipliedRight) hfilter
-    _ = cost rows.rows phasedLeft phasedRight :=
-      congrArg₂ (cost rows.rows) hleft hright
-    _ = _ := hsplit
+  have hcarrier :
+      cost
+        (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources v.1).rows.filter
+          (fun h => v.chart.rowLabel h = v.rowLabel)) multipliedLeft multipliedRight =
+        cost rows.rows multipliedLeft multipliedRight :=
+    congrArg (fun carrier : Finset Q => cost carrier multipliedLeft multipliedRight) hfilter
+  have hcoeff : cost rows.rows multipliedLeft multipliedRight =
+      cost rows.rows phasedLeft phasedRight :=
+    congrArg₂ (cost rows.rows) hleft hright
+  exact hcarrier.trans (hcoeff.trans hsplit)
 
 end CoveredClassKey
 
