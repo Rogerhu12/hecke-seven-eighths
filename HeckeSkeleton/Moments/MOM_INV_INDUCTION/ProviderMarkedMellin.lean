@@ -75,7 +75,10 @@ theorem test_polynomial_seminorm (q : Finset (ℕ × ℕ)) :
   change q.sup (schwartzSeminormFamily ℝ ℝ ℂ) (test t) ≤
     (A : ℝ) * v.sup (schwartzSeminormFamily ℝ ℝ ℂ)
       (FinalMellinTests.weightedTest 0 t) at hm
-  exact hm.trans ((mul_le_mul_of_nonneg_left (htest t) A.property).trans_eq (by ring))
+  calc
+    _ ≤ (A : ℝ) * (C * (1 + |t|) ^ J) :=
+      hm.trans (mul_le_mul_of_nonneg_left (htest t) A.property)
+    _ = _ := (mul_assoc (A : ℝ) C ((1 + |t|) ^ J)).symm
 
 theorem quotient_inverse (W : SchwartzMap ℝ ℂ)
     (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2)
@@ -104,8 +107,11 @@ theorem quotient_integrable (W : SchwartzMap ℝ ℂ)
       (continuous_columnPhase _)).mul (continuous_columnPhase _)).mul
         (continuous_columnPhase _) |>.aestronglyMeasurable)
   exact Filter.Eventually.of_forall fun t => by
-    simp only [norm_mul, norm_columnPhase, mul_one]
-    exact le_rfl
+    change ‖density W hW t * columnPhase t (Real.log j) *
+      columnPhase t (Real.log c) * columnPhase t (-Real.log P) *
+        columnPhase t (-Real.log X)‖ ≤ ‖density W hW t‖
+    simpa only [norm_mul, norm_columnPhase, mul_one] using
+      (le_rfl : ‖density W hW t‖ ≤ ‖density W hW t‖)
 
 /-- The same actual column annulus is used for every residual tuple;
 the inverse profile is separated without replacing its argument. -/
@@ -182,6 +188,7 @@ theorem finite_quotient_inverse {α β : Type*} (C : Finset α) (P : α → Fins
     _ = _ := by
       apply integral_congr_ae
       exact Filter.Eventually.of_forall fun t => by
+        dsimp only
         rw [Finset.mul_sum]
         apply Finset.sum_congr rfl
         intro c hcC
@@ -207,7 +214,7 @@ theorem product_norm_phase (p : Fin J → HeightOneSpectrum (𝓞 K)) (t : ℝ) 
       ∏ i, columnPhase t (-Real.log (ProviderMarkedPools.norm (p i).asIdeal)) := by
   have hN (i : Fin J) : 0 < ProviderMarkedPools.norm (p i).asIdeal :=
     ProviderMarkedPools.norm_pos (p i).ne_bot
-  simp only [ProviderMarkedPools.norm, primeProduct, map_prod, Nat.cast_prod]
+  simp only [ProviderMarkedPools.norm, primeProduct, map_prod, Nat.cast_prod] at hN ⊢
   rw [Real.log_prod (fun i hi => (hN i).ne'), ← Finset.sum_neg_distrib, phase_sum]
 
 def primeWeight (a : Fin J → Ideal (𝓞 K) → ℂ) (t : ℝ)
@@ -230,6 +237,7 @@ theorem twisted_choices_eq_mark
         columnPhase t (-Real.log (ProviderMarkedPools.norm (primeProduct Finset.univ p)))) =
       divisorMark Finset.univ (fun i => (lists i).image HeightOneSpectrum.asIdeal)
         (primeWeight a t) c := by
+  unfold primeWeight
   rw [← signed_choices_eq_divisorMark lists hdis
     (fun i P => a i P * columnPhase t (-Real.log (ProviderMarkedPools.norm P))) c]
   apply Finset.sum_congr rfl
@@ -329,6 +337,7 @@ theorem residual_source_eq_canonical_integral
       rw [← Finset.sum_mul, original_twisted_choices lists hdis a j c hj
         (hc c hcC).1 (hc c hcC).2 χ t]
       ring
+    dsimp only
     rw [hsum]
     ring
 

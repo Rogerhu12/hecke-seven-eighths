@@ -191,8 +191,9 @@ theorem finite_rows_le_orbital (C : CanonicalBlock.ColumnData K S σ)
     hrowBound
   rw [Finset.sum_image (fun _ _ _ _ h =>
     CanonicalSectors.rowOrbit_injective K Sset Γ D h)] at hb
-  simpa only [amplitude_rowOrbit K S D Γ hΓ, ProviderRows.rowEmbedding,
-    Function.Embedding.coeFn_mk] using hb
+  change (∑ x ∈ ProviderRows.exteriorRows K S Γ T,
+      ‖rowPolynomial K S D Γ C B N f (x.1.val.val, x.2)‖ ^ 2) ≤ _
+  simpa only [amplitude_rowOrbit K S D Γ hΓ] using hb
 
 /-- The same fixed original profile supplies a genuine provider parent
 for every finite cube pool and every row-independent cube coefficient. -/

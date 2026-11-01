@@ -126,7 +126,7 @@ theorem sum_tuples_split (J : Finset (Fin d))
       ∑ q ∈ tuples (restrictedLists J lists),
         ∑ r ∈ tuples (restrictedLists (remaining J) lists), f (glue J q r) := by
   symm
-  rw [← Finset.sum_product]
+  rw [← Finset.sum_product']
   apply Finset.sum_bij (fun qr hqr => glue J qr.1 qr.2)
   · intro qr hqr
     exact glue_mem J lists qr.1 qr.2 (Finset.mem_product.mp hqr).1

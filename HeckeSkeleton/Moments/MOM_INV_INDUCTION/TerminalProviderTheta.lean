@@ -275,7 +275,6 @@ theorem reopenedCanonical_eq_finite
       HeckePort.CenteredMomentGenerator.toExterior K S C hC), rfl⟩
   rw [← hinj.tsum_eq hs,
     tsum_eq_sum (s := boundedPool K S X ×ˢ squarefreePool K S X), Finset.sum_product]
-  · rfl
   · intro BC hnot
     by_contra hne
     have ht : canonicalCompletedTerm (exteriorGamma K S D)

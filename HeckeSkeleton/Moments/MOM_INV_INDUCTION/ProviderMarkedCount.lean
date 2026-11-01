@@ -31,7 +31,8 @@ selected every prime. -/
 theorem tuple_product_injective
     (lists : Fin J → Finset (HeightOneSpectrum (𝓞 K)))
     (hdis : Pairwise (Disjoint on lists)) :
-    Set.InjOn (primeProduct Finset.univ) (tuples lists) := by
+    Set.InjOn (primeProduct Finset.univ)
+      (↑(tuples lists) : Set (Fin J → HeightOneSpectrum (𝓞 K))) := by
   intro p hp q hq heq
   funext i
   have hpi : (p i).asIdeal ∣ primeProduct Finset.univ q := by
