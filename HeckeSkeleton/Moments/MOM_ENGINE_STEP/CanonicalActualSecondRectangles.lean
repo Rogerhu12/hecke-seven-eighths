@@ -251,13 +251,13 @@ theorem second_weight_empty (tilt : ℝ) :
     Fin.prod_univ_one, zpow_neg_one, mul_comm]
 
 variable (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
-variable (prefix : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
+variable («prefix» : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
 variable (index : Fin k → Fin parent.geometry.slotCount)
 variable (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
 variable (hemb : P.arithmetic.embedding = σ)
 variable (side : SecondColumnSide) (χ : (PUnit × PUnit) →* Circle)
 variable (F : SecondCoefficientTermDictionary
-  (movingSourceCharacters parent correction prefix remaining index)
+  (movingSourceCharacters parent correction «prefix» remaining index)
   (side.phase PUnit χ) S₁ S₂ S)
 variable (b : SupportCartesianBranch S₁ S₂ S support)
 variable (common : A.Exterior)
@@ -274,7 +274,7 @@ local notation "Slots" => fun j => SupportCartesian.primeLive
 local notation "idx" => SlotRestriction.index b.keep
 local notation "weight₂" => CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt (ε).val
 local notation "commonScalar" => b.bareCommonScalar
-  (movingSourceCharacters parent correction prefix remaining index) F.base F.length F.slotWeight
+  (movingSourceCharacters parent correction «prefix» remaining index) F.base F.length F.slotWeight
 
 /-- The residual core has no common scalar in its profiles. It is the
 table used after the exact pre-Cauchy common-scalar reweighting. -/
@@ -283,7 +283,7 @@ def secondResidualCoreDictionary :
       (movingSourceCharacters parent correction (prefix.append E₂) remaining
         (fun j => index (idx j)))
       (side.phase PUnit χ) L₁ L₂ Slots :=
-  emptyMaskWeightedDictionary parent correction prefix remaining (fun j => index (idx j))
+  emptyMaskWeightedDictionary parent correction «prefix» remaining (fun j => index (idx j))
     hroot hemb side χ L₁ L₂ Slots
     (F.scale₁ / idealNorm K b.plainDivisor₁)
     (F.scale₂ / idealNorm K b.plainDivisor₂) F.base (fun j => F.length (idx j))
@@ -295,9 +295,9 @@ def secondResidualCoreDictionary :
 
 theorem secondResidualCoreDictionary_coefficient
     (i : AllocationColumn K b.keep.card) (hi : i ∈ b.residualColumns) :
-    (secondResidualCoreDictionary parent correction prefix remaining index hroot hemb
+    (secondResidualCoreDictionary parent correction «prefix» remaining index hroot hemb
       side χ F b tilt J hJ).coefficient i =
-      b.bareResidualCoefficient (movingSourceCharacters parent correction prefix remaining index)
+      b.bareResidualCoefficient (movingSourceCharacters parent correction «prefix» remaining index)
         F.scale₁ F.scale₂ F.base F.length F.leftWeight F.rightWeight F.slotWeight i *
           weight₂ (J i).val := by
   rw [secondResidualCoreDictionary, emptyMaskWeightedDictionary_coefficient]
@@ -313,7 +313,7 @@ def secondResidualDictionary :
       (movingSourceCharacters parent correction (prefix.append E₂) remaining
         (fun j => index (idx j)))
       (side.phase PUnit χ) L₁ L₂ Slots :=
-  emptyMaskWeightedDictionary parent correction prefix remaining (fun j => index (idx j))
+  emptyMaskWeightedDictionary parent correction «prefix» remaining (fun j => index (idx j))
     hroot hemb side χ L₁ L₂ Slots
     (F.scale₁ / idealNorm K b.plainDivisor₁)
     (F.scale₂ / idealNorm K b.plainDivisor₂) F.base (fun j => F.length (idx j))
@@ -327,7 +327,7 @@ def secondResidualDictionary :
 real reconstructed columns. No rectangle factor identity is an input. -/
 theorem secondResidualDictionary_coefficient
     (i : AllocationColumn K b.keep.card) (hi : i ∈ b.residualColumns) :
-    (secondResidualDictionary parent correction prefix remaining index hroot hemb
+    (secondResidualDictionary parent correction «prefix» remaining index hroot hemb
       side χ F b common scalar tilt J hJ).coefficient i =
       scalar * F.coefficient (b.reconstruct i) * weight₂ (common.val * (J i).val) := by
   rw [secondResidualDictionary, emptyMaskWeightedDictionary_coefficient]
@@ -339,7 +339,7 @@ theorem secondResidualDictionary_coefficient
       simp only [second_weight_empty (P := P) (R := R)]
       change (scalar * commonScalar *
         ((E₂).residueHom (σ := σ) * CanonicalSecondRectangularFactors.normPower tilt) common.val) *
-          b.bareResidualCoefficient (movingSourceCharacters parent correction prefix remaining index)
+          b.bareResidualCoefficient (movingSourceCharacters parent correction «prefix» remaining index)
             F.scale₁ F.scale₂ F.base F.length F.leftWeight F.rightWeight F.slotWeight i *
           ((E₂).residueHom (σ := σ) * CanonicalSecondRectangularFactors.normPower tilt)
             (allocationColumnIdeal i) = _
@@ -353,9 +353,9 @@ theorem second_original_to_core
     (i : AllocationColumn K b.keep.card) (hi : i ∈ b.residualColumns) :
     scalar * F.coefficient (b.reconstruct i) * weight₂ (common.val * (J i).val) =
       (scalar * commonScalar * weight₂ common.val) *
-        (secondResidualCoreDictionary parent correction prefix remaining index hroot hemb
+        (secondResidualCoreDictionary parent correction «prefix» remaining index hroot hemb
           side χ F b tilt J hJ).coefficient i := by
-  rw [secondResidualCoreDictionary_coefficient parent correction prefix remaining index
+  rw [secondResidualCoreDictionary_coefficient parent correction «prefix» remaining index
     hroot hemb side χ F b tilt J hJ i hi,
     punit_dictionary_bare side χ F (b.reconstruct i)
       (b.original_subset (b.reconstruct_mem i hi)),
@@ -485,7 +485,7 @@ variable {H τ : Type*} [Fintype τ] [DecidableEq τ]
 variable (rows : ActualSecondCorrelationRows A σ H τ)
 variable {k : ℕ}
 variable (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
-variable (prefix : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
+variable («prefix» : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
 variable (index : Fin k → Fin parent.geometry.slotCount)
 variable (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
 variable (hemb : P.arithmetic.embedding = σ)
@@ -493,7 +493,7 @@ variable (side : SecondColumnSide) (χ : (PUnit × PUnit) →* Circle)
 variable {S₁ S₂ : Finset (Ideal (𝓞 K))}
 variable {S : Fin k → Finset (HeightOneSpectrum (𝓞 K))}
 variable (F : SecondCoefficientTermDictionary
-  (movingSourceCharacters parent correction prefix remaining index)
+  (movingSourceCharacters parent correction «prefix» remaining index)
   (side.phase PUnit χ) S₁ S₂ S)
 variable {support : Finset (Ideal (𝓞 K))}
 variable (b : SupportCartesianBranch S₁ S₂ S support)
@@ -511,7 +511,7 @@ local notation "Slots" => fun j => SupportCartesian.primeLive
   (S (SlotRestriction.index b.keep j)) support
 local notation "ε" => sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅
 local notation "weight₂" => CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt (ε).val
-local notation "table" => secondResidualDictionary parent correction prefix remaining index
+local notation "table" => secondResidualDictionary parent correction «prefix» remaining index
   hroot hemb side χ F b common scalar tilt J hJ
 
 /-- The computed first table constructs the actual second rectangle,
@@ -542,7 +542,7 @@ def secondRectangularFactors :
   gaussSlotScale_pos := hG
   coefficient_factor i hi := by
     rw [originalNormalizers_coefficient table G₁ G₂ G hG₁ hG₂ hG i]
-    exact (secondResidualDictionary_coefficient parent correction prefix remaining index
+    exact (secondResidualDictionary_coefficient parent correction «prefix» remaining index
       hroot hemb side χ F b common scalar tilt J hJ i hi).symm
   ray_factor _ _ := Subsingleton.elim _ _
   leftLocation h I := rowOffset h - Real.log (A.exteriorNorm common) - Real.log (idealNorm K I)
@@ -569,19 +569,19 @@ been moved into the original row weight. This is the input for
 def secondResidualCoreRectangularFactors :
     SecondRectangularFactors rows PUnit side L₁ L₂ Slots J (fun _ => PUnit.unit)
       (fun i => b.bareResidualCoefficient
-        (movingSourceCharacters parent correction prefix remaining index)
+        (movingSourceCharacters parent correction «prefix» remaining index)
         F.scale₁ F.scale₂ F.base F.length F.leftWeight F.rightWeight F.slotWeight i *
           weight₂ (J i).val)
       (fun h i => rowOffset h - Real.log (A.exteriorNorm common * A.exteriorNorm (J i))) χ := by
-  let core := secondResidualCoreDictionary parent correction prefix remaining index
+  let core := secondResidualCoreDictionary parent correction «prefix» remaining index
     hroot hemb side χ F b tilt J hJ
-  let f := secondRectangularFactors rows parent correction prefix remaining index hroot hemb
+  let f := secondRectangularFactors rows parent correction «prefix» remaining index hroot hemb
     side χ F b common 1 tilt J hJ hbase hlength G₁ G₂ G hG₁ hG₂ hG rowOffset
   refine { f with dictionary := originalNormalizers core G₁ G₂ G,
     coefficient_factor := ?_, ray_factor := ?_ }
   · intro i hi
     rw [originalNormalizers_coefficient core G₁ G₂ G hG₁ hG₂ hG i]
-    exact (secondResidualCoreDictionary_coefficient parent correction prefix remaining index
+    exact (secondResidualCoreDictionary_coefficient parent correction «prefix» remaining index
       hroot hemb side χ F b tilt J hJ i hi).symm
   · intro i _
     exact Subsingleton.elim _ _

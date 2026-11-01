@@ -28,6 +28,20 @@ variable {A : SArithmeticData F} {σ : F →+* ℂ}
 variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 variable {η : RayClassCharacter F A.modulus} {hS : A.ContainsTraceBadPlaces}
 
+private theorem rightTerminal_weighted_bound
+    {normalization rowFactor pairValue sourceValue coefficient profileFactor heightFactor scaleFactor : ℝ}
+    (hnormalization : 0 ≤ normalization) (hrowFactor : 0 ≤ rowFactor)
+    (hpair : pairValue ≤ rowFactor * sourceValue)
+    (hsource : normalization * sourceValue ≤ coefficient * profileFactor * heightFactor * scaleFactor) :
+    normalization * pairValue ≤ rowFactor * coefficient * profileFactor * heightFactor * scaleFactor := by
+  calc
+    normalization * pairValue ≤ normalization * (rowFactor * sourceValue) :=
+      mul_le_mul_of_nonneg_left hpair hnormalization
+    _ = rowFactor * (normalization * sourceValue) := mul_left_comm _ _ _
+    _ ≤ rowFactor * (coefficient * profileFactor * heightFactor * scaleFactor) :=
+      mul_le_mul_of_nonneg_left hsource hrowFactor
+    _ = rowFactor * coefficient * profileFactor * heightFactor * scaleFactor := by ac_rfl
+
 theorem exists_original_magnitude_terminal_with_right_cutoff
     {Catalogue : Type*} [Fintype Catalogue]
     (χ : Catalogue → HeckeCharacter F)
@@ -155,9 +169,11 @@ theorem exists_original_magnitude_terminal_with_right_cutoff
     (fun h => (TR h).source) (fun h => (TL h).source)
     (fun h _ => hmask0 h) (fun h _ => hmasknorm h) (fun h _ => htime h)
     (fun h _ => hminimum h) (fun h _ => by
-      rw [mul_comm (TR h).source.rawMass,
-        show Aexp - c - w - b₂ - r₂ - r₁ = Aexp - c - w - b₂ - r₁ - r₂ by ring]
-      exact hnormal h)
+      have hexp : Aexp - c - w - b₂ - r₁ - r₂ =
+          Aexp - c - w - b₂ - r₂ - r₁ := by ring
+      exact (mul_comm (TR h).source.rawMass (TL h).source.rawMass).le.trans
+        ((hnormal h).trans_eq
+          (congrArg (fun exponent : ℝ => (UL.constant * UR.constant) * Z ^ exponent) hexp)))
   have hp' : Z ^ (-((2 * (Aexp - c - w) - K - g - g₂ - V₀) +
         (q + R₀ + E₀ + wo + t₂ + V₀) + (b₂ - p₂ + w + Bcommon + ell))) *
       (∑ h : R.exceptionalRows Q, ‖(TL h).source.value‖ * ‖(TR h).source.value‖) ≤
@@ -165,7 +181,15 @@ theorem exists_original_magnitude_terminal_with_right_cutoff
           (1 + height) ^ order *
           Z ^ (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε +
             slotError - divisorLower + cutoffLoss / 6) := by
-    simpa only [mul_comm] using hp
+    have hsum :
+        (∑ h : R.exceptionalRows Q, ‖(TL h).source.value‖ * ‖(TR h).source.value‖) =
+          (∑ h : R.exceptionalRows Q, ‖(TR h).source.value‖ * ‖(TL h).source.value‖) := by
+      exact Finset.sum_congr rfl (fun h _ =>
+        mul_comm ‖(TL h).source.value‖ ‖(TR h).source.value‖)
+    exact (congrArg (fun sourceValue : ℝ =>
+      Z ^ (-((2 * (Aexp - c - w) - K - g - g₂ - V₀) +
+        (q + R₀ + E₀ + wo + t₂ + V₀) + (b₂ - p₂ + w + Bcommon + ell))) * sourceValue)
+      hsum).le.trans hp
   have hw := R.weighted_correlation_norm_le_of_windows C hm (R.rows.filter Q.exceptional)
     Z g₂ t₂ rowAmplitude hz hrowAmplitude hgcd hunit hweight
   have hs := left.centered_pair_magnitude_le_exceptionalValues right EL ER
@@ -175,9 +199,8 @@ theorem exists_original_magnitude_terminal_with_right_cutoff
   have hrow0 : 0 ≤ rowAmplitude * Z ^ (g₂ - t₂) /
       (Real.sqrt left.normalizationScale * Real.sqrt right.normalizationScale) := by
     positivity
-  have hmul := mul_le_mul_of_nonneg_left hp' hrow0
-  apply (mul_le_mul_of_nonneg_left hs (Real.rpow_nonneg hz.le _)).trans
-  convert hmul using 1 <;> ring
+  exact rightTerminal_weighted_bound
+    (Real.rpow_nonneg hz.le _) hrow0 hs hp'
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalExceptionalTerminal
 

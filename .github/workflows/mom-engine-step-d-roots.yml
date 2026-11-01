@@ -6,6 +6,7 @@ on:
     paths:
       - 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/**'
       - '.github/workflows/mom-engine-step-d-roots.yml'
+      - '.github/scripts/mom_engine_step_d_eoi_diagnostic.py'
       - 'lean-toolchain'
       - 'lakefile.toml'
       - 'lake-manifest.json'
@@ -178,5 +179,62 @@ jobs:
         with:
           name: mom-engine-step-d-root-${{ matrix.target }}-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
           path: ${{ env.D_ROOT_EVIDENCE }}/
+          if-no-files-found: error
+          retention-days: 14
+
+  eoi_diagnostic:
+    name: EOI markers and profiler (diagnostic only)
+    if: >-
+      (github.event_name == 'pull_request' && github.head_ref == 'cloud/mom-engine-step-d') ||
+      (github.event_name == 'workflow_dispatch' && github.ref_name == 'cloud/mom-engine-step-d')
+    runs-on: ubuntu-24.04
+    # Allow ordinary environment setup plus the separately bounded dependency
+    # build (900 s) and instrumented copy (150 s), then always upload evidence.
+    timeout-minutes: 45
+    continue-on-error: true
+    permissions:
+      contents: read
+    env:
+      LEAN_NUM_THREADS: '2'
+      EOI_DIAG_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      EOI_DIAG_EVIDENCE: mom-engine-step-d-diagnostics/ExceptionalOriginalIntegral
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Provide normal full-import memory mapping capacity
+        shell: bash
+        run: |
+          mkdir -p "$EOI_DIAG_EVIDENCE"
+          EOI_DIAG_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$EOI_DIAG_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > "$EOI_DIAG_EVIDENCE/memory-mapping.txt"
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore the same ordinary precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Observe the complete original EOI copy without changing acceptance
+        shell: bash
+        run: |
+          python3 -u .github/scripts/mom_engine_step_d_eoi_diagnostic.py \
+            --repo "$GITHUB_WORKSPACE" \
+            --evidence "$EOI_DIAG_EVIDENCE" \
+            --expected-head "$EOI_DIAG_EXPECTED_HEAD" \
+            --dependency-timeout 900
+      - name: Preserve EOI diagnostic evidence immediately after this independent job
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-engine-step-d-eoi-diagnostic-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
+          path: ${{ env.EOI_DIAG_EVIDENCE }}/
           if-no-files-found: error
           retention-days: 14

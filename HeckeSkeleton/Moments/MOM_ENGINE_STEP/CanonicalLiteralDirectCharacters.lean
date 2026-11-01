@@ -106,7 +106,7 @@ def literalLeftDirectRecipe
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst
   let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
   let extra := literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp)
-  let original := Q.literalSecondInputRecipe (σ := σ) ξ W a Z t Y₁ Y₂ centered
+  let «original» := Q.literalSecondInputRecipe (σ := σ) ξ W a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ branch F (unitExterior A) δ₁ δ₂ extra
   have e := literalLeftDirectCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
@@ -134,7 +134,7 @@ def literalRightDirectRecipe
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst
   let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
   let extra := literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp)
-  let original := Q.literalSecondInputRecipe (σ := σ) ξ W a Z t Y₁ Y₂ centered
+  let «original» := Q.literalSecondInputRecipe (σ := σ) ξ W a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ branch F (unitExterior A) δ₁ δ₂ extra
   have e := literalRightDirectCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label

@@ -218,7 +218,7 @@ def literalLeftPoolExtraction
     (F := F) (j := j) hlive
   exact ActualGaussStage.preparedLiteralExtraction
     (v := v) (exceptional := exceptional) (F := F) (x := firstPoint) (j := j)
-    (leftAtoms := leftAtoms) (rightAtoms := rightAtoms)
+    («leftAtoms» := leftAtoms) («rightAtoms» := rightAtoms)
     (hcoeffL := literalLeftPool_leftAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       hDiff hroot hemb δ₂ hδ₂ hδ₂half retainedScale g hscale cutoff₂ hcutoff₂
       dimension width q n hnorm character dyad v firstFixed hfirst hs.1)
@@ -263,7 +263,7 @@ def literalLeftPoolOrdinaryBinding
     (F := F) (j := j) hlive
   exact ActualGaussStage.preparedLiteralOrdinaryBinding
     (v := v) (exceptional := exceptional) (F := F) (x := firstPoint) (j := j)
-    (leftAtoms := leftAtoms) (rightAtoms := rightAtoms)
+    («leftAtoms» := leftAtoms) («rightAtoms» := rightAtoms)
     (hcoeffL := literalLeftPool_leftAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       hDiff hroot hemb δ₂ hδ₂ hδ₂half retainedScale g hscale cutoff₂ hcutoff₂
       dimension width q n hnorm character dyad v firstFixed hfirst hs.1)
@@ -393,7 +393,7 @@ def literalRightPoolExtraction
     (F := F) (j := j) hlive
   exact ActualGaussStage.preparedLiteralExtraction
     (v := v) (exceptional := exceptional) (F := F) (x := firstPoint) (j := j)
-    (leftAtoms := leftAtoms) (rightAtoms := rightAtoms)
+    («leftAtoms» := leftAtoms) («rightAtoms» := rightAtoms)
     (hcoeffL := literalRightPool_leftAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       hDiff hroot hemb δ₂ hδ₂ hδ₂half retainedScale g hscale cutoff₂ hcutoff₂
       dimension width q n hnorm character dyad v firstFixed hfirst hs.1)
@@ -438,7 +438,7 @@ def literalRightPoolOrdinaryBinding
     (F := F) (j := j) hlive
   exact ActualGaussStage.preparedLiteralOrdinaryBinding
     (v := v) (exceptional := exceptional) (F := F) (x := firstPoint) (j := j)
-    (leftAtoms := leftAtoms) (rightAtoms := rightAtoms)
+    («leftAtoms» := leftAtoms) («rightAtoms» := rightAtoms)
     (hcoeffL := literalRightPool_leftAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       hDiff hroot hemb δ₂ hδ₂ hδ₂half retainedScale g hscale cutoff₂ hcutoff₂
       dimension width q n hnorm character dyad v firstFixed hfirst hs.1)

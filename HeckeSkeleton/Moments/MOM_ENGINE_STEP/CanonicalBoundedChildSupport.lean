@@ -222,7 +222,7 @@ theorem positive_common_support_eq (p : ι → ExteriorPrime A)
   simp only [Finset.mem_filter, Finset.mem_univ, true_and]
   exact iff_of_true (Nat.ne_of_gt (hm i)) (Nat.ne_of_gt (hn i))
 
-variable (parent : MomentData K ω ψ) (prefix : OriginalMovingFactors A P R)
+variable (parent : MomentData K ω ψ) («prefix» : OriginalMovingFactors A P R)
 variable (correction : HeckeCharacter K) (hcorr : correction = 1 ∨ correction ∈ parent.theta)
 variable (C : A.GeneralArithmeticContext σ η hS) (p : ι → ExteriorPrime A)
 variable (hp : Function.Injective p) (m n : ι → ℕ)
@@ -235,7 +235,7 @@ variable (index : Fin geometry.slotCount → Fin parent.geometry.slotCount)
 local notation "moving" => prefix.append (secondOriginalMovingFactors P R C p m n pattern)
 local notation "rest" => (remaining * exteriorMomentIdeal firstCommon) *
   exteriorMomentIdeal (secondSixthRootIdeal p m n)
-local notation "child" => CanonicalMovingPhaseCalibration.childData P R parent prefix correction
+local notation "child" => CanonicalMovingPhaseCalibration.childData P R parent «prefix» correction
   hcorr C p m n pattern sector (remaining * exteriorMomentIdeal firstCommon) budget
   inverse left right geometry index
 
@@ -261,7 +261,7 @@ theorem child_common_parts (secondRight : Bool) (u I : HeckeGeneral.Analysis.Non
     (nonZeroDivisors.coe_ne_zero I)
     (mul_ne_zero (moving).support.property.1 (nonZeroDivisors.coe_ne_zero rest))
     (primeSupport (primePowerProduct p m).val)
-    (second_common_subset_full_mask prefix (remaining * exteriorMomentIdeal firstCommon)
+    (second_common_subset_full_mask «prefix» (remaining * exteriorMomentIdeal firstCommon)
       C p hp m n hm hn pattern) hfull
   refine ⟨hout, supportExtract_eq_one_of_coprime I.val firstCommon.val
     (nonZeroDivisors.coe_ne_zero I) firstCommon.property.1
@@ -423,7 +423,7 @@ variable {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
-variable (parent : MomentData K ω ψ) (prefix : OriginalMovingFactors A P R)
+variable (parent : MomentData K ω ψ) («prefix» : OriginalMovingFactors A P R)
 variable (correction : HeckeCharacter K) (hcorr : correction = 1 ∨ correction ∈ parent.theta)
 variable (C : A.GeneralArithmeticContext σ η hS) (primes : ι → ExteriorPrime A)
 variable (m n : ι → ℕ) (pattern : ι → Bool)
@@ -441,7 +441,7 @@ variable (annulus δ₁ δ₂ : ℝ) (hG₁ : 0 < G₁) (hG₂ : 0 < G₂)
 variable (hG : ∀ i, 0 < G i) (hAnnulus : 1 ≤ annulus)
 variable (firstDirection secondDirection : V)
 
-local notation "bounded" => CanonicalBoundedChildData.boundedData parent prefix correction hcorr
+local notation "bounded" => CanonicalBoundedChildData.boundedData parent «prefix» correction hcorr
   C primes m n pattern sector (remaining * exteriorMomentIdeal firstCommon) budget
   anchor height index raw hanchor hheight hpositive G₁ G₂ G D₁ D₂ annulus δ₁ δ₂
   hG₁ hG₂ hG hAnnulus firstDirection secondDirection
@@ -469,7 +469,7 @@ theorem bounded_mask_parts (ξ : V) (u I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hmask : (bounded ξ).commonMask u I.val = true) :
     IsCoprime I.val A.cS ∧
       supportExtract I.val common₁ = 1 ∧ supportExtract I.val common₂ = 1 :=
-  child_common_parts parent prefix correction hcorr C primes hp m n hm hn pattern sector
+  child_common_parts parent «prefix» correction hcorr C primes hp m n hm hn pattern sector
     remaining firstCommon budget (bounded ξ).inverseTest (bounded ξ).plainTest₁
     (bounded ξ).plainTest₂ (bounded ξ).geometry index secondRight u I hmask
 
@@ -499,7 +499,7 @@ theorem effective_left_support (N : ℝ)
         (((N / idealNorm K b₁.plainDivisor₁) / idealNorm K b₂.plainDivisor₁) /
           idealNorm K (B.plainDivisor 0)) t ⊆ B.childPlain₁ := by
   intro I hI
-  have hparts := bounded_mask_parts parent prefix correction hcorr C primes m n pattern sector
+  have hparts := bounded_mask_parts parent «prefix» correction hcorr C primes m n pattern sector
     remaining firstCommon budget anchor height index raw hanchor hheight hpositive
     G₁ G₂ G D₁ D₂ annulus δ₁ δ₂ hG₁ hG₂ hG hAnnulus firstDirection secondDirection
     hp hm hn secondRight ξ u I (effectivePlainSupport_commonMask _ _ _ _ _ _ hI)
@@ -530,7 +530,7 @@ theorem effective_right_support (N : ℝ)
         (((N / idealNorm K b₁.plainDivisor₂) / idealNorm K b₂.plainDivisor₂) /
           idealNorm K (B.plainDivisor (Fin.succ 0))) t ⊆ B.childPlain₂ := by
   intro I hI
-  have hparts := bounded_mask_parts parent prefix correction hcorr C primes m n pattern sector
+  have hparts := bounded_mask_parts parent «prefix» correction hcorr C primes m n pattern sector
     remaining firstCommon budget anchor height index raw hanchor hheight hpositive
     G₁ G₂ G D₁ D₂ annulus δ₁ δ₂ hG₁ hG₂ hG hAnnulus firstDirection secondDirection
     hp hm hn secondRight ξ u I (effectivePlainSupport_commonMask _ _ _ _ _ _ hI)
@@ -565,7 +565,7 @@ theorem effective_prime_support (Z : ℝ)
     effectivePrimeSupport (bounded ξ) i u Z t ⊆ B.childSlots j := by
   intro p hmem
   let I := CanonicalOriginalPhaseCalibration.primeIdeal p
-  have hparts := bounded_mask_parts parent prefix correction hcorr C primes m n pattern sector
+  have hparts := bounded_mask_parts parent «prefix» correction hcorr C primes m n pattern sector
     remaining firstCommon budget anchor height index raw hanchor hheight hpositive
     G₁ G₂ G D₁ D₂ annulus δ₁ δ₂ hG₁ hG₂ hG hAnnulus firstDirection secondDirection
     hp hm hn secondRight ξ u I (effectivePrimeSupport_commonMask _ i u Z t p hmem)
