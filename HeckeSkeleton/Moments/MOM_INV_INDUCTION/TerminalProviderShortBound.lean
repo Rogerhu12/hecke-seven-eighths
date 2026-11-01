@@ -84,7 +84,7 @@ theorem residualData_scale (x : TerminalRows.Data K S σ) (Z : ℝ) (hZ : 1 < Z)
   rw [Real.rpow_sub hZp,
     show 3 * Real.logb Z (exteriorNorm K Sset H) =
       Real.logb Z (exteriorNorm K Sset H) * (3 : ℝ) by ring,
-    Real.rpow_mul_natCast hZp.le, he]
+    Real.rpow_mul hZp.le, Real.rpow_ofNat, he]
 
 variable (K S)
 

@@ -172,9 +172,8 @@ theorem signed_choices_eq_divisorMark
   have hμ := primeProduct_moebius Finset.univ p
     (fun _ _ _ _ heq => primeChoices_injective lists hdis c p hp heq)
   rw [hμ]
-  simp only [Int.cast_pow, Int.cast_neg, Int.cast_one, Finset.card_univ, Fintype.card_fin,
-    choiceWeight, neg_eq_neg_one_mul, Finset.prod_mul_distrib, Finset.prod_const,
-    Finset.card_univ, Fintype.card_fin]
+  simpa only [Int.cast_pow, Int.cast_neg, Int.cast_one, choiceWeight] using
+    (Finset.prod_neg (s := Finset.univ) (fun i : Fin J => a i (p i).asIdeal)).symm
 
 /-- Fixed `j`, fixed new column: summing the actual old inverse terms
 over all surviving original choices gives exactly `μ(c) χ(c)` times
