@@ -1,0 +1,210 @@
+{
+  "kind": "Exact-source native Lean attempt stopped at its resource/time budget; not a proof result",
+  "source": "ThetaGlobal/LocalArchBounds.lean",
+  "source_sha256": "1a0ebeb15576956ca65f09cc6526a1b9d0522081cd61820cd14761c67f43dd8f",
+  "classification": "resource-inconclusive",
+  "compilation_passed": false,
+  "lean_proof_failure_established": false,
+  "native_result": {
+    "target": "ThetaGlobal.LocalArchBounds",
+    "source": "/workspace/scratch/33bdfea70edd/repo/ThetaGlobal/LocalArchBounds.lean",
+    "source_sha256_before": "1a0ebeb15576956ca65f09cc6526a1b9d0522081cd61820cd14761c67f43dd8f",
+    "source_snapshot": "/workspace/scratch/33bdfea70edd/finite-shell-native-check/local-arch-bounds-native-source.lean",
+    "source_snapshot_sha256": "1a0ebeb15576956ca65f09cc6526a1b9d0522081cd61820cd14761c67f43dd8f",
+    "compiler": "Lean 4.35.0-rc3, 470d5ce1400764999581fd26d5d72b00d990b0f4",
+    "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+    "command": [
+      "/workspace/scratch/33bdfea70edd/runtime/bin/lean",
+      "-j1",
+      "-M2048",
+      "-DautoImplicit=false",
+      "-DrelaxedAutoImplicit=false",
+      "-R",
+      "/workspace/scratch/33bdfea70edd/repo",
+      "-o",
+      "/workspace/scratch/33bdfea70edd/finite-shell-native-check/out/ThetaGlobal/LocalArchBounds.olean",
+      "/workspace/scratch/33bdfea70edd/repo/ThetaGlobal/LocalArchBounds.lean"
+    ],
+    "LEAN_PATH": "/workspace/scratch/33bdfea70edd/finite-shell-native-check/bounds-package-overlay",
+    "started_utc": "2026-10-31T04:42:34.555949+00:00",
+    "package_overlay_manifest": "/workspace/scratch/33bdfea70edd/finite-shell-native-check/bounds-package-overlay-manifest.json",
+    "package_overlay_manifest_sha256": "67a10666374b04ea8e18b841d777f3dd5bc07866fbb57f5f5b9502ba6255bcb5",
+    "closure_preflight": "/workspace/scratch/33bdfea70edd/finite-shell-native-check/local-arch-bounds-repository-preflight.json",
+    "closure_preflight_sha256": "5999114303ce50a8404ca98b2696e05c20314ec9c3c59948a18713de3789b9d0",
+    "dependency_modules": 10883,
+    "legacy_companion_part_estimate": 54305,
+    "historical_dependency_provenance": "/workspace/scratch/33bdfea70edd/finite-shell-native-check/local-arch-bounds-historical-mellin-provenance.json",
+    "historical_dependency_provenance_sha256": "5f55d8d91ab88d8de61b92a8706f4077b0f10edad58d675d9c8f9058b91fd978",
+    "dependency_provenance_note": "Three project dependency source hashes match the pinned catalog; ThirdBesselMellinTransform native parts were freshly SHA-checked. ArchimedeanMellin reuses the explicitly accepted exact-source historical output at its logged exit0/toolchain/output-path and current-SHA provenance scope, without a retroactive historical artifact-SHA claim. Other artifacts reuse immutable verified parent overlays.",
+    "scope": "Compile the exact repository legacy source at its proper module path, without changing imports/proofs or adding audit commands. The repository source differs from the earlier candidate only by removal of one documentation sentence. This module alone does not verify the global archimedean constructor.",
+    "original_print_axioms_commands": [
+      "ThetaGlobal.LocalArchBounds.archDirectProfile_bound",
+      "ThetaGlobal.LocalArchBounds.archReflectedProfile_bound"
+    ],
+    "process_only_environment": {},
+    "vm_max_map_count": 65530,
+    "wall_time_limit_seconds": 900,
+    "sampling_interval_seconds": 1,
+    "maps_samples_file": "/workspace/scratch/33bdfea70edd/finite-shell-native-check/local-arch-bounds-native-maps.jsonl",
+    "maps_samples": 831,
+    "peak_map_count": 54277,
+    "peak_vm_rss_kb": 92196,
+    "pid": 414732,
+    "last_sample": {
+      "elapsed_seconds": 900.294,
+      "utc": "2026-10-31T04:57:34.869083+00:00",
+      "map_count": 0,
+      "VmRSS_kb": 0,
+      "VmSize_kb": 0,
+      "VmData_kb": 0,
+      "VmSwap_kb": 0,
+      "RssAnon_kb": 0,
+      "RssFile_kb": 0
+    },
+    "termination_requested": {
+      "utc": "2026-10-31T04:57:34.864932+00:00",
+      "signal": "SIGTERM",
+      "reason": "15-minute authorized resource budget; incomplete check is inconclusive, not a native proof success."
+    },
+    "exit_code": -15,
+    "seconds": 901.295,
+    "finished_utc": "2026-10-31T04:57:35.865466+00:00",
+    "source_sha256_after": "1a0ebeb15576956ca65f09cc6526a1b9d0522081cd61820cd14761c67f43dd8f",
+    "source_unchanged": true,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "maps_samples_sha256": "cc7f55545220d9bd0898d0fdc501e78539d7d2e4adfdec51931e8c533a867565",
+    "classification": "resource-inconclusive",
+    "io_snapshots": "/workspace/scratch/33bdfea70edd/finite-shell-native-check/local-arch-bounds-native-io-snapshots.jsonl",
+    "io_snapshots_sha256": "b6c7a66bb5879c7038119e49ddea09499b3317253f1f0487abdae85e10695c36",
+    "axiom_audit_status": "No axiom output observed: empty log, no successful native compilation, and no standard-axiom audit result.",
+    "proof_failure_observed": false,
+    "native_success": false
+  },
+  "repository_source_equivalence": {
+    "compiler_read_repository_source_directly": true,
+    "source_snapshot": "/workspace/scratch/33bdfea70edd/finite-shell-native-check/local-arch-bounds-native-source.lean",
+    "source_snapshot_sha256": "1a0ebeb15576956ca65f09cc6526a1b9d0522081cd61820cd14761c67f43dd8f",
+    "repository_source_byte_identical_to_snapshot": true,
+    "earlier_candidate_comparison": {
+      "change": "Removal of one sentence in the leading documentation comment only",
+      "deleted_comment_line": "This outside-repository candidate has not yet been checked by native Lean.",
+      "all_other_source_bytes_identical": true,
+      "all_four_project_dependency_source_hashes_unchanged": true
+    },
+    "earlier_candidate_source_sha256": "64c2fda70db1436264865c89b820f08fe62fb77b266b6fde1fdbc40710dcf1b2",
+    "scope": "The compiler read the exact repository source; only a leading documentation sentence differs from the earlier candidate dependency preflight."
+  },
+  "dependency_provenance": {
+    "catalog_project_dependency_source_matches": 3,
+    "fresh_catalog_artifact_extension_checks": [
+      {
+        "module": "DedekindZetaZeroFree.Theta.Profiles.ThirdBesselMellinTransform",
+        "source_sha256": "b365f7c3cf33e0f00dfe41957c4919759f7c1b174551ac9ceece72925a25dc56",
+        "artifact_root": "/tmp/prime_cancellation_cloud_native_984/.lake/build/lib/lean",
+        "files": [
+          {
+            "suffix": ".ir",
+            "sha256": "530dd2950dc22e3ccfa2782dff3bc97f5e0b0889910946920e68b65f868852fe",
+            "size_bytes": 1536
+          },
+          {
+            "suffix": ".ir.sig",
+            "sha256": "64976beb236055d98cc68d5279230b29cc1deac9e203dbdbb0b10df5b5155bc3",
+            "size_bytes": 176
+          },
+          {
+            "suffix": ".olean",
+            "sha256": "fd25d22917da42b8fc83015a5c6e67a39b852b3bc6c6ce09594ac6caf1d1f7b8",
+            "size_bytes": 31320
+          },
+          {
+            "suffix": ".olean.private",
+            "sha256": "c0e2e18fa89d1a63e5e011951c228cbb723b3abf3beac2411a9bf2c991c311c3",
+            "size_bytes": 891808
+          },
+          {
+            "suffix": ".olean.server",
+            "sha256": "ab8cf3bed2d390453c046dc8d661a5771d906a0dcbab3c0c6ecdfc0df1d2fed2",
+            "size_bytes": 8920
+          }
+        ]
+      }
+    ],
+    "accepted_historical_dependency": {
+      "module": "HeckeSkeleton.ThetaLocal.ArchimedeanMellin",
+      "current_source": "/workspace/scratch/33bdfea70edd/repo/HeckeSkeleton/ThetaLocal/ArchimedeanMellin.lean",
+      "source_sha256_current": "fc82ad1ce42ba9ac98e50b267c71d20d38612a62f961265c9c2215716a125030",
+      "source_sha256_recorded": "fc82ad1ce42ba9ac98e50b267c71d20d38612a62f961265c9c2215716a125030",
+      "source_match": true,
+      "historical_compile_exit_code": 0,
+      "historical_elapsed_seconds": 12.587,
+      "toolchain": "leanprover/lean4:v4.35.0-rc3",
+      "mathlib_commit": "0493595ecd5da8ef14742febab99728f98e948e8",
+      "artifact": "/workspace/scratch/e56a7c2174a3/build435/lib/lean/HeckeSkeleton/ThetaLocal/ArchimedeanMellin.olean",
+      "artifact_bytes": 553224,
+      "current_artifact_sha256": "19d0d5c7a07d4aefc51edbdb8a5f445d1843e5ee056bb453e77ff3f6b62c34cd",
+      "historical_artifact_sha256_recorded": false,
+      "pinned_olean_header_verified": true,
+      "historical_record": "/workspace/scratch/e56a7c2174a3/build_logs/lean435/HeckeSkeleton.ThetaLocal.ArchimedeanMellin.json",
+      "historical_record_sha256": "c210b32750d2546a8e6039d255590f6b1b9195e4fda1ccef0c5569192862ab1b",
+      "historical_command": [
+        "/workspace/scratch/e56a7c2174a3/verification/lean-4.35.0-rc3-linux/bin/lean",
+        "-R",
+        "/workspace/scratch/e56a7c2174a3",
+        "-o",
+        "/workspace/scratch/e56a7c2174a3/build435/lib/lean/HeckeSkeleton/ThetaLocal/ArchimedeanMellin.olean",
+        "/workspace/scratch/e56a7c2174a3/HeckeSkeleton/ThetaLocal/ArchimedeanMellin.lean"
+      ],
+      "historical_log": "/workspace/scratch/e56a7c2174a3/build_logs/lean435/HeckeSkeleton.ThetaLocal.ArchimedeanMellin.log",
+      "historical_log_sha256": "4a00b593ab903744ed1c93c80b97eac794710fbfd028a3eda68f35b96546bdeb",
+      "historical_import_overlay": false,
+      "historical_strict_implicit_flags": false,
+      "scope": "Available exact-source historical native dependency with pinned source/toolchain, logged exit0 and exact original output path. Artifact SHA is measured now; no retroactive output-SHA certificate or current native draft success is claimed."
+    },
+    "parent_overlay_manifest_sha256": "b54cefdb8d0b6f92c1850dff101db267df8afe57868bc62c5f442d506cd13554",
+    "limitation": "Three project dependency source hashes match the pinned catalog; ThirdBesselMellinTransform native parts were freshly SHA-checked. ArchimedeanMellin reuses the explicitly accepted exact-source historical output at its logged exit0/toolchain/output-path and current-SHA provenance scope, without a retroactive historical artifact-SHA claim. Other artifacts reuse immutable verified parent overlays."
+  },
+  "io_snapshots": [
+    {
+      "utc": "2026-10-31T04:53:09.230212+00:00",
+      "pid": 414732,
+      "state": "S",
+      "minor_faults": 75466,
+      "major_faults": 111192,
+      "cpu_user_seconds": 4.58,
+      "cpu_system_seconds": 67.65,
+      "io": {
+        "rchar": 4787397,
+        "wchar": 1,
+        "syscr": 54222,
+        "syscw": 1,
+        "read_bytes": 32500580352,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      }
+    },
+    {
+      "utc": "2026-10-31T04:57:24.821425+00:00",
+      "pid": 414732,
+      "state": "S",
+      "minor_faults": 105758,
+      "major_faults": 159745,
+      "cpu_user_seconds": 7.35,
+      "cpu_system_seconds": 109.54,
+      "io": {
+        "rchar": 4787397,
+        "wchar": 1,
+        "syscr": 54222,
+        "syscw": 1,
+        "read_bytes": 50535202816,
+        "write_bytes": 0,
+        "cancelled_write_bytes": 0
+      }
+    }
+  ],
+  "raw_log": "native_local_arch_bounds_20261031.log",
+  "raw_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "mapping_samples": "native_local_arch_bounds_20261031.maps.jsonl",
+  "mapping_samples_sha256": "cc7f55545220d9bd0898d0fdc501e78539d7d2e4adfdec51931e8c533a867565",
+  "interpretation": "The sole task-owned compiler was terminated at the preset 15-minute budget. It produced no Lean diagnostic or axiom output. The measured map count stayed below the host limit; snapshots show substantial paging I/O. This record establishes neither a native pass nor a Lean proof failure. The actual CI gates remain required."
+}

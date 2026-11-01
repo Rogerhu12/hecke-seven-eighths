@@ -1,3 +1,4 @@
+import HeckeGeneral.Analysis.AnnularTest
 import HeckeGeneral.Analysis.LocalThetaInput
 import HeckeGeneral.Analysis.LogGaussianMellin
 import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
@@ -69,31 +70,6 @@ def completedThetaSum (θ : HeckeCharacter K) (m : S.integer K)
     (r : ExteriorIdeal K S) (Q : Finset (ExteriorPrime K S))
     (V : ℝ → ℂ) (X : ℝ) : ℂ :=
   ∑' cn, completedTerm K S D θ m r Q V X cn
-
-/-- The Euler derivative on the positive multiplicative line. -/
-def eulerDerivative (f : ℝ → ℂ) : ℝ → ℂ := fun y => (y : ℂ) * deriv f y
-
-def eulerDerivativeOrder (h : ℕ) (f : ℝ → ℂ) : ℝ → ℂ :=
-  (eulerDerivative^[h]) f
-
-def testIntegral (V : ℝ → ℂ) (j : ℕ) (A : ℝ) : ℝ :=
-  ∫ y in Ioi (0 : ℝ), ‖eulerDerivativeOrder j V y‖ *
-    (y ^ (1 / 4 : ℝ) + y ^ (-A)) / y
-
-/-- A finite maximum (with 0 adjoined) of the source's actual integrals. -/
-def testSeminorm (V : ℝ → ℂ) (J : ℕ) (A : ℝ) : ℝ :=
-  (Finset.range (J + 1)).sup' (by simp) (fun j => max 0 (testIntegral V j A))
-
-/-- Annular tests have support bounded away from zero. The bounds are data,
-not an assumption on the final Mellin kernel. -/
-structure SmoothAnnularTest where
-  toFun : ℝ → ℂ
-  smooth : ContDiff ℝ ∞ toFun
-  lower : ℝ
-  upper : ℝ
-  lower_pos : 0 < lower
-  upper_ge : lower ≤ upper
-  support : Function.support toFun ⊆ Icc lower upper
 
 abbrev SixthUnitClasses :=
   S.unit K ⧸ (powMonoidHom 6 : S.unit K →* S.unit K).range

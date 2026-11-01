@@ -1,0 +1,8 @@
+import ExpansionDetector.DetectorPower
+#print axioms ExpansionDetector.Analytic.detector_gamma_decay
+#print axioms ExpansionDetector.Analytic.detector_sz_gamma_moments
+#print axioms ExpansionDetector.Analytic.gamma_zero_shift
+#print axioms ExpansionDetector.Analytic.gammaDetector_bound_at_zero
+#print axioms ExpansionDetector.Analytic.gammaDetector_power_bound
+#print axioms ExpansionDetector.Analytic.detector_height_power_five
+#print axioms ExpansionDetector.Analytic.detector_uniform_small_numeric

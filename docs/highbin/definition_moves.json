@@ -1,0 +1,55 @@
+{
+  "base_commit": "5e4c85f172c101fd0c201219c13aa28f8b520d42",
+  "implementation_commit": "03410972118500ef9fdd9ce4045d964bed6cd167",
+  "method": "Compare declaration text from the pinned GitHub base and current source, ignoring comments and whitespace only. This is a textual API-preservation check, not an additional Lean compilation.",
+  "declarations": [
+    {
+      "name": "eulerDerivative",
+      "equal": true
+    },
+    {
+      "name": "eulerDerivativeOrder",
+      "equal": true
+    },
+    {
+      "name": "testIntegral",
+      "equal": true
+    },
+    {
+      "name": "testSeminorm",
+      "equal": true
+    },
+    {
+      "name": "SmoothAnnularTest",
+      "equal": true
+    },
+    {
+      "name": "PrimeWindowGeometry",
+      "equal": true
+    },
+    {
+      "name": "primeScale",
+      "equal": true
+    },
+    {
+      "name": "FiniteEulerPolynomial",
+      "equal": true
+    },
+    {
+      "name": "finiteEulerPolynomialValue",
+      "equal": true
+    },
+    {
+      "name": "FiniteEulerRational",
+      "equal": true
+    },
+    {
+      "name": "finiteEulerRationalValue",
+      "equal": true
+    },
+    {
+      "name": "rowEulerRegion",
+      "equal": true
+    }
+  ]
+}

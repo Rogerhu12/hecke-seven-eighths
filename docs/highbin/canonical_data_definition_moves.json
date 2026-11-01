@@ -1,0 +1,21 @@
+{
+  "from": "HeckeSkeleton/HighBinSupport/ActualCanonicalTarget.lean",
+  "to": "HeckeSkeleton/HighBinSupport/ActualCanonicalData.lean",
+  "moved_block_sha256": "217997541d80b81494d0551f7d8456a1fb9a0050877edf7a7cce25c00afb54ae",
+  "byte_identical_declaration_block": true,
+  "declarations": [
+    "targetLoss",
+    "targetLoss_pos",
+    "targetBuffer",
+    "targetBuffer_pos",
+    "targetBuffer_le_loss",
+    "targetBuffer_small",
+    "targetBoundary_lower",
+    "targetCompanions",
+    "one_mem_targetCompanions",
+    "targetCompanions_finiteOrder",
+    "targetEuler",
+    "targetEuler_input"
+  ],
+  "reason": "Permit the actual Euler endpoint to compile without importing the independent norm-form and contour presentation constructions."
+}

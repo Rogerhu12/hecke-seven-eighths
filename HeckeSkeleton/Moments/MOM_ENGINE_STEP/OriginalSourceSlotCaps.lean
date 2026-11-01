@@ -58,9 +58,10 @@ variable (hideal : ∀ i, (d.ideal i).val = supportResidual (originalIdeal i).va
 theorem mainAtlasForLabel_slotCount (c : ι → ℂ) (a : T.labels S D) :
     (d.mainAtlasForLabel T S D hcolumns hideal c a).slotCount =
       (T.branch S D a).keep.card := by
-  exact SourceCartesianAtlas.slotCount_mpr
-    (congrArg (fun t : Finset ι => t.filter
-      (fun i => T.reindex.supportExtractionLabel S i = a.val)) hcolumns) _ _
+  have hcols := congrArg (fun t : Finset ι => t.filter
+    (fun i => T.reindex.supportExtractionLabel S i = a.val)) hcolumns
+  exact SourceCartesianAtlas.slotCount_mpr hcols
+    (congrArg (fun cols => SourceCartesianAtlas cols (d.mainSource c).ideal) hcols) _
 
 theorem mainSourceCartesianCover_slotCount_le (c : ι → ℂ)
     (a : (d.mainSourceCartesianCover T S D hcolumns hideal c).labels) :
@@ -78,7 +79,9 @@ theorem combinedAtlasForLabel_slotCount (p : ExteriorPrime A) (n : ℕ) (c : ι 
   have hb := d.combinedBranchForLabel_spec T S D hcolumns p n a
   have hcols := d.residualSource_branch_filter_of_original_support T S D hcolumns p n b
   rw [hb.1] at hcols
-  exact SourceCartesianAtlas.slotCount_mpr hcols.symm _ _
+  exact SourceCartesianAtlas.slotCount_mpr hcols.symm
+    (congrArg (fun cols => SourceCartesianAtlas cols (d.residualSource p n c).ideal)
+      hcols.symm) _
 
 theorem residualSourceCartesianCover_slotCount_le (p : ExteriorPrime A) (n : ℕ) (c : ι → ℂ)
     (a : (d.residualSourceCartesianCover T S D hcolumns hideal p n c).labels) :
@@ -111,7 +114,8 @@ theorem sourceCartesianCover_slotCount (c : ι → ℂ)
       T.commonFibre S D a' :=
     congrArg (fun columns : Finset ι => columns.filter
       (fun i => T.reindex.supportExtractionLabel S i = a'.val)) hcolumns
-  exact SourceCartesianAtlas.slotCount_mpr hcols _ _
+  exact SourceCartesianAtlas.slotCount_mpr hcols
+    (congrArg (fun cols => SourceCartesianAtlas cols (d.directSource c).ideal) hcols) _
 
 theorem sourceCartesianCover_slotCount_le (c : ι → ℂ)
     (a : (d.sourceCartesianCover T S D hcolumns hideal c).labels) :
