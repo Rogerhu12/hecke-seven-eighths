@@ -145,7 +145,7 @@ extracted.  The original open prime window proves the lower bound,
 including repeated removed occurrences and the zero-slot case. -/
 theorem literalOriginalAtoms_extract_scaleProduct_lower
     {support : Finset (Ideal (𝓞 K))}
-    (b : SupportCartesianBranch seed.plain₁ seed.plain₂ seed.slots support)
+    (b : SupportCartesianBranch (seed).plain₁ (seed).plain₂ (seed).slots support)
     {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
     {heightDomain window : Set ℝ} {seminorms : Finset (ℕ × ℕ)} {B : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window seminorms (data ξ) B)
@@ -153,19 +153,19 @@ theorem literalOriginalAtoms_extract_scaleProduct_lower
     Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength -
       idealLogLength Z
         (frozenSourceIdeal b.plainDivisor₁ b.plainDivisor₂ b.keep b.witness.2)) ≤
-      (seed.extract b).scaleProduct false := by
+      ((seed).extract b).scaleProduct false := by
   have hp (i) (_hi : i ∈ Finset.univ \ b.keep) :
-      seed.base ^ seed.length i ≤ (Ideal.absNorm (b.witness.2 i).asIdeal : ℝ) := by
+      (seed).base ^ (seed).length i ≤ (Ideal.absNorm (b.witness.2 i).asIdeal : ℝ) := by
     have hslot := (Finset.mem_filter.mp (b.witness_slots i)).1
     change b.witness.2 i ∈
       (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).exteriorSlots i at hslot
     exact profiles.primeScale_le_norm_of_open_prime_window Z t (zero_lt_one.trans hZ)
       hprime i (b.witness.2 i) (Finset.mem_filter.mp hslot).1
-  have hproduct : seed.scale₁ false * seed.scale₂ false = seed.base ^ (a.n₁ + a.n₂) :=
+  have hproduct : (seed).scale₁ false * (seed).scale₂ false = (seed).base ^ (a.n₁ + a.n₂) :=
     (Real.rpow_add (zero_lt_one.trans hZ) a.n₁ a.n₂).symm
-  have h := b.residualGaussScale_lower_one seed.base seed.base_gt_one seed.length
-    (seed.scale₁ false) (seed.scale₂ false) (a.n₁ + a.n₂)
-    (seed.scale₁_pos false).le (seed.scale₂_pos false).le hproduct hp
+  have h := b.residualGaussScale_lower_one (seed).base (seed).base_gt_one (seed).length
+    ((seed).scale₁ false) ((seed).scale₂ false) (a.n₁ + a.n₂)
+    ((seed).scale₁_pos false).le ((seed).scale₂_pos false).le hproduct hp
   simpa only [SlotGeometry.totalLength] using h
 
 variable (C : A.GeneralArithmeticContext σ η htrace)
@@ -183,16 +183,16 @@ theorem literalOriginalAtoms_residualScalar_norm_le
     (annulus : ℝ) (hannulus : 0 ≤ annulus) (hwindow : window ⊆ Set.Iic annulus)
     (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
     {support : Finset (Ideal (𝓞 K))}
-    (b : SupportCartesianBranch seed.plain₁ seed.plain₂ seed.slots support)
+    (b : SupportCartesianBranch (seed).plain₁ (seed).plain₂ (seed).slots support)
     (I power : A.Exterior) (firstElement : A.R) (δ₁ δ₂ : ℝ)
     (hδ₁ : 0 ≤ δ₁) (hδ₂ : 0 ≤ δ₂) (hδ : δ₁ + δ₂ ≤ 1 / 2)
     (hI : frozenSourceIdeal b.plainDivisor₁ b.plainDivisor₂ b.keep b.witness.2 = I.val)
     (hpower : power.val ∣ I.val) :
-    ‖(seed.twoStageProfileFactor b δ₁ δ₂ : ℂ) *
-        seed.secondInputScalar (σ := σ) b power firstElement δ₁‖ ≤
+    ‖((seed).twoStageProfileFactor b δ₁ δ₂ : ℂ) *
+        (seed).secondInputScalar (σ := σ) b power firstElement δ₁‖ ≤
       Real.sqrt ((CanonicalLiteralFirstScalarCost.atomBudget annulus B) ^ cap) *
         Z ^ ((a.n₁ + a.n₂ + (data ξ).geometry.totalLength) * (-1 / 2 + δ₁ + δ₂)) := by
-  apply seed.secondInputResidualScalar_norm_le_original_atoms C b I power firstElement
+  apply (seed).secondInputResidualScalar_norm_le_original_atoms C b I power firstElement
     δ₁ δ₂ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) hδ₁ hδ₂ hδ hI hpower
     (Q.literalSourceCharacters_maskIndicator ξ) cap
     (CanonicalLiteralFirstScalarCost.atomBudget annulus B) hcap
@@ -215,17 +215,17 @@ theorem literalOriginalAtoms_residualScalar_pair_norm_le
     (annulus : ℝ) (hannulus : 0 ≤ annulus) (hwindow : window ⊆ Set.Iic annulus)
     (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
     {supportL supportR : Finset (Ideal (𝓞 K))}
-    (bL : SupportCartesianBranch seed.plain₁ seed.plain₂ seed.slots supportL)
-    (bR : SupportCartesianBranch seed.plain₁ seed.plain₂ seed.slots supportR)
+    (bL : SupportCartesianBranch (seed).plain₁ (seed).plain₂ (seed).slots supportL)
+    (bR : SupportCartesianBranch (seed).plain₁ (seed).plain₂ (seed).slots supportR)
     (IL IR powerL powerR : A.Exterior) (elementL elementR : A.R) (δ₁ δ₂ : ℝ)
     (hδ₁ : 0 ≤ δ₁) (hδ₂ : 0 ≤ δ₂) (hδ : δ₁ + δ₂ ≤ 1 / 2)
     (hIL : frozenSourceIdeal bL.plainDivisor₁ bL.plainDivisor₂ bL.keep bL.witness.2 = IL.val)
     (hIR : frozenSourceIdeal bR.plainDivisor₁ bR.plainDivisor₂ bR.keep bR.witness.2 = IR.val)
     (hpowerL : powerL.val ∣ IL.val) (hpowerR : powerR.val ∣ IR.val) :
-    ‖(seed.twoStageProfileFactor bL δ₁ δ₂ : ℂ) *
-        seed.secondInputScalar (σ := σ) bL powerL elementL δ₁‖ *
-      ‖(seed.twoStageProfileFactor bR δ₁ δ₂ : ℂ) *
-        seed.secondInputScalar (σ := σ) bR powerR elementR δ₁‖ ≤
+    ‖((seed).twoStageProfileFactor bL δ₁ δ₂ : ℂ) *
+        (seed).secondInputScalar (σ := σ) bL powerL elementL δ₁‖ *
+      ‖((seed).twoStageProfileFactor bR δ₁ δ₂ : ℂ) *
+        (seed).secondInputScalar (σ := σ) bR powerR elementR δ₁‖ ≤
       (CanonicalLiteralFirstScalarCost.atomBudget annulus B) ^ cap *
         Z ^ (-(a.n₁ + a.n₂ + (data ξ).geometry.totalLength) +
           2 * (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) * (δ₁ + δ₂)) := by

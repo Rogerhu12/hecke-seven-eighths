@@ -66,7 +66,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -124,8 +124,8 @@ variable (normBound lengthBound : ℝ)
 variable (hlengthBound : 0 ≤ lengthBound)
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
 variable (hfirstBox : normBound ≤ widthMax)
-variable (hN : ∀ i ∈ source.columns,
-  (Ideal.absNorm (source.ideal i).val : ℝ) ≤ Z ^ normBound)
+variable (hN : ∀ i ∈ (source).columns,
+  (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ normBound)
 
 local notation "stages" => Q.literalPrimitiveDirectStages μv ν C hroot hemb W ξ
   a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
@@ -154,15 +154,15 @@ local notation "domainInternal" => domain.withSupportLength (Q.fullSupportLength
 
 local notation "total" => Q.literalPrimitiveFirstTotal μv ν C hroot hemb W ξ
   a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
-local notation "normalization" => source.canonicalNormalization hZ total
+local notation "normalization" => (source).canonicalNormalization hZ total
 local notation "predicates" => Q.literalPrimitiveDirectPredicates μv ν C hroot hemb W ξ
   a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
   cap hi loss cutoffExponent hhi hcap hannulusZ domain originalWindow hrows htime
   (fun _ h => h.2) hcutoffPower step hstep hloss hcutoffExponent hDiff
   δ₂ hδ₂ hδ₂half cutoff₂ hcutoff₂
-local notation "parents" => stages.prepared
-local notation "liveKeys" => parents.liveLeaves raw.originalAtlas predicates normalization
-local notation "labels" => parents.arithmeticLabels raw.originalAtlas hcap predicates normalization
+local notation "parents" => (stages).prepared
+local notation "liveKeys" => (parents).liveLeaves (raw).originalAtlas predicates normalization
+local notation "labels" => (parents).arithmeticLabels (raw).originalAtlas hcap predicates normalization
 local notation "firstKernel" => ActualGaussStage.canonicalRowBallKernel
   (A := A) (Γ := Γ₀) μv ν δ₁ hδ₁ hδ₁half
 local notation "secondKernel" => ActualGaussStage.canonicalRowBallKernel
@@ -170,7 +170,7 @@ local notation "secondKernel" => ActualGaussStage.canonicalRowBallKernel
 local notation "firstConstant" =>
   CanonicalLiteralPrimitiveExceptionalFirstProfile.firstConstant K cap hi
 local notation "secondConstant" => hi ^ cap * orbitalFieldFactor K *
-  (Γ₀.index : ℝ) * fixedCoefficient
+  ((Γ₀).index : ℝ) * fixedCoefficient
 local notation "fourierCost" => CanonicalExceptionalPaidIntegral.fourierFactor
   heightOrder heightOrder firstKernel secondKernel
 local notation "integralConstant" => ((data ξ).theta.card : ℝ) ^ 2 *
@@ -187,11 +187,11 @@ inside the proof. The original allocation divisor becomes exactly the
 same harmonic index weight. -/
 theorem literalPrimitiveDirectExceptional_integral
     (hpadding : centered = true → 0 ≤ padding) (i : liveKeys) :
-    (parents.parentLeaf raw.originalAtlas predicates normalization i.val).exceptionalCost /
+    ((parents).parentLeaf (raw).originalAtlas predicates normalization i.val).exceptionalCost /
         Z ^ (a.m + a.q) ≤
-      parents.originalScalarAt raw.originalAtlas i.val *
+      (parents).originalScalarAt (raw).originalAtlas i.val *
         (integralConstant * originalBound ^ (14 * cap + 10) * Z ^ (remaining + tilt) *
-          labels.carrier.indexWeight (labels.index i)) := by
+          (labels).carrier.indexWeight ((labels).index i)) := by
   have hP : 0 ≤ originalBound := zero_le_one.trans hamplitude
   have hfirstConstant : 0 ≤ firstConstant :=
     CanonicalLiteralPrimitiveExceptionalFirstProfile.firstConstant_nonneg
@@ -214,95 +214,95 @@ theorem literalPrimitiveDirectExceptional_integral
         (A := A) (σ := σ) (η := η) (hS := hS)
         primitive ε maskExponent hε hmaskExponent))
   have hsource : ∃
-      (X : (parents.parentLeaf raw.originalAtlas predicates normalization i.val).ConstantAtomExtraction)
+      (X : ((parents).parentLeaf (raw).originalAtlas predicates normalization i.val).ConstantAtomExtraction)
       (aa bb : ℂ) (haa : aa ≠ 0) (hbb : bb ≠ 0)
       (characters : PairedFiniteCharacters (data ξ).theta
         (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ₀)),
-      (parents.parentLeaf raw.originalAtlas predicates normalization i.val).exceptional =
+      ((parents).parentLeaf (raw).originalAtlas predicates normalization i.val).exceptional =
           characters.exceptional ∧
-      (source.pieces i.val.1 i.val.2.1).weightBound * (‖aa‖ * ‖bb‖) ≤
+      ((source).pieces i.val.1 i.val.2.1).weightBound * (‖aa‖ * ‖bb‖) ≤
         (firstConstant * originalBound ^ (2 * cap)) *
           Z ^ ((a.m + a.q) - total i.val.1 i.val.2.1 + tilt) ∧
       ∀ thetaPair : (data ξ).theta × (data ξ).theta, ∀ z : ℝ × ℝ,
         ((X.stripOuter aa bb haa hbb).thetaClassLeaf characters thetaPair).exceptionalIntegrand z /
-            parents.firstAllowanceAt raw.originalAtlas total i.val ≤
+            (parents).firstAllowanceAt (raw).originalAtlas total i.val ≤
           ((secondConstant * originalBound ^ degree) *
             (1 + CanonicalLiteralExceptionalWindows.fourierHeight (WithLp.toLp 2 z)) ^ heightOrder) *
               Z ^ remaining /
-            (Ideal.absNorm (commonRadical (parents.commonLabel raw.originalAtlas i.val).1
-              (parents.commonLabel raw.originalAtlas i.val).2) : ℝ) *
-                Z ^ (-idealLogLength Z (parents.innerDivisor raw.originalAtlas i.val)) := by
-    have hparent := parents.liveLeaves_spec raw.originalAtlas predicates normalization i
-    have hS := parents.live_first_divisor_squarefree raw.originalAtlas predicates normalization i
+            (Ideal.absNorm (commonRadical ((parents).commonLabel (raw).originalAtlas i.val).1
+              ((parents).commonLabel (raw).originalAtlas i.val).2) : ℝ) *
+                Z ^ (-idealLogLength Z ((parents).innerDivisor (raw).originalAtlas i.val)) := by
+    have hparent := (parents).liveLeaves_spec (raw).originalAtlas predicates normalization i
+    have hS := (parents).live_first_divisor_squarefree (raw).originalAtlas predicates normalization i
     rcases i with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
-    · have hblock := ((parents DE D).coveredLeaf raw.originalAtlas raw.originalAtlas
-        (normalization.left DE D) (normalization.right DE D)
-        (normalization.left_pos DE D) (normalization.right_pos DE D)
+    · have hblock := ((parents DE D).coveredLeaf (raw).originalAtlas (raw).originalAtlas
+        ((normalization).left DE D) ((normalization).right DE D)
+        ((normalization).left_pos DE D) ((normalization).right_pos DE D)
         (predicates DE D) ⟨S, χ, .inl leaf⟩).live_of_scale_live _ _ hparent
       have hfiber := (((stages DE D).left S χ).supported.gated.fiberCoveredLeaf
-        ((source.pieces DE D).leftSourceCover raw.originalAtlas S χ)
-        ((source.pieces DE D).leftSourceCover raw.originalAtlas S χ)
-        ((predicates DE D).left S χ) (source.charts DE D).kernel (source.charts DE D).leftPoint leaf).live_of_scale_live
+        (((source).pieces DE D).leftSourceCover (raw).originalAtlas S χ)
+        (((source).pieces DE D).leftSourceCover (raw).originalAtlas S χ)
+        ((predicates DE D).left S χ) ((source).charts DE D).kernel ((source).charts DE D).leftPoint leaf).live_of_scale_live
           _ _ hblock
       let v := leaf.1
       let j := leaf.2
       let first := OriginalNominalGeometry.canonicalDirect
-        (a := internal) (Z := Z) (step := step) ((source.block DE).literalLeftCoordinates D.val)
+        (a := internal) (Z := Z) (step := step) (((source).block DE).literalLeftCoordinates D.val)
         supportError (zero_lt_one.trans hZ) hsupportError
       let rowWindow := leftRows DE D
-      let point := (source.charts DE D).leftPoint
-      let firstFixed := (source.block DE).literalLeftFixed D.val
-      let hfirst := (source.block DE).literalLeftFixed_generates C D.val
+      let point := ((source).charts DE D).leftPoint
+      let firstFixed := ((source).block DE).literalLeftFixed D.val
+      let hfirst := ((source).block DE).literalLeftFixed_generates C D.val
       let phases := CanonicalLiteralActualCharacters.unamplifiedPhases
-        firstFixed (CanonicalLiteralFirstPhase.leftElement C (source.block DE).primes
-          (source.block DE).leftMultiplicity (source.block DE).rightMultiplicity
+        firstFixed (CanonicalLiteralFirstPhase.leftElement C ((source).block DE).primes
+          ((source).block DE).leftMultiplicity ((source).block DE).rightMultiplicity
           (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val) hfirst
       let predicate := (predicates DE D).left S χ
-      have bareLive : (v.leaf predicate (source.charts DE D).kernel point j).Live :=
-        (v.leaf predicate (source.charts DE D).kernel point j).live_of_scale_live _ _ hfiber
+      have bareLive : (v.leaf predicate ((source).charts DE D).kernel point j).Live :=
+        (v.leaf predicate ((source).charts DE D).kernel point j).live_of_scale_live _ _ hfiber
       let construction := literalLeftDirectExceptionalExtraction
           (hΓ := hΓ₀) (μv := μv) (ν := ν) (Q := Q) (ξ := ξ) (W := W.at ξ)
           (a := internal) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
-          (hZ := hZ) (hY₁ := hY₁) (hY₂ := hY₂) (b := source.block DE) (C := C)
+          (hZ := hZ) (hY₁ := hY₁) (hY₂ := hY₂) (b := (source).block DE) (C := C)
           (φ := CanonicalRowBall.archTest K A.Sf 1) (finiteTest := rowBallFiniteFamily K A.Sf 1)
           (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
           (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
-          (radius := source.radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
-          (p := source.pieces DE D) (S := S) (χ := χ) (hDiff := hDiff)
+          (radius := (source).radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+          (p := (source).pieces DE D) (S := S) (χ := χ) (hDiff := hDiff)
           (hroot := hroot) (hemb := hemb) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
           (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂) (dimension := 0) (width := 0)
           (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
           (dyad := fun _ _ i => Fin.elim0 i)
           (retainedScale := first.retainedScale) (g := first.enlargement) (hscale := first.retainedScale_pos)
-          (domain := domainInternal) (v := v) (exceptional := predicate) (F := (source.charts DE D).kernel)
+          (domain := domainInternal) (v := v) (exceptional := predicate) (F := ((source).charts DE D).kernel)
           (firstFixed := firstFixed) (hfirst := hfirst) (j := j) (hS := hS)
           (hlive := bareLive)
       let oldLeftAtoms := literalLeftDirectAtoms hΓ₀ μv ν Q ξ (W.at ξ) internal
-        Z t Y₁ Y₂ centered hZ hY₁ hY₂ (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+        Z t Y₁ Y₂ centered hZ hY₁ hY₂ ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
         (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-        (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-        (source.pieces DE D) S χ firstFixed hfirst δ₂ v.2.2.1
+        (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+        ((source).pieces DE D) S χ firstFixed hfirst δ₂ v.2.2.1
       let oldRightAtoms := literalLeftDirectAtoms hΓ₀ μv ν Q ξ (W.at ξ) internal
-        Z t Y₁ Y₂ centered hZ hY₁ hY₂ (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+        Z t Y₁ Y₂ centered hZ hY₁ hY₂ ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
         (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-        (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-        (source.pieces DE D) S χ firstFixed hfirst δ₂ v.2.2.2.1
+        (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+        ((source).pieces DE D) S χ firstFixed hfirst δ₂ v.2.2.2.1
       let leftScalar := literalLeftDirectScalar hΓ₀ μv ν Q ξ (W.at ξ) internal
-        Z t Y₁ Y₂ centered hZ hY₁ hY₂ (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+        Z t Y₁ Y₂ centered hZ hY₁ hY₂ ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
         (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-        (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-        (source.pieces DE D) S χ v.2.2.1 * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+        (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+        ((source).pieces DE D) S χ v.2.2.1 * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
       let rightScalar := literalLeftDirectScalar hΓ₀ μv ν Q ξ (W.at ξ) internal
-        Z t Y₁ Y₂ centered hZ hY₁ hY₂ (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+        Z t Y₁ Y₂ centered hZ hY₁ hY₂ ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
         (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-        (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-        (source.pieces DE D) S χ v.2.2.2.1 * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+        (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+        ((source).pieces DE D) S χ v.2.2.2.1 * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
       let rawRows := v.chart.actualRows ∅ cutoff₂ hcutoff₂ v.rowLabel
       let characters := rawRows.literalFiniteCharacters C P R phases Q.moving Q.correction
         (v.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ v.rowLabel)
         (v.chart.originalSector P ∅ cutoff₂ hcutoff₂ v.rowLabel) (data ξ).theta
-      let key : parents.CoveredLeafKey raw.originalAtlas := ⟨DE, D, S, χ, .inl leaf⟩
-      let X : (parents.parentLeaf raw.originalAtlas predicates normalization key).ConstantAtomExtraction := {
+      let key : (parents).CoveredLeafKey (raw).originalAtlas := ⟨DE, D, S, χ, .inl leaf⟩
+      let X : ((parents).parentLeaf (raw).originalAtlas predicates normalization key).ConstantAtomExtraction := {
         leftScalar := construction.val.leftScalar
         rightScalar := construction.val.rightScalar
         leftResidual := construction.val.leftResidual
@@ -327,18 +327,18 @@ theorem literalPrimitiveDirectExceptional_integral
         have hnorm : firstLeftAllowance Z
             (first.skeleton.A + (first.skeleton.q + first.skeleton.R + first.skeleton.E))
             first.ideals.first.val first.ideals.opposite.val =
-          parents.firstAllowanceAt raw.originalAtlas total key := by
+          (parents).firstAllowanceAt (raw).originalAtlas total key := by
           change firstLeftAllowance Z
-            ((internal.n₁ + internal.n₂ + internal.z) +
-              (internal.q + idealLogLength Z (firstActiveRadical
-                ((source.block DE).literalLeftCoordinates D.val).first.val
-                ((source.block DE).literalLeftCoordinates D.val).opposite.val) +
+            (((internal).n₁ + (internal).n₂ + (internal).z) +
+              ((internal).q + idealLogLength Z (firstActiveRadical
+                (((source).block DE).literalLeftCoordinates D.val).first.val
+                (((source).block DE).literalLeftCoordinates D.val).opposite.val) +
                 idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val))
-            ((source.block DE).literalLeftCoordinates D.val).first.val
-            ((source.block DE).literalLeftCoordinates D.val).opposite.val =
+            (((source).block DE).literalLeftCoordinates D.val).first.val
+            (((source).block DE).literalLeftCoordinates D.val).opposite.val =
               firstLeftAllowance Z (total DE D) DE.val.1 DE.val.2
-          rw [(source.block DE).literalLeftCoordinates_first,
-            (source.block DE).literalLeftCoordinates_opposite]
+          rw [((source).block DE).literalLeftCoordinates_first,
+            ((source).block DE).literalLeftCoordinates_opposite]
           congr 1
           unfold literalPrimitiveFirstTotal
           ring
@@ -346,8 +346,8 @@ theorem literalPrimitiveDirectExceptional_integral
             (Ideal.absNorm (commonRadical
               (primePowerProduct v.block.primes v.block.leftMultiplicity).val
               (primePowerProduct v.block.primes v.block.rightMultiplicity).val) : ℝ) =
-            (Ideal.absNorm (commonRadical (parents.commonLabel raw.originalAtlas key).1
-              (parents.commonLabel raw.originalAtlas key).2) : ℝ) :=
+            (Ideal.absNorm (commonRadical ((parents).commonLabel (raw).originalAtlas key).1
+              ((parents).commonLabel (raw).originalAtlas key).2) : ℝ) :=
           congrArg₂ (fun I J : Ideal (𝓞 K) => (Ideal.absNorm (commonRadical I J) : ℝ))
             v.block.common_left v.block.common_right
         by_cases hc : centered = true
@@ -398,74 +398,74 @@ theorem literalPrimitiveDirectExceptional_integral
             hc' thetaPair z
           rw [hnorm, hradical] at hp
           simpa only [if_neg hc, zero_add] using hp
-    · have hblock := ((parents DE D).coveredLeaf raw.originalAtlas raw.originalAtlas
-        (normalization.left DE D) (normalization.right DE D)
-        (normalization.left_pos DE D) (normalization.right_pos DE D)
+    · have hblock := ((parents DE D).coveredLeaf (raw).originalAtlas (raw).originalAtlas
+        ((normalization).left DE D) ((normalization).right DE D)
+        ((normalization).left_pos DE D) ((normalization).right_pos DE D)
         (predicates DE D) ⟨S, χ, .inr leaf⟩).live_of_scale_live _ _ hparent
       have hfiber := (((stages DE D).right S χ).supported.gated.fiberCoveredLeaf
-        ((source.pieces DE D).rightSourceCover raw.originalAtlas S χ)
-        ((source.pieces DE D).rightSourceCover raw.originalAtlas S χ)
-        ((predicates DE D).right S χ) (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i) leaf).live_of_scale_live
+        (((source).pieces DE D).rightSourceCover (raw).originalAtlas S χ)
+        (((source).pieces DE D).rightSourceCover (raw).originalAtlas S χ)
+        ((predicates DE D).right S χ) ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i) leaf).live_of_scale_live
           _ _ hblock
       let v := leaf.1
       let j := leaf.2
       let first := OriginalNominalGeometry.canonicalDirect
-        (a := internal) (Z := Z) (step := step) ((source.block DE).literalRightCoordinates D.val)
+        (a := internal) (Z := Z) (step := step) (((source).block DE).literalRightCoordinates D.val)
         supportError (zero_lt_one.trans hZ) hsupportError
       let rowWindow := rightRows DE D
-      let point := (fun i => -(source.charts DE D).rightPoint i)
-      let firstFixed := (source.block DE).literalRightFixed D.val
-      let hfirst := (source.block DE).literalRightFixed_generates C D.val
+      let point := (fun i => -((source).charts DE D).rightPoint i)
+      let firstFixed := ((source).block DE).literalRightFixed D.val
+      let hfirst := ((source).block DE).literalRightFixed_generates C D.val
       let phases := CanonicalLiteralActualCharacters.unamplifiedPhases
-        firstFixed (CanonicalLiteralFirstPhase.rightElement C (source.block DE).primes
-          (source.block DE).leftMultiplicity (source.block DE).rightMultiplicity
+        firstFixed (CanonicalLiteralFirstPhase.rightElement C ((source).block DE).primes
+          ((source).block DE).leftMultiplicity ((source).block DE).rightMultiplicity
           (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val) hfirst
       let predicate := (predicates DE D).right S χ
-      have bareLive : (v.leaf predicate (source.charts DE D).kernel point j).Live :=
-        (v.leaf predicate (source.charts DE D).kernel point j).live_of_scale_live _ _ hfiber
+      have bareLive : (v.leaf predicate ((source).charts DE D).kernel point j).Live :=
+        (v.leaf predicate ((source).charts DE D).kernel point j).live_of_scale_live _ _ hfiber
       let construction := literalRightDirectExceptionalExtraction
           (hΓ := hΓ₀) (μv := μv) (ν := ν) (Q := Q) (ξ := ξ) (W := W.at ξ)
           (a := internal) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
-          (hZ := hZ) (hY₁ := hY₁) (hY₂ := hY₂) (b := source.block DE) (C := C)
+          (hZ := hZ) (hY₁ := hY₁) (hY₂ := hY₂) (b := (source).block DE) (C := C)
           (φ := CanonicalRowBall.archTest K A.Sf 1) (finiteTest := rowBallFiniteFamily K A.Sf 1)
           (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
           (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
-          (radius := source.radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
-          (p := source.pieces DE D) (S := S) (χ := χ) (hDiff := hDiff)
+          (radius := (source).radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+          (p := (source).pieces DE D) (S := S) (χ := χ) (hDiff := hDiff)
           (hroot := hroot) (hemb := hemb) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
           (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂) (dimension := 0) (width := 0)
           (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
           (dyad := fun _ _ i => Fin.elim0 i)
           (retainedScale := first.retainedScale) (g := first.enlargement) (hscale := first.retainedScale_pos)
-          (domain := domainInternal) (v := v) (exceptional := predicate) (F := (source.charts DE D).kernel)
+          (domain := domainInternal) (v := v) (exceptional := predicate) (F := ((source).charts DE D).kernel)
           (firstFixed := firstFixed) (hfirst := hfirst) (j := j) (hS := hS)
           (hlive := bareLive)
       let oldLeftAtoms := literalRightDirectAtoms hΓ₀ μv ν Q ξ (W.at ξ) internal
-        Z t Y₁ Y₂ centered hZ hY₁ hY₂ (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+        Z t Y₁ Y₂ centered hZ hY₁ hY₂ ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
         (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-        (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-        (source.pieces DE D) S χ firstFixed hfirst δ₂ v.2.2.1
+        (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+        ((source).pieces DE D) S χ firstFixed hfirst δ₂ v.2.2.1
       let oldRightAtoms := literalRightDirectAtoms hΓ₀ μv ν Q ξ (W.at ξ) internal
-        Z t Y₁ Y₂ centered hZ hY₁ hY₂ (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+        Z t Y₁ Y₂ centered hZ hY₁ hY₂ ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
         (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-        (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-        (source.pieces DE D) S χ firstFixed hfirst δ₂ v.2.2.2.1
+        (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+        ((source).pieces DE D) S χ firstFixed hfirst δ₂ v.2.2.2.1
       let leftScalar := literalRightDirectScalar hΓ₀ μv ν Q ξ (W.at ξ) internal
-        Z t Y₁ Y₂ centered hZ hY₁ hY₂ (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+        Z t Y₁ Y₂ centered hZ hY₁ hY₂ ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
         (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-        (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-        (source.pieces DE D) S χ v.2.2.1 * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+        (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+        ((source).pieces DE D) S χ v.2.2.1 * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
       let rightScalar := literalRightDirectScalar hΓ₀ μv ν Q ξ (W.at ξ) internal
-        Z t Y₁ Y₂ centered hZ hY₁ hY₂ (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+        Z t Y₁ Y₂ centered hZ hY₁ hY₂ ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
         (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-        (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-        (source.pieces DE D) S χ v.2.2.2.1 * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+        (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+        ((source).pieces DE D) S χ v.2.2.2.1 * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
       let rawRows := v.chart.actualRows ∅ cutoff₂ hcutoff₂ v.rowLabel
       let characters := rawRows.literalFiniteCharacters C P R phases Q.moving Q.correction
         (v.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ v.rowLabel)
         (v.chart.originalSector P ∅ cutoff₂ hcutoff₂ v.rowLabel) (data ξ).theta
-      let key : parents.CoveredLeafKey raw.originalAtlas := ⟨DE, D, S, χ, .inr leaf⟩
-      let X : (parents.parentLeaf raw.originalAtlas predicates normalization key).ConstantAtomExtraction := {
+      let key : (parents).CoveredLeafKey (raw).originalAtlas := ⟨DE, D, S, χ, .inr leaf⟩
+      let X : ((parents).parentLeaf (raw).originalAtlas predicates normalization key).ConstantAtomExtraction := {
         leftScalar := construction.val.leftScalar
         rightScalar := construction.val.rightScalar
         leftResidual := construction.val.leftResidual
@@ -490,20 +490,20 @@ theorem literalPrimitiveDirectExceptional_integral
         have hnorm : firstLeftAllowance Z
             (first.skeleton.A + (first.skeleton.q + first.skeleton.R + first.skeleton.E))
             first.ideals.first.val first.ideals.opposite.val =
-          parents.firstAllowanceAt raw.originalAtlas total key := by
+          (parents).firstAllowanceAt (raw).originalAtlas total key := by
           change firstLeftAllowance Z
-            ((internal.n₁ + internal.n₂ + internal.z) +
-              (internal.q + idealLogLength Z (firstActiveRadical
-                ((source.block DE).literalRightCoordinates D.val).first.val
-                ((source.block DE).literalRightCoordinates D.val).opposite.val) +
+            (((internal).n₁ + (internal).n₂ + (internal).z) +
+              ((internal).q + idealLogLength Z (firstActiveRadical
+                (((source).block DE).literalRightCoordinates D.val).first.val
+                (((source).block DE).literalRightCoordinates D.val).opposite.val) +
                 idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val))
-            ((source.block DE).literalRightCoordinates D.val).first.val
-            ((source.block DE).literalRightCoordinates D.val).opposite.val =
+            (((source).block DE).literalRightCoordinates D.val).first.val
+            (((source).block DE).literalRightCoordinates D.val).opposite.val =
               firstRightAllowance Z (total DE D) DE.val.1 DE.val.2
-          rw [(source.block DE).literalRightCoordinates_first,
-            (source.block DE).literalRightCoordinates_opposite]
+          rw [((source).block DE).literalRightCoordinates_first,
+            ((source).block DE).literalRightCoordinates_opposite]
           simp only [firstLeftAllowance, firstRightAllowance,
-            firstActiveRadical_swap_of_support _ _ (source.block DE).common_support_eq]
+            firstActiveRadical_swap_of_support _ _ ((source).block DE).common_support_eq]
           congr 1
           unfold literalPrimitiveFirstTotal
           ring
@@ -511,8 +511,8 @@ theorem literalPrimitiveDirectExceptional_integral
             (Ideal.absNorm (commonRadical
               (primePowerProduct v.block.primes v.block.leftMultiplicity).val
               (primePowerProduct v.block.primes v.block.rightMultiplicity).val) : ℝ) =
-            (Ideal.absNorm (commonRadical (parents.commonLabel raw.originalAtlas key).1
-              (parents.commonLabel raw.originalAtlas key).2) : ℝ) :=
+            (Ideal.absNorm (commonRadical ((parents).commonLabel (raw).originalAtlas key).1
+              ((parents).commonLabel (raw).originalAtlas key).2) : ℝ) :=
           congrArg₂ (fun I J : Ideal (𝓞 K) => (Ideal.absNorm (commonRadical I J) : ℝ))
             v.block.common_left v.block.common_right
         by_cases hc : centered = true
@@ -564,27 +564,27 @@ theorem literalPrimitiveDirectExceptional_integral
           rw [hnorm, hradical] at hp
           simpa only [if_neg hc, zero_add] using hp
   obtain ⟨X, aa, bb, haa, hbb, characters, hpredicate, hfirst, hsecond⟩ := hsource
-  have hb := parents.exceptionalCost_of_original_source raw.originalAtlas hcap hZ total
+  have hb := (parents).exceptionalCost_of_original_source (raw).originalAtlas hcap hZ total
     predicates i X aa bb haa hbb characters hpredicate (a.m + a.q)
     (firstConstant * originalBound ^ (2 * cap)) (secondConstant * originalBound ^ degree)
-    remaining (idealLogLength Z (parents.innerDivisor raw.originalAtlas i.val)) tilt
+    remaining (idealLogLength Z ((parents).innerDivisor (raw).originalAtlas i.val)) tilt
     heightOrder hfirstCost hsecondCost hfirst hsecond
-  have hinner := parents.originalIndex_innerDivisor raw.originalAtlas hcap predicates normalization i
-  have hdivisor : (labels.index i).2.2.2.1.val ≠ 0 := by
-    change (parents.originalIndex raw.originalAtlas hcap predicates normalization i).2.2.2.1.val ≠ 0
+  have hinner := (parents).originalIndex_innerDivisor (raw).originalAtlas hcap predicates normalization i
+  have hdivisor : ((labels).index i).2.2.2.1.val ≠ 0 := by
+    change ((parents).originalIndex (raw).originalAtlas hcap predicates normalization i).2.2.2.1.val ≠ 0
     rw [hinner]
-    exact (stages.prepared_live_inner_divisor_squarefree raw.originalAtlas predicates normalization i).ne_zero
-  have hindex : labels.carrier.exceptionalDyadWeight Z
-      (idealLogLength Z (parents.innerDivisor raw.originalAtlas i.val)) (labels.index i) =
-      labels.carrier.indexWeight (labels.index i) := by
-    change labels.carrier.exceptionalDyadWeight Z
-        (idealLogLength Z (parents.innerDivisor raw.originalAtlas i.val))
-        (parents.originalIndex raw.originalAtlas hcap predicates normalization i) = _
+    exact ((stages).prepared_live_inner_divisor_squarefree (raw).originalAtlas predicates normalization i).ne_zero
+  have hindex : (labels).carrier.exceptionalDyadWeight Z
+      (idealLogLength Z ((parents).innerDivisor (raw).originalAtlas i.val)) ((labels).index i) =
+      (labels).carrier.indexWeight ((labels).index i) := by
+    change (labels).carrier.exceptionalDyadWeight Z
+        (idealLogLength Z ((parents).innerDivisor (raw).originalAtlas i.val))
+        ((parents).originalIndex (raw).originalAtlas hcap predicates normalization i) = _
     rw [← hinner]
-    exact labels.carrier.exceptionalDyadWeight_at_divisor Z hZ _ hdivisor
+    exact (labels).carrier.exceptionalDyadWeight_at_divisor Z hZ _ hdivisor
   have hkernels :
-      (parents.parentLeaf raw.originalAtlas predicates normalization i.val).firstKernel = firstKernel ∧
-      (parents.parentLeaf raw.originalAtlas predicates normalization i.val).secondKernel = secondKernel := by
+      ((parents).parentLeaf (raw).originalAtlas predicates normalization i.val).firstKernel = firstKernel ∧
+      ((parents).parentLeaf (raw).originalAtlas predicates normalization i.val).secondKernel = secondKernel := by
     rcases i with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩ <;> exact ⟨rfl, rfl⟩
   rw [hindex, hkernels.1, hkernels.2] at hb
   have hdegree : 2 * cap + degree = 14 * cap + 10 := by

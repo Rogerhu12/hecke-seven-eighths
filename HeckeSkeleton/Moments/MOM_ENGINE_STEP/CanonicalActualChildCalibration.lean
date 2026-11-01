@@ -108,7 +108,7 @@ local notation "prefix" => ((Q.moving.append
       (CanonicalSecondRectangularFactors.secondMaskMovingFactors P R
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅)))
 local notation "remaining" => Q.remaining * exteriorMomentIdeal firstCommon
-local notation "idx" => fun i => idx₁ (idx₂ (SlotRestriction.index joint.allocation.keep i))
+local notation "idx" => fun i => idx₁ (idx₂ (SlotRestriction.index (joint).allocation.keep i))
 local notation "slope" => if firstRight then 1 else -1
 local notation "H₁" => (if comparison then Y₁ else Z ^ a.n₁) /
   idealNorm K b₁.plainDivisor₁ / idealNorm K b₂.plainDivisor₁
@@ -162,36 +162,36 @@ local notation "child" => childData Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCo
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne pattern sector budget anchor raw hanchor hheight hpositive annulus hAnnulus
 
 @[simp] theorem count (ξ : WithLp 2 (ℝ × ℝ)) :
-    (child ξ).geometry.slotCount = actual.allocation.keep.card := rfl
+    (child ξ).geometry.slotCount = (actual).allocation.keep.card := rfl
 
 @[simp] theorem theta (ξ : WithLp 2 (ℝ × ℝ)) :
     (child ξ).theta = (data x).theta := rfl
 
 @[simp] theorem slot_coefficient (ξ : WithLp 2 (ℝ × ℝ))
-    (i : Fin actual.allocation.keep.card) :
+    (i : Fin (actual).allocation.keep.card) :
     (child ξ).slotCoefficient i = (data x).slotCoefficient (idx i) := rfl
 
 /-- The same three original restrictions produce the child's length. -/
-theorem lengths (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin actual.allocation.keep.card) :
-    ((child ξ).geometry.slots i).length = actual.childLength i := by
+theorem lengths (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin (actual).allocation.keep.card) :
+    ((child ξ).geometry.slots i).length = (actual).childLength i := by
   change ((data x).geometry.slots (idx i)).length =
-    joint.length (SlotRestriction.index joint.allocation.keep i)
+    (joint).length (SlotRestriction.index (joint).allocation.keep i)
   exact (CanonicalActualJointSources.joint_length Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne
-    (SlotRestriction.index joint.allocation.keep i)).symm
+    (SlotRestriction.index (joint).allocation.keep i)).symm
 
 theorem index_injective : Function.Injective idx :=
   (retained_index_injective b₁.keep).comp
     ((retained_index_injective b₂.keep).comp
-      (retained_index_injective joint.allocation.keep))
+      (retained_index_injective (joint).allocation.keep))
 
 /-- Slot restriction is exactly composition with the original indices;
 it introduces no new character or theta correction. -/
 theorem characters (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector) :
-    (actual.characters q).restrictSlots actual.allocation.keep =
+    ((actual).characters q).restrictSlots (actual).allocation.keep =
       movingSourceCharacters (data x) Q.correction prefix remaining idx := by
-  change (joint.characters q.val.val).restrictSlots joint.allocation.keep = _
+  change ((joint).characters q.val.val).restrictSlots (joint).allocation.keep = _
   rw [CanonicalActualJointSources.joint_characters Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val]
@@ -202,15 +202,15 @@ constructed for every row of the actual subtype and both Fourier modes. -/
 def dictionary (hone : (1 : HeckeCharacter K) ∈ (data x).theta)
     (ξ : WithLp 2 (ℝ × ℝ))
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector) :
-    ((actual.characters q).restrictSlots actual.allocation.keep).Calibration (σ := σ)
-      (child ξ) rfl (actual.row q).momentIdeal
-        (actual.extractedFactor q) (actual.row q).element := by
+    (((actual).characters q).restrictSlots (actual).allocation.keep).Calibration (σ := σ)
+      (child ξ) rfl ((actual).row q).momentIdeal
+        ((actual).extractedFactor q) ((actual).row q).element := by
   rw [characters Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne pattern sector q]
   change (movingSourceCharacters (data x) Q.correction prefix remaining idx).Calibration
-    (σ := σ) (child ξ) rfl (joint.row q.val.val).momentIdeal
-      (joint.extractedFactor q.val.val) (joint.row q.val.val).element
+    (σ := σ) (child ξ) rfl ((joint).row q.val.val).momentIdeal
+      ((joint).extractedFactor q.val.val) ((joint).row q.val.val).element
   rw [CanonicalActualJointSources.joint_row_momentIdeal Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val,
@@ -243,7 +243,7 @@ def dictionary (hone : (1 : HeckeCharacter K) ∈ (data x).theta)
 /-- Original finite slot membership is transported by the actual index. -/
 theorem slot_in_theta
     (hslot : ∀ i, (data x).slotCoefficient i ∈ (data x).theta)
-    (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin actual.allocation.keep.card) :
+    (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin (actual).allocation.keep.card) :
     (child ξ).slotCoefficient i ∈ (child ξ).theta :=
   hslot (idx i)
 
@@ -266,28 +266,28 @@ include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem left_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    actual.leftWeight q (actual.allocation.plainDivisor 0 * I) *
+    (actual).leftWeight q ((actual).allocation.plainDivisor 0 * I) *
       jointPhase (WithLp.toLp 2 (ξ, ζ))
-        (actual.leftLocation q (actual.allocation.plainDivisor 0 * I)) =
+        ((actual).leftLocation q ((actual).allocation.plainDivisor 0 * I)) =
       (child (WithLp.toLp 2 (ξ, ζ))).plainTest₁.profile
-        (actual.row q).momentIdeal t
-        (idealNorm K I / (actual.scale₁ / idealNorm K (actual.allocation.plainDivisor 0))) := by
-  change joint.leftWeight q.val.val (joint.allocation.plainDivisor 0 * I) *
-    jointPhase _ (joint.leftLocation q.val.val (joint.allocation.plainDivisor 0 * I)) = _
+        ((actual).row q).momentIdeal t
+        (idealNorm K I / ((actual).scale₁ / idealNorm K ((actual).allocation.plainDivisor 0))) := by
+  change (joint).leftWeight q.val.val ((joint).allocation.plainDivisor 0 * I) *
+    jointPhase _ ((joint).leftLocation q.val.val ((joint).allocation.plainDivisor 0 * I)) = _
   rw [CanonicalActualJointSources.joint_leftWeight Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val,
     CanonicalActualJointSources.joint_leftLocation Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val]
-  have hsourceScale : actual.scale₁ = H₁ :=
+  have hsourceScale : (actual).scale₁ = H₁ :=
     CanonicalActualJointSources.joint_leftScale Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne
   rw [hsourceScale]
   change _ = (child (WithLp.toLp 2 (ξ, ζ))).plainTest₁.profile
-    (actual.row q).momentIdeal t
-    (idealNorm K I / (H₁ / idealNorm K (joint.allocation.plainDivisor 0)))
+    ((actual).row q).momentIdeal t
+    (idealNorm K I / (H₁ / idealNorm K ((joint).allocation.plainDivisor 0)))
   exact CanonicalBoundedChildData.left_profile (data x) prefix Q.correction (Q.correction_mem x)
     C rows.primes rows.leftMultiplicity rows.rightMultiplicity pattern sector
     remaining budget anchor t idx raw hanchor hheight hpositive
@@ -297,8 +297,8 @@ theorem left_profile (ξ ζ : ℝ)
     (CanonicalActualJointSources.secondLogSlope side)
     (if comparison then Y₁ else Z ^ a.n₁)
     (original_scale_positive Z Y₁ a.n₁ hZ comparison (fun h => (hcomparison h).1))
-    b₁.plainDivisor₁ (joint.allocation.plainDivisor 0) I rfl
-    (actual.row q).momentIdeal t ξ ζ
+    b₁.plainDivisor₁ ((joint).allocation.plainDivisor 0) I rfl
+    ((actual).row q).momentIdeal t ξ ζ
 
 /-- The right source retains its positive second log slope after the
 single whole conjugation. Its first phase is the same original phase. -/
@@ -306,29 +306,29 @@ include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem right_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    actual.rightWeight q (actual.allocation.plainDivisor (Fin.succ 0) * I) *
+    (actual).rightWeight q ((actual).allocation.plainDivisor (Fin.succ 0) * I) *
       jointPhase (WithLp.toLp 2 (ξ, ζ))
-        (actual.rightLocation q (actual.allocation.plainDivisor (Fin.succ 0) * I)) =
+        ((actual).rightLocation q ((actual).allocation.plainDivisor (Fin.succ 0) * I)) =
       (child (WithLp.toLp 2 (ξ, ζ))).plainTest₂.profile
-        (actual.row q).momentIdeal t
+        ((actual).row q).momentIdeal t
         (idealNorm K I /
-          (actual.scale₂ / idealNorm K (actual.allocation.plainDivisor (Fin.succ 0)))) := by
-  change joint.rightWeight q.val.val (joint.allocation.plainDivisor (Fin.succ 0) * I) *
-    jointPhase _ (joint.rightLocation q.val.val (joint.allocation.plainDivisor (Fin.succ 0) * I)) = _
+          ((actual).scale₂ / idealNorm K ((actual).allocation.plainDivisor (Fin.succ 0)))) := by
+  change (joint).rightWeight q.val.val ((joint).allocation.plainDivisor (Fin.succ 0) * I) *
+    jointPhase _ ((joint).rightLocation q.val.val ((joint).allocation.plainDivisor (Fin.succ 0) * I)) = _
   rw [CanonicalActualJointSources.joint_rightWeight Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val,
     CanonicalActualJointSources.joint_rightLocation Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val]
-  have hsourceScale : actual.scale₂ = H₂ :=
+  have hsourceScale : (actual).scale₂ = H₂ :=
     CanonicalActualJointSources.joint_rightScale Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne
   rw [hsourceScale]
   change _ = (child (WithLp.toLp 2 (ξ, ζ))).plainTest₂.profile
-    (actual.row q).momentIdeal t
-    (idealNorm K I / (H₂ / idealNorm K (joint.allocation.plainDivisor (Fin.succ 0))))
+    ((actual).row q).momentIdeal t
+    (idealNorm K I / (H₂ / idealNorm K ((joint).allocation.plainDivisor (Fin.succ 0))))
   exact CanonicalBoundedChildData.right_profile (data x) prefix Q.correction (Q.correction_mem x)
     C rows.primes rows.leftMultiplicity rows.rightMultiplicity pattern sector
     remaining budget anchor t idx raw hanchor hheight hpositive
@@ -338,30 +338,30 @@ theorem right_profile (ξ ζ : ℝ)
     (CanonicalActualJointSources.secondLogSlope side)
     (if comparison then Y₂ else Z ^ a.n₂)
     (original_scale_positive Z Y₂ a.n₂ hZ comparison (fun h => (hcomparison h).2.1))
-    b₁.plainDivisor₂ (joint.allocation.plainDivisor (Fin.succ 0)) I rfl
-    (actual.row q).momentIdeal t ξ ζ
+    b₁.plainDivisor₂ ((joint).allocation.plainDivisor (Fin.succ 0)) I rfl
+    ((actual).row q).momentIdeal t ξ ζ
 
 /-- The last live occurrence uses its original prime profile and
 length. No aggregate prime-bound hypothesis enters the identity. -/
 include hwindow hδ₁ hδ₂ hδ in
 theorem prime_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
-    (i : Fin actual.allocation.keep.card) (p₀ : HeightOneSpectrum (𝓞 K)) :
-    actual.slotWeight q (SlotRestriction.index actual.allocation.keep i) p₀ *
+    (i : Fin (actual).allocation.keep.card) (p₀ : HeightOneSpectrum (𝓞 K)) :
+    (actual).slotWeight q (SlotRestriction.index (actual).allocation.keep i) p₀ *
       jointPhase (WithLp.toLp 2 (ξ, ζ))
-        (actual.slotLocation q (SlotRestriction.index actual.allocation.keep i) p₀) =
+        ((actual).slotLocation q (SlotRestriction.index (actual).allocation.keep i) p₀) =
       ((child (WithLp.toLp 2 (ξ, ζ))).geometry.slots i).profile t
         ((Ideal.absNorm p₀.asIdeal : ℝ) /
-          actual.base ^ ((child (WithLp.toLp 2 (ξ, ζ))).geometry.slots i).length) := by
-  change joint.slotWeight q.val.val (SlotRestriction.index joint.allocation.keep i) p₀ *
-    jointPhase _ (joint.slotLocation q.val.val (SlotRestriction.index joint.allocation.keep i) p₀) = _
+          (actual).base ^ ((child (WithLp.toLp 2 (ξ, ζ))).geometry.slots i).length) := by
+  change (joint).slotWeight q.val.val (SlotRestriction.index (joint).allocation.keep i) p₀ *
+    jointPhase _ ((joint).slotLocation q.val.val (SlotRestriction.index (joint).allocation.keep i) p₀) = _
   rw [CanonicalActualJointSources.joint_slotWeight Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val,
     CanonicalActualJointSources.joint_slotLocation Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val]
-  have hsourceBase : actual.base = Z := CanonicalActualJointSources.joint_base Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
+  have hsourceBase : (actual).base = Z := CanonicalActualJointSources.joint_base Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne
   rw [hsourceBase]
@@ -399,12 +399,12 @@ local notation "logProfiles" => originalLogProfiles Q x W a Z t Y₁ Y₂ hZ S�
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne pattern sector budget anchor raw hanchor hheight hpositive annulus hAnnulus
 
 @[simp] theorem childData_eq_originalLogProfiles (ξ : WithLp 2 (ℝ × ℝ)) :
-    child ξ = logProfiles.moving ξ := rfl
+    child ξ = (logProfiles).moving ξ := rfl
 
 /-- The pre-Fourier profile window is constructed from the same original
 window. Each real clipped compensation costs at most sqrt(annulus). -/
 def originalWindow (hP : 0 ≤ P₀) :
-    RawProfileWindow Set.univ Set.univ window orders logProfiles.original
+    RawProfileWindow Set.univ Set.univ window orders (logProfiles).original
       (Real.sqrt annulus * P₀) := by
   let base := CanonicalBoundedChildData.baseData (data x) prefix Q.correction
     (Q.correction_mem x) C rows.primes rows.leftMultiplicity rows.rightMultiplicity
@@ -433,7 +433,7 @@ local notation "recipe" => movingRecipe Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S fir
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne pattern sector budget anchor raw hanchor hheight hpositive annulus hAnnulus
 
 theorem fullJointBudget (width : ℝ) (hbudget : budget = Z ^ width) :
-    recipe.FullJointBudget Z width := by
+    (recipe).FullJointBudget Z width := by
   intro ξ u hu
   exact hu.2.trans_eq hbudget
 
@@ -442,15 +442,15 @@ frequency ideal and complete mask. It derives allowed-row membership
 from the proved factor norm identity, without an admissible-row premise. -/
 theorem allowed_of_source_norm
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
-    (hsource : A.exteriorNorm (actual.originalIdeal q) *
-        idealNorm K (recipe.moving.fullMaskSupport recipe.remaining) ≤
-      actual.normFactor q * budget) (ξ : WithLp 2 (ℝ × ℝ)) :
-    (child ξ).allowedRow (actual.row q).momentIdeal := by
-  refine ⟨(HeckeAxiom.exteriorEquiv A (actual.row q).ideal).property, ?_⟩
-  apply le_of_mul_le_mul_left _ (actual.row q).factor_pos
-  change actual.normFactor q * (A.exteriorNorm (actual.row q).ideal *
-    idealNorm K (recipe.moving.fullMaskSupport recipe.remaining)) ≤ actual.normFactor q * budget
-  rw [← mul_assoc, ← (actual.row q).norm_factor]
+    (hsource : A.exteriorNorm ((actual).originalIdeal q) *
+        idealNorm K ((recipe).moving.fullMaskSupport (recipe).remaining) ≤
+      (actual).normFactor q * budget) (ξ : WithLp 2 (ℝ × ℝ)) :
+    (child ξ).allowedRow ((actual).row q).momentIdeal := by
+  refine ⟨(HeckeAxiom.exteriorEquiv A ((actual).row q).ideal).property, ?_⟩
+  apply le_of_mul_le_mul_left _ ((actual).row q).factor_pos
+  change (actual).normFactor q * (A.exteriorNorm ((actual).row q).ideal *
+    idealNorm K ((recipe).moving.fullMaskSupport (recipe).remaining)) ≤ (actual).normFactor q * budget
+  rw [← mul_assoc, ← ((actual).row q).norm_factor]
   exact hsource
 
 /-- Coordinate-free form used by the complete source calibration. -/
@@ -458,10 +458,10 @@ include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem left_profile_joint (mode : WithLp 2 (ℝ × ℝ))
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    actual.leftWeight q (actual.allocation.plainDivisor 0 * I) *
-      jointPhase mode (actual.leftLocation q (actual.allocation.plainDivisor 0 * I)) =
-      (child mode).plainTest₁.profile (actual.row q).momentIdeal t
-        (idealNorm K I / (actual.scale₁ / idealNorm K (actual.allocation.plainDivisor 0))) := by
+    (actual).leftWeight q ((actual).allocation.plainDivisor 0 * I) *
+      jointPhase mode ((actual).leftLocation q ((actual).allocation.plainDivisor 0 * I)) =
+      (child mode).plainTest₁.profile ((actual).row q).momentIdeal t
+        (idealNorm K I / ((actual).scale₁ / idealNorm K ((actual).allocation.plainDivisor 0))) := by
   exact
     left_profile Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
@@ -472,12 +472,12 @@ include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem right_profile_joint (mode : WithLp 2 (ℝ × ℝ))
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    actual.rightWeight q (actual.allocation.plainDivisor (Fin.succ 0) * I) *
+    (actual).rightWeight q ((actual).allocation.plainDivisor (Fin.succ 0) * I) *
       jointPhase mode
-        (actual.rightLocation q (actual.allocation.plainDivisor (Fin.succ 0) * I)) =
-      (child mode).plainTest₂.profile (actual.row q).momentIdeal t
+        ((actual).rightLocation q ((actual).allocation.plainDivisor (Fin.succ 0) * I)) =
+      (child mode).plainTest₂.profile ((actual).row q).momentIdeal t
         (idealNorm K I /
-          (actual.scale₂ / idealNorm K (actual.allocation.plainDivisor (Fin.succ 0)))) := by
+          ((actual).scale₂ / idealNorm K ((actual).allocation.plainDivisor (Fin.succ 0)))) := by
   exact
     right_profile Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
@@ -487,11 +487,11 @@ theorem right_profile_joint (mode : WithLp 2 (ℝ × ℝ))
 include hwindow hδ₁ hδ₂ hδ in
 theorem prime_profile_joint (mode : WithLp 2 (ℝ × ℝ))
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
-    (i : Fin actual.allocation.keep.card) (p₀ : HeightOneSpectrum (𝓞 K)) :
-    actual.slotWeight q (SlotRestriction.index actual.allocation.keep i) p₀ *
-      jointPhase mode (actual.slotLocation q (SlotRestriction.index actual.allocation.keep i) p₀) =
+    (i : Fin (actual).allocation.keep.card) (p₀ : HeightOneSpectrum (𝓞 K)) :
+    (actual).slotWeight q (SlotRestriction.index (actual).allocation.keep i) p₀ *
+      jointPhase mode ((actual).slotLocation q (SlotRestriction.index (actual).allocation.keep i) p₀) =
       ((child mode).geometry.slots i).profile t
-        ((Ideal.absNorm p₀.asIdeal : ℝ) / actual.base ^ ((child mode).geometry.slots i).length) := by
+        ((Ideal.absNorm p₀.asIdeal : ℝ) / (actual).base ^ ((child mode).geometry.slots i).length) := by
   exact
     prime_profile Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
@@ -516,12 +516,12 @@ theorem effective_left_support
     (hExterior : ∀ J ∈ S₁, IsCoprime J A.cS)
     (mode : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
     effectivePlainSupport (child mode) (child mode).plainTest₁ u
-      (actual.scale₁ / idealNorm K (actual.allocation.plainDivisor 0)) t ⊆
-        actual.allocation.childPlain₁ := by
-  let finalAllocation := actual.allocation
+      ((actual).scale₁ / idealNorm K ((actual).allocation.plainDivisor 0)) t ⊆
+        (actual).allocation.childPlain₁ := by
+  let finalAllocation := (actual).allocation
   let finalIndex := idx
   have hB : finalAllocation.plain₁ = L₁₂ := by cases side <;> rfl
-  have hscale : actual.scale₁ = H₁ := CanonicalActualJointSources.joint_leftScale Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
+  have hscale : (actual).scale₁ = H₁ := CanonicalActualJointSources.joint_leftScale Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne
   rw [hscale]
@@ -543,12 +543,12 @@ theorem effective_right_support
     (hExterior : ∀ J ∈ S₂, IsCoprime J A.cS)
     (mode : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
     effectivePlainSupport (child mode) (child mode).plainTest₂ u
-      (actual.scale₂ / idealNorm K (actual.allocation.plainDivisor (Fin.succ 0))) t ⊆
-        actual.allocation.childPlain₂ := by
-  let finalAllocation := actual.allocation
+      ((actual).scale₂ / idealNorm K ((actual).allocation.plainDivisor (Fin.succ 0))) t ⊆
+        (actual).allocation.childPlain₂ := by
+  let finalAllocation := (actual).allocation
   let finalIndex := idx
   have hB : finalAllocation.plain₂ = L₂₂ := by cases side <;> rfl
-  have hscale : actual.scale₂ = H₂ := CanonicalActualJointSources.joint_rightScale Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
+  have hscale : (actual).scale₂ = H₂ := CanonicalActualJointSources.joint_rightScale Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne
   rw [hscale]
@@ -569,13 +569,13 @@ include hm hn secondRight hcommon in
 theorem effective_prime_support
     (hSlots : ∀ i, exteriorPrimeSupport (A := A) ((data x).geometry.slots i) Z t ⊆ S i)
     (mode : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
-    (i : Fin actual.allocation.keep.card) :
-    effectivePrimeSupport (child mode) i u actual.base t ⊆ actual.allocation.childSlots i := by
-  let finalAllocation := actual.allocation
+    (i : Fin (actual).allocation.keep.card) :
+    effectivePrimeSupport (child mode) i u (actual).base t ⊆ (actual).allocation.childSlots i := by
+  let finalAllocation := (actual).allocation
   let finalIndex := idx
   have hB : finalAllocation.slots = Slots₂ := by cases side <;> rfl
   have hindex : finalIndex i = idx₁ (idx₂ (SlotRestriction.index finalAllocation.keep i)) := rfl
-  have hbase : actual.base = Z := CanonicalActualJointSources.joint_base Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
+  have hbase : (actual).base = Z := CanonicalActualJointSources.joint_base Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne
   rw [hbase]
@@ -663,7 +663,7 @@ local notation "prefix" => (((Q.moving.append
       (CanonicalSecondRectangularFactors.secondMaskMovingFactors P R
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅)))
 local notation "remaining" => Q.remaining * exteriorMomentIdeal (combinedCommon firstCommon p v)
-local notation "idx" => fun i => idx₁ (idx₂ (SlotRestriction.index joint.allocation.keep i))
+local notation "idx" => fun i => idx₁ (idx₂ (SlotRestriction.index (joint).allocation.keep i))
 local notation "slope" => if firstRight then 1 else -1
 local notation "H₁" => (if comparison then Y₁ else Z ^ a.n₁) /
   idealNorm K b₁.plainDivisor₁ / idealNorm K b₂.plainDivisor₁
@@ -717,36 +717,36 @@ local notation "child" => childData Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCo
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne pattern sector budget anchor raw hanchor hheight hpositive annulus hAnnulus
 
 @[simp] theorem count (ξ : WithLp 2 (ℝ × ℝ)) :
-    (child ξ).geometry.slotCount = actual.allocation.keep.card := rfl
+    (child ξ).geometry.slotCount = (actual).allocation.keep.card := rfl
 
 @[simp] theorem theta (ξ : WithLp 2 (ℝ × ℝ)) :
     (child ξ).theta = (data x).theta := rfl
 
 @[simp] theorem slot_coefficient (ξ : WithLp 2 (ℝ × ℝ))
-    (i : Fin actual.allocation.keep.card) :
+    (i : Fin (actual).allocation.keep.card) :
     (child ξ).slotCoefficient i = (data x).slotCoefficient (idx i) := rfl
 
 /-- The same three original restrictions produce the child's length. -/
-theorem lengths (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin actual.allocation.keep.card) :
-    ((child ξ).geometry.slots i).length = actual.childLength i := by
+theorem lengths (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin (actual).allocation.keep.card) :
+    ((child ξ).geometry.slots i).length = (actual).childLength i := by
   change ((data x).geometry.slots (idx i)).length =
-    joint.length (SlotRestriction.index joint.allocation.keep i)
+    (joint).length (SlotRestriction.index (joint).allocation.keep i)
   exact (CanonicalActualJointSources.Pool.joint_length Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne
-    (SlotRestriction.index joint.allocation.keep i)).symm
+    (SlotRestriction.index (joint).allocation.keep i)).symm
 
 theorem index_injective : Function.Injective idx :=
   (retained_index_injective b₁.keep).comp
     ((retained_index_injective b₂.keep).comp
-      (retained_index_injective joint.allocation.keep))
+      (retained_index_injective (joint).allocation.keep))
 
 /-- Slot restriction is exactly composition with the original indices;
 it introduces no new character or theta correction. -/
 theorem characters (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector) :
-    (actual.characters q).restrictSlots actual.allocation.keep =
+    ((actual).characters q).restrictSlots (actual).allocation.keep =
       movingSourceCharacters (data x) Q.correction prefix remaining idx := by
-  change (joint.characters q.val.val).restrictSlots joint.allocation.keep = _
+  change ((joint).characters q.val.val).restrictSlots (joint).allocation.keep = _
   rw [CanonicalActualJointSources.Pool.joint_characters Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val]
@@ -757,15 +757,15 @@ constructed for every row of the actual subtype and both Fourier modes. -/
 def dictionary (hone : (1 : HeckeCharacter K) ∈ (data x).theta)
     (ξ : WithLp 2 (ℝ × ℝ))
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector) :
-    ((actual.characters q).restrictSlots actual.allocation.keep).Calibration (σ := σ)
-      (child ξ) rfl (actual.row q).momentIdeal
-        (actual.extractedFactor q) (actual.row q).element := by
+    (((actual).characters q).restrictSlots (actual).allocation.keep).Calibration (σ := σ)
+      (child ξ) rfl ((actual).row q).momentIdeal
+        ((actual).extractedFactor q) ((actual).row q).element := by
   rw [characters Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne pattern sector q]
   change (movingSourceCharacters (data x) Q.correction prefix remaining idx).Calibration
-    (σ := σ) (child ξ) rfl (joint.row q.val.val).momentIdeal
-      (joint.extractedFactor q.val.val) (joint.row q.val.val).element
+    (σ := σ) (child ξ) rfl ((joint).row q.val.val).momentIdeal
+      ((joint).extractedFactor q.val.val) ((joint).row q.val.val).element
   rw [CanonicalActualJointSources.Pool.joint_row_momentIdeal Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val,
@@ -798,7 +798,7 @@ def dictionary (hone : (1 : HeckeCharacter K) ∈ (data x).theta)
 /-- Original finite slot membership is transported by the actual index. -/
 theorem slot_in_theta
     (hslot : ∀ i, (data x).slotCoefficient i ∈ (data x).theta)
-    (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin actual.allocation.keep.card) :
+    (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin (actual).allocation.keep.card) :
     (child ξ).slotCoefficient i ∈ (child ξ).theta :=
   hslot (idx i)
 
@@ -821,28 +821,28 @@ include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem left_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    actual.leftWeight q (actual.allocation.plainDivisor 0 * I) *
+    (actual).leftWeight q ((actual).allocation.plainDivisor 0 * I) *
       jointPhase (WithLp.toLp 2 (ξ, ζ))
-        (actual.leftLocation q (actual.allocation.plainDivisor 0 * I)) =
+        ((actual).leftLocation q ((actual).allocation.plainDivisor 0 * I)) =
       (child (WithLp.toLp 2 (ξ, ζ))).plainTest₁.profile
-        (actual.row q).momentIdeal t
-        (idealNorm K I / (actual.scale₁ / idealNorm K (actual.allocation.plainDivisor 0))) := by
-  change joint.leftWeight q.val.val (joint.allocation.plainDivisor 0 * I) *
-    jointPhase _ (joint.leftLocation q.val.val (joint.allocation.plainDivisor 0 * I)) = _
+        ((actual).row q).momentIdeal t
+        (idealNorm K I / ((actual).scale₁ / idealNorm K ((actual).allocation.plainDivisor 0))) := by
+  change (joint).leftWeight q.val.val ((joint).allocation.plainDivisor 0 * I) *
+    jointPhase _ ((joint).leftLocation q.val.val ((joint).allocation.plainDivisor 0 * I)) = _
   rw [CanonicalActualJointSources.Pool.joint_leftWeight Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val,
     CanonicalActualJointSources.Pool.joint_leftLocation Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val]
-  have hsourceScale : actual.scale₁ = H₁ :=
+  have hsourceScale : (actual).scale₁ = H₁ :=
     CanonicalActualJointSources.Pool.joint_leftScale Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne
   rw [hsourceScale]
   change _ = (child (WithLp.toLp 2 (ξ, ζ))).plainTest₁.profile
-    (actual.row q).momentIdeal t
-    (idealNorm K I / (H₁ / idealNorm K (joint.allocation.plainDivisor 0)))
+    ((actual).row q).momentIdeal t
+    (idealNorm K I / (H₁ / idealNorm K ((joint).allocation.plainDivisor 0)))
   exact CanonicalBoundedChildData.left_profile (data x) prefix Q.correction (Q.correction_mem x)
     C rows.primes rows.leftMultiplicity rows.rightMultiplicity pattern sector
     remaining budget anchor t idx raw hanchor hheight hpositive
@@ -852,8 +852,8 @@ theorem left_profile (ξ ζ : ℝ)
     (CanonicalActualJointSources.secondLogSlope side)
     (if comparison then Y₁ else Z ^ a.n₁)
     (original_scale_positive Z Y₁ a.n₁ hZ comparison (fun h => (hcomparison h).1))
-    b₁.plainDivisor₁ (joint.allocation.plainDivisor 0) I rfl
-    (actual.row q).momentIdeal t ξ ζ
+    b₁.plainDivisor₁ ((joint).allocation.plainDivisor 0) I rfl
+    ((actual).row q).momentIdeal t ξ ζ
 
 /-- The right source retains its positive second log slope after the
 single whole conjugation. Its first phase is the same original phase. -/
@@ -861,29 +861,29 @@ include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem right_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    actual.rightWeight q (actual.allocation.plainDivisor (Fin.succ 0) * I) *
+    (actual).rightWeight q ((actual).allocation.plainDivisor (Fin.succ 0) * I) *
       jointPhase (WithLp.toLp 2 (ξ, ζ))
-        (actual.rightLocation q (actual.allocation.plainDivisor (Fin.succ 0) * I)) =
+        ((actual).rightLocation q ((actual).allocation.plainDivisor (Fin.succ 0) * I)) =
       (child (WithLp.toLp 2 (ξ, ζ))).plainTest₂.profile
-        (actual.row q).momentIdeal t
+        ((actual).row q).momentIdeal t
         (idealNorm K I /
-          (actual.scale₂ / idealNorm K (actual.allocation.plainDivisor (Fin.succ 0)))) := by
-  change joint.rightWeight q.val.val (joint.allocation.plainDivisor (Fin.succ 0) * I) *
-    jointPhase _ (joint.rightLocation q.val.val (joint.allocation.plainDivisor (Fin.succ 0) * I)) = _
+          ((actual).scale₂ / idealNorm K ((actual).allocation.plainDivisor (Fin.succ 0)))) := by
+  change (joint).rightWeight q.val.val ((joint).allocation.plainDivisor (Fin.succ 0) * I) *
+    jointPhase _ ((joint).rightLocation q.val.val ((joint).allocation.plainDivisor (Fin.succ 0) * I)) = _
   rw [CanonicalActualJointSources.Pool.joint_rightWeight Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val,
     CanonicalActualJointSources.Pool.joint_rightLocation Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val]
-  have hsourceScale : actual.scale₂ = H₂ :=
+  have hsourceScale : (actual).scale₂ = H₂ :=
     CanonicalActualJointSources.Pool.joint_rightScale Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne
   rw [hsourceScale]
   change _ = (child (WithLp.toLp 2 (ξ, ζ))).plainTest₂.profile
-    (actual.row q).momentIdeal t
-    (idealNorm K I / (H₂ / idealNorm K (joint.allocation.plainDivisor (Fin.succ 0))))
+    ((actual).row q).momentIdeal t
+    (idealNorm K I / (H₂ / idealNorm K ((joint).allocation.plainDivisor (Fin.succ 0))))
   exact CanonicalBoundedChildData.right_profile (data x) prefix Q.correction (Q.correction_mem x)
     C rows.primes rows.leftMultiplicity rows.rightMultiplicity pattern sector
     remaining budget anchor t idx raw hanchor hheight hpositive
@@ -893,30 +893,30 @@ theorem right_profile (ξ ζ : ℝ)
     (CanonicalActualJointSources.secondLogSlope side)
     (if comparison then Y₂ else Z ^ a.n₂)
     (original_scale_positive Z Y₂ a.n₂ hZ comparison (fun h => (hcomparison h).2.1))
-    b₁.plainDivisor₂ (joint.allocation.plainDivisor (Fin.succ 0)) I rfl
-    (actual.row q).momentIdeal t ξ ζ
+    b₁.plainDivisor₂ ((joint).allocation.plainDivisor (Fin.succ 0)) I rfl
+    ((actual).row q).momentIdeal t ξ ζ
 
 /-- The last live occurrence uses its original prime profile and
 length. No aggregate prime-bound hypothesis enters the identity. -/
 include hwindow hδ₁ hδ₂ hδ in
 theorem prime_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
-    (i : Fin actual.allocation.keep.card) (p₀ : HeightOneSpectrum (𝓞 K)) :
-    actual.slotWeight q (SlotRestriction.index actual.allocation.keep i) p₀ *
+    (i : Fin (actual).allocation.keep.card) (p₀ : HeightOneSpectrum (𝓞 K)) :
+    (actual).slotWeight q (SlotRestriction.index (actual).allocation.keep i) p₀ *
       jointPhase (WithLp.toLp 2 (ξ, ζ))
-        (actual.slotLocation q (SlotRestriction.index actual.allocation.keep i) p₀) =
+        ((actual).slotLocation q (SlotRestriction.index (actual).allocation.keep i) p₀) =
       ((child (WithLp.toLp 2 (ξ, ζ))).geometry.slots i).profile t
         ((Ideal.absNorm p₀.asIdeal : ℝ) /
-          actual.base ^ ((child (WithLp.toLp 2 (ξ, ζ))).geometry.slots i).length) := by
-  change joint.slotWeight q.val.val (SlotRestriction.index joint.allocation.keep i) p₀ *
-    jointPhase _ (joint.slotLocation q.val.val (SlotRestriction.index joint.allocation.keep i) p₀) = _
+          (actual).base ^ ((child (WithLp.toLp 2 (ξ, ζ))).geometry.slots i).length) := by
+  change (joint).slotWeight q.val.val (SlotRestriction.index (joint).allocation.keep i) p₀ *
+    jointPhase _ ((joint).slotLocation q.val.val (SlotRestriction.index (joint).allocation.keep i) p₀) = _
   rw [CanonicalActualJointSources.Pool.joint_slotWeight Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val,
     CanonicalActualJointSources.Pool.joint_slotLocation Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne q.val.val]
-  have hsourceBase : actual.base = Z := CanonicalActualJointSources.Pool.joint_base Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
+  have hsourceBase : (actual).base = Z := CanonicalActualJointSources.Pool.joint_base Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne
   rw [hsourceBase]
@@ -954,12 +954,12 @@ local notation "logProfiles" => originalLogProfiles Q x W a Z t Y₁ Y₂ hZ S�
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne pattern sector budget anchor raw hanchor hheight hpositive annulus hAnnulus
 
 @[simp] theorem childData_eq_originalLogProfiles (ξ : WithLp 2 (ℝ × ℝ)) :
-    child ξ = logProfiles.moving ξ := rfl
+    child ξ = (logProfiles).moving ξ := rfl
 
 /-- The pre-Fourier profile window is constructed from the same original
 window. Each real clipped compensation costs at most sqrt(annulus). -/
 def originalWindow (hP : 0 ≤ P₀) :
-    RawProfileWindow Set.univ Set.univ window orders logProfiles.original
+    RawProfileWindow Set.univ Set.univ window orders (logProfiles).original
       (Real.sqrt annulus * P₀) := by
   let base := CanonicalBoundedChildData.baseData (data x) prefix Q.correction
     (Q.correction_mem x) C rows.primes rows.leftMultiplicity rows.rightMultiplicity
@@ -988,7 +988,7 @@ local notation "recipe" => movingRecipe Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S fir
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne pattern sector budget anchor raw hanchor hheight hpositive annulus hAnnulus
 
 theorem fullJointBudget (width : ℝ) (hbudget : budget = Z ^ width) :
-    recipe.FullJointBudget Z width := by
+    (recipe).FullJointBudget Z width := by
   intro ξ u hu
   exact hu.2.trans_eq hbudget
 
@@ -997,15 +997,15 @@ frequency ideal and complete mask. It derives allowed-row membership
 from the proved factor norm identity, without an admissible-row premise. -/
 theorem allowed_of_source_norm
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
-    (hsource : A.exteriorNorm (actual.originalIdeal q) *
-        idealNorm K (recipe.moving.fullMaskSupport recipe.remaining) ≤
-      actual.normFactor q * budget) (ξ : WithLp 2 (ℝ × ℝ)) :
-    (child ξ).allowedRow (actual.row q).momentIdeal := by
-  refine ⟨(HeckeAxiom.exteriorEquiv A (actual.row q).ideal).property, ?_⟩
-  apply le_of_mul_le_mul_left _ (actual.row q).factor_pos
-  change actual.normFactor q * (A.exteriorNorm (actual.row q).ideal *
-    idealNorm K (recipe.moving.fullMaskSupport recipe.remaining)) ≤ actual.normFactor q * budget
-  rw [← mul_assoc, ← (actual.row q).norm_factor]
+    (hsource : A.exteriorNorm ((actual).originalIdeal q) *
+        idealNorm K ((recipe).moving.fullMaskSupport (recipe).remaining) ≤
+      (actual).normFactor q * budget) (ξ : WithLp 2 (ℝ × ℝ)) :
+    (child ξ).allowedRow ((actual).row q).momentIdeal := by
+  refine ⟨(HeckeAxiom.exteriorEquiv A ((actual).row q).ideal).property, ?_⟩
+  apply le_of_mul_le_mul_left _ ((actual).row q).factor_pos
+  change (actual).normFactor q * (A.exteriorNorm ((actual).row q).ideal *
+    idealNorm K ((recipe).moving.fullMaskSupport (recipe).remaining)) ≤ (actual).normFactor q * budget
+  rw [← mul_assoc, ← ((actual).row q).norm_factor]
   exact hsource
 
 /-- Coordinate-free form used by the complete source calibration. -/
@@ -1013,10 +1013,10 @@ include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem left_profile_joint (mode : WithLp 2 (ℝ × ℝ))
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    actual.leftWeight q (actual.allocation.plainDivisor 0 * I) *
-      jointPhase mode (actual.leftLocation q (actual.allocation.plainDivisor 0 * I)) =
-      (child mode).plainTest₁.profile (actual.row q).momentIdeal t
-        (idealNorm K I / (actual.scale₁ / idealNorm K (actual.allocation.plainDivisor 0))) := by
+    (actual).leftWeight q ((actual).allocation.plainDivisor 0 * I) *
+      jointPhase mode ((actual).leftLocation q ((actual).allocation.plainDivisor 0 * I)) =
+      (child mode).plainTest₁.profile ((actual).row q).momentIdeal t
+        (idealNorm K I / ((actual).scale₁ / idealNorm K ((actual).allocation.plainDivisor 0))) := by
   exact
     left_profile Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
@@ -1027,12 +1027,12 @@ include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem right_profile_joint (mode : WithLp 2 (ℝ × ℝ))
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    actual.rightWeight q (actual.allocation.plainDivisor (Fin.succ 0) * I) *
+    (actual).rightWeight q ((actual).allocation.plainDivisor (Fin.succ 0) * I) *
       jointPhase mode
-        (actual.rightLocation q (actual.allocation.plainDivisor (Fin.succ 0) * I)) =
-      (child mode).plainTest₂.profile (actual.row q).momentIdeal t
+        ((actual).rightLocation q ((actual).allocation.plainDivisor (Fin.succ 0) * I)) =
+      (child mode).plainTest₂.profile ((actual).row q).momentIdeal t
         (idealNorm K I /
-          (actual.scale₂ / idealNorm K (actual.allocation.plainDivisor (Fin.succ 0)))) := by
+          ((actual).scale₂ / idealNorm K ((actual).allocation.plainDivisor (Fin.succ 0)))) := by
   exact
     right_profile Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
@@ -1042,11 +1042,11 @@ theorem right_profile_joint (mode : WithLp 2 (ℝ × ℝ))
 include hwindow hδ₁ hδ₂ hδ in
 theorem prime_profile_joint (mode : WithLp 2 (ℝ × ℝ))
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
-    (i : Fin actual.allocation.keep.card) (p₀ : HeightOneSpectrum (𝓞 K)) :
-    actual.slotWeight q (SlotRestriction.index actual.allocation.keep i) p₀ *
-      jointPhase mode (actual.slotLocation q (SlotRestriction.index actual.allocation.keep i) p₀) =
+    (i : Fin (actual).allocation.keep.card) (p₀ : HeightOneSpectrum (𝓞 K)) :
+    (actual).slotWeight q (SlotRestriction.index (actual).allocation.keep i) p₀ *
+      jointPhase mode ((actual).slotLocation q (SlotRestriction.index (actual).allocation.keep i) p₀) =
       ((child mode).geometry.slots i).profile t
-        ((Ideal.absNorm p₀.asIdeal : ℝ) / actual.base ^ ((child mode).geometry.slots i).length) := by
+        ((Ideal.absNorm p₀.asIdeal : ℝ) / (actual).base ^ ((child mode).geometry.slots i).length) := by
   exact
     prime_profile Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
@@ -1071,12 +1071,12 @@ theorem effective_left_support
     (hExterior : ∀ J ∈ S₁, IsCoprime J A.cS)
     (mode : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
     effectivePlainSupport (child mode) (child mode).plainTest₁ u
-      (actual.scale₁ / idealNorm K (actual.allocation.plainDivisor 0)) t ⊆
-        actual.allocation.childPlain₁ := by
-  let finalAllocation := actual.allocation
+      ((actual).scale₁ / idealNorm K ((actual).allocation.plainDivisor 0)) t ⊆
+        (actual).allocation.childPlain₁ := by
+  let finalAllocation := (actual).allocation
   let finalIndex := idx
   have hB : finalAllocation.plain₁ = L₁₂ := by cases side <;> rfl
-  have hscale : actual.scale₁ = H₁ := CanonicalActualJointSources.Pool.joint_leftScale Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
+  have hscale : (actual).scale₁ = H₁ := CanonicalActualJointSources.Pool.joint_leftScale Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne
   rw [hscale]
@@ -1098,12 +1098,12 @@ theorem effective_right_support
     (hExterior : ∀ J ∈ S₂, IsCoprime J A.cS)
     (mode : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
     effectivePlainSupport (child mode) (child mode).plainTest₂ u
-      (actual.scale₂ / idealNorm K (actual.allocation.plainDivisor (Fin.succ 0))) t ⊆
-        actual.allocation.childPlain₂ := by
-  let finalAllocation := actual.allocation
+      ((actual).scale₂ / idealNorm K ((actual).allocation.plainDivisor (Fin.succ 0))) t ⊆
+        (actual).allocation.childPlain₂ := by
+  let finalAllocation := (actual).allocation
   let finalIndex := idx
   have hB : finalAllocation.plain₂ = L₂₂ := by cases side <;> rfl
-  have hscale : actual.scale₂ = H₂ := CanonicalActualJointSources.Pool.joint_rightScale Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
+  have hscale : (actual).scale₂ = H₂ := CanonicalActualJointSources.Pool.joint_rightScale Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne
   rw [hscale]
@@ -1124,13 +1124,13 @@ include hm hn secondRight hcommon in
 theorem effective_prime_support
     (hSlots : ∀ i, exteriorPrimeSupport (A := A) ((data x).geometry.slots i) Z t ⊆ S i)
     (mode : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
-    (i : Fin actual.allocation.keep.card) :
-    effectivePrimeSupport (child mode) i u actual.base t ⊆ actual.allocation.childSlots i := by
-  let finalAllocation := actual.allocation
+    (i : Fin (actual).allocation.keep.card) :
+    effectivePrimeSupport (child mode) i u (actual).base t ⊆ (actual).allocation.childSlots i := by
+  let finalAllocation := (actual).allocation
   let finalIndex := idx
   have hB : finalAllocation.slots = Slots₂ := by cases side <;> rfl
   have hindex : finalIndex i = idx₁ (idx₂ (SlotRestriction.index finalAllocation.keep i)) := rfl
-  have hbase : actual.base = Z := CanonicalActualJointSources.Pool.joint_base Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
+  have hbase : (actual).base = Z := CanonicalActualJointSources.Pool.joint_base Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne
   rw [hbase]

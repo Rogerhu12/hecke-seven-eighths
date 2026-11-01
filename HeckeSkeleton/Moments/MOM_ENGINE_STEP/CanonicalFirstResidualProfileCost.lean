@@ -165,8 +165,8 @@ theorem literalOriginalAtoms_first_combined_profile_le
     (annulus : ℝ) (hannulus : 0 ≤ annulus) (hwindow : window ⊆ Set.Iic annulus)
     (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
     {supportL supportR : Finset (Ideal (𝓞 K))}
-    (bL : SupportCartesianBranch seed.plain₁ seed.plain₂ seed.slots supportL)
-    (bR : SupportCartesianBranch seed.plain₁ seed.plain₂ seed.slots supportR)
+    (bL : SupportCartesianBranch (seed).plain₁ (seed).plain₂ (seed).slots supportL)
+    (bR : SupportCartesianBranch (seed).plain₁ (seed).plain₂ (seed).slots supportR)
     (IL IR powerL powerR : A.Exterior) (elementL elementR : A.R) (δ₁ δ₂ : ℝ)
     (hδ₁ : 0 ≤ δ₁) (hδ₂ : 0 ≤ δ₂) (hδ : δ₁ + δ₂ ≤ 1 / 2)
     (hIL : frozenSourceIdeal bL.plainDivisor₁ bL.plainDivisor₂ bL.keep bL.witness.2 = IL.val)
@@ -180,10 +180,10 @@ theorem literalOriginalAtoms_first_combined_profile_le
     (hactive : (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
       ⟨r.modulus, r.nonzero⟩).val = Z ^ active) :
     CanonicalFirstLog.rowWeightBound r radius D δ₁ *
-        (‖(seed.twoStageProfileFactor bL δ₁ δ₂ : ℂ) *
-            seed.secondInputScalar (σ := σ) bL powerL elementL δ₁‖ *
-          ‖(seed.twoStageProfileFactor bR δ₁ δ₂ : ℂ) *
-            seed.secondInputScalar (σ := σ) bR powerR elementR δ₁‖) ≤
+        (‖((seed).twoStageProfileFactor bL δ₁ δ₂ : ℂ) *
+            (seed).secondInputScalar (σ := σ) bL powerL elementL δ₁‖ *
+          ‖((seed).twoStageProfileFactor bR δ₁ δ₂ : ℂ) *
+            (seed).secondInputScalar (σ := σ) bR powerR elementR δ₁‖) ≤
       (orbitalFieldFactor K * (CanonicalLiteralFirstScalarCost.atomBudget annulus B) ^ cap) *
         Z ^ ((m + q) -
           (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + q + mask + active) +

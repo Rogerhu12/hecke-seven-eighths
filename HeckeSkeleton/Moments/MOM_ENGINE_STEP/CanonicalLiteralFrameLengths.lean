@@ -102,17 +102,17 @@ local notation "f" =>
 the original pre-allocation occurrence dictionary. -/
 def factorsOriginalSlots (parent : MomentData K ω ψ)
     (slots : OriginalSlotDictionary parent d.length) :
-    OriginalSlotDictionary parent f.source.length := by
+    OriginalSlotDictionary parent (f).source.length := by
   cases side <;> exact slots
 
 /-- The full-kappa prime input uses the same original mesh bound on
 the retained source slots, before any capacity deletion. -/
 theorem factors_childLength_le (parent : MomentData K ω ψ)
     (slots : OriginalSlotDictionary parent d.length) (mesh : ℝ)
-    (hfit : parent.geometry.fitsMesh mesh) (i : Fin f.source.allocation.keep.card) :
-    f.source.childLength i ≤ mesh := by
+    (hfit : parent.geometry.fitsMesh mesh) (i : Fin (f).source.allocation.keep.card) :
+    (f).source.childLength i ≤ mesh := by
   exact (d.factorsOriginalSlots (C := C) R side χ ideal hideal firstSign rectangle L selection hne
-    parent slots).fitsMesh hfit (SlotRestriction.index f.source.allocation.keep i)
+    parent slots).fitsMesh hfit (SlotRestriction.index (f).source.allocation.keep i)
 
 variable (D : ((d.factors R side χ ideal hideal firstSign rectangle).frame C L selection hne).source.Calibration
   (σ := σ) ω ψ)
@@ -127,21 +127,21 @@ theorems and `literalLeftAtoms_secondScale`/its right counterpart.
 No raw-degree, width, final-child or capacity bound is assumed. -/
 def factorsOriginalSixthLengths
     {centered : Bool} {Y₁ Y₂ floor padding : ℝ}
-    (domain : PairedEngineDomain centered parent a f.source.base Y₁ Y₂ floor padding)
+    (domain : PairedEngineDomain centered parent a (f).source.base Y₁ Y₂ floor padding)
     (slots : OriginalSlotDictionary parent d.length)
     (direct : G.tag = .direct → parent.geometry.slotCount = 0)
     (cutoff rootLength : ℝ) (hcutoff : 0 ≤ cutoff) (hsmall : 2 * cutoff ≤ step)
-    (hparameters : D.parameters = CanonicalLiteralAllocatedData.parameters d f.allocation
+    (hparameters : D.parameters = CanonicalLiteralAllocatedData.parameters d (f).allocation
       rectangle (G.literalRowParameter cutoff) (G.literalSupportParameter rootLength) a.κ)
     (annulus : ℝ) (cap : ℕ) (error : ℝ) (herr : 0 ≤ error)
     (hbound : d.scaleProduct rectangle *
       ((Ideal.absNorm G.literalFirstExtraction.val : ℝ) *
         (Ideal.absNorm G.ideals.second.val : ℝ)) ≤
-      annulus ^ (2 * cap) * f.source.base ^ (a.n₁ + a.n₂ + a.z))
-    (hthreshold : annulus ^ (2 * cap) ≤ f.source.base ^ error) :
+      annulus ^ (2 * cap) * (f).source.base ^ (a.n₁ + a.n₂ + a.z))
+    (hthreshold : annulus ^ (2 * cap) ≤ (f).source.base ^ error) :
     D.OriginalSixthLengthBinding parent a step G rootLength := by
-  have hproduct : f.source.scale₁ * f.source.scale₂ * f.source.base ^ f.source.beforeLength ≤
-      f.source.base ^ (G.skeleton.rawDegree + error) := by
+  have hproduct : (f).source.scale₁ * (f).source.scale₂ * (f).source.base ^ (f).source.beforeLength ≤
+      (f).source.base ^ (G.skeleton.rawDegree + error) := by
     have he := d.factors_source_scaleProduct (C := C) R side χ ideal hideal firstSign rectangle
       L selection hne
     cases side <;>
@@ -163,7 +163,7 @@ def factorsOriginalSixthLengths
       parent_region := ⟨domain.kappa_lower, domain.kappa_upper, domain.capacity⟩
       kappa := hκ
       direct_slots := ?_
-      scales := (G.literalEndpointWindows f.source.base_gt_one cutoff rootLength hcutoff hsmall)
+      scales := (G.literalEndpointWindows (f).source.base_gt_one cutoff rootLength hcutoff hsmall)
         .reparameterize hm (congrArg (fun y : ℝ => y - rootLength) hq)
       rawScaleError := error
       rawScaleError_nonneg := herr
@@ -177,18 +177,18 @@ def factorsOriginalSixthLengths
 
 @[simp] theorem factorsOriginalSixthLengths_error
     {centered : Bool} {Y₁ Y₂ floor padding : ℝ}
-    (domain : PairedEngineDomain centered parent a f.source.base Y₁ Y₂ floor padding)
+    (domain : PairedEngineDomain centered parent a (f).source.base Y₁ Y₂ floor padding)
     (slots : OriginalSlotDictionary parent d.length)
     (direct : G.tag = .direct → parent.geometry.slotCount = 0)
     (cutoff rootLength : ℝ) (hcutoff : 0 ≤ cutoff) (hsmall : 2 * cutoff ≤ step)
-    (hparameters : D.parameters = CanonicalLiteralAllocatedData.parameters d f.allocation
+    (hparameters : D.parameters = CanonicalLiteralAllocatedData.parameters d (f).allocation
       rectangle (G.literalRowParameter cutoff) (G.literalSupportParameter rootLength) a.κ)
     (annulus : ℝ) (cap : ℕ) (error : ℝ) (herr : 0 ≤ error)
     (hbound : d.scaleProduct rectangle *
       ((Ideal.absNorm G.literalFirstExtraction.val : ℝ) *
         (Ideal.absNorm G.ideals.second.val : ℝ)) ≤
-      annulus ^ (2 * cap) * f.source.base ^ (a.n₁ + a.n₂ + a.z))
-    (hthreshold : annulus ^ (2 * cap) ≤ f.source.base ^ error) :
+      annulus ^ (2 * cap) * (f).source.base ^ (a.n₁ + a.n₂ + a.z))
+    (hthreshold : annulus ^ (2 * cap) ≤ (f).source.base ^ error) :
     (d.factorsOriginalSixthLengths (C := C) R side χ ideal hideal firstSign rectangle L selection hne
       D parent a step G domain slots direct cutoff rootLength hcutoff hsmall hparameters
       annulus cap error herr hbound hthreshold).scales.error = cutoff := by

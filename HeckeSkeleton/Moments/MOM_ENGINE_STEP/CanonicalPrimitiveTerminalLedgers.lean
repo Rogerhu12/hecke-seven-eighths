@@ -61,19 +61,19 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
   a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
 
 include μv ν C hroot hemb W ξ a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
 
-variable (step : ℝ) (DE : source.CommonLabel)
-variable (D : ((source.block DE).mask source.mask).powerset) (negative : Bool)
+variable (step : ℝ) (DE : (source).CommonLabel)
+variable (D : (((source).block DE).mask (source).mask).powerset) (negative : Bool)
 variable (G : OriginalNominalGeometry (K := K) internal Z step)
 variable (hcoordinates : G.ideals = if negative then
-  (source.block DE).literalRightCoordinates D.val else
-  (source.block DE).literalLeftCoordinates D.val)
+  ((source).block DE).literalRightCoordinates D.val else
+  ((source).block DE).literalLeftCoordinates D.val)
 
 include hcoordinates
 
@@ -81,7 +81,7 @@ include hcoordinates
 orientation of the very same first common block. -/
 theorem literalPrimitiveGeometry_ideal_lengths
     (columnBound : ℝ)
-    (hN : ∀ i ∈ source.columns, (Ideal.absNorm (source.ideal i).val : ℝ) ≤ Z ^ columnBound) :
+    (hN : ∀ i ∈ (source).columns, (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ columnBound) :
     idealLogLength Z G.ideals.first.val ≤ columnBound ∧
       idealLogLength Z G.ideals.complementary.val ≤ columnBound ∧
       idealLogLength Z (firstActiveRadical G.ideals.first.val G.ideals.opposite.val) ≤ columnBound := by
@@ -95,7 +95,7 @@ theorem literalPrimitiveGeometry_ideal_lengths
   · simpa only [hcoordinates, FirstCommonCharacterBlock.literalRightCoordinates_first,
       FirstCommonCharacterBlock.literalRightCoordinates_opposite,
       FirstCommonCharacterBlock.literalRightCoordinates_complementary,
-      firstActiveRadical_swap_of_support DE.val.1 DE.val.2 (source.block DE).common_support_eq] using
+      firstActiveRadical_swap_of_support DE.val.1 DE.val.2 ((source).block DE).common_support_eq] using
       And.intro h.2.1 (And.intro h.2.2.2 h.2.2.1)
 
 /-- Reversing the original columns leaves the actual first-profile
@@ -115,14 +115,14 @@ theorem literalPrimitiveGeometry_profileShift (total : ℝ) :
       FirstCommonCharacterBlock.literalRightCoordinates_first,
       FirstCommonCharacterBlock.literalRightCoordinates_opposite,
       FirstCommonCharacterBlock.literalRightCoordinates_complementary,
-      firstActiveRadical_swap_of_support DE.val.1 DE.val.2 (source.block DE).common_support_eq]
+      firstActiveRadical_swap_of_support DE.val.1 DE.val.2 ((source).block DE).common_support_eq]
 
 /-- The raw sharp second amplitude is combined with the original
 first profile before the common ideals are summed. -/
 theorem literalPrimitiveGeometry_zero_ledger
     (hstep : 0 ≤ step) (lengthBound columnBound : ℝ)
     (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-    (hN : ∀ i ∈ source.columns, (Ideal.absNorm (source.ideal i).val : ℝ) ≤ Z ^ columnBound)
+    (hN : ∀ i ∈ (source).columns, (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ columnBound)
     {floor padding : ℝ}
     (domain : PairedEngineDomain centered (data ξ) a Z Y₁ Y₂ floor padding)
     (loss ε productExponent total : ℝ) (hloss : loss ≤ 1) (hε : 0 ≤ ε)
@@ -139,7 +139,7 @@ theorem literalPrimitiveGeometry_zero_ledger
     step DE D negative G hcoordinates columnBound hN
   have hm := Q.literalPrimitiveCommon_m_nonneg μv ν C hroot hemb W ξ
     a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half DE
-  have hcore : internal.n₁ + internal.n₂ + internal.z ≤ internal.m + internal.q + padding := by
+  have hcore : (internal).n₁ + (internal).n₂ + (internal).z ≤ (internal).m + (internal).q + padding := by
     simpa only [Q.fullSupportParameters_width] using domain.padded_core
   have h := G.sharp_zero_allowance_ledger_for_total hZ hstep
     total loss δ₁ ε productExponent (max lengthBound columnBound) padding hm hloss hδ₁.le hε
@@ -154,7 +154,7 @@ theorem literalPrimitiveGeometry_zero_ledger
 no additional inverse power of a moving common ideal is requested. -/
 theorem literalPrimitiveGeometry_tail_ledger
     (columnBound : ℝ)
-    (hN : ∀ i ∈ source.columns, (Ideal.absNorm (source.ideal i).val : ℝ) ≤ Z ^ columnBound)
+    (hN : ∀ i ∈ (source).columns, (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ columnBound)
     (loss saving total : ℝ) (hloss : 0 ≤ loss) (hsaving : 2 * columnBound ≤ saving) :
     -saving ≤ (total - idealLogLength Z G.ideals.first.val + G.boundary) + loss -
       Q.literalPrimitiveFirstProfileShift μv ν C hroot hemb W ξ a Z t Y₁ Y₂

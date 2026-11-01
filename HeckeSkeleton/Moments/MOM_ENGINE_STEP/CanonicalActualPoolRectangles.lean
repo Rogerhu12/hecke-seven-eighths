@@ -121,17 +121,17 @@ def poolDictionary :
       (hc.2.2 j q hq).1
     exact (he q (dvd_refl q.asIdeal)).1
   have hmask (I : Ideal (𝓞 K)) (hI : IsCoprime I p.val.asIdeal) :
-      E.residueValue (σ := σ) I *
-        (if IsCoprime I E.support.val then (1 : ℂ) else 0) =
-          E.residueValue (σ := σ) I := by
-    have hE : IsCoprime I E.support.val := by
-      rw [E.coprime_support_iff_fullIdeal I, poolMovingFactors_fullIdeal]
+      (E).residueValue (σ := σ) I *
+        (if IsCoprime I (E).support.val then (1 : ℂ) else 0) =
+          (E).residueValue (σ := σ) I := by
+    have hE : IsCoprime I (E).support.val := by
+      rw [(E).coprime_support_iff_fullIdeal I, poolMovingFactors_fullIdeal]
       exact hI
     rw [if_pos hE, mul_one]
   refine
-    { leftAtom := fun I => F.leftAtom I * E.residueHom (σ := σ) I
-      rightAtom := fun I => F.rightAtom I * E.residueHom (σ := σ) I
-      slotAtom := fun j q => F.slotAtom j q * E.residueHom (σ := σ) q.asIdeal
+    { leftAtom := fun I => F.leftAtom I * (E).residueHom (σ := σ) I
+      rightAtom := fun I => F.rightAtom I * (E).residueHom (σ := σ) I
+      slotAtom := fun j q => F.slotAtom j q * (E).residueHom (σ := σ) q.asIdeal
       leftRay := F.leftRay
       rightRay := F.rightRay
       slotRay := F.slotRay
@@ -153,7 +153,7 @@ def poolDictionary :
     have hold := F.plain₁ I hI
     simp only [CanonicalSecondRectangularFactors.punit_phase, mul_one] at hold ⊢
     rw [hold]
-    change _ * E.residueValue (σ := σ) I = _
+    change _ * (E).residueValue (σ := σ) I = _
     rw [hv]
     ring
   · intro I hI
@@ -164,7 +164,7 @@ def poolDictionary :
     have hold := F.plain₂ I hI
     simp only [CanonicalSecondRectangularFactors.punit_phase, mul_one] at hold ⊢
     rw [hold]
-    change _ * E.residueValue (σ := σ) I = _
+    change _ * (E).residueValue (σ := σ) I = _
     rw [hv]
     ring
   · intro j q hq
@@ -173,7 +173,7 @@ def poolDictionary :
     have hold := F.prime j q hq
     simp only [CanonicalSecondRectangularFactors.punit_phase, mul_one] at hold ⊢
     rw [hold]
-    change _ * E.residueValue (σ := σ) q.asIdeal = _
+    change _ * (E).residueValue (σ := σ) q.asIdeal = _
     ring
 
 /-- The full reciprocal phase is the product of these actual atoms.
@@ -181,9 +181,9 @@ No phase has been replaced by its norm or by an arbitrary character. -/
 theorem poolDictionary_coefficient (i : AllocationColumn K k) :
     (poolDictionary parent correction prefix remaining index hroot hemb C p n
       side χ S₁ S₂ S F J hJ witness hwitness hcop).coefficient i =
-      F.coefficient i * E.residueHom (σ := σ) (allocationColumnIdeal i) := by
+      F.coefficient i * (E).residueHom (σ := σ) (allocationColumnIdeal i) := by
   exact (CanonicalSecondRectangularFactors.rectangle_mul_ideal_weight
-    (E.residueHom (σ := σ)) F.leftAtom F.rightAtom F.slotAtom i).symm
+    ((E).residueHom (σ := σ)) F.leftAtom F.rightAtom F.slotAtom i).symm
 
 end PoolTable
 
@@ -211,12 +211,12 @@ variable (side : SecondColumnSide) (χ : (PUnit × PUnit) →* Circle)
 
 local notation "common" => combinedCommon firstCommon p v
 local notation "idx" => SlotRestriction.index b.keep
-local notation "L₁" => SupportCartesian.plainResidual S₁ (primeSupport common.val) b.plainExtract₁
-local notation "L₂" => SupportCartesian.plainResidual S₂ (primeSupport common.val) b.plainExtract₂
-local notation "Slots" => fun j => SupportCartesian.primeLive (S (idx j)) (primeSupport common.val)
+local notation "L₁" => SupportCartesian.plainResidual S₁ (primeSupport (common).val) b.plainExtract₁
+local notation "L₂" => SupportCartesian.plainResidual S₂ (primeSupport (common).val) b.plainExtract₂
+local notation "Slots" => fun j => SupportCartesian.primeLive (S (idx j)) (primeSupport (common).val)
 local notation "E₁" => CanonicalSecondRectangularFactors.firstMovingFactors P R C primes m n firstRight δ
 local notation "Epool" => poolMovingFactors (P := P) (R := R) C p v
-local notation "M₁" => E₁.residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (if firstRight then 1 else -1)
+local notation "M₁" => (E₁).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (if firstRight then 1 else -1)
 local notation "firstTable" => firstResidualDictionary Q x W a Z t Y₁ Y₂ S₁ S₂ S common b
   C primes m n firstRight δ tilt ξ hroot hemb J hJ hactive side χ
 
@@ -247,7 +247,7 @@ after its proved prime-power reconstruction. -/
 def originalPoolCoefficient (comparison : Bool) (i : AllocationColumn K b.keep.card) : ℂ :=
   (Q.originalTermDictionary x W a Z t Y₁ Y₂ .left 1 S₁ S₂ S comparison).coefficient (b.reconstruct i) *
     M₁ ((powerIdeal p v).val * (J i).val) * (LocalFiniteSums.Q p : ℂ) ^ v *
-      Epool.residueHom (σ := σ) (J i).val
+      (Epool).residueHom (σ := σ) (J i).val
 
 /-- The real pool coefficient is factored by the computed original
 table. The full extracted scalar and the displayed prime remain exact. -/
@@ -267,7 +267,7 @@ theorem originalPoolCoefficient_eq (comparison : Bool)
   calc
     _ = ((Q.originalTermDictionary x W a Z t Y₁ Y₂ .left 1 S₁ S₂ S comparison).coefficient (b.reconstruct i) * M₁ (allocationColumnIdeal i)) *
         M₁ (powerIdeal p v).val * (LocalFiniteSums.Q p : ℂ) ^ v *
-          Epool.residueHom (σ := σ) (allocationColumnIdeal i) := by ring
+          (Epool).residueHom (σ := σ) (allocationColumnIdeal i) := by ring
     _ = _ := by rw [h]; ring
 
 variable [IsPrincipalIdealRing A.R]
@@ -288,7 +288,7 @@ local notation "poolCoefficient" => originalPoolCoefficient Q x W a Z t Y₁ Y�
 local notation "prefix" => (Q.moving.append E₁).append Epool
 local notation "idx₂" => SlotRestriction.index b₂.keep
 local notation "ε" => sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅
-local notation "weight₂" => CanonicalSecondRectangularFactors.secondWeight (σ := σ) secondTilt ε.val
+local notation "weight₂" => CanonicalSecondRectangularFactors.secondWeight (σ := σ) secondTilt (ε).val
 local notation "G₁" => Z ^ a.n₁ / idealNorm K b.plainDivisor₁ / idealNorm K b₂.plainDivisor₁
 local notation "G₂" => Z ^ a.n₂ / idealNorm K b.plainDivisor₂ / idealNorm K b₂.plainDivisor₂
 local notation "Gslots" => fun j => Z ^ ((data x).geometry.slots (idx (idx₂ j))).length

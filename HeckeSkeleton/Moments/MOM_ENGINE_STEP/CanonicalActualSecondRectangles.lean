@@ -136,7 +136,7 @@ common extraction. The two signs are the actual first left and right
 Fourier locations. -/
 def firstResidualTerm (comparison : Bool) (i : AllocationColumn K b.keep.card) : ℂ :=
   (Q.originalTermDictionary x W a Z t Y₁ Y₂ .left 1 S₁ S₂ S comparison).coefficient (b.reconstruct i) *
-    (E₁.residueHom (σ := σ) * M₁) (allocationColumnIdeal i)
+    ((E₁).residueHom (σ := σ) * M₁) (allocationColumnIdeal i)
 
 /-- The original complete coefficient is an output of the actual
 single-occurrence construction. Its common scalar is retained exactly. -/
@@ -240,8 +240,8 @@ local notation "E₂" => CanonicalSecondRectangularFactors.secondMaskMovingFacto
 /-- The inverse unit character of the actual empty second mask is
 retained, with its original generator. -/
 theorem second_weight_empty (tilt : ℝ) :
-    CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt ε.val =
-      E₂.residueHom (σ := σ) * CanonicalSecondRectangularFactors.normPower tilt := by
+    CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt (ε).val =
+      (E₂).residueHom (σ := σ) * CanonicalSecondRectangularFactors.normPower tilt := by
   ext I
   simp only [CanonicalSecondRectangularFactors.secondWeight,
     CanonicalSecondRectangularFactors.secondMaskMovingFactors,
@@ -272,7 +272,7 @@ local notation "L₂" => SupportCartesian.plainResidual S₂ support b.plainExtr
 local notation "Slots" => fun j => SupportCartesian.primeLive
   (S (SlotRestriction.index b.keep j)) support
 local notation "idx" => SlotRestriction.index b.keep
-local notation "weight₂" => CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt ε.val
+local notation "weight₂" => CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt (ε).val
 local notation "commonScalar" => b.bareCommonScalar
   (movingSourceCharacters parent correction prefix remaining index) F.base F.length F.slotWeight
 
@@ -338,10 +338,10 @@ theorem secondResidualDictionary_coefficient
     · rw [map_mul, hJ i hi]
       simp only [second_weight_empty (P := P) (R := R)]
       change (scalar * commonScalar *
-        (E₂.residueHom (σ := σ) * CanonicalSecondRectangularFactors.normPower tilt) common.val) *
+        ((E₂).residueHom (σ := σ) * CanonicalSecondRectangularFactors.normPower tilt) common.val) *
           b.bareResidualCoefficient (movingSourceCharacters parent correction prefix remaining index)
             F.scale₁ F.scale₂ F.base F.length F.leftWeight F.rightWeight F.slotWeight i *
-          (E₂.residueHom (σ := σ) * CanonicalSecondRectangularFactors.normPower tilt)
+          ((E₂).residueHom (σ := σ) * CanonicalSecondRectangularFactors.normPower tilt)
             (allocationColumnIdeal i) = _
       ring
     · exact hi
@@ -510,7 +510,7 @@ local notation "L₂" => SupportCartesian.plainResidual S₂ support b.plainExtr
 local notation "Slots" => fun j => SupportCartesian.primeLive
   (S (SlotRestriction.index b.keep j)) support
 local notation "ε" => sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅
-local notation "weight₂" => CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt ε.val
+local notation "weight₂" => CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt (ε).val
 local notation "table" => secondResidualDictionary parent correction prefix remaining index
   hroot hemb side χ F b common scalar tilt J hJ
 
@@ -638,7 +638,7 @@ local notation "idx₁" => SlotRestriction.index b₁.keep
 local notation "idx₂" => SlotRestriction.index b₂.keep
 local notation "E₁" => CanonicalSecondRectangularFactors.firstMovingFactors P R C primes m n firstRight δ
 local notation "ε" => sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅
-local notation "weight₂" => CanonicalSecondRectangularFactors.secondWeight (σ := σ) secondTilt ε.val
+local notation "weight₂" => CanonicalSecondRectangularFactors.secondWeight (σ := σ) secondTilt (ε).val
 local notation "G₁" => (Z ^ a.n₁ / idealNorm K b₁.plainDivisor₁) / idealNorm K b₂.plainDivisor₁
 local notation "G₂" => (Z ^ a.n₂ / idealNorm K b₁.plainDivisor₂) / idealNorm K b₂.plainDivisor₂
 local notation "Gslots" => fun j => Z ^ ((data x).geometry.slots (idx₁ (idx₂ j))).length
@@ -741,7 +741,7 @@ def originalSecondWholeCoefficient (i : AllocationColumn K b₂.keep.card) : ℂ
       ((sourceMomentIdeal (b₁.reconstruct (b₂.reconstruct i)).1.1,
         sourceMomentIdeal (b₁.reconstruct (b₂.reconstruct i)).1.2),
         (b₁.reconstruct (b₂.reconstruct i)).2) *
-    (E₁.residueHom (σ := σ) *
+    ((E₁).residueHom (σ := σ) *
       normLogWeight (firstTilt - 1) ξ (if firstRight then 1 else -1))
         (allocationColumnIdeal (b₂.reconstruct i)) *
     weight₂ (secondCommon.val * (J₂ i).val)
@@ -1033,9 +1033,9 @@ local notation "chart" => FirstBlockProfileChart.canonicalLogWithCoefficients
   hΓ μv ν B C left right φ c e finiteTest hlc hcs radius mask tilt htilt htiltHalf
 local notation "δ" => sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) mask
 local notation "EL" => CanonicalSecondRectangularFactors.firstMovingFactors P R C
-  B.primes B.leftMultiplicity B.rightMultiplicity false δ
+  (B).primes (B).leftMultiplicity (B).rightMultiplicity false δ
 local notation "ER" => CanonicalSecondRectangularFactors.firstMovingFactors P R C
-  B.primes B.leftMultiplicity B.rightMultiplicity true δ
+  (B).primes (B).leftMultiplicity (B).rightMultiplicity true δ
 
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
 variable {pool : PowerScaleExteriorPool A bad Z ell eps}
@@ -1051,14 +1051,14 @@ theorem main_left_coefficient
     (i : α) (hdiv : Sdiv.val ∣ (p.leftData.ideal i).val) :
     ((p.divisorPools.leftData Sdiv).mainSource
       (FirstGaussPoolData.twistedCoefficient (p.leftDivisorCoefficient Sdiv χ)
-        chart.leftPoint ξ)).coefficient i =
-      c i * (EL.residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
-        (B.leftResidual i).val := by
+        (chart).leftPoint ξ)).coefficient i =
+      c i * ((EL).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
+        ((B).leftResidual i).val := by
   have hg : p.leftDivisorCoefficient Sdiv χ i = p.originalLeftCoefficient i := by
     rw [FirstBlockPoolData.leftDivisorCoefficient, if_pos hdiv]
     change _ * ((SecondColumnSide.left.phase PUnit χ) PUnit.unit : ℂ) = _
     rw [CanonicalSecondRectangularFactors.punit_phase, mul_one]
-  change p.leftDivisorCoefficient Sdiv χ i * jointPhase ξ (chart.leftPoint i) = _
+  change p.leftDivisorCoefficient Sdiv χ i * jointPhase ξ ((chart).leftPoint i) = _
   rw [hg]
   exact canonical_first_left_twisted (P := P) (R := R) hΓ μv ν C left right
     fullI fullJ DE hDE φ c e finiteTest hlc hcs radius mask tilt htilt htiltHalf ξ i
@@ -1069,14 +1069,14 @@ theorem main_right_coefficient
     (i : β) (hdiv : Sdiv.val ∣ (p.rightData.ideal i).val) :
     ((p.divisorPools.rightData Sdiv).mainSource
       (FirstGaussPoolData.twistedCoefficient (p.rightDivisorCoefficient Sdiv χ)
-        (fun j => -chart.rightPoint j) ξ)).coefficient i =
-      e i * (ER.residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
-        (B.rightResidual i).val := by
+        (fun j => -(chart).rightPoint j) ξ)).coefficient i =
+      e i * ((ER).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
+        ((B).rightResidual i).val := by
   have hg : p.rightDivisorCoefficient Sdiv χ i = p.originalRightCoefficient i := by
     rw [FirstBlockPoolData.rightDivisorCoefficient, if_pos hdiv]
     change _ * ((SecondColumnSide.right.phase PUnit χ) PUnit.unit : ℂ) = _
     rw [CanonicalSecondRectangularFactors.punit_phase, mul_one]
-  change p.rightDivisorCoefficient Sdiv χ i * jointPhase ξ (-chart.rightPoint i) = _
+  change p.rightDivisorCoefficient Sdiv χ i * jointPhase ξ (-(chart).rightPoint i) = _
   rw [hg]
   exact canonical_first_right_twisted (P := P) (R := R) hΓ μv ν C left right
     fullI fullJ DE hDE φ c e finiteTest hlc hcs radius mask tilt htilt htiltHalf ξ i
@@ -1089,17 +1089,17 @@ theorem error_left_coefficient
     (hdiv : Sdiv.val ∣ (p.leftData.ideal i.val).val) :
     ((p.divisorPools.leftData Sdiv).residualSource prime n
       (FirstGaussPoolData.twistedCoefficient (p.leftDivisorCoefficient Sdiv χ)
-        chart.leftPoint ξ)).coefficient i =
-      (c i.val * (EL.residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
-        (B.leftResidual i.val).val) * (Q prime : ℂ) ^ n *
+        (chart).leftPoint ξ)).coefficient i =
+      (c i.val * ((EL).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
+        ((B).leftResidual i.val).val) * (Q prime : ℂ) ^ n *
           (poolMovingFactors (P := P) (R := R) C prime n).residueValue (σ := σ)
             ((p.divisorPools.leftData Sdiv).residualPresentation prime n i).residual.val := by
   change (p.divisorPools.leftData Sdiv).residualCoefficient prime n _ i = _
   rw [FirstGaussPoolData.residualCoefficient_eq, pool_columnPhase (P := P) (R := R)]
   rw [show FirstGaussPoolData.twistedCoefficient (p.leftDivisorCoefficient Sdiv χ)
-      chart.leftPoint ξ i.val =
-      c i.val * (EL.residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
-        (B.leftResidual i.val).val from
+      (chart).leftPoint ξ i.val =
+      c i.val * ((EL).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
+        ((B).leftResidual i.val).val from
     main_left_coefficient hΓ μv ν P R C left right fullI fullJ DE hDE φ c e finiteTest
       hlc hcs radius mask tilt htilt htiltHalf p Sdiv χ ξ i.val hdiv]
 
@@ -1109,17 +1109,17 @@ theorem error_right_coefficient
     (hdiv : Sdiv.val ∣ (p.rightData.ideal i.val).val) :
     ((p.divisorPools.rightData Sdiv).residualSource prime n
       (FirstGaussPoolData.twistedCoefficient (p.rightDivisorCoefficient Sdiv χ)
-        (fun j => -chart.rightPoint j) ξ)).coefficient i =
-      (e i.val * (ER.residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
-        (B.rightResidual i.val).val) * (Q prime : ℂ) ^ n *
+        (fun j => -(chart).rightPoint j) ξ)).coefficient i =
+      (e i.val * ((ER).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
+        ((B).rightResidual i.val).val) * (Q prime : ℂ) ^ n *
           (poolMovingFactors (P := P) (R := R) C prime n).residueValue (σ := σ)
             ((p.divisorPools.rightData Sdiv).residualPresentation prime n i).residual.val := by
   change (p.divisorPools.rightData Sdiv).residualCoefficient prime n _ i = _
   rw [FirstGaussPoolData.residualCoefficient_eq, pool_columnPhase (P := P) (R := R)]
   rw [show FirstGaussPoolData.twistedCoefficient (p.rightDivisorCoefficient Sdiv χ)
-      (fun j => -chart.rightPoint j) ξ i.val =
-      e i.val * (ER.residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
-        (B.rightResidual i.val).val from
+      (fun j => -(chart).rightPoint j) ξ i.val =
+      e i.val * ((ER).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
+        ((B).rightResidual i.val).val from
     main_right_coefficient hΓ μv ν P R C left right fullI fullJ DE hDE φ c e finiteTest
       hlc hcs radius mask tilt htilt htiltHalf p Sdiv χ ξ i.val hdiv]
 
@@ -1132,14 +1132,14 @@ theorem direct_left_coefficient
     (i : α) (hdiv : Ddiv.val ∣ (p₀.leftData.ideal i).val) :
     (p₀.leftData.directSource
       (FirstGaussPoolData.twistedCoefficient (p₀.leftDivisorCoefficient Ddiv χ)
-        chart.leftPoint ξ)).coefficient i =
-      c i * (EL.residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
-        (B.leftResidual i).val := by
+        (chart).leftPoint ξ)).coefficient i =
+      c i * ((EL).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
+        ((B).leftResidual i).val := by
   have hg : p₀.leftDivisorCoefficient Ddiv χ i = p₀.originalLeftCoefficient i := by
     rw [FirstBlockDirectData.leftDivisorCoefficient, if_pos hdiv]
     change _ * ((SecondColumnSide.left.phase PUnit χ) PUnit.unit : ℂ) = _
     rw [CanonicalSecondRectangularFactors.punit_phase, mul_one]
-  change p₀.leftDivisorCoefficient Ddiv χ i * jointPhase ξ (chart.leftPoint i) = _
+  change p₀.leftDivisorCoefficient Ddiv χ i * jointPhase ξ ((chart).leftPoint i) = _
   rw [hg]
   exact canonical_first_left_twisted (P := P) (R := R) hΓ μv ν C left right
     fullI fullJ DE hDE φ c e finiteTest hlc hcs radius mask tilt htilt htiltHalf ξ i
@@ -1150,14 +1150,14 @@ theorem direct_right_coefficient
     (i : β) (hdiv : Ddiv.val ∣ (p₀.rightData.ideal i).val) :
     (p₀.rightData.directSource
       (FirstGaussPoolData.twistedCoefficient (p₀.rightDivisorCoefficient Ddiv χ)
-        (fun j => -chart.rightPoint j) ξ)).coefficient i =
-      e i * (ER.residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
-        (B.rightResidual i).val := by
+        (fun j => -(chart).rightPoint j) ξ)).coefficient i =
+      e i * ((ER).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
+        ((B).rightResidual i).val := by
   have hg : p₀.rightDivisorCoefficient Ddiv χ i = p₀.originalRightCoefficient i := by
     rw [FirstBlockDirectData.rightDivisorCoefficient, if_pos hdiv]
     change _ * ((SecondColumnSide.right.phase PUnit χ) PUnit.unit : ℂ) = _
     rw [CanonicalSecondRectangularFactors.punit_phase, mul_one]
-  change p₀.rightDivisorCoefficient Ddiv χ i * jointPhase ξ (-chart.rightPoint i) = _
+  change p₀.rightDivisorCoefficient Ddiv χ i * jointPhase ξ (-(chart).rightPoint i) = _
   rw [hg]
   exact canonical_first_right_twisted (P := P) (R := R) hΓ μv ν C left right
     fullI fullJ DE hDE φ c e finiteTest hlc hcs radius mask tilt htilt htiltHalf ξ i

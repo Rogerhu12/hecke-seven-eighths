@@ -102,9 +102,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -173,9 +173,9 @@ section LeftMainExceptionalBudget
 local notation "first" => OriginalNominalGeometry.canonicalMain
   (a := a) (Z := Z) (step := step) (b.literalLeftCoordinates D)
     supportError (zero_lt_one.trans hZ) hsupportError
-local notation "retainedScale" => first.retainedScale
-local notation "g" => first.enlargement
-local notation "hscale" => first.retainedScale_pos
+local notation "retainedScale" => (first).retainedScale
+local notation "g" => (first).enlargement
+local notation "hscale" => (first).retainedScale_pos
 
 variable (hnorm : ∀ h ∈ (p.divisorPools.leftData S).mainRows,
   A.exteriorNorm (originalFrequencyIdeal h) ≤ retainedScale * Z ^ g)
@@ -191,7 +191,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.leftData S).mainSource (p.leftDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => ((p.leftSourceCovers raw.originalAtlas S χ).main)
+local notation "cover" => ((p.leftSourceCovers (raw).originalAtlas S χ).main)
 local notation "firstPoint" => (fun i => -Real.log (A.exteriorNorm (b.leftResidual i)))
 
 local notation "firstFixed" => b.literalLeftFixed D
@@ -205,7 +205,7 @@ variable (v : (ActualGaussStage.canonicalUnmaskedSectorRowBallByBlock
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.leftData S).mainSource (p.leftDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad).supported.gated.CoveredClassKey ((p.leftSourceCovers (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).originalAtlas S χ).main) ((p.leftSourceCovers (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).originalAtlas S χ).main))
-local notation "exceptional" => stage.supported.gated.literalHybridPredicates
+local notation "exceptional" => (stage).supported.gated.literalHybridPredicates
   cover cover P R fixedPhases Q.moving Q.correction (data ξ).theta
 variable (F : SchwartzMap ℝ ℂ)
 variable (j : v.AllocationKey)
@@ -220,10 +220,10 @@ local notation "oldLeftScalar" => literalLeftMainScalar hΓ μv ν Q ξ W a Z t 
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ v.2.2.1
 local notation "oldRightScalar" => literalLeftMainScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ v.2.2.2.1
-local notation "leftAtoms" => oldLeftAtoms.redistributeNormFactors δ₁ δ₂
-local notation "rightAtoms" => oldRightAtoms.redistributeNormFactors δ₁ δ₂
-local notation "leftScalar" => oldLeftScalar * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
-local notation "rightScalar" => oldRightScalar * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+local notation "leftAtoms" => (oldLeftAtoms).redistributeNormFactors δ₁ δ₂
+local notation "rightAtoms" => (oldRightAtoms).redistributeNormFactors δ₁ δ₂
+local notation "leftScalar" => oldLeftScalar * ((oldLeftAtoms).normProfileFactor δ₁ δ₂ : ℂ)
+local notation "rightScalar" => oldRightScalar * ((oldRightAtoms).normProfileFactor δ₁ δ₂ : ℂ)
 local notation "leftBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "rightBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "extra" => literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp)
@@ -232,7 +232,7 @@ local notation "secondPattern" => v.chart.originalNonunitPattern ∅ cutoff₂ h
 local notation "secondSector" => v.chart.originalSector P ∅ cutoff₂ hcutoff₂ v.rowLabel
 
 variable (hS : Squarefree S.val)
-variable (hfiber : (stage.supported.gated.fiberCoveredLeaf cover cover exceptional F
+variable (hfiber : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F
   firstPoint ⟨v, j⟩).Live)
 local notation "hlive" => (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hfiber
 
@@ -264,15 +264,15 @@ local notation "sides" => literalLeftMainExceptionalSides
     (j := j) (hlive := hlive) (firstFixed := firstFixed) (hfirst := hfirst)
 
 local notation "rawRows" => v.chart.actualRows ∅ cutoff₂ hcutoff₂ v.rowLabel
-local notation "characters" => rawRows.literalFiniteCharacters C P R fixedPhases
+local notation "characters" => (rawRows).literalFiniteCharacters C P R fixedPhases
   Q.moving Q.correction secondPattern secondSector (data ξ).theta
 variable (thetaPair : (data ξ).theta × (data ξ).theta)
 local notation "hpredicate" =>
-  (show (v.leaf exceptional F firstPoint j).exceptional = characters.exceptional from rfl)
+  (show (v.leaf exceptional F firstPoint j).exceptional = (characters).exceptional from rfl)
 local notation "classRows" =>
-  (v.literalSupportedRows leftAtoms rightAtoms).restrictRows (characters.thetaClass thetaPair)
-local notation "branchL" => raw.originalAtlas.branch (primeSupport DE.1) DE.1 v.2.2.1
-local notation "branchR" => raw.originalAtlas.branch (primeSupport DE.1) DE.1 v.2.2.2.1
+  (v.literalSupportedRows leftAtoms rightAtoms).restrictRows ((characters).thetaClass thetaPair)
+local notation "branchL" => (raw).originalAtlas.branch (primeSupport DE.1) DE.1 v.2.2.1
+local notation "branchR" => (raw).originalAtlas.branch (primeSupport DE.1) DE.1 v.2.2.2.1
 local notation "dictionaryL" => literalLeftMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
   hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ v.2.2.1
 local notation "dictionaryR" => literalLeftMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
@@ -305,11 +305,11 @@ local notation "factoryMass" => CanonicalLiteralExceptionalArithmetic.actualMass
     1 (by norm_num) hrow
 local notation "secondGeometry" => CanonicalLiteralExceptionalNumbers.geometry v.chart
   cutoff₂ hcutoff₂ v.rowLabel first
-local notation "firstTotal" => first.skeleton.A + (first.skeleton.q + first.skeleton.R + first.skeleton.E)
-local notation "normalization" => firstLeftAllowance Z firstTotal first.ideals.first.val first.ideals.opposite.val
-local notation "outer" => construction.val.stripOuter leftScalar rightScalar
-  construction.property.2.1 construction.property.2.2
-local notation "magnitude" z => (outer.thetaClassLeaf characters thetaPair).exceptionalIntegrand z
+local notation "firstTotal" => (first).skeleton.A + ((first).skeleton.q + (first).skeleton.R + (first).skeleton.E)
+local notation "normalization" => firstLeftAllowance Z firstTotal (first).ideals.first.val (first).ideals.opposite.val
+local notation "outer" => (construction).val.stripOuter leftScalar rightScalar
+  (construction).property.2.1 (construction).property.2.2
+local notation "magnitude" z => ((outer).thetaClassLeaf characters thetaPair).exceptionalIntegrand z
 
 variable (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
 variable (slotLoss loss : ℝ) (hslotLossNonneg : 0 ≤ slotLoss) (hloss : 0 ≤ loss)
@@ -323,13 +323,13 @@ variable (hthreshold : max 2 (Ideal.absNorm A.cS : ℝ) ≤ Z)
 variable (hsupport : supportError ≤ loss / 16) (hvolume : ε ≤ loss / 16)
 variable (hcutoffPaid : CanonicalLiteralExceptionalGeometry.paidCutoff columnLoss cutoffExponent 0 / 6 ≤ loss / 16)
 variable (hcutoffPower : cutoff₂ ≤ Z ^ cutoffExponent)
-variable (hactiveColumns : ∀ i ∈ source.columns, source.coefficient i ≠ 0 →
-  A.exteriorNorm (source.ideal i) ≤ Z ^
-    (first.skeleton.A - first.skeleton.c - first.skeleton.w + columnLoss))
-variable (hDE : DE ∈ commonSupportPool raw.exteriorColumns raw.exteriorColumns
-  (fun i => (raw.columnExterior i).val) (fun i => (raw.columnExterior i).val))
-variable (horiginalColumns : ∀ i ∈ raw.exteriorColumns,
-  A.exteriorNorm (raw.columnExterior i) ≤ Z ^ widthMax)
+variable (hactiveColumns : ∀ i ∈ (source).columns, (source).coefficient i ≠ 0 →
+  A.exteriorNorm ((source).ideal i) ≤ Z ^
+    ((first).skeleton.A - (first).skeleton.c - (first).skeleton.w + columnLoss))
+variable (hDE : DE ∈ commonSupportPool (raw).exteriorColumns (raw).exteriorColumns
+  (fun i => ((raw).columnExterior i).val) (fun i => ((raw).columnExterior i).val))
+variable (horiginalColumns : ∀ i ∈ (raw).exteriorColumns,
+  A.exteriorNorm ((raw).columnExterior i) ≤ Z ^ widthMax)
 variable (holdOriginal : A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) ≤ Z ^ a.q)
 
 local notation "fixedCoefficient" => CanonicalLiteralExceptionalSourceBudget.coefficient
@@ -358,17 +358,17 @@ theorem literalLeftMainExceptional_pointwise
         (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
         Z ^ (padding + 3 * step + loss / 2 + step / 3) / radical *
         Z ^ (-idealLogLength Z j.1.val) := by
-  have first_coordinate : (first.ideals.first * first.tag.extractionIdeal).val = DE.1 := by
+  have first_coordinate : ((first).ideals.first * (first).tag.extractionIdeal).val = DE.1 := by
     change ((b.literalLeftCoordinates D).first * 1).val = DE.1
     simpa only [mul_one] using b.literalLeftCoordinates_first D
-  have firstL : frozenSourceIdeal branchL.plainDivisor₁ branchL.plainDivisor₂
-      branchL.keep branchL.witness.2 = DE.1 :=
-    branchL.frozenSourceIdeal_eq.trans
-      (raw.originalAtlas.branch_product (primeSupport DE.1) DE.1 v.2.2.1)
-  have firstR : frozenSourceIdeal branchR.plainDivisor₁ branchR.plainDivisor₂
-      branchR.keep branchR.witness.2 = DE.1 :=
-    branchR.frozenSourceIdeal_eq.trans
-      (raw.originalAtlas.branch_product (primeSupport DE.1) DE.1 v.2.2.2.1)
+  have firstL : frozenSourceIdeal (branchL).plainDivisor₁ (branchL).plainDivisor₂
+      (branchL).keep (branchL).witness.2 = DE.1 :=
+    (branchL).frozenSourceIdeal_eq.trans
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.1 v.2.2.1)
+  have firstR : frozenSourceIdeal (branchR).plainDivisor₁ (branchR).plainDivisor₂
+      (branchR).keep (branchR).witness.2 = DE.1 :=
+    (branchR).frozenSourceIdeal_eq.trans
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.1 v.2.2.2.1)
   have secondL : frozenSourceIdeal v.literalLeftBranch.plainDivisor₁
       v.literalLeftBranch.plainDivisor₂ v.literalLeftBranch.keep
       v.literalLeftBranch.witness.2 = v.1.val.1 :=
@@ -387,7 +387,7 @@ theorem literalLeftMainExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       (fun _ hp => support_prime (I := DE.1) hp) fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.leftMultiplicity).val
       ((v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch)
       leftTable j.2.1 (fun i => v.block.leftResidual (v.leftReindex.index i))
@@ -397,7 +397,7 @@ theorem literalLeftMainExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       (fun _ hp => support_prime (I := DE.1) hp) fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.rightMultiplicity).val
       ((v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch)
       rightTable j.2.1 (fun i => v.block.rightResidual (v.rightReindex.index i))
@@ -409,14 +409,14 @@ theorem literalLeftMainExceptional_pointwise
       (fun U : ActualSecondCorrelationRows A σ
         (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
         (Fin v.block.primeCount) =>
-          (U.restrictRows (fun h => rawRows.correlation h ≠ 0)).restrictRows
-            (characters.thetaClass thetaPair))
+          (U.restrictRows (fun h => (rawRows).correlation h ≠ 0)).restrictRows
+            ((characters).thetaClass thetaPair))
       (v.literalRows_eq_withCommonAtoms leftAtoms rightAtoms maskL maskR)
   have live : (v.leaf exceptional F firstPoint j).Live := hlive
   let allocation := v.literalAllocation exceptional F firstPoint j live
   have hstored := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
-    firstPoint j 1 live construction.val construction.property.1 leftScalar rightScalar
-    construction.property.2.1 construction.property.2.2 (fun _ => 1) (fun _ => 1)
+    firstPoint j 1 live (construction).val (construction).property.1 leftScalar rightScalar
+    (construction).property.2.1 (construction).property.2.2 (fun _ => 1) (fun _ => 1)
     (fun _ => zero_lt_one) (fun _ => zero_lt_one) characters hpredicate thetaPair z
   have hpair := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_magnitude_eq
     leftResult rightResult C classRows v.leftReindex.ideal_product v.rightReindex.ideal_product
@@ -433,20 +433,20 @@ theorem literalLeftMainExceptional_pointwise
           characters (WithLp.toLp 2 z)) hrows
   have hexact := hsource.trans hsourceRows
   have hscalar : (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 :=
-    construction.val.leftScalar_ne_zero_of_live live
-  have hR : secondGeometry.skeleton.R =
+    (construction).val.leftScalar_ne_zero_of_live live
+  have hR : (secondGeometry).skeleton.R =
       idealLogLength Z (firstActiveRadical DE.1 DE.2) := by
     change idealLogLength Z (firstActiveRadical (b.literalLeftCoordinates D).first.val
       (b.literalLeftCoordinates D).opposite.val) = _
     rw [b.literalLeftCoordinates_first, b.literalLeftCoordinates_opposite]
-  have hE : secondGeometry.skeleton.E =
+  have hE : (secondGeometry).skeleton.E =
       idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D).val := rfl
-  have hwo : secondGeometry.skeleton.wo = 0 := rfl
-  have hhold : A.exteriorNorm ((fixedPhases.moving P R Q.moving).effectiveFullSupport
-      (Q.remaining * extra)) ≤ Z ^ (a.q + secondGeometry.skeleton.R +
-        secondGeometry.skeleton.E + secondGeometry.skeleton.wo + widthMax) := by
+  have hwo : (secondGeometry).skeleton.wo = 0 := rfl
+  have hhold : A.exteriorNorm (((fixedPhases).moving P R Q.moving).effectiveFullSupport
+      (Q.remaining * extra)) ≤ Z ^ (a.q + (secondGeometry).skeleton.R +
+        (secondGeometry).skeleton.E + (secondGeometry).skeleton.wo + widthMax) := by
     have h := CanonicalLiteralExceptionalFirstSupport.unamplified_left
-      P R C b D Q.moving Q.remaining raw.exteriorColumns raw.exteriorColumns hDE
+      P R C b D Q.moving Q.remaining (raw).exteriorColumns (raw).exteriorColumns hDE
       Z a.q widthMax hZ horiginalColumns holdOriginal firstFixed hfirst
     rw [hR, hE, hwo, add_zero]
     convert h using 1 <;> congr 1 <;> ring
@@ -486,14 +486,14 @@ theorem literalLeftMainExceptional_pointwise
     CanonicalLogProfiles.subset_sourceOrders _ (CanonicalLogProfiles.subset_sourceOrders _
       (CanonicalLiteralExceptionalUnifiedChoice.orders_zero
         (A := A) (σ := σ) (η := η) (hS := htrace) primitive ε maskExponent hε hmaskExponent))
-  have hcommon : factoryMass.commonEnvelope ≤ originalBound ^ commonDegree := by
+  have hcommon : (factoryMass).commonEnvelope ≤ originalBound ^ commonDegree := by
     exact CanonicalLiteralExceptionalCommonBudget.commonEnvelope_le
       (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ fixedPhases (unitExterior A) δ₁ δ₂ extra
       hδ₂ hδ₂half source retainedScale g hscale cutoff₂ hcutoff₂ hnorm dimension width
       character dyad v exceptional F firstPoint j hfiber branchL branchR
-      (fun i => raw.originalIndex (branchL.reconstruct i))
-      (fun i => raw.originalIndex (branchR.reconstruct i)) dictionaryL dictionaryR
+      (fun i => (raw).originalIndex ((branchL).reconstruct i))
+      (fun i => (raw).originalIndex ((branchR).reconstruct i)) dictionaryL dictionaryR
       originalWindow hzero htime hprime hδsum cap hcap hamplitude
   have hcoef : 0 ≤ fixedCoefficient :=
     (CanonicalLiteralExceptionalSourceBudget.coefficient_pos
@@ -505,10 +505,10 @@ theorem literalLeftMainExceptional_pointwise
   have hamp0 : 0 ≤ originalBound := zero_le_one.trans hamplitude
   have hheight0 : 0 ≤ 1 + fourierHeight (WithLp.toLp 2 z) :=
     add_nonneg zero_le_one (fourierHeight_nonneg _)
-  have hremaining : secondGeometry.tag.exceptionalMovingLength Z step = step / 3 :=
+  have hremaining : (secondGeometry).tag.exceptionalMovingLength Z step = step / 3 :=
     OriginalNominalTag.exceptionalMovingLength_main Z step
   rw [hremaining] at hb
-  have hradical : (Ideal.absNorm (commonRadical factoryMass.leftIdeal factoryMass.rightIdeal) : ℝ) = radical := rfl
+  have hradical : (Ideal.absNorm (commonRadical (factoryMass).leftIdeal (factoryMass).rightIdeal) : ℝ) = radical := rfl
   rw [hradical] at hb
   let paid := annulus ^ cap * orbitalFieldFactor K * (Γ.index : ℝ) * fixedCoefficient *
     originalBound ^ profileDegree * (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
@@ -523,7 +523,7 @@ theorem literalLeftMainExceptional_pointwise
           (leftResult.val.comparison factoryRows C .left)
           (rightResult.val.comparison factoryRows C .right) characters (WithLp.toLp 2 z) /
             normalization := by rw [hexact]
-    _ ≤ factoryMass.commonEnvelope * paid := by
+    _ ≤ (factoryMass).commonEnvelope * paid := by
       convert hb using 1 <;> dsimp only [paid] <;> ring
     _ ≤ originalBound ^ commonDegree * paid := mul_le_mul_of_nonneg_right hcommon hpaid
     _ = _ := by dsimp only [paid]; rw [pow_add]; ring
@@ -543,17 +543,17 @@ theorem literalLeftMainOrdinaryExceptional_pointwise
         (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
         Z ^ (3 * step + loss / 2 + step / 3) / radical *
         Z ^ (-idealLogLength Z j.1.val) := by
-  have first_coordinate : (first.ideals.first * first.tag.extractionIdeal).val = DE.1 := by
+  have first_coordinate : ((first).ideals.first * (first).tag.extractionIdeal).val = DE.1 := by
     change ((b.literalLeftCoordinates D).first * 1).val = DE.1
     simpa only [mul_one] using b.literalLeftCoordinates_first D
-  have firstL : frozenSourceIdeal branchL.plainDivisor₁ branchL.plainDivisor₂
-      branchL.keep branchL.witness.2 = DE.1 :=
-    branchL.frozenSourceIdeal_eq.trans
-      (raw.originalAtlas.branch_product (primeSupport DE.1) DE.1 v.2.2.1)
-  have firstR : frozenSourceIdeal branchR.plainDivisor₁ branchR.plainDivisor₂
-      branchR.keep branchR.witness.2 = DE.1 :=
-    branchR.frozenSourceIdeal_eq.trans
-      (raw.originalAtlas.branch_product (primeSupport DE.1) DE.1 v.2.2.2.1)
+  have firstL : frozenSourceIdeal (branchL).plainDivisor₁ (branchL).plainDivisor₂
+      (branchL).keep (branchL).witness.2 = DE.1 :=
+    (branchL).frozenSourceIdeal_eq.trans
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.1 v.2.2.1)
+  have firstR : frozenSourceIdeal (branchR).plainDivisor₁ (branchR).plainDivisor₂
+      (branchR).keep (branchR).witness.2 = DE.1 :=
+    (branchR).frozenSourceIdeal_eq.trans
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.1 v.2.2.2.1)
   have secondL : frozenSourceIdeal v.literalLeftBranch.plainDivisor₁
       v.literalLeftBranch.plainDivisor₂ v.literalLeftBranch.keep
       v.literalLeftBranch.witness.2 = v.1.val.1 :=
@@ -572,7 +572,7 @@ theorem literalLeftMainOrdinaryExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       (fun _ hp => support_prime (I := DE.1) hp) fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.leftMultiplicity).val
       ((v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch)
       leftTable j.2.1 (fun i => v.block.leftResidual (v.leftReindex.index i))
@@ -582,7 +582,7 @@ theorem literalLeftMainOrdinaryExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       (fun _ hp => support_prime (I := DE.1) hp) fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.rightMultiplicity).val
       ((v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch)
       rightTable j.2.1 (fun i => v.block.rightResidual (v.rightReindex.index i))
@@ -594,27 +594,27 @@ theorem literalLeftMainOrdinaryExceptional_pointwise
       (fun U : ActualSecondCorrelationRows A σ
         (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
         (Fin v.block.primeCount) =>
-          (U.restrictRows (fun h => rawRows.correlation h ≠ 0)).restrictRows
-            (characters.thetaClass thetaPair))
+          (U.restrictRows (fun h => (rawRows).correlation h ≠ 0)).restrictRows
+            ((characters).thetaClass thetaPair))
       (v.literalRows_eq_withCommonAtoms leftAtoms rightAtoms maskL maskR)
   have live : (v.leaf exceptional F firstPoint j).Live := hlive
   let allocation := v.literalAllocation exceptional F firstPoint j live
   have hstored := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
-    firstPoint j 1 live construction.val construction.property.1 leftScalar rightScalar
-    construction.property.2.1 construction.property.2.2 (fun _ => 1) (fun _ => 1)
+    firstPoint j 1 live (construction).val (construction).property.1 leftScalar rightScalar
+    (construction).property.2.1 (construction).property.2.2 (fun _ => 1) (fun _ => 1)
     (fun _ => zero_lt_one) (fun _ => zero_lt_one) characters hpredicate thetaPair z
   have hpair := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_ordinaryMagnitude_eq
     leftResult rightResult C classRows v.leftReindex.ideal_product v.rightReindex.ideal_product
     (Finset.mem_filter.mp allocation.property).2.2.1
     (Finset.mem_filter.mp allocation.property).2.2.2 characters (WithLp.toLp 2 z)
-  have hflagL : leftTable.centered = seed.centered := by
-    change (v.literalLeftAtoms oldLeftAtoms).centered = seed.centered
+  have hflagL : leftTable.centered = (seed).centered := by
+    change (v.literalLeftAtoms oldLeftAtoms).centered = (seed).centered
     simp only [ActualGaussStage.CoveredClassKey.literalLeftAtoms,
       ActualGaussStage.CoveredClassKey.literalLeftOriginal, literalLeftMainAtoms,
       CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
-  have hflagR : rightTable.centered = seed.centered := by
-    change (v.literalRightAtoms oldRightAtoms).centered = seed.centered
+  have hflagR : rightTable.centered = (seed).centered := by
+    change (v.literalRightAtoms oldRightAtoms).centered = (seed).centered
     simp only [ActualGaussStage.CoveredClassKey.literalRightAtoms,
       ActualGaussStage.CoveredClassKey.literalRightOriginal, literalLeftMainAtoms,
       CanonicalLiteralRectangles.Atoms.deleteMask,
@@ -637,7 +637,7 @@ theorem literalLeftMainOrdinaryExceptional_pointwise
           (rightResult.val.frame U C .right) characters (WithLp.toLp 2 z)) hrows
   have hexact := hsource.trans hsourceRows
   have hscalar : (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 :=
-    construction.val.leftScalar_ne_zero_of_live live
+    (construction).val.leftScalar_ne_zero_of_live live
   have hb := CanonicalLiteralExceptionalSourceBudget.ordinary_small_loss_bound
     (chart := v.chart) (P := P) (R := R) (hclass := hclass) (hsector := hsector)
     (X := cutoff₂) (hX := hcutoff₂) (label := v.rowLabel) (F := fixedPhases)
@@ -673,14 +673,14 @@ theorem literalLeftMainOrdinaryExceptional_pointwise
     CanonicalLogProfiles.subset_sourceOrders _ (CanonicalLogProfiles.subset_sourceOrders _
       (CanonicalLiteralExceptionalUnifiedChoice.orders_zero
         (A := A) (σ := σ) (η := η) (hS := htrace) primitive ε maskExponent hε hmaskExponent))
-  have hcommon : factoryMass.commonEnvelope ≤ originalBound ^ commonDegree := by
+  have hcommon : (factoryMass).commonEnvelope ≤ originalBound ^ commonDegree := by
     exact CanonicalLiteralExceptionalCommonBudget.commonEnvelope_le
       (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ fixedPhases (unitExterior A) δ₁ δ₂ extra
       hδ₂ hδ₂half source retainedScale g hscale cutoff₂ hcutoff₂ hnorm dimension width
       character dyad v exceptional F firstPoint j hfiber branchL branchR
-      (fun i => raw.originalIndex (branchL.reconstruct i))
-      (fun i => raw.originalIndex (branchR.reconstruct i)) dictionaryL dictionaryR
+      (fun i => (raw).originalIndex ((branchL).reconstruct i))
+      (fun i => (raw).originalIndex ((branchR).reconstruct i)) dictionaryL dictionaryR
       originalWindow hzero htime hprime hδsum cap hcap hamplitude
   have hcoef : 0 ≤ fixedCoefficient :=
     (CanonicalLiteralExceptionalSourceBudget.coefficient_pos
@@ -692,10 +692,10 @@ theorem literalLeftMainOrdinaryExceptional_pointwise
   have hamp0 : 0 ≤ originalBound := zero_le_one.trans hamplitude
   have hheight0 : 0 ≤ 1 + fourierHeight (WithLp.toLp 2 z) :=
     add_nonneg zero_le_one (fourierHeight_nonneg _)
-  have hremaining : secondGeometry.tag.exceptionalMovingLength Z step = step / 3 :=
+  have hremaining : (secondGeometry).tag.exceptionalMovingLength Z step = step / 3 :=
     OriginalNominalTag.exceptionalMovingLength_main Z step
   rw [hremaining] at hb
-  have hradical : (Ideal.absNorm (commonRadical factoryMass.leftIdeal factoryMass.rightIdeal) : ℝ) = radical := rfl
+  have hradical : (Ideal.absNorm (commonRadical (factoryMass).leftIdeal (factoryMass).rightIdeal) : ℝ) = radical := rfl
   rw [hradical] at hb
   let paid := annulus ^ cap * orbitalFieldFactor K * (Γ.index : ℝ) * fixedCoefficient *
     originalBound ^ profileDegree * (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
@@ -708,7 +708,7 @@ theorem literalLeftMainOrdinaryExceptional_pointwise
         (leftResult.val.frame factoryRows C .left).ordinaryExceptionalMagnitude
           (rightResult.val.frame factoryRows C .right) characters (WithLp.toLp 2 z) /
             normalization := by rw [hexact]
-    _ ≤ factoryMass.commonEnvelope * paid := by
+    _ ≤ (factoryMass).commonEnvelope * paid := by
       convert hb using 1 <;> dsimp only [paid] <;> ring
     _ ≤ originalBound ^ commonDegree * paid := mul_le_mul_of_nonneg_right hcommon hpaid
     _ = _ := by dsimp only [paid]; rw [pow_add]; ring
@@ -720,9 +720,9 @@ section RightMainExceptionalBudget
 local notation "first" => OriginalNominalGeometry.canonicalMain
   (a := a) (Z := Z) (step := step) (b.literalRightCoordinates D)
     supportError (zero_lt_one.trans hZ) hsupportError
-local notation "retainedScale" => first.retainedScale
-local notation "g" => first.enlargement
-local notation "hscale" => first.retainedScale_pos
+local notation "retainedScale" => (first).retainedScale
+local notation "g" => (first).enlargement
+local notation "hscale" => (first).retainedScale_pos
 
 variable (hnorm : ∀ h ∈ (p.divisorPools.rightData S).mainRows,
   A.exteriorNorm (originalFrequencyIdeal h) ≤ retainedScale * Z ^ g)
@@ -738,7 +738,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.rightData S).mainSource (p.rightDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => ((p.rightSourceCovers raw.originalAtlas S χ).main)
+local notation "cover" => ((p.rightSourceCovers (raw).originalAtlas S χ).main)
 local notation "firstPoint" => (fun i => Real.log (A.exteriorNorm (b.rightResidual i)))
 
 local notation "firstFixed" => b.literalRightFixed D
@@ -752,7 +752,7 @@ variable (v : (ActualGaussStage.canonicalUnmaskedSectorRowBallByBlock
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.rightData S).mainSource (p.rightDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad).supported.gated.CoveredClassKey ((p.rightSourceCovers (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).originalAtlas S χ).main) ((p.rightSourceCovers (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).originalAtlas S χ).main))
-local notation "exceptional" => stage.supported.gated.literalHybridPredicates
+local notation "exceptional" => (stage).supported.gated.literalHybridPredicates
   cover cover P R fixedPhases Q.moving Q.correction (data ξ).theta
 variable (F : SchwartzMap ℝ ℂ)
 variable (j : v.AllocationKey)
@@ -767,10 +767,10 @@ local notation "oldLeftScalar" => literalRightMainScalar hΓ μv ν Q ξ W a Z t
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ v.2.2.1
 local notation "oldRightScalar" => literalRightMainScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ v.2.2.2.1
-local notation "leftAtoms" => oldLeftAtoms.redistributeNormFactors δ₁ δ₂
-local notation "rightAtoms" => oldRightAtoms.redistributeNormFactors δ₁ δ₂
-local notation "leftScalar" => oldLeftScalar * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
-local notation "rightScalar" => oldRightScalar * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+local notation "leftAtoms" => (oldLeftAtoms).redistributeNormFactors δ₁ δ₂
+local notation "rightAtoms" => (oldRightAtoms).redistributeNormFactors δ₁ δ₂
+local notation "leftScalar" => oldLeftScalar * ((oldLeftAtoms).normProfileFactor δ₁ δ₂ : ℂ)
+local notation "rightScalar" => oldRightScalar * ((oldRightAtoms).normProfileFactor δ₁ δ₂ : ℂ)
 local notation "leftBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "rightBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "extra" => literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp)
@@ -779,7 +779,7 @@ local notation "secondPattern" => v.chart.originalNonunitPattern ∅ cutoff₂ h
 local notation "secondSector" => v.chart.originalSector P ∅ cutoff₂ hcutoff₂ v.rowLabel
 
 variable (hS : Squarefree S.val)
-variable (hfiber : (stage.supported.gated.fiberCoveredLeaf cover cover exceptional F
+variable (hfiber : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F
   firstPoint ⟨v, j⟩).Live)
 local notation "hlive" => (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hfiber
 
@@ -811,15 +811,15 @@ local notation "sides" => literalRightMainExceptionalSides
     (j := j) (hlive := hlive) (firstFixed := firstFixed) (hfirst := hfirst)
 
 local notation "rawRows" => v.chart.actualRows ∅ cutoff₂ hcutoff₂ v.rowLabel
-local notation "characters" => rawRows.literalFiniteCharacters C P R fixedPhases
+local notation "characters" => (rawRows).literalFiniteCharacters C P R fixedPhases
   Q.moving Q.correction secondPattern secondSector (data ξ).theta
 variable (thetaPair : (data ξ).theta × (data ξ).theta)
 local notation "hpredicate" =>
-  (show (v.leaf exceptional F firstPoint j).exceptional = characters.exceptional from rfl)
+  (show (v.leaf exceptional F firstPoint j).exceptional = (characters).exceptional from rfl)
 local notation "classRows" =>
-  (v.literalSupportedRows leftAtoms rightAtoms).restrictRows (characters.thetaClass thetaPair)
-local notation "branchL" => raw.originalAtlas.branch (primeSupport DE.1) DE.2 v.2.2.1
-local notation "branchR" => raw.originalAtlas.branch (primeSupport DE.1) DE.2 v.2.2.2.1
+  (v.literalSupportedRows leftAtoms rightAtoms).restrictRows ((characters).thetaClass thetaPair)
+local notation "branchL" => (raw).originalAtlas.branch (primeSupport DE.1) DE.2 v.2.2.1
+local notation "branchR" => (raw).originalAtlas.branch (primeSupport DE.1) DE.2 v.2.2.2.1
 local notation "dictionaryL" => literalRightMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
   hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ v.2.2.1
 local notation "dictionaryR" => literalRightMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
@@ -852,11 +852,11 @@ local notation "factoryMass" => CanonicalLiteralExceptionalArithmetic.actualMass
     1 (by norm_num) hrow
 local notation "secondGeometry" => CanonicalLiteralExceptionalNumbers.geometry v.chart
   cutoff₂ hcutoff₂ v.rowLabel first
-local notation "firstTotal" => first.skeleton.A + (first.skeleton.q + first.skeleton.R + first.skeleton.E)
-local notation "normalization" => firstLeftAllowance Z firstTotal first.ideals.first.val first.ideals.opposite.val
-local notation "outer" => construction.val.stripOuter leftScalar rightScalar
-  construction.property.2.1 construction.property.2.2
-local notation "magnitude" z => (outer.thetaClassLeaf characters thetaPair).exceptionalIntegrand z
+local notation "firstTotal" => (first).skeleton.A + ((first).skeleton.q + (first).skeleton.R + (first).skeleton.E)
+local notation "normalization" => firstLeftAllowance Z firstTotal (first).ideals.first.val (first).ideals.opposite.val
+local notation "outer" => (construction).val.stripOuter leftScalar rightScalar
+  (construction).property.2.1 (construction).property.2.2
+local notation "magnitude" z => ((outer).thetaClassLeaf characters thetaPair).exceptionalIntegrand z
 
 variable (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
 variable (slotLoss loss : ℝ) (hslotLossNonneg : 0 ≤ slotLoss) (hloss : 0 ≤ loss)
@@ -870,13 +870,13 @@ variable (hthreshold : max 2 (Ideal.absNorm A.cS : ℝ) ≤ Z)
 variable (hsupport : supportError ≤ loss / 16) (hvolume : ε ≤ loss / 16)
 variable (hcutoffPaid : CanonicalLiteralExceptionalGeometry.paidCutoff columnLoss cutoffExponent 0 / 6 ≤ loss / 16)
 variable (hcutoffPower : cutoff₂ ≤ Z ^ cutoffExponent)
-variable (hactiveColumns : ∀ i ∈ source.columns, source.coefficient i ≠ 0 →
-  A.exteriorNorm (source.ideal i) ≤ Z ^
-    (first.skeleton.A - first.skeleton.c - first.skeleton.w + columnLoss))
-variable (hDE : DE ∈ commonSupportPool raw.exteriorColumns raw.exteriorColumns
-  (fun i => (raw.columnExterior i).val) (fun i => (raw.columnExterior i).val))
-variable (horiginalColumns : ∀ i ∈ raw.exteriorColumns,
-  A.exteriorNorm (raw.columnExterior i) ≤ Z ^ widthMax)
+variable (hactiveColumns : ∀ i ∈ (source).columns, (source).coefficient i ≠ 0 →
+  A.exteriorNorm ((source).ideal i) ≤ Z ^
+    ((first).skeleton.A - (first).skeleton.c - (first).skeleton.w + columnLoss))
+variable (hDE : DE ∈ commonSupportPool (raw).exteriorColumns (raw).exteriorColumns
+  (fun i => ((raw).columnExterior i).val) (fun i => ((raw).columnExterior i).val))
+variable (horiginalColumns : ∀ i ∈ (raw).exteriorColumns,
+  A.exteriorNorm ((raw).columnExterior i) ≤ Z ^ widthMax)
 variable (holdOriginal : A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) ≤ Z ^ a.q)
 
 local notation "fixedCoefficient" => CanonicalLiteralExceptionalSourceBudget.coefficient
@@ -905,17 +905,17 @@ theorem literalRightMainExceptional_pointwise
         (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
         Z ^ (padding + 3 * step + loss / 2 + step / 3) / radical *
         Z ^ (-idealLogLength Z j.1.val) := by
-  have first_coordinate : (first.ideals.first * first.tag.extractionIdeal).val = DE.2 := by
+  have first_coordinate : ((first).ideals.first * (first).tag.extractionIdeal).val = DE.2 := by
     change ((b.literalRightCoordinates D).first * 1).val = DE.2
     simpa only [mul_one] using b.literalRightCoordinates_first D
-  have firstL : frozenSourceIdeal branchL.plainDivisor₁ branchL.plainDivisor₂
-      branchL.keep branchL.witness.2 = DE.2 :=
-    branchL.frozenSourceIdeal_eq.trans
-      (raw.originalAtlas.branch_product (primeSupport DE.1) DE.2 v.2.2.1)
-  have firstR : frozenSourceIdeal branchR.plainDivisor₁ branchR.plainDivisor₂
-      branchR.keep branchR.witness.2 = DE.2 :=
-    branchR.frozenSourceIdeal_eq.trans
-      (raw.originalAtlas.branch_product (primeSupport DE.1) DE.2 v.2.2.2.1)
+  have firstL : frozenSourceIdeal (branchL).plainDivisor₁ (branchL).plainDivisor₂
+      (branchL).keep (branchL).witness.2 = DE.2 :=
+    (branchL).frozenSourceIdeal_eq.trans
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.2 v.2.2.1)
+  have firstR : frozenSourceIdeal (branchR).plainDivisor₁ (branchR).plainDivisor₂
+      (branchR).keep (branchR).witness.2 = DE.2 :=
+    (branchR).frozenSourceIdeal_eq.trans
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.2 v.2.2.2.1)
   have secondL : frozenSourceIdeal v.literalLeftBranch.plainDivisor₁
       v.literalLeftBranch.plainDivisor₂ v.literalLeftBranch.keep
       v.literalLeftBranch.witness.2 = v.1.val.1 :=
@@ -934,7 +934,7 @@ theorem literalRightMainExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       (fun _ hp => support_prime (I := DE.1) hp) fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.leftMultiplicity).val
       ((v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch)
       leftTable j.2.1 (fun i => v.block.leftResidual (v.leftReindex.index i))
@@ -944,7 +944,7 @@ theorem literalRightMainExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       (fun _ hp => support_prime (I := DE.1) hp) fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.rightMultiplicity).val
       ((v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch)
       rightTable j.2.1 (fun i => v.block.rightResidual (v.rightReindex.index i))
@@ -956,14 +956,14 @@ theorem literalRightMainExceptional_pointwise
       (fun U : ActualSecondCorrelationRows A σ
         (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
         (Fin v.block.primeCount) =>
-          (U.restrictRows (fun h => rawRows.correlation h ≠ 0)).restrictRows
-            (characters.thetaClass thetaPair))
+          (U.restrictRows (fun h => (rawRows).correlation h ≠ 0)).restrictRows
+            ((characters).thetaClass thetaPair))
       (v.literalRows_eq_withCommonAtoms leftAtoms rightAtoms maskL maskR)
   have live : (v.leaf exceptional F firstPoint j).Live := hlive
   let allocation := v.literalAllocation exceptional F firstPoint j live
   have hstored := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
-    firstPoint j (-1) live construction.val construction.property.1 leftScalar rightScalar
-    construction.property.2.1 construction.property.2.2 (fun _ => 1) (fun _ => 1)
+    firstPoint j (-1) live (construction).val (construction).property.1 leftScalar rightScalar
+    (construction).property.2.1 (construction).property.2.2 (fun _ => 1) (fun _ => 1)
     (fun _ => zero_lt_one) (fun _ => zero_lt_one) characters hpredicate thetaPair z
   simp only [show -(-(1 : ℝ)) = 1 from neg_neg (1 : ℝ)] at hstored
   have hpair := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_magnitude_eq
@@ -981,21 +981,21 @@ theorem literalRightMainExceptional_pointwise
           characters (WithLp.toLp 2 z)) hrows
   have hexact := hsource.trans hsourceRows
   have hscalar : (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 :=
-    construction.val.leftScalar_ne_zero_of_live live
-  have hR : secondGeometry.skeleton.R =
+    (construction).val.leftScalar_ne_zero_of_live live
+  have hR : (secondGeometry).skeleton.R =
       idealLogLength Z (firstActiveRadical DE.1 DE.2) := by
     change idealLogLength Z (firstActiveRadical (b.literalRightCoordinates D).first.val
       (b.literalRightCoordinates D).opposite.val) = _
     rw [b.literalRightCoordinates_first, b.literalRightCoordinates_opposite,
       firstActiveRadical_swap_of_support DE.1 DE.2 b.common_support_eq]
-  have hE : secondGeometry.skeleton.E =
+  have hE : (secondGeometry).skeleton.E =
       idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D).val := rfl
-  have hwo : secondGeometry.skeleton.wo = 0 := rfl
-  have hhold : A.exteriorNorm ((fixedPhases.moving P R Q.moving).effectiveFullSupport
-      (Q.remaining * extra)) ≤ Z ^ (a.q + secondGeometry.skeleton.R +
-        secondGeometry.skeleton.E + secondGeometry.skeleton.wo + widthMax) := by
+  have hwo : (secondGeometry).skeleton.wo = 0 := rfl
+  have hhold : A.exteriorNorm (((fixedPhases).moving P R Q.moving).effectiveFullSupport
+      (Q.remaining * extra)) ≤ Z ^ (a.q + (secondGeometry).skeleton.R +
+        (secondGeometry).skeleton.E + (secondGeometry).skeleton.wo + widthMax) := by
     have h := CanonicalLiteralExceptionalFirstSupport.unamplified_right
-      P R C b D Q.moving Q.remaining raw.exteriorColumns raw.exteriorColumns hDE
+      P R C b D Q.moving Q.remaining (raw).exteriorColumns (raw).exteriorColumns hDE
       Z a.q widthMax hZ horiginalColumns holdOriginal firstFixed hfirst
     rw [hR, hE, hwo, add_zero]
     convert h using 1 <;> congr 1 <;> ring
@@ -1035,14 +1035,14 @@ theorem literalRightMainExceptional_pointwise
     CanonicalLogProfiles.subset_sourceOrders _ (CanonicalLogProfiles.subset_sourceOrders _
       (CanonicalLiteralExceptionalUnifiedChoice.orders_zero
         (A := A) (σ := σ) (η := η) (hS := htrace) primitive ε maskExponent hε hmaskExponent))
-  have hcommon : factoryMass.commonEnvelope ≤ originalBound ^ commonDegree := by
+  have hcommon : (factoryMass).commonEnvelope ≤ originalBound ^ commonDegree := by
     exact CanonicalLiteralExceptionalCommonBudget.commonEnvelope_le
       (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ fixedPhases (unitExterior A) δ₁ δ₂ extra
       hδ₂ hδ₂half source retainedScale g hscale cutoff₂ hcutoff₂ hnorm dimension width
       character dyad v exceptional F firstPoint j hfiber branchL branchR
-      (fun i => raw.originalIndex (branchL.reconstruct i))
-      (fun i => raw.originalIndex (branchR.reconstruct i)) dictionaryL dictionaryR
+      (fun i => (raw).originalIndex ((branchL).reconstruct i))
+      (fun i => (raw).originalIndex ((branchR).reconstruct i)) dictionaryL dictionaryR
       originalWindow hzero htime hprime hδsum cap hcap hamplitude
   have hcoef : 0 ≤ fixedCoefficient :=
     (CanonicalLiteralExceptionalSourceBudget.coefficient_pos
@@ -1054,10 +1054,10 @@ theorem literalRightMainExceptional_pointwise
   have hamp0 : 0 ≤ originalBound := zero_le_one.trans hamplitude
   have hheight0 : 0 ≤ 1 + fourierHeight (WithLp.toLp 2 z) :=
     add_nonneg zero_le_one (fourierHeight_nonneg _)
-  have hremaining : secondGeometry.tag.exceptionalMovingLength Z step = step / 3 :=
+  have hremaining : (secondGeometry).tag.exceptionalMovingLength Z step = step / 3 :=
     OriginalNominalTag.exceptionalMovingLength_main Z step
   rw [hremaining] at hb
-  have hradical : (Ideal.absNorm (commonRadical factoryMass.leftIdeal factoryMass.rightIdeal) : ℝ) = radical := rfl
+  have hradical : (Ideal.absNorm (commonRadical (factoryMass).leftIdeal (factoryMass).rightIdeal) : ℝ) = radical := rfl
   rw [hradical] at hb
   let paid := annulus ^ cap * orbitalFieldFactor K * (Γ.index : ℝ) * fixedCoefficient *
     originalBound ^ profileDegree * (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
@@ -1072,7 +1072,7 @@ theorem literalRightMainExceptional_pointwise
           (leftResult.val.comparison factoryRows C .left)
           (rightResult.val.comparison factoryRows C .right) characters (WithLp.toLp 2 z) /
             normalization := by rw [hexact]
-    _ ≤ factoryMass.commonEnvelope * paid := by
+    _ ≤ (factoryMass).commonEnvelope * paid := by
       convert hb using 1 <;> dsimp only [paid] <;> ring
     _ ≤ originalBound ^ commonDegree * paid := mul_le_mul_of_nonneg_right hcommon hpaid
     _ = _ := by dsimp only [paid]; rw [pow_add]; ring
@@ -1092,17 +1092,17 @@ theorem literalRightMainOrdinaryExceptional_pointwise
         (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
         Z ^ (3 * step + loss / 2 + step / 3) / radical *
         Z ^ (-idealLogLength Z j.1.val) := by
-  have first_coordinate : (first.ideals.first * first.tag.extractionIdeal).val = DE.2 := by
+  have first_coordinate : ((first).ideals.first * (first).tag.extractionIdeal).val = DE.2 := by
     change ((b.literalRightCoordinates D).first * 1).val = DE.2
     simpa only [mul_one] using b.literalRightCoordinates_first D
-  have firstL : frozenSourceIdeal branchL.plainDivisor₁ branchL.plainDivisor₂
-      branchL.keep branchL.witness.2 = DE.2 :=
-    branchL.frozenSourceIdeal_eq.trans
-      (raw.originalAtlas.branch_product (primeSupport DE.1) DE.2 v.2.2.1)
-  have firstR : frozenSourceIdeal branchR.plainDivisor₁ branchR.plainDivisor₂
-      branchR.keep branchR.witness.2 = DE.2 :=
-    branchR.frozenSourceIdeal_eq.trans
-      (raw.originalAtlas.branch_product (primeSupport DE.1) DE.2 v.2.2.2.1)
+  have firstL : frozenSourceIdeal (branchL).plainDivisor₁ (branchL).plainDivisor₂
+      (branchL).keep (branchL).witness.2 = DE.2 :=
+    (branchL).frozenSourceIdeal_eq.trans
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.2 v.2.2.1)
+  have firstR : frozenSourceIdeal (branchR).plainDivisor₁ (branchR).plainDivisor₂
+      (branchR).keep (branchR).witness.2 = DE.2 :=
+    (branchR).frozenSourceIdeal_eq.trans
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.2 v.2.2.2.1)
   have secondL : frozenSourceIdeal v.literalLeftBranch.plainDivisor₁
       v.literalLeftBranch.plainDivisor₂ v.literalLeftBranch.keep
       v.literalLeftBranch.witness.2 = v.1.val.1 :=
@@ -1121,7 +1121,7 @@ theorem literalRightMainOrdinaryExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       (fun _ hp => support_prime (I := DE.1) hp) fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.leftMultiplicity).val
       ((v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch)
       leftTable j.2.1 (fun i => v.block.leftResidual (v.leftReindex.index i))
@@ -1131,7 +1131,7 @@ theorem literalRightMainOrdinaryExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       (fun _ hp => support_prime (I := DE.1) hp) fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.rightMultiplicity).val
       ((v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch)
       rightTable j.2.1 (fun i => v.block.rightResidual (v.rightReindex.index i))
@@ -1143,28 +1143,28 @@ theorem literalRightMainOrdinaryExceptional_pointwise
       (fun U : ActualSecondCorrelationRows A σ
         (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
         (Fin v.block.primeCount) =>
-          (U.restrictRows (fun h => rawRows.correlation h ≠ 0)).restrictRows
-            (characters.thetaClass thetaPair))
+          (U.restrictRows (fun h => (rawRows).correlation h ≠ 0)).restrictRows
+            ((characters).thetaClass thetaPair))
       (v.literalRows_eq_withCommonAtoms leftAtoms rightAtoms maskL maskR)
   have live : (v.leaf exceptional F firstPoint j).Live := hlive
   let allocation := v.literalAllocation exceptional F firstPoint j live
   have hstored := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
-    firstPoint j (-1) live construction.val construction.property.1 leftScalar rightScalar
-    construction.property.2.1 construction.property.2.2 (fun _ => 1) (fun _ => 1)
+    firstPoint j (-1) live (construction).val (construction).property.1 leftScalar rightScalar
+    (construction).property.2.1 (construction).property.2.2 (fun _ => 1) (fun _ => 1)
     (fun _ => zero_lt_one) (fun _ => zero_lt_one) characters hpredicate thetaPair z
   simp only [show -(-(1 : ℝ)) = 1 from neg_neg (1 : ℝ)] at hstored
   have hpair := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_ordinaryMagnitude_eq
     leftResult rightResult C classRows v.leftReindex.ideal_product v.rightReindex.ideal_product
     (Finset.mem_filter.mp allocation.property).2.2.1
     (Finset.mem_filter.mp allocation.property).2.2.2 characters (WithLp.toLp 2 z)
-  have hflagL : leftTable.centered = seed.centered := by
-    change (v.literalLeftAtoms oldLeftAtoms).centered = seed.centered
+  have hflagL : leftTable.centered = (seed).centered := by
+    change (v.literalLeftAtoms oldLeftAtoms).centered = (seed).centered
     simp only [ActualGaussStage.CoveredClassKey.literalLeftAtoms,
       ActualGaussStage.CoveredClassKey.literalLeftOriginal, literalRightMainAtoms,
       CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
-  have hflagR : rightTable.centered = seed.centered := by
-    change (v.literalRightAtoms oldRightAtoms).centered = seed.centered
+  have hflagR : rightTable.centered = (seed).centered := by
+    change (v.literalRightAtoms oldRightAtoms).centered = (seed).centered
     simp only [ActualGaussStage.CoveredClassKey.literalRightAtoms,
       ActualGaussStage.CoveredClassKey.literalRightOriginal, literalRightMainAtoms,
       CanonicalLiteralRectangles.Atoms.deleteMask,
@@ -1187,7 +1187,7 @@ theorem literalRightMainOrdinaryExceptional_pointwise
           (rightResult.val.frame U C .right) characters (WithLp.toLp 2 z)) hrows
   have hexact := hsource.trans hsourceRows
   have hscalar : (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 :=
-    construction.val.leftScalar_ne_zero_of_live live
+    (construction).val.leftScalar_ne_zero_of_live live
   have hb := CanonicalLiteralExceptionalSourceBudget.ordinary_small_loss_bound
     (chart := v.chart) (P := P) (R := R) (hclass := hclass) (hsector := hsector)
     (X := cutoff₂) (hX := hcutoff₂) (label := v.rowLabel) (F := fixedPhases)
@@ -1223,14 +1223,14 @@ theorem literalRightMainOrdinaryExceptional_pointwise
     CanonicalLogProfiles.subset_sourceOrders _ (CanonicalLogProfiles.subset_sourceOrders _
       (CanonicalLiteralExceptionalUnifiedChoice.orders_zero
         (A := A) (σ := σ) (η := η) (hS := htrace) primitive ε maskExponent hε hmaskExponent))
-  have hcommon : factoryMass.commonEnvelope ≤ originalBound ^ commonDegree := by
+  have hcommon : (factoryMass).commonEnvelope ≤ originalBound ^ commonDegree := by
     exact CanonicalLiteralExceptionalCommonBudget.commonEnvelope_le
       (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ fixedPhases (unitExterior A) δ₁ δ₂ extra
       hδ₂ hδ₂half source retainedScale g hscale cutoff₂ hcutoff₂ hnorm dimension width
       character dyad v exceptional F firstPoint j hfiber branchL branchR
-      (fun i => raw.originalIndex (branchL.reconstruct i))
-      (fun i => raw.originalIndex (branchR.reconstruct i)) dictionaryL dictionaryR
+      (fun i => (raw).originalIndex ((branchL).reconstruct i))
+      (fun i => (raw).originalIndex ((branchR).reconstruct i)) dictionaryL dictionaryR
       originalWindow hzero htime hprime hδsum cap hcap hamplitude
   have hcoef : 0 ≤ fixedCoefficient :=
     (CanonicalLiteralExceptionalSourceBudget.coefficient_pos
@@ -1242,10 +1242,10 @@ theorem literalRightMainOrdinaryExceptional_pointwise
   have hamp0 : 0 ≤ originalBound := zero_le_one.trans hamplitude
   have hheight0 : 0 ≤ 1 + fourierHeight (WithLp.toLp 2 z) :=
     add_nonneg zero_le_one (fourierHeight_nonneg _)
-  have hremaining : secondGeometry.tag.exceptionalMovingLength Z step = step / 3 :=
+  have hremaining : (secondGeometry).tag.exceptionalMovingLength Z step = step / 3 :=
     OriginalNominalTag.exceptionalMovingLength_main Z step
   rw [hremaining] at hb
-  have hradical : (Ideal.absNorm (commonRadical factoryMass.leftIdeal factoryMass.rightIdeal) : ℝ) = radical := rfl
+  have hradical : (Ideal.absNorm (commonRadical (factoryMass).leftIdeal (factoryMass).rightIdeal) : ℝ) = radical := rfl
   rw [hradical] at hb
   let paid := annulus ^ cap * orbitalFieldFactor K * (Γ.index : ℝ) * fixedCoefficient *
     originalBound ^ profileDegree * (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
@@ -1258,7 +1258,7 @@ theorem literalRightMainOrdinaryExceptional_pointwise
         (leftResult.val.frame factoryRows C .left).ordinaryExceptionalMagnitude
           (rightResult.val.frame factoryRows C .right) characters (WithLp.toLp 2 z) /
             normalization := by rw [hexact]
-    _ ≤ factoryMass.commonEnvelope * paid := by
+    _ ≤ (factoryMass).commonEnvelope * paid := by
       convert hb using 1 <;> dsimp only [paid] <;> ring
     _ ≤ originalBound ^ commonDegree * paid := mul_le_mul_of_nonneg_right hcommon hpaid
     _ = _ := by dsimp only [paid]; rw [pow_add]; ring
@@ -1273,9 +1273,9 @@ section LeftPoolExceptionalBudget
 local notation "first" => OriginalNominalGeometry.canonicalPoolError
   (a := a) pool e q (b.literalLeftCoordinates D)
     supportError hsupportError
-local notation "retainedScale" => first.retainedScale
-local notation "g" => first.enlargement
-local notation "hscale" => first.retainedScale_pos
+local notation "retainedScale" => (first).retainedScale
+local notation "g" => (first).enlargement
+local notation "hscale" => (first).retainedScale_pos
 
 variable (hnorm : ∀ h ∈ (p.divisorPools.leftData S).errorRows q.val,
   A.exteriorNorm (originalFrequencyIdeal h) ≤ retainedScale * Z ^ g)
@@ -1291,7 +1291,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => ((p.leftSourceCovers raw.originalAtlas S χ).residual q n)
+local notation "cover" => ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n)
 local notation "firstPoint" => (fun i : (p.divisorPools.leftData S).valuationColumns q.val n =>
   -Real.log (A.exteriorNorm (b.leftResidual i.val)))
 
@@ -1306,7 +1306,7 @@ variable (v : (ActualGaussStage.canonicalUnmaskedSectorRowBallByBlock
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad).supported.gated.CoveredClassKey ((p.leftSourceCovers (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).originalAtlas S χ).residual q n) ((p.leftSourceCovers (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).originalAtlas S χ).residual q n))
-local notation "exceptional" => stage.supported.gated.literalHybridPredicates
+local notation "exceptional" => (stage).supported.gated.literalHybridPredicates
   cover cover P R fixedPhases Q.moving Q.correction (data ξ).theta
 variable (F : SchwartzMap ℝ ℂ)
 variable (j : v.AllocationKey)
@@ -1321,10 +1321,10 @@ local notation "oldLeftScalar" => literalLeftPoolScalar hΓ μv ν Q ξ W a Z t 
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n v.2.2.1
 local notation "oldRightScalar" => literalLeftPoolScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n v.2.2.2.1
-local notation "leftAtoms" => oldLeftAtoms.redistributeNormFactors δ₁ δ₂
-local notation "rightAtoms" => oldRightAtoms.redistributeNormFactors δ₁ δ₂
-local notation "leftScalar" => oldLeftScalar * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
-local notation "rightScalar" => oldRightScalar * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+local notation "leftAtoms" => (oldLeftAtoms).redistributeNormFactors δ₁ δ₂
+local notation "rightAtoms" => (oldRightAtoms).redistributeNormFactors δ₁ δ₂
+local notation "leftScalar" => oldLeftScalar * ((oldLeftAtoms).normProfileFactor δ₁ δ₂ : ℂ)
+local notation "rightScalar" => oldRightScalar * ((oldRightAtoms).normProfileFactor δ₁ δ₂ : ℂ)
 local notation "leftBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "rightBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "firstPrimes" => pool_first_support_prime DE.1 q.val
@@ -1334,7 +1334,7 @@ local notation "secondPattern" => v.chart.originalNonunitPattern ∅ cutoff₂ h
 local notation "secondSector" => v.chart.originalSector P ∅ cutoff₂ hcutoff₂ v.rowLabel
 
 variable (hS : Squarefree S.val)
-variable (hfiber : (stage.supported.gated.fiberCoveredLeaf cover cover exceptional F
+variable (hfiber : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F
   firstPoint ⟨v, j⟩).Live)
 local notation "hlive" => (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hfiber
 
@@ -1366,17 +1366,17 @@ local notation "sides" => literalLeftPoolExceptionalSides
     (j := j) (q := q) (n := n) (hlive := hfiber) (firstFixed := firstFixed) (hfirst := hfirst)
 
 local notation "rawRows" => v.chart.actualRows ∅ cutoff₂ hcutoff₂ v.rowLabel
-local notation "characters" => rawRows.literalFiniteCharacters C P R fixedPhases
+local notation "characters" => (rawRows).literalFiniteCharacters C P R fixedPhases
   Q.moving Q.correction secondPattern secondSector (data ξ).theta
 variable (thetaPair : (data ξ).theta × (data ξ).theta)
 local notation "hpredicate" =>
-  (show (v.leaf exceptional F firstPoint j).exceptional = characters.exceptional from rfl)
+  (show (v.leaf exceptional F firstPoint j).exceptional = (characters).exceptional from rfl)
 local notation "classRows" =>
-  (v.literalSupportedRows leftAtoms rightAtoms).restrictRows (characters.thetaClass thetaPair)
-local notation "branchL" => (p.divisorPools.leftData S).combinedBranchForLabel raw.originalAtlas
+  (v.literalSupportedRows leftAtoms rightAtoms).restrictRows ((characters).thetaClass thetaPair)
+local notation "branchL" => (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas
   (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns)
   q.val n v.2.2.1
-local notation "branchR" => (p.divisorPools.leftData S).combinedBranchForLabel raw.originalAtlas
+local notation "branchR" => (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas
   (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns)
   q.val n v.2.2.2.1
 local notation "dictionaryL" => literalLeftPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
@@ -1411,11 +1411,11 @@ local notation "factoryMass" => CanonicalLiteralExceptionalArithmetic.actualMass
     1 (by norm_num) hrow
 local notation "secondGeometry" => CanonicalLiteralExceptionalNumbers.geometry v.chart
   cutoff₂ hcutoff₂ v.rowLabel first
-local notation "firstTotal" => first.skeleton.A + (first.skeleton.q + first.skeleton.R + first.skeleton.E)
-local notation "normalization" => firstLeftAllowance Z firstTotal first.ideals.first.val first.ideals.opposite.val
-local notation "outer" => construction.val.stripOuter leftScalar rightScalar
-  construction.property.2.1 construction.property.2.2
-local notation "magnitude" z => (outer.thetaClassLeaf characters thetaPair).exceptionalIntegrand z
+local notation "firstTotal" => (first).skeleton.A + ((first).skeleton.q + (first).skeleton.R + (first).skeleton.E)
+local notation "normalization" => firstLeftAllowance Z firstTotal (first).ideals.first.val (first).ideals.opposite.val
+local notation "outer" => (construction).val.stripOuter leftScalar rightScalar
+  (construction).property.2.1 (construction).property.2.2
+local notation "magnitude" z => ((outer).thetaClassLeaf characters thetaPair).exceptionalIntegrand z
 
 variable (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
 variable (slotLoss loss : ℝ) (hslotLossNonneg : 0 ≤ slotLoss) (hloss : 0 ≤ loss)
@@ -1429,15 +1429,15 @@ variable (hthreshold : max 2 (Ideal.absNorm A.cS : ℝ) ≤ Z)
 variable (hsupport : supportError ≤ loss / 16) (hvolume : ε ≤ loss / 16)
 variable (hcutoffPaid : CanonicalLiteralExceptionalGeometry.paidCutoff columnLoss cutoffExponent 0 / 6 ≤ loss / 16)
 variable (hcutoffPower : cutoff₂ ≤ Z ^ cutoffExponent)
-variable (hactiveColumns : ∀ i ∈ source.columns, source.coefficient i ≠ 0 →
-  A.exteriorNorm (source.ideal i) ≤ Z ^
-    (first.skeleton.A - first.skeleton.c - first.skeleton.w + columnLoss))
-variable (hDE : DE ∈ commonSupportPool raw.exteriorColumns raw.exteriorColumns
-  (fun i => (raw.columnExterior i).val) (fun i => (raw.columnExterior i).val))
+variable (hactiveColumns : ∀ i ∈ (source).columns, (source).coefficient i ≠ 0 →
+  A.exteriorNorm ((source).ideal i) ≤ Z ^
+    ((first).skeleton.A - (first).skeleton.c - (first).skeleton.w + columnLoss))
+variable (hDE : DE ∈ commonSupportPool (raw).exteriorColumns (raw).exteriorColumns
+  (fun i => ((raw).columnExterior i).val) (fun i => ((raw).columnExterior i).val))
 variable (firstColumnBound : ℝ)
 variable (hfirstBox : firstColumnBound + 2 * (step / 3) ≤ widthMax)
-variable (horiginalColumns : ∀ i ∈ raw.exteriorColumns,
-  A.exteriorNorm (raw.columnExterior i) ≤ Z ^ firstColumnBound)
+variable (horiginalColumns : ∀ i ∈ (raw).exteriorColumns,
+  A.exteriorNorm ((raw).columnExterior i) ≤ Z ^ firstColumnBound)
 variable (holdOriginal : A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) ≤ Z ^ a.q)
 
 local notation "fixedCoefficient" => CanonicalLiteralExceptionalSourceBudget.coefficient
@@ -1468,19 +1468,19 @@ theorem literalLeftPoolExceptional_pointwise
         (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
         Z ^ (padding + 3 * step + loss / 2 + movingCost) / radical *
         Z ^ (-idealLogLength Z j.1.val) := by
-  have first_coordinate : (first.ideals.first * first.tag.extractionIdeal).val =
+  have first_coordinate : ((first).ideals.first * (first).tag.extractionIdeal).val =
       DE.1 * q.val.val.asIdeal ^ n := by
     change (b.literalLeftCoordinates D).first.val * q.val.val.asIdeal ^ n = _
     rw [b.literalLeftCoordinates_first]
-  have firstL : frozenSourceIdeal branchL.plainDivisor₁ branchL.plainDivisor₂
-      branchL.keep branchL.witness.2 = DE.1 * q.val.val.asIdeal ^ n :=
-    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.leftData S) raw.originalAtlas
+  have firstL : frozenSourceIdeal (branchL).plainDivisor₁ (branchL).plainDivisor₂
+      (branchL).keep (branchL).witness.2 = DE.1 * q.val.val.asIdeal ^ n :=
+    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.leftData S) (raw).originalAtlas
       (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns)
       (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal];
         exact b.left_residual i) q.val n v.2.2.1
-  have firstR : frozenSourceIdeal branchR.plainDivisor₁ branchR.plainDivisor₂
-      branchR.keep branchR.witness.2 = DE.1 * q.val.val.asIdeal ^ n :=
-    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.leftData S) raw.originalAtlas
+  have firstR : frozenSourceIdeal (branchR).plainDivisor₁ (branchR).plainDivisor₂
+      (branchR).keep (branchR).witness.2 = DE.1 * q.val.val.asIdeal ^ n :=
+    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.leftData S) (raw).originalAtlas
       (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns)
       (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal];
         exact b.left_residual i) q.val n v.2.2.2.1
@@ -1502,7 +1502,7 @@ theorem literalLeftPoolExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       firstPrimes fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.leftMultiplicity).val
       ((v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch)
       leftTable j.2.1 (fun i => v.block.leftResidual (v.leftReindex.index i))
@@ -1512,7 +1512,7 @@ theorem literalLeftPoolExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       firstPrimes fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.rightMultiplicity).val
       ((v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch)
       rightTable j.2.1 (fun i => v.block.rightResidual (v.rightReindex.index i))
@@ -1524,14 +1524,14 @@ theorem literalLeftPoolExceptional_pointwise
       (fun U : ActualSecondCorrelationRows A σ
         (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
         (Fin v.block.primeCount) =>
-          (U.restrictRows (fun h => rawRows.correlation h ≠ 0)).restrictRows
-            (characters.thetaClass thetaPair))
+          (U.restrictRows (fun h => (rawRows).correlation h ≠ 0)).restrictRows
+            ((characters).thetaClass thetaPair))
       (v.literalRows_eq_withCommonAtoms leftAtoms rightAtoms maskL maskR)
   have live : (v.leaf exceptional F firstPoint j).Live := hlive
   let allocation := v.literalAllocation exceptional F firstPoint j live
   have hstored := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
-    firstPoint j 1 live construction.val construction.property.1 leftScalar rightScalar
-    construction.property.2.1 construction.property.2.2 (fun _ => 1) (fun _ => 1)
+    firstPoint j 1 live (construction).val (construction).property.1 leftScalar rightScalar
+    (construction).property.2.1 (construction).property.2.2 (fun _ => 1) (fun _ => 1)
     (fun _ => zero_lt_one) (fun _ => zero_lt_one) characters hpredicate thetaPair z
   have hpair := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_magnitude_eq
     leftResult rightResult C classRows v.leftReindex.ideal_product v.rightReindex.ideal_product
@@ -1548,21 +1548,21 @@ theorem literalLeftPoolExceptional_pointwise
           characters (WithLp.toLp 2 z)) hrows
   have hexact := hsource.trans hsourceRows
   have hscalar : (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 :=
-    construction.val.leftScalar_ne_zero_of_live live
-  have hR : secondGeometry.skeleton.R =
+    (construction).val.leftScalar_ne_zero_of_live live
+  have hR : (secondGeometry).skeleton.R =
       idealLogLength Z (firstActiveRadical DE.1 DE.2) := by
     change idealLogLength Z (firstActiveRadical (b.literalLeftCoordinates D).first.val
       (b.literalLeftCoordinates D).opposite.val) = _
     rw [b.literalLeftCoordinates_first, b.literalLeftCoordinates_opposite]
-  have hE : secondGeometry.skeleton.E =
+  have hE : (secondGeometry).skeleton.E =
       idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D).val := rfl
-  have hwo : 0 ≤ secondGeometry.skeleton.wo :=
-    secondGeometry.tag.movingLength_nonneg Z hZ
-  have hhold : A.exteriorNorm ((fixedPhases.moving P R Q.moving).effectiveFullSupport
-      (Q.remaining * extra)) ≤ Z ^ (a.q + secondGeometry.skeleton.R +
-        secondGeometry.skeleton.E + secondGeometry.skeleton.wo + widthMax) := by
+  have hwo : 0 ≤ (secondGeometry).skeleton.wo :=
+    (secondGeometry).tag.movingLength_nonneg Z hZ
+  have hhold : A.exteriorNorm (((fixedPhases).moving P R Q.moving).effectiveFullSupport
+      (Q.remaining * extra)) ≤ Z ^ (a.q + (secondGeometry).skeleton.R +
+        (secondGeometry).skeleton.E + (secondGeometry).skeleton.wo + widthMax) := by
     have h := CanonicalLiteralExceptionalFirstSupport.amplified_left
-      P R C b D Q.moving Q.remaining raw.exteriorColumns raw.exteriorColumns hDE
+      P R C b D Q.moving Q.remaining (raw).exteriorColumns (raw).exteriorColumns hDE
       Z a.q firstColumnBound hZ horiginalColumns holdOriginal firstFixed hfirst
       q.val n (step / 3) (pool.norm_upper q.val q.property)
     apply h.trans
@@ -1606,7 +1606,7 @@ theorem literalLeftPoolExceptional_pointwise
     CanonicalLogProfiles.subset_sourceOrders _ (CanonicalLogProfiles.subset_sourceOrders _
       (CanonicalLiteralExceptionalUnifiedChoice.orders_zero
         (A := A) (σ := σ) (η := η) (hS := htrace) primitive ε maskExponent hε hmaskExponent))
-  have hcommon : factoryMass.commonEnvelope ≤ originalBound ^ commonDegree := by
+  have hcommon : (factoryMass).commonEnvelope ≤ originalBound ^ commonDegree := by
     exact CanonicalLiteralExceptionalCommonBudget.commonEnvelope_le
       (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ fixedPhases (powerIdeal q.val n) δ₁ δ₂ extra
@@ -1624,10 +1624,10 @@ theorem literalLeftPoolExceptional_pointwise
   have hamp0 : 0 ≤ originalBound := zero_le_one.trans hamplitude
   have hheight0 : 0 ≤ 1 + fourierHeight (WithLp.toLp 2 z) :=
     add_nonneg zero_le_one (fourierHeight_nonneg _)
-  have hremaining : secondGeometry.tag.exceptionalMovingLength Z step = movingCost :=
+  have hremaining : (secondGeometry).tag.exceptionalMovingLength Z step = movingCost :=
     OriginalNominalTag.exceptionalMovingLength_error e q.val.val Z step
   rw [hremaining] at hb
-  have hradical : (Ideal.absNorm (commonRadical factoryMass.leftIdeal factoryMass.rightIdeal) : ℝ) = radical := rfl
+  have hradical : (Ideal.absNorm (commonRadical (factoryMass).leftIdeal (factoryMass).rightIdeal) : ℝ) = radical := rfl
   rw [hradical] at hb
   let paid := annulus ^ cap * orbitalFieldFactor K * (Γ.index : ℝ) * fixedCoefficient *
     originalBound ^ profileDegree * (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
@@ -1642,7 +1642,7 @@ theorem literalLeftPoolExceptional_pointwise
           (leftResult.val.comparison factoryRows C .left)
           (rightResult.val.comparison factoryRows C .right) characters (WithLp.toLp 2 z) /
             normalization := by rw [hexact]
-    _ ≤ factoryMass.commonEnvelope * paid := by
+    _ ≤ (factoryMass).commonEnvelope * paid := by
       convert hb using 1 <;> dsimp only [paid] <;> ring
     _ ≤ originalBound ^ commonDegree * paid := mul_le_mul_of_nonneg_right hcommon hpaid
     _ = _ := by dsimp only [paid]; rw [pow_add]; ring
@@ -1662,19 +1662,19 @@ theorem literalLeftPoolOrdinaryExceptional_pointwise
         (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
         Z ^ (3 * step + loss / 2 + movingCost) / radical *
         Z ^ (-idealLogLength Z j.1.val) := by
-  have first_coordinate : (first.ideals.first * first.tag.extractionIdeal).val =
+  have first_coordinate : ((first).ideals.first * (first).tag.extractionIdeal).val =
       DE.1 * q.val.val.asIdeal ^ n := by
     change (b.literalLeftCoordinates D).first.val * q.val.val.asIdeal ^ n = _
     rw [b.literalLeftCoordinates_first]
-  have firstL : frozenSourceIdeal branchL.plainDivisor₁ branchL.plainDivisor₂
-      branchL.keep branchL.witness.2 = DE.1 * q.val.val.asIdeal ^ n :=
-    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.leftData S) raw.originalAtlas
+  have firstL : frozenSourceIdeal (branchL).plainDivisor₁ (branchL).plainDivisor₂
+      (branchL).keep (branchL).witness.2 = DE.1 * q.val.val.asIdeal ^ n :=
+    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.leftData S) (raw).originalAtlas
       (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns)
       (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal];
         exact b.left_residual i) q.val n v.2.2.1
-  have firstR : frozenSourceIdeal branchR.plainDivisor₁ branchR.plainDivisor₂
-      branchR.keep branchR.witness.2 = DE.1 * q.val.val.asIdeal ^ n :=
-    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.leftData S) raw.originalAtlas
+  have firstR : frozenSourceIdeal (branchR).plainDivisor₁ (branchR).plainDivisor₂
+      (branchR).keep (branchR).witness.2 = DE.1 * q.val.val.asIdeal ^ n :=
+    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.leftData S) (raw).originalAtlas
       (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns)
       (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal];
         exact b.left_residual i) q.val n v.2.2.2.1
@@ -1696,7 +1696,7 @@ theorem literalLeftPoolOrdinaryExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       firstPrimes fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.leftMultiplicity).val
       ((v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch)
       leftTable j.2.1 (fun i => v.block.leftResidual (v.leftReindex.index i))
@@ -1706,7 +1706,7 @@ theorem literalLeftPoolOrdinaryExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       firstPrimes fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.rightMultiplicity).val
       ((v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch)
       rightTable j.2.1 (fun i => v.block.rightResidual (v.rightReindex.index i))
@@ -1718,27 +1718,27 @@ theorem literalLeftPoolOrdinaryExceptional_pointwise
       (fun U : ActualSecondCorrelationRows A σ
         (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
         (Fin v.block.primeCount) =>
-          (U.restrictRows (fun h => rawRows.correlation h ≠ 0)).restrictRows
-            (characters.thetaClass thetaPair))
+          (U.restrictRows (fun h => (rawRows).correlation h ≠ 0)).restrictRows
+            ((characters).thetaClass thetaPair))
       (v.literalRows_eq_withCommonAtoms leftAtoms rightAtoms maskL maskR)
   have live : (v.leaf exceptional F firstPoint j).Live := hlive
   let allocation := v.literalAllocation exceptional F firstPoint j live
   have hstored := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
-    firstPoint j 1 live construction.val construction.property.1 leftScalar rightScalar
-    construction.property.2.1 construction.property.2.2 (fun _ => 1) (fun _ => 1)
+    firstPoint j 1 live (construction).val (construction).property.1 leftScalar rightScalar
+    (construction).property.2.1 (construction).property.2.2 (fun _ => 1) (fun _ => 1)
     (fun _ => zero_lt_one) (fun _ => zero_lt_one) characters hpredicate thetaPair z
   have hpair := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_ordinaryMagnitude_eq
     leftResult rightResult C classRows v.leftReindex.ideal_product v.rightReindex.ideal_product
     (Finset.mem_filter.mp allocation.property).2.2.1
     (Finset.mem_filter.mp allocation.property).2.2.2 characters (WithLp.toLp 2 z)
-  have hflagL : leftTable.centered = seed.centered := by
-    change (v.literalLeftAtoms oldLeftAtoms).centered = seed.centered
+  have hflagL : leftTable.centered = (seed).centered := by
+    change (v.literalLeftAtoms oldLeftAtoms).centered = (seed).centered
     simp only [ActualGaussStage.CoveredClassKey.literalLeftAtoms,
       ActualGaussStage.CoveredClassKey.literalLeftOriginal, literalLeftPoolAtoms,
       CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
-  have hflagR : rightTable.centered = seed.centered := by
-    change (v.literalRightAtoms oldRightAtoms).centered = seed.centered
+  have hflagR : rightTable.centered = (seed).centered := by
+    change (v.literalRightAtoms oldRightAtoms).centered = (seed).centered
     simp only [ActualGaussStage.CoveredClassKey.literalRightAtoms,
       ActualGaussStage.CoveredClassKey.literalRightOriginal, literalLeftPoolAtoms,
       CanonicalLiteralRectangles.Atoms.deleteMask,
@@ -1761,7 +1761,7 @@ theorem literalLeftPoolOrdinaryExceptional_pointwise
           (rightResult.val.frame U C .right) characters (WithLp.toLp 2 z)) hrows
   have hexact := hsource.trans hsourceRows
   have hscalar : (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 :=
-    construction.val.leftScalar_ne_zero_of_live live
+    (construction).val.leftScalar_ne_zero_of_live live
   have hb := CanonicalLiteralExceptionalSourceBudget.ordinary_small_loss_bound
     (chart := v.chart) (P := P) (R := R) (hclass := hclass) (hsector := hsector)
     (X := cutoff₂) (hX := hcutoff₂) (label := v.rowLabel) (F := fixedPhases)
@@ -1798,7 +1798,7 @@ theorem literalLeftPoolOrdinaryExceptional_pointwise
     CanonicalLogProfiles.subset_sourceOrders _ (CanonicalLogProfiles.subset_sourceOrders _
       (CanonicalLiteralExceptionalUnifiedChoice.orders_zero
         (A := A) (σ := σ) (η := η) (hS := htrace) primitive ε maskExponent hε hmaskExponent))
-  have hcommon : factoryMass.commonEnvelope ≤ originalBound ^ commonDegree := by
+  have hcommon : (factoryMass).commonEnvelope ≤ originalBound ^ commonDegree := by
     exact CanonicalLiteralExceptionalCommonBudget.commonEnvelope_le
       (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ fixedPhases (powerIdeal q.val n) δ₁ δ₂ extra
@@ -1816,10 +1816,10 @@ theorem literalLeftPoolOrdinaryExceptional_pointwise
   have hamp0 : 0 ≤ originalBound := zero_le_one.trans hamplitude
   have hheight0 : 0 ≤ 1 + fourierHeight (WithLp.toLp 2 z) :=
     add_nonneg zero_le_one (fourierHeight_nonneg _)
-  have hremaining : secondGeometry.tag.exceptionalMovingLength Z step = movingCost :=
+  have hremaining : (secondGeometry).tag.exceptionalMovingLength Z step = movingCost :=
     OriginalNominalTag.exceptionalMovingLength_error e q.val.val Z step
   rw [hremaining] at hb
-  have hradical : (Ideal.absNorm (commonRadical factoryMass.leftIdeal factoryMass.rightIdeal) : ℝ) = radical := rfl
+  have hradical : (Ideal.absNorm (commonRadical (factoryMass).leftIdeal (factoryMass).rightIdeal) : ℝ) = radical := rfl
   rw [hradical] at hb
   let paid := annulus ^ cap * orbitalFieldFactor K * (Γ.index : ℝ) * fixedCoefficient *
     originalBound ^ profileDegree * (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
@@ -1832,7 +1832,7 @@ theorem literalLeftPoolOrdinaryExceptional_pointwise
         (leftResult.val.frame factoryRows C .left).ordinaryExceptionalMagnitude
           (rightResult.val.frame factoryRows C .right) characters (WithLp.toLp 2 z) /
             normalization := by rw [hexact]
-    _ ≤ factoryMass.commonEnvelope * paid := by
+    _ ≤ (factoryMass).commonEnvelope * paid := by
       convert hb using 1 <;> dsimp only [paid] <;> ring
     _ ≤ originalBound ^ commonDegree * paid := mul_le_mul_of_nonneg_right hcommon hpaid
     _ = _ := by dsimp only [paid]; rw [pow_add]; ring
@@ -1844,9 +1844,9 @@ section RightPoolExceptionalBudget
 local notation "first" => OriginalNominalGeometry.canonicalPoolError
   (a := a) pool e q (b.literalRightCoordinates D)
     supportError hsupportError
-local notation "retainedScale" => first.retainedScale
-local notation "g" => first.enlargement
-local notation "hscale" => first.retainedScale_pos
+local notation "retainedScale" => (first).retainedScale
+local notation "g" => (first).enlargement
+local notation "hscale" => (first).retainedScale_pos
 
 variable (hnorm : ∀ h ∈ (p.divisorPools.rightData S).errorRows q.val,
   A.exteriorNorm (originalFrequencyIdeal h) ≤ retainedScale * Z ^ g)
@@ -1862,7 +1862,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => ((p.rightSourceCovers raw.originalAtlas S χ).residual q n)
+local notation "cover" => ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n)
 local notation "firstPoint" => (fun i : (p.divisorPools.rightData S).valuationColumns q.val n =>
   Real.log (A.exteriorNorm (b.rightResidual i.val)))
 
@@ -1877,7 +1877,7 @@ variable (v : (ActualGaussStage.canonicalUnmaskedSectorRowBallByBlock
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad).supported.gated.CoveredClassKey ((p.rightSourceCovers (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).originalAtlas S χ).residual q n) ((p.rightSourceCovers (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).originalAtlas S χ).residual q n))
-local notation "exceptional" => stage.supported.gated.literalHybridPredicates
+local notation "exceptional" => (stage).supported.gated.literalHybridPredicates
   cover cover P R fixedPhases Q.moving Q.correction (data ξ).theta
 variable (F : SchwartzMap ℝ ℂ)
 variable (j : v.AllocationKey)
@@ -1892,10 +1892,10 @@ local notation "oldLeftScalar" => literalRightPoolScalar hΓ μv ν Q ξ W a Z t
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n v.2.2.1
 local notation "oldRightScalar" => literalRightPoolScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n v.2.2.2.1
-local notation "leftAtoms" => oldLeftAtoms.redistributeNormFactors δ₁ δ₂
-local notation "rightAtoms" => oldRightAtoms.redistributeNormFactors δ₁ δ₂
-local notation "leftScalar" => oldLeftScalar * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
-local notation "rightScalar" => oldRightScalar * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+local notation "leftAtoms" => (oldLeftAtoms).redistributeNormFactors δ₁ δ₂
+local notation "rightAtoms" => (oldRightAtoms).redistributeNormFactors δ₁ δ₂
+local notation "leftScalar" => oldLeftScalar * ((oldLeftAtoms).normProfileFactor δ₁ δ₂ : ℂ)
+local notation "rightScalar" => oldRightScalar * ((oldRightAtoms).normProfileFactor δ₁ δ₂ : ℂ)
 local notation "leftBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "rightBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "firstPrimes" => pool_first_support_prime DE.1 q.val
@@ -1905,7 +1905,7 @@ local notation "secondPattern" => v.chart.originalNonunitPattern ∅ cutoff₂ h
 local notation "secondSector" => v.chart.originalSector P ∅ cutoff₂ hcutoff₂ v.rowLabel
 
 variable (hS : Squarefree S.val)
-variable (hfiber : (stage.supported.gated.fiberCoveredLeaf cover cover exceptional F
+variable (hfiber : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F
   firstPoint ⟨v, j⟩).Live)
 local notation "hlive" => (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hfiber
 
@@ -1937,17 +1937,17 @@ local notation "sides" => literalRightPoolExceptionalSides
     (j := j) (q := q) (n := n) (hlive := hfiber) (firstFixed := firstFixed) (hfirst := hfirst)
 
 local notation "rawRows" => v.chart.actualRows ∅ cutoff₂ hcutoff₂ v.rowLabel
-local notation "characters" => rawRows.literalFiniteCharacters C P R fixedPhases
+local notation "characters" => (rawRows).literalFiniteCharacters C P R fixedPhases
   Q.moving Q.correction secondPattern secondSector (data ξ).theta
 variable (thetaPair : (data ξ).theta × (data ξ).theta)
 local notation "hpredicate" =>
-  (show (v.leaf exceptional F firstPoint j).exceptional = characters.exceptional from rfl)
+  (show (v.leaf exceptional F firstPoint j).exceptional = (characters).exceptional from rfl)
 local notation "classRows" =>
-  (v.literalSupportedRows leftAtoms rightAtoms).restrictRows (characters.thetaClass thetaPair)
-local notation "branchL" => (p.divisorPools.rightData S).combinedBranchForLabel raw.originalAtlas
+  (v.literalSupportedRows leftAtoms rightAtoms).restrictRows ((characters).thetaClass thetaPair)
+local notation "branchL" => (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas
   (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns)
   q.val n v.2.2.1
-local notation "branchR" => (p.divisorPools.rightData S).combinedBranchForLabel raw.originalAtlas
+local notation "branchR" => (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas
   (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns)
   q.val n v.2.2.2.1
 local notation "dictionaryL" => literalRightPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
@@ -1982,11 +1982,11 @@ local notation "factoryMass" => CanonicalLiteralExceptionalArithmetic.actualMass
     1 (by norm_num) hrow
 local notation "secondGeometry" => CanonicalLiteralExceptionalNumbers.geometry v.chart
   cutoff₂ hcutoff₂ v.rowLabel first
-local notation "firstTotal" => first.skeleton.A + (first.skeleton.q + first.skeleton.R + first.skeleton.E)
-local notation "normalization" => firstLeftAllowance Z firstTotal first.ideals.first.val first.ideals.opposite.val
-local notation "outer" => construction.val.stripOuter leftScalar rightScalar
-  construction.property.2.1 construction.property.2.2
-local notation "magnitude" z => (outer.thetaClassLeaf characters thetaPair).exceptionalIntegrand z
+local notation "firstTotal" => (first).skeleton.A + ((first).skeleton.q + (first).skeleton.R + (first).skeleton.E)
+local notation "normalization" => firstLeftAllowance Z firstTotal (first).ideals.first.val (first).ideals.opposite.val
+local notation "outer" => (construction).val.stripOuter leftScalar rightScalar
+  (construction).property.2.1 (construction).property.2.2
+local notation "magnitude" z => ((outer).thetaClassLeaf characters thetaPair).exceptionalIntegrand z
 
 variable (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
 variable (slotLoss loss : ℝ) (hslotLossNonneg : 0 ≤ slotLoss) (hloss : 0 ≤ loss)
@@ -2000,15 +2000,15 @@ variable (hthreshold : max 2 (Ideal.absNorm A.cS : ℝ) ≤ Z)
 variable (hsupport : supportError ≤ loss / 16) (hvolume : ε ≤ loss / 16)
 variable (hcutoffPaid : CanonicalLiteralExceptionalGeometry.paidCutoff columnLoss cutoffExponent 0 / 6 ≤ loss / 16)
 variable (hcutoffPower : cutoff₂ ≤ Z ^ cutoffExponent)
-variable (hactiveColumns : ∀ i ∈ source.columns, source.coefficient i ≠ 0 →
-  A.exteriorNorm (source.ideal i) ≤ Z ^
-    (first.skeleton.A - first.skeleton.c - first.skeleton.w + columnLoss))
-variable (hDE : DE ∈ commonSupportPool raw.exteriorColumns raw.exteriorColumns
-  (fun i => (raw.columnExterior i).val) (fun i => (raw.columnExterior i).val))
+variable (hactiveColumns : ∀ i ∈ (source).columns, (source).coefficient i ≠ 0 →
+  A.exteriorNorm ((source).ideal i) ≤ Z ^
+    ((first).skeleton.A - (first).skeleton.c - (first).skeleton.w + columnLoss))
+variable (hDE : DE ∈ commonSupportPool (raw).exteriorColumns (raw).exteriorColumns
+  (fun i => ((raw).columnExterior i).val) (fun i => ((raw).columnExterior i).val))
 variable (firstColumnBound : ℝ)
 variable (hfirstBox : firstColumnBound + 2 * (step / 3) ≤ widthMax)
-variable (horiginalColumns : ∀ i ∈ raw.exteriorColumns,
-  A.exteriorNorm (raw.columnExterior i) ≤ Z ^ firstColumnBound)
+variable (horiginalColumns : ∀ i ∈ (raw).exteriorColumns,
+  A.exteriorNorm ((raw).columnExterior i) ≤ Z ^ firstColumnBound)
 variable (holdOriginal : A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) ≤ Z ^ a.q)
 
 local notation "fixedCoefficient" => CanonicalLiteralExceptionalSourceBudget.coefficient
@@ -2039,19 +2039,19 @@ theorem literalRightPoolExceptional_pointwise
         (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
         Z ^ (padding + 3 * step + loss / 2 + movingCost) / radical *
         Z ^ (-idealLogLength Z j.1.val) := by
-  have first_coordinate : (first.ideals.first * first.tag.extractionIdeal).val =
+  have first_coordinate : ((first).ideals.first * (first).tag.extractionIdeal).val =
       DE.2 * q.val.val.asIdeal ^ n := by
     change (b.literalRightCoordinates D).first.val * q.val.val.asIdeal ^ n = _
     rw [b.literalRightCoordinates_first]
-  have firstL : frozenSourceIdeal branchL.plainDivisor₁ branchL.plainDivisor₂
-      branchL.keep branchL.witness.2 = DE.2 * q.val.val.asIdeal ^ n :=
-    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.rightData S) raw.originalAtlas
+  have firstL : frozenSourceIdeal (branchL).plainDivisor₁ (branchL).plainDivisor₂
+      (branchL).keep (branchL).witness.2 = DE.2 * q.val.val.asIdeal ^ n :=
+    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.rightData S) (raw).originalAtlas
       (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns)
       (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal];
         exact b.right_residual i) q.val n v.2.2.1
-  have firstR : frozenSourceIdeal branchR.plainDivisor₁ branchR.plainDivisor₂
-      branchR.keep branchR.witness.2 = DE.2 * q.val.val.asIdeal ^ n :=
-    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.rightData S) raw.originalAtlas
+  have firstR : frozenSourceIdeal (branchR).plainDivisor₁ (branchR).plainDivisor₂
+      (branchR).keep (branchR).witness.2 = DE.2 * q.val.val.asIdeal ^ n :=
+    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.rightData S) (raw).originalAtlas
       (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns)
       (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal];
         exact b.right_residual i) q.val n v.2.2.2.1
@@ -2073,7 +2073,7 @@ theorem literalRightPoolExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       firstPrimes fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.leftMultiplicity).val
       ((v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch)
       leftTable j.2.1 (fun i => v.block.leftResidual (v.leftReindex.index i))
@@ -2083,7 +2083,7 @@ theorem literalRightPoolExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       firstPrimes fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.rightMultiplicity).val
       ((v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch)
       rightTable j.2.1 (fun i => v.block.rightResidual (v.rightReindex.index i))
@@ -2095,14 +2095,14 @@ theorem literalRightPoolExceptional_pointwise
       (fun U : ActualSecondCorrelationRows A σ
         (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
         (Fin v.block.primeCount) =>
-          (U.restrictRows (fun h => rawRows.correlation h ≠ 0)).restrictRows
-            (characters.thetaClass thetaPair))
+          (U.restrictRows (fun h => (rawRows).correlation h ≠ 0)).restrictRows
+            ((characters).thetaClass thetaPair))
       (v.literalRows_eq_withCommonAtoms leftAtoms rightAtoms maskL maskR)
   have live : (v.leaf exceptional F firstPoint j).Live := hlive
   let allocation := v.literalAllocation exceptional F firstPoint j live
   have hstored := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
-    firstPoint j (-1) live construction.val construction.property.1 leftScalar rightScalar
-    construction.property.2.1 construction.property.2.2 (fun _ => 1) (fun _ => 1)
+    firstPoint j (-1) live (construction).val (construction).property.1 leftScalar rightScalar
+    (construction).property.2.1 (construction).property.2.2 (fun _ => 1) (fun _ => 1)
     (fun _ => zero_lt_one) (fun _ => zero_lt_one) characters hpredicate thetaPair z
   simp only [show -(-(1 : ℝ)) = 1 from neg_neg (1 : ℝ)] at hstored
   have hpair := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_magnitude_eq
@@ -2120,22 +2120,22 @@ theorem literalRightPoolExceptional_pointwise
           characters (WithLp.toLp 2 z)) hrows
   have hexact := hsource.trans hsourceRows
   have hscalar : (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 :=
-    construction.val.leftScalar_ne_zero_of_live live
-  have hR : secondGeometry.skeleton.R =
+    (construction).val.leftScalar_ne_zero_of_live live
+  have hR : (secondGeometry).skeleton.R =
       idealLogLength Z (firstActiveRadical DE.1 DE.2) := by
     change idealLogLength Z (firstActiveRadical (b.literalRightCoordinates D).first.val
       (b.literalRightCoordinates D).opposite.val) = _
     rw [b.literalRightCoordinates_first, b.literalRightCoordinates_opposite,
       firstActiveRadical_swap_of_support DE.1 DE.2 b.common_support_eq]
-  have hE : secondGeometry.skeleton.E =
+  have hE : (secondGeometry).skeleton.E =
       idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D).val := rfl
-  have hwo : 0 ≤ secondGeometry.skeleton.wo :=
-    secondGeometry.tag.movingLength_nonneg Z hZ
-  have hhold : A.exteriorNorm ((fixedPhases.moving P R Q.moving).effectiveFullSupport
-      (Q.remaining * extra)) ≤ Z ^ (a.q + secondGeometry.skeleton.R +
-        secondGeometry.skeleton.E + secondGeometry.skeleton.wo + widthMax) := by
+  have hwo : 0 ≤ (secondGeometry).skeleton.wo :=
+    (secondGeometry).tag.movingLength_nonneg Z hZ
+  have hhold : A.exteriorNorm (((fixedPhases).moving P R Q.moving).effectiveFullSupport
+      (Q.remaining * extra)) ≤ Z ^ (a.q + (secondGeometry).skeleton.R +
+        (secondGeometry).skeleton.E + (secondGeometry).skeleton.wo + widthMax) := by
     have h := CanonicalLiteralExceptionalFirstSupport.amplified_right
-      P R C b D Q.moving Q.remaining raw.exteriorColumns raw.exteriorColumns hDE
+      P R C b D Q.moving Q.remaining (raw).exteriorColumns (raw).exteriorColumns hDE
       Z a.q firstColumnBound hZ horiginalColumns holdOriginal firstFixed hfirst
       q.val n (step / 3) (pool.norm_upper q.val q.property)
     apply h.trans
@@ -2179,7 +2179,7 @@ theorem literalRightPoolExceptional_pointwise
     CanonicalLogProfiles.subset_sourceOrders _ (CanonicalLogProfiles.subset_sourceOrders _
       (CanonicalLiteralExceptionalUnifiedChoice.orders_zero
         (A := A) (σ := σ) (η := η) (hS := htrace) primitive ε maskExponent hε hmaskExponent))
-  have hcommon : factoryMass.commonEnvelope ≤ originalBound ^ commonDegree := by
+  have hcommon : (factoryMass).commonEnvelope ≤ originalBound ^ commonDegree := by
     exact CanonicalLiteralExceptionalCommonBudget.commonEnvelope_le
       (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ fixedPhases (powerIdeal q.val n) δ₁ δ₂ extra
@@ -2197,10 +2197,10 @@ theorem literalRightPoolExceptional_pointwise
   have hamp0 : 0 ≤ originalBound := zero_le_one.trans hamplitude
   have hheight0 : 0 ≤ 1 + fourierHeight (WithLp.toLp 2 z) :=
     add_nonneg zero_le_one (fourierHeight_nonneg _)
-  have hremaining : secondGeometry.tag.exceptionalMovingLength Z step = movingCost :=
+  have hremaining : (secondGeometry).tag.exceptionalMovingLength Z step = movingCost :=
     OriginalNominalTag.exceptionalMovingLength_error e q.val.val Z step
   rw [hremaining] at hb
-  have hradical : (Ideal.absNorm (commonRadical factoryMass.leftIdeal factoryMass.rightIdeal) : ℝ) = radical := rfl
+  have hradical : (Ideal.absNorm (commonRadical (factoryMass).leftIdeal (factoryMass).rightIdeal) : ℝ) = radical := rfl
   rw [hradical] at hb
   let paid := annulus ^ cap * orbitalFieldFactor K * (Γ.index : ℝ) * fixedCoefficient *
     originalBound ^ profileDegree * (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
@@ -2215,7 +2215,7 @@ theorem literalRightPoolExceptional_pointwise
           (leftResult.val.comparison factoryRows C .left)
           (rightResult.val.comparison factoryRows C .right) characters (WithLp.toLp 2 z) /
             normalization := by rw [hexact]
-    _ ≤ factoryMass.commonEnvelope * paid := by
+    _ ≤ (factoryMass).commonEnvelope * paid := by
       convert hb using 1 <;> dsimp only [paid] <;> ring
     _ ≤ originalBound ^ commonDegree * paid := mul_le_mul_of_nonneg_right hcommon hpaid
     _ = _ := by dsimp only [paid]; rw [pow_add]; ring
@@ -2235,19 +2235,19 @@ theorem literalRightPoolOrdinaryExceptional_pointwise
         (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
         Z ^ (3 * step + loss / 2 + movingCost) / radical *
         Z ^ (-idealLogLength Z j.1.val) := by
-  have first_coordinate : (first.ideals.first * first.tag.extractionIdeal).val =
+  have first_coordinate : ((first).ideals.first * (first).tag.extractionIdeal).val =
       DE.2 * q.val.val.asIdeal ^ n := by
     change (b.literalRightCoordinates D).first.val * q.val.val.asIdeal ^ n = _
     rw [b.literalRightCoordinates_first]
-  have firstL : frozenSourceIdeal branchL.plainDivisor₁ branchL.plainDivisor₂
-      branchL.keep branchL.witness.2 = DE.2 * q.val.val.asIdeal ^ n :=
-    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.rightData S) raw.originalAtlas
+  have firstL : frozenSourceIdeal (branchL).plainDivisor₁ (branchL).plainDivisor₂
+      (branchL).keep (branchL).witness.2 = DE.2 * q.val.val.asIdeal ^ n :=
+    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.rightData S) (raw).originalAtlas
       (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns)
       (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal];
         exact b.right_residual i) q.val n v.2.2.1
-  have firstR : frozenSourceIdeal branchR.plainDivisor₁ branchR.plainDivisor₂
-      branchR.keep branchR.witness.2 = DE.2 * q.val.val.asIdeal ^ n :=
-    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.rightData S) raw.originalAtlas
+  have firstR : frozenSourceIdeal (branchR).plainDivisor₁ (branchR).plainDivisor₂
+      (branchR).keep (branchR).witness.2 = DE.2 * q.val.val.asIdeal ^ n :=
+    FirstGaussPoolData.combinedBranch_frozen_ideal (p.divisorPools.rightData S) (raw).originalAtlas
       (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns)
       (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal];
         exact b.right_residual i) q.val n v.2.2.2.1
@@ -2269,7 +2269,7 @@ theorem literalRightPoolOrdinaryExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       firstPrimes fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.leftMultiplicity).val
       ((v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch)
       leftTable j.2.1 (fun i => v.block.leftResidual (v.leftReindex.index i))
@@ -2279,7 +2279,7 @@ theorem literalRightPoolOrdinaryExceptional_pointwise
       Q ξ Z orders originalBound primitive.compact primitive.positive
       firstPrimes fixedPhases δ₁ δ₂
       (secondSupport := primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val)
-      seed (first.ideals.first * first.tag.extractionIdeal).val
+      seed ((first).ideals.first * (first).tag.extractionIdeal).val
       (primePowerProduct v.block.primes v.block.rightMultiplicity).val
       ((v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch)
       rightTable j.2.1 (fun i => v.block.rightResidual (v.rightReindex.index i))
@@ -2291,28 +2291,28 @@ theorem literalRightPoolOrdinaryExceptional_pointwise
       (fun U : ActualSecondCorrelationRows A σ
         (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
         (Fin v.block.primeCount) =>
-          (U.restrictRows (fun h => rawRows.correlation h ≠ 0)).restrictRows
-            (characters.thetaClass thetaPair))
+          (U.restrictRows (fun h => (rawRows).correlation h ≠ 0)).restrictRows
+            ((characters).thetaClass thetaPair))
       (v.literalRows_eq_withCommonAtoms leftAtoms rightAtoms maskL maskR)
   have live : (v.leaf exceptional F firstPoint j).Live := hlive
   let allocation := v.literalAllocation exceptional F firstPoint j live
   have hstored := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
-    firstPoint j (-1) live construction.val construction.property.1 leftScalar rightScalar
-    construction.property.2.1 construction.property.2.2 (fun _ => 1) (fun _ => 1)
+    firstPoint j (-1) live (construction).val (construction).property.1 leftScalar rightScalar
+    (construction).property.2.1 (construction).property.2.2 (fun _ => 1) (fun _ => 1)
     (fun _ => zero_lt_one) (fun _ => zero_lt_one) characters hpredicate thetaPair z
   simp only [show -(-(1 : ℝ)) = 1 from neg_neg (1 : ℝ)] at hstored
   have hpair := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_ordinaryMagnitude_eq
     leftResult rightResult C classRows v.leftReindex.ideal_product v.rightReindex.ideal_product
     (Finset.mem_filter.mp allocation.property).2.2.1
     (Finset.mem_filter.mp allocation.property).2.2.2 characters (WithLp.toLp 2 z)
-  have hflagL : leftTable.centered = seed.centered := by
-    change (v.literalLeftAtoms oldLeftAtoms).centered = seed.centered
+  have hflagL : leftTable.centered = (seed).centered := by
+    change (v.literalLeftAtoms oldLeftAtoms).centered = (seed).centered
     simp only [ActualGaussStage.CoveredClassKey.literalLeftAtoms,
       ActualGaussStage.CoveredClassKey.literalLeftOriginal, literalRightPoolAtoms,
       CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
-  have hflagR : rightTable.centered = seed.centered := by
-    change (v.literalRightAtoms oldRightAtoms).centered = seed.centered
+  have hflagR : rightTable.centered = (seed).centered := by
+    change (v.literalRightAtoms oldRightAtoms).centered = (seed).centered
     simp only [ActualGaussStage.CoveredClassKey.literalRightAtoms,
       ActualGaussStage.CoveredClassKey.literalRightOriginal, literalRightPoolAtoms,
       CanonicalLiteralRectangles.Atoms.deleteMask,
@@ -2335,7 +2335,7 @@ theorem literalRightPoolOrdinaryExceptional_pointwise
           (rightResult.val.frame U C .right) characters (WithLp.toLp 2 z)) hrows
   have hexact := hsource.trans hsourceRows
   have hscalar : (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 :=
-    construction.val.leftScalar_ne_zero_of_live live
+    (construction).val.leftScalar_ne_zero_of_live live
   have hb := CanonicalLiteralExceptionalSourceBudget.ordinary_small_loss_bound
     (chart := v.chart) (P := P) (R := R) (hclass := hclass) (hsector := hsector)
     (X := cutoff₂) (hX := hcutoff₂) (label := v.rowLabel) (F := fixedPhases)
@@ -2372,7 +2372,7 @@ theorem literalRightPoolOrdinaryExceptional_pointwise
     CanonicalLogProfiles.subset_sourceOrders _ (CanonicalLogProfiles.subset_sourceOrders _
       (CanonicalLiteralExceptionalUnifiedChoice.orders_zero
         (A := A) (σ := σ) (η := η) (hS := htrace) primitive ε maskExponent hε hmaskExponent))
-  have hcommon : factoryMass.commonEnvelope ≤ originalBound ^ commonDegree := by
+  have hcommon : (factoryMass).commonEnvelope ≤ originalBound ^ commonDegree := by
     exact CanonicalLiteralExceptionalCommonBudget.commonEnvelope_le
       (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ fixedPhases (powerIdeal q.val n) δ₁ δ₂ extra
@@ -2390,10 +2390,10 @@ theorem literalRightPoolOrdinaryExceptional_pointwise
   have hamp0 : 0 ≤ originalBound := zero_le_one.trans hamplitude
   have hheight0 : 0 ≤ 1 + fourierHeight (WithLp.toLp 2 z) :=
     add_nonneg zero_le_one (fourierHeight_nonneg _)
-  have hremaining : secondGeometry.tag.exceptionalMovingLength Z step = movingCost :=
+  have hremaining : (secondGeometry).tag.exceptionalMovingLength Z step = movingCost :=
     OriginalNominalTag.exceptionalMovingLength_error e q.val.val Z step
   rw [hremaining] at hb
-  have hradical : (Ideal.absNorm (commonRadical factoryMass.leftIdeal factoryMass.rightIdeal) : ℝ) = radical := rfl
+  have hradical : (Ideal.absNorm (commonRadical (factoryMass).leftIdeal (factoryMass).rightIdeal) : ℝ) = radical := rfl
   rw [hradical] at hb
   let paid := annulus ^ cap * orbitalFieldFactor K * (Γ.index : ℝ) * fixedCoefficient *
     originalBound ^ profileDegree * (1 + fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
@@ -2406,7 +2406,7 @@ theorem literalRightPoolOrdinaryExceptional_pointwise
         (leftResult.val.frame factoryRows C .left).ordinaryExceptionalMagnitude
           (rightResult.val.frame factoryRows C .right) characters (WithLp.toLp 2 z) /
             normalization := by rw [hexact]
-    _ ≤ factoryMass.commonEnvelope * paid := by
+    _ ≤ (factoryMass).commonEnvelope * paid := by
       convert hb using 1 <;> dsimp only [paid] <;> ring
     _ ≤ originalBound ^ commonDegree * paid := mul_le_mul_of_nonneg_right hcommon hpaid
     _ = _ := by dsimp only [paid]; rw [pow_add]; ring

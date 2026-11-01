@@ -72,25 +72,25 @@ def literalSectorStage :
 local notation "stage" => literalSectorStage (hΓ := hΓ) (μv := μv) (hDiff := hDiff)
   (ν := ν) P δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
 
-@[simp] theorem literalSectorStage_mask : stage.mask = ∅ := rfl
+@[simp] theorem literalSectorStage_mask : (stage).mask = ∅ := rfl
 
 @[simp] theorem literalSectorStage_radius :
-    stage.radius = CanonicalRowBall.gaussRadius retainedScale Z g hscale hZ := rfl
+    (stage).radius = CanonicalRowBall.gaussRadius retainedScale Z g hscale hZ := rfl
 
 @[simp] theorem literalSectorStage_profile :
-    stage.profile = CanonicalRowBall.archTest K A.Sf 1 := rfl
+    (stage).profile = CanonicalRowBall.archTest K A.Sf 1 := rfl
 
 @[simp] theorem literalSectorStage_kernel
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
-    (D : stage.mask.powerset) :
-    (stage.charts DE D).kernel = canonicalRowBallKernel (Γ := Γ) μv ν δ hδ hδhalf := rfl
+    (D : (stage).mask.powerset) :
+    ((stage).charts DE D).kernel = canonicalRowBallKernel (Γ := Γ) μv ν δ hδ hδhalf := rfl
 
 /-- The auxiliary coordinates contribute a fixed finite factor only.
 The sector is still recorded, even when there are no prime slots. -/
 def literalSectorStageOriginalFibreRows (B : ℝ) (hB : 0 ≤ B) (hZge : 1 ≤ Z)
     (hN : ∀ i ∈ G.columns, (Ideal.absNorm (G.ideal i).val : ℝ) ≤ Z ^ B) :
-    stage.OriginalFibreRows
+    (stage).OriginalFibreRows
       (PUnit.{1} × SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) 0 0 B Z :=
   canonicalRowBallByBlockOriginalFibreRows
     (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)

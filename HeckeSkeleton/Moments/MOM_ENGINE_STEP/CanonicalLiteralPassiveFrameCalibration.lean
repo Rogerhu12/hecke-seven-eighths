@@ -119,10 +119,10 @@ local notation "f" => frame W B A paid C S side (choice.mask extra) a firstSign 
 old support, first active/divisor factors and reduced pool moving
 factor. No passive ideal appears in this window. -/
 def literalPassiveFrameFullCalibration :
-    ActualAllocatedSource.FullCalibration f.source (σ := σ) ω ψ := by
+    ActualAllocatedSource.FullCalibration (f).source (σ := σ) ω ψ := by
   let negative := side.literalNegative
   let newData := data P Rchar E allocation choice.phases parent oldMoving correction hcorr C
-    S.primes S.leftMultiplicity S.rightMultiplicity pattern sector remaining 1 m q inverse
+    (S).primes (S).leftMultiplicity (S).rightMultiplicity pattern sector remaining 1 m q inverse
     idx rectangle firstSign negative
   let params := parameters t allocation rectangle m q κ
   let frozen := CanonicalLiteralPassiveFrames.frozenBounds W B paid C S side
@@ -133,17 +133,17 @@ def literalPassiveFrameFullCalibration :
     CanonicalLiteralPassiveSupport.effectiveSupports
       (P := P) (R := Rchar) (W := W) (B := B) (paid := paid) (F := choice.phases)
       (parent := parent) (oldMoving := oldMoving) (correction := correction) (hcorr := hcorr)
-      (C := C) (p := S.primes) (leftMultiplicity := S.leftMultiplicity)
-      (rightMultiplicity := S.rightMultiplicity) (pattern := pattern) (ν := sector)
+      (C := C) (p := (S).primes) (leftMultiplicity := (S).leftMultiplicity)
+      (rightMultiplicity := (S).rightMultiplicity) (pattern := pattern) (ν := sector)
       (remaining := remaining) (m := m) (q := q) (inverse := inverse) (index := index)
       (rectangle := rectangle) (firstSign := firstSign) (negative := negative)
       (M := choice.mask extra) (a := a) κ ξ u
   have hpaid : A.exteriorNorm ((choice.phases.moving P Rchar oldMoving).effectiveFullSupport
-      (remaining * 1)) ≤ t.base ^ (oldq + wo) := by
+      (remaining * 1)) ≤ (t).base ^ (oldq + wo) := by
     simpa only [mul_one] using hpaidSupport
-  have hwindow (h : S.live) (ξ : WithLp 2 (ℝ × ℝ)) :
-      (newData ξ).allowedRow (S.extractedRow C h).momentIdeal ∧
-        A.exteriorNorm (S.originalIdeal h.val) ≤ S.normFactor C h.val * d.base ^ (m + q) :=
+  have hwindow (h : (S).live) (ξ : WithLp 2 (ℝ × ℝ)) :
+      (newData ξ).allowedRow ((S).extractedRow C h).momentIdeal ∧
+        A.exteriorNorm ((S).originalIdeal h.val) ≤ (S).normFactor C h.val * d.base ^ (m + q) :=
     chart.literalAllocated_active_reweighted_allowed_cutoff hclass P Rchar E allocation
       choice.phases parent oldMoving correction hcorr remaining 1 X hX label
       retainedScale g a₀ oldq wo cutoffExponent hscale hradius hcutoff hproduct hpaid m q
@@ -177,8 +177,8 @@ def literalPassiveFrameFullCalibration :
     principal_in_theta := ?_
     slot_in_theta := ?_ }
   · intro ξ i
-    cases side <;> exact E.fourierSlot_length
-      (SlotRestriction.index allocation.keep i) firstSign _ ξ
+    cases side <;> exact (E).fourierSlot_length
+      (SlotRestriction.index (allocation).keep i) firstSign _ ξ
   · cases side <;> exact CanonicalLiteralAllocatedData.left_scale t allocation rectangle m q κ
   · cases side <;> exact CanonicalLiteralAllocatedData.right_scale t allocation rectangle m q κ
   · cases side <;> rfl
@@ -190,17 +190,17 @@ def literalPassiveFrameFullCalibration :
         E allocation hcorr C S pattern sector m q inverse rectangle firstSign _
         hone hroot hemb row ξ
   · intro ξ h _
-    cases side <;> exact (hsupp ξ (S.extractedRow C h).momentIdeal).1
+    cases side <;> exact (hsupp ξ ((S).extractedRow C h).momentIdeal).1
   · intro ξ h _
-    cases side <;> exact (hsupp ξ (S.extractedRow C h).momentIdeal).2.1
+    cases side <;> exact (hsupp ξ ((S).extractedRow C h).momentIdeal).2.1
   · intro ξ h _ i
-    cases side <;> exact (hsupp ξ (S.extractedRow C h).momentIdeal).2.2 i
+    cases side <;> exact (hsupp ξ ((S).extractedRow C h).momentIdeal).2.2 i
   · intro ξ h _ I _
     cases side <;> exact CanonicalLiteralAllocatedData.left_profile E allocation firstSign _
-      rectangle m q κ ξ (S.extractedRow C h).momentIdeal I
+      rectangle m q κ ξ ((S).extractedRow C h).momentIdeal I
   · intro ξ h _ I _
     cases side <;> exact CanonicalLiteralAllocatedData.right_profile E allocation firstSign _
-      rectangle m q κ ξ (S.extractedRow C h).momentIdeal I
+      rectangle m q κ ξ ((S).extractedRow C h).momentIdeal I
   · intro ξ h _ i p _
     cases side <;> exact CanonicalLiteralAllocatedData.slot_profile E allocation firstSign _ ξ i p
   · intro ξ h _
@@ -208,17 +208,17 @@ def literalPassiveFrameFullCalibration :
   · intro h _
     cases side <;> exact (hwindow h 0).2
   · intro h _
-    rw [f.source_row_weight]
+    rw [(f).source_row_weight]
     exact rowMass.row_bound h.val (Finset.mem_filter.mp h.property).1
   · intro I
-    simpa only [f.source_rows, f.source_row_momentIdeal] using rowMass.extracted_fibers I
+    simpa only [(f).source_rows, (f).source_row_momentIdeal] using rowMass.extracted_fibers I
   · intro ξ u hp
     exact CanonicalLiteralAllocatedSupport.principal_in_theta P Rchar E allocation choice.phases
-      parent oldMoving correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
+      parent oldMoving correction hcorr C (S).primes (S).leftMultiplicity (S).rightMultiplicity
       pattern sector remaining 1 m q inverse idx rectangle firstSign negative hbackground ξ u hp
   · intro ξ i
     exact CanonicalLiteralAllocatedSupport.slot_in_theta P Rchar E allocation choice.phases
-      parent oldMoving correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
+      parent oldMoving correction hcorr C (S).primes (S).leftMultiplicity (S).rightMultiplicity
       pattern sector remaining 1 m q inverse idx rectangle firstSign negative hslot ξ i
 
 /-- The original ordinary filter supplies nonexceptionality for every
@@ -227,7 +227,7 @@ def literalPassiveFrameCalibration
     (keep₂_eq : keep₂ = fun h =>
       (chart.actualRows ∅ X hX label).literalCharacter C P Rchar F oldMoving correction
         pattern sector h ∉ parent.theta) :
-    f.source.Calibration (σ := σ) ω ψ := by
+    (f).source.Calibration (σ := σ) ω ψ := by
   let full := chart.literalPassiveFrameFullCalibration P Rchar hclass hsector X hX label
     weight keep₁ keep₂ rowMass d W B F choice parent oldMoving correction hcorr remaining extra
     index a ha retainedScale g a₀ oldq wo cutoffExponent hscale hradius hcutoff hproduct
@@ -265,7 +265,7 @@ def literalPassiveFrameCalibration
   have hk : keep₂ h.val :=
     (Finset.mem_filter.mp (Finset.mem_filter.mp h.property).1).2
   rw [keep₂_eq] at hk
-  have he : (full.data ξ).rowCharacter (f.source.row h).momentIdeal =
+  have he : (full.data ξ).rowCharacter ((f).source.row h).momentIdeal =
       (chart.actualRows ∅ X hX label).literalCharacter C P Rchar F oldMoving correction
         pattern sector h.val := by
     have hp := (chart.actualRows ∅ X hX label).literalCharacter_reweighted C P Rchar
@@ -273,9 +273,9 @@ def literalPassiveFrameCalibration
     have hc := choice.literalCharacter_eq P Rchar (chart.actualRows ∅ X hX label)
       oldMoving correction pattern sector h.val
     cases side <;> exact hp.trans hc.symm
-  have hn : (full.data ξ).rowCharacter (f.source.row h).momentIdeal ∉
+  have hn : (full.data ξ).rowCharacter ((f).source.row h).momentIdeal ∉
       (full.data ξ).theta := by
-    change (full.data ξ).rowCharacter (f.source.row h).momentIdeal ∉ parent.theta
+    change (full.data ξ).rowCharacter ((f).source.row h).momentIdeal ∉ parent.theta
     rw [he]
     exact hk
   split_ifs

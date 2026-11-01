@@ -62,9 +62,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -128,7 +128,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.leftData S).mainSource (p.leftDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (((p.leftSourceCovers raw.originalAtlas S χ).main))
+local notation "cover" => (((p.leftSourceCovers (raw).originalAtlas S χ).main))
 local notation "firstPoint" => (fun i => -Real.log (A.exteriorNorm (b.leftResidual i)))
 
 variable (v : (ActualGaussStage.canonicalUnmaskedSectorRowBallByBlock
@@ -157,10 +157,10 @@ local notation "oldLeftScalar" => literalLeftMainScalar hΓ μv ν Q ξ W a Z t 
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ v.2.2.1
 local notation "oldRightScalar" => literalLeftMainScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ v.2.2.2.1
-local notation "leftAtoms" => oldLeftAtoms.redistributeNormFactors δ₁ δ₂
-local notation "rightAtoms" => oldRightAtoms.redistributeNormFactors δ₁ δ₂
-local notation "leftScalar" => oldLeftScalar * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
-local notation "rightScalar" => oldRightScalar * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+local notation "leftAtoms" => (oldLeftAtoms).redistributeNormFactors δ₁ δ₂
+local notation "rightAtoms" => (oldRightAtoms).redistributeNormFactors δ₁ δ₂
+local notation "leftScalar" => oldLeftScalar * ((oldLeftAtoms).normProfileFactor δ₁ δ₂ : ℂ)
+local notation "rightScalar" => oldRightScalar * ((oldRightAtoms).normProfileFactor δ₁ δ₂ : ℂ)
 local notation "leftBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "rightBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "fixedPhases" => CanonicalLiteralActualCharacters.unamplifiedPhases
@@ -182,9 +182,9 @@ def literalLeftMainExceptionalExtraction :
       extraction.leaf.OrdinaryBinding
         (v.literalRectangles leftAtoms rightAtoms exceptional F firstPoint j 1 hlive) ∧
         leftScalar ≠ 0 ∧ rightScalar ≠ 0 } :=
-  let enhancedCharacter := fun E : commonSupportPool source.columns source.columns
-      (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) =>
-    (canonicalFirstCommonBlock C source.columns source.columns source.ideal source.ideal
+  let enhancedCharacter := fun E : commonSupportPool (source).columns (source).columns
+      (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) =>
+    (canonicalFirstCommonBlock C (source).columns (source).columns (source).ideal (source).ideal
       E.val E.property).sectorCharacter C P (character E)
   let baseExtraction := literalLeftMainExtraction hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
@@ -206,18 +206,18 @@ def literalLeftMainExceptionalExtraction :
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ v.2.2.2.1)
     oldRightScalar (literalLeftMainAtoms_eq_scale_core hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ v.2.2.2.1)
-  have hproductL : oldLeftAtoms.centered = true →
-      oldLeftAtoms.scale₁ true * oldLeftAtoms.scale₂ true =
-        oldLeftAtoms.scale₁ false * oldLeftAtoms.scale₂ false := by
+  have hproductL : (oldLeftAtoms).centered = true →
+      (oldLeftAtoms).scale₁ true * (oldLeftAtoms).scale₂ true =
+        (oldLeftAtoms).scale₁ false * (oldLeftAtoms).scale₂ false := by
     dsimp only [literalLeftMainAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
     apply CanonicalLiteralRectangles.Atoms.comparison_product_secondInput
     exact Q.literalOriginalAtoms_comparison_product ξ W a Z t Y₁ Y₂
       centered hZ hY₁ hY₂ domain
-  have hproductR : oldRightAtoms.centered = true →
-      oldRightAtoms.scale₁ true * oldRightAtoms.scale₂ true =
-        oldRightAtoms.scale₁ false * oldRightAtoms.scale₂ false := by
+  have hproductR : (oldRightAtoms).centered = true →
+      (oldRightAtoms).scale₁ true * (oldRightAtoms).scale₂ true =
+        (oldRightAtoms).scale₁ false * (oldRightAtoms).scale₂ false := by
     dsimp only [literalLeftMainAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
@@ -231,9 +231,9 @@ def literalLeftMainExceptionalExtraction :
     δ₁ δ₂ hproductL hproductR exceptional F firstPoint j 1 hlive
     baseExtraction baseBinding rfl rfl
   have hcL : leftScalar ≠ 0 := mul_ne_zero hcOldL
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldLeftAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldLeftAtoms).normProfileFactor_pos δ₁ δ₂)))
   have hcR : rightScalar ≠ 0 := mul_ne_zero hcOldR
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldRightAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldRightAtoms).normProfileFactor_pos δ₁ δ₂)))
   ⟨originalExtraction, originalBinding, hcL, hcR⟩
 
 local notation "construction" => literalLeftMainExceptionalExtraction
@@ -277,8 +277,8 @@ whole-polynomial identity or estimate is assumed. -/
 theorem literalLeftMainExceptionalSource_eq
     (hpredicate : (v.leaf exceptional F firstPoint j).exceptional = characters.exceptional)
     (z : ℝ × ℝ) :
-    (((construction.val.stripOuter leftScalar rightScalar
-        construction.property.2.1 construction.property.2.2).thetaClassLeaf characters thetaPair).exceptionalIntegrand z) =
+    ((((construction).val.stripOuter leftScalar rightScalar
+        (construction).property.2.1 (construction).property.2.2).thetaClassLeaf characters thetaPair).exceptionalIntegrand z) =
         (sides.1.val.frame classRows C .left).exceptionalMagnitude
           (sides.2.val.frame classRows C .right)
           (sides.1.val.comparison classRows C .left)
@@ -286,8 +286,8 @@ theorem literalLeftMainExceptionalSource_eq
   have live : (v.leaf exceptional F firstPoint j).Live := hlive
   let allocation := v.literalAllocation exceptional F firstPoint j live
   have hb := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
-    firstPoint j 1 live construction.val construction.property.1
-    leftScalar rightScalar construction.property.2.1 construction.property.2.2
+    firstPoint j 1 live (construction).val (construction).property.1
+    leftScalar rightScalar (construction).property.2.1 (construction).property.2.2
     (fun _ => 1) (fun _ => 1) (fun _ => zero_lt_one) (fun _ => zero_lt_one)
     characters hpredicate thetaPair z
   have hp := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_magnitude_eq
@@ -304,8 +304,8 @@ theorem literalLeftMainExceptionalCommon_nonzero :
     (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 ∧
       (v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch ≠ 0 := by
   have live : (v.leaf exceptional F firstPoint j).Live := hlive
-  exact ⟨construction.val.leftScalar_ne_zero_of_live live,
-    construction.val.rightScalar_ne_zero_of_live live⟩
+  exact ⟨(construction).val.leftScalar_ne_zero_of_live live,
+    (construction).val.rightScalar_ne_zero_of_live live⟩
 
 end LeftMainExceptionalBinding
 
@@ -325,7 +325,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.rightData S).mainSource (p.rightDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (((p.rightSourceCovers raw.originalAtlas S χ).main))
+local notation "cover" => (((p.rightSourceCovers (raw).originalAtlas S χ).main))
 local notation "firstPoint" => (fun i => Real.log (A.exteriorNorm (b.rightResidual i)))
 
 variable (v : (ActualGaussStage.canonicalUnmaskedSectorRowBallByBlock
@@ -354,10 +354,10 @@ local notation "oldLeftScalar" => literalRightMainScalar hΓ μv ν Q ξ W a Z t
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ v.2.2.1
 local notation "oldRightScalar" => literalRightMainScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ v.2.2.2.1
-local notation "leftAtoms" => oldLeftAtoms.redistributeNormFactors δ₁ δ₂
-local notation "rightAtoms" => oldRightAtoms.redistributeNormFactors δ₁ δ₂
-local notation "leftScalar" => oldLeftScalar * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
-local notation "rightScalar" => oldRightScalar * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+local notation "leftAtoms" => (oldLeftAtoms).redistributeNormFactors δ₁ δ₂
+local notation "rightAtoms" => (oldRightAtoms).redistributeNormFactors δ₁ δ₂
+local notation "leftScalar" => oldLeftScalar * ((oldLeftAtoms).normProfileFactor δ₁ δ₂ : ℂ)
+local notation "rightScalar" => oldRightScalar * ((oldRightAtoms).normProfileFactor δ₁ δ₂ : ℂ)
 local notation "leftBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "rightBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "fixedPhases" => CanonicalLiteralActualCharacters.unamplifiedPhases
@@ -379,9 +379,9 @@ def literalRightMainExceptionalExtraction :
       extraction.leaf.OrdinaryBinding
         (v.literalRectangles leftAtoms rightAtoms exceptional F firstPoint j (-1) hlive) ∧
         leftScalar ≠ 0 ∧ rightScalar ≠ 0 } :=
-  let enhancedCharacter := fun E : commonSupportPool source.columns source.columns
-      (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) =>
-    (canonicalFirstCommonBlock C source.columns source.columns source.ideal source.ideal
+  let enhancedCharacter := fun E : commonSupportPool (source).columns (source).columns
+      (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) =>
+    (canonicalFirstCommonBlock C (source).columns (source).columns (source).ideal (source).ideal
       E.val E.property).sectorCharacter C P (character E)
   let baseExtraction := literalRightMainExtraction hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
@@ -403,18 +403,18 @@ def literalRightMainExceptionalExtraction :
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ v.2.2.2.1)
     oldRightScalar (literalRightMainAtoms_eq_scale_core hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ v.2.2.2.1)
-  have hproductL : oldLeftAtoms.centered = true →
-      oldLeftAtoms.scale₁ true * oldLeftAtoms.scale₂ true =
-        oldLeftAtoms.scale₁ false * oldLeftAtoms.scale₂ false := by
+  have hproductL : (oldLeftAtoms).centered = true →
+      (oldLeftAtoms).scale₁ true * (oldLeftAtoms).scale₂ true =
+        (oldLeftAtoms).scale₁ false * (oldLeftAtoms).scale₂ false := by
     dsimp only [literalRightMainAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
     apply CanonicalLiteralRectangles.Atoms.comparison_product_secondInput
     exact Q.literalOriginalAtoms_comparison_product ξ W a Z t Y₁ Y₂
       centered hZ hY₁ hY₂ domain
-  have hproductR : oldRightAtoms.centered = true →
-      oldRightAtoms.scale₁ true * oldRightAtoms.scale₂ true =
-        oldRightAtoms.scale₁ false * oldRightAtoms.scale₂ false := by
+  have hproductR : (oldRightAtoms).centered = true →
+      (oldRightAtoms).scale₁ true * (oldRightAtoms).scale₂ true =
+        (oldRightAtoms).scale₁ false * (oldRightAtoms).scale₂ false := by
     dsimp only [literalRightMainAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
@@ -428,9 +428,9 @@ def literalRightMainExceptionalExtraction :
     δ₁ δ₂ hproductL hproductR exceptional F firstPoint j (-1) hlive
     baseExtraction baseBinding rfl rfl
   have hcL : leftScalar ≠ 0 := mul_ne_zero hcOldL
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldLeftAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldLeftAtoms).normProfileFactor_pos δ₁ δ₂)))
   have hcR : rightScalar ≠ 0 := mul_ne_zero hcOldR
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldRightAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldRightAtoms).normProfileFactor_pos δ₁ δ₂)))
   ⟨originalExtraction, originalBinding, hcL, hcR⟩
 
 local notation "construction" => literalRightMainExceptionalExtraction
@@ -474,8 +474,8 @@ whole-polynomial identity or estimate is assumed. -/
 theorem literalRightMainExceptionalSource_eq
     (hpredicate : (v.leaf exceptional F firstPoint j).exceptional = characters.exceptional)
     (z : ℝ × ℝ) :
-    (((construction.val.stripOuter leftScalar rightScalar
-        construction.property.2.1 construction.property.2.2).thetaClassLeaf characters thetaPair).exceptionalIntegrand z) =
+    ((((construction).val.stripOuter leftScalar rightScalar
+        (construction).property.2.1 (construction).property.2.2).thetaClassLeaf characters thetaPair).exceptionalIntegrand z) =
         (sides.1.val.frame classRows C .left).exceptionalMagnitude
           (sides.2.val.frame classRows C .right)
           (sides.1.val.comparison classRows C .left)
@@ -483,8 +483,8 @@ theorem literalRightMainExceptionalSource_eq
   have live : (v.leaf exceptional F firstPoint j).Live := hlive
   let allocation := v.literalAllocation exceptional F firstPoint j live
   have hb := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
-    firstPoint j (-1) live construction.val construction.property.1
-    leftScalar rightScalar construction.property.2.1 construction.property.2.2
+    firstPoint j (-1) live (construction).val (construction).property.1
+    leftScalar rightScalar (construction).property.2.1 (construction).property.2.2
     (fun _ => 1) (fun _ => 1) (fun _ => zero_lt_one) (fun _ => zero_lt_one)
     characters hpredicate thetaPair z
   have hp := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_magnitude_eq
@@ -502,8 +502,8 @@ theorem literalRightMainExceptionalCommon_nonzero :
     (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 ∧
       (v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch ≠ 0 := by
   have live : (v.leaf exceptional F firstPoint j).Live := hlive
-  exact ⟨construction.val.leftScalar_ne_zero_of_live live,
-    construction.val.rightScalar_ne_zero_of_live live⟩
+  exact ⟨(construction).val.leftScalar_ne_zero_of_live live,
+    (construction).val.rightScalar_ne_zero_of_live live⟩
 
 end RightMainExceptionalBinding
 
@@ -525,7 +525,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (((p.leftSourceCovers raw.originalAtlas S χ).residual q n))
+local notation "cover" => (((p.leftSourceCovers (raw).originalAtlas S χ).residual q n))
 local notation "firstPoint" => (fun i : (p.divisorPools.leftData S).valuationColumns q.val n =>
   -Real.log (A.exteriorNorm (b.leftResidual i.val)))
 
@@ -555,10 +555,10 @@ local notation "oldLeftScalar" => literalLeftPoolScalar hΓ μv ν Q ξ W a Z t 
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n v.2.2.1
 local notation "oldRightScalar" => literalLeftPoolScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n v.2.2.2.1
-local notation "leftAtoms" => oldLeftAtoms.redistributeNormFactors δ₁ δ₂
-local notation "rightAtoms" => oldRightAtoms.redistributeNormFactors δ₁ δ₂
-local notation "leftScalar" => oldLeftScalar * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
-local notation "rightScalar" => oldRightScalar * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+local notation "leftAtoms" => (oldLeftAtoms).redistributeNormFactors δ₁ δ₂
+local notation "rightAtoms" => (oldRightAtoms).redistributeNormFactors δ₁ δ₂
+local notation "leftScalar" => oldLeftScalar * ((oldLeftAtoms).normProfileFactor δ₁ δ₂ : ℂ)
+local notation "rightScalar" => oldRightScalar * ((oldRightAtoms).normProfileFactor δ₁ δ₂ : ℂ)
 local notation "leftBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "rightBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "fixedPhases" => CanonicalLiteralActualCharacters.amplifiedPhases C
@@ -590,9 +590,9 @@ def literalLeftPoolExceptionalExtraction :
       extraction.leaf.OrdinaryBinding
         (v.literalRectangles leftAtoms rightAtoms exceptional F firstPoint j 1 ((v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive)) ∧
         leftScalar ≠ 0 ∧ rightScalar ≠ 0 } :=
-  let enhancedCharacter := fun E : commonSupportPool source.columns source.columns
-      (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) =>
-    (canonicalFirstCommonBlock C source.columns source.columns source.ideal source.ideal
+  let enhancedCharacter := fun E : commonSupportPool (source).columns (source).columns
+      (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) =>
+    (canonicalFirstCommonBlock C (source).columns (source).columns (source).ideal (source).ideal
       E.val E.property).sectorCharacter C P (character E)
   have bareLive : (v.leaf exceptional F firstPoint j).Live :=
     (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive
@@ -616,18 +616,18 @@ def literalLeftPoolExceptionalExtraction :
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ q n v.2.2.2.1)
     oldRightScalar (literalLeftPoolAtoms_eq_scale_core hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ q n v.2.2.2.1)
-  have hproductL : oldLeftAtoms.centered = true →
-      oldLeftAtoms.scale₁ true * oldLeftAtoms.scale₂ true =
-        oldLeftAtoms.scale₁ false * oldLeftAtoms.scale₂ false := by
+  have hproductL : (oldLeftAtoms).centered = true →
+      (oldLeftAtoms).scale₁ true * (oldLeftAtoms).scale₂ true =
+        (oldLeftAtoms).scale₁ false * (oldLeftAtoms).scale₂ false := by
     dsimp only [literalLeftPoolAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
     apply CanonicalLiteralRectangles.Atoms.comparison_product_secondInput
     exact Q.literalOriginalAtoms_comparison_product ξ W a Z t Y₁ Y₂
       centered hZ hY₁ hY₂ domain
-  have hproductR : oldRightAtoms.centered = true →
-      oldRightAtoms.scale₁ true * oldRightAtoms.scale₂ true =
-        oldRightAtoms.scale₁ false * oldRightAtoms.scale₂ false := by
+  have hproductR : (oldRightAtoms).centered = true →
+      (oldRightAtoms).scale₁ true * (oldRightAtoms).scale₂ true =
+        (oldRightAtoms).scale₁ false * (oldRightAtoms).scale₂ false := by
     dsimp only [literalLeftPoolAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
@@ -641,9 +641,9 @@ def literalLeftPoolExceptionalExtraction :
     δ₁ δ₂ hproductL hproductR exceptional F firstPoint j 1 bareLive
     baseExtraction baseBinding rfl rfl
   have hcL : leftScalar ≠ 0 := mul_ne_zero hcOldL
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldLeftAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldLeftAtoms).normProfileFactor_pos δ₁ δ₂)))
   have hcR : rightScalar ≠ 0 := mul_ne_zero hcOldR
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldRightAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldRightAtoms).normProfileFactor_pos δ₁ δ₂)))
   ⟨originalExtraction, originalBinding, hcL, hcR⟩
 
 local notation "construction" => literalLeftPoolExceptionalExtraction
@@ -687,8 +687,8 @@ whole-polynomial identity or estimate is assumed. -/
 theorem literalLeftPoolExceptionalSource_eq
     (hpredicate : (v.leaf exceptional F firstPoint j).exceptional = characters.exceptional)
     (z : ℝ × ℝ) :
-    (((construction.val.stripOuter leftScalar rightScalar
-        construction.property.2.1 construction.property.2.2).thetaClassLeaf characters thetaPair).exceptionalIntegrand z) =
+    ((((construction).val.stripOuter leftScalar rightScalar
+        (construction).property.2.1 (construction).property.2.2).thetaClassLeaf characters thetaPair).exceptionalIntegrand z) =
         (sides.1.val.frame classRows C .left).exceptionalMagnitude
           (sides.2.val.frame classRows C .right)
           (sides.1.val.comparison classRows C .left)
@@ -696,8 +696,8 @@ theorem literalLeftPoolExceptionalSource_eq
   have live : (v.leaf exceptional F firstPoint j).Live := ((v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive)
   let allocation := v.literalAllocation exceptional F firstPoint j live
   have hb := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
-    firstPoint j 1 live construction.val construction.property.1
-    leftScalar rightScalar construction.property.2.1 construction.property.2.2
+    firstPoint j 1 live (construction).val (construction).property.1
+    leftScalar rightScalar (construction).property.2.1 (construction).property.2.2
     (fun _ => 1) (fun _ => 1) (fun _ => zero_lt_one) (fun _ => zero_lt_one)
     characters hpredicate thetaPair z
   have hp := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_magnitude_eq
@@ -714,8 +714,8 @@ theorem literalLeftPoolExceptionalCommon_nonzero :
     (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 ∧
       (v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch ≠ 0 := by
   have live : (v.leaf exceptional F firstPoint j).Live := ((v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive)
-  exact ⟨construction.val.leftScalar_ne_zero_of_live live,
-    construction.val.rightScalar_ne_zero_of_live live⟩
+  exact ⟨(construction).val.leftScalar_ne_zero_of_live live,
+    (construction).val.rightScalar_ne_zero_of_live live⟩
 
 end LeftPoolExceptionalBinding
 
@@ -735,7 +735,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (((p.rightSourceCovers raw.originalAtlas S χ).residual q n))
+local notation "cover" => (((p.rightSourceCovers (raw).originalAtlas S χ).residual q n))
 local notation "firstPoint" => (fun i : (p.divisorPools.rightData S).valuationColumns q.val n =>
   Real.log (A.exteriorNorm (b.rightResidual i.val)))
 
@@ -765,10 +765,10 @@ local notation "oldLeftScalar" => literalRightPoolScalar hΓ μv ν Q ξ W a Z t
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n v.2.2.1
 local notation "oldRightScalar" => literalRightPoolScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n v.2.2.2.1
-local notation "leftAtoms" => oldLeftAtoms.redistributeNormFactors δ₁ δ₂
-local notation "rightAtoms" => oldRightAtoms.redistributeNormFactors δ₁ δ₂
-local notation "leftScalar" => oldLeftScalar * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
-local notation "rightScalar" => oldRightScalar * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+local notation "leftAtoms" => (oldLeftAtoms).redistributeNormFactors δ₁ δ₂
+local notation "rightAtoms" => (oldRightAtoms).redistributeNormFactors δ₁ δ₂
+local notation "leftScalar" => oldLeftScalar * ((oldLeftAtoms).normProfileFactor δ₁ δ₂ : ℂ)
+local notation "rightScalar" => oldRightScalar * ((oldRightAtoms).normProfileFactor δ₁ δ₂ : ℂ)
 local notation "leftBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "rightBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "fixedPhases" => CanonicalLiteralActualCharacters.amplifiedPhases C
@@ -800,9 +800,9 @@ def literalRightPoolExceptionalExtraction :
       extraction.leaf.OrdinaryBinding
         (v.literalRectangles leftAtoms rightAtoms exceptional F firstPoint j (-1) ((v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive)) ∧
         leftScalar ≠ 0 ∧ rightScalar ≠ 0 } :=
-  let enhancedCharacter := fun E : commonSupportPool source.columns source.columns
-      (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) =>
-    (canonicalFirstCommonBlock C source.columns source.columns source.ideal source.ideal
+  let enhancedCharacter := fun E : commonSupportPool (source).columns (source).columns
+      (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) =>
+    (canonicalFirstCommonBlock C (source).columns (source).columns (source).ideal (source).ideal
       E.val E.property).sectorCharacter C P (character E)
   have bareLive : (v.leaf exceptional F firstPoint j).Live :=
     (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive
@@ -826,18 +826,18 @@ def literalRightPoolExceptionalExtraction :
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ q n v.2.2.2.1)
     oldRightScalar (literalRightPoolAtoms_eq_scale_core hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ q n v.2.2.2.1)
-  have hproductL : oldLeftAtoms.centered = true →
-      oldLeftAtoms.scale₁ true * oldLeftAtoms.scale₂ true =
-        oldLeftAtoms.scale₁ false * oldLeftAtoms.scale₂ false := by
+  have hproductL : (oldLeftAtoms).centered = true →
+      (oldLeftAtoms).scale₁ true * (oldLeftAtoms).scale₂ true =
+        (oldLeftAtoms).scale₁ false * (oldLeftAtoms).scale₂ false := by
     dsimp only [literalRightPoolAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
     apply CanonicalLiteralRectangles.Atoms.comparison_product_secondInput
     exact Q.literalOriginalAtoms_comparison_product ξ W a Z t Y₁ Y₂
       centered hZ hY₁ hY₂ domain
-  have hproductR : oldRightAtoms.centered = true →
-      oldRightAtoms.scale₁ true * oldRightAtoms.scale₂ true =
-        oldRightAtoms.scale₁ false * oldRightAtoms.scale₂ false := by
+  have hproductR : (oldRightAtoms).centered = true →
+      (oldRightAtoms).scale₁ true * (oldRightAtoms).scale₂ true =
+        (oldRightAtoms).scale₁ false * (oldRightAtoms).scale₂ false := by
     dsimp only [literalRightPoolAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
@@ -851,9 +851,9 @@ def literalRightPoolExceptionalExtraction :
     δ₁ δ₂ hproductL hproductR exceptional F firstPoint j (-1) bareLive
     baseExtraction baseBinding rfl rfl
   have hcL : leftScalar ≠ 0 := mul_ne_zero hcOldL
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldLeftAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldLeftAtoms).normProfileFactor_pos δ₁ δ₂)))
   have hcR : rightScalar ≠ 0 := mul_ne_zero hcOldR
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldRightAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldRightAtoms).normProfileFactor_pos δ₁ δ₂)))
   ⟨originalExtraction, originalBinding, hcL, hcR⟩
 
 local notation "construction" => literalRightPoolExceptionalExtraction
@@ -897,8 +897,8 @@ whole-polynomial identity or estimate is assumed. -/
 theorem literalRightPoolExceptionalSource_eq
     (hpredicate : (v.leaf exceptional F firstPoint j).exceptional = characters.exceptional)
     (z : ℝ × ℝ) :
-    (((construction.val.stripOuter leftScalar rightScalar
-        construction.property.2.1 construction.property.2.2).thetaClassLeaf characters thetaPair).exceptionalIntegrand z) =
+    ((((construction).val.stripOuter leftScalar rightScalar
+        (construction).property.2.1 (construction).property.2.2).thetaClassLeaf characters thetaPair).exceptionalIntegrand z) =
         (sides.1.val.frame classRows C .left).exceptionalMagnitude
           (sides.2.val.frame classRows C .right)
           (sides.1.val.comparison classRows C .left)
@@ -906,8 +906,8 @@ theorem literalRightPoolExceptionalSource_eq
   have live : (v.leaf exceptional F firstPoint j).Live := ((v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive)
   let allocation := v.literalAllocation exceptional F firstPoint j live
   have hb := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
-    firstPoint j (-1) live construction.val construction.property.1
-    leftScalar rightScalar construction.property.2.1 construction.property.2.2
+    firstPoint j (-1) live (construction).val (construction).property.1
+    leftScalar rightScalar (construction).property.2.1 (construction).property.2.2
     (fun _ => 1) (fun _ => 1) (fun _ => zero_lt_one) (fun _ => zero_lt_one)
     characters hpredicate thetaPair z
   have hp := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_magnitude_eq
@@ -925,8 +925,8 @@ theorem literalRightPoolExceptionalCommon_nonzero :
     (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 ∧
       (v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch ≠ 0 := by
   have live : (v.leaf exceptional F firstPoint j).Live := ((v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive)
-  exact ⟨construction.val.leftScalar_ne_zero_of_live live,
-    construction.val.rightScalar_ne_zero_of_live live⟩
+  exact ⟨(construction).val.leftScalar_ne_zero_of_live live,
+    (construction).val.rightScalar_ne_zero_of_live live⟩
 
 end RightPoolExceptionalBinding
 

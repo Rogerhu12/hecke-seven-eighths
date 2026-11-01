@@ -44,8 +44,8 @@ local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ
 /-- This is the conditional original comparison identity consumed by
 the actual-family active coefficient theorem. -/
 theorem literalOriginalAtoms_comparison_product
-    (hc : seed.centered = true) :
-    seed.scale₁ true * seed.scale₂ true = seed.scale₁ false * seed.scale₂ false := by
+    (hc : (seed).centered = true) :
+    (seed).scale₁ true * (seed).scale₂ true = (seed).scale₁ false * (seed).scale₂ false := by
   change Y₁ * Y₂ = Z ^ a.n₁ * Z ^ a.n₂
   rw [domain.comparison_product_eq_power hc, Real.rpow_add (zero_lt_one.trans hZ)]
 
@@ -53,7 +53,7 @@ theorem literalOriginalAtoms_comparison_product
 this alternative. Both valid cases retain the same original product. -/
 theorem literalOriginalAtoms_plain_product_of_domain (r : Bool)
     (hr : r = false ∨ centered = true) :
-    seed.scale₁ r * seed.scale₂ r = seed.scale₁ false * seed.scale₂ false := by
+    (seed).scale₁ r * (seed).scale₂ r = (seed).scale₁ false * (seed).scale₂ false := by
   rcases hr with hr | hc
   · rw [hr]
   · cases r with
@@ -65,10 +65,10 @@ theorem literalOriginalAtoms_plain_product_of_domain (r : Bool)
 No relation between ordinary unused comparison scales is required. -/
 theorem literalOriginalAtoms_scaleProduct_of_domain (r : Bool)
     (hr : r = false ∨ centered = true) :
-    seed.scaleProduct r = Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) := by
+    (seed).scaleProduct r = Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) := by
   have hp := Q.literalOriginalAtoms_plain_product_of_domain ξ W a Z t Y₁ Y₂
     centered hZ hY₁ hY₂ domain r hr
-  change seed.scale₁ r * seed.scale₂ r * ∏ i, seed.base ^ seed.length i = _
+  change (seed).scale₁ r * (seed).scale₂ r * ∏ i, (seed).base ^ (seed).length i = _
   rw [hp]
   simp only [literalOriginalAtoms, Bool.false_eq_true, if_false,
     SlotGeometry.totalLength, Real.rpow_add (zero_lt_one.trans hZ),
@@ -91,13 +91,13 @@ theorem literalOriginalAtoms_firstScale_of_domain
     (hwindow : ∀ x ∈ window, x ≤ annulus)
     (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap) (r : Bool)
     (hr : r = false ∨ centered = true) :
-    (seed.extract branch).scaleProduct r *
+    ((seed).extract branch).scaleProduct r *
         (Ideal.absNorm (frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
           branch.keep branch.witness.2) : ℝ) ≤
       annulus ^ cap * Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) := by
   have hp := Q.literalOriginalAtoms_primeNormWindow ξ W a Z t Y₁ Y₂
     centered hZ hY₁ hY₂ profiles annulus ht hwindow
-  have he := seed.extract_scaleProduct_mul_frozenNorm_le hp hannulus cap hcap branch r
+  have he := (seed).extract_scaleProduct_mul_frozenNorm_le hp hannulus cap hcap branch r
   rw [Q.literalOriginalAtoms_scaleProduct_of_domain ξ W a Z t Y₁ Y₂
     centered hZ hY₁ hY₂ domain r hr] at he
   exact he

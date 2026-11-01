@@ -98,7 +98,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -208,7 +208,7 @@ local notation "tailWindows" => Q.literalPrimitiveDirectTailAmplitudeWindows
 The sharp central degree cancels before the label sum. -/
 theorem literalPrimitiveDirectDualZeroBudget_le
     (εzero Czero : ℝ) (hεzero : 0 ≤ εzero) (hCzero : 0 ≤ Czero) :
-    stages.dualSecondZeroBudget terminal
+    (stages).dualSecondZeroBudget terminal
       (Q.literalPrimitiveFirstNormalization μv ν C hroot hemb W ξ
         a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half)
       εzero Czero / Z ^ (a.m + a.q) ≤
@@ -229,7 +229,7 @@ theorem literalPrimitiveDirectDualZeroBudget_le
     (orbitalFieldFactor_nonneg K) (apply_nonneg _ _)
     (CanonicalPrimitiveDirectTerminalWindows.profileConstant_nonneg (A := A) cap amplitude sZero)
     firstTotal firstShift originalWindows (zeroWindows εzero hεzero)
-  have hmask : originalWindows.oldMask = (1 : Ideal (𝓞 K)) := rfl
+  have hmask : (originalWindows).oldMask = (1 : Ideal (𝓞 K)) := rfl
   simpa only [Q.literalPrimitiveFirstSource_fiber, hmask, map_one, Nat.cast_one,
     one_mul, mul_one, div_one] using h
 
@@ -237,7 +237,7 @@ theorem literalPrimitiveDirectDualZeroBudget_le
 the original internal divisor density is summed only once. -/
 theorem literalPrimitiveDirectDualTailBudget_le
     (Cerror : ℝ) (hCerror : 0 ≤ Cerror) (hsaving : 2 * columnBound ≤ Nsave) :
-    stages.dualSecondTailBudget terminal
+    (stages).dualSecondTailBudget terminal
       (Q.literalPrimitiveFirstNormalization μv ν C hroot hemb W ξ
         a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half)
       Cerror / Z ^ (a.m + a.q) ≤
@@ -255,7 +255,7 @@ theorem literalPrimitiveDirectDualTailBudget_le
     (orbitalFieldFactor_nonneg K) (apply_nonneg _ _)
     (CanonicalPrimitiveDirectTerminalWindows.profileConstant_nonneg (A := A) cap amplitude sTail)
     firstTotal firstShift originalWindows (tailWindows hsaving)
-  have hmask : originalWindows.oldMask = (1 : Ideal (𝓞 K)) := rfl
+  have hmask : (originalWindows).oldMask = (1 : Ideal (𝓞 K)) := rfl
   simpa only [Q.literalPrimitiveFirstSource_fiber, hmask, map_one, Nat.cast_one,
     one_mul, mul_one, div_one] using h
 

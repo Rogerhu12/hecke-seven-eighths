@@ -140,11 +140,11 @@ def canonicalLeftOriginalDualCalibration
     (hcutoff : s.cutoff = Z ^ firstTailCutoffExponent
       (CanonicalOriginalTerminalPowers.tailDegree (2 * (cap + 2))
         totalBound coarseBound frozenBound radiusBound) Nsave decay) :=
-  let numerator := p.canonicalLeftOriginalNumerator hUnits μv ν b C raw.exteriorColumns raw.exteriorColumns
-    φ (values.coefficient centered) (values.coefficient centered) firstFiniteTest
+  let numerator := p.canonicalLeftOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
+    φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
     hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-  let post := p.canonicalLeftOriginalPostIdeal hUnits μv ν b C raw.exteriorColumns raw.exteriorColumns
-    φ (values.coefficient centered) (values.coefficient centered) firstFiniteTest
+  let post := p.canonicalLeftOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
+    φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
     hlc hcs firstRadius firstMask δ hδ hδhalf S χ
   let tuples := p.originalLeftTuples raw S χ cap hcap
   s.canonicalOriginalDualCalibrationOfTuples original numerator post tuples
@@ -168,11 +168,11 @@ def canonicalRightOriginalDualCalibration
     (hcutoff : s.cutoff = Z ^ firstTailCutoffExponent
       (CanonicalOriginalTerminalPowers.tailDegree (2 * (cap + 2))
         totalBound coarseBound frozenBound radiusBound) Nsave decay) :=
-  let numerator := p.canonicalRightOriginalNumerator hUnits μv ν b C raw.exteriorColumns raw.exteriorColumns
-    φ (values.coefficient centered) (values.coefficient centered) firstFiniteTest
+  let numerator := p.canonicalRightOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
+    φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
     hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-  let post := p.canonicalRightOriginalPostIdeal hUnits μv ν b C raw.exteriorColumns raw.exteriorColumns
-    φ (values.coefficient centered) (values.coefficient centered) firstFiniteTest
+  let post := p.canonicalRightOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
+    φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
     hlc hcs firstRadius firstMask δ hδ hδhalf S χ
   let tuples := p.originalRightTuples raw S χ cap hcap
   s.canonicalOriginalDualCalibrationOfTuples original numerator post tuples
@@ -213,11 +213,11 @@ def canonicalLeftMainOriginalDualCalibration
     (hcutoff : s.cutoff = Z ^ firstTailCutoffExponent
       (CanonicalOriginalTerminalPowers.tailDegree (2 * (cap + 2))
         totalBound coarseBound frozenBound radiusBound) Nsave decay) :=
-  let numerator := p.canonicalLeftMainOriginalNumerator hUnits μv ν b C raw.exteriorColumns raw.exteriorColumns
-    φ (values.coefficient centered) (values.coefficient centered) firstFiniteTest
+  let numerator := p.canonicalLeftMainOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
+    φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
     hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-  let post := p.canonicalLeftMainOriginalPostIdeal hUnits μv ν b C raw.exteriorColumns raw.exteriorColumns
-    φ (values.coefficient centered) (values.coefficient centered) firstFiniteTest
+  let post := p.canonicalLeftMainOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
+    φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
     hlc hcs firstRadius firstMask δ hδ hδhalf S χ
   let tuples := p.originalLeftMainTuples raw S χ cap hcap
   s.canonicalOriginalDualCalibrationOfTuples original numerator post tuples
@@ -241,11 +241,11 @@ def canonicalRightMainOriginalDualCalibration
     (hcutoff : s.cutoff = Z ^ firstTailCutoffExponent
       (CanonicalOriginalTerminalPowers.tailDegree (2 * (cap + 2))
         totalBound coarseBound frozenBound radiusBound) Nsave decay) :=
-  let numerator := p.canonicalRightMainOriginalNumerator hUnits μv ν b C raw.exteriorColumns raw.exteriorColumns
-    φ (values.coefficient centered) (values.coefficient centered) firstFiniteTest
+  let numerator := p.canonicalRightMainOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
+    φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
     hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-  let post := p.canonicalRightMainOriginalPostIdeal hUnits μv ν b C raw.exteriorColumns raw.exteriorColumns
-    φ (values.coefficient centered) (values.coefficient centered) firstFiniteTest
+  let post := p.canonicalRightMainOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
+    φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
     hlc hcs firstRadius firstMask δ hδ hδhalf S χ
   let tuples := p.originalRightMainTuples raw S χ cap hcap
   s.canonicalOriginalDualCalibrationOfTuples original numerator post tuples
@@ -270,11 +270,11 @@ def canonicalLeftPoolOriginalDualCalibration
     (hcutoff : s.cutoff = Z ^ firstTailCutoffExponent
       (CanonicalOriginalTerminalPowers.tailDegree (2 * (cap + 2))
         totalBound coarseBound frozenBound radiusBound) Nsave decay) :=
-  let numerator := p.canonicalLeftPoolOriginalNumerator hUnits μv ν b C raw.exteriorColumns raw.exteriorColumns
-    φ (values.coefficient centered) (values.coefficient centered) firstFiniteTest
+  let numerator := p.canonicalLeftPoolOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
+    φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
     hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
-  let post := p.canonicalLeftPoolOriginalPostIdeal hUnits μv ν b C raw.exteriorColumns raw.exteriorColumns
-    φ (values.coefficient centered) (values.coefficient centered) firstFiniteTest
+  let post := p.canonicalLeftPoolOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
+    φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
     hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
   let tuples := p.originalLeftPoolTuples raw S χ prime n cap hcap
   s.canonicalOriginalDualCalibrationOfTuples original numerator post tuples
@@ -299,11 +299,11 @@ def canonicalRightPoolOriginalDualCalibration
     (hcutoff : s.cutoff = Z ^ firstTailCutoffExponent
       (CanonicalOriginalTerminalPowers.tailDegree (2 * (cap + 2))
         totalBound coarseBound frozenBound radiusBound) Nsave decay) :=
-  let numerator := p.canonicalRightPoolOriginalNumerator hUnits μv ν b C raw.exteriorColumns raw.exteriorColumns
-    φ (values.coefficient centered) (values.coefficient centered) firstFiniteTest
+  let numerator := p.canonicalRightPoolOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
+    φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
     hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
-  let post := p.canonicalRightPoolOriginalPostIdeal hUnits μv ν b C raw.exteriorColumns raw.exteriorColumns
-    φ (values.coefficient centered) (values.coefficient centered) firstFiniteTest
+  let post := p.canonicalRightPoolOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
+    φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
     hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
   let tuples := p.originalRightPoolTuples raw S χ prime n cap hcap
   s.canonicalOriginalDualCalibrationOfTuples original numerator post tuples

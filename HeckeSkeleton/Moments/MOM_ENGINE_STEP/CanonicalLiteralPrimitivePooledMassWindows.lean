@@ -68,7 +68,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -112,8 +112,8 @@ variable (hslot : ∀ i, (data ξ).slotCoefficient i ∈ (data ξ).theta)
 variable (lengthBound columnBound : ℝ)
 variable (hlengthBound : 0 ≤ lengthBound) (hcolumnBound : 0 ≤ columnBound)
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-variable (hN : ∀ i ∈ firstSource.columns,
-  (Ideal.absNorm (firstSource.ideal i).val : ℝ) ≤ Z ^ columnBound)
+variable (hN : ∀ i ∈ (firstSource).columns,
+  (Ideal.absNorm ((firstSource).ideal i).val : ℝ) ≤ Z ^ columnBound)
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {eps : ℝ}
 variable (pool : PowerScaleExteriorPool A bad Z (step / 3) eps)
 variable (hdensity : 0 < pool.rowDensity
@@ -260,9 +260,9 @@ local notation "sourceCertificates" => literalPrimitivePooledSourceIntegral
   (hlengthBound := hlengthBound) (hcolumnBound := hcolumnBound)
   (htotal := htotal) (hN := hN) (pool := pool) (hdensity := hdensity)
 
-local notation "arithmetic" => stages.supported.gated.arithmeticLabels raw.originalAtlas
+local notation "arithmetic" => (stages).supported.gated.arithmeticLabels (raw).originalAtlas
   hcap exceptional normalization
-local notation "tag" => stages.supported.gated.arithmeticTag raw.originalAtlas
+local notation "tag" => (stages).supported.gated.arithmeticTag (raw).originalAtlas
   exceptional normalization
 
 local notation "massCertificates" => literalPrimitivePooledKernelMass
@@ -330,34 +330,34 @@ local notation "fixedSecondKernel" =>
 
 /-- This is the geometry already used by the selected original pool tag. -/
 def literalPrimitivePooledGeometryAt
-    (j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization) :
+    (j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization) :
     OriginalNominalGeometry (K := K) internal Z step := by
   rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
   · rcases leaf with leaf | (⟨prime, leaf⟩ | (⟨prime, leaf⟩ | ⟨prime, leaf⟩))
     · let baseGeometry := OriginalNominalGeometry.canonicalMain
         (a := internal) (Z := Z) (step := step)
-        ((source.block DE).literalLeftCoordinates D.val) (2 * loss + cutoffExponent)
+        (((source).block DE).literalLeftCoordinates D.val) (2 * loss + cutoffExponent)
         (zero_lt_one.trans hZ) (by positivity)
       exact baseGeometry.atSecondPattern leaf.1.block.primes
         leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity
         leaf.1.block.left_positive leaf.1.block.right_positive
         (leaf.1.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ leaf.1.rowLabel)
     · let baseGeometry := OriginalNominalGeometry.canonicalPoolError
-        (a := internal) pool .one prime ((source.block DE).literalLeftCoordinates D.val)
+        (a := internal) pool .one prime (((source).block DE).literalLeftCoordinates D.val)
         (2 * loss + cutoffExponent) (by positivity : 0 ≤ 2 * loss + cutoffExponent)
       exact baseGeometry.atSecondPattern leaf.1.block.primes
         leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity
         leaf.1.block.left_positive leaf.1.block.right_positive
         (leaf.1.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ leaf.1.rowLabel)
     · let baseGeometry := OriginalNominalGeometry.canonicalPoolError
-        (a := internal) pool .six prime ((source.block DE).literalLeftCoordinates D.val)
+        (a := internal) pool .six prime (((source).block DE).literalLeftCoordinates D.val)
         (2 * loss + cutoffExponent) (by positivity : 0 ≤ 2 * loss + cutoffExponent)
       exact baseGeometry.atSecondPattern leaf.1.block.primes
         leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity
         leaf.1.block.left_positive leaf.1.block.right_positive
         (leaf.1.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ leaf.1.rowLabel)
     · let baseGeometry := OriginalNominalGeometry.canonicalPoolError
-        (a := internal) pool .seven prime ((source.block DE).literalLeftCoordinates D.val)
+        (a := internal) pool .seven prime (((source).block DE).literalLeftCoordinates D.val)
         (2 * loss + cutoffExponent) (by positivity : 0 ≤ 2 * loss + cutoffExponent)
       exact baseGeometry.atSecondPattern leaf.1.block.primes
         leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity
@@ -366,28 +366,28 @@ def literalPrimitivePooledGeometryAt
   · rcases leaf with leaf | (⟨prime, leaf⟩ | (⟨prime, leaf⟩ | ⟨prime, leaf⟩))
     · let baseGeometry := OriginalNominalGeometry.canonicalMain
         (a := internal) (Z := Z) (step := step)
-        ((source.block DE).literalRightCoordinates D.val) (2 * loss + cutoffExponent)
+        (((source).block DE).literalRightCoordinates D.val) (2 * loss + cutoffExponent)
         (zero_lt_one.trans hZ) (by positivity)
       exact baseGeometry.atSecondPattern leaf.1.block.primes
         leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity
         leaf.1.block.left_positive leaf.1.block.right_positive
         (leaf.1.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ leaf.1.rowLabel)
     · let baseGeometry := OriginalNominalGeometry.canonicalPoolError
-        (a := internal) pool .one prime ((source.block DE).literalRightCoordinates D.val)
+        (a := internal) pool .one prime (((source).block DE).literalRightCoordinates D.val)
         (2 * loss + cutoffExponent) (by positivity : 0 ≤ 2 * loss + cutoffExponent)
       exact baseGeometry.atSecondPattern leaf.1.block.primes
         leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity
         leaf.1.block.left_positive leaf.1.block.right_positive
         (leaf.1.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ leaf.1.rowLabel)
     · let baseGeometry := OriginalNominalGeometry.canonicalPoolError
-        (a := internal) pool .six prime ((source.block DE).literalRightCoordinates D.val)
+        (a := internal) pool .six prime (((source).block DE).literalRightCoordinates D.val)
         (2 * loss + cutoffExponent) (by positivity : 0 ≤ 2 * loss + cutoffExponent)
       exact baseGeometry.atSecondPattern leaf.1.block.primes
         leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity
         leaf.1.block.left_positive leaf.1.block.right_positive
         (leaf.1.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ leaf.1.rowLabel)
     · let baseGeometry := OriginalNominalGeometry.canonicalPoolError
-        (a := internal) pool .seven prime ((source.block DE).literalRightCoordinates D.val)
+        (a := internal) pool .seven prime (((source).block DE).literalRightCoordinates D.val)
         (2 * loss + cutoffExponent) (by positivity : 0 ≤ 2 * loss + cutoffExponent)
       exact baseGeometry.atSecondPattern leaf.1.block.primes
         leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity
@@ -395,7 +395,7 @@ def literalPrimitivePooledGeometryAt
         (leaf.1.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ leaf.1.rowLabel)
 
 def literalPrimitivePooledRootLength
-    (j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization) : ℝ := by
+    (j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization) : ℝ := by
   rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
   all_goals
     rcases leaf with leaf | (⟨prime, leaf⟩ | (⟨prime, leaf⟩ | ⟨prime, leaf⟩))
@@ -441,11 +441,11 @@ local notation "rawWidthAt" => fun j =>
   (geometryAt j).literalRowParameter (2 * loss + cutoffExponent) +
     (geometryAt j).literalSupportParameter (rootLengthAt j)
 local notation "movingAt" => fun j =>
-  (stages.supported.gated.originalNominalTagAt raw.originalAtlas j.val).movingLength Z +
-    (stages.supported.gated.originalNominalTagAt raw.originalAtlas j.val).poolLength step
+  ((stages).supported.gated.originalNominalTagAt (raw).originalAtlas j.val).movingLength Z +
+    ((stages).supported.gated.originalNominalTagAt (raw).originalAtlas j.val).poolLength step
 
 theorem literalPrimitivePooledKernelMass_coefficient
-    (j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization) :
+    (j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization) :
     (massCertificates j).coefficient =
       CanonicalLiteralPrimitiveMassCoefficient.kernelCoefficient K A σ ω ψ cap orders
         lo hi hlo δ₁ δ₂ δ mesh Z analyticHeight (rawWidthAt j) originalBound
@@ -455,11 +455,11 @@ theorem literalPrimitivePooledKernelMass_coefficient
     rcases leaf with leaf | (⟨prime, leaf⟩ | (⟨prime, leaf⟩ | ⟨prime, leaf⟩)) <;> rfl
 
 theorem literalPrimitivePooledIndexedWeight_cost
-    (j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization) :
+    (j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization) :
     (indexCertificates j).cost =
       CanonicalLiteralPrimitiveMassCoefficient.indexCoefficient K cap hi originalBound unitIndex
-        Z error mesh internal.m
-        (internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength)
+        Z error mesh (internal).m
+        ((internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength)
         (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) j.val.2.1.val).val)
         (idealLogLength Z (firstActiveRadical j.val.1.val.1 j.val.1.val.2)) δ₁ δ₂ (movingAt j) := by
   rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
@@ -469,11 +469,11 @@ theorem literalPrimitivePooledIndexedWeight_cost
 /-- The main and residual columns divide the same original columns,
 so every actual second common ideal obeys the original full window. -/
 theorem literalPrimitivePooled_rawWidth_le
-    (j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization) :
+    (j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization) :
     rawWidthAt j ≤ a.m + a.q + columnBound + (2 * loss + cutoffExponent) := by
-  have hn := (stages.supported.gated j.val.1 j.val.2.1).commonLabel_norm_le
-    raw.originalAtlas raw.originalAtlas (Z ^ columnBound) hN hN j.val.2.2
-  have hwidth : internal.m + internal.q = a.m + a.q := Q.fullSupportParameters_width a Z
+  have hn := ((stages).supported.gated j.val.1 j.val.2.1).commonLabel_norm_le
+    (raw).originalAtlas (raw).originalAtlas (Z ^ columnBound) hN hN j.val.2.2
+  have hwidth : (internal).m + (internal).q = a.m + a.q := Q.fullSupportParameters_width a Z
   rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
   · rcases leaf with leaf | (⟨prime, leaf⟩ | (⟨prime, leaf⟩ | ⟨prime, leaf⟩))
     · have hg := (geometryAt ⟨⟨DE, D, S, χ, .inl (.inl leaf)⟩, hj⟩).literalRawWidth_le_second_box
@@ -544,9 +544,9 @@ theorem literalPrimitivePooled_rawWidth_le
 
 /-- The original first lengths bound the exact tilt of every pool tag. -/
 theorem literalPrimitivePooled_firstNumericWindows
-    (j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization) :
-    0 ≤ internal.m ∧
-      internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength ≤ lengthBound ∧
+    (j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization) :
+    0 ≤ (internal).m ∧
+      (internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength ≤ lengthBound ∧
       idealLogLength Z (firstPhysicalDivisorIdeal (A := A) j.val.2.1.val).val ≤ columnBound ∧
       idealLogLength Z (firstActiveRadical j.val.1.val.1 j.val.1.val.2) ≤ columnBound := by
   have hm := Q.literalPrimitiveCommon_m_nonneg μv ν C hroot hemb W ξ

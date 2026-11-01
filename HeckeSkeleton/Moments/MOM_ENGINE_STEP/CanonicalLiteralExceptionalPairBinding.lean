@@ -66,42 +66,42 @@ the magnitude estimated by the paid exceptional terminal. No new row,
 column, divisor, frequency or Fourier location is chosen. -/
 theorem theta_pair_magnitude (ξ : WithLp 2 (ℝ × ℝ)) :
     jointColumnPairMagnitude (rows.rows.filter (Q.thetaClass thetaPair))
-      leftFrame.allocation.columns rightFrame.allocation.columns
+      (leftFrame).allocation.columns (rightFrame).allocation.columns
       (fun h => rows.weight h * rows.correlation h)
       (secondAllocatedLeftCoefficient (σ := σ) PUnit.{1} leftIdeal rows.frequency
         (fun _ => PUnit.unit) phase left.whole)
       (secondAllocatedRightCoefficient (σ := σ) PUnit.{1} rightIdeal rows.frequency
         (fun _ => PUnit.unit) phase right.whole)
       (fun _ => leftPoint) (fun _ => rightPoint) ξ =
-        leftFrame.exceptionalMagnitude rightFrame EL ER Q ξ := by
-  have hrows : S.rows.filter Q.exceptional = rows.rows.filter (Q.thetaClass thetaPair) := by
+        (leftFrame).exceptionalMagnitude rightFrame EL ER Q ξ := by
+  have hrows : (S).rows.filter Q.exceptional = rows.rows.filter (Q.thetaClass thetaPair) := by
     apply Finset.filter_eq_self.mpr
     intro h hh
     exact Q.thetaClass_exceptional thetaPair h (Finset.mem_filter.mp hh).2
-  have hleft : leftFrame.centeredCoefficient EL =
+  have hleft : (leftFrame).centeredCoefficient EL =
       secondAllocatedLeftCoefficient (σ := σ) PUnit.{1} leftIdeal rows.frequency
         (fun _ => PUnit.unit) phase left.whole := by
     funext h i
     exact left.exceptional_frame_coefficient S .left phase leftIdeal hleftIdeal
       firstSign L leftSelection hleftColumns h i
-  have hright : rightFrame.centeredCoefficient ER =
+  have hright : (rightFrame).centeredCoefficient ER =
       secondAllocatedRightCoefficient (σ := σ) PUnit.{1} rightIdeal rows.frequency
         (fun _ => PUnit.unit) phase right.whole := by
     funext h i
     exact right.exceptional_frame_coefficient S .right phase rightIdeal hrightIdeal
       (-firstSign) L rightSelection hrightColumns h i
-  have hp := S.pair_magnitude_live leftFrame.allocation.columns rightFrame.allocation.columns
-    (leftFrame.centeredCoefficient EL) (rightFrame.centeredCoefficient ER)
-    (fun h => rawSourceLocation (leftFrame.leftLocation h) (leftFrame.rightLocation h)
-      (leftFrame.slotLocation h))
-    (fun h => rawSourceLocation (rightFrame.leftLocation h) (rightFrame.rightLocation h)
-      (rightFrame.slotLocation h)) Q.exceptional ξ
-  change jointColumnPairMagnitude (S.rows.filter Q.exceptional)
-      leftFrame.allocation.columns rightFrame.allocation.columns
+  have hp := (S).pair_magnitude_live (leftFrame).allocation.columns (rightFrame).allocation.columns
+    ((leftFrame).centeredCoefficient EL) ((rightFrame).centeredCoefficient ER)
+    (fun h => rawSourceLocation ((leftFrame).leftLocation h) ((leftFrame).rightLocation h)
+      ((leftFrame).slotLocation h))
+    (fun h => rawSourceLocation ((rightFrame).leftLocation h) ((rightFrame).rightLocation h)
+      ((rightFrame).slotLocation h)) Q.exceptional ξ
+  change jointColumnPairMagnitude ((S).rows.filter Q.exceptional)
+      (leftFrame).allocation.columns (rightFrame).allocation.columns
       (fun h => rows.weight h * rows.correlation h)
-      (leftFrame.centeredCoefficient EL) (rightFrame.centeredCoefficient ER)
+      ((leftFrame).centeredCoefficient EL) ((rightFrame).centeredCoefficient ER)
       (fun _ => leftPoint) (fun _ => rightPoint) ξ =
-        leftFrame.exceptionalMagnitude rightFrame EL ER Q ξ at hp
+        (leftFrame).exceptionalMagnitude rightFrame EL ER Q ξ at hp
   rw [hrows, hleft, hright] at hp
   exact hp
 

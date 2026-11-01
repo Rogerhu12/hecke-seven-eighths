@@ -149,9 +149,9 @@ these per-prime values uniformly; it need not be assumed here. -/
 def frozenBounds (hmask : d.characters.MaskIndicator)
     (hL : Squarefree L)
     (hselection : selection ∈ AllocationMass.idealAllocations L (k + 2)) :
-    f.source.FrozenAtomBounds where
-  annulus i := (Ideal.absNorm (f.allocation.witness.2 i).asIdeal : ℝ) / d.base ^ d.length i
-  profile i := ‖d.slotWeight i (f.allocation.witness.2 i)‖ ^ 2
+    (f).source.FrozenAtomBounds where
+  annulus i := (Ideal.absNorm ((f).allocation.witness.2 i).asIdeal : ℝ) / d.base ^ d.length i
+  profile i := ‖d.slotWeight i ((f).allocation.witness.2 i)‖ ^ 2
   annulus_nonneg i := div_nonneg (Nat.cast_nonneg _)
     (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _).le
   profile_nonneg i := sq_nonneg _
@@ -180,9 +180,9 @@ theorem frozenBounds_scalarBound (hmask : d.characters.MaskIndicator)
     (hselection : selection ∈ AllocationMass.idealAllocations L (k + 2)) :
     (d.frozenBounds S C side χ ideal hideal firstSign rectangle L selection hne
       hmask hL hselection).scalarBound =
-      (∏ i ∈ Finset.univ \ f.allocation.keep,
-        (((Ideal.absNorm (f.allocation.witness.2 i).asIdeal : ℝ) / d.base ^ d.length i) *
-          ‖d.slotWeight i (f.allocation.witness.2 i)‖ ^ 2)) /
+      (∏ i ∈ Finset.univ \ (f).allocation.keep,
+        (((Ideal.absNorm ((f).allocation.witness.2 i).asIdeal : ℝ) / d.base ^ d.length i) *
+          ‖d.slotWeight i ((f).allocation.witness.2 i)‖ ^ 2)) /
         (Ideal.absNorm L : ℝ) := by
   cases side <;> rfl
 
@@ -203,7 +203,7 @@ def frozenBounds_of_originalCharacters
       P R F parent oldMoving correction remaining extra index)
     (hL : Squarefree L)
     (hselection : selection ∈ AllocationMass.idealAllocations L (k + 2)) :
-    f.source.FrozenAtomBounds :=
+    (f).source.FrozenAtomBounds :=
   d.frozenBounds S C side χ ideal hideal firstSign rectangle L selection hne
     (by rw [hcharacters]; exact CanonicalLiteralPhaseCalibration.sourceCharacters_maskIndicator
       P R F parent oldMoving correction remaining extra index) hL hselection

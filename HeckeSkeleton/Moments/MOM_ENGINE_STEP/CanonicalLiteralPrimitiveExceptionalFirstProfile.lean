@@ -103,7 +103,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 local notation "hΓ₀" => actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
   a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
 local notation "firstTotal" => Q.literalPrimitiveFirstTotal μv ν C hroot hemb W ξ
@@ -113,18 +113,18 @@ variable {floor padding : ℝ}
 variable (domain : PairedEngineDomain centered (data ξ) a Z Y₁ Y₂ floor padding)
 variable (lengthBound columnBound : ℝ) (hlengthBound : 0 ≤ lengthBound)
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-variable (hN : ∀ i ∈ firstSource.columns,
-  (Ideal.absNorm (firstSource.ideal i).val : ℝ) ≤ Z ^ columnBound)
+variable (hN : ∀ i ∈ (firstSource).columns,
+  (Ideal.absNorm ((firstSource).ideal i).val : ℝ) ≤ Z ^ columnBound)
 variable (δ₂ : ℝ) (hδ₂ : 0 ≤ δ₂)
 
 include domain hlengthBound htotal hN hδ₂ in
 /-- The numeric windows used by the first-profile tilt come from the
 same original common label and full columns. -/
 theorem literalPrimitiveExceptionalFirstTilt_le
-    (DE : firstSource.CommonLabel)
-    (D : ((firstSource.block DE).mask firstSource.mask).powerset) :
-    CanonicalFirstResidualProfileCost.tiltError internal.m
-        (internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength)
+    (DE : (firstSource).CommonLabel)
+    (D : (((firstSource).block DE).mask (firstSource).mask).powerset) :
+    CanonicalFirstResidualProfileCost.tiltError (internal).m
+        ((internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength)
         (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val)
         (idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2)) δ₁ δ₂ ≤
       4 * max lengthBound columnBound * (δ₁ + δ₂) := by
@@ -133,7 +133,7 @@ theorem literalPrimitiveExceptionalFirstTilt_le
   have hi := Q.literalPrimitiveFirstIdealLengths μv ν C hroot hemb W ξ
     a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
     columnBound hN DE D
-  have ht : internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength ≤
+  have ht : (internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength ≤
       max lengthBound columnBound := by
     simpa only [domain.total_length] using htotal.trans (le_max_left lengthBound columnBound)
   exact CanonicalFirstResidualProfileCost.tiltError_le hm
@@ -152,16 +152,16 @@ include domain hlengthBound htotal hN hδ₂ hannulus hamplitude in
 /-- Only the small remainder of the exact first-profile exponent is
 enlarged. The original normalization still contains its actual ideals. -/
 theorem literalPrimitiveExceptionalFirstCoefficient_le
-    (DE : firstSource.CommonLabel)
-    (D : ((firstSource.block DE).mask firstSource.mask).powerset) :
+    (DE : (firstSource).CommonLabel)
+    (D : (((firstSource).block DE).mask (firstSource).mask).powerset) :
     (orbitalFieldFactor K *
         CanonicalLiteralFirstScalarCost.atomBudget annulus amplitude ^ cap) *
-      Z ^ ((internal.m + internal.q) -
-        (internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength + internal.q +
+      Z ^ (((internal).m + (internal).q) -
+        ((internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength + (internal).q +
           idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val +
           idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2)) +
-        CanonicalFirstResidualProfileCost.tiltError internal.m
-          (internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength)
+        CanonicalFirstResidualProfileCost.tiltError (internal).m
+          ((internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength)
           (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val)
           (idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2)) δ₁ δ₂) ≤
       (fixedFirst * amplitude ^ (2 * cap)) *
@@ -174,8 +174,8 @@ theorem literalPrimitiveExceptionalFirstCoefficient_le
     (domain := domain) (lengthBound := lengthBound) (columnBound := columnBound)
     (hlengthBound := hlengthBound) (htotal := htotal) (hN := hN)
     (δ₂ := δ₂) (hδ₂ := hδ₂) DE D
-  have hmain : (internal.m + internal.q) -
-      (internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength + internal.q +
+  have hmain : ((internal).m + (internal).q) -
+      ((internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength + (internal).q +
         idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val +
         idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2)) =
       (a.m + a.q) - firstTotal DE D := by
@@ -202,27 +202,27 @@ variable (hδsum : δ₁ + δ₂ ≤ 1 / 2)
 section Direct
 
 local notation "source" => firstSource
-variable (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-local notation "p" => source.pieces DE D
-variable (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+variable (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+local notation "p" => (source).pieces DE D
+variable (S : divisorPool (p).rightData.columns (fun j => ((p).rightData.ideal j).val))
 variable (χ : (PUnit × PUnit) →* Circle)
 
 section LeftDirect
 
-local notation "cover" => p.leftSourceCover raw.originalAtlas S χ
-local notation "firstFixed" => (source.block DE).literalLeftFixed D.val
-local notation "hfirst" => (source.block DE).literalLeftFixed_generates C D.val
+local notation "cover" => (p).leftSourceCover (raw).originalAtlas S χ
+local notation "firstFixed" => ((source).block DE).literalLeftFixed D.val
+local notation "hfirst" => ((source).block DE).literalLeftFixed_generates C D.val
 local notation "firstScalar" => literalLeftDirectScalar
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ
 local notation "firstAtoms" => literalLeftDirectAtoms
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ firstFixed hfirst δ₂
 
 include domain hlengthBound htotal hN hδ₂ hannulus hamplitude profiles hzero ht hprime
@@ -230,27 +230,27 @@ include domain hlengthBound htotal hN hδ₂ hannulus hamplitude profiles hzero 
 /-- The actual left direct source pays its two original
 redistributed scalars, at the original normalization and uniform tilt. -/
 theorem literalPrimitiveLeftDirectExceptional_firstProfile_le
-    (labelL labelR : cover.labels) :
-    p.weightBound *
+    (labelL labelR : (cover).labels) :
+    (p).weightBound *
         (‖firstScalar labelL * ((firstAtoms labelL).normProfileFactor δ₁ δ₂ : ℂ)‖ *
           ‖firstScalar labelR * ((firstAtoms labelR).normProfileFactor δ₁ δ₂ : ℂ)‖) ≤
       (fixedFirst * amplitude ^ (2 * cap)) *
         Z ^ ((a.m + a.q) - firstTotal DE D + tilt) := by
   have hcombined := literalLeftDirectCombinedProfile_le
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ
     firstFixed hfirst δ₂ hδ₂ hδsum labelL labelR
     profiles hzero ht hprime annulus (zero_le_one.trans hannulus) hwindow cap hcap rfl
-    internal.m internal.q
+    (internal).m (internal).q
     (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val)
     (idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2))
     (Q.literalPrimitiveFirstSource_radius μv ν C hroot hemb W ξ
       a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half)
     (CanonicalFirstLog.maskNorm_eq_original_length (A := A) D.val Z hZ)
-    ((source.block DE).activeColumn_norm_eq_original_length hΓ₀ C Z hZ)
+    (((source).block DE).activeColumn_norm_eq_original_length hΓ₀ C Z hZ)
   exact hcombined.trans (Q.literalPrimitiveExceptionalFirstCoefficient_le
     (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb)
     (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂)
@@ -265,20 +265,20 @@ end LeftDirect
 
 section RightDirect
 
-local notation "cover" => p.rightSourceCover raw.originalAtlas S χ
-local notation "firstFixed" => (source.block DE).literalRightFixed D.val
-local notation "hfirst" => (source.block DE).literalRightFixed_generates C D.val
+local notation "cover" => (p).rightSourceCover (raw).originalAtlas S χ
+local notation "firstFixed" => ((source).block DE).literalRightFixed D.val
+local notation "hfirst" => ((source).block DE).literalRightFixed_generates C D.val
 local notation "firstScalar" => literalRightDirectScalar
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ
 local notation "firstAtoms" => literalRightDirectAtoms
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ firstFixed hfirst δ₂
 
 include domain hlengthBound htotal hN hδ₂ hannulus hamplitude profiles hzero ht hprime
@@ -286,27 +286,27 @@ include domain hlengthBound htotal hN hδ₂ hannulus hamplitude profiles hzero 
 /-- The actual right direct source pays its two original
 redistributed scalars, at the original normalization and uniform tilt. -/
 theorem literalPrimitiveRightDirectExceptional_firstProfile_le
-    (labelL labelR : cover.labels) :
-    p.weightBound *
+    (labelL labelR : (cover).labels) :
+    (p).weightBound *
         (‖firstScalar labelL * ((firstAtoms labelL).normProfileFactor δ₁ δ₂ : ℂ)‖ *
           ‖firstScalar labelR * ((firstAtoms labelR).normProfileFactor δ₁ δ₂ : ℂ)‖) ≤
       (fixedFirst * amplitude ^ (2 * cap)) *
         Z ^ ((a.m + a.q) - firstTotal DE D + tilt) := by
   have hcombined := literalRightDirectCombinedProfile_le
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ
     firstFixed hfirst δ₂ hδ₂ hδsum labelL labelR
     profiles hzero ht hprime annulus (zero_le_one.trans hannulus) hwindow cap hcap rfl
-    internal.m internal.q
+    (internal).m (internal).q
     (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val)
     (idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2))
     (Q.literalPrimitiveFirstSource_radius μv ν C hroot hemb W ξ
       a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half)
     (CanonicalFirstLog.maskNorm_eq_original_length (A := A) D.val Z hZ)
-    ((source.block DE).activeColumn_norm_eq_original_length hΓ₀ C Z hZ)
+    (((source).block DE).activeColumn_norm_eq_original_length hΓ₀ C Z hZ)
   exact hcombined.trans (Q.literalPrimitiveExceptionalFirstCoefficient_le
     (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb)
     (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂)
@@ -350,27 +350,27 @@ local notation "source" => Q.literalPrimitivePooledSource
   (htotal := htotal) (hN := hN) (hloss := hloss) (hcutoffExponent := hcutoffExponent)
   (pool := pool) (hdensity := hdensity)
 
-variable (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-local notation "p" => source.pools DE D
-variable (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+variable (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+local notation "p" => (source).pools DE D
+variable (S : divisorPool (p).rightData.columns (fun j => ((p).rightData.ideal j).val))
 variable (χ : (PUnit × PUnit) →* Circle)
 
 section LeftMain
 
-local notation "cover" => (p.leftSourceCovers raw.originalAtlas S χ).main
-local notation "firstFixed" => (source.block DE).literalLeftFixed D.val
-local notation "hfirst" => (source.block DE).literalLeftFixed_generates C D.val
+local notation "cover" => ((p).leftSourceCovers (raw).originalAtlas S χ).main
+local notation "firstFixed" => ((source).block DE).literalLeftFixed D.val
+local notation "hfirst" => ((source).block DE).literalLeftFixed_generates C D.val
 local notation "firstScalar" => literalLeftMainScalar
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ
 local notation "firstAtoms" => literalLeftMainAtoms
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ firstFixed hfirst δ₂
 
 include domain hlengthBound htotal hN hδ₂ hannulus hamplitude profiles hzero ht hprime
@@ -378,27 +378,27 @@ include domain hlengthBound htotal hN hδ₂ hannulus hamplitude profiles hzero 
 /-- The actual left main source pays its two original
 redistributed scalars, at the original normalization and uniform tilt. -/
 theorem literalPrimitiveLeftMainExceptional_firstProfile_le
-    (labelL labelR : cover.labels) :
-    p.weightBound *
+    (labelL labelR : (cover).labels) :
+    (p).weightBound *
         (‖firstScalar labelL * ((firstAtoms labelL).normProfileFactor δ₁ δ₂ : ℂ)‖ *
           ‖firstScalar labelR * ((firstAtoms labelR).normProfileFactor δ₁ δ₂ : ℂ)‖) ≤
       (fixedFirst * amplitude ^ (2 * cap)) *
         Z ^ ((a.m + a.q) - firstTotal DE D + tilt) := by
   have hcombined := literalLeftMainCombinedProfile_le
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ
     firstFixed hfirst δ₂ hδ₂ hδsum labelL labelR
     profiles hzero ht hprime annulus (zero_le_one.trans hannulus) hwindow cap hcap rfl
-    internal.m internal.q
+    (internal).m (internal).q
     (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val)
     (idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2))
     (Q.literalPrimitiveFirstSource_radius μv ν C hroot hemb W ξ
       a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half)
     (CanonicalFirstLog.maskNorm_eq_original_length (A := A) D.val Z hZ)
-    ((source.block DE).activeColumn_norm_eq_original_length hΓ₀ C Z hZ)
+    (((source).block DE).activeColumn_norm_eq_original_length hΓ₀ C Z hZ)
   exact hcombined.trans (Q.literalPrimitiveExceptionalFirstCoefficient_le
     (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb)
     (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂)
@@ -413,20 +413,20 @@ end LeftMain
 
 section RightMain
 
-local notation "cover" => (p.rightSourceCovers raw.originalAtlas S χ).main
-local notation "firstFixed" => (source.block DE).literalRightFixed D.val
-local notation "hfirst" => (source.block DE).literalRightFixed_generates C D.val
+local notation "cover" => ((p).rightSourceCovers (raw).originalAtlas S χ).main
+local notation "firstFixed" => ((source).block DE).literalRightFixed D.val
+local notation "hfirst" => ((source).block DE).literalRightFixed_generates C D.val
 local notation "firstScalar" => literalRightMainScalar
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ
 local notation "firstAtoms" => literalRightMainAtoms
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ firstFixed hfirst δ₂
 
 include domain hlengthBound htotal hN hδ₂ hannulus hamplitude profiles hzero ht hprime
@@ -434,27 +434,27 @@ include domain hlengthBound htotal hN hδ₂ hannulus hamplitude profiles hzero 
 /-- The actual right main source pays its two original
 redistributed scalars, at the original normalization and uniform tilt. -/
 theorem literalPrimitiveRightMainExceptional_firstProfile_le
-    (labelL labelR : cover.labels) :
-    p.weightBound *
+    (labelL labelR : (cover).labels) :
+    (p).weightBound *
         (‖firstScalar labelL * ((firstAtoms labelL).normProfileFactor δ₁ δ₂ : ℂ)‖ *
           ‖firstScalar labelR * ((firstAtoms labelR).normProfileFactor δ₁ δ₂ : ℂ)‖) ≤
       (fixedFirst * amplitude ^ (2 * cap)) *
         Z ^ ((a.m + a.q) - firstTotal DE D + tilt) := by
   have hcombined := literalRightMainCombinedProfile_le
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ
     firstFixed hfirst δ₂ hδ₂ hδsum labelL labelR
     profiles hzero ht hprime annulus (zero_le_one.trans hannulus) hwindow cap hcap rfl
-    internal.m internal.q
+    (internal).m (internal).q
     (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val)
     (idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2))
     (Q.literalPrimitiveFirstSource_radius μv ν C hroot hemb W ξ
       a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half)
     (CanonicalFirstLog.maskNorm_eq_original_length (A := A) D.val Z hZ)
-    ((source.block DE).activeColumn_norm_eq_original_length hΓ₀ C Z hZ)
+    (((source).block DE).activeColumn_norm_eq_original_length hΓ₀ C Z hZ)
   exact hcombined.trans (Q.literalPrimitiveExceptionalFirstCoefficient_le
     (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb)
     (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂)
@@ -470,20 +470,20 @@ end RightMain
 section LeftPool
 
 variable (prime : pool.primes) (n : ℕ)
-local notation "cover" => (p.leftSourceCovers raw.originalAtlas S χ).residual prime n
-local notation "firstFixed" => (source.block DE).literalLeftFixed D.val
-local notation "hfirst" => (source.block DE).literalLeftFixed_generates C D.val
+local notation "cover" => ((p).leftSourceCovers (raw).originalAtlas S χ).residual prime n
+local notation "firstFixed" => ((source).block DE).literalLeftFixed D.val
+local notation "hfirst" => ((source).block DE).literalLeftFixed_generates C D.val
 local notation "firstScalar" => literalLeftPoolScalar
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ prime n
 local notation "firstAtoms" => literalLeftPoolAtoms
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ firstFixed hfirst δ₂ prime n
 
 include domain hlengthBound htotal hN hδ₂ hannulus hamplitude profiles hzero ht hprime
@@ -491,27 +491,27 @@ include domain hlengthBound htotal hN hδ₂ hannulus hamplitude profiles hzero 
 /-- The actual left pool source pays its two original
 redistributed scalars, at the original normalization and uniform tilt. -/
 theorem literalPrimitiveLeftPoolExceptional_firstProfile_le
-    (labelL labelR : cover.labels) :
-    p.weightBound *
+    (labelL labelR : (cover).labels) :
+    (p).weightBound *
         (‖firstScalar labelL * ((firstAtoms labelL).normProfileFactor δ₁ δ₂ : ℂ)‖ *
           ‖firstScalar labelR * ((firstAtoms labelR).normProfileFactor δ₁ δ₂ : ℂ)‖) ≤
       (fixedFirst * amplitude ^ (2 * cap)) *
         Z ^ ((a.m + a.q) - firstTotal DE D + tilt) := by
   have hcombined := literalLeftPoolCombinedProfile_le
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ
     firstFixed hfirst δ₂ hδ₂ hδsum prime n labelL labelR
     profiles hzero ht hprime annulus (zero_le_one.trans hannulus) hwindow cap hcap rfl
-    internal.m internal.q
+    (internal).m (internal).q
     (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val)
     (idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2))
     (Q.literalPrimitiveFirstSource_radius μv ν C hroot hemb W ξ
       a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half)
     (CanonicalFirstLog.maskNorm_eq_original_length (A := A) D.val Z hZ)
-    ((source.block DE).activeColumn_norm_eq_original_length hΓ₀ C Z hZ)
+    (((source).block DE).activeColumn_norm_eq_original_length hΓ₀ C Z hZ)
   exact hcombined.trans (Q.literalPrimitiveExceptionalFirstCoefficient_le
     (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb)
     (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂)
@@ -527,20 +527,20 @@ end LeftPool
 section RightPool
 
 variable (prime : pool.primes) (n : ℕ)
-local notation "cover" => (p.rightSourceCovers raw.originalAtlas S χ).residual prime n
-local notation "firstFixed" => (source.block DE).literalRightFixed D.val
-local notation "hfirst" => (source.block DE).literalRightFixed_generates C D.val
+local notation "cover" => ((p).rightSourceCovers (raw).originalAtlas S χ).residual prime n
+local notation "firstFixed" => ((source).block DE).literalRightFixed D.val
+local notation "hfirst" => ((source).block DE).literalRightFixed_generates C D.val
 local notation "firstScalar" => literalRightPoolScalar
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ prime n
 local notation "firstAtoms" => literalRightPoolAtoms
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ firstFixed hfirst δ₂ prime n
 
 include domain hlengthBound htotal hN hδ₂ hannulus hamplitude profiles hzero ht hprime
@@ -548,27 +548,27 @@ include domain hlengthBound htotal hN hδ₂ hannulus hamplitude profiles hzero 
 /-- The actual right pool source pays its two original
 redistributed scalars, at the original normalization and uniform tilt. -/
 theorem literalPrimitiveRightPoolExceptional_firstProfile_le
-    (labelL labelR : cover.labels) :
-    p.weightBound *
+    (labelL labelR : (cover).labels) :
+    (p).weightBound *
         (‖firstScalar labelL * ((firstAtoms labelL).normProfileFactor δ₁ δ₂ : ℂ)‖ *
           ‖firstScalar labelR * ((firstAtoms labelR).normProfileFactor δ₁ δ₂ : ℂ)‖) ≤
       (fixedFirst * amplitude ^ (2 * cap)) *
         Z ^ ((a.m + a.q) - firstTotal DE D + tilt) := by
   have hcombined := literalRightPoolCombinedProfile_le
     hΓ₀ μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-    (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
     (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-    (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
+    (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
     p S χ
     firstFixed hfirst δ₂ hδ₂ hδsum prime n labelL labelR
     profiles hzero ht hprime annulus (zero_le_one.trans hannulus) hwindow cap hcap rfl
-    internal.m internal.q
+    (internal).m (internal).q
     (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val)
     (idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2))
     (Q.literalPrimitiveFirstSource_radius μv ν C hroot hemb W ξ
       a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half)
     (CanonicalFirstLog.maskNorm_eq_original_length (A := A) D.val Z hZ)
-    ((source.block DE).activeColumn_norm_eq_original_length hΓ₀ C Z hZ)
+    (((source).block DE).activeColumn_norm_eq_original_length hΓ₀ C Z hZ)
   exact hcombined.trans (Q.literalPrimitiveExceptionalFirstCoefficient_le
     (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb)
     (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂)

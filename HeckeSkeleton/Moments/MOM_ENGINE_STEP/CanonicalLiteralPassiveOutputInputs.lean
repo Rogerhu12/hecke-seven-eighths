@@ -314,7 +314,7 @@ local notation "rightTests" => (rightProfiles.profiles.scale rightScalar⁻¹).b
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -344,14 +344,14 @@ variable (rightComputed : CanonicalLiteralFullKappaInput.ComputedProfiles
 variable (hprimeOrders : CanonicalFullKappaPrime.orders ⊆ orders)
 variable (δ analyticHeight : ℝ) (hδ : 0 < δ) (hδhi : δ ≤ 1 / 4)
 
-local notation "leftAllocation" => (rectangles.leftFrame C false).allocation
-local notation "rightAllocation" => (rectangles.rightFrame C false).allocation
+local notation "leftAllocation" => ((rectangles).leftFrame C false).allocation
+local notation "rightAllocation" => ((rectangles).rightFrame C false).allocation
 local notation "leftPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep i))
+  (fun i => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep i))
 local notation "rightPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep i))
+  (fun i => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep i))
 
 local notation "production" =>
   v.literalPassiveNormalizedFamily
@@ -402,8 +402,8 @@ local notation "leftPassiveAllocation" => fun b : Labels =>
 local notation "rightPassiveAllocation" => fun b : Labels =>
   CanonicalLiteralPassiveSource.branch rightTests rightAllocation A (choice.mask extra) b.2.1.val
 local notation "inverse" => CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time
-local notation "leftIndex" => fun i => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep i)
-local notation "rightIndex" => fun i => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep i)
+local notation "leftIndex" => fun i => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep i)
+local notation "rightIndex" => fun i => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep i)
 
 /-- Every raw field is computed from the original paid phase dictionary,
 frozen norm tests and the two literal allocation keep maps. The full
@@ -416,14 +416,14 @@ def literalPassiveNormalizedFamily_rawOutputData :=
       let leftRaw (b : Labels) :
           CompleteMovingRowRecipe A P Rchar (family.leftCalibration b).data :=
         CanonicalLiteralAllocatedData.recipe P Rchar leftPassiveTests (leftPassiveAllocation b)
-          choice.phases parent oldMoving correction hcorr C ordinaryRows.primes
-          ordinaryRows.leftMultiplicity ordinaryRows.rightMultiplicity pattern sector remaining 1
+          choice.phases parent oldMoving correction hcorr C (ordinaryRows).primes
+          (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity pattern sector remaining 1
           m q inverse leftIndex b.1.2 firstSign false
       let rightRaw (b : Labels) :
           CompleteMovingRowRecipe A P Rchar (family.rightCalibration b).data :=
         CanonicalLiteralAllocatedData.recipe P Rchar rightPassiveTests (rightPassiveAllocation b)
-          choice.phases parent oldMoving correction hcorr C ordinaryRows.primes
-          ordinaryRows.leftMultiplicity ordinaryRows.rightMultiplicity pattern sector remaining 1
+          choice.phases parent oldMoving correction hcorr C (ordinaryRows).primes
+          (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity pattern sector remaining 1
           m q inverse rightIndex b.2.2 (-firstSign) true
       refine {
         left := fun b _ => leftRaw b
@@ -438,16 +438,16 @@ def literalPassiveNormalizedFamily_rawOutputData :=
           ((leftRaw b).moving.fullMaskSupport (leftRaw b).remaining) ≤ Z ^ (m + q)
         have h : idealNorm K u * idealNorm K
             ((leftRaw b).moving.fullMaskSupport (leftRaw b).remaining) ≤
-              leftTable.base ^ (m + q) := hu.2
-        have hb : leftTable.base = Z := hbaseLeft
+              (leftTable).base ^ (m + q) := hu.2
+        have hb : (leftTable).base = Z := hbaseLeft
         simpa only [hb] using h
       · intro b _ ξ u hu
         change idealNorm K u * idealNorm K
           ((rightRaw b).moving.fullMaskSupport (rightRaw b).remaining) ≤ Z ^ (m + q)
         have h : idealNorm K u * idealNorm K
             ((rightRaw b).moving.fullMaskSupport (rightRaw b).remaining) ≤
-              rightTable.base ^ (m + q) := hu.2
-        have hb : rightTable.base = Z := hbaseRight
+              (rightTable).base ^ (m + q) := hu.2
+        have hb : (rightTable).base = Z := hbaseRight
         simpa only [hb] using h
       · constructor
         · intro b _
@@ -459,11 +459,11 @@ def literalPassiveNormalizedFamily_rawOutputData :=
       · exact {
           left := fun b _ => CanonicalLiteralAllocatedData.normProfiles P Rchar
             leftPassiveTests (leftPassiveAllocation b) choice.phases parent oldMoving correction
-            hcorr C ordinaryRows.primes ordinaryRows.leftMultiplicity ordinaryRows.rightMultiplicity
+            hcorr C (ordinaryRows).primes (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity
             pattern sector remaining 1 m q inverse leftIndex b.1.2 firstSign false
           right := fun b _ => CanonicalLiteralAllocatedData.normProfiles P Rchar
             rightPassiveTests (rightPassiveAllocation b) choice.phases parent oldMoving correction
-            hcorr C ordinaryRows.primes ordinaryRows.leftMultiplicity ordinaryRows.rightMultiplicity
+            hcorr C (ordinaryRows).primes (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity
             pattern sector remaining 1 m q inverse rightIndex b.2.2 (-firstSign) true }
       · exact {
           left := fun b _ => CanonicalLiteralPassiveFrames.frameOriginalSlots

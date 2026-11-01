@@ -107,30 +107,30 @@ ordinary frequency cutoff follows by its exact extraction norm and
 the fact that a nonzero ideal's norm is at least one. -/
 theorem literalAllocated_active_allowed_cutoff
     (h : (chart.actualRows ∅ X hX label).live) (ξ : WithLp 2 (ℝ × ℝ)) :
-    (child ξ).allowedRow (S.extractedRow C h).momentIdeal ∧
-      A.exteriorNorm (S.originalIdeal h.val) ≤
-        S.normFactor C h.val * d.base ^ (m + q) := by
+    (child ξ).allowedRow ((S).extractedRow C h).momentIdeal ∧
+      A.exteriorNorm ((S).originalIdeal h.val) ≤
+        (S).normFactor C h.val * d.base ^ (m + q) := by
   have hjoint := chart.actualRows_appended_active_pair_fullDeletion_joint_window hclass
     (F.moving P Rchar oldMoving) (remaining * extra) X hX label
     retainedScale d.base g a₀ oldq wo cutoffExponent hscale d.base_gt_one
     hradius hcutoff hproduct hold h
   dsimp only at hjoint
   rw [← hwidth] at hjoint
-  have hallowed : (child ξ).allowedRow (S.extractedRow C h).momentIdeal :=
-    ⟨(HeckeAxiom.exteriorEquiv A (S.extractedRow C h).ideal).property, hjoint⟩
+  have hallowed : (child ξ).allowedRow ((S).extractedRow C h).momentIdeal :=
+    ⟨(HeckeAxiom.exteriorEquiv A ((S).extractedRow C h).ideal).property, hjoint⟩
   refine ⟨hallowed, ?_⟩
   let moving := (F.moving P Rchar oldMoving).appendSecondFactor C b.primes
     b.leftMultiplicity b.rightMultiplicity pattern
   let rem := remainingMaskIdeal A (remaining * extra) *
     secondSixthRootNonzeroIdeal b.primes b.leftMultiplicity b.rightMultiplicity
-  have hnorm : idealNorm K (S.extractedRow C h).momentIdeal ≤ d.base ^ (m + q) := by
+  have hnorm : idealNorm K ((S).extractedRow C h).momentIdeal ≤ d.base ^ (m + q) := by
     calc
-      _ ≤ idealNorm K (S.extractedRow C h).momentIdeal *
+      _ ≤ idealNorm K ((S).extractedRow C h).momentIdeal *
           idealNorm K (moving.fullMaskSupport rem) := by
         exact le_mul_of_one_le_right (idealNorm_pos K _).le (one_le_idealNorm K _)
       _ ≤ _ := hjoint
-  rw [(S.extractedRow C h).norm_factor]
-  exact mul_le_mul_of_nonneg_left hnorm (S.extractedRow C h).factor_pos.le
+  rw [((S).extractedRow C h).norm_factor]
+  exact mul_le_mul_of_nonneg_left hnorm ((S).extractedRow C h).factor_pos.le
 
 include hclass hradius hcutoff hproduct hold hwidth in
 /-- The row updates in the real rectangle source do not alter its
@@ -161,9 +161,9 @@ include hclass hradius hcutoff hleft hright hold hwidth in
 constructor above additionally covers centered zero cross-columns. -/
 theorem literalAllocated_allowed_cutoff
     (h : (chart.actualRows ∅ X hX label).live) (ξ : WithLp 2 (ℝ × ℝ)) :
-    (child ξ).allowedRow (S.extractedRow C h).momentIdeal ∧
-      A.exteriorNorm (S.originalIdeal h.val) ≤
-        S.normFactor C h.val * d.base ^ (m + q) := by
+    (child ξ).allowedRow ((S).extractedRow C h).momentIdeal ∧
+      A.exteriorNorm ((S).originalIdeal h.val) ≤
+        (S).normFactor C h.val * d.base ^ (m + q) := by
   apply chart.literalAllocated_active_allowed_cutoff hclass P Rchar W B F parent oldMoving
     correction hcorr remaining extra X hX label retainedScale g a₀ oldq wo cutoffExponent
     hscale hradius hcutoff _ hold m q hwidth ν inverse index rectangle firstSign negative h ξ

@@ -66,7 +66,7 @@ variable (slots : OriginalSlotDictionary parent d.length)
 variable (cutoff : ℝ)
 
 local notation "rootLength" =>
-  idealLogLength f.source.base
+  idealLogLength (f).source.base
     (secondSixthRootIdeal rows.primes (side.literalMultiplicity rows)
       (side.literalOppositeMultiplicity rows)).val
 local notation "m" => G.literalRowParameter cutoff
@@ -141,12 +141,12 @@ def produceLiteralSideAll :
   let recipe := d.productionRecipe W rows side χ ideal hideal firstSign rectangle L selection hne
     D P Rchar F parent oldMoving correction hcorr remaining extra a step G pattern sector
     slots cutoff reference time hdata
-  have hfull : recipe.FullJointBudget f.source.base (m + q) :=
+  have hfull : recipe.FullJointBudget (f).source.base (m + q) :=
     d.productionRecipe_fullJointBudget W rows side χ ideal hideal firstSign rectangle L selection hne
       D P Rchar F parent oldMoving correction hcorr remaining extra a step G pattern sector
       slots cutoff reference time hdata
   have hkappa : D.parameters.κ = a.κ := by rw [hparameters]; rfl
-  let profiles := CanonicalLiteralFullKappaInput.ofLiteral P Rchar W f.allocation F parent
+  let profiles := CanonicalLiteralFullKappaInput.ofLiteral P Rchar W (f).allocation F parent
     oldMoving correction hcorr C rows.primes rows.leftMultiplicity rows.rightMultiplicity
     pattern sector remaining extra m q slots.index rectangle firstSign side.literalNegative
     reference time lo hi hlo hhi orders original hreference htime horders computed D recipe hdata
@@ -172,7 +172,7 @@ local notation "allSide" =>
     hm hn hsecond hopposite hunit hstep mesh hmesh hfit lo hi hlo hhi orders original
     hreference htime horders computed hprimeOrders δ analyticHeight hδ hδhi analytic hanalytic
 
-@[simp] theorem produceLiteralSideAll_calibration : allSide.calibration = D := by
+@[simp] theorem produceLiteralSideAll_calibration : (allSide).calibration = D := by
   cases side <;> rfl
 
 /-- This is equality of the entire constructed side, not just equality
@@ -183,8 +183,8 @@ theorem produceLiteralSideAll_eq
     (hbound : d.scaleProduct rectangle *
       ((Ideal.absNorm G.literalFirstExtraction.val : ℝ) *
         (Ideal.absNorm G.ideals.second.val : ℝ)) ≤
-      annulus ^ (2 * cap) * f.source.base ^ (a.n₁ + a.n₂ + a.z))
-    (hthreshold : annulus ^ (2 * cap) ≤ f.source.base ^ error) :
+      annulus ^ (2 * cap) * (f).source.base ^ (a.n₁ + a.n₂ + a.z))
+    (hthreshold : annulus ^ (2 * cap) ≤ (f).source.base ^ error) :
     allSide =
       d.produceLiteralSide W rows side χ ideal hideal firstSign rectangle L selection hne D
         P Rchar F parent oldMoving correction hcorr remaining extra a step G pattern sector

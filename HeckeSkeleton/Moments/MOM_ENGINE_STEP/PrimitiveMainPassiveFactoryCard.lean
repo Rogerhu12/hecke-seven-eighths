@@ -62,7 +62,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -106,8 +106,8 @@ variable (hslot : ∀ i, (data ξ).slotCoefficient i ∈ (data ξ).theta)
 variable (lengthBound columnBound : ℝ)
 variable (hlengthBound : 0 ≤ lengthBound) (hcolumnBound : 0 ≤ columnBound)
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-variable (hN : ∀ i ∈ firstSource.columns,
-  (Ideal.absNorm (firstSource.ideal i).val : ℝ) ≤ Z ^ columnBound)
+variable (hN : ∀ i ∈ (firstSource).columns,
+  (Ideal.absNorm ((firstSource).ideal i).val : ℝ) ≤ Z ^ columnBound)
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {eps : ℝ}
 variable (pool : PowerScaleExteriorPool A bad Z (step / 3) eps)
 variable (hdensity : 0 < pool.rowDensity
@@ -249,14 +249,14 @@ local notation "rightFactory" => literalPrimitiveRightMainFactory
 /-- The count is for this factory's stored label type, before any
 individual analytic certificate is supplied. -/
 theorem literalPrimitiveLeftMainFactory_card
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pools DE D).rightData.columns
-      (fun j => ((source.pools DE D).rightData.ideal j).val))
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pools DE D).rightData.columns
+      (fun j => (((source).pools DE D).rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle)
-    (leaf : (((stages DE D).left S χ).main).supported.gated.CoveredLeafKey (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).main) (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).main))
+    (leaf : (((stages DE D).left S χ).main).supported.gated.CoveredLeafKey ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main) ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main))
     (hS : Squarefree S.val)
-    (hlive : ((((stages DE D).left S χ).main).supported.gated.fiberCoveredLeaf (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).main) (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).main)
-      ((exceptional DE D).left S χ).main (source.charts DE D).kernel (source.charts DE D).leftPoint leaf).Live)
+    (hlive : ((((stages DE D).left S χ).main).supported.gated.fiberCoveredLeaf ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main) ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main)
+      ((exceptional DE D).left S χ).main ((source).charts DE D).kernel ((source).charts DE D).leftPoint leaf).Live)
     (ε : ℝ) (hε : 0 < ε) :
     (Fintype.card (leftFactory DE D S χ leaf hS hlive).Label : ℝ) ≤
       PrimitivePassiveFactoryCard.directConstant K cap columnBound ε hcolumnBound hε * Z ^ ε := by
@@ -264,44 +264,44 @@ theorem literalPrimitiveLeftMainFactory_card
   let originalL := literalLeftMainAtoms
       (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-      (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+      ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
       (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-      (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-      (source.pools DE D) S χ ((source.block DE).literalLeftFixed D.val)
-      ((source.block DE).literalLeftFixed_generates C D.val) δ₂ v.2.2.1
+      (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+      ((source).pools DE D) S χ (((source).block DE).literalLeftFixed D.val)
+      (((source).block DE).literalLeftFixed_generates C D.val) δ₂ v.2.2.1
   let originalRecipeL := literalLeftMainRecipe
       (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-      (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+      ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
       (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-      (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-      (source.pools DE D) S χ ((source.block DE).literalLeftFixed D.val)
-      ((source.block DE).literalLeftFixed_generates C D.val) δ₂ v.2.2.1
+      (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+      ((source).pools DE D) S χ (((source).block DE).literalLeftFixed D.val)
+      (((source).block DE).literalLeftFixed_generates C D.val) δ₂ v.2.2.1
   let originalR := literalLeftMainAtoms
       (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-      (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+      ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
       (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-      (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-      (source.pools DE D) S χ ((source.block DE).literalLeftFixed D.val)
-      ((source.block DE).literalLeftFixed_generates C D.val) δ₂ v.2.2.2.1
+      (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+      ((source).pools DE D) S χ (((source).block DE).literalLeftFixed D.val)
+      (((source).block DE).literalLeftFixed_generates C D.val) δ₂ v.2.2.2.1
   let originalRecipeR := literalLeftMainRecipe
       (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-      (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+      ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
       (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-      (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-      (source.pools DE D) S χ ((source.block DE).literalLeftFixed D.val)
-      ((source.block DE).literalLeftFixed_generates C D.val) δ₂ v.2.2.2.1
+      (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+      ((source).pools DE D) S χ (((source).block DE).literalLeftFixed D.val)
+      (((source).block DE).literalLeftFixed_generates C D.val) δ₂ v.2.2.2.1
   let recipeL := v.literalLeftRecipe (originalL.redistributeNormFactors δ₁ δ₂)
     (originalRecipeL.redistributeNormFactors δ₁ δ₂)
   let recipeR := v.literalRightRecipe (originalR.redistributeNormFactors δ₁ δ₂)
     (originalRecipeR.redistributeNormFactors δ₁ δ₂)
-  have hD := (actual_common_pair_properties source.columns source.columns
-    (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) DE).1
-  have hDN := (actual_common_pair_norm source.columns source.columns
-    (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) (Z ^ columnBound)
-    (fun i _ => (source.ideal i).property.1) (fun i _ => (source.ideal i).property.1)
+  have hD := (actual_common_pair_properties (source).columns (source).columns
+    (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) DE).1
+  have hDN := (actual_common_pair_norm (source).columns (source).columns
+    (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) (Z ^ columnBound)
+    (fun i _ => ((source).ideal i).property.1) (fun i _ => ((source).ideal i).property.1)
     hN hN DE).1
   exact PrimitivePassiveFactoryCard.direct_bound cap columnBound ε hcolumnBound hε
     Z hZ DE.val.1 hD hDN recipeL.slots recipeR.slots hcap
@@ -309,14 +309,14 @@ theorem literalPrimitiveLeftMainFactory_card
 /-- The count is for this factory's stored label type, before any
 individual analytic certificate is supplied. -/
 theorem literalPrimitiveRightMainFactory_card
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pools DE D).rightData.columns
-      (fun j => ((source.pools DE D).rightData.ideal j).val))
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pools DE D).rightData.columns
+      (fun j => (((source).pools DE D).rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle)
-    (leaf : (((stages DE D).right S χ).main).supported.gated.CoveredLeafKey (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).main) (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).main))
+    (leaf : (((stages DE D).right S χ).main).supported.gated.CoveredLeafKey ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main) ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main))
     (hS : Squarefree S.val)
-    (hlive : ((((stages DE D).right S χ).main).supported.gated.fiberCoveredLeaf (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).main) (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).main)
-      ((exceptional DE D).right S χ).main (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i) leaf).Live)
+    (hlive : ((((stages DE D).right S χ).main).supported.gated.fiberCoveredLeaf ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main) ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main)
+      ((exceptional DE D).right S χ).main ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i) leaf).Live)
     (ε : ℝ) (hε : 0 < ε) :
     (Fintype.card (rightFactory DE D S χ leaf hS hlive).Label : ℝ) ≤
       PrimitivePassiveFactoryCard.directConstant K cap columnBound ε hcolumnBound hε * Z ^ ε := by
@@ -324,44 +324,44 @@ theorem literalPrimitiveRightMainFactory_card
   let originalL := literalRightMainAtoms
       (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-      (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+      ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
       (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-      (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-      (source.pools DE D) S χ ((source.block DE).literalRightFixed D.val)
-      ((source.block DE).literalRightFixed_generates C D.val) δ₂ v.2.2.1
+      (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+      ((source).pools DE D) S χ (((source).block DE).literalRightFixed D.val)
+      (((source).block DE).literalRightFixed_generates C D.val) δ₂ v.2.2.1
   let originalRecipeL := literalRightMainRecipe
       (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-      (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+      ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
       (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-      (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-      (source.pools DE D) S χ ((source.block DE).literalRightFixed D.val)
-      ((source.block DE).literalRightFixed_generates C D.val) δ₂ v.2.2.1
+      (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+      ((source).pools DE D) S χ (((source).block DE).literalRightFixed D.val)
+      (((source).block DE).literalRightFixed_generates C D.val) δ₂ v.2.2.1
   let originalR := literalRightMainAtoms
       (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-      (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+      ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
       (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-      (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-      (source.pools DE D) S χ ((source.block DE).literalRightFixed D.val)
-      ((source.block DE).literalRightFixed_generates C D.val) δ₂ v.2.2.2.1
+      (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+      ((source).pools DE D) S χ (((source).block DE).literalRightFixed D.val)
+      (((source).block DE).literalRightFixed_generates C D.val) δ₂ v.2.2.2.1
   let originalRecipeR := literalRightMainRecipe
       (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       μv ν Q ξ (W.at ξ) internal Z t Y₁ Y₂ centered hZ hY₁ hY₂
-      (source.block DE) C (CanonicalRowBall.archTest K A.Sf 1)
+      ((source).block DE) C (CanonicalRowBall.archTest K A.Sf 1)
       (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-      (rowBallFiniteFamily_compactSupport K A.Sf 1) source.radius D.val δ₁ hδ₁ hδ₁half
-      (source.pools DE D) S χ ((source.block DE).literalRightFixed D.val)
-      ((source.block DE).literalRightFixed_generates C D.val) δ₂ v.2.2.2.1
+      (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
+      ((source).pools DE D) S χ (((source).block DE).literalRightFixed D.val)
+      (((source).block DE).literalRightFixed_generates C D.val) δ₂ v.2.2.2.1
   let recipeL := v.literalLeftRecipe (originalL.redistributeNormFactors δ₁ δ₂)
     (originalRecipeL.redistributeNormFactors δ₁ δ₂)
   let recipeR := v.literalRightRecipe (originalR.redistributeNormFactors δ₁ δ₂)
     (originalRecipeR.redistributeNormFactors δ₁ δ₂)
-  have hD := (actual_common_pair_properties source.columns source.columns
-    (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) DE).1
-  have hDN := (actual_common_pair_norm source.columns source.columns
-    (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) (Z ^ columnBound)
-    (fun i _ => (source.ideal i).property.1) (fun i _ => (source.ideal i).property.1)
+  have hD := (actual_common_pair_properties (source).columns (source).columns
+    (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) DE).1
+  have hDN := (actual_common_pair_norm (source).columns (source).columns
+    (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) (Z ^ columnBound)
+    (fun i _ => ((source).ideal i).property.1) (fun i _ => ((source).ideal i).property.1)
     hN hN DE).1
   exact PrimitivePassiveFactoryCard.direct_bound cap columnBound ε hcolumnBound hε
     Z hZ DE.val.1 hD hDN recipeL.slots recipeR.slots hcap

@@ -181,7 +181,7 @@ variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
 
-@[simp] theorem literalOriginalAtoms_gaussScale : seed.gaussScale = 1 := by
+@[simp] theorem literalOriginalAtoms_gaussScale : (seed).gaussScale = 1 := by
   simp only [literalOriginalAtoms, CanonicalLiteralRectangles.Atoms.gaussScale,
     extraGaussScale, Finset.prod_const_one, mul_one]
 
@@ -190,7 +190,7 @@ result concerns the actual first-extracted table before the second
 common extraction, and charges the entire frozen original ideal. -/
 theorem literalOriginalAtoms_secondInput_gaussScale_lower
     {support : Finset (Ideal (𝓞 K))}
-    (b : SupportCartesianBranch seed.plain₁ seed.plain₂ seed.slots support)
+    (b : SupportCartesianBranch (seed).plain₁ (seed).plain₂ (seed).slots support)
     (power firstFixed poolFixed unitFixed : A.Exterior)
     (firstElement poolElement unitElement : A.R)
     (hfirst : A.Generates firstFixed firstElement)
@@ -203,18 +203,18 @@ theorem literalOriginalAtoms_secondInput_gaussScale_lower
     Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength -
       idealLogLength Z
         (frozenSourceIdeal b.plainDivisor₁ b.plainDivisor₂ b.keep b.witness.2)) ≤
-      (seed.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
+      ((seed).secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).gaussScale := by
   have hp (i) (_hi : i ∈ Finset.univ \ b.keep) :
-      seed.base ^ seed.length i ≤ (Ideal.absNorm (b.witness.2 i).asIdeal : ℝ) := by
+      (seed).base ^ (seed).length i ≤ (Ideal.absNorm (b.witness.2 i).asIdeal : ℝ) := by
     have hslot := (Finset.mem_filter.mp (b.witness_slots i)).1
     change b.witness.2 i ∈
       (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).exteriorSlots i at hslot
     exact profiles.primeScale_le_norm_of_open_prime_window Z t (zero_lt_one.trans hZ)
       hprime i (b.witness.2 i) (Finset.mem_filter.mp hslot).1
-  have hproduct : seed.scale₁ false * seed.scale₂ false = seed.base ^ (a.n₁ + a.n₂) :=
+  have hproduct : (seed).scale₁ false * (seed).scale₂ false = (seed).base ^ (a.n₁ + a.n₂) :=
     (Real.rpow_add (zero_lt_one.trans hZ) a.n₁ a.n₂).symm
-  have h := seed.secondInput_gaussScale_lower_one (σ := σ) b P R
+  have h := (seed).secondInput_gaussScale_lower_one (σ := σ) b P R
     power firstFixed poolFixed unitFixed firstElement poolElement unitElement
     hfirst hpool hunit δ₁ δ₂ (a.n₁ + a.n₂) hproduct hp
   simpa only [Q.literalOriginalAtoms_gaussScale ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂,

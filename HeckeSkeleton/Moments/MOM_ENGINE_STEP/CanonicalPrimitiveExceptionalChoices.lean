@@ -146,7 +146,7 @@ theorem firstCoefficient_nonneg : 0 ≤ firstCoefficient (K := K) b :=
   mul_nonneg (orbitalFieldFactor_nonneg K) (pow_nonneg (zero_le_one.trans b.hi_ge_one) _)
 
 def sourceCoefficient : ℝ :=
-  b.hi ^ b.cap * orbitalFieldFactor K * (Γ₀.index : ℝ) *
+  b.hi ^ b.cap * orbitalFieldFactor K * ((Γ₀).index : ℝ) *
     CanonicalLiteralExceptionalSourceBudget.coefficient
       (A := A) (σ := σ) (η := η) (hS := hS) primitive
         (volumeLoss b) (sourceWidth b) b.loss b.loss

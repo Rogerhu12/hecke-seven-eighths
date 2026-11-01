@@ -242,7 +242,7 @@ local notation "child" => CanonicalMovingPhaseCalibration.childData P R parent p
 child mask. No separate support certificate is supplied. -/
 include hp hm hn in
 theorem child_common_parts (secondRight : Bool) (u I : HeckeGeneral.Analysis.NonzeroIdeal K)
-    (hmask : child.commonMask u I.val = true) :
+    (hmask : (child).commonMask u I.val = true) :
     IsCoprime I.val A.cS ∧
       supportExtract I.val (primeSupport firstCommon.val) = 1 ∧
       supportExtract I.val
@@ -254,11 +254,11 @@ theorem child_common_parts (secondRight : Bool) (u I : HeckeGeneral.Analysis.Non
       ((remaining.val * firstCommon.val) * (secondSixthRootIdeal p m n).val) := h.2.2.2
   have hfirst : IsCoprime I.val firstCommon.val :=
     (IsCoprime.mul_right_iff.mp (IsCoprime.mul_right_iff.mp hrest).1).2
-  have hfull : IsCoprime I.val (moving.support.val * rest.val) :=
+  have hfull : IsCoprime I.val ((moving).support.val * (rest).val) :=
     h.2.2.1.mul_right h.2.2.2
-  have hsecond := supportExtract_eq_one_of_coprime I.val (moving.support.val * rest.val)
+  have hsecond := supportExtract_eq_one_of_coprime I.val ((moving).support.val * (rest).val)
     (nonZeroDivisors.coe_ne_zero I)
-    (mul_ne_zero moving.support.property.1 (nonZeroDivisors.coe_ne_zero rest))
+    (mul_ne_zero (moving).support.property.1 (nonZeroDivisors.coe_ne_zero rest))
     (primeSupport (primePowerProduct p m).val)
     (second_common_subset_full_mask prefix (remaining * exteriorMomentIdeal firstCommon)
       C p hp m n hm hn pattern) hfull

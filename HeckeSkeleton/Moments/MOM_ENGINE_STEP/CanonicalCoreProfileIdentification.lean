@@ -306,19 +306,19 @@ local notation "factors" => originalSecondResidualCoreFactors Q x W a Z t Y₁ Y
 
 /-- The actual constructed field, with both original extractions. -/
 theorem core_leftWeight (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    factors.dictionary.leftWeight I =
+    (factors).dictionary.leftWeight I =
       rawPlainWeight (W.left PUnit.unit t) (if comparison then Y₁ else Z ^ a.n₁)
         b₁.plainDivisor₁ b₂.plainDivisor₁ firstTilt secondTilt ξ
         (if firstRight then 1 else -1) I := rfl
 
 theorem core_rightWeight (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    factors.dictionary.rightWeight I =
+    (factors).dictionary.rightWeight I =
       rawPlainWeight (W.right PUnit.unit t) (if comparison then Y₂ else Z ^ a.n₂)
         b₁.plainDivisor₂ b₂.plainDivisor₂ firstTilt secondTilt ξ
         (if firstRight then 1 else -1) I := rfl
 
 theorem core_slotWeight (j : Fin b₂.keep.card) (p : HeightOneSpectrum (𝓞 K)) :
-    factors.dictionary.slotWeight j p =
+    (factors).dictionary.slotWeight j p =
       rawPrimeWeight (((data x).geometry.slots (idx₁ (idx₂ j))).profile t)
         (Z ^ ((data x).geometry.slots (idx₁ (idx₂ j))).length)
         firstTilt secondTilt ξ (if firstRight then 1 else -1) p := rfl
@@ -343,7 +343,7 @@ the bounded profile, directly from the original parent window. It also
 applies at each later allocated ideal `D * I`. -/
 include raw hwindow hB hfirst hsecond htilts hanchor hanchorDomain ht in
 theorem core_leftWeight_clipped (I : HeckeGeneral.Analysis.NonzeroIdeal K) (ζ secondSlope : ℝ) :
-    factors.dictionary.leftWeight I * jointPhase ζ (secondSlope * Real.log (idealNorm K I)) =
+    (factors).dictionary.leftWeight I * jointPhase ζ (secondSlope * Real.log (idealNorm K I)) =
       ((clippedScalar G₁ (idealNorm K b₂.plainDivisor₁) B firstTilt secondTilt : ℂ) *
         W.left PUnit.unit t (idealNorm K I / G₁)) *
         (atom G₁ (idealNorm K b₂.plainDivisor₁) firstTilt secondTilt
@@ -362,7 +362,7 @@ theorem core_leftWeight_clipped (I : HeckeGeneral.Analysis.NonzeroIdeal K) (ζ s
 
 include raw hwindow hB hfirst hsecond htilts hanchor hanchorDomain ht in
 theorem core_rightWeight_clipped (I : HeckeGeneral.Analysis.NonzeroIdeal K) (ζ secondSlope : ℝ) :
-    factors.dictionary.rightWeight I * jointPhase ζ (secondSlope * Real.log (idealNorm K I)) =
+    (factors).dictionary.rightWeight I * jointPhase ζ (secondSlope * Real.log (idealNorm K I)) =
       ((clippedScalar G₂ (idealNorm K b₂.plainDivisor₂) B firstTilt secondTilt : ℂ) *
         W.right PUnit.unit t (idealNorm K I / G₂)) *
         (atom G₂ (idealNorm K b₂.plainDivisor₂) firstTilt secondTilt
@@ -383,7 +383,7 @@ include raw hwindow hB hfirst hsecond htilts ht in
 theorem core_slotWeight_clipped (j : Fin b₂.keep.card)
     (p : HeightOneSpectrum (𝓞 K)) (ζ secondSlope : ℝ) :
     let G := Z ^ ((data x).geometry.slots (idx₁ (idx₂ j))).length
-    factors.dictionary.slotWeight j p * jointPhase ζ (secondSlope * Real.log (Ideal.absNorm p.asIdeal : ℝ)) =
+    (factors).dictionary.slotWeight j p * jointPhase ζ (secondSlope * Real.log (Ideal.absNorm p.asIdeal : ℝ)) =
       ((clippedScalar G 1 B firstTilt secondTilt : ℂ) *
         ((data x).geometry.slots (idx₁ (idx₂ j))).profile t
           ((Ideal.absNorm p.asIdeal : ℝ) / G)) *
@@ -440,12 +440,12 @@ variable (side : SecondColumnSide) (χ : (PUnit × PUnit) →* Circle)
 variable (secondCommon : A.Exterior)
 local notation "common" => combinedCommon firstCommon p v
 local notation "L₁" => SupportCartesian.plainResidual S₁
-  (primeSupport common.val) b₁.plainExtract₁
+  (primeSupport (common).val) b₁.plainExtract₁
 local notation "L₂" => SupportCartesian.plainResidual S₂
-  (primeSupport common.val) b₁.plainExtract₂
+  (primeSupport (common).val) b₁.plainExtract₂
 local notation "idx₁" => SlotRestriction.index b₁.keep
 local notation "Slots" => fun j => SupportCartesian.primeLive
-  (S (idx₁ j)) (primeSupport common.val)
+  (S (idx₁ j)) (primeSupport (common).val)
 variable (b₂ : SupportCartesianBranch L₁ L₂ Slots (primeSupport secondCommon.val))
 variable (J₂ : AllocationColumn K b₂.keep.card → A.Exterior)
 variable (hJ₂ : ∀ i ∈ b₂.residualColumns, (J₂ i).val = allocationColumnIdeal i)
@@ -463,19 +463,19 @@ local notation "factors" => originalPoolSecondCoreFactors Q x W a Z t Y₁ Y₂
 analytic weights unchanged. The original common divisor here is the
 actual combined support-and-pool divisor. -/
 theorem pool_core_leftWeight (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    factors.dictionary.leftWeight I =
+    (factors).dictionary.leftWeight I =
       rawPlainWeight (W.left PUnit.unit t) (if comparison then Y₁ else Z ^ a.n₁)
         b₁.plainDivisor₁ b₂.plainDivisor₁ firstTilt secondTilt ξ
         (if firstRight then 1 else -1) I := rfl
 
 theorem pool_core_rightWeight (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    factors.dictionary.rightWeight I =
+    (factors).dictionary.rightWeight I =
       rawPlainWeight (W.right PUnit.unit t) (if comparison then Y₂ else Z ^ a.n₂)
         b₁.plainDivisor₂ b₂.plainDivisor₂ firstTilt secondTilt ξ
         (if firstRight then 1 else -1) I := rfl
 
 theorem pool_core_slotWeight (j : Fin b₂.keep.card) (q : HeightOneSpectrum (𝓞 K)) :
-    factors.dictionary.slotWeight j q =
+    (factors).dictionary.slotWeight j q =
       rawPrimeWeight (((data x).geometry.slots (idx₁ (idx₂ j))).profile t)
         (Z ^ ((data x).geometry.slots (idx₁ (idx₂ j))).length)
         firstTilt secondTilt ξ (if firstRight then 1 else -1) q := rfl

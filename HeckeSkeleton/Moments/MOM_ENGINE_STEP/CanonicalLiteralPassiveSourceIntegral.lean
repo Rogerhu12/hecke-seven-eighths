@@ -166,7 +166,7 @@ local notation "rightTests" => (rightProfiles.profiles.scale rightScalar⁻¹).b
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -196,14 +196,14 @@ variable (rightComputed : CanonicalLiteralFullKappaInput.ComputedProfiles
 variable (hprimeOrders : CanonicalFullKappaPrime.orders ⊆ orders)
 variable (δ analyticHeight : ℝ) (hδ : 0 < δ) (hδhi : δ ≤ 1 / 4)
 
-local notation "leftAllocation" => (rectangles.leftFrame C false).allocation
-local notation "rightAllocation" => (rectangles.rightFrame C false).allocation
+local notation "leftAllocation" => ((rectangles).leftFrame C false).allocation
+local notation "rightAllocation" => ((rectangles).rightFrame C false).allocation
 local notation "leftPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep i))
+  (fun i => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep i))
 local notation "rightPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep i))
+  (fun i => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep i))
 
 local notation "production" =>
   v.literalPassiveNormalizedFamily
@@ -255,8 +255,8 @@ local notation "rightFrame" => fun b : RightLabel =>
   CanonicalLiteralPassiveFrames.frame rightTests rightAllocation A rightPaid C ordinaryRows
     .right (choice.mask extra) b.1.val (-firstSign) b.2
 local notation "frozenPair" =>
-  Real.sqrt (leftTable.originalFrozenCost leftAllocation) *
-    Real.sqrt (rightTable.originalFrozenCost rightAllocation)
+  Real.sqrt ((leftTable).originalFrozenCost leftAllocation) *
+    Real.sqrt ((rightTable).originalFrozenCost rightAllocation)
 local notation "passiveIntegrand" => CanonicalLiteralPassiveNormalizedFamily.integrand
   C ordinaryRows leftTests rightTests leftAllocation rightAllocation leftPaid rightPaid
   (choice.mask extra) (choice.mask extra) firstSign (-firstSign)
@@ -337,29 +337,29 @@ local notation "sourceIntegral" => v.literalPassiveNormalizedFamily_ordinaryCost
 
 local notation "originalLeaf" => v.leaf exceptional firstKernel x j
 local notation "originalMeasure" => actualNestedLabelMeasure
-  (fun _ : Labels => originalLeaf.firstKernel)
-  (fun _ : Labels => originalLeaf.secondKernel)
-  (fun _ : Labels => originalLeaf.weight * frozenPair)
+  (fun _ : Labels => (originalLeaf).firstKernel)
+  (fun _ : Labels => (originalLeaf).secondKernel)
+  (fun _ : Labels => (originalLeaf).weight * frozenPair)
 
 include hfirst hextra in
 /-- The same stored leaf and the same selected passive children satisfy
 the complete ordinary source-to-kernel integral inequality. -/
 theorem literalPassiveNormalizedFamily_ordinaryCost_le_kernel
-    (X : originalLeaf.ConstantAtomExtraction)
+    (X : (originalLeaf).ConstantAtomExtraction)
     (binding : X.leaf.OrdinaryBinding rectangles) :
     ∀ analyticLeft analyticRight heightLeft heightRight (parentWidth : ℝ),
     let family := production analyticLeft analyticRight heightLeft heightRight
-    originalLeaf.ordinaryCost / Z ^ parentWidth ≤
+    (originalLeaf).ordinaryCost / Z ^ parentWidth ≤
       ∑ b : family.active Finset.univ,
         ∫ ξ, family.childPair Finset.univ b ξ
           ∂family.kernel Finset.univ originalMeasure parentWidth b := by
   intro analyticLeft analyticRight heightLeft heightRight parentWidth
   have hs := sourceIntegral X binding analyticLeft analyticRight heightLeft heightRight parentWidth
   have hc := (fourierControl analyticLeft analyticRight heightLeft heightRight).source_integral
-    (fun _ : Labels => originalLeaf.firstKernel)
-    (fun _ : Labels => originalLeaf.secondKernel)
-    (fun _ : Labels => originalLeaf.weight * frozenPair) parentWidth hZ
-    (fun _ _ => mul_nonneg originalLeaf.weight_nonneg
+    (fun _ : Labels => (originalLeaf).firstKernel)
+    (fun _ : Labels => (originalLeaf).secondKernel)
+    (fun _ : Labels => (originalLeaf).weight * frozenPair) parentWidth hZ
+    (fun _ _ => mul_nonneg (originalLeaf).weight_nonneg
       (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _)))
   exact hs.trans hc
 
@@ -377,9 +377,9 @@ theorem literalPassiveNormalizedFamily_children_integrable :
         (family.kernel Finset.univ originalMeasure parentWidth b) := by
   intro analyticLeft analyticRight heightLeft heightRight parentWidth b
   exact (fourierControl analyticLeft analyticRight heightLeft heightRight).children_integrable
-    (fun _ : Labels => originalLeaf.firstKernel)
-    (fun _ : Labels => originalLeaf.secondKernel)
-    (fun _ : Labels => originalLeaf.weight * frozenPair) parentWidth hZ b
+    (fun _ : Labels => (originalLeaf).firstKernel)
+    (fun _ : Labels => (originalLeaf).secondKernel)
+    (fun _ : Labels => (originalLeaf).weight * frozenPair) parentWidth hZ b
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

@@ -64,7 +64,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -108,8 +108,8 @@ variable (hslot : ∀ i, (data ξ).slotCoefficient i ∈ (data ξ).theta)
 variable (lengthBound columnBound : ℝ)
 variable (hlengthBound : 0 ≤ lengthBound) (hcolumnBound : 0 ≤ columnBound)
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-variable (hN : ∀ i ∈ firstSource.columns,
-  (Ideal.absNorm (firstSource.ideal i).val : ℝ) ≤ Z ^ columnBound)
+variable (hN : ∀ i ∈ (firstSource).columns,
+  (Ideal.absNorm ((firstSource).ideal i).val : ℝ) ≤ Z ^ columnBound)
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {eps : ℝ}
 variable (pool : PowerScaleExteriorPool A bad Z (step / 3) eps)
 variable (hdensity : 0 < pool.rowDensity
@@ -295,57 +295,57 @@ local notation "rightPoolFactory" => literalPrimitiveRightPoolFactory
 /-- No primitive source family or aggregate estimate is supplied.
 All cases are selected from the same original live finite key. -/
 def literalPrimitivePooledFactory
-    (j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization) :
+    (j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization) :
     CurriedNormalizedFamily A σ (WithLp 2 (ℝ × ℝ)) ω ψ Z := by
-  have hS := stages.supported.gated.live_first_divisor_squarefree
-    raw.originalAtlas exceptional normalization j
-  have hparent := stages.supported.gated.liveLeaves_spec raw.originalAtlas exceptional normalization j
+  have hS := (stages).supported.gated.live_first_divisor_squarefree
+    (raw).originalAtlas exceptional normalization j
+  have hparent := (stages).supported.gated.liveLeaves_spec (raw).originalAtlas exceptional normalization j
   rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
-  · have hblock := ((stages.supported.gated DE D).coveredLeaf raw.originalAtlas raw.originalAtlas
-      (normalization.left DE D) (normalization.right DE D)
-      (normalization.left_pos DE D) (normalization.right_pos DE D)
+  · have hblock := (((stages).supported.gated DE D).coveredLeaf (raw).originalAtlas (raw).originalAtlas
+      ((normalization).left DE D) ((normalization).right DE D)
+      ((normalization).left_pos DE D) ((normalization).right_pos DE D)
       (exceptional DE D) ⟨S, χ, .inl leaf⟩).live_of_scale_live _ _ hparent
-    have hpool := (((stages DE D).left S χ).supported.gated.coveredLeaf ((source.pools DE D).leftSourceCovers raw.originalAtlas S χ)
-      ((exceptional DE D).left S χ) (source.charts DE D).kernel (source.charts DE D).leftPoint leaf).live_of_scale_live _ _ hblock
+    have hpool := (((stages DE D).left S χ).supported.gated.coveredLeaf (((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ)
+      ((exceptional DE D).left S χ) ((source).charts DE D).kernel ((source).charts DE D).leftPoint leaf).live_of_scale_live _ _ hblock
     rcases leaf with leaf | (⟨prime, leaf⟩ | (⟨prime, leaf⟩ | ⟨prime, leaf⟩))
     · have hfiber := ((((stages DE D).left S χ).main).supported.gated.fiberCoveredLeaf
-        (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).main) (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).main) (((exceptional DE D).left S χ).main)
-        (source.charts DE D).kernel (source.charts DE D).leftPoint leaf).live_of_scale_live _ _ hpool
+        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main) ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main) (((exceptional DE D).left S χ).main)
+        ((source).charts DE D).kernel ((source).charts DE D).leftPoint leaf).live_of_scale_live _ _ hpool
       exact leftMainFactory DE D S χ leaf hS hfiber
     · have hfiber := ((((stages DE D).left S χ).one prime).supported.gated.fiberCoveredLeaf
-        (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).residual prime 1) (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).residual prime 1) (((exceptional DE D).left S χ).one prime)
-        (source.charts DE D).kernel (fun i => (source.charts DE D).leftPoint i.val) leaf).live_of_scale_live _ _ hpool
+        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual prime 1) ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual prime 1) (((exceptional DE D).left S χ).one prime)
+        ((source).charts DE D).kernel (fun i => ((source).charts DE D).leftPoint i.val) leaf).live_of_scale_live _ _ hpool
       exact leftPoolFactory DE D S χ .one prime leaf hS hfiber
     · have hfiber := ((((stages DE D).left S χ).six prime).supported.gated.fiberCoveredLeaf
-        (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).residual prime 6) (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).residual prime 6) (((exceptional DE D).left S χ).six prime)
-        (source.charts DE D).kernel (fun i => (source.charts DE D).leftPoint i.val) leaf).live_of_scale_live _ _ hpool
+        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual prime 6) ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual prime 6) (((exceptional DE D).left S χ).six prime)
+        ((source).charts DE D).kernel (fun i => ((source).charts DE D).leftPoint i.val) leaf).live_of_scale_live _ _ hpool
       exact leftPoolFactory DE D S χ .six prime leaf hS hfiber
     · have hfiber := ((((stages DE D).left S χ).seven prime).supported.gated.fiberCoveredLeaf
-        (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).residual prime 7) (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).residual prime 7) (((exceptional DE D).left S χ).seven prime)
-        (source.charts DE D).kernel (fun i => (source.charts DE D).leftPoint i.val) leaf).live_of_scale_live _ _ hpool
+        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual prime 7) ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual prime 7) (((exceptional DE D).left S χ).seven prime)
+        ((source).charts DE D).kernel (fun i => ((source).charts DE D).leftPoint i.val) leaf).live_of_scale_live _ _ hpool
       exact leftPoolFactory DE D S χ .seven prime leaf hS hfiber
-  · have hblock := ((stages.supported.gated DE D).coveredLeaf raw.originalAtlas raw.originalAtlas
-      (normalization.left DE D) (normalization.right DE D)
-      (normalization.left_pos DE D) (normalization.right_pos DE D)
+  · have hblock := (((stages).supported.gated DE D).coveredLeaf (raw).originalAtlas (raw).originalAtlas
+      ((normalization).left DE D) ((normalization).right DE D)
+      ((normalization).left_pos DE D) ((normalization).right_pos DE D)
       (exceptional DE D) ⟨S, χ, .inr leaf⟩).live_of_scale_live _ _ hparent
-    have hpool := (((stages DE D).right S χ).supported.gated.coveredLeaf ((source.pools DE D).rightSourceCovers raw.originalAtlas S χ)
-      ((exceptional DE D).right S χ) (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i) leaf).live_of_scale_live _ _ hblock
+    have hpool := (((stages DE D).right S χ).supported.gated.coveredLeaf (((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ)
+      ((exceptional DE D).right S χ) ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i) leaf).live_of_scale_live _ _ hblock
     rcases leaf with leaf | (⟨prime, leaf⟩ | (⟨prime, leaf⟩ | ⟨prime, leaf⟩))
     · have hfiber := ((((stages DE D).right S χ).main).supported.gated.fiberCoveredLeaf
-        (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).main) (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).main) (((exceptional DE D).right S χ).main)
-        (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i) leaf).live_of_scale_live _ _ hpool
+        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main) ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main) (((exceptional DE D).right S χ).main)
+        ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i) leaf).live_of_scale_live _ _ hpool
       exact rightMainFactory DE D S χ leaf hS hfiber
     · have hfiber := ((((stages DE D).right S χ).one prime).supported.gated.fiberCoveredLeaf
-        (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).residual prime 1) (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).residual prime 1) (((exceptional DE D).right S χ).one prime)
-        (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i.val) leaf).live_of_scale_live _ _ hpool
+        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual prime 1) ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual prime 1) (((exceptional DE D).right S χ).one prime)
+        ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i.val) leaf).live_of_scale_live _ _ hpool
       exact rightPoolFactory DE D S χ .one prime leaf hS hfiber
     · have hfiber := ((((stages DE D).right S χ).six prime).supported.gated.fiberCoveredLeaf
-        (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).residual prime 6) (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).residual prime 6) (((exceptional DE D).right S χ).six prime)
-        (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i.val) leaf).live_of_scale_live _ _ hpool
+        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual prime 6) ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual prime 6) (((exceptional DE D).right S χ).six prime)
+        ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i.val) leaf).live_of_scale_live _ _ hpool
       exact rightPoolFactory DE D S χ .six prime leaf hS hfiber
     · have hfiber := ((((stages DE D).right S χ).seven prime).supported.gated.fiberCoveredLeaf
-        (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).residual prime 7) (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).residual prime 7) (((exceptional DE D).right S χ).seven prime)
-        (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i.val) leaf).live_of_scale_live _ _ hpool
+        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual prime 7) ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual prime 7) (((exceptional DE D).right S χ).seven prime)
+        ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i.val) leaf).live_of_scale_live _ _ hpool
       exact rightPoolFactory DE D S χ .seven prime leaf hS hfiber
 
 local notation "factories" => literalPrimitivePooledFactory
@@ -372,10 +372,10 @@ local notation "factories" => literalPrimitivePooledFactory
 
 /-- Both levels of labels are the literal original finite carriers. -/
 def literalPrimitivePooledFamily
-    (analytic : ∀ j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization,
+    (analytic : ∀ j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization,
       (factories j).Input) :
     ActualNormalizedPairFamily A σ (WithLp 2 (ℝ × ℝ))
-      (Σ j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization,
+      (Σ j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization,
         (factories j).Label) ω ψ Z :=
   ActualNormalizedPairFamily.sigmaCombine (fun j => (factories j).family (analytic j))
 

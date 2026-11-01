@@ -65,7 +65,7 @@ variable (slots : OriginalSlotDictionary parent d.length)
 variable (cutoff : ℝ)
 
 local notation "rootLength" =>
-  idealLogLength f.source.base
+  idealLogLength (f).source.base
     (secondSixthRootIdeal rows.primes (side.literalMultiplicity rows)
       (side.literalOppositeMultiplicity rows)).val
 local notation "m" => G.literalRowParameter cutoff
@@ -110,28 +110,28 @@ variable (hheight : heightC * (1 + Real.log
 The only analytic premise concerns the original single character. -/
 def literalSideAnalyticInput :
     {analytic : ∀ _hκ : D.parameters.κ < 1, ∀ ξ,
-      ∀ u, u ∈ pairedRows (D.data ξ) D.parameters f.source.base →
-      ∀ i : Fin f.source.allocation.keep.card,
+      ∀ u, u ∈ pairedRows (D.data ξ) D.parameters (f).source.base →
+      ∀ i : Fin (f).source.allocation.keep.card,
         ZeroFreeData (heckeContinuation K ((D.data ξ).rowCharacter u *
           (D.data ξ).slotCoefficient
-            (lengthSlot (D.data ξ) f.source.allocation.keep.card (D.count ξ) i)))
+            (lengthSlot (D.data ξ) (f).source.allocation.keep.card (D.count ξ) i)))
           ((D.parameters.κ + 1) / 2) //
       ∀ hκ : D.parameters.κ < 1, ∀ ξ,
-        ∀ u, ∀ hu : u ∈ pairedRows (D.data ξ) D.parameters f.source.base,
-        ∀ i : Fin f.source.allocation.keep.card,
+        ∀ u, ∀ hu : u ∈ pairedRows (D.data ξ) D.parameters (f).source.base,
+        ∀ i : Fin (f).source.allocation.keep.card,
           heightConstant (analytic hκ ξ u hu i) +
             3 * ((analytic hκ ξ u hu i).k : ℝ) ≤ analyticHeight} := by
   let recipe := d.productionRecipe W rows side χ ideal hideal firstSign rectangle L selection hne
     D P Rchar F parent oldMoving correction hcorr remaining extra a step G pattern sector
     slots cutoff reference time hdata
-  have hfull : recipe.FullJointBudget f.source.base (m + q) :=
+  have hfull : recipe.FullJointBudget (f).source.base (m + q) :=
     d.productionRecipe_fullJointBudget W rows side χ ideal hideal firstSign rectangle L selection hne
       D P Rchar F parent oldMoving correction hcorr remaining extra a step G pattern sector
       slots cutoff reference time hdata
-  have hjoint : recipe.FullJointBudget f.source.base normBox := by
+  have hjoint : recipe.FullJointBudget (f).source.base normBox := by
     intro ξ u hu
     exact (hfull ξ u hu).trans
-      (Real.rpow_le_rpow_of_exponent_le f.source.base_gt_one.le hwidth)
+      (Real.rpow_le_rpow_of_exponent_le (f).source.base_gt_one.le hwidth)
   have hkappa : D.parameters.κ = a.κ := by rw [hparameters]; rfl
   have htheta : ∀ ξ, (D.data ξ).theta = parent.theta := by
     intro ξ
@@ -145,22 +145,22 @@ def literalSideAnalyticInput :
     intro ξ
     rw [hdata ξ]
     intro i
-    exact hslotInverse (slots.index (SlotRestriction.index f.allocation.keep i))
+    exact hslotInverse (slots.index (SlotRestriction.index (f).allocation.keep i))
   have hz : ∀ ξ, D.parameters.z = (D.data ξ).geometry.totalLength := by
     intro ξ
     rw [hparameters, hdata ξ]
-    change (CanonicalLiteralAllocatedData.parameters d f.allocation rectangle m q a.κ).z =
-      (CanonicalLiteralAllocatedData.geometry W f.allocation firstSign side.literalNegative ξ).totalLength
-    exact CanonicalLiteralAllocatedData.geometry_slot_sum W f.allocation firstSign
+    change (CanonicalLiteralAllocatedData.parameters d (f).allocation rectangle m q a.κ).z =
+      (CanonicalLiteralAllocatedData.geometry W (f).allocation firstSign side.literalNegative ξ).totalLength
+    exact CanonicalLiteralAllocatedData.geometry_slot_sum W (f).allocation firstSign
       side.literalNegative rectangle m q a.κ ξ
   let single := fun (hκ : D.parameters.κ < 1) ξ u
-      (hu : u ∈ pairedRows (D.data ξ) D.parameters f.source.base)
-      (i : Fin f.source.allocation.keep.card) =>
-    analyticWindow.certificate recipe D.parameters f.source.base
-      (by simpa only [hkappa] using hκlo) hκ f.source.base_gt_one
+      (hu : u ∈ pairedRows (D.data ξ) D.parameters (f).source.base)
+      (i : Fin (f).source.allocation.keep.card) =>
+    analyticWindow.certificate recipe D.parameters (f).source.base
+      (by simpa only [hkappa] using hκlo) hκ (f).source.base_gt_one
       (by simpa only [hkappa] using boundary (by simpa only [hkappa] using hκ))
       htheta hslot hinverse hz hjoint ξ u hu
-      (lengthSlot (D.data ξ) f.source.allocation.keep.card (D.count ξ) i)
+      (lengthSlot (D.data ξ) (f).source.allocation.keep.card (D.count ξ) i)
   refine ⟨fun hκ ξ u hu i => (single hκ ξ u hu i).val, ?_⟩
   intro hκ ξ u hu i
   exact (single hκ ξ u hu i).property.trans hheight

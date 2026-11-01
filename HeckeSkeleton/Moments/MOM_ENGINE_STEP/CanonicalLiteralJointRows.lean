@@ -173,7 +173,7 @@ local notation "calibrations" =>
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -321,15 +321,15 @@ def literalNormalizationJointRows :=
     let N := originalNormalization analyticLeft analyticRight hanalyticLeft hanalyticRight
     let leftJointRecipe : ∀ r : Bool, CompleteMovingRowRecipe A P Rchar (N.left r).calibration.data :=
       fun r => CanonicalLiteralAllocatedData.recipe P Rchar leftTests
-        (rectangles.leftFrame C r).allocation F parent oldMoving correction hcorr C
-        ordinaryRows.primes ordinaryRows.leftMultiplicity ordinaryRows.rightMultiplicity
+        ((rectangles).leftFrame C r).allocation F parent oldMoving correction hcorr C
+        (ordinaryRows).primes (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity
         pattern sector remaining extra m q
         (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
         leftRecipe.slots.index r firstSign false
     let rightJointRecipe : ∀ r : Bool, CompleteMovingRowRecipe A P Rchar (N.right r).calibration.data :=
       fun r => CanonicalLiteralAllocatedData.recipe P Rchar rightTests
-        (rectangles.rightFrame C r).allocation F parent oldMoving correction hcorr C
-        ordinaryRows.primes ordinaryRows.leftMultiplicity ordinaryRows.rightMultiplicity
+        ((rectangles).rightFrame C r).allocation F parent oldMoving correction hcorr C
+        (ordinaryRows).primes (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity
         pattern sector remaining extra m q
         (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
         rightRecipe.slots.index r (-firstSign) true
@@ -459,11 +459,11 @@ theorem literalNormalization_withJointRows_eq_self :
         (originalJointRows analyticLeft analyticRight hanalyticLeft hanalyticRight) =
       originalNormalization analyticLeft analyticRight hanalyticLeft hanalyticRight := by
   intro analyticLeft analyticRight hanalyticLeft hanalyticRight
-  let moving := (F.moving P Rchar oldMoving).appendSecondFactor C ordinaryRows.primes
-    ordinaryRows.leftMultiplicity ordinaryRows.rightMultiplicity pattern
+  let moving := (F.moving P Rchar oldMoving).appendSecondFactor C (ordinaryRows).primes
+    (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity pattern
   let fullRemaining := remainingMaskIdeal A (remaining * extra) *
-    exteriorMomentIdeal (secondSixthRootIdeal ordinaryRows.primes
-      ordinaryRows.leftMultiplicity ordinaryRows.rightMultiplicity)
+    exteriorMomentIdeal (secondSixthRootIdeal (ordinaryRows).primes
+      (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity)
   apply (originalNormalization analyticLeft analyticRight hanalyticLeft hanalyticRight).withJointRows_eq_self
     (originalJointRows analyticLeft analyticRight hanalyticLeft hanalyticRight)
   · intro r ξ u hu

@@ -116,49 +116,49 @@ local notation "paidDomain" =>
 local notation "scaleWindows" =>
   CanonicalPrimitiveEngineOriginalWindows.scale_windows b domain hwidth hpadding
 local notation "window₂" => profiles.restrictOrders Finset.subset_union_right
-local notation "volumeWindow" => window₂.restrictOrders
+local notation "volumeWindow" => (window₂).restrictOrders
   (exceptional_sourceOrders_mono (exceptional_sourceOrders_mono hvolumeOrders))
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "raw" => ((Q.arithmeticAtoms ξ).constantAtoms (W.at ξ)
   internal Z t).raw canonicalLeft canonicalRight
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
   a Z t canonicalLeft canonicalRight hZ hbudget centered
-  (b.firstBox.cutoff Z) (b.firstBox.cutoff_ge_one hZ.le) b.tilt b.tilt_pos b.tilt_le_half
+  (b.firstBox.cutoff Z) (b.firstBox.cutoff_ge_one (hZ).le) b.tilt b.tilt_pos b.tilt_le_half
 
 local notation "stages" => Q.literalPrimitiveDirectStages
   (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
   (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight)
   (hZ := hZ) (hbudget := hbudget) (centered := centered)
-  (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one hZ.le)
+  (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one (hZ).le)
   (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
   (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
-  (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := fixedWindows.upper_annulus)
+  (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := (fixedWindows).upper_annulus)
   (domain := paidDomain) (profiles := volumeWindow) (hrows := hrows) (ht := htime)
-  (hwindow := fun _ h => h.2) (hcutoffPower := b.firstCutoff_le Z hZ.le)
+  (hwindow := fun _ h => h.2) (hcutoffPower := b.firstCutoff_le Z (hZ).le)
   (step := b.step) (hstep := b.step_pos) (hloss := b.loss_pos.le)
   (hcutoffExponent := b.loss_pos.le) (hDiff := hDiff)
   (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
-  (cutoff₂ := b.secondCutoff Z) (hcutoff₂ := b.secondCutoff_ge_one Z hZ.le)
+  (cutoff₂ := b.secondCutoff Z) (hcutoff₂ := b.secondCutoff_ge_one Z (hZ).le)
 local notation "exceptional" => Q.literalPrimitiveDirectPredicates
   (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
   (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight)
   (hZ := hZ) (hbudget := hbudget) (centered := centered)
-  (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one hZ.le)
+  (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one (hZ).le)
   (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
   (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
-  (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := fixedWindows.upper_annulus)
+  (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := (fixedWindows).upper_annulus)
   (domain := paidDomain) (profiles := volumeWindow) (hrows := hrows) (ht := htime)
-  (hwindow := fun _ h => h.2) (hcutoffPower := b.firstCutoff_le Z hZ.le)
+  (hwindow := fun _ h => h.2) (hcutoffPower := b.firstCutoff_le Z (hZ).le)
   (step := b.step) (hstep := b.step_pos) (hloss := b.loss_pos.le)
   (hcutoffExponent := b.loss_pos.le) (hDiff := hDiff)
   (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
-  (cutoff₂ := b.secondCutoff Z) (hcutoff₂ := b.secondCutoff_ge_one Z hZ.le)
+  (cutoff₂ := b.secondCutoff Z) (hcutoff₂ := b.secondCutoff_ge_one Z (hZ).le)
 local notation "normalization" => Q.literalPrimitiveFirstNormalization μv ν C hroot hemb W ξ
   a Z t canonicalLeft canonicalRight hZ hbudget centered
-  (b.firstBox.cutoff Z) (b.firstBox.cutoff_ge_one hZ.le) b.tilt b.tilt_pos b.tilt_le_half
-local notation "parents" => stages.prepared
-local notation "keys" => parents.liveLeaves raw.originalAtlas exceptional normalization
-local notation "labels" => parents.arithmeticLabels raw.originalAtlas hcap exceptional normalization
+  (b.firstBox.cutoff Z) (b.firstBox.cutoff_ge_one (hZ).le) b.tilt b.tilt_pos b.tilt_le_half
+local notation "parents" => (stages).prepared
+local notation "keys" => (parents).liveLeaves (raw).originalAtlas exceptional normalization
+local notation "labels" => (parents).arithmeticLabels (raw).originalAtlas hcap exceptional normalization
 local notation "control" => CanonicalPrimitiveEngineControl.value amplitude t
 local notation "degree" => CanonicalPrimitiveExceptionalChoices.degree b
 local notation "integralC" => CanonicalPrimitiveExceptionalChoices.integralCoefficient
@@ -183,18 +183,18 @@ theorem literalPrimitiveDirectEngineExceptionalCost_le :
       control ^ degree * Z ^ (b.paddingMax + 3 * b.step + b.ε) := by
   have hP : 0 ≤ amplitude := zero_le_one.trans hamplitude
   have hcontrol : 1 ≤ control := CanonicalPrimitiveEngineControl.one_le amplitude t hamplitude
-  have hN : ∀ i ∈ source.columns,
-      (Ideal.absNorm (source.ideal i).val : ℝ) ≤ Z ^ b.columnBound :=
+  have hN : ∀ i ∈ (source).columns,
+      (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ b.columnBound :=
     Q.literalPrimitiveFirstSource_column_norm
       (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
       (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight)
       (hZ := hZ) (hbudget := hbudget) (centered := centered)
-      (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one hZ.le)
+      (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one (hZ).le)
       (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
       (cap := b.cap) (annulus := b.hi) (loss := b.loss)
       (leftExponent := b.lengthBound) (rightExponent := b.lengthBound)
       (normBound := b.columnBound) (hannulus := b.hi_ge_one) (hcap := hcap)
-      (hannulusZ := fixedWindows.upper_annulus)
+      (hannulusZ := (fixedWindows).upper_annulus)
       (hY₁ := scaleWindows.1) (hY₂ := scaleWindows.2.1)
       (hleftPower := scaleWindows.2.2.1) (hrightPower := scaleWindows.2.2.2.1)
       (hY₁le := scaleWindows.2.2.2.2.1) (hY₂le := scaleWindows.2.2.2.2.2.1)
@@ -204,49 +204,49 @@ theorem literalPrimitiveDirectEngineExceptionalCost_le :
     (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
     (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight)
     (hZ := hZ) (hbudget := hbudget) (centered := centered)
-    (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one hZ.le)
+    (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one (hZ).le)
     (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
     (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
-    (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := fixedWindows.upper_annulus)
+    (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := (fixedWindows).upper_annulus)
     (domain := paidDomain) (profiles := volumeWindow) (hrows := hrows) (ht := htime)
-    (hwindow := fun _ h => h.2) (hcutoffPower := b.firstCutoff_le Z hZ.le)
+    (hwindow := fun _ h => h.2) (hcutoffPower := b.firstCutoff_le Z (hZ).le)
     (step := b.step) (hstep := b.step_pos) (hloss := b.loss_pos.le)
     (hcutoffExponent := b.loss_pos.le) (hDiff := hDiff)
     (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
-    (cutoff₂ := b.secondCutoff Z) (hcutoff₂ := b.secondCutoff_ge_one Z hZ.le)
+    (cutoff₂ := b.secondCutoff Z) (hcutoff₂ := b.secondCutoff_ge_one Z (hZ).le)
     b.columnBound b.columnBound_nonneg hN
-  let lower : keys → ℝ := fun i => idealLogLength Z (parents.innerDivisor raw.originalAtlas i.val)
-  have hdivisor (i : keys) : parents.innerDivisor raw.originalAtlas i.val ≠ 0 :=
-    (stages.prepared_live_inner_divisor_squarefree raw.originalAtlas exceptional normalization i).ne_zero
+  let lower : keys → ℝ := fun i => idealLogLength Z ((parents).innerDivisor (raw).originalAtlas i.val)
+  have hdivisor (i : keys) : (parents).innerDivisor (raw).originalAtlas i.val ≠ 0 :=
+    ((stages).prepared_live_inner_divisor_squarefree (raw).originalAtlas exceptional normalization i).ne_zero
   have hwindow (i : keys) :
-      (Ideal.absNorm (parents.innerDivisor raw.originalAtlas i.val) : ℝ) ≤ Z ^ (lower i + 0) := by
+      (Ideal.absNorm ((parents).innerDivisor (raw).originalAtlas i.val) : ℝ) ≤ Z ^ (lower i + 0) := by
     dsimp only [lower]
     rw [add_zero]
     exact (rpow_idealLogLength Z hZ _ (hdivisor i)).ge
   have hindex (i : keys) :
-      labels.carrier.exceptionalDyadWeight Z (lower i) (labels.index i) =
-        labels.carrier.indexWeight (labels.index i) := by
-    have hi := parents.originalIndex_innerDivisor raw.originalAtlas hcap exceptional normalization i
-    have hn : (labels.index i).2.2.2.1.val ≠ 0 := by
-      change (parents.originalIndex raw.originalAtlas hcap exceptional normalization i).2.2.2.1.val ≠ 0
+      (labels).carrier.exceptionalDyadWeight Z (lower i) ((labels).index i) =
+        (labels).carrier.indexWeight ((labels).index i) := by
+    have hi := (parents).originalIndex_innerDivisor (raw).originalAtlas hcap exceptional normalization i
+    have hn : ((labels).index i).2.2.2.1.val ≠ 0 := by
+      change ((parents).originalIndex (raw).originalAtlas hcap exceptional normalization i).2.2.2.1.val ≠ 0
       rw [hi]
       exact hdivisor i
-    change labels.carrier.exceptionalDyadWeight Z
-      (idealLogLength Z (parents.innerDivisor raw.originalAtlas i.val))
-      (parents.originalIndex raw.originalAtlas hcap exceptional normalization i) = _
+    change (labels).carrier.exceptionalDyadWeight Z
+      (idealLogLength Z ((parents).innerDivisor (raw).originalAtlas i.val))
+      ((parents).originalIndex (raw).originalAtlas hcap exceptional normalization i) = _
     rw [← hi]
-    exact labels.carrier.exceptionalDyadWeight_at_divisor Z hZ _ hn
-  have hden : Z ^ (internal.m + internal.q) = Z ^ (a.m + a.q) :=
+    exact (labels).carrier.exceptionalDyadWeight_at_divisor Z hZ _ hn
+  have hden : Z ^ ((internal).m + (internal).q) = Z ^ (a.m + a.q) :=
     congrArg (fun e : ℝ => Z ^ e) (Q.fullSupportParameters_width a Z)
   have hleafC : 0 ≤ leafC := CanonicalPrimitiveExceptionalChoices.leafCoefficient_nonneg
     (A := A) (σ := σ) (η := η) (hS := hS) μv ν b primitive
   have hI : 0 ≤ integralC := CanonicalPrimitiveExceptionalChoices.integralCoefficient_nonneg
     (A := A) (σ := σ) (η := η) (hS := hS) μv ν b primitive
   have hpoint (i : keys) :
-      (parents.parentLeaf raw.originalAtlas exceptional normalization i.val).exceptionalCost /
-          Z ^ (internal.m + internal.q) ≤
+      ((parents).parentLeaf (raw).originalAtlas exceptional normalization i.val).exceptionalCost /
+          Z ^ ((internal).m + (internal).q) ≤
         leafC * control ^ degree * Z ^ loss *
-          labels.carrier.exceptionalDyadWeight Z (lower i) (labels.index i) := by
+          (labels).carrier.exceptionalDyadWeight Z (lower i) ((labels).index i) := by
     have hfirstBox : b.columnBound ≤ CanonicalPrimitiveExceptionalChoices.sourceWidth b := by
       have hs := CanonicalPrimitiveExceptionalChoices.firstSupportWidth_le b
       linarith [b.step_pos]
@@ -254,15 +254,15 @@ theorem literalPrimitiveDirectEngineExceptionalCost_le :
       (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
       (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight)
       (hZ := hZ) (hbudget := hbudget) (centered := centered)
-      (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one hZ.le)
+      (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one (hZ).le)
       (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
       (hY₁ := scaleWindows.1) (hY₂ := scaleWindows.2.1)
       (cap := b.cap) (loss := b.loss) (cutoffExponent := b.loss)
       (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
       (step := b.step) (hstep := b.step_pos) (hDiff := hDiff)
       (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
-      (cutoff₂ := b.secondCutoff Z) (hcutoff₂ := b.secondCutoff_ge_one Z hZ.le)
-      (hcutoffPower := b.firstCutoff_le Z hZ.le) (hcutoffPower₂ := b.secondCutoff_le Z hZ.le)
+      (cutoff₂ := b.secondCutoff Z) (hcutoff₂ := b.secondCutoff_ge_one Z (hZ).le)
+      (hcutoffPower := b.firstCutoff_le Z (hZ).le) (hcutoffPower₂ := b.secondCutoff_le Z (hZ).le)
       (reference := reference) (href := href) (lo := b.lo) (hi := b.hi)
       (hlo := b.lo_pos) (hhi := b.hi_ge_one) (primitive := primitive)
       (ε := CanonicalPrimitiveExceptionalChoices.volumeLoss b)
@@ -271,11 +271,11 @@ theorem literalPrimitiveDirectEngineExceptionalCost_le :
       (hwidthMax := CanonicalPrimitiveExceptionalChoices.sourceWidth_nonneg b)
       (originalBound := amplitude) (hamplitude := hamplitude) (originalWindow := volumeWindow)
       (hrows := hrows) (htime := htime) (hprime := hprime)
-      (hcap := hcap) (hannulusZ := fixedWindows.upper_annulus) (domain := paidDomain)
+      (hcap := hcap) (hannulusZ := (fixedWindows).upper_annulus) (domain := paidDomain)
       (hone := hone) (hplaces := hplaces) (hlower := hlower)
       (hδsum := CanonicalPrimitiveEngineOriginalWindows.tilt_sum_le_half b)
       (slotLoss := b.loss) (finalLoss := b.ε) (hslotLossNonneg := b.loss_pos.le)
-      (hfinalLoss := b.ε_pos.le) (hslotLoss := fixedWindows.single_annulus)
+      (hfinalLoss := b.ε_pos.le) (hslotLoss := (fixedWindows).single_annulus)
       (hslots := by linarith [b.cap_mul_loss_le_ε, b.ε_pos])
       (hsupport := by linarith [b.loss_le_ε, b.ε_pos])
       (hvolume := by
@@ -287,62 +287,62 @@ theorem literalPrimitiveDirectEngineExceptionalCost_le :
       (htotal := scaleWindows.2.2.2.2.2.2.1) (hfirstBox := hfirstBox) (hN := hN)
       (hpadding := fun _ => b.padding_nonneg) i
     have hp' :
-        (parents.parentLeaf raw.originalAtlas exceptional normalization i.val).exceptionalCost /
-          Z ^ (a.m + a.q) ≤ parents.originalScalarAt raw.originalAtlas i.val *
+        ((parents).parentLeaf (raw).originalAtlas exceptional normalization i.val).exceptionalCost /
+          Z ^ (a.m + a.q) ≤ (parents).originalScalarAt (raw).originalAtlas i.val *
             (integralC * amplitude ^ degree * Z ^ loss *
-              labels.carrier.indexWeight (labels.index i)) := by
+              (labels).carrier.indexWeight ((labels).index i)) := by
       simpa only [CanonicalPrimitiveExceptionalChoices.degree_eq] using hp
     have hs := Q.literalPrimitiveDirect_originalScalar_bounds
       (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
       (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight)
       (hZ := hZ) (hbudget := hbudget) (centered := centered)
-      (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one hZ.le)
+      (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one (hZ).le)
       (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
       (cap := b.cap) (loss := b.loss) (cutoffExponent := b.loss)
       (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
       (step := b.step) (hstep := b.step_pos) (hDiff := hDiff)
       (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
-      (cutoff₂ := b.secondCutoff Z) (hcutoff₂ := b.secondCutoff_ge_one Z hZ.le)
-      (hcutoffPower := b.firstCutoff_le Z hZ.le)
+      (cutoff₂ := b.secondCutoff Z) (hcutoff₂ := b.secondCutoff_ge_one Z (hZ).le)
+      (hcutoffPower := b.firstCutoff_le Z (hZ).le)
       (lo := b.lo) (hi := b.hi) (hhi := b.hi_ge_one)
       (orders := CanonicalPrimitiveExceptionalChoices.orders
         (A := A) (σ := σ) (η := η) (hS := hS) b primitive)
       (originalBound := amplitude) (originalWindow := volumeWindow)
       (hrows := hrows) (htime := htime) (hcap := hcap)
-      (hannulusZ := fixedWindows.upper_annulus) (domain := paidDomain) i
-    have hsCap : parents.originalScalarAt raw.originalAtlas i.val ≤
+      (hannulusZ := (fixedWindows).upper_annulus) (domain := paidDomain) i
+    have hsCap : (parents).originalScalarAt (raw).originalAtlas i.val ≤
         CanonicalPrimitiveExceptionalChoices.fiberCap b := by
       linarith [hs.2, CanonicalPrimitiveExceptionalChoices.fiberCap_one b]
-    have hi : 0 ≤ labels.carrier.indexWeight (labels.index i) := labels.carrier.indexWeight_nonneg _
+    have hi : 0 ≤ (labels).carrier.indexWeight ((labels).index i) := (labels).carrier.indexWeight_nonneg _
     have hpow := pow_le_pow_left₀ hP
       (CanonicalPrimitiveEngineControl.amplitude_le amplitude t hamplitude) degree
     calc
-      _ = (parents.parentLeaf raw.originalAtlas exceptional normalization i.val).exceptionalCost /
+      _ = ((parents).parentLeaf (raw).originalAtlas exceptional normalization i.val).exceptionalCost /
           Z ^ (a.m + a.q) := congrArg
-        (fun r : ℝ => (parents.parentLeaf raw.originalAtlas exceptional normalization i.val).exceptionalCost / r) hden
-      _ ≤ parents.originalScalarAt raw.originalAtlas i.val *
-          (integralC * amplitude ^ degree * Z ^ loss * labels.carrier.indexWeight (labels.index i)) := hp'
+        (fun r : ℝ => ((parents).parentLeaf (raw).originalAtlas exceptional normalization i.val).exceptionalCost / r) hden
+      _ ≤ (parents).originalScalarAt (raw).originalAtlas i.val *
+          (integralC * amplitude ^ degree * Z ^ loss * (labels).carrier.indexWeight ((labels).index i)) := hp'
       _ ≤ CanonicalPrimitiveExceptionalChoices.fiberCap b *
-          (integralC * amplitude ^ degree * Z ^ loss * labels.carrier.indexWeight (labels.index i)) :=
+          (integralC * amplitude ^ degree * Z ^ loss * (labels).carrier.indexWeight ((labels).index i)) :=
         mul_le_mul_of_nonneg_right hsCap
           (mul_nonneg (mul_nonneg (mul_nonneg hI (pow_nonneg hP _))
             (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)) hi)
-      _ = leafC * amplitude ^ degree * Z ^ loss * labels.carrier.indexWeight (labels.index i) := by
+      _ = leafC * amplitude ^ degree * Z ^ loss * (labels).carrier.indexWeight ((labels).index i) := by
         unfold CanonicalPrimitiveExceptionalChoices.leafCoefficient
         ring
-      _ ≤ leafC * control ^ degree * Z ^ loss * labels.carrier.indexWeight (labels.index i) :=
+      _ ≤ leafC * control ^ degree * Z ^ loss * (labels).carrier.indexWeight ((labels).index i) :=
         mul_le_mul_of_nonneg_right
           (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hpow hleafC)
             (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)) hi
       _ = _ := congrArg (fun r : ℝ => leafC * control ^ degree * Z ^ loss * r) (hindex i).symm
-  have hmask : OriginalMaskPrimeData source.mask (1 : Ideal (𝓞 K)) := emptyOriginalSIntegerMask
+  have hmask : OriginalMaskPrimeData (source).mask (1 : Ideal (𝓞 K)) := emptyOriginalSIntegerMask
   have hmaskNorm : (Ideal.absNorm (1 : Ideal (𝓞 K)) : ℝ) ≤ Z ^ b.columnBound := by
-    simpa only [map_one, Nat.cast_one] using Real.one_le_rpow hZ.le b.columnBound_nonneg
+    simpa only [map_one, Nat.cast_one] using Real.one_le_rpow (hZ).le b.columnBound_nonneg
   have hsum := CanonicalPrimitiveExceptionalChoices.direct_bound
     (A := A) (σ := σ) (η := η) (hS := hS) μv ν C hDiff b primitive
     Z hZ control hcontrol loss centered (data ξ) internal t canonicalLeft canonicalRight
-    (b.firstBox.cutoff Z) (b.firstBox.cutoff_ge_one hZ.le)
-    source stages raw.originalAtlas hcap exceptional normalization rows
+    (b.firstBox.cutoff Z) (b.firstBox.cutoff_ge_one (hZ).le)
+    source stages (raw).originalAtlas hcap exceptional normalization rows
     (1 : Ideal (𝓞 K)) squarefree_one one_ne_zero (fun _ _ => one_dvd _)
     (1 : Ideal (𝓞 K)) one_ne_zero hmask hmaskNorm hN lower 0 hwindow hpoint
   have hpad : (if centered then b.paddingMax else 0) ≤ b.paddingMax := by
@@ -363,12 +363,12 @@ theorem literalPrimitiveDirectEngineExceptionalCost_le :
     unfold CanonicalPrimitiveExceptionalChoices.constant
     linarith
   calc
-    cost = parents.exceptionalBudget raw.originalAtlas exceptional normalization /
-        Z ^ (internal.m + internal.q) := by
-      change parents.exceptionalBudget raw.originalAtlas exceptional normalization /
+    cost = (parents).exceptionalBudget (raw).originalAtlas exceptional normalization /
+        Z ^ ((internal).m + (internal).q) := by
+      change (parents).exceptionalBudget (raw).originalAtlas exceptional normalization /
         Z ^ (a.m + a.q) = _
       exact congrArg
-        (fun r : ℝ => parents.exceptionalBudget raw.originalAtlas exceptional normalization / r) hden.symm
+        (fun r : ℝ => (parents).exceptionalBudget (raw).originalAtlas exceptional normalization / r) hden.symm
     _ ≤ CanonicalPrimitiveExceptionalChoices.directConstant μv ν C hDiff b primitive *
         control ^ degree * Z ^ (loss + CanonicalPrimitiveExceptionalChoices.indexLoss b +
           CanonicalPrimitiveExceptionalChoices.indexLoss b +
@@ -380,7 +380,7 @@ theorem literalPrimitiveDirectEngineExceptionalCost_le :
           CanonicalPrimitiveExceptionalChoices.indexLoss b + 0) := by simp only [map_one, Nat.cast_one, div_one]
     _ ≤ _ := CanonicalPrimitiveEngineControl.monomial_mono
       (CanonicalPrimitiveExceptionalChoices.constant_pos μv ν C hDiff b primitive).le
-      hconstant hcontrol hZ.le le_rfl hexponent
+      hconstant hcontrol (hZ).le le_rfl hexponent
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

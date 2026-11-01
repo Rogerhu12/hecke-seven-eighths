@@ -102,7 +102,7 @@ local notation "child" => CanonicalOriginalChildData.data parent moving correcti
 
 /-- The effective support reads the full original mask directly. -/
 theorem child_commonMask_iff (u I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    child.commonMask u I.val = true ↔
+    (child).commonMask u I.val = true ↔
       sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) I ∧
         IsCoprime I.val u.val ∧ IsCoprime I.val moving.support.val ∧
           IsCoprime I.val remaining.val := by

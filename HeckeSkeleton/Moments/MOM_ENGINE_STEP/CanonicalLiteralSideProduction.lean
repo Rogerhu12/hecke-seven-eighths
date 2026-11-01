@@ -103,7 +103,7 @@ variable (slots : OriginalSlotDictionary parent d.length)
 variable (cutoff : ℝ)
 
 local notation "rootLength" =>
-  idealLogLength f.source.base
+  idealLogLength (f).source.base
     (secondSixthRootIdeal rows.primes (side.literalMultiplicity rows)
       (side.literalOppositeMultiplicity rows)).val
 local notation "m" => G.literalRowParameter cutoff
@@ -129,7 +129,7 @@ variable (hparameters : D.parameters = CanonicalLiteralAllocatedData.parameters 
       (side.literalOppositeMultiplicity rows)).val)) a.κ)
 
 local notation "literalRecipe" =>
-  CanonicalLiteralAllocatedData.recipe P Rchar W f.allocation F parent oldMoving correction
+  CanonicalLiteralAllocatedData.recipe P Rchar W (f).allocation F parent oldMoving correction
     hcorr C rows.primes rows.leftMultiplicity rows.rightMultiplicity pattern sector
     remaining extra m q (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
     slots.index rectangle firstSign side.literalNegative
@@ -137,7 +137,7 @@ local notation "literalRecipe" =>
 /-- The complete original mask, remaining deletion and all appended
 moving factors are transported by the actual data identity alone. -/
 def productionRecipe : CompleteMovingRowRecipe A P Rchar D.data :=
-  literalRecipe.ofAllowedSubset
+  (literalRecipe).ofAllowedSubset
     (fun ξ u hu => by simpa only [hdata ξ] using hu)
     (fun ξ => congrArg (fun e : MomentData K ω ψ => e.rowCharacter) (hdata ξ))
     (fun ξ => congrArg (fun e : MomentData K ω ψ => e.commonMask) (hdata ξ))
@@ -146,20 +146,20 @@ def productionRecipe : CompleteMovingRowRecipe A P Rchar D.data :=
 theorem productionRecipe_fullJointBudget :
     (d.productionRecipe W rows side χ ideal hideal firstSign rectangle L selection hne D
       P Rchar F parent oldMoving correction hcorr remaining extra a step G pattern sector
-      slots cutoff reference time hdata).FullJointBudget f.source.base (m + q) := by
+      slots cutoff reference time hdata).FullJointBudget (f).source.base (m + q) := by
   intro ξ u hu
-  have hliteral : (CanonicalLiteralAllocatedData.data P Rchar W f.allocation F parent
+  have hliteral : (CanonicalLiteralAllocatedData.data P Rchar W (f).allocation F parent
       oldMoving correction hcorr C rows.primes rows.leftMultiplicity rows.rightMultiplicity
       pattern sector remaining extra m q
       (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
       slots.index rectangle firstSign side.literalNegative ξ).allowedRow u := by
     simpa only [hdata ξ] using hu
-  have he := CanonicalLiteralAllocatedData.recipe_fullJointBudget P Rchar W f.allocation F parent
+  have he := CanonicalLiteralAllocatedData.recipe_fullJointBudget P Rchar W (f).allocation F parent
     oldMoving correction hcorr C rows.primes rows.leftMultiplicity rows.rightMultiplicity
     pattern sector remaining extra m q
     (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
     slots.index rectangle firstSign side.literalNegative ξ u hliteral
-  have hbase : f.source.base = d.base := by cases side <;> rfl
+  have hbase : (f).source.base = d.base := by cases side <;> rfl
   simpa only [productionRecipe, CompleteMovingRowRecipe.FullJointBudget,
     CompleteMovingRowRecipe.ofAllowedSubset, hbase] using he
 
@@ -220,12 +220,12 @@ def produceLiteralSide :
   let recipe := d.productionRecipe W rows side χ ideal hideal firstSign rectangle L selection hne
     D P Rchar F parent oldMoving correction hcorr remaining extra a step G pattern sector
     slots cutoff reference time hdata
-  have hfull : recipe.FullJointBudget f.source.base (m + q) :=
+  have hfull : recipe.FullJointBudget (f).source.base (m + q) :=
     d.productionRecipe_fullJointBudget W rows side χ ideal hideal firstSign rectangle L selection hne
       D P Rchar F parent oldMoving correction hcorr remaining extra a step G pattern sector
       slots cutoff reference time hdata
   have hkappa : D.parameters.κ = a.κ := by rw [hparameters]; rfl
-  let profiles := CanonicalLiteralFullKappaInput.ofLiteral P Rchar W f.allocation F parent
+  let profiles := CanonicalLiteralFullKappaInput.ofLiteral P Rchar W (f).allocation F parent
     oldMoving correction hcorr C rows.primes rows.leftMultiplicity rows.rightMultiplicity
     pattern sector remaining extra m q slots.index rectangle firstSign side.literalNegative
     reference time lo hi hlo hhi orders original hreference htime horders computed D recipe hdata

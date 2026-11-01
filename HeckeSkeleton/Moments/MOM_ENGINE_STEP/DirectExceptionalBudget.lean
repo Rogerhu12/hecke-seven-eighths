@@ -104,7 +104,7 @@ theorem exceptional_parent_leaf_le
           (exceptionalCatalogueConstant (U := U) (E := E) (σ := σ) (η := η) (hS := hS)
             profiles ε maskExponent hε hmask)) *
       P ^ exceptionalBudgetProfileDegree cap degree * Z ^ loss *
-        Labels.carrier.exceptionalDyadWeight Z (lower i) (Index i) := by
+        (Labels).carrier.exceptionalDyadWeight Z (lower i) (Index i) := by
   let volume := exceptionalCatalogueConstant (U := U) (E := E) (σ := σ) (η := η) (hS := hS)
     profiles ε maskExponent hε hmask
   let atom := exceptionalBudgetAtomConstant (K := K) (U := U) (E := E) cap fiberCap J₁ J₂ volume
@@ -113,7 +113,7 @@ theorem exceptional_parent_leaf_le
       ((R.parentLeaf L exceptional N i.val).thetaClassLeaf (raw.characters i) χ).exceptionalCost /
         Z ^ (a.m + a.q) ≤
       atom * P ^ exceptionalBudgetProfileDegree cap degree * Z ^ loss *
-        Labels.carrier.exceptionalDyadWeight Z (lower i) (Index i) := by
+        (Labels).carrier.exceptionalDyadWeight Z (lower i) (Index i) := by
     letI := raw.primeFintype i χ
     letI := raw.primeDecidableEq i χ
     have ho : (profiles χ).order (U := U) (E := E) (σ := σ) (η := η) (hS := hS)
@@ -128,7 +128,7 @@ theorem exceptional_parent_leaf_le
   calc
     _ ≤ ∑ _χ : theta × theta,
         atom * P ^ exceptionalBudgetProfileDegree cap degree * Z ^ loss *
-          Labels.carrier.exceptionalDyadWeight Z (lower i) (Index i) :=
+          (Labels).carrier.exceptionalDyadWeight Z (lower i) (Index i) :=
       Finset.sum_le_sum fun χ _ => hleaf χ
     _ = _ := by simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]; dsimp only [atom, volume]; ring
 

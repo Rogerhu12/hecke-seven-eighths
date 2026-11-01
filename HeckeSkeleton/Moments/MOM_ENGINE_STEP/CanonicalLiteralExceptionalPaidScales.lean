@@ -130,8 +130,8 @@ local notation "beforeSecond" => d.secondInput (σ := σ) b₁ P R
     hfirst hpool hunit δ₁ δ₂
 
 variable {support₂ : Finset (Ideal (𝓞 K))}
-variable (b₂ : SupportCartesianBranch beforeSecond.plain₁ beforeSecond.plain₂
-  beforeSecond.slots support₂)
+variable (b₂ : SupportCartesianBranch (beforeSecond).plain₁ (beforeSecond).plain₂
+  (beforeSecond).slots support₂)
 variable (annulus : ℝ) (hannulus : 1 ≤ annulus) (cap : ℕ) (hcap : k ≤ cap)
 variable (hprime : d.PrimeNormWindow annulus)
 
@@ -144,18 +144,18 @@ include hprime in
 /-- Both original frozen ideals occur in this exact comparison.
 Only their individual prime annuli are bounded, and each is paid once. -/
 theorem two_extraction_product (rectangle : Bool) :
-    (beforeSecond.extract b₂).scaleProduct rectangle * (N₁ * N₂) ≤
+    ((beforeSecond).extract b₂).scaleProduct rectangle * (N₁ * N₂) ≤
       (annulus ^ cap) ^ 2 * d.scaleProduct rectangle := by
   have hc₂ : b₁.keep.card ≤ cap :=
     (by simpa only [Fintype.card_fin] using Finset.card_le_univ b₁.keep).trans hcap
-  have hp₂ : beforeSecond.PrimeNormWindow annulus :=
+  have hp₂ : (beforeSecond).PrimeNormWindow annulus :=
     d.secondInput_primeNormWindow P R b₁ power firstFixed poolFixed unitFixed
       firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ hprime
   have h₁ := d.extract_scaleProduct_mul_frozenNorm_le hprime hannulus cap hcap b₁ rectangle
-  have h₂ := beforeSecond.extract_scaleProduct_mul_frozenNorm_le hp₂ hannulus cap hc₂ b₂ rectangle
+  have h₂ := (beforeSecond).extract_scaleProduct_mul_frozenNorm_le hp₂ hannulus cap hc₂ b₂ rectangle
   calc
-    _ = ((beforeSecond.extract b₂).scaleProduct rectangle * N₂) * N₁ := by ring
-    _ ≤ (annulus ^ cap * beforeSecond.scaleProduct rectangle) * N₁ :=
+    _ = (((beforeSecond).extract b₂).scaleProduct rectangle * N₂) * N₁ := by ring
+    _ ≤ (annulus ^ cap * (beforeSecond).scaleProduct rectangle) * N₁ :=
       mul_le_mul_of_nonneg_right h₂ (Nat.cast_nonneg _)
     _ = annulus ^ cap * ((d.extract b₁).scaleProduct rectangle * N₁) := by
       rw [d.secondInput_scaleProduct P R b₁]
@@ -169,14 +169,14 @@ variable (atlas : SourceCartesianAtlas columns ideal) (count : b₂.keep.card = 
 variable (scalar : ℂ) (balance : Bool → ℝ)
 
 local notation "finalTable" =>
-  (((beforeSecond.extract b₂).onAtlas atlas count).scale scalar).balancePlain balance
+  ((((beforeSecond).extract b₂).onAtlas atlas count).scale scalar).balancePlain balance
 
 include hprime in
 /-- The real final atlas, scalar and balancing keep their original
 formal scales. No bound on a completed source is requested. -/
 theorem final_scaleProduct_window (rectangle : Bool) (originalTotal : ℝ)
     (horiginal : d.scaleProduct rectangle = d.base ^ originalTotal) :
-    finalTable.scaleProduct rectangle ≤ (annulus ^ cap) ^ 2 *
+    (finalTable).scaleProduct rectangle ≤ (annulus ^ cap) ^ 2 *
       d.base ^ (originalTotal - idealLogLength d.base
         (frozenSourceIdeal b₁.plainDivisor₁ b₁.plainDivisor₂ b₁.keep b₁.witness.2) -
           idealLogLength d.base
@@ -304,8 +304,8 @@ variable (hunit : A.Generates unitFixed unitElement) (δ₁ δ₂ : ℝ)
 local notation "secondInput" => original.secondInput (σ := σ) first P R power firstFixed
   poolFixed unitFixed firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂
 variable {secondSupport : Finset (Ideal (𝓞 K))}
-variable (second : SupportCartesianBranch secondInput.plain₁ secondInput.plain₂
-  secondInput.slots secondSupport)
+variable (second : SupportCartesianBranch (secondInput).plain₁ (secondInput).plain₂
+  (secondInput).slots secondSupport)
 variable {ι : Type*} {columns : Finset ι} {ideal : ι → A.Exterior}
 variable (atlas : SourceCartesianAtlas columns ideal) (count : second.keep.card = atlas.slotCount)
 variable (scalar : ℂ) (balance : Bool → ℝ)
@@ -313,7 +313,7 @@ variable (scalar : ℂ) (balance : Bool → ℝ)
 /-- The actual constructor supplies every equality in the history;
 its caller provides no final scale-product certificate. -/
 def History.ofActual : History (σ := σ) P R
-    ((((secondInput.extract second).onAtlas atlas count).scale scalar).balancePlain balance) where
+    (((((secondInput).extract second).onAtlas atlas count).scale scalar).balancePlain balance) where
   originalCount := n
   original := original
   firstSupport := firstSupport
@@ -333,7 +333,7 @@ def History.ofActual : History (σ := σ) P R
   secondSupport := secondSupport
   second := second
   base_eq := by
-    change ((secondInput.extract second).onAtlas atlas count).base = original.base
+    change (((secondInput).extract second).onAtlas atlas count).base = original.base
     cases count
     rfl
   scale_eq := by

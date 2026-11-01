@@ -64,7 +64,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
   a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
@@ -73,11 +73,11 @@ include μv ν C hroot hemb W ξ a Z t Y₁ Y₂ hZ hbudget centered cutoff hcut
 
 /-- A genuine first common label supplies its own admitted original row.
 No second-source activity or nonempty-row premise is imposed. -/
-theorem literalPrimitiveCommon_m_nonneg (DE : source.CommonLabel) :
+theorem literalPrimitiveCommon_m_nonneg (DE : (source).CommonLabel) :
     0 ≤ (Q.fullSupportParameters a Z).m := by
   obtain ⟨ij, hij, _⟩ := Finset.mem_image.mp DE.property
-  have hi : ij.1 ∈ raw.exteriorColumns := (Finset.mem_product.mp hij).1
-  have hc : ij.1 ∈ raw.columns := (Finset.mem_filter.mp hi).1
+  have hi : ij.1 ∈ (raw).exteriorColumns := (Finset.mem_product.mp hij).1
+  have hc : ij.1 ∈ (raw).columns := (Finset.mem_filter.mp hi).1
   have hplain := Finset.mem_product.mp (Finset.mem_product.mp hc).1
   obtain ⟨u, hu, _⟩ := Finset.mem_biUnion.mp hplain.1
   have hu' : u ∈ pairedRows (data ξ) a Z := by
@@ -89,13 +89,13 @@ right orientation uses the proved symmetry of the actual active radical. -/
 theorem literalPrimitiveGeometry_inverse_bound
     (step : ℝ) (hstep : 0 ≤ step) (lengthBound columnBound : ℝ)
     (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-    (hN : ∀ i ∈ source.columns, (Ideal.absNorm (source.ideal i).val : ℝ) ≤ Z ^ columnBound)
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
+    (hN : ∀ i ∈ (source).columns, (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ columnBound)
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
     (negative : Bool)
     (G : OriginalNominalGeometry (K := K) (Q.fullSupportParameters a Z) Z step)
     (hcoordinates : G.ideals = if negative then
-      (source.block DE).literalRightCoordinates D.val else
-      (source.block DE).literalLeftCoordinates D.val) :
+      ((source).block DE).literalRightCoordinates D.val else
+      ((source).block DE).literalLeftCoordinates D.val) :
     G.retainedLength + G.enlargement ≤
       4 * max lengthBound columnBound + G.supportError + 2 * step := by
   have hlengths := Q.literalPrimitiveFirstIdealLengths μv ν C hroot hemb W ξ
@@ -119,7 +119,7 @@ theorem literalPrimitiveGeometry_inverse_bound
         using hlengths.2.2.1.trans (le_max_right lengthBound columnBound)
     · simpa only [hcoordinates, FirstCommonCharacterBlock.literalRightCoordinates_first,
         FirstCommonCharacterBlock.literalRightCoordinates_opposite,
-        firstActiveRadical_swap_of_support DE.val.1 DE.val.2 (source.block DE).common_support_eq]
+        firstActiveRadical_swap_of_support DE.val.1 DE.val.2 ((source).block DE).common_support_eq]
         using hlengths.2.2.1.trans (le_max_right lengthBound columnBound)
 
 end CompleteMovingRowRecipe

@@ -63,9 +63,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -140,7 +140,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (((p.leftSourceCovers raw.originalAtlas S χ).residual q n))
+local notation "cover" => (((p.leftSourceCovers (raw).originalAtlas S χ).residual q n))
 local notation "firstPoint" => (fun i : (p.divisorPools.leftData S).valuationColumns q.val n =>
   -Real.log (A.exteriorNorm (b.leftResidual i.val)))
 
@@ -170,10 +170,10 @@ local notation "oldLeftScalar" => literalLeftPoolScalar hΓ μv ν Q ξ W a Z t 
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n v.2.2.1
 local notation "oldRightScalar" => literalLeftPoolScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n v.2.2.2.1
-local notation "leftAtoms" => oldLeftAtoms.redistributeNormFactors δ₁ δ₂
-local notation "rightAtoms" => oldRightAtoms.redistributeNormFactors δ₁ δ₂
-local notation "leftScalar" => oldLeftScalar * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
-local notation "rightScalar" => oldRightScalar * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+local notation "leftAtoms" => (oldLeftAtoms).redistributeNormFactors δ₁ δ₂
+local notation "rightAtoms" => (oldRightAtoms).redistributeNormFactors δ₁ δ₂
+local notation "leftScalar" => oldLeftScalar * ((oldLeftAtoms).normProfileFactor δ₁ δ₂ : ℂ)
+local notation "rightScalar" => oldRightScalar * ((oldRightAtoms).normProfileFactor δ₁ δ₂ : ℂ)
 local notation "leftBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "rightBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "fixedPhases" => CanonicalLiteralActualCharacters.amplifiedPhases C
@@ -273,9 +273,9 @@ bound, with its original frozen cost paid once and three slot powers.
 All original occurrence windows and the combined first profile cost
 are constructed here from the original source. -/
 def literalLeftPoolPassiveNormalizationIndex :=
-  let enhancedCharacter := fun E : commonSupportPool source.columns source.columns
-      (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) =>
-    (canonicalFirstCommonBlock C source.columns source.columns source.ideal source.ideal
+  let enhancedCharacter := fun E : commonSupportPool (source).columns (source).columns
+      (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) =>
+    (canonicalFirstCommonBlock C (source).columns (source).columns (source).ideal (source).ideal
       E.val E.property).sectorCharacter C P (character E)
   have bareLive : (v.leaf exceptional F firstPoint j).Live :=
     (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive
@@ -299,18 +299,18 @@ def literalLeftPoolPassiveNormalizationIndex :=
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ q n v.2.2.2.1)
     oldRightScalar (literalLeftPoolAtoms_eq_scale_core hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ q n v.2.2.2.1)
-  have hproductL : oldLeftAtoms.centered = true →
-      oldLeftAtoms.scale₁ true * oldLeftAtoms.scale₂ true =
-        oldLeftAtoms.scale₁ false * oldLeftAtoms.scale₂ false := by
+  have hproductL : (oldLeftAtoms).centered = true →
+      (oldLeftAtoms).scale₁ true * (oldLeftAtoms).scale₂ true =
+        (oldLeftAtoms).scale₁ false * (oldLeftAtoms).scale₂ false := by
     dsimp only [literalLeftPoolAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
     apply CanonicalLiteralRectangles.Atoms.comparison_product_secondInput
     exact Q.literalOriginalAtoms_comparison_product ξ W a Z t Y₁ Y₂
       centered hZ hY₁ hY₂ domain
-  have hproductR : oldRightAtoms.centered = true →
-      oldRightAtoms.scale₁ true * oldRightAtoms.scale₂ true =
-        oldRightAtoms.scale₁ false * oldRightAtoms.scale₂ false := by
+  have hproductR : (oldRightAtoms).centered = true →
+      (oldRightAtoms).scale₁ true * (oldRightAtoms).scale₂ true =
+        (oldRightAtoms).scale₁ false * (oldRightAtoms).scale₂ false := by
     dsimp only [literalLeftPoolAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
@@ -324,9 +324,9 @@ def literalLeftPoolPassiveNormalizationIndex :=
     δ₁ δ₂ hproductL hproductR exceptional F firstPoint j 1 bareLive
     baseExtraction baseBinding rfl rfl
   have hcL : leftScalar ≠ 0 := mul_ne_zero hcOldL
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldLeftAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldLeftAtoms).normProfileFactor_pos δ₁ δ₂)))
   have hcR : rightScalar ≠ 0 := mul_ne_zero hcOldR
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldRightAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldRightAtoms).normProfileFactor_pos δ₁ δ₂)))
   have hbL : ∀ r, 0 < leftBalance r :=
     fun _ => zero_lt_one
   have hbR : ∀ r, 0 < rightBalance r :=
@@ -424,12 +424,12 @@ def literalLeftPoolPassiveNormalizationIndex :=
     originalWindow hzero htime hprime hi hhi (fun _ hx => hx.2) cap hcap domain
   have htotal : a.n₁ + a.n₂ + (data ξ).geometry.totalLength = a.n₁ + a.n₂ + a.z := by
     rw [domain.total_length]
-  have hcenteredL : leftAtoms.centered = centered := by
-    change oldLeftAtoms.centered = centered
+  have hcenteredL : (leftAtoms).centered = centered := by
+    change (oldLeftAtoms).centered = centered
     simp only [literalLeftPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
-  have hcenteredR : rightAtoms.centered = centered := by
-    change oldRightAtoms.centered = centered
+  have hcenteredR : (rightAtoms).centered = centered := by
+    change (oldRightAtoms).centered = centered
     simp only [literalLeftPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
   have hcombined := literalLeftPoolCombinedProfile_le
@@ -536,7 +536,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (((p.rightSourceCovers raw.originalAtlas S χ).residual q n))
+local notation "cover" => (((p.rightSourceCovers (raw).originalAtlas S χ).residual q n))
 local notation "firstPoint" => (fun i : (p.divisorPools.rightData S).valuationColumns q.val n =>
   Real.log (A.exteriorNorm (b.rightResidual i.val)))
 
@@ -566,10 +566,10 @@ local notation "oldLeftScalar" => literalRightPoolScalar hΓ μv ν Q ξ W a Z t
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n v.2.2.1
 local notation "oldRightScalar" => literalRightPoolScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n v.2.2.2.1
-local notation "leftAtoms" => oldLeftAtoms.redistributeNormFactors δ₁ δ₂
-local notation "rightAtoms" => oldRightAtoms.redistributeNormFactors δ₁ δ₂
-local notation "leftScalar" => oldLeftScalar * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
-local notation "rightScalar" => oldRightScalar * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+local notation "leftAtoms" => (oldLeftAtoms).redistributeNormFactors δ₁ δ₂
+local notation "rightAtoms" => (oldRightAtoms).redistributeNormFactors δ₁ δ₂
+local notation "leftScalar" => oldLeftScalar * ((oldLeftAtoms).normProfileFactor δ₁ δ₂ : ℂ)
+local notation "rightScalar" => oldRightScalar * ((oldRightAtoms).normProfileFactor δ₁ δ₂ : ℂ)
 local notation "leftBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "rightBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "fixedPhases" => CanonicalLiteralActualCharacters.amplifiedPhases C
@@ -669,9 +669,9 @@ bound, with its original frozen cost paid once and three slot powers.
 All original occurrence windows and the combined first profile cost
 are constructed here from the original source. -/
 def literalRightPoolPassiveNormalizationIndex :=
-  let enhancedCharacter := fun E : commonSupportPool source.columns source.columns
-      (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) =>
-    (canonicalFirstCommonBlock C source.columns source.columns source.ideal source.ideal
+  let enhancedCharacter := fun E : commonSupportPool (source).columns (source).columns
+      (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) =>
+    (canonicalFirstCommonBlock C (source).columns (source).columns (source).ideal (source).ideal
       E.val E.property).sectorCharacter C P (character E)
   have bareLive : (v.leaf exceptional F firstPoint j).Live :=
     (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive
@@ -695,18 +695,18 @@ def literalRightPoolPassiveNormalizationIndex :=
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ q n v.2.2.2.1)
     oldRightScalar (literalRightPoolAtoms_eq_scale_core hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ q n v.2.2.2.1)
-  have hproductL : oldLeftAtoms.centered = true →
-      oldLeftAtoms.scale₁ true * oldLeftAtoms.scale₂ true =
-        oldLeftAtoms.scale₁ false * oldLeftAtoms.scale₂ false := by
+  have hproductL : (oldLeftAtoms).centered = true →
+      (oldLeftAtoms).scale₁ true * (oldLeftAtoms).scale₂ true =
+        (oldLeftAtoms).scale₁ false * (oldLeftAtoms).scale₂ false := by
     dsimp only [literalRightPoolAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
     apply CanonicalLiteralRectangles.Atoms.comparison_product_secondInput
     exact Q.literalOriginalAtoms_comparison_product ξ W a Z t Y₁ Y₂
       centered hZ hY₁ hY₂ domain
-  have hproductR : oldRightAtoms.centered = true →
-      oldRightAtoms.scale₁ true * oldRightAtoms.scale₂ true =
-        oldRightAtoms.scale₁ false * oldRightAtoms.scale₂ false := by
+  have hproductR : (oldRightAtoms).centered = true →
+      (oldRightAtoms).scale₁ true * (oldRightAtoms).scale₂ true =
+        (oldRightAtoms).scale₁ false * (oldRightAtoms).scale₂ false := by
     dsimp only [literalRightPoolAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
@@ -720,9 +720,9 @@ def literalRightPoolPassiveNormalizationIndex :=
     δ₁ δ₂ hproductL hproductR exceptional F firstPoint j (-1) bareLive
     baseExtraction baseBinding rfl rfl
   have hcL : leftScalar ≠ 0 := mul_ne_zero hcOldL
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldLeftAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldLeftAtoms).normProfileFactor_pos δ₁ δ₂)))
   have hcR : rightScalar ≠ 0 := mul_ne_zero hcOldR
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldRightAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldRightAtoms).normProfileFactor_pos δ₁ δ₂)))
   have hbL : ∀ r, 0 < leftBalance r :=
     fun _ => zero_lt_one
   have hbR : ∀ r, 0 < rightBalance r :=
@@ -821,12 +821,12 @@ def literalRightPoolPassiveNormalizationIndex :=
     originalWindow hzero htime hprime hi hhi (fun _ hx => hx.2) cap hcap domain
   have htotal : a.n₁ + a.n₂ + (data ξ).geometry.totalLength = a.n₁ + a.n₂ + a.z := by
     rw [domain.total_length]
-  have hcenteredL : leftAtoms.centered = centered := by
-    change oldLeftAtoms.centered = centered
+  have hcenteredL : (leftAtoms).centered = centered := by
+    change (oldLeftAtoms).centered = centered
     simp only [literalRightPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
-  have hcenteredR : rightAtoms.centered = centered := by
-    change oldRightAtoms.centered = centered
+  have hcenteredR : (rightAtoms).centered = centered := by
+    change (oldRightAtoms).centered = centered
     simp only [literalRightPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
   have hcombined := literalRightPoolCombinedProfile_le

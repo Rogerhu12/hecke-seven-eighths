@@ -64,7 +64,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -108,8 +108,8 @@ variable (hslot : ∀ i, (data ξ).slotCoefficient i ∈ (data ξ).theta)
 variable (lengthBound columnBound : ℝ)
 variable (hlengthBound : 0 ≤ lengthBound) (hcolumnBound : 0 ≤ columnBound)
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-variable (hN : ∀ i ∈ firstSource.columns,
-  (Ideal.absNorm (firstSource.ideal i).val : ℝ) ≤ Z ^ columnBound)
+variable (hN : ∀ i ∈ (firstSource).columns,
+  (Ideal.absNorm ((firstSource).ideal i).val : ℝ) ≤ Z ^ columnBound)
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {eps : ℝ}
 variable (pool : PowerScaleExteriorPool A bad Z (step / 3) eps)
 variable (hdensity : 0 < pool.rowDensity
@@ -232,9 +232,9 @@ local notation "sourceCertificates" => literalPrimitivePooledSourceIntegral
   (hlengthBound := hlengthBound) (hcolumnBound := hcolumnBound)
   (htotal := htotal) (hN := hN) (pool := pool) (hdensity := hdensity)
 
-local notation "arithmetic" => stages.supported.gated.arithmeticLabels raw.originalAtlas
+local notation "arithmetic" => (stages).supported.gated.arithmeticLabels (raw).originalAtlas
   hcap exceptional normalization
-local notation "tag" => stages.supported.gated.arithmeticTag raw.originalAtlas
+local notation "tag" => (stages).supported.gated.arithmeticTag (raw).originalAtlas
   exceptional normalization
 
 local notation "massCertificates" => literalPrimitivePooledKernelMass
@@ -338,8 +338,8 @@ local notation "rawWidthAt" => fun j =>
   (geometryAt j).literalRowParameter (2 * loss + cutoffExponent) +
     (geometryAt j).literalSupportParameter (rootLengthAt j)
 local notation "movingAt" => fun j =>
-  (stages.supported.gated.originalNominalTagAt raw.originalAtlas j.val).movingLength Z +
-    (stages.supported.gated.originalNominalTagAt raw.originalAtlas j.val).poolLength step
+  ((stages).supported.gated.originalNominalTagAt (raw).originalAtlas j.val).movingLength Z +
+    ((stages).supported.gated.originalNominalTagAt (raw).originalAtlas j.val).poolLength step
 
 local notation "coefficientIdentity" => literalPrimitivePooledKernelMass_coefficient
   (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
@@ -511,20 +511,20 @@ local notation "scalarBound" => literalPrimitivePooled_originalScalar_moving_ind
   (step := step) (hstep := hstep) (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
   (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂)
 
-local notation "arithmetic" => stages.supported.gated.arithmeticLabels raw.originalAtlas
+local notation "arithmetic" => (stages).supported.gated.arithmeticLabels (raw).originalAtlas
   hcap exceptional normalization
-local notation "tag" => stages.supported.gated.arithmeticTag raw.originalAtlas
+local notation "tag" => (stages).supported.gated.arithmeticTag (raw).originalAtlas
   exceptional normalization
-local notation "indices" => stages.supported.gated.arithmeticIndex raw.originalAtlas
+local notation "indices" => (stages).supported.gated.arithmeticIndex (raw).originalAtlas
   hcap exceptional normalization
 local notation "localWeight" => fun j =>
-  (arithmetic.localBranch tag j).indexWeight (arithmetic.localIndex tag j)
+  ((arithmetic).localBranch tag j).indexWeight ((arithmetic).localIndex tag j)
 local notation "rowExponent" => literalPrimitivePoolRowExponent
   (lengthBound := lengthBound) (columnBound := columnBound)
   (loss := loss) (cutoffExponent := cutoffExponent)
 local notation "fiberCap" => (CanonicalLiteralPrimitivePooledScalar.fiberCap rowExponent step : ℝ)
 local notation "amplifiedWeight" => amplifiedIndexWeight pool rowExponent columnBound
-  (arithmetic.mainCarrier tag) (arithmetic.errorCarrier tag)
+  ((arithmetic).mainCarrier tag) ((arithmetic).errorCarrier tag)
 
 open CanonicalLiteralPrimitiveMassConstants
 
@@ -626,7 +626,7 @@ include hwidth hT hcontrol hprofile hheight htilt₁ htilt₂ hcontour in
 /-- The tag power is preserved for the original pool index. Every
 other coefficient is bounded from the actual original windows. -/
 theorem literalPrimitivePooled_coefficient_product
-    (j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization) :
+    (j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization) :
     (massCertificates j).coefficient * (indexCertificates j).cost ≤
       profileConstant * control ^ degree * Z ^ (massLoss + 5 * error / 3 + mesh) *
         Z ^ (movingAt j) := by
@@ -634,7 +634,7 @@ theorem literalPrimitivePooled_coefficient_product
   have hn := firstWindows j
   have hbox : rawWidthAt j ≤ widthBox := by linarith
   have h := numericBound Z T (rawWidthAt j) analyticHeight control originalBound error
-    internal.m (internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength)
+    (internal).m ((internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength)
     (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) j.val.2.1.val).val)
     (idealLogLength Z (firstActiveRadical j.val.1.val.1 j.val.1.val.2)) (movingAt j)
     hZ.le hT hbox hheight hcontrol horiginalBound hprofile hn.1
@@ -679,34 +679,34 @@ include hwidth hT hcontrol hprofile hheight htilt₁ htilt₂ hcontour in
 amplified index. The original pool density and prime average occur once. -/
 theorem literalPrimitivePooled_global_kernelMass
     (hlarge : totalThreshold ≤ Z)
-    (analytic : ∀ j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization,
+    (analytic : ∀ j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization,
       (factories j).Input) :
     (∀ b : (completeFamily analytic).active Finset.univ,
       IsFiniteMeasure ((completeFamily analytic).kernel Finset.univ completeMeasure
-        (internal.m + internal.q) b)) ∧
+        ((internal).m + (internal).q) b)) ∧
     (∑ b : (completeFamily analytic).active Finset.univ,
       ((completeFamily analytic).kernel Finset.univ completeMeasure
-        (internal.m + internal.q) b).real Set.univ) ≤
+        ((internal).m + (internal).q) b).real Set.univ) ≤
       totalConstant * control ^ degree * Z ^ (9 * massLoss / 4 + eps + 5 * error / 3 + mesh) := by
   have hm := sourceMass analytic
   refine ⟨hm.1, ?_⟩
   let common := profileConstant * control ^ degree * Z ^ (massLoss + 5 * error / 3 + mesh)
   have hcontrol0 : 0 ≤ control := by linarith
   have hcommon : 0 ≤ common := by
-    have hp := profileConstantPos.le
+    have hp := (profileConstantPos).le
     dsimp only [common]
     positivity
   have hM : 0 ≤ rowExponent := by dsimp [literalPrimitivePoolRowExponent]; positivity
   have hamp := amplifiedIndexWeight_nonneg pool rowExponent columnBound
-    (arithmetic.mainCarrier tag) (arithmetic.errorCarrier tag) (zero_lt_one.trans hZ).le
+    ((arithmetic).mainCarrier tag) ((arithmetic).errorCarrier tag) (zero_lt_one.trans hZ).le
     pool.exponent_pos hM hdensity.le
-  have hpoint (j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization)
+  have hpoint (j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization)
       (b : ((factories j).family (analytic j)).active Finset.univ) :
-      stages.supported.gated.parentOuterScalar raw.originalAtlas normalization j.val *
+      (stages).supported.gated.parentOuterScalar (raw).originalAtlas normalization j.val *
         ((massCertificates j).coefficient *
-          (((stages.supported.gated.unscaledParentLeaf raw.originalAtlas exceptional j.val).weight *
+          ((((stages).supported.gated.unscaledParentLeaf (raw).originalAtlas exceptional j.val).weight *
               (sourceCertificates j).frozen) *
-            ((factories j).family (analytic j)).weight Finset.univ (internal.m + internal.q) b)) ≤
+            ((factories j).family (analytic j)).weight Finset.univ ((internal).m + (internal).q) b)) ≤
       (common * fiberCap) * amplifiedWeight (indices j) := by
     have hc : 0 ≤ (massCertificates j).coefficient := by
       rw [coefficientIdentity j]
@@ -714,56 +714,56 @@ theorem literalPrimitivePooled_global_kernelMass
         K A σ ω ψ cap orders lo hi hlo hhi δ₁ δ₂ δ mesh Z analyticHeight
         (rawWidthAt j) originalBound fixedFirstKernel fixedSecondKernel
         (zero_lt_one.trans hZ) horiginalBound (by positivity) (by positivity)
-    have hs : 0 ≤ stages.supported.gated.originalScalarAt raw.originalAtlas j.val := by
+    have hs : 0 ≤ (stages).supported.gated.originalScalarAt (raw).originalAtlas j.val := by
       rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
-      · change 0 ≤ (source.fiber : ℝ) *
-          ((4 / ((source.pools DE D).divisorPools.leftData S).density) *
-            ((source.pools DE D).divisorPools.leftData S).tagWeight _ * (_ : ℕ)) / 2
+      · change 0 ≤ ((source).fiber : ℝ) *
+          ((4 / (((source).pools DE D).divisorPools.leftData S).density) *
+            (((source).pools DE D).divisorPools.leftData S).tagWeight _ * (_ : ℕ)) / 2
         exact div_nonneg (mul_nonneg (Nat.cast_nonneg _)
           (mul_nonneg (mul_nonneg (div_nonneg (by norm_num)
-            ((source.pools DE D).divisorPools.leftData S).density_pos.le)
-            (((source.pools DE D).divisorPools.leftData S).tagWeight_nonneg _))
+            (((source).pools DE D).divisorPools.leftData S).density_pos.le)
+            ((((source).pools DE D).divisorPools.leftData S).tagWeight_nonneg _))
             (Nat.cast_nonneg _))) (by norm_num)
-      · change 0 ≤ (source.fiber : ℝ) *
-          ((4 / ((source.pools DE D).divisorPools.rightData S).density) *
-            ((source.pools DE D).divisorPools.rightData S).tagWeight _ * (_ : ℕ)) / 2
+      · change 0 ≤ ((source).fiber : ℝ) *
+          ((4 / (((source).pools DE D).divisorPools.rightData S).density) *
+            (((source).pools DE D).divisorPools.rightData S).tagWeight _ * (_ : ℕ)) / 2
         exact div_nonneg (mul_nonneg (Nat.cast_nonneg _)
           (mul_nonneg (mul_nonneg (div_nonneg (by norm_num)
-            ((source.pools DE D).divisorPools.rightData S).density_pos.le)
-            (((source.pools DE D).divisorPools.rightData S).tagWeight_nonneg _))
+            (((source).pools DE D).divisorPools.rightData S).density_pos.le)
+            ((((source).pools DE D).divisorPools.rightData S).tagWeight_nonneg _))
             (Nat.cast_nonneg _))) (by norm_num)
     have hp := mul_le_mul_of_nonneg_right
       (mul_le_mul_of_nonneg_left (productBound j) hs)
-      ((arithmetic.localBranch tag j).indexWeight_nonneg (arithmetic.localIndex tag j))
+      (((arithmetic).localBranch tag j).indexWeight_nonneg ((arithmetic).localIndex tag j))
     have hi := mul_le_mul_of_nonneg_left (outerIndex j (analytic j) b) hc
     calc
       _ = (massCertificates j).coefficient *
-        (stages.supported.gated.parentOuterScalar raw.originalAtlas normalization j.val *
-          (((stages.supported.gated.unscaledParentLeaf raw.originalAtlas exceptional j.val).weight *
+        ((stages).supported.gated.parentOuterScalar (raw).originalAtlas normalization j.val *
+          ((((stages).supported.gated.unscaledParentLeaf (raw).originalAtlas exceptional j.val).weight *
               (sourceCertificates j).frozen) *
-            ((factories j).family (analytic j)).weight Finset.univ (internal.m + internal.q) b)) := by ring
+            ((factories j).family (analytic j)).weight Finset.univ ((internal).m + (internal).q) b)) := by ring
       _ ≤ (massCertificates j).coefficient *
-          (stages.supported.gated.originalScalarAt raw.originalAtlas j.val *
+          ((stages).supported.gated.originalScalarAt (raw).originalAtlas j.val *
             ((indexCertificates j).cost * localWeight j)) := hi
-      _ = (stages.supported.gated.originalScalarAt raw.originalAtlas j.val *
+      _ = ((stages).supported.gated.originalScalarAt (raw).originalAtlas j.val *
           ((massCertificates j).coefficient * (indexCertificates j).cost)) * localWeight j := by ring
-      _ ≤ (stages.supported.gated.originalScalarAt raw.originalAtlas j.val *
+      _ ≤ ((stages).supported.gated.originalScalarAt (raw).originalAtlas j.val *
           (common * Z ^ movingAt j)) * localWeight j := hp
-      _ = common * (stages.supported.gated.originalScalarAt raw.originalAtlas j.val *
+      _ = common * ((stages).supported.gated.originalScalarAt (raw).originalAtlas j.val *
           Z ^ movingAt j * localWeight j) := by ring
       _ ≤ common * (fiberCap * amplifiedWeight (indices j)) :=
         mul_le_mul_of_nonneg_left (scalarBound j) hcommon
       _ = _ := by ring
   have hsum :
       (∑ b : (completeFamily analytic).active Finset.univ, amplifiedWeight (indices b.val.1)) =
-      ∑ j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization,
+      ∑ j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization,
         ∑ _b : ((factories j).family (analytic j)).active Finset.univ,
           amplifiedWeight (indices j) := by
     simpa only [Finset.univ_sigma_univ, Finset.sum_coe_sort] using
       ActualNormalizedPairFamily.sum_sigmaCombine_active
         (fun j => (factories j).family (analytic j)) Finset.univ (fun _ => Finset.univ)
         (fun b => amplifiedWeight (indices b.val.1))
-  have harithmetic := stages.arithmeticCarriers_admissible raw.originalAtlas hcap
+  have harithmetic := (stages).arithmeticCarriers_admissible (raw).originalAtlas hcap
     normalization exceptional columnBound 1 (by simp) (fun _ _ => one_dvd _) hN
   have hcard := fibreBound massLoss hmassLoss analytic
   have hpassive := (PrimitivePassiveFactoryCard.allTagsConstant_pos K cap columnBound
@@ -776,19 +776,19 @@ theorem literalPrimitivePooled_global_kernelMass
     amplifiedWeight hamp ((passiveConstant * physicalConstant) * Z ^ (massLoss / 4)) hcard
   have hh := pooled_harmonic_sum K A cap columnBound massLoss hcolumnBound hmassLoss
     (step / 3) eps rowExponent columnBound (by positivity) heps hepsSmall hM hcolumnBound
-    Z hlarge bad pool (arithmetic.mainCarrier tag) harithmetic.1
-    (arithmetic.errorCarrier tag) (fun n _ p _ => harithmetic.2 n p)
+    Z hlarge bad pool ((arithmetic).mainCarrier tag) harithmetic.1
+    ((arithmetic).errorCarrier tag) (fun n _ p _ => harithmetic.2 n p)
   have hindex := hcount.trans (mul_le_mul_of_nonneg_left hh (by positivity))
   have hfixed : 0 ≤ common * fiberCap := mul_nonneg hcommon (Nat.cast_nonneg _)
   calc
-    _ ≤ ∑ j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization,
-        stages.supported.gated.parentOuterScalar raw.originalAtlas normalization j.val *
+    _ ≤ ∑ j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization,
+        (stages).supported.gated.parentOuterScalar (raw).originalAtlas normalization j.val *
           ((massCertificates j).coefficient *
             ∑ b : ((factories j).family (analytic j)).active Finset.univ,
-              ((stages.supported.gated.unscaledParentLeaf raw.originalAtlas exceptional j.val).weight *
+              (((stages).supported.gated.unscaledParentLeaf (raw).originalAtlas exceptional j.val).weight *
                 (sourceCertificates j).frozen) *
-                  ((factories j).family (analytic j)).weight Finset.univ (internal.m + internal.q) b) := hm.2
-    _ ≤ ∑ j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization,
+                  ((factories j).family (analytic j)).weight Finset.univ ((internal).m + (internal).q) b) := hm.2
+    _ ≤ ∑ j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization,
         ∑ _b : ((factories j).family (analytic j)).active Finset.univ,
           (common * fiberCap) * amplifiedWeight (indices j) := by
       apply Finset.sum_le_sum

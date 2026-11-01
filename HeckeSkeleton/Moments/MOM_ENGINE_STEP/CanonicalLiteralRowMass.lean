@@ -67,33 +67,33 @@ def literalLeftCommonAtoms : FrozenSourceAtoms A σ
     (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
     (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).rows
     (LC.branch v.2.2.1).slotCount :=
-  (left.commonAtomBounds v.literalLeftBranch leftMask).atoms R₀.rows
+  ((left).commonAtomBounds v.literalLeftBranch leftMask).atoms (R₀).rows
 
 def literalRightCommonAtoms : FrozenSourceAtoms A σ
     (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
     (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).rows
     (RC.branch v.2.2.2.1).slotCount :=
-  (right.commonAtomBounds v.literalRightBranch rightMask).atoms R₀.rows
+  ((right).commonAtomBounds v.literalRightBranch rightMask).atoms (R₀).rows
 
 theorem literalLeftCommonAtoms_ideal :
     (v.literalLeftCommonAtoms leftAtoms leftMask).ideal =
       (primePowerProduct v.block.primes v.block.leftMultiplicity).val := by
-  exact ((left.commonAtomBounds v.literalLeftBranch leftMask).atoms_ideal R₀.rows).trans
+  exact (((left).commonAtomBounds v.literalLeftBranch leftMask).atoms_ideal (R₀).rows).trans
     ((v.literalLeftParent.branch_product (primeSupport v.1.val.1) v.1.val.1
       v.2.2.2.2.2.1).trans v.block.common_left.symm)
 
 theorem literalRightCommonAtoms_ideal :
     (v.literalRightCommonAtoms rightAtoms rightMask).ideal =
       (primePowerProduct v.block.primes v.block.rightMultiplicity).val := by
-  exact ((right.commonAtomBounds v.literalRightBranch rightMask).atoms_ideal R₀.rows).trans
+  exact (((right).commonAtomBounds v.literalRightBranch rightMask).atoms_ideal (R₀).rows).trans
     ((v.literalRightParent.branch_product (primeSupport v.1.val.1) v.1.val.2
       v.2.2.2.2.2.2).trans v.block.common_right.symm)
 
 theorem literalLeftCommonAtoms_value
     (h : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) :
     (v.literalLeftCommonAtoms leftAtoms leftMask).value h =
-      left.commonScalar v.literalLeftBranch :=
-  (left.commonAtomBounds v.literalLeftBranch leftMask).atoms_value R₀.rows
+      (left).commonScalar v.literalLeftBranch :=
+  ((left).commonAtomBounds v.literalLeftBranch leftMask).atoms_value (R₀).rows
     (primePowerProduct v.block.primes v.block.leftMultiplicity)
     ((v.literalLeftParent.branch_product (primeSupport v.1.val.1) v.1.val.1
       v.2.2.2.2.2.1).trans v.block.common_left.symm) h
@@ -101,15 +101,15 @@ theorem literalLeftCommonAtoms_value
 theorem literalRightCommonAtoms_value
     (h : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) :
     (v.literalRightCommonAtoms rightAtoms rightMask).value h =
-      right.commonScalar v.literalRightBranch :=
-  (right.commonAtomBounds v.literalRightBranch rightMask).atoms_value R₀.rows
+      (right).commonScalar v.literalRightBranch :=
+  ((right).commonAtomBounds v.literalRightBranch rightMask).atoms_value (R₀).rows
     (primePowerProduct v.block.primes v.block.rightMultiplicity)
     ((v.literalRightParent.branch_product (primeSupport v.1.val.1) v.1.val.2
       v.2.2.2.2.2.2).trans v.block.common_right.symm) h
 
 theorem literalRows_eq_withCommonAtoms :
     v.literalRows leftAtoms rightAtoms =
-      R₀.withCommonAtoms (v.literalLeftCommonAtoms leftAtoms leftMask)
+      (R₀).withCommonAtoms (v.literalLeftCommonAtoms leftAtoms leftMask)
         (v.literalRightCommonAtoms rightAtoms rightMask) := by
   unfold literalRows ActualSecondCorrelationRows.withCommonAtoms
   congr 1
@@ -153,7 +153,7 @@ def literalSupportedRowMass :
     original_fibers := W.original_fibers }
   intro h hh
   have hw := W.weight_eq h hh
-  change R₀.weight h * (v.literalLeftCommonAtoms leftAtoms leftMask).value h *
+  change (R₀).weight h * (v.literalLeftCommonAtoms leftAtoms leftMask).value h *
     star ((v.literalRightCommonAtoms rightAtoms rightMask).value h) = _ at hw
   rw [v.literalLeftCommonAtoms_value leftAtoms leftMask h,
     v.literalRightCommonAtoms_value rightAtoms rightMask h] at hw

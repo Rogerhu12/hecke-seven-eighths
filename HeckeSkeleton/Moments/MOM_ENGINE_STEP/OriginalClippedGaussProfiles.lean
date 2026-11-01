@@ -101,10 +101,10 @@ def profileScalars : ProfileScalars d.geometry.slotCount where
 
 local notation "scalars" => profileScalars d G₁ G₂ G D₁ D₂ B δ₁ δ₂ hG₁ hG₂ hG hB
 
-theorem profileScalars_left_le : scalars.left ≤ Real.sqrt B := min_le_right _ _
-theorem profileScalars_right_le : scalars.right ≤ Real.sqrt B := min_le_right _ _
+theorem profileScalars_left_le : (scalars).left ≤ Real.sqrt B := min_le_right _ _
+theorem profileScalars_right_le : (scalars).right ≤ Real.sqrt B := min_le_right _ _
 theorem profileScalars_prime_le (i : Fin d.geometry.slotCount) :
-    scalars.prime i ≤ Real.sqrt B := min_le_right _ _
+    (scalars).prime i ≤ Real.sqrt B := min_le_right _ _
 
 variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {P : ℝ}
@@ -124,7 +124,7 @@ theorem original_left_identity (u : NonzeroIdeal K) (hu : u ∈ rowDomain)
         jointPhase ξ
           (Real.log (idealNorm K D₁ * idealNorm K I) • firstDirection +
             Real.log (idealNorm K I) • secondDirection) =
-      ((scalars.left : ℂ) * d.plainTest₁.profile u t (idealNorm K I / G₁)) *
+      (((scalars).left : ℂ) * d.plainTest₁.profile u t (idealNorm K I / G₁)) *
         (atom G₁ (idealNorm K D₁) δ₁ δ₂ firstDirection secondDirection).multiplier ξ (idealNorm K I / G₁) := by
   apply clipped_multiplier_identity G₁ (idealNorm K D₁) (idealNorm K I) B δ₁ δ₂
     hG₁ (one_le_idealNorm K D₁) (one_le_idealNorm K I) hB hδ₁ hδ₂ hδ
@@ -143,7 +143,7 @@ theorem original_right_identity (u : NonzeroIdeal K) (hu : u ∈ rowDomain)
         jointPhase ξ
           (Real.log (idealNorm K D₂ * idealNorm K I) • firstDirection +
             Real.log (idealNorm K I) • secondDirection) =
-      ((scalars.right : ℂ) * d.plainTest₂.profile u t (idealNorm K I / G₂)) *
+      (((scalars).right : ℂ) * d.plainTest₂.profile u t (idealNorm K I / G₂)) *
         (atom G₂ (idealNorm K D₂) δ₁ δ₂ firstDirection secondDirection).multiplier ξ (idealNorm K I / G₂) := by
   apply clipped_multiplier_identity G₂ (idealNorm K D₂) (idealNorm K I) B δ₁ δ₂
     hG₂ (one_le_idealNorm K D₂) (one_le_idealNorm K I) hB hδ₁ hδ₂ hδ
@@ -164,7 +164,7 @@ theorem original_prime_identity (i : Fin d.geometry.slotCount)
         jointPhase ξ
           (Real.log (1 * (Ideal.absNorm q.asIdeal : ℝ)) • firstDirection +
             Real.log (Ideal.absNorm q.asIdeal : ℝ) • secondDirection) =
-      ((scalars.prime i : ℂ) *
+      (((scalars).prime i : ℂ) *
         (d.geometry.slots i).profile t ((Ideal.absNorm q.asIdeal : ℝ) / G i)) *
         (atom (G i) 1 δ₁ δ₂ firstDirection secondDirection).multiplier ξ ((Ideal.absNorm q.asIdeal : ℝ) / G i) := by
   have hN : (1 : ℝ) ≤ (Ideal.absNorm q.asIdeal : ℝ) :=
@@ -198,24 +198,24 @@ local notation "slotAtom" => fun i => atom (G i) 1 δ₁ δ₂ firstDirection se
 /-- The bounded child profiles are actual data, with every original
 arithmetic field and every original slot length retained literally. -/
 def clippedData (ξ : V) : MomentData K ω ψ :=
-  CanonicalLogProfiles.data (scalars.data d) leftAtom rightAtom slotAtom
-    (scalars.left_positive d hleft) (scalars.right_positive d hright)
-    (scalars.prime_positive d hslot) ξ
+  CanonicalLogProfiles.data ((scalars).data d) leftAtom rightAtom slotAtom
+    ((scalars).left_positive d hleft) ((scalars).right_positive d hright)
+    ((scalars).prime_positive d hslot) ξ
 
 local notation "boundedData" => clippedData d G₁ G₂ G D₁ D₂ B δ₁ δ₂ hG₁ hG₂ hG hB
   hleft hright hslot firstDirection secondDirection
 
 @[simp] theorem clippedData_left (ξ : V) (u : NonzeroIdeal K) (t y : ℝ) :
     (boundedData ξ).plainTest₁.profile u t y =
-      ((scalars.left : ℂ) * d.plainTest₁.profile u t y) * leftAtom.multiplier ξ y := rfl
+      (((scalars).left : ℂ) * d.plainTest₁.profile u t y) * (leftAtom).multiplier ξ y := rfl
 
 @[simp] theorem clippedData_right (ξ : V) (u : NonzeroIdeal K) (t y : ℝ) :
     (boundedData ξ).plainTest₂.profile u t y =
-      ((scalars.right : ℂ) * d.plainTest₂.profile u t y) * rightAtom.multiplier ξ y := rfl
+      (((scalars).right : ℂ) * d.plainTest₂.profile u t y) * (rightAtom).multiplier ξ y := rfl
 
 @[simp] theorem clippedData_prime (ξ : V) (i : Fin d.geometry.slotCount) (t y : ℝ) :
     ((boundedData ξ).geometry.slots i).profile t y =
-      ((scalars.prime i : ℂ) * (d.geometry.slots i).profile t y) *
+      (((scalars).prime i : ℂ) * (d.geometry.slots i).profile t y) *
         (slotAtom i).multiplier ξ y := rfl
 
 @[simp] theorem clippedData_rows (ξ : V) (a : RealParameters) (Z : ℝ) :
@@ -228,13 +228,13 @@ local notation "boundedData" => clippedData d G₁ G₂ G D₁ D₂ B δ₁ δ�
 no second recipe for the moving profiles is requested. -/
 def normProfiles (W : NormProfileRecipe (fun _ : PUnit => d)) :
     NormProfileRecipe boundedData where
-  left ξ t y := ((scalars.left : ℂ) * W.left PUnit.unit t y) * leftAtom.multiplier ξ y
-  right ξ t y := ((scalars.right : ℂ) * W.right PUnit.unit t y) * rightAtom.multiplier ξ y
+  left ξ t y := (((scalars).left : ℂ) * W.left PUnit.unit t y) * (leftAtom).multiplier ξ y
+  right ξ t y := (((scalars).right : ℂ) * W.right PUnit.unit t y) * (rightAtom).multiplier ξ y
   left_eq ξ u hu t y := by
-    change ((scalars.left : ℂ) * d.plainTest₁.profile u t y) * leftAtom.multiplier ξ y = _
+    change (((scalars).left : ℂ) * d.plainTest₁.profile u t y) * (leftAtom).multiplier ξ y = _
     rw [W.left_eq PUnit.unit u hu t y]
   right_eq ξ u hu t y := by
-    change ((scalars.right : ℂ) * d.plainTest₂.profile u t y) * rightAtom.multiplier ξ y = _
+    change (((scalars).right : ℂ) * d.plainTest₂.profile u t y) * (rightAtom).multiplier ξ y = _
     rw [W.right_eq PUnit.unit u hu t y]
 
 /-- The true signed profile window is produced from the original

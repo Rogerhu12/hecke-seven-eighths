@@ -176,7 +176,7 @@ local notation "calibrations" =>
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -555,8 +555,8 @@ private theorem literalCapacity_rightEndpoints
   · rw [OriginalNominalGeometry.atBase_literalSupportParameter,
       OriginalNominalGeometry.swapSecond_literalSupportParameter, hroot, hbase]
 
-local notation "leftGeometry" => geometry.atBase leftTable.base hbaseLeft
-local notation "rightGeometry" => geometry.swapSecond.atBase rightTable.base hbaseRight
+local notation "leftGeometry" => geometry.atBase (leftTable).base hbaseLeft
+local notation "rightGeometry" => geometry.swapSecond.atBase (rightTable).base hbaseRight
 
 local notation "originalMass" =>
   v.literalOriginalArithmeticMass
@@ -575,18 +575,18 @@ local notation "originalMass" =>
 
 /-- The original length binding used in this exact left side. -/
 def literalNormalizationLeftLengthBinding (r : Bool) :
-    (normalization.left r).calibration.OriginalSixthLengthBinding parent a step leftGeometry
-      (idealLogLength leftTable.base
-        (secondSixthRootIdeal ordinaryRows.primes ordinaryRows.leftMultiplicity ordinaryRows.rightMultiplicity).val) := by
-  have hcoordinates := literalCapacity_leftEndpoints ordinaryRows geometry leftTable.base hbaseLeft paidCutoff
+    ((normalization).left r).calibration.OriginalSixthLengthBinding parent a step leftGeometry
+      (idealLogLength (leftTable).base
+        (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity).val) := by
+  have hcoordinates := literalCapacity_leftEndpoints ordinaryRows geometry (leftTable).base hbaseLeft paidCutoff
   have hm := hcoordinates.1
   have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a leftTable.base Y₁ Y₂ floor padding := by
-    have hb : leftTable.base = Z := hbaseLeft
+  have hdomain : PairedEngineDomain centered parent a (leftTable).base Y₁ Y₂ floor padding := by
+    have hb : (leftTable).base = Z := hbaseLeft
     simpa only [hb] using domain
-  exact leftTable.literalCapacityBinding ordinaryRows .left j.2.1
+  exact (leftTable).literalCapacityBinding ordinaryRows .left j.2.1
     (fun i => v.block.leftResidual (v.leftReindex.index i)) v.leftReindex.ideal_product
-    firstSign r j.1.val j.2.2.1.val (Finset.mem_filter.mp allocation.property).2.2.1
+    firstSign r j.1.val j.2.2.1.val (Finset.mem_filter.mp (allocation).property).2.2.1
     (calibrations.1 r) parent a step leftGeometry
     (slots := leftRecipe.slots) (cutoff := paidCutoff)
     (hparameters := by rw [hm, hq]; rfl) (domain := hdomain)
@@ -595,18 +595,18 @@ def literalNormalizationLeftLengthBinding (r : Bool) :
 
 /-- The original length binding used in this exact right side. -/
 def literalNormalizationRightLengthBinding (r : Bool) :
-    (normalization.right r).calibration.OriginalSixthLengthBinding parent a step rightGeometry
-      (idealLogLength rightTable.base
-        (secondSixthRootIdeal ordinaryRows.primes ordinaryRows.rightMultiplicity ordinaryRows.leftMultiplicity).val) := by
-  have hcoordinates := literalCapacity_rightEndpoints ordinaryRows geometry rightTable.base hbaseRight paidCutoff
+    ((normalization).right r).calibration.OriginalSixthLengthBinding parent a step rightGeometry
+      (idealLogLength (rightTable).base
+        (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity (ordinaryRows).leftMultiplicity).val) := by
+  have hcoordinates := literalCapacity_rightEndpoints ordinaryRows geometry (rightTable).base hbaseRight paidCutoff
   have hm := hcoordinates.1
   have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a rightTable.base Y₁ Y₂ floor padding := by
-    have hb : rightTable.base = Z := hbaseRight
+  have hdomain : PairedEngineDomain centered parent a (rightTable).base Y₁ Y₂ floor padding := by
+    have hb : (rightTable).base = Z := hbaseRight
     simpa only [hb] using domain
-  exact rightTable.literalCapacityBinding ordinaryRows .right j.2.1
+  exact (rightTable).literalCapacityBinding ordinaryRows .right j.2.1
     (fun i => v.block.rightResidual (v.rightReindex.index i)) v.rightReindex.ideal_product
-    (-firstSign) r j.1.val j.2.2.2.val (Finset.mem_filter.mp allocation.property).2.2.2
+    (-firstSign) r j.1.val j.2.2.2.val (Finset.mem_filter.mp (allocation).property).2.2.2
     (calibrations.2 r) parent a step rightGeometry
     (slots := rightRecipe.slots) (cutoff := paidCutoff)
     (hparameters := by rw [hm, hq]; rfl) (domain := hdomain)
@@ -615,16 +615,16 @@ def literalNormalizationRightLengthBinding (r : Bool) :
 
 /-- The original individual-prime atoms of this exact left side. -/
 def literalNormalizationLeftCapacityAtoms (r : Bool) :
-    (normalization.left r).calibration.OriginalCapacityAtoms := by
-  have hcoordinates := literalCapacity_leftEndpoints ordinaryRows geometry leftTable.base hbaseLeft paidCutoff
+    ((normalization).left r).calibration.OriginalCapacityAtoms := by
+  have hcoordinates := literalCapacity_leftEndpoints ordinaryRows geometry (leftTable).base hbaseLeft paidCutoff
   have hm := hcoordinates.1
   have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a leftTable.base Y₁ Y₂ floor padding := by
-    have hb : leftTable.base = Z := hbaseLeft
+  have hdomain : PairedEngineDomain centered parent a (leftTable).base Y₁ Y₂ floor padding := by
+    have hb : (leftTable).base = Z := hbaseLeft
     simpa only [hb] using domain
-  exact leftTable.literalCapacityAtoms leftTests ordinaryRows .left j.2.1
+  exact (leftTable).literalCapacityAtoms leftTests ordinaryRows .left j.2.1
     (fun i => v.block.leftResidual (v.leftReindex.index i)) v.leftReindex.ideal_product
-    firstSign r j.1.val j.2.2.1.val (Finset.mem_filter.mp allocation.property).2.2.1
+    firstSign r j.1.val j.2.2.1.val (Finset.mem_filter.mp (allocation).property).2.2.1
     (calibrations.1 r) P Rchar F parent oldMoving correction hcorr remaining extra a step leftGeometry
     pattern sector leftRecipe.slots paidCutoff reference time
     (by intro ξ; rw [hm, hq]; rfl) (by rw [hm, hq]; rfl) hdomain mesh hmesh hfit
@@ -633,16 +633,16 @@ def literalNormalizationLeftCapacityAtoms (r : Bool) :
 
 /-- The original individual-prime atoms of this exact right side. -/
 def literalNormalizationRightCapacityAtoms (r : Bool) :
-    (normalization.right r).calibration.OriginalCapacityAtoms := by
-  have hcoordinates := literalCapacity_rightEndpoints ordinaryRows geometry rightTable.base hbaseRight paidCutoff
+    ((normalization).right r).calibration.OriginalCapacityAtoms := by
+  have hcoordinates := literalCapacity_rightEndpoints ordinaryRows geometry (rightTable).base hbaseRight paidCutoff
   have hm := hcoordinates.1
   have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a rightTable.base Y₁ Y₂ floor padding := by
-    have hb : rightTable.base = Z := hbaseRight
+  have hdomain : PairedEngineDomain centered parent a (rightTable).base Y₁ Y₂ floor padding := by
+    have hb : (rightTable).base = Z := hbaseRight
     simpa only [hb] using domain
-  exact rightTable.literalCapacityAtoms rightTests ordinaryRows .right j.2.1
+  exact (rightTable).literalCapacityAtoms rightTests ordinaryRows .right j.2.1
     (fun i => v.block.rightResidual (v.rightReindex.index i)) v.rightReindex.ideal_product
-    (-firstSign) r j.1.val j.2.2.2.val (Finset.mem_filter.mp allocation.property).2.2.2
+    (-firstSign) r j.1.val j.2.2.2.val (Finset.mem_filter.mp (allocation).property).2.2.2
     (calibrations.2 r) P Rchar F parent oldMoving correction hcorr remaining extra a step rightGeometry
     pattern sector rightRecipe.slots paidCutoff reference time
     (by intro ξ; rw [hm, hq]; rfl) (by rw [hm, hq]; rfl) hdomain mesh hmesh hfit
@@ -770,8 +770,8 @@ local notation "rightCapacityAtoms" =>
     (analyticLeft := analyticLeft) (analyticRight := analyticRight) (hanalyticLeft := hanalyticLeft) (hanalyticRight := hanalyticRight)
 
 @[simp] theorem literalNormalizationLeftLengthBinding_rawError (r : Bool) :
-    (leftLengths r).rawScaleError = leftTable.computedRawError geometry.skeleton.rawDegree error r := by
-  change leftTable.computedRawError leftGeometry.skeleton.rawDegree error r = _
+    (leftLengths r).rawScaleError = (leftTable).computedRawError geometry.skeleton.rawDegree error r := by
+  change (leftTable).computedRawError (leftGeometry).skeleton.rawDegree error r = _
   rw [OriginalNominalGeometry.atBase_skeleton]
 
 @[simp] theorem literalNormalizationLeftLengthBinding_widthError (r : Bool) :
@@ -787,11 +787,11 @@ local notation "rightCapacityAtoms" =>
     (leftCapacityAtoms r).rightAnnulus = hi := rfl
 
 @[simp] theorem literalNormalizationData_leftBounds (r : Bool) :
-    (normalization.left r).bounds = fun _ => 1 := rfl
+    ((normalization).left r).bounds = fun _ => 1 := rfl
 
 @[simp] theorem literalNormalizationRightLengthBinding_rawError (r : Bool) :
-    (rightLengths r).rawScaleError = rightTable.computedRawError geometry.swapSecond.skeleton.rawDegree error r := by
-  change rightTable.computedRawError rightGeometry.skeleton.rawDegree error r = _
+    (rightLengths r).rawScaleError = (rightTable).computedRawError geometry.swapSecond.skeleton.rawDegree error r := by
+  change (rightTable).computedRawError (rightGeometry).skeleton.rawDegree error r = _
   rw [OriginalNominalGeometry.atBase_skeleton]
 
 @[simp] theorem literalNormalizationRightLengthBinding_widthError (r : Bool) :
@@ -807,23 +807,23 @@ local notation "rightCapacityAtoms" =>
     (rightCapacityAtoms r).rightAnnulus = hi := rfl
 
 @[simp] theorem literalNormalizationData_rightBounds (r : Bool) :
-    (normalization.right r).bounds = fun _ => 1 := rfl
+    ((normalization).right r).bounds = fun _ => 1 := rfl
 
 /-- The existing left capacity, with the actual internally constructed
 row mass and its original row witness. -/
-theorem literalNormalizationData_leftCapacity_actual (r : Bool) (anchor : ordinaryRows.rows) :
-    HEq (normalization.left r).capacity
+theorem literalNormalizationData_leftCapacity_actual (r : Bool) (anchor : (ordinaryRows).rows) :
+    HEq ((normalization).left r).capacity
       ((leftLengths r).capacityInput originalMass v.block.right_positive anchor hsecond hopposite hunit
         hstep mesh hmesh hfit (leftCapacityAtoms r)) := by
-  have hcoordinates := literalCapacity_leftEndpoints ordinaryRows geometry leftTable.base hbaseLeft paidCutoff
+  have hcoordinates := literalCapacity_leftEndpoints ordinaryRows geometry (leftTable).base hbaseLeft paidCutoff
   have hm := hcoordinates.1
   have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a leftTable.base Y₁ Y₂ floor padding := by
-    have hb : leftTable.base = Z := hbaseLeft
+  have hdomain : PairedEngineDomain centered parent a (leftTable).base Y₁ Y₂ floor padding := by
+    have hb : (leftTable).base = Z := hbaseLeft
     simpa only [hb] using domain
-  exact leftTable.produceLiteralLeftSideAll_capacity_actual_heq leftTests ordinaryRows j.2.1
+  exact (leftTable).produceLiteralLeftSideAll_capacity_actual_heq leftTests ordinaryRows j.2.1
     (fun i => v.block.leftResidual (v.leftReindex.index i)) v.leftReindex.ideal_product
-    firstSign r j.1.val j.2.2.1.val (Finset.mem_filter.mp allocation.property).2.2.1
+    firstSign r j.1.val j.2.2.1.val (Finset.mem_filter.mp (allocation).property).2.2.1
     (calibrations.1 r) P Rchar F parent oldMoving correction hcorr remaining extra a step leftGeometry
     pattern sector leftRecipe.slots paidCutoff reference time
     (by intro ξ; rw [hm, hq]; rfl) (by rw [hm, hq]; rfl) hdomain direct
@@ -834,25 +834,25 @@ theorem literalNormalizationData_leftCapacity_actual (r : Bool) (anchor : ordina
 
 /-- The existing right capacity, with the actual internally constructed
 row mass and its original row witness. -/
-theorem literalNormalizationData_rightCapacity_actual (r : Bool) (anchor : ordinaryRows.rows) :
-    HEq (normalization.right r).capacity
-      ((rightLengths r).capacityInput (originalMass.swapColumns v.block.right_positive) originalMass.left_positive
+theorem literalNormalizationData_rightCapacity_actual (r : Bool) (anchor : (ordinaryRows).rows) :
+    HEq ((normalization).right r).capacity
+      ((rightLengths r).capacityInput ((originalMass).swapColumns v.block.right_positive) (originalMass).left_positive
         anchor hopposite hsecond hunit
         hstep mesh hmesh hfit (rightCapacityAtoms r)) := by
-  have hcoordinates := literalCapacity_rightEndpoints ordinaryRows geometry rightTable.base hbaseRight paidCutoff
+  have hcoordinates := literalCapacity_rightEndpoints ordinaryRows geometry (rightTable).base hbaseRight paidCutoff
   have hm := hcoordinates.1
   have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a rightTable.base Y₁ Y₂ floor padding := by
-    have hb : rightTable.base = Z := hbaseRight
+  have hdomain : PairedEngineDomain centered parent a (rightTable).base Y₁ Y₂ floor padding := by
+    have hb : (rightTable).base = Z := hbaseRight
     simpa only [hb] using domain
-  have hunitR : rightGeometry.ideals.unitPart.val =
-      (secondPatternUnitIdeal ordinaryRows.primes ordinaryRows.rightMultiplicity
-        ordinaryRows.leftMultiplicity pattern).val := by
+  have hunitR : (rightGeometry).ideals.unitPart.val =
+      (secondPatternUnitIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity
+        (ordinaryRows).leftMultiplicity pattern).val := by
     rw [secondPatternUnitIdeal_swap]
     exact hunit
-  exact rightTable.produceLiteralRightSideAll_capacity_actual_heq rightTests ordinaryRows j.2.1
+  exact (rightTable).produceLiteralRightSideAll_capacity_actual_heq rightTests ordinaryRows j.2.1
     (fun i => v.block.rightResidual (v.rightReindex.index i)) v.rightReindex.ideal_product
-    (-firstSign) r j.1.val j.2.2.2.val (Finset.mem_filter.mp allocation.property).2.2.2
+    (-firstSign) r j.1.val j.2.2.2.val (Finset.mem_filter.mp (allocation).property).2.2.2
     (calibrations.2 r) P Rchar F parent oldMoving correction hcorr remaining extra a step rightGeometry
     pattern sector rightRecipe.slots paidCutoff reference time
     (by intro ξ; rw [hm, hq]; rfl) (by rw [hm, hq]; rfl) hdomain direct
@@ -925,17 +925,17 @@ local notation "rightCapacityProof" =>
 ordinary-row anchor internally. Both capacity identities retain this
 same member, the same children and the same two Fourier kernels. -/
 theorem literalNormalizationData_activeCapacities
-    (b : normalization.family.active Finset.univ) :
-    let anchor := normalization.activeOrdinaryAnchor b
-    HEq (normalization.left b.val.1).capacity
+    (b : (normalization).family.active Finset.univ) :
+    let anchor := (normalization).activeOrdinaryAnchor b
+    HEq ((normalization).left b.val.1).capacity
         ((leftLengths b.val.1).capacityInput originalMass v.block.right_positive anchor
           hsecond hopposite hunit hstep mesh hmesh hfit (leftCapacityAtoms b.val.1)) ∧
-      HEq (normalization.right b.val.2).capacity
+      HEq ((normalization).right b.val.2).capacity
         ((rightLengths b.val.2).capacityInput
-          (originalMass.swapColumns v.block.right_positive) originalMass.left_positive anchor
+          ((originalMass).swapColumns v.block.right_positive) (originalMass).left_positive anchor
           hopposite hsecond hunit hstep mesh hmesh hfit (rightCapacityAtoms b.val.2)) := by
-  exact ⟨leftCapacityProof b.val.1 (normalization.activeOrdinaryAnchor b),
-    rightCapacityProof b.val.2 (normalization.activeOrdinaryAnchor b)⟩
+  exact ⟨leftCapacityProof b.val.1 ((normalization).activeOrdinaryAnchor b),
+    rightCapacityProof b.val.2 ((normalization).activeOrdinaryAnchor b)⟩
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

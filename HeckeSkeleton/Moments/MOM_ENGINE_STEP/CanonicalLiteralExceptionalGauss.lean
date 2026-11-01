@@ -137,8 +137,8 @@ variable (leftLabel rightLabel : raw.originalAtlas.labels support D)
 local notation "left" => raw.originalAtlas.branch support D leftLabel
 local notation "right" => raw.originalAtlas.branch support D rightLabel
 local notation "length" => fun i => (d.geometry.slots i).length
-local notation "NL" => left.residualGaussScale Z length (Z ^ a.n₁) (Z ^ a.n₂)
-local notation "NR" => right.residualGaussScale Z length (Z ^ a.n₁) (Z ^ a.n₂)
+local notation "NL" => (left).residualGaussScale Z length (Z ^ a.n₁) (Z ^ a.n₂)
+local notation "NR" => (right).residualGaussScale Z length (Z ^ a.n₁) (Z ^ a.n₂)
 
 include profiles hannulus hwindow ht hZ hcap in
 /-- Two actual original occurrence labels with the same complete

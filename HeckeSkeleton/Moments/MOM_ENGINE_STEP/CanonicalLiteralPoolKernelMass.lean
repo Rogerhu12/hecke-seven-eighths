@@ -73,9 +73,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -149,7 +149,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (((p.leftSourceCovers raw.originalAtlas S χ).residual q n))
+local notation "cover" => (((p.leftSourceCovers (raw).originalAtlas S χ).residual q n))
 local notation "firstPoint" => (fun i : (p.divisorPools.leftData S).valuationColumns q.val n =>
   -Real.log (A.exteriorNorm (b.leftResidual i.val)))
 
@@ -253,9 +253,9 @@ variable (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
 /-- Mass of the exact same actual left valuation normalization.
 Only the original analytic certificates remain as function arguments. -/
 def literalLeftPoolNormalizationKernelMass :=
-  let enhancedCharacter := fun E : commonSupportPool source.columns source.columns
-      (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) =>
-    (canonicalFirstCommonBlock C source.columns source.columns source.ideal source.ideal
+  let enhancedCharacter := fun E : commonSupportPool (source).columns (source).columns
+      (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) =>
+    (canonicalFirstCommonBlock C (source).columns (source).columns (source).ideal (source).ideal
       E.val E.property).sectorCharacter C P (character E)
   have bareLive : (v.leaf exceptional F firstPoint j).Live :=
     (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive
@@ -329,18 +329,18 @@ def literalLeftPoolNormalizationKernelMass :=
     rcases Q.correction_mem ξ with hc | hc
     · simpa only [hc] using hone
     · exact hc
-  let firstL := (p.divisorPools.leftData S).combinedBranchForLabel raw.originalAtlas
+  let firstL := (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.1
     ((p.divisorPools.left_columns S).trans p.left_columns) q.val n v.2.2.1
-  let firstR := (p.divisorPools.leftData S).combinedBranchForLabel raw.originalAtlas
+  let firstR := (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.1
     ((p.divisorPools.left_columns S).trans p.left_columns) q.val n v.2.2.2.1
-  have hcomparison : seed.centered = true →
-      seed.scale₁ true * seed.scale₂ true = seed.scale₁ false * seed.scale₂ false :=
+  have hcomparison : (seed).centered = true →
+      (seed).scale₁ true * (seed).scale₂ true = (seed).scale₁ false * (seed).scale₂ false :=
     Q.literalOriginalAtoms_comparison_product ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ domain
   have hcenteredL :
       (((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).balancePlain leftBalance).centered =
-        seed.centered := by
+        (seed).centered := by
     simp only [CanonicalLiteralRectangles.Atoms.balancePlain, CanonicalLiteralRectangles.Atoms.scale,
       ActualGaussStage.CoveredClassKey.literalLeftAtoms,
       ActualGaussStage.CoveredClassKey.literalLeftOriginal,
@@ -348,37 +348,37 @@ def literalLeftPoolNormalizationKernelMass :=
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
   have hcenteredR :
       (((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).balancePlain rightBalance).centered =
-        seed.centered := by
+        (seed).centered := by
     simp only [CanonicalLiteralRectangles.Atoms.balancePlain, CanonicalLiteralRectangles.Atoms.scale,
       ActualGaussStage.CoveredClassKey.literalRightAtoms,
       ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalLeftPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
-  have hseedBaseL : (v.literalLeftOriginal leftAtoms).base = seed.base := by
+  have hseedBaseL : (v.literalLeftOriginal leftAtoms).base = (seed).base := by
     simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
       literalLeftPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
-  have hseedBaseR : (v.literalRightOriginal rightAtoms).base = seed.base := by
+  have hseedBaseR : (v.literalRightOriginal rightAtoms).base = (seed).base := by
     simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalLeftPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
   have hfirstL₁ (r : Bool) :
-      (v.literalLeftOriginal leftAtoms).scale₁ r = (seed.extract firstL).scale₁ r := by
+      (v.literalLeftOriginal leftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r := by
     simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
       literalLeftPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
   have hfirstL₂ (r : Bool) :
-      (v.literalLeftOriginal leftAtoms).scale₂ r = (seed.extract firstL).scale₂ r := by
+      (v.literalLeftOriginal leftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r := by
     simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
       literalLeftPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
   have hfirstR₁ (r : Bool) :
-      (v.literalRightOriginal rightAtoms).scale₁ r = (seed.extract firstR).scale₁ r := by
+      (v.literalRightOriginal rightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r := by
     simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalLeftPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
   have hfirstR₂ (r : Bool) :
-      (v.literalRightOriginal rightAtoms).scale₂ r = (seed.extract firstR).scale₂ r := by
+      (v.literalRightOriginal rightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r := by
     simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalLeftPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
@@ -468,7 +468,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (((p.rightSourceCovers raw.originalAtlas S χ).residual q n))
+local notation "cover" => (((p.rightSourceCovers (raw).originalAtlas S χ).residual q n))
 local notation "firstPoint" => (fun i : (p.divisorPools.rightData S).valuationColumns q.val n =>
   Real.log (A.exteriorNorm (b.rightResidual i.val)))
 
@@ -572,9 +572,9 @@ variable (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
 /-- Mass of the exact same actual right valuation normalization.
 Only the original analytic certificates remain as function arguments. -/
 def literalRightPoolNormalizationKernelMass :=
-  let enhancedCharacter := fun E : commonSupportPool source.columns source.columns
-      (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) =>
-    (canonicalFirstCommonBlock C source.columns source.columns source.ideal source.ideal
+  let enhancedCharacter := fun E : commonSupportPool (source).columns (source).columns
+      (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) =>
+    (canonicalFirstCommonBlock C (source).columns (source).columns (source).ideal (source).ideal
       E.val E.property).sectorCharacter C P (character E)
   have bareLive : (v.leaf exceptional F firstPoint j).Live :=
     (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive
@@ -648,18 +648,18 @@ def literalRightPoolNormalizationKernelMass :=
     rcases Q.correction_mem ξ with hc | hc
     · simpa only [hc] using hone
     · exact hc
-  let firstL := (p.divisorPools.rightData S).combinedBranchForLabel raw.originalAtlas
+  let firstL := (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.2
     ((p.divisorPools.right_columns S).trans p.right_columns) q.val n v.2.2.1
-  let firstR := (p.divisorPools.rightData S).combinedBranchForLabel raw.originalAtlas
+  let firstR := (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.2
     ((p.divisorPools.right_columns S).trans p.right_columns) q.val n v.2.2.2.1
-  have hcomparison : seed.centered = true →
-      seed.scale₁ true * seed.scale₂ true = seed.scale₁ false * seed.scale₂ false :=
+  have hcomparison : (seed).centered = true →
+      (seed).scale₁ true * (seed).scale₂ true = (seed).scale₁ false * (seed).scale₂ false :=
     Q.literalOriginalAtoms_comparison_product ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ domain
   have hcenteredL :
       (((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).balancePlain leftBalance).centered =
-        seed.centered := by
+        (seed).centered := by
     simp only [CanonicalLiteralRectangles.Atoms.balancePlain, CanonicalLiteralRectangles.Atoms.scale,
       ActualGaussStage.CoveredClassKey.literalLeftAtoms,
       ActualGaussStage.CoveredClassKey.literalLeftOriginal,
@@ -667,37 +667,37 @@ def literalRightPoolNormalizationKernelMass :=
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
   have hcenteredR :
       (((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).balancePlain rightBalance).centered =
-        seed.centered := by
+        (seed).centered := by
     simp only [CanonicalLiteralRectangles.Atoms.balancePlain, CanonicalLiteralRectangles.Atoms.scale,
       ActualGaussStage.CoveredClassKey.literalRightAtoms,
       ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalRightPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
-  have hseedBaseL : (v.literalLeftOriginal leftAtoms).base = seed.base := by
+  have hseedBaseL : (v.literalLeftOriginal leftAtoms).base = (seed).base := by
     simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
       literalRightPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
-  have hseedBaseR : (v.literalRightOriginal rightAtoms).base = seed.base := by
+  have hseedBaseR : (v.literalRightOriginal rightAtoms).base = (seed).base := by
     simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalRightPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
   have hfirstL₁ (r : Bool) :
-      (v.literalLeftOriginal leftAtoms).scale₁ r = (seed.extract firstL).scale₁ r := by
+      (v.literalLeftOriginal leftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r := by
     simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
       literalRightPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
   have hfirstL₂ (r : Bool) :
-      (v.literalLeftOriginal leftAtoms).scale₂ r = (seed.extract firstL).scale₂ r := by
+      (v.literalLeftOriginal leftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r := by
     simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
       literalRightPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
   have hfirstR₁ (r : Bool) :
-      (v.literalRightOriginal rightAtoms).scale₁ r = (seed.extract firstR).scale₁ r := by
+      (v.literalRightOriginal rightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r := by
     simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalRightPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
   have hfirstR₂ (r : Bool) :
-      (v.literalRightOriginal rightAtoms).scale₂ r = (seed.extract firstR).scale₂ r := by
+      (v.literalRightOriginal rightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r := by
     simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalRightPoolAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl

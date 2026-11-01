@@ -64,7 +64,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -108,8 +108,8 @@ variable (hslot : ∀ i, (data ξ).slotCoefficient i ∈ (data ξ).theta)
 variable (lengthBound columnBound : ℝ)
 variable (hlengthBound : 0 ≤ lengthBound) (hcolumnBound : 0 ≤ columnBound)
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-variable (hN : ∀ i ∈ firstSource.columns,
-  (Ideal.absNorm (firstSource.ideal i).val : ℝ) ≤ Z ^ columnBound)
+variable (hN : ∀ i ∈ (firstSource).columns,
+  (Ideal.absNorm ((firstSource).ideal i).val : ℝ) ≤ Z ^ columnBound)
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {eps : ℝ}
 variable (pool : PowerScaleExteriorPool A bad Z (step / 3) eps)
 variable (hdensity : 0 < pool.rowDensity
@@ -248,12 +248,12 @@ local notation "cardCertificate" => literalPrimitivePooledFactory_card
 proved from its own physical classifier and original norm windows. -/
 theorem literalPrimitivePooledFamily_index_fibre
     (ε : ℝ) (hε : 0 < ε)
-    (analytic : ∀ j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization,
+    (analytic : ∀ j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization,
       (factories j).Input) :
     ∀ i, ((Finset.univ.filter (fun b : (completeFamily analytic).active Finset.univ =>
-      (stages.supported.gated.arithmeticLabels raw.originalAtlas hcap exceptional normalization).amplifiedIndex
-        (stages.supported.gated.arithmeticTag raw.originalAtlas exceptional normalization) pool
-        (stages.supported.gated.arithmeticTag_mem raw.originalAtlas exceptional normalization)
+      ((stages).supported.gated.arithmeticLabels (raw).originalAtlas hcap exceptional normalization).amplifiedIndex
+        ((stages).supported.gated.arithmeticTag (raw).originalAtlas exceptional normalization) pool
+        ((stages).supported.gated.arithmeticTag_mem (raw).originalAtlas exceptional normalization)
         b.val.1 = i)).card : ℝ) ≤
       (PrimitivePassiveFactoryCard.allTagsConstant K cap columnBound (step / 3) (ε / 8)
           hcolumnBound (by positivity) (by positivity) *
@@ -280,15 +280,15 @@ theorem literalPrimitivePooledFamily_index_fibre
     le_add_of_nonneg_right (by positivity)
   have hbox0 : 0 ≤ columnBound + 7 * (step / 3) := by positivity
   let broadRows := rows.enlargeBound hZ.le hbox
-  have hmask : OriginalMaskPrimeData source.mask (1 : Ideal (𝓞 K)) :=
+  have hmask : OriginalMaskPrimeData (source).mask (1 : Ideal (𝓞 K)) :=
     emptyOriginalSIntegerMask
   have hmaskNorm : (Ideal.absNorm (1 : Ideal (𝓞 K)) : ℝ) ≤
       Z ^ (columnBound + 7 * (step / 3)) := by
     simpa only [map_one, Nat.cast_one] using Real.one_le_rpow hZ.le hbox0
-  have hsource := stages.supported.gated.original_image_kernel_source_fibre
-    raw.originalAtlas hcap (ε / 2) columnBound hbox0 (by positivity) le_rfl broadRows
+  have hsource := (stages).supported.gated.original_image_kernel_source_fibre
+    (raw).originalAtlas hcap (ε / 2) columnBound hbox0 (by positivity) le_rfl broadRows
     (1 : Ideal (𝓞 K)) one_ne_zero hmask hmaskNorm hN exceptional normalization
-  have hinner (j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization) :
+  have hinner (j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization) :
       (Fintype.card (factories j).Label : ℝ) ≤
         PrimitivePassiveFactoryCard.allTagsConstant K cap columnBound (step / 3) (ε / 8)
           hcolumnBound (by positivity) (by positivity) * Z ^ (ε / 8) :=
@@ -303,9 +303,9 @@ theorem literalPrimitivePooledFamily_index_fibre
     (PrimitivePassiveFactoryCard.allTagsConstant_pos K cap columnBound (step / 3) (ε / 8)
       hcolumnBound (by positivity) (by positivity)).le
     (fun j => (factories j).family (analytic j))
-    ((stages.supported.gated.arithmeticLabels raw.originalAtlas hcap exceptional normalization).amplifiedIndex
-      (stages.supported.gated.arithmeticTag raw.originalAtlas exceptional normalization) pool
-      (stages.supported.gated.arithmeticTag_mem raw.originalAtlas exceptional normalization))
+    (((stages).supported.gated.arithmeticLabels (raw).originalAtlas hcap exceptional normalization).amplifiedIndex
+      ((stages).supported.gated.arithmeticTag (raw).originalAtlas exceptional normalization) pool
+      ((stages).supported.gated.arithmeticTag_mem (raw).originalAtlas exceptional normalization))
     hinner hsource
   have he : ε / 8 + (ε / 2) / 4 = ε / 4 := by ring
   simpa only [he] using h

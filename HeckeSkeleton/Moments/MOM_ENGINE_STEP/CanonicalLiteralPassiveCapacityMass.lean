@@ -172,7 +172,7 @@ local notation "rightTests" => (rightProfiles.profiles.scale rightScalar⁻¹).b
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -202,14 +202,14 @@ variable (rightComputed : CanonicalLiteralFullKappaInput.ComputedProfiles
 variable (hprimeOrders : CanonicalFullKappaPrime.orders ⊆ orders)
 variable (δ analyticHeight : ℝ) (hδ : 0 < δ) (hδhi : δ ≤ 1 / 4)
 
-local notation "leftAllocation" => (rectangles.leftFrame C false).allocation
-local notation "rightAllocation" => (rectangles.rightFrame C false).allocation
+local notation "leftAllocation" => ((rectangles).leftFrame C false).allocation
+local notation "rightAllocation" => ((rectangles).rightFrame C false).allocation
 local notation "leftPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep i))
+  (fun i => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep i))
 local notation "rightPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep i))
+  (fun i => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep i))
 
 local notation "production" =>
   v.literalPassiveNormalizedFamily
@@ -254,8 +254,8 @@ local notation "passiveLeft" => fun b : Labels =>
   CanonicalLiteralPassiveSource.branch leftTests leftAllocation A (choice.mask extra) b.1.1.val
 local notation "passiveRight" => fun b : Labels =>
   CanonicalLiteralPassiveSource.branch rightTests rightAllocation A (choice.mask extra) b.2.1.val
-local notation "leftGeometry" => geometry.atBase leftTable.base hbaseLeft
-local notation "rightGeometry" => geometry.swapSecond.atBase rightTable.base hbaseRight
+local notation "leftGeometry" => geometry.atBase (leftTable).base hbaseLeft
+local notation "rightGeometry" => geometry.swapSecond.atBase (rightTable).base hbaseRight
 
 local notation "originalMass" =>
   v.literalOriginalArithmeticMass
@@ -518,14 +518,14 @@ local notation "leftFrozen" => fun b : Labels =>
     .left (choice.mask extra) b.1.1.val firstSign b.1.2
     (CanonicalLiteralPaidCharacters.paidSourceCharacters_maskIndicator P Rchar choice.phases
       parent oldMoving correction remaining
-      (fun i => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep i)))
+      (fun i => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep i)))
     b.1.1.property
 local notation "rightFrozen" => fun b : Labels =>
   CanonicalLiteralPassiveFrames.frozenBounds rightTests rightAllocation rightPaid C ordinaryRows
     .right (choice.mask extra) b.2.1.val (-firstSign) b.2.2
     (CanonicalLiteralPaidCharacters.paidSourceCharacters_maskIndicator P Rchar choice.phases
       parent oldMoving correction remaining
-      (fun i => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep i)))
+      (fun i => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep i)))
     b.2.1.property
 
 local notation "leftCapacityProof" =>
@@ -725,14 +725,14 @@ theorem literalPassiveNormalizedFamily_allowance_from_original_atoms
       (by simpa only [hbR] using hfirstR) error
       (by simpa only [hbR] using hscaleThreshold)
     simpa only [OriginalNominalGeometry.atBase_skeleton] using hh.le
-  have hcommonL : ∀ i ∈ Finset.univ \ originalMass.leftAtoms.keep,
-      originalMass.leftAtoms.annulus i * originalMass.leftAtoms.profile i ≤ atomBound := by
+  have hcommonL : ∀ i ∈ Finset.univ \ (originalMass).leftAtoms.keep,
+      (originalMass).leftAtoms.annulus i * (originalMass).leftAtoms.profile i ≤ atomBound := by
     intro i _
     change (v.literalLeftOriginal leftAtoms).primeAtomCost i
       (v.literalLeftBranch.witness.2 i) ≤ atomBound
     exact hcostL i _
-  have hcommonR : ∀ i ∈ Finset.univ \ originalMass.rightAtoms.keep,
-      originalMass.rightAtoms.annulus i * originalMass.rightAtoms.profile i ≤ atomBound := by
+  have hcommonR : ∀ i ∈ Finset.univ \ (originalMass).rightAtoms.keep,
+      (originalMass).rightAtoms.annulus i * (originalMass).rightAtoms.profile i ≤ atomBound := by
     intro i _
     change (v.literalRightOriginal rightAtoms).primeAtomCost i
       (v.literalRightBranch.witness.2 i) ≤ atomBound
@@ -740,40 +740,40 @@ theorem literalPassiveNormalizedFamily_allowance_from_original_atoms
   have hfrozenL : ∀ i ∈ Finset.univ \ LF.source.allocation.keep,
       BL.annulus i * BL.profile i ≤ atomBound := by
     intro i _
-    change leftPassiveTable.primeAtomCost i (LF.allocation.witness.2 i) ≤ atomBound
+    change (leftPassiveTable).primeAtomCost i (LF.allocation.witness.2 i) ≤ atomBound
     exact hcostL (SlotRestriction.index v.literalLeftBranch.keep
-      (SlotRestriction.index leftAllocation.keep i)) _
+      (SlotRestriction.index (leftAllocation).keep i)) _
   have hfrozenR : ∀ i ∈ Finset.univ \ RF.source.allocation.keep,
       BR.annulus i * BR.profile i ≤ atomBound := by
     intro i _
-    change rightPassiveTable.primeAtomCost i (RF.allocation.witness.2 i) ≤ atomBound
+    change (rightPassiveTable).primeAtomCost i (RF.allocation.witness.2 i) ≤ atomBound
     exact hcostR (SlotRestriction.index v.literalRightBranch.keep
-      (SlotRestriction.index rightAllocation.keep i)) _
+      (SlotRestriction.index (rightAllocation).keep i)) _
   have hleftBefore : v.literalLeftBranch.keep.card ≤ cap :=
     (by simpa only [Fintype.card_fin] using
       Finset.card_le_univ v.literalLeftBranch.keep).trans hcountL
   have hrightBefore : v.literalRightBranch.keep.card ≤ cap :=
     (by simpa only [Fintype.card_fin] using
       Finset.card_le_univ v.literalRightBranch.keep).trans hcountR
-  have hleftSlots : leftAllocation.keep.card ≤ cap :=
+  have hleftSlots : (leftAllocation).keep.card ≤ cap :=
     (by simpa only [Fintype.card_fin] using
-      Finset.card_le_univ leftAllocation.keep).trans hleftBefore
-  have hrightSlots : rightAllocation.keep.card ≤ cap :=
+      Finset.card_le_univ (leftAllocation).keep).trans hleftBefore
+  have hrightSlots : (rightAllocation).keep.card ≤ cap :=
     (by simpa only [Fintype.card_fin] using
-      Finset.card_le_univ rightAllocation.keep).trans hrightBefore
+      Finset.card_le_univ (rightAllocation).keep).trans hrightBefore
   have hscaleL : Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w) ≤
       LF.normalizationScale := by
     rw [CanonicalLiteralPassiveFrames.frame_normalizationScale]
-    change Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w) ≤ leftTable.gaussScale
+    change Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w) ≤ (leftTable).gaussScale
     simpa only [v.literalLeftStripped_gaussScale] using hgaussL
   have hscaleR : Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w) ≤
       RF.normalizationScale := by
     rw [CanonicalLiteralPassiveFrames.frame_normalizationScale]
-    change Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w) ≤ rightTable.gaussScale
+    change Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w) ≤ (rightTable).gaussScale
     simpa only [v.literalRightStripped_gaussScale] using hgaussR
   have hradius : Z ^ (-geometry.skeleton.Krow - geometry.skeleton.g) ≤
-      originalMass.radius.val * (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) originalMass.mask)).val := by
+      (originalMass).radius.val * (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) (originalMass).mask)).val := by
     change Z ^ (-geometry.skeleton.Krow - geometry.skeleton.g) ≤
       (retainedScale * Z ^ g)⁻¹ * (sIntegerElementNorm K
         (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
@@ -798,20 +798,20 @@ theorem literalPassiveNormalizedFamily_allowance_from_original_atoms
     (by simpa only [literalPassiveRightLengthBinding_widthError] using hphysicalError)
     hscaleL hscaleR hradius
   change family.weight Finset.univ 0 b / firstNormalization ≤ _ at hpair
-  have hleftIdeal : originalMass.leftIdeal = v.1.val.1 := v.block.common_left
-  have hrightIdeal : originalMass.rightIdeal = v.1.val.2 := v.block.common_right
+  have hleftIdeal : (originalMass).leftIdeal = v.1.val.1 := v.block.common_left
+  have hrightIdeal : (originalMass).rightIdeal = v.1.val.2 := v.block.common_right
   simp only [literalOriginalArithmeticMass_fiber, literalOriginalArithmeticMass_profileBound,
     hleftIdeal, hrightIdeal] at hpair
-  have hslotOldL : ∀ i ∈ Finset.univ \ leftAllocation.keep,
-      ((Ideal.absNorm (leftAllocation.witness.2 i).asIdeal : ℝ) /
-        leftTable.base ^ leftTable.length i) *
-          ‖leftTable.slotWeight i (leftAllocation.witness.2 i)‖ ^ 2 ≤ atomBound := by
+  have hslotOldL : ∀ i ∈ Finset.univ \ (leftAllocation).keep,
+      ((Ideal.absNorm ((leftAllocation).witness.2 i).asIdeal : ℝ) /
+        (leftTable).base ^ (leftTable).length i) *
+          ‖(leftTable).slotWeight i ((leftAllocation).witness.2 i)‖ ^ 2 ≤ atomBound := by
     intro i _
     exact hcostL (SlotRestriction.index v.literalLeftBranch.keep i) _
-  have hslotOldR : ∀ i ∈ Finset.univ \ rightAllocation.keep,
-      ((Ideal.absNorm (rightAllocation.witness.2 i).asIdeal : ℝ) /
-        rightTable.base ^ rightTable.length i) *
-          ‖rightTable.slotWeight i (rightAllocation.witness.2 i)‖ ^ 2 ≤ atomBound := by
+  have hslotOldR : ∀ i ∈ Finset.univ \ (rightAllocation).keep,
+      ((Ideal.absNorm ((rightAllocation).witness.2 i).asIdeal : ℝ) /
+        (rightTable).base ^ (rightTable).length i) *
+          ‖(rightTable).slotWeight i ((rightAllocation).witness.2 i)‖ ^ 2 ≤ atomBound := by
     intro i _
     exact hcostR (SlotRestriction.index v.literalRightBranch.keep i) _
   have houter : originalFrozenPair ≤ atomBound ^ cap / (Ideal.absNorm j.1.val : ℝ) :=

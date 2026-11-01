@@ -665,26 +665,26 @@ Fourier twist, has the computed fixed moving character and the full
 inverse-norm tilt. -/
 theorem canonical_first_left_twisted (ξ : ℝ) (i : α) :
     FirstGaussPoolData.twistedCoefficient
-        (fun i => firstChart.leftCoefficient i *
+        (fun i => (firstChart).leftCoefficient i *
           firstLeftDivisorFactor
-            (generatedOriginalColumn (σ := σ) hΓ (firstBlock.leftResidual i)
-              (firstBlock.leftGenerator i) (firstBlock.left_generates i))
-            (actualActiveColumn hΓ C firstBlock.primes firstBlock.primes_injective
-              firstBlock.leftMultiplicity firstBlock.rightMultiplicity) maskGenerator.val)
-        firstChart.leftPoint ξ i =
+            (generatedOriginalColumn (σ := σ) hΓ ((firstBlock).leftResidual i)
+              ((firstBlock).leftGenerator i) ((firstBlock).left_generates i))
+            (actualActiveColumn hΓ C (firstBlock).primes (firstBlock).primes_injective
+              (firstBlock).leftMultiplicity (firstBlock).rightMultiplicity) (maskGenerator).val)
+        (firstChart).leftPoint ξ i =
       c i *
-        ((CanonicalSecondRectangularFactors.firstMovingFactors P R C firstBlock.primes
-          firstBlock.leftMultiplicity firstBlock.rightMultiplicity false maskGenerator).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
-          (firstBlock.leftResidual i).val := by
+        ((CanonicalSecondRectangularFactors.firstMovingFactors P R C (firstBlock).primes
+          (firstBlock).leftMultiplicity (firstBlock).rightMultiplicity false maskGenerator).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
+          ((firstBlock).leftResidual i).val := by
   rw [FirstGaussPoolData.twistedCoefficient,
     FirstBlockProfileChart.canonicalLogWithCoefficients_leftCoefficient_eq,
     CanonicalSecondRectangularFactors.canonical_first_left_factor_moving P R hΓ C
       left right fullI fullJ DE hDE maskGenerator i,
     MonoidHom.mul_apply, normLogWeight_exterior]
-  change (((c i * ((A.exteriorNorm (firstBlock.leftResidual i) ^ tilt : ℝ) : ℂ)) /
-      (A.exteriorNorm (firstBlock.leftResidual i) : ℂ)) * _) *
-        jointPhase ξ (-Real.log (A.exteriorNorm (firstBlock.leftResidual i))) = _
-  rw [Real.rpow_sub_one (A.exteriorNorm_pos (firstBlock.leftResidual i)).ne',
+  change (((c i * ((A.exteriorNorm ((firstBlock).leftResidual i) ^ tilt : ℝ) : ℂ)) /
+      (A.exteriorNorm ((firstBlock).leftResidual i) : ℂ)) * _) *
+        jointPhase ξ (-Real.log (A.exteriorNorm ((firstBlock).leftResidual i))) = _
+  rw [Real.rpow_sub_one (A.exteriorNorm_pos ((firstBlock).leftResidual i)).ne',
     Complex.ofReal_div, neg_one_mul]
   ring
 
@@ -693,26 +693,26 @@ Its reciprocal character exponents are `1-netExponent`; the eventual
 whole conjugation is not folded into an unrelated background. -/
 theorem canonical_first_right_twisted (ξ : ℝ) (j : β) :
     FirstGaussPoolData.twistedCoefficient
-        (fun j => firstChart.rightCoefficient j *
+        (fun j => (firstChart).rightCoefficient j *
           firstRightDivisorFactor
-            (generatedOriginalColumn (σ := σ) hΓ (firstBlock.rightResidual j)
-              (firstBlock.rightGenerator j) (firstBlock.right_generates j))
-            (actualActiveColumn hΓ C firstBlock.primes firstBlock.primes_injective
-              firstBlock.leftMultiplicity firstBlock.rightMultiplicity) maskGenerator.val)
-        (fun j => -firstChart.rightPoint j) ξ j =
+            (generatedOriginalColumn (σ := σ) hΓ ((firstBlock).rightResidual j)
+              ((firstBlock).rightGenerator j) ((firstBlock).right_generates j))
+            (actualActiveColumn hΓ C (firstBlock).primes (firstBlock).primes_injective
+              (firstBlock).leftMultiplicity (firstBlock).rightMultiplicity) (maskGenerator).val)
+        (fun j => -(firstChart).rightPoint j) ξ j =
       e j *
-        ((CanonicalSecondRectangularFactors.firstMovingFactors P R C firstBlock.primes
-          firstBlock.leftMultiplicity firstBlock.rightMultiplicity true maskGenerator).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
-          (firstBlock.rightResidual j).val := by
+        ((CanonicalSecondRectangularFactors.firstMovingFactors P R C (firstBlock).primes
+          (firstBlock).leftMultiplicity (firstBlock).rightMultiplicity true maskGenerator).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
+          ((firstBlock).rightResidual j).val := by
   rw [FirstGaussPoolData.twistedCoefficient,
     FirstBlockProfileChart.canonicalLogWithCoefficients_rightCoefficient_eq,
     CanonicalSecondRectangularFactors.canonical_first_right_factor_moving P R hΓ C
       left right fullI fullJ DE hDE maskGenerator j,
     MonoidHom.mul_apply, normLogWeight_exterior]
-  change (((e j * ((A.exteriorNorm (firstBlock.rightResidual j) ^ tilt : ℝ) : ℂ)) /
-      (A.exteriorNorm (firstBlock.rightResidual j) : ℂ)) * _) *
-        jointPhase ξ (- -Real.log (A.exteriorNorm (firstBlock.rightResidual j))) = _
-  rw [Real.rpow_sub_one (A.exteriorNorm_pos (firstBlock.rightResidual j)).ne',
+  change (((e j * ((A.exteriorNorm ((firstBlock).rightResidual j) ^ tilt : ℝ) : ℂ)) /
+      (A.exteriorNorm ((firstBlock).rightResidual j) : ℂ)) * _) *
+        jointPhase ξ (- -Real.log (A.exteriorNorm ((firstBlock).rightResidual j))) = _
+  rw [Real.rpow_sub_one (A.exteriorNorm_pos ((firstBlock).rightResidual j)).ne',
     Complex.ofReal_div, neg_neg, one_mul]
   ring
 
@@ -722,9 +722,9 @@ variable (rowLabelCount : ℕ)
 variable (rowLabel : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ →
   Fin (rowLabelCount + 1))
 variable (hleft : ∀ i ∈ b.leftColumns left,
-  IsCoprime (engineAllowedGenerator C b.commonLeftIdeal * b.leftGenerator i) maskGenerator.val)
+  IsCoprime (engineAllowedGenerator C b.commonLeftIdeal * b.leftGenerator i) (maskGenerator).val)
 variable (hright : ∀ j ∈ b.rightColumns right,
-  IsCoprime (engineAllowedGenerator C b.commonRightIdeal * b.rightGenerator j) maskGenerator.val)
+  IsCoprime (engineAllowedGenerator C b.commonRightIdeal * b.rightGenerator j) (maskGenerator).val)
 
 local notation "secondChart" => SecondBlockProfileChart.canonicalLogWithCoefficients
   hΓ μv hDiff ν b C left right φ c e finiteTest hlc hcs radius mask rowLabelCount rowLabel
@@ -733,26 +733,26 @@ local notation "secondChart" => SecondBlockProfileChart.canonicalLogWithCoeffici
 /-- This projection binds the computed multiplicative weight to the
 actual chart field used by second allocation. -/
 theorem canonical_second_left_coefficient (i : α) :
-    secondChart.sourceLeftCoefficient i = c i *
-      CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt maskGenerator.val
+    (secondChart).sourceLeftCoefficient i = c i *
+      CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt (maskGenerator).val
         (b.secondLeftIdeal i).val := by
   change (c i * ((A.exteriorNorm (b.secondLeftIdeal i) ^ tilt : ℝ) : ℂ)) *
       (generatedOriginalColumn (σ := σ) hΓ (b.secondLeftIdeal i)
         (engineAllowedGenerator C b.commonLeftIdeal * b.leftGenerator i)
-        (b.secondLeft_generates C i)).divisorPhase maskGenerator.val = _
+        (b.secondLeft_generates C i)).divisorPhase (maskGenerator).val = _
   exact CanonicalSecondRectangularFactors.original_second_coefficient hΓ (c i)
-    (b.secondLeftIdeal i) _ (b.secondLeft_generates C i) tilt maskGenerator.val
+    (b.secondLeftIdeal i) _ (b.secondLeft_generates C i) tilt (maskGenerator).val
 
 theorem canonical_second_right_coefficient (j : β) :
-    secondChart.sourceRightCoefficient j = e j *
-      CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt maskGenerator.val
+    (secondChart).sourceRightCoefficient j = e j *
+      CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt (maskGenerator).val
         (b.secondRightIdeal j).val := by
   change (e j * ((A.exteriorNorm (b.secondRightIdeal j) ^ tilt : ℝ) : ℂ)) *
       (generatedOriginalColumn (σ := σ) hΓ (b.secondRightIdeal j)
         (engineAllowedGenerator C b.commonRightIdeal * b.rightGenerator j)
-        (b.secondRight_generates C j)).divisorPhase maskGenerator.val = _
+        (b.secondRight_generates C j)).divisorPhase (maskGenerator).val = _
   exact CanonicalSecondRectangularFactors.original_second_coefficient hΓ (e j)
-    (b.secondRightIdeal j) _ (b.secondRight_generates C j) tilt maskGenerator.val
+    (b.secondRightIdeal j) _ (b.secondRight_generates C j) tilt (maskGenerator).val
 
 end CanonicalCharts
 

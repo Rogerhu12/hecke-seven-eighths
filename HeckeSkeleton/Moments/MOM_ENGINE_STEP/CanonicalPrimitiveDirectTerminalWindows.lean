@@ -88,7 +88,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -180,26 +180,26 @@ local notation "tailConstant" =>
 /-- Direct rows are exactly the signed original orbit representatives.
 The original internal divisor and phase do not change their fibre. -/
 theorem literalPrimitiveDirectStages_fiber_le_one
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pieces DE D).rightData.columns
-      (fun j => ((source.pieces DE D).rightData.ideal j).val))
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pieces DE D).rightData.columns
+      (fun j => (((source).pieces DE D).rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) :
     ((stages DE D).left S χ).fiber ≤ 1 ∧ ((stages DE D).right S χ).fiber ≤ 1 := by
   constructor
   · change engineOrbitMultiplicity
       (Γ := sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-      (source.pieces DE D).leftData.rows ≤ 1
+      ((source).pieces DE D).leftData.rows ≤ 1
     exact canonicalFirstLeftGaussData_orbit_multiplicity_le_one C
-      source.columns source.columns source.ideal source.ideal DE.val DE.property _
+      (source).columns (source).columns (source).ideal (source).ideal DE.val DE.property _
   · change engineOrbitMultiplicity
       (Γ := sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-      (source.pieces DE D).rightData.rows ≤ 1
+      ((source).pieces DE D).rightData.rows ≤ 1
     exact canonicalFirstRightGaussData_orbit_multiplicity_le_one C
-      source.columns source.columns source.ideal source.ideal DE.val DE.property _
+      (source).columns (source).columns (source).ideal (source).ideal DE.val DE.property _
 
 include domain in
 private theorem left_sharp_zero_exponent
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset) :
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset) :
     (leftGeometry DE D).sharpZeroExponent loss δ₁ =
       -(a.n₁ + a.n₂ + (data ξ).geometry.totalLength) +
         2 * (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss -
@@ -213,7 +213,7 @@ private theorem left_sharp_zero_exponent
 
 include domain in
 private theorem right_sharp_zero_exponent
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset) :
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset) :
     (rightGeometry DE D).sharpZeroExponent loss δ₁ =
       -(a.n₁ + a.n₂ + (data ξ).geometry.totalLength) +
         2 * (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss -
@@ -228,7 +228,7 @@ private theorem right_sharp_zero_exponent
 /-- The zero window is constructed for the same whole direct family.
 The compulsory divisor is still paid by its actual sharp calibration. -/
 def literalPrimitiveDirectZeroAmplitudeWindows (εzero : ℝ) (hεzero : 0 ≤ εzero) :
-    stages.CombinedZeroAmplitudeWindows terminal εzero
+    (stages).CombinedZeroAmplitudeWindows terminal εzero
       (CanonicalPrimitiveDirectTerminalWindows.zeroLoss
         padding step loss cutoffExponent lengthBound columnBound δ₁ εzero)
       zeroConstant 1 firstTotal firstShift := by
@@ -325,13 +325,13 @@ def literalPrimitiveDirectZeroAmplitudeWindows (εzero : ℝ) (hεzero : 0 ≤ �
     have hopposite : (rightGeometry DE D).ideals.opposite.val = DE.val.1 := rfl
     have herr : (rightGeometry DE D).supportError = 2 * loss + cutoffExponent := rfl
     simpa only [OriginalNominalGeometry.boundary, hfirst, hopposite, herr,
-      firstActiveRadical_swap_of_support DE.val.1 DE.val.2 (source.block DE).common_support_eq,
+      firstActiveRadical_swap_of_support DE.val.1 DE.val.2 ((source).block DE).common_support_eq,
       CanonicalPrimitiveDirectTerminalWindows.zeroLoss] using h
 
 /-- The fixed tail saving is chosen in the original length box. It
 pays the actual first allowance on both sides of every original class. -/
 def literalPrimitiveDirectTailAmplitudeWindows (hsaving : 2 * columnBound ≤ Nsave) :
-    stages.CombinedTailAmplitudeWindows terminal loss tailConstant 1 firstTotal firstShift := by
+    (stages).CombinedTailAmplitudeWindows terminal loss tailConstant 1 firstTotal firstShift := by
   have hN := Q.literalPrimitiveFirstSource_column_norm μv ν C hroot hemb W ξ
     a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
     cap annulus loss leftExponent rightExponent columnBound hannulus hcap hannulusZ
@@ -401,7 +401,7 @@ def literalPrimitiveDirectTailAmplitudeWindows (hsaving : 2 * columnBound ≤ Ns
     have hfirst : (rightGeometry DE D).ideals.first.val = DE.val.2 := rfl
     have hopposite : (rightGeometry DE D).ideals.opposite.val = DE.val.1 := rfl
     simpa only [zero_sub, OriginalNominalGeometry.boundary, hfirst, hopposite,
-      firstActiveRadical_swap_of_support DE.val.1 DE.val.2 (source.block DE).common_support_eq] using h
+      firstActiveRadical_swap_of_support DE.val.1 DE.val.2 ((source).block DE).common_support_eq] using h
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

@@ -79,22 +79,22 @@ local notation "actualCharacter" => CanonicalLiteralExceptionalCharacters.catalo
     oldMoving correction C S pattern ν row he)
 local notation "leftProfile" => fun ξ : Joint =>
   profile firstSign (orientedMode side.literalNegative ξ)
-    (frame.allocation.plainDivisor 0) (E.left false)
+    ((frame).allocation.plainDivisor 0) (E.left false)
 local notation "rightProfile" => fun ξ : Joint =>
   profile firstSign (orientedMode side.literalNegative ξ)
-    (frame.allocation.plainDivisor (Fin.succ 0)) (E.right false)
+    ((frame).allocation.plainDivisor (Fin.succ 0)) (E.right false)
 
 include hcorr hone hroot hemb recipe hfirst hextra hm hn support in
 /-- Four computed one-ideal charts on this very frame source. -/
 def centered (hc : SamePlainProfiles E)
     (hscale : d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
     (ξ : Joint) :
-    frame.source.ExceptionalAt (σ := σ) (d.scale₁ true) (d.scale₂ true)
+    (frame).source.ExceptionalAt (σ := σ) (d.scale₁ true) (d.scale₂ true)
       (fun _ => d.rectangleLeftWeight true) (fun _ => d.rightWeight true)
       actualCharacter (leftProfile ξ) (rightProfile ξ) ξ row.val.val := by
   let T := actualCenteredSource P R F parent oldMoving correction hcorr C S pattern ν
     remaining extra hone hroot hemb row he recipe E firstSupport hfirst hextra hm hn
-    support frame.allocation rfl rfl hc hscale side.literalNegative firstSign ξ
+    support (frame).allocation rfl rfl hc hscale side.literalNegative firstSign ξ
   cases side <;> exact {
     mask := T.mask
     time := T.time
@@ -116,11 +116,11 @@ def centered (hc : SamePlainProfiles E)
 include hcorr hone hroot hemb recipe hfirst hextra hm hn support in
 /-- The ordinary frame uses only the original first rectangle. -/
 def ordinary (ξ : Joint) :
-    frame.source.OrdinaryExceptionalAt (σ := σ)
+    (frame).source.OrdinaryExceptionalAt (σ := σ)
       actualCharacter (leftProfile ξ) (rightProfile ξ) ξ row.val.val := by
   let T := actualOrdinarySource P R F parent oldMoving correction hcorr C S pattern ν
     remaining extra hone hroot hemb row he recipe E firstSupport hfirst hextra hm hn
-    support frame.allocation rfl rfl side.literalNegative firstSign ξ
+    support (frame).allocation rfl rfl side.literalNegative firstSign ξ
   cases side <;> exact {
     mask := T.mask
     time := T.time
@@ -155,7 +155,7 @@ def centeredAtTheta (θ : parent.theta)
     (hc : SamePlainProfiles E)
     (hscale : d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
     (ξ : Joint) :
-    frame.source.ExceptionalAt (σ := σ) (d.scale₁ true) (d.scale₂ true)
+    (frame).source.ExceptionalAt (σ := σ) (d.scale₁ true) (d.scale₂ true)
       (fun _ => d.rectangleLeftWeight true) (fun _ => d.rightWeight true)
       (CanonicalLiteralExceptionalCharacters.catalogue ψ parent.theta
         (CanonicalLiteralExceptionalCharacters.selectedIndex parent θ))
@@ -172,7 +172,7 @@ include hcorr hone hroot hemb recipe hfirst hextra hm hn support in
 def ordinaryAtTheta (θ : parent.theta)
     (hθ : S.literalCharacter C P R F oldMoving correction pattern ν
       row.val.val.val = θ.val) (ξ : Joint) :
-    frame.source.OrdinaryExceptionalAt (σ := σ)
+    (frame).source.OrdinaryExceptionalAt (σ := σ)
       (CanonicalLiteralExceptionalCharacters.catalogue ψ parent.theta
         (CanonicalLiteralExceptionalCharacters.selectedIndex parent θ))
       (leftProfile ξ) (rightProfile ξ) ξ row.val.val := by
@@ -192,7 +192,7 @@ theorem centered_value (hc : SamePlainProfiles E)
     (centered P R F parent oldMoving correction hcorr C S pattern ν remaining extra
       hone hroot hemb row he recipe E firstSupport hfirst hextra hm hn support
       side χ ideal hideal firstSign L selection hne hc hscale ξ).source.value =
-      frame.source.centeredColumn (σ := σ) (d.scale₁ true) (d.scale₂ true)
+      (frame).source.centeredColumn (σ := σ) (d.scale₁ true) (d.scale₂ true)
         (fun _ => d.rectangleLeftWeight true) (fun _ => d.rightWeight true) ξ row.val.val :=
   ActualAllocatedSource.ExceptionalAt.value_eq_centeredColumn _
 
@@ -200,7 +200,7 @@ theorem ordinary_value (ξ : Joint) :
     (ordinary P R F parent oldMoving correction hcorr C S pattern ν remaining extra
       hone hroot hemb row he recipe E firstSupport hfirst hextra hm hn support
       side χ ideal hideal firstSign L selection hne ξ).source.ordinaryValue =
-      frame.source.ordinaryColumn (σ := σ) ξ row.val.val :=
+      (frame).source.ordinaryColumn (σ := σ) ξ row.val.val :=
   ActualAllocatedSource.OrdinaryExceptionalAt.value_eq_ordinaryColumn _
 
 /-- The actual divisor phase is a unit for every row and Fourier

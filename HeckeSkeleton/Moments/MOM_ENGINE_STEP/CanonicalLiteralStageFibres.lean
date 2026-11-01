@@ -73,16 +73,16 @@ local notation "stage" => literalSectorStage (hΓ := hΓ) (μv := μv) (hDiff :=
   (ν := ν) P δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
 
 @[simp] theorem literalSectorStage_fiber :
-    stage.fiber = engineOrbitMultiplicity (Γ := Γ) G.rows := rfl
+    (stage).fiber = engineOrbitMultiplicity (Γ := Γ) G.rows := rfl
 
-theorem literalSectorStage_rows_nonempty (h : stage.fiber ≠ 0) : G.rows.Nonempty :=
+theorem literalSectorStage_rows_nonempty (h : (stage).fiber ≠ 0) : G.rows.Nonempty :=
   engineOrbitMultiplicity_rows_nonempty G.rows h
 
 /-- Every subset of the original signed representative image keeps
 unit physical fibres in the actual constructed stage. -/
 theorem literalSectorStage_fiber_le_one
     (original : Finset Orbit) (sign : A.R) (hsign : sign ≠ 0)
-    (hrows : G.rows ⊆ original.image (fun q => q.out.val * sign)) : stage.fiber ≤ 1 :=
+    (hrows : G.rows ⊆ original.image (fun q => q.out.val * sign)) : (stage).fiber ≤ 1 :=
   engineOrbit_image_multiplicity_le_one original sign hsign G.rows hrows
 
 end ActualGaussStage
@@ -110,7 +110,7 @@ theorem literalCanonicalStages_fiber_le
     (original : Finset Orbit) (sign : A.R) (hsign : sign ≠ 0)
     (horiginal : d.rows ⊆ original.image (fun q => q.out.val * sign))
     (tag : PoolSourceTag pool) :
-    (stages.tag tag).fiber ≤ max 1 ⌈(M + 6 * (step / 3)) / ((step / 3) / 2)⌉₊ := by
+    ((stages).tag tag).fiber ≤ max 1 ⌈(M + 6 * (step / 3)) / ((step / 3) / 2)⌉₊ := by
   rcases tag with u | p | p | p
   · exact (d.main_orbit_multiplicity_le_uniform M hM original sign hsign horiginal).trans
       (le_max_right _ _)
@@ -121,7 +121,7 @@ theorem literalCanonicalStages_fiber_le
 /-- This is the same physical source used to create the selected
 stage; no supported-column replacement enters the terminal estimate. -/
 theorem literalCanonicalStages_rows_nonempty
-    (tag : PoolSourceTag pool) (h : (stages.tag tag).fiber ≠ 0) :
+    (tag : PoolSourceTag pool) (h : ((stages).tag tag).fiber ≠ 0) :
     (d.tagSource c tag).rows.Nonempty := by
   rcases tag with u | p | p | p
   all_goals

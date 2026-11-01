@@ -81,7 +81,7 @@ variable (hpredicate : (v.leaf exceptional firstKernel x j).exceptional = Q.exce
 variable (thetaPair : theta × theta)
 
 local notation "baseRows" => v.literalSupportedRows leftAtoms rightAtoms
-local notation "classRows" => baseRows.restrictRows (Q.thetaClass thetaPair)
+local notation "classRows" => (baseRows).restrictRows (Q.thetaClass thetaPair)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "leftTable" =>
   ((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).balancePlain leftBalance
@@ -89,12 +89,12 @@ local notation "rightTable" =>
   ((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).balancePlain rightBalance
 local notation "leftIdeal" => fun i => v.block.leftResidual (v.leftReindex.index i)
 local notation "rightIdeal" => fun i => v.block.rightResidual (v.rightReindex.index i)
-local notation "leftColumns" => (Finset.mem_filter.mp allocation.property).2.2.1
-local notation "rightColumns" => (Finset.mem_filter.mp allocation.property).2.2.2
+local notation "leftColumns" => (Finset.mem_filter.mp (allocation).property).2.2.1
+local notation "rightColumns" => (Finset.mem_filter.mp (allocation).property).2.2.2
 local notation "leftFrame" =>
-  (leftTable.factors classRows .left j.2.1 leftIdeal v.leftReindex.ideal_product firstSign false).frame C j.1.val j.2.2.1.val leftColumns
+  ((leftTable).factors classRows .left j.2.1 leftIdeal v.leftReindex.ideal_product firstSign false).frame C j.1.val j.2.2.1.val leftColumns
 local notation "rightFrame" =>
-  (rightTable.factors classRows .right j.2.1 rightIdeal v.rightReindex.ideal_product
+  ((rightTable).factors classRows .right j.2.1 rightIdeal v.rightReindex.ideal_product
     (-firstSign) false).frame C j.1.val j.2.2.2.val rightColumns
 local notation "EL" => CanonicalLiteralExceptionalFactory.comparison
   leftTable (SecondColumnSide.left.phase PUnit.{1} j.2.1)
@@ -108,7 +108,7 @@ same original allocation. Neither whole centered column is separated
 before its absolute value is taken. -/
 theorem literalStripOuter_theta_integrand (z : ℝ × ℝ) :
     ((X.stripOuter leftScalar rightScalar hleftScalar hrightScalar).thetaClassLeaf Q thetaPair).exceptionalIntegrand z =
-        leftFrame.exceptionalMagnitude rightFrame EL ER Q (WithLp.toLp 2 z) := by
+        (leftFrame).exceptionalMagnitude rightFrame EL ER Q (WithLp.toLp 2 z) := by
   have hb := (v.stripExistingOuterBinding leftAtoms rightAtoms exceptional
     firstKernel x j firstSign hlive X binding leftScalar rightScalar
     hleftScalar hrightScalar leftBalance rightBalance hleftBalance hrightBalance).thetaClass_integrand Q hpredicate thetaPair z
@@ -116,9 +116,9 @@ theorem literalStripOuter_theta_integrand (z : ℝ × ℝ) :
     baseRows Q thetaPair leftTable rightTable j.2.1 leftIdeal rightIdeal
     v.leftReindex.ideal_product v.rightReindex.ideal_product firstSign j.1.val
     j.2.2.1.val j.2.2.2.val leftColumns rightColumns (WithLp.toLp 2 z)
-  have hl : leftTable.whole = ((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).whole :=
+  have hl : (leftTable).whole = ((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).whole :=
     funext (((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).balancePlain_whole leftBalance hleftBalance)
-  have hr : rightTable.whole = ((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).whole :=
+  have hr : (rightTable).whole = ((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).whole :=
     funext (((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).balancePlain_whole rightBalance hrightBalance)
   rw [hl, hr] at hp
   exact hb.trans hp

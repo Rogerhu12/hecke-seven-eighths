@@ -398,8 +398,8 @@ variable (L : SourceCartesianAtlas s.columns s.ideal) {cap : ℕ} (hcap : L.slot
 variable (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
 local notation "Labels" => R.arithmeticLabels L hcap exceptional N
 local notation "Tags" => R.arithmeticTag L exceptional N
-local notation "Main" => Labels.mainCarrier Tags
-local notation "Errors" => Labels.errorCarrier Tags
+local notation "Main" => (Labels).mainCarrier Tags
+local notation "Errors" => (Labels).errorCarrier Tags
 local notation "Index" => R.arithmeticIndex L hcap exceptional N
 
 /-- All leaves use the same earlier profile catalogue and the fixed

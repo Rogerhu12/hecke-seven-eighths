@@ -58,9 +58,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -102,11 +102,11 @@ theorem canonicalLeftMain_atlasCoefficient
     (hcolumns : columns ⊆ (p.divisorPools.leftData S).columns)
     (e : T.literalDictionary =
       ⟨branch.keep.card,
-        (SupportCartesian.plainResidual seed.plain₁ support branch.plainExtract₁,
-          SupportCartesian.plainResidual seed.plain₂ support branch.plainExtract₂),
+        (SupportCartesian.plainResidual (seed).plain₁ support branch.plainExtract₁,
+          SupportCartesian.plainResidual (seed).plain₂ support branch.plainExtract₂),
         (fun j => SupportCartesian.primeLive
-          (seed.slots (SlotRestriction.index branch.keep j)) support),
-        (fun i => raw.originalIndex (branch.reconstruct i))⟩)
+          ((seed).slots (SlotRestriction.index branch.keep j)) support),
+        (fun i => (raw).originalIndex (branch.reconstruct i))⟩)
     (i : AllocationColumn K T.slotCount) (hi : i ∈ T.reindex.cartesian)
     (hSi : S.val ∣ (p.leftData.ideal (T.reindex.index i)).val)
     (firstFixed : A.Exterior)
@@ -115,7 +115,7 @@ theorem canonicalLeftMain_atlasCoefficient
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) :
-    let input := seed.secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+    let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
       (unitExterior A) (unitExterior A)
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
@@ -133,7 +133,7 @@ theorem canonicalLeftMain_atlasCoefficient
   let j := CanonicalLiteralAtlasAtoms.castColumn (congrArg Sigma.fst e) i
   have hj : j ∈ branch.residualColumns :=
     (CanonicalLiteralAtlasAtoms.dictionary_membership e i).mp hi
-  have hindex : T.reindex.index i = raw.originalIndex (branch.reconstruct j) :=
+  have hindex : T.reindex.index i = (raw).originalIndex (branch.reconstruct j) :=
     CanonicalLiteralAtlasAtoms.dictionary_index e i
   have hideal : (b.leftResidual (T.reindex.index i)).val = allocationColumnIdeal j := by
     have he := T.reindex.ideal_product i hi
@@ -155,11 +155,11 @@ theorem canonicalRightMain_atlasCoefficient
     (hcolumns : columns ⊆ (p.divisorPools.rightData S).columns)
     (e : T.literalDictionary =
       ⟨branch.keep.card,
-        (SupportCartesian.plainResidual seed.plain₁ support branch.plainExtract₁,
-          SupportCartesian.plainResidual seed.plain₂ support branch.plainExtract₂),
+        (SupportCartesian.plainResidual (seed).plain₁ support branch.plainExtract₁,
+          SupportCartesian.plainResidual (seed).plain₂ support branch.plainExtract₂),
         (fun j => SupportCartesian.primeLive
-          (seed.slots (SlotRestriction.index branch.keep j)) support),
-        (fun i => raw.originalIndex (branch.reconstruct i))⟩)
+          ((seed).slots (SlotRestriction.index branch.keep j)) support),
+        (fun i => (raw).originalIndex (branch.reconstruct i))⟩)
     (i : AllocationColumn K T.slotCount) (hi : i ∈ T.reindex.cartesian)
     (hSi : S.val ∣ (p.rightData.ideal (T.reindex.index i)).val)
     (firstFixed : A.Exterior)
@@ -168,7 +168,7 @@ theorem canonicalRightMain_atlasCoefficient
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) :
-    let input := seed.secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+    let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
       (unitExterior A) (unitExterior A)
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
@@ -186,7 +186,7 @@ theorem canonicalRightMain_atlasCoefficient
   let j := CanonicalLiteralAtlasAtoms.castColumn (congrArg Sigma.fst e) i
   have hj : j ∈ branch.residualColumns :=
     (CanonicalLiteralAtlasAtoms.dictionary_membership e i).mp hi
-  have hindex : T.reindex.index i = raw.originalIndex (branch.reconstruct j) :=
+  have hindex : T.reindex.index i = (raw).originalIndex (branch.reconstruct j) :=
     CanonicalLiteralAtlasAtoms.dictionary_index e i
   have hideal : (b.rightResidual (T.reindex.index i)).val = allocationColumnIdeal j := by
     have he := T.reindex.ideal_product i hi
@@ -213,12 +213,12 @@ theorem canonicalLeftPool_atlasCoefficient
       (p.divisorPools.leftData S).valuationColumns q n)
     (e : T.literalDictionary =
       ⟨branch.keep.card,
-        (SupportCartesian.plainResidual seed.plain₁ support branch.plainExtract₁,
-          SupportCartesian.plainResidual seed.plain₂ support branch.plainExtract₂),
+        (SupportCartesian.plainResidual (seed).plain₁ support branch.plainExtract₁,
+          SupportCartesian.plainResidual (seed).plain₂ support branch.plainExtract₂),
         (fun j => SupportCartesian.primeLive
-          (seed.slots (SlotRestriction.index branch.keep j)) support), index⟩)
+          ((seed).slots (SlotRestriction.index branch.keep j)) support), index⟩)
     (index_val : ∀ j ∈ branch.residualColumns,
-      (index j).val = raw.originalIndex (branch.reconstruct j))
+      (index j).val = (raw).originalIndex (branch.reconstruct j))
     (i : AllocationColumn K T.slotCount) (hi : i ∈ T.reindex.cartesian)
     (hSi : S.val ∣ (p.leftData.ideal (T.reindex.index i).val).val)
     (firstFixed : A.Exterior)
@@ -227,7 +227,7 @@ theorem canonicalLeftPool_atlasCoefficient
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) :
-    let input := seed.secondInput (σ := σ) branch P R (powerIdeal q n) firstFixed
+    let input := (seed).secondInput (σ := σ) branch P R (powerIdeal q n) firstFixed
       (powerIdeal q (2 * n)) (unitExterior A)
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
@@ -249,7 +249,7 @@ theorem canonicalLeftPool_atlasCoefficient
   let j := CanonicalLiteralAtlasAtoms.castColumn (congrArg Sigma.fst e) i
   have hj : j ∈ branch.residualColumns :=
     (CanonicalLiteralAtlasAtoms.dictionary_membership e i).mp hi
-  have hindex : (T.reindex.index i).val = raw.originalIndex (branch.reconstruct j) :=
+  have hindex : (T.reindex.index i).val = (raw).originalIndex (branch.reconstruct j) :=
     (congrArg Subtype.val (CanonicalLiteralAtlasAtoms.dictionary_index e i)).trans
       (index_val j hj)
   have hideal :
@@ -276,12 +276,12 @@ theorem canonicalRightPool_atlasCoefficient
       (p.divisorPools.rightData S).valuationColumns q n)
     (e : T.literalDictionary =
       ⟨branch.keep.card,
-        (SupportCartesian.plainResidual seed.plain₁ support branch.plainExtract₁,
-          SupportCartesian.plainResidual seed.plain₂ support branch.plainExtract₂),
+        (SupportCartesian.plainResidual (seed).plain₁ support branch.plainExtract₁,
+          SupportCartesian.plainResidual (seed).plain₂ support branch.plainExtract₂),
         (fun j => SupportCartesian.primeLive
-          (seed.slots (SlotRestriction.index branch.keep j)) support), index⟩)
+          ((seed).slots (SlotRestriction.index branch.keep j)) support), index⟩)
     (index_val : ∀ j ∈ branch.residualColumns,
-      (index j).val = raw.originalIndex (branch.reconstruct j))
+      (index j).val = (raw).originalIndex (branch.reconstruct j))
     (i : AllocationColumn K T.slotCount) (hi : i ∈ T.reindex.cartesian)
     (hSi : S.val ∣ (p.rightData.ideal (T.reindex.index i).val).val)
     (firstFixed : A.Exterior)
@@ -290,7 +290,7 @@ theorem canonicalRightPool_atlasCoefficient
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) :
-    let input := seed.secondInput (σ := σ) branch P R (powerIdeal q n) firstFixed
+    let input := (seed).secondInput (σ := σ) branch P R (powerIdeal q n) firstFixed
       (powerIdeal q (2 * n)) (unitExterior A)
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
@@ -312,7 +312,7 @@ theorem canonicalRightPool_atlasCoefficient
   let j := CanonicalLiteralAtlasAtoms.castColumn (congrArg Sigma.fst e) i
   have hj : j ∈ branch.residualColumns :=
     (CanonicalLiteralAtlasAtoms.dictionary_membership e i).mp hi
-  have hindex : (T.reindex.index i).val = raw.originalIndex (branch.reconstruct j) :=
+  have hindex : (T.reindex.index i).val = (raw).originalIndex (branch.reconstruct j) :=
     (congrArg Subtype.val (CanonicalLiteralAtlasAtoms.dictionary_index e i)).trans
       (index_val j hj)
   have hideal :

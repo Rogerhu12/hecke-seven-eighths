@@ -62,7 +62,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -114,8 +114,8 @@ variable (hbox : a.m + a.q + columnBound + (2 * loss + cutoffExponent) ≤ normB
 
 variable (hlengthBound : 0 ≤ lengthBound) (hcolumnBound : 0 ≤ columnBound)
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-variable (hN : ∀ i ∈ firstSource.columns,
-  (Ideal.absNorm (firstSource.ideal i).val : ℝ) ≤ Z ^ columnBound)
+variable (hN : ∀ i ∈ (firstSource).columns,
+  (Ideal.absNorm ((firstSource).ideal i).val : ℝ) ≤ Z ^ columnBound)
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {eps : ℝ}
 variable (pool : PowerScaleExteriorPool A bad Z (step / 3) eps)
 variable (hdensity : 0 < pool.rowDensity
@@ -255,49 +255,49 @@ local notation "rightFactory" => literalPrimitiveRightMainFactory
   (htotal := htotal) (hN := hN) (pool := pool) (hdensity := hdensity)
 
 def literalPrimitiveLeftMainInput
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pools DE D).rightData.columns
-      (fun j => ((source.pools DE D).rightData.ideal j).val))
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pools DE D).rightData.columns
+      (fun j => (((source).pools DE D).rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle)
-    (leaf : (((stages DE D).left S χ).main).supported.gated.CoveredLeafKey (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).main) (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).main))
+    (leaf : (((stages DE D).left S χ).main).supported.gated.CoveredLeafKey ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main) ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main))
     (hS : Squarefree S.val)
-    (hlive : ((((stages DE D).left S χ).main).supported.gated.fiberCoveredLeaf (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).main) (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).main)
-      ((exceptional DE D).left S χ).main (source.charts DE D).kernel (source.charts DE D).leftPoint leaf).Live)
+    (hlive : ((((stages DE D).left S χ).main).supported.gated.fiberCoveredLeaf ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main) ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main)
+      ((exceptional DE D).left S χ).main ((source).charts DE D).kernel ((source).charts DE D).leftPoint leaf).Live)
     (hsecondNorm : (Ideal.absNorm leaf.1.1.val.1 : ℝ) ≤ Z ^ columnBound) :
     (leftFactory DE D S χ leaf hS hlive).Input := by
   let baseGeometry := OriginalNominalGeometry.canonicalMain
     (a := internal) (Z := Z) (step := step)
-    ((source.block DE).literalLeftCoordinates D.val) (2 * loss + cutoffExponent)
+    (((source).block DE).literalLeftCoordinates D.val) (2 * loss + cutoffExponent)
     (zero_lt_one.trans hZ) (by positivity)
-  let rowWindow := ((source.pools DE D).divisorPools.leftData S).literalMainRows internal
-    ((source.block DE).literalLeftCoordinates D.val) (2 * loss + cutoffExponent)
+  let rowWindow := (((source).pools DE D).divisorPools.leftData S).literalMainRows internal
+    (((source).block DE).literalLeftCoordinates D.val) (2 * loss + cutoffExponent)
     (by positivity) hstep (leftRows DE D S)
   let v := leaf.1
   let predicate := ((exceptional DE D).left S χ).main
   let geometry := baseGeometry.atSecondPattern v.block.primes
     v.block.leftMultiplicity v.block.rightMultiplicity v.block.left_positive v.block.right_positive
     (v.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ v.rowLabel)
-  have hbare : (v.leaf predicate (source.charts DE D).kernel (source.charts DE D).leftPoint leaf.2).Live :=
-    (v.leaf predicate (source.charts DE D).kernel (source.charts DE D).leftPoint leaf.2).live_of_scale_live _ _ hlive
+  have hbare : (v.leaf predicate ((source).charts DE D).kernel ((source).charts DE D).leftPoint leaf.2).Live :=
+    (v.leaf predicate ((source).charts DE D).kernel ((source).charts DE D).leftPoint leaf.2).live_of_scale_live _ _ hlive
   have hprofile := ActualGaussStage.canonicalSector_fiberLeaf_rowProfile_one
     (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
     (μv := μv) (hDiff := hDiff) (ν := ν)
-    P δ₂ hδ₂ hδ₂half (((source.pools DE D).divisorPools.leftData S).mainSource ((source.pools DE D).leftDivisorCoefficient S χ))
+    P δ₂ hδ₂ hδ₂half ((((source).pools DE D).divisorPools.leftData S).mainSource (((source).pools DE D).leftDivisorCoefficient S χ))
     baseGeometry.retainedScale Z baseGeometry.enlargement
     baseGeometry.retainedScale_pos (zero_lt_one.trans hZ) cutoff₂ hcutoff₂ rowWindow
     0 0 (fun _ _ => (PUnit.unit : PUnit.{1})) (fun _ _ i => Fin.elim0 i)
-    (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).main) (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).main) predicate (source.charts DE D).kernel (source.charts DE D).leftPoint leaf hlive
+    ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main) ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main) predicate ((source).charts DE D).kernel ((source).charts DE D).leftPoint leaf hlive
   have hfirstIdeal : geometry.ideals.first.val = DE.val.1 :=
-    (source.block DE).literalLeftCoordinates_first D.val
+    ((source).block DE).literalLeftCoordinates_first D.val
   have hoppositeIdeal : geometry.ideals.opposite.val = DE.val.2 :=
-    (source.block DE).literalLeftCoordinates_opposite D.val
-  have hactive : ∀ i ∈ (((source.pools DE D).divisorPools.leftData S).mainSource ((source.pools DE D).leftDivisorCoefficient S χ)).columns,
-      (((source.pools DE D).divisorPools.leftData S).mainSource ((source.pools DE D).leftDivisorCoefficient S χ)).coefficient i ≠ 0 →
-      A.exteriorNorm ((((source.pools DE D).divisorPools.leftData S).mainSource ((source.pools DE D).leftDivisorCoefficient S χ)).ideal i) ≤
+    ((source).block DE).literalLeftCoordinates_opposite D.val
+  have hactive : ∀ i ∈ ((((source).pools DE D).divisorPools.leftData S).mainSource (((source).pools DE D).leftDivisorCoefficient S χ)).columns,
+      ((((source).pools DE D).divisorPools.leftData S).mainSource (((source).pools DE D).leftDivisorCoefficient S χ)).coefficient i ≠ 0 →
+      A.exteriorNorm (((((source).pools DE D).divisorPools.leftData S).mainSource (((source).pools DE D).leftDivisorCoefficient S χ)).ideal i) ≤
         Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w + loss) := by
     intro i hcol hci
-    change A.exteriorNorm ((((source.pools DE D).divisorPools.leftData S).mainSource ((source.pools DE D).leftDivisorCoefficient S χ)).ideal i) ≤
-      Z ^ (internal.n₁ + internal.n₂ + internal.z -
+    change A.exteriorNorm (((((source).pools DE D).divisorPools.leftData S).mainSource (((source).pools DE D).leftDivisorCoefficient S χ)).ideal i) ≤
+      Z ^ ((internal).n₁ + (internal).n₂ + (internal).z -
         idealLogLength Z geometry.ideals.first.val - 0 + loss)
     rw [hfirstIdeal, sub_zero]
     exact literalPrimitiveLeftMain_active_norm
@@ -327,12 +327,12 @@ def literalPrimitiveLeftMainInput
     (μv := μv) (ν := ν) (Q := Q) (ξ := ξ) (W := W.at ξ)
     (a := internal) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
     (hZ := hZ) (hY₁ := hY₁) (hY₂ := hY₂)
-    (b := source.block DE) (C := C) (φ := CanonicalRowBall.archTest K A.Sf 1)
+    (b := (source).block DE) (C := C) (φ := CanonicalRowBall.archTest K A.Sf 1)
     (finiteTest := rowBallFiniteFamily K A.Sf 1)
     (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
     (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
-    (radius := source.radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
-    (p := source.pools DE D) (S := S) (χ := χ)
+    (radius := (source).radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+    (p := (source).pools DE D) (S := S) (χ := χ)
     (hDiff := hDiff) (hroot := hroot) (hemb := hemb)
     (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
     (retainedScale := baseGeometry.retainedScale) (g := baseGeometry.enlargement)
@@ -351,8 +351,8 @@ def literalPrimitiveLeftMainInput
     (hone := hone) (hbackground := hbackground) (hslot := hslot)
     (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
     (dyad := fun _ _ i => Fin.elim0 i)
-    (v := v) (exceptional := predicate) (F := (source.charts DE D).kernel)
-    (firstFixed := (source.block DE).literalLeftFixed D.val) (hfirst := (source.block DE).literalLeftFixed_generates C D.val) (j := leaf.2)
+    (v := v) (exceptional := predicate) (F := ((source).charts DE D).kernel)
+    (firstFixed := ((source).block DE).literalLeftFixed D.val) (hfirst := ((source).block DE).literalLeftFixed_generates C D.val) (j := leaf.2)
     (hS := hS) (hlive := hbare) (profileBound := 1) (hprofileBound := by norm_num)
     (hprofile := hprofile) (geometry := geometry) (hretained := rfl) (henlargement := rfl)
     (hsecond := rfl) (hopposite := rfl) (hunit := rfl) (hnonunit := rfl)
@@ -368,49 +368,49 @@ def literalPrimitiveLeftMainInput
   exact input
 
 def literalPrimitiveRightMainInput
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pools DE D).rightData.columns
-      (fun j => ((source.pools DE D).rightData.ideal j).val))
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pools DE D).rightData.columns
+      (fun j => (((source).pools DE D).rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle)
-    (leaf : (((stages DE D).right S χ).main).supported.gated.CoveredLeafKey (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).main) (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).main))
+    (leaf : (((stages DE D).right S χ).main).supported.gated.CoveredLeafKey ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main) ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main))
     (hS : Squarefree S.val)
-    (hlive : ((((stages DE D).right S χ).main).supported.gated.fiberCoveredLeaf (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).main) (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).main)
-      ((exceptional DE D).right S χ).main (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i) leaf).Live)
+    (hlive : ((((stages DE D).right S χ).main).supported.gated.fiberCoveredLeaf ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main) ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main)
+      ((exceptional DE D).right S χ).main ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i) leaf).Live)
     (hsecondNorm : (Ideal.absNorm leaf.1.1.val.1 : ℝ) ≤ Z ^ columnBound) :
     (rightFactory DE D S χ leaf hS hlive).Input := by
   let baseGeometry := OriginalNominalGeometry.canonicalMain
     (a := internal) (Z := Z) (step := step)
-    ((source.block DE).literalRightCoordinates D.val) (2 * loss + cutoffExponent)
+    (((source).block DE).literalRightCoordinates D.val) (2 * loss + cutoffExponent)
     (zero_lt_one.trans hZ) (by positivity)
-  let rowWindow := ((source.pools DE D).divisorPools.rightData S).literalMainRows internal
-    ((source.block DE).literalRightCoordinates D.val) (2 * loss + cutoffExponent)
+  let rowWindow := (((source).pools DE D).divisorPools.rightData S).literalMainRows internal
+    (((source).block DE).literalRightCoordinates D.val) (2 * loss + cutoffExponent)
     (by positivity) hstep (rightRows DE D S)
   let v := leaf.1
   let predicate := ((exceptional DE D).right S χ).main
   let geometry := baseGeometry.atSecondPattern v.block.primes
     v.block.leftMultiplicity v.block.rightMultiplicity v.block.left_positive v.block.right_positive
     (v.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ v.rowLabel)
-  have hbare : (v.leaf predicate (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i) leaf.2).Live :=
-    (v.leaf predicate (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i) leaf.2).live_of_scale_live _ _ hlive
+  have hbare : (v.leaf predicate ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i) leaf.2).Live :=
+    (v.leaf predicate ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i) leaf.2).live_of_scale_live _ _ hlive
   have hprofile := ActualGaussStage.canonicalSector_fiberLeaf_rowProfile_one
     (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
     (μv := μv) (hDiff := hDiff) (ν := ν)
-    P δ₂ hδ₂ hδ₂half (((source.pools DE D).divisorPools.rightData S).mainSource ((source.pools DE D).rightDivisorCoefficient S χ))
+    P δ₂ hδ₂ hδ₂half ((((source).pools DE D).divisorPools.rightData S).mainSource (((source).pools DE D).rightDivisorCoefficient S χ))
     baseGeometry.retainedScale Z baseGeometry.enlargement
     baseGeometry.retainedScale_pos (zero_lt_one.trans hZ) cutoff₂ hcutoff₂ rowWindow
     0 0 (fun _ _ => (PUnit.unit : PUnit.{1})) (fun _ _ i => Fin.elim0 i)
-    (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).main) (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).main) predicate (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i) leaf hlive
+    ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main) ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main) predicate ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i) leaf hlive
   have hfirstIdeal : geometry.ideals.first.val = DE.val.2 :=
-    (source.block DE).literalRightCoordinates_first D.val
+    ((source).block DE).literalRightCoordinates_first D.val
   have hoppositeIdeal : geometry.ideals.opposite.val = DE.val.1 :=
-    (source.block DE).literalRightCoordinates_opposite D.val
-  have hactive : ∀ i ∈ (((source.pools DE D).divisorPools.rightData S).mainSource ((source.pools DE D).rightDivisorCoefficient S χ)).columns,
-      (((source.pools DE D).divisorPools.rightData S).mainSource ((source.pools DE D).rightDivisorCoefficient S χ)).coefficient i ≠ 0 →
-      A.exteriorNorm ((((source.pools DE D).divisorPools.rightData S).mainSource ((source.pools DE D).rightDivisorCoefficient S χ)).ideal i) ≤
+    ((source).block DE).literalRightCoordinates_opposite D.val
+  have hactive : ∀ i ∈ ((((source).pools DE D).divisorPools.rightData S).mainSource (((source).pools DE D).rightDivisorCoefficient S χ)).columns,
+      ((((source).pools DE D).divisorPools.rightData S).mainSource (((source).pools DE D).rightDivisorCoefficient S χ)).coefficient i ≠ 0 →
+      A.exteriorNorm (((((source).pools DE D).divisorPools.rightData S).mainSource (((source).pools DE D).rightDivisorCoefficient S χ)).ideal i) ≤
         Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w + loss) := by
     intro i hcol hci
-    change A.exteriorNorm ((((source.pools DE D).divisorPools.rightData S).mainSource ((source.pools DE D).rightDivisorCoefficient S χ)).ideal i) ≤
-      Z ^ (internal.n₁ + internal.n₂ + internal.z -
+    change A.exteriorNorm (((((source).pools DE D).divisorPools.rightData S).mainSource (((source).pools DE D).rightDivisorCoefficient S χ)).ideal i) ≤
+      Z ^ ((internal).n₁ + (internal).n₂ + (internal).z -
         idealLogLength Z geometry.ideals.first.val - 0 + loss)
     rw [hfirstIdeal, sub_zero]
     exact literalPrimitiveRightMain_active_norm
@@ -440,12 +440,12 @@ def literalPrimitiveRightMainInput
     (μv := μv) (ν := ν) (Q := Q) (ξ := ξ) (W := W.at ξ)
     (a := internal) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
     (hZ := hZ) (hY₁ := hY₁) (hY₂ := hY₂)
-    (b := source.block DE) (C := C) (φ := CanonicalRowBall.archTest K A.Sf 1)
+    (b := (source).block DE) (C := C) (φ := CanonicalRowBall.archTest K A.Sf 1)
     (finiteTest := rowBallFiniteFamily K A.Sf 1)
     (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
     (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
-    (radius := source.radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
-    (p := source.pools DE D) (S := S) (χ := χ)
+    (radius := (source).radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+    (p := (source).pools DE D) (S := S) (χ := χ)
     (hDiff := hDiff) (hroot := hroot) (hemb := hemb)
     (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
     (retainedScale := baseGeometry.retainedScale) (g := baseGeometry.enlargement)
@@ -464,8 +464,8 @@ def literalPrimitiveRightMainInput
     (hone := hone) (hbackground := hbackground) (hslot := hslot)
     (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
     (dyad := fun _ _ i => Fin.elim0 i)
-    (v := v) (exceptional := predicate) (F := (source.charts DE D).kernel)
-    (firstFixed := (source.block DE).literalRightFixed D.val) (hfirst := (source.block DE).literalRightFixed_generates C D.val) (j := leaf.2)
+    (v := v) (exceptional := predicate) (F := ((source).charts DE D).kernel)
+    (firstFixed := ((source).block DE).literalRightFixed D.val) (hfirst := ((source).block DE).literalRightFixed_generates C D.val) (j := leaf.2)
     (hS := hS) (hlive := hbare) (profileBound := 1) (hprofileBound := by norm_num)
     (hprofile := hprofile) (geometry := geometry) (hretained := rfl) (henlargement := rfl)
     (hsecond := rfl) (hopposite := rfl) (hunit := rfl) (hnonunit := rfl)

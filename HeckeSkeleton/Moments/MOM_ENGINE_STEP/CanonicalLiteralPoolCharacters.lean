@@ -95,7 +95,7 @@ def literalLeftMainRecipe
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (label : (p.leftSourceCovers raw.originalAtlas S χ).main.labels) :
+    (δ₂ : ℝ) (label : (p.leftSourceCovers (raw).originalAtlas S χ).main.labels) :
     Recipe P R (unamplifiedPhases firstFixed (CanonicalLiteralFirstPhase.leftElement C b.primes
       b.leftMultiplicity b.rightMultiplicity
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst) (data ξ) Q.moving Q.correction Q.remaining
@@ -106,13 +106,13 @@ def literalLeftMainRecipe
   let F := unamplifiedPhases firstFixed (CanonicalLiteralFirstPhase.leftElement C b.primes
       b.leftMultiplicity b.rightMultiplicity
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.1 label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
   let extra := literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp)
   let original := Q.literalSecondInputRecipe (σ := σ) ξ W a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ branch F (unitExterior A) δ₁ δ₂ extra
   have e := literalLeftMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
-  have E := original.onAtlas ((p.leftSourceCovers raw.originalAtlas S χ).main.branch label) (congrArg Sigma.fst e).symm
+  have E := original.onAtlas ((p.leftSourceCovers (raw).originalAtlas S χ).main.branch label) (congrArg Sigma.fst e).symm
   simpa only [CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas] using E
 
 /-- Exact original characters and the injective occurrence dictionary
@@ -123,7 +123,7 @@ def literalRightMainRecipe
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (label : (p.rightSourceCovers raw.originalAtlas S χ).main.labels) :
+    (δ₂ : ℝ) (label : (p.rightSourceCovers (raw).originalAtlas S χ).main.labels) :
     Recipe P R (unamplifiedPhases firstFixed (CanonicalLiteralFirstPhase.rightElement C b.primes
       b.leftMultiplicity b.rightMultiplicity
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst) (data ξ) Q.moving Q.correction Q.remaining
@@ -134,13 +134,13 @@ def literalRightMainRecipe
   let F := unamplifiedPhases firstFixed (CanonicalLiteralFirstPhase.rightElement C b.primes
       b.leftMultiplicity b.rightMultiplicity
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.2 label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
   let extra := literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp)
   let original := Q.literalSecondInputRecipe (σ := σ) ξ W a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ branch F (unitExterior A) δ₁ δ₂ extra
   have e := literalRightMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
-  have E := original.onAtlas ((p.rightSourceCovers raw.originalAtlas S χ).main.branch label) (congrArg Sigma.fst e).symm
+  have E := original.onAtlas ((p.rightSourceCovers (raw).originalAtlas S χ).main.branch label) (congrArg Sigma.fst e).symm
   simpa only [CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas] using E
 
 /-- Exact original characters and the injective occurrence dictionary
@@ -151,7 +151,7 @@ def literalLeftPoolRecipe
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (q : pool.primes) (n : ℕ) (label : ((p.leftSourceCovers raw.originalAtlas S χ).residual q n).labels) :
+    (δ₂ : ℝ) (q : pool.primes) (n : ℕ) (label : ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).labels) :
     Recipe P R (amplifiedPhases C firstFixed (CanonicalLiteralFirstPhase.leftElement C b.primes
       b.leftMultiplicity b.rightMultiplicity
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst q.val n) (data ξ) Q.moving Q.correction Q.remaining
@@ -166,7 +166,7 @@ def literalLeftPoolRecipe
   let F := amplifiedPhases C firstFixed (CanonicalLiteralFirstPhase.leftElement C b.primes
       b.leftMultiplicity b.rightMultiplicity
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst q.val n
-  let branch := (p.divisorPools.leftData S).combinedBranchForLabel raw.originalAtlas
+  let branch := (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.1
     ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label
   let extra := literalDeletionIdeal (primeSupport DE.1 ∪ {q.val.val.asIdeal}) (fun _ hp => by
@@ -178,7 +178,7 @@ def literalLeftPoolRecipe
     hZ hY₁ hY₂ branch F (powerIdeal q.val n) δ₁ δ₂ extra
   have e := literalLeftPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
-  have E := original.onAtlas (((p.leftSourceCovers raw.originalAtlas S χ).residual q n).branch label) (congrArg Sigma.fst e).symm
+  have E := original.onAtlas (((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).branch label) (congrArg Sigma.fst e).symm
   simpa only [CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas] using E
 
 /-- Exact original characters and the injective occurrence dictionary
@@ -189,7 +189,7 @@ def literalRightPoolRecipe
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (q : pool.primes) (n : ℕ) (label : ((p.rightSourceCovers raw.originalAtlas S χ).residual q n).labels) :
+    (δ₂ : ℝ) (q : pool.primes) (n : ℕ) (label : ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).labels) :
     Recipe P R (amplifiedPhases C firstFixed (CanonicalLiteralFirstPhase.rightElement C b.primes
       b.leftMultiplicity b.rightMultiplicity
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst q.val n) (data ξ) Q.moving Q.correction Q.remaining
@@ -204,7 +204,7 @@ def literalRightPoolRecipe
   let F := amplifiedPhases C firstFixed (CanonicalLiteralFirstPhase.rightElement C b.primes
       b.leftMultiplicity b.rightMultiplicity
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst q.val n
-  let branch := (p.divisorPools.rightData S).combinedBranchForLabel raw.originalAtlas
+  let branch := (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.2
     ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label
   let extra := literalDeletionIdeal (primeSupport DE.1 ∪ {q.val.val.asIdeal}) (fun _ hp => by
@@ -216,7 +216,7 @@ def literalRightPoolRecipe
     hZ hY₁ hY₂ branch F (powerIdeal q.val n) δ₁ δ₂ extra
   have e := literalRightPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
-  have E := original.onAtlas (((p.rightSourceCovers raw.originalAtlas S χ).residual q n).branch label) (congrArg Sigma.fst e).symm
+  have E := original.onAtlas (((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).branch label) (congrArg Sigma.fst e).symm
   simpa only [CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas] using E
 
 end CompleteMovingRowRecipe

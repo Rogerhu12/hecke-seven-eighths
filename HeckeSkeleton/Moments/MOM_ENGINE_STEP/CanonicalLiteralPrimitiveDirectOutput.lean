@@ -63,7 +63,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -231,19 +231,19 @@ local notation "factories" => literalPrimitiveDirectFactory
 
 /-- The original left direct case has the complete output certificate for its same passive family. -/
 def literalPrimitiveLeftDirectOutput
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pieces DE D).rightData.columns
-      (fun j => ((source.pieces DE D).rightData.ideal j).val))
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pieces DE D).rightData.columns
+      (fun j => (((source).pieces DE D).rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle)
     (leaf : ((stages DE D).left S χ).supported.gated.CoveredLeafKey
-      ((source.pieces DE D).leftSourceCover raw.originalAtlas S χ)
-      ((source.pieces DE D).leftSourceCover raw.originalAtlas S χ))
+      (((source).pieces DE D).leftSourceCover (raw).originalAtlas S χ)
+      (((source).pieces DE D).leftSourceCover (raw).originalAtlas S χ))
     (hS : Squarefree S.val)
     (hlive : (((stages DE D).left S χ).supported.gated.fiberCoveredLeaf
-      ((source.pieces DE D).leftSourceCover raw.originalAtlas S χ)
-      ((source.pieces DE D).leftSourceCover raw.originalAtlas S χ)
-      ((exceptional DE D).left S χ) (source.charts DE D).kernel
-      (source.charts DE D).leftPoint leaf).Live) :
+      (((source).pieces DE D).leftSourceCover (raw).originalAtlas S χ)
+      (((source).pieces DE D).leftSourceCover (raw).originalAtlas S χ)
+      ((exceptional DE D).left S χ) ((source).charts DE D).kernel
+      ((source).charts DE D).leftPoint leaf).Live) :
     (leftFactory DE D S χ leaf hS hlive).Output P R (data ξ) a step
       Set.univ (Set.Icc (0 : ℝ) hi) orders
       (leftSourceIntegral DE D S χ leaf hS hlive).measure := by
@@ -269,31 +269,31 @@ def literalPrimitiveLeftDirectOutput
   let geometry := baseGeometry.atSecondPattern v.block.primes
     v.block.leftMultiplicity v.block.rightMultiplicity v.block.left_positive v.block.right_positive
     (v.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ v.rowLabel)
-  have hbare : (v.leaf predicate (source.charts DE D).kernel (source.charts DE D).leftPoint leaf.2).Live :=
-    (v.leaf predicate (source.charts DE D).kernel (source.charts DE D).leftPoint leaf.2).live_of_scale_live _ _ hlive
+  have hbare : (v.leaf predicate ((source).charts DE D).kernel ((source).charts DE D).leftPoint leaf.2).Live :=
+    (v.leaf predicate ((source).charts DE D).kernel ((source).charts DE D).leftPoint leaf.2).live_of_scale_live _ _ hlive
   have hprofile := ActualGaussStage.canonicalSector_fiberLeaf_rowProfile_one
     (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
     (μv := μv) (hDiff := hDiff) (ν := ν)
     P δ₂ hδ₂ hδ₂half
-    ((source.pieces DE D).leftData.directSource
-      ((source.pieces DE D).leftDivisorCoefficient S χ))
+    (((source).pieces DE D).leftData.directSource
+      (((source).pieces DE D).leftDivisorCoefficient S χ))
     baseGeometry.retainedScale Z baseGeometry.enlargement
     baseGeometry.retainedScale_pos (zero_lt_one.trans hZ) cutoff₂ hcutoff₂ rowWindow
     0 0 (fun _ _ => (PUnit.unit : PUnit.{1})) (fun _ _ i => Fin.elim0 i)
-    ((source.pieces DE D).leftSourceCover raw.originalAtlas S χ)
-    ((source.pieces DE D).leftSourceCover raw.originalAtlas S χ)
-    predicate (source.charts DE D).kernel (source.charts DE D).leftPoint leaf hlive
+    (((source).pieces DE D).leftSourceCover (raw).originalAtlas S χ)
+    (((source).pieces DE D).leftSourceCover (raw).originalAtlas S χ)
+    predicate ((source).charts DE D).kernel ((source).charts DE D).leftPoint leaf hlive
   have hfirstIdeal : geometry.ideals.first.val = DE.val.1 :=
-    (source.block DE).literalLeftCoordinates_first D.val
+    ((source).block DE).literalLeftCoordinates_first D.val
   have hoppositeIdeal : geometry.ideals.opposite.val = DE.val.2 :=
-    (source.block DE).literalLeftCoordinates_opposite D.val
-  have hactive : ∀ i ∈ (source.pieces DE D).leftData.columns,
-      (source.pieces DE D).leftDivisorCoefficient S χ i ≠ 0 →
-      A.exteriorNorm ((source.pieces DE D).leftData.ideal i) ≤
+    ((source).block DE).literalLeftCoordinates_opposite D.val
+  have hactive : ∀ i ∈ ((source).pieces DE D).leftData.columns,
+      ((source).pieces DE D).leftDivisorCoefficient S χ i ≠ 0 →
+      A.exteriorNorm (((source).pieces DE D).leftData.ideal i) ≤
         Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w + loss) := by
     intro i hcol hci
-    change A.exteriorNorm ((source.pieces DE D).leftData.ideal i) ≤
-      Z ^ (internal.n₁ + internal.n₂ + internal.z -
+    change A.exteriorNorm (((source).pieces DE D).leftData.ideal i) ≤
+      Z ^ ((internal).n₁ + (internal).n₂ + (internal).z -
         idealLogLength Z geometry.ideals.first.val - 0 + loss)
     rw [hfirstIdeal, sub_zero]
     exact literalPrimitiveDirectLeft_active_norm
@@ -309,12 +309,12 @@ def literalPrimitiveLeftDirectOutput
     (μv := μv) (ν := ν) (Q := Q) (ξ := ξ) (W := W.at ξ)
     (a := internal) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
     (hZ := hZ) (hY₁ := hY₁) (hY₂ := hY₂)
-    (b := source.block DE) (C := C) (φ := CanonicalRowBall.archTest K A.Sf 1)
+    (b := (source).block DE) (C := C) (φ := CanonicalRowBall.archTest K A.Sf 1)
     (finiteTest := rowBallFiniteFamily K A.Sf 1)
     (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
     (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
-    (radius := source.radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
-    (p := source.pieces DE D) (S := S) (χ := χ)
+    (radius := (source).radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+    (p := (source).pieces DE D) (S := S) (χ := χ)
     (hDiff := hDiff) (hroot := hroot) (hemb := hemb)
     (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
     (retainedScale := baseGeometry.retainedScale) (g := baseGeometry.enlargement)
@@ -333,8 +333,8 @@ def literalPrimitiveLeftDirectOutput
     (hone := hone) (hbackground := hbackground) (hslot := hslot)
     (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
     (dyad := fun _ _ i => Fin.elim0 i)
-    (v := v) (exceptional := predicate) (F := (source.charts DE D).kernel)
-    (firstFixed := (source.block DE).literalLeftFixed D.val) (hfirst := (source.block DE).literalLeftFixed_generates C D.val) (j := leaf.2)
+    (v := v) (exceptional := predicate) (F := ((source).charts DE D).kernel)
+    (firstFixed := ((source).block DE).literalLeftFixed D.val) (hfirst := ((source).block DE).literalLeftFixed_generates C D.val) (j := leaf.2)
     (hS := hS) (hlive := hbare) (profileBound := 1) (hprofileBound := by norm_num)
     (hprofile := hprofile) (geometry := geometry) (hretained := rfl) (henlargement := rfl)
     (hsecond := rfl) (hopposite := rfl) (hunit := rfl) (hnonunit := rfl)
@@ -348,19 +348,19 @@ def literalPrimitiveLeftDirectOutput
 
 /-- The original right direct case has the complete output certificate for its same passive family. -/
 def literalPrimitiveRightDirectOutput
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pieces DE D).rightData.columns
-      (fun j => ((source.pieces DE D).rightData.ideal j).val))
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pieces DE D).rightData.columns
+      (fun j => (((source).pieces DE D).rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle)
     (leaf : ((stages DE D).right S χ).supported.gated.CoveredLeafKey
-      ((source.pieces DE D).rightSourceCover raw.originalAtlas S χ)
-      ((source.pieces DE D).rightSourceCover raw.originalAtlas S χ))
+      (((source).pieces DE D).rightSourceCover (raw).originalAtlas S χ)
+      (((source).pieces DE D).rightSourceCover (raw).originalAtlas S χ))
     (hS : Squarefree S.val)
     (hlive : (((stages DE D).right S χ).supported.gated.fiberCoveredLeaf
-      ((source.pieces DE D).rightSourceCover raw.originalAtlas S χ)
-      ((source.pieces DE D).rightSourceCover raw.originalAtlas S χ)
-      ((exceptional DE D).right S χ) (source.charts DE D).kernel
-      (fun i => -(source.charts DE D).rightPoint i) leaf).Live) :
+      (((source).pieces DE D).rightSourceCover (raw).originalAtlas S χ)
+      (((source).pieces DE D).rightSourceCover (raw).originalAtlas S χ)
+      ((exceptional DE D).right S χ) ((source).charts DE D).kernel
+      (fun i => -((source).charts DE D).rightPoint i) leaf).Live) :
     (rightFactory DE D S χ leaf hS hlive).Output P R (data ξ) a step
       Set.univ (Set.Icc (0 : ℝ) hi) orders
       (rightSourceIntegral DE D S χ leaf hS hlive).measure := by
@@ -386,31 +386,31 @@ def literalPrimitiveRightDirectOutput
   let geometry := baseGeometry.atSecondPattern v.block.primes
     v.block.leftMultiplicity v.block.rightMultiplicity v.block.left_positive v.block.right_positive
     (v.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ v.rowLabel)
-  have hbare : (v.leaf predicate (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i) leaf.2).Live :=
-    (v.leaf predicate (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i) leaf.2).live_of_scale_live _ _ hlive
+  have hbare : (v.leaf predicate ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i) leaf.2).Live :=
+    (v.leaf predicate ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i) leaf.2).live_of_scale_live _ _ hlive
   have hprofile := ActualGaussStage.canonicalSector_fiberLeaf_rowProfile_one
     (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
     (μv := μv) (hDiff := hDiff) (ν := ν)
     P δ₂ hδ₂ hδ₂half
-    ((source.pieces DE D).rightData.directSource
-      ((source.pieces DE D).rightDivisorCoefficient S χ))
+    (((source).pieces DE D).rightData.directSource
+      (((source).pieces DE D).rightDivisorCoefficient S χ))
     baseGeometry.retainedScale Z baseGeometry.enlargement
     baseGeometry.retainedScale_pos (zero_lt_one.trans hZ) cutoff₂ hcutoff₂ rowWindow
     0 0 (fun _ _ => (PUnit.unit : PUnit.{1})) (fun _ _ i => Fin.elim0 i)
-    ((source.pieces DE D).rightSourceCover raw.originalAtlas S χ)
-    ((source.pieces DE D).rightSourceCover raw.originalAtlas S χ)
-    predicate (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i) leaf hlive
+    (((source).pieces DE D).rightSourceCover (raw).originalAtlas S χ)
+    (((source).pieces DE D).rightSourceCover (raw).originalAtlas S χ)
+    predicate ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i) leaf hlive
   have hfirstIdeal : geometry.ideals.first.val = DE.val.2 :=
-    (source.block DE).literalRightCoordinates_first D.val
+    ((source).block DE).literalRightCoordinates_first D.val
   have hoppositeIdeal : geometry.ideals.opposite.val = DE.val.1 :=
-    (source.block DE).literalRightCoordinates_opposite D.val
-  have hactive : ∀ i ∈ (source.pieces DE D).rightData.columns,
-      (source.pieces DE D).rightDivisorCoefficient S χ i ≠ 0 →
-      A.exteriorNorm ((source.pieces DE D).rightData.ideal i) ≤
+    ((source).block DE).literalRightCoordinates_opposite D.val
+  have hactive : ∀ i ∈ ((source).pieces DE D).rightData.columns,
+      ((source).pieces DE D).rightDivisorCoefficient S χ i ≠ 0 →
+      A.exteriorNorm (((source).pieces DE D).rightData.ideal i) ≤
         Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w + loss) := by
     intro i hcol hci
-    change A.exteriorNorm ((source.pieces DE D).rightData.ideal i) ≤
-      Z ^ (internal.n₁ + internal.n₂ + internal.z -
+    change A.exteriorNorm (((source).pieces DE D).rightData.ideal i) ≤
+      Z ^ ((internal).n₁ + (internal).n₂ + (internal).z -
         idealLogLength Z geometry.ideals.first.val - 0 + loss)
     rw [hfirstIdeal, sub_zero]
     exact literalPrimitiveDirectRight_active_norm
@@ -426,12 +426,12 @@ def literalPrimitiveRightDirectOutput
     (μv := μv) (ν := ν) (Q := Q) (ξ := ξ) (W := W.at ξ)
     (a := internal) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
     (hZ := hZ) (hY₁ := hY₁) (hY₂ := hY₂)
-    (b := source.block DE) (C := C) (φ := CanonicalRowBall.archTest K A.Sf 1)
+    (b := (source).block DE) (C := C) (φ := CanonicalRowBall.archTest K A.Sf 1)
     (finiteTest := rowBallFiniteFamily K A.Sf 1)
     (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
     (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
-    (radius := source.radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
-    (p := source.pieces DE D) (S := S) (χ := χ)
+    (radius := (source).radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+    (p := (source).pieces DE D) (S := S) (χ := χ)
     (hDiff := hDiff) (hroot := hroot) (hemb := hemb)
     (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
     (retainedScale := baseGeometry.retainedScale) (g := baseGeometry.enlargement)
@@ -450,8 +450,8 @@ def literalPrimitiveRightDirectOutput
     (hone := hone) (hbackground := hbackground) (hslot := hslot)
     (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
     (dyad := fun _ _ i => Fin.elim0 i)
-    (v := v) (exceptional := predicate) (F := (source.charts DE D).kernel)
-    (firstFixed := (source.block DE).literalRightFixed D.val) (hfirst := (source.block DE).literalRightFixed_generates C D.val) (j := leaf.2)
+    (v := v) (exceptional := predicate) (F := ((source).charts DE D).kernel)
+    (firstFixed := ((source).block DE).literalRightFixed D.val) (hfirst := ((source).block DE).literalRightFixed_generates C D.val) (j := leaf.2)
     (hS := hS) (hlive := hbare) (profileBound := 1) (hprofileBound := by norm_num)
     (hprofile := hprofile) (geometry := geometry) (hretained := rfl) (henlargement := rfl)
     (hsecond := rfl) (hopposite := rfl) (hunit := rfl) (hnonunit := rfl)
@@ -486,22 +486,22 @@ local notation "sourceCertificates" => literalPrimitiveDirectSourceIntegral
 /-- Dispatch on the genuine parent live key. Squarefreeness and
 physical nonemptiness come from this key's existing positive factors. -/
 def literalPrimitiveDirectOutput
-    (j : stages.prepared.liveLeaves raw.originalAtlas exceptional normalization) :
+    (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
     (factories j).Output P R (data ξ) a step
       Set.univ (Set.Icc (0 : ℝ) hi) orders (sourceCertificates j).measure := by
-  have hS := stages.prepared.live_first_divisor_squarefree
-    raw.originalAtlas exceptional normalization j
-  have hparent := stages.prepared.liveLeaves_spec raw.originalAtlas exceptional normalization j
+  have hS := (stages).prepared.live_first_divisor_squarefree
+    (raw).originalAtlas exceptional normalization j
+  have hparent := (stages).prepared.liveLeaves_spec (raw).originalAtlas exceptional normalization j
   rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
-  · have hblock := ((stages.prepared DE D).coveredLeaf raw.originalAtlas raw.originalAtlas
-      (normalization.left DE D) (normalization.right DE D)
-      (normalization.left_pos DE D) (normalization.right_pos DE D)
+  · have hblock := (((stages).prepared DE D).coveredLeaf (raw).originalAtlas (raw).originalAtlas
+      ((normalization).left DE D) ((normalization).right DE D)
+      ((normalization).left_pos DE D) ((normalization).right_pos DE D)
       (exceptional DE D) ⟨S, χ, .inl leaf⟩).live_of_scale_live _ _ hparent
     have hfiber := (((stages DE D).left S χ).supported.gated.fiberCoveredLeaf
-      ((source.pieces DE D).leftSourceCover raw.originalAtlas S χ)
-      ((source.pieces DE D).leftSourceCover raw.originalAtlas S χ)
-      ((exceptional DE D).left S χ) (source.charts DE D).kernel
-      (source.charts DE D).leftPoint leaf).live_of_scale_live _ _ hblock
+      (((source).pieces DE D).leftSourceCover (raw).originalAtlas S χ)
+      (((source).pieces DE D).leftSourceCover (raw).originalAtlas S χ)
+      ((exceptional DE D).left S χ) ((source).charts DE D).kernel
+      ((source).charts DE D).leftPoint leaf).live_of_scale_live _ _ hblock
     exact literalPrimitiveLeftDirectOutput
       (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
       (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
@@ -521,15 +521,15 @@ def literalPrimitiveDirectOutput
       (δ := δ) (analyticHeight := analyticHeight) (hδ := hδ) (hδhi := hδhi)
       (hone := hone) (hbackground := hbackground) (hslot := hslot)
       DE D S χ leaf hS hfiber
-  · have hblock := ((stages.prepared DE D).coveredLeaf raw.originalAtlas raw.originalAtlas
-      (normalization.left DE D) (normalization.right DE D)
-      (normalization.left_pos DE D) (normalization.right_pos DE D)
+  · have hblock := (((stages).prepared DE D).coveredLeaf (raw).originalAtlas (raw).originalAtlas
+      ((normalization).left DE D) ((normalization).right DE D)
+      ((normalization).left_pos DE D) ((normalization).right_pos DE D)
       (exceptional DE D) ⟨S, χ, .inr leaf⟩).live_of_scale_live _ _ hparent
     have hfiber := (((stages DE D).right S χ).supported.gated.fiberCoveredLeaf
-      ((source.pieces DE D).rightSourceCover raw.originalAtlas S χ)
-      ((source.pieces DE D).rightSourceCover raw.originalAtlas S χ)
-      ((exceptional DE D).right S χ) (source.charts DE D).kernel
-      (fun i => -(source.charts DE D).rightPoint i) leaf).live_of_scale_live _ _ hblock
+      (((source).pieces DE D).rightSourceCover (raw).originalAtlas S χ)
+      (((source).pieces DE D).rightSourceCover (raw).originalAtlas S χ)
+      ((exceptional DE D).right S χ) ((source).charts DE D).kernel
+      (fun i => -((source).charts DE D).rightPoint i) leaf).live_of_scale_live _ _ hblock
     exact literalPrimitiveRightDirectOutput
       (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
       (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
@@ -611,7 +611,7 @@ local notation "completeMeasure" => literalPrimitiveDirectMeasure
 
 /-- Geometry is read from every original component of the same sigma family. -/
 theorem literalPrimitiveDirect_family_outputGeometry
-    (analytic : ∀ j : stages.prepared.liveLeaves raw.originalAtlas exceptional normalization,
+    (analytic : ∀ j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization,
       (factories j).Input) :
     (completeFamily analytic).OutputGeometry Finset.univ (data ξ) a step
       Set.univ (Set.Icc (0 : ℝ) hi) orders := by
@@ -623,7 +623,7 @@ theorem literalPrimitiveDirect_family_outputGeometry
 /-- Complete moving-child admissibility applies only to the actual
 active labels. Both children are those selected before aggregation. -/
 theorem literalPrimitiveDirect_family_moving_admissible
-    (analytic : ∀ j : stages.prepared.liveLeaves raw.originalAtlas exceptional normalization,
+    (analytic : ∀ j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization,
       (factories j).Input) :
     ∀ (b : (completeFamily analytic).active Finset.univ) (x : WithLp 2 (ℝ × ℝ)),
       MovingEngineChildAdmissible A P R
@@ -648,7 +648,7 @@ theorem literalPrimitiveDirect_family_moving_admissible
 /-- The restored parent measure contains its original scalar and the
 old frozen pair exactly once; integrability follows for the same children. -/
 theorem literalPrimitiveDirect_family_children_integrable
-    (analytic : ∀ j : stages.prepared.liveLeaves raw.originalAtlas exceptional normalization,
+    (analytic : ∀ j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization,
       (factories j).Input) (parentWidth : ℝ) :
     ∀ b : (completeFamily analytic).active Finset.univ,
       Integrable (fun x => normalizedPairedEnergy
@@ -659,7 +659,7 @@ theorem literalPrimitiveDirect_family_children_integrable
         ((completeFamily analytic).rightData Finset.univ b x)
         ((completeFamily analytic).rightParameters Finset.univ b) Z 0)
         ((completeFamily analytic).kernel Finset.univ completeMeasure parentWidth b) := by
-  exact stages.prepared.dependent_children_integrable raw.originalAtlas exceptional normalization
+  exact (stages).prepared.dependent_children_integrable (raw).originalAtlas exceptional normalization
     (fun j => (factories j).Label) (fun j => (factories j).family (analytic j))
     (fun j => (sourceCertificates j).frozen) parentWidth
     (fun j => (outputCertificates j).integrable (analytic j) parentWidth)

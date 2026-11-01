@@ -159,7 +159,7 @@ theorem literalOriginalAtoms_redistributedSecondInput_primeAtomCost_le
     (hzero : (0, 0) ∈ orders) (ht : t ∈ heightDomain)
     (hprime : ∀ j, Function.support (original.primeRep j t) ⊆ Set.Ioo (1 : ℝ) 2)
     {support : Finset (Ideal (𝓞 K))}
-    (b : SupportCartesianBranch seed.plain₁ seed.plain₂ seed.slots support)
+    (b : SupportCartesianBranch (seed).plain₁ (seed).plain₂ (seed).slots support)
     (power firstFixed poolFixed unitFixed : A.Exterior)
     (firstElement poolElement unitElement : A.R)
     (hfirst : A.Generates firstFixed firstElement)
@@ -167,10 +167,10 @@ theorem literalOriginalAtoms_redistributedSecondInput_primeAtomCost_le
     (hunit : A.Generates unitFixed unitElement)
     (δ₁ δ₂ : ℝ) (hδ : δ₁ + δ₂ ≤ 1 / 2)
     (i : Fin b.keep.card) (p : HeightOneSpectrum (𝓞 K)) :
-    (seed.redistributedSecondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
+    ((seed).redistributedSecondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).primeAtomCost i p ≤ B ^ 2 := by
-  have hscale : seed.slotWeight (SlotRestriction.index b.keep i) p ≠ 0 →
-      seed.base ^ seed.length (SlotRestriction.index b.keep i) ≤ (Ideal.absNorm p.asIdeal : ℝ) := by
+  have hscale : (seed).slotWeight (SlotRestriction.index b.keep i) p ≠ 0 →
+      (seed).base ^ (seed).length (SlotRestriction.index b.keep i) ≤ (Ideal.absNorm p.asIdeal : ℝ) := by
     intro hn
     have hrep : original.primeRep (SlotRestriction.index b.keep i) t
         ((Ideal.absNorm p.asIdeal : ℝ) /
@@ -183,7 +183,7 @@ theorem literalOriginalAtoms_redistributedSecondInput_primeAtomCost_le
     have h := (lt_div_iff₀ (Real.rpow_pos_of_pos (zero_lt_one.trans hZ)
       ((data ξ).geometry.slots (SlotRestriction.index b.keep i)).length)).mp hratio
     simpa only [one_mul] using h.le
-  apply (seed.redistributedSecondInput_primeAtomCost_le b P R power firstFixed poolFixed unitFixed
+  apply ((seed).redistributedSecondInput_primeAtomCost_le b P R power firstFixed poolFixed unitFixed
     firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ hδ i p hscale).trans
   exact pow_le_pow_left₀ (norm_nonneg _)
     (Q.literalOriginalAtoms_slot_norm_le ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂

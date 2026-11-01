@@ -294,8 +294,8 @@ local notation "Index" =>
 /-- The row weight bound is constructed from this original chart and
 its original common atoms, after removing only zero correlations. -/
 theorem supported_row_bound (q : Index) :
-    ‖supported.weight q.val.val.val * supported.correlation q.val.val.val‖ ≤
-      mass.rowBound :=
+    ‖(supported).weight q.val.val.val * (supported).correlation q.val.val.val‖ ≤
+      (mass).rowBound :=
   row_bound supported C mass pattern sector q
 
 /-- The original orbit index is still the fibre bound on any ordinary
@@ -304,7 +304,7 @@ input: the original chart constructs it internally. -/
 include hclass hleft hright hbound hprofile in
 theorem supported_extracted_fibers (carrier : Finset Index) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (carrier.filter
-      (fun q => (supported.extractedRow C q.val.val).momentIdeal = I)).card ≤ Γ.index := by
+      (fun q => ((supported).extractedRow C q.val.val).momentIdeal = I)).card ≤ Γ.index := by
   exact extracted_fibers supported C mass pattern sector carrier I
 
 end SupportedMass

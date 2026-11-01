@@ -72,23 +72,23 @@ local notation "poolGeometry" => OriginalNominalGeometry.canonicalPoolError
 include hrows hstep in
 theorem literalMainRows : ∀ h ∈ d.mainRows,
     A.exteriorNorm (originalFrequencyIdeal h) ≤
-      mainGeometry.retainedScale * Z ^ mainGeometry.enlargement := by
+      (mainGeometry).retainedScale * Z ^ (mainGeometry).enlargement := by
   intro h hh
   have hw := d.main_originalFrequencyIdeal_norm_le_sharp
     (I.firstFrequency a Z + supportError) hrows h hh
-  have hg : 6 * (step / 3) ≤ mainGeometry.enlargement := by
+  have hg : 6 * (step / 3) ≤ (mainGeometry).enlargement := by
     simpa only [OriginalNominalGeometry.canonicalMain, OriginalNominalGeometry.forMain,
-      OriginalNominalTag.poolLength] using mainGeometry.enlargement_ge_pool hstep.le
+      OriginalNominalTag.poolLength] using (mainGeometry).enlargement_ge_pool hstep.le
   calc
     A.exteriorNorm (originalFrequencyIdeal h) ≤
         Z ^ (I.firstFrequency a Z + supportError + 6 * (step / 3)) := hw
-    _ = mainGeometry.retainedScale * Z ^ (6 * (step / 3)) := by
+    _ = (mainGeometry).retainedScale * Z ^ (6 * (step / 3)) := by
       rw [Real.rpow_add (zero_lt_one.trans pool.base_gt_one)]
       rfl
-    _ ≤ mainGeometry.retainedScale * Z ^ mainGeometry.enlargement :=
+    _ ≤ (mainGeometry).retainedScale * Z ^ (mainGeometry).enlargement :=
       mul_le_mul_of_nonneg_left
         (Real.rpow_le_rpow_of_exponent_le pool.base_gt_one.le hg)
-        mainGeometry.retainedScale_pos.le
+        (mainGeometry).retainedScale_pos.le
 
 include hrows hstep in
 theorem literalPoolRows (e : AmplifierValuation) (p : pool.primes) :
@@ -122,8 +122,8 @@ def literalCanonicalStages : ActualPoolStages (E := ℝ) hΓ μv hDiff d c
     (rowBallFiniteFamily K A.Sf 1) where
   main := ActualGaussStage.literalSectorStage
     (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
-    P δ hδ hδhalf (d.mainSource c) mainGeometry.retainedScale Z mainGeometry.enlargement
-    mainGeometry.retainedScale_pos (zero_lt_one.trans pool.base_gt_one) cutoff hcutoff
+    P δ hδ hδhalf (d.mainSource c) (mainGeometry).retainedScale Z (mainGeometry).enlargement
+    (mainGeometry).retainedScale_pos (zero_lt_one.trans pool.base_gt_one) cutoff hcutoff
     (d.literalMainRows a I supportError herr hstep hrows)
   one p := d.literalValuationStage (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
     c P a I supportError herr hstep hrows δ hδ hδhalf cutoff hcutoff .one p
@@ -138,12 +138,12 @@ local notation "stages" => d.literalCanonicalStages (hΓ := hΓ) (μv := μv)
 /-- No activity assumption is used to count the original finite row code. -/
 def literalCanonicalStagesOriginalFibreRows (B : ℝ) (hB : 0 ≤ B)
     (hN : ∀ i ∈ d.columns, (Ideal.absNorm (d.ideal i).val : ℝ) ≤ Z ^ B) :
-    stages.OriginalFibreRows
+    (stages).OriginalFibreRows
       (PUnit.{1} × SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) 0 0 B Z where
   main := ActualGaussStage.literalSectorStageOriginalFibreRows
     (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
-    P δ hδ hδhalf (d.mainSource c) mainGeometry.retainedScale Z mainGeometry.enlargement
-    mainGeometry.retainedScale_pos (zero_lt_one.trans pool.base_gt_one) cutoff hcutoff
+    P δ hδ hδhalf (d.mainSource c) (mainGeometry).retainedScale Z (mainGeometry).enlargement
+    (mainGeometry).retainedScale_pos (zero_lt_one.trans pool.base_gt_one) cutoff hcutoff
     (d.literalMainRows a I supportError herr hstep hrows) B hB pool.base_gt_one.le hN
   one p := ActualGaussStage.literalSectorStageOriginalFibreRows
     (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)

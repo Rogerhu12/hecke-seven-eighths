@@ -65,7 +65,7 @@ variable (slots : OriginalSlotDictionary parent d.length)
 variable (cutoff : ℝ)
 
 local notation "rootLength" =>
-  idealLogLength f.source.base
+  idealLogLength (f).source.base
     (secondSixthRootIdeal rows.primes (side.literalMultiplicity rows)
       (side.literalOppositeMultiplicity rows)).val
 local notation "m" => G.literalRowParameter cutoff
@@ -141,34 +141,34 @@ local notation "allSide" =>
 /-- The actual all-side constructor has the explicitly computed
 amplitude on the original joint Fourier parameter. -/
 @[simp] theorem produceLiteralSideAll_amplitude (z : ℝ × ℝ) :
-    allSide.amplitude (WithLp.toLp 2 z) =
+    (allSide).amplitude (WithLp.toLp 2 z) =
       polynomialProfileRadius
         (CanonicalFullKappaPrime.enlargedCoefficient
-          (computed.coefficient f.source.base D.parameters isCompact_Icc
+          (computed.coefficient (f).source.base D.parameters isCompact_Icc
             (CanonicalLogProfiles.positiveAnnulus lo hi hlo) firstSign rectangle)
-          (CanonicalFullKappaPrime.radiusFactor K f.source.base δ mesh
+          (CanonicalFullKappaPrime.radiusFactor K (f).source.base δ mesh
             (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
-            (CompleteMovingRowRecipe.primeMaskLogBound A f.source.base (m + q))))
+            (CompleteMovingRowRecipe.primeMaskLogBound A (f).source.base (m + q))))
         (orders.sup Prod.snd) (orders.sup Prod.snd) z := by
   cases side <;> rfl
 
 /-- This is the radius on the same chosen normalized-capacity object,
 not a replacement profile bound. -/
 @[simp] theorem produceLiteralSideAll_radius (z : ℝ × ℝ) :
-    allSide.normalizedCapacityData.radius (WithLp.toLp 2 z) =
+    (allSide).normalizedCapacityData.radius (WithLp.toLp 2 z) =
       polynomialProfileRadius
         (CanonicalFullKappaPrime.enlargedCoefficient
-          (computed.coefficient f.source.base D.parameters isCompact_Icc
+          (computed.coefficient (f).source.base D.parameters isCompact_Icc
             (CanonicalLogProfiles.positiveAnnulus lo hi hlo) firstSign rectangle)
-          (CanonicalFullKappaPrime.radiusFactor K f.source.base δ mesh
+          (CanonicalFullKappaPrime.radiusFactor K (f).source.base δ mesh
             (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
-            (CompleteMovingRowRecipe.primeMaskLogBound A f.source.base (m + q))))
+            (CompleteMovingRowRecipe.primeMaskLogBound A (f).source.base (m + q))))
         (orders.sup Prod.snd) (orders.sup Prod.snd) z := by
   cases side <;> rfl
 
 @[simp] theorem produceLiteralSideAll_primeBound
-    (i : Fin f.source.allocation.keep.card) :
-    allSide.normalizedCapacityData.primeBound i = 1 := by
+    (i : Fin (f).source.allocation.keep.card) :
+    (allSide).normalizedCapacityData.primeBound i = 1 := by
   cases side <;> rfl
 
 /-- Only this raw-degree cost may be large on an absent rectangle.
@@ -176,7 +176,7 @@ Its profile radius is still the independently computed same radius
 above. Under the original norm window `produceLiteralSideAll_eq`
 identifies this exact object with the small-error constructor. -/
 @[simp] theorem produceLiteralSideAll_rawClipError :
-    allSide.capacity.rawClipError =
+    (allSide).capacity.rawClipError =
       d.computedRawError G.skeleton.rawDegree error rectangle := by
   cases side <;> rfl
 

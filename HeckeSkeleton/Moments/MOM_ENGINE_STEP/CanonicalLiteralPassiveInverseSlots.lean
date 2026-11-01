@@ -169,7 +169,7 @@ local notation "rightTests" => (rightProfiles.profiles.scale rightScalar⁻¹).b
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -199,14 +199,14 @@ variable (rightComputed : CanonicalLiteralFullKappaInput.ComputedProfiles
 variable (hprimeOrders : CanonicalFullKappaPrime.orders ⊆ orders)
 variable (δ analyticHeight : ℝ) (hδ : 0 < δ) (hδhi : δ ≤ 1 / 4)
 
-local notation "leftAllocation" => (rectangles.leftFrame C false).allocation
-local notation "rightAllocation" => (rectangles.rightFrame C false).allocation
+local notation "leftAllocation" => ((rectangles).leftFrame C false).allocation
+local notation "rightAllocation" => ((rectangles).rightFrame C false).allocation
 local notation "leftPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep i))
+  (fun i => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep i))
 local notation "rightPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep i))
+  (fun i => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep i))
 
 local notation "production" =>
   v.literalPassiveNormalizedFamily
@@ -268,18 +268,18 @@ theorem literalPassiveNormalizedFamily_left_slot_inverse_mem_theta
         CanonicalLiteralAllocatedData.data P Rchar
           (CanonicalLiteralPassiveSource.profiles leftTests leftAllocation A leftPaid)
           (passiveLeft b.val) choice.phases parent oldMoving correction hcorr C
-          ordinaryRows.primes ordinaryRows.leftMultiplicity ordinaryRows.rightMultiplicity
+          (ordinaryRows).primes (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity
           pattern sector remaining 1 m q
           (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
-          (fun s => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep s))
+          (fun s => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep s))
           b.val.1.2 firstSign false z := rfl
   exact CanonicalLiteralPassiveInheritance.frozen_slot_inverse_mem_theta P Rchar
     (CanonicalLiteralPassiveSource.profiles leftTests leftAllocation A leftPaid)
     (passiveLeft b.val) choice.phases parent oldMoving correction hcorr C
-    ordinaryRows.primes ordinaryRows.leftMultiplicity ordinaryRows.rightMultiplicity
+    (ordinaryRows).primes (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity
     pattern sector remaining 1 m q
     (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
-    (fun s => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep s))
+    (fun s => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep s))
     b.val.1.2 firstSign false (family.leftChild Finset.univ b) hdata hinverse ξ i
 
 /-- The negative Fourier side retains its original slot characters as
@@ -299,18 +299,18 @@ theorem literalPassiveNormalizedFamily_right_slot_inverse_mem_theta
         CanonicalLiteralAllocatedData.data P Rchar
           (CanonicalLiteralPassiveSource.profiles rightTests rightAllocation A rightPaid)
           (passiveRight b.val) choice.phases parent oldMoving correction hcorr C
-          ordinaryRows.primes ordinaryRows.leftMultiplicity ordinaryRows.rightMultiplicity
+          (ordinaryRows).primes (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity
           pattern sector remaining 1 m q
           (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
-          (fun s => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep s))
+          (fun s => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep s))
           b.val.2.2 (-firstSign) true z := rfl
   exact CanonicalLiteralPassiveInheritance.frozen_slot_inverse_mem_theta P Rchar
     (CanonicalLiteralPassiveSource.profiles rightTests rightAllocation A rightPaid)
     (passiveRight b.val) choice.phases parent oldMoving correction hcorr C
-    ordinaryRows.primes ordinaryRows.leftMultiplicity ordinaryRows.rightMultiplicity
+    (ordinaryRows).primes (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity
     pattern sector remaining 1 m q
     (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
-    (fun s => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep s))
+    (fun s => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep s))
     b.val.2.2 (-firstSign) true (family.rightChild Finset.univ b) hdata hinverse ξ i
 
 end ActualGaussStage.CoveredClassKey

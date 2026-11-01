@@ -65,8 +65,8 @@ local notation "frame" =>
 /-- The exponent dictionary is computed from the same allocation and
 the exact original main-rectangle product. -/
 def scales (annulus amplitude : ℝ) (hannulus : 1 ≤ annulus) (hamplitude : 0 ≤ amplitude) :
-    ExceptionalAtomicScales frame.allocation :=
-  frame.allocation.originalAtomicScales d.base
+    ExceptionalAtomicScales (frame).allocation :=
+  (frame).allocation.originalAtomicScales d.base
     (Real.log (d.scale₁ false * d.scale₂ false) / Real.log d.base)
     d.length (fun i => (d.length_pos i).le)
     (fun _ => annulus) (fun _ => amplitude) (fun _ => hannulus) (fun _ => hamplitude)
@@ -76,8 +76,8 @@ theorem scales_exponent (annulus amplitude : ℝ)
     (scales d S C side χ ideal hideal firstSign L selection hne
       annulus amplitude hannulus hamplitude).exponent =
       (Real.log (d.scale₁ false * d.scale₂ false) / Real.log d.base +
-        ∑ i, d.length i) / 2 - frame.allocation.rawExtractionLength d.base d.length :=
-  frame.allocation.originalAtomicScales_exponent d.base _ d.length
+        ∑ i, d.length i) / 2 - (frame).allocation.rawExtractionLength d.base d.length :=
+  (frame).allocation.originalAtomicScales_exponent d.base _ d.length
     (fun i => (d.length_pos i).le) (fun _ => annulus) (fun _ => amplitude)
     (fun _ => hannulus) (fun _ => hamplitude)
 
@@ -87,9 +87,9 @@ variable (hprofile : ∀ i, SchwartzMap.seminorm ℂ 0 0 (E.slot i) ≤ amplitud
 
 include hprime in
 private theorem frozen_annulus (i : Fin k) :
-    (Ideal.absNorm (frame.allocation.witness.2 i).asIdeal : ℝ) ≤
+    (Ideal.absNorm ((frame).allocation.witness.2 i).asIdeal : ℝ) ≤
       annulus * d.base ^ d.length i :=
-  hprime i _ (witness_slot_mem frame.allocation i)
+  hprime i _ (witness_slot_mem (frame).allocation i)
 
 variable {Ψ : Ideal (𝓞 K) →* ℂ} {W₁ W₂ : ℝ → ℂ}
 variable {ξ : Joint} {row : S.live}
@@ -100,7 +100,7 @@ source on either original side. The character norm bounds are proved
 from its genuine indicator mask. -/
 include hmask hprime hprofile in
 def centeredControl
-    (T : frame.source.ExceptionalAt (σ := σ) Y₁ Y₂ v₁ v₂ Ψ W₁ W₂ ξ row) :
+    (T : (frame).source.ExceptionalAt (σ := σ) Y₁ Y₂ v₁ v₂ Ψ W₁ W₂ ξ row) :
     T.source.AtomicControl d.base
       (scales d S C side χ ideal hideal firstSign L selection hne
         annulus amplitude hannulus hamplitude) := by
@@ -128,7 +128,7 @@ def centeredControl
 main rectangle. No comparison-scale estimate is needed. -/
 include hmask hprime hprofile in
 def ordinaryControl
-    (T : frame.source.OrdinaryExceptionalAt (σ := σ) Ψ W₁ W₂ ξ row) :
+    (T : (frame).source.OrdinaryExceptionalAt (σ := σ) Ψ W₁ W₂ ξ row) :
     T.source.AtomicControl d.base
       (scales d S C side χ ideal hideal firstSign L selection hne
         annulus amplitude hannulus hamplitude) := by

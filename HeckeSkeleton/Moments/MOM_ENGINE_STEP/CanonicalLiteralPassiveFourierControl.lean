@@ -222,7 +222,7 @@ local notation "rightTests" => (rightProfiles.profiles.scale rightScalar⁻¹).b
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -252,14 +252,14 @@ variable (rightComputed : CanonicalLiteralFullKappaInput.ComputedProfiles
 variable (hprimeOrders : CanonicalFullKappaPrime.orders ⊆ orders)
 variable (δ analyticHeight : ℝ) (hδ : 0 < δ) (hδhi : δ ≤ 1 / 4)
 
-local notation "leftAllocation" => (rectangles.leftFrame C false).allocation
-local notation "rightAllocation" => (rectangles.rightFrame C false).allocation
+local notation "leftAllocation" => ((rectangles).leftFrame C false).allocation
+local notation "rightAllocation" => ((rectangles).rightFrame C false).allocation
 local notation "leftPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep i))
+  (fun i => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep i))
 local notation "rightPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep i))
+  (fun i => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep i))
 
 local notation "production" =>
   v.literalPassiveNormalizedFamily
@@ -414,13 +414,13 @@ def literalPassiveNormalizedFamily_fourierControl :
       (W := CanonicalLiteralPassiveSource.profiles leftTests leftAllocation A leftPaid)
       (B := passiveLeft b) (F := choice.phases) (parent := parent)
       (oldMoving := oldMoving) (correction := correction) (hcorr := hcorr)
-      (C := C) (primes := ordinaryRows.primes)
-      (leftMultiplicity := ordinaryRows.leftMultiplicity)
-      (rightMultiplicity := ordinaryRows.rightMultiplicity)
+      (C := C) (primes := (ordinaryRows).primes)
+      (leftMultiplicity := (ordinaryRows).leftMultiplicity)
+      (rightMultiplicity := (ordinaryRows).rightMultiplicity)
       (pattern := pattern) (sector := sector) (remaining := remaining) (extra := 1)
       (m := m) (q := q)
       (inverse := CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
-      (index := fun i => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep i))
+      (index := fun i => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep i))
       (rectangle := b.1.2) (firstSign := firstSign) (negative := false)
   let rightLog : Labels → CanonicalLogProfiles.OriginalLogProfiles K ω ψ
       (WithLp 2 (ℝ × ℝ)) := fun b =>
@@ -429,13 +429,13 @@ def literalPassiveNormalizedFamily_fourierControl :
       (W := CanonicalLiteralPassiveSource.profiles rightTests rightAllocation A rightPaid)
       (B := passiveRight b) (F := choice.phases) (parent := parent)
       (oldMoving := oldMoving) (correction := correction) (hcorr := hcorr)
-      (C := C) (primes := ordinaryRows.primes)
-      (leftMultiplicity := ordinaryRows.leftMultiplicity)
-      (rightMultiplicity := ordinaryRows.rightMultiplicity)
+      (C := C) (primes := (ordinaryRows).primes)
+      (leftMultiplicity := (ordinaryRows).leftMultiplicity)
+      (rightMultiplicity := (ordinaryRows).rightMultiplicity)
       (pattern := pattern) (sector := sector) (remaining := remaining) (extra := 1)
       (m := m) (q := q)
       (inverse := CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
-      (index := fun i => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep i))
+      (index := fun i => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep i))
       (rectangle := b.2.2) (firstSign := -firstSign) (negative := true)
   have hleftData (b : Labels) (ξ : WithLp 2 (ℝ × ℝ)) :
       (family.leftCalibration b).data ξ = (leftLog b).moving ξ := rfl

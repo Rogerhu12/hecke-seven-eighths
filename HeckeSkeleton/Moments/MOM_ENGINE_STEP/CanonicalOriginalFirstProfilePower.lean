@@ -61,7 +61,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
   a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
@@ -69,29 +69,29 @@ local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W �
 /-- The exact original first-profile shift for the already selected
 normalization. Both original ideal lengths remain in the expression. -/
 def literalPrimitiveFirstProfileShift
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
     (total : ℝ) : ℝ :=
-  total - internal.q -
+  total - (internal).q -
     idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val -
     idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2) +
       δ₁ * (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val +
-        idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2) - internal.m)
+        idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2) - (internal).m)
 
 /-- This is the weight of the same actual first source used by every
 second-stage factory. No row-weight estimate is assumed. -/
 theorem literalPrimitiveFirstSource_weightBound
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
     (total : ℝ) :
-    (source.pieces DE D).weightBound =
+    ((source).pieces DE D).weightBound =
       orbitalFieldFactor K * Z ^ ((a.m + a.q) - total +
         Q.literalPrimitiveFirstProfileShift μv ν C hroot hemb W ξ a Z t Y₁ Y₂
           hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half DE D total) := by
-  have h := (source.block DE).rowWeightBound_eq_original_ideal_lengths
+  have h := ((source).block DE).rowWeightBound_eq_original_ideal_lengths
     (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) C
-    source.radius D.val Z internal.m δ₁ hZ
+    (source).radius D.val Z (internal).m δ₁ hZ
     (Q.literalPrimitiveFirstSource_radius μv ν C hroot hemb W ξ a Z t Y₁ Y₂
       hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half)
-  change (source.pieces DE D).weightBound = _ at h
+  change ((source).pieces DE D).weightBound = _ at h
   rw [h]
   unfold literalPrimitiveFirstProfileShift
   congr 2
@@ -101,14 +101,14 @@ theorem literalPrimitiveFirstSource_weightBound
 /-- At the actual normalization, the physical-mask and active lengths
 cancel from the shift, and remain in the actual allowance itself. -/
 theorem literalPrimitiveFirstProfileShift_normalization
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset) :
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset) :
     Q.literalPrimitiveFirstProfileShift μv ν C hroot hemb W ξ a Z t Y₁ Y₂
       hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half DE D
       (Q.literalPrimitiveFirstTotal μv ν C hroot hemb W ξ a Z t Y₁ Y₂
         hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half DE D) =
-      internal.n₁ + internal.n₂ + internal.z +
+      (internal).n₁ + (internal).n₂ + (internal).z +
         δ₁ * (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val +
-          idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2) - internal.m) := by
+          idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2) - (internal).m) := by
   unfold literalPrimitiveFirstProfileShift literalPrimitiveFirstTotal
   ring
 

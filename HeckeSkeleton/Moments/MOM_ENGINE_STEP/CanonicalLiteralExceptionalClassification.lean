@@ -133,12 +133,12 @@ local notation "moving" => (F.moving P R oldMoving).appendSecondFactor C
 
 theorem literalCharacter_explicit (r : Row) :
     S.literalCharacter C P R F oldMoving correction pattern ν r.val.val.val =
-      (correction * moving.character) *
+      (correction * (moving).character) *
         R.character (decomposedFrequencyRow K
           (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
           (HeckeAxiom.exteriorEquiv A (S.extractedRow C r.val.val).ideal) ν) := by
   rw [ActualSecondCorrelationRows.literalCharacter, dif_pos r.val.val.property]
-  change (correction * moving.character) *
+  change (correction * (moving).character) *
     completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P R ν
       (S.extractedRow C r.val.val).momentIdeal = _
   rw [completeIdealRowCharacter_exterior K
@@ -230,7 +230,7 @@ theorem literalCharacter_full_frequency (laws : PrimitiveCharacterLaws P R) (r :
       (correction * (F.moving P R oldMoving).character) *
         elementCharacter P R (originalElement P C S pattern ν r) := by
   rw [ActualSecondCorrelationRows.literalCharacter, dif_pos r.val.val.property]
-  change (correction * moving.character) *
+  change (correction * (moving).character) *
     completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P R ν
       (S.extractedRow C r.val.val).momentIdeal = _
   rw [(F.moving P R oldMoving).appendSecondFactor_character,

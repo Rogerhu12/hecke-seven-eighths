@@ -172,7 +172,7 @@ local notation "calibrations" =>
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -691,8 +691,8 @@ include hcountL hcountR hAtomBound hcostL hcostR hprimeL hprimeR hslotsL hslotsR
 radicals and both original divisor weights. No capacity dictionary,
 normalized-prime bound or completed pair estimate is an input. -/
 theorem literalNormalizationData_index_from_original_atoms
-    (b : normalization.family.active Finset.univ) :
-    firstFactor * (normalization.family.weight Finset.univ 0 b / firstNormalization) ≤
+    (b : (normalization).family.active Finset.univ) :
+    firstFactor * ((normalization).family.weight Finset.univ 0 b / firstNormalization) ≤
       firstCost * rowCost * Z ^ remainingExponent * branch.indexWeight index := by
   have hz : 0 < Z := zero_lt_one.trans domain.scale
   have hNpos : 0 < firstNormalization := by
@@ -706,7 +706,7 @@ theorem literalNormalizationData_index_from_original_atoms
     Z parentWidth total rawProfile firstCost domain.scale hfirstCost hfirstProfile
     index.1.val.1.1 index.1.val.1.2 hD hE hsupportFirst
   have hpair := mul_le_mul hfirstWeight hsecondWeight
-    (div_nonneg (normalization.family.weight_nonneg Finset.univ 0 b hz) hNpos.le)
+    (div_nonneg ((normalization).family.weight_nonneg Finset.univ 0 b hz) hNpos.le)
     (div_nonneg hfirstCost (Nat.cast_nonneg _))
   have hcoeff :
       ‖(moebius index.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
@@ -856,10 +856,10 @@ include hcountL hcountR hAtomBound hcostL hcostR hprimeL hprimeR hslotsL hslotsR
 identity supplied here is the output of the actual direct or pooled
 `extracted_parentLeaf_weight_original_relative` theorem. -/
 theorem literalNormalizationData_outer_index_from_original_atoms
-    (b : normalization.family.active Finset.univ)
+    (b : (normalization).family.active Finset.univ)
     (factor : ℝ) (hfactor : 0 ≤ factor)
     (houter : X.leaf.weight / Z ^ parentWidth = factor * firstFactor / firstNormalization) :
-    X.leaf.weight * normalization.family.weight Finset.univ parentWidth b ≤
+    X.leaf.weight * (normalization).family.weight Finset.univ parentWidth b ≤
       factor * (firstCost * rowCost * Z ^ remainingExponent * branch.indexWeight index) := by
   have hindex := indexProof cap hcountL hcountR atomBound hAtomBound
     hcostL hcostR hprimeL hprimeR hslotsL hslotsR hfirstL hfirstR hgaussL hgaussR
@@ -869,15 +869,15 @@ theorem literalNormalizationData_outer_index_from_original_atoms
     phase₁ χ₁ phase₂ χ₂ b
   calc
     _ = (X.leaf.weight / Z ^ parentWidth) *
-        normalization.family.weight Finset.univ 0 b :=
+        (normalization).family.weight Finset.univ 0 b :=
       normalizedCapacityPairWeight_outer_parent_zero
-        (normalization.family.leftChild Finset.univ b)
-        (normalization.family.rightChild Finset.univ b)
-        (normalization.family.leftNormalizer b.val)
-        (normalization.family.rightNormalizer b.val)
+        ((normalization).family.leftChild Finset.univ b)
+        ((normalization).family.rightChild Finset.univ b)
+        ((normalization).family.leftNormalizer b.val)
+        ((normalization).family.rightNormalizer b.val)
         Z parentWidth X.leaf.weight
     _ = factor * (firstFactor *
-        (normalization.family.weight Finset.univ 0 b / firstNormalization)) := by
+        ((normalization).family.weight Finset.univ 0 b / firstNormalization)) := by
       rw [houter]
       ring
     _ ≤ _ := mul_le_mul_of_nonneg_left hindex hfactor

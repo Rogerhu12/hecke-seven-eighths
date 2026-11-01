@@ -64,9 +64,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -109,14 +109,14 @@ variable (hprime : ∀ i, Function.support (originalWindow.primeRep i t) ⊆ Set
 
 section LeftMainExceptionalSides
 
-local notation "cover" => (p.leftSourceCovers raw.originalAtlas S χ).main
+local notation "cover" => (p.leftSourceCovers (raw).originalAtlas S χ).main
 local notation "firstPoint" => (fun i => -Real.log (A.exteriorNorm (b.leftResidual i)))
 variable {stage : ActualGaussStage (E := ℝ) hΓ μv hDiff
   ((p.divisorPools.leftData S).mainSource (p.leftDivisorCoefficient S χ)) finiteTest}
 variable (v : stage.CoveredClassKey
-  (p.leftSourceCovers raw.originalAtlas S χ).main (p.leftSourceCovers raw.originalAtlas S χ).main)
+  (p.leftSourceCovers (raw).originalAtlas S χ).main (p.leftSourceCovers (raw).originalAtlas S χ).main)
 variable (exceptional : stage.CoverHybridPredicates
-  (p.leftSourceCovers raw.originalAtlas S χ).main (p.leftSourceCovers raw.originalAtlas S χ).main)
+  (p.leftSourceCovers (raw).originalAtlas S χ).main (p.leftSourceCovers (raw).originalAtlas S χ).main)
 variable (kernel : SchwartzMap ℝ ℂ) (j : v.AllocationKey)
 variable (hlive : (v.leaf exceptional kernel firstPoint j).Live)
 variable (firstFixed : A.Exterior)
@@ -127,8 +127,8 @@ variable (hfirst : A.Generates firstFixed
 local notation "phases" => CanonicalLiteralActualCharacters.unamplifiedPhases firstFixed
   (CanonicalLiteralFirstPhase.leftElement C b.primes b.leftMultiplicity b.rightMultiplicity
     (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst
-local notation "branchL" => raw.originalAtlas.branch (primeSupport DE.1) DE.1 v.2.2.1
-local notation "branchR" => raw.originalAtlas.branch (primeSupport DE.1) DE.1 v.2.2.2.1
+local notation "branchL" => (raw).originalAtlas.branch (primeSupport DE.1) DE.1 v.2.2.1
+local notation "branchR" => (raw).originalAtlas.branch (primeSupport DE.1) DE.1 v.2.2.2.1
 
 /-- The two actual main-source sides, with the original first dictionary,
 second extraction and stored allocation retained in the return value. -/
@@ -143,7 +143,7 @@ def literalLeftMainExceptionalSides :=
     Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href orders amplitude hamplitude
     originalWindow hreference ht hcompact hpositive hprime branchL
     (fun _ hp => support_prime hp) phases (unitExterior A) δ₁ δ₂
-    v.literalLeftParent (fun i => raw.originalIndex (branchL.reconstruct i)) eL
+    v.literalLeftParent (fun i => (raw).originalIndex ((branchL).reconstruct i)) eL
     v.literalLeftBranch (fun _ hp => support_prime hp) v.literalLeftResidualAtlas rfl
     (by
       change v.leftReindex.plain₁ = _
@@ -160,7 +160,7 @@ def literalLeftMainExceptionalSides :=
     Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href orders amplitude hamplitude
     originalWindow hreference ht hcompact hpositive hprime branchR
     (fun _ hp => support_prime hp) phases (unitExterior A) δ₁ δ₂
-    v.literalRightParent (fun i => raw.originalIndex (branchR.reconstruct i)) eR
+    v.literalRightParent (fun i => (raw).originalIndex ((branchR).reconstruct i)) eR
     v.literalRightBranch (fun _ hp => support_prime hp) v.literalRightResidualAtlas rfl
     (by
       change v.rightReindex.plain₁ = _
@@ -179,14 +179,14 @@ end LeftMainExceptionalSides
 
 section RightMainExceptionalSides
 
-local notation "cover" => (p.rightSourceCovers raw.originalAtlas S χ).main
+local notation "cover" => (p.rightSourceCovers (raw).originalAtlas S χ).main
 local notation "firstPoint" => (fun i => Real.log (A.exteriorNorm (b.rightResidual i)))
 variable {stage : ActualGaussStage (E := ℝ) hΓ μv hDiff
   ((p.divisorPools.rightData S).mainSource (p.rightDivisorCoefficient S χ)) finiteTest}
 variable (v : stage.CoveredClassKey
-  (p.rightSourceCovers raw.originalAtlas S χ).main (p.rightSourceCovers raw.originalAtlas S χ).main)
+  (p.rightSourceCovers (raw).originalAtlas S χ).main (p.rightSourceCovers (raw).originalAtlas S χ).main)
 variable (exceptional : stage.CoverHybridPredicates
-  (p.rightSourceCovers raw.originalAtlas S χ).main (p.rightSourceCovers raw.originalAtlas S χ).main)
+  (p.rightSourceCovers (raw).originalAtlas S χ).main (p.rightSourceCovers (raw).originalAtlas S χ).main)
 variable (kernel : SchwartzMap ℝ ℂ) (j : v.AllocationKey)
 variable (hlive : (v.leaf exceptional kernel firstPoint j).Live)
 variable (firstFixed : A.Exterior)
@@ -197,8 +197,8 @@ variable (hfirst : A.Generates firstFixed
 local notation "phases" => CanonicalLiteralActualCharacters.unamplifiedPhases firstFixed
   (CanonicalLiteralFirstPhase.rightElement C b.primes b.leftMultiplicity b.rightMultiplicity
     (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst
-local notation "branchL" => raw.originalAtlas.branch (primeSupport DE.1) DE.2 v.2.2.1
-local notation "branchR" => raw.originalAtlas.branch (primeSupport DE.1) DE.2 v.2.2.2.1
+local notation "branchL" => (raw).originalAtlas.branch (primeSupport DE.1) DE.2 v.2.2.1
+local notation "branchR" => (raw).originalAtlas.branch (primeSupport DE.1) DE.2 v.2.2.2.1
 
 /-- The two actual main-source sides, with the original first dictionary,
 second extraction and stored allocation retained in the return value. -/
@@ -213,7 +213,7 @@ def literalRightMainExceptionalSides :=
     Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href orders amplitude hamplitude
     originalWindow hreference ht hcompact hpositive hprime branchL
     (fun _ hp => support_prime hp) phases (unitExterior A) δ₁ δ₂
-    v.literalLeftParent (fun i => raw.originalIndex (branchL.reconstruct i)) eL
+    v.literalLeftParent (fun i => (raw).originalIndex ((branchL).reconstruct i)) eL
     v.literalLeftBranch (fun _ hp => support_prime hp) v.literalLeftResidualAtlas rfl
     (by
       change v.leftReindex.plain₁ = _
@@ -230,7 +230,7 @@ def literalRightMainExceptionalSides :=
     Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href orders amplitude hamplitude
     originalWindow hreference ht hcompact hpositive hprime branchR
     (fun _ hp => support_prime hp) phases (unitExterior A) δ₁ δ₂
-    v.literalRightParent (fun i => raw.originalIndex (branchR.reconstruct i)) eR
+    v.literalRightParent (fun i => (raw).originalIndex ((branchR).reconstruct i)) eR
     v.literalRightBranch (fun _ hp => support_prime hp) v.literalRightResidualAtlas rfl
     (by
       change v.rightReindex.plain₁ = _
@@ -251,7 +251,7 @@ variable (q : pool.primes) (n : ℕ)
 
 section LeftPoolExceptionalSides
 
-local notation "cover" => (p.leftSourceCovers raw.originalAtlas S χ).residual q n
+local notation "cover" => (p.leftSourceCovers (raw).originalAtlas S χ).residual q n
 local notation "firstPoint" =>
   (fun i : (p.divisorPools.leftData S).valuationColumns q.val n =>
     -Real.log (A.exteriorNorm (b.leftResidual i.val)))
@@ -259,11 +259,11 @@ variable {stage : ActualGaussStage (E := ℝ) hΓ μv hDiff
   ((p.divisorPools.leftData S).residualSource q.val n
     (p.leftDivisorCoefficient S χ)) finiteTest}
 variable (v : stage.CoveredClassKey
-  ((p.leftSourceCovers raw.originalAtlas S χ).residual q n)
-  ((p.leftSourceCovers raw.originalAtlas S χ).residual q n))
+  ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n)
+  ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n))
 variable (exceptional : stage.CoverHybridPredicates
-  ((p.leftSourceCovers raw.originalAtlas S χ).residual q n)
-  ((p.leftSourceCovers raw.originalAtlas S χ).residual q n))
+  ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n)
+  ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n))
 variable (kernel : SchwartzMap ℝ ℂ) (j : v.AllocationKey)
 variable (hlive : (stage.fiberCoveredLeaf cover cover exceptional kernel firstPoint ⟨v, j⟩).Live)
 variable (firstFixed : A.Exterior)
@@ -275,11 +275,11 @@ local notation "phases" => CanonicalLiteralActualCharacters.amplifiedPhases C fi
   (CanonicalLiteralFirstPhase.leftElement C b.primes b.leftMultiplicity b.rightMultiplicity
     (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst q.val n
 local notation "branchL" =>
-  (p.divisorPools.leftData S).combinedBranchForLabel raw.originalAtlas
+  (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns)
     q.val n v.2.2.1
 local notation "branchR" =>
-  (p.divisorPools.leftData S).combinedBranchForLabel raw.originalAtlas
+  (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns)
     q.val n v.2.2.2.1
 
@@ -341,7 +341,7 @@ end LeftPoolExceptionalSides
 
 section RightPoolExceptionalSides
 
-local notation "cover" => (p.rightSourceCovers raw.originalAtlas S χ).residual q n
+local notation "cover" => (p.rightSourceCovers (raw).originalAtlas S χ).residual q n
 local notation "firstPoint" =>
   (fun i : (p.divisorPools.rightData S).valuationColumns q.val n =>
     Real.log (A.exteriorNorm (b.rightResidual i.val)))
@@ -349,11 +349,11 @@ variable {stage : ActualGaussStage (E := ℝ) hΓ μv hDiff
   ((p.divisorPools.rightData S).residualSource q.val n
     (p.rightDivisorCoefficient S χ)) finiteTest}
 variable (v : stage.CoveredClassKey
-  ((p.rightSourceCovers raw.originalAtlas S χ).residual q n)
-  ((p.rightSourceCovers raw.originalAtlas S χ).residual q n))
+  ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n)
+  ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n))
 variable (exceptional : stage.CoverHybridPredicates
-  ((p.rightSourceCovers raw.originalAtlas S χ).residual q n)
-  ((p.rightSourceCovers raw.originalAtlas S χ).residual q n))
+  ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n)
+  ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n))
 variable (kernel : SchwartzMap ℝ ℂ) (j : v.AllocationKey)
 variable (hlive : (stage.fiberCoveredLeaf cover cover exceptional kernel firstPoint ⟨v, j⟩).Live)
 variable (firstFixed : A.Exterior)
@@ -365,11 +365,11 @@ local notation "phases" => CanonicalLiteralActualCharacters.amplifiedPhases C fi
   (CanonicalLiteralFirstPhase.rightElement C b.primes b.leftMultiplicity b.rightMultiplicity
     (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst q.val n
 local notation "branchL" =>
-  (p.divisorPools.rightData S).combinedBranchForLabel raw.originalAtlas
+  (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns)
     q.val n v.2.2.1
 local notation "branchR" =>
-  (p.divisorPools.rightData S).combinedBranchForLabel raw.originalAtlas
+  (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns)
     q.val n v.2.2.2.1
 

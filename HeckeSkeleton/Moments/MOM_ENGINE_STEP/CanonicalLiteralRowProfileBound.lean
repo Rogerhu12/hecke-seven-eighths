@@ -119,7 +119,7 @@ row factor. Only the fixed finite sector classifier was enlarged. -/
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : (∅ : Finset (HeightOneSpectrum A.R)).powerset)
     (q : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) :
-    (stage.supported.gated.charts DE D).weight q =
+    ((stage).supported.gated.charts DE D).weight q =
       (((CanonicalSecondLogChart.rowRadius
         (CanonicalRowBall.gaussRadius retainedScale Z g hscale hZ) D.val q).val ^ (-δ) : ℝ) : ℂ) := rfl
 
@@ -131,7 +131,7 @@ theorem canonicalSector_prepared_weight_norm_le_one
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : (∅ : Finset (HeightOneSpectrum A.R)).powerset)
     (q : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) :
-    ‖(stage.supported.gated.charts DE D).weight q‖ ≤ 1 := by
+    ‖((stage).supported.gated.charts DE D).weight q‖ ≤ 1 := by
   have hproduct := retainedScale_enlargement_one_of_physical_rows
     G retainedScale Z g hnorm hrows
   have hr : (CanonicalRowBall.gaussRadius retainedScale Z g hscale hZ).val ≤ 1 := by
@@ -158,10 +158,10 @@ variable (leaf : (canonicalUnmaskedSectorRowBallByBlock
 covered leaf. Original physical nonemptiness is recovered internally
 from its existing fibre multiplier and its actual `Live` condition. -/
 theorem canonicalSector_fiberLeaf_rowProfile_one
-    (hlive : (stage.supported.gated.fiberCoveredLeaf LC RC exceptional F x leaf).Live) :
+    (hlive : ((stage).supported.gated.fiberCoveredLeaf LC RC exceptional F x leaf).Live) :
     ∀ q ∈ (leaf.1.chart.actualRows ∅ cutoff hcutoff leaf.1.rowLabel).rows,
       ‖leaf.1.chart.weight q‖ ≤ 1 := by
-  have hrows := (stage.supported_gated_fiberLeaf_live LC RC exceptional F x leaf hlive).1
+  have hrows := ((stage).supported_gated_fiberLeaf_live LC RC exceptional F x leaf hlive).1
   intro q _
   exact canonicalSector_prepared_weight_norm_le_one P δ hδ hδhalf G retainedScale Z g
     hscale hZ cutoff hcutoff hnorm dimension width character dyad hrows

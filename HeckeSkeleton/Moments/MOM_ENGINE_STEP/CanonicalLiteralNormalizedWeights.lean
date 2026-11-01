@@ -193,7 +193,7 @@ local notation "calibrations" =>
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -534,8 +534,8 @@ local notation "normalization" =>
     (hanalyticRight := hanalyticRight)
 
 
-local notation "leftGeometry" => geometry.atBase leftTable.base hbaseLeft
-local notation "rightGeometry" => geometry.swapSecond.atBase rightTable.base hbaseRight
+local notation "leftGeometry" => geometry.atBase (leftTable).base hbaseLeft
+local notation "rightGeometry" => geometry.swapSecond.atBase (rightTable).base hbaseRight
 
 local notation "originalMass" =>
   v.literalOriginalArithmeticMass
@@ -878,18 +878,18 @@ theorem literalNormalizationData_allowance_from_original_atoms
       firstLeftAllowance Z (geometry.skeleton.A +
         (geometry.skeleton.q + geometry.skeleton.R + geometry.skeleton.E))
         geometry.ideals.first.val geometry.ideals.opposite.val)
-    (b : normalization.family.active Finset.univ) :
-    normalization.family.weight Finset.univ 0 b / firstNormalization ≤
+    (b : (normalization).family.active Finset.univ) :
+    (normalization).family.weight Finset.univ 0 b / firstNormalization ≤
       ((Γ.index : ℝ) * (profileBound * ‖leftScalar‖ * ‖rightScalar‖) *
         atomBound ^ (2 * cap) * orbitalFieldFactor K) *
         Z ^ (geometry.skeleton.wo + geometry.tag.poolLength step + 5 * error / 3 + mesh) *
           (1 / (Ideal.absNorm (commonRadical v.1.val.1 v.1.val.2) : ℝ)) /
             (Ideal.absNorm j.1.val : ℝ) := by
-  let anchor := normalization.activeOrdinaryAnchor b
-  let LF := rectangles.leftFrame C b.val.1
-  let RF := rectangles.rightFrame C b.val.2
-  let BL := arithmetic.leftAtoms b.val.1
-  let BR := arithmetic.rightAtoms b.val.2
+  let anchor := (normalization).activeOrdinaryAnchor b
+  let LF := (rectangles).leftFrame C b.val.1
+  let RF := (rectangles).rightFrame C b.val.2
+  let BL := (arithmetic).leftAtoms b.val.1
+  let BR := (arithmetic).rightAtoms b.val.2
   have hactiveL : ¬ ∀ ξ, LF.source.energy (σ := σ) ξ = 0 :=
     (Finset.mem_filter.mp b.property).2.1
   have hactiveR : ¬ ∀ ξ, RF.source.energy (σ := σ) ξ = 0 :=
@@ -901,7 +901,7 @@ theorem literalNormalizationData_allowance_from_original_atoms
     have hh := v.literalLeftAtoms_activeRawError ordinaryRows leftAtoms leftScalar⁻¹ leftBalance
       .left j.2.1 (fun i => v.block.leftResidual (v.leftReindex.index i))
       v.leftReindex.ideal_product firstSign b.val.1 j.1.val j.2.2.1.val
-      (Finset.mem_filter.mp allocation.property).2.2.1 hactiveL a step
+      (Finset.mem_filter.mp (allocation).property).2.2.1 hactiveL a step
       (geometry.atBase leftAtoms.base hbL) (hsecond.trans v.block.common_left)
       hi hhi cap hcountL hprimeL hslotsL
       (by simpa only [hbL] using hfirstL) error
@@ -912,20 +912,20 @@ theorem literalNormalizationData_allowance_from_original_atoms
     have hh := v.literalRightAtoms_activeRawError ordinaryRows rightAtoms rightScalar⁻¹ rightBalance
       .right j.2.1 (fun i => v.block.rightResidual (v.rightReindex.index i))
       v.rightReindex.ideal_product (-firstSign) b.val.2 j.1.val j.2.2.2.val
-      (Finset.mem_filter.mp allocation.property).2.2.2 hactiveR a step
+      (Finset.mem_filter.mp (allocation).property).2.2.2 hactiveR a step
       (geometry.swapSecond.atBase rightAtoms.base hbR) (hopposite.trans v.block.common_right)
       hi hhi cap hcountR hprimeR hslotsR
       (by simpa only [hbR] using hfirstR) error
       (by simpa only [hbR] using hscaleThreshold)
     simpa only [OriginalNominalGeometry.atBase_skeleton] using hh.le
-  have hcommonL : ∀ i ∈ Finset.univ \ originalMass.leftAtoms.keep,
-      originalMass.leftAtoms.annulus i * originalMass.leftAtoms.profile i ≤ atomBound := by
+  have hcommonL : ∀ i ∈ Finset.univ \ (originalMass).leftAtoms.keep,
+      (originalMass).leftAtoms.annulus i * (originalMass).leftAtoms.profile i ≤ atomBound := by
     intro i _
     change (v.literalLeftOriginal leftAtoms).primeAtomCost i
       (v.literalLeftBranch.witness.2 i) ≤ atomBound
     exact hcostL i _
-  have hcommonR : ∀ i ∈ Finset.univ \ originalMass.rightAtoms.keep,
-      originalMass.rightAtoms.annulus i * originalMass.rightAtoms.profile i ≤ atomBound := by
+  have hcommonR : ∀ i ∈ Finset.univ \ (originalMass).rightAtoms.keep,
+      (originalMass).rightAtoms.annulus i * (originalMass).rightAtoms.profile i ≤ atomBound := by
     intro i _
     change (v.literalRightOriginal rightAtoms).primeAtomCost i
       (v.literalRightBranch.witness.2 i) ≤ atomBound
@@ -933,12 +933,12 @@ theorem literalNormalizationData_allowance_from_original_atoms
   have hfrozenL : ∀ i ∈ Finset.univ \ LF.source.allocation.keep,
       BL.annulus i * BL.profile i ≤ atomBound := by
     intro i _
-    change leftTable.primeAtomCost i (LF.allocation.witness.2 i) ≤ atomBound
+    change (leftTable).primeAtomCost i (LF.allocation.witness.2 i) ≤ atomBound
     exact hcostL (SlotRestriction.index v.literalLeftBranch.keep i) _
   have hfrozenR : ∀ i ∈ Finset.univ \ RF.source.allocation.keep,
       BR.annulus i * BR.profile i ≤ atomBound := by
     intro i _
-    change rightTable.primeAtomCost i (RF.allocation.witness.2 i) ≤ atomBound
+    change (rightTable).primeAtomCost i (RF.allocation.witness.2 i) ≤ atomBound
     exact hcostR (SlotRestriction.index v.literalRightBranch.keep i) _
   have hleftSlots : X.leaf.leftSlots ≤ cap := by
     change v.literalLeftBranch.keep.card ≤ cap
@@ -950,15 +950,15 @@ theorem literalNormalizationData_allowance_from_original_atoms
       Finset.card_le_univ v.literalRightBranch.keep).trans hcountR
   have hscaleL : Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w) ≤
       LF.normalizationScale := by
-    change Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w) ≤ leftTable.gaussScale
+    change Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w) ≤ (leftTable).gaussScale
     simpa only [v.literalLeftStripped_gaussScale] using hgaussL
   have hscaleR : Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w) ≤
       RF.normalizationScale := by
-    change Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w) ≤ rightTable.gaussScale
+    change Z ^ (geometry.skeleton.A - geometry.skeleton.c - geometry.skeleton.w) ≤ (rightTable).gaussScale
     simpa only [v.literalRightStripped_gaussScale] using hgaussR
   have hradius : Z ^ (-geometry.skeleton.Krow - geometry.skeleton.g) ≤
-      originalMass.radius.val * (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) originalMass.mask)).val := by
+      (originalMass).radius.val * (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) (originalMass).mask)).val := by
     change Z ^ (-geometry.skeleton.Krow - geometry.skeleton.g) ≤
       (retainedScale * Z ^ g)⁻¹ * (sIntegerElementNorm K
         (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
@@ -966,15 +966,15 @@ theorem literalNormalizationData_allowance_from_original_atoms
     rw [sIntegerMaskGenerator_empty_norm, mul_one, ← hretained, ← henlargement]
     exact le_of_eq (geometry.literalInverseRadius domain.scale)
   have hpair := normalized_sixth_pair_original_allowance_separate
-    LF RF (normalization.left b.val.1).calibration (normalization.right b.val.2).calibration
-    originalMass BL BR (normalization.left b.val.1).capacity (normalization.right b.val.2).capacity
-    (normalization.left b.val.1).amplitude (normalization.right b.val.2).amplitude
-    (normalization.left b.val.1).amplitude_pos (normalization.right b.val.2).amplitude_pos
-    (normalization.left b.val.1).bounds (normalization.right b.val.2).bounds
-    (normalization.left b.val.1).bounds_nonneg (normalization.right b.val.2).bounds_nonneg
-    (normalization.left b.val.1).factor (normalization.right b.val.2).factor
-    (normalization.family.leftChild Finset.univ b) (normalization.family.rightChild Finset.univ b)
-    parent a Z step geometry (normalization.left_base b.val.1) (normalization.right_base b.val.2)
+    LF RF ((normalization).left b.val.1).calibration ((normalization).right b.val.2).calibration
+    originalMass BL BR ((normalization).left b.val.1).capacity ((normalization).right b.val.2).capacity
+    ((normalization).left b.val.1).amplitude ((normalization).right b.val.2).amplitude
+    ((normalization).left b.val.1).amplitude_pos ((normalization).right b.val.2).amplitude_pos
+    ((normalization).left b.val.1).bounds ((normalization).right b.val.2).bounds
+    ((normalization).left b.val.1).bounds_nonneg ((normalization).right b.val.2).bounds_nonneg
+    ((normalization).left b.val.1).factor ((normalization).right b.val.2).factor
+    ((normalization).family.leftChild Finset.univ b) ((normalization).family.rightChild Finset.univ b)
+    parent a Z step geometry ((normalization).left_base b.val.1) ((normalization).right_base b.val.2)
     v.block.right_positive anchor hsecond hopposite hunit hnonunit
     (leftLengths b.val.1) (rightLengths b.val.2)
     (leftCapacityAtoms b.val.1) (rightCapacityAtoms b.val.2)
@@ -988,9 +988,9 @@ theorem literalNormalizationData_allowance_from_original_atoms
     (by simpa only [literalNormalizationLeftLengthBinding_widthError] using hphysicalError)
     (by simpa only [literalNormalizationRightLengthBinding_widthError] using hphysicalError)
     rfl hscaleL hscaleR hradius
-  change normalization.family.weight Finset.univ 0 b / firstNormalization ≤ _ at hpair
-  have hleftIdeal : originalMass.leftIdeal = v.1.val.1 := v.block.common_left
-  have hrightIdeal : originalMass.rightIdeal = v.1.val.2 := v.block.common_right
+  change (normalization).family.weight Finset.univ 0 b / firstNormalization ≤ _ at hpair
+  have hleftIdeal : (originalMass).leftIdeal = v.1.val.1 := v.block.common_left
+  have hrightIdeal : (originalMass).rightIdeal = v.1.val.2 := v.block.common_right
   simpa only [literalOriginalArithmeticMass_fiber, literalOriginalArithmeticMass_profileBound,
     hleftIdeal, hrightIdeal] using hpair
 

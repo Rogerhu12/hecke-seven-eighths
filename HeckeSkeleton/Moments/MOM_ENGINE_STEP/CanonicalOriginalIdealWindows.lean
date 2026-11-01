@@ -62,7 +62,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
   a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
@@ -71,18 +71,18 @@ local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W �
 the same original columns. The physical mask divisor is not discarded. -/
 theorem literalPrimitiveFirstIdealLengths
     (normBound : ℝ)
-    (hN : ∀ i ∈ source.columns, (Ideal.absNorm (source.ideal i).val : ℝ) ≤ Z ^ normBound)
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset) :
+    (hN : ∀ i ∈ (source).columns, (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ normBound)
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset) :
     idealLogLength Z DE.val.1 ≤ normBound ∧
       idealLogLength Z DE.val.2 ≤ normBound ∧
       idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2) ≤ normBound ∧
       idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val ≤ normBound := by
-  let b := source.block DE
-  have hDE := actual_common_pair_properties source.columns source.columns
-    (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) DE
-  have hnorm := actual_common_pair_norm source.columns source.columns
-    (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) (Z ^ normBound)
-    (fun i _ => (source.ideal i).property.1) (fun i _ => (source.ideal i).property.1)
+  let b := (source).block DE
+  have hDE := actual_common_pair_properties (source).columns (source).columns
+    (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) DE
+  have hnorm := actual_common_pair_norm (source).columns (source).columns
+    (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) (Z ^ normBound)
+    (fun i _ => ((source).ideal i).property.1) (fun i _ => ((source).ideal i).property.1)
     hN hN DE
   have hactiveDvd : firstActiveRadical DE.val.1 DE.val.2 ∣ DE.val.1 := by
     rw [← b.activeIdeal_eq, ← b.common_left]

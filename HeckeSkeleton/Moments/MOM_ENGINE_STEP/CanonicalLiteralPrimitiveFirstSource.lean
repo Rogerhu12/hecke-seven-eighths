@@ -71,7 +71,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 /-- The first source is selected before any original common label or
 Fourier parameter of either transform. Its old deletion support is paid
@@ -91,8 +91,8 @@ local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W �
   a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
 
 /-- The original exterior Cartesian atlas of the same actual source. -/
-def literalPrimitiveFirstAtlas : SourceCartesianAtlas source.columns source.ideal :=
-  raw.originalAtlas
+def literalPrimitiveFirstAtlas : SourceCartesianAtlas (source).columns (source).ideal :=
+  (raw).originalAtlas
 
 @[simp] theorem literalPrimitiveFirstAtlas_slotCount :
     (Q.literalPrimitiveFirstAtlas μv ν C hroot hemb W ξ a Z t Y₁ Y₂ hZ hbudget
@@ -100,30 +100,30 @@ def literalPrimitiveFirstAtlas : SourceCartesianAtlas source.columns source.idea
 
 /-- The first normalization uses the original selected physical
 divisor and active common radical, with their full norm lengths. -/
-def literalPrimitiveFirstTotal (DE : source.CommonLabel)
-    (D : ((source.block DE).mask source.mask).powerset) : ℝ :=
-  internal.n₁ + internal.n₂ + internal.z + internal.q +
+def literalPrimitiveFirstTotal (DE : (source).CommonLabel)
+    (D : (((source).block DE).mask (source).mask).powerset) : ℝ :=
+  (internal).n₁ + (internal).n₂ + (internal).z + (internal).q +
     idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2) +
     idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val
 
-def literalPrimitiveFirstNormalization : source.Normalization :=
-  source.canonicalNormalization hZ
+def literalPrimitiveFirstNormalization : (source).Normalization :=
+  (source).canonicalNormalization hZ
     (Q.literalPrimitiveFirstTotal μv ν C hroot hemb W ξ a Z t Y₁ Y₂ hZ hbudget
       centered cutoff hcutoff δ₁ hδ₁ hδ₁half)
 
-@[simp] theorem literalPrimitiveFirstSource_fiber : source.fiber = 1 := rfl
+@[simp] theorem literalPrimitiveFirstSource_fiber : (source).fiber = 1 := rfl
 
-@[simp] theorem literalPrimitiveFirstSource_mask : source.mask = ∅ := rfl
+@[simp] theorem literalPrimitiveFirstSource_mask : (source).mask = ∅ := rfl
 
 theorem literalPrimitiveFirstSource_radius :
-    source.radius.val = Z ^ (-internal.m) := by
-  change (Q.fullSupportRadius Z (internal.m + internal.q)
+    (source).radius.val = Z ^ (-(internal).m) := by
+  change (Q.fullSupportRadius Z ((internal).m + (internal).q)
     (zero_lt_one.trans hZ)).val = _
   rw [Q.fullSupportParameters_width]
   exact Q.fullSupportRadius_eq_negative_m a Z hZ
 
 theorem literalPrimitiveFirstSource_oldSupport :
-    A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) ≤ Z ^ internal.q :=
+    A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) ≤ Z ^ (internal).q :=
   (Q.fullSupportParameters_support_norm a Z hZ).le
 
 theorem literalPrimitiveFirstSource_domain {floor padding : ℝ}
@@ -158,9 +158,9 @@ include hannulus hcap hannulusZ domain profiles hrows ht hwindow hcutoffPower
 from its own original first ideals. Only original atom support windows
 and the chosen cutoff power are used. -/
 theorem literalPrimitiveFirstSource_physicalCutoff
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset) :
-    (source.source DE).divisorPhysicalCutoff D.val ≤
-      ((source.block DE).literalLeftCoordinates D.val).canonicalRetainedScale
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset) :
+    ((source).source DE).divisorPhysicalCutoff D.val ≤
+      (((source).block DE).literalLeftCoordinates D.val).canonicalRetainedScale
         internal Z (2 * loss + cutoffExponent) := by
   have hrows' : ∀ u ∈ pairedRows (data ξ) internal Z, u ∈ rowDomain := by
     simpa only [Q.literalPrimitiveFirstSource_pairedRows] using hrows
@@ -168,38 +168,38 @@ theorem literalPrimitiveFirstSource_physicalCutoff
   have h := Q.canonicalFirstDivisorPhysicalCutoff W ξ internal Z t Y₁ Y₂ C
     cap annulus loss cutoffExponent hannulus hcap hannulusZ hd profiles hrows' ht hwindow
     cutoff hcutoff hcutoffPower DE D.val
-  change (source.source DE).divisorPhysicalCutoff D.val ≤ _ at h
+  change ((source).source DE).divisorPhysicalCutoff D.val ≤ _ at h
   rw [Q.fullSupportParameters_idempotent] at h
   convert h using 1
   simp only [OriginalNominalIdeals.canonicalRetainedScale,
     OriginalNominalIdeals.firstFrequency,
-    (source.block DE).literalLeftCoordinates_first,
-    (source.block DE).literalLeftCoordinates_opposite,
-    (source.block DE).literalLeftCoordinates_complementary]
+    ((source).block DE).literalLeftCoordinates_first,
+    ((source).block DE).literalLeftCoordinates_opposite,
+    ((source).block DE).literalLeftCoordinates_complementary]
   rw [hd.total_length]
 
 /-- Both signed Gauss rows come from this same original finite
 divisor source. The right endpoint equals the left endpoint before
 either second-stage enlargement is applied. -/
 theorem literalPrimitiveFirstSource_row_windows
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset) :
-    (∀ h ∈ (source.pieces DE D).leftData.rows,
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset) :
+    (∀ h ∈ ((source).pieces DE D).leftData.rows,
       A.exteriorNorm (originalFrequencyIdeal h) ≤
-        ((source.block DE).literalLeftCoordinates D.val).canonicalRetainedScale
+        (((source).block DE).literalLeftCoordinates D.val).canonicalRetainedScale
           internal Z (2 * loss + cutoffExponent)) ∧
-    (∀ h ∈ (source.pieces DE D).rightData.rows,
+    (∀ h ∈ ((source).pieces DE D).rightData.rows,
       A.exteriorNorm (originalFrequencyIdeal h) ≤
-        ((source.block DE).literalRightCoordinates D.val).canonicalRetainedScale
+        (((source).block DE).literalRightCoordinates D.val).canonicalRetainedScale
           internal Z (2 * loss + cutoffExponent)) := by
   have hcut := Q.literalPrimitiveFirstSource_physicalCutoff μv ν C hroot hemb W ξ
     a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
     cap annulus loss cutoffExponent hannulus hcap hannulusZ domain profiles hrows ht hwindow
     hcutoffPower DE D
-  have h := canonicalFirstGaussData_divisor_row_windows C source.columns source.columns
-    source.ideal source.ideal DE.val DE.property (source.source DE) D.val _ hcut
+  have h := canonicalFirstGaussData_divisor_row_windows C (source).columns (source).columns
+    (source).ideal (source).ideal DE.val DE.property ((source).source DE) D.val _ hcut
   refine ⟨h.1, ?_⟩
   simpa only [OriginalNominalIdeals.canonicalRetainedScale,
-    (source.block DE).literalRightCoordinates_firstFrequency] using h.2
+    ((source).block DE).literalRightCoordinates_firstFrequency] using h.2
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

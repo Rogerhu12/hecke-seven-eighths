@@ -72,7 +72,7 @@ variable (slots : OriginalSlotDictionary parent d.length)
 variable (cutoff : ℝ)
 
 local notation "rootLength" =>
-  idealLogLength f.source.base
+  idealLogLength (f).source.base
     (secondSixthRootIdeal rows.primes ((SecondColumnSide.left).literalMultiplicity rows)
       ((SecondColumnSide.left).literalOppositeMultiplicity rows)).val
 local notation "m" => G.literalRowParameter cutoff
@@ -172,11 +172,11 @@ local notation "actualUnit" => hunit.trans hmassUnit.symm
 row-mass capacity input.  The anchor supplies only the original
 nonempty-row witness needed by the established same-child theorem. -/
 theorem produceLiteralLeftSideAll_capacity_actual_heq :
-    HEq allSide.capacity
-      (originalLengths.capacityInput mass hn anchor hsecond hopposite actualUnit
+    HEq (allSide).capacity
+      ((originalLengths).capacityInput mass hn anchor hsecond hopposite actualUnit
         hstep mesh hmesh hfit originalAtoms) := by
-  have hpattern : HEq allSide.capacity
-      (originalLengths.capacityInputOfPattern rows.primes_injective
+  have hpattern : HEq (allSide).capacity
+      ((originalLengths).capacityInputOfPattern rows.primes_injective
         mass.left_positive hn pattern hsecond hopposite hunit hstep mesh hmesh hfit originalAtoms) :=
     d.produceLiteralSideAll_capacity_heq W rows (SecondColumnSide.left) χ ideal hideal firstSign rectangle
         L selection hne D P Rchar F parent oldMoving correction hcorr remaining extra a step G
@@ -185,7 +185,7 @@ theorem produceLiteralLeftSideAll_capacity_actual_heq :
         original hreference htime horders computed hprimeOrders δ analyticHeight hδ hδhi
         analytic hanalytic
   exact hpattern.trans (heq_of_eq
-    (originalLengths.capacityInputOfPattern_eq_actual mass hn
+    ((originalLengths).capacityInputOfPattern_eq_actual mass hn
       pattern anchor hsecond hopposite hunit actualUnit hstep mesh hmesh hfit originalAtoms))
 
 end Left
@@ -227,7 +227,7 @@ variable (slots : OriginalSlotDictionary parent d.length)
 variable (cutoff : ℝ)
 
 local notation "rootLength" =>
-  idealLogLength f.source.base
+  idealLogLength (f).source.base
     (secondSixthRootIdeal rows.primes ((SecondColumnSide.right).literalMultiplicity rows)
       ((SecondColumnSide.right).literalOppositeMultiplicity rows)).val
 local notation "m" => G.literalRowParameter cutoff
@@ -329,11 +329,11 @@ local notation "actualUnit" => hunit.trans ((congrArg (fun I : A.Exterior => I.v
 mass.  Its right common multiplicities become the left multiplicities,
 and its unit ideal and row anchor remain the original ones. -/
 theorem produceLiteralRightSideAll_capacity_actual_heq :
-    HEq allSide.capacity
-      (originalLengths.capacityInput (mass.swapColumns hn) mass.left_positive anchor hsecond hopposite actualUnit
+    HEq (allSide).capacity
+      ((originalLengths).capacityInput (mass.swapColumns hn) mass.left_positive anchor hsecond hopposite actualUnit
         hstep mesh hmesh hfit originalAtoms) := by
-  have hpattern : HEq allSide.capacity
-      (originalLengths.capacityInputOfPattern rows.primes_injective
+  have hpattern : HEq (allSide).capacity
+      ((originalLengths).capacityInputOfPattern rows.primes_injective
         hn mass.left_positive pattern hsecond hopposite hunit hstep mesh hmesh hfit originalAtoms) :=
     d.produceLiteralSideAll_capacity_heq W rows (SecondColumnSide.right) χ ideal hideal firstSign rectangle
         L selection hne D P Rchar F parent oldMoving correction hcorr remaining extra a step G
@@ -342,7 +342,7 @@ theorem produceLiteralRightSideAll_capacity_actual_heq :
         original hreference htime horders computed hprimeOrders δ analyticHeight hδ hδhi
         analytic hanalytic
   exact hpattern.trans (heq_of_eq
-    (originalLengths.capacityInputOfPattern_eq_actual (mass.swapColumns hn) mass.left_positive
+    ((originalLengths).capacityInputOfPattern_eq_actual (mass.swapColumns hn) mass.left_positive
       pattern anchor hsecond hopposite hunit actualUnit hstep mesh hmesh hfit originalAtoms))
 
 end Right

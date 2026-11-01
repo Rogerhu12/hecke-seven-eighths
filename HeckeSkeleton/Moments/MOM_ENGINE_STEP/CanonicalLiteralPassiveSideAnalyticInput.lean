@@ -168,12 +168,12 @@ def literalPassiveSideAnalyticInput :=
     hpaidSupport m q κ hwidth inverse hone hroot hemb hbackground hslot side firstSign rectangle
     keep₂_eq
   let originalSlots := tableOriginalSlots W B A paid parent slots
-  have hdata : ∀ ξ, cal.data ξ = CanonicalLiteralAllocatedData.data P Rchar E f.allocation
-      choice.phases parent oldMoving correction hcorr C S.primes S.leftMultiplicity
-      S.rightMultiplicity pattern sector remaining 1
+  have hdata : ∀ ξ, cal.data ξ = CanonicalLiteralAllocatedData.data P Rchar E (f).allocation
+      choice.phases parent oldMoving correction hcorr C (S).primes (S).leftMultiplicity
+      (S).rightMultiplicity pattern sector remaining 1
       (geometry.literalRowParameter capacityCutoff)
-      (geometry.literalSupportParameter (idealLogLength f.source.base
-        (secondSixthRootIdeal S.primes (side.literalMultiplicity S)
+      (geometry.literalSupportParameter (idealLogLength (f).source.base
+        (secondSixthRootIdeal (S).primes (side.literalMultiplicity S)
           (side.literalOppositeMultiplicity S)).val))
       (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
       originalSlots.index rectangle firstSign side.literalNegative ξ := by
@@ -181,14 +181,14 @@ def literalPassiveSideAnalyticInput :=
     rw [rowParameter, supportParameter]
     rw [← inverse_eq]
     rfl
-  have hparameters : cal.parameters = CanonicalLiteralAllocatedData.parameters t f.allocation
+  have hparameters : cal.parameters = CanonicalLiteralAllocatedData.parameters t (f).allocation
       rectangle (geometry.literalRowParameter capacityCutoff)
-      (geometry.literalSupportParameter (idealLogLength f.source.base
-        (secondSixthRootIdeal S.primes (side.literalMultiplicity S)
+      (geometry.literalSupportParameter (idealLogLength (f).source.base
+        (secondSixthRootIdeal (S).primes (side.literalMultiplicity S)
           (side.literalOppositeMultiplicity S)).val)) parentParameters.κ := by
     rw [rowParameter, supportParameter, ← kappa]
     rfl
-  t.literalSideAnalyticInput E S side (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
+  (t).literalSideAnalyticInput E S side (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
     (columnExterior W B A) (columnExterior_val_of_mem W B A) firstSign rectangle
     a.val.1 a.val.2 ((Finset.mem_filter.mp a.property).2) cal
     P Rchar choice.phases parent oldMoving correction hcorr remaining 1

@@ -136,7 +136,7 @@ def preparedLiteralExtraction (hlive : (v.leaf exceptional F x j).Live) :
     (v.leaf exceptional F x j).ConstantAtomExtraction := by
   have ha : v.1.val ∈ G.activeCommon := by
     obtain ⟨q, hq, i, hi, hci⟩ := hlive.2.1
-    exact s.supported_gated_leaf_active LC RC exceptional F x ⟨v, j⟩ q i hci
+    exact (s).supported_gated_leaf_active LC RC exceptional F x ⟨v, j⟩ q i hci
   exact v.literalExtraction leftAtoms rightAtoms exceptional F x j
     (preparedLiteral_leftCoefficient (v := v) (leftAtoms := leftAtoms) (hcoeffL := hcoeffL) ha)
     (preparedLiteral_rightCoefficient (v := v) (rightAtoms := rightAtoms) (hcoeffR := hcoeffR) ha)
@@ -155,7 +155,7 @@ def preparedLiteralOrdinaryBinding
       (v.literalRectangles leftAtoms rightAtoms exceptional F x j firstSign hlive) := by
   have ha : v.1.val ∈ G.activeCommon := by
     obtain ⟨q, hq, i, hi, hci⟩ := hlive.2.1
-    exact s.supported_gated_leaf_active LC RC exceptional F x ⟨v, j⟩ q i hci
+    exact (s).supported_gated_leaf_active LC RC exceptional F x ⟨v, j⟩ q i hci
   apply v.literalOrdinaryBinding leftAtoms rightAtoms exceptional F x j
     (preparedLiteral_leftCoefficient (v := v) (leftAtoms := leftAtoms) (hcoeffL := hcoeffL) ha)
     (preparedLiteral_rightCoefficient (v := v) (rightAtoms := rightAtoms) (hcoeffR := hcoeffR) ha)

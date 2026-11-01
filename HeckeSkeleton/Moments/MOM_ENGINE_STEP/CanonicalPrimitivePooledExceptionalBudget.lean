@@ -138,12 +138,12 @@ local notation "raw" => ((Q.arithmeticAtoms ξ).constantAtoms (W.at ξ)
   internal Z t).raw canonicalLeft canonicalRight
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
   a Z t canonicalLeft canonicalRight hZ hbudget centered
-  (b.firstBox.cutoff Z) (b.firstBox.cutoff_ge_one hZ.le) b.tilt b.tilt_pos b.tilt_le_half
+  (b.firstBox.cutoff Z) (b.firstBox.cutoff_ge_one (hZ).le) b.tilt b.tilt_pos b.tilt_le_half
 
 
 local notation "hN" => Q.literalPrimitiveFirstSource_column_norm μv ν C hroot hemb W ξ
   a Z t canonicalLeft canonicalRight hZ hbudget centered
-  (b.firstBox.cutoff Z) (b.firstBox.cutoff_ge_one hZ.le) b.tilt b.tilt_pos b.tilt_le_half
+  (b.firstBox.cutoff Z) (b.firstBox.cutoff_ge_one (hZ).le) b.tilt b.tilt_pos b.tilt_le_half
   b.cap b.hi b.loss b.lengthBound b.lengthBound b.columnBound b.hi_ge_one hcap hannulusZ
   hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le window₂ hrows htime (fun _ h => h.2) hcolumn
 
@@ -154,12 +154,12 @@ variable (hdensity : 0 < pool.rowDensity b.rowBound b.columnBound)
 local notation "source" => Q.literalPrimitivePooledSource
   (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
   (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) (hZ := hZ) (hbudget := hbudget)
-  (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one hZ.le))
+  (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le))
   (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
   (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
   (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain)
   (profiles := window₂) (hrows := hrows) (ht := htime) (hwindow := fun _ h => h.2)
-  (hcutoffPower := (b.firstCutoff_le Z hZ.le)) (reference := reference) (href := href)
+  (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (reference := reference) (href := href)
   (lengthBound := b.lengthBound) (columnBound := b.columnBound)
   (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
   (htotal := htotal) (hN := hN) (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
@@ -168,44 +168,44 @@ local notation "source" => Q.literalPrimitivePooledSource
 local notation "stages" => Q.literalPrimitivePooledStages
   (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
   (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) (hZ := hZ) (hbudget := hbudget)
-  (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one hZ.le))
+  (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le))
   (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
   (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
   (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain)
   (profiles := window₂) (hrows := hrows) (ht := htime) (hwindow := fun _ h => h.2)
-  (hcutoffPower := (b.firstCutoff_le Z hZ.le)) (reference := reference) (href := href)
+  (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (reference := reference) (href := href)
   (lengthBound := b.lengthBound) (columnBound := b.columnBound)
   (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
   (htotal := htotal) (hN := hN) (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
   (pool := pool) (hdensity := hdensity)
   (hstep := b.step_pos) (hDiff := hDiff) (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
-  (cutoff₂ := (b.secondCutoff Z)) (hcutoff₂ := (b.secondCutoff_ge_one Z hZ.le))
+  (cutoff₂ := (b.secondCutoff Z)) (hcutoff₂ := (b.secondCutoff_ge_one Z (hZ).le))
 
 local notation "exceptional" => Q.literalPrimitivePooledPredicates
   (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
   (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) (hZ := hZ) (hbudget := hbudget)
-  (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one hZ.le))
+  (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le))
   (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
   (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
   (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain)
   (profiles := window₂) (hrows := hrows) (ht := htime) (hwindow := fun _ h => h.2)
-  (hcutoffPower := (b.firstCutoff_le Z hZ.le)) (reference := reference) (href := href)
+  (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (reference := reference) (href := href)
   (lengthBound := b.lengthBound) (columnBound := b.columnBound)
   (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
   (htotal := htotal) (hN := hN) (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
   (pool := pool) (hdensity := hdensity)
   (hstep := b.step_pos) (hDiff := hDiff) (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
-  (cutoff₂ := (b.secondCutoff Z)) (hcutoff₂ := (b.secondCutoff_ge_one Z hZ.le))
+  (cutoff₂ := (b.secondCutoff Z)) (hcutoff₂ := (b.secondCutoff_ge_one Z (hZ).le))
 
 local notation "normalization" => Q.literalPrimitivePooledNormalization
   (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
   (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) (hZ := hZ) (hbudget := hbudget)
-  (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one hZ.le))
+  (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le))
   (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
   (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
   (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain)
   (profiles := window₂) (hrows := hrows) (ht := htime) (hwindow := fun _ h => h.2)
-  (hcutoffPower := (b.firstCutoff_le Z hZ.le)) (reference := reference) (href := href)
+  (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (reference := reference) (href := href)
   (lengthBound := b.lengthBound) (columnBound := b.columnBound)
   (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
   (htotal := htotal) (hN := hN) (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
@@ -214,34 +214,34 @@ local notation "normalization" => Q.literalPrimitivePooledNormalization
 local notation "actualRows" => Q.literalPrimitivePreparedPooledStagesOriginalFibreRows
   (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
   (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) (hZ := hZ) (hbudget := hbudget)
-  (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one hZ.le))
+  (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le))
   (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
   (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
   (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain)
   (profiles := window₂) (hrows := hrows) (ht := htime) (hwindow := fun _ h => h.2)
-  (hcutoffPower := (b.firstCutoff_le Z hZ.le)) (reference := reference) (href := href)
+  (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (reference := reference) (href := href)
   (lengthBound := b.lengthBound) (columnBound := b.columnBound)
   (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
   (htotal := htotal) (hN := hN) (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
   (pool := pool) (hdensity := hdensity)
   (hstep := b.step_pos) (hDiff := hDiff) (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
-  (cutoff₂ := (b.secondCutoff Z)) (hcutoff₂ := (b.secondCutoff_ge_one Z hZ.le))
+  (cutoff₂ := (b.secondCutoff Z)) (hcutoff₂ := (b.secondCutoff_ge_one Z (hZ).le))
 
-local notation "parents" => stages.supported.gated
-local notation "labels" => parents.arithmeticLabels raw.originalAtlas hcap exceptional normalization
-local notation "tags" => parents.arithmeticTag raw.originalAtlas exceptional normalization
-local notation "indices" => parents.arithmeticIndex raw.originalAtlas hcap exceptional normalization
-local notation "liveKeys" => parents.liveLeaves raw.originalAtlas exceptional normalization
+local notation "parents" => (stages).supported.gated
+local notation "labels" => (parents).arithmeticLabels (raw).originalAtlas hcap exceptional normalization
+local notation "tags" => (parents).arithmeticTag (raw).originalAtlas exceptional normalization
+local notation "indices" => (parents).arithmeticIndex (raw).originalAtlas hcap exceptional normalization
+local notation "liveKeys" => (parents).liveLeaves (raw).originalAtlas exceptional normalization
 local notation "movingAt" => fun (i : liveKeys) =>
-  (parents.originalNominalTagAt raw.originalAtlas i.val).movingLength Z +
-    (parents.originalNominalTagAt raw.originalAtlas i.val).poolLength b.step
+  ((parents).originalNominalTagAt (raw).originalAtlas i.val).movingLength Z +
+    ((parents).originalNominalTagAt (raw).originalAtlas i.val).poolLength b.step
 local notation "localWeight" => fun (i : liveKeys) =>
-  (labels.localBranch tags i).indexWeight (labels.localIndex tags i)
+  ((labels).localBranch tags i).indexWeight ((labels).localIndex tags i)
 local notation "amplifiedWeight" => fun (i : liveKeys) =>
   amplifiedIndexWeight pool b.rowBound b.columnBound
-    (labels.mainCarrier tags) (labels.errorCarrier tags) (indices i)
+    ((labels).mainCarrier tags) ((labels).errorCarrier tags) (indices i)
 local notation "lower" => fun (i : liveKeys) =>
-  idealLogLength Z (parents.innerDivisor raw.originalAtlas i.val)
+  idealLogLength Z ((parents).innerDivisor (raw).originalAtlas i.val)
 local notation "volumeOrders" => CanonicalPrimitiveExceptionalChoices.orders
   (A := A) (σ := σ) (η := η) (hS := hS) b primitive
 local notation "integralC" => CanonicalPrimitiveExceptionalChoices.integralCoefficient
@@ -278,7 +278,7 @@ theorem literalPrimitivePooledEngineExceptionalCost_le :
       _ ≤ b.hi ^ (b.cap + 2) := pow_le_pow_right₀ b.hi_ge_one (by omega)
       _ ≤ Z ^ b.loss := hannulusZ
       _ ≤ Z ^ (2 * b.loss) :=
-        Real.rpow_le_rpow_of_exponent_le hZ.le (by linarith [b.loss_pos])
+        Real.rpow_le_rpow_of_exponent_le (hZ).le (by linarith [b.loss_pos])
   have hslots : (b.cap : ℝ) * b.loss ≤ b.ε / 16 := by
     linarith [b.cap_mul_loss_le_ε, b.ε_pos]
   have hsupport : 2 * b.loss + b.loss ≤ b.ε / 16 := by
@@ -286,31 +286,31 @@ theorem literalPrimitivePooledEngineExceptionalCost_le :
   have hvolume : CanonicalPrimitiveExceptionalChoices.volumeLoss b ≤ b.ε / 16 := by
     unfold CanonicalPrimitiveExceptionalChoices.volumeLoss
     linarith [b.ε_pos]
-  let smallWindow := window₂.restrictOrders
+  let smallWindow := (window₂).restrictOrders
     (exceptional_sourceOrders_mono (exceptional_sourceOrders_mono horders))
   have hprimeSmall : ∀ j, Function.support (smallWindow.primeRep j t) ⊆ Set.Ioo (1 : ℝ) 2 :=
     hprime
   let paidDomain := (CanonicalPrimitiveEngineSetup.boundedDomain b domain hpadding).canonicalComparisonScales
   have hpoint (i : liveKeys) :
-      (parents.parentLeaf raw.originalAtlas exceptional normalization i.val).exceptionalCost /
+      ((parents).parentLeaf (raw).originalAtlas exceptional normalization i.val).exceptionalCost /
           Z ^ (a.m + a.q) ≤
-        parents.originalScalarAt raw.originalAtlas i.val *
+        (parents).originalScalarAt (raw).originalAtlas i.val *
           (integralC * amplitude ^ degree *
             Z ^ (((if centered then b.paddingMax else 0) + 3 * b.step + b.ε / 2) +
               CanonicalPrimitiveExceptionalChoices.firstTiltError b + movingAt i) *
-            labels.carrier.exceptionalDyadWeight Z (lower i) (labels.index i)) := by
+            (labels).carrier.exceptionalDyadWeight Z (lower i) ((labels).index i)) := by
     have h := Q.literalPrimitivePooledExceptional_integral
       (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
       (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight)
       (hZ := hZ) (hbudget := hbudget) (centered := centered)
-      (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one hZ.le)
+      (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one (hZ).le)
       (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
       (hY₁ := hY₁) (hY₂ := hY₂) (cap := b.cap) (loss := b.loss) (cutoffExponent := b.loss)
       (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
       (step := b.step) (hstep := b.step_pos) (hDiff := hDiff)
       (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
-      (cutoff₂ := b.secondCutoff Z) (hcutoff₂ := b.secondCutoff_ge_one Z hZ.le)
-      (hcutoffPower := b.firstCutoff_le Z hZ.le) (hcutoffPower₂ := b.secondCutoff_le Z hZ.le)
+      (cutoff₂ := b.secondCutoff Z) (hcutoff₂ := b.secondCutoff_ge_one Z (hZ).le)
+      (hcutoffPower := b.firstCutoff_le Z (hZ).le) (hcutoffPower₂ := b.secondCutoff_le Z (hZ).le)
       (reference := reference) (href := href)
       (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
       (primitive := primitive) (ε := CanonicalPrimitiveExceptionalChoices.volumeLoss b)
@@ -335,76 +335,76 @@ theorem literalPrimitivePooledEngineExceptionalCost_le :
       (pool := pool) (hdensity := hdensity) (fun _ => b.padding_nonneg) i
     simpa only [CanonicalPrimitiveExceptionalChoices.degree_eq] using h
   have hscalar (i : liveKeys) :
-      parents.originalScalarAt raw.originalAtlas i.val * Z ^ movingAt i * localWeight i ≤
+      (parents).originalScalarAt (raw).originalAtlas i.val * Z ^ movingAt i * localWeight i ≤
         CanonicalPrimitiveExceptionalChoices.fiberCap b * amplifiedWeight i := by
     exact Q.literalPrimitivePooled_originalScalar_moving_index_le
       (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
       (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight)
       (hZ := hZ) (hbudget := hbudget) (centered := centered)
-      (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one hZ.le)
+      (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one (hZ).le)
       (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
       (cap := b.cap) (hi := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
       (hhi := b.hi_ge_one) (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain)
       (lo := b.lo) (orders := orders) (originalBound := amplitude)
       (originalWindow := window₂) (hrows := hrows) (htime := htime)
-      (hcutoffPower := b.firstCutoff_le Z hZ.le) (reference := reference) (href := href)
+      (hcutoffPower := b.firstCutoff_le Z (hZ).le) (reference := reference) (href := href)
       (lengthBound := b.lengthBound) (columnBound := b.columnBound)
       (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
       (htotal := htotal) (hN := hN) (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
       (pool := pool) (hdensity := hdensity) (step := b.step) (hstep := b.step_pos)
       (hDiff := hDiff) (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
-      (cutoff₂ := b.secondCutoff Z) (hcutoff₂ := b.secondCutoff_ge_one Z hZ.le) i
-  have hdivisor (i : liveKeys) : parents.innerDivisor raw.originalAtlas i.val ≠ 0 :=
-    (stages.live_inner_divisor_squarefree raw.originalAtlas exceptional normalization i).ne_zero
+      (cutoff₂ := b.secondCutoff Z) (hcutoff₂ := b.secondCutoff_ge_one Z (hZ).le) i
+  have hdivisor (i : liveKeys) : (parents).innerDivisor (raw).originalAtlas i.val ≠ 0 :=
+    ((stages).live_inner_divisor_squarefree (raw).originalAtlas exceptional normalization i).ne_zero
   have hglobalDivisor (i : liveKeys) :
-      (labels.index i).2.2.2.1.val = parents.innerDivisor raw.originalAtlas i.val :=
-    parents.arithmeticLabels_secondDivisor raw.originalAtlas hcap exceptional normalization i
+      ((labels).index i).2.2.2.1.val = (parents).innerDivisor (raw).originalAtlas i.val :=
+    (parents).arithmeticLabels_secondDivisor (raw).originalAtlas hcap exceptional normalization i
   have hglobal (i : liveKeys) :
-      labels.carrier.exceptionalDyadWeight Z (lower i) (labels.index i) = localWeight i := by
-    have h := labels.carrier.exceptionalDyadWeight_at_divisor Z hZ (labels.index i)
+      (labels).carrier.exceptionalDyadWeight Z (lower i) ((labels).index i) = localWeight i := by
+    have h := (labels).carrier.exceptionalDyadWeight_at_divisor Z hZ ((labels).index i)
       (by rw [hglobalDivisor i]; exact hdivisor i)
     rw [hglobalDivisor i] at h
     exact h.trans (exceptional_global_local_weight labels tags i)
   have hamplifiedDivisor (i : liveKeys) :
-      amplifiedInnerDivisor (indices i) = parents.innerDivisor raw.originalAtlas i.val :=
-    parents.arithmeticIndex_innerDivisor raw.originalAtlas hcap exceptional normalization i
+      amplifiedInnerDivisor (indices i) = (parents).innerDivisor (raw).originalAtlas i.val :=
+    (parents).arithmeticIndex_innerDivisor (raw).originalAtlas hcap exceptional normalization i
   have hamplified (i : liveKeys) :
       amplifiedExceptionalDyadWeight pool b.rowBound b.columnBound
-          (labels.mainCarrier tags) (labels.errorCarrier tags) (lower i) (indices i) =
+          ((labels).mainCarrier tags) ((labels).errorCarrier tags) (lower i) (indices i) =
         amplifiedWeight i := by
     have h := amplifiedExceptionalDyadWeight_at_divisor pool b.rowBound b.columnBound
-      (labels.mainCarrier tags) (labels.errorCarrier tags) (indices i)
+      ((labels).mainCarrier tags) ((labels).errorCarrier tags) (indices i)
       (by rw [hamplifiedDivisor i]; exact hdivisor i)
     simpa only [hamplifiedDivisor i] using h
   have hbase : ((if centered then b.paddingMax else 0) + 3 * b.step + b.ε / 2) +
       CanonicalPrimitiveExceptionalChoices.firstTiltError b ≤ paidLoss := by
     cases centered <;> simp only [Bool.false_eq_true, ↓reduceIte] <;> linarith [b.padding_nonneg]
   have hleaf (i : liveKeys) :
-      (parents.parentLeaf raw.originalAtlas exceptional normalization i.val).exceptionalCost /
-          Z ^ (internal.m + internal.q) ≤
+      ((parents).parentLeaf (raw).originalAtlas exceptional normalization i.val).exceptionalCost /
+          Z ^ ((internal).m + (internal).q) ≤
         leafC * amplitude ^ degree * Z ^ paidLoss *
           amplifiedExceptionalDyadWeight pool b.rowBound b.columnBound
-            (labels.mainCarrier tags) (labels.errorCarrier tags) (lower i) (indices i) := by
+            ((labels).mainCarrier tags) ((labels).errorCarrier tags) (lower i) (indices i) := by
     rw [Q.fullSupportParameters_width, hamplified i]
     have hi := hpoint i
     rw [hglobal i] at hi
     have hweight : 0 ≤ localWeight i :=
-      (labels.localBranch tags i).indexWeight_nonneg (labels.localIndex tags i)
+      ((labels).localBranch tags i).indexWeight_nonneg ((labels).localIndex tags i)
     calc
-      _ ≤ parents.originalScalarAt raw.originalAtlas i.val *
+      _ ≤ (parents).originalScalarAt (raw).originalAtlas i.val *
           (integralC * amplitude ^ degree *
             Z ^ (((if centered then b.paddingMax else 0) + 3 * b.step + b.ε / 2) +
               CanonicalPrimitiveExceptionalChoices.firstTiltError b + movingAt i) * localWeight i) := hi
-      _ ≤ parents.originalScalarAt raw.originalAtlas i.val *
+      _ ≤ (parents).originalScalarAt (raw).originalAtlas i.val *
           (integralC * amplitude ^ degree * Z ^ (paidLoss + movingAt i) * localWeight i) := by
         exact mul_le_mul_of_nonneg_left
           (mul_le_mul_of_nonneg_right
             (mul_le_mul_of_nonneg_left
-              (Real.rpow_le_rpow_of_exponent_le hZ.le (add_le_add_right hbase _))
+              (Real.rpow_le_rpow_of_exponent_le (hZ).le (add_le_add_right hbase _))
               (mul_nonneg hc0 (pow_nonneg hp0 _))) hweight)
-          (parents.originalScalarAt_nonneg raw.originalAtlas i.val)
+          ((parents).originalScalarAt_nonneg (raw).originalAtlas i.val)
       _ = (integralC * amplitude ^ degree * Z ^ paidLoss) *
-          (parents.originalScalarAt raw.originalAtlas i.val * Z ^ movingAt i * localWeight i) := by
+          ((parents).originalScalarAt (raw).originalAtlas i.val * Z ^ movingAt i * localWeight i) := by
         rw [Real.rpow_add hz]
         ring
       _ ≤ (integralC * amplitude ^ degree * Z ^ paidLoss) *
@@ -416,15 +416,15 @@ theorem literalPrimitivePooledEngineExceptionalCost_le :
   have hbox : b.columnBound ≤ CanonicalPrimitiveExceptionalChoices.indexBox b := by
     exact le_add_of_nonneg_right
       (mul_nonneg (by norm_num) (div_nonneg b.step_pos.le (by norm_num)))
-  let broadRows := rows.enlargeBound hZ.le hbox
-  have hmask : OriginalMaskPrimeData source.mask (1 : Ideal (𝓞 K)) :=
+  let broadRows := rows.enlargeBound (hZ).le hbox
+  have hmask : OriginalMaskPrimeData (source).mask (1 : Ideal (𝓞 K)) :=
     emptyOriginalSIntegerMask
   have hmaskNorm : (Ideal.absNorm (1 : Ideal (𝓞 K)) : ℝ) ≤
       Z ^ CanonicalPrimitiveExceptionalChoices.indexBox b := by
     simpa only [map_one, Nat.cast_one] using
-      Real.one_le_rpow hZ.le (CanonicalPrimitiveExceptionalChoices.indexBox_nonneg b)
+      Real.one_le_rpow (hZ).le (CanonicalPrimitiveExceptionalChoices.indexBox_nonneg b)
   have hwindow (i : liveKeys) :
-      (Ideal.absNorm (parents.innerDivisor raw.originalAtlas i.val) : ℝ) ≤
+      (Ideal.absNorm ((parents).innerDivisor (raw).originalAtlas i.val) : ℝ) ≤
         Z ^ (lower i + 0) := by
     rw [add_zero, rpow_idealLogLength Z hZ _ (hdivisor i)]
   have hsum := CanonicalPrimitiveExceptionalChoices.pooled_bound μv ν C hDiff b primitive
@@ -432,8 +432,8 @@ theorem literalPrimitivePooledEngineExceptionalCost_le :
       μv ν C hDiff b primitive Z hexceptionalLarge).2.2 bad pool
     b.rowBound b.columnBound amplitude b.rowBound_nonneg le_rfl le_rfl hamplitude paidLoss
     centered (data ξ) internal t canonicalLeft canonicalRight
-    (b.firstBox.cutoff Z) (b.firstBox.cutoff_ge_one hZ.le)
-    source stages raw.originalAtlas hcap exceptional normalization b.columnBound le_rfl broadRows
+    (b.firstBox.cutoff Z) (b.firstBox.cutoff_ge_one (hZ).le)
+    source stages (raw).originalAtlas hcap exceptional normalization b.columnBound le_rfl broadRows
     (1 : Ideal (𝓞 K)) squarefree_one one_ne_zero (fun _ _ => one_dvd _)
     (1 : Ideal (𝓞 K)) one_ne_zero hmask hmaskNorm hN lower 0 hwindow hleaf
   have hsum' : cost ≤
@@ -467,7 +467,7 @@ theorem literalPrimitivePooledEngineExceptionalCost_le :
     _ ≤ _ := CanonicalPrimitiveEngineControl.monomial_mono
       (CanonicalPrimitiveExceptionalChoices.constant_pos μv ν C hDiff b primitive).le
       hcoefficient (CanonicalPrimitiveEngineControl.one_le amplitude t hamplitude)
-      hZ.le le_rfl (CanonicalPrimitiveExceptionalChoices.terminal_exponent_le b b.paddingMax le_rfl)
+      (hZ).le le_rfl (CanonicalPrimitiveExceptionalChoices.terminal_exponent_le b b.paddingMax le_rfl)
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

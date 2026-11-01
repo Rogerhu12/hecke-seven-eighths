@@ -66,7 +66,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -357,7 +357,7 @@ local notation "fixedSecondKernel" =>
 
 /-- This is the geometry already used in the selected direct factory. -/
 def literalPrimitiveDirectGeometryAt
-    (j : stages.prepared.liveLeaves raw.originalAtlas exceptional normalization) :
+    (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
     OriginalNominalGeometry (K := K) internal Z step := by
   rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
   · let baseGeometry := Q.literalPrimitiveLeftDirectGeometry
@@ -384,7 +384,7 @@ def literalPrimitiveDirectGeometryAt
       (leaf.1.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ leaf.1.rowLabel)
 
 def literalPrimitiveDirectRootLength
-    (j : stages.prepared.liveLeaves raw.originalAtlas exceptional normalization) : ℝ := by
+    (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) : ℝ := by
   rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
   all_goals
     exact idealLogLength Z (secondSixthRootIdeal leaf.1.block.primes
@@ -424,7 +424,7 @@ local notation "rawWidthAt" => fun j =>
     (geometryAt j).literalSupportParameter (rootLengthAt j)
 
 theorem literalPrimitiveDirectKernelMass_coefficient
-    (j : stages.prepared.liveLeaves raw.originalAtlas exceptional normalization) :
+    (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
     (massCertificates j).coefficient =
       CanonicalLiteralPrimitiveMassCoefficient.kernelCoefficient K A σ ω ψ cap orders
         lo hi hlo δ₁ δ₂ δ mesh Z analyticHeight (rawWidthAt j) originalBound
@@ -432,11 +432,11 @@ theorem literalPrimitiveDirectKernelMass_coefficient
   rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩ <;> rfl
 
 theorem literalPrimitiveDirectIndexedWeight_cost
-    (j : stages.prepared.liveLeaves raw.originalAtlas exceptional normalization) :
+    (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
     (indexCertificates j).cost =
       CanonicalLiteralPrimitiveMassCoefficient.indexCoefficient K cap hi originalBound unitIndex
-        Z error mesh internal.m
-        (internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength)
+        Z error mesh (internal).m
+        ((internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength)
         (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) j.val.2.1.val).val)
         (idealLogLength Z (firstActiveRadical j.val.1.val.1 j.val.1.val.2)) δ₁ δ₂ 0 := by
   rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
@@ -448,12 +448,12 @@ theorem literalPrimitiveDirectIndexedWeight_cost
 the complete root cost then gives a uniform raw width on this family. -/
 theorem literalPrimitiveDirect_rawWidth_le
     (columnBound : ℝ)
-    (hN : ∀ i ∈ source.columns, (Ideal.absNorm (source.ideal i).val : ℝ) ≤ Z ^ columnBound)
-    (j : stages.prepared.liveLeaves raw.originalAtlas exceptional normalization) :
+    (hN : ∀ i ∈ (source).columns, (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ columnBound)
+    (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
     rawWidthAt j ≤ a.m + a.q + columnBound + (2 * loss + cutoffExponent) := by
-  have hn := (stages.prepared j.val.1 j.val.2.1).commonLabel_norm_le
-    raw.originalAtlas raw.originalAtlas (Z ^ columnBound) hN hN j.val.2.2
-  have hwidth : internal.m + internal.q = a.m + a.q := Q.fullSupportParameters_width a Z
+  have hn := ((stages).prepared j.val.1 j.val.2.1).commonLabel_norm_le
+    (raw).originalAtlas (raw).originalAtlas (Z ^ columnBound) hN hN j.val.2.2
+  have hwidth : (internal).m + (internal).q = a.m + a.q := Q.fullSupportParameters_width a Z
   rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
   all_goals
     have hg := (geometryAt ⟨⟨DE, D, S, χ, _⟩, hj⟩).literalRawWidth_le_second_box
@@ -469,15 +469,15 @@ theorem literalPrimitiveDirect_rawWidth_le
 /-- The actual first source has unit fibre; each original signed second
 row image has orbital multiplicity at most one. -/
 theorem literalPrimitiveDirect_originalScalar_bounds
-    (j : stages.prepared.liveLeaves raw.originalAtlas exceptional normalization) :
-    0 ≤ stages.prepared.originalScalarAt raw.originalAtlas j.val ∧
-      stages.prepared.originalScalarAt raw.originalAtlas j.val ≤ 1 / 2 := by
+    (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
+    0 ≤ (stages).prepared.originalScalarAt (raw).originalAtlas j.val ∧
+      (stages).prepared.originalScalarAt (raw).originalAtlas j.val ≤ 1 / 2 := by
   rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
   · have hf : engineOrbitMultiplicity
         (Γ := sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-        (source.pieces DE D).leftData.rows ≤ 1 :=
-      canonicalFirstLeftGaussData_orbit_multiplicity_le_one C source.columns source.columns
-        source.ideal source.ideal DE.val DE.property _
+        ((source).pieces DE D).leftData.rows ≤ 1 :=
+      canonicalFirstLeftGaussData_orbit_multiplicity_le_one C (source).columns (source).columns
+        (source).ideal (source).ideal DE.val DE.property _
     have hp : (((stages DE D).left S χ).supported.gated).fiber ≤ 1 := by
       change (if _ then 0 else _) ≤ 1
       split_ifs
@@ -491,9 +491,9 @@ theorem literalPrimitiveDirect_originalScalar_bounds
     · simpa only [one_mul] using (div_le_div_of_nonneg_right hf' (by norm_num : (0 : ℝ) ≤ 2))
   · have hf : engineOrbitMultiplicity
         (Γ := sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-        (source.pieces DE D).rightData.rows ≤ 1 :=
-      canonicalFirstRightGaussData_orbit_multiplicity_le_one C source.columns source.columns
-        source.ideal source.ideal DE.val DE.property _
+        ((source).pieces DE D).rightData.rows ≤ 1 :=
+      canonicalFirstRightGaussData_orbit_multiplicity_le_one C (source).columns (source).columns
+        (source).ideal (source).ideal DE.val DE.property _
     have hp : (((stages DE D).right S χ).supported.gated).fiber ≤ 1 := by
       change (if _ then 0 else _) ≤ 1
       split_ifs
@@ -511,10 +511,10 @@ windows, proved here without inspecting a normalized child. -/
 theorem literalPrimitiveDirect_firstNumericWindows
     (lengthBound columnBound : ℝ)
     (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-    (hN : ∀ i ∈ source.columns, (Ideal.absNorm (source.ideal i).val : ℝ) ≤ Z ^ columnBound)
-    (j : stages.prepared.liveLeaves raw.originalAtlas exceptional normalization) :
-    0 ≤ internal.m ∧
-      internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength ≤ lengthBound ∧
+    (hN : ∀ i ∈ (source).columns, (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ columnBound)
+    (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
+    0 ≤ (internal).m ∧
+      (internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength ≤ lengthBound ∧
       idealLogLength Z (firstPhysicalDivisorIdeal (A := A) j.val.2.1.val).val ≤ columnBound ∧
       idealLogLength Z (firstActiveRadical j.val.1.val.1 j.val.1.val.2) ≤ columnBound := by
   have hm := Q.literalPrimitiveCommon_m_nonneg μv ν C hroot hemb W ξ

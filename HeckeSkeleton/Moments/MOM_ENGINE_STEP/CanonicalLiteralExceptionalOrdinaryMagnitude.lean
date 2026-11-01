@@ -110,13 +110,13 @@ local notation "ER" => CanonicalLiteralExceptionalFactory.comparison
 both actual atom tables retain the original ordinary flag. -/
 theorem pair_magnitude_eq (hleft : left.centered = false)
     (hright : right.centered = false) (ξ : WithLp 2 (ℝ × ℝ)) :
-    leftFrame.exceptionalMagnitude rightFrame EL ER Q ξ =
-      leftFrame.ordinaryExceptionalMagnitude rightFrame Q ξ := by
-  have hL : leftFrame.centeredCoefficient EL = leftFrame.coefficient := by
+    (leftFrame).exceptionalMagnitude rightFrame EL ER Q ξ =
+      (leftFrame).ordinaryExceptionalMagnitude rightFrame Q ξ := by
+  have hL : (leftFrame).centeredCoefficient EL = (leftFrame).coefficient := by
     funext h i
     exact left.exceptional_frame_coefficient_ordinary rows .left phase leftIdeal hleftIdeal
       firstLeftSign L leftSelection hleftColumns hleft h i
-  have hR : rightFrame.centeredCoefficient ER = rightFrame.coefficient := by
+  have hR : (rightFrame).centeredCoefficient ER = (rightFrame).coefficient := by
     funext h i
     exact right.exceptional_frame_coefficient_ordinary rows .right phase rightIdeal hrightIdeal
       firstRightSign L rightSelection hrightColumns hright h i

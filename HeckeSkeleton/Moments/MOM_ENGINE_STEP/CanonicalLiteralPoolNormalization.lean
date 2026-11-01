@@ -64,9 +64,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -140,7 +140,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (((p.leftSourceCovers raw.originalAtlas S χ).residual q n))
+local notation "cover" => (((p.leftSourceCovers (raw).originalAtlas S χ).residual q n))
 local notation "firstPoint" => (fun i : (p.divisorPools.leftData S).valuationColumns q.val n =>
   -Real.log (A.exteriorNorm (b.leftResidual i.val)))
 
@@ -243,9 +243,9 @@ variable (hexceptional : (v.leaf exceptional F firstPoint j).exceptional = fun h
 leaf. Applying the returned function supplies only the individual
 analytic certificates for the computed original characters. -/
 def literalLeftPoolNormalizationData :=
-  let enhancedCharacter := fun E : commonSupportPool source.columns source.columns
-      (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) =>
-    (canonicalFirstCommonBlock C source.columns source.columns source.ideal source.ideal
+  let enhancedCharacter := fun E : commonSupportPool (source).columns (source).columns
+      (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) =>
+    (canonicalFirstCommonBlock C (source).columns (source).columns (source).ideal (source).ideal
       E.val E.property).sectorCharacter C P (character E)
   have bareLive : (v.leaf exceptional F firstPoint j).Live :=
     (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive
@@ -376,7 +376,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (((p.rightSourceCovers raw.originalAtlas S χ).residual q n))
+local notation "cover" => (((p.rightSourceCovers (raw).originalAtlas S χ).residual q n))
 local notation "firstPoint" => (fun i : (p.divisorPools.rightData S).valuationColumns q.val n =>
   Real.log (A.exteriorNorm (b.rightResidual i.val)))
 
@@ -479,9 +479,9 @@ variable (hexceptional : (v.leaf exceptional F firstPoint j).exceptional = fun h
 leaf. Applying the returned function supplies only the individual
 analytic certificates for the computed original characters. -/
 def literalRightPoolNormalizationData :=
-  let enhancedCharacter := fun E : commonSupportPool source.columns source.columns
-      (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) =>
-    (canonicalFirstCommonBlock C source.columns source.columns source.ideal source.ideal
+  let enhancedCharacter := fun E : commonSupportPool (source).columns (source).columns
+      (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) =>
+    (canonicalFirstCommonBlock C (source).columns (source).columns (source).ideal (source).ideal
       E.val E.property).sectorCharacter C P (character E)
   have bareLive : (v.leaf exceptional F firstPoint j).Live :=
     (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive

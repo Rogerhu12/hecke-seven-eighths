@@ -88,7 +88,7 @@ local notation "D'" => D.withCosts rowCost scalarCost fibers hrow hscalar row_bo
 
 /-- Choosing the actual arithmetic costs retains every primitive
 capacity input, including its original varying single-prime bound. -/
-def capacityInput (I : D.CapacityInput) : D'.CapacityInput where
+def capacityInput (I : D.CapacityInput) : (D').CapacityInput where
   skeleton := I.skeleton
   b₂ := I.b₂
   p₂ := I.p₂

@@ -65,7 +65,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -123,7 +123,7 @@ local notation "stages" => Q.literalPrimitiveDirectStages μv ν C hroot hemb W 
 /-- The whole direct family is calibrated from the original atoms.
 There are no per-source terminal-calibration arguments. -/
 def literalPrimitiveDirectDualCalibration :
-    stages.DualTerminalCalibration sTail sZero (2 * (cap + 2)) degree Nsave decay := by
+    (stages).DualTerminalCalibration sTail sZero (2 * (cap + 2)) degree Nsave decay := by
   have hN := Q.literalPrimitiveFirstSource_column_norm μv ν C hroot hemb W ξ
     a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
     cap annulus loss leftExponent rightExponent columnBound hannulus hcap hannulusZ
@@ -132,7 +132,7 @@ def literalPrimitiveDirectDualCalibration :
     simpa only [Q.literalPrimitiveFirstSource_pairedRows] using hrows
   have domainInternal : PairedEngineDomain centered (data ξ) internal Z Y₁ Y₂ floor padding :=
     domain.withSupportLength (Q.fullSupportLength Z)
-  have htotalInternal : internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength ≤ lengthBound := by
+  have htotalInternal : (internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength ≤ lengthBound := by
     simpa only [← domain.total_length] using htotal
   have hcoarseNonneg : 0 ≤ leftExponent + rightExponent + (data ξ).geometry.totalLength + loss := by
     have hl := (Real.rpow_le_rpow_left_iff hZ).mp hleftPower
@@ -163,13 +163,13 @@ def literalPrimitiveDirectDualCalibration :
       (Y₁ := Y₁)
       (Y₂ := Y₂)
       (centered := centered)
-      (b := source.block DE)
+      (b := (source).block DE)
       (C := C)
       (φ := CanonicalRowBall.archTest K A.Sf 1)
       (firstFiniteTest := rowBallFiniteFamily K A.Sf 1)
       (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
       (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
-      (firstRadius := source.radius)
+      (firstRadius := (source).radius)
       (firstMask := D.val)
       (δ := δ₁)
       (hδ := hδ₁)
@@ -213,7 +213,7 @@ def literalPrimitiveDirectDualCalibration :
       (hcoarseNonneg := hcoarseNonneg)
       (hcoarse := hcolumn)
       (hloss := hlossOne)
-      (p := source.pieces DE D)
+      (p := (source).pieces DE D)
       (S := S)
       (χ := χ)
       (inverseRadiusExponent := (leftGeometry DE D).retainedLength + (leftGeometry DE D).enlargement)
@@ -236,13 +236,13 @@ def literalPrimitiveDirectDualCalibration :
       (Y₁ := Y₁)
       (Y₂ := Y₂)
       (centered := centered)
-      (b := source.block DE)
+      (b := (source).block DE)
       (C := C)
       (φ := CanonicalRowBall.archTest K A.Sf 1)
       (firstFiniteTest := rowBallFiniteFamily K A.Sf 1)
       (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
       (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
-      (firstRadius := source.radius)
+      (firstRadius := (source).radius)
       (firstMask := D.val)
       (δ := δ₁)
       (hδ := hδ₁)
@@ -286,7 +286,7 @@ def literalPrimitiveDirectDualCalibration :
       (hcoarseNonneg := hcoarseNonneg)
       (hcoarse := hcolumn)
       (hloss := hlossOne)
-      (p := source.pieces DE D)
+      (p := (source).pieces DE D)
       (S := S)
       (χ := χ)
       (inverseRadiusExponent := (rightGeometry DE D).retainedLength + (rightGeometry DE D).enlargement)

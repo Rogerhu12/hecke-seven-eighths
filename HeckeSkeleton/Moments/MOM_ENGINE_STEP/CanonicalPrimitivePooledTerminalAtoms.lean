@@ -64,7 +64,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -211,16 +211,16 @@ local notation "tailProfile" => (2 * amplitude ^ (cap + 2)) ^ 2 *
 local notation "zeroProfile" => (2 * amplitude ^ (cap + 2)) ^ 2 *
   sZero.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (CanonicalRowBall.archTest K A.Sf 1)
-local notation "geometry" => fun DE : source.CommonLabel =>
-  fun D : ((source.block DE).mask source.mask).powerset =>
-  (source.block DE).pooledTerminalGeometry internal pool D.val
+local notation "geometry" => fun DE : (source).CommonLabel =>
+  fun D : (((source).block DE).mask (source).mask).powerset =>
+  ((source).block DE).pooledTerminalGeometry internal pool D.val
     (2 * loss + cutoffExponent) (by positivity)
 
 /-- The left main and 1/6/7 amplitudes on their actual common divisor. -/
 theorem literalPrimitivePooledTerminal_left_atoms
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pools DE D).rightData.columns
-      (fun j => ((source.pools DE D).rightData.ideal j).val))
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pools DE D).rightData.columns
+      (fun j => (((source).pools DE D).rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) (tag : PoolSourceTag pool) :
     (((terminal DE D).left S χ).tag tag).windows.multiplicity ≤
         idealDivisorCount (DE.val.1 ^ 2) ^ tupleDegree * 15 ^ tupleDegree ∧
@@ -232,8 +232,8 @@ theorem literalPrimitivePooledTerminal_left_atoms
         (((terminal DE D).left S χ).tag tag).zeroAmplitude ≤
           (zeroProfile * poolTagNormCharge pool tag / (Ideal.absNorm S.val : ℝ)) *
             Z ^ (geometry DE D false tag).sharpZeroExponent loss δ₁) := by
-  have hDE := actual_common_pair_properties firstSource.columns firstSource.columns
-    (fun i => (firstSource.ideal i).val) (fun i => (firstSource.ideal i).val) DE
+  have hDE := actual_common_pair_properties (firstSource).columns (firstSource).columns
+    (fun i => ((firstSource).ideal i).val) (fun i => ((firstSource).ideal i).val) DE
   have htotal' : a.n₁ + a.n₂ + (data ξ).geometry.totalLength ≤
       max lengthBound columnBound := by
     rw [← domain.total_length]
@@ -260,7 +260,7 @@ theorem literalPrimitivePooledTerminal_left_atoms
           (geometry DE D false b).tag.poolLength step)) :
       v ≤ (zeroProfile * poolTagNormCharge pool b / (Ideal.absNorm S.val : ℝ)) *
         Z ^ (geometry DE D false b).sharpZeroExponent loss δ₁ := by
-    have hb := (source.block DE).pooledTerminalGeometry_charge internal pool D.val
+    have hb := ((source).block DE).pooledTerminalGeometry_charge internal pool D.val
       (2 * loss + cutoffExponent) (by positivity) false b
     have hs := terminal_amplitude_shift_by_charge Z zeroProfile (Ideal.absNorm S.val : ℝ)
       ((geometry DE D false b).sharpZeroExponent loss δ₁ + (geometry DE D false b).tag.poolLength step)
@@ -320,9 +320,9 @@ theorem literalPrimitivePooledTerminal_left_atoms
 
 /-- The right main and 1/6/7 amplitudes on their actual common divisor. -/
 theorem literalPrimitivePooledTerminal_right_atoms
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pools DE D).rightData.columns
-      (fun j => ((source.pools DE D).rightData.ideal j).val))
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pools DE D).rightData.columns
+      (fun j => (((source).pools DE D).rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) (tag : PoolSourceTag pool) :
     (((terminal DE D).right S χ).tag tag).windows.multiplicity ≤
         idealDivisorCount (DE.val.2 ^ 2) ^ tupleDegree * 15 ^ tupleDegree ∧
@@ -334,8 +334,8 @@ theorem literalPrimitivePooledTerminal_right_atoms
         (((terminal DE D).right S χ).tag tag).zeroAmplitude ≤
           (zeroProfile * poolTagNormCharge pool tag / (Ideal.absNorm S.val : ℝ)) *
             Z ^ (geometry DE D true tag).sharpZeroExponent loss δ₁) := by
-  have hDE := actual_common_pair_properties firstSource.columns firstSource.columns
-    (fun i => (firstSource.ideal i).val) (fun i => (firstSource.ideal i).val) DE
+  have hDE := actual_common_pair_properties (firstSource).columns (firstSource).columns
+    (fun i => ((firstSource).ideal i).val) (fun i => ((firstSource).ideal i).val) DE
   have htotal' : a.n₁ + a.n₂ + (data ξ).geometry.totalLength ≤
       max lengthBound columnBound := by
     rw [← domain.total_length]
@@ -362,7 +362,7 @@ theorem literalPrimitivePooledTerminal_right_atoms
           (geometry DE D true b).tag.poolLength step)) :
       v ≤ (zeroProfile * poolTagNormCharge pool b / (Ideal.absNorm S.val : ℝ)) *
         Z ^ (geometry DE D true b).sharpZeroExponent loss δ₁ := by
-    have hb := (source.block DE).pooledTerminalGeometry_charge internal pool D.val
+    have hb := ((source).block DE).pooledTerminalGeometry_charge internal pool D.val
       (2 * loss + cutoffExponent) (by positivity) true b
     have hs := terminal_amplitude_shift_by_charge Z zeroProfile (Ideal.absNorm S.val : ℝ)
       ((geometry DE D true b).sharpZeroExponent loss δ₁ + (geometry DE D true b).tag.poolLength step)

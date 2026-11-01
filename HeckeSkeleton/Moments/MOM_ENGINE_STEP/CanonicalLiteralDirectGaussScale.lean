@@ -57,9 +57,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -91,7 +91,7 @@ theorem literalLeftDirectAtoms_gaussScale_lower
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (label : (p.leftSourceCover raw.originalAtlas S χ).labels)
+    (δ₂ : ℝ) (label : (p.leftSourceCover (raw).originalAtlas S χ).labels)
     {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
     {heightDomain window : Set ℝ} {seminorms : Finset (ℕ × ℕ)} {amplitude : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window seminorms (data ξ) amplitude)
@@ -100,11 +100,11 @@ theorem literalLeftDirectAtoms_gaussScale_lower
       (literalLeftDirectAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
         b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
         firstFixed hfirst δ₂ label).gaussScale := by
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.1 label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
   have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
       branch.keep branch.witness.2 = DE.1 :=
     branch.frozenSourceIdeal_eq.trans
-      (raw.originalAtlas.branch_product (primeSupport DE.1) DE.1 label)
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.1 label)
   have h := Q.literalOriginalAtoms_secondInput_gaussScale_lower (σ := σ)
     ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ branch
     (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
@@ -126,7 +126,7 @@ theorem literalRightDirectAtoms_gaussScale_lower
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (label : (p.rightSourceCover raw.originalAtlas S χ).labels)
+    (δ₂ : ℝ) (label : (p.rightSourceCover (raw).originalAtlas S χ).labels)
     {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
     {heightDomain window : Set ℝ} {seminorms : Finset (ℕ × ℕ)} {amplitude : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window seminorms (data ξ) amplitude)
@@ -135,11 +135,11 @@ theorem literalRightDirectAtoms_gaussScale_lower
       (literalRightDirectAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
         b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
         firstFixed hfirst δ₂ label).gaussScale := by
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.2 label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
   have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
       branch.keep branch.witness.2 = DE.2 :=
     branch.frozenSourceIdeal_eq.trans
-      (raw.originalAtlas.branch_product (primeSupport DE.1) DE.2 label)
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.2 label)
   have h := Q.literalOriginalAtoms_secondInput_gaussScale_lower (σ := σ)
     ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ branch
     (unitExterior A) firstFixed (unitExterior A) (unitExterior A)

@@ -63,7 +63,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -128,9 +128,9 @@ local notation "terminal" => Q.literalPrimitiveDirectDualCalibration
 
 /-- Exact counting data and sharp original amplitudes for the left source. -/
 theorem literalPrimitiveDirectDualCalibration_left_bounds
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pieces DE D).rightData.columns
-      (fun j => ((source.pieces DE D).rightData.ideal j).val))
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pieces DE D).rightData.columns
+      (fun j => (((source).pieces DE D).rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) :
     ((terminal DE D).left S χ).windows.multiplicity =
         idealDivisorCount (DE.val.1 ^ 2) ^ (2 * (cap + 2)) ∧
@@ -156,7 +156,7 @@ theorem literalPrimitiveDirectDualCalibration_left_bounds
     simpa only [Q.literalPrimitiveFirstSource_pairedRows] using hrows
   have domainInternal : PairedEngineDomain centered (data ξ) internal Z Y₁ Y₂ floor padding :=
     domain.withSupportLength (Q.fullSupportLength Z)
-  have htotalInternal : internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength ≤ lengthBound := by
+  have htotalInternal : (internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength ≤ lengthBound := by
     simpa only [← domain.total_length] using htotal
   have hcoarseNonneg : 0 ≤ leftExponent + rightExponent + (data ξ).geometry.totalLength + loss := by
     have hl := (Real.rpow_le_rpow_left_iff hZ).mp hleftPower
@@ -176,9 +176,9 @@ theorem literalPrimitiveDirectDualCalibration_left_bounds
     (μv := μv) (ν := ν) (Q := Q)
     (W := W) (ξ := ξ) (a := internal)
     (Z := Z) (t := t) (Y₁ := Y₁)
-    (Y₂ := Y₂) (centered := centered) (b := source.block DE)
+    (Y₂ := Y₂) (centered := centered) (b := (source).block DE)
     (C := C) (φ := CanonicalRowBall.archTest K A.Sf 1) (firstFiniteTest := rowBallFiniteFamily K A.Sf 1)
-    (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1) (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1) (firstRadius := source.radius)
+    (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1) (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1) (firstRadius := (source).radius)
     (firstMask := D.val) (δ := δ₁) (hδ := hδ₁)
     (hδhalf := hδ₁half) (cap := cap) (hcap := hcap)
     (orders := orders) (B := amplitude) (lo := lo)
@@ -193,22 +193,22 @@ theorem literalPrimitiveDirectDualCalibration_left_bounds
     (totalBound := lengthBound) (coarseBound := columnBound) (frozenBound := columnBound + 7 * (step / 3))
     (radiusBound := 4 * max lengthBound columnBound + (2 * loss + cutoffExponent) + 2 * step) (Nsave := Nsave) (decay := decay)
     (htotal := htotalInternal) (hcoarseNonneg := hcoarseNonneg) (hcoarse := hcolumn)
-    (hloss := hlossOne) (p := source.pieces DE D) (S := S)
+    (hloss := hlossOne) (p := (source).pieces DE D) (S := S)
     (χ := χ) (inverseRadiusExponent := (leftGeometry DE D).retainedLength + (leftGeometry DE D).enlargement) (hinverse := hleftRadius)
     (s := (stages DE D).left S χ) (hfrozen := hlengths.1.trans (le_add_of_nonneg_right (by positivity))) (hmaskEmpty := rfl)
     (hradius := ((leftGeometry DE D).canonical_inverse_radius hZ).le) (hcutoff := rfl)
   refine ⟨hmetadata.1, hmetadata.2, ?_⟩
   intro hphysicalFiber
-  have hphysical : ((source.pieces DE D).leftData.directSource
-      ((source.pieces DE D).leftDivisorCoefficient S χ)).rows.Nonempty :=
+  have hphysical : (((source).pieces DE D).leftData.directSource
+      (((source).pieces DE D).leftDivisorCoefficient S χ)).rows.Nonempty :=
     engineOrbitMultiplicity_rows_nonempty _ hphysicalFiber
   exact canonicalLeftOriginalDualCalibration_amplitude_bounds
     (μv := μv) (ν := ν) (Q := Q)
     (W := W) (ξ := ξ) (a := internal)
     (Z := Z) (t := t) (Y₁ := Y₁)
-    (Y₂ := Y₂) (centered := centered) (b := source.block DE)
+    (Y₂ := Y₂) (centered := centered) (b := (source).block DE)
     (C := C) (φ := CanonicalRowBall.archTest K A.Sf 1) (firstFiniteTest := rowBallFiniteFamily K A.Sf 1)
-    (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1) (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1) (firstRadius := source.radius)
+    (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1) (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1) (firstRadius := (source).radius)
     (firstMask := D.val) (δ := δ₁) (hδ := hδ₁)
     (hδhalf := hδ₁half) (cap := cap) (hcap := hcap)
     (orders := orders) (B := amplitude) (lo := lo)
@@ -223,16 +223,16 @@ theorem literalPrimitiveDirectDualCalibration_left_bounds
     (totalBound := lengthBound) (coarseBound := columnBound) (frozenBound := columnBound + 7 * (step / 3))
     (radiusBound := 4 * max lengthBound columnBound + (2 * loss + cutoffExponent) + 2 * step) (Nsave := Nsave) (decay := decay)
     (htotal := htotalInternal) (hcoarseNonneg := hcoarseNonneg) (hcoarse := hcolumn)
-    (hloss := hlossOne) (p := source.pieces DE D) (S := S)
+    (hloss := hlossOne) (p := (source).pieces DE D) (S := S)
     (χ := χ) (inverseRadiusExponent := (leftGeometry DE D).retainedLength + (leftGeometry DE D).enlargement) (hinverse := hleftRadius)
     (s := (stages DE D).left S χ) (hfrozen := hlengths.1.trans (le_add_of_nonneg_right (by positivity))) (hmaskEmpty := rfl)
     (hradius := ((leftGeometry DE D).canonical_inverse_radius hZ).le) (hcutoff := rfl) (hphysical := hphysical)
 
 /-- Exact counting data and sharp original amplitudes for the right source. -/
 theorem literalPrimitiveDirectDualCalibration_right_bounds
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pieces DE D).rightData.columns
-      (fun j => ((source.pieces DE D).rightData.ideal j).val))
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pieces DE D).rightData.columns
+      (fun j => (((source).pieces DE D).rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) :
     ((terminal DE D).right S χ).windows.multiplicity =
         idealDivisorCount (DE.val.2 ^ 2) ^ (2 * (cap + 2)) ∧
@@ -258,7 +258,7 @@ theorem literalPrimitiveDirectDualCalibration_right_bounds
     simpa only [Q.literalPrimitiveFirstSource_pairedRows] using hrows
   have domainInternal : PairedEngineDomain centered (data ξ) internal Z Y₁ Y₂ floor padding :=
     domain.withSupportLength (Q.fullSupportLength Z)
-  have htotalInternal : internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength ≤ lengthBound := by
+  have htotalInternal : (internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength ≤ lengthBound := by
     simpa only [← domain.total_length] using htotal
   have hcoarseNonneg : 0 ≤ leftExponent + rightExponent + (data ξ).geometry.totalLength + loss := by
     have hl := (Real.rpow_le_rpow_left_iff hZ).mp hleftPower
@@ -278,9 +278,9 @@ theorem literalPrimitiveDirectDualCalibration_right_bounds
     (μv := μv) (ν := ν) (Q := Q)
     (W := W) (ξ := ξ) (a := internal)
     (Z := Z) (t := t) (Y₁ := Y₁)
-    (Y₂ := Y₂) (centered := centered) (b := source.block DE)
+    (Y₂ := Y₂) (centered := centered) (b := (source).block DE)
     (C := C) (φ := CanonicalRowBall.archTest K A.Sf 1) (firstFiniteTest := rowBallFiniteFamily K A.Sf 1)
-    (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1) (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1) (firstRadius := source.radius)
+    (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1) (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1) (firstRadius := (source).radius)
     (firstMask := D.val) (δ := δ₁) (hδ := hδ₁)
     (hδhalf := hδ₁half) (cap := cap) (hcap := hcap)
     (orders := orders) (B := amplitude) (lo := lo)
@@ -295,22 +295,22 @@ theorem literalPrimitiveDirectDualCalibration_right_bounds
     (totalBound := lengthBound) (coarseBound := columnBound) (frozenBound := columnBound + 7 * (step / 3))
     (radiusBound := 4 * max lengthBound columnBound + (2 * loss + cutoffExponent) + 2 * step) (Nsave := Nsave) (decay := decay)
     (htotal := htotalInternal) (hcoarseNonneg := hcoarseNonneg) (hcoarse := hcolumn)
-    (hloss := hlossOne) (p := source.pieces DE D) (S := S)
+    (hloss := hlossOne) (p := (source).pieces DE D) (S := S)
     (χ := χ) (inverseRadiusExponent := (rightGeometry DE D).retainedLength + (rightGeometry DE D).enlargement) (hinverse := hrightRadius)
     (s := (stages DE D).right S χ) (hfrozen := hlengths.2.1.trans (le_add_of_nonneg_right (by positivity))) (hmaskEmpty := rfl)
     (hradius := ((rightGeometry DE D).canonical_inverse_radius hZ).le) (hcutoff := rfl)
   refine ⟨hmetadata.1, hmetadata.2, ?_⟩
   intro hphysicalFiber
-  have hphysical : ((source.pieces DE D).rightData.directSource
-      ((source.pieces DE D).rightDivisorCoefficient S χ)).rows.Nonempty :=
+  have hphysical : (((source).pieces DE D).rightData.directSource
+      (((source).pieces DE D).rightDivisorCoefficient S χ)).rows.Nonempty :=
     engineOrbitMultiplicity_rows_nonempty _ hphysicalFiber
   exact canonicalRightOriginalDualCalibration_amplitude_bounds
     (μv := μv) (ν := ν) (Q := Q)
     (W := W) (ξ := ξ) (a := internal)
     (Z := Z) (t := t) (Y₁ := Y₁)
-    (Y₂ := Y₂) (centered := centered) (b := source.block DE)
+    (Y₂ := Y₂) (centered := centered) (b := (source).block DE)
     (C := C) (φ := CanonicalRowBall.archTest K A.Sf 1) (firstFiniteTest := rowBallFiniteFamily K A.Sf 1)
-    (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1) (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1) (firstRadius := source.radius)
+    (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1) (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1) (firstRadius := (source).radius)
     (firstMask := D.val) (δ := δ₁) (hδ := hδ₁)
     (hδhalf := hδ₁half) (cap := cap) (hcap := hcap)
     (orders := orders) (B := amplitude) (lo := lo)
@@ -325,7 +325,7 @@ theorem literalPrimitiveDirectDualCalibration_right_bounds
     (totalBound := lengthBound) (coarseBound := columnBound) (frozenBound := columnBound + 7 * (step / 3))
     (radiusBound := 4 * max lengthBound columnBound + (2 * loss + cutoffExponent) + 2 * step) (Nsave := Nsave) (decay := decay)
     (htotal := htotalInternal) (hcoarseNonneg := hcoarseNonneg) (hcoarse := hcolumn)
-    (hloss := hlossOne) (p := source.pieces DE D) (S := S)
+    (hloss := hlossOne) (p := (source).pieces DE D) (S := S)
     (χ := χ) (inverseRadiusExponent := (rightGeometry DE D).retainedLength + (rightGeometry DE D).enlargement) (hinverse := hrightRadius)
     (s := (stages DE D).right S χ) (hfrozen := hlengths.2.1.trans (le_add_of_nonneg_right (by positivity))) (hmaskEmpty := rfl)
     (hradius := ((rightGeometry DE D).canonical_inverse_radius hZ).le) (hcutoff := rfl) (hphysical := hphysical)

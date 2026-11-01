@@ -118,8 +118,8 @@ variable (error : ℝ) (herr : 0 ≤ error)
 on every rectangle, including one whose source is identically zero. -/
 def factorsOriginalSixthLengthsAll :
     D.OriginalSixthLengthBinding parent a step G rootLength := by
-  have hproduct : f.source.scale₁ * f.source.scale₂ * f.source.base ^ f.source.beforeLength ≤
-      f.source.base ^ (G.skeleton.rawDegree +
+  have hproduct : (f).source.scale₁ * (f).source.scale₂ * (f).source.base ^ (f).source.beforeLength ≤
+      (f).source.base ^ (G.skeleton.rawDegree +
         d.computedRawError G.skeleton.rawDegree error rectangle) := by
     have he := d.factors_source_scaleProduct (C := C) R side χ ideal hideal firstSign rectangle
       L selection hne
@@ -141,7 +141,7 @@ def factorsOriginalSixthLengthsAll :
       parent_region := ⟨domain.kappa_lower, domain.kappa_upper, domain.capacity⟩
       kappa := hκ
       direct_slots := ?_
-      scales := (G.literalEndpointWindows f.source.base_gt_one cutoff rootLength hcutoff hsmall)
+      scales := (G.literalEndpointWindows (f).source.base_gt_one cutoff rootLength hcutoff hsmall)
         .reparameterize hm (congrArg (fun y : ℝ => y - rootLength) hq)
       rawScaleError := d.computedRawError G.skeleton.rawDegree error rectangle
       rawScaleError_nonneg := d.computedRawError_nonneg G.skeleton.rawDegree error rectangle herr
@@ -174,8 +174,8 @@ theorem factorsOriginalSixthLengthsAll_eq
     (hbound : d.scaleProduct rectangle *
       ((Ideal.absNorm G.literalFirstExtraction.val : ℝ) *
         (Ideal.absNorm G.ideals.second.val : ℝ)) ≤
-      annulus ^ (2 * cap) * f.source.base ^ (a.n₁ + a.n₂ + a.z))
-    (hthreshold : annulus ^ (2 * cap) ≤ f.source.base ^ error) :
+      annulus ^ (2 * cap) * (f).source.base ^ (a.n₁ + a.n₂ + a.z))
+    (hthreshold : annulus ^ (2 * cap) ≤ (f).source.base ^ error) :
     d.factorsOriginalSixthLengthsAll R side χ ideal hideal firstSign rectangle L selection hne
       D parent a step G domain slots direct cutoff rootLength hcutoff hsmall hparameters error herr =
     d.factorsOriginalSixthLengths R side χ ideal hideal firstSign rectangle L selection hne

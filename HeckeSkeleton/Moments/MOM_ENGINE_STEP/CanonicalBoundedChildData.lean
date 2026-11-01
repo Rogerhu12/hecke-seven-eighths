@@ -80,15 +80,15 @@ def baseData : MomentData K ω ψ :=
 local notation "base" => baseData parent prefix correction hcorr C primes m n pattern sector
   remaining budget anchor height index
 
-@[simp] theorem baseData_count : base.geometry.slotCount = k := rfl
+@[simp] theorem baseData_count : (base).geometry.slotCount = k := rfl
 @[simp] theorem baseData_length (i : Fin k) :
-    (base.geometry.slots i).length = (parent.geometry.slots (index i)).length := rfl
+    ((base).geometry.slots i).length = (parent.geometry.slots (index i)).length := rfl
 @[simp] theorem baseData_left (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t y : ℝ) :
-    base.plainTest₁.profile u t y = parent.plainTest₁.profile anchor height y := rfl
+    (base).plainTest₁.profile u t y = parent.plainTest₁.profile anchor height y := rfl
 @[simp] theorem baseData_right (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t y : ℝ) :
-    base.plainTest₂.profile u t y = parent.plainTest₂.profile anchor height y := rfl
+    (base).plainTest₂.profile u t y = parent.plainTest₂.profile anchor height y := rfl
 @[simp] theorem baseData_prime (i : Fin k) (t y : ℝ) :
-    (base.geometry.slots i).profile t y =
+    ((base).geometry.slots i).profile t y =
       (parent.geometry.slots (index i)).profile height y := rfl
 
 section OriginalWindow
@@ -121,21 +121,21 @@ def baseRawWindow : RawProfileWindow Set.univ Set.univ window orders base P₀ w
 variable (hpositive : window ⊆ Set.Ioi 0)
 
 include raw hanchor hheight hpositive in
-theorem base_left_positive : PositivePlainProfile base.plainTest₁ := by
+theorem base_left_positive : PositivePlainProfile (base).plainTest₁ := by
   intro u t y hy
   change parent.plainTest₁.profile anchor height y ≠ 0 at hy
   rw [raw.left_eq] at hy
   exact hpositive (raw.left_support anchor hanchor height hheight hy)
 
 include raw hanchor hheight hpositive in
-theorem base_right_positive : PositivePlainProfile base.plainTest₂ := by
+theorem base_right_positive : PositivePlainProfile (base).plainTest₂ := by
   intro u t y hy
   change parent.plainTest₂.profile anchor height y ≠ 0 at hy
   rw [raw.right_eq] at hy
   exact hpositive (raw.right_support anchor hanchor height hheight hy)
 
 include raw hanchor hheight hpositive in
-theorem base_prime_positive (i : Fin k) : PositivePrimeProfile (base.geometry.slots i) := by
+theorem base_prime_positive (i : Fin k) : PositivePrimeProfile ((base).geometry.slots i) := by
   intro t y hy
   change (parent.geometry.slots (index i)).profile height y ≠ 0 at hy
   rw [raw.prime_eq] at hy
@@ -177,29 +177,29 @@ local notation "bounded" => boundedData parent prefix correction hcorr C primes 
 
 @[simp] theorem boundedData_left (ξ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t y : ℝ) :
     (bounded ξ).plainTest₁.profile u t y =
-      ((scalars.left : ℂ) * parent.plainTest₁.profile anchor height y) *
-        leftAtom.multiplier ξ y := rfl
+      (((scalars).left : ℂ) * parent.plainTest₁.profile anchor height y) *
+        (leftAtom).multiplier ξ y := rfl
 
 @[simp] theorem boundedData_right (ξ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t y : ℝ) :
     (bounded ξ).plainTest₂.profile u t y =
-      ((scalars.right : ℂ) * parent.plainTest₂.profile anchor height y) *
-        rightAtom.multiplier ξ y := rfl
+      (((scalars).right : ℂ) * parent.plainTest₂.profile anchor height y) *
+        (rightAtom).multiplier ξ y := rfl
 
 @[simp] theorem boundedData_prime (ξ : V) (i : Fin k) (t y : ℝ) :
     ((bounded ξ).geometry.slots i).profile t y =
-      ((scalars.prime i : ℂ) * (parent.geometry.slots (index i)).profile height y) *
+      (((scalars).prime i : ℂ) * (parent.geometry.slots (index i)).profile height y) *
         (slotAtom i).multiplier ξ y := rfl
 
 /-- The finite Fourier-control package is the literal data used here.
 Its base profiles and its slot occurrences are already constructed. -/
 def originalLogProfiles : CanonicalLogProfiles.OriginalLogProfiles K ω ψ V where
-  original := scalars.data base
+  original := (scalars).data base
   left := leftAtom
   right := rightAtom
   slot := slotAtom
-  left_positive := scalars.left_positive base hleft
-  right_positive := scalars.right_positive base hright
-  slot_positive := scalars.prime_positive base hslot
+  left_positive := (scalars).left_positive base hleft
+  right_positive := (scalars).right_positive base hright
+  slot_positive := (scalars).prime_positive base hslot
 
 theorem boundedData_eq_originalLogProfiles (ξ : V) :
     bounded ξ =

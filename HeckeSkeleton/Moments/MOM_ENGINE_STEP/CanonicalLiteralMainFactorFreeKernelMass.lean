@@ -65,9 +65,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -140,7 +140,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.leftData S).mainSource (p.leftDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (((p.leftSourceCovers raw.originalAtlas S χ).main))
+local notation "cover" => (((p.leftSourceCovers (raw).originalAtlas S χ).main))
 local notation "firstPoint" => (fun i => -Real.log (A.exteriorNorm (b.leftResidual i)))
 
 variable (v : (ActualGaussStage.canonicalUnmaskedSectorRowBallByBlock
@@ -169,10 +169,10 @@ local notation "oldLeftScalar" => literalLeftMainScalar hΓ μv ν Q ξ W a Z t 
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ v.2.2.1
 local notation "oldRightScalar" => literalLeftMainScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ v.2.2.2.1
-local notation "leftAtoms" => oldLeftAtoms.redistributeNormFactors δ₁ δ₂
-local notation "rightAtoms" => oldRightAtoms.redistributeNormFactors δ₁ δ₂
-local notation "leftScalar" => oldLeftScalar * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
-local notation "rightScalar" => oldRightScalar * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+local notation "leftAtoms" => (oldLeftAtoms).redistributeNormFactors δ₁ δ₂
+local notation "rightAtoms" => (oldRightAtoms).redistributeNormFactors δ₁ δ₂
+local notation "leftScalar" => oldLeftScalar * ((oldLeftAtoms).normProfileFactor δ₁ δ₂ : ℂ)
+local notation "rightScalar" => oldRightScalar * ((oldRightAtoms).normProfileFactor δ₁ δ₂ : ℂ)
 local notation "leftBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "rightBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "fixedPhases" => CanonicalLiteralActualCharacters.unamplifiedPhases
@@ -232,9 +232,9 @@ variable (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
 the nested Fourier kernel mass estimate. Only the original individual
 character analytic certificates remain as function arguments. -/
 def literalLeftMainFactorFreeNormalizationKernelMass :=
-  let enhancedCharacter := fun E : commonSupportPool source.columns source.columns
-      (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) =>
-    (canonicalFirstCommonBlock C source.columns source.columns source.ideal source.ideal
+  let enhancedCharacter := fun E : commonSupportPool (source).columns (source).columns
+      (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) =>
+    (canonicalFirstCommonBlock C (source).columns (source).columns (source).ideal (source).ideal
       E.val E.property).sectorCharacter C P (character E)
   let baseExtraction := literalLeftMainExtraction hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
@@ -256,18 +256,18 @@ def literalLeftMainFactorFreeNormalizationKernelMass :=
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ v.2.2.2.1)
     oldRightScalar (literalLeftMainAtoms_eq_scale_core hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ v.2.2.2.1)
-  have hproductL : oldLeftAtoms.centered = true →
-      oldLeftAtoms.scale₁ true * oldLeftAtoms.scale₂ true =
-        oldLeftAtoms.scale₁ false * oldLeftAtoms.scale₂ false := by
+  have hproductL : (oldLeftAtoms).centered = true →
+      (oldLeftAtoms).scale₁ true * (oldLeftAtoms).scale₂ true =
+        (oldLeftAtoms).scale₁ false * (oldLeftAtoms).scale₂ false := by
     dsimp only [literalLeftMainAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
     apply CanonicalLiteralRectangles.Atoms.comparison_product_secondInput
     exact Q.literalOriginalAtoms_comparison_product ξ W a Z t Y₁ Y₂
       centered hZ hY₁ hY₂ domain
-  have hproductR : oldRightAtoms.centered = true →
-      oldRightAtoms.scale₁ true * oldRightAtoms.scale₂ true =
-        oldRightAtoms.scale₁ false * oldRightAtoms.scale₂ false := by
+  have hproductR : (oldRightAtoms).centered = true →
+      (oldRightAtoms).scale₁ true * (oldRightAtoms).scale₂ true =
+        (oldRightAtoms).scale₁ false * (oldRightAtoms).scale₂ false := by
     dsimp only [literalLeftMainAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
@@ -281,9 +281,9 @@ def literalLeftMainFactorFreeNormalizationKernelMass :=
     δ₁ δ₂ hproductL hproductR exceptional F firstPoint j 1 hlive
     baseExtraction baseBinding rfl rfl
   have hcL : leftScalar ≠ 0 := mul_ne_zero hcOldL
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldLeftAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldLeftAtoms).normProfileFactor_pos δ₁ δ₂)))
   have hcR : rightScalar ≠ 0 := mul_ne_zero hcOldR
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldRightAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldRightAtoms).normProfileFactor_pos δ₁ δ₂)))
   have hbL : ∀ r, 0 < leftBalance r :=
     fun _ => zero_lt_one
   have hbR : ∀ r, 0 < rightBalance r :=
@@ -336,15 +336,15 @@ def literalLeftMainFactorFreeNormalizationKernelMass :=
     rcases Q.correction_mem ξ with hc | hc
     · simpa only [hc] using hone
     · exact hc
-  let firstL := raw.originalAtlas.branch (primeSupport DE.1) DE.1 v.2.2.1
-  let firstR := raw.originalAtlas.branch (primeSupport DE.1) DE.1 v.2.2.2.1
-  have hcomparison : seed.centered = true →
-      seed.scale₁ true * seed.scale₂ true = seed.scale₁ false * seed.scale₂ false :=
+  let firstL := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 v.2.2.1
+  let firstR := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 v.2.2.2.1
+  have hcomparison : (seed).centered = true →
+      (seed).scale₁ true * (seed).scale₂ true = (seed).scale₁ false * (seed).scale₂ false :=
     Q.literalOriginalAtoms_comparison_product ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ domain
   have hcenteredL :
       (((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).balancePlain leftBalance).centered =
-        seed.centered := by
-    change (v.literalLeftAtoms oldLeftAtoms).centered = seed.centered
+        (seed).centered := by
+    change (v.literalLeftAtoms oldLeftAtoms).centered = (seed).centered
     simp only [CanonicalLiteralRectangles.Atoms.balancePlain, CanonicalLiteralRectangles.Atoms.scale,
       ActualGaussStage.CoveredClassKey.literalLeftAtoms,
       ActualGaussStage.CoveredClassKey.literalLeftOriginal,
@@ -352,44 +352,44 @@ def literalLeftMainFactorFreeNormalizationKernelMass :=
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
   have hcenteredR :
       (((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).balancePlain rightBalance).centered =
-        seed.centered := by
-    change (v.literalRightAtoms oldRightAtoms).centered = seed.centered
+        (seed).centered := by
+    change (v.literalRightAtoms oldRightAtoms).centered = (seed).centered
     simp only [CanonicalLiteralRectangles.Atoms.balancePlain, CanonicalLiteralRectangles.Atoms.scale,
       ActualGaussStage.CoveredClassKey.literalRightAtoms,
       ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
-  have hseedBaseL : (v.literalLeftOriginal leftAtoms).base = seed.base := by
-    change (v.literalLeftOriginal oldLeftAtoms).base = seed.base
+  have hseedBaseL : (v.literalLeftOriginal leftAtoms).base = (seed).base := by
+    change (v.literalLeftOriginal oldLeftAtoms).base = (seed).base
     simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
       literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
-  have hseedBaseR : (v.literalRightOriginal rightAtoms).base = seed.base := by
-    change (v.literalRightOriginal oldRightAtoms).base = seed.base
+  have hseedBaseR : (v.literalRightOriginal rightAtoms).base = (seed).base := by
+    change (v.literalRightOriginal oldRightAtoms).base = (seed).base
     simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
   have hfirstL₁ (r : Bool) :
-      (v.literalLeftOriginal leftAtoms).scale₁ r = (seed.extract firstL).scale₁ r := by
-    change (v.literalLeftOriginal oldLeftAtoms).scale₁ r = (seed.extract firstL).scale₁ r
+      (v.literalLeftOriginal leftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r := by
+    change (v.literalLeftOriginal oldLeftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r
     simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
       literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
   have hfirstL₂ (r : Bool) :
-      (v.literalLeftOriginal leftAtoms).scale₂ r = (seed.extract firstL).scale₂ r := by
-    change (v.literalLeftOriginal oldLeftAtoms).scale₂ r = (seed.extract firstL).scale₂ r
+      (v.literalLeftOriginal leftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r := by
+    change (v.literalLeftOriginal oldLeftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r
     simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
       literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
   have hfirstR₁ (r : Bool) :
-      (v.literalRightOriginal rightAtoms).scale₁ r = (seed.extract firstR).scale₁ r := by
-    change (v.literalRightOriginal oldRightAtoms).scale₁ r = (seed.extract firstR).scale₁ r
+      (v.literalRightOriginal rightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r := by
+    change (v.literalRightOriginal oldRightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r
     simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
   have hfirstR₂ (r : Bool) :
-      (v.literalRightOriginal rightAtoms).scale₂ r = (seed.extract firstR).scale₂ r := by
-    change (v.literalRightOriginal oldRightAtoms).scale₂ r = (seed.extract firstR).scale₂ r
+      (v.literalRightOriginal rightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r := by
+    change (v.literalRightOriginal oldRightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r
     simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
@@ -475,7 +475,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedSectorRowBallByBloc
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   P δ₂ hδ₂ hδ₂half ((p.divisorPools.rightData S).mainSource (p.rightDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (((p.rightSourceCovers raw.originalAtlas S χ).main))
+local notation "cover" => (((p.rightSourceCovers (raw).originalAtlas S χ).main))
 local notation "firstPoint" => (fun i => Real.log (A.exteriorNorm (b.rightResidual i)))
 
 variable (v : (ActualGaussStage.canonicalUnmaskedSectorRowBallByBlock
@@ -504,10 +504,10 @@ local notation "oldLeftScalar" => literalRightMainScalar hΓ μv ν Q ξ W a Z t
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ v.2.2.1
 local notation "oldRightScalar" => literalRightMainScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ v.2.2.2.1
-local notation "leftAtoms" => oldLeftAtoms.redistributeNormFactors δ₁ δ₂
-local notation "rightAtoms" => oldRightAtoms.redistributeNormFactors δ₁ δ₂
-local notation "leftScalar" => oldLeftScalar * (oldLeftAtoms.normProfileFactor δ₁ δ₂ : ℂ)
-local notation "rightScalar" => oldRightScalar * (oldRightAtoms.normProfileFactor δ₁ δ₂ : ℂ)
+local notation "leftAtoms" => (oldLeftAtoms).redistributeNormFactors δ₁ δ₂
+local notation "rightAtoms" => (oldRightAtoms).redistributeNormFactors δ₁ δ₂
+local notation "leftScalar" => oldLeftScalar * ((oldLeftAtoms).normProfileFactor δ₁ δ₂ : ℂ)
+local notation "rightScalar" => oldRightScalar * ((oldRightAtoms).normProfileFactor δ₁ δ₂ : ℂ)
 local notation "leftBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "rightBalance" => (fun _ : Bool => (1 : ℝ))
 local notation "fixedPhases" => CanonicalLiteralActualCharacters.unamplifiedPhases
@@ -567,9 +567,9 @@ variable (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
 the nested Fourier kernel mass estimate. Only the original individual
 character analytic certificates remain as function arguments. -/
 def literalRightMainFactorFreeNormalizationKernelMass :=
-  let enhancedCharacter := fun E : commonSupportPool source.columns source.columns
-      (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) =>
-    (canonicalFirstCommonBlock C source.columns source.columns source.ideal source.ideal
+  let enhancedCharacter := fun E : commonSupportPool (source).columns (source).columns
+      (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) =>
+    (canonicalFirstCommonBlock C (source).columns (source).columns (source).ideal (source).ideal
       E.val E.property).sectorCharacter C P (character E)
   let baseExtraction := literalRightMainExtraction hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
@@ -591,18 +591,18 @@ def literalRightMainFactorFreeNormalizationKernelMass :=
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ v.2.2.2.1)
     oldRightScalar (literalRightMainAtoms_eq_scale_core hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ v.2.2.2.1)
-  have hproductL : oldLeftAtoms.centered = true →
-      oldLeftAtoms.scale₁ true * oldLeftAtoms.scale₂ true =
-        oldLeftAtoms.scale₁ false * oldLeftAtoms.scale₂ false := by
+  have hproductL : (oldLeftAtoms).centered = true →
+      (oldLeftAtoms).scale₁ true * (oldLeftAtoms).scale₂ true =
+        (oldLeftAtoms).scale₁ false * (oldLeftAtoms).scale₂ false := by
     dsimp only [literalRightMainAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
     apply CanonicalLiteralRectangles.Atoms.comparison_product_secondInput
     exact Q.literalOriginalAtoms_comparison_product ξ W a Z t Y₁ Y₂
       centered hZ hY₁ hY₂ domain
-  have hproductR : oldRightAtoms.centered = true →
-      oldRightAtoms.scale₁ true * oldRightAtoms.scale₂ true =
-        oldRightAtoms.scale₁ false * oldRightAtoms.scale₂ false := by
+  have hproductR : (oldRightAtoms).centered = true →
+      (oldRightAtoms).scale₁ true * (oldRightAtoms).scale₂ true =
+        (oldRightAtoms).scale₁ false * (oldRightAtoms).scale₂ false := by
     dsimp only [literalRightMainAtoms]
     apply CanonicalLiteralRectangles.Atoms.comparison_product_deleteMask
     apply CanonicalLiteralRectangles.Atoms.comparison_product_onAtlas
@@ -616,9 +616,9 @@ def literalRightMainFactorFreeNormalizationKernelMass :=
     δ₁ δ₂ hproductL hproductR exceptional F firstPoint j (-1) hlive
     baseExtraction baseBinding rfl rfl
   have hcL : leftScalar ≠ 0 := mul_ne_zero hcOldL
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldLeftAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldLeftAtoms).normProfileFactor_pos δ₁ δ₂)))
   have hcR : rightScalar ≠ 0 := mul_ne_zero hcOldR
-    (Complex.ofReal_ne_zero.mpr (ne_of_gt (oldRightAtoms.normProfileFactor_pos δ₁ δ₂)))
+    (Complex.ofReal_ne_zero.mpr (ne_of_gt ((oldRightAtoms).normProfileFactor_pos δ₁ δ₂)))
   have hbL : ∀ r, 0 < leftBalance r :=
     fun _ => zero_lt_one
   have hbR : ∀ r, 0 < rightBalance r :=
@@ -671,15 +671,15 @@ def literalRightMainFactorFreeNormalizationKernelMass :=
     rcases Q.correction_mem ξ with hc | hc
     · simpa only [hc] using hone
     · exact hc
-  let firstL := raw.originalAtlas.branch (primeSupport DE.1) DE.2 v.2.2.1
-  let firstR := raw.originalAtlas.branch (primeSupport DE.1) DE.2 v.2.2.2.1
-  have hcomparison : seed.centered = true →
-      seed.scale₁ true * seed.scale₂ true = seed.scale₁ false * seed.scale₂ false :=
+  let firstL := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 v.2.2.1
+  let firstR := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 v.2.2.2.1
+  have hcomparison : (seed).centered = true →
+      (seed).scale₁ true * (seed).scale₂ true = (seed).scale₁ false * (seed).scale₂ false :=
     Q.literalOriginalAtoms_comparison_product ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ domain
   have hcenteredL :
       (((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).balancePlain leftBalance).centered =
-        seed.centered := by
-    change (v.literalLeftAtoms oldLeftAtoms).centered = seed.centered
+        (seed).centered := by
+    change (v.literalLeftAtoms oldLeftAtoms).centered = (seed).centered
     simp only [CanonicalLiteralRectangles.Atoms.balancePlain, CanonicalLiteralRectangles.Atoms.scale,
       ActualGaussStage.CoveredClassKey.literalLeftAtoms,
       ActualGaussStage.CoveredClassKey.literalLeftOriginal,
@@ -687,44 +687,44 @@ def literalRightMainFactorFreeNormalizationKernelMass :=
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
   have hcenteredR :
       (((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).balancePlain rightBalance).centered =
-        seed.centered := by
-    change (v.literalRightAtoms oldRightAtoms).centered = seed.centered
+        (seed).centered := by
+    change (v.literalRightAtoms oldRightAtoms).centered = (seed).centered
     simp only [CanonicalLiteralRectangles.Atoms.balancePlain, CanonicalLiteralRectangles.Atoms.scale,
       ActualGaussStage.CoveredClassKey.literalRightAtoms,
       ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
-  have hseedBaseL : (v.literalLeftOriginal leftAtoms).base = seed.base := by
-    change (v.literalLeftOriginal oldLeftAtoms).base = seed.base
+  have hseedBaseL : (v.literalLeftOriginal leftAtoms).base = (seed).base := by
+    change (v.literalLeftOriginal oldLeftAtoms).base = (seed).base
     simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
       literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
-  have hseedBaseR : (v.literalRightOriginal rightAtoms).base = seed.base := by
-    change (v.literalRightOriginal oldRightAtoms).base = seed.base
+  have hseedBaseR : (v.literalRightOriginal rightAtoms).base = (seed).base := by
+    change (v.literalRightOriginal oldRightAtoms).base = (seed).base
     simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
   have hfirstL₁ (r : Bool) :
-      (v.literalLeftOriginal leftAtoms).scale₁ r = (seed.extract firstL).scale₁ r := by
-    change (v.literalLeftOriginal oldLeftAtoms).scale₁ r = (seed.extract firstL).scale₁ r
+      (v.literalLeftOriginal leftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r := by
+    change (v.literalLeftOriginal oldLeftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r
     simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
       literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
   have hfirstL₂ (r : Bool) :
-      (v.literalLeftOriginal leftAtoms).scale₂ r = (seed.extract firstL).scale₂ r := by
-    change (v.literalLeftOriginal oldLeftAtoms).scale₂ r = (seed.extract firstL).scale₂ r
+      (v.literalLeftOriginal leftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r := by
+    change (v.literalLeftOriginal oldLeftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r
     simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
       literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
   have hfirstR₁ (r : Bool) :
-      (v.literalRightOriginal rightAtoms).scale₁ r = (seed.extract firstR).scale₁ r := by
-    change (v.literalRightOriginal oldRightAtoms).scale₁ r = (seed.extract firstR).scale₁ r
+      (v.literalRightOriginal rightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r := by
+    change (v.literalRightOriginal oldRightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r
     simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
   have hfirstR₂ (r : Bool) :
-      (v.literalRightOriginal rightAtoms).scale₂ r = (seed.extract firstR).scale₂ r := by
-    change (v.literalRightOriginal oldRightAtoms).scale₂ r = (seed.extract firstR).scale₂ r
+      (v.literalRightOriginal rightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r := by
+    change (v.literalRightOriginal oldRightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r
     simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
       literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
       CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
