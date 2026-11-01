@@ -249,14 +249,16 @@ theorem detectorWitness_plain_global
         plainPolynomial d d.plainTest₂ u.ideal.val (U ^ w) 0 := by
   constructor
   · dsimp only [detectorWitnessRecipe, WitnessRecipe.toWitness, WitnessRecipe.data,
-      detectorModelData, detectorInverseFamily]
-    rw [detectorHeights_presentation, detectorHeights_cutoff_exponent]
+      detectorModelData, detectorInverseFamily, plainPolynomial, maskValue, sharedMomentData]
+    rw [detectorHeights_presentation]
     rfl
   · rfl
 
 /-- All slots read the same three physical coordinates.  No row parameter
 map is an argument, and the number of coordinates is independent of J. -/
-def commonPhysicalPoint (ξ : DetectorVector) : Fin 3 → ℝ := fun j => ξ ⟨j.val, by omega⟩
+def commonPhysicalPoint (ξ : DetectorVector) : Fin 3 → ℝ := fun j => ξ ⟨j.val, by
+  change j.val < 6
+  omega⟩
 
 def detectorPhysicalSlot
     (time : Fin c.geometry.slots → (Fin 3 → ℝ) → ℝ)

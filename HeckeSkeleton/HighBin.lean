@@ -267,8 +267,14 @@ theorem expansionScheduled_scale (Z T : ℝ) (b : HighBlockIndex K c Z T) :
 
 theorem expansionScheduled_bin (Z T : ℝ) (b : HighBlockIndex K c Z T) :
     (((targetData K c).expansion Z T).block b).bin =
-      (expansionScheduledChoice K c Z T b).1.center :=
-  physicalRecipeScheduledBlock_bin K (places K c) (probeData K c) Eactual c.family.omega
+      (expansionScheduledChoice K c Z T b).1.center := by
+  letI : ∀ p : places K c, MeasurableSpace (p.val.adicCompletion K) :=
+    (probeMeasures K c).localSpace
+  letI : ∀ p : places K c, BorelSpace (p.val.adicCompletion K) :=
+    (probeMeasures K c).localBorel
+  letI : ∀ p : places K c, ((probeMeasures K c).haar p).IsAddHaarMeasure :=
+    (probeMeasures K c).haar_isAddHaar
+  exact physicalRecipeScheduledBlock_bin K (places K c) (probeData K c) Eactual c.family.omega
     (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
     c.family.B_upper (q).e_pos c.family.boundary c.geometry (probeMeasures K c).haar ∅
     c.family.lamA (expansionShellAllowance K c) (q).width (q).k (q).width_pos Z T
@@ -285,6 +291,12 @@ theorem expansionScheduled_shell (Z T : ℝ) (b : HighBlockIndex K c Z T) :
 -- the amplitude partition, in the actual expansion tail.
 def actualHighPresentation : ActualHighPresentation K c := by
   letI : IsTotallyComplex K := Expansion.ActualProbeContext.totallyComplex K (axiomChoice K c)
+  letI : ∀ p : places K c, MeasurableSpace (p.val.adicCompletion K) :=
+    (probeMeasures K c).localSpace
+  letI : ∀ p : places K c, BorelSpace (p.val.adicCompletion K) :=
+    (probeMeasures K c).localBorel
+  letI : ∀ p : places K c, ((probeMeasures K c).haar p).IsAddHaarMeasure :=
+    (probeMeasures K c).haar_isAddHaar
   have hAllowed : AllowedGeneratorInput K (places K c) (probeData K c).arithmetic :=
     Expansion.ActualProbeContext.allowedGenerators K (axiomChoice K c)
   refine
