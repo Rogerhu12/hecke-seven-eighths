@@ -186,7 +186,7 @@ theorem literalPassiveOriginalIntegrand_le (ξ : WithLp 2 (ℝ × ℝ)) :
   have hleft := CanonicalLiteralPassiveOriginalBound.sqrt_frequency_le_passive
     (W := leftTests) (B := leftAllocation) (P := P) (Rchar := Rchar) (F := F)
     (parent := parent) (oldMoving := oldMoving) (correction := correction) (hcorr := hcorr)
-    (C := C) (S := ordinaryRows) (pattern := pattern) (sector := sector)
+    (C := C) (S := ordinaryRows) («pattern» := pattern) («sector» := sector)
     (remaining := remaining) (extra := extra) (index := leftRecipe.slots.index)
     (choice := choice) (hone := hone) (hroot := hroot) (hemb := hemb)
     (hcharacters := leftRecipe.characters) (firstSupport := firstSupport) (hfirst := hfirst)
@@ -198,7 +198,7 @@ theorem literalPassiveOriginalIntegrand_le (ξ : WithLp 2 (ℝ × ℝ)) :
   have hright := CanonicalLiteralPassiveOriginalBound.sqrt_frequency_le_passive
     (W := rightTests) (B := rightAllocation) (P := P) (Rchar := Rchar) (F := F)
     (parent := parent) (oldMoving := oldMoving) (correction := correction) (hcorr := hcorr)
-    (C := C) (S := ordinaryRows) (pattern := pattern) (sector := sector)
+    (C := C) (S := ordinaryRows) («pattern» := pattern) («sector» := sector)
     (remaining := remaining) (extra := extra) (index := rightRecipe.slots.index)
     (choice := choice) (hone := hone) (hroot := hroot) (hemb := hemb)
     (hcharacters := rightRecipe.characters) (firstSupport := firstSupport) (hfirst := hfirst)

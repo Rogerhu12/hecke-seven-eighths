@@ -237,7 +237,7 @@ def paired_engine_step :
         box (data ξ).theta outputOrders volume
     exact CanonicalPrimitiveUniformEngine.produceWithInheritedSlots
       (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := box) (mesh := mesh) (hmesh := hmesh) (orders := allOrders)
-      (first := first) (second := second) (heightC := heightC)
+      («first» := first) («second» := second) («heightC» := heightC)
       (exceptionalConstant := exceptionalC)
       (exceptionalDegree := CanonicalPrimitiveExceptionalChoices.degree box)
       (Zexceptional := exceptionalZ)
@@ -348,7 +348,7 @@ theorem paired_engine_step_samePlainBackground :
         box (data ξ).theta outputOrders volume
     have h := CanonicalPrimitiveUniformEngine.produceWithInheritedSlots_samePlainBackground
       (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := box) (mesh := mesh) (hmesh := hmesh) (orders := allOrders)
-      (first := first) (second := second) (heightC := heightC)
+      («first» := first) («second» := second) («heightC» := heightC)
       (exceptionalConstant := exceptionalC)
       (exceptionalDegree := CanonicalPrimitiveExceptionalChoices.degree box)
       (Zexceptional := exceptionalZ)
