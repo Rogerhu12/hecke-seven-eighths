@@ -159,9 +159,11 @@ theorem paired_fullJointBudget (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : 
 
 def slotEmbedding : SlotLengthEmbedding parent d := Classical.choice h.slots
 
+include h in
 theorem fitsMesh {mesh : ℝ} (hparent : parent.geometry.fitsMesh mesh) :
     d.geometry.fitsMesh mesh := h.slotEmbedding.fitsMesh hparent
 
+include h in
 theorem slot_count : d.geometry.slotCount ≤ parent.geometry.slotCount :=
   h.slotEmbedding.slotCount_le
 
