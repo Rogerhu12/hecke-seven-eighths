@@ -144,7 +144,7 @@ theorem rawCost_le_finiteCost
   rw [(T.right S χ).integral_phase_cost_eq_budgets_leaves
     (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ)
     (exceptional.right S χ) chart.kernel (fun j => -chart.rightPoint j) ε Cerror Czero] at hr
-  rw [integral_div_const, integral_div_const]
+  rw [integral_div, integral_div]
   have hh := mul_le_mul_of_nonneg_left
     (add_le_add (div_le_div_of_nonneg_right hl (hNL S χ).le)
       (div_le_div_of_nonneg_right hr (hNR S χ).le))

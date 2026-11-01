@@ -76,7 +76,7 @@ theorem mask_eq_arithmeticMask (ξ : X) (u : HeckeGeneral.Analysis.NonzeroIdeal 
       (completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&
         decide (IsCoprime I Q.arithmeticMask.val)) := by
   rw [Q.mask ξ u I]
-  simp only [arithmeticMask, IsCoprime.mul_right_iff, decide_and, Bool.and_assoc]
+  simp only [arithmeticMask, IsCoprime.mul_right_iff, Bool.decide_and, Bool.and_assoc]
 
 /-- The same original complete row and actual phase, with the fixed
 moving character computed in every background coefficient. -/

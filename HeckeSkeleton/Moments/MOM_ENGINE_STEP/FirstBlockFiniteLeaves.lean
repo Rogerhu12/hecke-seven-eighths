@@ -197,7 +197,7 @@ theorem class_cost_eq_budgets_leaves
       T.classZeroBudget NL NR ε Czero S χ + T.classTailBudget NL NR Cerror S χ +
         ∑ j : s.CoveredClassKey LA RA S χ,
           (s.classLeaf LA RA NL NR hNL hNR exceptional S χ j).cost := by
-  rw [integral_div_const, integral_div_const,
+  rw [integral_div, integral_div,
     (T.left S χ).integral_phase_cost_eq_budgets_leaves
       (p.leftSourceCovers LA S χ) (exceptional.left S χ) chart.kernel chart.leftPoint,
     (T.right S χ).integral_phase_cost_eq_budgets_leaves
