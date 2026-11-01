@@ -199,7 +199,8 @@ theorem annularColumn_eq_rowPolynomial
   intro n hn
   simp only [CanonicalBlock.canonicalColumn, columns, arithmeticCoefficient, bareCoefficient,
     normalizedCubeLabelWeight, hscale, height, cubeIdealNorm]
-  ring
+  by_cases hcop : IsCoprime n.val.val C.puncture <;>
+    simp only [hcop, if_true, if_false, mul_one, mul_zero, zero_mul] <;> ring
 
 /-- The initial enlarged squarefree pool becomes the entire provider
 pool for each common annular test. -/

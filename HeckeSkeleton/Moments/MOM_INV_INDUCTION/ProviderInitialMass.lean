@@ -54,7 +54,7 @@ theorem exists_packet_mass_bound (slotCap : ℕ) (A pi : ℝ)
   have hden : 0 < A + 2 := by linarith
   have he : 0 < e := div_pos hpi hden
   obtain ⟨C, hC, hm⟩ := exists_sourceTriples_normalized_mass_bound
-    (K := K) (Sector := Sector) slotCap e he
+    (K := K) («Sector» := Sector) slotCap e he
   refine ⟨C, hC, ?_⟩
   intro σ _ J lists hprime hcap X H P b Z h j hZ hh hwidth hbox
   let Pg := ProviderInitialBoxes.boxed K S D Γ X H P b Z A j

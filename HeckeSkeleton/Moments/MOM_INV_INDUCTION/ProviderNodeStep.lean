@@ -131,7 +131,8 @@ theorem exists_uniform_long_label_step
     simpa only [map_one, Nat.cast_one, zero_add] using (le_trans (by norm_num : (1 : ℝ) ≤ 2) hwidth)
   have hlabels : ∀ f ∈ labels, height K Sset f ≤ Z ^ (x.labelLength + h) := by
     intro f hf
-    have hf' : f.val.val ∈ x.labels := Finset.mem_preimage.mp hf
+    have hf' : f.val.val ∈ x.labels :=
+      (Finset.mem_preimage (f := ProviderChildParent.labelEmbedding K S)).mp hf
     exact (hx.label_bound f.val.val hf').trans
       (Real.rpow_le_rpow_of_exponent_le hz1.le (le_add_of_nonneg_right hh.1))
   have hparent : HeckePort.Moments.CanonicalMargins
@@ -143,11 +144,13 @@ theorem exists_uniform_long_label_step
     (Node.Admissible.puncture_norm x hx hz1).le
   have hw0 : ∀ f ∈ labels, 0 ≤ w f := fun f _ => labelDivisorWeight_nonneg slotCap _
   have hw : ∀ f ∈ labels,
-      w f ≤ 1 * ((idealDivisors f.val.val).card : ℝ) ^ (9 + 4 * slotCap) := by
+      w f ≤ 1 * ((DedekindZetaZeroFree.LargeSieve.idealDivisors f.val.val).card : ℝ) ^
+        (9 + 4 * slotCap) := by
     intro f hf
     simp only [w, labelDivisorWeight, one_mul, le_refl]
   have hbeta : ∀ b ∈ T.cubes, ∀ f ∈ labels,
-      ‖T.columns.labelWeight b f‖ ≤ ((idealDivisors f.val.val).card : ℝ) ^ 0 := by
+      ‖T.columns.labelWeight b f‖ ≤
+        ((DedekindZetaZeroFree.LargeSieve.idealDivisors f.val.val).card : ℝ) ^ 0 := by
     intro b hb f hf
     change ‖(1 : ℂ)‖ ≤ _
     simp

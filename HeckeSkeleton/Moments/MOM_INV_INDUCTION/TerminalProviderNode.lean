@@ -113,7 +113,7 @@ theorem normalized_column_short_long
         intro y hy
         exact (hx.test_support (subset_closure hy)).2
       rw [column_normalization _ _ hb]
-      change (Real.sqrt (x.family.base ^ x.columnLength) : ℂ)⁻¹ *
+      change (Real.sqrt (x.family.base ^ x.family.columnLength x.triple) : ℂ)⁻¹ *
           column K Sset D x.family (CanonicalSectors.sectorUnit K Sset Γ) x.triple
             f'.val.val (k'.val.val, k.2) = _
       rw [he, completeCanonicalColumn_short_long K Sset D _ _ _ _ _ _ _ T
@@ -124,7 +124,7 @@ theorem normalized_column_short_long
     · simp only [column, sectorRow, dif_neg hk, mul_zero, zero_mul, Finset.sum_const_zero,
         shortValue, longValue, dif_pos hf, dif_neg hk, add_zero]
   · simp only [column, labelRow, dif_neg hf, zero_pow (by decide : (4 : ℕ) ≠ 0),
-      mul_zero, Finset.sum_const_zero, shortValue, longValue, add_zero]
+      mul_zero, zero_mul, Finset.sum_const_zero, shortValue, longValue, add_zero]
 
 private theorem norm_add_sq_bound (a b : ℂ) :
     ‖a + b‖ ^ 2 ≤ 2 * (‖a‖ ^ 2 + ‖b‖ ^ 2) := by

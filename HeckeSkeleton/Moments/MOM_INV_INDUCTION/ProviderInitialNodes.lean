@@ -42,6 +42,9 @@ variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (�
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
+local instance unitClassesFintype :
+    Fintype (CanonicalSectors.UnitClasses K (S : Set (HeightOneSpectrum (𝓞 K))) Γ) :=
+  Fintype.ofFinite _
 variable {σ : Type u} [DecidableEq σ]
 variable (C : CanonicalBlock.ColumnData K S σ)
 variable (Θ : Subgroup (HeckeCharacter K)) (ψ : HeckeCharacter K)
@@ -238,7 +241,8 @@ theorem nodeAt_admissible
     lambda_eq := hLambda
     calibration := hcal
     background_unramified := ?_
-    marks := hmarks.restrict Finset.sdiff_subset
+    marks := hmarks.restrict
+      ((pieceFamily K S C Θ ψ hν W G hG hbase J b t a).survivors_subset gamma)
     margins := ?_ }
   · have hd := (ProviderInitialBoxes.length_bounds C.base A hbase hA j 1).1
     have hv := (ProviderInitialBoxes.length_bounds C.base A hbase hA j 2).1
@@ -400,14 +404,17 @@ theorem exists_uniform_raw_bound (slotCap₀ : ℕ) (A₀ pi : ℝ)
       Mc Vc h eps Cih (wide_complete K S C₀ Θ₀ ψ₀ hν₀ W₀ G₀ hG₀ hbase₀ J₀ b₀ t gamma)
       hlive (wide_support K S C₀ Θ₀ ψ₀ hν₀ W₀ G₀ hG₀ J₀ b₀ t gamma)
       hV hVc hh.1 hwidth heps hCih hrows hlabels
-      (fun i hi p hp => hmarks.prime i (Finset.mem_sdiff.mp hi).1 p hp) hsmall hrecursive
+      (fun i hi p hp => hmarks.prime i (Cw.survivors_subset gamma hi) p hp) hsmall hrecursive
   · have hz := CanonicalChildClosure.raw_energy_eq_zero_of_negative_row_length K Sset D
       (CanonicalSectors.sectorUnit K Sset Γ) Cw hbase₀ gamma slotCap₀ Qp.labels Qp.rows
       Mc (lt_of_not_ge hM) hrows
     change childEnergy slotCap₀ Qp.labels Qp.rows
       (childValue K Sset D Cw (CanonicalSectors.sectorUnit K Sset Γ)) gamma ≤ _
     rw [hz]
-    positivity
+    exact mul_nonneg
+      (mul_nonneg (mul_nonneg hB.le (add_nonneg hCih (Nat.cast_nonneg _)))
+        (sq_nonneg _))
+      (Real.rpow_nonneg (zero_lt_one.trans hbase₀).le _)
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialNodes
 

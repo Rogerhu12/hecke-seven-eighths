@@ -74,6 +74,7 @@ theorem divisorMark_eq_whole_tuples
   rw [← Finset.prod_coe_sort I
     (fun i => ∑ p ∈ L i, if p ∣ A then a i p else 0)]
   rw [Finset.prod_univ_sum]
+  change (∑ q ∈ tuplePool K I L, ∏ i : I, if q i ∣ A then a i.val (q i) else 0) = _
   rw [← Finset.sum_coe_sort (tuplePool K I L)]
   apply Finset.sum_congr rfl
   intro q hq
@@ -113,7 +114,7 @@ theorem canonicalCompletedSum_eq_marked
   intro C
   apply tsum_congr
   intro B
-  unfold canonicalCompletedTerm
+  simp only [canonicalCompletedTerm, Prod.fst, Prod.snd]
   split_ifs <;> ring
 
 /-- Finite linearity of the genuine completed source. Compact test

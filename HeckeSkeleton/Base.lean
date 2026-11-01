@@ -324,6 +324,10 @@ def expansionPhysicalParameters (c : TargetContext K) :
       (representative K c).val.property (expansionBoundary_lower K c) c.family.B_upper
       c.family.boundary (probeMeasures K c).haar ∅ c.family.lamA
       (expansionShellAllowance K c) (expansionInternalCap K c) := by
+  letI : (p : places K c) → MeasurableSpace (p.val.adicCompletion K) :=
+    (probeMeasures K c).localSpace
+  letI : ∀ p : places K c, BorelSpace (p.val.adicCompletion K) :=
+    (probeMeasures K c).localBorel
   letI : ∀ p : places K c, ((probeMeasures K c).haar p).IsAddHaarMeasure :=
     (probeMeasures K c).haar_isAddHaar
   exact Expansion.Project.choosePhysicalRecipeParameters K (places K c) (probeData K c)

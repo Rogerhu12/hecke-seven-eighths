@@ -61,7 +61,8 @@ def parentIndex (i : Idx) : SecondAdaptiveRetained.IndexAt K S D Γ T H :=
 
 theorem parent_radius : (T).radius.val = C.base ^ (-m) := by
   simp only [parent, ProviderInitialInverse.parentData, rowCap,
-    InverseRowMajorant.rowRadius, Real.rpow_neg]
+    InverseRowMajorant.rowRadius]
+  exact (Real.rpow_neg (zero_lt_one.trans hbase).le m).symm
 
 def positiveScalar (eps : ℝ) (i : Idx) : ℝ :=
   SecondAdaptiveProduction.weightAt K S D Γ T H
@@ -89,8 +90,9 @@ theorem normalized_weight_le (i : Idx) :
       ActualPoissonScale.fieldConstant K * C.base ^ m *
         height K Sset (ProviderInitialSource.residual K S D Γ X H i) / X ^ 2 := by
   have hX : 0 < X := Real.rpow_pos_of_pos (zero_lt_one.trans hbase) _
-  have hm := HeckePort.IdealMobiusDivisorSum.norm_ideal_moebius_le_one
-    (IdealMobiusMask.primeProduct i.2.1.val)
+  have hm : ‖(moebius (IdealMobiusMask.primeProduct i.2.1.val) : ℂ)‖ ≤ 1 := by
+    simp only [IdealMobiusMask.moebius_primeProduct, Int.cast_pow, Int.cast_neg,
+      Int.cast_one, norm_pow, norm_neg, norm_one, one_pow, le_refl]
   have hs := SecondParentRetained.sourceScalar_norm_le K S
     (ProviderInitialInverse.family K S C Θ ψ hν W) (ProviderInitialInverse.unitTriple K)
     hX (T).radius i.2.1.val i.1.val (FirstInversePoisson.unitIdeal K S)
@@ -178,7 +180,11 @@ theorem exists_uniform_scalar_bound (A pi : ℝ) (hA : 0 ≤ A) (hpi : 0 < pi) :
     _ ≤ (ActualPoissonScale.fieldConstant K * C₀.base ^ m *
         height K Sset (ProviderInitialSource.residual K S D Γ (C₀.base ^ C₀.length) H₀ i) /
         (C₀.base ^ C₀.length) ^ 2) * C₀.base ^ pi :=
-      mul_le_mul hw hprod (by positivity) (by positivity)
+      mul_le_mul hw hprod
+        (mul_nonneg
+          (Real.rpow_nonneg (SecondParentProduction.radialScale_pos K S D Γ Ti ki).le _)
+          (norm_nonneg _))
+        (hweight0.trans hw)
     _ ≤ (ActualPoissonScale.fieldConstant K * C₀.base ^ m *
         C₀.base ^ (ProviderInitialBoxes.length C₀.base j 0 -
           ProviderInitialBoxes.length C₀.base j 1 + 2 * h) /
