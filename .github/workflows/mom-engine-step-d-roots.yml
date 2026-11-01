@@ -183,7 +183,7 @@ jobs:
           retention-days: 14
 
   eoi_diagnostic:
-    name: EOI markers and profiler (diagnostic only)
+    name: EOI postproof linter comparison (diagnostic only)
     if: >-
       (github.event_name == 'pull_request' && github.head_ref == 'cloud/mom-engine-step-d') ||
       (github.event_name == 'workflow_dispatch' && github.ref_name == 'cloud/mom-engine-step-d')
@@ -222,14 +222,17 @@ jobs:
           use-github-cache: 'false'
       - name: Restore the same ordinary precompiled project artifacts
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
-      - name: Observe the complete original EOI copy without changing acceptance
+        with:
+          branch-cache: 'restore'
+      - name: Observe the complete EOI copy with one theorem linter control
         shell: bash
         run: |
           python3 -u .github/scripts/mom_engine_step_d_eoi_diagnostic.py \
             --repo "$GITHUB_WORKSPACE" \
             --evidence "$EOI_DIAG_EVIDENCE" \
             --expected-head "$EOI_DIAG_EXPECTED_HEAD" \
-            --dependency-timeout 900
+            --dependency-timeout 900 \
+          --main-unused-section-vars-off
       - name: Preserve EOI diagnostic evidence immediately after this independent job
         if: always()
         uses: actions/upload-artifact@v4

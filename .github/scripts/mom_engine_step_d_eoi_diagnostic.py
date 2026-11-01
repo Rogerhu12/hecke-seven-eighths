@@ -4,6 +4,8 @@
 Run this only in the independent D diagnostic job, after the normal pinned
 toolchain and project cache setup. The original roots job remains independent.
 --prepare-only performs source/instrumentation checks without invoking Lean.
+--main-unused-section-vars-off adds a diagnostic-only linter control around
+the main theorem command in the copy; no production source option is changed.
 """
 from __future__ import annotations
 
@@ -42,6 +44,10 @@ NATIVE_TIMEOUT_SECONDS = 150
 TERMINATION_GRACE_SECONDS = 10
 MARKER_PREFIX = 'MOM_TRACE EOI ea8dcb5d'
 INPUT_NAME = 'MomEngineDExceptionalOriginalIntegralDiagnostic.lean'
+MAIN_DECLARATION = (MODULE_ROOT.replace('.MOM_ENGINE_STEP', '.EngineStep')
+                    + '.SecondSideFrame.exceptional_original_label_integral_from_atoms')
+MAIN_LINTER_CONTROL = 'set_option linter.unusedSectionVars false in\n'
+BASE_DRIVER_SHA = '6067ec6d0b298d0a4190960bd2ad4df10725e3e98267f80581d4edf9def6ffc7'
 
 
 def sha(data: bytes) -> str:
@@ -59,8 +65,8 @@ def write_json(path: Path, value: object) -> None:
     temporary.replace(path)
 
 
-def instrument(source: bytes) -> tuple[bytes, list[dict]]:
-    """Insert run_cmd/run_tac marker blocks only; retain every original byte."""
+def instrument(source: bytes, *, main_unused_section_vars_off: bool = False) -> tuple[bytes, list[dict]]:
+    """Insert markers and an optional one-command control; retain every original byte."""
     require(sha(source) == SOURCE_SHA, 'EOI source differs from the reviewed frozen source')
     text = source.decode('utf-8')
     entries: list[dict] = []
@@ -75,7 +81,10 @@ def instrument(source: bytes) -> tuple[bytes, list[dict]]:
         require(not any(entry['label'] == label for entry in entries), 'Duplicate marker label')
         message = f'{MARKER_PREFIX} {kind} {label}'
         keyword = 'run_cmd' if kind == 'CMD' else 'run_tac'
-        if inline is None:
+        if kind == 'OPTION':
+            require(inline is None, 'The one-command linter control cannot be inline')
+            block = MAIN_LINTER_CONTROL
+        elif inline is None:
             padding = '' if kind == 'CMD' else ' ' * indent
             block = (f'{padding}{keyword}\n'
                      f'{padding}  IO.eprintln "{message}"\n'
@@ -118,6 +127,10 @@ def instrument(source: bytes) -> tuple[bytes, list[dict]]:
     add(after_integrable, 'INTEGRABLE_PROOF_RETURNED')
     add(after_integrable, 'DECL_3_INTEGRABLE_AFTER', kind='CMD')
     add(main_doc, 'DECL_4_SOURCE_BEFORE', kind='CMD')
+    if main_unused_section_vars_off:
+        # Stable insertion order places this after the BEFORE marker and
+        # immediately before the main theorem's original documentation.
+        add(main_doc, 'DECL_4_UNUSED_SECTION_VARS_DISABLED', kind='OPTION')
 
     add(position('  let major := firstCost *\n'), 'MAIN_BODY_ENTER')
     add(position('  have hmajor : 0 ≤ major := by\n'), 'HMAJOR_BEFORE')
@@ -261,23 +274,32 @@ class Interrupted(Exception):
 
 
 def stop_process_group(process: subprocess.Popen) -> None:
-    if process.poll() is not None:
-        return
+    # run_stage creates a new session, so only this owned child's PID is used
+    # as the process-group ID. Reaping its leader does not prove that the
+    # group's other processes have exited.
+    group_id = process.pid
+    process.poll()
     try:
-        os.killpg(process.pid, signal.SIGTERM)
+        os.killpg(group_id, signal.SIGTERM)
     except ProcessLookupError:
-        # The process can exit between poll() and killpg(). Still reap it so
-        # returncode is populated before the stage's exit evidence is written.
         process.wait()
         return
-    try:
-        process.wait(timeout=TERMINATION_GRACE_SECONDS)
-    except subprocess.TimeoutExpired:
+    deadline = time.monotonic() + TERMINATION_GRACE_SECONDS
+    while True:
+        process.poll()
         try:
-            os.killpg(process.pid, signal.SIGKILL)
+            os.killpg(group_id, 0)
         except ProcessLookupError:
-            pass
-        process.wait()
+            break
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            try:
+                os.killpg(group_id, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            break
+        time.sleep(min(0.1, remaining))
+    process.wait()
 
 
 def run_stage(repo: Path, evidence: Path, result: dict, name: str,
@@ -303,7 +325,6 @@ def run_stage(repo: Path, evidence: Path, result: dict, name: str,
                 remaining = deadline - time.monotonic()
                 if remaining <= 0:
                     timed_out = True
-                    stop_process_group(process)
                     break
                 try:
                     process.wait(timeout=min(10, remaining))
@@ -379,6 +400,8 @@ def main() -> int:
     parser.add_argument('--expected-head', default=os.environ.get('EOI_DIAG_EXPECTED_HEAD'))
     parser.add_argument('--dependency-timeout', type=int, default=900)
     parser.add_argument('--prepare-only', action='store_true')
+    parser.add_argument('--main-unused-section-vars-off', action='store_true',
+                        help='Diagnostic copy only: disable unusedSectionVars for the main theorem command')
     args = parser.parse_args()
     require(args.dependency_timeout > 0, 'Dependency timeout must be positive')
     repo, evidence = args.repo.resolve(), args.evidence.resolve()
@@ -392,6 +415,14 @@ def main() -> int:
               'native_timeout_seconds': NATIVE_TIMEOUT_SECONDS,
               'heartbeat_override': None, 'lean_async_override': None,
               'profiler_is_diagnostic_only': True, 'original_roots_job_is_independent': True}
+    result.update(
+        baseline_driver_sha256=BASE_DRIVER_SHA,
+        diagnostic_variant=('main-unused-section-vars-off' if args.main_unused_section_vars_off else 'markers-only'),
+        diagnostic_only_command_options=([{'option': 'linter.unusedSectionVars', 'value': False,
+                                          'scope': MAIN_DECLARATION}]
+                                         if args.main_unused_section_vars_off else []),
+        production_source_options_changed=False,
+        production_linter_exception_authorized=False)
     before = diagnostic = None
     input_path = repo / INPUT_NAME
     owned_input = False
@@ -418,14 +449,19 @@ def main() -> int:
                       import_source_sha256={module: sha((repo / (module.replace('.', '/') + '.lean')).read_bytes())
                                             for module in original_imports})
         (evidence / 'ExceptionalOriginalIntegral.original.lean').write_bytes(source)
-        diagnostic, insertions = instrument(source)
+        diagnostic, insertions = instrument(source, main_unused_section_vars_off=args.main_unused_section_vars_off)
         (evidence / INPUT_NAME).write_bytes(diagnostic)
         result['diagnostic_source_sha256'] = sha(diagnostic)
         write_json(evidence / 'instrumentation.json', {
             'source_sha256': sha(source), 'diagnostic_sha256': sha(diagnostic),
-            'removed_markers_restore_exact_source': restore(diagnostic, insertions) == source,
+            'removed_markers_restore_exact_source': not args.main_unused_section_vars_off and restore(diagnostic, insertions) == source,
             'original_two_prints_preserved': True, 'original_three_imports_preserved': True,
             'insertion_count': len(insertions), 'insertions': insertions,
+            'marker_count': sum(entry['kind'] != 'OPTION' for entry in insertions),
+            'option_insertions': [entry for entry in insertions if entry['kind'] == 'OPTION'],
+            'removed_all_insertions_restore_exact_source': restore(diagnostic, insertions) == source,
+            'diagnostic_variant': result['diagnostic_variant'],
+            'original_module_acceptance': False,
             'calc_3_note': 'Pure original term untouched; markers use adjacent by-block boundaries.',
         })
         (evidence / 'markers.diff').write_text(''.join(difflib.unified_diff(

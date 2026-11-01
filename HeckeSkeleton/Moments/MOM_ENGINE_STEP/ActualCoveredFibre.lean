@@ -151,9 +151,10 @@ theorem actualRowLabels_card_le {P Θ : Type*} [Fintype Θ]
     (hcode : ∀ h ∈ (s.sources DE).rows,
       (s.charts DE D).rowLabel h = encode (code h)) :
     (s.actualRowLabels DE D).card ≤
-      2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension :=
-  OriginalFiniteFibre.row_image_card_le_coordinates
-    (s.sources DE).rows (s.charts DE D).rowLabel support dimension width code encode hcode
+      2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension := by
+  simpa only [actualRowLabels] using
+    OriginalFiniteFibre.row_image_card_le_coordinates
+      (s.sources DE).rows (s.charts DE D).rowLabel support dimension width code encode hcode
 
 /-- The real outer mask remains a coordinate when the arithmetic
 index fixes the common ideals but does not retain this mask. -/
@@ -178,9 +179,9 @@ theorem presentCommonFibre_card_le_coordinates {P Θ : Type*} [Fintype Θ]
           (DedekindZetaZeroFree.LargeSieve.idealDivisors DE.val.1).card ^ (cap + 2) *
             (DedekindZetaZeroFree.LargeSieve.idealDivisors DE.val.2).card ^ (cap + 2) := by
   let T := Σ D : s.mask.powerset, s.PresentSupportClassKey LC RC DE D
-  let include : T → s.CoveredClassKey LC RC :=
+  let «include» : T → s.CoveredClassKey LC RC :=
     fun a => s.presentSupportClass LC RC DE a.1 a.2
-  have hsub : s.presentCommonFibre LC RC DE ⊆ (Finset.univ : Finset T).image include := by
+  have hsub : s.presentCommonFibre LC RC DE ⊆ (Finset.univ : Finset T).image «include» := by
     rintro ⟨DE', D', a, b, label, lkey, rkey⟩ hv
     obtain ⟨_, hDE', hlabel⟩ := Finset.mem_filter.mp hv
     cases hDE'
