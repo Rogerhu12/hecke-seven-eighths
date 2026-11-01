@@ -44,6 +44,10 @@ local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 variable [MeasurableSpace (sLocalNormOneGroup K ((S : Set (HeightOneSpectrum (𝓞 K)))))]
   [BorelSpace (sLocalNormOneGroup K ((S : Set (HeightOneSpectrum (𝓞 K)))))]
 
+local instance canonicalRowBall_sixthUnits_finiteIndex :
+    (sixthPowerUnits K SF).FiniteIndex :=
+  sUnit_power_range_finiteIndex K SF 6 (by decide)
+
 def mass : ℝ := (sUnitHaarCovolume K SF (sixthPowerUnits K SF)).toReal
 
 theorem mass_pos : 0 < mass K S := rowBall_covolume_pos K S

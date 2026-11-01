@@ -284,18 +284,15 @@ theorem canonicalLog_weight_mul_sqrt_le
       exact CanonicalFirstLog.rowWeightBound_mul_sqrt_eq r radius D δ
 
 theorem canonicalLog_leftCoefficient_norm (i : ι) :
-    ‖(canonicalLog hΓ μv ν b C left right φ finiteTest hlc hcs radius D δ hδ hδ1).
-        leftCoefficient i‖ = (A.exteriorNorm (b.leftResidual i)) ^ (δ - 1) := by
+    ‖(canonicalLog hΓ μv ν b C left right φ finiteTest hlc hcs radius D δ hδ hδ1).leftCoefficient i‖ = (A.exteriorNorm (b.leftResidual i)) ^ (δ - 1) := by
   exact CanonicalFirstLog.normalizedTiltScalar_norm (A.exteriorNorm_pos _) δ
 
 theorem canonicalLog_rightCoefficient_norm (j : κ) :
-    ‖(canonicalLog hΓ μv ν b C left right φ finiteTest hlc hcs radius D δ hδ hδ1).
-        rightCoefficient j‖ = (A.exteriorNorm (b.rightResidual j)) ^ (δ - 1) := by
+    ‖(canonicalLog hΓ μv ν b C left right φ finiteTest hlc hcs radius D δ hδ hδ1).rightCoefficient j‖ = (A.exteriorNorm (b.rightResidual j)) ^ (δ - 1) := by
   exact CanonicalFirstLog.normalizedTiltScalar_norm (A.exteriorNorm_pos _) δ
 
 theorem canonicalLog_left_raw_norm (i : ι) :
-    ‖(canonicalLog hΓ μv ν b C left right φ finiteTest hlc hcs radius D δ hδ hδ1).
-        leftCoefficient i * (A.exteriorNorm (b.leftResidual i) : ℂ)‖ =
+    ‖(canonicalLog hΓ μv ν b C left right φ finiteTest hlc hcs radius D δ hδ hδ1).leftCoefficient i * (A.exteriorNorm (b.leftResidual i) : ℂ)‖ =
       (A.exteriorNorm (b.leftResidual i)) ^ δ := by
   rw [norm_mul, canonicalLog_leftCoefficient_norm, Complex.norm_real,
     Real.norm_of_nonneg (A.exteriorNorm_pos _).le,
@@ -303,8 +300,7 @@ theorem canonicalLog_left_raw_norm (i : ι) :
     div_mul_cancel₀ _ (A.exteriorNorm_pos _).ne']
 
 theorem canonicalLog_right_raw_norm (j : κ) :
-    ‖(canonicalLog hΓ μv ν b C left right φ finiteTest hlc hcs radius D δ hδ hδ1).
-        rightCoefficient j * (A.exteriorNorm (b.rightResidual j) : ℂ)‖ =
+    ‖(canonicalLog hΓ μv ν b C left right φ finiteTest hlc hcs radius D δ hδ hδ1).rightCoefficient j * (A.exteriorNorm (b.rightResidual j) : ℂ)‖ =
       (A.exteriorNorm (b.rightResidual j)) ^ δ := by
   rw [norm_mul, canonicalLog_rightCoefficient_norm, Complex.norm_real,
     Real.norm_of_nonneg (A.exteriorNorm_pos _).le,
@@ -319,8 +315,10 @@ theorem canonicalLogWithCoefficients_leftCoefficient_eq
         radius D δ hδ hδ1).leftCoefficient i =
       (c i * (((A.exteriorNorm (b.leftResidual i)) ^ δ : ℝ) : ℂ)) /
         (A.exteriorNorm (b.leftResidual i) : ℂ) := by
-  change c i * _ = _
-  rw [mul_div_assoc]
+  change c i *
+      ((((A.exteriorNorm (b.leftResidual i)) ^ δ : ℝ) : ℂ) /
+        (A.exteriorNorm (b.leftResidual i) : ℂ)) = _
+  exact (mul_div_assoc _ _ _).symm
 
 theorem canonicalLogWithCoefficients_rightCoefficient_eq
     (c : ι → ℂ) (e : κ → ℂ) (j : κ) :
@@ -328,8 +326,10 @@ theorem canonicalLogWithCoefficients_rightCoefficient_eq
         radius D δ hδ hδ1).rightCoefficient j =
       (e j * (((A.exteriorNorm (b.rightResidual j)) ^ δ : ℝ) : ℂ)) /
         (A.exteriorNorm (b.rightResidual j) : ℂ) := by
-  change e j * _ = _
-  rw [mul_div_assoc]
+  change e j *
+      ((((A.exteriorNorm (b.rightResidual j)) ^ δ : ℝ) : ℂ) /
+        (A.exteriorNorm (b.rightResidual j) : ℂ)) = _
+  exact (mul_div_assoc _ _ _).symm
 
 theorem canonicalLogWithCoefficients_leftCoefficient_norm (c : ι → ℂ) (e : κ → ℂ) (i : ι) :
     ‖(canonicalLogWithCoefficients hΓ μv ν b C left right φ c e finiteTest hlc hcs

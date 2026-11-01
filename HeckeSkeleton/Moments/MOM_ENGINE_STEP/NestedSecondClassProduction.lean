@@ -223,10 +223,12 @@ theorem actual_measured_second_allocation_bound
               simp only [hdiv, ite_true, ite_false, secondAllocatedRightCoefficient,
                 star_zero, zero_mul]
       exact congrArg (fun v : ℂ => ‖weight h‖ * ‖v‖ ^ 2) hp
-    simp_rw [hl, hr]
-    exact allocated_joint_measure_bound μ L hsq R.rows S₁ S₂ S T₁ T₂ T weight
-      (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft χ c)
-      (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight χ f) x y
+    exact (congrArg (fun g : U × V → ℝ => ∫ z, g z ∂μ)
+      (funext fun z => congrArg₂ (fun a b : ℝ => Real.sqrt a * Real.sqrt b)
+        (hl z) (hr z))).trans_le
+      (allocated_joint_measure_bound μ L hsq R.rows S₁ S₂ S T₁ T₂ T weight
+        (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft χ c)
+        (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight χ f) x y)
   · simp only [moebius_of_not_squarefree hsq, Int.cast_zero, norm_zero, zero_mul, le_refl]
 
 /-- Individual source-column reindexing also commutes with the original

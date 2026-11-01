@@ -160,10 +160,17 @@ def empty : OriginalMovingFactors A P R where
 
 @[simp] theorem empty_support :
     (empty (A := A) (P := P) (R := R)).support = unitExterior A := by
+  have hfull : (empty (A := A) (P := P) (R := R)).fullIdeal.val =
+      (1 : Ideal (𝓞 K)) := by
+    change (∏ i : Fin 0,
+      ((empty (A := A) (P := P) (R := R)).factorIdeal i).val) = 1
+    exact Fin.prod_univ_zero _
   apply Subtype.ext
-  simp [support, fullIdeal, empty, GaussProductCancellation.productExterior,
-    CommonSupportMass.commonRadical, HeckePort.IdealMobiusDivisorSum.primeSupport,
-    unitExterior, Fin.prod_univ_zero, ← Ideal.one_eq_top]
+  change CommonSupportMass.commonRadical
+    (empty (A := A) (P := P) (R := R)).fullIdeal.val
+    (empty (A := A) (P := P) (R := R)).fullIdeal.val = (1 : Ideal (𝓞 K))
+  rw [hfull]
+  simp [CommonSupportMass.commonRadical, HeckePort.IdealMobiusDivisorSum.primeSupport]
 
 end OriginalMovingFactors
 

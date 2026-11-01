@@ -115,7 +115,10 @@ theorem bareCoefficient_extract (T : FixedChildCharacters F k)
           (fun I => w₁ (B₁ * I)) (fun I => w₂ (B₂ * I))
           (fun j => w (SlotRestriction.index keep j)) y := by
   simp only [bareCoefficient, childCartesianCoefficient]
-  rw [bare_plain_extract, bare_plain_extract, SlotRestriction.product_extend]
+  rw [bare_plain_extract, bare_plain_extract,
+    SlotRestriction.product_extend keep frozen y.2
+      (fun i p => (Real.sqrt (Z ^ length i) : ℂ)⁻¹ *
+        (sourcePrimeCoefficient (T.slot i) (T.slotTwist i) T.mask p * w i p))]
   simp only [bareFrozenScalar, restrictSlots]
   ring
 
@@ -133,10 +136,10 @@ private theorem residual_plain_nonzero
     y.1.1 ≠ 0 ∧ y.1.2 ≠ 0 := by
   have hp := Finset.mem_product.mp (Finset.mem_product.mp hy).1
   constructor
-  · obtain ⟨I, _, rfl⟩ := Finset.mem_image.mp hp.1
-    exact supportResidual_ne_zero I P
-  · obtain ⟨I, _, rfl⟩ := Finset.mem_image.mp hp.2
-    exact supportResidual_ne_zero I P
+  · obtain ⟨I, _, he⟩ := Finset.mem_image.mp hp.1
+    exact he ▸ supportResidual_ne_zero I P
+  · obtain ⟨I, _, he⟩ := Finset.mem_image.mp hp.2
+    exact he ▸ supportResidual_ne_zero I P
 
 def bareCommonScalar (T : FixedChildCharacters F k)
     (Z : ℝ) (length : Fin k → ℝ)
@@ -177,10 +180,14 @@ theorem raw_bare_extract (T : FixedChildCharacters F k)
   have hn := b.residual_plain_nonzero y hy
   have h₁ : sourceMomentIdeal (b.plainExtract₁ * y.1.1) =
       b.plainDivisor₁ * sourceMomentIdeal y.1.1 := by
+    change sourceMomentIdeal (b.plainDivisor₁.val * y.1.1) =
+      b.plainDivisor₁ * sourceMomentIdeal y.1.1
     simpa only [sourceMomentIdeal_val_of_ne_zero y.1.1 hn.1] using
       sourceMomentIdeal_mul_val b.plainDivisor₁ (sourceMomentIdeal y.1.1)
   have h₂ : sourceMomentIdeal (b.plainExtract₂ * y.1.2) =
       b.plainDivisor₂ * sourceMomentIdeal y.1.2 := by
+    change sourceMomentIdeal (b.plainDivisor₂.val * y.1.2) =
+      b.plainDivisor₂ * sourceMomentIdeal y.1.2
     simpa only [sourceMomentIdeal_val_of_ne_zero y.1.2 hn.2] using
       sourceMomentIdeal_mul_val b.plainDivisor₂ (sourceMomentIdeal y.1.2)
   simp only [rawBareSourceCoefficient, reconstruct, h₁, h₂, bareCommonScalar,
@@ -246,8 +253,34 @@ theorem identified_coefficient_residue_extract
         (atoms.normalizer *
           b.residualCoefficient (σ := σ) T frequency D.scale₁ D.scale₂
             D.base D.length D.leftWeight D.rightWeight D.slotWeight y) := by
+  have hcoefficient (i : AllocationColumn F k)
+      (hi : i ∈ childCartesianColumns S₁ S₂ S) :
+      D.normalizedCoefficient atoms.leftNormalizer atoms.rightNormalizer atoms.slotNormalizer i =
+        atoms.coefficient i := by
+    have hm := hi
+    simp only [childCartesianColumns, Finset.product_eq_sprod, Finset.mem_product,
+      Fintype.mem_piFinset] at hm
+    unfold SecondCoefficientTermDictionary.normalizedCoefficient
+      SecondColumnFactors.coefficient childCartesianCoefficient
+    dsimp only
+    rw [hid.left_atom _ hm.1.1, hid.right_atom _ hm.1.2]
+    congr 1
+    apply Finset.prod_congr rfl
+    intro j _
+    rw [hid.slot_atom j _ (hm.2 j)]
+  have hray (i : AllocationColumn F k)
+      (hi : i ∈ childCartesianColumns S₁ S₂ S) : D.ray i = atoms.ray i := by
+    have hm := hi
+    simp only [childCartesianColumns, Finset.product_eq_sprod, Finset.mem_product,
+      Fintype.mem_piFinset] at hm
+    unfold SecondCoefficientTermDictionary.ray SecondColumnFactors.ray
+    rw [hid.left_ray _ hm.1.1, hid.right_ray _ hm.1.2]
+    congr 1
+    apply Finset.prod_congr rfl
+    intro j _
+    exact hid.slot_ray j _ (hm.2 j)
   have hm := b.original_subset (b.reconstruct_mem y hy)
-  rw [← hid.coefficient_eq _ hm, ← hid.ray_eq _ hm,
+  rw [← hcoefficient _ hm, ← hray _ hm,
     D.normalizedCoefficient_eq]
   calc
     _ = atoms.normalizer *

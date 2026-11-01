@@ -51,8 +51,7 @@ theorem right_exceptional (h : H) : T.right h ∈ theta ↔ T.exceptional h :=
   (T.same_exceptional h).symm
 
 theorem ratio_eq_correction (h : H) : T.left h / T.right h = T.correction h := by
-  rw [T.character h]
-  group
+  rw [T.character h, mul_div_cancel_right]
 
 /-- The actual finite-set action supplies the existing exceptional
 partition. The subgroup consists of corrections stabilizing theta;
@@ -79,8 +78,8 @@ theorem reciprocal_character (h : H) : T.right h = (T.correction h)⁻¹ * T.lef
 
 theorem whole_conjugate_character (h : H) :
     (T.left h)⁻¹ = (T.correction h)⁻¹ * (T.right h)⁻¹ := by
-  rw [T.character h]
-  group
+  rw [T.character h, mul_inv_rev]
+  exact mul_comm _ _
 
 /-- Both whole-conjugated characters have the same exceptional status,
 even when inversion does not preserve theta itself. -/
