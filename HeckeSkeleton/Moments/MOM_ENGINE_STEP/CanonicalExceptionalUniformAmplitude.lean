@@ -225,7 +225,14 @@ theorem exists_uniform_centered_constant
         (s.Y₂ / idealNorm K (s.allocation.plainDivisor (Fin.succ 0))) s.product‖ ≤
       (Ccenter * P ^ 2 * Z ^ ε * (1 + ‖s.time‖) ^ order / s.lower) *
         Real.sqrt s.product := by convert hr using 1 <;> ring
-    have hb := value_bound_from_rectangle H s _ (by positivity) hr'
+    have hrectangleCoefficient :
+        0 ≤ Ccenter * P ^ 2 * Z ^ ε * (1 + ‖s.time‖) ^ order / s.lower :=
+      div_nonneg
+        (mul_nonneg
+          (mul_nonneg (mul_nonneg hCcenter.le (sq_nonneg P))
+            (zero_le_one.trans hpower))
+          (zero_le_one.trans hheight)) s.lower_pos.le
+    have hb := value_bound_from_rectangle H s _ hrectangleCoefficient hr'
     have hinv : s.lower⁻¹ ≤ Z ^ (-L) := by
       simpa only [one_div, Real.rpow_neg hz.le] using
         one_div_le_one_div_of_le (Real.rpow_pos_of_pos hz L) hL

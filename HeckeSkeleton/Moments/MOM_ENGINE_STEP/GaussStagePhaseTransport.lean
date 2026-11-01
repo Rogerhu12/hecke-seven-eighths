@@ -168,7 +168,7 @@ theorem withMultiplier_rows
       have hinv := congrArg
         (fun φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ =>
           (v i * star (v j))⁻¹ • φ) hz
-      simpa only [smul_smul, inv_mul_cancel₀ hphase, one_smul, smul_zero] using hinv
+      simpa only [inv_smul_smul₀ hphase, smul_zero] using hinv
   have hbranches : (s'.sources DE).branches = (s.sources DE).branches := rfl
   have hfilter :
       ((s'.sources DE).branches.filter
