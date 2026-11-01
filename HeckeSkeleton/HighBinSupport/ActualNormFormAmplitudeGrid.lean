@@ -106,8 +106,9 @@ theorem exists_actual_fullSlot_amplitude_grid
   have hell : 0 < ell := div_pos (by norm_num) (by exact_mod_cast g.slots_pos)
   have hA : 0 < A := mul_pos (mul_pos hC (Real.rpow_pos_of_pos (by norm_num) _))
     (Real.rpow_pos_of_pos (by norm_num) _)
+  have hhalf : 0 < ell * theta / 2 := div_pos (mul_pos hell htheta) (by norm_num)
   obtain ⟨ZA, hZA⟩ := (tendsto_atTop_atTop.mp
-    (tendsto_rpow_atTop (div_pos (mul_pos hell htheta) (by norm_num)))) A
+    (tendsto_rpow_atTop hhalf)) A
   refine ⟨max ZM (max ZX ZA), hZM.trans (le_max_left _ _), ?_⟩
   intro Z T hZ hT hTceiling d hd hd1 u hu hu1 a ha ha1 hbelow
   have hZZM : ZM ≤ Z := (le_max_left _ _).trans hZ
@@ -146,7 +147,7 @@ theorem exists_actual_fullSlot_amplitude_grid
           Real.mul_rpow (by norm_num : (0 : ℝ) ≤ 6) (Real.rpow_nonneg hZ0.le kappa),
           ← Real.rpow_mul hZ0.le]
         dsimp only [A, E]
-        rw [Real.rpow_add hZ0]
+        rw [Real.rpow_add hZ0 r (kappa * t)]
         ring
   have hPscale (b : ℝ) : (primeScale g Z) ^ b = Z ^ (ell * b) :=
     (Real.rpow_mul hZ0.le ell b).symm

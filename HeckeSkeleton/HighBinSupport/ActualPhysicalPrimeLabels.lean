@@ -120,7 +120,8 @@ theorem physicalRecipe_mainSlot_bound_on_fiber
     _ ≤ (primeScale g Z) ^ (-(4 / 25 : ℝ)) *
         (primeScale g Z) ^ (decodeAmplitude width cap (label i) + width) := by
       apply mul_le_mul_of_nonneg_left _ (Real.rpow_nonneg hXpos.le _)
-      simpa only [primeScale, physicalSlotBase] using hh
+      exact hh.trans_eq (Real.rpow_mul hZpos.le ((1 / 6 : ℝ) / g.slots)
+        (decodeAmplitude width cap (label i) + width))
     _ = _ := by
       rw [← Real.rpow_add hXpos]
       congr 1

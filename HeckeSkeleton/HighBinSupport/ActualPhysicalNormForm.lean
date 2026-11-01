@@ -30,11 +30,12 @@ open scoped Classical BigOperators
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "S₀" => (S : Set (HeightOneSpectrum (𝓞 K)))
-variable [MeasurableSpace (sLocalNormOneGroup K S₀)] [BorelSpace (sLocalNormOneGroup K S₀)]
-variable [∀ p : S₀, MeasurableSpace (p.val.adicCompletion K)]
-variable [∀ p : S₀, BorelSpace (p.val.adicCompletion K)]
-variable (mu : (p : S₀) → Measure (p.val.adicCompletion K))
-variable [∀ p : S₀, (mu p).IsAddHaarMeasure]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), MeasurableSpace (p.val.adicCompletion K)]
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), BorelSpace (p.val.adicCompletion K)]
+variable (mu : (p : (S : Set (HeightOneSpectrum (𝓞 K)))) → Measure (p.val.adicCompletion K))
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), (mu p).IsAddHaarMeasure]
 
 /-- The actual source data suffice for the transported norm form.  The
 `PhysicalAmplitudeOrigin` premises are exact constructor provenance, not
@@ -155,8 +156,10 @@ theorem exists_physicalBlock_normForm
             a (by linarith) ha1 h hh p hp (hbelow v hv) i
           convert hh using 1 <;> congr 1 <;> ring)
         label i u hu
-    have hcoord (i : Fin 3) : |p i| ≤ Z ^ tau :=
-      (by simpa only [Real.norm_eq_abs] using norm_le_pi_norm p i).trans hp
+    have hcoord (i : Fin 3) : |p i| ≤ Z ^ tau := by
+      have hpi : |p i| ≤ ‖p‖ := by
+        simpa only [Real.norm_eq_abs] using norm_le_pi_norm p i
+      exact hpi.trans hp
     have hk := hkernel Z (Z ^ tau) hZZK hT1 d hd hd1 u
       (hrows u hur).1 (hrows u hur).2 a ha ha1 h hh (hbelow u hur) amplitude hamp
       s w z (by simp [s]) (by simp [w]) (by norm_num [z])

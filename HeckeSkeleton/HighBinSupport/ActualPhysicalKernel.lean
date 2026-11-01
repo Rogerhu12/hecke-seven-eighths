@@ -27,17 +27,17 @@ open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HighBinVerified HighBinVerified.NormFormActual
 open HighBinVerified.NormFormFullCorrection
 open HeckeSkeleton.HighBinActualEuler HeckeSkeleton.HighBinContinuation
-open HighBinBoundary.ActualIntegrability
 open scoped Classical BigOperators Topology
 
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "S₀" => (S : Set (HeightOneSpectrum (𝓞 K)))
-variable [MeasurableSpace (sLocalNormOneGroup K S₀)] [BorelSpace (sLocalNormOneGroup K S₀)]
-variable [∀ p : S₀, MeasurableSpace (p.val.adicCompletion K)]
-variable [∀ p : S₀, BorelSpace (p.val.adicCompletion K)]
-variable (mu : (p : S₀) → Measure (p.val.adicCompletion K))
-variable [∀ p : S₀, (mu p).IsAddHaarMeasure]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), MeasurableSpace (p.val.adicCompletion K)]
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), BorelSpace (p.val.adicCompletion K)]
+variable (mu : (p : (S : Set (HeightOneSpectrum (𝓞 K)))) → Measure (p.val.adicCompletion K))
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), (mu p).IsAddHaarMeasure]
 
 /-- The original profiles with the corrected, fixed Poisson factor. -/
 theorem exists_physical_profile_bound (P : ProbeData K S₀) :

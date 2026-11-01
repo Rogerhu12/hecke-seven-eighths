@@ -61,7 +61,7 @@ theorem localRowCorrection_tprod_compl_ne_zero_initial
   let f : {p : ExteriorPrime K S // p ∉ F} → ℂ := fun p =>
     localRowCorrection K S P ψ χ p.val s w z - 1
   have hsum : Summable (fun p => ‖f p‖) := by
-    simpa only [f] using
+    simpa only [f] using!
       (summable_localRowCorrection_norm_initial K S P ψ χ s w z hs hw hz).subtype
         (fun p : ExteriorPrime K S => p ∉ F)
   have heq (p : {p : ExteriorPrime K S // p ∉ F}) :

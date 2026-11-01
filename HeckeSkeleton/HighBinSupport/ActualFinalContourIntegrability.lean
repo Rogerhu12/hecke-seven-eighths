@@ -91,8 +91,9 @@ theorem analyticAt_hecke_reciprocal_of_upper
       exact (not_le_of_gt hs) (hupper s horder (hα.trans hs.le)
         (le_of_not_gt hright) hheight)
     rw [hL]
-    simpa only [inv_div] using
-      ((analyticAt_id.sub analyticAt_const).div (hQ.analyticAt s) hQs)
+    simpa only [inv_div] using!
+      ((analyticAt_id.fun_sub (analyticAt_const (v := heckeNormPole t))).fun_div
+        (hQ.analyticAt s) hQs)
   · have hn : ∀ t : ℝ, χ ≠ heckeNormTwist K t := fun t ht => hχ ⟨t, ht⟩
     exact ((differentiable_heckeContinuation_of_nonNorm K χ hn).analyticAt s).inv
       (continuation_ne_zero_of_upper K χ hn H α hα hupper s hs hheight)
@@ -108,10 +109,10 @@ theorem analyticAt_deleted_reciprocal_of_upper
     AnalyticAt ℂ (fun z =>
       (heckeDeletedContinuation K χ (exceptionalPrimes K S) z)⁻¹) s := by
   have hp := (heckeEulerDeletionPolynomial_analyticAt K χ
-    (exceptionalPrimes K S) s).inv
+    (exceptionalPrimes K S) s).fun_inv
       (heckeEulerDeletionPolynomial_ne_zero K χ (exceptionalPrimes K S) (by linarith))
   have hL := analyticAt_hecke_reciprocal_of_upper K χ H α hα hupper s hs hheight
-  simpa only [heckeDeletedContinuation, mul_inv] using hp.mul hL
+  simpa only [heckeDeletedContinuation, mul_inv] using! hp.fun_mul hL
 
 end HighBinBoundary.ActualFinalIntegrability
 
@@ -128,11 +129,12 @@ open scoped Classical BigOperators Topology ComplexConjugate
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "S₀" => (S : Set (HeightOneSpectrum (𝓞 K)))
-variable [MeasurableSpace (sLocalNormOneGroup K S₀)] [BorelSpace (sLocalNormOneGroup K S₀)]
-variable [∀ p : S₀, MeasurableSpace (p.val.adicCompletion K)]
-variable [∀ p : S₀, BorelSpace (p.val.adicCompletion K)]
-variable (μ : (p : S₀) → Measure (p.val.adicCompletion K))
-variable [∀ p : S₀, (μ p).IsAddHaarMeasure]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), MeasurableSpace (p.val.adicCompletion K)]
+  [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), BorelSpace (p.val.adicCompletion K)]
+variable (μ : (p : (S : Set (HeightOneSpectrum (𝓞 K)))) → Measure (p.val.adicCompletion K))
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), (μ p).IsAddHaarMeasure]
 
 /-- Continuity of the literal final kernel for every positive scale.
 The numerator line avoids all norm poles; the denominator's reciprocal

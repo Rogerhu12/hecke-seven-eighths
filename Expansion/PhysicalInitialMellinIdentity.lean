@@ -17,7 +17,8 @@ namespace Expansion.PhysicalInitialMellin
 
 open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
-open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
+open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
+open HeckeGeneral.ThetaSkeleton.Physical
 open Expansion.Project Expansion.PhysicalInitialHeight
 open scoped Classical BigOperators
 

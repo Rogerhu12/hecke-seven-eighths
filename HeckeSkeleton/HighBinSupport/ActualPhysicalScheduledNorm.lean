@@ -25,11 +25,12 @@ open scoped Classical BigOperators
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "S₀" => (S : Set (HeightOneSpectrum (𝓞 K)))
-variable [MeasurableSpace (sLocalNormOneGroup K S₀)] [BorelSpace (sLocalNormOneGroup K S₀)]
-variable [∀ p : S₀, MeasurableSpace (p.val.adicCompletion K)]
-variable [∀ p : S₀, BorelSpace (p.val.adicCompletion K)]
-variable (mu : (p : S₀) → Measure (p.val.adicCompletion K))
-variable [∀ p : S₀, (mu p).IsAddHaarMeasure]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), MeasurableSpace (p.val.adicCompletion K)]
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), BorelSpace (p.val.adicCompletion K)]
+variable (mu : (p : (S : Set (HeightOneSpectrum (𝓞 K)))) → Measure (p.val.adicCompletion K))
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), (mu p).IsAddHaarMeasure]
 
 theorem exists_physicalRecipe_normForm
     (P : ProbeData K S₀) (omega psi : HeckeCharacter K) (g : PrimeWindowGeometry)
@@ -51,7 +52,8 @@ theorem exists_physicalRecipe_normForm
         (arithmeticHighEulerData K S₀ P psi) hpsi hB0 hB he hbound
         mu ∅ sourceLam zeta width k hw Z (Z ^ tau) j c
       let d := shellExponent Z (1 / 16) j.val
-      ∀ l ∈ physicalRecipeRetainedLabels K S₀ hB0 hB he g width hw c,
+      ∀ l ∈ physicalRecipeRetainedLabels K S₀ (hB0 := hB0) (hB := hB) (he := he)
+        (g := g) width hw c,
         (∑ u ∈ (b.amplitude l).rows (Z ^ d),
           ‖physicalRecipeShiftedPiece K S₀ P (arithmeticHighEulerData K S₀ P psi)
             omega psi hpsi hB0 hB he hbound g mu ∅ sourceLam zeta width k hw

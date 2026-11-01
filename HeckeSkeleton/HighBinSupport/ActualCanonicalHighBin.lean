@@ -183,12 +183,13 @@ variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), MeasurableSpace (p.val
 variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), BorelSpace (p.val.adicCompletion K)]
 variable (μ : (p : (S : Set (HeightOneSpectrum (𝓞 K)))) → Measure (p.val.adicCompletion K))
 variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), (μ p).IsAddHaarMeasure]
-variable (P : ProbeData K S₀) (psi : HeckeCharacter K)
+variable (P : ProbeData K (S : Set (HeightOneSpectrum (𝓞 K)))) (psi : HeckeCharacter K)
 variable (companions : Finset (HeckeCharacter K))
-variable (R : Finset (FrequencyRow K S₀))
+variable (R : Finset (FrequencyRow K (S : Set (HeightOneSpectrum (𝓞 K)))))
 variable (B e : ℝ) (he : 0 < e) (hB : 51 / 100 ≤ B)
-variable (hcommon : ∀ u : FrequencyRow K S₀, ∀ height : ℝ,
-  rowZeroBelow K S₀ psi companions P (arithmeticHighEulerData K S₀ P psi) u height B)
+variable (hcommon : ∀ u : FrequencyRow K (S : Set (HeightOneSpectrum (𝓞 K))), ∀ height : ℝ,
+  rowZeroBelow K (S : Set (HeightOneSpectrum (𝓞 K))) psi companions P
+    (arithmeticHighEulerData K (S : Set (HeightOneSpectrum (𝓞 K))) P psi) u height B)
 
 /-- The original ModerateBlock populated directly by the canonical
 detector fiber and the literal restricted-height integrals. -/

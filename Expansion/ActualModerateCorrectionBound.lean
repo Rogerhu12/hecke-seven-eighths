@@ -60,29 +60,47 @@ theorem exists_actual_moderate_fullCorrection_mass_bound
     rw [Finset.sum_mul]
     apply Finset.sum_le_sum
     intro J _
+    have hselPos : 0 < exteriorNorm K S (subsetPrimeIdeal K S p J) :=
+      idealNorm_pos K _
+    have hmarkPos :
+        0 < exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) :=
+      idealNorm_pos K _
     have hsel : ‖(exteriorNorm K S (subsetPrimeIdeal K S p J) : ℂ) ^ (z - w - 1)‖ ≤
         exteriorNorm K S (subsetPrimeIdeal K S p J) ^ ((10 : ℝ) - 3) := by
-      rw [Complex.norm_cpow_eq_rpow_re_of_pos (idealNorm_pos K _)]
-      apply Real.rpow_le_rpow_of_exponent_le (one_le_idealNorm K _)
+      rw [Complex.norm_cpow_eq_rpow_re_of_pos hselPos]
+      apply Real.rpow_le_rpow_of_exponent_le
+        (show 1 ≤ exteriorNorm K S (subsetPrimeIdeal K S p J) from one_le_idealNorm K _)
       simp only [Complex.sub_re, Complex.one_re]
       linarith
     have hmark : ‖(exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) : ℂ) ^
         (s + z - 1)‖ ≤
         exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ ((10 : ℝ) + 1) := by
-      rw [Complex.norm_cpow_eq_rpow_re_of_pos (idealNorm_pos K _)]
-      apply Real.rpow_le_rpow_of_exponent_le (one_le_idealNorm K _)
+      rw [Complex.norm_cpow_eq_rpow_re_of_pos hmarkPos]
+      apply Real.rpow_le_rpow_of_exponent_le
+        (show 1 ≤ exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) from
+          one_le_idealNorm K _)
       simp only [Complex.sub_re, Complex.add_re, Complex.one_re]
       linarith
     have hc := norm_heckeIdealCoefficient_le_one K psi
       (subsetPrimeIdeal K S p (Finset.univ \ J)).val
     have he := hrow P psi ((Finset.univ \ J).image p) u a ha ha1 (s, w, z) hv
+    have hselNonneg : 0 ≤ exteriorNorm K S (subsetPrimeIdeal K S p J) ^ ((10 : ℝ) - 3) :=
+      Real.rpow_nonneg hselPos.le _
+    have hmarkNonneg :
+        0 ≤ exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ ((10 : ℝ) + 1) :=
+      Real.rpow_nonneg hmarkPos.le _
     simp only [norm_mul, norm_pow, norm_neg, norm_one, one_pow, one_mul,
       Complex.norm_conj]
     calc
       _ ≤ (exteriorNorm K S (subsetPrimeIdeal K S p J) ^ ((10 : ℝ) - 3) * 1) *
           exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ ((10 : ℝ) + 1) *
           (C * frequencyRowNorm K S u ^ eta * markedBound ^ ((Finset.univ \ J).image p).card) := by
-        gcongr
+        exact mul_le_mul
+          (mul_le_mul
+            (mul_le_mul hsel hc (norm_nonneg _) hselNonneg)
+            hmark (norm_nonneg _) (mul_nonneg hselNonneg zero_le_one))
+          he (norm_nonneg _)
+          (mul_nonneg (mul_nonneg hselNonneg zero_le_one) hmarkNonneg)
       _ = _ := by ring
   unfold compensatedRowFullCorrection
   dsimp only
@@ -177,19 +195,25 @@ theorem exists_actual_moderate_correctionMass_bound (g : PrimeWindowGeometry) :
         exteriorNorm K S (subsetPrimeIdeal K S p J) ^ ((10 : ℝ) - 3) *
           exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ ((10 : ℝ) + 1) *
           markedBound ^ ((Finset.univ \ J).image p).card ≤ Q ^ 18 * markedBound ^ g.slots := by
+      have hsel0 : 0 ≤ exteriorNorm K S (subsetPrimeIdeal K S p J) :=
+        (idealNorm_pos K _).le
+      have hmark0 :
+          0 ≤ exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) :=
+        (idealNorm_pos K _).le
       norm_num only [show (10 : ℝ) - 3 = 7 by norm_num,
         show (10 : ℝ) + 1 = 11 by norm_num, Real.rpow_ofNat]
       calc
         _ ≤ (Q ^ 7 * Q ^ 11) * markedBound ^ g.slots := by
           apply mul_le_mul
           · exact mul_le_mul
-              (pow_le_pow_left₀ (idealNorm_pos K _).le (hsubset p hp J) 7)
-              (pow_le_pow_left₀ (idealNorm_pos K _).le (hsubset p hp (Finset.univ \ J)) 11)
-              (by positivity) (by positivity)
+              (pow_le_pow_left₀ hsel0 (hsubset p hp J) 7)
+              (pow_le_pow_left₀ hmark0 (hsubset p hp (Finset.univ \ J)) 11)
+              (pow_nonneg hmark0 11) (pow_nonneg (zero_le_one.trans hQ) 7)
           · exact hmarked p J
-          · positivity
-          · positivity
-        _ = _ := by rw [← pow_add]; norm_num
+          · exact pow_nonneg hmarked0 _
+          · exact mul_nonneg (pow_nonneg (zero_le_one.trans hQ) 7)
+              (pow_nonneg (zero_le_one.trans hQ) 11)
+        _ = _ := by rw [← pow_add]
     calc
       _ ≤ ∑ _J ∈ (Finset.univ : Finset (Fin g.slots)).powerset,
           Q ^ 18 * markedBound ^ g.slots := Finset.sum_le_sum (fun J _ => hterm J)
@@ -258,7 +282,8 @@ theorem exists_actual_moderate_fullCorrection_bound (g : PrimeWindowGeometry)
   intro Z hZ P psi T u a ha ha1 s w z hv hs hw hz
   exact (hr g T Z a ha ha1 P psi u s w z hv hs hw hz).trans
     ((mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left (hm Z hZ T) hCr.le)
-      (Real.rpow_nonneg (idealNorm_pos K u.ideal.val).le _)).trans_eq (by ring))
+      (Real.rpow_nonneg (idealNorm_pos K u.ideal.val).le _)).trans_eq
+        (by dsimp only [frequencyRowNorm]; ring))
 
 /-- The actual finite-order nonprincipal numerator is controlled across
 the small negative-w part of every moderate starting contour. -/

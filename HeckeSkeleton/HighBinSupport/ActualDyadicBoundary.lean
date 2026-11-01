@@ -28,17 +28,18 @@ open scoped Classical BigOperators Topology
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "S₀" => (S : Set (HeightOneSpectrum (𝓞 K)))
-variable [MeasurableSpace (sLocalNormOneGroup K S₀)]
-  [BorelSpace (sLocalNormOneGroup K S₀)]
-variable [∀ p : S₀, MeasurableSpace (p.val.adicCompletion K)]
-variable [∀ p : S₀, BorelSpace (p.val.adicCompletion K)]
-variable (μ : (p : S₀) → Measure (p.val.adicCompletion K))
-variable [∀ p : S₀, (μ p).IsAddHaarMeasure]
-variable (P : ProbeData K S₀) (ψ : HeckeCharacter K)
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), MeasurableSpace (p.val.adicCompletion K)]
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), BorelSpace (p.val.adicCompletion K)]
+variable (μ : (p : (S : Set (HeightOneSpectrum (𝓞 K)))) → Measure (p.val.adicCompletion K))
+variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), (μ p).IsAddHaarMeasure]
+variable (P : ProbeData K (S : Set (HeightOneSpectrum (𝓞 K)))) (ψ : HeckeCharacter K)
 variable (Θ : Finset (HeckeCharacter K)) (g : PrimeWindowGeometry)
 variable (B e : ℝ) (he : 0 < e) (hB : 51 / 100 ≤ B)
-variable (hcommon : ∀ u : FrequencyRow K S₀, ∀ height : ℝ,
-  rowZeroBelow K S₀ ψ Θ P (arithmeticHighEulerData K S₀ P ψ) u height B)
+variable (hcommon : ∀ u : FrequencyRow K (S : Set (HeightOneSpectrum (𝓞 K))), ∀ height : ℝ,
+  rowZeroBelow K (S : Set (HeightOneSpectrum (𝓞 K))) ψ Θ P
+    (arithmeticHighEulerData K (S : Set (HeightOneSpectrum (𝓞 K))) P ψ) u height B)
 
 /-- Sum over the literal finite shell prefix and the nonempty detector
 fibers in each masked shell. -/

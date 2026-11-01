@@ -22,6 +22,7 @@ namespace HeckeSkeleton.HighBinDyadicRows
 open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Physical
+open HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.Analysis.SquarefreeAmplification
 open HeckeSkeleton.HighBinCanonicalBoundary
 open HighBinVerified.Dyadic

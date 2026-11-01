@@ -100,7 +100,7 @@ theorem actualPrincipalKernel_eq_core (P : ProbeData K Sset) (psi : HeckeCharact
   simp only [physicalPrincipalRow_norm, Complex.ofReal_one, Complex.one_cpow, mul_one,
     arithmeticHighEulerData_character, physicalPrincipalRow_character K Sset P hAllowed,
     map_one]
-  rfl
+  simp only [conjugate, inv_one, mul_one, actualPrincipalKernelCore]
 
 /-- The exact exponents from X=Z^(17/48), Y=Z^(23/48), and all prime slots. -/
 theorem actual_principal_scale_product (Z B e w z : ℝ) (hZ : 0 < Z) :
@@ -161,7 +161,6 @@ theorem exists_actual_principalCore_bound
   have hg : ‖Complex.exp ((s + z - 1) ^ 2)‖ ≤ Cg := by
     rw [Complex.norm_exp]
     apply Real.exp_le_exp.mpr
-    dsimp only [Cg]
     simp only [pow_two, Complex.mul_re, Complex.sub_re, Complex.add_re, Complex.one_re,
       Complex.sub_im, Complex.add_im, Complex.one_im, sub_zero, hs, hz]
     nlinarith [sq_nonneg (s.im + z.im)]

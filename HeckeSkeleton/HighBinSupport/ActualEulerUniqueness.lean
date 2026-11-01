@@ -84,7 +84,7 @@ theorem rowCorrection_eq_initial_of_calibrated
   unfold rowEulerContinuation at hcont
   rw [hchar] at hcont
   have hz6 : 1 < (6 * z).re := by
-    simp only [Complex.mul_re, Complex.ofNat_re, Complex.ofNat_im, zero_mul, sub_zero]
+    norm_num [Complex.mul_re]
     linarith
   have hratio :
       heckeDeletedContinuation K 1 (exceptionalPrimes K S) (6 * z) *

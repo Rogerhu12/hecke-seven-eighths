@@ -267,8 +267,8 @@ def expansionFixedRows (Z T : ℝ) (b : HighBlockIndex K c Z T) : Finset (HighRo
 /-- Exactly the original amplitude alphabet inside the fixed finite one. -/
 def expansionRetainedLabels (Z T : ℝ) (b : HighBlockIndex K c Z T) :
     Finset (HighLabel K c Z T b) :=
-  physicalRecipeRetainedLabels K (places K c) (expansionBoundary_lower K c)
-    c.family.B_upper (q).e_pos c.geometry (q).width (q).width_pos
+  physicalRecipeRetainedLabels K (places K c) (hB0 := expansionBoundary_lower K c)
+    (hB := c.family.B_upper) (he := (q).e_pos) (g := c.geometry) (q).width (q).width_pos
     (expansionScheduledChoice K c Z T b)
 
 /-- The genuine finite-pattern transport of the original compensated kernel. -/

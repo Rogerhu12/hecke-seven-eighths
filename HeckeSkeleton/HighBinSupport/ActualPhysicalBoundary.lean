@@ -44,11 +44,11 @@ variable [∀ p : HeightOneSpectrum (𝓞 K), MeasurableSpace (p.adicCompletion 
 variable [∀ p : HeightOneSpectrum (𝓞 K), BorelSpace (p.adicCompletion K)]
 variable (μ : ∀ p : HeightOneSpectrum (𝓞 K), Measure (p.adicCompletion K))
 variable [∀ p, (μ p).IsAddHaarMeasure]
-variable [MeasurableSpace (sLocalNormOneGroup K S₀)]
-variable [BorelSpace (sLocalNormOneGroup K S₀)]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+variable [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 local notation "μS" => (fun p : S₀ => μ (Subtype.val p))
 
-variable (P : ProbeData K S₀) (ω ψ : HeckeCharacter K)
+variable (P : ProbeData K (S : Set (HeightOneSpectrum (𝓞 K)))) (ω ψ : HeckeCharacter K)
 variable {B e : ℝ} (hψ : ψ ∈ HeckePacket K ω)
 variable (hB0 : 51 / 100 ≤ B) (hB1 : B ≤ 1) (he : 0 < e)
 variable (hboundary : ∀ χ : HeckePacketIndex K ω,
