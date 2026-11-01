@@ -63,7 +63,7 @@ variable {s} {sTail sZero : Finset (ℕ × ℕ)} {k : ℕ} {Z Lmax Nsave decay :
 def rawCost (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (ε Cerror Czero : ℝ) : ℝ :=
   (s.fiber : ℝ) * (Czero * (T.windows.multiplicity * T.zeroAmplitude) *
-      Z ^ (T.productExponent * ε) + s.rawNonzeroCost +
+      Z ^ (T.zeroProductExponent * ε) + s.rawNonzeroCost +
     Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))
 
 end DualTerminalCalibration
@@ -190,7 +190,7 @@ theorem actual_gauss_raw_dual_terminal_bound
     actual_gauss_raw_dual_finite_bound (E := E) (ν := ν) (μ := μ) hΓ μv hDiff C Drecipe hD
       finiteTest hlc hcs decay hdecay order horder hdegree
   obtain ⟨sZero, Czero, hCzero, hzero⟩ :=
-    second_dualZero_diagonal_normalized_of_fibers (σ := σ) (η := η) (hS := hS)
+    second_dualZero_diagonal_supported_of_fibers (σ := σ) (η := η) (hS := hS)
       (hΓ := hΓ) (μv := μv) finiteTest k ε hε
   let Cnum := 2 * firstTailFieldConstant K * idealCountConstant K ^ k
   have hCnum : 0 ≤ Cnum := mul_nonneg
@@ -204,17 +204,17 @@ theorem actual_gauss_raw_dual_terminal_bound
     canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property
   have hz := hzero C G.columns G.columns G.ideal G.ideal blocks profiles hDiff s.radius s.mask
     s.cutoff s.cutoff_one T.windows.factors T.windows.multiplicity T.windows.factors_fiber_card
-    T.windows.factor_product (Z ^ T.productExponent) T.zeroAmplitude
-    (Real.one_le_rpow T.windows.base_ge_one T.windows.productExponent_nonneg)
-    T.zeroAmplitude_nonneg T.windows.product_norm
+    T.windows.factor_product (Z ^ T.zeroProductExponent) T.zeroAmplitude
+    (Real.one_le_rpow T.windows.base_ge_one T.zeroProductExponent_nonneg)
+    T.zeroAmplitude_nonneg T.zero_product_norm
     (fun DE i hi D hD => (s.charts DE ⟨D, hD⟩).left_mask i hi)
     (fun DE j hj D hD => (s.charts DE ⟨D, hD⟩).right_mask j hj)
     T.zero_normalization
   change s.rawDualZeroCost ≤ Czero * T.windows.multiplicity * T.zeroAmplitude *
-    (Z ^ T.productExponent) ^ ε at hz
+    (Z ^ T.zeroProductExponent) ^ ε at hz
   rw [← Real.rpow_mul (zero_le_one.trans T.windows.base_ge_one)] at hz
   have hz' : s.rawDualZeroCost ≤ Czero * (T.windows.multiplicity * T.zeroAmplitude) *
-      Z ^ (T.productExponent * ε) := by simpa only [mul_assoc] using hz
+      Z ^ (T.zeroProductExponent * ε) := by simpa only [mul_assoc] using hz
   have hmass := T.windows.power_bound (hΓ := hΓ) (hDiff := hDiff)
   change s.rawTailMass sTail ≤ Cnum * (T.windows.multiplicity * T.tailAmplitude) *
     Z ^ secondTailExponent k T.productExponent T.profileExponent T.maskExponent

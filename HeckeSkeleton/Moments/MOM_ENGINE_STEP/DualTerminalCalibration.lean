@@ -78,12 +78,19 @@ structure DualTerminalCalibration
   exponent_bound : secondTailExponent k productExponent profileExponent maskExponent
     inverseRadiusExponent ≤ Lmax
   cutoff_eq : s.cutoff = Z ^ firstTailCutoffExponent Lmax Nsave decay
+  /-- The sharp zero window may be smaller than the Cartesian tail window. -/
+  zeroProductExponent : ℝ
+  zeroProductExponent_nonneg : 0 ≤ zeroProductExponent
+  zero_product_norm : ∀ ij ∈ G.columns ×ˢ G.columns,
+    (G.coefficient ij.1 * star (G.coefficient ij.2)) • s.profile ≠ 0 →
+      (Ideal.absNorm ((G.ideal ij.1).val * (G.ideal ij.2).val) : ℝ) ≤
+        Z ^ zeroProductExponent
   zero_normalization : ∀ v ∈ firstZeroPairs G.columns G.columns G.ideal G.ideal,
     sZero.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ)
       ((G.coefficient v.2.1 * star (G.coefficient v.2.2)) • s.profile) *
       A.exteriorNorm (G.ideal v.2.1) *
       (∑ D ∈ s.mask.powerset, firstZeroDivisorWeight s.radius D) ≤
-        zeroAmplitude / Real.sqrt (Z ^ productExponent)
+        zeroAmplitude / Real.sqrt (Z ^ zeroProductExponent)
 
 namespace DualTerminalCalibration
 
@@ -95,7 +102,7 @@ terms have been bounded. The individual normalization amplitudes stay
 visible for the outer common-measure budget. -/
 def cost (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (ε Cerror Czero : ℝ) : ℝ :=
-  (s.fiber : ℝ) * (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.productExponent * ε) +
+  (s.fiber : ℝ) * (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.zeroProductExponent * ε) +
     (∑ DE, ∑ D : s.mask.powerset, (s.charts DE D).kernelCost s.mask s.cutoff s.cutoff_one) +
     Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))
 
@@ -188,6 +195,9 @@ def calibration : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay whe
             ring) }
   exponent_bound := T.exponent_bound
   cutoff_eq := T.cutoff_eq
+  zeroProductExponent := T.productExponent
+  zeroProductExponent_nonneg := T.windows.productExponent_nonneg
+  zero_product_norm := fun ij hij _ => T.windows.product_norm ij hij
   zero_normalization := by
     intro v hv
     have hmem := (mem_firstZeroPairs G.columns G.columns G.ideal G.ideal v).mp hv
@@ -392,6 +402,22 @@ def withUnitMultiplier
         exact T.windows.profile_seminorm v hv }
   exponent_bound := T.exponent_bound
   cutoff_eq := T.cutoff_eq
+  zeroProductExponent := T.zeroProductExponent
+  zeroProductExponent_nonneg := T.zeroProductExponent_nonneg
+  zero_product_norm := by
+    intro ij hij hprofile
+    apply T.zero_product_norm ij hij
+    intro hzero
+    apply hprofile
+    change (((u ij.1 * G.coefficient ij.1) * star (u ij.2 * G.coefficient ij.2)) •
+      s.profile) = 0
+    calc
+      _ = (u ij.1 * star (u ij.2)) •
+          ((G.coefficient ij.1 * star (G.coefficient ij.2)) • s.profile) := by
+        rw [smul_smul, star_mul]
+        congr 1
+        ring
+      _ = 0 := by rw [hzero, smul_zero]
   zero_normalization := by
     intro v hv
     change sZero.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ)

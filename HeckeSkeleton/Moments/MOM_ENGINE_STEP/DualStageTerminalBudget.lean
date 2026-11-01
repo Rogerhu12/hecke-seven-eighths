@@ -1,5 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SignedSecondStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondDualZeroDiagonal
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondActiveDualZeroDiagonal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualTerminalCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.TerminalPowerBudget
 
@@ -87,7 +87,7 @@ theorem gauss_second_stage_dual_zero_bound
     (∀ ij ∈ columns ×ˢ columns, PowerfulDiagonal.tupleIdeal (factors ij) =
       (fullI ij.1).val * (fullI ij.2).val) →
     ∀ N Amp : ℝ, 1 ≤ N → 0 ≤ Amp →
-    (∀ ij ∈ columns ×ˢ columns,
+    (∀ ij ∈ columns ×ˢ columns, profiles ij.1 ij.2 ≠ 0 →
       (Ideal.absNorm ((fullI ij.1).val * (fullI ij.2).val) : ℝ) ≤ N) →
     (∀ v ∈ firstZeroPairs columns columns fullI fullI,
       sZero.sup (schwartzSeminormFamily ℂ V ℂ) (profiles v.2.1 v.2.2) *
@@ -108,7 +108,7 @@ theorem gauss_second_stage_dual_zero_bound
     gauss_second_stage_dual_bound (E := E) (hΓ := hΓ) (μv := μv) (ν := ν) (μ := μ)
       (hDiff := hDiff) C Drecipe hD finiteTest hlc hcs decay hdecay order horder hdegree
   obtain ⟨sZero, Czero, hCzero, hzero⟩ :=
-    second_dualZero_diagonal_normalized_of_fibers (σ := σ) (η := η) (hS := hS)
+    second_dualZero_diagonal_supported_of_fibers (σ := σ) (η := η) (hS := hS)
       (hΓ := hΓ) (μv := μv) finiteTest k ε hε
   refine ⟨sTail, sZero, Ctail, Czero, hCtail, hCzero, ?_⟩
   intro H ι rows rowMap weight columns c fullI afull hafull hfull φ hpositive radius M hmask X hX
@@ -170,19 +170,21 @@ theorem gauss_second_stage_dual_terminal_bound
     ∀ charts : ∀ DE, ∀ D : M.powerset,
       SecondBlockProfileChart (E := E) hΓ μv hDiff (blocks DE) C columns columns profiles
         finiteTest radius D.val,
-    ∀ AmpZero : ℝ, 0 ≤ AmpZero →
+    ∀ zeroProdExp AmpZero : ℝ, 0 ≤ zeroProdExp → 0 ≤ AmpZero →
+    (∀ ij ∈ columns ×ˢ columns, profiles ij.1 ij.2 ≠ 0 →
+      (Ideal.absNorm ((fullI ij.1).val * (fullI ij.2).val) : ℝ) ≤ Z ^ zeroProdExp) →
     (∀ v ∈ firstZeroPairs columns columns fullI fullI,
       sZero.sup (schwartzSeminormFamily ℂ V ℂ) (profiles v.2.1 v.2.2) *
         A.exteriorNorm (fullI v.2.1) *
         (∑ D ∈ M.powerset, firstZeroDivisorWeight radius D) ≤
-          AmpZero / Real.sqrt (Z ^ prodExp)) →
+          AmpZero / Real.sqrt (Z ^ zeroProdExp)) →
     ∀ B : ℕ, GaussEnergyChart rows rowMap weight φ
       (sIntegerFiniteTestFunction K A.Sf finiteTest) radius M B →
     X ≤ Z ^ ξ ∧
     weightedEnergy rows weight
       (fun h => ∑ i ∈ columns, c i *
         (generatedOriginalColumn (σ := σ) hΓ (fullI i) (afull i) (hafull i)).orbit hDiff (rowMap h)) ≤
-      (B : ℝ) * (Czero * (W.multiplicity * AmpZero) * Z ^ (prodExp * ε) +
+      (B : ℝ) * (Czero * (W.multiplicity * AmpZero) * Z ^ (zeroProdExp * ε) +
         (∑ DE, ∑ D : M.powerset, (charts DE D).kernelCost M X hX) +
         Cerror * (W.multiplicity * AmpTail) * Z ^ (-Nsave)) := by
   let decay := tailDecayForWidth Lmax Nsave ξ
@@ -207,7 +209,7 @@ theorem gauss_second_stage_dual_terminal_bound
   intro Z H ι rows rowMap weight columns c fullI afull hafull hfull φ hpositive radius M hmask
     prodExp profileExp maskExp inverseRadiusExp AmpTail
   dsimp only
-  intro W hL charts AmpZero hAmpZero hprofile B cal
+  intro W hL charts zeroProdExp AmpZero hzeroProd hAmpZero hzeroNorm hprofile B cal
   let profiles := fun i j => (c i * star (c j)) • φ
   let blocks := fun DE : FirstZeroLabel columns columns fullI fullI =>
     canonicalFirstCommonBlock C columns columns fullI fullI DE.val DE.property
@@ -215,13 +217,13 @@ theorem gauss_second_stage_dual_terminal_bound
   have hX : 1 ≤ X := Real.one_le_rpow W.base_ge_one
     (firstTailCutoffExponent_nonneg Lmax Nsave decay hdecay)
   have hp := hstage rows rowMap weight columns c fullI afull hafull hfull
-    φ hpositive radius M hmask X hX charts W.factors W.multiplicity W.factors_fiber_card W.factor_product (Z ^ prodExp) AmpZero
-    (Real.one_le_rpow W.base_ge_one W.productExponent_nonneg) hAmpZero W.product_norm
+    φ hpositive radius M hmask X hX charts W.factors W.multiplicity W.factors_fiber_card W.factor_product (Z ^ zeroProdExp) AmpZero
+    (Real.one_le_rpow W.base_ge_one hzeroProd) hAmpZero hzeroNorm
     hprofile B cal
   change weightedEnergy rows weight
       (fun h => ∑ i ∈ columns, c i *
         (generatedOriginalColumn (σ := σ) hΓ (fullI i) (afull i) (hafull i)).orbit hDiff (rowMap h)) ≤
-    (B : ℝ) * (Czero * (W.multiplicity * AmpZero) * (Z ^ prodExp) ^ ε +
+    (B : ℝ) * (Czero * (W.multiplicity * AmpZero) * (Z ^ zeroProdExp) ^ ε +
       (∑ DE, ∑ D : M.powerset, (charts DE D).kernelCost M X hX) +
       Ctail * X ^ (1 - decay) *
         secondBlockTailMass hΓ hDiff C columns columns fullI fullI blocks sTail profiles radius M) at hp
@@ -268,7 +270,8 @@ theorem actual_gauss_stage_dual_terminal_bound
       rfl, G.allowed i hi⟩)
     s.profile hpositive s.radius s.mask hmask T.productExponent T.profileExponent T.maskExponent
     T.inverseRadiusExponent T.tailAmplitude T.windows T.exponent_bound s.charts
-    T.zeroAmplitude T.zeroAmplitude_nonneg T.zero_normalization
+    T.zeroProductExponent T.zeroAmplitude T.zeroProductExponent_nonneg
+    T.zeroAmplitude_nonneg T.zero_product_norm T.zero_normalization
     s.fiber s.calibration
   refine ⟨?_, ?_⟩
   · simpa only [T.cutoff_eq] using hb.1

@@ -63,7 +63,7 @@ def hybridCost (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (LA RA : SourceCartesianAtlas G.columns G.ideal)
     (exceptional : s.HybridPredicates LA RA) (ε Cerror Czero : ℝ) : ℝ :=
   (s.fiber : ℝ) * (Czero * (T.windows.multiplicity * T.zeroAmplitude) *
-      Z ^ (T.productExponent * ε) + s.hybridNonzeroCost LA RA exceptional +
+      Z ^ (T.zeroProductExponent * ε) + s.hybridNonzeroCost LA RA exceptional +
     Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))
 
 theorem rawCost_le_hybrid
@@ -79,7 +79,7 @@ def coverHybridCost (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave de
     (LC RC : SourceCartesianCover G.columns G.ideal)
     (exceptional : s.CoverHybridPredicates LC RC) (ε Cerror Czero : ℝ) : ℝ :=
   (s.fiber : ℝ) * (Czero * (T.windows.multiplicity * T.zeroAmplitude) *
-      Z ^ (T.productExponent * ε) + s.coverHybridNonzeroCost LC RC exceptional +
+      Z ^ (T.zeroProductExponent * ε) + s.coverHybridNonzeroCost LC RC exceptional +
     Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))
 
 theorem rawCost_le_coverHybrid
@@ -98,7 +98,7 @@ theorem rawPhaseCost_integrable
       (actualFourierMeasure F) := by
   letI := actualFourierMeasure_finite F
   change Integrable (fun ξ => (s.fiber : ℝ) *
-    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.productExponent * ε) +
+    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.zeroProductExponent * ε) +
       s.rawPhaseNonzeroCost x ξ +
       Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))) (actualFourierMeasure F)
   exact (((integrable_const _).add (s.rawPhaseNonzeroCost_integrable F x)).add
@@ -110,12 +110,12 @@ theorem integral_rawPhaseCost
     (∫ ξ, (T.fourierPhase x ξ).rawCost ε Cerror Czero ∂actualFourierMeasure F) =
       (s.fiber : ℝ) *
         ((actualFourierMeasure F).real Set.univ *
-          (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.productExponent * ε) +
+          (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.zeroProductExponent * ε) +
             Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave)) +
           ∫ ξ, s.rawPhaseNonzeroCost x ξ ∂actualFourierMeasure F) := by
   letI := actualFourierMeasure_finite F
   change (∫ ξ, (s.fiber : ℝ) *
-    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.productExponent * ε) +
+    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.zeroProductExponent * ε) +
       s.rawPhaseNonzeroCost x ξ +
       Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))
         ∂actualFourierMeasure F) = _
@@ -135,7 +135,7 @@ theorem coverHybridPhaseCost_integrable
       (actualFourierMeasure F) := by
   letI := actualFourierMeasure_finite F
   change Integrable (fun ξ => (s.fiber : ℝ) *
-    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.productExponent * ε) +
+    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.zeroProductExponent * ε) +
       s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ +
       Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))) (actualFourierMeasure F)
   exact (((integrable_const _).add
@@ -158,7 +158,7 @@ theorem integral_rawPhaseCost_le_cover
 def zeroBudget (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (ε Czero : ℝ) : ℝ :=
   (s.fiber : ℝ) * Czero * (T.windows.multiplicity * T.zeroAmplitude) *
-    Z ^ (T.productExponent * ε)
+    Z ^ (T.zeroProductExponent * ε)
 
 def tailBudget (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (Cerror : ℝ) : ℝ :=
@@ -176,7 +176,7 @@ theorem phase_cost_eq_budgets_leaves
         ∑ b : s.CoveredLeafKey LC RC,
           (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost ξ := by
   change (s.fiber : ℝ) *
-    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.productExponent * ε) +
+    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.zeroProductExponent * ε) +
       s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ +
       Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave)) = _
   rw [s.coverHybridPhaseNonzeroCost_eq_leaf_sum LC RC exceptional F x ξ]

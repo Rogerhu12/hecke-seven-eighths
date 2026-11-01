@@ -77,12 +77,12 @@ theorem coverHybridCost_eq_budgets (LC RC : SourceCartesianCover G.columns G.ide
 theorem zeroBudget_le_power (ε Czero profileConstant profileExponent budget : ℝ)
     (hC : 0 ≤ Czero) (hprofile : 0 ≤ profileConstant)
     (hAmplitude : T.zeroAmplitude ≤ profileConstant * Z ^ profileExponent)
-    (hbudget : profileExponent + T.productExponent * ε ≤ budget) :
+    (hbudget : profileExponent + T.zeroProductExponent * ε ≤ budget) :
     T.zeroBudget ε Czero ≤
       ((s.fiber : ℝ) * Czero * T.windows.multiplicity * profileConstant) * Z ^ budget := by
   have h := terminal_atom_power_bound Z
     ((s.fiber : ℝ) * Czero * T.windows.multiplicity) profileConstant
-    T.zeroAmplitude profileExponent (T.productExponent * ε) budget
+    T.zeroAmplitude profileExponent (T.zeroProductExponent * ε) budget
     T.windows.base_ge_one (by positivity) hprofile hAmplitude hbudget
   convert h using 1 <;> unfold zeroBudget <;> ring
 
