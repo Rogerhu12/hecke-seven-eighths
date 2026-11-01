@@ -1,0 +1,269 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussCoverHybridTerminal
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedHybridResidual
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RawSourcePhaseIntegral
+
+/-!
+# The original first Fourier measure controls every covered second source
+
+All cover labels and both kernel profiles precede the first Fourier
+variable.  The literal unit Gram multiplier moves through the actual
+second chart coefficients.  Every resulting hybrid branch is
+integrable against the original first Fourier measure, including its
+whole centered exceptional row product.  No moving-profile norm bound
+or finite continuous Fourier support is assumed.
+-/
+
+noncomputable section
+open scoped Classical BigOperators NumberField SchwartzMap
+
+namespace HeckeSkeleton.Moments.EngineStep
+
+open NumberField IsDedekindDomain DedekindZetaZeroFree
+open HeckePort.IdealMobiusDivisorSum
+open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
+open HeckeGeneral.Analysis MeasureTheory
+open HeckePort.Moments
+
+variable {K : Type} [Field K] [NumberField K]
+variable {A : SArithmeticData K} {σ : K →+* ℂ}
+variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
+variable {C : A.GeneralArithmeticContext σ η hS}
+variable {Γ : Subgroup A.U} [Γ.FiniteIndex]
+variable {hΓ : ∀ u : Γ, ∃ v : A.U, u.val = v ^ 6}
+variable [IsPrincipalIdealRing A.R]
+variable [MeasurableSpace (sLocalNormOneGroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))]
+variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K)]
+  [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)]
+variable {μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K)}
+  [∀ v, (μv v).IsAddHaarMeasure]
+variable {hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
+  HeckeGeneral.Characters.localDifferentExponent K v = 0}
+variable {E W : Type*}
+  [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
+  [MeasurableSpace E] [BorelSpace E]
+  [NormedAddCommGroup W] [InnerProductSpace ℝ W] [FiniteDimensional ℝ W]
+  [MeasurableSpace W] [BorelSpace W]
+local notation "Arch" => mixedEmbedding.euclidean.mixedSpace K
+local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
+
+
+namespace ActualGaussStage
+
+variable {ι : Type*} {G : ActualGaussSource C ι}
+variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
+variable (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
+
+/-- A retained true Cartesian branch has a literal first unit phase on
+each complete original coefficient.  Its second kernel and its full
+physical row carrier stay fixed. -/
+theorem phase_hybridClassCost_integrable
+    (F : SchwartzMap W ℂ) (x : ι → W)
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+    (D : s.mask.powerset) (label : Fin ((s.charts DE D).rowLabelCount + 1))
+    {left₀ right₀ : Finset ι} {k l : ℕ}
+    (L : CartesianSourceReindex left₀
+      (canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
+        DE.val DE.property).leftResidual k)
+    (R : CartesianSourceReindex right₀
+      (canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
+        DE.val DE.property).rightResidual l)
+    (exceptional : ∀ S : Ideal (𝓞 K), ((PUnit × PUnit) →* Circle) →
+      (primeSupport S → Finset (Fin (k + 2))) →
+      (primeSupport S → Finset (Fin (l + 2))) → Q → Prop) :
+    Integrable (fun ξ : W =>
+      ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts DE D).hybridClassCost s.mask s.cutoff s.cutoff_one label L R exceptional)
+      (actualFourierMeasure F) := by
+  let b := canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
+    DE.val DE.property
+  let source := s.sources DE
+  let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val
+  let a := fun i => generatedOriginalColumn (σ := σ) hΓ (b.secondLeftIdeal i)
+    (engineAllowedGenerator C b.commonLeftIdeal * b.leftGenerator i)
+    (b.secondLeft_generates C i)
+  let a' := fun j => generatedOriginalColumn (σ := σ) hΓ (b.secondRightIdeal j)
+    (engineAllowedGenerator C b.commonRightIdeal * b.rightGenerator j)
+    (b.secondRight_generates C j)
+  let chart := s.charts DE D
+  let rows := chart.actualRows s.mask s.cutoff s.cutoff_one label
+  have hi := actual_second_hybrid_first_phase_integrable (σ := σ) PUnit
+    F chart.kernel rows.rows rows.frequency
+    L.plain₁ L.plain₂ L.slots R.plain₁ R.plain₂ R.slots
+    b.commonLeftIdeal b.commonRightIdeal
+    (fun i => b.leftResidual (L.index i)) (fun j => b.rightResidual (R.index j))
+    (engineAllowedGenerator C b.commonLeftIdeal) (engineAllowedGenerator C b.commonRightIdeal)
+    (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
+    (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle)) rows.weight
+    (fun i => chart.sourceLeftCoefficient (L.index i))
+    (fun j => chart.sourceRightCoefficient (R.index j))
+    (fun i => x (L.index i)) (fun j => x (R.index j))
+    (fun h i => chart.leftPoint h (L.index i))
+    (fun h j => chart.rightPoint h (R.index j)) exceptional
+  let cost (carrier : Finset Q)
+      (leftWeight : AllocationColumn K k → ℂ)
+      (rightWeight : AllocationColumn K l → ℂ) : ℝ :=
+    secondResidualHybridCost (σ := σ) PUnit chart.kernel carrier rows.frequency
+      L.plain₁ L.plain₂ L.slots R.plain₁ R.plain₂ R.slots
+      b.commonLeftIdeal b.commonRightIdeal
+      (fun i => b.leftResidual (L.index i)) (fun j => b.rightResidual (R.index j))
+      (engineAllowedGenerator C b.commonLeftIdeal) (engineAllowedGenerator C b.commonRightIdeal)
+      (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
+      (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle)) rows.weight
+      leftWeight rightWeight
+      (fun h i => chart.leftPoint h (L.index i))
+      (fun h j => chart.rightPoint h (R.index j)) exceptional
+  convert hi using 1
+  funext ξ
+  have hrows : ((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).rows =
+      source.rows :=
+    s.withMultiplier_rows (fun i => Real.fourierChar (inner ℝ ξ (x i))) DE
+  have hfilter := congrArg
+    (fun carrier : Finset Q => carrier.filter (fun t => chart.rowLabel t = label)) hrows
+  have hleft : (fun i : AllocationColumn K k =>
+      (jointPhase ξ (x (L.index i)) * chart.leftCoefficient (L.index i)) *
+        (a (L.index i)).divisorPhase δ) =
+      (fun i => (chart.leftCoefficient (L.index i) * (a (L.index i)).divisorPhase δ) *
+        jointPhase ξ (x (L.index i))) := by
+    funext i
+    ring
+  have hright : (fun j : AllocationColumn K l =>
+      (jointPhase ξ (x (R.index j)) * chart.rightCoefficient (R.index j)) *
+        (a' (R.index j)).divisorPhase δ) =
+      (fun j => (chart.rightCoefficient (R.index j) * (a' (R.index j)).divisorPhase δ) *
+        jointPhase ξ (x (R.index j))) := by
+    funext j
+    ring
+  change cost
+      (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).rows.filter
+        (fun t => chart.rowLabel t = label))
+      (fun i => (jointPhase ξ (x (L.index i)) * chart.leftCoefficient (L.index i)) *
+        (a (L.index i)).divisorPhase δ)
+      (fun j => (jointPhase ξ (x (R.index j)) * chart.rightCoefficient (R.index j)) *
+        (a' (R.index j)).divisorPhase δ) =
+    cost (source.rows.filter (fun t => chart.rowLabel t = label))
+      (fun i => (chart.leftCoefficient (L.index i) * (a (L.index i)).divisorPhase δ) *
+        jointPhase ξ (x (L.index i)))
+      (fun j => (chart.rightCoefficient (R.index j) * (a' (R.index j)).divisorPhase δ) *
+        jointPhase ξ (x (R.index j)))
+  exact (congrArg (fun carrier => cost carrier
+    (fun i => (jointPhase ξ (x (L.index i)) * chart.leftCoefficient (L.index i)) *
+      (a (L.index i)).divisorPhase δ)
+    (fun j => (jointPhase ξ (x (R.index j)) * chart.rightCoefficient (R.index j)) *
+      (a' (R.index j)).divisorPhase δ)) hfilter).trans
+    (congrArg₂ (cost (source.rows.filter (fun t => chart.rowLabel t = label))) hleft hright)
+
+variable (LC RC : SourceCartesianCover G.columns G.ideal)
+
+def coverHybridPhaseNonzeroCost (exceptional : s.CoverHybridPredicates LC RC)
+    (x : ι → W) (ξ : W) : ℝ :=
+  (s.withMultiplier (fun i => jointPhase ξ (x i))).coverHybridNonzeroCost
+    LC RC exceptional
+
+/-- All actual first and second occurrence-label sums remain explicit
+and are finite before either Fourier variable. -/
+theorem coverHybridPhaseNonzeroCost_integrable
+    (F : SchwartzMap W ℂ) (x : ι → W)
+    (exceptional : s.CoverHybridPredicates LC RC) :
+    Integrable (s.coverHybridPhaseNonzeroCost LC RC exceptional x)
+      (actualFourierMeasure F) := by
+  let kernel (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+      (D : s.mask.powerset) (a : LC.labels) (e : RC.labels)
+      (label : Fin ((s.charts DE D).rowLabelCount + 1))
+      (a' : (LC.branch a).labels (primeSupport DE.val.1) DE.val.1)
+      (e' : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2) (ξ : W) : ℝ :=
+    let b := canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
+      DE.val DE.property
+    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts DE D).hybridClassCost
+      s.mask s.cutoff s.cutoff_one label
+      ((LC.branch a).residualReindex (primeSupport DE.val.1) DE.val.1 b.leftResidual
+        (fun i _ => b.left_residual i) a')
+      ((RC.branch e).residualReindex (primeSupport DE.val.1) DE.val.2 b.rightResidual
+        (fun j _ => b.right_residual j) e')
+      (exceptional DE D a e label a' e')
+  have hk (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+      (D : s.mask.powerset) (a : LC.labels) (e : RC.labels)
+      (label : Fin ((s.charts DE D).rowLabelCount + 1))
+      (a' : (LC.branch a).labels (primeSupport DE.val.1) DE.val.1)
+      (e' : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2) :
+      Integrable (kernel DE D a e label a' e') (actualFourierMeasure F) :=
+    s.phase_hybridClassCost_integrable F x DE D label _ _
+      (exceptional DE D a e label a' e')
+  show Integrable (fun ξ => ∑ DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val),
+    ∑ D : s.mask.powerset, ∑ a : LC.labels, ∑ e : RC.labels,
+      ∑ label : Fin ((s.charts DE D).rowLabelCount + 1),
+        ∑ a' : (LC.branch a).labels (primeSupport DE.val.1) DE.val.1,
+          ∑ e' : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2,
+            kernel DE D a e label a' e' ξ) (actualFourierMeasure F)
+  exact integrable_finsetSum (Finset.univ : Finset (commonSupportPool G.columns G.columns
+    (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))) (fun DE _ =>
+      integrable_finsetSum (Finset.univ : Finset s.mask.powerset) (fun D _ =>
+        integrable_finsetSum (Finset.univ : Finset LC.labels) (fun a _ =>
+          integrable_finsetSum (Finset.univ : Finset RC.labels) (fun e _ =>
+            integrable_finsetSum
+              (Finset.univ : Finset (Fin ((s.charts DE D).rowLabelCount + 1))) (fun label _ =>
+                integrable_finsetSum
+                  (Finset.univ : Finset ((LC.branch a).labels (primeSupport DE.val.1) DE.val.1))
+                  (fun a' _ => integrable_finsetSum
+                    (Finset.univ : Finset ((RC.branch e).labels (primeSupport DE.val.1) DE.val.2))
+                    (fun e' _ => hk DE D a e label a' e')))))))
+
+/-- The actual raw second source can be replaced under the first
+positive Fourier measure by its genuine cover hybrid cost. -/
+theorem integral_rawPhaseNonzeroCost_le_cover
+    (F : SchwartzMap W ℂ) (x : ι → W)
+    (exceptional : s.CoverHybridPredicates LC RC) :
+    (∫ ξ, s.rawPhaseNonzeroCost x ξ ∂actualFourierMeasure F) ≤
+      ∫ ξ, s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ ∂actualFourierMeasure F := by
+  apply integral_mono
+    (s.rawPhaseNonzeroCost_integrable F x)
+    (s.coverHybridPhaseNonzeroCost_integrable LC RC F x exceptional)
+  intro ξ
+  exact (s.withMultiplier (fun i => jointPhase ξ (x i))).rawNonzeroCost_le_coverHybrid LC RC exceptional
+
+namespace TerminalCalibration
+
+variable {s LC RC}
+variable {sTail sZero : Finset (ℕ × ℕ)} {k : ℕ} {Z Lmax Nsave decay : ℝ}
+
+theorem coverHybridPhaseCost_integrable
+    (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)
+    (LC RC : SourceCartesianCover G.columns G.ideal)
+    (exceptional : s.CoverHybridPredicates LC RC)
+    (F : SchwartzMap W ℂ) (x : ι → W) (ε Cerror Czero : ℝ) :
+    Integrable (fun ξ => (T.fourierPhase x ξ).coverHybridCost LC RC exceptional ε Cerror Czero)
+      (actualFourierMeasure F) := by
+  letI := actualFourierMeasure_finite F
+  change Integrable (fun ξ => (s.fiber : ℝ) *
+    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.productExponent * ε) +
+      s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ +
+      Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))) (actualFourierMeasure F)
+  exact (((integrable_const _).add
+    (s.coverHybridPhaseNonzeroCost_integrable LC RC F x exceptional)).add
+    (integrable_const _)).const_mul (s.fiber : ℝ)
+
+theorem integral_rawPhaseCost_le_cover
+    (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)
+    (LC RC : SourceCartesianCover G.columns G.ideal)
+    (exceptional : s.CoverHybridPredicates LC RC)
+    (F : SchwartzMap W ℂ) (x : ι → W) (ε Cerror Czero : ℝ) :
+    (∫ ξ, (T.fourierPhase x ξ).rawCost ε Cerror Czero ∂actualFourierMeasure F) ≤
+      ∫ ξ, (T.fourierPhase x ξ).coverHybridCost LC RC exceptional ε Cerror Czero
+        ∂actualFourierMeasure F := by
+  apply integral_mono (T.rawPhaseCost_integrable F x ε Cerror Czero)
+    (T.coverHybridPhaseCost_integrable LC RC exceptional F x ε Cerror Czero)
+  intro ξ
+  exact (T.fourierPhase x ξ).rawCost_le_coverHybrid exceptional ε Cerror Czero
+
+end TerminalCalibration
+end ActualGaussStage
+
+end HeckeSkeleton.Moments.EngineStep
+
+#print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.phase_hybridClassCost_integrable
+#print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.integral_rawPhaseNonzeroCost_le_cover
+#print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.TerminalCalibration.integral_rawPhaseCost_le_cover
+
