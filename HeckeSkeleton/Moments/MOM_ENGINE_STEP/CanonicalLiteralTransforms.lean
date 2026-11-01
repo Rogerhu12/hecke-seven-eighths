@@ -49,14 +49,14 @@ theorem bare_mul_weights (T : FixedChildCharacters K k)
 
 theorem norm_power_product (i : AllocationColumn K k)
     (h₁ : i.1.1 ≠ 0) (h₂ : i.1.2 ≠ 0) (δ : ℝ) :
-    (idealNorm K (sourceMomentIdeal i.1.1) ^ δ : ℂ) *
-        (idealNorm K (sourceMomentIdeal i.1.2) ^ δ : ℂ) *
-        ∏ j, ((Ideal.absNorm (i.2 j).asIdeal : ℝ) ^ δ : ℂ) =
-      ((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ : ℂ) := by
+    ((idealNorm K (sourceMomentIdeal i.1.1) ^ δ : ℝ) : ℂ) *
+        ((idealNorm K (sourceMomentIdeal i.1.2) ^ δ : ℝ) : ℂ) *
+        ∏ j, (((Ideal.absNorm (i.2 j).asIdeal : ℝ) ^ δ : ℝ) : ℂ) =
+      (((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ : ℝ) : ℂ) := by
   have hprod : (∏ j, (Ideal.absNorm (i.2 j).asIdeal : ℝ) ^ δ) =
       (∏ j, (Ideal.absNorm (i.2 j).asIdeal : ℝ)) ^ δ :=
     Real.finsetProd_rpow Finset.univ _ (fun _ _ => Nat.cast_nonneg _) δ
-  simp only [idealNorm, sourceMomentIdeal_val_of_ne_zero _ h₁,
+  simp only [HeckeGeneral.Analysis.idealNorm, sourceMomentIdeal_val_of_ne_zero _ h₁,
     sourceMomentIdeal_val_of_ne_zero _ h₂, allocationColumnIdeal,
     map_mul, map_prod, Nat.cast_mul, Nat.cast_prod,
     Real.mul_rpow (by positivity : (0 : ℝ) ≤ (Ideal.absNorm i.1.1 : ℝ))
@@ -85,7 +85,7 @@ theorem normalizer_mul (N₁ N₂ G₁ G₂ : ℝ) (N G : Fin k → ℝ)
   simp only [extraGaussNormalizer, SecondCoefficientTermDictionary.centralNormalizer,
     Real.sqrt_mul hN₁.le, Real.sqrt_mul hN₂.le]
   have hslot (j : Fin k) : Real.sqrt (N j * G j) = Real.sqrt (N j) * Real.sqrt (G j) :=
-    Real.sqrt_mul (hN j).le
+    Real.sqrt_mul (hN j).le (G j)
   simp_rw [hslot]
   simp only [Complex.ofReal_mul, mul_inv_rev, Finset.prod_mul_distrib] <;> ring
 
@@ -168,30 +168,30 @@ theorem addGauss_term (G₁ G₂ : ℝ) (G : Fin k → ℝ)
 are permitted; all actual ideal norms are positive. -/
 def normPower (δ : ℝ) : CanonicalLiteralRectangles.Atoms (K := K) k :=
   { d with
-    leftWeight := fun r I => d.leftWeight r I * (idealNorm K I ^ δ : ℂ)
-    rightWeight := fun r I => d.rightWeight r I * (idealNorm K I ^ δ : ℂ)
-    slotWeight := fun j p => d.slotWeight j p * ((Ideal.absNorm p.asIdeal : ℝ) ^ δ : ℂ) }
+    leftWeight := fun r I => d.leftWeight r I * ((idealNorm K I ^ δ : ℝ) : ℂ)
+    rightWeight := fun r I => d.rightWeight r I * ((idealNorm K I ^ δ : ℝ) : ℂ)
+    slotWeight := fun j p => d.slotWeight j p * (((Ideal.absNorm p.asIdeal : ℝ) ^ δ : ℝ) : ℂ) }
 
 theorem normPower_rectangleLeftWeight (δ : ℝ) (r : Bool)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (d.normPower δ).rectangleLeftWeight r I =
-      d.rectangleLeftWeight r I * (idealNorm K I ^ δ : ℂ) := by
+      d.rectangleLeftWeight r I * ((idealNorm K I ^ δ : ℝ) : ℂ) := by
   unfold rectangleLeftWeight normPower
   split_ifs <;> simp only [zero_mul]
 
 theorem normPower_term (δ : ℝ) (r : Bool) (i : AllocationColumn K k)
     (hi : i ∈ childCartesianColumns d.plain₁ d.plain₂ d.slots) :
     (d.normPower δ).term r i =
-      d.term r i * ((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ : ℂ) := by
+      d.term r i * (((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ : ℝ) : ℂ) := by
   have hp := Finset.mem_product.mp (Finset.mem_product.mp hi).1
   have hw := funext (d.normPower_rectangleLeftWeight δ r)
   unfold term
   rw [hw]
   change d.normalizer *
       rawBareSourceCoefficient d.characters (d.scale₁ r) (d.scale₂ r) d.base d.length
-        (fun I => d.rectangleLeftWeight r I * (idealNorm K I ^ δ : ℂ))
-        (fun I => d.rightWeight r I * (idealNorm K I ^ δ : ℂ))
-        (fun j p => d.slotWeight j p * ((Ideal.absNorm p.asIdeal : ℝ) ^ δ : ℂ)) i = _
+        (fun I => d.rectangleLeftWeight r I * ((idealNorm K I ^ δ : ℝ) : ℂ))
+        (fun I => d.rightWeight r I * ((idealNorm K I ^ δ : ℝ) : ℂ))
+        (fun j p => d.slotWeight j p * (((Ideal.absNorm p.asIdeal : ℝ) ^ δ : ℝ) : ℂ)) i = _
   rw [CanonicalLiteralTransforms.bare_mul_weights,
     CanonicalLiteralTransforms.norm_power_product i
       (d.plain₁_nonzero _ hp.1) (d.plain₂_nonzero _ hp.2) δ]
@@ -200,7 +200,7 @@ theorem normPower_term (δ : ℝ) (r : Bool) (i : AllocationColumn K k)
 theorem normPower_whole (δ : ℝ) (i : AllocationColumn K k)
     (hi : i ∈ childCartesianColumns d.plain₁ d.plain₂ d.slots) :
     (d.normPower δ).whole i =
-      d.whole i * ((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ : ℂ) := by
+      d.whole i * (((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ : ℝ) : ℂ) := by
   rw [whole, d.normPower_term δ false i hi, d.normPower_term δ true i hi, ← sub_mul] <;> rfl
 
 /-- These are precisely the inverse norm and the two Mellin factors
@@ -216,8 +216,8 @@ theorem twoStageNorms_term (G₁ G₂ : ℝ) (G : Fin k → ℝ)
     (δ₁ δ₂ : ℝ) (r : Bool) (i : AllocationColumn K k)
     (hi : i ∈ childCartesianColumns d.plain₁ d.plain₂ d.slots) :
     (d.twoStageNorms G₁ G₂ G h₁ h₂ hG δ₁ δ₂).term r i =
-      d.term r i * ((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ₁ : ℂ) *
-        ((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ₂ : ℂ) /
+      d.term r i * (((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ₁ : ℝ) : ℂ) *
+        (((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ₂ : ℝ) : ℂ) /
         (Ideal.absNorm (allocationColumnIdeal i) : ℂ) := by
   unfold twoStageNorms
   rw [normPower_term _ δ₂ r i hi, normPower_term _ δ₁ r i hi,
@@ -230,8 +230,8 @@ theorem twoStageNorms_whole (G₁ G₂ : ℝ) (G : Fin k → ℝ)
     (δ₁ δ₂ : ℝ) (i : AllocationColumn K k)
     (hi : i ∈ childCartesianColumns d.plain₁ d.plain₂ d.slots) :
     (d.twoStageNorms G₁ G₂ G h₁ h₂ hG δ₁ δ₂).whole i =
-      d.whole i * ((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ₁ : ℂ) *
-        ((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ₂ : ℂ) /
+      d.whole i * (((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ₁ : ℝ) : ℂ) *
+        (((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ₂ : ℝ) : ℂ) /
         (Ideal.absNorm (allocationColumnIdeal i) : ℂ) := by
   unfold whole
   rw [d.twoStageNorms_term G₁ G₂ G h₁ h₂ hG δ₁ δ₂ false i hi,

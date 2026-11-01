@@ -23,6 +23,16 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
 open WholeAllocation
 
+private theorem scalar_sum_sigma_of_class_sum
+    {α : Type*} [Fintype α] {β : α → Type*} [∀ a, Fintype (β a)]
+    (total : ℝ) (classes : α → ℝ) (leaves : (Σ a : α, β a) → ℝ)
+    (hclasses : total = ∑ a : α, classes a)
+    (hleaves : ∀ a : α, classes a = ∑ b : β a, leaves ⟨a, b⟩) :
+    total = ∑ key : (Σ a : α, β a), leaves key := by
+  exact hclasses.trans
+    ((Finset.sum_congr rfl (fun a _ => hleaves a)).trans
+      (Fintype.sum_sigma leaves).symm)
+
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -433,9 +443,10 @@ private theorem phase_class_eq_fixed_fullCorrelation
         v.2.2.2.2.2.1 v.2.2.2.2.2.2))
     hkernel hrows hrowCoefficient hleftCoefficient hrightCoefficient hleftPoint hrightPoint
 
-private def fixedClassFullCorrelation
+set_option linter.unusedSectionVars false in
+private theorem fixed_fullCorrelation_eq_leaf_sum
     (exceptional : s.CoverHybridPredicates LC RC)
-    (x : ι → W) (ξ : W) : ℝ :=
+    (F : SchwartzMap W ℂ) (x : ι → W) (ξ : W) :
     fullCorrelationHybridCost
       (K := K) (H := Q) (V := E) (k := v.leftSlots)
       (l := ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2).keep.card) (γ := ((PUnit × PUnit) →* Circle))
@@ -466,14 +477,7 @@ private def fixedClassFullCorrelation
       (fun h i => v.chart.leftPoint h (v.leftReindex.index i))
       (fun h i => v.chart.rightPoint h (v.rightReindex.index i))
       (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
-        v.2.2.2.2.2.1 v.2.2.2.2.2.2)
-
-omit [FiniteDimensional ℝ W] [MeasurableSpace W] [BorelSpace W] in
-private theorem fixed_fullCorrelation_eq_leaf_sum
-    [FiniteDimensional ℝ W] [MeasurableSpace W] [BorelSpace W]
-    (exceptional : s.CoverHybridPredicates LC RC)
-    (F : SchwartzMap W ℂ) (x : ι → W) (ξ : W) :
-    v.fixedClassFullCorrelation exceptional x ξ =
+        v.2.2.2.2.2.1 v.2.2.2.2.2.2) =
       ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
   exact
     (fullCorrelationHybridCost_eq_leaf_sum
@@ -510,6 +514,7 @@ private theorem fixed_fullCorrelation_eq_leaf_sum
         (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
           v.2.2.2.2.2.1 v.2.2.2.2.2.2) ξ)
 
+set_option linter.unusedSectionVars false in
 /-- This is the actual phase multiplication from the first transform,
 followed by the literal finite allocation sum from the second. -/
 theorem phase_class_eq_leaf_sum (exceptional : s.CoverHybridPredicates LC RC)
@@ -519,11 +524,8 @@ theorem phase_class_eq_leaf_sum (exceptional : s.CoverHybridPredicates LC RC)
         (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
           v.2.2.2.2.2.1 v.2.2.2.2.2.2) =
       ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
-  as_aux_lemma =>
-    exact Eq.trans
-      (b := v.fixedClassFullCorrelation exceptional x ξ)
-      (v.phase_class_eq_fixed_fullCorrelation exceptional x ξ)
-      (v.fixed_fullCorrelation_eq_leaf_sum exceptional F x ξ)
+  exact (v.phase_class_eq_fixed_fullCorrelation exceptional x ξ).trans
+    (v.fixed_fullCorrelation_eq_leaf_sum exceptional F x ξ)
 
 end CoveredClassKey
 
@@ -635,11 +637,6 @@ private theorem coverHybridPhaseNonzeroCost_eq_class_sum
   exact (phase_coverHybridNonzeroCost_eq_nested_sum s LC RC exceptional x ξ).trans
     (coveredClassNestedSum_eq_sum s LC RC (coveredClassPhaseCost s LC RC exceptional x ξ))
 
-private theorem coveredLeaf_sum_eq_class_sum (f : s.CoveredLeafKey LC RC → ℝ) :
-    (∑ b : s.CoveredLeafKey LC RC, f b) =
-      ∑ v : s.CoveredClassKey LC RC, ∑ j : v.AllocationKey, f ⟨v, j⟩ := by
-  exact Fintype.sum_sigma f
-
 /-- Exact finite flattening of the covered source, at the first
 continuous Fourier parameter. -/
 theorem coverHybridPhaseNonzeroCost_eq_leaf_sum
@@ -647,20 +644,13 @@ theorem coverHybridPhaseNonzeroCost_eq_leaf_sum
     (F : SchwartzMap W ℂ) (x : ι → W) (ξ : W) :
     s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ =
       ∑ b : s.CoveredLeafKey LC RC, (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ := by
-  have hclasses :
-      s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ =
-        ∑ v : s.CoveredClassKey LC RC, coveredClassPhaseCost s LC RC exceptional x ξ v :=
-    coverHybridPhaseNonzeroCost_eq_class_sum s LC RC exceptional x ξ
-  have hleaves :
-      (∑ v : s.CoveredClassKey LC RC, coveredClassPhaseCost s LC RC exceptional x ξ v) =
-        ∑ v : s.CoveredClassKey LC RC,
-          ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
-    apply Finset.sum_congr rfl
-    intro v _
-    exact v.phase_class_eq_leaf_sum exceptional F x ξ
-  exact hclasses.trans (hleaves.trans
-    (coveredLeaf_sum_eq_class_sum s LC RC
-      (fun b => (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)).symm)
+  exact scalar_sum_sigma_of_class_sum
+    (α := s.CoveredClassKey LC RC) (β := fun v => v.AllocationKey)
+    (s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ)
+    (coveredClassPhaseCost s LC RC exceptional x ξ)
+    (fun b => (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)
+    (coverHybridPhaseNonzeroCost_eq_class_sum s LC RC exceptional x ξ)
+    (fun v => v.phase_class_eq_leaf_sum exceptional F x ξ)
 
 private theorem leaf_firstPhaseCost_integrable_of_firstKernel
     {H : Type*} (B : ActualHybridLeaf K H W E)

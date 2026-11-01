@@ -20,6 +20,7 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments HeckePort.Moments.Support HeckePort.IdealMobiusDivisorSum
+open WholeAllocation
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
