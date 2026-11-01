@@ -226,3 +226,59 @@ jobs:
             mom-b2-profile-identity/
           if-no-files-found: warn
           retention-days: 14
+
+  rectangles_review:
+    if: github.ref == 'refs/heads/cloud/mom-engine-step-b2'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      LEAN_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Reserve runner space and match the official mapping limit
+        run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift /opt/ghc /opt/hostedtoolcache/CodeQL
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          df -h /
+          sysctl vm.max_map_count
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore normal project and branch artifacts for read-only review
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+        with:
+          branch-cache: restore
+      - name: Compile the complete temporary namespace proposal as diagnostic only
+        run: setsid --wait python3 -u scripts/mom_engine_b2_rectangles_review.py
+      - name: Print the complete candidate diagnostic log for review
+        if: always()
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import sys
+          root = Path("mom-b2-rectangles-review")
+          for name in ("toolchain.log", "mathlib.log", "candidate.log"):
+              path = root / name
+              if path.is_file():
+                  print(f"Diagnostic log: {name}", flush=True)
+                  sys.stdout.write(path.read_text())
+                  sys.stdout.flush()
+          PY
+      - name: Preserve the complete candidate review and production source identity
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-b2-rectangles-review-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: mom-b2-rectangles-review/
+          if-no-files-found: warn
+          retention-days: 14

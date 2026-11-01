@@ -173,6 +173,7 @@ theorem normalized_pair_original_allowance_from_atoms
 variable {branch : TwoDivisorCommonBranch (K := F)}
 variable {Ray₁ Ray₂ : Type*} [CommGroup Ray₁] [Fintype Ray₁] [CommGroup Ray₂] [Fintype Ray₂]
 
+set_option linter.unusedSectionVars false in
 include L in
 /-- The full original scalar of the same normalized pair is bounded
 by its original first-common/S/second-common/L/allocation index. Both
