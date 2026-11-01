@@ -110,16 +110,23 @@ variable (scalar_bound : ∀ h ∈ s.rows, ‖s.frozenScalar (σ := σ) h‖ ^ 2
 variable (fiber_bound : ∀ I : HeckeGeneral.Analysis.NonzeroIdeal F,
   (s.rows.filter (fun h => (s.row h).momentIdeal = I)).card ≤ fibers)
 
-local notation "D'" => D.withCosts rowCost scalarCost fibers hrow hscalar row_bound scalar_bound fiber_bound
-
-theorem data_eq : D'.data = D.data := rfl
-theorem parameters_eq : D'.parameters = D.parameters := rfl
-theorem height_eq : D'.height = D.height := rfl
-theorem mass_eq : D'.mass = rowCost * scalarCost * (fibers : ℝ) := rfl
+theorem data_eq :
+    (D.withCosts rowCost scalarCost fibers hrow hscalar row_bound scalar_bound fiber_bound).data =
+      D.data := rfl
+theorem parameters_eq :
+    (D.withCosts rowCost scalarCost fibers hrow hscalar row_bound scalar_bound fiber_bound).parameters =
+      D.parameters := rfl
+theorem height_eq :
+    (D.withCosts rowCost scalarCost fibers hrow hscalar row_bound scalar_bound fiber_bound).height =
+      D.height := rfl
+theorem mass_eq :
+    (D.withCosts rowCost scalarCost fibers hrow hscalar row_bound scalar_bound fiber_bound).mass =
+      rowCost * scalarCost * (fibers : ℝ) := rfl
 
 /-- The primitive geometric and normalized-prime ledger is unchanged
 when the producer chooses the actual arithmetic costs. -/
-def capacity (G : D.NormalizedCapacityData) : D'.NormalizedCapacityData where
+def capacity (G : D.NormalizedCapacityData) :
+    (D.withCosts rowCost scalarCost fibers hrow hscalar row_bound scalar_bound fiber_bound).NormalizedCapacityData where
   geometry := G.geometry
   b₂ := G.b₂
   p₂ := G.p₂
@@ -160,18 +167,21 @@ def capacity (G : D.NormalizedCapacityData) : D'.NormalizedCapacityData where
   primeBound_nonneg := G.primeBound_nonneg
   prime_bound := G.prime_bound
 
-local notation "G'" G => capacity D rowCost scalarCost fibers hrow hscalar row_bound scalar_bound fiber_bound G
-
 theorem normalizedData_eq (G : D.NormalizedCapacityData) :
-    (G' G).normalizedData = G.normalizedData := rfl
+    (capacity D rowCost scalarCost fibers hrow hscalar row_bound scalar_bound fiber_bound G).normalizedData =
+      G.normalizedData := rfl
 
 theorem childData_eq (G : D.NormalizedCapacityData)
     (keep : Finset (Fin s.allocation.keep.card)) :
-    (G' G).childData keep = G.childData keep := rfl
+    (capacity D rowCost scalarCost fibers hrow hscalar row_bound scalar_bound fiber_bound G).childData keep =
+      G.childData keep := rfl
 
-theorem radius_eq (G : D.NormalizedCapacityData) : (G' G).radius = G.radius := rfl
+theorem radius_eq (G : D.NormalizedCapacityData) :
+    (capacity D rowCost scalarCost fibers hrow hscalar row_bound scalar_bound fiber_bound G).radius =
+      G.radius := rfl
 theorem loss_eq (G : D.NormalizedCapacityData) (removed : Finset (Fin s.allocation.keep.card)) :
-    (G' G).loss removed = G.loss removed := rfl
+    (capacity D rowCost scalarCost fibers hrow hscalar row_bound scalar_bound fiber_bound G).loss removed =
+      G.loss removed := rfl
 
 end withCosts
 
@@ -198,7 +208,7 @@ theorem withPrimeCost_childData (primeCost : ℝ) (hcost : 0 ≤ primeCost)
         (lengthSlot (D.data ξ) s.allocation.keep.card (D.count ξ) i) u s.base (D.height ξ)‖ ^ 2 ≤
           primeCost * s.base ^ (D.parameters.κ * s.childLength i))
     (keep : Finset (Fin s.allocation.keep.card)) :
-    (G.withPrimeCost primeCost hcost hprime).childData keep = G.childData keep := rfl
+    (withPrimeCost D G primeCost hcost hprime).childData keep = G.childData keep := rfl
 
 end NormalizedCapacityData
 

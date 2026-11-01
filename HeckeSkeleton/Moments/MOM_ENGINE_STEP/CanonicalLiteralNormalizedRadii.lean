@@ -540,8 +540,8 @@ def literalRightProfileCoefficient (r : Bool) : ℝ :=
             (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
             (CompleteMovingRowRecipe.primeMaskLogBound A Z (m + q))))
         (orders.sup Prod.snd) (orders.sup Prod.snd) z := by
-  let GL := geometry.atBase leftTable.base hbaseLeft
-  have hmL : GL.literalRowParameter paidCutoff = m :=
+  let «GL» := geometry.atBase leftTable.base hbaseLeft
+  have hmL : «GL».literalRowParameter paidCutoff = m :=
     geometry.atBase_literalRowParameter leftTable.base hbaseLeft paidCutoff
   have hrootL : idealLogLength leftTable.base
       (secondSixthRootIdeal ordinaryRows.primes ordinaryRows.leftMultiplicity
@@ -549,7 +549,7 @@ def literalRightProfileCoefficient (r : Bool) : ℝ :=
     change idealLogLength (v.literalLeftAtoms leftAtoms).base
       (secondSixthRootIdeal v.block.primes v.block.leftMultiplicity v.block.rightMultiplicity).val = _
     rw [hbaseLeft]
-  have hqL : GL.literalSupportParameter
+  have hqL : «GL».literalSupportParameter
       (idealLogLength leftTable.base
         (secondSixthRootIdeal ordinaryRows.primes ordinaryRows.leftMultiplicity
           ordinaryRows.rightMultiplicity).val) = q := by
@@ -562,7 +562,7 @@ def literalRightProfileCoefficient (r : Bool) : ℝ :=
       (CanonicalFullKappaPrime.radiusFactor K leftTable.base δ mesh
         (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
         (CompleteMovingRowRecipe.primeMaskLogBound A leftTable.base
-          (GL.literalRowParameter paidCutoff + GL.literalSupportParameter
+          («GL».literalRowParameter paidCutoff + «GL».literalSupportParameter
             (idealLogLength leftTable.base
               (secondSixthRootIdeal ordinaryRows.primes ordinaryRows.leftMultiplicity
                 ordinaryRows.rightMultiplicity).val)))))

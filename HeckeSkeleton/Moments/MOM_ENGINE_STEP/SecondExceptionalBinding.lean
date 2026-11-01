@@ -122,7 +122,8 @@ theorem centered_column_norm_eq_source
         i (exceptional_column_mem_source f.allocation i hi)
         (f.ideal i) (f.ideal_product i (exceptional_column_mem_source f.allocation i hi))
         (-R.frequency h.val) (-R.factor C h.val) (R.extractedRow C h).element
-        (by rw [(R.extractedRow C h).frequency, neg_mul])
+        (by simpa only [neg_mul] using
+          congrArg (fun a : A.R => -a) (R.extractedRow C h).frequency)
       exact (congrArg star he).trans (star_mul' _ _)
     have hphase (z : V) : jointPhase ξ (-z) = star (jointPhase ξ z) := by
       simp only [jointPhase, inner_neg_right, AddChar.map_neg_eq_inv,
@@ -139,7 +140,11 @@ theorem centered_column_norm_eq_source
         jointFourierColumn f.allocation.columns c (fun i => -x i) ξ := by
       simp only [ActualAllocatedSource.centeredColumn, source, rawSource,
         ActualSecondCorrelationRows.source, ActualAllocatedSource.negativeSide,
-        ActualChildRow.negative, rawSourceLocation_neg] <;> rfl
+        ActualChildRow.negative]
+      exact congrArg (fun locations =>
+        jointFourierColumn f.allocation.columns c locations ξ)
+        (funext (rawSourceLocation_neg (f.leftLocation h.val)
+          (f.rightLocation h.val) (f.slotLocation h.val)))
     rw [hs]
     change ‖jointFourierColumn f.allocation.columns (f.centeredCoefficient E h.val) x ξ‖ = _
     rw [hp, norm_mul, norm_star, norm_star]
@@ -321,7 +326,7 @@ theorem pair_magnitude_live
         simp [hc, he, term]
     _ = ∑ h : R.live, if exceptional h.val then term h.val else 0 :=
       (Finset.sum_coe_sort R.live (fun h => if exceptional h then term h else 0)).symm
-    _ = _ := by simp only [jointColumnPairMagnitude, Finset.sum_filter, Finset.sum_univ, term]
+    _ = _ := by simp only [jointColumnPairMagnitude, Finset.sum_filter, term]
 
 end ActualSecondCorrelationRows
 

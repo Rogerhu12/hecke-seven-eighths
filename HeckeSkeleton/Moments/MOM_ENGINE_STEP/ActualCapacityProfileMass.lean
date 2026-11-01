@@ -33,26 +33,26 @@ section ActualKernel
 variable {sL : ActualAllocatedSource A (WithLp 2 (U × E)) HL k}
 variable {sR : ActualAllocatedSource A (WithLp 2 (U × E)) HR l}
 variable {DL : sL.Calibration (σ := σ) ω ψ} {DR : sR.Calibration (σ := σ) ω ψ}
-variable {GL : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
+variable {«GL» : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
 variable (B₁ B₂ : ℝ) (J₁₁ J₁₂ J₂₁ J₂₂ : ℕ)
-variable (hleftRadius : ∀ z, GL.radius (WithLp.toLp 2 z) = polynomialProfileRadius B₁ J₁₁ J₁₂ z)
+variable (hleftRadius : ∀ z, «GL».radius (WithLp.toLp 2 z) = polynomialProfileRadius B₁ J₁₁ J₁₂ z)
 variable (hrightRadius : ∀ z, GR.radius (WithLp.toLp 2 z) = polynomialProfileRadius B₂ J₂₁ J₂₂ z)
 
 include hleftRadius hrightRadius
 
 theorem normalizedCapacityPairEnvelope_hilbert_eq (ξ : WithLp 2 (U × E)) :
-    normalizedCapacityPairEnvelope GL GR ξ =
+    normalizedCapacityPairEnvelope «GL» GR ξ =
       pairedProfileEnvelope B₁ B₂ sL.allocation.keep.card sR.allocation.keep.card
         J₁₁ J₁₂ J₂₁ J₂₂ (WithLp.ofLp ξ) := by
-  have hl : GL.radius ξ = polynomialProfileRadius B₁ J₁₁ J₁₂ (WithLp.ofLp ξ) := by
+  have hl : «GL».radius ξ = polynomialProfileRadius B₁ J₁₁ J₁₂ (WithLp.ofLp ξ) := by
     simpa only [WithLp.toLp_ofLp] using hleftRadius (WithLp.ofLp ξ)
   have hr : GR.radius ξ = polynomialProfileRadius B₂ J₂₁ J₂₂ (WithLp.ofLp ξ) := by
     simpa only [WithLp.toLp_ofLp] using hrightRadius (WithLp.ofLp ξ)
   simp only [normalizedCapacityPairEnvelope, pairedProfileEnvelope, hl, hr]
 
 theorem normalizedCapacityPairEnvelope_hilbert_measurable :
-    Measurable (normalizedCapacityPairEnvelope GL GR) := by
-  have heq : normalizedCapacityPairEnvelope GL GR = fun ξ =>
+    Measurable (normalizedCapacityPairEnvelope «GL» GR) := by
+  have heq : normalizedCapacityPairEnvelope «GL» GR = fun ξ =>
       pairedProfileEnvelope B₁ B₂ sL.allocation.keep.card sR.allocation.keep.card
         J₁₁ J₁₂ J₂₁ J₂₂ (WithLp.ofLp ξ) :=
     funext (normalizedCapacityPairEnvelope_hilbert_eq B₁ B₂ J₁₁ J₁₂ J₂₁ J₂₂
@@ -66,7 +66,7 @@ theorem normalizedCapacityPairEnvelope_hilbert_measurable :
 and the exact profile envelope under the two original Fourier measures. -/
 theorem normalizedCapacityPairKernel_nested_mass_eq
     (F₁ : 𝓢(U, ℂ)) (F₂ : 𝓢(E, ℂ)) (hB₁ : 0 ≤ B₁) (hB₂ : 0 ≤ B₂)
-    (left : GL.Child) (right : GR.Child) (originalLeft originalRight : ℂ)
+    (left : «GL».Child) (right : GR.Child) (originalLeft originalRight : ℂ)
     (Z parentWidth : ℝ) (hZ : 0 < Z) :
     (normalizedCapacityPairKernel (Measure.map (WithLp.toLp 2) (nestedFourierMeasure F₁ F₂))
       left right originalLeft originalRight Z parentWidth).real Set.univ =
@@ -90,7 +90,7 @@ theorem normalizedCapacityPairKernel_nested_mass_eq
 
 theorem normalizedCapacityPairKernel_nested_finite
     (F₁ : 𝓢(U, ℂ)) (F₂ : 𝓢(E, ℂ)) (hB₁ : 0 ≤ B₁) (hB₂ : 0 ≤ B₂)
-    (left : GL.Child) (right : GR.Child) (originalLeft originalRight : ℂ)
+    (left : «GL».Child) (right : GR.Child) (originalLeft originalRight : ℂ)
     (Z parentWidth : ℝ) :
     IsFiniteMeasure (normalizedCapacityPairKernel
       (Measure.map (WithLp.toLp 2) (nestedFourierMeasure F₁ F₂))
@@ -120,8 +120,8 @@ theorem normalizedCapacityPairKernel_smul_measure
     {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V] [MeasurableSpace V]
     {sL : ActualAllocatedSource A V HL k} {sR : ActualAllocatedSource A V HR l}
     {DL : sL.Calibration (σ := σ) ω ψ} {DR : sR.Calibration (σ := σ) ω ψ}
-    {GL : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
-    (μ : Measure V) (c : ℝ≥0∞) (left : GL.Child) (right : GR.Child)
+    {«GL» : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
+    (μ : Measure V) (c : ℝ≥0∞) (left : «GL».Child) (right : GR.Child)
     (originalLeft originalRight : ℂ) (Z parentWidth : ℝ) :
     normalizedCapacityPairKernel (c • μ) left right originalLeft originalRight Z parentWidth =
       c • normalizedCapacityPairKernel μ left right originalLeft originalRight Z parentWidth := by
@@ -138,11 +138,11 @@ theorem normalized_capacity_nested_kernel_uniform_mass
     ∀ (sL : ActualAllocatedSource A (WithLp 2 (U × E)) HL k)
       (sR : ActualAllocatedSource A (WithLp 2 (U × E)) HR l)
       (DL : sL.Calibration (σ := σ) ω ψ) (DR : sR.Calibration (σ := σ) ω ψ)
-      (GL : DL.NormalizedCapacityData) (GR : DR.NormalizedCapacityData),
+      («GL» : DL.NormalizedCapacityData) (GR : DR.NormalizedCapacityData),
       sL.allocation.keep.card ≤ cap → sR.allocation.keep.card ≤ cap →
-      (∀ z, GL.radius (WithLp.toLp 2 z) = polynomialProfileRadius B₁ J₁₁ J₁₂ z) →
+      (∀ z, «GL».radius (WithLp.toLp 2 z) = polynomialProfileRadius B₁ J₁₁ J₁₂ z) →
       (∀ z, GR.radius (WithLp.toLp 2 z) = polynomialProfileRadius B₂ J₂₁ J₂₂ z) →
-    ∀ (left : GL.Child) (right : GR.Child) (originalLeft originalRight : ℂ)
+    ∀ (left : «GL».Child) (right : GR.Child) (originalLeft originalRight : ℂ)
       (Z parentWidth : ℝ), 0 < Z →
       IsFiniteMeasure (normalizedCapacityPairKernel
         (Measure.map (WithLp.toLp 2) (nestedFourierMeasure F₁ F₂))
@@ -156,7 +156,7 @@ theorem normalized_capacity_nested_kernel_uniform_mass
   obtain ⟨s₁, s₂, C, hC, hmass⟩ := normalized_profile_kernel_uniform_mass_up_to
     (V := U) (E := E) cap J₁₁ J₁₂ J₂₁ J₂₂
   refine ⟨s₁, s₂, C, hC, ?_⟩
-  intro F₁ F₂ B₁ B₂ hB₁ hB₂ HL HR k l sL sR DL DR GL GR hcapL hcapR hleftRadius hrightRadius
+  intro F₁ F₂ B₁ B₂ hB₁ hB₂ HL HR k l sL sR DL DR «GL» GR hcapL hcapR hleftRadius hrightRadius
     left right originalLeft originalRight Z parentWidth hZ
   refine ⟨normalizedCapacityPairKernel_nested_finite B₁ B₂ J₁₁ J₁₂ J₂₁ J₂₂
     hleftRadius hrightRadius F₁ F₂ hB₁ hB₂ left right originalLeft originalRight Z parentWidth, ?_⟩

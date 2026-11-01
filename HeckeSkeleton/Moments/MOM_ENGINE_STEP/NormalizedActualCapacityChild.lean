@@ -45,7 +45,7 @@ end ProfileNormalizationInput
 
 /-- Restricting actual slots retains the original profile window. -/
 def RawProfileWindow.restrictSlots
-    {rowDomain : Set (NonzeroIdeal F)} {heightDomain window : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal F)} {heightDomain window : Set ℝ}
     {seminorms : Finset (ℕ × ℕ)} {d : MomentData F ω ψ} {A : ℝ}
     (raw : RawProfileWindow rowDomain heightDomain window seminorms d A)
     (keep : Finset (Fin d.geometry.slotCount)) :
@@ -115,17 +115,19 @@ theorem normalized_invariants (P : ProfileNormalizationInput F ω ψ)
       (P.totalLength (c.data ξ) (amplitude ξ)⁻¹ (inv_pos.mpr (hpos ξ))).symm
   · exact (P.fitsMesh (c.data ξ) (amplitude ξ)⁻¹
       (inv_pos.mpr (hpos ξ)) input.mesh).mpr (c.mesh ξ)
-  · intro i
-    change (P.scaleData (c.data ξ) (amplitude ξ)⁻¹
+  · change ∀ i : Fin (P.scaleData (c.data ξ) (amplitude ξ)⁻¹
+        (inv_pos.mpr (hpos ξ))).geometry.slotCount,
+      (P.scaleData (c.data ξ) (amplitude ξ)⁻¹
       (inv_pos.mpr (hpos ξ))).slotCoefficient i ∈
         (P.scaleData (c.data ξ) (amplitude ξ)⁻¹ (inv_pos.mpr (hpos ξ))).theta
+    intro i
     rw [P.slotCoefficient, P.theta]
     exact c.theta ξ _
 
 theorem normalized_in_fixed_window
     (P : ProfileNormalizationInput F ω ψ)
     (amplitude : V → ℝ) (hpos : ∀ ξ, 0 < amplitude ξ)
-    (rowDomain : Set (NonzeroIdeal F)) (heightDomain window : Set ℝ)
+    (rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal F)) (heightDomain window : Set ℝ)
     (seminorms : Finset (ℕ × ℕ))
     (raw : ∀ ξ, RawProfileWindow rowDomain heightDomain window seminorms
       (cal.clippedData ξ) (amplitude ξ)) (ξ : V) :
@@ -200,7 +202,7 @@ theorem produce_normalized_capacity_child
     (amplitude : V → ℝ) (hpos : ∀ ξ, 0 < amplitude ξ)
     (bounds : Fin s.allocation.keep.card → ℝ)
     (hfactor : ∀ ξ i, input.primeBound ξ i = amplitude ξ ^ 2 * bounds i)
-    (rowDomain : Set (NonzeroIdeal F)) (heightDomain window : Set ℝ)
+    (rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal F)) (heightDomain window : Set ℝ)
     (seminorms : Finset (ℕ × ℕ))
     (raw : ∀ ξ, RawProfileWindow rowDomain heightDomain window seminorms
       (cal.clippedData ξ) (amplitude ξ)) :
@@ -241,7 +243,7 @@ theorem actual_second_pair_produces_normalized_children
     (hBL : ∀ i, 0 ≤ BL i) (hBR : ∀ i, 0 ≤ BR i)
     (hleft : ∀ ξ i, li.primeBound ξ i = AL ξ ^ 2 * BL i)
     (hright : ∀ ξ i, ri.primeBound ξ i = AR ξ ^ 2 * BR i)
-    (rowDomain : Set (NonzeroIdeal F)) (heightDomain window : Set ℝ)
+    (rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal F)) (heightDomain window : Set ℝ)
     (seminorms : Finset (ℕ × ℕ))
     (rawL : ∀ ξ, RawProfileWindow rowDomain heightDomain window seminorms (lc.clippedData ξ) (AL ξ))
     (rawR : ∀ ξ, RawProfileWindow rowDomain heightDomain window seminorms (rc.clippedData ξ) (AR ξ)) :

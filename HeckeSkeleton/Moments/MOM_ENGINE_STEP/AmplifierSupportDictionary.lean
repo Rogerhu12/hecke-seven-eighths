@@ -8,7 +8,7 @@ open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStep
 
-open NumberField IsDedekindDomain UniqueFactorizationMonoid DedekindZetaZeroFree
+open NumberField IsDedekindDomain UniqueFactorizationMonoid DedekindZetaZeroFree LocalFiniteSums
 open HeckePort.Moments HeckePort.Moments.Support
 
 variable {K : Type} [Field K] [NumberField K]
@@ -18,7 +18,7 @@ theorem supportExtract_singleton_power
     supportExtract I {Q} = Q ^ (normalizedFactors I).count Q := by
   have hf : (normalizedFactors I).filter (fun P => P ∈ ({Q} : Finset (Ideal (𝓞 K)))) =
       Multiset.replicate ((normalizedFactors I).count Q) Q := by
-    apply Multiset.ext
+    apply Multiset.ext.mpr
     intro P
     rw [Multiset.count_filter, Multiset.count_replicate]
     by_cases h : P = Q <;> simp [h, eq_comm]

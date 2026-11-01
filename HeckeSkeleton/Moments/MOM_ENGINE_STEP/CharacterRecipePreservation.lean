@@ -110,6 +110,8 @@ variable {conjugated : Bool}
 variable {row : HeckeGeneral.Analysis.NonzeroIdeal F → HeckeCharacter F}
 variable (R : ParentCharacterRecipe parent data conjugated row)
 
+include R
+
 theorem clipped (a : RealParameters) (Z : ℝ) (hZ : 0 < Z) :
     ParentCharacterRecipe parent (fun ξ => clipPlainData (data ξ) a Z hZ) conjugated row :=
   ⟨R.background, R.rowCharacter, R.theta⟩
@@ -157,8 +159,10 @@ theorem frozen_parentCharacterRecipe
     {parent : MomentData F ω ψ} {conjugated : Bool}
     {row : HeckeGeneral.Analysis.NonzeroIdeal F → HeckeCharacter F}
     (R : ParentCharacterRecipe parent D.data conjugated row) :
-    ParentCharacterRecipe parent out.frozenData conjugated row :=
-  ⟨R.background, R.rowCharacter, R.theta⟩
+    ParentCharacterRecipe parent out.frozenData conjugated row where
+  background ξ := (out.frozen_plainBackground_eq ξ).trans (R.background ξ)
+  rowCharacter ξ := (out.frozen_rowCharacter_eq ξ).trans (R.rowCharacter ξ)
+  theta ξ := (out.frozen_theta_eq ξ).trans (R.theta ξ)
 
 /-- This is the actual retained slot index inside the already allocated
 source.  It includes both the calibration's count cast and the one

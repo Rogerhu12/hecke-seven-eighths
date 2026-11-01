@@ -27,7 +27,7 @@ variable {V HL HR : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 variable {k l : ℕ}
 variable {sL : ActualAllocatedSource A V HL k} {sR : ActualAllocatedSource A V HR l}
 variable {DL : sL.Calibration (σ := σ) ω ψ} {DR : sR.Calibration (σ := σ) ω ψ}
-variable {GL : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
+variable {«GL» : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
 variable {Ray : Type*} [CommGroup Ray] [Fintype Ray]
 variable {branch : TwoDivisorCommonBranch (K := F)}
 variable (z : branch.AtomicLabel Ray)
@@ -39,7 +39,7 @@ theorem actual_capacity_same_label_scalar_le
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 F), v ∉ A.Sf → HeckeGeneral.Characters.localDifferentExponent F v = 0)
     (firstResidue firstFrequency : A.R)
     (phase₁ phase₂ : branch.AtomicLabel Ray → Ray × Ray → Circle)
-    (left : GL.Child) (right : GR.Child) (originalLeft originalRight : ℂ)
+    (left : «GL».Child) (right : GR.Child) (originalLeft originalRight : ℂ)
     (Z : ℝ) (hZ : 1 < Z)
     (parentWidth a₀ q wo w boundary krow g ell NL NR δ ε : ℝ)
     (r : {r : ℝ // 0 < r}) (mask : Finset (HeightOneSpectrum A.R))
@@ -61,10 +61,10 @@ theorem actual_capacity_same_label_scalar_le
     (hscalarL : DL.scalarBound ≤ frozenCost ^ cap / (Ideal.absNorm z.secondDivisor : ℝ))
     (hscalarR : DR.scalarBound ≤ frozenCost ^ cap / (Ideal.absNorm z.secondDivisor : ℝ))
     (hfiberL : (DL.fiberBound : ℝ) ≤ fiberCost) (hfiberR : (DR.fiberBound : ℝ) ≤ fiberCost)
-    (hprimeL : ∀ i, GL.primeBound i ≤ primeCost)
+    (hprimeL : ∀ i, «GL».primeBound i ≤ primeCost)
     (hprimeR : ∀ i, GR.primeBound i ≤ primeCost) (hprime : 1 ≤ primeCost)
     (hcapL : sL.allocation.keep.card ≤ cap) (hcapR : sR.allocation.keep.card ≤ cap)
-    (hbudgetL : DL.parameters.m + DL.parameters.q + GL.exponent ≤
+    (hbudgetL : DL.parameters.m + DL.parameters.q + «GL».exponent ≤
       secondCommonChildWidth Z a₀ q wo krow g z.secondLabel.1.1 z.secondLabel.1.2 T R +
         secondCommonChildAllowance Z w boundary ell z.secondLabel.1.1 z.secondLabel.1.2 + δ)
     (hbudgetR : DR.parameters.m + DR.parameters.q + GR.exponent ≤

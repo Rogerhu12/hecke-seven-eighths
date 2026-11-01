@@ -152,7 +152,7 @@ theorem centered_joint_polynomial
             (fun y => b.childCoefficient (σ := σ) T g h' X₁ X₂ Z length w₁ w₂ w y -
               b.childCoefficient (σ := σ) T g h' Y₁ Y₂ Z length v₁ v₂ w y)
             (b.childLocation x₁ x₂ x) ξ := by
-  have hsub {J : Type*} (U : Finset J) (c d : J → ℂ) (u : J → V) :
+  have hsub {J : Type} (U : Finset J) (c d : J → ℂ) (u : J → V) :
       jointFourierColumn U (fun y => c y - d y) u ξ =
         jointFourierColumn U c u ξ - jointFourierColumn U d u ξ := by
     simp only [jointFourierColumn, sub_mul, Finset.sum_sub_distrib]

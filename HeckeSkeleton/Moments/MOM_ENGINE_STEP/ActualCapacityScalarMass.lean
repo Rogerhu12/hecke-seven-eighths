@@ -116,7 +116,7 @@ end ActualAllocatedSource.Calibration.NormalizedCapacityData
 
 variable {sL : ActualAllocatedSource A V HL k} {sR : ActualAllocatedSource A V HR l}
 variable {DL : sL.Calibration (σ := σ) ω ψ} {DR : sR.Calibration (σ := σ) ω ψ}
-variable {GL : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
+variable {«GL» : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
 
 theorem SecondColumnFactors.normalizer_eq_extra {Ray : Type*}
     (P : SecondColumnFactors F Ray k) (N₁ N₂ : ℝ) (scale : Fin k → ℝ)
@@ -132,16 +132,16 @@ theorem SecondColumnFactors.normalizer_eq_extra {Ray : Type*}
 /-- Primitive field costs on both sides give the actual kernel scalar.
 The square roots together pay each common cost once. -/
 theorem normalizedCapacityPairWeight_le_costs
-    (left : GL.Child) (right : GR.Child) (originalLeft originalRight : ℂ)
+    (left : «GL».Child) (right : GR.Child) (originalLeft originalRight : ℂ)
     (Z parentWidth rowCost scalarCost fiberCost primeCost budget : ℝ) (cap : ℕ)
     (hZ : 1 ≤ Z) (hbaseL : sL.base = Z) (hbaseR : sR.base = Z)
     (hrowL : DL.rowBound ≤ rowCost) (hrowR : DR.rowBound ≤ rowCost)
     (hscalarL : DL.scalarBound ≤ scalarCost) (hscalarR : DR.scalarBound ≤ scalarCost)
     (hfiberL : (DL.fiberBound : ℝ) ≤ fiberCost) (hfiberR : (DR.fiberBound : ℝ) ≤ fiberCost)
-    (hprimeL : ∀ i, GL.primeBound i ≤ primeCost)
+    (hprimeL : ∀ i, «GL».primeBound i ≤ primeCost)
     (hprimeR : ∀ i, GR.primeBound i ≤ primeCost) (hprimeOne : 1 ≤ primeCost)
     (hcapL : sL.allocation.keep.card ≤ cap) (hcapR : sR.allocation.keep.card ≤ cap)
-    (hbudgetL : DL.parameters.m + DL.parameters.q + GL.exponent ≤ budget)
+    (hbudgetL : DL.parameters.m + DL.parameters.q + «GL».exponent ≤ budget)
     (hbudgetR : DR.parameters.m + DR.parameters.q + GR.exponent ≤ budget) :
     normalizedCapacityPairWeight left right originalLeft originalRight Z parentWidth ≤
       ‖originalLeft‖ * ‖originalRight‖ *
@@ -278,7 +278,7 @@ theorem secondCommonRowCost_budget_le
 cost inputs are the separately chosen row/scalar/fiber factors, each
 normalized prime bound, and the original numerical width ledger. -/
 theorem normalizedCapacityPairWeight_second_harmonic
-    (left : GL.Child) (right : GR.Child) (originalLeft originalRight : ℂ)
+    (left : «GL».Child) (right : GR.Child) (originalLeft originalRight : ℂ)
     (Z : ℝ) (hZ : 1 < Z)
     (parentWidth a₀ q wo w boundary krow g ell NL NR δ ε : ℝ)
     (r : {r : ℝ // 0 < r}) (mask : Finset (HeightOneSpectrum A.R))
@@ -296,10 +296,10 @@ theorem normalizedCapacityPairWeight_second_harmonic
     (hscalarL : DL.scalarBound ≤ frozenCost ^ cap / (Ideal.absNorm L : ℝ))
     (hscalarR : DR.scalarBound ≤ frozenCost ^ cap / (Ideal.absNorm L : ℝ))
     (hfiberL : (DL.fiberBound : ℝ) ≤ fiberCost) (hfiberR : (DR.fiberBound : ℝ) ≤ fiberCost)
-    (hprimeL : ∀ i, GL.primeBound i ≤ primeCost)
+    (hprimeL : ∀ i, «GL».primeBound i ≤ primeCost)
     (hprimeR : ∀ i, GR.primeBound i ≤ primeCost) (hprime : 1 ≤ primeCost)
     (hcapL : sL.allocation.keep.card ≤ cap) (hcapR : sR.allocation.keep.card ≤ cap)
-    (hbudgetL : DL.parameters.m + DL.parameters.q + GL.exponent ≤
+    (hbudgetL : DL.parameters.m + DL.parameters.q + «GL».exponent ≤
       secondCommonChildWidth Z a₀ q wo krow g D E T R +
         secondCommonChildAllowance Z w boundary ell D E + δ)
     (hbudgetR : DR.parameters.m + DR.parameters.q + GR.exponent ≤

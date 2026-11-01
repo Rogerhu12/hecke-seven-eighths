@@ -259,8 +259,12 @@ def dualCalibrationOfActiveInverseNorm
   zeroProductExponent := zeroProduct
   zeroProductExponent_nonneg := hzeroProduct
   zero_product_norm := hzeroNorm
+  zeroDivisor := 1
+  zeroDivisor_ne_zero := one_ne_zero
+  zero_divisor_dvd := by intro ij hij hgram heq; exact one_dvd _
   zero_normalization := by
     intro v hv
+    simp only [map_one, Nat.cast_one, mul_one]
     have hm := (mem_firstZeroPairs G.columns G.columns G.ideal G.ideal v).mp hv
     have hz : 0 < Z := zero_lt_one.trans_le hbase
     have hp := W.activeInverseNorm_gram_mul_norm_le C G.ideal G.coefficient hcoefficient

@@ -37,15 +37,15 @@ variable {V HL HR : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 variable {ω ψ : HeckeCharacter K} {k l : ℕ}
 variable {sL : ActualAllocatedSource A V HL k} {sR : ActualAllocatedSource A V HR l}
 variable {DL : sL.Calibration (σ := σ) ω ψ} {DR : sR.Calibration (σ := σ) ω ψ}
-variable {GL : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
+variable {«GL» : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
 
-theorem normalizedCapacityPairWeight_parent_zero (left : GL.Child) (right : GR.Child)
+theorem normalizedCapacityPairWeight_parent_zero (left : «GL».Child) (right : GR.Child)
     (originalLeft originalRight : ℂ) (Z parentWidth : ℝ) :
     normalizedCapacityPairWeight left right originalLeft originalRight Z parentWidth =
       normalizedCapacityPairWeight left right originalLeft originalRight Z 0 / Z ^ parentWidth := by
   simp only [normalizedCapacityPairWeight, Real.rpow_zero, div_one]
 
-theorem normalizedCapacityPairWeight_outer_parent_zero (left : GL.Child) (right : GR.Child)
+theorem normalizedCapacityPairWeight_outer_parent_zero (left : «GL».Child) (right : GR.Child)
     (originalLeft originalRight : ℂ) (Z parentWidth outer : ℝ) :
     outer * normalizedCapacityPairWeight left right originalLeft originalRight Z parentWidth =
       (outer / Z ^ parentWidth) *

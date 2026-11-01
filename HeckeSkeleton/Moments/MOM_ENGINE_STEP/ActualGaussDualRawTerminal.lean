@@ -190,7 +190,7 @@ theorem actual_gauss_raw_dual_terminal_bound
     actual_gauss_raw_dual_finite_bound (E := E) (ν := ν) (μ := μ) hΓ μv hDiff C Drecipe hD
       finiteTest hlc hcs decay hdecay order horder hdegree
   obtain ⟨sZero, Czero, hCzero, hzero⟩ :=
-    second_dualZero_diagonal_supported_of_fibers (σ := σ) (η := η) (hS := hS)
+    second_dualZero_diagonal_supported_of_divisor (σ := σ) (η := η) (hS := hS)
       (hΓ := hΓ) (μv := μv) finiteTest k ε hε
   let Cnum := 2 * firstTailFieldConstant K * idealCountConstant K ^ k
   have hCnum : 0 ≤ Cnum := mul_nonneg
@@ -204,17 +204,24 @@ theorem actual_gauss_raw_dual_terminal_bound
     canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property
   have hz := hzero C G.columns G.columns G.ideal G.ideal blocks profiles hDiff s.radius s.mask
     s.cutoff s.cutoff_one T.windows.factors T.windows.multiplicity T.windows.factors_fiber_card
-    T.windows.factor_product (Z ^ T.zeroProductExponent) T.zeroAmplitude
+    T.windows.factor_product T.zeroDivisor (Z ^ T.zeroProductExponent)
+    (T.zeroAmplitude * (Ideal.absNorm T.zeroDivisor : ℝ)) T.zeroDivisor_ne_zero
     (Real.one_le_rpow T.windows.base_ge_one T.zeroProductExponent_nonneg)
-    T.zeroAmplitude_nonneg T.zero_product_norm
+    (mul_nonneg T.zeroAmplitude_nonneg (Nat.cast_nonneg _))
+    T.zero_product_norm T.zero_divisor_dvd
     (fun DE i hi D hD => (s.charts DE ⟨D, hD⟩).left_mask i hi)
     (fun DE j hj D hD => (s.charts DE ⟨D, hD⟩).right_mask j hj)
     T.zero_normalization
-  change s.rawDualZeroCost ≤ Czero * T.windows.multiplicity * T.zeroAmplitude *
-    (Z ^ T.zeroProductExponent) ^ ε at hz
+  change s.rawDualZeroCost ≤ Czero * T.windows.multiplicity *
+    (T.zeroAmplitude * (Ideal.absNorm T.zeroDivisor : ℝ)) *
+      (Z ^ T.zeroProductExponent) ^ ε / (Ideal.absNorm T.zeroDivisor : ℝ) at hz
   rw [← Real.rpow_mul (zero_le_one.trans T.windows.base_ge_one)] at hz
+  have hND : (Ideal.absNorm T.zeroDivisor : ℝ) ≠ 0 := by
+    exact_mod_cast (Ideal.absNorm_eq_zero_iff.not.mpr T.zeroDivisor_ne_zero)
   have hz' : s.rawDualZeroCost ≤ Czero * (T.windows.multiplicity * T.zeroAmplitude) *
-      Z ^ (T.zeroProductExponent * ε) := by simpa only [mul_assoc] using hz
+      Z ^ (T.zeroProductExponent * ε) := by
+    apply hz.trans_eq
+    field_simp [hND] <;> ring
   have hmass := T.windows.power_bound (hΓ := hΓ) (hDiff := hDiff)
   change s.rawTailMass sTail ≤ Cnum * (T.windows.multiplicity * T.tailAmplitude) *
     Z ^ secondTailExponent k T.productExponent T.profileExponent T.maskExponent

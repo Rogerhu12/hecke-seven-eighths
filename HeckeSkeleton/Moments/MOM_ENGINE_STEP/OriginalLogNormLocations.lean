@@ -85,8 +85,8 @@ location used by the allocated source. -/
 theorem rawSourceLocation_neg_log_norm (i : AllocationColumn K k)
     (hleft : i.1.1 ≠ 0) (hright : i.1.2 ≠ 0) :
     rawSourceLocation
-        (fun I : NonzeroIdeal K => -Real.log (idealNorm K I))
-        (fun I : NonzeroIdeal K => -Real.log (idealNorm K I))
+        (fun I : HeckeGeneral.Analysis.NonzeroIdeal K => -Real.log (idealNorm K I))
+        (fun I : HeckeGeneral.Analysis.NonzeroIdeal K => -Real.log (idealNorm K I))
         (fun (_ : Fin k) (p : HeightOneSpectrum (𝓞 K)) =>
           -Real.log (Ideal.absNorm p.asIdeal : ℝ)) i =
       -Real.log (Ideal.absNorm (allocationColumnIdeal i) : ℝ) := by
@@ -100,8 +100,8 @@ theorem rawSourceLocation_neg_log_exterior {A : SArithmeticData K}
     (i : AllocationColumn K k) (hleft : i.1.1 ≠ 0) (hright : i.1.2 ≠ 0)
     (I : A.Exterior) (hI : I.val = allocationColumnIdeal i) :
     rawSourceLocation
-        (fun J : NonzeroIdeal K => -Real.log (idealNorm K J))
-        (fun J : NonzeroIdeal K => -Real.log (idealNorm K J))
+        (fun J : HeckeGeneral.Analysis.NonzeroIdeal K => -Real.log (idealNorm K J))
+        (fun J : HeckeGeneral.Analysis.NonzeroIdeal K => -Real.log (idealNorm K J))
         (fun (_ : Fin k) (p : HeightOneSpectrum (𝓞 K)) =>
           -Real.log (Ideal.absNorm p.asIdeal : ℝ)) i =
       -Real.log (A.exteriorNorm I) := by

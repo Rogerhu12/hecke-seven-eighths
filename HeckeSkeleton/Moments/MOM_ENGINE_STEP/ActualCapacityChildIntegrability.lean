@@ -92,20 +92,20 @@ theorem actual_weighted_fourier_normalized_integrable
 variable {HL HR : Type*} {k l : ℕ}
 variable {sL : ActualAllocatedSource A V HL k} {sR : ActualAllocatedSource A V HR l}
 variable {DL : sL.Calibration (σ := σ) ω ψ} {DR : sR.Calibration (σ := σ) ω ψ}
-variable {GL : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
+variable {«GL» : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
 
 /-- Individual profile-radius bounds determine the full density order;
 there is no additional assumption about a child moment or its mass. -/
 theorem normalizedCapacityPairEnvelope_polynomial_bound
     (C₁ C₂ : ℝ) (hC₁ : 0 ≤ C₁) (hC₂ : 0 ≤ C₂) (J₁ J₂ : ℕ)
-    (hleft : ∀ ξ, GL.radius ξ ≤ C₁ * (1 + ‖ξ‖) ^ J₁)
+    (hleft : ∀ ξ, «GL».radius ξ ≤ C₁ * (1 + ‖ξ‖) ^ J₁)
     (hright : ∀ ξ, GR.radius ξ ≤ C₂ * (1 + ‖ξ‖) ^ J₂) (ξ : V) :
-    normalizedCapacityPairEnvelope GL GR ξ ≤
+    normalizedCapacityPairEnvelope «GL» GR ξ ≤
       (C₁ ^ (sL.allocation.keep.card + 2) * C₂ ^ (sR.allocation.keep.card + 2)) *
         (1 + ‖ξ‖) ^
           (J₁ * (sL.allocation.keep.card + 2) + J₂ * (sR.allocation.keep.card + 2)) := by
   apply (mul_le_mul
-    (pow_le_pow_left₀ (GL.radius_pos ξ).le (hleft ξ) (sL.allocation.keep.card + 2))
+    (pow_le_pow_left₀ («GL».radius_pos ξ).le (hleft ξ) (sL.allocation.keep.card + 2))
     (pow_le_pow_left₀ (GR.radius_pos ξ).le (hright ξ) (sR.allocation.keep.card + 2))
     (pow_nonneg (GR.radius_pos ξ).le _)
     (pow_nonneg (mul_nonneg hC₁ (pow_nonneg (by positivity) _)) _)).trans_eq
@@ -115,33 +115,33 @@ theorem normalizedCapacityPairEnvelope_polynomial_bound
 /-- Both actual child energies and their Cauchy product are integrable
 under the same exact envelope measure. -/
 theorem normalized_capacity_children_actual_integrable
-    (left : GL.Child) (right : GR.Child) (Z : ℝ) (hZ : 0 < Z)
+    (left : «GL».Child) (right : GR.Child) (Z : ℝ) (hZ : 0 < Z)
     (calL : ActualFiniteFamilyControl left.rawData left.retainedCount left.raw_count
       left.parameters Z DL.height)
     (calR : ActualFiniteFamilyControl right.rawData right.retainedCount right.raw_count
       right.parameters Z DR.height)
     (Fker : 𝓢(V, ℂ))
-    (hleftMeas : Measurable GL.radius) (hrightMeas : Measurable GR.radius)
-    (hleftOne : ∀ ξ, 1 ≤ GL.radius ξ) (hrightOne : ∀ ξ, 1 ≤ GR.radius ξ)
+    (hleftMeas : Measurable «GL».radius) (hrightMeas : Measurable GR.radius)
+    (hleftOne : ∀ ξ, 1 ≤ «GL».radius ξ) (hrightOne : ∀ ξ, 1 ≤ GR.radius ξ)
     (C : ℝ) (hC : 0 ≤ C) (J : ℕ)
-    (hbound : ∀ ξ, normalizedCapacityPairEnvelope GL GR ξ ≤ C * (1 + ‖ξ‖) ^ J) :
+    (hbound : ∀ ξ, normalizedCapacityPairEnvelope «GL» GR ξ ≤ C * (1 + ‖ξ‖) ^ J) :
     let μ := (actualFourierMeasure Fker).withDensity
-      (fun ξ => ENNReal.ofReal (normalizedCapacityPairEnvelope GL GR ξ))
+      (fun ξ => ENNReal.ofReal (normalizedCapacityPairEnvelope «GL» GR ξ))
     Integrable (fun ξ => normalizedPairedEnergy (left.data ξ) left.parameters Z (DL.height ξ)) μ ∧
       Integrable (fun ξ => normalizedPairedEnergy (right.data ξ) right.parameters Z (DR.height ξ)) μ ∧
       Integrable (fun ξ =>
         Real.sqrt (normalizedPairedEnergy (left.data ξ) left.parameters Z (DL.height ξ)) *
           Real.sqrt (normalizedPairedEnergy (right.data ξ) right.parameters Z (DR.height ξ))) μ := by
-  have hm : Measurable (normalizedCapacityPairEnvelope GL GR) :=
+  have hm : Measurable (normalizedCapacityPairEnvelope «GL» GR) :=
     (hleftMeas.pow_const _).mul (hrightMeas.pow_const _)
-  have hn := fun ξ => normalizedCapacityPairEnvelope_nonneg (GL := GL) (GR := GR) ξ
+  have hn := fun ξ => normalizedCapacityPairEnvelope_nonneg («GL» := «GL») (GR := GR) ξ
   let μ := (actualFourierMeasure Fker).withDensity
-    (fun ξ => ENNReal.ofReal (normalizedCapacityPairEnvelope GL GR ξ))
+    (fun ξ => ENNReal.ofReal (normalizedCapacityPairEnvelope «GL» GR ξ))
   have hiL : Integrable
       (fun ξ => normalizedPairedEnergy (left.data ξ) left.parameters Z (DL.height ξ)) μ := by
     simp_rw [left.data_eq_normalized_raw]
     exact normalized_profile_family_integrable μ left.rawData left.retainedCount left.raw_count
-      GL.radius GL.radius_pos hleftOne hleftMeas left.parameters Z DL.height
+      «GL».radius «GL».radius_pos hleftOne hleftMeas left.parameters Z DL.height
       (actual_weighted_fourier_normalized_integrable calL Fker _ hm hn C hC J hbound)
   have hiR : Integrable
       (fun ξ => normalizedPairedEnergy (right.data ξ) right.parameters Z (DR.height ξ)) μ := by
@@ -169,23 +169,23 @@ theorem normalized_capacity_children_actual_integrable
 /-- This is the precise child integrability premise of the second
 allocation assembly, proved for its actual retained data. -/
 theorem normalized_capacity_pair_actual_integrable
-    (left : GL.Child) (right : GR.Child) (Z : ℝ) (hZ : 0 < Z)
+    (left : «GL».Child) (right : GR.Child) (Z : ℝ) (hZ : 0 < Z)
     (calL : ActualFiniteFamilyControl left.rawData left.retainedCount left.raw_count
       left.parameters Z DL.height)
     (calR : ActualFiniteFamilyControl right.rawData right.retainedCount right.raw_count
       right.parameters Z DR.height)
     (Fker : 𝓢(V, ℂ))
-    (hleftMeas : Measurable GL.radius) (hrightMeas : Measurable GR.radius)
-    (hleftOne : ∀ ξ, 1 ≤ GL.radius ξ) (hrightOne : ∀ ξ, 1 ≤ GR.radius ξ)
+    (hleftMeas : Measurable «GL».radius) (hrightMeas : Measurable GR.radius)
+    (hleftOne : ∀ ξ, 1 ≤ «GL».radius ξ) (hrightOne : ∀ ξ, 1 ≤ GR.radius ξ)
     (C : ℝ) (hC : 0 ≤ C) (J : ℕ)
-    (hbound : ∀ ξ, normalizedCapacityPairEnvelope GL GR ξ ≤ C * (1 + ‖ξ‖) ^ J) :
-    Integrable (fun ξ => normalizedCapacityPairEnvelope GL GR ξ *
+    (hbound : ∀ ξ, normalizedCapacityPairEnvelope «GL» GR ξ ≤ C * (1 + ‖ξ‖) ^ J) :
+    Integrable (fun ξ => normalizedCapacityPairEnvelope «GL» GR ξ *
       (Real.sqrt (normalizedPairedEnergy (left.data ξ) left.parameters Z (DL.height ξ)) *
         Real.sqrt (normalizedPairedEnergy (right.data ξ) right.parameters Z (DR.height ξ))))
       (actualFourierMeasure Fker) := by
-  have hm : Measurable (normalizedCapacityPairEnvelope GL GR) :=
+  have hm : Measurable (normalizedCapacityPairEnvelope «GL» GR) :=
     (hleftMeas.pow_const _).mul (hrightMeas.pow_const _)
-  have hn := fun ξ => normalizedCapacityPairEnvelope_nonneg (GL := GL) (GR := GR) ξ
+  have hn := fun ξ => normalizedCapacityPairEnvelope_nonneg («GL» := «GL») (GR := GR) ξ
   have hi := (normalized_capacity_children_actual_integrable left right Z hZ calL calR Fker
     hleftMeas hrightMeas hleftOne hrightOne C hC J hbound).2.2
   have hweighted := (integrable_withDensity_iff_integrable_smul' hm.ennreal_ofReal
@@ -195,17 +195,17 @@ theorem normalized_capacity_pair_actual_integrable
 /-- Original finite arithmetic weights preserve the just-derived
 integrability, including zero-weight labels. -/
 theorem normalized_capacity_pair_actual_label_integrable
-    (left : GL.Child) (right : GR.Child) (Z : ℝ) (hZ : 0 < Z)
+    (left : «GL».Child) (right : GR.Child) (Z : ℝ) (hZ : 0 < Z)
     (calL : ActualFiniteFamilyControl left.rawData left.retainedCount left.raw_count
       left.parameters Z DL.height)
     (calR : ActualFiniteFamilyControl right.rawData right.retainedCount right.raw_count
       right.parameters Z DR.height)
     (Fker : 𝓢(V, ℂ)) (weight : ℝ)
-    (hleftMeas : Measurable GL.radius) (hrightMeas : Measurable GR.radius)
-    (hleftOne : ∀ ξ, 1 ≤ GL.radius ξ) (hrightOne : ∀ ξ, 1 ≤ GR.radius ξ)
+    (hleftMeas : Measurable «GL».radius) (hrightMeas : Measurable GR.radius)
+    (hleftOne : ∀ ξ, 1 ≤ «GL».radius ξ) (hrightOne : ∀ ξ, 1 ≤ GR.radius ξ)
     (C : ℝ) (hC : 0 ≤ C) (J : ℕ)
-    (hbound : ∀ ξ, normalizedCapacityPairEnvelope GL GR ξ ≤ C * (1 + ‖ξ‖) ^ J) :
-    Integrable (fun ξ => normalizedCapacityPairEnvelope GL GR ξ *
+    (hbound : ∀ ξ, normalizedCapacityPairEnvelope «GL» GR ξ ≤ C * (1 + ‖ξ‖) ^ J) :
+    Integrable (fun ξ => normalizedCapacityPairEnvelope «GL» GR ξ *
       (Real.sqrt (normalizedPairedEnergy (left.data ξ) left.parameters Z (DL.height ξ)) *
         Real.sqrt (normalizedPairedEnergy (right.data ξ) right.parameters Z (DR.height ξ))))
       (ENNReal.ofReal weight • actualFourierMeasure Fker) :=
@@ -225,13 +225,13 @@ variable {k l : ℕ}
 variable {sL : ActualAllocatedSource A (WithLp 2 (U × E)) HL k}
 variable {sR : ActualAllocatedSource A (WithLp 2 (U × E)) HR l}
 variable {DL : sL.Calibration (σ := σ) ω ψ} {DR : sR.Calibration (σ := σ) ω ψ}
-variable {GL : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
+variable {«GL» : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
 
 /-- The original two Fourier measures can be kept as a product even
 when the actual source dictionary uses their genuine Hilbert product.
 The envelope is computed from the original live counts before deletion. -/
 theorem normalized_capacity_children_nested_actual_integrable
-    (left : GL.Child) (right : GR.Child) (Z : ℝ) (hZ : 0 < Z)
+    (left : «GL».Child) (right : GR.Child) (Z : ℝ) (hZ : 0 < Z)
     (calL : ActualFiniteFamilyControl (fun z => left.rawData (WithLp.toLp 2 z))
       left.retainedCount (fun z => left.raw_count (WithLp.toLp 2 z))
       left.parameters Z (fun z => DL.height (WithLp.toLp 2 z)))
@@ -240,10 +240,10 @@ theorem normalized_capacity_children_nested_actual_integrable
       right.parameters Z (fun z => DR.height (WithLp.toLp 2 z)))
     (F₁ : 𝓢(U, ℂ)) (F₂ : 𝓢(E, ℂ))
     (B₁ B₂ : ℝ) (hB₁ : 0 ≤ B₁) (hB₂ : 0 ≤ B₂) (J₁₁ J₁₂ J₂₁ J₂₂ : ℕ)
-    (hleftRadius : ∀ z, GL.radius (WithLp.toLp 2 z) = polynomialProfileRadius B₁ J₁₁ J₁₂ z)
+    (hleftRadius : ∀ z, «GL».radius (WithLp.toLp 2 z) = polynomialProfileRadius B₁ J₁₁ J₁₂ z)
     (hrightRadius : ∀ z, GR.radius (WithLp.toLp 2 z) = polynomialProfileRadius B₂ J₂₁ J₂₂ z) :
     let μ := (nestedFourierMeasure F₁ F₂).withDensity
-      (fun z => ENNReal.ofReal (normalizedCapacityPairEnvelope GL GR (WithLp.toLp 2 z)))
+      (fun z => ENNReal.ofReal (normalizedCapacityPairEnvelope «GL» GR (WithLp.toLp 2 z)))
     Integrable (fun z => normalizedPairedEnergy (left.data (WithLp.toLp 2 z))
       left.parameters Z (DL.height (WithLp.toLp 2 z))) μ ∧
       Integrable (fun z => normalizedPairedEnergy (right.data (WithLp.toLp 2 z))
@@ -261,7 +261,7 @@ theorem normalized_capacity_children_nested_actual_integrable
       normalizedFourierChild (fun z => right.rawData (WithLp.toLp 2 z)) B₂ hB₂ J₂₁ J₂₂ z := by
     simpa only [normalizedFourierChild, hrightRadius] using
       right.data_eq_normalized_raw (WithLp.toLp 2 z)
-  have henvelope (z : U × E) : normalizedCapacityPairEnvelope GL GR (WithLp.toLp 2 z) =
+  have henvelope (z : U × E) : normalizedCapacityPairEnvelope «GL» GR (WithLp.toLp 2 z) =
       pairedProfileEnvelope B₁ B₂ sL.allocation.keep.card sR.allocation.keep.card
         J₁₁ J₁₂ J₂₁ J₂₂ z := by
     simp only [normalizedCapacityPairEnvelope, pairedProfileEnvelope, hleftRadius, hrightRadius]
@@ -273,7 +273,7 @@ theorem normalized_capacity_children_nested_actual_integrable
 /-- The same actual normalized pair is integrable before absorbing
 the envelope into the original product Fourier measure. -/
 theorem normalized_capacity_pair_nested_actual_integrable
-    (left : GL.Child) (right : GR.Child) (Z : ℝ) (hZ : 0 < Z)
+    (left : «GL».Child) (right : GR.Child) (Z : ℝ) (hZ : 0 < Z)
     (calL : ActualFiniteFamilyControl (fun z => left.rawData (WithLp.toLp 2 z))
       left.retainedCount (fun z => left.raw_count (WithLp.toLp 2 z))
       left.parameters Z (fun z => DL.height (WithLp.toLp 2 z)))
@@ -282,9 +282,9 @@ theorem normalized_capacity_pair_nested_actual_integrable
       right.parameters Z (fun z => DR.height (WithLp.toLp 2 z)))
     (F₁ : 𝓢(U, ℂ)) (F₂ : 𝓢(E, ℂ))
     (B₁ B₂ : ℝ) (hB₁ : 0 ≤ B₁) (hB₂ : 0 ≤ B₂) (J₁₁ J₁₂ J₂₁ J₂₂ : ℕ)
-    (hleftRadius : ∀ z, GL.radius (WithLp.toLp 2 z) = polynomialProfileRadius B₁ J₁₁ J₁₂ z)
+    (hleftRadius : ∀ z, «GL».radius (WithLp.toLp 2 z) = polynomialProfileRadius B₁ J₁₁ J₁₂ z)
     (hrightRadius : ∀ z, GR.radius (WithLp.toLp 2 z) = polynomialProfileRadius B₂ J₂₁ J₂₂ z) :
-    Integrable (fun z : U × E => normalizedCapacityPairEnvelope GL GR (WithLp.toLp 2 z) *
+    Integrable (fun z : U × E => normalizedCapacityPairEnvelope «GL» GR (WithLp.toLp 2 z) *
       (Real.sqrt (normalizedPairedEnergy (left.data (WithLp.toLp 2 z)) left.parameters Z
           (DL.height (WithLp.toLp 2 z))) *
         Real.sqrt (normalizedPairedEnergy (right.data (WithLp.toLp 2 z)) right.parameters Z
@@ -293,12 +293,12 @@ theorem normalized_capacity_pair_nested_actual_integrable
   have hi := (normalized_capacity_children_nested_actual_integrable left right Z hZ calL calR
     F₁ F₂ B₁ B₂ hB₁ hB₂ J₁₁ J₁₂ J₂₁ J₂₂ hleftRadius hrightRadius).2.2
   have hm : Measurable
-      (fun z : U × E => normalizedCapacityPairEnvelope GL GR (WithLp.toLp 2 z)) := by
+      (fun z : U × E => normalizedCapacityPairEnvelope «GL» GR (WithLp.toLp 2 z)) := by
     simpa only [normalizedCapacityPairEnvelope, hleftRadius, hrightRadius, pairedProfileEnvelope] using
       (pairedProfileEnvelope_continuous (V := U) (E := E) B₁ B₂
         sL.allocation.keep.card sR.allocation.keep.card J₁₁ J₁₂ J₂₁ J₂₂).measurable
   have hn := fun z : U × E => normalizedCapacityPairEnvelope_nonneg
-    (GL := GL) (GR := GR) (WithLp.toLp 2 z)
+    («GL» := «GL») (GR := GR) (WithLp.toLp 2 z)
   have hweighted := (integrable_withDensity_iff_integrable_smul' hm.ennreal_ofReal
     (Filter.Eventually.of_forall (fun _ : U × E => ENNReal.ofReal_lt_top))).mp hi
   simpa only [ENNReal.toReal_ofReal (hn _), smul_eq_mul] using hweighted

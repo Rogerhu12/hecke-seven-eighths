@@ -102,12 +102,12 @@ theorem compensatedGauss_pair_normalizer_norm (factor : ℝ) (hfactor : 0 < fact
 variable {ω ψ : HeckeCharacter K}
 variable {DL : left.source.Calibration (σ := σ) ω ψ}
 variable {DR : right.source.Calibration (σ := σ) ω ψ}
-variable {GL : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
+variable {«GL» : DL.NormalizedCapacityData} {GR : DR.NormalizedCapacityData}
 
 /-- The actual normalized children and all their weights are retained.
 Only the two explicit original Gauss normalizers are rewritten. -/
 theorem normalizedCapacityPairWeight_compensatedGauss
-    (lc : GL.Child) (rc : GR.Child) (factor : ℝ) (hfactor : 0 < factor)
+    (lc : «GL».Child) (rc : GR.Child) (factor : ℝ) (hfactor : 0 < factor)
     (Z parentWidth : ℝ) :
     normalizedCapacityPairWeight lc rc left.normalizer right.normalizer Z parentWidth =
       factor * normalizedCapacityPairWeight lc rc

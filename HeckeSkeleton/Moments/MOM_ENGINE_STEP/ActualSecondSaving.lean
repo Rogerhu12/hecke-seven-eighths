@@ -115,7 +115,8 @@ theorem idealLogLength_gcd_primePowerProduct (Z : ℝ)
     idealLogLength Z (gcd (primePowerProduct p m).val (primePowerProduct p n).val) =
       ∑ i, idealLogLength Z (p i).val.asIdeal * (min (m i) (n i) : ℝ) := by
   rw [← primePowerProduct_min_eq_gcd p hp m n]
-  exact idealLogLength_primePowerProduct Z p (fun i => min (m i) (n i))
+  simpa only [Nat.cast_min] using
+    idealLogLength_primePowerProduct Z p (fun i => min (m i) (n i))
 
 theorem idealLogLength_unitFrequencyRadical
     (C : A.GeneralArithmeticContext σ η hS) (Z : ℝ)
@@ -154,7 +155,7 @@ theorem actual_secondLocalSaving_identity
         (if unitFrequencySaving C (p i) (m i) (n i) h then w else 0) +
         (if nonunitFrequencySaving C (p i) (m i) (n i) h then w else 0) / 6 +
         2 * (if i ∈ multiplicityOneNonunitPrimes C p m n h then w else 0) / 6 := by
-  rw [secondLocalSaving, ← actual_unitFrequencySaving_iff C (p i) (m i) (n i) h hne,
+  simp only [secondLocalSaving, ← actual_unitFrequencySaving_iff C (p i) (m i) (n i) h hne,
     nonunitFrequencySaving_ledger_iff C (p i) (m i) (n i) h,
     multiplicityOneNonunitPrimes_ledger_iff C p m n h i]
   split_ifs <;> ring

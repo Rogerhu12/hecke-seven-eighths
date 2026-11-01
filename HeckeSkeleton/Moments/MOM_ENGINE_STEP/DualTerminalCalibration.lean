@@ -85,12 +85,19 @@ structure DualTerminalCalibration
     (G.coefficient ij.1 * star (G.coefficient ij.2)) • s.profile ≠ 0 →
       (Ideal.absNorm ((G.ideal ij.1).val * (G.ideal ij.2).val) : ℝ) ≤
         Z ^ zeroProductExponent
+  /-- This divisor is retained in the exact equal-ideal zero count. -/
+  zeroDivisor : Ideal (𝓞 K)
+  zeroDivisor_ne_zero : zeroDivisor ≠ 0
+  zero_divisor_dvd : ∀ ij ∈ G.columns ×ˢ G.columns,
+    (G.coefficient ij.1 * star (G.coefficient ij.2)) • s.profile ≠ 0 →
+    (G.ideal ij.1).val = (G.ideal ij.2).val → zeroDivisor ∣ (G.ideal ij.1).val
   zero_normalization : ∀ v ∈ firstZeroPairs G.columns G.columns G.ideal G.ideal,
     sZero.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ)
       ((G.coefficient v.2.1 * star (G.coefficient v.2.2)) • s.profile) *
       A.exteriorNorm (G.ideal v.2.1) *
       (∑ D ∈ s.mask.powerset, firstZeroDivisorWeight s.radius D) ≤
-        zeroAmplitude / Real.sqrt (Z ^ zeroProductExponent)
+        zeroAmplitude * (Ideal.absNorm zeroDivisor : ℝ) /
+          Real.sqrt (Z ^ zeroProductExponent)
 
 namespace DualTerminalCalibration
 
@@ -198,6 +205,9 @@ def calibration : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay whe
   zeroProductExponent := T.productExponent
   zeroProductExponent_nonneg := T.windows.productExponent_nonneg
   zero_product_norm := fun ij hij _ => T.windows.product_norm ij hij
+  zeroDivisor := 1
+  zeroDivisor_ne_zero := one_ne_zero
+  zero_divisor_dvd := fun _ _ _ _ => one_dvd _
   zero_normalization := by
     intro v hv
     have hmem := (mem_firstZeroPairs G.columns G.columns G.ideal G.ideal v).mp hv
@@ -224,6 +234,7 @@ def calibration : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay whe
       hm hmask (mul_nonneg hprofile (Real.rpow_nonneg hz.le _))
     apply hbound.trans_eq
     dsimp only [zeroAmplitude]
+    simp only [map_one, Nat.cast_one, mul_one]
     rw [mul_div_cancel_right₀ _ hsqrt]
     ring
 
@@ -407,6 +418,22 @@ def withUnitMultiplier
   zero_product_norm := by
     intro ij hij hprofile
     apply T.zero_product_norm ij hij
+    intro hzero
+    apply hprofile
+    change (((u ij.1 * G.coefficient ij.1) * star (u ij.2 * G.coefficient ij.2)) •
+      s.profile) = 0
+    calc
+      _ = (u ij.1 * star (u ij.2)) •
+          ((G.coefficient ij.1 * star (G.coefficient ij.2)) • s.profile) := by
+        rw [smul_smul, star_mul]
+        congr 1
+        ring
+      _ = 0 := by rw [hzero, smul_zero]
+  zeroDivisor := T.zeroDivisor
+  zeroDivisor_ne_zero := T.zeroDivisor_ne_zero
+  zero_divisor_dvd := by
+    intro ij hij hprofile hequal
+    apply T.zero_divisor_dvd ij hij _ hequal
     intro hzero
     apply hprofile
     change (((u ij.1 * G.coefficient ij.1) * star (u ij.2 * G.coefficient ij.2)) •

@@ -88,7 +88,7 @@ variable (CL : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂
   (((secondOriginalLeftSource R C hS₁ hS₂ LC DL hbaseL hlengthL x₁ x₂ x) z).restrictRows (fun h => ¬ Q.exceptional h.val)).Calibration (σ := σ) ω ψ)
 variable (CR : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)),
   (((secondOriginalRightSource R C hT₁ hT₂ RC DR hbaseR hlengthR y₁ y₂ y) z).restrictRows (fun h => ¬ Q.exceptional h.val)).Calibration (σ := σ) ω ψ)
-variable (GL : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)), (CL z).NormalizedCapacityData)
+variable («GL» : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)), (CL z).NormalizedCapacityData)
 variable (GR : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)), (CR z).NormalizedCapacityData)
 variable (PL : SecondColumnFactors F Ray k) (PR : SecondColumnFactors F Ray l)
 variable {Z : ℝ} (left_base : ∀ z, (DL z).base = Z) (right_base : ∀ z, (DR z).base = Z)
@@ -105,7 +105,7 @@ def secondNormalizedPairFamily : ActualNormalizedPairFamily A σ V Labels ω ψ 
   rightSource z := (RSource z).restrictRows (fun h => ¬ Q.exceptional h.val)
   leftCalibration := CL
   rightCalibration := CR
-  leftCapacity := GL
+  leftCapacity := «GL»
   rightCapacity := GR
   left_base := left_base
   right_base := right_base
@@ -113,7 +113,7 @@ def secondNormalizedPairFamily : ActualNormalizedPairFamily A σ V Labels ω ψ 
   rightNormalizer _ := PR.normalizer
 
 local notation "Fam" => secondNormalizedPairFamily R C hS₁ hS₂ hT₁ hT₂ LC RC DL DR
-  hbaseL hbaseR hlengthL hlengthR x₁ x₂ y₁ y₂ x y Q CL CR GL GR PL PR left_base right_base
+  hbaseL hbaseR hlengthL hlengthR x₁ x₂ y₁ y₂ x y Q CL CR «GL» GR PL PR left_base right_base
 
 variable (hidentL : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)), (DL z).FactorIdentification PL)
 variable (hidentR : ∀ z : (↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)), (DR z).FactorIdentification PR)
@@ -267,9 +267,9 @@ integrability statement is proved internally; the final actual children
 are frozen at time zero for the next induction call. -/
 theorem secondNonexceptionalResidualCost_le_children_from_atoms
     (Fker : 𝓢(V, ℂ)) (phaseTable : Ray × Ray → Circle) (parentWidth : ℝ) (hZ : 0 < Z)
-    (hleftMeas : ∀ z : Fam.active Finset.univ, Measurable (GL z.val).radius)
+    (hleftMeas : ∀ z : Fam.active Finset.univ, Measurable («GL» z.val).radius)
     (hrightMeas : ∀ z : Fam.active Finset.univ, Measurable (GR z.val).radius)
-    (hleftOne : ∀ z : Fam.active Finset.univ, ∀ ξ, 1 ≤ (GL z.val).radius ξ)
+    (hleftOne : ∀ z : Fam.active Finset.univ, ∀ ξ, 1 ≤ («GL» z.val).radius ξ)
     (hrightOne : ∀ z : Fam.active Finset.univ, ∀ ξ, 1 ≤ (GR z.val).radius ξ)
     (profileConstant : Fam.active Finset.univ → ℝ)
     (hprofileConstant : ∀ z, 0 ≤ profileConstant z)
@@ -334,7 +334,7 @@ mass to one explicit finite arithmetic sum.  This is the expression to
 which the genuine divisor and allocation mass bounds apply. -/
 theorem secondNormalizedPairFamily_finite_mass_from_profiles
     (Fker : 𝓢(V, ℂ)) (phaseTable : Ray × Ray → Circle) (parentWidth : ℝ) (hZ : 0 < Z)
-    (hleftMeas : ∀ z : Fam.active Finset.univ, Measurable (GL z.val).radius)
+    (hleftMeas : ∀ z : Fam.active Finset.univ, Measurable («GL» z.val).radius)
     (hrightMeas : ∀ z : Fam.active Finset.univ, Measurable (GR z.val).radius)
     (profileConstant : Fam.active Finset.univ → ℝ) (J : ℕ)
     (profile_bound : ∀ z : Fam.active Finset.univ, ∀ ξ,

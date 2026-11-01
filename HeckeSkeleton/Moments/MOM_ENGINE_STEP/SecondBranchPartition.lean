@@ -25,7 +25,8 @@ variable [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 
 def ActualSecondCorrelationRows.restrictRows (R : ActualSecondCorrelationRows A σ H ι)
     (p : H → Prop) : ActualSecondCorrelationRows A σ H ι :=
-  { R with rows := R.rows.filter p
+  { R with
+    rows := R.rows.filter p
     generates := fun h hh => R.generates h (Finset.mem_filter.mp hh).1 }
 
 theorem sqrt_add_le_sqrt_add_sqrt (x y : ℝ) :

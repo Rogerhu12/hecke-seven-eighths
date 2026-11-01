@@ -25,20 +25,20 @@ variable {ω ψ : HeckeCharacter F}
 
 /-- Nonzero unnormalized plain summands of the original child. -/
 def effectivePlainSupport (d : MomentData F ω ψ) (W : IdealTest F)
-    (u : NonzeroIdeal F) (N t : ℝ) : Finset (NonzeroIdeal F) :=
+    (u : HeckeGeneral.Analysis.NonzeroIdeal F) (N t : ℝ) : Finset (HeckeGeneral.Analysis.NonzeroIdeal F) :=
   (W.support u t N).filter fun I =>
     heckeIdealCoefficient F (d.plainBackground * d.rowCharacter u) I *
       maskValue d u I.val ≠ 0
 
 /-- Nonzero unnormalized prime summands of one original child slot. -/
 def effectivePrimeSupport (d : MomentData F ω ψ) (i : Fin d.geometry.slotCount)
-    (u : NonzeroIdeal F) (Z t : ℝ) : Finset (HeightOneSpectrum (𝓞 F)) :=
+    (u : HeckeGeneral.Analysis.NonzeroIdeal F) (Z t : ℝ) : Finset (HeightOneSpectrum (𝓞 F)) :=
   ((d.geometry.slots i).support t (Z ^ (d.geometry.slots i).length)).filter fun p =>
     primeCoefficient F (d.rowCharacter u * d.slotCoefficient i) p *
       maskValue d u p.asIdeal ≠ 0
 
 @[simp] theorem mem_effectivePlainSupport (d : MomentData F ω ψ) (W : IdealTest F)
-    (u I : NonzeroIdeal F) (N t : ℝ) :
+    (u I : HeckeGeneral.Analysis.NonzeroIdeal F) (N t : ℝ) :
     I ∈ effectivePlainSupport d W u N t ↔
       W.profile u t (idealNorm F I / N) ≠ 0 ∧
         heckeIdealCoefficient F (d.plainBackground * d.rowCharacter u) I *
@@ -46,7 +46,7 @@ def effectivePrimeSupport (d : MomentData F ω ψ) (i : Fin d.geometry.slotCount
   simp only [effectivePlainSupport, Finset.mem_filter, W.support_spec]
 
 @[simp] theorem mem_effectivePrimeSupport (d : MomentData F ω ψ)
-    (i : Fin d.geometry.slotCount) (u : NonzeroIdeal F) (Z t : ℝ)
+    (i : Fin d.geometry.slotCount) (u : HeckeGeneral.Analysis.NonzeroIdeal F) (Z t : ℝ)
     (p : HeightOneSpectrum (𝓞 F)) :
     p ∈ effectivePrimeSupport d i u Z t ↔
       (d.geometry.slots i).profile t
@@ -56,18 +56,18 @@ def effectivePrimeSupport (d : MomentData F ω ψ) (i : Fin d.geometry.slotCount
   simp only [effectivePrimeSupport, Finset.mem_filter, (d.geometry.slots i).support_spec]
 
 theorem effectivePlainSupport_subset_profile (d : MomentData F ω ψ) (W : IdealTest F)
-    (u : NonzeroIdeal F) (N t : ℝ) :
+    (u : HeckeGeneral.Analysis.NonzeroIdeal F) (N t : ℝ) :
     effectivePlainSupport d W u N t ⊆ W.support u t N :=
   Finset.filter_subset _ _
 
 theorem effectivePrimeSupport_subset_profile (d : MomentData F ω ψ)
-    (i : Fin d.geometry.slotCount) (u : NonzeroIdeal F) (Z t : ℝ) :
+    (i : Fin d.geometry.slotCount) (u : HeckeGeneral.Analysis.NonzeroIdeal F) (Z t : ℝ) :
     effectivePrimeSupport d i u Z t ⊆
       (d.geometry.slots i).support t (Z ^ (d.geometry.slots i).length) :=
   Finset.filter_subset _ _
 
 theorem effectivePlainSupport_commonMask (d : MomentData F ω ψ) (W : IdealTest F)
-    (u I : NonzeroIdeal F) (N t : ℝ)
+    (u I : HeckeGeneral.Analysis.NonzeroIdeal F) (N t : ℝ)
     (hI : I ∈ effectivePlainSupport d W u N t) :
     d.commonMask u I.val = true := by
   have hm : maskValue d u I.val ≠ 0 :=
@@ -76,7 +76,7 @@ theorem effectivePlainSupport_commonMask (d : MomentData F ω ψ) (W : IdealTest
   exact hm (by simp [maskValue, h])
 
 theorem effectivePrimeSupport_commonMask (d : MomentData F ω ψ)
-    (i : Fin d.geometry.slotCount) (u : NonzeroIdeal F) (Z t : ℝ)
+    (i : Fin d.geometry.slotCount) (u : HeckeGeneral.Analysis.NonzeroIdeal F) (Z t : ℝ)
     (p : HeightOneSpectrum (𝓞 F)) (hp : p ∈ effectivePrimeSupport d i u Z t) :
     d.commonMask u p.asIdeal = true := by
   have hm : maskValue d u p.asIdeal ≠ 0 :=
@@ -88,7 +88,7 @@ theorem effectivePrimeSupport_commonMask (d : MomentData F ω ψ)
 /-- The concrete finite support and the nonzero-summand property have
 exactly the same coverage requirement. -/
 theorem effectivePlainSupport_subset_iff (d : MomentData F ω ψ) (W : IdealTest F)
-    (u : NonzeroIdeal F) (N t : ℝ) (S : Finset (NonzeroIdeal F)) :
+    (u : HeckeGeneral.Analysis.NonzeroIdeal F) (N t : ℝ) (S : Finset (HeckeGeneral.Analysis.NonzeroIdeal F)) :
     effectivePlainSupport d W u N t ⊆ S ↔ EffectivePlainSupport d W u N t S := by
   constructor
   · intro hs I hi
@@ -104,7 +104,7 @@ theorem effectivePlainSupport_subset_iff (d : MomentData F ω ψ) (W : IdealTest
 /-- The same equivalence keeps the actual row-dependent prime
 coefficient and the original complete common mask. -/
 theorem effectivePrimeSupport_subset_iff (d : MomentData F ω ψ)
-    (i : Fin d.geometry.slotCount) (u : NonzeroIdeal F) (Z t : ℝ)
+    (i : Fin d.geometry.slotCount) (u : HeckeGeneral.Analysis.NonzeroIdeal F) (Z t : ℝ)
     (S : Finset (HeightOneSpectrum (𝓞 F))) :
     effectivePrimeSupport d i u Z t ⊆ S ↔ EffectivePrimeSupport d i u Z t S := by
   constructor
