@@ -197,16 +197,20 @@ theorem cover_hybrid_bound
     ‖∑ t ∈ source.rows, ∑ i ∈ source.leftColumns, ∑ j ∈ source.rightColumns,
       (source.pairs i j).transformedRow μv hDiff finiteTest radius D t‖ ≤
       chart.coverHybridCost LC RC M X hX exceptional := by
+  let rows : Finset Q :=
+    (b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).rows
+  let leftPredicate : ι → Prop := fun i =>
+    HeckePort.Moments.Support.supportExtract (fullI i).val (primeSupport DE.1) = DE.1
+  let rightPredicate : κ → Prop := fun j =>
+    HeckePort.Moments.Support.supportExtract (fullJ j).val (primeSupport DE.1) = DE.2
+  let term : Q → ι → κ → ℂ := fun t i j =>
+    (b.secondPair hΓ hDiff C profiles i j).transformedRow
+      μv hDiff finiteTest radius D t
   dsimp only
-  change ‖∑ t ∈ (b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).rows,
-    ∑ i ∈ left.filter (fun i =>
-      HeckePort.Moments.Support.supportExtract (fullI i).val (primeSupport DE.1) = DE.1),
-    ∑ j ∈ right.filter (fun j =>
-      HeckePort.Moments.Support.supportExtract (fullJ j).val (primeSupport DE.1) = DE.2),
-      (b.secondPair hΓ hDiff C profiles i j).transformedRow
-        μv hDiff finiteTest radius D t‖ ≤ _
-  rw [LC.sum_pair_rows RC
-    (b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).rows]
+  change ‖∑ t ∈ rows, ∑ i ∈ left.filter leftPredicate,
+    ∑ j ∈ right.filter rightPredicate, term t i j‖ ≤ _
+  have he := LC.sum_pair_rows RC rows leftPredicate rightPredicate term
+  apply (congrArg (fun z : ℂ => ‖z‖) he).le.trans
   unfold coverHybridCost
   apply (norm_sum_le _ _).trans
   apply Finset.sum_le_sum

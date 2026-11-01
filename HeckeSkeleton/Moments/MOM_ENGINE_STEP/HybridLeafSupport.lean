@@ -79,6 +79,7 @@ theorem integrands_zero_of_not_rightPresent (hB : ¬B.RightPresent) :
       jointFourierColumn B.right (fun i => star (B.rightCoefficient h i)) x ξ = 0 := by
     apply Finset.sum_eq_zero
     intro i hi
+    change star (B.rightCoefficient h i) * jointPhase ξ (x i) = 0
     rw [hc h hh i hi, star_zero, zero_mul]
   constructor
   · intro z
@@ -129,7 +130,7 @@ def live : Finset ι := Finset.univ.filter fun i => (B i).Live
 
 theorem sum_cost_eq_live :
     (∑ i, (B i).cost) = ∑ i : live B, (B i.val).cost := by
-  rw [Finset.sum_coe_sort]
+  refine Eq.trans ?_ (Finset.sum_coe_sort (live B) (fun i => (B i).cost)).symm
   symm
   apply Finset.sum_subset (Finset.filter_subset _ _)
   intro i _ hi
@@ -139,7 +140,8 @@ theorem sum_cost_eq_live :
 
 theorem sum_exceptionalCost_eq_live :
     (∑ i, (B i).exceptionalCost) = ∑ i : live B, (B i.val).exceptionalCost := by
-  rw [Finset.sum_coe_sort]
+  refine Eq.trans ?_
+    (Finset.sum_coe_sort (live B) (fun i => (B i).exceptionalCost)).symm
   symm
   apply Finset.sum_subset (Finset.filter_subset _ _)
   intro i _ hi
@@ -149,7 +151,8 @@ theorem sum_exceptionalCost_eq_live :
 
 theorem sum_ordinaryCost_eq_live :
     (∑ i, (B i).ordinaryCost) = ∑ i : live B, (B i.val).ordinaryCost := by
-  rw [Finset.sum_coe_sort]
+  refine Eq.trans ?_
+    (Finset.sum_coe_sort (live B) (fun i => (B i).ordinaryCost)).symm
   symm
   apply Finset.sum_subset (Finset.filter_subset _ _)
   intro i _ hi

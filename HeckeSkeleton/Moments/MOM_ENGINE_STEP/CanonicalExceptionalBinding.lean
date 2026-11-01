@@ -88,12 +88,26 @@ theorem frame_centeredCoefficient_eq_original
     (h : H) (i : AllocationColumn K k)
     (hi : i ∈ childCartesianColumns S₁ S₂ S) :
     (f.frame C L a hne).centeredCoefficient E.comparison h i =
-      side.actualCoefficient Ray ideal R.frequency ray χ E.wholeCoefficient h i := by
-  cases side <;>
-    simp only [SecondSideFrame.centeredCoefficient, SecondRectangularFactors.frame,
-      SecondColumnSide.actualCoefficient, secondAllocatedLeftCoefficient,
-      secondAllocatedRightCoefficient, E.centeredCoefficient_eq_original i hi,
-      f.ray_factor i hi]
+      side.actualCoefficient (σ := σ) Ray ideal R.frequency ray χ E.wholeCoefficient h i := by
+  cases side with
+  | left =>
+    change E.comparison.centeredCoefficient (Real.sqrt f.gaussScale₁ : ℂ)⁻¹
+        (Real.sqrt f.gaussScale₂ : ℂ)⁻¹
+        (fun j => (Real.sqrt (f.gaussSlotScale j) : ℂ)⁻¹) i *
+          (fixedLeftPhase Ray χ (f.dictionary.ray i) : ℂ) *
+          σ (A.sexticResidue (ideal i) (R.frequency h)) =
+      E.wholeCoefficient i * (fixedLeftPhase Ray χ (ray i) : ℂ) *
+        σ (A.sexticResidue (ideal i) (R.frequency h))
+    rw [E.centeredCoefficient_eq_original i hi, f.ray_factor i hi]
+  | right =>
+    change star (E.comparison.centeredCoefficient (Real.sqrt f.gaussScale₁ : ℂ)⁻¹
+        (Real.sqrt f.gaussScale₂ : ℂ)⁻¹
+        (fun j => (Real.sqrt (f.gaussSlotScale j) : ℂ)⁻¹) i *
+          (fixedRightPhase Ray χ (f.dictionary.ray i) : ℂ) *
+          σ (A.sexticResidue (ideal i) (-R.frequency h))) =
+      star (E.wholeCoefficient i * (fixedRightPhase Ray χ (ray i) : ℂ) *
+        σ (A.sexticResidue (ideal i) (-R.frequency h)))
+    rw [E.centeredCoefficient_eq_original i hi, f.ray_factor i hi]
 
 /-- This equality is obtained by summing the original individual
 coefficient and location identities. -/
@@ -106,7 +120,7 @@ theorem frame_centeredColumn_eq_original
       ((f.frame C L a hne).centeredCoefficient E.comparison h)
       (rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ =
     jointFourierColumn (pairedAllocatedColumns L a S₁ S₂ S id id HeightOneSpectrum.asIdeal)
-      (side.actualCoefficient Ray ideal R.frequency ray χ E.wholeCoefficient h)
+      (side.actualCoefficient (σ := σ) Ray ideal R.frequency ray χ E.wholeCoefficient h)
       (point h) ξ := by
   unfold jointFourierColumn
   apply Finset.sum_congr rfl
@@ -214,6 +228,7 @@ theorem exceptionalIntegrand_eq_centered_frames
     rw [← hleft]
     apply Finset.sum_congr rfl
     intro i hi
+    dsimp only
     rw [hleftAtom h hrow i hi, hleftPoint h hrow i hi]
   have hr : jointFourierColumn B.right (fun i => star (B.rightCoefficient h i))
       (fun i => WithLp.toLp 2 (-B.rightFirst h i, B.rightSecond h i)) (WithLp.toLp 2 z) =
@@ -224,6 +239,7 @@ theorem exceptionalIntegrand_eq_centered_frames
     rw [← hright]
     apply Finset.sum_congr rfl
     intro i hi
+    dsimp only
     rw [hrightAtom h hrow i hi, hrightPoint h hrow i hi]
   rw [hl, hr]
 

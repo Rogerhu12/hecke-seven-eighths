@@ -140,7 +140,10 @@ theorem actual_gauss_raw_dual_finite_bound
     have hfinite := (s.sources DE).transform_re_le_dual_rows μv hDiff finiteTest
     change ‖series DE - (s.sources DE).transform μv hDiff finiteTest‖ ≤ _ at ht
     exact ((sub_le_iff_le_add.mp (hre.trans ht)).trans
-      (add_le_add le_rfl hfinite)).trans_eq (by ring)
+      (add_le_add le_rfl hfinite)).trans_eq (by
+        rw [show (s.sources DE).radius = s.radius from rfl,
+          show (s.sources DE).cutoff = s.cutoff from rfl]
+        ring)
   have ho : 0 ≤ (∑ DE, (s.sources DE).originZeroTerm finiteTest).re := by
     simpa only [ActualGaussStage.sources, hmask] using
       common_support_gauss_origin_nonneg hΓ hDiff C G.columns G.coefficient

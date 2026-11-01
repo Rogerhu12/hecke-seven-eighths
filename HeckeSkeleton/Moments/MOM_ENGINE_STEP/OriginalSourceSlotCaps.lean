@@ -31,6 +31,13 @@ theorem slotCount_cast_columns {S T : Finset ι} {ideal : ι → A.Exterior}
   cases h
   rfl
 
+private theorem slotCount_cast {S T : Finset ι} {ideal : ι → A.Exterior}
+    (h : S = T) (e : SourceCartesianAtlas S ideal = SourceCartesianAtlas T ideal)
+    (a : SourceCartesianAtlas S ideal) :
+    (cast e a).slotCount = a.slotCount := by
+  cases h
+  rfl
+
 end SourceCartesianAtlas
 
 variable {σ : K →+* ℂ} {η : RayClassCharacter K A.modulus}
@@ -51,17 +58,11 @@ variable (hideal : ∀ i, (d.ideal i).val = supportResidual (originalIdeal i).va
 theorem mainAtlasForLabel_slotCount (c : ι → ℂ) (a : T.labels S D) :
     (d.mainAtlasForLabel T S D hcolumns hideal c a).slotCount =
       (T.branch S D a).keep.card := by
-  have hcols : d.columns.filter (fun i => T.reindex.supportExtractionLabel S i = a.val) =
-      T.commonFibre S D a := by
-    rw [hcolumns]
-    rfl
-  have hne : (T.commonFibre S D a).Nonempty := by
-    obtain ⟨i, hi, ha⟩ := Finset.mem_image.mp a.property
-    exact ⟨i, Finset.mem_filter.mpr ⟨hi, ha⟩⟩
-  change (cast (congrArg (fun cols => SourceCartesianAtlas cols d.ideal) hcols.symm)
-    (SourceCartesianAtlas.ofReindex
-      (T.residualReindex S D d.ideal (fun i _ => hideal i) a) hne)).slotCount = _
-  rw [SourceCartesianAtlas.slotCount_cast_columns]
+  unfold mainAtlasForLabel
+  simp only [eqRec_eq_cast]
+  rw [SourceCartesianAtlas.slotCount_cast
+    (congrArg (fun t : Finset ι => t.filter
+      (fun i => T.reindex.supportExtractionLabel S i = a.val)) hcolumns).symm]
   rfl
 
 theorem mainSourceCartesianCover_slotCount_le (c : ι → ℂ)
@@ -80,17 +81,9 @@ theorem combinedAtlasForLabel_slotCount (p : ExteriorPrime A) (n : ℕ) (c : ι 
   have hb := d.combinedBranchForLabel_spec T S D hcolumns p n a
   have hcols := d.residualSource_branch_filter_of_original_support T S D hcolumns p n b
   rw [hb.1] at hcols
-  have hne : ((b.originalColumns.image T.reindex.index).subtype
-      (fun i => i ∈ d.valuationColumns p n)).Nonempty := by
-    refine ⟨⟨T.reindex.index b.witness, hb.2⟩, ?_⟩
-    exact Finset.mem_subtype.mpr
-      (Finset.mem_image.mpr ⟨b.witness, b.witness_mem, rfl⟩)
-  change (cast (congrArg (fun cols =>
-    SourceCartesianAtlas cols (d.residualSource p n c).ideal) hcols)
-      (SourceCartesianAtlas.ofReindex
-        (d.residualSource_cartesianBranch_of_original_support
-          T S D hcolumns hideal p n c b hb.2) hne)).slotCount = _
-  rw [SourceCartesianAtlas.slotCount_cast_columns]
+  unfold combinedAtlasForLabel
+  simp only [eqRec_eq_cast]
+  rw [SourceCartesianAtlas.slotCount_cast hcols]
   rfl
 
 theorem residualSourceCartesianCover_slotCount_le (p : ExteriorPrime A) (n : ℕ) (c : ι → ℂ)
@@ -122,15 +115,11 @@ theorem sourceCartesianCover_slotCount (c : ι → ℂ)
       (fun i => T.reindex.supportExtractionLabel S i = a.val) = T.commonFibre S D a := by
     change d.columns.filter _ = _
     rw [hcolumns]
-    rfl
-  have hne : (T.commonFibre S D a).Nonempty := by
-    obtain ⟨i, hi, ha⟩ := Finset.mem_image.mp a.property
-    exact ⟨i, Finset.mem_filter.mpr ⟨hi, ha⟩⟩
-  change (cast (congrArg (fun cols =>
-    SourceCartesianAtlas cols (d.directSource c).ideal) hcols.symm)
-      (SourceCartesianAtlas.ofReindex
-        (T.residualReindex S D d.ideal (fun i _ => hideal i) a) hne)).slotCount = _
-  rw [SourceCartesianAtlas.slotCount_cast_columns]
+    dsimp only [SourceCartesianAtlas.commonFibre, SourceCartesianAtlas.commonColumns]
+    exact @Finset.filter_congr_decidable _ _ _ _ _
+  dsimp only [sourceCartesianCover]
+  simp only [eqRec_eq_cast]
+  rw [SourceCartesianAtlas.slotCount_cast hcols.symm]
   rfl
 
 theorem sourceCartesianCover_slotCount_le (c : ι → ℂ)

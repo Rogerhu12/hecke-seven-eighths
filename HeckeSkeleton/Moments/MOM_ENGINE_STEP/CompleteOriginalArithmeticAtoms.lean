@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentArithmeticAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteRowRecipe
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPhaseCalibration
+import HeckeGeneral.Analysis.ActualMomentPolynomialBridges
 import ArithmeticFrequencyRowConductor
 import RowCharacterCanonicalUniqueness
 
@@ -66,7 +67,9 @@ theorem completeIdealSectorRowMap_exterior
     (sector : NonzeroIdeal K → SixthUnitClasses K S) (u : ExteriorIdeal K S) :
     completeIdealSectorRowMap S P sector u.val =
       decomposedIdealSectorOrbit K S P (u, sector u.val) := by
-  simp only [completeIdealSectorRowMap, dif_pos u.property]
+  have hu : completeIdealIsExterior K S u.val := u.property
+  unfold completeIdealSectorRowMap
+  rw [dif_pos hu]
 
 private theorem completeArithmeticRow_unramified
     (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S] (P : ProbeData K S)

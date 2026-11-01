@@ -107,12 +107,24 @@ theorem jointHybridKernelCost_eq_on_zero_rows
   unfold jointHybridKernelCost
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun ξ => by
+    dsimp only
+    have hkeepOrdinary : (kept.filter (fun h => ¬P h)) ⊆
+        rows.filter (fun h => ¬P h) := by
+      intro h hh
+      exact Finset.mem_filter.mpr
+        ⟨hkeep (Finset.mem_filter.mp hh).1, (Finset.mem_filter.mp hh).2⟩
+    have hzeroOrdinary : ∀ h ∈ rows.filter (fun h => ¬P h),
+        h ∉ kept.filter (fun h => ¬P h) → q h = 0 := by
+      intro h hh hn
+      exact hzero h (Finset.mem_filter.mp hh).1 (fun hk =>
+        hn (Finset.mem_filter.mpr ⟨hk, (Finset.mem_filter.mp hh).2⟩))
     rw [jointColumnPairMagnitude_filter_eq_on_zero_rows rows kept left right q c
       (fun h j => star (d h j)) x y P ξ hkeep hzero,
-      jointColumnEnergy_filter_eq_on_zero_rows rows kept left q c x (fun h => ¬P h)
-        ξ hkeep hzero,
-      jointColumnEnergy_filter_eq_on_zero_rows rows kept right q
-        (fun h j => star (d h j)) y (fun h => ¬P h) ξ hkeep hzero]
+      jointColumnEnergy_eq_on_zero_rows (rows.filter (fun h => ¬P h))
+        (kept.filter (fun h => ¬P h)) left q c x ξ hkeepOrdinary hzeroOrdinary,
+      jointColumnEnergy_eq_on_zero_rows (rows.filter (fun h => ¬P h))
+        (kept.filter (fun h => ¬P h)) right q (fun h j => star (d h j)) y ξ
+        hkeepOrdinary hzeroOrdinary]
 
 end FiniteSums
 
@@ -151,11 +163,17 @@ theorem ordinaryIntegrand_eq_withRows (z : U × V) :
   unfold ordinaryIntegrand
   dsimp only [withRows]
   apply congrArg₂ (fun a b : ℝ => Real.sqrt a * Real.sqrt b)
-  · exact jointColumnEnergy_filter_eq_on_zero_rows B.rows kept B.left B.rowWeight
-      B.leftCoefficient _ (fun h => ¬B.exceptional h) (WithLp.toLp 2 z) hkeep hzero
-  · exact jointColumnEnergy_filter_eq_on_zero_rows B.rows kept B.right B.rowWeight
-      (fun h j => star (B.rightCoefficient h j)) _ (fun h => ¬B.exceptional h)
-      (WithLp.toLp 2 z) hkeep hzero
+  all_goals
+    unfold jointColumnEnergy
+    symm
+    apply Finset.sum_subset
+    · intro h hh
+      exact Finset.mem_filter.mpr
+        ⟨hkeep (Finset.mem_filter.mp hh).1, (Finset.mem_filter.mp hh).2⟩
+    · intro h hh hn
+      have hn' : h ∉ kept := fun hk =>
+        hn (Finset.mem_filter.mpr ⟨hk, (Finset.mem_filter.mp hh).2⟩)
+      simp only [hzero h (Finset.mem_filter.mp hh).1 hn', norm_zero, zero_mul]
 
 theorem exceptionalIntegrand_eq_withRows (z : U × V) :
     B.exceptionalIntegrand z = (B.withRows kept).exceptionalIntegrand z :=
@@ -193,6 +211,7 @@ theorem firstPhaseCost_eq_withRows (ξ : U) :
 end ActualHybridLeaf
 
 open HeckeGeneral.Characters
+open DedekindZetaZeroFree (SArithmeticData)
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -202,14 +221,14 @@ namespace ActualSecondCorrelationRows
 variable (R : ActualSecondCorrelationRows A σ H ι)
 
 @[simp] theorem restrictRows_correlationSupport_rows :
-    (R.restrictRows (fun h => R.correlation h ≠ 0)).rows = R.live := rfl
+    (R.restrictRows (fun h => R.correlation h ≠ 0)).rows = R.live := by
+  ext h
+  simp only [restrictRows, live, Finset.mem_filter]
 
 @[simp] theorem restrictRows_correlationSupport_live :
     (R.restrictRows (fun h => R.correlation h ≠ 0)).live = R.live := by
-  change (R.rows.filter (fun h => R.correlation h ≠ 0)).filter
-    (fun h => R.correlation h ≠ 0) = R.rows.filter (fun h => R.correlation h ≠ 0)
   ext h
-  simp only [Finset.mem_filter, and_assoc, and_self]
+  simp only [restrictRows, live, Finset.mem_filter, and_assoc, and_self]
 
 theorem weight_correlation_eq_zero_of_not_live
     (h : H) (hh : h ∈ R.rows) (hn : h ∉ R.live) :

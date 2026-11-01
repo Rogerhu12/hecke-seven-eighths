@@ -25,6 +25,7 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open LocalFiniteSumCompatibility
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.Analysis.ActualSIntegerMoments
+open HeckeGeneral.Analysis.SquarefreeAmplification
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical
 open HeckePort.Moments.Active
@@ -141,11 +142,12 @@ theorem leftDivisorFactor
   rw [actualIdealResidue_exterior,
     ← generatedOriginalColumn_character_mk hΓ I a ha]
   unfold firstLeftDivisorFactor
-  rw [active_value hΓ C p hp m n I a ha haAllowed]
   change
     ((generatedOriginalColumn (σ := σ) hΓ I a ha).character (Ideal.Quotient.mk _ δ) *
       (generatedOriginalColumn (σ := σ) hΓ I a ha).character
-        (Ideal.Quotient.mk _ (firstActiveGenerator C p m n))) * _ = _
+        (Ideal.Quotient.mk _ (firstActiveGenerator C p m n))) *
+      (actualActiveColumn hΓ C p hp m n).character (Ideal.Quotient.mk _ a) = _
+  rw [active_value hΓ C p hp m n I a ha haAllowed]
   simp only [leftElement, firstActiveGenerator, primePowerProductGenerator,
     firstActivePrimes, leftExponent, map_mul, map_prod, map_pow,
     pow_one, pow_add, Finset.prod_mul_distrib]
@@ -164,11 +166,12 @@ theorem rightDivisorFactor
   rw [actualIdealResidue_exterior,
     ← generatedOriginalColumn_character_mk hΓ I a ha]
   unfold firstRightDivisorFactor
-  rw [active_star_value hΓ C p hp m n I a ha haAllowed]
   change
     ((generatedOriginalColumn (σ := σ) hΓ I a ha).character (Ideal.Quotient.mk _ δ) *
       (generatedOriginalColumn (σ := σ) hΓ I a ha).character
-        (Ideal.Quotient.mk _ (firstActiveGenerator C p m n))) * _ = _
+        (Ideal.Quotient.mk _ (firstActiveGenerator C p m n))) *
+      star ((actualActiveColumn hΓ C p hp m n).character (Ideal.Quotient.mk _ a)) = _
+  rw [active_star_value hΓ C p hp m n I a ha haAllowed]
   simp only [rightElement, firstActiveGenerator, primePowerProductGenerator,
     firstActivePrimes, rightExponent, map_mul, map_prod, map_pow,
     pow_one, pow_add, Finset.prod_mul_distrib]
@@ -231,17 +234,19 @@ theorem singleton_evaluation (I : A.Exterior) (a : A.R) (ha : A.Generates I a)
         (if sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) J ∧
           IsCoprime J.val I.val then 1 else 0) := by
   let D := OriginalMovingFactors.singleton (P := P) (R := R) ⟨a, ha.1⟩ 1
-  have hchar : D.character = D.factorCharacter 0 := by
-    change (∏ i : Fin 1, D.factorCharacter i ^ (1 : ℤ)) = D.factorCharacter 0
-    simp only [zpow_one, Fin.prod_univ_one]
-  have hI : D.factorIdeal 0 = I := D.factorIdeal_eq_of_generates 0 I ha
-  have he := D.factor_evaluation 0 J
+  let i₀ : Fin D.count := (0 : Fin 1)
+  have hchar : D.character = D.factorCharacter i₀ := by
+    change (∏ i : Fin 1, D.factorCharacter i ^ (1 : ℤ)) = D.factorCharacter (0 : Fin 1)
+    simp only [zpow_one]
+    exact Fin.prod_univ_one (fun i : Fin 1 => D.factorCharacter i)
+  have hI : D.factorIdeal i₀ = I := D.factorIdeal_eq_of_generates i₀ I ha
+  have he := D.factor_evaluation i₀ J
   change zeroExtendedSexticIdealEvaluation K
       (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P.arithmetic.root6
       P.arithmetic.primitive6 P.arithmetic.embedding J a =
-    heckeIdealCoefficient K (D.factorCharacter 0) J *
+    heckeIdealCoefficient K (D.factorCharacter i₀) J *
       (if sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) J ∧
-        IsCoprime J.val (D.factorIdeal 0).val then 1 else 0) at he
+        IsCoprime J.val (D.factorIdeal i₀).val then 1 else 0) at he
   rw [← hchar, hI] at he
   exact he
 
@@ -257,8 +262,11 @@ theorem singleton_unramified
     (CanonicalOriginalPhaseCalibration.outside_prime P p hp) hcop
   have he := singleton_evaluation P R I a ha
     (CanonicalOriginalPhaseCalibration.primeIdeal p)
-  simp only [CanonicalOriginalPhaseCalibration.outside_prime P p hp,
-    hcop, and_self, if_true, mul_one] at he
+  have hgood : sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (CanonicalOriginalPhaseCalibration.primeIdeal p) ∧
+      IsCoprime (CanonicalOriginalPhaseCalibration.primeIdeal p).val I.val :=
+    ⟨CanonicalOriginalPhaseCalibration.outside_prime P p hp, hcop⟩
+  rw [if_pos hgood, mul_one] at he
   rw [he, CanonicalOriginalPhaseCalibration.coefficient_prime,
     primeCoefficient_of_ramified K _ p hram] at hne
   exact hne rfl
