@@ -210,7 +210,7 @@ theorem reconstruct_ideal
 
 private theorem bare_left_scalar
     (T : FixedChildCharacters K k) (N₁ N₂ Z : ℝ) (length : Fin k → ℝ)
-    (w₁ w₂ : NonzeroIdeal K → ℂ)
+    (w₁ w₂ : HeckeGeneral.Analysis.NonzeroIdeal K → ℂ)
     (w : Fin k → HeightOneSpectrum (𝓞 K) → ℂ)
     (c : ℂ) (i : AllocationColumn K k) :
     rawBareSourceCoefficient T N₁ N₂ Z length (fun I => c * w₁ I) w₂ w i =
@@ -252,7 +252,7 @@ theorem second_weight_empty (tilt : ℝ) :
     Fin.prod_univ_one, zpow_neg_one, mul_comm]
 
 variable (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
-variable (prefix : OriginalMovingFactors A P R) (remaining : NonzeroIdeal K)
+variable (prefix : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
 variable (index : Fin k → Fin parent.geometry.slotCount)
 variable (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
 variable (hemb : P.arithmetic.embedding = σ)
@@ -486,7 +486,7 @@ variable {H τ : Type*} [Fintype τ] [DecidableEq τ]
 variable (rows : ActualSecondCorrelationRows A σ H τ)
 variable {k : ℕ}
 variable (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
-variable (prefix : OriginalMovingFactors A P R) (remaining : NonzeroIdeal K)
+variable (prefix : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
 variable (index : Fin k → Fin parent.geometry.slotCount)
 variable (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
 variable (hemb : P.arithmetic.embedding = σ)

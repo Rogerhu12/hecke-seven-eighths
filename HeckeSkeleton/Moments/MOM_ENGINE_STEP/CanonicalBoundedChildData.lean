@@ -37,7 +37,7 @@ variable {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
 
 /-- Freeze only the original evaluation arguments. The ideal support
 continues to use the original physical norm scale. -/
-def originalIdealTest (W : IdealTest K) (anchor : NonzeroIdeal K) (height : ℝ) : IdealTest K where
+def originalIdealTest (W : IdealTest K) (anchor : HeckeGeneral.Analysis.NonzeroIdeal K) (height : ℝ) : IdealTest K where
   profile _ _ y := W.profile anchor height y
   support _ _ N := W.support anchor height N
   support_spec _ _ N I := W.support_spec anchor height N I
@@ -63,8 +63,8 @@ variable (hcorr : correction = 1 ∨ correction ∈ parent.theta)
 variable (C : A.GeneralArithmeticContext σ η hS) (primes : ι → ExteriorPrime A)
 variable (m n : ι → ℕ) (pattern : ι → Bool)
 variable (sector : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-variable (remaining : NonzeroIdeal K) (budget : ℝ)
-variable (anchor : NonzeroIdeal K) (height : ℝ) {k : ℕ}
+variable (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (budget : ℝ)
+variable (anchor : HeckeGeneral.Analysis.NonzeroIdeal K) (height : ℝ) {k : ℕ}
 variable (index : Fin k → Fin parent.geometry.slotCount)
 
 /-- The child arithmetic is computed from the original source factors.
@@ -83,9 +83,9 @@ local notation "base" => baseData parent prefix correction hcorr C primes m n pa
 @[simp] theorem baseData_count : base.geometry.slotCount = k := rfl
 @[simp] theorem baseData_length (i : Fin k) :
     (base.geometry.slots i).length = (parent.geometry.slots (index i)).length := rfl
-@[simp] theorem baseData_left (u : NonzeroIdeal K) (t y : ℝ) :
+@[simp] theorem baseData_left (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t y : ℝ) :
     base.plainTest₁.profile u t y = parent.plainTest₁.profile anchor height y := rfl
-@[simp] theorem baseData_right (u : NonzeroIdeal K) (t y : ℝ) :
+@[simp] theorem baseData_right (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t y : ℝ) :
     base.plainTest₂.profile u t y = parent.plainTest₂.profile anchor height y := rfl
 @[simp] theorem baseData_prime (i : Fin k) (t y : ℝ) :
     (base.geometry.slots i).profile t y =
@@ -93,7 +93,7 @@ local notation "base" => baseData parent prefix correction hcorr C primes m n pa
 
 section OriginalWindow
 
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {P₀ : ℝ}
 variable (raw : RawProfileWindow rowDomain heightDomain window orders parent P₀)
 variable (hanchor : anchor ∈ rowDomain) (hheight : height ∈ heightDomain)
@@ -146,12 +146,12 @@ end OriginalWindow
 section BoundedProfiles
 
 variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {P₀ : ℝ}
 variable (raw : RawProfileWindow rowDomain heightDomain window orders parent P₀)
 variable (hanchor : anchor ∈ rowDomain) (hheight : height ∈ heightDomain)
 variable (hpositive : window ⊆ Set.Ioi 0)
-variable (G₁ G₂ : ℝ) (G : Fin k → ℝ) (D₁ D₂ : NonzeroIdeal K)
+variable (G₁ G₂ : ℝ) (G : Fin k → ℝ) (D₁ D₂ : HeckeGeneral.Analysis.NonzeroIdeal K)
 variable (B δ₁ δ₂ : ℝ) (hG₁ : 0 < G₁) (hG₂ : 0 < G₂)
 variable (hG : ∀ i, 0 < G i) (hB : 1 ≤ B)
 variable (firstDirection secondDirection : V)
@@ -175,12 +175,12 @@ local notation "bounded" => boundedData parent prefix correction hcorr C primes 
   remaining budget anchor height index raw hanchor hheight hpositive
   G₁ G₂ G D₁ D₂ B δ₁ δ₂ hG₁ hG₂ hG hB firstDirection secondDirection
 
-@[simp] theorem boundedData_left (ξ : V) (u : NonzeroIdeal K) (t y : ℝ) :
+@[simp] theorem boundedData_left (ξ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t y : ℝ) :
     (bounded ξ).plainTest₁.profile u t y =
       ((scalars.left : ℂ) * parent.plainTest₁.profile anchor height y) *
         leftAtom.multiplier ξ y := rfl
 
-@[simp] theorem boundedData_right (ξ : V) (u : NonzeroIdeal K) (t y : ℝ) :
+@[simp] theorem boundedData_right (ξ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t y : ℝ) :
     (bounded ξ).plainTest₂.profile u t y =
       ((scalars.right : ℂ) * parent.plainTest₂.profile anchor height y) *
         rightAtom.multiplier ξ y := rfl
@@ -283,9 +283,9 @@ to this very child data. The only scale identity is the literal two
 original norm divisions, before the later allocated divisor. -/
 include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem left_profile
-    (N : ℝ) (hN : 0 < N) (firstDivisor allocatedDivisor I : NonzeroIdeal K)
+    (N : ℝ) (hN : 0 < N) (firstDivisor allocatedDivisor I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hscale : G₁ = N / idealNorm K firstDivisor / idealNorm K D₁)
-    (u : NonzeroIdeal K) (t ξ ζ : ℝ) :
+    (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t ξ ζ : ℝ) :
     rawPlainWeight (W.left PUnit.unit height) N firstDivisor D₁ δ₁ δ₂ 0 slope
         (allocatedDivisor * I) *
         jointPhase (WithLp.toLp 2 (ξ, ζ))
@@ -309,9 +309,9 @@ theorem left_profile
 
 include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem right_profile
-    (N : ℝ) (hN : 0 < N) (firstDivisor allocatedDivisor I : NonzeroIdeal K)
+    (N : ℝ) (hN : 0 < N) (firstDivisor allocatedDivisor I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hscale : G₂ = N / idealNorm K firstDivisor / idealNorm K D₂)
-    (u : NonzeroIdeal K) (t ξ ζ : ℝ) :
+    (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t ξ ζ : ℝ) :
     rawPlainWeight (W.right PUnit.unit height) N firstDivisor D₂ δ₁ δ₂ 0 slope
         (allocatedDivisor * I) *
         jointPhase (WithLp.toLp 2 (ξ, ζ))
@@ -359,13 +359,13 @@ end BoundedProfiles
 section UniformWindow
 
 variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable (orders : Finset (ℕ × ℕ)) (P₀ : ℝ)
 variable (raw : RawProfileWindow rowDomain heightDomain window
   (sourceOrders orders) parent P₀)
 variable (hanchor : anchor ∈ rowDomain) (hheight : height ∈ heightDomain)
 variable (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0)
-variable (G₁ G₂ : ℝ) (G : Fin k → ℝ) (D₁ D₂ : NonzeroIdeal K)
+variable (G₁ G₂ : ℝ) (G : Fin k → ℝ) (D₁ D₂ : HeckeGeneral.Analysis.NonzeroIdeal K)
 variable (B δ₁ δ₂ : ℝ) (hG₁ : 0 < G₁) (hG₂ : 0 < G₂)
 variable (hG : ∀ i, 0 < G i) (hB : 1 ≤ B)
 variable (firstDirection secondDirection : V)

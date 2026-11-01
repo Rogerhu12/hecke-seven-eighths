@@ -139,8 +139,8 @@ local notation "actual" => patternSource Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S fi
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne pattern sector
 
-variable (budget : ℝ) (anchor : NonzeroIdeal K)
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable (budget : ℝ) (anchor : HeckeGeneral.Analysis.NonzeroIdeal K)
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {P₀ : ℝ}
 variable (raw : RawProfileWindow rowDomain heightDomain window
   orders (data x) P₀)
@@ -251,7 +251,7 @@ theorem slot_in_theta
 principal children. The moving prefix is never inserted into theta. -/
 theorem principal_in_theta (hone : (1 : HeckeCharacter K) ∈ (data x).theta)
     (hbackground : FiniteOrder ψ → ψ ∈ (data x).theta ∧ ψ⁻¹ ∈ (data x).theta)
-    (ξ : WithLp 2 (ℝ × ℝ)) (u : NonzeroIdeal K)
+    (ξ : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hprincipal : (child ξ).plainBackground * (child ξ).rowCharacter u = 1) :
     (child ξ).rowCharacter u ∈ (child ξ).theta :=
   OriginalFixedThetaClosure.principal_in_theta (child ξ) hone hbackground u hprincipal
@@ -265,7 +265,7 @@ child profile after the last literal allocation divisor. -/
 include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem left_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
-    (I : NonzeroIdeal K) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     actual.leftWeight q (actual.allocation.plainDivisor 0 * I) *
       jointPhase (WithLp.toLp 2 (ξ, ζ))
         (actual.leftLocation q (actual.allocation.plainDivisor 0 * I)) =
@@ -305,7 +305,7 @@ single whole conjugation. Its first phase is the same original phase. -/
 include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem right_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
-    (I : NonzeroIdeal K) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     actual.rightWeight q (actual.allocation.plainDivisor (Fin.succ 0) * I) *
       jointPhase (WithLp.toLp 2 (ξ, ζ))
         (actual.rightLocation q (actual.allocation.plainDivisor (Fin.succ 0) * I)) =
@@ -457,7 +457,7 @@ theorem allowed_of_source_norm
 include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem left_profile_joint (mode : WithLp 2 (ℝ × ℝ))
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
-    (I : NonzeroIdeal K) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     actual.leftWeight q (actual.allocation.plainDivisor 0 * I) *
       jointPhase mode (actual.leftLocation q (actual.allocation.plainDivisor 0 * I)) =
       (child mode).plainTest₁.profile (actual.row q).momentIdeal t
@@ -471,7 +471,7 @@ theorem left_profile_joint (mode : WithLp 2 (ℝ × ℝ))
 include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem right_profile_joint (mode : WithLp 2 (ℝ × ℝ))
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
-    (I : NonzeroIdeal K) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     actual.rightWeight q (actual.allocation.plainDivisor (Fin.succ 0) * I) *
       jointPhase mode
         (actual.rightLocation q (actual.allocation.plainDivisor (Fin.succ 0) * I)) =
@@ -514,7 +514,7 @@ theorem effective_left_support
     (hS₁ : exteriorPlainSupport (A := A) (data x).plainTest₁ anchor
       (if comparison then Y₁ else Z ^ a.n₁) t ⊆ S₁)
     (hExterior : ∀ J ∈ S₁, IsCoprime J A.cS)
-    (mode : WithLp 2 (ℝ × ℝ)) (u : NonzeroIdeal K) :
+    (mode : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
     effectivePlainSupport (child mode) (child mode).plainTest₁ u
       (actual.scale₁ / idealNorm K (actual.allocation.plainDivisor 0)) t ⊆
         actual.allocation.childPlain₁ := by
@@ -541,7 +541,7 @@ theorem effective_right_support
     (hS₂ : exteriorPlainSupport (A := A) (data x).plainTest₂ anchor
       (if comparison then Y₂ else Z ^ a.n₂) t ⊆ S₂)
     (hExterior : ∀ J ∈ S₂, IsCoprime J A.cS)
-    (mode : WithLp 2 (ℝ × ℝ)) (u : NonzeroIdeal K) :
+    (mode : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
     effectivePlainSupport (child mode) (child mode).plainTest₂ u
       (actual.scale₂ / idealNorm K (actual.allocation.plainDivisor (Fin.succ 0))) t ⊆
         actual.allocation.childPlain₂ := by
@@ -568,7 +568,7 @@ occurrence selections. The full arithmetic mask excludes both commons. -/
 include hm hn secondRight hcommon in
 theorem effective_prime_support
     (hSlots : ∀ i, exteriorPrimeSupport (A := A) ((data x).geometry.slots i) Z t ⊆ S i)
-    (mode : WithLp 2 (ℝ × ℝ)) (u : NonzeroIdeal K)
+    (mode : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (i : Fin actual.allocation.keep.card) :
     effectivePrimeSupport (child mode) i u actual.base t ⊆ actual.allocation.childSlots i := by
   let finalAllocation := actual.allocation
@@ -694,8 +694,8 @@ local notation "actual" => patternSource Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S fi
   C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
   secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison allocationIdeal selection hne pattern sector
 
-variable (budget : ℝ) (anchor : NonzeroIdeal K)
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable (budget : ℝ) (anchor : HeckeGeneral.Analysis.NonzeroIdeal K)
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {P₀ : ℝ}
 variable (raw : RawProfileWindow rowDomain heightDomain window
   orders (data x) P₀)
@@ -806,7 +806,7 @@ theorem slot_in_theta
 principal children. The moving prefix is never inserted into theta. -/
 theorem principal_in_theta (hone : (1 : HeckeCharacter K) ∈ (data x).theta)
     (hbackground : FiniteOrder ψ → ψ ∈ (data x).theta ∧ ψ⁻¹ ∈ (data x).theta)
-    (ξ : WithLp 2 (ℝ × ℝ)) (u : NonzeroIdeal K)
+    (ξ : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hprincipal : (child ξ).plainBackground * (child ξ).rowCharacter u = 1) :
     (child ξ).rowCharacter u ∈ (child ξ).theta :=
   OriginalFixedThetaClosure.principal_in_theta (child ξ) hone hbackground u hprincipal
@@ -820,7 +820,7 @@ child profile after the last literal allocation divisor. -/
 include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem left_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
-    (I : NonzeroIdeal K) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     actual.leftWeight q (actual.allocation.plainDivisor 0 * I) *
       jointPhase (WithLp.toLp 2 (ξ, ζ))
         (actual.leftLocation q (actual.allocation.plainDivisor 0 * I)) =
@@ -860,7 +860,7 @@ single whole conjugation. Its first phase is the same original phase. -/
 include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem right_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
-    (I : NonzeroIdeal K) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     actual.rightWeight q (actual.allocation.plainDivisor (Fin.succ 0) * I) *
       jointPhase (WithLp.toLp 2 (ξ, ζ))
         (actual.rightLocation q (actual.allocation.plainDivisor (Fin.succ 0) * I)) =
@@ -1012,7 +1012,7 @@ theorem allowed_of_source_norm
 include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem left_profile_joint (mode : WithLp 2 (ℝ × ℝ))
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
-    (I : NonzeroIdeal K) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     actual.leftWeight q (actual.allocation.plainDivisor 0 * I) *
       jointPhase mode (actual.leftLocation q (actual.allocation.plainDivisor 0 * I)) =
       (child mode).plainTest₁.profile (actual.row q).momentIdeal t
@@ -1026,7 +1026,7 @@ theorem left_profile_joint (mode : WithLp 2 (ℝ × ℝ))
 include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem right_profile_joint (mode : WithLp 2 (ℝ × ℝ))
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
-    (I : NonzeroIdeal K) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     actual.rightWeight q (actual.allocation.plainDivisor (Fin.succ 0) * I) *
       jointPhase mode
         (actual.rightLocation q (actual.allocation.plainDivisor (Fin.succ 0) * I)) =
@@ -1069,7 +1069,7 @@ theorem effective_left_support
     (hS₁ : exteriorPlainSupport (A := A) (data x).plainTest₁ anchor
       (if comparison then Y₁ else Z ^ a.n₁) t ⊆ S₁)
     (hExterior : ∀ J ∈ S₁, IsCoprime J A.cS)
-    (mode : WithLp 2 (ℝ × ℝ)) (u : NonzeroIdeal K) :
+    (mode : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
     effectivePlainSupport (child mode) (child mode).plainTest₁ u
       (actual.scale₁ / idealNorm K (actual.allocation.plainDivisor 0)) t ⊆
         actual.allocation.childPlain₁ := by
@@ -1096,7 +1096,7 @@ theorem effective_right_support
     (hS₂ : exteriorPlainSupport (A := A) (data x).plainTest₂ anchor
       (if comparison then Y₂ else Z ^ a.n₂) t ⊆ S₂)
     (hExterior : ∀ J ∈ S₂, IsCoprime J A.cS)
-    (mode : WithLp 2 (ℝ × ℝ)) (u : NonzeroIdeal K) :
+    (mode : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
     effectivePlainSupport (child mode) (child mode).plainTest₂ u
       (actual.scale₂ / idealNorm K (actual.allocation.plainDivisor (Fin.succ 0))) t ⊆
         actual.allocation.childPlain₂ := by
@@ -1123,7 +1123,7 @@ occurrence selections. The full arithmetic mask excludes both commons. -/
 include hm hn secondRight hcommon in
 theorem effective_prime_support
     (hSlots : ∀ i, exteriorPrimeSupport (A := A) ((data x).geometry.slots i) Z t ⊆ S i)
-    (mode : WithLp 2 (ℝ × ℝ)) (u : NonzeroIdeal K)
+    (mode : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (i : Fin actual.allocation.keep.card) :
     effectivePrimeSupport (child mode) i u actual.base t ⊆ actual.allocation.childSlots i := by
   let finalAllocation := actual.allocation

@@ -55,7 +55,7 @@ theorem row_bound (q : Index) :
 /-- Two genuine subtype injections preserve the original ideal-fibre
 bound. The finite carrier can be the whole pattern source or its one
 common ordinary restriction. -/
-theorem extracted_fibers (carrier : Finset Index) (I : NonzeroIdeal K) :
+theorem extracted_fibers (carrier : Finset Index) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (carrier.filter (fun q => (rows.extractedRow C q.val.val).momentIdeal = I)).card ≤
       mass.originalFiber := by
   let T := carrier.filter (fun q => (rows.extractedRow C q.val.val).momentIdeal = I)
@@ -81,20 +81,20 @@ variable {ω ψ : HeckeCharacter K}
 variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 variable (D : CanonicalLogProfiles.OriginalLogProfiles K ω ψ V)
 
-theorem rowCharacter_same (ξ ζ : V) (u : NonzeroIdeal K) :
+theorem rowCharacter_same (ξ ζ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (D.moving ξ).rowCharacter u = (D.moving ζ).rowCharacter u := rfl
 
-theorem allowed_same (ξ ζ : V) (u : NonzeroIdeal K) :
+theorem allowed_same (ξ ζ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (D.moving ξ).allowedRow u ↔ (D.moving ζ).allowedRow u := Iff.rfl
 
-theorem ordinary_character_same (ξ ζ : V) (u : NonzeroIdeal K) :
+theorem ordinary_character_same (ξ ζ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (D.moving ξ).rowCharacter u ∉ (D.moving ξ).theta ↔
       (D.moving ζ).rowCharacter u ∉ (D.moving ζ).theta := Iff.rfl
 
 /-- Apply this to the existing common row predicate. It proves its
 arithmetic truth value independent of both modes, without replacing the
 original paired exceptional partition. -/
-theorem ordinary_condition_same (z : ℝ) (ξ ζ : V) (u : NonzeroIdeal K) :
+theorem ordinary_condition_same (z : ℝ) (ξ ζ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (if z = 0 then (D.moving ξ).plainBackground * (D.moving ξ).rowCharacter u ≠ 1
       else (D.moving ξ).rowCharacter u ∉ (D.moving ξ).theta) ↔
     (if z = 0 then (D.moving ζ).plainBackground * (D.moving ζ).rowCharacter u ≠ 1
@@ -138,7 +138,7 @@ the same arithmetic child, with no completed child budget as input. -/
 theorem source_full_mask_window
     (hclass : chart.NonunitLabelStable)
     (oldMoving : OriginalMovingFactors A P Rchar)
-    (remaining : NonzeroIdeal K) (hremaining : IsCoprime remaining.val A.cS)
+    (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (hremaining : IsCoprime remaining.val A.cS)
     (X : ℝ) (hX : 1 ≤ X) (label : Fin (chart.rowLabelCount + 1))
     (retainedScale Z g a₀ q wo cutoffExponent : ℝ)
     (hscale : 0 < retainedScale) (hZ : 1 < Z)
@@ -180,7 +180,7 @@ using the original lower bound one on a nonzero-ideal norm. -/
 theorem source_cutoff
     (hclass : chart.NonunitLabelStable)
     (oldMoving : OriginalMovingFactors A P Rchar)
-    (remaining : NonzeroIdeal K) (hremaining : IsCoprime remaining.val A.cS)
+    (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (hremaining : IsCoprime remaining.val A.cS)
     (X : ℝ) (hX : 1 ≤ X) (label : Fin (chart.rowLabelCount + 1))
     (retainedScale Z g a₀ q wo cutoffExponent : ℝ)
     (hscale : 0 < retainedScale) (hZ : 1 < Z)
@@ -231,7 +231,7 @@ literal bounded Fourier profiles already constructed from that source. -/
 theorem child_allowed
     (hclass : chart.NonunitLabelStable)
     (oldMoving : OriginalMovingFactors A P Rchar)
-    (remaining : NonzeroIdeal K) (hremaining : IsCoprime remaining.val A.cS)
+    (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (hremaining : IsCoprime remaining.val A.cS)
     (X : ℝ) (hX : 1 ≤ X) (label : Fin (chart.rowLabelCount + 1))
     (retainedScale Z g a₀ q wo cutoffExponent : ℝ)
     (hscale : 0 < retainedScale) (hZ : 1 < Z)
@@ -302,7 +302,7 @@ theorem supported_row_bound (q : Index) :
 subcarrier of the same actual pattern source. No row-mass record is an
 input: the original chart constructs it internally. -/
 include hclass hleft hright hbound hprofile in
-theorem supported_extracted_fibers (carrier : Finset Index) (I : NonzeroIdeal K) :
+theorem supported_extracted_fibers (carrier : Finset Index) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (carrier.filter
       (fun q => (supported.extractedRow C q.val.val).momentIdeal = I)).card ≤ Γ.index := by
   exact extracted_fibers supported C mass pattern sector carrier I

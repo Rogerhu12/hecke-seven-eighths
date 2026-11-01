@@ -53,21 +53,21 @@ and all original moving factors. -/
 def originalCharacter (moving : OriginalMovingFactors A P R)
     (correction slot : HeckeCharacter K)
     (sector : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-    (u : NonzeroIdeal K) : HeckeCharacter K :=
+    (u : HeckeGeneral.Analysis.NonzeroIdeal K) : HeckeCharacter K :=
   (correction * moving.character *
     completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P R sector u) * slot
 
 /-- The original mask includes the whole row, every displayed moving
 factor, and the unchanged remaining ideal. -/
 def originalMask (moving : OriginalMovingFactors A P R)
-    (remaining u : NonzeroIdeal K) (I : Ideal (𝓞 K)) : Bool :=
+    (remaining u : HeckeGeneral.Analysis.NonzeroIdeal K) (I : Ideal (𝓞 K)) : Bool :=
   ((completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&
     decide (IsCoprime I moving.support.val)) && decide (IsCoprime I remaining.val))
 
 def originalPrimeSum (moving : OriginalMovingFactors A P R)
     (correction slot : HeckeCharacter K)
     (sector : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-    (remaining u : NonzeroIdeal K) (W : 𝓢(ℝ, ℂ))
+    (remaining u : HeckeGeneral.Analysis.NonzeroIdeal K) (W : 𝓢(ℝ, ℂ))
     (pool : Finset (HeightOneSpectrum (𝓞 K))) (X : ℝ) : ℂ :=
   (Real.sqrt X : ℂ)⁻¹ * ∑ p ∈ pool,
     primeCoefficient K (originalCharacter moving correction slot sector u) p *
@@ -84,7 +84,7 @@ def OriginalPrimeBound (theta : Finset (HeckeCharacter K))
   ∀ Z : ℝ, Z₀ ≤ Z →
     ∀ (moving : OriginalMovingFactors A P R) (correction slot : HeckeCharacter K)
       (sector : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-      (remaining u : NonzeroIdeal K),
+      (remaining u : HeckeGeneral.Analysis.NonzeroIdeal K),
     (correction = 1 ∨ correction ∈ theta) → slot ∈ theta →
     completeIdealIsExterior K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u →
     originalCharacter moving correction slot sector u ≠ 1 →
@@ -119,7 +119,7 @@ theorem slot_character_ne_one {ω ψ : HeckeCharacter K}
     (hz : a.z = d.geometry.totalLength)
     (hinv : ∀ θ ∈ d.theta, θ⁻¹ ∈ d.theta)
     (hslot : ∀ i, d.slotCoefficient i ∈ d.theta)
-    (u : NonzeroIdeal K) (hu : u ∈ pairedRows d a Z)
+    (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ pairedRows d a Z)
     (i : Fin d.geometry.slotCount) : d.rowCharacter u * d.slotCoefficient i ≠ 1 := by
   have hi : (d.geometry.slots i).length ≤ d.geometry.totalLength :=
     Finset.single_le_sum (fun j _ => (d.geometry.slots j).length_pos.le)
@@ -149,9 +149,9 @@ variable {data : X → MomentData K ω ψ}
 The same original support and Boolean mask are used term by term. -/
 theorem originalPrimeSum_eq_primePolynomial
     (recipe : CompleteMovingRowRecipe A P R data) (ξ : X)
-    (u : NonzeroIdeal K) (hu : (data ξ).allowedRow u)
+    (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : (data ξ).allowedRow u)
     (i : Fin (data ξ).geometry.slotCount) (Z t : ℝ)
-    {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
     {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
     (w : RawProfileWindow rowDomain heightDomain window orders (data ξ) amplitude) :
     originalPrimeSum recipe.moving recipe.correction ((data ξ).slotCoefficient i)
@@ -179,12 +179,12 @@ theorem primePolynomial_bound
     (hz : ∀ ξ, a.z = (data ξ).geometry.totalLength)
     (hjoint : recipe.FullJointBudget Z maxLength)
     (hlength : ∀ ξ i, ((data ξ).geometry.slots i).length ≤ maxLength)
-    {rowDomain : Set (NonzeroIdeal K)} {heightDomain : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain : Set ℝ}
     {controlledOrders : Finset (ℕ × ℕ)} (horders : orders ⊆ controlledOrders)
     (ξ : X) (t : ℝ) (ht : t ∈ heightDomain)
     (w : RawProfileWindow rowDomain heightDomain (Set.Icc lower upper)
       controlledOrders (data ξ) 1)
-    (u : NonzeroIdeal K) (hu : u ∈ pairedRows (data ξ) a Z)
+    (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ pairedRows (data ξ) a Z)
     (i : Fin (data ξ).geometry.slotCount) :
     ‖primePolynomial (data ξ) i u Z t‖ ^ 2 ≤
       (Cprime * Z ^ loss) * Z ^ (a.κ * ((data ξ).geometry.slots i).length) := by
@@ -251,11 +251,11 @@ theorem normalized_prime_bound
     (hjoint : recipe.FullJointBudget source.base maxLength)
     (hlength : ∀ i, source.childLength i ≤ maxLength)
     (amplitude : V → ℝ) (hamp : ∀ ξ, 0 < amplitude ξ)
-    {rowDomain : Set (NonzeroIdeal K)} {heightDomain : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain : Set ℝ}
     (profiles : ∀ ξ, RawProfileWindow rowDomain heightDomain (Set.Icc lower upper)
       (OriginalProfileAtomBounds.profileOrders orders) (D.data ξ) (amplitude ξ))
     (hheight : ∀ ξ, D.height ξ ∈ heightDomain)
-    (ξ : V) (u : NonzeroIdeal K)
+    (ξ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hu : u ∈ pairedRows (D.data ξ) D.parameters source.base)
     (i : Fin source.allocation.keep.card) :
     ‖primePolynomial (normalizedMomentProfiles (D.data ξ) (amplitude ξ) (hamp ξ))
@@ -307,7 +307,7 @@ def originalCapacityAtoms
     (hjoint : recipe.FullJointBudget source.base maxLength)
     (hlength : ∀ i, source.childLength i ≤ maxLength)
     (amplitude : V → ℝ) (hamp : ∀ ξ, 0 < amplitude ξ)
-    {rowDomain : Set (NonzeroIdeal K)} {heightDomain : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain : Set ℝ}
     (profiles : ∀ ξ, RawProfileWindow rowDomain heightDomain (Set.Icc lower upper)
       (OriginalProfileAtomBounds.profileOrders orders) (D.data ξ) (amplitude ξ))
     (hrows : ∀ ξ, ∀ u ∈ pairedRows (D.data ξ) D.parameters source.base, u ∈ rowDomain)
@@ -340,7 +340,7 @@ theorem exists_originalCapacityAtoms
         (∀ θ ∈ theta, θ⁻¹ ∈ theta) → recipe.FullJointBudget s.base maxLength →
         (∀ i, s.childLength i ≤ maxLength) →
         ∀ (amplitude : V → ℝ) (hamp : ∀ ξ, 0 < amplitude ξ)
-          (rowDomain : Set (NonzeroIdeal K)) (heightDomain : Set ℝ),
+          (rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)) (heightDomain : Set ℝ),
         (∀ ξ, RawProfileWindow rowDomain heightDomain (Set.Icc lower upper)
           (OriginalProfileAtomBounds.profileOrders orders) (D.data ξ) (amplitude ξ)) →
         (∀ ξ, ∀ u ∈ pairedRows (D.data ξ) D.parameters s.base, u ∈ rowDomain) →

@@ -34,12 +34,12 @@ variable {A : SArithmeticData K} {ω ψ : HeckeCharacter K}
 
 /-- Use the original test at the actual source row. Its norm argument,
 height argument and original finite support are unchanged. -/
-def fixedIdealTest (W : IdealTest K) (v : NonzeroIdeal K) : IdealTest K where
+def fixedIdealTest (W : IdealTest K) (v : HeckeGeneral.Analysis.NonzeroIdeal K) : IdealTest K where
   profile _ t y := W.profile v t y
   support _ t N := W.support v t N
   support_spec _ t N I := W.support_spec v t N I
 
-theorem quotient_norm_ratio (D I : NonzeroIdeal K) (N : ℝ) :
+theorem quotient_norm_ratio (D I : HeckeGeneral.Analysis.NonzeroIdeal K) (N : ℝ) :
     idealNorm K I / (N / idealNorm K D) = idealNorm K (D * I) / N := by
   have hmul : idealNorm K (D * I) = idealNorm K D * idealNorm K I := by
     change (Ideal.absNorm (D.val * I.val) : ℝ) =
@@ -51,19 +51,19 @@ theorem quotient_norm_ratio (D I : NonzeroIdeal K) (N : ℝ) :
 /-- Exact support reconstruction at the original divided scale. It
 does not require a norm window or a positivity bound for the scale. -/
 theorem fixedIdealTest_quotient_support (W : IdealTest K)
-    (v u D I : NonzeroIdeal K) (N t : ℝ) :
+    (v u D I : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) :
     I ∈ (fixedIdealTest W v).support u t (N / idealNorm K D) ↔
       D * I ∈ W.support v t N := by
   change I ∈ W.support v t (N / idealNorm K D) ↔ _
   rw [W.support_spec, W.support_spec, quotient_norm_ratio]
 
 /-- The actual exterior part of one original finite profile support. -/
-def exteriorPlainSupport (W : IdealTest K) (v : NonzeroIdeal K) (N t : ℝ) :
+def exteriorPlainSupport (W : IdealTest K) (v : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) :
     Finset (Ideal (𝓞 K)) :=
   ((W.support v t N).filter fun I => IsCoprime I.val A.cS).image Subtype.val
 
 @[simp] theorem mem_exteriorPlainSupport (W : IdealTest K)
-    (v I : NonzeroIdeal K) (N t : ℝ) :
+    (v I : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) :
     I.val ∈ exteriorPlainSupport (A := A) W v N t ↔
       I ∈ W.support v t N ∧ IsCoprime I.val A.cS := by
   rw [exteriorPlainSupport, Finset.mem_image]
@@ -76,7 +76,7 @@ def exteriorPlainSupport (W : IdealTest K) (v : NonzeroIdeal K) (N t : ℝ) :
     exact ⟨I, Finset.mem_filter.mpr h, rfl⟩
 
 theorem exteriorPlainSupport_nonzero (W : IdealTest K)
-    (v : NonzeroIdeal K) (N t : ℝ) :
+    (v : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) :
     ∀ I ∈ exteriorPlainSupport (A := A) W v N t, I ≠ 0 := by
   intro I hI
   obtain ⟨J, _, rfl⟩ := Finset.mem_image.mp hI
@@ -92,8 +92,8 @@ variable {P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))}
 variable {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
 variable (parent : MomentData K ω ψ) (moving : OriginalMovingFactors A P R)
 variable (correction : HeckeCharacter K) (hcorr : correction = 1 ∨ correction ∈ parent.theta)
-variable (sector : NonzeroIdeal K → SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-variable (remaining : NonzeroIdeal K) (budget : ℝ)
+variable (sector : HeckeGeneral.Analysis.NonzeroIdeal K → SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
+variable (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (budget : ℝ)
 variable (inverse left right : IdealTest K) (geometry : SlotGeometry K)
 variable (index : Fin geometry.slotCount → Fin parent.geometry.slotCount)
 
@@ -101,7 +101,7 @@ local notation "child" => CanonicalOriginalChildData.data parent moving correcti
   sector remaining budget inverse left right geometry index
 
 /-- The effective support reads the full original mask directly. -/
-theorem child_commonMask_iff (u I : NonzeroIdeal K) :
+theorem child_commonMask_iff (u I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     child.commonMask u I.val = true ↔
       sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) I ∧
         IsCoprime I.val u.val ∧ IsCoprime I.val moving.support.val ∧
@@ -110,14 +110,14 @@ theorem child_commonMask_iff (u I : NonzeroIdeal K) :
     sexticIdealOutsideS, Bool.and_eq_true, decide_eq_true_eq]
   tauto
 
-theorem effective_plain_exterior (W : IdealTest K) (u I : NonzeroIdeal K) (N t : ℝ)
+theorem effective_plain_exterior (W : IdealTest K) (u I : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ)
     (hI : I ∈ effectivePlainSupport child W u N t) : IsCoprime I.val A.cS := by
   have hm := effectivePlainSupport_commonMask child W u I N t hI
   exact (CanonicalOriginalPhaseCalibration.outside_iff_coprime I).mp
     ((child_commonMask_iff parent moving correction hcorr sector remaining budget
       inverse left right geometry index u I).mp hm).1
 
-theorem effective_plain_full_mask (W : IdealTest K) (u I : NonzeroIdeal K) (N t : ℝ)
+theorem effective_plain_full_mask (W : IdealTest K) (u I : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ)
     (hI : I ∈ effectivePlainSupport child W u N t) :
     IsCoprime I.val (moving.support.val * remaining.val) := by
   have hm := effectivePlainSupport_commonMask child W u I N t hI
@@ -126,7 +126,7 @@ theorem effective_plain_full_mask (W : IdealTest K) (u I : NonzeroIdeal K) (N t 
   exact hc.2.2.1.mul_right hc.2.2.2
 
 theorem effective_prime_original_support (i : Fin geometry.slotCount)
-    (u : NonzeroIdeal K) (Z t : ℝ) :
+    (u : HeckeGeneral.Analysis.NonzeroIdeal K) (Z t : ℝ) :
     effectivePrimeSupport child i u Z t ⊆
       exteriorPrimeSupport (A := A) (geometry.slots i) Z t := by
   intro p hp
@@ -140,7 +140,7 @@ theorem effective_prime_original_support (i : Fin geometry.slotCount)
 /-- This is coverage by the literal original exterior quotient
 carrier, constructed from the raw original test and the actual divisor. -/
 theorem effective_plain_original_quotient (W : IdealTest K)
-    (v u : NonzeroIdeal K) (D : A.Exterior) (N t : ℝ) :
+    (v u : HeckeGeneral.Analysis.NonzeroIdeal K) (D : A.Exterior) (N t : ℝ) :
     effectivePlainSupport child (fixedIdealTest W v) u
         (N / idealNorm K (exteriorMomentIdeal D)) t ⊆
       nonzeroQuotientMomentSupport D.val (exteriorPlainSupport (A := A) W v N t) := by
@@ -223,8 +223,8 @@ variable {P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))}
 variable {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
 variable (parent : MomentData K ω ψ) (moving : OriginalMovingFactors A P R)
 variable (correction : HeckeCharacter K) (hcorr : correction = 1 ∨ correction ∈ parent.theta)
-variable (sector : NonzeroIdeal K → SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-variable (remaining : NonzeroIdeal K) (budget : ℝ)
+variable (sector : HeckeGeneral.Analysis.NonzeroIdeal K → SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
+variable (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (budget : ℝ)
 variable (inverse left right : IdealTest K) (geometry : SlotGeometry K)
 variable (index : Fin geometry.slotCount → Fin parent.geometry.slotCount)
 
@@ -237,7 +237,7 @@ a newly supplied polynomial support. -/
 theorem effective_prime_original_live
     (common : Finset (Ideal (𝓞 K)))
     (hcommon : common ⊆ primeSupport (moving.support.val * remaining.val))
-    (i : Fin geometry.slotCount) (u : NonzeroIdeal K) (Z t : ℝ) :
+    (i : Fin geometry.slotCount) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (Z t : ℝ) :
     effectivePrimeSupport child i u Z t ⊆
       SupportCartesian.primeLive
         (exteriorPrimeSupport (A := A) (geometry.slots i) Z t) common := by
@@ -259,7 +259,7 @@ residual followed by the actual allocated quotient. Both divisions of
 the scale are exact. D is the original common part and B the actual
 allocated occurrence divisor. -/
 theorem effective_plain_original_common_quotient (W : IdealTest K)
-    (v u : NonzeroIdeal K) (D B : A.Exterior) (N t : ℝ)
+    (v u : HeckeGeneral.Analysis.NonzeroIdeal K) (D B : A.Exterior) (N t : ℝ)
     (common : Finset (Ideal (𝓞 K)))
     (hcommon : common ⊆ primeSupport (moving.support.val * remaining.val))
     (hDpart : supportExtract D.val common = D.val)
@@ -340,7 +340,7 @@ variable {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
 or its sixth-root remainder. This includes the principal sixth-power
 case and is independent of the nonunit-pattern choice. -/
 theorem second_common_subset_full_mask
-    (prefix : OriginalMovingFactors A P R) (remaining : NonzeroIdeal K)
+    (prefix : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
     (C : A.GeneralArithmeticContext σ η hS)
     (p : ι → ExteriorPrime A) (hp : Function.Injective p)
     (m n : ι → ℕ) (hm : ∀ i, 0 < m i) (hn : ∀ i, 0 < n i)
@@ -399,17 +399,17 @@ variable (hslot : ∀ i, CanonicalLogProfiles.PositivePrimeProfile (d.geometry.s
 
 /-- The whole physical carrier is fixed before the Fourier parameter;
 the actual nonzero logarithmic multiplier changes no effective support. -/
-theorem effective_left_logProfiles (ξ : V) (u : NonzeroIdeal K) (N t : ℝ) :
+theorem effective_left_logProfiles (ξ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) :
     effectivePlainSupport (CanonicalLogProfiles.data d left right slot hleft hright hslot ξ)
       (CanonicalLogProfiles.data d left right slot hleft hright hslot ξ).plainTest₁ u N t =
       effectivePlainSupport d d.plainTest₁ u N t := rfl
 
-theorem effective_right_logProfiles (ξ : V) (u : NonzeroIdeal K) (N t : ℝ) :
+theorem effective_right_logProfiles (ξ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) :
     effectivePlainSupport (CanonicalLogProfiles.data d left right slot hleft hright hslot ξ)
       (CanonicalLogProfiles.data d left right slot hleft hright hslot ξ).plainTest₂ u N t =
       effectivePlainSupport d d.plainTest₂ u N t := rfl
 
-theorem effective_prime_logProfiles (ξ : V) (u : NonzeroIdeal K) (Z t : ℝ)
+theorem effective_prime_logProfiles (ξ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (Z t : ℝ)
     (i : Fin d.geometry.slotCount) :
     effectivePrimeSupport (CanonicalLogProfiles.data d left right slot hleft hright hslot ξ)
       i u Z t = effectivePrimeSupport d i u Z t := rfl

@@ -63,7 +63,7 @@ theorem primeLive_coprime (D : A.Exterior) (S : Finset (HeightOneSpectrum (𝓞 
   exact (Finset.mem_filter.mp hp).2
     ((prime_mem_support_iff_dvd p.asIdeal D.val p.prime D.property.1).mpr hd)
 
-variable (moving : OriginalMovingFactors A P R) (remaining : NonzeroIdeal K)
+variable (moving : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
 variable (D : A.Exterior)
 
 /-- The entire original common part remains visible to the full-mask
@@ -145,7 +145,7 @@ variable {k : ℕ}
 variable (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
 variable (index : Fin k → Fin parent.geometry.slotCount)
 
-theorem sourcePlain_preserved (I : NonzeroIdeal K) (hI : IsCoprime I.val D.val) :
+theorem sourcePlain_preserved (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : IsCoprime I.val D.val) :
     sourcePlainCoefficient
         (movingSourceCharacters parent correction moving (remaining * exteriorMomentIdeal D) index).plain
         (movingSourceCharacters parent correction moving (remaining * exteriorMomentIdeal D) index).plainTwist

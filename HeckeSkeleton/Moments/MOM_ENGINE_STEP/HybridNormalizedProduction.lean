@@ -105,7 +105,7 @@ end ActualAllocatedSource.Calibration.CapacityInput
 /-- Freezing a permitted original height makes the same profile window
 valid at every new height, including the common zero-twist output. -/
 def RawProfileWindow.freezeTime
-    {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
     {seminorms : Finset (ℕ × ℕ)} {d : MomentData K ω ψ} {B : ℝ}
     (raw : RawProfileWindow rowDomain heightDomain window seminorms d B)
     (t₀ : ℝ) (ht₀ : t₀ ∈ heightDomain) :
@@ -146,7 +146,7 @@ variable {C : A.GeneralArithmeticContext σ η hS}
 variable {Ray : Type*} [CommGroup Ray] [Fintype Ray]
 variable {side : SecondColumnSide} {k : ℕ}
 variable {f : SecondSideFrame (V := V) C R Ray side k}
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {seminorms : Finset (ℕ × ℕ)}
 variable (N : SecondSideNormalization f ω ψ rowDomain heightDomain window seminorms)
 
@@ -190,7 +190,7 @@ variable {exceptional : H → Prop}
 variable (B : HybridOrdinaryRectangles R Ray S₁ S₂ S T₁ T₂ T IA IB
   rayLeft rayRight wholeLeft wholeRight x y b exceptional)
 variable (C : A.GeneralArithmeticContext σ η hS)
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {seminorms : Finset (ℕ × ℕ)}
 variable (lc : ∀ r : Bool, SecondSideNormalization (B.leftFrame C r)
   ω ψ rowDomain heightDomain window seminorms)

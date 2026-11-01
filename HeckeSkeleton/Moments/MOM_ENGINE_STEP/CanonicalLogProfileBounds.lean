@@ -83,7 +83,7 @@ variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
 
 theorem actualPlainAtom_phase (d : MomentData K ω ψ)
     (W : IdealTest K) (positive : PositivePlainProfile W)
-    (u I : NonzeroIdeal K) (N t : ℝ) (ξ : V) :
+    (u I : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) (ξ : V) :
     actualPlainAtom d (p.idealTest W positive ξ) u N t I =
       actualPlainAtom d (p.idealTest W positive 0) u N t I *
         jointPhase ξ (p.location (idealNorm K I / N)) := by
@@ -95,14 +95,14 @@ theorem actualPlainAtom_phase (d : MomentData K ω ψ)
 
 theorem norm_actualPlainAtom (d : MomentData K ω ψ)
     (W : IdealTest K) (positive : PositivePlainProfile W)
-    (u I : NonzeroIdeal K) (N t : ℝ) (ξ : V) :
+    (u I : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) (ξ : V) :
     ‖actualPlainAtom d (p.idealTest W positive ξ) u N t I‖ =
       ‖actualPlainAtom d (p.idealTest W positive 0) u N t I‖ := by
   rw [p.actualPlainAtom_phase d W positive u I N t ξ, norm_mul, norm_jointPhase, mul_one]
 
 theorem continuous_actualPlainAtom (d : MomentData K ω ψ)
     (W : IdealTest K) (positive : PositivePlainProfile W)
-    (u I : NonzeroIdeal K) (N t : ℝ) :
+    (u I : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) :
     Continuous (fun ξ : V => actualPlainAtom d (p.idealTest W positive ξ) u N t I) := by
   have he : (fun ξ : V => actualPlainAtom d (p.idealTest W positive ξ) u N t I) =
       (fun ξ : V => actualPlainAtom d (p.idealTest W positive 0) u N t I *
@@ -632,7 +632,7 @@ theorem profileAmplitude_nonneg (window : Set ℝ) (hcompact : IsCompact window)
 /-- The window is constructed from literal original representatives.
 The global support clauses are solely about those original profiles;
 their bounds are needed only on the prescribed row and height domains. -/
-def rawWindow {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+def rawWindow {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
     (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0)
     (s : Finset (ℕ × ℕ)) {A : ℝ} (hA : 0 ≤ A)
     (w : RawProfileWindow rowDomain heightDomain window (sourceOrders s) d A)
@@ -722,7 +722,7 @@ def rawWindow {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
         (fun p hp => Seminorm.le_finset_sup_apply (subset_sourceOrders s hp))
     exact hmono.trans ((w.inverse_bound u hu t ht).trans hAM)
 
-theorem actualPrimeAtom_phase (u : NonzeroIdeal K) (i : Fin d.geometry.slotCount)
+theorem actualPrimeAtom_phase (u : HeckeGeneral.Analysis.NonzeroIdeal K) (i : Fin d.geometry.slotCount)
     (q : HeightOneSpectrum (𝓞 K)) (Z t : ℝ) (ξ : V) :
     actualPrimeAtom (data d left right slot hleft hright hslot ξ) i u Z t q =
       actualPrimeAtom (data d left right slot hleft hright hslot 0) i u Z t q *
@@ -734,14 +734,14 @@ theorem actualPrimeAtom_phase (u : NonzeroIdeal K) (i : Fin d.geometry.slotCount
     ring
   · simp only [actualPrimeAtom, data, Atom.primeWindow, if_neg hq, zero_mul]
 
-theorem norm_actualPrimeAtom (u : NonzeroIdeal K) (i : Fin d.geometry.slotCount)
+theorem norm_actualPrimeAtom (u : HeckeGeneral.Analysis.NonzeroIdeal K) (i : Fin d.geometry.slotCount)
     (q : HeightOneSpectrum (𝓞 K)) (Z t : ℝ) (ξ : V) :
     ‖actualPrimeAtom (data d left right slot hleft hright hslot ξ) i u Z t q‖ =
       ‖actualPrimeAtom (data d left right slot hleft hright hslot 0) i u Z t q‖ := by
   rw [actualPrimeAtom_phase d left right slot hleft hright hslot u i q Z t ξ,
     norm_mul, norm_jointPhase, mul_one]
 
-theorem continuous_actualPrimeAtom (u : NonzeroIdeal K) (i : Fin d.geometry.slotCount)
+theorem continuous_actualPrimeAtom (u : HeckeGeneral.Analysis.NonzeroIdeal K) (i : Fin d.geometry.slotCount)
     (q : HeightOneSpectrum (𝓞 K)) (Z t : ℝ) :
     Continuous (fun ξ : V =>
       actualPrimeAtom (data d left right slot hleft hright hslot ξ) i u Z t q) := by
@@ -890,7 +890,7 @@ variable (hslot : ∀ i, PositivePrimeProfile (d.geometry.slots i))
 
 /-- The exact two-variable polynomial radius used by the capacity
 producer dominates the real constructed profile family. -/
-def polynomialWindow {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+def polynomialWindow {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
     (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0)
     (s : Finset (ℕ × ℕ)) {A : ℝ} (hA : 0 ≤ A)
     (w : RawProfileWindow rowDomain heightDomain window (sourceOrders s) d A)
@@ -913,7 +913,7 @@ def polynomialWindow {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : S
 profiles in the prescribed fixed unit ball.  All representatives above
 are constructed; no transformed-window certificate is an input. -/
 theorem normalized_polynomial_window
-    {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
     (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0)
     (s : Finset (ℕ × ℕ)) {A : ℝ} (hA : 0 ≤ A)
     (w : RawProfileWindow rowDomain heightDomain window (sourceOrders s) d A)

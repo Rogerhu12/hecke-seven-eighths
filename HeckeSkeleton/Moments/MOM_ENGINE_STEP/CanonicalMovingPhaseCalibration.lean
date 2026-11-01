@@ -43,7 +43,7 @@ def childData (parent : MomentData K ω ψ)
     (C : A.GeneralArithmeticContext σ η hS) (primes : ι → ExteriorPrime A)
     (m n : ι → ℕ) (pattern : ι → Bool)
     (sector : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-    (remaining : NonzeroIdeal K) (budget : ℝ)
+    (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (budget : ℝ)
     (inverse left right : IdealTest K) (geometry : SlotGeometry K)
     (index : Fin geometry.slotCount → Fin parent.geometry.slotCount) : MomentData K ω ψ :=
   CanonicalOriginalChildData.data parent
@@ -58,7 +58,7 @@ variable (hcorr : correction = 1 ∨ correction ∈ parent.theta)
 variable (C : A.GeneralArithmeticContext σ η hS) (primes : ι → ExteriorPrime A)
 variable (m n : ι → ℕ) (pattern : ι → Bool)
 variable (sector : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-variable (remaining : NonzeroIdeal K) (budget : ℝ)
+variable (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (budget : ℝ)
 variable (inverse left right : IdealTest K) (geometry : SlotGeometry K)
 variable (index : Fin geometry.slotCount → Fin parent.geometry.slotCount)
 variable {Ih : A.Exterior} {h g : A.R} {factor : ℝ}
@@ -66,7 +66,7 @@ variable {Ih : A.Exterior} {h g : A.R} {factor : ℝ}
 /-- The complete child mask is the actual second phase mask times the
 original prefix and remaining deletion. The sixth-root mask is present
 even when the primitive active character is trivial. -/
-theorem childData_mask (u J : NonzeroIdeal K) :
+theorem childData_mask (u J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     maskValue (childData P R parent prefix correction hcorr C primes m n pattern sector
         remaining budget inverse left right geometry index) u J.val =
       (if phaseMask u (secondOriginalMovingFactors P R C primes m n pattern).support.val
@@ -92,7 +92,7 @@ theorem childData_row_coefficient
     (row : ActualChildRow Ih h g factor)
     (hfactor : g = secondSixthRootGenerator C primes m n ^ 6 *
       secondActiveFrequencyGenerator C primes m n pattern)
-    (hsector : row.sector P = sector) (χ : HeckeCharacter K) (J : NonzeroIdeal K) :
+    (hsector : row.sector P = sector) (χ : HeckeCharacter K) (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     heckeIdealCoefficient K
         (χ * (childData P R parent prefix correction hcorr C primes m n pattern sector
           remaining budget inverse left right geometry index).rowCharacter row.momentIdeal) J *

@@ -122,8 +122,8 @@ theorem centered_column_norm_eq_source
         i (exceptional_column_mem_source f.allocation i hi)
         (f.ideal i) (f.ideal_product i (exceptional_column_mem_source f.allocation i hi))
         (-R.frequency h.val) (-R.factor C h.val) (R.extractedRow C h).element
-        (by simpa only [neg_mul] using
-          congrArg (fun a : A.R => -a) (R.extractedRow C h).frequency)
+        ((congrArg (fun z : A.R => -z) (R.extractedRow C h).frequency).trans
+          (neg_mul _ _).symm)
       exact (congrArg star he).trans (star_mul' _ _)
     have hphase (z : V) : jointPhase ξ (-z) = star (jointPhase ξ z) := by
       simp only [jointPhase, inner_neg_right, AddChar.map_neg_eq_inv,
@@ -138,13 +138,14 @@ theorem centered_column_norm_eq_source
     have hs : f.source.centeredColumn (σ := σ) E.scale₁ E.scale₂
         (fun _ => E.leftWeight) (fun _ => E.rightWeight) ξ h =
         jointFourierColumn f.allocation.columns c (fun i => -x i) ξ := by
-      simp only [ActualAllocatedSource.centeredColumn, source, rawSource,
-        ActualSecondCorrelationRows.source, ActualAllocatedSource.negativeSide,
-        ActualChildRow.negative]
-      exact congrArg (fun locations =>
-        jointFourierColumn f.allocation.columns c locations ξ)
-        (funext (rawSourceLocation_neg (f.leftLocation h.val)
-          (f.rightLocation h.val) (f.slotLocation h.val)))
+      change jointFourierColumn f.allocation.columns c
+          (rawSourceLocation (fun I => -f.leftLocation h.val I)
+            (fun I => -f.rightLocation h.val I) (fun j p => -f.slotLocation h.val j p)) ξ =
+        jointFourierColumn f.allocation.columns c (fun i => -x i) ξ
+      apply congrArg (fun location => jointFourierColumn f.allocation.columns c location ξ)
+      funext i
+      exact rawSourceLocation_neg (f.leftLocation h.val) (f.rightLocation h.val)
+        (f.slotLocation h.val) i
     rw [hs]
     change ‖jointFourierColumn f.allocation.columns (f.centeredCoefficient E h.val) x ξ‖ = _
     rw [hp, norm_mul, norm_star, norm_star]

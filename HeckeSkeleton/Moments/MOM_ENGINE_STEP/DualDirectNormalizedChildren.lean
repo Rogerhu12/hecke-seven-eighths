@@ -232,7 +232,7 @@ theorem actual_parent_direct_dual_normalized_child_bound
     ∀ {Ray : Type} [CommGroup Ray] [Fintype Ray],
     ∀ (I : R.liveLeaves L exceptional N₀ → Type)
       [∀ j, Fintype (I j)] [∀ j, DecidableEq (I j)],
-    ∀ (rowDomain : Set (NonzeroIdeal K)) (heightDomain window : Set ℝ)
+    ∀ (rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)) (heightDomain window : Set ℝ)
       (seminorms : Finset (ℕ × ℕ)),
     ∀ extract : ∀ j : R.liveLeaves L exceptional N₀,
       (R.liveLeaf L exceptional N₀ j).ConstantAtomExtraction,

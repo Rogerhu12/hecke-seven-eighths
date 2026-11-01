@@ -49,7 +49,7 @@ theorem exists_reciprocal_window_bound (window : Set ℝ)
 namespace RawProfileWindow
 
 variable {ω ψ : HeckeCharacter K} {d : MomentData K ω ψ}
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {seminorms : Finset (ℕ × ℕ)} {amplitude : ℝ}
 variable (profiles : RawProfileWindow rowDomain heightDomain window seminorms d amplitude)
 
@@ -194,7 +194,7 @@ variable {A : SArithmeticData K} {Γ : Subgroup A.U} {ω ψ : HeckeCharacter K}
 variable {d : MomentData K ω ψ} {a : RealParameters} {Z t Y₁ Y₂ : ℝ}
 local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
 variable (raw : ParentRawAtoms (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) d a Z t Y₁ Y₂)
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {seminorms : Finset (ℕ × ℕ)} {amplitude : ℝ}
 
 /-- The actual original atlas supplies all frozen primes from the

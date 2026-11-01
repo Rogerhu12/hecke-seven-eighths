@@ -33,7 +33,7 @@ variable {K : Type} [Field K] [NumberField K]
 namespace RawProfileWindow
 
 variable {ω ψ : HeckeCharacter K} {d : MomentData K ω ψ}
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
 variable (profiles : RawProfileWindow rowDomain heightDomain window orders d amplitude)
 
@@ -42,7 +42,7 @@ include profiles
 theorem original_left_norm_le_annulus (annulus scale t : ℝ)
     (hscale : 0 < scale) (ht : t ∈ heightDomain)
     (hwindow : window ⊆ Set.Iic annulus)
-    (u : NonzeroIdeal K) (hu : u ∈ rowDomain) (I : NonzeroIdeal K)
+    (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ rowDomain) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hI : I ∈ d.plainTest₁.support u t scale) :
     idealNorm K I ≤ annulus * scale := by
   have hrep : profiles.leftRep u t (idealNorm K I / scale) ≠ 0 := by
@@ -53,7 +53,7 @@ theorem original_left_norm_le_annulus (annulus scale t : ℝ)
 theorem original_right_norm_le_annulus (annulus scale t : ℝ)
     (hscale : 0 < scale) (ht : t ∈ heightDomain)
     (hwindow : window ⊆ Set.Iic annulus)
-    (u : NonzeroIdeal K) (hu : u ∈ rowDomain) (I : NonzeroIdeal K)
+    (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ rowDomain) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hI : I ∈ d.plainTest₂.support u t scale) :
     idealNorm K I ≤ annulus * scale := by
   have hrep : profiles.rightRep u t (idealNorm K I / scale) ≠ 0 := by
@@ -82,7 +82,7 @@ variable {ω ψ : HeckeCharacter K} {d : MomentData K ω ψ} {a : RealParameters
 variable {Z t Y₁ Y₂ : ℝ}
 variable (raw : ParentRawAtoms
   (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) d a Z t Y₁ Y₂)
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
 variable (profiles : RawProfileWindow rowDomain heightDomain window orders d amplitude)
 
@@ -94,7 +94,7 @@ theorem original_leftColumns_norm_le (annulus : ℝ) (hannulus : 0 ≤ annulus)
     (hZ : 0 < Z) (hY₁ : 0 < Y₁) (hY₁le : Y₁ ≤ Z ^ a.n₁)
     (hrows : ∀ u ∈ pairedRows d a Z, u ∈ rowDomain)
     (ht : t ∈ heightDomain) (hwindow : window ⊆ Set.Iic annulus)
-    (I : NonzeroIdeal K) (hI : I ∈ raw.leftColumns) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : I ∈ raw.leftColumns) :
     idealNorm K I ≤ annulus * Z ^ a.n₁ := by
   obtain ⟨u, hu, hI⟩ := Finset.mem_biUnion.mp hI
   rcases Finset.mem_union.mp hI with hI | hI
@@ -107,7 +107,7 @@ theorem original_rightColumns_norm_le (annulus : ℝ) (hannulus : 0 ≤ annulus)
     (hZ : 0 < Z) (hY₂ : 0 < Y₂) (hY₂le : Y₂ ≤ Z ^ a.n₂)
     (hrows : ∀ u ∈ pairedRows d a Z, u ∈ rowDomain)
     (ht : t ∈ heightDomain) (hwindow : window ⊆ Set.Iic annulus)
-    (I : NonzeroIdeal K) (hI : I ∈ raw.rightColumns) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : I ∈ raw.rightColumns) :
     idealNorm K I ≤ annulus * Z ^ a.n₂ := by
   obtain ⟨u, hu, hI⟩ := Finset.mem_biUnion.mp hI
   rcases Finset.mem_union.mp hI with hI | hI

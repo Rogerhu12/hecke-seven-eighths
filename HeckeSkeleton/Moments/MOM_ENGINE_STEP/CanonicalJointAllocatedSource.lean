@@ -47,7 +47,7 @@ def columnLocation (s : ActualAllocatedSource A V H k) (h : H)
   rawSourceLocation (s.leftLocation h) (s.rightLocation h) (s.slotLocation h) i
 
 variable (s : ActualAllocatedSource A V H k)
-variable (x₁ x₂ : H → NonzeroIdeal F → U)
+variable (x₁ x₂ : H → HeckeGeneral.Analysis.NonzeroIdeal F → U)
 variable (x : H → Fin k → HeightOneSpectrum (𝓞 F) → U)
 
 /-- One fixed source whose locations carry both original Fourier modes. -/
@@ -91,8 +91,8 @@ def withFirstMode (ξ : U) : ActualAllocatedSource A V H k :=
 
 private theorem sourcePlainTerm_weight_phase
     (χ θ : HeckeCharacter F) (M : Ideal (𝓞 F) →* ℂ) (g h' : A.R)
-    (w : NonzeroIdeal F → ℂ) (a : NonzeroIdeal F → U)
-    (N : ℝ) (ξ : U) (I : NonzeroIdeal F) :
+    (w : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ) (a : HeckeGeneral.Analysis.NonzeroIdeal F → U)
+    (N : ℝ) (ξ : U) (I : HeckeGeneral.Analysis.NonzeroIdeal F) :
     sourcePlainTerm (σ := σ) χ θ M g h'
         (fun J => w J * jointPhase ξ (a J)) N I =
       sourcePlainTerm (σ := σ) χ θ M g h' w N I * jointPhase ξ (a I) := by
@@ -110,9 +110,9 @@ private theorem sourcePrimeTerm_weight_phase
 /-- The phase of a whole actual column is the product of its atom phases. -/
 theorem rawSourceCoefficient_firstMode
     (T : FixedChildCharacters F k) (g h' : A.R) (N₁ N₂ Z : ℝ)
-    (length : Fin k → ℝ) (w₁ w₂ : NonzeroIdeal F → ℂ)
+    (length : Fin k → ℝ) (w₁ w₂ : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ)
     (w : Fin k → HeightOneSpectrum (𝓞 F) → ℂ)
-    (a₁ a₂ : NonzeroIdeal F → U)
+    (a₁ a₂ : HeckeGeneral.Analysis.NonzeroIdeal F → U)
     (a : Fin k → HeightOneSpectrum (𝓞 F) → U)
     (ξ : U) (i : AllocationColumn F k) :
     rawSourceCoefficient (σ := σ) T g h' N₁ N₂ Z length
@@ -172,20 +172,20 @@ theorem energy_identity (ξ : U) (ζ : V) :
 
 /-- The comparison rectangle uses the same first-mode slot weights. -/
 theorem withFirstMode_comparison (N₁ N₂ : ℝ)
-    (w₁ w₂ : H → NonzeroIdeal F → ℂ) (ξ : U) :
+    (w₁ w₂ : H → HeckeGeneral.Analysis.NonzeroIdeal F → ℂ) (ξ : U) :
     withFirstMode (s.comparison N₁ N₂ w₁ w₂) x₁ x₂ x ξ =
       (withFirstMode s x₁ x₂ x ξ).comparison N₁ N₂
         (fun h I => w₁ h I * jointPhase ξ (x₁ h I))
         (fun h I => w₂ h I * jointPhase ξ (x₂ h I)) := rfl
 
 theorem jointSource_comparison (N₁ N₂ : ℝ)
-    (w₁ w₂ : H → NonzeroIdeal F → ℂ) :
+    (w₁ w₂ : H → HeckeGeneral.Analysis.NonzeroIdeal F → ℂ) :
     jointSource (s.comparison N₁ N₂ w₁ w₂) x₁ x₂ x =
       (jointSource s x₁ x₂ x).comparison N₁ N₂ w₁ w₂ := rfl
 
 /-- The subtraction stays inside the same joint Fourier polynomial. -/
 theorem centered_energy_identity (N₁ N₂ : ℝ)
-    (w₁ w₂ : H → NonzeroIdeal F → ℂ) (ξ : U) (ζ : V) :
+    (w₁ w₂ : H → HeckeGeneral.Analysis.NonzeroIdeal F → ℂ) (ξ : U) (ζ : V) :
     (withFirstMode s x₁ x₂ x ξ).centeredEnergy (σ := σ) N₁ N₂
         (fun h I => w₁ h I * jointPhase ξ (x₁ h I))
         (fun h I => w₂ h I * jointPhase ξ (x₂ h I)) ζ =

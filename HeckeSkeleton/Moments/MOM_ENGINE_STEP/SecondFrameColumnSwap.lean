@@ -26,7 +26,7 @@ open HeckeGeneral.Characters HeckeGeneral.Analysis.ConditionalMoments
 
 def swappedSecondPhase (Ray : Type*) [CommGroup Ray]
     (χ : (Ray × Ray) →* Circle) : (Ray × Ray) →* Circle :=
-  (χ.comp (MulEquiv.prodComm (M := Ray) (N := Ray)).toMonoidHom)⁻¹
+  (χ.comp (MulEquiv.prodComm : Ray × Ray ≃* Ray × Ray).toMonoidHom)⁻¹
 
 @[simp] theorem fixedLeftPhase_swappedSecondPhase
     (Ray : Type*) [CommGroup Ray] [Fintype Ray] (χ : (Ray × Ray) →* Circle) :

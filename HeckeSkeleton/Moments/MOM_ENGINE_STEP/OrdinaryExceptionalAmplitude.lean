@@ -96,7 +96,7 @@ theorem ordinary_identity
   congr 1
   simp only [ActualColumnAllocation.childColumns, FixedChildCharacters.coefficient]
   rw [joint_cartesian_column_factorization]
-  dsimp only [FixedChildCharacters.restrictSlots]
+  simp only [FixedChildCharacters.restrictSlots]
   rw [sourcePlain_sum_eq_twisted _ _ _ _ _ Ψ hΨ0 s.mask W₁ s.time
     (s.X₁ / idealNorm F (s.allocation.plainDivisor 0)) s.allocation.childPlain₁
     (fun I => s.w₁ (s.allocation.plainDivisor 0 * I))

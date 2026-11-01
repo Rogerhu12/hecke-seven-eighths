@@ -48,7 +48,7 @@ theorem phase_pair (slope secondSlope x y ξ ζ : ℝ) :
     ext <;> ring
   rw [he, jointPhase_toLp_pair]
 
-theorem normLogWeight_nonzero (exponent ξ slope : ℝ) (I : NonzeroIdeal K) :
+theorem normLogWeight_nonzero (exponent ξ slope : ℝ) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     normLogWeight exponent ξ slope I.val =
       ((idealNorm K I ^ exponent : ℝ) : ℂ) *
         jointPhase ξ (slope * Real.log (idealNorm K I)) := by
@@ -56,17 +56,17 @@ theorem normLogWeight_nonzero (exponent ξ slope : ℝ) (I : NonzeroIdeal K) :
     CanonicalSecondRectangularFactors.normPower, logPhaseHom,
     MonoidHom.coe_mk, OneHom.coe_mk, if_neg (nonZeroDivisors.coe_ne_zero I)] <;> rfl
 
-theorem normPower_nonzero (exponent : ℝ) (I : NonzeroIdeal K) :
+theorem normPower_nonzero (exponent : ℝ) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     CanonicalSecondRectangularFactors.normPower exponent I.val =
       ((idealNorm K I ^ exponent : ℝ) : ℂ) := rfl
 
-private theorem norm_mul (D I : NonzeroIdeal K) :
+private theorem norm_mul (D I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     idealNorm K (D * I) = idealNorm K D * idealNorm K I := by
   change (Ideal.absNorm (D.val * I.val) : ℝ) = _
   rw [map_mul, Nat.cast_mul] <;> rfl
 
 /-- Both quotients reconstruct the same original profile argument. -/
-theorem twice_quotient_norm_ratio (D₁ D₂ I : NonzeroIdeal K) (N : ℝ) :
+theorem twice_quotient_norm_ratio (D₁ D₂ I : HeckeGeneral.Analysis.NonzeroIdeal K) (N : ℝ) :
     idealNorm K (D₁ * (D₂ * I)) / N =
       idealNorm K I / (N / idealNorm K D₁ / idealNorm K D₂) := by
   rw [quotient_norm_ratio D₂ I (N / idealNorm K D₁),
@@ -74,8 +74,8 @@ theorem twice_quotient_norm_ratio (D₁ D₂ I : NonzeroIdeal K) (N : ℝ) :
 
 /-- This function is the literal field of the computed core table.
 The earlier common norm remains inside the first inverse norm. -/
-def rawPlainWeight (W : ℝ → ℂ) (N : ℝ) (D₁ D₂ : NonzeroIdeal K)
-    (δ₁ δ₂ ξ slope : ℝ) (I : NonzeroIdeal K) : ℂ :=
+def rawPlainWeight (W : ℝ → ℂ) (N : ℝ) (D₁ D₂ : HeckeGeneral.Analysis.NonzeroIdeal K)
+    (δ₁ δ₂ ξ slope : ℝ) (I : HeckeGeneral.Analysis.NonzeroIdeal K) : ℂ :=
   (Real.sqrt (N / idealNorm K D₁ / idealNorm K D₂) : ℂ) *
     ((W (idealNorm K (D₁ * (D₂ * I)) / N) *
         normLogWeight (δ₁ - 1) ξ slope (D₂ * I).val) *
@@ -84,7 +84,7 @@ def rawPlainWeight (W : ℝ → ℂ) (N : ℝ) (D₁ D₂ : NonzeroIdeal K)
 /-- The actual twice-extracted plain profile, including both Fourier
 phases, equals the bounded scale-one profile at every original ideal. -/
 theorem rawPlainWeight_eq_clipped
-    (W : ℝ → ℂ) (N : ℝ) (hN : 0 < N) (D₁ D₂ I : NonzeroIdeal K)
+    (W : ℝ → ℂ) (N : ℝ) (hN : 0 < N) (D₁ D₂ I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (B δ₁ δ₂ ξ ζ slope secondSlope : ℝ) (hB : 1 ≤ B)
     (hδ₁ : 0 ≤ δ₁) (hδ₂ : 0 ≤ δ₂) (hδ : δ₁ + δ₂ ≤ 1 / 2)
     (hW : ∀ y, W y ≠ 0 → y ≤ B) :
@@ -123,7 +123,7 @@ theorem rawPrimeWeight_eq_clipped
       ((clippedScalar N 1 B δ₁ δ₂ : ℂ) * W ((Ideal.absNorm p.asIdeal : ℝ) / N)) *
         (atom N 1 δ₁ δ₂ (firstDirection slope) (secondDirection secondSlope)).multiplier
           (WithLp.toLp 2 (ξ, ζ)) ((Ideal.absNorm p.asIdeal : ℝ) / N) := by
-  let I : NonzeroIdeal K := ⟨p.asIdeal, mem_nonZeroDivisors_of_ne_zero p.ne_bot⟩
+  let I : HeckeGeneral.Analysis.NonzeroIdeal K := ⟨p.asIdeal, mem_nonZeroDivisors_of_ne_zero p.ne_bot⟩
   have hc := clipped_multiplier_identity N 1 (idealNorm K I) B δ₁ δ₂ hN le_rfl
     (one_le_idealNorm K I) hB hδ₁ hδ₂ hδ W hW
     (firstDirection slope) (secondDirection secondSlope) (WithLp.toLp 2 (ξ, ζ))
@@ -139,7 +139,7 @@ theorem rawPrimeWeight_eq_clipped
 /-- The first Fourier mode can be moved to an original location before
 any capacity child is selected. The remaining coefficient is fixed. -/
 theorem rawPlainWeight_eq_zero_mul_phase
-    (W : ℝ → ℂ) (N : ℝ) (D₁ D₂ I : NonzeroIdeal K) (δ₁ δ₂ ξ slope : ℝ) :
+    (W : ℝ → ℂ) (N : ℝ) (D₁ D₂ I : HeckeGeneral.Analysis.NonzeroIdeal K) (δ₁ δ₂ ξ slope : ℝ) :
     rawPlainWeight W N D₁ D₂ δ₁ δ₂ ξ slope I =
       rawPlainWeight W N D₁ D₂ δ₁ δ₂ 0 slope I *
         jointPhase ξ (slope * Real.log (idealNorm K (D₂ * I))) := by
@@ -152,7 +152,7 @@ theorem rawPrimeWeight_eq_zero_mul_phase
     rawPrimeWeight W N δ₁ δ₂ ξ slope p =
       rawPrimeWeight W N δ₁ δ₂ 0 slope p *
         jointPhase ξ (slope * Real.log (Ideal.absNorm p.asIdeal : ℝ)) := by
-  let I : NonzeroIdeal K := ⟨p.asIdeal, mem_nonZeroDivisors_of_ne_zero p.ne_bot⟩
+  let I : HeckeGeneral.Analysis.NonzeroIdeal K := ⟨p.asIdeal, mem_nonZeroDivisors_of_ne_zero p.ne_bot⟩
   have hξ := normLogWeight_nonzero (δ₁ - 1) ξ slope I
   have hzero := normLogWeight_nonzero (δ₁ - 1) 0 slope I
   change normLogWeight (δ₁ - 1) ξ slope p.asIdeal = _ at hξ
@@ -164,7 +164,7 @@ theorem rawPrimeWeight_eq_zero_mul_phase
 /-- The literal Fourier-independent weight and the joint location
 produce the same bounded profile on every original ideal. -/
 theorem rawPlainWeight_joint_clipped
-    (W : ℝ → ℂ) (N : ℝ) (hN : 0 < N) (D₁ D₂ I : NonzeroIdeal K)
+    (W : ℝ → ℂ) (N : ℝ) (hN : 0 < N) (D₁ D₂ I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (B δ₁ δ₂ ξ ζ slope secondSlope : ℝ) (hB : 1 ≤ B)
     (hδ₁ : 0 ≤ δ₁) (hδ₂ : 0 ≤ δ₂) (hδ : δ₁ + δ₂ ≤ 1 / 2)
     (hW : ∀ y, W y ≠ 0 → y ≤ B) :
@@ -203,7 +203,7 @@ theorem rawPrimeWeight_joint_clipped
 The compensation still uses the original frame scale, so no extra
 square root of that allocated divisor is inserted. -/
 theorem rawPlainWeight_allocated_joint_clipped
-    (W : ℝ → ℂ) (N : ℝ) (hN : 0 < N) (D₁ D₂ E I : NonzeroIdeal K)
+    (W : ℝ → ℂ) (N : ℝ) (hN : 0 < N) (D₁ D₂ E I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (B δ₁ δ₂ ξ ζ slope secondSlope : ℝ) (hB : 1 ≤ B)
     (hδ₁ : 0 ≤ δ₁) (hδ₂ : 0 ≤ δ₂) (hδ : δ₁ + δ₂ ≤ 1 / 2)
     (hW : ∀ y, W y ≠ 0 → y ≤ B) :
@@ -228,11 +228,11 @@ section OriginalWindows
 
 variable {ω ψ : HeckeCharacter K}
 variable (d : MomentData K ω ψ) (W : NormProfileRecipe (fun _ : PUnit => d))
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {P B : ℝ}
 variable (w : RawProfileWindow rowDomain heightDomain window orders d P)
 variable (hwindow : window ⊆ Set.Iic B)
-variable (anchor : NonzeroIdeal K) (hanchor : d.allowedRow anchor)
+variable (anchor : HeckeGeneral.Analysis.NonzeroIdeal K) (hanchor : d.allowedRow anchor)
 variable (hanchorDomain : anchor ∈ rowDomain) (t : ℝ) (ht : t ∈ heightDomain)
 
 /-- The norm-profile representative inherits the original support at
@@ -305,13 +305,13 @@ local notation "factors" => originalSecondResidualCoreFactors Q x W a Z t Y₁ Y
   J₁ hJ₁ hactive rows side χ secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
 
 /-- The actual constructed field, with both original extractions. -/
-theorem core_leftWeight (I : NonzeroIdeal K) :
+theorem core_leftWeight (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     factors.dictionary.leftWeight I =
       rawPlainWeight (W.left PUnit.unit t) (if comparison then Y₁ else Z ^ a.n₁)
         b₁.plainDivisor₁ b₂.plainDivisor₁ firstTilt secondTilt ξ
         (if firstRight then 1 else -1) I := rfl
 
-theorem core_rightWeight (I : NonzeroIdeal K) :
+theorem core_rightWeight (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     factors.dictionary.rightWeight I =
       rawPlainWeight (W.right PUnit.unit t) (if comparison then Y₂ else Z ^ a.n₂)
         b₁.plainDivisor₂ b₂.plainDivisor₂ firstTilt secondTilt ξ
@@ -323,13 +323,13 @@ theorem core_slotWeight (j : Fin b₂.keep.card) (p : HeightOneSpectrum (𝓞 K)
         (Z ^ ((data x).geometry.slots (idx₁ (idx₂ j))).length)
         firstTilt secondTilt ξ (if firstRight then 1 else -1) p := rfl
 
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {P₀ B : ℝ}
 variable (raw : RawProfileWindow rowDomain heightDomain window orders (data x) P₀)
 variable (hwindow : window ⊆ Set.Iic B) (hB : 1 ≤ B)
 variable (hfirst : 0 ≤ firstTilt) (hsecond : 0 ≤ secondTilt)
 variable (htilts : firstTilt + secondTilt ≤ 1 / 2)
-variable (anchor : NonzeroIdeal K) (hanchor : (data x).allowedRow anchor)
+variable (anchor : HeckeGeneral.Analysis.NonzeroIdeal K) (hanchor : (data x).allowedRow anchor)
 variable (hanchorDomain : anchor ∈ rowDomain) (ht : t ∈ heightDomain)
 
 local notation "N₁" => if comparison then Y₁ else Z ^ a.n₁
@@ -342,7 +342,7 @@ local notation "slope" => if firstRight then 1 else -1
 the bounded profile, directly from the original parent window. It also
 applies at each later allocated ideal `D * I`. -/
 include raw hwindow hB hfirst hsecond htilts hanchor hanchorDomain ht in
-theorem core_leftWeight_clipped (I : NonzeroIdeal K) (ζ secondSlope : ℝ) :
+theorem core_leftWeight_clipped (I : HeckeGeneral.Analysis.NonzeroIdeal K) (ζ secondSlope : ℝ) :
     factors.dictionary.leftWeight I * jointPhase ζ (secondSlope * Real.log (idealNorm K I)) =
       ((clippedScalar G₁ (idealNorm K b₂.plainDivisor₁) B firstTilt secondTilt : ℂ) *
         W.left PUnit.unit t (idealNorm K I / G₁)) *
@@ -361,7 +361,7 @@ theorem core_leftWeight_clipped (I : NonzeroIdeal K) (ζ secondSlope : ℝ) :
     (normRecipe_left_annulus (data x) W raw hwindow anchor hanchor hanchorDomain t ht)
 
 include raw hwindow hB hfirst hsecond htilts hanchor hanchorDomain ht in
-theorem core_rightWeight_clipped (I : NonzeroIdeal K) (ζ secondSlope : ℝ) :
+theorem core_rightWeight_clipped (I : HeckeGeneral.Analysis.NonzeroIdeal K) (ζ secondSlope : ℝ) :
     factors.dictionary.rightWeight I * jointPhase ζ (secondSlope * Real.log (idealNorm K I)) =
       ((clippedScalar G₂ (idealNorm K b₂.plainDivisor₂) B firstTilt secondTilt : ℂ) *
         W.right PUnit.unit t (idealNorm K I / G₂)) *
@@ -462,13 +462,13 @@ local notation "factors" => originalPoolSecondCoreFactors Q x W a Z t Y₁ Y₂
 /-- The extra pool character and prime-power scalar leave the residual
 analytic weights unchanged. The original common divisor here is the
 actual combined support-and-pool divisor. -/
-theorem pool_core_leftWeight (I : NonzeroIdeal K) :
+theorem pool_core_leftWeight (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     factors.dictionary.leftWeight I =
       rawPlainWeight (W.left PUnit.unit t) (if comparison then Y₁ else Z ^ a.n₁)
         b₁.plainDivisor₁ b₂.plainDivisor₁ firstTilt secondTilt ξ
         (if firstRight then 1 else -1) I := rfl
 
-theorem pool_core_rightWeight (I : NonzeroIdeal K) :
+theorem pool_core_rightWeight (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     factors.dictionary.rightWeight I =
       rawPlainWeight (W.right PUnit.unit t) (if comparison then Y₂ else Z ^ a.n₂)
         b₁.plainDivisor₂ b₂.plainDivisor₂ firstTilt secondTilt ξ

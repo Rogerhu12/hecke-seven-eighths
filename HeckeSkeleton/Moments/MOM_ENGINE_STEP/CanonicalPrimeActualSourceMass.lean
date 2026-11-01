@@ -147,7 +147,7 @@ variable {Z : ℝ} {ω ψ : HeckeCharacter K} {centered : Bool}
 variable {d : MomentData K ω ψ} {a : RealParameters}
 variable {t Y₁ Y₂ X : ℝ} {hX : 1 ≤ X}
 variable {Ray : Type*} [CommGroup Ray] [Fintype Ray]
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {seminorms : Finset (ℕ × ℕ)}
 local instance canonicalPrimeActualSourceMassCircleCharacterFintype : Fintype ((PUnit.{1} × PUnit.{1}) →* Circle) := Fintype.ofFinite _
 

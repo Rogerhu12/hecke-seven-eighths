@@ -149,7 +149,7 @@ def ofCenteredSupport
     (b : ι → SupportCartesianBranch S₁ S₂ slots (primeSupport Sdiv))
     (chars : FixedChildCharacters F k)
     (X₁ X₂ Y₁ Y₂ Z : ℝ) (length : Fin k → ℝ)
-    (w₁ w₂ v₁ v₂ : NonzeroIdeal F → ℂ)
+    (w₁ w₂ v₁ v₂ : HeckeGeneral.Analysis.NonzeroIdeal F → ℂ)
     (w : Fin k → HeightOneSpectrum (𝓞 F) → ℂ)
     (bounds : ∀ i, (b i).CommonAtomBounds chars Z length w)
     (x : ∀ i, AllocationColumn F (b i).keep.card)

@@ -59,7 +59,7 @@ theorem rightData_eq_frozen_normalized (b : family.active labels) (ξ : V) :
 /-- These are output facts of the constructed active family, not an
 additional source calibration. They contain no aggregate estimate. -/
 structure OutputGeometry (d : MomentData K ω ψ) (a : RealParameters) (step : ℝ)
-    (rowDomain : Set (NonzeroIdeal K)) (window : Set ℝ)
+    (rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)) (window : Set ℝ)
     (seminorms : Finset (ℕ × ℕ)) : Prop where
   left_width : ∀ b : family.active labels,
     (family.leftParameters labels b).m + (family.leftParameters labels b).q ≤
@@ -189,7 +189,7 @@ variable {I : J → Type*} [∀ j, Fintype (I j)] [∀ j, DecidableEq (I j)]
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 variable {C : A.GeneralArithmeticContext σ η hS}
 variable {Ray : Type*} [CommGroup Ray] [Fintype Ray] {Z : ℝ}
-variable {rowDomain : Set (NonzeroIdeal K)}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
 variable {heightDomain window : Set ℝ} {seminorms : Finset (ℕ × ℕ)}
 variable (leaves : J → ActualHybridLeaf K H U E)
 variable (N : ∀ j, (leaves j).NormalizationData (ι := I j)

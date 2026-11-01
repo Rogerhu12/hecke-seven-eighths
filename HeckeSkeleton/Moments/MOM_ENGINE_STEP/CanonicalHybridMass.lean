@@ -40,7 +40,7 @@ variable {C : A.GeneralArithmeticContext σ η hS}
 variable {Ray : Type*} [CommGroup Ray] [Fintype Ray]
 variable {side : SecondColumnSide} {k kLeft kRight : ℕ}
 variable {f : SecondSideFrame (V := V) C R Ray side k}
-variable {rowDomain : Set (NonzeroIdeal F)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal F)} {heightDomain window : Set ℝ}
 variable {seminorms : Finset (ℕ × ℕ)}
 variable (S : SecondSideNormalization f ω ψ rowDomain heightDomain window seminorms)
 
@@ -81,7 +81,7 @@ variable {H : Type} {ι U E : Type*} [Fintype ι] [DecidableEq ι]
   [MeasurableSpace E] [BorelSpace E]
 variable {leaf : ActualHybridLeaf F H U E} {C : A.GeneralArithmeticContext σ η hS}
 variable {Ray : Type*} [CommGroup Ray] [Fintype Ray] {Z : ℝ}
-variable {rowDomain : Set (NonzeroIdeal F)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal F)} {heightDomain window : Set ℝ}
 variable {seminorms : Finset (ℕ × ℕ)}
 variable (N : leaf.NormalizationData (ι := ι) C Ray ω ψ Z rowDomain heightDomain window seminorms)
 variable {kLeft kRight : ℕ}

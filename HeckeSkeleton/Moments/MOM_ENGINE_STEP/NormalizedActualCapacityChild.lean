@@ -118,7 +118,7 @@ theorem normalized_invariants (P : ProfileNormalizationInput F ω ψ)
   · change ∀ i : Fin (P.scaleData (c.data ξ) (amplitude ξ)⁻¹
         (inv_pos.mpr (hpos ξ))).geometry.slotCount,
       (P.scaleData (c.data ξ) (amplitude ξ)⁻¹
-      (inv_pos.mpr (hpos ξ))).slotCoefficient i ∈
+        (inv_pos.mpr (hpos ξ))).slotCoefficient i ∈
         (P.scaleData (c.data ξ) (amplitude ξ)⁻¹ (inv_pos.mpr (hpos ξ))).theta
     intro i
     rw [P.slotCoefficient, P.theta]

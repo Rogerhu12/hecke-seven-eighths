@@ -138,15 +138,17 @@ theorem withMultiplier_rows
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val)) :
     ((s.withMultiplier (fun i => (u i : ℂ))).sources DE).rows =
       (s.sources DE).rows := by
-  let s' := s.withMultiplier (fun i => (u i : ℂ))
+  let v : ι → ℂ := fun i => (u i : ℂ)
+  have hv (i : ι) : v i ≠ 0 := Circle.coe_ne_zero (u i)
+  let s' := s.withMultiplier v
   have hprofile (i j : ι) :
       ((s'.sources DE).pairs i j).profile ≠ 0 ↔
         ((s.sources DE).pairs i j).profile ≠ 0 := by
-    change (((u i : ℂ) * G.coefficient i) *
-        star ((u j : ℂ) * G.coefficient j)) • s.profile ≠ 0 ↔
+    change ((v i * G.coefficient i) *
+        star (v j * G.coefficient j)) • s.profile ≠ 0 ↔
       (G.coefficient i * star (G.coefficient j)) • s.profile ≠ 0
     simp only [smul_eq_zero, mul_eq_zero, star_eq_zero,
-      Circle.coe_ne_zero, false_or]
+      hv, false_or]
   have hbranches : (s'.sources DE).branches = (s.sources DE).branches := rfl
   have hfilter :
       ((s'.sources DE).branches.filter
@@ -158,10 +160,20 @@ theorem withMultiplier_rows
   have hinverse : (s'.sources DE).inverseRadii = (s.sources DE).inverseRadii := by
     unfold FirstFiniteSource.inverseRadii
     rw [hfilter]
+    apply congrArg (fun t : Finset ℝ => insert 0 t)
+    apply Finset.image_congr
+    intro e _
+    rfl
+  have hbound : (s'.sources DE).inverseRadiusBound =
+      (s.sources DE).inverseRadiusBound := by
+    exact Finset.sup'_congr hinverse (fun _ _ => rfl)
+  have hcutoff : (s'.sources DE).physicalCutoff = (s.sources DE).physicalCutoff := by
+    change s.cutoff * (s'.sources DE).inverseRadiusBound =
+      s.cutoff * (s.sources DE).inverseRadiusBound
+    exact congrArg (fun x => s.cutoff * x) hbound
   change (s'.sources DE).rows = (s.sources DE).rows
-  unfold FirstFiniteSource.rows FirstFiniteSource.physicalCutoff
-    FirstFiniteSource.inverseRadiusBound
-  rw [hinverse]
+  unfold FirstFiniteSource.rows
+  rw [hcutoff]
 
 end ActualGaussStage
 

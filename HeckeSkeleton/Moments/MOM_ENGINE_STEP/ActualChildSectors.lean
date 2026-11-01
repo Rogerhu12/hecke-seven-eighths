@@ -101,7 +101,7 @@ theorem orbit_eq_decomposed :
 the actual residual element rather than chosen independently. -/
 theorem orbit_evaluation
     (R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P)
-    (I : NonzeroIdeal K) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     actualOrbitSexticEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         P.arithmetic.root6 P.arithmetic.primitive6 P.arithmetic.embedding I r.orbit =
       heckeIdealCoefficient K
@@ -156,7 +156,7 @@ theorem subtypeRows_energy (p : H → Prop) (ξ : V) :
     Finset.sum_subtype_eq_sum_filter]
 
 theorem subtypeRows_centeredEnergy (p : H → Prop) (N₁ N₂ : ℝ)
-    (v₁ v₂ : H → NonzeroIdeal K → ℂ) (ξ : V) :
+    (v₁ v₂ : H → HeckeGeneral.Analysis.NonzeroIdeal K → ℂ) (ξ : V) :
     (s.subtypeRows p).centeredEnergy (σ := σ) N₁ N₂
         (fun h => v₁ h.val) (fun h => v₂ h.val) ξ =
       (s.restrictRows p).centeredEnergy (σ := σ) N₁ N₂ v₁ v₂ ξ := by
@@ -175,7 +175,7 @@ theorem energy_eq_sum_subtypeRows (label : H → B) (ξ : V) :
   exact (Finset.sum_fiberwise s.rows label _).symm
 
 theorem centeredEnergy_eq_sum_subtypeRows (label : H → B) (N₁ N₂ : ℝ)
-    (v₁ v₂ : H → NonzeroIdeal K → ℂ) (ξ : V) :
+    (v₁ v₂ : H → HeckeGeneral.Analysis.NonzeroIdeal K → ℂ) (ξ : V) :
     s.centeredEnergy (σ := σ) N₁ N₂ v₁ v₂ ξ =
       ∑ b, (s.subtypeRows (fun h => label h = b)).centeredEnergy (σ := σ)
         N₁ N₂ (fun h => v₁ h.val) (fun h => v₂ h.val) ξ := by

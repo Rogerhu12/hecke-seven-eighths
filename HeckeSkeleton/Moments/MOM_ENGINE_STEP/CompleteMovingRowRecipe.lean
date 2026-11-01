@@ -83,7 +83,7 @@ theorem factorCharacter_finite (i : Fin D.count) : FiniteOrder (D.factorCharacte
 
 /-- The original probe gives the exact zero-extended single-ideal
 dictionary of each computed moving character.  Full ideal zeros remain. -/
-theorem factor_evaluation (i : Fin D.count) (I : NonzeroIdeal K) :
+theorem factor_evaluation (i : Fin D.count) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     actualOrbitSexticEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         P.arithmetic.root6 P.arithmetic.primitive6 P.arithmetic.embedding I (D.orbit i) =
       heckeIdealCoefficient K (D.factorCharacter i) I *
@@ -126,16 +126,16 @@ theorem support_primes :
 
 /-- The complete additional deletion support, including the fixed
 remaining ideal.  This is the support used by the full row budget. -/
-def fullMaskSupport (remaining : NonzeroIdeal K) : NonzeroIdeal K :=
+def fullMaskSupport (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) : HeckeGeneral.Analysis.NonzeroIdeal K :=
   ⟨CommonSupportMass.commonRadical (D.support.val * remaining.val)
     (D.support.val * remaining.val),
     mem_nonZeroDivisors_of_ne_zero (CommonSupportMass.commonRadical_ne_zero _ _)⟩
 
-theorem fullMaskSupport_squarefree (remaining : NonzeroIdeal K) :
+theorem fullMaskSupport_squarefree (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) :
     Squarefree (D.fullMaskSupport remaining).val :=
   CommonSupportMass.commonRadical_squarefree _ _
 
-theorem support_dvd_fullMaskSupport (remaining : NonzeroIdeal K) :
+theorem support_dvd_fullMaskSupport (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) :
     D.support.val ∣ (D.fullMaskSupport remaining).val := by
   have hprod : D.support.val * remaining.val ≠ 0 :=
     mul_ne_zero D.support.property.1 (nonZeroDivisors.ne_zero remaining.property)
@@ -143,7 +143,7 @@ theorem support_dvd_fullMaskSupport (remaining : NonzeroIdeal K) :
     (D.support.val * remaining.val) (D.support.val * remaining.val)
     D.support_squarefree hprod hprod (dvd_mul_right _ _) (dvd_mul_right _ _)
 
-theorem support_norm_le_fullMaskSupport (remaining : NonzeroIdeal K) :
+theorem support_norm_le_fullMaskSupport (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) :
     A.exteriorNorm D.support ≤ idealNorm K (D.fullMaskSupport remaining) :=
   HeckePort.Moments.norm_le_of_dvd
     (nonZeroDivisors.ne_zero (D.fullMaskSupport remaining).property)
@@ -176,13 +176,13 @@ structure CompleteMovingRowRecipe (A : SArithmeticData K)
   moving : OriginalMovingFactors A P R
   correction : HeckeCharacter K
   correction_mem : ∀ ξ, correction = 1 ∨ correction ∈ (data ξ).theta
-  sector : NonzeroIdeal K → SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+  sector : HeckeGeneral.Analysis.NonzeroIdeal K → SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
   exterior : ∀ ξ u, (data ξ).allowedRow u →
     completeIdealIsExterior K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u
   character : ∀ ξ u, (data ξ).allowedRow u →
     (data ξ).rowCharacter u = correction * moving.character *
       completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P R (sector u) u
-  remaining : NonzeroIdeal K
+  remaining : HeckeGeneral.Analysis.NonzeroIdeal K
   mask : ∀ ξ u I, (data ξ).commonMask u I =
     ((completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&
       decide (IsCoprime I moving.support.val)) && decide (IsCoprime I remaining.val))
@@ -258,24 +258,24 @@ def restricted (keep : ∀ ξ, Finset (Fin (data ξ).geometry.slotCount)) :
     CompleteMovingRowRecipe A P R (fun ξ => (data ξ).restrictSlots (keep ξ)) :=
   Q.ofAllowedSubset (fun _ _ hu => hu) (fun _ => rfl) (fun _ => rfl) (fun _ => rfl)
 
-def jointRows (support : NonzeroIdeal K → A.Exterior) (budget : ℝ) :
+def jointRows (support : HeckeGeneral.Analysis.NonzeroIdeal K → A.Exterior) (budget : ℝ) :
     CompleteMovingRowRecipe A P R (fun ξ => jointRowBudgetData (data ξ) support budget) :=
   Q.ofAllowedSubset (fun _ _ hu => hu.1) (fun _ => rfl) (fun _ => rfl) (fun _ => rfl)
 
 theorem paired_character (ξ : X) (a : RealParameters) (Z : ℝ)
-    (u : NonzeroIdeal K) (hu : u ∈ pairedRows (data ξ) a Z) :
+    (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ pairedRows (data ξ) a Z) :
     (data ξ).rowCharacter u = Q.correction * Q.moving.character *
       completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P R (Q.sector u) u :=
   Q.character ξ u ((((data ξ).rows_spec _ u).mp (Finset.mem_filter.mp hu).1).1)
 
 theorem paired_jointBudget (Z width : ℝ) (hbudget : Q.JointBudget Z width)
-    (ξ : X) (a : RealParameters) (u : NonzeroIdeal K)
+    (ξ : X) (a : RealParameters) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hu : u ∈ pairedRows (data ξ) a Z) :
     idealNorm K u * A.exteriorNorm Q.moving.support ≤ Z ^ width :=
   hbudget ξ u ((((data ξ).rows_spec _ u).mp (Finset.mem_filter.mp hu).1).1)
 
 theorem paired_fullJointBudget (Z width : ℝ) (hbudget : Q.FullJointBudget Z width)
-    (ξ : X) (a : RealParameters) (u : NonzeroIdeal K)
+    (ξ : X) (a : RealParameters) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hu : u ∈ pairedRows (data ξ) a Z) :
     idealNorm K u * idealNorm K (Q.moving.fullMaskSupport Q.remaining) ≤ Z ^ width :=
   hbudget ξ u ((((data ξ).rows_spec _ u).mp (Finset.mem_filter.mp hu).1).1)
@@ -301,7 +301,7 @@ variable {X : Type*} {data : X → MomentData K ω ψ}
 
 /-- The legacy character recipe is the empty-moving special case once
 its separate original fixed-mask identity has been supplied. -/
-def toMoving (Q : CompleteRowRecipe A P R data) (remaining : NonzeroIdeal K)
+def toMoving (Q : CompleteRowRecipe A P R data) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hmask : ∀ ξ u I, (data ξ).commonMask u I =
       (completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&
         decide (IsCoprime I remaining.val))) : CompleteMovingRowRecipe A P R data where

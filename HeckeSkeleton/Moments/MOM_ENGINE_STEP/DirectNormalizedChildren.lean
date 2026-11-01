@@ -98,7 +98,7 @@ theorem direct_cost_le_normalized_children
     {I : s.directLiveLeaves LC RC exceptional F x → Type}
     [∀ j, Fintype (I j)] [∀ j, DecidableEq (I j)]
     (Z parentWidth : ℝ) (hZ : 0 < Z)
-    (rowDomain : Set (NonzeroIdeal K)) (heightDomain window : Set ℝ)
+    (rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)) (heightDomain window : Set ℝ)
     (seminorms : Finset (ℕ × ℕ))
     (extract : ∀ j : s.directLiveLeaves LC RC exceptional F x,
       (s.directLiveLeaf LC RC exceptional F x j).ConstantAtomExtraction)
@@ -230,7 +230,7 @@ theorem actual_direct_normalized_child_bound
     ∀ {ω ψ : HeckeCharacter K} {Ray : Type} [CommGroup Ray] [Fintype Ray],
     ∀ (I : s.directLiveLeaves LC RC exceptional F x → Type)
       [∀ j, Fintype (I j)] [∀ j, DecidableEq (I j)],
-    ∀ (rowDomain : Set (NonzeroIdeal K)) (heightDomain window : Set ℝ)
+    ∀ (rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)) (heightDomain window : Set ℝ)
       (seminorms : Finset (ℕ × ℕ)),
     ∀ extract : ∀ j : s.directLiveLeaves LC RC exceptional F x,
       (s.directLiveLeaf LC RC exceptional F x j).ConstantAtomExtraction,
@@ -307,7 +307,7 @@ theorem actual_parent_direct_normalized_child_bound
     ∀ {Ray : Type} [CommGroup Ray] [Fintype Ray],
     ∀ (I : R.liveLeaves L exceptional N₀ → Type)
       [∀ j, Fintype (I j)] [∀ j, DecidableEq (I j)],
-    ∀ (rowDomain : Set (NonzeroIdeal K)) (heightDomain window : Set ℝ)
+    ∀ (rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)) (heightDomain window : Set ℝ)
       (seminorms : Finset (ℕ × ℕ)),
     ∀ extract : ∀ j : R.liveLeaves L exceptional N₀,
       (R.liveLeaf L exceptional N₀ j).ConstantAtomExtraction,

@@ -42,7 +42,7 @@ end SecondColumnSide
 namespace SecondSideFrame
 
 variable (f : SecondSideFrame (V := V) C R Ray side k)
-variable (x₁ x₂ : H → NonzeroIdeal K → U)
+variable (x₁ x₂ : H → HeckeGeneral.Analysis.NonzeroIdeal K → U)
 variable (x : H → Fin k → HeightOneSpectrum (𝓞 K) → U)
 
 /-- The original second frame and its two actual first-mode locations

@@ -299,7 +299,7 @@ theorem unramified_zpow {χ : HeckeCharacter K} {p : HeightOneSpectrum (𝓞 K)}
   | ofNat n => simpa only [zpow_natCast] using hχ.pow K n
   | negSucc n => simpa only [zpow_negSucc] using (hχ.pow K (n + 1)).inv K
 
-theorem coefficient_pow (χ : HeckeCharacter K) (I : NonzeroIdeal K)
+theorem coefficient_pow (χ : HeckeCharacter K) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hχ : ∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ I.val → UnramifiedAt K χ p)
     (n : ℕ) : heckeIdealCoefficient K (χ ^ n) I = heckeIdealCoefficient K χ I ^ n := by
   induction n with
@@ -308,7 +308,7 @@ theorem coefficient_pow (χ : HeckeCharacter K) (I : NonzeroIdeal K)
     rw [pow_succ, CanonicalOriginalPhaseCalibration.coefficient_mul_right_unramified
       (χ ^ n) χ I hχ, ih, pow_succ]
 
-theorem coefficient_inv (χ : HeckeCharacter K) (I : NonzeroIdeal K)
+theorem coefficient_inv (χ : HeckeCharacter K) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hχ : ∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ I.val → UnramifiedAt K χ p) :
     heckeIdealCoefficient K χ⁻¹ I = (heckeIdealCoefficient K χ I)⁻¹ := by
   have h := CanonicalOriginalPhaseCalibration.coefficient_mul_right_unramified
@@ -316,7 +316,7 @@ theorem coefficient_inv (χ : HeckeCharacter K) (I : NonzeroIdeal K)
   rw [mul_inv_cancel, CanonicalOriginalPhaseCalibration.coefficient_one] at h
   exact (inv_eq_of_mul_eq_one_right h.symm).symm
 
-theorem coefficient_zpow (χ : HeckeCharacter K) (I : NonzeroIdeal K)
+theorem coefficient_zpow (χ : HeckeCharacter K) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hχ : ∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ I.val → UnramifiedAt K χ p)
     (n : ℤ) : heckeIdealCoefficient K (χ ^ n) I = heckeIdealCoefficient K χ I ^ n := by
   cases n with
@@ -327,7 +327,7 @@ theorem coefficient_zpow (χ : HeckeCharacter K) (I : NonzeroIdeal K)
       coefficient_pow χ I hχ]
 
 theorem coefficient_prod {J : Type*} (s : Finset J) (χ : J → HeckeCharacter K)
-    (I : NonzeroIdeal K)
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hχ : ∀ j ∈ s, ∀ p : HeightOneSpectrum (𝓞 K),
       p.asIdeal ∣ I.val → UnramifiedAt K (χ j) p) :
     heckeIdealCoefficient K (∏ j ∈ s, χ j) I =
@@ -391,7 +391,7 @@ theorem factorIdeal_dvd (i : Fin D.count) : (D.factorIdeal i).val ∣ D.fullIdea
   change (D.factorIdeal i).val ∣ ∏ j, (D.factorIdeal j).val
   exact Finset.dvd_prod_of_mem _ (Finset.mem_univ i)
 
-theorem factor_evaluation_of_coprime (i : Fin D.count) (I : NonzeroIdeal K)
+theorem factor_evaluation_of_coprime (i : Fin D.count) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hI : HeckeGeneral.Analysis.SquarefreeAmplification.sexticIdealOutsideS K
       (A.Sf : Set (HeightOneSpectrum (𝓞 K))) I)
     (hcop : IsCoprime I.val (D.factorIdeal i).val) :
@@ -414,7 +414,7 @@ with the column. This statement also applies when its primitive
 character alone has a smaller conductor. -/
 theorem factor_residue_zero_of_not_coprime
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
-    (i : Fin D.count) (I : NonzeroIdeal K)
+    (i : Fin D.count) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hcop : ¬IsCoprime I.val (D.factorIdeal i).val) :
     actualIdealResidue (A := A) (σ := σ) I.val (D.element i).val = 0 := by
   rw [CanonicalOriginalPhaseCalibration.residue_eq_probe_evaluation P hroot hemb]
@@ -459,7 +459,7 @@ product on the complete live mask. All local hypotheses are proved
 from the original factor ideals; none is a supplied dictionary. -/
 theorem character_coefficient_of_coprime
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
-    (I : NonzeroIdeal K)
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hI : HeckeGeneral.Analysis.SquarefreeAmplification.sexticIdealOutsideS K
       (A.Sf : Set (HeightOneSpectrum (𝓞 K))) I)
     (hcop : IsCoprime I.val D.support.val) :
@@ -485,7 +485,7 @@ theorem character_coefficient_of_coprime
 moving factors are split, on their already proved full live mask. -/
 theorem background_coefficient_of_coprime
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
-    (background : HeckeCharacter K) (I : NonzeroIdeal K)
+    (background : HeckeCharacter K) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hI : HeckeGeneral.Analysis.SquarefreeAmplification.sexticIdealOutsideS K
       (A.Sf : Set (HeightOneSpectrum (𝓞 K))) I)
     (hcop : IsCoprime I.val D.support.val) :
@@ -501,7 +501,7 @@ The extra zero is explicit until a subsequent original-symbol identity
 shows that it was already present. -/
 theorem background_coefficient_masked
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
-    (background : HeckeCharacter K) (I : NonzeroIdeal K)
+    (background : HeckeCharacter K) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hI : HeckeGeneral.Analysis.SquarefreeAmplification.sexticIdealOutsideS K
       (A.Sf : Set (HeightOneSpectrum (𝓞 K))) I) :
     heckeIdealCoefficient K (background * D.character) I *
@@ -618,7 +618,7 @@ theorem firstMovingFactors_residue_mask
     (C : A.GeneralArithmeticContext σ η hS)
     (p : ι → ExteriorPrime A) (m n : ι → ℕ) (right : Bool)
     (δ : NonzeroRingElements A.R) (Iδ : A.Exterior) (hδ : A.Generates Iδ δ.val)
-    (I : NonzeroIdeal K) (hactive : IsCoprime I.val (firstActiveIdeal p m n).val) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hactive : IsCoprime I.val (firstActiveIdeal p m n).val) :
     (firstMovingFactors P R C p m n right δ).residueValue (σ := σ) I.val *
         (if IsCoprime I.val (firstMovingFactors P R C p m n right δ).support.val
           then (1 : ℂ) else 0) =
@@ -642,7 +642,7 @@ theorem firstMovingFactors_masked_coefficient
     (C : A.GeneralArithmeticContext σ η hS)
     (p : ι → ExteriorPrime A) (m n : ι → ℕ) (right : Bool)
     (δ : NonzeroRingElements A.R) (Iδ : A.Exterior) (hδ : A.Generates Iδ δ.val)
-    (background : HeckeCharacter K) (oldMask : NonzeroIdeal K) (I : NonzeroIdeal K)
+    (background : HeckeCharacter K) (oldMask : HeckeGeneral.Analysis.NonzeroIdeal K) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hI : HeckeGeneral.Analysis.SquarefreeAmplification.sexticIdealOutsideS K
       (A.Sf : Set (HeightOneSpectrum (𝓞 K))) I)
     (hactive : IsCoprime I.val (firstActiveIdeal p m n).val) :
@@ -797,7 +797,7 @@ variable {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
 variable {X : Type*} {data : X → MomentData K ω ψ}
 variable (Q : CompleteMovingRowRecipe A P R data) (ξ : X)
 
-private theorem original_plain_coefficient (I : NonzeroIdeal K) :
+private theorem original_plain_coefficient (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     sourcePlainCoefficient
         (CanonicalOriginalPhaseCalibration.sourceCharacters (data ξ)
           (Q.correction * Q.moving.character) Q.arithmeticMask id).plain

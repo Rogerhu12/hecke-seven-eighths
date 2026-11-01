@@ -53,10 +53,10 @@ theorem columnIdeal_coprime_iff (v : raw.Column) :
   simp only [columnIdeal, IsCoprime.mul_left_iff, IsCoprime.prod_left_iff,
     Finset.mem_univ, forall_const]
 
-def exteriorPlain₁ : Finset (NonzeroIdeal K) :=
+def exteriorPlain₁ : Finset (HeckeGeneral.Analysis.NonzeroIdeal K) :=
   raw.leftColumns.filter (fun I => IsCoprime I.val A.cS)
 
-def exteriorPlain₂ : Finset (NonzeroIdeal K) :=
+def exteriorPlain₂ : Finset (HeckeGeneral.Analysis.NonzeroIdeal K) :=
   raw.rightColumns.filter (fun I => IsCoprime I.val A.cS)
 
 def exteriorSlots (i : Fin d.geometry.slotCount) : Finset (HeightOneSpectrum (𝓞 K)) :=
@@ -89,7 +89,7 @@ theorem originalPlain₂_nonzero (I : Ideal (𝓞 K)) (hI : I ∈ raw.originalPl
   exact nonZeroDivisors.coe_ne_zero J
 
 private theorem sourceMomentIdeal_mem_image
-    (S : Finset (NonzeroIdeal K)) (I : Ideal (𝓞 K))
+    (S : Finset (HeckeGeneral.Analysis.NonzeroIdeal K)) (I : Ideal (𝓞 K))
     (hI : I ∈ S.image Subtype.val) : sourceMomentIdeal I ∈ S := by
   obtain ⟨J, hJ, rfl⟩ := Finset.mem_image.mp hI
   simpa only [sourceMomentIdeal_coe] using hJ
@@ -203,7 +203,7 @@ theorem polynomial_originalCartesian
       raw.rightPhase q I = actualIdealResidue (A := A) (σ := σ) I.val q.out.val)
     (prime : ∀ i, ∀ p ∈ raw.slotColumns i, ∀ q : Q,
       raw.primePhase q i p = actualIdealResidue (A := A) (σ := σ) p.asIdeal q.out.val)
-    (centered : Bool) (u : NonzeroIdeal K) (hu : u ∈ pairedRows d a Z) :
+    (centered : Bool) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ pairedRows d a Z) :
     pairedStagePolynomial centered d u (Z ^ a.n₁) (Z ^ a.n₂) Y₁ Y₂ Z t =
       ∑ x ∈ childCartesianColumns raw.originalPlain₁ raw.originalPlain₂ raw.exteriorSlots,
         raw.coefficient centered (raw.rowMap u) (raw.originalIndex x) *

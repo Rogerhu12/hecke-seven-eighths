@@ -287,7 +287,7 @@ theorem prime_positive (h : ∀ i, PositivePrimeProfile (d.geometry.slots i)) :
 
 /-- A bounded actual scalar is paid from the original seminorm bound.
 The moving scaled profiles are not supplied with their own bound. -/
-def rawWindow {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+def rawWindow {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
     {orders : Finset (ℕ × ℕ)} {P : ℝ} (hP : 0 ≤ P)
     (w : RawProfileWindow rowDomain heightDomain window orders d P)
     (S : ℝ) (hS : 1 ≤ S) (hleft : c.left ≤ S) (hright : c.right ≤ S)
@@ -353,7 +353,7 @@ def signedRawWindow
     (hleft : PositivePlainProfile d.plainTest₁)
     (hright : PositivePlainProfile d.plainTest₂)
     (hslot : ∀ i, PositivePrimeProfile (d.geometry.slots i))
-    {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
     (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0)
     (orders : Finset (ℕ × ℕ)) (δ : ℝ) (R cap : ℕ) (D S P : ℝ)
     (hD : 0 ≤ D) (hS : 1 ≤ S) (hP : 0 ≤ P)
@@ -409,7 +409,7 @@ def signedPolynomialWindow
     (hleft : PositivePlainProfile d.plainTest₁)
     (hright : PositivePlainProfile d.plainTest₂)
     (hslot : ∀ i, PositivePrimeProfile (d.geometry.slots i))
-    {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
     (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0)
     (orders : Finset (ℕ × ℕ)) (δ : ℝ) (R cap : ℕ) (D S P : ℝ)
     (hD : 0 ≤ D) (hS : 1 ≤ S) (hP : 0 ≤ P)

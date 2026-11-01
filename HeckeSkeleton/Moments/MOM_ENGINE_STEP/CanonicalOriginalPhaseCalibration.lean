@@ -35,14 +35,14 @@ open HeckeGeneral.ThetaSkeleton.Physical UniqueFactorizationMonoid
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 
-def primeIdeal (p : HeightOneSpectrum (𝓞 K)) : NonzeroIdeal K :=
+def primeIdeal (p : HeightOneSpectrum (𝓞 K)) : HeckeGeneral.Analysis.NonzeroIdeal K :=
   ⟨p.asIdeal, mem_nonZeroDivisors_of_ne_zero p.ne_bot⟩
 
 @[simp] theorem coefficient_prime (χ : HeckeCharacter K) (p : HeightOneSpectrum (𝓞 K)) :
     heckeIdealCoefficient K χ (primeIdeal p) = primeCoefficient K χ p :=
   idealCoefficient_prime (primeCoefficient K χ) p
 
-theorem coefficient_one (I : NonzeroIdeal K) : heckeIdealCoefficient K 1 I = 1 := by
+theorem coefficient_one (I : HeckeGeneral.Analysis.NonzeroIdeal K) : heckeIdealCoefficient K 1 I = 1 := by
   have hp (Q : Ideal (𝓞 K)) : primeIdealValue (primeCoefficient K 1) Q = 1 := by
     unfold primeIdealValue
     split_ifs <;> simp only [primeCoefficient_one]
@@ -54,7 +54,7 @@ theorem coefficient_one (I : NonzeroIdeal K) : heckeIdealCoefficient K 1 I = 1 :
 
 /-- The right character need only be unramified at the actual prime
 divisors of this complete ideal. -/
-theorem coefficient_mul_right_unramified (ψ χ : HeckeCharacter K) (I : NonzeroIdeal K)
+theorem coefficient_mul_right_unramified (ψ χ : HeckeCharacter K) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hχ : ∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ I.val → UnramifiedAt K χ p) :
     heckeIdealCoefficient K (ψ * χ) I =
       heckeIdealCoefficient K ψ I * heckeIdealCoefficient K χ I := by
@@ -74,7 +74,7 @@ theorem coefficient_mul_right_unramified (ψ χ : HeckeCharacter K) (I : Nonzero
     ite_eq_right (nonZeroDivisors.coe_ne_zero I)]
   rw [hmap, Multiset.prod_map_mul]
 
-theorem outside_iff_coprime (I : NonzeroIdeal K) :
+theorem outside_iff_coprime (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) I ↔
       IsCoprime I.val A.cS := by
   constructor
@@ -89,7 +89,7 @@ theorem outside_iff_coprime (I : NonzeroIdeal K) :
 
 /-- This is the original normalized residue family, including the
 fixed exceptional zeros, not an independently calibrated phase. -/
-theorem residue_eq_original_evaluation (I : NonzeroIdeal K) (a : A.R) :
+theorem residue_eq_original_evaluation (I : HeckeGeneral.Analysis.NonzeroIdeal K) (a : A.R) :
     actualIdealResidue (A := A) (σ := σ) I.val a =
       zeroExtendedSexticIdealEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         (A.zeta12 ^ 2) (HeckeAxiom.zeta12_sq_primitive A) σ I a := by
@@ -121,7 +121,7 @@ variable (R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P)
 phase dictionary. They are reflexive for the same ArithmeticChoice. -/
 theorem residue_eq_probe_evaluation
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
-    (hemb : P.arithmetic.embedding = σ) (I : NonzeroIdeal K) (a : A.R) :
+    (hemb : P.arithmetic.embedding = σ) (I : HeckeGeneral.Analysis.NonzeroIdeal K) (a : A.R) :
     actualIdealResidue (A := A) (σ := σ) I.val a =
       zeroExtendedSexticIdealEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         P.arithmetic.root6 P.arithmetic.primitive6 P.arithmetic.embedding I a := by
@@ -129,7 +129,7 @@ theorem residue_eq_probe_evaluation
     (residue_eq_original_evaluation (A := A) (σ := σ) I a)
 
 theorem original_evaluation_ne_zero (I : A.Exterior) (a : A.R)
-    (ha : A.Generates I a) (J : NonzeroIdeal K)
+    (ha : A.Generates I a) (J : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hJ : sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) J)
     (hcop : IsCoprime J.val I.val) :
     zeroExtendedSexticIdealEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
@@ -206,7 +206,7 @@ theorem activeCharacter_unramified (C : A.GeneralArithmeticContext σ η hS)
   simpa only [outside_prime P p hp, hcop, and_self, if_true, mul_one] using he
 
 /-- The old fixed column deletion as a literal multiplicative mask. -/
-def originalCoprimeMask (M : NonzeroIdeal K) : Ideal (𝓞 K) →* ℂ where
+def originalCoprimeMask (M : HeckeGeneral.Analysis.NonzeroIdeal K) : Ideal (𝓞 K) →* ℂ where
   toFun I := if IsCoprime I M.val then 1 else 0
   map_one' := by simp
   map_mul' I J := by
@@ -214,8 +214,8 @@ def originalCoprimeMask (M : NonzeroIdeal K) : Ideal (𝓞 K) →* ℂ where
     by_cases hI : IsCoprime I M.val <;>
       by_cases hJ : IsCoprime J M.val <;> simp [hI, hJ]
 
-def phaseMask (u : NonzeroIdeal K) (moving : Ideal (𝓞 K))
-    (root : A.Exterior) (J : NonzeroIdeal K) : Prop :=
+def phaseMask (u : HeckeGeneral.Analysis.NonzeroIdeal K) (moving : Ideal (𝓞 K))
+    (root : A.Exterior) (J : HeckeGeneral.Analysis.NonzeroIdeal K) : Prop :=
   sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) J ∧
     IsCoprime J.val u.val ∧ IsCoprime J.val moving ∧ IsCoprime J.val root.val
 
@@ -230,7 +230,7 @@ theorem extracted_residue_character
     (hfactor : g = secondSixthRootGenerator C primes m n ^ 6 *
       secondActiveFrequencyGenerator C primes m n pattern)
     (ν : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-    (hsector : row.sector P = ν) (J : NonzeroIdeal K) :
+    (hsector : row.sector P = ν) (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     actualIdealResidue (A := A) (σ := σ) J.val g *
         actualIdealResidue (A := A) (σ := σ) J.val row.element =
       heckeIdealCoefficient K (secondOriginalMovingFactors P R C primes m n pattern).character J *
@@ -266,7 +266,7 @@ variable {ω ψ : HeckeCharacter K}
 this preserves their ramification zeros without an unramified-background
 hypothesis. The finite-ray character itself is the original one. -/
 def sourceCharacters (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
-    (oldMask : NonzeroIdeal K) {k : ℕ}
+    (oldMask : HeckeGeneral.Analysis.NonzeroIdeal K) {k : ℕ}
     (index : Fin k → Fin parent.geometry.slotCount) : FixedChildCharacters K k where
   plain := parent.plainBackground * correction
   slot i := parent.slotCoefficient (index i) * correction
@@ -279,7 +279,7 @@ def sourceCharacters (parent : MomentData K ω ψ) (correction : HeckeCharacter 
 
 @[simp] theorem sourceCharacters_restrictSlots
     (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
-    (oldMask : NonzeroIdeal K) {k : ℕ} (index : Fin k → Fin parent.geometry.slotCount)
+    (oldMask : HeckeGeneral.Analysis.NonzeroIdeal K) {k : ℕ} (index : Fin k → Fin parent.geometry.slotCount)
     (keep : Finset (Fin k)) :
     (sourceCharacters parent correction oldMask index).restrictSlots keep =
       sourceCharacters parent correction oldMask
@@ -290,7 +290,7 @@ def childData (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
     (C : A.GeneralArithmeticContext σ η hS) (primes : ι → ExteriorPrime A)
     (m n : ι → ℕ) (pattern : ι → Bool)
     (ν : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-    (oldMask : NonzeroIdeal K) (budget : ℝ)
+    (oldMask : HeckeGeneral.Analysis.NonzeroIdeal K) (budget : ℝ)
     (inverse left right : IdealTest K) (geometry : SlotGeometry K)
     (index : Fin geometry.slotCount → Fin parent.geometry.slotCount) : MomentData K ω ψ :=
   CanonicalOriginalChildData.data parent (secondOriginalMovingFactors P R C primes m n pattern)
@@ -303,11 +303,11 @@ variable (hcorr : correction ∈ parent.theta)
 variable (C : A.GeneralArithmeticContext σ η hS) (primes : ι → ExteriorPrime A)
 variable (m n : ι → ℕ) (pattern : ι → Bool)
 variable (ν : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-variable (oldMask : NonzeroIdeal K) (budget : ℝ)
+variable (oldMask : HeckeGeneral.Analysis.NonzeroIdeal K) (budget : ℝ)
 variable (inverse left right : IdealTest K) (geometry : SlotGeometry K)
 variable (index : Fin geometry.slotCount → Fin parent.geometry.slotCount)
 
-theorem childData_mask (u J : NonzeroIdeal K) :
+theorem childData_mask (u J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     maskValue (childData P R parent correction hcorr C primes m n pattern ν oldMask budget
         inverse left right geometry index) u J.val =
       (if phaseMask u (secondOriginalMovingFactors P R C primes m n pattern).support.val
@@ -329,7 +329,7 @@ theorem childData_row_coefficient
     (row : ActualChildRow Ih h g factor)
     (hfactor : g = secondSixthRootGenerator C primes m n ^ 6 *
       secondActiveFrequencyGenerator C primes m n pattern)
-    (hsector : row.sector P = ν) (χ : HeckeCharacter K) (J : NonzeroIdeal K) :
+    (hsector : row.sector P = ν) (χ : HeckeCharacter K) (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     heckeIdealCoefficient K
         (χ * (childData P R parent correction hcorr C primes m n pattern ν oldMask budget
           inverse left right geometry index).rowCharacter row.momentIdeal) J *

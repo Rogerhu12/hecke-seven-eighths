@@ -8,8 +8,9 @@ open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStep
 
-open NumberField IsDedekindDomain UniqueFactorizationMonoid DedekindZetaZeroFree LocalFiniteSums
+open NumberField IsDedekindDomain UniqueFactorizationMonoid DedekindZetaZeroFree
 open HeckePort.Moments HeckePort.Moments.Support
+open LocalFiniteSums HeckePort.Moments.CommonSupport
 
 variable {K : Type} [Field K] [NumberField K]
 

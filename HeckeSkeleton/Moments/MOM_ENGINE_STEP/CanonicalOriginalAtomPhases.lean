@@ -37,7 +37,7 @@ residue phase on every quotient, not only on the row-map image. -/
 theorem actualProbeOrbitSexticEvaluation_eq_actualIdealResidue
     (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
-    (hemb : P.arithmetic.embedding = σ) (I : NonzeroIdeal K)
+    (hemb : P.arithmetic.embedding = σ) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (q : ActualSIntegerOrbit K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) :
     actualOrbitSexticEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         P.arithmetic.root6 P.arithmetic.primitive6 P.arithmetic.embedding I q =
@@ -55,8 +55,8 @@ theorem completeIdealFixedTwistRawAtoms_actual_phase_dictionary
     (hemb : P.arithmetic.embedding = σ)
     {ω ψ : HeckeCharacter K}
     (R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P)
-    (sector : NonzeroIdeal K → SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-    (d : MomentData K ω ψ) (remaining : NonzeroIdeal K) (fixed : HeckeCharacter K)
+    (sector : HeckeGeneral.Analysis.NonzeroIdeal K → SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
+    (d : MomentData K ω ψ) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (fixed : HeckeCharacter K)
     (hallowed : ∀ u, d.allowedRow u →
       completeIdealIsExterior K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u)
     (hrow : ∀ u, d.allowedRow u → d.rowCharacter u = fixed *

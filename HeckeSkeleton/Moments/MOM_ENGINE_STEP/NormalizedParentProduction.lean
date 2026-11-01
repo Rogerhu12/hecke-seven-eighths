@@ -89,7 +89,7 @@ theorem actual_parent_normalized_child_bound
     ∀ {Ray : Type} [CommGroup Ray] [Fintype Ray],
     ∀ (I : R.supported.gated.liveLeaves L exceptional N₀ → Type)
       [∀ j, Fintype (I j)] [∀ j, DecidableEq (I j)],
-    ∀ (rowDomain : Set (NonzeroIdeal K)) (heightDomain window : Set ℝ)
+    ∀ (rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)) (heightDomain window : Set ℝ)
       (seminorms : Finset (ℕ × ℕ)),
     ∀ extract : ∀ j : R.supported.gated.liveLeaves L exceptional N₀,
       (R.supported.gated.parentLeaf L exceptional N₀ j.val).ConstantAtomExtraction,

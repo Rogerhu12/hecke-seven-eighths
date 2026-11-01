@@ -44,7 +44,7 @@ theorem chosen_profile_windows
     (out : G.Child)
     (hdata : ∀ ξ, cal.data ξ = D.moving ξ)
     (t : ℝ) (htime : ∀ ξ, cal.height ξ = t)
-    {rowDomain : Set (NonzeroIdeal K)} {heightDomain : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain : Set ℝ}
     (a B : ℝ) (ha : 0 < a) (hB : 1 ≤ B) (orders : Finset (ℕ × ℕ))
     {P : ℝ} (hP : 0 ≤ P)
     (w : RawProfileWindow rowDomain heightDomain (Set.Icc a B)

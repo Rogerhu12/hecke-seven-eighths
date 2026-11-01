@@ -148,21 +148,21 @@ theorem coprime_append_support (I : Ideal (𝓞 K)) :
   exact Finset.forall_mem_union
 
 /-- The original remaining ideal is present once on both sides. -/
-theorem append_mask (remaining : NonzeroIdeal K) (I : Ideal (𝓞 K)) (base : Bool) :
+theorem append_mask (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (I : Ideal (𝓞 K)) (base : Bool) :
     ((base && decide (IsCoprime I (D.append E).support.val)) &&
         decide (IsCoprime I remaining.val)) =
       (((base && decide (IsCoprime I D.support.val)) &&
         decide (IsCoprime I E.support.val)) && decide (IsCoprime I remaining.val)) := by
   simp only [D.coprime_append_support E I, decide_and, Bool.and_assoc]
 
-theorem append_fullMaskSupport_primes (remaining : NonzeroIdeal K) :
+theorem append_fullMaskSupport_primes (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) :
     primeSupport ((D.append E).fullMaskSupport remaining).val =
       primeSupport (D.fullMaskSupport remaining).val ∪ primeSupport E.support.val := by
   rw [(D.append E).fullMaskSupport_primes remaining,
     D.append_support_primes E, D.fullMaskSupport_primes remaining]
   ac_rfl
 
-theorem coprime_append_fullMaskSupport (remaining : NonzeroIdeal K) (I : Ideal (𝓞 K)) :
+theorem coprime_append_fullMaskSupport (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (I : Ideal (𝓞 K)) :
     IsCoprime I ((D.append E).fullMaskSupport remaining).val ↔
       IsCoprime I (D.fullMaskSupport remaining).val ∧ IsCoprime I E.support.val := by
   rw [coprime_support_iff I ((D.append E).fullMaskSupport remaining).val
@@ -175,7 +175,7 @@ theorem coprime_append_fullMaskSupport (remaining : NonzeroIdeal K) (I : Ideal (
 
 /-- Appending new factors enlarges only the old complete support by
 the new displayed support; the fixed remaining mask stays the same. -/
-theorem append_fullMaskSupport_dvd_product (remaining : NonzeroIdeal K) :
+theorem append_fullMaskSupport_dvd_product (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) :
     ((D.append E).fullMaskSupport remaining).val ∣
       (D.fullMaskSupport remaining).val * E.support.val := by
   rw [← squarefree_support_product_self ((D.append E).fullMaskSupport_squarefree remaining)]
@@ -189,7 +189,7 @@ theorem append_fullMaskSupport_dvd_product (remaining : NonzeroIdeal K) :
     E.support.property.1, Multiset.toFinset_add]
   exact hQ
 
-theorem append_fullMaskSupport_norm_le (remaining : NonzeroIdeal K) :
+theorem append_fullMaskSupport_norm_le (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) :
     idealNorm K ((D.append E).fullMaskSupport remaining) ≤
       idealNorm K (D.fullMaskSupport remaining) * A.exteriorNorm E.support := by
   have h := norm_le_of_dvd

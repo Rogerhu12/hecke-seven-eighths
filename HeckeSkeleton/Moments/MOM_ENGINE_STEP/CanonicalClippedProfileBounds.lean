@@ -157,7 +157,7 @@ theorem originalAnnulus_subset_clipped (a B : ℝ) (ha : 0 < a) (hB : 1 ≤ B) :
 section Windows
 
 variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain : Set ℝ}
 
 /-- A literal original window gives the window of the actual clipped
 data.  Every transformed representative and every seminorm bound is
@@ -252,7 +252,7 @@ variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
 variable {U E : Type*}
   [NormedAddCommGroup U] [InnerProductSpace ℝ U]
   [NormedAddCommGroup E] [InnerProductSpace ℝ E]
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain : Set ℝ}
 variable (d : MomentData K ω ψ)
 variable (left right : Atom (WithLp 2 (U × E)))
 variable (slot : Fin d.geometry.slotCount → Atom (WithLp 2 (U × E)))

@@ -45,8 +45,8 @@ theorem principalExterior_out_eq_actualOrbitIdeal
 
 theorem completeIdealSectorRowMap_originalIdeal
     (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-    (sector : NonzeroIdeal K → SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-    (u : NonzeroIdeal K)
+    (sector : HeckeGeneral.Analysis.NonzeroIdeal K → SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
+    (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hu : completeIdealIsExterior K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u) :
     (ProbeOrbitNormSum.principalExterior A
       (completeIdealSectorRowMap (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P sector u).out).val =
@@ -66,12 +66,12 @@ variable (Q : CompleteMovingRowRecipe A P R data)
 
 /-- The two fixed deletion ideals in the exact arithmetic coefficient.
 This product is not a new displayed moving support or a new budget. -/
-def arithmeticMask : NonzeroIdeal K :=
+def arithmeticMask : HeckeGeneral.Analysis.NonzeroIdeal K :=
   ⟨Q.moving.support.val * Q.remaining.val,
     mem_nonZeroDivisors_of_ne_zero (mul_ne_zero Q.moving.support.property.1
       (nonZeroDivisors.ne_zero Q.remaining.property))⟩
 
-theorem mask_eq_arithmeticMask (ξ : X) (u : NonzeroIdeal K) (I : Ideal (𝓞 K)) :
+theorem mask_eq_arithmeticMask (ξ : X) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (I : Ideal (𝓞 K)) :
     (data ξ).commonMask u I =
       (completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&
         decide (IsCoprime I Q.arithmeticMask.val)) := by
@@ -87,7 +87,7 @@ def arithmeticAtoms (ξ : X) :
     Q.sector (data ξ) Q.arithmeticMask (Q.correction * Q.moving.character)
     (Q.exterior ξ) (Q.character ξ) (Q.mask_eq_arithmeticMask ξ)
 
-theorem arithmeticAtoms_originalIdeal (ξ : X) (u : NonzeroIdeal K)
+theorem arithmeticAtoms_originalIdeal (ξ : X) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hu : (data ξ).allowedRow u) :
     (ProbeOrbitNormSum.principalExterior A ((Q.arithmeticAtoms ξ).rowMap u).out).val =
       u.val :=
@@ -97,7 +97,7 @@ theorem arithmeticAtoms_leftPhase
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
     (hemb : P.arithmetic.embedding = σ) (ξ : X)
     (q : ActualSIntegerOrbit K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-    (I : NonzeroIdeal K) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (Q.arithmeticAtoms ξ).leftPhase q I =
       actualIdealResidue (A := A) (σ := σ) I.val q.out.val :=
   actualProbeOrbitSexticEvaluation_eq_actualIdealResidue P hroot hemb I q
@@ -106,7 +106,7 @@ theorem arithmeticAtoms_rightPhase
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
     (hemb : P.arithmetic.embedding = σ) (ξ : X)
     (q : ActualSIntegerOrbit K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-    (I : NonzeroIdeal K) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (Q.arithmeticAtoms ξ).rightPhase q I =
       actualIdealResidue (A := A) (σ := σ) I.val q.out.val :=
   actualProbeOrbitSexticEvaluation_eq_actualIdealResidue P hroot hemb I q

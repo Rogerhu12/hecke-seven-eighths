@@ -164,10 +164,8 @@ def FirstBlockProfileChart.ofUnscaledProfile
         ((sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
           ⟨b.rightGenerator j, (b.right_generates j).1⟩).val : ℂ)⁻¹) * _ = _
     rw [hnleft, hnright]
-    have hreal : star (A.exteriorNorm (b.rightResidual j) : ℂ) =
-        (A.exteriorNorm (b.rightResidual j) : ℂ) := Complex.conj_ofReal _
-    dsimp only [actualActiveColumn]
-    simp only [div_eq_mul_inv, star_mul, star_inv, hreal]
+    simp only [actualActiveColumn, div_eq_mul_inv, Complex.star_def,
+      map_mul, map_inv₀, Complex.conj_ofReal]
     ring
 
 end ActualBlock

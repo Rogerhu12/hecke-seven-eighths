@@ -42,7 +42,7 @@ structure NormalizationData (leaf : ActualHybridLeaf K H U E)
     (C : A.GeneralArithmeticContext σ η hS)
     (Ray : Type*) [CommGroup Ray] [Fintype Ray]
     (ω ψ : HeckeCharacter K) (Z : ℝ)
-    (rowDomain : Set (NonzeroIdeal K)) (heightDomain window : Set ℝ)
+    (rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)) (heightDomain window : Set ℝ)
     (seminorms : Finset (ℕ × ℕ)) where
   rows : ActualSecondCorrelationRows A σ H ι
   leftPlain₁ : Finset (Ideal (𝓞 K))
@@ -85,7 +85,7 @@ namespace NormalizationData
 
 variable {leaf : ActualHybridLeaf K H U E} {C : A.GeneralArithmeticContext σ η hS}
 variable {Ray : Type*} [CommGroup Ray] [Fintype Ray] {Z : ℝ}
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {seminorms : Finset (ℕ × ℕ)}
 variable (N : leaf.NormalizationData (ι := ι) C Ray ω ψ Z rowDomain heightDomain window seminorms)
 
@@ -145,7 +145,7 @@ variable {I : J → Type*} [∀ j, Fintype (I j)] [∀ j, DecidableEq (I j)]
 variable (leaves : J → ActualHybridLeaf K H U E)
 variable {C : A.GeneralArithmeticContext σ η hS}
 variable {Ray : Type*} [CommGroup Ray] [Fintype Ray] {Z : ℝ}
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {seminorms : Finset (ℕ × ℕ)}
 variable (N : ∀ j, (leaves j).NormalizationData (ι := I j)
   C Ray ω ψ Z rowDomain heightDomain window seminorms)

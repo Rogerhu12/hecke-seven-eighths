@@ -37,7 +37,7 @@ variable {U E Λ : Type*}
   [MeasurableSpace (WithLp 2 (U × E))] [BorelSpace (WithLp 2 (U × E))]
 variable {centered : Bool} {d : MomentData K ω ψ} {a : RealParameters}
 variable {Z t Y₁ Y₂ step ε terminalExponent C control : ℝ}
-variable {rowDomain : Set (NonzeroIdeal K)} {window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {window : Set ℝ}
 variable {seminorms : Finset (ℕ × ℕ)}
 variable {J₁₁ J₁₂ J₂₁ J₂₂ : ℕ}
 

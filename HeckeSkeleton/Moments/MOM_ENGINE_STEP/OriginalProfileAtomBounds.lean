@@ -57,7 +57,7 @@ theorem indicator_norm_le_one (z : ℂ) (hz : z = 0 ∨ z = 1) : ‖z‖ ≤ 1 :
 
 theorem sourcePlainCoefficient_norm_le_one
     (χ θ : HeckeCharacter K) (mask : Ideal (𝓞 K) →* ℂ)
-    (I : NonzeroIdeal K) (hmask : mask I.val = 0 ∨ mask I.val = 1) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hmask : mask I.val = 0 ∨ mask I.val = 1) :
     ‖sourcePlainCoefficient χ θ mask I‖ ≤ 1 := by
   have hχ := norm_heckeIdealCoefficient_le_one K χ I
   have hθ := norm_heckeIdealCoefficient_le_one K θ I
@@ -138,7 +138,7 @@ end OriginalProfileAtomBounds
 namespace RawProfileWindow
 
 variable {ω ψ : HeckeCharacter K} {d : MomentData K ω ψ}
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
 variable (profiles : RawProfileWindow rowDomain heightDomain window
   (OriginalProfileAtomBounds.profileOrders orders) d amplitude)
@@ -171,7 +171,7 @@ theorem original_prime_norm_le_annulus (annulus Z t : ℝ)
 
 theorem original_left_profile_upper (annulus : ℝ)
     (hwindow : window ⊆ Set.Iic annulus)
-    (u : NonzeroIdeal K) (hu : u ∈ rowDomain) (t : ℝ) (ht : t ∈ heightDomain)
+    (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ rowDomain) (t : ℝ) (ht : t ∈ heightDomain)
     (x : ℝ) (hx : d.plainTest₁.profile u t x ≠ 0) : x ≤ annulus := by
   apply hwindow
   apply profiles.left_support u hu t ht
@@ -179,7 +179,7 @@ theorem original_left_profile_upper (annulus : ℝ)
 
 theorem original_right_profile_upper (annulus : ℝ)
     (hwindow : window ⊆ Set.Iic annulus)
-    (u : NonzeroIdeal K) (hu : u ∈ rowDomain) (t : ℝ) (ht : t ∈ heightDomain)
+    (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ rowDomain) (t : ℝ) (ht : t ∈ heightDomain)
     (x : ℝ) (hx : d.plainTest₂.profile u t x ≠ 0) : x ≤ annulus := by
   apply hwindow
   apply profiles.right_support u hu t ht
@@ -195,7 +195,7 @@ variable {ω ψ : HeckeCharacter K}
 profile amplitude on the original polynomial, without any slot count. -/
 theorem primePolynomial_sq_recover_profile_amplitude
     (d : MomentData K ω ψ) (amplitude : ℝ) (hamp : 0 < amplitude)
-    (i : Fin d.geometry.slotCount) (u : NonzeroIdeal K) (Z t : ℝ) :
+    (i : Fin d.geometry.slotCount) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (Z t : ℝ) :
     ‖primePolynomial d i u Z t‖ ^ 2 = amplitude ^ 2 *
       ‖primePolynomial (normalizedMomentProfiles d amplitude hamp) i u Z t‖ ^ 2 := by
   rw [primePolynomial_normalizedMomentProfiles, norm_mul, Complex.norm_real,
@@ -211,7 +211,7 @@ variable {V H : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 variable {k : ℕ} {s : ActualAllocatedSource A V H k}
 variable {ω ψ : HeckeCharacter K}
 variable (D : s.Calibration (σ := σ) ω ψ)
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)}
 
 /-- Actual profile support gives both plain windows. The only analytic
@@ -258,7 +258,7 @@ variable {S : Fin k → Finset (HeightOneSpectrum (𝓞 K))}
 variable {P : Finset (Ideal (𝓞 K))}
 variable (b : SupportCartesianBranch S₁ S₂ S P)
 variable {ω ψ : HeckeCharacter K} {d : MomentData K ω ψ}
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
 
 /-- Only the literal original prime dictionary and mask identity enter.
@@ -305,7 +305,7 @@ variable {A : SArithmeticData K} {Γ : Subgroup A.U} {ω ψ : HeckeCharacter K}
 variable {d : MomentData K ω ψ} {a : RealParameters} {Z t Y₁ Y₂ : ℝ}
 local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
 variable (raw : ParentRawAtoms (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) d a Z t Y₁ Y₂)
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
 
 /-- The actual original atlas supplies the frozen support membership;
@@ -342,7 +342,7 @@ variable {A : SArithmeticData K} {V H : Type*}
 variable [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 variable {k : ℕ} (s : ActualAllocatedSource A V H k)
 variable {ω ψ : HeckeCharacter K} {d : MomentData K ω ψ}
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
 
 /-- The selected original divisor and its actual occurrence allocation

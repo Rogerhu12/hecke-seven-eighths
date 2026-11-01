@@ -31,7 +31,7 @@ variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
 /-- A fixed union of original seminorm orders can serve both the base
 and prime theorems without changing any representative or radius. -/
 def RawProfileWindow.restrictOrders
-    {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
     {s t : Finset (ℕ × ℕ)} {d : MomentData K ω ψ} {P : ℝ}
     (w : RawProfileWindow rowDomain heightDomain window t d P) (hst : s ⊆ t) :
     RawProfileWindow rowDomain heightDomain window s d P := by

@@ -289,7 +289,7 @@ theorem original_column_window
     (domain : PairedEngineDomain centered (data index) a Z Y₁ Y₂ floor padding)
     (hwidth : a.m + a.q ≤ box.widthMax) (hpadding : padding ≤ box.paddingMax)
     (hcap : (data index).geometry.slotCount ≤ box.cap) (hlarge : box.threshold ≤ Z)
-    {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
     {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window orders (data index) amplitude)
     (hrows : ∀ u ∈ pairedRows (data index) a Z, u ∈ rowDomain)
@@ -327,7 +327,7 @@ def firstWindows
     (hwidth : a.m + a.q ≤ box.widthMax) (hpadding : padding ≤ box.paddingMax)
     (hcap : (data index).geometry.slotCount ≤ box.cap) (hlarge : box.threshold ≤ Z)
     (orders sTail sZero : Finset (ℕ × ℕ)) (amplitude : ℝ) (hamplitude : 1 ≤ amplitude)
-    {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window
       (OriginalProfileAtomBounds.profileOrders orders) (data index) amplitude)
     (hrows : ∀ u ∈ pairedRows (data index) a Z, u ∈ rowDomain)
@@ -364,7 +364,7 @@ theorem original_row_windows
     (hfull : Q.FullJointBudget Z (a.m + a.q))
     (hwidth : a.m + a.q ≤ box.widthMax) (hpadding : padding ≤ box.paddingMax)
     (hcap : (data index).geometry.slotCount ≤ box.cap) (hlarge : box.threshold ≤ Z)
-    {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
     {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window orders (data index) amplitude)
     (hrows : ∀ u ∈ pairedRows (data index) a Z, u ∈ rowDomain)
@@ -448,7 +448,7 @@ def pooledSource
     (hwidth : a.m + a.q ≤ box.widthMax) (hpadding : padding ≤ box.paddingMax)
     (hcap : (data index).geometry.slotCount ≤ box.cap)
     (hlarge : box.poolThreshold A bad ell eps hell heps hepsell ≤ Z)
-    {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
     {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window orders (data index) amplitude)
     (hrows : ∀ u ∈ pairedRows (data index) a Z, u ∈ rowDomain)

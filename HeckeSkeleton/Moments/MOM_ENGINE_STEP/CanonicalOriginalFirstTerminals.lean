@@ -80,7 +80,7 @@ theorem exists_original_parent_first_bound
       (hfull : Q.FullJointBudget Z (a.m + a.q)),
       a.m + a.q ≤ box.widthMax → padding ≤ box.paddingMax →
       (data index).geometry.slotCount ≤ box.cap → box.threshold ≤ Z →
-    ∀ {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+    ∀ {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
       (profiles : RawProfileWindow rowDomain heightDomain window
         (OriginalProfileAtomBounds.profileOrders orders) (data index) amplitude),
       (∀ u ∈ pairedRows (data index) a Z, u ∈ rowDomain) →

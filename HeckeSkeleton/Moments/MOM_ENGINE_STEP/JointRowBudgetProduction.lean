@@ -26,10 +26,10 @@ variable {ω ψ : HeckeCharacter F}
 /-- Literal profile representatives and every original window survive
 a restriction of the row enumeration. -/
 def RawProfileWindow.withJointRowBudget
-    {rowDomain : Set (NonzeroIdeal F)} {heightDomain window : Set ℝ}
+    {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal F)} {heightDomain window : Set ℝ}
     {seminorms : Finset (ℕ × ℕ)} {d : MomentData F ω ψ} {radius : ℝ}
     (raw : RawProfileWindow rowDomain heightDomain window seminorms d radius)
-    (support : NonzeroIdeal F → A.Exterior) (budget : ℝ) :
+    (support : HeckeGeneral.Analysis.NonzeroIdeal F → A.Exterior) (budget : ℝ) :
     RawProfileWindow rowDomain heightDomain window seminorms
       (jointRowBudgetData d support budget) radius where
   inverseRep := raw.inverseRep
@@ -146,7 +146,7 @@ variable {R : ActualSecondCorrelationRows A σ H ι}
 variable {Ray : Type*} [CommGroup Ray] [Fintype Ray]
 variable {side : SecondColumnSide} {k l : ℕ}
 variable {f : SecondSideFrame (V := V) C R Ray side k}
-variable {rowDomain : Set (NonzeroIdeal F)}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal F)}
 variable {heightDomain window : Set ℝ} {seminorms : Finset (ℕ × ℕ)}
 variable (N : SecondSideNormalization f ω ψ rowDomain heightDomain window seminorms)
 variable (M : ActualMovingMaskRecipe A N.calibration.data)

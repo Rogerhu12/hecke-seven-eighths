@@ -19,9 +19,9 @@ open scoped Classical BigOperators NumberField
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
-open DedekindZetaZeroFree.LargeSieve
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
-open HeckeGeneral.Analysis HeckePort.IdealMobiusDivisorSum HeckePort.Moments.Support
+open HeckeGeneral.Analysis HeckePort.IdealMobiusDivisorSum HeckePort.Moments
+open HeckePort.Moments.Support
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}

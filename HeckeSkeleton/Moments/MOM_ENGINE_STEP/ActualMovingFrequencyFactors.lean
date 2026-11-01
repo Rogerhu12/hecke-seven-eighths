@@ -310,7 +310,7 @@ theorem secondOriginalMovingFactors_pattern_eq
 including fixed-S/6 deletion and every displayed active prime. -/
 theorem secondOriginalMovingFactors_evaluation
     (C : A.GeneralArithmeticContext σ η hS) (p : ι → ExteriorPrime A)
-    (m n : ι → ℕ) (pattern : ι → Bool) (J : NonzeroIdeal K) :
+    (m n : ι → ℕ) (pattern : ι → Bool) (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     zeroExtendedSexticIdealEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         P.arithmetic.root6 P.arithmetic.primitive6 P.arithmetic.embedding J
         (secondActiveFrequencyGenerator C p m n pattern) =
@@ -346,7 +346,7 @@ theorem secondOriginalMovingFactors_evaluation
   exact hd
 
 theorem zeroExtendedSexticIdealEvaluation_original_mul
-    (J : NonzeroIdeal K) (a b : A.R) :
+    (J : HeckeGeneral.Analysis.NonzeroIdeal K) (a b : A.R) :
     zeroExtendedSexticIdealEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         P.arithmetic.root6 P.arithmetic.primitive6 P.arithmetic.embedding J (a * b) =
       zeroExtendedSexticIdealEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
@@ -361,7 +361,7 @@ theorem zeroExtendedSexticIdealEvaluation_original_mul
 /-- The sixth part retains precisely its genuine original deletion.
 The numerator need not be a unit of the S-integer ring. -/
 theorem zeroExtendedSexticIdealEvaluation_generated_sixth_mul
-    (J : NonzeroIdeal K) (I : A.Exterior) (a u : A.R) (ha : A.Generates I a) :
+    (J : HeckeGeneral.Analysis.NonzeroIdeal K) (I : A.Exterior) (a u : A.R) (ha : A.Generates I a) :
     zeroExtendedSexticIdealEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         P.arithmetic.root6 P.arithmetic.primitive6 P.arithmetic.embedding J (a ^ 6 * u) =
       if IsCoprime J.val I.val then
@@ -380,7 +380,7 @@ theorem zeroExtendedSexticIdealEvaluation_generated_sixth_mul
 /-- Exact source-frequency phase, with the sixth mask still present. -/
 theorem second_extracted_factor_evaluation
     (C : A.GeneralArithmeticContext σ η hS) (p : ι → ExteriorPrime A)
-    (m n : ι → ℕ) (h u : A.R) (J : NonzeroIdeal K) :
+    (m n : ι → ℕ) (h u : A.R) (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     zeroExtendedSexticIdealEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         P.arithmetic.root6 P.arithmetic.primitive6 P.arithmetic.embedding J
         ((primePowerProductGenerator C p (fun i => min (m i) (n i)) *
@@ -399,7 +399,7 @@ theorem second_extracted_factor_evaluation
 character.  Both active zeros and sixth-root zeros remain in this identity. -/
 theorem second_extracted_factor_character
     (C : A.GeneralArithmeticContext σ η hS) (p : ι → ExteriorPrime A)
-    (m n : ι → ℕ) (h u : A.R) (J : NonzeroIdeal K) :
+    (m n : ι → ℕ) (h u : A.R) (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     let D := secondOriginalMovingFactors P R C p m n (actualNonunitPattern C p m n h)
     zeroExtendedSexticIdealEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         P.arithmetic.root6 P.arithmetic.primitive6 P.arithmetic.embedding J

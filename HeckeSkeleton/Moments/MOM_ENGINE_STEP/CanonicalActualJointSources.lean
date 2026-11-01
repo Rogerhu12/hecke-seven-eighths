@@ -47,7 +47,7 @@ variable {H : Type*} {k : ℕ}
 variable (s : ActualAllocatedSource A ℝ H k)
 variable (W₁ W₂ : ℝ → ℂ) (W : Fin k → ℝ → ℂ)
 variable (N₁ N₂ : ℝ) (N : Fin k → ℝ)
-variable (first₁ first₂ second₁ second₂ : NonzeroIdeal K) (δ₁ δ₂ slope : ℝ)
+variable (first₁ first₂ second₁ second₂ : HeckeGeneral.Analysis.NonzeroIdeal K) (δ₁ δ₂ slope : ℝ)
 
 /-- Only the actual computed original profile weights are installed.
 All arithmetic, rows, normalizations and finite columns are retained. -/
@@ -270,7 +270,7 @@ theorem frame_energy_eq_joint (ξ ζ : ℝ) :
         secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
         allocationIdeal selection hne ξ ζ]
 
-theorem source_leftLocation (ξ : ℝ) (h : rows.live) (I : NonzeroIdeal K) :
+theorem source_leftLocation (ξ : ℝ) (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (actualSource ξ).leftLocation h I = secondLogSlope side * Real.log (idealNorm K I) := by
   cases side with
   | left =>
@@ -284,7 +284,7 @@ theorem source_leftLocation (ξ : ℝ) (h : rows.live) (I : NonzeroIdeal K) :
         1 * Real.log (idealNorm K I)
     ring
 
-theorem source_rightLocation (ξ : ℝ) (h : rows.live) (I : NonzeroIdeal K) :
+theorem source_rightLocation (ξ : ℝ) (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (actualSource ξ).rightLocation h I = secondLogSlope side * Real.log (idealNorm K I) := by
   cases side with
   | left =>
@@ -308,7 +308,7 @@ theorem source_slotLocation (ξ : ℝ) (h : rows.live) (j : Fin b₂.keep.card)
       1 * Real.log (Ideal.absNorm p.asIdeal : ℝ)
     ring
 
-theorem joint_leftLocation (h : rows.live) (I : NonzeroIdeal K) :
+theorem joint_leftLocation (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     joint.leftLocation h I =
       Real.log (idealNorm K (b₂.plainDivisor₁ * I)) • firstDirection slope +
         Real.log (idealNorm K I) • secondDirection (secondLogSlope side) := by
@@ -319,7 +319,7 @@ theorem joint_leftLocation (h : rows.live) (I : NonzeroIdeal K) :
     allocationIdeal selection hne 0 h I]
   exact pair_location _ _ _ _
 
-theorem joint_rightLocation (h : rows.live) (I : NonzeroIdeal K) :
+theorem joint_rightLocation (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     joint.rightLocation h I =
       Real.log (idealNorm K (b₂.plainDivisor₂ * I)) • firstDirection slope +
         Real.log (idealNorm K I) • secondDirection (secondLogSlope side) := by
@@ -386,13 +386,13 @@ theorem joint_length (j : Fin b₂.keep.card) :
     joint.length j = ((data x).geometry.slots (idx₁ (idx₂ j))).length := by
   cases side <;> rfl
 
-theorem joint_leftWeight (h : rows.live) (I : NonzeroIdeal K) :
+theorem joint_leftWeight (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     joint.leftWeight h I =
       rawPlainWeight (W.left PUnit.unit t) (if comparison then Y₁ else Z ^ a.n₁)
         b₁.plainDivisor₁ b₂.plainDivisor₁ firstTilt secondTilt 0 slope I := by
   cases side <;> rfl
 
-theorem joint_rightWeight (h : rows.live) (I : NonzeroIdeal K) :
+theorem joint_rightWeight (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     joint.rightWeight h I =
       rawPlainWeight (W.right PUnit.unit t) (if comparison then Y₂ else Z ^ a.n₂)
         b₁.plainDivisor₂ b₂.plainDivisor₂ firstTilt secondTilt 0 slope I := by
@@ -550,7 +550,7 @@ theorem frame_energy_eq_joint (ξ ζ : ℝ) :
         secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
         allocationIdeal selection hne ξ ζ]
 
-theorem source_leftLocation (ξ : ℝ) (h : rows.live) (I : NonzeroIdeal K) :
+theorem source_leftLocation (ξ : ℝ) (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (actualSource ξ).leftLocation h I = secondLogSlope side * Real.log (idealNorm K I) := by
   cases side with
   | left =>
@@ -564,7 +564,7 @@ theorem source_leftLocation (ξ : ℝ) (h : rows.live) (I : NonzeroIdeal K) :
         1 * Real.log (idealNorm K I)
     ring
 
-theorem source_rightLocation (ξ : ℝ) (h : rows.live) (I : NonzeroIdeal K) :
+theorem source_rightLocation (ξ : ℝ) (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (actualSource ξ).rightLocation h I = secondLogSlope side * Real.log (idealNorm K I) := by
   cases side with
   | left =>
@@ -588,7 +588,7 @@ theorem source_slotLocation (ξ : ℝ) (h : rows.live) (j : Fin b₂.keep.card)
       1 * Real.log (Ideal.absNorm p.asIdeal : ℝ)
     ring
 
-theorem joint_leftLocation (h : rows.live) (I : NonzeroIdeal K) :
+theorem joint_leftLocation (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     joint.leftLocation h I =
       Real.log (idealNorm K (b₂.plainDivisor₁ * I)) • firstDirection slope +
         Real.log (idealNorm K I) • secondDirection (secondLogSlope side) := by
@@ -599,7 +599,7 @@ theorem joint_leftLocation (h : rows.live) (I : NonzeroIdeal K) :
     allocationIdeal selection hne 0 h I]
   exact pair_location _ _ _ _
 
-theorem joint_rightLocation (h : rows.live) (I : NonzeroIdeal K) :
+theorem joint_rightLocation (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     joint.rightLocation h I =
       Real.log (idealNorm K (b₂.plainDivisor₂ * I)) • firstDirection slope +
         Real.log (idealNorm K I) • secondDirection (secondLogSlope side) := by
@@ -667,13 +667,13 @@ theorem joint_length (j : Fin b₂.keep.card) :
     joint.length j = ((data x).geometry.slots (idx₁ (idx₂ j))).length := by
   cases side <;> rfl
 
-theorem joint_leftWeight (h : rows.live) (I : NonzeroIdeal K) :
+theorem joint_leftWeight (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     joint.leftWeight h I =
       rawPlainWeight (W.left PUnit.unit t) (if comparison then Y₁ else Z ^ a.n₁)
         b₁.plainDivisor₁ b₂.plainDivisor₁ firstTilt secondTilt 0 slope I := by
   cases side <;> rfl
 
-theorem joint_rightWeight (h : rows.live) (I : NonzeroIdeal K) :
+theorem joint_rightWeight (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     joint.rightWeight h I =
       rawPlainWeight (W.right PUnit.unit t) (if comparison then Y₂ else Z ^ a.n₂)
         b₁.plainDivisor₂ b₂.plainDivisor₂ firstTilt secondTilt 0 slope I := by

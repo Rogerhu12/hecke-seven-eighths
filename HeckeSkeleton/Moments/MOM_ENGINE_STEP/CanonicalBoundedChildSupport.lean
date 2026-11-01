@@ -99,7 +99,7 @@ private theorem extraction_parts
 quotient of the two original residual supports. All extraction facts
 are derived from the three original witnesses. -/
 theorem mem_twice_allocated_of_original
-    (S P Q : Finset (Ideal (𝓞 K))) (D₁ D₂ E I : NonzeroIdeal K)
+    (S P Q : Finset (Ideal (𝓞 K))) (D₁ D₂ E I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (W₁ W₂ W₃ : Ideal (𝓞 K))
     (hW₁ : W₁ ∈ SupportCartesian.plainFibre S P D₁.val)
     (hW₂ : W₂ ∈ SupportCartesian.plainFibre
@@ -155,7 +155,7 @@ variable (B : ActualColumnAllocation K b₂.keep.card)
 /-- The actual left allocation witness supplies its own divisor and
 both preceding extraction witnesses. The carrier equality is literal
 source data, rather than a completed support bound. -/
-theorem left_mem_child_of_original (hB : B.plain₁ = U₁) (I : NonzeroIdeal K)
+theorem left_mem_child_of_original (hB : B.plain₁ = U₁) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hI₁ : supportExtract I.val P = 1) (hI₂ : supportExtract I.val Q = 1)
     (hmem : (b₁.plainDivisor₁ *
       (b₂.plainDivisor₁ * (B.plainDivisor 0 * I))).val ∈ S₁) :
@@ -171,7 +171,7 @@ theorem left_mem_child_of_original (hB : B.plain₁ = U₁) (I : NonzeroIdeal K)
     (Finset.mem_product.mp (Finset.mem_product.mp b₂.witness_mem).1).1
     (hB ▸ hw.1) hw.2 hI₁ hI₂ hmem
 
-theorem right_mem_child_of_original (hB : B.plain₂ = U₂) (I : NonzeroIdeal K)
+theorem right_mem_child_of_original (hB : B.plain₂ = U₂) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hI₁ : supportExtract I.val P = 1) (hI₂ : supportExtract I.val Q = 1)
     (hmem : (b₁.plainDivisor₂ *
       (b₂.plainDivisor₂ * (B.plainDivisor (Fin.succ 0) * I))).val ∈ S₂) :
@@ -227,7 +227,7 @@ variable (C : A.GeneralArithmeticContext σ η hS) (p : ι → ExteriorPrime A)
 variable (hp : Function.Injective p) (m n : ι → ℕ)
 variable (hm : ∀ i, 0 < m i) (hn : ∀ i, 0 < n i) (pattern : ι → Bool)
 variable (sector : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-variable (remaining : NonzeroIdeal K) (firstCommon : A.Exterior) (budget : ℝ)
+variable (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (firstCommon : A.Exterior) (budget : ℝ)
 variable (inverse left right : IdealTest K) (geometry : SlotGeometry K)
 variable (index : Fin geometry.slotCount → Fin parent.geometry.slotCount)
 
@@ -241,7 +241,7 @@ local notation "child" => CanonicalMovingPhaseCalibration.childData P R parent p
 /-- The two common-prime exclusions are read from the same complete
 child mask. No separate support certificate is supplied. -/
 include hp hm hn in
-theorem child_common_parts (secondRight : Bool) (u I : NonzeroIdeal K)
+theorem child_common_parts (secondRight : Bool) (u I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hmask : child.commonMask u I.val = true) :
     IsCoprime I.val A.cS ∧
       supportExtract I.val (primeSupport firstCommon.val) = 1 ∧
@@ -300,7 +300,7 @@ theorem plainResidual_coprime_of_original
 
 private theorem reconstructed_coprime
     (S P Q : Finset (Ideal (𝓞 K))) (M : Ideal (𝓞 K))
-    (D₁ D₂ E I : NonzeroIdeal K) (W₁ W₂ W₃ : Ideal (𝓞 K))
+    (D₁ D₂ E I : HeckeGeneral.Analysis.NonzeroIdeal K) (W₁ W₂ W₃ : Ideal (𝓞 K))
     (hS : ∀ J ∈ S, IsCoprime J M)
     (hW₁ : W₁ ∈ SupportCartesian.plainFibre S P D₁.val)
     (hW₂ : W₂ ∈ SupportCartesian.plainFibre
@@ -324,7 +324,7 @@ private theorem reconstructed_coprime
 
 /-- Three divisions of the original physical scale reconstruct the
 same original ideal, with the full extracted and allocated powers. -/
-theorem original_profile_reconstruct (W : IdealTest K) (anchor D₁ D₂ E I : NonzeroIdeal K)
+theorem original_profile_reconstruct (W : IdealTest K) (anchor D₁ D₂ E I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (N height : ℝ)
     (hI : I ∈ W.support anchor height
       (((N / idealNorm K D₁) / idealNorm K D₂) / idealNorm K E)) :
@@ -338,7 +338,7 @@ theorem original_profile_reconstruct (W : IdealTest K) (anchor D₁ D₂ E I : N
 variable {A : SArithmeticData K}
 
 /-- The original exterior carrier supplies its own coprimality facts. -/
-theorem exteriorPlainSupport_coprime (W : IdealTest K) (anchor : NonzeroIdeal K)
+theorem exteriorPlainSupport_coprime (W : IdealTest K) (anchor : HeckeGeneral.Analysis.NonzeroIdeal K)
     (N height : ℝ) (I : Ideal (𝓞 K))
     (hI : I ∈ exteriorPlainSupport (A := A) W anchor N height) : IsCoprime I A.cS := by
   obtain ⟨J, hJ, rfl⟩ := Finset.mem_image.mp hI
@@ -347,7 +347,7 @@ theorem exteriorPlainSupport_coprime (W : IdealTest K) (anchor : NonzeroIdeal K)
 /-- In particular, the shared original main/comparison carrier is
 exterior without any assumption about which comparison is nonzero. -/
 theorem exteriorPlainSupport_union_coprime (W₁ W₂ : IdealTest K)
-    (anchor : NonzeroIdeal K) (N₁ N₂ height : ℝ) (I : Ideal (𝓞 K))
+    (anchor : HeckeGeneral.Analysis.NonzeroIdeal K) (N₁ N₂ height : ℝ) (I : Ideal (𝓞 K))
     (hI : I ∈ exteriorPlainSupport (A := A) W₁ anchor N₁ height ∪
       exteriorPlainSupport (A := A) W₂ anchor N₂ height) : IsCoprime I A.cS := by
   rcases Finset.mem_union.mp hI with hI | hI
@@ -358,8 +358,8 @@ theorem exteriorPlainSupport_union_coprime (W₁ W₂ : IdealTest K)
 Exterior coprimality of every extracted divisor follows from the
 original branch witnesses, rather than a new exterior-carrier bound. -/
 theorem mem_twice_allocated_of_profile
-    (W : IdealTest K) (anchor : NonzeroIdeal K) (N height : ℝ)
-    (P Q : Finset (Ideal (𝓞 K))) (D₁ D₂ E I : NonzeroIdeal K)
+    (W : IdealTest K) (anchor : HeckeGeneral.Analysis.NonzeroIdeal K) (N height : ℝ)
+    (P Q : Finset (Ideal (𝓞 K))) (D₁ D₂ E I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (W₁ W₂ W₃ : Ideal (𝓞 K))
     (hW₁ : W₁ ∈ SupportCartesian.plainFibre
       (exteriorPlainSupport (A := A) W anchor N height) P D₁.val)
@@ -389,8 +389,8 @@ theorem mem_twice_allocated_of_profile
 the main and comparison supports. Its witnesses need not belong to the
 particular comparison profile under consideration. -/
 theorem mem_twice_allocated_of_carrier
-    (W : IdealTest K) (anchor : NonzeroIdeal K) (N height : ℝ)
-    (S P Q : Finset (Ideal (𝓞 K))) (D₁ D₂ E I : NonzeroIdeal K)
+    (W : IdealTest K) (anchor : HeckeGeneral.Analysis.NonzeroIdeal K) (N height : ℝ)
+    (S P Q : Finset (Ideal (𝓞 K))) (D₁ D₂ E I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (W₁ W₂ W₃ : Ideal (𝓞 K))
     (hS : exteriorPlainSupport (A := A) W anchor N height ⊆ S)
     (hExterior : ∀ J ∈ S, IsCoprime J A.cS)
@@ -428,15 +428,15 @@ variable (correction : HeckeCharacter K) (hcorr : correction = 1 ∨ correction 
 variable (C : A.GeneralArithmeticContext σ η hS) (primes : ι → ExteriorPrime A)
 variable (m n : ι → ℕ) (pattern : ι → Bool)
 variable (sector : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-variable (remaining : NonzeroIdeal K) (firstCommon : A.Exterior) (budget : ℝ)
-variable (anchor : NonzeroIdeal K) (height : ℝ) {k : ℕ}
+variable (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (firstCommon : A.Exterior) (budget : ℝ)
+variable (anchor : HeckeGeneral.Analysis.NonzeroIdeal K) (height : ℝ) {k : ℕ}
 variable (index : Fin k → Fin parent.geometry.slotCount)
-variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {P₀ : ℝ}
 variable (raw : RawProfileWindow rowDomain heightDomain window orders parent P₀)
 variable (hanchor : anchor ∈ rowDomain) (hheight : height ∈ heightDomain)
 variable (hpositive : window ⊆ Set.Ioi 0)
-variable (G₁ G₂ : ℝ) (G : Fin k → ℝ) (D₁ D₂ : NonzeroIdeal K)
+variable (G₁ G₂ : ℝ) (G : Fin k → ℝ) (D₁ D₂ : HeckeGeneral.Analysis.NonzeroIdeal K)
 variable (annulus δ₁ δ₂ : ℝ) (hG₁ : 0 < G₁) (hG₂ : 0 < G₂)
 variable (hG : ∀ i, 0 < G i) (hAnnulus : 1 ≤ annulus)
 variable (firstDirection secondDirection : V)
@@ -448,10 +448,10 @@ local notation "bounded" => CanonicalBoundedChildData.boundedData parent prefix 
 
 /-- The bounded scalar and signed multiplier preserve the literal
 original finite supports, for every residual row and evaluation time. -/
-@[simp] theorem left_support (ξ : V) (u : NonzeroIdeal K) (N t : ℝ) :
+@[simp] theorem left_support (ξ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) :
     (bounded ξ).plainTest₁.support u t N = parent.plainTest₁.support anchor height N := rfl
 
-@[simp] theorem right_support (ξ : V) (u : NonzeroIdeal K) (N t : ℝ) :
+@[simp] theorem right_support (ξ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) :
     (bounded ξ).plainTest₂.support u t N = parent.plainTest₂.support anchor height N := rfl
 
 @[simp] theorem prime_support (ξ : V) (i : Fin k) (N t : ℝ) :
@@ -465,7 +465,7 @@ local notation "common₂" => primeSupport
   (primePowerProduct primes (if secondRight then n else m)).val
 
 include hp hm hn in
-theorem bounded_mask_parts (ξ : V) (u I : NonzeroIdeal K)
+theorem bounded_mask_parts (ξ : V) (u I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hmask : (bounded ξ).commonMask u I.val = true) :
     IsCoprime I.val A.cS ∧
       supportExtract I.val common₁ = 1 ∧ supportExtract I.val common₂ = 1 :=
@@ -494,7 +494,7 @@ include hp hm hn in
 theorem effective_left_support (N : ℝ)
     (hS₁ : exteriorPlainSupport (A := A) parent.plainTest₁ anchor N height ⊆ S₁)
     (hExterior : ∀ J ∈ S₁, IsCoprime J A.cS)
-    (hB : B.plain₁ = U₁) (ξ : V) (u : NonzeroIdeal K) (t : ℝ) :
+    (hB : B.plain₁ = U₁) (ξ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t : ℝ) :
     effectivePlainSupport (bounded ξ) (bounded ξ).plainTest₁ u
         (((N / idealNorm K b₁.plainDivisor₁) / idealNorm K b₂.plainDivisor₁) /
           idealNorm K (B.plainDivisor 0)) t ⊆ B.childPlain₁ := by
@@ -525,7 +525,7 @@ include hp hm hn in
 theorem effective_right_support (N : ℝ)
     (hS₂ : exteriorPlainSupport (A := A) parent.plainTest₂ anchor N height ⊆ S₂)
     (hExterior : ∀ J ∈ S₂, IsCoprime J A.cS)
-    (hB : B.plain₂ = U₂) (ξ : V) (u : NonzeroIdeal K) (t : ℝ) :
+    (hB : B.plain₂ = U₂) (ξ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t : ℝ) :
     effectivePlainSupport (bounded ξ) (bounded ξ).plainTest₂ u
         (((N / idealNorm K b₁.plainDivisor₂) / idealNorm K b₂.plainDivisor₂) /
           idealNorm K (B.plainDivisor (Fin.succ 0))) t ⊆ B.childPlain₂ := by
@@ -561,7 +561,7 @@ theorem effective_prime_support (Z : ℝ)
     (hB : B.slots = U) (i : Fin k) (j : Fin B.keep.card)
     (hindex : index i = SlotRestriction.index b₁.keep
       (SlotRestriction.index b₂.keep (SlotRestriction.index B.keep j)))
-    (ξ : V) (u : NonzeroIdeal K) (t : ℝ) :
+    (ξ : V) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t : ℝ) :
     effectivePrimeSupport (bounded ξ) i u Z t ⊆ B.childSlots j := by
   intro p hmem
   let I := CanonicalOriginalPhaseCalibration.primeIdeal p

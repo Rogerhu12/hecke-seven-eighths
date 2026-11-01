@@ -159,10 +159,14 @@ theorem frozen_parentCharacterRecipe
     {parent : MomentData F ω ψ} {conjugated : Bool}
     {row : HeckeGeneral.Analysis.NonzeroIdeal F → HeckeCharacter F}
     (R : ParentCharacterRecipe parent D.data conjugated row) :
-    ParentCharacterRecipe parent out.frozenData conjugated row where
-  background ξ := (out.frozen_plainBackground_eq ξ).trans (R.background ξ)
-  rowCharacter ξ := (out.frozen_rowCharacter_eq ξ).trans (R.rowCharacter ξ)
-  theta ξ := (out.frozen_theta_eq ξ).trans (R.theta ξ)
+    ParentCharacterRecipe parent out.frozenData conjugated row := by
+  refine ⟨?_, ?_, ?_⟩
+  · intro ξ
+    exact (out.frozen_plainBackground_eq ξ).trans (R.background ξ)
+  · intro ξ
+    exact (out.frozen_rowCharacter_eq ξ).trans (R.rowCharacter ξ)
+  · intro ξ
+    exact (out.frozen_theta_eq ξ).trans (R.theta ξ)
 
 /-- This is the actual retained slot index inside the already allocated
 source.  It includes both the calibration's count cast and the one

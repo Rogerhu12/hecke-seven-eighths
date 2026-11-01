@@ -78,7 +78,7 @@ section PoolTable
 
 variable {ω ψ : HeckeCharacter K} {k : ℕ}
 variable (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
-variable (prefix : OriginalMovingFactors A P R) (remaining : NonzeroIdeal K)
+variable (prefix : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
 variable (index : Fin k → Fin parent.geometry.slotCount)
 variable (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
 variable (hemb : P.arithmetic.embedding = σ)

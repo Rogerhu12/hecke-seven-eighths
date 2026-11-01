@@ -88,7 +88,7 @@ theorem multiplier_ratio (ξ : V) (N : ℝ) :
 
 variable {K : Type} [Field K] [NumberField K]
 
-private theorem idealNorm_mul (B I : NonzeroIdeal K) :
+private theorem idealNorm_mul (B I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     idealNorm K (B * I) = idealNorm K B * idealNorm K I := by
   change (Ideal.absNorm (B.val * I.val) : ℝ) =
     (Ideal.absNorm B.val : ℝ) * (Ideal.absNorm I.val : ℝ)
@@ -97,7 +97,7 @@ private theorem idealNorm_mul (B I : NonzeroIdeal K) :
 /-- The child scale is the original scale divided by the actual
 allocated ideal norm.  Its multiplier still uses the full original
 product ideal, including the divisor occurrence. -/
-theorem multiplier_quotient_norm (ξ : V) (B I : NonzeroIdeal K) :
+theorem multiplier_quotient_norm (ξ : V) (B I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     p.multiplier ξ (idealNorm K I / (p.scale / idealNorm K B)) =
       ((idealNorm K (B * I) ^ p.exponent : ℝ) : ℂ) *
         jointPhase ξ (p.offset + Real.log (idealNorm K (B * I)) • p.direction) := by
@@ -163,7 +163,7 @@ theorem primeWindow_positive (W : PrimeWindow K) (positive : PositivePrimeProfil
 /-- This is the literal single-ideal profile identity needed by the
 allocated calibration after the original ideal is written as `B * I`. -/
 theorem idealTest_quotient_profile (W : IdealTest K) (positive : PositivePlainProfile W)
-    (ξ : V) (u B I : NonzeroIdeal K) (t : ℝ) :
+    (ξ : V) (u B I : HeckeGeneral.Analysis.NonzeroIdeal K) (t : ℝ) :
     (p.idealTest W positive ξ).profile u t
         (idealNorm K I / (p.scale / idealNorm K B)) =
       (W.profile u t (idealNorm K I / (p.scale / idealNorm K B)) *
@@ -230,7 +230,7 @@ def parentCharacters :
 /-- If the original branch already carries a whole-conjugation choice,
 that same original choice is retained; it is not made after Fourier. -/
 def originalParentCharacters {parent : MomentData K ω ψ} {conjugated : Bool}
-    {row : NonzeroIdeal K → HeckeCharacter K}
+    {row : HeckeGeneral.Analysis.NonzeroIdeal K → HeckeCharacter K}
     (original : ParentCharacterRecipe parent (fun _ : PUnit => d) conjugated row) :
     ParentCharacterRecipe parent (data d left right slot hleft hright hslot) conjugated row where
   background _ := original.background PUnit.unit
@@ -270,7 +270,7 @@ def originalSlots {parent : MomentData K ω ψ}
 the old one; only the explicitly displayed profiles were multiplied. -/
 def termCalibration {A : SArithmeticData K} {σ : K →+* ℂ} {k : ℕ}
     {T : FixedChildCharacters K k} {count : d.geometry.slotCount = k}
-    {u : NonzeroIdeal K} {g h : A.R}
+    {u : HeckeGeneral.Analysis.NonzeroIdeal K} {g h : A.R}
     (original : T.Calibration (σ := σ) d count u g h) (ξ : V) :
     T.Calibration (σ := σ) (data d left right slot hleft hright hslot ξ) count u g h where
   fixedRay_mem_theta := original.fixedRay_mem_theta

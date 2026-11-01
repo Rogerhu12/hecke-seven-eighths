@@ -198,7 +198,7 @@ theorem actualRows_extracted_fullJoint_window
           Z ^ maskExponent)
     (hleft : ∀ i ∈ left, A.exteriorNorm (fullI i) ≤ Z ^ a₀)
     (hright : ∀ j ∈ right, A.exteriorNorm (fullJ j) ≤ Z ^ a₀)
-    (moving : OriginalMovingFactors A P Rchar) (remaining : NonzeroIdeal K)
+    (moving : OriginalMovingFactors A P Rchar) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
     (old : A.Exterior) (hold : A.exteriorNorm old ≤ Z ^ (q + wo))
     (h : (chart.actualRows M X hX label).live)
     (W : moving.SupportAtoms old

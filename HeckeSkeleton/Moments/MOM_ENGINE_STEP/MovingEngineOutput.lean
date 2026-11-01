@@ -108,7 +108,7 @@ structure MovingEngineChildAdmissible (A : SArithmeticData K)
     (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
     (R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P)
     (Q : Type*) (parent : MomentData K ω ψ)
-    (rowDomain : Set (NonzeroIdeal K)) (window : Set ℝ)
+    (rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)) (window : Set ℝ)
     (seminorms : Finset (ℕ × ℕ)) (Z : ℝ)
     (d : MomentData K ω ψ) (a : RealParameters) : Prop where
   engine : EngineChildAdmissible A rowDomain window seminorms Z d a
@@ -126,7 +126,7 @@ variable {A : SArithmeticData K}
 variable {P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))}
 variable {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
 variable {Q : Type*} {parent d : MomentData K ω ψ} {a : RealParameters} {Z : ℝ}
-variable {rowDomain : Set (NonzeroIdeal K)} {window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {window : Set ℝ}
 variable {seminorms : Finset (ℕ × ℕ)}
 variable (h : MovingEngineChildAdmissible A P R Q parent
   rowDomain window seminorms Z d a)
@@ -142,7 +142,7 @@ theorem fullJointBudget : h.rowRecipe.FullJointBudget Z (a.m + a.q) :=
 
 /-- Reflection receives the real complete varying row, the original
 moving product, and the original finite correction separately. -/
-theorem identify (u : NonzeroIdeal K) (hu : u ∈ pairedRows d a Z) :
+theorem identify (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ pairedRows d a Z) :
     completeIdealIsExterior K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u ∧
       d.rowCharacter u = h.rowRecipe.correction * h.rowRecipe.moving.character *
         completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
@@ -151,7 +151,7 @@ theorem identify (u : NonzeroIdeal K) (hu : u ∈ pairedRows d a Z) :
   exact ⟨h.rowRecipe.exterior PUnit.unit u hallowed,
     h.rowRecipe.character PUnit.unit u hallowed⟩
 
-theorem paired_fullJointBudget (u : NonzeroIdeal K) (hu : u ∈ pairedRows d a Z) :
+theorem paired_fullJointBudget (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ pairedRows d a Z) :
     idealNorm K u * idealNorm K
       (h.rowRecipe.moving.fullMaskSupport h.rowRecipe.remaining) ≤ Z ^ (a.m + a.q) :=
   h.fullJointBudget PUnit.unit u
@@ -232,7 +232,7 @@ theorem right_fullJointBudget (b : family.active labels) :
 end MovingRowInputs
 
 variable {family labels} {parent : MomentData K ω ψ} {a : RealParameters} {step : ℝ}
-variable {rowDomain : Set (NonzeroIdeal K)} {window : Set ℝ}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {window : Set ℝ}
 variable {seminorms : Finset (ℕ × ℕ)}
 
 theorem moving_left_admissible

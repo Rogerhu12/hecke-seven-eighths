@@ -48,8 +48,8 @@ def data (parent : MomentData K ω ψ)
     (moving : OriginalMovingFactors A P R)
     (correction : HeckeCharacter K)
     (hcorr : correction = 1 ∨ correction ∈ parent.theta)
-    (sector : NonzeroIdeal K → SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-    (remaining : NonzeroIdeal K) (budget : ℝ)
+    (sector : HeckeGeneral.Analysis.NonzeroIdeal K → SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
+    (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (budget : ℝ)
     (inverse left right : IdealTest K) (geometry : SlotGeometry K)
     (index : Fin geometry.slotCount → Fin parent.geometry.slotCount) :
     MomentData K ω ψ where
@@ -86,8 +86,8 @@ def data (parent : MomentData K ω ψ)
 variable (parent : MomentData K ω ψ)
 variable (moving : OriginalMovingFactors A P R) (correction : HeckeCharacter K)
 variable (hcorr : correction = 1 ∨ correction ∈ parent.theta)
-variable (sector : NonzeroIdeal K → SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-variable (remaining : NonzeroIdeal K) (budget : ℝ)
+variable (sector : HeckeGeneral.Analysis.NonzeroIdeal K → SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
+variable (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (budget : ℝ)
 variable {X : Type*}
 variable (inverse left right : X → IdealTest K) (geometry : X → SlotGeometry K)
 variable (index : ∀ ξ, Fin (geometry ξ).slotCount → Fin parent.geometry.slotCount)
@@ -147,7 +147,7 @@ theorem source_allowed {Ih : A.Exterior} {h g : A.R} {factor : ℝ}
 
 /-- The complete source mask is visible at every individual ideal,
 including every ramification zero of the full residual row. -/
-theorem maskValue_eq (ξ : X) (u I : NonzeroIdeal K) :
+theorem maskValue_eq (ξ : X) (u I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     maskValue (data parent moving correction hcorr sector remaining budget
       (inverse ξ) (left ξ) (right ξ) (geometry ξ) (index ξ)) u I.val =
       (if completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I.val

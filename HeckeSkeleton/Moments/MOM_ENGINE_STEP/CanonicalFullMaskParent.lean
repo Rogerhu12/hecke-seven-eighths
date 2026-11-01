@@ -118,7 +118,7 @@ theorem fullMaskParameters_fullJointBudget (a : RealParameters) (Z : ℝ)
 /-- One actual allowed row proves that the fixed full support fits in
 the parent width. Empty parents require no such assertion. -/
 theorem fullMaskSupportLength_le_width_of_allowed
-    (ξ : X) (u : NonzeroIdeal K) (hu : (data ξ).allowedRow u)
+    (ξ : X) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : (data ξ).allowedRow u)
     (a : RealParameters) (Z : ℝ) (hZ : 1 < Z)
     (hfull : Q.FullJointBudget Z (a.m + a.q)) :
     Q.fullMaskSupportLength Z ≤ a.m + a.q := by
@@ -132,7 +132,7 @@ theorem fullMaskSupportLength_le_width_of_allowed
     _ ≤ _ := hfull ξ u hu
 
 theorem fullMaskParameters_nonneg_of_allowed
-    (ξ : X) (u : NonzeroIdeal K) (hu : (data ξ).allowedRow u)
+    (ξ : X) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : (data ξ).allowedRow u)
     (a : RealParameters) (Z : ℝ) (hZ : 1 < Z)
     (hfull : Q.FullJointBudget Z (a.m + a.q)) :
     0 ≤ (Q.fullMaskParameters a Z).m ∧ 0 ≤ (Q.fullMaskParameters a Z).q :=
@@ -140,7 +140,7 @@ theorem fullMaskParameters_nonneg_of_allowed
     Q.fullMaskSupportLength_nonneg Z hZ⟩
 
 theorem fullMaskParameters_bounds_of_pairedRow
-    (ξ : X) (u : NonzeroIdeal K) (a : RealParameters) (Z : ℝ)
+    (ξ : X) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (a : RealParameters) (Z : ℝ)
     (hu : u ∈ pairedRows (data ξ) a Z) (hZ : 1 < Z)
     (hfull : Q.FullJointBudget Z (a.m + a.q)) :
     0 ≤ (Q.fullMaskParameters a Z).m ∧
@@ -190,7 +190,7 @@ theorem fullMaskRadius_eq_inverse (a : RealParameters) (Z : ℝ) (hZ : 1 < Z) :
 /-- The full-mask budget proves the actual row-ball inequality. This
 is stronger than the bare row enumeration's norm window. -/
 theorem fullMaskRadius_row_norm
-    (ξ : X) (u : NonzeroIdeal K) (hu : (data ξ).allowedRow u)
+    (ξ : X) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : (data ξ).allowedRow u)
     (a : RealParameters) (Z : ℝ) (hZ : 0 < Z)
     (hfull : Q.FullJointBudget Z (a.m + a.q)) :
     (Q.fullMaskRadius a Z hZ).val * idealNorm K u ≤ 1 := by

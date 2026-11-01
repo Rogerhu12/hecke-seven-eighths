@@ -35,7 +35,7 @@ variable {ω ψ : HeckeCharacter K}
 The finite-ray factor is the original trivial character. -/
 def sourceCharacters (parent : MomentData K ω ψ)
     (oldMoving : OriginalMovingFactors A P R) (correction : HeckeCharacter K)
-    (remaining : NonzeroIdeal K) {k : ℕ}
+    (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) {k : ℕ}
     (index : Fin k → Fin parent.geometry.slotCount) : FixedChildCharacters K k where
   plain := parent.plainBackground * correction * oldMoving.character
   slot i := parent.slotCoefficient (index i) * correction * oldMoving.character
@@ -48,7 +48,7 @@ def sourceCharacters (parent : MomentData K ω ψ)
 
 @[simp] theorem sourceCharacters_restrictSlots
     (parent : MomentData K ω ψ) (oldMoving : OriginalMovingFactors A P R)
-    (correction : HeckeCharacter K) (remaining : NonzeroIdeal K) {k : ℕ}
+    (correction : HeckeCharacter K) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) {k : ℕ}
     (index : Fin k → Fin parent.geometry.slotCount) (keep : Finset (Fin k)) :
     (sourceCharacters P R parent oldMoving correction remaining index).restrictSlots keep =
       sourceCharacters P R parent oldMoving correction remaining
@@ -65,7 +65,7 @@ def childData (parent : MomentData K ω ψ)
     (C : A.GeneralArithmeticContext σ η hS) (primes : ι → ExteriorPrime A)
     (m n : ι → ℕ) (pattern : ι → Bool)
     (ν : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-    (remaining : NonzeroIdeal K) (budget : ℝ)
+    (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (budget : ℝ)
     (inverse left right : IdealTest K) (geometry : SlotGeometry K)
     (index : Fin geometry.slotCount → Fin parent.geometry.slotCount) : MomentData K ω ψ :=
   CanonicalOriginalChildData.data parent
@@ -79,7 +79,7 @@ variable (correction : HeckeCharacter K) (hcorr : correction ∈ parent.theta)
 variable (C : A.GeneralArithmeticContext σ η hS) (primes : ι → ExteriorPrime A)
 variable (m n : ι → ℕ) (pattern : ι → Bool)
 variable (ν : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-variable (remaining : NonzeroIdeal K) (budget : ℝ)
+variable (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (budget : ℝ)
 variable (inverse left right : IdealTest K) (geometry : SlotGeometry K)
 variable (index : Fin geometry.slotCount → Fin parent.geometry.slotCount)
 
@@ -89,7 +89,7 @@ private theorem common_mask_reorder (a b c d : Bool) :
 
 /-- The old support is collapsed only behind the same complete-row
 gate.  This is an identity of the actual child masks, including zeros. -/
-theorem childData_mask_eq (u J : NonzeroIdeal K) :
+theorem childData_mask_eq (u J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     maskValue (childData P R parent oldMoving correction hcorr C primes m n pattern ν
       remaining budget inverse left right geometry index) u J.val =
     maskValue (CanonicalOriginalPhaseCalibration.childData P R parent correction hcorr
@@ -116,7 +116,7 @@ theorem childData_mask_eq (u J : NonzeroIdeal K) :
 /-- The original moving character is multiplied into the unchanged
 source background; only the genuinely new active and row characters
 are separated by the original residue dictionary. -/
-theorem childData_rowCharacter (u : NonzeroIdeal K) (χ : HeckeCharacter K) :
+theorem childData_rowCharacter (u : HeckeGeneral.Analysis.NonzeroIdeal K) (χ : HeckeCharacter K) :
     χ * (childData P R parent oldMoving correction hcorr C primes m n pattern ν
       remaining budget inverse left right geometry index).rowCharacter u =
     (χ * oldMoving.character) *
@@ -139,7 +139,7 @@ theorem childData_row_coefficient
     (row : ActualChildRow Ih h g factor)
     (hfactor : g = secondSixthRootGenerator C primes m n ^ 6 *
       secondActiveFrequencyGenerator C primes m n pattern)
-    (hsector : row.sector P = ν) (χ : HeckeCharacter K) (J : NonzeroIdeal K) :
+    (hsector : row.sector P = ν) (χ : HeckeCharacter K) (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     heckeIdealCoefficient K
         (χ * (childData P R parent oldMoving correction hcorr C primes m n pattern ν
           remaining budget inverse left right geometry index).rowCharacter row.momentIdeal) J *

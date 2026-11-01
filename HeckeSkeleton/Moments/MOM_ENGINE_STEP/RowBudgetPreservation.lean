@@ -34,7 +34,7 @@ variable {ω ψ : HeckeCharacter K}
 assert a reflection estimate or any moment bound. -/
 def ActualRowMaskAdmissible (A : SArithmeticData K)
     (d : MomentData K ω ψ) (a : RealParameters) (Z : ℝ) : Prop :=
-  ∃ support : NonzeroIdeal K → A.Exterior,
+  ∃ support : HeckeGeneral.Analysis.NonzeroIdeal K → A.Exterior,
     (∀ u, Squarefree (support u).val) ∧
     (∀ u I, d.commonMask u I =
       (completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&
@@ -45,7 +45,7 @@ def ActualRowMaskAdmissible (A : SArithmeticData K)
 /-- The final analytic/arithmetic family is fixed before the Fourier
 parameter. The two constraints refer to the same actual child data. -/
 def EngineChildAdmissible (A : SArithmeticData K)
-    (rowDomain : Set (NonzeroIdeal K)) (window : Set ℝ)
+    (rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)) (window : Set ℝ)
     (seminorms : Finset (ℕ × ℕ)) (Z : ℝ)
     (d : MomentData K ω ψ) (a : RealParameters) : Prop :=
   InFixedProfileWindow rowDomain Set.univ window seminorms d ∧
@@ -105,7 +105,7 @@ theorem frozen (h : ActualRowMaskAdmissible A d a Z) (t : ℝ) :
 /-- Every enumerated row, at any enumeration radius, inherits the
 combined budget. No independent extra factor Z^q is introduced. -/
 theorem rows (h : ActualRowMaskAdmissible A d a Z) :
-    ∃ support : NonzeroIdeal K → A.Exterior,
+    ∃ support : HeckeGeneral.Analysis.NonzeroIdeal K → A.Exterior,
       (∀ u, Squarefree (support u).val) ∧
       (∀ u I, d.commonMask u I =
         (completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&

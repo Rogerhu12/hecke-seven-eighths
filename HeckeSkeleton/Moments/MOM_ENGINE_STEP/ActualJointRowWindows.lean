@@ -198,7 +198,7 @@ variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 variable {C : A.GeneralArithmeticContext σ η hS}
 variable {Ray : Type*} [CommGroup Ray] [Fintype Ray] {Z : ℝ}
 variable {leaf : ActualHybridLeaf K H U E}
-variable {rowDomain : Set (NonzeroIdeal K)}
+variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
 variable {heightDomain window : Set ℝ} {seminorms : Finset (ℕ × ℕ)}
 variable (N : leaf.NormalizationData (ι := ι) C Ray ω ψ Z
   rowDomain heightDomain window seminorms)

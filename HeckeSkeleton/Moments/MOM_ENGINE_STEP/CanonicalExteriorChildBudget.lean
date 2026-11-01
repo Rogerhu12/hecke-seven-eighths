@@ -36,7 +36,7 @@ variable {Rchar : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) 
 
 /-- For an actual exterior remaining ideal, no prime is removed by the
 normalization. Multiplicities need not be one. -/
-theorem remaining_primes (remaining : NonzeroIdeal K)
+theorem remaining_primes (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hcop : IsCoprime remaining.val A.cS) :
     primeSupport (remainingMaskIdeal A remaining).val = primeSupport remaining.val := by
   rw [remainingMaskIdeal_val, remainingMaskRadical_primes]
@@ -44,7 +44,7 @@ theorem remaining_primes (remaining : NonzeroIdeal K)
     (nonZeroDivisors.ne_zero remaining.property) A.cS_ne_zero).mpr hcop
   exact Finset.sdiff_eq_self_of_disjoint hd
 
-private theorem support_mul (I J : NonzeroIdeal K) :
+private theorem support_mul (I J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     primeSupport (I * J).val = primeSupport I.val ∪ primeSupport J.val := by
   change primeSupport (I.val * J.val) = _
   simp only [primeSupport, normalizedFactors_mul
@@ -54,7 +54,7 @@ private theorem support_mul (I J : NonzeroIdeal K) :
 /-- The complete radical support depends on the literal remaining
 prime support, without any assumption on cancellation of characters. -/
 theorem fullMaskSupport_congr (D : OriginalMovingFactors A P Rchar)
-    (I J : NonzeroIdeal K) (h : primeSupport I.val = primeSupport J.val) :
+    (I J : HeckeGeneral.Analysis.NonzeroIdeal K) (h : primeSupport I.val = primeSupport J.val) :
     D.fullMaskSupport I = D.fullMaskSupport J := by
   apply Subtype.ext
   rw [← squarefree_support_product_self (D.fullMaskSupport_squarefree I),
@@ -64,7 +64,7 @@ theorem fullMaskSupport_congr (D : OriginalMovingFactors A P Rchar)
 /-- The sixth-root or any other literal later deletion stays present on
 both sides. This is equality of full ideals and hence of their norms. -/
 theorem fullMaskSupport_normalized_mul (D : OriginalMovingFactors A P Rchar)
-    (remaining later : NonzeroIdeal K) (hcop : IsCoprime remaining.val A.cS) :
+    (remaining later : HeckeGeneral.Analysis.NonzeroIdeal K) (hcop : IsCoprime remaining.val A.cS) :
     D.fullMaskSupport (remainingMaskIdeal A remaining * later) =
       D.fullMaskSupport (remaining * later) := by
   apply fullMaskSupport_congr D
@@ -117,7 +117,7 @@ unreduced remaining ideal. The complete sixth-root support is charged. -/
 theorem actualRows_raw_remaining_joint_window
     (hclass : chart.NonunitLabelStable)
     (oldMoving : OriginalMovingFactors A P Rchar)
-    (remaining : NonzeroIdeal K) (hremaining : IsCoprime remaining.val A.cS)
+    (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (hremaining : IsCoprime remaining.val A.cS)
     (X : ℝ) (hX : 1 ≤ X) (label : Fin (chart.rowLabelCount + 1))
     (retainedScale Z g a₀ q wo cutoffExponent : ℝ)
     (hscale : 0 < retainedScale) (hZ : 1 < Z)

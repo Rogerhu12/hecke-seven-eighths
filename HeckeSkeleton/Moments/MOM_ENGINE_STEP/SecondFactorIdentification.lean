@@ -86,6 +86,7 @@ theorem coefficient_eq (i : AllocationColumn F k)
   simp only [childCartesianColumns, Finset.product_eq_sprod, Finset.mem_product,
     Fintype.mem_piFinset] at hm
   unfold normalizedCoefficient SecondColumnFactors.coefficient childCartesianCoefficient
+  dsimp only
   rw [h.left_atom _ hm.1.1, h.right_atom _ hm.1.2]
   congr 1
   apply Finset.prod_congr rfl

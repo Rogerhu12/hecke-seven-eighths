@@ -34,14 +34,14 @@ variable {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
 
 /-- The literal arithmetic deletion in every original column. The
 norm budget still uses the radical of this full product. -/
-def movingMask (D : OriginalMovingFactors A P R) (remaining : NonzeroIdeal K) :
-    NonzeroIdeal K :=
+def movingMask (D : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) :
+    HeckeGeneral.Analysis.NonzeroIdeal K :=
   ⟨D.support.val * remaining.val,
     mem_nonZeroDivisors_of_ne_zero
       (mul_ne_zero D.support.property.1 (nonZeroDivisors.coe_ne_zero remaining))⟩
 
 theorem movingMask_append_coprime
-    (D E : OriginalMovingFactors A P R) (remaining : NonzeroIdeal K)
+    (D E : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
     (I : Ideal (𝓞 K)) :
     IsCoprime I (movingMask (D.append E) remaining).val ↔
       IsCoprime I (movingMask D remaining).val ∧ IsCoprime I E.support.val := by
@@ -53,7 +53,7 @@ variable {ω ψ : HeckeCharacter K} {k : ℕ}
 /-- All characters are computed from the same original lists. There is
 no extra Hecke-character choice or enlarged theta family here. -/
 def movingSourceCharacters (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
-    (D : OriginalMovingFactors A P R) (remaining : NonzeroIdeal K)
+    (D : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
     (index : Fin k → Fin parent.geometry.slotCount) : FixedChildCharacters K k :=
   CanonicalOriginalPhaseCalibration.sourceCharacters parent
     (correction * D.character) (movingMask D remaining) index
@@ -70,8 +70,8 @@ is split from the fixed background coefficient. -/
 theorem moving_coefficient_append
     (D E : OriginalMovingFactors A P R)
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
-    (background correction : HeckeCharacter K) (remaining : NonzeroIdeal K)
-    (I : NonzeroIdeal K)
+    (background correction : HeckeCharacter K) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hI : HeckeGeneral.Analysis.SquarefreeAmplification.sexticIdealOutsideS K
       (A.Sf : Set (HeightOneSpectrum (𝓞 K))) I)
     (hphase : E.residueValue (σ := σ) I.val *
@@ -94,10 +94,10 @@ theorem moving_coefficient_append
 
 theorem moving_plain_append
     (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
-    (D E : OriginalMovingFactors A P R) (remaining : NonzeroIdeal K)
+    (D E : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
     (index : Fin k → Fin parent.geometry.slotCount)
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
-    (I : NonzeroIdeal K)
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hI : HeckeGeneral.Analysis.SquarefreeAmplification.sexticIdealOutsideS K
       (A.Sf : Set (HeightOneSpectrum (𝓞 K))) I)
     (hphase : E.residueValue (σ := σ) I.val *
@@ -121,7 +121,7 @@ theorem moving_plain_append
 
 theorem moving_prime_append
     (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
-    (D E : OriginalMovingFactors A P R) (remaining : NonzeroIdeal K)
+    (D E : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
     (index : Fin k → Fin parent.geometry.slotCount)
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
     (i : Fin k) (p : HeightOneSpectrum (𝓞 K))
@@ -312,7 +312,7 @@ end Occurrences
 /-- The total monoid weight is evaluated at the actual nonzero plain
 ideals, with every prime occurrence still present. -/
 theorem nonzero_rectangle_weight
-    (left right : NonzeroIdeal K → ℂ)
+    (left right : HeckeGeneral.Analysis.NonzeroIdeal K → ℂ)
     (slot : Fin k → HeightOneSpectrum (𝓞 K) → ℂ)
     (M : Ideal (𝓞 K) →* ℂ) (i : AllocationColumn K k)
     (hleft : i.1.1 ≠ 0) (hright : i.1.2 ≠ 0) :
@@ -331,18 +331,18 @@ theorem nonzero_rectangle_weight
 section Tables
 
 variable (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
-variable (D E : OriginalMovingFactors A P R) (remaining : NonzeroIdeal K)
+variable (D E : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
 variable (index : Fin k → Fin parent.geometry.slotCount)
 variable (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
 variable (side : SecondColumnSide) (χ : (PUnit × PUnit) →* Circle)
 variable (S₁ S₂ : Finset (Ideal (𝓞 K)))
 variable (S : Fin k → Finset (HeightOneSpectrum (𝓞 K)))
 variable (N₁ N₂ Z : ℝ) (length : Fin k → ℝ)
-variable (w₁ w₂ : NonzeroIdeal K → ℂ)
+variable (w₁ w₂ : HeckeGeneral.Analysis.NonzeroIdeal K → ℂ)
 variable (w : Fin k → HeightOneSpectrum (𝓞 K) → ℂ)
 variable (M : Ideal (𝓞 K) →* ℂ)
 
-private def oldPlain (N : ℝ) (weight : NonzeroIdeal K → ℂ) (I : NonzeroIdeal K) : ℂ :=
+private def oldPlain (N : ℝ) (weight : HeckeGeneral.Analysis.NonzeroIdeal K → ℂ) (I : HeckeGeneral.Analysis.NonzeroIdeal K) : ℂ :=
   (Real.sqrt N : ℂ)⁻¹ *
     (sourcePlainCoefficient
       (movingSourceCharacters parent correction D remaining index).plain
@@ -420,14 +420,14 @@ section FirstTable
 
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 variable (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
-variable (D : OriginalMovingFactors A P R) (remaining : NonzeroIdeal K)
+variable (D : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
 variable (index : Fin k → Fin parent.geometry.slotCount)
 variable (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
 variable (side : SecondColumnSide) (χ : (PUnit × PUnit) →* Circle)
 variable (S₁ S₂ : Finset (Ideal (𝓞 K)))
 variable (S : Fin k → Finset (HeightOneSpectrum (𝓞 K)))
 variable (N₁ N₂ Z : ℝ) (length : Fin k → ℝ)
-variable (w₁ w₂ : NonzeroIdeal K → ℂ)
+variable (w₁ w₂ : HeckeGeneral.Analysis.NonzeroIdeal K → ℂ)
 variable (w : Fin k → HeightOneSpectrum (𝓞 K) → ℂ)
 variable (M : Ideal (𝓞 K) →* ℂ)
 variable (C : A.GeneralArithmeticContext σ η hS)
@@ -468,7 +468,7 @@ def firstWeightedDictionary
     have he := (CanonicalOriginalPhaseCalibration.outside_iff_coprime
       (CanonicalOriginalPhaseCalibration.primeIdeal p)).mpr (hc.2.2 j p hp).1
     exact (he p (dvd_refl p.asIdeal)).1
-  have hmask (I : NonzeroIdeal K)
+  have hmask (I : HeckeGeneral.Analysis.NonzeroIdeal K)
       (hcop : IsCoprime I.val (firstActiveIdeal primes m n).val) :
       E.residueValue (σ := σ) I.val *
         (if IsCoprime I.val E.support.val then (1 : ℂ) else 0) =
@@ -528,14 +528,14 @@ section SecondUnitTable
 
 variable [IsPrincipalIdealRing A.R]
 variable (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
-variable (D : OriginalMovingFactors A P R) (remaining : NonzeroIdeal K)
+variable (D : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
 variable (index : Fin k → Fin parent.geometry.slotCount)
 variable (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
 variable (side : SecondColumnSide) (χ : (PUnit × PUnit) →* Circle)
 variable (S₁ S₂ : Finset (Ideal (𝓞 K)))
 variable (S : Fin k → Finset (HeightOneSpectrum (𝓞 K)))
 variable (N₁ N₂ Z : ℝ) (length : Fin k → ℝ)
-variable (w₁ w₂ : NonzeroIdeal K → ℂ)
+variable (w₁ w₂ : HeckeGeneral.Analysis.NonzeroIdeal K → ℂ)
 variable (w : Fin k → HeightOneSpectrum (𝓞 K) → ℂ)
 variable (M : Ideal (𝓞 K) →* ℂ)
 
