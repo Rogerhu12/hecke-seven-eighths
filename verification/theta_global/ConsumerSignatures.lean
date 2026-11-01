@@ -36,9 +36,10 @@ variable (K : Type) [Field K] [NumberField K] (c : TargetContext K)
 example
     (hreflection : MarkedCoefficientReflectionInput K (places K c)
       (probeData K c).arithmetic (HeckeSkeleton.finiteMellinData K c)
-      (thetaPeriod K (places K c) (probeData K c) (targetCharacter K c))) :
+      (thetaPeriod K (places K c) (probeData K c) (targetCharacter K c)))
+    (hquadratic : QuadraticSieveBound K c) (hcubic : CubicSieveBound K c) :
     CompletedMarkedEnergy K c :=
-  HeckeSkeleton.completedMarkedEnergy K c hreflection
+  HeckeSkeleton.completedMarkedEnergy K c hreflection hquadratic hcubic
 
 example :
     (probeMeasures K c).principalInput (probeData K c) (targetCharacter K c)
