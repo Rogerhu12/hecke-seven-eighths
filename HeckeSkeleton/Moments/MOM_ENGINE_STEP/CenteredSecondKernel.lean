@@ -20,7 +20,7 @@ open MeasureTheory
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
-open HeckePort.Moments HeckePort.Moments.MobiusRegroup
+open HeckePort.Moments HeckePort.Moments.MobiusRegroup UniqueFactorizationMonoid
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -143,6 +143,21 @@ theorem actual_measured_centered_kernel_bound
       (fun j h => σ (A.sexticResidue (IB j) (-R.frequency h))) h j)) x y
 
 
+private theorem jointColumnEnergy_congr_coefficients {J : Type*}
+    (rows : Finset H) (columns : Finset J) (q : H → ℂ)
+    (a b : H → J → ℂ) (location : H → J → W) (ξ : W)
+    (hab : ∀ h ∈ rows, ∀ i ∈ columns, a h i = b h i) :
+    jointColumnEnergy rows columns q a location ξ =
+      jointColumnEnergy rows columns q b location ξ := by
+  unfold jointColumnEnergy
+  apply Finset.sum_congr rfl
+  intro h hh
+  have hp : jointFourierColumn columns (a h) (location h) ξ =
+      jointFourierColumn columns (b h) (location h) ξ := by
+    unfold jointFourierColumn
+    exact Finset.sum_congr rfl fun i hi => by rw [hab h hh i hi]
+  rw [hp]
+
 theorem actual_measured_kernel_congr_coefficients
     (R : ActualSecondCorrelationRows A σ H ι)
     (μ : Measure (U × V)) (left : Finset α) (right : Finset β)
@@ -153,19 +168,6 @@ theorem actual_measured_kernel_congr_coefficients
     (hc : ∀ i ∈ left, c i = c' i) (hf : ∀ j ∈ right, f j = f' j) :
     actualMeasuredSecondKernelCost Ray R μ left right IA IB rayLeft rayRight phaseTable c f x y =
       actualMeasuredSecondKernelCost Ray R μ left right IA IB rayLeft rayRight phaseTable c' f' x y := by
-  have he {J : Type*} (columns : Finset J) (a b : H → J → ℂ)
-      (location : H → J → W) (ξ : W)
-      (hab : ∀ h ∈ R.rows, ∀ i ∈ columns, a h i = b h i) :
-      jointColumnEnergy R.rows columns (fun h => R.weight h * R.correlation h) a location ξ =
-        jointColumnEnergy R.rows columns (fun h => R.weight h * R.correlation h) b location ξ := by
-    unfold jointColumnEnergy
-    apply Finset.sum_congr rfl
-    intro h hh
-    have hp : jointFourierColumn columns (a h) (location h) ξ =
-        jointFourierColumn columns (b h) (location h) ξ := by
-      unfold jointFourierColumn
-      exact Finset.sum_congr rfl fun i hi => by rw [hab h hh i hi]
-    rw [hp]
   unfold actualMeasuredSecondKernelCost
   apply Finset.sum_congr rfl
   intro L _
@@ -176,10 +178,10 @@ theorem actual_measured_kernel_congr_coefficients
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun z => by
     apply congrArg₂ (fun a b : ℝ => Real.sqrt a * Real.sqrt b)
-    · apply he
+    · apply jointColumnEnergy_congr_coefficients
       intro h _ i hi
       simp only [kernelDivisorCoefficient, hc i hi]
-    · apply he
+    · apply jointColumnEnergy_congr_coefficients
       intro h _ j hj
       simp only [kernelDivisorCoefficient, hf j hj]
 

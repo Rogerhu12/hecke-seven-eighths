@@ -170,7 +170,9 @@ def empty : OriginalMovingFactors A P R where
     (empty (A := A) (P := P) (R := R)).fullIdeal.val
     (empty (A := A) (P := P) (R := R)).fullIdeal.val = (⊤ : Ideal (𝓞 K))
   rw [hfull, ← Ideal.one_eq_top]
-  simp [CommonSupportMass.commonRadical, HeckePort.IdealMobiusDivisorSum.primeSupport]
+  simp only [CommonSupportMass.commonRadical, HeckePort.IdealMobiusDivisorSum.primeSupport,
+    UniqueFactorizationMonoid.normalizedFactors_one, Multiset.toFinset_zero,
+    Finset.inter_self, Finset.prod_empty]
 
 end OriginalMovingFactors
 

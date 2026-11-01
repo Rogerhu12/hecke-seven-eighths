@@ -72,6 +72,7 @@ theorem first_gauss_direct_integral_bound {H ι κ : Type*}
       (Real.sqrt (jointColumnMass rows left.columns q cL) *
         Real.sqrt (jointColumnMass rows right.columns q cR))
     exact Filter.Eventually.of_forall fun ξ => by
+      simp only [Pi.mul_apply, Function.comp_apply]
       rw [Real.norm_eq_abs,
         abs_of_nonneg (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))]
       exact mul_le_mul
@@ -98,7 +99,7 @@ theorem first_gauss_direct_integral_bound {H ι κ : Type*}
         (fun h => wholePolynomial right.columns
           (fun j => d j * jointPhase ξ (-y j)) (right.gaussColumn hDiff) (frequencyRight h))))
       (actualFourierMeasure F) := by
-    simpa only [wholePolynomial] using hold
+    simpa only [weightedEnergy, wholePolynomial] using hold
   calc
     _ = ∫ ξ, Real.sqrt (weightedEnergy rows (fun h => ‖q h‖)
         (fun h => wholePolynomial left.columns

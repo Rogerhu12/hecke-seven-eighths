@@ -16,6 +16,7 @@ open scoped Classical BigOperators NumberField
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
+open DedekindZetaZeroFree.LargeSieve
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckePort.Moments HeckePort.Moments.Support HeckePort.IdealMobiusDivisorSum
 
@@ -51,13 +52,13 @@ private theorem reindex_plain_nonzero {n : ℕ}
       Finset.mem_product.mpr ⟨Finset.mem_product.mpr ⟨hI, hplain.2⟩, hp.2⟩
     apply (ideal (R.index ((I, x.1.2), x.2))).property.1
     rw [R.ideal_product _ hy]
-    simp only [allocationColumnIdeal, hzero, zero_mul]
+    simp only [allocationColumnIdeal, hzero, zero_mul, Ideal.zero_eq_bot]
   · intro J hJ hzero
     have hy : ((x.1.1, J), x.2) ∈ R.cartesian :=
       Finset.mem_product.mpr ⟨Finset.mem_product.mpr ⟨hplain.1, hJ⟩, hp.2⟩
     apply (ideal (R.index ((x.1.1, J), x.2))).property.1
     rw [R.ideal_product _ hy]
-    simp only [allocationColumnIdeal, hzero, mul_zero, zero_mul]
+    simp only [allocationColumnIdeal, hzero, mul_zero, zero_mul, Ideal.zero_eq_bot]
 
 /-- An already constructed true residual Cartesian branch supplies its
 atlas without any new nonzero-support or source-identity assumption. -/
@@ -86,9 +87,11 @@ def branch (P : Finset (Ideal (𝓞 K))) (D : Ideal (𝓞 K))
     (d : T.labels P D) :
     SupportCartesianBranch T.reindex.plain₁ T.reindex.plain₂ T.reindex.slots P :=
   SupportCartesianBranch.ofKey T.plain₁_nonzero T.plain₂_nonzero d.val (by
-    rw [← T.reindex.supportExtractionLabel_image P]
-    obtain ⟨i, hi, hid⟩ := Finset.mem_image.mp d.property
-    exact Finset.mem_image.mpr ⟨i, (Finset.mem_filter.mp hi).1, hid⟩)
+    change d.val ∈ T.reindex.cartesian.image (SupportCartesian.extractionKey P)
+    have hd : d.val ∈ columns.image (T.reindex.supportExtractionLabel P) := by
+      obtain ⟨i, hi, hid⟩ := Finset.mem_image.mp d.property
+      exact Finset.mem_image.mpr ⟨i, (Finset.mem_filter.mp hi).1, hid⟩
+    exact (T.reindex.supportExtractionLabel_image P) ▸ hd)
 
 theorem branch_key (P : Finset (Ideal (𝓞 K))) (D : Ideal (𝓞 K))
     (d : T.labels P D) : (T.branch P D d).key = d.val := by

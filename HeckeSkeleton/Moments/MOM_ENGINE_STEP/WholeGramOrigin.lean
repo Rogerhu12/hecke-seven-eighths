@@ -58,7 +58,12 @@ theorem OrbitalGaussColumn.pair_residue_zero
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ) :
     (c.pair hDiff d φ).residue 0 = c.residue hDiff 0 * star (d.residue hDiff 0) := by
-  simp only [OrbitalGaussColumn.pair, map_zero]
+  simp only [OrbitalGaussColumn.pair]
+  exact congrArg₂ (fun x y => c.residue hDiff x * star (d.residue hDiff y))
+    (map_zero (completeFrequencyReduction c.modulus (c.modulus * d.modulus)
+      (dvd_mul_right _ _)))
+    (map_zero (completeFrequencyReduction d.modulus (c.modulus * d.modulus)
+      (dvd_mul_left _ _)))
 
 theorem OrbitalGaussColumn.pair_originZero_empty
     (c d : OrbitalGaussColumn K S Γ)
@@ -88,8 +93,9 @@ theorem gauss_originZero_sum_eq_square
         sIntegerTensorTerm K S (traceSchwartzToMixed K φ) h 0 *
           ((‖∑ i ∈ columns, coefficient i * (col i).residue hDiff 0‖ ^ 2 : ℝ) : ℂ) := by
   rw [Complex.ofReal_pow, ← Complex.mul_conj', ← Complex.star_def]
-  simp only [OrbitalGaussColumn.pair_originZero_empty, star_sum,
-    Finset.sum_mul_sum, Finset.mul_sum]
+  simp only [OrbitalGaussColumn.pair_originZero_empty, star_sum]
+  rw [Finset.sum_mul_sum]
+  simp only [Finset.mul_sum]
 
 theorem gauss_originZero_sum_nonneg
     {ι : Type*} (columns : Finset ι) (coefficient : ι → ℂ)

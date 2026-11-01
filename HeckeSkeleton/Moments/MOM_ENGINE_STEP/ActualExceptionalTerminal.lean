@@ -183,7 +183,6 @@ private theorem exceptionalTerminal_selected_contribution :
     Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v vStar
     r₁ r₂ divisorLower slotError sectors Cnormal height stepσ δ
     hZ hv hr₁ hdivisor hsectors hCnormal hheight
-  dsimp only
   intro hclass hfactor hwindow hcutoff hfiber hF₁ hF₂ hvsum kleft kright
     left right hmask0 hmasknorm htime hminimum hnormal
   let a₀ := Aexp - c - w
@@ -375,9 +374,8 @@ theorem exceptional_magnitude_terminal_from_atoms
       _ = _ := by rw [hexponent]
   have hb := exceptionalTerminal_selected_contribution (A := A) (V := V) (σ := σ)
     (η := η) (hS := hS)
-    HL HR ε maskExponent hε hmask
-  have hp := hb (ι := ι) (HRows := R.exceptionalRows Q)
-    C R.primes R.primes_injective R.leftMultiplicity R.rightMultiplicity
+    HL HR ε maskExponent hε hmask (ι := ι) (HRows := R.exceptionalRows Q)
+  have hp := hb C R.primes R.primes_injective R.leftMultiplicity R.rightMultiplicity
     (Finset.univ : Finset (R.exceptionalRows Q))
     (fun h => R.originalIdeal h.val.val) (fun h => R.frequency h.val.val)
     (fun h => R.exceptionalRow C h.val) base
