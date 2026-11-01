@@ -49,6 +49,29 @@ private theorem scalar_weighted_terminal_sum
   simp only [hscaled, Finset.mul_sum, mul_add, mul_assoc]
   ring
 
+private theorem scalar_integral_const_add_sum
+    {X J : Type*} [MeasurableSpace X] [Fintype J]
+    (μ : Measure X) [IsFiniteMeasure μ]
+    (c : ℝ) (f : X → ℝ) (leaves : J → X → ℝ) (costs : J → ℝ)
+    (hpoint : ∀ ξ, f ξ = c + ∑ b : J, leaves b ξ)
+    (hterms : ∀ b : J, Integrable (leaves b) μ)
+    (hcosts : ∀ b : J, (∫ ξ, leaves b ξ ∂μ) = costs b) :
+    (∫ ξ, f ξ ∂μ) = μ.real Set.univ * c + ∑ b : J, costs b := by
+  calc
+    (∫ ξ, f ξ ∂μ) = ∫ ξ, c + ∑ b : J, leaves b ξ ∂μ :=
+      integral_congr_ae (Filter.Eventually.of_forall hpoint)
+    _ = (∫ _ : X, c ∂μ) + ∫ ξ, ∑ b : J, leaves b ξ ∂μ :=
+      integral_add (integrable_const c)
+        (integrable_finsetSum Finset.univ (fun b _ => hterms b))
+    _ = μ.real Set.univ * c + ∑ b : J, ∫ ξ, leaves b ξ ∂μ := by
+      simpa only [integral_const, smul_eq_mul] using
+        congrArg (fun z : ℝ => (∫ _ : X, c ∂μ) + z)
+          (integral_finsetSum (μ := μ) (f := leaves) Finset.univ
+            (fun b _ => hterms b))
+    _ = μ.real Set.univ * c + ∑ b : J, costs b :=
+      congrArg (fun z : ℝ => μ.real Set.univ * c + z)
+        (Finset.sum_congr rfl (fun b _ => hcosts b))
+
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -747,6 +770,7 @@ def tailBudget (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (Cerror : ℝ) : ℝ :=
   (s.fiber : ℝ) * Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave)
 
+set_option linter.unusedSectionVars false in
 /-- Exact terminal and nonzero separation on the original second
 source.  Neither terminal budget is a new assumed aggregate estimate. -/
 theorem phase_cost_eq_budgets_leaves
@@ -784,17 +808,20 @@ theorem integral_phase_cost_eq_budgets_leaves
       (actualFourierMeasure F).real Set.univ * (T.zeroBudget ε Czero + T.tailBudget Cerror) +
         ∑ b : s.CoveredLeafKey LC RC, (s.fiberCoveredLeaf LC RC exceptional F x b).cost := by
   letI := actualFourierMeasure_finite F
-  simp_rw [T.phase_cost_eq_budgets_leaves LC RC exceptional F x]
-  rw [integral_add (integrable_const _) (integrable_finsetSum _ (fun b _ =>
-    (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost_integrable))]
-  rw [integral_const, integral_finsetSum]
-  · simp only [smul_eq_mul]
-    congr 1
-    apply Finset.sum_congr rfl
-    intro b _
-    exact (s.fiberCoveredLeaf LC RC exceptional F x b).integral_firstPhaseCost
-  · intro b _
-    exact (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost_integrable
+  exact scalar_integral_const_add_sum
+    (X := W) (J := s.CoveredLeafKey LC RC)
+    (actualFourierMeasure F)
+    (T.zeroBudget ε Czero + T.tailBudget Cerror)
+    (fun ξ => (T.fourierPhase x ξ).coverHybridCost LC RC exceptional ε Cerror Czero)
+    (fun b => (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost)
+    (fun b => (s.fiberCoveredLeaf LC RC exceptional F x b).cost)
+    (fun ξ => T.phase_cost_eq_budgets_leaves LC RC exceptional F x ξ ε Cerror Czero)
+    (fun b => leaf_firstPhaseCost_integrable_of_firstKernel
+      (s.fiberCoveredLeaf LC RC exceptional F x b) F
+      (s.fiberCoveredLeaf_firstKernel LC RC exceptional F x b))
+    (fun b => leaf_integral_firstPhaseCost_of_firstKernel
+      (s.fiberCoveredLeaf LC RC exceptional F x b) F
+      (s.fiberCoveredLeaf_firstKernel LC RC exceptional F x b))
 
 end TerminalCalibration
 
