@@ -458,7 +458,11 @@ theorem literalPrimitiveDirect_rawWidth_le
   all_goals
     have hg := (geometryAt ⟨⟨DE, D, S, χ, _⟩, hj⟩).literalRawWidth_le_second_box
       hZ hstep.le (2 * loss + cutoffExponent) columnBound leaf.1.block.primes
-      leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl hn.1
+      leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl (by
+        change (Ideal.absNorm (primePowerProduct leaf.1.block.primes
+          leaf.1.block.leftMultiplicity).val : ℝ) ≤ Z ^ columnBound
+        rw [leaf.1.block.common_left]
+        exact hn.1)
     exact hg.trans_eq (by rw [hwidth])
 
 
