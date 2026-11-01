@@ -166,7 +166,8 @@ theorem extended_original_eq_atom (d : MarkedDatum K S) (A : MarkChoice K S d)
     rw [extendMarkedColumn, dif_pos hPb]
     exact hterm.symm.trans hatom.symm
   · simp only [extendMarkedColumn, dif_neg hPb, GeneralReflectedEnergy.atom,
-      dif_pos hk, dif_pos hP, dif_pos hkm, dif_pos cb.property, dif_neg hPb]
+      dif_pos hk, dif_pos hP, dif_pos hkm, dif_pos cb.property, dif_neg hPb,
+      dite_eq_ite, ite_self]
 
 theorem atom_tsum_over_complete_columns (f : FixedData K S)
     (s : FrozenState K S f.frozen f.puncture)

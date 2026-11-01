@@ -292,8 +292,8 @@ theorem argument_tail_lower {Z Nstar H za tau : ℝ} (hZ : 1 < Z) (k P c b : Ext
       ring
     _ ≤ Z ^ (-GeneralReflectedEnergy.threshold K S f s Z Nstar H za) *
         (exteriorNorm K S c * exteriorNorm K S b ^ 3) / 16 := by
-      gcongr
-      exact htail.le
+      exact div_le_div_of_nonneg_right
+        (mul_le_mul_of_nonneg_left htail.le (Real.rpow_nonneg hz.le _)) (by norm_num)
     _ ≤ _ := by
       simpa only [mul_assoc] using argument_lower K S f s hZ k P c b hk hP
 

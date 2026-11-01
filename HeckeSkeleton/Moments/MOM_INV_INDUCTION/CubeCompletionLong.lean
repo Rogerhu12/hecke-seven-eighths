@@ -24,6 +24,7 @@ open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Characters
   HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.MOMInvStep HeckeSkeleton.Moments.MOM_INV_STEP
+open HeckeSkeleton.Moments.MOM_BASE (cubeIdealNorm)
 open CanonicalNormPools FixedTripleEnergy
 open ProviderNodes CubeCompletionGeometry CubeCompletionMellin CubeCompletionFinite
 open CubeCompletionBlocks CubeCompletionEnvelope

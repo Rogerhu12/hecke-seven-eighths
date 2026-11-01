@@ -14,6 +14,7 @@ open NumberField IsDedekindDomain UniqueFactorizationMonoid MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.Analysis.SquarefreeAmplification
 open HeckeSkeleton.Moments.MOMInvStep HeckeSkeleton.Moments.MOM_INV_STEP
+open HeckeSkeleton.Moments.UniformAmplify (inverseRowCoefficient)
 open ProviderMarkedMellin ProviderMarkedMaskedMellin ProviderMarkedReindex CommonKernel
 open scoped Classical BigOperators ComplexConjugate nonZeroDivisors
 

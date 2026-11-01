@@ -100,7 +100,7 @@ theorem column_as_actual_child (J : Finset σ) (b : Bin) (i : Idx) (t : ℝ) :
     change (1 : Ideal (𝓞 K)) *
       (ProviderInitialSource.divisor K S D Γ X H i).val.val *
       (ProviderInitialSource.overlap K S D Γ X H i).val.val = _
-    simp only [one_mul]
+    simp only [one_mul, ProviderInitialSource.newLabel]
   rw [hgamma, hlabel]
   unfold actualColumn childValue ProviderInitialSource.child
   rw [ProviderInitialSource.newRow_actual]
@@ -173,7 +173,9 @@ theorem branchAt_eq (b : Bin) (i : Idx) (tau : ℝ) :
       (overlapZeroNorm K S D Γ C H i * cauchyMass K S C W hW) *
         ∑ J ∈ C.slots.powerset, ‖assignedMark K S D Γ C H J i‖ ^ 2 *
           columnEnergyAt K S D Γ C Θ ψ hν W G hG hW H J b i tau := by
-  unfold branchAt SecondPositiveChildren.branchEnergy
+  unfold branchAt
+  dsimp only [ProviderInitialSource.common]
+  unfold SecondPositiveChildren.branchEnergy
   simp only [ProviderInitialInverse.family]
   unfold columnEnergyAt SecondMellinEnergy.columnEnergy
   simp_rw [column_as_actual_child]
@@ -276,7 +278,9 @@ theorem actualTotal_eq_selected (e : ℝ) (k : ℕ) (side : Bool) :
     ProviderInitialSource.frequency, ProviderInitialSource.overlap,
     SecondAdaptiveRetained.dataAt, SecondAdaptiveRetained.oldIndexAt,
     ProviderInitialProduction.parent, ProviderInitialInverse.parentData,
-    ProviderInitialInverse.family, SecondParentProduction.test, SecondParentProduction.scale, mellinTest]
+    ProviderInitialInverse.family, SecondParentProduction.test, SecondParentProduction.scale,
+    SecondParentProduction.selectedDivisor, SecondParentProduction.selectedRow,
+    SecondParentProduction.selectedSector, ProviderInitialSource.unitDivisor, mellinTest]
   ring
 
 /-- The exact normalized initial total is expressed using one joint

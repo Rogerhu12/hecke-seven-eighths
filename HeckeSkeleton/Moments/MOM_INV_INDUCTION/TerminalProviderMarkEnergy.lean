@@ -34,6 +34,7 @@ variable (hprime : ∀ i ∈ I, ∀ p ∈ L i, Prime p)
 variable (hexterior : ∀ i ∈ I, ∀ p ∈ L i, MOM_INV_STEP.CanonicalChildren.IsExterior K S p)
 variable (hdisjoint : ∀ i ∈ I, ∀ j ∈ I, i ≠ j → Disjoint (L i) (L j))
 
+include hdisjoint in
 theorem tupleIdeal_norm (q : tuplePool K I L) :
     exteriorNorm K S (tupleIdeal K S I L hprime hexterior q) =
       ∏ i : I, ((q.val i).absNorm : ℝ) := by
@@ -44,6 +45,7 @@ theorem tupleIdeal_norm (q : tuplePool K I L) :
   · intro i hi j hj hij
     exact tuplePrime_injective K S I L hprime hexterior hdisjoint q hij
 
+include hdisjoint in
 theorem tupleIdeal_norm_le (slotCap : ℕ) (Z z hi : ℝ) (hZ : 1 ≤ Z)
     (lengths : σ → ℝ) (hI : I.card ≤ slotCap)
     (hlength : (∑ i ∈ I, lengths i) ≤ z)
@@ -70,6 +72,7 @@ theorem tupleIdeal_norm_le (slotCap : ℕ) (Z z hi : ℝ) (hZ : 1 ≤ Z)
       (Real.rpow_le_rpow_of_exponent_le hZ hlength)
       (Real.rpow_nonneg hz.le _) (pow_nonneg (by positivity) _)
 
+include hdisjoint in
 theorem idealPool_norm_le (slotCap : ℕ) (Z z hi : ℝ) (hZ : 1 ≤ Z)
     (lengths : σ → ℝ) (hI : I.card ≤ slotCap)
     (hlength : (∑ i ∈ I, lengths i) ≤ z)
@@ -99,6 +102,7 @@ theorem subsets_card : Fintype.card {J : Finset σ // J ⊆ I} = 2 ^ I.card := b
 variable (D : ThetaArithmeticData K S)
 local notation "Ext" => ExteriorIdeal K S
 
+include hdisjoint in
 /-- Minkowski is applied to the complete inactive row vectors, with
 their actual reciprocal weights. The source equality is already proved. -/
 theorem marked_source_energy

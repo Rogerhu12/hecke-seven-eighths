@@ -63,27 +63,29 @@ theorem choiceValue_eq_zero_of_collision
     choiceValue K S D F θ g r hr u s (Q \ A) (primeSetIdeal K S A) V X k = 0 := by
   unfold choiceValue
   split_ifs with hB
-  · apply tsum_eq_zero
-    intro cb
-    unfold GeneralReflectedEnergy.atom
-    split_ifs with hk hA hkA hcol hAb
-    · exfalso
-      by_cases hpA : p ∈ A
-      · have hd : p.val.asIdeal ∣ (primeSetIdeal K S A).val.val :=
-          (prime_dvd_primeSetIdeal_iff K S A p).mpr hpA
-        have hpS : p ∈ exteriorSupport K S (primeSetIdeal K S A) := by
-          rw [TerminalAtoms.exteriorSupport_primeSetIdeal]
-          exact hpA
-        rcases hbad with hpk | hpg | hpr
-        · exact p.val.prime.not_unit (hkA.isUnit_of_dvd' hpk hd)
-        · exact (hA.prime_away p hpS).1 hpg
-        · exact (hA.prime_away p hpS).2 hpr
-      · have hpB : p ∈ Q \ A := Finset.mem_sdiff.mpr ⟨hp, hpA⟩
-        rcases hbad with hpk | hpg | hpr
-        · exact hk.inactive_away p hpB hpk
-        · exact (hB p hpB).1 hpg
-        · exact (hB p hpB).2 hpr
-    all_goals rfl
+  · have hzero (cb : Ext × Ext) :
+        GeneralReflectedEnergy.atom K S D (fixedMarkData K S g r hr u (Q \ A) hB)
+          s F θ V X k (primeSetIdeal K S A) cb.1 cb.2 = 0 := by
+      dsimp only [GeneralReflectedEnergy.atom]
+      split_ifs with hk hA hkA hcol hAb
+      · exfalso
+        by_cases hpA : p ∈ A
+        · have hd : p.val.asIdeal ∣ (primeSetIdeal K S A).val.val :=
+            (prime_dvd_primeSetIdeal_iff K S A p).mpr hpA
+          have hpS : p ∈ exteriorSupport K S (primeSetIdeal K S A) := by
+            rw [TerminalAtoms.exteriorSupport_primeSetIdeal]
+            exact hpA
+          rcases hbad with hpk | hpg | hpr
+          · exact p.val.prime.not_unit (hkA.isUnit_of_dvd' hpk hd)
+          · exact (hA.prime_away p hpS).1 hpg
+          · exact (hA.prime_away p hpS).2 hpr
+        · have hpB : p ∈ Q \ A := Finset.mem_sdiff.mpr ⟨hp, hpA⟩
+          rcases hbad with hpk | hpg | hpr
+          · exact hk.inactive_away p hpB hpk
+          · exact (hB p hpB).1 hpg
+          · exact (hB p hpB).2 hpr
+      all_goals rfl
+    simpa only [tsum_zero] using (tsum_congr hzero)
   · rfl
 
 /-- The all-tuples reflection formula includes every moving-row
@@ -184,6 +186,7 @@ theorem inactiveBlock_eq_fullSource (F : FiniteMellinData K S) (θ : HeckeCharac
   intro P hP
   rw [choiceValue, dif_pos hB]
 
+include hdisjoint in
 theorem tuple_sum_eq_inactive_blocks (F : FiniteMellinData K S) (θ : HeckeCharacter K)
     (g r : Ext) (hr : Squarefree r.val.val) (u : S.unit K)
     (s : FrozenState K S g r) (J : {J : Finset σ // J ⊆ I})
@@ -230,6 +233,7 @@ theorem tuple_sum_eq_inactive_blocks (F : FiniteMellinData K S) (θ : HeckeChara
     (fun i hi j hj hij => hdisjoint i (J.property hi) j (J.property hj) hij) a
       (fun P => choiceValue K S D F θ g r hr u s B P V X k)
 
+include hdisjoint in
 /-- Exact original product-mark source, regrouped with active ideal
 coefficients bounded by one and inactive tuple weights still explicit. -/
 theorem canonicalCompletedSum_eq_inactive_blocks

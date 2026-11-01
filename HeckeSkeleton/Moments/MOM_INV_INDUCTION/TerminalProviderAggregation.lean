@@ -34,6 +34,7 @@ variable (hprime : ∀ i ∈ I, ∀ p ∈ L i, Prime p)
 variable (hexterior : ∀ i ∈ I, ∀ p ∈ L i, MOM_INV_STEP.CanonicalChildren.IsExterior K S p)
 variable (hdisjoint : ∀ i ∈ I, ∀ j ∈ I, i ≠ j → Disjoint (L i) (L j))
 
+include hdisjoint in
 theorem tuplePrime_injective (q : tuplePool K I L) :
     Function.Injective (tuplePrime K S I L hprime hexterior q) := by
   intro i j hij
@@ -52,6 +53,7 @@ theorem tupleIdeal_squarefree (q : tuplePool K I L) :
     Squarefree (tupleIdeal K S I L hprime hexterior q).val.val :=
   HeckeGeneral.Arithmetic.IdealMobiusMask.squarefree_primeProduct _
 
+include hdisjoint in
 /-- The ideal of an active tuple determines each of its original
 prime choices, because the individual prime lists are disjoint. -/
 theorem tupleIdeal_injective :
@@ -87,6 +89,7 @@ def coefficient (a : σ → Ideal (𝓞 K) → ℂ) (P : ExteriorIdeal K S) : �
   ∑ q : tuplePool K I L,
     if tupleIdeal K S I L hprime hexterior q = P then tupleWeight K I a q.val else 0
 
+include hdisjoint in
 theorem coefficient_on_tuple (a : σ → Ideal (𝓞 K) → ℂ) (q : tuplePool K I L) :
     coefficient K S I L hprime hexterior a (tupleIdeal K S I L hprime hexterior q) =
       tupleWeight K I a q.val := by
@@ -97,6 +100,7 @@ theorem coefficient_on_tuple (a : σ → Ideal (𝓞 K) → ℂ) (q : tuplePool 
     exact if_neg (fun he => hne (tupleIdeal_injective K S I L hprime hexterior hdisjoint he))
   · simp
 
+include hdisjoint in
 theorem coefficient_norm_le_one (a : σ → Ideal (𝓞 K) → ℂ)
     (ha : ∀ i ∈ I, ∀ p ∈ L i, ‖a i p‖ ≤ 1) (P : ExteriorIdeal K S) :
     ‖coefficient K S I L hprime hexterior a P‖ ≤ 1 := by
@@ -110,6 +114,7 @@ theorem coefficient_norm_le_one (a : σ → Ideal (𝓞 K) → ℂ)
       exact if_neg (fun he => h ⟨q, he⟩)
     simp only [hz, norm_zero, zero_le_one]
 
+include hdisjoint in
 theorem sum_eq_aggregated (a : σ → Ideal (𝓞 K) → ℂ)
     (F : ExteriorIdeal K S → ℂ) :
     (∑ q : tuplePool K I L, tupleWeight K I a q.val *
@@ -132,6 +137,7 @@ theorem reciprocalWeight_nonneg (q : tuplePool K I L) :
   intro p hp
   positivity
 
+include hdisjoint in
 theorem reciprocalWeight_eq_product (q : tuplePool K I L) :
     reciprocalWeight K S I L hprime hexterior q =
       ∏ i : I, ((q.val i).absNorm : ℝ)⁻¹ := by
@@ -141,6 +147,7 @@ theorem reciprocalWeight_eq_product (q : tuplePool K I L) :
   · intro i hi j hj he
     exact tuplePrime_injective K S I L hprime hexterior hdisjoint q he
 
+include hdisjoint in
 theorem reciprocalWeight_sum :
     (∑ q : tuplePool K I L, reciprocalWeight K S I L hprime hexterior q) =
       ∏ i : I, ∑ p ∈ L i.val, (p.absNorm : ℝ)⁻¹ := by
