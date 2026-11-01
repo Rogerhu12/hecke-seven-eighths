@@ -202,6 +202,7 @@ theorem exists_uniform_total_bound (slotCap : ℕ) (A pi : ℝ)
           (ProviderInitialIntegral.mellinTest_support W hW) * I) := by
     dsimp only [ProviderInitialIntegral.cauchyMass, nJ]
     ring
+  dsimp only [ProviderInitialIntegral.cauchyMass] at heq
   rw [heq]
   apply hcombine.trans_eq
   dsimp only [B, Cpoint, E, Z]

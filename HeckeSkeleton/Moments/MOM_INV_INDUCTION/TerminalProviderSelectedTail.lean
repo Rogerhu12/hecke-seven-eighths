@@ -83,9 +83,10 @@ theorem atom_summable
     rw [he] at hh
     have hi := argument_inverseSquare_le K S f s hZ hsource k P cb.1 cb.2 hk hP
     apply (hn.trans (mul_le_mul_of_nonneg_left hh (norm_nonneg _))).trans
-    exact (mul_le_mul_of_nonneg_left hi
+    have hmajor := mul_le_mul_of_nonneg_left hi
       (show 0 ≤ ‖inactiveWeight K S f‖ * (C * testSeminorm V.toFun (kernelOrder K 2) 2)
-        by positivity)).trans_eq (by dsimp only [B]; ring)
+        by positivity)
+    simpa only [B, mul_assoc] using hmajor
   have hnorm : Summable (fun cb : Ext × Ext =>
       ‖GeneralReflectedEnergy.atom K S D f s F θ V.toFun (Z ^ Nstar) k P cb.1 cb.2‖) :=
     ((column_mass_summable K S).mul_left B).of_nonneg_of_le (fun _ => norm_nonneg _) hb

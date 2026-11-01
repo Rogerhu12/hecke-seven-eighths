@@ -63,6 +63,9 @@ variable [MeasurableSpace (AdeleRing (𝓞 K) K)] [BorelSpace (AdeleRing (𝓞 K
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
+local instance unitClassesFintype :
+    Fintype (CanonicalSectors.UnitClasses K (S : Set (HeightOneSpectrum (𝓞 K))) Γ) :=
+  Fintype.ofFinite _
 local notation "Varch" => mixedEmbedding.euclidean.mixedSpace K
 
 include hΓ hallowed μv ν μ in
