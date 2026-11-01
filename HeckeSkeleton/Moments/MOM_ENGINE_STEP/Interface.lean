@@ -1005,6 +1005,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveDirectExceptional
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitivePooledExceptionalBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PairedEngineStep
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalSupportedVolume
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPlainBackgroundTransport
 /-!
 # The complete paired fourth-moment engine step
 
@@ -1022,7 +1023,11 @@ The conclusion includes the actual parent recursion, all terminal
 bounds, the common-kernel mass estimate, normalized child admissibility,
 strict width decrease, unchanged kappa, slot and character inheritance,
 and the zero-slot-or-capacity alternatives. Slot inverses are retained
-for the same actual children. The zero-slot construction uses no pool;
+for the same actual children. Their plain backgrounds equal the original
+parent background, as exposed by `paired_engine_step_samePlainBackground`.
+Together with the inherited theta identity, this gives the next-step
+background condition in `paired_engine_step_next_background`.
+The zero-slot construction uses no pool;
 positive slots use one selected pool for main and valuation 1/6/7.
 `paired_engine_step_exists` is the proposition-valued existence form.
 
@@ -1095,3 +1100,5 @@ end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.paired_engine_step
 #print axioms HeckeSkeleton.Moments.EngineStep.paired_engine_step_exists
+#print axioms HeckeSkeleton.Moments.EngineStep.paired_engine_step_samePlainBackground
+#print axioms HeckeSkeleton.Moments.EngineStep.paired_engine_step_next_background
