@@ -31,6 +31,7 @@ open DedekindZetaZeroFree
 
 open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.Bridge HeckeGeneral.ThetaSkeleton.Physical
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft
 
@@ -143,7 +144,9 @@ theorem parent_orbit_norm_of_originalIdeal
   have hn := generates_sIntegerElementNorm
     (ProbeOrbitNormSum.principalExterior A (rowMap u).out) (rowMap u).out.val
     (ProbeOrbitNormSum.principalExterior_generates A (rowMap u).out)
-  simpa only [hideal, idealNorm] using hn
+  change (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+    (rowMap u).out).val = (Ideal.absNorm u.val : ℝ)
+  simpa only [hideal] using hn
 
 namespace CanonicalRowBall
 

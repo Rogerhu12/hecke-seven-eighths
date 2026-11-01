@@ -18,6 +18,7 @@ open scoped Classical BigOperators NumberField
 namespace HeckeSkeleton.Moments.EngineStep.ActualSecondRowMass
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
+open HeckeGeneral.Arithmetic
 open HeckeGeneral.Characters HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments CommonSupportMass
 
@@ -90,7 +91,7 @@ theorem original_rowFactor_dyadic_le
     exact Real.rpow_le_rpow_of_exponent_le hZ.le hwindow
   have h := div_le_div_of_nonneg_right
     (mul_le_mul_of_nonneg_left hc W.originalRowAmplitude_nonneg)
-    (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))
+    (mul_nonneg (Real.sqrt_nonneg NL) (Real.sqrt_nonneg NR))
   apply h.trans_eq
   rw [W.rowBound_eq_originalRowAmplitude]
   ring
@@ -119,7 +120,11 @@ theorem original_rowFactor_budget_relative_allowance
   have hc := W.original_rowFactor_dyadic_le Z hZ g₂ t₂ error NL NR hwindow
   have hb := W.normalized_row_budget Z hZ a₀ q wo w boundary krow g ell NL NR hrow hcentral
   have hc' := div_le_div_of_nonneg_right
-    (mul_le_mul_of_nonneg_right hc (Real.rpow_nonneg hz.le _)) (Real.rpow_nonneg hz.le _)
+    (mul_le_mul_of_nonneg_right hc (Real.rpow_nonneg hz.le
+      (secondCommonChildWidth Z a₀ q wo krow g
+          W.leftIdeal W.rightIdeal W.unitIdeal.val W.nonunitIdeal.val +
+        secondCommonChildAllowance Z w boundary ell W.leftIdeal W.rightIdeal)))
+    (Real.rpow_nonneg hz.le parentWidth)
   have hb' := div_le_div_of_nonneg_right
     (mul_le_mul_of_nonneg_right hb (Real.rpow_nonneg hz.le error)) (Real.rpow_nonneg hz.le parentWidth)
   have hbudget :

@@ -237,7 +237,7 @@ theorem frozenScalar_withFirstMode (ξ : U) (h : H) :
     ActualColumnAllocation.scalar, FixedChildCharacters.frozenScalar,
     sourcePrimeTerm_weight_phase, frozenSourceLocation, jointPhase_sum,
     Finset.prod_mul_distrib]
-  ring
+  ring <;> rfl
 
 @[simp] theorem norm_frozenScalar_withFirstMode (ξ : U) (h : H) :
     ‖(withFirstMode s x₁ x₂ x ξ).frozenScalar (σ := σ) h‖ =

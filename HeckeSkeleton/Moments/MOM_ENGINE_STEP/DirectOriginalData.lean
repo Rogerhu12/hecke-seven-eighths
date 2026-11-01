@@ -109,8 +109,12 @@ theorem direct_twisted_integrable (d : DirectGaussData C ι)
     Integrable (fun ξ => (d.directSource
       (FirstGaussPoolData.twistedCoefficient c x ξ)).energy hDiff)
       (actualFourierMeasure F) := by
-  simpa only [d.directSource_phaseEnergy c x] using
-    (d.directSource c).phaseEnergy_integrable (hDiff := hDiff) F x
+  have he : (d.directSource c).phaseEnergy (hDiff := hDiff) x =
+      (fun ξ => (d.directSource
+        (FirstGaussPoolData.twistedCoefficient c x ξ)).energy hDiff) :=
+    funext (d.directSource_phaseEnergy (hDiff := hDiff) c x)
+  rw [← he]
+  exact (d.directSource c).phaseEnergy_integrable (hDiff := hDiff) F x
 
 end DirectGaussData
 

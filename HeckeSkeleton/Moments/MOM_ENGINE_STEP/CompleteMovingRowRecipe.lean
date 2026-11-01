@@ -111,10 +111,9 @@ def support : A.Exterior := by
   refine ⟨CommonSupportMass.commonRadical I.val I.val,
     CommonSupportMass.commonRadical_ne_zero I.val I.val, ?_⟩
   apply top_le_iff.mp
-  rw [← I.property.2]
-  exact sup_le_sup_right
+  exact I.property.2.ge.trans (sup_le_sup_right
     (Ideal.dvd_iff_le.mp
-      (CommonSupportMass.commonRadical_dvd I.val I.val I.property.1 I.property.1).1) _
+      (CommonSupportMass.commonRadical_dvd I.val I.val I.property.1 I.property.1).1) _)
 
 theorem support_squarefree : Squarefree D.support.val :=
   CommonSupportMass.commonRadical_squarefree D.fullIdeal.val D.fullIdeal.val
@@ -156,14 +155,15 @@ def empty : OriginalMovingFactors A P R where
 
 @[simp] theorem empty_character :
     (empty (A := A) (P := P) (R := R)).character = 1 := by
-  simp only [character, empty, Finset.univ_eq_empty, Finset.prod_empty]
+  unfold character
+  exact Fin.prod_univ_zero _
 
 @[simp] theorem empty_support :
     (empty (A := A) (P := P) (R := R)).support = unitExterior A := by
   apply Subtype.ext
   simp [support, fullIdeal, empty, GaussProductCancellation.productExterior,
     CommonSupportMass.commonRadical, HeckePort.IdealMobiusDivisorSum.primeSupport,
-    unitExterior]
+    unitExterior, Fin.prod_univ_zero, ← Ideal.one_eq_top]
 
 end OriginalMovingFactors
 

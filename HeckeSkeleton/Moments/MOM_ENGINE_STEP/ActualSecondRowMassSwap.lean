@@ -162,16 +162,32 @@ variable (R : ActualSecondCorrelationRows A σ H ι)
         R.leftMultiplicity (-R.frequency h)) = _
   rw [nonunitFrequencyRadical_swap_neg, gcd_comm] <;> rfl
 
-/-- Identity on the original live row label. -/
+private def mapFiniteCarrier {H : Type*} (s t : Finset H) (hst : s = t) (h : s) : t :=
+  ⟨h.val, hst ▸ h.property⟩
+
+private theorem mapFiniteCarrier_val {H : Type*} (s t : Finset H) (hst : s = t) (h : s) :
+    (mapFiniteCarrier s t hst h).val = h.val := rfl
+
+/-- Identity on the original live row label. The generic finite carrier
+transport keeps the kernel from unfolding the complete correlation. -/
 def swapLive (h : R.live) : R.swapColumns.live :=
-  ⟨h.val, by simpa only [R.swapColumns_live] using h.property⟩
+  mapFiniteCarrier R.live R.swapColumns.live R.swapColumns_live.symm h
+
+@[simp] theorem swapLive_val (h : R.live) : (R.swapLive h).val = h.val :=
+  mapFiniteCarrier_val R.live R.swapColumns.live R.swapColumns_live.symm h
+
+private theorem negative_residual_of_same_factor
+    {T : Type*} [Ring T] [IsDomain T] (f g x y : T)
+    (hg : g ≠ 0) (hx : f = g * x) (hy : -f = g * y) : y = -x := by
+  apply mul_left_cancel₀ hg
+  calc
+    g * y = -f := hy.symm
+    _ = -(g * x) := congrArg Neg.neg hx
+    _ = g * -x := (mul_neg g x).symm
 
 set_option maxHeartbeats 800000 in
-@[simp] theorem swapLive_val (h : R.live) : (R.swapLive h).val = h.val := rfl
-
 /-- Uniqueness after cancellation proves the actual selected residual
-element is negated.  No new residual generator is selected in this proof. -/
-set_option maxHeartbeats 800000 in
+element is negated. No new residual generator is selected in this proof. -/
 theorem swapColumns_extractedRow_element
     (C : A.GeneralArithmeticContext σ η hS) (h : R.live) :
     (R.swapColumns.extractedRow C (R.swapLive h)).element =
@@ -183,16 +199,19 @@ theorem swapColumns_extractedRow_element
         ((congrArg (fun z : A.R => z * (R.extractedRow C h).element) hz).trans
           (zero_mul _))
     exact (R.generates h.val (Finset.mem_filter.mp h.property).1).1 he
+  have hfrequency : R.swapColumns.frequency (R.swapLive h).val = -R.frequency h.val := by
+    rw [R.swapLive_val, R.swapColumns_frequency]
+  have hfactor : R.swapColumns.factor C (R.swapLive h).val = R.factor C h.val := by
+    rw [R.swapLive_val, R.swapColumns_factor]
   have hs : -R.frequency h.val = R.factor C h.val *
       (R.swapColumns.extractedRow C (R.swapLive h)).element :=
-    (R.swapColumns.extractedRow C (R.swapLive h)).frequency.trans
-      (congrArg (fun z : A.R => z *
-        (R.swapColumns.extractedRow C (R.swapLive h)).element) (R.swapColumns_factor C h.val))
-  apply mul_left_cancel₀ hg
-  calc
-    _ = -R.frequency h.val := hs.symm
-    _ = R.factor C h.val * -(R.extractedRow C h).element := by
-      simpa only [mul_neg] using congrArg Neg.neg (R.extractedRow C h).frequency
+    hfrequency.symm.trans
+      ((R.swapColumns.extractedRow C (R.swapLive h)).frequency.trans
+        (congrArg (fun z : A.R => z *
+          (R.swapColumns.extractedRow C (R.swapLive h)).element) hfactor))
+  exact negative_residual_of_same_factor (R.frequency h.val) (R.factor C h.val)
+    (R.extractedRow C h).element (R.swapColumns.extractedRow C (R.swapLive h)).element
+    hg (R.extractedRow C h).frequency hs
 
 /-- The selected residual ideal is exactly the original one. -/
 @[simp] theorem swapColumns_extractedRow_ideal

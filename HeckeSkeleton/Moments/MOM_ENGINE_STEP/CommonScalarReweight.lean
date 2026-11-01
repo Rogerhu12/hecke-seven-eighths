@@ -103,7 +103,8 @@ theorem common_atoms_hybrid_bound
       (fun h => (R.withCommonAtoms leftAtoms rightAtoms).weight h *
         (R.withCommonAtoms leftAtoms rightAtoms).correlation h) := by
     funext h
-    dsimp only [withCommonAtoms, withCommonAtoms_correlation]
+    rw [withCommonAtoms_correlation]
+    dsimp only [withCommonAtoms]
     ring
   rw [hq]
   exact joint_kernel_exceptional_split Fker R.rows left right _ residualLeft residualRight x y exceptional
@@ -150,7 +151,7 @@ def ofCommonAtoms (R : ActualSecondCorrelationRows A σ H ι)
   profile_bound := hprofile
   weight_eq h hh := by
     change R.weight h * left.value h * star (right.value h) = _
-    rw [hweight h hh]
+    rw [hweight h hh] <;> rfl
   unitIdeal := unitIdeal
   unit_ideal := hunit
   nonunitIdeal := nonunitIdeal

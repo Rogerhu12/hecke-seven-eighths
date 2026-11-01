@@ -11,7 +11,7 @@ before any source, allocation, radius or child.
 -/
 
 noncomputable section
-open scoped Classical BigOperators FourierTransform SchwartzMap NumberField
+open scoped Classical BigOperators FourierTransform SchwartzMap NumberField ENNReal
 
 namespace HeckeSkeleton.Moments.EngineStep
 
@@ -77,7 +77,13 @@ theorem normalizedCapacityPairKernel_nested_mass_eq
   rw [normalizedCapacityPairKernel_mass _ _ _ _ _ _ _ hZ
     (normalizedCapacityPairEnvelope_hilbert_measurable B₁ B₂ J₁₁ J₁₂ J₂₁ J₂₂
       hleftRadius hrightRadius).aestronglyMeasurable]
-  rw [(WithLp.homeomorphProd 2 U E).symm.measurableEmbedding.integral_map]
+  have hmap :
+      (∫ ξ : WithLp 2 (U × E), normalizedCapacityPairEnvelope «GL» GR ξ
+        ∂Measure.map (WithLp.toLp 2) (nestedFourierMeasure F₁ F₂)) =
+      ∫ z : U × E, normalizedCapacityPairEnvelope «GL» GR (WithLp.toLp 2 z)
+        ∂nestedFourierMeasure F₁ F₂ :=
+    (WithLp.homeomorphProd 2 U E).symm.measurableEmbedding.integral_map _
+  rw [hmap]
   rw [weightedNestedFourierMeasure_mass_eq F₁ F₂ _
     (pairedProfileEnvelope_continuous B₁ B₂ sL.allocation.keep.card
       sR.allocation.keep.card J₁₁ J₁₂ J₂₁ J₂₂).measurable
@@ -109,7 +115,11 @@ theorem normalizedCapacityPairKernel_nested_finite
     (pairedProfileEnvelopeOrder sL.allocation.keep.card sR.allocation.keep.card J₁₂ J₂₂)
     (pairedProfileEnvelope_bound B₁ B₂ hB₁ hB₂ sL.allocation.keep.card
       sR.allocation.keep.card J₁₁ J₁₂ J₂₁ J₂₂)
-  simpa only [normalizedCapacityPairEnvelope, pairedProfileEnvelope, hleftRadius, hrightRadius]
+  change Integrable (fun z : U × E =>
+    polynomialProfileRadius B₁ J₁₁ J₁₂ z ^ (sL.allocation.keep.card + 2) *
+      polynomialProfileRadius B₂ J₂₁ J₂₂ z ^ (sR.allocation.keep.card + 2))
+    (nestedFourierMeasure F₁ F₂) at hi
+  simpa only [normalizedCapacityPairEnvelope, hleftRadius, hrightRadius]
     using hi
 
 end ActualKernel

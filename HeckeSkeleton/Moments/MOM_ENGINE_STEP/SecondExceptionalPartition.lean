@@ -343,7 +343,9 @@ theorem restrictRows_correlation (R : ActualSecondCorrelationRows A σ H ι)
 theorem restrictRows_live (R : ActualSecondCorrelationRows A σ H ι) (p : H → Prop) :
     (R.restrictRows p).live = R.live.filter p := by
   ext h
-  simp only [live, restrictRows, Finset.mem_filter, restrictRows_correlation]
+  change h ∈ (R.rows.filter p).filter (fun x => R.correlation x ≠ 0) ↔
+    h ∈ R.live.filter p
+  simp only [live, Finset.mem_filter]
   tauto
 
 theorem restrictRows_factor (R : ActualSecondCorrelationRows A σ H ι)
@@ -363,7 +365,8 @@ def liveInclusion (R : ActualSecondCorrelationRows A σ H ι) (p : H → Prop)
 theorem liveInclusion_injective (R : ActualSecondCorrelationRows A σ H ι) (p : H → Prop) :
     Function.Injective (R.liveInclusion p) := by
   intro h h' he
-  exact Subtype.ext (congrArg Subtype.val he)
+  apply Subtype.ext
+  exact congrArg (fun x : R.live => x.val) he
 
 /-- Restricting rows does not choose a different residual generator.
 The existence proof changes only in propositionally irrelevant proofs. -/

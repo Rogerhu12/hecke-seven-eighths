@@ -146,7 +146,7 @@ theorem originalTriple_unscaled_log_profile
     ρ.property na.property nb.property
   simpa only [CanonicalLogOrbital.fourierCLM_apply,
     CanonicalLogOrbital.orbitalCLM_apply, OrbitalGaussColumn.originalTriple,
-    RCLike.real_smul_eq_coe_mul, Complex.ofReal_mul,
+    Complex.real_smul, Complex.ofReal_mul,
     Complex.star_def, Complex.conj_ofReal, sub_eq_add_neg, mul_assoc, ρ, na, nb] using he
 
 end CanonicalFirstLog
@@ -239,8 +239,9 @@ def FirstBlockProfileChart.canonicalLogWithCoefficients
     (δ : ℝ) (hδ : 0 < δ) (hδ1 : δ ≤ 1 / 2) :
     FirstBlockProfileChart (E := ℝ) hΓ μv b C left right
       (fun i j => (c i * star (e j)) • φ) finiteTest radius D :=
-  (FirstBlockProfileChart.canonicalLog hΓ μv ν b C left right φ finiteTest hlc hcs
-    radius D δ hδ hδ1).withCoefficients c e
+  FirstBlockProfileChart.withCoefficients hΓ μv
+    (FirstBlockProfileChart.canonicalLog hΓ μv ν b C left right φ finiteTest hlc hcs
+      radius D δ hδ hδ1) c e
 
 end ActualBlock
 

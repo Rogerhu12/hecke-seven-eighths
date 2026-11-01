@@ -25,7 +25,7 @@ open scoped Classical BigOperators NumberField FourierTransform SchwartzMap
 namespace HeckeSkeleton.Moments.EngineStep.CanonicalCapacityKernelMass
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree MeasureTheory
-open HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckePort.Moments CommonSupportMass
 
 private theorem selected_product_le {I : Type*} [Fintype I]
@@ -131,6 +131,8 @@ namespace OriginalAtomWindow
 variable {left right W BL BR boundsL boundsR}
 variable {cap : ℕ} {B : ℝ}
 variable (P : OriginalAtomWindow left right W BL BR boundsL boundsR cap B)
+
+include P
 
 theorem live_left_count : left.source.allocation.keep.card ≤ cap := by
   calc
@@ -352,7 +354,9 @@ theorem kernel_mass_le
   have hf := D.mass left.source.allocation.keep.card right.source.allocation.keep.card
     P.live_left_count P.live_right_count F₁ F₂ B₁ B₂ hB₁ hB₂
   haveI := hf.1
-  refine ⟨by unfold kernel; infer_instance, ?_⟩
+  refine ⟨?_, ?_⟩
+  · unfold kernel
+    exact Measure.smul_finite _ ENNReal.ofReal_ne_top
   have hk₁ : 0 ≤ kernelBound₁ := (apply_nonneg _ F₁).trans hkernel₁
   have hk₂ : 0 ≤ kernelBound₂ := (apply_nonneg _ F₂).trans hkernel₂
   have hamp : (1 + B₁) ^ (cap + 2) * (1 + B₂) ^ (cap + 2) ≤

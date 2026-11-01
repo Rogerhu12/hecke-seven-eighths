@@ -24,7 +24,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 open DedekindZetaZeroFree
 
 open NumberField IsDedekindDomain
-open HeckeGeneral.Characters HeckeGeneral.Analysis.ConditionalMoments
+open HeckeGeneral.Characters HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 
 variable {K : Type} [Field K] [NumberField K]
 variable {ω ψ : HeckeCharacter K}
@@ -144,7 +144,9 @@ def parentArithmeticAtoms (T : ∀ ξ, ParentArithmeticAtoms Q (D.data ξ))
 def parentConstantAtoms (T : ∀ ξ, ParentArithmeticAtoms Q (D.data ξ))
     (W : NormProfileRecipe D.data) (ξ : V) (a : RealParameters) (Z t : ℝ) :
     ParentConstantAtoms Q (out.frozenData ξ) a Z t :=
-  (out.parentArithmeticAtoms T ξ).constantAtoms ((out.normProfileRecipe W).at ξ) a Z t
+  (out.parentArithmeticAtoms T ξ).constantAtoms
+    ((out.normProfileRecipe W).at ξ :
+      NormProfileRecipe (fun _ : PUnit.{1} => out.frozenData ξ)) a Z t
 
 end ActualAllocatedSource.Calibration.NormalizedCapacityData.Child
 
