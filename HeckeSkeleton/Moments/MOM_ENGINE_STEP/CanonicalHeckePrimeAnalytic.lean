@@ -87,6 +87,7 @@ theorem primePowerNorm_pos (np : ℕ × HeightOneSpectrum (𝓞 K)) :
     0 < primePowerNorm
       (fun p : HeightOneSpectrum (𝓞 K) => (Ideal.absNorm p.asIdeal : ℝ)) np := by
   apply pow_pos
+  change (0 : ℝ) < (Ideal.absNorm np.2.asIdeal : ℝ)
   exact_mod_cast lt_trans Nat.zero_lt_one (one_lt_primeIdeal_absNorm K np.2)
 
 /-- At the actual absolute-convergence line, the analytic majorant is

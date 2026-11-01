@@ -50,7 +50,7 @@ remaining ideal depends on the model, but not on its arithmetic row. -/
 structure CompleteSourceData (c : TargetContext K) (theta : Finset (HeckeCharacter K))
     (d : MomentData K c.family.omega (targetCharacter K c)) where
   recipe : EngineStep.CompleteMovingRowRecipe (axiomChoice K c).A
-    (probeData K c) (momentRowCharacters K c) (fun _ : PUnit => d)
+    (probeData K c) (momentRowCharacters K c) (fun _ : PUnit.{1} => d)
   theta_eq : d.theta = theta
   slot_characters : ∀ i, d.slotCoefficient i ∈ theta
   timeIndependent : ProfileTimeIndependent d

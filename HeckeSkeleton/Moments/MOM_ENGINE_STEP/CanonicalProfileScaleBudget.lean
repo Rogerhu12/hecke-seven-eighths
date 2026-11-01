@@ -104,9 +104,10 @@ theorem Atom.profileCoefficient_le_palette_scale (p : Atom V)
     Z L (L * R * δ) hZ he0 hscale hbudget
   have hπ : 0 ≤ 2 * Real.pi := by positivity
   have hdirection : (1 + 2 * Real.pi * ‖p.direction‖) ^ (s.sup Prod.snd) ≤
-      (1 + 2 * Real.pi * D) ^ (s.sup Prod.snd) :=
-    pow_le_pow_left₀ (by positivity)
-      (add_le_add_left (mul_le_mul_of_nonneg_left hd hπ) 1) _
+      (1 + 2 * Real.pi * D) ^ (s.sup Prod.snd) := by
+    have hbase : 1 + 2 * Real.pi * ‖p.direction‖ ≤ 1 + 2 * Real.pi * D := by
+      linarith [mul_le_mul_of_nonneg_left hd hπ]
+    exact pow_le_pow_left₀ (by positivity) hbase _
   have hcoefficient : shapeCoefficient window hcompact hpositive p.exponent s *
       (1 + 2 * Real.pi * ‖p.direction‖) ^ (s.sup Prod.snd) ≤
         profileAtomConstant window hcompact hpositive s δ R D :=
@@ -228,7 +229,8 @@ theorem clippedAmplitudeConstant_one_le (a B : ℝ) (ha : 0 < a) (hB : 1 ≤ B)
   have hc := clippingCoefficient_one_le B hB s
   have hA := commonAmplitudeConstant_one_le (Set.Icc a B) isCompact_Icc
     (positiveAnnulus a B ha) s δ R cap D hD
-  simpa only [one_mul] using mul_le_mul hc hA zero_le_one (zero_le_one.trans hc)
+  simpa only [clippedAmplitudeConstant, one_mul] using
+    mul_le_mul hc hA zero_le_one (zero_le_one.trans hc)
 
 section ClippedAmplitudes
 

@@ -294,7 +294,9 @@ theorem exists_moving_raw_prime_capacity_bound
           (primeCountConstant K) (H * f) + Bmask * f) * Dprofile * Dslice * radius) ^ 2 *
           U ^ ((2 * c.family.B - 1) * ((data xi).geometry.slots j).length +
             (2 * delta) * ((data xi).geometry.slots j).length) := by
-      convert hraw using 1 <;> ring
+      have hslotLength : (d.geometry.slots j).length =
+          ((data xi).geometry.slots j).length := rfl
+      simpa only [hslotLength, mul_assoc] using hraw
     refine hraw'.trans ((mul_le_mul_of_nonneg_right
       (pow_le_pow_left₀ hamplitudeNonneg hamplitude 2)
         (Real.rpow_nonneg hUp.le _)).trans_eq ?_)
