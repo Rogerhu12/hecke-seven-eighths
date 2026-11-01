@@ -53,8 +53,7 @@ theorem residualData_admissible (x : TerminalRows.Data K S σ)
     (H : Ext) (hH : H ∈ shortCubes K Sset (Z ^ d)) (J : Finset σ) :
     (residualData x Z H J).Admissible slotCap Z A c z lo hi d := by
   have hNp : 0 < exteriorNorm K Sset H := idealNorm_pos K H.val
-  have hN1 : 1 ≤ exteriorNorm K Sset H := by
-    exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors H.val
+  have hN1 : 1 ≤ exteriorNorm K Sset H := TerminalRows.norm_one_le K S H
   have hsmall : Real.logb Z (exteriorNorm K Sset H) ≤ d := by
     have hb := Real.logb_le_logb_of_le hZ hNp ((mem_shortCubes K Sset (Z ^ d) H).mp hH).le
     simpa only [Real.logb_rpow (zero_lt_one.trans hZ) (ne_of_gt hZ)] using hb
@@ -79,7 +78,8 @@ theorem residualData_scale (x : TerminalRows.Data K S σ) (Z : ℝ) (hZ : 1 < Z)
         3 * (residualData x Z H J).completionLength) =
       Z ^ x.columnLength / exteriorNorm K Sset H ^ 3 := by
   have hZp := zero_lt_one.trans hZ
-  have he := Real.rpow_logb hZp (ne_of_gt hZ) (idealNorm_pos K H.val)
+  have he : Z ^ Real.logb Z (exteriorNorm K Sset H) = exteriorNorm K Sset H :=
+    Real.rpow_logb hZp (ne_of_gt hZ) (exteriorNorm_pos K Sset H)
   change Z ^ (x.columnLength - 3 * Real.logb Z (exteriorNorm K Sset H)) = _
   rw [Real.rpow_sub hZp,
     show 3 * Real.logb Z (exteriorNorm K Sset H) =
@@ -175,6 +175,7 @@ theorem exteriorRows_bound (rows : Finset (Ideal (𝓞 K) × Sector)) (R : ℝ)
     (hR : ∀ k ∈ rows, (k.1.absNorm : ℝ) ≤ R)
     (I : Ext) (hI : I ∈ exteriorRows K S Γ rows) : exteriorNorm K Sset I ≤ R := by
   obtain ⟨k, hk, he⟩ := Finset.mem_image.mp (Finset.mem_preimage.mp hI)
+  change (I.val.val.absNorm : ℝ) ≤ R
   simpa only [he] using hR k hk
 
 /-- The raw node rows inject into all their ideal-sector pairs. The
