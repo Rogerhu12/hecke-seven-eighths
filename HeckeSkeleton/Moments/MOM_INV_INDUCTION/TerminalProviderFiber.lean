@@ -220,7 +220,8 @@ theorem exists_uniform_energy
           exteriorNorm K Sset x.label ^ 4 := by
       simp only [Data.frozen, frozenIdeal, HeckeSkeleton.LowEnergy.ActualFrozenCube.exteriorNorm_mul]
       congr 1
-      simp only [exteriorNorm, exteriorPower, SubmonoidClass.coe_pow, map_pow, Nat.cast_pow]
+      simp only [exteriorNorm, HeckeSkeleton.LowEnergy.ActualFrozenCube.exteriorPower,
+        SubmonoidClass.coe_pow, map_pow, Nat.cast_pow]
     rw [hn]
     have hh := mul_le_mul hPJ
       (pow_le_pow_left₀ (exteriorNorm_pos K Sset x.label).le hx.label_bound 4)
@@ -229,6 +230,7 @@ theorem exists_uniform_energy
     rw [← Real.rpow_mul_natCast hz0.le, ← Real.rpow_add hz0]
     apply Real.rpow_le_rpow_of_exponent_le hZ'.le
     dsimp only [L₀]
+    norm_num only [Nat.cast_ofNat]
     linarith
   have hpuncture : exteriorNorm K Sset x.puncture ≤ Z ^ L₀ :=
     hx.puncture_bound.trans (Real.rpow_le_rpow_of_exponent_le hZ'.le (by dsimp only [L₀]; linarith))
@@ -288,7 +290,13 @@ theorem exists_uniform_energy
     apply (hstates x.frozen x.puncture).trans
     apply mul_le_mul_of_nonneg_left _ (zero_le_one.trans hCS)
     calc
-      _ ≤ ((Z ^ L₀) * (Z ^ L₀)) ^ (eta / (2 * L₀)) := by gcongr
+      _ ≤ ((Z ^ L₀) * (Z ^ L₀)) ^ (eta / (2 * L₀)) :=
+        Real.rpow_le_rpow
+          (mul_nonneg (exteriorNorm_pos K Sset x.frozen).le
+            (exteriorNorm_pos K Sset x.puncture).le)
+          (mul_le_mul hfrozen hpuncture (exteriorNorm_pos K Sset x.puncture).le
+            (Real.rpow_nonneg hz0.le L₀))
+          (div_nonneg heta.le (mul_nonneg (by norm_num) hL₀p.le))
       _ = Z ^ eta := by
         rw [← Real.rpow_add hz0, ← Real.rpow_mul hz0.le]
         congr 1
@@ -327,9 +335,20 @@ theorem exists_uniform_energy
       (fun i hi => hmarks.exterior i (Finset.mem_sdiff.mp hi).1) qi
     by_cases haway : InactiveAway K Sset x.frozen x.puncture inactive
     swap
-    · simp only [inactiveBlock, choiceValue, dif_neg haway, mul_zero,
-        Finset.sum_const_zero, norm_zero, zero_pow (by decide : 2 ≠ 0)]
-      positivity
+    · have hzero (k : Ext) :
+          inactiveBlock K Sset D x.slots x.primeLists x.primeWeights
+            hmarks.prime hmarks.exterior (R.data θ) θ x.frozen x.puncture
+            x.puncture_squarefree x.unit s J qi (canonicalVstar W)
+            (Z ^ (x.columnLength - 3 * x.completionLength)) k = 0 := by
+        unfold inactiveBlock
+        apply Finset.sum_eq_zero
+        intro P hP
+        unfold choiceValue
+        split_ifs with h
+        · exact False.elim (haway h)
+        · exact mul_zero _
+      simp only [hzero, norm_zero, zero_pow (by decide : 2 ≠ 0), Finset.sum_const_zero]
+      exact mul_nonneg (sq_nonneg _) hB
     let fdata := fixedMarkData K Sset x.frozen x.puncture x.puncture_squarefree x.unit inactive haway
     let ps := idealPool K Sset J.val x.primeLists
       (fun i hi => hmarks.prime i (J.property hi)) (fun i hi => hmarks.exterior i (J.property hi))
@@ -360,10 +379,14 @@ theorem exists_uniform_energy
       let block := CubeCompletionBlocks.block ps (exteriorNorm K Sset) j
       by_cases hbne : block.Nonempty
       swap
-      · simp only [Finset.not_nonempty_iff_eq_empty.mp hbne,
-          TerminalFrozenBlock.fullSource, Finset.sum_empty, norm_zero,
+      · have hbzero : CubeCompletionBlocks.block ps (exteriorNorm K Sset) j = ∅ :=
+          Finset.not_nonempty_iff_eq_empty.mp hbne
+        rw [hbzero]
+        simp only [TerminalFrozenBlock.fullSource, Finset.sum_empty, norm_zero,
           zero_pow (by decide : 2 ≠ 0), Finset.sum_const_zero]
-        positivity
+        exact mul_nonneg
+          (mul_nonneg (mul_nonneg (zero_le_one.trans hC₀) (sq_nonneg _)) (sq_nonneg _))
+          (Real.rpow_nonneg hz0.le _)
       obtain ⟨p₀, hp₀⟩ := hbne
       let za := Real.logb Z (CubeCompletionBlocks.scale j)
       have hza : 0 ≤ za := Real.logb_nonneg hZ' (CubeCompletionBlocks.scale_one_le _)
@@ -395,7 +418,8 @@ theorem exists_uniform_energy
           (fun i hi => hmarks.prime i (J.property hi)) (fun i hi => hmarks.exterior i (J.property hi))
           (fun i hi j hj hij => hmarks.disjoint i (J.property hi) j (J.property hj) hij)
           x.primeWeights (fun i hi => hmarks.weights_le i (J.property hi)) p)
-      simpa only [one_pow, mul_one] using hh
+      simpa only [one_pow, mul_one, block, w, fdata, TerminalFrozenBlock.fixedData,
+        fixedMarkData, Data.frozen, Data.totalLength] using hh
     have hh := fullSource_active_energy K S D fdata s (R.data θ) θ coeff (canonicalVstar W)
       (Z ^ (x.columnLength - 3 * x.completionLength)) (Z ^ (z + eta)) x.rows ps hps
       (C₀ * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 * w ^ 2 *
@@ -432,14 +456,21 @@ theorem exists_uniform_energy
     _ = C * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 *
         Z ^ (x.totalLength - cstar / 8 - x.powerfulLength / 2 + 6 * eta) := by
       dsimp only [mass, B, C]
+      have hpow : Z ^ (x.totalLength - cstar / 8 - x.powerfulLength / 2 + 6 * eta) =
+          Z ^ (eta * 2) * Z ^ (eta * 2) *
+            Z ^ (x.totalLength - cstar / 8 - x.powerfulLength / 2 + 2 * eta) := by
+        rw [← Real.rpow_add hz0, ← Real.rpow_add hz0]
+        congr 1
+        ring
       simp only [mul_pow, ← Real.rpow_mul_natCast hz0.le]
-      rw [show x.totalLength - cstar / 8 - x.powerfulLength / 2 + 6 * eta =
-        eta * 2 + eta * 2 + (x.totalLength - cstar / 8 - x.powerfulLength / 2 + 2 * eta) by ring,
-        Real.rpow_add hz0, Real.rpow_add hz0]
+      rw [hpow]
       ring
     _ ≤ _ := by
-      gcongr
-      dsimp only [eta]
+      apply mul_le_mul_of_nonneg_left _
+        (mul_nonneg (zero_le_one.trans hC) (sq_nonneg _))
+      apply Real.rpow_le_rpow_of_exponent_le hZ'.le
+      change x.totalLength - cstar / 8 - x.powerfulLength / 2 + 6 * (cstar / 1024) ≤
+        x.totalLength - cstar / 16 - x.powerfulLength / 2
       linarith
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalFiber

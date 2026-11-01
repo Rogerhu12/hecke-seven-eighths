@@ -89,7 +89,7 @@ theorem restriction_sum {d : ℕ} (J : Finset (Fin d)) (lengths : Fin d → ℝ)
 theorem remaining_sum {d : ℕ} (J : Finset (Fin d)) (lengths : Fin d → ℝ) :
     (∑ i : Fin (remaining J).card, lengths (slot (remaining J) i)) =
       (∑ i, lengths i) - ∑ i ∈ J, lengths i := by
-  rw [restriction_sum, remaining, Finset.sum_sdiff (Finset.subset_univ J)]
+  rw [restriction_sum, remaining, Finset.sum_sdiff_eq_sub (Finset.subset_univ J)]
 
 /-- A common fixed multiplicative envelope for every selected product.
 Only the original per-slot norm windows are used. -/
