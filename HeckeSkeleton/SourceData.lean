@@ -2,6 +2,7 @@ import HeckeSkeleton.Base
 import HeckeGeneral.Analysis.MomentInputs
 import HeckeSkeleton.ExpansionModels.ScaleCutoff
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerSeed
 
 /-!
 # A fixed source for indices, models, and uniform moment statements
@@ -233,10 +234,9 @@ def SourceWitnessLengthBoundFor (E : MomentSourceData K c) (L : ℝ) : Prop :=
     0 ≤ (momentWitnessFor i).inverseLength ∧
       0 ≤ (momentWitnessFor i).plainLength ∧ (momentWitnessFor i).plainLength ≤ L
 
-/-- The #10 profile interface for all ideal tests and prime windows, with
-the original source-height and row-shift quantification region.  Mixed
-parameter derivatives and locality retain their separate obligations. -/
-def WholeMomentProfileControlFor (M : SourceMomentModelsFor K c E) : Prop :=
+/-- All marked inverse, plain, and prime slices of the one fixed source.
+The constants precede the entire family, including all row-local shifts. -/
+def MarkedMomentProfileControlFor (M : SourceMomentModelsFor K c E) : Prop :=
   ∀ J : ℕ, ∀ A : ℝ, 0 ≤ A →
     ∃ C H a b : ℝ, 0 < C ∧ 0 ≤ H ∧ 0 < a ∧ a < b ∧
       ∀ Z T (i : SourceMomentIndexFor K c E Z T), 1 ≤ Z → 1 ≤ T →
@@ -244,6 +244,32 @@ def WholeMomentProfileControlFor (M : SourceMomentModelsFor K c E) : Prop :=
         ‖ξ‖ ≤ T → (∀ u, ‖σ u‖ ≤ 8) → (∀ u, ‖τ u‖ ≤ 1 + ‖ξ‖) →
         ∀ d ∈ [M.inverse Z T i s ξ σ τ, M.paired Z T i s ξ σ τ],
           Moments.UniformAmplify.ModelProfileControl d J A C H a b T
+
+
+/-- Independent U,D are retained in the unmarked profile family, with the
+same parameter region as the marked family and no restriction on D/U^t. -/
+def UnmarkedMomentProfileControlFor (M : SourceMomentModelsFor K c E) : Prop :=
+  ∀ J : ℕ, ∀ A : ℝ, 0 ≤ A →
+    ∃ C H a b : ℝ, 0 < C ∧ 0 ≤ H ∧ 0 < a ∧ a < b ∧
+      ∀ U D T : ℝ, 1 ≤ U → 1 ≤ D → 1 ≤ T →
+      ∀ s (ξ : Fin M.dimension → ℝ) σ τ,
+        ‖ξ‖ ≤ T → (∀ u, ‖σ u‖ ≤ 8) → (∀ u, ‖τ u‖ ≤ 1 + ‖ξ‖) →
+          Moments.UniformAmplify.ModelProfileControl (M.unmarked U D s ξ σ τ)
+            J A C H a b T
+
+/-- Whole source control includes every ideal/prime profile, the genuinely
+independent unmarked scales, and the actual evaluation parameter box.
+The explicit norm-twist mixed derivative and weighted Fourier theorems are
+proved from the same primitive profile formulas in MOM_UNIFORM_AMPLIFY. -/
+structure WholeMomentProfileControlFor (M : SourceMomentModelsFor K c E) : Prop where
+  marked : MarkedMomentProfileControlFor M
+  unmarked : UnmarkedMomentProfileControlFor M
+  parameters : SourceMomentParameterControlFor M
+  lengths : ∃ L : ℝ, 0 ≤ L ∧ SourceWitnessLengthBoundFor E L
+
+instance {M : SourceMomentModelsFor K c E} :
+    CoeFun (WholeMomentProfileControlFor M) (fun _ => MarkedMomentProfileControlFor M) :=
+  ⟨WholeMomentProfileControlFor.marked⟩
 
 
 /-- Profile bounds apply to the evaluated models at their original height T. -/
@@ -297,16 +323,13 @@ def UniformMomentBoundFor
             k * (momentBaseFor i) ^ (power Z (Z ^ τ) i + c.family.lamA) * (1 + Z ^ τ) ^ A
 
 
+/-- The zero-slot canonical input controls complete rows and a common
+majorant over every strict smaller polynomial scale of the same inherited
+profile.  This is the scale-supremum input used in the paper's sixth-power
+amplification, before independent U,D are optimized. -/
 def StrictUnmarkedMomentBoundFor (M : SourceMomentModelsFor K c E) : Prop :=
-  ∀ a ε : ℝ, 0 < a → 0 < ε →
-    ∃ C A h : ℝ, 0 < C ∧ 0 ≤ A ∧ 0 < h ∧
-      ∀ U D : ℝ, 1 ≤ U → 1 ≤ D → D ≤ U ^ (1 / (1 + a)) →
-      ∀ (ξ : Fin M.dimension → ℝ) σ τ,
-        ‖ξ‖ ≤ (U * D) ^ h → (∀ u, ‖σ u‖ ≤ 8) →
-        (∀ u, ‖τ u‖ ≤ 1 + ‖ξ‖) →
-        (∑ s : SixthUnitClasses K (places K c),
-          unmarkedBallEnergy (M.unmarked U D s ξ σ τ) U D) ≤
-          C * U ^ (1 + ε) * (1 + ‖ξ‖) ^ A
+  Moments.UniformAmplify.CompleteUnmarkedScaleSupBound M.unmarked
+
 
 structure CanonicalInverseModelBoundsFor (M : SourceMomentModelsFor K c E) : Prop where
   marked : UniformMomentBoundFor
