@@ -61,7 +61,6 @@ theorem fullModulusCorrelation_swap (u v : R)
       scaledResidue v u (u * v) (mul_comm u v) y =
         Ideal.Quotient.mk (Ideal.span {u * v}) h
   · simp only [if_pos hh, if_pos (heq.mp hh), star_mul, star_star]
-    ring
   · simp only [if_neg hh, if_neg ((not_congr heq).mp hh), star_zero]
 
 end Ring

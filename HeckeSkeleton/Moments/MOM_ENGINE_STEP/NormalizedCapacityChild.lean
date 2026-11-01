@@ -193,7 +193,8 @@ theorem zero_or_child : (∀ ξ, s.energy (σ := σ) ξ = 0) ∨ Nonempty G.Chil
   have hb := D.energy_le_clipped ξ
   rw [hnormalized] at hb
   have hmul := mul_le_mul_of_nonneg_left hc
-    (mul_nonneg D.mass_nonneg (pow_nonneg (G.radius_pos ξ).le _))
+    (mul_nonneg D.mass_nonneg
+      (pow_nonneg (G.radius_pos ξ).le ((s.allocation.keep.card + 2) * 2)))
   exact hb.trans (by
     change D.mass * ((G.radius ξ) ^ ((s.allocation.keep.card + 2) * 2) * _) ≤ _
     simpa only [clipCost, loss, exponent, childData, Calibration.restrictedParameters,
@@ -367,8 +368,12 @@ theorem left_zero_or_normalized_capacity_child
     intro ξ
     rw [R.left_energy_eq_source Ray C B T χ D hbase hlength IA hIA u v t x₁ x₂ x ξ,
       Real.sqrt_mul (sq_nonneg _), Real.sqrt_sq_eq_abs, abs_of_nonneg (norm_nonneg _)]
-    exact (mul_le_mul_of_nonneg_left (out.sqrt_energy_le ξ) (norm_nonneg _)).trans_eq
-      (by ring)
+    have hb := mul_le_mul_of_nonneg_left (out.sqrt_energy_le ξ)
+      (norm_nonneg (SecondCoefficientTermDictionary.centralNormalizer u v t))
+    change _ ≤ ‖SecondCoefficientTermDictionary.centralNormalizer u v t‖ *
+      (Real.sqrt out.weight * (G.radius ξ) ^ (B.keep.card + 2) *
+        Real.sqrt (pairedEnergy (out.data ξ) out.parameters D.base (cal.height ξ))) at hb
+    simpa only [mul_assoc] using hb
 
 /-- The right complete coefficient keeps the required star, negative
 frequency and negated joint phase locations through its capacity choice. -/
@@ -410,8 +415,12 @@ theorem right_zero_or_normalized_capacity_child
     intro ξ
     rw [R.right_energy_eq_source Ray C B T χ D hbase hlength IB hIB u v t x₁ x₂ x ξ,
       Real.sqrt_mul (sq_nonneg _), Real.sqrt_sq_eq_abs, abs_of_nonneg (norm_nonneg _)]
-    exact (mul_le_mul_of_nonneg_left (out.sqrt_energy_le ξ) (norm_nonneg _)).trans_eq
-      (by ring)
+    have hb := mul_le_mul_of_nonneg_left (out.sqrt_energy_le ξ)
+      (norm_nonneg (SecondCoefficientTermDictionary.centralNormalizer u v t))
+    change _ ≤ ‖SecondCoefficientTermDictionary.centralNormalizer u v t‖ *
+      (Real.sqrt out.weight * (G.radius ξ) ^ (B.keep.card + 2) *
+        Real.sqrt (pairedEnergy (out.data ξ) out.parameters D.base (cal.height ξ))) at hb
+    simpa only [mul_assoc] using hb
 
 end ActualSecondCorrelationRows
 

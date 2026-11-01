@@ -211,9 +211,10 @@ theorem produce_normalized_capacity_child
         s.energy (σ := σ) ξ ≤
           c.envelopeFreeCost bounds * amplitude ξ ^ ((s.allocation.keep.card + 2) * 2) *
             pairedEnergy (c.normalizedData P amplitude hpos ξ) c.parameters s.base (cal.height ξ) := by
-  rcases cal.produce_capacity_child input with hzero | ⟨c⟩
+  rcases cal.produce_capacity_child input with hzero | hchild
   · exact Or.inl hzero
-  · exact Or.inr ⟨c, fun ξ => ⟨c.normalized_in_fixed_window P amplitude hpos
+  · obtain ⟨c⟩ := hchild
+    exact Or.inr ⟨c, fun ξ => ⟨c.normalized_in_fixed_window P amplitude hpos
       rowDomain heightDomain window seminorms raw ξ,
       c.normalized_source_bound P amplitude hpos bounds hfactor ξ⟩⟩
 

@@ -150,7 +150,10 @@ theorem defaultParentRowMap_originalIdeal (C : A.GeneralArithmeticContext σ η 
     (Γ : Subgroup A.U) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hu : u.val ⊔ A.cS = ⊤) :
     (ProbeOrbitNormSum.principalExterior A (defaultParentRowMap C Γ u).out).val = u.val := by
-  simp only [defaultParentRowMap, dif_pos hu, parentAllowedOrbit_originalIdeal]
+  simp only [defaultParentRowMap, dif_pos hu]
+  exact congrArg (fun I : A.Exterior => I.val)
+    (parentAllowedOrbit_originalIdeal C Γ
+      ⟨u.val, mem_nonZeroDivisors_iff_ne_zero.mp u.property, hu⟩)
 
 theorem defaultParentRowMap_fibres_le_one (C : A.GeneralArithmeticContext σ η htrace)
     (Γ : Subgroup A.U) (rows : Finset (HeckeGeneral.Analysis.NonzeroIdeal K))

@@ -129,11 +129,39 @@ theorem withMultiplier_kernel
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val)) (D : s.mask.powerset) :
     ((s.withMultiplier u).charts DE D).kernel = (s.charts DE D).kernel := rfl
 
+/-- Unit phases preserve the nonzero pair profiles used by the physical
+cutoff. An arbitrary complex multiplier need not preserve these rows:
+the zero multiplier deletes every active pair profile. -/
 theorem withMultiplier_rows
-    (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest) (u : ι → ℂ)
+    (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest) (u : ι → Circle)
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val)) :
-    ((s.withMultiplier u).sources DE).rows = (s.sources DE).rows := rfl
+    ((s.withMultiplier (fun i => (u i : ℂ))).sources DE).rows =
+      (s.sources DE).rows := by
+  let s' := s.withMultiplier (fun i => (u i : ℂ))
+  have hprofile (i j : ι) :
+      ((s'.sources DE).pairs i j).profile ≠ 0 ↔
+        ((s.sources DE).pairs i j).profile ≠ 0 := by
+    change (((u i : ℂ) * G.coefficient i) *
+        star ((u j : ℂ) * G.coefficient j)) • s.profile ≠ 0 ↔
+      (G.coefficient i * star (G.coefficient j)) • s.profile ≠ 0
+    simp only [smul_eq_zero, mul_eq_zero, star_eq_zero,
+      Circle.coe_ne_zero, false_or]
+  have hbranches : (s'.sources DE).branches = (s.sources DE).branches := rfl
+  have hfilter :
+      ((s'.sources DE).branches.filter
+        (fun e => ((s'.sources DE).pairs e.1.1 e.1.2).profile ≠ 0)) =
+      ((s.sources DE).branches.filter
+        (fun e => ((s.sources DE).pairs e.1.1 e.1.2).profile ≠ 0)) := by
+    ext e
+    simp only [Finset.mem_filter, hbranches, hprofile]
+  have hinverse : (s'.sources DE).inverseRadii = (s.sources DE).inverseRadii := by
+    unfold FirstFiniteSource.inverseRadii
+    rw [hfilter]
+  change (s'.sources DE).rows = (s.sources DE).rows
+  unfold FirstFiniteSource.rows FirstFiniteSource.physicalCutoff
+    FirstFiniteSource.inverseRadiusBound
+  rw [hinverse]
 
 end ActualGaussStage
 
@@ -172,4 +200,5 @@ end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.OrbitalGaussColumn.secondProfile_smul
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.withMultiplier
+#print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.withMultiplier_rows
 #print axioms HeckeSkeleton.Moments.EngineStep.FirstGaussPoolData.residualSource_twisted

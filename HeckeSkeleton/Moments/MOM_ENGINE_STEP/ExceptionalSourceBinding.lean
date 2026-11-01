@@ -63,8 +63,9 @@ theorem extractedRow_ideal_factor (C : A.GeneralArithmeticContext σ η hS) (x :
   have hg : R.factor C x.val ≠ 0 := by
     intro hz
     have he := (R.extractedRow C x).frequency
-    rw [hz, zero_mul] at he
-    exact (R.generates x.val (Finset.mem_filter.mp x.property).1).1 he
+    have hzero : R.factor C x.val * (R.extractedRow C x).element = 0 :=
+      (congrArg (fun a : A.R => a * (R.extractedRow C x).element) hz).trans (zero_mul _)
+    exact (R.generates x.val (Finset.mem_filter.mp x.property).1).1 (he.trans hzero)
   have hi : (R.extractedRow C x).ideal = e.ideal :=
     (R.extractedRow C x).ideal_eq_of_common_factor e.toActualChildRow hg
   simpa only [hi] using e.ideal_factor

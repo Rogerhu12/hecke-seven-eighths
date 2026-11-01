@@ -403,8 +403,14 @@ def ofInjective
   amplitude_nonneg := hAmp
   factors := factors
   multiplicity := 1
-  factors_fiber_card := factor_fiber_card_le_one (left ×ˢ right) factors
-    (by simpa only [Finset.coe_product] using hinj)
+  factors_fiber_card := by
+    intro v
+    apply Finset.card_le_one.mpr
+    intro x hx y hy
+    obtain ⟨hxmem, hxvalue⟩ := Finset.mem_filter.mp hx
+    obtain ⟨hymem, hyvalue⟩ := Finset.mem_filter.mp hy
+    exact hinj (Finset.mem_product.mp hxmem) (Finset.mem_product.mp hymem)
+      (hxvalue.trans hyvalue.symm)
   factor_product := hproduct
   product_norm := hnorm
   profile_seminorm := hprofile

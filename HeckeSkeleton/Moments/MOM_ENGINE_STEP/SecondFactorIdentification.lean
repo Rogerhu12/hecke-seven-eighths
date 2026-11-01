@@ -77,6 +77,7 @@ namespace FactorIdentification
 
 variable {D P} (h : D.FactorIdentification P)
 
+include h in
 theorem coefficient_eq (i : AllocationColumn F k)
     (hi : i ∈ childCartesianColumns S₁ S₂ S) :
     D.normalizedCoefficient P.leftNormalizer P.rightNormalizer P.slotNormalizer i =
@@ -91,6 +92,7 @@ theorem coefficient_eq (i : AllocationColumn F k)
   intro j _
   rw [h.slot_atom j _ (hm.2 j)]
 
+include h in
 theorem ray_eq (i : AllocationColumn F k)
     (hi : i ∈ childCartesianColumns S₁ S₂ S) : D.ray i = P.ray i := by
   have hm := hi
