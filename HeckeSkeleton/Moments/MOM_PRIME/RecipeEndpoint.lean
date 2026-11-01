@@ -95,7 +95,7 @@ theorem recipePairedModel_prime_annular
     (analyticMomentPrimeWindow K c.geometry k) (R.family.slotTime k p)
     (R.family.slotPower k p) (c.geometry.support_annular k) t
 
-variable {Z T i s}
+variable {i s}
 
 /-- A single constant works for all source indices, sectors, selected
 subproducts, external scales and physical heights of the fixed recipe. -/

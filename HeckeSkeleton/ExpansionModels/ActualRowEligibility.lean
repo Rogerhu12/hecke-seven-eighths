@@ -61,6 +61,12 @@ theorem actualRecipeAmplitude_norm_range (i : SourceMomentIndexFor K c Source Z 
     (u : FrequencyRow K (places K c)) (hu : u ∈ (momentAmplitudeFor i).rows) :
     momentBaseFor i < frequencyRowNorm K (places K c) u ∧
       frequencyRowNorm K (places K c) u ≤ 2 * momentBaseFor i := by
+  letI : ∀ p : places K c, MeasurableSpace (p.val.adicCompletion K) :=
+    (probeMeasures K c).localSpace
+  letI : ∀ p : places K c, BorelSpace (p.val.adicCompletion K) :=
+    (probeMeasures K c).localBorel
+  letI : ∀ p : places K c, ((probeMeasures K c).haar p).IsAddHaarMeasure :=
+    (probeMeasures K c).haar_isAddHaar
   let b := (Raw).rawBlockIndex Z T i.block
   let j := physicalRecipeShellIndex K (places K c) c.family.B (q).e
     (expansionShellAllowance K c) Z b
@@ -152,7 +158,7 @@ theorem actualRecipeMoment_plain_ne_one (i : SourceMomentIndexFor K c Source Z T
     (u : FrequencyRow K (places K c)) (hu : u ∈ (momentWitnessFor i).rows) :
     (pairedModelFor Models i u.sector).plainBackground *
       (pairedModelFor Models i u.sector).rowCharacter u.ideal.val ≠ 1 := by
-  let xi := (Models).heights Z T i
+  let xi : Fin 6 → ℝ := (Models).heights Z T i
   let j : Fin 2 := _root_.ExpansionRecipe.decodePresentation 2 (by norm_num) (xi 4)
   change (canonicalDetectorPresentation K (targetCharacter K c) j).plainBackground *
     completeIdealRowCharacter K (places K c) (probeData K c) (momentRowCharacters K c)
@@ -183,8 +189,11 @@ theorem actualRecipeMoment_paired_rows (i : SourceMomentIndexFor K c Source Z T)
   unfold pairedRows
   apply Finset.mem_filter.mpr
   constructor
-  · simpa only [pairedParametersFor, inverseParametersFor, add_zero] using
-      actualRecipeMoment_inverse_rows K c i u hu
+  · apply ((pairedModelFor Models i u.sector).rows_spec _ u.ideal.val).mpr
+    refine ⟨u.ideal.property, ?_⟩
+    change idealNorm K u.ideal.val ≤ momentBaseFor i ^ (rowWidthFor i + 0)
+    rw [add_zero, (recipeMoment_rowWidth_spec i).2.2]
+    exact (actualRecipeWitness_norm_range K c i u hu).2
   · by_cases hz : (pairedParametersFor i).z = 0
     · simp only [hz, if_pos]
       exact actualRecipeMoment_plain_ne_one K c i u hu

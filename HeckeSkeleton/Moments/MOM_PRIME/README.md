@@ -143,7 +143,7 @@ Imported source proofs needed native API/elaboration repairs:
 `SmallRowCorrection`, `PhysicalInitialMellinTerm`,
 `ActualPrincipalInitialTransport`, `ActualModerateSweepHolomorphy`,
 `ActualOuterKernelDecay`, `PhysicalInitialMellinAbsolute`,
-`LargeRowAllScales`, `SmallRowKernel`, `PrincipalRowLocal`,
+`LargeRowAllScales`, `SmallRowKernel`, `PrincipalRowLocal`, `ActualRowEligibility`,
 `ActualModerateCorrectionBound`, `LargeRowKernel`,
 `ActualPrincipalKernelBound`, `ActualPrincipalZShift`, `ActualModerateKernelDecay`,
 `PhysicalInitialRowSum`, `PhysicalInitialMellinIdentity`, and
@@ -178,6 +178,9 @@ The principal-expansion proof matches the owner's native-verified blob
 and selects the measurable, Borel, and Haar instance families from the
 same `probeMeasures` before calling the existing parameter constructor.
 The self-dual measures and the constructed physical parameters are retained.
+`ActualRowEligibility` uses the same instance families, makes the original
+six-dimensional height vector explicit, and proves paired-row membership
+directly from that model's own row specification and the dyadic shell bound.
 Their existing statements and mathematical definitions are preserved.
 The top-level zero-free theorem's statement is unchanged.
 
