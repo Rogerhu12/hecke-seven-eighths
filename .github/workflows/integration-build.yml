@@ -94,7 +94,7 @@ jobs:
               if visited.contains n then continue
               visited := visited.insert n
               if let some ci := env.find? n then
-                let used := ci.getUsedConstants
+                let used := ci.type.getUsedConstants ++ ((ci.value?.map Expr.getUsedConstants).getD #[])
                 if used.contains ``sorryAx then
                   direct := direct.push n
                 for d in used do
