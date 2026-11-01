@@ -70,7 +70,7 @@ theorem boundedDomain {d : MomentData K ω ψ} {a : RealParameters}
     (hpadding : padding ≤ b.paddingMax) :
     PairedEngineDomain centered d a Z Y₁ Y₂ floor b.paddingMax :=
   { domain with
-    padded_core := domain.padded_core.trans (add_le_add_left hpadding _) }
+    padded_core := domain.padded_core.trans (add_le_add le_rfl hpadding) }
 
 /-- The original first deletion retains the passive sixth-power prime
 factors. Its exceptional volume box therefore also covers the actual
