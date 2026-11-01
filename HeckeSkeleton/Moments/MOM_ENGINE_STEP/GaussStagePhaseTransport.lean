@@ -147,8 +147,28 @@ theorem withMultiplier_rows
     change ((v i * G.coefficient i) *
         star (v j * G.coefficient j)) • s.profile ≠ 0 ↔
       (G.coefficient i * star (G.coefficient j)) • s.profile ≠ 0
-    simp only [smul_eq_zero, mul_eq_zero, star_eq_zero,
-      hv, false_or]
+    have hphase : v i * star (v j) ≠ 0 := by
+      apply mul_ne_zero (hv i)
+      intro hz
+      exact hv j (star_eq_zero.mp hz)
+    have hfactor :
+        ((v i * G.coefficient i) * star (v j * G.coefficient j)) • s.profile =
+          (v i * star (v j)) •
+            ((G.coefficient i * star (G.coefficient j)) • s.profile) := by
+      rw [smul_smul, star_mul]
+      congr 1
+      ring
+    rw [hfactor]
+    constructor
+    · intro hn hz
+      apply hn
+      rw [hz, smul_zero]
+    · intro hn hz
+      apply hn
+      have hinv := congrArg
+        (fun φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ =>
+          (v i * star (v j))⁻¹ • φ) hz
+      simpa only [smul_smul, inv_mul_cancel₀ hphase, one_smul, smul_zero] using hinv
   have hbranches : (s'.sources DE).branches = (s.sources DE).branches := rfl
   have hfilter :
       ((s'.sources DE).branches.filter
@@ -166,7 +186,9 @@ theorem withMultiplier_rows
     rfl
   have hbound : (s'.sources DE).inverseRadiusBound =
       (s.sources DE).inverseRadiusBound := by
-    exact Finset.sup'_congr hinverse (fun _ _ => rfl)
+    unfold FirstFiniteSource.inverseRadiusBound
+    exact Finset.sup'_congr (by exact Finset.insert_nonempty _ _)
+      hinverse (fun _ _ => rfl)
   have hcutoff : (s'.sources DE).physicalCutoff = (s.sources DE).physicalCutoff := by
     change s.cutoff * (s'.sources DE).inverseRadiusBound =
       s.cutoff * (s.sources DE).inverseRadiusBound
