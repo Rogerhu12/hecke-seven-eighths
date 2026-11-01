@@ -150,9 +150,9 @@ Imported source proofs needed native API/elaboration repairs:
 `PhysicalInitialRowTruncation`, together with `SmallRowSum`,
 `PhysicalCompensatedInitial`, `ActualPrincipalUniformDecay`,
 `ActualPrincipalSweepDecay`, `ActualPrincipalResidueAssembly`,
-`LargeRowSum`, `ActualPrincipalVerticalRemainders`, and
-`PhysicalRecipeRemainders`, together with
-`ActualPrincipalResidueIdentification` and `ActualPrincipalTruncatedShifts`.
+`LargeRowSum`, `ActualPrincipalVerticalRemainders`,
+`PhysicalRecipeRemainders`, `ActualPrincipalResidueIdentification`,
+`ActualPrincipalTruncatedShifts`, and `ActualPrincipalResidueTails`.
 The joint-analytic repairs consume the source owner's proof fixes from
 PR #5 commit `496aee9914912e54feac9fced688ce6e61bc7f6f`.
 The initial-row-sum proof matches the owner's blob
@@ -161,8 +161,9 @@ The initial moderate-kernel decay and row-truncation API repairs follow
 the owner's blobs `daddc476018e69046ff9f4800b6a59cd2bbc5b8c` and
 `b2fa94108ee705437a33a187020a2185b06629bf`; subsequent native failures
 are resolved by explicit local bounds and an explicit box-height sum identity.
-The principal residue-assembly proof matches the owner's blob
-`347f7203afb77545ef38a60792324a3c758fa1d7` exactly.
+The principal residue-assembly proof comes from the owner's blob
+`347f7203afb77545ef38a60792324a3c758fa1d7`, with the actual `vertical`
+namespace made explicit in that file and in the residue-tail proof.
 The residue-identification, initial-transport, and physical-recipe remainder
 proofs consume the owner's subsequent native-verified fixes, with blobs
 `161a3f7200e0867ba0b940360e69b3dd10407860`,

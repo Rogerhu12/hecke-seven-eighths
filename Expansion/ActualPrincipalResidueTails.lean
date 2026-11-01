@@ -21,6 +21,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.HighBinActualEuler HeckeSkeleton.Expansion.PrincipalRows
+open ExpansionInterfaces.Mellin
 open DedekindZetaZeroFree DedekindZetaZeroFree.Quantitative.SimplePoleVerticalShift
 open scoped Classical Topology
 
@@ -183,6 +184,7 @@ theorem actualPrincipal_w_shift_error_tail
   rw [norm_mul]
   apply (mul_le_mul_of_nonneg_left hi hkappa).trans
   have hv := principal_height_volume_bound H A 2 hH0
+  norm_num at hv
   have hcoef : kappa * D ≤ (kappa + 1) * (D + 1) := by nlinarith
   calc
     _ = (kappa * D * Z ^ (5 : ℝ) * H ^ (-(N : ℝ))) * ((1 + H) ^ A * (2 * H) ^ 2) := by
