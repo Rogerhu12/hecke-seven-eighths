@@ -433,11 +433,9 @@ private theorem phase_class_eq_fixed_fullCorrelation
         v.2.2.2.2.2.1 v.2.2.2.2.2.2))
     hkernel hrows hrowCoefficient hleftCoefficient hrightCoefficient hleftPoint hrightPoint
 
-omit [FiniteDimensional ℝ W] [MeasurableSpace W] [BorelSpace W] in
-private theorem fixed_fullCorrelation_eq_leaf_sum
-    [FiniteDimensional ℝ W] [MeasurableSpace W] [BorelSpace W]
+private def fixedClassFullCorrelation
     (exceptional : s.CoverHybridPredicates LC RC)
-    (F : SchwartzMap W ℂ) (x : ι → W) (ξ : W) :
+    (x : ι → W) (ξ : W) : ℝ :=
     fullCorrelationHybridCost
       (K := K) (H := Q) (V := E) (k := v.leftSlots)
       (l := ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2).keep.card) (γ := ((PUnit × PUnit) →* Circle))
@@ -468,7 +466,14 @@ private theorem fixed_fullCorrelation_eq_leaf_sum
       (fun h i => v.chart.leftPoint h (v.leftReindex.index i))
       (fun h i => v.chart.rightPoint h (v.rightReindex.index i))
       (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
-        v.2.2.2.2.2.1 v.2.2.2.2.2.2) =
+        v.2.2.2.2.2.1 v.2.2.2.2.2.2)
+
+omit [FiniteDimensional ℝ W] [MeasurableSpace W] [BorelSpace W] in
+private theorem fixed_fullCorrelation_eq_leaf_sum
+    [FiniteDimensional ℝ W] [MeasurableSpace W] [BorelSpace W]
+    (exceptional : s.CoverHybridPredicates LC RC)
+    (F : SchwartzMap W ℂ) (x : ι → W) (ξ : W) :
+    v.fixedClassFullCorrelation exceptional x ξ =
       ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
   exact
     (fullCorrelationHybridCost_eq_leaf_sum
@@ -515,7 +520,9 @@ theorem phase_class_eq_leaf_sum (exceptional : s.CoverHybridPredicates LC RC)
           v.2.2.2.2.2.1 v.2.2.2.2.2.2) =
       ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
   as_aux_lemma =>
-    exact (v.phase_class_eq_fixed_fullCorrelation exceptional x ξ).trans
+    exact Eq.trans
+      (b := v.fixedClassFullCorrelation exceptional x ξ)
+      (v.phase_class_eq_fixed_fullCorrelation exceptional x ξ)
       (v.fixed_fullCorrelation_eq_leaf_sum exceptional F x ξ)
 
 end CoveredClassKey
