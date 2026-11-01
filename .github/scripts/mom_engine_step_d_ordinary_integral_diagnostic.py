@@ -8,7 +8,9 @@ The copy's native command retains -DstderrAsMessages=false: pinned Lean otherwis
 captures stderr in isolated in-memory streams. This changes diagnostic transport,
 not heartbeat, async, linter, production source, or acceptance settings.
 --main-unused-section-vars-off adds a diagnostic-only one-command linter control
-to the final integral theorem copy. The earlier source theorem remains unchanged.
+to the final integral theorem copy. --source-unused-section-vars-off independently
+adds the same one-command control to the pointwise source theorem copy. Both
+theorems retain their complete original statements and proof bytes.
 """
 from __future__ import annotations
 
@@ -53,6 +55,8 @@ MARKER_PREFIX = 'MOM_TRACE OEI 8fab0263'
 INPUT_NAME = 'MomEngineDOrdinaryExceptionalLabelIntegralDiagnostic.lean'
 MAIN_DECLARATION = ('HeckeSkeleton.Moments.EngineStep.SecondSideFrame.'
                     'ordinary_exceptional_original_label_integral_from_atoms')
+SOURCE_DECLARATION = ('HeckeSkeleton.Moments.EngineStep.SecondSideFrame.'
+                      'ordinary_exceptional_original_label_from_atoms')
 MAIN_LINTER_CONTROL = 'set_option linter.unusedSectionVars false in\n'
 
 
@@ -71,8 +75,9 @@ def write_json(path: Path, value: object) -> None:
     temporary.replace(path)
 
 
-def instrument(source: bytes, *, main_unused_section_vars_off: bool = False) -> tuple[bytes, list[dict]]:
-    """Insert markers and an optional one-command control into the complete source."""
+def instrument(source: bytes, *, main_unused_section_vars_off: bool = False,
+               source_unused_section_vars_off: bool = False) -> tuple[bytes, list[dict]]:
+    """Insert markers and optional independent one-command controls into the complete source."""
     require(sha(source) == SOURCE_SHA, 'OEI source differs from the reviewed frozen source')
     text = source.decode('utf-8')
     entries: list[dict] = []
@@ -131,6 +136,9 @@ def instrument(source: bytes, *, main_unused_section_vars_off: bool = False) -> 
     add(nonneg_decl, 'DECL_2_NONNEG_BEFORE', kind='CMD')
     add(nonneg_end, 'DECL_2_NONNEG_AFTER', kind='CMD')
     add(source_doc, 'DECL_3_SOURCE_BEFORE', kind='CMD')
+    if source_unused_section_vars_off:
+        # Keep the existing BEFORE marker outside this source-theorem control.
+        add(source_doc, 'DECL_3_UNUSED_SECTION_VARS_DISABLED', kind='OPTION')
     hsecond = position('  have hsecond := ordinary_exceptional_relative_terminal_from_atoms\n')
     add(hsecond, 'SOURCE_BODY_ENTER')
     add(hsecond, 'SOURCE_HSECOND_BEFORE')
@@ -433,6 +441,8 @@ def main() -> int:
     parser.add_argument('--prepare-only', action='store_true')
     parser.add_argument('--main-unused-section-vars-off', action='store_true',
                         help='Diagnostic copy only: disable unusedSectionVars for the final integral theorem command')
+    parser.add_argument('--source-unused-section-vars-off', action='store_true',
+                        help='Diagnostic copy only: disable unusedSectionVars for the pointwise source theorem command')
     args = parser.parse_args()
     require(args.dependency_timeout > 0, 'Dependency timeout must be positive')
     repo, evidence = args.repo.resolve(), args.evidence.resolve()
@@ -449,6 +459,9 @@ def main() -> int:
               'linter_option_override': ({'option': 'linter.unusedSectionVars', 'value': False,
                                           'scope': MAIN_DECLARATION, 'diagnostic_only': True}
                                          if args.main_unused_section_vars_off else None),
+              'source_linter_option_override': ({'option': 'linter.unusedSectionVars', 'value': False,
+                                                 'scope': SOURCE_DECLARATION, 'diagnostic_only': True}
+                                                if args.source_unused_section_vars_off else None),
               'candidate_only_no_native_failure_inferred': True,
               'diagnostic_stderr_transport': {'option': 'stderrAsMessages', 'value': False,
                                              'pinned_Lean_default': True,
@@ -458,10 +471,16 @@ def main() -> int:
               'baseline_driver_sha256': '6067ec6d0b298d0a4190960bd2ad4df10725e3e98267f80581d4edf9def6ffc7'}
     result.update(
         ordinary_baseline_driver_sha256='3e82ae8db18e310aca26120a8ddd1b8dc0915d14540ab35b40b60db33be79af4',
-        diagnostic_variant=('main-unused-section-vars-off' if args.main_unused_section_vars_off else 'markers-only'),
+        diagnostic_variant=('both-unused-section-vars-off'
+                            if args.main_unused_section_vars_off and args.source_unused_section_vars_off else
+                            'source-unused-section-vars-off' if args.source_unused_section_vars_off else
+                            'main-unused-section-vars-off' if args.main_unused_section_vars_off else 'markers-only'),
+        linter_option_overrides=[override for override in
+                                (result['source_linter_option_override'], result['linter_option_override'])
+                                if override is not None],
         production_source_options_changed=False,
         production_linter_exception_authorized=False,
-        purpose='Observe final integral post-proof progress and expose complete errors; never establish proof acceptance')
+        purpose='Observe pointwise and integral declaration completion and expose complete errors; never establish proof acceptance')
     before = diagnostic = None
     input_path = repo / INPUT_NAME
     owned_input = False
@@ -488,12 +507,14 @@ def main() -> int:
                       import_source_sha256={module: sha((repo / (module.replace('.', '/') + '.lean')).read_bytes())
                                             for module in original_imports})
         (evidence / 'OrdinaryExceptionalLabelIntegral.original.lean').write_bytes(source)
-        diagnostic, insertions = instrument(source, main_unused_section_vars_off=args.main_unused_section_vars_off)
+        diagnostic, insertions = instrument(
+            source, main_unused_section_vars_off=args.main_unused_section_vars_off,
+            source_unused_section_vars_off=args.source_unused_section_vars_off)
         (evidence / INPUT_NAME).write_bytes(diagnostic)
         result['diagnostic_source_sha256'] = sha(diagnostic)
         write_json(evidence / 'instrumentation.json', {
             'source_sha256': sha(source), 'diagnostic_sha256': sha(diagnostic),
-            'removed_markers_restore_exact_source': not args.main_unused_section_vars_off and restore(diagnostic, insertions) == source,
+            'removed_markers_restore_exact_source': not (args.main_unused_section_vars_off or args.source_unused_section_vars_off) and restore(diagnostic, insertions) == source,
             'removed_all_insertions_restore_exact_source': restore(diagnostic, insertions) == source,
             'original_three_prints_preserved': True, 'original_two_imports_preserved': True,
             'insertion_count': len(insertions), 'insertions': insertions,
