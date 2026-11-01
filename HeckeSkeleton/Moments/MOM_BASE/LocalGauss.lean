@@ -168,13 +168,13 @@ theorem maskedPower_unit_norm (n : ℕ) (hn : 0 < n)
     (u : (Quotient K c p n)ˣ) : ‖maskedPower C P n (n : ℤ) u‖ = 1 := by
   rw [maskedPower_eq_reduction C P n hn.ne']
   let v := Units.map (reduction C P n hn.ne').toMonoidHom u
-  have h6 := chi_unit_sixth (σ := complexEmbedding K) P
+  have h6 := chi_unit_sixth (σ := complexEmbedding K c) P
     (v : (axiomChoice K c).A.R ⧸ (axiomChoice K c).A.extendIdeal (primeIdeal P)) v.isUnit
-  have hnorm : ‖chi (σ := complexEmbedding K) P v‖ = 1 := by
+  have hnorm : ‖chi (σ := complexEmbedding K c) P v‖ = 1 := by
     have h := congrArg norm h6
     rw [norm_pow, norm_one] at h
     exact (pow_eq_one_iff_of_nonneg (norm_nonneg _) (by decide : (6 : ℕ) ≠ 0)).mp h
-  change ‖(chi (σ := complexEmbedding K) P ^
+  change ‖(chi (σ := complexEmbedding K c) P ^
     SArithmeticData.sexticExponent (n : ℤ)) (v : _)‖ = 1
   rw [MulChar.pow_apply_coe, norm_pow, hnorm, one_pow]
 
@@ -356,7 +356,7 @@ theorem frequencyOrder_lastLayer (n : ℕ) (hn : 0 < n) (h : Quotient K c p n) :
 
 theorem prime_tau_of_six_dvd (n : ℕ) (h6 : 6 ∣ n) : tau C P (n : ℤ) = -1 := by
   rw [tau, T_eq_finiteField, map_one]
-  change FiniteGaussTable.T (chi (σ := complexEmbedding K) P) (primeTrace C P)
+  change FiniteGaussTable.T (chi (σ := complexEmbedding K c) P) (primeTrace C P)
     (SArithmeticData.sexticExponent (n : ℤ)) 1 = -1
   rw [sexticExponent_eq_zero n h6]
   simp only [FiniteGaussTable.T, pow_zero, one_mul]
