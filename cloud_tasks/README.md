@@ -18,6 +18,8 @@
    - **受影响的证明一起修好**：改了定义，依赖它的已有证明要一并修到编译通过；
    - **不要停在相对版本**：发现缺陷后直接修正并继续往下做，不要只写一个带额外假设的相对定理就停下。
 4. 不要用 `sorry`、`axiom`、`native_decide`。
+   - 每个提交信息末尾加一行署名（让 GitHub 把 ChatGPT 记为贡献者）：
+     `Co-authored-by: ChatGPT <199175422+chatgpt-codex-connector[bot]@users.noreply.github.com>`
 5. PR 说明写清楚四件事：
    - 主定理的陈述与假设；
    - 还差什么；
