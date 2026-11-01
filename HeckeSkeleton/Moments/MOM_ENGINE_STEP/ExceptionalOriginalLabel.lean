@@ -231,6 +231,84 @@ variable (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent)
 
 namespace SecondSideFrame
 
+private theorem exceptionalLabel_actual_atom_bound
+    (left : SecondSideFrame (V := V) C R Ray .left k)
+    (right : SecondSideFrame (V := V) C R Ray .right l)
+    (EL : SecondCoefficientComparison left.dictionary)
+    (ER : SecondCoefficientComparison right.dictionary)
+    (W : ActualSecondRowMass R C kCommonLeft kCommonRight)
+    {theta : Finset (HeckeCharacter F)} (Q : PairedFiniteCharacters theta H) (ξ : V)
+    (TL : ∀ h : R.exceptionalRows Q, left.source.ExceptionalAt (σ := σ) EL.scale₁ EL.scale₂
+      (fun _ => EL.leftWeight) (fun _ => EL.rightWeight) ΨL WL₁ WL₂ ξ h.val)
+    (TR : ∀ h : R.exceptionalRows Q, right.source.ExceptionalAt (σ := σ) ER.scale₁ ER.scale₂
+      (fun _ => ER.leftWeight) (fun _ => ER.rightWeight) ΨR WR₁ WR₂ ξ h.val)
+    (UL : ExceptionalAtomicScales left.allocation) (UR : ExceptionalAtomicScales right.allocation)
+    (Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v vStar
+      r₁ r₂ divisorLower slotError height stepσ δ parentWidth remaining rowError widthError : ℝ)
+    (hZ : 1 < Z) (hv : 0 ≤ v) (hr₁ : 0 ≤ r₁) (hdivisor : divisorLower - r₂ ≤ slotError)
+    (hheight : 0 ≤ height)
+    (hleftAtoms : ∀ h, (TL h).source.AtomicControl Z UL)
+    (hrightAtoms : ∀ h, (TR h).source.AtomicControl Z UR)
+    (hexponent : UL.exponent + UR.exponent = Aexp - c - w - b₂ - r₁ - r₂)
+    (hgcd : (Ideal.absNorm (gcd W.leftIdeal W.rightIdeal) : ℝ) ≤ Z ^ g₂)
+    (hunit : Z ^ t₂ ≤ A.exteriorNorm W.unitIdeal)
+    (base : Ideal (𝓞 F))
+    (hclass : ∀ h : R.exceptionalRows Q, ∀ i ∈ multiplicityOneNonunitPrimes C R.primes
+      R.leftMultiplicity R.rightMultiplicity (R.frequency h.val.val),
+      6 ∣ (normalizedFactors (R.originalIdeal h.val.val).val).count (R.primes i).val.asIdeal)
+    (hfactor : ∀ h : R.exceptionalRows Q, ∃ a : Ideal (𝓞 F),
+      (R.extractedRow C h.val).ideal.val = base * a ^ 6)
+    (hwindow : ∀ h : R.exceptionalRows Q, Z ^ v ≤ A.exteriorNorm
+      (multiplicityOneNonunitRadical C R.primes R.leftMultiplicity R.rightMultiplicity
+        (R.frequency h.val.val)))
+    (hcutoff : ∀ h : R.exceptionalRows Q, A.exteriorNorm (R.originalIdeal h.val.val) ≤
+      R.normFactor C h.val.val * Z ^ (2 * (Aexp - c - w) - K - g - g₂ - V₀))
+    (hF₁ : 2 * (c + w) / 3 - 3 * stepσ - 5 * δ / 6 ≤
+      firstSaving c (d + (2 * Aexp - c - d + R₀ + E₀ - m) - K)
+        w (q + R₀ + E₀) wo Bcommon g ell)
+    (hF₂ : 2 * b₂ / 3 ≤ 2 * b₂ - 5 * g₂ / 6 - p₂ + t₂ + V₀ / 6 + (2 * v) / 6)
+    (hvsum : vStar ≤ c + w + b₂)
+    (hmask0 : ∀ h, (TL h).source.mask ≠ ⊥)
+    (hmasknorm : ∀ h, (Ideal.absNorm (TL h).source.mask : ℝ) ≤ Z ^ maskExponent)
+    (htime : ∀ h, ‖(TL h).source.time‖ ≤ height)
+    (hminimum : ∀ h, Z ^ ((m + q) / 4 - vStar - r₁) ≤ (TL h).source.lower)
+    (hradius : Z ^ (-K - g) ≤
+      W.radius.val * (sIntegerElementNorm F (A.Sf : Set (HeightOneSpectrum (𝓞 F)))
+        (sIntegerMaskGenerator F (A.Sf : Set (HeightOneSpectrum (𝓞 F))) W.mask)).val)
+    (hcentral : Z ^ (Aexp - c - w) ≤
+      Real.sqrt left.normalizationScale * Real.sqrt right.normalizationScale)
+    (hdyad : g₂ - t₂ ≤ idealLogLength Z (gcd W.leftIdeal W.rightIdeal) -
+      idealLogLength Z W.unitIdeal.val + rowError)
+    (hremaining : (Aexp - c - w) + (q + R₀ + E₀) + w + Bcommon + wo + ell + rowError -
+      parentWidth ≤ remaining)
+    (hwidth :
+      ((2 * (Aexp - c - w) - K - g - g₂ - V₀) +
+        (q + R₀ + E₀ + wo + t₂ + V₀) + (b₂ - p₂ + w + Bcommon + ell)) -
+      (secondCommonChildWidth Z (Aexp - c - w) (q + R₀ + E₀) wo K g
+          W.leftIdeal W.rightIdeal W.unitIdeal.val W.nonunitIdeal.val +
+        secondCommonChildAllowance Z w Bcommon ell W.leftIdeal W.rightIdeal) ≤ widthError) :
+    left.exceptionalMagnitude right EL ER Q ξ / Z ^ parentWidth ≤
+      (W.commonEnvelope * orbitalFieldFactor F) *
+        ((W.originalFiber : ℝ) * exceptionalTerminalConstant (V := V) (σ := σ) (η := η) (hS := hS)
+          HL HR ε maskExponent hε hmask * (UL.constant * UR.constant) *
+          (1 + height) ^ exceptionalTerminalOrder (V := V) (σ := σ) (η := η) (hS := hS)
+            HL HR ε maskExponent hε hmask) *
+        Z ^ (remaining + widthError +
+          (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε + slotError)) /
+        (Ideal.absNorm (commonRadical W.leftIdeal W.rightIdeal) : ℝ) * Z ^ (-divisorLower) := by
+  exact exceptional_relative_terminal_from_atoms
+    (F := F) (A := A) (σ := σ) (η := η) (hS := hS) (V := V)
+    (H := H) (ι := ι) (R := R) (C := C) (Ray := Ray)
+    (k := k) (l := l) (kCommonLeft := kCommonLeft) (kCommonRight := kCommonRight)
+    (theta := theta)
+    (HL := HL) (HR := HR) (ε := ε) (maskExponent := maskExponent) (hε := hε) (hmask := hmask)
+    left right EL ER W Q ξ TL TR UL UR
+    Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v vStar
+    r₁ r₂ divisorLower slotError height stepσ δ parentWidth remaining rowError widthError
+    hZ hv hr₁ hdivisor hheight hleftAtoms hrightAtoms hexponent hgcd hunit
+    base hclass hfactor hwindow hcutoff hF₁ hF₂ hvsum hmask0 hmasknorm htime hminimum
+    hradius hcentral hdyad hremaining hwidth
+
 /-- The public source estimate has no per-leaf exceptional inequality
 as a hypothesis.  It is produced from actual atom and valuation data,
 then multiplied by the literal first/second divisor and phase factors.
@@ -354,7 +432,7 @@ theorem exceptional_original_label_from_atoms
     (firstOriginalAllowanceWeight_le_radical (F := F) Z firstParentWidth firstTotal
       firstProfile firstCost hZ hfirstCost hfirstProfile j.1.val.1.1 j.1.val.1.2
       hfirstLeft hfirstRight hfirstSupport)
-    (exceptional_relative_terminal_from_atoms
+    (exceptionalLabel_actual_atom_bound
       (F := F) (A := A) (σ := σ) (η := η) (hS := hS) (V := V)
       (H := H) (ι := ι) (R := R) (C := C) (Ray := Ray)
       (k := k) (l := l) (kCommonLeft := kCommonLeft) (kCommonRight := kCommonRight)
