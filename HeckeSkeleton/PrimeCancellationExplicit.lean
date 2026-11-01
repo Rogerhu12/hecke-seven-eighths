@@ -53,7 +53,8 @@ structure ExplicitModelFamily (c : TargetContext K) (ι : ℝ → ℝ → Type u
   parameters : ∀ Z T, ι Z T → RealParameters
   length : ∀ Z T, ι Z T → ℝ
   base_pos : ∀ Z T i, 1 ≤ Z → 1 ≤ T → 0 < base Z T i
-  row_exponent : ∀ Z T i, (parameters Z T i).m + (parameters Z T i).q = 1
+  row_exponent : ∀ Z T i, 1 ≤ (parameters Z T i).m + (parameters Z T i).q ∧
+    base Z T i ^ ((parameters Z T i).m + (parameters Z T i).q) ≤ 2 * base Z T i
   parameter_length : ∀ Z T i, (parameters Z T i).z = length Z T i
   geometry_length : ∀ Z T i s, (model Z T i s).geometry.totalLength = length Z T i
   mask : ∀ Z T i s u I,
@@ -96,20 +97,50 @@ structure ExplicitModelControl (F : ExplicitModelFamily c ι) where
 
 variable {Z T : ℝ}
 
-/-- Every row in the full model sum has norm at most the model base. -/
+/-- Every row in the full model sum has norm at most twice the model base
+(the actual dyadic row window `U < N(u) ≤ 2U`). -/
 theorem row_norm_le (F : ExplicitModelFamily c ι) (i : ι Z T)
     (s : SixthUnitClasses K (places K c)) (u : NonzeroIdeal K)
     (hu : u ∈ pairedRows (F.model Z T i s) (F.parameters Z T i) (F.base Z T i)) :
-    idealNorm K u ≤ F.base Z T i := by
-  simpa only [F.row_exponent Z T i, Real.rpow_one] using
-    norm_le_of_mem_pairedRows (F.model Z T i s) (F.parameters Z T i) (F.base Z T i) u hu
+    idealNorm K u ≤ 2 * F.base Z T i :=
+  (norm_le_of_mem_pairedRows (F.model Z T i s) (F.parameters Z T i) (F.base Z T i) u hu).trans
+    (F.row_exponent Z T i).2
 
 theorem rows_eq_empty_of_base_lt_one (F : ExplicitModelFamily c ι) (i : ι Z T)
-    (s : SixthUnitClasses K (places K c)) (hbase : F.base Z T i < 1) :
+    (s : SixthUnitClasses K (places K c)) (hpos : 0 < F.base Z T i)
+    (hbase : F.base Z T i < 1) :
     pairedRows (F.model Z T i s) (F.parameters Z T i) (F.base Z T i) = ∅ := by
   apply Finset.eq_empty_iff_forall_notMem.mpr
   intro u hu
-  exact (not_le_of_gt hbase) ((one_le_idealNorm K u).trans (row_norm_le F i s u hu))
+  have hn := norm_le_of_mem_pairedRows (F.model Z T i s) (F.parameters Z T i)
+    (F.base Z T i) u hu
+  have hle : F.base Z T i ^ ((F.parameters Z T i).m + (F.parameters Z T i).q) ≤
+      F.base Z T i ^ (1 : ℝ) :=
+    Real.rpow_le_rpow_of_exponent_ge hpos hbase.le (F.row_exponent Z T i).1
+  rw [Real.rpow_one] at hle
+  exact (not_le_of_gt hbase) ((one_le_idealNorm K u).trans (hn.trans hle))
+
+/-- The logarithmic deletion budget at the doubled row scale. -/
+private theorem two_base_mask_budget (B₀ X T q : ℝ) (hB₀ : 0 ≤ B₀) (hX : 1 ≤ X)
+    (hT : 1 ≤ T) (hq : 0 ≤ q) :
+    B₀ * (1 + Real.log (2 * X)) ≤ (2 * B₀) * ((1 + Real.log X) * (1 + T) ^ q) := by
+  have hl2 : Real.log (2 * X) = Real.log 2 + Real.log X :=
+    Real.log_mul (by norm_num) (by linarith)
+  have hlog2 : Real.log 2 ≤ 1 := by
+    have := Real.log_le_sub_one_of_pos (by norm_num : (0 : ℝ) < 2)
+    linarith
+  have hlogX : 0 ≤ Real.log X := Real.log_nonneg hX
+  have hpow : 1 ≤ (1 + T) ^ q := Real.one_le_rpow (by linarith) hq
+  have h1 : 1 + Real.log (2 * X) ≤ 2 * (1 + Real.log X) := by
+    rw [hl2]
+    linarith
+  calc
+    B₀ * (1 + Real.log (2 * X)) ≤ B₀ * (2 * (1 + Real.log X)) :=
+      mul_le_mul_of_nonneg_left h1 hB₀
+    _ = (2 * B₀) * ((1 + Real.log X) * 1) := by ring
+    _ ≤ (2 * B₀) * ((1 + Real.log X) * (1 + T) ^ q) := by
+      apply mul_le_mul_of_nonneg_left _ (by linarith)
+      exact mul_le_mul_of_nonneg_left hpow (by linarith)
 
 /-- Zero selected length has no slots; no nonprincipal premise is needed. -/
 theorem zero_slot_product (F : ExplicitModelFamily c ι) (i : ι Z T)
@@ -144,13 +175,14 @@ theorem exists_paired_linear_count (F : ExplicitModelFamily c ι) :
       ((pairedRows (F.model Z T i s) (F.parameters Z T i) (F.base Z T i)).card : ℝ)
         ≤ Crows * F.base Z T i := by
   obtain ⟨Crows, hCrows, hcount⟩ := exists_ideal_count_bound K
-  refine ⟨Crows, hCrows, ?_⟩
+  refine ⟨2 * Crows, by linarith, ?_⟩
   intro Z T i s hbase
-  let X := F.base Z T i
+  have hbase2 : 1 ≤ 2 * F.base Z T i := by linarith
+  let X := 2 * F.base Z T i
   let rows := pairedRows (F.model Z T i s) (F.parameters Z T i) X
   have hfinite : {I : Ideal (𝓞 K) | (I.absNorm : ℝ) ≤ X}.Finite :=
     (Ideal.finite_setOfPred_absNorm_le ⌊X⌋₊).subset
-      (fun I hI => (Nat.le_floor_iff (zero_le_one.trans hbase)).mpr hI)
+      (fun I hI => (Nat.le_floor_iff (zero_le_one.trans hbase2)).mpr hI)
   letI : Finite {I : Ideal (𝓞 K) // (I.absNorm : ℝ) ≤ X} := hfinite.to_subtype
   let f : rows → {I : Ideal (𝓞 K) // (I.absNorm : ℝ) ≤ X} := fun v =>
     ⟨v.val.val, row_norm_le F i s v.val v.property⟩
@@ -163,7 +195,7 @@ theorem exists_paired_linear_count (F : ExplicitModelFamily c ι) :
   have hc := Nat.card_le_card_of_injective f hf
   have hc' : rows.card ≤ Nat.card {I : Ideal (𝓞 K) // (I.absNorm : ℝ) ≤ X} := by
     simpa only [Nat.card_eq_fintype_card, Fintype.card_coe] using hc
-  exact (Nat.cast_le.mpr hc').trans (hcount X hbase)
+  exact (Nat.cast_le.mpr hc').trans ((hcount X hbase2).trans_eq (by dsimp only [X]; ring))
 
 theorem deleted_prime_dvd (F : ExplicitModelFamily c ι) (D : FixedBadPrimeSupport c)
     (i : ι Z T) (s : SixthUnitClasses K (places K c)) (v : NonzeroIdeal K)
@@ -193,7 +225,7 @@ theorem deleted_count_le_base (F : ExplicitModelFamily c ι) (D : FixedBadPrimeS
     (hv : v ∈ pairedRows (F.model Z T i s) (F.parameters Z T i) (F.base Z T i))
     (pool : Finset (HeightOneSpectrum (𝓞 K))) :
     ((pool.filter (fun p => (F.model Z T i s).commonMask v p.asIdeal = false)).card : ℝ)
-      ≤ (Real.log (idealNorm K D.ideal) + Real.log (F.base Z T i)) / Real.log 2 := by
+      ≤ (Real.log (idealNorm K D.ideal) + Real.log (2 * F.base Z T i)) / Real.log 2 := by
   have hdel := deleted_count F D i s v pool 2 (by norm_num)
     (fun p _ => by exact_mod_cast (Nat.succ_le_iff.mpr
       (NumberField.HeightOneSpectrum.one_lt_absNorm p)))
@@ -265,12 +297,13 @@ theorem exists_uniform_paired_prime_bound
     dsimp only [H]
     positivity
   let bad := canonicalFixedBadPrimeSupport c
-  let Bmask : ℝ := (Real.log (idealNorm K bad.ideal) + 1) / Real.log 2
+  let Bmask : ℝ := 2 * ((Real.log (idealNorm K bad.ideal) + 1) / Real.log 2)
   have hbadLog : 0 ≤ Real.log (idealNorm K bad.ideal) :=
     Real.log_nonneg (one_le_idealNorm K bad.ideal)
   have hBmask : 0 ≤ Bmask := by
     dsimp only [Bmask]
-    exact div_nonneg (by linarith) (Real.log_pos (by norm_num : (1 : ℝ) < 2)).le
+    exact mul_nonneg (by norm_num)
+      (div_nonneg (by linarith) (Real.log_pos (by norm_num : (1 : ℝ) < 2)).le)
   let L : ℝ := (c.geometry.slots : ℝ) * (momentMesh K c.family).val
   let δ := PrimeCancellationUniformity.contourBuffer (c.family.lamA / 2) L
   have hδ : 0 < δ := PrimeCancellationUniformity.contourBuffer_pos
@@ -332,14 +365,11 @@ theorem exists_uniform_paired_prime_bound
                 Bmask * f := by
           have hb := deleted_count_le_base F bad i s u hu (((F.model Z T i s).geometry.slots j).support 0
               ((F.base Z T i) ^ ((F.model Z T i s).geometry.slots j).length))
+          have hX2 : 1 ≤ 2 * F.base Z T i := by linarith
           refine hb.trans ((logarithmic_mask_budget (Real.log (idealNorm K bad.ideal))
-            (F.base Z T i) hbadLog hX).trans ?_)
-          change Bmask * (1 + Real.log (F.base Z T i)) ≤
-            Bmask * ((1 + Real.log (F.base Z T i)) * (1 + T) ^ q)
-          have hpow := Real.one_le_rpow (show 1 ≤ 1 + T by linarith) hq
-          simpa only [mul_one, mul_assoc] using mul_le_mul_of_nonneg_left hpow
-            (mul_nonneg hBmask (show 0 ≤ 1 + Real.log (F.base Z T i) by
-              linarith [Real.log_nonneg hX]))
+            (2 * F.base Z T i) hbadLog hX2).trans ?_)
+          exact two_base_mask_budget ((Real.log (idealNorm K bad.ideal) + 1) / Real.log 2)
+            (F.base Z T i) T q (div_nonneg (by linarith) (Real.log_pos (by norm_num : (1 : ℝ) < 2)).le) hX hT hq
         have hbudget : (uniformConstant δ Cstar (primeCountConstant K) (H * f) + Bmask * f) *
             sourceSeminorm seminorms W ≤ amplitude := by
           exact profile_budget δ Cstar (primeCountConstant K) H Bmask Wc
@@ -379,7 +409,7 @@ theorem exists_uniform_paired_prime_bound
       exact absorb_slot_logarithms c.geometry.slots Crows Kslot (F.base Z T i) T (q + a)
         (2 * c.family.B - 1) (F.length Z T i) c.family.lamA hCrows.le
         (zero_le_one.trans hKslot) hX hT c.family.lamA_pos
-    · rw [rows_eq_empty_of_base_lt_one F i s (lt_of_not_ge hX), Finset.sum_empty]
+    · rw [rows_eq_empty_of_base_lt_one F i s hXpos (lt_of_not_ge hX), Finset.sum_empty]
       exact mul_nonneg (mul_nonneg hCsector (Real.rpow_nonneg hXpos.le _))
         (Real.rpow_nonneg (by linarith) _)
   calc

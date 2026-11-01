@@ -384,7 +384,7 @@ theorem source_conductor_control_of_polynomial
     have hl2 : Real.log (2 * momentBase i) = Real.log 2 + Real.log (momentBase i) :=
       Real.log_mul (by norm_num) hbpos.ne'
     have hlog2 : Real.log 2 ≤ 1 := by
-      have := Real.log_two_lt_d9
+      have := Real.log_le_sub_one_of_pos (by norm_num : (0 : ℝ) < 2)
       linarith
     have hlogb : 0 ≤ Real.log (momentBase i) := Real.log_nonneg hX
     have hcoef : 0 ≤ 1 + Real.log C₀ + r := by linarith [Real.log_nonneg hC₀]
