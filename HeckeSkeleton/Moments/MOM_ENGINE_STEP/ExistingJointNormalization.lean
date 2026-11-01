@@ -38,6 +38,82 @@ variable {side : SecondColumnSide} {k : ℕ}
 variable {f : SecondSideFrame (V := V) C rows Ray side k}
 variable (N : SecondSideNormalization f ω ψ rowDomain heightDomain window seminorms)
 
+private theorem rawProfileWindow_eq
+    {d : MomentData K ω ψ} {radius : ℝ}
+    (P Q : RawProfileWindow rowDomain heightDomain window seminorms d radius) : P = Q := by
+  have hinverse : P.inverseRep = Q.inverseRep := by
+    funext u t
+    exact DFunLike.ext _ _ fun y => (P.inverse_eq u t y).symm.trans (Q.inverse_eq u t y)
+  have hleft : P.leftRep = Q.leftRep := by
+    funext u t
+    exact DFunLike.ext _ _ fun y => (P.left_eq u t y).symm.trans (Q.left_eq u t y)
+  have hright : P.rightRep = Q.rightRep := by
+    funext u t
+    exact DFunLike.ext _ _ fun y => (P.right_eq u t y).symm.trans (Q.right_eq u t y)
+  have hprime : P.primeRep = Q.primeRep := by
+    funext i t
+    exact DFunLike.ext _ _ fun y => (P.prime_eq i t y).symm.trans (Q.prime_eq i t y)
+  cases P
+  cases Q
+  cases hinverse
+  cases hleft
+  cases hright
+  cases hprime
+  rfl
+
+private theorem capacityInput_heq_of_fields
+    {D₁ D₂ : f.source.Calibration (σ := σ) ω ψ} (hD : D₁ = D₂)
+    (I₁ : D₁.CapacityInput) (I₂ : D₂.CapacityInput)
+    (hskeleton : I₁.skeleton = I₂.skeleton)
+    (hb₂ : I₁.b₂ = I₂.b₂) (hp₂ : I₁.p₂ = I₂.p₂)
+    (hboundary : I₁.boundary = I₂.boundary) (hell : I₁.ell = I₂.ell)
+    (hgap : I₁.gap = I₂.gap) (hdelta : I₁.delta = I₂.delta)
+    (hmesh : I₁.mesh = I₂.mesh)
+    (hsupport : I₁.supportError = I₂.supportError)
+    (hclip : I₁.rawClipError = I₂.rawClipError)
+    (hwidth : I₁.widthError = I₂.widthError)
+    (hleft : I₁.leftAnnulus = I₂.leftAnnulus)
+    (hright : I₁.rightAnnulus = I₂.rightAnnulus)
+    (hprime : I₁.primeBound = I₂.primeBound) : HEq I₁ I₂ := by
+  cases hD
+  cases I₁
+  cases I₂
+  cases hskeleton
+  cases hb₂
+  cases hp₂
+  cases hboundary
+  cases hell
+  cases hgap
+  cases hdelta
+  cases hmesh
+  cases hsupport
+  cases hclip
+  cases hwidth
+  cases hleft
+  cases hright
+  cases hprime
+  rfl
+
+private theorem eq_of_calibration_capacity_fields
+    (N₁ N₂ : SecondSideNormalization f ω ψ rowDomain heightDomain window seminorms)
+    (hcal : N₁.calibration = N₂.calibration)
+    (hcap : HEq N₁.capacity N₂.capacity)
+    (hamp : N₁.amplitude = N₂.amplitude)
+    (hbounds : N₁.bounds = N₂.bounds) : N₁ = N₂ := by
+  cases N₁ with
+  | mk D₁ I₁ a₁ ha₁ b₁ hb₁ hf₁ p₁ =>
+    cases N₂ with
+    | mk D₂ I₂ a₂ ha₂ b₂ hb₂ hf₂ p₂ =>
+      cases hcal
+      cases eq_of_heq hcap
+      cases hamp
+      cases hbounds
+      have hp : p₁ = p₂ := by
+        funext ξ
+        exact rawProfileWindow_eq _ _
+      cases hp
+      rfl
+
 /-- The filter retains every original allowed row. Its capacity record
 copies all computational fields, and its four Schwartz representatives
 are the original representatives. Thus the entire side is unchanged. -/
@@ -52,20 +128,13 @@ theorem withJointRowBudget_eq_self
       idealNorm K u * A.exteriorNorm (M.support u) ≤
         f.source.base ^ (N.calibration.parameters.m + N.calibration.parameters.q)) :
     N.withJointRowBudget M hsource = N := by
-  have hdata : (fun ξ => jointRowBudgetData (N.calibration.data ξ) M.support
-      (f.source.base ^ (N.calibration.parameters.m + N.calibration.parameters.q))) =
-      N.calibration.data := by
-    funext ξ
-    exact jointRowBudgetData_eq_self (N.calibration.data ξ) M.support _ (hbudget ξ)
-  have hclipped (ξ : V) :
-      jointRowBudgetData (N.calibration.clippedData ξ) M.support
-        (f.source.base ^ (N.calibration.parameters.m + N.calibration.parameters.q)) =
-      N.calibration.clippedData ξ :=
-    jointRowBudgetData_eq_self (N.calibration.clippedData ξ) M.support _ (hbudget ξ)
-  simp only [withJointRowBudget,
-    ActualAllocatedSource.Calibration.CapacityInput.withJointRowBudget,
-    ActualAllocatedSource.Calibration.withJointRowBudget,
-    RawProfileWindow.withJointRowBudget, hdata, hclipped]
+  have hcal : (N.withJointRowBudget M hsource).calibration = N.calibration :=
+    N.calibration.withJointRowBudget_eq_self M hsource hbudget
+  have hcap : HEq (N.withJointRowBudget M hsource).capacity N.capacity :=
+    capacityInput_heq_of_fields (f := f) hcal (N.withJointRowBudget M hsource).capacity N.capacity
+      rfl rfl rfl rfl rfl rfl rfl rfl rfl rfl rfl rfl rfl rfl
+  exact eq_of_calibration_capacity_fields (N.withJointRowBudget M hsource) N
+    hcal hcap rfl rfl
 
 end SecondSideNormalization
 
