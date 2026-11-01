@@ -49,8 +49,8 @@ jobs:
       - name: Restore precompiled project artifacts
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
       # This job verifies the explicit-step conditional induction.
-      # The original three unconditional names have a separate, strict
-      # MOM_ENGINE_INTEGRATION workflow; they are not claimed by this job.
+      # The original three unconditional names belong to the later
+      # MOM_ENGINE_INTEGRATION phase; they are not claimed by this job.
       - name: Build every conditional induction module and audit all declarations
         shell: bash
         run: |

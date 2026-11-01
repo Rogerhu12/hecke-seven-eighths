@@ -134,13 +134,12 @@ theorem exists_certificate
     ((data ξ).slotCoefficient i) (recipe.sector u) recipe.remaining u
     hcorrection (hslot ξ i) (recipe.exterior ξ u hallowed) hnonprincipal
     (hjoint ξ u hallowed)
-  let certificateAt (χ : HeckeCharacter K) : Prop :=
-    ∃ analytic : ZeroFreeData (heckeContinuation K χ) ((a.κ + 1) / 2),
-      heightConstant analytic + 3 * (analytic.k : ℝ) ≤ heightC * (1 + Real.log Z)
-  have hraw : certificateAt
-      (CanonicalNormalizedPrimeAtoms.originalCharacter recipe.moving recipe.correction
-        ((data ξ).slotCoefficient i) (recipe.sector u) u) := h
-  exact Eq.mp (congrArg certificateAt hcharacter) hraw
+  exact (congrArg
+    (fun character : HeckeCharacter K =>
+      ∃ analytic : ZeroFreeData (heckeContinuation K character) ((a.κ + 1) / 2),
+        heightConstant analytic + 3 * (analytic.k : ℝ) ≤
+          heightC * (1 + Real.log Z))
+    hcharacter).mp h
 
 /-- A selected single-character certificate with its height bound. The
 selection ranges only over the raw analytic input, not over children. -/

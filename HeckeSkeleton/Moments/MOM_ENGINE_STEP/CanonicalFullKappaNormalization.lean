@@ -23,9 +23,10 @@ open scoped Classical BigOperators NumberField SchwartzMap
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain
-open DedekindZetaZeroFree (SArithmeticData)
+open DedekindZetaZeroFree (SArithmeticData RayClassCharacter)
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
+open HeckeGeneral.ThetaSkeleton.Physical (ProbeData RowCharacterInput)
 open PrimeCancellation.Analytic
 
 namespace CanonicalFullKappaPrime
@@ -212,12 +213,16 @@ def atoms : D.OriginalCapacityAtoms where
   rightAnnulus := W.annulus
   leftAnnulus_one := W.annulus_one
   rightAnnulus_one := W.annulus_one
-  left_window ξ u hu x hx :=
-    (W.raw ξ).original_left_profile_upper W.annulus W.window_upper
-      u (W.rows ξ u hu) (D.height ξ) (W.height ξ) x hx
-  right_window ξ u hu x hx :=
-    (W.raw ξ).original_right_profile_upper W.annulus W.window_upper
-      u (W.rows ξ u hu) (D.height ξ) (W.height ξ) x hx
+  left_window ξ u hu x hx := by
+    apply W.window_upper x
+    apply (W.raw ξ).left_support u (W.rows ξ u hu) (D.height ξ) (W.height ξ)
+    change (W.raw ξ).leftRep u (D.height ξ) x ≠ 0
+    simpa only [(W.raw ξ).left_eq] using hx
+  right_window ξ u hu x hx := by
+    apply W.window_upper x
+    apply (W.raw ξ).right_support u (W.rows ξ u hu) (D.height ξ) (W.height ξ)
+    change (W.raw ξ).rightRep u (D.height ξ) x ≠ 0
+    simpa only [(W.raw ξ).right_eq] using hx
   primeBound ξ _ := W.amplitude ξ ^ 2
   primeBound_nonneg ξ _ := sq_nonneg _
   prime_bound ξ u hu i := by
@@ -227,9 +232,11 @@ def atoms : D.OriginalCapacityAtoms where
     have hprof : CanonicalFullKappaPrime.orders.sup (schwartzSeminormFamily ℂ ℝ ℂ)
         ((W.raw ξ).primeRep j (D.height ξ)) ≤
         polynomialProfileRadius B J₁ J₂ (WithLp.ofLp ξ) := by
-      apply Seminorm.finset_sup_apply_le (polynomialProfileRadius_pos B W.coefficient_nonneg _ _ _).le
+      apply Seminorm.finset_sup_apply_le (p := schwartzSeminormFamily ℂ ℝ ℂ)
+        (polynomialProfileRadius_pos B W.coefficient_nonneg _ _ _).le
       intro p hp
-      exact (Seminorm.le_finset_sup_apply (W.orders hp)).trans
+      exact (Seminorm.le_finset_sup_apply (p := schwartzSeminormFamily ℂ ℝ ℂ)
+        (W.orders hp)).trans
         ((W.raw ξ).prime_bound j (D.height ξ) (W.height ξ))
     have hallowed : (D.data ξ).allowedRow u :=
       (((D.data ξ).rows_spec _ u).mp (Finset.mem_filter.mp hu).1).1

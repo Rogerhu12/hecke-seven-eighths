@@ -135,9 +135,8 @@ theorem ordinaryIntegrand_eq (z : U × V) :
           unfold jointFourierColumn
           apply Finset.sum_congr rfl
           intro i hi
-          exact congrArg₂ (fun (c : ℂ) (point : WithLp 2 (U × V)) =>
-            c * jointPhase (WithLp.toLp 2 z) point)
-            (d.leftCoefficient h hm i hi) (hzh i hi)
+          dsimp only
+          rw [d.leftCoefficient h hm i hi, hzh i hi]
         simp only [d.rowWeight h hm, hc, norm_mul, norm_jointPhase, one_mul]
   have hright :
       jointColumnEnergy (leaf.rows.filter (fun h => ¬leaf.exceptional h)) leaf.right
@@ -173,9 +172,8 @@ theorem ordinaryIntegrand_eq (z : U × V) :
           unfold jointFourierColumn
           apply Finset.sum_congr rfl
           intro j hj
-          exact congrArg₂ (fun (c : ℂ) (point : WithLp 2 (U × V)) =>
-            c * jointPhase (WithLp.toLp 2 z) point)
-            (d.rightCoefficient h hm j hj) (hzh j hj)
+          dsimp only
+          rw [d.rightCoefficient h hm j hj, hzh j hj]
         simp only [d.rowWeight h hm, hc, norm_mul, norm_jointPhase, one_mul]
   exact congrArg₂ (fun a c : ℝ => Real.sqrt a * Real.sqrt c) hleft hright
 

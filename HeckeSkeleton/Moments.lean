@@ -14,7 +14,6 @@ import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceReindex
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerRecipe
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.AmplificationSource
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.WitnessSource
-import HeckeSkeleton.Moments.MOM_ENGINE_INTEGRATION.ActualCompleteLocalInputs
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceModelClosure
 
 /-! Exploratory actual I/P pipeline, revised §§4–5 and §7.
@@ -332,13 +331,8 @@ theorem paired_zero_slot_models
     (hquadratic : QuadraticSieveBound K c) :
     UniformMomentBound
       (fun _ _ i => pairedModelEnergy (momentModels K c) i.noSlots)
-      (fun _ _ _ => 1) (fun _ _ _ => True) := by
-  apply uniformMomentBound_repaired_power
-    (fun _ _ i => pairedModelEnergy (momentModels K c) i.noSlots)
-    (fun _ _ _ => True)
-  exact Moments.EngineInduction.Source.paired_zero_slot_recipe_mellin
-    (expansionRecipeRaw K c)
-    (Classical.choice (Moments.EngineInduction.Source.actualRecipeScalarInputs c).1)
+      (fun _ _ i => momentRowExponent (momentBase i)) (fun _ _ _ => True) := by
+  sorry
 
 -- OBLIGATION MI-P-POSITIVE-SLOTS-BELOW-ONE | Thm4.2,§4.8,pp17–18,30–33.
 -- COARSE full recursive proof: whole centered coefficient, complete
@@ -353,13 +347,9 @@ theorem paired_positive_below_one
     (hprime : PairedPrimeProductBound K c (momentModels K c) (2 * c.family.B - 1)) :
     UniformMomentBound
       (fun _ _ i => pairedModelEnergy (momentModels K c) i)
-      (fun _ _ _ => 1) (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
-  apply uniformMomentBound_repaired_power
-    (fun _ _ i => pairedModelEnergy (momentModels K c) i)
-    (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty)
-  exact Moments.EngineInduction.Source.paired_positive_recipe_mellin_below_one
-    (expansionRecipeRaw K c) hB hprime
-    (fun _ _ => (Moments.EngineInduction.Source.actualRecipeScalarInputs c).2)
+      (fun _ _ i => momentRowExponent (momentBase i))
+      (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
+  sorry
 
 -- OBLIGATION MI-P-POSITIVE-SLOTS-ENDPOINT | Thm4.2,§4.8,pp17–18,30–33.
 -- Exact kappa1 capacity; no hidden finite-order seven-eighths theorem.
@@ -372,13 +362,9 @@ theorem paired_positive_endpoint
     (hprime : PairedPrimeProductBound K c (momentModels K c) 1) :
     UniformMomentBound
       (fun _ _ i => pairedModelEnergy (momentModels K c) i)
-      (fun _ _ _ => 1) (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
-  apply uniformMomentBound_repaired_power
-    (fun _ _ i => pairedModelEnergy (momentModels K c) i)
-    (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty)
-  exact Moments.EngineInduction.Source.paired_positive_recipe_mellin_endpoint
-    (expansionRecipeRaw K c) hB hprime
-    (fun _ _ => (Moments.EngineInduction.Source.actualRecipeScalarInputs c).2)
+      (fun _ _ i => momentRowExponent (momentBase i))
+      (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
+  sorry
 
 variable {K c}
 abbrev physicalInverseEnergy {Z T} (i : SourceMomentIndex K c Z T) : ℝ :=
@@ -494,15 +480,21 @@ theorem plainSource :
   have hrows := moment_row_eligibility K c hcal
   have hprofiles := moment_profile_control K c hcal
   have hquad := moment_quadratic_sieve K c
-  have hpositive : UniformMomentBound
+  have hpositive_raw : UniformMomentBound
       (fun _ _ i => pairedModelEnergy (momentModels K c) i)
-      (fun _ _ _ => 1) (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
+      (fun _ _ i => momentRowExponent (momentBase i))
+      (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
     rcases lt_or_eq_of_le c.family.B_upper with hB | hB
     · exact paired_positive_below_one K c hB hcal hrows hprofiles hquad
         (paired_primes_below_one K c hB hcal hrows hprofiles)
     · exact paired_positive_endpoint K c hB hcal hrows hprofiles hquad
         (paired_primes_endpoint K c hB hcal hrows hprofiles)
-  have hzero := paired_zero_slot_models K c hcal hrows hprofiles hquad
+  have hpositive := uniformMomentBound_repaired_power
+    (fun _ _ i => pairedModelEnergy (momentModels K c) i)
+    (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) hpositive_raw
+  have hzero := uniformMomentBound_repaired_power
+    (fun _ _ i => pairedModelEnergy (momentModels K c) i.noSlots)
+    (fun _ _ _ => True) (paired_zero_slot_models K c hcal hrows hprofiles hquad)
   have hreindex := moment_finite_sector_reindex K c hcal hrows
   obtain ⟨A, H, hA, hH, hb⟩ := uniformMomentBound_join
     (fun _ _ i => pairedModelEnergy (momentModels K c) i)

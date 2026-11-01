@@ -208,7 +208,7 @@ theorem sixthDeletionWidth_eq (root : Ideal (𝓞 K)) :
   dsimp only [NominalChildGeometry.sixthDeletionWidth,
     NominalChildGeometry.nominalWidth, NominalChildGeometry.nominalRow,
     NominalChildGeometry.nominalSupport, secondSixthDeletionChildWidth,
-    secondCommonChildWidth, skeleton] <;> ring
+    secondCommonChildWidth, skeleton]
 
 namespace ScaleWindows
 

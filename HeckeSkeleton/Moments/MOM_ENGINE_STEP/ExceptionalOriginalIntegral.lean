@@ -63,13 +63,13 @@ variable {C : A.GeneralArithmeticContext σ η hS}
 variable {R : ActualSecondCorrelationRows A σ H ι}
 variable {kCommonLeft kCommonRight : ℕ}
 variable {Ray : Type*} [CommGroup Ray] [Fintype Ray] {k l : ℕ}
-local notation "V" => WithLp 2 (U × E)
+local notation "ProductFourierSpace" => WithLp 2 (U × E)
 
 namespace SecondSideFrame
 
 theorem exceptionalMagnitude_nested_integrable
-    (left : SecondSideFrame (V := V) C R Ray .left k)
-    (right : SecondSideFrame (V := V) C R Ray .right l)
+    (left : SecondSideFrame (V := ProductFourierSpace) C R Ray .left k)
+    (right : SecondSideFrame (V := ProductFourierSpace) C R Ray .right l)
     (EL : SecondCoefficientComparison left.dictionary)
     (ER : SecondCoefficientComparison right.dictionary)
     {theta : Finset (HeckeCharacter F)} (Q : PairedFiniteCharacters theta H)
@@ -83,24 +83,25 @@ variable {ΨL ΨR : Ideal (𝓞 F) →* ℂ} {WL₁ WL₂ WR₁ WR₂ : ℝ → 
 variable (HL : ExceptionalVolumeControl ΨL WL₁ WL₂) (HR : ExceptionalVolumeControl ΨR WR₁ WR₂)
 variable (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent)
 
+set_option linter.unusedSectionVars false in
 /-- The complete actual source bound is integrated with both original
 Fourier measures.  The extra window controls only the explicit real
 height in the original single-ideal exceptional charts. -/
 theorem exceptional_original_label_integral_from_atoms
-    (left : SecondSideFrame (V := V) C R Ray .left k)
-    (right : SecondSideFrame (V := V) C R Ray .right l)
+    (left : SecondSideFrame (V := ProductFourierSpace) C R Ray .left k)
+    (right : SecondSideFrame (V := ProductFourierSpace) C R Ray .right l)
     (EL : SecondCoefficientComparison left.dictionary)
     (ER : SecondCoefficientComparison right.dictionary)
     (W : ActualSecondRowMass R C kCommonLeft kCommonRight)
     {theta : Finset (HeckeCharacter F)} (Q : PairedFiniteCharacters theta H)
-    (TL : ∀ ξ : V, ∀ h : R.exceptionalRows Q, left.source.ExceptionalAt (σ := σ) EL.scale₁ EL.scale₂
+    (TL : ∀ ξ : ProductFourierSpace, ∀ h : R.exceptionalRows Q, left.source.ExceptionalAt (σ := σ) EL.scale₁ EL.scale₂
       (fun _ => EL.leftWeight) (fun _ => EL.rightWeight) ΨL WL₁ WL₂ ξ h.val)
-    (TR : ∀ ξ : V, ∀ h : R.exceptionalRows Q, right.source.ExceptionalAt (σ := σ) ER.scale₁ ER.scale₂
+    (TR : ∀ ξ : ProductFourierSpace, ∀ h : R.exceptionalRows Q, right.source.ExceptionalAt (σ := σ) ER.scale₁ ER.scale₂
       (fun _ => ER.leftWeight) (fun _ => ER.rightWeight) ΨR WR₁ WR₂ ξ h.val)
     (UL : ExceptionalAtomicScales left.allocation) (UR : ExceptionalAtomicScales right.allocation)
     (Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v vStar
       r₁ r₂ divisorLower slotError stepσ δ parentWidth remaining rowError widthError : ℝ)
-    (height : V → ℝ)
+    (height : ProductFourierSpace → ℝ)
     (hZ : 1 < Z) (hv : 0 ≤ v) (hr₁ : 0 ≤ r₁) (hdivisor : divisorLower - r₂ ≤ slotError)
     (hheight : ∀ ξ, 0 ≤ height ξ)
     (hleftAtoms : ∀ ξ h, (TL ξ h).source.AtomicControl Z UL)
@@ -170,7 +171,7 @@ theorem exceptional_original_label_integral_from_atoms
     (hfirstSupport : primeSupport j.1.val.1.1 = primeSupport j.1.val.1.2)
     (J₁ J₂ : ℕ) (heightConstant : ℝ) (hheightConstant : 0 ≤ heightConstant)
     (hheightPolynomial : ∀ z : U × E,
-      (1 + height (WithLp.toLp 2 z)) ^ exceptionalTerminalOrder (V := V) (σ := σ) (η := η) (hS := hS)
+      (1 + height (WithLp.toLp 2 z)) ^ exceptionalTerminalOrder (V := ProductFourierSpace) (σ := σ) (η := η) (hS := hS)
         HL HR ε maskExponent hε hmask ≤
       heightConstant * ((1 + ‖z.1‖) ^ J₁ * (1 + ‖z.2‖) ^ J₂))
     (F₁ : 𝓢(U, ℂ)) (F₂ : 𝓢(E, ℂ)) :
@@ -183,7 +184,7 @@ theorem exceptional_original_label_integral_from_atoms
       ∂nestedFourierMeasure F₁ F₂) ≤
       firstCost *
         ((W.commonEnvelope * orbitalFieldFactor F) *
-          ((W.originalFiber : ℝ) * exceptionalTerminalConstant (V := V) (σ := σ) (η := η) (hS := hS)
+          ((W.originalFiber : ℝ) * exceptionalTerminalConstant (V := ProductFourierSpace) (σ := σ) (η := η) (hS := hS)
             HL HR ε maskExponent hε hmask * (UL.constant * UR.constant))) *
         Z ^ (remaining + widthError +
           (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε + slotError)) *
@@ -195,13 +196,13 @@ theorem exceptional_original_label_integral_from_atoms
           (schwartzSeminormFamily ℝ E ℂ) F₂ := by
   let major := firstCost *
     ((W.commonEnvelope * orbitalFieldFactor F) *
-      ((W.originalFiber : ℝ) * exceptionalTerminalConstant (V := V) (σ := σ) (η := η) (hS := hS)
+      ((W.originalFiber : ℝ) * exceptionalTerminalConstant (V := ProductFourierSpace) (σ := σ) (η := η) (hS := hS)
         HL HR ε maskExponent hε hmask * (UL.constant * UR.constant))) *
     Z ^ (remaining + widthError +
       (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε + slotError)) *
     branch.exceptionalDyadWeight Z divisorLower j
   have hmajor : 0 ≤ major := by
-    have hvolume := (exceptionalTerminalConstant_pos (V := V) (σ := σ) (η := η) (hS := hS)
+    have hvolume := (exceptionalTerminalConstant_pos (V := ProductFourierSpace) (σ := σ) (η := η) (hS := hS)
       HL HR ε maskExponent hε hmask).le
     have hcommon := W.commonEnvelope_nonneg
     have hfield := orbitalFieldFactor_nonneg F
@@ -217,7 +218,7 @@ theorem exceptional_original_label_integral_from_atoms
         ‖fixedPhaseCoefficient Ray phase₂ left.phaseCharacter‖ *
         (left.exceptionalMagnitude right EL ER Q (WithLp.toLp 2 z) / Z ^ parentWidth) ≤
       major * (1 + height (WithLp.toLp 2 z)) ^
-        exceptionalTerminalOrder (V := V) (σ := σ) (η := η) (hS := hS)
+        exceptionalTerminalOrder (V := ProductFourierSpace) (σ := σ) (η := η) (hS := hS)
           HL HR ε maskExponent hε hmask := by
     have hs := exceptional_original_label_from_atoms
       (HL := HL) (HR := HR) (ε := ε) (maskExponent := maskExponent) (hε := hε) (hmask := hmask)

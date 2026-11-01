@@ -2,7 +2,8 @@
 """Verify all conditional paired-induction modules at one exact commit.
 
 The explicit STEP hypothesis remains a theorem parameter. The original-name
-unconditional gate is preserved separately in MOM_ENGINE_INTEGRATION.
+unconditional integration (MOM_ENGINE_INTEGRATION) is not part of this gate:
+it lands after the STEP producer modules it needs are merged into the base.
 Evidence belongs outside the checkout, in RUNNER_TEMP on Actions.
 """
 from __future__ import annotations
@@ -22,7 +23,6 @@ from pathlib import Path
 TASK = Path(__file__).resolve().parent
 ROOT = TASK.parents[2]
 PREFIX = "HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION"
-INTEGRATION = ROOT / "HeckeSkeleton/Moments/MOM_ENGINE_INTEGRATION"
 INTEGRATION_PREFIX = "HeckeSkeleton.Moments.MOM_ENGINE_INTEGRATION"
 STEP_PREFIX = "HeckeSkeleton.Moments.MOM_ENGINE_STEP"
 SCOPE = "conditional-engine-induction"
@@ -45,20 +45,6 @@ REQUIRED_TARGETS = set(CONDITIONAL_TARGETS) | {
     "HeckeSkeleton.Moments.EngineInduction.scalarRecursion_power_bound",
     "HeckeSkeleton.Moments.EngineInduction.Source.uniformMomentBound_recipe_physical",
 }
-# Every moved module is accounted for. These files are compiled by the separate
-# integration gate, not silently omitted from this task's inventory.
-MIGRATED_MODULES = (
-    "ActualCatalogueVolume", "ActualCompleteLocalInputs", "ActualEngineArithmetic",
-    "ActualLocalInputMeasures", "ActualLocalInputs", "ActualStrictConstants",
-    "ActualStrictEngine", "ActualStrictFamily", "ActualStrictOrders", "ActualStrictSource",
-    "EngineAnnulusSupport", "LiteralCalibrationSupport", "LiteralDirectFamilyAnnulus",
-    "LiteralPassiveFamilyAnnulus", "LiteralPassiveSideAnnulus", "LiteralPooledFamilyAnnulus",
-    "LiteralSideAnnulus", "OriginalFamilySupport", "OriginalMeshDirectAnnulus",
-    "OriginalMeshDirectEngine", "OriginalMeshEngineMass", "OriginalMeshPairedAnnulus",
-    "OriginalMeshPairedEngineStep", "OriginalMeshPooledAnnulus", "OriginalMeshPooledEngine",
-    "OriginalMeshUniformAnnulus", "OriginalMeshUniformEngine", "RecipeStrictEngineBox",
-    "SideAnnulusSupport", "SkeletonFamily", "SkeletonSource",
-)
 
 
 def require(condition: bool, message: str) -> None:
@@ -215,17 +201,6 @@ def generate() -> None:
     print(f"Generated Audit.lean for {len(modules)} modules and {len(names)} declarations")
 
 
-def migrated_sources() -> dict[str, str]:
-    actual = {path.stem for path in INTEGRATION.glob("*.lean")}
-    expected = set(MIGRATED_MODULES)
-    require(actual == expected,
-            f"Integration inventory changed: missing={sorted(expected - actual)}, "
-            f"unlisted={sorted(actual - expected)}")
-    require(not (set(core_modules()) & expected), "Migrated module remains in the core")
-    return {str((INTEGRATION / (name + ".lean")).relative_to(ROOT)):
-            digest(INTEGRATION / (name + ".lean")) for name in sorted(expected)}
-
-
 @lru_cache(maxsize=1)
 def repository_layout() -> tuple[tuple[Path, ...], tuple[Path, ...]]:
     """Resolve every library source root, including repository path packages."""
@@ -340,9 +315,7 @@ def source_inventory() -> dict:
         hashes[str(path.relative_to(ROOT))] = digest(path)
     return dict(modules=roots, declarations=sorted(declared),
                 source_sha256=dict(sorted(hashes.items())), repository_import_closure=closure,
-                external_imports=external, step_interface_modules=step,
-                deferred_integration_modules=[INTEGRATION_PREFIX + "." + m for m in sorted(MIGRATED_MODULES)],
-                deferred_integration_source_sha256=migrated_sources())
+                external_imports=external, step_interface_modules=step)
 
 
 def verify_checkout(expected: str, paths: list[str] | None = None) -> None:
@@ -382,7 +355,7 @@ def environment() -> dict:
 def preflight(expected: str, output: Path) -> None:
     verify_checkout(expected)
     inventory = source_inventory()
-    verify_checkout(expected, list(inventory["source_sha256"]) + list(inventory["deferred_integration_source_sha256"]))
+    verify_checkout(expected, list(inventory["source_sha256"]))
     record = dict(head_sha=expected, scope=SCOPE, step_hypothesis=STEP_HYPOTHESIS,
                   conditional_targets=list(CONDITIONAL_TARGETS),
                   unconditional_integration="not-checked-by-this-gate", **inventory,

@@ -45,7 +45,7 @@ variable (Q : CompleteMovingRowRecipe A P R data)
 
 /-- Evaluation at the Fourier parameter changes none of the original
 arithmetic choices. -/
-def «at» (ξ : X) : CompleteMovingRowRecipe A P R (fun _ : PUnit => data ξ) where
+def «at» (ξ : X) : CompleteMovingRowRecipe A P R (fun _ : PUnit.{1} => data ξ) where
   moving := Q.moving
   correction := Q.correction
   correction_mem _ := Q.correction_mem ξ
@@ -77,10 +77,10 @@ variable (out : G.Child)
 slot, retain the original full moving arithmetic. -/
 def completeMovingRowRecipe (Q : CompleteMovingRowRecipe A P R D.data) :
     CompleteMovingRowRecipe A P R out.frozenData :=
-  (((Q.clipped D.parameters s.base (zero_lt_one.trans s.base_gt_one)).normalized
-      G.radius G.radius_pos).restricted
-        (fun ξ => lengthSelection (G.normalizedData ξ) s.allocation.keep.card (D.count ξ)
-          (Finset.univ \ out.removed))).frozen D.height
+  Q.ofAllowedSubset (other := out.frozenData) (fun _ _ hu => hu)
+    (fun ξ => out.frozen_rowCharacter_eq ξ)
+    (fun ξ => out.frozen_commonMask_eq ξ)
+    (fun ξ => out.frozen_theta_eq ξ)
 
 theorem completeMovingRowRecipe_moving (Q : CompleteMovingRowRecipe A P R D.data) :
     (out.completeMovingRowRecipe Q).moving = Q.moving := rfl
@@ -133,7 +133,7 @@ variable {seminorms : Finset (ℕ × ℕ)}
 variable (h : MovingEngineChildAdmissible A P R Q parent
   rowDomain window seminorms Z d a)
 
-def rowRecipe : CompleteMovingRowRecipe A P R (fun _ : PUnit => d) :=
+def rowRecipe : CompleteMovingRowRecipe A P R (fun _ : PUnit.{1} => d) :=
   Classical.choose h.rows
 
 theorem supportBudget : h.rowRecipe.SupportBudget Z a.q :=

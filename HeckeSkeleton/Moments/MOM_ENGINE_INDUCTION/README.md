@@ -10,10 +10,12 @@ its acceptance from PR #9's construction of the paired engine step.
 that input. The dedicated workflow compiles **all 184 core modules** and
 audits all 1,456 explicit public declarations on one exact revision.
 
-The actual producer and unconditional source integration are retained in
-`HeckeSkeleton/Moments/MOM_ENGINE_INTEGRATION/`. The independent induction
-gate checks that its transitive import graph stays outside that directory
-and outside the STEP producer implementation. Its STEP dependencies are
+The actual producer and unconditional source integration
+(`HeckeSkeleton/Moments/MOM_ENGINE_INTEGRATION/`) are not part of this PR:
+they need STEP producer modules that are not yet merged into the base, and
+they land after those modules. The independent induction gate checks that
+its transitive import graph stays outside that directory and outside the
+STEP producer implementation. Its STEP dependencies are
 an explicit set of 228 data, profile, and transport modules; the actual
 `PairedEngineStep`, Gauss leaf, and exceptional-label producer are outside
 this graph. The separate whole-project workflow retains its original
@@ -103,8 +105,9 @@ The final `GeneralHeckeSevenEighths` statement remains unchanged.
 
 The base is `cbc44997e3baaede3bdfb8423d7c1c6bf4887424` on
 `dtests-handoff`. Shared source, profile, prime, and inverse-induction
-changes from that baseline are retained. The merge preserves both the
-inverse source closure and this PR's original source integration import.
+changes from that baseline are retained. `HeckeSkeleton/Moments.lean` is unchanged
+from the base in this PR; its three paired targets keep their original
+statements until the unconditional integration lands.
 
 The recursive dictionary uses the STEP owner's `CompleteMovingRowRecipe`.
 Its displayed moving factors remain in the moving-support budget; its
@@ -172,7 +175,7 @@ factor two.
 
 `ScheduleCompatibility.lean` uses the original `momentMeshValue`, chosen
 before the geometry, and bounds the full rank by twelve times the original
-strict-width schedule depth. The integration adapter `MOM_ENGINE_INTEGRATION/RecipeStrictEngineBox.lean` checks the
+strict-width schedule depth. The later integration adapter `RecipeStrictEngineBox.lean` checks the
 existing reserve against the genuine terminal exponent and the separate
 mesh charge. `ClippedAnnulusSchedule.lean` keeps the positive support range
 compatible with each earlier rank.
@@ -217,10 +220,12 @@ sectors. Summing sectors costs their fixed finite cardinality once.
 
 ## Separate producer integration
 
-The following 31 existing modules have moved to
-`HeckeSkeleton/Moments/MOM_ENGINE_INTEGRATION/`. Their declaration
-namespaces and mathematical statements are retained; module imports follow
-the new paths. This is the complete set of moved modules:
+The following 31 modules form the later
+`HeckeSkeleton/Moments/MOM_ENGINE_INTEGRATION/` phase. Each one transitively
+imports STEP producer modules that are not yet in the base, so they are not
+part of this PR; they remain in this branch's history (commit
+`d49002a147cb65a7a45b2db1d5df698808929dd1`) and land after those STEP
+modules are merged:
 
 ```text
 ActualCatalogueVolume           ActualCompleteLocalInputs
@@ -243,7 +248,7 @@ SkeletonSource
 
 They retain the actual arithmetic producer and the construction intended
 to instantiate the explicit step interface, including the narrow-support
-transport on its actual children and the original `Moments.lean` route. The integration workflow retains
+transport on its actual children and the original `Moments.lean` route. Their workflow will retain
 the original unconditional target check with the standard three-axiom
 allowlist. The independent phase and its evidence have distinct names and
 scopes.

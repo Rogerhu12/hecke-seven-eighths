@@ -67,6 +67,8 @@ theorem secondPatternUnitIdeal_mul_root_dvd_gcd
   apply Finset.prod_dvd_prod_of_dvd
   intro i _
   apply pow_dvd_pow
+  change (if m i = n i ∧ ¬6 ∣ m i ∧ pattern i = false then 1 else 0) +
+    min (m i) (n i) / 6 ≤ min (m i) (n i)
   have hi := secondSixthRootBudget_exponent (m i) (n i) (hm i) (hn i)
   split_ifs <;> omega
 
