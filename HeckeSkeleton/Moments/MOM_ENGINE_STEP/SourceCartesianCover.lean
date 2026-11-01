@@ -15,7 +15,7 @@ open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStep
 
-open NumberField IsDedekindDomain DedekindZetaZeroFree
+open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open HeckePort.Moments HeckePort.Moments.Support HeckePort.IdealMobiusDivisorSum
 
 variable {K : Type} [Field K] [NumberField K] {A : SArithmeticData K}
@@ -122,7 +122,22 @@ def mainSourceCartesianCover (c : ι → ℂ) :
     have hi' : i ∈ d.columns := hi
     rw [hcolumns] at hi'
     exact hi'
-  branch a := d.mainAtlasForLabel T S D hcolumns hideal c a
+  branch a := by
+    let B := d.mainAtlasForLabel T S D hcolumns hideal c a
+    exact {
+      slotCount := B.slotCount
+      reindex := {
+        plain₁ := B.reindex.plain₁
+        plain₂ := B.reindex.plain₂
+        slots := B.reindex.slots
+        index := B.reindex.index
+        maps := fun x hx => Finset.mem_filter.mpr (Finset.mem_filter.mp (B.reindex.maps x hx))
+        injective := B.reindex.injective
+        surjective := fun i hi =>
+          B.reindex.surjective i (Finset.mem_filter.mpr (Finset.mem_filter.mp hi))
+        ideal_product := B.reindex.ideal_product }
+      plain₁_nonzero := B.plain₁_nonzero
+      plain₂_nonzero := B.plain₂_nonzero }
 
 /-- True cover of the original valuation subtype.  The joint occurrence
 key on the first support and the actual prime constructs every branch
@@ -135,7 +150,22 @@ def residualSourceCartesianCover (p : ExteriorPrime A) (n : ℕ) (c : ι → ℂ
   label i := T.reindex.supportExtractionLabel (S ∪ {p.val.asIdeal}) i.val
   maps i _ := Finset.mem_image_of_mem
     (T.reindex.supportExtractionLabel (S ∪ {p.val.asIdeal})) i.property
-  branch a := d.combinedAtlasForLabel T S D hcolumns hideal p n c a
+  branch a := by
+    let B := d.combinedAtlasForLabel T S D hcolumns hideal p n c a
+    exact {
+      slotCount := B.slotCount
+      reindex := {
+        plain₁ := B.reindex.plain₁
+        plain₂ := B.reindex.plain₂
+        slots := B.reindex.slots
+        index := B.reindex.index
+        maps := fun x hx => Finset.mem_filter.mpr (Finset.mem_filter.mp (B.reindex.maps x hx))
+        injective := B.reindex.injective
+        surjective := fun i hi =>
+          B.reindex.surjective i (Finset.mem_filter.mpr (Finset.mem_filter.mp hi))
+        ideal_product := B.reindex.ideal_product }
+      plain₁_nonzero := B.plain₁_nonzero
+      plain₂_nonzero := B.plain₂_nonzero }
 
 end FirstGaussPoolData
 

@@ -102,17 +102,38 @@ theorem left_energy_eq (C : A.GeneralArithmeticContext σ η hS) (r : Bool) (ξ 
     (B.leftFrame C r).energy ξ =
       jointColumnEnergy (R.rows.filter (fun h => ¬exceptional h))
         (b.val.leftColumns S₁ S₂ S) (fun h => R.weight h * R.correlation h)
-        (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 (B.leftTerms r)) x ξ :=
-  (B.leftFactors r).frame_energy C b.val.1.val b.val.2.2.1.val
-    (Finset.mem_filter.mp b.property).2.2.1 ξ
+        (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 (B.leftTerms r)) x ξ := by
+  simpa only [leftFrame, SecondColumnSide.actualCoefficient,
+    ActualSecondCorrelationRows.restrictRows, ActualSecondCorrelationRows.correlation,
+    SecondAllocationLabel.leftColumns] using
+    (B.leftFactors r).frame_energy C b.val.1.val b.val.2.2.1.val
+      (Finset.mem_filter.mp b.property).2.2.1 ξ
 
 theorem right_energy_eq (C : A.GeneralArithmeticContext σ η hS) (r : Bool) (ξ : V) :
     (B.rightFrame C r).energy ξ =
       jointColumnEnergy (R.rows.filter (fun h => ¬exceptional h))
         b.val.rightColumns (fun h => R.weight h * R.correlation h)
-        (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 (B.rightTerms r)) y ξ :=
-  (B.rightFactors r).frame_energy C b.val.1.val b.val.2.2.2.val
-    (Finset.mem_filter.mp b.property).2.2.2 ξ
+        (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 (B.rightTerms r)) y ξ := by
+  simpa only [rightFrame, SecondColumnSide.actualCoefficient,
+    ActualSecondCorrelationRows.restrictRows, ActualSecondCorrelationRows.correlation,
+    SecondAllocationLabel.rightColumns] using
+    (B.rightFactors r).frame_energy C b.val.1.val b.val.2.2.2.val
+      (Finset.mem_filter.mp b.property).2.2.2 ξ
+
+private theorem ordinary_energy_congr_coefficients {J : Type*}
+    (rows : Finset H) (columns : Finset J) (q : H → ℂ)
+    (u v : H → J → ℂ) (point : H → J → V) (ξ : V)
+    (huv : ∀ h i, i ∈ columns → u h i = v h i) :
+    jointColumnEnergy rows columns q u point ξ =
+      jointColumnEnergy rows columns q v point ξ := by
+  unfold jointColumnEnergy
+  apply Finset.sum_congr rfl
+  intro h _
+  have hp : jointFourierColumn columns (u h) (point h) ξ =
+      jointFourierColumn columns (v h) (point h) ξ := by
+    unfold jointFourierColumn
+    exact Finset.sum_congr rfl fun i hi => by rw [huv h i hi]
+  rw [hp]
 
 /-- Finite weighted L2 Minkowski is used on the complementary rows only.
 The exceptional whole subtraction never enters this four-term bound. -/
@@ -132,26 +153,14 @@ theorem ordinary_le_rectangles (C : A.GeneralArithmeticContext σ η hS) (ξ : V
   let c₁ := secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 (B.leftTerms true)
   let d₀ := secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 (B.rightTerms false)
   let d₁ := secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 (B.rightTerms true)
-  have he {J : Type*} (columns : Finset J) (u v : H → J → ℂ)
-      (point : H → J → V) (huv : ∀ h i, i ∈ columns → u h i = v h i) :
-      jointColumnEnergy rows columns q u point ξ =
-        jointColumnEnergy rows columns q v point ξ := by
-    unfold jointColumnEnergy
-    apply Finset.sum_congr rfl
-    intro h _
-    have hp : jointFourierColumn columns (u h) (point h) ξ =
-        jointFourierColumn columns (v h) (point h) ξ := by
-      unfold jointFourierColumn
-      exact Finset.sum_congr rfl fun i hi => by rw [huv h i hi]
-    rw [hp]
-  have hlE := he (b.val.leftColumns S₁ S₂ S)
+  have hlE := ordinary_energy_congr_coefficients rows (b.val.leftColumns S₁ S₂ S) q
     (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 wholeLeft)
-    (fun h i => c₀ h i - c₁ h i) x (by
+    (fun h i => c₀ h i - c₁ h i) x ξ (by
       intro h i hi
       simp only [secondAllocatedLeftCoefficient, B.left_difference i hi, sub_mul, c₀, c₁])
-  have hrE := he b.val.rightColumns
+  have hrE := ordinary_energy_congr_coefficients rows b.val.rightColumns q
     (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 wholeRight)
-    (fun h j => d₀ h j - d₁ h j) y (by
+    (fun h j => d₀ h j - d₁ h j) y ξ (by
       intro h j hj
       simp only [secondAllocatedRightCoefficient, B.right_difference j hj,
         sub_mul, star_sub, d₀, d₁])

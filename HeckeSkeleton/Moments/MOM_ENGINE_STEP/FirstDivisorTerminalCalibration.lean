@@ -23,6 +23,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckePort.Moments HeckePort.Moments.Support UniqueFactorizationMonoid
+open HeckePort.IdealMobiusDivisorSum
 open MeasureTheory
 
 variable {F : Type} [Field F] [NumberField F]
@@ -106,7 +107,7 @@ theorem atom_norm_sq_le (C : A.GeneralArithmeticContext σ η hS)
 
 /-- The whole residual coefficient stays inside the test profile.
 The first divisor is paid only by the original frozen atoms. -/
-theorem gram_seminorm_le {V : Type*} [NormedAddCommGroup V] [NormedSpace ℂ V]
+theorem gram_seminorm_le {V : Type*} [AddCommGroup V] [Module ℂ V]
     (C : A.GeneralArithmeticContext σ η hS)
     (i j : ι) (hi : i ∈ columns) (hj : j ∈ columns)
     (p : Seminorm ℂ V) (φ : V) :
