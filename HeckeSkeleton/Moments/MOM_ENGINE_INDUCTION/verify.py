@@ -1463,6 +1463,17 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                                    'data and '
                                                                                                    'output.',
                                                                                          'repair_sha256': '03200a75789c87371a478940abfe89cf468318641e8f2acb99830cf2091974c0'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CompleteEngineOutput.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                     'owner_sha256': '4b8c56f5d4b12e9448aa8591d60b51cd00515e7d2ac66cc801622192485b08e6',
+                                                                     'reason': 'CI76: open IsDedekindDomain '
+                                                                               'explicitly for '
+                                                                               'HeightOneSpectrum in the '
+                                                                               'original complete-engine '
+                                                                               'character inputs, avoiding '
+                                                                               'reliance on transitive '
+                                                                               'namespace openings after the '
+                                                                               'integrated base update.',
+                                                                     'repair_sha256': 'd5896155d4f9c0b934cd8844f12a60fa1701f55f9319da22ae577202d1172420'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ConstantCommonLeaf.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                    'owner_sha256': 'f7df02d24d9c6f66ccff22e9fc3c2e043af91a810c93e98f529c592927b54ef4',
                                                                    'reason': 'CI75: retain required hc/hd '
@@ -1483,6 +1494,19 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                    'mathematical input and '
                                                                                    'conclusion retained.',
                                                                          'repair_sha256': 'cd1a3218ef99de2638d9c7e88cae6db6e9626b3ddcedc138a7ae8825e64e2d82'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CurriedNormalizedOutput.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                        'owner_sha256': '0e6ce3d0990c1bc09cb64c03e9136bd6f661c4175c126cc8bea682b840818ce2',
+                                                                        'reason': 'Same namespace root cause '
+                                                                                  'as CI76 '
+                                                                                  'CompleteEngineOutput: '
+                                                                                  'open IsDedekindDomain '
+                                                                                  'explicitly for the '
+                                                                                  'original '
+                                                                                  'HeightOneSpectrum '
+                                                                                  'arguments. No declaration '
+                                                                                  'or mathematical object '
+                                                                                  'changes.',
+                                                                        'repair_sha256': 'b29f8ce7dfa8586771a8681e0667589d1a31a52ee2d524e910a3892b2cf596bc'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/DependentNormalizedFibres.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                           'owner_sha256': '4615f958c912fa860bb643cca604c7a9f632ecb1b74cfa251aaa5efb7ced4468',
                                                                           'reason': 'CI75: prove the finite '
@@ -1523,6 +1547,20 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                     'mathematical input and '
                                                                                     'conclusion retained.',
                                                                           'repair_sha256': 'bb5a3ee332b3213d7d8e829d06ca9df635b2c04c1c58982e8e97181c292154fc'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormCompleteEngineOutput.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                         'owner_sha256': 'dab7339275ee2b1cf1122d85ad7572eeade3f02c465bfc1471cab83ee1d1452b',
+                                                                         'reason': 'Same namespace root '
+                                                                                   'cause as CI76 '
+                                                                                   'CompleteEngineOutput: '
+                                                                                   'open IsDedekindDomain '
+                                                                                   'explicitly for the '
+                                                                                   'original '
+                                                                                   'HeightOneSpectrum '
+                                                                                   'arguments. No '
+                                                                                   'declaration or '
+                                                                                   'mathematical object '
+                                                                                   'changes.',
+                                                                         'repair_sha256': '69a0c7d3ce38245db3e3f8ea7746421bde9383ff6b87055eccb4f1c9f34a5863'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedOutputConditions.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                            'owner_sha256': 'd8f22913fad71b26a44aa4c518834ab1f139fb7f03f6eef9ba809dbc34f02ef8',
                                                                            'reason': 'CI74 finite '
@@ -1567,7 +1605,21 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                 'log; original mathematical '
                                                                                 'input and conclusion '
                                                                                 'retained.',
-                                                                      'repair_sha256': '6df10b0155e859f365e5ebe67d8593bb63aaecb86b81ec2f0b7a1e3da337c638'}}
+                                                                      'repair_sha256': '6df10b0155e859f365e5ebe67d8593bb63aaecb86b81ec2f0b7a1e3da337c638'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/SlotCompleteEngineOutput.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                         'owner_sha256': 'b35b55aa79d2cc3b0fa629090e86ca105e9d025a761eabcc28d5b2b806c665db',
+                                                                         'reason': 'Same namespace root '
+                                                                                   'cause as CI76 '
+                                                                                   'CompleteEngineOutput: '
+                                                                                   'open IsDedekindDomain '
+                                                                                   'explicitly for the '
+                                                                                   'original '
+                                                                                   'HeightOneSpectrum '
+                                                                                   'arguments. No '
+                                                                                   'declaration or '
+                                                                                   'mathematical object '
+                                                                                   'changes.',
+                                                                         'repair_sha256': '2a65b1b341c24852fa774cd040330f4cd1ce46d1508acb33ac19eb8fedf6cc16'}}
 PRODUCER_REPAIRED_SOURCES = {path: entry["repair_sha256"] for path, entry in PRODUCER_REPAIRS.items()}
 
 SOURCE_COMMIT = 'c92578b1fa556b72d01c6ff49bac7f27885f09d7'
