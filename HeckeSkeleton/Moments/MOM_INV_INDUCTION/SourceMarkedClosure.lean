@@ -170,7 +170,7 @@ model, with no added premise about its source energy. -/
 theorem marked_bound_of_uniform
     (t : Finset (ℕ × ℕ)) (Cih Zih : ℝ) (hCih : 1 ≤ Cih) (hZih : 2 ≤ Zih)
     (hih : ∀ Z : ℝ, Zih ≤ Z → ∀ z : ℝ, 0 ≤ z → z ≤ 1 →
-      UniformBound.{0} (Γ := Γ) (Θ := Θ) (ψ := ψ) D (P).Lambda (P).G c.geometry.slots Z 2
+      UniformBound.{0} («Γ» := Γ) («Θ» := Θ) («ψ» := ψ) D (P).Lambda (P).G c.geometry.slots Z 2
         (3 * c.family.lamA / 4) z (1 / 2) 2 (c.family.lamA / 2) 2 Cih t) :
     UniformMomentBoundFor
       (fun _ _ i => markedModelEnergyFor Models i)

@@ -72,7 +72,7 @@ theorem annular_bound_of_uniform
     (hsupport : 1 ≤ supportC) (t : Finset (ℕ × ℕ)) (Cih Zih : ℝ)
     (hCih : 1 ≤ Cih) (hZih : 2 ≤ Zih)
     (hih : ∀ Z : ℝ, Zih ≤ Z → ∀ z : ℝ, 0 ≤ z → z ≤ 1 →
-      UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D (P).Lambda (P).G slotCap Z 2
+      UniformBound.{u} («Γ» := Γ) («Θ» := Θ) («ψ» := ψ) D (P).Lambda (P).G slotCap Z 2
         (3 * gap / 4) z (1 / 2) 2 (eps / 2) 2 Cih t) :
     ∃ q : Finset (ℕ × ℕ), ∃ C Z₀ : ℝ, 0 ≤ C ∧ 2 ≤ Z₀ ∧
       ∀ (d : MomentData K c.family.omega ψ) (sector : SixthUnitClasses K Sset),

@@ -72,7 +72,7 @@ theorem exists_uniform_canonical_bound
     (hlo : 0 < lo) (hhi : lo ≤ hi) (hloss : 0 < loss) :
     ∃ q : Finset (ℕ × ℕ), ∃ C Z₀ : ℝ, 1 ≤ C ∧ 2 ≤ Z₀ ∧
       ∀ Z : ℝ, Z₀ ≤ Z → ∀ z : ℝ, 0 ≤ z → z ≤ zMax →
-        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D (P).Lambda (P).G slotCap
+        UniformBound.{u} («Γ» := Γ) («Θ» := Θ) («ψ» := ψ) D (P).Lambda (P).G slotCap
           Z Fmax margin z lo hi loss Mmax C q := by
   obtain ⟨b, hstep⟩ := exists_terminal_descentBudget Mmax margin (2 * loss) hmargin (by positivity)
   let A := max (max 1 (stageCapacity Fmax b.eta b.depth)) (max b.tau zMax)
@@ -96,8 +96,8 @@ theorem exists_uniform_canonical_bound
       Z Fcap cStage x hZ hF hc hx hsmall
   obtain ⟨q, C, Z₀, hC, hZ₀, hb⟩ :=
     ProviderUniformMarks.exists_uniform_bound_of_short_contribution_uniform_marks
-      (K := K) (S := S) (Γ := Γ) (Θ := Θ) (ψ := ψ)
-      (D := D) (Λ := (P).Lambda) (G := (P).G) (slotCap := slotCap)
+      (K := K) («S» := S) («Γ» := Γ) («Θ» := Θ) («ψ» := ψ)
+      («D» := D) (Λ := (P).Lambda) (G := (P).G) (slotCap := slotCap)
       (hΓ := le_rfl) (hallowed := allowedGenerators K c)
       (μv := Expansion.ActualProbeContext.allLocalMeasures K)
       (ν := Expansion.ActualProbeContext.finiteAdeleMeasure K)
