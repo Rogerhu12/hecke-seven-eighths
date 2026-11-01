@@ -113,7 +113,7 @@ structure ExceptionalOriginalNumbers where
 
 variable {H ι : Type*} [Fintype ι] [DecidableEq ι]
 variable {theta : Finset (HeckeCharacter K)}
-local notation "V" => WithLp 2 (U × E)
+local notation "ProductFourierSpace" => WithLp 2 (U × E)
 
 /-- Raw data for one actual theta-class leaf. The original fibre cap
 controls orbit-to-ideal and source-to-orbit multiplicities, before any
@@ -129,26 +129,26 @@ structure ExceptionalLeafRawData
     {branch : TwoDivisorCommonBranch (K := K)} (j : branch.Index)
     (Q : PairedFiniteCharacters theta H) where
   extraction : leaf.ConstantAtomExtraction
-  left : SecondSideFrame (V := V) C R PUnit.{1} .left leaf.leftSlots
-  right : SecondSideFrame (V := V) C R PUnit.{1} .right leaf.rightSlots
+  left : SecondSideFrame (V := ProductFourierSpace) C R PUnit.{1} .left leaf.leftSlots
+  right : SecondSideFrame (V := ProductFourierSpace) C R PUnit.{1} .right leaf.rightSlots
   leftComparison : SecondCoefficientComparison left.dictionary
   rightComparison : SecondCoefficientComparison right.dictionary
   commonLeftSlots : ℕ
   commonRightSlots : ℕ
   rowMass : ActualSecondRowMass R C commonLeftSlots commonRightSlots
   binding : extraction.leaf.ExceptionalBinding left right leftComparison rightComparison Q
-  leftCharts : ∀ ξ : V, ∀ h : R.exceptionalRows Q,
+  leftCharts : ∀ ξ : ProductFourierSpace, ∀ h : R.exceptionalRows Q,
     left.source.ExceptionalAt (σ := σ) leftComparison.scale₁ leftComparison.scale₂
       (fun _ => leftComparison.leftWeight) (fun _ => leftComparison.rightWeight)
       p.leftCharacter p.leftPlain₁ p.leftPlain₂ ξ h.val
-  rightCharts : ∀ ξ : V, ∀ h : R.exceptionalRows Q,
+  rightCharts : ∀ ξ : ProductFourierSpace, ∀ h : R.exceptionalRows Q,
     right.source.ExceptionalAt (σ := σ) rightComparison.scale₁ rightComparison.scale₂
       (fun _ => rightComparison.leftWeight) (fun _ => rightComparison.rightWeight)
       p.rightCharacter p.rightPlain₁ p.rightPlain₂ ξ h.val
   leftScales : ExceptionalAtomicScales left.allocation
   rightScales : ExceptionalAtomicScales right.allocation
   numbers : ExceptionalOriginalNumbers
-  height : V → ℝ
+  height : ProductFourierSpace → ℝ
   v_nonneg : 0 ≤ numbers.v
   r₁_nonneg : 0 ≤ numbers.r₁
   divisor_window : lower - numbers.r₂ ≤ numbers.slotError

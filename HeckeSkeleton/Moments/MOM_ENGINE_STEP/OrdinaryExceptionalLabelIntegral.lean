@@ -198,13 +198,13 @@ variable {C : A.GeneralArithmeticContext σ η hS}
 variable {R : ActualSecondCorrelationRows A σ H ι}
 variable {kCommonLeft kCommonRight : ℕ}
 variable {Ray : Type*} [CommGroup Ray] [Fintype Ray] {k l : ℕ}
-local notation "V" => WithLp 2 (U × E)
+local notation "ProductFourierSpace" => WithLp 2 (U × E)
 
 namespace SecondSideFrame
 
 theorem ordinaryExceptionalMagnitude_nested_integrable
-    (left : SecondSideFrame (V := V) C R Ray .left k)
-    (right : SecondSideFrame (V := V) C R Ray .right l)
+    (left : SecondSideFrame (V := ProductFourierSpace) C R Ray .left k)
+    (right : SecondSideFrame (V := ProductFourierSpace) C R Ray .right l)
     {theta : Finset (HeckeCharacter F)} (Q : PairedFiniteCharacters theta H)
     (F₁ : 𝓢(U, ℂ)) (F₂ : 𝓢(E, ℂ)) :
     Integrable (fun z : U × E => left.ordinaryExceptionalMagnitude right Q (WithLp.toLp 2 z))
@@ -219,12 +219,12 @@ variable (HL : ExceptionalVolumeControl ΨL WL₁ WL₂) (HR : ExceptionalVolume
 Fourier kernels.  The absolute-volume estimate is uniform in their two
 parameters, so the only Fourier cost is their proved total mass. -/
 theorem ordinary_exceptional_original_label_integral_from_atoms
-    (left : SecondSideFrame (V := V) C R Ray .left k)
-    (right : SecondSideFrame (V := V) C R Ray .right l)
+    (left : SecondSideFrame (V := ProductFourierSpace) C R Ray .left k)
+    (right : SecondSideFrame (V := ProductFourierSpace) C R Ray .right l)
     (W : ActualSecondRowMass R C kCommonLeft kCommonRight)
     {theta : Finset (HeckeCharacter F)} (Q : PairedFiniteCharacters theta H)
-    (TL : ∀ ξ : V, ∀ h : R.exceptionalRows Q, left.source.OrdinaryExceptionalAt (σ := σ) ΨL WL₁ WL₂ ξ h.val)
-    (TR : ∀ ξ : V, ∀ h : R.exceptionalRows Q, right.source.OrdinaryExceptionalAt (σ := σ) ΨR WR₁ WR₂ ξ h.val)
+    (TL : ∀ ξ : ProductFourierSpace, ∀ h : R.exceptionalRows Q, left.source.OrdinaryExceptionalAt (σ := σ) ΨL WL₁ WL₂ ξ h.val)
+    (TR : ∀ ξ : ProductFourierSpace, ∀ h : R.exceptionalRows Q, right.source.OrdinaryExceptionalAt (σ := σ) ΨR WR₁ WR₂ ξ h.val)
     (UL : ExceptionalAtomicScales left.allocation) (UR : ExceptionalAtomicScales right.allocation)
     (Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v
       r₁ r₂ divisorLower slotError stepσ δ parentWidth remaining rowError widthError : ℝ)

@@ -362,7 +362,7 @@ def literalPassiveNormalizedFamily_input :
           CanonicalLiteralRectangles.Atoms.scale, hbaseLeft] using he)
       (hpaidSupport := by simpa only [CanonicalLiteralRectangles.Atoms.balancePlain,
         CanonicalLiteralRectangles.Atoms.scale, hbaseLeft] using hpaidSupport)
-      (m := m) (q := q) (κ := a.κ)
+      («m» := m) («q» := q) (κ := a.κ)
       (hwidth := by simpa only [CanonicalLiteralRectangles.Atoms.balancePlain,
         CanonicalLiteralRectangles.Atoms.scale, hbaseLeft] using hw)
       (inverse := CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
@@ -412,7 +412,7 @@ def literalPassiveNormalizedFamily_input :
           CanonicalLiteralRectangles.Atoms.scale, hbaseRight] using he)
       (hpaidSupport := by simpa only [CanonicalLiteralRectangles.Atoms.balancePlain,
         CanonicalLiteralRectangles.Atoms.scale, hbaseRight] using hpaidSupport)
-      (m := m) (q := q) (κ := a.κ)
+      («m» := m) («q» := q) (κ := a.κ)
       (hwidth := by simpa only [CanonicalLiteralRectangles.Atoms.balancePlain,
         CanonicalLiteralRectangles.Atoms.scale, hbaseRight] using hw)
       (inverse := CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)

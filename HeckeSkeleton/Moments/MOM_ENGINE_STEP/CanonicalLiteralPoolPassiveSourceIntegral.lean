@@ -387,9 +387,9 @@ def literalLeftPoolPassiveSourceIntegral :=
     (hnorm := hnorm) (dimension := dimension) (width := width) (character := character) (dyad := dyad)
     (LC := cover) (RC := cover) (exceptional := exceptional) (firstKernel := F) (x := firstPoint)
     (j := j) (hlive := bareLive) (firstSign := 1)
-    (leftAtoms := leftAtoms) (rightAtoms := rightAtoms)
-    (leftScalar := leftScalar) (rightScalar := rightScalar)
-    (leftBalance := leftBalance) (rightBalance := rightBalance)
+    («leftAtoms» := leftAtoms) («rightAtoms» := rightAtoms)
+    («leftScalar» := leftScalar) («rightScalar» := rightScalar)
+    («leftBalance» := leftBalance) («rightBalance» := rightBalance)
     (hleftBalance := hbL) (hrightBalance := hbR)
     (firstSupport := primeSupport DE.1 ∪ {q.val.val.asIdeal}) (hfirst := fun _ hp => by
       rcases Finset.mem_union.mp hp with hp | hp
@@ -399,7 +399,7 @@ def literalLeftPoolPassiveSourceIntegral :=
     (leftProfiles := profilesL) (rightProfiles := profilesR)
     (hbaseLeft := hbaseL) (hbaseRight := hbaseR)
     (F := fixedPhases) (choice := choice) (parent := data ξ) (oldMoving := Q.moving)
-    (correction := Q.correction) (hcorr := hcorr) (remaining := Q.remaining) (extra := extra) (hextra := rfl)
+    (correction := Q.correction) (hcorr := hcorr) (remaining := Q.remaining) («extra» := extra) (hextra := rfl)
     (leftRecipe := recipeL) (rightRecipe := recipeR)
     (profileBound := profileBound) (hprofileBound := hprofileBound) (hprofile := hprofile)
     (a := a) (step := step) (geometry := geometry) (hretained := hretained) (henlargement := henlargement)
@@ -412,7 +412,7 @@ def literalLeftPoolPassiveSourceIntegral :=
     (domain := domain) (direct := direct) (hsmall := hsmall) (error := error) (herror := herror)
     (hstep := hstep) (mesh := mesh) (hmesh := hmesh) (hfit := hfit)
     (lo := lo) (hi := hi) (hlo := hlo) (hhi := hhi) (orders := orders)
-    (original := originalWindow) (hreference := hreference) (htime := htime)
+    («original» := originalWindow) (hreference := hreference) (htime := htime)
     (horders := fun z hz => CanonicalLogProfiles.subset_sourceOrders _
       (CanonicalLogProfiles.subset_sourceOrders _ hz))
     (leftComputed := computedL) (rightComputed := computedR) (hprimeOrders := hprimeOrders)
@@ -679,9 +679,9 @@ def literalRightPoolPassiveSourceIntegral :=
     (hnorm := hnorm) (dimension := dimension) (width := width) (character := character) (dyad := dyad)
     (LC := cover) (RC := cover) (exceptional := exceptional) (firstKernel := F) (x := firstPoint)
     (j := j) (hlive := bareLive) (firstSign := (-1))
-    (leftAtoms := leftAtoms) (rightAtoms := rightAtoms)
-    (leftScalar := leftScalar) (rightScalar := rightScalar)
-    (leftBalance := leftBalance) (rightBalance := rightBalance)
+    («leftAtoms» := leftAtoms) («rightAtoms» := rightAtoms)
+    («leftScalar» := leftScalar) («rightScalar» := rightScalar)
+    («leftBalance» := leftBalance) («rightBalance» := rightBalance)
     (hleftBalance := hbL) (hrightBalance := hbR)
     (firstSupport := primeSupport DE.1 ∪ {q.val.val.asIdeal}) (hfirst := fun _ hp => by
       rcases Finset.mem_union.mp hp with hp | hp
@@ -691,7 +691,7 @@ def literalRightPoolPassiveSourceIntegral :=
     (leftProfiles := profilesL) (rightProfiles := profilesR)
     (hbaseLeft := hbaseL) (hbaseRight := hbaseR)
     (F := fixedPhases) (choice := choice) (parent := data ξ) (oldMoving := Q.moving)
-    (correction := Q.correction) (hcorr := hcorr) (remaining := Q.remaining) (extra := extra) (hextra := rfl)
+    (correction := Q.correction) (hcorr := hcorr) (remaining := Q.remaining) («extra» := extra) (hextra := rfl)
     (leftRecipe := recipeL) (rightRecipe := recipeR)
     (profileBound := profileBound) (hprofileBound := hprofileBound) (hprofile := hprofile)
     (a := a) (step := step) (geometry := geometry) (hretained := hretained) (henlargement := henlargement)
@@ -704,7 +704,7 @@ def literalRightPoolPassiveSourceIntegral :=
     (domain := domain) (direct := direct) (hsmall := hsmall) (error := error) (herror := herror)
     (hstep := hstep) (mesh := mesh) (hmesh := hmesh) (hfit := hfit)
     (lo := lo) (hi := hi) (hlo := hlo) (hhi := hhi) (orders := orders)
-    (original := originalWindow) (hreference := hreference) (htime := htime)
+    («original» := originalWindow) (hreference := hreference) (htime := htime)
     (horders := fun z hz => CanonicalLogProfiles.subset_sourceOrders _
       (CanonicalLogProfiles.subset_sourceOrders _ hz))
     (leftComputed := computedL) (rightComputed := computedR) (hprimeOrders := hprimeOrders)

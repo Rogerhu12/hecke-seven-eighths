@@ -138,11 +138,11 @@ local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W �
 
 local notation "stages" => Q.literalPrimitiveDirectStages
   (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
-  (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) (hZ := hZ) (hbudget := hbudget)
+  (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) («hZ» := hZ) (hbudget := hbudget)
   (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le))
   (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
   (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
-  (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain)
+  (hannulus := b.hi_ge_one) (hcap := hcap) («hannulusZ» := hannulusZ) (domain := canonicalDomain)
   (profiles := window₂) (hrows := hrows) (ht := htime) (hwindow := fun _ h => h.2)
   (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (step := b.step) (hstep := b.step_pos)
   (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
@@ -151,11 +151,11 @@ local notation "stages" => Q.literalPrimitiveDirectStages
 
 local notation "exceptional" => Q.literalPrimitiveDirectPredicates
   (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
-  (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) (hZ := hZ) (hbudget := hbudget)
+  (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) («hZ» := hZ) (hbudget := hbudget)
   (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le))
   (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
   (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
-  (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain)
+  (hannulus := b.hi_ge_one) (hcap := hcap) («hannulusZ» := hannulusZ) (domain := canonicalDomain)
   (profiles := window₂) (hrows := hrows) (ht := htime) (hwindow := fun _ h => h.2)
   (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (step := b.step) (hstep := b.step_pos)
   (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
@@ -168,7 +168,7 @@ local notation "normalization" => Q.literalPrimitiveFirstNormalization μv ν C 
 
 local notation "computedInput" => literalPrimitiveDirectInput
   (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
-  (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) (hZ := hZ) (hbudget := hbudget)
+  (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) («hZ» := hZ) (hbudget := hbudget)
   (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le))
   (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half) (hY₁ := hY₁) (hY₂ := hY₂)
   (cap := b.cap) (loss := b.loss) (cutoffExponent := b.loss)
@@ -181,7 +181,7 @@ local notation "computedInput" => literalPrimitiveDirectInput
   (reference := reference) (href := href) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
   (orders := orders) (originalBound := amplitude) (horiginalBound := (zero_le_one.trans hamplitude))
   (originalWindow := window₂) (hrows := hrows) (htime := htime) (hprime := hprime)
-  (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain) (hprimeOrders := hprimeOrders)
+  (hcap := hcap) («hannulusZ» := hannulusZ) (domain := canonicalDomain) (hprimeOrders := hprimeOrders)
   (δ := chosenContour) (analyticHeight := (heightC * (1 + Real.log Z))) (hδ := hcontourPos) (hδhi := hcontourQuarter)
   (hone := hone) (hbackground := hbackground) (hslot := hslot)
   (columnBound := b.columnBound) (normBox := b.rawNormBound) (heightC := heightC)
@@ -189,15 +189,15 @@ local notation "computedInput" => literalPrimitiveDirectInput
   (hheight := le_rfl)
   (hbox := by dsimp only [Box.rawNormBound]; linarith)
   (leftExponent := b.lengthBound) (rightExponent := b.lengthBound)
-  (hleftPower := hleftPower) (hrightPower := hrightPower)
-  (hY₁le := hY₁le) (hY₂le := hY₂le) (hcolumn := hcolumn)
+  («hleftPower» := hleftPower) («hrightPower» := hrightPower)
+  (hY₁le := hY₁le) (hY₂le := hY₂le) («hcolumn» := hcolumn)
 
 local notation "terminal" => Q.literalPrimitiveDirectDualCalibration
   (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight)
-  (hZ := hZ) (hbudget := hbudget) (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le)) (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half) (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
-  (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain) (orders := orders) (amplitude := amplitude) (profiles := window₁) (hrows := hrows) (ht := htime) (hwindow := (fun _ h => h.2)) (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (step := b.step)
-  (hstep := b.step_pos) (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le) (lo := b.lo) (hlo := b.lo_pos) (hloOne := b.lo_le_one) (hlowerThreshold := hlowerThreshold) (hlowerWindow := (fun _ h => h.1)) (hamplitude := hamplitude) (leftExponent := b.lengthBound) (rightExponent := b.lengthBound) (lengthBound := b.lengthBound)
-  (columnBound := b.columnBound) (hY₁ := hY₁) (hY₂ := hY₂) (hleftPower := hleftPower) (hrightPower := hrightPower) (hY₁le := hY₁le) (hY₂le := hY₂le) (htotal := htotal) (hcolumn := hcolumn) (hlossOne := b.loss_le_one) (hDiff := hDiff) (δ₂ := b.tilt)
+  («hZ» := hZ) (hbudget := hbudget) (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le)) (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half) (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
+  (hannulus := b.hi_ge_one) (hcap := hcap) («hannulusZ» := hannulusZ) (domain := canonicalDomain) (orders := orders) (amplitude := amplitude) (profiles := window₁) (hrows := hrows) (ht := htime) (hwindow := (fun _ h => h.2)) (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (step := b.step)
+  (hstep := b.step_pos) (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le) (lo := b.lo) (hlo := b.lo_pos) (hloOne := b.lo_le_one) («hlowerThreshold» := hlowerThreshold) (hlowerWindow := (fun _ h => h.1)) (hamplitude := hamplitude) (leftExponent := b.lengthBound) (rightExponent := b.lengthBound) (lengthBound := b.lengthBound)
+  (columnBound := b.columnBound) (hY₁ := hY₁) (hY₂ := hY₂) («hleftPower» := hleftPower) («hrightPower» := hrightPower) (hY₁le := hY₁le) (hY₂le := hY₂le) («htotal» := htotal) («hcolumn» := hcolumn) (hlossOne := b.loss_le_one) (hDiff := hDiff) (δ₂ := b.tilt)
   (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half) (sTail := second.sTail) (sZero := second.sZero) (Nsave := b.saving) (decay := b.secondDecay) (hdecay := b.secondDecay_gt_one)
 
 local notation "secondConstant" =>
@@ -222,27 +222,27 @@ def literalPrimitiveDirectEngineExceptionalCost : ℝ := exceptionalCost
 
 local notation "zeroBudget" => Q.literalPrimitiveDirectDualZeroBudget_le
   (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight)
-  (hZ := hZ) (hbudget := hbudget) (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le)) (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half) (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
-  (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain) (orders := orders) (amplitude := amplitude) (profiles := window₁) (hrows := hrows) (ht := htime) (hwindow := (fun _ h => h.2)) (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (step := b.step)
-  (hstep := b.step_pos) (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le) (lo := b.lo) (hlo := b.lo_pos) (hloOne := b.lo_le_one) (hlowerThreshold := hlowerThreshold) (hlowerWindow := (fun _ h => h.1)) (hamplitude := hamplitude) (leftExponent := b.lengthBound) (rightExponent := b.lengthBound) (lengthBound := b.lengthBound)
-  (columnBound := b.columnBound) (hY₁ := hY₁) (hY₂ := hY₂) (hleftPower := hleftPower) (hrightPower := hrightPower) (hY₁le := hY₁le) (hY₂le := hY₂le) (htotal := htotal) (hcolumn := hcolumn) (hlossOne := b.loss_le_one) (hDiff := hDiff) (δ₂ := b.tilt)
+  («hZ» := hZ) (hbudget := hbudget) (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le)) (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half) (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
+  (hannulus := b.hi_ge_one) (hcap := hcap) («hannulusZ» := hannulusZ) (domain := canonicalDomain) (orders := orders) (amplitude := amplitude) (profiles := window₁) (hrows := hrows) (ht := htime) (hwindow := (fun _ h => h.2)) (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (step := b.step)
+  (hstep := b.step_pos) (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le) (lo := b.lo) (hlo := b.lo_pos) (hloOne := b.lo_le_one) («hlowerThreshold» := hlowerThreshold) (hlowerWindow := (fun _ h => h.1)) (hamplitude := hamplitude) (leftExponent := b.lengthBound) (rightExponent := b.lengthBound) (lengthBound := b.lengthBound)
+  (columnBound := b.columnBound) (hY₁ := hY₁) (hY₂ := hY₂) («hleftPower» := hleftPower) («hrightPower» := hrightPower) (hY₁le := hY₁le) (hY₂le := hY₂le) («htotal» := htotal) («hcolumn» := hcolumn) (hlossOne := b.loss_le_one) (hDiff := hDiff) (δ₂ := b.tilt)
   (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half) (sTail := second.sTail) (sZero := second.sZero) (Nsave := b.saving) (decay := b.secondDecay) (hdecay := b.secondDecay_gt_one)
   (hcolumnBound := b.columnBound_nonneg) (εsum := b.ε / 8)
   (hεsum := div_pos b.ε_pos (by norm_num))
 
 local notation "tailBudget" => Q.literalPrimitiveDirectDualTailBudget_le
   (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight)
-  (hZ := hZ) (hbudget := hbudget) (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le)) (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half) (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
-  (hannulus := b.hi_ge_one) (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain) (orders := orders) (amplitude := amplitude) (profiles := window₁) (hrows := hrows) (ht := htime) (hwindow := (fun _ h => h.2)) (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (step := b.step)
-  (hstep := b.step_pos) (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le) (lo := b.lo) (hlo := b.lo_pos) (hloOne := b.lo_le_one) (hlowerThreshold := hlowerThreshold) (hlowerWindow := (fun _ h => h.1)) (hamplitude := hamplitude) (leftExponent := b.lengthBound) (rightExponent := b.lengthBound) (lengthBound := b.lengthBound)
-  (columnBound := b.columnBound) (hY₁ := hY₁) (hY₂ := hY₂) (hleftPower := hleftPower) (hrightPower := hrightPower) (hY₁le := hY₁le) (hY₂le := hY₂le) (htotal := htotal) (hcolumn := hcolumn) (hlossOne := b.loss_le_one) (hDiff := hDiff) (δ₂ := b.tilt)
+  («hZ» := hZ) (hbudget := hbudget) (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le)) (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half) (cap := b.cap) (annulus := b.hi) (loss := b.loss) (cutoffExponent := b.loss)
+  (hannulus := b.hi_ge_one) (hcap := hcap) («hannulusZ» := hannulusZ) (domain := canonicalDomain) (orders := orders) (amplitude := amplitude) (profiles := window₁) (hrows := hrows) (ht := htime) (hwindow := (fun _ h => h.2)) (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (step := b.step)
+  (hstep := b.step_pos) (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le) (lo := b.lo) (hlo := b.lo_pos) (hloOne := b.lo_le_one) («hlowerThreshold» := hlowerThreshold) (hlowerWindow := (fun _ h => h.1)) (hamplitude := hamplitude) (leftExponent := b.lengthBound) (rightExponent := b.lengthBound) (lengthBound := b.lengthBound)
+  (columnBound := b.columnBound) (hY₁ := hY₁) (hY₂ := hY₂) («hleftPower» := hleftPower) («hrightPower» := hrightPower) (hY₁le := hY₁le) (hY₂le := hY₂le) («htotal» := htotal) («hcolumn» := hcolumn) (hlossOne := b.loss_le_one) (hDiff := hDiff) (δ₂ := b.tilt)
   (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half) (sTail := second.sTail) (sZero := second.sZero) (Nsave := b.saving) (decay := b.secondDecay) (hdecay := b.secondDecay_gt_one)
   (hcolumnBound := b.columnBound_nonneg) (εsum := b.ε / 8)
   (hεsum := div_pos b.ε_pos (by norm_num))
 
 local notation "conclusion" => literalPrimitiveDirectConclusion
   (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
-  (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) (hZ := hZ) (hbudget := hbudget)
+  (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) («hZ» := hZ) (hbudget := hbudget)
   (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le))
   (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half) (hY₁ := hY₁) (hY₂ := hY₂)
   (cap := b.cap) (loss := b.loss) (cutoffExponent := b.loss)
@@ -255,7 +255,7 @@ local notation "conclusion" => literalPrimitiveDirectConclusion
   (reference := reference) (href := href) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
   (orders := orders) (originalBound := amplitude) (horiginalBound := (zero_le_one.trans hamplitude))
   (originalWindow := window₂) (hrows := hrows) (htime := htime) (hprime := hprime)
-  (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain) (hprimeOrders := hprimeOrders)
+  (hcap := hcap) («hannulusZ» := hannulusZ) (domain := canonicalDomain) (hprimeOrders := hprimeOrders)
   (δ := chosenContour) (analyticHeight := (heightC * (1 + Real.log Z))) (hδ := hcontourPos) (hδhi := hcontourQuarter)
   (hone := hone) (hbackground := hbackground) (hslot := hslot)
   (hδsum := by linarith [b.tilt_le_quarter]) (herrorPos := b.error_pos)
@@ -267,13 +267,13 @@ local notation "conclusion" => literalPrimitiveDirectConclusion
   (massLoss := CanonicalPrimitiveEngineMassChoices.massLoss b) (heightConstant := heightC)
   (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
   (hwidthMax := b.width_nonneg) (hmassLoss := CanonicalPrimitiveEngineMassChoices.massLoss_pos b)
-  (htotal := htotal) (hwidth := hwidth)
+  («htotal» := htotal) (hwidth := hwidth)
   (hN := Q.literalPrimitiveFirstSource_column_norm μv ν C hroot hemb W ξ
     a Z t canonicalLeft canonicalRight hZ hbudget centered
     (b.firstBox.cutoff Z) (b.firstBox.cutoff_ge_one (hZ).le) b.tilt b.tilt_pos b.tilt_le_half
     b.cap b.hi b.loss b.lengthBound b.lengthBound b.columnBound b.hi_ge_one hcap hannulusZ
     hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le window₂ hrows htime (fun _ h => h.2) hcolumn)
-  (T := |t|) (control := control) (hT := abs_nonneg t)
+  (T := |t|) («control» := control) (hT := abs_nonneg t)
   (hcontrol := CanonicalPrimitiveEngineControl.height_le amplitude t hamplitude)
   (hprofile := by simpa only [pow_one] using
     CanonicalPrimitiveEngineControl.amplitude_le amplitude t hamplitude)
@@ -385,7 +385,7 @@ def literalPrimitiveDirectEngine
 
 local notation "backgroundFamily" => literalPrimitiveDirectFamily
   (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
-  (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) (hZ := hZ) (hbudget := hbudget)
+  (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) («hZ» := hZ) (hbudget := hbudget)
   (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le))
   (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half) (hY₁ := hY₁) (hY₂ := hY₂)
   (cap := b.cap) (loss := b.loss) (cutoffExponent := b.loss)
@@ -398,13 +398,13 @@ local notation "backgroundFamily" => literalPrimitiveDirectFamily
   (reference := reference) (href := href) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
   (orders := orders) (originalBound := amplitude) (horiginalBound := (zero_le_one.trans hamplitude))
   (originalWindow := window₂) (hrows := hrows) (htime := htime) (hprime := hprime)
-  (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain) (hprimeOrders := hprimeOrders)
+  (hcap := hcap) («hannulusZ» := hannulusZ) (domain := canonicalDomain) (hprimeOrders := hprimeOrders)
   (δ := chosenContour) (analyticHeight := (heightC * (1 + Real.log Z))) (hδ := hcontourPos) (hδhi := hcontourQuarter)
   (hone := hone) (hbackground := hbackground) (hslot := hslot) computedInput
 
 local notation "backgroundRaw" => literalPrimitiveDirectFamily_raw_plainBackground
   (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
-  (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) (hZ := hZ) (hbudget := hbudget)
+  (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) («hZ» := hZ) (hbudget := hbudget)
   (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le))
   (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half) (hY₁ := hY₁) (hY₂ := hY₂)
   (cap := b.cap) (loss := b.loss) (cutoffExponent := b.loss)
@@ -417,7 +417,7 @@ local notation "backgroundRaw" => literalPrimitiveDirectFamily_raw_plainBackgrou
   (reference := reference) (href := href) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
   (orders := orders) (originalBound := amplitude) (horiginalBound := (zero_le_one.trans hamplitude))
   (originalWindow := window₂) (hrows := hrows) (htime := htime) (hprime := hprime)
-  (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain) (hprimeOrders := hprimeOrders)
+  (hcap := hcap) («hannulusZ» := hannulusZ) (domain := canonicalDomain) (hprimeOrders := hprimeOrders)
   (δ := chosenContour) (analyticHeight := (heightC * (1 + Real.log Z))) (hδ := hcontourPos) (hδhi := hcontourQuarter)
   (hone := hone) (hbackground := hbackground) (hslot := hslot) computedInput
 
