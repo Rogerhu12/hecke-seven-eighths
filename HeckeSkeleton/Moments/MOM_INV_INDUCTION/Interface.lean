@@ -27,11 +27,13 @@ The parent reduction retains both principal terms.  The cost `28 * eta`
 is `9/2 + 18 + 11/2`; the two occurrences of the clipping correction add
 at most `12 * eta`, yielding the paper's `40 * eta` step loss.
 
-The interface is deliberately independent of `HeckeSkeleton.Moments`:
-the latter's source types currently contain admitted definitions.  The
-consumer theorems in this directory therefore have an auditable type as
-well as an auditable proof.  See `STATEMENT_AUDIT.md` for the original
-source endpoint and the additional source/terminal transport obligations.
+This historical algebraic interface stays independent of
+`HeckeSkeleton.Moments`. The production source closure instead consumes
+`CanonicalStep.exists_uniform_step` and its actual generated children;
+`ProviderUniformMarks` supplies its finite backwards induction.
+`SourceModelClosure` now assembles the two original model obligations.
+See `README.md` for current native verification and `STATEMENT_AUDIT.md`
+for the historical source-interface audit.
 -/
 
 set_option autoImplicit false

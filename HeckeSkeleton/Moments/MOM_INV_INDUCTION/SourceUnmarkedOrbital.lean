@@ -195,7 +195,9 @@ theorem exists_uniform_orbital_bound_of_uniform
     gap eps H X lo hi W hgap0 hgap1 heps hH4 hX hlength hHwidth
   have hih' : UniformBound.{0} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap H 1
       (3 * (gap / 4) / 4) 0 lo hi (eps / 2) 1 Cih qchild := by
-    simpa only [show 3 * (gap / 4) / 4 = 3 * gap / 16 by ring] using hih
+    intro σ x hx hr
+    rw [show 3 * (gap / 4) / 4 = 3 * gap / 16 by ring] at hx
+    exact hih x hx hr
   have hbnd := horbital C₀ Θ ψ hadmissible W hW Λ G hG 1 0 0 (gap / 4)
     (mesh gap eps) (truncation gap) lo hi (fun _ => 0) hb (eps / 2) Cih
     le_rfl le_rfl (by positivity) hCih hih'

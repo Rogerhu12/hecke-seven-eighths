@@ -103,6 +103,7 @@ theorem finite_shifted_fourier (T : Finset ι) (a : ι → ℂ) (x : ι → ℝ)
     _ = ∫ t : ℝ, ∑ i ∈ T, a i * ((𝓕 F) t * columnPhase t (x i - v)) := by
       apply integral_congr_ae
       exact Filter.Eventually.of_forall fun t => by
+        dsimp only
         rw [Finset.mul_sum]
         apply Finset.sum_congr rfl
         intro i hi
@@ -144,10 +145,7 @@ theorem shifted_profile_eq_prefix_integral (T : Finset ι) (a : ι → ℂ)
       (𝓕 F) t * columnPhase t (-Real.log D) *
         (∑ i ∈ T, a i * columnPhase t (Real.log (N i)) *
           (Expansion.Dyadic.cutoff (N i / (2 : ℝ) ^ L) : ℂ))
-    apply congrArg (fun z : ℂ => (𝓕 F) t * columnPhase t (-Real.log D) * z)
-    apply Finset.sum_congr rfl
-    intro i hi
-    ring
+    simp only [mul_assoc, mul_left_comm, mul_comm]
 
 theorem prefix_energy_integrable (T : Finset ι) (a : ι → ℂ) (N : ι → ℝ)
     (L : ℕ) (W : ℝ → ℝ) (hW : Integrable W) :

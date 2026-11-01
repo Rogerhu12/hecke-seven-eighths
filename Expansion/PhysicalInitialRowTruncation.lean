@@ -226,7 +226,7 @@ theorem normalizedProbe_eq_initial_boxes_add_tail (P : ProbeData K Sset)
         rowContourBox K Sset (fun v => μv v.val) P ψ (arithmeticHighEulerData K Sset P ψ)
           g T u Z H 5 5 3) + actualInitialTailSum K S μv P ψ g T Z H := by
   rw [normalizedProbe_eq_sum_actualInitialRowIntegral K S μv ν μ P hzero hP ψ hcal hψ g T hZ]
-  simp_rw [actualInitialRowIntegral_eq_box_add_tail K S μv ν P hP ψ hcal hψ g T hZ]
+  simp_rw [actualInitialRowIntegral_eq_box_add_tail K S μv ν P hP ψ hcal hψ g T hZ H]
   exact (summable_actualInitialRowBoxes K S μv ν P hP ψ hcal hψ g T hZ H).tsum_add
     (summable_actualInitialRowTailIntegral K S μv ν P hP ψ hcal hψ g T hZ H)
 

@@ -156,12 +156,12 @@ theorem overlapZero_eq (i : Idx) :
       (FirstInversePoisson.unitIdeal K S) (overlap K S D Γ X H i)‖ =
       if live K S D Γ X H i then 1 else 0 := by
   by_cases hi : live K S D Γ X H i
-  · rw [ite_eq_left hi]
+  · conv_rhs => rw [ite_eq_left hi]
     change IsCoprime (overlap K S D Γ X H i).val.val
       (common K S D Γ X H i).val.val at hi
     simp only [SecondColumnEnergy.overlapZero, FirstInversePoisson.unitIdeal_val,
       mul_one, idealCoprimeMask, ite_eq_left hi, norm_one]
-  · rw [ite_eq_right hi]
+  · conv_rhs => rw [ite_eq_right hi]
     change ¬ IsCoprime (overlap K S D Γ X H i).val.val
       (common K S D Γ X H i).val.val at hi
     simp only [SecondColumnEnergy.overlapZero, FirstInversePoisson.unitIdeal_val,

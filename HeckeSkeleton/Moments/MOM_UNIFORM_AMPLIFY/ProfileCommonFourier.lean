@@ -117,8 +117,9 @@ theorem scaled_common_profile_fourier_majorant (Ω : ℝ → ℂ) (V : SchwartzM
   have he : (fun t : ℝ => (1 + ‖t‖) ^ J * W t) =
       fun t => (C * (1 + T) ^ (J + 2 : ℕ)) * profileFourierTail 2 t := by
     funext t
-    dsimp [W]
-    rw [← mul_assoc, mul_comm ((1 + ‖t‖) ^ J), mul_assoc, profileFourierTail_weighted]
+    change (1 + ‖t‖) ^ J *
+      ((C * (1 + T) ^ (J + 2 : ℕ)) * profileFourierTail (J + 2) t) = _
+    rw [mul_left_comm ((1 + ‖t‖) ^ J), profileFourierTail_weighted]
   refine ⟨W, fun t => mul_nonneg (by positivity) (profileFourierTail_nonneg _ _), ?_, ?_, ?_⟩
   · rw [he]
     exact (profileFourierTail_integrable 2 (by norm_num)).const_mul _
@@ -179,18 +180,16 @@ theorem common_profile_fourier_minkowski {ι : Type*} [Fintype ι]
   let g : ℝ → ι → ℂ := fun t i => (𝓕 (f i)) t * child t i
   have hpoint (t : ℝ) : Real.sqrt (∑ i, ‖g t i‖ ^ 2) ≤
       ((1 + ‖t‖) ^ J * W t) * E := by
-    calc
-      _ ≤ W t * Real.sqrt (∑ i, ‖child t i‖ ^ 2) :=
-        finite_l2_mul_common_bound (fun i => (𝓕 (f i)) t) (child t) (W t) (hW0 t)
-          (fun i => hf i t)
-      _ ≤ W t * (E * (1 + ‖t‖) ^ J) := mul_le_mul_of_nonneg_left (hchild t) (hW0 t)
-      _ = _ := by ring
+    have hmul := finite_l2_mul_common_bound (ι := ι)
+      (fun i : ι => (𝓕 (f i)) t) (child t) (W t) (hW0 t) (fun i => hf i t)
+    exact hmul.trans ((mul_le_mul_of_nonneg_left (hchild t) (hW0 t)).trans_eq (by ring))
   have hg (i : ι) : Integrable (fun t : ℝ => g t i) := by
-    apply (hW.mul_const E).mono'
-      ((𝓕 (f i)).continuous.aestronglyMeasurable.mul (hc i))
+    have hmeas : AEStronglyMeasurable (fun t : ℝ => g t i) :=
+      (𝓕 (f i)).continuous.aestronglyMeasurable.mul (hc i)
+    apply (hW.mul_const E).mono' hmeas
     filter_upwards [] with t
     exact (norm_component_le_finite_l2 (g t) i).trans (hpoint t)
-  exact shared_nonnegative_kernel_l2 g hg (fun t => (1 + ‖t‖) ^ J * W t) hW
+  exact shared_nonnegative_kernel_l2 (ι := ι) g hg (fun t => (1 + ‖t‖) ^ J * W t) hW
     (fun t => mul_nonneg (by positivity) (hW0 t)) E hE hpoint
 
 /-- The common majorant and Minkowski bound for arbitrary rowwise ratios

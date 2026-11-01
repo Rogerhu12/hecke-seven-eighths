@@ -3,8 +3,9 @@
 This task implements the canonical inverse recursion of Proposition 4.10
 and its initial source reduction for Theorem 4.1. Work continues until the
 original `HeckeSkeleton.canonical_inverse_models` obligation is closed.
-The old relative theorem is an intermediate result; it is not acceptance
-of the original task.
+The original proof body now calls `SourceModelClosure.actual_canonical_inverse_models`,
+with its original type and inputs unchanged. The old relative theorem is an
+intermediate result; it is not acceptance of the original task.
 
 ## Current proof boundary
 
@@ -37,12 +38,22 @@ capacity and margin budget. Short completed blocks use the general
 reflected exponent from Lemma 4.8; the three terminal powers are derived
 from conductor inequalities and canonical margins.
 
-The initial source work starts with literal ideal polynomials, their
-original zero masks and slot tuples. Squarefree overlap and the first
-primitive Poisson identity are proved separately. Their complete
-canonical-child reconstruction and the final source-family specialization
-are still being assembled. The original skeleton proof body has not yet
-been replaced.
+The initial source starts with literal ideal polynomials, original zero masks
+and all original slot tuples. Its squarefree overlap, first primitive
+Poisson identity and complete canonical-child reconstruction are assembled
+in `SourceMarkedRawBound` and specialized in `SourceMarkedClosure`. Every
+original prime weight is divided by one fixed cap before the common/residual
+split; the exact full-slot scalar is restored after the actual source
+estimate. The literal common-tuple count and complete column scale cancel
+against the original square-root normalization.
+
+For the unmarked seed, `SourceScaleSup` constructs one positive row majorant
+for every smaller column scale of the same frozen profile.
+`SourceUnmarkedComplete` uses the zero-slot canonical estimate on complete
+ideal rows, and `SourceCanonicalClosure` discharges it from the two original
+sieve inputs. `SourceModelClosure` combines both original obligations.
+These proofs are written; complete native compilation and the strict
+original-target axiom gate remain the acceptance boundary.
 
 ## Modules
 
@@ -65,6 +76,11 @@ been replaced.
 | `SourceOrientation`, `SourceRelativeSlots` | Exact inverse-only conjugation and common live-character coefficients for the original prime slots |
 | `ProviderInitialInverse`, `ProviderInitialSource`, `ProviderInitialGeometry` | Actual one-pass initial production, reconstruction fibers, and numerical prefactors/margins |
 | `BoundedScale`, `IndependentClosure` | Literal compact-scale estimates, complete sector rows, and all-scale independent gluing |
+| `ProviderUniformMarks`, `TerminalProviderShortBound`, `SourceCanonicalClosure` | Actual terminal source and finite induction, uniform before the residual mark length |
+| `ProviderMarkedPacket`, `ProviderMarkedAnnuli`, `ProviderMarkedMass` | Original common/residual slots, fixed annuli, tuple counting and exact normalization cancellation |
+| `SourceMarkedActual`, `SourceMarkedRawBound`, `SourceMarkedClosure`, `SourceMarkedUniform` | Same actual recipe, all-slot coefficient restoration and original external quantifiers |
+| `SourceScaleSup`, `SourceScaleSupRows`, `SourceScaleSupClosure`, `SourceUnmarkedComplete` | A common Fourier majorant for all smaller scales on complete rows |
+| `SourceModelClosure` | Both fields of the original `CanonicalInverseModelBoundsFor` |
 | `Audit`, `CompletedEnergyTransportAudit`, `ProviderAudit`, `OriginalAudit` | Separate strict kernel axiom gates |
 
 The older `Interface`, `EnergyClosure`, `CanonicalClosure`, `ActualMoments`,
@@ -77,17 +93,20 @@ reductions are not counted as a completed actual source construction.
 
 - Task-rule baseline: `6eb687277d73bc16b4a3e537ba6cdd1fa0fca073`.
 - Actual one-step provider, merged without modifying its theorem:
-  `83458b89cbfda6e01169dddb0241e1e7b0b83b35`, PR #13.
+  `ddf7569086bbe703352609b01f23db0ce720eee0`, PR #13. Its full workflow
+  `41253770207` succeeded before consumption.
 - Explicit frozen reflected-source coordinates: 43 new modules copied
   verbatim from PR #3 at `da1cd936b24ede2c6b9d352cf9d1e8adb8c37d40`, under
   `HeckeSkeleton/LowEnergy/` and `LowFrozenCube/Exponents.lean`. All existing
   transitive source dependencies matched that pin. No PR #3 workflow or
-  original target replacement was imported.
+  original target replacement was imported. The owner version of
+  `LowFrozenCube/Valuations.lean` at
+  `3aa9665d10689f257fea502d0790fbe1204654d4` is also consumed verbatim: it
+  imports `Exponents` instead of declaring the same constants twice.
 - Actual source models and complete-row profile/seed interfaces are merged
-  from PR #10 at `a46c8958b78e54202e01fa272af0190ce68a82b3`.
+  from PR #10 at `fc87b44aff17478425a66139f6bd2f89b3a38ad9`.
 - PR #5's actual source proof fixes and parameter fields are aligned with
-  owner commit `77dbe777f479823d0bc830f82a15e594a17191b7`. The four overlapping
-  dependency fixes use that exact owner version. These merges preserve the
+  owner commit `1ff1c2bcfb21c49c484c08db91d137064d306f58`. These merges preserve the
   source, calibration, and profile owners' definitions.
 
 `GeneralReflectedEnergy.Input` is the permitted general Lemma 4.8 input:
@@ -111,19 +130,26 @@ Every audit accepts only `propext`, `Classical.choice`, and `Quot.sound`.
 The original target gate remains mandatory and is not relaxed because of
 inherited unfinished objects.
 
-On `8e8c71d`, run `41221280061` passed the 45-declaration core gate and
-the three-declaration physical completed-energy transport gate. Normal
-Lake compiled `ActualMoments`, `CanonicalEnergy`, and the then-current
-general reflected input. The provider group reported root elaboration
-errors in eleven new adapter modules, plus four upstream single-step modules;
-their diagnostics are being fixed before the next native run.
+First fully assembled proof snapshot: `1aa3b526b77e2589223fed7fbaab3c3a1dea6939`,
+tree `843834c3a7515928dc973345d6f04a64b9261a32`. Workflow `41264970674`
+checks the original target and the 129-module, 973-public-declaration
+provider inventory, alongside the separate core and transport gates.
+The inventory is a source count, not a successful audit count.
 
-The original skeleton compiled in that run, but its strict axiom gate
-correctly failed on `sorryAx`. The original artifact
-`13050149492` has verified SHA-256
-`8a5c928860651c528c720f25d102c3523c78ea233920c2ca89bc5448ce343f4c`.
-It reports standard axioms for `finiteMellinData`, while the original
-target and old model/expansion objects still depended on `sorryAx` at
-that commit. The subsequently merged source dependencies and all newly
-written modules require a fresh check. The original skeleton goal remains
-open. See `STATEMENT_AUDIT.md` for the exact source-interface issues.
+The preceding `00841cc` run `41228067248` passed the 45-declaration core
+and three-declaration transport gates. It freshly built `ProviderNodes`,
+`TerminalProviderPuncture`, `ProviderTerminalConductor` and the repaired
+cube blocks. Its provider and original groups failed on newly unlocked
+elaboration and dependency errors; the failing groups did not reach their
+axiom gates. The official artifact ZIPs were checked against GitHub's
+SHA-256 digests before the diagnostics were used. The fixes and the actual
+original proof are under fresh native verification.
+
+Local pinned Lean additionally compiled `CanonicalEnergy`, `TerminalProvider`,
+`TerminalProviderHilbert`, `CubeInversion` and the repaired `CubeCompletionMellin`.
+Narrow kernel checks of actual finite-energy, normalization and recursive
+proof bodies supplement these results; they do not replace the complete
+project build or the original-target gate. No completion claim is made
+until that gate prints only the three allowed axioms.
+`STATEMENT_AUDIT.md` preserves the historical reasons why the old relative
+result alone was insufficient.

@@ -2,53 +2,51 @@
 
 ## Current integration boundary
 
-This task is continuing from `914f13f`; the historical analysis below is
-preserved as evidence of the old relative layer, not a reason to stop.
-Maintainer comments on PR #8 authorize correcting defective skeleton
-statements while keeping the final zero-free theorem unchanged, require
-shared definitions to remain with their owners, and permit the general
-Lemma 4.8 input and the authoritative one-step theorem. Unconstructed
-upstream objects are to be identified explicitly.
+The original `HeckeSkeleton.canonical_inverse_models` proof body now calls
+`SourceModelClosure.actual_canonical_inverse_models`. Its original type,
+actual `momentModels`, and all original arguments are preserved. The helper
+constructs both fields from the original quadratic/cubic sieve inputs;
+it adds no terminal energy, source energy, or endpoint bound premise.
+The final general-number-field 7/8 zero-free statement is unchanged.
 
-The actual provider is now PR #13's complete
-`CanonicalStep.exists_uniform_step`, pinned at `83458b89`. The historical
-`fixed_triple_energy_step` boundary described below is superseded.
-`ProviderStep`, `ProviderChildParent`, `ProviderGeneratedNodes`,
-`ProviderUniformChildren` and `ProviderNodeStep` are written against the
-actual original parent and the exact generated children. Their native
-verification is still in progress. The old linear `StepEnergy` is not the
-new provider contract.
+The actual provider is PR #13's complete `CanonicalStep.exists_uniform_step`
+at `ddf7569086bbe703352609b01f23db0ce720eee0`, whose full native workflow
+`41253770207` succeeded. The old `fixed_triple_energy_step` boundary below
+is historical. `ProviderUniformMarks` runs finite backwards induction on
+the literal canonical node class. The node's energy is the actual
+`normalizedChildEnergy`; its real generated children retain all original
+masks, coefficients, labels, sectors and puncture.
 
-The general reflected input now has explicit actual fixed-X
-`reflectedTerm` atoms, minimum-valuation charges, full cube variables,
-original masks, the paper's E_ref, and the genuine off-threshold tail.
-Its permitted analytic fields correspond to manuscript lines 2120–2155,
-particularly 2144–2148. The source reflection identity, cube completion,
-canonical conductor inequalities and terminal margins remain consumer
-proofs outside that input. PR #3's physical X=Z*q_marks normalization is
-kept distinct from the canonical fixed-X normalization.
+The general reflected source has fixed-X atoms with the actual N(P)^2
+kernel, minimum-valuation charges, full cubes, original masks, the paper's
+E_ref, and the genuine off-threshold tail. `SourceActualArithmetic` builds
+the fixed finite period inventory and each character's Mellin data.
+`TerminalProviderShortBound` discharges the actual short contribution from
+the two primitive sieves; long cubes use the genuine single-step descent.
+The physical moving-X normalization is never identified with fixed X.
 
-The compact independent-scale bound is now supplied by `BoundedScale`,
-using the actual unitary coefficients, zero masks and ideal count.
-`IndependentClosure` retains the complete row ball for amplification,
-then obtains the sixth-free subsum. Its eventual analytic bound must still
-come from the actual canonical recursion.
+The actual marked path is `SourceMarkedActual` → `SourceMarkedRawBound` →
+`SourceMarkedClosure` → `SourceMarkedUniform`. All original slots share one
+fixed coefficient cap before any overlap split. Literal tuple counting and
+column normalization give exact cancellation of their base powers; the
+original sector sum and external threshold are then restored.
 
-### Shared source issues under coordination
+The unmarked path is `SourceScaleSup` → `SourceScaleSupRows` →
+`SourceScaleSupClosure` → `SourceUnmarkedComplete` → `SourceCanonicalClosure`.
+It supplies one nonnegative row majorant simultaneously over every strict
+smaller column scale, for complete ideal rows and the same inherited
+profile. It consumes the exact `CompleteUnmarkedScaleSupBound` interface
+required by PR #10, including its order of quantifiers.
 
-| Source requirement | Current interface issue | Owner and action |
-| --- | --- | --- |
-| All complete rows and independent parameters | `SourcePolynomialCalibrationFor.character` only quantifies witness rows | PR #5, comment 6546096874; use actual complete-ideal recipe calibration |
-| Moving orientation in inverse column and marks | Inverse-only conjugation preserves the exact absolute product energy; the fixed relative slot coefficient then supplies one live character | `SourceOrientation` and `SourceRelativeSlots`; PR #5 confirms both actual recipe directions are already +1; no polynomial definition change |
-| Whole source profiles | Independent unmarked family, prime windows, mixed/local parameter control and actual evaluation box must be covered | PR #10's actual source/profile code at `a46c8958` is merged, with PR #5 owner fixes at `77dbe777`; awaiting fresh native verification |
-| Amplification seed | Complete rows require one nonnegative majorant over every strictly smaller column scale of the same frozen profile | Consume PR #10's exact `CompleteUnmarkedScaleSupBound`; a pointwise sixth-free bound is insufficient |
-| Named actual objects | The actual model and expansion constructors are now merged; their complete chain needs validation | At `8e8c71d`, `finiteMellinData` already had only standard axioms; the old model and original target still had `sorryAx` |
+These are completed source proofs undergoing full native verification.
+The strict original-target audit remains mandatory. A source inventory,
+isolated kernel test, successful auxiliary gate, or the PR's non-draft
+flag is not evidence that the original target passed. Exact current
+verification and dependency pins are recorded in `README.md` and the PR.
 
-The manuscript basis for matching the same moving character in every
-marked inverse factor is Theorem 4.1 and its definitions, lines 1564–1607.
-The initial overlap and canonical reconstruction are lines 2550–2614.
-No new final moment inequality is introduced to repair these structural
-requirements.
+The source identities correspond to manuscript lines 1564–1607 and
+2550–2614; the reflected input retains lines 2120–2155, especially 2144–2148.
+No new final moment inequality is used to repair the historical issues below.
 
 ## Historical audit of the 914f13f relative layer
 

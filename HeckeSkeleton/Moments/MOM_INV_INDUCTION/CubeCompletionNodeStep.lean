@@ -202,9 +202,10 @@ theorem exists_uniform_annular_step
   have hih' : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
       ((Fcap + eta / 8) + 11 * (eta / 2))
       ((c - eta / 2) - 7 * (eta / 2)) z lo hi eps
-      (Rmax - 3 * (2 * d / 3) / 2) Cih t :=
-    uniformBound_restrict (provider_child_capacity heta) (provider_child_margin heta)
-      (by rw [provider_row_drop]) hih
+      (Rmax - 3 * (2 * d / 3) / 2) Cih t := by
+    intro σ' y hy hr
+    exact uniformBound_restrict (provider_child_capacity heta) (provider_child_margin heta)
+      (by rw [provider_row_drop]) hih y hy hr
   let cutoff := FirstLocalizedCutoff.sourceCutoff K S D T Z tau hz0
   let centers := FirstCanonicalCenters.centers_of_power K S D T Z (A + 4) h r
     hz1 hh.2 hwidth hscale hr.2
