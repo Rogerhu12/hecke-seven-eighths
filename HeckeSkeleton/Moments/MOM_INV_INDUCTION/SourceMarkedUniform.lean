@@ -80,7 +80,7 @@ theorem of_sector_bound (A C U₀ loss : ℝ)
     apply (hbound Z (Z ^ tau) i s hZ1 hT hbase hbin hcap).trans
     exact mul_le_mul_of_nonneg_right
       (mul_le_mul_of_nonneg_left
-        (Real.rpow_le_rpow_of_exponent_le hbase1 (add_le_add_left hloss _)) hC) hh
+        (Real.rpow_le_rpow_of_exponent_le hbase1 (add_le_add le_rfl hloss)) hC) hh
   unfold markedModelEnergyFor
   calc
     _ ≤ ∑ _s : Sector, C * (momentBaseFor i) ^ (rowWidthFor i + c.family.lamA) *

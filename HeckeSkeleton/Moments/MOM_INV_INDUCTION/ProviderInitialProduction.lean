@@ -89,6 +89,10 @@ theorem normalized_weight_le (i : Idx) :
       (parentIndex K S D Γ C Θ ψ hν W hbase hW m H i) ≤
       ActualPoissonScale.fieldConstant K * C.base ^ m *
         height K Sset (ProviderInitialSource.residual K S D Γ X H i) / X ^ 2 := by
+  letI : ∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K) :=
+    fun v => borel (v.adicCompletion K)
+  letI : ∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K) :=
+    fun _ => ⟨rfl⟩
   have hX : 0 < X := Real.rpow_pos_of_pos (zero_lt_one.trans hbase) _
   have hm : ‖(moebius (IdealMobiusMask.primeProduct i.2.1.val) : ℂ)‖ ≤ 1 := by
     simp only [IdealMobiusMask.moebius_primeProduct, Int.cast_pow, Int.cast_neg,
@@ -97,6 +101,8 @@ theorem normalized_weight_le (i : Idx) :
     (ProviderInitialInverse.family K S C Θ ψ hν W) (ProviderInitialInverse.unitTriple K)
     hX (T).radius i.2.1.val i.1.val (FirstInversePoisson.unitIdeal K S)
     (ProviderInitialSource.unitDivisor K S)
+  change _ ≤ SecondPoissonNormalization.outerFactor K S (T).radius
+    (sIntegerMaskGenerator K Sset i.2.1.val) / (X / height K Sset i.1.val) at hs
   have hweight : SecondAdaptiveProduction.weightAt K S D Γ T H
       (parentIndex K S D Γ C Θ ψ hν W hbase hW m H i) ≤
         SecondPoissonNormalization.outerFactor K S (T).radius (sIntegerMaskGenerator K Sset i.2.1.val) /

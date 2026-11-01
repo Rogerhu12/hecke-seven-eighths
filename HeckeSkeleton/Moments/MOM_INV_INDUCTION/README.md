@@ -98,19 +98,30 @@ reductions are not counted as a completed actual source construction.
 - Actual one-step provider, merged without modifying its theorem:
   `ddf7569086bbe703352609b01f23db0ce720eee0`, PR #13. Its full workflow
   `41253770207` succeeded before consumption.
-- Explicit frozen reflected-source coordinates: 43 new modules copied
-  verbatim from PR #3 at `da1cd936b24ede2c6b9d352cf9d1e8adb8c37d40`, under
-  `HeckeSkeleton/LowEnergy/` and `LowFrozenCube/Exponents.lean`. All existing
-  transitive source dependencies matched that pin. No PR #3 workflow or
-  original target replacement was imported. The owner version of
-  `LowFrozenCube/Valuations.lean` at
-  `3aa9665d10689f257fea502d0790fbe1204654d4` is also consumed verbatim: it
-  imports `Exponents` instead of declaring the same constants twice.
+- Current integrated target baseline:
+  `50f000eb168887afaea4ff7b1583d244f14fc7c2`, merged into this branch at
+  `c9b31f255e2ea16f4d8352765b008c8b3c6f3570`. It includes accepted PR #3
+  owner head `1076a99f236a0275d3fb02723147336fd34604b3` and its full reflected
+  energy implementation. The earlier 43-module copy from
+  `da1cd936b24ede2c6b9d352cf9d1e8adb8c37d40` and the owner `Valuations`
+  repair from `3aa9665d10689f257fea502d0790fbe1204654d4` describe historical
+  consumption, not the current dependency boundary.
 - Actual source models and complete-row profile/seed interfaces are merged
-  from PR #10 at `fc87b44aff17478425a66139f6bd2f89b3a38ad9`.
-- PR #5's actual source proof fixes and parameter fields are aligned with
-  owner commit `6d256b9d63f71bd900c09247a42ee4798d5731cb`. These merges preserve the
-  source, calibration, and profile owners' definitions.
+  from PR #10 at `fc87b44aff17478425a66139f6bd2f89b3a38ad9`. Coordinated
+  proof-only compatibility fixes to `CanonicalProfileControl`,
+  `SourceWitnessBounds` and `ProfileCommonFourier` were completed at
+  `bd394d3c7ae8dea644fa929d25e6ddeee71c6b30`; the shared model and profile
+  definitions are unchanged.
+- PR #5's source/parameter baseline is
+  `6d256b9d63f71bd900c09247a42ee4798d5731cb`. Subsequent scoped owner-proof
+  updates include `ActualPrincipalExpansion`, `ActualPrincipalResidueAssembly`
+  and `ActualPrincipalResidueTails` from
+  `2661e988b206b1ca348daa5d39c112950ecde00c`, consumed at
+  `bc647847992948cb2229fc6b50b463e19984be29`, and `ActualRowEligibility` from
+  `f606882b1da6e40f4ec752d568fe361caed28120`, consumed at
+  `432c12af1994044fcc2f40a7c5b3848127b4b6b1`. The Base instance repairs retain
+  the same original measure families and parameter-choice call. These updates
+  preserve the source, calibration, and profile owners' definitions.
 
 `GeneralReflectedEnergy.Input` is the permitted general Lemma 4.8 input:
 only the actual fixed-scale reflected-block estimate and arbitrary-power
@@ -119,6 +130,9 @@ terminal power, or final moment bound. The exact reflection identity is a
 separate theorem. Each background uses its actual character-dependent
 finite Mellin data, chosen before the uniform estimates. The physical
 Gaussian endpoint of PR #3 is not asserted to imply this general input.
+`SourceActualArithmetic.reflected_input` constructs this internal interface
+from the two original sieve inputs; it is not an extra premise of the final
+canonical inverse theorem.
 
 ## Verification contract and evidence
 
@@ -126,7 +140,7 @@ Pinned environment: Lean 4.35.0-rc3, compiler
 `470d5ce1400764999581fd26d5d72b00d990b0f4`; Mathlib
 `0493595ecd5da8ef14742febab99728f98e948e8`.
 
-CI uses `restore-lake-cache@ci/lake-cache-test` and normal Lake compilation.
+CI uses `restore-lake-cache@dtests-handoff` and normal Lake compilation.
 The two task-specific cache bootstrap scripts were removed. Logs,
 environment records and axiom reports are Actions artifacts only.
 Every audit accepts only `propext`, `Classical.choice`, and `Quot.sound`.

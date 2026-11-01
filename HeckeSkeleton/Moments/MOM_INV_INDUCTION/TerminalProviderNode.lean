@@ -101,22 +101,26 @@ theorem normalized_column_short_long
   · by_cases hk : IsExterior K Sset k.1
     · let f' := exteriorOf K Sset f hf
       let k' := exteriorOf K Sset k.1 hk
-      let r : NonzeroIdeal K := ⟨x.puncture, mem_nonZeroDivisors_of_ne_zero hx.puncture_nonzero⟩
+      have hpuncture : childPuncture x.family.originalPuncture x.triple ≠ 0 :=
+        hx.puncture_nonzero
+      let r : NonzeroIdeal K :=
+        ⟨childPuncture x.family.originalPuncture x.triple, mem_nonZeroDivisors_of_ne_zero hpuncture⟩
       have hp : x.family.columns x.triple =
           squarefreePool K Sset (2 * x.family.base ^ x.columnLength) := by
         rw [hx.base_eq]
         exact hx.complete_pool
       have he := family_column_eq_completeCanonicalColumn K Sset D x.family x.triple
         (CanonicalSectors.sectorUnit K Sset Γ) k' f' k.2 hb hp hx.test_support
-        hx.puncture_nonzero hx.calibration.lambda_unramified
-      have hW : Function.support x.test ⊆ Set.Iic 2 := by
+        hpuncture hx.calibration.lambda_unramified
+      have hW : Function.support (x.family.cutoff x.triple) ⊆ Set.Iic 2 := by
         intro y hy
         exact (hx.test_support (subset_closure hy)).2
       rw [column_normalization _ _ hb]
       change (Real.sqrt (x.family.base ^ x.family.columnLength x.triple) : ℂ)⁻¹ *
           column K Sset D x.family (CanonicalSectors.sectorUnit K Sset Γ) x.triple
             f'.val.val (k'.val.val, k.2) = _
-      rw [he, completeCanonicalColumn_short_long K Sset D _ _ _ _ _ _ _ T
+      rw [he, completeCanonicalColumn_short_long K Sset D _ _ _ _ _
+        (x.family.cutoff x.triple) (x.family.base ^ x.family.columnLength x.triple) T
         (Real.rpow_pos_of_pos hb _) hW]
       simp only [canonicalTau_exteriorRadicalPuncture]
       simp only [shortValue, longValue, dif_pos hf, dif_pos hk, rowTau, period, mark,

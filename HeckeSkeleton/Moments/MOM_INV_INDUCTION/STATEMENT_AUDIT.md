@@ -35,7 +35,7 @@ The unmarked path is `SourceScaleSup` → `SourceScaleSupRows` →
 `SourceScaleSupClosure` → `SourceUnmarkedComplete` → `SourceCanonicalClosure`.
 It supplies one nonnegative row majorant simultaneously over every strict
 smaller column scale, for complete ideal rows and the same inherited
-profile. It consumes the exact `CompleteUnmarkedScaleSupBound` interface
+profile. It proves the exact `CompleteUnmarkedScaleSupBound` interface
 required by PR #10, including its order of quantifiers.
 
 This section describes the source implementation. Acceptance requires

@@ -169,7 +169,9 @@ theorem exists_uniform_annular_step
         ring
   have hlabels : ∀ f ∈ labels, height K Sset f ≤ Z ^ (x.labelLength + h) := by
     intro f hf
-    exact (hx.label_bound f.val.val (Finset.mem_preimage.mp hf)).trans
+    have hf' : f.val.val ∈ x.labels :=
+      (Finset.mem_preimage (f := ProviderChildParent.labelEmbedding K S)).mp hf
+    exact (hx.label_bound f.val.val hf').trans
       (Real.rpow_le_rpow_of_exponent_le hz1.le (le_add_of_nonneg_right hh.1))
   have hparent : HeckePort.Moments.CanonicalMargins
       (r + 3 * ell + x.labelLength) x.rowLength (x.punctureLength Z) z (c - eta / 2) :=
@@ -181,14 +183,16 @@ theorem exists_uniform_annular_step
     (Node.Admissible.puncture_norm x hx hz1).le
   have hw0 : ∀ f ∈ labels, 0 ≤ w f := fun _ _ => labelDivisorWeight_nonneg slotCap _
   have hw : ∀ f ∈ labels,
-      w f ≤ 1 * ((idealDivisors f.val.val).card : ℝ) ^ (9 + 4 * slotCap) := by
+      w f ≤ 1 * ((DedekindZetaZeroFree.LargeSieve.idealDivisors f.val.val).card : ℝ) ^
+        (9 + 4 * slotCap) := by
     intro f hf
     simp only [w, labelDivisorWeight, one_mul, le_refl]
   have hbeta1 : ∀ b ∈ T.cubes, ∀ f ∈ labels, ‖T.columns.labelWeight b f‖ ≤ 1 := by
     intro b hb f hf
     exact CubeCompletionProvider.columns_labelWeight_le K S D C0 P B H r s i hH0 hB b hb f
   have hbeta : ∀ b ∈ T.cubes, ∀ f ∈ labels,
-      ‖T.columns.labelWeight b f‖ ≤ ((idealDivisors f.val.val).card : ℝ) ^ 0 := by
+      ‖T.columns.labelWeight b f‖ ≤
+        ((DedekindZetaZeroFree.LargeSieve.idealDivisors f.val.val).card : ℝ) ^ 0 := by
     simpa only [pow_zero] using hbeta1
   have hbetaSmall : ∀ b ∈ T.cubes, ∀ f ∈ labels,
       ‖T.columns.labelWeight b f‖ ≤ Z ^ h :=
@@ -230,7 +234,7 @@ theorem exists_uniform_annular_step
   have htransfer := CubeCompletionProvider.annularEnergy_le_parent K S D Γ hΓ C0 P B H
     (x.family.base ^ x.columnLength) (x.family.base ^ x.columnLength / H ^ 3) r s i
     (Real.rpow_pos_of_pos hb0 _) hH rfl hb0
-    (by simpa only [C0, ProviderChildParent.columns, hx.base_eq] using hannular)
+    (by simpa only [C0, ProviderChildParent.columns, hx.base_eq, annularScale] using hannular)
     Hrow labels w hw0 x.rows hx.row_bound
   change annularEnergy K S D Γ slotCap x P B H s i ≤
     (InverseRowMajorant.rowCovolume K S)⁻¹ *

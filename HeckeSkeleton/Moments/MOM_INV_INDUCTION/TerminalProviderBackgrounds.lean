@@ -62,9 +62,8 @@ rather than added as a property of the terminal node. -/
 theorem generatedTwists_finite (theta : Finset (HeckeCharacter K))
     (G : HeckeCharacter K) (htheta : ∀ θ ∈ theta, FiniteOrder θ)
     (hG : FiniteOrder G) : Finite (generatedTwists K theta G) := by
-  letI : Group.FG (generatedTwists K theta G) := by
-    dsimp only [generatedTwists]
-    infer_instance
+  letI : Group.FG (generatedTwists K theta G) :=
+    Group.closure_finset_fg (insert G theta)
   apply CommGroup.finite_of_fg_isMulTorsion (generatedTwists K theta G)
   intro ν
   exact (Function.Injective.isOfFinOrder_iff
@@ -116,6 +115,7 @@ theorem period_mem_inventory (Θ : Subgroup (HeckeCharacter K)) [Finite Θ]
     (ψ Λ ν : HeckeCharacter K) (hν : BackgroundCycle.Admissible K Θ ψ ν) :
     ν * Λ⁻¹ ∈ periodInventory K Θ ψ Λ := by
   classical
+  letI : Fintype Θ := Fintype.ofFinite Θ
   unfold periodInventory
   rcases hν with hν | ⟨θ, hθ, rfl⟩
   · exact Finset.mem_union_left _
@@ -167,13 +167,13 @@ theorem inventory_nonzero_angular (c : TargetContext K)
     have hf : FiniteOrder θ.val :=
       (Function.Injective.isOfFinOrder_iff (f := Θ.subtype)
         Subtype.coe_injective).mpr (isOfFinOrder_of_finite θ)
-    simpa only [canonicalPeriod, mul_comm] using
+    simpa only [canonicalPeriod, signalCharacters, mul_comm] using
       canonicalPeriod_finite_nonzero_angular K c θ.val hf
   · obtain ⟨θ, hθ, rfl⟩ := Finset.mem_image.mp hν
     have hf : FiniteOrder θ.val :=
       (Function.Injective.isOfFinOrder_iff (f := Θ.subtype)
         Subtype.coe_injective).mpr (isOfFinOrder_of_finite θ)
-    simpa only [canonicalPeriod, mul_comm] using
+    simpa only [canonicalPeriod, signalCharacters, mul_comm] using
       canonicalPeriod_target_finite_nonzero_angular K c θ.val hf
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalBackgrounds

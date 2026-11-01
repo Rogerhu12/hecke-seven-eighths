@@ -83,14 +83,14 @@ theorem overlap_value (good : HeightOneSpectrum (𝓞 K) → Prop)
   calc
     _ = (value good u j * value good u j) *
         (value good u (idealQuotient j n.val) * value good u P) := by ring
-    _ = _ := by rw [value_sq]; ring
+    _ = _ := by rw [value_sq]
 
 theorem context_value (c : TargetContext K) (u : NonzeroIdeal K)
     (I : Ideal (𝓞 K)) :
     (if contextOriginalMask K c u I then (1 : ℂ) else 0) =
       value (fun p => p ∉ places K c ∧ (6 : 𝓞 K) ∉ p.asIdeal) u.val I := by
   unfold contextOriginalMask value outside
-  split_ifs <;> rfl
+  split_ifs <;> simp_all
 
 /-- The equality is stated on the literal `MomentData` mask used by
 the original source, with its actual context formula. -/
