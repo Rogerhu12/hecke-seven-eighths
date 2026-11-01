@@ -161,7 +161,7 @@ def outputIntegrability
       (F₁ b.val) (F₂ b.val) (atoms.left_nonneg b.val hb) (atoms.right_nonneg b.val hb)
       (family.leftChild labels b) (family.rightChild labels b)
       (family.leftNormalizer b.val) (family.rightNormalizer b.val) Z parentWidth
-    infer_instance
+    exact Measure.smul_finite _ ENNReal.ofReal_ne_top
   left_integrable b := (atoms.children_integrable F₁ F₂ outer parentWidth hZ b).1
   right_integrable b := (atoms.children_integrable F₁ F₂ outer parentWidth hZ b).2
   cauchy_integrable b :=
