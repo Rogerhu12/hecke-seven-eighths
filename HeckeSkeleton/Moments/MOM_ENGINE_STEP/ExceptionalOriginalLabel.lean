@@ -127,12 +127,12 @@ variable (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent)
 
 namespace SecondSideFrame
 
+set_option maxHeartbeats 800000 in
 /-- The public source estimate has no per-leaf exceptional inequality
 as a hypothesis.  It is produced from actual atom and valuation data,
 then multiplied by the literal first/second divisor and phase factors.
 The two allocation equalities prevent replacing the original full
 allocations by unrelated labels merely having the same divisor. -/
-set_option maxHeartbeats 800000 in
 theorem exceptional_original_label_from_atoms
     (left : SecondSideFrame (V := V) C R Ray .left k)
     (right : SecondSideFrame (V := V) C R Ray .right l)

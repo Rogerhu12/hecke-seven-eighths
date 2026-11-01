@@ -81,6 +81,7 @@ variable (χ : (PUnit.{1} × PUnit.{1}) →* Circle)
 variable (ideal : AllocationColumn K k → A.Exterior)
 variable (hideal : ∀ i ∈ B.columns, (ideal i).val = allocationColumnIdeal i)
 
+include hideal in
 /-- The original left allocated energy is the literal frequency
 energy on the same actual allocation and live rows. Only the actual
 ideal product is needed; no support or whole-energy identity is input. -/
@@ -103,6 +104,7 @@ theorem left_energy (firstSign : ℝ) (ξ : WithLp 2 (ℝ × ℝ)) :
     whole_residue d i (ideal i) (hideal i hi) (R.frequency h.val)
       (R.factor C h.val) (R.extractedRow C h).element (R.extractedRow C h).frequency
 
+include hideal in
 /-- The right residue is evaluated at the negative actual frequency.
 Its full star is removed only after taking the complete column norm,
 which negates the original logarithmic locations. -/

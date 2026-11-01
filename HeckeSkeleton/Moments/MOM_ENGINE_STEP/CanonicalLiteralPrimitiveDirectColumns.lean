@@ -85,6 +85,7 @@ variable (hcutoffPower : cutoff ≤ Z ^ cutoffExponent)
 include hannulus hcap hannulusZ domain profiles hrows ht hwindow
 
 
+include hZ in
 theorem literalPrimitiveFirstSource_active_column_norm
     (i : (raw).Column) (hi : i ∈ (raw).exteriorColumns) (hc : coefficient i ≠ 0) :
     A.exteriorNorm ((raw).columnExterior i) ≤

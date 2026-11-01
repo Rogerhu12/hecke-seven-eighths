@@ -95,6 +95,7 @@ theorem FirstCommonCharacterBlock.maskGenerator_dvd_common
   obtain ⟨i, _hi, rfl⟩ := Finset.mem_image.mp hq'
   exact b.common_generator_mem_actualSPrime C i
 
+include C in
 theorem FirstCommonCharacterBlock.maskGenerator_norm_le_common
     (D : Finset (HeightOneSpectrum A.R)) (hD : D ⊆ b.mask ∅) :
     (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
@@ -109,6 +110,7 @@ theorem FirstCommonCharacterBlock.maskGenerator_norm_le_common
     (engineAllowedGenerator_generates C b.commonLeftIdeal)] at h
   exact h
 
+include C in
 theorem FirstCommonCharacterBlock.maskGenerator_norm_le_label
     (D : Finset (HeightOneSpectrum A.R)) (hD : D ⊆ b.mask ∅) :
     (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))

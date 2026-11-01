@@ -122,6 +122,7 @@ theorem literalPrimitiveFirstSource_radius :
   rw [Q.fullSupportParameters_width]
   exact Q.fullSupportRadius_eq_negative_m a Z hZ
 
+include hZ in
 theorem literalPrimitiveFirstSource_oldSupport :
     A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) ≤ Z ^ (internal).q :=
   (Q.fullSupportParameters_support_norm a Z hZ).le

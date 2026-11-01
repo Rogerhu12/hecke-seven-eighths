@@ -117,9 +117,9 @@ theorem evaluation_square_zero (C : A.GeneralArithmeticContext σ η hS)
     (generator C p ^ 2) (generator_power_generates C p 2) J]
   rw [if_neg (fun h => hJ ((coprime_power_two J.val p).mp h.2)), mul_zero]
 
+include R in
 /-- At valuation seven the reduced square itself has the required zero,
 so removing the redundant copy of the same mask is an exact identity. -/
-include R in
 theorem evaluation_fourteen (C : A.GeneralArithmeticContext σ η hS)
     (p : ExteriorPrime A) (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     zeroExtendedSexticIdealEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
@@ -133,8 +133,8 @@ theorem evaluation_fourteen (C : A.GeneralArithmeticContext σ η hS)
   · rw [if_pos hJ]
   · rw [if_neg hJ, evaluation_square_zero P R C p J hJ]
 
-/-- The exact active/passive split of each original pool residue. -/
 include R in
+/-- The exact active/passive split of each original pool residue. -/
 theorem evaluation_original (C : A.GeneralArithmeticContext σ η hS)
     (p : ExteriorPrime A) (e : AmplifierValuation)
     (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
@@ -228,9 +228,9 @@ theorem activeMoving_norm_eq_rpow (C : A.GeneralArithmeticContext σ η hS)
   rw [← activeMoving_logLength P R C p e Z,
     rpow_idealLogLength Z hZ _ (activeMoving P R C p e).support.property.1]
 
+include R in
 /-- Exact element-level residue identity, before selecting its moving
 character or combining it with the other original fixed factors. -/
-include R in
 theorem residue_eq_reduced_element
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
     (hemb : P.arithmetic.embedding = σ)
@@ -244,9 +244,9 @@ theorem residue_eq_reduced_element
     CanonicalOriginalPhaseCalibration.residue_eq_probe_evaluation P hroot hemb]
   exact evaluation_original P R C p e J
 
+include R in
 /-- The reduction also holds inside the literal product with the first,
 unit and original moving factors, with all original zeros retained. -/
-include R in
 theorem residue_mul_eq_reduced_element
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
     (hemb : P.arithmetic.embedding = σ)

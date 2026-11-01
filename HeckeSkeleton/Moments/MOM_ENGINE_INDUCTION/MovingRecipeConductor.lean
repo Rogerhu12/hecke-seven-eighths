@@ -148,10 +148,10 @@ theorem row_conductor_dvd
     (fun i _ => factor_radical_dvd_fullMaskSupport Q.moving Q.remaining i)
     (Q.sector u) v
 
+set_option maxHeartbeats 800000 in
 /-- The actual FE scale is linear in the one full mask support and
 the original row. The fixed correction occurs only in the fixed
 background constant, and never enlarges the moving norm exponent. -/
-set_option maxHeartbeats 800000 in
 theorem row_scale_le
     (Q : CompleteMovingRowRecipe A P R data) (xi : X)
     (beta : HeckeCharacter K) (u : NonzeroIdeal K)

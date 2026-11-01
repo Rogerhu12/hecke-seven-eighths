@@ -102,6 +102,7 @@ variable {B : HybridOrdinaryRectangles R Ray S₁ S₂ S T₁ T₂ T IA IB
   rayLeft rayRight wholeLeft wholeRight x y b exceptional}
 variable (binding : leaf.OrdinaryBinding B)
 
+include binding in
 /-- The atom dictionary is valid on every original row, including the
 exceptional classes. Row translations vanish in the two column norms,
 without splitting either whole centered coefficient. -/
@@ -142,7 +143,9 @@ theorem pairMagnitude_eq (keep : H → Prop) (z : U × V) :
         unfold jointFourierColumn
         apply Finset.sum_congr rfl
         intro i hi
-        rw [binding.leftCoefficient h hm i hi, hzl i hi]
+        exact congrArg₂ (fun (c : ℂ) (point : WithLp 2 (U × V)) =>
+          c * jointPhase (WithLp.toLp 2 z) point)
+          (binding.leftCoefficient h hm i hi) (hzl i hi)
       have hr : jointFourierColumn leaf.right (fun i => star (leaf.rightCoefficient h i))
           (fun i => WithLp.toLp 2 (-leaf.rightFirst h i, leaf.rightSecond h i))
           (WithLp.toLp 2 z) =
@@ -153,12 +156,15 @@ theorem pairMagnitude_eq (keep : H → Prop) (z : U × V) :
         unfold jointFourierColumn
         apply Finset.sum_congr rfl
         intro i hi
-        rw [binding.rightCoefficient h hm i hi, hzr i hi]
+        exact congrArg₂ (fun (c : ℂ) (point : WithLp 2 (U × V)) =>
+          c * jointPhase (WithLp.toLp 2 z) point)
+          (binding.rightCoefficient h hm i hi) (hzr i hi)
       simp only [binding.rowWeight h hm, hl, hr, norm_mul, norm_jointPhase, one_mul]
 
 variable [FiniteDimensional ℝ U] [MeasurableSpace U] [BorelSpace U]
 variable [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
 
+include binding in
 theorem thetaClass_integrand
     {theta : Finset (HeckeCharacter K)} (Q : PairedFiniteCharacters theta H)
     (hpredicate : leaf.exceptional = Q.exceptional) (χ : theta × theta) (z : U × V) :

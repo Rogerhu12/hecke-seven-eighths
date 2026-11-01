@@ -1159,7 +1159,129 @@ PRODUCER_SOURCES = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActiveNormalizedFamil
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ZeroTerminalBudget.lean': '4b0981114dc50a3e67c4c4b4ddcaba601e4e3e91ef82de0d684dad44ff1ff9b7'}
 # Proof-only compatibility repairs are recorded separately from the owner pin.
 # Their baseline and exact replacement digests remain visible in the CI artifact.
-PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralFixedPhases.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalActualGaussNumerators.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                               'owner_sha256': '3bf372c801af225c630e24e763a3e1cedde54e9215a26b3ecb0ea1d5db5970db',
+                                                                               'reason': 'Restore primitive '
+                                                                                         'parameters already '
+                                                                                         'supplied by actual '
+                                                                                         'callers, or place '
+                                                                                         'include before its '
+                                                                                         'declaration doc '
+                                                                                         'comment; preserve '
+                                                                                         'the actual '
+                                                                                         'producer data and '
+                                                                                         'output.',
+                                                                               'repair_sha256': '751ae606890549ba2bb28d56a5c54c9bfc19ce8677d4e7a4f79caf97f8ac01ab'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalActualGaussReconstruction.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                                   'owner_sha256': 'c698a8498bbdb0b5a74b0839b3a4b7bbc28aaa68ada9fd8b2b601964f125e23b',
+                                                                                   'reason': 'Restore '
+                                                                                             'primitive '
+                                                                                             'parameters '
+                                                                                             'already '
+                                                                                             'supplied by '
+                                                                                             'actual '
+                                                                                             'callers, or '
+                                                                                             'place include '
+                                                                                             'before its '
+                                                                                             'declaration '
+                                                                                             'doc comment; '
+                                                                                             'preserve the '
+                                                                                             'actual '
+                                                                                             'producer data '
+                                                                                             'and output.',
+                                                                                   'repair_sha256': '39fde7f0bf7343f045fb982b652ce065dbf1f89ffd4edd6db5e85e492f9cc6d6'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalFirstMaskWindows.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                          'owner_sha256': '865839b416077063ab5bf7e9fb215b40530d9b1848424f8dc1af5b05dd2b3219',
+                                                                          'reason': 'Restore primitive '
+                                                                                    'parameters already '
+                                                                                    'supplied by actual '
+                                                                                    'callers, or place '
+                                                                                    'include before its '
+                                                                                    'declaration doc '
+                                                                                    'comment; preserve the '
+                                                                                    'actual producer data '
+                                                                                    'and output.',
+                                                                          'repair_sha256': '16260c7162879a200dc049788e5ca0e7e21e7db1ca6d7c7f0d76a4e49fcf398c'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralExceptionalAtoms.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                                 'owner_sha256': '5523054440a8229ac0435d2bf8cd2b4784daa13fcbf17bfc627f5e88d9f9ae5f',
+                                                                                 'reason': 'Restore '
+                                                                                           'primitive '
+                                                                                           'parameters '
+                                                                                           'already supplied '
+                                                                                           'by actual '
+                                                                                           'callers, or '
+                                                                                           'place include '
+                                                                                           'before its '
+                                                                                           'declaration doc '
+                                                                                           'comment; '
+                                                                                           'preserve the '
+                                                                                           'actual producer '
+                                                                                           'data and output.',
+                                                                                 'repair_sha256': 'f3071e41d1090776984d1c20f2bf21b8f6692bb6c5f3df9d5398afd58be2ade8'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralExceptionalBinding.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                                   'owner_sha256': 'bd2067cfc42449550caf111c0ee30eb5ec3becefd35fa732e57c2c9bb9780a67',
+                                                                                   'reason': 'Restore '
+                                                                                             'primitive '
+                                                                                             'parameters '
+                                                                                             'already '
+                                                                                             'supplied by '
+                                                                                             'actual '
+                                                                                             'callers, or '
+                                                                                             'place include '
+                                                                                             'before its '
+                                                                                             'declaration '
+                                                                                             'doc comment; '
+                                                                                             'preserve the '
+                                                                                             'actual '
+                                                                                             'producer data '
+                                                                                             'and output.',
+                                                                                   'repair_sha256': '693266e6115d448d83a1b9f54cbff6bfb80b9147b928cd20a43d2b22fb7a33c3'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralExceptionalPaidScales.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                                      'owner_sha256': '6c7ba98683e51decc221d7a6aa50d071cf3d3e0e027b01c3bb8a6ed418fc8006',
+                                                                                      'reason': 'Restore '
+                                                                                                'primitive '
+                                                                                                'parameters '
+                                                                                                'already '
+                                                                                                'supplied by '
+                                                                                                'actual '
+                                                                                                'callers, or '
+                                                                                                'place '
+                                                                                                'include '
+                                                                                                'before its '
+                                                                                                'declaration '
+                                                                                                'doc '
+                                                                                                'comment; '
+                                                                                                'preserve '
+                                                                                                'the actual '
+                                                                                                'producer '
+                                                                                                'data and '
+                                                                                                'output.',
+                                                                                      'repair_sha256': 'ae73255d20036028c00e465daa1cf2b19fcb1aa34037f523cc7527c2c2e03e24'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralExceptionalProfileWindow.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                                         'owner_sha256': '7c7f42466fe4b840b09b12e60e2f3b682b3122a8fb97fe82071fe70f0867371a',
+                                                                                         'reason': 'Restore '
+                                                                                                   'primitive '
+                                                                                                   'parameters '
+                                                                                                   'already '
+                                                                                                   'supplied '
+                                                                                                   'by '
+                                                                                                   'actual '
+                                                                                                   'callers, '
+                                                                                                   'or place '
+                                                                                                   'include '
+                                                                                                   'before '
+                                                                                                   'its '
+                                                                                                   'declaration '
+                                                                                                   'doc '
+                                                                                                   'comment; '
+                                                                                                   'preserve '
+                                                                                                   'the '
+                                                                                                   'actual '
+                                                                                                   'producer '
+                                                                                                   'data and '
+                                                                                                   'output.',
+                                                                                         'repair_sha256': 'fb71944699a221d76f5e054567ba0b55b32485502329144b0ded6c08d98165d0'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralFixedPhases.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
                                                                             'owner_sha256': 'b6e9649da0c05ff1745908c97bfc9261c25cb404e74984cfde4188338b227b09',
                                                                             'reason': 'Native elaboration '
                                                                                       'repair from the exact '
@@ -1168,6 +1290,120 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralFixed
                                                                                       'input and conclusion '
                                                                                       'retained.',
                                                                             'repair_sha256': '821fa33cbd448d9b72ae4cda675d3b72d6807320c90a2d2dcf427051a3363013'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralOriginalEnergy.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                               'owner_sha256': '0fd9ce8d01c2010b2682eb21bc5f4803c290fb28708c779fc66b1954a0e844e0',
+                                                                               'reason': 'Restore primitive '
+                                                                                         'parameters already '
+                                                                                         'supplied by actual '
+                                                                                         'callers, or place '
+                                                                                         'include before its '
+                                                                                         'declaration doc '
+                                                                                         'comment; preserve '
+                                                                                         'the actual '
+                                                                                         'producer data and '
+                                                                                         'output.',
+                                                                               'repair_sha256': 'ea8c1978294558d3027ec5c3f8e91d0c6886a49b78cf8fb3787ab304e8838594'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPassivePhases.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                              'owner_sha256': '25b128de6d67131ea72f3afbbaa5d894fa2a6a18e1fb4bbc0b11c9fa7e34f25e',
+                                                                              'reason': 'Restore primitive '
+                                                                                        'parameters already '
+                                                                                        'supplied by actual '
+                                                                                        'callers, or place '
+                                                                                        'include before its '
+                                                                                        'declaration doc '
+                                                                                        'comment; preserve '
+                                                                                        'the actual producer '
+                                                                                        'data and output.',
+                                                                              'repair_sha256': '8873416b98413fa9693184315f2d63a7cbba99d915e3b353648496ccb8a15fdd'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPassiveSource.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                              'owner_sha256': 'b3e60e8a5643a1f6bf2bb2de8bc1e6fbe5acf27a4b642881ceb60aefadc4bd1a',
+                                                                              'reason': 'Restore primitive '
+                                                                                        'parameters already '
+                                                                                        'supplied by actual '
+                                                                                        'callers, or place '
+                                                                                        'include before its '
+                                                                                        'declaration doc '
+                                                                                        'comment; preserve '
+                                                                                        'the actual producer '
+                                                                                        'data and output.',
+                                                                              'repair_sha256': 'ea091be2158da418544a1c9f3a0590d9074e914870479ed281cc4d829ebff27b'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPrimitiveDirectColumns.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                                       'owner_sha256': 'a514dc3dbfeb183f173c010ae1c031208c5f553983b2f3c4eb4b27b51650d04e',
+                                                                                       'reason': 'Restore '
+                                                                                                 'primitive '
+                                                                                                 'parameters '
+                                                                                                 'already '
+                                                                                                 'supplied '
+                                                                                                 'by actual '
+                                                                                                 'callers, '
+                                                                                                 'or place '
+                                                                                                 'include '
+                                                                                                 'before its '
+                                                                                                 'declaration '
+                                                                                                 'doc '
+                                                                                                 'comment; '
+                                                                                                 'preserve '
+                                                                                                 'the actual '
+                                                                                                 'producer '
+                                                                                                 'data and '
+                                                                                                 'output.',
+                                                                                       'repair_sha256': '45258ed40855bac155406762930b7e7c4553b4546cc93dcacd16025ef6e17115'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPrimitiveFirstSource.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                                     'owner_sha256': 'fcddfd5741028e9f2064df460826a83c9fe50aa4b184f8b2a86449ef49ff2895',
+                                                                                     'reason': 'Restore '
+                                                                                               'primitive '
+                                                                                               'parameters '
+                                                                                               'already '
+                                                                                               'supplied by '
+                                                                                               'actual '
+                                                                                               'callers, or '
+                                                                                               'place '
+                                                                                               'include '
+                                                                                               'before its '
+                                                                                               'declaration '
+                                                                                               'doc comment; '
+                                                                                               'preserve the '
+                                                                                               'actual '
+                                                                                               'producer '
+                                                                                               'data and '
+                                                                                               'output.',
+                                                                                     'repair_sha256': 'a7142dd19092e35a021d1bc10492841014bcc889d8694448033c0297191d6ff8'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralScaleProduct.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                             'owner_sha256': 'cf99114b0b127c903027cd423ea5b099c3ab459a0642df4afa8ee60f64dc1aff',
+                                                                             'reason': 'Restore primitive '
+                                                                                       'parameters already '
+                                                                                       'supplied by actual '
+                                                                                       'callers, or place '
+                                                                                       'include before its '
+                                                                                       'declaration doc '
+                                                                                       'comment; preserve '
+                                                                                       'the actual producer '
+                                                                                       'data and output.',
+                                                                             'repair_sha256': 'c1452b1fa1f783703fb3afa3a81e8d64ad5c75afdbb36497b396e91d877350f9'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalPrimitiveFirstTerminalConstants.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                                         'owner_sha256': 'cd9577b05fc862bed92015cbaa53ac17b1ab4a2d74c51dec9d0e35a5a5d239db',
+                                                                                         'reason': 'Restore '
+                                                                                                   'primitive '
+                                                                                                   'parameters '
+                                                                                                   'already '
+                                                                                                   'supplied '
+                                                                                                   'by '
+                                                                                                   'actual '
+                                                                                                   'callers, '
+                                                                                                   'or place '
+                                                                                                   'include '
+                                                                                                   'before '
+                                                                                                   'its '
+                                                                                                   'declaration '
+                                                                                                   'doc '
+                                                                                                   'comment; '
+                                                                                                   'preserve '
+                                                                                                   'the '
+                                                                                                   'actual '
+                                                                                                   'producer '
+                                                                                                   'data and '
+                                                                                                   'output.',
+                                                                                         'repair_sha256': '03200a75789c87371a478940abfe89cf468318641e8f2acb99830cf2091974c0'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CoverHybridPhaseIntegral.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
                                                                          'owner_sha256': '44883b0dad17336f94266ced1a7777c8a1ad0f28c80aa6f8f6b25c42ff7712e6',
                                                                          'reason': 'Native elaboration '
@@ -1191,7 +1427,7 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralFixed
                                                                                    'owner CI log; original '
                                                                                    'mathematical input and '
                                                                                    'conclusion retained.',
-                                                                         'repair_sha256': 'bc0fba29a6325becb90b3df89cee7b09404f220d1ea47d018c5edc2507be939d'},
+                                                                         'repair_sha256': 'c34e37b292babba7019bf4d99864317438f9de2cc39a42e7867bb4de1c1d7e50'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalThetaRows.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
                                                                      'owner_sha256': '252e0e38087ea3a99b9e284479a91448e94ecdc7788c3f31b6afe56b8b9cd2b6',
                                                                      'reason': 'Native elaboration repair '
