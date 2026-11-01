@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   native:
-    name: Prefix diagnosis ${{ matrix.target }}
+    name: Instrumented diagnosis ${{ matrix.target }}
     runs-on: ubuntu-24.04
     timeout-minutes: 80
     strategy:
@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           ref: ${{ github.sha }}
-          fetch-depth: 2
+          fetch-depth: 3
           persist-credentials: false
       - name: Prepare runner resources
         run: |
@@ -74,7 +74,7 @@ jobs:
                       'target': os.environ['PERF_TARGET'],
                       'lean': version, 'mathlib': mathlib,
                       'source_sha256': sources,
-                      'scope': 'finite original-source prefix diagnosis; not a complete target module or full task acceptance'}
+                      'scope': 'temporary instrumented original-source diagnosis; not original complete-module or task acceptance'}
           pathlib.Path('isolated-native-evidence/environment.json').write_text(json.dumps(evidence, indent=2) + '\n')
           PY
       - name: Build the complete unchanged target dependencies
@@ -87,8 +87,8 @@ jobs:
             tee isolated-native-evidence/dependencies.log || status=$?
           echo "$status" > isolated-native-evidence/dependencies-exit-code.txt
           exit "$status"
-      - name: Locate the earliest slow original declaration group
-        timeout-minutes: 5
+      - name: Locate progress inside the unchanged slow declarations
+        timeout-minutes: 4
         run: |
           python3 -u - <<'PY'
           import hashlib, json, os, pathlib, subprocess, time
@@ -97,88 +97,127 @@ jobs:
           assert target in {'ExceptionalOriginalLabel', 'ActualGaussFiniteLeaves'}
           source = pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP') / (target + '.lean')
           original_bytes = source.read_bytes()
+          original = original_bytes.decode()
+          expected_source_hashes = {
+              'ExceptionalOriginalLabel': 'dcef6c25192de6a24aae34312c0628946e88bc85ee802c2a0ce0a81f519faecb',
+              'ActualGaussFiniteLeaves': 'dea70c3b22e89ff2818719b88c60ddeb90368f1da5f1034a23f4f43f316528f1',
+          }
+          assert hashlib.sha256(original_bytes).hexdigest() == expected_source_hashes[target]
+          insertions = []
+          def add(position, indent, label, syntax):
+              assert position == 0 or original[position - 1] == '\n'
+              line = indent + syntax + ' IO.eprintln ' + json.dumps('MOM_TRACE ' + target + ' ' + label) + '\n'
+              insertions.append({'offset_characters': position,
+                                 'original_line': original[:position].count('\n') + 1,
+                                 'label': label, 'text': line})
+          def one(marker):
+              assert original.count(marker) == 1, (target, marker, original.count(marker))
+              return original.index(marker)
+          if target == 'ActualGaussFiniteLeaves':
+              theorem = 'phase_class_eq_leaf_sum'
+              declaration = one('theorem phase_class_eq_leaf_sum ')
+              start_comment = one('/-- This is the actual phase multiplication from the first transform,\n')
+              stop = one('\nend CoveredClassKey\n')
+              original_part = original[:stop]
+              closing = '\nend CoveredClassKey\nend ActualGaussStage\nend HeckeSkeleton.Moments.EngineStep\nend\n'
+          else:
+              theorem = 'exceptional_original_label_from_atoms'
+              declaration = one('theorem exceptional_original_label_from_atoms\n')
+              start_comment = one('/-- The public source estimate has no per-leaf exceptional inequality\n')
+              stop = one('\nend SecondSideFrame\nend HeckeSkeleton.Moments.EngineStep\n')
+              original_part = original
+              closing = ''
+          add(start_comment, '', 'BEFORE_HEADER_' + theorem, 'run_cmd')
+          body_start = original.index(' := by\n', declaration) + len(' := by\n')
+          assert declaration < body_start < stop
+          position = body_start
+          for line in original[body_start:stop].splitlines(keepends=True):
+              if line.startswith(('  let ', '  have ', '  change ', '  calc', '  exact ')):
+                  label = 'BODY_BEFORE_LINE_' + str(original[:position].count('\n') + 1)
+                  add(position, '  ', label, 'run_tac')
+              elif target == 'ActualGaussFiniteLeaves' and line.startswith(
+                      ('    funext ', '    dsimp only ', '    exact phase_mul_four_factors ')):
+                  label = 'NESTED_BEFORE_LINE_' + str(original[:position].count('\n') + 1)
+                  add(position, '    ', label, 'run_tac')
+              position += len(line)
+          assert position == stop
+          if target == 'ExceptionalOriginalLabel':
+              add(stop + 1, '', 'COMMAND_CONTINUED_AFTER_' + theorem, 'run_cmd')
+              print_marker = '#print axioms HeckeSkeleton.Moments.EngineStep.SecondSideFrame.exceptional_original_label_from_atoms\n'
+              print_start = one(print_marker)
+              add(print_start, '', 'BEFORE_PRINT_AXIOMS', 'run_cmd')
+              add(print_start + len(print_marker), '', 'COMMAND_CONTINUED_AFTER_PRINT_AXIOMS', 'run_cmd')
+          else:
+              # Command elaboration can continue before asynchronous proof/kernel work finishes.
+              # This marker is only command progress, never proof completion evidence.
+              closing = '\nrun_cmd IO.eprintln ' + json.dumps('MOM_TRACE ' + target +
+                  ' COMMAND_CONTINUED_AFTER_' + theorem) + '\n' + closing
+          contents = original_part
+          for insertion in sorted(insertions, key=lambda x: x['offset_characters'], reverse=True):
+              position = insertion['offset_characters']
+              assert position <= len(original_part)
+              contents = contents[:position] + insertion['text'] + contents[position:]
+          recovered = contents
+          for insertion in insertions:
+              assert recovered.count(insertion['text']) == 1
+              recovered = recovered.replace(insertion['text'], '', 1)
+          assert recovered == original_part
+          contents += closing
+          basename = 'MomEngineInstrumented_' + target
+          diagnostic = pathlib.Path(basename + '.lean')
+          diagnostic.write_text(contents)
+          (evidence / diagnostic.name).write_text(contents)
+          manifest = {'target': target, 'source_sha256': hashlib.sha256(original_bytes).hexdigest(),
+                      'diagnostic_sha256': hashlib.sha256(contents.encode()).hexdigest(),
+                      'original_prefix_bytes': len(original_part.encode()),
+                      'original_file_bytes': len(original_bytes), 'insertions': insertions,
+                      'closing_added': closing,
+                      'exact_source_recovered_after_removing_instrumentation': True,
+                      'scope': 'temporary instrumented source diagnostic, never native acceptance',
+                      'note': 'COMMAND_CONTINUED markers do not imply asynchronous proof or kernel completion'}
+          (evidence / 'instrumentation.json').write_text(json.dumps(manifest, indent=2) + '\n')
           output = pathlib.Path('/tmp/mom-engine-step-native')
           output.mkdir(exist_ok=True)
-          prefix_dir = evidence / 'prefixes'
-          prefix_dir.mkdir(exist_ok=True)
-          engine_close = '\nend HeckeSkeleton.Moments.EngineStep\nend\n'
-          if target == 'ExceptionalOriginalLabel':
-              cases = [
-                  ('definition', '\ntheorem exceptionalMagnitude_nonneg\n',
-                   '\nend SecondSideFrame' + engine_close),
-                  ('before_scalar', '\ntheorem original_exceptional_label_scalar\n', engine_close),
-                  ('through_scalar', '\nvariable {ΨL ΨR : Ideal', engine_close),
-              ]
-          else:
-              gauss_close = '\nend CoveredClassKey\nend ActualGaussStage' + engine_close
-              cases = [
-                  ('before_leaf', '\ndef leaf (exceptional : s.CoverHybridPredicates LC RC)\n', gauss_close),
-                  ('before_phase', '\n/-- This is the actual phase multiplication from the first transform,\n', gauss_close),
-                  ('through_phase', '\nend CoveredClassKey\n', gauss_close),
-              ]
-          results = []
-          final_code = 0
-          previous_length = 0
-          for index, (label, marker, closing) in enumerate(cases, 1):
-              marker_bytes = marker.encode()
-              assert original_bytes.count(marker_bytes) == 1, (target, label, 'ambiguous marker')
-              prefix = original_bytes.split(marker_bytes, 1)[0]
-              assert len(prefix) > previous_length
-              previous_length = len(prefix)
-              contents = prefix + closing.encode()
-              basename = 'MomEnginePerfPrefix_' + target + '_' + str(index) + '_' + label
-              diagnostic = pathlib.Path(basename + '.lean')
-              diagnostic.write_bytes(contents)
-              (prefix_dir / diagnostic.name).write_bytes(contents)
-              command = ['timeout', '--signal=TERM', '--kill-after=5s', '60s',
-                         '/usr/bin/time', '-v', 'lake', 'env', 'lean', '-j2',
-                         '-DautoImplicit=false', '-DrelaxedAutoImplicit=false', '-Dprofiler=true',
-                         '-o', str(output / (basename + '.olean')),
-                         '-i', str(output / (basename + '.ilean')), str(diagnostic)]
-              print('PREFIX_START ' + target + ' ' + label, flush=True)
-              started = time.monotonic()
-              with (evidence / (str(index) + '-' + label + '.log')).open('w') as log:
-                  log.write(json.dumps({'command': command}) + '\n')
+          command = ['/usr/bin/time', '-v', 'timeout', '--signal=TERM', '--kill-after=5s', '120s',
+                     'lake', 'env', 'lean', '-j2',
+                     '-DautoImplicit=false', '-DrelaxedAutoImplicit=false', '-Dprofiler=true',
+                     '-DstderrAsMessages=false',
+                     '-o', str(output / (basename + '.olean')),
+                     '-i', str(output / (basename + '.ilean')), str(diagnostic)]
+          started = time.monotonic()
+          with (evidence / 'instrumented.log').open('w') as log:
+              log.write(json.dumps({'command': command}) + '\n')
+              log.flush()
+              process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              assert process.stdout is not None
+              for line in process.stdout:
+                  print(line, end='', flush=True)
+                  log.write(line)
                   log.flush()
-                  process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-                  assert process.stdout is not None
-                  for line in process.stdout:
-                      print(line, end='', flush=True)
-                      log.write(line)
-                      log.flush()
-                  code = process.wait()
-              result = {'prefix': label, 'exit_code': code,
-                        'elapsed_seconds': time.monotonic() - started,
-                        'original_prefix_bytes': len(prefix),
-                        'prefix_sha256': hashlib.sha256(contents).hexdigest(),
-                        'suffix_added': closing, 'is_complete_target_module': False}
-              results.append(result)
-              (evidence / 'prefix-results.json').write_text(json.dumps(results, indent=2) + '\n')
-              print(json.dumps(result), flush=True)
-              if code:
-                  final_code = code
-                  break
-          original = json.loads((evidence / 'environment.json').read_text())['source_sha256']
+              code = process.wait()
+          expected = json.loads((evidence / 'environment.json').read_text())['source_sha256']
           unchanged = all(hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest() == digest
-                          for path, digest in original.items())
-          result = {'target': target, 'exit_code': final_code,
+                          for path, digest in expected.items())
+          result = {'target': target, 'exit_code': code, 'elapsed_seconds': time.monotonic() - started,
                     'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
+                    'diagnostic_sha256': hashlib.sha256(contents.encode()).hexdigest(),
                     'all_task_sources_unchanged': unchanged,
-                    'scope': 'prefix diagnosis only; never a complete-module pass',
+                    'scope': 'instrumented diagnostic only; never original complete-module acceptance',
                     'complete_target_module_compiled': False,
-                    'prefixes_completed': len(results), 'prefixes_requested': len(cases),
-                    'heartbeat_changed': False, 'proof_sources_changed': not unchanged}
+                    'heartbeat_changed': False, 'proof_sources_changed': not unchanged,
+                    'diagnostic_stderr_as_messages': False,
+                    'instrumentation_removed_matches_original': recovered == original_part}
           (evidence / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
           print(json.dumps(result), flush=True)
           if not unchanged:
-              raise SystemExit('Source changed during diagnostic')
-          raise SystemExit(final_code)
+              raise SystemExit('Original source changed during diagnostic')
+          raise SystemExit(code)
           PY
       - name: Preserve exact native timing and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: isolated-prefix-${{ matrix.target }}-${{ github.sha }}-${{ github.run_attempt }}
+          name: isolated-instrumented-${{ matrix.target }}-${{ github.sha }}-${{ github.run_attempt }}
           path: isolated-native-evidence/
           if-no-files-found: error
           retention-days: 14
