@@ -89,6 +89,7 @@ theorem weighted_residual_source_eq_integral
         _ = _ := by
           rw [original_twisted_choices lists hdis a j c hj (hc c hcC).1 (hc c hcC).2 χ t]
           ring
+    dsimp only
     rw [hsum]
     ring
 

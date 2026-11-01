@@ -53,8 +53,11 @@ theorem quotient_integrable (F : SchwartzMap ℝ ℂ) (j c P X : ℝ) :
       (continuous_columnPhase _)).mul (continuous_columnPhase _)).mul
         (continuous_columnPhase _) |>.aestronglyMeasurable)
   exact Filter.Eventually.of_forall fun t => by
-    simp only [norm_mul, norm_columnPhase, mul_one]
-    exact le_rfl
+    change ‖(𝓕 F) t * columnPhase t (Real.log j) *
+      columnPhase t (Real.log c) * columnPhase t (-Real.log P) *
+        columnPhase t (-Real.log X)‖ ≤ ‖(𝓕 F) t‖
+    simpa only [norm_mul, norm_columnPhase, mul_one] using
+      (le_rfl : ‖(𝓕 F) t‖ ≤ ‖(𝓕 F) t‖)
 
 /-- The same actual column annulus is used for every residual tuple;
 the inverse profile is separated without replacing its argument. -/
@@ -129,6 +132,7 @@ theorem finite_quotient_inverse {α β : Type*} (C : Finset α) (P : α → Fins
     _ = _ := by
       apply integral_congr_ae
       exact Filter.Eventually.of_forall fun t => by
+        dsimp only
         rw [Finset.mul_sum]
         apply Finset.sum_congr rfl
         intro c hcC
@@ -194,6 +198,7 @@ theorem weighted_residual_source_eq_integral
         _ = _ := by
           rw [original_twisted_choices lists hdis a j c hj (hc c hcC).1 (hc c hcC).2 χ t]
           ring
+    dsimp only
     rw [hsum]
     ring
 

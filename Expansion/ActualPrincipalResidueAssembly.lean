@@ -23,6 +23,7 @@ open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.HighBinActualEuler HeckeSkeleton.Expansion.PrincipalRows
 open HeckeSkeleton.Expansion.MellinRegularity HeckeSkeleton.Expansion.KernelRegularity
+open Expansion.FiniteTripleContour (vertical)
 open scoped Classical Topology
 
 private theorem finite_w_residue_accounting
@@ -46,17 +47,22 @@ private theorem finite_w_residue_accounting
       (hF.comp (by fun_prop : Continuous (fun p : ℝ × ℝ => (ts, p.1, p.2)))) H
   let U : ℝ → ℝ → ℂ := fun ts tz => lambda * ∫ tw in Icc (-H) H, Fp ts tw tz
   let V : ℝ → ℝ → ℂ := fun ts tz => lambda * ∫ tw in Icc (-H) H, Fm ts tw tz
-  have hU : Continuous (Function.uncurry U) := continuous_const.mul
-    (continuous_parametric_integral_of_continuous
-      (hFp.comp (by fun_prop : Continuous (fun p : (ℝ × ℝ) × ℝ => (p.1.1, p.2, p.1.2))))
-      isCompact_Icc)
-  have hV : Continuous (Function.uncurry V) := continuous_const.mul
-    (continuous_parametric_integral_of_continuous
-      (hFm.comp (by fun_prop : Continuous (fun p : (ℝ × ℝ) × ℝ => (p.1.1, p.2, p.1.2))))
-      isCompact_Icc)
+  have hU : Continuous (Function.uncurry U) := by
+    change Continuous (fun p : ℝ × ℝ => lambda * ∫ tw in Icc (-H) H, Fp p.1 tw p.2)
+    apply continuous_const.mul
+    apply continuous_parametric_integral_of_continuous
+      (f := fun p : ℝ × ℝ => fun tw : ℝ => Fp p.1 tw p.2) (s := Icc (-H) H) _ isCompact_Icc
+    exact hFp.comp (by fun_prop : Continuous (fun p : (ℝ × ℝ) × ℝ => (p.1.1, p.2, p.1.2)))
+  have hV : Continuous (Function.uncurry V) := by
+    change Continuous (fun p : ℝ × ℝ => lambda * ∫ tw in Icc (-H) H, Fm p.1 tw p.2)
+    apply continuous_const.mul
+    apply continuous_parametric_integral_of_continuous
+      (f := fun p : ℝ × ℝ => fun tw : ℝ => Fm p.1 tw p.2) (s := Icc (-H) H) _ isCompact_Icc
+    exact hFm.comp (by fun_prop : Continuous (fun p : (ℝ × ℝ) × ℝ => (p.1.1, p.2, p.1.2)))
   have hsub := FiniteTripleContour.integral_sub_integral_twice U V hU hV H
   have hres := FiniteTripleContour.integral_sub_integral_twice
     (fun ts tz => U ts tz - V ts tz) R (hU.sub hV) hR H
+  simp only [FiniteTripleContour.heightBox] at hsub hres
   change _ = lambda ^ 2 * ∫ ts in Icc (-H) H, ∫ tz in Icc (-H) H,
     U ts tz - V ts tz - R ts tz
   rw [← hres, ← hsub, hperm Fp hFp, hperm Fm hFm]
@@ -77,8 +83,25 @@ private theorem finite_z_residue_accounting
     continuous_const.mul (continuous_parametric_integral_of_continuous hFp isCompact_Icc)
   have hV : Continuous (fun ts => lambda * ∫ tz in Icc (-H) H, Fm ts tz) :=
     continuous_const.mul (continuous_parametric_integral_of_continuous hFm isCompact_Icc)
-  rw [integral_sub (hU.sub hV).continuousOn.integrableOn_Icc hR.continuousOn.integrableOn_Icc,
-    integral_sub hU.continuousOn.integrableOn_Icc hV.continuousOn.integrableOn_Icc]
+  have hsub :
+      (∫ ts in Icc (-H) H,
+        (lambda * ∫ tz in Icc (-H) H, Fp ts tz) -
+          (lambda * ∫ tz in Icc (-H) H, Fm ts tz)) =
+        (∫ ts in Icc (-H) H, lambda * ∫ tz in Icc (-H) H, Fp ts tz) -
+          (∫ ts in Icc (-H) H, lambda * ∫ tz in Icc (-H) H, Fm ts tz) := by
+    exact integral_sub (μ := volume.restrict (Icc (-H) H))
+      hU.continuousOn.integrableOn_Icc hV.continuousOn.integrableOn_Icc
+  have hres :
+      (∫ ts in Icc (-H) H,
+        (lambda * ∫ tz in Icc (-H) H, Fp ts tz) -
+          (lambda * ∫ tz in Icc (-H) H, Fm ts tz) - R ts) =
+        (∫ ts in Icc (-H) H,
+          (lambda * ∫ tz in Icc (-H) H, Fp ts tz) -
+            (lambda * ∫ tz in Icc (-H) H, Fm ts tz)) -
+          (∫ ts in Icc (-H) H, R ts) := by
+    exact integral_sub (μ := volume.restrict (Icc (-H) H))
+      (hU.sub hV).continuousOn.integrableOn_Icc hR.continuousOn.integrableOn_Icc
+  rw [hres, hsub]
   simp only [integral_const_mul]
   ring
 
@@ -207,7 +230,9 @@ private theorem continuous_actualPrincipal_double_residue
     Continuous (fun t : ℝ => actualPrincipalZRegularPart K S mu P psi g Z
       (vertical (B + e) t) (1 / 6) * (deletedZetaResidue K Sset / 6)) := by
   let s : ℝ → ℂ := vertical (B + e)
-  have hs : Continuous s := by dsimp [s, vertical]; fun_prop
+  have hs : Continuous s := by
+    change Continuous (fun t : ℝ => ((B + e : ℝ) : ℂ) + (t : ℂ) * Complex.I)
+    fun_prop
   have hrec := continuous_actual_target_reciprocal_comp K S omega psi hpsi
     (by linarith : 1 / 2 ≤ B) hboundary s hs (by intro t; simp [s, vertical]; linarith)
   have hcorr := continuous_actual_fullCorrection_comp K S P psi g ∅
@@ -297,8 +322,10 @@ theorem actualPrincipal_finite_z_accounting [IsTotallyComplex K]
     (vertical (B + e) ts) (by simp [vertical]; linarith)
   unfold actualPrincipalWResidueBox actualPrincipalZRemainder actualDoubleResidueLineTruncation
     actualPrincipalZShiftError
+  dsimp only [FiniteTripleContour.vertical, ExpansionInterfaces.Mellin.vertical] at hresEq ⊢
   simp_rw [← hresEq]
-  simpa only [principalFiniteVerticalIntegral, vertical, zpow_neg, zpow_ofNat, inv_pow] using hh
+  simpa only [principalFiniteVerticalIntegral, FiniteTripleContour.vertical,
+    ExpansionInterfaces.Mellin.vertical, zpow_neg, zpow_ofNat, inv_pow] using hh
 
 include nu in
 theorem actualPrincipal_two_finite_residues [IsTotallyComplex K]
