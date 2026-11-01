@@ -53,6 +53,7 @@ def actualRegionPieceWithEuler (P : ProbeData K S₀) (psi : HeckeCharacter K)
       compensatedRowMellinKernel K S₀ μ P psi E g ∅ u Z
         (sLine (a + 16 * e) x) (wLine (1 - a - 6 * e) x) (zLine x)
 
+set_option maxHeartbeats 1000000 in
 /-- The actual initial-series calibrations determine every restricted
 piece, including the closed a=1 bin. Almost-everywhere equality restricts
 to the literal region without a separate measurability or integrability
