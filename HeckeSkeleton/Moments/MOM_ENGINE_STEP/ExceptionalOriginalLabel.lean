@@ -330,12 +330,22 @@ theorem exceptional_original_label_from_atoms
       Z firstWeight magnitude firstCost secondCost parentWidth exponent divisorLower
       (zero_lt_one.trans hZ) (left.exceptionalMagnitude_nonneg right EL ER Q ξ)
       hfirstCost hfirst hsecondIndex
-  exact exceptionalLabel_divisor_transport firstWeight
-    ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ ‖fixedPhaseCoefficient Ray phase₂ left.phaseCharacter‖
-    (magnitude / Z ^ parentWidth)
-    (firstCost * secondCost * Z ^ exponent * branch.exceptionalDyadWeight Z divisorLower j)
-    (congrArg (fun I : Ideal (𝓞 F) => ‖(moebius I : ℂ)‖) hSindex)
-    (congrArg (fun I : Ideal (𝓞 F) => ‖(moebius I : ℂ)‖) hleftDivisor) hlabel
+  have hdone : firstWeight * ‖(moebius S : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
+      ‖(moebius left.allocation.divisor : ℂ)‖ *
+      ‖fixedPhaseCoefficient Ray phase₂ left.phaseCharacter‖ * (magnitude / Z ^ parentWidth) ≤
+      firstCost * secondCost * Z ^ exponent * branch.exceptionalDyadWeight Z divisorLower j :=
+    exceptionalLabel_divisor_transport
+      (sourceFirst := ‖(moebius S : ℂ)‖)
+      (targetFirst := ‖(moebius j.2.1.val : ℂ)‖)
+      (sourceSecond := ‖(moebius left.allocation.divisor : ℂ)‖)
+      (targetSecond := ‖(moebius j.2.2.2.1.val : ℂ)‖)
+      firstWeight
+      ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ ‖fixedPhaseCoefficient Ray phase₂ left.phaseCharacter‖
+      (magnitude / Z ^ parentWidth)
+      (firstCost * secondCost * Z ^ exponent * branch.exceptionalDyadWeight Z divisorLower j)
+      (congrArg (fun I : Ideal (𝓞 F) => ‖(moebius I : ℂ)‖) hSindex)
+      (congrArg (fun I : Ideal (𝓞 F) => ‖(moebius I : ℂ)‖) hleftDivisor) hlabel
+  simpa only [firstWeight, magnitude, secondCost, exponent] using hdone
 
 end SecondSideFrame
 end HeckeSkeleton.Moments.EngineStep
