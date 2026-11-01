@@ -169,7 +169,8 @@ profile identities, which are definitional for the power-window tests. -/
 def withPlainTests (W₁ W₂ : IdealTest K) (f₁ f₂ : ℝ → ℂ)
     (hW₁ : ∀ u ∈ pairedRows d a Z, ∀ y, W₁.profile u t y = f₁ y)
     (hW₂ : ∀ u ∈ pairedRows d a Z, ∀ y, W₂.profile u t y = f₂ y) :
-    ParentConstantAtoms Q { d with plainTest₁ := W₁, plainTest₂ := W₂ } a Z t where
+    ParentConstantAtoms Q
+      ({ d with plainTest₁ := W₁, plainTest₂ := W₂ } : MomentData K ω ψ) a Z t where
   rowMap := atoms.rowMap
   leftArithmetic := atoms.leftArithmetic
   rightArithmetic := atoms.rightArithmetic
@@ -197,11 +198,14 @@ local notation "Q" => SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 variable {d : MomentData K ω ψ} {a : RealParameters} {Z t Y₁ Y₂ : ℝ}
-variable {raw : ParentRawAtoms Q d a Z t Y₁ Y₂}
+variable {raw : ParentRawAtoms
+  (SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ) d a Z t Y₁ Y₂}
 variable (values : raw.ConstantValues)
-variable {φ : SchwartzMap V ℂ}
+variable {φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
 variable {finiteTest : ((v : (S : Set (HeightOneSpectrum (𝓞 K)))) → v.val.adicCompletion K) → ℂ}
-variable {radius : {r : ℝ // 0 < r}} {mask : Finset (HeightOneSpectrum OS)} {fiberBound : ℕ}
+variable {radius : {r : ℝ // 0 < r}}
+variable {mask : Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K))}
+variable {fiberBound : ℕ}
 variable (chart : GaussEnergyChart (pairedRows d a Z) raw.rowMap (fun _ => 1)
   φ finiteTest radius mask fiberBound)
 
@@ -210,7 +214,8 @@ profiles.  Their Gram identity is proved by the original integral's
 scalar linearity, rather than supplied as a mixed-profile assumption. -/
 def ParentRawAtoms.ConstantValues.rectangleProfiles :
     ParentRectangleProfiles raw finiteTest radius
-      (fun q => (gaussSourceProfile φ finiteTest radius q).re) where
+      (fun q : SIntegerOrbits K (S : Set (HeightOneSpectrum (𝓞 K))) Γ =>
+        (gaussSourceProfile φ finiteTest radius q).re) where
   profile comparison₁ comparison₂ i j :=
     (values.rectangle comparison₁ i * star (values.rectangle comparison₂ j)) • φ
   gram comparison₁ comparison₂ i _ j _ q := by
@@ -218,7 +223,7 @@ def ParentRawAtoms.ConstantValues.rectangleProfiles :
     change (values.rectangle comparison₁ i * star (values.rectangle comparison₂ j)) *
       gaussSourceProfile φ finiteTest radius q = _
     rw [chart.profile_eq_real q, values.rectangle_eq, values.rectangle_eq]
-    ring
+    simp only [Complex.ofReal_re] <;> ring
 
 theorem ParentRawAtoms.ConstantValues.wholeProfile_eq (centered : Bool) (i j : raw.Column) :
     (values.rectangleProfiles chart).wholeProfile centered i j =
@@ -334,7 +339,7 @@ variable {ι κ : Type*} {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable {b : FirstCommonCharacterBlock fullI fullJ DE}
 variable {left : Finset ι} {right : Finset κ}
-variable {profiles : ι → κ → SchwartzMap V ℂ}
+variable {profiles : ι → κ → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
 
@@ -354,25 +359,23 @@ def FirstBlockProfileChart.withCoefficients
   rightPoint := chart.rightPoint
   rowPoint := chart.rowPoint
   profile q i hi j hj hcop := by
-    have he :
-        ((generatedOriginalColumn (σ := σ) hΓ (b.leftResidual i) (b.leftGenerator i)
-            (b.left_generates i)).originalTriple
-          (generatedOriginalColumn (σ := σ) hΓ (b.rightResidual j) (b.rightGenerator j)
-            (b.right_generates j))
-          (actualActiveColumn hΓ C b.primes b.primes_injective
-            b.leftMultiplicity b.rightMultiplicity)
-          ((c i * star (e j)) • profiles i j)) =
-        { (generatedOriginalColumn (σ := σ) hΓ (b.leftResidual i) (b.leftGenerator i)
-            (b.left_generates i)).originalTriple
-          (generatedOriginalColumn (σ := σ) hΓ (b.rightResidual j) (b.rightGenerator j)
-            (b.right_generates j))
-          (actualActiveColumn hΓ C b.primes b.primes_injective
-            b.leftMultiplicity b.rightMultiplicity) (profiles i j) with
-          profile := (c i * star (e j)) • profiles i j } := rfl
-    rw [he, ParentPeriodicPair.transformedProfile_smul,
-      chart.profile q i hi j hj hcop]
-    simp only [star_mul]
-    ring
+    let p : ParentPeriodicPair K A.Sf Γ :=
+      (generatedOriginalColumn (σ := σ) hΓ (b.leftResidual i) (b.leftGenerator i)
+        (b.left_generates i)).originalTriple
+        (generatedOriginalColumn (σ := σ) hΓ (b.rightResidual j) (b.rightGenerator j)
+          (b.right_generates j))
+        (actualActiveColumn hΓ C b.primes b.primes_injective
+          b.leftMultiplicity b.rightMultiplicity) (profiles i j)
+    calc
+      _ = (c i * star (e j)) * p.transformedProfile μv finiteTest radius D q :=
+        ParentPeriodicPair.transformedProfile_smul μv p (c i * star (e j)) finiteTest radius D q
+      _ = _ := by
+        rw [show p.transformedProfile μv finiteTest radius D q =
+          chart.weight q * (chart.leftCoefficient i * star (chart.rightCoefficient j)) *
+            chart.kernel (chart.rowPoint q + chart.leftPoint i + chart.rightPoint j) from
+          chart.profile q i hi j hj hcop]
+        simp only [star_mul]
+        ring
 
 theorem FirstBlockProfileChart.withCoefficients_kernel
     (chart : FirstBlockProfileChart (E := E) hΓ μv b C left right profiles finiteTest radius D)

@@ -136,7 +136,7 @@ private theorem sum_norm_tail_upper
       ring
     _ = _ := by rw [geometric_half_constant, Real.sqrt_mul hb]; ring
 
-set_option maxHeartbeats 1600000 in
+set_option maxHeartbeats 6400000 in
 private theorem prime_and_tail_upper
     (ν : α → ℝ) (c : α → ℂ) (W : ℝ → ℂ) (d M P b : ℝ)
     (hP : 0 < P) (hb : 0 ≤ b) (hM : 0 ≤ M)

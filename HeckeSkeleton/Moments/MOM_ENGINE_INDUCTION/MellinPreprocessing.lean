@@ -46,7 +46,8 @@ theorem normalizedMellinPlain_energy_integrable
           ‖normalizedMellinPlainRow n B₁ B₂ P E J U time u frequency‖ ^ 2 := by
     apply Finset.sum_congr rfl
     intro u hu
-    rw [normalizedMellinPlainRow_eq n B₁ B₂ P hP E hE J U time u frequency]
+    dsimp only [row]
+  rw [normalizedMellinPlainRow_eq n B₁ B₂ P hP E hE J U time u frequency]
   simp_rw [he]
   exact integrable_finsetSum _ (fun u _ =>
     (normalizedMellinPlainRow_memLp n B₁ B₂ P hP E hE J U time u μ).norm.integrable_sq)
@@ -118,6 +119,7 @@ theorem Node.energy_le_normalizedMellinPlain_kernel
   filter_upwards [] with frequency
   apply Finset.sum_congr rfl
   intro u hu
+  dsimp only [row]
   rw [normalizedMellinPlainRow_eq n B₁ B₂ P hP E hE J U time u frequency]
 
 /-- A complete local frontend with constants chosen before all moving

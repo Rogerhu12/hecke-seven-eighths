@@ -17,11 +17,11 @@ on:
 permissions:
   contents: read
 
-# PR, branch-push and manual checks for the same exact source head share a concurrency
-# group. Different heads finish independently; only the final head's own
-# build and axiom evidence establish its verification result.
+# PR, branch-push and manual checks for the same branch share a concurrency
+# group, so a newer head cancels obsolete builds. Each job still checks its
+# exact source head before recording compilation and axiom evidence.
 concurrency:
-  group: mom-engine-induction-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}-${{ github.event.pull_request.head.sha || github.sha }}
+  group: mom-engine-induction-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
           test: "false"
           lint: "false"
           use-mathlib-cache: "true"
-          use-github-cache: "true"
+          use-github-cache: "false"
       - name: Restore precompiled project artifacts
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
       - name: Build the exact head and check every clean task declaration
@@ -97,7 +97,7 @@ jobs:
           test: "false"
           lint: "false"
           use-mathlib-cache: "true"
-          use-github-cache: "true"
+          use-github-cache: "false"
       - name: Restore precompiled project artifacts
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
       - name: Compile the exact source adapter and report inherited axioms

@@ -39,7 +39,7 @@ local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance secondResidualSourceCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 /-- The actual divisor and phase labels, with the same complete common
 correlation as row weight in both Cauchy halves. -/

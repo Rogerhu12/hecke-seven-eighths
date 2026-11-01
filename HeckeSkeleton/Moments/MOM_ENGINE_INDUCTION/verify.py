@@ -303,7 +303,15 @@ REINDEX_SOURCES = {'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/FiniteSectorCore.l
 INTEGRATED_SOURCE_PARENTS = (SOURCE_COMMIT, "e66f7384bc08d1124d1a9a4e7dcc21e4facffab0")
 INTEGRATED_SOURCES = {'HeckeSkeleton/Base.lean': '16cd8ba7fec2cc47da61f2d7310a49fe87acf53992885ac2377d4eaeb146586c', 'lakefile.toml': '2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0'}
 INTEGRATED_SOURCES['HeckeSkeleton/Moments/MOM_BASE/LocalGauss.lean'] = 'fd1552537104f93fb975803605bd53ab800861ba6162e1300476c40e3dd94567'
-CANONICAL_SOURCES = PRODUCER_SOURCES | SOURCE_SOURCES | REINDEX_SOURCES | INTEGRATED_SOURCES
+
+# Exact owner fixes layered over the minimal producer closure above.
+PRODUCER_REPAIR_COMMIT = '719ae9f74945456206ffc0dd142b87664e8cd891'
+PRODUCER_REPAIR_SOURCES = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstPooledResidual.lean': 'f198cfcab140d13aaebf0ff9b29539e1c00eaf29ffc44f2a6d8d3533f7327c96',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ParentConstantSource.lean': '30a7c6a7313f2b663d3850a7e14a511d0a29574fd44d2c14aff89abe44b8f5f3',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/SecondAllocatedSource.lean': 'd8426ec207ba34d95ae860287333e1ebf3e48a55e9acc7d25be5b66ce252799b',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/SecondResidualSource.lean': '30fd0dd004ecc9a5a08101bc769116c596722b7dd3df3056920fa4f8c6263a83',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/TailBudget.lean': '532fac1749febedea40d5a7aadc2865412ad549b8fcb922ccac75dd9a5295fc2'}
+CANONICAL_SOURCES = PRODUCER_SOURCES | PRODUCER_REPAIR_SOURCES | SOURCE_SOURCES | REINDEX_SOURCES | INTEGRATED_SOURCES
 SOURCE_MODULES = ("SkeletonFamily", "SkeletonSource")
 EXCLUDED = {name + ".lean" for name in SOURCE_MODULES}
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}
@@ -635,6 +643,8 @@ def preflight(expected: str, output: Path) -> None:
                   modules=[PREFIX + "." + name for name in MODULES],
                   producer_interface_commit=PRODUCER_COMMIT,
                   producer_interface_sha256=PRODUCER_SOURCES,
+                  producer_repair_commit=PRODUCER_REPAIR_COMMIT,
+                  producer_repair_sha256=PRODUCER_REPAIR_SOURCES,
                   canonical_source_commit=SOURCE_COMMIT, canonical_source_sha256=SOURCE_SOURCES,
                   integrated_source_parents=INTEGRATED_SOURCE_PARENTS,
                   integrated_source_sha256=INTEGRATED_SOURCES,

@@ -324,7 +324,7 @@ theorem uniform_ordinaryReflection_production
       refine ⟨hnchild.1, hnchild.2, hgchild.2.1, hgchild.1,
         hgchild.2.2.1, hgchild.2.2.2.1, ?_⟩
       rw [hgchild.2.2.2.2]
-      simpa only [Node.ordinary, long, short, add_assoc] using
+      simpa only [Node.ordinary, long, short, add_assoc, add_left_comm, add_comm] using
         (add_le_add_right (add_le_add_left hlength short) a.z)
 
 end HeckeSkeleton.Moments.EngineInduction
