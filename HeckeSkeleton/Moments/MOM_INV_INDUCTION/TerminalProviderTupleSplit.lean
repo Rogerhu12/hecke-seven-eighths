@@ -49,7 +49,7 @@ def join (J : Finset σ) (hJ : J ⊆ I)
   simp only [join, dif_pos i.property]
 
 @[simp] theorem join_inactive (J : Finset σ) (hJ : J ⊆ I)
-    (qa : tuplePool K J L) (qi : tuplePool K (I \ J) L) (i : I \ J) :
+    (qa : tuplePool K J L) (qi : tuplePool K (I \ J) L) (i : ↥(I \ J)) :
     (join K I L J hJ qa qi).val ⟨i.val, (Finset.mem_sdiff.mp i.property).1⟩ = qi.val i := by
   simp only [join, dif_neg (Finset.mem_sdiff.mp i.property).2]
 
@@ -171,7 +171,8 @@ def choicesEquiv
       obtain ⟨j, hj, he⟩ :=
         (activePrimes_mem K I L S hprime hexterior J.val J.property q _).mp hp
       have hji := tuplePrime_injective K S I L hprime hexterior hdisjoint q he
-      exact (congrArg Subtype.val hji) ▸ hj
+      have hval : j.val = i := congrArg Subtype.val hji
+      simpa only [hval] using hj
     · intro hi
       have hiI := J.property hi
       exact ⟨hiI, hiI,
@@ -196,7 +197,8 @@ theorem inactivePrimes_eq
         activePrimes K I L S hprime hexterior J hJ q =
       activePrimes K I L S hprime hexterior (I \ J) Finset.sdiff_subset q := by
   ext p
-  rw [Finset.mem_sdiff, activePrimes_mem]
+  rw [Finset.mem_sdiff,
+    activePrimes_mem K I L S hprime hexterior (I \ J) Finset.sdiff_subset q p]
   constructor
   · rintro ⟨hp, hpa⟩
     obtain ⟨i, hi, he⟩ := Finset.mem_image.mp hp

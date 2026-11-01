@@ -97,14 +97,14 @@ theorem slot_unramified (i : Index K c Z T)
   exact unramifiedAt_one K p
 
 def realParameter (i : Index K c Z T) (u : NonzeroIdeal K) : ℝ :=
-  -((recipeMomentModels K c (expansionRecipeRaw K c)).realShifts Z T i u 0)
+  -((recipeMomentModels K c (expansionRecipeRaw K c)).realShifts Z T i u (0 : Fin 6))
 
 def imagParameter (i : Index K c Z T) (u : NonzeroIdeal K) : ℝ :=
   (expansionRecipeRaw K c).family.frequencyScale *
-    (recipeMomentModels K c (expansionRecipeRaw K c)).imagShifts Z T i u 0
+    (recipeMomentModels K c (expansionRecipeRaw K c)).imagShifts Z T i u (0 : Fin 6)
 
 def cutoffParameter (i : Index K c Z T) : ℝ :=
-  (recipeMomentModels K c (expansionRecipeRaw K c)).heights Z T i 3
+  (recipeMomentModels K c (expansionRecipeRaw K c)).heights Z T i (3 : Fin 6)
 
 def logProfile (i : Index K c Z T) (u : NonzeroIdeal K) : SchwartzMap ℝ ℂ :=
   actualInverseLogProfile (momentBaseFor i)
@@ -163,11 +163,11 @@ theorem parameter_box (i : Index K c Z T) (u : NonzeroIdeal K) :
   constructor
   · simpa only [realParameter, abs_neg, ← Real.norm_eq_abs] using
       (norm_le_pi_norm ((recipeMomentModels K c (expansionRecipeRaw K c)).realShifts
-        Z T i u) 0).trans (hσ u)
+        Z T i u) (0 : Fin 6)).trans (hσ u)
   · rw [imagParameter, abs_mul]
     apply mul_le_mul_of_nonneg_left _ (abs_nonneg _)
     have hu := (norm_le_pi_norm
-      ((recipeMomentModels K c (expansionRecipeRaw K c)).imagShifts Z T i u) 0).trans
+      ((recipeMomentModels K c (expansionRecipeRaw K c)).imagShifts Z T i u) (0 : Fin 6)).trans
         (hτ u)
     rw [Real.norm_eq_abs] at hu
     exact hu.trans (add_le_add le_rfl hξ)
@@ -196,7 +196,7 @@ theorem slot_profile (i : Index K c Z T) (sector : SixthUnitClasses K (places K 
     ((data K c i sector).geometry.slots j).profile t y =
       (c.geometry.weight (selectedSlotIndex i.selected j)).toFun y *
         profilePower (conj ((17 / 50 : ℂ) +
-          (((recipeMomentModels K c (expansionRecipeRaw K c)).heights Z T i 2 : ℝ) : ℂ) *
+          (((recipeMomentModels K c (expansionRecipeRaw K c)).heights Z T i (2 : Fin 6) : ℝ) : ℂ) *
             Complex.I) - 1) y := rfl
 
 theorem slot_scale (i : Index K c Z T) (sector : SixthUnitClasses K (places K c))

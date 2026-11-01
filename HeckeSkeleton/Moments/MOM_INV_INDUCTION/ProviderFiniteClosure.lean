@@ -212,12 +212,13 @@ theorem exists_stage_steps_of_short_contribution
     simp only [stageCapacity_succ, stageMargin_succ, stageRowBound_succ] at hih
     intro σ x hx hrow
     exact hih x hx hrow
+  intro σ x hx hrow
   exact hlocal Z (stageCapacity Fmax b.eta j) (stageMargin c b.eta j)
     b.eta (fineMesh b) b.tau e B (stageRowBound Mmax b.step j)
     (hZFine.trans hZF) hZS ((stageCapacity_le_common b.eta_pos.le hjle).trans hcapacity)
     (stageMargin_lower b hjle) (stageMargin_half_eta_nonneg b hc hjle) hz
     ⟨hmesh.1.le, hmesh.2.1⟩ ⟨b.tau_pos.le, htau⟩ le_rfl
-    hwidth hmesh.2.2 b.eta_step he hB hshift hih'
+    hwidth hmesh.2.2 b.eta_step he hB hshift hih' x hx hrow
 
 include hΓ hallowed μv ν μ in
 /-- All actual node energies close with the allocated epsilon once

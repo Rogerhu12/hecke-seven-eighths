@@ -64,6 +64,9 @@ variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K)
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] [Γ.FiniteIndex]
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
+local instance unitClassesFintype :
+    Fintype (CanonicalSectors.UnitClasses K (S : Set (HeightOneSpectrum (𝓞 K))) Γ) :=
+  Fintype.ofFinite _
 
 /-- Both actual initial positive production totals satisfy the
 original m-power bound. The displayed 48h+5pi accounts for all norm

@@ -69,7 +69,7 @@ theorem atom_summable
       ‖GeneralReflectedEnergy.atom K S D f s F θ V.toFun (Z ^ Nstar) k P cb.1 cb.2‖ ≤
         B * (inverseSquare (exteriorNorm K S cb.1) *
           inverseSquare (exteriorNorm K S cb.2)) := by
-    have hy := argument_pos K S f s (Real.rpow_pos_of_pos hz _) k P cb.1 cb.2
+    have hy := argument_pos K S f s (Real.rpow_pos_of_pos hz Nstar) k P cb.1 cb.2
     have hn := atom_norm_le_kernel K S D f s hreflection.allowed_generators F θ
       hreflection.exterior_unramified V.toFun (Z ^ Nstar) k P cb.1 cb.2
     have hh := hkernel V (QuotientGroup.mk f.rowUnit)
@@ -126,7 +126,7 @@ theorem norm_bound
         (inverseSquare (exteriorNorm K S cb.1) * inverseSquare (exteriorNorm K S cb.2)) := by
     dsimp only [term]
     split_ifs with ht
-    · have hy := argument_pos K S f s (Real.rpow_pos_of_pos hz _) k P cb.1 cb.2
+    · have hy := argument_pos K S f s (Real.rpow_pos_of_pos hz Nstar) k P cb.1 cb.2
       have hkern := hkernel V (QuotientGroup.mk f.rowUnit)
         (blockFrequency (frozenClass K S D f s) (generatorLocalClass K S D k)
           (generatorLocalClass K S D P) (generatorLocalClass K S D cb.1)
@@ -288,6 +288,8 @@ theorem uniform_energy
           (tailShift L tau saving) ^ 2 * ‖inactiveWeight K S f‖ ^ 2 * Z ^ (-saving) := by
   choose C hC hb using fun θ : backgrounds => fixed_period_energy K S D
     (R.data θ.val) θ.val (R.reflection θ.val θ.property) L tau saving hL htau hsaving
+  have hCsum : 0 ≤ ∑ θ : backgrounds, C θ :=
+    Finset.sum_nonneg (fun θ _ => (hC θ).le)
   refine ⟨1 + ∑ θ : backgrounds, C θ, by positivity, ?_⟩
   intro θ hθ f s V Z Nstar H za amp hZ hsource hamp keep _hdec hkeep rows ps a hr hp ha
   have hh := hb ⟨θ, hθ⟩ f s V Z Nstar H za amp hZ hsource hamp keep hkeep rows ps a hr hp ha
