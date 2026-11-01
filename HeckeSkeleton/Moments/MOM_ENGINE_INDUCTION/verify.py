@@ -208,7 +208,7 @@ def generate() -> None:
     names: set[str] = set()
     for module in modules:
         names.update(declarations(TASK / (module + ".lean")))
-    text = "/-! Complete declaration audit for the conditional induction. -/\n"
+    text = "/- Complete declaration audit for the conditional induction. -/\n"
     text += "\n".join("import " + PREFIX + "." + name for name in modules) + "\n\n"
     text += "\n".join("#print axioms " + name for name in sorted(names)) + "\n"
     (TASK / "Audit.lean").write_text(text)

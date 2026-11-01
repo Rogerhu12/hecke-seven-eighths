@@ -1,4 +1,4 @@
-/-! Complete declaration audit for the conditional induction. -/
+/- Complete declaration audit for the conditional induction. -/
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActiveChildAnnulus
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActiveFamilyAnnulus
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualAnnularVolume
