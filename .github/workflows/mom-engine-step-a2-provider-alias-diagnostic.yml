@@ -34,7 +34,7 @@ jobs:
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
-          fetch-depth: 2
+          fetch-depth: 3
       - name: Record the exact source tree and prepare evidence-only helpers
         shell: bash
         run: |
@@ -62,7 +62,9 @@ jobs:
           source_base = 'bcd280b153614b4a5281baf8a8156ec2f8e4bd89'
           source_base_tree = git('rev-parse', source_base + '^{tree}')
           assert source_base_tree == '07db6aa2caebe839514c09ab97471eade4f467df', 'Unexpected frozen auxiliary base tree'
-          assert git('rev-parse', 'HEAD^') == source_base, 'Diagnostic must be a direct child of the frozen auxiliary head'
+          expected_parent = 'f28ad2f485efa818042ceb39504aa6177461c194'
+          assert git('rev-parse', 'HEAD^') == expected_parent, 'Unexpected diagnostic repair parent'
+          assert git('rev-parse', expected_parent + '^') == source_base, 'Frozen auxiliary ancestry changed'
           parents = git('rev-list', '--parents', '-n', '1', 'HEAD').split()
           assert len(parents) == 2, 'Diagnostic commit must have one parent'
           changed = git('diff', '--name-only', source_base, 'HEAD').splitlines()
@@ -81,7 +83,7 @@ jobs:
           assert digest(str(task / 'ActualGaussFiniteLeaves.lean')) == 'cc98c8a2c5c3c3f6c59695935245f463c84e6e7f7c8292b5062e2d1813d94c87', 'Original Actual source changed'
           assert digest('.github/scripts/mom-engine-step-a2-diagnostic.py') == '0858bc9e93b1ba60a6d45ae39e694149001689fa29bfd1928ffcaa9696e95ed3', 'Unexpected diagnostic script'
           assert digest('.github/scripts/mom-engine-step-a2-two-private-warnings.py') == '625e9615dee0c1385d403089dcf6830c537ec97f08e9cf58793528cbdf7a2699', 'Unexpected two-private-warning wrapper'
-          assert digest('.github/scripts/mom-engine-step-a2-provider-alias-diagnostic.py') == 'cd7347b54d162d3d9039d6875bf307bb120c30d8479f865e99ba9341f8b87c26', 'Unexpected explicit-provider 63-marker wrapper'
+          assert digest('.github/scripts/mom-engine-step-a2-provider-instances-diagnostic.py') == 'cd7347b54d162d3d9039d6875bf307bb120c30d8479f865e99ba9341f8b87c26', 'Unexpected explicit-provider 63-marker wrapper'
           assert digest('.github/scripts/mom-engine-step-a2-public-phase-after.py') == 'bc1a8cbab78e8c713e8bada7c97be38336d1c02bff92c82025a0d832b2cb31f8', 'Unexpected parallel public-phase marker wrapper'
           assert digest('.github/scripts/mom-engine-step-a2-public-phase-stack-driver.py') == 'c9dcdca396a05167492d3f8ab80f95cc487ddd66730a94bea001f18ddd15540d', 'Unexpected parallel public-phase stack driver'
           assert digest('.github/scripts/mom-engine-step-a2-public-phase-stack-harness.py') == '5186682007e4e614ed18f6470bb058b2cc298b7863cb81e0853ebd9fc7e8e150', 'Unexpected parallel public-phase stack harness'
@@ -185,7 +187,7 @@ jobs:
       - name: Diagnose the complete reversible source using the pinned variant
         id: diagnostic
         run: |
-          python3 -u .github/scripts/mom-engine-step-a2-provider-alias-diagnostic.py \
+          python3 -u "$A2_DIAGNOSTIC_SCRIPT" \
             --repo "$GITHUB_WORKSPACE" --evidence a2-provider-alias/diagnostic --run
       - name: Check all tracked sources and configuration again
         if: always()
