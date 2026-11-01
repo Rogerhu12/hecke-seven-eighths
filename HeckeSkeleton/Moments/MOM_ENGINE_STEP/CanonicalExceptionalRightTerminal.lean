@@ -139,7 +139,7 @@ theorem exists_original_magnitude_terminal_with_right_cutoff
     apply (mul_le_mul hl hr (TR h).source.rawMass_nonneg
       (mul_nonneg UL.constant_nonneg (Real.rpow_nonneg hz.le _))).trans_eq
     rw [← hexponent, Real.rpow_add hz]
-    ring
+    exact mul_mul_mul_comm UL.constant (Z ^ UL.exponent) UR.constant (Z ^ UR.exponent)
   have hb := hrows iRight iLeft WR₁ WR₂ WL₁ WL₂ hsR₁ hsR₂ hsL₁ hsL₂
     P hP hPR₁ hPR₂ hPL₁ hPL₂
   have hp := hb C R.primes R.primes_injective R.leftMultiplicity R.rightMultiplicity

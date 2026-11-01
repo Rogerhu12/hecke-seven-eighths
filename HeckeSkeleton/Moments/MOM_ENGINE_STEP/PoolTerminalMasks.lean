@@ -103,12 +103,18 @@ def poolTerminalMaskCap (P : PowerScaleExteriorPool A bad Z ell eps)
 theorem poolTerminalMaskCap_left (P : PowerScaleExteriorPool A bad Z ell eps)
     (left right : PoolSourceTag P → Finset α) (tag : PoolSourceTag P) :
     (left tag).card ≤ poolTerminalMaskCap P left right := by
-  exact Finset.le_sup (b := (true, tag)) (Finset.mem_univ _)
+  exact Finset.le_sup
+    (f := fun j : Bool × PoolSourceTag P =>
+      if j.1 then (left j.2).card else (right j.2).card)
+    (b := (true, tag)) (Finset.mem_univ _)
 
 theorem poolTerminalMaskCap_right (P : PowerScaleExteriorPool A bad Z ell eps)
     (left right : PoolSourceTag P → Finset α) (tag : PoolSourceTag P) :
     (right tag).card ≤ poolTerminalMaskCap P left right := by
-  exact Finset.le_sup (b := (false, tag)) (Finset.mem_univ _)
+  exact Finset.le_sup
+    (f := fun j : Bool × PoolSourceTag P =>
+      if j.1 then (left j.2).card else (right j.2).card)
+    (b := (false, tag)) (Finset.mem_univ _)
 
 theorem poolTerminalMaskCap_power_le (P : PowerScaleExteriorPool A bad Z ell eps)
     (left right : PoolSourceTag P → Finset α) (bound : ℝ)

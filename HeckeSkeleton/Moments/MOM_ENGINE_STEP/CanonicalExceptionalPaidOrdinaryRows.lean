@@ -88,7 +88,7 @@ theorem exists_original_ordinary_paired_row_bound_with_cutoff
       (sectors * Cbound * Cnormal) * P ^ 4 *
         Z ^ (3 * stepσ + 5 * δ / 6 + slotError - divisorLower + cutoffLoss / 6) := by
   obtain ⟨orders, hzero, _order, Csource, hCsource, hsource⟩ :=
-    CanonicalExceptionalVolume.exists_original_source_bounds_supported (V := V) (σ := σ)
+    CanonicalExceptionalVolume.exists_original_source_bounds_supported (A := A) (V := V) (σ := σ)
       χ density remainder hcontinuous window hvolume hcompact hpositive
       1 0 (by norm_num) (by norm_num)
   let Cbound := Csource ^ 2 * idealCountConstant F
@@ -97,8 +97,6 @@ theorem exists_original_ordinary_paired_row_bound_with_cutoff
   refine ⟨orders, hzero, Cbound, hCbound, ?_⟩
   intro iLeft iRight WL₁ WL₂ WR₁ WR₂ hsL₁ hsL₂ hsR₁ hsR₂ P hP hPL₁ hPL₂ hPR₁ hPR₂
   have hP0 : 0 ≤ P := zero_le_one.trans hP
-  have hleftBound := (hsource iLeft WL₁ WL₂ hsL₁ hsL₂ P hP0 hPL₁ hPL₂).1
-  have hrightBound := (hsource iRight WR₁ WR₂ hsR₁ hsR₂ P hP0 hPR₁ hPR₂).1
   intro ι HRows instFintype instDecidableEq C p hp mult₁ mult₂ rows Ih frequency r base
     leftFactor rightFactor Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v
     r₁ r₂ divisorLower slotError cutoffLoss sectors Cnormal stepσ δ
@@ -129,9 +127,11 @@ theorem exists_original_ordinary_paired_row_bound_with_cutoff
   have hpoint (x) (hx : x ∈ rows) :
       ‖(left x).ordinaryValue‖ * ‖(right x).ordinaryValue‖ ≤ U := by
     have hl : ‖(left x).ordinaryValue‖ ≤ CL * (left x).rawMass :=
-      (hleftBound (left x)).1
+      ((hsource iLeft WL₁ WL₂ hsL₁ hsL₂ P hP0 hPL₁ hPL₂).1
+        (g := leftFactor x) (h' := (r x).element) (k := kleft) (left x)).1
     have hr : ‖(right x).ordinaryValue‖ ≤ CR * (right x).rawMass :=
-      (hrightBound (right x)).1
+      ((hsource iRight WR₁ WR₂ hsR₁ hsR₂ P hP0 hPR₁ hPR₂).1
+        (g := rightFactor x) (h' := (r x).element) (k := kright) (right x)).1
     calc
       _ ≤ (CL * (left x).rawMass) * (CR * (right x).rawMass) :=
         mul_le_mul hl hr (norm_nonneg _) (mul_nonneg hCL (left x).rawMass_nonneg)
