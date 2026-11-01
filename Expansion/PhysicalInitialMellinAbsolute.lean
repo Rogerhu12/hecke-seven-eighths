@@ -19,7 +19,8 @@ namespace Expansion.PhysicalInitialMellin
 
 open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
-open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
+open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
+open HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.HighBinActualAbsolute HeckeSkeleton.Expansion.LargeRows
 open Expansion.PhysicalInitialHeight HighBinVerified.NormFormMellin
 open scoped Classical BigOperators
@@ -38,7 +39,7 @@ instance countable_physicalFrequencyRow : Countable (FrequencyRow K Sset) := by
     | mk ui up us =>
       cases v with
       | mk vi vp vs =>
-        have h : ui = vi ∧ us = vs := Prod.mk.inj_iff.mp huv
+        have h : ui = vi ∧ us = vs := Prod.mk.inj huv
         rcases h with ⟨rfl, rfl⟩
         rfl
   exact hi.countable
@@ -78,7 +79,8 @@ theorem norm_physicalInitialMellinTerm_le (P : ProbeData K Sset) (ψ : HeckeChar
   simp only [idealVerticalPoint_re] at hI
   have hu : ‖(frequencyRowNorm K Sset i.1 : ℂ) ^ (-idealVerticalPoint 3 (t 2))‖ =
       frequencyRowNorm K Sset i.1 ^ (-3 : ℝ) := by
-    rw [Complex.norm_cpow_eq_rpow_re_of_pos (idealNorm_pos K _),
+    have hnorm : 0 < frequencyRowNorm K Sset i.1 := idealNorm_pos K _
+    rw [Complex.norm_cpow_eq_rpow_re_of_pos hnorm,
       Complex.neg_re, idealVerticalPoint_re]
   unfold physicalInitialMellinTerm
   rw [norm_mul, norm_mul, hu]
@@ -128,8 +130,9 @@ theorem integrable_physicalInitialScalarAt (P : ProbeData K Sset)
         mellin P.denominator.toFun (idealVerticalPoint 5 ((heightShear t) 1)) *
         additiveMellin K Sset (fun v => μv v.val) P.additive
           (idealVerticalPoint 3 ((heightShear t) 2))) at hs
-    simpa only [initial_shear_line, heightShear, MeasurableEquiv.coe_mk, Equiv.coe_fn_mk,
-      Matrix.cons_val_one, Matrix.cons_val_fin_one] using hs
+    have hshear1 (t : Fin 3 → ℝ) : (heightShear t) 1 = t 1 := rfl
+    have hshear2 (t : Fin 3 → ℝ) : (heightShear t) 2 = t 2 := rfl
+    simpa only [F, initial_shear_line, hshear1, hshear2] using hs
   let H : (Fin 3 → ℝ) → ℂ := fun t =>
     (physicalPoissonScalar K : ℂ) * (X : ℂ) ^ (1 / 2 - idealVerticalPoint 3 (t 2)) *
       (Z : ℂ) ^ (idealVerticalPoint 5 (t 0) + idealVerticalPoint 3 (t 2) - 1) *

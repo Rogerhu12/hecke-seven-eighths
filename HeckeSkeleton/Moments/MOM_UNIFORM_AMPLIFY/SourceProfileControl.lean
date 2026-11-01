@@ -21,7 +21,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.Analysis.ExpansionRecipe
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical HeckeGeneral.ThetaSkeleton.TIP
-open scoped Classical BigOperators ContDiff
+open scoped Classical BigOperators ContDiff ComplexConjugate
 
 variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K}

@@ -21,10 +21,10 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.Analysis.ExpansionRecipe
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical HeckeGeneral.ThetaSkeleton.TIP
-open scoped Classical BigOperators ContDiff
+open scoped Classical BigOperators ContDiff ComplexConjugate
 
 variable {K : Type} [Field K] [NumberField K]
-variable {ω ψ : HeckeCharacter K}
+variable {omega ψ : HeckeCharacter K}
 
 def dyadicSmoothAnnularTest : SmoothAnnularTest where
   toFun := Expansion.Dyadic.annularProfile
@@ -76,7 +76,7 @@ theorem zero_slice_control (J : ℕ) (A C H a b T : ℝ)
   exact mul_nonneg hC (Real.rpow_nonneg (by linarith) _)
 
 /-- Slot selection and the dyadic row exponent change no scalar profile. -/
-theorem modelProfileControl_restrictSlots (d : MomentData K ω ψ)
+theorem modelProfileControl_restrictSlots (d : MomentData K omega ψ)
     (I : Finset (Fin d.geometry.slotCount)) {J : ℕ} {A C H a b T : ℝ}
     (h : ModelProfileControl d J A C H a b T) :
     ModelProfileControl (d.restrictSlots I) J A C H a b T := by
@@ -87,7 +87,7 @@ theorem modelProfileControl_restrictSlots (d : MomentData K ω ψ)
   | plain₂ u => exact h (.plain₂ u)
   | prime j => exact h (.prime (selectedSlotIndex I j))
 
-theorem modelProfileControl_changeSlotBase (d : MomentData K ω ψ)
+theorem modelProfileControl_changeSlotBase (d : MomentData K omega ψ)
     (r : ℝ) (hr : 0 < r) {J : ℕ} {A C H a b T : ℝ}
     (h : ModelProfileControl d J A C H a b T) :
     ModelProfileControl (d.changeSlotBase r hr) J A C H a b T := by
@@ -100,7 +100,7 @@ theorem modelProfileControl_changeSlotBase (d : MomentData K ω ψ)
 
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 variable (P : ProbeData K S) (R : RowCharacterInput K S P)
-variable (ω ψ : HeckeCharacter K) (g : PrimeWindowGeometry)
+variable (omega ψ : HeckeCharacter K) (g : PrimeWindowGeometry)
 
 /-- Literal primitive formulas of the canonical detector family.  The
 frequency multiplier is one fixed real number, with no restriction on its
@@ -117,9 +117,9 @@ theorem canonical_recipe_model_profile_control
       0 < U → 0 ≤ D → ∀ s (ξ : RecipeVector)
         (σ τ : NonzeroIdeal K → RecipeVector),
       ‖ξ‖ ≤ T → (∀ u, ‖σ u‖ ≤ 8) → (∀ u, ‖τ u‖ ≤ 1 + ‖ξ‖) →
-      ModelProfileControl (F.fullModel K S P R ω ψ g U D s ξ σ τ)
+      ModelProfileControl (F.fullModel K S P R omega ψ g U D s ξ σ τ)
         J A C (J : ℝ) (1 / 2) 2 T ∧
-      ModelProfileControl (F.inverseFamily K S P R ω ψ g U D s ξ σ τ)
+      ModelProfileControl (F.inverseFamily K S P R omega ψ g U D s ξ σ τ)
         J A C (J : ℝ) (1 / 2) 2 T := by
   obtain ⟨C₀, hC₀, hb₀⟩ := annular_oneSided_cutoff_norm_twist_slice_control
     dyadicSmoothAnnularTest Expansion.Dyadic.cutoffProfile
@@ -160,27 +160,35 @@ theorem canonical_recipe_model_profile_control
         (fun y => F.inverseAnnular.profile u 0 y * F.cutoff ((D / U ^ (2 * ξ 3)) * y) *
           profilePower (z u) y) := by
     have h := (hb₀ T hT _ hratio (z u) (hzre u) (hzim u)).mono_constant h₀ hT
-    simpa only [annularCutoffNormTwist, dyadicSmoothAnnularTest, hinverse, hcutoff] using h
+    change SliceControl J A C (J : ℝ) (1 / 2) 2 T
+      (fun y => Expansion.Dyadic.annularProfile y *
+        Expansion.Dyadic.cutoffProfile ((D / U ^ (2 * ξ 3)) * y) * profilePower (z u) y) at h
+    simpa only [hinverse, hcutoff] using h
   have hp (u : NonzeroIdeal K) :
       SliceControl J A C (J : ℝ) (1 / 2) 2 T
         (fun y => F.plainAnnular.profile u 0 y * profilePower (z u) y) := by
     have h := (hb₁ T hT (z u) (hzre u) (hzim u)).mono_constant h₁ hT
-    simpa only [annularNormTwist, dyadicSmoothAnnularTest, hplain] using h
+    change SliceControl J A C (J : ℝ) (1 / 2) 2 T
+      (fun y => Expansion.Dyadic.annularProfile y * profilePower (z u) y) at h
+    simpa only [hplain] using h
   have hpr (j : Fin g.slots) :
       SliceControl J A C (J : ℝ) (1 / 2) 2 T
         (fun y => (g.weight j).toFun y * profilePower (F.slotPower j (recipePhysicalPoint ξ)) y) := by
     have hreal : |(F.slotPower j (recipePhysicalPoint ξ)).re| ≤ 1 := by
       rw [hprime]
-      norm_num
+      norm_num [Complex.conj_ofNat]
     have himag : |(F.slotPower j (recipePhysicalPoint ξ)).im| ≤ 1 * (1 + T) := by
       have hcoord := (norm_le_pi_norm ξ 2).trans hξ
+      have hrat : (17 / 50 : ℂ).im = 0 := by norm_num
+      have hpoint : recipePhysicalPoint ξ (2 : Fin 3) = ξ (2 : Fin 6) :=
+        congrArg ξ (Fin.ext (by decide))
       rw [hprime]
-      simpa only [recipePhysicalPoint, Complex.sub_im, Complex.conj_im, Complex.add_im,
-        Complex.ofReal_im, zero_add, Complex.mul_im, Complex.I_im, Complex.I_re,
+      simpa only [hpoint, Complex.sub_im, Complex.conj_im, Complex.add_im,
+        hrat, Complex.ofReal_im, zero_add, Complex.mul_im, Complex.I_im, Complex.I_re,
         Complex.ofReal_re, mul_one, mul_zero, add_zero, Complex.one_im, sub_zero,
         abs_neg, one_mul, Real.norm_eq_abs] using hcoord.trans (by linarith : T ≤ 1 + T)
     have h := (hbₚ j T hT _ hreal himag).mono_constant (hpC j) hT
-    simpa only [annularNormTwist, primeSmoothAnnularTest] using h
+    exact h
   constructor
   · intro q
     cases q with

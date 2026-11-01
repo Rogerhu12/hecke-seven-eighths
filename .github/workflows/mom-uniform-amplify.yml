@@ -62,11 +62,10 @@ jobs:
           retention-days: 14
 
   components:
-    # Finish the full source closure so its new diagnostics are preserved.
-    # GitHub retains only the newest pending source audit for the branch.
+    # A new source snapshot supersedes every older component on the branch.
     concurrency:
       group: mom-uniform-amplify-${{ github.head_ref || github.ref_name }}-${{ matrix.audit }}
-      cancel-in-progress: ${{ matrix.audit != 'SourceAudit' }}
+      cancel-in-progress: true
     name: ${{ matrix.audit }}
     runs-on: ubuntu-latest
     timeout-minutes: 180
@@ -124,7 +123,7 @@ jobs:
   verify:
     concurrency:
       group: mom-uniform-amplify-${{ github.head_ref || github.ref_name }}-verify
-      cancel-in-progress: false
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     timeout-minutes: 360
     env:

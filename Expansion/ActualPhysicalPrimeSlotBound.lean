@@ -33,6 +33,7 @@ variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 variable (P : ProbeData K S) (E : RowEulerData K S P)
 
+include P in
 theorem all_complex_of_original_probe : ∀ v : InfinitePlace K, v.IsComplex := by
   have hz : InfinitePlace.nrRealPlaces K = 0 :=
     InfinitePlace.IsPrimitiveRoot.nrRealPlaces_eq_zero_of_two_lt
@@ -70,7 +71,9 @@ theorem original_row_mem_physical_family (ψ : HeckeCharacter K)
 theorem physical_prime_frequency_le (p : Fin 3 → ℝ) {T : ℝ} (hp : ‖p‖ ≤ T) :
     |(vertical (17 / 50) (p 2)).im| ≤ T := by
   rw [vertical_im]
-  exact (by simpa only [Real.norm_eq_abs] using norm_le_pi_norm p 2).trans hp
+  have hcoord : |p 2| ≤ ‖p‖ := by
+    simpa only [Real.norm_eq_abs] using norm_le_pi_norm p 2
+  exact hcoord.trans hp
 
 variable (omega ψ : HeckeCharacter K) (Θ : Finset (HeckeCharacter K))
 
@@ -182,8 +185,8 @@ theorem exists_actual_physical_primeSlot_bound
   have hfinal := hb.trans ((mul_le_mul_of_nonneg_left
     (Real.rpow_le_rpow_of_exponent_le hZone hexponent) (hCi i)).trans
       (mul_le_mul_of_nonneg_right hCiC (Real.rpow_nonneg hZpos.le _)))
-  rw [shared_primePolynomial_eq_actualOriginalMaskedPrimeSum K S P E.rows omega ψ,
-    mul_one]
+  erw [shared_primePolynomial_eq_actualOriginalMaskedPrimeSum K S P E.rows omega ψ]
+  simp only [mul_one]
   change ‖(Real.sqrt (Z ^ ell) : ℂ)⁻¹ *
       actualOriginalMaskedPrimeSum K S (E.rows.character u) u.ideal.val
         (fun y => (g.weight i).toFun y * profilePower (conj z - 1) y) (Z ^ ell)

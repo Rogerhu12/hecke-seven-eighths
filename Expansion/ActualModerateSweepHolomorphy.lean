@@ -55,7 +55,7 @@ theorem analyticOnNhd_actual_rowCorrection_sweptTube
     (exteriorPrime_norm_two_le K Sset) ha ha1 he.le he1
     (rowW_norm K Sset P u) (rowD_norm K Sset P psi u) (rowE_norm K Sset P psi)
     (summable_exteriorPrime_swept_error K Sset he)
-  have han := HighBinJointAnalytic.analyticOnNhd_of_tendstoLocallyUniformlyOn hp
+  have han := HeckeSkeleton.HighBinJointAnalytic.analyticOnNhd_of_tendstoLocallyUniformlyOn hp
     (Filter.Eventually.of_forall fun F => F.analyticOnNhd_fun_prod (fun p _ =>
       explicitLocalEuler_analyticOnNhd (exteriorSupport K Sset u.ideal) Q
         (fun q : ExteriorPrime K Sset => (q.val.asIdeal.absNorm : ℝ))

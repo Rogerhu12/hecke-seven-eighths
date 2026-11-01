@@ -44,13 +44,20 @@ theorem physicalSourceOrDefault_witness_lengths
         0 ≤ ((b.amplitude l).witness t j).inverseLength ∧
           ((b.amplitude l).witness t j).inverseLength ≤ 3 / 2 + lam := by
   dsimp only
-  unfold physicalSourceOrDefault
-  split_ifs with hex
+  by_cases hex : ∃ b, PhysicalRecipeBlockSource K S P R ω ψ g F width Z T d a B lam k
+    hw hcap rows sector value b
   · intro hbin l t ht ht' j
-    have hsource := (Classical.choose_spec hex).2.2.1
+    have hsource := (physicalSourceOrDefault_source K S P R ω ψ g F
+      width Z T d a B lam k hw hcap rows sector value hex).2.2.1
     have hlength := blockSource_witness_lengths hsource hbin l t ht ht' j
     exact ⟨hlength.1, hlength.2.1⟩
-  · intro _hbin l t ht ht' j
+  · have hdefault :
+        physicalSourceOrDefault K S P R ω ψ g F width Z T d a B lam k
+            hw hcap rows sector value =
+          physicalDefaultBlock K S P R ω ψ g F width Z T a hw hcap rows sector value := by
+      rw [physicalSourceOrDefault, dif_neg hex]
+    rw [hdefault]
+    intro _hbin l t ht ht' j
     change 0 ≤ t ∧ t ≤ 3 / 2 + lam
     exact ⟨zero_le_one.trans ht, by linarith⟩
 
