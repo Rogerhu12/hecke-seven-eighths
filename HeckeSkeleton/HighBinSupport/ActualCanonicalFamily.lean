@@ -94,9 +94,18 @@ theorem sum_canonicalFamilyRows (Z T κ upper : ℝ) (hZ : 1 < Z)
       B e he hB hcommon Z T κ (shellExponent Z (1 / 16) j.val)),
       ∑ u ∈ canonicalRows K S P ψ Θ (moderateSource K S Z upper)
         B e he hB hcommon Z T κ (shellExponent Z (1 / 16) j.val) k.val, value u) = _
-  simp only [Finset.sum_coe_sort, canonicalChoices, canonicalRows]
-  simp_rw [sum_retainedChoices]
-  exact sum_maskedShellRows K S Z upper hZ value
+  calc
+    _ = ∑ j : Fin (shellCount Z (1 / 16) upper),
+        ∑ u ∈ maskedShellRows K S (moderateSource K S Z upper) Z
+          (shellExponent Z (1 / 16) j.val), value u := by
+      apply Finset.sum_congr rfl
+      intro j _
+      rw [Finset.sum_coe_sort]
+      exact sum_retainedChoices K S P ψ Θ (arithmeticHighEulerData K S P ψ)
+        B e (2 * HighBinVerified.NormForm.internalHeight Z T κ) he hB hcommon
+        (maskedShellRows K S (moderateSource K S Z upper) Z
+          (shellExponent Z (1 / 16) j.val)) value
+    _ = _ := sum_maskedShellRows K S Z upper hZ value
 
 end HeckeSkeleton.HighBinCanonicalFamily
 

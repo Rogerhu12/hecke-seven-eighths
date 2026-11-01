@@ -88,7 +88,8 @@ theorem untwisted_eq (c : TargetContext K) :
   have hnorm : (untwisted K c).val =
       radialNormalization K (normNormalizationPlace K) c.target.val := by
     simp only [untwisted, normTwistParameter, neg_neg, radialNormalization_apply]
-  rw [hnorm, ht, radialNormalization_packet K _ _ _ hθ]
+  rw [hnorm, ht]
+  exact radialNormalization_packet K (normNormalizationPlace K) c.family.omega θ hθ e t
 
 theorem untwisted_radial_zero (c : TargetContext K) :
     heckeRadialParameter K (normNormalizationPlace K) (untwisted K c).val = 0 := by
@@ -322,8 +323,10 @@ def expansionPhysicalParameters (c : TargetContext K) :
         (targetCharacter K c))
       (representative K c).val.property (expansionBoundary_lower K c) c.family.B_upper
       c.family.boundary (probeMeasures K c).haar ∅ c.family.lamA
-      (expansionShellAllowance K c) (expansionInternalCap K c) :=
-  Expansion.Project.choosePhysicalRecipeParameters K (places K c) (probeData K c)
+      (expansionShellAllowance K c) (expansionInternalCap K c) := by
+  letI : ∀ p : places K c, ((probeMeasures K c).haar p).IsAddHaarMeasure :=
+    fun p => (probeMeasures K c).haar_isAddHaar p
+  exact Expansion.Project.choosePhysicalRecipeParameters K (places K c) (probeData K c)
     c.family.omega (targetCharacter K c) c.geometry
     (HighBinActualEuler.arithmeticHighEulerData K (places K c) (probeData K c)
       (targetCharacter K c))
