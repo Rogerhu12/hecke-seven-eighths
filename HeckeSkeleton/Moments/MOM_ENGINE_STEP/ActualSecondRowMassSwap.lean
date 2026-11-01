@@ -166,28 +166,33 @@ variable (R : ActualSecondCorrelationRows A σ H ι)
 def swapLive (h : R.live) : R.swapColumns.live :=
   ⟨h.val, by simpa only [R.swapColumns_live] using h.property⟩
 
+set_option maxHeartbeats 800000 in
 @[simp] theorem swapLive_val (h : R.live) : (R.swapLive h).val = h.val := rfl
 
 /-- Uniqueness after cancellation proves the actual selected residual
 element is negated.  No new residual generator is selected in this proof. -/
+set_option maxHeartbeats 800000 in
 theorem swapColumns_extractedRow_element
     (C : A.GeneralArithmeticContext σ η hS) (h : R.live) :
     (R.swapColumns.extractedRow C (R.swapLive h)).element =
       -(R.extractedRow C h).element := by
   have hg : R.factor C h.val ≠ 0 := by
     intro hz
-    have he := (R.extractedRow C h).frequency
-    rw [hz, zero_mul] at he
+    have he : R.frequency h.val = 0 :=
+      (R.extractedRow C h).frequency.trans
+        ((congrArg (fun z : A.R => z * (R.extractedRow C h).element) hz).trans
+          (zero_mul _))
     exact (R.generates h.val (Finset.mem_filter.mp h.property).1).1 he
-  have hs := (R.swapColumns.extractedRow C (R.swapLive h)).frequency
-  change -R.frequency h.val = R.swapColumns.factor C h.val *
-    (R.swapColumns.extractedRow C (R.swapLive h)).element at hs
-  rw [R.swapColumns_factor C h.val] at hs
+  have hs : -R.frequency h.val = R.factor C h.val *
+      (R.swapColumns.extractedRow C (R.swapLive h)).element :=
+    (R.swapColumns.extractedRow C (R.swapLive h)).frequency.trans
+      (congrArg (fun z : A.R => z *
+        (R.swapColumns.extractedRow C (R.swapLive h)).element) (R.swapColumns_factor C h.val))
   apply mul_left_cancel₀ hg
   calc
     _ = -R.frequency h.val := hs.symm
     _ = R.factor C h.val * -(R.extractedRow C h).element := by
-      rw [(R.extractedRow C h).frequency, mul_neg]
+      simpa only [mul_neg] using congrArg Neg.neg (R.extractedRow C h).frequency
 
 /-- The selected residual ideal is exactly the original one. -/
 @[simp] theorem swapColumns_extractedRow_ideal

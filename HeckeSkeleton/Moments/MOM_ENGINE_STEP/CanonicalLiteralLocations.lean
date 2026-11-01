@@ -97,7 +97,7 @@ theorem two_product_locations
   simp only [map_mul, Nat.cast_mul,
     Real.log_mul (real_norm_ne_zero F₁ hF₁) (real_norm_ne_zero I hI),
     Real.log_mul (real_norm_ne_zero F₂ hF₂) (real_norm_ne_zero I hI)]
-  change WithLp.toLp 2 _ = WithLp.toLp 2 _
+  rw [← WithLp.toLp_add]
   congr 1
   apply Prod.ext <;> dsimp <;> ring
 
@@ -155,7 +155,9 @@ theorem reconstruct_literalIdeal (i : AllocationColumn K b.keep.card)
 
 theorem literalExtractedIdeal_ne_zero : b.literalExtractedIdeal ≠ 0 := by
   have he := b.extract_ideal b.witness b.witness_mem
-  exact he ▸ supportExtract_ne_zero (allocationColumnIdeal b.witness) P
+  change b.plainExtract₁ * b.plainExtract₂ * ∏ j, b.slotExtract j ≠ 0
+  rw [← he]
+  exact supportExtract_ne_zero (allocationColumnIdeal b.witness) P
 
 /-- The common support extraction introduces exactly the common row
 translation used by the real source.  Its ideal product is proved by
@@ -173,10 +175,12 @@ theorem reconstructed_log_location (firstSign : ℝ)
           (CanonicalLiteralLocations.prime firstSign) i := by
   have hp := Finset.mem_product.mp (Finset.mem_product.mp hi).1
   have hleft : i.1.1 ≠ 0 := by
-    obtain ⟨I, _, rfl⟩ := Finset.mem_image.mp hp.1
+    obtain ⟨I, _, hI⟩ := Finset.mem_image.mp hp.1
+    rw [← hI]
     exact supportResidual_ne_zero I P
   have hright : i.1.2 ≠ 0 := by
-    obtain ⟨I, _, rfl⟩ := Finset.mem_image.mp hp.2
+    obtain ⟨I, _, hI⟩ := Finset.mem_image.mp hp.2
+    rw [← hI]
     exact supportResidual_ne_zero I P
   simpa only [zero_sub] using CanonicalLiteralLocations.actual_product_locations
     firstSign 0 i hleft hright _ _ b.literalExtractedIdeal b.literalExtractedIdeal

@@ -156,8 +156,9 @@ theorem frame_energy (C : A.GeneralArithmeticContext σ η hS)
     cases side <;>
       simp only [SecondSideFrame.coefficient, SecondColumnSide.actualCoefficient,
         frame, secondAllocatedLeftCoefficient, secondAllocatedRightCoefficient,
-        f.coefficient_factor i hi', f.ray_factor i hi']
-  rw [hp]
+        f.coefficient_factor i hi', f.ray_factor i hi'] <;> rfl
+  simpa only [frame, allocation, ActualColumnAllocation.columns] using
+    congrArg (fun z : ℂ => ‖R.weight h * R.correlation h‖ * ‖z‖ ^ 2) hp
 
 end SecondRectangularFactors
 
@@ -390,8 +391,8 @@ theorem secondAllocationBranchCost_eq_produced
       (Finset.mem_filter.mp b.property).2.2.1 ξ
     have hr := (rightFactors b.val.2.1).frame_energy C b.val.1.val b.val.2.2.2.val
       (Finset.mem_filter.mp b.property).2.2.2 ξ
-    exact (congrArg (fun z : ℝ × ℝ => ‖(𝓕 F) ξ‖ * (Real.sqrt z.1 * Real.sqrt z.2))
-      (Prod.ext hl hr)).symm
+    exact (congrArg₂ (fun l r : ℝ => ‖(𝓕 F) ξ‖ * (Real.sqrt l * Real.sqrt r))
+      hl hr).symm
 
 variable {ω ψ : HeckeCharacter K}
 variable (P : ProfileNormalizationInput K ω ψ)
@@ -470,13 +471,13 @@ variable (R : CartesianSourceReindex (block.rightColumns right) block.rightResid
 local notation "Rows" => chart.actualRows M X hX label
 local notation "IA" => (fun i => block.leftResidual (L.index i))
 local notation "IB" => (fun i => block.rightResidual (R.index i))
-local notation "rayL" => (fun _ : AllocationColumn K k => (PUnit.unit : PUnit.{1}))
-local notation "rayR" => (fun _ : AllocationColumn K l => (PUnit.unit : PUnit.{1}))
+local notation "rayL" => (fun _ : AllocationColumn K k => (PUnit.unit : (PUnit : Type)))
+local notation "rayR" => (fun _ : AllocationColumn K l => (PUnit.unit : (PUnit : Type)))
 local notation "cL" => (fun i => chart.sourceLeftCoefficient (L.index i))
 local notation "cR" => (fun i => chart.sourceRightCoefficient (R.index i))
 local notation "xL" => (fun q i => chart.leftPoint q (L.index i))
 local notation "xR" => (fun q i => chart.rightPoint q (R.index i))
-local notation "branches" => liveSecondAllocationBranches (Ray := PUnit.{1})
+local notation "branches" => liveSecondAllocationBranches (Ray := (PUnit : Type))
   L.plain₁ L.plain₂ L.slots R.plain₁ R.plain₂ R.slots IB
 
 /-- The complete class-production bridge from the literal source chart.

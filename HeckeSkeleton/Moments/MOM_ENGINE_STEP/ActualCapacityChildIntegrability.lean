@@ -294,9 +294,13 @@ theorem normalized_capacity_pair_nested_actual_integrable
     F₁ F₂ B₁ B₂ hB₁ hB₂ J₁₁ J₁₂ J₂₁ J₂₂ hleftRadius hrightRadius).2.2
   have hm : Measurable
       (fun z : U × E => normalizedCapacityPairEnvelope «GL» GR (WithLp.toLp 2 z)) := by
-    simpa only [normalizedCapacityPairEnvelope, hleftRadius, hrightRadius, pairedProfileEnvelope] using
+    have hprofile :=
       (pairedProfileEnvelope_continuous (V := U) (E := E) B₁ B₂
         sL.allocation.keep.card sR.allocation.keep.card J₁₁ J₁₂ J₂₁ J₂₂).measurable
+    change Measurable (fun z : U × E =>
+      polynomialProfileRadius B₁ J₁₁ J₁₂ z ^ (sL.allocation.keep.card + 2) *
+        polynomialProfileRadius B₂ J₂₁ J₂₂ z ^ (sR.allocation.keep.card + 2)) at hprofile
+    simpa only [normalizedCapacityPairEnvelope, hleftRadius, hrightRadius] using hprofile
   have hn := fun z : U × E => normalizedCapacityPairEnvelope_nonneg
     («GL» := «GL») (GR := GR) (WithLp.toLp 2 z)
   have hweighted := (integrable_withDensity_iff_integrable_smul' hm.ennreal_ofReal

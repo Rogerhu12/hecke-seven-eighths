@@ -87,6 +87,7 @@ def jointRows (support : HeckeGeneral.Analysis.NonzeroIdeal K → A.Exterior) (b
     CompleteRowRecipe A P R (fun ξ => jointRowBudgetData (data ξ) support budget) :=
   Q.ofAllowedSubset (fun _ _ hu => hu.1) (fun _ => rfl)
 
+include Q in
 /-- This has exactly the identification field needed by ordinary
 reflection, for every paired row and any parameter/width choice. -/
 theorem identify (ξ : X) (a : RealParameters) (Z : ℝ)
@@ -206,6 +207,7 @@ def rightRecipe (b : family.active labels) :
     CompleteRowRecipe A P R (family.rightData labels b) :=
   (family.rightChild labels b).completeRowRecipe (raw.right b.val (Finset.mem_filter.mp b.property).1)
 
+include raw in
 /-- Both identifications refer to the literal public frozen data and
 their actual paired rows, for the same original probe and row recipe. -/
 theorem identify (b : family.active labels) (ξ : V) :

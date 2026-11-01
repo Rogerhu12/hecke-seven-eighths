@@ -48,7 +48,8 @@ def compensatedGauss (factor : ℝ) (hfactor : 0 < factor) :
     gaussScale₁_pos := mul_pos hfactor f.gaussScale₁_pos }
 
 theorem compensatedGauss_source (factor : ℝ) (hfactor : 0 < factor) :
-    (f.compensatedGauss factor hfactor).source = f.source := rfl
+    (f.compensatedGauss factor hfactor).source = f.source := by
+  cases side <;> rfl
 
 theorem compensatedGauss_normalizationScale (factor : ℝ) (hfactor : 0 < factor) :
     (f.compensatedGauss factor hfactor).normalizationScale = factor * f.normalizationScale := by

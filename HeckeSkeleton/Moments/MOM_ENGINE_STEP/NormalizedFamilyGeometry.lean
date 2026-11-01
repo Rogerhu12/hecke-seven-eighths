@@ -50,6 +50,8 @@ namespace ParentGeometry
 variable {family labels d a step}
 variable (raw : family.ParentGeometry labels d a step)
 
+include raw
+
 theorem left_width (b : family.active labels) :
     (family.leftParameters labels b).m + (family.leftParameters labels b).q ≤
       a.m + a.q - step / 2 := by

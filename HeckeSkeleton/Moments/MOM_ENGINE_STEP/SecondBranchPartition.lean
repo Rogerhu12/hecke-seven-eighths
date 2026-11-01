@@ -73,13 +73,13 @@ theorem energy_partition (p : H → Prop) (ξ : V) :
     (f.restrictRows p).energy ξ + (f.restrictRows (fun h => ¬p h)).energy ξ = f.energy ξ := by
   cases side
   all_goals
-    change (∑ h ∈ R.rows.filter p, ‖R.weight h * R.correlation h‖ *
-        ‖jointFourierColumn f.allocation.columns (f.coefficient h)
-          (rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ‖ ^ 2) +
-      (∑ h ∈ R.rows.filter (fun h => ¬p h), ‖R.weight h * R.correlation h‖ *
-        ‖jointFourierColumn f.allocation.columns (f.coefficient h)
-          (rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ‖ ^ 2) = _
-    exact Finset.sum_filter_add_sum_filter_not R.rows p _
+    simp only [energy, jointColumnEnergy, coefficient, restrictRows,
+      ActualSecondCorrelationRows.restrictRows, ActualSecondCorrelationRows.correlation,
+      Finset.sum_filter, ← Finset.sum_add_distrib]
+    apply Finset.sum_congr rfl
+    intro h _
+    by_cases hp : p h <;> simp only [hp, not_true_eq_false, not_false_eq_true,
+      ite_true, ite_false, zero_add, add_zero]
 
 
 /-- The entire subtraction is retained on each part, including every
@@ -90,13 +90,13 @@ theorem centered_energy_partition (e : SecondCoefficientComparison f.dictionary)
       (f.restrictRows (fun h => ¬p h)).centeredEnergy e ξ = f.centeredEnergy e ξ := by
   cases side
   all_goals
-    change (∑ h ∈ R.rows.filter p, ‖R.weight h * R.correlation h‖ *
-        ‖jointFourierColumn f.allocation.columns (f.centeredCoefficient e h)
-          (rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ‖ ^ 2) +
-      (∑ h ∈ R.rows.filter (fun h => ¬p h), ‖R.weight h * R.correlation h‖ *
-        ‖jointFourierColumn f.allocation.columns (f.centeredCoefficient e h)
-          (rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ‖ ^ 2) = _
-    exact Finset.sum_filter_add_sum_filter_not R.rows p _
+    simp only [centeredEnergy, jointColumnEnergy, centeredCoefficient, restrictRows,
+      ActualSecondCorrelationRows.restrictRows, ActualSecondCorrelationRows.correlation,
+      Finset.sum_filter, ← Finset.sum_add_distrib]
+    apply Finset.sum_congr rfl
+    intro h _
+    by_cases hp : p h <;> simp only [hp, not_true_eq_false, not_false_eq_true,
+      ite_true, ite_false, zero_add, add_zero]
 
 
 theorem sqrt_energy_partition (p : H → Prop) (ξ : V) :

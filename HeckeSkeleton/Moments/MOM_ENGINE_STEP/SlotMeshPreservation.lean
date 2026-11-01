@@ -40,10 +40,8 @@ private theorem mesh_allocationIndex_injective {n : ℕ}
   mesh_selectedSlotIndex_injective keep
 
 private theorem mesh_finCast_injective {n m : ℕ} (h : n = m) :
-    Function.Injective (Fin.cast h) := by
-  intro i j hij
-  apply Fin.ext
-  exact congrArg Fin.val hij
+    Function.Injective (Fin.cast h) :=
+  Fin.cast_injective h
 
 /-- An individual retained slot is identified with one actual original
 slot, and its length is unchanged. This records no mesh inequality. -/
@@ -85,6 +83,8 @@ def jointRows (support : HeckeGeneral.Analysis.NonzeroIdeal K → A.Exterior)
     (budget : ℝ) : SlotLengthEmbedding parent (jointRowBudgetData child support budget) where
   index := E.index
   length_eq := E.length_eq
+
+include E
 
 theorem fitsMesh {mesh : ℝ} (hparent : parent.geometry.fitsMesh mesh) :
     child.geometry.fitsMesh mesh :=
@@ -215,6 +215,8 @@ def rightEmbedding (b : family.active labels) (ξ : V) :
     SlotLengthEmbedding parent (family.rightData labels b ξ) :=
   (family.rightChild labels b).originalSlotEmbedding
     (raw.right b.val (Finset.mem_filter.mp b.property).1) ξ
+
+include raw
 
 theorem left_slot_length (b : family.active labels) (ξ : V)
     (i : Fin (family.leftData labels b ξ).geometry.slotCount) :

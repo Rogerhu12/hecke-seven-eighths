@@ -17,7 +17,7 @@ open scoped Classical BigOperators NumberField
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
-open HeckeGeneral.Characters
+open HeckeGeneral.Characters HeckeGeneral.Arithmetic
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments CommonSupportMass
 
@@ -92,12 +92,14 @@ variable {cal : s.Calibration (σ := σ) ω ψ} {input : cal.CapacityInput}
 variable {Z a₀ q wo w krow g ell : ℝ} {D E U N : Ideal (𝓞 F)}
 variable (L : ActualCapacityNormLengths input Z a₀ q wo w krow g ell D E U N)
 
-def slack : ℝ :=
+def slack (_L : ActualCapacityNormLengths input Z a₀ q wo w krow g ell D E U N) : ℝ :=
   input.boundary +
     (input.supportError + (input.rawClipError +
       (Real.log input.leftAnnulus + Real.log input.rightAnnulus) / Real.log Z) +
         input.widthError) / 6 +
       cal.parameters.κ * input.mesh + input.delta
+
+include L
 
 theorem nominalWidth_eq :
     input.skeleton.nominalWidth = secondCommonChildWidth Z a₀ q wo krow g D E U N := by
@@ -305,7 +307,9 @@ theorem actual_capacity_pair_weight_le
   have hPL : 0 ≤ ∏ i ∈ lc.removed, boundsL i := Finset.prod_nonneg (fun i _ => hBL i)
   have hPR : 0 ≤ ∏ i ∈ rc.removed, boundsR i := Finset.prod_nonneg (fun i _ => hBR i)
   have hcentral := second_source_central_scale_lower Z hz a₀
-    left.normalizationScale right.normalizationScale (NL.scale_lower hz) (NR.scale_lower hz)
+    left.normalizationScale right.normalizationScale
+    (SecondSideFrame.OriginalScaleWindow.scale_lower left NL hz)
+    (SecondSideFrame.OriginalScaleWindow.scale_lower right NR hz)
   have hexp :
       (lc.parameters.m + lc.parameters.q + (rc.parameters.m + rc.parameters.q) +
         li.exponent + ri.exponent) / 2 ≤

@@ -104,7 +104,8 @@ theorem ordinary_column_norm_eq_source
         i (ordinary_exceptional_column_mem_source f.allocation i hi)
         (f.ideal i) (f.ideal_product i (ordinary_exceptional_column_mem_source f.allocation i hi))
         (-R.frequency h.val) (-R.factor C h.val) (R.extractedRow C h).element
-        (by rw [(R.extractedRow C h).frequency, neg_mul])
+        (by simpa only [neg_mul] using
+          congrArg Neg.neg (R.extractedRow C h).frequency)
       exact (congrArg star he).trans (star_mul' _ _)
     have hphase (z : V) : jointPhase ξ (-z) = star (jointPhase ξ z) := by
       simp only [jointPhase, inner_neg_right, AddChar.map_neg_eq_inv,
@@ -118,9 +119,14 @@ theorem ordinary_column_norm_eq_source
       ring
     have hs : f.source.ordinaryColumn (σ := σ) ξ h =
         jointFourierColumn f.allocation.columns c (fun i => -x i) ξ := by
-      simp only [ActualAllocatedSource.ordinaryColumn, source, rawSource,
-        ActualSecondCorrelationRows.source, ActualAllocatedSource.negativeSide,
-        ActualChildRow.negative, rawSourceLocation_neg] <;> rfl
+      change jointFourierColumn f.allocation.columns c
+          (rawSourceLocation (fun I => -f.leftLocation h.val I)
+            (fun I => -f.rightLocation h.val I) (fun j p => -f.slotLocation h.val j p)) ξ =
+        jointFourierColumn f.allocation.columns c (fun i => -x i) ξ
+      apply congrArg (fun location => jointFourierColumn f.allocation.columns c location ξ)
+      funext i
+      exact rawSourceLocation_neg (f.leftLocation h.val) (f.rightLocation h.val)
+        (f.slotLocation h.val) i
     rw [hs]
     change ‖jointFourierColumn f.allocation.columns (f.coefficient h.val) x ξ‖ = _
     rw [hp, norm_mul, norm_star, norm_star]

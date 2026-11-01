@@ -24,7 +24,7 @@ set_option autoImplicit false
 
 namespace HeckeSkeleton.Moments.EngineStep.CanonicalJointAllocatedSource
 
-open NumberField DedekindZetaZeroFree
+open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 
