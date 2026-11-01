@@ -1,0 +1,151 @@
+name: PR12 native repair validation
+
+# Auxiliary full-module validation for the actual CI84 repairs.
+# The task Audit, original-target gates and whole-project gate remain separate.
+on:
+  push:
+    branches: [cloud/mom-engine-induction-performance]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-induction-isolated-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native:
+    name: Full repaired modules (${{ matrix.group }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - group: induction
+            modules: >-
+              HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRecipeArithmetic
+              HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusPrimitive
+              HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeDataReflectionFamily
+              HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMeshReflectionFamily
+              HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRankedAnnulusReflection
+              HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeReflectionFamily
+          - group: producer
+            modules: >-
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalClippedProfileBounds
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPaidOrdinaryRows
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPaidRows
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalUniformRows
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassivePhases
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantProfileExtraction
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingEngineOutput
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedOriginalLabelMass
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolTerminalMasks
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.UnrestrictedSixthCapacity
+    env:
+      LEAN_NUM_THREADS: '4'
+      REPAIR_SOURCE_COMMIT: 971d2b1c0561274d400c8ca93d8998fd6d3b3b97
+      REPAIR_WORKFLOW_COMMIT: ${{ github.sha }}
+      REPAIR_GROUP: ${{ matrix.group }}
+      REPAIR_MODULES: ${{ matrix.modules }}
+      REPAIR_EVIDENCE: /tmp/pr12-ci84-repairs
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 971d2b1c0561274d400c8ca93d8998fd6d3b3b97
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Prepare runner resources
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$REPAIR_EVIDENCE"
+          git show --no-patch --format=fuller HEAD > "$REPAIR_EVIDENCE/checkout.txt"
+          test "$(git rev-parse HEAD)" = "$REPAIR_SOURCE_COMMIT"
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > "$REPAIR_EVIDENCE/memory-mapping.txt"
+          df -h /
+      - name: Install the pinned Lean toolchain and Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore ordinary Lake artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Check the exact candidate and complete source inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 HeckeSkeleton/Moments/MOM_ENGINE_INDUCTION/verify.py preflight \
+            --expected-sha "$REPAIR_SOURCE_COMMIT" --output "$REPAIR_EVIDENCE" \
+            2>&1 | tee "$REPAIR_EVIDENCE/preflight.log"
+      - name: Build all repaired modules in this group
+        timeout-minutes: 32
+        shell: bash
+        run: |
+          python3 -u - <<'PY'
+          import hashlib, json, os, pathlib, runpy, subprocess, sys, time
+
+          evidence = pathlib.Path(os.environ['REPAIR_EVIDENCE'])
+          targets = os.environ['REPAIR_MODULES'].split()
+          expected_count = {'induction': 6, 'producer': 10}[os.environ['REPAIR_GROUP']]
+          assert len(targets) == expected_count and len(set(targets)) == len(targets)
+          source = os.environ['REPAIR_SOURCE_COMMIT']
+          assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip() == source
+          preflight = json.loads((evidence / 'preflight.json').read_text())
+          assert preflight['head_sha'] == source
+          assert len(preflight['modules']) == 211 and len(preflight['declarations']) == 1595
+          assert len(preflight['source_sha256']) == 1601
+          assert all(module in preflight['modules'] or
+                     module.replace('.', '/') + '.lean' in preflight['source_sha256']
+                     for module in targets)
+
+          command = ['timeout', '--signal=TERM', '--kill-after=30s', '30m',
+                     'lake', 'build', *targets]
+          started = time.monotonic()
+          with (evidence / 'build.log').open('w') as log:
+              log.write(json.dumps({'command': command}) + '\n')
+              log.flush()
+              process = subprocess.Popen(command, stdout=subprocess.PIPE,
+                                         stderr=subprocess.STDOUT, text=True, bufsize=1)
+              for line in process.stdout:
+                  log.write(line)
+                  log.flush()
+                  if any(word in line for word in ('Built ', 'Building ', 'Failed ',
+                                                    'error:', 'fatal:', 'Build completed', 'Build failed')):
+                      print(line, end='', flush=True)
+              code = process.wait()
+          elapsed = time.monotonic() - started
+          current = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          clean = subprocess.run(['git', 'diff', '--quiet', 'HEAD', '--']).returncode == 0
+          verifier = runpy.run_path('HeckeSkeleton/Moments/MOM_ENGINE_INDUCTION/verify.py')
+          hashes, declarations = verifier['inventory']()
+          unchanged = (current == source and clean and hashes == preflight['source_sha256']
+                       and declarations == preflight['declarations'])
+          result = {'source_commit': source,
+                    'workflow_commit': os.environ['REPAIR_WORKFLOW_COMMIT'],
+                    'group': os.environ['REPAIR_GROUP'], 'targets': targets,
+                    'exit_code': code, 'elapsed_seconds': elapsed,
+                    'sources_and_declarations_unchanged': unchanged,
+                    'build_log_sha256': hashlib.sha256((evidence / 'build.log').read_bytes()).hexdigest(),
+                    'scope': 'complete selected modules only; not task Audit, original targets or whole-project acceptance'}
+          (evidence / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
+          print(json.dumps(result), flush=True)
+          sys.exit(0 if code == 0 and unchanged else 1)
+          PY
+      - name: Preserve exact candidate native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-engine-induction-repairs-971d2b1c-${{ matrix.group }}
+          path: /tmp/pr12-ci84-repairs/
+          if-no-files-found: error
+          retention-days: 14
