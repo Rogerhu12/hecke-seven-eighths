@@ -159,8 +159,8 @@ theorem SupportCartesianBranch.identified_centered_residue_extract
   have hs : b.bareCommonScalar T DY.base DY.length DY.slotWeight =
       b.bareCommonScalar T DX.base DX.length DX.slotWeight := by
     rw [hbase, hlength, hslots]
-  have hx := b.identified_coefficient_residue_extract DX PX hX i hi J hJ frequency
-  have hy := b.identified_coefficient_residue_extract DY PY hY i hi J hJ frequency
+  have hx := b.identified_coefficient_residue_extract (σ := σ) DX PX hX i hi J hJ frequency
+  have hy := b.identified_coefficient_residue_extract (σ := σ) DY PY hY i hi J hJ frequency
   rw [hs, hn] at hy
   rw [sub_mul, hx, hy]
   ring

@@ -7,6 +7,7 @@ open scoped Classical BigOperators NumberField
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums UniqueFactorizationMonoid
+open DedekindZetaZeroFree.LargeSieve
 open HeckePort.Moments HeckePort.Moments.Support HeckePort.IdealMobiusDivisorSum
 
 variable {K : Type} [Field K] [NumberField K]
@@ -18,7 +19,7 @@ theorem supportResidual_twice (I : Ideal (𝓞 K))
     ((normalizedFactors I).filter (fun Q => Q ∉ S ∪ T)).prod
   rw [supportResidual_factors]
   congr 1
-  apply Multiset.ext
+  apply Multiset.ext.mpr
   intro Q
   by_cases hS : Q ∈ S <;> by_cases hT : Q ∈ T <;>
     simp [Multiset.count_filter, hS, hT]
@@ -30,7 +31,7 @@ theorem supportExtract_union_left (I : Ideal (𝓞 K))
     ((normalizedFactors I).filter (fun Q => Q ∈ S)).prod
   rw [supportExtract_factors]
   congr 1
-  apply Multiset.ext
+  apply Multiset.ext.mpr
   intro Q
   by_cases hS : Q ∈ S <;> by_cases hT : Q ∈ T <;>
     simp [Multiset.count_filter, hS, hT]
@@ -278,7 +279,7 @@ theorem combined_extract_of_mem
   have hν := (Finset.mem_filter.mp hi).2
   rw [supportExtract_union_factor _ (originalIdeal i).property.1, hcommon,
     ← hideal i, supportExtract_singleton_power]
-  change D * p.val.asIdeal ^ primeExponent p (d.ideal i) = _
+  change D * p.val.asIdeal ^ MaskedQuotientCRT.primeExponent p (d.ideal i) = _
   rw [hν]
 
 theorem combinedLabels_card_le

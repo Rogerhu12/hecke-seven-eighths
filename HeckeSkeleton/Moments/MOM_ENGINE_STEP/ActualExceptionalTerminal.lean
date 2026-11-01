@@ -399,8 +399,7 @@ theorem exceptional_magnitude_terminal_from_atoms
     positivity
   have hmul := mul_le_mul_of_nonneg_left hp hrow0
   apply (mul_le_mul_of_nonneg_left hs (Real.rpow_nonneg hz.le _)).trans
-  convert hmul using 1 <;>
-    (try dsimp only [exceptionalTerminalConstant, exceptionalTerminalOrder]) <;> ring
+  simpa only [mul_assoc, mul_left_comm, mul_comm] using hmul
 
 end SecondSideFrame
 

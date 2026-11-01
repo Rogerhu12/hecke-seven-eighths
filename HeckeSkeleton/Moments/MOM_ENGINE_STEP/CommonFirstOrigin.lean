@@ -83,7 +83,12 @@ theorem OrbitalGaussColumn.originalPair_residue_zero
     (a b : OrbitalGaussColumn K S Γ)
     (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ) :
     (a.originalPair b φ).residue 0 = a.character 0 * star (b.character 0) := by
-  simp only [OrbitalGaussColumn.originalPair, RingHom.map_zero]
+  simp only [OrbitalGaussColumn.originalPair]
+  exact congrArg₂ (fun x y => a.character x * star (b.character y))
+    (map_zero (completeFrequencyReduction a.modulus (a.modulus * b.modulus)
+      (dvd_mul_right _ _)))
+    (map_zero (completeFrequencyReduction b.modulus (a.modulus * b.modulus)
+      (dvd_mul_left _ _)))
 
 theorem OrbitalGaussColumn.originalTriple_residue_zero
     (a b r : OrbitalGaussColumn K S Γ)
@@ -92,7 +97,18 @@ theorem OrbitalGaussColumn.originalTriple_residue_zero
       a.character 0 * star (b.character 0) * r.character 0 := by
   letI := finite_sIntegerPrincipalResidue K
     (S : Set (HeightOneSpectrum (𝓞 K))) b.modulus b.nonzero
-  simp only [OrbitalGaussColumn.originalTriple, RingHom.map_zero, MulChar.star_apply']
+  simp only [OrbitalGaussColumn.originalTriple, MulChar.star_apply']
+  apply congrArg₂ (fun x y : ℂ => x * y)
+  · exact congrArg₂ (fun x y => a.character x * b.character⁻¹ y)
+      (map_zero (completeFrequencyReduction a.modulus
+        (a.modulus * (b.modulus * r.modulus)) (dvd_mul_right _ _)))
+      (map_zero (completeFrequencyReduction b.modulus
+        (a.modulus * (b.modulus * r.modulus))
+        (dvd_mul_of_dvd_right (dvd_mul_right _ _) _)))
+  · exact congrArg r.character
+      (map_zero (completeFrequencyReduction r.modulus
+        (a.modulus * (b.modulus * r.modulus))
+        (dvd_mul_of_dvd_right (dvd_mul_left _ _) _)))
 
 theorem OrbitalGaussColumn.originalPair_originZero_empty
     (c d : OrbitalGaussColumn K S Γ)
@@ -244,8 +260,10 @@ theorem actual_first_character_originZero
     OrbitalGaussColumn.originalTriple_residue_zero]
   simp only [generatedOriginalColumn_character_zero]
   rw [he]
-  dsimp only [OrbitalGaussColumn.originalPair, OrbitalGaussColumn.originalTriple,
-    actualActiveColumn]
+  have hactive : (actualActiveColumn hΓ C p hp m n).character 0 =
+      actualFirstActiveCharacter C p hp m n 0 := rfl
+  rw [hactive]
+  dsimp only [OrbitalGaussColumn.originalPair, OrbitalGaussColumn.originalTriple]
   ring
 
 /-- Every complete original first common label is reassembled, with its

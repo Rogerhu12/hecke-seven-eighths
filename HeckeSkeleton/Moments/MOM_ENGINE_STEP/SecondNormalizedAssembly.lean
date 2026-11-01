@@ -168,7 +168,8 @@ finite allocated columns prove it for the actual arithmetic measure. -/
 theorem secondNormalizedPairFamily_sourcePair_integrable
     (Fker : 𝓢(V, ℂ)) (phaseTable : Ray × Ray → Circle) (parentWidth : ℝ) (z : Labels) :
     Integrable ((Fam).sourcePair parentWidth z) (secondOriginalLabelMeasure Fker phaseTable z) := by
-  have hi := ((z.val.pairEnergy_integrable Fker (R.restrictRows (fun h => ¬ Q.exceptional h))
+  have hi := ((z.val.pairEnergy_integrable (S₁ := S₁) (S₂ := S₂) (S := S)
+    Fker (R.restrictRows (fun h => ¬ Q.exceptional h))
     IA PL.ray PR.ray PL.coefficient PR.coefficient
     (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h))
     (fun h => rawSourceLocation (y₁ h) (y₂ h) (y h))).div_const (Z ^ parentWidth)).smul_measure
@@ -244,7 +245,7 @@ theorem secondNonexceptionalAllocatedCost_eq_sources
       (hidentL := hidentL) (hidentR := hidentR) (hIA := hIA) (hIB := hIB)
   have hintegral := integral_congr_ae
     (μ := actualFourierMeasure Fker) (Filter.Eventually.of_forall hpair)
-  rw [hintegral, integral_div_const, actualFourierMeasure_integral_eq]
+  rw [hintegral, integral_div, actualFourierMeasure_integral_eq]
   ring
 
 include hidentL hidentR hIA hIB in

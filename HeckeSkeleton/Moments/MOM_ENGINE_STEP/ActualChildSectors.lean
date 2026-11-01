@@ -268,7 +268,7 @@ theorem paired_sqrt_energy_le_sum_sectorPairs
     (Real.sqrt_nonneg (right.energy (σ := σ) ξ))
     (Finset.sum_nonneg fun ν _ =>
       Real.sqrt_nonneg ((s.sectorSource P ν).energy (σ := σ) ξ))
-  simpa only [Finset.sum_mul, Finset.mul_sum] using h
+  simpa only [Fintype.sum_mul_sum] using h
 
 end ActualAllocatedSource
 end HeckeSkeleton.Moments.EngineStep

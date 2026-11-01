@@ -130,7 +130,12 @@ theorem linearized_le_cost
       ((PUnit.{1} × PUnit.{1}) →* Circle) → ℝ)
     (hNL : ∀ S χ, 0 < NL S χ) (hNR : ∀ S χ, 0 < NR S χ)
     (ε Cerror Czero : ℝ)
-    (hstage : ∀ {j : Type*} (d : FirstGaussPoolData C P j) (c : j → ℂ) (x : j → W)
+    (hstageLeft : ∀ (d : FirstGaussPoolData C P ι) (c : ι → ℂ) (x : ι → W)
+      (s : ActualPoolStages (E := E) hΓ μv hDiff d c finiteTest)
+      (T : s.TerminalCalibration sTail sZero k Lmax Nsave decay) (ξ : W),
+      d.energy (FirstGaussPoolData.twistedCoefficient c x ξ) ≤
+        T.phaseCost x ξ ε Cerror Czero)
+    (hstageRight : ∀ (d : FirstGaussPoolData C P κ) (c : κ → ℂ) (x : κ → W)
       (s : ActualPoolStages (E := E) hΓ μv hDiff d c finiteTest)
       (T : s.TerminalCalibration sTail sZero k Lmax Nsave decay) (ξ : W),
       d.energy (FirstGaussPoolData.twistedCoefficient c x ξ) ≤
@@ -140,14 +145,14 @@ theorem linearized_le_cost
       (χ : (PUnit.{1} × PUnit.{1}) →* Circle) :=
     normalized_phase_integral_le (p.divisorPools.leftData S) (p.leftDivisorCoefficient S χ)
       chart.leftPoint chart.kernel (s.left S χ) (T.left S χ) (NL S χ) ε Cerror Czero
-      (hNL S χ) (hstage (j := ι) (p.divisorPools.leftData S)
+      (hNL S χ) (hstageLeft (p.divisorPools.leftData S)
         (p.leftDivisorCoefficient S χ) chart.leftPoint (s.left S χ) (T.left S χ))
   have hright (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
       (χ : (PUnit.{1} × PUnit.{1}) →* Circle) :=
     normalized_phase_integral_le (p.divisorPools.rightData S) (p.rightDivisorCoefficient S χ)
       (fun j => -chart.rightPoint j) chart.kernel (s.right S χ) (T.right S χ)
       (NR S χ) ε Cerror Czero (hNR S χ)
-      (hstage (j := κ) (p.divisorPools.rightData S)
+      (hstageRight (p.divisorPools.rightData S)
         (p.rightDivisorCoefficient S χ) (fun j => -chart.rightPoint j)
         (s.right S χ) (T.right S χ))
   unfold FirstBlockPoolData.linearizedCost firstDivisorLinearizedCost cost
@@ -261,10 +266,10 @@ theorem actual_parent_two_stage_bound
   intro D hD
   exact (T v D).linearized_le_cost (N.left v D) (N.right v D)
     (N.left_pos v D) (N.right_pos v D) ε Cerror Czero
-    (fun {j : Type} (d : FirstGaussPoolData C P j) (c : j → ℂ) (x : j → W)
-      (stages : ActualPoolStages (E := E) hΓ μv hDiff d c finiteTest)
-      (calibration : stages.TerminalCalibration sTail sZero k Lmax Nsave decay) (ξ : W) =>
-        hpool Z ell eps bad P d c x stages calibration ξ)
+    (fun d c x stages calibration ξ =>
+      hpool Z ell eps bad P d c x stages calibration ξ)
+    (fun d c x stages calibration ξ =>
+      hpool Z ell eps bad P d c x stages calibration ξ)
 
 end HeckeSkeleton.Moments.EngineStep
 

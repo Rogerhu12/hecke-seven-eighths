@@ -158,7 +158,8 @@ theorem kernelCost_le_linearized (p : FirstBlockDirectData chart M X hX)
         actualSIntegerGauss K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff
           r.modulus r.nonzero r.character t.out.val))
     chart.weight p.rowBound p.rowBound_nonneg (fun t ht => p.common_weight_bound hDiff t ht)
-    NL NR hNL hNR p.originalLeftCoefficient p.originalRightCoefficient
+    NL NR hNL hNR (fun i => p.originalLeftCoefficient i)
+    (fun j => p.originalRightCoefficient j)
     chart.leftPoint chart.rightPoint
   simpa only [FirstBlockProfileChart.kernelCost, FirstCommonCharacterBlock.finiteSource,
     linearizedCost, originalLeftCoefficient, originalRightCoefficient, r, δ,

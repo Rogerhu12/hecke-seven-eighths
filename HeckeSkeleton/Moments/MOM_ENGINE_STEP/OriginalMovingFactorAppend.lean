@@ -153,7 +153,7 @@ theorem append_mask (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (I : Idea
         decide (IsCoprime I remaining.val)) =
       (((base && decide (IsCoprime I D.support.val)) &&
         decide (IsCoprime I E.support.val)) && decide (IsCoprime I remaining.val)) := by
-  simp only [D.coprime_append_support E I, decide_and, Bool.and_assoc]
+  simp only [D.coprime_append_support E I, Bool.decide_and, Bool.and_assoc]
 
 theorem append_fullMaskSupport_primes (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) :
     primeSupport ((D.append E).fullMaskSupport remaining).val =
