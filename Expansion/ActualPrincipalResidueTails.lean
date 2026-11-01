@@ -21,6 +21,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.HighBinActualEuler HeckeSkeleton.Expansion.PrincipalRows
+open Expansion.FiniteTripleContour
 open DedekindZetaZeroFree DedekindZetaZeroFree.Quantitative.SimplePoleVerticalShift
 open scoped Classical Topology
 
@@ -190,7 +191,7 @@ theorem actualPrincipal_w_shift_error_tail
       ring
     _ ≤ (kappa * D * Z ^ (5 : ℝ) * H ^ (-(N : ℝ))) *
         (4 * (1 + H) ^ (A + 2)) := by
-      exact mul_le_mul_of_nonneg_left (by simpa using hv) (by positivity)
+      exact mul_le_mul_of_nonneg_left (by norm_num at hv ⊢; exact hv) (by positivity)
     _ ≤ _ := by
       dsimp only [H]
       nlinarith [mul_le_mul_of_nonneg_right hcoef
