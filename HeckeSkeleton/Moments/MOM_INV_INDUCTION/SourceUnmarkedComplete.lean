@@ -144,7 +144,9 @@ theorem annular_bound_of_uniform
           (inv_nonneg.mpr (InverseRowMajorant.rowCovolume_pos K S).le)
       _ ≤ (InverseRowMajorant.rowCovolume K S)⁻¹ *
           (COrb * Cih * (CConj * q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 *
-            H ^ (1 + eps)) := by gcongr
+            H ^ (1 + eps)) := by
+        gcongr
+        exact inv_nonneg.mpr (InverseRowMajorant.rowCovolume_pos K S).le
       _ = CLarge * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 * H ^ (1 + eps) := by
         dsimp only [CLarge]; ring
       _ ≤ (CSmall + CLarge) * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 *

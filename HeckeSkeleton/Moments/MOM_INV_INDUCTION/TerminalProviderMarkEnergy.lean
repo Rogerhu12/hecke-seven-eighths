@@ -57,7 +57,7 @@ theorem tupleIdeal_norm_le (slotCap : ℕ) (Z z hi : ℝ) (hZ : 1 ≤ Z)
   rw [tupleIdeal_norm K S I L hprime hexterior hdisjoint q]
   calc
     _ ≤ ∏ i : I, max 1 hi * Z ^ lengths i.val := by
-      apply Finset.prod_le_prod
+      apply Finset.prod_le_prod₀
       · intro i hi'
         positivity
       · intro i hi'

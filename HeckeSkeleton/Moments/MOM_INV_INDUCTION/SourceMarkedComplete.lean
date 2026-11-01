@@ -34,7 +34,7 @@ variable (K : Type) [Field K] [NumberField K] (c : TargetContext K)
 local notation "S" => excludedPlaces K c
 local notation "Sset" => places K c
 local notation "P" => probeData K c
-local notation "D" => (probeData K c).arithmetic
+local notation "D" => HeckeGeneral.ThetaSkeleton.Physical.ProbeData.arithmetic (probeData K c)
 local notation "Γ" => sixthPowerSUnitSubgroup K Sset
 local notation "Θ" => twists K c
 local notation "ψ" => targetCharacter K c
@@ -61,8 +61,9 @@ theorem conjugate_marks {σ : Type u} {slotCap : ℕ} {Z z lo hi : ℝ}
     {a : σ → Ideal (𝓞 K) → ℂ} {lengths : σ → ℝ}
     (h : MarkConditions K S slotCap Z z lo hi slots lists a lengths) :
     MarkConditions K S slotCap Z z lo hi slots lists (fun i p => conj (a i p)) lengths := by
-  exact { h with weights_le := fun i hi p hp => by
-    simpa only [Complex.norm_conj] using h.weights_le i hi p hp }
+  refine { h with weights_le := ?_ }
+  intro i hi p hp
+  simpa only [Complex.norm_conj] using h.weights_le i hi p hp
 
 /-- Literal residual marked polynomials on all original complete ideal
 rows.  The single canonical input is uniform in the surviving total
@@ -132,8 +133,7 @@ theorem annular_bound_of_uniform
       _ ≤ CSmall * Z ^ m * (SchwartzMap.seminorm ℝ 0 0 W) ^ 2 := hb
       _ ≤ CSmall * Z ^ (m + eps) * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 := by
         gcongr
-        · exact Real.rpow_le_rpow_of_exponent_le hZ1 (by linarith)
-        · exact hq0
+        linarith
       _ ≤ (CSmall + CLarge) * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 *
           Z ^ (m + eps) := by
         have hc : CSmall ≤ CSmall + CLarge := le_add_of_nonneg_right hCLarge
@@ -172,7 +172,9 @@ theorem annular_bound_of_uniform
         mul_le_mul_of_nonneg_left ho (inv_nonneg.mpr (InverseRowMajorant.rowCovolume_pos K S).le)
       _ ≤ (InverseRowMajorant.rowCovolume K S)⁻¹ *
           (COrb * Cih * (CConj * q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 *
-            Z ^ (m + eps)) := by gcongr
+            Z ^ (m + eps)) := by
+        gcongr
+        exact inv_nonneg.mpr (InverseRowMajorant.rowCovolume_pos K S).le
       _ = CLarge * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 * Z ^ (m + eps) := by
         dsimp only [CLarge]; ring
       _ ≤ (CSmall + CLarge) * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 *
