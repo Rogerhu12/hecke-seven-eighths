@@ -123,7 +123,7 @@ theorem source_conditions (slotCap : ℕ) (Λ G ν₀ : HeckeCharacter K)
     mesh := ⟨(mesh_pos hgap0 heps).le, mesh_le_one gap eps⟩
     truncation_nonneg := by dsimp only [truncation]; positivity
     mesh_width := hwidth
-    pool_cap := SourceScaleBudget.initial_pool_cap hH (by linarith)
+    pool_cap := SourceScaleBudget.initial_pool_cap hH (by dsimp only [columns]; linarith)
     source_margin_one := hm.1
     source_margin_two := hm.2
     loss_budget := source_loss_budget gap eps

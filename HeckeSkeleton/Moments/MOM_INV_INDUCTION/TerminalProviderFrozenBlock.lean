@@ -75,7 +75,7 @@ theorem fullSource_eq_rectangles_tail
       simp only [mul_add, Finset.sum_add_distrib, Finset.mul_sum]
       congr 1
       rw [Finset.sum_comm]
-      rfl
+      simp only [GeneralReflectedEnergy.block, Finset.mul_sum]
 
 private theorem norm_add_sq (a b : ℂ) : ‖a + b‖ ^ 2 ≤ 2 * (‖a‖ ^ 2 + ‖b‖ ^ 2) := by
   have h := pow_le_pow_left₀ (norm_nonneg _) (norm_add_le a b) 2
