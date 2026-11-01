@@ -112,15 +112,8 @@ theorem ordinary_identity
     rw [← mul_inv, ← Complex.ofReal_mul,
       ← Real.sqrt_mul (s.lower_pos.le.trans s.X₁_lower), s.productX]
   dsimp only [actualSourceSlotPolynomial]
-  calc
-    _ = ((Real.sqrt (s.X₁ / idealNorm F (s.allocation.plainDivisor 0)) : ℂ)⁻¹ *
-        (Real.sqrt (s.X₂ / idealNorm F (s.allocation.plainDivisor (Fin.succ 0))) : ℂ)⁻¹) *
-        (twistedMaskedSum Ψ s.mask W₁ s.time
-            (s.X₁ / idealNorm F (s.allocation.plainDivisor 0)) *
-          twistedMaskedSum Ψ s.mask W₂ s.time
-            (s.X₂ / idealNorm F (s.allocation.plainDivisor (Fin.succ 0)))) *
-        _ := by ring
-    _ = _ := by rw [hp]
+  rw [← hp]
+  ring
 
 theorem ordinary_absolute (H : ExceptionalVolumeControl Ψ W₁ W₂)
     (s : AllocatedExceptionalSource (V := V) (σ := σ) Ψ W₁ W₂ g h' k) :

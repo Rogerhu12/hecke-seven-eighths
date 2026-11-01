@@ -22,7 +22,10 @@ theorem supportExtract_singleton_power
     apply Multiset.ext.mpr
     intro P
     rw [Multiset.count_filter, Multiset.count_replicate]
-    by_cases h : P = Q <;> simp [h, eq_comm]
+    by_cases h : P = Q
+    · subst P
+      simp
+    · simp [h, Ne.symm h]
   change ((normalizedFactors I).filter (fun P => P ∈ ({Q} : Finset (Ideal (𝓞 K))))).prod = _
   rw [hf, Multiset.prod_replicate]
 

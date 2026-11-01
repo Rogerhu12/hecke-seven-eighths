@@ -116,7 +116,7 @@ theorem centered_column_norm_eq_source
     let x := rawSourceLocation (f.leftLocation h.val) (f.rightLocation h.val) (f.slotLocation h.val)
     have hc (i : AllocationColumn F k) (hi : i ∈ f.allocation.columns) :
         f.centeredCoefficient E h.val i = star f.normalizer * star (c i) := by
-      have he := E.centered_coefficient_residue
+      have he := E.centered_coefficient_residue (σ := σ)
         (Real.sqrt f.gaussScale₁ : ℂ)⁻¹ (Real.sqrt f.gaussScale₂ : ℂ)⁻¹
         (fun j => (Real.sqrt (f.gaussSlotScale j) : ℂ)⁻¹)
         i (exceptional_column_mem_source f.allocation i hi)

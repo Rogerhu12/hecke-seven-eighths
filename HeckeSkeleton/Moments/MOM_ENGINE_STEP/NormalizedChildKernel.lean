@@ -107,7 +107,7 @@ theorem normalizedCapacityPairKernel_finite (μ : Measure V)
       (Filter.Eventually.of_forall (fun ξ => normalizedCapacityPairEnvelope_nonneg («GL» := «GL») (GR := GR) ξ))).mp
         hprofile.hasFiniteIntegral).ne
   unfold normalizedCapacityPairKernel
-  infer_instance
+  exact Measure.smul_finite _ ENNReal.ofReal_ne_top
 
 theorem normalizedCapacityPairKernel_mass (μ : Measure V)
     (left : «GL».Child) (right : GR.Child)

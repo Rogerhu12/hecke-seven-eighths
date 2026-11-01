@@ -75,12 +75,14 @@ def scalarBound : ℝ := W.envelope / (Ideal.absNorm s.allocation.divisor : ℝ)
 theorem envelope_nonneg : 0 ≤ W.envelope :=
   Finset.prod_nonneg (fun i _ => mul_nonneg (W.annulus_nonneg i) (W.profile_nonneg i))
 
+include W in
 theorem divisor_ne_zero : s.allocation.divisor ≠ 0 := by
   have hd := s.allocation.divisor_dvd_frozenIdeal W.divisor_squarefree W.allocation_mem
   intro hz
   rw [hz, zero_dvd_iff] at hd
   exact s.allocation.frozenIdeal_ne_zero hd
 
+include W in
 theorem divisorNorm_pos : 0 < (Ideal.absNorm s.allocation.divisor : ℝ) :=
   Nat.cast_pos.mpr (Nat.pos_of_ne_zero (Ideal.absNorm_eq_zero_iff.not.mpr W.divisor_ne_zero))
 
@@ -180,7 +182,7 @@ theorem correlation_bound (h : H) (hh : h ∈ R.rows) :
     W.left_positive R.leftGenerator R.rightGenerator R.leftGenerates R.rightGenerates
     (R.frequency h)
   simpa only [ActualSecondCorrelationRows.correlation, correlationBound, leftIdeal, rightIdeal,
-    W.unit_ideal h hh] using hc
+    W.unit_ideal h hh, SArithmeticData.exteriorNorm, DedekindZetaZeroFree.idealNorm] using hc
 
 theorem row_bound (h : H) (hh : h ∈ R.rows) :
     ‖R.weight h * R.correlation h‖ ≤ W.rowBound := by

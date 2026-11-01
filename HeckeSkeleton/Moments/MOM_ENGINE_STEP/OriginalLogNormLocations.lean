@@ -90,7 +90,9 @@ theorem rawSourceLocation_neg_log_norm (i : AllocationColumn K k)
         (fun (_ : Fin k) (p : HeightOneSpectrum (𝓞 K)) =>
           -Real.log (Ideal.absNorm p.asIdeal : ℝ)) i =
       -Real.log (Ideal.absNorm (allocationColumnIdeal i) : ℝ) := by
-  simp only [rawSourceLocation, childCartesianLocation, idealNorm,
+  have hnorm (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
+      HeckeGeneral.Analysis.idealNorm K J = (Ideal.absNorm J.val : ℝ) := rfl
+  simp only [rawSourceLocation, childCartesianLocation, hnorm,
     sourceMomentIdeal_val_of_ne_zero _ hleft, sourceMomentIdeal_val_of_ne_zero _ hright,
     log_allocationColumnIdeal i hleft hright, neg_add, Finset.sum_neg_distrib]
 

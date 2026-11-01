@@ -71,13 +71,16 @@ def restrictRows (p : H → Prop) :
 
 theorem energy_partition (p : H → Prop) (ξ : V) :
     (f.restrictRows p).energy ξ + (f.restrictRows (fun h => ¬p h)).energy ξ = f.energy ξ := by
-  change (∑ h ∈ R.rows.filter p, ‖R.weight h * R.correlation h‖ *
-      ‖jointFourierColumn f.allocation.columns (f.coefficient h)
-        (rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ‖ ^ 2) +
-    (∑ h ∈ R.rows.filter (fun h => ¬p h), ‖R.weight h * R.correlation h‖ *
-      ‖jointFourierColumn f.allocation.columns (f.coefficient h)
-        (rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ‖ ^ 2) = _
-  exact Finset.sum_filter_add_sum_filter_not R.rows p _
+  cases side
+  all_goals
+    change (∑ h ∈ R.rows.filter p, ‖R.weight h * R.correlation h‖ *
+        ‖jointFourierColumn f.allocation.columns (f.coefficient h)
+          (rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ‖ ^ 2) +
+      (∑ h ∈ R.rows.filter (fun h => ¬p h), ‖R.weight h * R.correlation h‖ *
+        ‖jointFourierColumn f.allocation.columns (f.coefficient h)
+          (rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ‖ ^ 2) = _
+    exact Finset.sum_filter_add_sum_filter_not R.rows p _
+
 
 /-- The entire subtraction is retained on each part, including every
 ramification zero and every slot factor. -/
@@ -85,13 +88,16 @@ theorem centered_energy_partition (e : SecondCoefficientComparison f.dictionary)
     (p : H → Prop) (ξ : V) :
     (f.restrictRows p).centeredEnergy e ξ +
       (f.restrictRows (fun h => ¬p h)).centeredEnergy e ξ = f.centeredEnergy e ξ := by
-  change (∑ h ∈ R.rows.filter p, ‖R.weight h * R.correlation h‖ *
-      ‖jointFourierColumn f.allocation.columns (f.centeredCoefficient e h)
-        (rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ‖ ^ 2) +
-    (∑ h ∈ R.rows.filter (fun h => ¬p h), ‖R.weight h * R.correlation h‖ *
-      ‖jointFourierColumn f.allocation.columns (f.centeredCoefficient e h)
-        (rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ‖ ^ 2) = _
-  exact Finset.sum_filter_add_sum_filter_not R.rows p _
+  cases side
+  all_goals
+    change (∑ h ∈ R.rows.filter p, ‖R.weight h * R.correlation h‖ *
+        ‖jointFourierColumn f.allocation.columns (f.centeredCoefficient e h)
+          (rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ‖ ^ 2) +
+      (∑ h ∈ R.rows.filter (fun h => ¬p h), ‖R.weight h * R.correlation h‖ *
+        ‖jointFourierColumn f.allocation.columns (f.centeredCoefficient e h)
+          (rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ‖ ^ 2) = _
+    exact Finset.sum_filter_add_sum_filter_not R.rows p _
+
 
 theorem sqrt_energy_partition (p : H → Prop) (ξ : V) :
     Real.sqrt (f.energy ξ) ≤ Real.sqrt ((f.restrictRows p).energy ξ) +
