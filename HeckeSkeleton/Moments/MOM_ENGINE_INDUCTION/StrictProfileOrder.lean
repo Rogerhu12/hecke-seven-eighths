@@ -141,7 +141,7 @@ theorem rawWindow (r : StrictProfileRange) (extraOrders : Finset (ℕ × ℕ)) (
     r.expanded.lower r.expanded.upper r.expanded.lower_pos r.expanded.interval
     (r.inputOrders (K := K) (ω := ω) (ψ := ψ) extraOrders J A)
     lo hi A 1 hA hinterval d htime hprofiles
-  exact ⟨raw.mono (by simpa only [mul_one] using
+  exact ⟨raw.mono (by simpa only [amplitude, mul_one] using
     (le_max_right 1 (schwartzSourceCoefficient (K := K) (ω := ω) (ψ := ψ)
       r.expanded.lower r.expanded.upper r.expanded.lower_pos r.expanded.interval
       (r.inputOrders (K := K) (ω := ω) (ψ := ψ) extraOrders J A))))⟩

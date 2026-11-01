@@ -171,10 +171,12 @@ def canonicalParentSource (D : CompleteSourceData c theta d)
         (sixthPowerSUnitSubgroup K (places K c)) ∅ (raw.rowMap v) = 1 := by
     simp [sIntegerOrbitAvoidanceMask]
   have phases := D.phase_dictionary W a Z t Y₁ Y₂
-  exact (atoms.values Y₁ Y₂).canonicalParentSource (A := (axiomChoice K c).A)
-    (Γ := sixthPowerSUnitSubgroup K (places K c))
-    (σ := complexEmbedding K c)
-    (actualCompleteSubgroup_power c) hZ ∅ hrow hmask
+  exact (@EngineStep.ParentRawAtoms.ConstantValues.canonicalParentSource
+    K _ _ (axiomChoice K c).A (complexEmbedding K c)
+    (sixthPowerSUnitSubgroup K (places K c))
+    (sixthPowerSUnitSubgroup_finiteIndex K (places K c)))
+    (raw := raw) (actualCompleteSubgroup_power c) (atoms.values Y₁ Y₂)
+    hZ ∅ hrow hmask
     phases.1 phases.2.1 phases.2.2 centered
     (fun v => actualParentColumnGenerator c (raw.columnExterior (A := (axiomChoice K c).A) v))
     (fun v => actualParentColumnGenerator_generates c

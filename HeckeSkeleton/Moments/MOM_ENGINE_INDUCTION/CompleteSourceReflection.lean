@@ -42,7 +42,10 @@ theorem CompleteSourceBudgetData.reflectionArithmetic
       (momentRowCharacters K c) theta U d p := by
   refine ⟨fun _ => D.source.remaining, ?_, D.source.mask, ?_⟩
   · exact movingReflectionCalibration_of_recipe (Node.ordinary d p.parameters)
-      D.source.recipe theta (by intro eta heta; simpa only [D.source.theta_eq] using heta) U
+      D.source.recipe theta (by
+        intro eta heta
+        change eta ∈ d.theta at heta
+        exact D.source.theta_eq ▸ heta) U
       D.supportBudget D.pairedJointBudget
   · exact pairedRows_actualPlain_nonNorm_of_target d w hpsi hfinite p.parameters U
 

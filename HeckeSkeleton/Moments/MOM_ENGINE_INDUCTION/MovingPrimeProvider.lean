@@ -87,6 +87,40 @@ def finiteOrderBoundaryZeroFreeData
 
 namespace MovingRecipe
 
+private theorem original_character_product_order {G : Type*} [CommMonoid G]
+    (correction moving row slot : G) :
+    (correction * moving * row) * slot = (slot * correction) * (moving * row) := by
+  calc
+    _ = slot * ((correction * moving) * row) := mul_comm _ _
+    _ = slot * (correction * (moving * row)) :=
+      congrArg (fun x : G => slot * x) (mul_assoc correction moving row)
+    _ = _ := (mul_assoc slot correction (moving * row)).symm
+
+private theorem original_background_scale_le_reflection
+    (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
+    (background : HeckeCharacter K) :
+    ((NumberField.discr K).natAbs : ℝ) *
+        (Ideal.absNorm (finiteConductor K background).val : ℝ) *
+          (Ideal.absNorm (sexticSConductorBudgetIdeal K S).val : ℝ) ≤
+      reflectionConductorConstant S background := by
+  have hfixed : 1 ≤ (Ideal.absNorm (fixedRowDeletionIdeal S) : ℝ) := by
+    exact_mod_cast Nat.succ_le_iff.mpr (Nat.pos_of_ne_zero
+      (fun hz => fixedRowDeletionIdeal_ne_bot S (Ideal.absNorm_eq_zero_iff.mp hz)))
+  have hnonneg : 0 ≤ ((NumberField.discr K).natAbs : ℝ) *
+      (Ideal.absNorm (finiteConductor K background).val : ℝ) *
+        (Ideal.absNorm (sexticSConductorBudgetIdeal K S).val : ℝ) :=
+    mul_nonneg (mul_nonneg (Nat.cast_nonneg _) (Nat.cast_nonneg _)) (Nat.cast_nonneg _)
+  calc
+    _ ≤ (((NumberField.discr K).natAbs : ℝ) *
+        (Ideal.absNorm (finiteConductor K background).val : ℝ) *
+          (Ideal.absNorm (sexticSConductorBudgetIdeal K S).val : ℝ)) *
+            (Ideal.absNorm (fixedRowDeletionIdeal S) : ℝ) :=
+      le_mul_of_one_le_right hnonneg hfixed
+    _ = _ := by
+      rw [reflectionConductorConstant, reflectionConductorBudget,
+        map_mul, map_mul, Nat.cast_mul, Nat.cast_mul]
+      ring
+
 /-- The raw character has the same linear support bound before any
 MomentData, Fourier index or source has been selected. -/
 theorem original_character_scale_le
@@ -99,38 +133,41 @@ theorem original_character_scale_le
       reflectionConductorConstant (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         (slot * correction) * idealNorm K u * idealNorm K (moving.fullMaskSupport remaining) := by
   let v : ExteriorIdeal K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) := ⟨u, hu⟩
-  have hscale := completeMovingRowCharacter_scale_le
+  let row : HeckeCharacter K :=
+    completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P R sector u
+  let product : HeckeCharacter K := ∏ i,
+    completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P R
+      (moving.decomposition i).2 (moving.decomposition i).1.val ^ moving.power i
+  let rawConstant : ℝ := ((NumberField.discr K).natAbs : ℝ) *
+    (Ideal.absNorm (finiteConductor K (slot * correction)).val : ℝ) *
+      (Ideal.absNorm (sexticSConductorBudgetIdeal K
+        (A.Sf : Set (HeightOneSpectrum (𝓞 K)))).val : ℝ)
+  have hcharacter :
+      CanonicalNormalizedPrimeAtoms.originalCharacter moving correction slot sector u =
+        (slot * correction) * (product * row) :=
+    (original_character_product_order correction moving.character row slot).trans
+      (congrArg (fun chi : HeckeCharacter K => (slot * correction) * (chi * row))
+        (character_eq_complete_product moving))
+  have hscale : heckeConductorScale K ((slot * correction) * (product * row)) ≤
+      rawConstant * idealNorm K u * idealNorm K (moving.fullMaskSupport remaining) :=
+    completeMovingRowCharacter_scale_le
     (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P R (slot * correction)
     Finset.univ (fun i => (moving.decomposition i).1)
     (fun i => (moving.decomposition i).2) moving.power
     (moving.fullMaskSupport remaining)
     (fun i _ => factor_radical_dvd_fullMaskSupport moving remaining i) sector v
-  rw [← character_eq_complete_product moving] at hscale
-  have hfixed : 1 ≤ (Ideal.absNorm
-      (fixedRowDeletionIdeal (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) : ℝ) := by
-    exact_mod_cast Nat.succ_le_iff.mpr (Nat.pos_of_ne_zero
-      (fun hz => fixedRowDeletionIdeal_ne_bot (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-        (Ideal.absNorm_eq_zero_iff.mp hz)))
-  have hmass : 0 ≤ ((NumberField.discr K).natAbs : ℝ) *
-      (Ideal.absNorm (finiteConductor K (slot * correction)).val : ℝ) *
-        (Ideal.absNorm (sexticSConductorBudgetIdeal K
-          (A.Sf : Set (HeightOneSpectrum (𝓞 K)))).val : ℝ) *
-            idealNorm K u * idealNorm K (moving.fullMaskSupport remaining) := by
-    have huN := (idealNorm_pos K u).le
-    have hDN := (idealNorm_pos K (moving.fullMaskSupport remaining)).le
-    positivity
+  have hconstant : rawConstant ≤
+      reflectionConductorConstant (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (slot * correction) :=
+    original_background_scale_le_reflection (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+      (slot * correction)
   calc
-    _ ≤ ((NumberField.discr K).natAbs : ℝ) *
-        (Ideal.absNorm (finiteConductor K (slot * correction)).val : ℝ) *
-          (Ideal.absNorm (sexticSConductorBudgetIdeal K
-            (A.Sf : Set (HeightOneSpectrum (𝓞 K)))).val : ℝ) *
-              idealNorm K u * idealNorm K (moving.fullMaskSupport remaining) := by
-      simpa only [CanonicalNormalizedPrimeAtoms.originalCharacter, v,
-        mul_assoc, mul_left_comm, mul_comm] using hscale
-    _ ≤ _ := by
-      have h := le_mul_of_one_le_right hmass hfixed
-      simpa only [reflectionConductorConstant, reflectionConductorBudget,
-        map_mul, Nat.cast_mul, mul_assoc, mul_left_comm, mul_comm] using h
+    _ = heckeConductorScale K ((slot * correction) * (product * row)) :=
+      congrArg (heckeConductorScale K) hcharacter
+    _ ≤ rawConstant * idealNorm K u * idealNorm K (moving.fullMaskSupport remaining) := hscale
+    _ ≤ _ := mul_le_mul_of_nonneg_right
+      (mul_le_mul_of_nonneg_right hconstant (idealNorm_pos K u).le)
+      (idealNorm_pos K (moving.fullMaskSupport remaining)).le
 
 theorem original_character_scale_le_normBox
     (theta : Finset (HeckeCharacter K))
