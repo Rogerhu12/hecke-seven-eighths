@@ -260,9 +260,9 @@ variable (hallowed : (data x).allowedRow anchor) (hwindow : window ⊆ Set.Iic a
 variable (hδ₁ : 0 ≤ firstTilt) (hδ₂ : 0 ≤ secondTilt)
 variable (hδ : firstTilt + secondTilt ≤ 1 / 2)
 
+include hallowed hwindow hδ₁ hδ₂ hδ in
 /-- The actual left atom and actual joint location are the same bounded
 child profile after the last literal allocation divisor. -/
-include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem left_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
@@ -300,9 +300,9 @@ theorem left_profile (ξ ζ : ℝ)
     b₁.plainDivisor₁ ((joint).allocation.plainDivisor 0) I rfl
     ((actual).row q).momentIdeal t ξ ζ
 
+include hallowed hwindow hδ₁ hδ₂ hδ in
 /-- The right source retains its positive second log slope after the
 single whole conjugation. Its first phase is the same original phase. -/
-include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem right_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
@@ -341,9 +341,9 @@ theorem right_profile (ξ ζ : ℝ)
     b₁.plainDivisor₂ ((joint).allocation.plainDivisor (Fin.succ 0)) I rfl
     ((actual).row q).momentIdeal t ξ ζ
 
+include hwindow hδ₁ hδ₂ hδ in
 /-- The last live occurrence uses its original prime profile and
 length. No aggregate prime-bound hypothesis enters the identity. -/
-include hwindow hδ₁ hδ₂ hδ in
 theorem prime_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (i : Fin (actual).allocation.keep.card) (p₀ : HeightOneSpectrum (𝓞 K)) :
@@ -453,8 +453,8 @@ theorem allowed_of_source_norm
   rw [← mul_assoc, ← ((actual).row q).norm_factor]
   exact hsource
 
-/-- Coordinate-free form used by the complete source calibration. -/
 include hallowed hwindow hδ₁ hδ₂ hδ in
+/-- Coordinate-free form used by the complete source calibration. -/
 theorem left_profile_joint (mode : WithLp 2 (ℝ × ℝ))
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
@@ -507,9 +507,9 @@ variable (secondRight : Bool)
 variable (hcommon : secondCommon = primePowerProduct rows.primes
   (if secondRight then rows.rightMultiplicity else rows.leftMultiplicity))
 
+include hm hn secondRight hcommon in
 /-- The actual allocation carrier is computed from the two original
 common extractions. Only the original parent support inclusion is used. -/
-include hm hn secondRight hcommon in
 theorem effective_left_support
     (hS₁ : exteriorPlainSupport (A := A) (data x).plainTest₁ anchor
       (if comparison then Y₁ else Z ^ a.n₁) t ⊆ S₁)
@@ -563,9 +563,9 @@ theorem effective_right_support
     rows.primes_injective hm hn secondRight b₁ b₂ finalAllocation
     (if comparison then Y₂ else Z ^ a.n₂) hS₂ hExterior hB mode u t
 
+include hm hn secondRight hcommon in
 /-- The last child slots are the actual intersection of all three live
 occurrence selections. The full arithmetic mask excludes both commons. -/
-include hm hn secondRight hcommon in
 theorem effective_prime_support
     (hSlots : ∀ i, exteriorPrimeSupport (A := A) ((data x).geometry.slots i) Z t ⊆ S i)
     (mode : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
@@ -815,9 +815,9 @@ variable (hallowed : (data x).allowedRow anchor) (hwindow : window ⊆ Set.Iic a
 variable (hδ₁ : 0 ≤ firstTilt) (hδ₂ : 0 ≤ secondTilt)
 variable (hδ : firstTilt + secondTilt ≤ 1 / 2)
 
+include hallowed hwindow hδ₁ hδ₂ hδ in
 /-- The actual left atom and actual joint location are the same bounded
 child profile after the last literal allocation divisor. -/
-include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem left_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
@@ -855,9 +855,9 @@ theorem left_profile (ξ ζ : ℝ)
     b₁.plainDivisor₁ ((joint).allocation.plainDivisor 0) I rfl
     ((actual).row q).momentIdeal t ξ ζ
 
+include hallowed hwindow hδ₁ hδ₂ hδ in
 /-- The right source retains its positive second log slope after the
 single whole conjugation. Its first phase is the same original phase. -/
-include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem right_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
@@ -896,9 +896,9 @@ theorem right_profile (ξ ζ : ℝ)
     b₁.plainDivisor₂ ((joint).allocation.plainDivisor (Fin.succ 0)) I rfl
     ((actual).row q).momentIdeal t ξ ζ
 
+include hwindow hδ₁ hδ₂ hδ in
 /-- The last live occurrence uses its original prime profile and
 length. No aggregate prime-bound hypothesis enters the identity. -/
-include hwindow hδ₁ hδ₂ hδ in
 theorem prime_profile (ξ ζ : ℝ)
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (i : Fin (actual).allocation.keep.card) (p₀ : HeightOneSpectrum (𝓞 K)) :
@@ -1008,8 +1008,8 @@ theorem allowed_of_source_norm
   rw [← mul_assoc, ← ((actual).row q).norm_factor]
   exact hsource
 
-/-- Coordinate-free form used by the complete source calibration. -/
 include hallowed hwindow hδ₁ hδ₂ hδ in
+/-- Coordinate-free form used by the complete source calibration. -/
 theorem left_profile_joint (mode : WithLp 2 (ℝ × ℝ))
     (q : CanonicalOriginalPhaseCalibration.PatternSector P rows C pattern sector)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
@@ -1062,9 +1062,9 @@ variable (secondRight : Bool)
 variable (hcommon : secondCommon = primePowerProduct rows.primes
   (if secondRight then rows.rightMultiplicity else rows.leftMultiplicity))
 
+include hm hn secondRight hcommon in
 /-- The actual allocation carrier is computed from the two original
 common extractions. Only the original parent support inclusion is used. -/
-include hm hn secondRight hcommon in
 theorem effective_left_support
     (hS₁ : exteriorPlainSupport (A := A) (data x).plainTest₁ anchor
       (if comparison then Y₁ else Z ^ a.n₁) t ⊆ S₁)
@@ -1118,9 +1118,9 @@ theorem effective_right_support
     rows.primes_injective hm hn secondRight b₁ b₂ finalAllocation
     (if comparison then Y₂ else Z ^ a.n₂) hS₂ hExterior hB mode u t
 
+include hm hn secondRight hcommon in
 /-- The last child slots are the actual intersection of all three live
 occurrence selections. The full arithmetic mask excludes both commons. -/
-include hm hn secondRight hcommon in
 theorem effective_prime_support
     (hSlots : ∀ i, exteriorPrimeSupport (A := A) ((data x).geometry.slots i) Z t ⊆ S i)
     (mode : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K)

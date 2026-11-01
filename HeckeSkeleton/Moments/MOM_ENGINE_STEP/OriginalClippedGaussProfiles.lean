@@ -21,7 +21,7 @@ open scoped Classical BigOperators NumberField nonZeroDivisors SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStep.OriginalClippedGaussProfiles
 
-open NumberField HeckeGeneral.Characters HeckeGeneral.Analysis
+open NumberField IsDedekindDomain HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open CanonicalLogProfiles OriginalGaussProfileCompensation
 
@@ -113,9 +113,9 @@ variable (hwindow : window ⊆ Set.Iic B)
 variable (hδ₁ : 0 ≤ δ₁) (hδ₂ : 0 ≤ δ₂) (hδ : δ₁ + δ₂ ≤ 1 / 2)
 variable (firstDirection secondDirection ξ : V)
 
+include w hwindow hδ₁ hδ₂ hδ in
 /-- The left identity consumes the original profile window itself.
 No bound for a moving compensated profile is supplied. -/
-include w hwindow hδ₁ hδ₂ hδ in
 theorem original_left_identity (u : NonzeroIdeal K) (hu : u ∈ rowDomain)
     (t : ℝ) (ht : t ∈ heightDomain) (I : NonzeroIdeal K) :
     d.plainTest₁.profile u t (idealNorm K I / G₁) *
@@ -153,9 +153,9 @@ theorem original_right_identity (u : NonzeroIdeal K) (hu : u ∈ rowDomain)
   apply w.right_support u hu t ht
   simpa only [w.right_eq] using hy
 
+include w hwindow hδ₁ hδ₂ hδ in
 /-- A retained original prime has no new plain extraction factor.
 The prime norm lower bound is the original nonzero-ideal bound. -/
-include w hwindow hδ₁ hδ₂ hδ in
 theorem original_prime_identity (i : Fin d.geometry.slotCount)
     (t : ℝ) (ht : t ∈ heightDomain) (q : HeightOneSpectrum (𝓞 K)) :
     (d.geometry.slots i).profile t ((Ideal.absNorm q.asIdeal : ℝ) / G i) *

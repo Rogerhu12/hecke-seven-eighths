@@ -278,10 +278,10 @@ local notation "actualData" => boundedData parent prefix correction hcorr C prim
   (CanonicalCoreProfileIdentification.firstDirection slope)
   (CanonicalCoreProfileIdentification.secondDirection secondSlope)
 
+include hallowed hwindow hδ₁ hδ₂ hδ in
 /-- The actual left field from the original core dictionary calibrates
 to this very child data. The only scale identity is the literal two
 original norm divisions, before the later allocated divisor. -/
-include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem left_profile
     (N : ℝ) (hN : 0 < N) (firstDivisor allocatedDivisor I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hscale : G₁ = N / idealNorm K firstDivisor / idealNorm K D₁)
