@@ -33,6 +33,14 @@ open HighBinBoundary.ActualIntegrability
 open NormFormRegions NormFormRegionIntegral
 open scoped Classical BigOperators Topology
 
+private theorem normalized_setIntegral_congr_ae
+    (c : ℂ) (region : Set (ℝ × (ℝ × ℝ)))
+    (F₁ F₂ : ℝ × (ℝ × ℝ) → ℂ)
+    (h : F₁ =ᵐ[(volume : Measure (ℝ × (ℝ × ℝ)))] F₂) :
+    c * (∫ x in region, F₁ x) = c * (∫ x in region, F₂ x) := by
+  exact congrArg (fun z : ℂ => c * z)
+    (integral_congr_ae (ae_restrict_of_ae (s := region) h))
+
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "S₀" => (S : Set (HeightOneSpectrum (𝓞 K)))
@@ -75,13 +83,21 @@ theorem actualRegionPieceWithEuler_eq_of_calibrated
   have hk := compensatedRowMellinKernel_ae_eq_vertical_of_calibrated
     K S₀ μ P psi E (arithmeticHighEulerData K S₀ P psi) hE hA g ∅ u Z
     ha ha1 he he1 (a + 16 * e, 1 - a - 6 * e, 17 / 50) hσ
-  unfold actualRegionPieceWithEuler actualRegionPiece
-  congr 1
-  apply integral_congr_ae
-  filter_upwards [ae_restrict_of_ae
-    (s := actualSlotRegion K S₀ P psi g u Z a e H theta N label) hk] with x hx
-  simpa only [actualRegionKernel, sLine, wLine, zLine,
-    Complex.ofReal_div, Complex.ofReal_ofNat] using hx
+  let region : Set (ℝ × (ℝ × ℝ)) :=
+    actualSlotRegion K S₀ P psi g u Z a e H theta N label
+  let F₁ : ℝ × (ℝ × ℝ) → ℂ := fun x =>
+    compensatedRowMellinKernel K S₀ μ P psi E g ∅ u Z
+      (sLine (a + 16 * e) x) (wLine (1 - a - 6 * e) x) (zLine x)
+  let F₂ : ℝ × (ℝ × ℝ) → ℂ := fun x =>
+    actualRegionKernel K S μ P psi g u Z a e x
+  have hF : F₁ =ᵐ[(volume : Measure (ℝ × (ℝ × ℝ)))] F₂ := by
+    filter_upwards [hk] with x hx
+    simpa only [F₁, F₂, actualRegionKernel, sLine, wLine, zLine,
+      Complex.ofReal_div, Complex.ofReal_ofNat] using hx
+  change (2 * (Real.pi : ℂ)) ^ (-(3 : ℤ)) * (∫ x in region, F₁ x) =
+    (2 * (Real.pi : ℂ)) ^ (-(3 : ℤ)) * (∫ x in region, F₂ x)
+  exact normalized_setIntegral_congr_ae
+    ((2 * (Real.pi : ℂ)) ^ (-(3 : ℤ))) region F₁ F₂ hF
 
 end HighBinVerified.NormFormRegionCalibration
 

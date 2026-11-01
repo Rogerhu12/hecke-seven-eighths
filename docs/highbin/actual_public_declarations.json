@@ -4553,22 +4553,22 @@
     "name": "HighBinVerified.NormFormRegionCalibration.actualRegionPieceWithEuler",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionCalibration.lean",
-    "line": 48,
-    "source_sha256": "89d8cece2b7906f93a7e83641778a4a506bf48098348027ab4d2aa26df5683ff"
+    "line": 56,
+    "source_sha256": "4b87429ceb66e3798a568761c22cc134af1a703f856a333811fe38ed37c50a3e"
   },
   {
     "name": "HighBinVerified.NormFormRegionCalibration.actualRegionPieceWithEuler_eq_of_calibrated",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionCalibration.lean",
-    "line": 61,
-    "source_sha256": "89d8cece2b7906f93a7e83641778a4a506bf48098348027ab4d2aa26df5683ff"
+    "line": 69,
+    "source_sha256": "4b87429ceb66e3798a568761c22cc134af1a703f856a333811fe38ed37c50a3e"
   },
   {
     "name": "HeckeSkeleton.HighBinNormFormRegionTarget.exists_target_highShiftedNormForm_calibrated_region_connection",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionCalibration.lean",
-    "line": 107,
-    "source_sha256": "89d8cece2b7906f93a7e83641778a4a506bf48098348027ab4d2aa26df5683ff"
+    "line": 123,
+    "source_sha256": "4b87429ceb66e3798a568761c22cc134af1a703f856a333811fe38ed37c50a3e"
   },
   {
     "name": "HighBinVerified.NormFormRegionIntegral.actualRegionKernel",
