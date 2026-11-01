@@ -126,6 +126,7 @@ theorem exceptionalIntegrand_eq (z : U × V) :
           unfold jointFourierColumn
           apply Finset.sum_congr rfl
           intro i hi
+          dsimp only
           rw [b.leftCoefficient h hm i hi, b.leftPoint h hm i hi]
         have hr :
             jointFourierColumn leaf.right (fun j => star (leaf.rightCoefficient h j))
@@ -137,6 +138,7 @@ theorem exceptionalIntegrand_eq (z : U × V) :
           unfold jointFourierColumn
           apply Finset.sum_congr rfl
           intro j hj
+          dsimp only
           rw [b.rightCoefficient h hm j hj, b.rightPoint h hm j hj]
         rw [b.rowWeight h hm, hl, hr]
   exact hfull.trans (R.pair_magnitude_live
