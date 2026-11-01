@@ -80,7 +80,8 @@ Every subset uses its actual whole-index-marked Euler continuation. -/
 def compensatedRowMellinKernel (P : ProbeData K S) (ψ : HeckeCharacter K)
     (E : RowEulerData K S P) (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K))
     (u : FrequencyRow K S) (Z : ℝ) (s w z : ℂ) : ℂ :=
-  Complex.exp ((s + z - 1) ^ 2) * additiveMellin K S μ P.additive z *
+  (physicalPoissonScalar K : ℂ) *
+   (Complex.exp ((s + z - 1) ^ 2) * additiveMellin K S μ P.additive z *
     mellin P.denominator.toFun w * (frequencyRowNorm K S u : ℂ) ^ (-z) *
     (∑ p ∈ Fintype.piFinset (fun i => primeWindow K S g T Z i),
       (∏ i : Fin g.slots, windowWeight K S g Z i (p i)) *
@@ -92,8 +93,35 @@ def compensatedRowMellinKernel (P : ProbeData K S) (ψ : HeckeCharacter K)
           ((Z ^ (17 / 48 : ℝ) / exteriorNorm K S selected : ℝ) : ℂ) ^ (1 / 2 - z) *
           ((Z * exteriorNorm K S marked : ℝ) : ℂ) ^ (s + z - 1) *
           ((Z ^ (23 / 48 : ℝ) / exteriorNorm K S selected : ℝ) : ℂ) ^ (w - 1) *
-          rowEulerContinuation K S P ψ E ((Finset.univ \ J).image p) u s w z) /
+          rowEulerContinuation K S P ψ E ((Finset.univ \ J).image p) u s w z)) /
     (physicalResidueNormalizer K S μ P * primeNormalizer K S g T Z)
+
+/-- The genuine Poisson scalar and the corrected residue normalization
+cancel exactly.  Thus the numerical row kernel is the original displayed
+formula at every scale, including zeros of any other denominator. -/
+theorem compensatedRowMellinKernel_eq_unscaled
+    (P : ProbeData K S) (ψ : HeckeCharacter K) (E : RowEulerData K S P)
+    (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K))
+    (u : FrequencyRow K S) (Z : ℝ) (s w z : ℂ) :
+    compensatedRowMellinKernel K S μ P ψ E g T u Z s w z =
+      (Complex.exp ((s + z - 1) ^ 2) * additiveMellin K S μ P.additive z *
+        mellin P.denominator.toFun w * (frequencyRowNorm K S u : ℂ) ^ (-z) *
+        (∑ p ∈ Fintype.piFinset (fun i => primeWindow K S g T Z i),
+          (∏ i : Fin g.slots, windowWeight K S g Z i (p i)) *
+          ∑ J ∈ (Finset.univ : Finset (Fin g.slots)).powerset,
+            let selected := subsetPrimeIdeal K S p J
+            let marked := subsetPrimeIdeal K S p (Finset.univ \ J)
+            (-1 : ℂ) ^ J.card * (exteriorNorm K S selected : ℂ) ^ (-(3 / 2 : ℂ)) *
+              conj (heckeIdealCoefficient K ψ marked.val) *
+              ((Z ^ (17 / 48 : ℝ) / exteriorNorm K S selected : ℝ) : ℂ) ^ (1 / 2 - z) *
+              ((Z * exteriorNorm K S marked : ℝ) : ℂ) ^ (s + z - 1) *
+              ((Z ^ (23 / 48 : ℝ) / exteriorNorm K S selected : ℝ) : ℂ) ^ (w - 1) *
+              rowEulerContinuation K S P ψ E ((Finset.univ \ J).image p) u s w z)) /
+        (((1 / 6 : ℂ) * deletedZetaResidue K S ^ 2 *
+          additiveMellin K S μ P.additive (1 / 6) * mellin P.denominator.toFun 1) *
+          primeNormalizer K S g T Z) := by
+  unfold compensatedRowMellinKernel
+  exact physicalResidueNormalizer_cancel K S μ P _ _
 
 def rowContourBox (P : ProbeData K S) (ψ : HeckeCharacter K)
     (E : RowEulerData K S P) (g : PrimeWindowGeometry) (T : Finset (HeckeCharacter K))
