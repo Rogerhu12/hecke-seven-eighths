@@ -125,6 +125,7 @@ theorem exceptionalIntegrand_eq (z : U × V) :
           unfold jointFourierColumn
           apply Finset.sum_congr rfl
           intro i hi
+          dsimp only
           rw [b.leftCoefficient h hm i hi, b.leftPoint h hm i hi]
         have hr :
             jointFourierColumn leaf.right (fun j => star (leaf.rightCoefficient h j))
@@ -136,6 +137,7 @@ theorem exceptionalIntegrand_eq (z : U × V) :
           unfold jointFourierColumn
           apply Finset.sum_congr rfl
           intro j hj
+          dsimp only
           rw [b.rightCoefficient h hm j hj, b.rightPoint h hm j hj]
         rw [b.rowWeight h hm, hl, hr]
   exact hfull.trans (R.pair_magnitude_live
@@ -185,10 +187,13 @@ def ordinaryExceptionalBindingOnCorrelationSupport
       (right.restrictRows (fun h => R.correlation h ≠ 0)) Q where
   rows := by
     intro h hh
-    exact hrows.symm ▸ (Finset.mem_filter.mp hh).1
+    have hh' : h ∈ R.rows ∧ R.correlation h ≠ 0 := by
+      simpa only [ActualSecondCorrelationRows.restrictRows, Finset.mem_filter] using hh
+    exact hrows.symm ▸ hh'.1
   rows_zero h hh hn := by
     rw [hweight h hh]
-    exact R.weight_correlation_eq_zero_of_not_live h (hrows ▸ hh) hn
+    exact R.weight_correlation_eq_zero_of_not_live h (hrows ▸ hh)
+      (R.restrictRows_correlationSupport_rows ▸ hn)
   left_columns := hleft
   right_columns := hright
   exceptional := hexceptional
@@ -373,7 +378,7 @@ theorem ordinary_exceptional_cost_from_original_atoms
         ∫ z : U × E, left.ordinaryExceptionalMagnitude right Q (WithLp.toLp 2 z)
           ∂nestedFourierMeasure leaf.firstKernel leaf.secondKernel := by
       rw [hbinding]
-      ring
+      exact mul_div_right_comm _ _ _
     _ = factor * ∫ z : U × E,
         scalar * (left.ordinaryExceptionalMagnitude right Q (WithLp.toLp 2 z) / Z ^ parentWidth)
           ∂nestedFourierMeasure leaf.firstKernel leaf.secondKernel := by
