@@ -1,0 +1,80 @@
+name: Paired moment induction (conditional)
+
+on:
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - HeckeSkeleton/Moments/MOM_ENGINE_INDUCTION/**
+      - .github/workflows/mom-engine-induction.yml
+      - HeckeSkeleton/Moments/MOM_ENGINE_STEP/**
+      - lean-toolchain
+      - lake-manifest.json
+      - lakefile.toml
+      - vendor/class-field-theory/lakefile.toml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# PR and manual checks for the same branch share a concurrency group, so a
+# newer head cancels obsolete builds. Each job still checks its
+# exact source head before recording compilation and axiom evidence.
+concurrency:
+  group: mom-engine-induction-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      # Match this runner's four CPUs in Lake's ordinary task pool.
+      # Each Lean subprocess retains the repository's weakLeanArgs = ["-j2"].
+      LEAN_NUM_THREADS: "4"
+      EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Install the pinned Lean environment and Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "false"
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      # This job verifies the explicit-step conditional induction.
+      # The original three unconditional names belong to the later
+      # MOM_ENGINE_INTEGRATION phase; they are not claimed by this job.
+      - name: Build every conditional induction module and audit all declarations
+        shell: bash
+        run: |
+          set -euo pipefail
+          task_dir=HeckeSkeleton/Moments/MOM_ENGINE_INDUCTION
+          proof_logs="$RUNNER_TEMP/mom-engine-induction"
+          mkdir -p "$proof_logs"
+          python3 "$task_dir/verify.py" preflight --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/preflight.log"
+          # Bound the native build and retain time for axiom checks and artifact upload.
+          # Keep complete diagnostics in the artifact; stream new builds and errors to the console.
+          timeout --signal=TERM --kill-after=30s 140m lake build HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Audit 2>&1 | tee "$proof_logs/build.log" | awk '
+            /\] (Built|Building|Failed) / { print; fflush(); context = 0; next }
+            /^error:|^fatal:|^Some required builds logged failures:/ { context = 1 }
+            /\] Replayed / || /^(warning|info|trace):/ { context = 0; next }
+            context || /^Build (completed|failed)/ { print; fflush() }'
+          printf '\nMOM_ENGINE_INDUCTION_BUILD_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/build.log"
+          lake env lean "$task_dir/Audit.lean" 2>&1 | tee "$proof_logs/axioms.log"
+          printf '\nMOM_ENGINE_INDUCTION_AUDIT_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/axioms.log"
+          python3 "$task_dir/verify.py" check --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/verification.log"
+      - name: Upload compilation and axiom evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-engine-induction-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mom-engine-induction/
+          if-no-files-found: warn
+          retention-days: 14
