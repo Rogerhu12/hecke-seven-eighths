@@ -24,6 +24,11 @@ is skipped.  Modules whose `.lean` source in the working tree differs from
 `--ref` (and everything importing them) are skipped too, since CI would
 rebuild them anyway.  See `cloud_tasks/README.md`, section "CI 预编译缓存".
 
+Normally the `lake-cache-release` workflow runs this on a GitHub runner after
+every push to dtests-handoff, with `--exclude` and no prefixes, i.e. packing
+all libraries including `HeckeSkeleton`: CI-built outputs hash the same as the
+ones CI rebuilds, so the exclusions are only needed for local builds.
+
 Usage (from the repository root, after a complete `lake build` of the
 libraries on the commit the cache is meant for):
 
@@ -265,6 +270,9 @@ def main() -> None:
     ap.add_argument("--ref", default="HEAD", help="commit the artifacts correspond to")
     ap.add_argument("--tag", help="release tag (default lake-cache-<short sha of --ref>)")
     ap.add_argument("--repo-slug", default="Rogerhu12/hecke-seven-eighths")
+    ap.add_argument("--target", help="commit the release tag points to (default --ref); the manifest "
+                    "always records --ref.  GITHUB_TOKEN cannot create a tag on a commit that changes "
+                    ".github/workflows, so the release workflow passes the newest ancestor that does not")
     ap.add_argument("--upload", action="store_true", help="create the GitHub release")
     args = ap.parse_args()
 
@@ -303,10 +311,11 @@ def main() -> None:
             fh.write(f"{p['sha256']}  {p['name']}\n")
 
     if args.upload:
+        excluding = f", excluding {', '.join(args.exclude)}" if args.exclude else ", all project libraries"
         notes = (
             f"Precompiled Lake artifacts for commit {sha} "
-            f"({stats['.lake/build']['modules']} project modules, excluding "
-            f"{', '.join(args.exclude)}; plus class-field-theory and TauCeti).\n\n"
+            f"({stats['.lake/build']['modules']} project modules{excluding}; "
+            "plus class-field-theory and TauCeti).\n\n"
             "Restore with `.github/actions/restore-lake-cache` after `lake exe cache get`.\n"
             "Regenerate with `scripts/build_lake_cache.py --upload`."
         )
@@ -317,7 +326,7 @@ def main() -> None:
         #   gh release edit <tag> --draft=false
         subprocess.run(
             ["gh", "release", "create", tag, "-R", args.repo_slug, "--draft",
-             "--latest=false", "--target", sha, "--title", tag, "--notes", notes, *assets],
+             "--latest=false", "--target", git(repo, "rev-parse", args.target or sha), "--title", tag, "--notes", notes, *assets],
             check=True,
         )
         print(f"created draft release {tag}; publish it after the lake-cache-test workflow passes")

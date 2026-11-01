@@ -1,0 +1,191 @@
+name: Lake cache release
+
+# Builds every project library at the head of dtests-handoff on a GitHub
+# runner and publishes the Lake outputs as release `lake-cache-<sha7>`, which
+# .github/actions/restore-lake-cache restores in every PR workflow.  Runs after
+# each push to dtests-handoff that touches Lean sources or the Lake setup.
+#
+# Incremental: the previous release (and, after a timeout, this workflow's own
+# per-branch Actions cache entry) is restored first, so only modules whose
+# sources changed are compiled.  If the build hits the time limit, the post
+# step of restore-lake-cache saves the partial outputs and the workflow
+# dispatches itself to continue (at most twice).
+#
+# Never runs on PR branches: the push trigger is limited to dtests-handoff, and
+# the job only runs on dtests-handoff or on a manual run on a `ci/` test branch
+# (which leaves the release as a draft, which the restore action ignores).
+on:
+  push:
+    branches: [dtests-handoff]
+    paths:
+      - "**.lean"
+      - lakefile.toml
+      - lake-manifest.json
+      - lean-toolchain
+      - "vendor/**"
+      - scripts/build_lake_cache.py
+      - .github/workflows/lake-cache-release.yml
+  workflow_dispatch:
+    inputs:
+      base-tag:
+        description: Release to start from, may be a draft (empty = newest published lake-cache-*)
+        required: false
+        default: ""
+      continuation:
+        description: Internal counter of automatic continuations after a timeout
+        required: false
+        default: "0"
+
+permissions:
+  contents: write # create and publish the release
+  actions: write # prune per-branch cache entries, dispatch a continuation
+
+concurrency:
+  group: lake-cache-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/dtests-handoff' || (github.event_name == 'workflow_dispatch' && startsWith(github.ref, 'refs/heads/ci/'))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    env:
+      LEAN_NUM_THREADS: "2"
+      GH_TOKEN: ${{ github.token }}
+      PUBLISH: ${{ github.ref == 'refs/heads/dtests-handoff' }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          fetch-depth: 200 # to find a tag target, see below
+      - name: Check for an existing release of this commit
+        id: meta
+        shell: bash
+        run: |
+          sha="$(git rev-parse HEAD)"
+          tag="lake-cache-${sha:0:7}"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          # GITHUB_TOKEN may not create a tag on a commit that changes
+          # .github/workflows (HTTP 403), so the tag points to the newest
+          # first-parent ancestor that does not; the manifest records HEAD.
+          target="$(git log --first-parent --format=%H -n 200 HEAD | while read -r c; do
+            if git diff --quiet "$c^" "$c" -- .github/workflows 2>/dev/null; then echo "$c"; break; fi
+          done)"
+          echo "target=${target:-$sha}" >> "$GITHUB_OUTPUT"
+          echo "Tag $tag will point to ${target:-$sha}"
+          if gh release view "$tag" -R "$GITHUB_REPOSITORY" --json isDraft --jq '.isDraft' 2>/dev/null | grep -qx false; then
+            echo "$tag is already published; nothing to do."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          elif gh release view "$tag" -R "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "::error::A draft release $tag already exists; delete it (gh release delete $tag --cleanup-tag) and rerun."
+            exit 1
+          fi
+      - name: Prepare runner resources
+        if: steps.meta.outputs.exists != 'true'
+        shell: bash
+        run: |
+          df -h /
+          sudo rm -rf -- /usr/local/lib/android /usr/share/dotnet /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          df -h /
+      - name: Install the pinned Lean toolchain and Mathlib cache
+        if: steps.meta.outputs.exists != 'true'
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
+        timeout-minutes: 20
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "false"
+      - name: Restore the previous release and any partial build
+        if: steps.meta.outputs.exists != 'true'
+        id: lake-cache
+        uses: ./.github/actions/restore-lake-cache
+        with:
+          tag: ${{ inputs.base-tag }}
+      - name: Build every project library
+        if: steps.meta.outputs.exists != 'true'
+        id: build
+        shell: bash
+        run: |
+          set -o pipefail
+          libs="$(awk '/^\[\[lean_lib\]\]/ {lib = 1; next} lib && /^name *=/ {gsub(/^name *= *"|"$/, ""); print; lib = 0}' lakefile.toml | tr '\n' ' ')"
+          echo "Libraries: $libs"
+          # ir/**.setup.json (~8 MB per module) is only read when its module
+          # is compiled; drop old ones so a full rebuild fits on the disk.
+          ( while sleep 300; do find .lake/build/ir -name '*.setup.json' -mmin +20 -delete 2>/dev/null; done ) &
+          start=$SECONDS
+          status=0
+          # shellcheck disable=SC2086
+          timeout --signal=TERM --kill-after=60s 290m lake build $libs 2>&1 | tee "$RUNNER_TEMP/build.log" || status=$?
+          echo "Build exit status $status after $(( (SECONDS - start) / 60 )) min"
+          df -h /
+          failed="$(grep -cE '^✖ ' "$RUNNER_TEMP/build.log" || true)"
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          echo "failed=$failed" >> "$GITHUB_OUTPUT"
+          if [ "$status" -eq 124 ] || [ "$status" -eq 137 ]; then
+            echo "::warning::Build stopped at the time limit; the partial outputs are saved to the per-branch cache."
+            echo "timed_out=true" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          # Modules that failed to compile have no outputs and are simply left
+          # out; everything else is still worth publishing.
+          if [ "$status" -ne 0 ]; then
+            echo "::warning::$failed build jobs failed; publishing the outputs of the others."
+          fi
+      - name: Pack and upload the release
+        if: steps.meta.outputs.exists != 'true' && steps.build.outcome == 'success'
+        shell: bash
+        env:
+          TAG: ${{ steps.meta.outputs.tag }}
+          TARGET: ${{ steps.meta.outputs.target }}
+          FAILED: ${{ steps.build.outputs.failed }}
+        run: |
+          set -euo pipefail
+          find .lake/build/ir -name '*.setup.json' -delete 2>/dev/null || true
+          python3 scripts/build_lake_cache.py --out "$RUNNER_TEMP/lake-cache" --ref HEAD --tag "$TAG" --target "$TARGET" \
+            --repo-slug "$GITHUB_REPOSITORY" --upload --exclude
+          notes="$(gh release view "$TAG" --json body --jq .body)"
+          notes="$notes"$'\n\n'"Built by the lake-cache-release workflow, run $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID (failed build jobs: ${FAILED:-0})."
+          gh release edit "$TAG" --notes "$notes"
+          if [ "$PUBLISH" = true ]; then
+            gh release edit "$TAG" --draft=false --prerelease --latest=false
+            echo "Published $TAG"
+          else
+            echo "Left $TAG as a draft (not on dtests-handoff)."
+          fi
+          # The release now holds everything; this run's per-branch entry would only duplicate it.
+          mkdir -p "$RUNNER_TEMP/restore-lake-cache" && touch "$RUNNER_TEMP/restore-lake-cache/skip-save"
+          {
+            echo "## $TAG"
+            echo
+            jq -r '"Commit \(.commit)\n\n" + (.build_roots | to_entries | map("- `\(.key)`: \(.value.modules) modules, \(.value.bytes / 1073741824 * 100 | floor / 100) GiB") | join("\n")) + "\n\nCompressed: \([.parts[].bytes] | add / 1073741824 * 100 | floor / 100) GiB in \(.parts | length) part(s)"' \
+              "$RUNNER_TEMP/lake-cache/lake-cache-manifest.json"
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Prune superseded caches and releases
+        if: steps.meta.outputs.exists != 'true' && steps.build.outcome == 'success' && env.PUBLISH == 'true'
+        shell: bash
+        run: bash scripts/prune_lake_caches.sh
+      - name: Continue after a timeout
+        if: failure() && steps.build.outputs.timed_out == 'true' && inputs.continuation != '2'
+        shell: bash
+        env:
+          BASE_TAG: ${{ inputs.base-tag }}
+          N: ${{ inputs.continuation || '0' }}
+        run: |
+          # Queued behind this run (same concurrency group), so it starts after
+          # the post step has saved the partial outputs.
+          gh workflow run lake-cache-release.yml -R "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
+            -f base-tag="$BASE_TAG" -f continuation="$((N + 1))"
+      - name: Upload the build log
+        if: always() && steps.meta.outputs.exists != 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: lake-cache-release-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/build.log
+          if-no-files-found: warn
+          retention-days: 14

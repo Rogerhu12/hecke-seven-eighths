@@ -1,0 +1,25 @@
+import HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMellinEnergy
+import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy
+
+/-!
+# Independent audit of the intermediate spectral estimates
+
+This target is independent of the final source assembly, so its recursive
+axiom checks remain available while a downstream module is being repaired.
+-/
+
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy.amplitude_continuous
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy.amplitude_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy.summable_fixedProfile
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy.spectral_term_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy.energy_continuous
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy.energy_bound
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy.weighted_energy_integrable
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy.finite_rows_continuous
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy.weighted_finite_rows_integrable
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy.integral_finite_rows_le_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstMellinEnergy.free_energy_integrable
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstMellinEnergy.residual_rows_le_free_energy
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy.free_energy_integrable
+#print axioms HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy.residual_rows_le_free_energy

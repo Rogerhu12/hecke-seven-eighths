@@ -16,6 +16,18 @@ on:
         description: Release tag to restore, may be a draft (empty = newest published lake-cache-*)
         required: false
         default: ""
+      target:
+        description: Module or library to build
+        required: false
+        default: HeckeSkeleton.Principal
+      build-timeout:
+        description: Minutes after which the build is stopped (the run then fails; the per-branch cache still saves)
+        required: false
+        default: "150"
+      branch-cache:
+        description: Per-branch cache mode of restore-lake-cache (true, restore, false)
+        required: false
+        default: "true"
 
 # `contents: write` only so that a still-draft release can be restored by
 # name while it is being verified; consumers only need `contents: read`.
@@ -60,23 +72,31 @@ jobs:
         uses: ./.github/actions/restore-lake-cache
         with:
           tag: ${{ inputs.tag }}
-      - name: Build HeckeSkeleton.Principal
-        timeout-minutes: 150
+          branch-cache: ${{ inputs.branch-cache || 'true' }}
+      - name: Build the target
+        timeout-minutes: 160
         shell: bash
+        env:
+          TARGET: ${{ inputs.target || 'HeckeSkeleton.Principal' }}
+          BUILD_TIMEOUT: ${{ inputs.build-timeout || '150' }}
         run: |
           set -o pipefail
           df -h /
           start=$SECONDS
-          lake build HeckeSkeleton.Principal 2>&1 | tee lake-cache-test.log
-          echo "BUILD_SECONDS=$((SECONDS - start))" | tee -a lake-cache-test.log
+          status=0
+          timeout --signal=TERM --kill-after=30s "${BUILD_TIMEOUT}m" lake build "$TARGET" 2>&1 | tee lake-cache-test.log || status=$?
+          echo "BUILD_SECONDS=$((SECONDS - start)) STATUS=$status" | tee -a lake-cache-test.log
+          df -h /
+          exit "$status"
       - name: Summarise replayed and rebuilt modules
         if: always()
         shell: bash
         run: |
+          set +eo pipefail  # an empty grep (nothing built) is not an error
           log=lake-cache-test.log
           [ -f "$log" ] || exit 0
           {
-            echo "## Lake cache test (${{ steps.lake-cache.outputs.tag }})"
+            echo "## Lake cache test (${{ steps.lake-cache.outputs.tag }}; branch cache: ${{ steps.lake-cache.outputs.branch-cache-key || 'none' }})"
             echo
             echo "| action | jobs |"
             echo "|---|---|"
