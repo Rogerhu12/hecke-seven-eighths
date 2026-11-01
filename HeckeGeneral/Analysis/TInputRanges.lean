@@ -1,3 +1,4 @@
+import HeckeGeneral.Analysis.RowEulerRegion
 import HeckeGeneral.Analysis.PhysicalProbeContours
 
 /-!
@@ -55,14 +56,6 @@ variable [∀ p : S, BorelSpace (p.val.adicCompletion K)]
 variable (μ : (p : S) → Measure (p.val.adicCompletion K))
 variable [∀ p : S, (μ p).IsAddHaarMeasure]
 
-/-- A sufficient open region containing the central moderate, small-row,
-principal-residue and absolute-large contours used here. This is not a
-claim that the local correction has no continuation outside this region. -/
-def rowEulerRegion : Set (ℂ × ℂ × ℂ) :=
-  {v | 1 / 2 < v.1.re ∧ 0 < v.2.1.re ∧ 0 < v.2.2.re ∧
-    1 < v.1.re + v.2.1.re ∧ 5 / 6 < v.1.re + v.2.2.re ∧
-      2 < v.1.re + v.2.1.re + 6 * v.2.2.re ∧
-      1 < v.2.1.re + 6 * v.2.2.re ∧ 1 < v.1.re + 6 * v.2.2.re}
 
 /-- Local-Euler analytic calibration, distinct from holomorphy of any
 reciprocal target L-function. No zero-free conclusion is in these fields. -/
@@ -104,8 +97,8 @@ structure TSmallRowInput (P : ProbeData K S) (ψ : HeckeCharacter K)
   bound : ∃ C Z₀ A ceiling : ℝ, 0 < C ∧ 1 ≤ Z₀ ∧ 0 ≤ A ∧ 0 < ceiling ∧
     ∀ Z height : ℝ, Z₀ ≤ Z → 1 ≤ height → height ≤ Z ^ ceiling →
       ‖finiteRowContourBlock K S μ P ψ E g T Z height 0
-          (Z ^ (1 / 100 : ℝ)) (B + e) (1 / 2) (17 / 50)‖ ≤
-        C * Z ^ (B - 11 / 16 - 63 / 800 + e + loss) * (1 + height) ^ A
+          (Z ^ (1 / 16 : ℝ)) (B + e) (1 / 2) (17 / 50)‖ ≤
+        C * Z ^ (B - 11 / 16 - 1 / 50 + e + loss) * (1 + height) ^ A
 
 /-- The arbitrary absolute decay of rows above h+ζ on (2,2,zInfinity).
 ζ,zInfinity and the requested scale decay are pretarget real choices.

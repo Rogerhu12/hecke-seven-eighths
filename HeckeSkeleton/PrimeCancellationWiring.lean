@@ -93,7 +93,15 @@ def explicitModelFamilyOfSource
     exact Real.rpow_pos_of_pos (zero_lt_one.trans_le hZ) _
   row_exponent := by
     intro Z T i
-    simp only [pairedParameters, add_zero]
+    have hw := recipeMoment_rowWidth_spec (R := expansionRecipeRaw K c) i
+    have h1 : 1 < rowWidthFor i := hw.1
+    have h2 : momentBaseFor i ^ rowWidthFor i = 2 * momentBaseFor i := hw.2.2
+    refine ⟨?_, ?_⟩
+    · change 1 ≤ rowWidthFor i + 0
+      linarith
+    · change momentBaseFor i ^ (rowWidthFor i + 0) ≤ 2 * momentBaseFor i
+      rw [add_zero]
+      exact h2.le
   parameter_length := by
     intro Z T i
     rfl

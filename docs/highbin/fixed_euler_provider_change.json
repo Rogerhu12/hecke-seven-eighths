@@ -1,0 +1,18 @@
+{
+  "source": "HeckeSkeleton/HighBin.lean",
+  "before_sha256": "56ddfd6badb50c65413aad3ee2cf1746384c789d4d6af4cfe77bd9fc82943786",
+  "after_sha256": "934757a46db7d7d2769370658605f6e28736f1c37160623c082f36f9f33082f1",
+  "removed_admissions": [
+    "HB-EULER-INITIAL",
+    "HB-EULER-EXCEPTIONAL"
+  ],
+  "retained_admissions": [
+    "HB-PRESENT",
+    "HB-LABELS",
+    "HB-NORMFORM",
+    "HB-MOVE-BOUNDARY"
+  ],
+  "data_change": "The selectable Euler field is replaced with a definitionally fixed arithmetic provider; all other presentation fields are retained.",
+  "compilation_status": "pending native verification",
+  "named_exceptional_dependency": "The named presentation still supplies admitted positive buffer and bin-range choices; its inherited axiom set must be reported separately from the generic presentation theorem."
+}

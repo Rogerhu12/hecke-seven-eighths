@@ -1,0 +1,106 @@
+name: Integration whole-project build
+
+# Builds every lean_lib of the lakefile on the EXPANSION + HIGHBIN + MOM_PRIME
+# + MOM_UNIFORM_AMPLIFY integration branch, then prints the axioms of the
+# integrated endpoints, of the remaining Moments obligations, and of the final
+# skeleton theorem.
+on:
+  push:
+    branches: [integrate/expansion-highbin-prime]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: integration-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    env:
+      LEAN_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Reserve space for the pinned toolchain and artifacts
+        run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift /opt/ghc /opt/hostedtoolcache/CodeQL
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          df -h /
+      - name: Set up the pinned Lean and Mathlib environment
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "false"
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
+      - name: Build every project library
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p /tmp/integration
+          libs="$(awk '/^\[\[lean_lib\]\]/ {lib = 1; next} lib && /^name *=/ {gsub(/^name *= *"|"$/, ""); print; lib = 0}' lakefile.toml | tr '\n' ' ')"
+          echo "Libraries: $libs" | tee /tmp/integration/build.log
+          status=0
+          timeout --signal=TERM --kill-after=60s 270m lake build $libs 2>&1 |
+            tee -a /tmp/integration/build.log |
+            awk '/^error:|^✖/ { remaining = 60 }
+              /Build completed|Some required targets logged failures|error: build failed/ || remaining > 0 {
+                print; fflush(); if (remaining > 0) remaining--
+              }' || status=$?
+          grep -E '^(error|✖)' /tmp/integration/build.log | head -100 || true
+          exit "$status"
+      - name: Print axioms of the integrated endpoints
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > /tmp/integration/IntegrationAxioms.lean <<'EOF'
+          import HeckeSkeleton.Main
+
+          #print axioms HeckeSkeleton.highBin
+          #print axioms HeckeSkeleton.expansionPhysicalParameters
+          #print axioms HeckeSkeleton.actualHighPresentation
+          #print axioms HeckeSkeleton.expansion_identity
+          #print axioms HeckeSkeleton.expansion_principal
+          #print axioms HeckeSkeleton.expansion_small
+          #print axioms HeckeSkeleton.expansion_large
+          #print axioms HeckeSkeleton.expansion_blockCount
+          #print axioms HeckeSkeleton.expansion_blocks
+          #print axioms HeckeSkeleton.expansion_tail
+          #print axioms HeckeSkeleton.expansionSource
+          #print axioms HeckeSkeleton.paired_primes_endpoint
+          #print axioms HeckeSkeleton.moment_profile_control
+          #print axioms HeckeSkeleton.moment_row_eligibility
+          #print axioms HeckeSkeleton.moment_finite_sector_reindex
+          #print axioms HeckeSkeleton.inverse_sixth_power_masks
+          #print axioms HeckeSkeleton.inverse_independent_amplification
+          #print axioms HeckeSkeleton.inverse_amplified_witness_models
+          #print axioms HeckeSkeleton.canonical_inverse_models
+          #print axioms HeckeSkeleton.paired_primes_below_one
+          #print axioms HeckeSkeleton.paired_zero_slot_models
+          #print axioms HeckeSkeleton.paired_positive_below_one
+          #print axioms HeckeSkeleton.paired_positive_endpoint
+          #print axioms HeckeSkeleton.inverseSource
+          #print axioms HeckeSkeleton.plainSource
+          #print axioms HeckeSkeleton.generalHeckeSevenEighths_skeleton
+          EOF
+          cp /tmp/integration/IntegrationAxioms.lean IntegrationAxioms.lean
+          lake env lean IntegrationAxioms.lean 2>&1 | tee /tmp/integration/axioms.log
+      - name: Preserve build and axiom logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-build-${{ github.sha }}
+          path: /tmp/integration
+          if-no-files-found: warn
+          retention-days: 30

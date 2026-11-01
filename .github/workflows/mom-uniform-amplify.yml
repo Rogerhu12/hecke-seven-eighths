@@ -1,0 +1,245 @@
+name: Moment uniformity and amplification
+
+on:
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/**
+      - HeckeSkeleton/Moments.lean
+      - HeckeSkeleton/SourceData.lean
+      - HeckeSkeleton/ExpansionModels/**
+      - .github/workflows/mom-uniform-amplify.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  pure:
+    concurrency:
+      group: mom-uniform-amplify-${{ github.head_ref || github.ref_name }}-pure
+      cancel-in-progress: true
+    name: Pure numerical proofs and axiom audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      LEAN_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Install the pinned Lean environment and caches
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Compile and audit the independent numerical proofs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/mom-uniform-amplify-pure"
+          {
+            git rev-parse HEAD
+            lake env lean --version
+            git -C .lake/packages/mathlib rev-parse HEAD
+          } | tee "$RUNNER_TEMP/mom-uniform-amplify-pure/environment.log"
+          lake --rehash --fail-fast build +HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.PureAudit:olean 2>&1 |
+            tee "$RUNNER_TEMP/mom-uniform-amplify-pure/build.log"
+          lake env lean HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/PureAudit.lean 2>&1 |
+            tee "$RUNNER_TEMP/mom-uniform-amplify-pure/axioms.log"
+      - name: Preserve independent numerical proof evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-uniform-amplify-pure-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mom-uniform-amplify-pure/
+          if-no-files-found: warn
+          retention-days: 14
+
+  components:
+    # A new source snapshot supersedes every older component on the branch.
+    concurrency:
+      group: mom-uniform-amplify-${{ github.head_ref || github.ref_name }}-${{ matrix.audit }}
+      cancel-in-progress: true
+    name: ${{ matrix.audit }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        audit: [AnalysisAudit, ArithmeticAudit, SourceAudit]
+    env:
+      LEAN_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Reserve space for the pinned toolchain and project cache
+        run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift
+          df -h /
+      - name: Install the pinned Lean environment
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Compile the component and audit every task declaration
+        shell: bash
+        run: |
+          set -euo pipefail
+          evidence="$RUNNER_TEMP/mom-uniform-amplify-${{ matrix.audit }}"
+          mkdir -p "$evidence"
+          {
+            git rev-parse HEAD
+            lake env lean --version
+            git -C .lake/packages/mathlib rev-parse HEAD
+          } | tee "$evidence/environment.log"
+          lake_flags=(--rehash)
+          if [[ '${{ matrix.audit }}' == 'ArithmeticAudit' ]]; then
+            lake_flags+=(--fail-fast)
+          fi
+          lake "${lake_flags[@]}" build +HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.${{ matrix.audit }}:olean 2>&1 |
+            tee "$evidence/build.log"
+          lake env lean HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/${{ matrix.audit }}.lean 2>&1 |
+            tee "$evidence/axioms.log"
+      - name: Preserve component compilation and axiom evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-uniform-amplify-${{ matrix.audit }}-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mom-uniform-amplify-${{ matrix.audit }}/
+          if-no-files-found: warn
+          retention-days: 14
+
+  verify:
+    concurrency:
+      group: mom-uniform-amplify-${{ github.head_ref || github.ref_name }}-verify
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      LEAN_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Reserve disk space for dependency archives
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/mom-uniform-amplify"
+          {
+            df -h /
+            df -i /
+            sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift
+            df -h /
+            df -i /
+          } 2>&1 | tee "$RUNNER_TEMP/mom-uniform-amplify/disk-reserve.log"
+      - name: Install the pinned Lean environment and caches
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Record the source and compiler environment
+        id: environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/mom-uniform-amplify"
+          {
+            git rev-parse HEAD
+            lake env lean --version
+            git -C .lake/packages/mathlib rev-parse HEAD
+            df -h /
+            df -i /
+          } | tee "$RUNNER_TEMP/mom-uniform-amplify/environment.log"
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Compile every new proof and reject nonstandard axioms
+        id: compile
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake --rehash build +HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.Audit:olean 2>&1 |
+            tee "$RUNNER_TEMP/mom-uniform-amplify/build.log"
+          lake env lean HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/Audit.lean 2>&1 |
+            tee "$RUNNER_TEMP/mom-uniform-amplify/axioms.log"
+      - name: Compile the original skeleton adapter
+        if: ${{ always() && !cancelled() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake --rehash --fail-fast build +HeckeSkeleton.Moments:olean 2>&1 |
+            tee "$RUNNER_TEMP/mom-uniform-amplify/skeleton-build.log"
+      - name: Check the six original task names against the same axiom allowlist
+        if: ${{ always() && !cancelled() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os
+          import pathlib
+          import re
+          import subprocess
+
+          directory = pathlib.Path(os.environ['RUNNER_TEMP']) / 'mom-uniform-amplify'
+          names = [
+              'HeckeSkeleton.moment_profile_control',
+              'HeckeSkeleton.moment_row_eligibility',
+              'HeckeSkeleton.moment_finite_sector_reindex',
+              'HeckeSkeleton.inverse_sixth_power_masks',
+              'HeckeSkeleton.inverse_independent_amplification',
+              'HeckeSkeleton.inverse_amplified_witness_models',
+          ]
+          source = directory / 'OriginalTaskAxioms.lean'
+          source_dependencies = [
+              'HeckeSkeleton.SourceMomentIndex',
+              'HeckeSkeleton.SourceMomentModels',
+              'HeckeSkeleton.momentModels',
+          ]
+          source.write_text('import HeckeSkeleton.Moments\n' +
+                            ''.join(f'#print axioms {name}\n'
+                                    for name in source_dependencies + names))
+          result = subprocess.run(['lake', 'env', 'lean', str(source)],
+                                  text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+          (directory / 'original-target-axioms.log').write_text(result.stdout)
+          print(result.stdout, end='')
+          if result.returncode:
+              raise SystemExit(result.returncode)
+          pattern = r"'([^']+)' (?:depends on axioms: \[([^\]]*)\]|does not depend on any axioms)"
+          records = dict(re.findall(pattern, result.stdout, re.S))
+          allowed = {'propext', 'Classical.choice', 'Quot.sound'}
+          failures = []
+          for name in names:
+              if name not in records:
+                  failures.append(f'{name}: audit result missing')
+                  continue
+              axioms = {item.strip() for item in records[name].split(',') if item.strip()}
+              extra = axioms - allowed
+              if extra:
+                  failures.append(f'{name}: {sorted(extra)}')
+          if failures:
+              print('Original task targets still have unresolved source dependencies:')
+              print('\n'.join(failures))
+              raise SystemExit(1)
+          print('All six original targets passed the axiom allowlist.')
+          PY
+      - name: Preserve complete compilation and axiom evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-uniform-amplify-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mom-uniform-amplify/
+          if-no-files-found: warn
+          retention-days: 14

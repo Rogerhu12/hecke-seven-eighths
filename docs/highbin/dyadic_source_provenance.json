@@ -1,0 +1,24 @@
+[
+  {
+    "source": "/workspace/scratch/e20bf035739d/hecke-seven-eighths/ExpansionInterfaces/DyadicCount.lean",
+    "source_sha256": "a52681bd30d1e18c7c20b32165ddf11136870f357a21f267502caffb13f95331",
+    "destination": "HeckeSkeleton/HighBinSupport/DyadicCount.lean",
+    "destination_sha256": "1d42b40ff0358c2434bbe5f8c5d5fe60ee1aaae86e7d3c4836ccebfd6bd1e1f4",
+    "edits": [
+      "namespace qualification",
+      "import path"
+    ],
+    "verification": "GitHub Actions native core group passed: run 41163566828, job 124426178864, commit 4f733f5f9a616332feffeed212aed57972daf012; exact source hashed in core_public_declarations.json"
+  },
+  {
+    "source": "/workspace/scratch/e20bf035739d/hecke-seven-eighths/ExpansionInterfaces/DyadicShells.lean",
+    "source_sha256": "a8330e7066ff7a3b3c53f9b4e8b6d6af137041a29cb6b0dab5d1bd31b3123610",
+    "destination": "HeckeSkeleton/HighBinSupport/DyadicShells.lean",
+    "destination_sha256": "122970eccf43ac1bfc9038b7641a7add4ce53a6bcad74ea4d50831376e5e825d",
+    "edits": [
+      "namespace qualification",
+      "import path"
+    ],
+    "verification": "GitHub Actions native core group passed: run 41163566828, job 124426178864, commit 4f733f5f9a616332feffeed212aed57972daf012; exact source hashed in core_public_declarations.json"
+  }
+]
