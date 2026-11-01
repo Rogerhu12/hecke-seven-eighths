@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Observe the complete 4b99 Normalized proof phases; never substitute for verification."""
+import argparse
 import difflib
 import hashlib
 import json
@@ -18,6 +19,14 @@ LEAN_COMMIT = '470d5ce1400764999581fd26d5d72b00d990b0f4'
 
 def sha(data):
     return hashlib.sha256(data).hexdigest()
+
+
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--disable-index-unused-section-vars', action='store_true',
+                        help='Diagnostic control only: disable unusedSectionVars for '
+                             'the main index theorem in the temporary source copy.')
+    return parser.parse_args(argv)
 
 
 def instrument(source):
@@ -93,6 +102,68 @@ def instrument(source):
     return diagnostic.encode('utf-8'), entries
 
 
+def apply_index_linter_control(source, diagnostic, insertions, enabled):
+    """Add one local option after the header marker, immediately before include L."""
+    source_text = source.decode('utf-8')
+    marker_text = diagnostic.decode('utf-8')
+    adjusted = [dict(entry) for entry in insertions]
+
+    def remove_markers(text, entries):
+        for entry in reversed(entries):
+            offset, block = entry['diagnostic_offset_characters'], entry['text']
+            assert text[offset:offset + len(block)] == block
+            text = text[:offset] + text[offset + len(block):]
+        return text
+
+    assert remove_markers(marker_text, insertions).encode('utf-8') == source
+    control = {'enabled': bool(enabled), 'applied': False,
+               'option_name': 'linter.unusedSectionVars',
+               'option_value': False if enabled else None,
+               'scope': 'temporary copy: normalized_pair_original_index_weight only',
+               'original_module_acceptance': False,
+               'marker_only_diagnostic_sha256': sha(diagnostic),
+               'source_with_only_option_sha256': sha(source),
+               'removed_option_then_markers_restore_exact_source': True,
+               'removed_markers_then_option_restore_exact_source': True}
+    if not enabled:
+        return diagnostic, adjusted, control
+
+    option = 'set_option linter.unusedSectionVars false in\n'
+    declaration = 'theorem normalized_pair_original_index_weight'
+    theorem = source_text.index(declaration)
+    source_offset = source_text.rfind('include L in\n', 0, theorem)
+    assert source_offset >= 0 and option not in marker_text
+    # Keep the original docstring between include and theorem byte for byte.
+    header_prefix = source_text[source_offset:theorem]
+    anchor = header_prefix + declaration
+    assert marker_text.count(anchor) == 1
+    offset = marker_text.index(anchor)
+    header_marker = next(entry for entry in insertions if entry['label'] == 'BEFORE_INDEX_HEADER')
+    assert header_marker['diagnostic_offset_characters'] + len(header_marker['text']) == offset
+    controlled = marker_text[:offset] + option + marker_text[offset:]
+    assert controlled[offset:offset + len(option) + len('include L in\n')] == option + 'include L in\n'
+    for entry in adjusted:
+        if entry['diagnostic_offset_characters'] >= offset:
+            entry['diagnostic_offset_characters'] += len(option)
+
+    without_option = controlled[:offset] + controlled[offset + len(option):]
+    assert without_option == marker_text
+    without_markers = remove_markers(controlled, adjusted)
+    expected_option_source = source_text[:source_offset] + option + source_text[source_offset:]
+    assert without_markers == expected_option_source
+    assert (without_markers[:source_offset] +
+            without_markers[source_offset + len(option):]).encode('utf-8') == source
+    assert controlled.count('#print axioms ') == source_text.count('#print axioms ') == 2
+    control.update(applied=True, option_text=option,
+                   option_bytes=len(option.encode('utf-8')),
+                   option_offset_in_original_characters=source_offset,
+                   option_offset_in_original_bytes=len(source_text[:source_offset].encode('utf-8')),
+                   option_offset_in_diagnostic_characters=offset,
+                   option_offset_in_diagnostic_bytes=len(marker_text[:offset].encode('utf-8')),
+                   source_with_only_option_sha256=sha(without_markers.encode('utf-8')))
+    return controlled.encode('utf-8'), adjusted, control
+
+
 def cleanup_process_group(process, pgid, grace_seconds=10):
     """Clean only this Popen(start_new_session=True) group's saved PGID."""
     before = time.monotonic()
@@ -143,13 +214,16 @@ def cleanup_process_group(process, pgid, grace_seconds=10):
 
 
 def main():
+    args = parse_args()
     root = Path.cwd().resolve()
     evidence = root / os.environ['EVIDENCE_DIR'] / 'normalized-diagnostic'
     evidence.mkdir(parents=True, exist_ok=True)
     result = {'scope': 'complete instrumented source, diagnostic only',
               'original_module_acceptance': False, 'heartbeat_override': None,
               'lean_async_override': None, 'driver_sha256': sha(Path(__file__).read_bytes()),
-              'commands': []}
+              'commands': [],
+              'disable_index_unused_section_vars': args.disable_index_unused_section_vars,
+              'diagnostic_control_applied': False}
     started = time.monotonic()
     input_file = root / 'MomEngineBNormalizedIndexDiagnostic.lean'
     diagnostic = None
@@ -189,10 +263,18 @@ def main():
             raise RuntimeError('Diagnostic frozen to 4b99 source; current source differs')
         (evidence / 'NormalizedOriginalLabelMass.original.lean').write_bytes(source)
         diagnostic, insertions = instrument(source)
+        diagnostic, insertions, linter_control = apply_index_linter_control(
+            source, diagnostic, insertions, args.disable_index_unused_section_vars)
+        result.update(linter_control=linter_control,
+                      diagnostic_control_applied=linter_control['applied'])
         (evidence / input_file.name).write_bytes(diagnostic)
         (evidence / 'instrumentation.json').write_text(json.dumps({
             'source_sha256': sha(source), 'diagnostic_sha256': sha(diagnostic),
-            'removed_markers_restore_exact_source': True, 'insertions': insertions,
+            'removed_markers_restore_exact_source': not linter_control['enabled'],
+            'removed_option_then_markers_restore_exact_source': True,
+            'removed_markers_then_option_restore_exact_source': True,
+            'marker_offsets_reference': 'actual temporary diagnostic source',
+            'linter_control': linter_control, 'insertions': insertions,
         }, indent=2, ensure_ascii=False) + '\n')
         (evidence / 'markers.diff').write_text(''.join(difflib.unified_diff(
             source.decode().splitlines(True), diagnostic.decode().splitlines(True),
