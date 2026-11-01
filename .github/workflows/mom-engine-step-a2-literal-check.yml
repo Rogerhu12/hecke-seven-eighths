@@ -35,21 +35,21 @@ jobs:
           from pathlib import Path
           root = Path.cwd()
           evidence = root / 'a2-literal-check'
-          source_base = 'de0cb5679cd5afe5a4c3e63346523a5e42cd2ad7'
-          source_base_tree = 'a30f1f50331eb59e97d4df986fbc488300519fa0'
-          owner_parent = '7932ae004c4461efb429d6c59bc0413892322fdc'
-          owner_parent_tree = 'b35e0903206c4c1edd616acbed33b68e92bc575f'
+          source_base = '7932ae004c4461efb429d6c59bc0413892322fdc'
+          source_base_tree = 'b35e0903206c4c1edd616acbed33b68e92bc575f'
+          owner_parent = '34e00e7db29378430a9bac6ce1aca62c97d33883'
+          owner_parent_tree = 'a75bd14186cd1f4d399b8f0624543a11e56c974e'
           workflow = '.github/workflows/mom-engine-step-a2-literal-check.yml'
           task = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP')
           targets = {
               str(task / 'CanonicalLiteralTransforms.lean'): {
-                  'source_sha256': 'c62d736fce8e89607f03ede891b33c989c8a8f9afd31a223b017b4ff8b339383',
-                  'git_blob': '68a717f93009eae837961fe80609b0665fb8e756',
-                  'base_git_blob': '60be98fb2e3b076dacb700445e2355fe2d962a02'},
+                  'source_sha256': 'd1348d8c29c0e8a8dafcda48135e08231913804ded88c65195662f1596f663b2',
+                  'git_blob': '4cf117cbbedb35bccf09a1d8048a780d71d3b486',
+                  'base_git_blob': '68a717f93009eae837961fe80609b0665fb8e756'},
               str(task / 'CanonicalLiteralInactiveRectangle.lean'): {
-                  'source_sha256': '2b5d8f455b1c818f48e0b1118eefb31a6ecb808dbe958c016a0008e64c1c4d10',
-                  'git_blob': 'e528b396331ff311b149971bc1836fa234b7a11f',
-                  'base_git_blob': 'dd6bf01904996ef29c6bde05d22ff7e1980a40a0'},
+                  'source_sha256': '36ebb1267a9772c92b8652d269c8c37c352fd34b49453a668867c96c508b4758',
+                  'git_blob': '782e31d7f296f2c92729afb13098ef21e915473d',
+                  'base_git_blob': 'e528b396331ff311b149971bc1836fa234b7a11f'},
           }
           def git(*args):
               return subprocess.check_output(['git', *args], text=True).strip()
@@ -57,7 +57,7 @@ jobs:
               return hashlib.sha256((root / path).read_bytes()).hexdigest()
           head = git('rev-parse', 'HEAD')
           assert head == os.environ['EXPECTED_SHA'], 'Unexpected checkout SHA'
-          assert git('rev-list', '--parents', '-n', '1', 'HEAD').split() == [head, owner_parent], 'Auxiliary commit must have exactly the approved owner parent'
+          assert git('rev-list', '--parents', '-n', '1', 'HEAD').split() == [head, '2571acd1f9dbf2e469c33f79cd6061709d71bb09', owner_parent], 'Unexpected ordered auxiliary and owner parents'
           assert git('rev-parse', owner_parent + '^{tree}') == owner_parent_tree, 'Unexpected approved owner tree'
           assert git('rev-list', '--parents', '-n', '1', owner_parent).split() == [owner_parent, source_base], 'Approved owner source parent changed'
           assert git('rev-parse', source_base + '^{tree}') == source_base_tree, 'Unexpected pre-fix owner tree'

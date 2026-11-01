@@ -220,8 +220,10 @@ theorem twoStageNorms_term (G₁ G₂ : ℝ) (G : Fin k → ℝ)
         (((Ideal.absNorm (allocationColumnIdeal i) : ℝ) ^ δ₂ : ℝ) : ℂ) /
         (Ideal.absNorm (allocationColumnIdeal i) : ℂ) := by
   unfold twoStageNorms
-  rw [normPower_term _ δ₂ r i hi, normPower_term _ δ₁ r i hi,
-    normPower_term _ (-1) r i hi, d.addGauss_term]
+  rw [(((d.addGauss G₁ G₂ G h₁ h₂ hG).normPower (-1)).normPower δ₁).normPower_term
+      δ₂ r i hi,
+    ((d.addGauss G₁ G₂ G h₁ h₂ hG).normPower (-1)).normPower_term δ₁ r i hi,
+    (d.addGauss G₁ G₂ G h₁ h₂ hG).normPower_term (-1) r i hi, d.addGauss_term]
   simp only [Real.rpow_neg_one, Complex.ofReal_inv, div_eq_mul_inv]
   push_cast <;> ring
 

@@ -63,14 +63,12 @@ variable (hne : (pairedAllocatedColumns L selection d.plain₁ d.plain₂ d.slot
 and retains this same original individual weight. -/
 theorem factors_source_leftWeight (r : Bool) (h : rows.live)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    ((d.factors rows side χ ideal hideal firstSign r).frame C L selection hne)
-        .source.leftWeight h I = d.rectangleLeftWeight r I := by
+    ((d.factors rows side χ ideal hideal firstSign r).frame C L selection hne).source.leftWeight h I = d.rectangleLeftWeight r I := by
   cases side <;> rfl
 
 theorem comparison_source_energy_zero (hordinary : d.centered = false)
     (ξ : WithLp 2 (ℝ × ℝ)) :
-    ((d.factors rows side χ ideal hideal firstSign true).frame C L selection hne)
-      .source.energy (σ := σ) ξ = 0 := by
+    ((d.factors rows side χ ideal hideal firstSign true).frame C L selection hne).source.energy (σ := σ) ξ = 0 := by
   apply ActualAllocatedSource.energy_zero_of_leftWeight
   intro h _ I
   rw [d.factors_source_leftWeight C rows side χ ideal hideal firstSign L selection hne]
@@ -80,8 +78,7 @@ theorem comparison_source_energy_zero (hordinary : d.centered = false)
 activity test. All other labels and both original sources remain. -/
 theorem active_rectangle (r : Bool)
     (hactive : ¬ ∀ ξ,
-      ((d.factors rows side χ ideal hideal firstSign r).frame C L selection hne)
-        .source.energy (σ := σ) ξ = 0) :
+      ((d.factors rows side χ ideal hideal firstSign r).frame C L selection hne).source.energy (σ := σ) ξ = 0) :
     r = false ∨ d.centered = true := by
   cases r with
   | false => exact Or.inl rfl
