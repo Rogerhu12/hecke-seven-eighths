@@ -179,7 +179,7 @@ variable (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover predicat
   ((source).charts DE D).kernel point leaf).Live)
 local notation "v" => leaf.1
 local notation "j" => leaf.2
-local notation "bareLive" => (v.leaf predicate ((source).charts DE D).kernel point j).live_of_scale_live _ _ hlive
+local notation "bareLive" => ((v).leaf predicate ((source).charts DE D).kernel point j).live_of_scale_live _ _ hlive
 local notation "construction" => literalLeftDirectExceptionalExtraction
     (hΓ := hΓ₀) (μv := μv) (ν := ν) (Q := Q) (ξ := ξ) (W := W.at ξ)
     (a := internal) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
@@ -217,18 +217,18 @@ local notation "rightScalar" => literalLeftDirectScalar hΓ₀ μv ν Q ξ (W.at
   (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
   (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
   ((source).pieces DE D) S χ v.2.2.2.1 * ((oldRightAtoms).normProfileFactor δ₁ δ₂ : ℂ)
-local notation "rawRows" => v.chart.actualRows ∅ cutoff₂ hcutoff₂ v.rowLabel
+local notation "rawRows" => (v).chart.actualRows ∅ cutoff₂ hcutoff₂ (v).rowLabel
 local notation "characters" => (rawRows).literalFiniteCharacters C P R phases Q.moving Q.correction
-  (v.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ v.rowLabel)
-  (v.chart.originalSector P ∅ cutoff₂ hcutoff₂ v.rowLabel) (data ξ).theta
+  ((v).chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ (v).rowLabel)
+  ((v).chart.originalSector P ∅ cutoff₂ hcutoff₂ (v).rowLabel) (data ξ).theta
 local notation "outer" => (construction).val.stripOuter leftScalar rightScalar
   (construction).property.2.1 (construction).property.2.2
 local notation "allowance" => firstLeftAllowance Z
   ((first).skeleton.A + ((first).skeleton.q + (first).skeleton.R + (first).skeleton.E))
   (first).ideals.first.val (first).ideals.opposite.val
 local notation "radical" => (Ideal.absNorm (commonRadical
-  (primePowerProduct v.block.primes v.block.leftMultiplicity).val
-  (primePowerProduct v.block.primes v.block.rightMultiplicity).val) : ℝ)
+  (primePowerProduct (v).block.primes (v).block.leftMultiplicity).val
+  (primePowerProduct (v).block.primes (v).block.rightMultiplicity).val) : ℝ)
 
 include originalWindow hrows htime hprime href hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum
   hslotLossNonneg hfinalLoss
@@ -405,7 +405,7 @@ variable (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover predicat
   ((source).charts DE D).kernel point leaf).Live)
 local notation "v" => leaf.1
 local notation "j" => leaf.2
-local notation "bareLive" => (v.leaf predicate ((source).charts DE D).kernel point j).live_of_scale_live _ _ hlive
+local notation "bareLive" => ((v).leaf predicate ((source).charts DE D).kernel point j).live_of_scale_live _ _ hlive
 local notation "construction" => literalRightDirectExceptionalExtraction
     (hΓ := hΓ₀) (μv := μv) (ν := ν) (Q := Q) (ξ := ξ) (W := W.at ξ)
     (a := internal) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
@@ -443,18 +443,18 @@ local notation "rightScalar" => literalRightDirectScalar hΓ₀ μv ν Q ξ (W.a
   (rowBallFiniteFamily K A.Sf 1) (rowBallFiniteFamily_locallyConstant K A.Sf 1)
   (rowBallFiniteFamily_compactSupport K A.Sf 1) (source).radius D.val δ₁ hδ₁ hδ₁half
   ((source).pieces DE D) S χ v.2.2.2.1 * ((oldRightAtoms).normProfileFactor δ₁ δ₂ : ℂ)
-local notation "rawRows" => v.chart.actualRows ∅ cutoff₂ hcutoff₂ v.rowLabel
+local notation "rawRows" => (v).chart.actualRows ∅ cutoff₂ hcutoff₂ (v).rowLabel
 local notation "characters" => (rawRows).literalFiniteCharacters C P R phases Q.moving Q.correction
-  (v.chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ v.rowLabel)
-  (v.chart.originalSector P ∅ cutoff₂ hcutoff₂ v.rowLabel) (data ξ).theta
+  ((v).chart.originalNonunitPattern ∅ cutoff₂ hcutoff₂ (v).rowLabel)
+  ((v).chart.originalSector P ∅ cutoff₂ hcutoff₂ (v).rowLabel) (data ξ).theta
 local notation "outer" => (construction).val.stripOuter leftScalar rightScalar
   (construction).property.2.1 (construction).property.2.2
 local notation "allowance" => firstLeftAllowance Z
   ((first).skeleton.A + ((first).skeleton.q + (first).skeleton.R + (first).skeleton.E))
   (first).ideals.first.val (first).ideals.opposite.val
 local notation "radical" => (Ideal.absNorm (commonRadical
-  (primePowerProduct v.block.primes v.block.leftMultiplicity).val
-  (primePowerProduct v.block.primes v.block.rightMultiplicity).val) : ℝ)
+  (primePowerProduct (v).block.primes (v).block.leftMultiplicity).val
+  (primePowerProduct (v).block.primes (v).block.rightMultiplicity).val) : ℝ)
 
 include originalWindow hrows htime hprime href hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum
   hslotLossNonneg hfinalLoss
