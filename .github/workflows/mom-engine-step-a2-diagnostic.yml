@@ -1,4 +1,4 @@
-name: A2 ActualGaussFiniteLeaves two private warnings diagnostic only
+name: A2 ActualGaussFiniteLeaves public phase stack diagnostic only
 
 on:
   push:
@@ -15,7 +15,7 @@ concurrency:
 jobs:
   actual:
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 45
     env:
       LEAN_NUM_THREADS: '2'
       EXPECTED_SHA: ${{ github.sha }}
@@ -28,13 +28,13 @@ jobs:
       - name: Record the exact source tree and prepare evidence-only helpers
         shell: bash
         run: |
-          mkdir -p a2-two-private-warnings
-          git show --no-patch --format=fuller HEAD > a2-two-private-warnings/checkout.txt
-          cat > a2-two-private-warnings/provenance.py <<'PY'
+          mkdir -p a2-public-phase-stack
+          git show --no-patch --format=fuller HEAD > a2-public-phase-stack/checkout.txt
+          cat > a2-public-phase-stack/provenance.py <<'PY'
           import hashlib, json, os, re, subprocess, sys, tomllib
           from pathlib import Path
           root = Path.cwd()
-          evidence = root / 'a2-two-private-warnings'
+          evidence = root / 'a2-public-phase-stack'
           def git(*args):
               return subprocess.check_output(['git', *args], text=True).strip()
           def digest(path):
@@ -49,26 +49,38 @@ jobs:
           interface = (task / 'Interface.lean').read_text()
           imports = sorted(set(re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$', interface, re.M)))
           libraries = [x['name'] for x in tomllib.loads(Path('lakefile.toml').read_text())['lean_lib']]
-          source_base = 'e51caa34c4dbb49e1e807356600445d7130c0a67'
+          source_base = '1aac063a6ebaa0c456718e297deef673d9f4f70a'
           assert git('rev-parse', 'HEAD^') == source_base, 'Diagnostic must be a direct child of the frozen auxiliary head'
           parents = git('rev-list', '--parents', '-n', '1', 'HEAD').split()
           assert len(parents) == 2, 'Diagnostic commit must have one parent'
           changed = git('diff', '--name-only', source_base, 'HEAD').splitlines()
           allowed = {'.github/workflows/mom-engine-step-a2-diagnostic.yml',
-                     '.github/scripts/mom-engine-step-a2-two-private-warnings.py'}
-          assert set(changed) == allowed, 'Only the diagnostic workflow and new two-private-warning wrapper may differ'
+                     '.github/scripts/mom-engine-step-a2-public-phase-after.py',
+                     '.github/scripts/mom-engine-step-a2-public-phase-stack-driver.py',
+                     '.github/scripts/mom-engine-step-a2-public-phase-stack-harness.py',
+                     '.github/scripts/mom-engine-step-a2-provider-instances-diagnostic.py',
+                     '.github/workflows/mom-engine-step-a2-provider-instances-diagnostic.yml'}
+          assert set(changed) == allowed, 'Only the six reviewed diagnostic scripts/workflows may differ'
           assert digest(str(task / 'ActualGaussFiniteLeaves.lean')) == 'cc98c8a2c5c3c3f6c59695935245f463c84e6e7f7c8292b5062e2d1813d94c87', 'Original Actual source changed'
           assert digest('.github/scripts/mom-engine-step-a2-diagnostic.py') == '0858bc9e93b1ba60a6d45ae39e694149001689fa29bfd1928ffcaa9696e95ed3', 'Unexpected diagnostic script'
-          assert digest('.github/scripts/mom-engine-step-a2-two-private-warnings.py') == '625e9615dee0c1385d403089dcf6830c537ec97f08e9cf58793528cbdf7a2699', 'Unexpected two-private-warning wrapper'
-          assert digest('.github/scripts/mom-engine-step-a2-phase-omit.py') == 'fdfba882330b680edd2517e68cb9106d60baf15244cee707e17c34aba1acc3c7', 'Previous private-phase omit wrapper changed'
+          assert digest('.github/scripts/mom-engine-step-a2-deep-stack-driver.py') == 'f306f3a188dd994fabe5eadc2cf848502555081edc460c8f57a86be64ab4538e', 'Unexpected deep stack driver'
+          assert digest('.github/scripts/mom-engine-step-a2-deep-stack-harness.py') == 'adde0a97039e0c6712e7a92ac7c6218bb08581c266487d3f26a424d2ca8e537e', 'Unexpected stack harness'
           assert digest('.github/scripts/mom-engine-step-a2-unused-section-vars.py') == '73d10b2a45b97b55a5a55b63d1b9daedabb9e179ce7320c2b9ab176dd806edbd', 'Previous scoped-warning wrapper changed'
-          assert digest('.github/scripts/mom-engine-step-a2-deep-stack-driver.py') == 'f306f3a188dd994fabe5eadc2cf848502555081edc460c8f57a86be64ab4538e', 'Previous deep stack driver changed'
-          assert digest('.github/scripts/mom-engine-step-a2-deep-stack-harness.py') == 'adde0a97039e0c6712e7a92ac7c6218bb08581c266487d3f26a424d2ca8e537e', 'Previous deep stack harness changed'
-          assert digest('.github/scripts/mom-engine-step-a2-unused-section-vars-provider-after.py') == 'a80a13b6e8636fa94ecdcb07f1bee682d75c0d175b06671f4a403d3cb1816c6a', 'Previous provider-after wrapper changed'
-          assert digest('.github/scripts/mom-engine-step-a2-provider-stack-driver.py') == '4049a48e8e3bd8c3e9a1ce27cd7f8286237e15d0938616fcc8435e88ab18ba4b', 'Previous provider stack driver changed'
-          assert digest('.github/scripts/mom-engine-step-a2-provider-stack-harness.py') == '1a0c563e86aee8e36282a461c8d1166ec4ceafdf1f19b12c7120d877c3d6b57f', 'Previous provider stack harness changed'
+          assert digest('.github/scripts/mom-engine-step-a2-unused-section-vars-provider-after.py') == 'a80a13b6e8636fa94ecdcb07f1bee682d75c0d175b06671f4a403d3cb1816c6a', 'Unexpected provider-after wrapper'
+          assert digest('.github/scripts/mom-engine-step-a2-provider-stack-driver.py') == '4049a48e8e3bd8c3e9a1ce27cd7f8286237e15d0938616fcc8435e88ab18ba4b', 'Unexpected provider stack driver'
+          assert digest('.github/scripts/mom-engine-step-a2-provider-stack-harness.py') == '1a0c563e86aee8e36282a461c8d1166ec4ceafdf1f19b12c7120d877c3d6b57f', 'Unexpected provider stack harness'
           assert digest('.github/workflows/mom-engine-step-a2-native.yml') == '7e37d33299b8df3e6ee38126e609f529bc1ebf8a9efcdcc0b9b7d7db6dc069bc', 'Original native workflow changed'
           assert digest('.github/workflows/mom-engine-step.yml') == '8a3134e4a4219a01cbb307b77f0efad9bf24da100a85195062a45013ec5341d2', 'Whole task workflow changed'
+          assert digest('.github/scripts/mom-engine-step-a2-phase-omit.py') == 'fdfba882330b680edd2517e68cb9106d60baf15244cee707e17c34aba1acc3c7', 'Previous omit wrapper changed'
+          assert digest('.github/scripts/mom-engine-step-a2-two-private-warnings.py') == '625e9615dee0c1385d403089dcf6830c537ec97f08e9cf58793528cbdf7a2699', 'Previous two-private-warning wrapper changed'
+          assert digest('.github/scripts/mom-engine-step-a2-public-phase-after.py') == 'bc1a8cbab78e8c713e8bada7c97be38336d1c02bff92c82025a0d832b2cb31f8', 'Unexpected public-phase after wrapper'
+          assert digest('.github/scripts/mom-engine-step-a2-public-phase-stack-driver.py') == 'c9dcdca396a05167492d3f8ab80f95cc487ddd66730a94bea001f18ddd15540d', 'Unexpected public-phase stack driver'
+          assert digest('.github/scripts/mom-engine-step-a2-public-phase-stack-harness.py') == '5186682007e4e614ed18f6470bb058b2cc298b7863cb81e0853ebd9fc7e8e150', 'Unexpected public-phase stack harness'
+          assert digest('.github/scripts/mom-engine-step-a2-provider-instances-diagnostic.py') == 'cd7347b54d162d3d9039d6875bf307bb120c30d8479f865e99ba9341f8b87c26', 'Unexpected explicit-provider diagnostic wrapper'
+          for script in ['.github/scripts/mom-engine-step-a2-public-phase-after.py',
+                         '.github/scripts/mom-engine-step-a2-public-phase-stack-driver.py',
+                         '.github/scripts/mom-engine-step-a2-public-phase-stack-harness.py']:
+              compile((root / script).read_text(), script, 'exec')
           record = {'source_base': source_base, 'changed_paths_from_base': changed,
                     'diagnostic_only': True, 'original_module_acceptance': False,
                     'full_task_acceptance': False,
@@ -95,11 +107,11 @@ jobs:
                   'interface_imports': len(imports), 'libraries': len(libraries)}, indent=2) + '\n')
           print(f'{phase}: {record["head"]} tree={record["tree"]}; {len(tracked)} tracked files, {len(sources)} task modules, {len(libraries)} libraries')
           PY
-          cat > a2-two-private-warnings/run.py <<'PY'
+          cat > a2-public-phase-stack/run.py <<'PY'
           import datetime, json, re, subprocess, sys, time
           from pathlib import Path
           name, seconds, *command = sys.argv[1:]
-          evidence = Path('a2-two-private-warnings')
+          evidence = Path('a2-public-phase-stack')
           wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
           record = {'command': command, 'wrapper': wrapper, 'completed': False,
                     'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
@@ -130,14 +142,14 @@ jobs:
           print(json.dumps(record), flush=True)
           sys.exit(code if code >= 0 else 128 - code)
           PY
-          python3 a2-two-private-warnings/provenance.py before
+          python3 a2-public-phase-stack/provenance.py before
       - name: Provide enough memory mappings for the full legacy import closure
         run: |
           MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
           if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
             sudo sysctl -w vm.max_map_count=262144
           fi
-          sysctl vm.max_map_count > a2-two-private-warnings/memory-mapping.txt
+          sysctl vm.max_map_count > a2-public-phase-stack/memory-mapping.txt
       - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
         with:
           auto-config: 'false'
@@ -151,21 +163,72 @@ jobs:
       - name: Build the original import closure separately
         id: dependencies
         run: |
-          python3 -u a2-two-private-warnings/run.py dependencies 1200 \
+          python3 -u a2-public-phase-stack/run.py dependencies 1200 \
             lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves:deps
-      - name: Diagnose two scoped private warnings in the full reversible source copy
-        id: diagnostic
+      - name: Install and verify the standard GDB harness dependency
+        id: debugger
+        timeout-minutes: 8
         run: |
-          python3 -u .github/scripts/mom-engine-step-a2-two-private-warnings.py \
-            --repo "$GITHUB_WORKSPACE" --evidence a2-two-private-warnings/diagnostic --run
+          python3 -u - <<'PYGDB'
+          import json, pathlib, shutil, subprocess
+          evidence = pathlib.Path('a2-public-phase-stack')
+          evidence.mkdir(exist_ok=True)
+          gdb = shutil.which('gdb')
+          result = {
+              'scope': 'diagnostic-only GDB harness dependency setup',
+              'gdb_preinstalled': gdb is not None,
+              'dependency_install_attempted': False,
+              'installed_or_modified_any_dependency': False,
+              'changed_system_security_settings': False,
+              'debugger_runs_as_root': False,
+              'complete_target_module_compiled': False,
+              'original_module_acceptance': False,
+              'full_task_acceptance': False,
+              'exit_code': 1,
+          }
+          try:
+              if gdb is None:
+                  result['dependency_install_attempted'] = True
+                  result['installed_or_modified_any_dependency'] = True
+                  with (evidence / 'gdb-install.log').open('w') as log:
+                      for command in [
+                          ['sudo', 'apt-get', 'update'],
+                          ['sudo', 'apt-get', 'install', '--yes', '--no-install-recommends', 'gdb'],
+                      ]:
+                          log.write('COMMAND: ' + ' '.join(command) + '\n')
+                          log.flush()
+                          subprocess.run(command, stdout=log, stderr=subprocess.STDOUT,
+                                         stdin=subprocess.DEVNULL, timeout=180, check=True)
+                  gdb = shutil.which('gdb')
+              result['gdb_available'] = gdb is not None
+              result['gdb_path'] = gdb
+              if gdb is None:
+                  result['reason'] = 'The standard package install did not provide gdb'
+              else:
+                  process = subprocess.run([gdb, '--version'], text=True, capture_output=True, timeout=10)
+                  result['gdb_version_first_line'] = process.stdout.splitlines()[0] if process.stdout else ''
+                  result['version_exit_code'] = process.returncode
+                  result['exit_code'] = 0 if process.returncode == 0 else 1
+          except (OSError, subprocess.SubprocessError) as error:
+              result['reason'] = str(error)
+          (evidence / 'harness-dependency.json').write_text(json.dumps(result, indent=2) + '\n')
+          print(json.dumps(result), flush=True)
+          raise SystemExit(result['exit_code'])
+          PYGDB
+      - name: Collect bounded public-phase stacks from only the new diagnostic inferior
+        id: diagnostic
+        timeout-minutes: 5
+        run: |
+          python3 -u .github/scripts/mom-engine-step-a2-public-phase-stack-harness.py \
+            --repo "$GITHUB_WORKSPACE" --evidence a2-public-phase-stack/diagnostic
       - name: Check all tracked sources and configuration again
         if: always()
-        run: python3 a2-two-private-warnings/provenance.py after
+        run: python3 a2-public-phase-stack/provenance.py after
       - name: Preserve diagnostic output, dependency logs, source hashes and false acceptance flags
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: a2-actual-two-private-warnings-${{ github.sha }}-${{ github.run_attempt }}
-          path: a2-two-private-warnings/
+          name: a2-actual-public-phase-stack-${{ github.sha }}-${{ github.run_attempt }}
+          path: a2-public-phase-stack/
           if-no-files-found: error
           retention-days: 14
