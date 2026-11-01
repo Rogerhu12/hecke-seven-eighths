@@ -120,7 +120,7 @@ theorem exists_exterior_divisor_mass_bound (slotCap : ℕ) (eps : ℝ) (heps : 0
   obtain ⟨C, hC, hb⟩ := exists_divisor_power_harmonic_bound K 1 (3 * slotCap) eps heps
   refine ⟨C, hC, ?_⟩
   intro T hT B hnorm
-  simpa only [pow_one] using hb (fun H : ExteriorIdeal K S => H.val.val)
+  simpa only [pow_one, exteriorNorm] using hb (fun H : ExteriorIdeal K S => H.val.val)
     (fun I J h => Subtype.ext (Subtype.ext h)) T hT B
     (fun H hH => nonZeroDivisors.coe_ne_zero H.val) hnorm
 

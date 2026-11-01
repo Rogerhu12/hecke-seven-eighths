@@ -130,7 +130,12 @@ theorem canonical_completion_partition
       · exact (tsum_eq_sum hn).symm
     _ = _ := by
       congr 1
-      exact canonical_selected_cubes_reopen (fun H => ¬ P H) gamma tau d V X U hX hV
+      refine Eq.trans ?_
+        (canonical_selected_cubes_reopen (fun H => ¬ P H) gamma tau d V X U hX hV)
+      apply tsum_congr
+      intro H
+      by_cases h : P H <;> simp only [h, not_true_eq_false, not_false_eq_true,
+        ite_true, ite_false]
 
 /-- The geometric short/long split used before the two-transform step. -/
 theorem canonical_completion_short_long

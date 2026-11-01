@@ -1,13 +1,16 @@
 # Canonical inverse induction
 
-This task implements the canonical inverse recursion of Proposition 4.10
-and its initial source reduction for Theorem 4.1. Work continues until the
-original `HeckeSkeleton.canonical_inverse_models` obligation is closed.
-The original proof body now calls `SourceModelClosure.actual_canonical_inverse_models`,
+This directory implements the canonical inverse recursion of Proposition 4.10
+and its initial source reduction for Theorem 4.1. The original
+`HeckeSkeleton.canonical_inverse_models` proof body calls
+`SourceModelClosure.actual_canonical_inverse_models`,
 with its original type and inputs unchanged. The old relative theorem is an
 intermediate result; it is not acceptance of the original task.
+The verification contract below defines acceptance. Evidence for the current
+head is maintained in [PR #8](https://github.com/Rogerhu12/hecke-seven-eighths/pull/8)
+and its [Actions runs](https://github.com/Rogerhu12/hecke-seven-eighths/actions/workflows/mom-inv-induction.yml).
 
-## Current proof boundary
+## Implemented proof chain
 
 The actual one-step consumer calls
 `MOM_INV_STEP.CanonicalStep.exists_uniform_step`. Its input is the original
@@ -52,8 +55,8 @@ for every smaller column scale of the same frozen profile.
 `SourceUnmarkedComplete` uses the zero-slot canonical estimate on complete
 ideal rows, and `SourceCanonicalClosure` discharges it from the two original
 sieve inputs. `SourceModelClosure` combines both original obligations.
-These proofs are written; complete native compilation and the strict
-original-target axiom gate remain the acceptance boundary.
+This source integration is subject to complete native compilation and all
+four strict axiom gates in the verification contract below.
 
 ## Modules
 
@@ -117,7 +120,7 @@ separate theorem. Each background uses its actual character-dependent
 finite Mellin data, chosen before the uniform estimates. The physical
 Gaussian endpoint of PR #3 is not asserted to imply this general input.
 
-## Verification
+## Verification contract and evidence
 
 Pinned environment: Lean 4.35.0-rc3, compiler
 `470d5ce1400764999581fd26d5d72b00d990b0f4`; Mathlib
@@ -130,26 +133,53 @@ Every audit accepts only `propext`, `Classical.choice`, and `Quot.sound`.
 The original target gate remains mandatory and is not relaxed because of
 inherited unfinished objects.
 
-First fully assembled proof snapshot: `1aa3b526b77e2589223fed7fbaab3c3a1dea6939`,
-tree `843834c3a7515928dc973345d6f04a64b9261a32`. Workflow `41264970674`
-checks the original target and the 129-module, 973-public-declaration
-provider inventory, alongside the separate core and transport gates.
-The inventory is a source count, not a successful audit count.
+Acceptance requires all four gates for the current PR head:
 
-The preceding `00841cc` run `41228067248` passed the 45-declaration core
+| Gate | Required audit |
+| --- | --- |
+| Core | `Audit`, covering the 45-declaration core inventory |
+| Completed-energy transport | `CompletedEnergyTransportAudit`, covering the three transport declarations |
+| Actual provider/source closure | `ProviderAudit`, covering the 129-module, 973-public-declaration source inventory |
+| Original obligation | `OriginalAudit`, checking `HeckeSkeleton.canonical_inverse_models` with its original type and arguments |
+
+Each gate must finish normal Lake compilation successfully and pass its
+strict axiom allowlist. The provider inventory is a source count, not a
+successful audit count. Auxiliary results, isolated kernel checks, or a
+non-draft PR flag do not substitute for any gate. Completion and readiness
+for review require the full current-head evidence, with the final
+general-number-field 7/8 zero-free theorem unchanged.
+
+Use [PR #8](https://github.com/Rogerhu12/hecke-seven-eighths/pull/8) and the
+[MOM_INV_INDUCTION Actions workflow](https://github.com/Rogerhu12/hecke-seven-eighths/actions/workflows/mom-inv-induction.yml)
+for the current verification record. Cited runs and artifacts must identify
+the source commit/tree actually checked and match the current PR head;
+a successful run for an earlier revision is evidence for that revision.
+
+### Historical validation observations
+
+The following records describe specific earlier snapshots, not the status
+of later heads.
+
+The first fully assembled proof snapshot was
+`1aa3b526b77e2589223fed7fbaab3c3a1dea6939`, tree
+`843834c3a7515928dc973345d6f04a64b9261a32`. At the recorded observation,
+workflow `41264970674` was in progress on the four gates above. That
+observation did not establish a completed four-gate pass.
+
+The earlier `00841cc` run `41228067248` passed the 45-declaration core
 and three-declaration transport gates. It freshly built `ProviderNodes`,
 `TerminalProviderPuncture`, `ProviderTerminalConductor` and the repaired
 cube blocks. Its provider and original groups failed on newly unlocked
 elaboration and dependency errors; the failing groups did not reach their
 axiom gates. The official artifact ZIPs were checked against GitHub's
-SHA-256 digests before the diagnostics were used. The fixes and the actual
-original proof are under fresh native verification.
+SHA-256 digests before the diagnostics were used. Those failures remain
+part of the historical record; subsequent fixes are assessed by the
+current-head verification contract.
 
-Local pinned Lean additionally compiled `CanonicalEnergy`, `TerminalProvider`,
+Recorded local pinned Lean checks additionally compiled `CanonicalEnergy`, `TerminalProvider`,
 `TerminalProviderHilbert`, `CubeInversion` and the repaired `CubeCompletionMellin`.
 Narrow kernel checks of actual finite-energy, normalization and recursive
 proof bodies supplement these results; they do not replace the complete
-project build or the original-target gate. No completion claim is made
-until that gate prints only the three allowed axioms.
+project build or any of the four gates.
 `STATEMENT_AUDIT.md` preserves the historical reasons why the old relative
 result alone was insufficient.

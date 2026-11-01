@@ -1,8 +1,8 @@
 # Canonical inverse induction: statement and dependency audit
 
-## Current integration boundary
+## Implemented integration and acceptance
 
-The original `HeckeSkeleton.canonical_inverse_models` proof body now calls
+The original `HeckeSkeleton.canonical_inverse_models` proof body calls
 `SourceModelClosure.actual_canonical_inverse_models`. Its original type,
 actual `momentModels`, and all original arguments are preserved. The helper
 constructs both fields from the original quadratic/cubic sieve inputs;
@@ -38,11 +38,23 @@ smaller column scale, for complete ideal rows and the same inherited
 profile. It consumes the exact `CompleteUnmarkedScaleSupBound` interface
 required by PR #10, including its order of quantifiers.
 
-These are completed source proofs undergoing full native verification.
-The strict original-target audit remains mandatory. A source inventory,
-isolated kernel test, successful auxiliary gate, or the PR's non-draft
-flag is not evidence that the original target passed. Exact current
-verification and dependency pins are recorded in `README.md` and the PR.
+This section describes the source implementation. Acceptance requires
+successful normal Lake compilation and all four strict audits: `Audit`,
+`CompletedEnergyTransportAudit`, `ProviderAudit`, and `OriginalAudit`.
+Every audited declaration may depend only on `propext`, `Classical.choice`,
+and `Quot.sound`; inherited unfinished objects do not exempt the original
+target. The 129-module, 973-public-declaration provider inventory is a
+source count. Neither that count, isolated kernel checks, auxiliary gate
+successes, nor a non-draft flag establishes completion or readiness for review.
+
+The current-head evidence is maintained in
+[PR #8](https://github.com/Rogerhu12/hecke-seven-eighths/pull/8) and the
+[MOM_INV_INDUCTION Actions runs](https://github.com/Rogerhu12/hecke-seven-eighths/actions/workflows/mom-inv-induction.yml).
+Each accepted run must identify the source commit/tree actually checked
+and match the current PR head. `README.md` records the pinned environment,
+dependency pins, and full verification contract. Its `00841cc` failure and
+`1aa3b526` in-progress records are explicitly historical observations,
+not claims about a later head.
 
 The source identities correspond to manuscript lines 1564–1607 and
 2550–2614; the reflected input retains lines 2120–2155, especially 2144–2148.
@@ -53,8 +65,8 @@ No new final moment inequality is used to repair the historical issues below.
 The following sections refer to the earlier skeleton and provider
 revision. They are retained to explain why the old relative result alone
 did not close the requested obligation. Claims of missing operations below
-must be read with the current integration boundary above and the native
-verification status in `README.md`.
+must be read with the implementation summary above and the verification
+contract and current-head evidence links in `README.md`.
 
 ## 1. The original target's type already depends on admissions
 

@@ -89,7 +89,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          lake build '${{ matrix.module }}' 2>&1 |
+          lake_flags=()
+          if [[ '${{ matrix.id }}' == 'original' ]]; then
+            lake_flags+=(--fail-fast)
+          fi
+          lake "${lake_flags[@]}" build '${{ matrix.module }}' 2>&1 |
             tee "$EVIDENCE_DIR/build.log"
       - name: Print and enforce the axiom allowlist
         shell: bash

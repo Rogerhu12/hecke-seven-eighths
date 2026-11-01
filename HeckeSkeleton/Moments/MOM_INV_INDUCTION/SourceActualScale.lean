@@ -31,7 +31,7 @@ open HeckeGeneral.Analysis.SquarefreeAmplification
 open HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.UniformAmplify
 open _root_.ExpansionRecipe.LogProfile
-open scoped Classical BigOperators FourierTransform ContDiff
+open scoped Classical BigOperators FourierTransform
 
 variable (K : Type) [Field K] [NumberField K] (c : TargetContext K)
 

@@ -182,7 +182,9 @@ theorem finite_rows_le_orbital (C : CanonicalBlock.ColumnData K S σ)
       intro q hq
       obtain ⟨k, hk, rfl⟩ := Finset.mem_image.mp hq
       rw [CanonicalSectors.rowOrbit_norm]
-      exact hT _ (Finset.mem_preimage.mp hk))
+      have hmem : ProviderRows.rowEmbedding K S Γ k ∈ T :=
+        (Finset.mem_preimage (f := ProviderRows.rowEmbedding K S Γ)).mp hk
+      exact hT (ProviderRows.rowEmbedding K S Γ k) hmem)
   rw [Finset.sum_image (fun _ _ _ _ h =>
     CanonicalSectors.rowOrbit_injective K Sset Γ D h)] at hb
   simpa only [amplitude_rowOrbit K S D Γ hΓ, ProviderRows.rowEmbedding] using hb
