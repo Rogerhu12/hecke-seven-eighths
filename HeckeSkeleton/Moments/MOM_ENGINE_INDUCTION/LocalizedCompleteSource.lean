@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OriginalRowLocalization
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourcePrimitive
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
 
 /-!
 # Actual complete sources with the producer's full allowed-row budget
@@ -73,7 +74,11 @@ variable {d : MomentData K c.family.omega (targetCharacter K c)}
 the existing literal dictionary transport. -/
 def localized (D : CompleteSourceData c theta d) (a : RealParameters) (U : ℝ) :
     CompleteSourceData c theta (localizeOriginalParent d a U) :=
-  D.transport _ (fun _ hu => hu.1) rfl rfl rfl D.slot_characters D.timeIndependent
+  D.transport _ (fun _ hu => hu.1) rfl rfl rfl D.slot_characters
+    { inverse := D.timeIndependent.inverse
+      plain₁ := D.timeIndependent.plain₁
+      plain₂ := D.timeIndependent.plain₂
+      prime := D.timeIndependent.prime }
 
 /-- A budget on the original finite moment becomes the exact full
 allowed-row premise of the owner's complete moving-row engine. -/

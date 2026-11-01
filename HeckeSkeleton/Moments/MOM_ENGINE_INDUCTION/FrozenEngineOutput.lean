@@ -128,8 +128,10 @@ def freezeRawProfileWindow
     change d.plainTest₂.profile u 0 y * profilePower 0 y = _
     rw [profilePower_zero, mul_one, profiles.right_eq]
   prime_eq j _ y := by
+    change Fin d.geometry.slotCount at j
     change (d.geometry.slots j).profile 0 y * profilePower 0 y = _
-    rw [profilePower_zero, mul_one, profiles.prime_eq]
+    rw [profilePower_zero, mul_one]
+    exact profiles.prime_eq j 0 y
   inverse_support u hu _ _ := profiles.inverse_support u hu 0 (Set.mem_univ 0)
   left_support u hu _ _ := profiles.left_support u hu 0 (Set.mem_univ 0)
   right_support u hu _ _ := profiles.right_support u hu 0 (Set.mem_univ 0)

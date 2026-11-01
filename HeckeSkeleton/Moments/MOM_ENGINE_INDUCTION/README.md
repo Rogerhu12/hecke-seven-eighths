@@ -121,6 +121,13 @@ proof/API repairs are copied from that candidate or published owner head
 `ac6b6800`; their local source hashes are included in the exact dependency
 evidence. Heartbeat settings are not increased.
 
+Native elaboration repairs make singleton universes, data imports and
+canonical local instances explicit, and use typed transports for frozen
+slot indices, localized profile records and character-dependent analytic
+certificates. Scale inequalities retain their original constants. These
+repairs preserve the mathematical statements and source data; each exact
+revision is rebuilt by the independent native gate.
+
 ## Finite rank, reflection, and the original mesh
 
 The induction order has three coordinates:

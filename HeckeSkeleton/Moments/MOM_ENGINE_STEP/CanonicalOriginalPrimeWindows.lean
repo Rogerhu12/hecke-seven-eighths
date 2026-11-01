@@ -77,14 +77,18 @@ def rawPolynomialWindow_at_clippedRadius
   have hM := profileAmplitude_nonneg D.original D.left D.right D.slot
     (Set.Icc a B) isCompact_Icc (positiveAnnulus a B ha) orders hP
   have hclip := clippingCoefficient_one_le B hB orders
+  have hAmplitude : profileAmplitude D.original D.left D.right D.slot (Set.Icc a B)
+      isCompact_Icc (positiveAnnulus a B ha) orders P ≤ D.amplitude a B ha orders P := by
+    change profileAmplitude D.original D.left D.right D.slot (Set.Icc a B)
+        isCompact_Icc (positiveAnnulus a B ha) orders P ≤
+      clippingCoefficient B orders * profileAmplitude D.original D.left D.right D.slot
+        (Set.Icc a B) isCompact_Icc (positiveAnnulus a B ha) orders P
+    simpa only [one_mul] using mul_le_mul_of_nonneg_right hclip hM
+  have hRadius := mul_le_mul_of_nonneg_right hAmplitude
+    (show 0 ≤ (1 + ‖z.1‖) ^ (orders.sup Prod.snd) *
+      (1 + ‖z.2‖) ^ (orders.sup Prod.snd) by positivity)
   unfold polynomialProfileRadius
-  apply add_le_add_left
-  apply mul_le_mul_of_nonneg_right _ (by positivity)
-  change profileAmplitude D.original D.left D.right D.slot (Set.Icc a B)
-      isCompact_Icc (positiveAnnulus a B ha) orders P ≤
-    clippingCoefficient B orders * profileAmplitude D.original D.left D.right D.slot
-      (Set.Icc a B) isCompact_Icc (positiveAnnulus a B ha) orders P
-  simpa only [one_mul] using mul_le_mul_of_nonneg_right hclip hM
+  linarith only [hRadius]
 
 /-- The raw prime orders are selected from the fixed common order set.
 The coefficient and both polynomial degrees stay those of that set. -/
@@ -150,7 +154,7 @@ def clippedWindow_of_actualSource
       isClosed_Icc)
     (fun i v => closure_minimal (w.prime_support i v (Set.mem_univ _)) isClosed_Icc)
     (fun _ _ => Set.mem_univ _) (Set.mem_univ _) ξ₀ henergy (WithLp.ofLp ξ)
-  simpa only [WithLp.toLp_ofLp] using raw
+  simpa only [WithLp.toLp_ofLp, moving, amplitude, clippedProfileAmplitude] using raw
 
 end CanonicalLogProfiles.OriginalLogProfiles
 end HeckeSkeleton.Moments.EngineStep

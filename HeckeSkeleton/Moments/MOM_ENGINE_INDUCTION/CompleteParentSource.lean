@@ -32,6 +32,7 @@ namespace HeckeSkeleton.Moments.EngineInduction
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.Bridge
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.Analysis.ActualSIntegerMoments
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Physical
@@ -107,6 +108,20 @@ variable {c : TargetContext K} {theta : Finset (HeckeCharacter K)}
 variable {d : MomentData K c.family.omega (targetCharacter K c)}
 variable [MeasurableSpace (sLocalNormOneGroup K (places K c))]
   [BorelSpace (sLocalNormOneGroup K (places K c))]
+
+local instance completeParentNormOneSpace :
+    MeasurableSpace (sLocalNormOneGroup K
+      ((axiomChoice K c).A.Sf : Set (HeightOneSpectrum (𝓞 K)))) :=
+  inferInstanceAs (MeasurableSpace (sLocalNormOneGroup K (places K c)))
+
+local instance completeParentNormOneBorel :
+    BorelSpace (sLocalNormOneGroup K
+      ((axiomChoice K c).A.Sf : Set (HeightOneSpectrum (𝓞 K)))) :=
+  inferInstanceAs (BorelSpace (sLocalNormOneGroup K (places K c)))
+
+local instance completeParentSixthUnitsFiniteIndex :
+    (sixthPowerSUnitSubgroup K (places K c)).FiniteIndex :=
+  sixthPowerSUnitSubgroup_finiteIndex K (places K c)
 
 /-- The original parent source is constructed from the concrete full-row
 dictionary and the actual norm recipe. Every original column coefficient,
