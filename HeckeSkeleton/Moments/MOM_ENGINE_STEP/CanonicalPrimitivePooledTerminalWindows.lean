@@ -162,7 +162,7 @@ local notation "stages" => Q.literalPrimitivePooledStages
   (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half) (cap := cap) (annulus := annulus) (loss := loss) (cutoffExponent := cutoffExponent) (hannulus := hannulus) (hcap := hcap) (hannulusZ := hannulusZ) (domain := domain)
   (profiles := profiles) (hrows := hrows) (ht := ht) (hwindow := hwindow) (hcutoffPower := hcutoffPower) (reference := reference) (href := href) (lengthBound := lengthBound) (columnBound := columnBound)
   (hlengthBound := hlengthBound) (hcolumnBound := hcolumnBound) (htotal := htotal) (hN := columnNorm) (hloss := hloss) (hcutoffExponent := hcutoffExponent) (pool := pool) (hdensity := hdensity)
-  (hstep := hstep) (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half) (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂)
+  (hstep := hstep) (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half) («cutoff₂» := cutoff₂) («hcutoff₂» := hcutoff₂)
 
 local notation "leftMainGeometry" => OriginalNominalGeometry.canonicalMain
   (a := internal) (step := step)

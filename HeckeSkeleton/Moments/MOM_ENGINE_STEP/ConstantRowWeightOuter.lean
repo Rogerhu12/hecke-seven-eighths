@@ -90,7 +90,9 @@ theorem ordinaryIntegrand_fixedRowScalar (z : U × V) :
           B.right w (fun h i => star (B.rightCoefficient h i))
           (fun h i => WithLp.toLp 2 (-B.rightFirst h i, B.rightSecond h i))
           (WithLp.toLp 2 z))) := by ring
-    _ = _ := by rw [Real.sq_sqrt (norm_nonneg a)]
+    _ = _ := by
+      rw [Real.sq_sqrt (norm_nonneg a)]
+      rfl
 
 include hrow in
 theorem exceptionalCost_eq_moveConstantRowWeight :

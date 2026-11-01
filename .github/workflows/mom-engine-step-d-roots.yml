@@ -37,7 +37,7 @@ jobs:
               - HeckeSkeleton.Moments.EngineStep.ActualSecondRowMass.withColumnConstants_rowBound
               - HeckeSkeleton.Moments.EngineStep.ActualHybridLeaf.ConstantAtomExtraction.trans_leaf
           - target: OriginalPairAllowanceProduction
-            downstream: ActualNominalPairAllowance
+            downstream: SixthDeletionScalarMass
             declarations:
               - HeckeSkeleton.Moments.EngineStep.OriginalPairAllowanceWindow.ofOriginalWindows
               - HeckeSkeleton.Moments.EngineStep.ActualCapacityNormLengths.ofOriginalLabels
@@ -118,7 +118,7 @@ jobs:
             "$D_ROOT_STATUS" "$((D_ROOT_FINISHED - D_ROOT_STARTED))" \
             > "$D_ROOT_EVIDENCE/verification-status.json"
           exit "$D_ROOT_STATUS"
-      - name: Build the independent direct downstream and audit its namespace
+      - name: Build the independent downstream frontier and audit its namespace
         shell: bash
         run: |
           mkdir -p "$D_ROOT_EVIDENCE/downstream"

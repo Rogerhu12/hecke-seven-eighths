@@ -179,7 +179,7 @@ local notation "stages" => Q.literalPrimitivePooledStages
   (htotal := htotal) (hN := columnNorm) (hloss := hloss) (hcutoffExponent := hcutoffExponent)
   (pool := pool) (hdensity := hdensity)
   (hstep := hstep) (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
-  (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂)
+  («cutoff₂» := cutoff₂) («hcutoff₂» := hcutoff₂)
 
 local notation "leftMainGeometry" => OriginalNominalGeometry.canonicalMain
   (a := internal) (step := step)
