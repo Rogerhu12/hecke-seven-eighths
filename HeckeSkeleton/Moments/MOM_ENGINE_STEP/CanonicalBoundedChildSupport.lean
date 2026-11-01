@@ -239,9 +239,9 @@ local notation "child" => CanonicalMovingPhaseCalibration.childData P R parent p
   hcorr C p m n pattern sector (remaining * exteriorMomentIdeal firstCommon) budget
   inverse left right geometry index
 
+include hp hm hn in
 /-- The two common-prime exclusions are read from the same complete
 child mask. No separate support certificate is supplied. -/
-include hp hm hn in
 theorem child_common_parts (secondRight : Bool) (u I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hmask : (child).commonMask u I.val = true) :
     IsCoprime I.val A.cS ∧
@@ -487,10 +487,10 @@ local notation "U" => fun j => SupportCartesian.primeLive
   (T (SlotRestriction.index b₂.keep j)) common₂
 variable (B : ActualColumnAllocation K b₂.keep.card)
 
+include hp hm hn in
 /-- The true bounded left profile is supported on the actual allocated
 child carrier. The original carrier may include both comparisons;
 all effective-support and extraction facts are outputs. -/
-include hp hm hn in
 theorem effective_left_support (N : ℝ)
     (hS₁ : exteriorPlainSupport (A := A) parent.plainTest₁ anchor N height ⊆ S₁)
     (hExterior : ∀ J ∈ S₁, IsCoprime J A.cS)
@@ -553,9 +553,9 @@ theorem effective_right_support (N : ℝ)
   change I ∈ nonzeroQuotientMomentSupport (B.plainDivisor (Fin.succ 0)).val B.plain₂
   simpa only [hB] using hmem
 
+include hp hm hn in
 /-- The same literal three-stage slot index gives the live child
 support. The whole arithmetic mask excludes both deleted prime sets. -/
-include hp hm hn in
 theorem effective_prime_support (Z : ℝ)
     (hSlots : ∀ i, exteriorPrimeSupport (A := A) (parent.geometry.slots i) Z height ⊆ S i)
     (hB : B.slots = U) (i : Fin k) (j : Fin B.keep.card)

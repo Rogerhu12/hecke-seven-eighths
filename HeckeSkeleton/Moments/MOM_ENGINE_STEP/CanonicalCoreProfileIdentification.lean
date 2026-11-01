@@ -235,9 +235,9 @@ variable (hwindow : window ⊆ Set.Iic B)
 variable (anchor : HeckeGeneral.Analysis.NonzeroIdeal K) (hanchor : d.allowedRow anchor)
 variable (hanchorDomain : anchor ∈ rowDomain) (t : ℝ) (ht : t ∈ heightDomain)
 
+include w hwindow hanchor hanchorDomain ht in
 /-- The norm-profile representative inherits the original support at
 the original source anchor. It is not supplied with a moving window. -/
-include w hwindow hanchor hanchorDomain ht in
 theorem normRecipe_left_annulus (y : ℝ) (hy : W.left PUnit.unit t y ≠ 0) : y ≤ B := by
   apply hwindow
   apply w.left_support anchor hanchorDomain t ht
@@ -338,10 +338,10 @@ local notation "G₁" => N₁ / idealNorm K b₁.plainDivisor₁ / idealNorm K b
 local notation "G₂" => N₂ / idealNorm K b₁.plainDivisor₂ / idealNorm K b₂.plainDivisor₂
 local notation "slope" => if firstRight then 1 else -1
 
+include raw hwindow hB hfirst hsecond htilts hanchor hanchorDomain ht in
 /-- This conclusion identifies the actual computed source field with
 the bounded profile, directly from the original parent window. It also
 applies at each later allocated ideal `D * I`. -/
-include raw hwindow hB hfirst hsecond htilts hanchor hanchorDomain ht in
 theorem core_leftWeight_clipped (I : HeckeGeneral.Analysis.NonzeroIdeal K) (ζ secondSlope : ℝ) :
     (factors).dictionary.leftWeight I * jointPhase ζ (secondSlope * Real.log (idealNorm K I)) =
       ((clippedScalar G₁ (idealNorm K b₂.plainDivisor₁) B firstTilt secondTilt : ℂ) *

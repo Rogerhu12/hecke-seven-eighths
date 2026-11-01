@@ -298,10 +298,10 @@ theorem supported_row_bound (q : Index) :
       (mass).rowBound :=
   row_bound supported C mass pattern sector q
 
+include hclass hleft hright hbound hprofile in
 /-- The original orbit index is still the fibre bound on any ordinary
 subcarrier of the same actual pattern source. No row-mass record is an
 input: the original chart constructs it internally. -/
-include hclass hleft hright hbound hprofile in
 theorem supported_extracted_fibers (carrier : Finset Index) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (carrier.filter
       (fun q => ((supported).extractedRow C q.val.val).momentIdeal = I)).card ≤ Γ.index := by
