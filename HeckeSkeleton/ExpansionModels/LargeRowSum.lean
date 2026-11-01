@@ -146,9 +146,9 @@ theorem exists_actual_large_tail_before_normalizer_bound
         g T Z H zeta sigma u) =
       ∑' u : rows, ‖rowContourBox K Sset muS P psi (arithmeticHighEulerData K Sset P psi)
         g T u.val Z H 2 2 sigma‖ := by
-    simpa only [rows, U, absoluteLargeRowTerm, Set.indicator_apply,
-      Set.mem_setOf_eq] using
-      (tsum_subtype {u : FrequencyRow K Sset | U < frequencyRowNorm K Sset u}
+    simpa only [absoluteLargeRowTerm, Set.indicator, Set.mem_setOf_eq, U] using!
+      (tsum_subtype
+        {u : FrequencyRow K Sset | U < frequencyRowNorm K Sset u}
         (fun u => ‖rowContourBox K Sset muS P psi (arithmeticHighEulerData K Sset P psi)
           g T u Z H 2 2 sigma‖)).symm
   have hscale : Zfactor * U ^ (p + 1) = Z ^ (-17 / 32 + (13 / 16 + zeta) * eta) := by
