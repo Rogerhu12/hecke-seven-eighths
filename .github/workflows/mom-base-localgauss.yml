@@ -1,0 +1,63 @@
+name: MOM_BASE LocalGauss repair
+
+# Per-task workflow of fix/mom-base-localgauss; drop it after the merge, like
+# the other merged-task workflows.
+on:
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - HeckeSkeleton/Base.lean
+      - HeckeSkeleton/Moments/MOM_BASE/**
+      - HeckeSkeleton/Moments/MOM_INV_STEP/**
+      - scripts/verify_mom_base.py
+      - .github/workflows/mom-base-localgauss.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-base-localgauss-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      LEAN_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Free hosted runner storage for Lean and the project cache
+        run: sudo rm -rf -- /usr/local/lib/android/sdk /usr/share/dotnet
+      - name: Install the pinned Lean and Mathlib environment
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "false"
+      - name: Restore precompiled project artifacts
+        id: lake-cache
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build every MOM_BASE module and audit its public theorems' axioms
+        env:
+          RESTORED_LAKE_CACHE: ${{ steps.lake-cache.outputs.tag }}
+        run: python3 -u scripts/verify_mom_base.py
+      - name: Build the MOM_INV_STEP modules that import MOM_BASE and audit their axioms
+        if: always()
+        run: python3 -u HeckeSkeleton/Moments/MOM_INV_STEP/verify.py
+      - name: Upload compiler logs, environment and axiom evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: mom-base-localgauss-${{ github.sha }}-${{ github.run_attempt }}
+          path: |
+            mom-base-verification/
+            ${{ runner.temp }}/mom-inv-step-verification/
+          if-no-files-found: error
+          retention-days: 14
