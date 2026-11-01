@@ -152,7 +152,8 @@ Imported source proofs needed native API/elaboration repairs:
 `ActualPrincipalSweepDecay`, `ActualPrincipalResidueAssembly`,
 `LargeRowSum`, `ActualPrincipalVerticalRemainders`,
 `PhysicalRecipeRemainders`, `ActualPrincipalResidueIdentification`,
-`ActualPrincipalTruncatedShifts`, and `ActualPrincipalResidueTails`.
+`ActualPrincipalTruncatedShifts`, `ActualPrincipalResidueTails`, and
+`ActualPrincipalExpansion`.
 The joint-analytic repairs consume the source owner's proof fixes from
 PR #5 commit `496aee9914912e54feac9fced688ce6e61bc7f6f`.
 The initial-row-sum proof matches the owner's blob
@@ -171,6 +172,12 @@ proofs consume the owner's subsequent native-verified fixes, with blobs
 `161a3f7200e0867ba0b940360e69b3dd10407860`,
 `515b9fa7a04000b39279b292ef5c58d872f3708f`, and
 `7ea2e7f7d378bf9139454afc0049bcbac0ac15c7` respectively.
+The principal-expansion proof matches the owner's native-verified blob
+`622ef7b19949c0b0d9d5546cb61f313ed3ed210c`.
+`HeckeSkeleton/Base.lean` makes the packet-normalization proof explicit
+and selects the measurable, Borel, and Haar instance families from the
+same `probeMeasures` before calling the existing parameter constructor.
+The self-dual measures and the constructed physical parameters are retained.
 Their existing statements and mathematical definitions are preserved.
 The top-level zero-free theorem's statement is unchanged.
 
