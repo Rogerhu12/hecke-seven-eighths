@@ -1,0 +1,188 @@
+# Unpublished shadow unless frozen against an owner containing exact reviewed e24e Right source.
+# Required ordered parents: adopted owner, fc1b4553fba8be7b630e9eefd80f5dc9f8fa2c1b.
+name: MOM_ENGINE_STEP A right normalization verification
+
+'on':
+  push:
+    branches: [cloud/mom-engine-step-a-roots]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a-roots-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  roots:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      LEAN_NUM_THREADS: '2'
+      A_ROOT_SOURCE_STATE: owner-with-reviewed-right-adopted
+      A_ROOT_SOURCE_COMMIT: 0537e05c6cda25f8997c4cd14c64df2249be1016
+      A_ROOT_SOURCE_TREE: 3daf731ece8986448d3c27afd84d8ea68979be4b
+      A_ROOT_SECOND_PARENT: fc1b4553fba8be7b630e9eefd80f5dc9f8fa2c1b
+      A_ROOT_SOURCE_SHA256: e24e7f371a80537c2f24b93be66a780eabe47cbdb97bdba1d9d0048015b7fa12
+      A_ROOT_VERIFY_SHA256: 1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148
+      A_ROOT_TARGET: CanonicalFullKappaRightNormalization
+      A_ROOT_DECLARATIONS: >-
+        ["HeckeSkeleton.Moments.EngineStep.SecondSideNormalization.ofFullKappaOriginalRightPattern", "HeckeSkeleton.Moments.EngineStep.SecondSideNormalization.ofFullKappaOriginalRightPattern_capacity"]
+      A_ROOT_EXPECTED_HEAD: ${{ github.sha }}
+      A_ROOT_EVIDENCE: mom-engine-step-a-right-normal-verification
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Record exact checkout and all tracked file hashes
+        run: |
+          mkdir -p "$A_ROOT_EVIDENCE"
+          git show --no-patch --format=fuller HEAD > "$A_ROOT_EVIDENCE/checkout.txt"
+          python3 - <<'PY'
+          import hashlib, json, os, re, subprocess
+          from pathlib import Path
+          evidence = Path(os.environ['A_ROOT_EVIDENCE'])
+          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          expected = os.environ['A_ROOT_EXPECTED_HEAD']
+          if head != expected:
+              raise SystemExit(f'Unexpected checkout: {head}, expected {expected}')
+          if os.environ['A_ROOT_SOURCE_STATE'] != 'owner-with-reviewed-right-adopted':
+              raise SystemExit('Shadow workflow: freeze only after the owner adopts exact e24e Right source')
+          source_commit = os.environ['A_ROOT_SOURCE_COMMIT']
+          source_tree = subprocess.check_output(['git', 'rev-parse', source_commit+'^{tree}'], text=True).strip()
+          if source_tree != os.environ['A_ROOT_SOURCE_TREE']:
+              raise SystemExit('Owner source tree differs from the frozen reviewed tree')
+          parents = subprocess.check_output(['git', 'show', '-s', '--format=%P', 'HEAD'], text=True).split()
+          if parents != [source_commit, os.environ['A_ROOT_SECOND_PARENT']]:
+              raise SystemExit('Auxiliary ordered parents must be the adopted owner and frozen previous A-roots head')
+          changes = subprocess.check_output(['git', 'diff', '--name-only', source_commit, 'HEAD'], text=True).splitlines()
+          if changes != ['.github/workflows/mom-engine-step-a-roots.yml']:
+              raise SystemExit('Auxiliary delta must contain only its own workflow')
+          paths = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+          hashes = {p: hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in paths if p}
+          (evidence / 'tracked-sha256-before.json').write_text(json.dumps(hashes, indent=2) + '\n')
+          source = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' + os.environ['A_ROOT_TARGET'] + '.lean'
+          if hashes[source] != os.environ['A_ROOT_SOURCE_SHA256']:
+              raise SystemExit('Root source hash differs from the frozen reviewed file')
+          verify = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py'
+          if hashes[verify] != os.environ['A_ROOT_VERIFY_SHA256']:
+              raise SystemExit('The original normal verifier changed')
+          declarations = re.findall(r'^#print axioms ([^\n]+)$', Path(source).read_text(), flags=re.M)
+          if declarations != json.loads(os.environ['A_ROOT_DECLARATIONS']):
+              raise SystemExit('Explicit fresh audit targets must match every original print command')
+          step_paths = [p for p in hashes if p.startswith('HeckeSkeleton/Moments/MOM_ENGINE_STEP/') and p.endswith('.lean')]
+          if len(step_paths) != 1009:
+              raise SystemExit('The complete STEP source inventory must remain intact')
+          interface = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/Interface.lean'
+          interface_imports = re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.[A-Za-z_][A-Za-z_0-9]*)$',
+                                         Path(interface).read_text(), flags=re.M)
+          expected_imports = {p[:-5].replace('/', '.') for p in step_paths if p != interface}
+          if len(interface_imports) != 1008 or set(interface_imports) != expected_imports:
+              raise SystemExit('Interface must retain exactly all 1008 other original STEP module imports')
+          (evidence / 'source.json').write_text(json.dumps({
+              'head': head, 'source_commit': source_commit, 'target': source, 'source_sha256': hashes[source],
+              'source_tree': source_tree, 'ordered_parents': parents,
+              'source_state': os.environ['A_ROOT_SOURCE_STATE'],
+              'original_print_axioms': declarations, 'verify_source_sha256': hashes[verify],
+              'STEP_module_count': len(step_paths), 'Interface_import_count': len(interface_imports),
+              'Interface_import_set_matches_all_STEP_sources': True,
+              'tracked_file_count': len(hashes),
+          }, indent=2) + '\n')
+          PY
+      - name: Provide enough memory mappings for the full import closure
+        run: |
+          A_ROOT_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$A_ROOT_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > "$A_ROOT_EVIDENCE/memory-mapping.txt"
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@0537e05c6cda25f8997c4cd14c64df2249be1016
+      - name: Verify the pinned compiler, Mathlib and unchanged default build settings
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, subprocess, tomllib
+          evidence = pathlib.Path(os.environ['A_ROOT_EVIDENCE'])
+          version = subprocess.check_output(['lake', 'env', 'lean', '--version'], text=True).strip()
+          mathlib = subprocess.check_output(['git', '-C', '.lake/packages/mathlib', 'rev-parse', 'HEAD'], text=True).strip()
+          project = tomllib.loads(pathlib.Path('lakefile.toml').read_text())
+          assert '4.35.0-rc3' in version and '470d5ce1400764999581fd26d5d72b00d990b0f4' in version
+          assert mathlib == '0493595ecd5da8ef14742febab99728f98e948e8'
+          assert project.get('leanOptions') == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+          assert project.get('weakLeanArgs') == ['-j2']
+          assert len(project['lean_lib']) == 20
+          (evidence / 'toolchain-and-options.json').write_text(json.dumps({
+              'lean': version, 'mathlib': mathlib, 'lean_options': project['leanOptions'],
+              'weak_lean_args': project['weakLeanArgs'], 'lean_lib_count': len(project['lean_lib']),
+          }, indent=2) + '\n')
+          PY
+      - name: Build the complete root module and run a fresh namespace axiom audit
+        shell: bash
+        run: |
+          mapfile -t A_ROOT_DECLARATION_LIST < <(python3 - <<'PY'
+          import json, os
+          print('\n'.join(json.loads(os.environ['A_ROOT_DECLARATIONS'])))
+          PY
+          )
+          A_ROOT_COMMAND=(python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py
+            "HeckeSkeleton.Moments.MOM_ENGINE_STEP.$A_ROOT_TARGET"
+            --namespace HeckeSkeleton.Moments.EngineStep
+            --evidence "$A_ROOT_EVIDENCE")
+          for A_ROOT_DECLARATION in "${A_ROOT_DECLARATION_LIST[@]}"; do
+            A_ROOT_COMMAND+=(--declaration "$A_ROOT_DECLARATION")
+          done
+          A_ROOT_STARTED=$(date +%s)
+          set +e
+          timeout --signal=TERM --kill-after=30s 35m "${A_ROOT_COMMAND[@]}" 2>&1 |
+            tee "$A_ROOT_EVIDENCE/verification.log"
+          A_ROOT_STATUS=${PIPESTATUS[0]}
+          set -e
+          A_ROOT_FINISHED=$(date +%s)
+          printf '{"exit_code": %s, "elapsed_seconds": %s, "timeout_seconds": 2100}\n' \
+            "$A_ROOT_STATUS" "$((A_ROOT_FINISHED - A_ROOT_STARTED))" \
+            > "$A_ROOT_EVIDENCE/verification-status.json"
+          exit "$A_ROOT_STATUS"
+      - name: Preserve and compare tracked file hashes after every outcome
+        if: always()
+        run: |
+          mkdir -p "$A_ROOT_EVIDENCE"
+          python3 - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          evidence = Path(os.environ['A_ROOT_EVIDENCE'])
+          paths = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+          hashes = {p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+                    if Path(p).is_file() else None for p in paths if p}
+          (evidence / 'tracked-sha256-after.json').write_text(json.dumps(hashes, indent=2) + '\n')
+          before = evidence / 'tracked-sha256-before.json'
+          if not before.is_file():
+              raise SystemExit('The pre-verification source snapshot is missing')
+          original = json.loads(before.read_text())
+          changed = sorted(p for p in original.keys() | hashes.keys() if original.get(p) != hashes.get(p))
+          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          unchanged = not changed and head == os.environ['A_ROOT_EXPECTED_HEAD']
+          (evidence / 'source-identity.json').write_text(json.dumps({
+              'head': head, 'unchanged': unchanged, 'changed_files': changed,
+          }, indent=2) + '\n')
+          if not unchanged:
+              raise SystemExit('Tracked sources or checkout identity changed during verification')
+          PY
+      - name: Preserve complete compiler logs and fresh axiom reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-engine-step-a-right-normal-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ env.A_ROOT_EVIDENCE }}/
+          if-no-files-found: error
+          retention-days: 14
