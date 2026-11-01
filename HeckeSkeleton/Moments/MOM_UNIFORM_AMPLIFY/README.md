@@ -138,8 +138,10 @@ source/default block 再取依赖 witness。公开定义、定理类型和假设
 
 固定环境：Lean `4.35.0-rc3`，Mathlib
 `0493595ecd5da8ef14742febab99728f98e948e8`。
-专用 workflow 使用仓库指定的 `restore-lake-cache@ci/lake-cache-test`，随后正常
-执行 `lake --rehash build`；不合成 traces，也不使用自定义 foundation 缓存。
+专用 workflow 使用仓库指定的 `restore-lake-cache@dtests-handoff`，随后正常
+执行 `lake --rehash build`。该官方 action 先恢复 release，再恢复分支的正常
+Lake 产物，并在 job 结束时保存编译进度；源码或依赖变化仍由 Lake 判断并重编。
+不合成 traces，也不使用自定义 foundation 缓存。
 
 ```sh
 lake --rehash build +HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.PureAudit:olean

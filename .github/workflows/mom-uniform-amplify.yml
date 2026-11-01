@@ -37,7 +37,7 @@ jobs:
           use-mathlib-cache: 'true'
           use-github-cache: 'false'
       - name: Restore precompiled project artifacts
-        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
       - name: Compile and audit the independent numerical proofs
         shell: bash
         run: |
@@ -91,7 +91,7 @@ jobs:
           use-mathlib-cache: 'true'
           use-github-cache: 'false'
       - name: Restore precompiled project artifacts
-        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
       - name: Compile the component and audit every task declaration
         shell: bash
         run: |
@@ -165,7 +165,7 @@ jobs:
             df -i /
           } | tee "$RUNNER_TEMP/mom-uniform-amplify/environment.log"
       - name: Restore precompiled project artifacts
-        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
       - name: Compile every new proof and reject nonstandard axioms
         id: compile
         shell: bash
