@@ -223,20 +223,26 @@ private theorem rowRestorationPiece_background
   simp_rw [ordinaryReflectedProfile_mul_finiteOrder K hcomplex
     d.plainBackground (d.rowCharacter u) (d.rowCharacter_finite u)]
 
-/-- Constants are fixed before all nodes, their original profiles,
-remaining ideals and row sectors. The local upper scale and Euler mass
-are deduced from `ReflectionRowCalibration`. -/
-theorem uniform_rowRestorationPiece_bound
+/-- Pure analytic restoration estimate from its two scalar arithmetic
+inputs. Both are lower-level conductor/deletion statements; no energy,
+terminal or moment bound is a premise. The canonical complete and moving
+row calibrations prove these inputs separately. -/
+theorem uniform_rowRestorationPiece_bound_of_scalars
     (hcomplex : ∀ v : InfinitePlace K, v.IsComplex) (ψ : HeckeCharacter K)
     {δ A ε : ℝ} (hδ : 0 < δ) (hδA : δ ≤ A) (hA : 1 < A) (hε : 0 < ε) :
     ∃ L : ℕ, ∃ C : ℝ, 0 ≤ C ∧
       ∀ (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
-      (P : ProbeData K S) (R : RowCharacterInput K S P)
       {omega : HeckeCharacter K} (node : Node K omega ψ)
       (extra : NonzeroIdeal K → NonzeroIdeal K) (V : NonzeroIdeal K → SmoothAnnularTest)
       (U c long loss : ℝ), 1 < U →
-      ReflectionRowCalibration S P R node extra U →
-      uniformReflectionConductorConstant S ψ ≤ U ^ c →
+      (∀ u ∈ pairedRows node.data node.parameters U,
+        (Ideal.absNorm (∏ p ∈ rowRestorationDeletion S node.data extra u, p) : ℝ) ≤
+            U ^ (node.width + c) ∧
+          ∀ length : ℝ, ∀ D ∈ (rowRestorationDeletion S node.data extra u).powerset,
+            ∀ H : SmoothIdeal (rowRestorationDeletion S node.data extra u),
+              heckeConductorScale K (node.data.plainBackground * node.data.rowCharacter u) *
+                  (Ideal.absNorm (∏ p ∈ D, p) : ℝ) / (U ^ length * inorm H.val) ≤
+                U ^ (node.width - length + c)) →
       ε * (node.width + c) ≤ loss →
       ∀ (tail : Bool) (J : ℕ) (u : NonzeroIdeal K),
       u ∈ pairedRows node.data node.parameters U →
@@ -246,7 +252,7 @@ theorem uniform_rowRestorationPiece_bound
             (if tail then (1 - A) * reflectionDyadicExponent U J else 0) + loss) := by
   obtain ⟨L, C, hC, hbound⟩ := rawRestorationBound_uniform K hcomplex ψ hδ hδA hA hε
   refine ⟨L, C, hC, ?_⟩
-  intro S instS P R omega node extra V U c long loss hU cal hfixed hloss tail J u hu
+  intro S instS omega node extra V U c long loss hU hscalars hloss tail J u hu
   have hU0 : 0 < U := zero_lt_one.trans hU
   let χ := node.data.plainBackground * node.data.rowCharacter u
   let a := idealCoefficient (primeCoefficient K χ)
@@ -258,7 +264,7 @@ theorem uniform_rowRestorationPiece_bound
     by_cases hI : outside E I.val
     · simpa only [excl, if_pos hI] using hai.norm_le_one I.val
     · simp only [excl, if_neg hI, norm_zero, zero_le_one]
-  obtain ⟨hmass, hscale⟩ := cal.scalar_bounds hU hfixed u hu
+  obtain ⟨hmass, hscale⟩ := hscalars u hu
   have h := hbound node.data.plainBackground node.data.plain_background_spec tail
     a ai ha hai E (rowRestorationDeletion_prime S node.data extra u)
     (fun I => excl E ai I.val) hb (V u) (heckeConductorScale K χ) (U ^ long)
@@ -296,5 +302,34 @@ theorem uniform_rowRestorationPiece_bound
           ring
   exact mul_le_mul_of_nonneg_left hw
     (mul_nonneg hC (testSeminorm_nonneg (V u).toFun L A))
+
+
+/-- Constants are fixed before all nodes, their original profiles,
+remaining ideals and row sectors. The local upper scale and Euler mass
+are deduced from `ReflectionRowCalibration`. -/
+theorem uniform_rowRestorationPiece_bound
+    (hcomplex : ∀ v : InfinitePlace K, v.IsComplex) (ψ : HeckeCharacter K)
+    {δ A ε : ℝ} (hδ : 0 < δ) (hδA : δ ≤ A) (hA : 1 < A) (hε : 0 < ε) :
+    ∃ L : ℕ, ∃ C : ℝ, 0 ≤ C ∧
+      ∀ (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
+      (P : ProbeData K S) (R : RowCharacterInput K S P)
+      {omega : HeckeCharacter K} (node : Node K omega ψ)
+      (extra : NonzeroIdeal K → NonzeroIdeal K) (V : NonzeroIdeal K → SmoothAnnularTest)
+      (U c long loss : ℝ), 1 < U →
+      ReflectionRowCalibration S P R node extra U →
+      uniformReflectionConductorConstant S ψ ≤ U ^ c →
+      ε * (node.width + c) ≤ loss →
+      ∀ (tail : Bool) (J : ℕ) (u : NonzeroIdeal K),
+      u ∈ pairedRows node.data node.parameters U →
+      ‖rowRestorationPiece tail S node.data extra V δ U long J u‖ ≤
+        C * testSeminorm (V u).toFun L A *
+          U ^ ((A + 1 / 2) * (node.width - long + c) +
+            (if tail then (1 - A) * reflectionDyadicExponent U J else 0) + loss) := by
+  obtain ⟨L, C, hC, hbound⟩ :=
+    uniform_rowRestorationPiece_bound_of_scalars hcomplex ψ hδ hδA hA hε
+  refine ⟨L, C, hC, ?_⟩
+  intro S instS P R omega node extra V U c long loss hU cal hfixed hloss
+  exact hbound S node extra V U c long loss hU
+    (fun u hu => cal.scalar_bounds hU hfixed u hu) hloss
 
 end HeckeSkeleton.Moments.EngineInduction

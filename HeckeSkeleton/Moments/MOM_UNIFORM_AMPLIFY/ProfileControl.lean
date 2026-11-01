@@ -176,4 +176,3 @@ theorem UniformProfileControl.sum {ι κ : Type*}
       (le_max_right _ _) (min_le_right _ _) (le_max_right _ _) (hbG k)
 
 end HeckeSkeleton.Moments.UniformAmplify
-

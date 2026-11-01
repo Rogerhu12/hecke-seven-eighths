@@ -1,10 +1,11 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMovingThreshold
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMeshReflectionFamily
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedDataReflectionAssembly
 
 /-!
 # Source preparation with an additional concrete data dictionary
 
-A predicate Q on literal MomentData is added before the source enters
+A predicate Q on literal MomentData, its scale, and invariant parameters is added before the source enters
 its recursive family. Applications supply a concrete complete-row or
 fixed remaining-ideal dictionary for every original source root, and
 prove its preservation by the literal fixed-line child constructor.
@@ -37,57 +38,61 @@ variable [MeasurableSpace (ℕ × Bool)] [MeasurableSingletonClass (ℕ × Bool)
 budget, full arithmetic mask and joint remaining-ideal calibration.
 Its kappa remains the exponent of this one fixed source family. -/
 def recipeDataReflectionPrimitive (c : TargetContext K)
-    (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
+    (theta : Finset (HeckeCharacter K))
+    (Q : ℝ → MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop)
     (ground : ℕ) (engine reflection : ℕ → ℕ)
     (sigma padding A C H lower upper U T : ℝ) :
     MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop :=
   withKappa (2 * c.family.B - 1)
-    (withDataPrimitive Q
-      (recipeMeshReflectionPrimitive c ground engine reflection sigma padding
+    (withParameterPrimitive (Q U)
+      (recipeMeshReflectionPrimitive c theta ground engine reflection sigma padding
         A C H lower upper U T))
 
 def recipeDataReflectionSystem (c : TargetContext K)
-    (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
+    (theta : Finset (HeckeCharacter K))
+    (Q : ℝ → MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop)
     (ground : ℕ) (engine reflection : ℕ → ℕ)
     (A Cp Hp lower upper U T : ℝ) :
     PolynomialSystem.{0} K c.family.omega (targetCharacter K c) (recipeInductionSigma c) 2 :=
   universalPolynomialSystem.{0}
-    (recipeDataReflectionPrimitive c Q ground engine reflection (recipeInductionSigma c)
+    (recipeDataReflectionPrimitive c theta Q ground engine reflection (recipeInductionSigma c)
       (recipeInductionSigma c / 16) A Cp Hp lower upper U T)
     (recipeInductionSigma c) 2 (recipeInductionSigma c / 16) c.geometry.slots
     (recipeInduction_budget (c := c)).1
 
 /-- Every actual recursive node carries the original per-slot mesh,
 including nodes that are not original source roots. -/
-theorem recipeDataReflectionSystem_fitsMesh
-    (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
+theorem recipeDataReflectionSystem_fitsMesh (theta : Finset (HeckeCharacter K))
+    (Q : ℝ → MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop)
     (ground : ℕ) (engine reflection : ℕ → ℕ)
     (A Cp Hp lower upper U T : ℝ)
-    (x : (recipeDataReflectionSystem c Q ground engine reflection
+    (x : (recipeDataReflectionSystem c theta Q ground engine reflection
       A Cp Hp lower upper U T).Label) :
-    ((recipeDataReflectionSystem c Q ground engine reflection
+    ((recipeDataReflectionSystem c theta Q ground engine reflection
       A Cp Hp lower upper U T).node x).data.geometry.fitsMesh (momentMesh K c.family).val :=
   x.down.property.admissible.2.2.1
 
-theorem recipeDataReflectionSystem_data
-    (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
+theorem recipeDataReflectionSystem_data (theta : Finset (HeckeCharacter K))
+    (Q : ℝ → MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop)
     (ground : ℕ) (engine reflection : ℕ → ℕ)
     (A Cp Hp lower upper U T : ℝ)
-    (x : (recipeDataReflectionSystem c Q ground engine reflection
+    (x : (recipeDataReflectionSystem c theta Q ground engine reflection
       A Cp Hp lower upper U T).Label) :
-    Q ((recipeDataReflectionSystem c Q ground engine reflection
-      A Cp Hp lower upper U T).node x).data :=
+    Q U ((recipeDataReflectionSystem c theta Q ground engine reflection
+      A Cp Hp lower upper U T).node x).data
+      (pairedInvariantParameters ((recipeDataReflectionSystem c theta Q ground engine reflection
+        A Cp Hp lower upper U T).node x).parameters) :=
   x.down.property.admissible.2.1
 
 /-- The strict callback receives only the cancellation exponent of the
 original family. It is not quantified over unrelated values in [3/4,1]. -/
-theorem recipeDataReflectionSystem_kappa
-    (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
+theorem recipeDataReflectionSystem_kappa (theta : Finset (HeckeCharacter K))
+    (Q : ℝ → MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop)
     (ground : ℕ) (engine reflection : ℕ → ℕ)
     (A Cp Hp lower upper U T : ℝ)
-    (x : (recipeDataReflectionSystem c Q ground engine reflection
+    (x : (recipeDataReflectionSystem c theta Q ground engine reflection
       A Cp Hp lower upper U T).Label) :
-    ((recipeDataReflectionSystem c Q ground engine reflection
+    ((recipeDataReflectionSystem c theta Q ground engine reflection
       A Cp Hp lower upper U T).node x).parameters.κ = 2 * c.family.B - 1 :=
   x.down.property.admissible.1
 
@@ -96,13 +101,13 @@ The original highest-order source profile estimate is retained. -/
 structure RecipeDataReflectionRootData
     (R : ExpansionRecipe.RecipeExpansion K (places K c) (targetCharacter K c)
       c.geometry (expansionShellAllowance K c))
-    (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
+    (Q : ℝ → MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop)
     (ground : ℕ) (engine reflection : ℕ → ℕ)
     (sigma padding A C H lower upper : ℝ)
     {Z T : ℝ} (i : SourceMomentIndexFor K c (recipeMomentSourceData K c R) Z T)
     (s : SixthUnitClasses K (places K c)) where
   root : ULift.{0} (UniversalNode
-    (recipeDataReflectionPrimitive c Q ground engine reflection sigma padding
+    (recipeDataReflectionPrimitive c (recipeThetaFamily R) Q ground engine reflection sigma padding
       A C H lower upper (momentBaseFor i) T) 2 padding c.geometry.slots)
   root_eq : root.down.val = recipeRoot R i s
   budget_one_le : 1 ≤ profileFamilyBudget C H T
@@ -115,24 +120,26 @@ witness, before branch production. Mesh and all old fields are retained. -/
 def RecipeMeshReflectionRootData.withDataPrimitive
     (R : ExpansionRecipe.RecipeExpansion K (places K c) (targetCharacter K c)
       c.geometry (expansionShellAllowance K c))
-    (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
+    (Q : ℝ → MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop)
     {ground : ℕ} {engine reflection : ℕ → ℕ}
     {sigma padding A C H lower upper : ℝ} {Z T : ℝ}
     {i : SourceMomentIndexFor K c (recipeMomentSourceData K c R) Z T}
     {s : SixthUnitClasses K (places K c)}
     (prepared : RecipeMeshReflectionRootData R ground engine reflection
       sigma padding A C H lower upper i s)
-    (hQ : Q (recipeRoot R i s).data) :
+    (hQ : Q (momentBaseFor i) (recipeRoot R i s).data
+      (pairedInvariantParameters (recipeRoot R i s).parameters)) :
     RecipeDataReflectionRootData R Q ground engine reflection
       sigma padding A C H lower upper i s := by
-  have hactual : Q prepared.root.down.val.data := by
+  have hactual : Q (momentBaseFor i) prepared.root.down.val.data
+      (pairedInvariantParameters prepared.root.down.val.parameters) := by
     simpa only [prepared.root_eq] using hQ
   have hkappa : prepared.root.down.val.parameters.κ = 2 * c.family.B - 1 := by
     rw [prepared.root_eq]
     rfl
   exact {
     root := ⟨⟨prepared.root.down.val,
-      (prepared.root.down.property.withDataPrimitive hactual).withKappa hkappa⟩⟩
+      (prepared.root.down.property.withParameterPrimitive hactual).withKappa hkappa⟩⟩
     root_eq := prepared.root_eq
     budget_one_le := prepared.budget_one_le
     source_top_profile := prepared.source_top_profile }
@@ -143,7 +150,7 @@ strict step, final moment estimate or closed reduction among the fields. -/
 structure RecipeDataReflectionFamilyData
     (R : ExpansionRecipe.RecipeExpansion K (places K c) (targetCharacter K c)
       c.geometry (expansionShellAllowance K c))
-    (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
+    (Q : ℝ → MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop)
     (ground : ℕ) (engine reflection : ℕ → ℕ)
     (A Cp Hp lower upper C H : ℝ)
     {Z T : ℝ} (i : SourceMomentIndexFor K c (recipeMomentSourceData K c R) Z T)
@@ -151,7 +158,7 @@ structure RecipeDataReflectionFamilyData
   source : RecipeDataReflectionRootData R Q ground engine reflection (recipeInductionSigma c)
     (recipeInductionSigma c / 16) A Cp Hp lower upper i s
   scale : 1 < momentBaseFor i
-  base : ∀ x : (recipeDataReflectionSystem c Q ground engine reflection A Cp Hp lower upper
+  base : ∀ x : (recipeDataReflectionSystem c (recipeThetaFamily R) Q ground engine reflection A Cp Hp lower upper
       (momentBaseFor i) T).Label,
     x.down.val.width ≤ 16 * recipeInductionSigma c →
     x.down.val.parameters.n₁ + x.down.val.parameters.n₂ + x.down.val.data.geometry.totalLength ≤
@@ -160,7 +167,7 @@ structure RecipeDataReflectionFamilyData
     Nonempty (TerminalComponents.{0} (x.down.val.normalizedEnergy (momentBaseFor i) 0)
       (momentBaseFor i) T C H (16 * recipeInductionSigma c) (recipeInductionSigma c / 16)
       (recipeInductionSigma c) (sourceReserve c.family.lamA))
-  shortReflection : ∀ x : (recipeDataReflectionSystem c Q ground engine reflection A Cp Hp lower upper
+  shortReflection : ∀ x : (recipeDataReflectionSystem c (recipeThetaFamily R) Q ground engine reflection A Cp Hp lower upper
       (momentBaseFor i) T).Label,
     16 * recipeInductionSigma c < x.down.val.width →
     x.down.val.totalLength ≤ x.down.val.width + recipeInductionSigma c / 16 →
@@ -168,15 +175,15 @@ structure RecipeDataReflectionFamilyData
     (x.down.val.parameters.n₁ ≤ x.down.val.width / 4 ∨
       x.down.val.parameters.n₂ ≤ x.down.val.width / 4) →
     Nonempty (ShortReflectionBranchAt (Ω := (ℕ × Bool) × ℝ)
-      (recipeDataReflectionSystem c Q ground engine reflection A Cp Hp lower upper (momentBaseFor i) T)
+      (recipeDataReflectionSystem c (recipeThetaFamily R) Q ground engine reflection A Cp Hp lower upper (momentBaseFor i) T)
       x (momentBaseFor i) (sourceReserve c.family.lamA) (recipeInductionEdgeLoss c)
       (recipeInductionTerminalLoss c) C ((1 + T) ^ H))
-  outerReflection : ∀ x : (recipeDataReflectionSystem c Q ground engine reflection A Cp Hp lower upper
+  outerReflection : ∀ x : (recipeDataReflectionSystem c (recipeThetaFamily R) Q ground engine reflection A Cp Hp lower upper
       (momentBaseFor i) T).Label,
     x.down.val.width + recipeInductionSigma c / 16 < x.down.val.totalLength →
     x.down.val.parameters.z = 0 → x.down.val.centered = false →
     Nonempty (OuterReflectionBranchAt (Ω := (ℕ × Bool) × ℝ)
-      (recipeDataReflectionSystem c Q ground engine reflection A Cp Hp lower upper (momentBaseFor i) T)
+      (recipeDataReflectionSystem c (recipeThetaFamily R) Q ground engine reflection A Cp Hp lower upper (momentBaseFor i) T)
       x (momentBaseFor i) (recipeInductionSigma c / 16) (recipeInductionEdgeLoss c)
       (recipeInductionTerminalLoss c) C ((1 + T) ^ H))
 
@@ -206,11 +213,13 @@ to the padded core. -/
 theorem recipeDataReflectionFamily_preparation
     (R : ExpansionRecipe.RecipeExpansion K (places K c) (targetCharacter K c)
       c.geometry (expansionShellAllowance K c))
-    (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
-    (hQpreserved : FixedLineDataPreserved Q)
+    (Q : ℝ → MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop)
+    (hQpreserved : ∀ U, FixedLineParameterPreserved (Q U))
     (hQroot : ∀ (Z T : ℝ)
       (i : SourceMomentIndexFor K c (recipeMomentSourceData K c R) Z T)
-      (s : SixthUnitClasses K (places K c)), Q (recipeRoot R i s).data)
+      (s : SixthUnitClasses K (places K c)),
+      Q (momentBaseFor i) (recipeRoot R i s).data
+        (pairedInvariantParameters (recipeRoot R i s).parameters))
     (hcomplex : ∀ v : InfinitePlace K, v.IsComplex)
     {lengthBound : ℝ} (hgeom : R.MomentGeometry lengthBound)
     (hprofiles : WholeMomentProfileControlFor (recipeMomentModels K c R))
@@ -218,9 +227,9 @@ theorem recipeDataReflectionFamily_preparation
     ∃ lower upper : ℝ, 0 < lower ∧ lower ≤ 1 / 2 ∧ 2 ≤ upper ∧ lower < upper ∧
       ∃ decay : ℝ, 1 < decay ∧ ∃ reflection : ℕ → ℕ,
       (∀ J, J ≤ reflection J ∧ 1 ≤ reflection J) ∧
-      ∀ (ground : ℕ) (engine : ℕ → ℕ), 1 ≤ ground →
+      ∀ (ground : ℕ) (engine : ℕ → ℕ), 1 ≤ ground → ∀ minimumCp : ℝ,
       ∃ Cp Hp C H Z₀ : ℝ,
-      0 < Cp ∧ 0 ≤ Hp ∧ 0 ≤ C ∧ 0 ≤ H ∧ 1 ≤ Z₀ ∧
+      0 < Cp ∧ minimumCp ≤ Cp ∧ 0 ≤ Hp ∧ 0 ≤ C ∧ 0 ≤ H ∧ 1 ≤ Z₀ ∧
       ∀ Z : ℝ, Z₀ ≤ Z → ∀ T : ℝ, 0 ≤ T →
       ∀ (i : SourceMomentIndexFor K c (recipeMomentSourceData K c R) Z T)
         (s : SixthUnitClasses K (places K c)),
@@ -238,18 +247,17 @@ theorem recipeDataReflectionFamily_preparation
     recipe_ranked_data_reflection_production (c := c) hcomplex hupper
   refine ⟨lower, upper, hlower, hlowerSmall, hupper, hinterval,
     decay, hdecay, reflection, hreflection, ?_⟩
-  intro ground engine hground
+  intro ground engine hground minimumCp
   have hσ := (recipeInduction_budget (c := c)).1
-  obtain ⟨Cp, Hp, hCp, hHp, roots⟩ := hsource ground engine reflection
-    (recipeInductionSigma c) (recipeInductionSigma c / 16) decay hσ (by linarith)
+  obtain ⟨Cp, Hp, hCp, hminimumCp, hHp, roots⟩ := hsource ground engine reflection
+    (recipeInductionSigma c) (recipeInductionSigma c / 16) decay minimumCp hσ (by linarith)
   obtain ⟨C, H, hC, hH, produce⟩ := hbranches ground engine Cp Hp lower
     (16 * recipeInductionSigma c) (sourceReserve c.family.lamA)
     hground hCp.le hHp hlower hlowerSmall
-  obtain ⟨U₀, hU₀, hthreshold⟩ := recipe_reflection_conductor_threshold c.family.lamA_pos
-    (places K c) (targetCharacter K c)
+  obtain ⟨U₀, hU₀, hthreshold⟩ := recipe_source_moving_conductor_threshold R
   let Z₀ := U₀ ^ (16 : ℕ)
   have hZ₀ : 1 ≤ Z₀ := one_le_pow₀ ((by norm_num : (1 : ℝ) ≤ 2).trans hU₀)
-  refine ⟨Cp, Hp, C, H, Z₀, hCp, hHp, hC, hH, hZ₀, ?_⟩
+  refine ⟨Cp, Hp, C, H, Z₀, hCp, hminimumCp, hHp, hC, hH, hZ₀, ?_⟩
   intro Z hZ T hT
   have hUbase (i : SourceMomentIndexFor K c (recipeMomentSourceData K c R) Z T) :
       U₀ ≤ momentBaseFor i :=
@@ -281,8 +289,8 @@ theorem recipeDataReflectionFamily_preparation
     obtain ⟨hfixed, hround⟩ := hthreshold (momentBaseFor i) (hUbase i)
     have nodes := produce (recipeInductionEdgeLoss c) (recipeInductionTerminalLoss c)
       hmassLoss hterminalLoss T hT (places K c) (probeData K c) (momentRowCharacters K c)
-      (momentBaseFor i) (sourceReserve c.family.lamA / 8) (momentMesh K c.family).val
-      (2 * c.family.B - 1) Q hQpreserved hU (by positivity) le_rfl hfixed hround
+      (recipeThetaFamily R) (momentBaseFor i) (sourceReserve c.family.lamA / 8) (momentMesh K c.family).val
+      (2 * c.family.B - 1) (Q (momentBaseFor i)) (hQpreserved (momentBaseFor i)) hU (by positivity) le_rfl hfixed hround
     refine ⟨{ source := RecipeMeshReflectionRootData.withDataPrimitive R Q
         (RecipeRankedAnnulusReflectionRootData.withOriginalMesh R
           (RecipeReflectionRootData.withRankedAnnulus R prepared hσ

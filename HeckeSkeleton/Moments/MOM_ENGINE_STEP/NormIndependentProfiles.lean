@@ -43,7 +43,7 @@ namespace NormProfileRecipe
 variable {X : Type*} {data : X → MomentData K ω ψ}
 variable (W : NormProfileRecipe data)
 
-def at (ξ : X) : NormProfileRecipe (fun _ : PUnit => data ξ) where
+def «at» (ξ : X) : NormProfileRecipe (fun _ : PUnit => data ξ) where
   left _ := W.left ξ
   right _ := W.right ξ
   left_eq _ := W.left_eq ξ
@@ -129,7 +129,7 @@ norm tests, including the ordinary annular power-window tests. -/
 def normProfileRecipe_ofTests {X : Type*} (data : X → MomentData K ω ψ)
     (left right : X → IdealTest K)
     (referenceLeft referenceRight : X → HeckeGeneral.Analysis.NonzeroIdeal K) :
-    NormProfileRecipe (fun ξ => { data ξ with
+    NormProfileRecipe (ω := ω) (ψ := ψ) (fun ξ => { data ξ with
       plainTest₁ := normIdealTest (left ξ) (referenceLeft ξ)
       plainTest₂ := normIdealTest (right ξ) (referenceRight ξ) }) where
   left ξ := (left ξ).profile (referenceLeft ξ)

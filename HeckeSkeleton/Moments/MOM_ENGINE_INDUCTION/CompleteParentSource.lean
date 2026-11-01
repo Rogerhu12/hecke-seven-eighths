@@ -10,10 +10,11 @@ positive row-ball chart and all centered Gram profiles are then produced
 by the canonical constructor at immutable MOM_ENGINE_STEP revision
 7c4f4fe7f27d053effef2e107422f4444f53bda8.
 
-The remaining ideal stays in the literal arithmetic coefficient of each
-plain and prime atom. The additional orbital row-avoidance mask is empty;
-this does not change the original commonMask or delete its remaining
-ideal. The row ball uses the original rows_spec bound alone. No bound
+The fixed moving character and its finite correction stay in the literal
+arithmetic coefficient of each plain and prime atom. The full displayed
+support and original remaining ideal retain exactly their common mask.
+The additional orbital row-avoidance mask is empty; this does not change
+the original commonMask. The row ball uses the original rows_spec bound alone. No bound
 on the norm of the remaining ideal, no positive chart, no whole-column
 phase identity and no energy estimate is an input to this source bridge.
 
@@ -144,7 +145,7 @@ def canonicalParentSource (D : CompleteSourceData c theta d)
     have hallowed : d.allowedRow v :=
       ((d.rows_spec _ v).mp (Finset.mem_filter.mp hv).1).1
     exact completeIdealSectorRowMap_principalExterior (axiomChoice K c).A
-      (probeData K c) D.rows.sector v (D.rows.exterior PUnit.unit v hallowed)
+      (probeData K c) D.recipe.sector v (D.recipe.exterior PUnit.unit v hallowed)
   have hmask (v : HeckeGeneral.Analysis.NonzeroIdeal K) (_hv : v ∈ pairedRows d a Z) :
       sIntegerOrbitAvoidanceMask K (places K c)
         (sixthPowerSUnitSubgroup K (places K c)) ∅ (raw.rowMap v) = 1 := by

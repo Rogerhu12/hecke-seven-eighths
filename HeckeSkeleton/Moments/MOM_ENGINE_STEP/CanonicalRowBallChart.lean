@@ -31,6 +31,7 @@ open DedekindZetaZeroFree
 
 open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.Bridge HeckeGeneral.ThetaSkeleton.Physical
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft
 
@@ -40,8 +41,12 @@ variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "SF" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
-variable [MeasurableSpace (sLocalNormOneGroup K SF)]
-  [BorelSpace (sLocalNormOneGroup K SF)]
+variable [MeasurableSpace (sLocalNormOneGroup K ((S : Set (HeightOneSpectrum (𝓞 K)))))]
+  [BorelSpace (sLocalNormOneGroup K ((S : Set (HeightOneSpectrum (𝓞 K)))))]
+
+local instance canonicalRowBall_sixthUnits_finiteIndex :
+    (sixthPowerUnits K SF).FiniteIndex :=
+  sUnit_power_range_finiteIndex K SF 6 (by decide)
 
 def mass : ℝ := (sUnitHaarCovolume K SF (sixthPowerUnits K SF)).toReal
 
@@ -143,7 +148,9 @@ theorem parent_orbit_norm_of_originalIdeal
   have hn := generates_sIntegerElementNorm
     (ProbeOrbitNormSum.principalExterior A (rowMap u).out) (rowMap u).out.val
     (ProbeOrbitNormSum.principalExterior_generates A (rowMap u).out)
-  simpa only [hideal, idealNorm] using hn
+  change (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+    (rowMap u).out).val = (Ideal.absNorm u.val : ℝ)
+  simpa only [hideal] using hn
 
 namespace CanonicalRowBall
 
@@ -177,7 +184,7 @@ end CanonicalRowBall
 
 variable [Γ.FiniteIndex]
 variable {t Y₁ Y₂ : ℝ}
-variable {raw : ParentRawAtoms Q d a Z t Y₁ Y₂}
+variable {raw : ParentRawAtoms (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) d a Z t Y₁ Y₂}
 
 /-- The actual original source is now produced from the single-column
 phase dictionary and the original row ideals.  The common positive

@@ -5,11 +5,14 @@ import HeckeAxiom.ProbeTestChoice
 import HeckeAxiom.ProbeNormalization
 import HeckeGeneral.Analysis.HeckeConjugateZeros
 import HeckeGeneral.Analysis.HeckeNormTwistZeros
+import HeckeGeneral.Characters.RadialNormalization
 import HeckePort.Schedule.MomentMesh
-import ThetaGlobal.GlobalChoice
 import ArithmeticRowCharacterInput
 import HeckeSkeleton.ExpansionModels.Core
 import ExpansionInterfaces.ParameterChoices
+import Expansion.ActualProbeContext
+import Expansion.ActualRecipeData
+import ThetaGlobal.GlobalChoice
 
 /-! Exploratory, intentionally incomplete proof skeleton. This library is
 separate from HeckeGeneral and its verified declaration count. Every admitted
@@ -64,27 +67,33 @@ theorem exists_normTwistParameter (c : TargetContext K) :
   obtain ⟨θ, hθ, e, he, t, ht⟩ := c.target.property
   exact ⟨t, θ, hθ, e, he, ht⟩
 
-/-- The global norm twist `N^{it}` of a decomposition `θ ω^e N^{it}` of the target. -/
+/-- The full global norm parameter, including any norm factor in omega.
+It is fixed canonically by one field-dependent infinite place. -/
 def normTwistParameter (c : TargetContext K) : ℝ :=
-  Classical.choose (exists_normTwistParameter K c)
+  -heckeRadialParameter K (normNormalizationPlace K) c.target.val
 
 /-- The target with its global norm twist removed (revised §6, first sentence). -/
 def untwisted (c : TargetContext K) : HeckePacketIndex K c.family.omega :=
   ⟨c.target.val * heckeNormTwist K (-normTwistParameter K c),
     heckePacket_mul_normTwist K c.family.omega c.target.property _⟩
 
-/-- The untwisted target is `θ ω^e` with `θ` of finite order. -/
+/-- The untwisted target uses the normalized packet generator; an arbitrary
+generator may itself carry a global norm twist. -/
 theorem untwisted_eq (c : TargetContext K) :
     ∃ θ : HeckeCharacter K, FiniteOrder θ ∧ ∃ e : ℤ, PacketExponent e ∧
-      (untwisted K c).val = θ * c.family.omega ^ e := by
-  obtain ⟨θ, hθ, e, he, ht⟩ := Classical.choose_spec (exists_normTwistParameter K c)
-  have ht' : c.target.val = θ * c.family.omega ^ e * heckeNormTwist K (normTwistParameter K c) :=
-    ht
+      (untwisted K c).val =
+        θ * radialNormalization K (normNormalizationPlace K) c.family.omega ^ e := by
+  obtain ⟨θ, hθ, e, he, t, ht⟩ := c.target.property
   refine ⟨θ, hθ, e, he, ?_⟩
-  change c.target.val * heckeNormTwist K (-normTwistParameter K c) = _
-  rw [ht']
-  unfold heckeNormTwist
-  rw [normTwist_neg, mul_inv_cancel_right]
+  have hnorm : (untwisted K c).val =
+      radialNormalization K (normNormalizationPlace K) c.target.val := by
+    simp only [untwisted, normTwistParameter, neg_neg, radialNormalization_apply]
+  rw [hnorm, ht, radialNormalization_packet K _ _ _ hθ]
+
+theorem untwisted_radial_zero (c : TargetContext K) :
+    heckeRadialParameter K (normNormalizationPlace K) (untwisted K c).val = 0 := by
+  simpa only [untwisted, normTwistParameter, neg_neg, radialNormalization_apply] using
+    radialParameter_radialNormalization K (normNormalizationPlace K) c.target.val
 
 theorem untwisted_zeros (c : TargetContext K) :
     heckePacketZeros K c.family.omega (untwisted K c) =
@@ -260,20 +269,107 @@ def rayFilter (_c : TargetContext K) : Finset (HeckeCharacter K) := ∅
 abbrev targetCharacter (c : TargetContext K) : HeckeCharacter K :=
   (representative K c).val.val
 
+/-- Inversion for angular orientation preserves the normalized radial slice. -/
+theorem targetCharacter_radial_zero (c : TargetContext K) :
+    heckeRadialParameter K (normNormalizationPlace K) (targetCharacter K c) = 0 := by
+  rcases representative_val K c with h | h <;> rw [show targetCharacter K c = _ from h]
+  · exact untwisted_radial_zero K c
+  · rw [heckeRadialParameter_inv, untwisted_radial_zero, neg_zero]
+
+theorem targetCharacter_ne_normTwist (c : TargetContext K)
+    (hne : targetCharacter K c ≠ 1) (t : ℝ) :
+    targetCharacter K c ≠ heckeNormTwist K t :=
+  ne_normTwist_of_radial_zero K (normNormalizationPlace K) _
+    (targetCharacter_radial_zero K c) hne t
+
 /-- The same shell allowance is used by the raw schedule and all consumers. -/
 def expansionShellAllowance (c : TargetContext K) : ℝ :=
   ExpansionInterfaces.shellAllowance c.family.lamA
 
--- OBLIGATION D-EXPANSION | revised Proposition 6.3, §7.1–7.2 (pp.41–44).
--- This is the original unfinished data construction.  Its ONE raw recipe
--- generates the expansion and every moment model.  It has no calibration,
--- spike, admissibility or energy fields.  A finite global label family and
--- the explicit shell/buffer schedule must be constructed here; downstream
--- identities do not establish this outstanding analytic construction.
+attribute [local instance] Expansion.ActualProbeContext.localCompletionSpace
+  Expansion.ActualProbeContext.localCompletionBorel
+  Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
+
+local instance expansionNormOneSpace (c : TargetContext K) :
+    MeasurableSpace (sLocalNormOneGroup K (places K c)) :=
+  (probeMeasures K c).normOneSpace
+
+local instance expansionNormOneBorel (c : TargetContext K) :
+    BorelSpace (sLocalNormOneGroup K (places K c)) :=
+  (probeMeasures K c).normOneBorel
+
+local instance expansionLocalHaar (c : TargetContext K) (p : places K c) :
+    ((probeMeasures K c).haar p).IsAddHaarMeasure :=
+  (probeMeasures K c).haar_isAddHaar p
+
+theorem expansionBoundary_lower (c : TargetContext K) : 51 / 100 ≤ c.family.B := by
+  linarith [c.family.B_lower]
+
+/-- One positive cap controls the internal displacement for both external
+losses. The retained shell allowance still depends only on lamA. -/
+def expansionInternalCap (c : TargetContext K) : ℝ :=
+  min c.family.lamA c.lamB / 1000
+
+theorem expansionInternalCap_pos (c : TargetContext K) : 0 < expansionInternalCap K c :=
+  div_pos (lt_min c.family.lamA_pos c.lamB_pos) (by norm_num)
+
+/-- The actual detector chooses its width, alphabet and height ceiling
+once, before any analytic height exponent or original scale. -/
+def expansionPhysicalParameters (c : TargetContext K) :
+    Expansion.Project.PhysicalRecipeParameters K (places K c) (probeData K c)
+      c.family.omega (targetCharacter K c) c.geometry
+      (HighBinActualEuler.arithmeticHighEulerData K (places K c) (probeData K c)
+        (targetCharacter K c))
+      (representative K c).val.property (expansionBoundary_lower K c) c.family.B_upper
+      c.family.boundary (probeMeasures K c).haar ∅ c.family.lamA
+      (expansionShellAllowance K c) (expansionInternalCap K c) :=
+  Expansion.Project.choosePhysicalRecipeParameters K (places K c) (probeData K c)
+    c.family.omega (targetCharacter K c) c.geometry
+    (HighBinActualEuler.arithmeticHighEulerData K (places K c) (probeData K c)
+      (targetCharacter K c))
+    (representative K c).val.property (expansionBoundary_lower K c) c.family.B_upper
+    c.family.boundary (probeMeasures K c).haar ∅ (isComplex_of_family K c)
+    c.family.lamA (expansionShellAllowance K c) (expansionInternalCap K c)
+    c.family.lamA_pos (by linarith [c.family.lamA_small])
+    (ExpansionInterfaces.shellAllowance_spec c.family.lamA_pos).2.2
+    (expansionInternalCap_pos K c)
+
+theorem expansionPhysicalParameters_e_losses (c : TargetContext K) :
+    (expansionPhysicalParameters K c).e ≤ min c.family.lamA c.lamB / 100 := by
+  have hcap := (expansionPhysicalParameters K c).e_cap
+  have hmin : 0 < min c.family.lamA c.lamB :=
+    lt_min c.family.lamA_pos c.lamB_pos
+  dsimp only [expansionInternalCap] at hcap
+  linarith
+
+theorem expansionPhysicalParameters_e_sweep (c : TargetContext K) :
+    (expansionPhysicalParameters K c).e ≤ 1 / 10000 := by
+  have hcap := (expansionPhysicalParameters K c).e_cap
+  dsimp only [expansionInternalCap] at hcap
+  linarith [min_le_left c.family.lamA c.lamB, c.family.lamA_small]
+
+-- D-EXPANSION | revised Proposition 6.3, §7.1–7.2 (pp.41–44).
+-- The literal four components and all scheduled shifted blocks share the
+-- same actual detector parameters. The constructor has no target estimate
+-- or assumed expansion identity as an input.
 def expansionRecipeRaw (c : TargetContext K) :
     ExpansionRecipe.RecipeExpansion K (places K c) (targetCharacter K c)
-      c.geometry (expansionShellAllowance K c) := by
-  sorry
+      c.geometry (expansionShellAllowance K c) :=
+  Expansion.Project.actualPhysicalRecipe K (excludedPlaces K c)
+    (Expansion.ActualProbeContext.allLocalMeasures K) (probeData K c)
+    c.family.omega (targetCharacter K c) c.geometry (representative K c).val.property
+    (expansionBoundary_lower K c) c.family.B_upper c.family.boundary c.family.lamA
+    (expansionShellAllowance K c) (expansionInternalCap K c) (expansionPhysicalParameters K c)
+
+/-- The original raw item itself has uniform geometry, including every
+inactive amplitude label and every empty row fiber. -/
+theorem expansionRecipeRaw_geometry (c : TargetContext K) :
+    (expansionRecipeRaw K c).MomentGeometry 22 :=
+  Expansion.Project.actualPhysicalRecipe_geometry K (excludedPlaces K c)
+    (Expansion.ActualProbeContext.allLocalMeasures K) (probeData K c)
+    c.family.omega (targetCharacter K c) c.geometry (representative K c).val.property
+    (expansionBoundary_lower K c) c.family.B_upper c.family.boundary c.family.lamA
+    (expansionShellAllowance K c) (expansionInternalCap K c) (expansionPhysicalParameters K c)
 
 /-- Actual finite-polynomial values are projections of the one raw recipe. -/
 def highExpansion (c : TargetContext K) : ℝ → ℝ →

@@ -93,12 +93,13 @@ theorem uniform_rankedMeshReflection_branches
       ∀ T : ℝ, 0 ≤ T →
       ∀ (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
         (probe : ProbeData K S) (rows : RowCharacterInput K S probe)
+        (theta : Finset (HeckeCharacter K))
         (U overhead mesh : ℝ),
       1 < U → 0 ≤ overhead → overhead ≤ overheadCap →
-      uniformReflectionConductorConstant S psiCharacter ≤ U ^ overhead →
+      movingReflectionConductorConstant S psiCharacter theta ≤ U ^ overhead →
       2 ≤ U ^ rounding →
       let sourcePrimitive := reflectionRankedAnnulusPrimitive
-        (ω := omegaCharacter) (ψ := psiCharacter) S probe rows U ground engine reflection
+        (ω := omegaCharacter) (ψ := psiCharacter) S probe rows theta U ground engine reflection
         σ W padding decay (profileFamilyBudget Cp Hp T) lower upper
       let primitive := withOriginalMesh mesh sourcePrimitive
       ∀ parent : ULift.{0} (UniversalNode primitive W padding cap),
@@ -140,14 +141,13 @@ theorem uniform_rankedMeshReflection_branches
   refine ⟨decay, hdecay, hδdecay, reflection,
     fun J => ⟨horder J, hpositiveOrder J⟩, ?_⟩
   intro ground engine Cp Hp lower floor baseBoundary hground hCp hHp hlower hlowerSmall
-  let lowerMax := lower / (2 : ℝ) ^ N
-  have hlowerMax : 0 < lowerMax := div_pos hlower (by positivity)
+  let lowerMax := lower / clippedAnnulusStep upper N ^ N
+  have hlowerMax : 0 < lowerMax :=
+    div_pos hlower (pow_pos (clippedAnnulusStep_pos upper N) N)
   have hlowerMaxSmall : lowerMax ≤ 1 / 2 := by
     apply le_trans _ hlowerSmall
-    calc
-      lower / (2 : ℝ) ^ N ≤ lower / 1 :=
-        div_le_div_of_nonneg_left hlower.le (by norm_num) hpower
-      _ = lower := div_one _
+    exact div_le_self hlower.le
+      (one_le_pow₀ (clippedAnnulusStep_one_le upper N))
   let requestedOrder := fun rank : ℕ => backwardProfileOrder ground engine reflection (rank - 1)
   have hCpOne : 1 ≤ 1 + Cp := by linarith
   choose coefficients degrees hcoefficients hdegrees produce using
@@ -165,10 +165,10 @@ theorem uniform_rankedMeshReflection_branches
   have hH : 0 ≤ H := by dsimp only [H]; linarith
   refine ⟨C, H, hC, hH, ?_⟩
   intro massExponent terminalExponent hmassExponent hterminalExponent
-    T hT S instS probe rows U overhead mesh hU hoverhead hoverheadBound hfixed hround
+    T hT S instS probe rows theta U overhead mesh hU hoverhead hoverheadBound hfixed hround
   dsimp only
   let sourcePrimitive := reflectionRankedAnnulusPrimitive
-    (ω := omegaCharacter) (ψ := psiCharacter) S probe rows U ground engine reflection
+    (ω := omegaCharacter) (ψ := psiCharacter) S probe rows theta U ground engine reflection
     σ W padding decay (profileFamilyBudget Cp Hp T) lower upper
   let primitive := withOriginalMesh mesh sourcePrimitive
   intro parent hslots
@@ -208,7 +208,7 @@ theorem uniform_rankedMeshReflection_branches
       (parameterCoreRank_lt_bound parent.down.val.parameters hσ
         parent.down.property.width_le).le
     obtain ⟨extra, hcal, hmask, hnonNorm⟩ := hparent.1
-    have cal : ReflectionRowCalibration S probe rows parent.down.val extra U :=
+    have cal : MovingReflectionRowCalibration S probe rows theta parent.down.val extra U :=
       ⟨hcal.identify, hcal.product_budget⟩
     have hactualMask : ∀ u ∈ pairedRows parent.down.val.data parent.down.val.parameters U,
         ∀ I, parent.down.val.data.commonMask u I =
@@ -229,7 +229,7 @@ theorem uniform_rankedMeshReflection_branches
       exact ReflectionPrimitiveTransfer.withOriginalMesh hmesh
         (reflectionRankedAnnulusPrimitive_transfer ground engine reflection
           parent.down.val _ hPE hP hlower.le hlowerSmall hupper hparent)
-    have hbranches (hrank : 0 < rank) := produce rank T hT S probe rows primitive parent
+    have hbranches (hrank : 0 < rank) := produce rank T hT S probe rows theta primitive parent
       extra U overhead hU hoverhead hoverheadBound hordinary hslots cal hfixed hround
         hactualMask hactualNonNorm (hparentProfiles hrank) htransfer
     have hterminalScale : coefficients rank * (1 + T) ^ degrees rank * U ^ (-2 * saving) ≤

@@ -214,7 +214,7 @@ variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
 /-- The explicit first transformed pair, with both genuine zero terms.
 This is a definition of the provider's right-hand side, not transform data. -/
 def ParentPeriodicPair.firstTransform (p : ParentPeriodicPair K S Γ)
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (M : Finset (HeightOneSpectrum OS)) (r : {r : ℝ // 0 < r}) : ℂ :=
   ∑ D ∈ M.powerset, (moebius (IdealMobiusMask.primeProduct D) : ℂ) *
@@ -233,7 +233,7 @@ def ParentPeriodicPair.firstTransform (p : ParentPeriodicPair K S Γ)
 
 include ν μ in
 theorem ParentPeriodicPair.maskedSeries_eq_firstTransform (p : ParentPeriodicPair K S Γ)
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (hlc : ∀ v ∈ S, IsLocallyConstant (h v))
     (hcs : ∀ v ∈ S, HasCompactSupport (h v))
@@ -249,7 +249,7 @@ theorem parent_first_orbital_transform {ω ψ₀ : HeckeCharacter K}
     (centered : Bool) (d : MomentData K ω ψ₀) (a : RealParameters)
     (Z t Y₁ Y₂ : ℝ) {ι : Type*} (columns : Finset ι)
     (pairs : ι → ι → ParentPeriodicPair K S Γ)
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (hlc : ∀ v ∈ S, IsLocallyConstant (h v))
     (hcs : ∀ v ∈ S, HasCompactSupport (h v))

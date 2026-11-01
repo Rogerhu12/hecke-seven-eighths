@@ -142,11 +142,12 @@ theorem produce_child
       ∃ child : cal.CapacityChild input, ∀ ξ,
         f.energy ξ ≤ (child.cost ξ / f.normalizationScale) *
           pairedEnergy (child.data ξ) child.parameters f.source.base (cal.height ξ) := by
-  rcases cal.produce_capacity_child input with hzero | ⟨child⟩
+  rcases cal.produce_capacity_child input with hzero | hchild
   · left
     intro ξ
     rw [f.energy_eq_div_scale, hzero ξ, zero_div]
-  · right
+  · obtain ⟨child⟩ := hchild
+    right
     refine ⟨child, ?_⟩
     intro ξ
     rw [f.energy_eq_div_scale]
@@ -155,7 +156,8 @@ theorem produce_child
 
 def comparison (e : SecondCoefficientComparison f.dictionary) :
     SecondSideFrame (V := V) C R Ray side k :=
-  { f with dictionary := e.dictionary
+  { f with
+    dictionary := e.dictionary
     base_gt_one := f.base_gt_one
     length_pos := f.length_pos }
 
@@ -186,7 +188,23 @@ theorem centeredCoefficient_eq (e : SecondCoefficientComparison f.dictionary)
 theorem centered_sqrt_energy_le (e : SecondCoefficientComparison f.dictionary) (ξ : V) :
     Real.sqrt (f.centeredEnergy e ξ) ≤
       Real.sqrt (f.energy ξ) + Real.sqrt ((f.comparison e).energy ξ) := by
-  simp only [centeredEnergy, f.centeredCoefficient_eq]
+  have hc : f.centeredCoefficient e =
+      fun h i => f.coefficient h i - (f.comparison e).coefficient h i :=
+    funext (fun h => funext (fun i => f.centeredCoefficient_eq e h i))
+  change Real.sqrt (jointColumnEnergy R.rows f.allocation.columns
+    (fun h => R.weight h * R.correlation h) (f.centeredCoefficient e)
+    (fun h => rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ) ≤ _
+  rw [hc]
+  change Real.sqrt (jointColumnEnergy R.rows f.allocation.columns
+      (fun h => R.weight h * R.correlation h)
+      (fun h i => f.coefficient h i - (f.comparison e).coefficient h i)
+      (fun h => rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ) ≤
+    Real.sqrt (jointColumnEnergy R.rows f.allocation.columns
+      (fun h => R.weight h * R.correlation h) f.coefficient
+      (fun h => rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ) +
+    Real.sqrt (jointColumnEnergy R.rows f.allocation.columns
+      (fun h => R.weight h * R.correlation h) (f.comparison e).coefficient
+      (fun h => rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h)) ξ)
   exact sqrt_joint_energy_sub _ _ _ f.coefficient (f.comparison e).coefficient _ ξ
 
 /-- Both ordinary rectangles have the actual nonexceptional row filter

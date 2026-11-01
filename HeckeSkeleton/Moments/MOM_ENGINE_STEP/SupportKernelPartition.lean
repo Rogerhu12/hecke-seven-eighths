@@ -106,7 +106,7 @@ variable {U V : Type*} [NormedAddCommGroup U] [InnerProductSpace ℝ U]
 local notation "W" => WithLp 2 (U × V)
 
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance supportKernelPartitionCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 variable (R : ActualSecondCorrelationRows A σ H ι)
 
 /-- One literal second-divisor/finite-character term of the original kernel. -/

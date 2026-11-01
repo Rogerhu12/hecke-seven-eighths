@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMovingThreshold
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeReflectionRoot
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeReflectionParameters
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusReflectionAssembly
@@ -38,18 +39,20 @@ variable [MeasurableSpace (ℕ × Bool)] [MeasurableSingletonClass (ℕ × Bool)
 /-- The source uses its actual rank's annulus with the same height
 budget, full arithmetic mask and joint remaining-ideal calibration. -/
 def recipeRankedAnnulusReflectionPrimitive (c : TargetContext K)
+    (theta : Finset (HeckeCharacter K))
     (ground : ℕ) (engine reflection : ℕ → ℕ)
     (sigma padding A C H lower upper U T : ℝ) :
     MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop :=
-  reflectionRankedAnnulusPrimitive (places K c) (probeData K c) (momentRowCharacters K c) U
+  reflectionRankedAnnulusPrimitive (places K c) (probeData K c) (momentRowCharacters K c) theta U
     ground engine reflection sigma 2 padding A (profileFamilyBudget C H T) lower upper
 
 def recipeRankedAnnulusReflectionSystem (c : TargetContext K)
+    (theta : Finset (HeckeCharacter K))
     (ground : ℕ) (engine reflection : ℕ → ℕ)
     (A Cp Hp lower upper U T : ℝ) :
     PolynomialSystem.{0} K c.family.omega (targetCharacter K c) (recipeInductionSigma c) 2 :=
   universalPolynomialSystem.{0}
-    (recipeRankedAnnulusReflectionPrimitive c ground engine reflection (recipeInductionSigma c)
+    (recipeRankedAnnulusReflectionPrimitive c theta ground engine reflection (recipeInductionSigma c)
       (recipeInductionSigma c / 16) A Cp Hp lower upper U T)
     (recipeInductionSigma c) 2 (recipeInductionSigma c / 16) c.geometry.slots
     (recipeInduction_budget (c := c)).1
@@ -65,7 +68,7 @@ structure RecipeRankedAnnulusReflectionRootData
     {Z T : ℝ} (i : SourceMomentIndexFor K c (recipeMomentSourceData K c R) Z T)
     (s : SixthUnitClasses K (places K c)) where
   root : ULift.{0} (UniversalNode
-    (recipeRankedAnnulusReflectionPrimitive c ground engine reflection sigma padding
+    (recipeRankedAnnulusReflectionPrimitive c (recipeThetaFamily R) ground engine reflection sigma padding
       A C H lower upper (momentBaseFor i) T) 2 padding c.geometry.slots)
   root_eq : root.down.val = recipeRoot R i s
   budget_one_le : 1 ≤ profileFamilyBudget C H T
@@ -96,7 +99,7 @@ def RecipeReflectionRootData.withRankedAnnulus
     rankedAnnulusProfilePrimitive_of_top ground engine reflection
       hsigma prepared.root.down.property.width_le hlower hupper
       (modelProfileControl_fixed_budget htop (profileFamilyBudget_dominates C H hT))
-  let primitive := recipeRankedAnnulusReflectionPrimitive c ground engine reflection
+  let primitive := recipeRankedAnnulusReflectionPrimitive c (recipeThetaFamily R) ground engine reflection
     sigma padding A C H lower upper (momentBaseFor i) T
   have hinvariant : UniversalNodeInvariant primitive 2 padding c.geometry.slots
       prepared.root.down.val := {
@@ -132,7 +135,7 @@ structure RecipeRankedAnnulusReflectionFamilyData
   source : RecipeRankedAnnulusReflectionRootData R ground engine reflection (recipeInductionSigma c)
     (recipeInductionSigma c / 16) A Cp Hp lower upper i s
   scale : 1 < momentBaseFor i
-  base : ∀ x : (recipeRankedAnnulusReflectionSystem c ground engine reflection A Cp Hp lower upper
+  base : ∀ x : (recipeRankedAnnulusReflectionSystem c (recipeThetaFamily R) ground engine reflection A Cp Hp lower upper
       (momentBaseFor i) T).Label,
     x.down.val.width ≤ 16 * recipeInductionSigma c →
     x.down.val.parameters.n₁ + x.down.val.parameters.n₂ + x.down.val.data.geometry.totalLength ≤
@@ -141,7 +144,7 @@ structure RecipeRankedAnnulusReflectionFamilyData
     Nonempty (TerminalComponents.{0} (x.down.val.normalizedEnergy (momentBaseFor i) 0)
       (momentBaseFor i) T C H (16 * recipeInductionSigma c) (recipeInductionSigma c / 16)
       (recipeInductionSigma c) (sourceReserve c.family.lamA))
-  shortReflection : ∀ x : (recipeRankedAnnulusReflectionSystem c ground engine reflection A Cp Hp lower upper
+  shortReflection : ∀ x : (recipeRankedAnnulusReflectionSystem c (recipeThetaFamily R) ground engine reflection A Cp Hp lower upper
       (momentBaseFor i) T).Label,
     16 * recipeInductionSigma c < x.down.val.width →
     x.down.val.totalLength ≤ x.down.val.width + recipeInductionSigma c / 16 →
@@ -149,15 +152,15 @@ structure RecipeRankedAnnulusReflectionFamilyData
     (x.down.val.parameters.n₁ ≤ x.down.val.width / 4 ∨
       x.down.val.parameters.n₂ ≤ x.down.val.width / 4) →
     Nonempty (ShortReflectionBranchAt (Ω := (ℕ × Bool) × ℝ)
-      (recipeRankedAnnulusReflectionSystem c ground engine reflection A Cp Hp lower upper (momentBaseFor i) T)
+      (recipeRankedAnnulusReflectionSystem c (recipeThetaFamily R) ground engine reflection A Cp Hp lower upper (momentBaseFor i) T)
       x (momentBaseFor i) (sourceReserve c.family.lamA) (recipeInductionEdgeLoss c)
       (recipeInductionTerminalLoss c) C ((1 + T) ^ H))
-  outerReflection : ∀ x : (recipeRankedAnnulusReflectionSystem c ground engine reflection A Cp Hp lower upper
+  outerReflection : ∀ x : (recipeRankedAnnulusReflectionSystem c (recipeThetaFamily R) ground engine reflection A Cp Hp lower upper
       (momentBaseFor i) T).Label,
     x.down.val.width + recipeInductionSigma c / 16 < x.down.val.totalLength →
     x.down.val.parameters.z = 0 → x.down.val.centered = false →
     Nonempty (OuterReflectionBranchAt (Ω := (ℕ × Bool) × ℝ)
-      (recipeRankedAnnulusReflectionSystem c ground engine reflection A Cp Hp lower upper (momentBaseFor i) T)
+      (recipeRankedAnnulusReflectionSystem c (recipeThetaFamily R) ground engine reflection A Cp Hp lower upper (momentBaseFor i) T)
       x (momentBaseFor i) (recipeInductionSigma c / 16) (recipeInductionEdgeLoss c)
       (recipeInductionTerminalLoss c) C ((1 + T) ^ H))
 
@@ -214,13 +217,12 @@ theorem recipeRankedAnnulusReflectionFamily_preparation
     decay, hdecay, reflection, hreflection, ?_⟩
   intro ground engine hground
   have hσ := (recipeInduction_budget (c := c)).1
-  obtain ⟨Cp, Hp, hCp, hHp, roots⟩ := hsource ground engine reflection
-    (recipeInductionSigma c) (recipeInductionSigma c / 16) decay hσ (by linarith)
+  obtain ⟨Cp, Hp, hCp, _hminimumCp, hHp, roots⟩ := hsource ground engine reflection
+    (recipeInductionSigma c) (recipeInductionSigma c / 16) decay 0 hσ (by linarith)
   obtain ⟨C, H, hC, hH, produce⟩ := hbranches ground engine Cp Hp lower
     (16 * recipeInductionSigma c) (sourceReserve c.family.lamA)
     hground hCp.le hHp hlower hlowerSmall
-  obtain ⟨U₀, hU₀, hthreshold⟩ := recipe_reflection_conductor_threshold c.family.lamA_pos
-    (places K c) (targetCharacter K c)
+  obtain ⟨U₀, hU₀, hthreshold⟩ := recipe_source_moving_conductor_threshold R
   let Z₀ := U₀ ^ (16 : ℕ)
   have hZ₀ : 1 ≤ Z₀ := one_le_pow₀ ((by norm_num : (1 : ℝ) ≤ 2).trans hU₀)
   refine ⟨Cp, Hp, C, H, Z₀, hCp, hHp, hC, hH, hZ₀, ?_⟩
@@ -254,7 +256,7 @@ theorem recipeRankedAnnulusReflectionFamily_preparation
     obtain ⟨hfixed, hround⟩ := hthreshold (momentBaseFor i) (hUbase i)
     have nodes := produce (recipeInductionEdgeLoss c) (recipeInductionTerminalLoss c)
       hmassLoss hterminalLoss T hT (places K c) (probeData K c) (momentRowCharacters K c)
-      (momentBaseFor i) (sourceReserve c.family.lamA / 8) hU (by positivity) le_rfl hfixed hround
+      (recipeThetaFamily R) (momentBaseFor i) (sourceReserve c.family.lamA / 8) hU (by positivity) le_rfl hfixed hround
     refine ⟨{ source := RecipeReflectionRootData.withRankedAnnulus R prepared hσ
         hlower.le (by linarith) hT, scale := hU, base := ?_,
       shortReflection := ?_, outerReflection := ?_ }⟩

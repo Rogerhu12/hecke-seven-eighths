@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingReflectionCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualCommonReflection
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualReflectionDensity
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceProfileAnnulus
@@ -73,12 +74,13 @@ theorem uniform_ordinaryReflection_output
       lower ≤ 1 / 2 → 2 ≤ upper →
       ∀ (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
       (probe : ProbeData K S) (rows : RowCharacterInput K S probe)
+        (theta : Finset (HeckeCharacter K))
       (d : MomentData K omegaCharacter psiCharacter)
       (a : RealParameters) (first : Bool) (extra : NonzeroIdeal K → NonzeroIdeal K)
       (U overhead loss : ℝ),
       1 < U → d.geometry.slotCount ≤ cap →
-      ReflectionRowCalibration S probe rows (Node.ordinary d a) extra U →
-      uniformReflectionConductorConstant S psiCharacter ≤ U ^ overhead →
+      MovingReflectionRowCalibration S probe rows theta (Node.ordinary d a) extra U →
+      movingReflectionConductorConstant S psiCharacter theta ≤ U ^ overhead →
       ε * (a.m + a.q + overhead) ≤ loss →
       (∀ u ∈ pairedRows d a U, ∀ I, d.commonMask u I =
         (completeIdealCommonMask K S u I && decide (IsCoprime I (extra u).val))) →
@@ -107,7 +109,7 @@ theorem uniform_ordinaryReflection_output
   obtain ⟨L, hL, C, hC, hdensity⟩ := normalizedMomentReflectionDensity_uniform
     hcomplex psiCharacter hδ hδA hupper hε hE0 childOrder cap
   refine ⟨E0, hE0, L, hL, C, hC, ?_⟩
-  intro P lower hP hlower hlowerSmall hupperLarge S instS probe rows d a
+  intro P lower hP hlower hlowerSmall hupperLarge S instS probe rows theta d a
     first extra U overhead loss hU hcount cal hfixed hloss hmask hcharacter hprofiles
     hinterval hPE cutoff
   dsimp only

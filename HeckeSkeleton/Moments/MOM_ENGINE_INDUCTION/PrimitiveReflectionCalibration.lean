@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RestorationRows
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingReflectionCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryProfileNormalization
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
@@ -48,6 +48,7 @@ structure ReflectionArithmeticPreserved (parent child : Node K ω ψ) (U : ℝ) 
   theta : child.data.theta = parent.data.theta
   commonMask : child.data.commonMask = parent.data.commonMask
   width : child.width = parent.width
+  q : child.parameters.q = parent.parameters.q
 
 namespace ReflectionArithmeticPreserved
 
@@ -63,6 +64,31 @@ theorem calibration {parent child : Node K ω ψ} {U : ℝ}
   · intro u hu
     obtain ⟨v, hv, ξ, hξ⟩ := cal.identify u (h.rows ▸ hu)
     exact ⟨v, hv, ξ, by simpa only [h.rowCharacter] using hξ⟩
+  · intro u hu
+    simpa only [h.width] using cal.product_budget u (h.rows ▸ hu)
+
+/-- The actual moving support, its separate q budget, every fixed
+factor and correction survive. Width preservation alone is not used to
+transport the q budget. -/
+theorem movingCalibration {parent child : Node K ω ψ} {U : ℝ}
+    (h : ReflectionArithmeticPreserved parent child U)
+    {S : Set (HeightOneSpectrum (𝓞 K))} [Fintype S]
+    {P : ProbeData K S} {R : RowCharacterInput K S P}
+    {theta : Finset (HeckeCharacter K)}
+    {extra : NonzeroIdeal K → NonzeroIdeal K}
+    (cal : MovingReflectionRowCalibration S P R theta parent extra U) :
+    MovingReflectionRowCalibration S P R theta child extra U := by
+  obtain ⟨count, factors, sectors, powers, displayed, correction,
+    hcorrection, hfactors, hsupport, hextra, hidentify⟩ := cal.identify
+  constructor
+  · refine ⟨count, factors, sectors, powers, displayed, correction,
+      hcorrection, hfactors, ?_, ?_, ?_⟩
+    · simpa only [h.q] using hsupport
+    · intro u hu
+      exact hextra u (h.rows ▸ hu)
+    · intro u hu
+      obtain ⟨v, hv, sector, hrow⟩ := hidentify u (h.rows ▸ hu)
+      exact ⟨v, hv, sector, by simpa only [h.rowCharacter] using hrow⟩
   · intro u hu
     simpa only [h.width] using cal.product_budget u (h.rows ▸ hu)
 
@@ -116,12 +142,12 @@ def Node.normalizedOrdinaryPowerChildNode (n : Node K ω ψ) (first : Bool)
 
 theorem Node.freezeTime_reflectionArithmetic (n : Node K ω ψ) (time U : ℝ) :
     ReflectionArithmeticPreserved n (n.freezeTime time) U :=
-  ⟨rfl, rfl, rfl, rfl, rfl, rfl⟩
+  ⟨rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩
 
 theorem Node.scaleProfiles_reflectionArithmetic (n : Node K ω ψ)
     (a : ℝ) (ha : 0 < a) (U : ℝ) :
     ReflectionArithmeticPreserved n (n.scaleProfiles a ha) U :=
-  ⟨rfl, rfl, rfl, rfl, rfl, rfl⟩
+  ⟨rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩
 
 theorem Node.normalizeProfiles_reflectionArithmetic (n : Node K ω ψ)
     (A : ℝ) (hA : 0 < A) (U : ℝ) :
@@ -131,13 +157,13 @@ theorem Node.normalizeProfiles_reflectionArithmetic (n : Node K ω ψ)
 theorem Node.ordinaryPowerChildNode_reflectionArithmetic (n : Node K ω ψ)
     (first : Bool) (σ frequency length U : ℝ) :
     ReflectionArithmeticPreserved n (n.ordinaryPowerChildNode first σ frequency length) U :=
-  ⟨rfl, rfl, rfl, rfl, rfl, rfl⟩
+  ⟨rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩
 
 theorem Node.normalizedOrdinaryPowerChildNode_reflectionArithmetic (n : Node K ω ψ)
     (first : Bool) (σ frequency length E0 : ℝ) (hE0 : 1 ≤ E0) (J : ℕ) (U : ℝ) :
     ReflectionArithmeticPreserved n
       (n.normalizedOrdinaryPowerChildNode first σ frequency length E0 hE0 J) U :=
-  ⟨rfl, rfl, rfl, rfl, rfl, rfl⟩
+  ⟨rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩
 
 namespace Source
 

@@ -45,6 +45,15 @@ theorem profileFamilyBudget_dominates (C H : ℝ) {T : ℝ} (hT : 0 ≤ T) :
   unfold profileFamilyBudget
   nlinarith
 
+/-- A fixed finite-order coefficient can be paid once in the original
+source envelope, before its height or any descendant is chosen. -/
+theorem coefficient_le_profileFamilyBudget {D C H T : ℝ}
+    (hC : 0 ≤ C) (hDC : D ≤ C) (hH : 0 ≤ H) (hT : 0 ≤ T) :
+    D ≤ profileFamilyBudget C H T := by
+  have hheight : 1 ≤ (1 + T) ^ H := Real.one_le_rpow (by linarith) hH
+  exact hDC.trans ((le_mul_of_one_le_right hC hheight).trans
+    (profileFamilyBudget_dominates C H hT))
+
 /-- Every fixed power of the source budget has one fixed height degree.
 No continuous child frequency is inserted into the source height box. -/
 theorem profileFamilyBudget_pow (C H : ℝ) {T : ℝ} (hT : 0 ≤ T) (n : ℕ) :

@@ -143,12 +143,14 @@ theorem LabeledEngineOutput.children_earlier
         ((S.withCoreStages padding).schedule x) ∧
       ((S.withCoreStages padding).schedule (branch.right b parameter)).Earlier
         ((S.withCoreStages padding).schedule x) := by
+  have hwidth : n.parameters.m + n.parameters.q =
+      (S.node x).parameters.m + (S.node x).parameters.q :=
+    congrArg (fun a : RealParameters => a.m + a.q) hparameters
   constructor
   · apply (S.withCoreStages padding).earlier_of_width_drop (branch.left b parameter) x
     · change (S.node (branch.left b parameter)).width + sigma / 2 ≤ (S.node x).width
       rw [branch.left_eq]
       have hdrop := branch.output.left_width b
-      rw [hparameters] at hdrop
       change (branch.output.leftParameters b).m + (branch.output.leftParameters b).q +
         sigma / 2 ≤ (S.node x).parameters.m + (S.node x).parameters.q
       linarith
@@ -161,7 +163,6 @@ theorem LabeledEngineOutput.children_earlier
     · change (S.node (branch.right b parameter)).width + sigma / 2 ≤ (S.node x).width
       rw [branch.right_eq]
       have hdrop := branch.output.right_width b
-      rw [hparameters] at hdrop
       change (branch.output.rightParameters b).m + (branch.output.rightParameters b).q +
         sigma / 2 ≤ (S.node x).parameters.m + (S.node x).parameters.q
       linarith

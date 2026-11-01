@@ -129,11 +129,73 @@ theorem withMultiplier_kernel
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val)) (D : s.mask.powerset) :
     ((s.withMultiplier u).charts DE D).kernel = (s.charts DE D).kernel := rfl
 
+/-- Unit phases preserve the nonzero pair profiles used by the physical
+cutoff. An arbitrary complex multiplier need not preserve these rows:
+the zero multiplier deletes every active pair profile. -/
 theorem withMultiplier_rows
-    (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest) (u : ι → ℂ)
+    (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest) (u : ι → Circle)
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val)) :
-    ((s.withMultiplier u).sources DE).rows = (s.sources DE).rows := rfl
+    ((s.withMultiplier (fun i => (u i : ℂ))).sources DE).rows =
+      (s.sources DE).rows := by
+  let v : ι → ℂ := fun i => (u i : ℂ)
+  have hv (i : ι) : v i ≠ 0 := Circle.coe_ne_zero (u i)
+  let s' := s.withMultiplier v
+  have hprofile (i j : ι) :
+      ((s'.sources DE).pairs i j).profile ≠ 0 ↔
+        ((s.sources DE).pairs i j).profile ≠ 0 := by
+    change ((v i * G.coefficient i) *
+        star (v j * G.coefficient j)) • s.profile ≠ 0 ↔
+      (G.coefficient i * star (G.coefficient j)) • s.profile ≠ 0
+    have hphase : v i * star (v j) ≠ 0 := by
+      apply mul_ne_zero (hv i)
+      intro hz
+      exact hv j (star_eq_zero.mp hz)
+    have hfactor :
+        ((v i * G.coefficient i) * star (v j * G.coefficient j)) • s.profile =
+          (v i * star (v j)) •
+            ((G.coefficient i * star (G.coefficient j)) • s.profile) := by
+      rw [smul_smul, star_mul]
+      congr 1
+      ring
+    rw [hfactor]
+    constructor
+    · intro hn hz
+      apply hn
+      rw [hz, smul_zero]
+    · intro hn hz
+      apply hn
+      have hinv := congrArg
+        (fun φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ =>
+          (v i * star (v j))⁻¹ • φ) hz
+      simpa only [inv_smul_smul₀ hphase, smul_zero] using hinv
+  have hbranches : (s'.sources DE).branches = (s.sources DE).branches := rfl
+  have hfilter :
+      ((s'.sources DE).branches.filter
+        (fun e => ((s'.sources DE).pairs e.1.1 e.1.2).profile ≠ 0)) =
+      ((s.sources DE).branches.filter
+        (fun e => ((s.sources DE).pairs e.1.1 e.1.2).profile ≠ 0)) := by
+    ext e
+    simp only [Finset.mem_filter, hbranches, hprofile]
+  have hinverse : (s'.sources DE).inverseRadii = (s.sources DE).inverseRadii := by
+    unfold FirstFiniteSource.inverseRadii
+    rw [hfilter]
+    apply congrArg (fun t : Finset ℝ => insert 0 t)
+    apply Finset.image_congr
+    intro e _
+    rfl
+  have hbound : (s'.sources DE).inverseRadiusBound =
+      (s.sources DE).inverseRadiusBound := by
+    unfold FirstFiniteSource.inverseRadiusBound
+    exact Finset.sup'_congr (by exact Finset.insert_nonempty _ _)
+      hinverse (fun _ _ => rfl)
+  have hcutoff : (s'.sources DE).physicalCutoff = (s.sources DE).physicalCutoff := by
+    change s.cutoff * (s'.sources DE).inverseRadiusBound =
+      s.cutoff * (s.sources DE).inverseRadiusBound
+    exact congrArg (fun x => s.cutoff * x) hbound
+  change (s'.sources DE).rows = (s.sources DE).rows
+  unfold FirstFiniteSource.rows
+  rw [hcutoff]
 
 end ActualGaussStage
 
@@ -172,4 +234,5 @@ end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.OrbitalGaussColumn.secondProfile_smul
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.withMultiplier
+#print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.withMultiplier_rows
 #print axioms HeckeSkeleton.Moments.EngineStep.FirstGaussPoolData.residualSource_twisted

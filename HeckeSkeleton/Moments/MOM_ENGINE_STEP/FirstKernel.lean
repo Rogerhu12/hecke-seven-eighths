@@ -92,7 +92,7 @@ theorem kernelDivisorCoefficient_eq_fun {ι H : Type*}
   exact kernelDivisorCoefficient_eq_mul ideals D c phase G h i
 
 variable (K) (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
-variable (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+variable (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
 local notation "OS" => S.integer K
 
 /-- The complete positive-sign Gauss column on the actual S-integer ring.
@@ -106,7 +106,7 @@ def actualSIntegerGauss (a : OS) (ha : a ≠ 0)
 
 variable [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance firstKernelCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 /-- The first residual mixed form is bounded by genuine whole Gauss norms.
 The common finite factor is kept in the same row weight on both sides.

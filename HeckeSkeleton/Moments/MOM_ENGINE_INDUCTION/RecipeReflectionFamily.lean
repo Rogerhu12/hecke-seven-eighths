@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMovingThreshold
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeReflectionRoot
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeReflectionParameters
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedReflectionAssembly
@@ -36,11 +37,12 @@ variable {K : Type} [Field K] [NumberField K] {c : TargetContext K}
 variable [MeasurableSpace (ℕ × Bool)] [MeasurableSingletonClass (ℕ × Bool)]
 
 def recipeReflectionSystem (c : TargetContext K)
+    (theta : Finset (HeckeCharacter K))
     (ground : ℕ) (engine reflection : ℕ → ℕ)
     (A Cp Hp lower upper U T : ℝ) :
     PolynomialSystem.{0} K c.family.omega (targetCharacter K c) (recipeInductionSigma c) 2 :=
   universalPolynomialSystem.{0}
-    (recipeReflectionPrimitive c ground engine reflection (recipeInductionSigma c)
+    (recipeReflectionPrimitive c theta ground engine reflection (recipeInductionSigma c)
       (recipeInductionSigma c / 16) A Cp Hp lower upper U T)
     (recipeInductionSigma c) 2 (recipeInductionSigma c / 16) c.geometry.slots
     (recipeInduction_budget (c := c)).1
@@ -59,7 +61,7 @@ structure RecipeReflectionFamilyData
   source : RecipeReflectionRootData R ground engine reflection (recipeInductionSigma c)
     (recipeInductionSigma c / 16) A Cp Hp lower upper i s
   scale : 1 < momentBaseFor i
-  base : ∀ x : (recipeReflectionSystem c ground engine reflection A Cp Hp lower upper
+  base : ∀ x : (recipeReflectionSystem c (recipeThetaFamily R) ground engine reflection A Cp Hp lower upper
       (momentBaseFor i) T).Label,
     x.down.val.width ≤ 16 * recipeInductionSigma c →
     x.down.val.parameters.n₁ + x.down.val.parameters.n₂ + x.down.val.data.geometry.totalLength ≤
@@ -68,7 +70,7 @@ structure RecipeReflectionFamilyData
     Nonempty (TerminalComponents.{0} (x.down.val.normalizedEnergy (momentBaseFor i) 0)
       (momentBaseFor i) T C H (16 * recipeInductionSigma c) (recipeInductionSigma c / 16)
       (recipeInductionSigma c) (sourceReserve c.family.lamA))
-  shortReflection : ∀ x : (recipeReflectionSystem c ground engine reflection A Cp Hp lower upper
+  shortReflection : ∀ x : (recipeReflectionSystem c (recipeThetaFamily R) ground engine reflection A Cp Hp lower upper
       (momentBaseFor i) T).Label,
     16 * recipeInductionSigma c < x.down.val.width →
     x.down.val.totalLength ≤ x.down.val.width + recipeInductionSigma c / 16 →
@@ -76,15 +78,15 @@ structure RecipeReflectionFamilyData
     (x.down.val.parameters.n₁ ≤ x.down.val.width / 4 ∨
       x.down.val.parameters.n₂ ≤ x.down.val.width / 4) →
     Nonempty (ShortReflectionBranchAt (Ω := (ℕ × Bool) × ℝ)
-      (recipeReflectionSystem c ground engine reflection A Cp Hp lower upper (momentBaseFor i) T)
+      (recipeReflectionSystem c (recipeThetaFamily R) ground engine reflection A Cp Hp lower upper (momentBaseFor i) T)
       x (momentBaseFor i) (sourceReserve c.family.lamA) (recipeInductionEdgeLoss c)
       (recipeInductionTerminalLoss c) C ((1 + T) ^ H))
-  outerReflection : ∀ x : (recipeReflectionSystem c ground engine reflection A Cp Hp lower upper
+  outerReflection : ∀ x : (recipeReflectionSystem c (recipeThetaFamily R) ground engine reflection A Cp Hp lower upper
       (momentBaseFor i) T).Label,
     x.down.val.width + recipeInductionSigma c / 16 < x.down.val.totalLength →
     x.down.val.parameters.z = 0 → x.down.val.centered = false →
     Nonempty (OuterReflectionBranchAt (Ω := (ℕ × Bool) × ℝ)
-      (recipeReflectionSystem c ground engine reflection A Cp Hp lower upper (momentBaseFor i) T)
+      (recipeReflectionSystem c (recipeThetaFamily R) ground engine reflection A Cp Hp lower upper (momentBaseFor i) T)
       x (momentBaseFor i) (recipeInductionSigma c / 16) (recipeInductionEdgeLoss c)
       (recipeInductionTerminalLoss c) C ((1 + T) ^ H))
 
@@ -141,13 +143,12 @@ theorem recipeReflectionFamily_preparation
     decay, hdecay, reflection, hreflection, ?_⟩
   intro ground engine hground
   have hσ := (recipeInduction_budget (c := c)).1
-  obtain ⟨Cp, Hp, hCp, hHp, roots⟩ := hsource ground engine reflection
-    (recipeInductionSigma c) (recipeInductionSigma c / 16) decay hσ (by linarith)
+  obtain ⟨Cp, Hp, hCp, _hminimumCp, hHp, roots⟩ := hsource ground engine reflection
+    (recipeInductionSigma c) (recipeInductionSigma c / 16) decay 0 hσ (by linarith)
   obtain ⟨C, H, hC, hH, produce⟩ := hbranches ground engine Cp Hp lower
     (16 * recipeInductionSigma c) (sourceReserve c.family.lamA)
     hground hCp.le hHp hlower hlowerSmall
-  obtain ⟨U₀, hU₀, hthreshold⟩ := recipe_reflection_conductor_threshold c.family.lamA_pos
-    (places K c) (targetCharacter K c)
+  obtain ⟨U₀, hU₀, hthreshold⟩ := recipe_source_moving_conductor_threshold R
   let Z₀ := U₀ ^ (16 : ℕ)
   have hZ₀ : 1 ≤ Z₀ := one_le_pow₀ ((by norm_num : (1 : ℝ) ≤ 2).trans hU₀)
   refine ⟨Cp, Hp, C, H, Z₀, hCp, hHp, hC, hH, hZ₀, ?_⟩
@@ -181,7 +182,7 @@ theorem recipeReflectionFamily_preparation
     obtain ⟨hfixed, hround⟩ := hthreshold (momentBaseFor i) (hUbase i)
     have nodes := produce (recipeInductionEdgeLoss c) (recipeInductionTerminalLoss c)
       hmassLoss hterminalLoss T hT (places K c) (probeData K c) (momentRowCharacters K c)
-      (momentBaseFor i) (sourceReserve c.family.lamA / 8) hU (by positivity) le_rfl hfixed hround
+      (recipeThetaFamily R) (momentBaseFor i) (sourceReserve c.family.lamA / 8) hU (by positivity) le_rfl hfixed hround
     refine ⟨{ source := prepared, scale := hU, base := ?_,
       shortReflection := ?_, outerReflection := ?_ }⟩
     · intro x _hwidth hlength

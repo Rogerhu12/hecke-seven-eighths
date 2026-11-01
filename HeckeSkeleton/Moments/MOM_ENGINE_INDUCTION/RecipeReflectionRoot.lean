@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeThetaFamily
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionPrimitiveFamily
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalSourceRoot
 
@@ -35,10 +36,11 @@ variable {K : Type} [Field K] [NumberField K] {c : TargetContext K}
 one scale and height. The source budget is shared by its unchanged root
 and all genuinely normalized descendants. -/
 def recipeReflectionPrimitive (c : TargetContext K)
+    (theta : Finset (HeckeCharacter K))
     (ground : ℕ) (engine reflection : ℕ → ℕ)
     (σ padding A C H lower upper U T : ℝ) :
     MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop :=
-  reflectionProfilePrimitive (places K c) (probeData K c) (momentRowCharacters K c) U
+  reflectionProfilePrimitive (places K c) (probeData K c) (momentRowCharacters K c) theta U
     ground engine reflection σ 2 padding A (profileFamilyBudget C H T) lower upper
 
 variable (R : ExpansionRecipe.RecipeExpansion K (places K c) (targetCharacter K c)
@@ -54,7 +56,7 @@ structure RecipeReflectionRootData
     {Z T : ℝ} (i : SourceMomentIndexFor K c (recipeMomentSourceData K c R) Z T)
     (s : SixthUnitClasses K (places K c)) where
   root : ULift.{0} (UniversalNode
-    (recipeReflectionPrimitive c ground engine reflection σ padding A C H lower upper
+    (recipeReflectionPrimitive c (recipeThetaFamily R) ground engine reflection σ padding A C H lower upper
       (momentBaseFor i) T) 2 padding c.geometry.slots)
   root_eq : root.down.val = recipeRoot R i s
   budget_one_le : 1 ≤ profileFamilyBudget C H T
@@ -72,7 +74,7 @@ private def prepareRecipeReflectionRoot
     (hcapacity : (recipeRoot R i s).parameters.z = 0 ∨ pairedCapacityFor i)
     (harithmetic : admissibleOfInvariant
       (reflectionArithmeticPrimitive (places K c) (probeData K c) (momentRowCharacters K c)
-        (momentBaseFor i)) (recipeRoot R i s).data (recipeRoot R i s).parameters)
+        (recipeThetaFamily R) (momentBaseFor i)) (recipeRoot R i s).data (recipeRoot R i s).parameters)
     (htop : ModelProfileControl (recipeRoot R i s).data
       (backwardProfileOrder ground engine reflection (6 * (widthBand σ 2 + 1)))
       A C H lower upper T) :
@@ -84,7 +86,7 @@ private def prepareRecipeReflectionRoot
     rankedProfilePrimitive_of_top ground engine reflection hσ
       (recipeRoot_width_range R i s).2
       (modelProfileControl_fixed_budget htop (profileFamilyBudget_dominates C H hT))
-  let primitive := recipeReflectionPrimitive c ground engine reflection
+  let primitive := recipeReflectionPrimitive c (recipeThetaFamily R) ground engine reflection
     σ padding A C H lower upper (momentBaseFor i) T
   have hadmissible : admissibleOfInvariant primitive
       (recipeRoot R i s).data (recipeRoot R i s).parameters := ⟨harithmetic, hrank⟩
@@ -104,7 +106,7 @@ def RecipeReflectionRootData.label
     (prepared : RecipeReflectionRootData R ground engine reflection
       σ padding A C H lower upper i s) (hσ : 0 < σ) :
     (universalPolynomialSystem.{0}
-      (recipeReflectionPrimitive c ground engine reflection σ padding A C H lower upper
+      (recipeReflectionPrimitive c (recipeThetaFamily R) ground engine reflection σ padding A C H lower upper
         (momentBaseFor i) T) σ 2 padding c.geometry.slots hσ).Label := prepared.root
 
 theorem RecipeReflectionRootData.label_eq
@@ -115,7 +117,7 @@ theorem RecipeReflectionRootData.label_eq
     (prepared : RecipeReflectionRootData R ground engine reflection
       σ padding A C H lower upper i s) (hσ : 0 < σ) :
     (universalPolynomialSystem.{0}
-      (recipeReflectionPrimitive c ground engine reflection σ padding A C H lower upper
+      (recipeReflectionPrimitive c (recipeThetaFamily R) ground engine reflection σ padding A C H lower upper
         (momentBaseFor i) T) σ 2 padding c.geometry.slots hσ).node
           (RecipeReflectionRootData.label R prepared hσ) =
       recipeRoot R i s := prepared.root_eq
@@ -130,8 +132,8 @@ theorem recipeReflectionRoot_preparation {lengthBound : ℝ}
     (hprofiles : WholeMomentProfileControlFor (recipeMomentModels K c R))
     (w : InfinitePlace K) (hψ : heckeRadialParameter K w (targetCharacter K c) = 0) :
     ∃ lower upper : ℝ, 0 < lower ∧ lower ≤ 1 / 2 ∧ 2 ≤ upper ∧ lower < upper ∧
-      ∀ (ground : ℕ) (engine reflection : ℕ → ℕ) (σ padding A : ℝ),
-      0 < σ → 0 ≤ A → ∃ C H : ℝ, 0 < C ∧ 0 ≤ H ∧
+      ∀ (ground : ℕ) (engine reflection : ℕ → ℕ) (σ padding A minimumCp : ℝ),
+      0 < σ → 0 ≤ A → ∃ C H : ℝ, 0 < C ∧ minimumCp ≤ C ∧ 0 ≤ H ∧
       ∀ Z T : ℝ, 0 ≤ T →
       ∀ (i : SourceMomentIndexFor K c (recipeMomentSourceData K c R) Z T)
         (s : SixthUnitClasses K (places K c)),
@@ -146,19 +148,31 @@ theorem recipeReflectionRoot_preparation {lengthBound : ℝ}
   obtain ⟨lower, upper, hlower, hlowerSmall, hupper, hinterval, hprofiles⟩ :=
     recipeRoot_fixed_annulus_profiles R hgeom hprofiles
   refine ⟨lower, upper, hlower, hlowerSmall, hupper, hinterval, ?_⟩
-  intro ground engine reflection σ padding A hσ hA
-  obtain ⟨C, H, hC, hH, htop⟩ := hprofiles
+  intro ground engine reflection σ padding A minimumCp hσ hA
+  obtain ⟨C₀, H, hC₀, hH, htop₀⟩ := hprofiles
     (backwardProfileOrder ground engine reflection (6 * (widthBand σ 2 + 1))) A hA
-  refine ⟨C, H, hC, hH, ?_⟩
+  let C := max C₀ minimumCp
+  have hC : 0 < C := hC₀.trans_le (le_max_left _ _)
+  refine ⟨C, H, hC, le_max_right _ _, hH, ?_⟩
   intro Z T hT i s
+  have htop (j : SourceMomentIndexFor K c (recipeMomentSourceData K c R) Z T)
+      (sector : SixthUnitClasses K (places K c)) :
+      ModelProfileControl (recipeRoot R j sector).data
+        (backwardProfileOrder ground engine reflection (6 * (widthBand σ 2 + 1)))
+        A C H lower upper T := by
+    intro q
+    have h := htop₀ Z T j sector q
+    exact ⟨h.1, h.2.1, h.2.2.trans
+      (mul_le_mul_of_nonneg_right (le_max_left _ _)
+        (Real.rpow_nonneg (by linarith : 0 ≤ 1 + T) H))⟩
   have hP : 1 ≤ profileFamilyBudget C H T := profileFamilyBudget_one_le hC.le hH hT
   constructor
   · exact ⟨prepareRecipeReflectionRoot R ground engine reflection σ padding A C H lower upper hσ
       hgeom i.noSlots s hT hP (Or.inl (recipeRoot_noSlots_zero R i s))
-      (recipeRoot_noSlots_reflectionArithmeticPrimitive R i s w hψ) (htop Z T i.noSlots s)⟩
+      (recipeRoot_noSlots_reflectionArithmeticPrimitive R i s (recipeThetaFamily R) w hψ) (htop i.noSlots s)⟩
   · intro hfinite hcapacity
     exact ⟨prepareRecipeReflectionRoot R ground engine reflection σ padding A C H lower upper hσ
       hgeom i s hT hP (Or.inr hcapacity)
-      (recipeRoot_reflectionArithmeticPrimitive R i s w hψ hfinite) (htop Z T i s)⟩
+      (recipeRoot_reflectionArithmeticPrimitive R i s (recipeThetaFamily R) w hψ hfinite) (htop i s)⟩
 
 end HeckeSkeleton.Moments.EngineInduction.Source

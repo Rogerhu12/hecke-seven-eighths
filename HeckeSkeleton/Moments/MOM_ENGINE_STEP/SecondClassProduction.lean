@@ -30,7 +30,7 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments HeckePort.Moments.MobiusRegroup HeckePort.IdealMobiusDivisorSum
-open WholeAllocation
+open WholeAllocation UniqueFactorizationMonoid
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -135,7 +135,7 @@ theorem frame_energy (C : A.GeneralArithmeticContext σ η hS)
       jointColumnEnergy R.rows
         (pairedAllocatedColumns L a S₁ S₂ S id id HeightOneSpectrum.asIdeal)
         (fun h => R.weight h * R.correlation h)
-        (side.actualCoefficient Ray ideal R.frequency ray χ c) point ξ := by
+        (side.actualCoefficient (σ := σ) Ray ideal R.frequency ray χ c) point ξ := by
   unfold SecondSideFrame.energy jointColumnEnergy
   apply Finset.sum_congr rfl
   intro h hh
@@ -144,7 +144,7 @@ theorem frame_energy (C : A.GeneralArithmeticContext σ η hS)
         ((f.frame C L a hne).coefficient h)
         (fun i => rawSourceLocation (f.leftLocation h) (f.rightLocation h) (f.slotLocation h) i) ξ =
       jointFourierColumn (pairedAllocatedColumns L a S₁ S₂ S id id HeightOneSpectrum.asIdeal)
-        (side.actualCoefficient Ray ideal R.frequency ray χ c h) (point h) ξ := by
+        (side.actualCoefficient (σ := σ) Ray ideal R.frequency ray χ c h) (point h) ξ := by
     unfold jointFourierColumn
     apply Finset.sum_congr rfl
     intro i hi
@@ -156,8 +156,9 @@ theorem frame_energy (C : A.GeneralArithmeticContext σ η hS)
     cases side <;>
       simp only [SecondSideFrame.coefficient, SecondColumnSide.actualCoefficient,
         frame, secondAllocatedLeftCoefficient, secondAllocatedRightCoefficient,
-        f.coefficient_factor i hi', f.ray_factor i hi']
-  rw [hp]
+        f.coefficient_factor i hi', f.ray_factor i hi'] <;> rfl
+  simpa only [frame, allocation, ActualColumnAllocation.columns] using
+    congrArg (fun z : ℂ => ‖R.weight h * R.correlation h‖ * ‖z‖ ^ 2) hp
 
 end SecondRectangularFactors
 
@@ -228,7 +229,7 @@ section FiniteClass
 
 variable [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance secondClassProductionCircleCharacterFintype1 : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 /-- The literal labels of the actual second Möbius and allocation sums. -/
 abbrev SecondAllocationBranch
@@ -330,8 +331,17 @@ theorem secondAllocatedKernelCost_eq_live_branches :
     simp only [secondAllocatedKernelCost, secondAllocationBranchCost,
       SecondAllocationBranch.weight, SecondAllocationBranch.leftColumns,
       SecondAllocationBranch.rightColumns, ActualSecondCorrelationRows.correlation,
-      Fintype.sum_sigma, Fintype.sum_prod_type, Finset.sum_coe_sort,
-      Finset.mul_sum, mul_assoc]
+      Fintype.sum_sigma, Fintype.sum_prod_type, Finset.mul_sum, mul_assoc]
+    refine (Finset.sum_coe_sort
+      (divisorPool (childCartesianColumns T₁ T₂ T) (fun j => (IB j).val)) _).symm.trans ?_
+    apply Finset.sum_congr rfl
+    intro L _
+    apply Finset.sum_congr rfl
+    intro χ _
+    refine (Finset.sum_coe_sort (AllocationMass.idealAllocations L.val (k + 2)) _).symm.trans ?_
+    apply Finset.sum_congr rfl
+    intro a _
+    exact (Finset.sum_coe_sort (AllocationMass.idealAllocations L.val (l + 2)) _).symm
   rw [hall, Finset.sum_coe_sort]
   unfold liveSecondAllocationBranches
   rw [Finset.sum_filter]
@@ -374,13 +384,15 @@ theorem secondAllocationBranchCost_eq_produced
       phaseTable c f x y b.val =
     secondProducedBranchCost R F S₁ S₂ S T₁ T₂ T IA IB rayLeft rayRight
       phaseTable c f x y C leftFactors rightFactors b := by
-  unfold secondAllocationBranchCost secondProducedBranchCost
-  congr 1
+  apply congrArg (fun t : ℝ => b.val.weight phaseTable * t)
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun ξ => by
-    unfold secondLiveLeftFrame secondLiveRightFrame
-    rw [SecondRectangularFactors.frame_energy, SecondRectangularFactors.frame_energy]
-    rfl
+    have hl := (leftFactors b.val.2.1).frame_energy C b.val.1.val b.val.2.2.1.val
+      (Finset.mem_filter.mp b.property).2.2.1 ξ
+    have hr := (rightFactors b.val.2.1).frame_energy C b.val.1.val b.val.2.2.2.val
+      (Finset.mem_filter.mp b.property).2.2.2 ξ
+    exact (congrArg₂ (fun l r : ℝ => ‖(𝓕 F) ξ‖ * (Real.sqrt l * Real.sqrt r))
+      hl hr).symm
 
 variable {ω ψ : HeckeCharacter K}
 variable (P : ProfileNormalizationInput K ω ψ)
@@ -436,14 +448,14 @@ variable {hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
   HeckeGeneral.Characters.localDifferentExponent K v = 0}
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
-local instance : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance secondClassProductionCircleCharacterFintype2 : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
 local notation "Arch" => mixedEmbedding.euclidean.mixedSpace K
 variable {α β : Type*} {fullI : α → A.Exterior} {fullJ : β → A.Exterior}
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable {block : FirstCommonCharacterBlock fullI fullJ DE}
 variable {C : A.GeneralArithmeticContext σ η hS} {left : Finset α} {right : Finset β}
-variable {profiles : α → β → SchwartzMap Arch ℂ}
+variable {profiles : α → β → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {radius : {r : ℝ // 0 < r}} {D : Finset (HeightOneSpectrum A.R)}
 
@@ -459,13 +471,13 @@ variable (R : CartesianSourceReindex (block.rightColumns right) block.rightResid
 local notation "Rows" => chart.actualRows M X hX label
 local notation "IA" => (fun i => block.leftResidual (L.index i))
 local notation "IB" => (fun i => block.rightResidual (R.index i))
-local notation "rayL" => (fun _ : AllocationColumn K k => PUnit.unit)
-local notation "rayR" => (fun _ : AllocationColumn K l => PUnit.unit)
+local notation "rayL" => (fun _ : AllocationColumn K k => (PUnit.unit : (PUnit : Type)))
+local notation "rayR" => (fun _ : AllocationColumn K l => (PUnit.unit : (PUnit : Type)))
 local notation "cL" => (fun i => chart.sourceLeftCoefficient (L.index i))
 local notation "cR" => (fun i => chart.sourceRightCoefficient (R.index i))
 local notation "xL" => (fun q i => chart.leftPoint q (L.index i))
 local notation "xR" => (fun q i => chart.rightPoint q (R.index i))
-local notation "branches" => liveSecondAllocationBranches (Ray := PUnit)
+local notation "branches" => liveSecondAllocationBranches (Ray := (PUnit : Type))
   L.plain₁ L.plain₂ L.slots R.plain₁ R.plain₂ R.slots IB
 
 /-- The complete class-production bridge from the literal source chart.
@@ -477,10 +489,10 @@ theorem class_produces_normalized_children
     (P : ProfileNormalizationInput K ω ψ)
     (rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K))
     (heightDomain window : Set ℝ) (seminorms : Finset (ℕ × ℕ))
-    (lf : ∀ χ : (PUnit × PUnit) →* Circle,
-      SecondRectangularFactors Rows PUnit .left L.plain₁ L.plain₂ L.slots IA rayL cL xL χ)
-    (rf : ∀ χ : (PUnit × PUnit) →* Circle,
-      SecondRectangularFactors Rows PUnit .right R.plain₁ R.plain₂ R.slots IB rayR cR xR χ)
+    (lf : ∀ χ : (PUnit.{1} × PUnit.{1}) →* Circle,
+      SecondRectangularFactors Rows PUnit.{1} .left L.plain₁ L.plain₂ L.slots IA rayL cL xL χ)
+    (rf : ∀ χ : (PUnit.{1} × PUnit.{1}) →* Circle,
+      SecondRectangularFactors Rows PUnit.{1} .right R.plain₁ R.plain₂ R.slots IB rayR cR xR χ)
     (lc : ∀ b : branches,
       SecondSideNormalization
         (secondLiveLeftFrame Rows L.plain₁ L.plain₂ L.slots R.plain₁ R.plain₂ R.slots
@@ -497,7 +509,7 @@ theorem class_produces_normalized_children
           R.plain₁ R.plain₂ R.slots IA IB rayL rayR (fun _ => (1 : Circle))
           cL cR xL xR C lf rf b) ∧
     ∀ b, SecondSideNormalization.Produced P (lc b) (rc b) := by
-  have h := secondAllocatedKernel_produces_normalized_children Rows chart.kernel
+  have h := secondAllocatedKernel_produces_normalized_children (Ray := PUnit.{1}) Rows chart.kernel
     L.plain₁ L.plain₂ L.slots R.plain₁ R.plain₂ R.slots IA IB rayL rayR
     (fun _ => (1 : Circle)) cL cR xL xR C lf rf P
     rowDomain heightDomain window seminorms lc rc

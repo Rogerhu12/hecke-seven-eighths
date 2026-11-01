@@ -21,7 +21,7 @@ open MeasureTheory
 
 namespace HeckeSkeleton.Moments.EngineStep
 
-open NumberField IsDedekindDomain DedekindZetaZeroFree
+open NumberField IsDedekindDomain DedekindZetaZeroFree UniqueFactorizationMonoid
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments HeckePort.Moments.MobiusRegroup HeckePort.IdealMobiusDivisorSum
@@ -81,13 +81,13 @@ theorem allocated_joint_measure_bound
         id id HeightOneSpectrum.asIdeal q f y (WithLp.toLp 2 z)
       apply (mul_le_mul hl hr (Real.sqrt_nonneg _)
         (Finset.sum_nonneg fun _ _ => Real.sqrt_nonneg _)).trans_eq
-      simp only [Finset.sum_mul_sum, integrand]
+      simp only [Finset.sum_mul_sum, integrand, AL, AR]
     _ = _ := by
       rw [integral_finsetSum AL (fun a _ => integrable_finsetSum AR (fun b _ => hi a b))]
       exact Finset.sum_congr rfl fun a _ => integral_finsetSum AR (fun b _ => hi a b)
 
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance nestedSecondClassProductionCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 variable (R : ActualSecondCorrelationRows A σ H ι)
 
 def actualMeasuredSecondKernelCost {α β : Type*}
@@ -177,10 +177,16 @@ theorem actual_measured_second_allocation_bound
         simp only [jointFourierColumn, Finset.sum_filter]
         apply Finset.sum_congr rfl
         intro i hi
-        unfold kernelDivisorCoefficient
-        rw [hIA i hi]
-        split_ifs <;> simp only [secondAllocatedLeftCoefficient, zero_mul]
-      rw [hp]
+        calc
+          _ = (if L ∣ allocationColumnIdeal i then
+              secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft χ c h i
+              else 0) * jointPhase (WithLp.toLp 2 z) (x h i) :=
+            congrArg (fun I : Ideal (𝓞 K) =>
+              (if L ∣ I then
+                secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft χ c h i
+                else 0) * jointPhase (WithLp.toLp 2 z) (x h i)) (hIA i hi)
+          _ = _ := by split_ifs <;> simp only [zero_mul]
+      exact congrArg (fun v : ℂ => ‖weight h‖ * ‖v‖ ^ 2) hp
     have hr (z : U × V) :
         jointColumnEnergy R.rows (childCartesianColumns T₁ T₂ T) weight
           (fun h j => star (kernelDivisorCoefficient (fun j => (IB j).val) L f
@@ -203,14 +209,26 @@ theorem actual_measured_second_allocation_bound
         simp only [jointFourierColumn, Finset.sum_filter]
         apply Finset.sum_congr rfl
         intro j hj
-        unfold kernelDivisorCoefficient
-        rw [hIB j hj]
-        split_ifs <;> simp only [secondAllocatedRightCoefficient, star_zero, zero_mul]
-      rw [hp]
-    simp_rw [hl, hr]
-    exact allocated_joint_measure_bound μ L hsq R.rows S₁ S₂ S T₁ T₂ T weight
-      (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft χ c)
-      (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight χ f) x y
+        calc
+          _ = star (if L ∣ allocationColumnIdeal j then
+              f j * (fixedRightPhase Ray χ (rayRight j) : ℂ) *
+                σ (A.sexticResidue (IB j) (-R.frequency h)) else 0) *
+                jointPhase (WithLp.toLp 2 z) (y h j) :=
+            congrArg (fun I : Ideal (𝓞 K) =>
+              star (if L ∣ I then f j * (fixedRightPhase Ray χ (rayRight j) : ℂ) *
+                σ (A.sexticResidue (IB j) (-R.frequency h)) else 0) *
+                jointPhase (WithLp.toLp 2 z) (y h j)) (hIB j hj)
+          _ = _ := by
+            by_cases hdiv : L ∣ allocationColumnIdeal j <;>
+              simp only [hdiv, ite_true, ite_false, secondAllocatedRightCoefficient,
+                star_zero, zero_mul]
+      exact congrArg (fun v : ℂ => ‖weight h‖ * ‖v‖ ^ 2) hp
+    exact (congrArg (fun g : U × V → ℝ => ∫ z, g z ∂μ)
+      (funext fun z => congrArg₂ (fun a b : ℝ => Real.sqrt a * Real.sqrt b)
+        (hl z) (hr z))).trans_le
+      (allocated_joint_measure_bound μ L hsq R.rows S₁ S₂ S T₁ T₂ T weight
+        (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft χ c)
+        (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight χ f) x y)
   · simp only [moebius_of_not_squarefree hsq, Int.cast_zero, norm_zero, zero_mul, le_refl]
 
 /-- Individual source-column reindexing also commutes with the original
@@ -238,7 +256,15 @@ theorem actual_measured_second_reindex {α β : Type*}
   congr 1
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun z => by
-    rw [L.energy_reindex, B.energy_reindex]
+    exact congrArg₂ (fun a b : ℝ => Real.sqrt a * Real.sqrt b)
+      (L.energy_reindex R.rows (fun h => R.weight h * R.correlation h)
+        (kernelDivisorCoefficient (fun i => (IA i).val) L' c
+          (fun i => (fixedLeftPhase Ray χ (rayLeft i) : ℂ))
+          (fun i h => σ (A.sexticResidue (IA i) (R.frequency h)))) x (WithLp.toLp 2 z))
+      (B.energy_reindex R.rows (fun h => R.weight h * R.correlation h)
+        (fun h j => star (kernelDivisorCoefficient (fun j => (IB j).val) L' f
+          (fun j => (fixedRightPhase Ray χ (rayRight j) : ℂ))
+          (fun j h => σ (A.sexticResidue (IB j) (-R.frequency h))) h j)) y (WithLp.toLp 2 z))
 
 
 variable (μ : Measure (U × V))
@@ -248,7 +274,7 @@ variable (IA : AllocationColumn K k → A.Exterior) (IB : AllocationColumn K l �
 variable (rayLeft : AllocationColumn K k → Ray) (rayRight : AllocationColumn K l → Ray)
 variable (phaseTable : Ray × Ray → Circle)
 variable (c : AllocationColumn K k → ℂ) (f : AllocationColumn K l → ℂ)
-variable (x : H → AllocationColumn K k → W) (y : H → AllocationColumn K l → W)
+variable (x : H → AllocationColumn K k → (WithLp 2 (U × V))) (y : H → AllocationColumn K l → (WithLp 2 (U × V)))
 
 def measuredSecondBranchCost (b : SecondAllocationBranch Ray T₁ T₂ T IB k) : ℝ :=
   b.weight phaseTable * ∫ z, Real.sqrt (jointColumnEnergy R.rows (b.leftColumns S₁ S₂ S)
@@ -287,7 +313,17 @@ theorem actualMeasuredAllocatedKernelCost_eq_live :
     simp only [actualMeasuredAllocatedKernelCost, measuredSecondBranchCost,
       SecondAllocationBranch.weight, SecondAllocationBranch.leftColumns,
       SecondAllocationBranch.rightColumns, Fintype.sum_sigma, Fintype.sum_prod_type,
-      Finset.sum_coe_sort, Finset.mul_sum, mul_assoc]
+      Finset.mul_sum, mul_assoc]
+    refine (Finset.sum_coe_sort
+      (divisorPool (childCartesianColumns T₁ T₂ T) (fun j => (IB j).val)) _).symm.trans ?_
+    apply Finset.sum_congr rfl
+    intro L _
+    apply Finset.sum_congr rfl
+    intro χ _
+    refine (Finset.sum_coe_sort (AllocationMass.idealAllocations L.val (k + 2)) _).symm.trans ?_
+    apply Finset.sum_congr rfl
+    intro a _
+    exact (Finset.sum_coe_sort (AllocationMass.idealAllocations L.val (l + 2)) _).symm
   rw [hall, Finset.sum_coe_sort]
   unfold liveSecondAllocationBranches
   rw [Finset.sum_filter]
@@ -319,13 +355,14 @@ theorem measuredSecondBranchCost_eq_produced
       phaseTable c f x y b.val =
     measuredProducedBranchCost Ray R μ S₁ S₂ S T₁ T₂ T IA IB rayLeft rayRight
       phaseTable c f x y C leftFactors rightFactors b := by
-  unfold measuredSecondBranchCost measuredProducedBranchCost
-  congr 1
+  apply congrArg (fun t : ℝ => b.val.weight phaseTable * t)
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun z => by
-    unfold secondLiveLeftFrame secondLiveRightFrame
-    rw [SecondRectangularFactors.frame_energy, SecondRectangularFactors.frame_energy]
-    rfl
+    have hl := (leftFactors b.val.2.1).frame_energy C b.val.1.val b.val.2.2.1.val
+      (Finset.mem_filter.mp b.property).2.2.1 (WithLp.toLp 2 z)
+    have hr := (rightFactors b.val.2.1).frame_energy C b.val.1.val b.val.2.2.2.val
+      (Finset.mem_filter.mp b.property).2.2.2 (WithLp.toLp 2 z)
+    exact (congrArg₂ (fun l r : ℝ => Real.sqrt l * Real.sqrt r) hl hr).symm
 
 /-- This is the producing theorem used after genuine Fubini. The source
 and its true Hilbert locations precede both continuous variables; the
@@ -376,7 +413,7 @@ theorem nestedSecondResidualKernelCost_eq_actualMeasured {α β : Type*}
     (rayLeft : α → Ray) (rayRight : β → Ray) (phaseTable : Ray × Ray → Circle)
     (c : α → ℂ) (f : β → ℂ) (x₁ : α → U) (y₁ : β → U)
     (x₂ : H → α → V) (y₂ : H → β → V) :
-    nestedSecondResidualKernelCost Ray F₁ F₂ R.rows R.frequency left right
+    nestedSecondResidualKernelCost (σ := σ) Ray F₁ F₂ R.rows R.frequency left right
       (primePowerProduct R.primes R.leftMultiplicity)
       (primePowerProduct R.primes R.rightMultiplicity) IA IB
       R.leftGenerator R.rightGenerator R.leftGenerates R.rightGenerates

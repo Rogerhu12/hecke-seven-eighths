@@ -53,7 +53,7 @@ def OrbitalGaussColumn.divisorPhase (c : OrbitalGaussColumn K S Γ) (δ : OS) : 
 /-- The exact divisor Fourier coefficient of the actual pair source.
 The mask divisor may be a nonunit in the S-integer ring. -/
 theorem OrbitalGaussColumn.pair_divisor_fourier
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c d : OrbitalGaussColumn K S Γ) (φ : SchwartzMap V ℂ)
     (δ j : OS) (hcδ : IsCoprime c.modulus δ) (hdδ : IsCoprime d.modulus δ) :
     sIntegerPeriodicDivisorFourier K (S : Set (HeightOneSpectrum (𝓞 K))) hS
@@ -122,7 +122,7 @@ variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion 
 
 /-- The original Fourier profile at the pair's true dual radius. -/
 def OrbitalGaussColumn.secondProfile
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c d : OrbitalGaussColumn K S Γ) (φ : SchwartzMap V ℂ)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (r : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum OS)) (q : Q) : ℂ :=
@@ -137,7 +137,7 @@ def OrbitalGaussColumn.secondProfile
 at the negative frequency.  All masks, phases and original profiles are
 visible, and the true cardinality cancellation is already performed. -/
 theorem OrbitalGaussColumn.transformedRow_mk
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c d : OrbitalGaussColumn K S Γ) (φ : SchwartzMap V ℂ)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (r : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum OS))
@@ -178,7 +178,7 @@ theorem OrbitalGaussColumn.transformedRow_mk
 /-- Every original unit-sector orbit is retained.  The representative is
 only used to display the complete correlation at its actual frequency. -/
 theorem OrbitalGaussColumn.transformedRow_out
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (c d : OrbitalGaussColumn K S Γ) (φ : SchwartzMap V ℂ)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (r : {r : ℝ // 0 < r}) (D : Finset (HeightOneSpectrum OS))

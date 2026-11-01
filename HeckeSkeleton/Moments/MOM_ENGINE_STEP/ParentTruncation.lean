@@ -41,7 +41,7 @@ variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
 
 /-- The existing actual finite orbit approximation, with the original pair data. -/
 def ParentPeriodicPair.finiteTransform (p : ParentPeriodicPair K S Γ)
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (M : Finset (HeightOneSpectrum OS)) (r : {r : ℝ // 0 < r}) (X : ℝ) : ℂ :=
   sIntegerMaskedPeriodicApproximation K S Γ μv p.modulus p.modulus_ne_zero
@@ -56,7 +56,7 @@ include ν μ in
 original pair seminorm orders selected before the cutoff, moving mask,
 moduli, columns, source profiles, and parent data. -/
 theorem parent_first_finite_transform
-    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
     (hlc : ∀ v ∈ S, IsLocallyConstant (h v))
     (hcs : ∀ v ∈ S, HasCompactSupport (h v))

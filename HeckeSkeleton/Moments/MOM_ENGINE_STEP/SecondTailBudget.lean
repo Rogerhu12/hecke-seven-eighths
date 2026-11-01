@@ -57,7 +57,7 @@ theorem ParentPeriodicPair.residueL1_le_bound_card
       Finset.sum_le_sum (fun x _ => hres _)
     _ = _ := by simp [Nat.card_eq_fintype_card, mul_comm]
 
-variable [IsPrincipalIdealRing OS]
+variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 
 /-- The raw actual truncation mass is linear in a pointwise residue bound.
 Its quotient cardinality and Poisson denominator still cancel exactly. -/
@@ -375,7 +375,7 @@ variable {left : Finset ι} {right : Finset κ}
 variable {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
 variable {blocks : ∀ DE : FirstZeroLabel left right fullI fullJ,
   FirstCommonCharacterBlock fullI fullJ DE.val}
-variable {seminorms : Finset (ℕ × ℕ)} {profiles : ι → κ → SchwartzMap V ℂ}
+variable {seminorms : Finset (ℕ × ℕ)} {profiles : ι → κ → SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
 variable {radius : {r : ℝ // 0 < r}} {M : Finset (HeightOneSpectrum A.R)}
 variable {k : ℕ} {Z productExponent profileExponent maskExponent inverseRadiusExponent Amp : ℝ}
 
@@ -403,7 +403,14 @@ def ofInjective
   amplitude_nonneg := hAmp
   factors := factors
   multiplicity := 1
-  factors_fiber_card := factor_fiber_card_le_one (left ×ˢ right) factors hinj
+  factors_fiber_card := by
+    intro v
+    apply Finset.card_le_one.mpr
+    intro x hx y hy
+    obtain ⟨hxmem, hxvalue⟩ := Finset.mem_filter.mp hx
+    obtain ⟨hymem, hyvalue⟩ := Finset.mem_filter.mp hy
+    exact hinj (Finset.mem_product.mp hxmem) (Finset.mem_product.mp hymem)
+      (hxvalue.trans hyvalue.symm)
   factor_product := hproduct
   product_norm := hnorm
   profile_seminorm := hprofile

@@ -41,7 +41,7 @@ local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
 
 namespace ParentRawAtoms
 
-variable {raw : ParentRawAtoms Q d a Z t Y₁ Y₂}
+variable {raw : ParentRawAtoms (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) d a Z t Y₁ Y₂}
 
 /-- A genuine parent calibration with its fixed positive test, complete
 centered coefficient, computed exterior carrier and unit row fibres.

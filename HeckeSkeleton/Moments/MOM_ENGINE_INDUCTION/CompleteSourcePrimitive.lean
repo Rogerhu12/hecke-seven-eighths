@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteRowAtoms
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRecipeArithmetic
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualAtomPhases
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OriginalAtomConsumers
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.DataPrimitiveExtension
@@ -7,9 +7,10 @@ import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimitiveReflectionCalibration
 /-!
 # The concrete complete-row dictionary in the recursive source family
 
-The additional data primitive is the canonical complete-row recipe on
-every allowed ideal, one remaining ideal fixed throughout the row sum,
-the literal full Boolean mask, the original fixed theta set containing
+The additional data primitive is the canonical original-moving-row recipe on
+every allowed ideal. Its original factors, powers, finite correction and
+remaining ideal are fixed throughout the row sum. The literal full Boolean
+mask, the original fixed theta set containing
 every slot coefficient, and actual independence of the final
 evaluation-time argument. None of its fields
 is a polynomial estimate, a completed local output, or an arbitrarily
@@ -22,9 +23,9 @@ original quotient point are derived from the complete-row dictionary.
 The same construction applies after slots disappear, because its domain
 is all allowed rows rather than the parent's old paired-row filter.
 
-The canonical CompleteRowRecipe and atom interfaces are read at fd6;
-the actual per-atom phase interface is read at 8de. The source theta
-specialization is kept in a separate actual-source module.
+The moving recipe is the canonical CompleteMovingRowRecipe; the atom and
+per-atom phase interfaces retain their original quotient and complete row.
+The source theta specialization is kept in a separate actual-source module.
 -/
 
 set_option autoImplicit false
@@ -48,12 +49,8 @@ variable {K : Type} [Field K] [NumberField K] {c : TargetContext K}
 remaining ideal depends on the model, but not on its arithmetic row. -/
 structure CompleteSourceData (c : TargetContext K) (theta : Finset (HeckeCharacter K))
     (d : MomentData K c.family.omega (targetCharacter K c)) where
-  rows : EngineStep.CompleteRowRecipe (axiomChoice K c).A
+  recipe : EngineStep.CompleteMovingRowRecipe (axiomChoice K c).A
     (probeData K c) (momentRowCharacters K c) (fun _ : PUnit => d)
-  remaining : NonzeroIdeal K
-  mask : ∀ u I, d.commonMask u I =
-    (completeIdealCommonMask K (places K c) u I &&
-      decide (IsCoprime I remaining.val))
   theta_eq : d.theta = theta
   slot_characters : ∀ i, d.slotCoefficient i ∈ theta
   timeIndependent : ProfileTimeIndependent d
@@ -69,6 +66,23 @@ namespace CompleteSourceData
 variable {theta : Finset (HeckeCharacter K)}
 variable {d : MomentData K c.family.omega (targetCharacter K c)}
 
+/-- Compatibility accessor for the canonical recipe. The original factors,
+correction and remaining ideal are not reconstructed from a mask identity. -/
+def rows (D : CompleteSourceData c theta d) := D.recipe
+
+/-- The exact effective coprimality ideal appearing in the canonical full
+joint budget. The original remaining ideal remains `D.recipe.remaining`. -/
+def remaining (D : CompleteSourceData c theta d) : NonzeroIdeal K :=
+  D.recipe.moving.fullMaskSupport D.recipe.remaining
+
+/-- This equality preserves the original mask even for nonsquarefree
+remaining ideals. It makes no norm assertion on the original ideal. -/
+theorem mask (D : CompleteSourceData c theta d) (u : NonzeroIdeal K)
+    (I : Ideal (𝓞 K)) :
+    d.commonMask u I = (completeIdealCommonMask K (places K c) u I &&
+      decide (IsCoprime I D.remaining.val)) :=
+  completeMovingRowRecipe_mask D.recipe PUnit.unit u I
+
 /-- Only literal fields are transported. In particular, the selected
 sector function and the fixed remaining ideal are kept verbatim. -/
 def transport (D : CompleteSourceData c theta d)
@@ -78,10 +92,9 @@ def transport (D : CompleteSourceData c theta d)
     (mask : other.commonMask = d.commonMask) (htheta : other.theta = d.theta)
     (hslots : ∀ i, other.slotCoefficient i ∈ theta)
     (htime : ProfileTimeIndependent other) : CompleteSourceData c theta other where
-  rows := D.rows.ofAllowedSubset (other := fun _ : PUnit => other)
+  recipe := D.recipe.ofAllowedSubset (other := fun _ : PUnit => other)
     (fun _ u hu => allowed u hu) (fun _ => character)
-  remaining := D.remaining
-  mask u I := by rw [mask]; exact D.mask u I
+    (fun _ => mask) (fun _ => htheta)
   theta_eq := htheta.trans D.theta_eq
   slot_characters := hslots
   timeIndependent := htime
@@ -117,9 +130,7 @@ def fixedLineReflectionChild (n : Node K c.family.omega (targetCharacter K c))
 remaining mask and complete row character, not supplied as a new field. -/
 def arithmeticAtoms (D : CompleteSourceData c theta d) :
     EngineStep.ParentArithmeticAtoms (ActualSIntegerOrbit K (places K c)) d :=
-  completeIdealArithmeticAtoms (places K c) (probeData K c) (momentRowCharacters K c)
-    D.rows.sector d D.remaining (D.rows.exterior PUnit.unit)
-    (D.rows.character PUnit.unit) D.mask
+  completeMovingRowRecipe_arithmeticAtoms D.recipe PUnit.unit
 
 /-- Every original quotient point has the actual complete residue phase,
 including its exceptional zero support. The norm recipe is separate. -/
@@ -136,9 +147,7 @@ theorem phase_dictionary (D : CompleteSourceData c theta d)
     (∀ i, ∀ p ∈ raw.slotColumns i, ∀ q : ActualSIntegerOrbit K (places K c),
       raw.primePhase q i p = EngineStep.actualIdealResidue (A := (axiomChoice K c).A)
         (σ := complexEmbedding K c) p.asIdeal q.out.val) :=
-  completeIdealRawAtoms_actual_phase_dictionary c (momentRowCharacters K c)
-    D.rows.sector d D.remaining (D.rows.exterior PUnit.unit)
-    (D.rows.character PUnit.unit) D.mask W a U t Y₁ Y₂
+  completeMovingRowRecipe_actual_phase_dictionary c D.recipe PUnit.unit W a U t Y₁ Y₂
 
 /-- The same original orbit dictionary may also be transported directly
 through the literal fixed-line constructor. This uses the canonical
@@ -206,12 +215,13 @@ def recipeRootCompleteSourceData
     (htheta : (recipeRoot R i s).data.theta = theta)
     (hslots : ∀ j, (recipeRoot R i s).data.slotCoefficient j ∈ theta) :
     CompleteSourceData c theta (recipeRoot R i s).data where
-  rows := {
-    sector := fun _ => s
-    exterior := fun _ _ hu => hu
-    character := fun _ _ _ => rfl }
-  remaining := 1
-  mask := recipeRoot_remainingMask R i s
+  recipe := (show EngineStep.CompleteRowRecipe (axiomChoice K c).A
+      (probeData K c) (momentRowCharacters K c)
+      (fun _ : PUnit => (recipeRoot R i s).data) from {
+        sector := fun _ => s
+        exterior := fun _ _ hu => hu
+        character := fun _ _ _ => rfl }).toMoving 1
+      (fun _ => recipeRoot_remainingMask R i s)
   theta_eq := htheta
   slot_characters := hslots
   timeIndependent := recipeRoot_timeIndependent R i s

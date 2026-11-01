@@ -1,12 +1,15 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentTruncation
 import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+import HeckeGeneral.Analysis.SUnitProfileFunctional
 
 /-!
 # One physical frequency set for the whole finite source
 
 A common normalized tail parameter does not give a common set of frequencies:
 the dual radius depends on the column pair and on the mask divisor.  This file
-uses the maximum of the actual inverse radii.  All pairs and divisors then have
+uses the maximum of the actual inverse radii of nonzero pair profiles.
+Zero profiles have identically zero Fourier tails and do not enlarge the
+physical cutoff. All pairs and divisors then have
 the same finite set of subgroup orbits, without a column-dependent sharp
 indicator in their archimedean kernel.  Taking a maximum, rather than a sum,
 also avoids introducing an artificial column-count factor in the row length.
@@ -65,7 +68,7 @@ def FirstFiniteSource.branches {ι κ : Type*} (s : FirstFiniteSource K S Γ ι 
 
 def FirstFiniteSource.inverseRadii {ι κ : Type*} (s : FirstFiniteSource K S Γ ι κ) :
     Finset ℝ :=
-  insert 0 (s.branches.image fun e =>
+  insert 0 ((s.branches.filter (fun e => (s.pairs e.1.1 e.1.2).profile ≠ 0)).image fun e =>
     ((s.pairs e.1.1 e.1.2).dualRadius s.radius e.2).val⁻¹)
 
 def FirstFiniteSource.inverseRadiusBound {ι κ : Type*}
@@ -83,20 +86,23 @@ theorem FirstFiniteSource.inverseRadiusBound_nonneg {ι κ : Type*}
 theorem FirstFiniteSource.inverseRadius_le {ι κ : Type*}
     (s : FirstFiniteSource K S Γ ι κ)
     {i : ι} (hi : i ∈ s.leftColumns) {j : κ} (hj : j ∈ s.rightColumns)
-    {D : Finset (HeightOneSpectrum OS)} (hD : D ∈ s.mask.powerset) :
+    {D : Finset (HeightOneSpectrum OS)} (hD : D ∈ s.mask.powerset)
+    (hprofile : (s.pairs i j).profile ≠ 0) :
     ((s.pairs i j).dualRadius s.radius D).val⁻¹ ≤ s.inverseRadiusBound := by
   apply Finset.le_sup' id
   apply Finset.mem_insert_of_mem
   exact Finset.mem_image.mpr ⟨((i, j), D),
-    Finset.mem_product.mpr ⟨Finset.mem_product.mpr ⟨hi, hj⟩, hD⟩, rfl⟩
+    Finset.mem_filter.mpr
+      ⟨Finset.mem_product.mpr ⟨Finset.mem_product.mpr ⟨hi, hj⟩, hD⟩, hprofile⟩, rfl⟩
 
 theorem FirstFiniteSource.scaledCutoff_ge {ι κ : Type*}
     (s : FirstFiniteSource K S Γ ι κ)
     {i : ι} (hi : i ∈ s.leftColumns) {j : κ} (hj : j ∈ s.rightColumns)
-    {D : Finset (HeightOneSpectrum OS)} (hD : D ∈ s.mask.powerset) :
+    {D : Finset (HeightOneSpectrum OS)} (hD : D ∈ s.mask.powerset)
+    (hprofile : (s.pairs i j).profile ≠ 0) :
     s.cutoff ≤ ((s.pairs i j).dualRadius s.radius D).val * s.physicalCutoff := by
   let ρ := (s.pairs i j).dualRadius s.radius D
-  have hi' : ρ.val⁻¹ ≤ s.inverseRadiusBound := s.inverseRadius_le hi hj hD
+  have hi' : ρ.val⁻¹ ≤ s.inverseRadiusBound := s.inverseRadius_le hi hj hD hprofile
   have hmul := mul_le_mul_of_nonneg_left hi' ρ.property.le
   rw [mul_inv_cancel₀ (ne_of_gt ρ.property)] at hmul
   calc
@@ -107,11 +113,12 @@ theorem FirstFiniteSource.scaledCutoff_ge {ι κ : Type*}
       unfold FirstFiniteSource.physicalCutoff
       ring
 
-/-- A uniform dyadic upper bound for the actual inverse radii bounds the
-common physical length without multiplying by the number of columns. -/
-theorem FirstFiniteSource.physicalCutoff_le {ι κ : Type*}
+/-- Only a nonzero original pair profile needs a radius bound.  The
+full Cartesian columns and all arithmetic coefficients are retained. -/
+theorem FirstFiniteSource.physicalCutoff_le_supported {ι κ : Type*}
     (s : FirstFiniteSource K S Γ ι κ) (R : ℝ) (hR : 0 ≤ R)
     (hradii : ∀ i ∈ s.leftColumns, ∀ j ∈ s.rightColumns,
+      (s.pairs i j).profile ≠ 0 →
       ∀ D ∈ s.mask.powerset, ((s.pairs i j).dualRadius s.radius D).val⁻¹ ≤ R) :
     s.physicalCutoff ≤ s.cutoff * R := by
   apply mul_le_mul_of_nonneg_left _ (zero_le_one.trans s.cutoff_ge_one)
@@ -120,9 +127,19 @@ theorem FirstFiniteSource.physicalCutoff_le {ι κ : Type*}
   rcases Finset.mem_insert.mp ht with h | h
   · simpa only [id_eq, h] using hR
   · obtain ⟨e, he, rfl⟩ := Finset.mem_image.mp h
-    obtain ⟨hij, hD⟩ := Finset.mem_product.mp he
+    obtain ⟨hmem, hprofile⟩ := Finset.mem_filter.mp he
+    obtain ⟨hij, hD⟩ := Finset.mem_product.mp hmem
     obtain ⟨hi, hj⟩ := Finset.mem_product.mp hij
-    exact hradii e.1.1 hi e.1.2 hj e.2 hD
+    exact hradii e.1.1 hi e.1.2 hj hprofile e.2 hD
+
+/-- A uniform dyadic upper bound for the actual inverse radii bounds the
+common physical length without multiplying by the number of columns. -/
+theorem FirstFiniteSource.physicalCutoff_le {ι κ : Type*}
+    (s : FirstFiniteSource K S Γ ι κ) (R : ℝ) (hR : 0 ≤ R)
+    (hradii : ∀ i ∈ s.leftColumns, ∀ j ∈ s.rightColumns,
+      ∀ D ∈ s.mask.powerset, ((s.pairs i j).dualRadius s.radius D).val⁻¹ ≤ R) :
+    s.physicalCutoff ≤ s.cutoff * R :=
+  s.physicalCutoff_le_supported R hR (fun i hi j hj _ => hradii i hi j hj)
 
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
@@ -267,6 +284,31 @@ theorem ParentPeriodicPair.physicalTransform_error (p : ParentPeriodicPair K S �
   unfold sIntegerWeightedOrbitalSeries sIntegerPeriodicFourierProfileTerm
     ParentPeriodicPair.dualRadius
   ring
+
+include ν μ in
+/-- A zero original profile contributes no physical truncation error,
+at every common cutoff, including a cutoff below one. -/
+theorem ParentPeriodicPair.physicalTransform_error_zero (p : ParentPeriodicPair K S Γ)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
+    (h : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ)
+    (hlc : ∀ v ∈ S, IsLocallyConstant (h v))
+    (hcs : ∀ v ∈ S, HasCompactSupport (h v))
+    (M : Finset (HeightOneSpectrum OS)) (r : {r : ℝ // 0 < r}) (H : ℝ)
+    (hprofile : p.profile = 0) :
+    p.maskedSeries (sIntegerFiniteTestFunction K S h) r M -
+        p.physicalTransform μv hS h M r H = 0 := by
+  rw [p.physicalTransform_error ν μv μ hS h hlc hcs M r H]
+  have hfourier : traceSchwartzFourier K (0 : SchwartzMap V ℂ) = 0 := by
+    simpa only [traceSchwartzFourierCLM_apply] using (traceSchwartzFourierCLM K).map_zero
+  have horbital (ρ : {r : ℝ // 0 < r}) :
+      sUnitOrbitalProfile K (S : Set (HeightOneSpectrum (𝓞 K)))
+        (sLocalTensorTestFunction K (S : Set (HeightOneSpectrum (𝓞 K)))
+          (0 : SchwartzMap V ℂ) (sIntegerFiniteFourierTestFunction K S μv h)) ρ = 0 := by
+    simpa only [zero_smul] using
+      sUnitOrbitalProfile_tensor_smul K (S : Set (HeightOneSpectrum (𝓞 K)))
+        (sIntegerFiniteFourierTestFunction K S μv h) (0 : ℂ) (0 : SchwartzMap V ℂ) ρ
+  simp only [sIntegerPeriodicFourierProfileTerm, hprofile, hfourier, horbital,
+    mul_zero, tsum_zero, Finset.sum_const_zero, sub_self]
 
 include ν μ in
 /-- Uniform pairwise comparison at any common physical cutoff satisfying
@@ -448,8 +490,12 @@ theorem finite_source_uniform_bound
       intro i hi
       apply Finset.sum_le_sum
       intro j hj
-      exact hbound s.cutoff s.cutoff_ge_one s.physicalCutoff (s.pairs i j) s.mask s.radius
-        (fun D hD => s.scaledCutoff_ge hi hj hD)
+      by_cases hp : (s.pairs i j).profile = 0
+      · rw [(s.pairs i j).physicalTransform_error_zero ν μv μ hS h hlc hcs
+          s.mask s.radius s.physicalCutoff hp, hp]
+        simp only [norm_zero, map_zero, zero_mul, mul_zero, le_refl]
+      · exact hbound s.cutoff s.cutoff_ge_one s.physicalCutoff (s.pairs i j) s.mask s.radius
+          (fun D hD => s.scaledCutoff_ge hi hj hD hp)
     _ = _ := by simp only [Finset.mul_sum]
 
 end HeckeSkeleton.Moments.EngineStep

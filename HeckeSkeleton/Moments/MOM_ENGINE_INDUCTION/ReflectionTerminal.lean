@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RestorationRows
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingReflectionCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileSupremum
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionTailLedger
 
@@ -185,6 +185,7 @@ theorem uniform_rowRestorationEnergy_terminal
       ∀ T : ℝ, 0 ≤ T →
       ∀ (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
         (P : ProbeData K S) (R : RowCharacterInput K S P)
+        (theta : Finset (HeckeCharacter K))
         {omega : HeckeCharacter K} (node : Node K omega ψ)
         (extra : NonzeroIdeal K → NonzeroIdeal K)
         (V : NonzeroIdeal K → SmoothAnnularTest) (Wshort : IdealTest K)
@@ -193,8 +194,8 @@ theorem uniform_rowRestorationEnergy_terminal
       0 ≤ overhead → overhead ≤ overheadCap →
       0 ≤ long → short ≤ long → node.data.geometry.totalLength ≤ slotCap →
       node.data.geometry.slotCount ≤ cap →
-      ReflectionRowCalibration S P R node extra U →
-      uniformReflectionConductorConstant S ψ ≤ U ^ overhead →
+      MovingReflectionRowCalibration S P R theta node extra U →
+      movingReflectionConductorConstant S ψ theta ≤ U ^ overhead →
       (∀ u ∈ pairedRows node.data node.parameters U,
         SliceControl L decay Cp Hp a b T (V u).toFun) →
       (∀ u ∈ pairedRows node.data node.parameters U,
@@ -211,7 +212,7 @@ theorem uniform_rowRestorationEnergy_terminal
   obtain ⟨decay, hdecay, hδdecay, hbudgetTail, hbudgetWhole⟩ :=
     exists_reflection_tail_decay_order widthCap overheadCap slotCap loss saving gap δ
       hwidthCap hoverheadCap hslotCap hloss hsaving hgap hδ
-  obtain ⟨L, D, hD, hpieces⟩ := uniform_rowRestorationPiece_bound
+  obtain ⟨L, D, hD, hpieces⟩ := uniform_movingRowRestorationPiece_bound
     (K := K) hcomplex ψ hδ hδdecay hdecay hε
   refine ⟨decay, L, hdecay, hδdecay, ?_⟩
   intro Cp Hp a b hCp hHp ha hab
@@ -220,7 +221,7 @@ theorem uniform_rowRestorationEnergy_terminal
   have hC : 0 ≤ C := restorationEnergyConstant_nonneg cap b D Cp
   have hH : 0 ≤ H := baseHeightDegree_nonneg cap hHp hHp hHp
   refine ⟨C, H, hC, hH, rfl, ?_⟩
-  intro T hT S instS P R omega node extra V Wshort U overhead long short tail J
+  intro T hT S instS P R theta omega node extra V Wshort U overhead long short tail J
     hU hM hMcap hoverhead hoCap hlong hshort hzCap hcount cal hfixed
     hlongProfiles hshortProfiles hslotProfiles hcutoff
   have hU0 : 0 < U := zero_lt_one.trans hU
@@ -233,7 +234,7 @@ theorem uniform_rowRestorationEnergy_terminal
     (if tail then (1 - decay) * reflectionDyadicExponent U J else 0) + loss
   have hpiece (u : NonzeroIdeal K) (hu : u ∈ pairedRows node.data node.parameters U) :
       ‖rowRestorationPiece tail S node.data extra V δ U long J u‖ ≤ D * B * U ^ e := by
-    apply (hpieces S P R node extra V U overhead long loss hU cal hfixed hm tail J u hu).trans
+    apply (hpieces S P R theta node extra V U overhead long loss hU cal hfixed hm tail J u hu).trans
     exact mul_le_mul_of_nonneg_right
       (mul_le_mul_of_nonneg_left (hlongProfiles u hu).2.2 hD) (Real.rpow_nonneg hU0.le _)
   have henergy := rowRestorationEnergy_from_profile_bounds tail S node extra V Wshort cap

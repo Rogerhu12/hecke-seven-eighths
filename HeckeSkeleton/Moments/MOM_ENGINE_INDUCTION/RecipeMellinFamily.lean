@@ -136,7 +136,7 @@ structure RecipeMellinStrictFamily
     (Ωengine : Type) [MeasurableSpace Ωengine]
     (R : ExpansionRecipe.RecipeExpansion K (places K c) (targetCharacter K c)
       c.geometry (expansionShellAllowance K c))
-    (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
+    (Q : ℝ → MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop)
     (ground : ℕ) (engine reflection : ℕ → ℕ) (A Cp Hp lower upper : ℝ) where
   coefficient : ℝ
   heightDegree : ℝ
@@ -145,7 +145,7 @@ structure RecipeMellinStrictFamily
   heightDegree_nonneg : 0 ≤ heightDegree
   outputs : ∀ Z : ℝ, threshold ≤ Z → ∀ T : ℝ, 0 ≤ T →
     ∀ i : SourceMomentIndexFor K c (recipeMomentSourceData K c R) Z T,
-    let S := recipeDataReflectionSystem c Q ground engine reflection
+    let S := recipeDataReflectionSystem c (recipeThetaFamily R) Q ground engine reflection
       A Cp Hp lower upper (momentBaseFor i) T
     ∀ x : S.Label,
     EngineStep.PairedEngineDomain (S.node x).centered (S.node x).data
@@ -155,7 +155,7 @@ structure RecipeMellinStrictFamily
       (16 * recipeInductionSigma c) (recipeInductionSigma c / 16) →
     Nonempty (MellinStrictBranchAt (Ω := RecipeMellinParameter Ωengine) S x (momentBaseFor i) T
       coefficient heightDegree (recipeInductionTerminalLoss c) (recipeInductionEdgeLoss c)
-      (admissibleOfInvariant (recipeDataReflectionPrimitive c Q ground engine reflection
+      (admissibleOfInvariant (recipeDataReflectionPrimitive c (recipeThetaFamily R) Q ground engine reflection
         (recipeInductionSigma c) (recipeInductionSigma c / 16)
         A Cp Hp lower upper (momentBaseFor i) T)))
 
@@ -167,7 +167,7 @@ reflection family. The same original root is retained, including when
 def RecipeDataReflectionFamilyData.scalarCertificate
     {R : ExpansionRecipe.RecipeExpansion K (places K c) (targetCharacter K c)
       c.geometry (expansionShellAllowance K c)}
-    {Q : MomentData K c.family.omega (targetCharacter K c) → Prop}
+    {Q : ℝ → MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop}
     {ground : ℕ} {engine reflection : ℕ → ℕ} {A Cp Hp lower upper Cr Hr Z T : ℝ}
     {indexMap : ∀ Z T,
       SourceMomentIndexFor K c (recipeMomentSourceData K c R) Z T →
@@ -182,9 +182,9 @@ def RecipeDataReflectionFamilyData.scalarCertificate
     RecipeScalarLocalCertificate.{0} R indexMap
       (max Cr strict.coefficient) (max Hr strict.heightDegree) i s := by
   let j := indexMap Z T i
-  let S := recipeDataReflectionSystem c Q ground engine reflection
+  let S := recipeDataReflectionSystem c (recipeThetaFamily R) Q ground engine reflection
     A Cp Hp lower upper (momentBaseFor j) T
-  let primitive := recipeDataReflectionPrimitive c Q ground engine reflection
+  let primitive := recipeDataReflectionPrimitive c (recipeThetaFamily R) Q ground engine reflection
     (recipeInductionSigma c) (recipeInductionSigma c / 16)
     A Cp Hp lower upper (momentBaseFor j) T
   let C := max Cr strict.coefficient
@@ -242,7 +242,7 @@ def RecipeDataReflectionFamilyData.scalarCertificate
 private def scalarInput_from_reflectionFamilies
     {R : ExpansionRecipe.RecipeExpansion K (places K c) (targetCharacter K c)
       c.geometry (expansionShellAllowance K c)}
-    {Q : MomentData K c.family.omega (targetCharacter K c) → Prop}
+    {Q : ℝ → MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop}
     {ground : ℕ} {engine reflection : ℕ → ℕ} {A Cp Hp lower upper Cr Hr Zr : ℝ}
     (strict : RecipeMellinStrictFamily Ωengine R Q ground engine reflection A Cp Hp lower upper)
     (hCr : 0 ≤ Cr) (hHr : 0 ≤ Hr) (hZr : 1 ≤ Zr)
@@ -285,11 +285,13 @@ canonical producing callback has been proved. -/
 theorem recipeMellinFamily_preparation
     (R : ExpansionRecipe.RecipeExpansion K (places K c) (targetCharacter K c)
       c.geometry (expansionShellAllowance K c))
-    (Q : MomentData K c.family.omega (targetCharacter K c) → Prop)
-    (hQpreserved : FixedLineDataPreserved Q)
+    (Q : ℝ → MomentData K c.family.omega (targetCharacter K c) → PairedInvariantParameters → Prop)
+    (hQpreserved : ∀ U, FixedLineParameterPreserved (Q U))
     (hQroot : ∀ (Z T : ℝ)
       (i : SourceMomentIndexFor K c (recipeMomentSourceData K c R) Z T)
-      (s : SixthUnitClasses K (places K c)), Q (recipeRoot R i s).data)
+      (s : SixthUnitClasses K (places K c)),
+      Q (momentBaseFor i) (recipeRoot R i s).data
+        (pairedInvariantParameters (recipeRoot R i s).parameters))
     (hcomplex : ∀ v : InfinitePlace K, v.IsComplex)
     {lengthBound : ℝ} (hgeom : R.MomentGeometry lengthBound)
     (hprofiles : WholeMomentProfileControlFor (recipeMomentModels K c R))
@@ -297,8 +299,8 @@ theorem recipeMellinFamily_preparation
     ∃ lower upper : ℝ, 0 < lower ∧ lower ≤ 1 / 2 ∧ 2 ≤ upper ∧ lower < upper ∧
       ∃ decay : ℝ, 1 < decay ∧ ∃ reflection : ℕ → ℕ,
       (∀ J, J ≤ reflection J ∧ 1 ≤ reflection J) ∧
-      ∀ (ground : ℕ) (engine : ℕ → ℕ), 1 ≤ ground →
-      ∃ Cp Hp : ℝ, 0 < Cp ∧ 0 ≤ Hp ∧
+      ∀ (ground : ℕ) (engine : ℕ → ℕ), 1 ≤ ground → ∀ minimumCp : ℝ,
+      ∃ Cp Hp : ℝ, 0 < Cp ∧ minimumCp ≤ Cp ∧ 0 ≤ Hp ∧
       ∀ (Ωengine : Type) [MeasurableSpace Ωengine],
       ∀ strict : RecipeMellinStrictFamily Ωengine R Q ground engine reflection decay Cp Hp lower upper,
       Nonempty (RecipeScalarLocalInput.{0} R (fun _ _ i => i.noSlots) (fun _ _ _ => True)) ∧
@@ -312,10 +314,10 @@ theorem recipeMellinFamily_preparation
     recipeDataReflectionFamily_preparation R Q hQpreserved hQroot hcomplex hgeom hprofiles w hψ
   refine ⟨lower, upper, hlower, hlowerSmall, hupper, hinterval,
     decay, hdecay, reflection, hreflection, ?_⟩
-  intro ground engine hground
-  obtain ⟨Cp, Hp, Cr, Hr, Zr, hCp, hHp, hCr, hHr, hZr, families⟩ :=
-    preparation ground engine hground
-  refine ⟨Cp, Hp, hCp, hHp, ?_⟩
+  intro ground engine hground minimumCp
+  obtain ⟨Cp, Hp, Cr, Hr, Zr, hCp, hminimumCp, hHp, hCr, hHr, hZr, families⟩ :=
+    preparation ground engine hground minimumCp
+  refine ⟨Cp, Hp, hCp, hminimumCp, hHp, ?_⟩
   intro Ωengine instΩengine strict
   constructor
   · exact ⟨scalarInput_from_reflectionFamilies strict hCr hHr hZr

@@ -1,12 +1,12 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusReflectionAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.DataPrimitiveExtension
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ParameterPrimitiveExtension
 
 /-!
 # Finite-rank reflection with a literal additional data primitive
 
 The analytic factory is still `uniform_universalReflection_branches`.
 Before it creates labels, the primitive is strengthened by a fixed
-cancellation exponent, the original mesh and a predicate Q on the actual MomentData. Q is used only through
+cancellation exponent, the original mesh and a predicate Q on the actual MomentData and invariant parameters. Q is used only through
 its proved literal fixed-line preservation law. It is not an opaque
 reflection-output, kernel, energy or recursive-bound hypothesis.
 
@@ -93,17 +93,18 @@ theorem uniform_rankedDataReflection_branches
       ∀ T : ℝ, 0 ≤ T →
       ∀ (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
         (probe : ProbeData K S) (rows : RowCharacterInput K S probe)
+        (theta : Finset (HeckeCharacter K))
         (U overhead mesh kappa : ℝ)
-        (Q : MomentData K omegaCharacter psiCharacter → Prop),
-      FixedLineDataPreserved Q →
+        (Q : MomentData K omegaCharacter psiCharacter → PairedInvariantParameters → Prop),
+      FixedLineParameterPreserved Q →
       1 < U → 0 ≤ overhead → overhead ≤ overheadCap →
-      uniformReflectionConductorConstant S psiCharacter ≤ U ^ overhead →
+      movingReflectionConductorConstant S psiCharacter theta ≤ U ^ overhead →
       2 ≤ U ^ rounding →
       let sourcePrimitive := reflectionRankedAnnulusPrimitive
-        (ω := omegaCharacter) (ψ := psiCharacter) S probe rows U ground engine reflection
+        (ω := omegaCharacter) (ψ := psiCharacter) S probe rows theta U ground engine reflection
         σ W padding decay (profileFamilyBudget Cp Hp T) lower upper
       let primitive := withKappa kappa
-        (withDataPrimitive Q (withOriginalMesh mesh sourcePrimitive))
+        (withParameterPrimitive Q (withOriginalMesh mesh sourcePrimitive))
       ∀ parent : ULift.{0} (UniversalNode primitive W padding cap),
       parent.down.val.data.geometry.totalLength ≤ slotCap →
       (parent.down.val.parameters.n₁ + parent.down.val.parameters.n₂ +
@@ -143,14 +144,13 @@ theorem uniform_rankedDataReflection_branches
   refine ⟨decay, hdecay, hδdecay, reflection,
     fun J => ⟨horder J, hpositiveOrder J⟩, ?_⟩
   intro ground engine Cp Hp lower floor baseBoundary hground hCp hHp hlower hlowerSmall
-  let lowerMax := lower / (2 : ℝ) ^ N
-  have hlowerMax : 0 < lowerMax := div_pos hlower (by positivity)
+  let lowerMax := lower / clippedAnnulusStep upper N ^ N
+  have hlowerMax : 0 < lowerMax :=
+    div_pos hlower (pow_pos (clippedAnnulusStep_pos upper N) N)
   have hlowerMaxSmall : lowerMax ≤ 1 / 2 := by
     apply le_trans _ hlowerSmall
-    calc
-      lower / (2 : ℝ) ^ N ≤ lower / 1 :=
-        div_le_div_of_nonneg_left hlower.le (by norm_num) hpower
-      _ = lower := div_one _
+    exact div_le_self hlower.le
+      (one_le_pow₀ (clippedAnnulusStep_one_le upper N))
   let requestedOrder := fun rank : ℕ => backwardProfileOrder ground engine reflection (rank - 1)
   have hCpOne : 1 ≤ 1 + Cp := by linarith
   choose coefficients degrees hcoefficients hdegrees produce using
@@ -168,19 +168,20 @@ theorem uniform_rankedDataReflection_branches
   have hH : 0 ≤ H := by dsimp only [H]; linarith
   refine ⟨C, H, hC, hH, ?_⟩
   intro massExponent terminalExponent hmassExponent hterminalExponent
-    T hT S instS probe rows U overhead mesh kappa Q hQclosed hU hoverhead hoverheadBound hfixed hround
+    T hT S instS probe rows theta U overhead mesh kappa Q hQclosed hU hoverhead hoverheadBound hfixed hround
   dsimp only
   let sourcePrimitive := reflectionRankedAnnulusPrimitive
-    (ω := omegaCharacter) (ψ := psiCharacter) S probe rows U ground engine reflection
+    (ω := omegaCharacter) (ψ := psiCharacter) S probe rows theta U ground engine reflection
     σ W padding decay (profileFamilyBudget Cp Hp T) lower upper
   let primitive := withKappa kappa
-    (withDataPrimitive Q (withOriginalMesh mesh sourcePrimitive))
+    (withParameterPrimitive Q (withOriginalMesh mesh sourcePrimitive))
   intro parent hslots
   have hU0 : 0 < U := zero_lt_one.trans hU
   have hX : 1 ≤ 1 + T := by linarith
   have hP : 1 ≤ profileFamilyBudget Cp Hp T := profileFamilyBudget_one_le hCp hHp hT
   have hkappa : parent.down.val.parameters.κ = kappa := parent.down.property.admissible.1
-  have hQ : Q parent.down.val.data := parent.down.property.admissible.2.1
+  have hQ : Q parent.down.val.data
+      (pairedInvariantParameters parent.down.val.parameters) := parent.down.property.admissible.2.1
   have hmesh : parent.down.val.data.geometry.fitsMesh mesh :=
     parent.down.property.admissible.2.2.1
   have hparent : admissibleOfInvariant sourcePrimitive parent.down.val.data
@@ -214,7 +215,7 @@ theorem uniform_rankedDataReflection_branches
       (parameterCoreRank_lt_bound parent.down.val.parameters hσ
         parent.down.property.width_le).le
     obtain ⟨extra, hcal, hmask, hnonNorm⟩ := hparent.1
-    have cal : ReflectionRowCalibration S probe rows parent.down.val extra U :=
+    have cal : MovingReflectionRowCalibration S probe rows theta parent.down.val extra U :=
       ⟨hcal.identify, hcal.product_budget⟩
     have hactualMask : ∀ u ∈ pairedRows parent.down.val.data parent.down.val.parameters U,
         ∀ I, parent.down.val.data.commonMask u I =
@@ -233,11 +234,11 @@ theorem uniform_rankedDataReflection_branches
           (requestedOrder rank) parent.down.val := by
       intro hPE
       exact ReflectionPrimitiveTransfer.withKappa hkappa
-        (ReflectionPrimitiveTransfer.withDataPrimitive hQ hQclosed
+        (ReflectionPrimitiveTransfer.withParameterPrimitive hQ hQclosed
           (ReflectionPrimitiveTransfer.withOriginalMesh hmesh
             (reflectionRankedAnnulusPrimitive_transfer ground engine reflection
               parent.down.val _ hPE hP hlower.le hlowerSmall hupper hparent)))
-    have hbranches (hrank : 0 < rank) := produce rank T hT S probe rows primitive parent
+    have hbranches (hrank : 0 < rank) := produce rank T hT S probe rows theta primitive parent
       extra U overhead hU hoverhead hoverheadBound hordinary hslots cal hfixed hround
         hactualMask hactualNonNorm (hparentProfiles hrank) htransfer
     have hterminalScale : coefficients rank * (1 + T) ^ degrees rank * U ^ (-2 * saving) ≤

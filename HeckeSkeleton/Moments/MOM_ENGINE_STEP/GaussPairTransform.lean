@@ -117,7 +117,7 @@ end Ring
 
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
-variable (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → localDifferentExponent K v = 0)
+variable (hS : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ S → HeckeGeneral.Characters.localDifferentExponent K v = 0)
 local notation "OS" => S.integer K
 
 /-- Direct specialization to the very Fourier coefficient in the genuine

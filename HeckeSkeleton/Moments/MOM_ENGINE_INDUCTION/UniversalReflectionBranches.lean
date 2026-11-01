@@ -152,14 +152,15 @@ theorem uniform_universalReflection_branches
       ∀ T : ℝ, 0 ≤ T →
       ∀ (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
         (probe : ProbeData K S) (rows : RowCharacterInput K S probe)
+        (theta : Finset (HeckeCharacter K))
         (primitive : MomentData K omegaCharacter psiCharacter → PairedInvariantParameters → Prop)
         (parent : ULift.{0} (UniversalNode primitive W padding cap))
         (extra : NonzeroIdeal K → NonzeroIdeal K) (U overhead : ℝ),
       1 < U → 0 ≤ overhead → overhead ≤ overheadCap →
       parent.down.val.centered = false →
       parent.down.val.data.geometry.totalLength ≤ slotCap →
-      ReflectionRowCalibration S probe rows parent.down.val extra U →
-      uniformReflectionConductorConstant S psiCharacter ≤ U ^ overhead →
+      MovingReflectionRowCalibration S probe rows theta parent.down.val extra U →
+      movingReflectionConductorConstant S psiCharacter theta ≤ U ^ overhead →
       2 ≤ U ^ rounding →
       (∀ u ∈ pairedRows parent.down.val.data parent.down.val.parameters U, ∀ I,
         parent.down.val.data.commonMask u I =
@@ -198,7 +199,7 @@ theorem uniform_universalReflection_branches
   intro Cp Hp lower hCp hHp hlower hlowerSmall
   obtain ⟨C, H, hC, hH, hproduce⟩ := hbudgets Cp Hp lower hCp hHp hlower hlowerSmall
   refine ⟨C, H, hC, hH, ?_⟩
-  intro T hT S instS probe rows primitive parent extra U overhead hU hoverhead hoverheadBound
+  intro T hT S instS probe rows theta primitive parent extra U overhead hU hoverhead hoverheadBound
     hordinary hslots cal hfixed hround hmask hcharacter hprofiles
   dsimp only
   intro htransfer
@@ -209,11 +210,11 @@ theorem uniform_universalReflection_branches
       (if first then parent.down.val.parameters.n₁ else parent.down.val.parameters.n₂) := by
     rw [reflectionLongFirst_short, reflectionLongFirst_long]
     exact (min_le_left _ _).trans (le_max_left _ _)
-  have calOrdinary : ReflectionRowCalibration S probe rows
+  have calOrdinary : MovingReflectionRowCalibration S probe rows theta
       (Node.ordinary parent.down.val.data parent.down.val.parameters) extra U :=
     ⟨cal.identify, cal.product_budget⟩
   obtain ⟨hPE, hwhole, cutoff, hlo, hhi, hestimate, hrem0, hremBound, hfinite, hint,
-      hmass, hunit, harithmetic, _hgeometry⟩ := hproduce T hT S probe rows parent.down.val.data
+      hmass, hunit, harithmetic, _hgeometry⟩ := hproduce T hT S probe rows theta parent.down.val.data
     parent.down.val.parameters first extra U overhead hU parent.down.property.width_nonneg
       parent.down.property.width_le hoverhead hoverheadBound
       parent.down.property.plain_left_nonneg parent.down.property.plain_right_nonneg horder
@@ -261,7 +262,8 @@ theorem uniform_universalReflection_branches
     plainBackground := (harithmetic x).plainBackground
     theta := (harithmetic x).theta
     commonMask := (harithmetic x).commonMask
-    width := (harithmetic x).width }
+    width := (harithmetic x).width
+    q := (harithmetic x).q }
   constructor
   · intro boundary hboundaryLower hboundary hshort hcore hpadwidth hlarge
     have hnext' (j : ℕ) (hj : j ≤ cutoff) : reflectionDyadicExponent U j ≤

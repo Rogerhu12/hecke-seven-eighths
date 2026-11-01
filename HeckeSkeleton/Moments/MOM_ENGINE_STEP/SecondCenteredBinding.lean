@@ -83,8 +83,8 @@ theorem centered_coefficient_residue (u v : ℂ) (t : Fin k → ℂ)
           D.leftWeight D.rightWeight D.slotWeight i -
          rawSourceCoefficient (σ := σ) T g h E.scale₁ E.scale₂ D.base D.length
           E.leftWeight E.rightWeight D.slotWeight i) := by
-  have hmain := D.normalized_coefficient_residue u v t i hi I hI frequency g h hfrequency
-  have hcomparison := E.dictionary.normalized_coefficient_residue u v t i hi I hI
+  have hmain := D.normalized_coefficient_residue (σ := σ) u v t i hi I hI frequency g h hfrequency
+  have hcomparison := E.dictionary.normalized_coefficient_residue (σ := σ) u v t i hi I hI
     frequency g h hfrequency
   change E.dictionary.normalizedCoefficient u v t i * (phase (D.ray i) : ℂ) *
     σ (A.sexticResidue I frequency) =
@@ -206,11 +206,11 @@ theorem right_centered_energy_eq_source
   have hc (h : R.live) (i : AllocationColumn F k) (hi : i ∈ B.columns) :
       secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency D.ray χ
         (E.centeredCoefficient u v t) h.val i = star ν * star (c h i) := by
-    have he := E.centered_coefficient_residue u v t i
+    have he := E.centered_coefficient_residue (σ := σ) u v t i
       (centered_column_mem_source B i hi) (IB i)
       (hIB i (centered_column_mem_source B i hi))
       (-R.frequency h.val) (-R.factor C h.val) (R.extractedRow C h).element
-      (by rw [(R.extractedRow C h).frequency, neg_mul])
+      ((congrArg Neg.neg (R.extractedRow C h).frequency).trans (neg_mul _ _).symm)
     exact (congrArg star he).trans (star_mul' _ _)
   calc
     _ = jointColumnEnergy Finset.univ B.columns
@@ -226,7 +226,12 @@ theorem right_centered_energy_eq_source
     _ = _ := by
       rw [joint_energy_star_neg_locations]
       simp only [source, ActualAllocatedSource.negativeSide, ActualAllocatedSource.centeredEnergy,
-        ActualChildRow.negative, rawSourceLocation_neg] <;> rfl
+        ActualChildRow.negative]
+      apply congrArg (fun locations : R.live → AllocationColumn F k → V =>
+        ‖ν‖ ^ 2 * jointColumnEnergy Finset.univ B.columns
+          (fun h : R.live => R.weight h.val * R.correlation h.val) c locations ξ)
+      funext h i
+      exact (rawSourceLocation_neg (x₁ h.val) (x₂ h.val) (x h.val) i).symm
 
 end ActualSecondCorrelationRows
 end Sources

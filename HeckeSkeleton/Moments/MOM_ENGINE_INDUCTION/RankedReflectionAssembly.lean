@@ -97,12 +97,13 @@ theorem uniform_rankedReflection_branches
       ∀ T : ℝ, 0 ≤ T →
       ∀ (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
         (probe : ProbeData K S) (rows : RowCharacterInput K S probe)
+        (theta : Finset (HeckeCharacter K))
         (U overhead : ℝ),
       1 < U → 0 ≤ overhead → overhead ≤ overheadCap →
-      uniformReflectionConductorConstant S psiCharacter ≤ U ^ overhead →
+      movingReflectionConductorConstant S psiCharacter theta ≤ U ^ overhead →
       2 ≤ U ^ rounding →
       let primitive := reflectionProfilePrimitive
-        (ω := omegaCharacter) (ψ := psiCharacter) S probe rows U ground engine reflection
+        (ω := omegaCharacter) (ψ := psiCharacter) S probe rows theta U ground engine reflection
         σ W padding decay (profileFamilyBudget Cp Hp T) lower upper
       ∀ parent : ULift.{0} (UniversalNode primitive W padding cap),
       parent.down.val.data.geometry.totalLength ≤ slotCap →
@@ -153,10 +154,10 @@ theorem uniform_rankedReflection_branches
   have hH : 0 ≤ H := by dsimp only [H]; linarith
   refine ⟨C, H, hC, hH, ?_⟩
   intro massExponent terminalExponent hmassExponent hterminalExponent
-    T hT S instS probe rows U overhead hU hoverhead hoverheadBound hfixed hround
+    T hT S instS probe rows theta U overhead hU hoverhead hoverheadBound hfixed hround
   dsimp only
   let primitive := reflectionProfilePrimitive
-    (ω := omegaCharacter) (ψ := psiCharacter) S probe rows U ground engine reflection
+    (ω := omegaCharacter) (ψ := psiCharacter) S probe rows theta U ground engine reflection
     σ W padding decay (profileFamilyBudget Cp Hp T) lower upper
   intro parent hslots
   have hU0 : 0 < U := zero_lt_one.trans hU
@@ -191,7 +192,7 @@ theorem uniform_rankedReflection_branches
       (parameterCoreRank_lt_bound parent.down.val.parameters hσ
         parent.down.property.width_le).le
     obtain ⟨extra, hcal, hmask, hnonNorm⟩ := hparent.1
-    have cal : ReflectionRowCalibration S probe rows parent.down.val extra U :=
+    have cal : MovingReflectionRowCalibration S probe rows theta parent.down.val extra U :=
       ⟨hcal.identify, hcal.product_budget⟩
     have hactualMask : ∀ u ∈ pairedRows parent.down.val.data parent.down.val.parameters U,
         ∀ I, parent.down.val.data.commonMask u I =
@@ -211,7 +212,7 @@ theorem uniform_rankedReflection_branches
       intro hPE
       exact reflectionProfilePrimitive_transfer ground engine reflection
         parent.down.val _ hPE hP hparent
-    have hbranches (hrank : 0 < rank) := produce rank T hT S probe rows primitive parent
+    have hbranches (hrank : 0 < rank) := produce rank T hT S probe rows theta primitive parent
       extra U overhead hU hoverhead hoverheadBound hordinary hslots cal hfixed hround
         hactualMask hactualNonNorm (hparentProfiles hrank) htransfer
     have hterminalScale : coefficients rank * (1 + T) ^ degrees rank * U ^ (-2 * saving) ≤

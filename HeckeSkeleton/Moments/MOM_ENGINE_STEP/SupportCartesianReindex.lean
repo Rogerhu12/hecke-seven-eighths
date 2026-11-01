@@ -47,13 +47,8 @@ def primeLive (S : Finset (HeightOneSpectrum (𝓞 K)))
 theorem prime_extract_eq_one (p : HeightOneSpectrum (𝓞 K))
     (P : Finset (Ideal (𝓞 K))) :
     supportExtract p.asIdeal P = 1 ↔ p.asIdeal ∉ P := by
-  have hp : p.asIdeal ≠ 1 := by
-    intro he
-    apply p.prime.not_unit
-    rw [he]
-    exact isUnit_one
   rw [supportExtract_prime p.asIdeal p.prime P]
-  by_cases h : p.asIdeal ∈ P <;> simp [h, hp]
+  by_cases h : p.asIdeal ∈ P <;> simp [h, p.isPrime.ne_top]
 
 theorem prime_fibre_one (S : Finset (HeightOneSpectrum (𝓞 K)))
     (P : Finset (Ideal (𝓞 K))) :

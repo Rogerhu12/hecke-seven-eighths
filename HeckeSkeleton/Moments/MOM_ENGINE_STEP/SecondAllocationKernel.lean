@@ -32,7 +32,7 @@ def allocationColumnIdeal (i : AllocationColumn K k) : Ideal (𝓞 K) :=
   i.1.1 * i.1.2 * ∏ j, (i.2 j).asIdeal
 
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance secondAllocationKernelCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 def secondAllocatedLeftCoefficient
     (IA : AllocationColumn K k → A.Exterior) (frequency : H → A.R)

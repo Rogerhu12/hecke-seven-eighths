@@ -28,7 +28,7 @@ open HeckeGeneral.Characters
 
 variable (G : Type*) [CommGroup G] [Fintype G]
 
-local instance : Fintype ((G × G) →* Circle) := Fintype.ofFinite _
+local instance finitePhaseCircleCharacterFintype : Fintype ((G × G) →* Circle) := Fintype.ofFinite _
 
 /-- Canonical normalized coefficients on the actual finite circle dual. -/
 def fixedPhaseCoefficient (Φ : G × G → Circle) (χ : (G × G) →* Circle) : ℂ :=

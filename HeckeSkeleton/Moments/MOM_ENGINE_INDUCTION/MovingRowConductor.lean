@@ -167,9 +167,9 @@ theorem completeMovingRowCharacter_conductor_dvd {Index : Type*}
       (mul_dvd_mul (dvd_refl (finiteConductor K beta).val) hcombined)
   simpa only [moving, modulus, Submonoid.coe_mul, mul_assoc] using hfinal
 
+set_option maxHeartbeats 800000 in
 /-- The actual FE scale has the same linear norm dependence.  In
 particular N(displayed) is not replaced by N(product b_i^e_i). -/
-set_option maxHeartbeats 800000 in
 theorem completeMovingRowCharacter_scale_le {Index : Type*}
     (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
     (probe : ProbeData K S) (rows : RowCharacterInput K S probe)

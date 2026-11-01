@@ -43,7 +43,7 @@ variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
 structure FixedBinTransferGeometry where
   boundary : ℝ
   boundary_lower : 7 / 8 ≤ boundary
-  boundary_upper : boundary ≤ 11 / 12
+  boundary_upper : boundary ≤ 1
   dMin : ℝ
   dMax : ℝ
   dMin_pos : 0 < dMin

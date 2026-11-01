@@ -120,6 +120,7 @@ theorem uniform_ordinaryReflection_production
       ∀ T : ℝ, 0 ≤ T →
       ∀ (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
         (probe : ProbeData K S) (rows : RowCharacterInput K S probe)
+        (theta : Finset (HeckeCharacter K))
         (d : MomentData K omegaCharacter psiCharacter) (a : RealParameters)
         (first : Bool) (extra : NonzeroIdeal K → NonzeroIdeal K)
         (U overhead : ℝ),
@@ -128,8 +129,8 @@ theorem uniform_ordinaryReflection_production
       0 ≤ a.n₁ → 0 ≤ a.n₂ →
       (if first then a.n₂ else a.n₁) ≤ (if first then a.n₁ else a.n₂) →
       d.geometry.totalLength ≤ slotCap → d.geometry.slotCount ≤ cap →
-      ReflectionRowCalibration S probe rows (Node.ordinary d a) extra U →
-      uniformReflectionConductorConstant S psiCharacter ≤ U ^ overhead →
+      MovingReflectionRowCalibration S probe rows theta (Node.ordinary d a) extra U →
+      movingReflectionConductorConstant S psiCharacter theta ≤ U ^ overhead →
       2 ≤ U ^ rounding →
       (∀ u ∈ pairedRows d a U, ∀ I, d.commonMask u I =
         (completeIdealCommonMask K S u I && decide (IsCoprime I (extra u).val))) →
@@ -171,7 +172,7 @@ theorem uniform_ordinaryReflection_production
             max (a.m + a.q - (if first then a.n₁ else a.n₂)) 0 +
               (overhead + gap + rounding) + a.z) := by
   obtain ⟨decay, Lt, hdecay, hδdecay, hterminal⟩ :=
-    uniform_rowRestorationEnergy_terminal (K := K) hcomplex psiCharacter cap widthCap
+    uniform_rowRestorationEnergy_terminal.{0} (K := K) hcomplex psiCharacter cap widthCap
       overheadCap slotCap loss saving gap δ ε hwidthCap hoverheadCap hslotCap hloss
       hsaving hgap hδ hε hmassLoss
   refine ⟨decay, hdecay, hδdecay, ?_⟩
@@ -202,7 +203,7 @@ theorem uniform_ordinaryReflection_production
   have hC : 0 ≤ C := by dsimp [C]; positivity
   have hH : 0 ≤ H := add_nonneg hHt hHmass
   refine ⟨C, H, hC, hH, ?_⟩
-  intro T hT S instS probe rows d a first extra U overhead hU hwidth hwidthBound
+  intro T hT S instS probe rows theta d a first extra U overhead hU hwidth hwidthBound
     hoverhead hoverheadBound hn₁ hn₂ horder hslots hcount cal hfixed hround
     hmask hcharacter hprofiles
   let P := Cp * (1 + T) ^ Hp
@@ -252,7 +253,7 @@ theorem uniform_ordinaryReflection_production
       (Real.rpow_nonneg (zero_le_one.trans hX) _) hC
   constructor
   · intro hwhole
-    have ht := (htail T hT S probe rows (Node.ordinary d a) extra V Wshort
+    have ht := (htail T hT S probe rows theta (Node.ordinary d a) extra V Wshort
       U overhead long short false 0 hU hwidth hwidthBound hoverhead hoverheadBound
       hlong horder hslots hcount cal hfixed hlongProfiles hshortProfiles hslotProfiles
       (by simpa only [Node.width, Node.ordinary, long, Bool.false_eq_true, if_false]
@@ -268,12 +269,12 @@ theorem uniform_ordinaryReflection_production
       (mul_le_mul_of_nonneg_left (add_le_add hwidthBound hoverheadBound) hε.le).trans hmassLoss
     have hdprofiles : ModelProfileControl d Ld decay P 0 lower upper 0 :=
       modelProfileControl_fixed_budget (modelProfileControl_mono_order hprofiles hLd) le_rfl
-    have hout := hreflection P lower hP hlower hlowerSmall hupper S probe rows d a
+    have hout := hreflection P lower hP hlower hlowerSmall hupper S probe rows theta d a
       first extra U overhead loss hU hcount cal hfixed hbudget hmask hcharacter
       hdprofiles hinterval hPE cutoff
     have hcutoffTail : max ((Node.ordinary d a).width - long + overhead) 0 + gap ≤
         reflectionDyadicExponent U cutoff := le_reflectionDyadicExponent hU hlo
-    have ht := (htail T hT S probe rows (Node.ordinary d a) extra V Wshort
+    have ht := (htail T hT S probe rows theta (Node.ordinary d a) extra V Wshort
       U overhead long short true cutoff hU hwidth hwidthBound hoverhead hoverheadBound
       hlong horder hslots hcount cal hfixed hlongProfiles hshortProfiles hslotProfiles
       (by simpa only [if_true] using hcutoffTail)).1

@@ -135,7 +135,7 @@ end FirstDivisorPoolData
 variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
   [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
 variable (Ray : Type*) [CommGroup Ray] [Fintype Ray]
-local instance : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
+local instance firstDivisorPoolCircleCharacterFintype : Fintype ((Ray × Ray) →* Circle) := Fintype.ofFinite _
 
 /-- The same internal divisor occurs in the original whole coefficient,
 in each frozen product, and in both pooled energies. -/

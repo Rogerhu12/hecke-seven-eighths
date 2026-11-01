@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulus
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ClippedAnnulusSchedule
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionPrimitiveFamily
 
 /-!
@@ -33,6 +34,7 @@ open HeckeSkeleton.Moments.UniformAmplify
 open scoped Classical
 
 variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
+variable {theta : Finset (HeckeCharacter K)}
 
 /-- A support fact about the literal profiles at their actual evaluation
 time. It contains neither derivative bounds nor an energy estimate. -/
@@ -152,7 +154,7 @@ def rankedAnnulusProfilePrimitive (ground : ℕ) (engine reflection : ℕ → �
   let rank := parameterCoreRank sigma widthLimit padding p.parameters
   let N := 6 * (widthBand sigma widthLimit + 1)
   ModelProfileControl d (backwardProfileOrder ground engine reflection rank) A P 0
-    (rankedAnnulusLower lower N rank) (rankedAnnulusUpper upper N rank) 0
+    (clippedAnnulusLower lower upper N rank) (rankedAnnulusUpper upper N rank) 0
 
 theorem rankedAnnulusProfilePrimitive_iff (ground : ℕ) (engine reflection : ℕ → ℕ)
     (sigma widthLimit padding A P lower upper : ℝ)
@@ -162,7 +164,7 @@ theorem rankedAnnulusProfilePrimitive_iff (ground : ℕ) (engine reflection : �
         sigma widthLimit padding A P lower upper) d a ↔
       ModelProfileControl d (backwardProfileOrder ground engine reflection
         (parameterCoreRank sigma widthLimit padding a)) A P 0
-        (rankedAnnulusLower lower (6 * (widthBand sigma widthLimit + 1))
+        (clippedAnnulusLower lower upper (6 * (widthBand sigma widthLimit + 1))
           (parameterCoreRank sigma widthLimit padding a))
         (rankedAnnulusUpper upper (6 * (widthBand sigma widthLimit + 1))
           (parameterCoreRank sigma widthLimit padding a)) 0 := by
@@ -181,12 +183,13 @@ theorem rankedAnnulusProfilePrimitive_maximal
         sigma widthLimit padding A P lower upper) d a) :
     admissibleOfInvariant
       (rankedProfilePrimitive ground engine reflection sigma widthLimit padding A P
-        (lower / (2 : ℝ) ^ (6 * (widthBand sigma widthLimit + 1)))
+        (lower / clippedAnnulusStep upper (6 * (widthBand sigma widthLimit + 1)) ^
+          (6 * (widthBand sigma widthLimit + 1)))
         (upper * (2 : ℝ) ^ (6 * (widthBand sigma widthLimit + 1)))) d a := by
   rw [rankedProfilePrimitive_iff]
   rw [rankedAnnulusProfilePrimitive_iff] at h
   exact modelProfileControl_annulus_mono h
-    (rankedAnnulus_maximal_subset hlower hupper _ _)
+    (clippedAnnulus_maximal_subset hlower hupper _ _)
 
 /-- The literal source at the one maximal Euler order enters its own
 rank's support layer directly from the original source annulus. -/
@@ -203,10 +206,43 @@ theorem rankedAnnulusProfilePrimitive_of_top
       (rankedAnnulusProfilePrimitive ground engine reflection
         sigma widthLimit padding A P lower upper) d a := by
   rw [rankedAnnulusProfilePrimitive_iff]
-  exact modelProfileControl_rankedAnnulus_original
+  exact modelProfileControl_annulus_mono
     (modelProfileControl_mono_order h
       (backwardProfileOrder_monotone ground engine reflection
-        (parameterCoreRank_lt_bound a hsigma hwidth).le)) hlower hupper _ _
+        (parameterCoreRank_lt_bound a hsigma hwidth).le))
+    (clippedAnnulus_original_subset hlower hupper _ _)
+
+/-- The actual Mellin plateau and actual active clipping fit the
+earlier child's scheduled annulus. The finite Schwartz-to-Euler
+coefficient is paid by the already fixed source profile budget. -/
+theorem rankedAnnulusProfilePrimitive_strictChild
+    (ground : ℕ) (engine reflection : ℕ → ℕ)
+    {sigma widthLimit padding A P D lower upper : ℝ}
+    {parentParameters childParameters : RealParameters}
+    {child : MomentData K ω ψ}
+    (hlower : 0 ≤ lower) (hupper : 0 < upper) (hDP : D ≤ P)
+    (hparent : parameterCoreRank sigma widthLimit padding parentParameters ≤
+      6 * (widthBand sigma widthLimit + 1))
+    (hearlier : parameterCoreRank sigma widthLimit padding childParameters <
+      parameterCoreRank sigma widthLimit padding parentParameters)
+    (hchild : ModelProfileControl child
+      (backwardProfileOrder ground engine reflection
+        (parameterCoreRank sigma widthLimit padding parentParameters - 1)) A D 0
+      ((clippedAnnulusLower lower upper (6 * (widthBand sigma widthLimit + 1))
+          (parameterCoreRank sigma widthLimit padding parentParameters) / 2) /
+        (2 * rankedAnnulusUpper upper (6 * (widthBand sigma widthLimit + 1))
+          (parameterCoreRank sigma widthLimit padding parentParameters)))
+      (2 * rankedAnnulusUpper upper (6 * (widthBand sigma widthLimit + 1))
+        (parameterCoreRank sigma widthLimit padding parentParameters)) 0) :
+    admissibleOfInvariant
+      (rankedAnnulusProfilePrimitive ground engine reflection
+        sigma widthLimit padding A P lower upper) child childParameters := by
+  rw [rankedAnnulusProfilePrimitive_iff]
+  apply modelProfileControl_mono_budget _ hDP
+  apply modelProfileControl_mono_order _
+    (backwardProfileOrder_child_le ground engine reflection hearlier)
+  exact modelProfileControl_annulus_mono hchild
+    (clippedAnnulus_child_enlargement_subset hlower hupper hparent hearlier)
 
 /-- The normalized child's tight support follows from its literal
 construction, while its seminorm bound is the actual reflection
@@ -232,7 +268,8 @@ theorem rankedAnnulusProfilePrimitive_fixedLine_child
           (parameterCoreRank sigma widthLimit padding parent.parameters - 1)) x).data
       (backwardProfileOrder ground engine reflection
         (parameterCoreRank sigma widthLimit padding parent.parameters - 1)) A 1 0
-      (lower / (2 : ℝ) ^ (6 * (widthBand sigma widthLimit + 1)))
+      (lower / clippedAnnulusStep upper (6 * (widthBand sigma widthLimit + 1)) ^
+          (6 * (widthBand sigma widthLimit + 1)))
       (upper * (2 : ℝ) ^ (6 * (widthBand sigma widthLimit + 1))) 0) :
     admissibleOfInvariant
       (rankedAnnulusProfilePrimitive ground engine reflection
@@ -246,12 +283,12 @@ theorem rankedAnnulusProfilePrimitive_fixedLine_child
   rw [rankedAnnulusProfilePrimitive_iff] at hparent ⊢
   have hsupport := parent.fixedLineReflectionChild_profileSupport
     (modelProfileControl_support hparent)
-    (rankedAnnulus_reflection_subset hlower hlowerSmall hupper _ _)
+    (clippedAnnulus_reflection_subset hlower hlowerSmall hupper _ _)
     first U E0 hE0
     (backwardProfileOrder ground engine reflection
       (parameterCoreRank sigma widthLimit padding parent.parameters - 1)) x
   have hchildSupport := modelProfileSupport_mono hsupport
-    (rankedAnnulus_descendant_subset hlower (by linarith) _ hearlier.le)
+    (clippedAnnulus_descendant_subset hlower (by linarith) _ hearlier.le)
   exact modelProfileControl_mono_budget
     (normalized_child_rank_profile_control ground engine reflection hearlier
       (modelProfileControl_with_support hunit hchildSupport)) hP
@@ -260,11 +297,12 @@ theorem rankedAnnulusProfilePrimitive_fixedLine_child
 control remain separate visible parts of primitive admissibility. -/
 def reflectionRankedAnnulusPrimitive
     (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]
-    (probe : ProbeData K S) (rows : RowCharacterInput K S probe) (U : ℝ)
+    (probe : ProbeData K S) (rows : RowCharacterInput K S probe)
+    (theta : Finset (HeckeCharacter K)) (U : ℝ)
     (ground : ℕ) (engine reflection : ℕ → ℕ)
     (sigma widthLimit padding A P lower upper : ℝ)
     (d : MomentData K ω ψ) (p : PairedInvariantParameters) : Prop :=
-  reflectionArithmeticPrimitive S probe rows U d p ∧
+  reflectionArithmeticPrimitive S probe rows theta U d p ∧
     rankedAnnulusProfilePrimitive ground engine reflection
       sigma widthLimit padding A P lower upper d p
 
@@ -279,13 +317,14 @@ theorem reflectionRankedAnnulusPrimitive_transfer
     (parent : Node K ω ψ) (E0 : ℝ) (hE0 : 1 ≤ E0) (hP : 1 ≤ P)
     (hlower : 0 ≤ lower) (hlowerSmall : lower ≤ 1 / 2) (hupper : 2 ≤ upper)
     (hparent : admissibleOfInvariant
-      (reflectionRankedAnnulusPrimitive S probe rows U ground engine reflection
+      (reflectionRankedAnnulusPrimitive S probe rows theta U ground engine reflection
         sigma widthLimit padding A P lower upper) parent.data parent.parameters) :
     ReflectionPrimitiveTransfer
-      (reflectionRankedAnnulusPrimitive S probe rows U ground engine reflection
+      (reflectionRankedAnnulusPrimitive S probe rows theta U ground engine reflection
         sigma widthLimit padding A P lower upper)
       sigma widthLimit padding A
-      (lower / (2 : ℝ) ^ (6 * (widthBand sigma widthLimit + 1)))
+      (lower / clippedAnnulusStep upper (6 * (widthBand sigma widthLimit + 1)) ^
+          (6 * (widthBand sigma widthLimit + 1)))
       (upper * (2 : ℝ) ^ (6 * (widthBand sigma widthLimit + 1))) U E0 hE0
       (backwardProfileOrder ground engine reflection
         (parameterCoreRank sigma widthLimit padding parent.parameters - 1)) parent := by
