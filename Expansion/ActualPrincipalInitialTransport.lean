@@ -171,7 +171,7 @@ theorem analyticAt_actual_principal_kernel_comp [IsTotallyComplex K]
   simp only [div_eq_mul_inv]
   have hL := (hLz.fun_mul hLw).fun_mul hrec'
   exact (((((((((analyticAt_const.fun_mul hexp).fun_mul hM).fun_mul hden).fun_mul hxPower).fun_mul
-    hzPower).fun_mul hyPower).fun_mul hL).fun_mul hcorr).fun_mul analyticAt_const
+    hzPower).fun_mul hyPower).fun_mul hL).fun_mul hcorr).fun_mul analyticAt_const)
 
 include nu in
 theorem analyticOnNhd_actual_principal_kernel [IsTotallyComplex K]
