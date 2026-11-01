@@ -1,0 +1,255 @@
+name: PR12 bounded declaration diagnostics
+
+# Auxiliary diagnostics only; this workflow lives solely on its performance branch.
+# PR12 retains its clean audit, original-target axiom gates, and whole-project build.
+on:
+  push:
+    branches: [cloud/mom-engine-induction-performance]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-induction-isolated-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native:
+    name: Prefixes ${{ matrix.target }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [ExceptionalOriginalLabel, ActualGaussFiniteLeaves]
+    env:
+      LEAN_NUM_THREADS: '2'
+      PERF_TARGET: ${{ matrix.target }}
+      PERF_SOURCE_COMMIT: 8ac2cb4e2ba41af423ac2d59a125ab224ff329a0
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Prepare runner resources
+        run: |
+          mkdir -p /tmp/pr12-isolated-native-evidence
+          git show --no-patch --format=fuller HEAD > /tmp/pr12-isolated-native-evidence/checkout.txt
+          git diff --exit-code "$PERF_SOURCE_COMMIT" HEAD -- '*.lean' lakefile.toml lake-manifest.json lean-toolchain
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > /tmp/pr12-isolated-native-evidence/memory-mapping.txt
+          df -h /
+      - name: Install the pinned Lean toolchain and Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore ordinary Lake artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Record exact source and toolchain provenance
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, subprocess
+          def run(*args):
+              return subprocess.check_output(args, text=True).strip()
+          version = run('lake', 'env', 'lean', '--version')
+          mathlib = run('git', '-C', '.lake/packages/mathlib', 'rev-parse', 'HEAD')
+          assert '4.35.0-rc3' in version and '470d5ce1400764999581fd26d5d72b00d990b0f4' in version
+          assert mathlib == '0493595ecd5da8ef14742febab99728f98e948e8'
+          sources = {str(p): hashlib.sha256(p.read_bytes()).hexdigest()
+                     for p in sorted(pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP').glob('*.lean'))}
+          assert len(sources) == 921
+          evidence = {'commit': run('git', 'rev-parse', 'HEAD'),
+                      'tree': run('git', 'rev-parse', 'HEAD^{tree}'),
+                      'source_commit': os.environ['PERF_SOURCE_COMMIT'],
+                      'target': os.environ['PERF_TARGET'],
+                      'lean': version, 'mathlib': mathlib,
+                      'source_sha256': sources,
+                      'scope': 'bounded declaration diagnostics; not full-module or task acceptance'}
+          pathlib.Path('/tmp/pr12-isolated-native-evidence/environment.json').write_text(json.dumps(evidence, indent=2) + '\n')
+          PY
+      - name: Build the complete unchanged target dependencies
+        timeout-minutes: 60
+        shell: bash
+        run: |
+          set -o pipefail
+          status=0
+          timeout --signal=TERM --kill-after=30s 58m lake build "+HeckeSkeleton.Moments.MOM_ENGINE_STEP.${PERF_TARGET}:deps" 2>&1 |
+            tee /tmp/pr12-isolated-native-evidence/dependencies.log || status=$?
+          echo "$status" > /tmp/pr12-isolated-native-evidence/dependencies-exit-code.txt
+          exit "$status"
+      - name: Compile bounded exact source prefixes
+        timeout-minutes: 6
+        run: |
+          python3 -u - <<'PY'
+          #!/usr/bin/env python3
+          """Prepare diagnostic Lean prefixes from immutable 8ac; never invoke Lean/Lake.
+
+          Run only when a real module timeout makes these prefixes useful. Every prefix
+          retains the original imports and prior declarations byte for byte, and appends
+          only namespace closures. Success of a prefix is not a full-module pass.
+          """
+
+          import argparse
+          import hashlib
+          import json
+          from pathlib import Path
+          import subprocess
+
+
+          COMMIT = "8ac2cb4e2ba41af423ac2d59a125ab224ff329a0"
+          MODULE_DIR = "HeckeSkeleton/Moments/MOM_ENGINE_STEP/"
+          ENGINE = "HeckeSkeleton.Moments.EngineStep"
+          SOURCES = {
+              "ExceptionalOriginalLabel": {
+                  "sha256": "dcef6c25192de6a24aae34312c0628946e88bc85ee802c2a0ce0a81f519faecb",
+                  "lines": 341,
+              },
+              "ActualGaussFiniteLeaves": {
+                  "sha256": "dea70c3b22e89ff2818719b88c60ddeb90368f1da5f1034a23f4f43f316528f1",
+                  "lines": 361,
+              },
+          }
+          # Cut line is excluded. Its preceding source line is a blank line in 8ac:
+          # no attached doc comment is left waiting for a following declaration.
+          PROBES = [
+              ("EOL01_before_magnitude_nonneg", "ExceptionalOriginalLabel", 61,
+               "theorem exceptionalMagnitude_nonneg", ["SecondSideFrame", ENGINE]),
+              ("EOL02_before_original_scalar", "ExceptionalOriginalLabel", 123,
+               "theorem original_exceptional_label_scalar", [ENGINE]),
+              ("EOL03_after_original_scalar", "ExceptionalOriginalLabel", 178,
+               "variable {ΨL ΨR : Ideal (𝓞 F) →* ℂ} {WL₁ WL₂ WR₁ WR₂ : ℝ → ℂ}", [ENGINE]),
+              ("Gauss01_before_leaf", "ActualGaussFiniteLeaves", 96,
+               "def leaf (exceptional : s.CoverHybridPredicates LC RC)",
+               ["CoveredClassKey", "ActualGaussStage", ENGINE]),
+              ("Gauss02_before_phase_helper", "ActualGaussFiniteLeaves", 131,
+               "private theorem phase_mul_four_factors (phase a b c d : ℂ) :",
+               ["CoveredClassKey", "ActualGaussStage", ENGINE]),
+              ("Gauss03_after_phase_class", "ActualGaussFiniteLeaves", 227,
+               "end CoveredClassKey", ["CoveredClassKey", "ActualGaussStage", ENGINE]),
+          ]
+
+
+          def sha256(data):
+              return hashlib.sha256(data).hexdigest()
+
+
+          def main():
+              parser = argparse.ArgumentParser(description=__doc__)
+              parser.add_argument("--repo", type=Path,
+                                  default=Path("/workspace/scratch/027bdc52ab78/repo"))
+              parser.add_argument("--output", type=Path,
+                                  default=Path(__file__).resolve().with_name("prefix-probes-8ac"))
+              args = parser.parse_args()
+              sources = {}
+              for module, expected in SOURCES.items():
+                  path = MODULE_DIR + module + ".lean"
+                  data = subprocess.check_output(["git", "show", COMMIT + ":" + path], cwd=args.repo)
+                  assert sha256(data) == expected["sha256"], ("source hash mismatch", path)
+                  lines = data.splitlines(keepends=True)
+                  assert len(lines) == expected["lines"], ("line count mismatch", path)
+                  sources[module] = (path, data, lines)
+              outputs = []
+              for name, module, cutoff, anchor, closures in PROBES:
+                  path, source, lines = sources[module]
+                  assert lines[cutoff - 1].decode().rstrip("\r\n") == anchor, (name, "anchor mismatch")
+                  assert not lines[cutoff - 2].strip(), (name, "unexpected predecessor")
+                  prefix = b"".join(lines[:cutoff - 1])
+                  assert source.startswith(prefix) and prefix.endswith(b"\n")
+                  suffix = "".join("end " + namespace + "\n" for namespace in closures).encode()
+                  data = prefix + suffix
+                  outputs.append((name + ".lean", data, {
+                      "name": name, "source_path": path, "source_sha256": sha256(source),
+                      "excluded_line": cutoff, "excluded_anchor": anchor,
+                      "retained_lines": cutoff - 1, "retained_prefix_bytes": len(prefix),
+                      "retained_prefix_sha256": sha256(prefix), "appended_namespace_closures": closures,
+                      "output_sha256": sha256(data), "exact_source_prefix": True,
+                  }))
+              # All immutable-source and cutoff checks finish before any output is written.
+              args.output.mkdir(parents=True, exist_ok=True)
+              for filename, data, item in outputs:
+                  (args.output / filename).write_bytes(data)
+                  item["file"] = filename
+              manifest = {
+                  "purpose": "diagnostic prefixes only; not full-module or final-head validation",
+                  "source_commit": COMMIT, "native_compilation_performed": False,
+                  "probes": [item for _, _, item in outputs],
+              }
+              (args.output / "manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
+              print(json.dumps({"output": str(args.output), "prefixes": len(outputs),
+                                "source_commit": COMMIT, "native_compilation_performed": False}))
+
+
+
+          import os
+          import sys
+          import time
+
+          evidence = Path('/tmp/pr12-isolated-native-evidence')
+          prefix_dir = evidence / 'prefix-sources'
+          sys.argv = ['prefix-probes', '--repo', '.', '--output', str(prefix_dir)]
+          main()
+          manifest = json.loads((prefix_dir / 'manifest.json').read_text())
+          target = os.environ['PERF_TARGET']
+          assert target in SOURCES
+          selected = [p for p in manifest['probes']
+                      if p['source_path'] == MODULE_DIR + target + '.lean']
+          assert len(selected) == 3
+          output = Path('/tmp/pr12-prefix-outputs')
+          output.mkdir(exist_ok=True)
+          results = []
+          for probe in selected:
+              source = prefix_dir / probe['file']
+              assert sha256(source.read_bytes()) == probe['output_sha256']
+              command = ['timeout', '--signal=TERM', '--kill-after=15s', '60s',
+                         '/usr/bin/time', '-v', 'lake', 'env', 'lean', '-j2',
+                         '-DautoImplicit=false', '-DrelaxedAutoImplicit=false', '-Dprofiler=true',
+                         '--root=' + str(prefix_dir),
+                         '-o', str(output / (probe['name'] + '.olean')),
+                         '-i', str(output / (probe['name'] + '.ilean')), str(source)]
+              started = time.monotonic()
+              with (evidence / (probe['name'] + '.log')).open('w') as log:
+                  log.write(json.dumps({'command': command}) + '\n')
+                  log.flush()
+                  process = subprocess.Popen(command, stdout=subprocess.PIPE,
+                                             stderr=subprocess.STDOUT, text=True)
+                  assert process.stdout is not None
+                  for line in process.stdout:
+                      print(line, end='', flush=True)
+                      log.write(line)
+                      log.flush()
+                  code = process.wait()
+              result = dict(probe, exit_code=code, elapsed_seconds=time.monotonic() - started,
+                            complete_prefix=code == 0,
+                            source_prefix_unchanged=sha256(source.read_bytes()) == probe['output_sha256'])
+              results.append(result)
+              report = {'target': target, 'source_commit': COMMIT,
+                        'scope': 'bounded declaration diagnostics; not full-module acceptance',
+                        'results': results}
+              (evidence / 'prefix-results.json').write_text(json.dumps(report, indent=2) + '\n')
+              print(json.dumps(result), flush=True)
+          original = json.loads((evidence / 'environment.json').read_text())['source_sha256']
+          unchanged = all(sha256(Path(path).read_bytes()) == digest for path, digest in original.items())
+          report['all_task_sources_unchanged'] = unchanged
+          (evidence / 'prefix-results.json').write_text(json.dumps(report, indent=2) + '\n')
+          assert unchanged and all(p['source_prefix_unchanged'] for p in results)
+          raise SystemExit(0 if all(p['exit_code'] == 0 for p in results) else 1)
+
+          PY
+      - name: Preserve exact native timing and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr12-prefix-diagnostics-${{ matrix.target }}-${{ github.sha }}-${{ github.run_attempt }}
+          path: /tmp/pr12-isolated-native-evidence/
+          if-no-files-found: error
+          retention-days: 14
