@@ -1159,7 +1159,11 @@ PRODUCER_SOURCES = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActiveNormalizedFamil
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ZeroTerminalBudget.lean': '4b0981114dc50a3e67c4c4b4ddcaba601e4e3e91ef82de0d684dad44ff1ff9b7'}
 # Proof-only compatibility repairs are recorded separately from the owner pin.
 # Their baseline and exact replacement digests remain visible in the CI artifact.
-PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalActualGaussNumerators.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+PRODUCER_REPAIRS = {
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalActiveProfileKernelMass.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4', 'owner_sha256': '7c7206b23dd231784e716892fb5cd0b200c63fa9955f23c78074a8715abb72a7', 'repair_sha256': '58e2763edce10ca8b38f97c2207b99c3c555e4f74d7b2e20e56f575bdc077836', 'reason': 'Apply the same finite scaled-kernel proof required by the CI74 diagnostic; preserve the original measure and scalar.'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalHybridMass.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4', 'owner_sha256': '2ba33975011973aebfa9558f7ce3c7cb1449d2dd93c8ebff04358b90ba5ecb0a', 'repair_sha256': '3bbc6fbc9b321d0ceda8a6c8bd46ee63b8d9f4b465d088ee56b94563ca70aaa4', 'reason': 'Apply the same finite scaled-kernel proof required by the CI74 diagnostic; preserve the original measure and scalar.'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedOutputConditions.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4', 'owner_sha256': 'd8f22913fad71b26a44aa4c518834ab1f139fb7f03f6eef9ba809dbc34f02ef8', 'repair_sha256': 'd7a8e3100eb2181ad7aa5a68bd70f2b01dacec09eb665265ee8414fd331029d0', 'reason': 'CI74 finite scaled-kernel diagnostic: provide Measure.smul_finite with ENNReal.ofReal_ne_top explicitly.'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalActualGaussNumerators.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
                                                                                'owner_sha256': '3bf372c801af225c630e24e763a3e1cedde54e9215a26b3ecb0ea1d5db5970db',
                                                                                'reason': 'Restore primitive '
                                                                                          'parameters already '
@@ -1477,7 +1481,7 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalActualGaussN
                                                                       'repair_sha256': '6df10b0155e859f365e5ebe67d8593bb63aaecb86b81ec2f0b7a1e3da337c638'}}
 PRODUCER_REPAIRED_SOURCES = {path: entry["repair_sha256"] for path, entry in PRODUCER_REPAIRS.items()}
 
-SOURCE_COMMIT = '896cec08ff832c5fcf136adcc12f0239e7ab9728'
+SOURCE_COMMIT = 'c92578b1fa556b72d01c6ff49bac7f27885f09d7'
 SOURCE_SOURCES = {'Expansion/ActualAnnularIdentification.lean': '1dc3f7a434dc16630aaea627222dd5a162b17a6fa89da2337c0e2107f06eb61e',
  'Expansion/ActualCanonicalRecipe.lean': 'bbe2d85b9aad898c8e32dbbdb3f22d91c39830a4f7fc4aeedde38947badfc011',
  'Expansion/ActualDeletedZetaResidue.lean': '31fbe2aff54ee678c67bee969447463f960732a4a8f1bf41582f76726cf56026',
@@ -1508,13 +1512,13 @@ SOURCE_SOURCES = {'Expansion/ActualAnnularIdentification.lean': '1dc3f7a434dc166
  'Expansion/ActualPrincipalKernelBound.lean': '357611ecc8ab4eda287038028c76132cde05353a1109082ad2c814b32b6a9d7f',
  'Expansion/ActualPrincipalMainContour.lean': 'f40b015e729b442f2407baf13f9f59fadaab47291568ef711e24f1c37e298580',
  'Expansion/ActualPrincipalPoleLimits.lean': '960adebae7e327e764ff3ad5ad8ad4d2dcd42b3500f2c8433ff61ad79e615999',
- 'Expansion/ActualPrincipalResidueAssembly.lean': '0fa86c41470722a7e2ca6e3b910af2b8309524b3760a4d321410841b8371ffb6',
+ 'Expansion/ActualPrincipalResidueAssembly.lean': 'ed8b6db965375897b4aa3fcfbce951e757c145adfa90cd2b598708ee36167750',
  'Expansion/ActualPrincipalResidueIdentification.lean': '7de01f9eeb97b56e2d3a4f4d395efec18263ea2b5dfe8ca3585ca4e4fbc4848f',
  'Expansion/ActualPrincipalResidueKernels.lean': 'c19817c2d6f0f6cb4fcfa58a892608b1a5bf594f550c5e54294bbcefd56af469',
- 'Expansion/ActualPrincipalResidueTails.lean': '68216cdcccf6fefba53b171ac3ffe4faf5ea5f0a3e8ca94348da10bf7e0540ea',
+ 'Expansion/ActualPrincipalResidueTails.lean': '19ad1476683499b50b974a8701f46497ce6d918b6b60819485e5558d2968b7aa',
  'Expansion/ActualPrincipalSlotRemainder.lean': '00868a35d993c4ba89e658c0f542d71e01e9b9fb2d296f01b2e6abb8457e3b24',
- 'Expansion/ActualPrincipalSweepDecay.lean': 'fcf7a6e50a70153dc92478028cf764e6c50b9493feeaf66347fe17f210e55441',
- 'Expansion/ActualPrincipalTruncatedShifts.lean': 'e0dfbdb5975abb676eadb92331a7a3a2aa7b2a6cbd31121e5c613c4c833ddb31',
+ 'Expansion/ActualPrincipalSweepDecay.lean': '576cfba227f79f9743b97867f22b36f79a23a66d98a4654ef8c8b9e297617292',
+ 'Expansion/ActualPrincipalTruncatedShifts.lean': 'cfc2467aab2b23d257202ba3a133f980ae1a3ca38b3acae78fa3566c5f1c9429',
  'Expansion/ActualPrincipalUniformDecay.lean': 'f2900f8817e66dee37a7b112bb1c40c3e2ea72f7f561c8b7f32435b2f819e4fd',
  'Expansion/ActualPrincipalVerticalRemainders.lean': '0efd0c4aaf432eed27955c7e8cf93bf157a0b8e1fbe734e6c5e32918e901971f',
  'Expansion/ActualPrincipalWShift.lean': 'da037f6d7f67db8ea4e47d70b9cadeb4fc8d043489974e22b84ca09f6e23503a',
@@ -1648,7 +1652,7 @@ SOURCE_SOURCES = {'Expansion/ActualAnnularIdentification.lean': '1dc3f7a434dc166
  'HeckeGeneral/Analysis/PhysicalProbeContours.lean': '39a0362fbd49c3e06a4f8fec7534412171d5ad5b3dda16ab9cf1368b9d8f4a16',
  'HeckeGeneral/Analysis/PhysicalProbePrincipal.lean': '9722c13ec6321c2e83156bf90fc7fe4b504caaae5cb16546b8d85e04bd36c0ff',
  'HeckeGeneral/Analysis/TInputFixedBinTransfer.lean': '0ddc83ca56ed45bbe0cb9793b64e7fe9d165000410c1b04cfee2125bc3c9a015',
- 'HeckeGeneral/Analysis/TInputRanges.lean': '0d48b5cdfa5e1b69de4ed53c617ae616c98573d30139a9d6f55f031e65aca45e',
+ 'HeckeGeneral/Analysis/TInputRanges.lean': '08d32797004b33d20b34ae988083a4f011aec04ab957f3fa02287e392f5e9d45',
  'HeckeGeneral/Characters/RadialNormalization.lean': '4dd46d94309b79ffe0129ed80e7352a6b0448a9031cb31c646a5772bcdb8c42c',
  'HeckeSkeleton/ExpansionDetectorBridge.lean': 'f66269eea8e90fd1ffe4e76000cfa00c9b2d09d04bb6049530c7c11a5f3cc9ab',
  'HeckeSkeleton/ExpansionModels/ActualKernelRegularity.lean': '5ecd2af7e7e7f19d925fe86444a0356d39a65649382b753686ad392e1802dce2',
@@ -1780,26 +1784,25 @@ SOURCE_SOURCES = {'Expansion/ActualAnnularIdentification.lean': '1dc3f7a434dc166
  'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/SixthPowerSeed.lean': '0e97d693603ec2bff02bb04e2e455b057099bfa833b8527e9cd9fd96d4b8ed54',
  'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/SourceFourierControl.lean': 'c3edb2140fe1db4b98dabdd5764a3bc7241f2a014d85ec3109a29cc01a6bb747',
  'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/SourceProfileControl.lean': 'fab98200750a16121aac89399cd385349cb2e847283b703bc3a673e7ce532fe1',
- 'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/SourceProfileJets.lean': '6c7b6f0e9a6a39bc90d4ed94dd2afa6fda162bf041203a5937fb2ad928774544',
+ 'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/SourceProfileJets.lean': 'c6a1b172afa2109cecd31be8d87d3c806e0e3798640a3e11c329dfd4542ad9fc',
  'HeckeSkeleton/SourceData.lean': '0262582fc36f7e0d4ce08966987b8628987a8f22c042d62d4e009870c80e6c84'}
-REINDEX_COMMIT = '778b4220d3d4bc8538549bf74998a78e570d01d9'
-REINDEX_SOURCES = {'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/FiniteSectorCore.lean': 'aec890cdfe84c6a6bb97fa3d48ac88117ced794a5ead2b5aded1b469d1d636eb', 'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/FiniteSectorReindex.lean': 'c9cc4fb6c7156db541c69b1e50dd709cd198d9ab791572ffcb72e4857178de9b'}
+REINDEX_COMMIT = 'c92578b1fa556b72d01c6ff49bac7f27885f09d7'
+REINDEX_SOURCES = {'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/FiniteSectorCore.lean': 'aec890cdfe84c6a6bb97fa3d48ac88117ced794a5ead2b5aded1b469d1d636eb',
+ 'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/FiniteSectorReindex.lean': 'c9cc4fb6c7156db541c69b1e50dd709cd198d9ab791572ffcb72e4857178de9b'}
 # The actual source and aligned arithmetic choice retain their owner pins.
 # Integrated files include the original three target calls and are hashed
 # separately from immutable imported owner sources.
-INTEGRATED_SOURCE_PARENTS = ('896cec08ff832c5fcf136adcc12f0239e7ab9728',
- 'acc0c254a8e9aef3d7e4b04c03782b28d81a8de8',
- 'e66f7384bc08d1124d1a9a4e7dcc21e4facffab0')
-INTEGRATED_SOURCES = {'HeckeSkeleton/Moments.lean': 'e22b6af85825b94f4ec939974b6dc56bf2870a282e17d47bdfeb1d73d1d3a957',
+INTEGRATED_SOURCE_PARENTS = ('624698fe21181df5cfda09434c407e9cf2ef075f', 'c92578b1fa556b72d01c6ff49bac7f27885f09d7')
+INTEGRATED_SOURCES = {'HeckeSkeleton/Moments.lean': '9fbafa0bceff9faffd10ddb77cfd45bb9c7d193b11481f29f763dd8539c3c3c0',
  'HeckeSkeleton/Moments/MOM_BASE/LocalGauss.lean': 'fd1552537104f93fb975803605bd53ab800861ba6162e1300476c40e3dd94567',
  'lakefile.toml': '2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0'}
 INTEGRATED_SOURCES['HeckeSkeleton/Moments/MOM_BASE/LocalGauss.lean'] = 'fd1552537104f93fb975803605bd53ab800861ba6162e1300476c40e3dd94567'
 
 # Subsequent owner proof repairs and the actual annular-volume dependency.
-SOURCE_FOLLOWUP_COMMIT = 'f606882b1da6e40f4ec752d568fe361caed28120'
-SOURCE_FOLLOWUP_SOURCES = {'HeckeSkeleton/Base.lean': '85938a8fa00312028e323636f3eb148c919d27956818c4749f30acf0b05d5e24',
+SOURCE_FOLLOWUP_COMMIT = 'c92578b1fa556b72d01c6ff49bac7f27885f09d7'
+SOURCE_FOLLOWUP_SOURCES = {'HeckeSkeleton/Base.lean': '61d6e13788bea3f54488f6950a589ffa9738279579288d205391ca43ad744f43',
  'HeckeSkeleton/ExpansionModels/ActualRowEligibility.lean': 'f161d907df3b1f93697d20024ac8eef44a8ece0e47b6d4afa613e32b51bafcd3'}
-PRIME_COMMIT = '1cf8548809ee3753a5a8af0f5793a3e37a22fa1e'
+PRIME_COMMIT = 'c92578b1fa556b72d01c6ff49bac7f27885f09d7'
 PRIME_SOURCES = {'HeckeSkeleton/Moments/MOM_PRIME/AnnularMellin.lean': '9fb6c6cd9fb631c9ddd69901100f260e6a887042e98e0cd6c94ce6b628b17c58',
  'HeckeSkeleton/Moments/MOM_PRIME/ExceptionalAnnular.lean': 'd812ad10a9fa0d0a55381378bbb674650115e50d387b435fca21bc17a94002c0',
  'HeckeSkeleton/Moments/MOM_PRIME/ExceptionalAnnularBounds.lean': '05e1636201bb0f5a3f71b1b3d85d02039ffa4d0c1345d5a40050d4408ee8e8c1',

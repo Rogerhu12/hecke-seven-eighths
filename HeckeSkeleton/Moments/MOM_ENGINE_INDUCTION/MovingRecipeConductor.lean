@@ -148,7 +148,39 @@ theorem row_conductor_dvd
     (fun i _ => factor_radical_dvd_fullMaskSupport Q.moving Q.remaining i)
     (Q.sector u) v
 
-set_option maxHeartbeats 800000 in
+private theorem realIdealNorm_mono (I J : NonzeroIdeal K)
+    (h : I.val ∣ J.val) : idealNorm K I ≤ idealNorm K J := by
+  change (Ideal.absNorm I.val : ℝ) ≤ (Ideal.absNorm J.val : ℝ)
+  exact Nat.cast_le.mpr (Nat.le_of_dvd
+    (Ideal.absNorm_pos_of_nonZeroDivisors J) (map_dvd Ideal.absNorm h))
+
+private theorem realIdealNorm_mul (I J : NonzeroIdeal K) :
+    idealNorm K (I * J) = idealNorm K I * idealNorm K J := by
+  change (Ideal.absNorm (I.val * J.val) : ℝ) =
+    (Ideal.absNorm I.val : ℝ) * (Ideal.absNorm J.val : ℝ)
+  rw [map_mul, Nat.cast_mul]
+
+private theorem rowModulus_dvd (I J row displayed : NonzeroIdeal K)
+    (h : I.val ∣ J.val) :
+    (I * displayed * row).val ∣ (J * row * displayed).val := by
+  change I.val * displayed.val * row.val ∣ J.val * row.val * displayed.val
+  calc
+    I.val * displayed.val * row.val ∣ J.val * displayed.val * row.val :=
+      mul_dvd_mul (mul_dvd_mul h (dvd_refl displayed.val)) (dvd_refl row.val)
+    _ = J.val * row.val * displayed.val := mul_right_comm J.val displayed.val row.val
+
+private theorem weightedIdealNorm_le (weight : ℝ) (hweight : 0 ≤ weight)
+    (conductor fixed row displayed : NonzeroIdeal K)
+    (h : conductor.val ∣ (fixed * row * displayed).val) :
+    weight * idealNorm K conductor ≤
+      weight * idealNorm K fixed * idealNorm K row * idealNorm K displayed := by
+  calc
+    weight * idealNorm K conductor ≤
+        weight * idealNorm K (fixed * row * displayed) :=
+      mul_le_mul_of_nonneg_left (realIdealNorm_mono conductor _ h) hweight
+    _ = weight * idealNorm K fixed * idealNorm K row * idealNorm K displayed := by
+      rw [realIdealNorm_mul, realIdealNorm_mul, ← mul_assoc, ← mul_assoc]
+
 /-- The actual FE scale is linear in the one full mask support and
 the original row. The fixed correction occurs only in the fixed
 background constant, and never enlarges the moving norm exponent. -/
@@ -160,46 +192,25 @@ theorem row_scale_le
       reflectionConductorConstant (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         (beta * Q.correction) * idealNorm K u *
           idealNorm K (Q.moving.fullMaskSupport Q.remaining) := by
-  have hn := Nat.le_of_dvd
-    (Ideal.absNorm_pos_of_nonZeroDivisors
-      (finiteConductor K (beta * Q.correction) *
-        sexticSConductorBudgetIdeal K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) *
-          Q.moving.fullMaskSupport Q.remaining * u))
-    (map_dvd Ideal.absNorm (row_conductor_dvd Q xi beta u hu))
-  simp only [Submonoid.coe_mul, map_mul] at hn
-  have hreal : (Ideal.absNorm (finiteConductor K (beta * (data xi).rowCharacter u)).val : ℝ) ≤
-      (Ideal.absNorm (finiteConductor K (beta * Q.correction)).val : ℝ) *
-        (Ideal.absNorm (sexticSConductorBudgetIdeal K
-          (A.Sf : Set (HeightOneSpectrum (𝓞 K)))).val : ℝ) *
-            idealNorm K (Q.moving.fullMaskSupport Q.remaining) * idealNorm K u := by
-    dsimp only [idealNorm]
-    exact_mod_cast hn
-  have hfixed : 1 ≤ (Ideal.absNorm
-      (fixedRowDeletionIdeal (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) : ℝ) := by
-    exact_mod_cast Nat.succ_le_iff.mpr (Nat.pos_of_ne_zero
-      (fun hz => fixedRowDeletionIdeal_ne_bot (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-        (Ideal.absNorm_eq_zero_iff.mp hz)))
-  have hmass : 0 ≤ ((NumberField.discr K).natAbs : ℝ) *
-      (Ideal.absNorm (finiteConductor K (beta * Q.correction)).val : ℝ) *
-        (Ideal.absNorm (sexticSConductorBudgetIdeal K
-          (A.Sf : Set (HeightOneSpectrum (𝓞 K)))).val : ℝ) *
-            idealNorm K u * idealNorm K (Q.moving.fullMaskSupport Q.remaining) := by
-    have huN := (idealNorm_pos K u).le
-    have hDN := (idealNorm_pos K (Q.moving.fullMaskSupport Q.remaining)).le
-    positivity
-  have hmul := mul_le_mul_of_nonneg_left hreal
-    (Nat.cast_nonneg (NumberField.discr K).natAbs : (0 : ℝ) ≤ _)
-  calc
-    _ ≤ ((NumberField.discr K).natAbs : ℝ) *
-        (Ideal.absNorm (finiteConductor K (beta * Q.correction)).val : ℝ) *
-          (Ideal.absNorm (sexticSConductorBudgetIdeal K
-            (A.Sf : Set (HeightOneSpectrum (𝓞 K)))).val : ℝ) *
-              idealNorm K u * idealNorm K (Q.moving.fullMaskSupport Q.remaining) := by
-      simpa only [heckeConductorScale, mul_assoc, mul_left_comm, mul_comm] using hmul
-    _ ≤ _ := by
-      have h := le_mul_of_one_le_right hmass hfixed
-      simpa only [reflectionConductorConstant, reflectionConductorBudget,
-        map_mul, Nat.cast_mul, mul_assoc, mul_left_comm, mul_comm] using h
+  let S : Set (HeightOneSpectrum (𝓞 K)) := A.Sf
+  let background : HeckeCharacter K := beta * Q.correction
+  let fixed : NonzeroIdeal K :=
+    ⟨reflectionConductorBudget S background,
+      mem_nonZeroDivisors_of_ne_zero (reflectionConductorBudget_ne_bot S background)⟩
+  let displayed : NonzeroIdeal K := Q.moving.fullMaskSupport Q.remaining
+  have hfixed : (finiteConductor K background * sexticSConductorBudgetIdeal K S).val ∣
+      fixed.val := by
+    change (finiteConductor K background).val * (sexticSConductorBudgetIdeal K S).val ∣
+      ((finiteConductor K background).val * (sexticSConductorBudgetIdeal K S).val) *
+        fixedRowDeletionIdeal S
+    exact dvd_mul_right _ _
+  have hdiv : (finiteConductor K (beta * (data xi).rowCharacter u)).val ∣
+      (fixed * u * displayed).val :=
+    (row_conductor_dvd Q xi beta u hu).trans
+      (rowModulus_dvd (finiteConductor K background * sexticSConductorBudgetIdeal K S)
+        fixed u displayed hfixed)
+  exact weightedIdealNorm_le ((NumberField.discr K).natAbs : ℝ) (Nat.cast_nonneg _)
+    (finiteConductor K (beta * (data xi).rowCharacter u)) fixed u displayed hdiv
 
 theorem row_scale_le_fullJointBudget
     (Q : CompleteMovingRowRecipe A P R data) (U width : ℝ)
@@ -215,7 +226,7 @@ theorem row_scale_le_fullJointBudget
           idealNorm K (Q.moving.fullMaskSupport Q.remaining) := row_scale_le Q xi beta u hu
     _ = reflectionConductorConstant (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         (beta * Q.correction) *
-          (idealNorm K u * idealNorm K (Q.moving.fullMaskSupport Q.remaining)) := by ring
+          (idealNorm K u * idealNorm K (Q.moving.fullMaskSupport Q.remaining)) := mul_assoc _ _ _
     _ ≤ _ := mul_le_mul_of_nonneg_left (hbudget xi u hu)
       (reflectionConductorConstant_pos (A.Sf : Set (HeightOneSpectrum (𝓞 K))) _).le
 

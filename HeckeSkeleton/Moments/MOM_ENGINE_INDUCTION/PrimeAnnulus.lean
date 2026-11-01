@@ -136,7 +136,119 @@ private theorem sum_norm_tail_upper
       ring
     _ = _ := by rw [geometric_half_constant, Real.sqrt_mul hb]; ring
 
-set_option maxHeartbeats 6400000 in
+private theorem summable_norm_prime_upper
+    (ν : α → ℝ) (c : α → ℂ) (W : ℝ → ℂ) (d M P b : ℝ)
+    (hP : 0 < P) (hb : 0 ≤ b) (hM : 0 ≤ M)
+    (hA : PrimeArithmetic ν c d)
+    (hsupport : ∀ x, W x ≠ 0 → x ≤ b) (hbound : ∀ x, ‖W x‖ ≤ M) :
+    Summable (fun p : α => ‖c p * W (ν p / P)‖) :=
+  summable_of_sum_le (f := fun p : α => ‖c p * W (ν p / P)‖)
+    (fun p : α => norm_nonneg (c p * W (ν p / P)))
+    (sum_norm_prime_upper ν c W d M P b hP hb hM hA hsupport hbound)
+
+private theorem norm_primeSum_upper
+    (ν : α → ℝ) (c : α → ℂ) (W : ℝ → ℂ) (d M P b : ℝ)
+    (hP : 0 < P) (hb : 0 ≤ b) (hM : 0 ≤ M)
+    (hA : PrimeArithmetic ν c d)
+    (hsupport : ∀ x, W x ≠ 0 → x ≤ b) (hbound : ∀ x, ‖W x‖ ≤ M) :
+    ‖primeSum ν c W P‖ ≤ b * M * d * P := by
+  have hprime : Summable (fun p : α => ‖c p * W (ν p / P)‖) :=
+    summable_norm_prime_upper ν c W d M P b hP hb hM hA hsupport hbound
+  exact (norm_tsum_le_tsum_norm hprime).trans
+    (Real.tsum_le_of_sum_le (f := fun p : α => ‖c p * W (ν p / P)‖)
+      (fun p : α => norm_nonneg (c p * W (ν p / P)))
+      (sum_norm_prime_upper ν c W d M P b hP hb hM hA hsupport hbound))
+
+private theorem summable_norm_tail_upper
+    (ν : α → ℝ) (c : α → ℂ) (W : ℝ → ℂ) (d M P b : ℝ)
+    (hP : 0 < P) (hb : 0 ≤ b) (hM : 0 ≤ M)
+    (hA : PrimeArithmetic ν c d)
+    (hsupport : ∀ x, W x ≠ 0 → x ≤ b) (hbound : ∀ x, ‖W x‖ ≤ M) :
+    Summable (fun np : ℕ × α => ‖primePowerWindowTerm ν c W P np.1 np.2‖) :=
+  summable_norm_of_rectangle_bound (primePowerWindowTerm ν c W P)
+    (M * d * (1 + ratio) * Real.sqrt b * Real.sqrt P)
+    (sum_norm_tail_upper ν c W d M P b hP hb hM hA hsupport hbound)
+
+private theorem norm_tailSum_upper
+    (ν : α → ℝ) (c : α → ℂ) (W : ℝ → ℂ) (d M P b : ℝ)
+    (hP : 0 < P) (hb : 0 ≤ b) (hM : 0 ≤ M)
+    (hA : PrimeArithmetic ν c d)
+    (hsupport : ∀ x, W x ≠ 0 → x ≤ b) (hbound : ∀ x, ‖W x‖ ≤ M) :
+    ‖tailSum ν c W P‖ ≤ M * d * (1 + ratio) * Real.sqrt b * Real.sqrt P :=
+  norm_tsum_le_of_rectangle_bound (primePowerWindowTerm ν c W P)
+    (M * d * (1 + ratio) * Real.sqrt b * Real.sqrt P)
+    (sum_norm_tail_upper ν c W d M P b hP hb hM hA hsupport hbound)
+
+/-- Keep the real norm series explicit before passing to complex summability. -/
+private theorem summable_norm_allPowerTerm_of_parts
+    (ν : α → ℝ) (c : α → ℂ) (W : ℝ → ℂ) (P : ℝ)
+    (hprime : Summable (fun p : α => ‖c p * W (ν p / P)‖))
+    (htail : Summable (fun np : ℕ × α => ‖primePowerWindowTerm ν c W P np.1 np.2‖)) :
+    Summable (fun np : ℕ × α => ‖allPowerTerm ν c W P np.1 np.2‖) := by
+  have hrows : ∀ n : ℕ, Summable (fun p : α => ‖allPowerTerm ν c W P n p‖) := by
+    intro n
+    cases n with
+    | zero => simpa only [allPowerTerm_zero] using hprime
+    | succ n =>
+      have hrow : Summable (fun p : α => ‖primePowerWindowTerm ν c W P n p‖) :=
+        htail.prod_factor n
+      simpa only [Nat.succ_eq_add_one, allPowerTerm_add_one] using hrow
+  have htailOuter : Summable
+      (fun n : ℕ => ∑' p : α, ‖primePowerWindowTerm ν c W P n p‖) := htail.prod
+  have hshift : Summable
+      (fun n : ℕ => ∑' p : α, ‖allPowerTerm ν c W P (n + 1) p‖) := by
+    simpa only [allPowerTerm_add_one] using htailOuter
+  have houter : Summable (fun n : ℕ => ∑' p : α, ‖allPowerTerm ν c W P n p‖) :=
+    (summable_nat_add_iff (f := fun n : ℕ => ∑' p : α, ‖allPowerTerm ν c W P n p‖) 1).mp
+      hshift
+  exact (summable_prod_of_nonneg
+    (f := fun np : ℕ × α => ‖allPowerTerm ν c W P np.1 np.2‖)
+    (fun np : ℕ × α => norm_nonneg (allPowerTerm ν c W P np.1 np.2))).mpr
+    ⟨hrows, houter⟩
+
+/-- Split exponent one only after fixing the two complex-valued summable series. -/
+private theorem tsum_allPowerTerm_eq_prime_add_tail
+    (ν : α → ℝ) (c : α → ℂ) (W : ℝ → ℂ) (P : ℝ)
+    (hfull : Summable (fun np : ℕ × α => allPowerTerm ν c W P np.1 np.2))
+    (htail : Summable (fun np : ℕ × α => primePowerWindowTerm ν c W P np.1 np.2)) :
+    (∑' np : ℕ × α, allPowerTerm ν c W P np.1 np.2) =
+      primeSum ν c W P + tailSum ν c W P := by
+  have houter : Summable (fun n : ℕ => ∑' p : α, allPowerTerm ν c W P n p) := hfull.prod
+  calc
+    (∑' np : ℕ × α, allPowerTerm ν c W P np.1 np.2) =
+        ∑' n : ℕ, ∑' p : α, allPowerTerm ν c W P n p := hfull.tsum_prod
+    _ = (∑' p : α, allPowerTerm ν c W P 0 p) +
+        ∑' n : ℕ, ∑' p : α, allPowerTerm ν c W P (n + 1) p :=
+      houter.tsum_eq_zero_add
+    _ = primeSum ν c W P + tailSum ν c W P := by
+      apply congrArg₂ (fun x y : ℂ => x + y)
+      · exact tsum_congr (fun p : α => allPowerTerm_zero ν c W P p)
+      · calc
+          (∑' n : ℕ, ∑' p : α, allPowerTerm ν c W P (n + 1) p) =
+              ∑' n : ℕ, ∑' p : α, primePowerWindowTerm ν c W P n p :=
+            tsum_congr (fun n : ℕ =>
+              tsum_congr (fun p : α => allPowerTerm_add_one ν c W P n p))
+          _ = tailSum ν c W P := htail.tsum_prod.symm
+
+private theorem weightedSum_eq_prime_add_tail_of_parts
+    (ν : α → ℝ) (c : α → ℂ) (W : ℝ → ℂ) (P : ℝ)
+    (hP : 0 < P) (hnorm : ∀ p : α, 2 ≤ ν p)
+    (hprime : Summable (fun p : α => ‖c p * W (ν p / P)‖))
+    (htail : Summable (fun np : ℕ × α => ‖primePowerWindowTerm ν c W P np.1 np.2‖)) :
+    weightedSum ν c W P = primeSum ν c W P + tailSum ν c W P := by
+  have hfullNorm : Summable (fun np : ℕ × α => ‖allPowerTerm ν c W P np.1 np.2‖) :=
+    summable_norm_allPowerTerm_of_parts ν c W P hprime htail
+  have hfull : Summable (fun np : ℕ × α => allPowerTerm ν c W P np.1 np.2) :=
+    hfullNorm.of_norm
+  have htailComplex : Summable (fun np : ℕ × α => primePowerWindowTerm ν c W P np.1 np.2) :=
+    htail.of_norm
+  calc
+    weightedSum ν c W P = ∑' np : ℕ × α, allPowerTerm ν c W P np.1 np.2 :=
+      tsum_congr (fun np : ℕ × α =>
+        logWeightedPowerTerm_eq_allPowerTerm ν c W P np.1 np.2 hP (hnorm np.2))
+    _ = primeSum ν c W P + tailSum ν c W P :=
+      tsum_allPowerTerm_eq_prime_add_tail ν c W P hfull htailComplex
+
 private theorem prime_and_tail_upper
     (ν : α → ℝ) (c : α → ℂ) (W : ℝ → ℂ) (d M P b : ℝ)
     (hP : 0 < P) (hb : 0 ≤ b) (hM : 0 ≤ M)
@@ -145,41 +257,11 @@ private theorem prime_and_tail_upper
     ‖primeSum ν c W P‖ ≤ b * M * d * P ∧
     ‖tailSum ν c W P‖ ≤ M * d * (1 + ratio) * Real.sqrt b * Real.sqrt P ∧
     weightedSum ν c W P = primeSum ν c W P + tailSum ν c W P := by
-  have hprime : Summable (fun p : α => ‖c p * W (ν p / P)‖) :=
-    summable_of_sum_le (fun _ => norm_nonneg _)
-      (sum_norm_prime_upper ν c W d M P b hP hb hM hA hsupport hbound)
-  have htail : Summable (fun np : ℕ × α => ‖primePowerWindowTerm ν c W P np.1 np.2‖) :=
-    summable_norm_of_rectangle_bound (primePowerWindowTerm ν c W P)
-      (M * d * (1 + ratio) * Real.sqrt b * Real.sqrt P)
-      (sum_norm_tail_upper ν c W d M P b hP hb hM hA hsupport hbound)
-  have hrows : ∀ n : ℕ, Summable (fun p : α => ‖allPowerTerm ν c W P n p‖) := by
-    intro n
-    cases n with
-    | zero => simpa only [allPowerTerm_zero] using hprime
-    | succ n => simpa only [Nat.succ_eq_add_one, allPowerTerm_add_one] using htail.prod_factor n
-  have houter : Summable (fun n : ℕ => ∑' p : α, ‖allPowerTerm ν c W P n p‖) := by
-    apply (summable_nat_add_iff 1).mp
-    simpa only [allPowerTerm_add_one] using htail.prod
-  have hfull : Summable (fun np : ℕ × α => allPowerTerm ν c W P np.1 np.2) :=
-    ((summable_prod_of_nonneg (fun _ => norm_nonneg _)).mpr ⟨hrows, houter⟩).of_norm
-  refine ⟨?_, ?_, ?_⟩
-  · exact (norm_tsum_le_tsum_norm hprime).trans
-      (Real.tsum_le_of_sum_le (fun _ => norm_nonneg _)
-        (sum_norm_prime_upper ν c W d M P b hP hb hM hA hsupport hbound))
-  · exact norm_tsum_le_of_rectangle_bound (primePowerWindowTerm ν c W P)
-      (M * d * (1 + ratio) * Real.sqrt b * Real.sqrt P)
-      (sum_norm_tail_upper ν c W d M P b hP hb hM hA hsupport hbound)
-  · calc
-      weightedSum ν c W P = ∑' np : ℕ × α, allPowerTerm ν c W P np.1 np.2 := by
-        apply tsum_congr
-        intro np
-        exact logWeightedPowerTerm_eq_allPowerTerm ν c W P np.1 np.2 hP (hA.norm_ge_two np.2)
-      _ = ∑' n : ℕ, ∑' p : α, allPowerTerm ν c W P n p := hfull.tsum_prod
-      _ = primeSum ν c W P + tailSum ν c W P := by
-        rw [← hfull.prod.sum_add_tsum_nat_add 1]
-        simp only [Finset.sum_range_one, allPowerTerm_zero, allPowerTerm_add_one]
-        rw [← htail.of_norm.tsum_prod]
-        rfl
+  refine ⟨norm_primeSum_upper ν c W d M P b hP hb hM hA hsupport hbound,
+    norm_tailSum_upper ν c W d M P b hP hb hM hA hsupport hbound, ?_⟩
+  exact weightedSum_eq_prime_add_tail_of_parts ν c W P hP hA.norm_ge_two
+    (summable_norm_prime_upper ν c W d M P b hP hb hM hA hsupport hbound)
+    (summable_norm_tail_upper ν c W d M P b hP hb hM hA hsupport hbound)
 
 private theorem logWindow_uniform (a b : ℝ) (ha : 0 < a) :
     ∃ (s : Finset (ℕ × ℕ)) (C : ℝ), 0 < C ∧ (0, 0) ∈ s ∧

@@ -167,7 +167,51 @@ theorem completeMovingRowCharacter_conductor_dvd {Index : Type*}
       (mul_dvd_mul (dvd_refl (finiteConductor K beta).val) hcombined)
   simpa only [moving, modulus, Submonoid.coe_mul, mul_assoc] using hfinal
 
-set_option maxHeartbeats 800000 in
+private theorem moving_ideal_norm_le_of_dvd (I J : NonzeroIdeal K)
+    (h : I.val ∣ J.val) : idealNorm K I ≤ idealNorm K J := by
+  have hn : Ideal.absNorm I.val ≤ Ideal.absNorm J.val :=
+    Nat.le_of_dvd (Ideal.absNorm_pos_of_nonZeroDivisors J)
+      (map_dvd Ideal.absNorm h)
+  change (Ideal.absNorm I.val : ℝ) ≤ (Ideal.absNorm J.val : ℝ)
+  exact Nat.cast_le.mpr hn
+
+private theorem moving_ideal_norm_product (B W D U : NonzeroIdeal K) :
+    idealNorm K (B * W * D * U) =
+      idealNorm K B * idealNorm K W * idealNorm K D * idealNorm K U := by
+  change (Ideal.absNorm (B.val * W.val * D.val * U.val) : ℝ) =
+    (Ideal.absNorm B.val : ℝ) * (Ideal.absNorm W.val : ℝ) *
+      (Ideal.absNorm D.val : ℝ) * (Ideal.absNorm U.val : ℝ)
+  rw [map_mul, map_mul, map_mul, Nat.cast_mul, Nat.cast_mul, Nat.cast_mul]
+
+private theorem moving_scale_product_reorder (d b w r u : ℝ) :
+    d * (b * w * r * u) = (d * b * w) * u * r := by
+  calc
+    d * (b * w * r * u) = d * ((b * w) * (r * u)) :=
+      congrArg (fun x : ℝ => d * x) (mul_assoc (b * w) r u)
+    _ = (d * (b * w)) * (r * u) := (mul_assoc d (b * w) (r * u)).symm
+    _ = (d * b * w) * (u * r) :=
+      congrArg₂ (fun x y : ℝ => x * y) (mul_assoc d b w).symm (mul_comm r u)
+    _ = (d * b * w) * u * r := (mul_assoc (d * b * w) u r).symm
+
+private theorem moving_conductor_scale_le_of_dvd
+    (character : HeckeCharacter K) (B W D U : NonzeroIdeal K)
+    (h : (finiteConductor K character).val ∣ (B * W * D * U).val) :
+    heckeConductorScale K character ≤
+      (((NumberField.discr K).natAbs : ℝ) * idealNorm K B * idealNorm K W) *
+        idealNorm K U * idealNorm K D := by
+  have hn : idealNorm K (finiteConductor K character) ≤
+      idealNorm K B * idealNorm K W * idealNorm K D * idealNorm K U :=
+    (moving_ideal_norm_le_of_dvd (finiteConductor K character) (B * W * D * U) h).trans_eq
+      (moving_ideal_norm_product B W D U)
+  have hscaled :
+      ((NumberField.discr K).natAbs : ℝ) * idealNorm K (finiteConductor K character) ≤
+        ((NumberField.discr K).natAbs : ℝ) *
+          (idealNorm K B * idealNorm K W * idealNorm K D * idealNorm K U) :=
+    mul_le_mul_of_nonneg_left hn (Nat.cast_nonneg (NumberField.discr K).natAbs)
+  exact hscaled.trans_eq (moving_scale_product_reorder
+    ((NumberField.discr K).natAbs : ℝ) (idealNorm K B) (idealNorm K W)
+      (idealNorm K D) (idealNorm K U))
+
 /-- The actual FE scale has the same linear norm dependence.  In
 particular N(displayed) is not replaced by N(product b_i^e_i). -/
 theorem completeMovingRowCharacter_scale_le {Index : Type*}
@@ -186,23 +230,14 @@ theorem completeMovingRowCharacter_scale_le {Index : Type*}
         (Ideal.absNorm (finiteConductor K beta).val : ℝ) *
           (Ideal.absNorm (sexticSConductorBudgetIdeal K S).val : ℝ)) *
             idealNorm K u.val * idealNorm K displayed := by
-  have hn := Nat.le_of_dvd
-    (Ideal.absNorm_pos_of_nonZeroDivisors
-      (finiteConductor K beta * sexticSConductorBudgetIdeal K S * displayed * u.val))
-    (map_dvd Ideal.absNorm
-      (completeMovingRowCharacter_conductor_dvd S probe rows beta indices factor factorSector
-        exponent displayed hsupport sector u))
-  simp only [Submonoid.coe_mul, map_mul] at hn
-  have hreal :
-      (Ideal.absNorm (finiteConductor K (beta * ((∏ i ∈ indices,
-        completeIdealRowCharacter K S probe rows (factorSector i) (factor i).val ^ exponent i) *
-          completeIdealRowCharacter K S probe rows sector u.val))).val : ℝ) ≤
-      (Ideal.absNorm (finiteConductor K beta).val : ℝ) *
-        (Ideal.absNorm (sexticSConductorBudgetIdeal K S).val : ℝ) *
-          idealNorm K displayed * idealNorm K u.val := by
-    dsimp only [idealNorm]
-    exact_mod_cast hn
-  simpa only [heckeConductorScale, mul_assoc, mul_left_comm, mul_comm] using
-    mul_le_mul_of_nonneg_left hreal (Nat.cast_nonneg (NumberField.discr K).natAbs)
+  let character : HeckeCharacter K := beta * ((∏ i ∈ indices,
+    completeIdealRowCharacter K S probe rows (factorSector i) (factor i).val ^ exponent i) *
+      completeIdealRowCharacter K S probe rows sector u.val)
+  have hd : (finiteConductor K character).val ∣
+      (finiteConductor K beta * sexticSConductorBudgetIdeal K S * displayed * u.val).val :=
+    completeMovingRowCharacter_conductor_dvd S probe rows beta indices factor factorSector
+      exponent displayed hsupport sector u
+  exact moving_conductor_scale_le_of_dvd character (finiteConductor K beta)
+    (sexticSConductorBudgetIdeal K S) displayed u.val hd
 
 end HeckeSkeleton.Moments.EngineInduction

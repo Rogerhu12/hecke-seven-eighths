@@ -22,8 +22,8 @@ open NumberField IsDedekindDomain MeasureTheory Set
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
-open HeckeSkeleton.HighBinActualEuler HeckeSkeleton.Expansion.PrincipalRows
 open HeckeSkeleton.HighBinContinuation
+open HeckeSkeleton.HighBinActualEuler HeckeSkeleton.Expansion.PrincipalRows
 open HeckeSkeleton.Expansion.SmallRows HeckeSkeleton.HeckeUniformStripGrowth
 open HeckeSkeleton.HeckeDeletedEulerControl
 open HighBinVerified.NormFormFullCorrection HighBinVerified.NormFormActual
@@ -83,13 +83,9 @@ theorem exists_actual_principal_fullCorrection_sweep_bound
               (actual_primeWindow_norm_range K S g T Z i p hp).2.2.le (by norm_num)
           _ = _ := by rw [Real.mul_rpow (by norm_num) hXpos.le]; norm_num
       rw [norm_mul]
-      calc
-        _ ≤ M * (Creg * (p.val.asIdeal.absNorm : ℝ) ^ (z.re - 1)) :=
-          mul_le_mul (hprofile i _) hlocal (norm_nonneg _) hM.le
-        _ ≤ M * (Creg * (4 * (primeScale g Z) ^ (2 : ℝ))) :=
-          mul_le_mul_of_nonneg_left
-            (mul_le_mul_of_nonneg_left hpow hCreg.le) hM.le
-        _ = _ := by ring
+      apply (mul_le_mul (hprofile i _) hlocal (norm_nonneg _) hM.le).trans
+      exact (mul_le_mul_of_nonneg_left
+        (mul_le_mul_of_nonneg_left hpow hCreg.le) hM.le).trans_eq (by ring)
     have hcard := hcount g T Z i hX
     unfold actualFullCorrectionSlot
     calc

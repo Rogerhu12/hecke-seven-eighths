@@ -1,0 +1,66 @@
+{
+  "base_original_sha256": "0f207fae676fc6b9fc69cf1bd89b8447744fd32349a78801f484f6f597020062",
+  "theta_original_sha256": "b32c26feae003c3c14cd5d31cff482cac91a158417323fe458eb3384cd74db6f",
+  "moves": [
+    {
+      "from": "HeckeSkeleton/Base.lean",
+      "to": "HeckeSkeleton/BaseContext.lean",
+      "declarations": [
+        "FamilyContext",
+        "momentMesh",
+        "TargetContext",
+        "exists_normTwistParameter",
+        "normTwistParameter",
+        "untwisted",
+        "untwisted_eq",
+        "untwisted_zeros",
+        "targetRamifiedPlaces",
+        "complexEmbedding",
+        "axiomChoice",
+        "excludedPlaces",
+        "places",
+        "arithmeticData",
+        "signalCharacters",
+        "untwisted_unramified_outside",
+        "AngularlyOriented",
+        "representative",
+        "representative_val",
+        "target_unramified_outside",
+        "isComplex_of_family",
+        "representative_angular",
+        "probeTests",
+        "probeData",
+        "probeMeasures",
+        "rayFilter",
+        "targetCharacter"
+      ],
+      "primitive_region_sha256": "116d779dbbd358da82839eeaa11cbe27192d4843cd55680ef75bf39dca23503d",
+      "target_character_region_sha256": "bf17639880f687eb4d1e7c69ad01a4d9da1a884b35fb11faf053117b1d9021ee",
+      "byte_identical": true
+    },
+    {
+      "from": "HeckeSkeleton/Theta.lean",
+      "to": "HeckeSkeleton/TargetArithmeticData.lean",
+      "declarations": [
+        "calibration_lambda_unramified",
+        "calibration_G_unramified",
+        "calibration_G_finite_order",
+        "calibration_lambda_angular",
+        "calibration_lambda_radial_zero",
+        "calibration_cube_calibration",
+        "calibration_mixed_calibration",
+        "arithmeticCalibration",
+        "allowed_multiplicative",
+        "allowed_reciprocity",
+        "allowed_generator_norm",
+        "allowedGenerators"
+      ],
+      "region_sha256": "832127400da2aa811af135fb91969e3abf2f4f450532cfa5f7e480ed9ad1afb1",
+      "byte_identical": true
+    }
+  ],
+  "retained_base_expansion_region_sha256": "38c450d863efd5e62e6a814cee40438b09253461f5feb5dae09feed72a61ebb6",
+  "retained_theta_region_sha256": "ed37b83ec35a5aa5e0d46af653f50b6574210fc0d1e1efe9362ddaf357af0001",
+  "old_entrypoints_reexport": true,
+  "native_validation": "pending"
+}

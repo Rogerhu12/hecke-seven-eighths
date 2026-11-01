@@ -1,3 +1,4 @@
+import HeckeGeneral.Analysis.RowEulerRegion
 import HeckeGeneral.Analysis.PhysicalProbeContours
 
 /-!
@@ -55,14 +56,6 @@ variable [∀ p : S, BorelSpace (p.val.adicCompletion K)]
 variable (μ : (p : S) → Measure (p.val.adicCompletion K))
 variable [∀ p : S, (μ p).IsAddHaarMeasure]
 
-/-- A sufficient open region containing the central moderate, small-row,
-principal-residue and absolute-large contours used here. This is not a
-claim that the local correction has no continuation outside this region. -/
-def rowEulerRegion : Set (ℂ × ℂ × ℂ) :=
-  {v | 1 / 2 < v.1.re ∧ 0 < v.2.1.re ∧ 0 < v.2.2.re ∧
-    1 < v.1.re + v.2.1.re ∧ 5 / 6 < v.1.re + v.2.2.re ∧
-      2 < v.1.re + v.2.1.re + 6 * v.2.2.re ∧
-      1 < v.2.1.re + 6 * v.2.2.re ∧ 1 < v.1.re + 6 * v.2.2.re}
 
 /-- Local-Euler analytic calibration, distinct from holomorphy of any
 reciprocal target L-function. No zero-free conclusion is in these fields. -/

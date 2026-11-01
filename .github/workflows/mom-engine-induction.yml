@@ -56,7 +56,12 @@ jobs:
           mkdir -p "$proof_logs"
           python3 "$task_dir/verify.py" preflight --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/preflight.log"
           # Leave time for the original-target gate and diagnostic upload.
-          timeout --signal=TERM --kill-after=30s 140m lake build HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Audit 2>&1 | tee "$proof_logs/build.log"
+          # Keep complete diagnostics in the artifact; stream new builds and errors to the console.
+          timeout --signal=TERM --kill-after=30s 140m lake build HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Audit 2>&1 | tee "$proof_logs/build.log" | awk '
+            /\] (Built|Building|Failed) / { print; fflush(); context = 0; next }
+            /^error:|^fatal:|^Some required builds logged failures:/ { context = 1 }
+            /\] Replayed / || /^(warning|info|trace):/ { context = 0; next }
+            context || /^Build (completed|failed)/ { print; fflush() }'
           printf '\nMOM_ENGINE_INDUCTION_BUILD_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/build.log"
           lake env lean "$task_dir/Audit.lean" 2>&1 | tee "$proof_logs/axioms.log"
           printf '\nMOM_ENGINE_INDUCTION_AUDIT_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/axioms.log"
@@ -72,7 +77,8 @@ jobs:
 
       # Reuse this exact checkout and its just-built task objects for the
       # original names. The strict clean gate above and the original-target
-      # allowlist below remain separate; no cross-run task cache is restored.
+      # allowlist below remain separate. Lake validates restored project
+      # artifacts against this checkout's sources and dependencies.
       - name: Compile the exact source adapter and report inherited axioms
         shell: bash
         run: |
@@ -83,11 +89,19 @@ jobs:
           python3 "$task_dir/verify.py" skeleton-preflight --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/preflight.log"
           # A command timeout is a real failed build (exit 124), while the job
           # remains alive to upload the complete diagnostic logs.
-          timeout --signal=TERM --kill-after=30s 140m lake build HeckeSkeleton.Moments 2>&1 | tee "$proof_logs/upstream-build.log"
+          timeout --signal=TERM --kill-after=30s 140m lake build HeckeSkeleton.Moments 2>&1 | tee "$proof_logs/upstream-build.log" | awk '
+            /\] (Built|Building|Failed) / { print; fflush(); context = 0; next }
+            /^error:|^fatal:|^Some required builds logged failures:/ { context = 1 }
+            /\] Replayed / || /^(warning|info|trace):/ { context = 0; next }
+            context || /^Build (completed|failed)/ { print; fflush() }'
           printf '\nMOM_ENGINE_INDUCTION_SKELETON_UPSTREAM_BUILD_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/upstream-build.log"
           lake env lean "$proof_logs/UpstreamAudit.lean" 2>&1 | tee "$proof_logs/upstream-axioms.log"
           printf '\nMOM_ENGINE_INDUCTION_SKELETON_UPSTREAM_AUDIT_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/upstream-axioms.log"
-          lake build HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SkeletonFamily HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SkeletonSource 2>&1 | tee "$proof_logs/build.log"
+          lake build HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SkeletonFamily HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SkeletonSource 2>&1 | tee "$proof_logs/build.log" | awk '
+            /\] (Built|Building|Failed) / { print; fflush(); context = 0; next }
+            /^error:|^fatal:|^Some required builds logged failures:/ { context = 1 }
+            /\] Replayed / || /^(warning|info|trace):/ { context = 0; next }
+            context || /^Build (completed|failed)/ { print; fflush() }'
           printf '\nMOM_ENGINE_INDUCTION_SKELETON_BUILD_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/build.log"
           lake env lean "$proof_logs/SkeletonAudit.lean" 2>&1 | tee "$proof_logs/axioms.log"
           printf '\nMOM_ENGINE_INDUCTION_SKELETON_AUDIT_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/axioms.log"

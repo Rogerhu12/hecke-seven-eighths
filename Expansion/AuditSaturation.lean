@@ -1,0 +1,20 @@
+import Expansion.ActualTerminalSaturation
+import Expansion.ActualRecipePolynomials
+import Expansion.ActualCanonicalRecipe
+
+/-! Kernel dependency audit for the actual source-to-saturation chain and
+the exact adapter into the repository's ideal-test recipe. -/
+
+#print axioms Expansion.Dyadic.exists_terminal_fourier_tail_budget_scaled
+#print axioms Expansion.Dyadic.exists_terminal_product_power_spike
+#print axioms Expansion.Dyadic.exists_fixed_log_loss
+#print axioms Expansion.NormalizedContourBudget.exists_detector_loss_budget
+#print axioms Expansion.ActualDetectorSaturation.exists_actual_normalized_square_bounds
+#print axioms Expansion.ActualAnnularIdentification.actual_inverse_normalized_eq_mellin
+#print axioms Expansion.ActualAnnularIdentification.actual_plain_normalized_eq_mellin
+#print axioms Expansion.ActualTerminalSaturation.exists_actual_terminal_saturation
+#print axioms Expansion.ActualRecipePolynomials.actual_inverse_normalized_eq_test
+#print axioms Expansion.ActualRecipePolynomials.actual_plain_normalized_eq_test
+
+#print axioms Expansion.Project.canonicalRecipeWitness_inverseValue
+#print axioms Expansion.Project.canonicalRecipeWitness_plainValue

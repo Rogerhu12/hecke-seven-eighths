@@ -23,7 +23,7 @@ open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.HighBinActualEuler HeckeSkeleton.Expansion.PrincipalRows
 open HeckeSkeleton.Expansion.MellinRegularity HeckeSkeleton.Expansion.KernelRegularity
-open Expansion.FiniteTripleContour
+open Expansion.FiniteTripleContour (vertical)
 open scoped Classical Topology
 
 private theorem finite_w_residue_accounting

@@ -1,4 +1,8 @@
 import HeckeSkeleton.LowFrozenCube.Valuations
+import Mathlib.Analysis.Complex.Basic
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.Ring
+import Lean.Elab.Tactic.NormCast
 
 /-!
 # Local phase stability and full-cube coefficient normalization
@@ -75,5 +79,9 @@ theorem normalizedCubeCoefficient_reassemble (Qx Qn C : ℝ) (Ω : ℂ)
     have hc : (C : ℂ) ≠ 0 := by exact_mod_cast hC0
     simp only [normalizedCubeCoefficient, Complex.ofReal_mul]
     field_simp [hx, hn, hc] <;> ring
+
+#print axioms localPhaseDigit_frozen
+#print axioms normalizedCubeCoefficient_norm_le
+#print axioms normalizedCubeCoefficient_reassemble
 
 end HeckeSkeleton.LowFrozenCube

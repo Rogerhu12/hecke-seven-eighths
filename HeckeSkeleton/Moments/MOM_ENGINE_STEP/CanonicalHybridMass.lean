@@ -239,7 +239,7 @@ theorem normalized_family_kernel_mass_le
     hB₁ hB₂ hB₁B hB₂B kernelBound₁ kernelBound₂ hkernel₁ hkernel₂
   haveI := normalizedCapacityPairKernel_nested_finite B₁ B₂ J₁ J₂ J₁ J₂
     hradiusL hradiusR F₁ F₂ hB₁ hB₂ lc rc left.normalizer right.normalizer Z parentWidth
-  refine ⟨inferInstance, ?_⟩
+  refine ⟨Measure.smul_finite _ ENNReal.ofReal_ne_top, ?_⟩
   rw [normalized_family_kernel_mass_eq_canonical left right calL calR W BL BR IL IR
     AL AR hAL hAR boundsL boundsR hBL hBR hfL hfR lc rc
     outer Z parentWidth houter (zero_lt_one.trans hZ) F₁ F₂ B₁ B₂ hB₁ hB₂ J₁ J₂ hradiusL hradiusR]

@@ -21,8 +21,8 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.HighBinActualEuler HeckeSkeleton.Expansion.PrincipalRows
-open Expansion.FiniteTripleContour
 open DedekindZetaZeroFree DedekindZetaZeroFree.Quantitative.SimplePoleVerticalShift
+open Expansion.FiniteTripleContour (vertical)
 open scoped Classical Topology
 
 theorem principal_finite_shift_error_bound

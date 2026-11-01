@@ -180,9 +180,17 @@ theorem source_paired_row_norm_le (M : SourceMomentModels K c)
     (i : SourceMomentIndex K c Z T) (s : SixthUnitClasses K (places K c))
     (u : NonzeroIdeal K)
     (hu : u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i)) :
-    idealNorm K u ≤ momentBase i := by
-  simpa only [pairedParameters, add_zero, Real.rpow_one] using
-    norm_le_of_mem_pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i) u hu
+    idealNorm K u ≤ 2 * momentBase i := by
+  have h := norm_le_of_mem_pairedRows (pairedModel M i s) (pairedParameters i)
+    (momentBase i) u hu
+  have hw := (recipeMoment_rowWidth_spec (R := expansionRecipeRaw K c) i).2.2
+  have h' : idealNorm K u ≤ momentBaseFor i ^ (rowWidthFor i + 0) := h
+  rw [add_zero] at h'
+  exact h'.trans_eq hw
+
+/-- Every actual source base is at least two. -/
+theorem source_momentBase_ge_two (i : SourceMomentIndex K c Z T) : 2 ≤ momentBase i :=
+  recipeMomentBase_ge_two (R := expansionRecipeRaw K c) i
 
 /-- Capacity controls the total selected length using the fixed slot
 count and mesh, independently of the plain witness lengths. -/
@@ -208,10 +216,7 @@ theorem pairedRows_eq_empty_of_base_lt_one
     (M : SourceMomentModels K c) (i : SourceMomentIndex K c Z T)
     (s : SixthUnitClasses K (places K c)) (hbase : momentBase i < 1) :
     pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i) = ∅ := by
-  apply Finset.eq_empty_iff_forall_notMem.mpr
-  intro u hu
-  exact (not_le_of_gt hbase) ((one_le_idealNorm K u).trans
-    (source_paired_row_norm_le M i s u hu))
+  exact absurd hbase (not_lt.mpr (by linarith [source_momentBase_ge_two i]))
 
 theorem source_paired_slot_finite_factors (M : SourceMomentModels K c)
     (hrows : SourceRowEligibility M) (i : SourceMomentIndex K c Z T)
@@ -273,7 +278,7 @@ theorem source_paired_card_le_of_ideal_count (M : SourceMomentModels K c)
     (i : SourceMomentIndex K c Z T) (s : SixthUnitClasses K (places K c))
     (Crows : ℝ)
     (hcount : ∀ rows : Finset (NonzeroIdeal K),
-      (∀ u ∈ rows, idealNorm K u ≤ momentBase i) →
+      (∀ u ∈ rows, idealNorm K u ≤ 2 * momentBase i) →
       (rows.card : ℝ) ≤ Crows * momentBase i) :
     ((pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i)).card : ℝ)
       ≤ Crows * momentBase i := by
@@ -290,11 +295,13 @@ theorem exists_source_paired_linear_count :
       ((pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i)).card : ℝ)
         ≤ Crows * momentBase i := by
   obtain ⟨Crows, hCrows, hcount⟩ := dyadicIdealSupport_linear_count K
-  refine ⟨Crows, hCrows, ?_⟩
+  refine ⟨2 * Crows, by linarith, ?_⟩
   intro M Z T i s hbase
-  apply (Nat.cast_le.mpr (Finset.card_le_card ?_)).trans (hcount _ hbase)
+  have h2 : 1 ≤ 2 * momentBase i := by linarith
+  apply (Nat.cast_le.mpr (Finset.card_le_card ?_)).trans
+    ((hcount _ h2).trans_eq (by ring))
   intro u hu
-  apply (mem_dyadicIdealSupport_iff K (by linarith : 0 ≤ momentBase i / 2) u).mpr
+  apply (mem_dyadicIdealSupport_iff K (by linarith : 0 ≤ 2 * momentBase i / 2) u).mpr
   have hn := source_paired_row_norm_le M i s u hu
   linarith
 
@@ -319,7 +326,7 @@ theorem source_paired_deleted_count
       (Finset.mem_filter.mp hp).2
 
 /-- The simplest deletion bound is uniform over all paired rows of norm at
-most the moment base, without a lower bound on slot lengths. -/
+most twice the moment base, without a lower bound on slot lengths. -/
 theorem source_paired_deleted_count_le_base
     (R : RowCharacterInput K (places K c) (probeData K c))
     (M : SourceMomentModels K c) (hcal : SourcePolynomialCalibration R M)
@@ -328,7 +335,7 @@ theorem source_paired_deleted_count_le_base
     (hu : u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i))
     (pool : Finset (HeightOneSpectrum (𝓞 K))) :
     ((pool.filter (fun p => (pairedModel M i s).commonMask u p.asIdeal = false)).card : ℝ)
-      ≤ (Real.log (idealNorm K D.ideal) + Real.log (momentBase i)) / Real.log 2 := by
+      ≤ (Real.log (idealNorm K D.ideal) + Real.log (2 * momentBase i)) / Real.log 2 := by
   have hdel := source_paired_deleted_count R M hcal D i s u pool 2 (by norm_num)
     (fun p _ => by exact_mod_cast (Nat.succ_le_iff.mpr
       (NumberField.HeightOneSpectrum.one_lt_absNorm p)))
@@ -363,16 +370,32 @@ theorem source_conductor_control_of_polynomial
         ∀ j, Real.log (heckeConductorScale K
           ((pairedModel M i s).rowCharacter u * (pairedModel M i s).slotCoefficient j)) ≤
             D * (1 + Real.log (momentBase i)) * (1 + T) ^ q := by
-  refine ⟨1 + Real.log C₀ + r, 0, ?_, le_rfl, ?_⟩
+  refine ⟨2 * (1 + Real.log C₀ + r), 0, ?_, le_rfl, ?_⟩
   · linarith [Real.log_nonneg hC₀]
   · intro Z T i s u hZ hT hX hu j
-    simpa only [Real.rpow_zero, mul_one] using
-      logQ_le_of_norm_polynomial
-        (heckeConductorScale K
-          ((pairedModel M i s).rowCharacter u * (pairedModel M i s).slotCoefficient j))
-        C₀ (idealNorm K u) (momentBase i) r
-        (hpositive Z T i s u hZ hT hX hu j) hC₀ (idealNorm_pos K u)
-        (source_paired_row_norm_le M i s u hu) hX hr (hpoly Z T i s u hZ hT hX hu j)
+    have hX2 : 1 ≤ 2 * momentBase i := by linarith
+    have hlog := logQ_le_of_norm_polynomial
+      (heckeConductorScale K
+        ((pairedModel M i s).rowCharacter u * (pairedModel M i s).slotCoefficient j))
+      C₀ (idealNorm K u) (2 * momentBase i) r
+      (hpositive Z T i s u hZ hT hX hu j) hC₀ (idealNorm_pos K u)
+      (source_paired_row_norm_le M i s u hu) hX2 hr (hpoly Z T i s u hZ hT hX hu j)
+    have hbpos : 0 < momentBase i := by linarith
+    have hl2 : Real.log (2 * momentBase i) = Real.log 2 + Real.log (momentBase i) :=
+      Real.log_mul (by norm_num) hbpos.ne'
+    have hlog2 : Real.log 2 ≤ 1 := by
+      have := Real.log_le_sub_one_of_pos (by norm_num : (0 : ℝ) < 2)
+      linarith
+    have hlogb : 0 ≤ Real.log (momentBase i) := Real.log_nonneg hX
+    have hcoef : 0 ≤ 1 + Real.log C₀ + r := by linarith [Real.log_nonneg hC₀]
+    rw [Real.rpow_zero, mul_one]
+    calc
+      _ ≤ (1 + Real.log C₀ + r) * (1 + Real.log (2 * momentBase i)) := hlog
+      _ ≤ (1 + Real.log C₀ + r) * (2 * (1 + Real.log (momentBase i))) := by
+        apply mul_le_mul_of_nonneg_left _ hcoef
+        rw [hl2]
+        linarith
+      _ = _ := by ring
 
 /-! ## Numerical transfer after the analytic estimate is proved -/
 

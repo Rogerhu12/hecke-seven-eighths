@@ -131,13 +131,6 @@ theorem actualPrincipal_w_truncated_shift
     (heckeDeletedContinuation K 1 (exceptionalPrimes K Sset) w)
   let D : ℝ := ‖(2 * (Real.pi : ℂ))⁻¹‖ * M * principalTailEnvelopeMass
   have hD : 0 ≤ D := mul_nonneg (mul_nonneg (norm_nonneg _) hM.le) principalTailEnvelopeMass_nonneg
-  have hdecay (a : ℝ) (hlo : 19 / 20 ≤ a) (hhi : a ≤ 1 + e)
-      (t : ℝ) (ht : 1 ≤ |t|) :
-      ‖f ((a : ℂ) + (t : ℂ) * Complex.I)‖ ≤
-        M * (1 + |t|) ^ (-((N : ℝ) + 2)) := by
-    simpa [f] using
-      (hbound ((a : ℂ) + (t : ℂ) * Complex.I)
-        (by simpa using hlo) (by simpa using hhi) (by simpa using ht))
   have hcont (a : ℝ) (hlo : 19 / 20 ≤ a) (ha1 : a ≠ 1) :
       Continuous (fun t : ℝ => f ((a : ℂ) + (t : ℂ) * Complex.I)) := by
     apply continuous_iff_continuousAt.mpr
@@ -154,10 +147,14 @@ theorem actualPrincipal_w_truncated_shift
   intro H hH
   have hleft := principal_vertical_tail_bound f (19 / 20) M hM.le N
     (hcont _ le_rfl (by norm_num))
-    (hdecay _ le_rfl (by linarith)) H hH
+    (fun t ht => by
+      simpa [f] using (hbound (((19 / 20 : ℝ) : ℂ) + (t : ℂ) * Complex.I)
+        (by norm_num) (by simp; linarith) (by simpa using ht))) H hH
   have hright := principal_vertical_tail_bound f (1 + e) M hM.le N
     (hcont _ (by linarith) (by linarith))
-    (hdecay _ (by linarith) le_rfl) H hH
+    (fun t ht => by
+      simpa [f] using (hbound (((1 + e : ℝ) : ℂ) + (t : ℂ) * Complex.I)
+        (by simp; linarith) (by simp) (by simpa using ht))) H hH
   have hshift := ha Z hZA s z hs hz hz1
   have heq : principalFiniteVerticalIntegral (1 + e) H f -
       principalFiniteVerticalIntegral (19 / 20) H f -
@@ -200,13 +197,6 @@ theorem actualPrincipal_z_truncated_shift
   let f : ℂ → ℂ := actualPrincipalWResidueKernel K S mu P psi g Z s
   let D : ℝ := ‖(2 * (Real.pi : ℂ))⁻¹‖ * M * principalTailEnvelopeMass
   have hD : 0 ≤ D := mul_nonneg (mul_nonneg (norm_nonneg _) hM.le) principalTailEnvelopeMass_nonneg
-  have hdecay (a : ℝ) (hlo : 33 / 200 ≤ a) (hhi : a ≤ 1 / 6 + e)
-      (t : ℝ) (ht : 1 ≤ |t|) :
-      ‖f ((a : ℂ) + (t : ℂ) * Complex.I)‖ ≤
-        M * (1 + |t|) ^ (-((N : ℝ) + 2)) := by
-    simpa [f] using
-      (hbound ((a : ℂ) + (t : ℂ) * Complex.I)
-        (by simpa using hlo) (by simpa using hhi) (by simpa using ht))
   have hcont (a : ℝ) (hlo : 33 / 200 ≤ a) (ha1 : a ≠ 1 / 6) :
       Continuous (fun t : ℝ => f ((a : ℂ) + (t : ℂ) * Complex.I)) := by
     apply continuous_iff_continuousAt.mpr
@@ -224,10 +214,14 @@ theorem actualPrincipal_z_truncated_shift
   intro H hH
   have hleft := principal_vertical_tail_bound f (33 / 200) M hM.le N
     (hcont _ le_rfl (by norm_num))
-    (hdecay _ le_rfl (by linarith)) H hH
+    (fun t ht => by
+      simpa [f] using (hbound (((33 / 200 : ℝ) : ℂ) + (t : ℂ) * Complex.I)
+        (by norm_num) (by simp; linarith) (by simpa using ht))) H hH
   have hright := principal_vertical_tail_bound f (1 / 6 + e) M hM.le N
     (hcont _ (by linarith) (by linarith))
-    (hdecay _ (by linarith) le_rfl) H hH
+    (fun t ht => by
+      simpa [f] using (hbound (((1 / 6 + e : ℝ) : ℂ) + (t : ℂ) * Complex.I)
+        (by simp; linarith) (by simp) (by simpa using ht))) H hH
   have hshift := ha Z hZA s hs
   have heq : principalFiniteVerticalIntegral (1 / 6 + e) H f -
       principalFiniteVerticalIntegral (33 / 200) H f -

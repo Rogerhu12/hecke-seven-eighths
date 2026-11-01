@@ -1,13 +1,13 @@
 # Paired fourth-moment induction
 
-## Current implementation and verification status
+## Implementation and acceptance requirements
 
 This directory implements the finite-rank induction in revised §4.8 and
 Theorem 4.2, with the actual source specialization used by PR #12. The
-implementation at `da3e9806` registers **211 clean task modules and 1,595
-explicit public declarations**. These are source inventory counts; the
-complete native build and recursive axiom audit for this revision are still
-pending CI acceptance.
+implementation registers **211 clean task modules and 1,595 explicit public
+declarations**. These are source inventory counts. Acceptance also requires
+the complete native build and recursive axiom audit of the exact reviewed
+revision; PR #12 records the corresponding Actions run and results.
 
 The three original declarations in `HeckeSkeleton/Moments.lean` now call the
 actual source pipeline:
@@ -27,12 +27,39 @@ statements acquire no volume, strict-family, child-energy, or completed
 moment-bound assumption. The final `GeneralHeckeSevenEighths` statement is
 unchanged.
 
-The previous CI70 run failed before completing the clean audit. The current
-batch repairs its induction-side diagnostics, restores the original three
-statements, and consumes the newer STEP source with separately registered
-compatibility repairs. Acceptance requires the complete clean audit, source
-integration build, and original-target axiom gate on the same revision.
-Source wiring and successful leaf checks do not constitute that acceptance.
+The integrated baseline is now
+`c92578b1fa556b72d01c6ff49bac7f27885f09d7`. Its three intermediate targets
+used the dyadic row exponent; this PR strengthens those conclusions to the
+original physical exponent one, with the same objects and hypotheses.
+`plainSource` consumes the resulting bounds directly, so it no longer
+applies the dyadic conversion a second time. The seven sibling proofs
+merged through that baseline are retained, including the six
+`MOM_UNIFORM_AMPLIFY` obligations and the `MOM_PRIME` absolute endpoint.
+
+The shared source integration replaces the original base's admitted
+`momentModels` placeholder with the actual `recipeMomentModels` construction. Its dyadic
+row width is `1 + log 2 / log U`, so the row cutoff is `2 * U`. Compared
+with width one, this enlarges only the outer row set of the same model;
+the prime/plain factors, common mask, sector, and other parameters remain
+the same. Since the energy is a sum of nonnegative squared norms, this
+enlargement strengthens the required estimate. It also covers the actual
+physical witnesses, whose norms range up to `2 * U`.
+
+`actualRecipeMoment_paired_rows` in `ExpansionModels/ActualRowEligibility.lean`
+proves membership for those original witnesses, including the zero-slot
+principal-character and positive-slot theta exclusions. The
+`paired_source_reindex` theorem in `SourceReindex.lean` preserves the
+original ideal/sector injection and every polynomial factor.
+Statement-text equality with the base therefore needs to be read together
+with this explicit construction and cutoff repair; it is not an assertion
+of definitional equality with the former admitted placeholder.
+
+The induction preserves the original three statements and consumes the
+pinned STEP source with separately registered compatibility repairs.
+Acceptance requires the complete clean audit, source integration build,
+and original-target axiom gate on the same revision, together with the
+whole-project integration build for that PR revision. Source wiring and
+successful leaf or private-helper checks do not constitute that acceptance.
 
 ## The actual source pipeline
 
@@ -84,8 +111,8 @@ one actual target. The implementation follows this chain:
    projections, and `Moments.lean` converts their dyadic exponent to the
    original physical exponent one.
 
-These are the current source constructions. Their complete kernel
-validation is the pending CI work described above.
+The workflow below validates the complete source construction with the
+standard Lean kernel.
 
 ## Complete moving recipes and the two arithmetic budgets
 
@@ -211,14 +238,20 @@ files and proof-only compatibility repairs. The current principal pins are:
 | Source | Immutable commit | Use |
 | --- | --- | --- |
 | MOM_ENGINE_STEP | `5c432b677f9c58fabe2771194a32adb2d7b4a2a4` | Original producer and its dependency closure |
-| Source/profile | `896cec08ff832c5fcf136adcc12f0239e7ab9728` | Shared source, profile, Fourier, and eligibility definitions |
-| Source follow-up | `f606882b1da6e40f4ec752d568fe361caed28120` | Base and actual-row-eligibility repairs |
-| MOM_PRIME | `1cf8548809ee3753a5a8af0f5793a3e37a22fa1e` | Seven annular-volume dependency files |
-| Finite-sector reindex | `778b4220d3d4bc8538549bf74998a78e570d01d9` | Two finite-sum source modules |
+| Source/profile | `c92578b1fa556b72d01c6ff49bac7f27885f09d7` | Shared source, profile, Fourier, and eligibility definitions |
+| Source follow-up | `c92578b1fa556b72d01c6ff49bac7f27885f09d7` | Base and actual-row-eligibility interfaces |
+| MOM_PRIME | `c92578b1fa556b72d01c6ff49bac7f27885f09d7` | Annular-volume dependencies and the actual endpoint |
+| Finite-sector reindex | `c92578b1fa556b72d01c6ff49bac7f27885f09d7` | Finite-sum source modules |
+
+The shared `Expansion`, `ExpansionModels`, `HighBinSupport`, `Base`,
+`HighBin`, `SourceData`, `MOM_UNIFORM_AMPLIFY`, and `MOM_PRIME` sources
+match this integrated baseline byte for byte. `Moments.lean` is recorded
+separately: it retains the baseline's sibling proofs and adds the three
+actual induction calls and the corresponding `plainSource` adjustment.
 
 The `PRODUCER_REPAIRS` registry records the owner commit, original SHA256,
-repair SHA256, and reason for each local STEP repair. It includes the
-concrete native diagnostics at the owner pin, along with declaration
+repair SHA256, and reason for each of the 27 local STEP repair files. It
+includes the concrete native diagnostics at the owner pin, along with declaration
 parameters already supplied by actual callers and corrected doc-comment
 placement around `include` commands. The underlying original atoms,
 profiles, arithmetic data, and producer output remain explicit.
@@ -234,7 +267,7 @@ The pinned environment is unmodified Lean **4.35.0-rc3**, compiler commit
 `0493595ecd5da8ef14742febab99728f98e948e8`.
 
 The dedicated `mom-engine-induction.yml` workflow uses one checkout and one
-job for all acceptance stages:
+job for all task acceptance stages:
 
 1. Check the exact source revision, registered hashes, and full inventory.
 2. Build `HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Audit`, run its complete
@@ -242,6 +275,12 @@ job for all acceptance stages:
 3. Build `HeckeSkeleton.Moments`, then `SkeletonFamily` and `SkeletonSource`,
    and record their separate source-integration audit.
 4. Run `verify.py original-check` for the three original theorem names.
+
+The separate `integration-build.yml` workflow must also succeed for the
+reviewed PR revision. It builds every `lean_lib` in `lakefile.toml` and
+records the integrated endpoint axiom report. Evidence must identify its
+tested SHA and its association with the reviewed PR head, including a PR
+merge SHA when that workflow uses one.
 
 The allowed axioms for the clean declarations and original targets are
 exactly:
@@ -254,10 +293,18 @@ Quot.sound
 
 Lean's recursive axiom collection checks both declaration types and proof
 bodies. The original-target gate rejects `sorryAx` and every other extra
-axiom even if the generic core or source-adapter checks pass. The other
-nine admissions in `Moments.lean` belong to other tasks and remain outside
-this task's three obligations; they are not permitted dependencies of the
-three accepted targets.
+axiom even if the generic core or source-adapter checks pass. The only
+remaining admissions in `Moments.lean` are `canonical_inverse_models` and
+`paired_primes_below_one`, owned by other tasks. Neither is a permitted
+dependency of the three accepted targets. Their presence in the broader
+integration report does not establish the final global theorem.
+
+Targeted performance probes must state their exact source, compiler,
+heartbeat budget, and scope. A whole-module probe checks more than an
+isolated private helper, and neither replaces the complete task and
+integration gates. In particular, private conductor-helper probes must
+not be reported as successful builds of `MovingRowConductor` or
+`MovingRecipeConductor`.
 
 The workflow restores Mathlib through `use-mathlib-cache: "true"` and the
 repository's project artifacts through
@@ -267,9 +314,10 @@ hashes. Branch-based concurrency cancels obsolete runs when a new head is
 published.
 
 Compilation logs, inventory records, provenance, and axiom reports are saved
-only in the two Actions evidence artifacts, including failed-run diagnostics.
+only in the two task evidence artifacts and the whole-project integration
+artifact, including failed-run diagnostics.
 They are not committed to the repository. PR #12 becomes ready for review
-when all acceptance stages pass for the reviewed revision; that full result
-is still pending for the implementation documented here.
+only when all acceptance stages pass for the reviewed revision. Its
+description records the exact accepted head and links to the evidence.
 
 AI-assisted implementation and review: ChatGPT, GPT-6 Astra Pro and collaborating agents.
