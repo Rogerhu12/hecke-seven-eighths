@@ -2,9 +2,9 @@
 
 分支 `codex/expansion-detector-20261030`，PR #5，基线 `dtests-handoff`。
 
-**任务仍在进行，原始目标尚未全部通过。** 已合并 base 50f 的原生运行中四个 strict 组通过；skeleton 剩下 HighBin 与 DetectorProfiles 两个原生根，当前两份修复及后来合并的 b46 基线仍待完整重验。
+**任务仍在进行，原始目标尚未全部通过。** 最新 a7 原生运行中四个 strict 组通过，HighBin 已 fresh Built；skeleton 尚有 ActualPresentationBoundary 与 DetectorProfiles 两个根，当前最小证明修复仍待原版重验。
 
-最新完整原生证据为 `f606882` / run `41278811681`：pure 112／2,042／0，arithmetic 116／2,110／0，physical 39／808／0，contours 56／709／0（模块／声明／非标准公理依赖），均在已合并 base 50f 的环境真实通过。ActualRowEligibility 原模块 fresh Built，HighBin 剩三处 Haar 实例族错误，后继 DetectorProfiles 新到达两处 elaboration 错误；skeleton 共两个根、五条诊断。三个共享源模块及19个原名目标的严格 gate 均未执行。本轮另外逐名核实480个尚未入账的真实公理打印，历史总记录757；这些记录没有代替严格终门。
+最新完整原生证据为 `a7fabe6` / run `41282699757`：pure 112／2,042／0，arithmetic 116／2,110／0，physical 39／808／0，contours 56／709／0（模块／声明／非标准依赖），均在已包含 b46 基线的环境通过。HighBin fresh Built12s，DetectorProfiles 的旧 Fin 维数诊断已消失；本轮只剩 Boundary87:6 与 Detector253:8 两条原生诊断。三个共享源模块和19个原名目标的严格 gate 均未执行。本轮新增真实逐名公理记录为0，全部757条历史记录保持不变。
 
 ## 原始目标与实际对象
 
@@ -832,3 +832,50 @@ skeleton 构建失败，三个共享源模块与19个原名目标的严格输入
 87条旧 CI、16份旧快照、277条旧公理记录完整前缀逐项不变；本轮只追加五组和一份快照，得到92条 CI／17份快照，再追加480条实印记录得到757。原始义务仍为 `closed = false`；当前两个源修复及完整原版终门尚须通过，PR 仍未达到可审查标准。
 
 本轮 PR 说明与评论已读至88条／`6554586321`；最近重述的旧 Base 上下文与外部 Calibration 评论没有记作新的本 PR 原生根、产物或候选。
+
+## `a7fabe6`：HighBin 已编译，两个原生证明根仍待复验
+
+提交 `a7fabe61c7279a6b2f3985f386581f65bbf077be` 的 [run `41282699757`](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41282699757) 五组和全部 Post 步骤自然完成。原 push 工作流及 attempt1 未改；五份官方 ZIP 摘要、335份原生选源、原生成 audit 输入与1,500文件归档均已核验。
+
+| 分组 | 原生结果 | 清单模块 | 严格审计声明／非标准依赖 | 根模块／诊断 | Artifact |
+| --- | --- | ---: | --- | ---: | ---: |
+| pure | success | 112 | 2042／0 | 0／0 | 13073519631 |
+| actual-arithmetic | success | 116 | 2110／0 | 0／0 | 13073697725 |
+| actual-physical | success | 39 | 808／0 | 0／0 | 13074307648 |
+| actual-contours | success | 56 | 709／0 | 0／0 | 13074032129 |
+| skeleton | failure | 12 | 构建失败，未执行 | 2／2 | 13073647656 |
+
+四组共323份选源、5,669个声明严格通过。arithmetic 源码归档的1,500个文件逐一匹配 a7 Git blobs，路径集合完全等于原工作流且无重复，SHA-256 为 `2b421f02d559bf0da18a898c4c6cbfc4d5d3b3c3bf4a614d3274766985411559`。归档不含 vendor；归档身份核对不代替各声明的编译或公理审计。
+
+### 上轮修复的实际进展与本轮两根
+
+HighBin 原模块在 skeleton 日志130823 fresh Built12s，上轮三处 Haar family 诊断全部消失。ActualRowEligibility 再次 fresh Built8.3s（日志130610）。它们属于失败的 skeleton 组，本轮没有把模块 Built 或其打印当作穷尽严格审计通过。DetectorProfiles 原259:82的 Fin 维数诊断已消失，253:8的 presentation 改写依赖 motive 问题仍在；同轮到达 ActualPresentationBoundary87:6 的 active-map 函数参数欠定。
+
+| 原生位置 | 当前最小证明修复 |
+| --- | --- |
+| `ActualPresentationBoundary` 87:6 | 显式提供原 term 与 physicalRecipeShellIndex／physicalRecipeChoice 组成的 Fin scheduledCount 函数，再仅展开原两个 scheduled 别名并使用 using!；原求和指标、schedule 与 pointwise 值均保持。 |
+| `DetectorProfiles` 253:8 | 将完整原 plainValue 视为 presentation 索引上的 value 函数，以 change 明确两边为 value 的取值，再对原 presentation 等式使用 congrArg；避免在依赖记录的内部字段中改写，不改 witness 数据或参数。 |
+
+本轮 Base（8.5s，日志130103）、HighBin（12s，日志130823）、ActualRowEligibility（8.3s，日志130610）及 Moments（6.3s，日志131591）四个原模块均 fresh Built，覆盖8个原名目标的定义所在模块。当前 remaining 数组据真实日志改为“所在模块已编译、原名公理门仍待执行”；其他11个目标仍未观察到完整编译。19个原名 gate 的通过数仍为0，未把8个模块内目标的编译事实当作严格终门通过。
+
+两文件仅修改证明体，共16行新增、6行删除；公开声明、数学数据、条件、常数、imports、options 与所有原 gates 保持。root、local_build、source_review 已交叉审查原生完整上下文和源差异；候选尚未通过下一次原生编译，未新增公理、sorry、native_decide 或 heartbeat 调整。
+
+### b46 基线与 owner 源对齐
+
+b46 基线已经包含在本轮 a7 原生 checkout 中，本次没有新的基线合并、脚本修改或新增 Lean。最近一次历史基线 merge 仍是 `a378db7`；它的两脚本日期字段维护与更早50f的150路径／108新增 Lean 都保留在历史记录，不重复计为当前修复。原外部缓存 action 引用保持，仓库 helper 身份不推断运行时 action 解析结果。
+
+按评论91核对 PR #7 的不可变源 [677cc34](https://github.com/Rogerhu12/hecke-seven-eighths/commit/677cc34c339fe84aea1457dff0fe6b30adb921d0) 与本分支 a7：公开 scheduled shell／choice、原 raw recipe／highExpansion／targetData 以及 detector 数据定义逐字一致。其 ActualPhysicalRecipePresentation 差异只有两处 retained-label 实参显式命名；其 HighBin 私有 boundary 桥的完整 let-term／calc 值证明与本批 Boundary 候选在仅折叠空白后相同。外国 HighBin 整文件另含独立 HB 结构与消费者修改，未作整文件同源声明或源码替换。本次只做 immutable 源对齐，未核外国 leaf artifact／编译覆盖范围，不将外部成功计入本 PR gate。
+
+### 本轮没有新增逐名公理记录
+
+对成功 strict 组保留的完整原名打印、源码 #print 行及 fresh Built 事件再核对，本轮可追加的新名字为0。pure 的113次 fresh 选源打印、arithmetic 的76次 fresh 选源打印均已出现在旧记录中；physical 与 contours 本轮没有 fresh selected-source 打印，但其原版严格组审计实际通过。旧757条记录含645个不同名字，所有历史重复记录也原样保留。没有将5,669个声明汇总或失败 skeleton 的打印生成额外成功记录。
+
+### 当前候选与仍未执行的终门
+
+两份 proof-only 候选固定于 [3a314ae](https://github.com/Rogerhu12/hecke-seven-eighths/commit/3a314ae579f42eb374dedcc088de509b19c05dc2)，父提交为 `a7fabe61c7279a6b2f3985f386581f65bbf077be`；完整树 `58a6df23b702b7eeb3872a1ec4fb809537ada5dc` 与本地 `de9a8c627e5829bb35cab2c1d571284f5ac4741f` 精确一致。本记录时分支仍为 `a7fabe6`。335份当前选源重新计算为333份原生同源、2份待验候选；本批全部属于自身原生根修复，新增 external-guided 与纯静态消费者均为0。
+
+skeleton 构建失败，三个共享源模块及19个原名目标的严格输入／日志均未产生，保持 `not_executed_after_build_failure`。原名 gate 的类型依赖检查和标准三公理白名单未变。顶层 `GeneralHeckeSevenEighths` 所在文件、`HeckeSkeleton/Main.lean`、原验证器、工作流、toolchain、完整 Lake 注册、包清单和 README 均未改，335／19／3原验收集合保持。
+
+92条旧 CI、17份旧快照、757条旧公理记录完整前缀逐项不变；本轮只追加五组与一份快照，成为97条 CI／18份快照／757条公理记录。原始义务仍为 `closed = false`，两个候选证明和完整原版终门尚须通过，PR 仍未达到可审查标准。
+
+PR 说明与评论已读至91条／`6554757970`。协调者的29处共享差异清单及5→7→11合并顺序作为协作背景记录；foreign leaf 成功不替代本 PR 的原上下文与严格门，也未因此替换上游公开数据源码。
