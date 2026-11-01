@@ -147,12 +147,14 @@ theorem actualPrincipal_w_truncated_shift
   intro H hH
   have hleft := principal_vertical_tail_bound f (19 / 20) M hM.le N
     (hcont _ le_rfl (by norm_num))
-    (fun t ht => by simpa using hbound ((19 / 20 : ℂ) + (t : ℂ) * Complex.I)
-      (by norm_num) (by simp; linarith) (by simpa using ht)) H hH
+    (fun t ht => by
+      simpa [f] using (hbound (((19 / 20 : ℝ) : ℂ) + (t : ℂ) * Complex.I)
+        (by norm_num) (by simp; linarith) (by simpa using ht))) H hH
   have hright := principal_vertical_tail_bound f (1 + e) M hM.le N
     (hcont _ (by linarith) (by linarith))
-    (fun t ht => by simpa using hbound ((1 + e : ℝ) + (t : ℂ) * Complex.I)
-      (by simp; linarith) (by simp) (by simpa using ht)) H hH
+    (fun t ht => by
+      simpa [f] using (hbound (((1 + e : ℝ) : ℂ) + (t : ℂ) * Complex.I)
+        (by simp; linarith) (by simp) (by simpa using ht))) H hH
   have hshift := ha Z hZA s z hs hz hz1
   have heq : principalFiniteVerticalIntegral (1 + e) H f -
       principalFiniteVerticalIntegral (19 / 20) H f -
@@ -212,12 +214,14 @@ theorem actualPrincipal_z_truncated_shift
   intro H hH
   have hleft := principal_vertical_tail_bound f (33 / 200) M hM.le N
     (hcont _ le_rfl (by norm_num))
-    (fun t ht => by simpa using hbound ((33 / 200 : ℂ) + (t : ℂ) * Complex.I)
-      (by norm_num) (by simp; linarith) (by simpa using ht)) H hH
+    (fun t ht => by
+      simpa [f] using (hbound (((33 / 200 : ℝ) : ℂ) + (t : ℂ) * Complex.I)
+        (by norm_num) (by simp; linarith) (by simpa using ht))) H hH
   have hright := principal_vertical_tail_bound f (1 / 6 + e) M hM.le N
     (hcont _ (by linarith) (by linarith))
-    (fun t ht => by simpa using hbound ((1 / 6 + e : ℝ) + (t : ℂ) * Complex.I)
-      (by simp; linarith) (by simp) (by simpa using ht)) H hH
+    (fun t ht => by
+      simpa [f] using (hbound (((1 / 6 + e : ℝ) : ℂ) + (t : ℂ) * Complex.I)
+        (by simp; linarith) (by simp) (by simpa using ht))) H hH
   have hshift := ha Z hZA s hs
   have heq : principalFiniteVerticalIntegral (1 / 6 + e) H f -
       principalFiniteVerticalIntegral (33 / 200) H f -
