@@ -67,6 +67,9 @@ theorem exists_actual_nonprincipal_initial_tail_bound
       D * frequencyRowNorm K Sset u.val ^ (-2 : ℝ) := by
     have hb := hr Z H hZ hH u.val u.property
     norm_num [largeSweepLower, largeSweepUpper, largeSweepRowPower] at hb
+    have hN : 0 ≤ frequencyRowNorm K Sset u.val :=
+      (idealNorm_pos K u.val.ideal.val).le
+    rw [Real.rpow_neg hN, Real.rpow_two]
     exact hb.trans_eq (by dsimp [D]; ring)
   have hn : Summable (fun u : rows => ‖actualInitialRowTailIntegral K S mu P psi g ∅ Z H u.val‖) :=
     (hsum.mul_left D).of_nonneg_of_le (fun _ => norm_nonneg _) hrow
