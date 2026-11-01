@@ -106,7 +106,7 @@ theorem Atom.profileCoefficient_le_palette_scale (p : Atom V)
   have hdirection : (1 + 2 * Real.pi * ‖p.direction‖) ^ (s.sup Prod.snd) ≤
       (1 + 2 * Real.pi * D) ^ (s.sup Prod.snd) :=
     pow_le_pow_left₀ (by positivity)
-      (add_le_add_left (mul_le_mul_of_nonneg_left hd hπ) 1) _
+      (add_le_add (le_refl (1 : ℝ)) (mul_le_mul_of_nonneg_left hd hπ)) _
   have hcoefficient : shapeCoefficient window hcompact hpositive p.exponent s *
       (1 + 2 * Real.pi * ‖p.direction‖) ^ (s.sup Prod.snd) ≤
         profileAtomConstant window hcompact hpositive s δ R D :=
@@ -228,7 +228,10 @@ theorem clippedAmplitudeConstant_one_le (a B : ℝ) (ha : 0 < a) (hB : 1 ≤ B)
   have hc := clippingCoefficient_one_le B hB s
   have hA := commonAmplitudeConstant_one_le (Set.Icc a B) isCompact_Icc
     (positiveAnnulus a B ha) s δ R cap D hD
-  simpa only [one_mul] using mul_le_mul hc hA zero_le_one (zero_le_one.trans hc)
+  change (1 : ℝ) ≤ clippingCoefficient B s *
+    commonAmplitudeConstant (Set.Icc a B) isCompact_Icc
+      (positiveAnnulus a B ha) s δ R cap D
+  exact one_le_mul_of_one_le_of_one_le hc hA
 
 section ClippedAmplitudes
 

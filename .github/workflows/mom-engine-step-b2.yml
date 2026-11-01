@@ -94,3 +94,96 @@ jobs:
           path: mom-engine-step-b2-evidence/
           if-no-files-found: warn
           retention-days: 14
+
+  profiles:
+    if: github.ref == 'refs/heads/cloud/mom-engine-step-b2'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      LEAN_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Reserve runner space and match the official mapping limit
+        run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift /opt/ghc /opt/hostedtoolcache/CodeQL
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          df -h /
+          sysctl vm.max_map_count
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore normal project and branch artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Record the complete source identity
+        run: |
+          mkdir -p mom-b2-profile-identity
+          python3 - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, 'scripts')
+          from mom_engine_b2_native_watch import source_identity, atomic_json
+          atomic_json(Path('mom-b2-profile-identity/before.json'), source_identity(Path.cwd()))
+          PY
+      - name: Verify the original scale-budget module and both repaired declarations
+        run: |
+          python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileScaleBudget \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.Atom.profileCoefficient_le_palette_scale \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.clippedAmplitudeConstant_one_le \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.profileAmplitude_le_original_scale \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.exists_clipped_amplitude_scale_budget \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.exists_clipped_amplitude_degree_budget \
+            --evidence mom-b2-profile-root
+      - name: Publish the original module evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-b2-profile-root-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            mom-b2-profile-root/
+            mom-b2-profile-identity/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Verify all eight Actual-independent modules in the owned downstream closure
+        run: |
+          python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineProfileOrders \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSignedChildFourierControl \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalClippedGaussProfiles \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --evidence mom-b2-profile-independent
+      - name: Check the same complete source identity after native validation
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          from pathlib import Path
+          sys.path.insert(0, 'scripts')
+          from mom_engine_b2_native_watch import source_identity, atomic_json
+          before = json.loads(Path('mom-b2-profile-identity/before.json').read_text())
+          after = source_identity(Path.cwd())
+          atomic_json(Path('mom-b2-profile-identity/after.json'), after)
+          assert before == after, 'Tracked source identity changed during native validation'
+          PY
+      - name: Preserve the complete original-module and downstream evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-b2-profile-complete-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            mom-b2-profile-root/
+            mom-b2-profile-independent/
+            mom-b2-profile-identity/
+          if-no-files-found: warn
+          retention-days: 14
