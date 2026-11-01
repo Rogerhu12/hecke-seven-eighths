@@ -6,6 +6,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEnginePool
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalUnifiedChoice
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalPhysicalBox
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimeAnalyticProvider
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveExceptionalChoices
 
 /-!
 # Original choices for the uniform primitive engine
@@ -60,20 +61,53 @@ variable (outputOrders : Finset (ℕ × ℕ))
 variable (primitive : CanonicalLiteralExceptionalPaidSource.VolumePrimitive
   ψ theta (Set.Icc b.lo b.hi))
 
-/-- The physical complete mask has one fixed exponent before the source. -/
+/-- The fixed nonnegative padding bound is an admissible padding for
+the same original parent. No sign condition on its displayed padding
+is needed by the public entrance. -/
+theorem boundedDomain {d : MomentData K ω ψ} {a : RealParameters}
+    {Z Y₁ Y₂ floor padding : ℝ} {centered : Bool}
+    (domain : PairedEngineDomain centered d a Z Y₁ Y₂ floor padding)
+    (hpadding : padding ≤ b.paddingMax) :
+    PairedEngineDomain centered d a Z Y₁ Y₂ floor b.paddingMax :=
+  { domain with
+    padded_core := domain.padded_core.trans (add_le_add_left hpadding _) }
+
+/-- The original first deletion retains the passive sixth-power prime
+factors. Its exceptional volume box therefore also covers the actual
+column bound and the two pool-prime lengths. The choice precedes the
+source and does not alter its mask or arithmetic data. -/
+def volumeWidth (b : Box) : ℝ :=
+  CanonicalPrimitiveExceptionalChoices.sourceWidth b
+
+theorem volumeWidth_nonneg (b : Box) : 0 ≤ volumeWidth b :=
+  CanonicalPrimitiveExceptionalChoices.sourceWidth_nonneg b
+
+theorem widthMax_le_volumeWidth (b : Box) : b.widthMax ≤ volumeWidth b :=
+  le_max_left _ _
+
+theorem firstSupport_le_volumeWidth (b : Box) :
+    b.columnBound + 2 * (b.step / 3) ≤ volumeWidth b :=
+  le_max_right _ _
+
+/-- The complete mask pays both original column contributions, with
+the same physical loss and cutoff exponent used by the actual source. -/
 def volumeMaskExponent (b : Box) : ℝ :=
-  CanonicalLiteralExceptionalPhysicalBox.maskExponent b.widthMax b.loss b.loss
+  CanonicalPrimitiveExceptionalChoices.maskExponent b
 
 theorem volumeMaskExponent_nonneg (b : Box) : 0 ≤ volumeMaskExponent b :=
-  CanonicalLiteralExceptionalPhysicalBox.maskExponent_nonneg
-    b.width_nonneg b.loss_pos.le b.loss_pos.le
+  CanonicalPrimitiveExceptionalChoices.maskExponent_nonneg b
 
 /-- One finite order set for the two centered sides and the ordinary side. -/
 def volumeOrders : Finset (ℕ × ℕ) :=
-  CanonicalLiteralExceptionalUnifiedChoice.orders
-    (A := A) (σ := σ) (η := η) (hS := hS) primitive
-    (b.ε / 64) (volumeMaskExponent b)
-    (div_pos b.ε_pos (by norm_num)) (volumeMaskExponent_nonneg b)
+  CanonicalPrimitiveExceptionalChoices.orders
+    (A := A) (σ := σ) (η := η) (hS := hS) b primitive
+
+/-- The original order set is the actual exceptional chooser's set;
+no fresh selection is made after the moving parent is supplied. -/
+theorem volumeOrders_eq :
+    volumeOrders (A := A) (σ := σ) (η := η) (hS := hS) b theta primitive =
+      CanonicalPrimitiveExceptionalChoices.orders
+        (A := A) (σ := σ) (η := η) (hS := hS) b primitive := rfl
 
 def orders : Finset (ℕ × ℕ) :=
   CanonicalPrimitiveEngineProfileOrders.orders outputOrders
