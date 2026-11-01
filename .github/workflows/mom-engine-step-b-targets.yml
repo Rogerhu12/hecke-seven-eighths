@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: mom-engine-step-b-targets-${{ github.ref }}
+  group: mom-engine-step-b-targets-${{ github.ref }}-${{ github.sha }}
   cancel-in-progress: true
 
 jobs:
