@@ -1,0 +1,140 @@
+name: PR12 isolated native diagnostics
+
+# Auxiliary diagnostics only; this workflow lives solely on its performance branch.
+# PR12 retains its clean audit, original-target axiom gates, and whole-project build.
+on:
+  push:
+    branches: [cloud/mom-engine-induction-performance]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-induction-isolated-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native:
+    name: Native ${{ matrix.target }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [ExceptionalOriginalLabel, ActualGaussFiniteLeaves]
+    env:
+      LEAN_NUM_THREADS: '2'
+      PERF_TARGET: ${{ matrix.target }}
+      PERF_SOURCE_COMMIT: 8ac2cb4e2ba41af423ac2d59a125ab224ff329a0
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Prepare runner resources
+        run: |
+          mkdir -p /tmp/pr12-isolated-native-evidence
+          git show --no-patch --format=fuller HEAD > /tmp/pr12-isolated-native-evidence/checkout.txt
+          git diff --exit-code "$PERF_SOURCE_COMMIT" HEAD -- '*.lean' lakefile.toml lake-manifest.json lean-toolchain
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > /tmp/pr12-isolated-native-evidence/memory-mapping.txt
+          df -h /
+      - name: Install the pinned Lean toolchain and Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore ordinary Lake artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Record exact source and toolchain provenance
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, subprocess
+          def run(*args):
+              return subprocess.check_output(args, text=True).strip()
+          version = run('lake', 'env', 'lean', '--version')
+          mathlib = run('git', '-C', '.lake/packages/mathlib', 'rev-parse', 'HEAD')
+          assert '4.35.0-rc3' in version and '470d5ce1400764999581fd26d5d72b00d990b0f4' in version
+          assert mathlib == '0493595ecd5da8ef14742febab99728f98e948e8'
+          sources = {str(p): hashlib.sha256(p.read_bytes()).hexdigest()
+                     for p in sorted(pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP').glob('*.lean'))}
+          assert len(sources) == 921
+          evidence = {'commit': run('git', 'rev-parse', 'HEAD'),
+                      'tree': run('git', 'rev-parse', 'HEAD^{tree}'),
+                      'source_commit': os.environ['PERF_SOURCE_COMMIT'],
+                      'target': os.environ['PERF_TARGET'],
+                      'lean': version, 'mathlib': mathlib,
+                      'source_sha256': sources,
+                      'scope': 'isolated native diagnostic; not full task acceptance'}
+          pathlib.Path('/tmp/pr12-isolated-native-evidence/environment.json').write_text(json.dumps(evidence, indent=2) + '\n')
+          PY
+      - name: Build the complete unchanged target dependencies
+        timeout-minutes: 60
+        shell: bash
+        run: |
+          set -o pipefail
+          status=0
+          timeout --signal=TERM --kill-after=30s 58m lake build "+HeckeSkeleton.Moments.MOM_ENGINE_STEP.${PERF_TARGET}:deps" 2>&1 |
+            tee /tmp/pr12-isolated-native-evidence/dependencies.log || status=$?
+          echo "$status" > /tmp/pr12-isolated-native-evidence/dependencies-exit-code.txt
+          exit "$status"
+      - name: Compile the complete original module with profiler and wall time
+        timeout-minutes: 10
+        run: |
+          python3 -u - <<'PY'
+          import hashlib, json, os, pathlib, subprocess, time
+          evidence = pathlib.Path('/tmp/pr12-isolated-native-evidence')
+          target = os.environ['PERF_TARGET']
+          assert target in {'ExceptionalOriginalLabel', 'ActualGaussFiniteLeaves'}
+          source = pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP') / (target + '.lean')
+          output = pathlib.Path('/tmp/pr12-native-outputs')
+          output.mkdir(exist_ok=True)
+          command = ['timeout', '--signal=TERM', '--kill-after=30s', '8m',
+                     '/usr/bin/time', '-v', 'lake', 'env', 'lean', '-j2',
+                     '-DautoImplicit=false', '-DrelaxedAutoImplicit=false', '-Dprofiler=true',
+                     '-o', str(output / (target + '.olean')),
+                     '-i', str(output / (target + '.ilean')), str(source)]
+          started = time.monotonic()
+          with (evidence / 'native.log').open('w') as log:
+              log.write(json.dumps({'command': command}) + '\n')
+              log.flush()
+              process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              assert process.stdout is not None
+              for line in process.stdout:
+                  print(line, end='', flush=True)
+                  log.write(line)
+                  log.flush()
+              code = process.wait()
+          elapsed = time.monotonic() - started
+          original = json.loads((evidence / 'environment.json').read_text())['source_sha256']
+          unchanged = all(hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest() == digest
+                          for path, digest in original.items())
+          result = {'target': target, 'exit_code': code, 'elapsed_seconds': elapsed,
+                    'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
+                    'all_task_sources_unchanged': unchanged,
+                    'complete_module_within_five_minutes': code == 0 and elapsed <= 300,
+                    'heartbeat_changed': False, 'proof_sources_changed': False}
+          (evidence / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
+          print(json.dumps(result), flush=True)
+          if not unchanged:
+              raise SystemExit('Source changed during diagnostic')
+          raise SystemExit(code)
+          PY
+      - name: Preserve exact native timing and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr12-isolated-native-${{ matrix.target }}-${{ github.sha }}-${{ github.run_attempt }}
+          path: /tmp/pr12-isolated-native-evidence/
+          if-no-files-found: error
+          retention-days: 14
+
