@@ -2,9 +2,9 @@
 
 分支 `codex/expansion-detector-20261030`，PR #5，基线 `dtests-handoff`。
 
-**任务仍在进行，原始目标尚未全部通过。** 当前四份证明源码修复仍须下一轮原生编译与严格公理审计验证。
+**任务仍在进行，原始目标尚未全部通过。** 当前五份证明源码修复仍须下一轮原生编译与严格公理审计验证。
 
-最新完整原生证据为 `6d256b9` / run `41267321802`：pure 审计112个模块、2,042个声明、0个非标准公理依赖；其余四组失败，合计四个根模块、十条不同诊断。上轮四个原生根中 `ActualOuterTailSums` 与 `ActualPrincipalVerticalRemainders` 已 fresh Built；`LargeRowSum` 与 `PhysicalRecipeRemainders` 仍是原生根。上轮两份静态后继 `UniformDecay / SweepDecay` 没有 fresh Built 事件，不能据此推断已编译或未编译。当前仅追加四份原生根修复，没有新增静态后继补丁；两个最终严格 gate 仍未执行。
+最新完整原生证据为 `3c0f712` / run `41269662581`：pure 审计112个模块、2,042个声明、0个非标准公理依赖；其余四组均报告相同的三个根模块、十三条诊断，未进入公理审计。上轮四根中的 InitialTransport、ResidueIdentification、RecipeRemainders 已 fresh Built，LargeRowSum 仍有一条类型归约错误。旧 SweepDecay 已在不同位置报告原生根错误，UniformDecay 仍无 fresh Built 事件。当前候选区分三份原生根修复与两份静态消费者修复；三个共享源模块及19个原名目标的严格 gate 均未执行。
 
 ## 原始目标与实际对象
 
@@ -553,3 +553,58 @@ arithmetic artifact 的完整 `sources.tar.gz` 共1,387个文件，全部逐个�
 当前335份选定源码的哈希重新计算后，331份与本轮原生清单相同、4份为上述候选；pure 的112份源码保持相同。当前新增静态后继补丁数为0，旧两份静态记录及本轮无 fresh Built 事件的事实仍单独保留。`HeckeEndpointTarget.lean` 的最终主定理、`HeckeSkeleton/Main.lean`、工作流、验证器、全部原 imports、335源码范围、19原名目标和三个共享源模块均未改变。
 
 62条旧 CI 记录、11份旧历史快照和257份既有公理记录逐项保留；追加后为67条 CI 记录、12份历史快照，公理记录数量不变。原始义务仍为 `closed = false`，PR 尚未达到可审查标准；需继续完成四份候选及其后继的原生构建和严格公理审计。
+
+## `3c0f712` 的原生复验与五份候选证明修复
+
+提交 `3c0f712627c8cc195c814cceec56de4a24d0862d` 的 [run `41269662581`](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41269662581) 五组已全部结束。五份官方 ZIP SHA-256、原日志摘要及335份选定源码哈希均已独立核验；每组归档中的生成 audit 输入也逐字匹配原版验证器。原生源码、当前候选及外部分支背景分别记录。
+
+| 分组 | 原生结果 | 清单模块数 | 根模块／诊断数 | Artifact |
+| --- | --- | ---: | ---: | ---: |
+| pure | success；完整严格审计通过 | 112 | 0／0 | 13068658444 |
+| actual-arithmetic | failure；构建失败，未执行公理审计 | 116 | 3／13 | 13068894415 |
+| actual-physical | failure；构建失败，未执行公理审计 | 39 | 3／13 | 13068864488 |
+| actual-contours | failure；构建失败，未执行公理审计 | 56 | 3／13 | 13068938973 |
+| skeleton | failure；构建失败，未执行公理审计 | 12 | 3／13 | 13069777257 |
+
+四个失败分组的三个根模块、十三条诊断及完整上下文逐字一致。完整 compiler context 只保存在 Actions artifacts 与本地诊断目录；仓库保留单行摘要、位置及 detail SHA-256。
+
+arithmetic artifact 的 `sources.tar.gz` 包含1,387个文件，全部逐个匹配原生 `3c0f712` 的 Git blobs；归档 SHA-256 为 `a87b870a6a3445eea286cab5260d6e57d711bb0d0f0b63179e17a2a871145032`。历轮1,112／1,387文件归档分别保留。274份既有 `MOM_INV_STEP` 基线新增源码不计入本批 EXPANSION 修改；本批没有新增基线合并，也不把归档文件存在计作闭包外模块编译成功。
+
+### 既有修复与静态消费者的原生观察
+
+| 跟踪模块 | 本轮原生观察 |
+| --- | --- |
+| `Expansion.ActualPrincipalInitialTransport` | fresh Built，arithmetic日志 127193：`⚠ [15466/15477] Built Expansion.ActualPrincipalInitialTransport (9.3s)` |
+| `Expansion.ActualPrincipalResidueIdentification` | fresh Built，arithmetic日志 127126：`⚠ [15462/15477] Built Expansion.ActualPrincipalResidueIdentification (8.0s)` |
+| `Expansion.PhysicalRecipeRemainders` | fresh Built，arithmetic日志 126729：`⚠ [15438/15452] Built Expansion.PhysicalRecipeRemainders (9.0s)` |
+| `HeckeSkeleton.ExpansionModels.LargeRowSum` | 报告原生根错误，arithmetic 共1条；当前候选继续修复。 |
+| `Expansion.ActualPrincipalUniformDecay` | 无 fresh Built 事件，也没有该文件的原生根诊断；不推断已编译、未编译或通过。 |
+| `Expansion.ActualPrincipalSweepDecay` | 报告原生根错误，arithmetic 共4条；当前候选继续修复。 |
+| `Expansion.PhysicalOuterRowPartition` | 无 fresh Built 事件，也没有该文件的原生根诊断；不推断已编译、未编译或通过。 |
+| `Expansion.ActualLargeInfiniteTransport` | 无 fresh Built 事件，也没有该文件的原生根诊断；不推断已编译、未编译或通过。 |
+
+InitialTransport 与 ResidueIdentification 已明确通过原模块编译；RecipeRemainders 也在 arithmetic／physical 中 fresh Built，两处先前的 `whnf` 超时已经消除，未提升 heartbeat。三个成功模块不替代其所在失败分组的穷尽公理审计。
+
+旧 `ActualPrincipalSweepDecay` 的本轮根发生在命名空间解析及其后继目标，位置不同于此前两处字面数字幂修复；因此本轮按真实根处理。旧 `ActualPrincipalUniformDecay` 继续保留无 fresh Built 事件的事实。两份当前静态消费者的原版在本轮也均无 fresh Built 或原生根诊断，不能并入十三条原生错误。
+
+### 三个原生根与两份静态消费者
+
+| 类别／模块 | 原生位置或依据 | 当前修复 |
+| --- | --- | --- |
+| 原生根 `LargeRowSum` | 149:4；1条类型不匹配 | 同一显式 `tsum_subtype` 恒等式改用 `using!`，明确原 indicator 化简，保留原行集合、核范数及等式方向。 |
+| 原生根 `ActualPrincipalSweepDecay` | 47:27、48:52、74:43、87:67；4条 | 仅补 `open HeckeSkeleton.HighBinContinuation`，解析现有 margin、正性和原 exterior-prime 范数引理。 |
+| 原生根 `ActualPrincipalTruncatedShifts` | 150、151、154、155、215、216、219、220；8条 | 四个 `hbound` lambda 补齐括号与布局，化简原局部 `f`，明确相同实坐标到复数的强制转换。 |
+| 静态消费者 `PhysicalOuterRowPartition` | 本轮没有该文件的原生错误 | 对原 `actualLargeTargetBoxes_eq_actualLargeRetained` 明确给出相同 Set 与 kernel，沿正向 `tsum_subtype` 使用 `using!`。 |
+| 静态消费者 `ActualLargeInfiniteTransport` | 本轮没有该文件的原生错误 | 对原 `norm_actualLargeTargetBoxes_le_absolute` 明确给出相同 Set 与核范数函数，沿正向 `tsum_subtype` 使用 `using!`。 |
+
+固定 Lean 的 [Simpa 实现](https://github.com/leanprover/lean4/blob/470d5ce1400764999581fd26d5d72b00d990b0f4/src/Lean/Elab/Tactic/Simpa.lean)已交叉核对：`using!` 在最后的 `isDefEq` 使用 default transparency，`using` 使用 reducible；本轮 LargeRowSum 的原生类型差异位于 Set predicate 包装。当前 LargeRowSum 文件与外部分支固定提交 [`5736a06`](https://github.com/Rogerhu12/hecke-seven-eighths/commit/5736a06d8c64cd81823e608285694794225f5a05) 的发布源码逐字相同，候选 SHA-256 为 `88ab4ae2270048101615b9122f72c759179e89613aa0e7e50e751a75fdc1be26`、Git blob 为 `60afbf4e56596a7eac111e1c65733ef294b5cd92`。外部分支和静态核对只作修复背景，不计为本 PR 的原生门通过。
+
+本批五份改动均未改变原行范围、指数、核、目标陈述或假设。三个共享源模块及19个原名目标的严格 gate 仍为 `not_executed_after_build_failure`；白名单保持 `propext`、`Classical.choice`、`Quot.sound`，原名审计包含类型依赖。
+
+### 当前五份候选及历史保留
+
+三份原生根修复先固定于 [`d5db674`](https://github.com/Rogerhu12/hecke-seven-eighths/commit/d5db6748c7adb00ec2daedbae4297eb7dbde4d25)；两份静态消费者随后固定于 [`0390a60`](https://github.com/Rogerhu12/hecke-seven-eighths/commit/0390a605a1cb47f4f84ce5d59e75a6800606955d)。候选链为 `3c0f712 → d5db674 → 0390a60`；完整树 `450bb79cbbea12bf705682e80285139e1f0adc61` 与本地观察 HEAD `783c2b18533abe14df9d1a38fe80e88a139430c8` 逐字一致。本记录时这些不可变对象已创建，分支仍指向 `3c0f712`，候选尚无新的原生通过证据。
+
+335份当前选定源码已重新计算哈希：330份与本轮原生相同、5份为候选；pure 的112份源码保持相同。最终主定理所在 `HeckeEndpointTarget.lean`、`HeckeSkeleton/Main.lean`、工作流、验证器、335模块范围、19原名目标和三个共享源模块均未改。
+
+67条旧 CI 记录、12份旧历史快照及257份既有公理记录逐项保留；追加后为72条 CI 记录、13份快照，公理记录数量不变。原始义务仍为 `closed = false`，PR 尚未达到可审查标准；仍需原版构建及严格审计验证这五份候选和后继模块。
