@@ -134,34 +134,20 @@ jobs:
           from mom_engine_b2_native_watch import source_identity, atomic_json
           atomic_json(Path('mom-b2-profile-identity/before.json'), source_identity(Path.cwd()))
           PY
-      - name: Verify the original scale-budget module and both repaired declarations
+      - name: Verify the five owned modules and all twenty-eight explicit declarations
         run: |
           python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
             HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileScaleBudget \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSignedProfileBudget \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimeWindows \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalClippedGaussProfiles \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralTerms \
             --namespace HeckeSkeleton.Moments.EngineStep \
             --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.Atom.profileCoefficient_le_palette_scale \
             --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.clippedAmplitudeConstant_one_le \
             --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.profileAmplitude_le_original_scale \
             --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.exists_clipped_amplitude_scale_budget \
             --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.exists_clipped_amplitude_degree_budget \
-            --evidence mom-b2-profile-root
-      - name: Publish the original module evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: mom-b2-profile-root-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            mom-b2-profile-root/
-            mom-b2-profile-identity/
-          if-no-files-found: warn
-          retention-days: 14
-      - name: Verify all eight Actual-independent modules in the owned downstream closure
-        run: |
-          python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
-            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineProfileOrders \
-            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSignedChildFourierControl \
-            HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalClippedGaussProfiles \
-            --namespace HeckeSkeleton.Moments.EngineStep \
             --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.Atom.profileCoefficient_le_shifted \
             --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.Atom.scaledSchwartz_signed_bound \
             --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.profileAmplitude_le_shifted \
@@ -173,6 +159,48 @@ jobs:
             --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.OriginalLogProfiles.rawPolynomialWindow_at_clippedRadius \
             --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.OriginalLogProfiles.rawPrimeWindow_at_clippedRadius \
             --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.OriginalLogProfiles.clippedWindow_of_actualSource \
+            --declaration HeckeSkeleton.Moments.EngineStep.OriginalClippedGaussProfiles.original_right_identity \
+            --declaration HeckeSkeleton.Moments.EngineStep.OriginalClippedGaussProfiles.clippedScalar_profile_eq \
+            --declaration HeckeSkeleton.Moments.EngineStep.OriginalClippedGaussProfiles.clipped_multiplier_identity \
+            --declaration HeckeSkeleton.Moments.EngineStep.OriginalClippedGaussProfiles.original_left_identity \
+            --declaration HeckeSkeleton.Moments.EngineStep.OriginalClippedGaussProfiles.original_prime_identity \
+            --declaration HeckeSkeleton.Moments.EngineStep.OriginalClippedGaussProfiles.rawWindow \
+            --declaration HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.arithmeticAtoms_literal_plain \
+            --declaration HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.arithmeticAtoms_literal_prime \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralTerms.dictionary \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralTerms.reconstructed_centered_coefficient \
+            --declaration HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalOriginalDictionary_rectangle \
+            --declaration HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalOriginalDictionary_centered \
+            --evidence mom-b2-profile-root
+      - name: Publish the original module evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-b2-profile-root-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            mom-b2-profile-root/
+            mom-b2-profile-identity/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Verify all forty-six Actual-independent modules in the owned downstream closure
+        run: |
+          python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllocationAtoms \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCalibratedDeletion \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralChartLocations \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCommonLeaf \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectAtlas \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralInactiveRectangle \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolGaussScale \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolScaleProduct \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileFactorExtraction \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineProfileOrders \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSignedChildFourierControl \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalClippedGaussProfiles \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.PassiveAllocationScalarMass \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.PassiveDeletionMass \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualQuotientSupport \
+            --namespace HeckeSkeleton.Moments.EngineStep \
             --evidence mom-b2-profile-independent
       - name: Check the same complete source identity after native validation
         if: always()
