@@ -1276,12 +1276,14 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                           'repair_sha256': '16260c7162879a200dc049788e5ca0e7e21e7db1ca6d7c7f0d76a4e49fcf398c'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalFullKappaPrime.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                         'owner_sha256': 'b2b7f119bfc19065a1243efe8f7fd0c577bf832f383cf65d1d446ce6dbd786f0',
-                                                                        'reason': 'Exact owner-approved STEP '
+                                                                        'reason': 'Exact published STEP '
                                                                                   'repair '
-                                                                                  '5c0b0c07bbf5a8f8635d7523896d77a8e8d7a155 '
+                                                                                  'c57d7991c746025313ab86dbc44412abc5cd0c00 '
                                                                                   'source, resolving native '
-                                                                                  'run 41299915844: fix five '
-                                                                                  'uniform Mellin provider '
+                                                                                  'runs 41299915844 and '
+                                                                                  '41309867891: retain the '
+                                                                                  'approved five uniform '
+                                                                                  'Mellin provider '
                                                                                   'references at the '
                                                                                   'existing Type 0 prime '
                                                                                   'carrier without changing '
@@ -1299,12 +1301,19 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                   'the same endpoint/radius '
                                                                                   'wrappers, and use the '
                                                                                   'actual coprimality/ideal '
-                                                                                  'norm APIs. The original '
+                                                                                  'norm APIs. The remaining '
+                                                                                  'radius rewrite normalizes '
+                                                                                  'the natural numeral cast '
+                                                                                  'with Nat.cast_ofNat '
+                                                                                  'before the original '
+                                                                                  'real-exponent identity. '
+                                                                                  'All B11 declaration '
+                                                                                  'headers, original '
                                                                                   'full-kappa estimates, '
                                                                                   'profile, mask, analytic '
                                                                                   'inputs, and numerical '
                                                                                   'bounds are unchanged.',
-                                                                        'repair_sha256': '632e5123cff59a5f30e25cbd2e8dbc653f4fda80fa09e56b2f134bf55ea96f68'},
+                                                                        'repair_sha256': 'fa8abb1284446d76437498556ec55b321c8603725fd43cc5a6771d763605b0ac'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalHybridMass.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                     'owner_sha256': '2ba33975011973aebfa9558f7ce3c7cb1449d2dd93c8ebff04358b90ba5ecb0a',
                                                                     'reason': 'CI74/75: explicitly prove '

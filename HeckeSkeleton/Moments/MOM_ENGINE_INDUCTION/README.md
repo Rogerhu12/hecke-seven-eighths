@@ -307,8 +307,8 @@ published STEP repair `ed52f87c0805a0836bfc62496b65d158b09e0330` exactly.
 All four files also match the subsequent owner candidate
 `3f9458433d29131b29bb72202badbee49c715d82` byte for byte.
 
-`CanonicalFullKappaPrime.lean` matches the owner-approved repair
-`5c0b0c07bbf5a8f8635d7523896d77a8e8d7a155` byte for byte. It addresses
+`CanonicalFullKappaPrime.lean` matches the published STEP repair
+`c57d7991c746025313ab86dbc44412abc5cd0c00` byte for byte. It addresses
 native diagnostics from STEP run `41299915844` against the same original
 file. The uniform Mellin provider
 is instantiated at the actual `Type 0` prime carrier in all five existing
@@ -319,6 +319,13 @@ The two prime-divisibility binders spell out their original
 the same profile support, seminorm, endpoint and radius expressions,
 coprimality, and ideal norm. No analytic input, full-kappa interval,
 physical mask, or numerical estimate is changed.
+
+The subsequent native whole-project run `41309867891` reduced the
+diagnostics to one numeral-cast rewrite at the radius endpoint. The
+published B12 repair adds `Nat.cast_ofNat` to the existing simplification
+so that the natural exponent produced by `rpow_mul_natCast` is the same
+real numeral used by the next rewrite. All 40 declaration headers remain
+unchanged from B11; whole-module acceptance still requires native evidence.
 
 In particular, the original `ScaleWindows` certificate, raw profile control,
 centered parent domain, original length/normalization allowance window,
