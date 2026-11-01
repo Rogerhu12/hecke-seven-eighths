@@ -196,7 +196,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        variant: [main-unused-section-vars-off, source-and-main-unused-section-vars-off]
+        variant: [source-unused-section-vars-off, source-and-main-unused-section-vars-off]
     permissions:
       contents: read
     env:
@@ -235,8 +235,8 @@ jobs:
             --evidence "$OEI_DIAG_EVIDENCE" \
             --expected-head "$OEI_DIAG_EXPECTED_HEAD" \
             --dependency-timeout 900 \
-            --main-unused-section-vars-off \
-            ${{ matrix.variant == 'source-and-main-unused-section-vars-off' && '--source-unused-section-vars-off' || '' }}
+            --source-unused-section-vars-off \
+            ${{ matrix.variant == 'source-and-main-unused-section-vars-off' && '--main-unused-section-vars-off' || '' }}
       - name: Preserve ordinary integral diagnostic evidence immediately after this independent job
         if: always()
         uses: actions/upload-artifact@v4
