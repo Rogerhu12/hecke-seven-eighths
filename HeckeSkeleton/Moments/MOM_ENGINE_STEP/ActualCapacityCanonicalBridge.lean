@@ -51,13 +51,13 @@ def normalizedChild (c : D.CapacityChild I) :
     intro ξ
     have hc := c.normalized_source_bound canonicalProfileNormalizationInput
       amplitude hpos bounds hfactor ξ
-    simpa only [canonicalProfileNormalizationInput_normalize,
-      CapacityChild.normalizedData, CapacityChild.data,
-      CapacityChild.envelopeFreeCost, normalized,
-      NormalizedCapacityData.loss, NormalizedCapacityData.childData,
-      NormalizedCapacityData.normalizedData, NormalizedCapacityData.exponent,
-      CapacityInput.exponent, CapacityChild.parameters,
-      Calibration.restrictedClippedData] using hc
+    change s.energy (σ := σ) ξ ≤
+      c.envelopeFreeCost bounds * amplitude ξ ^ ((s.allocation.keep.card + 2) * 2) *
+        pairedEnergy ((I.normalized amplitude hpos bounds hbounds hfactor).childData
+          (Finset.univ \ c.removed) ξ) c.parameters s.base (D.height ξ)
+    rw [I.normalized_childData amplitude hpos bounds hbounds hfactor]
+    simpa only [CapacityChild.normalizedData, canonicalProfileNormalizationInput_normalize,
+      CapacityChild.data] using hc
 
 theorem normalizedChild_data (c : D.CapacityChild I) (ξ : V) :
     (I.normalizedChild amplitude hpos bounds hbounds hfactor c).data ξ =

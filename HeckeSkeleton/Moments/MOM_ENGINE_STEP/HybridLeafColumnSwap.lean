@@ -62,8 +62,7 @@ def conjugateRowWeights : ActualHybridLeaf K H U V :=
     B.conjugateRowWeights.exceptionalIntegrand z = B.exceptionalIntegrand z := by
   simp only [exceptionalIntegrand, conjugateRowWeights, jointColumnPairMagnitude, norm_star]
   apply Finset.sum_congr
-  · ext h
-    simp only [Finset.mem_filter]
+  · exact @Finset.filter_congr_decidable H B.rows B.exceptional _ _
   · intro h _
     rfl
 
@@ -73,8 +72,7 @@ def conjugateRowWeights : ActualHybridLeaf K H U V :=
   apply congrArg₂ (fun a b : ℝ => Real.sqrt a * Real.sqrt b)
   all_goals
     apply Finset.sum_congr
-    · ext h
-      simp only [Finset.mem_filter]
+    · exact @Finset.filter_congr_decidable H B.rows (fun h => ¬B.exceptional h) _ _
     · intro h _
       rfl
 

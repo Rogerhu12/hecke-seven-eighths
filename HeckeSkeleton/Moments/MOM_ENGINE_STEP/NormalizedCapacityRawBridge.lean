@@ -40,7 +40,10 @@ theorem normalized_child_raw_energy (ξ : V) :
           pairedEnergy (out.data ξ) out.parameters s.base (D.height ξ) := by
   have hn := pairedEnergy_profile_factor (out.rawData ξ) out.parameters
     (amplitude ξ) (hpos ξ) s.base (D.height ξ)
-  rw [out.raw_count ξ, ← out.data_eq_normalized_raw ξ] at hn
+  have hdata := out.data_eq_normalized_raw ξ
+  change out.data ξ =
+    normalizedMomentProfiles (out.rawData ξ) (amplitude ξ) (hpos ξ) at hdata
+  rw [out.raw_count ξ, ← hdata] at hn
   rw [hn]
   change D.mass * ((∏ i ∈ out.removed, I.primeBound ξ i) * s.base ^ I.exponent) *
       (amplitude ξ ^ (((Finset.univ \ out.removed).card + 2) * 2) *
@@ -62,7 +65,9 @@ def rawChild : D.CapacityChild I where
   removed := out.removed
   width_nonneg := out.width_nonneg
   width_le := out.width_drop
-  width_lt := lt_of_le_of_lt out.width_drop (by linarith [I.gap_pos])
+  width_lt := lt_of_le_of_lt out.width_drop (by
+    change I.skeleton.parentWidth - I.gap / 2 < I.skeleton.parentWidth
+    linarith [I.gap_pos])
   left_nonneg := out.plain_left_nonneg
   right_nonneg := out.plain_right_nonneg
   kappa_eq := out.kappa_eq

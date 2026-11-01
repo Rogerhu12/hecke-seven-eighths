@@ -165,14 +165,14 @@ theorem kernel_children_integrable_of_atoms
       (family.leftData labels b ξ) (family.leftParameters labels b) Z 0)
       (base.withDensity (fun ξ => ENNReal.ofReal (family.envelope labels b ξ))) := by
     apply transfer
-    simpa only [leftData, leftParameters,
+    simpa only [leftData, leftParameters, envelope,
       ActualAllocatedSource.Calibration.NormalizedCapacityData.Child.frozenData,
       normalizedPairedEnergy_frozenMomentProfiles] using hi.1
   have hr : Integrable (fun ξ => normalizedPairedEnergy
       (family.rightData labels b ξ) (family.rightParameters labels b) Z 0)
       (base.withDensity (fun ξ => ENNReal.ofReal (family.envelope labels b ξ))) := by
     apply transfer
-    simpa only [rightData, rightParameters,
+    simpa only [rightData, rightParameters, envelope,
       ActualAllocatedSource.Calibration.NormalizedCapacityData.Child.frozenData,
       normalizedPairedEnergy_frozenMomentProfiles] using hi.2.1
   rw [family.kernel_actualNestedLabelMeasure labels F₁ F₂ outer parentWidth b]

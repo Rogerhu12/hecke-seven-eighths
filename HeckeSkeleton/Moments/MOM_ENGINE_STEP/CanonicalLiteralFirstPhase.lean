@@ -311,6 +311,13 @@ theorem leftDivisorFactor_euler
   have he := multiply_singleton_residue P R hroot hemb
     (leftIdeal p m n D) (leftElement C p m n δ)
     (leftElement_generates C p m n D δ hδ) χ (exteriorMomentIdeal I)
+  change heckeIdealCoefficient K χ (exteriorMomentIdeal I) *
+      actualIdealResidue (A := A) (σ := σ) I.val (leftElement C p m n δ) =
+    heckeIdealCoefficient K (χ * (leftMoving C P R p m n D δ hδ).character)
+        (exteriorMomentIdeal I) *
+      (if sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+          (exteriorMomentIdeal I) ∧ IsCoprime I.val (leftIdeal p m n D).val
+        then 1 else 0) at he
   have hout : sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
       (exteriorMomentIdeal I) :=
     (CanonicalOriginalPhaseCalibration.outside_iff_coprime (exteriorMomentIdeal I)).mpr
@@ -334,6 +341,13 @@ theorem rightDivisorFactor_euler
   have he := multiply_singleton_residue P R hroot hemb
     (rightIdeal p m n D) (rightElement C p m n δ)
     (rightElement_generates C p m n D δ hδ) χ (exteriorMomentIdeal I)
+  change heckeIdealCoefficient K χ (exteriorMomentIdeal I) *
+      actualIdealResidue (A := A) (σ := σ) I.val (rightElement C p m n δ) =
+    heckeIdealCoefficient K (χ * (rightMoving C P R p m n D δ hδ).character)
+        (exteriorMomentIdeal I) *
+      (if sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+          (exteriorMomentIdeal I) ∧ IsCoprime I.val (rightIdeal p m n D).val
+        then 1 else 0) at he
   have hout : sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
       (exteriorMomentIdeal I) :=
     (CanonicalOriginalPhaseCalibration.outside_iff_coprime (exteriorMomentIdeal I)).mpr

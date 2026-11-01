@@ -754,8 +754,8 @@ def normalizedCapacityData
     (amplitude : V → ℝ) (hpos : ∀ ξ, 0 < amplitude ξ)
     (bounds : Fin s.allocation.keep.card → ℝ) (hbound : ∀ i, 0 ≤ bounds i)
     (hfactor : ∀ ξ i, atoms.primeBound ξ i = amplitude ξ ^ 2 * bounds i) :
-    (B.normalizedCapacityData hstep mesh hmesh hfit atoms amplitude hpos bounds hbound hfactor)
-      .geometry.parentWidth = a.m + a.q := rfl
+    (B.normalizedCapacityData hstep mesh hmesh hfit atoms amplitude hpos bounds hbound
+      hfactor).geometry.parentWidth = a.m + a.q := rfl
 
 @[simp] theorem normalizedCapacityData_gap
     (hstep : 0 < step) (mesh : ℝ) (hmesh : 0 ≤ mesh)
@@ -763,8 +763,8 @@ def normalizedCapacityData
     (amplitude : V → ℝ) (hpos : ∀ ξ, 0 < amplitude ξ)
     (bounds : Fin s.allocation.keep.card → ℝ) (hbound : ∀ i, 0 ≤ bounds i)
     (hfactor : ∀ ξ i, atoms.primeBound ξ i = amplitude ξ ^ 2 * bounds i) :
-    (B.normalizedCapacityData hstep mesh hmesh hfit atoms amplitude hpos bounds hbound hfactor)
-      .gap = step := rfl
+    (B.normalizedCapacityData hstep mesh hmesh hfit atoms amplitude hpos bounds hbound
+      hfactor).gap = step := rfl
 
 end OriginalLengthBinding
 

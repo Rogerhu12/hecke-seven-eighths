@@ -228,7 +228,16 @@ variable (R : ActualSecondCorrelationRows A σ H ι)
 @[simp] theorem restrictRows_correlationSupport_live :
     (R.restrictRows (fun h => R.correlation h ≠ 0)).live = R.live := by
   ext h
-  simp only [restrictRows, live, Finset.mem_filter, and_assoc, and_self]
+  constructor
+  · intro hh
+    have hrow : h ∈ (R.restrictRows (fun h => R.correlation h ≠ 0)).rows :=
+      (Finset.mem_filter.mp hh).1
+    exact R.restrictRows_correlationSupport_rows ▸ hrow
+  · intro hh
+    apply Finset.mem_filter.mpr
+    refine ⟨R.restrictRows_correlationSupport_rows.symm ▸ hh, ?_⟩
+    change R.correlation h ≠ 0
+    exact (Finset.mem_filter.mp hh).2
 
 theorem weight_correlation_eq_zero_of_not_live
     (h : H) (hh : h ∈ R.rows) (hn : h ∉ R.live) :
