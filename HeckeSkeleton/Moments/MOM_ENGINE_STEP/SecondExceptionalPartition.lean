@@ -171,14 +171,14 @@ structure FullCalibration (s : ActualAllocatedSource A V H k) (ω ψ : HeckeChar
     (σ := σ) (data ξ) (count ξ) (s.row h).momentIdeal
       (s.extractedFactor h) (s.row h).element
   left_support : ∀ ξ, ∀ h ∈ s.rows,
-    (data ξ).plainTest₁.support (s.row h).momentIdeal (height ξ) (s.base ^ parameters.n₁) ⊆
-      s.allocation.childPlain₁
+    EffectivePlainSupport (data ξ) (data ξ).plainTest₁ (s.row h).momentIdeal
+      (s.base ^ parameters.n₁) (height ξ) s.allocation.childPlain₁
   right_support : ∀ ξ, ∀ h ∈ s.rows,
-    (data ξ).plainTest₂.support (s.row h).momentIdeal (height ξ) (s.base ^ parameters.n₂) ⊆
-      s.allocation.childPlain₂
-  slot_support : ∀ ξ i, ((data ξ).geometry.slots i).support (height ξ)
-    (s.base ^ ((data ξ).geometry.slots i).length) ⊆
-      s.allocation.childSlots (Fin.cast (count ξ) i)
+    EffectivePlainSupport (data ξ) (data ξ).plainTest₂ (s.row h).momentIdeal
+      (s.base ^ parameters.n₂) (height ξ) s.allocation.childPlain₂
+  slot_support : ∀ ξ, ∀ h ∈ s.rows, ∀ i,
+    EffectivePrimeSupport (data ξ) i (s.row h).momentIdeal s.base (height ξ)
+      (s.allocation.childSlots (Fin.cast (count ξ) i))
   left_profile : ∀ ξ, ∀ h ∈ s.rows, ∀ I ∈ s.allocation.childPlain₁,
     s.leftWeight h (s.allocation.plainDivisor 0 * I) *
       jointPhase ξ (s.leftLocation h (s.allocation.plainDivisor 0 * I)) =
@@ -236,7 +236,7 @@ def restrict (p : H → Prop)
   dictionary := D.dictionary
   left_support ξ h hh := D.left_support ξ h (Finset.mem_filter.mp hh).1
   right_support ξ h hh := D.right_support ξ h (Finset.mem_filter.mp hh).1
-  slot_support := D.slot_support
+  slot_support ξ h hh := D.slot_support ξ h (Finset.mem_filter.mp hh).1
   left_profile ξ h hh := D.left_profile ξ h (Finset.mem_filter.mp hh).1
   right_profile ξ h hh := D.right_profile ξ h (Finset.mem_filter.mp hh).1
   slot_profile ξ h hh := D.slot_profile ξ h (Finset.mem_filter.mp hh).1

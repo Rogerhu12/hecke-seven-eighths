@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildFamily
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualScaleClipping
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildInvariants
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EffectiveChildSupport
 
 /-!
 # A calibrated actual allocation supplies its child family
@@ -126,15 +127,17 @@ structure Calibration (ω ψ : HeckeCharacter F) where
   dictionary : ∀ ξ h, ((s.characters h).restrictSlots s.allocation.keep).Calibration
     (σ := σ) (data ξ) (count ξ) (s.row h).momentIdeal
       (s.extractedFactor h) (s.row h).element
+  /-- The complete arithmetic summand has this support. The smooth
+  profile may remain nonzero at ideals deleted by its common mask. -/
   left_support : ∀ ξ, ∀ h ∈ s.rows,
-    (data ξ).plainTest₁.support (s.row h).momentIdeal (height ξ) (s.base ^ parameters.n₁) ⊆
-      s.allocation.childPlain₁
+    EffectivePlainSupport (data ξ) (data ξ).plainTest₁ (s.row h).momentIdeal
+      (s.base ^ parameters.n₁) (height ξ) s.allocation.childPlain₁
   right_support : ∀ ξ, ∀ h ∈ s.rows,
-    (data ξ).plainTest₂.support (s.row h).momentIdeal (height ξ) (s.base ^ parameters.n₂) ⊆
-      s.allocation.childPlain₂
-  slot_support : ∀ ξ i, ((data ξ).geometry.slots i).support (height ξ)
-    (s.base ^ ((data ξ).geometry.slots i).length) ⊆
-      s.allocation.childSlots (Fin.cast (count ξ) i)
+    EffectivePlainSupport (data ξ) (data ξ).plainTest₂ (s.row h).momentIdeal
+      (s.base ^ parameters.n₂) (height ξ) s.allocation.childPlain₂
+  slot_support : ∀ ξ, ∀ h ∈ s.rows, ∀ i,
+    EffectivePrimeSupport (data ξ) i (s.row h).momentIdeal s.base (height ξ)
+      (s.allocation.childSlots (Fin.cast (count ξ) i))
   left_profile : ∀ ξ, ∀ h ∈ s.rows, ∀ I ∈ s.allocation.childPlain₁,
     s.leftWeight h (s.allocation.plainDivisor 0 * I) *
       jointPhase ξ (s.leftLocation h (s.allocation.plainDivisor 0 * I)) =
@@ -193,7 +196,7 @@ theorem child_weight_bound (h : H) (hh : h ∈ s.rows) :
 the raw term dictionaries and the actual row map. -/
 theorem energy_le (ξ : V) :
     s.energy (σ := σ) ξ ≤ D.mass * pairedEnergy (D.data ξ) D.parameters s.base (D.height ξ) := by
-  have hb := fixed_child_family_energy_from_terms s.rows s.originalIdeal s.frequency
+  have hb := fixed_child_family_energy_from_effective_terms s.rows s.originalIdeal s.frequency
     s.extractedFactor s.normFactor s.row
     (fun h => (s.characters h).restrictSlots s.allocation.keep)
     D.data D.parameters s.base D.height D.count s.childLength D.lengths D.dictionary
