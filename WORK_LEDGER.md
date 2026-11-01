@@ -23,9 +23,9 @@
 | Expansion、HighBin、D-EXPANSION | 13 | 8 万 | 规划完成 |
 | **合计** | **68** | **约 50 万** | |
 
-## 进度（2026-11-01 20:45）
+## 进度（2026-11-01 22:45）
 
-总 68 单位（建账时 75，10-30 晚之前已关 7）。已完成约 52.9 个单位，**剩余约 15.1 个**：配对引擎 14 个（PR #9 单步、#12 归纳），素数相消 B<1 约 1 个（新任务 MOM_PRIME_BELOW_ONE）。骨架只剩 `Moments.lean` 的 4 个 sorry。
+总 68 单位（建账时 75，10-30 晚之前已关 7）。已完成约 53.9 个单位，**剩余约 14.1 个**：配对引擎 14 个（PR #9 单步、#12 归纳）。骨架只剩 `Moments.lean` 的 3 个 sorry：`paired_zero_slot_models`、`paired_positive_below_one`、`paired_positive_endpoint`。
 
 | 单位 | 计入 | 说明 |
 |---|---|---|
@@ -44,6 +44,7 @@
 | Expansion、HighBin、D-EXPANSION 簇其余 12.5 个单位（EX-*、HB-PRESENT、HB-NORMFORM、HB-MOVE-BOUNDARY、HB-EULER 接线） | 12.5 | 已关闭：集成 PR #17（235764f）合入 #5、#7；`Expansion.lean`、`HighBin.lean`、`Base.lean` 无 sorry，三条标准公理 |
 | Moments 小义务 2–5（MI-M-MODELS、POLYNOMIAL-CALIBRATION、FIBER-ELIGIBILITY、FINITE-SECTOR-REINDEX、PROFILE-UNIFORMITY、MI-I-SIXTH-POWER-ZEROS、INDEPENDENT-AMPLIFICATION、AMPLIFIED-WITNESS-CALIBRATION） | 4.0 | 已关闭：#5 的共享配方与 #10 的六个目标，经 PR #17 合入；三条标准公理 |
 | 小义务 6 增量：MI-P-PRIME-ABSOLUTE-ENDPOINT | 0.2 | 已关闭：#11 的 `paired_primes_endpoint`，经 PR #17 合入 |
+| 小义务 6 余下：MI-P-PRIME-CANCELLATION-BELOW-ONE | 1.0 | 已关闭：PR #21 合并，`paired_primes_below_one` 对实际模型构造 `PrimeSlotModelControl`，三条标准公理 |
 | 小义务 6（素数相消） | 0.7 | 核心与接线（PR #14）已合并：`paired_primes_below_one_of_models` 对任意模型成立；剩为实际 `momentModels` 验证 `PrimeSlotModelControl` |
 | PR-WINDOW-PIT | 1.0 | 已关闭：Codex 的 `WindowPIT` 接入 `PrimeNormalizer`，编译通过 |
 | DE-EULER-FACTORIZATION | 1.0 | 已关闭：Codex，`descend` 只用三条标准公理 |

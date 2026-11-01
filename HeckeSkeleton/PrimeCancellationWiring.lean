@@ -27,6 +27,7 @@ noncomputable section
 namespace HeckeSkeleton.PrimeCancellationWiring
 
 open NumberField IsDedekindDomain
+open HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
@@ -51,43 +52,43 @@ does not cover the sum in `PairedPrimeProductBound`.  The window bound is on
 the actual chosen height parameters, so no unproved height-range condition
 is imported from `WholeMomentProfileControl`.
 -/
-structure PrimeSlotModelControl (M : SourceMomentModels K c) where
-  slot_count : ∀ Z T (i : SourceMomentIndex K c Z T) s,
-    (pairedModel M i s).geometry.slotCount ≤ c.geometry.slots
-  inverse_mem : ∀ Z T (i : SourceMomentIndex K c Z T) s j,
-    ((pairedModel M i s).slotCoefficient j)⁻¹ ∈ (pairedModel M i s).theta
-  window : ∀ Z T (i : SourceMomentIndex K c Z T) s,
-    Fin (pairedModel M i s).geometry.slotCount → SchwartzMap ℝ ℂ
-  window_eq : ∀ Z T (i : SourceMomentIndex K c Z T) s j,
-    (window Z T i s j : ℝ → ℂ) = ((pairedModel M i s).geometry.slots j).profile 0
-  window_support : ∀ Z T (i : SourceMomentIndex K c Z T) s j,
+structure PrimeSlotModelControl (M : ActualSourceModels K c) where
+  slot_count : ∀ Z T (i : ActualSourceIndex K c Z T) s,
+    (pairedModelFor M i s).geometry.slotCount ≤ c.geometry.slots
+  inverse_mem : ∀ Z T (i : ActualSourceIndex K c Z T) s j,
+    ((pairedModelFor M i s).slotCoefficient j)⁻¹ ∈ (pairedModelFor M i s).theta
+  window : ∀ Z T (i : ActualSourceIndex K c Z T) s,
+    Fin (pairedModelFor M i s).geometry.slotCount → SchwartzMap ℝ ℂ
+  window_eq : ∀ Z T (i : ActualSourceIndex K c Z T) s j,
+    (window Z T i s j : ℝ → ℂ) = ((pairedModelFor M i s).geometry.slots j).profile 0
+  window_support : ∀ Z T (i : ActualSourceIndex K c Z T) s j,
     Function.support (window Z T i s j : ℝ → ℂ) ⊆ Set.Icc (1 : ℝ) 2
   window_control : ∀ seminorms : Finset (ℕ × ℕ),
     ∃ C A : ℝ, 1 ≤ C ∧ 0 ≤ A ∧
-      ∀ Z T (i : SourceMomentIndex K c Z T) s j, 1 ≤ Z → 1 ≤ T →
+      ∀ Z T (i : ActualSourceIndex K c Z T) s j, 1 ≤ Z → 1 ≤ T →
         sourceSeminorm seminorms (window Z T i s j) ≤ C * (1 + T) ^ A
   conductor_control : ∃ D q : ℝ, 1 ≤ D ∧ 0 ≤ q ∧
-    ∀ Z T (i : SourceMomentIndex K c Z T) s u,
-      1 ≤ Z → 1 ≤ T → 1 ≤ momentBase i →
-      u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i) →
+    ∀ Z T (i : ActualSourceIndex K c Z T) s u,
+      1 ≤ Z → 1 ≤ T → 1 ≤ momentBaseFor i →
+      u ∈ pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i) →
       ∀ j, Real.log (heckeConductorScale K
-        ((pairedModel M i s).rowCharacter u * (pairedModel M i s).slotCoefficient j)) ≤
-          D * (1 + Real.log (momentBase i)) * (1 + T) ^ q
+        ((pairedModelFor M i s).rowCharacter u * (pairedModelFor M i s).slotCoefficient j)) ≤
+          D * (1 + Real.log (momentBaseFor i)) * (1 + T) ^ q
 
 /-- The old source interface maps to an independent explicit family using
 only its structural model, mask, geometry and finite-slot calibration.
 The source index itself remains part of this compatibility definition.
 -/
 def explicitModelFamilyOfSource
-    (M : SourceMomentModels K c)
-    (hcal : SourcePolynomialCalibration (momentRowCharacters K c) M)
-    (hrows : SourceRowEligibility M) :
+    (M : ActualSourceModels K c)
+    (hcal : SourcePolynomialCalibrationFor (momentRowCharacters K c) M)
+    (hrows : SourceRowEligibilityFor M) :
     PrimeCancellationExplicit.ExplicitModelFamily c
-      (fun Z T => SourceMomentIndex K c Z T) where
-  model := fun _ _ i s => pairedModel M i s
-  base := fun _ _ i => momentBase i
-  parameters := fun _ _ i => pairedParameters i
-  length := fun _ _ i => selectedLength i
+      (fun Z T => ActualSourceIndex K c Z T) where
+  model := fun _ _ i s => pairedModelFor M i s
+  base := fun _ _ i => momentBaseFor i
+  parameters := fun _ _ i => pairedParametersFor i
+  length := fun _ _ i => selectedLengthFor i
   base_pos := by
     intro Z T i hZ _hT
     exact Real.rpow_pos_of_pos (zero_lt_one.trans_le hZ) _
@@ -112,9 +113,9 @@ def explicitModelFamilyOfSource
 /-- The all-row window and conductor contract transfers without an
 additional analytic premise. -/
 def explicitModelControlOfSource
-    (M : SourceMomentModels K c)
-    (hcal : SourcePolynomialCalibration (momentRowCharacters K c) M)
-    (hrows : SourceRowEligibility M) (control : PrimeSlotModelControl M) :
+    (M : ActualSourceModels K c)
+    (hcal : SourcePolynomialCalibrationFor (momentRowCharacters K c) M)
+    (hrows : SourceRowEligibilityFor M) (control : PrimeSlotModelControl M) :
     PrimeCancellationExplicit.ExplicitModelControl (explicitModelFamilyOfSource M hcal hrows) where
   slot_count := control.slot_count
   inverse_mem := control.inverse_mem
@@ -129,16 +130,16 @@ The independent explicit theorem proves the estimate; the old capacity
 premise supplies its purely geometric total-length bound.
 -/
 theorem exists_uniform_paired_prime_bound
-    (M : SourceMomentModels K c) (hB : c.family.B < 1)
-    (hcal : SourcePolynomialCalibration (momentRowCharacters K c) M)
-    (hrows : SourceRowEligibility M) (control : PrimeSlotModelControl M) :
+    (M : ActualSourceModels K c) (hB : c.family.B < 1)
+    (hcal : SourcePolynomialCalibrationFor (momentRowCharacters K c) M)
+    (hrows : SourceRowEligibilityFor M) (control : PrimeSlotModelControl M) :
     ∃ A C : ℝ, 0 ≤ A ∧ 0 ≤ C ∧
-      ∀ Z T (i : SourceMomentIndex K c Z T), 1 ≤ Z → 1 ≤ T → pairedCapacity i →
+      ∀ Z T (i : ActualSourceIndex K c Z T), 1 ≤ Z → 1 ≤ T → pairedCapacityFor i →
         (∑ s : SixthUnitClasses K (places K c),
-          ∑ u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i),
-            ‖slotProduct (pairedModel M i s) u (momentBase i) 0‖ ^ 2) ≤
-          C * (momentBase i) ^
-            (1 + (2 * c.family.B - 1) * selectedLength i + c.family.lamA) * (1 + T) ^ A := by
+          ∑ u ∈ pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i),
+            ‖slotProduct (pairedModelFor M i s) u (momentBaseFor i) 0‖ ^ 2) ≤
+          C * (momentBaseFor i) ^
+            (1 + (2 * c.family.B - 1) * selectedLengthFor i + c.family.lamA) * (1 + T) ^ A := by
   obtain ⟨A, C, hA, hC, hbound⟩ :=
     PrimeCancellationExplicit.exists_uniform_paired_prime_bound
       (explicitModelFamilyOfSource M hcal hrows) hB
@@ -153,10 +154,10 @@ original `PairedPrimeProductBound` conclusion for any model satisfying the
 explicit corrected structural contract.  `momentModels` is never invoked.
 -/
 theorem paired_primes_below_one_of_models
-    (M : SourceMomentModels K c) (hB : c.family.B < 1)
-    (hcal : SourcePolynomialCalibration (momentRowCharacters K c) M)
-    (hrows : SourceRowEligibility M) (control : PrimeSlotModelControl M) :
-    PairedPrimeProductBound K c M (2 * c.family.B - 1) := by
+    (M : ActualSourceModels K c) (hB : c.family.B < 1)
+    (hcal : SourcePolynomialCalibrationFor (momentRowCharacters K c) M)
+    (hrows : SourceRowEligibilityFor M) (control : PrimeSlotModelControl M) :
+    PairedPrimeProductBoundFor M (2 * c.family.B - 1) := by
   obtain ⟨A, ceiling, hA, hceiling, hbound⟩ :=
     PrimeCancellationExplicit.paired_primes_below_one_of_explicit_models
       (explicitModelFamilyOfSource M hcal hrows) hB

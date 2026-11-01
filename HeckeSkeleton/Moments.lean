@@ -6,6 +6,7 @@ import CubicSieve.Complete
 import HeckeSkeleton.ExpansionModels.SourceData
 import HeckeSkeleton.ExpansionModels.ActualRowEligibility
 import HeckeSkeleton.Moments.MOM_PRIME.ActualEndpoint
+import HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE.Actual
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorReindex
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceProfileControl
@@ -307,7 +308,7 @@ theorem paired_primes_below_one
     (hrows : SourceRowEligibility (momentModels K c))
     (hprofiles : WholeMomentProfileControl (momentModels K c)) :
     PairedPrimeProductBound K c (momentModels K c) (2 * c.family.B - 1) := by
-  sorry
+  exact Moments.MOM_PRIME_BELOW_ONE.actual_paired_primes_below_one K c hB
 
 -- OBLIGATION MI-P-PRIME-ABSOLUTE-ENDPOINT | §4.6,p29.
 -- Existing partial migration: ActualPrimeGeometryAbsoluteBound and

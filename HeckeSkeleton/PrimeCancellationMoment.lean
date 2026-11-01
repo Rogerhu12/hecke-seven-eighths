@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments
+import HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE.Source
 import HeckeSkeleton.PrimeCancellationPolynomials
 import HeckeGeneral.Analysis.ActualMomentPolynomialBridges
 import PrimeCancellationAux
@@ -23,6 +23,7 @@ noncomputable section
 namespace HeckeSkeleton.PrimeCancellationMoment
 
 open NumberField IsDedekindDomain
+open HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.Analysis.SquarefreeAmplification
@@ -176,31 +177,31 @@ theorem coefficient_mul_originalMask_eq_fixedMask
 
 variable {Z T : ℝ}
 
-theorem source_paired_row_norm_le (M : SourceMomentModels K c)
-    (i : SourceMomentIndex K c Z T) (s : SixthUnitClasses K (places K c))
+theorem source_paired_row_norm_le (M : ActualSourceModels K c)
+    (i : ActualSourceIndex K c Z T) (s : SixthUnitClasses K (places K c))
     (u : NonzeroIdeal K)
-    (hu : u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i)) :
-    idealNorm K u ≤ 2 * momentBase i := by
-  have h := norm_le_of_mem_pairedRows (pairedModel M i s) (pairedParameters i)
-    (momentBase i) u hu
+    (hu : u ∈ pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i)) :
+    idealNorm K u ≤ 2 * momentBaseFor i := by
+  have h := norm_le_of_mem_pairedRows (pairedModelFor M i s) (pairedParametersFor i)
+    (momentBaseFor i) u hu
   have hw := (recipeMoment_rowWidth_spec (R := expansionRecipeRaw K c) i).2.2
   have h' : idealNorm K u ≤ momentBaseFor i ^ (rowWidthFor i + 0) := h
   rw [add_zero] at h'
   exact h'.trans_eq hw
 
 /-- Every actual source base is at least two. -/
-theorem source_momentBase_ge_two (i : SourceMomentIndex K c Z T) : 2 ≤ momentBase i :=
+theorem source_momentBase_ge_two (i : ActualSourceIndex K c Z T) : 2 ≤ momentBaseFor i :=
   recipeMomentBase_ge_two (R := expansionRecipeRaw K c) i
 
 /-- Capacity controls the total selected length using the fixed slot
 count and mesh, independently of the plain witness lengths. -/
 theorem selectedLength_le_slots_mul_mesh_of_pairedCapacity
-    (i : SourceMomentIndex K c Z T) (hcap : pairedCapacity i) :
-    selectedLength i ≤ (c.geometry.slots : ℝ) * (momentMesh K c.family).val := by
-  unfold selectedLength
+    (i : ActualSourceIndex K c Z T) (hcap : pairedCapacityFor i) :
+    selectedLengthFor i ≤ (c.geometry.slots : ℝ) * (momentMesh K c.family).val := by
+  unfold selectedLengthFor
   calc
     (∑ _j ∈ i.selected,
-      HeckeGeneral.ThetaSkeleton.TIP.slotLength c.geometry.slots (momentBlock i).shell)
+      HeckeGeneral.ThetaSkeleton.TIP.slotLength c.geometry.slots (momentBlockFor i).shell)
         ≤ ∑ _j ∈ i.selected, (momentMesh K c.family).val := by
           exact Finset.sum_le_sum (fun j hj => hcap.1 j hj)
     _ = (i.selected.card : ℝ) * (momentMesh K c.family).val := by simp
@@ -213,75 +214,75 @@ theorem selectedLength_le_slots_mul_mesh_of_pairedCapacity
 /-- At subunit base all filtered ideal rows vanish, since nonzero integral
 ideals have norm at least one. No shell sign hypothesis is needed. -/
 theorem pairedRows_eq_empty_of_base_lt_one
-    (M : SourceMomentModels K c) (i : SourceMomentIndex K c Z T)
-    (s : SixthUnitClasses K (places K c)) (hbase : momentBase i < 1) :
-    pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i) = ∅ := by
+    (M : ActualSourceModels K c) (i : ActualSourceIndex K c Z T)
+    (s : SixthUnitClasses K (places K c)) (hbase : momentBaseFor i < 1) :
+    pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i) = ∅ := by
   exact absurd hbase (not_lt.mpr (by linarith [source_momentBase_ge_two i]))
 
-theorem source_paired_slot_finite_factors (M : SourceMomentModels K c)
-    (hrows : SourceRowEligibility M) (i : SourceMomentIndex K c Z T)
+theorem source_paired_slot_finite_factors (M : ActualSourceModels K c)
+    (hrows : SourceRowEligibilityFor M) (i : ActualSourceIndex K c Z T)
     (s : SixthUnitClasses K (places K c)) (u : NonzeroIdeal K)
-    (j : Fin (pairedModel M i s).geometry.slotCount) :
-    FiniteOrder ((pairedModel M i s).rowCharacter u) ∧
-      FiniteOrder ((pairedModel M i s).slotCoefficient j) :=
-  ⟨(pairedModel M i s).rowCharacter_finite u, hrows.paired_finite_slots Z T i s j⟩
+    (j : Fin (pairedModelFor M i s).geometry.slotCount) :
+    FiniteOrder ((pairedModelFor M i s).rowCharacter u) ∧
+      FiniteOrder ((pairedModelFor M i s).slotCoefficient j) :=
+  ⟨(pairedModelFor M i s).rowCharacter_finite u, hrows.paired_finite_slots Z T i s j⟩
 
 /-- Finite-order closure is supplied by the actual character group. -/
 theorem source_paired_slot_finite
-    (M : SourceMomentModels K c) (hrows : SourceRowEligibility M)
-    (i : SourceMomentIndex K c Z T) (s : SixthUnitClasses K (places K c))
-    (u : NonzeroIdeal K) (j : Fin (pairedModel M i s).geometry.slotCount) :
-    FiniteOrder ((pairedModel M i s).rowCharacter u * (pairedModel M i s).slotCoefficient j) := by
+    (M : ActualSourceModels K c) (hrows : SourceRowEligibilityFor M)
+    (i : ActualSourceIndex K c Z T) (s : SixthUnitClasses K (places K c))
+    (u : NonzeroIdeal K) (j : Fin (pairedModelFor M i s).geometry.slotCount) :
+    FiniteOrder ((pairedModelFor M i s).rowCharacter u * (pairedModelFor M i s).slotCoefficient j) := by
   rcases source_paired_slot_finite_factors M hrows i s u j with ⟨hu, hj⟩
   exact hu.mul hj
 
-theorem source_paired_slot_character_ne_one (M : SourceMomentModels K c)
-    (hrows : SourceRowEligibility M) (i : SourceMomentIndex K c Z T)
+theorem source_paired_slot_character_ne_one (M : ActualSourceModels K c)
+    (hrows : SourceRowEligibilityFor M) (i : ActualSourceIndex K c Z T)
     (s : SixthUnitClasses K (places K c))
-    (hinverse : ∀ j, ((pairedModel M i s).slotCoefficient j)⁻¹ ∈ (pairedModel M i s).theta)
+    (hinverse : ∀ j, ((pairedModelFor M i s).slotCoefficient j)⁻¹ ∈ (pairedModelFor M i s).theta)
     (u : NonzeroIdeal K)
-    (hu : u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i))
-    (j : Fin (pairedModel M i s).geometry.slotCount) :
-    (pairedModel M i s).rowCharacter u * (pairedModel M i s).slotCoefficient j ≠ 1 := by
-  apply paired_slot_character_ne_one (pairedModel M i s) (pairedParameters i)
-    (momentBase i) ((hrows.geometry Z T i s).2) hinverse u hu j
+    (hu : u ∈ pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i))
+    (j : Fin (pairedModelFor M i s).geometry.slotCount) :
+    (pairedModelFor M i s).rowCharacter u * (pairedModelFor M i s).slotCoefficient j ≠ 1 := by
+  apply paired_slot_character_ne_one (pairedModelFor M i s) (pairedParametersFor i)
+    (momentBaseFor i) ((hrows.geometry Z T i s).2) hinverse u hu j
 
-theorem source_paired_slotCount_le_of_selected_equiv (M : SourceMomentModels K c)
-    (i : SourceMomentIndex K c Z T) (s : SixthUnitClasses K (places K c))
-    (e : Fin (pairedModel M i s).geometry.slotCount ≃ {j // j ∈ i.selected}) :
-    (pairedModel M i s).geometry.slotCount ≤ c.geometry.slots := by
-  apply slotCount_le_of_embedding (pairedModel M i s).geometry c.geometry.slots
+theorem source_paired_slotCount_le_of_selected_equiv (M : ActualSourceModels K c)
+    (i : ActualSourceIndex K c Z T) (s : SixthUnitClasses K (places K c))
+    (e : Fin (pairedModelFor M i s).geometry.slotCount ≃ {j // j ∈ i.selected}) :
+    (pairedModelFor M i s).geometry.slotCount ≤ c.geometry.slots := by
+  apply slotCount_le_of_embedding (pairedModelFor M i s).geometry c.geometry.slots
   exact ⟨fun j => (e j).val, Subtype.val_injective.comp e.injective⟩
 
-theorem source_paired_zero_slot_product (M : SourceMomentModels K c)
-    (hrows : SourceRowEligibility M) (i : SourceMomentIndex K c Z T)
-    (s : SixthUnitClasses K (places K c)) (hz : selectedLength i = 0)
+theorem source_paired_zero_slot_product (M : ActualSourceModels K c)
+    (hrows : SourceRowEligibilityFor M) (i : ActualSourceIndex K c Z T)
+    (s : SixthUnitClasses K (places K c)) (hz : selectedLengthFor i = 0)
     (u : NonzeroIdeal K) (t : ℝ) :
-    slotProduct (pairedModel M i s) u (momentBase i) t = 1 := by
+    slotProduct (pairedModelFor M i s) u (momentBaseFor i) t = 1 := by
   apply slotProduct_eq_one_of_totalLength_zero
   exact ((hrows.geometry Z T i s).2).trans hz
 
 theorem source_paired_deleted_prime_dvd
     (R : RowCharacterInput K (places K c) (probeData K c))
-    (M : SourceMomentModels K c) (hcal : SourcePolynomialCalibration R M)
-    (D : FixedBadPrimeSupport c) (i : SourceMomentIndex K c Z T)
+    (M : ActualSourceModels K c) (hcal : SourcePolynomialCalibrationFor R M)
+    (D : FixedBadPrimeSupport c) (i : ActualSourceIndex K c Z T)
     (s : SixthUnitClasses K (places K c)) (u : NonzeroIdeal K)
     (p : HeightOneSpectrum (𝓞 K))
-    (hdeleted : (pairedModel M i s).commonMask u p.asIdeal = false) :
+    (hdeleted : (pairedModelFor M i s).commonMask u p.asIdeal = false) :
     p.asIdeal ∣ D.ideal.val * u.val := by
   apply deleted_prime_dvd_fixed_mul_row D u p
   rw [← (hcal.mask Z T i s u p.asIdeal).2]
   exact hdeleted
 
 /-- Transfer any uniform linear ideal count to the actual filtered rows. -/
-theorem source_paired_card_le_of_ideal_count (M : SourceMomentModels K c)
-    (i : SourceMomentIndex K c Z T) (s : SixthUnitClasses K (places K c))
+theorem source_paired_card_le_of_ideal_count (M : ActualSourceModels K c)
+    (i : ActualSourceIndex K c Z T) (s : SixthUnitClasses K (places K c))
     (Crows : ℝ)
     (hcount : ∀ rows : Finset (NonzeroIdeal K),
-      (∀ u ∈ rows, idealNorm K u ≤ 2 * momentBase i) →
-      (rows.card : ℝ) ≤ Crows * momentBase i) :
-    ((pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i)).card : ℝ)
-      ≤ Crows * momentBase i := by
+      (∀ u ∈ rows, idealNorm K u ≤ 2 * momentBaseFor i) →
+      (rows.card : ℝ) ≤ Crows * momentBaseFor i) :
+    ((pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i)).card : ℝ)
+      ≤ Crows * momentBaseFor i := by
   apply hcount
   intro u hu
   exact source_paired_row_norm_le M i s u hu
@@ -289,19 +290,19 @@ theorem source_paired_card_le_of_ideal_count (M : SourceMomentModels K c)
 /-- The fixed number-field ideal-count theorem covers every model row,
 including rows not represented by a physical witness. -/
 theorem exists_source_paired_linear_count :
-    ∃ Crows : ℝ, 0 < Crows ∧ ∀ (M : SourceMomentModels K c)
-      (Z T : ℝ) (i : SourceMomentIndex K c Z T)
-      (s : SixthUnitClasses K (places K c)), 1 ≤ momentBase i →
-      ((pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i)).card : ℝ)
-        ≤ Crows * momentBase i := by
+    ∃ Crows : ℝ, 0 < Crows ∧ ∀ (M : ActualSourceModels K c)
+      (Z T : ℝ) (i : ActualSourceIndex K c Z T)
+      (s : SixthUnitClasses K (places K c)), 1 ≤ momentBaseFor i →
+      ((pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i)).card : ℝ)
+        ≤ Crows * momentBaseFor i := by
   obtain ⟨Crows, hCrows, hcount⟩ := dyadicIdealSupport_linear_count K
   refine ⟨2 * Crows, by linarith, ?_⟩
   intro M Z T i s hbase
-  have h2 : 1 ≤ 2 * momentBase i := by linarith
+  have h2 : 1 ≤ 2 * momentBaseFor i := by linarith
   apply (Nat.cast_le.mpr (Finset.card_le_card ?_)).trans
     ((hcount _ h2).trans_eq (by ring))
   intro u hu
-  apply (mem_dyadicIdealSupport_iff K (by linarith : 0 ≤ 2 * momentBase i / 2) u).mpr
+  apply (mem_dyadicIdealSupport_iff K (by linarith : 0 ≤ 2 * momentBaseFor i / 2) u).mpr
   have hn := source_paired_row_norm_le M i s u hu
   linarith
 
@@ -309,12 +310,12 @@ theorem exists_source_paired_linear_count :
 The prime annulus can replace the lower threshold 2 by a larger `B`. -/
 theorem source_paired_deleted_count
     (R : RowCharacterInput K (places K c) (probeData K c))
-    (M : SourceMomentModels K c) (hcal : SourcePolynomialCalibration R M)
-    (D : FixedBadPrimeSupport c) (i : SourceMomentIndex K c Z T)
+    (M : ActualSourceModels K c) (hcal : SourcePolynomialCalibrationFor R M)
+    (D : FixedBadPrimeSupport c) (i : ActualSourceIndex K c Z T)
     (s : SixthUnitClasses K (places K c)) (u : NonzeroIdeal K)
     (pool : Finset (HeightOneSpectrum (𝓞 K))) (B : ℝ) (hB : 1 < B)
     (hlower : ∀ p ∈ pool, B ≤ (Ideal.absNorm p.asIdeal : ℝ)) :
-    ((pool.filter (fun p => (pairedModel M i s).commonMask u p.asIdeal = false)).card : ℝ)
+    ((pool.filter (fun p => (pairedModelFor M i s).commonMask u p.asIdeal = false)).card : ℝ)
       ≤ Real.log (idealNorm K (D.ideal * u)) / Real.log B := by
   apply PrimeCancellation.MaskCount.card_prime_divisors_le_log
     Ideal.absNorm _ (D.ideal.val * u.val) B
@@ -329,13 +330,13 @@ theorem source_paired_deleted_count
 most twice the moment base, without a lower bound on slot lengths. -/
 theorem source_paired_deleted_count_le_base
     (R : RowCharacterInput K (places K c) (probeData K c))
-    (M : SourceMomentModels K c) (hcal : SourcePolynomialCalibration R M)
-    (D : FixedBadPrimeSupport c) (i : SourceMomentIndex K c Z T)
+    (M : ActualSourceModels K c) (hcal : SourcePolynomialCalibrationFor R M)
+    (D : FixedBadPrimeSupport c) (i : ActualSourceIndex K c Z T)
     (s : SixthUnitClasses K (places K c)) (u : NonzeroIdeal K)
-    (hu : u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i))
+    (hu : u ∈ pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i))
     (pool : Finset (HeightOneSpectrum (𝓞 K))) :
-    ((pool.filter (fun p => (pairedModel M i s).commonMask u p.asIdeal = false)).card : ℝ)
-      ≤ (Real.log (idealNorm K D.ideal) + Real.log (2 * momentBase i)) / Real.log 2 := by
+    ((pool.filter (fun p => (pairedModelFor M i s).commonMask u p.asIdeal = false)).card : ℝ)
+      ≤ (Real.log (idealNorm K D.ideal) + Real.log (2 * momentBaseFor i)) / Real.log 2 := by
   have hdel := source_paired_deleted_count R M hcal D i s u pool 2 (by norm_num)
     (fun p _ => by exact_mod_cast (Nat.succ_le_iff.mpr
       (NumberField.HeightOneSpectrum.one_lt_absNorm p)))
@@ -351,47 +352,47 @@ logarithmic conductor field used by the uniform model contract, with `q=0`.
 The positivity premise is provided by the actual Hecke adapter for every
 nonprincipal finite-order slot character. -/
 theorem source_conductor_control_of_polynomial
-    (M : SourceMomentModels K c) (C₀ r : ℝ) (hC₀ : 1 ≤ C₀) (hr : 0 ≤ r)
-    (hpositive : ∀ Z T (i : SourceMomentIndex K c Z T) s u,
-      1 ≤ Z → 1 ≤ T → 1 ≤ momentBase i →
-      u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i) →
+    (M : ActualSourceModels K c) (C₀ r : ℝ) (hC₀ : 1 ≤ C₀) (hr : 0 ≤ r)
+    (hpositive : ∀ Z T (i : ActualSourceIndex K c Z T) s u,
+      1 ≤ Z → 1 ≤ T → 1 ≤ momentBaseFor i →
+      u ∈ pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i) →
       ∀ j, 0 < heckeConductorScale K
-        ((pairedModel M i s).rowCharacter u * (pairedModel M i s).slotCoefficient j))
-    (hpoly : ∀ Z T (i : SourceMomentIndex K c Z T) s u,
-      1 ≤ Z → 1 ≤ T → 1 ≤ momentBase i →
-      u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i) →
+        ((pairedModelFor M i s).rowCharacter u * (pairedModelFor M i s).slotCoefficient j))
+    (hpoly : ∀ Z T (i : ActualSourceIndex K c Z T) s u,
+      1 ≤ Z → 1 ≤ T → 1 ≤ momentBaseFor i →
+      u ∈ pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i) →
       ∀ j, heckeConductorScale K
-        ((pairedModel M i s).rowCharacter u * (pairedModel M i s).slotCoefficient j) ≤
+        ((pairedModelFor M i s).rowCharacter u * (pairedModelFor M i s).slotCoefficient j) ≤
           C₀ * (idealNorm K u) ^ r) :
     ∃ D q : ℝ, 1 ≤ D ∧ 0 ≤ q ∧
-      ∀ Z T (i : SourceMomentIndex K c Z T) s u,
-        1 ≤ Z → 1 ≤ T → 1 ≤ momentBase i →
-        u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i) →
+      ∀ Z T (i : ActualSourceIndex K c Z T) s u,
+        1 ≤ Z → 1 ≤ T → 1 ≤ momentBaseFor i →
+        u ∈ pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i) →
         ∀ j, Real.log (heckeConductorScale K
-          ((pairedModel M i s).rowCharacter u * (pairedModel M i s).slotCoefficient j)) ≤
-            D * (1 + Real.log (momentBase i)) * (1 + T) ^ q := by
+          ((pairedModelFor M i s).rowCharacter u * (pairedModelFor M i s).slotCoefficient j)) ≤
+            D * (1 + Real.log (momentBaseFor i)) * (1 + T) ^ q := by
   refine ⟨2 * (1 + Real.log C₀ + r), 0, ?_, le_rfl, ?_⟩
   · linarith [Real.log_nonneg hC₀]
   · intro Z T i s u hZ hT hX hu j
-    have hX2 : 1 ≤ 2 * momentBase i := by linarith
+    have hX2 : 1 ≤ 2 * momentBaseFor i := by linarith
     have hlog := logQ_le_of_norm_polynomial
       (heckeConductorScale K
-        ((pairedModel M i s).rowCharacter u * (pairedModel M i s).slotCoefficient j))
-      C₀ (idealNorm K u) (2 * momentBase i) r
+        ((pairedModelFor M i s).rowCharacter u * (pairedModelFor M i s).slotCoefficient j))
+      C₀ (idealNorm K u) (2 * momentBaseFor i) r
       (hpositive Z T i s u hZ hT hX hu j) hC₀ (idealNorm_pos K u)
       (source_paired_row_norm_le M i s u hu) hX2 hr (hpoly Z T i s u hZ hT hX hu j)
-    have hbpos : 0 < momentBase i := by linarith
-    have hl2 : Real.log (2 * momentBase i) = Real.log 2 + Real.log (momentBase i) :=
+    have hbpos : 0 < momentBaseFor i := by linarith
+    have hl2 : Real.log (2 * momentBaseFor i) = Real.log 2 + Real.log (momentBaseFor i) :=
       Real.log_mul (by norm_num) hbpos.ne'
     have hlog2 : Real.log 2 ≤ 1 := by
       have := Real.log_le_sub_one_of_pos (by norm_num : (0 : ℝ) < 2)
       linarith
-    have hlogb : 0 ≤ Real.log (momentBase i) := Real.log_nonneg hX
+    have hlogb : 0 ≤ Real.log (momentBaseFor i) := Real.log_nonneg hX
     have hcoef : 0 ≤ 1 + Real.log C₀ + r := by linarith [Real.log_nonneg hC₀]
     rw [Real.rpow_zero, mul_one]
     calc
-      _ ≤ (1 + Real.log C₀ + r) * (1 + Real.log (2 * momentBase i)) := hlog
-      _ ≤ (1 + Real.log C₀ + r) * (2 * (1 + Real.log (momentBase i))) := by
+      _ ≤ (1 + Real.log C₀ + r) * (1 + Real.log (2 * momentBaseFor i)) := hlog
+      _ ≤ (1 + Real.log C₀ + r) * (2 * (1 + Real.log (momentBaseFor i))) := by
         apply mul_le_mul_of_nonneg_left _ hcoef
         rw [hl2]
         linarith
@@ -399,36 +400,36 @@ theorem source_conductor_control_of_polynomial
 
 /-! ## Numerical transfer after the analytic estimate is proved -/
 
-theorem source_paired_energy_le_of_slot_bounds (M : SourceMomentModels K c)
-    (hrows : SourceRowEligibility M) (i : SourceMomentIndex K c Z T)
+theorem source_paired_energy_le_of_slot_bounds (M : ActualSourceModels K c)
+    (hrows : SourceRowEligibilityFor M) (i : ActualSourceIndex K c Z T)
     (s : SixthUnitClasses K (places K c)) (κ eps Crows : ℝ)
-    (hbase : 1 ≤ momentBase i)
-    (C loss : Fin (pairedModel M i s).geometry.slotCount → ℝ)
+    (hbase : 1 ≤ momentBaseFor i)
+    (C loss : Fin (pairedModelFor M i s).geometry.slotCount → ℝ)
     (hC : ∀ j, 0 ≤ C j) (hloss : (∑ j, loss j) ≤ eps)
-    (hcard : ((pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i)).card : ℝ)
-      ≤ Crows * momentBase i)
-    (hslot : ∀ u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i),
-      ∀ j, ‖primePolynomial (pairedModel M i s) j u (momentBase i) 0‖ ^ 2 ≤
-        C j * (momentBase i) ^
-          (κ * ((pairedModel M i s).geometry.slots j).length + loss j)) :
-    (∑ u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i),
-      ‖slotProduct (pairedModel M i s) u (momentBase i) 0‖ ^ 2) ≤
-      (Crows * ∏ j, C j) * (momentBase i) ^ (1 + (κ * selectedLength i + eps)) := by
+    (hcard : ((pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i)).card : ℝ)
+      ≤ Crows * momentBaseFor i)
+    (hslot : ∀ u ∈ pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i),
+      ∀ j, ‖primePolynomial (pairedModelFor M i s) j u (momentBaseFor i) 0‖ ^ 2 ≤
+        C j * (momentBaseFor i) ^
+          (κ * ((pairedModelFor M i s).geometry.slots j).length + loss j)) :
+    (∑ u ∈ pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i),
+      ‖slotProduct (pairedModelFor M i s) u (momentBaseFor i) 0‖ ^ 2) ≤
+      (Crows * ∏ j, C j) * (momentBaseFor i) ^ (1 + (κ * selectedLengthFor i + eps)) := by
   have hcard' :
-      ((pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i)).card : ℝ)
-        ≤ Crows * (momentBase i) ^ (1 : ℝ) := by
+      ((pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i)).card : ℝ)
+        ≤ Crows * (momentBaseFor i) ^ (1 : ℝ) := by
     simpa only [Real.rpow_one] using hcard
   have htransfer := PrimeCancellationAux.paired_sum_le_of_slot_bounds
-    (pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i)) Finset.univ
-    (fun u j => primePolynomial (pairedModel M i s) j u (momentBase i) 0)
-    C (fun j => ((pairedModel M i s).geometry.slots j).length) loss
-    (momentBase i) κ eps Crows 1 hbase (fun j _ => hC j) hcard' hloss
+    (pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i)) Finset.univ
+    (fun u j => primePolynomial (pairedModelFor M i s) j u (momentBaseFor i) 0)
+    C (fun j => ((pairedModelFor M i s).geometry.slots j).length) loss
+    (momentBaseFor i) κ eps Crows 1 hbase (fun j _ => hC j) hcard' hloss
     (fun u hu j _ => hslot u hu j)
   change
-    (∑ u ∈ pairedRows (pairedModel M i s) (pairedParameters i) (momentBase i),
-      ‖slotProduct (pairedModel M i s) u (momentBase i) 0‖ ^ 2) ≤
-      (Crows * ∏ j, C j) * (momentBase i) ^
-        (1 + (κ * (pairedModel M i s).geometry.totalLength + eps)) at htransfer
+    (∑ u ∈ pairedRows (pairedModelFor M i s) (pairedParametersFor i) (momentBaseFor i),
+      ‖slotProduct (pairedModelFor M i s) u (momentBaseFor i) 0‖ ^ 2) ≤
+      (Crows * ∏ j, C j) * (momentBaseFor i) ^
+        (1 + (κ * (pairedModelFor M i s).geometry.totalLength + eps)) at htransfer
   rw [(hrows.geometry Z T i s).2] at htransfer
   exact htransfer
 

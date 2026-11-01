@@ -7,9 +7,9 @@ Run after `lake build +HeckeSkeleton.PrimeCancellationWiring:olean`:
 
     lake env lean HeckeSkeleton/PrimeCancellationAudit.lean
 
-The existing skeleton has admitted model data.  Printing the declarations
-separately distinguishes analytic input dependencies from model-interface
-dependencies; this file does not assert that the imported skeleton is complete.
+The adapters import the actual source data directly, below the moment
+theorem layer.  Printing the declarations separately records analytic
+input dependencies and the exact source-index dependencies.
 -/
 
 /-! The explicit-index main theorems must pass the strict recursive whitelist.
@@ -52,8 +52,8 @@ run_cmd do
 #print axioms HeckeSkeleton.PrimeCancellationWiring.exists_uniform_paired_prime_bound
 #print axioms HeckeSkeleton.PrimeCancellationWiring.paired_primes_below_one_of_models
 
--- The original expansion data occur in SourceMomentIndex itself.
+-- The original expansion data occur in the actual source index itself.
 #print axioms HeckeSkeleton.highExpansion
 #print axioms HeckeSkeleton.rows_in_norm_envelope
 #print axioms HeckeSkeleton.targetData
-#print axioms HeckeSkeleton.SourceMomentIndex
+#print axioms HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE.ActualSourceIndex
