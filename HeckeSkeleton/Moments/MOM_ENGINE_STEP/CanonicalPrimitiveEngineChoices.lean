@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalParentFactory
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveTerminalGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalEngineSmallParameters
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPairAllowanceProduction
 
 /-!
 # Fixed numerical choices before the original engine sources
@@ -42,7 +43,14 @@ def columnBound : ℝ := 3 * b.lengthBound + 1
 
 def normBound : ℝ := max b.lengthBound b.columnBound
 
-def loss : ℝ := boundary b.step b.ε
+/-- Divide the per-slot boundary budget by the fixed slot cap before
+any allocation is selected. This also pays the sum of removed-slot
+errors in the exceptional source. -/
+def loss : ℝ := boundary b.step (b.ε / ((b.cap : ℝ) + 1))
+
+/-- The allocation allowance pays both original annuli and the
+actual cutoff. It is larger than each physical boundary loss. -/
+def error : ℝ := 3 * b.loss
 
 def tilt : ℝ := CanonicalEngineSmallParameters.tilt b.normBound b.ε
 
@@ -59,13 +67,42 @@ theorem columnBound_nonneg : 0 ≤ b.columnBound := by
 theorem normBound_nonneg : 0 ≤ b.normBound :=
   b.lengthBound_nonneg.trans (le_max_left _ _)
 
-theorem loss_pos : 0 < b.loss := boundary_pos b.step_pos b.ε_pos
+theorem loss_pos : 0 < b.loss := by
+  have hε := b.ε_pos
+  exact boundary_pos b.step_pos (by positivity)
 
-theorem loss_le_one : b.loss ≤ 1 := boundary_le_one b.step b.ε
+theorem loss_le_one : b.loss ≤ 1 := boundary_le_one _ _
 
-theorem loss_le_step : b.loss ≤ b.step / 64 := boundary_le_step b.step b.ε
+theorem loss_le_step : b.loss ≤ b.step / 64 := boundary_le_step _ _
 
-theorem loss_le_ε : b.loss ≤ b.ε / 4096 := boundary_le_loss b.step b.ε
+theorem loss_le_ε : b.loss ≤ b.ε / 4096 := by
+  have hcap : 1 ≤ (b.cap : ℝ) + 1 := by
+    have h := Nat.cast_nonneg (α := ℝ) b.cap
+    linarith
+  have h := boundary_le_loss b.step (b.ε / ((b.cap : ℝ) + 1))
+  exact h.trans (div_le_div_of_nonneg_right
+    (div_le_self b.ε_pos.le hcap) (by norm_num))
+
+theorem cap_mul_loss_le_ε : (b.cap : ℝ) * b.loss ≤ b.ε / 4096 := by
+  have hden : 0 < (b.cap : ℝ) + 1 := by positivity
+  have h := boundary_le_loss b.step (b.ε / ((b.cap : ℝ) + 1))
+  have h' : b.loss * ((b.cap : ℝ) + 1) ≤ b.ε / 4096 := by
+    apply (le_div_iff₀ hden).mp
+    convert h using 1 <;> ring
+  have hpos := b.loss_pos
+  nlinarith
+
+theorem error_pos : 0 < b.error := mul_pos (by norm_num) b.loss_pos
+
+theorem support_error_le : 2 * b.loss + b.loss ≤ b.error := by
+  unfold error
+  linarith
+
+theorem cap_mul_error_le : (b.cap : ℝ) * b.error ≤ b.ε / 64 := by
+  have h := b.cap_mul_loss_le_ε
+  have hε := b.ε_pos
+  unfold error
+  nlinarith
 
 theorem tilt_pos : 0 < b.tilt := (tilt_properties b.normBound_nonneg b.ε_pos).1
 
@@ -138,8 +175,10 @@ theorem width_margin : 2 * (2 * b.loss + b.loss) ≤ b.step := by
   have h := b.loss_le_step
   linarith
 
-theorem pool_separation : b.loss < b.step / 6 ∧ b.loss < b.step / 3 :=
-  (boundary_pool_separation b.step_pos b.ε_pos).2
+theorem pool_separation : b.loss < b.step / 6 ∧ b.loss < b.step / 3 := by
+  have hε := b.ε_pos
+  exact (boundary_pool_separation b.step_pos
+    (show 0 < b.ε / ((b.cap : ℝ) + 1) by positivity)).2
 
 /-- All raw second-zero small powers fit in the same requested loss;
 the principal padding and step remain visible to the induction. -/
@@ -147,9 +186,33 @@ theorem secondZero_loss :
     (2 * b.loss + b.loss) + 2 * b.loss +
       (4 * b.normBound + 2) * b.tilt +
       2 * (b.normBound + 1) * b.tilt + b.loss + b.ε / 8 ≤ b.ε / 4 := by
-  have h := second_zero_small_budget b.step_pos b.ε_pos b.normBound_nonneg
-  simpa only [supportError, loss, tilt, show (3 : ℝ) = 2 + 1 by norm_num, add_mul, one_mul]
-    using h
+  have hsmall := b.loss_le_ε
+  have htilt := tilt_linear_budget b.normBound_nonneg b.ε_pos
+  change (6 * b.normBound + 4) * b.tilt ≤ b.ε / 32 at htilt
+  nlinarith
+
+theorem direct_mass_loss :
+    9 * (b.ε / 16) / 4 + 5 * b.error / 3 + b.loss ≤ b.ε / 4 := by
+  have h := b.loss_le_ε
+  have hε := b.ε_pos
+  unfold error
+  linarith
+
+theorem pooled_mass_loss :
+    9 * (b.ε / 16) / 4 + b.loss + 5 * b.error / 3 + b.loss ≤ b.ε / 4 := by
+  have h := b.loss_le_ε
+  have hε := b.ε_pos
+  unfold error
+  linarith
+
+def rawNormBound : ℝ := b.widthMax + b.columnBound + 3 * b.loss
+
+theorem rawNormBound_nonneg : 0 ≤ b.rawNormBound := by
+  have h₁ := b.width_nonneg
+  have h₂ := b.columnBound_nonneg
+  have h₃ := b.loss_pos.le
+  unfold rawNormBound
+  positivity
 
 /-- The same coarse row box is used on both first Gauss sides. -/
 def rowBound : ℝ := 2 * b.lengthBound + 2 * b.columnBound + 2 * b.loss + b.loss
@@ -199,10 +262,55 @@ theorem threshold_windows (Z : ℝ) (hZ : b.threshold ≤ Z) :
         b.columnBound / ((b.step / 3) / 2)) ≤ Z ^ (b.step / 3 - b.loss) :=
   (Classical.choose_spec b.exists_threshold).2 Z hZ
 
+/-- The original scale and allocation thresholds are fixed together.
+The extra power window also covers every retained or removed slot,
+including an empty slot product. -/
+theorem exists_fullThreshold :
+    ∃ Z₀ : ℝ, 1 < Z₀ ∧ b.threshold ≤ Z₀ ∧ b.firstBox.threshold ≤ Z₀ ∧
+      OriginalPairAllowanceProduction.annulusThreshold b.hi b.error ≤ Z₀ ∧
+      ∀ Z : ℝ, Z₀ ≤ Z →
+        b.hi ^ (2 * b.cap) ≤ Z ^ b.error ∧ b.hi ≤ Z ^ (2 * b.loss) := by
+  obtain ⟨Zpower, hZpower, hpower⟩ := exists_power_threshold
+    (max (b.hi ^ (2 * b.cap)) b.hi) b.loss b.loss_pos
+  let Z₀ := max b.threshold (max b.firstBox.threshold
+    (max (OriginalPairAllowanceProduction.annulusThreshold b.hi b.error) Zpower))
+  have hfirst : b.threshold ≤ Z₀ := le_max_left _ _
+  have hsecond : b.firstBox.threshold ≤ Z₀ :=
+    (le_max_left _ _).trans (le_max_right _ _)
+  have hthird : OriginalPairAllowanceProduction.annulusThreshold b.hi b.error ≤ Z₀ :=
+    (le_max_left _ _).trans ((le_max_right _ _).trans (le_max_right _ _))
+  have hfourth : Zpower ≤ Z₀ :=
+    (le_max_right _ _).trans ((le_max_right _ _).trans (le_max_right _ _))
+  refine ⟨Z₀, b.threshold_gt_one.trans_le hfirst, hfirst, hsecond, hthird, ?_⟩
+  intro Z hZ
+  have hz : 1 ≤ Z := (b.threshold_gt_one.trans_le (hfirst.trans hZ)).le
+  have hp := hpower Z (hfourth.trans hZ)
+  have hloss := b.loss_pos.le
+  constructor
+  · apply ((le_max_left _ _).trans hp).trans
+    apply Real.rpow_le_rpow_of_exponent_le hz
+    dsimp only [error]
+    linarith
+  · exact ((le_max_right _ _).trans hp).trans
+      (Real.rpow_le_rpow_of_exponent_le hz (by linarith))
+
+def fullThreshold : ℝ := Classical.choose b.exists_fullThreshold
+
+theorem fullThreshold_spec :
+    1 < b.fullThreshold ∧ b.threshold ≤ b.fullThreshold ∧
+      b.firstBox.threshold ≤ b.fullThreshold ∧
+      OriginalPairAllowanceProduction.annulusThreshold b.hi b.error ≤ b.fullThreshold ∧
+      ∀ Z : ℝ, b.fullThreshold ≤ Z →
+        b.hi ^ (2 * b.cap) ≤ Z ^ b.error ∧ b.hi ≤ Z ^ (2 * b.loss) :=
+  Classical.choose_spec b.exists_fullThreshold
+
 end Box
 end HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineChoices
 
 #print axioms HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineChoices.Box.firstCutoff_le
 #print axioms HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineChoices.Box.secondCutoff_le
 #print axioms HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineChoices.Box.secondZero_loss
+#print axioms HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineChoices.Box.cap_mul_error_le
+#print axioms HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineChoices.Box.pooled_mass_loss
 #print axioms HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineChoices.Box.exists_threshold
+#print axioms HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineChoices.Box.exists_fullThreshold

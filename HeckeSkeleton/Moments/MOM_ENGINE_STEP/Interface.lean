@@ -929,6 +929,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineChoices
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedOutput
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveEngineConclusion
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveFirstTerminalBounds
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveParentBound
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineProfileOrders
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveSecondTerminalConstants
 /-!
 # The unified child step of the paired fourth-moment engine
 

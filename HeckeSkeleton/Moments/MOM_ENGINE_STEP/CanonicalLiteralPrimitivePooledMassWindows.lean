@@ -478,36 +478,68 @@ theorem literalPrimitivePooled_rawWidth_le
   · rcases leaf with leaf | (⟨prime, leaf⟩ | (⟨prime, leaf⟩ | ⟨prime, leaf⟩))
     · have hg := (geometryAt ⟨⟨DE, D, S, χ, .inl (.inl leaf)⟩, hj⟩).literalRawWidth_le_second_box
         hZ hstep.le (2 * loss + cutoffExponent) columnBound leaf.1.block.primes
-        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl hn.1
+        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl (by
+          change (Ideal.absNorm (primePowerProduct leaf.1.block.primes
+            leaf.1.block.leftMultiplicity).val : ℝ) ≤ Z ^ columnBound
+          rw [leaf.1.block.common_left]
+          exact hn.1)
       exact hg.trans_eq (by rw [hwidth])
     · have hg := (geometryAt ⟨⟨DE, D, S, χ, .inl (.inr (.inl ⟨prime, leaf⟩))⟩, hj⟩).literalRawWidth_le_second_box
         hZ hstep.le (2 * loss + cutoffExponent) columnBound leaf.1.block.primes
-        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl hn.1
+        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl (by
+          change (Ideal.absNorm (primePowerProduct leaf.1.block.primes
+            leaf.1.block.leftMultiplicity).val : ℝ) ≤ Z ^ columnBound
+          rw [leaf.1.block.common_left]
+          exact hn.1)
       exact hg.trans_eq (by rw [hwidth])
     · have hg := (geometryAt ⟨⟨DE, D, S, χ, .inl (.inr (.inr (.inl ⟨prime, leaf⟩)))⟩, hj⟩).literalRawWidth_le_second_box
         hZ hstep.le (2 * loss + cutoffExponent) columnBound leaf.1.block.primes
-        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl hn.1
+        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl (by
+          change (Ideal.absNorm (primePowerProduct leaf.1.block.primes
+            leaf.1.block.leftMultiplicity).val : ℝ) ≤ Z ^ columnBound
+          rw [leaf.1.block.common_left]
+          exact hn.1)
       exact hg.trans_eq (by rw [hwidth])
     · have hg := (geometryAt ⟨⟨DE, D, S, χ, .inl (.inr (.inr (.inr ⟨prime, leaf⟩)))⟩, hj⟩).literalRawWidth_le_second_box
         hZ hstep.le (2 * loss + cutoffExponent) columnBound leaf.1.block.primes
-        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl hn.1
+        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl (by
+          change (Ideal.absNorm (primePowerProduct leaf.1.block.primes
+            leaf.1.block.leftMultiplicity).val : ℝ) ≤ Z ^ columnBound
+          rw [leaf.1.block.common_left]
+          exact hn.1)
       exact hg.trans_eq (by rw [hwidth])
   · rcases leaf with leaf | (⟨prime, leaf⟩ | (⟨prime, leaf⟩ | ⟨prime, leaf⟩))
     · have hg := (geometryAt ⟨⟨DE, D, S, χ, .inr (.inl leaf)⟩, hj⟩).literalRawWidth_le_second_box
         hZ hstep.le (2 * loss + cutoffExponent) columnBound leaf.1.block.primes
-        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl hn.1
+        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl (by
+          change (Ideal.absNorm (primePowerProduct leaf.1.block.primes
+            leaf.1.block.leftMultiplicity).val : ℝ) ≤ Z ^ columnBound
+          rw [leaf.1.block.common_left]
+          exact hn.1)
       exact hg.trans_eq (by rw [hwidth])
     · have hg := (geometryAt ⟨⟨DE, D, S, χ, .inr (.inr (.inl ⟨prime, leaf⟩))⟩, hj⟩).literalRawWidth_le_second_box
         hZ hstep.le (2 * loss + cutoffExponent) columnBound leaf.1.block.primes
-        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl hn.1
+        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl (by
+          change (Ideal.absNorm (primePowerProduct leaf.1.block.primes
+            leaf.1.block.leftMultiplicity).val : ℝ) ≤ Z ^ columnBound
+          rw [leaf.1.block.common_left]
+          exact hn.1)
       exact hg.trans_eq (by rw [hwidth])
     · have hg := (geometryAt ⟨⟨DE, D, S, χ, .inr (.inr (.inr (.inl ⟨prime, leaf⟩)))⟩, hj⟩).literalRawWidth_le_second_box
         hZ hstep.le (2 * loss + cutoffExponent) columnBound leaf.1.block.primes
-        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl hn.1
+        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl (by
+          change (Ideal.absNorm (primePowerProduct leaf.1.block.primes
+            leaf.1.block.leftMultiplicity).val : ℝ) ≤ Z ^ columnBound
+          rw [leaf.1.block.common_left]
+          exact hn.1)
       exact hg.trans_eq (by rw [hwidth])
     · have hg := (geometryAt ⟨⟨DE, D, S, χ, .inr (.inr (.inr (.inr ⟨prime, leaf⟩)))⟩, hj⟩).literalRawWidth_le_second_box
         hZ hstep.le (2 * loss + cutoffExponent) columnBound leaf.1.block.primes
-        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl hn.1
+        leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl (by
+          change (Ideal.absNorm (primePowerProduct leaf.1.block.primes
+            leaf.1.block.leftMultiplicity).val : ℝ) ≤ Z ^ columnBound
+          rw [leaf.1.block.common_left]
+          exact hn.1)
       exact hg.trans_eq (by rw [hwidth])
 
 /-- The original first lengths bound the exact tilt of every pool tag. -/
