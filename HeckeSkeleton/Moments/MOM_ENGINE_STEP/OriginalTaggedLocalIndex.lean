@@ -31,6 +31,9 @@ def localBranch (i : I) : TwoDivisorCommonBranch (K := K) :=
   | some q => L.errorCarrier tag q.1 q.2
 
 def localIndex (i : I) : (L.localBranch tag i).Index :=
+  show (match tag i with
+    | none => L.mainCarrier tag
+    | some q => L.errorCarrier tag q.1 q.2).Index from
   match h : tag i with
   | none => (L.mainLabels tag).index ⟨i, h⟩
   | some q => (L.errorLabels tag q.1 q.2).index ⟨i, h⟩

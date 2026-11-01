@@ -343,6 +343,107 @@ def coveredLeaf (exceptional : s.CoverHybridPredicates LC RC)
     (F : SchwartzMap W ℂ) (x : ι → W) (b : s.CoveredLeafKey LC RC) :
     (s.coveredLeaf LC RC exceptional F x b).firstKernel = F := rfl
 
+private def coveredClassPhaseCost
+    (exceptional : s.CoverHybridPredicates LC RC)
+    (x : ι → W) (ξ : W) (v : s.CoveredClassKey LC RC) : ℝ :=
+  ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts v.1 v.2.1).hybridClassCost
+    s.mask s.cutoff s.cutoff_one v.rowLabel v.leftReindex v.rightReindex
+    (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
+      v.2.2.2.2.2.1 v.2.2.2.2.2.2)
+
+private def coveredClassNestedSum (f : s.CoveredClassKey LC RC → ℝ) : ℝ :=
+  ∑ DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val),
+    ∑ D : s.mask.powerset, ∑ a : LC.labels, ∑ e : RC.labels,
+      ∑ label : Fin ((s.charts DE D).rowLabelCount + 1),
+        ∑ keyLeft : (LC.branch a).labels (primeSupport DE.val.1) DE.val.1,
+          ∑ keyRight : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2,
+            f ⟨DE, D, a, e, label, keyLeft, keyRight⟩
+
+private theorem coveredClassNestedSum_eq_sum (f : s.CoveredClassKey LC RC → ℝ) :
+    coveredClassNestedSum s LC RC f = ∑ v : s.CoveredClassKey LC RC, f v := by
+  unfold coveredClassNestedSum
+  simp only [Fintype.sum_sigma, Fintype.sum_prod_type]
+
+private theorem phase_subsetHybridClassCost_eq_key_sum
+    (exceptional : s.CoverHybridPredicates LC RC) (x : ι → W) (ξ : W)
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+    (D : s.mask.powerset) (a : LC.labels) (e : RC.labels)
+    (label : Fin ((s.charts DE D).rowLabelCount + 1)) :
+    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts DE D).subsetHybridClassCost
+        (LC.branch a) (RC.branch e) s.mask s.cutoff s.cutoff_one
+        label (exceptional DE D a e) =
+      ∑ keyLeft : (LC.branch a).labels (primeSupport DE.val.1) DE.val.1,
+        ∑ keyRight : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2,
+          coveredClassPhaseCost s LC RC exceptional x ξ
+            ⟨DE, D, a, e, label, keyLeft, keyRight⟩ := by
+  rfl
+
+private theorem phase_subsetHybridCost_eq_row_sum
+    (exceptional : s.CoverHybridPredicates LC RC) (x : ι → W) (ξ : W)
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+    (D : s.mask.powerset) (a : LC.labels) (e : RC.labels) :
+    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts DE D).subsetHybridCost
+        (LC.branch a) (RC.branch e) s.mask s.cutoff s.cutoff_one
+        (exceptional DE D a e) =
+      ∑ label : Fin ((s.charts DE D).rowLabelCount + 1),
+        ∑ keyLeft : (LC.branch a).labels (primeSupport DE.val.1) DE.val.1,
+          ∑ keyRight : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2,
+            coveredClassPhaseCost s LC RC exceptional x ξ
+              ⟨DE, D, a, e, label, keyLeft, keyRight⟩ := by
+  unfold SecondBlockProfileChart.subsetHybridCost
+  apply Finset.sum_congr rfl
+  intro label _
+  exact phase_subsetHybridClassCost_eq_key_sum s LC RC exceptional x ξ DE D a e label
+
+private theorem phase_coverHybridCost_eq_cover_sum
+    (exceptional : s.CoverHybridPredicates LC RC) (x : ι → W) (ξ : W)
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+    (D : s.mask.powerset) :
+    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts DE D).coverHybridCost
+        LC RC s.mask s.cutoff s.cutoff_one (exceptional DE D) =
+      ∑ a : LC.labels, ∑ e : RC.labels,
+        ∑ label : Fin ((s.charts DE D).rowLabelCount + 1),
+          ∑ keyLeft : (LC.branch a).labels (primeSupport DE.val.1) DE.val.1,
+            ∑ keyRight : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2,
+              coveredClassPhaseCost s LC RC exceptional x ξ
+                ⟨DE, D, a, e, label, keyLeft, keyRight⟩ := by
+  unfold SecondBlockProfileChart.coverHybridCost
+  apply Finset.sum_congr rfl
+  intro a _
+  apply Finset.sum_congr rfl
+  intro e _
+  exact phase_subsetHybridCost_eq_row_sum s LC RC exceptional x ξ DE D a e
+
+private theorem phase_coverHybridNonzeroCost_eq_nested_sum
+    (exceptional : s.CoverHybridPredicates LC RC) (x : ι → W) (ξ : W) :
+    (s.withMultiplier (fun i => jointPhase ξ (x i))).coverHybridNonzeroCost
+        LC RC exceptional =
+      coveredClassNestedSum s LC RC (coveredClassPhaseCost s LC RC exceptional x ξ) := by
+  unfold coverHybridNonzeroCost coveredClassNestedSum
+  apply Finset.sum_congr rfl
+  intro DE _
+  apply Finset.sum_congr rfl
+  intro D _
+  exact phase_coverHybridCost_eq_cover_sum s LC RC exceptional x ξ DE D
+
+private theorem coverHybridPhaseNonzeroCost_eq_class_sum
+    (exceptional : s.CoverHybridPredicates LC RC) (x : ι → W) (ξ : W) :
+    s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ =
+      ∑ v : s.CoveredClassKey LC RC, coveredClassPhaseCost s LC RC exceptional x ξ v := by
+  change (s.withMultiplier (fun i => jointPhase ξ (x i))).coverHybridNonzeroCost
+    LC RC exceptional = _
+  exact (phase_coverHybridNonzeroCost_eq_nested_sum s LC RC exceptional x ξ).trans
+    (coveredClassNestedSum_eq_sum s LC RC (coveredClassPhaseCost s LC RC exceptional x ξ))
+
+private theorem coveredLeaf_sum_eq_class_sum (f : s.CoveredLeafKey LC RC → ℝ) :
+    (∑ b : s.CoveredLeafKey LC RC, f b) =
+      ∑ v : s.CoveredClassKey LC RC, ∑ j : v.AllocationKey, f ⟨v, j⟩ := by
+  exact Fintype.sum_sigma f
+
 /-- Exact finite flattening of the covered source, at the first
 continuous Fourier parameter. -/
 theorem coverHybridPhaseNonzeroCost_eq_leaf_sum
@@ -350,27 +451,56 @@ theorem coverHybridPhaseNonzeroCost_eq_leaf_sum
     (F : SchwartzMap W ℂ) (x : ι → W) (ξ : W) :
     s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ =
       ∑ b : s.CoveredLeafKey LC RC, (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ := by
-  unfold coverHybridPhaseNonzeroCost coverHybridNonzeroCost
-    SecondBlockProfileChart.coverHybridCost SecondBlockProfileChart.subsetHybridCost
-    SecondBlockProfileChart.subsetHybridClassCost
-  simp only [Fintype.sum_sigma, Fintype.sum_prod_type, coveredLeaf]
-  apply Finset.sum_congr rfl
-  intro DE _
-  apply Finset.sum_congr rfl
-  intro D _
-  apply Finset.sum_congr rfl
-  intro a _
-  apply Finset.sum_congr rfl
-  intro e _
-  apply Finset.sum_congr rfl
-  intro label _
-  apply Finset.sum_congr rfl
-  intro keyLeft _
-  apply Finset.sum_congr rfl
-  intro keyRight _
-  exact (CoveredClassKey.phase_class_eq_leaf_sum
-    (s := s) (LC := LC) (RC := RC)
-    ⟨DE, D, a, e, label, keyLeft, keyRight⟩ exceptional F x ξ)
+  have hclasses :
+      s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ =
+        ∑ v : s.CoveredClassKey LC RC, coveredClassPhaseCost s LC RC exceptional x ξ v :=
+    coverHybridPhaseNonzeroCost_eq_class_sum s LC RC exceptional x ξ
+  have hleaves :
+      (∑ v : s.CoveredClassKey LC RC, coveredClassPhaseCost s LC RC exceptional x ξ v) =
+        ∑ v : s.CoveredClassKey LC RC,
+          ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
+    apply Finset.sum_congr rfl
+    intro v _
+    exact v.phase_class_eq_leaf_sum exceptional F x ξ
+  exact hclasses.trans (hleaves.trans
+    (coveredLeaf_sum_eq_class_sum s LC RC
+      (fun b => (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)).symm)
+
+private theorem leaf_firstPhaseCost_integrable_of_firstKernel
+    {H : Type*} (B : ActualHybridLeaf K H W E)
+    (F : SchwartzMap W ℂ) (hF : B.firstKernel = F) :
+    Integrable B.firstPhaseCost (actualFourierMeasure F) := by
+  subst F
+  exact B.firstPhaseCost_integrable
+
+private theorem leaf_integral_firstPhaseCost_of_firstKernel
+    {H : Type*} (B : ActualHybridLeaf K H W E)
+    (F : SchwartzMap W ℂ) (hF : B.firstKernel = F) :
+    (∫ ξ, B.firstPhaseCost ξ ∂actualFourierMeasure F) = B.cost := by
+  subst F
+  exact B.integral_firstPhaseCost
+
+private theorem integral_eq_leafFamily_cost
+    {J H : Type*} [Fintype J]
+    (F : SchwartzMap W ℂ) (B : J → ActualHybridLeaf K H W E)
+    (hkernel : ∀ b : J, (B b).firstKernel = F)
+    (f : W → ℝ)
+    (hsum : ∀ ξ, f ξ = ∑ b : J, (B b).firstPhaseCost ξ) :
+    (∫ ξ, f ξ ∂actualFourierMeasure F) = ∑ b : J, (B b).cost := by
+  have hterms : ∀ b : J,
+      Integrable (B b).firstPhaseCost (actualFourierMeasure F) :=
+    fun b => leaf_firstPhaseCost_integrable_of_firstKernel (B b) F (hkernel b)
+  calc
+    (∫ ξ, f ξ ∂actualFourierMeasure F) =
+        ∫ ξ, ∑ b : J, (B b).firstPhaseCost ξ ∂actualFourierMeasure F :=
+      integral_congr_ae (Filter.Eventually.of_forall hsum)
+    _ = ∑ b : J, ∫ ξ, (B b).firstPhaseCost ξ ∂actualFourierMeasure F :=
+      integral_finsetSum (μ := actualFourierMeasure F)
+        (f := fun b : J => (B b).firstPhaseCost) Finset.univ
+        (fun b _ => hterms b)
+    _ = ∑ b : J, (B b).cost :=
+      Finset.sum_congr rfl
+        (fun b _ => leaf_integral_firstPhaseCost_of_firstKernel (B b) F (hkernel b))
 
 /-- The original first integral is exactly the sum of the genuine
 nested-measure leaves.  Each leaf already separates exceptional row
@@ -380,13 +510,13 @@ theorem integral_coverHybridPhaseNonzeroCost_eq_leaf_sum
     (F : SchwartzMap W ℂ) (x : ι → W) :
     (∫ ξ, s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ ∂actualFourierMeasure F) =
       ∑ b : s.CoveredLeafKey LC RC, (s.coveredLeaf LC RC exceptional F x b).cost := by
-  simp_rw [s.coverHybridPhaseNonzeroCost_eq_leaf_sum LC RC exceptional F x]
-  rw [integral_finsetSum]
-  · apply Finset.sum_congr rfl
-    intro b _
-    exact (s.coveredLeaf LC RC exceptional F x b).integral_firstPhaseCost
-  · intro b _
-    exact (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost_integrable
+  exact integral_eq_leafFamily_cost
+    (K := K) (H := Q) (W := W) (E := E)
+    (J := s.CoveredLeafKey LC RC)
+    F (s.coveredLeaf LC RC exceptional F x)
+    (s.coveredLeaf_firstKernel LC RC exceptional F x)
+    (s.coverHybridPhaseNonzeroCost LC RC exceptional x)
+    (s.coverHybridPhaseNonzeroCost_eq_leaf_sum LC RC exceptional F x)
 
 /-- The true orbital fibre multiplicity is paid exactly once per
 nonzero leaf, alongside the identical multiplicity in the zero/tail budget. -/

@@ -47,6 +47,8 @@ jobs:
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimeAnalyticProvider
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLabelKernelMass
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalSourceSlotCaps
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPaidNormalization
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineProfileOrders
     env:
       LEAN_NUM_THREADS: '2'
       TARGET_MODULES: ${{ matrix.modules }}
@@ -57,6 +59,7 @@ jobs:
         .github/workflows/mom-engine-step.yml
         .github/workflows/integration-build.yml
         .github/workflows/mom-engine-step-b-targets.yml
+        .github/scripts/mom_engine_step_b_normalized_diagnostic.py
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -89,6 +92,18 @@ jobs:
           use-github-cache: 'false'
       - name: Restore precompiled project artifacts
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Diagnose the complete Normalized proof phases before verification
+        if: matrix.group == 'weights'
+        continue-on-error: true
+        run: python3 -u .github/scripts/mom_engine_step_b_normalized_diagnostic.py
+      - name: Preserve the Normalized phase diagnostic immediately
+        if: always() && matrix.group == 'weights'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-engine-step-b-normalized-phase-diagnostic-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}/normalized-diagnostic/
+          if-no-files-found: error
+          retention-days: 14
       - name: Build original modules and run the fresh strict namespace audit
         run: |
           python3 -u - <<'PY'
