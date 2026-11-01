@@ -41,6 +41,9 @@ theorem kernel_fixedAngular_decay [Finite (SixthLocalClasses K S)]
   have hL : 0 ≤ L := integral_nonneg (fun t => by positivity)
   refine ⟨(2 * Real.pi)⁻¹ * CM * 2 ^ J * 2 * L, by positivity, ?_⟩
   intro θ hang V u κ y hy
+  have hH0 : 0 ≤ radialHeight K θ := zero_le_one.trans (radialHeight_ge_one K θ)
+  have hCMH : 0 ≤ CM * radialHeight K θ ^ (8 * ncx K * A) :=
+    mul_nonneg hCM (Real.rpow_nonneg hH0 (8 * ncx K * A))
   have hM' : ∀ s : ℂ, A ≤ s.re → s.re ≤ A →
       ‖reflectionMultiplier K S F θ u κ s‖ ≤
         (CM * radialHeight K θ ^ (8 * ncx K * A)) *
@@ -52,7 +55,7 @@ theorem kernel_fixedAngular_decay [Finite (SixthLocalClasses K S)]
       ring
     simpa only [heq] using h
   have hb := Gc_norm_le θ u κ V (σ := A) (h := 0) (J := J)
-    (show 0 ≤ CM * radialHeight K θ ^ (8 * ncx K * A) by positivity)
+    hCMH
     hM' (Nat.zero_le J) he (by dsimp [e]; norm_num; linarith) hy
   have hI : Iint V 0 A + Iint V J A ≤ 2 * testSeminorm V.toFun J A := by
     linarith [Iint_right_le V 0 J (Nat.zero_le _) A, Iint_right_le V J J le_rfl A]
@@ -66,7 +69,7 @@ theorem kernel_fixedAngular_decay [Finite (SixthLocalClasses K S)]
     (mul_le_mul_of_nonneg_left
       (mul_le_mul_of_nonneg_right
         (mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hI (by positivity))
-          (by positivity : 0 ≤ CM * radialHeight K θ ^ (8 * ncx K * A)))
+          hCMH)
         (by positivity : 0 ≤ y ^ (-A)))
       (by positivity : 0 ≤ (2 * Real.pi)⁻¹)) hL
   apply h.trans_eq

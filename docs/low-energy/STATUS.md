@@ -75,6 +75,14 @@ the three energy endpoint audits and the normalization factorization audit.
 Allowed axioms are exactly `propext`,
 `Classical.choice`, and `Quot.sound`.
 
+After a failed ordinary build, a diagnostic command can check a single temporary
+source unit containing the general and physical endpoints. Its source map records
+the exact checkout blobs and original line positions, and its complete import
+closure is checked for duplicate inlined declarations. This exposes downstream
+errors in the same run. The command writes only diagnostic logs and generated
+source metadata to the run artifact; the independent module build and fresh
+four-declaration axiom audit remain the acceptance gate.
+
 The manifest contains only current reviewed source paths and hashes. Compilation
 logs, reports and native outputs belong in Actions artifacts. Old custom proof
 cache/checkpoint scripts, their fixtures, and committed compilation receipts have

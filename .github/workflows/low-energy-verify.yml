@@ -16,6 +16,7 @@ on:
       - HeckeGeneral/Analysis/CompensatedRowKernelFactorization.lean
       - HeckeAxiom/ProbeNormalization.lean
       - scripts/low_energy_lake_verify.py
+      - scripts/low_energy_diagnostic_bundle.py
       - scripts/low_energy_axioms.py
       - scripts/lean_imports.py
       - tests/test_low_energy_lake_verify.py
@@ -72,11 +73,114 @@ jobs:
           repository: Rogerhu12/hecke-seven-eighths
           tag: lake-cache-76c696e
       - name: Build every new proof source and run the strict target audits
+        id: native_build
         timeout-minutes: 155
         run: >-
           python3 scripts/low_energy_lake_verify.py verify
           --expected-head "$EXPECTED_SOURCE_HEAD"
           --cache-metadata-dir "$RUNNER_TEMP/lake-cache-download"
+      - name: Diagnose the complete source chain after a failed native build
+        if: failure() && steps.native_build.outcome == 'failure'
+        continue-on-error: true
+        timeout-minutes: 12
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import signal
+          import subprocess
+          import time
+
+          evidence = Path('.low-energy-lake-verification')
+          destination = evidence / 'diagnostics'
+          destination.mkdir(parents=True, exist_ok=True)
+          result = {
+              'scope': 'Source diagnostics only; the ordinary native build and axiom gates remain authoritative.',
+              'expected_head': os.environ['EXPECTED_SOURCE_HEAD'],
+              'compiler_outputs_requested': [],
+          }
+
+          def finish(status, code=0):
+              result['status'] = status
+              (destination / 'run.json').write_text(json.dumps(result, indent=2) + '\n')
+              print(json.dumps(result, indent=2))
+              raise SystemExit(code)
+
+          report_path = evidence / 'report.json'
+          report = json.loads(report_path.read_text()) if report_path.is_file() else {}
+          primary_exit = report.get('lake_build', {}).get('exit_code')
+          result['ordinary_lake_exit_code'] = primary_exit
+          if primary_exit is None:
+              finish('unavailable: ordinary native build did not produce a result')
+          if primary_exit == 0:
+              finish('skipped: ordinary native build succeeded; inspect the strict axiom gate instead')
+
+          prefix = subprocess.check_output(['lean', '--print-prefix'], text=True).strip()
+          generation = [
+              'lake', 'env', 'python3', 'scripts/low_energy_diagnostic_bundle.py',
+              '--repo-root', str(Path.cwd()), '--output-dir', str(destination),
+              '--lean-source-root', str(Path(prefix) / 'src/lean'),
+              '--expected-head', os.environ['EXPECTED_SOURCE_HEAD'],
+              '--check-native-imports', '--include-terminal',
+          ]
+          with (destination / 'generation.log').open('w') as stream:
+              generated = subprocess.run(generation, stdout=stream, stderr=subprocess.STDOUT)
+          result['generation_exit_code'] = generated.returncode
+          if generated.returncode != 0:
+              print((destination / 'generation.log').read_text())
+              finish('unavailable: source, head, import closure or native dependency check failed', 1)
+
+          unit = destination / 'GeneralNativeDiagnostic.lean'
+          command = ['lake', 'env', 'lean', '-j2', '-DautoImplicit=false',
+                     '-DrelaxedAutoImplicit=false', '-DElab.async=false', str(unit)]
+          result['command'] = command
+          result['bundle_sha256'] = hashlib.sha256(unit.read_bytes()).hexdigest()
+          started = time.monotonic()
+          result['timed_out'] = False
+          log_path = destination / 'native-lean.log'
+          with log_path.open('wb') as stream:
+              process = subprocess.Popen(command, stdout=stream, stderr=subprocess.STDOUT,
+                                         start_new_session=True)
+              try:
+                  code = process.wait(timeout=600)
+              except subprocess.TimeoutExpired:
+                  result['timed_out'] = True
+                  os.killpg(process.pid, signal.SIGTERM)
+                  try:
+                      process.wait(timeout=10)
+                  except subprocess.TimeoutExpired:
+                      os.killpg(process.pid, signal.SIGKILL)
+                      process.wait()
+                  code = 124
+          result.update(native_exit_code=code, seconds=round(time.monotonic() - started, 3),
+                        log_sha256=hashlib.sha256(log_path.read_bytes()).hexdigest())
+          mapping = json.loads((destination / 'GeneralNativeDiagnostic.map.json').read_text())
+          raw = log_path.read_text(errors='replace')
+          headers = list(re.finditer(
+              r'(?m)^.*GeneralNativeDiagnostic\.lean:(\d+):(\d+): (error|warning|info): (.*)$', raw))
+          errors = []
+          for index, match in enumerate(headers):
+              if match.group(3) != 'error':
+                  continue
+              line, column = int(match.group(1)), int(match.group(2))
+              source = next((entry for entry in mapping
+                             if entry['first_diagnostic_line'] <= line <= entry['last_diagnostic_line']), None)
+              end = headers[index + 1].start() if index + 1 < len(headers) else len(raw)
+              error = {'diagnostic_line': line, 'column': column,
+                       'message': match.group(4) + raw[match.end():end]}
+              if source is not None:
+                  error.update(source_path=source['source_path'],
+                               source_line=line - source['first_diagnostic_line'] + source['source_line_offset'] + 1,
+                               source_sha256=source['sha256'])
+              errors.append(error)
+          (destination / 'mapped-errors.json').write_text(json.dumps(errors, indent=2) + '\n')
+          result['mapped_error_count'] = len(errors)
+          print(raw)
+          finish('diagnostic command finished', 1 if code else 0)
+          PY
       - name: Preserve native Lake evidence and failure logs
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

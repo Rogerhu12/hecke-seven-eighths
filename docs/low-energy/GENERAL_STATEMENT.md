@@ -150,6 +150,9 @@ powerful rows；`O/2` 只由 powerful ideal 的真实计数引入一次。
 最终验证由 `.github/workflows/low-energy-verify.yml` 执行。
 它恢复官方固定 release 中的依赖产物，重新构建本任务的全部新
 证明模块，并在新的 Lean 进程中打印所需最终声明的公理。
+普通构建失败后，另一个原生诊断命令会将相关真实源文件临时接成一个
+编译单元，借助原文件哈希和逐行映射收集被失败依赖挡住的下游错误。
+该命令的输出只用于定位；验收仍要求每个独立模块及四项公理审计通过。
 编译输出保存在 GitHub Actions artifacts。源码清单只记录当前
 文件与哈希；旧缓存收据、checkpoint 和已提交的构建日志已移除。
 历史记录仍可从原 Git 提交和对应 Actions run 查阅。
