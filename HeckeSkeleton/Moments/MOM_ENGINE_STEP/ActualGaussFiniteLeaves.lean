@@ -44,7 +44,7 @@ variable {E W : Type*}
   [NormedAddCommGroup W] [InnerProductSpace ℝ W] [FiniteDimensional ℝ W]
   [MeasurableSpace W] [BorelSpace W]
 local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
-local instance actualGaussFiniteLeavesCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+instance actualGaussFiniteLeavesCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
 namespace ActualGaussStage
 
@@ -172,9 +172,10 @@ private theorem actualRows_withMultiplier_rows
       (fun rowLabel : Q → Fin ((s.charts DE D).rowLabelCount + 1) =>
         rowLabel h = label)
       (charts_withMultiplier_rowLabel s (fun i => (u i : ℂ)) DE D)).to_iff
-  simpa only [SecondBlockProfileChart.actualRows, ActualGaussStage.sources,
-    ActualGaussStage.withMultiplier, ActualGaussSource.withMultiplier,
-    Finset.mem_filter] using (and_congr hcarrier hlabel)
+  dsimp only [SecondBlockProfileChart.actualRows]
+  simp only [Finset.mem_filter]
+  simpa only [ActualGaussStage.sources, ActualGaussStage.withMultiplier,
+    ActualGaussSource.withMultiplier] using (and_congr hcarrier hlabel)
 
 namespace CoveredClassKey
 

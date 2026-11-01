@@ -305,7 +305,7 @@ theorem literalPrimitivePooledEngineExceptionalCost_le :
       («hZ» := hZ) (hbudget := hbudget) (centered := centered)
       (cutoff := b.firstBox.cutoff Z) (hcutoff := b.firstBox.cutoff_ge_one (hZ).le)
       (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
-      (hY₁ := hY₁) (hY₂ := hY₂) (cap := b.cap) (loss := b.loss) (cutoffExponent := b.loss)
+      («hY₁» := hY₁) («hY₂» := hY₂) (cap := b.cap) (loss := b.loss) (cutoffExponent := b.loss)
       (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
       (step := b.step) (hstep := b.step_pos) (hDiff := hDiff)
       (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
