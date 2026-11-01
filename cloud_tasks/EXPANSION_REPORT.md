@@ -2,9 +2,9 @@
 
 分支 `codex/expansion-detector-20261030`，PR #5，基线 `dtests-handoff`。
 
-**任务仍在进行，原始目标尚未全部通过。** 当前六份证明源码修复仍须下一轮原生编译与严格公理审计验证。
+**任务仍在进行，原始目标尚未全部通过。** pure 与 contours 已在最新原生提交完整通过严格审计；当前三份根修复及下一提交整体仍待验证。
 
-最新完整原生证据为 `abac74b` / run `41273254359`：pure 审计112个模块、2,042个声明、0个非标准公理依赖；其余四组构建失败，合计两个根模块、三条不同诊断，未进入公理审计。上轮三根 LargeRowSum、Sweep、Truncated 及静态后继 InfiniteTransport 已 fresh Built；PhysicalOuterRowPartition 在新的88/170两处报告根错误，UniformDecay 另有一条原生目标欠定错误。当前六源候选区分两份本 PR 原生根修复与四份外部诊断指导的后继修复；三个共享源模块及19个原名目标的严格 gate 均未执行。
+最新完整原生证据为 `2661e98` / run `41275908774`：pure 的112个模块／2,042个声明和 contours 的56个模块／709个声明均为0个非标准公理依赖。上一批六源中的 Uniform、ResidueTails、ResidueAssembly、ActualPrincipalExpansion 不仅 fresh Built，也已由 contours 全声明 gate 验证；Outer 与 Base 在后继位置仍报错。arithmetic、physical、skeleton 合计三个根模块、三条不同诊断；当前只修这三个 own 原生根，没有新增外部指导或纯静态改动。三个共享源模块及19个原名目标的严格 gate 均未执行。
 
 ## 原始目标与实际对象
 
@@ -686,3 +686,52 @@ Base 外部失败全文与本 PR abac 相同；该 SourceAudit job 已完成失�
 三个共享源模块及19个原名目标的严格 gate 均为 `not_executed_after_build_failure`；skeleton 甚至未生成这两类 audit 输入与日志。原名审计继续包括类型依赖，允许公理只含 `propext`、`Classical.choice`、`Quot.sound`。
 
 72条旧 CI 记录、13份旧历史快照及257份既有公理记录逐项保留；本轮始终只追加五组与一份快照，保持77条 CI 记录、14份快照，公理记录数量不变。原始义务仍为 `closed = false`，PR 尚未达到可审查标准；仍需原版构建和严格审计验证这六份候选及后继模块。
+
+## `2661e98` 的两组严格通过与三份原生根修复
+
+提交 `2661e988b206b1ca348daa5d39c112950ecde00c` 的 [run `41275908774`](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41275908774) 五组及所有 Post 步骤均自然完成；下一次分支更新以这轮完整结果为依据。五份官方 ZIP、335份选定源码、原生成 audit 输入和1,387文件源码归档均完成核验。工作流、验证器、完整 imports 与公理门保持原版。
+
+| 分组 | 原生结果 | 清单模块 | 严格审计声明／非标准依赖 | 根／诊断 | Artifact |
+| --- | --- | ---: | --- | ---: | ---: |
+| pure | success | 112 | 2042／0 | 0／0 | 13070374222 |
+| actual-arithmetic | failure | 116 | 构建失败，未执行 | 2／2 | 13071615568 |
+| actual-physical | failure | 39 | 构建失败，未执行 | 2／2 | 13070408757 |
+| actual-contours | success | 56 | 709／0 | 0／0 | 13071645813 |
+| skeleton | failure | 12 | 构建失败，未执行 | 3／3 | 13071467551 |
+
+arithmetic 与 physical 的两条完整 compiler contexts 逐字一致，且是 skeleton 三条的精确子集；skeleton 另有 Base 的实例错误。pure 和 contours 无编译根诊断。提取器仅把独立的 Lake 失败目标汇总排除在单条 compiler context 外，原始日志、ZIP 与历史记录没有改写。
+
+arithmetic 归档1,387个不同文件，路径集合与工作流 `git archive` 范围相同，逐个匹配原生 Git blobs；归档 SHA-256 为 `ccc04cb8466109e2776fa8a8ca8867bb11de3a3f05637c7297ffa57a6227b098`。274份既有 MOM_INV_STEP 基线源码仍独立记录；本批没有基线合并，也不把归档存在计为闭包外编译成功。
+
+### 四份 principal 修复已获得本 PR 全声明 gate
+
+| 模块 | contours 原生 fresh Built | 该源的严格审计状态 |
+| --- | --- | --- |
+| `Expansion.ActualPrincipalExpansion` | 日志126655：`⚠ [15414/15414] Built Expansion.ActualPrincipalExpansion (7.2s)` | 属于56份选定源，实际709声明／0非标准依赖 gate 已通过。 |
+| `Expansion.ActualPrincipalResidueAssembly` | 日志126610：`⚠ [15413/15414] Built Expansion.ActualPrincipalResidueAssembly (7.7s)` | 属于56份选定源，实际709声明／0非标准依赖 gate 已通过。 |
+| `Expansion.ActualPrincipalResidueTails` | 日志126599：`⚠ [15412/15414] Built Expansion.ActualPrincipalResidueTails (10s)` | 属于56份选定源，实际709声明／0非标准依赖 gate 已通过。 |
+| `Expansion.ActualPrincipalUniformDecay` | 日志126579：`⚠ [15411/15414] Built Expansion.ActualPrincipalUniformDecay (32s)` | 属于56份选定源，实际709声明／0非标准依赖 gate 已通过。 |
+
+这些结果现在是本 PR 原模块的完整 contours 严格审计证据，不再只是此前外部分支背景或失败组中的 Built。四份源字节与当前候选保持相同。PhysicalOuterRowPartition 和 Base 没有被 contours 清单选中，不能借用该组成功；它们在本轮其他组仍有真实根错误。
+
+contours 原始 build.log 还明确打印四个 fresh 模块的13个公开名字：Uniform 3个、Tails 2个、Assembly 4个、ActualPrincipalExpansion 4个。逐项核验实际完整名字、源码 SHA、日志行与公理列表后，追加为13条命名记录；全部只依赖 `propext`、`Classical.choice`、`Quot.sound`。709是该组穷尽审计总数，日志没有逐名列出全部709项，因此没有据此制造709条命名记录。
+
+### 三个本轮原生根与候选
+
+| 原生位置 | 原因 | 当前候选 |
+| --- | --- | --- |
+| `PhysicalOuterRowPartition` 105:22 | 旧调用引入本处没有的 norm-one BorelSpace 实例要求 | 直接使用已有纯算术 `frequencyRowNorm_eq_one_of_principal K Sset u hp`；目标仍是同一个主行范数等于1，不新增 BorelSpace 假设。 |
+| `PhysicalInitialTailBound` 63:6 | 泛型 `rw [tsum_subtype]` 无法匹配原 subtype 总和 | 对同一非主行 Set 和 tail kernel 明确证明 subtype-to-indicator 恒等式，再接原 `Summable.tsum_eq_add_tsum_ite`。 |
+| `HeckeSkeleton.Base` 329:8 | 原 Haar 证书所用 measurable/Borel 实例族没有先在构造体中固定 | 在已有 Haar letI 之前显式绑定同一个 `probeMeasures.localSpace` 与 `localBorel` 两族；原 Haar 数据、choice 与构造参数全部保持。 |
+
+三份改动合计16行增、4行减；声明、imports、原数学条件、测度数据和常数均未改。没有添加公理、sorry、目标结论前提或更高 heartbeat。本轮没有新增外部指导或纯静态消费者修复；其他分支不同 HighBin 正文的诊断没有迁入本分支。
+
+### 当前源码、严格终门与历史
+
+三份候选固定于 [d2eae81](https://github.com/Rogerhu12/hecke-seven-eighths/commit/d2eae8179496a08411644f20d5e3d5a0555bb652)，父提交为 `2661e988b206b1ca348daa5d39c112950ecde00c`；完整树 `6e998657d57c4a676be07e804a993cf0edb6ced5` 与本地观察 HEAD `1c8ab77ddc76d69fe673cb3fcbaf683779610843` 一致。本记录时分支仍为 `2661e98`，下一提交尚无新的完整原生门通过证据。
+
+335份当前源码已重新计算：332份与本轮原生相同、3份候选待重验。pure 的112份与 contours 的56份具有本轮 exact-source 严格证据；这些记录明确绑定原生266及其当时的 imports，不能视为下一提交整体通过。
+
+skeleton 在编译阶段失败，三个共享源模块及19个原名目标的严格输入／日志均未生成，状态仍为 `not_executed_after_build_failure`。原名 gate 保留类型依赖检查与原三公理白名单。顶层 `GeneralHeckeSevenEighths` 所在文件、`HeckeSkeleton/Main.lean`、验证器、工作流、335模块及原19／3目标集合均未改。
+
+77条旧 CI 记录、14份旧快照及257条旧公理记录的完整前缀逐项保留。本轮仅追加五组与一份快照，得到82条 CI／15份快照；追加上述13条真实命名公理记录后总数为270。原始义务仍为 `closed = false`；三份新修复与下一提交整体的原版构建及严格终门仍须通过，PR 尚未达到可审查标准。
