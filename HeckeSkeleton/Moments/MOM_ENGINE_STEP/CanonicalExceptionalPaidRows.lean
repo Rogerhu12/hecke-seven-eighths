@@ -107,7 +107,7 @@ theorem exists_original_paired_row_bound_with_cutoff
         Z ^ (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε +
           slotError - divisorLower + cutoffLoss / 6) := by
   obtain ⟨orders, hzero, J, Csource, hCsource, hsource⟩ :=
-    CanonicalExceptionalVolume.exists_original_source_bounds_supported (V := V) (σ := σ)
+    CanonicalExceptionalVolume.exists_original_source_bounds_supported (A := A) (V := V) (σ := σ)
       χ density remainder hcontinuous window hvolume hcompact hpositive
       ε maskExponent hε hmask
   have hcount : 0 < idealCountConstant F := zero_lt_one.trans_le (one_le_idealCountConstant F)
@@ -117,7 +117,7 @@ theorem exists_original_paired_row_bound_with_cutoff
   intro iLeft iRight WL₁ WL₂ WR₁ WR₂ hsL₁ hsL₂ hsR₁ hsR₂ P hP hPL₁ hPL₂ hPR₁ hPR₂
   have hP0 : 0 ≤ P := zero_le_one.trans hP
   have hleftBound := (hsource iLeft WL₁ WL₂ hsL₁ hsL₂ P hP0 hPL₁ hPL₂).2
-  have hrightBound := (hsource iRight WR₁ WR₂ hsR₁ hsR₂ P hP0 hPR₁ hPR₂).1
+  have hrightBounds := hsource iRight WR₁ WR₂ hsR₁ hsR₂ P hP0 hPR₁ hPR₂
   let Cleft := Csource * P ^ 2
   let Cright := Csource * P ^ 2
   have hCleft : 0 < Cleft := mul_pos hCsource (pow_pos (zero_lt_one.trans_le hP) _)
@@ -153,7 +153,7 @@ theorem exists_original_paired_row_bound_with_cutoff
   have hpoint (x) (hx : x ∈ rows) : ‖(left x).value‖ * ‖(right x).value‖ ≤ U := by
     have hl := hleftBound Z hZ (left x) (hmask0 x hx) (hmasknorm x hx)
       ((m + q) / 4 - vStar - r₁) (hminimum x hx)
-    have hr := (hrightBound (right x)).2
+    have hr := (hrightBounds.1 (right x)).2
     have hp : (1 + ‖(left x).time‖) ^ J ≤ (1 + height) ^ J :=
       pow_le_pow_left₀ (by positivity) (by linarith [htime x hx]) J
     have hl' : ‖(left x).value‖ ≤

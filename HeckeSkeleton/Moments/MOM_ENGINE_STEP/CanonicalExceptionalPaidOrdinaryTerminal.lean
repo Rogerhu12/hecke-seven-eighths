@@ -26,6 +26,20 @@ variable {A : SArithmeticData F} {σ : F →+* ℂ}
 variable {η : RayClassCharacter F A.modulus} {hS : A.ContainsTraceBadPlaces}
 variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 
+private theorem paidOrdinaryTerminal_weighted_bound
+    {normalization rowFactor pairValue sourceValue coefficient profileFactor scaleFactor : ℝ}
+    (hnormalization : 0 ≤ normalization) (hrowFactor : 0 ≤ rowFactor)
+    (hpair : pairValue ≤ rowFactor * sourceValue)
+    (hsource : normalization * sourceValue ≤ coefficient * profileFactor * scaleFactor) :
+    normalization * pairValue ≤ rowFactor * coefficient * profileFactor * scaleFactor := by
+  calc
+    normalization * pairValue ≤ normalization * (rowFactor * sourceValue) :=
+      mul_le_mul_of_nonneg_left hpair hnormalization
+    _ = rowFactor * (normalization * sourceValue) := mul_left_comm _ _ _
+    _ ≤ rowFactor * (coefficient * profileFactor * scaleFactor) :=
+      mul_le_mul_of_nonneg_left hsource hrowFactor
+    _ = rowFactor * coefficient * profileFactor * scaleFactor := by ac_rfl
+
 theorem exists_original_ordinary_magnitude_terminal_with_cutoff
     {Catalogue : Type*} [Fintype Catalogue]
     (χ : Catalogue → HeckeCharacter F)
@@ -124,10 +138,14 @@ theorem exists_original_ordinary_magnitude_terminal_with_cutoff
         (UL.constant * UR.constant) * Z ^ (Aexp - c - w - b₂ - r₁ - r₂) := by
     have hl := (TL h).source.rawMass_le_atomic_power C Z hZ UL (hleftAtoms h)
     have hr := (TR h).source.rawMass_le_atomic_power C Z hZ UR (hrightAtoms h)
-    apply (mul_le_mul hl hr (TR h).source.rawMass_nonneg
-      (mul_nonneg UL.constant_nonneg (Real.rpow_nonneg hz.le _))).trans_eq
-    rw [← hexponent, Real.rpow_add hz]
-    ring
+    calc
+      _ ≤ (UL.constant * Z ^ UL.exponent) * (UR.constant * Z ^ UR.exponent) :=
+        mul_le_mul hl hr (TR h).source.rawMass_nonneg
+          (mul_nonneg UL.constant_nonneg (Real.rpow_nonneg hz.le _))
+      _ = (UL.constant * UR.constant) * Z ^ (UL.exponent + UR.exponent) := by
+        rw [Real.rpow_add hz UL.exponent UR.exponent]
+        ac_rfl
+      _ = _ := by rw [hexponent]
   have hp := hrows iLeft iRight WL₁ WL₂ WR₁ WR₂ hsL₁ hsL₂ hsR₁ hsR₂
     P hP hPL₁ hPL₂ hPR₁ hPR₂ C R.primes R.primes_injective R.leftMultiplicity R.rightMultiplicity
     (Finset.univ : Finset (R.exceptionalRows Q))
@@ -150,9 +168,8 @@ theorem exists_original_ordinary_magnitude_terminal_with_cutoff
   have hrow0 : 0 ≤ rowAmplitude * Z ^ (g₂ - t₂) /
       (Real.sqrt left.normalizationScale * Real.sqrt right.normalizationScale) := by
     positivity
-  have hmul := mul_le_mul_of_nonneg_left hp hrow0
-  apply (mul_le_mul_of_nonneg_left hs (Real.rpow_nonneg hz.le _)).trans
-  convert hmul using 1 <;> ring
+  exact paidOrdinaryTerminal_weighted_bound
+    (Real.rpow_nonneg hz.le _) hrow0 hs hp
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalExceptionalTerminal
 
