@@ -44,7 +44,8 @@ theorem norm_le_profileOrders (orders : Finset (ℕ × ℕ))
     (f : 𝓢(ℝ, ℂ)) (x : ℝ) :
     ‖f x‖ ≤ (profileOrders orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) f := by
   apply (SchwartzMap.norm_le_seminorm ℂ f x).trans
-  exact Seminorm.le_finset_sup_apply (Finset.mem_insert_self (0, 0) orders)
+  exact Seminorm.le_finset_sup_apply (p := schwartzSeminormFamily ℂ ℝ ℂ) (x := f)
+    (Finset.mem_insert_self (0, 0) orders)
 
 theorem exists_upper_window_bound (window : Set ℝ) (hcompact : IsCompact window) :
     ∃ annulus : ℝ, 1 ≤ annulus ∧ window ⊆ Set.Iic annulus := by

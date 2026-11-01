@@ -90,18 +90,30 @@ theorem original_exceptional_label_scalar
   have hc : ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
       ‖(moebius j.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖ ≤
       ‖(moebius j.2.1.val : ℂ)‖ * ‖(moebius j.2.2.2.1.val : ℂ)‖ := by
-    have hc₁ := mul_le_mul_of_nonneg_right
-      (mul_le_mul_of_nonneg_left (fixed_phase_coefficient_norm Ray₁ phase₁ χ₁) (norm_nonneg _))
-      (norm_nonneg (moebius j.2.2.2.1.val : ℂ))
+    have hc₁ : ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
+        ‖(moebius j.2.2.2.1.val : ℂ)‖ ≤
+        ‖(moebius j.2.1.val : ℂ)‖ * ‖(moebius j.2.2.2.1.val : ℂ)‖ := by
+      simpa only [mul_one] using mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_left (fixed_phase_coefficient_norm Ray₁ phase₁ χ₁)
+          (norm_nonneg (moebius j.2.1.val : ℂ)))
+        (norm_nonneg (moebius j.2.2.2.1.val : ℂ))
     simpa only [mul_one] using mul_le_mul hc₁ (fixed_phase_coefficient_norm Ray₂ phase₂ χ₂)
-      (norm_nonneg _) (by positivity)
+      (norm_nonneg (fixedPhaseCoefficient Ray₂ phase₂ χ₂))
+      (mul_nonneg (norm_nonneg (moebius j.2.1.val : ℂ))
+        (norm_nonneg (moebius j.2.2.2.1.val : ℂ)))
   have hp0 : 0 ≤ firstCost / (Ideal.absNorm (commonRadical j.1.val.1.1 j.1.val.1.2) : ℝ) *
       (secondCost * Z ^ remaining /
         (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ) * Z ^ (-lower)) :=
     mul_nonneg (div_nonneg hfirstCost (Nat.cast_nonneg _)) (hm.trans hsecond)
-  have hfinal := mul_le_mul hp hc (by positivity) hp0
+  have hfinal := mul_le_mul hp hc
+    (mul_nonneg
+      (mul_nonneg
+        (mul_nonneg (norm_nonneg (moebius j.2.1.val : ℂ))
+          (norm_nonneg (fixedPhaseCoefficient Ray₁ phase₁ χ₁)))
+        (norm_nonneg (moebius j.2.2.2.1.val : ℂ)))
+      (norm_nonneg (fixedPhaseCoefficient Ray₂ phase₂ χ₂))) hp0
   convert hfinal using 1 <;>
-    simp only [TwoDivisorCommonBranch.exceptionalDyadWeight] <;> ring
+    dsimp only [TwoDivisorCommonBranch.exceptionalDyadWeight] <;> ring
 
 variable {ΨL ΨR : Ideal (𝓞 F) →* ℂ} {WL₁ WL₂ WR₁ WR₂ : ℝ → ℂ}
 variable (HL : ExceptionalVolumeControl ΨL WL₁ WL₂) (HR : ExceptionalVolumeControl ΨR WR₁ WR₂)
@@ -220,12 +232,34 @@ theorem exceptional_original_label_from_atoms
   have hfirst := firstOriginalAllowanceWeight_le_radical Z firstParentWidth firstTotal
     firstProfile firstCost hZ hfirstCost hfirstProfile j.1.val.1.1 j.1.val.1.2
     hfirstLeft hfirstRight hfirstSupport
-  rw [hleftIdeal, hrightIdeal] at hsecond
-  rw [hSindex, hleftDivisor]
-  apply original_exceptional_label_scalar j phase₁ χ₁ phase₂ left.phaseCharacter
-    Z _ _ firstCost _ parentWidth _ divisorLower (zero_lt_one.trans hZ)
-    (left.exceptionalMagnitude_nonneg right EL ER Q ξ) hfirstCost hfirst
-  exact hsecond
+  let Csecond := (W.commonEnvelope * orbitalFieldFactor F) *
+    ((W.originalFiber : ℝ) * exceptionalTerminalConstant (V := V) (σ := σ) (η := η)
+      (hS := hS) HL HR ε maskExponent hε hmask * (UL.constant * UR.constant) *
+      (1 + height) ^ exceptionalTerminalOrder (V := V) (σ := σ) (η := η) (hS := hS)
+        HL HR ε maskExponent hε hmask)
+  let remaining' := remaining + widthError +
+    (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε + slotError)
+  have hradical : (Ideal.absNorm (commonRadical W.leftIdeal W.rightIdeal) : ℝ) =
+      (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ) := by
+    rw [hleftIdeal, hrightIdeal]
+  have hsecond' : left.exceptionalMagnitude right EL ER Q ξ / Z ^ parentWidth ≤
+      Csecond * Z ^ remaining' /
+        (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ) *
+        Z ^ (-divisorLower) :=
+    hsecond.trans_eq (congrArg
+      (fun N : ℝ => Csecond * Z ^ remaining' / N * Z ^ (-divisorLower)) hradical)
+  have hbound := original_exceptional_label_scalar j phase₁ χ₁ phase₂ left.phaseCharacter
+    Z (firstOriginalAllowanceWeight Z firstParentWidth firstTotal firstProfile
+      j.1.val.1.1 j.1.val.1.2) (left.exceptionalMagnitude right EL ER Q ξ)
+    firstCost Csecond parentWidth remaining' divisorLower (zero_lt_one.trans hZ)
+    (left.exceptionalMagnitude_nonneg right EL ER Q ξ) hfirstCost hfirst hsecond'
+  have hdivisors := congrArg₂ (fun I J : Ideal (𝓞 F) =>
+    firstOriginalAllowanceWeight Z firstParentWidth firstTotal firstProfile
+        j.1.val.1.1 j.1.val.1.2 *
+      ‖(moebius I : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
+      ‖(moebius J : ℂ)‖ * ‖fixedPhaseCoefficient Ray phase₂ left.phaseCharacter‖ *
+      (left.exceptionalMagnitude right EL ER Q ξ / Z ^ parentWidth)) hSindex hleftDivisor
+  exact hdivisors.trans_le hbound
 
 end SecondSideFrame
 end HeckeSkeleton.Moments.EngineStep
