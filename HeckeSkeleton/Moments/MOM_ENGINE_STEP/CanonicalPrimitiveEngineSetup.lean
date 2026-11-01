@@ -60,13 +60,33 @@ variable (outputOrders : Finset (ℕ × ℕ))
 variable (primitive : CanonicalLiteralExceptionalPaidSource.VolumePrimitive
   ψ theta (Set.Icc b.lo b.hi))
 
-/-- The physical complete mask has one fixed exponent before the source. -/
-def volumeMaskExponent (b : Box) : ℝ :=
-  CanonicalLiteralExceptionalPhysicalBox.maskExponent b.widthMax b.loss b.loss
+/-- The original first deletion retains the passive sixth-power prime
+factors. Its exceptional volume box therefore also covers the actual
+column bound and the two pool-prime lengths. The choice precedes the
+source and does not alter its mask or arithmetic data. -/
+def volumeWidth (b : Box) : ℝ :=
+  max b.widthMax (b.columnBound + 2 * b.step / 3)
 
-theorem volumeMaskExponent_nonneg (b : Box) : 0 ≤ volumeMaskExponent b :=
-  CanonicalLiteralExceptionalPhysicalBox.maskExponent_nonneg
-    b.width_nonneg b.loss_pos.le b.loss_pos.le
+theorem volumeWidth_nonneg (b : Box) : 0 ≤ volumeWidth b :=
+  b.width_nonneg.trans (le_max_left _ _)
+
+theorem widthMax_le_volumeWidth (b : Box) : b.widthMax ≤ volumeWidth b :=
+  le_max_left _ _
+
+theorem firstSupport_le_volumeWidth (b : Box) :
+    b.columnBound + 2 * b.step / 3 ≤ volumeWidth b :=
+  le_max_right _ _
+
+/-- The complete mask pays both original column contributions, with
+the same physical loss and cutoff exponent used by the actual source. -/
+def volumeMaskExponent (b : Box) : ℝ :=
+  2 * volumeWidth b + 2 * b.loss + b.loss + 1
+
+theorem volumeMaskExponent_nonneg (b : Box) : 0 ≤ volumeMaskExponent b := by
+  have hwidth := volumeWidth_nonneg b
+  have hloss := b.loss_pos.le
+  unfold volumeMaskExponent
+  positivity
 
 /-- One finite order set for the two centered sides and the ordinary side. -/
 def volumeOrders : Finset (ℕ × ℕ) :=

@@ -977,6 +977,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineOriginalWin
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineSetup
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveFirstTerminalNonneg
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitivePooledEngine
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveUniformEngine
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveExceptionalSmallLoss
 /-!
 # The unified child step of the paired fourth-moment engine
 
