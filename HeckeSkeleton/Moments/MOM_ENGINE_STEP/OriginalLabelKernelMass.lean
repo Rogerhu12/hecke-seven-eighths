@@ -72,6 +72,13 @@ variable {k l : ℕ}
 variable {sL : ActualAllocatedSource A V HL k} {sR : ActualAllocatedSource A V HR l}
 variable {branch : TwoDivisorCommonBranch (K := F)}
 
+/-- Typed projections keep the original dependent index out of repeated field elaboration. -/
+private def originalLabelFirstLeft (j : branch.Index) : Ideal (𝓞 F) := j.1.val.1.1
+private def originalLabelFirstRight (j : branch.Index) : Ideal (𝓞 F) := j.1.val.1.2
+private def originalLabelSecondLeft (j : branch.Index) : Ideal (𝓞 F) := j.2.2.1.val.1.1
+private def originalLabelSecondRight (j : branch.Index) : Ideal (𝓞 F) := j.2.2.1.val.1.2
+private def originalLabelSecondDivisor (j : branch.Index) : Ideal (𝓞 F) := j.2.2.2.1.val
+
 /-- A ledger of original numerical windows and individual factor
 costs.  It has no field asserting a source, child, or total-mass bound.
 The producer chooses the calibration costs by `withAllocationCosts`
@@ -81,18 +88,21 @@ structure OriginalLabelCostWindows (j : branch.Index)
     (IL : DL.CapacityInput) (IR : DR.CapacityInput)
     (BL : Fin sL.allocation.keep.card → ℝ) (BR : Fin sR.allocation.keep.card → ℝ)
     (originalLeft originalRight : ℂ)
-    (Z firstCost frozenCost fiberCost primeCost remaining : ℝ) (cap : ℕ) where
+    (Z firstCost frozenCost fiberCost primeCost remaining : ℝ) (cap : ℕ) : Type where
   firstRowWeight : ℝ
   firstProfile : ℝ
   firstParentWidth : ℝ
   firstTotal : ℝ
   first_profile_nonneg : 0 ≤ firstProfile
   first_row : firstRowWeight = firstProfile *
-    Real.sqrt (Ideal.absNorm (firstActiveRadical j.1.val.1.1 j.1.val.1.2) : ℝ)
+    Real.sqrt (Ideal.absNorm (firstActiveRadical
+      (originalLabelFirstLeft (branch := branch) j)
+      (originalLabelFirstRight (branch := branch) j)) : ℝ)
   first_profile : firstProfile ≤ firstCost * Z ^ (firstParentWidth - firstTotal)
-  first_left_ne_zero : j.1.val.1.1 ≠ 0
-  first_right_ne_zero : j.1.val.1.2 ≠ 0
-  first_support : primeSupport j.1.val.1.1 = primeSupport j.1.val.1.2
+  first_left_ne_zero : (originalLabelFirstLeft (branch := branch) j) ≠ 0
+  first_right_ne_zero : (originalLabelFirstRight (branch := branch) j) ≠ 0
+  first_support : primeSupport (originalLabelFirstLeft (branch := branch) j) =
+    primeSupport (originalLabelFirstRight (branch := branch) j)
   firstNormalization : ℝ
   a₀ : ℝ
   q : ℝ
@@ -110,12 +120,12 @@ structure OriginalLabelCostWindows (j : branch.Index)
   unitRadical : Ideal (𝓞 F)
   boundaryRadical : Ideal (𝓞 F)
   first_normalization : firstNormalization = Z ^ (a₀ + q + w + boundary)
-  second_left_ne_zero : j.2.2.1.val.1.1 ≠ 0
-  second_right_ne_zero : j.2.2.1.val.1.2 ≠ 0
+  second_left_ne_zero : (originalLabelSecondLeft (branch := branch) j) ≠ 0
+  second_right_ne_zero : (originalLabelSecondRight (branch := branch) j) ≠ 0
   unit_ne_zero : unitRadical ≠ 0
-  divisor_ne_zero : j.2.2.2.1.val ≠ 0
-  left_divisor : sL.allocation.divisor = j.2.2.2.1.val
-  right_divisor : sR.allocation.divisor = j.2.2.2.1.val
+  divisor_ne_zero : (originalLabelSecondDivisor (branch := branch) j) ≠ 0
+  left_divisor : sL.allocation.divisor = (originalLabelSecondDivisor (branch := branch) j)
+  right_divisor : sR.allocation.divisor = (originalLabelSecondDivisor (branch := branch) j)
   original_radius : Z ^ (-krow - g) ≤
     radius.val * (sIntegerElementNorm F (A.Sf : Set (HeightOneSpectrum (𝓞 F)))
       (sIntegerMaskGenerator F (A.Sf : Set (HeightOneSpectrum (𝓞 F))) mask)).val
@@ -125,11 +135,15 @@ structure OriginalLabelCostWindows (j : branch.Index)
   left_base : sL.base = Z
   right_base : sR.base = Z
   left_row_cost : DL.rowBound ≤ secondCommonRowCost (A := A) radius mask
-    j.2.2.1.val.1.1 j.2.2.1.val.1.2 unitRadical
+    (originalLabelSecondLeft (branch := branch) j)
+    (originalLabelSecondRight (branch := branch) j) unitRadical
   right_row_cost : DR.rowBound ≤ secondCommonRowCost (A := A) radius mask
-    j.2.2.1.val.1.1 j.2.2.1.val.1.2 unitRadical
-  left_scalar_cost : DL.scalarBound ≤ frozenCost ^ cap / (Ideal.absNorm j.2.2.2.1.val : ℝ)
-  right_scalar_cost : DR.scalarBound ≤ frozenCost ^ cap / (Ideal.absNorm j.2.2.2.1.val : ℝ)
+    (originalLabelSecondLeft (branch := branch) j)
+    (originalLabelSecondRight (branch := branch) j) unitRadical
+  left_scalar_cost : DL.scalarBound ≤ frozenCost ^ cap /
+    (Ideal.absNorm (originalLabelSecondDivisor (branch := branch) j) : ℝ)
+  right_scalar_cost : DR.scalarBound ≤ frozenCost ^ cap /
+    (Ideal.absNorm (originalLabelSecondDivisor (branch := branch) j) : ℝ)
   left_fibers : (DL.fiberBound : ℝ) ≤ fiberCost
   right_fibers : (DR.fiberBound : ℝ) ≤ fiberCost
   left_prime_cost : ∀ i, BL i ≤ primeCost
@@ -137,13 +151,19 @@ structure OriginalLabelCostWindows (j : branch.Index)
   left_count : sL.allocation.keep.card ≤ cap
   right_count : sR.allocation.keep.card ≤ cap
   left_budget : DL.parameters.m + DL.parameters.q + IL.exponent ≤
-    secondCommonChildWidth Z a₀ q wo krow g j.2.2.1.val.1.1 j.2.2.1.val.1.2
-      unitRadical boundaryRadical +
-        secondCommonChildAllowance Z w boundary ell j.2.2.1.val.1.1 j.2.2.1.val.1.2 + delta
+    secondCommonChildWidth Z a₀ q wo krow g
+      (originalLabelSecondLeft (branch := branch) j)
+      (originalLabelSecondRight (branch := branch) j) unitRadical boundaryRadical +
+        secondCommonChildAllowance Z w boundary ell
+          (originalLabelSecondLeft (branch := branch) j)
+          (originalLabelSecondRight (branch := branch) j) + delta
   right_budget : DR.parameters.m + DR.parameters.q + IR.exponent ≤
-    secondCommonChildWidth Z a₀ q wo krow g j.2.2.1.val.1.1 j.2.2.1.val.1.2
-      unitRadical boundaryRadical +
-        secondCommonChildAllowance Z w boundary ell j.2.2.1.val.1.1 j.2.2.1.val.1.2 + delta
+    secondCommonChildWidth Z a₀ q wo krow g
+      (originalLabelSecondLeft (branch := branch) j)
+      (originalLabelSecondRight (branch := branch) j) unitRadical boundaryRadical +
+        secondCommonChildAllowance Z w boundary ell
+          (originalLabelSecondLeft (branch := branch) j)
+          (originalLabelSecondRight (branch := branch) j) + delta
   remaining_margin : delta + wo + ell ≤ remaining
 
 namespace OriginalLabelCostWindows
@@ -239,11 +259,17 @@ theorem labelWeight_le
   have hc : ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
       ‖(moebius j.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖ ≤
       ‖(moebius j.2.1.val : ℂ)‖ * ‖(moebius j.2.2.2.1.val : ℂ)‖ := by
-    have hc₁ := mul_le_mul_of_nonneg_right
-      (mul_le_mul_of_nonneg_left (fixed_phase_coefficient_norm Ray₁ phase₁ χ₁) (norm_nonneg _))
-      (norm_nonneg (moebius j.2.2.2.1.val : ℂ))
+    have hc₁ : ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
+        ‖(moebius j.2.2.2.1.val : ℂ)‖ ≤
+        ‖(moebius j.2.1.val : ℂ)‖ * ‖(moebius j.2.2.2.1.val : ℂ)‖ := by
+      simpa only [mul_one] using mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_left (fixed_phase_coefficient_norm Ray₁ phase₁ χ₁)
+          (norm_nonneg (moebius j.2.1.val : ℂ)))
+        (norm_nonneg (moebius j.2.2.2.1.val : ℂ))
     simpa only [mul_one] using mul_le_mul hc₁ (fixed_phase_coefficient_norm Ray₂ phase₂ χ₂)
-      (norm_nonneg _) (by positivity)
+      (norm_nonneg (fixedPhaseCoefficient Ray₂ phase₂ χ₂))
+      (mul_nonneg (norm_nonneg (moebius j.2.1.val : ℂ))
+        (norm_nonneg (moebius j.2.2.2.1.val : ℂ)))
   have hp0 : 0 ≤ firstCost / (Ideal.absNorm (commonRadical j.1.val.1.1 j.1.val.1.2) : ℝ) *
       ((frozenCost ^ cap * fiberCost * primeCost ^ cap * orbitalFieldFactor F) *
         Z ^ remaining / (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ) /
@@ -253,7 +279,7 @@ theorem labelWeight_le
         (Nat.cast_nonneg _)) (Nat.cast_nonneg _))
   have hfinal := mul_le_mul hp hc (by positivity) hp0
   convert hfinal using 1 <;>
-    simp only [labelWeight, TwoDivisorCommonBranch.indexWeight] <;> ring
+    dsimp only [labelWeight, TwoDivisorCommonBranch.indexWeight] <;> ring
 
 end OriginalLabelCostWindows
 
