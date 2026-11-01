@@ -203,7 +203,7 @@ variable [∀ v : (A.Sf : Set (HeightOneSpectrum (𝓞 K))),
 variable [∀ v : (A.Sf : Set (HeightOneSpectrum (𝓞 K))),
   BorelSpace (v.val.adicCompletion K)ˣ]
 
-local instance canonicalLiteralPassiveOutputCircleCharacterFintype :
+local instance canonicalLiteralPassiveOutputInputsCircleCharacterFintype :
     Fintype ((PUnit.{1} × PUnit.{1}) →* Circle) := Fintype.ofFinite _
 
 namespace ActualGaussStage.CoveredClassKey
