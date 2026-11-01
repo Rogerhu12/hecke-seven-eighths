@@ -30,12 +30,14 @@ jobs:
       matrix:
         include:
           - target: ConstantProfileExtraction
+            downstream: ConstantRowWeightOuter
             declarations:
               - HeckeSkeleton.Moments.EngineStep.ActualSecondRowMass.withColumnConstants
               - HeckeSkeleton.Moments.EngineStep.ActualSecondRowMass.withColumnConstants_commonEnvelope
               - HeckeSkeleton.Moments.EngineStep.ActualSecondRowMass.withColumnConstants_rowBound
               - HeckeSkeleton.Moments.EngineStep.ActualHybridLeaf.ConstantAtomExtraction.trans_leaf
           - target: OriginalPairAllowanceProduction
+            downstream: ActualNominalPairAllowance
             declarations:
               - HeckeSkeleton.Moments.EngineStep.OriginalPairAllowanceWindow.ofOriginalWindows
               - HeckeSkeleton.Moments.EngineStep.ActualCapacityNormLengths.ofOriginalLabels
@@ -43,6 +45,7 @@ jobs:
     env:
       LEAN_NUM_THREADS: '2'
       D_ROOT_TARGET: ${{ matrix.target }}
+      D_ROOT_DOWNSTREAM: ${{ matrix.downstream }}
       D_ROOT_DECLARATIONS: ${{ toJSON(matrix.declarations) }}
       D_ROOT_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
       D_ROOT_EVIDENCE: mom-engine-step-d-verification/${{ matrix.target }}
@@ -115,6 +118,25 @@ jobs:
             "$D_ROOT_STATUS" "$((D_ROOT_FINISHED - D_ROOT_STARTED))" \
             > "$D_ROOT_EVIDENCE/verification-status.json"
           exit "$D_ROOT_STATUS"
+      - name: Build the independent direct downstream and audit its namespace
+        shell: bash
+        run: |
+          mkdir -p "$D_ROOT_EVIDENCE/downstream"
+          D_DOWNSTREAM_STARTED=$(date +%s)
+          set +e
+          timeout --signal=TERM --kill-after=30s 10m \
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+              "HeckeSkeleton.Moments.MOM_ENGINE_STEP.$D_ROOT_DOWNSTREAM" \
+              --namespace HeckeSkeleton.Moments.EngineStep \
+              --evidence "$D_ROOT_EVIDENCE/downstream" 2>&1 |
+            tee "$D_ROOT_EVIDENCE/downstream/verification.log"
+          D_DOWNSTREAM_STATUS=${PIPESTATUS[0]}
+          set -e
+          D_DOWNSTREAM_FINISHED=$(date +%s)
+          printf '{"exit_code": %s, "elapsed_seconds": %s, "timeout_seconds": 600}\n' \
+            "$D_DOWNSTREAM_STATUS" "$((D_DOWNSTREAM_FINISHED - D_DOWNSTREAM_STARTED))" \
+            > "$D_ROOT_EVIDENCE/downstream/verification-status.json"
+          exit "$D_DOWNSTREAM_STATUS"
       - name: Preserve and compare tracked file hashes after every outcome
         if: always()
         run: |
