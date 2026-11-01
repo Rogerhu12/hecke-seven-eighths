@@ -31,10 +31,12 @@ theorem moment_nonneg (W : SchwartzMap ℝ ℂ) (hW : tsupport W ⊆ Set.Icc (1 
     0 ≤ moment W hW k := integral_nonneg fun t => mul_nonneg (by positivity) (norm_nonneg _)
 
 theorem moment_integrable (W : SchwartzMap ℝ ℂ) (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2) (k : ℕ) :
-    Integrable (fun t : ℝ, (1 + |t|) ^ k *
+    Integrable (fun t : ℝ => (1 + |t|) ^ k *
       ‖SecondMellinEnergy.mellinDensity (ProviderInitialIntegral.mellinTest W)
         (ProviderInitialIntegral.mellinTest_support W hW) t‖) :=
-  PositiveIntervalMellin.density_moment_integrable _ _ _ _ _ _ k
+  PositiveIntervalMellin.density_moment_integrable (1 / 8) (21 / 8)
+    (by norm_num) (by norm_num) (ProviderInitialIntegral.mellinTest W)
+    (ProviderInitialIntegral.mellinTest_support W hW) k
 
 theorem exists_moment_bound (k : ℕ) :
     ∃ q : Finset (ℕ × ℕ), ∃ C : ℝ, 0 ≤ C ∧
@@ -58,9 +60,13 @@ theorem exists_cauchy_moment_bound (k : ℕ) :
   obtain ⟨q₁, A₁, hA₁, hb₁⟩ := exists_moment_bound k
   refine ⟨q₀ ∪ q₁, A₀ * A₁, mul_nonneg hA₀ hA₁, ?_⟩
   intro W hW
-  have h₀ := (hb₀ W hW).trans (mul_le_mul_of_nonneg_left
+  have h₀ : moment W hW 0 ≤
+      A₀ * (q₀ ∪ q₁).sup (schwartzSeminormFamily ℝ ℝ ℂ) W :=
+    (hb₀ W hW).trans (mul_le_mul_of_nonneg_left
     (Seminorm.le_def.mp (Finset.sup_mono Finset.subset_union_left) W) hA₀)
-  have h₁ := (hb₁ W hW).trans (mul_le_mul_of_nonneg_left
+  have h₁ : moment W hW k ≤
+      A₁ * (q₀ ∪ q₁).sup (schwartzSeminormFamily ℝ ℝ ℂ) W :=
+    (hb₁ W hW).trans (mul_le_mul_of_nonneg_left
     (Seminorm.le_def.mp (Finset.sup_mono Finset.subset_union_right) W) hA₁)
   exact (mul_le_mul h₀ h₁ (moment_nonneg W hW k)
     (mul_nonneg hA₀ (apply_nonneg _ _))).trans_eq (by ring)
@@ -96,7 +102,11 @@ theorem joint_polynomial_integral (W : SchwartzMap ℝ ℂ)
       unfold ProviderInitialIntegral.density polynomialCost
       ring
     _ = _ := by
-      rw [integral_const_mul, integral_prod_mul]
+      rw [integral_const_mul,
+        integral_prod_mul (fun xi : LogPlane => frequencyEnvelope k xi * (1 + |L xi|) ^ k)
+          (fun t : ℝ => (1 + |t|) ^ k *
+            ‖SecondMellinEnergy.mellinDensity (ProviderInitialIntegral.mellinTest W)
+              (ProviderInitialIntegral.mellinTest_support W hW) t‖)]
       unfold coordinateMoment moment
       ring
 

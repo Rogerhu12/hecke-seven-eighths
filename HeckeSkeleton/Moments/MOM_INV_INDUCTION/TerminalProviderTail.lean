@@ -24,6 +24,7 @@ open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.LowEnergy.ActualReflection
   HeckeSkeleton.LowEnergy.ActualReflectionReindex
   HeckeSkeleton.LowEnergy.ActualFrozenCharges
+  HeckeSkeleton.LowEnergy.ActualFrozenMajorant
   HeckeSkeleton.LowEnergy.ActualFrozenIndependence
   HeckeSkeleton.LowEnergy.ActualHybridEntry
   HeckeSkeleton.LowEnergy.ActualSeparatedBlock
@@ -111,7 +112,9 @@ variable (D : ThetaArithmeticData K S)
 variable (f : FixedData K S) (s : FrozenState K S f.frozen f.puncture)
 
 theorem norm_ge_one (I : Ext) : 1 ≤ exteriorNorm K S I := by
-  exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors I.val
+  change (1 : ℝ) ≤ (I.val.val.absNorm : ℝ)
+  exact_mod_cast (Nat.one_le_iff_ne_zero.mpr
+    (Nat.ne_of_gt (Ideal.absNorm_pos_of_nonZeroDivisors I.val)))
 
 theorem stateMajorant_le_one : stateMajorant K S s ≤ 1 := by
   have hc := stateMajorant_sq_le_inverse_charge K S s
@@ -139,7 +142,7 @@ theorem hybridKernel_norm_le_one (hD : AllowedGeneratorInput K S D)
     ‖FiniteHybridIntegral.hybridKernel (cubicKernel K S D) (quadraticKernel K S D)
       k.val.val P.val.val c.val.val b.val.val‖ ≤ 1 := by
   have hp : 1 ≤ Real.sqrt (P.val.val.absNorm : ℝ) := by
-    simpa only [exteriorNorm] using Real.sqrt_le_sqrt (norm_ge_one K S P)
+    simpa only [exteriorNorm, Real.sqrt_one] using Real.sqrt_le_sqrt (norm_ge_one K S P)
   have hinv : ‖(Real.sqrt (P.val.val.absNorm : ℝ) : ℂ)⁻¹‖ ≤ 1 := by
     rw [norm_inv, Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg (Real.sqrt_nonneg _)]
     simpa only [inv_one] using inv_anti₀ (by norm_num : (0 : ℝ) < 1) hp
@@ -255,7 +258,7 @@ theorem argument_lower {Z Nstar H za : ℝ} (hZ : 1 < Z) (k P c b : Ext)
   have hmpos := exteriorNorm_pos K S s.minimum
   have hapos := exteriorNorm_pos K S (primeSetIdeal K S s.active)
   have hscale := canonicalScale_eq K S f s hZ Nstar H za 0 0
-  simp only [Real.rpow_zero, one_pow, mul_one, zero_add, zero_mul, sub_zero,
+  simp only [Real.rpow_zero, one_pow, mul_one, zero_add, zero_mul, mul_zero, sub_zero,
     zero_sub] at hscale
   have hden : exteriorNorm K S k ^ 2 * exteriorNorm K S P ^ 2 ≤
       16 * ((Z ^ H) ^ 2 * (Z ^ za) ^ 2) := by
@@ -313,12 +316,16 @@ theorem argument_inverseSquare_le {Z L Nstar H za : ℝ} (hZ : 1 < Z)
       argument K S f s (Z ^ Nstar) k P c b := by
     have hh := Real.rpow_le_rpow_of_exponent_le hZ.le
       (neg_le_neg (threshold_le K S f s hZ hsource))
+    rw [show -(9 * L) = -9 * L by ring] at hh
     have hh' := mul_le_mul_of_nonneg_right
       (mul_le_mul_of_nonneg_right hh (exteriorNorm_pos K S c).le)
       (pow_nonneg (exteriorNorm_pos K S b).le 3)
     have hdiv := div_le_div_of_nonneg_right hh' (by norm_num : (0 : ℝ) ≤ 16)
-    apply (by convert hdiv using 1 <;> ring).trans
-    exact argument_lower K S f s hZ k P c b hk hP
+    calc
+      _ = Z ^ (-9 * L) * exteriorNorm K S c * exteriorNorm K S b ^ 3 / 16 := by ring
+      _ ≤ Z ^ (-GeneralReflectedEnergy.threshold K S f s Z Nstar H za) *
+          exteriorNorm K S c * exteriorNorm K S b ^ 3 / 16 := hdiv
+      _ ≤ _ := argument_lower K S f s hZ k P c b hk hP
   have hinv : inverseSquare (argument K S f s (Z ^ Nstar) k P c b) ≤
       inverseSquare ((Z ^ (-9 * L) / 16) * 1 * exteriorNorm K S c * exteriorNorm K S b ^ 3) := by
     exact inv_anti₀ (by positivity) (pow_le_pow_left₀ (by positivity) hl 2)
@@ -362,7 +369,11 @@ theorem tail_power_bound {Z L Nstar H za tau A : ℝ} (hZ : 1 < Z) (hA : 2 ≤ A
     ring
   rw [hsplit]
   have hh := mul_le_mul (argument_inverseSquare_le K S f s hZ hsource k P c b hk hP)
-    htailpow (Real.rpow_nonneg hy.le _) (by positivity)
+    htailpow (Real.rpow_nonneg hy.le _)
+    (mul_nonneg
+      (mul_nonneg (mul_nonneg (by norm_num) (Real.rpow_nonneg hz.le _))
+        (inverseSquare_nonneg _))
+      (inverseSquare_nonneg _))
   apply hh.trans_eq
   calc
     _ = (256 * 16 ^ (A - 2)) *
@@ -407,7 +418,7 @@ theorem tail_norm_bound
         (inverseSquare (exteriorNorm K S cb.1) * inverseSquare (exteriorNorm K S cb.2)) := by
     dsimp only [term]
     split_ifs with ht
-    · have hy := argument_pos K S f s (Real.rpow_pos_of_pos hz _) k P cb.1 cb.2
+    · have hy := argument_pos K S f s (Real.rpow_pos_of_pos hz Nstar) k P cb.1 cb.2
       have hkern := hkernel V (QuotientGroup.mk f.rowUnit)
         (blockFrequency (frozenClass K S D f s) (generatorLocalClass K S D k)
           (generatorLocalClass K S D P) (generatorLocalClass K S D cb.1)
@@ -579,6 +590,8 @@ theorem uniform_tail_energy
   classical
   choose C hC hb using fun θ : backgrounds => fixed_period_tail_energy K S D
     (R.data θ.val) θ.val (R.reflection θ.val θ.property) L tau saving hL htau hsaving
+  have hCsum : 0 ≤ ∑ θ : backgrounds, C θ :=
+    Finset.sum_nonneg (fun θ _ => (hC θ).le)
   refine ⟨1 + ∑ θ : backgrounds, C θ, 2, tailShift L tau saving,
     kernelOrder K (tailShift L tau saving), by positivity, by norm_num,
     le_trans (by norm_num) (tailShift_ge_two hL.le htau hsaving.le), ?_⟩

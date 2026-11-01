@@ -111,7 +111,6 @@ theorem exists_uniform_local_step_uniform_marks
     apply hp.trans
     gcongr
     · dsimp only [C]; linarith
-    · exact hqLabel
   · have hshort' := hshort Z Fcap c z x hZ₀ hFcap hcLower hz hzMax hx (lt_of_not_ge hlong)
     have hcube' := hcube Θ ψ Λ G hG Z Fcap c z lo hi d eta h tau eps Cih Rmax x
       hZ hFcap hc hz hx hrow hh htau htau' hwidth hmesh hstepsize heps hCih hih hshift
@@ -125,7 +124,7 @@ theorem exists_uniform_local_step_uniform_marks
             Z ^ (x.totalLength + 40 * eta + tau + pi + eps) := by
           gcongr
           · exact le_mul_of_one_le_right hCShort hCih
-          · exact hqShort
+          · exact hz1.le
           · linarith [htau.1]
         _ = _ := by dsimp only [E]; ring
     have hl : TerminalNodes.longEnergy K S Γ D slotCap x (Z ^ d) ≤ CCube * Cih * E := by
@@ -139,7 +138,8 @@ theorem exists_uniform_local_step_uniform_marks
       _ ≤ 2 * (CShort * Cih * E + CCube * Cih * E) := by gcongr
       _ = (2 * (CShort + CCube)) * Cih * E := by ring
       _ ≤ (3 * C) * Cih * E := by
-        gcongr
+        apply mul_le_mul_of_nonneg_right _ hE
+        apply mul_le_mul_of_nonneg_right _ hCih0
         dsimp only [C]
         linarith
       _ = _ := by dsimp only [E]; ring

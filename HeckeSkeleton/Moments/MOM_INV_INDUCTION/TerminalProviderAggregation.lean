@@ -95,7 +95,7 @@ theorem coefficient_on_tuple (a : σ → Ideal (𝓞 K) → ℂ) (q : tuplePool 
       tupleWeight K I a q.val := by
   unfold coefficient
   rw [Finset.sum_eq_single q]
-  · simp only [if_pos rfl]
+  · simp only [if_pos rfl, if_true]
   · intro q' hq' hne
     exact if_neg (fun he => hne (tupleIdeal_injective K S I L hprime hexterior hdisjoint he))
   · simp
@@ -152,9 +152,11 @@ theorem reciprocalWeight_sum :
     (∑ q : tuplePool K I L, reciprocalWeight K S I L hprime hexterior q) =
       ∏ i : I, ∑ p ∈ L i.val, (p.absNorm : ℝ)⁻¹ := by
   simp_rw [reciprocalWeight_eq_product K S I L hprime hexterior hdisjoint]
-  rw [Finset.sum_coe_sort]
+  rw [Finset.sum_coe_sort (tuplePool K I L)
+    (fun q : I → Ideal (𝓞 K) => ∏ i : I, ((q i).absNorm : ℝ)⁻¹)]
   symm
-  exact Finset.prod_univ_sum _ _
+  exact Finset.prod_univ_sum (fun i : I => L i.val)
+    (fun (_ : I) (p : Ideal (𝓞 K)) => (p.absNorm : ℝ)⁻¹)
 
 /-- Inactive tuple sums cost only the original reciprocal-prime mass.
 The constant is uniform over all original lists and individual bounded
