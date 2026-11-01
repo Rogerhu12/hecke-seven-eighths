@@ -20,7 +20,7 @@ the profiles.
 -/
 
 noncomputable section
-open scoped Classical BigOperators NumberField SchwartzMap nonZeroDivisors ContDiff Topology
+open scoped Classical BigOperators NumberField SchwartzMap nonZeroDivisors Topology
 
 namespace HeckeSkeleton.Moments.EngineStep
 
@@ -88,10 +88,12 @@ theorem actualPlainAtom_phase (d : MomentData K ω ψ)
       actualPlainAtom d (p.idealTest W positive 0) u N t I *
         jointPhase ξ (p.location (idealNorm K I / N)) := by
   by_cases hI : I ∈ W.support u t N
-  · simp only [actualPlainAtom, idealTest, if_pos hI,
-      p.multiplier_eq_zero_mul_phase ξ]
+  · have hI' : ∀ ζ : V, I ∈ (p.idealTest W positive ζ).support u t N := fun _ => hI
+    rw [actualPlainAtom, actualPlainAtom, if_pos (hI' ξ), if_pos (hI' 0)]
+    simp only [idealTest, p.multiplier_eq_zero_mul_phase ξ]
     ring
-  · simp only [actualPlainAtom, idealTest, if_neg hI, zero_mul]
+  · have hI' : ∀ ζ : V, I ∉ (p.idealTest W positive ζ).support u t N := fun _ => hI
+    rw [actualPlainAtom, actualPlainAtom, if_neg (hI' ξ), if_neg (hI' 0), zero_mul]
 
 theorem norm_actualPlainAtom (d : MomentData K ω ψ)
     (W : IdealTest K) (positive : PositivePlainProfile W)
@@ -115,6 +117,8 @@ theorem continuous_actualPlainAtom (d : MomentData K ω ψ)
 end Atom
 
 section AnnularDerivatives
+
+open scoped ContDiff
 
 open Function
 
@@ -186,7 +190,7 @@ private theorem compact_logPhase_derivative_bound
       ‖iteratedFDerivWithin ℝ i Real.log (Set.Ioi 0) y‖ ≤ D ^ i := by
     intro i hi hin
     rw [iteratedFDerivWithin_eq_iteratedFDeriv hΩ.uniqueDiffOn
-      ((Real.contDiffAt_log.mpr hy0.ne').of_le (by simp)) hy0]
+      (Real.contDiffAt_log.mpr hy0.ne') hy0]
     exact (hlog y hy i (hin.trans hn)).trans (le_self_pow₀ hD (by omega))
   have hc := norm_iteratedFDerivWithin_comp_le (contDiff_traceRealMovingPhase ν).contDiffOn
     hlogon (show (n : ℕ∞ω) ≤ ∞ by simp) uniqueDiffOn_univ hΩ.uniqueDiffOn
@@ -293,7 +297,7 @@ def shapeSchwartz (window : Set ℝ) (hcompact : IsCompact window)
   ((show HasCompactSupport (φ : ℝ → ℂ) from
     hcompact.of_isClosed_subset (isClosed_tsupport _) hsupport).mul_right
       (f' := normalShape δ ν)).toSchwartzMap
-        (shapeProduct_smooth δ ν φ (hpositive ∘ hsupport))
+        (shapeProduct_smooth δ ν φ (hsupport.trans hpositive))
 
 @[simp] theorem shapeSchwartz_apply (window : Set ℝ) (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (δ ν : ℝ) (φ : 𝓢(ℝ, ℂ))
@@ -332,7 +336,7 @@ theorem shapeSchwartz_seminorm_bound
       (show (n : ℕ∞ω) ≤ ∞ by simp)
     change ‖iteratedFDerivWithin ℝ n (shapeProduct δ ν φ) (Set.Ioi 0) y‖ ≤ _ at hb
     rw [iteratedFDerivWithin_eq_iteratedFDeriv hΩ.uniqueDiffOn
-      (((shapeProduct_smooth δ ν φ (hpositive ∘ hsupport)).contDiffAt).of_le (by simp))
+      (((shapeProduct_smooth δ ν φ (hsupport.trans hpositive)).contDiffAt).of_le (by simp))
       hy0] at hb
     simp_rw [iteratedFDerivWithin_eq_iteratedFDeriv hΩ.uniqueDiffOn
         (φ.smooth'.contDiffAt.of_le (by simp)) hy0,
@@ -346,6 +350,7 @@ theorem shapeSchwartz_seminorm_bound
       rw [Finset.mul_sum]
       apply Finset.sum_congr rfl
       intro i _
+      rw [show (φ.toFun : ℝ → ℂ) = ⇑φ from rfl]
       ring
     have hsum : (∑ i ∈ Finset.range (n + 1), (n.choose i : ℝ)) = (2 : ℝ) ^ n := by
       exact_mod_cast Nat.sum_range_choose n
@@ -359,7 +364,7 @@ theorem shapeSchwartz_seminorm_bound
         have hin : i ≤ n := Finset.mem_range_succ_iff.mp hi
         have hφ : ‖y‖ ^ k * ‖iteratedFDeriv ℝ i φ y‖ ≤ P :=
           (SchwartzMap.le_seminorm ℂ k i φ y).trans
-            (Seminorm.le_finset_sup_apply
+            (Seminorm.le_finset_sup_apply (p := schwartzSeminormFamily ℂ ℝ ℂ)
               (Finset.mem_Iic.mpr (show (k, i) ≤ (K, J) from ⟨hk, hin.trans hn⟩)))
         exact mul_le_mul (mul_le_mul_of_nonneg_left hφ (Nat.cast_nonneg _))
           (hshape ν y hywindow (n - i) ((Nat.sub_le n i).trans hn))
@@ -626,8 +631,7 @@ theorem profileAmplitude_nonneg (window : Set ℝ) (hcompact : IsCompact window)
   have hR := right.profileCoefficient_nonneg window hcompact hpositive s
   have hS := Finset.sum_nonneg (fun i (_ : i ∈ Finset.univ) =>
     (slot i).profileCoefficient_nonneg window hcompact hpositive s)
-  unfold profileAmplitude
-  positivity
+  exact mul_nonneg hA (by linarith)
 
 /-- The window is constructed from literal original representatives.
 The global support clauses are solely about those original profiles;
@@ -714,7 +718,8 @@ def rawWindow {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDo
     rw [right.schwartz_apply, w.right_eq]
   · intro i t y
     change (d.geometry.slots i).profile t y * (slot i).multiplier ξ y = _
-    rw [(slot i).schwartz_apply, w.prime_eq]
+    rw [(slot i).schwartz_apply]
+    exact congrArg (· * (slot i).multiplier ξ y) (w.prime_eq i t y)
   · intro u hu t ht
     have hmono : s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (w.inverseRep u t) ≤
         (sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ) (w.inverseRep u t) :=
@@ -728,11 +733,21 @@ theorem actualPrimeAtom_phase (u : HeckeGeneral.Analysis.NonzeroIdeal K) (i : Fi
       actualPrimeAtom (data d left right slot hleft hright hslot 0) i u Z t q *
         jointPhase ξ ((slot i).location
           ((Ideal.absNorm q.asIdeal : ℝ) / Z ^ (d.geometry.slots i).length)) := by
+  have hm : ∀ ζ : V, maskValue (data d left right slot hleft hright hslot ζ) u q.asIdeal =
+      maskValue d u q.asIdeal := fun _ => rfl
   by_cases hq : q ∈ (d.geometry.slots i).support t (Z ^ (d.geometry.slots i).length)
-  · simp only [actualPrimeAtom, data, Atom.primeWindow, if_pos hq,
-      (slot i).multiplier_eq_zero_mul_phase ξ]
+  · have hq' : ∀ ζ : V, q ∈ ((data d left right slot hleft hright hslot ζ).geometry.slots i).support
+        t (Z ^ ((data d left right slot hleft hright hslot ζ).geometry.slots i).length) :=
+      fun _ => hq
+    simp only [actualPrimeAtom]
+    rw [if_pos (hq' ξ), if_pos (hq' 0), hm ξ, hm 0]
+    simp only [data, Atom.primeWindow, (slot i).multiplier_eq_zero_mul_phase ξ]
     ring
-  · simp only [actualPrimeAtom, data, Atom.primeWindow, if_neg hq, zero_mul]
+  · have hq' : ∀ ζ : V, q ∉ ((data d left right slot hleft hright hslot ζ).geometry.slots i).support
+        t (Z ^ ((data d left right slot hleft hright hslot ζ).geometry.slots i).length) :=
+      fun _ => hq
+    simp only [actualPrimeAtom]
+    rw [if_neg (hq' ξ), if_neg (hq' 0), zero_mul]
 
 theorem norm_actualPrimeAtom (u : HeckeGeneral.Analysis.NonzeroIdeal K) (i : Fin d.geometry.slotCount)
     (q : HeightOneSpectrum (𝓞 K)) (Z t : ℝ) (ξ : V) :
@@ -775,7 +790,7 @@ def finiteControl (a : RealParameters) (Z t : ℝ)
   let B₁ := ∑ u ∈ rows, ∑ I ∈ S₁, ‖actualPlainAtom d₀ d₀.plainTest₁ u (Z ^ a.n₁) t I‖
   let B₂ := ∑ u ∈ rows, ∑ I ∈ S₂, ‖actualPlainAtom d₀ d₀.plainTest₂ u (Z ^ a.n₂) t I‖
   let B := fun i => ∑ u ∈ rows, ∑ q ∈ S i, ‖actualPrimeAtom d₀ i u Z t q‖
-  have hsum {Y T : Type*} (r : Finset Y) (s : Finset T) (f : Y → T → ℂ)
+  have hsum {Y T : Type} (r : Finset Y) (s : Finset T) (f : Y → T → ℂ)
       (u : Y) (hu : u ∈ r) (v : T) (hv : v ∈ s) :
       ‖f u v‖ ≤ ∑ y ∈ r, ∑ z ∈ s, ‖f y z‖ :=
     (Finset.single_le_sum (fun _ _ => norm_nonneg _) hv).trans
@@ -869,9 +884,26 @@ def retainedFiniteControl (a : RealParameters) (Z t : ℝ) (hZ : 0 < Z)
         (data d left right slot hleft hright hslot (parameter x)) a Z hZ).restrictSlots keep) =
       (fun x => data d' left' right' slot' hl' hr' hs' (parameter x)) := by
     funext x
-    rw [clip_data d left right slot hleft hright hslot a Z hZ (parameter x), restrict_data]
-  rw [he]
-  exact finiteControl d' left' right' slot' hl' hr' hs' target Z t parameter hparameter
+    have key : ∀ (e₁ e₂ : MomentData K ω ψ) (_ : e₁ = e₂)
+        (k₁ : Finset (Fin e₁.geometry.slotCount)) (k₂ : Finset (Fin e₂.geometry.slotCount)),
+        HEq k₁ k₂ → e₁.restrictSlots k₁ = e₂.restrictSlots k₂ := by
+      intro e₁ e₂ h k₁ k₂ hk
+      subst h
+      cases hk
+      rfl
+    exact (key _ _ (clip_data d left right slot hleft hright hslot a Z hZ (parameter x))
+      keep keep HEq.rfl).trans
+        (restrict_data (clipPlainData d a Z hZ) _ _ _ _ _ _ keep (parameter x))
+  have key : ∀ (D₁ D₂ : X → MomentData K ω ψ) (_ : D₁ = D₂)
+      (h₁ : ∀ x, (D₁ x).geometry.slotCount = keep.card)
+      (h₂ : ∀ x, (D₂ x).geometry.slotCount = keep.card),
+      ActualFiniteFamilyControl D₂ keep.card h₂ target Z (fun _ => t) →
+        ActualFiniteFamilyControl D₁ keep.card h₁ target Z (fun _ => t) := by
+    intro D₁ D₂ h h₁ h₂ c
+    subst h
+    exact c
+  exact key _ _ he _ _
+    (finiteControl d' left' right' slot' hl' hr' hs' target Z t parameter hparameter)
 
 end FixedData
 
@@ -991,10 +1023,18 @@ def childFiniteControl {source : ActualAllocatedSource A V H k}
     funext (fun x => hraw (parameter x))
   have htime : (fun x => D.height (parameter x)) = (fun _ : X => t) :=
     funext (fun x => ht (parameter x))
-  rw [hfamily, htime, ← hcard]
-  exact retainedFiniteControl d left right slot hleft hright hslot
-    D.parameters source.base t (zero_lt_one.trans source.base_gt_one) keep out.parameters
-    parameter hparameter
+  have key : ∀ (D₁ D₂ : X → MomentData K ω ψ) (_ : D₁ = D₂) (t₁ t₂ : X → ℝ) (_ : t₁ = t₂)
+      (n₁ n₂ : ℕ) (_ : n₁ = n₂)
+      (h₁ : ∀ x, (D₁ x).geometry.slotCount = n₁) (h₂ : ∀ x, (D₂ x).geometry.slotCount = n₂),
+      ActualFiniteFamilyControl D₂ n₂ h₂ out.parameters source.base t₂ →
+        ActualFiniteFamilyControl D₁ n₁ h₁ out.parameters source.base t₁ := by
+    intro D₁ D₂ hD t₁ t₂ ht' n₁ n₂ hn h₁ h₂ c
+    subst hD ht' hn
+    exact c
+  exact key _ _ hfamily _ _ htime _ _ hcard.symm _ _
+    (retainedFiniteControl d left right slot hleft hright hslot
+      D.parameters source.base t (zero_lt_one.trans source.base_gt_one) keep out.parameters
+      parameter hparameter)
 
 end ChosenChild
 end CanonicalLogProfiles
