@@ -107,7 +107,7 @@ theorem finite_shifted_fourier (T : Finset ι) (a : ι → ℂ) (x : ι → ℝ)
         rw [Finset.mul_sum]
         apply Finset.sum_congr rfl
         intro i hi
-        rw [sub_eq_add_neg, columnPhase_add]
+        rw [sub_eq_add_neg, MellinWeightedTests.columnPhase_add]
         ring
     _ = ∑ i ∈ T, ∫ t : ℝ, a i * ((𝓕 F) t * columnPhase t (x i - v)) := by
       have hi (i : ι) : Integrable

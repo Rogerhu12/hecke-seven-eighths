@@ -105,8 +105,8 @@ theorem exists_uniform_canonical_bound
       (calibration_mem K c) b hmargin Fmax A zMax lo hi hA hcapacity htau hzMax
       qShort CShort ZShort (zero_le_one.trans hCShort) hs
   refine ⟨q, C, Z₀, hC, hZ₀, ?_⟩
-  intro Z hZ z hz hzz
-  simpa only [show (2 * loss) / 2 = loss by ring] using hb Z hZ z hz hzz
+  intro Z hZ z hz hzz σ x hx hr
+  simpa only [show (2 * loss) / 2 = loss by ring] using hb Z hZ z hz hzz x hx hr
 
 /-- The strict seed is now discharged from the original two sieve
 inputs. Its rowwise majorant controls every smaller source scale with
@@ -118,7 +118,7 @@ theorem actual_complete_unmarked_scale_sup
       (recipeMomentModels K c (expansionRecipeRaw K c)).unmarked := by
   apply SourceUnmarkedComplete.strict_seed_of_canonical_uniform K c
   intro margin loss hmargin hloss
-  obtain ⟨q, C, Z₀, hC, hZ₀, hb⟩ := exists_uniform_canonical_bound K c hquadratic hcubic
+  obtain ⟨q, C, Z₀, hC, hZ₀, hb⟩ := exists_uniform_canonical_bound.{0} K c hquadratic hcubic
     0 1 1 margin 0 1 2 loss hmargin le_rfl (by norm_num) (by norm_num) hloss
   exact ⟨q, C, Z₀, hC, hZ₀, fun Z hZ => hb Z hZ 0 le_rfl le_rfl⟩
 
