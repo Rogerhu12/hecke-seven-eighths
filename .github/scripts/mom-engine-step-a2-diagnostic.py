@@ -227,7 +227,7 @@ def execute(repo: Path, evidence: Path, marked: bytes, result: dict) -> None:
         compiler = directory / 'compiler'
         compiler.mkdir()
         command = ['lake', 'env', 'lean', '-j2', '-DautoImplicit=false', '-DrelaxedAutoImplicit=false',
-                   '-R', str(directory), '-o', str(compiler / (MODULE + '.olean')),
+                   '-DstderrAsMessages=false', '-R', str(directory), '-o', str(compiler / (MODULE + '.olean')),
                    '-i', str(compiler / (MODULE + '.ilean')), str(source)]
         result.update(command=command, temporary_directory=str(directory),
                       compiler_output_directory=str(compiler), started=True)
@@ -336,7 +336,7 @@ def main() -> int:
               'source_path': str(SOURCE), 'source_sha256': sha(original), 'source_bytes': len(original),
               'diagnostic_source_sha256': sha(marked), 'diagnostic_source_bytes': len(marked),
               'heartbeat_override': None, 'lean_async_override': None, 'profiler_override': None,
-              'stderr_option_override': None, 'warning_option_override': None,
+              'stderr_option_override': False, 'warning_option_override': None,
               'timeout_seconds': TIMEOUT_SECONDS, 'kill_after_seconds': KILL_AFTER_SECONDS,
               'started': False, 'status': 'prepared_only', 'timed_out': False,
               'marker_times_are_observed_arrival_only': True}
