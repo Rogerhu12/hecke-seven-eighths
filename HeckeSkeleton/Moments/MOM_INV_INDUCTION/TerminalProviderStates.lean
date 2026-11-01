@@ -52,13 +52,15 @@ theorem active_divides (f r : Ext) (s : FrozenState K S f r) :
     ((exponent_ne_zero_iff_dvd _ q).mp hq)
   have he : primeExponents (primeSetIdeal K S s.active).val q = 1 := by
     change primeExponents (primeSetIdeal K S s.active).val p.val = 1
-    rw [exponent_primeSetIdeal, if_pos hp]
+    rw [ProviderTerminalConductor.exponent_primeSetIdeal, if_pos hp]
   rw [he]
   exact Nat.one_le_iff_ne_zero.mpr
     ((exponent_ne_zero_iff_dvd (f.val * r.val) q).mpr (active_prime_dvd K S f r s p hp))
 
 theorem minimum_divides_cube (f r : Ext) (s : FrozenState K S f r) :
     s.minimum.val.val ∣ (f.val.val * r.val.val) ^ 3 := by
+  suffices h : s.minimum.val.val ∣ ((f.val * r.val) ^ 3).val by
+    simpa only [SubmonoidClass.coe_pow, Submonoid.coe_mul] using h
   apply dvd_of_exponents_le s.minimum.val ((f.val * r.val) ^ 3)
   intro q
   by_cases hq : primeExponents s.minimum.val q = 0
@@ -125,10 +127,15 @@ theorem exists_state_mass_bound (eps : ℝ) (heps : 0 < eps) :
   let I := f.val.val * r.val.val
   let N : ℝ := (I.absNorm : ℝ)
   have hN : 0 < N := by
+    dsimp only [N, I]
     exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors (f.val * r.val)
   have h₁ : ((idealDivisors I).card : ℝ) ≤ B * N ^ (eps / 4) := hb I
   have h₃ : ((idealDivisors (I ^ 3)).card : ℝ) ≤ B * (N ^ 3) ^ (eps / 4) := by
-    simpa only [idealDivisorCount, map_pow, Nat.cast_pow] using hb (I ^ 3)
+    have hb₃ := hb (I ^ 3)
+    change ((idealDivisors (I ^ 3)).card : ℝ) ≤
+      B * (Ideal.absNorm (I ^ 3) : ℝ) ^ (eps / 4) at hb₃
+    rw [map_pow, Nat.cast_pow] at hb₃
+    exact hb₃
   have hpow : (N ^ 3) ^ (eps / 4) = N ^ (3 * (eps / 4)) := by
     rw [← Real.rpow_natCast, ← Real.rpow_mul hN.le]
     norm_num

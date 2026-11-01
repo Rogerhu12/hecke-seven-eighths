@@ -192,6 +192,6 @@ theorem exists_uniform_long_cube_step
           (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) x.test) ^ 2) *
             (Z ^ (pi / 4) * Z ^ (x.totalLength + 21 * eta + tau + 3 * pi / 4 + eps)) := by ring
         _ = _ := by rw [hpow]
-    _ ≤ _ := by gcongr; linarith
+    _ ≤ _ := by gcongr <;> linarith
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionLong

@@ -176,9 +176,12 @@ theorem branchAt_eq (b : Bin) (i : Idx) (tau : ℝ) :
   unfold branchAt
   dsimp only [ProviderInitialSource.common]
   unfold SecondPositiveChildren.branchEnergy
-  simp only [ProviderInitialInverse.family]
   unfold columnEnergyAt SecondMellinEnergy.columnEnergy
-  simp_rw [column_as_actual_child]
+  have hcolumn (J : Finset σ) (t : ℝ) :=
+    column_as_actual_child K S D Γ C Θ ψ hν W G hG H J b i t
+  dsimp only [ProviderInitialSource.residual, ProviderInitialSource.common,
+    ProviderInitialSource.overlap] at hcolumn
+  simp_rw [hcolumn]
   rfl
 
 def nodeIntegral (k : ℕ) (side : Bool) (b : Bin) (i : Idx) : ℝ :=
