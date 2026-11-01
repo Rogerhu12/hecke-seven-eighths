@@ -1,4 +1,4 @@
-name: A2 ActualGaussFiniteLeaves private phase omit diagnostic only
+name: A2 ActualGaussFiniteLeaves two private warnings diagnostic only
 
 on:
   push:
@@ -28,13 +28,13 @@ jobs:
       - name: Record the exact source tree and prepare evidence-only helpers
         shell: bash
         run: |
-          mkdir -p a2-phase-omit
-          git show --no-patch --format=fuller HEAD > a2-phase-omit/checkout.txt
-          cat > a2-phase-omit/provenance.py <<'PY'
+          mkdir -p a2-two-private-warnings
+          git show --no-patch --format=fuller HEAD > a2-two-private-warnings/checkout.txt
+          cat > a2-two-private-warnings/provenance.py <<'PY'
           import hashlib, json, os, re, subprocess, sys, tomllib
           from pathlib import Path
           root = Path.cwd()
-          evidence = root / 'a2-phase-omit'
+          evidence = root / 'a2-two-private-warnings'
           def git(*args):
               return subprocess.check_output(['git', *args], text=True).strip()
           def digest(path):
@@ -49,17 +49,18 @@ jobs:
           interface = (task / 'Interface.lean').read_text()
           imports = sorted(set(re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$', interface, re.M)))
           libraries = [x['name'] for x in tomllib.loads(Path('lakefile.toml').read_text())['lean_lib']]
-          source_base = 'd9b554e9abb223648dc64236fc00cc6f06f5ec6b'
+          source_base = 'e51caa34c4dbb49e1e807356600445d7130c0a67'
           assert git('rev-parse', 'HEAD^') == source_base, 'Diagnostic must be a direct child of the frozen auxiliary head'
           parents = git('rev-list', '--parents', '-n', '1', 'HEAD').split()
           assert len(parents) == 2, 'Diagnostic commit must have one parent'
           changed = git('diff', '--name-only', source_base, 'HEAD').splitlines()
           allowed = {'.github/workflows/mom-engine-step-a2-diagnostic.yml',
-                     '.github/scripts/mom-engine-step-a2-phase-omit.py'}
-          assert set(changed) == allowed, 'Only the diagnostic workflow and new private-phase omit wrapper may differ'
+                     '.github/scripts/mom-engine-step-a2-two-private-warnings.py'}
+          assert set(changed) == allowed, 'Only the diagnostic workflow and new two-private-warning wrapper may differ'
           assert digest(str(task / 'ActualGaussFiniteLeaves.lean')) == 'cc98c8a2c5c3c3f6c59695935245f463c84e6e7f7c8292b5062e2d1813d94c87', 'Original Actual source changed'
           assert digest('.github/scripts/mom-engine-step-a2-diagnostic.py') == '0858bc9e93b1ba60a6d45ae39e694149001689fa29bfd1928ffcaa9696e95ed3', 'Unexpected diagnostic script'
-          assert digest('.github/scripts/mom-engine-step-a2-phase-omit.py') == 'fdfba882330b680edd2517e68cb9106d60baf15244cee707e17c34aba1acc3c7', 'Unexpected private-phase omit wrapper'
+          assert digest('.github/scripts/mom-engine-step-a2-two-private-warnings.py') == '625e9615dee0c1385d403089dcf6830c537ec97f08e9cf58793528cbdf7a2699', 'Unexpected two-private-warning wrapper'
+          assert digest('.github/scripts/mom-engine-step-a2-phase-omit.py') == 'fdfba882330b680edd2517e68cb9106d60baf15244cee707e17c34aba1acc3c7', 'Previous private-phase omit wrapper changed'
           assert digest('.github/scripts/mom-engine-step-a2-unused-section-vars.py') == '73d10b2a45b97b55a5a55b63d1b9daedabb9e179ce7320c2b9ab176dd806edbd', 'Previous scoped-warning wrapper changed'
           assert digest('.github/scripts/mom-engine-step-a2-deep-stack-driver.py') == 'f306f3a188dd994fabe5eadc2cf848502555081edc460c8f57a86be64ab4538e', 'Previous deep stack driver changed'
           assert digest('.github/scripts/mom-engine-step-a2-deep-stack-harness.py') == 'adde0a97039e0c6712e7a92ac7c6218bb08581c266487d3f26a424d2ca8e537e', 'Previous deep stack harness changed'
@@ -94,11 +95,11 @@ jobs:
                   'interface_imports': len(imports), 'libraries': len(libraries)}, indent=2) + '\n')
           print(f'{phase}: {record["head"]} tree={record["tree"]}; {len(tracked)} tracked files, {len(sources)} task modules, {len(libraries)} libraries')
           PY
-          cat > a2-phase-omit/run.py <<'PY'
+          cat > a2-two-private-warnings/run.py <<'PY'
           import datetime, json, re, subprocess, sys, time
           from pathlib import Path
           name, seconds, *command = sys.argv[1:]
-          evidence = Path('a2-phase-omit')
+          evidence = Path('a2-two-private-warnings')
           wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
           record = {'command': command, 'wrapper': wrapper, 'completed': False,
                     'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
@@ -129,14 +130,14 @@ jobs:
           print(json.dumps(record), flush=True)
           sys.exit(code if code >= 0 else 128 - code)
           PY
-          python3 a2-phase-omit/provenance.py before
+          python3 a2-two-private-warnings/provenance.py before
       - name: Provide enough memory mappings for the full legacy import closure
         run: |
           MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
           if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
             sudo sysctl -w vm.max_map_count=262144
           fi
-          sysctl vm.max_map_count > a2-phase-omit/memory-mapping.txt
+          sysctl vm.max_map_count > a2-two-private-warnings/memory-mapping.txt
       - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
         with:
           auto-config: 'false'
@@ -150,21 +151,21 @@ jobs:
       - name: Build the original import closure separately
         id: dependencies
         run: |
-          python3 -u a2-phase-omit/run.py dependencies 1200 \
+          python3 -u a2-two-private-warnings/run.py dependencies 1200 \
             lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves:deps
-      - name: Diagnose the unvalidated private phase parameter omission with default linters
+      - name: Diagnose two scoped private warnings in the full reversible source copy
         id: diagnostic
         run: |
-          python3 -u .github/scripts/mom-engine-step-a2-phase-omit.py \
-            --repo "$GITHUB_WORKSPACE" --evidence a2-phase-omit/diagnostic --run
+          python3 -u .github/scripts/mom-engine-step-a2-two-private-warnings.py \
+            --repo "$GITHUB_WORKSPACE" --evidence a2-two-private-warnings/diagnostic --run
       - name: Check all tracked sources and configuration again
         if: always()
-        run: python3 a2-phase-omit/provenance.py after
+        run: python3 a2-two-private-warnings/provenance.py after
       - name: Preserve diagnostic output, dependency logs, source hashes and false acceptance flags
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: a2-actual-phase-omit-${{ github.sha }}-${{ github.run_attempt }}
-          path: a2-phase-omit/
+          name: a2-actual-two-private-warnings-${{ github.sha }}-${{ github.run_attempt }}
+          path: a2-two-private-warnings/
           if-no-files-found: error
           retention-days: 14
