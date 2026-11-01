@@ -80,6 +80,7 @@ variable (HL : ExceptionalVolumeControl ΨL WL₁ WL₂) (HR : ExceptionalVolume
 
 namespace SecondSideFrame
 
+set_option linter.unusedSectionVars false in
 /-- The original ordinary columns retain both divisor/phase coefficients
 and the complete occurrence allocations.  The ordinary-range source
 estimate is derived from its individual atoms before this scalar bound. -/
@@ -166,22 +167,21 @@ theorem ordinary_exceptional_original_label_from_atoms
           Z ^ (remaining + widthError +
             (3 * stepσ + 5 * δ / 6 + slotError)) *
           branch.exceptionalDyadWeight Z divisorLower j := by
-  as_aux_lemma =>
-    have hsecond := ordinary_exceptional_relative_terminal_from_atoms
-      (HL := HL) (HR := HR) left right W Q ξ TL TR UL UR
-      Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v
-      r₁ r₂ divisorLower slotError stepσ δ parentWidth remaining rowError widthError
-      hZ hv hr₁ hdivisor hA hc hw hb₂ hleftAtoms hrightAtoms hexponent hgcd hunit
-      base hclass hfactor hwindow hcutoff hF₁ hF₂ hradius hcentral hdyad hremaining hwidth
-    have hfirst := firstOriginalAllowanceWeight_le_radical Z firstParentWidth firstTotal
-      firstProfile firstCost hZ hfirstCost hfirstProfile j.1.val.1.1 j.1.val.1.2
-      hfirstLeft hfirstRight hfirstSupport
-    rw [hSindex, hleftDivisor]
-    apply original_exceptional_label_scalar j phase₁ χ₁ phase₂ left.phaseCharacter
-      Z _ _ firstCost _ parentWidth _ divisorLower (zero_lt_one.trans hZ)
-      (left.ordinaryExceptionalMagnitude_nonneg right Q ξ) hfirstCost hfirst
-    exact ordinaryExceptional_radical_bound_transport (F := F)
-      hleftIdeal hrightIdeal hsecond
+  have hsecond := ordinary_exceptional_relative_terminal_from_atoms
+    (HL := HL) (HR := HR) left right W Q ξ TL TR UL UR
+    Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v
+    r₁ r₂ divisorLower slotError stepσ δ parentWidth remaining rowError widthError
+    hZ hv hr₁ hdivisor hA hc hw hb₂ hleftAtoms hrightAtoms hexponent hgcd hunit
+    base hclass hfactor hwindow hcutoff hF₁ hF₂ hradius hcentral hdyad hremaining hwidth
+  have hfirst := firstOriginalAllowanceWeight_le_radical Z firstParentWidth firstTotal
+    firstProfile firstCost hZ hfirstCost hfirstProfile j.1.val.1.1 j.1.val.1.2
+    hfirstLeft hfirstRight hfirstSupport
+  rw [hSindex, hleftDivisor]
+  apply original_exceptional_label_scalar j phase₁ χ₁ phase₂ left.phaseCharacter
+    Z _ _ firstCost _ parentWidth _ divisorLower (zero_lt_one.trans hZ)
+    (left.ordinaryExceptionalMagnitude_nonneg right Q ξ) hfirstCost hfirst
+  exact ordinaryExceptional_radical_bound_transport (F := F)
+    hleftIdeal hrightIdeal hsecond
 
 end SecondSideFrame
 end HeckeSkeleton.Moments.EngineStep
@@ -230,6 +230,7 @@ theorem ordinaryExceptionalMagnitude_nested_integrable
 variable {ΨL ΨR : Ideal (𝓞 F) →* ℂ} {WL₁ WL₂ WR₁ WR₂ : ℝ → ℂ}
 variable (HL : ExceptionalVolumeControl ΨL WL₁ WL₂) (HR : ExceptionalVolumeControl ΨR WR₁ WR₂)
 
+set_option linter.unusedSectionVars false in
 /-- Integrate the literal ordinary source against the same two original
 Fourier kernels.  The absolute-volume estimate is uniform in their two
 parameters, so the only Fourier cost is their proved total mass. -/
@@ -324,63 +325,62 @@ theorem ordinary_exceptional_original_label_integral_from_atoms
           (schwartzSeminormFamily ℝ U ℂ) F₁ *
         (exceptionalFourierControl (U := U) (E := E) 0 0).rightSeminorms.sup
           (schwartzSeminormFamily ℝ E ℂ) F₂ := by
-  as_aux_lemma =>
-    let major := firstCost *
-      ((W.commonEnvelope * orbitalFieldFactor F) *
-        ((W.originalFiber : ℝ) * ordinaryExceptionalConstant HL HR * (UL.constant * UR.constant))) *
-      Z ^ (remaining + widthError + (3 * stepσ + 5 * δ / 6 + slotError)) *
-      branch.exceptionalDyadWeight Z divisorLower j
-    have hmajor : 0 ≤ major := by
-      have hvolume := (ordinaryExceptionalConstant_pos HL HR).le
-      have hcommon := W.commonEnvelope_nonneg
-      have hfield := orbitalFieldFactor_nonneg F
-      have hUL := UL.constant_nonneg
-      have hUR := UR.constant_nonneg
-      have hdyad0 := branch.exceptionalDyadWeight_nonneg Z divisorLower (zero_lt_one.trans hZ).le j
-      dsimp only [major]
-      positivity
-    have hpoint (z : U × E) :
-        firstOriginalAllowanceWeight Z firstParentWidth firstTotal firstProfile j.1.val.1.1 j.1.val.1.2 *
-          ‖(moebius S : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
-          ‖(moebius left.allocation.divisor : ℂ)‖ *
-          ‖fixedPhaseCoefficient Ray phase₂ left.phaseCharacter‖ *
-          (left.ordinaryExceptionalMagnitude right Q (WithLp.toLp 2 z) / Z ^ parentWidth) ≤
-        major := by
-      exact ordinary_exceptional_original_label_from_atoms (HL := HL) (HR := HR)
-        left right W Q (WithLp.toLp 2 z) (TL _) (TR _) UL UR
-        Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v
-        r₁ r₂ divisorLower slotError stepσ δ parentWidth remaining rowError widthError
-        hZ hv hr₁ hdivisor hA hc hw hb₂ (hleftAtoms _) (hrightAtoms _) hexponent hgcd hunit
-        base hclass hfactor hwindow hcutoff hF₁ hF₂ hradius hcentral hdyad hremaining hwidth
-        j S hSindex hleftIdeal hrightIdeal hleftDivisor hrightDivisor
-        hleftOccurrences hrightOccurrences hleftAllocation hrightAllocation
-        phase₁ χ₁ phase₂ hphase firstParentWidth firstTotal firstProfile firstCost hfirstCost
-        hfirstProfile hfirstLeft hfirstRight hfirstSupport
-    have hi := (left.ordinaryExceptionalMagnitude_nested_integrable right Q F₁ F₂).div_const
-      (Z ^ parentWidth)
-    have hsource := hi.const_mul
-      (firstOriginalAllowanceWeight Z firstParentWidth firstTotal firstProfile j.1.val.1.1 j.1.val.1.2 *
+  let major := firstCost *
+    ((W.commonEnvelope * orbitalFieldFactor F) *
+      ((W.originalFiber : ℝ) * ordinaryExceptionalConstant HL HR * (UL.constant * UR.constant))) *
+    Z ^ (remaining + widthError + (3 * stepσ + 5 * δ / 6 + slotError)) *
+    branch.exceptionalDyadWeight Z divisorLower j
+  have hmajor : 0 ≤ major := by
+    have hvolume := (ordinaryExceptionalConstant_pos HL HR).le
+    have hcommon := W.commonEnvelope_nonneg
+    have hfield := orbitalFieldFactor_nonneg F
+    have hUL := UL.constant_nonneg
+    have hUR := UR.constant_nonneg
+    have hdyad0 := branch.exceptionalDyadWeight_nonneg Z divisorLower (zero_lt_one.trans hZ).le j
+    dsimp only [major]
+    positivity
+  have hpoint (z : U × E) :
+      firstOriginalAllowanceWeight Z firstParentWidth firstTotal firstProfile j.1.val.1.1 j.1.val.1.2 *
         ‖(moebius S : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
         ‖(moebius left.allocation.divisor : ℂ)‖ *
-        ‖fixedPhaseCoefficient Ray phase₂ left.phaseCharacter‖)
-    calc
-      _ ≤ ∫ z : U × E, major * ((1 + ‖z.1‖) ^ (0 : ℕ) * (1 + ‖z.2‖) ^ (0 : ℕ))
-          ∂nestedFourierMeasure F₁ F₂ := by
-        apply integral_mono hsource
-          ((nestedFourierMeasure_mixed_polynomial_integrable F₁ F₂ 0 0).const_mul major)
-        intro z
-        simpa only [pow_zero, mul_one] using hpoint z
-      _ = major * ∫ z : U × E, (1 + ‖z.1‖) ^ (0 : ℕ) * (1 + ‖z.2‖) ^ (0 : ℕ)
-          ∂nestedFourierMeasure F₁ F₂ := by rw [integral_const_mul]
-      _ ≤ major *
-          ((exceptionalFourierControl (U := U) (E := E) 0 0).constant *
-            (exceptionalFourierControl (U := U) (E := E) 0 0).leftSeminorms.sup
-              (schwartzSeminormFamily ℝ U ℂ) F₁ *
-            (exceptionalFourierControl (U := U) (E := E) 0 0).rightSeminorms.sup
-              (schwartzSeminormFamily ℝ E ℂ) F₂) :=
-        mul_le_mul_of_nonneg_left
-          ((exceptionalFourierControl (U := U) (E := E) 0 0).bound F₁ F₂) hmajor
-      _ = _ := by dsimp only [major]; ring
+        ‖fixedPhaseCoefficient Ray phase₂ left.phaseCharacter‖ *
+        (left.ordinaryExceptionalMagnitude right Q (WithLp.toLp 2 z) / Z ^ parentWidth) ≤
+      major := by
+    exact ordinary_exceptional_original_label_from_atoms (HL := HL) (HR := HR)
+      left right W Q (WithLp.toLp 2 z) (TL _) (TR _) UL UR
+      Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v
+      r₁ r₂ divisorLower slotError stepσ δ parentWidth remaining rowError widthError
+      hZ hv hr₁ hdivisor hA hc hw hb₂ (hleftAtoms _) (hrightAtoms _) hexponent hgcd hunit
+      base hclass hfactor hwindow hcutoff hF₁ hF₂ hradius hcentral hdyad hremaining hwidth
+      j S hSindex hleftIdeal hrightIdeal hleftDivisor hrightDivisor
+      hleftOccurrences hrightOccurrences hleftAllocation hrightAllocation
+      phase₁ χ₁ phase₂ hphase firstParentWidth firstTotal firstProfile firstCost hfirstCost
+      hfirstProfile hfirstLeft hfirstRight hfirstSupport
+  have hi := (left.ordinaryExceptionalMagnitude_nested_integrable right Q F₁ F₂).div_const
+    (Z ^ parentWidth)
+  have hsource := hi.const_mul
+    (firstOriginalAllowanceWeight Z firstParentWidth firstTotal firstProfile j.1.val.1.1 j.1.val.1.2 *
+      ‖(moebius S : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
+      ‖(moebius left.allocation.divisor : ℂ)‖ *
+      ‖fixedPhaseCoefficient Ray phase₂ left.phaseCharacter‖)
+  calc
+    _ ≤ ∫ z : U × E, major * ((1 + ‖z.1‖) ^ (0 : ℕ) * (1 + ‖z.2‖) ^ (0 : ℕ))
+        ∂nestedFourierMeasure F₁ F₂ := by
+      apply integral_mono hsource
+        ((nestedFourierMeasure_mixed_polynomial_integrable F₁ F₂ 0 0).const_mul major)
+      intro z
+      simpa only [pow_zero, mul_one] using hpoint z
+    _ = major * ∫ z : U × E, (1 + ‖z.1‖) ^ (0 : ℕ) * (1 + ‖z.2‖) ^ (0 : ℕ)
+        ∂nestedFourierMeasure F₁ F₂ := by rw [integral_const_mul]
+    _ ≤ major *
+        ((exceptionalFourierControl (U := U) (E := E) 0 0).constant *
+          (exceptionalFourierControl (U := U) (E := E) 0 0).leftSeminorms.sup
+            (schwartzSeminormFamily ℝ U ℂ) F₁ *
+          (exceptionalFourierControl (U := U) (E := E) 0 0).rightSeminorms.sup
+            (schwartzSeminormFamily ℝ E ℂ) F₂) :=
+      mul_le_mul_of_nonneg_left
+        ((exceptionalFourierControl (U := U) (E := E) 0 0).bound F₁ F₂) hmajor
+    _ = _ := by dsimp only [major]; ring
 
 end SecondSideFrame
 end HeckeSkeleton.Moments.EngineStep

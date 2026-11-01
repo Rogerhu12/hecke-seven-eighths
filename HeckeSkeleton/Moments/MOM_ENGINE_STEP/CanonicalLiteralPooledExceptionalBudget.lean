@@ -28,6 +28,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Characters
 open HeckeGeneral.Analysis.ConditionalMoments MeasureTheory
+open HeckeGeneral.ThetaSkeleton.Physical (ProbeData RowCharacterInput)
 open HeckePort.Moments HeckePort.Moments.Support HeckePort.Moments.MobiusRegroup
 open HeckePort.IdealMobiusDivisorSum CommonSupportMass
 
