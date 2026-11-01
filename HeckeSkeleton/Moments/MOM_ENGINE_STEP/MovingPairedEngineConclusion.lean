@@ -21,7 +21,7 @@ open scoped Classical BigOperators NumberField SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStep
 
-open NumberField MeasureTheory DedekindZetaZeroFree
+open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree
 open HeckeGeneral.Characters HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical

@@ -21,7 +21,7 @@ open scoped Classical BigOperators NumberField nonZeroDivisors SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStep.OriginalClippedGaussProfiles
 
-open NumberField HeckeGeneral.Characters HeckeGeneral.Analysis
+open NumberField IsDedekindDomain HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open CanonicalLogProfiles OriginalGaussProfileCompensation
 
