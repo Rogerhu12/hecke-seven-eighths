@@ -165,7 +165,7 @@ theorem exists_actual_moderate_sweep_kernel_rapid
   have hNpow : ‖(frequencyRowNorm K Sset u : ℂ) ^ (-z)‖ ≤
       frequencyRowNorm K Sset u ^ (-zLower) := by
     rw [Complex.norm_cpow_eq_rpow_re_of_pos hNpos, Complex.neg_re]
-    exact Real.rpow_le_rpow_of_exponent_le hN1 (by linarith)
+    exact Real.rpow_le_rpow_of_exponent_le hN1 (neg_le_neg hz)
   have hXpow : ‖((Z ^ (17 / 48 : ℝ) : ℝ) : ℂ) ^ (1 / 2 - z)‖ ≤ Z ^ (17 / 96 : ℝ) := by
     rw [Complex.norm_cpow_eq_rpow_re_of_pos (Real.rpow_pos_of_pos hZpos _),
       ← Real.rpow_mul hZpos.le]
@@ -251,7 +251,7 @@ theorem exists_actual_moderate_sweep_kernel_rapid
           mul_le_mul_of_nonneg_right (by linarith) (by positivity)
         _ = _ := by ring
 
-    _ = _ := by norm_num [p, pnum, prec, eta, zLower]
+    _ = _ := by norm_num [A, p, pnum, prec, eta, zLower]
 
 end Expansion.Project
 

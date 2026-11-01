@@ -148,7 +148,8 @@ theorem exists_actual_small_block_before_normalizer_bound
     congr 1
     ring
   have hheight : H ^ 3 * (1 + H) ^ A ≤ (1 + H) ^ (A + 3) := by
-    rw [Real.rpow_add hHpos A 3, Real.rpow_natCast (1 + H) 3]
+    rw [Real.rpow_add hHpos A 3]
+    norm_num only [Real.rpow_ofNat]
     exact (mul_le_mul_of_nonneg_right
       (pow_le_pow_left₀ hH0 (by linarith : H ≤ 1 + H) 3) (by positivity)).trans_eq (mul_comm _ _)
   change ‖∑ u ∈ rows, rowContourBox K Sset muS P psi (arithmeticHighEulerData K Sset P psi)
