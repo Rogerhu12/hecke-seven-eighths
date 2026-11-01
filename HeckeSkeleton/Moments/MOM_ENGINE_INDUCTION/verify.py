@@ -1161,13 +1161,36 @@ PRODUCER_SOURCES = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActiveNormalizedFamil
 # Their baseline and exact replacement digests remain visible in the CI artifact.
 PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                     'owner_sha256': '943a8125054fc28b795be9374d6ca77eb35e16af50849378cec299afb61c61e6',
-                                                                    'reason': 'CI75: make the '
-                                                                              'SourceCovers.tag section '
-                                                                              'parameter d implicit so it is '
-                                                                              'inferred from the same cover; '
-                                                                              'preserve the covered labels '
-                                                                              'and branches.',
-                                                                    'repair_sha256': 'fd24581451833b3a7042bcfb2153420c498b53dbeb675ad4baaab46cbcad3502'},
+                                                                    'reason': 'Exact published STEP repair '
+                                                                              'a48360581b2b0ed368a375911d937cc4b44228f8 '
+                                                                              'source: infer the original '
+                                                                              'SourceCovers.tag data d from '
+                                                                              'the same cover, then '
+                                                                              'normalize the same finite-sum '
+                                                                              'identity with ring_nf and '
+                                                                              'close its definitionally '
+                                                                              'equal tagPoint functions by '
+                                                                              'rfl. No labels, branches, '
+                                                                              'coefficients, or public '
+                                                                              'conclusions change.',
+                                                                    'repair_sha256': '165356d5ecbc018b0c0968856dd806e297969e53a38889b5116289ebcd208cbf'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualNormalizedLabelWeights.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                             'owner_sha256': '86cb17c790332e883bf872f85d1c380e3509ea46740e20bb165eea1ef12abb76',
+                                                                             'reason': 'Restore the original '
+                                                                                       'OriginalPairAllowanceWindow '
+                                                                                       'certificate L in '
+                                                                                       'arithmeticCosts_family_original_index_weight '
+                                                                                       'and '
+                                                                                       'arithmeticCosts_family_outer_index_weight '
+                                                                                       'so both existing '
+                                                                                       'calls retain the '
+                                                                                       'same input. The '
+                                                                                       'original arithmetic '
+                                                                                       'indices, children, '
+                                                                                       'and full labelled '
+                                                                                       'bounds are '
+                                                                                       'unchanged.',
+                                                                             'repair_sha256': '7da8b4b90629f88923394ab7f7fffff6bdb2ded359f62d832c2e10f81628eeb4'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalActiveProfileKernelMass.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                                  'owner_sha256': '7c7206b23dd231784e716892fb5cd0b200c63fa9955f23c78074a8715abb72a7',
                                                                                  'reason': 'Apply the same '
@@ -1600,6 +1623,47 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                    'mathematical object '
                                                                                    'changes.',
                                                                          'repair_sha256': '69a0c7d3ce38245db3e3f8ea7746421bde9383ff6b87055eccb4f1c9f34a5863'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedOriginalFamilyWeights.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                                'owner_sha256': '9bce546fa36b4786367431c3c6830a49e22b1948705651830a43968e9a693597',
+                                                                                'reason': 'Restore the '
+                                                                                          'original '
+                                                                                          'OriginalPairAllowanceWindow '
+                                                                                          'certificate L in '
+                                                                                          'arithmetic_outer_index_weight, '
+                                                                                          'completing the '
+                                                                                          'existing '
+                                                                                          'label-window call '
+                                                                                          'chain. Both '
+                                                                                          'actual '
+                                                                                          'source-mass '
+                                                                                          'consumers already '
+                                                                                          'construct and '
+                                                                                          'supply this same '
+                                                                                          'pairWindow '
+                                                                                          'locally from the '
+                                                                                          'original nominal '
+                                                                                          'geometry; no '
+                                                                                          'final mass input '
+                                                                                          'or numerical '
+                                                                                          'bound changes.',
+                                                                                'repair_sha256': 'd32290cba9454c78eac2c6fbc4eebb70731f356e2a8fbbb5dfbd2c568d038e95'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedOriginalLabelMass.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                            'owner_sha256': '17e9e76cd4644fc83ed6940a55c771c629d47f679a9a86033c991ee1dcdf900a',
+                                                                            'reason': 'Restore the original '
+                                                                                      'OriginalPairAllowanceWindow '
+                                                                                      'certificate L in '
+                                                                                      'normalized_pair_original_allowance_from_atoms '
+                                                                                      'and '
+                                                                                      'normalized_pair_original_index_weight. '
+                                                                                      'Their proofs and '
+                                                                                      'callers already use '
+                                                                                      'this same original '
+                                                                                      'length/scale window; '
+                                                                                      'normalized children, '
+                                                                                      'divisor weights, and '
+                                                                                      'numerical bounds are '
+                                                                                      'unchanged.',
+                                                                            'repair_sha256': '42de50813a1a211a09f234f29eae7abb57e01f0ea95f94e039a91ca45318a073'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedOutputConditions.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                            'owner_sha256': 'd8f22913fad71b26a44aa4c518834ab1f139fb7f03f6eef9ba809dbc34f02ef8',
                                                                            'reason': 'CI74 finite '
@@ -1610,6 +1674,46 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                      'ENNReal.ofReal_ne_top '
                                                                                      'explicitly.',
                                                                            'repair_sha256': 'd7a8e3100eb2181ad7aa5a68bd70f2b01dacec09eb665265ee8414fd331029d0'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalCentralCoefficientBound.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                                'owner_sha256': 'dedbd5394d13397fa3784de87f08e604b3935e61c6fc5e4e2abb6d225c76dce4',
+                                                                                'reason': 'Same '
+                                                                                          'section-certificate '
+                                                                                          'cause as CI78 '
+                                                                                          'CompleteEngineOutput: '
+                                                                                          'include the '
+                                                                                          'original parent '
+                                                                                          'domain in '
+                                                                                          'comparison_scale_left_nonneg '
+                                                                                          'and '
+                                                                                          'comparison_product_eq_power. '
+                                                                                          'Their proofs '
+                                                                                          'already use that '
+                                                                                          'domain and their '
+                                                                                          'actual consumers '
+                                                                                          'already supply '
+                                                                                          'it; both '
+                                                                                          'comparison '
+                                                                                          'rectangles and '
+                                                                                          'scale conclusions '
+                                                                                          'are unchanged.',
+                                                                                'repair_sha256': '399ef90a44c0ecfb95e70d9c5768642fefbbe942b889f2473ccaf9714c049582'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalExceptionalExponent.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                            'owner_sha256': '7d85a16ee182434ffd6e69f2fb7b6bace51482833d03b79b77c410bb640a085d',
+                                                                            'reason': 'Restore the original '
+                                                                                      'parent domain in '
+                                                                                      'original_total_excess_le '
+                                                                                      'and '
+                                                                                      'labelled_total_excess_le. '
+                                                                                      'The proofs consume '
+                                                                                      'its existing '
+                                                                                      'padded_core field and '
+                                                                                      'every caller already '
+                                                                                      'supplies that same '
+                                                                                      'domain; original '
+                                                                                      'lengths, padding, and '
+                                                                                      'all conclusions are '
+                                                                                      'unchanged.',
+                                                                            'repair_sha256': '9f0f9d425c674b6c36a02810878eab42543a68cef35410a3c49b1e28c56161bc'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalProfileAtomBounds.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                           'owner_sha256': '6fe6f083bee21e11214ceead9d7a2a17003595eb429cce70395a35f09eb86156',
                                                                           'reason': 'CI75 and owner769 '

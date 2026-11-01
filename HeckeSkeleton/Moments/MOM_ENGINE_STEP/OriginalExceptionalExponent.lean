@@ -31,12 +31,14 @@ variable {centered : Bool} {d : MomentData K ω ψ} {a : RealParameters}
 variable {Z Y₁ Y₂ floor padding : ℝ}
 variable (domain : PairedEngineDomain centered d a Z Y₁ Y₂ floor padding)
 
+include domain in
 /-- The exact original total length, including every original slot,
 has padded excess at most the original padding. -/
 theorem original_total_excess_le (hpadding : 0 ≤ padding) :
     max (a.n₁ + a.n₂ + a.z - (a.m + a.q)) 0 ≤ padding := by
   exact max_le (by linarith [domain.padded_core]) hpadding
 
+include domain in
 /-- A numerical label which records that same original total length
 inherits the bound without a case split on the number of slots. -/
 theorem labelled_total_excess_le (Aexp : ℝ)

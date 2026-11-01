@@ -250,7 +250,7 @@ separately: it retains the baseline's sibling proofs and adds the three
 actual induction calls and the corresponding `plainSource` adjustment.
 
 The `PRODUCER_REPAIRS` registry records the owner commit, original SHA256,
-repair SHA256, and reason for each of the 36 local STEP repair files. It
+repair SHA256, and reason for each of the 41 local STEP repair files. It
 includes the concrete native diagnostics at the owner pin, along with declaration
 parameters already supplied by actual callers and corrected doc-comment
 placement around `include` commands. The underlying original atoms,
@@ -262,8 +262,14 @@ repairs transport the same restricted and frozen families along their
 existing data, count, and time equalities. Public signatures, actual
 support, profiles, selected slots, and all numerical bounds are preserved.
 
+`ActualCoveredLabels.lean` likewise matches the published STEP repair
+`a48360581b2b0ed368a375911d937cc4b44228f8`. It retains the original finite
+tagged sum and closes the remaining definitionally equal tag-point
+functions after polynomial normalization.
+
 In particular, the original `ScaleWindows` certificate, raw profile control,
-centered parent domain, and complete-child/parent-character certificates
+centered parent domain, original length/normalization allowance window,
+and complete-child/parent-character certificates
 must appear in the helper signatures that use them. The repairs restore
 those previously declared section inputs with
 `include`; the actual callers already supply the same objects. These repairs

@@ -144,7 +144,8 @@ theorem coverHybridPhaseCost_eq_sum
     coverHybridPhaseCost, FirstGaussPoolData.tagWeight, tag,
     FirstGaussPoolData.tagPoint, FirstGaussPoolData.SourceCovers.tag,
     CoverHybridPredicates.tag]
-  ring
+  ring_nf
+  rfl
 
 theorem integral_coverHybridPhaseCost_eq_sum
     (T : s.TerminalCalibration sTail sZero k Lmax Nsave decay)

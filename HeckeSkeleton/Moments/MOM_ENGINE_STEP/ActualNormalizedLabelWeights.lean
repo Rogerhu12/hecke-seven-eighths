@@ -63,6 +63,7 @@ variable {branch : TwoDivisorCommonBranch (K := K)}
 variable {Ray₁ Ray₂ : Type*}
   [CommGroup Ray₁] [Fintype Ray₁] [CommGroup Ray₂] [Fintype Ray₂]
 
+include L in
 /-- Both children and the zero-parent-width pair weight are projections
 of the same actual family. All hypotheses concern original scalar
 windows or the literal arithmetic coordinates. -/
@@ -104,6 +105,7 @@ theorem arithmeticCosts_family_original_index_weight
     L hZ cap B hB atoms j hleft hright hdivisor
     parentWidth total rawProfile firstCost hfirst hprofile hD hE hsupport phase₁ χ₁ phase₂ χ₂
 
+include L in
 /-- The actual original leaf scalar is inserted by equality. The
 nonnegative remaining scalar can be its original pool/tag/fibre factor;
 no pointwise label-weight upper bound is supplied as a premise. -/
