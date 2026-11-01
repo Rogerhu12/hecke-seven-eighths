@@ -341,7 +341,7 @@ variable {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
 or its sixth-root remainder. This includes the principal sixth-power
 case and is independent of the nonunit-pattern choice. -/
 theorem second_common_subset_full_mask
-    (prefix : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
+    («prefix» : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
     (C : A.GeneralArithmeticContext σ η hS)
     (p : ι → ExteriorPrime A) (hp : Function.Injective p)
     (m n : ι → ℕ) (hm : ∀ i, 0 < m i) (hn : ∀ i, 0 < n i)

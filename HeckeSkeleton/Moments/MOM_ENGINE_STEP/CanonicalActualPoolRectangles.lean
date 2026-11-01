@@ -78,7 +78,7 @@ section PoolTable
 
 variable {ω ψ : HeckeCharacter K} {k : ℕ}
 variable (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
-variable (prefix : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
+variable («prefix» : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
 variable (index : Fin k → Fin parent.geometry.slotCount)
 variable (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
 variable (hemb : P.arithmetic.embedding = σ)
@@ -87,7 +87,7 @@ variable (side : SecondColumnSide) (χ : (PUnit × PUnit) →* Circle)
 variable (S₁ S₂ : Finset (Ideal (𝓞 K)))
 variable (S : Fin k → Finset (HeightOneSpectrum (𝓞 K)))
 variable (F : SecondCoefficientTermDictionary
-  (movingSourceCharacters parent correction prefix remaining index)
+  (movingSourceCharacters parent correction «prefix» remaining index)
   (side.phase PUnit χ) S₁ S₂ S)
 variable (J : AllocationColumn K k → A.Exterior)
 variable (hJ : ∀ i ∈ childCartesianColumns S₁ S₂ S, (J i).val = allocationColumnIdeal i)
@@ -148,7 +148,7 @@ def poolDictionary :
   · intro I hI
     have hv := sourceMomentIdeal_val_of_ne_zero I (hc.1 I hI).1
     have hphase := hmask (sourceMomentIdeal I).val (by rw [hv]; exact (hc.1 I hI).2.2)
-    rw [moving_plain_append parent correction prefix E remaining index hroot hemb
+    rw [moving_plain_append parent correction «prefix» E remaining index hroot hemb
       (sourceMomentIdeal I) (hout₁ I hI) hphase]
     have hold := F.plain₁ I hI
     simp only [CanonicalSecondRectangularFactors.punit_phase, mul_one] at hold ⊢
@@ -159,7 +159,7 @@ def poolDictionary :
   · intro I hI
     have hv := sourceMomentIdeal_val_of_ne_zero I (hc.2.1 I hI).1
     have hphase := hmask (sourceMomentIdeal I).val (by rw [hv]; exact (hc.2.1 I hI).2.2)
-    rw [moving_plain_append parent correction prefix E remaining index hroot hemb
+    rw [moving_plain_append parent correction «prefix» E remaining index hroot hemb
       (sourceMomentIdeal I) (hout₂ I hI) hphase]
     have hold := F.plain₂ I hI
     simp only [CanonicalSecondRectangularFactors.punit_phase, mul_one] at hold ⊢
@@ -168,7 +168,7 @@ def poolDictionary :
     rw [hv]
     ring
   · intro j q hq
-    rw [moving_prime_append parent correction prefix E remaining index hroot hemb
+    rw [moving_prime_append parent correction «prefix» E remaining index hroot hemb
       j q (hout j q hq) (hmask q.asIdeal (hc.2.2 j q hq).2)]
     have hold := F.prime j q hq
     simp only [CanonicalSecondRectangularFactors.punit_phase, mul_one] at hold ⊢
@@ -179,7 +179,7 @@ def poolDictionary :
 /-- The full reciprocal phase is the product of these actual atoms.
 No phase has been replaced by its norm or by an arbitrary character. -/
 theorem poolDictionary_coefficient (i : AllocationColumn K k) :
-    (poolDictionary parent correction prefix remaining index hroot hemb C p n
+    (poolDictionary parent correction «prefix» remaining index hroot hemb C p n
       side χ S₁ S₂ S F J hJ witness hwitness hcop).coefficient i =
       F.coefficient i * (E).residueHom (σ := σ) (allocationColumnIdeal i) := by
   exact (CanonicalSecondRectangularFactors.rectangle_mul_ideal_weight
