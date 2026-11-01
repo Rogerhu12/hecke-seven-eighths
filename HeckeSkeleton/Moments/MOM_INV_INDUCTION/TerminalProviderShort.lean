@@ -68,7 +68,7 @@ theorem shortCompletedColumn_eq_tsum (θ : HeckeCharacter K) (k : S.integer K)
           (X / exteriorNorm K S H ^ 3)
       else 0 := by
   symm
-  rw [tsum_eq_sum (shortCubes K S T)]
+  rw [tsum_eq_sum (s := shortCubes K S T)]
   · apply Finset.sum_congr rfl
     intro H hH
     rw [if_pos ((mem_shortCubes K S T H).mp hH)]

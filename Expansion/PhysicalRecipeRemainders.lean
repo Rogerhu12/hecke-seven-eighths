@@ -80,6 +80,7 @@ theorem physicalRecipeRows_global_bounds (zeta Z H : ℝ)
     retainedShellRows, Finset.mem_filter] at hu
   exact ⟨hu.1.1.1.2.2, hu.1.1.2⟩
 
+set_option maxHeartbeats 1600000 in
 /-- The shell, buffered index and sector schedule counts every retained
 row once, for arbitrary values in an additive commutative monoid. -/
 theorem sum_physicalRecipeRows {M : Type*} [AddCommMonoid M]

@@ -311,7 +311,7 @@ theorem lists_exterior_of_base :
 private theorem fixed_prime_power_norm_le_one (t y : ℝ) (hy : 1 ≤ y) :
     ‖profilePower (conj ((17 / 50 : ℂ) + (t : ℂ) * Complex.I) - 1) y‖ ≤ 1 := by
   have hre : (conj ((17 / 50 : ℂ) + (t : ℂ) * Complex.I) - 1).re =
-      -(33 / 50 : ℝ) := by norm_num
+      -(33 / 50 : ℝ) := by norm_num [Complex.conj_ofNat]
   rw [profilePower, Complex.norm_exp, Complex.mul_re]
   simp only [Complex.ofReal_re, Complex.ofReal_im, zero_mul, sub_zero, hre]
   exact Real.exp_le_one_iff.mpr

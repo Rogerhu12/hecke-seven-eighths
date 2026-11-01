@@ -158,7 +158,7 @@ theorem tsum_eq_rectangles_add_tail (R : ℝ) (F : Ext × Ext → ℂ) (hF : Sum
     split_ifs <;> simp_all
   rw [hrest, hF.tsum_sub hg]
   have hgSum : (∑' cb, g cb) = ∑ cb ∈ retainedPool K S R, F cb := by
-    rw [tsum_eq_sum (retainedPool K S R) (fun cb hcb => if_neg hcb)]
+    rw [tsum_eq_sum (s := retainedPool K S R) (fun cb hcb => if_neg hcb)]
     exact Finset.sum_congr rfl (fun cb hcb => if_pos hcb)
   rw [hgSum, sum_retained_eq_rectangles K S R F]
   ring

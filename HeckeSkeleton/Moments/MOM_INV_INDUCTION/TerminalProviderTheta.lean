@@ -89,7 +89,7 @@ theorem completeCanonicalColumn_cube_completion
     r mark (canonicalVstar W) X 2 hX hV
   apply Eq.trans _ hbridge
   symm
-  rw [tsum_eq_sum (squarefreePool K S X)]
+  rw [tsum_eq_sum (s := squarefreePool K S X)]
   · unfold completeCanonicalColumn
     rw [Finset.mul_sum]
     apply Finset.sum_congr rfl
@@ -274,7 +274,7 @@ theorem reopenedCanonical_eq_finite
     exact ⟨(HeckePort.CenteredMomentGenerator.toExterior K S B hB,
       HeckePort.CenteredMomentGenerator.toExterior K S C hC), rfl⟩
   rw [← hinj.tsum_eq hs,
-    tsum_eq_sum (boundedPool K S X ×ˢ squarefreePool K S X), Finset.sum_product]
+    tsum_eq_sum (s := boundedPool K S X ×ˢ squarefreePool K S X), Finset.sum_product]
   · rfl
   · intro BC hnot
     by_contra hne

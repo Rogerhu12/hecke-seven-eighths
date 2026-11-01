@@ -43,7 +43,11 @@ theorem localRowCorrection_principal_eq (P : ProbeData K S) (psi : HeckeCharacte
     dsimp [q]
     exact_mod_cast one_lt_primeIdeal_absNorm K p.val
   have hV : 1 - (q : ℂ)⁻¹ ≠ 0 := by
-    apply one_sub_ne_zero_of_norm_lt_one
+    apply sub_ne_zero.mpr
+    apply Ne.symm
+    apply ne_of_apply_ne norm
+    rw [norm_one]
+    apply ne_of_lt
     rw [norm_inv, Complex.norm_real, Real.norm_eq_abs, abs_of_pos (by linarith : 0 < q)]
     exact inv_lt_one_of_one_lt₀ hq
   have hden := phaseRowEuler_denominators_ne_zero_of_re hq
@@ -103,7 +107,11 @@ theorem actualLocalCompensation_principal_eq (P : ProbeData K S) (psi : HeckeCha
     dsimp [q]
     exact_mod_cast (Nat.ne_of_gt (lt_trans Nat.zero_lt_one (one_lt_primeIdeal_absNorm K p.val)))
   have hV : 1 - q⁻¹ ≠ 0 := by
-    apply one_sub_ne_zero_of_norm_lt_one
+    apply sub_ne_zero.mpr
+    apply Ne.symm
+    apply ne_of_apply_ne norm
+    rw [norm_one]
+    apply ne_of_lt
     rw [norm_inv]
     have hqnorm : 1 < ‖q‖ := by
       dsimp [q]
@@ -173,7 +181,7 @@ theorem actualFullCorrection_principal_eq (P : ProbeData K S) (psi : HeckeCharac
   apply Finset.sum_congr rfl
   intro p hp
   have hp' := Fintype.mem_piFinset.mp hp
-  have hinj := actual_primeWindow_tuple_injective K S g T Z p hp'
+  have hinj := HighBinVerified.NormFormActual.actual_primeWindow_tuple_injective K S g T Z p hp'
   have htuple := actual_compensation_tuple_factorization_region K S P psi g T
     (physicalPrincipalRow K S) Z s 1 (1 / 6)
     (actual_principal_residue_mem_region s hs) p hp' (fun i => by
