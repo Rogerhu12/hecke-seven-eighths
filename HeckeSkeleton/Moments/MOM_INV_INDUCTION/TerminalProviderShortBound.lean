@@ -79,7 +79,7 @@ theorem residualData_scale (x : TerminalRows.Data K S σ) (Z : ℝ) (hZ : 1 < Z)
       Z ^ x.columnLength / exteriorNorm K Sset H ^ 3 := by
   have hZp := zero_lt_one.trans hZ
   have he : Z ^ Real.logb Z (exteriorNorm K Sset H) = exteriorNorm K Sset H :=
-    Real.rpow_logb hZp (ne_of_gt hZ) (exteriorNorm_pos K Sset H)
+    Real.rpow_logb hZp (ne_of_gt hZ) (idealNorm_pos K H.val)
   change Z ^ (x.columnLength - 3 * Real.logb Z (exteriorNorm K Sset H)) = _
   rw [Real.rpow_sub hZp,
     show 3 * Real.logb Z (exteriorNorm K Sset H) =
