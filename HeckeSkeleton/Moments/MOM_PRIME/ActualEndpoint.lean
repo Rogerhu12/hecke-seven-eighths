@@ -25,7 +25,9 @@ independently of all three physical height coordinates. -/
 theorem physicalRecipeSlotPower_re (g : PrimeWindowGeometry)
     (j : Fin g.slots) (p : Fin 3 → ℝ) :
     (Expansion.Project.physicalRecipeSlotPower g j p).re = -(33 / 50 : ℝ) := by
-  norm_num [Expansion.Project.physicalRecipeSlotPower, Complex.mul_re]
+  change (conj ((17 / 50 : ℂ) + (p 2 : ℂ) * Complex.I) - 1).re = -(33 / 50 : ℝ)
+  rw [Complex.sub_re, Complex.conj_re]
+  norm_num [Complex.mul_re]
 
 
 /-- This is a proved property of the concrete detector recipe, not a new
