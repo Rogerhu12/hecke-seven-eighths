@@ -224,8 +224,7 @@ def movingRecipe : CompleteMovingRowRecipe A P R bounded :=
 theorem movingRecipe_fullJointBudget (Z width : ℝ) (hbudget : budget = Z ^ width) :
     (movingRecipe parent prefix correction hcorr C primes m n pattern sector
       remaining budget anchor height index raw hanchor hheight hpositive
-      G₁ G₂ G D₁ D₂ B δ₁ δ₂ hG₁ hG₂ hG hB firstDirection secondDirection).
-        FullJointBudget Z width := by
+      G₁ G₂ G D₁ D₂ B δ₁ δ₂ hG₁ hG₂ hG hB firstDirection secondDirection).FullJointBudget Z width := by
   intro ξ u hu
   exact hu.2.trans_eq hbudget
 

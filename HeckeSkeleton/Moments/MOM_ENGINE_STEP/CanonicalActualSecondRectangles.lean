@@ -135,8 +135,7 @@ def firstResidualDictionary
 common extraction. The two signs are the actual first left and right
 Fourier locations. -/
 def firstResidualTerm (comparison : Bool) (i : AllocationColumn K b.keep.card) : ℂ :=
-  (Q.originalTermDictionary x W a Z t Y₁ Y₂ .left 1 S₁ S₂ S comparison).
-      coefficient (b.reconstruct i) *
+  (Q.originalTermDictionary x W a Z t Y₁ Y₂ .left 1 S₁ S₂ S comparison).coefficient (b.reconstruct i) *
     (E₁.residueHom (σ := σ) * M₁) (allocationColumnIdeal i)
 
 /-- The original complete coefficient is an output of the actual

@@ -78,8 +78,7 @@ theorem original_remaining_common_exterior {ω ψ : HeckeCharacter K}
     (Q : CompleteMovingRowRecipe A P Rchar data) (common : A.Exterior) :
     IsCoprime (Q.exteriorRemaining.remaining * exteriorMomentIdeal common).val A.cS := by
   change IsCoprime ((remainingMaskRadical A Q.remaining).val * common.val) A.cS
-  exact (Ideal.isCoprime_iff_sup_eq.mpr (remainingMaskRadical A Q.remaining).property.2).
-    mul_left (Ideal.isCoprime_iff_sup_eq.mpr common.property.2)
+  exact (Ideal.isCoprime_iff_sup_eq.mpr (remainingMaskRadical A Q.remaining).property.2).mul_left (Ideal.isCoprime_iff_sup_eq.mpr common.property.2)
 
 section ActualPatternWindows
 
@@ -149,8 +148,7 @@ theorem actualRows_raw_remaining_joint_window
   change idealNorm K ((chart.actualRows ∅ X hX label).extractedRow C h).momentIdeal *
     idealNorm K
       ((oldMoving.append (secondOriginalMovingFactors P Rchar C b.primes
-        b.leftMultiplicity b.rightMultiplicity (chart.originalNonunitPattern ∅ X hX label))).
-          fullMaskSupport (remainingMaskIdeal A remaining * exteriorMomentIdeal
+        b.leftMultiplicity b.rightMultiplicity (chart.originalNonunitPattern ∅ X hX label))).fullMaskSupport (remainingMaskIdeal A remaining * exteriorMomentIdeal
             (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity))) ≤ _ at hw
   rw [fullMaskSupport_normalized_mul _ remaining _ hremaining] at hw
   exact hw

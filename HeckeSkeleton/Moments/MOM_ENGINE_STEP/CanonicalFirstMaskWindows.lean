@@ -231,8 +231,7 @@ theorem FirstCommonCharacterBlock.physicalCutoff_le_full_columns
       Z ^ (cutoffExponent - (p.m + p.q) + 3 * B) := by
   obtain ⟨hmask, hmodulus⟩ :=
     b.original_mask_modulus_windows C hΓ left right profiles hDE Z B hZ hleft hright
-  have h := (b.finiteSource hΓ C left right profiles ∅ radius X hX).
-    physicalCutoff_le_original_windows Z cutoffExponent (-(p.m + p.q)) B (2 * B)
+  have h := (b.finiteSource hΓ C left right profiles ∅ radius X hX).physicalCutoff_le_original_windows Z cutoffExponent (-(p.m + p.q)) B (2 * B)
       hZ hcutoff hradius hmask hmodulus
   convert h using 1 <;> congr 1 <;> ring
 

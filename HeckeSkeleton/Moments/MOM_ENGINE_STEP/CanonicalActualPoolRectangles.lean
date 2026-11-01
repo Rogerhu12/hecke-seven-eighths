@@ -245,8 +245,7 @@ def originalPoolScalar : ℂ :=
 /-- This is exactly the shape of the genuine residualSource coefficient
 after its proved prime-power reconstruction. -/
 def originalPoolCoefficient (comparison : Bool) (i : AllocationColumn K b.keep.card) : ℂ :=
-  (Q.originalTermDictionary x W a Z t Y₁ Y₂ .left 1 S₁ S₂ S comparison).
-      coefficient (b.reconstruct i) *
+  (Q.originalTermDictionary x W a Z t Y₁ Y₂ .left 1 S₁ S₂ S comparison).coefficient (b.reconstruct i) *
     M₁ ((powerIdeal p v).val * (J i).val) * (LocalFiniteSums.Q p : ℂ) ^ v *
       Epool.residueHom (σ := σ) (J i).val
 
@@ -259,16 +258,14 @@ theorem originalPoolCoefficient_eq (comparison : Bool)
       originalPoolScalar Q x Z t S₁ S₂ S firstCommon p v b
           C primes m n firstRight δ tilt ξ *
         (originalPoolDictionary Q x W a Z t Y₁ Y₂ S₁ S₂ S firstCommon p v hv b
-          C primes m n firstRight δ tilt ξ hroot hemb J hJ hactive side χ comparison).
-            coefficient i := by
+          C primes m n firstRight δ tilt ξ hroot hemb J hJ hactive side χ comparison).coefficient i := by
   rw [originalPoolCoefficient, originalPoolScalar, originalPoolDictionary,
     poolDictionary_coefficient, map_mul, hJ i hi]
   have h := firstResidualTerm_eq Q x W a Z t Y₁ Y₂ S₁ S₂ S common b C primes m n
     firstRight δ tilt ξ hroot hemb J hJ hactive side χ comparison i hi
   change _ * M₁ (allocationColumnIdeal i) = _ at h
   calc
-    _ = ((Q.originalTermDictionary x W a Z t Y₁ Y₂ .left 1 S₁ S₂ S comparison).
-          coefficient (b.reconstruct i) * M₁ (allocationColumnIdeal i)) *
+    _ = ((Q.originalTermDictionary x W a Z t Y₁ Y₂ .left 1 S₁ S₂ S comparison).coefficient (b.reconstruct i) * M₁ (allocationColumnIdeal i)) *
         M₁ (powerIdeal p v).val * (LocalFiniteSums.Q p : ℂ) ^ v *
           Epool.residueHom (σ := σ) (allocationColumnIdeal i) := by ring
     _ = _ := by rw [h]; ring

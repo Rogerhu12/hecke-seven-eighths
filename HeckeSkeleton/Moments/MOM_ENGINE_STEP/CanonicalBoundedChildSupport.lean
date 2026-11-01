@@ -318,8 +318,7 @@ private theorem reconstructed_coprime
     (hT W₂ (Finset.mem_filter.mp hW₂).1).of_isCoprime_of_dvd_left
       ((Finset.mem_filter.mp hW₂).2 ▸ extract_dvd_any W₂ Q)
   have hEcop := (plainResidual_coprime_of_original
-    (SupportCartesian.plainResidual S P D₁.val) Q D₂.val M W₃ hT hW₃).
-      of_isCoprime_of_dvd_left hE
+    (SupportCartesian.plainResidual S P D₁.val) Q D₂.val M W₃ hT hW₃).of_isCoprime_of_dvd_left hE
   exact hD₁.mul_left (hD₂.mul_left (hEcop.mul_left hI))
 
 /-- Three divisions of the original physical scale reconstruct the

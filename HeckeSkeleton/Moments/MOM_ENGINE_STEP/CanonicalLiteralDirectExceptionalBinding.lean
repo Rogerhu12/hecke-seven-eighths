@@ -412,8 +412,7 @@ theorem literalLeftDirectExceptionalSource_eq
     (hpredicate : (v.leaf exceptional F firstPoint j).exceptional = characters.exceptional)
     (z : ℝ × ℝ) :
     (((construction.val.stripOuter leftScalar rightScalar
-        construction.property.2.1 construction.property.2.2).
-      thetaClassLeaf characters thetaPair).exceptionalIntegrand z) =
+        construction.property.2.1 construction.property.2.2).thetaClassLeaf characters thetaPair).exceptionalIntegrand z) =
         (sides.1.val.frame classRows C .left).exceptionalMagnitude
           (sides.2.val.frame classRows C .right)
           (sides.1.val.comparison classRows C .left)
@@ -599,8 +598,7 @@ theorem literalRightDirectExceptionalSource_eq
     (hpredicate : (v.leaf exceptional F firstPoint j).exceptional = characters.exceptional)
     (z : ℝ × ℝ) :
     (((construction.val.stripOuter leftScalar rightScalar
-        construction.property.2.1 construction.property.2.2).
-      thetaClassLeaf characters thetaPair).exceptionalIntegrand z) =
+        construction.property.2.1 construction.property.2.2).thetaClassLeaf characters thetaPair).exceptionalIntegrand z) =
         (sides.1.val.frame classRows C .left).exceptionalMagnitude
           (sides.2.val.frame classRows C .right)
           (sides.1.val.comparison classRows C .left)

@@ -284,8 +284,7 @@ theorem side_samePlainProfiles (hc : centered = true) :
 theorem side_primeNormWindow (B : ℝ) (hp : seed.PrimeNormWindow B) :
     D.atoms.PrimeNormWindow B := by
   have hp₁ : actual.PrimeNormWindow B := hp.extract first
-  exact (((hp₁.extract second).onAtlas atlas count hslot).scale scalar⁻¹).
-    balancePlain (fun _ => 1)
+  exact (((hp₁.extract second).onAtlas atlas count hslot).scale scalar⁻¹).balancePlain (fun _ => 1)
 
 /-- A return value on the exact final table. The heterogeneous equality
 only transports its occurrence count; it does not discard or reselect

@@ -245,8 +245,7 @@ def comparison (E : SecondCoefficientComparison F) :
 or energy inequality, using the same original Gauss normalizers. -/
 @[simp] theorem comparison_centeredCoefficient (E : SecondCoefficientComparison F)
     (u v : ℂ) (t : Fin k → ℂ) (i : AllocationColumn K k) :
-    (comparison moving remaining D parent correction index phase S₁ S₂ S part₁ part₂ F E).
-      centeredCoefficient u v t i = E.centeredCoefficient u v t i := rfl
+    (comparison moving remaining D parent correction index phase S₁ S₂ S part₁ part₂ F E).centeredCoefficient u v t i = E.centeredCoefficient u v t i := rfl
 
 end Dictionaries
 

@@ -125,8 +125,7 @@ theorem original_left_identity (u : NonzeroIdeal K) (hu : u ∈ rowDomain)
           (Real.log (idealNorm K D₁ * idealNorm K I) • firstDirection +
             Real.log (idealNorm K I) • secondDirection) =
       ((scalars.left : ℂ) * d.plainTest₁.profile u t (idealNorm K I / G₁)) *
-        (atom G₁ (idealNorm K D₁) δ₁ δ₂ firstDirection secondDirection).
-          multiplier ξ (idealNorm K I / G₁) := by
+        (atom G₁ (idealNorm K D₁) δ₁ δ₂ firstDirection secondDirection).multiplier ξ (idealNorm K I / G₁) := by
   apply clipped_multiplier_identity G₁ (idealNorm K D₁) (idealNorm K I) B δ₁ δ₂
     hG₁ (one_le_idealNorm K D₁) (one_le_idealNorm K I) hB hδ₁ hδ₂ hδ
     (d.plainTest₁.profile u t)
@@ -145,8 +144,7 @@ theorem original_right_identity (u : NonzeroIdeal K) (hu : u ∈ rowDomain)
           (Real.log (idealNorm K D₂ * idealNorm K I) • firstDirection +
             Real.log (idealNorm K I) • secondDirection) =
       ((scalars.right : ℂ) * d.plainTest₂.profile u t (idealNorm K I / G₂)) *
-        (atom G₂ (idealNorm K D₂) δ₁ δ₂ firstDirection secondDirection).
-          multiplier ξ (idealNorm K I / G₂) := by
+        (atom G₂ (idealNorm K D₂) δ₁ δ₂ firstDirection secondDirection).multiplier ξ (idealNorm K I / G₂) := by
   apply clipped_multiplier_identity G₂ (idealNorm K D₂) (idealNorm K I) B δ₁ δ₂
     hG₂ (one_le_idealNorm K D₂) (one_le_idealNorm K I) hB hδ₁ hδ₂ hδ
     (d.plainTest₂.profile u t)
@@ -168,8 +166,7 @@ theorem original_prime_identity (i : Fin d.geometry.slotCount)
             Real.log (Ideal.absNorm q.asIdeal : ℝ) • secondDirection) =
       ((scalars.prime i : ℂ) *
         (d.geometry.slots i).profile t ((Ideal.absNorm q.asIdeal : ℝ) / G i)) *
-        (atom (G i) 1 δ₁ δ₂ firstDirection secondDirection).
-          multiplier ξ ((Ideal.absNorm q.asIdeal : ℝ) / G i) := by
+        (atom (G i) 1 δ₁ δ₂ firstDirection secondDirection).multiplier ξ ((Ideal.absNorm q.asIdeal : ℝ) / G i) := by
   have hN : (1 : ℝ) ≤ (Ideal.absNorm q.asIdeal : ℝ) :=
     one_le_idealNorm K ⟨q.asIdeal, mem_nonZeroDivisors_of_ne_zero q.ne_bot⟩
   apply clipped_multiplier_identity (G i) 1 (Ideal.absNorm q.asIdeal : ℝ) B δ₁ δ₂

@@ -993,24 +993,37 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRightDirectExceptio
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledExceptionalSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineAnnulus
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveInheritance
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectExceptionalSource
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveExceptionalFirstProfile
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectExceptionalIntegral
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledExceptionalIntegral
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveInverseSlots
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledInverseSlots
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PairedEngineAdmissibilityTransport
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineInheritance
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveDirectExceptionalBudget
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitivePooledExceptionalBudget
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PairedEngineStep
 /-!
-# The unified child step of the paired fourth-moment engine
+# The complete paired fourth-moment engine step
 
-The same statement handles every finite number of live slots.  Starting
-with the actual child `MomentData`, the explicit two-transform length
-formulas imply a strict effective-width drop.  One whole-slot removal then
-gives a successor with either no slots or the required capacity, together
-with a bound on the actual energy.  Its cost is paid by
-`b₂ - p₂ + w + B + ell`, including the pool density exactly once.
+`paired_engine_step` constructs the full `PairedEngineConclusion` from
+original moving arithmetic and raw profile inputs. Its fixed finite
+orders, polynomial degree, constant and threshold precede the moving
+parent and its scale. The original single-character volume primitive
+and prime analytic provider are the cross-task inputs.
 
-The other modules expose the exact whole-coefficient identities, full
-nonprimitive correlation transform, actual local amplifier table and
-prime-ideal pool pushforward.  The induction task can use
-`paired_child_step` without splitting its proof by slot count.
+The conclusion includes the actual parent recursion, all terminal
+bounds, the common-kernel mass estimate, normalized child admissibility,
+strict width decrease, unchanged kappa, slot and character inheritance,
+and the zero-slot-or-capacity alternatives. Slot inverses are retained
+for the same actual children. The zero-slot construction uses no pool;
+positive slots use one selected pool for main and valuation 1/6/7.
+`paired_engine_step_exists` is the proposition-valued existence form.
 
-This child theorem does not assert that the parent moment has already
-been decomposed into a finite collection of these children.  That analytic
-assembly must also control common-kernel tails and exceptional children.
+The earlier `paired_child_step` below remains the algebraic child lemma
+used inside the construction. The complete public entry point is
+`paired_engine_step`, imported from `PairedEngineStep` above.
 -/
 
 noncomputable section
@@ -1074,3 +1087,6 @@ end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.paired_child_step
 
+
+#print axioms HeckeSkeleton.Moments.EngineStep.paired_engine_step
+#print axioms HeckeSkeleton.Moments.EngineStep.paired_engine_step_exists

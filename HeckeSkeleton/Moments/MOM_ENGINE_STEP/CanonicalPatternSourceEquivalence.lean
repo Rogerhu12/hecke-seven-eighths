@@ -220,8 +220,7 @@ def calibrationOfStablePatternSector
 def capacityOfStablePatternSector
     {D : (byPatternSector P rows C s pattern sector).Calibration (σ := σ) ω ψ}
     (G : D.NormalizedCapacityData) :
-    (calibrationOfStablePatternSector P rows C s pattern sector hpattern hsector D).
-      NormalizedCapacityData :=
+    (calibrationOfStablePatternSector P rows C s pattern sector hpattern hsector D).NormalizedCapacityData :=
   (G.ofAllSubtype (fun h => hsector h.val)).ofAllSubtype hpattern
 
 end CanonicalActualJointSources

@@ -62,8 +62,7 @@ theorem exceptional_frame_coefficient
     (hne : (pairedAllocatedColumns L selection d.plain₁ d.plain₂ d.slots
       id id HeightOneSpectrum.asIdeal).Nonempty)
     (h : H) (i : AllocationColumn K k) :
-    ((d.factors R side χ ideal hideal firstSign false).frame C L selection hne).
-        centeredCoefficient
+    ((d.factors R side χ ideal hideal firstSign false).frame C L selection hne).centeredCoefficient
           (CanonicalLiteralExceptionalFactory.comparison d (side.phase PUnit.{1} χ)) h i =
       side.actualCoefficient (σ := σ) PUnit.{1} ideal R.frequency (fun _ => PUnit.unit) χ
         d.whole h i := by

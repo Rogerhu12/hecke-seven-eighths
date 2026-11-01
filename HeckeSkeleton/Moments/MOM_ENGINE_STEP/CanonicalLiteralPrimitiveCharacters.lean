@@ -60,8 +60,7 @@ private theorem element_unramified
     (hp : p ∉ (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
     (hcop : IsCoprime p.asIdeal (elementIdeal P R a).val) :
     UnramifiedAt K (elementCharacter P R a) p :=
-  (OriginalMovingFactors.singleton (P := P) (R := R) a 1).
-    factorCharacter_unramified 0 p hp hcop
+  (OriginalMovingFactors.singleton (P := P) (R := R) a 1).factorCharacter_unramified 0 p hp hcop
 
 /-- Multiplicativity is derived on the original S-integers, with their
 unit sectors intact, from true single-prime calibration and uniqueness. -/

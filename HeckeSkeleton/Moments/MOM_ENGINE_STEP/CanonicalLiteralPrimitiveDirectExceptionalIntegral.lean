@@ -242,8 +242,8 @@ theorem literalPrimitiveDirectExceptional_integral
       have hfiber := (((stages DE D).left S χ).supported.gated.fiberCoveredLeaf
         ((source.pieces DE D).leftSourceCover raw.originalAtlas S χ)
         ((source.pieces DE D).leftSourceCover raw.originalAtlas S χ)
-        ((predicates DE D).left S χ) (source.charts DE D).kernel (source.charts DE D).leftPoint leaf).
-          live_of_scale_live _ _ hblock
+        ((predicates DE D).left S χ) (source.charts DE D).kernel (source.charts DE D).leftPoint leaf).live_of_scale_live
+          _ _ hblock
       let v := leaf.1
       let j := leaf.2
       let first := OriginalNominalGeometry.canonicalDirect
@@ -405,8 +405,8 @@ theorem literalPrimitiveDirectExceptional_integral
       have hfiber := (((stages DE D).right S χ).supported.gated.fiberCoveredLeaf
         ((source.pieces DE D).rightSourceCover raw.originalAtlas S χ)
         ((source.pieces DE D).rightSourceCover raw.originalAtlas S χ)
-        ((predicates DE D).right S χ) (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i) leaf).
-          live_of_scale_live _ _ hblock
+        ((predicates DE D).right S χ) (source.charts DE D).kernel (fun i => -(source.charts DE D).rightPoint i) leaf).live_of_scale_live
+          _ _ hblock
       let v := leaf.1
       let j := leaf.2
       let first := OriginalNominalGeometry.canonicalDirect

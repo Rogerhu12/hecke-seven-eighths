@@ -193,18 +193,15 @@ def negativeCalibration
       (childData P R parent prefix correction hcorr C primes m n pattern sector remaining budget
         inverse left right geometry index) rfl row.momentIdeal (-g) row.element where
   fixedRay_mem_theta := (calibration P R parent prefix correction hcorr C primes m n pattern
-    sector remaining budget inverse left right geometry index hone hroot hemb row hfactor hsector).
-      fixedRay_mem_theta
+    sector remaining budget inverse left right geometry index hone hroot hemb row hfactor hsector).fixedRay_mem_theta
   plain J := by
     rw [residue_neg]
     exact (calibration P R parent prefix correction hcorr C primes m n pattern
-      sector remaining budget inverse left right geometry index hone hroot hemb row hfactor hsector).
-        plain J
+      sector remaining budget inverse left right geometry index hone hroot hemb row hfactor hsector).plain J
   slot i p := by
     rw [residue_neg]
     exact (calibration P R parent prefix correction hcorr C primes m n pattern
-      sector remaining budget inverse left right geometry index hone hroot hemb row hfactor hsector).
-        slot i p
+      sector remaining budget inverse left right geometry index hone hroot hemb row hfactor hsector).slot i p
 
 section ActualIndices
 
@@ -244,8 +241,7 @@ def actualAllocatedCalibration (S : ActualSecondCorrelationRows A σ H ι)
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
     (hemb : P.arithmetic.embedding = σ)
     (q : PatternSector P S C pattern sector) :
-    ((movingSourceCharacters parent correction prefix remaining index).restrictSlots B.keep).
-      Calibration (σ := σ)
+    ((movingSourceCharacters parent correction prefix remaining index).restrictSlots B.keep).Calibration (σ := σ)
       ((childData P R parent prefix correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
         pattern sector remaining budget inverse left right geometry index).restrictSlots B.keep) rfl
       (S.extractedRow C q.val.val).momentIdeal (S.factor C q.val.val.val)
@@ -259,8 +255,7 @@ def actualNegativeAllocatedCalibration (S : ActualSecondCorrelationRows A σ H �
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
     (hemb : P.arithmetic.embedding = σ)
     (q : PatternSector P S C pattern sector) :
-    ((movingSourceCharacters parent correction prefix remaining index).restrictSlots B.keep).
-      Calibration (σ := σ)
+    ((movingSourceCharacters parent correction prefix remaining index).restrictSlots B.keep).Calibration (σ := σ)
       ((childData P R parent prefix correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
         pattern sector remaining budget inverse left right geometry index).restrictSlots B.keep) rfl
       (S.extractedRow C q.val.val).momentIdeal (-(S.factor C q.val.val.val))

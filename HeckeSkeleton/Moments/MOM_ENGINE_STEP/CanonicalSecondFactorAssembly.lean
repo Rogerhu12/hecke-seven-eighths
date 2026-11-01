@@ -238,8 +238,7 @@ theorem poolMovingFactors_coprime (C : A.GeneralArithmeticContext σ η hS)
     (d : AmplifierResidualPresentation C p n I) :
     IsCoprime d.residual.val
       (poolMovingFactors (P := P) (R := R) C p n).support.val := by
-  rw [(poolMovingFactors (P := P) (R := R) C p n).
-      coprime_support_iff_fullIdeal d.residual.val,
+  rw [(poolMovingFactors (P := P) (R := R) C p n).coprime_support_iff_fullIdeal d.residual.val,
     poolMovingFactors_fullIdeal]
   exact d.coprime.symm
 
@@ -255,8 +254,7 @@ private theorem divisor_conditions (J active : A.Exterior)
   · intro hzero
     rw [hzero, zero_dvd_iff] at hI
     exact J.property.1 hI
-  · exact (Ideal.isCoprime_iff_sup_eq.mpr J.property.2).
-      of_isCoprime_of_dvd_left hI
+  · exact (Ideal.isCoprime_iff_sup_eq.mpr J.property.2).of_isCoprime_of_dvd_left hI
 
 /-- Every original occurrence inherits its exceptional-place and
 active-support coprimality from the actual Cartesian exterior ideal.
@@ -500,8 +498,7 @@ theorem firstWeightedDictionary_coefficient
       J hJ witness hwitness hactive).coefficient i =
       rawBareSourceCoefficient (movingSourceCharacters parent correction D remaining index)
         N₁ N₂ Z length w₁ w₂ w i *
-          ((CanonicalSecondRectangularFactors.firstMovingFactors P R C primes m n right δ).
-            residueHom (σ := σ) * M) (allocationColumnIdeal i) := by
+          ((CanonicalSecondRectangularFactors.firstMovingFactors P R C primes m n right δ).residueHom (σ := σ) * M) (allocationColumnIdeal i) := by
   have hleft : i.1.1 ≠ 0 := by
     intro hz
     apply (J i).property.1
@@ -514,8 +511,7 @@ theorem firstWeightedDictionary_coefficient
     (oldPlain parent correction D remaining index N₁ w₁)
     (oldPlain parent correction D remaining index N₂ w₂)
     (oldPrime parent correction D remaining index Z length w)
-    ((CanonicalSecondRectangularFactors.firstMovingFactors P R C primes m n right δ).
-      residueHom (σ := σ) * M) i hleft hright
+    ((CanonicalSecondRectangularFactors.firstMovingFactors P R C primes m n right δ).residueHom (σ := σ) * M) i hleft hright
   simpa only [firstWeightedDictionary, appendedWeightedDictionary,
     SecondCoefficientTermDictionary.coefficient, rawBareSourceCoefficient,
     FixedChildCharacters.bareCoefficient, childCartesianCoefficient,
@@ -600,8 +596,7 @@ theorem emptyMaskWeightedDictionary_coefficient
       rawBareSourceCoefficient (movingSourceCharacters parent correction D remaining index)
         N₁ N₂ Z length w₁ w₂ w i *
           ((CanonicalSecondRectangularFactors.secondMaskMovingFactors P R
-            (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅)).
-              residueHom (σ := σ) * M) (allocationColumnIdeal i) := by
+            (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅)).residueHom (σ := σ) * M) (allocationColumnIdeal i) := by
   have hleft : i.1.1 ≠ 0 := by
     intro hz
     apply (J i).property.1
@@ -615,8 +610,7 @@ theorem emptyMaskWeightedDictionary_coefficient
     (oldPlain parent correction D remaining index N₂ w₂)
     (oldPrime parent correction D remaining index Z length w)
     ((CanonicalSecondRectangularFactors.secondMaskMovingFactors P R
-      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅)).
-        residueHom (σ := σ) * M) i hleft hright
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅)).residueHom (σ := σ) * M) i hleft hright
   simpa only [emptyMaskWeightedDictionary, appendedWeightedDictionary,
     SecondCoefficientTermDictionary.coefficient, rawBareSourceCoefficient,
     FixedChildCharacters.bareCoefficient, childCartesianCoefficient,
@@ -680,8 +674,7 @@ theorem canonical_first_left_twisted (ξ : ℝ) (i : α) :
         firstChart.leftPoint ξ i =
       c i *
         ((CanonicalSecondRectangularFactors.firstMovingFactors P R C firstBlock.primes
-          firstBlock.leftMultiplicity firstBlock.rightMultiplicity false maskGenerator).
-            residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
+          firstBlock.leftMultiplicity firstBlock.rightMultiplicity false maskGenerator).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
           (firstBlock.leftResidual i).val := by
   rw [FirstGaussPoolData.twistedCoefficient,
     FirstBlockProfileChart.canonicalLogWithCoefficients_leftCoefficient_eq,
@@ -709,8 +702,7 @@ theorem canonical_first_right_twisted (ξ : ℝ) (j : β) :
         (fun j => -firstChart.rightPoint j) ξ j =
       e j *
         ((CanonicalSecondRectangularFactors.firstMovingFactors P R C firstBlock.primes
-          firstBlock.leftMultiplicity firstBlock.rightMultiplicity true maskGenerator).
-            residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
+          firstBlock.leftMultiplicity firstBlock.rightMultiplicity true maskGenerator).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
           (firstBlock.rightResidual j).val := by
   rw [FirstGaussPoolData.twistedCoefficient,
     FirstBlockProfileChart.canonicalLogWithCoefficients_rightCoefficient_eq,

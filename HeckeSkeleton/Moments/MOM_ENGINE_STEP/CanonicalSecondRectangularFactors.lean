@@ -451,8 +451,7 @@ theorem character_unramified (p : HeightOneSpectrum (𝓞 K))
   intro i _
   exact CanonicalSecondRectangularFactors.unramified_zpow
     (D.factorCharacter_unramified i p hp
-      (((D.coprime_support_iff_fullIdeal p.asIdeal).mp hcop).
-        of_isCoprime_of_dvd_right (D.factorIdeal_dvd i))) (D.power i)
+      (((D.coprime_support_iff_fullIdeal p.asIdeal).mp hcop).of_isCoprime_of_dvd_right (D.factorIdeal_dvd i))) (D.power i)
 
 /-- The actual moving coefficient is its displayed original residue
 product on the complete live mask. All local hypotheses are proved
@@ -656,8 +655,7 @@ theorem firstMovingFactors_masked_coefficient
           (firstMovingFactors P R C p m n right δ).residueValue (σ := σ) I.val := by
   by_cases hm : IsCoprime I.val oldMask.val
   · simp only [IsCoprime.mul_right_iff, hm, true_and, if_true, mul_one]
-    rw [(firstMovingFactors P R C p m n right δ).
-      background_coefficient_masked hroot hemb background I hI,
+    rw [(firstMovingFactors P R C p m n right δ).background_coefficient_masked hroot hemb background I hI,
       mul_assoc, firstMovingFactors_residue_mask P R hroot hemb C p m n right
         δ Iδ hδ I hactive]
   · simp only [IsCoprime.mul_right_iff, hm, false_and, if_false, mul_zero, zero_mul]
@@ -708,8 +706,7 @@ theorem canonical_first_left_factor_moving
           (b.leftGenerator i) (b.left_generates i))
         (actualActiveColumn hΓ C b.primes b.primes_injective
           b.leftMultiplicity b.rightMultiplicity) δ.val =
-      (firstMovingFactors P R C b.primes b.leftMultiplicity b.rightMultiplicity false δ).
-        residueValue (σ := σ) (b.leftResidual i).val := by
+      (firstMovingFactors P R C b.primes b.leftMultiplicity b.rightMultiplicity false δ).residueValue (σ := σ) (b.leftResidual i).val := by
   let b := canonicalFirstCommonBlock C left right fullI fullJ DE hDE
   obtain ⟨u, hu, ha⟩ :=
     (canonicalFirstCommonBlock_allowed C left right fullI fullJ DE hDE).1 i
@@ -732,8 +729,7 @@ theorem canonical_first_right_factor_moving
           (b.rightGenerator j) (b.right_generates j))
         (actualActiveColumn hΓ C b.primes b.primes_injective
           b.leftMultiplicity b.rightMultiplicity) δ.val =
-      (firstMovingFactors P R C b.primes b.leftMultiplicity b.rightMultiplicity true δ).
-        residueValue (σ := σ) (b.rightResidual j).val := by
+      (firstMovingFactors P R C b.primes b.leftMultiplicity b.rightMultiplicity true δ).residueValue (σ := σ) (b.rightResidual j).val := by
   let b := canonicalFirstCommonBlock C left right fullI fullJ DE hDE
   obtain ⟨u, hu, ha⟩ :=
     (canonicalFirstCommonBlock_allowed C left right fullI fullJ DE hDE).2 j
@@ -890,8 +886,7 @@ theorem originalTermDictionary_bare (comparison : Bool)
         (fun I => W.right PUnit.unit t (idealNorm K I / (if comparison then Y₂ else Z ^ a.n₂)))
         (fun j p => ((data ξ).geometry.slots j).profile t
           ((Ideal.absNorm p.asIdeal : ℝ) / Z ^ ((data ξ).geometry.slots j).length)) i := by
-  have h := (Q.originalTermDictionary ξ W a Z t Y₁ Y₂ side χ S₁ S₂ S comparison).
-    coefficient_phase i hi
+  have h := (Q.originalTermDictionary ξ W a Z t Y₁ Y₂ side χ S₁ S₂ S comparison).coefficient_phase i hi
   simpa only [CanonicalSecondRectangularFactors.punit_phase, mul_one] using h
 
 /-- Both comparison scales use the same original characters, prime
@@ -963,8 +958,7 @@ def originalResidualCoefficient (comparison : Bool) :
 coefficient, with no new coefficient factorization premise. -/
 theorem originalTermDictionary_extract (comparison : Bool)
     (y : AllocationColumn K b.keep.card) (hy : y ∈ b.residualColumns) :
-    (Q.originalTermDictionary ξ W a Z t Y₁ Y₂ side χ S₁ S₂ S comparison).
-        coefficient (b.reconstruct y) =
+    (Q.originalTermDictionary ξ W a Z t Y₁ Y₂ side χ S₁ S₂ S comparison).coefficient (b.reconstruct y) =
       Q.originalCommonScalar ξ Z t S₁ S₂ S b *
         Q.originalResidualCoefficient ξ W a Z t Y₁ Y₂ S₁ S₂ S b comparison y := by
   rw [Q.originalTermDictionary_bare ξ W a Z t Y₁ Y₂ side χ S₁ S₂ S comparison
