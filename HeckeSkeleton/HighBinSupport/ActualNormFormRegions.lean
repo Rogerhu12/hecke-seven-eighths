@@ -199,7 +199,9 @@ theorem exists_actualSlotRegion_bounds
         rw [← Real.rpow_add hP0]
         congr 1
         ring
-      _ ≤ _ := Real.rpow_le_rpow_of_exponent_le hP1 (add_le_add_right (A.range i).2 theta)
+      _ ≤ _ := Real.rpow_le_rpow_of_exponent_le hP1 (by
+        simpa only [ActualFullSlotAmplitude.amplitude] using
+          add_le_add (A.range i).2 (le_rfl : theta ≤ theta))
   have hb := NormForm.pointwiseBucket_spec (primeScale g Z) theta (a - 1 / 2)
     (actualNormalizedSlotProfile K S P psi g u Z a e i x) N hP1 htheta
     (by linarith) (by linarith) hcap
@@ -220,7 +222,8 @@ theorem exists_actualSlotRegion_bounds
       _ = _ := by rw [← Real.rpow_add hP0]; congr 1; ring
   · intro hg
     have h := hb.2.2.2 hg
-    simpa only [actualNormalizedSlotProfile, norm_mul, Complex.norm_real, Real.norm_eq_abs,
+    simpa only [actualRegionAmplitude, actualNormalizedSlotProfile, norm_mul,
+      Complex.norm_real, Real.norm_eq_abs,
       abs_of_nonneg (Real.rpow_nonneg hP0.le (4 / 25 : ℝ))] using h
 
 end HighBinVerified.NormFormRegions

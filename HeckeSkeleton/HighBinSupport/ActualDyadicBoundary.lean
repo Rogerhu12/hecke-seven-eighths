@@ -73,7 +73,7 @@ theorem shellCount_linear_bound {Z upper : ℝ} (hZ : 1 ≤ Z)
   simp only [div_one, Real.rpow_one] at hc
   apply hc.trans
   apply mul_le_mul_of_nonneg_right _ (zero_le_one.trans hZ)
-  apply add_le_add_left
+  apply add_le_add_right
   exact div_le_div_of_nonneg_right (by linarith) hlog.le
 
 /-- Arbitrary external tail order for the whole canonical dyadic
@@ -146,7 +146,7 @@ theorem dyadicBoundary_powerHeightTailBound
   have hZ1 : 1 ≤ Z := by linarith
   have hT : 1 ≤ Z ^ τ := Real.one_le_rpow hZ1 hτ.le
   have h := hb ray (source Z (Z ^ τ)) Z (Z ^ τ) κ upper hZ hT hlo hhi
-  simpa only [Real.rpow_zero, mul_one, Real.rpow_natCast] using h
+  simpa only [Real.rpow_zero, mul_one, Real.rpow_ofNat] using h
 
 end HeckeSkeleton.HighBinDyadicBoundary
 

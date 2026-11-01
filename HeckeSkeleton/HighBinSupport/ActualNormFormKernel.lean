@@ -180,7 +180,9 @@ theorem exists_actual_kernel_normForm_of_slot_bounds
     have h := NormForm.uniform_slot_product_bound g.slots g.slots_pos Z theta 1
       amplitude
       (fun i => actualFullCorrectionSlot K S₀ P psi g ∅ u Z s w z i) hZ0
-      (fun i => by simpa only [one_mul] using hupper i)
+      (fun i => by
+        simpa only [actualSlotHeightProfile, primeScale, s, w, z, one_mul, neg_div]
+          using hupper i)
     simpa only [slots, one_pow, Real.one_rpow, one_mul] using h
   have hnorm := NormForm.pointwise_normForm_of_factors
     Z (frequencyRowNorm K S₀ u) (u.ideal.val.val.radical.absNorm : ℝ) 1 d a

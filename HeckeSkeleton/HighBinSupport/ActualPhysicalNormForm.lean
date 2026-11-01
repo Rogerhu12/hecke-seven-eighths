@@ -197,7 +197,7 @@ theorem exists_physicalBlock_normForm
       (C := normalization * C * Z ^ (NormForm.rowExponent d a q + lam / 4) *
         (1 + Z ^ tau) ^ A) (by positivity) hpoint u
     have hvol : (Z ^ tau) ^ 3 ≤ (1 + Z ^ tau) ^ (3 : ℝ) := by
-      rw [Real.rpow_natCast]
+      rw [Real.rpow_ofNat (1 + Z ^ tau) 3]
       exact pow_le_pow_left₀ hT0 (by linarith) 3
     apply hh.trans
     calc

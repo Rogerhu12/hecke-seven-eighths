@@ -283,7 +283,7 @@ theorem exists_actual_moderate_fullCorrection_bound (g : PrimeWindowGeometry)
   exact (hr g T Z a ha ha1 P psi u s w z hv hs hw hz).trans
     ((mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left (hm Z hZ T) hCr.le)
       (Real.rpow_nonneg (idealNorm_pos K u.ideal.val).le _)).trans_eq
-        (by dsimp only [frequencyRowNorm]; ring))
+        (by dsimp only [frequencyRowNorm, exteriorNorm, idealNorm]; ring))
 
 /-- The actual finite-order nonprincipal numerator is controlled across
 the small negative-w part of every moderate starting contour. -/

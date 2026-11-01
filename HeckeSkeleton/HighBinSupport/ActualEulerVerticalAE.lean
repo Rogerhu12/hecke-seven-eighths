@@ -97,20 +97,21 @@ theorem rowCorrection_eq_finiteExceptional_mul_regular
     if hp : p ∈ F then finiteEulerRationalValue (E.exceptionalFactor Q u ⟨p, hp⟩)
       (p.val.asIdeal.absNorm : ℝ) v.1 v.2.1 v.2.2
     else localRowCorrection K S P ψ (E.rows.character u) p v.1 v.2.1 v.2.2
-  have hfin : Multipliable (f ∘ (↑) : (F : Set (ExteriorPrime K S)) → ℂ) :=
+  have hfin : Multipliable (fun p : ↥(F : Set (ExteriorPrime K S)) => f p.val) :=
     Multipliable.of_finite
-  have htail : Multipliable (f ∘ (↑) : (F : Set (ExteriorPrime K S))ᶜ → ℂ) := by
+  have htail : Multipliable (fun p : ↥((F : Set (ExteriorPrime K S))ᶜ) => f p.val) := by
     apply hregular.congr
     intro p
-    simp only [Function.comp_def, f, dif_neg p.property]
-  have hprod := hfin.tprod_mul_tprod_compl htail
-  have hfinval : (∏' p : (F : Set (ExteriorPrime K S)), f p.val) =
+    simp only [f, dif_neg p.property]
+  have hprod := Multipliable.tprod_mul_tprod_compl
+    (s := (F : Set (ExteriorPrime K S))) (f := f) hfin htail
+  have hfinval : (∏' p : ↥(F : Set (ExteriorPrime K S)), f p.val) =
       finiteExceptionalProduct K S P E Q u v := by
     rw [tprod_fintype]
     apply Finset.prod_congr rfl
     intro p _
     simp only [f, dif_pos p.property]
-  have htailval : (∏' p : (F : Set (ExteriorPrime K S))ᶜ, f p.val) =
+  have htailval : (∏' p : ↥((F : Set (ExteriorPrime K S))ᶜ), f p.val) =
       ∏' p : {p : ExteriorPrime K S // p ∉ rowExceptionalPrimes K S Q u},
         localRowCorrection K S P ψ (E.rows.character u) p.val v.1 v.2.1 v.2.2 := by
     apply tprod_congr
@@ -184,7 +185,9 @@ theorem finiteExceptionalProduct_ae_eq_vertical_of_calibrated
       (fun v => finiteExceptionalNumerator K S P E₂ Q u v /
         finiteExceptionalDenominator K S P E₂ Q u v) U := by
     intro v hv
-    rw [← finiteExceptionalProduct_eq_div, ← finiteExceptionalProduct_eq_div]
+    dsimp only
+    rw [← finiteExceptionalProduct_eq_div K S P E₁ Q u v,
+      ← finiteExceptionalProduct_eq_div K S P E₂ Q u v]
     exact finiteExceptionalProduct_eq_initial_of_calibrated K S P ψ E₁ E₂
       h₁ h₂ Q u v.1 v.2.1 v.2.2 hv.1 hv.2.1 hv.2.2
   have h := entire_quotients_ae_eq_vertical
@@ -273,6 +276,7 @@ variable [∀ p : S, BorelSpace (p.val.adicCompletion K)]
 variable (μ : (p : S) → Measure (p.val.adicCompletion K))
 variable [∀ p : S, (μ p).IsAddHaarMeasure]
 
+set_option maxHeartbeats 1000000 in
 /-- Finite slot and subset sums preserve the almost-everywhere identity.
 Every mark set appearing in the original compensated kernel is included. -/
 theorem compensatedRowMellinKernel_ae_eq_vertical_of_calibrated
@@ -316,6 +320,7 @@ theorem compensatedRowMellinKernel_ae_eq_vertical_of_calibrated
   intro J hJ
   rw [ht p hp J hJ]
 
+set_option maxHeartbeats 1000000 in
 /-- The literal three nested integrals, including `(2π)^(-3)`, agree.
 Almost-everywhere product equality suffices: no integrability premise is
 added for the arbitrary finite-table provider. -/

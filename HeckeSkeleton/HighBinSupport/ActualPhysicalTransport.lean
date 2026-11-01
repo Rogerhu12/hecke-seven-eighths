@@ -64,7 +64,7 @@ theorem physicalBlockLabelIntegrand_norm_le
       ‖kernel u p‖ ≤ C) (u : FrequencyRow K S) :
     ‖physicalBlockLabelIntegrand (P := P) (R := R) (ω := omega)
       width cap Z rows b hcard kernel label u p‖ ≤ C := by
-  unfold physicalBlockLabelIntegrand
+  dsimp only [physicalBlockLabelIntegrand]
   split_ifs with hu
   · apply movingPiece_norm_le _ _ _ kernel p _ C hC hkernel
     exact mem_patterns.mpr

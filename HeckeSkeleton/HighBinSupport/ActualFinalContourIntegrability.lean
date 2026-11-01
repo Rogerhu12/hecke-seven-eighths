@@ -221,7 +221,7 @@ theorem compensatedRowMellinKernel_continuousOn_final_heightBox
       ContinuousOn (fun q => rowEulerContinuation K S₀ P ψ E Q u
         (sLine σ q) (wLine ν q) (zLine q)) (heightBox H) := by
     simpa only [rowEulerContinuation, div_eq_mul_inv] using
-      (((hzeta.mul hnum).continuousOn.mul hrecip).mul (hcorr Q))
+      (((hzeta.fun_mul hnum).continuousOn.fun_mul hrecip).fun_mul (hcorr Q))
   have hpow (b : ℝ) (hb : 0 < b) (f : ℝ × (ℝ × ℝ) → ℂ)
       (hf : Continuous f) : Continuous (fun q => (b : ℂ) ^ f q) :=
     hf.const_cpow (Or.inl (Complex.ofReal_ne_zero.mpr hb.ne'))

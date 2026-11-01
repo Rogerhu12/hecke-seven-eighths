@@ -464,7 +464,7 @@ theorem highBoundaryControl_of_arithmetic_lower_geometry
         (mul_le_mul_of_nonneg_left (hgeometryτ Z hZZg).1 (by positivity))
         (Real.rpow_nonneg (zero_le_one.trans hT) _)
     _ = (C * Cb) * Z ^ (13 + RB) * (1 + T) ^ AB * T ^ (-(N : ℝ)) := by
-      simp only [Real.rpow_add hZ0, Real.rpow_natCast]
+      simp only [Real.rpow_add hZ0, Real.rpow_natCast, Real.rpow_ofNat Z 13]
       ring
 
 /-- The whole original retained family has an arbitrary external tail.
@@ -618,7 +618,8 @@ theorem highBoundaryControl_of_arithmetic_power_geometry
     _ = (C * Cb * Cu ^ k) * Z ^ (13 + RB + RU * (k : ℝ)) *
         (1 + T) ^ (AB + AU * (k : ℝ)) * T ^ (-(N : ℝ)) := by
       simp only [Real.rpow_add hZ0, Real.rpow_add hT0,
-        Real.rpow_mul hZ0.le, Real.rpow_mul hT0.le, Real.rpow_natCast, mul_pow]
+        Real.rpow_mul hZ0.le, Real.rpow_mul hT0.le, Real.rpow_natCast,
+        Real.rpow_ofNat Z 13, mul_pow]
       ring
 
 /-- The power-height boundary conclusion requires polynomial growth only
@@ -703,7 +704,8 @@ theorem highBoundaryControl_of_arithmetic_contour_power_geometry
     _ = (C * Cb * Ch ^ k) * Z ^ (13 + RB + RH * (k : ℝ)) *
         (1 + T) ^ (AB + AH * (k : ℝ)) * T ^ (-(N : ℝ)) := by
       simp only [Real.rpow_add hZ0, Real.rpow_add hT0,
-        Real.rpow_mul hZ0.le, Real.rpow_mul hT0.le, Real.rpow_natCast, mul_pow]
+        Real.rpow_mul hZ0.le, Real.rpow_mul hT0.le, Real.rpow_natCast,
+        Real.rpow_ofNat Z 13, mul_pow]
       ring
 
 /-- Uniform geometric constants on a full height range are a sufficient

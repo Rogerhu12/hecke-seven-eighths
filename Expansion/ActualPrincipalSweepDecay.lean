@@ -96,7 +96,10 @@ theorem exists_actual_principal_fullCorrection_sweep_bound
         simp only [Finset.sum_const, nsmul_eq_mul]
       _ ≤ (A * primeScale g Z) * ((4 * M * Creg) * (primeScale g Z) ^ (2 : ℝ)) :=
         mul_le_mul_of_nonneg_right hcard (by positivity)
-      _ = _ := by rw [Real.rpow_natCast, Real.rpow_natCast]; dsimp only [Cs]; ring
+      _ = _ := by
+        rw [Real.rpow_ofNat (primeScale g Z) 2, Real.rpow_ofNat (primeScale g Z) 3]
+        dsimp only [Cs]
+        ring
   rw [actualFullCorrection_eq_product_region K S P psi g T u Z s w z
     (principal_rectangle_mem_rowEulerRegion s w z hs hw hz) hne, norm_mul, norm_prod]
   have he := actual_principal_unmarked_bound K S P psi u hrow s w z hs hw hz
@@ -268,7 +271,7 @@ theorem exists_actual_principal_sweep_kernel_rapid
         gcongr
       _ = _ := by
         dsimp only [C0]
-        simp only [Real.rpow_natCast, pow_zero]
+        simp only [Real.rpow_ofNat Z 8, Real.rpow_ofNat Z 3, Real.rpow_ofNat Z 14, pow_zero]
         ring
   have hweights := coupled_three_height_bound n kr 0 s.im w.im z.im
     ‖additiveMellin K Sset muS P.additive z‖ ‖mellin P.denominator.toFun w‖ Ca Cd

@@ -68,7 +68,7 @@ theorem physicalBoundary_shellCount_le_linear {Z upper : ℝ}
   simp only [div_one, Real.rpow_one] at hc
   apply hc.trans
   apply mul_le_mul_of_nonneg_right _ (zero_le_one.trans hZ)
-  apply add_le_add_left
+  apply add_le_add_right
   exact div_le_div_of_nonneg_right (by linarith) hlog.le
 
 /-- The actual physical whole-bin move has arbitrary external height
@@ -185,7 +185,7 @@ theorem physicalScheduledWholeBoundary_powerHeightTailBound
   intro Z hZ
   have hZ1 : 1 ≤ Z := by linarith
   have hT : 1 ≤ Z ^ τ := Real.one_le_rpow hZ1 hτ.le
-  simpa only [Real.rpow_zero, mul_one, Real.rpow_natCast] using
+  simpa only [Real.rpow_zero, mul_one, Real.rpow_ofNat] using
     hb ζ Z (Z ^ τ) hζ hupper hZ hT
 
 end HeckeSkeleton.HighBinPhysicalBoundary
