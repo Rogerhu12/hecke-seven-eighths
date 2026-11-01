@@ -112,11 +112,11 @@ structure MovingEngineChildAdmissible (A : SArithmeticData K)
     (seminorms : Finset (ℕ × ℕ)) (Z : ℝ)
     (d : MomentData K ω ψ) (a : RealParameters) : Prop where
   engine : EngineChildAdmissible A rowDomain window seminorms Z d a
-  rows : ∃ recipe : CompleteMovingRowRecipe A P R (fun _ : PUnit => d),
+  rows : ∃ recipe : CompleteMovingRowRecipe A P R (fun _ : PUnit.{1} => d),
     recipe.SupportBudget Z a.q ∧ recipe.FullJointBudget Z (a.m + a.q)
   plain_background : d.plainBackground = parent.plainBackground ∨
     d.plainBackground = parent.plainBackground⁻¹
-  profiles : Nonempty (NormProfileRecipe (fun _ : PUnit => d))
+  profiles : Nonempty (NormProfileRecipe (fun _ : PUnit.{1} => d))
   arithmetic : Nonempty (ParentArithmeticAtoms Q d)
   slots : Nonempty (SlotLengthEmbedding parent d)
 

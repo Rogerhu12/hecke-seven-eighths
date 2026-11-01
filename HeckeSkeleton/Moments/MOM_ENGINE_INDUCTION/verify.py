@@ -1598,31 +1598,43 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                           'repair_sha256': 'bb5a3ee332b3213d7d8e829d06ca9df635b2c04c1c58982e8e97181c292154fc'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/MovingEngineOutput.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                    'owner_sha256': 'b9273892533ae9fa33614764969c5c3e26f945ae4d2c4f8f56da42e06e8abcaa',
-                                                                   'reason': 'Same section-certificate cause '
-                                                                             'as CI78 CompleteEngineOutput: '
-                                                                             'restore the original '
+                                                                   'reason': 'Restore the original '
                                                                              'moving-child certificate h in '
-                                                                             'fitsMesh and slot_count. The '
-                                                                             'actual fitsMesh consumers '
-                                                                             'already supply this same '
-                                                                             'child; the slot embedding and '
-                                                                             'both conclusions are '
-                                                                             'unchanged.',
-                                                                   'repair_sha256': '9782e1dc0aba7d35f5bdc29bbecc5f58182802a43acb9f1568b95da01d5b4f21'},
+                                                                             'fitsMesh and slot_count; '
+                                                                             'actual consumers already '
+                                                                             'supply it. For the same '
+                                                                             'universe cause as CI82 '
+                                                                             'NormCompleteEngineOutput, '
+                                                                             'specify PUnit.{1} for frozen '
+                                                                             'row and profile witnesses '
+                                                                             'hidden under '
+                                                                             'existential/Nonempty Prop '
+                                                                             'fields. Retain arbitrary '
+                                                                             'orbit/Fourier-space universes, '
+                                                                             'original moving factors, both '
+                                                                             'budgets, and all slot '
+                                                                             'conclusions.',
+                                                                   'repair_sha256': 'b4d33b8237ce8ad06634537ed2f0d7d9f7836a3e3da2f21ad8baf00ee0cea057'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormCompleteEngineOutput.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                          'owner_sha256': 'dab7339275ee2b1cf1122d85ad7572eeade3f02c465bfc1471cab83ee1d1452b',
-                                                                         'reason': 'Same namespace root '
-                                                                                   'cause as CI76 '
-                                                                                   'CompleteEngineOutput: '
-                                                                                   'open IsDedekindDomain '
+                                                                         'reason': 'Open IsDedekindDomain '
                                                                                    'explicitly for the '
                                                                                    'original '
                                                                                    'HeightOneSpectrum '
-                                                                                   'arguments. No '
-                                                                                   'declaration or '
-                                                                                   'mathematical object '
-                                                                                   'changes.',
-                                                                         'repair_sha256': '69a0c7d3ce38245db3e3f8ea7746421bde9383ff6b87055eccb4f1c9f34a5863'},
+                                                                                   'arguments. CI82: specify '
+                                                                                   'PUnit.{1} for the frozen '
+                                                                                   'singleton profile '
+                                                                                   'witness hidden under '
+                                                                                   'Nonempty in the Prop '
+                                                                                   'structure, matching the '
+                                                                                   'existing '
+                                                                                   'ParentArithmeticAtoms.at/constantAtoms '
+                                                                                   'application. Arbitrary '
+                                                                                   'orbit and Fourier-space '
+                                                                                   'universes and every '
+                                                                                   'profile identity remain '
+                                                                                   'unchanged.',
+                                                                         'repair_sha256': '14aff9bfba6619c3e6a82192e56b39184a4d625e2259ff196bcfba0e5f511b21'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedOriginalFamilyWeights.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                                 'owner_sha256': '9bce546fa36b4786367431c3c6830a49e22b1948705651830a43968e9a693597',
                                                                                 'reason': 'Restore the '

@@ -267,6 +267,13 @@ support, profiles, selected slots, and all numerical bounds are preserved.
 tagged sum and closes the remaining definitionally equal tag-point
 functions after polynomial normalization.
 
+The frozen singleton witnesses inside the norm-complete and moving
+admissibility propositions use explicit `PUnit.{1}` indices. This resolves
+the otherwise unconstrained field universe, as in the existing
+`ParentArithmeticAtoms` consumer. The orbit and Fourier-space parameters
+retain their arbitrary universes, and the profile identities and both
+moving-row budgets are unchanged.
+
 In particular, the original `ScaleWindows` certificate, raw profile control,
 centered parent domain, original length/normalization allowance window,
 and complete-child/parent-character certificates

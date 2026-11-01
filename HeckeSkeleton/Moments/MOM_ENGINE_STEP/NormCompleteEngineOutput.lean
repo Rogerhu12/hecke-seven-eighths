@@ -41,7 +41,7 @@ structure NormCompleteEngineChildAdmissible (A : SArithmeticData K)
     (seminorms : Finset (ℕ × ℕ)) (Z : ℝ)
     (d : MomentData K ω ψ) (a : RealParameters) : Prop where
   complete : CompleteEngineChildAdmissible A P R parent rowDomain window seminorms Z d a
-  profiles : Nonempty (NormProfileRecipe (fun _ : PUnit => d))
+  profiles : Nonempty (NormProfileRecipe (fun _ : PUnit.{1} => d))
   arithmetic : Nonempty (ParentArithmeticAtoms Q d)
 
 namespace NormCompleteEngineChildAdmissible
