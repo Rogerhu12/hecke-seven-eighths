@@ -132,7 +132,7 @@ theorem original_left_identity (u : NonzeroIdeal K) (hu : u ∈ rowDomain)
   intro y hy
   apply hwindow
   apply w.left_support u hu t ht
-  simpa only [w.left_eq] using hy
+  simpa only [Function.mem_support, w.left_eq] using hy
 
 include w hwindow hδ₁ hδ₂ hδ in
 theorem original_right_identity (u : NonzeroIdeal K) (hu : u ∈ rowDomain)
@@ -151,7 +151,7 @@ theorem original_right_identity (u : NonzeroIdeal K) (hu : u ∈ rowDomain)
   intro y hy
   apply hwindow
   apply w.right_support u hu t ht
-  simpa only [w.right_eq] using hy
+  simpa only [Function.mem_support, w.right_eq] using hy
 
 include w hwindow hδ₁ hδ₂ hδ in
 /-- A retained original prime has no new plain extraction factor.
@@ -174,7 +174,7 @@ theorem original_prime_identity (i : Fin d.geometry.slotCount)
   intro y hy
   apply hwindow
   apply w.prime_support i t ht
-  simpa only [w.prime_eq] using hy
+  simpa only [Function.mem_support, w.prime_eq] using hy
 
 end OriginalProfiles
 
