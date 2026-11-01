@@ -179,7 +179,7 @@ theorem exists_paired_linear_count (F : ExplicitModelFamily c ι) :
   intro Z T i s hbase
   have hbase2 : 1 ≤ 2 * F.base Z T i := by linarith
   let X := 2 * F.base Z T i
-  let rows := pairedRows (F.model Z T i s) (F.parameters Z T i) X
+  let rows := pairedRows (F.model Z T i s) (F.parameters Z T i) (F.base Z T i)
   have hfinite : {I : Ideal (𝓞 K) | (I.absNorm : ℝ) ≤ X}.Finite :=
     (Ideal.finite_setOfPred_absNorm_le ⌊X⌋₊).subset
       (fun I hI => (Nat.le_floor_iff (zero_le_one.trans hbase2)).mpr hI)
@@ -195,7 +195,10 @@ theorem exists_paired_linear_count (F : ExplicitModelFamily c ι) :
   have hc := Nat.card_le_card_of_injective f hf
   have hc' : rows.card ≤ Nat.card {I : Ideal (𝓞 K) // (I.absNorm : ℝ) ≤ X} := by
     simpa only [Nat.card_eq_fintype_card, Fintype.card_coe] using hc
-  exact (Nat.cast_le.mpr hc').trans ((hcount X hbase2).trans_eq (by dsimp only [X]; ring))
+  have hXc : Crows * X = 2 * Crows * F.base Z T i := by
+    dsimp only [X]
+    ring
+  exact (Nat.cast_le.mpr hc').trans ((hcount X hbase2).trans_eq hXc)
 
 theorem deleted_prime_dvd (F : ExplicitModelFamily c ι) (D : FixedBadPrimeSupport c)
     (i : ι Z T) (s : SixthUnitClasses K (places K c)) (v : NonzeroIdeal K)
