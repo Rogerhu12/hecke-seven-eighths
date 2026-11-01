@@ -99,7 +99,7 @@ theorem actualPrincipalKernel_eq_core (P : ProbeData K Sset) (psi : HeckeCharact
     (arithmeticHighEulerData K Sset P psi) g ∅ (physicalPrincipalRow K Sset) Z hZ]
   simp only [physicalPrincipalRow_norm, Complex.ofReal_one, Complex.one_cpow, mul_one,
     arithmeticHighEulerData_character, physicalPrincipalRow_character K Sset P hAllowed,
-    map_one]
+    map_one, conjugate, inv_one]
   rfl
 
 /-- The exact exponents from X=Z^(17/48), Y=Z^(23/48), and all prime slots. -/

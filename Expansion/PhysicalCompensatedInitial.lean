@@ -145,7 +145,7 @@ theorem tsum_compensatedInitialKernel (P : ProbeData K Sset) (ψ : HeckeCharacte
   intro p hp
   rw [tsum_mul_left, Summable.tsum_finsetSum
     (fun J _ => (hr p J).mul_left (physicalCompensationCoefficient K S ψ g p J))]
-  simp only [tsum_mul_left]
+  simp only [tsum_mul_left, rows]
 
 variable [IsTotallyComplex K]
   [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)] [BorelSpace (FiniteAdeleRing (𝓞 K) K)]

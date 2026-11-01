@@ -136,7 +136,7 @@ theorem exists_actualPrincipal_fixedScalar_bounds
         change Cp * _ * _ * _ * _ * (_ * _) * (Cm * _) ≤ _
         gcongr
       _ = Cw * Z ^ (3 : ℝ) * (1 + |s.im|) ^ k := by
-        rw [Real.rpow_natCast]
+        rw [Real.rpow_ofNat]
         dsimp only [Cw]
         ring
       _ ≤ _ := by gcongr; linarith
@@ -216,7 +216,7 @@ theorem exists_actualPrincipal_w_uniform_decay
     _ ≤ ((Cw * Z ^ (3 : ℝ) * (1 + |s.im|) ^ A) * Z * (Ch * Z)) *
         (Dm * Czeta * (1 + |w.im|) ^ (-(N : ℝ))) :=
       mul_le_mul hfront hML (by positivity) (by positivity)
-    _ = _ := by rw [Real.rpow_natCast, Real.rpow_natCast]; ring
+    _ = _ := by rw [Real.rpow_ofNat, Real.rpow_ofNat]; ring
 
 include nu in
 /-- The residue kernel on the z strip has the same fixed outer-height
@@ -295,7 +295,7 @@ theorem exists_actualPrincipal_z_uniform_decay
       mul_le_mul hfront hML (by positivity) (by positivity)
     _ = (Cz * Real.exp 1 * Ch * Dm * (Czeta * (6 : ℝ) ^ k)) *
         Z ^ (4 : ℝ) * (1 + |s.im|) ^ A * (1 + |z.im|) ^ (-(N : ℝ)) := by
-      rw [Real.rpow_natCast]
+      rw [Real.rpow_ofNat]
       ring
     _ ≤ _ := by gcongr; exact Real.rpow_le_rpow_of_exponent_le hZ1 (by norm_num)
 

@@ -190,19 +190,23 @@ theorem exists_actual_moderate_correctionMass_bound (g : PrimeWindowGeometry) :
         exteriorNorm K S (subsetPrimeIdeal K S p J) ^ ((10 : ℝ) - 3) *
           exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) ^ ((10 : ℝ) + 1) *
           markedBound ^ ((Finset.univ \ J).image p).card ≤ Q ^ 18 * markedBound ^ g.slots := by
+      have hsel0 : 0 ≤ exteriorNorm K S (subsetPrimeIdeal K S p J) :=
+        (idealNorm_pos K _).le
+      have hmark0 : 0 ≤ exteriorNorm K S (subsetPrimeIdeal K S p (Finset.univ \ J)) :=
+        (idealNorm_pos K _).le
+      have hQ0 : 0 ≤ Q := zero_le_one.trans hQ
       norm_num only [show (10 : ℝ) - 3 = 7 by norm_num,
         show (10 : ℝ) + 1 = 11 by norm_num, Real.rpow_ofNat]
       calc
         _ ≤ (Q ^ 7 * Q ^ 11) * markedBound ^ g.slots := by
-          apply mul_le_mul
-          · exact mul_le_mul
-              (pow_le_pow_left₀ (idealNorm_pos K _).le (hsubset p hp J) 7)
-              (pow_le_pow_left₀ (idealNorm_pos K _).le (hsubset p hp (Finset.univ \ J)) 11)
-              (by positivity) (by positivity)
-          · exact hmarked p J
-          · positivity
-          · positivity
-        _ = _ := by rw [← pow_add]; norm_num
+          exact mul_le_mul
+            (mul_le_mul
+              (pow_le_pow_left₀ hsel0 (hsubset p hp J) 7)
+              (pow_le_pow_left₀ hmark0 (hsubset p hp (Finset.univ \ J)) 11)
+              (pow_nonneg hmark0 11) (pow_nonneg hQ0 7))
+            (hmarked p J) (pow_nonneg hmarked0 _)
+            (mul_nonneg (pow_nonneg hQ0 7) (pow_nonneg hQ0 11))
+        _ = _ := by rw [← pow_add]
     calc
       _ ≤ ∑ _J ∈ (Finset.univ : Finset (Fin g.slots)).powerset,
           Q ^ 18 * markedBound ^ g.slots := Finset.sum_le_sum (fun J _ => hterm J)
@@ -269,9 +273,10 @@ theorem exists_actual_moderate_fullCorrection_bound (g : PrimeWindowGeometry)
   obtain ⟨Cm, Z0, hCm, hZ0, hm⟩ := exists_actual_moderate_correctionMass_bound K S g
   refine ⟨Cr * Cm, Z0, mul_pos hCr hCm, hZ0, ?_⟩
   intro Z hZ P psi T u a ha ha1 s w z hv hs hw hz
+  have hNnonneg : 0 ≤ frequencyRowNorm K S u := (idealNorm_pos K u.ideal.val).le
   exact (hr g T Z a ha ha1 P psi u s w z hv hs hw hz).trans
     ((mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left (hm Z hZ T) hCr.le)
-      (Real.rpow_nonneg (idealNorm_pos K u.ideal.val).le _)).trans_eq (by ring))
+      (Real.rpow_nonneg hNnonneg eta)).trans_eq (by ring))
 
 /-- The actual finite-order nonprincipal numerator is controlled across
 the small negative-w part of every moderate starting contour. -/

@@ -147,14 +147,19 @@ Imported source proofs needed native API/elaboration repairs:
 `ActualModerateCorrectionBound`, `LargeRowKernel`,
 `ActualPrincipalKernelBound`, `ActualPrincipalZShift`, `ActualModerateKernelDecay`,
 `PhysicalInitialRowSum`, `PhysicalInitialMellinIdentity`, and
-`PhysicalInitialRowTruncation`.
+`PhysicalInitialRowTruncation`, together with `SmallRowSum`,
+`PhysicalCompensatedInitial`, `ActualPrincipalUniformDecay`,
+`ActualPrincipalSweepDecay`, and `ActualPrincipalResidueAssembly`.
 The joint-analytic repairs consume the source owner's proof fixes from
 PR #5 commit `496aee9914912e54feac9fced688ce6e61bc7f6f`.
 The initial-row-sum proof matches the owner's blob
 `9a57bd1f04916c1ad4f0b40c42315ef6067f3cbe` exactly.
-The moderate-kernel decay and initial-row truncation proofs likewise match
+The initial moderate-kernel decay and row-truncation API repairs follow
 the owner's blobs `daddc476018e69046ff9f4800b6a59cd2bbc5b8c` and
-`b2fa94108ee705437a33a187020a2185b06629bf`.
+`b2fa94108ee705437a33a187020a2185b06629bf`; subsequent native failures
+are resolved by explicit local bounds and an explicit box-height sum identity.
+The principal residue-assembly proof matches the owner's blob
+`347f7203afb77545ef38a60792324a3c758fa1d7` exactly.
 Their existing statements and mathematical definitions are preserved.
 The top-level zero-free theorem's statement is unchanged.
 

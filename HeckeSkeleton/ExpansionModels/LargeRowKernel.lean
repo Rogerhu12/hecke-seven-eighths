@@ -105,7 +105,7 @@ theorem exists_actual_large_kernel_scalar_bound
     ring
   have hYpow : ‖((Z ^ (23 / 48 : ℝ) : ℝ) : ℂ) ^ (w - 1)‖ = Z ^ (23 / 48 : ℝ) := by
     rw [Complex.norm_cpow_eq_rpow_re_of_pos (Real.rpow_pos_of_pos hZ _)]
-    rw [show (w - 1).re = 1 by simp [hw], Real.rpow_one]
+    rw [show (w - 1).re = 1 by norm_num [hw], Real.rpow_one]
   have hscale : Z ^ ((17 / 48) * (1 / 2 - sigma)) * Z ^ (1 + sigma) *
       Z ^ (23 / 48 : ℝ) = Z ^ (53 / 32 + (31 / 48) * sigma) := by
     rw [← Real.rpow_add hZ, ← Real.rpow_add hZ]
