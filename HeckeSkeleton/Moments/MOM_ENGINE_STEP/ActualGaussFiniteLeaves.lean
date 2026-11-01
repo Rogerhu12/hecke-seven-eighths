@@ -86,6 +86,87 @@ abbrev CoveredClassKey :=
       (LC.branch a).labels (primeSupport DE.val.1) DE.val.1 ×
         (RC.branch e).labels (primeSupport DE.val.1) DE.val.2
 
+private theorem charts_withMultiplier_leftPoint
+    (u : ι → ℂ)
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+    (D : s.mask.powerset) :
+    ((s.withMultiplier u).charts DE D).leftPoint =
+      (s.charts DE D).leftPoint := rfl
+
+private theorem charts_withMultiplier_rightPoint
+    (u : ι → ℂ)
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+    (D : s.mask.powerset) :
+    ((s.withMultiplier u).charts DE D).rightPoint =
+      (s.charts DE D).rightPoint := rfl
+
+private theorem charts_withMultiplier_rowLabelCount
+    (u : ι → ℂ)
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+    (D : s.mask.powerset) :
+    ((s.withMultiplier u).charts DE D).rowLabelCount =
+      (s.charts DE D).rowLabelCount := rfl
+
+private theorem charts_withMultiplier_rowLabel
+    (u : ι → ℂ)
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+    (D : s.mask.powerset) :
+    ((s.withMultiplier u).charts DE D).rowLabel =
+      (s.charts DE D).rowLabel := rfl
+
+private theorem actualRows_withMultiplier_frequency
+    (u : ι → ℂ)
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+    (D : s.mask.powerset)
+    (label : Fin ((s.charts DE D).rowLabelCount + 1)) :
+    (((s.withMultiplier u).charts DE D).actualRows
+      s.mask s.cutoff s.cutoff_one label).frequency =
+      ((s.charts DE D).actualRows
+        s.mask s.cutoff s.cutoff_one label).frequency := rfl
+
+private theorem actualRows_withMultiplier_weight
+    (u : ι → ℂ)
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+    (D : s.mask.powerset)
+    (label : Fin ((s.charts DE D).rowLabelCount + 1)) :
+    (((s.withMultiplier u).charts DE D).actualRows
+      s.mask s.cutoff s.cutoff_one label).weight =
+      ((s.charts DE D).actualRows
+        s.mask s.cutoff s.cutoff_one label).weight := rfl
+
+private theorem actualRows_rows_eq_source_filter
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+    (D : s.mask.powerset)
+    (label : Fin ((s.charts DE D).rowLabelCount + 1)) :
+    ((s.charts DE D).actualRows s.mask s.cutoff s.cutoff_one label).rows =
+      (s.sources DE).rows.filter (fun h => (s.charts DE D).rowLabel h = label) := rfl
+
+private theorem actualRows_withMultiplier_rows
+    (u : ι → Circle)
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+    (D : s.mask.powerset)
+    (label : Fin ((s.charts DE D).rowLabelCount + 1)) :
+    (((s.withMultiplier (fun i => (u i : ℂ))).charts DE D).actualRows
+      s.mask s.cutoff s.cutoff_one label).rows =
+      ((s.charts DE D).actualRows
+        s.mask s.cutoff s.cutoff_one label).rows := by
+  rw [actualRows_rows_eq_source_filter
+      (s.withMultiplier (fun i => (u i : ℂ))) DE D label,
+    actualRows_rows_eq_source_filter s DE D label,
+    charts_withMultiplier_rowLabel s (fun i => (u i : ℂ)) DE D]
+  exact congrArg
+    (fun carrier : Finset Q =>
+      carrier.filter (fun h => (s.charts DE D).rowLabel h = label))
+    (s.withMultiplier_rows u DE)
+
 namespace CoveredClassKey
 
 variable {s LC RC}
@@ -158,6 +239,28 @@ private theorem phase_mul_three_factors (phase a b c : ℂ) :
     ((phase * a) * b) * c = ((a * b) * c) * phase := by
   ring
 
+private theorem sourceLeftCoefficient_withMultiplier_product
+    (u : ι → ℂ)
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+    (D : s.mask.powerset) (i : ι) (a b : ℂ) :
+    ((s.withMultiplier u).charts DE D).sourceLeftCoefficient i * a * b =
+      ((s.charts DE D).sourceLeftCoefficient i * a * b) * u i :=
+  (congrArg (fun coefficient : ℂ => coefficient * a * b)
+    (sourceLeftCoefficient_withMultiplier s u DE D i)).trans
+      (phase_mul_three_factors (u i) ((s.charts DE D).sourceLeftCoefficient i) a b)
+
+private theorem sourceRightCoefficient_withMultiplier_product
+    (u : ι → ℂ)
+    (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+    (D : s.mask.powerset) (i : ι) (a b : ℂ) :
+    ((s.withMultiplier u).charts DE D).sourceRightCoefficient i * a * b =
+      ((s.charts DE D).sourceRightCoefficient i * a * b) * u i :=
+  (congrArg (fun coefficient : ℂ => coefficient * a * b)
+    (sourceRightCoefficient_withMultiplier s u DE D i)).trans
+      (phase_mul_three_factors (u i) ((s.charts DE D).sourceRightCoefficient i) a b)
+
 /-- This is the actual phase multiplication from the first transform,
 followed by the literal finite allocation sum from the second. -/
 theorem phase_class_eq_leaf_sum (exceptional : s.CoverHybridPredicates LC RC)
@@ -167,106 +270,54 @@ theorem phase_class_eq_leaf_sum (exceptional : s.CoverHybridPredicates LC RC)
         (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
           v.2.2.2.2.2.1 v.2.2.2.2.2.2) =
       ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
-  let rows := v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel
-  let rightSlots := ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1)
-    v.1.val.2 v.2.2.2.2.2.2).keep.card
-  let rowWeight : Q → ℂ := fun h => rows.weight h *
-    generatedIdealCorrelation (σ := σ) v.block.commonLeftIdeal v.block.commonRightIdeal
-      (engineAllowedGenerator C v.block.commonLeftIdeal)
-      (engineAllowedGenerator C v.block.commonRightIdeal)
-      (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
-      (rows.frequency h)
-  let c : ((PUnit × PUnit) →* Circle) → Q → AllocationColumn K v.leftSlots → ℂ :=
-    fun χ h i => v.chart.sourceLeftCoefficient (v.leftReindex.index i) *
-      (fixedLeftPhase PUnit χ PUnit.unit : ℂ) *
-        σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i)) (rows.frequency h))
-  let d : ((PUnit × PUnit) →* Circle) → Q → AllocationColumn K rightSlots → ℂ :=
-    fun χ h i => v.chart.sourceRightCoefficient (v.rightReindex.index i) *
-      (fixedRightPhase PUnit χ PUnit.unit : ℂ) *
-        σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i)) (-rows.frequency h))
-  let phasedLeft := fun χ h i => c χ h i * jointPhase ξ (x (v.leftReindex.index i))
-  let phasedRight := fun χ h i => d χ h i * jointPhase ξ (x (v.rightReindex.index i))
-  let multipliedLeft : ((PUnit × PUnit) →* Circle) → Q →
-      AllocationColumn K v.leftSlots → ℂ := fun χ h i =>
-    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts v.1 v.2.1).sourceLeftCoefficient
-        (v.leftReindex.index i) * (fixedLeftPhase PUnit χ PUnit.unit : ℂ) *
-      σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i)) (rows.frequency h))
-  let multipliedRight : ((PUnit × PUnit) →* Circle) → Q →
-      AllocationColumn K rightSlots → ℂ := fun χ h i =>
-    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts v.1 v.2.1).sourceRightCoefficient
-        (v.rightReindex.index i) * (fixedRightPhase PUnit χ PUnit.unit : ℂ) *
-      σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i)) (-rows.frequency h))
-  let cost (carrier : Finset Q)
-      (leftCoefficient : ((PUnit × PUnit) →* Circle) → Q → AllocationColumn K v.leftSlots → ℂ)
-      (rightCoefficient : ((PUnit × PUnit) →* Circle) → Q → AllocationColumn K rightSlots → ℂ) : ℝ :=
-    fullCorrelationHybridCost v.chart.kernel carrier
-      v.leftReindex.plain₁ v.leftReindex.plain₂ v.leftReindex.slots
-      v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots
-      (fun i => (v.block.rightResidual (v.rightReindex.index i)).val)
-      rowWeight (fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)))
-      leftCoefficient rightCoefficient
-      (fun h i => v.chart.leftPoint h (v.leftReindex.index i))
-      (fun h i => v.chart.rightPoint h (v.rightReindex.index i))
-      (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
-        v.2.2.2.2.2.1 v.2.2.2.2.2.2)
-  have hrows : ((s.withMultiplier (fun i => jointPhase ξ (x i))).sources v.1).rows =
-      (s.sources v.1).rows :=
-    s.withMultiplier_rows (fun i => Real.fourierChar (inner ℝ ξ (x i))) v.1
-  have hfilter :
-      (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources v.1).rows.filter
-        (fun h => v.chart.rowLabel h = v.rowLabel)) = rows.rows :=
-    congrArg (fun carrier : Finset Q =>
-      carrier.filter (fun h => v.chart.rowLabel h = v.rowLabel)) hrows
-  have hleft : multipliedLeft = phasedLeft := by
-    funext χ h i
-    exact (congrArg
-      (fun coeff : ℂ => coeff * (fixedLeftPhase PUnit χ PUnit.unit : ℂ) *
-        σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i)) (rows.frequency h)))
-      (sourceLeftCoefficient_withMultiplier s (fun i => jointPhase ξ (x i))
-        v.1 v.2.1 (v.leftReindex.index i))).trans
-      (phase_mul_three_factors
-        (jointPhase ξ (x (v.leftReindex.index i)))
-        (v.chart.sourceLeftCoefficient (v.leftReindex.index i))
-        (fixedLeftPhase PUnit χ PUnit.unit : ℂ)
-        (σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i)) (rows.frequency h))))
-  have hright : multipliedRight = phasedRight := by
-    funext χ h i
-    exact (congrArg
-      (fun coeff : ℂ => coeff * (fixedRightPhase PUnit χ PUnit.unit : ℂ) *
-        σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i)) (-rows.frequency h)))
-      (sourceRightCoefficient_withMultiplier s (fun i => jointPhase ξ (x i))
-        v.1 v.2.1 (v.rightReindex.index i))).trans
-      (phase_mul_three_factors
-        (jointPhase ξ (x (v.rightReindex.index i)))
-        (v.chart.sourceRightCoefficient (v.rightReindex.index i))
-        (fixedRightPhase PUnit χ PUnit.unit : ℂ)
-        (σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i)) (-rows.frequency h))))
-  have hsplit : cost rows.rows phasedLeft phasedRight =
-      ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ :=
-    fullCorrelationHybridCost_eq_leaf_sum F v.chart.kernel rows.rows
-      v.leftReindex.plain₁ v.leftReindex.plain₂ v.leftReindex.slots
-      v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots
-      (fun i => (v.block.rightResidual (v.rightReindex.index i)).val)
-      rowWeight (fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))) c d
-      (fun _ i => x (v.leftReindex.index i))
-      (fun h i => v.chart.leftPoint h (v.leftReindex.index i))
-      (fun _ i => x (v.rightReindex.index i))
-      (fun h i => v.chart.rightPoint h (v.rightReindex.index i))
-      (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
-        v.2.2.2.2.2.1 v.2.2.2.2.2.2) ξ
-  change cost
-      (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources v.1).rows.filter
-        (fun h => v.chart.rowLabel h = v.rowLabel)) multipliedLeft multipliedRight = _
-  have hcarrier :
-      cost
-        (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources v.1).rows.filter
-          (fun h => v.chart.rowLabel h = v.rowLabel)) multipliedLeft multipliedRight =
-        cost rows.rows multipliedLeft multipliedRight :=
-    congrArg (fun carrier : Finset Q => cost carrier multipliedLeft multipliedRight) hfilter
-  have hcoeff : cost rows.rows multipliedLeft multipliedRight =
-      cost rows.rows phasedLeft phasedRight :=
-    congrArg₂ (cost rows.rows) hleft hright
-  exact hcarrier.trans (hcoeff.trans hsplit)
+  unfold SecondBlockProfileChart.hybridClassCost secondResidualHybridCost
+  simp only [s.withMultiplier_kernel (fun i => jointPhase ξ (x i)) v.1 v.2.1,
+    actualRows_withMultiplier_rows s
+      (fun i => Real.fourierChar (inner ℝ ξ (x i))) v.1 v.2.1 v.rowLabel,
+    actualRows_withMultiplier_frequency s (fun i => jointPhase ξ (x i))
+      v.1 v.2.1 v.rowLabel,
+    actualRows_withMultiplier_weight s (fun i => jointPhase ξ (x i))
+      v.1 v.2.1 v.rowLabel,
+    charts_withMultiplier_leftPoint s (fun i => jointPhase ξ (x i)) v.1 v.2.1,
+    charts_withMultiplier_rightPoint s (fun i => jointPhase ξ (x i)) v.1 v.2.1,
+    sourceLeftCoefficient_withMultiplier_product (s := s)
+      (fun i => jointPhase ξ (x i)) v.1 v.2.1,
+    sourceRightCoefficient_withMultiplier_product (s := s)
+      (fun i => jointPhase ξ (x i)) v.1 v.2.1]
+  simpa only [leaf] using
+    (fullCorrelationHybridCost_eq_leaf_sum
+      (K := K) (H := Q) (U := W) (V := E)
+      (k := v.leftSlots)
+      (l := ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1)
+        v.1.val.2 v.2.2.2.2.2.2).keep.card)
+      (γ := ((PUnit × PUnit) →* Circle))
+      F v.chart.kernel
+        (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).rows
+        v.leftReindex.plain₁ v.leftReindex.plain₂ v.leftReindex.slots
+        v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots
+        (fun i => (v.block.rightResidual (v.rightReindex.index i)).val)
+        (fun h =>
+          (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).weight h *
+            generatedIdealCorrelation (σ := σ) v.block.commonLeftIdeal v.block.commonRightIdeal
+              (engineAllowedGenerator C v.block.commonLeftIdeal)
+              (engineAllowedGenerator C v.block.commonRightIdeal)
+              (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
+              ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))
+        (fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)))
+        (fun χ h i => v.chart.sourceLeftCoefficient (v.leftReindex.index i) *
+          (fixedLeftPhase PUnit χ PUnit.unit : ℂ) *
+            σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i))
+              ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h)))
+        (fun χ h i => v.chart.sourceRightCoefficient (v.rightReindex.index i) *
+          (fixedRightPhase PUnit χ PUnit.unit : ℂ) *
+            σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i))
+              (-((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))))
+        (fun _ i => x (v.leftReindex.index i))
+        (fun h i => v.chart.leftPoint h (v.leftReindex.index i))
+        (fun _ i => x (v.rightReindex.index i))
+        (fun h i => v.chart.rightPoint h (v.rightReindex.index i))
+        (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
+          v.2.2.2.2.2.1 v.2.2.2.2.2.2) ξ)
 
 end CoveredClassKey
 
