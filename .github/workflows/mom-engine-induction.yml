@@ -1,8 +1,6 @@
 name: Paired moment induction
 
 on:
-  push:
-    branches: [cloud/mom-engine-induction]
   pull_request:
     branches: [dtests-handoff]
     paths:
@@ -17,8 +15,8 @@ on:
 permissions:
   contents: read
 
-# PR, branch-push and manual checks for the same branch share a concurrency
-# group, so a newer head cancels obsolete builds. Each job still checks its
+# PR and manual checks for the same branch share a concurrency group, so a
+# newer head cancels obsolete builds. Each job still checks its
 # exact source head before recording compilation and axiom evidence.
 concurrency:
   group: mom-engine-induction-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}

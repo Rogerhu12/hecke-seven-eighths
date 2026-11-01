@@ -23,7 +23,7 @@ open scoped Classical NumberField SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineInduction.ActiveChildAnnulus
 
-open NumberField IsDedekindDomain
+open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeSkeleton.Moments.EngineStep
@@ -51,16 +51,24 @@ theorem rawWindow_support
     ProfileSupport rowDomain heightDomain window d where
   inverse u hu t ht y hy := by
     apply w.inverse_support u hu t ht
-    simpa only [← w.inverse_eq] using hy
+    change w.inverseRep u t y ≠ 0
+    rw [← w.inverse_eq u t y]
+    exact hy
   left u hu t ht y hy := by
     apply w.left_support u hu t ht
-    simpa only [← w.left_eq] using hy
+    change w.leftRep u t y ≠ 0
+    rw [← w.left_eq u t y]
+    exact hy
   right u hu t ht y hy := by
     apply w.right_support u hu t ht
-    simpa only [← w.right_eq] using hy
+    change w.rightRep u t y ≠ 0
+    rw [← w.right_eq u t y]
+    exact hy
   prime i t ht y hy := by
     apply w.prime_support i t ht
-    simpa only [← w.prime_eq] using hy
+    change w.primeRep i t y ≠ 0
+    rw [← w.prime_eq i t y]
+    exact hy
 
 /-- A stronger literal support proof keeps all existing representatives
 and seminorm bounds. In particular it incurs no normalization cost. -/
@@ -69,14 +77,26 @@ def windowWithSupport
     {narrow : Set ℝ} (h : ProfileSupport rowDomain heightDomain narrow d) :
     RawProfileWindow rowDomain heightDomain narrow orders d budget :=
   { w with
-    inverse_support := fun u hu t ht y hy =>
-      h.inverse u hu t ht (by simpa only [w.inverse_eq] using hy)
-    left_support := fun u hu t ht y hy =>
-      h.left u hu t ht (by simpa only [w.left_eq] using hy)
-    right_support := fun u hu t ht y hy =>
-      h.right u hu t ht (by simpa only [w.right_eq] using hy)
-    prime_support := fun i t ht y hy =>
-      h.prime i t ht (by simpa only [w.prime_eq] using hy) }
+    inverse_support := fun u hu t ht y hy => by
+      apply h.inverse u hu t ht
+      change d.inverseTest.profile u t y ≠ 0
+      rw [w.inverse_eq u t y]
+      exact hy
+    left_support := fun u hu t ht y hy => by
+      apply h.left u hu t ht
+      change d.plainTest₁.profile u t y ≠ 0
+      rw [w.left_eq u t y]
+      exact hy
+    right_support := fun u hu t ht y hy => by
+      apply h.right u hu t ht
+      change d.plainTest₂.profile u t y ≠ 0
+      rw [w.right_eq u t y]
+      exact hy
+    prime_support := fun i t ht y hy => by
+      apply h.prime i t ht
+      change (d.geometry.slots i).profile t y ≠ 0
+      rw [w.prime_eq i t y]
+      exact hy }
 
 private theorem original_subset {lo hi : ℝ} (hlo : 0 ≤ lo) (hhi : 1 ≤ hi) :
     Set.Icc lo hi ⊆ Set.Icc (lo / hi) hi := by
