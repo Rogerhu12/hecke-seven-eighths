@@ -105,7 +105,8 @@ theorem actual_physicalRecipeShiftedPiece_sum (lam zeta width k : ℝ) (hw : 0 <
     (Z T : ℝ) (hZ : 1 < Z) (hT : 0 ≤ T)
     (j : Fin (shellCount Z (1 / 16) (13 / 16 + zeta)))
     (c : PhysicalRecipeChoice K Sset B e) :
-    (∑ l ∈ physicalRecipeRetainedLabels K Sset hB0 hB he g width hw c,
+    (∑ l ∈ physicalRecipeRetainedLabels K Sset (hB0 := hB0) (hB := hB) (he := he)
+      (g := g) width hw c,
       ∑ u ∈ ((physicalRecipeScheduledBlock K Sset P omega psi g E hpsi hB0 hB he hbound
         muS ray lam zeta width k hw Z T j c).amplitude l).rows
           (Z ^ shellExponent Z (1 / 16) j.val),
@@ -128,7 +129,8 @@ theorem actual_physicalRecipeScheduledBlock_identification
     (c : PhysicalRecipeChoice K Sset B e) :
     (physicalRecipeScheduledBlock K Sset P omega psi g E hpsi hB0 hB he hbound
       muS ray lam zeta width k hw Z T j c).value =
-      ∑ l ∈ physicalRecipeRetainedLabels K Sset hB0 hB he g width hw c,
+      ∑ l ∈ physicalRecipeRetainedLabels K Sset (hB0 := hB0) (hB := hB) (he := he)
+        (g := g) width hw c,
         ∑ u ∈ ((physicalRecipeScheduledBlock K Sset P omega psi g E hpsi hB0 hB he hbound
           muS ray lam zeta width k hw Z T j c).amplitude l).rows
             (Z ^ shellExponent Z (1 / 16) j.val),

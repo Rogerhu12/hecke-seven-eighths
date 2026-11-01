@@ -1,3 +1,4 @@
+import HeckeGeneral.Analysis.PrimeWindowGeometry
 import HeckeGeneral.Analysis.MarkedThetaReflection
 import HeckeGeneral.Analysis.SUnitSchwartzSlice
 import HeckeGeneral.Analysis.SUnitHaar
@@ -113,23 +114,6 @@ def physicalProbe (P : ProbeData K S) (ψ : HeckeCharacter K)
     sUnit_power_range_finiteIndex K S 6 (by decide)
   exact ∫ t in sUnitFundamentalDomain K S (sixthPowerUnits K S),
     probeIntegrand K S P ψ Q X Y Z t ∂(sUnitHaarMeasure K S)
-
-/-- Pretarget choices: J0, the disjoint annuli and all prime scale exponents
-are chosen independently of a later target character. -/
-structure PrimeWindowGeometry where
-  slots : ℕ
-  slots_pos : 0 < slots
-  slots_even : Even slots
-  weight : Fin slots → SmoothAnnularTest
-  nonnegative : ∀ i y, 0 ≤ ((weight i).toFun y).re
-  real_valued : ∀ i y, ((weight i).toFun y).im = 0
-  nonzero : ∀ i, ∃ y, (weight i).toFun y ≠ 0
-  support_annular : ∀ i, Function.support (weight i).toFun ⊆ Ioo (1 : ℝ) 2
-  disjoint : ∀ i j, i ≠ j →
-    Disjoint (Function.support (weight i).toFun) (Function.support (weight j).toFun)
-
-def primeScale (g : PrimeWindowGeometry) (Z : ℝ) : ℝ :=
-  Z ^ ((1 / 6 : ℝ) / g.slots)
 
 /-- The window is filtered from the actual norm-bounded prime envelope.
 The finite collection T defines the actual identity ray, rather than an

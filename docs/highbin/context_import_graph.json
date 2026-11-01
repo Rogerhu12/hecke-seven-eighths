@@ -1,0 +1,54 @@
+{
+  "results": [
+    {
+      "target": "HeckeSkeleton.BaseContext",
+      "project_modules": 3048,
+      "external_modules": 700,
+      "forbidden_dependencies": {},
+      "unresolved_project_imports": [],
+      "import_cycle": false
+    },
+    {
+      "target": "HeckeSkeleton.TargetArithmeticData",
+      "project_modules": 3062,
+      "external_modules": 701,
+      "forbidden_dependencies": {},
+      "unresolved_project_imports": [],
+      "import_cycle": false
+    },
+    {
+      "target": "HeckeSkeleton.HighBinSupport.ActualEulerInput",
+      "project_modules": 1379,
+      "external_modules": 590,
+      "forbidden_dependencies": {},
+      "unresolved_project_imports": [],
+      "import_cycle": false
+    },
+    {
+      "target": "HeckeSkeleton.HighBinSupport.ActualNormFormRegionPacket",
+      "project_modules": 1534,
+      "external_modules": 627,
+      "forbidden_dependencies": {},
+      "unresolved_project_imports": [],
+      "import_cycle": false
+    },
+    {
+      "target": "HeckeSkeleton.HighBinSupport.ActualTargetEuler",
+      "project_modules": 3145,
+      "external_modules": 721,
+      "forbidden_dependencies": {},
+      "unresolved_project_imports": [],
+      "import_cycle": false
+    }
+  ],
+  "scope": "Static import graph; no native proof-verification claim.",
+  "input_source_count": 3299,
+  "input_source_hash_map_sha256": "bf207bd9007a4cf3549a8bb445e6e351d2970d171cb71289b28b6d84a3efc01b",
+  "entrypoint_source_sha256": {
+    "HeckeSkeleton.BaseContext": "424d82bd0b54ea24ceed85f883f23e1f9fa5ab81bd47c1d2e6590e3c83c8c849",
+    "HeckeSkeleton.TargetArithmeticData": "fcb4a1ac5f5b57f5be95c38a377f0e97e80aab236648c5fee6d85a98f0b6775a",
+    "HeckeSkeleton.HighBinSupport.ActualTargetEuler": "ff4204ab2b9b7aa12113d161d0478156344f34a7ed33d7c6689dc33871e9c16a",
+    "HeckeSkeleton.HighBinSupport.ActualEulerInput": "2794070268c98eebcbf863190d6f15e20c05ad32d76d8ea2accff9b7cae1161e",
+    "HeckeSkeleton.HighBinSupport.ActualNormFormRegionPacket": "2cdbbb583f42586a55f5f774a63c8588c3bb24b5e60e3670fadef14565b5fbb3"
+  }
+}

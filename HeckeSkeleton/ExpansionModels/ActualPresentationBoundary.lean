@@ -83,8 +83,14 @@ theorem wholeBinBoundary_eq_physicalScheduled (Z H : ℝ)
         term (physicalRecipeShellIndex K (places K c) c.family.B (q).e
           (expansionShellAllowance K c) Z b)
           (physicalRecipeChoice K (places K c) c.family.B (q).e
-            (expansionShellAllowance K c) Z b) :=
-      recipeExpansion_sum_active_map K (places K c) (X) Z H hZ hH _
+            (expansionShellAllowance K c) Z b) := by
+      simpa only [expansionScheduledShell, expansionScheduledChoice] using!
+        (recipeExpansion_sum_active_map K (places K c) (X) Z H hZ hH
+          (fun b : Fin ((X).scheduledCount Z) =>
+            term (physicalRecipeShellIndex K (places K c) c.family.B (q).e
+              (expansionShellAllowance K c) Z b)
+              (physicalRecipeChoice K (places K c) c.family.B (q).e
+                (expansionShellAllowance K c) Z b)))
     _ = ∑ j : Fin (shellCount Z (1 / 16) (13 / 16 + expansionShellAllowance K c)),
         ∑ d : PhysicalRecipeChoice K (places K c) c.family.B (q).e, term j d :=
       sum_physicalRecipeSchedule K (places K c) c.family.B (q).e

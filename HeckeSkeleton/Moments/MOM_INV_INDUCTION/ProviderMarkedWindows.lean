@@ -41,7 +41,7 @@ theorem idealLists_disjoint {J : ℕ}
   intro P hPi hPk
   obtain ⟨p, hp, hpP⟩ := Finset.mem_image.mp hPi
   obtain ⟨q, hq, hqP⟩ := Finset.mem_image.mp hPk
-  have he : p = q := Subtype.ext (hpP.trans hqP.symm)
+  have he : p = q := HeightOneSpectrum.ext (hpP.trans hqP.symm)
   exact Finset.disjoint_left.mp (hdis hik) hp (by simpa only [he] using hq)
 
 /-- Original individual coefficients acquire only their Mobius sign

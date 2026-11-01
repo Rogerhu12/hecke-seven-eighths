@@ -80,7 +80,6 @@ theorem physicalRecipeRows_global_bounds (zeta Z H : ℝ)
     retainedShellRows, Finset.mem_filter] at hu
   exact ⟨hu.1.1.1.2.2, hu.1.1.2⟩
 
-set_option maxHeartbeats 1600000 in
 /-- The shell, buffered index and sector schedule counts every retained
 row once, for arbitrary values in an additive commutative monoid. -/
 theorem sum_physicalRecipeRows {M : Type*} [AddCommMonoid M]
@@ -107,7 +106,8 @@ theorem sum_physicalRecipeRows {M : Type*} [AddCommMonoid M]
               (Z ^ shellExponent Z (1 / 16) j.val) (Z ^ (13 / 16 + zeta)) H b,
                 value u := by
         simpa only [selectedRows] using
-          (sum_selectedRows_value
+          (sum_selectedRows_value (Row := FrequencyRow K Sset)
+            (Label := SixthUnitClasses K Sset) (M := M)
             (clippedSelectedPhysicalRows K Sset omega psi {1} P E hpsi
               (physicalRecipe_trivial_twists K) hB0 hB1 he hboundary
               (Z ^ shellExponent Z (1 / 16) j.val) (Z ^ (13 / 16 + zeta)) H b)
@@ -115,7 +115,8 @@ theorem sum_physicalRecipeRows {M : Type*} [AddCommMonoid M]
       simp only [physicalRecipeRows]
       simp_rw [hsector]
       simpa only [clippedSelectedPhysicalRows, physicalShellRows] using
-        (sum_selectedRows_value
+        (sum_selectedRows_value (Row := FrequencyRow K Sset)
+          (Label := RowBufferIndex B e) (M := M)
           (physicalShellRows K Sset Z (1 / 16) (13 / 16 + zeta) j)
           (rowBufferIndex K Sset omega psi {1} P E hpsi
             (physicalRecipe_trivial_twists K) hB0 hB1 he hboundary H) value)

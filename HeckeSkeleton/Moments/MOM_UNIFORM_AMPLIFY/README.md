@@ -120,21 +120,28 @@ scales 的 default witness 也由实际构造覆盖。
 `u*a^6` 上仍取同一个原 profile。该 seed 是规范逆归纳应生产的严格短尺度结论，
 不是放大后的独立尺度估计。共享定义变更已在 MOM_INV_INDUCTION 的 PR #8 协调。
 
-实际源依赖采用 #5 负责人 `77dbe777` 的最新八个 Lean 文件，包含原四个
-proof/elaboration 根错误的修复，以及 shifted 可积性、principal 和 moderate
+实际源依赖以 #5 负责人 `3c0f712` 为基线，包含正常编译逐层确认的
+proof/elaboration 修复，以及 shifted 可积性、principal 和 moderate
 联合解析性的后继修复。联合解析性由原核的真实解析因子复合得到。
-此外按完整源编译的实际诊断，修复 `PhysicalInitialMellinTerm` 的坐标展开、
-可积性等式输运和三重 Mellin 反演重写；原定义和定理陈述保留。
+`PhysicalInitialMellinTerm` 的坐标展开、可积性等式输运和三重 Mellin
+反演修复已在本任务第 17 轮源编译中通过；后续源修复继续随严格审计验证。
 同一次上游合并还保留负责人对幅度宽度的构造修正：先按外部 cap 选择宽度，
 再证明 `2 * e < width` 与 `width ≤ 4 * eCap`。这一增强由实际构造生产，
 没有为最终零点定理增加假设；详细新旧对照与论文依据见 #5 的报告。
+
+另采用消费者 #8 的 `bd394d3` 对 `CanonicalProfileControl`、
+`ProfileCommonFourier`、`SourceWitnessBounds` 的兼容修复：显式规范化
+prime-window 复数常量，固定共同核积分的类型参数，并先输运整个实际
+source/default block 再取依赖 witness。公开定义、定理类型和假设保持一致。
 
 ## 编译及严格公理检查
 
 固定环境：Lean `4.35.0-rc3`，Mathlib
 `0493595ecd5da8ef14742febab99728f98e948e8`。
-专用 workflow 使用仓库指定的 `restore-lake-cache@ci/lake-cache-test`，随后正常
-执行 `lake --rehash build`；不合成 traces，也不使用自定义 foundation 缓存。
+专用 workflow 使用仓库指定的 `restore-lake-cache@dtests-handoff`，随后正常
+执行 `lake --rehash build`。该官方 action 先恢复 release，再恢复分支的正常
+Lake 产物，并在 job 结束时保存编译进度；源码或依赖变化仍由 Lake 判断并重编。
+不合成 traces，也不使用自定义 foundation 缓存。
 
 ```sh
 lake --rehash build +HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.PureAudit:olean

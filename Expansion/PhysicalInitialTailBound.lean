@@ -60,9 +60,17 @@ theorem actualInitialTailSum_eq_principal_add_nonprincipal
   letI : IsTotallyComplex K := ⟨hcomplex⟩
   have hs := summable_actualInitialRowTailIntegral K S mu nu P hAllowed psi hcal hunram g ∅ hZ H
   unfold actualInitialTailSum actualNonprincipalInitialTailSum
-  rw [tsum_subtype]
-  simpa only [Set.indicator_apply, Set.mem_setOf_eq, principalFrequencyRow_iff_eq_physicalPrincipalRow,
-    ite_not] using hs.tsum_eq_add_tsum_ite (physicalPrincipalRow K Sset)
+  have hnonprincipal :
+      (∑' u : {u : FrequencyRow K Sset // ¬principalFrequencyRow K Sset u},
+        actualInitialRowTailIntegral K S mu P psi g ∅ Z H u.val) =
+      ∑' u : FrequencyRow K Sset, if ¬principalFrequencyRow K Sset u then
+        actualInitialRowTailIntegral K S mu P psi g ∅ Z H u else 0 := by
+    simpa only [Set.indicator_apply, Set.mem_setOf_eq] using!
+      (tsum_subtype {u : FrequencyRow K Sset | ¬principalFrequencyRow K Sset u}
+        (actualInitialRowTailIntegral K S mu P psi g ∅ Z H))
+  rw [hnonprincipal]
+  simpa only [principalFrequencyRow_iff_eq_physicalPrincipalRow, ite_not] using
+    hs.tsum_eq_add_tsum_ite (physicalPrincipalRow K Sset)
 
 include nu in
 /-- Conversion of the proved nonprincipal initial tail estimate to the

@@ -1,0 +1,323 @@
+{
+  "schema_version": 1,
+  "module": "HeckeSkeleton.HighBinSupport.BufferedDetectorGeometry",
+  "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+  "native_compile": {
+    "exit_code": 0,
+    "source_unchanged": true,
+    "elapsed_seconds": 118.707,
+    "log_sha256": "d49f5f6dc15e77550fb605a483a9e5596b0c12f1818452f5fc575c89c4736550",
+    "olean_sha256": "45765c4f0eba0455dee8151ed1616fb9f6f7999127c707577773f4040958ad11"
+  },
+  "public_declaration_audit": {
+    "exit_code": 0,
+    "source_unchanged": true,
+    "elapsed_seconds": 238.754,
+    "audit_source_sha256": "98d749dc97bfc7c69ff2fd9aa14e049af7b2cee19db8ce83c0e2e95ee0c11272",
+    "log_sha256": "2b608db11fc6028eea8fb243d1bea2acadf004f2d4841d13354acf5592881add",
+    "declaration_count": 25,
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "scope_note": "This evidence covers the finite pure detector module only. Native verification of actual arithmetic adapters is tracked separately.",
+  "declarations": [
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.exists_adjacent_nonincrease",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 28,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.observedLevels",
+      "kind": "def",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 50,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.observedLevels_nonempty",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 53,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.observedLevel",
+      "kind": "def",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 58,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.observedLevel_spec",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 61,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.le_observedLevel",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 70,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.exists_buffered_level",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 78,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.detectorDepth",
+      "kind": "def",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 97,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.detectorDepth_mul",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 99,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.gridRealPart",
+      "kind": "def",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 104,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.gridRealPart_zero",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 106,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.gridRealPart_succ",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 109,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.gridRealPart_lower",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 114,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.gridRealPart_eq_floor_iff",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 119,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.gridRealPart_cap",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 129,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.selectedHeight",
+      "kind": "def",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 135,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.upperHeight",
+      "kind": "def",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 137,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.contourHeight",
+      "kind": "def",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 139,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.selectedHeight_succ",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 141,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.selectedHeight_mono",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 146,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.upperHeight_mono",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 152,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.contourHeight_geometry",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 160,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.DetectorIndex",
+      "kind": "abbrev",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 169,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": []
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.detectorIndex_card",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 171,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    },
+    {
+      "name": "HeckeSkeleton.HighBinDetectorGeometry.shellDetectorIndex_card",
+      "kind": "theorem",
+      "source": "HeckeSkeleton/HighBinSupport/BufferedDetectorGeometry.lean",
+      "line": 177,
+      "source_sha256": "cb7a4c8021b534547bff28016a887b4bcfba52ffd307afd9ceef8e483ae96292",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ]
+    }
+  ]
+}

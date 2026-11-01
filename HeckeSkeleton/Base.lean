@@ -324,18 +324,17 @@ def expansionPhysicalParameters (c : TargetContext K) :
       (representative K c).val.property (expansionBoundary_lower K c) c.family.B_upper
       c.family.boundary (probeMeasures K c).haar ∅ c.family.lamA
       (expansionShellAllowance K c) (expansionInternalCap K c) := by
-  letI : (p : places K c) → MeasurableSpace (p.val.adicCompletion K) :=
-    (probeMeasures K c).localSpace
-  letI : ∀ p : places K c, BorelSpace (p.val.adicCompletion K) :=
-    (probeMeasures K c).localBorel
-  letI : ∀ p : places K c, ((probeMeasures K c).haar p).IsAddHaarMeasure :=
-    (probeMeasures K c).haar_isAddHaar
+  letI : ∀ p : places K c,
+      (Expansion.ActualProbeContext.allLocalMeasures K p.val).IsAddHaarMeasure :=
+    fun p => Expansion.ActualProbeContext.allLocalMeasures_isAddHaar K p.val
   exact Expansion.Project.choosePhysicalRecipeParameters K (places K c) (probeData K c)
     c.family.omega (targetCharacter K c) c.geometry
     (HighBinActualEuler.arithmeticHighEulerData K (places K c) (probeData K c)
       (targetCharacter K c))
     (representative K c).val.property (expansionBoundary_lower K c) c.family.B_upper
-    c.family.boundary (probeMeasures K c).haar ∅ (isComplex_of_family K c)
+    c.family.boundary
+    (fun p : places K c => Expansion.ActualProbeContext.allLocalMeasures K p.val) ∅
+    (isComplex_of_family K c)
     c.family.lamA (expansionShellAllowance K c) (expansionInternalCap K c)
     c.family.lamA_pos (by linarith [c.family.lamA_small])
     (ExpansionInterfaces.shellAllowance_spec c.family.lamA_pos).2.2

@@ -85,7 +85,15 @@ theorem nonprincipal_frequencyRow_sum_partition
   have hlarge :
       (∑' u : {u : FrequencyRow K Sset // u ∉ frequencyRows K Sset upper}, fN u.val) =
         ∑' u : {u : FrequencyRow K Sset // upper < frequencyRowNorm K Sset u}, f u.val := by
-    rw [tsum_subtype, tsum_subtype]
+    suffices hindicator :
+        (∑' u : FrequencyRow K Sset,
+          {v : FrequencyRow K Sset | v ∉ frequencyRows K Sset upper}.indicator fN u) =
+        ∑' u : FrequencyRow K Sset,
+          {v : FrequencyRow K Sset | upper < frequencyRowNorm K Sset v}.indicator f u by
+      simpa only using!
+        ((tsum_subtype {u : FrequencyRow K Sset | u ∉ frequencyRows K Sset upper} fN).trans
+          (hindicator.trans
+            (tsum_subtype {u : FrequencyRow K Sset | upper < frequencyRowNorm K Sset u} f).symm))
     apply tsum_congr
     intro u
     by_cases hu : upper < frequencyRowNorm K Sset u
@@ -94,7 +102,7 @@ theorem nonprincipal_frequencyRow_sum_partition
         exact not_le.mpr hu
       have hnon : ¬principalFrequencyRow K Sset u := by
         intro hp
-        have hnorm := frequencyRowNorm_of_principal K S u hp
+        have hnorm := frequencyRowNorm_eq_one_of_principal K Sset u hp
         linarith
       simp [fN, hnot, hu, hnon]
     · have hmem : u ∈ frequencyRows K Sset upper :=
@@ -167,8 +175,9 @@ theorem actual_nonprincipal_initial_integral_eq_boxes_add_tail
   calc
     _ = ∑' u : {u : FrequencyRow K Sset // ¬principalFrequencyRow K Sset u},
         actualInitialRowIntegral K S mu P psi g ∅ Z u.val := by
-      rw [tsum_subtype]
-      simp only [Set.indicator_apply, Set.mem_setOf_eq, ite_not]
+      simpa only [Set.indicator_apply, Set.mem_setOf_eq, ite_not] using!
+        (tsum_subtype {u : FrequencyRow K Sset | ¬principalFrequencyRow K Sset u}
+          (fun u => actualInitialRowIntegral K S mu P psi g ∅ Z u)).symm
     _ = _ := by
       simp_rw [actualInitialRowIntegral_eq_box_add_tail K S mu nu P hAllowed psi hcal hunram
         g ∅ hZ H]
@@ -184,9 +193,12 @@ theorem actualLargeTargetBoxes_eq_actualLargeRetained
     (Z H zeta : ℝ) :
     actualLargeTargetBoxes K S mu P psi g Z H zeta =
       actualLargeRetained K S mu P psi g Z H zeta := by
-  unfold actualLargeTargetBoxes actualLargeRetained actualLargeRetainedTerm
-  rw [tsum_subtype]
-  rfl
+  simpa only [actualLargeTargetBoxes, actualLargeRetained, actualLargeRetainedTerm,
+    Set.indicator_apply, Set.mem_setOf_eq] using!
+    (tsum_subtype
+      {u : FrequencyRow K Sset | Z ^ (13 / 16 + zeta) < frequencyRowNorm K Sset u}
+      (fun u => rowContourBox K Sset muS P psi (arithmeticHighEulerData K Sset P psi)
+        g ∅ u Z H 2 2 (1 + 3 / zeta)))
 
 include nu in
 /-- Every actual nonprincipal initial row contributes once to a retained
