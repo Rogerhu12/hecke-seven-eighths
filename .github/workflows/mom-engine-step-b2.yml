@@ -1,0 +1,96 @@
+name: MOM_ENGINE_STEP B2 native observation
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-b2]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-b2-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native:
+    if: github.ref == 'refs/heads/cloud/mom-engine-step-b2'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      LEAN_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Reserve runner space and match the official mapping limit
+        run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift /opt/ghc /opt/hostedtoolcache/CodeQL
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          df -h /
+          sysctl vm.max_map_count
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore normal project and branch artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Start the unchanged full Interface verifier once
+        id: start
+        run: python3 scripts/mom_engine_b2_native_watch.py start
+      - name: Observe the first three minutes without stopping Lean
+        id: snapshot_1
+        run: python3 scripts/mom_engine_b2_native_watch.py snapshot --seconds 180 --destination "${RUNNER_TEMP}/mom-b2-snapshot-1"
+      - name: Publish first diagnostic snapshot
+        if: always() && steps.snapshot_1.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-b2-snapshot-1-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mom-b2-snapshot-1/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Observe three more minutes on the same native process
+        id: snapshot_2
+        if: ${{ !cancelled() && steps.snapshot_1.outputs.running == 'true' }}
+        run: python3 scripts/mom_engine_b2_native_watch.py snapshot --seconds 180 --destination "${RUNNER_TEMP}/mom-b2-snapshot-2"
+      - name: Publish second diagnostic snapshot
+        if: always() && steps.snapshot_2.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-b2-snapshot-2-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mom-b2-snapshot-2/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Observe six more minutes on the same native process
+        id: snapshot_3
+        if: ${{ !cancelled() && steps.snapshot_2.outputs.running == 'true' }}
+        run: python3 scripts/mom_engine_b2_native_watch.py snapshot --seconds 360 --destination "${RUNNER_TEMP}/mom-b2-snapshot-3"
+      - name: Publish third diagnostic snapshot
+        if: always() && steps.snapshot_3.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-b2-snapshot-3-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mom-b2-snapshot-3/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Wait for the actual full build and fresh audit exit status
+        if: ${{ !cancelled() && steps.start.outcome == 'success' }}
+        run: python3 scripts/mom_engine_b2_native_watch.py wait
+      - name: Stop only this job's supervised native group if cancelled
+        if: cancelled() && steps.start.outcome == 'success'
+        run: python3 scripts/mom_engine_b2_native_watch.py stop
+      - name: Preserve the complete native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-b2-native-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: mom-engine-step-b2-evidence/
+          if-no-files-found: warn
+          retention-days: 14
