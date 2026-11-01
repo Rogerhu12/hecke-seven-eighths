@@ -67,9 +67,9 @@ theorem time_le_fourierHeight (firstSign : ℝ) (hsign : |firstSign| ≤ 1)
     |(WithLp.ofLp ξ).1 * firstSign + (WithLp.ofLp ξ).2| ≤
         |(WithLp.ofLp ξ).1 * firstSign| + |(WithLp.ofLp ξ).2| := abs_add_le _ _
     _ = |(WithLp.ofLp ξ).1| * |firstSign| + |(WithLp.ofLp ξ).2| := by rw [abs_mul]
-    _ ≤ _ := add_le_add_right
+    _ ≤ _ := add_le_add
       (by simpa only [mul_one] using
-        mul_le_mul_of_nonneg_left hsign (abs_nonneg (WithLp.ofLp ξ).1)) _
+        mul_le_mul_of_nonneg_left hsign (abs_nonneg (WithLp.ofLp ξ).1)) le_rfl
 
 theorem fourierHeight_polynomial (order : ℕ) (ξ : Joint) :
     (1 + fourierHeight ξ) ^ order ≤
