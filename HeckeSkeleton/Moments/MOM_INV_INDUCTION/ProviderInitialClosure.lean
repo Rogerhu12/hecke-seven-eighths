@@ -278,7 +278,8 @@ theorem exists_uniform_orbital_bound
   calc
     _ ≤ X⁻¹ * (‖retained‖ + ‖zeros‖ + ‖tail‖) :=
       mul_le_mul_of_nonneg_left
-        ((norm_add_le _ _).trans (add_le_add_right (norm_add_le _ _) _)) hXi
+        ((norm_add_le (retained + zeros) tail).trans
+          (add_le_add (norm_add_le retained zeros) le_rfl)) hXi
     _ = X⁻¹ * ‖retained‖ + X⁻¹ * ‖zeros‖ + X⁻¹ * ‖tail‖ := by ring
     _ ≤ CR * Rhs + CP * Rhs + CT * Rhs := add_le_add (add_le_add hRet hZero) hTail
     _ = B * Rhs := by dsimp only [B]; ring

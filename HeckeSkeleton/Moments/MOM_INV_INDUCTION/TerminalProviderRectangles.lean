@@ -168,7 +168,7 @@ theorem tsum_eq_rectangles_add_tail (R : ℝ) (F : Ext × Ext → ℂ) (hF : Sum
     simp only [Pi.sub_apply, g, mem_retainedPool]
     split_ifs <;> simp_all
   have hsub : tsum (F - g) = tsum F - tsum g := by
-    change (∑' cb, F cb - g cb) = (∑' cb, F cb) - ∑' cb, g cb
+    change tsum (fun cb : Ext × Ext => F cb - g cb) = tsum F - tsum g
     exact hF.tsum_sub hg
   rw [hrest, hsub]
   have hgSum : (∑' cb, g cb) = ∑ cb ∈ retainedPool K S R, F cb := by
