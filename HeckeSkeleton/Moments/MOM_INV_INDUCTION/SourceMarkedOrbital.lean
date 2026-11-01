@@ -174,7 +174,7 @@ include hΓ hallowed μv ν μ in
 theorem exists_uniform_orbital_bound (slotCap : ℕ) (gap eps supportC : ℝ)
     (hgap : 0 < gap) (heps : 0 < eps) (hC : 1 ≤ supportC)
     (qchild : Finset (ℕ × ℕ)) :
-    ∃ q : Finset (ℕ × ℕ), ∃ C Z₀ : ℝ, 1 ≤ C ∧ 2 ≤ Z₀ ∧
+    ∃ q : Finset (ℕ × ℕ), ∃ C Z₀ : ℝ, 1 ≤ C ∧ ∃ hZ₀ : 2 ≤ Z₀,
       ∀ {σ : Type u} [DecidableEq σ] (Θ : Subgroup (HeckeCharacter K))
         (ψ Λ Gcal ν₀ : HeckeCharacter K), Gcal ∈ Θ →
       ThetaCalibrationInput K Sset D Λ Gcal → BackgroundCycle.Admissible K Θ ψ ν₀ →
@@ -182,7 +182,7 @@ theorem exists_uniform_orbital_bound (slotCap : ℕ) (gap eps supportC : ℝ)
       ∀ (j : Ideal (𝓞 K)), j ≠ 0 → ∀ (slots : Finset σ)
         (lists : σ → Finset (Ideal (𝓞 K))) (a : σ → Ideal (𝓞 K) → ℂ)
         (lengths : σ → ℝ) (Z X m r z G lo hi : ℝ),
-      Z₀ ≤ Z → 1 ≤ X → 0 ≤ m → m ≤ 2 → 0 ≤ G → G ≤ z →
+      ∀ hZ : Z₀ ≤ Z, 1 ≤ X → 0 ≤ m → m ≤ 2 → 0 ≤ G → G ≤ z →
       r + 2 * z ≤ m - 2 * gap → 2 * r + 8 * z ≤ 3 * m - 2 * gap →
       (j.absNorm : ℝ) ≤ supportC * Z ^ G →
       X ≤ supportC * Z ^ ProviderMarkedScale.columnLength r z G →
@@ -193,7 +193,8 @@ theorem exists_uniform_orbital_bound (slotCap : ℕ) (gap eps supportC : ℝ)
         (3 * gap / 4) (z - G) lo hi (eps / 2) 2 Cih qchild →
       ‖SourceReductionPoisson.orbitalEnergy K S D Γ ν₀
         (fun n => SourceMarkedPhysical.mark slots lists a j n.val.val) W X
-        ⟨Z ^ m, Real.rpow_pos_of_pos (by linarith) m⟩‖ ≤
+        ⟨Z ^ m, Real.rpow_pos_of_pos
+          ((by norm_num : (0 : ℝ) < 2).trans_le (hZ₀.trans hZ)) m⟩‖ ≤
       C * Cih * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 * Z ^ (m + eps) := by
   obtain ⟨q, C, hC0, hb⟩ := ProviderInitialClosure.exists_uniform_orbital_bound
     K S D Γ hΓ hallowed μv ν μ slotCap 4 2 (SourceUnmarkedOrbital.auxiliaryLoss eps)

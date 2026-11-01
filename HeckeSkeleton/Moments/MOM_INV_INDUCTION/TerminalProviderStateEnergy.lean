@@ -197,9 +197,18 @@ theorem exists_uniform_state_energy
       _ ≤ _ := by gcongr <;> linarith
   have htailBound : CT * amp ^ 2 * qT ^ 2 * w ^ 2 * Z ^ (-saving) ≤
       CT * amp ^ 2 * (qB + qT) ^ 2 * w ^ 2 * Z ^ (N + V - cstar / 8 - O / 2) := by
-    gcongr
-    dsimp only [saving]
-    linarith
+    have hcoef : CT * amp ^ 2 * qT ^ 2 * w ^ 2 ≤
+        CT * amp ^ 2 * (qB + qT) ^ 2 * w ^ 2 :=
+      mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_left hqTb (mul_nonneg hCT.le (sq_nonneg _)))
+        (sq_nonneg _)
+    have hpow : Z ^ (-saving) ≤ Z ^ (N + V - cstar / 8 - O / 2) := by
+      apply Real.rpow_le_rpow_of_exponent_le hZ'.le
+      change -(L + cstar) ≤ N + V - cstar / 8 - O / 2
+      linarith only [hF, hOL, hL, hcstar]
+    exact mul_le_mul hcoef hpow (Real.rpow_nonneg hz0.le _)
+      (mul_nonneg (mul_nonneg (mul_nonneg hCT.le (sq_nonneg _)) (sq_nonneg _))
+        (sq_nonneg _))
   exact hfull.trans ((mul_le_mul_of_nonneg_left (add_le_add hblockBound htailBound)
     (by norm_num : (0 : ℝ) ≤ 2)).trans_eq (by dsimp only [qB, qT, w, fdata]; ring))
 

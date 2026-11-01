@@ -37,7 +37,7 @@ variable (K : Type) [Field K] [NumberField K] (c : TargetContext K)
 local notation "S" => excludedPlaces K c
 local notation "Sset" => places K c
 local notation "P" => probeData K c
-local notation "D" => (probeData K c).arithmetic
+local notation "D" => HeckeGeneral.ThetaSkeleton.Physical.ProbeData.arithmetic (probeData K c)
 local notation "Γ" => sixthPowerSUnitSubgroup K Sset
 local notation "Θ" => twists K c
 local notation "ψ" => targetCharacter K c

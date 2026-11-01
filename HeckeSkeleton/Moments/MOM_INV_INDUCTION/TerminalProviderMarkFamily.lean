@@ -129,13 +129,17 @@ theorem completedThetaSum_eq_choices
       rcases hbad with hpk | hpg | hpr
       · apply completedThetaSum_eq_zero_of_mark_overlap K S D θ _ r Q V.toFun X p hp
         unfold sIntegerModulusContraction
-        rw [Ideal.span_singleton_mul_left_unit (S.unitEquivUnitsInteger K u).isUnit,
-          contraction_thetaGenerator]
+        rw [Ideal.span_singleton_mul_left_unit (S.unitEquivUnitsInteger K u).isUnit]
+        change p.val.asIdeal ∣
+          sIntegerModulusContraction K S (D.generator (exteriorMul K S k g))
+        rw [contraction_thetaGenerator K S D (exteriorMul K S k g)]
         exact dvd_mul_of_dvd_left hpk _
       · apply completedThetaSum_eq_zero_of_mark_overlap K S D θ _ r Q V.toFun X p hp
         unfold sIntegerModulusContraction
-        rw [Ideal.span_singleton_mul_left_unit (S.unitEquivUnitsInteger K u).isUnit,
-          contraction_thetaGenerator]
+        rw [Ideal.span_singleton_mul_left_unit (S.unitEquivUnitsInteger K u).isUnit]
+        change p.val.asIdeal ∣
+          sIntegerModulusContraction K S (D.generator (exteriorMul K S k g))
+        rw [contraction_thetaGenerator K S D (exteriorMul K S k g)]
         exact dvd_mul_of_dvd_right hpg _
       · exact TerminalReflection.completedThetaSum_eq_zero_of_puncture_overlap
           K S D θ _ r Q V.toFun X p hp hpr
@@ -203,8 +207,11 @@ theorem tuple_sum_eq_inactive_blocks (F : FiniteMellinData K S) (θ : HeckeChara
   intro qi hqi
   let hpA := fun i hi => hprime i (J.property hi)
   let heA := fun i hi => hexterior i (J.property hi)
-  let hpI := fun i hi => hprime i (Finset.mem_sdiff.mp hi).1
-  let heI := fun i hi => hexterior i (Finset.mem_sdiff.mp hi).1
+  let hpI : ∀ i ∈ I \ J.val, ∀ p ∈ L i, Prime p :=
+    fun i hi => hprime i (Finset.mem_sdiff.mp hi).1
+  let heI : ∀ i ∈ I \ J.val, ∀ p ∈ L i,
+      MOM_INV_STEP.CanonicalChildren.IsExterior K S p :=
+    fun i hi => hexterior i (Finset.mem_sdiff.mp hi).1
   let B := tuplePrimes K S (I \ J.val) L hpI heI qi
   have hterm (qa : tuplePool K J.val L) :
       tupleWeight K I a (join K I L J.val J.property qa qi).val *
