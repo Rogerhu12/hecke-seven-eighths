@@ -297,7 +297,10 @@ theorem exists_actualPrincipal_z_uniform_decay
         Z ^ (4 : ℝ) * (1 + |s.im|) ^ A * (1 + |z.im|) ^ (-(N : ℝ)) := by
       norm_num only [Real.rpow_ofNat]
       ring
-    _ ≤ _ := by gcongr; exact Real.rpow_le_rpow_of_exponent_le hZ1 (by norm_num)
+    _ ≤ _ := by
+      have hZ45 : Z ^ (4 : ℝ) ≤ Z ^ (5 : ℝ) :=
+        Real.rpow_le_rpow_of_exponent_le hZ1 (by norm_num)
+      gcongr
 
 end Expansion.Project
 
