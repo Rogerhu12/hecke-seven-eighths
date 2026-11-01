@@ -239,7 +239,7 @@ theorem normalized_family_kernel_mass_le
     hB₁ hB₂ hB₁B hB₂B kernelBound₁ kernelBound₂ hkernel₁ hkernel₂
   haveI := normalizedCapacityPairKernel_nested_finite B₁ B₂ J₁ J₂ J₁ J₂
     hradiusL hradiusR F₁ F₂ hB₁ hB₂ lc rc left.normalizer right.normalizer Z parentWidth
-  refine ⟨inferInstance, ?_⟩
+  refine ⟨Measure.smul_finite _ ENNReal.ofReal_ne_top, ?_⟩
   rw [normalized_family_kernel_mass_eq_canonical left right calL calR W BL BR IL IR
     AL AR hAL hAR boundsL boundsR hBL hBR hfL hfR lc rc
     outer Z parentWidth houter (zero_lt_one.trans hZ) F₁ F₂ B₁ B₂ hB₁ hB₂ J₁ J₂ hradiusL hradiusR]
@@ -258,9 +258,11 @@ reintroduced and no frequency-dependent choice is made. -/
 def activeCombineEquiv (families : J → ActualNormalizedPairFamily A σ V Λ ω ψ Z) :
     (combine families).active Finset.univ ≃ Σ j : J, (families j).active Finset.univ where
   toFun b := ⟨b.val.1, ⟨b.val.2, by
-    simpa only [active, combine, Finset.mem_filter, Finset.mem_univ, true_and] using b.property⟩⟩
+    exact Finset.mem_filter.mpr
+      ⟨Finset.mem_univ _, (Finset.mem_filter.mp b.property).2⟩⟩⟩
   invFun b := ⟨(b.1, b.2.val), by
-    simpa only [active, combine, Finset.mem_filter, Finset.mem_univ, true_and] using b.2.property⟩
+    exact Finset.mem_filter.mpr
+      ⟨Finset.mem_univ _, (Finset.mem_filter.mp b.2.property).2⟩⟩
   left_inv b := by apply Subtype.ext; rfl
   right_inv b := by cases b; rfl
 
@@ -276,8 +278,12 @@ theorem combined_kernel_total_mass
       ((combine families).kernel Finset.univ μ parentWidth b).real Set.univ) =
       ∑ j : J, ∑ b : (families j).active Finset.univ,
         ((families j).kernel Finset.univ (fun r => μ (j, r)) parentWidth b).real Set.univ := by
-  rw [← Fintype.sum_sigma]
-  exact Fintype.sum_equiv (activeCombineEquiv families) _ _ (fun b => rfl)
+  calc
+    _ = ∑ b : Σ j : J, (families j).active Finset.univ,
+        ((families b.1).kernel Finset.univ (fun r => μ (b.1, r))
+          parentWidth b.2).real Set.univ :=
+      Fintype.sum_equiv (activeCombineEquiv families) _ _ (fun b => rfl)
+    _ = _ := Fintype.sum_sigma _
 
 end ActualNormalizedPairFamily
 end HeckeSkeleton.Moments.EngineStep
