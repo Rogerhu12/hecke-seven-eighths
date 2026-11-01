@@ -10,6 +10,9 @@ open scoped BigOperators
 variable (K : Type) [Field K] [NumberField K]
 variable (c : TargetContext K)
 
+-- Base elaborated the recipe parameters under these two local instances.
+attribute [local instance] expansionNormOneSpace expansionNormOneBorel
+
 -- OBLIGATION EX-HEIGHT-BUDGET | revised Proposition 6.3, §8 (pp.41–42,49–51).
 -- Internal degree and ceiling are selected before tau or the external tail order.
 def expansionBudget (c : TargetContext K) : {b : ℝ × ℝ // 0 ≤ b.1 ∧ 0 < b.2} := by
