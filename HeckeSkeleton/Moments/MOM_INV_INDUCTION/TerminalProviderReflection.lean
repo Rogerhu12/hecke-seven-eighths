@@ -156,13 +156,13 @@ theorem completedThetaSum_eq_zero_of_puncture_overlap
     (Q : Finset (ExteriorPrime K S)) (V : ℝ → ℂ) (X : ℝ)
     (p : ExteriorPrime K S) (hpQ : p ∈ Q) (hpr : p.val.asIdeal ∣ r.val.val) :
     completedThetaSum K S D θ m r Q V X = 0 := by
-  apply tsum_eq_zero
-  intro cn
-  unfold completedTerm
-  split_ifs with h
-  · exact False.elim (p.val.prime.not_unit
-      (h.2.1.isUnit_of_dvd' (h.2.2 p hpQ) hpr))
-  · rfl
+  have hzero (cn : Ext × Ext) : completedTerm K S D θ m r Q V X cn = 0 := by
+    unfold completedTerm
+    split_ifs with h
+    · exact False.elim (p.val.prime.not_unit
+        (h.2.1.isUnit_of_dvd' (h.2.2 p hpQ) hpr))
+    · rfl
+  simpa only [completedThetaSum, tsum_zero] using (tsum_congr hzero)
 
 theorem completedThetaSum_eq_zero_of_not_marksAway
     (hD : AllowedGeneratorInput K S D) (θ : HeckeCharacter K)

@@ -90,8 +90,10 @@ theorem reopened_eq_longPool
       exact hcube (canonicalCompletedTerm_cube_bound K Sset _ _ mark (canonicalVstar W)
         X hX hV n b hne)
     rw [hz, mul_zero]
-  · rw [longCubeCoefficient_zero_of_norm_lt T b.val.val
-      (nonZeroDivisors.coe_ne_zero b.val) (lt_of_not_ge hlong), zero_mul]
+  · have hz : reopenedCubeCoefficient (fun H => T ≤ cubeIdealNorm H) b.val.val = 0 := by
+      simpa only [cubeIdealNorm] using longCubeCoefficient_zero_of_norm_lt T b.val.val
+        (nonZeroDivisors.coe_ne_zero b.val) (lt_of_not_ge hlong)
+    rw [hz, zero_mul]
 
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
@@ -128,7 +130,7 @@ theorem longValue_eq_finiteValue (x : Node K S Γ Θ ψ σ)
         D.generator (exteriorOf K Sset k.1 hk)) * D.generator f ^ 4)
       x.puncture (TerminalNodes.mark K S Γ x) x.test (x.family.base ^ x.columnLength) T
       (Real.rpow_pos_of_pos hbase _) hW
-  · simp only [hk, dif_neg, finiteValue]
+  · simp only [finiteValue, dif_neg hk]
 
 theorem longEnergy_eq_finiteEnergy (slotCap : ℕ) (x : Node K S Γ Θ ψ σ)
     (hbase : 0 < x.family.base) (hW : tsupport x.test ⊆ Set.Icc (1 : ℝ) 2) (T : ℝ) :
@@ -147,7 +149,21 @@ theorem longEnergy_eq_finiteEnergy (slotCap : ℕ) (x : Node K S Γ Θ ψ σ)
     have hbad : ¬ IsExterior K Sset f := fun he => hnot (Finset.mem_filter.mpr ⟨hf, he⟩)
     simp only [TerminalNodes.longValue, dif_neg hbad, norm_zero, zero_pow (by decide : (2 : ℕ) ≠ 0),
       Finset.sum_const_zero, mul_zero]
-  rw [← hfilter, ← ProviderChildParent.exteriorLabels_image K S x.labels,
+  have hlabels :
+      (ProviderChildParent.exteriorLabels K S x.labels).image
+          (ProviderChildParent.labelEmbedding K S) = x.labels.filter (IsExterior K Sset) := by
+    ext f
+    constructor
+    · intro hf
+      obtain ⟨g, hg, rfl⟩ := Finset.mem_image.mp hf
+      exact Finset.mem_filter.mpr
+        ⟨(Finset.mem_preimage (f := ProviderChildParent.labelEmbedding K S)).mp hg,
+          exterior_isExterior K Sset g⟩
+    · intro hf
+      obtain ⟨hf, hext⟩ := Finset.mem_filter.mp hf
+      refine Finset.mem_image.mpr ⟨exteriorOf K Sset f hext, ?_, rfl⟩
+      exact (Finset.mem_preimage (f := ProviderChildParent.labelEmbedding K S)).mpr hf
+  rw [← hfilter, ← hlabels,
     Finset.sum_image (fun _ _ _ _ h => (ProviderChildParent.labelEmbedding K S).injective h)]
   apply Finset.sum_congr rfl
   intro f hf
@@ -180,10 +196,10 @@ theorem finiteValue_eq_source (x : Node K S Γ Θ ψ σ)
       (((Sset).unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ k.2)).val *
         D.generator (exteriorOf K Sset k.1 hk)) x.test
     simpa only [TerminalNodes.rowTau, TerminalNodes.period, TerminalNodes.mark,
-      coefficients, sectorRow, dif_pos hk, ProviderChildParent.columns] using he
+      coefficients, sectorRow, dif_pos hk, ProviderChildParent.columns, Node.puncture] using he
   · simp only [finiteValue, dif_neg hk, coefficients, CubeCompletionEnergy.source,
       CubeCompletionProvider.arithmeticCoefficient, sectorRow, dif_neg hk,
-      zero_pow (by decide : (3 : ℕ) ≠ 0), mul_zero, Finset.sum_const_zero]
+      zero_pow (by decide : (3 : ℕ) ≠ 0), mul_zero, zero_mul, Finset.sum_const_zero]
 
 theorem finiteEnergy_eq_sourceEnergy (slotCap : ℕ) (x : Node K S Γ Θ ψ σ)
     (hbase : 0 < x.family.base)

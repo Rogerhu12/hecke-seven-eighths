@@ -26,6 +26,8 @@ open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.Analysis.ActualSInteg
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Physical
   HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.MOMInvStep HeckeSkeleton.Moments.MOM_INV_STEP
+open HeckeSkeleton.Moments.UniformAmplify
+  (inverseRowCoefficient norm_inverseRowCoefficient_le_one)
 open SourceCompleteRows CanonicalNormPools
 open scoped Classical BigOperators ComplexConjugate nonZeroDivisors
 
@@ -64,7 +66,7 @@ theorem inverse_coefficient_calibration (d : MomentData K ω ψ)
     actualOrbitSexticEvaluation_decomposed_inverse K Sset P R]
   simp only [inverseRowCoefficient, hdir, hchar,
     completeIdealRowCharacter_exterior K Sset P R, maskValue, hmask,
-    completeIdealCommonMask, decomposedIdealRowMask, sexticIdealOutsideS]
+    completeIdealCommonMask, decomposedIdealRowMask, sexticIdealOutsideS, decide_eq_true_eq]
   split_ifs <;> ring
 
 /-- Exact physical equality for any fixed whole-column multiplier.
@@ -132,7 +134,7 @@ theorem positive_polynomial_norm (d : MomentData K ω ψ)
     (fun I => conj (mark I)) sector (by change -d.direction = -1; rw [hdir])
     hchar hmask I X hX (conjugateTest W)
   rw [conjugate_polynomial] at h
-  simpa only [Complex.norm_conj] using congrArg norm h
+  simpa only [Complex.norm_conj, conjugateInverseModel] using congrArg norm h
 
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
@@ -153,14 +155,14 @@ theorem complete_positive_rows_le_orbital (d : MomentData K ω ψ)
   let exterior (u : {u // u ∈ d.rows H}) : Ext :=
     ⟨u.val, by
       have he := ((d.rows_spec H u.val).mp u.property).1
-      simpa only [hrows] using he⟩
+      simpa only [hrows, completeIdealIsExterior] using he⟩
   let row (u : {u // u ∈ d.rows H}) : Orbit :=
     decomposedIdealSectorOrbit K Sset P (exterior u, sector)
   have hinj : Function.Injective row := by
     intro u v huv
     apply Subtype.ext
-    exact congrArg Subtype.val
-      (congrArg Prod.fst (decomposedIdealSectorOrbit_injective K Sset P huv))
+    have he := congrArg Prod.fst (decomposedIdealSectorOrbit_injective K Sset P huv)
+    exact congrArg (fun I : Ext => I.val) he
   let T : Finset Orbit := (d.rows H).attach.image row
   have hT : ∀ q ∈ T, (sIntegerOrbitNorm K Sset Γ q).val ≤ H := by
     intro q hq
@@ -193,7 +195,7 @@ def mark (I : Ideal (𝓞 K)) : ℂ :=
 
 theorem conjugate_divisorMark (I : Ideal (𝓞 K)) :
     conj (divisorMark slots lists a I) = divisorMark slots lists (fun i p => conj (a i p)) I := by
-  simp only [divisorMark, map_prod, map_sum]
+  simp only [divisorMark, map_prod, map_sum, apply_ite, map_zero]
 
 theorem conjugate_mark (I : Ideal (𝓞 K)) :
     conj (mark slots lists a j I) = mark slots lists (fun i p => conj (a i p)) j I := by
@@ -201,8 +203,6 @@ theorem conjugate_mark (I : Ideal (𝓞 K)) :
   by_cases h : IsCoprime I j <;> simp only [mark, h, if_true, if_false, map_one, map_zero]
 
 end Marks
-
-variable (K)
 
 theorem exists_small_scale_row_bound (slotCap : ℕ) :
     ∃ C : ℝ, 0 < C ∧ ∀ {ω ψ : HeckeCharacter K} (d : MomentData K ω ψ)
@@ -213,9 +213,11 @@ theorem exists_small_scale_row_bound (slotCap : ℕ) :
       1 ≤ H → 0 < X → X ≤ 1 →
       (∑ u ∈ d.rows H, ‖polynomial K d (mark slots lists a j) u X W‖ ^ 2) ≤
         C * H * (SchwartzMap.seminorm ℝ 0 0 W) ^ 2 := by
-  obtain ⟨A, hA, hcount⟩ := HeckeSkeleton.Moments.UniformAmplify.exists_nonzero_ideal_count_bound
+  obtain ⟨A, hA, hcount⟩ := HeckeSkeleton.Moments.MOM_INV_INDUCTION.exists_nonzero_ideal_count_bound
     (K := K)
   obtain ⟨B, hB, hdivisor⟩ := CoefficientBounds.exists_divisorMark_bound K slotCap 1 (by norm_num)
+  have hA0 : 0 < A := zero_lt_one.trans_le hA
+  have hBpos : 0 < B := zero_lt_one.trans_le hB
   refine ⟨64 * A ^ 3 * B ^ 2, by positivity, ?_⟩
   intro ω ψ d σ slots lists a j hslots ha H X W hH hX hX1
   by_cases hsmall : X < 1 / 2

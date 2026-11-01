@@ -72,6 +72,7 @@ theorem profile_support (u : NonzeroIdeal K) (U D a ν ξ y : ℝ)
     Expansion.Dyadic.cutoffProfile (D / U ^ (2 * ξ))
     ((a : ℂ) + (ν : ℂ) * Complex.I) hy
 
+include c in
 theorem weightedLogProfile_live (u : NonzeroIdeal K) (U D a ν ξ N D' : ℝ)
     (hU : 0 < U) (hD : 0 ≤ D) (hN : 0 < N) (hD' : 0 < D')
     (hF : weightedLogProfile U D a ν ξ (Real.log N - Real.log D') ≠ 0) :
@@ -111,8 +112,8 @@ theorem exists_common_majorant (J : ℕ) :
   have hweighted : (fun t : ℝ => (1 + ‖t‖) ^ J * W t) =
       fun t => (C * (1 + T) ^ (J + 2 : ℕ)) * profileFourierTail 2 t := by
     funext t
-    dsimp [W]
-    rw [← mul_assoc, mul_comm ((1 + ‖t‖) ^ J), mul_assoc, profileFourierTail_weighted]
+    dsimp only [W]
+    rw [mul_left_comm, profileFourierTail_weighted]
   refine ⟨W, fun t => mul_nonneg (by positivity) (profileFourierTail_nonneg _ _),
     (profileFourierTail_continuous (J + 2)).const_mul _,
     (profileFourierTail_integrable (J + 2) (by omega)).const_mul _, ?_, ?_, ?_⟩
@@ -176,7 +177,8 @@ theorem inversePolynomial_eq_prefix_integral (d : MomentData K ω ψ)
     rw [hprofile] at hp
     have hn := (div_le_iff₀ hD').mp (profile_support K c u U D a ν ξ _ hp).2
     apply (mem_dyadicIdealSupport_iff K (by positivity) I).mpr
-    exact (hn.trans hscale).trans (by have : (0 : ℝ) ≤ 2 ^ L := by positivity; linarith)
+    have hpow : (0 : ℝ) ≤ (2 : ℝ) ^ L := by positivity
+    exact (hn.trans hscale).trans (by linarith)
   calc
     _ = ∑ I ∈ d.inverseTest.support u 0 D', normWeightedCoefficient d u I *
         F (Real.log (idealNorm K I) - Real.log D') := by

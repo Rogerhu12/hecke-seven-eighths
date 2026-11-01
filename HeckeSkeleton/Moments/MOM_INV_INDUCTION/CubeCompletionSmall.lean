@@ -70,8 +70,6 @@ theorem arithmeticCoefficient_norm_le_mark
     _ ≤ 1 * ‖divisorMark C.slots C.primeLists C.primeWeights
         (n.val.val * b.val.val ^ 3)‖ * 1 ^ 3 * 1 := by
       gcongr
-      · exact hc
-      · exact hm
       · exact hrow b
       · exact hrow n
     _ = _ := by ring
@@ -90,8 +88,24 @@ theorem exterior_label_mass_le (slotCap : ℕ) (labels : Finset (Ideal (𝓞 K))
     (∑ f ∈ ProviderChildParent.exteriorLabels K S labels,
       labelDivisorWeight slotCap f.val.val) ≤
       ∑ f ∈ labels, labelDivisorWeight slotCap f := by
+  have hlabels :
+      (ProviderChildParent.exteriorLabels K S labels).image
+          (ProviderChildParent.labelEmbedding K S) = labels.filter (IsExterior K Sset) := by
+    ext f
+    constructor
+    · intro hf
+      obtain ⟨g, hg, rfl⟩ := Finset.mem_image.mp hf
+      exact Finset.mem_filter.mpr
+        ⟨(Finset.mem_preimage (f := ProviderChildParent.labelEmbedding K S)).mp hg,
+          exterior_isExterior K Sset g⟩
+    · intro hf
+      obtain ⟨hf, hext⟩ := Finset.mem_filter.mp hf
+      refine Finset.mem_image.mpr ⟨exteriorOf K Sset f hext, ?_, rfl⟩
+      exact (Finset.mem_preimage (f := ProviderChildParent.labelEmbedding K S)).mpr hf
+  change (∑ f ∈ ProviderChildParent.exteriorLabels K S labels,
+    labelDivisorWeight slotCap ((ProviderChildParent.labelEmbedding K S) f)) ≤ _
   rw [← Finset.sum_image (fun _ _ _ _ h => (ProviderChildParent.labelEmbedding K S).injective h),
-    ProviderChildParent.exteriorLabels_image]
+    hlabels]
   exact Finset.sum_le_sum_of_subset_of_nonneg (Finset.filter_subset _ _)
     (fun f _ _ => labelDivisorWeight_nonneg slotCap f)
 
@@ -132,7 +146,6 @@ theorem annularEnergy_le_mass {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeChar
       simp only [Finset.sum_product, Finset.sum_const, nsmul_eq_mul]
       simp_rw [mul_assoc]
       rw [← Finset.mul_sum, ← Finset.sum_mul]
-      ring
     _ ≤ _ := by
       gcongr
       exact exterior_label_mass_le K S slotCap x.labels

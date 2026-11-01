@@ -93,6 +93,8 @@ theorem normalized_weight_le (i : Idx) :
     fun v => borel (v.adicCompletion K)
   letI : ∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K) :=
     fun _ => ⟨rfl⟩
+  letI : MeasurableSpace (FiniteAdeleRing (𝓞 K) K) := borel _
+  letI : BorelSpace (FiniteAdeleRing (𝓞 K) K) := ⟨rfl⟩
   have hX : 0 < X := Real.rpow_pos_of_pos (zero_lt_one.trans hbase) _
   have hm : ‖(moebius (IdealMobiusMask.primeProduct i.2.1.val) : ℂ)‖ ≤ 1 := by
     simp only [IdealMobiusMask.moebius_primeProduct, Int.cast_pow, Int.cast_neg,

@@ -20,6 +20,7 @@ namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedLogMellin
 open NumberField IsDedekindDomain UniqueFactorizationMonoid MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeSkeleton.Moments.MOMInvStep HeckeSkeleton.Moments.MOM_INV_STEP
+open HeckeSkeleton.Moments.MOM_INV_STEP.AssignedMarkSource (primeChoices)
 open CommonKernel MellinSeparation
 open ProviderMarkedOverlap ProviderMarkedSlots ProviderMarkedReindex ProviderMarkedMellin
   ProviderMarkedMaskedMellin
@@ -48,7 +49,7 @@ theorem quotient_integrable (F : SchwartzMap ℝ ℂ) (j c P X : ℝ) :
     Integrable (fun t : ℝ => (𝓕 F) t * columnPhase t (Real.log j) *
       columnPhase t (Real.log c) * columnPhase t (-Real.log P) *
         columnPhase t (-Real.log X)) := by
-  apply ((𝓕 F)).integrable.norm.mono'
+  apply ((𝓕 F).integrable (μ := (volume : Measure ℝ))).norm.mono'
     ((((((𝓕 F)).continuous.mul (continuous_columnPhase _)).mul
       (continuous_columnPhase _)).mul (continuous_columnPhase _)).mul
         (continuous_columnPhase _) |>.aestronglyMeasurable)
