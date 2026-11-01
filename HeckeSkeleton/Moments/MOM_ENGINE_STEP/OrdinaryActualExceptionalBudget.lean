@@ -75,7 +75,7 @@ theorem ordinaryExceptionalCatalogueConstant_le
   linarith
 
 variable {H ι : Type*} [Fintype ι] [DecidableEq ι]
-local notation "V" => WithLp 2 (U × E)
+local notation "ProductFourierSpace" => WithLp 2 (U × E)
 
 /-- Raw data for one actual theta-class leaf. The original fibre cap
 controls orbit-to-ideal and source-to-orbit multiplicities, before any
@@ -90,15 +90,15 @@ structure OrdinaryExceptionalLeafRawData
     {branch : TwoDivisorCommonBranch (K := K)} (j : branch.Index)
     (Q : PairedFiniteCharacters theta H) where
   extraction : leaf.ConstantAtomExtraction
-  left : SecondSideFrame (V := V) C R PUnit.{1} .left leaf.leftSlots
-  right : SecondSideFrame (V := V) C R PUnit.{1} .right leaf.rightSlots
+  left : SecondSideFrame (V := ProductFourierSpace) C R PUnit.{1} .left leaf.leftSlots
+  right : SecondSideFrame (V := ProductFourierSpace) C R PUnit.{1} .right leaf.rightSlots
   commonLeftSlots : ℕ
   commonRightSlots : ℕ
   rowMass : ActualSecondRowMass R C commonLeftSlots commonRightSlots
   binding : extraction.leaf.OrdinaryExceptionalBinding left right Q
-  leftCharts : ∀ ξ : V, ∀ h : R.exceptionalRows Q,
+  leftCharts : ∀ ξ : ProductFourierSpace, ∀ h : R.exceptionalRows Q,
     left.source.OrdinaryExceptionalAt (σ := σ) p.leftCharacter p.leftPlain₁ p.leftPlain₂ ξ h.val
-  rightCharts : ∀ ξ : V, ∀ h : R.exceptionalRows Q,
+  rightCharts : ∀ ξ : ProductFourierSpace, ∀ h : R.exceptionalRows Q,
     right.source.OrdinaryExceptionalAt (σ := σ) p.rightCharacter p.rightPlain₁ p.rightPlain₂ ξ h.val
   leftScales : ExceptionalAtomicScales left.allocation
   rightScales : ExceptionalAtomicScales right.allocation

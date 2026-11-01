@@ -1,0 +1,150 @@
+name: MOM_ENGINE_STEP D root verification
+
+on:
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/**'
+      - '.github/workflows/mom-engine-step-d-roots.yml'
+      - 'lean-toolchain'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-d-roots-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  roots:
+    if: >-
+      (github.event_name == 'pull_request' && github.head_ref == 'cloud/mom-engine-step-d') ||
+      (github.event_name == 'workflow_dispatch' && github.ref_name == 'cloud/mom-engine-step-d')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: ConstantProfileExtraction
+            declarations:
+              - HeckeSkeleton.Moments.EngineStep.ActualSecondRowMass.withColumnConstants
+              - HeckeSkeleton.Moments.EngineStep.ActualSecondRowMass.withColumnConstants_commonEnvelope
+              - HeckeSkeleton.Moments.EngineStep.ActualSecondRowMass.withColumnConstants_rowBound
+              - HeckeSkeleton.Moments.EngineStep.ActualHybridLeaf.ConstantAtomExtraction.trans_leaf
+          - target: OriginalPairAllowanceProduction
+            declarations:
+              - HeckeSkeleton.Moments.EngineStep.OriginalPairAllowanceWindow.ofOriginalWindows
+              - HeckeSkeleton.Moments.EngineStep.ActualCapacityNormLengths.ofOriginalLabels
+              - HeckeSkeleton.Moments.EngineStep.ActualCapacityNormLengths.slack_le_of_original_windows
+    env:
+      LEAN_NUM_THREADS: '2'
+      D_ROOT_TARGET: ${{ matrix.target }}
+      D_ROOT_DECLARATIONS: ${{ toJSON(matrix.declarations) }}
+      D_ROOT_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      D_ROOT_EVIDENCE: mom-engine-step-d-verification/${{ matrix.target }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Record exact checkout and all tracked file hashes
+        run: |
+          mkdir -p "$D_ROOT_EVIDENCE"
+          git show --no-patch --format=fuller HEAD > "$D_ROOT_EVIDENCE/checkout.txt"
+          python3 - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          evidence = Path(os.environ['D_ROOT_EVIDENCE'])
+          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          expected = os.environ['D_ROOT_EXPECTED_HEAD']
+          if head != expected:
+              raise SystemExit(f'Unexpected checkout: {head}, expected {expected}')
+          paths = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+          hashes = {p: hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in paths if p}
+          (evidence / 'tracked-sha256-before.json').write_text(json.dumps(hashes, indent=2) + '\n')
+          source = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' + os.environ['D_ROOT_TARGET'] + '.lean'
+          (evidence / 'source.json').write_text(json.dumps({
+              'head': head, 'target': source, 'source_sha256': hashes[source],
+              'tracked_file_count': len(hashes),
+          }, indent=2) + '\n')
+          PY
+      - name: Provide enough memory mappings for the full import closure
+        run: |
+          D_ROOT_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$D_ROOT_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > "$D_ROOT_EVIDENCE/memory-mapping.txt"
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the complete root module and run a fresh namespace axiom audit
+        shell: bash
+        run: |
+          mapfile -t D_ROOT_DECLARATION_LIST < <(python3 - <<'PY'
+          import json, os
+          print('\n'.join(json.loads(os.environ['D_ROOT_DECLARATIONS'])))
+          PY
+          )
+          D_ROOT_COMMAND=(python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py
+            "HeckeSkeleton.Moments.MOM_ENGINE_STEP.$D_ROOT_TARGET"
+            --namespace HeckeSkeleton.Moments.EngineStep
+            --evidence "$D_ROOT_EVIDENCE")
+          for D_ROOT_DECLARATION in "${D_ROOT_DECLARATION_LIST[@]}"; do
+            D_ROOT_COMMAND+=(--declaration "$D_ROOT_DECLARATION")
+          done
+          D_ROOT_STARTED=$(date +%s)
+          set +e
+          timeout --signal=TERM --kill-after=30s 35m "${D_ROOT_COMMAND[@]}" 2>&1 |
+            tee "$D_ROOT_EVIDENCE/verification.log"
+          D_ROOT_STATUS=${PIPESTATUS[0]}
+          set -e
+          D_ROOT_FINISHED=$(date +%s)
+          printf '{"exit_code": %s, "elapsed_seconds": %s, "timeout_seconds": 2100}\n' \
+            "$D_ROOT_STATUS" "$((D_ROOT_FINISHED - D_ROOT_STARTED))" \
+            > "$D_ROOT_EVIDENCE/verification-status.json"
+          exit "$D_ROOT_STATUS"
+      - name: Preserve and compare tracked file hashes after every outcome
+        if: always()
+        run: |
+          mkdir -p "$D_ROOT_EVIDENCE"
+          python3 - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          evidence = Path(os.environ['D_ROOT_EVIDENCE'])
+          paths = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+          hashes = {p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+                    if Path(p).is_file() else None for p in paths if p}
+          (evidence / 'tracked-sha256-after.json').write_text(json.dumps(hashes, indent=2) + '\n')
+          before = evidence / 'tracked-sha256-before.json'
+          if not before.is_file():
+              raise SystemExit('The pre-verification source snapshot is missing')
+          original = json.loads(before.read_text())
+          changed = sorted(p for p in original.keys() | hashes.keys() if original.get(p) != hashes.get(p))
+          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          unchanged = not changed and head == os.environ['D_ROOT_EXPECTED_HEAD']
+          (evidence / 'source-identity.json').write_text(json.dumps({
+              'head': head, 'unchanged': unchanged, 'changed_files': changed,
+          }, indent=2) + '\n')
+          if not unchanged:
+              raise SystemExit('Tracked sources or checkout identity changed during verification')
+          PY
+      - name: Preserve complete compiler logs and fresh axiom reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-engine-step-d-root-${{ matrix.target }}-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
+          path: ${{ env.D_ROOT_EVIDENCE }}/
+          if-no-files-found: error
+          retention-days: 14
