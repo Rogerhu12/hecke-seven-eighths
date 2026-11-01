@@ -467,7 +467,7 @@ private theorem fixed_fullCorrelation_eq_leaf_sum
       (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
         v.2.2.2.2.2.1 v.2.2.2.2.2.2) =
       ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
-  simpa only [leaf] using
+  exact
     (fullCorrelationHybridCost_eq_leaf_sum
       (K := K) (H := Q) (U := W) (V := E)
       (k := v.leftSlots)

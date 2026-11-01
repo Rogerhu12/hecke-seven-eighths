@@ -104,9 +104,8 @@ def amplifiedAllocation :
 
 @[simp] theorem amplifiedIndex_tag (i : I) :
     L.amplifiedTag tag P (L.amplifiedIndex tag P tag_mem i) = tag i := by
-  cases ht : tag i with
-  | none => simp only [amplifiedIndex, ht, amplifiedTag]
-  | some q => simp only [amplifiedIndex, ht, amplifiedTag]
+  unfold amplifiedIndex
+  split <;> rename_i ht <;> simp only [amplifiedTag, ht]
 
 @[simp] theorem amplifiedIndex_first (i : I) :
     L.amplifiedFirst tag P (L.amplifiedIndex tag P tag_mem i) = L.first i := by
@@ -179,10 +178,12 @@ theorem amplified_carriers_admissible (B Z : ℝ) (oldMask : Ideal (𝓞 K))
     (hLN : ∀ i, (Ideal.absNorm (L.allocation i).1 : ℝ) ≤ Z ^ B) :
     (L.mainCarrier tag).Admissible (cap + 2) B Z oldMask ∧
       ∀ n p, (L.errorCarrier tag n p).Admissible (cap + 2) B Z oldMask :=
-  ⟨L.restricted_carrier_admissible (fun i => tag i = none) B Z oldMask
-      hfirst hfirstN hS hSN hsecond hsecondN hL hLN,
-    fun n p => L.restricted_carrier_admissible (fun i => tag i = some (n, p)) B Z oldMask
-      hfirst hfirstN hS hSN hsecond hsecondN hL hLN⟩
+  by
+    unfold mainCarrier mainLabels errorCarrier errorLabels
+    exact ⟨L.restricted_carrier_admissible (fun i => tag i = none) B Z oldMask
+        hfirst hfirstN hS hSN hsecond hsecondN hL hLN,
+      fun n p => L.restricted_carrier_admissible (fun i => tag i = some (n, p)) B Z oldMask
+        hfirst hfirstN hS hSN hsecond hsecondN hL hLN⟩
 
 /-- The internally computed tagged image has the official one-pool
 mass. Constants precede the actual pool, all source labels and their

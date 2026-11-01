@@ -39,7 +39,7 @@ variable {ω ψ : HeckeCharacter K}
 /-- The child contains the literal old list followed by the true
 second active factor. No cancellation changes displayed support. -/
 def childData (parent : MomentData K ω ψ)
-    (prefix : OriginalMovingFactors A P R) (correction : HeckeCharacter K)
+    («prefix» : OriginalMovingFactors A P R) (correction : HeckeCharacter K)
     (hcorr : correction = 1 ∨ correction ∈ parent.theta)
     (C : A.GeneralArithmeticContext σ η hS) (primes : ι → ExteriorPrime A)
     (m n : ι → ℕ) (pattern : ι → Bool)
@@ -54,7 +54,7 @@ def childData (parent : MomentData K ω ψ)
     inverse left right geometry index
 
 variable (parent : MomentData K ω ψ)
-variable (prefix : OriginalMovingFactors A P R) (correction : HeckeCharacter K)
+variable («prefix» : OriginalMovingFactors A P R) (correction : HeckeCharacter K)
 variable (hcorr : correction = 1 ∨ correction ∈ parent.theta)
 variable (C : A.GeneralArithmeticContext σ η hS) (primes : ι → ExteriorPrime A)
 variable (m n : ι → ℕ) (pattern : ι → Bool)
@@ -68,11 +68,11 @@ variable {Ih : A.Exterior} {h g : A.R} {factor : ℝ}
 original prefix and remaining deletion. The sixth-root mask is present
 even when the primitive active character is trivial. -/
 theorem childData_mask (u J : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    maskValue (childData P R parent prefix correction hcorr C primes m n pattern sector
+    maskValue (childData P R parent «prefix» correction hcorr C primes m n pattern sector
         remaining budget inverse left right geometry index) u J.val =
       (if phaseMask u (secondOriginalMovingFactors P R C primes m n pattern).support.val
           (secondSixthRootIdeal primes m n) J ∧
-          IsCoprime J.val (movingMask prefix remaining).val then (1 : ℂ) else 0) := by
+          IsCoprime J.val (movingMask «prefix» remaining).val then (1 : ℂ) else 0) := by
   change (if ((completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u J.val &&
       decide (IsCoprime J.val
         (prefix.append (secondOriginalMovingFactors P R C primes m n pattern)).support.val)) &&
@@ -95,12 +95,12 @@ theorem childData_row_coefficient
       secondActiveFrequencyGenerator C primes m n pattern)
     (hsector : row.sector P = sector) (χ : HeckeCharacter K) (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     heckeIdealCoefficient K
-        (χ * (childData P R parent prefix correction hcorr C primes m n pattern sector
+        (χ * (childData P R parent «prefix» correction hcorr C primes m n pattern sector
           remaining budget inverse left right geometry index).rowCharacter row.momentIdeal) J *
-      maskValue (childData P R parent prefix correction hcorr C primes m n pattern sector
+      maskValue (childData P R parent «prefix» correction hcorr C primes m n pattern sector
         remaining budget inverse left right geometry index) row.momentIdeal J.val =
       heckeIdealCoefficient K (χ * (correction * prefix.character)) J *
-        originalCoprimeMask (movingMask prefix remaining) J.val *
+        originalCoprimeMask (movingMask «prefix» remaining) J.val *
         actualIdealResidue (A := A) (σ := σ) J.val g *
         actualIdealResidue (A := A) (σ := σ) J.val row.element := by
   let D := secondOriginalMovingFactors P R C primes m n pattern
@@ -108,21 +108,21 @@ theorem childData_row_coefficient
     P R sector row.momentIdeal
   have hphase := extracted_residue_character P R hroot hemb C primes m n pattern
     row hfactor sector hsector J
-  rw [childData_mask P R parent prefix correction hcorr C primes m n pattern sector
+  rw [childData_mask P R parent «prefix» correction hcorr C primes m n pattern sector
     remaining budget inverse left right geometry index]
   rw [mul_assoc (heckeIdealCoefficient K (χ * (correction * prefix.character)) J *
-    originalCoprimeMask (movingMask prefix remaining) J.val), hphase]
+    originalCoprimeMask (movingMask «prefix» remaining) J.val), hphase]
   change heckeIdealCoefficient K (χ * (correction * (prefix.append D).character * χu)) J *
       (if phaseMask row.momentIdeal D.support.val (secondSixthRootIdeal primes m n) J ∧
-        IsCoprime J.val (movingMask prefix remaining).val then 1 else 0) =
+        IsCoprime J.val (movingMask «prefix» remaining).val then 1 else 0) =
     (heckeIdealCoefficient K (χ * (correction * prefix.character)) J *
-      (if IsCoprime J.val (movingMask prefix remaining).val then 1 else 0)) *
+      (if IsCoprime J.val (movingMask «prefix» remaining).val then 1 else 0)) *
       (heckeIdealCoefficient K D.character J * heckeIdealCoefficient K χu J *
         (if phaseMask row.momentIdeal D.support.val (secondSixthRootIdeal primes m n) J
           then 1 else 0))
   rw [prefix.append_character D]
   by_cases hgood : phaseMask row.momentIdeal D.support.val
-      (secondSixthRootIdeal primes m n) J ∧ IsCoprime J.val (movingMask prefix remaining).val
+      (secondSixthRootIdeal primes m n) J ∧ IsCoprime J.val (movingMask «prefix» remaining).val
   · have hmove : ∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ J.val →
         UnramifiedAt K D.character p := by
       intro p hp
@@ -142,7 +142,7 @@ theorem childData_row_coefficient
     ring
   · by_cases hm : phaseMask row.momentIdeal D.support.val
         (secondSixthRootIdeal primes m n) J
-    · have ho : ¬IsCoprime J.val (movingMask prefix remaining).val := fun ho => hgood ⟨hm, ho⟩
+    · have ho : ¬IsCoprime J.val (movingMask «prefix» remaining).val := fun ho => hgood ⟨hm, ho⟩
       simp only [if_neg hgood, if_neg ho, if_pos hm, mul_zero, zero_mul]
     · simp only [if_neg hgood, if_neg hm, mul_zero, zero_mul]
 
@@ -156,23 +156,23 @@ def calibration
     (hfactor : g = secondSixthRootGenerator C primes m n ^ 6 *
       secondActiveFrequencyGenerator C primes m n pattern)
     (hsector : row.sector P = sector) :
-    (movingSourceCharacters parent correction prefix remaining index).Calibration (σ := σ)
-      (childData P R parent prefix correction hcorr C primes m n pattern sector remaining budget
+    (movingSourceCharacters parent correction «prefix» remaining index).Calibration (σ := σ)
+      (childData P R parent «prefix» correction hcorr C primes m n pattern sector remaining budget
         inverse left right geometry index) rfl row.momentIdeal g row.element where
   fixedRay_mem_theta θ hθ := by
     have he : θ = 1 := Finset.mem_singleton.mp hθ
     subst θ
     exact hone
   plain J := by
-    have he := childData_row_coefficient P R parent prefix correction hcorr C primes m n pattern
+    have he := childData_row_coefficient P R parent «prefix» correction hcorr C primes m n pattern
       sector remaining budget inverse left right geometry index hroot hemb
       row hfactor hsector parent.plainBackground J
     simpa only [movingSourceCharacters, sourceCharacters, sourcePlainCoefficient,
       coefficient_one, mul_one] using he
   slot i p := by
-    let d := childData P R parent prefix correction hcorr C primes m n pattern sector
+    let d := childData P R parent «prefix» correction hcorr C primes m n pattern sector
       remaining budget inverse left right geometry index
-    have he := childData_row_coefficient P R parent prefix correction hcorr C primes m n pattern
+    have he := childData_row_coefficient P R parent «prefix» correction hcorr C primes m n pattern
       sector remaining budget inverse left right geometry index hroot hemb
       row hfactor hsector (parent.slotCoefficient (index i)) (primeIdeal p)
     simp only [coefficient_prime] at he
@@ -190,18 +190,18 @@ def negativeCalibration
     (hfactor : g = secondSixthRootGenerator C primes m n ^ 6 *
       secondActiveFrequencyGenerator C primes m n pattern)
     (hsector : row.sector P = sector) :
-    (movingSourceCharacters parent correction prefix remaining index).Calibration (σ := σ)
-      (childData P R parent prefix correction hcorr C primes m n pattern sector remaining budget
+    (movingSourceCharacters parent correction «prefix» remaining index).Calibration (σ := σ)
+      (childData P R parent «prefix» correction hcorr C primes m n pattern sector remaining budget
         inverse left right geometry index) rfl row.momentIdeal (-g) row.element where
-  fixedRay_mem_theta := (calibration P R parent prefix correction hcorr C primes m n pattern
+  fixedRay_mem_theta := (calibration P R parent «prefix» correction hcorr C primes m n pattern
     sector remaining budget inverse left right geometry index hone hroot hemb row hfactor hsector).fixedRay_mem_theta
   plain J := by
     rw [residue_neg]
-    exact (calibration P R parent prefix correction hcorr C primes m n pattern
+    exact (calibration P R parent «prefix» correction hcorr C primes m n pattern
       sector remaining budget inverse left right geometry index hone hroot hemb row hfactor hsector).plain J
   slot i p := by
     rw [residue_neg]
-    exact (calibration P R parent prefix correction hcorr C primes m n pattern
+    exact (calibration P R parent «prefix» correction hcorr C primes m n pattern
       sector remaining budget inverse left right geometry index hone hroot hemb row hfactor hsector).slot i p
 
 section ActualIndices
@@ -213,12 +213,12 @@ def actualCalibration (S : ActualSecondCorrelationRows A σ H ι)
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
     (hemb : P.arithmetic.embedding = σ)
     (q : PatternSector P S C pattern sector) :
-    (movingSourceCharacters parent correction prefix remaining index).Calibration (σ := σ)
-      (childData P R parent prefix correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
+    (movingSourceCharacters parent correction «prefix» remaining index).Calibration (σ := σ)
+      (childData P R parent «prefix» correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
         pattern sector remaining budget inverse left right geometry index) rfl
       (S.extractedRow C q.val.val).momentIdeal (S.factor C q.val.val.val)
       (S.extractedRow C q.val.val).element :=
-  calibration P R parent prefix correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
+  calibration P R parent «prefix» correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
     pattern sector remaining budget inverse left right geometry index hone hroot hemb
     (S.extractedRow C q.val.val) (S.factor_nonunitClass C pattern q.val) q.property
 
@@ -227,12 +227,12 @@ def actualNegativeCalibration (S : ActualSecondCorrelationRows A σ H ι)
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
     (hemb : P.arithmetic.embedding = σ)
     (q : PatternSector P S C pattern sector) :
-    (movingSourceCharacters parent correction prefix remaining index).Calibration (σ := σ)
-      (childData P R parent prefix correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
+    (movingSourceCharacters parent correction «prefix» remaining index).Calibration (σ := σ)
+      (childData P R parent «prefix» correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
         pattern sector remaining budget inverse left right geometry index) rfl
       (S.extractedRow C q.val.val).momentIdeal (-(S.factor C q.val.val.val))
       (S.extractedRow C q.val.val).element :=
-  negativeCalibration P R parent prefix correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
+  negativeCalibration P R parent «prefix» correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
     pattern sector remaining budget inverse left right geometry index hone hroot hemb
     (S.extractedRow C q.val.val) (S.factor_nonunitClass C pattern q.val) q.property
 
@@ -242,12 +242,12 @@ def actualAllocatedCalibration (S : ActualSecondCorrelationRows A σ H ι)
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
     (hemb : P.arithmetic.embedding = σ)
     (q : PatternSector P S C pattern sector) :
-    ((movingSourceCharacters parent correction prefix remaining index).restrictSlots B.keep).Calibration (σ := σ)
-      ((childData P R parent prefix correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
+    ((movingSourceCharacters parent correction «prefix» remaining index).restrictSlots B.keep).Calibration (σ := σ)
+      ((childData P R parent «prefix» correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
         pattern sector remaining budget inverse left right geometry index).restrictSlots B.keep) rfl
       (S.extractedRow C q.val.val).momentIdeal (S.factor C q.val.val.val)
       (S.extractedRow C q.val.val).element :=
-  (actualCalibration P R parent prefix correction hcorr C pattern sector remaining budget
+  (actualCalibration P R parent «prefix» correction hcorr C pattern sector remaining budget
     inverse left right geometry index S hone hroot hemb q).restricted B.keep
 
 def actualNegativeAllocatedCalibration (S : ActualSecondCorrelationRows A σ H ι)
@@ -256,12 +256,12 @@ def actualNegativeAllocatedCalibration (S : ActualSecondCorrelationRows A σ H �
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
     (hemb : P.arithmetic.embedding = σ)
     (q : PatternSector P S C pattern sector) :
-    ((movingSourceCharacters parent correction prefix remaining index).restrictSlots B.keep).Calibration (σ := σ)
-      ((childData P R parent prefix correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
+    ((movingSourceCharacters parent correction «prefix» remaining index).restrictSlots B.keep).Calibration (σ := σ)
+      ((childData P R parent «prefix» correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity
         pattern sector remaining budget inverse left right geometry index).restrictSlots B.keep) rfl
       (S.extractedRow C q.val.val).momentIdeal (-(S.factor C q.val.val.val))
       (S.extractedRow C q.val.val).element :=
-  (actualNegativeCalibration P R parent prefix correction hcorr C pattern sector remaining budget
+  (actualNegativeCalibration P R parent «prefix» correction hcorr C pattern sector remaining budget
     inverse left right geometry index S hone hroot hemb q).restricted B.keep
 
 end ActualIndices
@@ -277,7 +277,7 @@ def movingRecipe
     (geometries : X → SlotGeometry K)
     (indices : ∀ ξ, Fin (geometries ξ).slotCount → Fin parent.geometry.slotCount) :
     CompleteMovingRowRecipe A P R (fun ξ =>
-      childData P R parent prefix correction hcorr C primes m n pattern sector remaining budget
+      childData P R parent «prefix» correction hcorr C primes m n pattern sector remaining budget
         (inverseTests ξ) (leftTests ξ) (rightTests ξ) (geometries ξ) (indices ξ)) :=
   CanonicalOriginalChildData.recipe parent
     (prefix.append (secondOriginalMovingFactors P R C primes m n pattern))
@@ -290,7 +290,7 @@ theorem movingRecipe_fullJointBudget
     (geometries : X → SlotGeometry K)
     (indices : ∀ ξ, Fin (geometries ξ).slotCount → Fin parent.geometry.slotCount)
     (Z width : ℝ) :
-    (movingRecipe P R parent prefix correction hcorr C primes m n pattern sector remaining
+    (movingRecipe P R parent «prefix» correction hcorr C primes m n pattern sector remaining
       (Z ^ width) inverseTests leftTests rightTests geometries indices).FullJointBudget Z width := by
   intro ξ u hu
   exact hu.2
@@ -310,12 +310,12 @@ variable (hslot : ∀ i, CanonicalLogProfiles.PositivePrimeProfile (geometry.slo
 The original moving list, theta family, background, complete quotient
 row and every mask are independent of the Fourier parameter. -/
 theorem childData_logProfiles_eq (ξ : V) :
-    childData P R parent prefix correction hcorr C primes m n pattern sector remaining budget
+    childData P R parent «prefix» correction hcorr C primes m n pattern sector remaining budget
       inverse (leftAtom.idealTest left hleft ξ) (rightAtom.idealTest right hright ξ)
       { slotCount := geometry.slotCount
         slots i := (slotAtom i).primeWindow (geometry.slots i) (hslot i) ξ } index =
       CanonicalLogProfiles.data
-        (childData P R parent prefix correction hcorr C primes m n pattern sector remaining budget
+        (childData P R parent «prefix» correction hcorr C primes m n pattern sector remaining budget
           inverse left right geometry index)
         leftAtom rightAtom slotAtom hleft hright hslot ξ := rfl
 

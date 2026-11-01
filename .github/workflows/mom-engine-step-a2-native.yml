@@ -72,7 +72,7 @@ jobs:
           print(f'{phase}: {record["head"]} tree={record["tree"]}; {len(tracked)} tracked files, {len(sources)} task modules, {len(libraries)} libraries')
           PY
           cat > a2-native/run.py <<'PY'
-          import datetime, json, subprocess, sys, time
+          import datetime, json, re, subprocess, sys, time
           from pathlib import Path
           name, seconds, *command = sys.argv[1:]
           evidence = Path('a2-native')
@@ -82,12 +82,23 @@ jobs:
           receipt = evidence / (name + '-result.json')
           receipt.write_text(json.dumps(record, indent=2) + '\n')
           start = time.monotonic()
+          compact = name == 'dependencies'
+          show_block = not compact
           with (evidence / (name + '-console.log')).open('w') as log:
               process = subprocess.Popen(wrapper, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
               for line in process.stdout:
                   log.write(line)
                   log.flush()
-                  print(line, end='', flush=True)
+                  if compact:
+                      clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                      if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                          show_block = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP' in clean or clean.startswith('✖')
+                      elif re.match(r'^(error|warning|info):', clean):
+                          show_block = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean or clean.startswith('error:')
+                      elif clean.startswith('Some required targets logged failures:'):
+                          show_block = True
+                  if show_block:
+                      print(line, end='', flush=True)
               code = process.wait()
           record.update(completed=True, exit_code=code, elapsed_seconds=time.monotonic() - start,
                         finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
@@ -114,10 +125,26 @@ jobs:
       - name: Restore precompiled project artifacts
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
       - name: Build the original import closure separately
+        id: dependencies
         run: |
           python3 -u a2-native/run.py dependencies 1200 \
             lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves:deps
+      - name: Collect bounded reversible diagnostic evidence only
+        id: diagnostic
+        continue-on-error: true
+        run: |
+          python3 -u .github/scripts/mom-engine-step-a2-diagnostic.py \
+            --repo "$GITHUB_WORKSPACE" --evidence a2-native/diagnostic --run
+      - name: Upload diagnostic evidence before original native verification
+        if: ${{ always() && steps.dependencies.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: a2-actual-diagnostic-${{ github.sha }}-${{ github.run_attempt }}
+          path: a2-native/diagnostic/
+          if-no-files-found: error
+          retention-days: 14
       - name: Compile the original module and freshly audit every loaded task declaration
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
         run: |
           python3 -u a2-native/run.py verification 1200 \
             python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \

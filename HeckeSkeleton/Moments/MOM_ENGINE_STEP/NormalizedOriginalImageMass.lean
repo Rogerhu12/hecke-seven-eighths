@@ -142,8 +142,14 @@ theorem original_direct_image_kernel_mass
     L.carrier hadmissible (L.rectangleIndex families) hweight
   intro j
   have hfour := activeCombine_rectangle_fibre_le families L.index j
-    (Cfiber * profile ^ dFiber * Z ^ (ε / 4)) (hfibre j)
-  simpa only [OriginalArithmeticLabels.rectangleIndex, mul_assoc] using hfour
+    (Cfiber * profile ^ dFiber * Z ^ (ε / 4)) (by
+      convert hfibre j using 1 <;> congr 2 <;> ext i <;>
+        simp only [Finset.mem_filter, Finset.mem_univ])
+  have hscale : 4 * (Cfiber * profile ^ dFiber * Z ^ (ε / 4)) =
+      (4 * Cfiber) * profile ^ dFiber * Z ^ (ε / 4) := by ring
+  convert hfour.trans_eq hscale using 1 <;> congr 2 <;> ext b <;>
+    simp only [Finset.mem_filter, Finset.mem_univ,
+      OriginalArithmeticLabels.rectangleIndex]
 
 /-- The amplified image uses the original prime and valuation tag. Its
 moving norm is already inside amplifiedIndexWeight, so the pointwise
@@ -216,7 +222,11 @@ theorem original_amplified_image_kernel_mass
   have hfour := activeCombine_rectangle_fibre_le families
     (L.amplifiedIndex tag pool tag_mem) j
     (Cfiber * profile ^ dFiber * Z ^ (ε / 4)) (hfibre j)
-  simpa only [OriginalArithmeticLabels.rectangleAmplifiedIndex, mul_assoc] using hfour
+  have hscale : 4 * (Cfiber * profile ^ dFiber * Z ^ (ε / 4)) =
+      (4 * Cfiber) * profile ^ dFiber * Z ^ (ε / 4) := by ring
+  convert hfour.trans_eq hscale using 1 <;> congr 2 <;> ext b <;>
+    simp only [Finset.mem_filter, Finset.mem_univ,
+      OriginalArithmeticLabels.rectangleAmplifiedIndex]
 
 end InternalMassAssembly
 end HeckeSkeleton.Moments.EngineStep
