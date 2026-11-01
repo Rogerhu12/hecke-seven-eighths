@@ -35,7 +35,7 @@ def actualPrimeWindow (Z T : ℝ) (i : SourceMomentIndexFor K c Source Z T)
     (s : SixthUnitClasses K (places K c))
     (j : Fin (pairedModelFor Models i s).geometry.slotCount) : SchwartzMap ℝ ℂ :=
   MellinWindow.frozen (actualPrimeWindowSchwartz c.geometry (selectedSlotIndex i.selected j))
-    ((Models).heights Z T i 2)
+    ((Models).heights Z T i (2 : Fin 6))
 
 theorem actualPrimeWindow_eq (Z T : ℝ) (i : SourceMomentIndexFor K c Source Z T)
     (s : SixthUnitClasses K (places K c))
@@ -63,8 +63,9 @@ theorem actualPrimeWindow_uniform_seminorm (seminorms : Finset (ℕ × ℕ)) :
   intro Z T i s j _hZ _hT
   have hheight := ((recipeMomentModels_geometry K c (expansionRecipeRaw K c)
     (expansionRecipeRaw_geometry K c)).2 Z T i).1
-  have ht : |(Models).heights Z T i 2| ≤ T := by
-    simpa only [Real.norm_eq_abs] using (norm_le_pi_norm ((Models).heights Z T i) 2).trans hheight
+  have ht : |(Models).heights Z T i (2 : Fin 6)| ≤ T := by
+    simpa only [Real.norm_eq_abs] using
+      (norm_le_pi_norm ((Models).heights Z T i) (2 : Fin 6)).trans hheight
   rw [Real.rpow_natCast]
   exact (hb _ _).trans (mul_le_mul_of_nonneg_left
     (pow_le_pow_left₀ (by positivity) (add_le_add_left ht 1) m) (zero_le_one.trans hC))

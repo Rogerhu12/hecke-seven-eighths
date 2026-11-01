@@ -68,6 +68,7 @@ theorem sixthPowerFreePart_norm_le (u : NonzeroIdeal K) :
     idealNorm K (sixthPowerFreePart u) ≤ idealNorm K u := by
   have hd := map_dvd Ideal.absNorm (sixthPowerFreePart_dvd u)
   have hn := Nat.le_of_dvd (Ideal.absNorm_pos_of_nonZeroDivisors u) hd
+  change ((sixthPowerFreePart u).val.absNorm : ℝ) ≤ (u.val.absNorm : ℝ)
   exact_mod_cast hn
 
 /-- A fixed linear conductor constant works for every complete paired row.
