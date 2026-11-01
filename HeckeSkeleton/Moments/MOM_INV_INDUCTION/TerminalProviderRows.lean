@@ -127,10 +127,12 @@ end Data
 variable (K S)
 
 theorem norm_one_le (I : Ext) : 1 ≤ exteriorNorm K Sset I := by
-  exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors I.val
+  change (1 : ℝ) ≤ (I.val.val.absNorm : ℝ)
+  exact_mod_cast Nat.succ_le_of_lt (Ideal.absNorm_pos_of_nonZeroDivisors I.val)
 
 theorem powerful_norm_le (I : Ext) :
     exteriorNorm K Sset (exteriorPowerfulPart K Sset I) ≤ exteriorNorm K Sset I := by
+  change ((powerfulPart I.val).val.absNorm : ℝ) ≤ (I.val.val.absNorm : ℝ)
   exact_mod_cast Nat.le_of_dvd (Ideal.absNorm_pos_of_nonZeroDivisors I.val)
     (map_dvd Ideal.absNorm (powerfulPart_dvd I.val))
 
@@ -276,14 +278,20 @@ theorem Data.energy_eq_fibers (D : ThetaArithmeticData K Sset)
     (fun k hk => norm_one_le K S _) (fun k hk => (powerful_norm_le K S k).trans (hrows k hk))]
   apply Finset.sum_congr rfl
   intro j hj
+  change (∑ k ∈ x.powerfulRows j, ‖x.value D θ W Z k‖ ^ 2) = _
   rw [sum_rows_eq_pairs_residualRows K Sset x.label x.puncture (x.powerfulRows j)]
   apply Finset.sum_congr rfl
   intro p hp
+  change (∑ a ∈ x.movingRows j p, ‖x.value D θ W Z (reconstruct K Sset p a)‖ ^ 2) = _
   rw [CubeCompletionBlocks.sum_eq_blocks (x.movingRows j p) (exteriorNorm K Sset)
     (Z ^ x.rowLength) (fun a ha => norm_one_le K S a)
     (x.movingRows_bound j p _ hrows)]
   apply Finset.sum_congr rfl
   intro l hl
+  change (∑ a ∈ CubeCompletionBlocks.block (x.movingRows j p) (exteriorNorm K Sset) l,
+      ‖x.value D θ W Z (reconstruct K Sset p a)‖ ^ 2) =
+    ∑ a ∈ CubeCompletionBlocks.block (x.movingRows j p) (exteriorNorm K Sset) l,
+      ‖(x.fiberData Z j p l).value D θ W Z a‖ ^ 2
   apply Finset.sum_congr rfl
   intro a ha
   rw [x.value_reconstruct D hD θ W Z j p l a]
@@ -345,7 +353,10 @@ theorem Data.pair_count_bound (x : Data K S σ)
             (exteriorNorm_pos K Sset x.label).le (by positivity)) hx.puncture_bound
           (exteriorNorm_pos K Sset x.puncture).le (by positivity)
       _ = _ := by rw [Real.rpow_add hZp, Real.rpow_add hZp]; ring
-  have hipow := Real.rpow_le_rpow (by positivity) hi hdelta
+  have hipow := Real.rpow_le_rpow
+    (mul_nonneg (mul_nonneg (mul_nonneg (by norm_num)
+      (CubeCompletionBlocks.scale_pos j).le) (exteriorNorm_pos K Sset x.label).le)
+      (exteriorNorm_pos K Sset x.puncture).le) hi hdelta
   rw [Real.mul_rpow (by norm_num : (0 : ℝ) ≤ 2)
     (Real.rpow_nonneg hZp.le _), ← Real.rpow_mul hZp.le] at hipow
   calc
@@ -424,7 +435,7 @@ theorem exists_uniform_completed_energy
       (hdyads (Z ^ x.rowLength) hrow1) 2
     rw [mul_pow, ← Real.rpow_mul_natCast (Real.rpow_nonneg hZp.le _),
       ← Real.rpow_mul hZp.le] at hb
-    simpa only [n, mul_assoc, mul_left_comm, mul_comm] using hb
+    simpa only [n, Nat.cast_ofNat, mul_assoc, mul_left_comm, mul_comm] using hb
   have hblock (j : ℕ) (hj : j ∈ Finset.range n) :
       (∑ p ∈ x.pairs j, ∑ l ∈ Finset.range n,
         (x.fiberData Z j p l).energy D θ W Z) ≤

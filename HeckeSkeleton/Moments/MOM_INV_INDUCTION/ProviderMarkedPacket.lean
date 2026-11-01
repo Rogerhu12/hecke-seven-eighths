@@ -68,8 +68,9 @@ theorem subset_card (J : Finset (Fin s.count)) : J.card ≤ slotCap := by
 
 theorem residual_sum (J : Finset (Fin s.count)) :
     (∑ i, s.residualLength J i) = z - s.commonLength J := by
-  rw [residualLength, remaining_sum, s.length_sum]
-  rfl
+  change (∑ i : Fin (remaining J).card, s.length (slot (remaining J) i)) =
+    z - ∑ i ∈ J, s.length i
+  rw [remaining_sum, s.length_sum]
 
 theorem residual_disjoint (J : Finset (Fin s.count)) :
     Pairwise (Disjoint on s.residualLists J) :=
