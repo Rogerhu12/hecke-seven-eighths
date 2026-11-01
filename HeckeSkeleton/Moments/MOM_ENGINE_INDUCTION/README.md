@@ -250,7 +250,7 @@ separately: it retains the baseline's sibling proofs and adds the three
 actual induction calls and the corresponding `plainSource` adjustment.
 
 The `PRODUCER_REPAIRS` registry records the owner commit, original SHA256,
-repair SHA256, and reason for each of the 41 local STEP repair files. It
+repair SHA256, and reason for each of the 46 local STEP repair files. It
 includes the concrete native diagnostics at the owner pin, along with declaration
 parameters already supplied by actual callers and corrected doc-comment
 placement around `include` commands. The underlying original atoms,
@@ -273,6 +273,26 @@ the otherwise unconstrained field universe, as in the existing
 `ParentArithmeticAtoms` consumer. The orbit and Fourier-space parameters
 retain their arbitrary universes, and the profile identities and both
 moving-row budgets are unchanged.
+
+The two factory-fibre modules and their two global-mass consumers provide
+uniquely named local `Fintype.ofFinite` instances for the original
+`SixthUnitClasses` quotient. Its finite proof is already supplied by
+`GlobalThetaData`; no public finiteness assumption, carrier, cardinality
+formula, or mass constant is changed. The two factory files match the
+published STEP repair `ed52f87c0805a0836bfc62496b65d158b09e0330` exactly.
+All four files also match the subsequent owner candidate
+`3f9458433d29131b29bb72202badbee49c715d82` byte for byte.
+
+`CanonicalFullKappaPrime.lean` addresses native diagnostics from STEP run
+`41299915844` against the same original file. The uniform Mellin provider
+is instantiated at the actual `Type 0` prime carrier in all five existing
+choice/specification uses; `orders` and `analyticCoefficient` remain
+parameter-free choices made before the field, characters, and profiles.
+The two prime-divisibility binders spell out their original
+`HeightOneSpectrum (𝓞 K)` type. The remaining changes explicitly transport
+the same profile support, seminorm, endpoint and radius expressions,
+coprimality, and ideal norm. No analytic input, full-kappa interval,
+physical mask, or numerical estimate is changed.
 
 In particular, the original `ScaleWindows` certificate, raw profile control,
 centered parent domain, original length/normalization allowance window,

@@ -1246,6 +1246,34 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                     'actual producer data '
                                                                                     'and output.',
                                                                           'repair_sha256': '16260c7162879a200dc049788e5ca0e7e21e7db1ca6d7c7f0d76a4e49fcf398c'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalFullKappaPrime.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                        'owner_sha256': 'b2b7f119bfc19065a1243efe8f7fd0c577bf832f383cf65d1d446ce6dbd786f0',
+                                                                        'reason': 'Native STEP run '
+                                                                                  '41299915844 diagnoses '
+                                                                                  'this exact owner source: '
+                                                                                  'fix five uniform Mellin '
+                                                                                  'provider references at '
+                                                                                  'the existing Type 0 prime '
+                                                                                  'carrier without changing '
+                                                                                  'the parameter-free '
+                                                                                  'orders/coefficient '
+                                                                                  'choices or their order; '
+                                                                                  'annotate the two original '
+                                                                                  'HeightOneSpectrum '
+                                                                                  'binders, supply seminorm '
+                                                                                  'and field parameters, '
+                                                                                  'transport the original '
+                                                                                  'profile support by '
+                                                                                  'function equality, unfold '
+                                                                                  'the same endpoint/radius '
+                                                                                  'wrappers, and use the '
+                                                                                  'actual coprimality/ideal '
+                                                                                  'norm APIs. The original '
+                                                                                  'full-kappa estimates, '
+                                                                                  'profile, mask, analytic '
+                                                                                  'inputs, and numerical '
+                                                                                  'bounds are unchanged.',
+                                                                        'repair_sha256': '3d083ce477c419e1263ee857c36c27a90eea4ee7e61ccd86e478531e6a500db4'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalHybridMass.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                     'owner_sha256': '2ba33975011973aebfa9558f7ce3c7cb1449d2dd93c8ebff04358b90ba5ecb0a',
                                                                     'reason': 'CI74/75: explicitly prove '
@@ -1411,6 +1439,48 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                                  'data and '
                                                                                                  'output.',
                                                                                        'repair_sha256': '45258ed40855bac155406762930b7e7c4553b4546cc93dcacd16025ef6e17115'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPrimitiveDirectGlobalMass.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                                          'owner_sha256': '925a6817d68dd5f694409d54607c1f37073633e801c10f63bc03301662ab9228',
+                                                                                          'reason': 'Exact '
+                                                                                                    'published '
+                                                                                                    'STEP '
+                                                                                                    'repair '
+                                                                                                    '3f9458433d29131b29bb72202badbee49c715d82 '
+                                                                                                    'source: '
+                                                                                                    'install '
+                                                                                                    'a '
+                                                                                                    'uniquely '
+                                                                                                    'named '
+                                                                                                    'local '
+                                                                                                    'Fintype.ofFinite '
+                                                                                                    'for the '
+                                                                                                    'original '
+                                                                                                    'SixthUnitClasses '
+                                                                                                    'quotient '
+                                                                                                    'in the '
+                                                                                                    'consuming '
+                                                                                                    'module, '
+                                                                                                    'since '
+                                                                                                    'imported '
+                                                                                                    'local '
+                                                                                                    'instances '
+                                                                                                    'do not '
+                                                                                                    'export. '
+                                                                                                    'Its '
+                                                                                                    'Finite '
+                                                                                                    'proof '
+                                                                                                    'already '
+                                                                                                    'exists; '
+                                                                                                    'physical '
+                                                                                                    'constants, '
+                                                                                                    'cardinality '
+                                                                                                    'formulae, '
+                                                                                                    'and '
+                                                                                                    'public '
+                                                                                                    'inputs '
+                                                                                                    'are '
+                                                                                                    'unchanged.',
+                                                                                          'repair_sha256': 'e15218639c790c1d687c3bd7e15fb29773f1da12b4aa47b62550288b7e14432f'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPrimitiveFirstSource.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                                      'owner_sha256': 'fcddfd5741028e9f2064df460826a83c9fe50aa4b184f8b2a86449ef49ff2895',
                                                                                      'reason': 'Restore '
@@ -1431,6 +1501,48 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                                'data and '
                                                                                                'output.',
                                                                                      'repair_sha256': 'a7142dd19092e35a021d1bc10492841014bcc889d8694448033c0297191d6ff8'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPrimitivePooledGlobalMass.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                                          'owner_sha256': '62f5a4a3f6679eb6154458406164f13e9181c0b9c3a174987ba6ac56d83a3997',
+                                                                                          'reason': 'Exact '
+                                                                                                    'published '
+                                                                                                    'STEP '
+                                                                                                    'repair '
+                                                                                                    '3f9458433d29131b29bb72202badbee49c715d82 '
+                                                                                                    'source: '
+                                                                                                    'install '
+                                                                                                    'a '
+                                                                                                    'uniquely '
+                                                                                                    'named '
+                                                                                                    'local '
+                                                                                                    'Fintype.ofFinite '
+                                                                                                    'for the '
+                                                                                                    'original '
+                                                                                                    'SixthUnitClasses '
+                                                                                                    'quotient '
+                                                                                                    'in the '
+                                                                                                    'consuming '
+                                                                                                    'module, '
+                                                                                                    'since '
+                                                                                                    'imported '
+                                                                                                    'local '
+                                                                                                    'instances '
+                                                                                                    'do not '
+                                                                                                    'export. '
+                                                                                                    'Its '
+                                                                                                    'Finite '
+                                                                                                    'proof '
+                                                                                                    'already '
+                                                                                                    'exists; '
+                                                                                                    'physical '
+                                                                                                    'constants, '
+                                                                                                    'cardinality '
+                                                                                                    'formulae, '
+                                                                                                    'and '
+                                                                                                    'public '
+                                                                                                    'inputs '
+                                                                                                    'are '
+                                                                                                    'unchanged.',
+                                                                                          'repair_sha256': '5aeddfd4ad19cfb1d841c256aade2e29c66da24c21e43f7757d7ed60d168523f'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralScaleProduct.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                              'owner_sha256': 'cf99114b0b127c903027cd423ea5b099c3ab459a0642df4afa8ee60f64dc1aff',
                                                                              'reason': 'Restore primitive '
@@ -1756,6 +1868,48 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                   'consumers already supply '
                                                                                   'this original domain.',
                                                                         'repair_sha256': 'b834d9bebdc59790b5d0dd17760e846daabe44f169cab7a820ec0b66dd7ffcb3'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/PrimitiveDirectFactoryFibres.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                             'owner_sha256': 'c0a35e598f644287fa0f3ad1185ca04294ee1c9118049dfc9d471188d9f98096',
+                                                                             'reason': 'Exact published STEP '
+                                                                                       'repair '
+                                                                                       'ed52f87c0805a0836bfc62496b65d158b09e0330 '
+                                                                                       'source: provide a '
+                                                                                       'uniquely named local '
+                                                                                       'Fintype.ofFinite '
+                                                                                       'instance for the '
+                                                                                       'original '
+                                                                                       'SixthUnitClasses '
+                                                                                       'quotient, using its '
+                                                                                       'existing '
+                                                                                       'GlobalThetaData '
+                                                                                       'Finite proof. Keep '
+                                                                                       'the original PUnit '
+                                                                                       'product, fibre '
+                                                                                       'cardinality, index, '
+                                                                                       'and public '
+                                                                                       'hypotheses.',
+                                                                             'repair_sha256': '7b6b6c99d2e54c6d3ec9f1d65bcd00c9a7375f3256de7360a205627c2a92e899'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/PrimitivePooledFactoryFibres.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                             'owner_sha256': '714f33a26d32da5bd46b8c7ff3ca7db217ebf30ebfd366eb9e6b7d95c04b9889',
+                                                                             'reason': 'Exact published STEP '
+                                                                                       'repair '
+                                                                                       'ed52f87c0805a0836bfc62496b65d158b09e0330 '
+                                                                                       'source: provide a '
+                                                                                       'uniquely named local '
+                                                                                       'Fintype.ofFinite '
+                                                                                       'instance for the '
+                                                                                       'original '
+                                                                                       'SixthUnitClasses '
+                                                                                       'quotient, using its '
+                                                                                       'existing '
+                                                                                       'GlobalThetaData '
+                                                                                       'Finite proof. Keep '
+                                                                                       'the original PUnit '
+                                                                                       'product, fibre '
+                                                                                       'cardinality, index, '
+                                                                                       'and public '
+                                                                                       'hypotheses.',
+                                                                             'repair_sha256': '79759ea2c9feef879c966074438857e9d971117443128c44483d93d12b61949d'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/SixthDeletionCapacity.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                       'owner_sha256': '5e5b9001fde21d997b8dddb5b8c0add77d3dbd1029ec3b5ffa06a8cb498cec89',
                                                                       'reason': 'CI75: join four field '
