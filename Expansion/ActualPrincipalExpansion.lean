@@ -43,7 +43,8 @@ private theorem actual_quarterGaussian_rapid (N : ℕ) (H : ℝ) (hH : 1 ≤ H) 
   have hm : H ^ N * Real.exp (-(1 / 4 : ℝ) * H ^ 2) ≤
       (2 : ℝ) ^ N * HighBinBoundary.gaussianMoment N := by
     apply (mul_le_mul_of_nonneg_right hp (Real.exp_nonneg _)).trans
-    exact (mul_le_mul_of_nonneg_left hg (by positivity)).trans_eq (by ring)
+    simpa only [mul_assoc] using
+      (mul_le_mul_of_nonneg_left hg (show (0 : ℝ) ≤ (2 : ℝ) ^ N by positivity))
   rw [Real.rpow_neg hH0, Real.rpow_natCast, ← div_eq_mul_inv]
   exact (le_div_iff₀ (pow_pos hHpos N)).mpr (by simpa only [mul_comm] using hm)
 
@@ -67,7 +68,7 @@ theorem actualPrincipal_main_tail
   apply (hb Z H hZ (by linarith)).trans
   have hh := mul_le_mul_of_nonneg_left (actual_quarterGaussian_rapid N H hH)
     (show 0 ≤ C * Z ^ (B + e - 11 / 16) by positivity)
-  simpa only [Real.rpow_zero, mul_one, mul_assoc, mul_left_comm, mul_comm] using hh
+  simpa only [Real.rpow_zero, mul_one, one_mul, mul_assoc, mul_left_comm, mul_comm] using hh
 
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
