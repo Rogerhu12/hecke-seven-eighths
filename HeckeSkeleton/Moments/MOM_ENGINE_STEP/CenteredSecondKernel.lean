@@ -40,6 +40,15 @@ theorem kernelDivisorCoefficient_sub
   unfold kernelDivisorCoefficient
   split_ifs <;> ring
 
+private theorem kernelDivisorCoefficient_sub_function
+    (I : α → Ideal (𝓞 K)) (L : Ideal (𝓞 K)) (c d phase : α → ℂ)
+    (χ : α → H → ℂ) :
+    kernelDivisorCoefficient I L (fun i => c i - d i) phase χ =
+      fun h i => kernelDivisorCoefficient I L c phase χ h i -
+        kernelDivisorCoefficient I L d phase χ h i := by
+  funext h i
+  exact kernelDivisorCoefficient_sub I L c d phase χ h i
+
 /-- A paired finite column estimate, with the same complete row weight
 in all four resulting rectangles. -/
 theorem joint_centered_cauchy_measure_bound
@@ -75,9 +84,13 @@ theorem joint_centered_cauchy_measure_bound
     apply (mul_le_mul hl hr (Real.sqrt_nonneg _)
       (add_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))).trans_eq
     dsimp only [E]
+    simp only [Pi.add_apply]
     ring
-  rw [integral_add (((hi c₀ d₀).add (hi c₀ d₁)).add (hi c₁ d₀)) (hi c₁ d₁),
-    integral_add ((hi c₀ d₀).add (hi c₀ d₁)) (hi c₁ d₀),
+  rw [integral_add
+      (f := fun z => E c₀ d₀ z + E c₀ d₁ z + E c₁ d₀ z) (g := E c₁ d₁)
+      (((hi c₀ d₀).add (hi c₀ d₁)).add (hi c₁ d₀)) (hi c₁ d₁),
+    integral_add (f := fun z => E c₀ d₀ z + E c₀ d₁ z) (g := E c₁ d₀)
+      ((hi c₀ d₀).add (hi c₀ d₁)) (hi c₁ d₀),
     integral_add (hi c₀ d₀) (hi c₀ d₁)] at hb
   exact hb
 
@@ -113,7 +126,7 @@ theorem actual_measured_centered_kernel_bound
   intro χ _
   simp only [← mul_add]
   apply mul_le_mul_of_nonneg_left _ (norm_nonneg _)
-  simp_rw [kernelDivisorCoefficient_sub, star_sub]
+  simp_rw [kernelDivisorCoefficient_sub_function, star_sub]
   exact joint_centered_cauchy_measure_bound μ R.rows left right
     (fun h => R.weight h * R.correlation h)
     (kernelDivisorCoefficient (fun i => (IA i).val) L c₀
@@ -156,19 +169,17 @@ theorem actual_measured_kernel_congr_coefficients
   unfold actualMeasuredSecondKernelCost
   apply Finset.sum_congr rfl
   intro L _
-  congr 1
+  apply congrArg (fun z : ℝ => ‖(moebius L : ℂ)‖ * z)
   apply Finset.sum_congr rfl
   intro χ _
-  congr 1
+  apply congrArg (fun z : ℝ => ‖fixedPhaseCoefficient Ray phaseTable χ‖ * z)
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun z => by
-    congr 1
-    · congr 1
-      apply he
+    apply congrArg₂ (fun a b : ℝ => Real.sqrt a * Real.sqrt b)
+    · apply he
       intro h _ i hi
       simp only [kernelDivisorCoefficient, hc i hi]
-    · congr 1
-      apply he
+    · apply he
       intro h _ j hj
       simp only [kernelDivisorCoefficient, hf j hj]
 

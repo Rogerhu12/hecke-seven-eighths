@@ -24,6 +24,7 @@ open MeasureTheory
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
+open UniqueFactorizationMonoid DedekindZetaZeroFree.LargeSieve
 open HeckePort.Moments HeckePort.Moments.Support
 open HeckePort.Moments.MobiusRegroup HeckePort.IdealMobiusDivisorSum
 

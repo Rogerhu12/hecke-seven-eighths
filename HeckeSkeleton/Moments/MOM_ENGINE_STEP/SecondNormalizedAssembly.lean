@@ -27,7 +27,8 @@ variable {F : Type} [Field F] [NumberField F]
 variable {A : SArithmeticData F} {σ : F →+* ℂ}
 variable {η : RayClassCharacter F A.modulus} {hS : A.ContainsTraceBadPlaces}
 variable {Ray : Type*} [CommGroup Ray] [Fintype Ray]
-variable {V H ι : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
+variable {H : Type}
+variable {V ι : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
   [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
   [Fintype ι] [DecidableEq ι]
 variable {k l : ℕ} {ω ψ : HeckeCharacter F}
@@ -133,7 +134,7 @@ theorem secondNormalizedPairFamily_sourcePair (parentWidth : ℝ) (z : Labels) (
         (fun h => rawSourceLocation (y₁ h) (y₂ h) (y h)) ξ / Z ^ parentWidth := by
   rw [z.val.pairEnergy_identified _ IA PL PR (LC z) (RC z) (DL z) (DR z)
     (hidentL z) (hidentR z)]
-  rw [secondAllocationLabel_pair_eq_actual_sources
+  rw [secondAllocationLabel_pair_eq_actual_sources Ray
     (R.restrictRows (fun h => ¬ Q.exceptional h)) C hS₁ hS₂ hT₁ hT₂ z
     (LC z) (RC z) (DL z) (DR z) (hbaseL z) (hlengthL z) (hbaseR z) (hlengthR z)
     IA hIA hIB PL.leftNormalizer PL.rightNormalizer PR.leftNormalizer PR.rightNormalizer

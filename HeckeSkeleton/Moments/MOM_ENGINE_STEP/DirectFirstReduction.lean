@@ -55,11 +55,30 @@ theorem first_gauss_direct_integral_bound {H ι κ : Type*}
         ∫ ξ, (right.directSource
             (FirstGaussPoolData.twistedCoefficient d (fun j => -y j) ξ)).energy hDiff / NR
           ∂actualFourierMeasure F) := by
-  borelize V
-  have hold := joint_kernel_energy_integrable F rows left.columns right.columns q
-    (fun h i => c i * left.gaussColumn hDiff i (frequencyLeft h))
-    (fun h j => star (d j * right.gaussColumn hDiff j (frequencyRight h)))
-    (fun (_ : H) i => (0 : V) + x i) (fun _ j => y j)
+  let cL : H → ι → ℂ := fun h i => c i * left.gaussColumn hDiff i (frequencyLeft h)
+  let cR : H → κ → ℂ := fun h j => star (d j * right.gaussColumn hDiff j (frequencyRight h))
+  let xL : H → ι → V := fun _ i => (0 : V) + x i
+  let xR : H → κ → V := fun _ j => y j
+  letI : IsFiniteMeasure (actualFourierMeasure F) := actualFourierMeasure_finite F
+  have hold : Integrable (fun ξ : V =>
+      Real.sqrt (jointColumnEnergy rows left.columns q cL xL ξ) *
+        Real.sqrt (jointColumnEnergy rows right.columns q cR xR ξ))
+      (actualFourierMeasure F) := by
+    have hc := (Real.continuous_sqrt.comp
+      (continuous_jointColumnEnergy rows left.columns q cL xL)).mul
+      (Real.continuous_sqrt.comp
+        (continuous_jointColumnEnergy rows right.columns q cR xR))
+    apply Integrable.of_bound hc.aestronglyMeasurable
+      (Real.sqrt (jointColumnMass rows left.columns q cL) *
+        Real.sqrt (jointColumnMass rows right.columns q cR))
+    exact Filter.Eventually.of_forall fun ξ => by
+      rw [Real.norm_eq_abs,
+        abs_of_nonneg (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))]
+      exact mul_le_mul
+        (Real.sqrt_le_sqrt (jointColumnEnergy_le_mass rows left.columns q cL xL ξ))
+        (Real.sqrt_le_sqrt (jointColumnEnergy_le_mass rows right.columns q cR xR ξ))
+        (Real.sqrt_nonneg _) (Real.sqrt_nonneg _)
+  dsimp only [cL, cR, xL, xR] at hold
   simp_rw [joint_energy_gauss_rows, joint_energy_conjugate_gauss_rows,
     ← jointPhase_neg] at hold
   simp_rw [← jointPhase_neg]
@@ -71,7 +90,6 @@ theorem first_gauss_direct_integral_bound {H ι κ : Type*}
     (left.direct_twisted_integrable (hDiff := hDiff) F c x).div_const NL
   have hR : Integrable R (actualFourierMeasure F) :=
     (right.direct_twisted_integrable (hDiff := hDiff) F d (fun j => -y j)).div_const NR
-  have hm : Measurable (fun ξ : V => ENNReal.ofReal ‖(𝓕 F) ξ‖) := by fun_prop
   have hold' : Integrable (fun ξ =>
       Real.sqrt (weightedEnergy rows (fun h => ‖q h‖)
         (fun h => wholePolynomial left.columns
@@ -80,9 +98,7 @@ theorem first_gauss_direct_integral_bound {H ι κ : Type*}
         (fun h => wholePolynomial right.columns
           (fun j => d j * jointPhase ξ (-y j)) (right.gaussColumn hDiff) (frequencyRight h))))
       (actualFourierMeasure F) := by
-    apply (integrable_withDensity_iff_integrable_smul' hm
-      (Filter.Eventually.of_forall (fun ξ : V => ENNReal.ofReal_lt_top))).mpr
-    simpa only [ENNReal.toReal_ofReal (norm_nonneg _), smul_eq_mul] using hold
+    simpa only [wholePolynomial] using hold
   calc
     _ = ∫ ξ, Real.sqrt (weightedEnergy rows (fun h => ‖q h‖)
         (fun h => wholePolynomial left.columns

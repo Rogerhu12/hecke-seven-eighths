@@ -86,14 +86,14 @@ def exceptionalTerminalOrder
     {η : RayClassCharacter F A.modulus} {hS : A.ContainsTraceBadPlaces}
     (HL : ExceptionalVolumeControl ΨL WL₁ WL₂) (HR : ExceptionalVolumeControl ΨR WR₁ WR₂)
     (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent) : ℕ :=
-  (AllocatedExceptionalSource.centered_or_absolute_uniform (V := V) (σ := σ)
+  (AllocatedExceptionalSource.centered_or_absolute_uniform (A := A) (V := V) (σ := σ)
     HL ε maskExponent hε hmask).choose
 
 def exceptionalTerminalConstant
     {η : RayClassCharacter F A.modulus} {hS : A.ContainsTraceBadPlaces}
     (HL : ExceptionalVolumeControl ΨL WL₁ WL₂) (HR : ExceptionalVolumeControl ΨR WR₁ WR₂)
     (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent) : ℝ :=
-  (AllocatedExceptionalSource.centered_or_absolute_uniform (V := V) (σ := σ)
+  (AllocatedExceptionalSource.centered_or_absolute_uniform (A := A) (V := V) (σ := σ)
     HL ε maskExponent hε hmask).choose_spec.choose *
       (1 + 2 * HR.absoluteConstant) * idealCountConstant F
 
@@ -101,7 +101,7 @@ theorem exceptionalTerminalConstant_pos :
     0 < exceptionalTerminalConstant (V := V) (σ := σ) (η := η) (hS := hS)
       HL HR ε maskExponent hε hmask := by
   have hleft := (AllocatedExceptionalSource.centered_or_absolute_uniform
-    (V := V) (σ := σ) HL ε maskExponent hε hmask).choose_spec.choose_spec.1
+    (A := A) (V := V) (σ := σ) HL ε maskExponent hε hmask).choose_spec.choose_spec.1
   have hright : 0 < 1 + 2 * HR.absoluteConstant := by
     linarith [HR.absoluteConstant_nonneg]
   exact mul_pos (mul_pos hleft hright)
@@ -165,13 +165,13 @@ private theorem exceptionalTerminal_selected_contribution :
           slotError - divisorLower) := by
   dsimp only
   let J := (AllocatedExceptionalSource.centered_or_absolute_uniform
-    (V := V) (σ := σ) HL ε maskExponent hε hmask).choose
+    (A := A) (V := V) (σ := σ) HL ε maskExponent hε hmask).choose
   let Cleft := (AllocatedExceptionalSource.centered_or_absolute_uniform
-    (V := V) (σ := σ) HL ε maskExponent hε hmask).choose_spec.choose
+    (A := A) (V := V) (σ := σ) HL ε maskExponent hε hmask).choose_spec.choose
   have hCleft : 0 < Cleft := (AllocatedExceptionalSource.centered_or_absolute_uniform
-    (V := V) (σ := σ) HL ε maskExponent hε hmask).choose_spec.choose_spec.1
+    (A := A) (V := V) (σ := σ) HL ε maskExponent hε hmask).choose_spec.choose_spec.1
   have hleftBound := (AllocatedExceptionalSource.centered_or_absolute_uniform
-    (V := V) (σ := σ) HL ε maskExponent hε hmask).choose_spec.choose_spec.2
+    (A := A) (V := V) (σ := σ) HL ε maskExponent hε hmask).choose_spec.choose_spec.2
   let Cright := 1 + 2 * HR.absoluteConstant
   have hCright : 0 < Cright := by
     dsimp only [Cright]
@@ -373,9 +373,11 @@ theorem exceptional_magnitude_terminal_from_atoms
         rw [Real.rpow_add hz UL.exponent UR.exponent]
         ac_rfl
       _ = _ := by rw [hexponent]
-  have hb := exceptionalTerminal_selected_contribution (V := V) (σ := σ)
+  have hb := exceptionalTerminal_selected_contribution (A := A) (V := V) (σ := σ)
+    (η := η) (hS := hS)
     HL HR ε maskExponent hε hmask
-  have hp := hb C R.primes R.primes_injective R.leftMultiplicity R.rightMultiplicity
+  have hp := hb (ι := ι) (HRows := R.exceptionalRows Q)
+    C R.primes R.primes_injective R.leftMultiplicity R.rightMultiplicity
     (Finset.univ : Finset (R.exceptionalRows Q))
     (fun h => R.originalIdeal h.val.val) (fun h => R.frequency h.val.val)
     (fun h => R.exceptionalRow C h.val) base

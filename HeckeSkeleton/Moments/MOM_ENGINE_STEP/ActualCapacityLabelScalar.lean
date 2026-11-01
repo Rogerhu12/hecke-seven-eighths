@@ -95,8 +95,8 @@ theorem actual_capacity_same_label_scalar_le
       ‖(moebius z.secondDivisor : ℂ)‖ *
       ‖fixedPhaseCoefficient Ray (phase₂ z) z.secondPhase‖ := by positivity
   convert mul_le_mul_of_nonneg_right hp hc using 1 <;>
-    simp only [TwoDivisorCommonBranch.AtomicLabel.weight,
-      TwoDivisorCommonBranch.AtomicLabel.harmonicWeight] <;> ring
+    (try simp only [TwoDivisorCommonBranch.AtomicLabel.weight,
+      TwoDivisorCommonBranch.AtomicLabel.harmonicWeight]) <;> ring
 
 end HeckeSkeleton.Moments.EngineStep
 

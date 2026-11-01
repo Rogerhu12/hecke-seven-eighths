@@ -13,11 +13,12 @@ actual finite-source integrability.
 -/
 
 noncomputable section
-open scoped Classical BigOperators NumberField SchwartzMap
+open scoped Classical BigOperators NumberField SchwartzMap nonZeroDivisors
 
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
+open UniqueFactorizationMonoid
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments HeckePort.Moments.MobiusRegroup MeasureTheory
@@ -44,7 +45,8 @@ variable {W E : Type*}
   [MeasurableSpace E] [BorelSpace E]
 
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
-local instance firstSecondSourceCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance firstSecondSourceCircleCharacterFintype :
+    Fintype ((PUnit.{1} × PUnit.{1}) →* Circle) := Fintype.ofFinite _
 
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
@@ -61,15 +63,15 @@ variable {M : Finset (HeightOneSpectrum A.R)} {X : ℝ} {hX : 1 ≤ X}
 
 def leftDivisorCoefficient (p : FirstBlockPoolData chart P M X hX)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
-    (χ : (PUnit × PUnit) →* Circle) (i : ι) : ℂ :=
+    (χ : (PUnit.{1} × PUnit.{1}) →* Circle) (i : ι) : ℂ :=
   if S.val ∣ (p.leftData.ideal i).val then
-    p.originalLeftCoefficient i * (fixedLeftPhase PUnit χ PUnit.unit : ℂ) else 0
+    p.originalLeftCoefficient i * (fixedLeftPhase PUnit.{1} χ PUnit.unit : ℂ) else 0
 
 def rightDivisorCoefficient (p : FirstBlockPoolData chart P M X hX)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
-    (χ : (PUnit × PUnit) →* Circle) (j : κ) : ℂ :=
+    (χ : (PUnit.{1} × PUnit.{1}) →* Circle) (j : κ) : ℂ :=
   if S.val ∣ (p.rightData.ideal j).val then
-    p.originalRightCoefficient j * (fixedRightPhase PUnit χ PUnit.unit : ℂ) else 0
+    p.originalRightCoefficient j * (fixedRightPhase PUnit.{1} χ PUnit.unit : ℂ) else 0
 
 /-- Literal main/error stages at every actual first divisor and phase.
 There is no bound field; each stage contains only original charts. -/
@@ -95,9 +97,10 @@ variable {sTail sZero : Finset (ℕ × ℕ)} {k : ℕ} {Lmax Nsave decay : ℝ}
 
 def cost (T : s.TerminalCalibration sTail sZero k Lmax Nsave decay)
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
-      ((PUnit × PUnit) →* Circle) → ℝ) (ε Cerror Czero : ℝ) : ℝ :=
+      ((PUnit.{1} × PUnit.{1}) →* Circle) → ℝ) (ε Cerror Czero : ℝ) : ℝ :=
   ∑ S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val), ‖(moebius S.val : ℂ)‖ *
-    ∑ χ : (PUnit × PUnit) →* Circle, ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖ *
+    ∑ χ : (PUnit.{1} × PUnit.{1}) →* Circle,
+      ‖fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)) χ‖ *
       (p.rowBound * Real.sqrt (NL S χ) * Real.sqrt (NR S χ) / 2) *
       ((∫ ξ, (T.left S χ).phaseCost chart.leftPoint ξ ε Cerror Czero / NL S χ
           ∂actualFourierMeasure chart.kernel) +
@@ -110,7 +113,7 @@ it is not an extra source calibration field. -/
 theorem linearized_le_cost
     (T : s.TerminalCalibration sTail sZero k Lmax Nsave decay)
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
-      ((PUnit × PUnit) →* Circle) → ℝ)
+      ((PUnit.{1} × PUnit.{1}) →* Circle) → ℝ)
     (hNL : ∀ S χ, 0 < NL S χ) (hNR : ∀ S χ, 0 < NR S χ)
     (ε Cerror Czero : ℝ)
     (hstage : ∀ {j : Type*} (d : FirstGaussPoolData C P j) (c : j → ℂ) (x : j → W)

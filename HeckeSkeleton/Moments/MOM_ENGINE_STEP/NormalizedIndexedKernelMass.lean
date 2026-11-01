@@ -22,7 +22,7 @@ namespace HeckeSkeleton.Moments.EngineStep.InternalMassAssembly
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree MeasureTheory
 open HeckeGeneral.Characters HeckeGeneral.Analysis.ConditionalMoments
-open CommonSupportMass
+open CommonSupportMass LocalFiniteSums
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ} {ω ψ : HeckeCharacter K}

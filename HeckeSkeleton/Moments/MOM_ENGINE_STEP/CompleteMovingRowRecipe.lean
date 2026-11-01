@@ -168,8 +168,8 @@ def empty : OriginalMovingFactors A P R where
   apply Subtype.ext
   change CommonSupportMass.commonRadical
     (empty (A := A) (P := P) (R := R)).fullIdeal.val
-    (empty (A := A) (P := P) (R := R)).fullIdeal.val = (1 : Ideal (𝓞 K))
-  rw [hfull]
+    (empty (A := A) (P := P) (R := R)).fullIdeal.val = (⊤ : Ideal (𝓞 K))
+  rw [hfull, ← Ideal.one_eq_top]
   simp [CommonSupportMass.commonRadical, HeckePort.IdealMobiusDivisorSum.primeSupport]
 
 end OriginalMovingFactors
