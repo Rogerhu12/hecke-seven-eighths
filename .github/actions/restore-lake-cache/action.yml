@@ -1,8 +1,13 @@
 name: Restore precompiled project Lake artifacts
 description: >
   Downloads the newest `lake-cache-*` release of this repository (built by
-  scripts/build_lake_cache.py) and unpacks the precompiled Lake outputs of the
-  project libraries, vendor/class-field-theory and TauCeti into the checkout.
+  scripts/build_lake_cache.py, normally by the lake-cache-release workflow) and
+  unpacks the precompiled Lake outputs of the project libraries,
+  vendor/class-field-theory and TauCeti into the checkout. Then it restores the
+  newest per-branch Actions cache entry with the project `.lake/build` outputs
+  that earlier runs of the same branch (or of the base branch) compiled, and at
+  the end of the job (also when the job failed) saves what this run compiled,
+  so that the next run only rebuilds what changed.
   Run it after `lake exe cache get` (for example after leanprover/lean-action
   with use-mathlib-cache), so that .lake/packages/TauCeti already exists.
 
@@ -22,49 +27,25 @@ inputs:
     description: Token for the GitHub CLI.
     required: false
     default: ${{ github.token }}
+  branch-cache:
+    description: >
+      "true" restores and saves the per-branch Actions cache of `.lake/build`,
+      "restore" only restores it, "false" uses the release only.
+    required: false
+    default: "true"
 
 outputs:
   tag:
     description: The restored release tag (empty if nothing was restored).
-    value: ${{ steps.restore.outputs.tag }}
+  branch-cache-key:
+    description: Key of the restored per-branch cache entry (empty on a miss).
 
+# A JavaScript action rather than a composite one: only the top-level action of
+# a step can register its own post step, and `post-if: always()` is what lets
+# the post step save the build outputs of failed and timed-out runs too.
+# main.js and post.js only start restore.sh and save.sh.
 runs:
-  using: composite
-  steps:
-    - id: restore
-      shell: bash
-      env:
-        GH_TOKEN: ${{ inputs.token }}
-        CACHE_REPO: ${{ inputs.repository }}
-        CACHE_TAG: ${{ inputs.tag }}
-      run: |
-        set -euo pipefail
-        tag="$CACHE_TAG"
-        if [ -z "$tag" ]; then
-          # Drafts are skipped: a release is only published once all parts are uploaded.
-          tag="$(gh release list -R "$CACHE_REPO" --limit 100 --exclude-drafts --json tagName,createdAt \
-            --jq '[.[] | select(.tagName | startswith("lake-cache-"))] | sort_by(.createdAt) | last | .tagName // ""')"
-        fi
-        if [ -z "$tag" ]; then
-          echo "::warning::No lake-cache-* release found in $CACHE_REPO; building from scratch."
-          echo "tag=" >> "$GITHUB_OUTPUT"
-          exit 0
-        fi
-        if [ ! -d .lake/packages/TauCeti ]; then
-          echo "::warning::.lake/packages/TauCeti is missing; run this action after 'lake exe cache get'."
-        fi
-        command -v zstd >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq zstd; }
-        dl="$RUNNER_TEMP/lake-cache-download"
-        rm -rf "$dl" && mkdir -p "$dl"
-        echo "Restoring $tag from $CACHE_REPO"
-        start=$SECONDS
-        gh release download "$tag" -R "$CACHE_REPO" -D "$dl" \
-          -p 'lake-cache.tar.zst.part-*' -p SHA256SUMS -p lake-cache-manifest.json
-        (cd "$dl" && sha256sum -c SHA256SUMS)
-        echo "Downloaded $(du -sh "$dl" | cut -f1) in $((SECONDS - start))s"
-        cat "$dl"/lake-cache.tar.zst.part-* | zstd -d -T0 | tar -xf - --no-same-owner
-        rm -f "$dl"/lake-cache.tar.zst.part-*
-        jq -r '"Commit \(.commit); " + (.build_roots | to_entries | map("\(.key): \(.value.modules) modules") | join(", "))' \
-          "$dl/lake-cache-manifest.json" || true
-        echo "Restored $tag in $((SECONDS - start))s"
-        echo "tag=$tag" >> "$GITHUB_OUTPUT"
+  using: node24
+  main: main.js
+  post: post.js
+  post-if: always()

@@ -1,0 +1,2948 @@
+{
+  "schema": "low-energy-upstream-import-restoration-v1",
+  "base_commit": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+  "feature_before_restoration": "245e1de501287489868916f4a7e4b4df0b060e2f",
+  "purpose": "Restore original upstream imports after a complete pinned Lake dependency cache became available. No existing definitions, proofs, comments, or non-import bytes changed.",
+  "files": [
+    {
+      "path": "vendor/flt/FLTReuse/Me1ad2f4bf19c4ff0.lean",
+      "original_sha256": "0f03f01460b9aae22162f8e5cb0d284b128d59d243162565e13bb09004660a15",
+      "modified_sha256": "56b41989d9a0f62ba0f828ec72f9583eccd021828b0f24fd3fb525704e2b2b03",
+      "restored_sha256": "0f03f01460b9aae22162f8e5cb0d284b128d59d243162565e13bb09004660a15",
+      "restored_git_blob": "e9fd0babd98c898e33ffb630f7cb8699431d7b57",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Me1ad2f4bf19c4ff0.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Me1ad2f4bf19c4ff0.lean",
+        "upstream_sha256": "0f03f01460b9aae22162f8e5cb0d284b128d59d243162565e13bb09004660a15",
+        "upstream_git_blob_sha": "e9fd0babd98c898e33ffb630f7cb8699431d7b57",
+        "current_sha256": "56b41989d9a0f62ba0f828ec72f9583eccd021828b0f24fd3fb525704e2b2b03",
+        "current_git_blob_sha": "2040e4b231c94fcfa88a95420e45eeef656c96de",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "a10ee1f90cf26ec6da680f43cc8ce5269d3fe2b5072a9ca0c3d7df45aa30e5fc",
+        "non_import_upstream_sha256": "a10ee1f90cf26ec6da680f43cc8ce5269d3fe2b5072a9ca0c3d7df45aa30e5fc",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Me1ad2f4bf19c4ff0.lean\n+++ current/vendor/flt/FLTReuse/Me1ad2f4bf19c4ff0.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n \n open NumberField MeasureTheory Matrix\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Ma972a145b8dd993f.lean",
+      "original_sha256": "1c81b92a55bea1fdbb93a4d24048520c7e486cdd07fe25d4ab3ceae5e7107d75",
+      "modified_sha256": "ff0340c18e51ba67456f2a6fdcfcdd53f66e94acfb77174ac34e2b5060816a8c",
+      "restored_sha256": "1c81b92a55bea1fdbb93a4d24048520c7e486cdd07fe25d4ab3ceae5e7107d75",
+      "restored_git_blob": "53bec3604798eebdc0fa44fe057fc7fb9b4ea18a",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Ma972a145b8dd993f.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Ma972a145b8dd993f.lean",
+        "upstream_sha256": "1c81b92a55bea1fdbb93a4d24048520c7e486cdd07fe25d4ab3ceae5e7107d75",
+        "upstream_git_blob_sha": "53bec3604798eebdc0fa44fe057fc7fb9b4ea18a",
+        "current_sha256": "ff0340c18e51ba67456f2a6fdcfcdd53f66e94acfb77174ac34e2b5060816a8c",
+        "current_git_blob_sha": "54a62250fab7d4dfa91ef435ffc998d384639a68",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "fce69f06791ea7292a2dda46c97f5a61b3b10ee48ca9173345679d841af9c240",
+        "non_import_upstream_sha256": "fce69f06791ea7292a2dda46c97f5a61b3b10ee48ca9173345679d841af9c240",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Ma972a145b8dd993f.lean\n+++ current/vendor/flt/FLTReuse/Ma972a145b8dd993f.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n \n open IsDedekindDomain NumberField\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Mb160b7190bc2968b.lean",
+      "original_sha256": "3db20f823756c942ec65be8417801efc40c64db637f639702c54775cdb5be3a8",
+      "modified_sha256": "1a5b5af4ba18314a52c81ca5c5a457a74f32bb4cbca397020288ed9a7b9ad6c2",
+      "restored_sha256": "3db20f823756c942ec65be8417801efc40c64db637f639702c54775cdb5be3a8",
+      "restored_git_blob": "b71466cb81f7f9d10773b4b4930b7b0261099400",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Mb160b7190bc2968b.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Mb160b7190bc2968b.lean",
+        "upstream_sha256": "3db20f823756c942ec65be8417801efc40c64db637f639702c54775cdb5be3a8",
+        "upstream_git_blob_sha": "b71466cb81f7f9d10773b4b4930b7b0261099400",
+        "current_sha256": "1a5b5af4ba18314a52c81ca5c5a457a74f32bb4cbca397020288ed9a7b9ad6c2",
+        "current_git_blob_sha": "59dcaf9870db2a4ac6dc1a840aaa6bc10c93987e",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "157362bcbcf88b4ceb9bf39641c32d4d5b24e09aea9c155b6cf8fbd8241f473b",
+        "non_import_upstream_sha256": "157362bcbcf88b4ceb9bf39641c32d4d5b24e09aea9c155b6cf8fbd8241f473b",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Mb160b7190bc2968b.lean\n+++ current/vendor/flt/FLTReuse/Mb160b7190bc2968b.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n \n section\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M20a4b4a0de18ada8.lean",
+      "original_sha256": "6230e2dced36383dfaa7fbb4d11681b12a317fdce0994fb21f8d8ed966313111",
+      "modified_sha256": "0ec991640e94c5971672b0801cd9f7692d7c1ee2f83ad3948a0f51f861ade47b",
+      "restored_sha256": "6230e2dced36383dfaa7fbb4d11681b12a317fdce0994fb21f8d8ed966313111",
+      "restored_git_blob": "21a5f0c2bec1814fe890838aa1d0c641ec5d7232",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M20a4b4a0de18ada8.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M20a4b4a0de18ada8.lean",
+        "upstream_sha256": "6230e2dced36383dfaa7fbb4d11681b12a317fdce0994fb21f8d8ed966313111",
+        "upstream_git_blob_sha": "21a5f0c2bec1814fe890838aa1d0c641ec5d7232",
+        "current_sha256": "0ec991640e94c5971672b0801cd9f7692d7c1ee2f83ad3948a0f51f861ade47b",
+        "current_git_blob_sha": "75417fc9e796faef7a23e9315a2589d1bba2f3fb",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import FLTReuse.Mc4dd375116d61c53",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb160b7190bc2968b",
+          "import Mathlib.MeasureTheory.Measure.Haar.DistribChar",
+          "import Mathlib",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.Mc4dd375116d61c53",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb160b7190bc2968b",
+          "import Mathlib.MeasureTheory.Measure.Haar.DistribChar",
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "219c0a1fdfaf1ca1b2b5c6ad70f1a1c5c7e3f84e1d282b85d9e4bfad588c4ef7",
+        "non_import_upstream_sha256": "219c0a1fdfaf1ca1b2b5c6ad70f1a1c5c7e3f84e1d282b85d9e4bfad588c4ef7",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M20a4b4a0de18ada8.lean\n+++ current/vendor/flt/FLTReuse/M20a4b4a0de18ada8.lean\n@@ -2,7 +2,7 @@\n import FLTReuse.Md2cadaa4525e04a6\n import FLTReuse.Mb160b7190bc2968b\n import Mathlib.MeasureTheory.Measure.Haar.DistribChar\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M1868db956c866c8d\n namespace P2MW.S_NumberField_AdeleRing_distribHaarChar_eq_prod_norm_pow_mult_of_snd_eq_one\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M9997a08e2e613141.lean",
+      "original_sha256": "a6683e83853288318d4cafdbbfc404bd5e41da18211e0064db0657d024abd34f",
+      "modified_sha256": "d4faa3468c588a614a9dbac57a8d8670daccca3eb5e4bdc7b1fe3b28d70a78a8",
+      "restored_sha256": "a6683e83853288318d4cafdbbfc404bd5e41da18211e0064db0657d024abd34f",
+      "restored_git_blob": "731f914a4fc099cfc32d0ce112b6e26ac911bd09",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M9997a08e2e613141.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M9997a08e2e613141.lean",
+        "upstream_sha256": "a6683e83853288318d4cafdbbfc404bd5e41da18211e0064db0657d024abd34f",
+        "upstream_git_blob_sha": "731f914a4fc099cfc32d0ce112b6e26ac911bd09",
+        "current_sha256": "d4faa3468c588a614a9dbac57a8d8670daccca3eb5e4bdc7b1fe3b28d70a78a8",
+        "current_git_blob_sha": "32e5ac06a4e6a37cdfbe35626641176fdf000a1e",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import FLTReuse.Mc4dd375116d61c53",
+          "import Mathlib.MeasureTheory.Measure.Haar.DistribChar",
+          "import FLTReuse.Me926dea7d5102659",
+          "import FLTReuse.M971f920e85ac7cd4",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb160b7190bc2968b",
+          "import Mathlib",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.Mc4dd375116d61c53",
+          "import Mathlib.MeasureTheory.Measure.Haar.DistribChar",
+          "import FLTReuse.Me926dea7d5102659",
+          "import FLTReuse.M971f920e85ac7cd4",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb160b7190bc2968b",
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "9357d0a510974064b746d1b97175f18370bec34c5c63a4f74e1fbb9203e044e5",
+        "non_import_upstream_sha256": "9357d0a510974064b746d1b97175f18370bec34c5c63a4f74e1fbb9203e044e5",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M9997a08e2e613141.lean\n+++ current/vendor/flt/FLTReuse/M9997a08e2e613141.lean\n@@ -4,7 +4,7 @@\n import FLTReuse.M971f920e85ac7cd4\n import FLTReuse.Md2cadaa4525e04a6\n import FLTReuse.Mb160b7190bc2968b\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M1868db956c866c8d\n namespace P2MW.S_NumberField_AdeleRing_distribHaarChar_eq_prod_norm_pow_mult_mul_finprod_norm\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M0525ca355036d686.lean",
+      "original_sha256": "95e6933ffa5c01b6f13c12bc45aace85bf45b095ee116f8d5faac1f349a4339f",
+      "modified_sha256": "e738d26fad5593c8c9707f0cf125fbea80cc019b7fe4a82c6d0a8ba73839341d",
+      "restored_sha256": "95e6933ffa5c01b6f13c12bc45aace85bf45b095ee116f8d5faac1f349a4339f",
+      "restored_git_blob": "91a8eb8d9f97f80fa0a51275a238a73cba47310f",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M0525ca355036d686.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M0525ca355036d686.lean",
+        "upstream_sha256": "95e6933ffa5c01b6f13c12bc45aace85bf45b095ee116f8d5faac1f349a4339f",
+        "upstream_git_blob_sha": "91a8eb8d9f97f80fa0a51275a238a73cba47310f",
+        "current_sha256": "e738d26fad5593c8c9707f0cf125fbea80cc019b7fe4a82c6d0a8ba73839341d",
+        "current_git_blob_sha": "39e828f20fb33ffd7a72e740b9dea4561dcc73d7",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "6618a3520c448100d4d3cae8eb3b888647abe6201a2ded8b8dd331507e6e7f80",
+        "non_import_upstream_sha256": "6618a3520c448100d4d3cae8eb3b888647abe6201a2ded8b8dd331507e6e7f80",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M0525ca355036d686.lean\n+++ current/vendor/flt/FLTReuse/M0525ca355036d686.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n \n open Matrix MeasureTheory\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M4d7e07f961601242.lean",
+      "original_sha256": "ae224798676c5da436764017e1eaa8c2075d09aa2c4e50491f10a01f6599d7ad",
+      "modified_sha256": "7ae7dbbda0d1a8c319f925fb1c8ca2c644d4b2c80c234ee0cb86bbdd818247b2",
+      "restored_sha256": "ae224798676c5da436764017e1eaa8c2075d09aa2c4e50491f10a01f6599d7ad",
+      "restored_git_blob": "8c8d8589606ca3e861ede7508386c856102425f8",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M4d7e07f961601242.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M4d7e07f961601242.lean",
+        "upstream_sha256": "ae224798676c5da436764017e1eaa8c2075d09aa2c4e50491f10a01f6599d7ad",
+        "upstream_git_blob_sha": "8c8d8589606ca3e861ede7508386c856102425f8",
+        "current_sha256": "7ae7dbbda0d1a8c319f925fb1c8ca2c644d4b2c80c234ee0cb86bbdd818247b2",
+        "current_git_blob_sha": "d9f7eb818397cba86da07a1786862509ee2344ef",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "e1aa8bdcae1111f4ad7e67af381dddade3cc37fce12d86e324c616ac32aafcb9",
+        "non_import_upstream_sha256": "e1aa8bdcae1111f4ad7e67af381dddade3cc37fce12d86e324c616ac32aafcb9",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M4d7e07f961601242.lean\n+++ current/vendor/flt/FLTReuse/M4d7e07f961601242.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n \n section\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M895bd822f90010c8.lean",
+      "original_sha256": "c17b94d0265f9fc711c8993a5bc4d509a1cf7f6e2a8e57e128441d66f114e212",
+      "modified_sha256": "bcced886ee7d2307b1f4119b1830126358740d31e5464f8260654e8200bf67ac",
+      "restored_sha256": "c17b94d0265f9fc711c8993a5bc4d509a1cf7f6e2a8e57e128441d66f114e212",
+      "restored_git_blob": "d74c0b2c66de57791f9a909307f5471bd514767a",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M895bd822f90010c8.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M895bd822f90010c8.lean",
+        "upstream_sha256": "c17b94d0265f9fc711c8993a5bc4d509a1cf7f6e2a8e57e128441d66f114e212",
+        "upstream_git_blob_sha": "d74c0b2c66de57791f9a909307f5471bd514767a",
+        "current_sha256": "bcced886ee7d2307b1f4119b1830126358740d31e5464f8260654e8200bf67ac",
+        "current_git_blob_sha": "0802873eca6df9ac874a9cccfb0537143fef2a57",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M4d7e07f961601242"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M4d7e07f961601242"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "8e51dfe448caf2ca3339763f4094aebbdf84b7a91892d8254e592d8e770ef086",
+        "non_import_upstream_sha256": "8e51dfe448caf2ca3339763f4094aebbdf84b7a91892d8254e592d8e770ef086",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M895bd822f90010c8.lean\n+++ current/vendor/flt/FLTReuse/M895bd822f90010c8.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M4d7e07f961601242\n \n set_option autoImplicit false\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M50bf67059948bbed.lean",
+      "original_sha256": "d1d641aedbf7912e35295e39bd9ba9ad77e386cf367d69948153febef4a9efbf",
+      "modified_sha256": "97fc7566d285a00ebf9d8382a14fcfe9827efd3fe5cfae78562f22c096bde3af",
+      "restored_sha256": "d1d641aedbf7912e35295e39bd9ba9ad77e386cf367d69948153febef4a9efbf",
+      "restored_git_blob": "c58a49e7c127be511b46dded31d01d0b226287a0",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M50bf67059948bbed.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M50bf67059948bbed.lean",
+        "upstream_sha256": "d1d641aedbf7912e35295e39bd9ba9ad77e386cf367d69948153febef4a9efbf",
+        "upstream_git_blob_sha": "c58a49e7c127be511b46dded31d01d0b226287a0",
+        "current_sha256": "97fc7566d285a00ebf9d8382a14fcfe9827efd3fe5cfae78562f22c096bde3af",
+        "current_git_blob_sha": "a107c4ff9f876a6f8ae51ebfb8b4950c5cb41102",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.Mbdc64641c777ca04"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.Mbdc64641c777ca04"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "68133bb3fba4db965b620e1266c28f3625a3374da4efc9cb25b41b64f5319e68",
+        "non_import_upstream_sha256": "68133bb3fba4db965b620e1266c28f3625a3374da4efc9cb25b41b64f5319e68",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M50bf67059948bbed.lean\n+++ current/vendor/flt/FLTReuse/M50bf67059948bbed.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.Mbdc64641c777ca04\n \n set_option autoImplicit false\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Me97977439c9a42c8.lean",
+      "original_sha256": "ea84343dfa6362109bff8f56dc1c6f19514f1dfd75cdc02d682d4f2497dc120b",
+      "modified_sha256": "226adaa8f822e861d49680e16f48510fbe1826cfa81b94e08dd461bb10977f60",
+      "restored_sha256": "ea84343dfa6362109bff8f56dc1c6f19514f1dfd75cdc02d682d4f2497dc120b",
+      "restored_git_blob": "1ce1185b9cca1082cad7c038c6c138689d8c9f90",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Me97977439c9a42c8.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Me97977439c9a42c8.lean",
+        "upstream_sha256": "ea84343dfa6362109bff8f56dc1c6f19514f1dfd75cdc02d682d4f2497dc120b",
+        "upstream_git_blob_sha": "1ce1185b9cca1082cad7c038c6c138689d8c9f90",
+        "current_sha256": "226adaa8f822e861d49680e16f48510fbe1826cfa81b94e08dd461bb10977f60",
+        "current_git_blob_sha": "37de7ca690379ef04f6f03074b849eed2bfab967",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M50bf67059948bbed"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M50bf67059948bbed"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "ec3f56edb5ec367d10a3e6f8fda4a8a8b60c7fef9829519e9c114554df6165f3",
+        "non_import_upstream_sha256": "ec3f56edb5ec367d10a3e6f8fda4a8a8b60c7fef9829519e9c114554df6165f3",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Me97977439c9a42c8.lean\n+++ current/vendor/flt/FLTReuse/Me97977439c9a42c8.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M50bf67059948bbed\n \n set_option autoImplicit false\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M80d3d6b9857c4a98.lean",
+      "original_sha256": "545124ce8ae648b585e28e786176e0875d6bced4c4d0f3da5de5fc5ca95c322e",
+      "modified_sha256": "dd0b81f48c76af953d5c4f7da2723c51402328304e3696377158c4a3e47aa799",
+      "restored_sha256": "545124ce8ae648b585e28e786176e0875d6bced4c4d0f3da5de5fc5ca95c322e",
+      "restored_git_blob": "46e759b3bee767fb616aefb8f99994173bc11bb2",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M80d3d6b9857c4a98.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M80d3d6b9857c4a98.lean",
+        "upstream_sha256": "545124ce8ae648b585e28e786176e0875d6bced4c4d0f3da5de5fc5ca95c322e",
+        "upstream_git_blob_sha": "46e759b3bee767fb616aefb8f99994173bc11bb2",
+        "current_sha256": "dd0b81f48c76af953d5c4f7da2723c51402328304e3696377158c4a3e47aa799",
+        "current_git_blob_sha": "a2988737be71d2bcbaeb99283f73a1a2016c8efe",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "06abf22d0136072958fc795a536960afcc3be6f52f34763aa0586dd9dcddbbc2",
+        "non_import_upstream_sha256": "06abf22d0136072958fc795a536960afcc3be6f52f34763aa0586dd9dcddbbc2",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M80d3d6b9857c4a98.lean\n+++ current/vendor/flt/FLTReuse/M80d3d6b9857c4a98.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n \n section\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Md41ce34d0c15dbc0.lean",
+      "original_sha256": "b9b8648d2d89cb9dbfe9cebe35dc66b57dfb46ea9f365eaec29ac9ec2d22e3a3",
+      "modified_sha256": "70320066f595b63f23cf79b63cc0ac7220f74dab87f89b0c0d2255f3196e3d29",
+      "restored_sha256": "b9b8648d2d89cb9dbfe9cebe35dc66b57dfb46ea9f365eaec29ac9ec2d22e3a3",
+      "restored_git_blob": "f1e2fb544905b982864443e50a630571073f7988",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Md41ce34d0c15dbc0.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Md41ce34d0c15dbc0.lean",
+        "upstream_sha256": "b9b8648d2d89cb9dbfe9cebe35dc66b57dfb46ea9f365eaec29ac9ec2d22e3a3",
+        "upstream_git_blob_sha": "f1e2fb544905b982864443e50a630571073f7988",
+        "current_sha256": "70320066f595b63f23cf79b63cc0ac7220f74dab87f89b0c0d2255f3196e3d29",
+        "current_git_blob_sha": "1cbfea19ffc006550e8ae27f876b2813ea7659ab",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing_with_added_leaves",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports",
+          "Mathlib.RingTheory.Ideal.IsPrincipalPowQuotient",
+          "Mathlib.Topology.Algebra.Valued.WithZeroMulInt"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M80d3d6b9857c4a98"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M80d3d6b9857c4a98",
+          "import Mathlib.RingTheory.Ideal.IsPrincipalPowQuotient",
+          "import Mathlib.Topology.Algebra.Valued.WithZeroMulInt"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "8f0a10b877f998a5c49b8e0289f5d1f3ed703ad825aa529b5c122772f7874946",
+        "non_import_upstream_sha256": "8f0a10b877f998a5c49b8e0289f5d1f3ed703ad825aa529b5c122772f7874946",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Md41ce34d0c15dbc0.lean\n+++ current/vendor/flt/FLTReuse/Md41ce34d0c15dbc0.lean\n@@ -1,5 +1,7 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M80d3d6b9857c4a98\n+import Mathlib.RingTheory.Ideal.IsPrincipalPowQuotient\n+import Mathlib.Topology.Algebra.Valued.WithZeroMulInt\n \n section\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M7c74d34e26b915e3.lean",
+      "original_sha256": "3a071d302b590586bb80d6300fe35553a0363aca42220b8192398c510fb77e76",
+      "modified_sha256": "3d0bc87602447c680bfe6060d9e6ef1626ddb8f021bf5a914dab2a8038391551",
+      "restored_sha256": "3a071d302b590586bb80d6300fe35553a0363aca42220b8192398c510fb77e76",
+      "restored_git_blob": "85a974ef7444ae8965d05d4132c921361d1cba35",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M7c74d34e26b915e3.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M7c74d34e26b915e3.lean",
+        "upstream_sha256": "3a071d302b590586bb80d6300fe35553a0363aca42220b8192398c510fb77e76",
+        "upstream_git_blob_sha": "85a974ef7444ae8965d05d4132c921361d1cba35",
+        "current_sha256": "3d0bc87602447c680bfe6060d9e6ef1626ddb8f021bf5a914dab2a8038391551",
+        "current_git_blob_sha": "67024b82f37e4e5bfe3b6ba54a7a33b33dffb8c6",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing_with_added_leaves",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports",
+          "Mathlib.NumberTheory.Padics.ProperSpace"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M387d45cde57b612d",
+          "import FLTReuse.Md41ce34d0c15dbc0",
+          "import FLTReuse.Mb160b7190bc2968b"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import Mathlib.NumberTheory.Padics.ProperSpace",
+          "import FLTReuse.M387d45cde57b612d",
+          "import FLTReuse.Md41ce34d0c15dbc0",
+          "import FLTReuse.Mb160b7190bc2968b"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "e43b102d09153897f9243e4dfd2c57bbef9dd51353f436f58cfc3d16c29b6216",
+        "non_import_upstream_sha256": "e43b102d09153897f9243e4dfd2c57bbef9dd51353f436f58cfc3d16c29b6216",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M7c74d34e26b915e3.lean\n+++ current/vendor/flt/FLTReuse/M7c74d34e26b915e3.lean\n@@ -1,4 +1,5 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n+import Mathlib.NumberTheory.Padics.ProperSpace\n import FLTReuse.M387d45cde57b612d\n import FLTReuse.Md41ce34d0c15dbc0\n import FLTReuse.Mb160b7190bc2968b\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M650f9cd8632cb8c3.lean",
+      "original_sha256": "62b7df8a293c43ccce2480b31acfb7c0c8ae53c438252c63e7e5fecfee755a89",
+      "modified_sha256": "286fa6be64b8714d02c0aae69a425d69939c753a400d28f2198a4203cad75801",
+      "restored_sha256": "62b7df8a293c43ccce2480b31acfb7c0c8ae53c438252c63e7e5fecfee755a89",
+      "restored_git_blob": "b2734234102ffb6a2f05da5125d4e524bce875f1",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M650f9cd8632cb8c3.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M650f9cd8632cb8c3.lean",
+        "upstream_sha256": "62b7df8a293c43ccce2480b31acfb7c0c8ae53c438252c63e7e5fecfee755a89",
+        "upstream_git_blob_sha": "b2734234102ffb6a2f05da5125d4e524bce875f1",
+        "current_sha256": "286fa6be64b8714d02c0aae69a425d69939c753a400d28f2198a4203cad75801",
+        "current_git_blob_sha": "60fab6ec14d36b4c2cbe6686eafd35299e8db840",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing_with_added_leaves",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports",
+          "Mathlib.Topology.Algebra.Group.OpenMapping"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import Mathlib.Topology.Algebra.Group.OpenMapping",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "fd4a997dc95b14efac730ba661bdbf03b1b47b6cf02496672685ae8a23b2d416",
+        "non_import_upstream_sha256": "fd4a997dc95b14efac730ba661bdbf03b1b47b6cf02496672685ae8a23b2d416",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M650f9cd8632cb8c3.lean\n+++ current/vendor/flt/FLTReuse/M650f9cd8632cb8c3.lean\n@@ -1,4 +1,5 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n+import Mathlib.Topology.Algebra.Group.OpenMapping\n import FLTReuse.M55164c2a16500130\n import FLTReuse.Md2cadaa4525e04a6\n import FLTReuse.M1868db956c866c8d\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Me3c5b58d1cdd8b1c.lean",
+      "original_sha256": "4012edad0b6d3b9bc4821ad93f510a95ca0c40f70d7d2e3cff4c976fa1a1c9b1",
+      "modified_sha256": "2582c475302c6abe24736ce8e5d82a51855a73cb7e7ab0be83d7e80af3fb6aff",
+      "restored_sha256": "4012edad0b6d3b9bc4821ad93f510a95ca0c40f70d7d2e3cff4c976fa1a1c9b1",
+      "restored_git_blob": "52d9331e886e3fa60ffd1941c800230af3425a91",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Me3c5b58d1cdd8b1c.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Me3c5b58d1cdd8b1c.lean",
+        "upstream_sha256": "4012edad0b6d3b9bc4821ad93f510a95ca0c40f70d7d2e3cff4c976fa1a1c9b1",
+        "upstream_git_blob_sha": "52d9331e886e3fa60ffd1941c800230af3425a91",
+        "current_sha256": "2582c475302c6abe24736ce8e5d82a51855a73cb7e7ab0be83d7e80af3fb6aff",
+        "current_git_blob_sha": "8111704ea3909632232b33da7daece13c993c1ac",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.M76dc382b7c5a77fb",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.M76dc382b7c5a77fb",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "b0837aa5c4ff2a526a34559713d98d5f9f93e5df87239ac3d82dc08c16e40008",
+        "non_import_upstream_sha256": "b0837aa5c4ff2a526a34559713d98d5f9f93e5df87239ac3d82dc08c16e40008",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Me3c5b58d1cdd8b1c.lean\n+++ current/vendor/flt/FLTReuse/Me3c5b58d1cdd8b1c.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M55164c2a16500130\n import FLTReuse.Md2cadaa4525e04a6\n import FLTReuse.Mb875502fbb65df3e\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M57a508b951c7aa28.lean",
+      "original_sha256": "7d757baf6988948b596eed9b3c31d82a21905ffc3dc3ed1c30c63ea7bdd63855",
+      "modified_sha256": "db6bf09b7433c06ac701e971ad6d5b3755f3826993b19a33b6ef196a8ac570a9",
+      "restored_sha256": "7d757baf6988948b596eed9b3c31d82a21905ffc3dc3ed1c30c63ea7bdd63855",
+      "restored_git_blob": "30bdc6ae6be3dcf46ef903a21614194b96044340",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M57a508b951c7aa28.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M57a508b951c7aa28.lean",
+        "upstream_sha256": "7d757baf6988948b596eed9b3c31d82a21905ffc3dc3ed1c30c63ea7bdd63855",
+        "upstream_git_blob_sha": "30bdc6ae6be3dcf46ef903a21614194b96044340",
+        "current_sha256": "db6bf09b7433c06ac701e971ad6d5b3755f3826993b19a33b6ef196a8ac570a9",
+        "current_git_blob_sha": "8172860a6efb09d5a56ee716edf9bd75605cb9e0",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.Me3c5b58d1cdd8b1c"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.Me3c5b58d1cdd8b1c"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "e239dc083432c958d68657cc43744f796d75dd40b343e5c76bbd7caf3128ac97",
+        "non_import_upstream_sha256": "e239dc083432c958d68657cc43744f796d75dd40b343e5c76bbd7caf3128ac97",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M57a508b951c7aa28.lean\n+++ current/vendor/flt/FLTReuse/M57a508b951c7aa28.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M55164c2a16500130\n import FLTReuse.Md2cadaa4525e04a6\n import FLTReuse.Mb875502fbb65df3e\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Mbf2dc8f64b4c2f58.lean",
+      "original_sha256": "687c7110004a108fb2f65b4026e7f8f325daf15e9e9b84a2cdab03f42c6c1919",
+      "modified_sha256": "0e80a17ee204339c9f1ec8353b108421e6f9b8f20f8c2ac6b69bb3d356eb754f",
+      "restored_sha256": "687c7110004a108fb2f65b4026e7f8f325daf15e9e9b84a2cdab03f42c6c1919",
+      "restored_git_blob": "ce9d7a39d7519faea81696a9f89b1c2a3b732640",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Mbf2dc8f64b4c2f58.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Mbf2dc8f64b4c2f58.lean",
+        "upstream_sha256": "687c7110004a108fb2f65b4026e7f8f325daf15e9e9b84a2cdab03f42c6c1919",
+        "upstream_git_blob_sha": "ce9d7a39d7519faea81696a9f89b1c2a3b732640",
+        "current_sha256": "0e80a17ee204339c9f1ec8353b108421e6f9b8f20f8c2ac6b69bb3d356eb754f",
+        "current_git_blob_sha": "66cd1f52e814546571a445c2276d9d02a2562844",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.M57a508b951c7aa28",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.M57a508b951c7aa28",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "18c0ec53094a8e44d9d6d56cedf6251f527f1ca9b54efb2f0f5469871bffbd8c",
+        "non_import_upstream_sha256": "18c0ec53094a8e44d9d6d56cedf6251f527f1ca9b54efb2f0f5469871bffbd8c",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Mbf2dc8f64b4c2f58.lean\n+++ current/vendor/flt/FLTReuse/Mbf2dc8f64b4c2f58.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M55164c2a16500130\n import FLTReuse.Md2cadaa4525e04a6\n import FLTReuse.Mb875502fbb65df3e\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M3154a73e21781886.lean",
+      "original_sha256": "6f957a2fdc09ac68574a1e4741782a86f0da2bfa028d0827bef180b4dc302a36",
+      "modified_sha256": "345ef211aebc44db4f6bb1c12d3a2cc8385988064cec55a1b1c8b77f50c82d70",
+      "restored_sha256": "6f957a2fdc09ac68574a1e4741782a86f0da2bfa028d0827bef180b4dc302a36",
+      "restored_git_blob": "d4be06cee8059207b4e3a20de0c698c3ce23a007",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M3154a73e21781886.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M3154a73e21781886.lean",
+        "upstream_sha256": "6f957a2fdc09ac68574a1e4741782a86f0da2bfa028d0827bef180b4dc302a36",
+        "upstream_git_blob_sha": "d4be06cee8059207b4e3a20de0c698c3ce23a007",
+        "current_sha256": "345ef211aebc44db4f6bb1c12d3a2cc8385988064cec55a1b1c8b77f50c82d70",
+        "current_git_blob_sha": "e82045f2475bd64ed1be80f8c88fe81e1c2d3f40",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.Mbf2dc8f64b4c2f58"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.Mbf2dc8f64b4c2f58"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "b34139c769760155422be7439be758ee30dbfd90dfe1f36ff84eac079e1aa935",
+        "non_import_upstream_sha256": "b34139c769760155422be7439be758ee30dbfd90dfe1f36ff84eac079e1aa935",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M3154a73e21781886.lean\n+++ current/vendor/flt/FLTReuse/M3154a73e21781886.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M55164c2a16500130\n import FLTReuse.Md2cadaa4525e04a6\n import FLTReuse.Mb875502fbb65df3e\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Me87ef7fba73fa1da.lean",
+      "original_sha256": "960fca0aa9cfe88d7cc50a2914e8c856f857506480274b101165893403ad1fb8",
+      "modified_sha256": "98be22b26292b5b413bdaf4c0a0f77e806d1bfa6e691dcf0fc45a16f0f815a67",
+      "restored_sha256": "960fca0aa9cfe88d7cc50a2914e8c856f857506480274b101165893403ad1fb8",
+      "restored_git_blob": "3271979c0102f4791cda036dbdaa6b1a09dd0d18",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Me87ef7fba73fa1da.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Me87ef7fba73fa1da.lean",
+        "upstream_sha256": "960fca0aa9cfe88d7cc50a2914e8c856f857506480274b101165893403ad1fb8",
+        "upstream_git_blob_sha": "3271979c0102f4791cda036dbdaa6b1a09dd0d18",
+        "current_sha256": "98be22b26292b5b413bdaf4c0a0f77e806d1bfa6e691dcf0fc45a16f0f815a67",
+        "current_git_blob_sha": "3105ca3f62f9e388766f8f2f2c2d3b8855710879",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.Mcaac7c2d6d568644",
+          "import FLTReuse.M57a508b951c7aa28",
+          "import FLTReuse.M3154a73e21781886",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.Mcaac7c2d6d568644",
+          "import FLTReuse.M57a508b951c7aa28",
+          "import FLTReuse.M3154a73e21781886",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "9fc6753740338fd9f41efb0cf7ae3c6e88133b3e77d05029ff44825226ea3007",
+        "non_import_upstream_sha256": "9fc6753740338fd9f41efb0cf7ae3c6e88133b3e77d05029ff44825226ea3007",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Me87ef7fba73fa1da.lean\n+++ current/vendor/flt/FLTReuse/Me87ef7fba73fa1da.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M55164c2a16500130\n import FLTReuse.Md2cadaa4525e04a6\n import FLTReuse.Mb875502fbb65df3e\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M88e60ad1fc5ea3de.lean",
+      "original_sha256": "ea4b126c5e32b28de490db72666ab086e35d927998a9a00bec43899270125fec",
+      "modified_sha256": "1d6968d19822528d08eab9a8252fc5d9e4bca9a2d8b8d4f9402b899a667371d8",
+      "restored_sha256": "ea4b126c5e32b28de490db72666ab086e35d927998a9a00bec43899270125fec",
+      "restored_git_blob": "5101a1bd42f4cba7e10dbad6946a01c10bf202a8",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M88e60ad1fc5ea3de.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M88e60ad1fc5ea3de.lean",
+        "upstream_sha256": "ea4b126c5e32b28de490db72666ab086e35d927998a9a00bec43899270125fec",
+        "upstream_git_blob_sha": "5101a1bd42f4cba7e10dbad6946a01c10bf202a8",
+        "current_sha256": "1d6968d19822528d08eab9a8252fc5d9e4bca9a2d8b8d4f9402b899a667371d8",
+        "current_git_blob_sha": "c0b6f8bc8dc5e10524e8dd9d920d42fc0d36e303",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.Me87ef7fba73fa1da"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.Me87ef7fba73fa1da"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "5239d932c0674c5f9ed16b4ee5aacbc0666241a926ceaae24773eb8f7630d041",
+        "non_import_upstream_sha256": "5239d932c0674c5f9ed16b4ee5aacbc0666241a926ceaae24773eb8f7630d041",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M88e60ad1fc5ea3de.lean\n+++ current/vendor/flt/FLTReuse/M88e60ad1fc5ea3de.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M55164c2a16500130\n import FLTReuse.Md2cadaa4525e04a6\n import FLTReuse.Mb875502fbb65df3e\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M7a9fd322ab91e73b.lean",
+      "original_sha256": "55e3077187666882e734b990465c4a51e6103c8def6a9df9eef31bf3c5577e69",
+      "modified_sha256": "829b907b2814f6e974218ebbdb905f00d85643e40e91f5bccee7be5bf43ec921",
+      "restored_sha256": "55e3077187666882e734b990465c4a51e6103c8def6a9df9eef31bf3c5577e69",
+      "restored_git_blob": "a31ef312d2432b4638ccdda3a781c4028093413f",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M7a9fd322ab91e73b.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M7a9fd322ab91e73b.lean",
+        "upstream_sha256": "55e3077187666882e734b990465c4a51e6103c8def6a9df9eef31bf3c5577e69",
+        "upstream_git_blob_sha": "a31ef312d2432b4638ccdda3a781c4028093413f",
+        "current_sha256": "829b907b2814f6e974218ebbdb905f00d85643e40e91f5bccee7be5bf43ec921",
+        "current_git_blob_sha": "4ec17647a6cd154f5cff0e3ff7dcf4570a2023f3",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.Me1935f2db6cb5a96",
+          "import FLTReuse.M0285b85ba35ce97c",
+          "import FLTReuse.Me066ce250184ef32",
+          "import FLTReuse.M88e60ad1fc5ea3de",
+          "import FLTReuse.M7061c16014292de9",
+          "import FLTReuse.M7f86edea65d586c8",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.Me1935f2db6cb5a96",
+          "import FLTReuse.M0285b85ba35ce97c",
+          "import FLTReuse.Me066ce250184ef32",
+          "import FLTReuse.M88e60ad1fc5ea3de",
+          "import FLTReuse.M7061c16014292de9",
+          "import FLTReuse.M7f86edea65d586c8",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "429f71ddc8ae915bc7954c3d30d47a39e7535119508b990752a422625bd4792c",
+        "non_import_upstream_sha256": "429f71ddc8ae915bc7954c3d30d47a39e7535119508b990752a422625bd4792c",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M7a9fd322ab91e73b.lean\n+++ current/vendor/flt/FLTReuse/M7a9fd322ab91e73b.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M55164c2a16500130\n import FLTReuse.Md2cadaa4525e04a6\n import FLTReuse.Mb875502fbb65df3e\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M07ee1a66041804a3.lean",
+      "original_sha256": "8e3ee6aa53d97efa1ba4934fec7817d544aeacbc06e18a78f1fb7db12bcc51b0",
+      "modified_sha256": "60ff9cda40d4d83e6ab7c1148b842f3e0bdd6665d70c8d98e1339fe10a283e59",
+      "restored_sha256": "8e3ee6aa53d97efa1ba4934fec7817d544aeacbc06e18a78f1fb7db12bcc51b0",
+      "restored_git_blob": "865731b501b4b889ac13397d50c0e75a6575d821",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M07ee1a66041804a3.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M07ee1a66041804a3.lean",
+        "upstream_sha256": "8e3ee6aa53d97efa1ba4934fec7817d544aeacbc06e18a78f1fb7db12bcc51b0",
+        "upstream_git_blob_sha": "865731b501b4b889ac13397d50c0e75a6575d821",
+        "current_sha256": "60ff9cda40d4d83e6ab7c1148b842f3e0bdd6665d70c8d98e1339fe10a283e59",
+        "current_git_blob_sha": "75a277932ef618c192a644b6c872ab3974891442",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M7a9fd322ab91e73b"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M7a9fd322ab91e73b"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "65a6f57fda68fc7a15820968f1d28f76f01a299dce6ab40243a1ab226e352e76",
+        "non_import_upstream_sha256": "65a6f57fda68fc7a15820968f1d28f76f01a299dce6ab40243a1ab226e352e76",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M07ee1a66041804a3.lean\n+++ current/vendor/flt/FLTReuse/M07ee1a66041804a3.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M55164c2a16500130\n import FLTReuse.Md2cadaa4525e04a6\n import FLTReuse.Mb875502fbb65df3e\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M42b654a46b7e80fd.lean",
+      "original_sha256": "7dd31f1d598b38b4e4cf3a156089aa83cbe5a2237e25b6c9a39aa23a3f076ffd",
+      "modified_sha256": "bdf49d24100f4f7e51a3772e9b966429f3491a9837240e72c92ce67b5484a3a9",
+      "restored_sha256": "7dd31f1d598b38b4e4cf3a156089aa83cbe5a2237e25b6c9a39aa23a3f076ffd",
+      "restored_git_blob": "427c2c468071d6830ba037ec6b75b9cd57af46be",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M42b654a46b7e80fd.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M42b654a46b7e80fd.lean",
+        "upstream_sha256": "7dd31f1d598b38b4e4cf3a156089aa83cbe5a2237e25b6c9a39aa23a3f076ffd",
+        "upstream_git_blob_sha": "427c2c468071d6830ba037ec6b75b9cd57af46be",
+        "current_sha256": "bdf49d24100f4f7e51a3772e9b966429f3491a9837240e72c92ce67b5484a3a9",
+        "current_git_blob_sha": "214f6be54108a23e57b1637bee7371a62745b74e",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "15622d1280e0598e6c58e97705a4d5b31ab9eff2749594e143142c6c2f1944bf",
+        "non_import_upstream_sha256": "15622d1280e0598e6c58e97705a4d5b31ab9eff2749594e143142c6c2f1944bf",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M42b654a46b7e80fd.lean\n+++ current/vendor/flt/FLTReuse/M42b654a46b7e80fd.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M55164c2a16500130\n import FLTReuse.M1868db956c866c8d\n namespace P2MW.S_NumberField_AdelicFourier_comp_mul_algebraMap_mem_pureTensorSet\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M43f9debe4e1524cd.lean",
+      "original_sha256": "250adae303797b64923ad79ec205d3308fadc1c285731cc5d65ead1620e2e5c9",
+      "modified_sha256": "9dae94c627fe670b6d6a4ae70ad5b8edb68c8a06c2b937b07aabe403f33666d2",
+      "restored_sha256": "250adae303797b64923ad79ec205d3308fadc1c285731cc5d65ead1620e2e5c9",
+      "restored_git_blob": "b2cbe5652110991c53079bd0d3a6731ee65ff0f3",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M43f9debe4e1524cd.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M43f9debe4e1524cd.lean",
+        "upstream_sha256": "250adae303797b64923ad79ec205d3308fadc1c285731cc5d65ead1620e2e5c9",
+        "upstream_git_blob_sha": "b2cbe5652110991c53079bd0d3a6731ee65ff0f3",
+        "current_sha256": "9dae94c627fe670b6d6a4ae70ad5b8edb68c8a06c2b937b07aabe403f33666d2",
+        "current_git_blob_sha": "9c958076eb102c534b1172774b096c047998e9db",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M42b654a46b7e80fd"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M42b654a46b7e80fd"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "541736c3f934341ea178ad77a7968b3ed54aafb8df28d9eb10bfd9bc9a9ef2ab",
+        "non_import_upstream_sha256": "541736c3f934341ea178ad77a7968b3ed54aafb8df28d9eb10bfd9bc9a9ef2ab",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M43f9debe4e1524cd.lean\n+++ current/vendor/flt/FLTReuse/M43f9debe4e1524cd.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M55164c2a16500130\n import FLTReuse.Md2cadaa4525e04a6\n import FLTReuse.Mb875502fbb65df3e\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Me81399e7f86b24e0.lean",
+      "original_sha256": "811a936fb882d4a923ef438f362954aeff6c850a01ea296e740fcf18def893dc",
+      "modified_sha256": "5d6115516bd6c7eb4730fe5107383979c5844316e4546427e37c3974e9fc9813",
+      "restored_sha256": "811a936fb882d4a923ef438f362954aeff6c850a01ea296e740fcf18def893dc",
+      "restored_git_blob": "001559ea1c3f6a929deec8d3049dfbe52a05f581",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Me81399e7f86b24e0.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Me81399e7f86b24e0.lean",
+        "upstream_sha256": "811a936fb882d4a923ef438f362954aeff6c850a01ea296e740fcf18def893dc",
+        "upstream_git_blob_sha": "001559ea1c3f6a929deec8d3049dfbe52a05f581",
+        "current_sha256": "5d6115516bd6c7eb4730fe5107383979c5844316e4546427e37c3974e9fc9813",
+        "current_git_blob_sha": "98745d11346669cea9a24b64c9c42f2774bd33aa",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.Mfa51b18746f896ac",
+          "import FLTReuse.M07ee1a66041804a3",
+          "import FLTReuse.M43f9debe4e1524cd",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.Mfa51b18746f896ac",
+          "import FLTReuse.M07ee1a66041804a3",
+          "import FLTReuse.M43f9debe4e1524cd",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "19efad1e8d63e5c45b427a010542b8e139398ed129df992785ab8396ae4098da",
+        "non_import_upstream_sha256": "19efad1e8d63e5c45b427a010542b8e139398ed129df992785ab8396ae4098da",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Me81399e7f86b24e0.lean\n+++ current/vendor/flt/FLTReuse/Me81399e7f86b24e0.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M55164c2a16500130\n import FLTReuse.Mb875502fbb65df3e\n import FLTReuse.Mfa51b18746f896ac\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M2fcbe64c9aec0e44.lean",
+      "original_sha256": "6cc1410450087c1aa89285aed71380aa22f5672c0d7968f06f61ee4684ea3476",
+      "modified_sha256": "989bffc82d135433f39f7cc06b048ce156979ae928326345dd143fbcdc24de05",
+      "restored_sha256": "6cc1410450087c1aa89285aed71380aa22f5672c0d7968f06f61ee4684ea3476",
+      "restored_git_blob": "766d94109d52d474f9647b1ff1dbc4c6c138f483",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M2fcbe64c9aec0e44.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M2fcbe64c9aec0e44.lean",
+        "upstream_sha256": "6cc1410450087c1aa89285aed71380aa22f5672c0d7968f06f61ee4684ea3476",
+        "upstream_git_blob_sha": "766d94109d52d474f9647b1ff1dbc4c6c138f483",
+        "current_sha256": "989bffc82d135433f39f7cc06b048ce156979ae928326345dd143fbcdc24de05",
+        "current_git_blob_sha": "0034c02c5178c22868bb55fa1b5cf0ea92b6117b",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.Ma8a630470416c571",
+          "import FLTReuse.M8531b1869d254748",
+          "import FLTReuse.M73a9a640258e5c6b",
+          "import FLTReuse.Md9bb0dc096ff8cbe",
+          "import FLTReuse.M7061c16014292de9",
+          "import FLTReuse.M7f86edea65d586c8",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Md2cadaa4525e04a6",
+          "import FLTReuse.Mb875502fbb65df3e",
+          "import FLTReuse.Ma8a630470416c571",
+          "import FLTReuse.M8531b1869d254748",
+          "import FLTReuse.M73a9a640258e5c6b",
+          "import FLTReuse.Md9bb0dc096ff8cbe",
+          "import FLTReuse.M7061c16014292de9",
+          "import FLTReuse.M7f86edea65d586c8",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "272a335a9caa122e5bb299c8da922ad3ae50a999c90debb8ce5e95c2f2981891",
+        "non_import_upstream_sha256": "272a335a9caa122e5bb299c8da922ad3ae50a999c90debb8ce5e95c2f2981891",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M2fcbe64c9aec0e44.lean\n+++ current/vendor/flt/FLTReuse/M2fcbe64c9aec0e44.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M55164c2a16500130\n import FLTReuse.Md2cadaa4525e04a6\n import FLTReuse.Mb875502fbb65df3e\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M06b1cdb6f87adf15.lean",
+      "original_sha256": "e26e2094a5011bbb0e98b180710b7b1d67b1633499a2bad7db73e82f6355151c",
+      "modified_sha256": "824d33914af5d09db667d3ae0347f4643ea118f469c7238300f9f3c9fbe617e8",
+      "restored_sha256": "e26e2094a5011bbb0e98b180710b7b1d67b1633499a2bad7db73e82f6355151c",
+      "restored_git_blob": "db76785ecacbf6f4eaf87d9fd753b44aa27290d2",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M06b1cdb6f87adf15.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M06b1cdb6f87adf15.lean",
+        "upstream_sha256": "e26e2094a5011bbb0e98b180710b7b1d67b1633499a2bad7db73e82f6355151c",
+        "upstream_git_blob_sha": "db76785ecacbf6f4eaf87d9fd753b44aa27290d2",
+        "current_sha256": "824d33914af5d09db667d3ae0347f4643ea118f469c7238300f9f3c9fbe617e8",
+        "current_git_blob_sha": "6e9a6b532ca578b85505bca1321b8dc8e58a0a24",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib.MeasureTheory.Measure.Haar.DistribChar",
+          "import Mathlib",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Mc4dd375116d61c53",
+          "import FLTReuse.Mb160b7190bc2968b",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import Mathlib.MeasureTheory.Measure.Haar.DistribChar",
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M55164c2a16500130",
+          "import FLTReuse.Mc4dd375116d61c53",
+          "import FLTReuse.Mb160b7190bc2968b",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "dc6e302ae7b9a2d4d9e74a7311d16b09ef242001fd2df5603b19c1d9e5850b2b",
+        "non_import_upstream_sha256": "dc6e302ae7b9a2d4d9e74a7311d16b09ef242001fd2df5603b19c1d9e5850b2b",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M06b1cdb6f87adf15.lean\n+++ current/vendor/flt/FLTReuse/M06b1cdb6f87adf15.lean\n@@ -1,5 +1,5 @@\n import Mathlib.MeasureTheory.Measure.Haar.DistribChar\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M55164c2a16500130\n import FLTReuse.Mc4dd375116d61c53\n import FLTReuse.Mb160b7190bc2968b\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M15e51be4a1978e6b.lean",
+      "original_sha256": "20f95303c2e440e596a4dfec8b00faef113c9e09a5c702a7122ecdec81f7bd10",
+      "modified_sha256": "6d912b3fa4f409ef7c0c75cc6b825575731797ea32393e2e17533e52897f7ce1",
+      "restored_sha256": "20f95303c2e440e596a4dfec8b00faef113c9e09a5c702a7122ecdec81f7bd10",
+      "restored_git_blob": "3d32ee02efe754a04aebe375acb8f93d2fc71f2d",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M15e51be4a1978e6b.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M15e51be4a1978e6b.lean",
+        "upstream_sha256": "20f95303c2e440e596a4dfec8b00faef113c9e09a5c702a7122ecdec81f7bd10",
+        "upstream_git_blob_sha": "3d32ee02efe754a04aebe375acb8f93d2fc71f2d",
+        "current_sha256": "6d912b3fa4f409ef7c0c75cc6b825575731797ea32393e2e17533e52897f7ce1",
+        "current_git_blob_sha": "28e77b2dc35d3a84346da5f8ec7de3af4ebeec10",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "30d14dc83bb9a6a4ccbcb7ec66e330c2dd02160dd615f8c68a1866b046037451",
+        "non_import_upstream_sha256": "30d14dc83bb9a6a4ccbcb7ec66e330c2dd02160dd615f8c68a1866b046037451",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M15e51be4a1978e6b.lean\n+++ current/vendor/flt/FLTReuse/M15e51be4a1978e6b.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M1868db956c866c8d\n namespace P2MW.S_MeasureTheory_Measure_exists_eq_prod_of_forall_map_add_left\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Mf26cffa02c54d3d0.lean",
+      "original_sha256": "4130a45076b6a41d5e1b25897411930443575da900a91e2d7b01020429b46919",
+      "modified_sha256": "977bbada9404800e8db58442355a4b215c093702c6ce98190866d275f153af57",
+      "restored_sha256": "4130a45076b6a41d5e1b25897411930443575da900a91e2d7b01020429b46919",
+      "restored_git_blob": "1aa06e905e51cceb82699b45c8b65205e06cee64",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Mf26cffa02c54d3d0.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Mf26cffa02c54d3d0.lean",
+        "upstream_sha256": "4130a45076b6a41d5e1b25897411930443575da900a91e2d7b01020429b46919",
+        "upstream_git_blob_sha": "1aa06e905e51cceb82699b45c8b65205e06cee64",
+        "current_sha256": "977bbada9404800e8db58442355a4b215c093702c6ce98190866d275f153af57",
+        "current_git_blob_sha": "53f002334a460df3704f880b3b0ccc1ef5c0ada5",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M15e51be4a1978e6b"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M15e51be4a1978e6b"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "20132ad0516106a775b016eaf893aab1b0d0a5fd1e437a0935310d1f0f91ccaf",
+        "non_import_upstream_sha256": "20132ad0516106a775b016eaf893aab1b0d0a5fd1e437a0935310d1f0f91ccaf",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Mf26cffa02c54d3d0.lean\n+++ current/vendor/flt/FLTReuse/Mf26cffa02c54d3d0.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M1868db956c866c8d\n import FLTReuse.M15e51be4a1978e6b\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M877387a8b2075049.lean",
+      "original_sha256": "d5f73b1c9739ee73fd41d14d078fbcbb3a6502000fd6033a578934ea6307b2af",
+      "modified_sha256": "e70118b26a0c43e7dcdb41182647515aeec3691c3d3685870e9c426bbdc119b2",
+      "restored_sha256": "d5f73b1c9739ee73fd41d14d078fbcbb3a6502000fd6033a578934ea6307b2af",
+      "restored_git_blob": "dac2c5feb3ac4ef0670086d4937d0e88494c1614",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M877387a8b2075049.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M877387a8b2075049.lean",
+        "upstream_sha256": "d5f73b1c9739ee73fd41d14d078fbcbb3a6502000fd6033a578934ea6307b2af",
+        "upstream_git_blob_sha": "dac2c5feb3ac4ef0670086d4937d0e88494c1614",
+        "current_sha256": "e70118b26a0c43e7dcdb41182647515aeec3691c3d3685870e9c426bbdc119b2",
+        "current_git_blob_sha": "5099eeebe9a70bde70631444f8c1458197879139",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M157b087506702f5d",
+          "import FLTReuse.M0a341b9f001ae4d1",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M24258cdb51c176f1"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M157b087506702f5d",
+          "import FLTReuse.M0a341b9f001ae4d1",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M24258cdb51c176f1"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "e75999dbb79b98b4a80b707d276e243157114c04d28cedc089ae6b1c8397f3c8",
+        "non_import_upstream_sha256": "e75999dbb79b98b4a80b707d276e243157114c04d28cedc089ae6b1c8397f3c8",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M877387a8b2075049.lean\n+++ current/vendor/flt/FLTReuse/M877387a8b2075049.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\r\n+import FLTReuse.ExplicitMathlibImports\r\n import FLTReuse.M157b087506702f5d\r\n import FLTReuse.M0a341b9f001ae4d1\r\n import FLTReuse.M1868db956c866c8d\r\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M841e63e1912e8e9b.lean",
+      "original_sha256": "e0207d89adec4c7c0f751384cb0ff5258efa779c6750058550272a7302f7d24d",
+      "modified_sha256": "03f30c5e3e4fc9a16de3c33eb5aa15f8d12b3d9f73c6c683ae4e6c46743a13ed",
+      "restored_sha256": "e0207d89adec4c7c0f751384cb0ff5258efa779c6750058550272a7302f7d24d",
+      "restored_git_blob": "00ee5a14a49170af24ac63c0072f91784f065cbf",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M841e63e1912e8e9b.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M841e63e1912e8e9b.lean",
+        "upstream_sha256": "e0207d89adec4c7c0f751384cb0ff5258efa779c6750058550272a7302f7d24d",
+        "upstream_git_blob_sha": "00ee5a14a49170af24ac63c0072f91784f065cbf",
+        "current_sha256": "03f30c5e3e4fc9a16de3c33eb5aa15f8d12b3d9f73c6c683ae4e6c46743a13ed",
+        "current_git_blob_sha": "ce0672920e1f5314acf7d473115105b4a28d65ab",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M157b087506702f5d",
+          "import FLTReuse.M40aeee35a98f067b",
+          "import FLTReuse.M0a341b9f001ae4d1",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.Mbbd20d45a2a367d5"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M157b087506702f5d",
+          "import FLTReuse.M40aeee35a98f067b",
+          "import FLTReuse.M0a341b9f001ae4d1",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.Mbbd20d45a2a367d5"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "7c7643f7c42e0ec73335a7b86756302d9d75fbe6e9dfbd91ae6afb99e82e1abe",
+        "non_import_upstream_sha256": "7c7643f7c42e0ec73335a7b86756302d9d75fbe6e9dfbd91ae6afb99e82e1abe",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M841e63e1912e8e9b.lean\n+++ current/vendor/flt/FLTReuse/M841e63e1912e8e9b.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\r\n+import FLTReuse.ExplicitMathlibImports\r\n import FLTReuse.M157b087506702f5d\r\n import FLTReuse.M40aeee35a98f067b\r\n import FLTReuse.M0a341b9f001ae4d1\r\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M20bb09e32372f4f8.lean",
+      "original_sha256": "099ebf596c6c98fda6fd4aa4bf3d905cb650e6f63285ffdb96fd480543a372ff",
+      "modified_sha256": "7ce95915e622bb3ddecaa28eb7b6753d7a811cf20af942bc4ae5f8b6c4567f7e",
+      "restored_sha256": "099ebf596c6c98fda6fd4aa4bf3d905cb650e6f63285ffdb96fd480543a372ff",
+      "restored_git_blob": "b605b6569664a1b9ab2d8194af9aba1ac637e2a0",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M20bb09e32372f4f8.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M20bb09e32372f4f8.lean",
+        "upstream_sha256": "099ebf596c6c98fda6fd4aa4bf3d905cb650e6f63285ffdb96fd480543a372ff",
+        "upstream_git_blob_sha": "b605b6569664a1b9ab2d8194af9aba1ac637e2a0",
+        "current_sha256": "7ce95915e622bb3ddecaa28eb7b6753d7a811cf20af942bc4ae5f8b6c4567f7e",
+        "current_git_blob_sha": "c6895cc99e6a470774e6bf6496d3ae0484349778",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.Mc4dd375116d61c53",
+          "import FLTReuse.Mb160b7190bc2968b",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.Mc4dd375116d61c53",
+          "import FLTReuse.Mb160b7190bc2968b",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "595baa0fc2b3546e0d292f0b33be1cd05a5a626307401468127b652e13d5f814",
+        "non_import_upstream_sha256": "595baa0fc2b3546e0d292f0b33be1cd05a5a626307401468127b652e13d5f814",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M20bb09e32372f4f8.lean\n+++ current/vendor/flt/FLTReuse/M20bb09e32372f4f8.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.Mc4dd375116d61c53\n import FLTReuse.Mb160b7190bc2968b\n import FLTReuse.M1868db956c866c8d\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M4a7019b5ddf741a1.lean",
+      "original_sha256": "e8fcdcab1b0106c29b1e9c3eb792614ca09f0e7cce5b7ef21ae647805393c555",
+      "modified_sha256": "19bcac0d25e450b57733723ae043d5a38b51397c75be922ff7aacc34c1a44fe3",
+      "restored_sha256": "e8fcdcab1b0106c29b1e9c3eb792614ca09f0e7cce5b7ef21ae647805393c555",
+      "restored_git_blob": "b72da515f01b7e88e33157692d825104de3a023d",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M4a7019b5ddf741a1.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M4a7019b5ddf741a1.lean",
+        "upstream_sha256": "e8fcdcab1b0106c29b1e9c3eb792614ca09f0e7cce5b7ef21ae647805393c555",
+        "upstream_git_blob_sha": "b72da515f01b7e88e33157692d825104de3a023d",
+        "current_sha256": "19bcac0d25e450b57733723ae043d5a38b51397c75be922ff7aacc34c1a44fe3",
+        "current_git_blob_sha": "bdba08ba138882e5903b59d6ca177531500b83df",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M157b087506702f5d",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M157b087506702f5d",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "3d23bb1659f3d2fc61c4d54b40a703218905eec433de17436517dfb5e3466dc1",
+        "non_import_upstream_sha256": "3d23bb1659f3d2fc61c4d54b40a703218905eec433de17436517dfb5e3466dc1",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M4a7019b5ddf741a1.lean\n+++ current/vendor/flt/FLTReuse/M4a7019b5ddf741a1.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M157b087506702f5d\n import FLTReuse.M1868db956c866c8d\n namespace P2MW.S_NumberField_TateGlobal_exists_finset_forall_isUnramifiedCharAt_of_continuous\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Mfa16ee9aa60c0bfe.lean",
+      "original_sha256": "6cf75cd77b4158f79902c185ef06ff2fb2aef5c76df703c80b5c6c4503346128",
+      "modified_sha256": "5da19475c3a360fd6a611a4198f0c9260c907a740d6118161b462a026622f5ba",
+      "restored_sha256": "6cf75cd77b4158f79902c185ef06ff2fb2aef5c76df703c80b5c6c4503346128",
+      "restored_git_blob": "c6bffc2b0bdbf235a59d8a60e881296fc1bf2d9e",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Mfa16ee9aa60c0bfe.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Mfa16ee9aa60c0bfe.lean",
+        "upstream_sha256": "6cf75cd77b4158f79902c185ef06ff2fb2aef5c76df703c80b5c6c4503346128",
+        "upstream_git_blob_sha": "c6bffc2b0bdbf235a59d8a60e881296fc1bf2d9e",
+        "current_sha256": "5da19475c3a360fd6a611a4198f0c9260c907a740d6118161b462a026622f5ba",
+        "current_git_blob_sha": "6643341539a18f09c5311aacabff65d84f121ea6",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M157b087506702f5d",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M4a7019b5ddf741a1"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M157b087506702f5d",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M4a7019b5ddf741a1"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "607a09771d98a15b6c93fdc1453074c9febda919886bf3e1261f8ccf15a2bdae",
+        "non_import_upstream_sha256": "607a09771d98a15b6c93fdc1453074c9febda919886bf3e1261f8ccf15a2bdae",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Mfa16ee9aa60c0bfe.lean\n+++ current/vendor/flt/FLTReuse/Mfa16ee9aa60c0bfe.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M157b087506702f5d\n import FLTReuse.M1868db956c866c8d\n import FLTReuse.M4a7019b5ddf741a1\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M942f00edb0fab8b3.lean",
+      "original_sha256": "81740bbc95a1293d6e34fa4d4b1149ce34c88e868fbb620967e905098abe78fb",
+      "modified_sha256": "8eb4929342cce6d6fb2a760b37e70121b7f938c3e808ce5223a3220b7b4e547d",
+      "restored_sha256": "81740bbc95a1293d6e34fa4d4b1149ce34c88e868fbb620967e905098abe78fb",
+      "restored_git_blob": "2d6591e67e12689a25fec283bee8be6372f0d46d",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M942f00edb0fab8b3.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M942f00edb0fab8b3.lean",
+        "upstream_sha256": "81740bbc95a1293d6e34fa4d4b1149ce34c88e868fbb620967e905098abe78fb",
+        "upstream_git_blob_sha": "2d6591e67e12689a25fec283bee8be6372f0d46d",
+        "current_sha256": "8eb4929342cce6d6fb2a760b37e70121b7f938c3e808ce5223a3220b7b4e547d",
+        "current_git_blob_sha": "e093086634983a475705667db775fd80d6328202",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "00e1fc51557a05656555f3d6d869a2e5c875c3bc607e8ac240254354de6cccdc",
+        "non_import_upstream_sha256": "00e1fc51557a05656555f3d6d869a2e5c875c3bc607e8ac240254354de6cccdc",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M942f00edb0fab8b3.lean\n+++ current/vendor/flt/FLTReuse/M942f00edb0fab8b3.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M1868db956c866c8d\n namespace P2MW.S_NumberField_multipliable_differentiableOn_tprod_ne_zero_eulerProduct_of_norm_le_one\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Me240d100ced8d69a.lean",
+      "original_sha256": "fd745d236a918bd381d13d3ed1741d6aff240326ec30d1bc9c5405a3df21a51f",
+      "modified_sha256": "f4ad0e5510852a1339750bef5fb9a807c38204b74f90342220d2aef4f9c383fb",
+      "restored_sha256": "fd745d236a918bd381d13d3ed1741d6aff240326ec30d1bc9c5405a3df21a51f",
+      "restored_git_blob": "76552daa97f6609f2f6755dde7eef77b0de7ab61",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Me240d100ced8d69a.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Me240d100ced8d69a.lean",
+        "upstream_sha256": "fd745d236a918bd381d13d3ed1741d6aff240326ec30d1bc9c5405a3df21a51f",
+        "upstream_git_blob_sha": "76552daa97f6609f2f6755dde7eef77b0de7ab61",
+        "current_sha256": "f4ad0e5510852a1339750bef5fb9a807c38204b74f90342220d2aef4f9c383fb",
+        "current_git_blob_sha": "7fa9ee27e58f229375ca35276c0107d7742d0731",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M942f00edb0fab8b3"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M942f00edb0fab8b3"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "2624278e7eaaa20f2dad12d55e39de217a0179081601b757f7f70b01d6235c67",
+        "non_import_upstream_sha256": "2624278e7eaaa20f2dad12d55e39de217a0179081601b757f7f70b01d6235c67",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Me240d100ced8d69a.lean\n+++ current/vendor/flt/FLTReuse/Me240d100ced8d69a.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M1868db956c866c8d\n import FLTReuse.M942f00edb0fab8b3\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M3dc69d582d3e4757.lean",
+      "original_sha256": "1c87fcc32083fa1f117c571d6ea9e759e01332c4016f24711bff4fdd34f6ef80",
+      "modified_sha256": "8e52211204b24a8ec2c3b3205916b341ec1718db1ed7937bbde57075b358ac4b",
+      "restored_sha256": "1c87fcc32083fa1f117c571d6ea9e759e01332c4016f24711bff4fdd34f6ef80",
+      "restored_git_blob": "ac60e9eb1ea908ab3ba4c660c568ad6a94c6b4b1",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M3dc69d582d3e4757.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M3dc69d582d3e4757.lean",
+        "upstream_sha256": "1c87fcc32083fa1f117c571d6ea9e759e01332c4016f24711bff4fdd34f6ef80",
+        "upstream_git_blob_sha": "ac60e9eb1ea908ab3ba4c660c568ad6a94c6b4b1",
+        "current_sha256": "8e52211204b24a8ec2c3b3205916b341ec1718db1ed7937bbde57075b358ac4b",
+        "current_git_blob_sha": "b593ba3859c3c3ff56cb8295225825684e96b36c",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "7cdbf0e9feca96c819625e2667ae6041b0758cdd961c196e6b89aabb18fe3249",
+        "non_import_upstream_sha256": "7cdbf0e9feca96c819625e2667ae6041b0758cdd961c196e6b89aabb18fe3249",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M3dc69d582d3e4757.lean\n+++ current/vendor/flt/FLTReuse/M3dc69d582d3e4757.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n \n set_option autoImplicit false\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Mae9e3eb0ac36ea6a.lean",
+      "original_sha256": "471c2e45e07a730e80521ed5fce1897dfa390d26c908e771eaeba1d0051ac608",
+      "modified_sha256": "eb74897d9a42b47ea2e1c6849aa699568c45a505209d18c4932c122acee59c4f",
+      "restored_sha256": "471c2e45e07a730e80521ed5fce1897dfa390d26c908e771eaeba1d0051ac608",
+      "restored_git_blob": "7c8d1c9058e3dc5ea11a6802665a0cacb046e987",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Mae9e3eb0ac36ea6a.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Mae9e3eb0ac36ea6a.lean",
+        "upstream_sha256": "471c2e45e07a730e80521ed5fce1897dfa390d26c908e771eaeba1d0051ac608",
+        "upstream_git_blob_sha": "7c8d1c9058e3dc5ea11a6802665a0cacb046e987",
+        "current_sha256": "eb74897d9a42b47ea2e1c6849aa699568c45a505209d18c4932c122acee59c4f",
+        "current_git_blob_sha": "48a1a213a7b6a2f874b54dfb5ef27fb5bf2eef6f",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M3dc69d582d3e4757"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M3dc69d582d3e4757"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "d9d2f213b60b8334862a7829419d5acb53b3646081c55a531f07e9341d58f192",
+        "non_import_upstream_sha256": "d9d2f213b60b8334862a7829419d5acb53b3646081c55a531f07e9341d58f192",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Mae9e3eb0ac36ea6a.lean\n+++ current/vendor/flt/FLTReuse/Mae9e3eb0ac36ea6a.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M3dc69d582d3e4757\n \n set_option autoImplicit false\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Me61a03e991a0ecf9.lean",
+      "original_sha256": "0af97b7157e2f65717f1fa5f72190b997fe161df683fb110557267a2e6a42b6e",
+      "modified_sha256": "873c8910e4c0716f7472fc74e8a2d2d285cb03285fd4e8a6942382e7e029f56e",
+      "restored_sha256": "0af97b7157e2f65717f1fa5f72190b997fe161df683fb110557267a2e6a42b6e",
+      "restored_git_blob": "0f9fa082d9e4527f7ca364253ccddd7503726445",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Me61a03e991a0ecf9.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Me61a03e991a0ecf9.lean",
+        "upstream_sha256": "0af97b7157e2f65717f1fa5f72190b997fe161df683fb110557267a2e6a42b6e",
+        "upstream_git_blob_sha": "0f9fa082d9e4527f7ca364253ccddd7503726445",
+        "current_sha256": "873c8910e4c0716f7472fc74e8a2d2d285cb03285fd4e8a6942382e7e029f56e",
+        "current_git_blob_sha": "bd47d2aa98099c85c93f42ee22ba599d778e71f9",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.Mae9e3eb0ac36ea6a"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.Mae9e3eb0ac36ea6a"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "f34b236c59a65abb80a1b9cfa22bb2f2c446095c187f168fd13623f45d52584f",
+        "non_import_upstream_sha256": "f34b236c59a65abb80a1b9cfa22bb2f2c446095c187f168fd13623f45d52584f",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Me61a03e991a0ecf9.lean\n+++ current/vendor/flt/FLTReuse/Me61a03e991a0ecf9.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.Mae9e3eb0ac36ea6a\n \n set_option autoImplicit false\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M0693cf42892760e8.lean",
+      "original_sha256": "705985d0769723a5d53b7a59d8618e840513ef5bf266f3ed31e92e1558036eb9",
+      "modified_sha256": "5f0942ef204162ebd99138026c56e22cc340448bddafea001a815674141a1c63",
+      "restored_sha256": "705985d0769723a5d53b7a59d8618e840513ef5bf266f3ed31e92e1558036eb9",
+      "restored_git_blob": "abf82874b39dc57677821df4631517b4e3e73cd2",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M0693cf42892760e8.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M0693cf42892760e8.lean",
+        "upstream_sha256": "705985d0769723a5d53b7a59d8618e840513ef5bf266f3ed31e92e1558036eb9",
+        "upstream_git_blob_sha": "abf82874b39dc57677821df4631517b4e3e73cd2",
+        "current_sha256": "5f0942ef204162ebd99138026c56e22cc340448bddafea001a815674141a1c63",
+        "current_git_blob_sha": "d18c8882e2dfc3edc7b6ed66bc661a3b9c75cd64",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M157b087506702f5d",
+          "import FLTReuse.M40aeee35a98f067b",
+          "import FLTReuse.M0a341b9f001ae4d1",
+          "import FLTReuse.Me61a03e991a0ecf9",
+          "import FLTReuse.Md8a9304a6214c1b9",
+          "import FLTReuse.Mf9b71f9cef81b397",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M157b087506702f5d",
+          "import FLTReuse.M40aeee35a98f067b",
+          "import FLTReuse.M0a341b9f001ae4d1",
+          "import FLTReuse.Me61a03e991a0ecf9",
+          "import FLTReuse.Md8a9304a6214c1b9",
+          "import FLTReuse.Mf9b71f9cef81b397",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "7b98388bc3e74687831ffb5baaef5d505049071b2d5670857e653706454a281d",
+        "non_import_upstream_sha256": "7b98388bc3e74687831ffb5baaef5d505049071b2d5670857e653706454a281d",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M0693cf42892760e8.lean\n+++ current/vendor/flt/FLTReuse/M0693cf42892760e8.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\r\n+import FLTReuse.ExplicitMathlibImports\r\n import FLTReuse.M157b087506702f5d\r\n import FLTReuse.M40aeee35a98f067b\r\n import FLTReuse.M0a341b9f001ae4d1\r\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Ma9157e14fb8004d5.lean",
+      "original_sha256": "d8e8b906d6d006d5154eec974a8d6c9277acefee0b5af6f46f9c7bd82b0ce504",
+      "modified_sha256": "3d7d0976e12c14afdf81c400b82dc4d726a3707a166f4eeb9d515968f829c6e0",
+      "restored_sha256": "d8e8b906d6d006d5154eec974a8d6c9277acefee0b5af6f46f9c7bd82b0ce504",
+      "restored_git_blob": "0565e600ae9bf84d6ccea8d8d0c617f18e3f3fa0",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Ma9157e14fb8004d5.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Ma9157e14fb8004d5.lean",
+        "upstream_sha256": "d8e8b906d6d006d5154eec974a8d6c9277acefee0b5af6f46f9c7bd82b0ce504",
+        "upstream_git_blob_sha": "0565e600ae9bf84d6ccea8d8d0c617f18e3f3fa0",
+        "current_sha256": "3d7d0976e12c14afdf81c400b82dc4d726a3707a166f4eeb9d515968f829c6e0",
+        "current_git_blob_sha": "a1cd40dbf1c8a1bd84f14af9d56f2c7e8150b134",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M157b087506702f5d",
+          "import FLTReuse.M40aeee35a98f067b",
+          "import FLTReuse.M0a341b9f001ae4d1",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M0693cf42892760e8"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M157b087506702f5d",
+          "import FLTReuse.M40aeee35a98f067b",
+          "import FLTReuse.M0a341b9f001ae4d1",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M0693cf42892760e8"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "f15e2be5c6690e192cb6d3ac80735d90694e42b1fca4b2b1753577f4e46f4f93",
+        "non_import_upstream_sha256": "f15e2be5c6690e192cb6d3ac80735d90694e42b1fca4b2b1753577f4e46f4f93",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Ma9157e14fb8004d5.lean\n+++ current/vendor/flt/FLTReuse/Ma9157e14fb8004d5.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\r\n+import FLTReuse.ExplicitMathlibImports\r\n import FLTReuse.M157b087506702f5d\r\n import FLTReuse.M40aeee35a98f067b\r\n import FLTReuse.M0a341b9f001ae4d1\r\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M2aad6443a6d88bc3.lean",
+      "original_sha256": "b050ab160efff791b7da679bd24f02634ed50a28b853fae8d2caf0e2eabd3752",
+      "modified_sha256": "9e321915aac21de083ce65bef0e925f3c71af5380e5f582b3148c4047cd03949",
+      "restored_sha256": "b050ab160efff791b7da679bd24f02634ed50a28b853fae8d2caf0e2eabd3752",
+      "restored_git_blob": "23a659fef44f2a689a1dd15b647c3c91324c6ef1",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M2aad6443a6d88bc3.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M2aad6443a6d88bc3.lean",
+        "upstream_sha256": "b050ab160efff791b7da679bd24f02634ed50a28b853fae8d2caf0e2eabd3752",
+        "upstream_git_blob_sha": "23a659fef44f2a689a1dd15b647c3c91324c6ef1",
+        "current_sha256": "9e321915aac21de083ce65bef0e925f3c71af5380e5f582b3148c4047cd03949",
+        "current_git_blob_sha": "29c341b1836717f4d5df26dfb8b505caa1373458",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "f5ff0e6d168d2366b32cbf50bf05c1784f03a9ff9967dc77b3d0603fab0134c8",
+        "non_import_upstream_sha256": "f5ff0e6d168d2366b32cbf50bf05c1784f03a9ff9967dc77b3d0603fab0134c8",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M2aad6443a6d88bc3.lean\n+++ current/vendor/flt/FLTReuse/M2aad6443a6d88bc3.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M1868db956c866c8d\n namespace P2MW.S_NumberField_hasProd_inv_one_sub_absNorm_cpow_neg_dedekindZeta\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Mfbd03b0511a8bca3.lean",
+      "original_sha256": "332c854732534275c98a05fb671b56d69f3e7613f7dc8495de82bfb416d5612f",
+      "modified_sha256": "c8ca4ca7a9493eb815b9fbe6cfbc968ece0289b12a59989754c0fbb05af083cc",
+      "restored_sha256": "332c854732534275c98a05fb671b56d69f3e7613f7dc8495de82bfb416d5612f",
+      "restored_git_blob": "0bf12396b4c12c4b8a03c6fa1bee64e30127548a",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Mfbd03b0511a8bca3.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Mfbd03b0511a8bca3.lean",
+        "upstream_sha256": "332c854732534275c98a05fb671b56d69f3e7613f7dc8495de82bfb416d5612f",
+        "upstream_git_blob_sha": "0bf12396b4c12c4b8a03c6fa1bee64e30127548a",
+        "current_sha256": "c8ca4ca7a9493eb815b9fbe6cfbc968ece0289b12a59989754c0fbb05af083cc",
+        "current_git_blob_sha": "3bb600a3c33bd97270af036f8daaca763d706421",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M2aad6443a6d88bc3"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M2aad6443a6d88bc3"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "e341b4eb43135a844504ad2ab71efd0a7fafe5a71bb15881ee2e5fb9d6c9ee48",
+        "non_import_upstream_sha256": "e341b4eb43135a844504ad2ab71efd0a7fafe5a71bb15881ee2e5fb9d6c9ee48",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Mfbd03b0511a8bca3.lean\n+++ current/vendor/flt/FLTReuse/Mfbd03b0511a8bca3.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M1868db956c866c8d\n import FLTReuse.M2aad6443a6d88bc3\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M84a19a4b46484342.lean",
+      "original_sha256": "4d7078677a4680a050881ea4b43fa1148da6d4d8a9871f70af8d4e5f8b601238",
+      "modified_sha256": "ad301c8d5b62961a8c08a1cb00001a63e30843a0276ba9f5957ac2f2e4db3d16",
+      "latest_import_only_check": {
+        "prior_git_blob": "3e6afe47983e5e8342a720b5305183742d8baf8f",
+        "added_imports": [
+          "import Mathlib.Analysis.SpecialFunctions.Gaussian.PoissonSummation",
+          "import Mathlib.NumberTheory.LSeries.AbstractFuncEq",
+          "import Mathlib.Analysis.SpecialFunctions.Stirling"
+        ],
+        "proofs_and_definitions_unchanged": true
+      },
+      "restored_sha256": "4d7078677a4680a050881ea4b43fa1148da6d4d8a9871f70af8d4e5f8b601238",
+      "restored_git_blob": "34173ea572327ff1b2f9057c9ee07f5c5f1a4afa",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M84a19a4b46484342.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M84a19a4b46484342.lean",
+        "upstream_sha256": "4d7078677a4680a050881ea4b43fa1148da6d4d8a9871f70af8d4e5f8b601238",
+        "upstream_git_blob_sha": "34173ea572327ff1b2f9057c9ee07f5c5f1a4afa",
+        "current_sha256": "ad301c8d5b62961a8c08a1cb00001a63e30843a0276ba9f5957ac2f2e4db3d16",
+        "current_git_blob_sha": "659ae75c477f5c5a01a01303992bb286a795523b",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing_with_added_leaves",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports",
+          "Mathlib.Analysis.SpecialFunctions.Gaussian.PoissonSummation",
+          "Mathlib.Analysis.SpecialFunctions.Stirling",
+          "Mathlib.NumberTheory.LSeries.AbstractFuncEq"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import Mathlib.Analysis.SpecialFunctions.Gaussian.PoissonSummation",
+          "import Mathlib.NumberTheory.LSeries.AbstractFuncEq",
+          "import Mathlib.Analysis.SpecialFunctions.Stirling",
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "86f32c1ce05df29424f7253e2b36bdde7f996870a9b5bc208f631dde73a14a62",
+        "non_import_upstream_sha256": "86f32c1ce05df29424f7253e2b36bdde7f996870a9b5bc208f631dde73a14a62",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M84a19a4b46484342.lean\n+++ current/vendor/flt/FLTReuse/M84a19a4b46484342.lean\n@@ -1,4 +1,7 @@\n-import Mathlib\n+import Mathlib.Analysis.SpecialFunctions.Gaussian.PoissonSummation\n+import Mathlib.NumberTheory.LSeries.AbstractFuncEq\n+import Mathlib.Analysis.SpecialFunctions.Stirling\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M1868db956c866c8d\n namespace P2MW.S_NumberField_exists_completedDedekindZeta_package\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Mb863247be1ef9c3e.lean",
+      "original_sha256": "7cb647267fafbfbc025b0e51b644311a766c8757c29115f33031af4ce35b67dc",
+      "modified_sha256": "6646775c6aa2b8b863b9d89f6c10354bc4583e9441c7b1b33b3779a1d5a79935",
+      "restored_sha256": "7cb647267fafbfbc025b0e51b644311a766c8757c29115f33031af4ce35b67dc",
+      "restored_git_blob": "27e7a3db7172769fab8c4624d927568e3c9f362e",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Mb863247be1ef9c3e.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Mb863247be1ef9c3e.lean",
+        "upstream_sha256": "7cb647267fafbfbc025b0e51b644311a766c8757c29115f33031af4ce35b67dc",
+        "upstream_git_blob_sha": "27e7a3db7172769fab8c4624d927568e3c9f362e",
+        "current_sha256": "6646775c6aa2b8b863b9d89f6c10354bc4583e9441c7b1b33b3779a1d5a79935",
+        "current_git_blob_sha": "5d3570dee5c56ba2b2755fc7596224289a9bb504",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M84a19a4b46484342"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M84a19a4b46484342"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "6b5c88401feff7e2b5df15745ebe9589a9084bc7a89443401da406bb655e13ff",
+        "non_import_upstream_sha256": "6b5c88401feff7e2b5df15745ebe9589a9084bc7a89443401da406bb655e13ff",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Mb863247be1ef9c3e.lean\n+++ current/vendor/flt/FLTReuse/Mb863247be1ef9c3e.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M1868db956c866c8d\n import FLTReuse.M84a19a4b46484342\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M6eebde23e658d090.lean",
+      "original_sha256": "c9444ce25230c95a8dfff9d31560603403251c8b8b66ba07fd2e01f951e30228",
+      "modified_sha256": "5ddbb009a0ade0db78165659ac1c3f1c3e80d382983825bddad9a86f3e100845",
+      "restored_sha256": "c9444ce25230c95a8dfff9d31560603403251c8b8b66ba07fd2e01f951e30228",
+      "restored_git_blob": "ab021b0cb98f5bf46d8e8ec5f71851f4b05465f0",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M6eebde23e658d090.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M6eebde23e658d090.lean",
+        "upstream_sha256": "c9444ce25230c95a8dfff9d31560603403251c8b8b66ba07fd2e01f951e30228",
+        "upstream_git_blob_sha": "ab021b0cb98f5bf46d8e8ec5f71851f4b05465f0",
+        "current_sha256": "5ddbb009a0ade0db78165659ac1c3f1c3e80d382983825bddad9a86f3e100845",
+        "current_git_blob_sha": "d2a15763cf3f85655841026478de26e960145a32",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.Mb863247be1ef9c3e",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.Mb863247be1ef9c3e",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "c31814b974ab5247fa7693706707737ed5f46586c7ee704710590482b5622b28",
+        "non_import_upstream_sha256": "c31814b974ab5247fa7693706707737ed5f46586c7ee704710590482b5622b28",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M6eebde23e658d090.lean\n+++ current/vendor/flt/FLTReuse/M6eebde23e658d090.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.Mb863247be1ef9c3e\n import FLTReuse.M1868db956c866c8d\n namespace P2MW.S_NumberField_exists_differentiable_eq_sub_one_mul_dedekindZeta_and_apply_neg_two_mul_add_one_eq_zero\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M5808d10d83f2fccd.lean",
+      "original_sha256": "6372a61593592d8939b8b4c85133d68869f0f2b16b64ab44c17449bb0fe0f304",
+      "modified_sha256": "e59ca06b9837bf820d1290c484c526f265da146c52eaca06fc484f42723ad4d4",
+      "restored_sha256": "6372a61593592d8939b8b4c85133d68869f0f2b16b64ab44c17449bb0fe0f304",
+      "restored_git_blob": "997d3d1976d65573461605e47c0ee78a0fda1c59",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M5808d10d83f2fccd.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M5808d10d83f2fccd.lean",
+        "upstream_sha256": "6372a61593592d8939b8b4c85133d68869f0f2b16b64ab44c17449bb0fe0f304",
+        "upstream_git_blob_sha": "997d3d1976d65573461605e47c0ee78a0fda1c59",
+        "current_sha256": "e59ca06b9837bf820d1290c484c526f265da146c52eaca06fc484f42723ad4d4",
+        "current_git_blob_sha": "8e6b2e5d6cad45a79a8e43e1628330e6053d0943",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M6eebde23e658d090"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M1868db956c866c8d",
+          "import FLTReuse.M6eebde23e658d090"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "bba40333cbce0d01b45b772c940b1c8182d033867789f84eb74b0e3986565626",
+        "non_import_upstream_sha256": "bba40333cbce0d01b45b772c940b1c8182d033867789f84eb74b0e3986565626",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M5808d10d83f2fccd.lean\n+++ current/vendor/flt/FLTReuse/M5808d10d83f2fccd.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M1868db956c866c8d\n import FLTReuse.M6eebde23e658d090\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Mb730f0198259656a.lean",
+      "original_sha256": "6db71b933c0b9f4031f6f683c823d81303aa857a8735bab2b9b1d079ab60baad",
+      "modified_sha256": "40f16e37db5e7a16124a49bb1753d3bc868a00df066b57e6d12852b8e2b9fc60",
+      "restored_sha256": "6db71b933c0b9f4031f6f683c823d81303aa857a8735bab2b9b1d079ab60baad",
+      "restored_git_blob": "ca078582c6ae308167fbe18d4e0509b8fef0ecf2",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Mb730f0198259656a.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Mb730f0198259656a.lean",
+        "upstream_sha256": "6db71b933c0b9f4031f6f683c823d81303aa857a8735bab2b9b1d079ab60baad",
+        "upstream_git_blob_sha": "ca078582c6ae308167fbe18d4e0509b8fef0ecf2",
+        "current_sha256": "40f16e37db5e7a16124a49bb1753d3bc868a00df066b57e6d12852b8e2b9fc60",
+        "current_git_blob_sha": "e664e3be88681bb2a61f3afd6766b3dde041b663",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import FLTReuse.M157b087506702f5d",
+          "import FLTReuse.M0a341b9f001ae4d1",
+          "import FLTReuse.M946c4029202117bd",
+          "import FLTReuse.M40aeee35a98f067b",
+          "import FLTReuse.Ma9157e14fb8004d5",
+          "import FLTReuse.Mfbd03b0511a8bca3",
+          "import FLTReuse.M5808d10d83f2fccd",
+          "import FLTReuse.Mb863247be1ef9c3e",
+          "import FLTReuse.M583a0b5cb8bcd265",
+          "import Mathlib",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.M157b087506702f5d",
+          "import FLTReuse.M0a341b9f001ae4d1",
+          "import FLTReuse.M946c4029202117bd",
+          "import FLTReuse.M40aeee35a98f067b",
+          "import FLTReuse.Ma9157e14fb8004d5",
+          "import FLTReuse.Mfbd03b0511a8bca3",
+          "import FLTReuse.M5808d10d83f2fccd",
+          "import FLTReuse.Mb863247be1ef9c3e",
+          "import FLTReuse.M583a0b5cb8bcd265",
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M1868db956c866c8d"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "8367194e21735aa61df675ed9216c7d93475473f566b15a90649cf94e8e85e1e",
+        "non_import_upstream_sha256": "8367194e21735aa61df675ed9216c7d93475473f566b15a90649cf94e8e85e1e",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Mb730f0198259656a.lean\n+++ current/vendor/flt/FLTReuse/Mb730f0198259656a.lean\n@@ -7,7 +7,7 @@\n import FLTReuse.M5808d10d83f2fccd\r\n import FLTReuse.Mb863247be1ef9c3e\r\n import FLTReuse.M583a0b5cb8bcd265\r\n-import Mathlib\r\n+import FLTReuse.ExplicitMathlibImports\r\n import FLTReuse.M1868db956c866c8d\r\n namespace P2MW.S_NumberField_TateGlobal_exists_differentiable_eq_sub_mul_eulerProduct_and_eq_mul_prod_Gamma_mul_of_eq_normPowChar\r\n -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.\r\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Mca976093a3e9d9d7.lean",
+      "original_sha256": "748962828bb9e78fdd36951f033d877c337c462bebf3a66038eaf5695593e998",
+      "modified_sha256": "1ebdb2c9a261075dc6d833af60477352f408ff48908532dce64fb37dc1231d1e",
+      "restored_sha256": "748962828bb9e78fdd36951f033d877c337c462bebf3a66038eaf5695593e998",
+      "restored_git_blob": "d4b9056228d0598b5638e8d45750bf3b8e4ca444",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Mca976093a3e9d9d7.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Mca976093a3e9d9d7.lean",
+        "upstream_sha256": "748962828bb9e78fdd36951f033d877c337c462bebf3a66038eaf5695593e998",
+        "upstream_git_blob_sha": "d4b9056228d0598b5638e8d45750bf3b8e4ca444",
+        "current_sha256": "1ebdb2c9a261075dc6d833af60477352f408ff48908532dce64fb37dc1231d1e",
+        "current_git_blob_sha": "3f1fd2a4ceca7818fef995694b10586539e745ff",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "1c583485ea681bd57836e0a06befc14965c3c6a248452e17350fbed3f0941e6f",
+        "non_import_upstream_sha256": "1c583485ea681bd57836e0a06befc14965c3c6a248452e17350fbed3f0941e6f",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Mca976093a3e9d9d7.lean\n+++ current/vendor/flt/FLTReuse/Mca976093a3e9d9d7.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n \n section\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M5960be08a50663ff.lean",
+      "original_sha256": "d281c1a015452e9c0cf8bd0720d3b225d9cb2077b48d6605db43a9f951fe2ed5",
+      "modified_sha256": "4b5a96271aafbc558c710914ad8f111f5bdd01fa82d78b98b5f5c4fa9f526e75",
+      "restored_sha256": "d281c1a015452e9c0cf8bd0720d3b225d9cb2077b48d6605db43a9f951fe2ed5",
+      "restored_git_blob": "9d1b409b4bf65ef095aa739a6d68013eb276001c",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M5960be08a50663ff.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M5960be08a50663ff.lean",
+        "upstream_sha256": "d281c1a015452e9c0cf8bd0720d3b225d9cb2077b48d6605db43a9f951fe2ed5",
+        "upstream_git_blob_sha": "9d1b409b4bf65ef095aa739a6d68013eb276001c",
+        "current_sha256": "4b5a96271aafbc558c710914ad8f111f5bdd01fa82d78b98b5f5c4fa9f526e75",
+        "current_git_blob_sha": "e5642f8a7b0046fd13aaa2cf04eeed123102a891",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.Mca976093a3e9d9d7"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.Mca976093a3e9d9d7"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "b816cf0a892e6f810baa20e1e9d95bff2ca6d57d9fba25e27b3c6fa83de9bf89",
+        "non_import_upstream_sha256": "b816cf0a892e6f810baa20e1e9d95bff2ca6d57d9fba25e27b3c6fa83de9bf89",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M5960be08a50663ff.lean\n+++ current/vendor/flt/FLTReuse/M5960be08a50663ff.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.Mca976093a3e9d9d7\n \n set_option backward.isDefEq.respectTransparency false\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Mceaf851096604c8a.lean",
+      "original_sha256": "e5bbb0bb0de6305a37f647c270451d935ec140164c53140fb1afa5d885dbe2d3",
+      "modified_sha256": "c8bd3db58e4737ae9d801da8b359a43e9bf509ad530a2b58341c561712be9cee",
+      "restored_sha256": "e5bbb0bb0de6305a37f647c270451d935ec140164c53140fb1afa5d885dbe2d3",
+      "restored_git_blob": "19de92891ffc7fb5c69636e0403041b58059880f",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Mceaf851096604c8a.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Mceaf851096604c8a.lean",
+        "upstream_sha256": "e5bbb0bb0de6305a37f647c270451d935ec140164c53140fb1afa5d885dbe2d3",
+        "upstream_git_blob_sha": "19de92891ffc7fb5c69636e0403041b58059880f",
+        "current_sha256": "c8bd3db58e4737ae9d801da8b359a43e9bf509ad530a2b58341c561712be9cee",
+        "current_git_blob_sha": "256d62e79c9ef2f20fb66e257058fd6ac89bc520",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "4953544001a48b8337495974c689999e1ff5dd7ab1b484a14ca5b6f9a6305565",
+        "non_import_upstream_sha256": "4953544001a48b8337495974c689999e1ff5dd7ab1b484a14ca5b6f9a6305565",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Mceaf851096604c8a.lean\n+++ current/vendor/flt/FLTReuse/Mceaf851096604c8a.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n \n section IsTopologicalModuleDep\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M2f636d1aec478e2e.lean",
+      "original_sha256": "e3ba314e4a0ef5e89409b310c12a99070e46bf57bb2ac3f4a4c3d24cad2c1ded",
+      "modified_sha256": "6871009eece679fd11172365dbdad4b38985f9a2989d5d848bc12fb88f416f78",
+      "restored_sha256": "e3ba314e4a0ef5e89409b310c12a99070e46bf57bb2ac3f4a4c3d24cad2c1ded",
+      "restored_git_blob": "220a40b58b82d942ae40a876b0000453d2c30387",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M2f636d1aec478e2e.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M2f636d1aec478e2e.lean",
+        "upstream_sha256": "e3ba314e4a0ef5e89409b310c12a99070e46bf57bb2ac3f4a4c3d24cad2c1ded",
+        "upstream_git_blob_sha": "220a40b58b82d942ae40a876b0000453d2c30387",
+        "current_sha256": "6871009eece679fd11172365dbdad4b38985f9a2989d5d848bc12fb88f416f78",
+        "current_git_blob_sha": "cedc73cb90c106e0f9b94e5fe47defd7856f3427",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "525c29e9312af49485486f39eab96694ac61d67be0716984be6ac83cfe27f7b8",
+        "non_import_upstream_sha256": "525c29e9312af49485486f39eab96694ac61d67be0716984be6ac83cfe27f7b8",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M2f636d1aec478e2e.lean\n+++ current/vendor/flt/FLTReuse/M2f636d1aec478e2e.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n \n section\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M255459499690ff8e.lean",
+      "original_sha256": "86b883689bce93e92e8fd50dec8eb212880bf6dfa63dd6e9e97b9f1928ec2eea",
+      "modified_sha256": "921fe0053692a7fbb85628197157cc191f30437fe7d747779a02d076c54279b8",
+      "restored_sha256": "86b883689bce93e92e8fd50dec8eb212880bf6dfa63dd6e9e97b9f1928ec2eea",
+      "restored_git_blob": "cbb42f6f402d8d9b291fbab4693f74e0d3fa647b",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M255459499690ff8e.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M255459499690ff8e.lean",
+        "upstream_sha256": "86b883689bce93e92e8fd50dec8eb212880bf6dfa63dd6e9e97b9f1928ec2eea",
+        "upstream_git_blob_sha": "cbb42f6f402d8d9b291fbab4693f74e0d3fa647b",
+        "current_sha256": "921fe0053692a7fbb85628197157cc191f30437fe7d747779a02d076c54279b8",
+        "current_git_blob_sha": "8240d3b1933c0faa8a75992dd43538b4d9d85fda",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib",
+          "import FLTReuse.M2f636d1aec478e2e"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports",
+          "import FLTReuse.M2f636d1aec478e2e"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "a88dab32362776d495ffd617cb14d35d9c099926d20a68dcbf5ce2e0ba79b1bb",
+        "non_import_upstream_sha256": "a88dab32362776d495ffd617cb14d35d9c099926d20a68dcbf5ce2e0ba79b1bb",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M255459499690ff8e.lean\n+++ current/vendor/flt/FLTReuse/M255459499690ff8e.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n import FLTReuse.M2f636d1aec478e2e\n \n section\n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/M1d838ff8bf72f37a.lean",
+      "original_sha256": "0bbce96980277d8390a902e8624fc06277b05826237f395a29d695d556175d1e",
+      "modified_sha256": "70ac581bdc7f9070c9933f5d80f4785c8cfcf96576c6045632c8a56b5977dc71",
+      "restored_sha256": "0bbce96980277d8390a902e8624fc06277b05826237f395a29d695d556175d1e",
+      "restored_git_blob": "87cac063cb524985a0c534954807e81059cdf17f",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/M1d838ff8bf72f37a.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/M1d838ff8bf72f37a.lean",
+        "upstream_sha256": "0bbce96980277d8390a902e8624fc06277b05826237f395a29d695d556175d1e",
+        "upstream_git_blob_sha": "87cac063cb524985a0c534954807e81059cdf17f",
+        "current_sha256": "70ac581bdc7f9070c9933f5d80f4785c8cfcf96576c6045632c8a56b5977dc71",
+        "current_git_blob_sha": "cffb7711688c6b46d5e0f23f58890f1387460e38",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "FLTReuse.ExplicitMathlibImports"
+        ],
+        "upstream_import_commands": [
+          "import Mathlib"
+        ],
+        "current_import_commands": [
+          "import FLTReuse.ExplicitMathlibImports"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "769d99988047da3309b7de96333e04897033abea1964f205bac7460e9320dde0",
+        "non_import_upstream_sha256": "769d99988047da3309b7de96333e04897033abea1964f205bac7460e9320dde0",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/M1d838ff8bf72f37a.lean\n+++ current/vendor/flt/FLTReuse/M1d838ff8bf72f37a.lean\n@@ -1,4 +1,4 @@\n-import Mathlib\n+import FLTReuse.ExplicitMathlibImports\n \n section\n \n"
+      }
+    },
+    {
+      "path": "DedekindZetaZeroFree/Arithmetic/RayClasses/Character.lean",
+      "original_sha256": "0094c75c3b45837570aa4728f4547943f7bfa5cc2d64fcf9b75b0a88bd0dba79",
+      "modified_sha256": "ed333739b66568c8680261d7043e173f13002079b3e462880886810a663ed5b2",
+      "restored_sha256": "0094c75c3b45837570aa4728f4547943f7bfa5cc2d64fcf9b75b0a88bd0dba79",
+      "restored_git_blob": "5f40f4356219c49fa05eb0e8a864be495d9e4a48",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "DedekindZetaZeroFree/Arithmetic/RayClasses/Character.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/DedekindZetaZeroFree/Arithmetic/RayClasses/Character.lean",
+        "upstream_sha256": "0094c75c3b45837570aa4728f4547943f7bfa5cc2d64fcf9b75b0a88bd0dba79",
+        "upstream_git_blob_sha": "5f40f4356219c49fa05eb0e8a864be495d9e4a48",
+        "current_sha256": "ed333739b66568c8680261d7043e173f13002079b3e462880886810a663ed5b2",
+        "current_git_blob_sha": "05dfa4d631a15a280ade8ed05b4826a37d14c212",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing_with_added_leaves",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "Mathlib.Analysis.Complex.Basic",
+          "Mathlib.NumberTheory.NumberField.Ideal.Basic"
+        ],
+        "upstream_import_commands": [
+          "public import Mathlib"
+        ],
+        "current_import_commands": [
+          "public import Mathlib.NumberTheory.NumberField.Ideal.Basic",
+          "public import Mathlib.Analysis.Complex.Basic"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "ca3144f9ad874cdddd1524fcfd30c46bfff6b1c8c9654345775054f37bef499a",
+        "non_import_upstream_sha256": "ca3144f9ad874cdddd1524fcfd30c46bfff6b1c8c9654345775054f37bef499a",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/DedekindZetaZeroFree/Arithmetic/RayClasses/Character.lean\n+++ current/DedekindZetaZeroFree/Arithmetic/RayClasses/Character.lean\n@@ -1,6 +1,7 @@\n module\n \n-public import Mathlib\n+public import Mathlib.NumberTheory.NumberField.Ideal.Basic\n+public import Mathlib.Analysis.Complex.Basic\n \n @[expose] public section\n \n"
+      }
+    },
+    {
+      "path": "DedekindZetaZeroFree/Theta/Whittaker/NormalizedFiniteTensorProducts.lean",
+      "original_sha256": "66b1e93e9e262b7fd9c091ed488ae230df83842f1a4b58d8b79ae66ad0893356",
+      "modified_sha256": "b62f41abd352696b38a1d99ca57dc5357e378e9d63cad70d210d91e85ccfeb4f",
+      "restored_sha256": "66b1e93e9e262b7fd9c091ed488ae230df83842f1a4b58d8b79ae66ad0893356",
+      "restored_git_blob": "98699a3e7d22bc0fbda2f67b24ccaa5e98173e06",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "DedekindZetaZeroFree/Theta/Whittaker/NormalizedFiniteTensorProducts.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/DedekindZetaZeroFree/Theta/Whittaker/NormalizedFiniteTensorProducts.lean",
+        "upstream_sha256": "66b1e93e9e262b7fd9c091ed488ae230df83842f1a4b58d8b79ae66ad0893356",
+        "upstream_git_blob_sha": "98699a3e7d22bc0fbda2f67b24ccaa5e98173e06",
+        "current_sha256": "b62f41abd352696b38a1d99ca57dc5357e378e9d63cad70d210d91e85ccfeb4f",
+        "current_git_blob_sha": "83a0aa15e91ade4d6ce6e4cd73e13f58b302f4e6",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "broad_mathlib_narrowing_with_added_leaves",
+        "imports_removed_by_feature": [
+          "Mathlib"
+        ],
+        "imports_added_by_feature": [
+          "Mathlib.Analysis.Complex.Basic",
+          "Mathlib.Analysis.Normed.Operator.Basic",
+          "Mathlib.RepresentationTheory.Basic",
+          "Mathlib.Tactic.Ring"
+        ],
+        "upstream_import_commands": [
+          "public import Mathlib"
+        ],
+        "current_import_commands": [
+          "public import Mathlib.RepresentationTheory.Basic",
+          "public import Mathlib.Analysis.Normed.Operator.Basic",
+          "public import Mathlib.Analysis.Complex.Basic",
+          "public import Mathlib.Tactic.Ring"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "6d7b4919bc3c35af6dc4d3314de251b682be8cd2d4f3f8ec69b302825a5a2533",
+        "non_import_upstream_sha256": "6d7b4919bc3c35af6dc4d3314de251b682be8cd2d4f3f8ec69b302825a5a2533",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/DedekindZetaZeroFree/Theta/Whittaker/NormalizedFiniteTensorProducts.lean\n+++ current/DedekindZetaZeroFree/Theta/Whittaker/NormalizedFiniteTensorProducts.lean\n@@ -1,6 +1,9 @@\n module\n \n-public import Mathlib\n+public import Mathlib.RepresentationTheory.Basic\n+public import Mathlib.Analysis.Normed.Operator.Basic\n+public import Mathlib.Analysis.Complex.Basic\n+public import Mathlib.Tactic.Ring\n \n @[expose] public section\n \n"
+      }
+    },
+    {
+      "path": "vendor/flt/FLTReuse/Ma6dd0c4d713fb96a.lean",
+      "original_sha256": "0af6d58a4e7815b86454642aa937a4f3f6cb3dc2acef038ff36573dcb4be1a8f",
+      "modified_sha256": "ae3774d4e6f8be5eb21258e88778bfc1f66a2dd82e6708d1921ad3b516287c60",
+      "kind": "add_missing_official_import",
+      "restored_sha256": "0af6d58a4e7815b86454642aa937a4f3f6cb3dc2acef038ff36573dcb4be1a8f",
+      "restored_git_blob": "e15dc5976bea895c705f40173e0af4c0afef14c8",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "vendor/flt/FLTReuse/Ma6dd0c4d713fb96a.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/vendor/flt/FLTReuse/Ma6dd0c4d713fb96a.lean",
+        "upstream_sha256": "0af6d58a4e7815b86454642aa937a4f3f6cb3dc2acef038ff36573dcb4be1a8f",
+        "upstream_git_blob_sha": "e15dc5976bea895c705f40173e0af4c0afef14c8",
+        "current_sha256": "ae3774d4e6f8be5eb21258e88778bfc1f66a2dd82e6708d1921ad3b516287c60",
+        "current_git_blob_sha": "75ac148dbfcec6874d204565d60d6097732f5f0d",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "added_official_imports",
+        "imports_removed_by_feature": [],
+        "imports_added_by_feature": [
+          "Mathlib.Algebra.Lie.OfAssociative"
+        ],
+        "upstream_import_commands": [
+          "import FLTReuse.M387d45cde57b612d",
+          "import FLTReuse.M5960be08a50663ff",
+          "import FLTReuse.Mceaf851096604c8a",
+          "import FLTReuse.M255459499690ff8e",
+          "import FLTReuse.M1d838ff8bf72f37a"
+        ],
+        "current_import_commands": [
+          "import Mathlib.Algebra.Lie.OfAssociative",
+          "import FLTReuse.M387d45cde57b612d",
+          "import FLTReuse.M5960be08a50663ff",
+          "import FLTReuse.Mceaf851096604c8a",
+          "import FLTReuse.M255459499690ff8e",
+          "import FLTReuse.M1d838ff8bf72f37a"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "f0ba8b60319b8fae166c6398764f826ad4f14349a0966975905b4c38c3bff677",
+        "non_import_upstream_sha256": "f0ba8b60319b8fae166c6398764f826ad4f14349a0966975905b4c38c3bff677",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/vendor/flt/FLTReuse/Ma6dd0c4d713fb96a.lean\n+++ current/vendor/flt/FLTReuse/Ma6dd0c4d713fb96a.lean\n@@ -1,3 +1,4 @@\n+import Mathlib.Algebra.Lie.OfAssociative\n import FLTReuse.M387d45cde57b612d\n import FLTReuse.M5960be08a50663ff\n import FLTReuse.Mceaf851096604c8a\n"
+      }
+    },
+    {
+      "path": "DedekindZetaZeroFree/Arithmetic/Ideals/LinearCountingBound.lean",
+      "original_git_blob_sha": "31a49cfdc1014db8e425c053a2e60078773b90e8",
+      "original_sha256": "fa587de9b480299671c00244b818dde44abb533a36309ff0d570fd5766a25edf",
+      "modified_sha256": "a2eba4494ec814bf94beb6019c5064c70fd78a16831bcaccfbc356f083a7e97d",
+      "reason": "Explicit official ideal-counting asymptotics import after actual CI identified the missing original declaration.",
+      "restored_sha256": "fa587de9b480299671c00244b818dde44abb533a36309ff0d570fd5766a25edf",
+      "restored_git_blob": "31a49cfdc1014db8e425c053a2e60078773b90e8",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "DedekindZetaZeroFree/Arithmetic/Ideals/LinearCountingBound.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/DedekindZetaZeroFree/Arithmetic/Ideals/LinearCountingBound.lean",
+        "upstream_sha256": "fa587de9b480299671c00244b818dde44abb533a36309ff0d570fd5766a25edf",
+        "upstream_git_blob_sha": "31a49cfdc1014db8e425c053a2e60078773b90e8",
+        "current_sha256": "a2eba4494ec814bf94beb6019c5064c70fd78a16831bcaccfbc356f083a7e97d",
+        "current_git_blob_sha": "38bfb4a50d76289303b034fb62bf91acc06ebb5c",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "added_official_imports",
+        "imports_removed_by_feature": [],
+        "imports_added_by_feature": [
+          "Mathlib.NumberTheory.NumberField.DedekindZeta"
+        ],
+        "upstream_import_commands": [
+          "public import DedekindZetaZeroFree.Arithmetic.Ideals.BoundedNormFinsets"
+        ],
+        "current_import_commands": [
+          "public import Mathlib.NumberTheory.NumberField.DedekindZeta",
+          "public import DedekindZetaZeroFree.Arithmetic.Ideals.BoundedNormFinsets"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "98776252ec840688a90342ad7190ad9c147679a7880228f0a14a1ec8ec087aa7",
+        "non_import_upstream_sha256": "98776252ec840688a90342ad7190ad9c147679a7880228f0a14a1ec8ec087aa7",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/DedekindZetaZeroFree/Arithmetic/Ideals/LinearCountingBound.lean\n+++ current/DedekindZetaZeroFree/Arithmetic/Ideals/LinearCountingBound.lean\n@@ -1,5 +1,6 @@\n module\n \n+public import Mathlib.NumberTheory.NumberField.DedekindZeta\n public import DedekindZetaZeroFree.Arithmetic.Ideals.BoundedNormFinsets\n \n @[expose] public section\n"
+      }
+    },
+    {
+      "path": "DedekindZetaZeroFree/Arithmetic/Ideals/SIntegerLocalization/GeneratorNorm.lean",
+      "original_sha256": "d2cda2066bf145025c0134452760ceb6ccc1e8826760a35f0bd37ac4f44beeee",
+      "modified_sha256": "a58d21710a6785008ae239950096958e95619d7dd47a6749f8458e42a0fbf974",
+      "latest_import_only_check": {
+        "prior_git_blob": "097e715ebb4ec10a879f8d5c164d2d586af7d67f",
+        "added_imports": [
+          "public import Mathlib.NumberTheory.NumberField.ProductFormula"
+        ],
+        "proofs_and_definitions_unchanged": true
+      },
+      "restored_sha256": "d2cda2066bf145025c0134452760ceb6ccc1e8826760a35f0bd37ac4f44beeee",
+      "restored_git_blob": "097e715ebb4ec10a879f8d5c164d2d586af7d67f",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "DedekindZetaZeroFree/Arithmetic/Ideals/SIntegerLocalization/GeneratorNorm.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/DedekindZetaZeroFree/Arithmetic/Ideals/SIntegerLocalization/GeneratorNorm.lean",
+        "upstream_sha256": "d2cda2066bf145025c0134452760ceb6ccc1e8826760a35f0bd37ac4f44beeee",
+        "upstream_git_blob_sha": "097e715ebb4ec10a879f8d5c164d2d586af7d67f",
+        "current_sha256": "a58d21710a6785008ae239950096958e95619d7dd47a6749f8458e42a0fbf974",
+        "current_git_blob_sha": "79753633f6dd155477685361da0311d851823cb1",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "added_official_imports",
+        "imports_removed_by_feature": [],
+        "imports_added_by_feature": [
+          "Mathlib.NumberTheory.NumberField.ProductFormula"
+        ],
+        "upstream_import_commands": [
+          "public import DedekindZetaZeroFree.Arithmetic.Ideals.SIntegerLocalization.GeneratorValuation"
+        ],
+        "current_import_commands": [
+          "public import DedekindZetaZeroFree.Arithmetic.Ideals.SIntegerLocalization.GeneratorValuation",
+          "public import Mathlib.NumberTheory.NumberField.ProductFormula"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "97bd8b0af270f95520e9c7de53581da81c6d57b913e2600c755b8f2272ff125d",
+        "non_import_upstream_sha256": "97bd8b0af270f95520e9c7de53581da81c6d57b913e2600c755b8f2272ff125d",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/DedekindZetaZeroFree/Arithmetic/Ideals/SIntegerLocalization/GeneratorNorm.lean\n+++ current/DedekindZetaZeroFree/Arithmetic/Ideals/SIntegerLocalization/GeneratorNorm.lean\n@@ -1,6 +1,7 @@\n module\n \n public import DedekindZetaZeroFree.Arithmetic.Ideals.SIntegerLocalization.GeneratorValuation\n+public import Mathlib.NumberTheory.NumberField.ProductFormula\n \n @[expose] public section\n \n"
+      }
+    },
+    {
+      "path": "DedekindZetaZeroFree/Analysis/VerticalContourShift.lean",
+      "original_sha256": "ad052682387de75c77577638003c650bfd27994fb424cf14192cec427d59e2ad",
+      "modified_sha256": "616b68eab31db73b2262b2e9ae73a34962b3b816e49832948c4e17e8c5b9040f",
+      "latest_import_only_check": {
+        "prior_git_blob": "cb9c8632ad318484a582fde9f6889fa4ec5421f6",
+        "added_imports": [
+          "public import Mathlib.Analysis.Complex.RemovableSingularity"
+        ],
+        "proofs_and_definitions_unchanged": true
+      },
+      "restored_sha256": "ad052682387de75c77577638003c650bfd27994fb424cf14192cec427d59e2ad",
+      "restored_git_blob": "cb9c8632ad318484a582fde9f6889fa4ec5421f6",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "DedekindZetaZeroFree/Analysis/VerticalContourShift.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/DedekindZetaZeroFree/Analysis/VerticalContourShift.lean",
+        "upstream_sha256": "ad052682387de75c77577638003c650bfd27994fb424cf14192cec427d59e2ad",
+        "upstream_git_blob_sha": "cb9c8632ad318484a582fde9f6889fa4ec5421f6",
+        "current_sha256": "616b68eab31db73b2262b2e9ae73a34962b3b816e49832948c4e17e8c5b9040f",
+        "current_git_blob_sha": "3431336b29102e040b08d76fd93b3e55275cf289",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "added_official_imports",
+        "imports_removed_by_feature": [],
+        "imports_added_by_feature": [
+          "Mathlib.Analysis.Complex.RemovableSingularity"
+        ],
+        "upstream_import_commands": [
+          "public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character"
+        ],
+        "current_import_commands": [
+          "public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character",
+          "public import Mathlib.Analysis.Complex.RemovableSingularity"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "a03f20928910898f2fbc3b98642a5d529f9de9e93332f3d36b40dcf3ae5951eb",
+        "non_import_upstream_sha256": "a03f20928910898f2fbc3b98642a5d529f9de9e93332f3d36b40dcf3ae5951eb",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/DedekindZetaZeroFree/Analysis/VerticalContourShift.lean\n+++ current/DedekindZetaZeroFree/Analysis/VerticalContourShift.lean\n@@ -1,6 +1,7 @@\n module\n \n public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character\n+public import Mathlib.Analysis.Complex.RemovableSingularity\n \n @[expose] public section\n \n"
+      }
+    },
+    {
+      "path": "DedekindZetaZeroFree/LFunctions/Hecke/CompletionFactor.lean",
+      "original_sha256": "3b51eaeac64bb0d3b0012a691594241d8d152d5d2288d75f1415a4cbbb5ab246",
+      "modified_sha256": "4c614bd66ea25a8c863b79e8ab0d8acb8cc0eae137a2fe7b7be270dd29cbe3ba",
+      "latest_import_only_check": {
+        "prior_git_blob": "83fc61c3c0c359a287af92e120f852db14a59b14",
+        "added_imports": [
+          "public import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne"
+        ],
+        "proofs_and_definitions_unchanged": true
+      },
+      "restored_sha256": "3b51eaeac64bb0d3b0012a691594241d8d152d5d2288d75f1415a4cbbb5ab246",
+      "restored_git_blob": "83fc61c3c0c359a287af92e120f852db14a59b14",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "DedekindZetaZeroFree/LFunctions/Hecke/CompletionFactor.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/DedekindZetaZeroFree/LFunctions/Hecke/CompletionFactor.lean",
+        "upstream_sha256": "3b51eaeac64bb0d3b0012a691594241d8d152d5d2288d75f1415a4cbbb5ab246",
+        "upstream_git_blob_sha": "83fc61c3c0c359a287af92e120f852db14a59b14",
+        "current_sha256": "4c614bd66ea25a8c863b79e8ab0d8acb8cc0eae137a2fe7b7be270dd29cbe3ba",
+        "current_git_blob_sha": "b5493403ce1b3fe8f5d7f65f50ac87b802883e96",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "added_official_imports",
+        "imports_removed_by_feature": [],
+        "imports_added_by_feature": [
+          "Mathlib.Analysis.SpecialFunctions.Gamma.Deligne"
+        ],
+        "upstream_import_commands": [
+          "public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character"
+        ],
+        "current_import_commands": [
+          "public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character",
+          "public import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "a5a7f647103c39346f0a0b8b9e7dad91e44fe5c85cca53740a9d96f7dd0c08c4",
+        "non_import_upstream_sha256": "a5a7f647103c39346f0a0b8b9e7dad91e44fe5c85cca53740a9d96f7dd0c08c4",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/DedekindZetaZeroFree/LFunctions/Hecke/CompletionFactor.lean\n+++ current/DedekindZetaZeroFree/LFunctions/Hecke/CompletionFactor.lean\n@@ -1,6 +1,7 @@\n module\n \n public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character\n+public import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne\n \n @[expose] public section\n \n"
+      }
+    },
+    {
+      "path": "DedekindZetaZeroFree/CharacterSums/Gauss/ResidueRowFourierTransform.lean",
+      "original_sha256": "1f3468b7452cde19267722d378e00e4ea61d8af02b1766a10ccb11ae5fa75a7e",
+      "modified_sha256": "2568e234d3221ae1fa6c0cecf06ba3777480d14ebc0e4ec2abd224d87b9fe278",
+      "latest_import_only_check": {
+        "prior_git_blob": "8d039c5087c0fb0d36407fb574e65437c9a549c6",
+        "added_imports": [
+          "public import Mathlib.NumberTheory.MulChar.Lemmas"
+        ],
+        "proofs_and_definitions_unchanged": true
+      },
+      "restored_sha256": "1f3468b7452cde19267722d378e00e4ea61d8af02b1766a10ccb11ae5fa75a7e",
+      "restored_git_blob": "8d039c5087c0fb0d36407fb574e65437c9a549c6",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "DedekindZetaZeroFree/CharacterSums/Gauss/ResidueRowFourierTransform.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/DedekindZetaZeroFree/CharacterSums/Gauss/ResidueRowFourierTransform.lean",
+        "upstream_sha256": "1f3468b7452cde19267722d378e00e4ea61d8af02b1766a10ccb11ae5fa75a7e",
+        "upstream_git_blob_sha": "8d039c5087c0fb0d36407fb574e65437c9a549c6",
+        "current_sha256": "2568e234d3221ae1fa6c0cecf06ba3777480d14ebc0e4ec2abd224d87b9fe278",
+        "current_git_blob_sha": "db130c6480991516ec946a2385ad212062b3216c",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "added_official_imports",
+        "imports_removed_by_feature": [],
+        "imports_added_by_feature": [
+          "Mathlib.NumberTheory.MulChar.Lemmas"
+        ],
+        "upstream_import_commands": [
+          "public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character"
+        ],
+        "current_import_commands": [
+          "public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character",
+          "public import Mathlib.NumberTheory.MulChar.Lemmas"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "66ba70b31cdbe77bfece408d81808e229aa614edb6a85281e4aac28e4622f5d7",
+        "non_import_upstream_sha256": "66ba70b31cdbe77bfece408d81808e229aa614edb6a85281e4aac28e4622f5d7",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/DedekindZetaZeroFree/CharacterSums/Gauss/ResidueRowFourierTransform.lean\n+++ current/DedekindZetaZeroFree/CharacterSums/Gauss/ResidueRowFourierTransform.lean\n@@ -1,6 +1,7 @@\n module\n \n public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character\n+public import Mathlib.NumberTheory.MulChar.Lemmas\n \n @[expose] public section\n \n"
+      }
+    },
+    {
+      "path": "DedekindZetaZeroFree/Arithmetic/RayClasses/Conductors/PrimitiveCharactersByCRT.lean",
+      "original_sha256": "cd61013fac2e70d4246db5c73761bc157d0400752b8852e2aacb4be6b3d4b5d1",
+      "modified_sha256": "a4e71a0c82598378bdbc5256f7905a1eb7f1a2a4f1bbf358cc02dec59c95c7ae",
+      "latest_import_only_check": {
+        "prior_git_blob": "d3674b513e4b6fe3b9ed9a399af8eddf11a7f8e7",
+        "added_imports": [
+          "public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace"
+        ],
+        "proofs_and_definitions_unchanged": true
+      },
+      "restored_sha256": "cd61013fac2e70d4246db5c73761bc157d0400752b8852e2aacb4be6b3d4b5d1",
+      "restored_git_blob": "d3674b513e4b6fe3b9ed9a399af8eddf11a7f8e7",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "DedekindZetaZeroFree/Arithmetic/RayClasses/Conductors/PrimitiveCharactersByCRT.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/DedekindZetaZeroFree/Arithmetic/RayClasses/Conductors/PrimitiveCharactersByCRT.lean",
+        "upstream_sha256": "cd61013fac2e70d4246db5c73761bc157d0400752b8852e2aacb4be6b3d4b5d1",
+        "upstream_git_blob_sha": "d3674b513e4b6fe3b9ed9a399af8eddf11a7f8e7",
+        "current_sha256": "a4e71a0c82598378bdbc5256f7905a1eb7f1a2a4f1bbf358cc02dec59c95c7ae",
+        "current_git_blob_sha": "ee3ca3406ba51259b5668a6dcdeeed7ce2ff2259",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "added_official_imports",
+        "imports_removed_by_feature": [],
+        "imports_added_by_feature": [
+          "Mathlib.NumberTheory.NumberField.Completion.FinitePlace"
+        ],
+        "upstream_import_commands": [
+          "public import DedekindZetaZeroFree.Arithmetic.Ideals.ExteriorIdeals.EulerWeights"
+        ],
+        "current_import_commands": [
+          "public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace",
+          "public import DedekindZetaZeroFree.Arithmetic.Ideals.ExteriorIdeals.EulerWeights"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "7c343f35316ba74084fba069f3bdb75d3bd2296ac456e937c451777b44bc2b63",
+        "non_import_upstream_sha256": "7c343f35316ba74084fba069f3bdb75d3bd2296ac456e937c451777b44bc2b63",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/DedekindZetaZeroFree/Arithmetic/RayClasses/Conductors/PrimitiveCharactersByCRT.lean\n+++ current/DedekindZetaZeroFree/Arithmetic/RayClasses/Conductors/PrimitiveCharactersByCRT.lean\n@@ -1,5 +1,6 @@\n module\n \n+public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace\n public import DedekindZetaZeroFree.Arithmetic.Ideals.ExteriorIdeals.EulerWeights\n \n @[expose] public section\n"
+      }
+    },
+    {
+      "path": "DedekindZetaZeroFree/Arithmetic/Ideals/Counting/NormSeries.lean",
+      "original_sha256": "6589582847e9b302c37aafee6b84614a9afd1b7e51ac9dfa6f91d162b4fb1e73",
+      "modified_sha256": "56a49f1a5e37fcff849f241da1521e181aede3cdb1cd04be80a288e606a3ddf8",
+      "latest_import_only_check": {
+        "prior_git_blob": "233452b4068271f6c95166c31c9848fe2bdb3f0f",
+        "added_imports": [
+          "public import Mathlib.NumberTheory.NumberField.Ideal.Asymptotics",
+          "public import Mathlib.Algebra.Order.Chebyshev",
+          "public import Mathlib.Analysis.PSeries",
+          "public import Mathlib.NumberTheory.Harmonic.Bounds"
+        ],
+        "proofs_and_definitions_unchanged": true
+      },
+      "restored_sha256": "6589582847e9b302c37aafee6b84614a9afd1b7e51ac9dfa6f91d162b4fb1e73",
+      "restored_git_blob": "233452b4068271f6c95166c31c9848fe2bdb3f0f",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "DedekindZetaZeroFree/Arithmetic/Ideals/Counting/NormSeries.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/DedekindZetaZeroFree/Arithmetic/Ideals/Counting/NormSeries.lean",
+        "upstream_sha256": "6589582847e9b302c37aafee6b84614a9afd1b7e51ac9dfa6f91d162b4fb1e73",
+        "upstream_git_blob_sha": "233452b4068271f6c95166c31c9848fe2bdb3f0f",
+        "current_sha256": "56a49f1a5e37fcff849f241da1521e181aede3cdb1cd04be80a288e606a3ddf8",
+        "current_git_blob_sha": "4a580e995b44a8785f1ccd0d6b3309779929b67e",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "added_official_imports",
+        "imports_removed_by_feature": [],
+        "imports_added_by_feature": [
+          "Mathlib.Algebra.Order.Chebyshev",
+          "Mathlib.Analysis.PSeries",
+          "Mathlib.NumberTheory.Harmonic.Bounds",
+          "Mathlib.NumberTheory.NumberField.Ideal.Asymptotics"
+        ],
+        "upstream_import_commands": [
+          "public import DedekindZetaZeroFree.Arithmetic.Ideals.ExteriorIdeals.EulerWeights"
+        ],
+        "current_import_commands": [
+          "public import Mathlib.NumberTheory.NumberField.Ideal.Asymptotics",
+          "public import Mathlib.Algebra.Order.Chebyshev",
+          "public import Mathlib.Analysis.PSeries",
+          "public import Mathlib.NumberTheory.Harmonic.Bounds",
+          "public import DedekindZetaZeroFree.Arithmetic.Ideals.ExteriorIdeals.EulerWeights"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "544f884eb82b5dbf4e7fe53086404ce4c41e05cb83810b1c5ecce8a009473645",
+        "non_import_upstream_sha256": "544f884eb82b5dbf4e7fe53086404ce4c41e05cb83810b1c5ecce8a009473645",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/DedekindZetaZeroFree/Arithmetic/Ideals/Counting/NormSeries.lean\n+++ current/DedekindZetaZeroFree/Arithmetic/Ideals/Counting/NormSeries.lean\n@@ -1,5 +1,9 @@\n module\n \n+public import Mathlib.NumberTheory.NumberField.Ideal.Asymptotics\n+public import Mathlib.Algebra.Order.Chebyshev\n+public import Mathlib.Analysis.PSeries\n+public import Mathlib.NumberTheory.Harmonic.Bounds\n public import DedekindZetaZeroFree.Arithmetic.Ideals.ExteriorIdeals.EulerWeights\n \n @[expose] public section\n"
+      }
+    },
+    {
+      "path": "DedekindZetaZeroFree/HarmonicAnalysis/Fourier/Archimedean/TraceNormalization.lean",
+      "original_sha256": "54a3564136370d447567194d3d1aa2f268710434c155500e4ab67ec5d1a88cde",
+      "modified_sha256": "247d4937a788733a74bfbe3f1a084d75275e8d6630430b57524b8509a18426c3",
+      "latest_import_only_check": {
+        "prior_git_blob": "95e2345711983e22549845237c6f67212d411c0d",
+        "added_imports": [
+          "public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier"
+        ],
+        "proofs_and_definitions_unchanged": true
+      },
+      "restored_sha256": "54a3564136370d447567194d3d1aa2f268710434c155500e4ab67ec5d1a88cde",
+      "restored_git_blob": "95e2345711983e22549845237c6f67212d411c0d",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "DedekindZetaZeroFree/HarmonicAnalysis/Fourier/Archimedean/TraceNormalization.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/DedekindZetaZeroFree/HarmonicAnalysis/Fourier/Archimedean/TraceNormalization.lean",
+        "upstream_sha256": "54a3564136370d447567194d3d1aa2f268710434c155500e4ab67ec5d1a88cde",
+        "upstream_git_blob_sha": "95e2345711983e22549845237c6f67212d411c0d",
+        "current_sha256": "247d4937a788733a74bfbe3f1a084d75275e8d6630430b57524b8509a18426c3",
+        "current_git_blob_sha": "31f89dddce14995a2bfb1ee3073b139bd812aa29",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "added_official_imports",
+        "imports_removed_by_feature": [],
+        "imports_added_by_feature": [
+          "Mathlib.Analysis.Distribution.SchwartzSpace.Fourier"
+        ],
+        "upstream_import_commands": [
+          "public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character"
+        ],
+        "current_import_commands": [
+          "public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier",
+          "public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "09467871589e1219e0a76ec9953359ceaa2af4eece54ee95fb5b7653b4576333",
+        "non_import_upstream_sha256": "09467871589e1219e0a76ec9953359ceaa2af4eece54ee95fb5b7653b4576333",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/DedekindZetaZeroFree/HarmonicAnalysis/Fourier/Archimedean/TraceNormalization.lean\n+++ current/DedekindZetaZeroFree/HarmonicAnalysis/Fourier/Archimedean/TraceNormalization.lean\n@@ -1,5 +1,6 @@\n module\n \n+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier\n public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character\n \n @[expose] public section\n"
+      }
+    },
+    {
+      "path": "DedekindZetaZeroFree/Adeles/Characters/CompactCoordinateAnnihilators.lean",
+      "original_sha256": "3c556ec47dea03b1c94392bcf453c6c1d914dfec064bcd8650f592db719ae4d2",
+      "modified_sha256": "146f0f55f92810e4872fecf9adb4c26e08bcc13b34ed51322b6e226bf79f512d",
+      "latest_import_only_check": {
+        "prior_git_blob": "da6cfdb63040f90b256df1c4cd858f716c3c485d",
+        "added_imports": [
+          "public import Mathlib.Analysis.SpecialFunctions.Complex.Circle"
+        ],
+        "proofs_and_definitions_unchanged": true
+      },
+      "restored_sha256": "3c556ec47dea03b1c94392bcf453c6c1d914dfec064bcd8650f592db719ae4d2",
+      "restored_git_blob": "da6cfdb63040f90b256df1c4cd858f716c3c485d",
+      "non_import_bytes_unchanged": true,
+      "audit": {
+        "path": "DedekindZetaZeroFree/Adeles/Characters/CompactCoordinateAnnihilators.lean",
+        "upstream_ref": "5f3c782680be2c74365b4d8e5760fc16f1f222c5",
+        "upstream_url": "https://raw.githubusercontent.com/Rogerhu12/hecke-seven-eighths/5f3c782680be2c74365b4d8e5760fc16f1f222c5/DedekindZetaZeroFree/Adeles/Characters/CompactCoordinateAnnihilators.lean",
+        "upstream_sha256": "3c556ec47dea03b1c94392bcf453c6c1d914dfec064bcd8650f592db719ae4d2",
+        "upstream_git_blob_sha": "da6cfdb63040f90b256df1c4cd858f716c3c485d",
+        "current_sha256": "146f0f55f92810e4872fecf9adb4c26e08bcc13b34ed51322b6e226bf79f512d",
+        "current_git_blob_sha": "51ba2aa8bc2377cec51bbd233e255f50765434fd",
+        "current_matches_recorded_modified_sha256": true,
+        "upstream_matches_recorded_original_sha256": true,
+        "classification": "added_official_imports",
+        "imports_removed_by_feature": [],
+        "imports_added_by_feature": [
+          "Mathlib.Analysis.SpecialFunctions.Complex.Circle"
+        ],
+        "upstream_import_commands": [
+          "public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character"
+        ],
+        "current_import_commands": [
+          "public import Mathlib.Analysis.SpecialFunctions.Complex.Circle",
+          "public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character"
+        ],
+        "non_import_content_equal": true,
+        "non_import_current_sha256": "692a6334063890acb5a2362f7d773da53eca17365b735e7b900bf42f0c997709",
+        "non_import_upstream_sha256": "692a6334063890acb5a2362f7d773da53eca17365b735e7b900bf42f0c997709",
+        "import_lines_need_comment_review": false,
+        "eligible_for_exact_import_only_restoration": true,
+        "full_source_diff": "--- upstream/DedekindZetaZeroFree/Adeles/Characters/CompactCoordinateAnnihilators.lean\n+++ current/DedekindZetaZeroFree/Adeles/Characters/CompactCoordinateAnnihilators.lean\n@@ -1,5 +1,6 @@\n module\n \n+public import Mathlib.Analysis.SpecialFunctions.Complex.Circle\n public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character\n \n @[expose] public section\n"
+      }
+    }
+  ],
+  "validation": "All 66 original and modified SHA-256 values match their recorded ledger values; independent audit proves non-import bytes identical. This source restoration awaits the new Lake build.",
+  "audit_sha256": "bef2a7ccc28a434fa035c49e6d2af911cc6c9127c834563aacdb6ca2b307a465",
+  "removed_unused_helper": {
+    "path": "vendor/flt/FLTReuse/ExplicitMathlibImports.lean",
+    "prior_sha256": "5c5edb9f71831fe9da9ca02f7472a0365a7f0ee5b313c7bc2cbe1b2b31c7fd44",
+    "absent_from_latest_base": true,
+    "remaining_lean_import_consumers": 0
+  },
+  "comparison_rule": "Remove only recognized import-header lines; all other bytes must match exactly. Any import-line comment is flagged for review.",
+  "comparison_summary": {
+    "file_count": 66,
+    "classification_counts": {
+      "broad_mathlib_narrowing": 50,
+      "broad_mathlib_narrowing_with_added_leaves": 6,
+      "added_official_imports": 10
+    },
+    "non_import_equal": 66,
+    "eligible_for_exact_import_only_restoration": 66,
+    "current_modified_hash_matches": 66,
+    "upstream_original_hash_matches": 66,
+    "body_or_non_import_mismatches": [],
+    "import_line_review": []
+  }
+}

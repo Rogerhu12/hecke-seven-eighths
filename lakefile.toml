@@ -51,6 +51,11 @@ name = "HeckeAxiom"
 name = "HeckeSkeleton"
 globs = ["HeckeSkeleton.+"]
 
+# Independent Fourier normalization calibration shared with EXPANSION.
+[[lean_lib]]
+name = "Expansion"
+globs = ["Expansion.PhysicalFourierNormalization"]
+
 # Fixed-choice marked theta construction and its standalone analytic lemmas.
 [[lean_lib]]
 name = "ThetaGlobal"

@@ -13,6 +13,7 @@ import FLTReuse.Mb875502fbb65df3e
 import FLTReuse.Mcab7f5d3272e0825
 import FLTReuse.M0a341b9f001ae4d1
 import FLTReuse.M1868db956c866c8d
+import Mathlib.Basic.Real.Sign
 attribute [-ext] NumberField.InfinitePlace.Completion.ext
 attribute [-ext] IsDedekindDomain.HeightOneSpectrum.adicCompletion.ext
 namespace P2MW.S_NumberField_TateGlobal_exists_differentiable_eq_partialEulerProduct_of_exists_mem_normOneIdeles_ne_one
