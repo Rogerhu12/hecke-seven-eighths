@@ -101,7 +101,7 @@ theorem frozen_conductor_log (Z : ℝ) (hZ : 1 < Z) (P J f r : Ext)
     Real.logb_mul (mul_ne_zero (mul_ne_zero hp.ne' (pow_ne_zero 2 hj.ne')) hf.ne') hr.ne',
     Real.logb_mul (mul_ne_zero hp.ne' (pow_ne_zero 2 hj.ne')) hf.ne',
     Real.logb_mul hp.ne' (pow_ne_zero 2 hj.ne')] at h
-  simp only [Real.logb_pow] at h
+  simp only [Real.logb_pow, Nat.cast_ofNat] at h
   simp only [logNorm_eq_logb]
   linarith
 

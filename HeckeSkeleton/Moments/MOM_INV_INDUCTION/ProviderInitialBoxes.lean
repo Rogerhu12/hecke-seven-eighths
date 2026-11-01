@@ -220,7 +220,8 @@ theorem row_norm (rho : {r : ℝ // 0 < r}) (m L tau : ℝ)
   have hb := ProviderInitialGeometry.actual_row_bound K S rho Z m L
     (length Z j 0) (length Z j 1) h tau hZ hwidth i.1.val i.2.2.1.val.1
     (unitDivisor K S) i.2.1.val hrho (unitDivisor_norm K S) hg
-    (by simpa only [coordinateNorm, coordinate, if_pos rfl, if_neg (by decide : (1 : Fin 3) ≠ 0),
+    (by simpa only [coordinateNorm, coordinate, if_pos rfl, if_true,
+      if_neg (by decide : (1 : Fin 3) ≠ 0),
       divisor, mask, height, divisorIdeal_norm] using hd) hk'
   rw [newRow_actual]
   exact hb

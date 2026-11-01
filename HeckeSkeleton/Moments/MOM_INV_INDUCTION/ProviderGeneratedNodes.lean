@@ -173,7 +173,9 @@ theorem nodeAt_admissible
     margins := ?_ }
   · change (piece side₂ p a).columnLength γ + Vc h ≤ A + 11 * eta
     exact hFc.trans (by linarith)
-  · simpa only [secondFormalLabel, add_assoc] using hlabels
+  · intro f hf
+    change (Ideal.absNorm f : ℝ) ≤ Z ^ (Vc h)
+    simpa only [secondFormalLabel, add_assoc] using hlabels f hf
   · exact hmarks.restrict (Finset.sdiff_subset.trans Finset.sdiff_subset)
   · change HeckePort.Moments.CanonicalMargins
       ((piece side₂ p a).columnLength γ + Vc h) (Mc M ell V h)

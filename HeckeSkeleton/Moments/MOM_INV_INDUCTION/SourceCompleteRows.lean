@@ -129,7 +129,7 @@ theorem positive_polynomial_norm (d : MomentData K ω ψ)
     (by change -d.direction = -1; rw [hdir]) hchar hmask I X hX (conjugateTest W)
     (by rw [conjugateTest_support]; exact hW)
   rw [conjugate_polynomial] at heq
-  simpa only [Complex.norm_conj] using congrArg norm heq
+  simpa only [Complex.norm_conj, conjugateInverseModel] using congrArg norm heq
 
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
@@ -154,14 +154,14 @@ theorem complete_positive_rows_le_orbital (d : MomentData K ω ψ)
   let exterior (u : {u // u ∈ d.rows H}) : Ext :=
     ⟨u.val, by
       have he := ((d.rows_spec H u.val).mp u.property).1
-      simpa only [hrows] using he⟩
+      simpa only [hrows, completeIdealIsExterior] using he⟩
   let row (u : {u // u ∈ d.rows H}) : Orbit :=
     decomposedIdealSectorOrbit K Sset P (exterior u, sector)
   have hinj : Function.Injective row := by
     intro u v huv
     apply Subtype.ext
     have he := congrArg Prod.fst (decomposedIdealSectorOrbit_injective K Sset P huv)
-    exact congrArg Subtype.val he
+    exact congrArg (fun I : Ext => I.val) he
   let T : Finset Orbit := (d.rows H).attach.image row
   have hT : ∀ q ∈ T, (sIntegerOrbitNorm K Sset Γ q).val ≤ H := by
     intro q hq
