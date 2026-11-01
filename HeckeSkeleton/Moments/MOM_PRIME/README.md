@@ -145,7 +145,7 @@ Imported source proofs needed native API/elaboration repairs:
 `ActualOuterKernelDecay`, `PhysicalInitialMellinAbsolute`,
 `LargeRowAllScales`, `SmallRowKernel`, `PrincipalRowLocal`,
 `ActualModerateCorrectionBound`, `LargeRowKernel`,
-`ActualPrincipalKernelBound`, `ActualModerateKernelDecay`, and
+`ActualPrincipalKernelBound`, `ActualPrincipalZShift`, `ActualModerateKernelDecay`,
 `PhysicalInitialRowSum`, `PhysicalInitialMellinIdentity`, and
 `PhysicalInitialRowTruncation`.
 The joint-analytic repairs consume the source owner's proof fixes from

@@ -116,7 +116,6 @@ theorem exists_actualPrincipal_z_strip_decay
     apply Real.exp_le_exp.mpr
     simp only [pow_two, Complex.mul_re, Complex.sub_re, Complex.add_re,
       Complex.one_re, Complex.sub_im, Complex.add_im, Complex.one_im, sub_zero]
-    dsimp only [G]
     nlinarith [sq_nonneg (s.im + z.im)]
   have hXPow : ‖(X : ℂ) ^ (1 / 2 - z)‖ ≤ X ^ (1 / 2 - (33 / 200 : ℝ)) := by
     have hre : ((1 / 2 : ℂ) - z).re = (1 / 2 : ℝ) - z.re := by simp
