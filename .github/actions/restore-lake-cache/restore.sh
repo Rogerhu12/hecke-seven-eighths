@@ -34,8 +34,8 @@ tag="${RLC_TAG:-}"
 repo="${RLC_REPOSITORY:-$GITHUB_REPOSITORY}"
 if [ -z "$tag" ]; then
   # Drafts are skipped: a release is only published once all parts are uploaded.
-  tag="$(gh release list -R "$repo" --limit 100 --exclude-drafts --json tagName,createdAt \
-    --jq '[.[] | select(.tagName | startswith("lake-cache-"))] | sort_by(.createdAt) | last | .tagName // ""')"
+  tag="$(gh release list -R "$repo" --limit 100 --exclude-drafts --json tagName,publishedAt \
+    --jq '[.[] | select(.tagName | startswith("lake-cache-"))] | sort_by(.publishedAt) | last | .tagName // ""')"
 fi
 if [ -z "$tag" ]; then
   echo "::warning::No lake-cache-* release found in $repo; building from scratch."
