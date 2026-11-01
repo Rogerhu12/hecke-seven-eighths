@@ -23,9 +23,9 @@
 | Expansion、HighBin、D-EXPANSION | 13 | 8 万 | 规划完成 |
 | **合计** | **68** | **约 50 万** | |
 
-## 进度（2026-10-31 07:50）
+## 进度（2026-11-01 08:40）
 
-总 68 单位（建账时 75，10-30 晚之前已关 7）。已完成约 22.2 个单位，**剩余约 45.8 个**。
+总 68 单位（建账时 75，10-30 晚之前已关 7）。已完成约 27.2 个单位，**剩余约 40.8 个**。
 
 | 单位 | 计入 | 说明 |
 |---|---|---|
@@ -36,6 +36,7 @@
 | LOW-HYBRID、LOW-FROZEN-CUBE | 2.0 | 已关闭：核心与接线（PR #6，d6fd2cf）均已合并 |
 | THETA_GLOBAL（TH-KP-DATA-1/2、TH-FINITE-VALUATION、TH-MARKED-REFLECTED-ABSOLUTE、TH-REFL-AUTOMORPHIC/DIRECT/REFLECTED-UNFOLD/MELLIN） | 8.0 | 已关闭：PR #2 合并；Pro 写约 3 万行，本地子代理收口编译；五项义务只用三条标准公理 |
 | MOM_BASE（共享底座） | 2.5 | 已关闭：PR #15 合并，引理 4.3、4.4 与实际有限系数（约 4,000 行，建账时高估） |
+| MOM_INV_STEP（规范逆归纳单步，逆变换链约一半） | 5.0 | 已合并：PR #13（c9c002c），274 个文件约 5.75 万行；`canonical_inverse_step` 只用三条标准公理。Pro 写主体，本地子代理收口编译。骨架 sorry 要等 MOM_INV_INDUCTION 接线才消失 |
 | Moments S0、S1 | 1.5 | ℤ[ω] 专用输入仍为显式假设 |
 | HB-EULER-INITIAL、HB-EULER-EXCEPTIONAL | 0.5 | 核心已并入；接线是 PR #1（草稿） |
 | 小义务 6（素数相消） | 0.7 | 核心与接线（PR #14）已合并：`paired_primes_below_one_of_models` 对任意模型成立；剩为实际 `momentModels` 验证 `PrimeSlotModelControl` |
