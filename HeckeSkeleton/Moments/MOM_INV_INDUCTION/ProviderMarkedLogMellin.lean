@@ -49,16 +49,22 @@ theorem quotient_integrable (F : SchwartzMap ℝ ℂ) (j c P X : ℝ) :
     Integrable (fun t : ℝ => (𝓕 F) t * columnPhase t (Real.log j) *
       columnPhase t (Real.log c) * columnPhase t (-Real.log P) *
         columnPhase t (-Real.log X)) := by
-  apply ((𝓕 F).integrable (μ := (volume : Measure ℝ))).norm.mono'
-    ((((((𝓕 F)).continuous.mul (continuous_columnPhase _)).mul
-      (continuous_columnPhase _)).mul (continuous_columnPhase _)).mul
-        (continuous_columnPhase _) |>.aestronglyMeasurable)
-  exact Filter.Eventually.of_forall fun t => by
-    change ‖(𝓕 F) t * columnPhase t (Real.log j) *
-      columnPhase t (Real.log c) * columnPhase t (-Real.log P) *
-        columnPhase t (-Real.log X)‖ ≤ ‖(𝓕 F) t‖
-    simpa only [norm_mul, norm_columnPhase, mul_one] using
-      (le_rfl : ‖(𝓕 F) t‖ ≤ ‖(𝓕 F) t‖)
+  let G : SchwartzMap ℝ ℂ := 𝓕 F
+  let g : ℝ → ℂ := fun t => G t * columnPhase t (Real.log j) *
+    columnPhase t (Real.log c) * columnPhase t (-Real.log P) *
+      columnPhase t (-Real.log X)
+  change Integrable g
+  have hg : Continuous g :=
+    (((G.continuous.mul (continuous_columnPhase (Real.log j))).mul
+      (continuous_columnPhase (Real.log c))).mul
+        (continuous_columnPhase (-Real.log P))).mul
+          (continuous_columnPhase (-Real.log X))
+  have hG : Integrable (fun t : ℝ => ‖G t‖) (volume : Measure ℝ) :=
+    (G.integrable (μ := (volume : Measure ℝ))).norm
+  have hbound : ∀ t : ℝ, ‖g t‖ ≤ ‖G t‖ := by
+    intro t
+    simp only [g, norm_mul, norm_columnPhase, mul_one, le_refl]
+  exact hG.mono' hg.aestronglyMeasurable (Filter.Eventually.of_forall hbound)
 
 /-- The same actual column annulus is used for every residual tuple;
 the inverse profile is separated without replacing its argument. -/

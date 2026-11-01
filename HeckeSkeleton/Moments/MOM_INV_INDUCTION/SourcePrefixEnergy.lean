@@ -81,6 +81,10 @@ theorem annular_eq_pieces (d : MomentData K ω ψ) (u : NonzeroIdeal K)
   rw [Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro i hi
+  change (Real.sqrt ((2 : ℝ) ^ j) : ℂ)⁻¹ *
+    (∑ I ∈ dyadicIdealSupport K (8 * (2 : ℝ) ^ L),
+      inverseRowCoefficient d u I *
+        SourceAnnularTests.piece t i (idealNorm K I / scale j i)) = _
   rw [supported_sum_eq K (inverseRowCoefficient d u) (SourceAnnularTests.piece t i)
     (SourceAnnularTests.piece_support t i) (scale j i) (8 * (2 : ℝ) ^ L)
     (scale_pos j i) (scale_le_pool hj i)]

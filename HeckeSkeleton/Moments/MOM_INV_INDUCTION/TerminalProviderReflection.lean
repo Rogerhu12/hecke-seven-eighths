@@ -157,7 +157,7 @@ theorem completedThetaSum_eq_zero_of_puncture_overlap
     (p : ExteriorPrime K S) (hpQ : p ∈ Q) (hpr : p.val.asIdeal ∣ r.val.val) :
     completedThetaSum K S D θ m r Q V X = 0 := by
   have hzero (cn : Ext × Ext) : completedTerm K S D θ m r Q V X cn = 0 := by
-    unfold completedTerm
+    dsimp only [completedTerm]
     split_ifs with h
     · exact False.elim (p.val.prime.not_unit
         (h.2.1.isUnit_of_dvd' (h.2.2 p hpQ) hpr))

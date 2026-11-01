@@ -170,6 +170,7 @@ theorem longEnergy_eq_finiteEnergy (slotCap : ℕ) (x : Node K S Γ Θ ψ σ)
   congr 1
   apply Finset.sum_congr rfl
   intro k hk
+  change ‖TerminalNodes.longValue K S Γ D x T f.val.val k‖ ^ 2 = _
   rw [longValue_eq_finiteValue K S D Γ x hbase hW T f k]
 
 /-- Exact square-root and divisor-cap restoration on every original

@@ -39,6 +39,9 @@ variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (�
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] [Γ.FiniteIndex]
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
+local instance unitClassesFintype :
+    Fintype (CanonicalSectors.UnitClasses K (S : Set (HeightOneSpectrum (𝓞 K))) Γ) :=
+  Fintype.ofFinite _
 variable {σ : Type u} [DecidableEq σ]
 variable (C : CanonicalBlock.ColumnData K S σ)
 variable (Θ : Subgroup (HeckeCharacter K)) (ψ : HeckeCharacter K)
@@ -142,7 +145,8 @@ theorem exists_uniform_source_bound (slotCap : ℕ) (A pi : ℝ)
   let Craw := Braw * (Cih + (Fintype.card Sector : ℝ)) * Qtest
   let E := 2 * (max 0 N + Vc) + 28 * h + eps + pi
   let Pscalar := ActualPoissonScale.fieldConstant K * C₀.base ^ (m - 2 * C₀.length + R + pi)
-  have hCr : 0 ≤ Craw := by dsimp only [Craw, Qtest]; positivity
+  have hCr : 0 ≤ Craw :=
+    mul_nonneg (mul_nonneg hBraw.le (add_nonneg hCih (Nat.cast_nonneg _))) (sq_nonneg _)
   have hPs : 0 ≤ Pscalar := mul_nonneg (ActualPoissonScale.fieldConstant_nonneg K)
     (Real.rpow_nonneg (zero_lt_one.trans hbase₀).le _)
   by_cases hne : Pg.Nonempty
@@ -198,7 +202,9 @@ theorem exists_uniform_source_bound (slotCap : ℕ) (A pi : ℝ)
         B * (Cih + (Fintype.card Sector : ℝ)) * Qtest *
           C₀.base ^ ((m - 2 * C₀.length + R + pi) + (R + pi) + E) := by
       dsimp only [Pscalar, Craw, B]
-      rw [Real.rpow_add (zero_lt_one.trans hbase₀), Real.rpow_add (zero_lt_one.trans hbase₀)]
+      rw [Real.rpow_add (zero_lt_one.trans hbase₀)
+          ((m - 2 * C₀.length + R + pi) + (R + pi)) E,
+        Real.rpow_add (zero_lt_one.trans hbase₀) (m - 2 * C₀.length + R + pi) (R + pi)]
       ring
     have hpower : (m - 2 * C₀.length + R + pi) + (R + pi) + E ≤
         m + 48 * h + 3 * pi + eps := by

@@ -67,7 +67,9 @@ theorem inverse_coefficient_calibration (d : MomentData K ω ψ)
   simp only [inverseRowCoefficient, hdir, hchar,
     completeIdealRowCharacter_exterior K Sset P R, maskValue, hmask,
     completeIdealCommonMask, decomposedIdealRowMask, sexticIdealOutsideS, decide_eq_true_eq]
-  split_ifs <;> ring
+  by_cases h : (∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ n.val →
+      p ∉ Sset ∧ (6 : 𝓞 K) ∉ p.asIdeal) ∧ IsCoprime n.val I.val.val <;>
+    simp only [h, if_true, if_false, mul_one, mul_zero, zero_mul]
 
 /-- Exact physical equality for any fixed whole-column multiplier.
 The multiplier is neither estimated nor moved across a row-dependent
@@ -226,8 +228,11 @@ theorem exists_small_scale_row_bound (slotCap : ℕ) :
       intro I hI
       have hn := (mem_dyadicIdealSupport_iff K hX.le I).mp hI
       linarith [one_le_idealNorm K I]
-    simp only [polynomial, he, Finset.sum_empty, mul_zero, norm_zero, zero_pow,
-      Finset.sum_const_zero]
+    have hz : (∑ u ∈ d.rows H, ‖polynomial K d (mark slots lists a j) u X W‖ ^ 2) = 0 := by
+      apply Finset.sum_eq_zero
+      intro u hu
+      simp only [polynomial, he, Finset.sum_empty, mul_zero, norm_zero, pow_two]
+    rw [hz]
     positivity
   · have hXlower : 1 / 2 ≤ X := le_of_not_gt hsmall
     have hinv : (Real.sqrt X)⁻¹ ≤ 2 := by
@@ -257,7 +262,7 @@ theorem exists_small_scale_row_bound (slotCap : ℕ) :
       calc
         _ ≤ 1 * ‖divisorMark slots lists a I.val‖ :=
           mul_le_mul_of_nonneg_right hc (norm_nonneg _)
-        _ ≤ B * idealNorm K I := by simpa only [one_mul] using hm
+        _ ≤ B * idealNorm K I := by simpa only [one_mul, idealNorm] using hm
         _ ≤ 2 * B := by nlinarith
     have hpoly (u : NonzeroIdeal K) :
         ‖polynomial K d (mark slots lists a j) u X W‖ ≤ 8 * A * B * Q := by
