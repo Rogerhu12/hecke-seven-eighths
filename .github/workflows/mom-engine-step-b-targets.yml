@@ -1,0 +1,135 @@
+# Supplementary B targets only; this does not replace the formal Interface
+# verification or the Whole-project build. Both existing workflows stay intact.
+name: MOM_ENGINE_STEP B supplementary targets
+
+'on':
+  push:
+    branches: [cloud/mom-engine-step-b]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-b-targets-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  targets:
+    name: B targets (${{ matrix.group }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include:
+          - group: exceptional
+            modules: >-
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPaidRows
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPaidTerminal
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalRightTerminal
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalUniformRows
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalUniformTerminal
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPaidOrdinaryRows
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPaidOrdinaryTerminal
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafExceptionalBinding
+          - group: weights
+            modules: >-
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolTerminalMasks
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.UnrestrictedSixthCapacity
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalHeckePrimeAnalytic
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedOriginalLabelMass
+          - group: independent
+            modules: >-
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaKernelMass
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaRightNormalization
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolScaleProduct
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileFactorExtraction
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimeAnalyticProvider
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLabelKernelMass
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalSourceSlotCaps
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPaidNormalization
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineProfileOrders
+    env:
+      LEAN_NUM_THREADS: '2'
+      TARGET_MODULES: ${{ matrix.modules }}
+      EVIDENCE_DIR: mom-engine-step-b-targets-${{ matrix.group }}
+      PROOF_CONFIGS: >-
+        lean-toolchain lakefile.toml lake-manifest.json
+        HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py
+        .github/workflows/mom-engine-step.yml
+        .github/workflows/integration-build.yml
+        .github/workflows/mom-engine-step-b-targets.yml
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Record the exact source and verification configuration
+        run: |
+          mkdir -p "$EVIDENCE_DIR"
+          git show --no-patch --format=fuller HEAD > "$EVIDENCE_DIR/checkout.txt"
+          git rev-parse HEAD > "$EVIDENCE_DIR/head-before.txt"
+          git ls-files -- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/*.lean' > "$EVIDENCE_DIR/task-sources.txt"
+          wc -l < "$EVIDENCE_DIR/task-sources.txt" > "$EVIDENCE_DIR/source-count.txt"
+          sha256sum $PROOF_CONFIGS > "$EVIDENCE_DIR/config-before.sha256"
+          git diff HEAD > "$EVIDENCE_DIR/tracked-before.diff"
+          git diff --exit-code HEAD
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > "$EVIDENCE_DIR/memory-mapping.txt"
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build original modules and run the fresh strict namespace audit
+        run: |
+          python3 -u - <<'PY'
+          import json, os, re, subprocess, sys
+          from pathlib import Path
+          modules = os.environ['TARGET_MODULES'].split()
+          evidence = Path(os.environ['EVIDENCE_DIR'])
+          command = [sys.executable, '-u', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py',
+                     *modules, '--namespace', 'HeckeSkeleton.Moments.EngineStep',
+                     '--evidence', str(evidence)]
+          # Re-emit each original file's #print axioms in the fresh audit even
+          # when Lake validly reuses that module's existing compiled artifact.
+          for module in modules:
+              source = Path(module.replace('.', '/') + '.lean')
+              names = re.findall(r'^#print axioms ([A-Za-z_][A-Za-z_0-9.]*)[ \t]*$',
+                                 source.read_text(), re.MULTILINE)
+              if not names:
+                  raise SystemExit(f'No original #print axioms found in {source}')
+              for name in names:
+                  command.extend(['--declaration', name])
+          (evidence / 'verification-command.json').write_text(json.dumps(command, indent=2) + '\n')
+          raise SystemExit(subprocess.call(command))
+          PY
+      - name: Check the original source and configuration after verification
+        if: always()
+        run: |
+          mkdir -p "$EVIDENCE_DIR"
+          git rev-parse HEAD > "$EVIDENCE_DIR/head-after.txt"
+          sha256sum $PROOF_CONFIGS > "$EVIDENCE_DIR/config-after.sha256"
+          git diff HEAD > "$EVIDENCE_DIR/tracked-after.diff"
+          cmp "$EVIDENCE_DIR/head-before.txt" "$EVIDENCE_DIR/head-after.txt"
+          cmp "$EVIDENCE_DIR/config-before.sha256" "$EVIDENCE_DIR/config-after.sha256"
+          git diff --exit-code HEAD
+      - name: Preserve complete compiler and recursive axiom evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-engine-step-b-targets-${{ matrix.group }}-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ env.EVIDENCE_DIR }}/
+          if-no-files-found: error
+          retention-days: 14

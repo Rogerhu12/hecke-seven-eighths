@@ -1,0 +1,67 @@
+name: MOM_ENGINE_STEP proof verification
+
+on:
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/**'
+      - '.github/workflows/mom-engine-step.yml'
+      - 'lean-toolchain'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  proofs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      LEAN_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Record the exact reviewed source commit
+        run: |
+          mkdir -p mom-engine-step-verification
+          git show --no-patch --format=fuller HEAD > mom-engine-step-verification/checkout.txt
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > mom-engine-step-verification/memory-mapping.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the complete task and audit every declaration
+        run: |
+          python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.Interface \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.paired_engine_step \
+            --evidence mom-engine-step-verification
+      - name: Preserve compiler logs and recursive axiom reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-engine-step-verification-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
+          path: mom-engine-step-verification/
+          if-no-files-found: error
+          retention-days: 14
