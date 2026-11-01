@@ -1,0 +1,486 @@
+# Observational diagnostics only; no result establishes original-module or task acceptance.
+# Frozen source 9a4d9581cbf102399c229c18971a06b18fc8a8c9; frozen GDB driver e30d9a1d6a6cbefb21de4f6c674adb3c6a11b5e2a07760df4878308973d28d22.
+# Publish only at .github/workflows/mom-engine-step-eol-native.yml on cloud/mom-engine-step-a-eol-native.
+# Standard runner setup installs gdb and sets the established memory baseline; GDB stays same-user.
+# No debugger elevation or ptrace/Yama policy change is performed.
+name: MOM_ENGINE_STEP EOL GDB stack diagnostics only
+'on':
+  push:
+    branches:
+    - cloud/mom-engine-step-a-eol-native
+  workflow_dispatch: null
+permissions:
+  contents: read
+concurrency:
+  group: mom-engine-step-eol-native-${{ github.ref }}-stack
+  cancel-in-progress: false
+jobs:
+  native:
+    name: Diagnostic only - three bounded EOL parent-child stacks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+        - ExceptionalOriginalLabel
+    env:
+      LEAN_NUM_THREADS: '2'
+      PERF_TARGET: ${{ matrix.target }}
+      PERF_SOURCE_COMMIT: 9a4d9581cbf102399c229c18971a06b18fc8a8c9
+    steps:
+    - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        ref: ${{ github.sha }}
+        fetch-depth: 2
+        persist-credentials: false
+    - name: Prepare diagnostic evidence and the standard runner memory baseline
+      run: |
+        mkdir -p isolated-native-evidence
+        git show --no-patch --format=fuller HEAD > isolated-native-evidence/checkout.txt
+        test "$(git rev-parse HEAD^1)" = "$PERF_SOURCE_COMMIT"
+        git diff --exit-code "$PERF_SOURCE_COMMIT" HEAD -- '*.lean' lakefile.toml lake-manifest.json lean-toolchain
+        sysctl vm.max_map_count > isolated-native-evidence/memory-mapping-before.txt
+        if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+          sudo sysctl -w vm.max_map_count=262144
+        fi
+        sysctl vm.max_map_count > isolated-native-evidence/memory-mapping-after.txt
+        cp isolated-native-evidence/memory-mapping-after.txt isolated-native-evidence/memory-mapping.txt
+        df -h /
+    - name: Install and verify the standard GDB harness dependency
+      id: debugger
+      timeout-minutes: 8
+      run: |
+        python3 -u - <<'PYGDB'
+        import json, pathlib, shutil, subprocess
+        evidence = pathlib.Path('isolated-native-evidence')
+        evidence.mkdir(exist_ok=True)
+        gdb = shutil.which('gdb')
+        result = {
+            'scope': 'diagnostic-only GDB harness dependency setup',
+            'gdb_preinstalled': gdb is not None,
+            'dependency_install_attempted': False,
+            'installed_or_modified_any_dependency': False,
+            'changed_system_security_settings': False,
+            'debugger_runs_as_root': False,
+            'complete_target_module_compiled': False,
+            'original_module_acceptance': False,
+            'full_task_acceptance': False,
+            'exit_code': 1,
+        }
+        try:
+            if gdb is None:
+                result['dependency_install_attempted'] = True
+                result['installed_or_modified_any_dependency'] = True
+                with (evidence / 'gdb-install.log').open('w') as log:
+                    for command in [
+                        ['sudo', 'apt-get', 'update'],
+                        ['sudo', 'apt-get', 'install', '--yes', '--no-install-recommends', 'gdb'],
+                    ]:
+                        log.write('COMMAND: ' + ' '.join(command) + '\n')
+                        log.flush()
+                        subprocess.run(command, stdout=log, stderr=subprocess.STDOUT,
+                                       stdin=subprocess.DEVNULL, timeout=180, check=True)
+                gdb = shutil.which('gdb')
+            result['gdb_available'] = gdb is not None
+            result['gdb_path'] = gdb
+            if gdb is None:
+                result['reason'] = 'The standard package install did not provide gdb'
+            else:
+                process = subprocess.run([gdb, '--version'], text=True, capture_output=True, timeout=10)
+                result['gdb_version_first_line'] = process.stdout.splitlines()[0] if process.stdout else ''
+                result['version_exit_code'] = process.returncode
+                result['exit_code'] = 0 if process.returncode == 0 else 1
+        except (OSError, subprocess.SubprocessError) as error:
+            result['reason'] = str(error)
+        (evidence / 'harness-dependency.json').write_text(json.dumps(result, indent=2) + '\n')
+        print(json.dumps(result), flush=True)
+        raise SystemExit(result['exit_code'])
+        PYGDB
+    - name: Install the pinned Lean toolchain and Mathlib cache
+      uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+      with:
+        auto-config: 'false'
+        build: 'false'
+        test: 'false'
+        lint: 'false'
+        use-mathlib-cache: 'true'
+        use-github-cache: 'false'
+    - name: Restore ordinary Lake artifacts
+      uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@9a4d9581cbf102399c229c18971a06b18fc8a8c9
+    - name: Record exact source and toolchain provenance
+      run: |
+        python3 -u - <<'PY'
+        import hashlib, json, os, pathlib, subprocess, tomllib
+
+        def run(*args):
+            return subprocess.check_output(args, text=True).strip()
+
+        def sha256(path):
+            return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+
+        source_commit = os.environ['PERF_SOURCE_COMMIT']
+        assert run('git', 'rev-parse', 'HEAD^1') == source_commit, 'Publish as a direct child of the frozen source commit'
+        changed_paths = run('git', 'diff', '--name-only', source_commit, 'HEAD').splitlines()
+        assert changed_paths == ['.github/workflows/mom-engine-step-eol-native.yml'], changed_paths
+        config_paths = ['lakefile.toml', 'lake-manifest.json', 'lean-toolchain']
+        subprocess.run(['git', 'diff', '--exit-code', 'HEAD', '--', '*.lean', *config_paths], check=True)
+        version = run('lake', 'env', 'lean', '--version')
+        mathlib = run('git', '-C', '.lake/packages/mathlib', 'rev-parse', 'HEAD')
+        assert '4.35.0-rc3' in version and '470d5ce1400764999581fd26d5d72b00d990b0f4' in version
+        assert mathlib == '0493595ecd5da8ef14742febab99728f98e948e8'
+        project = tomllib.loads(pathlib.Path('lakefile.toml').read_text())
+        assert project.get('leanOptions') == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+        assert project.get('weakLeanArgs') == ['-j2']
+        sources = {str(p): sha256(p) for p in sorted(
+            pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP').rglob('*.lean'))}
+        assert len(sources) == 1009, len(sources)
+        target = os.environ['PERF_TARGET']
+        assert target == 'ExceptionalOriginalLabel'
+        target_path = pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP') / (target + '.lean')
+        target_bytes = target_path.read_bytes()
+        assert sha256(target_path) == 'eeb6c9828a7b21192621114e8ae1f32458b76e6137a329d5df595cc513d987bb'
+        assert sum(line.lstrip().startswith(b'#print axioms ') for line in target_bytes.splitlines()) == 1
+        evidence = {
+            'commit': run('git', 'rev-parse', 'HEAD'),
+            'tree': run('git', 'rev-parse', 'HEAD^{tree}'),
+            'source_commit': source_commit,
+            'source_tree': run('git', 'rev-parse', source_commit + '^{tree}'),
+            'workflow_only_delta_paths': changed_paths,
+            'source_is_direct_parent': True,
+            'target': target,
+            'target_path': str(target_path),
+            'target_source_sha256': sha256(target_path),
+            'target_source_bytes': len(target_bytes),
+            'target_print_axioms_commands': sum(
+                line.lstrip().startswith(b'#print axioms ') for line in target_bytes.splitlines()),
+            'lean': version,
+            'mathlib': mathlib,
+            'lean_options': project['leanOptions'],
+            'weak_lean_args': project['weakLeanArgs'],
+            'profiler_enabled': True,
+            'heartbeat_override': None,
+            'source_sha256': sources,
+            'config_sha256': {path: sha256(path) for path in config_paths},
+            'scope': 'diagnostic-only GDB stack sampling; never original-module or full-task acceptance',
+        }
+        pathlib.Path('isolated-native-evidence/environment.json').write_text(
+            json.dumps(evidence, indent=2) + '\n')
+        PY
+      id: provenance
+    - name: Build the complete unchanged target dependencies
+      timeout-minutes: 60
+      shell: bash
+      run: |
+        set -o pipefail
+        status=0
+        timeout --signal=TERM --kill-after=30s 58m lake build "+HeckeSkeleton.Moments.MOM_ENGINE_STEP.${PERF_TARGET}:deps" 2>&1 |
+          tee isolated-native-evidence/dependencies.log || status=$?
+        echo "$status" > isolated-native-evidence/dependencies-exit-code.txt
+        exit "$status"
+      id: dependencies
+    - name: Diagnostic only - sample the complete temporary EOL copy under parent GDB
+      id: stack_diagnostic
+      if: ${{ always() && !cancelled() && steps.debugger.outcome == 'success' && steps.provenance.outcome == 'success' &&
+        steps.dependencies.outcome == 'success' }}
+      timeout-minutes: 5
+      run: |
+        python3 -u - <<'PY'
+        """Pure, reversible instrumentation of the frozen B15 EOL source."""
+
+        import hashlib
+        import json
+
+
+        EOL_SOURCE_SHA256 = 'eeb6c9828a7b21192621114e8ae1f32458b76e6137a329d5df595cc513d987bb'
+
+
+        def instrument_eol(original_bytes):
+            assert hashlib.sha256(original_bytes).hexdigest() == EOL_SOURCE_SHA256
+            original = original_bytes.decode()
+            insertions = []
+            declarations = []
+
+            def one(anchor):
+                assert original.count(anchor) == 1, (anchor, original.count(anchor))
+                offset = original.index(anchor)
+                assert offset == 0 or original[offset - 1] == '\n', anchor
+                return offset
+
+            def add(offset, label, tactic=False):
+                assert offset == 0 or original[offset - 1] == '\n'
+                syntax = '  run_tac' if tactic else 'run_cmd'
+                text = syntax + ' IO.eprintln ' + json.dumps(
+                    'MOM_TRACE ExceptionalOriginalLabel B16_stack 9a4d9581 ' + label) + '\n'
+                insertions.append({
+                    'offset_characters': offset,
+                    'original_line': original[:offset].count('\n') + 1,
+                    'label': label,
+                    'text': text,
+                })
+
+
+            ready_offset = one('/-!\n# Both original divisor and finite-phase weights on an exceptional leaf\n')
+            insertions.append({
+                'offset_characters': ready_offset,
+                'original_line': original[:ready_offset].count('\n') + 1,
+                'label': 'STACK_READY_AFTER_IMPORTS',
+                'text': 'run_cmd IO.eprintln "MOM_STACK_READY_AFTER_IMPORTS"\n',
+            })
+
+            specs = [
+                (
+                    'exceptionalLabel_from_scalar_bounds',
+                    'private theorem exceptionalLabel_from_scalar_bounds\n',
+                    'private theorem exceptionalLabel_from_scalar_bounds\n',
+                    'variable {ΨL ΨR : Ideal (𝓞 F) →* ℂ}',
+                    ['have hradical', 'have hsecondIndex', 'have hlabel',
+                     'have hfirstNorm', 'have hsecondNorm',
+                     'exact exceptionalLabel_divisor_transport'],
+                ),
+
+                (
+                    'exceptionalLabel_actual_atom_bound',
+                    'private theorem exceptionalLabel_actual_atom_bound\n',
+                    'private theorem exceptionalLabel_actual_atom_bound\n',
+                    '/-- The public source estimate has no per-leaf exceptional inequality\n',
+                    ['exact exceptional_relative_terminal_from_atoms'],
+                ),
+                (
+                    'exceptional_original_label_from_atoms',
+                    'theorem exceptional_original_label_from_atoms\n',
+                    '/-- The public source estimate has no per-leaf exceptional inequality\n',
+                    'end SecondSideFrame\nend HeckeSkeleton.Moments.EngineStep\n',
+                    ['exact exceptionalLabel_from_scalar_bounds'],
+                ),
+            ]
+            for name, declaration_anchor, header_anchor, boundary_anchor, expected_steps in specs:
+                declaration = one(declaration_anchor)
+                header = one(header_anchor)
+                boundary = one(boundary_anchor)
+                assert header <= declaration < boundary
+                add(header, 'BEFORE_HEADER_' + name)
+                by_marker = ' := by\n'
+                body_start = original.index(by_marker, declaration, boundary) + len(by_marker)
+                body = original[body_start:boundary]
+                offset = body_start
+                actual_steps = []
+                marker_lines = []
+                for line in body.splitlines(keepends=True):
+                    if line.startswith(('  have ', '  exact ')):
+                        assert len(actual_steps) < len(expected_steps)
+                        expected = expected_steps[len(actual_steps)]
+                        assert line.startswith('  ' + expected), (name, line, expected)
+                        actual_steps.append(expected)
+                        marker_lines.append(original[:offset].count('\n') + 1)
+                        add(offset, name + '_BEFORE_' + expected.replace(' ', '_'), tactic=True)
+                    offset += len(line)
+                assert actual_steps == expected_steps, (name, actual_steps)
+                # Insert immediately after the last original proof line, before its
+                # existing blank lines. This only records return of the final tactic.
+                proof_end = body_start + len(body.rstrip('\n')) + 1
+                assert proof_end <= boundary and original[proof_end - 1] == '\n'
+                add(proof_end, name + '_AFTER_FINAL_EXACT', tactic=True)
+                add(boundary, 'AFTER_DECLARATION_' + name)
+                declarations.append({
+                    'name': name,
+                    'declaration_line': original[:declaration].count('\n') + 1,
+                    'header_line': original[:header].count('\n') + 1,
+                    'body_start_line': original[:body_start].count('\n') + 1,
+                    'top_level_steps': actual_steps,
+                    'tactic_marker_lines': marker_lines,
+                    'final_tactic_return_does_not_establish_kernel_completion': True,
+                })
+
+            print_anchor = '#print axioms HeckeSkeleton.Moments.EngineStep.SecondSideFrame.exceptional_original_label_from_atoms\n'
+            print_start = one(print_anchor)
+            add(print_start, 'BEFORE_PRINT_AXIOMS')
+            add(print_start + len(print_anchor), 'AFTER_PRINT_AXIOMS')
+
+            insertions.sort(key=lambda item: item['offset_characters'])
+            pieces = []
+            cursor = 0
+            added_characters = 0
+            for item in insertions:
+                offset = item['offset_characters']
+                pieces.append(original[cursor:offset])
+                item['diagnostic_offset_characters'] = offset + added_characters
+                pieces.append(item['text'])
+                added_characters += len(item['text'])
+                cursor = offset
+            pieces.append(original[cursor:])
+            diagnostic = ''.join(pieces)
+            recovered = diagnostic
+            for item in reversed(insertions):
+                offset = item['diagnostic_offset_characters']
+                assert recovered[offset:offset + len(item['text'])] == item['text']
+                recovered = recovered[:offset] + recovered[offset + len(item['text']):]
+            assert recovered.encode() == original_bytes
+            original_prints = [line for line in original.splitlines() if line.lstrip().startswith('#print axioms ')]
+            diagnostic_prints = [line for line in diagnostic.splitlines() if line.lstrip().startswith('#print axioms ')]
+            assert len(original_prints) == 1 and diagnostic_prints == original_prints
+            assert len(insertions) == 20
+            manifest = {
+                'source_sha256': EOL_SOURCE_SHA256,
+                'source_bytes': len(original_bytes),
+                'diagnostic_sha256': hashlib.sha256(diagnostic.encode()).hexdigest(),
+                'diagnostic_bytes': len(diagnostic.encode()),
+                'exact_full_source_recovered_after_removing_instrumentation': True,
+                'original_print_axioms_commands': original_prints,
+                'original_print_axioms_preserved': True,
+                'attached_public_doccomment_preserved': True,
+                'declarations': declarations,
+                'insertions': insertions,
+                'native_executed': False,
+                'scope': 'full temporary instrumented copy; never original-module acceptance',
+                'command_markers_do_not_establish_async_declaration_or_kernel_completion': True,
+            }
+            return diagnostic, manifest
+
+        import hashlib, json, os, pathlib, shutil, subprocess, tempfile, time
+
+        SOURCE_COMMIT = '9a4d9581cbf102399c229c18971a06b18fc8a8c9'
+        SOURCE_TREE = 'afe6ed23b26ad3c2fd44636e47fe010c33f9df46'
+        SOURCE_SHA256 = 'eeb6c9828a7b21192621114e8ae1f32458b76e6137a329d5df595cc513d987bb'
+        DRIVER_SHA256 = 'e30d9a1d6a6cbefb21de4f6c674adb3c6a11b5e2a07760df4878308973d28d22'
+        DRIVER_TEXT = '#!/usr/bin/env python3\n"""Diagnostic-only GDB parent/Lean child sampler; never acceptance evidence.\n\nInvoke under `lake env python3 ... --input COPY.lean --output /tmp/UNIQUE\n--evidence DIR`. No attachment to an existing process, installation, privilege\nchange, target-function call, kernel bypass, or Lean heartbeat/async override.\n"""\n\nfrom __future__ import annotations\n\nimport argparse\nimport ast\nimport hashlib\nimport json\nimport os\nfrom pathlib import Path\nimport re\nimport selectors\nimport shutil\nimport signal\nimport subprocess\nimport sys\nimport time\n\n\nREADY_MARKER = "MOM_STACK_READY_AFTER_IMPORTS"\nLEAN_COMMIT = "470d5ce1400764999581fd26d5d72b00d990b0f4"\nSAMPLE_OFFSETS = (10.0, 40.0, 80.0)\nHARD_SECONDS = 180.0\nREADY_SECONDS = 60.0\nCOMMAND_SECONDS = 6.0\nCLEANUP_SECONDS = 10.0\nABORT_REQUESTED = False\n\n\nclass DiagnosticError(RuntimeError):\n    pass\n\n\ndef request_abort(signum, _frame):\n    global ABORT_REQUESTED\n    ABORT_REQUESTED = True\n\n\ndef sha256(path: Path) -> str:\n    return hashlib.sha256(path.read_bytes()).hexdigest()\n\n\ndef proc_identity(pid: int) -> dict | None:\n    """Read identity only; never read environment, memory, or unrelated PIDs."""\n    try:\n        root = Path("/proc") / str(pid)\n        stat = (root / "stat").read_text()\n        fields = stat.rsplit(")", 1)[1].split()\n        return {\n            "pid": pid, "state": fields[0], "ppid": int(fields[1]),\n            "start_ticks": fields[19], "uid": root.stat().st_uid,\n            "executable": str((root / "exe").resolve()),\n        }\n    except (OSError, ValueError, IndexError):\n        return None\n\n\ndef same_live_identity(now: dict | None, owned: dict | None) -> bool:\n    return bool(now and owned and now["state"] != "Z"\n                and all(now[k] == owned[k] for k in ("pid", "uid", "start_ticks")))\n\n\ndef stream_text(line: str) -> str:\n    if line[:1] in {"~", "@", "&"} and line[1:2] == \'"\':\n        try:\n            value = ast.literal_eval(line[1:])\n            return value if isinstance(value, str) else line\n        except (SyntaxError, ValueError):\n            return line\n    return line\n\n\ndef parse_exit_code(value: str | None) -> int | None:\n    if value is None:\n        return None\n    try:\n        return int(value, 8 if re.fullmatch(r"0[0-7]+", value) else 0)\n    except ValueError:\n        try:\n            return int(value, 10)\n        except ValueError:\n            return None\n\n\nclass MIDriver:\n    def __init__(self, argv: list[str], evidence: Path, started: float):\n        self.started = started\n        self.deadline = started + HARD_SECONDS\n        self.evidence = evidence\n        child_env = os.environ.copy()\n        child_env["DEBUGINFOD_URLS"] = ""\n        self.proc = subprocess.Popen(argv, stdin=subprocess.PIPE, stdout=subprocess.PIPE,\n                                     stderr=subprocess.STDOUT, bufsize=0, env=child_env)\n        assert self.proc.stdin is not None and self.proc.stdout is not None\n        os.set_blocking(self.proc.stdout.fileno(), False)\n        self.selector = selectors.DefaultSelector()\n        self.selector.register(self.proc.stdout, selectors.EVENT_READ)\n        self.raw_log = (evidence / "gdb-mi.log").open("wb")\n        self.buffer = b""\n        self.token = 0\n        self.results: dict[str, str] = {}\n        self.console: list[str] = []\n        self.phase_markers: list[dict] = []\n        self.ready_at: float | None = None\n        self.running = False\n        self.stop_serial = 0\n        self.last_stop: str | None = None\n        self.inferior_exited = False\n        self.exit_code_raw: str | None = None\n        self.exit_code: int | None = None\n        self.exit_signal: str | None = None\n        self.owned_inferior: dict | None = None\n        self.cleanup_mode = False\n        self.cleanup_log: list[dict] = []\n\n    def elapsed(self) -> float:\n        return time.monotonic() - self.started\n\n    def consume(self, line: str) -> None:\n        text = stream_text(line)\n        self.console.append(text)\n        for part in text.splitlines():\n            if part.strip() == READY_MARKER and self.ready_at is None:\n                self.ready_at = time.monotonic()\n            if part.startswith("MOM_TRACE "):\n                self.phase_markers.append({"elapsed_seconds": self.elapsed(), "text": part})\n        result = re.match(r"^(\\d+)\\^(.*)$", line)\n        if result:\n            self.results[result[1]] = result[2]\n        if line.startswith("=thread-group-started,"):\n            match = re.search(r\'(?:^|,)pid="(\\d+)"\', line)\n            if match:\n                identity = proc_identity(int(match[1]))\n                if identity is not None:\n                    if identity["ppid"] != self.proc.pid or identity["uid"] != os.getuid():\n                        raise DiagnosticError("GDB inferior is not this GDB\'s same-user direct child")\n                    if self.owned_inferior and identity["pid"] != self.owned_inferior["pid"]:\n                        raise DiagnosticError("Unexpected second inferior; refusing broader process sampling")\n                    self.owned_inferior = identity\n                    (self.evidence / "owned-processes.json").write_text(json.dumps({\n                        "gdb_pid": self.proc.pid, "inferior": identity,\n                        "scope": "Only this newly launched diagnostic process",\n                    }, indent=2) + "\\n")\n        if line.startswith("*running,"):\n            self.running = True\n        if line.startswith("*stopped,"):\n            self.running = False\n            self.stop_serial += 1\n            self.last_stop = line\n            if \'reason="exited-normally"\' in line:\n                self.inferior_exited = True\n                self.exit_code = 0\n            elif \'reason="exited"\' in line or \'reason="exited-signalled"\' in line:\n                self.inferior_exited = True\n            match = re.search(r\'(?:^|,)signal-name="([^"]+)"\', line)\n            if match and self.inferior_exited:\n                self.exit_signal = match[1]\n        if line.startswith("=thread-group-exited,"):\n            self.inferior_exited = True\n            self.running = False\n        if self.inferior_exited:\n            match = re.search(r\'(?:^|,)exit-code="([^"]+)"\', line)\n            if match:\n                self.exit_code_raw = match[1]\n                self.exit_code = parse_exit_code(match[1])\n\n    def pump(self, seconds: float = 0.2) -> None:\n        if not self.cleanup_mode:\n            if ABORT_REQUESTED:\n                raise DiagnosticError("Diagnostic supervisor received a termination signal")\n            if time.monotonic() >= self.deadline:\n                raise DiagnosticError("Diagnostic hard wall deadline reached")\n        for key, _ in self.selector.select(max(0.0, min(seconds, 0.2))):\n            chunk = os.read(key.fd, 65536)\n            if not chunk:\n                self.selector.unregister(key.fileobj)\n                if self.buffer:\n                    self.consume(self.buffer.decode("utf-8", "replace"))\n                    self.buffer = b""\n                continue\n            self.raw_log.write(chunk)\n            self.raw_log.flush()\n            self.buffer += chunk\n            while b"\\n" in self.buffer:\n                line, self.buffer = self.buffer.split(b"\\n", 1)\n                self.consume(line.rstrip(b"\\r").decode("utf-8", "replace"))\n\n    def request(self, command: str, seconds: float = COMMAND_SECONDS,\n                allowed: tuple[str, ...] = ("done",)) -> str:\n        self.token += 1\n        token = str(self.token)\n        payload = (token + command + "\\n").encode()\n        self.raw_log.write(b">>> " + payload)\n        self.raw_log.flush()\n        assert self.proc.stdin is not None\n        self.proc.stdin.write(payload)\n        self.proc.stdin.flush()\n        deadline = time.monotonic() + seconds\n        while token not in self.results:\n            if time.monotonic() >= deadline:\n                raise DiagnosticError("GDB MI command timed out: " + command.split()[0])\n            if self.proc.poll() is not None:\n                raise DiagnosticError("GDB exited before replying to MI command")\n            self.pump()\n        result = self.results.pop(token)\n        if result.split(",", 1)[0] not in allowed:\n            raise DiagnosticError("GDB MI rejected " + command.split()[0] + ": " + result)\n        return result\n\n    def wait_stopped(self, previous: int, seconds: float = COMMAND_SECONDS) -> None:\n        deadline = time.monotonic() + seconds\n        while self.stop_serial <= previous and not self.inferior_exited:\n            if time.monotonic() >= deadline:\n                raise DiagnosticError("GDB did not report the requested inferior stop")\n            self.pump()\n\n    def snapshot(self, number: int, lean_binary: Path) -> dict:\n        identity = proc_identity(self.owned_inferior["pid"]) if self.owned_inferior else None\n        if not same_live_identity(identity, self.owned_inferior):\n            raise DiagnosticError("No live owned Lean inferior available to sample")\n        assert identity is not None\n        if identity["ppid"] != self.proc.pid or Path(identity["executable"]) != lean_binary:\n            raise DiagnosticError("Inferior identity or actual compiler executable changed")\n        previous = self.stop_serial\n        self.request("-exec-interrupt --all")\n        self.wait_stopped(previous)\n        if self.inferior_exited:\n            raise DiagnosticError("Inferior exited before requested stack snapshot")\n        mark = len(self.console)\n        self.request(\'-interpreter-exec console "thread apply all bt 32"\')\n        stack = "\\n".join(self.console[mark:]) + "\\n"\n        stack_path = self.evidence / f"stack-{number:02d}.txt"\n        stack_path.write_text(stack)\n        result = {\n            "number": number,\n            "elapsed_seconds": self.elapsed(),\n            "seconds_after_imports_ready": time.monotonic() - self.ready_at if self.ready_at else None,\n            "owned_inferior_pid": identity["pid"],\n            "gdb_stop_record": self.last_stop,\n            "stack_file": stack_path.name,\n            "last_observed_phase_marker": self.phase_markers[-1] if self.phase_markers else None,\n            "scope": "Momentary all-thread stack; no theorem completion inference",\n        }\n        self.request("-exec-continue --all", allowed=("running", "done"))\n        return result\n\n    def cleanup(self) -> bool:\n        """Bounded cleanup; signals are restricted to the PID/start identity we created."""\n        self.cleanup_mode = True\n        end = time.monotonic() + CLEANUP_SECONDS\n        if self.proc.poll() is None and not self.inferior_exited:\n            try:\n                if self.running:\n                    previous = self.stop_serial\n                    self.request("-exec-interrupt --all", seconds=1.0)\n                    self.wait_stopped(previous, seconds=1.0)\n                self.request(\'-interpreter-exec console "kill"\', seconds=1.5)\n                self.cleanup_log.append({"action": "kill_own_inferior_through_gdb", "ok": True})\n            except (DiagnosticError, OSError, BrokenPipeError) as exc:\n                self.cleanup_log.append({"action": "gdb_cleanup", "error": str(exc)})\n        if self.owned_inferior:\n            now = proc_identity(self.owned_inferior["pid"])\n            if same_live_identity(now, self.owned_inferior):\n                try:\n                    os.kill(self.owned_inferior["pid"], signal.SIGKILL)\n                    self.cleanup_log.append({"action": "kill_verified_owned_pid", "ok": True})\n                except ProcessLookupError:\n                    pass\n                except OSError as exc:\n                    self.cleanup_log.append({"action": "kill_verified_owned_pid", "error": str(exc)})\n        if self.proc.poll() is None:\n            try:\n                self.request("-gdb-exit", seconds=1.5, allowed=("exit",))\n            except (DiagnosticError, OSError, BrokenPipeError):\n                pass\n        if self.proc.poll() is None:\n            self.proc.terminate()\n            try:\n                self.proc.wait(timeout=max(0.1, min(1.5, end - time.monotonic())))\n            except subprocess.TimeoutExpired:\n                self.proc.kill()\n                self.proc.wait(timeout=1.5)\n        # Give the debugger/init a brief chance to reap a terminated inferior.\n        while self.owned_inferior and time.monotonic() < end:\n            if not same_live_identity(proc_identity(self.owned_inferior["pid"]), self.owned_inferior):\n                break\n            time.sleep(0.05)\n        remaining = bool(self.owned_inferior and same_live_identity(\n            proc_identity(self.owned_inferior["pid"]), self.owned_inferior))\n        self.selector.close()\n        self.raw_log.close()\n        return self.proc.poll() is not None and not remaining\n\n\ndef metadata_command(argv: list[str]) -> str:\n    result = subprocess.run(argv, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,\n                            stderr=subprocess.STDOUT, text=True, timeout=6, check=True)\n    return result.stdout.strip()\n\n\ndef run(args: argparse.Namespace) -> int:\n    started = time.monotonic()\n    evidence = args.evidence.resolve()\n    evidence.mkdir(parents=True, exist_ok=True)\n    result = {\n        "scope": "Diagnostic-only GDB parent / new Lean child; never original native acceptance",\n        "complete_target_module_compiled": False,\n        "complete_module_within_five_minutes": False,\n        "acceptance_evidence": False,\n        "default_lean_async_preserved": True,\n        "heartbeat_override": None,\n        "sample_offsets_after_imports_seconds": list(SAMPLE_OFFSETS),\n        "maximum_main_seconds": HARD_SECONDS,\n        "maximum_cleanup_seconds": CLEANUP_SECONDS,\n        "snapshots": [],\n        "attached_existing_process": False,\n        "privilege_or_security_settings_changed": False,\n    }\n    driver: MIDriver | None = None\n    source: Path | None = None\n    exit_status = 4\n    try:\n        gdb = shutil.which("gdb")\n        if gdb is None:\n            result["status"] = "missing_gdb"\n            raise DiagnosticError("gdb is unavailable; no installation or privilege fallback is attempted")\n        scope_path = Path("/proc/sys/kernel/yama/ptrace_scope")\n        scope = scope_path.read_text().strip() if scope_path.exists() else None\n        result["observed_ptrace_scope"] = scope\n        if scope in {"2", "3"}:\n            result["status"] = "unprivileged_ptrace_unavailable"\n            raise DiagnosticError("Host policy disallows this unprivileged debugger launch; policy is unchanged")\n        if os.environ.get("LEAN_NUM_THREADS") != "2":\n            raise DiagnosticError("LEAN_NUM_THREADS must already equal 2 in the inherited Lake environment")\n        source = args.input.resolve(strict=True)\n        output = args.output.resolve()\n        if source.suffix != ".lean" or not output.is_relative_to(Path("/tmp")):\n            raise DiagnosticError("Input must be a Lean file and compiler output must be in a unique /tmp directory")\n        output.mkdir(parents=True, exist_ok=True)\n        olean, ilean = output / (source.stem + ".olean"), output / (source.stem + ".ilean")\n        if olean.exists() or ilean.exists():\n            raise DiagnosticError("Refusing to overwrite previous compiler outputs")\n        prefix = Path(metadata_command(["lean", "--print-prefix"]))\n        lean_binary = (prefix / "bin/lean").resolve(strict=True)\n        version = metadata_command([str(lean_binary), "--version"])\n        if "4.35.0-rc3" not in version or LEAN_COMMIT not in version:\n            raise DiagnosticError("Resolved compiler does not match the pinned Lean version and commit")\n        gdb_version = metadata_command([gdb, "--version"]).splitlines()[0]\n        native_args = [str(lean_binary), "-j2", "-DautoImplicit=false", "-DrelaxedAutoImplicit=false",\n                       "-Dprofiler=true", "-DstderrAsMessages=false",\n                       "-o", str(olean), "-i", str(ilean), str(source)]\n        command = [gdb, "--quiet", "--nx", "--interpreter=mi2", "--args", *native_args]\n        result.update({\n            "gdb_version": gdb_version, "lean_version": version,\n            "lean_binary": str(lean_binary), "lean_binary_sha256": sha256(lean_binary),\n            "input_path": str(source), "input_sha256_before": sha256(source),\n            "compiler_output_directory": str(output), "command": command,\n            "environment_dumped": False,\n        })\n        driver = MIDriver(command, evidence, started)\n        for setting in ["pagination off", "confirm off", "debuginfod enabled off", "mi-async on", "startup-with-shell off",\n                        "disable-randomization off", "print frame-arguments none"]:\n            driver.request("-gdb-set " + setting)\n        driver.request("-exec-run", allowed=("running", "done"))\n        ready_deadline = min(driver.deadline, time.monotonic() + READY_SECONDS)\n        while driver.ready_at is None and not driver.inferior_exited:\n            if time.monotonic() >= ready_deadline:\n                raise DiagnosticError("Imports-ready marker was not observed within 60 seconds")\n            driver.pump()\n        if driver.inferior_exited:\n            result["status"] = "inferior_exited_before_requested_samples"\n            exit_status = 3\n        else:\n            assert driver.ready_at is not None\n            result["imports_ready_elapsed_seconds"] = driver.ready_at - started\n            for number, offset in enumerate(SAMPLE_OFFSETS, 1):\n                due = driver.ready_at + offset\n                while time.monotonic() < due and not driver.inferior_exited:\n                    driver.pump()\n                if driver.inferior_exited:\n                    result["status"] = "inferior_exited_before_requested_samples"\n                    exit_status = 3\n                    break\n                result["snapshots"].append(driver.snapshot(number, lean_binary))\n                (evidence / f"snapshot-{number:02d}.json").write_text(\n                    json.dumps(result["snapshots"][-1], indent=2) + "\\n")\n            else:\n                result["status"] = "three_snapshots_collected_diagnostic_will_be_terminated"\n                exit_status = 0\n        result["input_sha256_after"] = sha256(source)\n        if result["input_sha256_after"] != result["input_sha256_before"]:\n            raise DiagnosticError("The diagnostic input file changed during sampling")\n    except (DiagnosticError, OSError, ValueError, subprocess.SubprocessError) as exc:\n        result.setdefault("status", "diagnostic_error")\n        result["error"] = str(exc)\n        exit_status = 2 if driver is None else 4\n    finally:\n        if source is not None and "input_sha256_before" in result:\n            try:\n                result["input_sha256_after"] = sha256(source)\n                result["diagnostic_input_unchanged"] = (\n                    result["input_sha256_after"] == result["input_sha256_before"])\n            except OSError:\n                result["diagnostic_input_unchanged"] = False\n            if not result["diagnostic_input_unchanged"]:\n                exit_status = 4\n                result["status"] = "diagnostic_input_changed"\n        if driver is not None:\n            result["inferior_exit_code_before_cleanup"] = driver.exit_code\n            result["inferior_exit_code_raw_before_cleanup"] = driver.exit_code_raw\n            result["inferior_exit_signal_before_cleanup"] = driver.exit_signal\n            result["last_stop_before_cleanup"] = driver.last_stop\n            result["phase_markers"] = driver.phase_markers\n            result["owned_inferior"] = driver.owned_inferior\n            try:\n                cleaned = driver.cleanup()\n            except Exception as exc:\n                cleaned = False\n                result["cleanup_exception"] = str(exc)\n            result["cleanup_complete"] = cleaned\n            result["cleanup_actions"] = driver.cleanup_log\n            result["gdb_exit_code"] = driver.proc.poll()\n            if not cleaned:\n                exit_status = 5\n                result["status"] = "diagnostic_cleanup_failed"\n        else:\n            result["cleanup_complete"] = True\n        result["elapsed_seconds"] = time.monotonic() - started\n        result["snapshot_count"] = len(result["snapshots"])\n        result["driver_exit_code"] = exit_status\n        (evidence / "stack-result.json").write_text(json.dumps(result, indent=2) + "\\n")\n        print(json.dumps(result), flush=True)\n    return exit_status\n\n\ndef main() -> int:\n    parser = argparse.ArgumentParser(description=__doc__)\n    parser.add_argument("--input", required=True, type=Path)\n    parser.add_argument("--output", required=True, type=Path)\n    parser.add_argument("--evidence", required=True, type=Path)\n    args = parser.parse_args()\n    signal.signal(signal.SIGTERM, request_abort)\n    signal.signal(signal.SIGINT, request_abort)\n    return run(args)\n\n\nif __name__ == "__main__":\n    raise SystemExit(main())\n'
+        shared = pathlib.Path('isolated-native-evidence')
+        evidence = shared / 'stack-diagnostic'
+        evidence.mkdir(parents=True, exist_ok=True)
+        for name in ['environment.json', 'dependencies.log', 'dependencies-exit-code.txt',
+                     'checkout.txt', 'memory-mapping.txt', 'memory-mapping-before.txt',
+                     'memory-mapping-after.txt', 'harness-dependency.json', 'gdb-install.log']:
+            if (shared / name).is_file():
+                shutil.copy2(shared / name, evidence / name)
+        before = json.loads((shared / 'environment.json').read_text())
+        assert os.environ['PERF_SOURCE_COMMIT'] == SOURCE_COMMIT == before['source_commit']
+        assert before['source_tree'] == SOURCE_TREE
+        assert os.environ['PERF_TARGET'] == 'ExceptionalOriginalLabel'
+        assert (shared / 'dependencies-exit-code.txt').read_text().strip() == '0'
+        source = pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalOriginalLabel.lean')
+
+        def sha256(path):
+            return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+
+        def check_provenance():
+            sources = {str(p): sha256(p) for p in sorted(
+                pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP').rglob('*.lean'))}
+            configs = {path: sha256(path) for path in before['config_sha256']}
+            tracked = subprocess.run([
+                'git', 'diff', '--quiet', 'HEAD', '--', '*.lean', *before['config_sha256'],
+            ]).returncode == 0
+            checkout = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+            parent = subprocess.check_output(['git', 'rev-parse', 'HEAD^1'], text=True).strip()
+            result = {
+                'source_count': len(sources),
+                'all_task_sources_unchanged': len(sources) == 1009 and sources == before['source_sha256'],
+                'tracked_lean_sources_unchanged': tracked,
+                'configuration_unchanged': configs == before['config_sha256'],
+                'checkout_unchanged': checkout == before['commit'] and parent == SOURCE_COMMIT,
+                'target_source_matches_frozen_candidate': sha256(source) == SOURCE_SHA256 == before['target_source_sha256'],
+            }
+            result['passed'] = all(value for key, value in result.items() if key != 'source_count')
+            return result
+
+        result = {
+            'scope': 'observational diagnostic-only GDB parent-child stack sampling',
+            'target': 'ExceptionalOriginalLabel',
+            'source_commit': SOURCE_COMMIT,
+            'source_tree': SOURCE_TREE,
+            'source_sha256': SOURCE_SHA256,
+            'driver_sha256': DRIVER_SHA256,
+            'original_module_native_was_run': False,
+            'complete_target_module_compiled': False,
+            'original_module_acceptance': False,
+            'full_task_acceptance': False,
+            'heartbeat_override': None,
+            'lean_async_override': None,
+            'requested_stack_snapshots': 3,
+            'changed_system_security_settings': False,
+            'debugger_privilege_elevation': False,
+            'runner_memory_mapping_before': (shared / 'memory-mapping-before.txt').read_text().strip(),
+            'runner_memory_mapping_after': (shared / 'memory-mapping-after.txt').read_text().strip(),
+            'compiler_outputs_can_be_restored_as_project_cache': False,
+        }
+        preflight = check_provenance()
+        (evidence / 'preflight.json').write_text(json.dumps(preflight, indent=2) + '\n')
+        if not preflight['passed']:
+            result.update({'driver_started': False, 'exit_code': 1, 'reason': 'Source provenance changed before diagnostic'})
+            (evidence / 'harness-result.json').write_text(json.dumps(result, indent=2) + '\n')
+            print(json.dumps(result), flush=True)
+            raise SystemExit(1)
+        original_bytes = source.read_bytes()
+        (evidence / 'ExceptionalOriginalLabel.original.lean').write_bytes(original_bytes)
+        contents, manifest = instrument_eol(original_bytes)
+        compile_input = pathlib.Path('MomEngineEOLStack_B16_9a4d9581.lean')
+        compile_input.write_text(contents)
+        (evidence / compile_input.name).write_text(contents)
+        (evidence / 'instrumentation.json').write_text(json.dumps(manifest, indent=2) + '\n')
+        output = pathlib.Path(tempfile.mkdtemp(prefix='mom-engine-eol-gdb-', dir='/tmp'))
+        driver_file = output / 'lean_gdb_parent_driver.py'
+        assert hashlib.sha256(DRIVER_TEXT.encode()).hexdigest() == DRIVER_SHA256
+        driver_file.write_text(DRIVER_TEXT)
+        (evidence / 'lean_gdb_parent_driver.py').write_text(DRIVER_TEXT)
+        driver_evidence = evidence / 'driver'
+        driver_evidence.mkdir(exist_ok=True)
+        command = [
+            'timeout', '--signal=TERM', '--kill-after=10s', '195s',
+            'lake', 'env', 'python3', str(driver_file),
+            '--input', str(compile_input), '--output', str(output / 'compiler'),
+            '--evidence', str(driver_evidence),
+        ]
+        started = time.monotonic()
+        code = None
+        error_message = None
+        try:
+            with (evidence / 'driver-console.log').open('w') as log:
+                log.write(json.dumps({'command': command}) + '\n')
+                log.flush()
+                process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+                assert process.stdout is not None
+                for line in process.stdout:
+                    print(line, end='', flush=True)
+                    log.write(line)
+                    log.flush()
+                code = process.wait()
+        except OSError as error:
+            error_message = str(error)
+        postflight = check_provenance()
+        (evidence / 'postflight.json').write_text(json.dumps(postflight, indent=2) + '\n')
+        valid = preflight['passed'] and postflight['passed']
+        exit_code = (0 if valid else 1) if code == 0 else (code if code is not None else 1)
+        result.update({
+            'driver_started': code is not None,
+            'driver_exit_code': code,
+            'exit_code': exit_code,
+            'driver_error': error_message,
+            'elapsed_seconds': time.monotonic() - started,
+            'source_count_before': preflight['source_count'],
+            'source_count_after': postflight['source_count'],
+            'provenance_unchanged': valid,
+            'all_task_sources_unchanged': postflight['all_task_sources_unchanged'],
+            'tracked_lean_sources_unchanged': postflight['tracked_lean_sources_unchanged'],
+            'configuration_unchanged': postflight['configuration_unchanged'],
+            'compile_input_path': str(compile_input),
+            'source_bytes': len(original_bytes),
+            'diagnostic_source_sha256': manifest['diagnostic_sha256'],
+            'instrumentation_removed_matches_full_original': manifest['exact_full_source_recovered_after_removing_instrumentation'],
+            'original_print_axioms_count': 1,
+            'driver_evidence_path': str(driver_evidence),
+            'output_directory': str(output),
+            'outer_timeout_seconds': 195,
+            'outer_timeout_kill_after_seconds': 10,
+            'any_driver_or_inferior_success_is_not_original_module_acceptance': True,
+        })
+        (evidence / 'harness-result.json').write_text(json.dumps(result, indent=2) + '\n')
+        print(json.dumps(result), flush=True)
+        raise SystemExit(exit_code)
+        PY
+    - name: Upload diagnostic-only stack and provenance evidence
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: stack-diagnostic-ExceptionalOriginalLabel-${{ github.sha }}-${{ github.run_attempt }}
+        path: isolated-native-evidence/
+        if-no-files-found: error
+        retention-days: 14
