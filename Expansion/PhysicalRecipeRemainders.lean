@@ -99,16 +99,16 @@ theorem sum_physicalRecipeRows {M : Type*} [AddCommMonoid M]
           (∑ d : SixthUnitClasses K Sset,
             ∑ u ∈ (clippedSelectedPhysicalRows K Sset omega psi {1} P E hpsi
               (physicalRecipe_trivial_twists K) hB0 hB1 he hboundary
-              (Z ^ shellExponent Z (1 / 16) j.val) (Z ^ (13 / 16 + zeta)) H b).
-                filter (fun u => u.sector = d), value u) =
+              (Z ^ shellExponent Z (1 / 16) j.val) (Z ^ (13 / 16 + zeta)) H b).filter
+                (fun u => u.sector = d), value u) =
             ∑ u ∈ clippedSelectedPhysicalRows K Sset omega psi {1} P E hpsi
               (physicalRecipe_trivial_twists K) hB0 hB1 he hboundary
               (Z ^ shellExponent Z (1 / 16) j.val) (Z ^ (13 / 16 + zeta)) H b,
                 value u := by
         exact sum_selectedRows_value _ (fun u : FrequencyRow K Sset => u.sector) value
       simp only [physicalRecipeRows]
-      simp_rw [hsector]
-      exact sum_selectedRows_value _ _ value
+      exact (Finset.sum_congr rfl (fun b _ => hsector b)).trans
+        (sum_selectedRows_value _ _ value)
     _ = _ := by
       rw [← biUnion_physicalShellRows K Sset hZ]
       symm

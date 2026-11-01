@@ -158,7 +158,7 @@ theorem exists_actual_principalZ_remainder_bound
     have hc := hcore Z H hZ hH (vertical (B + e) ts) 1 (vertical (33 / 200) tz)
       (by simp) (by simp) (by simp) (by simpa using (abs_le.mpr hts : |ts| ≤ H))
       (by simpa using hH0) (by simpa using (abs_le.mpr htz : |tz| ≤ H))
-    simpa only [hexp] using hc
+    simpa only [hexp, F, b, actualPrincipalWResidueKernel, R] using hc
   have hfinite : volume (Icc (-H) H) < ⊤ := isCompact_Icc.measure_lt_top
   have hvol : volume.real (Icc (-H) H) = 2 * H := by
     rw [Real.volume_real_Icc_of_le (by linarith : -H ≤ H)]
