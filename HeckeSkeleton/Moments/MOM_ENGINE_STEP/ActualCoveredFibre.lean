@@ -23,6 +23,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
+open HeckePort.IdealMobiusDivisorSum
 open WholeAllocation
 
 variable {K : Type} [Field K] [NumberField K]
