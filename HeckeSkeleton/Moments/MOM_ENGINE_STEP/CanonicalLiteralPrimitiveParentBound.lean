@@ -131,7 +131,7 @@ theorem rawRowCost_le_dual_live
     intro D _
     exact (T v D).linearized_le_rawCost (conditions v D)
       (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D)
-      ε Cerror Czero hstage
+      ε Cerror Czero hstage hstage
   have hleaves :
       (s.fiber : ℝ) * (∑ j : R.CoveredLeafKey L, (R.coveredLeaf L exceptional N j).cost) =
         R.exceptionalBudget L exceptional N + R.ordinaryBudget L exceptional N := by
