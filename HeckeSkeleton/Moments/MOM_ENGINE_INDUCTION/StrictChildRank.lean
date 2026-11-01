@@ -28,12 +28,19 @@ theorem parameterCoreRank_strict_width {sigma widthLimit padding : ℝ}
     parameterCoreRank sigma widthLimit padding child <
       parameterCoreRank sigma widthLimit padding parent := by
   have hband := widthBand_strict hsigma hchild hdrop
-  by_cases hp : parent.z = 0
-  · have hc := hzero hp
-    simp only [parameterCoreRank, hp, hc, if_pos]
-    split_ifs <;> omega
-  · simp only [parameterCoreRank, hp, if_neg]
-    split_ifs <;> omega
+  have hslots :
+      (if child.z = 0 then 0 else 3 * (widthBand sigma widthLimit + 1)) ≤
+        (if parent.z = 0 then 0 else 3 * (widthBand sigma widthLimit + 1)) := by
+    by_cases hc : child.z = 0
+    · simp [hc]
+    · have hp : parent.z ≠ 0 := fun hp => hc (hzero hp)
+      simp [hc, hp]
+  have hstage :
+      (if child.m + child.q + padding < child.n₁ + child.n₂ + child.z then (2 : ℕ)
+        else if child.n₁ + child.n₂ + child.z ≤ 5 * (child.m + child.q) / 6 then 0 else 1) ≤ 2 := by
+    split_ifs <;> norm_num
+  unfold parameterCoreRank
+  omega
 
 /-- Every legal strict domain has positive rank, including the
 zero-slot ordinary case. The large-width floor alone proves this. -/

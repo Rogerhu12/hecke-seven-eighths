@@ -145,7 +145,10 @@ theorem integrand_le_sourcePairs (parentWidth : ℝ) (ξ : WithLp 2 (ℝ × ℝ)
             leftMask a leftSign true).energy ξ))) =
         ∑ b : LeftLabel, Real.sqrt ((leftFrame b).energy ξ) := by
     rw [Fintype.sum_prod_type]
-    rw [Finset.sum_coe_sort]
+    refine Eq.trans ?_
+      (Finset.sum_coe_sort (nonzeroLabels leftProfiles leftAllocation A leftMask)
+        (fun a => ∑ r : Bool, Real.sqrt ((frame leftProfiles leftAllocation A leftPaid C R
+          .left leftMask a leftSign r).energy ξ))).symm
     apply Finset.sum_congr rfl
     intro a ha
     simp [add_comm]
@@ -157,7 +160,10 @@ theorem integrand_le_sourcePairs (parentWidth : ℝ) (ξ : WithLp 2 (ℝ × ℝ)
             rightMask a rightSign true).energy ξ))) =
         ∑ b : RightLabel, Real.sqrt ((rightFrame b).energy ξ) := by
     rw [Fintype.sum_prod_type]
-    rw [Finset.sum_coe_sort]
+    refine Eq.trans ?_
+      (Finset.sum_coe_sort (nonzeroLabels rightProfiles rightAllocation A rightMask)
+        (fun a => ∑ r : Bool, Real.sqrt ((frame rightProfiles rightAllocation A rightPaid C R
+          .right rightMask a rightSign r).energy ξ))).symm
     apply Finset.sum_congr rfl
     intro a ha
     simp [add_comm]

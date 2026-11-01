@@ -26,6 +26,7 @@ open scoped Classical BigOperators NumberField
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain
+open DedekindZetaZeroFree (SArithmeticData)
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.Analysis.ActualSIntegerMoments
 open HeckeGeneral.ThetaSkeleton.Physical HeckeGeneral.ThetaSkeleton.Global

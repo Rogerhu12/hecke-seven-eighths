@@ -43,8 +43,8 @@ def profileOrders (orders : Finset (ℕ × ℕ)) : Finset (ℕ × ℕ) :=
 theorem norm_le_profileOrders (orders : Finset (ℕ × ℕ))
     (f : 𝓢(ℝ, ℂ)) (x : ℝ) :
     ‖f x‖ ≤ (profileOrders orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) f := by
-  apply (SchwartzMap.norm_le_seminorm ℂ f x).trans
-  exact Seminorm.le_finset_sup_apply (Finset.mem_insert_self (0, 0) orders)
+  exact (SchwartzMap.norm_le_seminorm ℂ f x).trans
+    (Seminorm.le_finset_sup_apply (Finset.mem_insert_self (0, 0) orders))
 
 theorem exists_upper_window_bound (window : Set ℝ) (hcompact : IsCompact window) :
     ∃ annulus : ℝ, 1 ≤ annulus ∧ window ⊆ Set.Iic annulus := by
@@ -142,6 +142,8 @@ variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain 
 variable {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
 variable (profiles : RawProfileWindow rowDomain heightDomain window
   (OriginalProfileAtomBounds.profileOrders orders) d amplitude)
+
+include profiles
 
 theorem original_prime_profile_norm_le (i : Fin d.geometry.slotCount)
     (t : ℝ) (ht : t ∈ heightDomain) (x : ℝ) :

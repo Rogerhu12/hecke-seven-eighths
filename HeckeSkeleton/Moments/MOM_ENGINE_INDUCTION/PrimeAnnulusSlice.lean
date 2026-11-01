@@ -81,7 +81,7 @@ theorem exists_primePolynomial_annulus_slice_bound (lower upper : ℝ)
   have hsupport : Function.support (W : ℝ → ℂ) ⊆ Icc lower upper := by
     intro y hy
     apply hprofile.2.1 y
-    simpa only [hW y] using hy
+    simpa only [Function.mem_support, hW y] using hy
   have hS : sourceSeminorm s W ≤ D * Cp * (1 + T) ^ Hp := by
     apply (sourceSeminorm_le_complex_sup s W).trans
     simpa only [D, mul_assoc, mul_left_comm, mul_comm] using hWS

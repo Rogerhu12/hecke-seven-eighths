@@ -24,7 +24,8 @@ variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {S : MomentSourceData K c}
 variable {R : RowCharacterInput K (places K c) (probeData K c)}
 
-local instance : Fintype (SixthUnitClasses K (places K c)) := Fintype.ofFinite _
+local instance sourceReindexSectorFintype :
+    Fintype (SixthUnitClasses K (places K c)) := Fintype.ofFinite _
 
 /-- The original pointwise calibration and row inclusion give the complete
 paired energy comparison, with every finite unit sector retained. -/

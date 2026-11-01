@@ -19,6 +19,7 @@ count, or branch estimate is an input.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum
 open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStep

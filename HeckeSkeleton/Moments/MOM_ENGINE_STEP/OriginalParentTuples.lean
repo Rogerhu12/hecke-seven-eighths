@@ -142,14 +142,15 @@ def originalIdealFactors (v : raw.Column) :
 exterior filter or common-support quotient is applied. -/
 theorem originalIdealFactors_injective : Function.Injective raw.originalIdealFactors := by
   intro v w he
-  change Fin.cons v.1.1.val (Fin.cons v.1.2.val (fun i => (v.2 i).asIdeal)) =
-    Fin.cons w.1.1.val (Fin.cons w.1.2.val (fun i => (w.2 i).asIdeal)) at he
-  obtain ⟨h₁, hrest⟩ := Fin.cons_inj.mp he
-  obtain ⟨h₂, hslots⟩ := Fin.cons_inj.mp hrest
   apply Prod.ext
-  · exact Prod.ext (Subtype.ext h₁) (Subtype.ext h₂)
+  · apply Prod.ext
+    · apply Subtype.ext
+      simpa only [originalIdealFactors_plain₁] using congrFun he 0
+    · apply Subtype.ext
+      simpa only [originalIdealFactors_plain₂] using congrFun he 1
   · funext i
-    exact HeightOneSpectrum.asIdeal_injective (congrFun hslots i)
+    apply HeightOneSpectrum.asIdeal_injective
+    simpa only [originalIdealFactors_slot] using congrFun he i.succ.succ
 
 theorem originalIdealFactors_product (v : raw.Column) :
     PowerfulDiagonal.tupleIdeal (raw.originalIdealFactors v) = raw.columnIdeal v := by
@@ -217,7 +218,12 @@ theorem originalPairIdealFactors_injective (cap : ℕ)
     (hcap : d.geometry.slotCount ≤ cap) :
     Function.Injective (raw.originalPairIdealFactors cap hcap) := by
   intro v w he
-  have h := OriginalParentTuple.pairAppend_injective he
+  have h :
+      (raw.paddedOriginalIdealFactors cap hcap v.1,
+        raw.paddedOriginalIdealFactors cap hcap v.2) =
+      (raw.paddedOriginalIdealFactors cap hcap w.1,
+        raw.paddedOriginalIdealFactors cap hcap w.2) :=
+    OriginalParentTuple.pairAppend_injective he
   exact Prod.ext
     (raw.paddedOriginalIdealFactors_injective cap hcap (congrArg Prod.fst h))
     (raw.paddedOriginalIdealFactors_injective cap hcap (congrArg Prod.snd h))
@@ -248,7 +254,13 @@ theorem paddedOriginalExteriorFactors_val (cap : ℕ)
     (fun i => (raw.paddedOriginalExteriorFactors cap hcap v i).val) =
       raw.paddedOriginalIdealFactors cap hcap v := by
   funext i
-  simp only [paddedOriginalExteriorFactors, dif_pos hv]
+  let I : A.Exterior :=
+    ⟨raw.paddedOriginalIdealFactors cap hcap v i,
+      raw.paddedOriginalIdealFactors_ne_zero cap hcap v i,
+      Ideal.isCoprime_iff_sup_eq.mp
+        (raw.paddedOriginalIdealFactors_coprime cap hcap v hv i)⟩
+  have he : raw.paddedOriginalExteriorFactors cap hcap v i = I := dif_pos hv
+  exact congrArg (fun J : A.Exterior => J.val) he
 
 def originalPairExteriorFactors (cap : ℕ) (hcap : d.geometry.slotCount ≤ cap)
     (v : raw.Column × raw.Column) : Fin (2 * (cap + 2)) → A.Exterior :=
@@ -261,10 +273,14 @@ theorem originalPairExteriorFactors_val (cap : ℕ)
     (hv₁ : v.1 ∈ raw.exteriorColumns) (hv₂ : v.2 ∈ raw.exteriorColumns) :
     (fun i => (raw.originalPairExteriorFactors cap hcap v i).val) =
       raw.originalPairIdealFactors cap hcap v := by
-  unfold originalPairExteriorFactors originalPairIdealFactors
-  rw [OriginalParentTuple.pairAppend_map,
-    raw.paddedOriginalExteriorFactors_val cap hcap v.1 hv₁,
-    raw.paddedOriginalExteriorFactors_val cap hcap v.2 hv₂]
+  have hmap := OriginalParentTuple.pairAppend_map
+    (raw.paddedOriginalExteriorFactors cap hcap v.1)
+    (raw.paddedOriginalExteriorFactors cap hcap v.2)
+    (fun I : A.Exterior => I.val)
+  exact hmap.trans (congrArg₂
+    (fun f g : Fin (cap + 2) → Ideal (𝓞 K) => OriginalParentTuple.pairAppend f g)
+    (raw.paddedOriginalExteriorFactors_val cap hcap v.1 hv₁)
+    (raw.paddedOriginalExteriorFactors_val cap hcap v.2 hv₂))
 
 /-- Direct inputs for `FirstTailWindows`: genuine subsets of the
 original exterior carrier retain the original pair injection and full

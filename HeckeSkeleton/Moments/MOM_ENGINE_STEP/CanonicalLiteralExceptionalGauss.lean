@@ -22,6 +22,7 @@ open scoped Classical BigOperators NumberField nonZeroDivisors
 namespace HeckeSkeleton.Moments.EngineStep.CanonicalLiteralExceptionalGauss
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
+open HeckePort.IdealMobiusDivisorSum
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global

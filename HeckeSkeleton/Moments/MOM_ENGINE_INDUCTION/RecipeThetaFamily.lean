@@ -59,7 +59,7 @@ theorem recipeRoot_theta_subset {Z T : ℝ}
     (recipeRoot R i s).data.theta ⊆ recipeThetaFamily R := by
   change (R.family.presentation (_root_.ExpansionRecipe.decodePresentation
     R.family.presentationCount R.family.presentationCount_pos
-    ((recipeMomentModels K c R).heights Z T i 4))).theta ⊆ recipeThetaFamily R
+    ((recipeMomentModels K c R).heights Z T i (4 : Fin 6)))).theta ⊆ recipeThetaFamily R
   exact recipe_presentation_theta_subset R _
 
 /-- The independent unmarked family has the same finite containment,

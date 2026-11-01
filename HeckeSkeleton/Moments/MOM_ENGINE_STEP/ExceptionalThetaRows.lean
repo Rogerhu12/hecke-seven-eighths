@@ -144,7 +144,22 @@ def restrictExceptionalAt (p : H → Prop)
       (fun _ => E.leftWeight) (fun _ => E.rightWeight) Ψ W₁ W₂ ξ (R.restrictLive p h)) :
     (f.restrictRows p).source.ExceptionalAt (σ := σ) E.scale₁ E.scale₂
       (fun _ => E.leftWeight) (fun _ => E.rightWeight) Ψ W₁ W₂ ξ h := by
-  cases side <;> exact T
+  cases side <;> exact {
+    mask := T.mask
+    time := T.time
+    product := T.product
+    lower := T.lower
+    lower_pos := T.lower_pos
+    X₁_lower := T.X₁_lower
+    X₂_lower := T.X₂_lower
+    Y₁_lower := T.Y₁_lower
+    Y₂_lower := T.Y₂_lower
+    productX := T.productX
+    productY := T.productY
+    chartX₁ := T.chartX₁
+    chartX₂ := T.chartX₂
+    chartY₁ := T.chartY₁
+    chartY₂ := T.chartY₂ }
 
 end SecondSideFrame
 

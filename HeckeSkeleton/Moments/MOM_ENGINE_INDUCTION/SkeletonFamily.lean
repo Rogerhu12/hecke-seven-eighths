@@ -31,7 +31,8 @@ universe u
 
 variable (K : Type) [Field K] [NumberField K] (c : TargetContext K)
 
-local instance : Fintype (SixthUnitClasses K (places K c)) := Fintype.ofFinite _
+local instance skeletonFamilySectorFintype :
+    Fintype (SixthUnitClasses K (places K c)) := Fintype.ofFinite _
 
 /-- The actual source family, retaining every selected slot and every
 original unit sector.  External heights are evaluated exactly as in

@@ -139,8 +139,10 @@ theorem actual_gauss_raw_dual_finite_bound
     rw [Complex.sub_re] at hre
     have hfinite := (s.sources DE).transform_re_le_dual_rows μv hDiff finiteTest
     change ‖series DE - (s.sources DE).transform μv hDiff finiteTest‖ ≤ _ at ht
+    have rearrange (a b c d : ℝ) : a + (b - c + d) = (b + d + a) - c := by
+      ring
     exact ((sub_le_iff_le_add.mp (hre.trans ht)).trans
-      (add_le_add le_rfl hfinite)).trans_eq (by ring)
+      (add_le_add le_rfl hfinite)).trans_eq (rearrange _ _ _ _)
   have ho : 0 ≤ (∑ DE, (s.sources DE).originZeroTerm finiteTest).re := by
     simpa only [ActualGaussStage.sources, hmask] using
       common_support_gauss_origin_nonneg hΓ hDiff C G.columns G.coefficient

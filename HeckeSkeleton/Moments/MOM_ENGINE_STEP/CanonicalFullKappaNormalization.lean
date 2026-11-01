@@ -23,6 +23,7 @@ open scoped Classical BigOperators NumberField SchwartzMap
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain
+open DedekindZetaZeroFree (SArithmeticData)
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open PrimeCancellation.Analytic

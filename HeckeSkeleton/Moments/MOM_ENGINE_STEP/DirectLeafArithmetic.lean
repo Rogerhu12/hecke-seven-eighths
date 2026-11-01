@@ -13,6 +13,7 @@ the original coefficient gate before either Fourier transform.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum
 open scoped Classical BigOperators NumberField SchwartzMap
 open MeasureTheory
 

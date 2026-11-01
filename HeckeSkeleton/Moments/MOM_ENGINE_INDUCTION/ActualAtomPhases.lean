@@ -74,7 +74,7 @@ theorem actualProbeOrbitSexticEvaluation_eq_actualIdealResidue
       have hpS : p ∉ places K c := hout p hp
       refine ⟨hpS, fun h6 => hpS ?_⟩
       exact Finset.mem_coe.mpr ((axiomChoice K c).A.above_six p h6)
-    rw [zeroExtendedSexticIdealEvaluation, dif_neg hgood,
+    simp only [zeroExtendedSexticIdealEvaluation, dif_neg hgood,
       EngineStep.actualIdealResidue, dif_neg hnot]
 
 /-- The literal constant atoms from a complete-row model satisfy the

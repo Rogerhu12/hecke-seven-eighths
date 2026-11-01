@@ -61,10 +61,20 @@ def conjugateRowWeights : ActualHybridLeaf K H U V :=
 @[simp] theorem conjugateRowWeights_exceptionalIntegrand (z : U × V) :
     B.conjugateRowWeights.exceptionalIntegrand z = B.exceptionalIntegrand z := by
   simp only [exceptionalIntegrand, conjugateRowWeights, jointColumnPairMagnitude, norm_star]
+  apply Finset.sum_congr
+  · exact @Finset.filter_congr_decidable H B.rows B.exceptional _ _
+  · intro h _
+    rfl
 
 @[simp] theorem conjugateRowWeights_ordinaryIntegrand (z : U × V) :
     B.conjugateRowWeights.ordinaryIntegrand z = B.ordinaryIntegrand z := by
   simp only [ordinaryIntegrand, conjugateRowWeights, jointColumnEnergy, norm_star]
+  apply congrArg₂ (fun a b : ℝ => Real.sqrt a * Real.sqrt b)
+  all_goals
+    apply Finset.sum_congr
+    · exact @Finset.filter_congr_decidable H B.rows (fun h => ¬B.exceptional h) _ _
+    · intro h _
+      rfl
 
 @[simp] theorem conjugateRowWeights_exceptionalCost :
     B.conjugateRowWeights.exceptionalCost = B.exceptionalCost := by

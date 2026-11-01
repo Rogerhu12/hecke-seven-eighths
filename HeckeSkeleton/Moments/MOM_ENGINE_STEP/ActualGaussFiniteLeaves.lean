@@ -18,6 +18,7 @@ open MeasureTheory
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
+open HeckePort.IdealMobiusDivisorSum
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
 open WholeAllocation
@@ -140,13 +141,23 @@ theorem phase_class_eq_leaf_sum (exceptional : s.CoverHybridPredicates LC RC)
     fullCorrelationHybridCost
   simp only [Fintype.sum_sigma, Fintype.sum_prod_type, leaf,
     fullCorrelationHybridLeaf, ActualHybridLeaf.firstPhaseCost]
-  simp only [Finset.sum_coe_sort, Finset.mul_sum, mul_assoc]
+  simp only [Finset.mul_sum, mul_assoc]
+  refine (Finset.sum_coe_sort
+    (divisorPool
+      (childCartesianColumns v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots)
+      (fun j => (v.block.rightResidual (v.rightReindex.index j)).val)) _).symm.trans ?_
   apply Finset.sum_congr rfl
   intro divisor _
   apply Finset.sum_congr rfl
   intro χ _
+  refine (Finset.sum_coe_sort
+    (AllocationMass.idealAllocations divisor.val (v.leftSlots + 2)) _).symm.trans ?_
   apply Finset.sum_congr rfl
   intro a _
+  refine (Finset.sum_coe_sort
+    (AllocationMass.idealAllocations divisor.val
+      (((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2
+        v.2.2.2.2.2.2).keep.card + 2)) _).symm.trans ?_
   apply Finset.sum_congr rfl
   intro e _
   congr 1

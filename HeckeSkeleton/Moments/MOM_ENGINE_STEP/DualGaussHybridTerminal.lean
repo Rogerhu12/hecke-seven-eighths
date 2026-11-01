@@ -45,7 +45,6 @@ variable {hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
   HeckeGeneral.Characters.localDifferentExponent K v = 0}
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
-variable {hΓ μv hDiff}
 
 variable {W : Type*} [NormedAddCommGroup W] [InnerProductSpace ℝ W]
   [FiniteDimensional ℝ W] [MeasurableSpace W] [BorelSpace W]

@@ -33,7 +33,7 @@ open HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.UniformAmplify
 open HeckeSkeleton.Moments.EngineStep
 
-variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
+variable {K : Type} [Field K] [NumberField K] {«ω» ψ : HeckeCharacter K}
 
 private theorem profileSchwartzOrders_mono {s t : Finset (ℕ × ℕ)}
     (hst : s ⊆ t) (φ : SchwartzMap ℝ ℂ) :
@@ -49,7 +49,7 @@ theorem exists_rawWindow_modelProfileControl
     (a b : ℝ) (ha : 0 < a) (J : ℕ) (A : ℝ) :
     ∃ s : Finset (ℕ × ℕ), ∃ D : ℝ, 0 < D ∧
       ∀ (lo hi B : ℝ) (orders : Finset (ℕ × ℕ)), s ⊆ orders →
-      Icc lo hi ⊆ Icc a b → ∀ (d : MomentData K ω ψ),
+      Icc lo hi ⊆ Icc a b → ∀ (d : MomentData K «ω» ψ),
       RawProfileWindow Set.univ Set.univ (Icc lo hi) orders d B →
       ModelProfileControl d J A (D * B) 0 lo hi 0 := by
   obtain ⟨s, D, hD, hbound⟩ := exists_schwartz_sliceControl_bound a b ha J A
@@ -93,25 +93,25 @@ theorem exists_rawWindow_modelProfileControl
 order function. Naming this choice avoids a circular order selection. -/
 def eulerSchwartzOrders (a b : ℝ) (ha : 0 < a) (J : ℕ) (A : ℝ) :
     Finset (ℕ × ℕ) :=
-  (exists_rawWindow_modelProfileControl (K := K) (ω := ω) (ψ := ψ) a b ha J A).choose
+  (exists_rawWindow_modelProfileControl (K := K) («ω» := «ω») (ψ := ψ) a b ha J A).choose
 
 def eulerSchwartzCoefficient (a b : ℝ) (ha : 0 < a) (J : ℕ) (A : ℝ) : ℝ :=
-  (exists_rawWindow_modelProfileControl (K := K) (ω := ω) (ψ := ψ)
+  (exists_rawWindow_modelProfileControl (K := K) («ω» := «ω») (ψ := ψ)
     a b ha J A).choose_spec.choose
 
 theorem eulerSchwartzCoefficient_pos (a b : ℝ) (ha : 0 < a) (J : ℕ) (A : ℝ) :
-    0 < eulerSchwartzCoefficient (K := K) (ω := ω) (ψ := ψ) a b ha J A :=
-  (exists_rawWindow_modelProfileControl (K := K) (ω := ω) (ψ := ψ)
+    0 < eulerSchwartzCoefficient (K := K) («ω» := «ω») (ψ := ψ) a b ha J A :=
+  (exists_rawWindow_modelProfileControl (K := K) («ω» := «ω») (ψ := ψ)
     a b ha J A).choose_spec.choose_spec.1
 
 theorem rawWindow_modelProfileControl (a b : ℝ) (ha : 0 < a) (J : ℕ) (A : ℝ)
     (lo hi B : ℝ) (orders : Finset (ℕ × ℕ))
-    (horders : eulerSchwartzOrders (K := K) (ω := ω) (ψ := ψ) a b ha J A ⊆ orders)
-    (hinterval : Icc lo hi ⊆ Icc a b) (d : MomentData K ω ψ)
+    (horders : eulerSchwartzOrders (K := K) («ω» := «ω») (ψ := ψ) a b ha J A ⊆ orders)
+    (hinterval : Icc lo hi ⊆ Icc a b) (d : MomentData K «ω» ψ)
     (w : RawProfileWindow Set.univ Set.univ (Icc lo hi) orders d B) :
     ModelProfileControl d J A
-      (eulerSchwartzCoefficient (K := K) (ω := ω) (ψ := ψ) a b ha J A * B) 0 lo hi 0 :=
-  (exists_rawWindow_modelProfileControl (K := K) (ω := ω) (ψ := ψ)
+      (eulerSchwartzCoefficient (K := K) («ω» := «ω») (ψ := ψ) a b ha J A * B) 0 lo hi 0 :=
+  (exists_rawWindow_modelProfileControl (K := K) («ω» := «ω») (ψ := ψ)
     a b ha J A).choose_spec.choose_spec.2 lo hi B orders horders hinterval d w
 
 /-- The parent Euler order and raw Schwartz coefficient are chosen
@@ -121,7 +121,7 @@ theorem exists_modelProfileControl_rawWindow
     (a b : ℝ) (ha : 0 < a) (hab : a ≤ b) (orders : Finset (ℕ × ℕ)) :
     ∃ J : ℕ, ∃ D : ℝ, 0 < D ∧
       ∀ (lo hi A P : ℝ), 0 ≤ A → Icc lo hi ⊆ Icc a b →
-      ∀ (d : MomentData K ω ψ), ProfileTimeIndependent d →
+      ∀ (d : MomentData K «ω» ψ), ProfileTimeIndependent d →
       ModelProfileControl d J A P 0 lo hi 0 →
       Nonempty (RawProfileWindow Set.univ Set.univ (Icc lo hi) orders d (D * P)) := by
   obtain ⟨J, D, hD, hbound⟩ := exists_sliceControl_schwartz_bound a b ha hab orders
@@ -143,7 +143,7 @@ theorem exists_modelProfileControl_rawWindow
       Function.support (F q : ℝ → ℂ) ⊆ Icc lo hi := by
     intro y hy
     apply (hprofiles q).2.1 y
-    simpa only [hF q y] using hy
+    simpa only [Function.mem_support, hF q y] using hy
   refine ⟨{
     inverseRep := fun u _ => F (.inverse u)
     leftRep := fun u _ => F (.plain₁ u)
@@ -178,30 +178,30 @@ theorem exists_modelProfileControl_rawWindow
 orders. This choice is independent of all moment data. -/
 def schwartzSourceEulerOrder (a b : ℝ) (ha : 0 < a) (hab : a ≤ b)
     (orders : Finset (ℕ × ℕ)) : ℕ :=
-  (exists_modelProfileControl_rawWindow (K := K) (ω := ω) (ψ := ψ)
+  (exists_modelProfileControl_rawWindow (K := K) («ω» := «ω») (ψ := ψ)
     a b ha hab orders).choose
 
 def schwartzSourceCoefficient (a b : ℝ) (ha : 0 < a) (hab : a ≤ b)
     (orders : Finset (ℕ × ℕ)) : ℝ :=
-  (exists_modelProfileControl_rawWindow (K := K) (ω := ω) (ψ := ψ)
+  (exists_modelProfileControl_rawWindow (K := K) («ω» := «ω») (ψ := ψ)
     a b ha hab orders).choose_spec.choose
 
 theorem schwartzSourceCoefficient_pos (a b : ℝ) (ha : 0 < a) (hab : a ≤ b)
     (orders : Finset (ℕ × ℕ)) :
-    0 < schwartzSourceCoefficient (K := K) (ω := ω) (ψ := ψ) a b ha hab orders :=
-  (exists_modelProfileControl_rawWindow (K := K) (ω := ω) (ψ := ψ)
+    0 < schwartzSourceCoefficient (K := K) («ω» := «ω») (ψ := ψ) a b ha hab orders :=
+  (exists_modelProfileControl_rawWindow (K := K) («ω» := «ω») (ψ := ψ)
     a b ha hab orders).choose_spec.choose_spec.1
 
 theorem modelProfileControl_rawWindow (a b : ℝ) (ha : 0 < a) (hab : a ≤ b)
     (orders : Finset (ℕ × ℕ)) (lo hi A P : ℝ) (hA : 0 ≤ A)
-    (hinterval : Icc lo hi ⊆ Icc a b) (d : MomentData K ω ψ)
+    (hinterval : Icc lo hi ⊆ Icc a b) (d : MomentData K «ω» ψ)
     (htime : ProfileTimeIndependent d)
     (hprofiles : ModelProfileControl d
-      (schwartzSourceEulerOrder (K := K) (ω := ω) (ψ := ψ) a b ha hab orders)
+      (schwartzSourceEulerOrder (K := K) («ω» := «ω») (ψ := ψ) a b ha hab orders)
       A P 0 lo hi 0) :
     Nonempty (RawProfileWindow Set.univ Set.univ (Icc lo hi) orders d
-      (schwartzSourceCoefficient (K := K) (ω := ω) (ψ := ψ) a b ha hab orders * P)) :=
-  (exists_modelProfileControl_rawWindow (K := K) (ω := ω) (ψ := ψ)
+      (schwartzSourceCoefficient (K := K) («ω» := «ω») (ψ := ψ) a b ha hab orders * P)) :=
+  (exists_modelProfileControl_rawWindow (K := K) («ω» := «ω») (ψ := ψ)
     a b ha hab orders).choose_spec.choose_spec.2 lo hi A P hA hinterval d htime hprofiles
 
 /-- All finite ranks share one numerical Euler budget. The requested
@@ -211,13 +211,13 @@ theorem exists_finiteRank_rawWindow_controls
     (a b : ℝ) (ha : 0 < a) (N : ℕ) (order : ℕ → ℕ) (A : ℝ) :
     ∃ D : ℝ, 1 ≤ D ∧
       ∀ rank : ℕ, rank ≤ N → ∀ (lo hi : ℝ) (orders : Finset (ℕ × ℕ)),
-      eulerSchwartzOrders (K := K) (ω := ω) (ψ := ψ) a b ha (order rank) A ⊆ orders →
+      eulerSchwartzOrders (K := K) («ω» := «ω») (ψ := ψ) a b ha (order rank) A ⊆ orders →
       Icc lo hi ⊆ Icc a b →
-      ∀ (d : MomentData K ω ψ),
+      ∀ (d : MomentData K «ω» ψ),
       InFixedProfileWindow Set.univ Set.univ (Icc lo hi) orders d →
       ModelProfileControl d (order rank) A D 0 lo hi 0 := by
   let coefficients := fun rank =>
-    eulerSchwartzCoefficient (K := K) (ω := ω) (ψ := ψ) a b ha (order rank) A
+    eulerSchwartzCoefficient (K := K) («ω» := «ω») (ψ := ψ) a b ha (order rank) A
   have hcoefficients (rank : ℕ) : 0 < coefficients rank :=
     eulerSchwartzCoefficient_pos a b ha (order rank) A
   let D := 1 + ∑ rank ∈ Finset.range (N + 1), coefficients rank

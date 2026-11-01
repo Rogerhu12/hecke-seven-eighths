@@ -114,7 +114,8 @@ theorem unitFrequencyRadical_mul_secondSixthRootIdeal_norm_le
     A.exteriorNorm (unitFrequencyRadical C p m n h) *
         A.exteriorNorm (secondSixthRootIdeal p m n) ≤
       (Ideal.absNorm (gcd (primePowerProduct p m).val (primePowerProduct p n).val) : ℝ) := by
-  simpa only [map_mul, Nat.cast_mul] using
+  simpa only [SArithmeticData.exteriorNorm, DedekindZetaZeroFree.idealNorm,
+    map_mul, Nat.cast_mul] using
     ideal_norm_le_of_dvd (gcd_ne_zero_of_left (primePowerProduct p m).property.1)
       (unitFrequencyRadical_mul_secondSixthRootIdeal_dvd_gcd C p m n hm hn h)
 
@@ -127,10 +128,12 @@ theorem commonRadical_mul_secondSixthRootIdeal_norm_le
       min (A.exteriorNorm (primePowerProduct p m))
         (A.exteriorNorm (primePowerProduct p n)) := by
   apply le_min
-  · simpa only [map_mul, Nat.cast_mul] using
+  · simpa only [SArithmeticData.exteriorNorm, DedekindZetaZeroFree.idealNorm,
+      map_mul, Nat.cast_mul] using
       ideal_norm_le_of_dvd (primePowerProduct p m).property.1
         (commonRadical_mul_secondSixthRootIdeal_dvd_left p hp m n hm hn)
-  · simpa only [map_mul, Nat.cast_mul] using
+  · simpa only [SArithmeticData.exteriorNorm, DedekindZetaZeroFree.idealNorm,
+      map_mul, Nat.cast_mul] using
       ideal_norm_le_of_dvd (primePowerProduct p n).property.1
         (commonRadical_mul_secondSixthRootIdeal_dvd_right p hp m n hm hn)
 

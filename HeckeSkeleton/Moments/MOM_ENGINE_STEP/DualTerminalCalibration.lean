@@ -49,7 +49,6 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
 
 namespace ActualGaussStage
 
-variable {hΓ μv hDiff}
 variable {ι : Type*} {G : ActualGaussSource C ι}
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 

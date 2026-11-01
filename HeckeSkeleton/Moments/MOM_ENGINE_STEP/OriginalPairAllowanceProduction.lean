@@ -18,6 +18,7 @@ same construction.
 -/
 
 noncomputable section
+open HeckeGeneral.Arithmetic
 open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStep

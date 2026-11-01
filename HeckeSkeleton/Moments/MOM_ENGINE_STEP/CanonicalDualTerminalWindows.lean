@@ -41,7 +41,7 @@ variable (W : FirstDivisorCoefficientAtoms (A := A) (σ := σ) columns raw Sdiv 
 /-- The actual active gates are kept.  Inactive raw coefficients need
 no bound, and the individual active pair is the only scalar input. -/
 theorem rawResidual_pair_gram_seminorm_le
-    {V : Type*} [NormedAddCommGroup V] [NormedSpace ℂ V]
+    {V : Type*} [AddCommGroup V] [Module ℂ V]
     (p : Seminorm ℂ V) (φ : V) (i j : ι) (pairBound : ℝ) (hbound : 0 ≤ pairBound)
     (hpair : W.active i → W.active j →
       ‖W.rawResidualCoefficient i‖ * ‖W.rawResidualCoefficient j‖ ≤ pairBound) :

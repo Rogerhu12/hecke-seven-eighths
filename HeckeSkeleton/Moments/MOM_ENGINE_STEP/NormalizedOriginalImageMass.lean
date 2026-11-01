@@ -20,6 +20,7 @@ type, profiles, scale, family or arithmetic projections.
 -/
 
 noncomputable section
+open DedekindZetaZeroFree.LocalFiniteSums (ExteriorPrime)
 open scoped Classical BigOperators NumberField SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStep

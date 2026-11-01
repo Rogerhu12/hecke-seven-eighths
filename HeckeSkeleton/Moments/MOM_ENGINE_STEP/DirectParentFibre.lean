@@ -13,6 +13,7 @@ fibre estimate, including any actual retained rectangle subset.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum
 open scoped Classical BigOperators NumberField SchwartzMap
 open MeasureTheory
 

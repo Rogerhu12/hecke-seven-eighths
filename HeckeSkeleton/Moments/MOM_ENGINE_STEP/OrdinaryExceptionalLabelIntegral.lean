@@ -15,6 +15,7 @@ fixed finite seminorms and no centered minimum or height premise.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum HeckeGeneral.Arithmetic
 open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStep

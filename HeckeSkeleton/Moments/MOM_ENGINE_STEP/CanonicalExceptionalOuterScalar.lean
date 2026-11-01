@@ -19,6 +19,7 @@ open scoped Classical BigOperators NumberField SchwartzMap
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField MeasureTheory CommonSupportMass
+open UniqueFactorizationMonoid
 open HeckeGeneral.Characters HeckePort.IdealMobiusDivisorSum
 
 variable {K : Type} [Field K] [NumberField K]

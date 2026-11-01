@@ -13,6 +13,7 @@ and finite source fibres are the same as in the centered assembly.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum
 open scoped Classical BigOperators NumberField SchwartzMap
 open MeasureTheory
 

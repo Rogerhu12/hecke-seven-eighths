@@ -22,7 +22,8 @@ open HeckeGeneral.ThetaSkeleton.Global
 variable (K : Type) [Field K] [NumberField K] (c : TargetContext K)
 variable (S : Source.MomentSourceData K c)
 
-local instance : Fintype (SixthUnitClasses K (places K c)) := Fintype.ofFinite _
+local instance sourceAdapterSectorFintype :
+    Fintype (SixthUnitClasses K (places K c)) := Fintype.ofFinite _
 
 /-- The family uses the one fixed source datum and the original complete
 models evaluated at their actual external height and shift parameters. -/

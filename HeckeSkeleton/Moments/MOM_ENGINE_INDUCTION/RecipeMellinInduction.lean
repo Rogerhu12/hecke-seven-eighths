@@ -176,7 +176,8 @@ theorem RecipeScalarLocalInput.sectorBound
 
 variable (R)
 
-local instance : Fintype (SixthUnitClasses K (places K c)) := Fintype.ofFinite _
+local instance recipeMellinSectorFintype :
+    Fintype (SixthUnitClasses K (places K c)) := Fintype.ofFinite _
 
 /-- The unrestricted zero-slot projection for the same recipe and the
 same no-slot model. It has no plain-length capacity premise. -/

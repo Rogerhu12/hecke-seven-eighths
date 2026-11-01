@@ -190,6 +190,13 @@ def calibration
       pattern ν remaining budget inverse left right geometry index hroot hemb
       row hfactor hsector (parent.slotCoefficient (index i)) (primeIdeal p)
     simp only [coefficient_prime] at he
+    change primeCoefficient K (parent.slotCoefficient (index i) * d.rowCharacter row.momentIdeal) p *
+        maskValue d row.momentIdeal p.asIdeal =
+      primeCoefficient K (parent.slotCoefficient (index i) * correction * oldMoving.character) p *
+          (originalCoprimeMask (exteriorMomentIdeal (oldMoving.effectiveFullSupport remaining)))
+            p.asIdeal *
+        actualIdealResidue (A := A) (σ := σ) p.asIdeal g *
+          actualIdealResidue (A := A) (σ := σ) p.asIdeal row.element at he
     change primeCoefficient K (d.rowCharacter row.momentIdeal * parent.slotCoefficient (index i)) p *
       maskValue d row.momentIdeal p.asIdeal = _
     rw [mul_comm (d.rowCharacter row.momentIdeal) (parent.slotCoefficient (index i))]

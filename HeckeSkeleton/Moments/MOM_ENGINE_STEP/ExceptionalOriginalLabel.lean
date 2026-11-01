@@ -19,12 +19,13 @@ whose same-carrier finite sum is proved in ExceptionalSameCarrierMass.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum
 open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
-open HeckeGeneral.Characters HeckeGeneral.Analysis HeckePort.Moments
+open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis HeckePort.Moments
 open HeckeGeneral.Analysis.ConditionalMoments CommonSupportMass
 open UniqueFactorizationMonoid
 
@@ -68,6 +69,17 @@ theorem exceptionalMagnitude_nonneg
 
 end SecondSideFrame
 
+private theorem exceptionalLabel_scalar_left
+    (a m₁ c₁ m₂ c₂ t : ℝ) :
+    a * m₁ * c₁ * m₂ * c₂ * t = (a * t) * (m₁ * c₁ * m₂ * c₂) := by
+  ring
+
+private theorem exceptionalLabel_scalar_right
+    (a b x y n₁ n₂ m₁ m₂ : ℝ) :
+    (a / n₁ * (b * x / n₂ * y)) * (m₁ * m₂) =
+      a * b * x * (1 / n₁ * m₁ * (1 / n₂) * m₂ * y) := by
+  ring
+
 theorem original_exceptional_label_scalar
     {branch : TwoDivisorCommonBranch (K := F)} (j : branch.Index)
     {Ray₁ Ray₂ : Type*} [CommGroup Ray₁] [Fintype Ray₁] [CommGroup Ray₂] [Fintype Ray₂]
@@ -90,7 +102,8 @@ theorem original_exceptional_label_scalar
       ‖(moebius j.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖ ≤
       ‖(moebius j.2.1.val : ℂ)‖ * ‖(moebius j.2.2.2.1.val : ℂ)‖ := by
     have hc₁ := mul_le_mul_of_nonneg_right
-      (mul_le_mul_of_nonneg_left (fixed_phase_coefficient_norm Ray₁ phase₁ χ₁) (norm_nonneg _))
+      (mul_le_mul_of_nonneg_left (fixed_phase_coefficient_norm Ray₁ phase₁ χ₁)
+        (norm_nonneg (moebius j.2.1.val : ℂ)))
       (norm_nonneg (moebius j.2.2.2.1.val : ℂ))
     simpa only [mul_one] using mul_le_mul hc₁ (fixed_phase_coefficient_norm Ray₂ phase₂ χ₂)
       (norm_nonneg _) (by positivity)
@@ -99,8 +112,14 @@ theorem original_exceptional_label_scalar
         (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ) * Z ^ (-lower)) :=
     mul_nonneg (div_nonneg hfirstCost (Nat.cast_nonneg _)) (hm.trans hsecond)
   have hfinal := mul_le_mul hp hc (by positivity) hp0
-  convert hfinal using 1 <;>
-    simp only [TwoDivisorCommonBranch.exceptionalDyadWeight] <;> ring
+  refine (exceptionalLabel_scalar_left firstWeight
+    ‖(moebius j.2.1.val : ℂ)‖ ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖
+    ‖(moebius j.2.2.2.1.val : ℂ)‖ ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖
+    (magnitude / Z ^ parentWidth)).le.trans (hfinal.trans_eq ?_)
+  exact exceptionalLabel_scalar_right firstCost secondCost (Z ^ remaining) (Z ^ (-lower))
+    (Ideal.absNorm (commonRadical j.1.val.1.1 j.1.val.1.2) : ℝ)
+    (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ)
+    ‖(moebius j.2.1.val : ℂ)‖ ‖(moebius j.2.2.2.1.val : ℂ)‖
 
 variable {ΨL ΨR : Ideal (𝓞 F) →* ℂ} {WL₁ WL₂ WR₁ WR₂ : ℝ → ℂ}
 variable (HL : ExceptionalVolumeControl ΨL WL₁ WL₂) (HR : ExceptionalVolumeControl ΨR WR₁ WR₂)
@@ -113,6 +132,7 @@ as a hypothesis.  It is produced from actual atom and valuation data,
 then multiplied by the literal first/second divisor and phase factors.
 The two allocation equalities prevent replacing the original full
 allocations by unrelated labels merely having the same divisor. -/
+set_option maxHeartbeats 800000 in
 theorem exceptional_original_label_from_atoms
     (left : SecondSideFrame (V := V) C R Ray .left k)
     (right : SecondSideFrame (V := V) C R Ray .right l)

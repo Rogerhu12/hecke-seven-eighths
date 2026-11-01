@@ -17,6 +17,7 @@ neither a total mass hypothesis nor a new child choice.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum
 open scoped Classical BigOperators NumberField SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStep

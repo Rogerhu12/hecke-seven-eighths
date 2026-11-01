@@ -21,6 +21,12 @@ open HeckePort.Moments HeckePort.Moments.Support HeckePort.IdealMobiusDivisorSum
 variable {K : Type} [Field K] [NumberField K] {A : SArithmeticData K}
 variable {ι κ : Type*}
 
+private theorem mem_classical_filter_iff {α : Type*} {p : α → Prop}
+    [h : DecidablePred p] {s : Finset α} {i : α} :
+    i ∈ @Finset.filter α p (fun x => Classical.propDecidable (p x)) s ↔ i ∈ s.filter p :=
+  (@Finset.mem_filter α p (fun x => Classical.propDecidable (p x)) s i).trans
+    (@Finset.mem_filter α p h s i).symm
+
 structure SourceCartesianCover (columns : Finset ι) (ideal : ι → A.Exterior) where
   Label : Type
   labels : Finset Label
@@ -131,10 +137,10 @@ def mainSourceCartesianCover (c : ι → ℂ) :
         plain₂ := B.reindex.plain₂
         slots := B.reindex.slots
         index := B.reindex.index
-        maps := fun x hx => Finset.mem_filter.mpr (Finset.mem_filter.mp (B.reindex.maps x hx))
+        maps := fun x hx => mem_classical_filter_iff.mpr (B.reindex.maps x hx)
         injective := B.reindex.injective
         surjective := fun i hi =>
-          B.reindex.surjective i (Finset.mem_filter.mpr (Finset.mem_filter.mp hi))
+          B.reindex.surjective i (mem_classical_filter_iff.mp hi)
         ideal_product := B.reindex.ideal_product }
       plain₁_nonzero := B.plain₁_nonzero
       plain₂_nonzero := B.plain₂_nonzero }
@@ -159,10 +165,10 @@ def residualSourceCartesianCover (p : ExteriorPrime A) (n : ℕ) (c : ι → ℂ
         plain₂ := B.reindex.plain₂
         slots := B.reindex.slots
         index := B.reindex.index
-        maps := fun x hx => Finset.mem_filter.mpr (Finset.mem_filter.mp (B.reindex.maps x hx))
+        maps := fun x hx => mem_classical_filter_iff.mpr (B.reindex.maps x hx)
         injective := B.reindex.injective
         surjective := fun i hi =>
-          B.reindex.surjective i (Finset.mem_filter.mpr (Finset.mem_filter.mp hi))
+          B.reindex.surjective i (mem_classical_filter_iff.mp hi)
         ideal_product := B.reindex.ideal_product }
       plain₁_nonzero := B.plain₁_nonzero
       plain₂_nonzero := B.plain₂_nonzero }

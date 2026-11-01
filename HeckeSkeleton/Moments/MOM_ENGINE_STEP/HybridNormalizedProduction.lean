@@ -275,6 +275,7 @@ theorem normalizedFamily_in_fixed_window
         (family.leftData Finset.univ rs ξ) ∧
       InFixedProfileWindow rowDomain Set.univ window seminorms
         (family.rightData Finset.univ rs ξ) := by
+  dsimp only
   intro rs ξ
   exact ⟨(lc rs.val.1).frozen_child_in_fixed_window
       ((B.normalizedFamily C lc rc Z hleftBase hrightBase).leftChild Finset.univ rs) ξ

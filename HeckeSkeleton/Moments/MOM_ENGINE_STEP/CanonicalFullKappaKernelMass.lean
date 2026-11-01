@@ -20,6 +20,7 @@ open scoped Classical BigOperators NumberField SchwartzMap
 namespace HeckeSkeleton.Moments.EngineStep
 
 open MeasureTheory NumberField
+open DedekindZetaZeroFree (SArithmeticData)
 open HeckeGeneral.Characters HeckeGeneral.Analysis.ConditionalMoments
 
 namespace CanonicalFullKappaPrime

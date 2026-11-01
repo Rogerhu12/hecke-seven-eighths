@@ -172,7 +172,8 @@ def RecipeLocalInput.toParentReductionInput
 
 variable (R)
 
-local instance : Fintype (SixthUnitClasses K (places K c)) := Fintype.ofFinite _
+local instance recipeInductionSectorFintype :
+    Fintype (SixthUnitClasses K (places K c)) := Fintype.ofFinite _
 
 /-- The unrestricted zero-slot conclusion for the same explicit recipe.
 Ordinary reflection is performed by the actual local case construction;

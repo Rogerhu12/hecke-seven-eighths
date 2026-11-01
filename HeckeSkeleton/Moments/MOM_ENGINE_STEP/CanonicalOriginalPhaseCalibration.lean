@@ -43,14 +43,15 @@ def primeIdeal (p : HeightOneSpectrum (𝓞 K)) : HeckeGeneral.Analysis.NonzeroI
   idealCoefficient_prime (primeCoefficient K χ) p
 
 theorem coefficient_one (I : HeckeGeneral.Analysis.NonzeroIdeal K) : heckeIdealCoefficient K 1 I = 1 := by
+  have hI : I.val ≠ (⊥ : Ideal (𝓞 K)) := nonZeroDivisors.coe_ne_zero I
   have hp (Q : Ideal (𝓞 K)) : primeIdealValue (primeCoefficient K 1) Q = 1 := by
     unfold primeIdealValue
     split_ifs <;> simp only [primeCoefficient_one]
   simp only [heckeIdealCoefficient, nonzeroIdealCoefficient, idealCoefficient,
-    ite_eq_right (nonZeroDivisors.coe_ne_zero I)]
+    ite_eq_right hI]
   rw [show primeIdealValue (primeCoefficient K (1 : HeckeCharacter K)) =
     (fun _ => 1) from funext hp]
-  simp only [Multiset.map_const, Multiset.prod_replicate, one_pow]
+  exact Multiset.prod_map_one
 
 /-- The right character need only be unramified at the actual prime
 divisors of this complete ideal. -/
@@ -58,6 +59,7 @@ theorem coefficient_mul_right_unramified (ψ χ : HeckeCharacter K) (I : HeckeGe
     (hχ : ∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ I.val → UnramifiedAt K χ p) :
     heckeIdealCoefficient K (ψ * χ) I =
       heckeIdealCoefficient K ψ I * heckeIdealCoefficient K χ I := by
+  have hI : I.val ≠ (⊥ : Ideal (𝓞 K)) := nonZeroDivisors.coe_ne_zero I
   have hmap :
       (normalizedFactors I.val).map (primeIdealValue (primeCoefficient K (ψ * χ))) =
         (normalizedFactors I.val).map
@@ -71,7 +73,7 @@ theorem coefficient_mul_right_unramified (ψ χ : HeckeCharacter K) (I : HeckeGe
       (HeightOneSpectrum.ofPrime hp) (hχ (HeightOneSpectrum.ofPrime hp) hd)
     simpa only [primeIdealValue, dif_pos hp] using he
   simp only [heckeIdealCoefficient, nonzeroIdealCoefficient, idealCoefficient,
-    ite_eq_right (nonZeroDivisors.coe_ne_zero I)]
+    ite_eq_right hI]
   rw [hmap, Multiset.prod_map_mul]
 
 theorem outside_iff_coprime (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
@@ -100,7 +102,8 @@ theorem residue_eq_original_evaluation (I : HeckeGeneral.Analysis.NonzeroIdeal K
       ⟨I.val, nonZeroDivisors.coe_ne_zero I, Ideal.isCoprime_iff_sup_eq.mp hI⟩ a _ _ _).symm
   · have hbad : ¬sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) I :=
       fun h => hI ((outside_iff_coprime I).mp h)
-    simp only [actualIdealResidue, dif_neg (fun h => hI h.2),
+    have hresidue : ¬(I.val ≠ 0 ∧ IsCoprime I.val A.cS) := fun h => hI h.2
+    simp only [actualIdealResidue, dif_neg hresidue,
       zeroExtendedSexticIdealEvaluation, dif_neg hbad]
 
 /-- The original twelfth root proves the negative-frequency phase
@@ -110,7 +113,10 @@ theorem residue_neg (I : Ideal (𝓞 K)) (a : A.R) :
       actualIdealResidue (A := A) (σ := σ) I a := by
   by_cases hI : I ≠ 0 ∧ IsCoprime I A.cS
   · have hone : actualIdealResidue (A := A) (σ := σ) I (-1) = 1 := by
-      rw [actualIdealResidue, dif_pos hI, A.sexticResidue_neg_one, map_one]
+      let J : A.Exterior := ⟨I, hI.1, Ideal.isCoprime_iff_sup_eq.mp hI.2⟩
+      have he : actualIdealResidue (A := A) (σ := σ) I (-1) =
+          σ (A.sexticResidue J (-1)) := dif_pos hI
+      exact he.trans ((congrArg σ (A.sexticResidue_neg_one J)).trans (map_one σ))
     rw [neg_eq_neg_one_mul, actualIdealResidue_frequency_mul, hone, one_mul]
   · simp only [actualIdealResidue, dif_neg hI]
 
@@ -145,6 +151,7 @@ theorem original_evaluation_ne_zero (I : A.Exterior) (a : A.R)
   rw [pow_succ' a 5, zeroExtendedSexticIdealEvaluation_original_mul P, hz, zero_mul] at hsix
   exact zero_ne_one hsix
 
+include P in
 theorem outside_prime (p : HeightOneSpectrum (𝓞 K))
     (hp : p ∉ (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) :
     sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) (primeIdeal p) := by
@@ -181,8 +188,12 @@ theorem residualCharacter_unramified (row : ActualChildRow Ih h g factor)
   change zeroExtendedSexticIdealEvaluation K
       (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P.arithmetic.root6
       P.arithmetic.primitive6 P.arithmetic.embedding (primeIdeal p) row.element = _ at he
-  simpa only [decomposedIdealRowMask, outside_prime P p hp, hcop, and_self,
-    if_true, mul_one] using he
+  have hmask : decomposedIdealRowMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+      (HeckeAxiom.exteriorEquiv A row.ideal) (primeIdeal p) = 1 := by
+    change (if sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (primeIdeal p) ∧ IsCoprime p.asIdeal row.ideal.val then (1 : ℂ) else 0) = 1
+    exact if_pos ⟨outside_prime P p hp, hcop⟩
+  simpa only [hmask, mul_one] using he
 
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -203,12 +214,24 @@ theorem activeCharacter_unramified (C : A.GeneralArithmeticContext σ η hS)
     exact (D.coprime_support_iff_fullIdeal p.asIdeal).mp hcop
   apply unramified_of_original_evaluation P D.character I _ hg p hp hcopI
   have he := secondOriginalMovingFactors_evaluation P R C primes m n pattern (primeIdeal p)
-  simpa only [outside_prime P p hp, hcop, and_self, if_true, mul_one] using he
+  have hmask : (if sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+      (primeIdeal p) ∧ IsCoprime (primeIdeal p).val D.support.val then (1 : ℂ) else 0) = 1 :=
+    if_pos ⟨outside_prime P p hp, hcop⟩
+  change zeroExtendedSexticIdealEvaluation K
+      (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P.arithmetic.root6
+      P.arithmetic.primitive6 P.arithmetic.embedding (primeIdeal p)
+      (secondActiveFrequencyGenerator C primes m n pattern) =
+    heckeIdealCoefficient K D.character (primeIdeal p) *
+      (if sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (primeIdeal p) ∧ IsCoprime (primeIdeal p).val D.support.val then (1 : ℂ) else 0) at he
+  exact he.trans ((congrArg
+    (fun z : ℂ => heckeIdealCoefficient K D.character (primeIdeal p) * z) hmask).trans
+      (mul_one _))
 
 /-- The old fixed column deletion as a literal multiplicative mask. -/
 def originalCoprimeMask (M : HeckeGeneral.Analysis.NonzeroIdeal K) : Ideal (𝓞 K) →* ℂ where
   toFun I := if IsCoprime I M.val then 1 else 0
-  map_one' := by simp
+  map_one' := if_pos (isCoprime_one_left : IsCoprime (1 : Ideal (𝓞 K)) M.val)
   map_mul' I J := by
     rw [IsCoprime.mul_left_iff]
     by_cases hI : IsCoprime I M.val <;>
@@ -240,8 +263,13 @@ theorem extracted_residue_character
         (if phaseMask row.momentIdeal
           (secondOriginalMovingFactors P R C primes m n pattern).support.val
           (secondSixthRootIdeal primes m n) J then 1 else 0) := by
-  rw [← actualIdealResidue_frequency_mul, residue_eq_probe_evaluation P hroot hemb,
-    hfactor, mul_assoc, zeroExtendedSexticIdealEvaluation_generated_sixth_mul P J
+  have heFactor := congrArg
+    (fun a : A.R => zeroExtendedSexticIdealEvaluation K
+      (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P.arithmetic.root6
+      P.arithmetic.primitive6 P.arithmetic.embedding J (a * row.element)) hfactor
+  rw [← actualIdealResidue_frequency_mul, residue_eq_probe_evaluation P hroot hemb]
+  refine heFactor.trans ?_
+  rw [mul_assoc, zeroExtendedSexticIdealEvaluation_generated_sixth_mul P J
       (secondSixthRootIdeal primes m n) (secondSixthRootGenerator C primes m n) _
       (secondSixthRootGenerator_generates C primes m n),
     zeroExtendedSexticIdealEvaluation_original_mul P,
@@ -372,7 +400,7 @@ theorem childData_row_coefficient
       ((χ * correction) * D.character) * χu by ac_rfl,
       coefficient_mul_right_unramified _ _ J hrow,
       coefficient_mul_right_unramified _ _ J hmove]
-    simp only [hgood, hgood.1, hgood.2, if_true, mul_one]
+    simp only [hgood, hgood.1, hgood.2, and_self, if_true, mul_one]
     ring
   · by_cases hm : phaseMask row.momentIdeal D.support.val
         (secondSixthRootIdeal primes m n) J
@@ -398,22 +426,39 @@ def calibration
     subst θ
     exact hone
   plain J := by
+    let d := childData P R parent correction hcorr C primes m n pattern ν oldMask budget
+      inverse left right geometry index
+    change heckeIdealCoefficient K (parent.plainBackground * d.rowCharacter row.momentIdeal) J *
+        maskValue d row.momentIdeal J.val =
+      sourcePlainCoefficient (parent.plainBackground * correction) 1
+          (originalCoprimeMask oldMask) J *
+        actualIdealResidue (A := A) (σ := σ) J.val g *
+          actualIdealResidue (A := A) (σ := σ) J.val row.element
     have he := childData_row_coefficient P R parent correction hcorr C primes m n pattern
       ν oldMask budget inverse left right geometry index hroot hemb
       row hfactor hsector parent.plainBackground J
-    simpa only [sourceCharacters, sourcePlainCoefficient, coefficient_one, mul_one] using he
+    simpa only [sourcePlainCoefficient, coefficient_one, mul_one] using he
   slot i p := by
     let d := childData P R parent correction hcorr C primes m n pattern ν oldMask budget
       inverse left right geometry index
+    change primeCoefficient K (d.rowCharacter row.momentIdeal * parent.slotCoefficient (index i)) p *
+        maskValue d row.momentIdeal p.asIdeal =
+      sourcePrimeCoefficient (parent.slotCoefficient (index i) * correction) 1
+          (originalCoprimeMask oldMask) p *
+        actualIdealResidue (A := A) (σ := σ) p.asIdeal g *
+          actualIdealResidue (A := A) (σ := σ) p.asIdeal row.element
     have he := childData_row_coefficient P R parent correction hcorr C primes m n pattern
       ν oldMask budget inverse left right geometry index hroot hemb
       row hfactor hsector (parent.slotCoefficient (index i)) (primeIdeal p)
     simp only [coefficient_prime] at he
-    change primeCoefficient K (d.rowCharacter row.momentIdeal * parent.slotCoefficient (index i)) p *
-      maskValue d row.momentIdeal p.asIdeal = _
+    change primeCoefficient K (parent.slotCoefficient (index i) * d.rowCharacter row.momentIdeal) p *
+        maskValue d row.momentIdeal p.asIdeal =
+      primeCoefficient K (parent.slotCoefficient (index i) * correction) p *
+          (originalCoprimeMask oldMask) p.asIdeal *
+        actualIdealResidue (A := A) (σ := σ) p.asIdeal g *
+          actualIdealResidue (A := A) (σ := σ) p.asIdeal row.element at he
     rw [mul_comm (d.rowCharacter row.momentIdeal) (parent.slotCoefficient (index i))]
-    simpa only [sourceCharacters, sourcePrimeCoefficient, primeCoefficient_one,
-      Fin.cast_refl, id_eq, mul_one] using he
+    simpa only [sourcePrimeCoefficient, primeCoefficient_one, mul_one] using he
 
 /-- The right source has negative extracted factor and the same true
 quotient element. The original twelfth root supplies its phase identity. -/
