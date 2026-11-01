@@ -83,6 +83,7 @@ variable {ΨL ΨR : Ideal (𝓞 F) →* ℂ} {WL₁ WL₂ WR₁ WR₂ : ℝ → 
 variable (HL : ExceptionalVolumeControl ΨL WL₁ WL₂) (HR : ExceptionalVolumeControl ΨR WR₁ WR₂)
 variable (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent)
 
+set_option linter.unusedSectionVars false in
 /-- The complete actual source bound is integrated with both original
 Fourier measures.  The extra window controls only the explicit real
 height in the original single-ideal exceptional charts. -/
