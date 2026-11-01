@@ -248,10 +248,14 @@ theorem detectorWitness_plain_global
       plainPolynomial d d.plainTest₁ u.ideal.val (U ^ w) 0 =
         plainPolynomial d d.plainTest₂ u.ideal.val (U ^ w) 0 := by
   constructor
-  · dsimp only [detectorWitnessRecipe, WitnessRecipe.toWitness, WitnessRecipe.data,
-      detectorModelData, detectorInverseFamily, plainPolynomial, maskValue, sharedMomentData]
-    rw [detectorHeights_presentation]
-    rfl
+  · let value : Fin presentation.count → ℂ := fun j =>
+      ((detectorWitnessRecipe K c W₁ W₂ V frequencyScale rows U t r w σ τ).toWitness
+        (P := probeData K c) (R := momentRowCharacters K c) (ω := c.family.omega)
+        (presentation.entry j) g coeff U).plainValue u
+    change value index = value (_root_.ExpansionRecipe.decodePresentation
+      presentation.count presentation.count_pos
+      (detectorHeights K c presentation physical t index T 4))
+    exact congrArg value (detectorHeights_presentation K c presentation physical t index T).symm
   · rfl
 
 /-- All slots read the same three physical coordinates.  No row parameter
