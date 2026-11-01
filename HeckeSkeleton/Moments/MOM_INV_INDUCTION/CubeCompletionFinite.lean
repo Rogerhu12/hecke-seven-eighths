@@ -60,7 +60,7 @@ variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 /-- Both restrictions of `longPool` are consequences of the literal
 summand, before the common radial profile is separated. -/
 theorem reopened_eq_longPool
-    (θ : HeckeCharacter K) (m : Sset.integer K) (r : Ideal (𝓞 K))
+    (θ : HeckeCharacter K) (m : (Sset).integer K) (r : Ideal (𝓞 K))
     (mark : Ideal (𝓞 K) → ℂ) (W : SchwartzMap ℝ ℂ) (X T : ℝ)
     (hX : 0 < X) (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2) :
     (∑' CB : Ideal (𝓞 K) × Ideal (𝓞 K),
@@ -124,7 +124,7 @@ theorem longValue_eq_finiteValue (x : Node K S Γ Θ ψ σ)
   by_cases hk : IsExterior K Sset k.1
   · rw [dif_pos hk, finiteValue, dif_pos hk]
     exact reopened_eq_longPool K S D (TerminalNodes.period K S Γ x)
-      (((Sset.unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ k.2)).val *
+      ((((Sset).unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ k.2)).val *
         D.generator (exteriorOf K Sset k.1 hk)) * D.generator f ^ 4)
       x.puncture (TerminalNodes.mark K S Γ x) x.test (x.family.base ^ x.columnLength) T
       (Real.rpow_pos_of_pos hbase _) hW
@@ -177,7 +177,7 @@ theorem finiteValue_eq_source (x : Node K S Γ Θ ψ σ)
       (squarefreePool K Sset (8 * x.family.base ^ x.columnLength)) H
       (x.family.base ^ x.columnLength) hH (Real.rpow_pos_of_pos hbase _) f
       (fun n hn => squarefreePool_squarefree K Sset hn)
-      ((Sset.unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ k.2)).val *
+      (((Sset).unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ k.2)).val *
         D.generator (exteriorOf K Sset k.1 hk)) x.test
     simpa only [TerminalNodes.rowTau, TerminalNodes.period, TerminalNodes.mark,
       coefficients, sectorRow, dif_pos hk, ProviderChildParent.columns] using he

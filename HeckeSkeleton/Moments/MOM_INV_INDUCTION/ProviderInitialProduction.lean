@@ -59,7 +59,7 @@ local notation "Idx" => ProviderInitialSource.Index K S D Γ X H
 def parentIndex (i : Idx) : SecondAdaptiveRetained.IndexAt K S D Γ T H :=
   ⟨i.1, i.2.1, i.2.2.1⟩
 
-theorem parent_radius : T.radius.val = C.base ^ (-m) := by
+theorem parent_radius : (T).radius.val = C.base ^ (-m) := by
   simp only [parent, ProviderInitialInverse.parentData, rowCap,
     InverseRowMajorant.rowRadius, Real.rpow_neg]
 
@@ -93,16 +93,16 @@ theorem normalized_weight_le (i : Idx) :
     (IdealMobiusMask.primeProduct i.2.1.val)
   have hs := SecondParentRetained.sourceScalar_norm_le K S
     (ProviderInitialInverse.family K S C Θ ψ hν W) (ProviderInitialInverse.unitTriple K)
-    hX T.radius i.2.1.val i.1.val (FirstInversePoisson.unitIdeal K S)
+    hX (T).radius i.2.1.val i.1.val (FirstInversePoisson.unitIdeal K S)
     (ProviderInitialSource.unitDivisor K S)
   have hweight : SecondAdaptiveProduction.weightAt K S D Γ T H
       (parentIndex K S D Γ C Θ ψ hν W hbase hW m H i) ≤
-        SecondPoissonNormalization.outerFactor K S T.radius (sIntegerMaskGenerator K Sset i.2.1.val) /
+        SecondPoissonNormalization.outerFactor K S (T).radius (sIntegerMaskGenerator K Sset i.2.1.val) /
           (X / height K Sset i.1.val) := by
     change ‖(moebius (IdealMobiusMask.primeProduct i.2.1.val) : ℂ)‖ *
       ‖SecondParentRetained.sourceScalar K S
         (ProviderInitialInverse.family K S C Θ ψ hν W) (ProviderInitialInverse.unitTriple K)
-        hX T.radius i.2.1.val i.1.val (FirstInversePoisson.unitIdeal K S)
+        hX (T).radius i.2.1.val i.1.val (FirstInversePoisson.unitIdeal K S)
         (ProviderInitialSource.unitDivisor K S)‖ ≤ _
     exact (mul_le_mul_of_nonneg_right hm (norm_nonneg _)).trans (by simpa only [one_mul] using hs)
   have hfactor :

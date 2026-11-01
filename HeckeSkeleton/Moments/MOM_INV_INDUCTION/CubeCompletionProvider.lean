@@ -49,7 +49,7 @@ theorem staticTau_norm_le (C : CanonicalBlock.ColumnData K S σ) (f : Ext)
   norm_canonicalTau_le_one K Sset D _ _ _ _
 
 theorem canonicalTau_row_factor (C : CanonicalBlock.ColumnData K S σ)
-    (f n : Ext) (k : Sset.integer K) :
+    (f n : Ext) (k : (Sset).integer K) :
     canonicalTau K Sset D (C.background * C.lambda⁻¹)
         (k * D.generator f ^ 4) C.puncture n.val.val =
       staticTau K S D C f n.val.val * idealSymbol K Sset D n k := by
@@ -93,7 +93,7 @@ theorem reopened_term_eq_arithmetic
     (hΛ : ∀ p : HeightOneSpectrum (𝓞 K), p ∉ Sset → UnramifiedAt K C.lambda p)
     (P : Ideal (𝓞 K) → Prop) (B : Finset Ext) (H X : ℝ)
     (hH : 0 < H) (hX : 0 < X) (f b n : Ext) (hn : Squarefree n.val.val)
-    (k : Sset.integer K) (W : SchwartzMap ℝ ℂ) :
+    (k : (Sset).integer K) (W : SchwartzMap ℝ ℂ) :
     reopenedCubeCoefficient P b.val.val *
         canonicalCompletedTerm (exteriorGamma K Sset D)
           (canonicalTau K Sset D (C.background * C.lambda⁻¹)
@@ -136,7 +136,7 @@ theorem reopened_sum_eq_source
     (hΛ : ∀ p : HeightOneSpectrum (𝓞 K), p ∉ Sset → UnramifiedAt K C.lambda p)
     (P : Ideal (𝓞 K) → Prop) (B N : Finset Ext) (H X : ℝ)
     (hH : 0 < H) (hX : 0 < X) (f : Ext)
-    (hN : ∀ n ∈ N, Squarefree n.val.val) (k : Sset.integer K) (W : SchwartzMap ℝ ℂ) :
+    (hN : ∀ n ∈ N, Squarefree n.val.val) (k : (Sset).integer K) (W : SchwartzMap ℝ ℂ) :
     (∑ b ∈ B, ∑ n ∈ N, reopenedCubeCoefficient P b.val.val *
       canonicalCompletedTerm (exteriorGamma K Sset D)
         (canonicalTau K Sset D (C.background * C.lambda⁻¹)

@@ -72,7 +72,7 @@ theorem exists_uniform_canonical_bound
     (hlo : 0 < lo) (hhi : lo ≤ hi) (hloss : 0 < loss) :
     ∃ q : Finset (ℕ × ℕ), ∃ C Z₀ : ℝ, 1 ≤ C ∧ 2 ≤ Z₀ ∧
       ∀ Z : ℝ, Z₀ ≤ Z → ∀ z : ℝ, 0 ≤ z → z ≤ zMax →
-        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D P.Lambda P.G slotCap
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D (P).Lambda (P).G slotCap
           Z Fmax margin z lo hi loss Mmax C q := by
   obtain ⟨b, hstep⟩ := exists_terminal_descentBudget Mmax margin (2 * loss) hmargin (by positivity)
   let A := max (max 1 (stageCapacity Fmax b.eta b.depth)) (max b.tau zMax)
@@ -83,12 +83,12 @@ theorem exists_uniform_canonical_bound
   have hE := reflected_input K c hquadratic hcubic
   obtain ⟨qShort, CShort, ZShort, hCShort, hZShort, hshort⟩ :=
     TerminalShort.exists_uniform_short_contribution K S D Γ Θ ψ (allowedGenerators K c)
-      P.Lambda P.G (reflectionFamily K c) hE slotCap A (margin / 2) lo hi hA
+      (P).Lambda (P).G (reflectionFamily K c) hE slotCap A (margin / 2) lo hi hA
       (by positivity) hlo hhi
   have hs : ∀ z : ℝ, 0 ≤ z → z ≤ zMax →
       ∀ {σ : Type u} (Z Fcap cStage : ℝ) (x : Node K S Γ Θ ψ σ),
       ZShort ≤ Z → Fcap ≤ A → margin / 2 ≤ cStage →
-      x.Admissible D P.Lambda P.G slotCap Z Fcap cStage z lo hi → x.labelLength < b.step →
+      x.Admissible D (P).Lambda (P).G slotCap Z Fcap cStage z lo hi → x.labelLength < b.step →
       TerminalNodes.shortEnergy K S Γ D slotCap x (Z ^ b.step) ≤
         CShort * (qShort.sup (schwartzSeminormFamily ℝ ℝ ℂ) x.test) ^ 2 * Z ^ x.totalLength := by
     intro z hz hzz σ Z Fcap cStage x hZ hF hc hx hsmall
@@ -97,7 +97,7 @@ theorem exists_uniform_canonical_bound
   obtain ⟨q, C, Z₀, hC, hZ₀, hb⟩ :=
     ProviderUniformMarks.exists_uniform_bound_of_short_contribution_uniform_marks
       (K := K) (S := S) (Γ := Γ) (Θ := Θ) (ψ := ψ)
-      (D := D) (Λ := P.Lambda) (G := P.G) (slotCap := slotCap)
+      (D := D) (Λ := (P).Lambda) (G := (P).G) (slotCap := slotCap)
       (hΓ := le_rfl) (hallowed := allowedGenerators K c)
       (μv := Expansion.ActualProbeContext.allLocalMeasures K)
       (ν := Expansion.ActualProbeContext.finiteAdeleMeasure K)

@@ -103,7 +103,7 @@ theorem exists_uniform_short_row_energy
       Z₀ ≤ Z → cstar ≤ c → 0 ≤ z → z ≤ A → 0 < d → d ≤ cstar / 1000 →
       x.Admissible slotCap Z A c z lo hi d → tsupport W ⊆ Set.Icc (1 : ℝ) 2 →
       (∑ k ∈ x.rows, ‖shortCompletedColumn K Sset D θ
-        ((Sset.unitEquivUnitsInteger K x.unit).val * D.generator k) x.label x.puncture
+        (((Sset).unitEquivUnitsInteger K x.unit).val * D.generator k) x.label x.puncture
         (divisorMark x.slots x.primeLists x.primeWeights) W
         (Z ^ x.columnLength) (Z ^ d)‖ ^ 2) ≤
         C * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 *
@@ -130,7 +130,7 @@ theorem exists_uniform_short_row_energy
       (shortCubes K Sset (Z ^ d))
       (fun H hH => ((mem_shortCubes K Sset (Z ^ d) H).mp hH).le)
   have hb := TerminalCubePriority.short_energy K Sset D slotCap θ x.rows
-    (fun k => (Sset.unitEquivUnitsInteger K x.unit).val * D.generator k)
+    (fun k => ((Sset).unitEquivUnitsInteger K x.unit).val * D.generator k)
     x.label x.puncture x.slots x.primeLists x.primeWeights hx.marks.card_le
     hx.marks.prime hx.marks.weights_le W (Z ^ x.columnLength) (Z ^ d) B
     (CM * Z ^ d) (Real.rpow_pos_of_pos hZp _)
@@ -188,7 +188,7 @@ theorem row_energy_le_sectors [Γ.FiniteIndex] (x : Node K S Γ Θ ψ σ)
     (∑ k ∈ x.rows, ‖shortValue K S Γ D x T f.val.val k‖ ^ 2) ≤
       ∑ ξ : Sector, ∑ k ∈ exteriorRows K S Γ x.rows,
         ‖shortCompletedColumn K Sset D (period K S Γ x)
-          ((Sset.unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val *
+          (((Sset).unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val *
             D.generator k) f (exteriorRadicalPuncture K Sset r)
           (mark K S Γ x) x.test (x.family.base ^ x.columnLength) T‖ ^ 2 := by
   letI : Fintype Sector := Fintype.ofFinite _
@@ -310,7 +310,7 @@ theorem exists_uniform_short_contribution
       have hsector (ξ : Sector) :
           (∑ k ∈ exteriorRows K S Γ x.rows,
             ‖shortCompletedColumn K Sset D (period K S Γ x)
-              ((Sset.unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val *
+              (((Sset).unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val *
                 D.generator k) f'
               (exteriorRadicalPuncture K Sset
                 ⟨x.puncture, mem_nonZeroDivisors_of_ne_zero hx.puncture_nonzero⟩)
@@ -324,7 +324,7 @@ theorem exists_uniform_short_contribution
       calc
         _ ≤ ∑ ξ : Sector, ∑ k ∈ exteriorRows K S Γ x.rows,
             ‖shortCompletedColumn K Sset D (period K S Γ x)
-              ((Sset.unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val *
+              (((Sset).unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val *
                 D.generator k) f'
               (exteriorRadicalPuncture K Sset
                 ⟨x.puncture, mem_nonZeroDivisors_of_ne_zero hx.puncture_nonzero⟩)

@@ -44,7 +44,7 @@ structure Data (σ : Type*) where
   label : Ext
   puncture : Ext
   puncture_squarefree : Squarefree puncture.val.val
-  unit : Sset.unit K
+  unit : (Sset).unit K
   rows : Finset Ext
   columnLength : ℝ
   labelLength : ℝ
@@ -82,7 +82,7 @@ def value (D : ThetaArithmeticData K Sset) (θ : HeckeCharacter K)
     (x : Data K S σ) (W : SchwartzMap ℝ ℂ) (Z : ℝ) (k : Ext) : ℂ :=
   canonicalCompletedSum (exteriorGamma K Sset D)
     (canonicalTau K Sset D θ
-      (((Sset.unitEquivUnitsInteger K x.unit).val * D.generator k) * D.generator x.label ^ 4)
+      ((((Sset).unitEquivUnitsInteger K x.unit).val * D.generator k) * D.generator x.label ^ 4)
       x.puncture.val.val)
     (HeckeSkeleton.Moments.MOMInvStep.divisorMark x.slots x.primeLists x.primeWeights)
     (canonicalVstar W) (Z ^ (x.columnLength - 3 * x.completionLength))
@@ -171,7 +171,7 @@ theorem Data.movingRows_bound (x : Data K S σ) (j : ℕ) (p : Ext × Ext)
 /-- Equality of the full canonical coefficient homomorphisms follows
 from symbol equality on exterior ideals and their actual exterior zeros. -/
 theorem canonicalTau_symbol_congr (D : ThetaArithmeticData K Sset)
-    (θ : HeckeCharacter K) (m m' : Sset.integer K) (r : Ideal (𝓞 K))
+    (θ : HeckeCharacter K) (m m' : (Sset).integer K) (r : Ideal (𝓞 K))
     (he : ∀ A : Ext, idealSymbol K Sset D A m = idealSymbol K Sset D A m') :
     canonicalTau K Sset D θ m r = canonicalTau K Sset D θ m' r := by
   ext I
@@ -198,9 +198,9 @@ theorem Data.value_reconstruct (D : ThetaArithmeticData K Sset)
     x.value D θ W Z (reconstruct K Sset p a) =
       (x.fiberData Z j p l).value D θ W Z a := by
   have he := canonicalTau_symbol_congr D θ
-    (((Sset.unitEquivUnitsInteger K x.unit).val * D.generator (reconstruct K Sset p a)) *
+    ((((Sset).unitEquivUnitsInteger K x.unit).val * D.generator (reconstruct K Sset p a)) *
       D.generator x.label ^ 4)
-    ((Sset.unitEquivUnitsInteger K x.unit).val *
+    (((Sset).unitEquivUnitsInteger K x.unit).val *
       D.generator (exteriorMul K Sset a (frozenIdeal K Sset p.1 p.2 x.label)))
     x.puncture.val.val (fun A => by
       rw [TerminalReflection.canonical_row_symbol K Sset D hD, totalRow_reconstruct])

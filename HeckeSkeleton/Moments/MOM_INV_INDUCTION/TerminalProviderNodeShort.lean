@@ -105,7 +105,7 @@ theorem shortValue_eq_extended_completed (x : Node K S Γ Θ ψ σ)
       if hf : IsExterior K Sset f then
         if hk : IsExterior K Sset k.1 then
           shortCompletedColumn K Sset D (period K S Γ x)
-            ((Sset.unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ k.2)).val *
+            (((Sset).unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ k.2)).val *
               D.generator (exteriorOf K Sset k.1 hk))
             (exteriorOf K Sset f hf) (exteriorRadicalPuncture K Sset r)
             (mark K S Γ x) x.test (x.family.base ^ x.columnLength) T
@@ -116,7 +116,7 @@ theorem shortValue_eq_extended_completed (x : Node K S Γ Θ ψ σ)
   · by_cases hk : IsExterior K Sset k.1
     · simp only [shortValue, dif_pos hf, dif_pos hk]
       have he := short_extracted_eq_completed K Sset D (period K S Γ x)
-        ((Sset.unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ k.2)).val *
+        (((Sset).unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ k.2)).val *
           D.generator (exteriorOf K Sset k.1 hk))
         (exteriorOf K Sset f hf)
         (exteriorRadicalPuncture K Sset
@@ -136,7 +136,7 @@ theorem shortValue_exterior (x : Node K S Γ Θ ψ σ)
     let r : NonzeroIdeal K := ⟨x.puncture, mem_nonZeroDivisors_of_ne_zero hpuncture⟩
     shortValue K S Γ D x T f.val.val (k.val.val, ξ) =
       shortCompletedColumn K Sset D (period K S Γ x)
-        ((Sset.unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val * D.generator k)
+        (((Sset).unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val * D.generator k)
         f (exteriorRadicalPuncture K Sset r) (mark K S Γ x) x.test
         (x.family.base ^ x.columnLength) T := by
   have hf : IsExterior K Sset f.val.val := ⟨nonZeroDivisors.coe_ne_zero f.val, f.property⟩

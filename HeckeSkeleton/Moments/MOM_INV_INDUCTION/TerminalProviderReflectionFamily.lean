@@ -91,7 +91,7 @@ theorem reflection (θ : HeckeCharacter K)
       K Sf D d (mellinData K c θ) θ (kernel K c θ) V hX
   reflection := by
     intro d V X hX
-    have hS : conductorPlaces K θ ⊆ R.A.Sf := by
+    have hS : conductorPlaces K θ ⊆ (R).A.Sf := by
       intro p hp
       by_contra hnot
       exact ((mem_conductorPlaces K θ p).mp hp) (hu p hnot)

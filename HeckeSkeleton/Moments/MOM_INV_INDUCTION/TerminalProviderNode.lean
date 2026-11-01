@@ -44,7 +44,7 @@ def mark (x : Node K S Γ Θ ψ σ) : Ideal (𝓞 K) → ℂ :=
 
 def rowTau (x : Node K S Γ Θ ψ σ) (f k : Ext) (ξ : Sector) : Ideal (𝓞 K) →* ℂ :=
   canonicalTau K Sset D (period K S Γ x)
-    (((Sset.unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val *
+    ((((Sset).unitEquivUnitsInteger K (CanonicalSectors.sectorUnit K Sset Γ ξ)).val *
       D.generator k) * D.generator f ^ 4) x.puncture
 
 def shortValue (x : Node K S Γ Θ ψ σ) (T : ℝ)

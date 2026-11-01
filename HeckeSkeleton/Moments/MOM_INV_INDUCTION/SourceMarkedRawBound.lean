@@ -63,7 +63,7 @@ theorem exists_raw_bound
     (slotCap : ℕ) (gap eps : ℝ) (hgap : 0 < gap) (heps : 0 < eps)
     (t : Finset (ℕ × ℕ)) (Cih Zih : ℝ) (hCih : 1 ≤ Cih) (hZih : 2 ≤ Zih)
     (hih : ∀ Z : ℝ, Zih ≤ Z → ∀ z : ℝ, 0 ≤ z → z ≤ 1 →
-      UniformBound.{0} (Γ := Γ) (Θ := Θ) (ψ := ψ) D P.Lambda P.G slotCap Z 2
+      UniformBound.{0} (Γ := Γ) (Θ := Θ) (ψ := ψ) D (P).Lambda (P).G slotCap Z 2
         (3 * gap / 4) z (1 / 2) 2 (eps / 2) 2 Cih t) :
     ∃ degree : ℕ, ∃ C Z₀ : ℝ, 0 ≤ C ∧ 2 ≤ Z₀ ∧
       ∀ (d : MomentData K c.family.omega ψ) (sector : SixthUnitClasses K Sset),

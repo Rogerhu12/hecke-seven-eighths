@@ -79,8 +79,8 @@ def nodeAt (m h tau : ℝ) (markLengths : σ → ℝ) (t : ℝ)
     (gamma : OuterTriple K) (a : CanonicalChildClosure.Index) : Node K S Γ Θ ψ σ where
   family := pieceFamily K S C Θ ψ hν W G hG hbase J b t a
   triple := gamma
-  labels := packet.labels
-  rows := packet.rows
+  labels := (packet).labels
+  rows := (packet).rows
   rowLength := ProviderInitialGeometry.rowLength m C.length glen dlen h tau
   labelLength := ProviderInitialGeometry.labelLength dlen vlen h
   markLengths := markLengths
@@ -120,7 +120,7 @@ variable (h : ℝ) (hh : 0 ≤ h) (hwidth : 2 ≤ C.base ^ h)
 variable (hboxCap : 4 * C.base ^ C.length ≤ C.base ^ A)
 
 include hbase hh hwidth hboxCap in
-theorem packet_label_bound (f : Ideal (𝓞 K)) (hf : f ∈ packet.labels) :
+theorem packet_label_bound (f : Ideal (𝓞 K)) (hf : f ∈ (packet).labels) :
     (f.absNorm : ℝ) ≤ C.base ^ ProviderInitialGeometry.labelLength dlen vlen h := by
   obtain ⟨i, hi, rfl⟩ := Finset.mem_image.mp hf
   exact ProviderInitialBoxes.label_norm K S D Γ X H P b C.base A h hbase hh hwidth
@@ -130,7 +130,7 @@ include hbase hh hwidth hboxCap in
 theorem packet_row_bound (rho : {r : ℝ // 0 < r}) (m tau : ℝ)
     (hrho : rho.val ≤ C.base ^ (-m))
     (hcutoff : H = SecondAdaptiveCutoff.fineCutoff K S rho X C.base tau)
-    (r : Ideal (𝓞 K) × Sector) (hr : r ∈ packet.rows) :
+    (r : Ideal (𝓞 K) × Sector) (hr : r ∈ (packet).rows) :
     (r.1.absNorm : ℝ) ≤ C.base ^ ProviderInitialGeometry.rowLength m C.length glen dlen h tau := by
   obtain ⟨i, hi, rfl⟩ := Finset.mem_image.mp hr
   exact ProviderInitialBoxes.row_norm K S D Γ X H P b C.base A h hbase hh hwidth
@@ -189,7 +189,7 @@ theorem nodeAt_admissible
     (hRhoNorm : (C.puncture.radical.absNorm : ℝ) ≤ C.base ^ Q)
     (hmarks : MarkConditions K S slotCap C.base z lo hi C.slots C.primeLists
       C.primeWeights markLengths)
-    (t : ℝ) (gamma : OuterTriple K) (hgamma : gamma ∈ packet.triples)
+    (t : ℝ) (gamma : OuterTriple K) (hgamma : gamma ∈ (packet).triples)
     (hM : 0 ≤ ProviderInitialGeometry.rowLength m C.length glen dlen h tau)
     (a : CanonicalChildClosure.Index)
     (ha : 0 ≤ (pieceFamily K S C Θ ψ hν W G hG hbase J b t a).columnLength gamma) :
@@ -216,7 +216,7 @@ theorem nodeAt_admissible
       (SecondMobiusGeometry.childScale_pos X (Real.rpow_pos_of_pos (zero_lt_one.trans hbase) _) b)]
     exact live_of_member K S D Γ C H P b A j i hiBox
   have hRho' : childPuncture C.puncture gamma ≠ 0 := by
-    obtain ⟨hq0, ht0, hr0⟩ := packet.outer_nonzero gamma hgamma
+    obtain ⟨hq0, ht0, hr0⟩ := (packet).outer_nonzero gamma hgamma
     exact mul_ne_zero hRho (SourceLengths.radical_ne_zero _ (mul_ne_zero (mul_ne_zero hq0 ht0) hr0))
   refine {
     base_eq := rfl
@@ -229,7 +229,7 @@ theorem nodeAt_admissible
     test_support := CanonicalChildClosure.pieceFamily_support K Sset
       (wideFamily K S C Θ ψ hν W G hG J b t) hbase a gamma hlive
       (wide_support K S C Θ ψ hν W G hG J b t gamma)
-    label_squarefree := packet.label_squarefree
+    label_squarefree := (packet).label_squarefree
     label_bound := packet_label_bound K S D Γ C hbase H J hprime slotCap hcap P b A j h
       hh hwidth hboxCap
     row_bound := packet_row_bound K S D Γ C hbase H J hprime slotCap hcap P b A j h
@@ -255,7 +255,7 @@ theorem nodeAt_admissible
 /-- The raw initial packet energy is the literal weighted row and
 label energy of its actual common centered family. -/
 def rawEnergy (t : ℝ) (gamma : OuterTriple K) : ℝ :=
-  packet.energy (childValue K Sset D (wideFamily K S C Θ ψ hν W G hG J b t)
+  (packet).energy (childValue K Sset D (wideFamily K S C Θ ψ hν W G hG J b t)
     (CanonicalSectors.sectorUnit K Sset Γ)) gamma
 
 /-- The class-conversion seminorm is selected before every original

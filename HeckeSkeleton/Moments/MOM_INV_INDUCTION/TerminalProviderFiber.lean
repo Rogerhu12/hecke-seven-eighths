@@ -38,7 +38,7 @@ structure Data (σ : Type*) where
   label : Ext
   puncture : Ext
   puncture_squarefree : Squarefree puncture.val.val
-  unit : Sset.unit K
+  unit : (Sset).unit K
   rows : Finset Ext
   columnLength : ℝ
   labelLength : ℝ
@@ -89,7 +89,7 @@ def value (D : ThetaArithmeticData K Sset) (θ : HeckeCharacter K)
     (x : Data K S σ) (W : SchwartzMap ℝ ℂ) (Z : ℝ) (k : Ext) : ℂ :=
   canonicalCompletedSum (exteriorGamma K Sset D)
     (canonicalTau K Sset D θ
-      ((Sset.unitEquivUnitsInteger K x.unit).val * D.generator (exteriorMul K Sset k x.frozen))
+      (((Sset).unitEquivUnitsInteger K x.unit).val * D.generator (exteriorMul K Sset k x.frozen))
       x.puncture.val.val)
     (HeckeSkeleton.Moments.MOMInvStep.divisorMark x.slots x.primeLists x.primeWeights)
     (canonicalVstar W) (Z ^ (x.columnLength - 3 * x.completionLength))
