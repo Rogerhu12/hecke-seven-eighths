@@ -1,0 +1,186 @@
+name: MOM_ENGINE_STEP EOL complete native verification
+'on':
+  push:
+    branches:
+    - cloud/mom-engine-step-a-eol-native
+  workflow_dispatch: null
+permissions:
+  contents: read
+concurrency:
+  group: mom-engine-step-a-eol-native-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      LEAN_NUM_THREADS: '2'
+      EOL_SOURCE_COMMIT: 3d163703cf9043a98c3c555a7b945a4825c88264
+      EOL_SOURCE_TREE: 722c65581f0b7ca8328c017ccc5fbf1e938b2828
+      EOL_SOURCE_SHA256: 82e6d1ce6586064a907f28eceb3d8a640b220a6a04e19e4e4e80936354415202
+      EOL_TARGET: ExceptionalOriginalLabel
+      EOL_DECLARATIONS: '["HeckeSkeleton.Moments.EngineStep.SecondSideFrame.exceptional_original_label_from_atoms"]'
+      EOL_EXPECTED_HEAD: ${{ github.sha }}
+      EOL_EVIDENCE: mom-engine-step-eol-verification/ExceptionalOriginalLabel
+    steps:
+    - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        ref: ${{ github.sha }}
+        fetch-depth: 2
+        persist-credentials: false
+    - name: Record exact checkout and all tracked file hashes
+      run: |
+        mkdir -p "$EOL_EVIDENCE"
+        git show --no-patch --format=fuller HEAD > "$EOL_EVIDENCE/checkout.txt"
+        python3 - <<'PY'
+        import hashlib, json, os, subprocess
+        from pathlib import Path
+        evidence = Path(os.environ['EOL_EVIDENCE'])
+        head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+        expected = os.environ['EOL_EXPECTED_HEAD']
+        if head != expected:
+            raise SystemExit(f'Unexpected checkout: {head}, expected {expected}')
+        source_commit = os.environ['EOL_SOURCE_COMMIT']
+        parent = subprocess.check_output(['git', 'rev-parse', 'HEAD^1'], text=True).strip()
+        if parent != source_commit:
+            raise SystemExit('Auxiliary first parent must be the exact frozen owner source')
+        changes = subprocess.check_output(['git', 'diff', '--name-only', source_commit, 'HEAD'], text=True).splitlines()
+        if changes != ['.github/workflows/mom-engine-step-eol-native.yml']:
+            raise SystemExit('Auxiliary delta must contain only its own workflow')
+        source_tree = subprocess.check_output(['git', 'rev-parse', source_commit+'^{tree}'], text=True).strip()
+        if source_tree != os.environ['EOL_SOURCE_TREE']:
+            raise SystemExit('The frozen source tree differs from the reviewed owner candidate')
+        paths = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+        hashes = {p: hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in paths if p}
+        (evidence / 'tracked-sha256-before.json').write_text(json.dumps(hashes, indent=2) + '\n')
+        source = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' + os.environ['EOL_TARGET'] + '.lean'
+        if hashes[source] != os.environ['EOL_SOURCE_SHA256']:
+            raise SystemExit('EOL source hash differs from the frozen reviewed file')
+        source_bytes = Path(source).read_bytes()
+        if len(source_bytes) != 27663:
+            raise SystemExit('EOL source byte length differs from the reviewed complete file')
+        prints = [line for line in source_bytes.decode().splitlines() if line.startswith('#print axioms ')]
+        expected_prints = ['#print axioms ' + name for name in json.loads(os.environ['EOL_DECLARATIONS'])]
+        if prints != expected_prints or len(prints) != 1:
+            raise SystemExit('The original complete EOL print command must remain intact')
+        (evidence / 'ExceptionalOriginalLabel.original.lean').write_bytes(source_bytes)
+        step_paths = [p for p in hashes if p.startswith('HeckeSkeleton/Moments/MOM_ENGINE_STEP/') and p.endswith('.lean')]
+        if len(step_paths) != 1009:
+            raise SystemExit('The complete STEP source inventory must remain intact')
+        (evidence / 'source.json').write_text(json.dumps({
+            'head': head, 'source_commit': source_commit, 'target': source, 'source_sha256': hashes[source],
+            'source_tree': source_tree, 'source_bytes': len(source_bytes), 'original_prints': prints,
+            'tracked_file_count': len(hashes),
+        }, indent=2) + '\n')
+        PY
+    - name: Provide enough memory mappings for the full import closure
+      run: |
+        EOL_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+        printf 'before=%s\n' "$EOL_MAP_LIMIT" > "$EOL_EVIDENCE/memory-mapping.txt"
+        if [ "$EOL_MAP_LIMIT" -lt 262144 ]; then
+          sudo sysctl -w vm.max_map_count=262144
+        fi
+        sysctl vm.max_map_count >> "$EOL_EVIDENCE/memory-mapping.txt"
+    - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+      with:
+        auto-config: 'false'
+        build: 'false'
+        test: 'false'
+        lint: 'false'
+        use-mathlib-cache: 'true'
+        use-github-cache: 'false'
+    - name: Restore precompiled project artifacts
+      uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@3d163703cf9043a98c3c555a7b945a4825c88264
+    - name: Verify the pinned compiler, Mathlib and unchanged default build settings
+      run: |
+        python3 - <<'PY'
+        import json, os, pathlib, subprocess, tomllib
+        evidence = pathlib.Path(os.environ['EOL_EVIDENCE'])
+        version = subprocess.check_output(['lake', 'env', 'lean', '--version'], text=True).strip()
+        mathlib = subprocess.check_output(['git', '-C', '.lake/packages/mathlib', 'rev-parse', 'HEAD'], text=True).strip()
+        project = tomllib.loads(pathlib.Path('lakefile.toml').read_text())
+        assert '4.35.0-rc3' in version and '470d5ce1400764999581fd26d5d72b00d990b0f4' in version
+        assert mathlib == '0493595ecd5da8ef14742febab99728f98e948e8'
+        assert project.get('leanOptions') == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+        assert project.get('weakLeanArgs') == ['-j2']
+        assert len(project['lean_lib']) == 20
+        (evidence / 'toolchain-and-options.json').write_text(json.dumps({
+            'lean': version, 'mathlib': mathlib, 'lean_options': project['leanOptions'],
+            'weak_lean_args': project['weakLeanArgs'], 'lean_lib_count': len(project['lean_lib']),
+        }, indent=2) + '\n')
+        PY
+    - name: Build the complete unchanged EOL dependencies with normal Lake
+      timeout-minutes: 36
+      shell: bash
+      run: |
+        EOL_DEPS_STARTED=$(date +%s)
+        set +e
+        timeout --signal=TERM --kill-after=30s 35m lake build "+HeckeSkeleton.Moments.MOM_ENGINE_STEP.${EOL_TARGET}:deps" 2>&1 |
+          tee "$EOL_EVIDENCE/dependencies.log"
+        EOL_DEPS_STATUS=${PIPESTATUS[0]}
+        set -e
+        EOL_DEPS_FINISHED=$(date +%s)
+        printf '{"exit_code": %s, "elapsed_seconds": %s, "timeout_seconds": 2100}\n' \
+          "$EOL_DEPS_STATUS" "$((EOL_DEPS_FINISHED - EOL_DEPS_STARTED))" \
+          > "$EOL_EVIDENCE/dependencies-status.json"
+        exit "$EOL_DEPS_STATUS"
+    - name: Verify the complete original EOL module and a fresh loaded namespace axiom audit
+      shell: bash
+      run: |
+        mapfile -t EOL_DECLARATION_LIST < <(python3 - <<'PY'
+        import json, os
+        print('\n'.join(json.loads(os.environ['EOL_DECLARATIONS'])))
+        PY
+        )
+        EOL_COMMAND=(python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py
+          "HeckeSkeleton.Moments.MOM_ENGINE_STEP.$EOL_TARGET"
+          --namespace HeckeSkeleton.Moments.EngineStep
+          --evidence "$EOL_EVIDENCE")
+        for EOL_DECLARATION in "${EOL_DECLARATION_LIST[@]}"; do
+          EOL_COMMAND+=(--declaration "$EOL_DECLARATION")
+        done
+        EOL_STARTED=$(date +%s)
+        set +e
+        timeout --signal=TERM --kill-after=30s 480s "${EOL_COMMAND[@]}" 2>&1 |
+          tee "$EOL_EVIDENCE/verification.log"
+        EOL_STATUS=${PIPESTATUS[0]}
+        set -e
+        EOL_FINISHED=$(date +%s)
+        printf '{"exit_code": %s, "elapsed_seconds": %s, "timeout_seconds": 480}\n' \
+          "$EOL_STATUS" "$((EOL_FINISHED - EOL_STARTED))" \
+          > "$EOL_EVIDENCE/verification-status.json"
+        exit "$EOL_STATUS"
+      timeout-minutes: 10
+    - name: Preserve and compare tracked file hashes after every outcome
+      if: always()
+      run: |
+        mkdir -p "$EOL_EVIDENCE"
+        python3 - <<'PY'
+        import hashlib, json, os, subprocess
+        from pathlib import Path
+        evidence = Path(os.environ['EOL_EVIDENCE'])
+        paths = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+        hashes = {p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+                  if Path(p).is_file() else None for p in paths if p}
+        (evidence / 'tracked-sha256-after.json').write_text(json.dumps(hashes, indent=2) + '\n')
+        before = evidence / 'tracked-sha256-before.json'
+        if not before.is_file():
+            raise SystemExit('The pre-verification source snapshot is missing')
+        original = json.loads(before.read_text())
+        changed = sorted(p for p in original.keys() | hashes.keys() if original.get(p) != hashes.get(p))
+        head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+        unchanged = not changed and head == os.environ['EOL_EXPECTED_HEAD']
+        (evidence / 'source-identity.json').write_text(json.dumps({
+            'head': head, 'unchanged': unchanged, 'changed_files': changed,
+        }, indent=2) + '\n')
+        if not unchanged:
+            raise SystemExit('Tracked sources or checkout identity changed during verification')
+        PY
+    - name: Preserve complete compiler logs and fresh axiom reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: mom-engine-step-eol-verified-${{ github.sha }}-${{ github.run_attempt }}
+        path: ${{ env.EOL_EVIDENCE }}/
+        if-no-files-found: error
+        retention-days: 14
