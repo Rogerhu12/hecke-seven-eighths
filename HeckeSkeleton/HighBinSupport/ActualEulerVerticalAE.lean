@@ -115,6 +115,7 @@ theorem rowCorrection_eq_finiteExceptional_mul_regular
     have hp : p.val ∈ F := p.property
     dsimp only [f]
     rw [dif_pos hp]
+    rfl
   have htailval : (∏' p : ↥((F : Set (ExteriorPrime K S))ᶜ), f p.val) =
       ∏' p : {p : ExteriorPrime K S // p ∉ rowExceptionalPrimes K S Q u},
         localRowCorrection K S P ψ (E.rows.character u) p.val v.1 v.2.1 v.2.2 := by

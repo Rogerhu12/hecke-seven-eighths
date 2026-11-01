@@ -136,8 +136,11 @@ theorem norm_actualLargeTargetBoxes_le_absolute
   have hs := summable_norm_actualLargeTargetBoxes K S mu nu hcomplex P psi g hzeta hZ hH
   unfold actualLargeTargetBoxes
   apply (norm_tsum_le_tsum_norm hs).trans_eq
-  rw [tsum_subtype]
-  rfl
+  simpa only [absoluteLargeRowTerm, Set.indicator_apply, Set.mem_setOf_eq] using!
+    (tsum_subtype {u : FrequencyRow K Sset |
+        Z ^ (13 / 16 + zeta) < frequencyRowNorm K Sset u}
+      (fun u => ‖rowContourBox K Sset muS P psi (arithmeticHighEulerData K Sset P psi)
+        g ∅ u Z H 2 2 (1 + 3 / zeta)‖))
 
 include nu in
 /-- The exact complex large destination has the proved half-power saving.

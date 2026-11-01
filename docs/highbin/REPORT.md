@@ -1,15 +1,23 @@
-# HIGHBIN implementation and verification report
+# HIGHBIN implementation and verification report (historical snapshot)
+
+> **Historical snapshot — PR #7 at `d88663c8`.**
+> Status statements, unresolved obligations and native evidence below describe
+> that checkpoint and its earlier recorded stages. See the
+> [current integration report](INTEGRATION_20261101.md) for shared interfaces
+> and verification gates, and the
+> [PR #7 description](https://github.com/Rogerhu12/hecke-seven-eighths/pull/7)
+> for the latest commit, native results and acceptance status.
 
 Working branch: `codex/highbin-canonical-partitions-20261031`.
 Original base: `503ad9895e5f8affef55b22fea082e251bf33aa7`.
-Current PR base: `6e67559f4285ab833a746db021a0d73200e47590` (`dtests-handoff`).
+PR base at this checkpoint: `6e67559f4285ab833a746db021a0d73200e47590` (`dtests-handoff`).
 PR: https://github.com/Rogerhu12/hecke-seven-eighths/pull/7.
 The earlier checkpoints below belong to the original HIGHBIN branch and PR 1.
 Toolchain: Lean `4.35.0-rc3`; Mathlib `0493595ecd5da8ef14742febab99728f98e948e8`.
 
 AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-30–31.
 
-## Current task status
+## Task status at this checkpoint
 
 This is a draft implementation undergoing native verification. The original
 presentation now has its actual arithmetic Euler provider by definition.
@@ -29,7 +37,7 @@ downloaded CI artifacts.
 
 ## Repository changes
 
-### Current complete native frontiers
+### Completed native frontiers at this checkpoint
 
 The continuation branch has completed three independent public-declaration
 audits: **core 66 modules / 533 declarations**, **Mellin 6 actual modules /

@@ -1,4 +1,12 @@
-# Uniqueness of the actual row Euler continuation
+# Uniqueness of the actual row Euler continuation (historical snapshot)
+
+> **Historical snapshot — PR #7 at `d88663c8`.**
+> Status statements, unresolved obligations and native evidence below describe
+> that checkpoint and its earlier recorded stages. See the
+> [current integration report](INTEGRATION_20261101.md) for shared interfaces
+> and verification gates, and the
+> [PR #7 description](https://github.com/Rogerhu12/hecke-seven-eighths/pull/7)
+> for the latest commit, native results and acceptance status.
 
 The continuation comparison has two levels. The first proves pointwise
 uniqueness on the repository's original `rowEulerRegion`. The second uses the
@@ -20,7 +28,7 @@ The first contains only the region geometry and the analytic identity principle.
 The second applies it to the original characters, deleted L-functions, correction,
 continuation, zero detectors, and compensated kernel.
 
-## Verification status
+## Verification status at this checkpoint
 
 The current pure three-declaration module passed a local native Lean check with
 exit code 0 in 22.756 seconds. Each checked declaration used only `propext`,

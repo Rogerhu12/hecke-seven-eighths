@@ -1,4 +1,12 @@
-# Actual HIGHBIN norm form: statements, hypotheses and verification boundary
+# Actual HIGHBIN norm form: statements, hypotheses and verification boundary (historical snapshot)
+
+> **Historical snapshot — PR #7 at `d88663c8`.**
+> Status statements, unresolved obligations and native evidence below describe
+> that checkpoint and its earlier recorded stages. See the
+> [current integration report](INTEGRATION_20261101.md) for shared interfaces
+> and verification gates, and the
+> [PR #7 description](https://github.com/Rogerhu12/hecke-seven-eighths/pull/7)
+> for the latest commit, native results and acceptance status.
 
 This document records the norm-form implementation on
 `codex/highbin-canonical-partitions-20261031`, continuing the original
@@ -12,7 +20,7 @@ the appendix are candidates until the corresponding individual actual
 modules have elaborated successfully. A source declaration with a proof
 body is not, by itself, an elaborated theorem or an exact-type audit.
 
-## 1. Verification status
+## 1. Verification status at this checkpoint
 
 | Part | Recorded result | Scope of the result |
 |---|---|---|

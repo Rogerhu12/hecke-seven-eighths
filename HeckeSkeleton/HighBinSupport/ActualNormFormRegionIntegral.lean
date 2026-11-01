@@ -77,8 +77,8 @@ theorem sum_actualRegionPiece_eq_rowContourBox
       (fun label => hi.mono_set (hsubset label))]
     rw [iUnion_actualSlotRegion]
   have hiProd : Integrable f
-      ((volume.restrict (Icc (-H) H)).prod (twoHeightMeasure H)) := by
-    simpa only [IntegrableOn, ← NormFormIntegral.heightBoxMeasure_eq] using hi
+      ((volume.restrict (Icc (-H) H)).prod (HighBinBoundary.twoHeightMeasure H)) := by
+    simpa only [IntegrableOn, ← NormFormIntegral.heightBoxMeasure_eq] using! hi
   change (∑ label : Fin g.slots → Fin (N + 1),
     (2 * (Real.pi : ℂ)) ^ (-(3 : ℤ)) * ∫ x in region label, f x) = _
   rw [← Finset.mul_sum, hsum]
@@ -151,7 +151,7 @@ theorem exists_actual_region_normForm
   obtain ⟨A, hi, hwhole⟩ := hint Z T hZZI hT hTcap d hd hd1 u hu hu1 a ha ha1 hbelow
   have hiBox : IntegrableOn f (heightBox H) := by
     simpa only [IntegrableOn, f, actualRegionKernel, H,
-      ← NormFormIntegral.heightBoxMeasure_eq] using hi
+      ← NormFormIntegral.heightBoxMeasure_eq] using! hi
   have hRegion (label : Fin g.slots → Fin (N + 1)) : MeasurableSet (region label) :=
     actualSlotRegion_measurable K S₀ P psi g u Z a e H theta N label ha he
   have hsubset (label : Fin g.slots → Fin (N + 1)) : region label ⊆ heightBox H :=
@@ -174,7 +174,7 @@ theorem exists_actual_region_normForm
       exact hkernel Z T hZZK hT hTcap d hd hd1 u hu hu1 a ha ha1 hbelow
         (actualRegionAmplitude g a theta N label) x (hsubset label hx)
         (fun i => (hB label x hx i).2.2.1)
-    have hfinite : (volume : Measure (ℝ × (ℝ × ℝ))) (heightBox H) < ∞ :=
+    have hfinite : (volume : Measure (ℝ × (ℝ × ℝ))) (heightBox H) < ⊤ :=
       (heightBox_isCompact H).measure_lt_top
     have hb : ‖∫ x in region label, f x‖ ≤
         (C * Z ^ b) * (volume : Measure (ℝ × (ℝ × ℝ))).real (heightBox H) :=

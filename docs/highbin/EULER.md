@@ -1,4 +1,12 @@
-# Actual Euler construction, calibration and analytic continuation
+# Actual Euler construction, calibration and analytic continuation (historical snapshot)
+
+> **Historical snapshot — PR #7 at `d88663c8`.**
+> Status statements, unresolved obligations and native evidence below describe
+> that checkpoint and its earlier recorded stages. See the
+> [current integration report](INTEGRATION_20261101.md) for shared interfaces
+> and verification gates, and the
+> [PR #7 description](https://github.com/Rogerhu12/hecke-seven-eighths/pull/7)
+> for the latest commit, native results and acceptance status.
 
 This document records the Euler chain on
 `codex/highbin-canonical-partitions-20261031`, continuing the original
@@ -13,7 +21,7 @@ The remaining presentation choices and identities are still an admitted input.
 
 AI-assisted: ChatGPT / GPT-6 Astra Pro, 2026-10-30.
 
-## 1. Verification boundary
+## 1. Verification boundary at this checkpoint
 
 At commit `45b507f`, the native CI core build and public audit passed all
 **57 modules and 442 public declarations**. The audit permits only

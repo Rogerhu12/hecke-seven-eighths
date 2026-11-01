@@ -2286,35 +2286,35 @@
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean",
     "line": 40,
-    "source_sha256": "14fc185fd9bc58c698f890b3fd26a2cc208d9b12aebf32dcfab5c32c7e46f77e"
+    "source_sha256": "08b3d70732c1899a8ad24ab47fe1aa7f0839d7b34777afbc7aa7d588c5e4593b"
   },
   {
     "name": "HighBinVerified.NormFormRegionIntegral.actualRegionPiece",
     "kind": "def",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean",
     "line": 47,
-    "source_sha256": "14fc185fd9bc58c698f890b3fd26a2cc208d9b12aebf32dcfab5c32c7e46f77e"
+    "source_sha256": "08b3d70732c1899a8ad24ab47fe1aa7f0839d7b34777afbc7aa7d588c5e4593b"
   },
   {
     "name": "HighBinVerified.NormFormRegionIntegral.sum_actualRegionPiece_eq_rowContourBox",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean",
     "line": 58,
-    "source_sha256": "14fc185fd9bc58c698f890b3fd26a2cc208d9b12aebf32dcfab5c32c7e46f77e"
+    "source_sha256": "08b3d70732c1899a8ad24ab47fe1aa7f0839d7b34777afbc7aa7d588c5e4593b"
   },
   {
     "name": "HighBinVerified.NormFormRegionIntegral.exists_actual_region_normForm",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean",
     "line": 90,
-    "source_sha256": "14fc185fd9bc58c698f890b3fd26a2cc208d9b12aebf32dcfab5c32c7e46f77e"
+    "source_sha256": "08b3d70732c1899a8ad24ab47fe1aa7f0839d7b34777afbc7aa7d588c5e4593b"
   },
   {
     "name": "HighBinVerified.NormFormRegionIntegral.exists_actual_region_normForm_quarter_loss",
     "kind": "theorem",
     "source": "HeckeSkeleton/HighBinSupport/ActualNormFormRegionIntegral.lean",
     "line": 204,
-    "source_sha256": "14fc185fd9bc58c698f890b3fd26a2cc208d9b12aebf32dcfab5c32c7e46f77e"
+    "source_sha256": "08b3d70732c1899a8ad24ab47fe1aa7f0839d7b34777afbc7aa7d588c5e4593b"
   },
   {
     "name": "HighBinVerified.NormFormRegionPacket.actualRegionRows",

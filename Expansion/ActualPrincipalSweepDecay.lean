@@ -22,6 +22,7 @@ open NumberField IsDedekindDomain MeasureTheory Set
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
+open HeckeSkeleton.HighBinContinuation
 open HeckeSkeleton.HighBinActualEuler HeckeSkeleton.Expansion.PrincipalRows
 open HeckeSkeleton.Expansion.SmallRows HeckeSkeleton.HeckeUniformStripGrowth
 open HeckeSkeleton.HeckeDeletedEulerControl

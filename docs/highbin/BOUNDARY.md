@@ -1,4 +1,12 @@
-# Boundary implementation and remaining presentation obligations
+# Boundary implementation and remaining presentation obligations (historical snapshot)
+
+> **Historical snapshot — PR #7 at `d88663c8`.**
+> Status statements, unresolved obligations and native evidence below describe
+> that checkpoint and its earlier recorded stages. See the
+> [current integration report](INTEGRATION_20261101.md) for shared interfaces
+> and verification gates, and the
+> [PR #7 description](https://github.com/Rogerhu12/hecke-seven-eighths/pull/7)
+> for the latest commit, native results and acceptance status.
 
 The new boundary chain is connected to the repository's literal
 `compensatedRowMellinKernel`, `rowContourBox`, fixed frequency-row bins, and
@@ -11,7 +19,7 @@ and a retained-block count. A new almost-everywhere contour comparison removes
 the former provider-record equality requirement using the original initial
 Euler calibration. That arithmetic transport remains pending native verification.
 
-## Verification status
+## Verification status at this checkpoint
 
 The pure modules `BoundaryRectangle`, `BoundaryBox`, `BoundaryTailAssembly`,
 `LogFourierDecay`, `PositiveNormalizer`, `BoundaryTupleScalar`,

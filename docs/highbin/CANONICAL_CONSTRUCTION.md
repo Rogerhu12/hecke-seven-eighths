@@ -1,4 +1,12 @@
-# HIGHBIN continuation: canonical arithmetic row fibers
+# HIGHBIN continuation: canonical arithmetic row fibers (historical snapshot)
+
+> **Historical snapshot — PR #7 at `d88663c8`.**
+> Status statements, unresolved obligations and native evidence below describe
+> that checkpoint and its earlier recorded stages. See the
+> [current integration report](INTEGRATION_20261101.md) for shared interfaces
+> and verification gates, and the
+> [PR #7 description](https://github.com/Rogerhu12/hecke-seven-eighths/pull/7)
+> for the latest commit, native results and acceptance status.
 
 This branch continues the HIGHBIN task from commit
 `8e45885f856b8c8b56287eec188be654682256ec`. It isolates the continuation
@@ -135,7 +143,7 @@ reported explicitly. Source inventories and static dependency checks
 are not compiler verification. New native compilation is in progress;
 only exact-source exit-zero records count as passed.
 
-## Verification checkpoint
+## Historical verification checkpoint
 
 The native GitHub Actions core job at commit
 `4f733f5f9a616332feffeed212aed57972daf012` passed all 66 core modules and
